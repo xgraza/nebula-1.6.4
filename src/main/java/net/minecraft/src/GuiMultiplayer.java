@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.Collections;
 import java.util.List;
 import org.lwjgl.input.Keyboard;
+import wtf.nebula.impl.gui.AltLoginScreen;
 
 public class GuiMultiplayer extends GuiScreen
 {
@@ -113,6 +114,7 @@ public class GuiMultiplayer extends GuiScreen
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, I18n.getString("selectServer.add")));
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.getString("selectServer.refresh")));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.getString("gui.cancel")));
+        buttonList.add(new GuiButton(69420, 15, 5, 75, 20, "Login"));
         boolean var1 = this.selectedServer >= 0 && this.selectedServer < this.serverSlotContainer.getSize();
         this.buttonSelect.enabled = var1;
         this.field_96289_p.enabled = var1;
@@ -153,6 +155,11 @@ public class GuiMultiplayer extends GuiScreen
      */
     protected void actionPerformed(GuiButton par1GuiButton)
     {
+        if (par1GuiButton.id == 69420) {
+            mc.displayGuiScreen(new AltLoginScreen());
+            return;
+        }
+
         if (par1GuiButton.enabled)
         {
             if (par1GuiButton.id == 2)

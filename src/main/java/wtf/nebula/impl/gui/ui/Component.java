@@ -1,4 +1,4 @@
-package wtf.nebula.impl.ui;
+package wtf.nebula.impl.gui.ui;
 
 import wtf.nebula.util.feature.ToggleableFeature;
 

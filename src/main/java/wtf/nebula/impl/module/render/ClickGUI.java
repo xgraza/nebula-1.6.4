@@ -3,7 +3,7 @@ package wtf.nebula.impl.module.render;
 import org.lwjgl.input.Keyboard;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
-import wtf.nebula.impl.ui.ClickGUIScreen;
+import wtf.nebula.impl.gui.ui.ClickGUIScreen;
 
 public class ClickGUI extends Module {
     public ClickGUI() {

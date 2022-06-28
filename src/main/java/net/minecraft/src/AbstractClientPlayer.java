@@ -73,12 +73,12 @@ public abstract class AbstractClientPlayer extends EntityPlayer
 
     public static String getSkinUrl(String par0Str)
     {
-        return String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", new Object[] {StringUtils.stripControlCodes(par0Str)});
+        return String.format("https://minotar.net/skin/%s.png", StringUtils.stripControlCodes(par0Str));
     }
 
     public static String getCapeUrl(String par0Str)
     {
-        return String.format("http://skins.minecraft.net/MinecraftCloaks/%s.png", new Object[] {StringUtils.stripControlCodes(par0Str)});
+        return String.format("http://skins.minecraft.net/MinecraftCloaks/%s.png", StringUtils.stripControlCodes(par0Str));
     }
 
     public static ResourceLocation getLocationSkin(String par0Str)

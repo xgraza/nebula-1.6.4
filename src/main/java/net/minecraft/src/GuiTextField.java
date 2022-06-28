@@ -8,8 +8,8 @@ public class GuiTextField extends Gui
      * Have the font renderer from GuiScreen to render the textbox text into the screen.
      */
     private final FontRenderer fontRenderer;
-    private final int xPos;
-    private final int yPos;
+    public final int xPos;
+    public final int yPos;
 
     /** The width of this text field. */
     private final int width;
