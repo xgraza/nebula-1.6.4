@@ -14,6 +14,7 @@ public class FileUtil {
     public static final Path ROOT = Paths.get("");
     public static final Path CLIENT_PATH = ROOT.resolve("nebula-1.6.4");
 
+    public static final Path MODULES = CLIENT_PATH.resolve("modules");
     public static final Path FRIENDS = CLIENT_PATH.resolve("friends.json");
 
     public static String read(Path path) {

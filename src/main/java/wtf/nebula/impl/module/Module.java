@@ -32,6 +32,10 @@ public class Module extends ValueContainer {
 
     @Override
     public void setState(boolean state) {
+        if (state == getState()) {
+            return;
+        }
+
         if (!nullCheck()) {
             Notifications notifications = ModuleRepository.get().getModule(Notifications.class);
             if (notifications.getState()) {

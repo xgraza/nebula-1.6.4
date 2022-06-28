@@ -40,6 +40,7 @@ public class Nebula {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             log.info("Saving repository states...");
 
+            ModuleRepository.get().save();
             FriendRepository.get().save();
         }, "Shutdown-Save-Thread"));
     }

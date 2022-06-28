@@ -59,6 +59,10 @@ public class ValueContainer extends ToggleableFeature {
         return (T) valueMap.getOrDefault(name, null);
     }
 
+    public Map<String, Value> getValueMap() {
+        return valueMap;
+    }
+
     public List<Value> getValues() {
         return values;
     }
