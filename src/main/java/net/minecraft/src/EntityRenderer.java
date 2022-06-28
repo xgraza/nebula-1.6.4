@@ -10,6 +10,8 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.RenderWorldEvent;
+import wtf.nebula.impl.module.render.NoOverlay;
+import wtf.nebula.repository.impl.ModuleRepository;
 
 public class EntityRenderer
 {
@@ -379,6 +381,10 @@ public class EntityRenderer
 
     private void hurtCameraEffect(float par1)
     {
+        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+            return;
+        }
+
         EntityLivingBase var2 = this.mc.renderViewEntity;
         float var3 = (float)var2.hurtTime - par1;
         float var4;

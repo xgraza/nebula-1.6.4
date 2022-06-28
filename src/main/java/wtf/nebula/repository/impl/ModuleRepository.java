@@ -50,6 +50,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         // movement modules
         addChild(new AntiHunger());
         addChild(new AutoWalk());
+        addChild(new IceSpeed());
         addChild(new InventoryMove());
         addChild(new Jesus());
         addChild(new NoSlow());
@@ -63,6 +64,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Fullbright());
         addChild(new HUD());
         addChild(new Nametags());
+        addChild(new NoOverlay());
         addChild(new NoWeather());
         addChild(new StorageESP());
         addChild(new Tracers());
