@@ -1,9 +1,11 @@
 package wtf.nebula.impl.module;
 
 import org.lwjgl.input.Keyboard;
+import wtf.nebula.impl.module.misc.Notifications;
 import wtf.nebula.impl.value.Bind;
 import wtf.nebula.impl.value.Value;
 import wtf.nebula.impl.value.ValueContainer;
+import wtf.nebula.repository.impl.ModuleRepository;
 
 public class Module extends ValueContainer {
     private final ModuleCategory category;
@@ -26,5 +28,17 @@ public class Module extends ValueContainer {
 
     public int getBind() {
         return bind.getValue();
+    }
+
+    @Override
+    public void setState(boolean state) {
+        if (!nullCheck()) {
+            Notifications notifications = ModuleRepository.get().getModule(Notifications.class);
+            if (notifications.getState()) {
+                notifications.toggleMessage(this);
+            }
+        }
+
+        super.setState(state);
     }
 }

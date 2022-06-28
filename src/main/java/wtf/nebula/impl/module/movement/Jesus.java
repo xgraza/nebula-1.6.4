@@ -9,6 +9,7 @@ import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
 import wtf.nebula.util.world.BlockUtil;
+import wtf.nebula.util.world.player.MotionUtil;
 
 public class Jesus extends Module {
     public Jesus() {
@@ -41,27 +42,45 @@ public class Jesus extends Module {
     public void onPacketSend(PacketEvent.Send event) {
 
         // if this is a move packet
-        if (event.getPacket() instanceof Packet11PlayerPosition) {
+        if (event.getPacket() instanceof Packet10Flying) {
 
-            Packet11PlayerPosition packet = event.getPacket();
+            // the movement packet
+            Packet10Flying packet = event.getPacket();
 
             // prevent phase checks
-            if (isAboveLiquid() && overLiquidTicks >= 4) {
+            if (isAboveLiquid()) {
 
                 // spoof ground state
-                packet.onGround = false;
+                packet.onGround = true;
 
                 // spoof downwards
-                if (mc.thePlayer.ticksExisted % 2 == 0) {
-                    packet.yPosition -= 0.05;
+                if (overLiquidTicks % 2 == 0) {
+
+                    // spoof falling down
+                    packet.stance -= 0.01;
+                    packet.yPosition -= 0.01;
+
+                }
+
+                else {
+
+                    if (MotionUtil.isMoving() && packet.moving) {
+
+                        // spoof floating up (pressing space bar)
+                        packet.stance += 0.01;
+                        packet.yPosition += 0.01;
+                    }
                 }
             }
         }
     }
 
     private boolean isAboveLiquid() {
-        Vec3 pos = mc.thePlayer.getPosition(1.0f);
-        pos.xCoord -= 2.0;
+        if (mc.thePlayer.isInWater()) {
+            return false;
+        }
+
+        Vec3 pos = Vec3.createVectorHelper(mc.thePlayer.posX, mc.thePlayer.boundingBox.minY - 1.0, mc.thePlayer.posZ);
 
         Block block = BlockUtil.getBlockFromVec(pos);
         if (!lava.getValue() && (block == Block.lavaMoving || block == Block.lavaStill)) {

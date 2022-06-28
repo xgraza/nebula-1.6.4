@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.server.MinecraftServer;
+import wtf.nebula.impl.module.render.NoWeather;
+import wtf.nebula.repository.impl.ModuleRepository;
 
 public abstract class World implements IBlockAccess
 {
@@ -3984,6 +3986,10 @@ public abstract class World implements IBlockAccess
      */
     public boolean isThundering()
     {
+        if (ModuleRepository.get().getModule(NoWeather.class).getState()) {
+            return false;
+        }
+
         return (double)this.getWeightedThunderStrength(1.0F) > 0.9D;
     }
 
@@ -3992,6 +3998,11 @@ public abstract class World implements IBlockAccess
      */
     public boolean isRaining()
     {
+        if (ModuleRepository.get().getModule(NoWeather.class).getState()) {
+            setRainStrength(0.0f);
+            return false;
+        }
+
         return (double)this.getRainStrength(1.0F) > 0.2D;
     }
 

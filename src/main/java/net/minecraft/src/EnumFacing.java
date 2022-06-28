@@ -13,7 +13,7 @@ public enum EnumFacing
     private final int order_a;
 
     /** Face order for U-D-S-N-W-E. */
-    private final int order_b;
+    public final int order_b;
     private final int frontOffsetX;
     private final int frontOffsetY;
     private final int frontOffsetZ;
@@ -49,6 +49,10 @@ public enum EnumFacing
     public int getFrontOffsetZ()
     {
         return this.frontOffsetZ;
+    }
+
+    public Vec3 getDirectionVec() {
+        return Vec3.createVectorHelper(frontOffsetX, frontOffsetY, frontOffsetZ);
     }
 
     /**

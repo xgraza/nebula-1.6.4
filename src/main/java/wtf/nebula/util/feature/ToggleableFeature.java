@@ -1,6 +1,8 @@
 package wtf.nebula.util.feature;
 
 import wtf.nebula.Nebula;
+import wtf.nebula.impl.module.misc.Notifications;
+import wtf.nebula.repository.impl.ModuleRepository;
 
 /**
  * A feature that can be toggled

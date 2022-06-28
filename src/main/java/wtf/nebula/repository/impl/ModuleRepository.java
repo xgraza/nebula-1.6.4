@@ -1,7 +1,6 @@
 package wtf.nebula.repository.impl;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.EnumChatFormatting;
 import wtf.nebula.event.KeyInputEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -11,6 +10,7 @@ import wtf.nebula.impl.module.combat.TargetStrafe;
 import wtf.nebula.impl.module.misc.ChatSuffix;
 import wtf.nebula.impl.module.misc.Freecam;
 import wtf.nebula.impl.module.misc.MiddleClick;
+import wtf.nebula.impl.module.misc.Notifications;
 import wtf.nebula.impl.module.movement.*;
 import wtf.nebula.impl.module.render.*;
 import wtf.nebula.repository.BaseRepository;
@@ -39,6 +39,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new ChatSuffix());
         addChild(new Freecam());
         addChild(new MiddleClick());
+        addChild(new Notifications());
 
         // movement modules
         addChild(new InventoryMove());
@@ -54,6 +55,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Fullbright());
         addChild(new HUD());
         addChild(new Nametags());
+        addChild(new NoWeather());
         addChild(new StorageESP());
         addChild(new Tracers());
         addChild(new XRay());
@@ -88,14 +90,6 @@ public class ModuleRepository extends BaseRepository<Module> {
                 // if we found a bind match, toggle module
                 if (module.getBind() == event.getKeyCode()) {
                     module.setState(!module.getState());
-
-                    // if the nullcheck passes, send a toggle message
-                    if (!module.nullCheck()) {
-                        String toggleMsg = module.getState() ?
-                                EnumChatFormatting.GREEN + "enabled" :
-                                EnumChatFormatting.RED + "disabled";
-                        sendChatMessage(module.hashCode(), module.getName() + " " + toggleMsg + EnumChatFormatting.RESET + ".");
-                    }
                 }
             }
         }
