@@ -397,6 +397,31 @@ public class PlayerControllerMP
         }
     }
 
+    public void blockSword() {
+        ItemStack held = mc.thePlayer.getHeldItem();
+        if (held == null || !(held.getItem() instanceof ItemSword)) {
+            return;
+        }
+
+        syncCurrentPlayItem();
+        netClientHandler.addToSendQueue(new Packet15Place(-1, -1, -1, 255, held, 0.0F, 0.0F, 0.0F));
+
+        ItemStack usedStack = held.useItemRightClick(mc.theWorld, mc.thePlayer);
+        if (usedStack != null && usedStack.getItem() instanceof ItemSword) {
+            mc.thePlayer.inventory.mainInventory[mc.thePlayer.inventory.currentItem] = usedStack;
+        }
+    }
+
+    public void unblockSilent() {
+        ItemStack held = mc.thePlayer.getHeldItem();
+        if (held == null || !(held.getItem() instanceof ItemSword)) {
+            return;
+        }
+
+        syncCurrentPlayItem();
+        netClientHandler.addToSendQueue(new Packet14BlockDig(5, 0, 0, 0, 255));
+    }
+
     public EntityClientPlayerMP func_78754_a(World par1World)
     {
         return new EntityClientPlayerMP(this.mc, par1World, this.mc.getSession(), this.netClientHandler);

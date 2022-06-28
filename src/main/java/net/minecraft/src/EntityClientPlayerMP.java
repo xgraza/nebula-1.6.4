@@ -154,6 +154,8 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             this.oldRotationYaw = this.rotationYaw;
             this.oldRotationPitch = this.rotationPitch;
         }
+
+        Nebula.BUS.post(new MotionUpdateEvent(Era.POST));
     }
 
     /**

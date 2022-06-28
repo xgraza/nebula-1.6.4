@@ -40,7 +40,7 @@ public abstract class BaseRepository<T> implements Globals {
      */
     public abstract void addChild(T child);
 
-    public List<T> etChildren() {
+    public List<T> getChildren() {
         return children;
     }
 }

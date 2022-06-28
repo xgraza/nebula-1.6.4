@@ -8,6 +8,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
+import wtf.nebula.Nebula;
+import wtf.nebula.event.RenderWorldEvent;
 
 public class EntityRenderer
 {
@@ -420,7 +422,7 @@ public class EntityRenderer
     /**
      * sets up player's eye (or camera in third person mode)
      */
-    private void orientCamera(float par1)
+    public void orientCamera(float par1)
     {
         EntityLivingBase var2 = this.mc.renderViewEntity;
         float var3 = var2.yOffset - 1.62F;
@@ -1216,6 +1218,9 @@ public class EntityRenderer
             {
                 this.renderCloudsCheck(var5, par1);
             }
+
+            mc.mcProfiler.endStartSection("nebula_renderworld");
+            Nebula.BUS.post(new RenderWorldEvent(par1));
 
             this.mc.mcProfiler.endStartSection("hand");
 

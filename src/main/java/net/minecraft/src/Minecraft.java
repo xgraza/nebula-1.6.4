@@ -31,6 +31,7 @@ import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.KeyInputEvent;
+import wtf.nebula.event.MiddleClickMouseEvent;
 import wtf.nebula.event.TickEvent;
 
 public class Minecraft implements IPlayerUsage
@@ -60,7 +61,7 @@ public class Minecraft implements IPlayerUsage
     private CrashReport crashReporter;
     public int displayWidth;
     public int displayHeight;
-    private Timer timer = new Timer(20.0F);
+    public Timer timer = new Timer(20.0F);
 
     /** Instance of PlayerUsageSnooper. */
     private PlayerUsageSnooper usageSnooper = new PlayerUsageSnooper("client", this, MinecraftServer.getSystemTimeMillis());
@@ -2105,6 +2106,10 @@ public class Minecraft implements IPlayerUsage
      */
     private void clickMiddleMouseButton()
     {
+        if (Nebula.BUS.post(new MiddleClickMouseEvent(objectMouseOver))) {
+            return;
+        }
+
         if (this.objectMouseOver != null)
         {
             boolean var1 = this.thePlayer.capabilities.isCreativeMode;

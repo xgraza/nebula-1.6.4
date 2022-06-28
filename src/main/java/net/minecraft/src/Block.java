@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import wtf.nebula.Nebula;
 import wtf.nebula.event.AddBoundingBoxEvent;
+import wtf.nebula.impl.module.render.XRay;
+import wtf.nebula.repository.impl.ModuleRepository;
 
 import java.util.List;
 import java.util.Random;
@@ -452,6 +454,10 @@ public class Block
      */
     public float getBlockBrightness(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
+        if (ModuleRepository.get().getModule(XRay.class).getState()) {
+            return 10000.0f;
+        }
+
         return par1IBlockAccess.getBrightness(par2, par3, par4, lightValue[par1IBlockAccess.getBlockId(par2, par3, par4)]);
     }
 
@@ -469,6 +475,11 @@ public class Block
      */
     public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
     {
+        XRay xray = ModuleRepository.get().getModule(XRay.class);
+        if (xray.getState()) {
+            return xray.blocks.contains(blockID);
+        }
+
         return par5 == 0 && this.minY > 0.0D ? true : (par5 == 1 && this.maxY < 1.0D ? true : (par5 == 2 && this.minZ > 0.0D ? true : (par5 == 3 && this.maxZ < 1.0D ? true : (par5 == 4 && this.minX > 0.0D ? true : (par5 == 5 && this.maxX < 1.0D ? true : !par1IBlockAccess.isBlockOpaqueCube(par2, par3, par4))))));
     }
 

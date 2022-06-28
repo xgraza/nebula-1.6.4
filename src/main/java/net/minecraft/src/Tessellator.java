@@ -8,6 +8,9 @@ import java.nio.ShortBuffer;
 import org.lwjgl.opengl.ARBVertexBufferObject;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
+import wtf.nebula.impl.module.render.XRay;
+import wtf.nebula.repository.impl.ModuleRepository;
+import wtf.nebula.util.Globals;
 
 public class Tessellator
 {
@@ -412,6 +415,18 @@ public class Tessellator
             }
 
             this.hasColor = true;
+
+            // shit way to check
+            try {
+                // this is much harder on newer versions of MC and with mixins
+                if (ModuleRepository.get().getModule(XRay.class).getState()) {
+                    if (Globals.mc.theWorld != null && Globals.mc.thePlayer != null) {
+                        par4 = 120;
+                    }
+                }
+            } catch (Exception ignored) {
+
+            }
 
             if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
             {

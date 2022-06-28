@@ -1608,7 +1608,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     /**
      * Causes this entity to do an upwards motion (jumping).
      */
-    protected void jump()
+    public void jump()
     {
         super.jump();
         this.addStat(StatList.jumpStat, 1);

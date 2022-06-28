@@ -1,6 +1,8 @@
 package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
+import wtf.nebula.impl.module.render.Nametags;
+import wtf.nebula.repository.impl.ModuleRepository;
 
 public class RenderPlayer extends RendererLivingEntity
 {
@@ -364,6 +366,10 @@ public class RenderPlayer extends RendererLivingEntity
 
     protected void func_96450_a(AbstractClientPlayer par1AbstractClientPlayer, double par2, double par4, double par6, String par8Str, float par9, double par10)
     {
+        if (ModuleRepository.get().getModule(Nametags.class).getState()) {
+            return;
+        }
+
         if (par10 < 100.0D)
         {
             Scoreboard var12 = par1AbstractClientPlayer.getWorldScoreboard();

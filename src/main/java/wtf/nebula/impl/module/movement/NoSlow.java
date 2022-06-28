@@ -2,10 +2,13 @@ package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.Packet10Flying;
+import net.minecraft.src.Packet14BlockDig;
+import net.minecraft.src.Packet15Place;
 import org.lwjgl.input.Keyboard;
+import wtf.nebula.event.MotionUpdateEvent;
+import wtf.nebula.event.MotionUpdateEvent.Era;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PlayerSlowdownEvent;
-import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
@@ -17,15 +20,6 @@ public class NoSlow extends Module {
     }
 
     public final Value<Boolean> ncp = new Value<>("NCP", true);
-    public final Value<Boolean> guis = new Value<>("GUIs", true);
-
-    @EventListener
-    public void onTick(TickEvent event) {
-        if (guis.getValue() && mc.currentScreen != null) {
-
-            mc.currentScreen.allowUserInput = true;
-        }
-    }
 
     @EventListener
     public void onPlayerSlowdown(PlayerSlowdownEvent event) {
@@ -37,9 +31,15 @@ public class NoSlow extends Module {
     }
 
     @EventListener
-    public void onPacketSend(PacketEvent.Send event) {
-        if (event.getPacket() instanceof Packet10Flying && mc.thePlayer.isBlocking() && ncp.getValue()) {
-            // TODO: onMotionUpdate pre & post
+    public void onMotionUpdate(MotionUpdateEvent event) {
+        if (mc.thePlayer.isBlocking() && ncp.getValue()) {
+            if (event.getEra().equals(Era.PRE)) {
+                mc.thePlayer.sendQueue.addToSendQueue(new Packet14BlockDig(5, 0, 0, 0, 255));
+            }
+
+            else {
+                mc.thePlayer.sendQueue.addToSendQueue(new Packet15Place(-1, -1, -1, 255, mc.thePlayer.getHeldItem(), 0.0F, 0.0F, 0.0F));
+            }
         }
     }
 }

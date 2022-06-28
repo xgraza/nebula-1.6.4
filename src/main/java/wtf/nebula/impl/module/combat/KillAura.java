@@ -29,6 +29,8 @@ public class KillAura extends Module {
     private long lastAttack = 0L;
     private boolean blocking = false;
 
+    public EntityLivingBase target = null;
+
     @Override
     protected void onDeactivated() {
         super.onDeactivated();
@@ -37,36 +39,45 @@ public class KillAura extends Module {
             blocking = false;
             mc.thePlayer.stopUsingItem();
         }
+
+        target = null;
     }
 
     @EventListener
     public void onMotionUpdate(MotionUpdateEvent event) {
-        EntityLivingBase target = null;
-        double r = 0.0;
+        if (target == null
+                || target.isDead
+                || target.getHealth() <= 0.0f
+                || mc.thePlayer.getDistanceToEntity(target) > range.getValue()) {
 
-        for (Object obj : new ArrayList<>(mc.theWorld.loadedEntityList)) {
-            if (!(obj instanceof EntityLivingBase)) {
-                continue;
-            }
+            target = null;
 
-            EntityLivingBase base = (EntityLivingBase) obj;
+            double r = 0.0;
 
-            if (base.equals(mc.thePlayer) || base.isDead || base.getHealth() <= 0.0f) {
-                continue;
-            }
+            for (Object obj : new ArrayList<>(mc.theWorld.loadedEntityList)) {
+                if (!(obj instanceof EntityLivingBase)) {
+                    continue;
+                }
 
-            if (!mc.thePlayer.canEntityBeSeen(base) && !walls.getValue()) {
-                continue;
-            }
+                EntityLivingBase base = (EntityLivingBase) obj;
 
-            double entityRange = mc.thePlayer.getDistanceSqToEntity(base);
-            if (entityRange > range.getValue() * range.getValue()) {
-                continue;
-            }
+                if (base.equals(mc.thePlayer) || base.isDead || base.getHealth() <= 0.0f) {
+                    continue;
+                }
 
-            if (r == 0.0 || r > entityRange) {
-                r = entityRange;
-                target = base;
+                if (!mc.thePlayer.canEntityBeSeen(base) && !walls.getValue()) {
+                    continue;
+                }
+
+                double entityRange = mc.thePlayer.getDistanceSqToEntity(base);
+                if (entityRange > range.getValue() * range.getValue()) {
+                    continue;
+                }
+
+                if (r == 0.0 || r > entityRange) {
+                    r = entityRange;
+                    target = base;
+                }
             }
         }
 
@@ -78,12 +89,12 @@ public class KillAura extends Module {
         if (holdingSword && autoBlock.getValue()) {
             if (event.getEra().equals(Era.PRE)) {
                 blocking = false;
-                mc.thePlayer.stopUsingItem();
+                mc.playerController.unblockSilent();
             }
 
             else {
                 blocking = true;
-                mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem());
+                mc.playerController.blockSword();
             }
         }
 
@@ -91,7 +102,10 @@ public class KillAura extends Module {
             lastAttack = System.currentTimeMillis();
 
             mc.thePlayer.swingItem();
-            mc.playerController.attackEntity(mc.thePlayer, target);
+            mc.thePlayer.sendQueue.addToSendQueue(new Packet7UseEntity(mc.thePlayer.entityId, target.entityId, 1));
+
+            // fun little particle
+            mc.thePlayer.onEnchantmentCritical(target);
         }
     }
 

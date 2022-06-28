@@ -51,7 +51,7 @@ public class NetClientHandler extends NetHandler
     /**
      * An ArrayList of GuiPlayerInfo (includes all the players' GuiPlayerInfo on the current server)
      */
-    public List playerInfoList = new ArrayList();
+    public List<GuiPlayerInfo> playerInfoList = new ArrayList();
     public int currentServerMaxPlayers = 20;
     private GuiScreen field_98183_l;
 

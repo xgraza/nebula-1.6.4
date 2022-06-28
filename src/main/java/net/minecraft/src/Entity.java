@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import net.minecraft.server.MinecraftServer;
+import wtf.nebula.Nebula;
+import wtf.nebula.event.MotionEvent;
+import wtf.nebula.util.Globals;
 
 public abstract class Entity
 {
@@ -569,6 +572,15 @@ public abstract class Entity
      */
     public void moveEntity(double par1, double par3, double par5)
     {
+        if (this.equals(Globals.mc.thePlayer)) {
+            MotionEvent event = new MotionEvent(par1, par3, par5);
+            Nebula.BUS.post(event);
+
+            par1 = event.getX();
+            par3 = event.getY();
+            par5 = event.getZ();
+        }
+
         if (this.noClip)
         {
             this.boundingBox.offset(par1, par3, par5);

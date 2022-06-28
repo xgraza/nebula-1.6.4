@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import wtf.nebula.Nebula;
+import wtf.nebula.event.RenderHUDEvent;
 
 public class GuiIngame extends Gui
 {
@@ -450,6 +452,8 @@ public class GuiIngame extends Gui
                 }
             }
         }
+
+        Nebula.BUS.post(new RenderHUDEvent(var5));
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_LIGHTING);
