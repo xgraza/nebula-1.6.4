@@ -2,6 +2,7 @@ package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.Packet28EntityVelocity;
+import net.minecraft.src.Packet60Explosion;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -22,8 +23,23 @@ public class Velocity extends Module {
 
             // if the entity that this velocity needs to be applied to is the local player, cancel.
             if (packet.entityId == mc.thePlayer.entityId) {
-                event.setCancelled(true);
+
+                packet.motionX = 0;
+                packet.motionY = 0;
+                packet.motionZ = 0;
             }
+        }
+
+        // if an explosion in the world happened
+        else if (event.getPacket() instanceof Packet60Explosion) {
+
+            // the explosion packet
+            Packet60Explosion packet = event.getPacket();
+
+            // decrease our velocity to 0
+            packet.playerVelocityX = 0.0f;
+            packet.playerVelocityY = 0.0f;
+            packet.playerVelocityZ = 0.0f;
         }
     }
 }

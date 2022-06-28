@@ -42,6 +42,8 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Notifications());
 
         // movement modules
+        addChild(new AntiHunger());
+        addChild(new AutoWalk());
         addChild(new InventoryMove());
         addChild(new Jesus());
         addChild(new NoSlow());

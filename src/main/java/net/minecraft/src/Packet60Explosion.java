@@ -16,13 +16,13 @@ public class Packet60Explosion extends Packet
     public List chunkPositionRecords;
 
     /** X velocity of the player being pushed by the explosion */
-    private float playerVelocityX;
+    public float playerVelocityX;
 
     /** Y velocity of the player being pushed by the explosion */
-    private float playerVelocityY;
+    public float playerVelocityY;
 
     /** Z velocity of the player being pushed by the explosion */
-    private float playerVelocityZ;
+    public float playerVelocityZ;
 
     public Packet60Explosion() {}
 
