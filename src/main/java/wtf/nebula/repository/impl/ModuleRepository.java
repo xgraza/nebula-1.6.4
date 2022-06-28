@@ -8,10 +8,7 @@ import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.module.combat.Criticals;
 import wtf.nebula.impl.module.combat.KillAura;
 import wtf.nebula.impl.module.combat.TargetStrafe;
-import wtf.nebula.impl.module.misc.ChatSuffix;
-import wtf.nebula.impl.module.misc.Freecam;
-import wtf.nebula.impl.module.misc.MiddleClick;
-import wtf.nebula.impl.module.misc.Notifications;
+import wtf.nebula.impl.module.misc.*;
 import wtf.nebula.impl.module.movement.*;
 import wtf.nebula.impl.module.render.*;
 import wtf.nebula.impl.value.Value;
@@ -44,9 +41,11 @@ public class ModuleRepository extends BaseRepository<Module> {
 
         // misc modules
         addChild(new ChatSuffix());
+        addChild(new EnderchestBP());
         addChild(new Freecam());
         addChild(new MiddleClick());
         addChild(new Notifications());
+        addChild(new XCarry());
 
         // movement modules
         addChild(new AntiHunger());

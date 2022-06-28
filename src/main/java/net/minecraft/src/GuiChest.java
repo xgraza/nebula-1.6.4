@@ -5,8 +5,8 @@ import org.lwjgl.opengl.GL11;
 public class GuiChest extends GuiContainer
 {
     private static final ResourceLocation field_110421_t = new ResourceLocation("textures/gui/container/generic_54.png");
-    private IInventory upperChestInventory;
-    private IInventory lowerChestInventory;
+    public IInventory upperChestInventory;
+    public IInventory lowerChestInventory;
 
     /**
      * window height is calculated with this values, the more rows, the heigher

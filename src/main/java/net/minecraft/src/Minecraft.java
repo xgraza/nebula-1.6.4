@@ -30,6 +30,7 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import wtf.nebula.Nebula;
+import wtf.nebula.event.GuiOpenEvent;
 import wtf.nebula.event.KeyInputEvent;
 import wtf.nebula.event.MiddleClickMouseEvent;
 import wtf.nebula.event.TickEvent;
@@ -574,6 +575,8 @@ public class Minecraft implements IPlayerUsage
      */
     public void displayGuiScreen(GuiScreen par1GuiScreen)
     {
+        Nebula.BUS.post(new GuiOpenEvent(par1GuiScreen, currentScreen));
+
         if (this.currentScreen != null)
         {
             this.currentScreen.onGuiClosed();
