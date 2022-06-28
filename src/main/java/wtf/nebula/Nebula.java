@@ -4,6 +4,7 @@ import me.bush.eventbus.bus.EventBus;
 import net.minecraft.src.Minecraft;
 import net.minecraft.src.Session;
 import wtf.nebula.repository.Repositories;
+import wtf.nebula.repository.impl.CommandRepository;
 import wtf.nebula.repository.impl.FriendRepository;
 import wtf.nebula.repository.impl.ModuleRepository;
 
@@ -29,6 +30,7 @@ public class Nebula {
 
         // repos
         Repositories.add(new ModuleRepository());
+        Repositories.add(new CommandRepository());
         Repositories.add(new FriendRepository());
 
         Minecraft.getMinecraft().session = new Session("Aestheticall", "");

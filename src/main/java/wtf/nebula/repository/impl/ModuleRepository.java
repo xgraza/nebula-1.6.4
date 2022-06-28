@@ -24,6 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Repository("Modules")
 public class ModuleRepository extends BaseRepository<Module> {
+    public final Map<String, Module> moduleByName = new HashMap<>();
     public final Map<ModuleCategory, List<Module>> modulesByCategory = new HashMap<>();
 
     @Override
@@ -64,6 +65,8 @@ public class ModuleRepository extends BaseRepository<Module> {
         child.reflectValues();
 
         children.add(child);
+
+        moduleByName.put(child.getName(), child);
         childMap.put(child.getClass(), child);
 
         List<Module> categoryMods = modulesByCategory.computeIfAbsent(child.getCategory(), (s) -> new CopyOnWriteArrayList<>());

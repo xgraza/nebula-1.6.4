@@ -125,7 +125,7 @@ public class GuiScreenBook extends GuiScreen
         }
     }
 
-    private void sendBookToServer(boolean par1)
+    public void sendBookToServer(boolean par1)
     {
         if (this.bookIsUnsigned && this.bookModified)
         {

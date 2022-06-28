@@ -4,7 +4,12 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLivingBase;
 import net.minecraft.src.Vec3;
 
+import java.security.SecureRandom;
+import java.util.Random;
+
 public class MathUtil implements Globals {
+    public static final Random RNG = new SecureRandom();
+
     public static double interpolate(double start, double end, float partialTicks) {
         return end + partialTicks * (start - end);
     }
