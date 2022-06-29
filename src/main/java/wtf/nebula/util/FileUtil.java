@@ -2,9 +2,7 @@ package wtf.nebula.util;
 
 import wtf.nebula.Nebula;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,15 +13,38 @@ public class FileUtil {
     public static final Path CLIENT_PATH = ROOT.resolve("nebula-1.6.4");
 
     public static final Path MODULES = CLIENT_PATH.resolve("modules");
+    public static final Path BOOKBOT = CLIENT_PATH.resolve("bookbot");
+
     public static final Path FRIENDS = CLIENT_PATH.resolve("friends.json");
     public static final Path WAYPOINTS = CLIENT_PATH.resolve("waypoints.json");
 
     public static String read(Path path) {
+        BufferedReader reader = null;
+
         try {
-            return String.join("\n", Files.readAllLines(path));
+            reader = new BufferedReader(new FileReader(path.toFile()));
+
+            StringBuilder builder = new StringBuilder();
+
+            int i;
+            while ((i = reader.read()) != -1) {
+                builder.append((char) i);
+            }
+
+            return builder.toString();
         } catch (IOException e) {
-            return null;
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
+        return null;
     }
 
     public static void create(Path path) {

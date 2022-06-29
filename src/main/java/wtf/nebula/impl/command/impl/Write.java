@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 
 public class Write extends Command {
     public Write() {
-        super(Arrays.asList("write", "w", "writebook", "bookbot"), "Writes randomized text into a book for the chunk dupe");
+        super(Arrays.asList("write", "w", "writebook"), "Writes randomized text into a book for the chunk dupe");
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Write extends Command {
         sendChatMessage("Hey hey hey, the book got successfully written in!");
     }
 
-    private void signBook(ItemStack stack, NBTTagList nbtTagList, String title) {
+    public static void signBook(ItemStack stack, NBTTagList nbtTagList, String title) {
         String CHANNEL_NAME = "MC|BSign";
 
         stack.setTagInfo("pages", nbtTagList);
