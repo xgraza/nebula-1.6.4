@@ -7,6 +7,7 @@ import wtf.nebula.event.PacketEvent;
 import wtf.nebula.impl.command.Command;
 import wtf.nebula.impl.command.impl.*;
 import wtf.nebula.repository.BaseRepository;
+import wtf.nebula.repository.Repositories;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -73,5 +74,9 @@ public class CommandRepository extends BaseRepository<Command> {
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public static CommandRepository get() {
+        return Repositories.getRepo(CommandRepository.class);
     }
 }

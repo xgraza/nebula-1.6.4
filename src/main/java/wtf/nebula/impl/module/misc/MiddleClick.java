@@ -6,6 +6,7 @@ import wtf.nebula.event.MiddleClickMouseEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
+import wtf.nebula.repository.impl.FriendRepository;
 import wtf.nebula.util.world.player.inventory.InventoryRegion;
 import wtf.nebula.util.world.player.inventory.InventoryUtil;
 
@@ -47,9 +48,20 @@ public class MiddleClick extends Module {
                 }
 
                 if (friend.getValue()) {
-                    EntityPlayer player = (EntityPlayer) entity;
+                    String username = result.entityHit.getEntityName();
 
-                    // TODO: friend manager
+                    if (FriendRepository.get().isFriend(username)) {
+                        FriendRepository.get().removeChild(username);
+                        sendChatMessage("Removed " + EnumChatFormatting.GREEN + username + EnumChatFormatting.RESET + " from your friends list");
+                    }
+
+                    else {
+                        FriendRepository.get().addChild(username);
+                        sendChatMessage("Added " + EnumChatFormatting.GREEN + username + EnumChatFormatting.RESET + " to your friends list");
+
+                        // send a message to that player
+                        mc.thePlayer.sendQueue.addToSendQueue(new Packet3Chat("/msg " + username + " I just added you as a friend on Nebula!"));
+                    }
                 }
             }
         }

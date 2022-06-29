@@ -6,6 +6,7 @@ import org.lwjgl.input.Keyboard;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
+import wtf.nebula.repository.impl.CommandRepository;
 
 public class ChatSuffix extends Module {
     private static final String NEBULA_SUFFIX = "\u0274\u1d07\u0299\u1d1c\u029f\u1d00";
@@ -22,7 +23,7 @@ public class ChatSuffix extends Module {
             Packet3Chat packet = event.getPacket();
 
             String message = packet.message;
-            if (message.startsWith("/")) {
+            if (message.startsWith("/") || message.startsWith(CommandRepository.get().getPrefix())) {
                 return;
             }
 
