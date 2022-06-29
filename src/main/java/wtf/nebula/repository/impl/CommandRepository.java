@@ -20,6 +20,7 @@ public class CommandRepository extends BaseRepository<Command> {
     @Override
     public void init() {
         addChild(new Bind());
+        addChild(new Friend());
         addChild(new Github());
         addChild(new Toggle());
         addChild(new Waypoints());

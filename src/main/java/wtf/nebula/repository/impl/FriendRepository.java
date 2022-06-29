@@ -37,8 +37,16 @@ public class FriendRepository extends BaseRepository<String> {
         children.add(child);
     }
 
+    public void removeChild(String child) {
+        children.removeIf(child::equals);
+    }
+
+    public boolean isFriend(String name) {
+        return children.stream().anyMatch(name::equals);
+    }
+
     public boolean isFriend(EntityPlayer player) {
-        return children.stream().anyMatch((username) -> player.getEntityName().equals(username));
+        return isFriend(player.getEntityName());
     }
 
     public void save() {

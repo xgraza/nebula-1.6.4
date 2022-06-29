@@ -8,6 +8,7 @@ import wtf.nebula.event.MotionUpdateEvent.Era;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
+import wtf.nebula.repository.impl.FriendRepository;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -62,6 +63,11 @@ public class KillAura extends Module {
                 EntityLivingBase base = (EntityLivingBase) obj;
 
                 if (base.equals(mc.thePlayer) || base.isDead || base.getHealth() <= 0.0f) {
+                    continue;
+                }
+
+                // do not target friends
+                if (base instanceof EntityPlayer && FriendRepository.get().isFriend((EntityPlayer) base)) {
                     continue;
                 }
 
