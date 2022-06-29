@@ -11,6 +11,7 @@ import wtf.nebula.impl.module.combat.TargetStrafe;
 import wtf.nebula.impl.module.misc.*;
 import wtf.nebula.impl.module.movement.*;
 import wtf.nebula.impl.module.render.*;
+import wtf.nebula.impl.value.Bind;
 import wtf.nebula.impl.value.Value;
 import wtf.nebula.repository.BaseRepository;
 import wtf.nebula.repository.Repositories;
@@ -136,6 +137,11 @@ public class ModuleRepository extends BaseRepository<Module> {
             for (Entry<String, Value> e : module.getValueMap().entrySet()) {
                 Object value = e.getValue().getValue();
 
+                if (e.getValue() instanceof Bind) {
+                    object.addProperty(e.getValue().getName(), (int) value);
+                    continue;
+                }
+
                 if (value instanceof Boolean) {
                     object.addProperty(e.getKey(), (boolean) value);
                 }
@@ -183,6 +189,11 @@ public class ModuleRepository extends BaseRepository<Module> {
             for (Entry<String, JsonElement> e : object.entrySet()) {
                 if (e.getKey().equals("state")) {
                     entry.getValue().setState(e.getValue().getAsBoolean());
+                }
+
+                if (e.getKey().equals("Keybind")) {
+                    entry.getValue().setBind(e.getValue().getAsInt());
+                    continue;
                 }
 
                 Value value = entry.getValue().getValue(e.getKey());
