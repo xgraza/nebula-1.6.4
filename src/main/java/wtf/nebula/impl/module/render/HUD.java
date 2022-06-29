@@ -9,6 +9,9 @@ import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.repository.impl.ModuleRepository;
 
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+
 // TODO: use hud elements
 public class HUD extends Module {
     public HUD() {
@@ -20,6 +23,8 @@ public class HUD extends Module {
 
     @EventListener
     public void onRenderHUD(RenderHUDEvent event) {
+        glPushMatrix();
+
         // watermark
         mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.LIGHT_PURPLE + Nebula.NAME + " v" + Nebula.VERSION, 2, 2, -1);
 
@@ -47,5 +52,7 @@ public class HUD extends Module {
                         + String.format("%.1f", mc.thePlayer.boundingBox.minY) + ", "
                         + String.format("%.1f", mc.thePlayer.posZ),
                 2, (int) y, -1);
+
+        glPopMatrix();
     }
 }
