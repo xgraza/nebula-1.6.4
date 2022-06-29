@@ -31,7 +31,7 @@ public class Nametags extends Module {
             EntityPlayer player = (EntityPlayer) obj;
 
             double x = MathUtil.interpolate(player.posX, player.lastTickPosX, event.getPartialTicks()) - RenderManager.renderPosX;
-            double y = MathUtil.interpolate(player.posY, player.lastTickPosY, event.getPartialTicks()) - 1.650 - RenderManager.renderPosY;
+            double y = MathUtil.interpolate(player.posY, player.lastTickPosY, event.getPartialTicks()) - RenderManager.renderPosY;
             double z = MathUtil.interpolate(player.posZ, player.lastTickPosZ, event.getPartialTicks()) - RenderManager.renderPosZ;
 
             renderPlayerTag(player, x, y, z);
@@ -39,8 +39,6 @@ public class Nametags extends Module {
     }
 
     private void renderPlayerTag(EntityPlayer player, double x, double y, double z) {
-        double offset = player.isSneaking() ? 0.5 : 0.7;
-
         double renderX = RenderManager.renderPosX;
         double renderY = RenderManager.renderPosY;
         double renderZ = RenderManager.renderPosZ;
@@ -56,7 +54,7 @@ public class Nametags extends Module {
         glEnable(GL_POLYGON_OFFSET_FILL);
         glPolygonOffset(1.0f, -1500000.0f);
 
-        glTranslated(x, y + offset + 1.4, z);
+        glTranslated(x, y + 0.5, z);
         glRotated(-RenderManager.instance.playerViewY, 0.0f, 1.0f, 0.0f);
         glRotated(RenderManager.instance.playerViewX, mc.gameSettings.thirdPersonView == 2 ? -1.0f : 1.0f, 0.0f, 0.0f);
         glScaled(-scale, -scale, scale);
