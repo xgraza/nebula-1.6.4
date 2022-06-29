@@ -5,10 +5,7 @@ import me.bush.eventbus.annotation.ListenerPriority;
 import net.minecraft.src.Packet3Chat;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.impl.command.Command;
-import wtf.nebula.impl.command.impl.Bind;
-import wtf.nebula.impl.command.impl.Github;
-import wtf.nebula.impl.command.impl.Toggle;
-import wtf.nebula.impl.command.impl.Write;
+import wtf.nebula.impl.command.impl.*;
 import wtf.nebula.repository.BaseRepository;
 
 import java.util.Arrays;
@@ -25,6 +22,7 @@ public class CommandRepository extends BaseRepository<Command> {
         addChild(new Bind());
         addChild(new Github());
         addChild(new Toggle());
+        addChild(new Waypoints());
         addChild(new Write());
 
         log.info("Loaded " + children.size() + " commands.");

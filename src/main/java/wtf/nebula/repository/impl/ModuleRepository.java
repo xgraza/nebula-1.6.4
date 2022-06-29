@@ -68,6 +68,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new NoWeather());
         addChild(new StorageESP());
         addChild(new Tracers());
+        addChild(new Waypoints());
         addChild(new XRay());
 
         log.info("Loaded " + children.size() + " modules. Loading configurations.");

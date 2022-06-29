@@ -208,6 +208,10 @@ public class Vec3
         return "(" + this.xCoord + ", " + this.yCoord + ", " + this.zCoord + ")";
     }
 
+    public String toStringTruncated() {
+        return "(" + String.format("%.1f", xCoord) + ", " + String.format("%.1f", yCoord) + ", " + String.format("%.1f", zCoord) + ")";
+    }
+
     /**
      * Rotates the vector around the x axis by the specified angle.
      */

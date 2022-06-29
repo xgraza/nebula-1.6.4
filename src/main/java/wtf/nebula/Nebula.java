@@ -7,6 +7,7 @@ import wtf.nebula.repository.Repositories;
 import wtf.nebula.repository.impl.CommandRepository;
 import wtf.nebula.repository.impl.FriendRepository;
 import wtf.nebula.repository.impl.ModuleRepository;
+import wtf.nebula.repository.impl.WaypointRepository;
 
 import java.util.logging.Logger;
 
@@ -32,6 +33,7 @@ public class Nebula {
         Repositories.add(new ModuleRepository());
         Repositories.add(new CommandRepository());
         Repositories.add(new FriendRepository());
+        Repositories.add(new WaypointRepository());
 
         Minecraft.getMinecraft().session = new Session("Aestheticall", "");
 
@@ -42,6 +44,7 @@ public class Nebula {
 
             ModuleRepository.get().save();
             FriendRepository.get().save();
+            WaypointRepository.get().save();
         }, "Shutdown-Save-Thread"));
     }
 }

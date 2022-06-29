@@ -16,6 +16,7 @@ public class FileUtil {
 
     public static final Path MODULES = CLIENT_PATH.resolve("modules");
     public static final Path FRIENDS = CLIENT_PATH.resolve("friends.json");
+    public static final Path WAYPOINTS = CLIENT_PATH.resolve("waypoints.json");
 
     public static String read(Path path) {
         try {

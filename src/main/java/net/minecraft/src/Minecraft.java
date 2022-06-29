@@ -45,7 +45,7 @@ public class Minecraft implements IPlayerUsage
     private static final List macDisplayModes = Lists.newArrayList(new DisplayMode[] {new DisplayMode(2560, 1600), new DisplayMode(2880, 1800)});
     private final ILogAgent mcLogAgent;
     private final File fileResourcepacks;
-    private ServerData currentServerData;
+    public ServerData currentServerData;
 
     /** The RenderEngine instance used by Minecraft */
     private TextureManager renderEngine;
