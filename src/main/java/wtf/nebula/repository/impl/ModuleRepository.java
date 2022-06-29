@@ -46,6 +46,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Freecam());
         addChild(new MiddleClick());
         addChild(new Notifications());
+        addChild(new PortalChat());
         addChild(new XCarry());
 
         // movement modules
