@@ -30,7 +30,7 @@ public class Write extends Command {
         }
 
         // max title length is 16
-        title = title.substring(0, 16);
+        title = title.substring(0, Math.min(title.length(), 16));
 
         // create a NBT compound to put our book text in
         NBTTagList pages = new NBTTagList();
