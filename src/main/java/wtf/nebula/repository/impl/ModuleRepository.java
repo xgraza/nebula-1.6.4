@@ -40,6 +40,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new TargetStrafe());
 
         // misc modules
+        addChild(new AntiAFK());
         addChild(new ChatSuffix());
         addChild(new EnderchestBP());
         addChild(new Freecam());
