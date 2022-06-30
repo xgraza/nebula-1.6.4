@@ -16,7 +16,6 @@ import wtf.nebula.util.world.player.MotionUtil;
 public class Speed extends Module {
     public Speed() {
         super("Speed", ModuleCategory.MOVEMENT);
-        setBind(Keyboard.KEY_R);
     }
 
     public final Value<Mode> mode = new Value<>("Mode", Mode.STRAFE);

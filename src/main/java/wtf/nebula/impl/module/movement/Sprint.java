@@ -9,7 +9,6 @@ import wtf.nebula.impl.module.ModuleCategory;
 public class Sprint extends Module {
     public Sprint() {
         super("Sprint", ModuleCategory.MOVEMENT);
-        setBind(Keyboard.KEY_N);
     }
 
     @Override

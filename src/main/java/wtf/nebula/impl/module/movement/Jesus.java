@@ -14,7 +14,6 @@ import wtf.nebula.util.world.player.MotionUtil;
 public class Jesus extends Module {
     public Jesus() {
         super("Jesus", ModuleCategory.MOVEMENT);
-        setBind(Keyboard.KEY_J);
     }
 
     public final Value<Boolean> lava = new Value<>("Lava", true);

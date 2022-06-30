@@ -16,7 +16,6 @@ import wtf.nebula.impl.value.Value;
 public class NoSlow extends Module {
     public NoSlow() {
         super("NoSlow", ModuleCategory.MOVEMENT);
-        setBind(Keyboard.KEY_L);
     }
 
     public final Value<Boolean> ncp = new Value<>("NCP", true);

@@ -28,10 +28,7 @@ public class Velocity extends Module {
 
             // if the entity that this velocity needs to be applied to is the local player, cancel.
             if (packet.entityId == mc.thePlayer.entityId) {
-
-                packet.motionX = 0;
-                packet.motionY = 0;
-                packet.motionZ = 0;
+                event.setCancelled(true);
             }
         }
 
