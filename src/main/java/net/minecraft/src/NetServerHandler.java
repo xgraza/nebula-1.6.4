@@ -549,8 +549,11 @@ public class NetServerHandler extends NetHandler
      */
     public void sendPacketToPlayer(Packet par1Packet)
     {
-        if (Nebula.BUS.post(new PacketEvent.Receive(par1Packet))) {
-            return;
+
+        if (Minecraft.getMinecraft().isSingleplayer()) {
+            if (Nebula.BUS.post(new PacketEvent.Receive(par1Packet))) {
+                return;
+            }
         }
 
         if (par1Packet instanceof Packet3Chat)

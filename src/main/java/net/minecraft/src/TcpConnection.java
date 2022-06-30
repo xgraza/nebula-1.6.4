@@ -18,6 +18,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.crypto.SecretKey;
 import net.minecraft.server.MinecraftServer;
+import wtf.nebula.Nebula;
+import wtf.nebula.event.PacketEvent;
 
 public class TcpConnection implements INetworkManager
 {
@@ -316,6 +318,10 @@ public class TcpConnection implements INetworkManager
 
             if (var2 != null)
             {
+                if (Nebula.BUS.post(new PacketEvent.Receive(var2))) {
+                    return false;
+                }
+
                 if (var2 instanceof Packet252SharedKey && !this.isInputBeingDecrypted)
                 {
                     if (this.theNetHandler.isServerHandler())

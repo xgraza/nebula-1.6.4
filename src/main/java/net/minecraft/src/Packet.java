@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.server.MinecraftServer;
+import wtf.nebula.Nebula;
+import wtf.nebula.event.PacketEvent;
 
 public abstract class Packet
 {
