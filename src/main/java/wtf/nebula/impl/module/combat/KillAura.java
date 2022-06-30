@@ -70,6 +70,11 @@ public class KillAura extends Module {
                     continue;
                 }
 
+                // FUCK PIGLINS!!!!
+                if (base instanceof EntityPigZombie) {
+                    continue;
+                }
+
                 if (!mc.thePlayer.canEntityBeSeen(base) && !walls.getValue()) {
                     continue;
                 }
