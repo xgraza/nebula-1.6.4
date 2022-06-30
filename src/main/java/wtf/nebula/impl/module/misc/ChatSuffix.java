@@ -13,7 +13,6 @@ public class ChatSuffix extends Module {
 
     public ChatSuffix() {
         super("ChatSuffix", ModuleCategory.MISC);
-        setBind(Keyboard.KEY_B);
     }
 
     @EventListener

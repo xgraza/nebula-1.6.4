@@ -22,7 +22,6 @@ public class XRay extends Module {
 
     public XRay() {
         super("XRay", ModuleCategory.RENDER);
-        setBind(Keyboard.KEY_X);
     }
 
     @Override

@@ -14,7 +14,6 @@ import wtf.nebula.util.world.player.MotionUtil;
 public class Freecam extends Module {
     public Freecam() {
         super("Freecam", ModuleCategory.MISC);
-        setBind(Keyboard.KEY_U);
     }
 
     public final Value<Double> speed = new Value<>("Speed", 0.5, 0.1, 5.0);

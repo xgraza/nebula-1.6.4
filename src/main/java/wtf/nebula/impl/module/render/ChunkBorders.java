@@ -14,7 +14,6 @@ import static org.lwjgl.opengl.GL11.*;
 public class ChunkBorders extends Module {
     public ChunkBorders() {
         super("ChunkBorders", ModuleCategory.RENDER);
-        setBind(Keyboard.KEY_P);
     }
 
     @EventListener

@@ -16,7 +16,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class KillAura extends Module {
     public KillAura() {
         super("KillAura", ModuleCategory.COMBAT);
-        setBind(Keyboard.KEY_K);
     }
 
     public final Value<Double> range = new Value<>("Range", 4.0, 1.0, 6.0);

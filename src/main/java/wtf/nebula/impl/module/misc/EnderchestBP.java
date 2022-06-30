@@ -14,7 +14,6 @@ import wtf.nebula.impl.module.ModuleCategory;
 public class EnderchestBP extends Module {
     public EnderchestBP() {
         super("EnderChestBP", ModuleCategory.MISC);
-        setBind(Keyboard.KEY_O);
     }
 
     private GuiChest gui;
