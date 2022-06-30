@@ -8,11 +8,13 @@ import wtf.nebula.impl.command.Command;
 import wtf.nebula.impl.command.impl.*;
 import wtf.nebula.repository.BaseRepository;
 import wtf.nebula.repository.Repositories;
+import wtf.nebula.repository.Repository;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository("Commands")
 public class CommandRepository extends BaseRepository<Command> {
     public final Map<String, Command> commandByTrigger = new HashMap<>();
 
@@ -29,7 +31,7 @@ public class CommandRepository extends BaseRepository<Command> {
         addChild(new Waypoints());
         addChild(new Write());
 
-        log.info("Loaded " + children.size() + " commands.");
+        log.logInfo("Loaded " + children.size() + " commands.");
     }
 
     @Override

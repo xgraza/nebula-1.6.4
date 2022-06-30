@@ -32,6 +32,10 @@ public class ModuleRepository extends BaseRepository<Module> {
     public final Map<String, Module> moduleByName = new HashMap<>();
     public final Map<ModuleCategory, List<Module>> modulesByCategory = new HashMap<>();
 
+    public ModuleRepository() {
+        super();
+    }
+
     @Override
     public void init() {
 
@@ -74,7 +78,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Waypoints());
         addChild(new XRay());
 
-        log.info("Loaded " + children.size() + " modules. Loading configurations.");
+        log.logInfo("Loaded " + children.size() + " modules. Loading configurations.");
         load();
     }
 
@@ -165,7 +169,7 @@ public class ModuleRepository extends BaseRepository<Module> {
             FileUtil.write(moduleConfig, new GsonBuilder().setPrettyPrinting().create().toJson(object));
         }
 
-        log.info("Saved modules.");
+        log.logInfo("Saved modules.");
     }
 
     public void load() {
@@ -224,7 +228,7 @@ public class ModuleRepository extends BaseRepository<Module> {
             }
         }
 
-        log.info("Loaded modules");
+        log.logInfo("Loaded modules");
     }
 
     public static ModuleRepository get() {

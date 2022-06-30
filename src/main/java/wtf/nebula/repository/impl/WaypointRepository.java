@@ -4,6 +4,7 @@ import com.google.gson.*;
 import net.minecraft.src.Vec3;
 import wtf.nebula.repository.BaseRepository;
 import wtf.nebula.repository.Repositories;
+import wtf.nebula.repository.Repository;
 import wtf.nebula.repository.impl.waypoint.Waypoint;
 import wtf.nebula.util.FileUtil;
 
@@ -14,13 +15,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Repository("Waypoints")
 public class WaypointRepository extends BaseRepository<Waypoint> {
     public final Map<String, CopyOnWriteArrayList<Waypoint>> serverWaypoints = new HashMap<>();
 
     @Override
     public void init() {
         load();
-        log.info("Loaded " + serverWaypoints.size() + " server waypoints with a total of " + children.size() + " waypoints.");
+        log.logInfo("Loaded " + serverWaypoints.size() + " server waypoints with a total of " + children.size() + " waypoints.");
     }
 
     @Override

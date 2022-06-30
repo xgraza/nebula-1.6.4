@@ -7,19 +7,21 @@ import com.google.gson.JsonPrimitive;
 import net.minecraft.src.EntityPlayer;
 import wtf.nebula.repository.BaseRepository;
 import wtf.nebula.repository.Repositories;
+import wtf.nebula.repository.Repository;
 import wtf.nebula.util.FileUtil;
 
 import java.nio.file.Files;
 
 import static wtf.nebula.util.FileUtil.FRIENDS;
 
+@Repository("Friends")
 public class FriendRepository extends BaseRepository<String> {
     @Override
     public void init() {
         if (!Files.exists(FRIENDS)) {
             FileUtil.write(FRIENDS, "[]");
 
-            log.info("Created friends.json");
+            log.logInfo("Created friends.json");
         }
 
         else {
@@ -28,7 +30,7 @@ public class FriendRepository extends BaseRepository<String> {
                 addChild(fren);
             }
 
-            log.info("Added " + children.size() + " friend(s).");
+            log.logInfo("Added " + children.size() + " friend(s).");
         }
     }
 

@@ -1,5 +1,7 @@
 package wtf.nebula.repository;
 
+import net.minecraft.src.LogAgent;
+import wtf.nebula.util.FileUtil;
 import wtf.nebula.util.Globals;
 
 import java.util.ArrayList;
@@ -18,14 +20,14 @@ public abstract class BaseRepository<T> implements Globals {
     protected final Map<Class, T> childMap = new HashMap<>();
     protected final List<T> children = new ArrayList<>();
 
-    protected static Logger log;
+    protected LogAgent log;
 
     public BaseRepository() {
         if (getClass().isAnnotationPresent(Repository.class)) {
             Repository repo = getClass().getAnnotation(Repository.class);
 
             // create a logger
-            log = Logger.getLogger(repo.value());
+            log = new LogAgent("Nebula", " [" + repo.value() + "]", FileUtil.ROOT.resolve("nebula_logs").toFile().getAbsolutePath());
         }
     }
 
