@@ -13,6 +13,9 @@ import wtf.nebula.util.FileUtil;
 import wtf.nebula.util.Globals;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
 /**
@@ -25,12 +28,16 @@ public class Nebula {
     public static final String NAME = "Nebula";
     public static final String VERSION = "1.0.0";
 
-    public static final LogAgent log = new LogAgent("Nebula", " [Nebula]", FileUtil.ROOT.resolve("nebula_logs").toFile().getAbsolutePath());
-
-    // our event bus
-    public static final EventBus BUS = new EventBus(log::logInfo);
+    public static LogAgent log;
+    public static EventBus BUS;
 
     public static void init() {
+        setupLogger();
+        log.logInfo("Loading BushBus:tm:");
+
+        // our event bus
+        BUS = new EventBus(log::logInfo);
+
         log.logInfo("Loading " + NAME + " v" + VERSION + "...");
 
         // repos
@@ -50,5 +57,21 @@ public class Nebula {
             FriendRepository.get().save();
             WaypointRepository.get().save();
         }, "Shutdown-Save-Thread"));
+    }
+
+    private static void setupLogger() {
+
+        Path path = FileUtil.ROOT.resolve("nebula_logs");
+
+        // create logger folder
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectory(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        log = new LogAgent("Nebula", " [Nebula]", path.toFile().getAbsolutePath());
     }
 }

@@ -16,15 +16,33 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+
+configurations {
+    embed
+    implementation.extendsFrom embed
+}
+
 dependencies {
     // BUSH BUS!!!
-    implementation 'com.github.therealbush:eventbus:1.0.2'
+    embed 'com.github.therealbush:eventbus:1.0.2'
 
     // add all jars in /libs/
     implementation fileTree('libs')
+
+    implementation configurations.embed
 }
 
 jar {
+    from(configurations.embed.collect {
+        it.isDirectory() ? it : zipTree(it)
+    }) {
+        exclude 'dummyThing',
+                'LICENSE.txt',
+                'META-INF/MUMFREY.RSA',
+                'META-INF/maven/**',
+                'org/**/*.html'
+    }
+
     manifest.attributes(
             'Main-Class': 'Start',
             'Class-Path': '.'
