@@ -76,7 +76,7 @@ public class AltLoginScreen extends GuiScreen {
             String pass = password.getText();
 
             if (pass.isEmpty()) {
-                mc.session = new Session(pass, "");
+                mc.session = new Session(usrname, "");
                 mc.displayGuiScreen(null);
             }
 

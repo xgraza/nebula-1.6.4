@@ -1,6 +1,7 @@
 package wtf.nebula.impl.module.combat;
 
 import me.bush.eventbus.annotation.EventListener;
+import net.minecraft.src.Packet10Flying;
 import net.minecraft.src.Packet11PlayerPosition;
 import net.minecraft.src.Packet19EntityAction;
 import net.minecraft.src.Packet7UseEntity;
@@ -15,15 +16,17 @@ public class Criticals extends Module {
         super("Criticals", ModuleCategory.COMBAT);
     }
 
-    public final Value<Mode> mode = new Value<>("Mode", Mode.MOTION);
+    public final Value<Mode> mode = new Value<>("Mode", Mode.PACKET);
     public final Value<Integer> delay = new Value<>("Delay", 200, 0, 1000);
 
     private double lastCrit = 0L;
+    private boolean attacked = false;
 
     @Override
     protected void onDeactivated() {
         super.onDeactivated();
         lastCrit = 0L;
+        attacked = false;
     }
 
     @EventListener
@@ -51,11 +54,10 @@ public class Criticals extends Module {
 
                 if (mode.getValue().equals(Mode.PACKET)) {
 
-                    // send movement packets to simulate a critical
                     mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
                             mc.thePlayer.posX,
-                            mc.thePlayer.boundingBox.minY + 0.1,
-                            mc.thePlayer.posY,
+                            mc.thePlayer.boundingBox.minY + 0.12,
+                            mc.thePlayer.posY + 0.12,
                             mc.thePlayer.posZ,
                             false
                     ));
@@ -76,6 +78,21 @@ public class Criticals extends Module {
                 }
             }
         }
+
+//        else if (event.getPacket() instanceof Packet10Flying) {
+//
+//            Packet10Flying packet = event.getPacket();
+//
+//            if (attacked) {
+//                attacked = false;
+//
+//                packet.onGround = false;
+//                packet.yPosition += 0.10000000149011612;
+//                packet.stance += 0.10000000149011612;
+//
+//                mc.thePlayer.fallDistance = 0.1f;
+//            }
+//        }
     }
 
     public enum Mode {
