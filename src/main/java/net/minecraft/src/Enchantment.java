@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public abstract class Enchantment
 {
+    public static final Map<Integer, Enchantment> REGISTRY = new LinkedHashMap<>();
+
     public static final Enchantment[] enchantmentsList = new Enchantment[256];
 
     /** The list of enchantments applicable by the anvil from a book */

@@ -10,6 +10,9 @@ import wtf.nebula.repository.impl.FriendRepository;
 import wtf.nebula.util.MathUtil;
 import wtf.nebula.util.render.RenderUtil;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class Nametags extends Module {
@@ -68,24 +71,29 @@ public class Nametags extends Module {
         RenderUtil.drawRect(-(width - 2.0), -(mc.fontRenderer.FONT_HEIGHT - 1.0), (width * 2.0) + 2.0, mc.fontRenderer.FONT_HEIGHT + 2.0, 0x70000000);
         mc.fontRenderer.drawStringWithShadow(info, (int) -(width - 4.0), -(mc.fontRenderer.FONT_HEIGHT - 2), -1);
 
-//        int xOffset = -24 / 2 * player.inventory.armorInventory.length;
-//
-//        if (player.getHeldItem() != null && player.getHeldItem().getItem() != null) {
-//            renderItem(player.getHeldItem(), xOffset, scale);
-//        }
-//
-//        xOffset += 16;
-//
-//        if (armor.getValue()) {
-//            for (ItemStack armor : player.inventory.armorInventory) {
-//                if (armor == null || armor.getItem() == null) {
-//                    continue;
-//                }
-//
-//                renderItem(armor, xOffset, scale);
-//                xOffset += 16;
-//            }
-//        }
+        int xOffset = (-24 / 2 * player.inventory.armorInventory.length) + 12;
+
+        if (player.getHeldItem() != null && player.getHeldItem().getItem() != null) {
+            renderItem(player.getHeldItem(), xOffset, 1.0);
+            xOffset += 16;
+        }
+
+        else {
+            xOffset += 8;
+        }
+
+        if (armor.getValue()) {
+            for (int i = 3; i >= 0; --i) {
+                ItemStack armor = player.inventory.armorInventory[i];
+
+                if (armor == null || armor.getItem() == null) {
+                    continue;
+                }
+
+                renderItem(armor, xOffset, 1.0);
+                xOffset += 16;
+            }
+        }
 
         glPolygonOffset(1.0f, 1500000.0f);
         glDisable(GL_POLYGON_OFFSET_FILL);
@@ -96,31 +104,103 @@ public class Nametags extends Module {
         glPopMatrix();
     }
 
-    // this is extremely broken... fix later i dont feel like it
     private void renderItem(ItemStack stack, int x, double scale) {
-        // glPushMatrix();
+        glPushMatrix();
+
+        // allow item GLINT to render for enchants
         glDepthMask(true);
+        glScaled(scale, scale, scale);
+        glClear(256);
+        glEnable(GL_LIGHTING);
+
         RenderHelper.enableStandardItemLighting();
+        glEnable(GL_DEPTH_TEST);
 
-        RenderItem r = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
+        RenderItem renderItem = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
 
-
-        r.zLevel = -150.0f;
-
-        glEnable(32826);
-
-//        // glTranslated(x, -26, 0.0f);
-//        glScaled(1.0f, -1.0f, 1.0f);
-//        glScaled(16.0f, 16.0f, 16.0f);
-        glTranslated(-0.5f, -0.5f, -0.5f);
-
-        r.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, x, -26);
-        r.renderItemOverlayIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, x, -26);
-        r.zLevel = 0.0f;
+        renderItem.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, x, -26);
+        renderItem.renderItemOverlayIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, x, -26);
 
         RenderHelper.disableStandardItemLighting();
+        glScaled(0.5, 0.5, 0.5);
 
-        // glPopMatrix();
+        renderEnchantments(stack, x, -26);
+
+        glDisable(GL_LIGHTING);
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
+
+        glPopMatrix();
+    }
+
+    private void renderEnchantments(ItemStack stack, double x, double y) {
+        Map<Integer, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
+
+        ArrayList<String> text = new ArrayList<>();
+        if (stack.getItem() == Item.appleGold && stack.hasEffect()) {
+            text.add(EnumChatFormatting.RED + "god");
+        }
+
+        if (enchants.isEmpty() && text.isEmpty()) {
+            return;
+        }
+
+        for (Map.Entry<Integer, Integer> entry : enchants.entrySet()) {
+
+            String name;
+
+            try {
+                Enchantment enchantment = Enchantment.enchantmentsList[entry.getKey()];
+
+                if (enchantment != null) {
+                    name = enchantment.getTranslatedName(entry.getValue());
+                }
+
+                else {
+                    continue;
+                }
+            } catch (Exception ignored) {
+                continue;
+            }
+
+            text.add(shortenEnchantName(name, entry.getValue()));
+        }
+
+        double scaling = 1.0;
+        if (y < text.size() * ((mc.fontRenderer.FONT_HEIGHT + 1) * scaling)) {
+            y -= (text.size() * ((mc.fontRenderer.FONT_HEIGHT + 1) * scaling) + 16.0);
+        }
+
+        for (String str : text) {
+            glPushMatrix();
+            glEnable(GL_BLEND);
+
+            glDisable(GL_DEPTH_TEST);
+            glDepthMask(false);
+
+            glScaled(scaling, scaling, scaling);
+
+            mc.fontRenderer.drawStringWithShadow(str, (int) (x * 2.0), (int) y, -1);
+            y += (mc.fontRenderer.FONT_HEIGHT + 1);
+
+            glScaled(2.0, 2.0, 2.0);
+
+            glDepthMask(true);
+            glEnable(GL_DEPTH_TEST);
+            glDisable(GL_BLEND);
+
+            glPopMatrix();
+        }
+    }
+
+    private String shortenEnchantName(String str, int level) {
+        String shortened = str.substring(0, 3);
+
+        if (level > 1) {
+            shortened += " " + level;
+        }
+
+        return shortened;
     }
 
     private String getPlayerInfo(EntityPlayer player) {
@@ -164,12 +244,12 @@ public class Nametags extends Module {
                 builder.append(EnumChatFormatting.GREEN);
             }
 
-            if (health < 12.0f) {
+            else if (health < 12.0f) {
                 builder.append(EnumChatFormatting.RED);
             }
 
-            if (health < 8.0f) {
-                builder.append(EnumChatFormatting.DARK_RED);
+            else {
+                builder.append(EnumChatFormatting.GREEN);
             }
 
             builder.append(String.format("%.1f", health));

@@ -15,6 +15,11 @@ public class Velocity extends Module {
     @EventListener
     public void onPacketReceive(PacketEvent.Receive event) {
 
+        // nullcheck
+        if (nullCheck()) {
+            return;
+        }
+
         // if an entity has taken velocity and the server requests an entity takes kb
         if (event.getPacket() instanceof Packet28EntityVelocity) {
 
