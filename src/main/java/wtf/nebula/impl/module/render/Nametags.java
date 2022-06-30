@@ -34,7 +34,7 @@ public class Nametags extends Module {
             EntityPlayer player = (EntityPlayer) obj;
 
             double x = MathUtil.interpolate(player.posX, player.lastTickPosX, event.getPartialTicks()) - RenderManager.renderPosX;
-            double y = MathUtil.interpolate(player.posY, player.lastTickPosY, event.getPartialTicks()) - RenderManager.renderPosY;
+            double y = MathUtil.interpolate(player.posY, player.lastTickPosY, event.getPartialTicks()) + (player.equals(mc.thePlayer) ? 0.0 : 1.625) - RenderManager.renderPosY;
             double z = MathUtil.interpolate(player.posZ, player.lastTickPosZ, event.getPartialTicks()) - RenderManager.renderPosZ;
 
             renderPlayerTag(player, x, y, z);
