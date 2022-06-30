@@ -666,6 +666,12 @@ public class NetClientHandler extends NetHandler
         }
     }
 
+    public void addToSendQueueSilent(Packet packet) {
+        if (!disconnected) {
+            this.netManager.addToSendQueue(packet);
+        }
+    }
+
     public void handleCollect(Packet22Collect par1Packet22Collect)
     {
         Entity var2 = this.getEntityByID(par1Packet22Collect.collectedEntityId);

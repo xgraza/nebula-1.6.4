@@ -54,7 +54,7 @@ public class Criticals extends Module {
 
                 if (mode.getValue().equals(Mode.PACKET)) {
 
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
+                    mc.thePlayer.sendQueue.addToSendQueueSilent(new Packet11PlayerPosition(
                             mc.thePlayer.posX,
                             mc.thePlayer.boundingBox.minY + 0.12,
                             mc.thePlayer.posY + 0.12,
@@ -62,7 +62,7 @@ public class Criticals extends Module {
                             false
                     ));
 
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
+                    mc.thePlayer.sendQueue.addToSendQueueSilent(new Packet11PlayerPosition(
                             mc.thePlayer.posX,
                             mc.thePlayer.boundingBox.minY,
                             mc.thePlayer.posY,
