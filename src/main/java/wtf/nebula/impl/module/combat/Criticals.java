@@ -15,6 +15,7 @@ public class Criticals extends Module {
         super("Criticals", ModuleCategory.COMBAT);
     }
 
+    public final Value<Mode> mode = new Value<>("Mode", Mode.MOTION);
     public final Value<Integer> delay = new Value<>("Delay", 200, 0, 1000);
 
     private double lastCrit = 0L;
@@ -48,23 +49,36 @@ public class Criticals extends Module {
                     mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 5));
                 }
 
-                // send movement packets to simulate a critical
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
-                        mc.thePlayer.posX,
-                        mc.thePlayer.boundingBox.minY + 0.2,
-                        mc.thePlayer.posY,
-                        mc.thePlayer.posZ,
-                        false
-                ));
+                if (mode.getValue().equals(Mode.PACKET)) {
 
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
-                        mc.thePlayer.posX,
-                        mc.thePlayer.boundingBox.minY,
-                        mc.thePlayer.posY,
-                        mc.thePlayer.posZ,
-                        false
-                ));
+                    // send movement packets to simulate a critical
+                    mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
+                            mc.thePlayer.posX,
+                            mc.thePlayer.boundingBox.minY + 0.1,
+                            mc.thePlayer.posY,
+                            mc.thePlayer.posZ,
+                            false
+                    ));
+
+                    mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
+                            mc.thePlayer.posX,
+                            mc.thePlayer.boundingBox.minY,
+                            mc.thePlayer.posY,
+                            mc.thePlayer.posZ,
+                            false
+                    ));
+                }
+
+                else if (mode.getValue().equals(Mode.MOTION)) {
+                    mc.thePlayer.motionY = 0.1;
+                    mc.thePlayer.fallDistance = 0.1f;
+                    mc.thePlayer.onGround = false;
+                }
             }
         }
+    }
+
+    public enum Mode {
+        PACKET, MOTION
     }
 }
