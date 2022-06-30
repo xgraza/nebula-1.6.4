@@ -46,8 +46,6 @@ public class Nebula {
         Repositories.add(new FriendRepository());
         Repositories.add(new WaypointRepository());
 
-        Minecraft.getMinecraft().session = new Session("Aestheticall", "");
-
         log.logInfo("Loaded client, henlo!!!!?!?!");
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
