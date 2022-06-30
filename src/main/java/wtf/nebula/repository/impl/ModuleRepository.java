@@ -68,6 +68,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Velocity());
 
         // render modules
+        addChild(new Animations());
         addChild(new ChunkBorders());
         addChild(new ClickGUI());
         addChild(new Fullbright());
