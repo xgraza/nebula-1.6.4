@@ -13,7 +13,6 @@ import wtf.nebula.impl.value.Value;
 public class Criticals extends Module {
     public Criticals() {
         super("Criticals", ModuleCategory.COMBAT);
-        setBind(Keyboard.KEY_C);
     }
 
     public final Value<Integer> delay = new Value<>("Delay", 200, 0, 1000);
