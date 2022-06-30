@@ -4,6 +4,7 @@ import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.EnumChatFormatting;
 import net.minecraft.src.GuiChat;
 import wtf.nebula.Nebula;
+import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.RenderHUDEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -20,6 +21,8 @@ public class HUD extends Module {
         setState(true);
         drawn.setValue(false);
     }
+
+    private double speed = 0.0;
 
     @EventListener
     public void onRenderHUD(RenderHUDEvent event) {
@@ -53,6 +56,26 @@ public class HUD extends Module {
                         + String.format("%.1f", mc.thePlayer.posZ),
                 2, (int) y, -1);
 
+        // speed and other counter shit
+
+        String str = EnumChatFormatting.GRAY + "Speed: " + EnumChatFormatting.RESET + getSpeedFormatted();
+        mc.fontRenderer.drawStringWithShadow(str,
+                event.getResolution().getScaledWidth() - mc.fontRenderer.getStringWidth(str) - 2,
+                (int) y,
+                -1);
+
         glPopMatrix();
+    }
+
+    @EventListener
+    public void onMotionUpdate(MotionUpdateEvent event) {
+        double diffX = mc.thePlayer.posX - mc.thePlayer.lastTickPosX;
+        double diffZ = mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ;
+
+        speed = (Math.sqrt(diffX * diffX + diffZ * diffZ) / 1000) / (0.05 / 3600) * (mc.timer.timerSpeed);
+    }
+
+    private String getSpeedFormatted() {
+        return String.format("%.2f", speed);
     }
 }
