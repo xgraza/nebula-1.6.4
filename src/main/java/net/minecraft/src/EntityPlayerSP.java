@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import wtf.nebula.Nebula;
 import wtf.nebula.event.PlayerSlowdownEvent;
+import wtf.nebula.impl.module.render.NoDynamicFoV;
+import wtf.nebula.repository.impl.ModuleRepository;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -272,13 +274,14 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         float var1 = 1.0F;
 
-        if (this.capabilities.isFlying)
-        {
-            var1 *= 1.1F;
-        }
+        if (!ModuleRepository.get().getModule(NoDynamicFoV.class).getState()) {
+            if (this.capabilities.isFlying) {
+                var1 *= 1.1F;
+            }
 
-        AttributeInstance var2 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-        var1 = (float)((double)var1 * ((var2.getAttributeValue() / (double)this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
+            AttributeInstance var2 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+            var1 = (float) ((double) var1 * ((var2.getAttributeValue() / (double) this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
+        }
 
         if (this.isUsingItem() && this.getItemInUse().itemID == Item.bow.itemID)
         {

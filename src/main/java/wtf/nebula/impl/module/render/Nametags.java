@@ -103,6 +103,8 @@ public class Nametags extends Module {
 
         RenderHelper.disableStandardItemLighting();
 
+        glEnable(GL_ALPHA_TEST);
+
         glPopMatrix();
     }
 
