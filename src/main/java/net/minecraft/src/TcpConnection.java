@@ -20,6 +20,7 @@ import javax.crypto.SecretKey;
 import net.minecraft.server.MinecraftServer;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.PacketEvent;
+import wtf.nebula.event.PacketEvent.Era;
 
 public class TcpConnection implements INetworkManager
 {
@@ -318,7 +319,7 @@ public class TcpConnection implements INetworkManager
 
             if (var2 != null)
             {
-                if (Nebula.BUS.post(new PacketEvent.Receive(var2))) {
+                if (Nebula.BUS.post(new PacketEvent.Receive(Era.PRE, var2))) {
                     return false;
                 }
 
@@ -350,6 +351,8 @@ public class TcpConnection implements INetworkManager
                 }
 
                 var1 = true;
+
+                Nebula.BUS.post(new PacketEvent.Receive(Era.POST, var2));
             }
             else
             {

@@ -24,6 +24,7 @@ import net.minecraft.client.ClientBrandRetriever;
 import org.lwjgl.input.Keyboard;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.PacketEvent;
+import wtf.nebula.event.PacketEvent.Era;
 
 public class NetClientHandler extends NetHandler
 {
@@ -658,11 +659,13 @@ public class NetClientHandler extends NetHandler
     {
         if (!this.disconnected)
         {
-            if (Nebula.BUS.post(new PacketEvent.Send(par1Packet))) {
+            if (Nebula.BUS.post(new PacketEvent.Send(Era.PRE, par1Packet))) {
                 return;
             }
 
             this.netManager.addToSendQueue(par1Packet);
+
+            Nebula.BUS.post(new PacketEvent.Send(Era.POST, par1Packet));
         }
     }
 

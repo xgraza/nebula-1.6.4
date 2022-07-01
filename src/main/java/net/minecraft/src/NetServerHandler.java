@@ -9,6 +9,7 @@ import java.util.Random;
 import net.minecraft.server.MinecraftServer;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.PacketEvent;
+import wtf.nebula.event.PacketEvent.Era;
 
 public class NetServerHandler extends NetHandler
 {
@@ -551,7 +552,7 @@ public class NetServerHandler extends NetHandler
     {
 
         if (Minecraft.getMinecraft().isSingleplayer()) {
-            if (Nebula.BUS.post(new PacketEvent.Receive(par1Packet))) {
+            if (Nebula.BUS.post(new PacketEvent.Receive(Era.PRE, par1Packet))) {
                 return;
             }
         }
@@ -575,6 +576,7 @@ public class NetServerHandler extends NetHandler
         try
         {
             this.netManager.addToSendQueue(par1Packet);
+            Nebula.BUS.post(new PacketEvent.Receive(Era.POST, par1Packet));
         }
         catch (Throwable var5)
         {

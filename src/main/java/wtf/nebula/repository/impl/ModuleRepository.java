@@ -43,6 +43,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Criticals());
         addChild(new KillAura());
         addChild(new TargetStrafe());
+        addChild(new WTap());
 
         // misc modules
         addChild(new AntiAFK());

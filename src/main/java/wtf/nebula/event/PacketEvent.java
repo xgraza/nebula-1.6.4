@@ -5,13 +5,19 @@ import net.minecraft.src.Packet;
 
 public class PacketEvent extends Event {
     private final Packet packet;
+    private final Era era;
 
-    public PacketEvent(Packet packet) {
+    public PacketEvent(Era era, Packet packet) {
+        this.era = era;
         this.packet = packet;
     }
 
     public <T extends Packet> T getPacket() {
         return (T) packet;
+    }
+
+    public Era getEra() {
+        return era;
     }
 
     @Override
@@ -20,14 +26,18 @@ public class PacketEvent extends Event {
     }
 
     public static class Send extends PacketEvent {
-        public Send(Packet packet) {
-            super(packet);
+        public Send(Era era, Packet packet) {
+            super(era, packet);
         }
     }
 
     public static class Receive extends PacketEvent {
-        public Receive(Packet packet) {
-            super(packet);
+        public Receive(Era era, Packet packet) {
+            super(era, packet);
         }
+    }
+
+    public enum Era {
+        PRE, POST
     }
 }

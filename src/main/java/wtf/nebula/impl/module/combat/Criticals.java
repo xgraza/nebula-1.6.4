@@ -1,6 +1,7 @@
 package wtf.nebula.impl.module.combat;
 
 import me.bush.eventbus.annotation.EventListener;
+import me.bush.eventbus.annotation.ListenerPriority;
 import net.minecraft.src.Packet10Flying;
 import net.minecraft.src.Packet11PlayerPosition;
 import net.minecraft.src.Packet19EntityAction;
@@ -18,6 +19,7 @@ public class Criticals extends Module {
 
     public final Value<Mode> mode = new Value<>("Mode", Mode.PACKET);
     public final Value<Integer> delay = new Value<>("Delay", 200, 0, 1000);
+    public final Value<Boolean> stopSprint = new Value<>("StopSprint", false);
 
     private double lastCrit = 0L;
     private boolean attacked = false;
@@ -29,7 +31,7 @@ public class Criticals extends Module {
         attacked = false;
     }
 
-    @EventListener
+    @EventListener(priority = ListenerPriority.HIGHEST)
     public void onPacketSend(PacketEvent.Send event) {
 
         // if we use the entity
@@ -48,7 +50,7 @@ public class Criticals extends Module {
                 lastCrit = System.currentTimeMillis();
 
                 // stop sprinting
-                if (mc.thePlayer.isSprinting()) {
+                if (mc.thePlayer.isSprinting() && stopSprint.getValue()) {
                     mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 5));
                 }
 
