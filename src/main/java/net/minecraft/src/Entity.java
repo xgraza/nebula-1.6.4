@@ -60,7 +60,7 @@ public abstract class Entity
     public float prevRotationPitch;
 
     /** Axis aligned bounding box. */
-    public final AxisAlignedBB boundingBox;
+    public AxisAlignedBB boundingBox;
     public boolean onGround;
 
     /**

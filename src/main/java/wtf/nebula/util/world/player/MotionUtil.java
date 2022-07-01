@@ -49,6 +49,10 @@ public class MotionUtil implements Globals {
     }
 
     public static double getBaseNcpSpeed() {
+        if (mc.thePlayer == null) {
+            return 0.0;
+        }
+
         double baseSpeed = 0.2873;
 
         if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
@@ -59,6 +63,10 @@ public class MotionUtil implements Globals {
     }
 
     public static double getJumpHeight() {
+        if (mc.thePlayer == null) {
+            return 0.0;
+        }
+
         double height = 0.3995;
 
         if (mc.thePlayer.isPotionActive(Potion.jump)) {

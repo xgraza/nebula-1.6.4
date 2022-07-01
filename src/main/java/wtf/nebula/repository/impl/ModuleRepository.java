@@ -5,10 +5,7 @@ import me.bush.eventbus.annotation.EventListener;
 import wtf.nebula.event.KeyInputEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
-import wtf.nebula.impl.module.combat.AutoArmor;
-import wtf.nebula.impl.module.combat.Criticals;
-import wtf.nebula.impl.module.combat.KillAura;
-import wtf.nebula.impl.module.combat.TargetStrafe;
+import wtf.nebula.impl.module.combat.*;
 import wtf.nebula.impl.module.misc.*;
 import wtf.nebula.impl.module.movement.*;
 import wtf.nebula.impl.module.render.*;
@@ -42,6 +39,7 @@ public class ModuleRepository extends BaseRepository<Module> {
 
         // combat moudles
         addChild(new AutoArmor());
+        addChild(new AutoLog());
         addChild(new Criticals());
         addChild(new KillAura());
         addChild(new TargetStrafe());
