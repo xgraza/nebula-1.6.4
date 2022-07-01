@@ -101,6 +101,8 @@ public class Nametags extends Module {
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_LIGHTING);
 
+        RenderHelper.disableStandardItemLighting();
+
         glPopMatrix();
     }
 
@@ -111,24 +113,29 @@ public class Nametags extends Module {
         glDepthMask(true);
         glScaled(scale, scale, scale);
         glClear(256);
-        glEnable(GL_LIGHTING);
+
+        // glEnable(GL_LIGHTING);
 
         RenderHelper.enableStandardItemLighting();
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_ALPHA_TEST);
 
         RenderItem renderItem = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
 
         renderItem.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, x, -26);
         renderItem.renderItemOverlayIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, x, -26);
 
-        RenderHelper.disableStandardItemLighting();
         glScaled(0.5, 0.5, 0.5);
+
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
+
+        glDisable(GL_ALPHA_TEST);
+        glDisable(GL_LIGHTING);
 
         renderEnchantments(stack, x, -26);
 
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_BLEND);
+        glEnable(GL_LIGHTING);
 
         glPopMatrix();
     }
