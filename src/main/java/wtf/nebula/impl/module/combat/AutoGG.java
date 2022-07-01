@@ -56,8 +56,14 @@ public class AutoGG extends Module {
     public void onDeath(DeathEvent event) {
         if (event.getPlayer().equals(target)) {
 
-            String message = messages.get(MathUtil.RNG.nextInt(messages.size() - 1));
-            if (message == null || message.isEmpty()) {
+            if (messages.isEmpty()) {
+                return;
+            }
+
+            String message;
+            try {
+                message = messages.get(MathUtil.RNG.nextInt(messages.size() - 1));
+            } catch (IndexOutOfBoundsException e) {
                 message = "gg %player%!";
             }
 
