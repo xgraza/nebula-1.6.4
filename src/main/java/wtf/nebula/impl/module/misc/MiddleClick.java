@@ -59,7 +59,7 @@ public class MiddleClick extends Module {
                         FriendRepository.get().addChild(username);
                         sendChatMessage("Added " + EnumChatFormatting.GREEN + username + EnumChatFormatting.RESET + " to your friends list");
 
-                        // send a message to that player
+                        // we should notify this player they were added
                         mc.thePlayer.sendQueue.addToSendQueue(new Packet3Chat("/msg " + username + " I just added you as a friend on Nebula!"));
                     }
                 }
