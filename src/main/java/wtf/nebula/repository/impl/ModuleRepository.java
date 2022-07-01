@@ -2,6 +2,7 @@ package wtf.nebula.repository.impl;
 
 import com.google.gson.*;
 import me.bush.eventbus.annotation.EventListener;
+import org.lwjgl.input.Keyboard;
 import wtf.nebula.event.KeyInputEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -105,7 +106,7 @@ public class ModuleRepository extends BaseRepository<Module> {
     public void onKeyInput(KeyInputEvent event) {
 
         // if we are not in a gui screen & the key is done being pressed
-        if (mc.currentScreen == null && !event.isState()) {
+        if (mc.currentScreen == null && !event.isState() && event.getKeyCode() != Keyboard.KEY_NONE) {
 
             // loop through all modules
             // TODO: keybind manager?
