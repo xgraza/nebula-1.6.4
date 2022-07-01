@@ -41,6 +41,7 @@ public class KillAura extends Module {
         }
 
         target = null;
+        AutoGG.target = null;
     }
 
     @EventListener
@@ -93,6 +94,10 @@ public class KillAura extends Module {
 
         if (target == null) {
             return;
+        }
+
+        if (target instanceof EntityPlayer) {
+            AutoGG.target = (EntityPlayer) target;
         }
 
         boolean holdingSword = mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword;

@@ -23,6 +23,7 @@ import javax.crypto.SecretKey;
 import net.minecraft.client.ClientBrandRetriever;
 import org.lwjgl.input.Keyboard;
 import wtf.nebula.Nebula;
+import wtf.nebula.event.DeathEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
 
@@ -394,6 +395,13 @@ public class NetClientHandler extends NetHandler
     public void handleEntityMetadata(Packet40EntityMetadata par1Packet40EntityMetadata)
     {
         Entity var2 = this.getEntityByID(par1Packet40EntityMetadata.entityId);
+
+        if (var2 instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) var2;
+            if (player.getHealth() <= 0.0f || player.isDead) {
+                Nebula.BUS.post(new DeathEvent(player));
+            }
+        }
 
         if (var2 != null && par1Packet40EntityMetadata.getMetadata() != null)
         {

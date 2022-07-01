@@ -39,6 +39,7 @@ public class ModuleRepository extends BaseRepository<Module> {
 
         // combat moudles
         addChild(new AutoArmor());
+        addChild(new AutoGG());
         addChild(new AutoLog());
         addChild(new Criticals());
         addChild(new KillAura());

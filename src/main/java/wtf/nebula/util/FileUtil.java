@@ -17,6 +17,7 @@ public class FileUtil {
 
     public static final Path FRIENDS = CLIENT_PATH.resolve("friends.json");
     public static final Path WAYPOINTS = CLIENT_PATH.resolve("waypoints.json");
+    public static final Path AUTOGG = CLIENT_PATH.resolve("autogg.txt");
 
     public static String read(Path path) {
         BufferedReader reader = null;
