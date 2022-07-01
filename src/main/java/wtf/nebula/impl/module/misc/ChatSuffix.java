@@ -4,6 +4,7 @@ import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.Packet3Chat;
 import org.lwjgl.input.Keyboard;
 import wtf.nebula.event.PacketEvent;
+import wtf.nebula.event.PacketEvent.Era;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.repository.impl.CommandRepository;
@@ -18,7 +19,7 @@ public class ChatSuffix extends Module {
     @EventListener
     public void onPacketSend(PacketEvent.Send event) {
 
-        if (event.getPacket() instanceof Packet3Chat) {
+        if (event.getPacket() instanceof Packet3Chat && event.getEra().equals(Era.PRE)) {
             Packet3Chat packet = event.getPacket();
 
             String message = packet.message;
