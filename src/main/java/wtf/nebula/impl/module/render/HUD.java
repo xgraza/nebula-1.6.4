@@ -5,6 +5,7 @@ import net.minecraft.src.*;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.RenderHUDEvent;
+import wtf.nebula.impl.gui.ui.ClickGUIScreen;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.repository.impl.ModuleRepository;
@@ -25,6 +26,10 @@ public class HUD extends Module {
 
     @EventListener
     public void onRenderHUD(RenderHUDEvent event) {
+        if (mc.currentScreen instanceof ClickGUIScreen || mc.gameSettings.showDebugInfo) {
+            return;
+        }
+
         glPushMatrix();
 
         // watermark

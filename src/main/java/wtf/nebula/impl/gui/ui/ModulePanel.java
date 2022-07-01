@@ -56,10 +56,10 @@ public class ModulePanel extends DraggableComponent {
             RenderUtil.drawRect(x, componentY - 0.5, width, totalCompHeight() + 1.0, new Color(0, 0, 0, 111).getRGB());
 
             for (Component component : children) {
-                component.x = x;
+                component.x = x + 2.0;
                 component.y = componentY;
                 component.height = 14.0;
-                component.width = width;
+                component.width = width - 4;
 
                 component.drawComponent(mouseX, mouseY, partialTicks);
 
@@ -101,12 +101,16 @@ public class ModulePanel extends DraggableComponent {
 
     @Override
     public void mouseRelease(int mouseX, int mouseY, int state) {
-
+        if (getState()) {
+            children.forEach((child) -> child.mouseRelease(mouseX, mouseY, state));
+        }
     }
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-
+        if (state) {
+            children.forEach((child) -> child.keyTyped(typedChar, keyCode));
+        }
     }
 
     private double totalCompHeight() {

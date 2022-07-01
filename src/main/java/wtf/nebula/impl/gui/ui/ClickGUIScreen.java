@@ -14,6 +14,8 @@ public class ClickGUIScreen extends GuiScreen {
 
     private final List<ModulePanel> panels = new ArrayList<>();
 
+    public static boolean disableClose = false;
+
     private ClickGUIScreen() {
         double x = 6.0;
 
@@ -37,6 +39,16 @@ public class ClickGUIScreen extends GuiScreen {
     protected void mouseClicked(int par1, int par2, int par3) {
         super.mouseClicked(par1, par2, par3);
         panels.forEach((panel) -> panel.mouseClick(par1, par2, par3));
+    }
+
+    @Override
+    protected void keyTyped(char par1, int par2) {
+
+        if (!disableClose) {
+            super.keyTyped(par1, par2);
+        }
+
+        panels.forEach((panel) -> panel.keyTyped(par1, par2));
     }
 
     @Override

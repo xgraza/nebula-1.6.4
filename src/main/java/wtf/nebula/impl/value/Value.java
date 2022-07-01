@@ -99,15 +99,24 @@ public class Value<T> {
     }
 
     public static Enum increase(Enum clazz) {
-        int index = current(clazz);
+        int index = current(clazz) + 1;
 
-        for (int i = 0; i < clazz.getClass().getEnumConstants().length; ++i) {
-            Enum e = ((Enum[]) clazz.getClass().getEnumConstants())[i];
-            if (i == index + 1) {
-                return e;
-            }
+        Enum[] constants = clazz.getClass().getEnumConstants();
+        if (index > constants.length - 1) {
+            index = 0;
         }
 
-        return ((Enum[]) clazz.getClass().getEnumConstants())[0];
+        return constants[index];
+    }
+
+    public static Enum decrease(Enum clazz) {
+        int index = current(clazz) - 1;
+
+        Enum[] constants = clazz.getClass().getEnumConstants();
+        if (index < 0) {
+            index = constants.length - 1;
+        }
+
+        return constants[index];
     }
 }
