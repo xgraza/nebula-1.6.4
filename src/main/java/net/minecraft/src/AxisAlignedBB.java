@@ -332,6 +332,10 @@ public class AxisAlignedBB
         return getAABBPool().getAABB(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
     }
 
+    public AxisAlignedBB instantCopy() {
+        return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
+    }
+
     public MovingObjectPosition calculateIntercept(Vec3 par1Vec3, Vec3 par2Vec3)
     {
         Vec3 var3 = par1Vec3.getIntermediateWithXValue(par2Vec3, this.minX);
