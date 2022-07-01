@@ -1,8 +1,7 @@
 package wtf.nebula.impl.module.render;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.EnumChatFormatting;
-import net.minecraft.src.GuiChat;
+import net.minecraft.src.*;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.RenderHUDEvent;
@@ -63,6 +62,31 @@ public class HUD extends Module {
                 event.getResolution().getScaledWidth() - mc.fontRenderer.getStringWidth(str) - 2,
                 (int) y,
                 -1);
+
+        // armor hud
+        ScaledResolution resolution = event.getResolution();
+        for (int i = 0; i < 4; ++i) {
+            ItemStack stack = mc.thePlayer.inventory.armorInventory[i];
+            if (stack == null || stack.getItem() == null) {
+                continue;
+            }
+
+            double x = (resolution.getScaledWidth() / 2.0) + ((9 - i) * 16) - 80.0;
+            double y1 = resolution.getScaledHeight() - 55.0;
+
+            glPushMatrix();
+
+            RenderHelper.enableGUIStandardItemLighting();
+
+            RenderItem renderItem = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
+
+            renderItem.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, (int) x, (int) y1);
+            renderItem.renderItemOverlayIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, (int) x, (int) y1);
+
+            RenderHelper.disableStandardItemLighting();
+
+            glPopMatrix();
+        }
 
         glPopMatrix();
     }
