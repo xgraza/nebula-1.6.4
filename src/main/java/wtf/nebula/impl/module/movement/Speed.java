@@ -1,8 +1,9 @@
 package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.src.Packet13PlayerLookMove;
 import wtf.nebula.event.MotionUpdateEvent;
+import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -25,7 +26,7 @@ public class Speed extends Module {
     private int stage = 4;
     private boolean slow = false;
 
-    private int limited = 0;
+    private int lagTicks = 0;
 
     @Override
     protected void onDeactivated() {
@@ -34,44 +35,41 @@ public class Speed extends Module {
         moveSpeed = 0.0;
         mc.timer.timerSpeed = 1.0f;
         stage = 4;
+        lagTicks = 0;
     }
 
     @EventListener
     public void onTick(TickEvent event) {
         if (mode.getValue().equals(Mode.STRAFE)) {
 
+            --lagTicks;
+            if (lagTicks > 0) {
+                return;
+            }
+
             if (mc.thePlayer.onGround && MotionUtil.isMoving()) {
                 stage = 2;
             }
 
-            if (stage < 2) {
-                mc.timer.timerSpeed = 1.0f;
-            }
-
-            else {
-
-                if (slow) {
-                    mc.timer.timerSpeed = 1.11f;
-                } else {
-                    mc.timer.timerSpeed = 1.0f;
-                }
-            }
-
             if (stage == 1) {
                 stage = 2;
-                moveSpeed = 1.38 * MotionUtil.getBaseNcpSpeed() - 0.01;
+                moveSpeed = 1.35 * MotionUtil.getBaseNcpSpeed() - 0.01;
             }
 
             else if (stage == 2) {
                 stage = 3;
 
+                mc.timer.timerSpeed = 1.0f;
+
                 if (mc.thePlayer.onGround && MotionUtil.isMoving()) {
                     mc.thePlayer.motionY = MotionUtil.getJumpHeight();
-                    moveSpeed *= slow ? 1.36 : 1.602;
+                    moveSpeed *= slow ? 1.3605 : 1.41;
                 }
             }
 
             else if (stage == 3) {
+                mc.timer.timerSpeed = 1.088f;
+
                 stage = 4;
 
                 double adjusted = 0.86 * (lastTickMoveSpeed - MotionUtil.getBaseNcpSpeed());
@@ -86,7 +84,7 @@ public class Speed extends Module {
                     stage = 1;
                 }
 
-                moveSpeed = moveSpeed - moveSpeed / 159.0;
+                moveSpeed = moveSpeed - moveSpeed / 139.0;
             }
 
             moveSpeed = Math.max(moveSpeed, MotionUtil.getBaseNcpSpeed());
@@ -125,6 +123,18 @@ public class Speed extends Module {
         double diffZ = mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ;
 
         lastTickMoveSpeed = Math.sqrt(diffX * diffX + diffZ * diffZ);
+    }
+
+    @EventListener
+    public void onPacketReceive(PacketEvent.Receive event) {
+        if (event.getPacket() instanceof Packet13PlayerLookMove) {
+            moveSpeed = MotionUtil.getBaseNcpSpeed();
+            stage = 4;
+            lastTickMoveSpeed = 0.0;
+
+            mc.timer.timerSpeed = 1.0f;
+            lagTicks = 13;
+        }
     }
 
     public enum Mode {
