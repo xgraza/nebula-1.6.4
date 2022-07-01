@@ -1,6 +1,7 @@
 package wtf.nebula.impl.gui.ui;
 
 import net.minecraft.src.EnumChatFormatting;
+import org.lwjgl.input.Mouse;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.util.render.RenderUtil;
 
@@ -26,6 +27,16 @@ public class ModulePanel extends DraggableComponent {
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
+
+        if (isMouseWithinBounds(mouseX, mouseY, x, y, width, totalCompHeight() + 1.0)) {
+            int scroll = Mouse.getDWheel();
+            if (scroll > 0) {
+                y -= 10.0;
+            } else if (scroll < 0) {
+                y += 10.0;
+            }
+        }
+
         RenderUtil.drawRect(x, y, width, height, 0x90000000);
 
         double toggleButtonDimensions = height - 4.0;
