@@ -455,11 +455,11 @@ public class GuiIngame extends Gui
             }
         }
 
-        Nebula.BUS.post(new RenderHUDEvent(var5));
-
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
+
+        Nebula.BUS.post(new RenderHUDEvent(var5));
     }
 
     private void func_96136_a(ScoreObjective par1ScoreObjective, int par2, int par3, FontRenderer par4FontRenderer)
