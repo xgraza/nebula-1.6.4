@@ -847,6 +847,10 @@ public class GuiIngame extends Gui
      */
     private void renderVignette(float par1, int par2, int par3)
     {
+        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+            return;
+        }
+
         par1 = 1.0F - par1;
 
         if (par1 < 0.0F)
