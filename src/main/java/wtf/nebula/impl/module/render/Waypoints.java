@@ -24,8 +24,8 @@ public class Waypoints extends Module {
         setState(true);
     }
 
-    public final Value<Boolean> showCoordinates = new Value<>("ShowCoordinates", false);
-    public final Value<Boolean> showDistance = new Value<>("ShowDistance", true);
+    public final Value<Boolean> showCoordinates = new Value<>("Coordinates", false);
+    public final Value<Boolean> showDistance = new Value<>("Distance", true);
 
     @EventListener
     public void onRenderWorld(RenderWorldEvent event) {
