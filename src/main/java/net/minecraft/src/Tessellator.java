@@ -83,31 +83,31 @@ public class Tessellator
     private boolean isColorDisabled;
 
     /** The draw mode currently being used by the tessellator. */
-    private int drawMode;
+    public int drawMode;
 
     /**
      * An offset to be applied along the x-axis for all vertices in this draw call.
      */
-    private double xOffset;
+    public double xOffset;
 
     /**
      * An offset to be applied along the y-axis for all vertices in this draw call.
      */
-    private double yOffset;
+    public double yOffset;
 
     /**
      * An offset to be applied along the z-axis for all vertices in this draw call.
      */
-    private double zOffset;
+    public double zOffset;
 
     /** The normal to be applied to the face being drawn. */
     private int normal;
 
     /** The static instance of the Tessellator. */
-    public static final Tessellator instance = new Tessellator(2097152);
+    public static Tessellator instance = new Tessellator(524288);
 
     /** Whether this tessellator is currently in draw mode. */
-    private boolean isDrawing;
+    public boolean isDrawing;
 
     /** Whether we are currently using VBO or not. */
     private boolean useVBO;
@@ -122,13 +122,47 @@ public class Tessellator
     private int vboIndex;
 
     /** Number of vertex buffer objects allocated for use. */
-    private int vboCount = 10;
+    private int vboCount;
 
     /** The size of the buffers used (in integers). */
     private int bufferSize;
+    private boolean renderingChunk;
+    private static boolean littleEndianByteOrder = ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN;
+    public static boolean renderingWorldRenderer = false;
+    public boolean defaultTexture;
+    public int textureID;
+    public boolean autoGrow;
+    private VertexData[] vertexDatas;
+    private boolean[] drawnIcons;
+    private TextureAtlasSprite[] vertexQuadIcons;
 
-    private Tessellator(int par1)
+    public Tessellator()
     {
+        this(65536);
+        this.defaultTexture = false;
+    }
+
+    public Tessellator(int par1)
+    {
+        this.renderingChunk = false;
+        this.defaultTexture = true;
+        this.textureID = 0;
+        this.autoGrow = true;
+        this.vertexDatas = null;
+        this.drawnIcons = new boolean[256];
+        this.vertexQuadIcons = null;
+        this.vertexCount = 0;
+        this.hasColor = false;
+        this.hasTexture = false;
+        this.hasBrightness = false;
+        this.hasNormals = false;
+        this.rawBufferIndex = 0;
+        this.addedVertices = 0;
+        this.isColorDisabled = false;
+        this.isDrawing = false;
+        this.useVBO = false;
+        this.vboIndex = 0;
+        this.vboCount = 10;
         this.bufferSize = par1;
         this.byteBuffer = GLAllocation.createDirectByteBuffer(par1 * 4);
         this.intBuffer = this.byteBuffer.asIntBuffer();
@@ -142,6 +176,95 @@ public class Tessellator
             this.vertexBuffers = GLAllocation.createDirectIntBuffer(this.vboCount);
             ARBVertexBufferObject.glGenBuffersARB(this.vertexBuffers);
         }
+
+        this.vertexDatas = new VertexData[4];
+
+        for (int var2 = 0; var2 < this.vertexDatas.length; ++var2)
+        {
+            this.vertexDatas[var2] = new VertexData();
+        }
+    }
+
+    private void draw(int startQuadVertex, int endQuadVertex)
+    {
+        int vxQuadCount = endQuadVertex - startQuadVertex;
+
+        if (vxQuadCount > 0)
+        {
+            int startVertex = startQuadVertex * 4;
+            int vxCount = vxQuadCount * 4;
+
+            if (this.useVBO)
+            {
+                throw new IllegalStateException("VBO not implemented");
+            }
+            else
+            {
+                this.floatBuffer.position(3);
+                GL11.glTexCoordPointer(2, 32, this.floatBuffer);
+                OpenGlHelper.setClientActiveTexture(OpenGlHelper.lightmapTexUnit);
+                this.shortBuffer.position(14);
+                GL11.glTexCoordPointer(2, 32, this.shortBuffer);
+                GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+                OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
+                this.byteBuffer.position(20);
+                GL11.glColorPointer(4, true, 32, this.byteBuffer);
+                this.floatBuffer.position(0);
+                GL11.glVertexPointer(3, 32, this.floatBuffer);
+
+                if (this.drawMode == 7 && convertQuadsToTriangles)
+                {
+                    GL11.glDrawArrays(GL11.GL_TRIANGLES, startVertex, vxCount);
+                }
+                else
+                {
+                    GL11.glDrawArrays(this.drawMode, startVertex, vxCount);
+                }
+            }
+        }
+    }
+
+    private int drawForIcon(TextureAtlasSprite icon, int startQuadPos)
+    {
+        icon.bindOwnTexture();
+        int firstRegionEnd = -1;
+        int lastPos = -1;
+        int numQuads = this.addedVertices / 4;
+
+        for (int i = startQuadPos; i < numQuads; ++i)
+        {
+            TextureAtlasSprite ts = this.vertexQuadIcons[i];
+
+            if (ts == icon)
+            {
+                if (lastPos < 0)
+                {
+                    lastPos = i;
+                }
+            }
+            else if (lastPos >= 0)
+            {
+                this.draw(lastPos, i);
+                lastPos = -1;
+
+                if (firstRegionEnd < 0)
+                {
+                    firstRegionEnd = i;
+                }
+            }
+        }
+
+        if (lastPos >= 0)
+        {
+            this.draw(lastPos, numQuads);
+        }
+
+        if (firstRegionEnd < 0)
+        {
+            firstRegionEnd = numQuads;
+        }
+
+        return firstRegionEnd;
     }
 
     /**
@@ -429,7 +552,7 @@ public class Tessellator
 
             }
 
-            if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
+            if (littleEndianByteOrder)
             {
                 this.color = par4 << 24 | par3 << 16 | par2 << 8 | par1;
             }
@@ -455,33 +578,53 @@ public class Tessellator
      */
     public void addVertex(double par1, double par3, double par5)
     {
+        if (this.autoGrow && this.rawBufferIndex >= this.bufferSize - 32)
+        {
+            Config.dbg("Expand tessellator buffer, old: " + this.bufferSize + ", new: " + this.bufferSize * 2);
+            this.bufferSize *= 2;
+            int[] var7 = new int[this.bufferSize];
+            System.arraycopy(this.rawBuffer, 0, var7, 0, this.rawBuffer.length);
+            this.rawBuffer = var7;
+            this.byteBuffer = GLAllocation.createDirectByteBuffer(this.bufferSize * 4);
+            this.intBuffer = this.byteBuffer.asIntBuffer();
+            this.floatBuffer = this.byteBuffer.asFloatBuffer();
+            this.shortBuffer = this.byteBuffer.asShortBuffer();
+
+            if (this.vertexQuadIcons != null)
+            {
+                TextureAtlasSprite[] var8 = new TextureAtlasSprite[this.bufferSize / 4];
+                System.arraycopy(this.vertexQuadIcons, 0, var8, 0, this.vertexQuadIcons.length);
+                this.vertexQuadIcons = var8;
+            }
+        }
+
         ++this.addedVertices;
 
         if (this.drawMode == 7 && convertQuadsToTriangles && this.addedVertices % 4 == 0)
         {
-            for (int var7 = 0; var7 < 2; ++var7)
+            for (int var9 = 0; var9 < 2; ++var9)
             {
-                int var8 = 8 * (3 - var7);
+                int var10 = 8 * (3 - var9);
 
                 if (this.hasTexture)
                 {
-                    this.rawBuffer[this.rawBufferIndex + 3] = this.rawBuffer[this.rawBufferIndex - var8 + 3];
-                    this.rawBuffer[this.rawBufferIndex + 4] = this.rawBuffer[this.rawBufferIndex - var8 + 4];
+                    this.rawBuffer[this.rawBufferIndex + 3] = this.rawBuffer[this.rawBufferIndex - var10 + 3];
+                    this.rawBuffer[this.rawBufferIndex + 4] = this.rawBuffer[this.rawBufferIndex - var10 + 4];
                 }
 
                 if (this.hasBrightness)
                 {
-                    this.rawBuffer[this.rawBufferIndex + 7] = this.rawBuffer[this.rawBufferIndex - var8 + 7];
+                    this.rawBuffer[this.rawBufferIndex + 7] = this.rawBuffer[this.rawBufferIndex - var10 + 7];
                 }
 
                 if (this.hasColor)
                 {
-                    this.rawBuffer[this.rawBufferIndex + 5] = this.rawBuffer[this.rawBufferIndex - var8 + 5];
+                    this.rawBuffer[this.rawBufferIndex + 5] = this.rawBuffer[this.rawBufferIndex - var10 + 5];
                 }
 
-                this.rawBuffer[this.rawBufferIndex + 0] = this.rawBuffer[this.rawBufferIndex - var8 + 0];
-                this.rawBuffer[this.rawBufferIndex + 1] = this.rawBuffer[this.rawBufferIndex - var8 + 1];
-                this.rawBuffer[this.rawBufferIndex + 2] = this.rawBuffer[this.rawBufferIndex - var8 + 2];
+                this.rawBuffer[this.rawBufferIndex + 0] = this.rawBuffer[this.rawBufferIndex - var10 + 0];
+                this.rawBuffer[this.rawBufferIndex + 1] = this.rawBuffer[this.rawBufferIndex - var10 + 1];
+                this.rawBuffer[this.rawBufferIndex + 2] = this.rawBuffer[this.rawBufferIndex - var10 + 2];
                 ++this.vertexCount;
                 this.rawBufferIndex += 8;
             }
@@ -514,7 +657,7 @@ public class Tessellator
         this.rawBufferIndex += 8;
         ++this.vertexCount;
 
-        if (this.vertexCount % 4 == 0 && this.rawBufferIndex >= this.bufferSize - 32)
+        if (!this.autoGrow && this.addedVertices % 4 == 0 && this.rawBufferIndex >= this.bufferSize - 32)
         {
             this.draw();
             this.isDrawing = true;
@@ -581,5 +724,15 @@ public class Tessellator
         this.xOffset += (double)par1;
         this.yOffset += (double)par2;
         this.zOffset += (double)par3;
+    }
+
+    public boolean isRenderingChunk()
+    {
+        return this.renderingChunk;
+    }
+
+    public void setRenderingChunk(boolean renderingChunk)
+    {
+        this.renderingChunk = renderingChunk;
     }
 }

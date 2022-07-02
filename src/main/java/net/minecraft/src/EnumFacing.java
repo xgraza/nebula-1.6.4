@@ -51,10 +51,6 @@ public enum EnumFacing
         return this.frontOffsetZ;
     }
 
-    public Vec3 getDirectionVec() {
-        return Vec3.createVectorHelper(frontOffsetX, frontOffsetY, frontOffsetZ);
-    }
-
     /**
      * Returns the facing that represents the block in front of it.
      */

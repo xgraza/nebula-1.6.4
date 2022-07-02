@@ -6,6 +6,7 @@ import org.lwjgl.input.Keyboard;
 import wtf.nebula.event.MotionEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.TickEvent;
+import wtf.nebula.event.WorldUnloadEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;

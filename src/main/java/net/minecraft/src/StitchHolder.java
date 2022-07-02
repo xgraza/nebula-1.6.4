@@ -43,7 +43,16 @@ public class StitchHolder implements Comparable
 
     private int ceil16(int par1)
     {
-        return (par1 >> 0) + ((par1 & 0) == 0 ? 0 : 1) << 0;
+        int var2 = TextureUtils.ceilPowerOfTwo(par1);
+        return var2 < 16 ? 16 : var2;
+    }
+
+    public void setMinDimension(int minDim)
+    {
+        if (this.width < minDim || this.height < minDim)
+        {
+            this.scaleFactor = (float)minDim / (float)Math.min(this.width, this.height);
+        }
     }
 
     public void setNewDimension(int par1)

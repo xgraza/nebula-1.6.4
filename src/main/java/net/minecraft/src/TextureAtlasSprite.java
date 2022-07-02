@@ -4,10 +4,13 @@ import com.google.common.collect.Lists;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.imageio.ImageIO;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 public class TextureAtlasSprite implements Icon
 {
@@ -25,6 +28,17 @@ public class TextureAtlasSprite implements Icon
     private float maxV;
     protected int frameCounter;
     protected int tickCounter;
+    private int indexInMap = -1;
+    public float baseU;
+    public float baseV;
+    public int sheetWidth;
+    public int sheetHeight;
+    private boolean mipmapActive = false;
+    public int glOwnTextureId = -1;
+    private int uploadedFrameIndex = -1;
+    private int uploadedOwnFrameIndex = -1;
+    public IntBuffer[] frameBuffers;
+    public Mipmaps[] frameMipmaps;
 
     protected TextureAtlasSprite(String par1Str)
     {
@@ -42,6 +56,8 @@ public class TextureAtlasSprite implements Icon
         this.maxU = (float)(par3 + this.width) / (float)((double)par1) - var6;
         this.minV = (float)par4 / (float)par2 + var7;
         this.maxV = (float)(par4 + this.height) / (float)par2 - var7;
+        this.baseU = Math.min(this.minU, this.maxU);
+        this.baseV = Math.min(this.minV, this.maxV);
     }
 
     public void copyFrom(TextureAtlasSprite par1TextureAtlasSprite)
@@ -55,6 +71,8 @@ public class TextureAtlasSprite implements Icon
         this.maxU = par1TextureAtlasSprite.maxU;
         this.minV = par1TextureAtlasSprite.minV;
         this.maxV = par1TextureAtlasSprite.maxV;
+        this.baseU = Math.min(this.minU, this.maxU);
+        this.baseV = Math.min(this.minV, this.maxV);
     }
 
     /**
@@ -158,14 +176,15 @@ public class TextureAtlasSprite implements Icon
 
             if (var1 != var3 && var3 >= 0 && var3 < this.framesTextureData.size())
             {
-                TextureUtil.uploadTextureSub((int[])this.framesTextureData.get(var3), this.width, this.height, this.originX, this.originY, false, false);
+                this.uploadFrameTexture(var3, this.originX, this.originY);
+                this.uploadedFrameIndex = var3;
             }
         }
     }
 
     public int[] getFrameTextureData(int par1)
     {
-        return (int[])this.framesTextureData.get(par1);
+        return (int[])((int[])this.framesTextureData.get(par1));
     }
 
     public int getFrameCount()
@@ -193,6 +212,7 @@ public class TextureAtlasSprite implements Icon
         this.width = var4.getWidth();
         int[] var5 = new int[this.height * this.width];
         var4.getRGB(0, 0, this.width, this.height, var5, 0, this.width);
+        int var6;
 
         if (var3 == null)
         {
@@ -205,27 +225,27 @@ public class TextureAtlasSprite implements Icon
         }
         else
         {
-            int var6 = this.height / this.width;
+            var6 = this.height / this.width;
             int var7 = this.width;
             int var8 = this.width;
             this.height = this.width;
-            int var10;
+            int var9;
 
             if (var3.getFrameCount() > 0)
             {
-                Iterator var9 = var3.getFrameIndexSet().iterator();
+                Iterator var10 = var3.getFrameIndexSet().iterator();
 
-                while (var9.hasNext())
+                while (var10.hasNext())
                 {
-                    var10 = ((Integer)var9.next()).intValue();
+                    var9 = ((Integer)var10.next()).intValue();
 
-                    if (var10 >= var6)
+                    if (var9 >= var6)
                     {
-                        throw new RuntimeException("invalid frameindex " + var10);
+                        throw new RuntimeException("invalid frameindex " + var9);
                     }
 
-                    this.allocateFrameTextureData(var10);
-                    this.framesTextureData.set(var10, getFrameTextureData(var5, var7, var8, var10));
+                    this.allocateFrameTextureData(var9);
+                    this.framesTextureData.set(var9, getFrameTextureData(var5, var7, var8, var9));
                 }
 
                 this.animationMetadata = var3;
@@ -234,14 +254,25 @@ public class TextureAtlasSprite implements Icon
             {
                 ArrayList var11 = Lists.newArrayList();
 
-                for (var10 = 0; var10 < var6; ++var10)
+                for (var9 = 0; var9 < var6; ++var9)
                 {
-                    this.framesTextureData.add(getFrameTextureData(var5, var7, var8, var10));
-                    var11.add(new AnimationFrame(var10, -1));
+                    this.framesTextureData.add(getFrameTextureData(var5, var7, var8, var9));
+                    var11.add(new AnimationFrame(var9, -1));
                 }
 
                 this.animationMetadata = new AnimationMetadataSection(var11, this.width, this.height, var3.getFrameTime());
             }
+        }
+
+        for (var6 = 0; var6 < this.framesTextureData.size(); ++var6)
+        {
+            if (this.framesTextureData.get(var6) == null)
+            {
+                this.framesTextureData.set(var6, new int[this.width * this.height]);
+            }
+
+            int[] var12 = (int[])((int[])this.framesTextureData.get(var6));
+            this.fixTransparentColor(var12);
         }
     }
 
@@ -276,6 +307,14 @@ public class TextureAtlasSprite implements Icon
     public void setFramesTextureData(List par1List)
     {
         this.framesTextureData = par1List;
+
+        for (int var2 = 0; var2 < this.framesTextureData.size(); ++var2)
+        {
+            if (this.framesTextureData.get(var2) == null)
+            {
+                this.framesTextureData.set(var2, new int[this.width * this.height]);
+            }
+        }
     }
 
     private void resetSprite()
@@ -284,10 +323,217 @@ public class TextureAtlasSprite implements Icon
         this.setFramesTextureData(Lists.newArrayList());
         this.frameCounter = 0;
         this.tickCounter = 0;
+        this.deleteOwnTexture();
+        this.uploadedFrameIndex = -1;
+        this.uploadedOwnFrameIndex = -1;
+        this.frameBuffers = null;
+        this.frameMipmaps = null;
     }
 
     public String toString()
     {
         return "TextureAtlasSprite{name=\'" + this.iconName + '\'' + ", frameCount=" + this.framesTextureData.size() + ", rotated=" + this.rotated + ", x=" + this.originX + ", y=" + this.originY + ", height=" + this.height + ", width=" + this.width + ", u0=" + this.minU + ", u1=" + this.maxU + ", v0=" + this.minV + ", v1=" + this.maxV + '}';
+    }
+
+    public int getWidth()
+    {
+        return this.width;
+    }
+
+    public int getHeight()
+    {
+        return this.height;
+    }
+
+    public int getIndexInMap()
+    {
+        return this.indexInMap;
+    }
+
+    public void setIndexInMap(int indexInMap)
+    {
+        this.indexInMap = indexInMap;
+    }
+
+    public void setMipmapActive(boolean mipmapActive)
+    {
+        this.mipmapActive = mipmapActive;
+        this.frameMipmaps = null;
+    }
+
+    public boolean load(ResourceManager manager, ResourceLocation location) throws IOException
+    {
+        this.loadSprite(manager.getResource(location));
+        return true;
+    }
+
+    public void uploadFrameTexture()
+    {
+        this.uploadFrameTexture(this.frameCounter, this.originX, this.originY);
+    }
+
+    public void uploadFrameTexture(int frameIndex, int xPos, int yPos)
+    {
+        int frameCount = this.getFrameCount();
+
+        if (frameIndex >= 0 && frameIndex < frameCount)
+        {
+            if (frameCount <= 1)
+            {
+                int[] buf = this.getFrameTextureData(frameIndex);
+                IntBuffer data = TextureUtils.getStaticBuffer(this.width, this.height);
+                data.clear();
+                data.put(buf);
+                data.clear();
+                GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, xPos, yPos, this.width, this.height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, data);
+            }
+            else
+            {
+                if (this.frameBuffers == null)
+                {
+                    this.frameBuffers = new IntBuffer[frameCount];
+
+                    for (int var8 = 0; var8 < this.frameBuffers.length; ++var8)
+                    {
+                        int[] var10 = this.getFrameTextureData(var8);
+                        IntBuffer buf1 = GLAllocation.createDirectIntBuffer(var10.length);
+                        buf1.put(var10);
+                        buf1.clear();
+                        this.frameBuffers[var8] = buf1;
+                    }
+                }
+
+                IntBuffer var9 = this.frameBuffers[frameIndex];
+                var9.clear();
+                GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, xPos, yPos, this.width, this.height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, var9);
+            }
+
+            if (this.mipmapActive)
+            {
+                this.uploadFrameMipmaps(frameIndex, xPos, yPos);
+            }
+        }
+    }
+
+    private void uploadFrameMipmaps(int frameIndex, int xPos, int yPos)
+    {
+        if (this.mipmapActive)
+        {
+            int frameCount = this.getFrameCount();
+
+            if (frameIndex >= 0 && frameIndex < frameCount)
+            {
+                if (frameCount <= 1)
+                {
+                    int[] var9 = this.getFrameTextureData(frameIndex);
+                    boolean var10 = false;
+                    Mipmaps var11 = new Mipmaps(this.iconName, this.width, this.height, var9, var10);
+                    var11.uploadMipmaps(xPos, yPos);
+                }
+                else
+                {
+                    if (this.frameMipmaps == null)
+                    {
+                        this.frameMipmaps = new Mipmaps[frameCount];
+
+                        for (int m = 0; m < this.frameMipmaps.length; ++m)
+                        {
+                            int[] data = this.getFrameTextureData(m);
+                            boolean direct = frameCount > 0;
+                            this.frameMipmaps[m] = new Mipmaps(this.iconName, this.width, this.height, data, direct);
+                        }
+                    }
+
+                    Mipmaps var8 = this.frameMipmaps[frameIndex];
+                    var8.uploadMipmaps(xPos, yPos);
+                }
+            }
+        }
+    }
+
+    public void bindOwnTexture()
+    {
+        if (this.glOwnTextureId < 0)
+        {
+            this.glOwnTextureId = TextureUtil.glGenTextures();
+            TextureUtil.allocateTexture(this.glOwnTextureId, this.width, this.height);
+            TextureUtils.setupTexture(this.width, this.height, 1, this.mipmapActive);
+        }
+
+        TextureUtil.bindTexture(this.glOwnTextureId);
+    }
+
+    public void bindUploadOwnTexture()
+    {
+        this.bindOwnTexture();
+        this.uploadFrameTexture(this.frameCounter, 0, 0);
+    }
+
+    public void uploadOwnAnimation()
+    {
+        if (this.uploadedFrameIndex != this.uploadedOwnFrameIndex)
+        {
+            TextureUtil.bindTexture(this.glOwnTextureId);
+            this.uploadFrameTexture(this.uploadedFrameIndex, 0, 0);
+            this.uploadedOwnFrameIndex = this.uploadedFrameIndex;
+        }
+    }
+
+    public void deleteOwnTexture()
+    {
+        if (this.glOwnTextureId >= 0)
+        {
+            GL11.glDeleteTextures(this.glOwnTextureId);
+            this.glOwnTextureId = -1;
+        }
+    }
+
+    private void fixTransparentColor(int[] data)
+    {
+        long redSum = 0L;
+        long greenSum = 0L;
+        long blueSum = 0L;
+        long count = 0L;
+        int redAvg;
+        int greenAvg;
+        int blueAvg;
+        int i;
+        int col;
+        int alpha;
+
+        for (redAvg = 0; redAvg < data.length; ++redAvg)
+        {
+            greenAvg = data[redAvg];
+            blueAvg = greenAvg >> 24 & 255;
+
+            if (blueAvg != 0)
+            {
+                i = greenAvg >> 16 & 255;
+                col = greenAvg >> 8 & 255;
+                alpha = greenAvg & 255;
+                redSum += (long)i;
+                greenSum += (long)col;
+                blueSum += (long)alpha;
+                ++count;
+            }
+        }
+
+        if (count > 0L)
+        {
+            redAvg = (int)(redSum / count);
+            greenAvg = (int)(greenSum / count);
+            blueAvg = (int)(blueSum / count);
+
+            for (i = 0; i < data.length; ++i)
+            {
+                col = data[i];
+                alpha = col >> 24 & 255;
+
+                if (alpha == 0)
+                {
+                    data[i] = redAvg << 16 | greenAvg << 8 | blueAvg;
+                }
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer
             this.locationCape = getLocationCape(this.username);
             this.downloadImageSkin = getDownloadImageSkin(this.locationSkin, this.username);
             this.downloadImageCape = getDownloadImageCape(this.locationCape, this.username);
+            this.downloadImageCape.enabled = Config.isShowCapes();
         }
     }
 

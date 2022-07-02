@@ -9,9 +9,8 @@ public class WorldRenderer
 {
     /** Reference to the World object. */
     public World worldObj;
-    private int glRenderList = -1;
-    private static Tessellator tessellator = Tessellator.instance;
-    public static int chunksUpdated;
+    protected int glRenderList = -1;
+    public static volatile int chunksUpdated = 0;
     public int posX;
     public int posY;
     public int posZ;
@@ -33,7 +32,7 @@ public class WorldRenderer
 
     /** Pos Z clipped */
     public int posZClip;
-    public boolean isInFrustum;
+    public boolean isInFrustum = false;
 
     /** Should this renderer skip this render pass */
     public boolean[] skipRenderPass = new boolean[2];
@@ -48,7 +47,7 @@ public class WorldRenderer
     public int posZPlus;
 
     /** Boolean for whether this renderer needs to be updated or not */
-    public boolean needsUpdate;
+    public volatile boolean needsUpdate;
 
     /** Axis aligned bounding box */
     public AxisAlignedBB rendererBoundingBox;
@@ -67,14 +66,23 @@ public class WorldRenderer
 
     /** Is the chunk lit */
     public boolean isChunkLit;
-    private boolean isInitialized;
+    protected boolean isInitialized = false;
 
     /** All the tile entities that have special rendering code for this chunk */
     public List tileEntityRenderers = new ArrayList();
-    private List tileEntities;
+    protected List tileEntities;
 
     /** Bytes sent to the GPU */
-    private int bytesDrawn;
+    protected int bytesDrawn;
+    public boolean isVisibleFromPosition = false;
+    public double visibleFromX;
+    public double visibleFromY;
+    public double visibleFromZ;
+    public boolean isInFrustrumFully = false;
+    protected boolean needsBoxUpdate = false;
+    public volatile boolean isUpdating = false;
+    public static int globalChunkOffsetX = 0;
+    public static int globalChunkOffsetZ = 0;
 
     public WorldRenderer(World par1World, List par2List, int par3, int par4, int par5, int par6)
     {
@@ -106,12 +114,11 @@ public class WorldRenderer
             this.posXMinus = par1 - this.posXClip;
             this.posYMinus = par2 - this.posYClip;
             this.posZMinus = par3 - this.posZClip;
-            float var4 = 6.0F;
+            float var4 = 0.0F;
             this.rendererBoundingBox = AxisAlignedBB.getBoundingBox((double)((float)par1 - var4), (double)((float)par2 - var4), (double)((float)par3 - var4), (double)((float)(par1 + 16) + var4), (double)((float)(par2 + 16) + var4), (double)((float)(par3 + 16) + var4));
-            GL11.glNewList(this.glRenderList + 2, GL11.GL_COMPILE);
-            RenderItem.renderAABB(AxisAlignedBB.getAABBPool().getAABB((double)((float)this.posXClip - var4), (double)((float)this.posYClip - var4), (double)((float)this.posZClip - var4), (double)((float)(this.posXClip + 16) + var4), (double)((float)(this.posYClip + 16) + var4), (double)((float)(this.posZClip + 16) + var4)));
-            GL11.glEndList();
+            this.needsBoxUpdate = true;
             this.markDirty();
+            this.isVisibleFromPosition = false;
         }
     }
 
@@ -125,126 +132,152 @@ public class WorldRenderer
      */
     public void updateRenderer()
     {
-        if (this.needsUpdate)
+        if (this.worldObj != null)
         {
-            this.needsUpdate = false;
-            int var1 = this.posX;
-            int var2 = this.posY;
-            int var3 = this.posZ;
-            int var4 = this.posX + 16;
-            int var5 = this.posY + 16;
-            int var6 = this.posZ + 16;
-
-            for (int var7 = 0; var7 < 2; ++var7)
+            if (this.needsUpdate)
             {
-                this.skipRenderPass[var7] = true;
-            }
-
-            Chunk.isLit = false;
-            HashSet var21 = new HashSet();
-            var21.addAll(this.tileEntityRenderers);
-            this.tileEntityRenderers.clear();
-            byte var8 = 1;
-            ChunkCache var9 = new ChunkCache(this.worldObj, var1 - var8, var2 - var8, var3 - var8, var4 + var8, var5 + var8, var6 + var8, var8);
-
-            if (!var9.extendedLevelsInChunkCache())
-            {
-                ++chunksUpdated;
-                RenderBlocks var10 = new RenderBlocks(var9);
-                this.bytesDrawn = 0;
-
-                for (int var11 = 0; var11 < 2; ++var11)
+                if (this.needsBoxUpdate)
                 {
-                    boolean var12 = false;
-                    boolean var13 = false;
-                    boolean var14 = false;
+                    float var1 = 0.0F;
+                    GL11.glNewList(this.glRenderList + 2, GL11.GL_COMPILE);
+                    RenderItem.renderAABB(AxisAlignedBB.getAABBPool().getAABB((double)((float)this.posXClip - var1), (double)((float)this.posYClip - var1), (double)((float)this.posZClip - var1), (double)((float)(this.posXClip + 16) + var1), (double)((float)(this.posYClip + 16) + var1), (double)((float)(this.posZClip + 16) + var1)));
+                    GL11.glEndList();
+                    this.needsBoxUpdate = false;
+                }
 
-                    for (int var15 = var2; var15 < var5; ++var15)
+                this.isVisible = true;
+                this.isVisibleFromPosition = false;
+                this.needsUpdate = false;
+                int var24 = this.posX;
+                int var2 = this.posY;
+                int var3 = this.posZ;
+                int var4 = this.posX + 16;
+                int var5 = this.posY + 16;
+                int var6 = this.posZ + 16;
+
+                for (int var7 = 0; var7 < 2; ++var7)
+                {
+                    this.skipRenderPass[var7] = true;
+                }
+
+                if (Reflector.LightCache.exists())
+                {
+                    Object var25 = Reflector.getFieldValue(Reflector.LightCache_cache);
+                    Reflector.callVoid(var25, Reflector.LightCache_clear, new Object[0]);
+                    Reflector.callVoid(Reflector.BlockCoord_resetPool, new Object[0]);
+                }
+
+                Chunk.isLit = false;
+                HashSet var26 = new HashSet();
+                var26.addAll(this.tileEntityRenderers);
+                this.tileEntityRenderers.clear();
+                byte var8 = 1;
+                ChunkCache var9 = new ChunkCache(this.worldObj, var24 - var8, var2 - var8, var3 - var8, var4 + var8, var5 + var8, var6 + var8, var8);
+
+                if (!var9.extendedLevelsInChunkCache())
+                {
+                    ++chunksUpdated;
+                    RenderBlocks var10 = new RenderBlocks(var9);
+                    this.bytesDrawn = 0;
+                    Tessellator var11 = Tessellator.instance;
+                    boolean var12 = Reflector.ForgeHooksClient.exists();
+
+                    for (int var13 = 0; var13 < 2; ++var13)
                     {
-                        for (int var16 = var3; var16 < var6; ++var16)
+                        boolean var14 = false;
+                        boolean var15 = false;
+                        boolean var16 = false;
+
+                        for (int var17 = var2; var17 < var5; ++var17)
                         {
-                            for (int var17 = var1; var17 < var4; ++var17)
+                            for (int var18 = var3; var18 < var6; ++var18)
                             {
-                                int var18 = var9.getBlockId(var17, var15, var16);
-
-                                if (var18 > 0)
+                                for (int var19 = var24; var19 < var4; ++var19)
                                 {
-                                    if (!var14)
-                                    {
-                                        var14 = true;
-                                        GL11.glNewList(this.glRenderList + var11, GL11.GL_COMPILE);
-                                        GL11.glPushMatrix();
-                                        this.setupGLTranslation();
-                                        float var19 = 1.000001F;
-                                        GL11.glTranslatef(-8.0F, -8.0F, -8.0F);
-                                        GL11.glScalef(var19, var19, var19);
-                                        GL11.glTranslatef(8.0F, 8.0F, 8.0F);
-                                        tessellator.startDrawingQuads();
-                                        tessellator.setTranslation((double)(-this.posX), (double)(-this.posY), (double)(-this.posZ));
-                                    }
+                                    int var20 = var9.getBlockId(var19, var17, var18);
 
-                                    Block var23 = Block.blocksList[var18];
-
-                                    if (var23 != null)
+                                    if (var20 > 0)
                                     {
-                                        if (var11 == 0 && var23.hasTileEntity())
+                                        if (!var16)
                                         {
-                                            TileEntity var20 = var9.getBlockTileEntity(var17, var15, var16);
+                                            var16 = true;
+                                            GL11.glNewList(this.glRenderList + var13, GL11.GL_COMPILE);
+                                            var11.setRenderingChunk(true);
+                                            var11.startDrawingQuads();
+                                            var11.setTranslation((double)(-globalChunkOffsetX), 0.0D, (double)(-globalChunkOffsetZ));
+                                        }
 
-                                            if (TileEntityRenderer.instance.hasSpecialRenderer(var20))
+                                        Block var21 = Block.blocksList[var20];
+
+                                        if (var21 != null)
+                                        {
+                                            if (var13 == 0 && var21.hasTileEntity())
                                             {
-                                                this.tileEntityRenderers.add(var20);
+                                                TileEntity var22 = var9.getBlockTileEntity(var19, var17, var18);
+
+                                                if (TileEntityRenderer.instance.hasSpecialRenderer(var22))
+                                                {
+                                                    this.tileEntityRenderers.add(var22);
+                                                }
                                             }
-                                        }
 
-                                        int var24 = var23.getRenderBlockPass();
+                                            int var28 = var21.getRenderBlockPass();
+                                            boolean var23 = true;
 
-                                        if (var24 != var11)
-                                        {
-                                            var12 = true;
-                                        }
-                                        else if (var24 == var11)
-                                        {
-                                            var13 |= var10.renderBlockByRenderType(var23, var17, var15, var16);
+                                            if (var28 != var13)
+                                            {
+                                                var14 = true;
+                                                var23 = false;
+                                            }
+
+                                            if (var12)
+                                            {
+                                                var23 = Reflector.callBoolean(var21, Reflector.ForgeBlock_canRenderInPass, new Object[] {Integer.valueOf(var13)});
+                                            }
+
+                                            if (var23)
+                                            {
+                                                var15 |= var10.renderBlockByRenderType(var21, var19, var17, var18);
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    if (var14)
-                    {
-                        this.bytesDrawn += tessellator.draw();
-                        GL11.glPopMatrix();
-                        GL11.glEndList();
-                        tessellator.setTranslation(0.0D, 0.0D, 0.0D);
-                    }
-                    else
-                    {
-                        var13 = false;
-                    }
+                        if (var16)
+                        {
+                            this.bytesDrawn += var11.draw();
+                            GL11.glEndList();
+                            var11.setRenderingChunk(false);
+                            var11.setTranslation(0.0D, 0.0D, 0.0D);
+                        }
+                        else
+                        {
+                            var15 = false;
+                        }
 
-                    if (var13)
-                    {
-                        this.skipRenderPass[var11] = false;
-                    }
+                        if (var15)
+                        {
+                            this.skipRenderPass[var13] = false;
+                        }
 
-                    if (!var12)
-                    {
-                        break;
+                        if (!var14)
+                        {
+                            break;
+                        }
                     }
                 }
-            }
 
-            HashSet var22 = new HashSet();
-            var22.addAll(this.tileEntityRenderers);
-            var22.removeAll(var21);
-            this.tileEntities.addAll(var22);
-            var21.removeAll(this.tileEntityRenderers);
-            this.tileEntities.removeAll(var21);
-            this.isChunkLit = Chunk.isLit;
-            this.isInitialized = true;
+                HashSet var27 = new HashSet();
+                var27.addAll(this.tileEntityRenderers);
+                var27.removeAll(var26);
+                this.tileEntities.addAll(var27);
+                var26.removeAll(this.tileEntityRenderers);
+                this.tileEntities.removeAll(var26);
+                this.isChunkLit = Chunk.isLit;
+                this.isInitialized = true;
+            }
         }
     }
 
@@ -291,6 +324,15 @@ public class WorldRenderer
     public void updateInFrustum(ICamera par1ICamera)
     {
         this.isInFrustum = par1ICamera.isBoundingBoxInFrustum(this.rendererBoundingBox);
+
+        if (this.isInFrustum && Config.isOcclusionEnabled() && Config.isOcclusionFancy())
+        {
+            this.isInFrustrumFully = par1ICamera.isBoundingBoxInFrustumFully(this.rendererBoundingBox);
+        }
+        else
+        {
+            this.isInFrustrumFully = false;
+        }
     }
 
     /**

@@ -4,6 +4,20 @@ import java.util.Random;
 
 public class MathHelper
 {
+    private static final int SIN_BITS = 12;
+    private static final int SIN_MASK = 4095;
+    private static final int SIN_COUNT = 4096;
+    public static final float PI = (float)Math.PI;
+    public static final float PI2 = ((float)Math.PI * 2F);
+    public static final float PId2 = ((float)Math.PI / 2F);
+    private static final float radFull = ((float)Math.PI * 2F);
+    private static final float degFull = 360.0F;
+    private static final float radToIndex = 651.8986F;
+    private static final float degToIndex = 11.377778F;
+    public static final float deg2Rad = 0.017453292F;
+    private static final float[] SIN_TABLE_FAST = new float[4096];
+    public static boolean fastMath = false;
+
     /**
      * A table of sin values computed from 0 (inclusive) to 2*pi (exclusive), with steps of 2*PI / 65536.
      */
@@ -14,7 +28,7 @@ public class MathHelper
      */
     public static final float sin(float par0)
     {
-        return SIN_TABLE[(int)(par0 * 10430.378F) & 65535];
+        return fastMath ? SIN_TABLE_FAST[(int)(par0 * 651.8986F) & 4095] : SIN_TABLE[(int)(par0 * 10430.378F) & 65535];
     }
 
     /**
@@ -22,7 +36,7 @@ public class MathHelper
      */
     public static final float cos(float par0)
     {
-        return SIN_TABLE[(int)(par0 * 10430.378F + 16384.0F) & 65535];
+        return fastMath ? SIN_TABLE_FAST[(int)((par0 + ((float)Math.PI / 2F)) * 651.8986F) & 4095] : SIN_TABLE[(int)(par0 * 10430.378F + 16384.0F) & 65535];
     }
 
     public static final float sqrt_float(float par0)
@@ -297,9 +311,21 @@ public class MathHelper
 
     static
     {
-        for (int var0 = 0; var0 < 65536; ++var0)
+        int i;
+
+        for (i = 0; i < 65536; ++i)
         {
-            SIN_TABLE[var0] = (float)Math.sin((double)var0 * Math.PI * 2.0D / 65536.0D);
+            SIN_TABLE[i] = (float)Math.sin((double)i * Math.PI * 2.0D / 65536.0D);
+        }
+
+        for (i = 0; i < 4096; ++i)
+        {
+            SIN_TABLE_FAST[i] = (float)Math.sin((double)(((float)i + 0.5F) / 4096.0F * ((float)Math.PI * 2F)));
+        }
+
+        for (i = 0; i < 360; i += 90)
+        {
+            SIN_TABLE_FAST[(int)((float)i * 11.377778F) & 4095] = (float)Math.sin((double)((float)i * 0.017453292F));
         }
     }
 }

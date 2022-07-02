@@ -22,12 +22,15 @@ public class OpenGlHelper
      * True if the renderer supports multitextures and the OpenGL version != 1.3
      */
     private static boolean useMultitextureARB;
+    public static float lastBrightnessX = 0.0F;
+    public static float lastBrightnessY = 0.0F;
 
     /**
      * Initializes the texture constants to be used when rendering lightmap values
      */
     public static void initializeTextures()
     {
+        Config.initDisplay();
         useMultitextureARB = GLContext.getCapabilities().GL_ARB_multitexture && !GLContext.getCapabilities().OpenGL13;
 
         if (useMultitextureARB)
@@ -84,6 +87,12 @@ public class OpenGlHelper
         else
         {
             GL13.glMultiTexCoord2f(par0, par1, par2);
+        }
+
+        if (par0 == lightmapTexUnit)
+        {
+            lastBrightnessX = par1;
+            lastBrightnessY = par2;
         }
     }
 }

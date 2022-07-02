@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.lwjgl.opengl.GL11;
 
 public class TextureManager implements Tickable, ResourceManagerReloadListener
 {
@@ -23,6 +24,11 @@ public class TextureManager implements Tickable, ResourceManagerReloadListener
 
     public void bindTexture(ResourceLocation par1ResourceLocation)
     {
+        if (Config.isRandomMobs())
+        {
+            par1ResourceLocation = RandomMobs.getTextureLocation(par1ResourceLocation);
+        }
+
         Object var2 = (TextureObject)this.mapTextureObjects.get(par1ResourceLocation);
 
         if (var2 == null)
@@ -73,16 +79,16 @@ public class TextureManager implements Tickable, ResourceManagerReloadListener
         {
             ((TextureObject)par2TextureObject).loadTexture(this.theResourceManager);
         }
-        catch (IOException var8)
+        catch (IOException var7)
         {
-            Minecraft.getMinecraft().getLogAgent().logWarningException("Failed to load texture: " + par1ResourceLocation, var8);
+            Minecraft.getMinecraft().getLogAgent().logWarningException("Failed to load texture: " + par1ResourceLocation, var7);
             par2TextureObject = TextureUtil.missingTexture;
             this.mapTextureObjects.put(par1ResourceLocation, par2TextureObject);
             var3 = false;
         }
-        catch (Throwable var9)
+        catch (Throwable var8)
         {
-            CrashReport var5 = CrashReport.makeCrashReport(var9, "Registering texture");
+            CrashReport var5 = CrashReport.makeCrashReport(var8, "Registering texture");
             CrashReportCategory var6 = var5.makeCategory("Resource location being registered");
             var6.addCrashSection("Resource location", par1ResourceLocation);
             var6.addCrashSectionCallable("Texture object class", new TextureManagerINNER1(this, (TextureObject)par2TextureObject));
@@ -130,12 +136,34 @@ public class TextureManager implements Tickable, ResourceManagerReloadListener
 
     public void onResourceManagerReload(ResourceManager par1ResourceManager)
     {
-        Iterator var2 = this.mapTextureObjects.entrySet().iterator();
+        Config.dbg("*** Reloading textures ***");
+        Config.log("Resource pack: \"" + Config.getResourcePack().getPackName() + "\"");
+        Iterator var2 = this.mapTextureObjects.keySet().iterator();
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
-            this.loadTexture((ResourceLocation)var3.getKey(), (TextureObject)var3.getValue());
+            ResourceLocation var3 = (ResourceLocation)var2.next();
+
+            if (var3.getResourcePath().startsWith("mcpatcher/"))
+            {
+                TextureObject var4 = (TextureObject)this.mapTextureObjects.get(var3);
+                int var5 = var4.getGlTextureId();
+
+                if (var5 > 0)
+                {
+                    GL11.glDeleteTextures(var5);
+                }
+
+                var2.remove();
+            }
+        }
+
+        Iterator var6 = this.mapTextureObjects.entrySet().iterator();
+
+        while (var6.hasNext())
+        {
+            Entry var7 = (Entry)var6.next();
+            this.loadTexture((ResourceLocation)var7.getKey(), (TextureObject)var7.getValue());
         }
     }
 }

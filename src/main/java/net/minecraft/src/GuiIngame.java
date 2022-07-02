@@ -9,8 +9,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.RenderHUDEvent;
-import wtf.nebula.impl.module.render.NoOverlay;
-import wtf.nebula.repository.impl.ModuleRepository;
 
 public class GuiIngame extends Gui
 {
@@ -819,10 +817,6 @@ public class GuiIngame extends Gui
 
     private void renderPumpkinBlur(int par1, int par2)
     {
-        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
-            return;
-        }
-
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

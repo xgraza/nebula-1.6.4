@@ -1,13 +1,16 @@
 package net.minecraft.src;
 
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.Bidi;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
+import java.util.Set;
 import javax.imageio.ImageIO;
 import org.lwjgl.opengl.GL11;
 
@@ -16,7 +19,7 @@ public class FontRenderer implements ResourceManagerReloadListener
     private static final ResourceLocation[] unicodePageLocations = new ResourceLocation[256];
 
     /** Array of width of all the characters in default.png */
-    private int[] charWidth = new int[256];
+    private float[] charWidth = new float[256];
 
     /** the height in pixels of default text */
     public int FONT_HEIGHT = 9;
@@ -32,7 +35,7 @@ public class FontRenderer implements ResourceManagerReloadListener
      * drop shadows.
      */
     private int[] colorCode = new int[32];
-    private final ResourceLocation locationFontTexture;
+    private ResourceLocation locationFontTexture;
 
     /** The RenderEngine used to load and setup glyph textures. */
     private final TextureManager renderEngine;
@@ -86,12 +89,18 @@ public class FontRenderer implements ResourceManagerReloadListener
      * Set if the "m" style (strikethrough) is active in currently rendering string
      */
     private boolean strikethroughStyle;
+    public GameSettings gameSettings;
+    public ResourceLocation locationFontTextureBase;
+    public boolean enabled = true;
 
     public FontRenderer(GameSettings par1GameSettings, ResourceLocation par2ResourceLocation, TextureManager par3TextureManager, boolean par4)
     {
+        this.gameSettings = par1GameSettings;
+        this.locationFontTextureBase = par2ResourceLocation;
         this.locationFontTexture = par2ResourceLocation;
         this.renderEngine = par3TextureManager;
         this.unicodeFlag = par4;
+        this.locationFontTexture = getHdFontLocation(this.locationFontTextureBase);
         par3TextureManager.bindTexture(this.locationFontTexture);
 
         for (int var5 = 0; var5 < 32; ++var5)
@@ -131,6 +140,13 @@ public class FontRenderer implements ResourceManagerReloadListener
 
     public void onResourceManagerReload(ResourceManager par1ResourceManager)
     {
+        this.locationFontTexture = getHdFontLocation(this.locationFontTextureBase);
+
+        for (int var2 = 0; var2 < unicodePageLocations.length; ++var2)
+        {
+            unicodePageLocations[var2] = null;
+        }
+
         this.readFontTexture();
     }
 
@@ -142,63 +158,77 @@ public class FontRenderer implements ResourceManagerReloadListener
         {
             var1 = ImageIO.read(Minecraft.getMinecraft().getResourceManager().getResource(this.locationFontTexture).getInputStream());
         }
-        catch (IOException var17)
+        catch (IOException var18)
         {
-            throw new RuntimeException(var17);
+            throw new RuntimeException(var18);
         }
 
         int var2 = var1.getWidth();
         int var3 = var1.getHeight();
-        int[] var4 = new int[var2 * var3];
-        var1.getRGB(0, 0, var2, var3, var4, 0, var2);
+        int var4 = var2 / 16;
         int var5 = var3 / 16;
-        int var6 = var2 / 16;
-        byte var7 = 1;
-        float var8 = 8.0F / (float)var6;
-        int var9 = 0;
+        float var6 = (float)var2 / 128.0F;
+        int[] var7 = new int[var2 * var3];
+        var1.getRGB(0, 0, var2, var3, var7, 0, var2);
+        int var8 = 0;
 
-        while (var9 < 256)
+        while (var8 < 256)
         {
-            int var10 = var9 % 16;
-            int var11 = var9 / 16;
-
-            if (var9 == 32)
-            {
-                this.charWidth[var9] = 3 + var7;
-            }
-
-            int var12 = var6 - 1;
+            int var9 = var8 % 16;
+            int var10 = var8 / 16;
+            boolean var11 = false;
+            int var19 = var4 - 1;
 
             while (true)
             {
-                if (var12 >= 0)
+                if (var19 >= 0)
                 {
-                    int var13 = var10 * var6 + var12;
-                    boolean var14 = true;
+                    int var12 = var9 * var4 + var19;
+                    boolean var13 = true;
 
-                    for (int var15 = 0; var15 < var5 && var14; ++var15)
+                    for (int var14 = 0; var14 < var5 && var13; ++var14)
                     {
-                        int var16 = (var11 * var6 + var15) * var2;
+                        int var15 = (var10 * var5 + var14) * var2;
+                        int var16 = var7[var12 + var15];
+                        int var17 = var16 >> 24 & 255;
 
-                        if ((var4[var13 + var16] >> 24 & 255) != 0)
+                        if (var17 > 16)
                         {
-                            var14 = false;
+                            var13 = false;
                         }
                     }
 
-                    if (var14)
+                    if (var13)
                     {
-                        --var12;
+                        --var19;
                         continue;
                     }
                 }
 
-                ++var12;
-                this.charWidth[var9] = (int)(0.5D + (double)((float)var12 * var8)) + var7;
-                ++var9;
+                if (var8 == 65)
+                {
+                    var8 = var8;
+                }
+
+                if (var8 == 32)
+                {
+                    if (var4 <= 8)
+                    {
+                        var19 = (int)(2.0F * var6);
+                    }
+                    else
+                    {
+                        var19 = (int)(1.5F * var6);
+                    }
+                }
+
+                this.charWidth[var8] = (float)(var19 + 1) / var6 + 1.0F;
+                ++var8;
                 break;
             }
         }
+
+        this.readCustomCharWidths();
     }
 
     private void readGlyphSizes()
@@ -219,7 +249,7 @@ public class FontRenderer implements ResourceManagerReloadListener
      */
     private float renderCharAtPos(int par1, char par2, boolean par3)
     {
-        return par2 == 32 ? 4.0F : (par1 > 0 && !this.unicodeFlag ? this.renderDefaultChar(par1 + 32, par3) : this.renderUnicodeChar(par2, par3));
+        return par2 == 32 ? this.charWidth[par2] : (par1 > 0 && !this.unicodeFlag ? this.renderDefaultChar(par1 + 32, par3) : this.renderUnicodeChar(par2, par3));
     }
 
     /**
@@ -231,7 +261,7 @@ public class FontRenderer implements ResourceManagerReloadListener
         float var4 = (float)(par1 / 16 * 8);
         float var5 = par2 ? 1.0F : 0.0F;
         this.renderEngine.bindTexture(this.locationFontTexture);
-        float var6 = (float)this.charWidth[par1] - 0.01F;
+        float var6 = this.charWidth[par1] - 0.01F;
         GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
         GL11.glTexCoord2f(var3 / 128.0F, var4 / 128.0F);
         GL11.glVertex3f(this.posX + var5, this.posY, 0.0F);
@@ -242,7 +272,7 @@ public class FontRenderer implements ResourceManagerReloadListener
         GL11.glTexCoord2f((var3 + var6 - 1.0F) / 128.0F, (var4 + 7.99F) / 128.0F);
         GL11.glVertex3f(this.posX + var6 - 1.0F - var5, this.posY + 7.99F, 0.0F);
         GL11.glEnd();
-        return (float)this.charWidth[par1];
+        return this.charWidth[par1];
     }
 
     private ResourceLocation getUnicodePageLocation(int par1)
@@ -250,6 +280,7 @@ public class FontRenderer implements ResourceManagerReloadListener
         if (unicodePageLocations[par1] == null)
         {
             unicodePageLocations[par1] = new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", new Object[] {Integer.valueOf(par1)}));
+            unicodePageLocations[par1] = getHdFontLocation(unicodePageLocations[par1]);
         }
 
         return unicodePageLocations[par1];
@@ -311,7 +342,7 @@ public class FontRenderer implements ResourceManagerReloadListener
      */
     public int drawString(String par1Str, int par2, int par3, int par4)
     {
-        return this.drawString(par1Str, par2, par3, par4, false);
+        return !this.enabled ? 0 : this.drawString(par1Str, par2, par3, par4, false);
     }
 
     /**
@@ -351,33 +382,33 @@ public class FontRenderer implements ResourceManagerReloadListener
             Bidi var2 = new Bidi(par1Str, -2);
             byte[] var3 = new byte[var2.getRunCount()];
             String[] var4 = new String[var3.length];
-            int var7;
+            int var5;
 
-            for (int var5 = 0; var5 < var3.length; ++var5)
+            for (int var6 = 0; var6 < var3.length; ++var6)
             {
-                int var6 = var2.getRunStart(var5);
-                var7 = var2.getRunLimit(var5);
-                int var8 = var2.getRunLevel(var5);
-                String var9 = par1Str.substring(var6, var7);
-                var3[var5] = (byte)var8;
-                var4[var5] = var9;
+                int var7 = var2.getRunStart(var6);
+                var5 = var2.getRunLimit(var6);
+                int var8 = var2.getRunLevel(var6);
+                String var9 = par1Str.substring(var7, var5);
+                var3[var6] = (byte)var8;
+                var4[var6] = var9;
             }
 
-            String[] var11 = (String[])var4.clone();
+            String[] var11 = (String[])((String[])var4.clone());
             Bidi.reorderVisually(var3, 0, var4, 0, var3.length);
             StringBuilder var12 = new StringBuilder();
-            var7 = 0;
+            var5 = 0;
 
-            while (var7 < var4.length)
+            while (var5 < var4.length)
             {
-                byte var13 = var3[var7];
+                byte var13 = var3[var5];
                 int var14 = 0;
 
                 while (true)
                 {
                     if (var14 < var11.length)
                     {
-                        if (!var11[var14].equals(var4[var7]))
+                        if (!var11[var14].equals(var4[var5]))
                         {
                             ++var14;
                             continue;
@@ -388,13 +419,13 @@ public class FontRenderer implements ResourceManagerReloadListener
 
                     if ((var13 & 1) == 0)
                     {
-                        var12.append(var4[var7]);
+                        var12.append(var4[var5]);
                     }
                     else
                     {
-                        for (var14 = var4[var7].length() - 1; var14 >= 0; --var14)
+                        for (var14 = var4[var5].length() - 1; var14 >= 0; --var14)
                         {
-                            char var10 = var4[var7].charAt(var14);
+                            char var10 = var4[var5].charAt(var14);
 
                             if (var10 == 40)
                             {
@@ -409,7 +440,7 @@ public class FontRenderer implements ResourceManagerReloadListener
                         }
                     }
 
-                    ++var7;
+                    ++var5;
                     break;
                 }
             }
@@ -513,80 +544,80 @@ public class FontRenderer implements ResourceManagerReloadListener
                     {
                         var6 = this.fontRandom.nextInt(ChatAllowedCharacters.allowedCharacters.length());
                     }
-                    while (this.charWidth[var5 + 32] != this.charWidth[var6 + 32]);
+                    while ((int)this.charWidth[var5 + 32] != (int)this.charWidth[var6 + 32]);
 
                     var5 = var6;
                 }
 
-                float var11 = this.unicodeFlag ? 0.5F : 1.0F;
-                boolean var7 = (var5 <= 0 || this.unicodeFlag) && par2;
+                float var7 = this.unicodeFlag ? 0.5F : 1.0F;
+                boolean var8 = (var5 <= 0 || this.unicodeFlag) && par2;
 
-                if (var7)
+                if (var8)
                 {
-                    this.posX -= var11;
-                    this.posY -= var11;
+                    this.posX -= var7;
+                    this.posY -= var7;
                 }
 
-                float var8 = this.renderCharAtPos(var5, var4, this.italicStyle);
+                float var9 = this.renderCharAtPos(var5, var4, this.italicStyle);
 
-                if (var7)
+                if (var8)
                 {
-                    this.posX += var11;
-                    this.posY += var11;
+                    this.posX += var7;
+                    this.posY += var7;
                 }
 
                 if (this.boldStyle)
                 {
-                    this.posX += var11;
+                    this.posX += var7;
 
-                    if (var7)
+                    if (var8)
                     {
-                        this.posX -= var11;
-                        this.posY -= var11;
+                        this.posX -= var7;
+                        this.posY -= var7;
                     }
 
                     this.renderCharAtPos(var5, var4, this.italicStyle);
-                    this.posX -= var11;
+                    this.posX -= var7;
 
-                    if (var7)
+                    if (var8)
                     {
-                        this.posX += var11;
-                        this.posY += var11;
+                        this.posX += var7;
+                        this.posY += var7;
                     }
 
-                    ++var8;
+                    ++var9;
                 }
 
-                Tessellator var9;
+                Tessellator var10;
 
                 if (this.strikethroughStyle)
                 {
-                    var9 = Tessellator.instance;
+                    var10 = Tessellator.instance;
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
-                    var9.startDrawingQuads();
-                    var9.addVertex((double)this.posX, (double)(this.posY + (float)(this.FONT_HEIGHT / 2)), 0.0D);
-                    var9.addVertex((double)(this.posX + var8), (double)(this.posY + (float)(this.FONT_HEIGHT / 2)), 0.0D);
-                    var9.addVertex((double)(this.posX + var8), (double)(this.posY + (float)(this.FONT_HEIGHT / 2) - 1.0F), 0.0D);
-                    var9.addVertex((double)this.posX, (double)(this.posY + (float)(this.FONT_HEIGHT / 2) - 1.0F), 0.0D);
-                    var9.draw();
+                    var10.startDrawingQuads();
+                    var10.addVertex((double)this.posX, (double)(this.posY + (float)(this.FONT_HEIGHT / 2)), 0.0D);
+                    var10.addVertex((double)(this.posX + var9), (double)(this.posY + (float)(this.FONT_HEIGHT / 2)), 0.0D);
+                    var10.addVertex((double)(this.posX + var9), (double)(this.posY + (float)(this.FONT_HEIGHT / 2) - 1.0F), 0.0D);
+                    var10.addVertex((double)this.posX, (double)(this.posY + (float)(this.FONT_HEIGHT / 2) - 1.0F), 0.0D);
+                    var10.draw();
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                 }
 
                 if (this.underlineStyle)
                 {
-                    var9 = Tessellator.instance;
+                    var10 = Tessellator.instance;
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
-                    var9.startDrawingQuads();
-                    int var10 = this.underlineStyle ? -1 : 0;
-                    var9.addVertex((double)(this.posX + (float)var10), (double)(this.posY + (float)this.FONT_HEIGHT), 0.0D);
-                    var9.addVertex((double)(this.posX + var8), (double)(this.posY + (float)this.FONT_HEIGHT), 0.0D);
-                    var9.addVertex((double)(this.posX + var8), (double)(this.posY + (float)this.FONT_HEIGHT - 1.0F), 0.0D);
-                    var9.addVertex((double)(this.posX + (float)var10), (double)(this.posY + (float)this.FONT_HEIGHT - 1.0F), 0.0D);
-                    var9.draw();
+                    var10.startDrawingQuads();
+                    int var11 = this.underlineStyle ? -1 : 0;
+                    var10.addVertex((double)(this.posX + (float)var11), (double)(this.posY + (float)this.FONT_HEIGHT), 0.0D);
+                    var10.addVertex((double)(this.posX + var9), (double)(this.posY + (float)this.FONT_HEIGHT), 0.0D);
+                    var10.addVertex((double)(this.posX + var9), (double)(this.posY + (float)this.FONT_HEIGHT - 1.0F), 0.0D);
+                    var10.addVertex((double)(this.posX + (float)var11), (double)(this.posY + (float)this.FONT_HEIGHT - 1.0F), 0.0D);
+                    var10.draw();
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                 }
 
-                this.posX += (float)((int)var8);
+                this.posX += var9;
             }
         }
     }
@@ -650,15 +681,15 @@ public class FontRenderer implements ResourceManagerReloadListener
         }
         else
         {
-            int var2 = 0;
+            float var2 = 0.0F;
             boolean var3 = false;
 
             for (int var4 = 0; var4 < par1Str.length(); ++var4)
             {
                 char var5 = par1Str.charAt(var4);
-                int var6 = this.getCharWidth(var5);
+                float var6 = this.getCharWidthFloat(var5);
 
-                if (var6 < 0 && var4 < par1Str.length() - 1)
+                if (var6 < 0.0F && var4 < par1Str.length() - 1)
                 {
                     ++var4;
                     var5 = par1Str.charAt(var4);
@@ -675,7 +706,7 @@ public class FontRenderer implements ResourceManagerReloadListener
                         var3 = true;
                     }
 
-                    var6 = 0;
+                    var6 = 0.0F;
                 }
 
                 var2 += var6;
@@ -686,7 +717,7 @@ public class FontRenderer implements ResourceManagerReloadListener
                 }
             }
 
-            return var2;
+            return (int)var2;
         }
     }
 
@@ -695,13 +726,18 @@ public class FontRenderer implements ResourceManagerReloadListener
      */
     public int getCharWidth(char par1)
     {
+        return Math.round(this.getCharWidthFloat(par1));
+    }
+
+    private float getCharWidthFloat(char par1)
+    {
         if (par1 == 167)
         {
-            return -1;
+            return -1.0F;
         }
         else if (par1 == 32)
         {
-            return 4;
+            return this.charWidth[32];
         }
         else
         {
@@ -723,11 +759,11 @@ public class FontRenderer implements ResourceManagerReloadListener
                 }
 
                 ++var4;
-                return (var4 - var3) / 2 + 1;
+                return (float)((var4 - var3) / 2 + 1);
             }
             else
             {
-                return 0;
+                return 0.0F;
             }
         }
     }
@@ -746,16 +782,16 @@ public class FontRenderer implements ResourceManagerReloadListener
     public String trimStringToWidth(String par1Str, int par2, boolean par3)
     {
         StringBuilder var4 = new StringBuilder();
-        int var5 = 0;
+        float var5 = 0.0F;
         int var6 = par3 ? par1Str.length() - 1 : 0;
         int var7 = par3 ? -1 : 1;
         boolean var8 = false;
         boolean var9 = false;
 
-        for (int var10 = var6; var10 >= 0 && var10 < par1Str.length() && var5 < par2; var10 += var7)
+        for (int var10 = var6; var10 >= 0 && var10 < par1Str.length() && var5 < (float)par2; var10 += var7)
         {
             char var11 = par1Str.charAt(var10);
-            int var12 = this.getCharWidth(var11);
+            float var12 = this.getCharWidthFloat(var11);
 
             if (var8)
             {
@@ -773,7 +809,7 @@ public class FontRenderer implements ResourceManagerReloadListener
                     var9 = true;
                 }
             }
-            else if (var12 < 0)
+            else if (var12 < 0.0F)
             {
                 var8 = true;
             }
@@ -787,7 +823,7 @@ public class FontRenderer implements ResourceManagerReloadListener
                 }
             }
 
-            if (var5 > par2)
+            if (var5 > (float)par2)
             {
                 break;
             }
@@ -913,7 +949,7 @@ public class FontRenderer implements ResourceManagerReloadListener
     private int sizeStringToWidth(String par1Str, int par2)
     {
         int var3 = par1Str.length();
-        int var4 = 0;
+        float var4 = 0.0F;
         int var5 = 0;
         int var6 = -1;
 
@@ -952,7 +988,7 @@ public class FontRenderer implements ResourceManagerReloadListener
                     var6 = var5;
 
                 default:
-                    var4 += this.getCharWidth(var8);
+                    var4 += this.getCharWidthFloat(var8);
 
                     if (var7)
                     {
@@ -967,7 +1003,7 @@ public class FontRenderer implements ResourceManagerReloadListener
                 break;
             }
 
-            if (var4 > par2)
+            if (var4 > (float)par2)
             {
                 break;
             }
@@ -1027,5 +1063,94 @@ public class FontRenderer implements ResourceManagerReloadListener
     public boolean getBidiFlag()
     {
         return this.bidiFlag;
+    }
+
+    private void readCustomCharWidths()
+    {
+        String fontFileName = this.locationFontTexture.getResourcePath();
+        String suffix = ".png";
+
+        if (fontFileName.endsWith(suffix))
+        {
+            String fileName = fontFileName.substring(0, fontFileName.length() - suffix.length()) + ".properties";
+
+            try
+            {
+                ResourceLocation e = new ResourceLocation(this.locationFontTexture.getResourceDomain(), fileName);
+                InputStream in = Config.getResourceStream(Config.getResourceManager(), e);
+
+                if (in == null)
+                {
+                    return;
+                }
+
+                Config.log("Loading " + fileName);
+                Properties props = new Properties();
+                props.load(in);
+                Set keySet = props.keySet();
+                Iterator iter = keySet.iterator();
+
+                while (iter.hasNext())
+                {
+                    String key = (String)iter.next();
+                    String prefix = "width.";
+
+                    if (key.startsWith(prefix))
+                    {
+                        String numStr = key.substring(prefix.length());
+                        int num = Config.parseInt(numStr, -1);
+
+                        if (num >= 0 && num < this.charWidth.length)
+                        {
+                            String value = props.getProperty(key);
+                            float width = Config.parseFloat(value, -1.0F);
+
+                            if (width >= 0.0F)
+                            {
+                                this.charWidth[num] = width;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (FileNotFoundException var15)
+            {
+                ;
+            }
+            catch (IOException var16)
+            {
+                var16.printStackTrace();
+            }
+        }
+    }
+
+    private static ResourceLocation getHdFontLocation(ResourceLocation fontLoc)
+    {
+        if (!Config.isCustomFonts())
+        {
+            return fontLoc;
+        }
+        else if (fontLoc == null)
+        {
+            return fontLoc;
+        }
+        else
+        {
+            String fontName = fontLoc.getResourcePath();
+            String texturesStr = "textures/";
+            String mcpatcherStr = "mcpatcher/";
+
+            if (!fontName.startsWith(texturesStr))
+            {
+                return fontLoc;
+            }
+            else
+            {
+                fontName = fontName.substring(texturesStr.length());
+                fontName = mcpatcherStr + fontName;
+                ResourceLocation fontLocHD = new ResourceLocation(fontLoc.getResourceDomain(), fontName);
+                return Config.hasResource(Config.getResourceManager(), fontLocHD) ? fontLocHD : fontLoc;
+            }
+        }
     }
 }

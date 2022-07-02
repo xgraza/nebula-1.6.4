@@ -31,6 +31,7 @@ public class IntegratedServer extends MinecraftServer
         this.mc = par1Minecraft;
         this.serverProxy = par1Minecraft.getProxy();
         this.theWorldSettings = par4WorldSettings;
+        Reflector.callVoid(Reflector.ModLoader_registerServer, new Object[] {this});
 
         try
         {
@@ -45,42 +46,72 @@ public class IntegratedServer extends MinecraftServer
     protected void loadAllWorlds(String par1Str, String par2Str, long par3, WorldType par5WorldType, String par6Str)
     {
         this.convertMapIfNeeded(par1Str);
-        this.worldServers = new WorldServer[3];
-        this.timeOfLastDimensionTick = new long[this.worldServers.length][100];
         ISaveHandler var7 = this.getActiveAnvilConverter().getSaveLoader(par1Str, true);
 
-        for (int var8 = 0; var8 < this.worldServers.length; ++var8)
+        if (Reflector.DimensionManager.exists())
         {
-            byte var9 = 0;
+            Object var8 = this.isDemo() ? new DemoWorldServer(this, var7, par2Str, 0, this.theProfiler, this.getLogAgent()) : new WorldServerOF(this, var7, par2Str, 0, this.theWorldSettings, this.theProfiler, this.getLogAgent());
+            Integer[] var9 = (Integer[])((Integer[])Reflector.call(Reflector.DimensionManager_getStaticDimensionIDs, new Object[0]));
+            Integer[] var10 = var9;
+            int var11 = var9.length;
 
-            if (var8 == 1)
+            for (int var12 = 0; var12 < var11; ++var12)
             {
-                var9 = -1;
-            }
+                int var13 = var10[var12].intValue();
+                Object var14 = var13 == 0 ? var8 : new WorldServerMulti(this, var7, par2Str, var13, this.theWorldSettings, (WorldServer)var8, this.theProfiler, this.getLogAgent());
+                ((WorldServer)var14).addWorldAccess(new WorldManager(this, (WorldServer)var14));
 
-            if (var8 == 2)
-            {
-                var9 = 1;
-            }
-
-            if (var8 == 0)
-            {
-                if (this.isDemo())
+                if (!this.isSinglePlayer())
                 {
-                    this.worldServers[var8] = new DemoWorldServer(this, var7, par2Str, var9, this.theProfiler, this.getLogAgent());
+                    ((WorldServer)var14).getWorldInfo().setGameType(this.getGameType());
+                }
+
+                if (Reflector.EventBus.exists())
+                {
+                    Reflector.postForgeBusEvent(Reflector.WorldEvent_Load_Constructor, new Object[] {var14});
+                }
+            }
+
+            this.getConfigurationManager().setPlayerManager(new WorldServer[] {(WorldServer)var8});
+        }
+        else
+        {
+            this.worldServers = new WorldServer[3];
+            this.timeOfLastDimensionTick = new long[this.worldServers.length][100];
+
+            for (int var15 = 0; var15 < this.worldServers.length; ++var15)
+            {
+                byte var16 = 0;
+
+                if (var15 == 1)
+                {
+                    var16 = -1;
+                }
+
+                if (var15 == 2)
+                {
+                    var16 = 1;
+                }
+
+                if (var15 == 0)
+                {
+                    if (this.isDemo())
+                    {
+                        this.worldServers[var15] = new DemoWorldServer(this, var7, par2Str, var16, this.theProfiler, this.getLogAgent());
+                    }
+                    else
+                    {
+                        this.worldServers[var15] = new WorldServerOF(this, var7, par2Str, var16, this.theWorldSettings, this.theProfiler, this.getLogAgent());
+                    }
                 }
                 else
                 {
-                    this.worldServers[var8] = new WorldServer(this, var7, par2Str, var9, this.theWorldSettings, this.theProfiler, this.getLogAgent());
+                    this.worldServers[var15] = new WorldServerMulti(this, var7, par2Str, var16, this.theWorldSettings, this.worldServers[0], this.theProfiler, this.getLogAgent());
                 }
-            }
-            else
-            {
-                this.worldServers[var8] = new WorldServerMulti(this, var7, par2Str, var9, this.theWorldSettings, this.worldServers[0], this.theProfiler, this.getLogAgent());
-            }
 
-            this.worldServers[var8].addWorldAccess(new WorldManager(this, this.worldServers[var8]));
-            this.getConfigurationManager().setPlayerManager(this.worldServers);
+                this.worldServers[var15].addWorldAccess(new WorldManager(this, this.worldServers[var15]));
+                this.getConfigurationManager().setPlayerManager(this.worldServers);
+            }
         }
 
         this.setDifficultyForAllWorlds(this.getDifficulty());
@@ -100,8 +131,33 @@ public class IntegratedServer extends MinecraftServer
         this.setAllowFlight(true);
         this.serverLogAgent.logInfo("Generating keypair");
         this.setKeyPair(CryptManager.createNewKeyPair());
+        Object var1;
+
+        if (Reflector.FMLCommonHandler_handleServerAboutToStart.exists())
+        {
+            var1 = Reflector.call(Reflector.FMLCommonHandler_instance, new Object[0]);
+
+            if (!Reflector.callBoolean(var1, Reflector.FMLCommonHandler_handleServerAboutToStart, new Object[] {this}))
+            {
+                return false;
+            }
+        }
+
         this.loadAllWorlds(this.getFolderName(), this.getWorldName(), this.theWorldSettings.getSeed(), this.theWorldSettings.getTerrainType(), this.theWorldSettings.func_82749_j());
         this.setMOTD(this.getServerOwner() + " - " + this.worldServers[0].getWorldInfo().getWorldName());
+
+        if (Reflector.FMLCommonHandler_handleServerStarting.exists())
+        {
+            var1 = Reflector.call(Reflector.FMLCommonHandler_instance, new Object[0]);
+
+            if (Reflector.FMLCommonHandler_handleServerStarting.getReturnType() == Boolean.TYPE)
+            {
+                return Reflector.callBoolean(var1, Reflector.FMLCommonHandler_handleServerStarting, new Object[] {this});
+            }
+
+            Reflector.callVoid(var1, Reflector.FMLCommonHandler_handleServerStarting, new Object[] {this});
+        }
+
         return true;
     }
 

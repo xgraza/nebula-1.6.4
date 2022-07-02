@@ -3,7 +3,7 @@ package net.minecraft.src;
 import java.util.ArrayList;
 import java.util.List;
 
-class PlayerInstance
+public class PlayerInstance
 {
     private final List playersInChunk;
 
@@ -19,16 +19,33 @@ class PlayerInstance
 
     /** time what is using when chunk InhabitedTime is being calculated */
     private long previousWorldTime;
-
     final PlayerManager thePlayerManager;
+    public boolean chunkLoaded;
 
     public PlayerInstance(PlayerManager par1PlayerManager, int par2, int par3)
     {
+        this(par1PlayerManager, par2, par3, false);
+    }
+
+    public PlayerInstance(PlayerManager par1PlayerManager, int par2, int par3, boolean lazy)
+    {
+        this.chunkLoaded = false;
         this.thePlayerManager = par1PlayerManager;
         this.playersInChunk = new ArrayList();
         this.locationOfBlockChange = new short[64];
         this.chunkLocation = new ChunkCoordIntPair(par2, par3);
-        par1PlayerManager.getWorldServer().theChunkProviderServer.loadChunk(par2, par3);
+        boolean useLazy = lazy && Config.isLazyChunkLoading();
+
+        if (useLazy && !par1PlayerManager.getWorldServer().theChunkProviderServer.chunkExists(par2, par3))
+        {
+            this.thePlayerManager.chunkCoordsNotLoaded.add(this.chunkLocation);
+            this.chunkLoaded = false;
+        }
+        else
+        {
+            par1PlayerManager.getWorldServer().theChunkProviderServer.loadChunk(par2, par3);
+            this.chunkLoaded = true;
+        }
     }
 
     public void addPlayer(EntityPlayerMP par1EntityPlayerMP)
@@ -51,12 +68,27 @@ class PlayerInstance
 
     public void removePlayer(EntityPlayerMP par1EntityPlayerMP)
     {
+        this.removePlayer(par1EntityPlayerMP, true);
+    }
+
+    public void removePlayer(EntityPlayerMP par1EntityPlayerMP, boolean sendData)
+    {
         if (this.playersInChunk.contains(par1EntityPlayerMP))
         {
             Chunk var2 = PlayerManager.getWorldServer(this.thePlayerManager).getChunkFromChunkCoords(this.chunkLocation.chunkXPos, this.chunkLocation.chunkZPos);
-            par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet51MapChunk(var2, true, 0));
+
+            if (sendData)
+            {
+                par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet51MapChunk(var2, true, 0));
+            }
+
             this.playersInChunk.remove(par1EntityPlayerMP);
             par1EntityPlayerMP.loadedChunks.remove(this.chunkLocation);
+
+            if (Reflector.EventBus.exists())
+            {
+                Reflector.postForgeBusEvent(Reflector.ChunkWatchEvent_UnWatch_Constructor, new Object[] {this.chunkLocation, par1EntityPlayerMP});
+            }
 
             if (this.playersInChunk.isEmpty())
             {
@@ -70,7 +102,10 @@ class PlayerInstance
                     PlayerManager.getChunkWatchersWithPlayers(this.thePlayerManager).remove(this);
                 }
 
-                this.thePlayerManager.getWorldServer().theChunkProviderServer.unloadChunksIfNotNearSpawn(this.chunkLocation.chunkXPos, this.chunkLocation.chunkZPos);
+                if (this.chunkLoaded)
+                {
+                    this.thePlayerManager.getWorldServer().theChunkProviderServer.unloadChunksIfNotNearSpawn(this.chunkLocation.chunkXPos, this.chunkLocation.chunkZPos);
+                }
             }
         }
     }
@@ -165,7 +200,7 @@ class PlayerInstance
                         if ((this.flagsYAreasToUpdate & 1 << var3) != 0)
                         {
                             var4 = var3 << 4;
-                            List var5 = PlayerManager.getWorldServer(this.thePlayerManager).getAllTileEntityInBox(var1, var4, var2, var1 + 16, var4 + 16, var2 + 16);
+                            List var5 = PlayerManager.getWorldServer(this.thePlayerManager).getAllTileEntityInBox(var1, var4, var2, var1 + 16, var4 + 16, var2 + 15);
 
                             for (int var6 = 0; var6 < var5.size(); ++var6)
                             {
@@ -218,5 +253,17 @@ class PlayerInstance
     static List getPlayersInChunk(PlayerInstance par0PlayerInstance)
     {
         return par0PlayerInstance.playersInChunk;
+    }
+
+    public void sendThisChunkToAllPlayers()
+    {
+        for (int i = 0; i < this.playersInChunk.size(); ++i)
+        {
+            EntityPlayerMP player = (EntityPlayerMP)this.playersInChunk.get(i);
+            Chunk chunk = PlayerManager.getWorldServer(this.thePlayerManager).getChunkFromChunkCoords(this.chunkLocation.chunkXPos, this.chunkLocation.chunkZPos);
+            ArrayList list = new ArrayList(1);
+            list.add(chunk);
+            player.playerNetServerHandler.sendPacketToPlayer(new Packet56MapChunks(list));
+        }
     }
 }

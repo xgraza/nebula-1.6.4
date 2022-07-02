@@ -23,11 +23,12 @@ public class PlayerManager
 
     /** This field is using when chunk should be processed (every 8000 ticks) */
     private final List playerInstanceList = new ArrayList();
+    public CompactArrayList chunkCoordsNotLoaded = new CompactArrayList(100, 0.8F);
 
     /**
      * Number of chunks the server sends to the client. Valid 3<=x<=15. In server.properties.
      */
-    private final int playerViewRadius;
+    private int playerViewRadius;
 
     /** time what is using to check if InhabitedTime should be calculated */
     private long previousTotalWorldTime;
@@ -47,7 +48,8 @@ public class PlayerManager
         }
         else
         {
-            this.playerViewRadius = par2;
+            this.playerViewRadius = Config.getChunkViewDistance();
+            Config.dbg("ViewRadius: " + this.playerViewRadius + ", for: " + this + " (constructor)");
             this.theWorldServer = par1WorldServer;
         }
     }
@@ -97,16 +99,87 @@ public class PlayerManager
                 this.theWorldServer.theChunkProviderServer.unloadAllChunks();
             }
         }
+
+        if (this.playerViewRadius != Config.getChunkViewDistance())
+        {
+            this.setPlayerViewRadius(Config.getChunkViewDistance());
+        }
+
+        if (this.chunkCoordsNotLoaded.size() > 0)
+        {
+            for (int var22 = 0; var22 < this.players.size(); ++var22)
+            {
+                EntityPlayerMP var6 = (EntityPlayerMP)this.players.get(var22);
+                int var7 = var6.chunkCoordX;
+                int var8 = var6.chunkCoordZ;
+                int var9 = this.playerViewRadius + 1;
+                int var10 = var9 / 2;
+                int var11 = var9 * var9 + var10 * var10;
+                int var12 = var11;
+                int var13 = -1;
+                PlayerInstance var14 = null;
+                ChunkCoordIntPair var15 = null;
+
+                for (int var16 = 0; var16 < this.chunkCoordsNotLoaded.size(); ++var16)
+                {
+                    ChunkCoordIntPair var17 = (ChunkCoordIntPair)this.chunkCoordsNotLoaded.get(var16);
+
+                    if (var17 != null)
+                    {
+                        PlayerInstance var18 = this.getOrCreateChunkWatcher(var17.chunkXPos, var17.chunkZPos, false);
+
+                        if (var18 != null && !var18.chunkLoaded)
+                        {
+                            int var19 = var7 - var17.chunkXPos;
+                            int var20 = var8 - var17.chunkZPos;
+                            int var21 = var19 * var19 + var20 * var20;
+
+                            if (var21 < var12)
+                            {
+                                var12 = var21;
+                                var13 = var16;
+                                var14 = var18;
+                                var15 = var17;
+                            }
+                        }
+                        else
+                        {
+                            this.chunkCoordsNotLoaded.set(var16, (Object)null);
+                        }
+                    }
+                }
+
+                if (var13 >= 0)
+                {
+                    this.chunkCoordsNotLoaded.set(var13, (Object)null);
+                }
+
+                if (var14 != null)
+                {
+                    var14.chunkLoaded = true;
+                    this.getWorldServer().theChunkProviderServer.loadChunk(var15.chunkXPos, var15.chunkZPos);
+                    var14.sendThisChunkToAllPlayers();
+                    break;
+                }
+            }
+
+            this.chunkCoordsNotLoaded.compact();
+        }
     }
 
-    private PlayerInstance getOrCreateChunkWatcher(int par1, int par2, boolean par3)
+    public PlayerInstance getOrCreateChunkWatcher(int par1, int par2, boolean par3)
+    {
+        return this.getOrCreateChunkWatcher(par1, par2, par3, false);
+    }
+
+    public PlayerInstance getOrCreateChunkWatcher(int par1, int par2, boolean par3, boolean lazy)
     {
         long var4 = (long)par1 + 2147483647L | (long)par2 + 2147483647L << 32;
         PlayerInstance var6 = (PlayerInstance)this.playerInstances.getValueByKey(var4);
 
         if (var6 == null && par3)
         {
-            var6 = new PlayerInstance(this, par1, par2);
+            var6 = new PlayerInstance(this, par1, par2, lazy);
             this.playerInstances.add(var4, var6);
             this.playerInstanceList.add(var6);
         }
@@ -138,15 +211,23 @@ public class PlayerManager
         int var3 = (int)par1EntityPlayerMP.posZ >> 4;
         par1EntityPlayerMP.managedPosX = par1EntityPlayerMP.posX;
         par1EntityPlayerMP.managedPosZ = par1EntityPlayerMP.posZ;
+        ArrayList var4 = new ArrayList(1);
 
-        for (int var4 = var2 - this.playerViewRadius; var4 <= var2 + this.playerViewRadius; ++var4)
+        for (int var5 = var2 - this.playerViewRadius; var5 <= var2 + this.playerViewRadius; ++var5)
         {
-            for (int var5 = var3 - this.playerViewRadius; var5 <= var3 + this.playerViewRadius; ++var5)
+            for (int var6 = var3 - this.playerViewRadius; var6 <= var3 + this.playerViewRadius; ++var6)
             {
-                this.getOrCreateChunkWatcher(var4, var5, true).addPlayer(par1EntityPlayerMP);
+                this.getOrCreateChunkWatcher(var5, var6, true).addPlayer(par1EntityPlayerMP);
+
+                if (var5 >= var2 - 1 && var5 <= var2 + 1 && var6 >= var3 - 1 && var6 <= var3 + 1)
+                {
+                    Chunk var7 = this.getWorldServer().theChunkProviderServer.loadChunk(var5, var6);
+                    var4.add(var7);
+                }
             }
         }
 
+        par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet56MapChunks(var4));
         this.players.add(par1EntityPlayerMP);
         this.filterChunkLoadQueue(par1EntityPlayerMP);
     }
@@ -224,7 +305,7 @@ public class PlayerManager
 
                 if (var6 != null)
                 {
-                    var6.removePlayer(par1EntityPlayerMP);
+                    var6.removePlayer(par1EntityPlayerMP, false);
                 }
             }
         }
@@ -270,7 +351,7 @@ public class PlayerManager
                     {
                         if (!this.overlaps(var15, var16, var10, var11, var12))
                         {
-                            this.getOrCreateChunkWatcher(var15, var16, true).addPlayer(par1EntityPlayerMP);
+                            this.getOrCreateChunkWatcher(var15, var16, true, true).addPlayer(par1EntityPlayerMP);
                         }
 
                         if (!this.overlaps(var15 - var13, var16 - var14, var2, var3, var12))
@@ -327,5 +408,31 @@ public class PlayerManager
     static List getChunkWatchersWithPlayers(PlayerManager par0PlayerManager)
     {
         return par0PlayerManager.chunkWatcherWithPlayers;
+    }
+
+    private void setPlayerViewRadius(int newRadius)
+    {
+        if (this.playerViewRadius != newRadius)
+        {
+            EntityPlayerMP[] eps = (EntityPlayerMP[])((EntityPlayerMP[])this.players.toArray(new EntityPlayerMP[this.players.size()]));
+            int i;
+            EntityPlayerMP ep;
+
+            for (i = 0; i < eps.length; ++i)
+            {
+                ep = eps[i];
+                this.removePlayer(ep);
+            }
+
+            this.playerViewRadius = newRadius;
+
+            for (i = 0; i < eps.length; ++i)
+            {
+                ep = eps[i];
+                this.addPlayer(ep);
+            }
+
+            Config.dbg("ViewRadius: " + this.playerViewRadius + ", for: " + this + " (detect)");
+        }
     }
 }

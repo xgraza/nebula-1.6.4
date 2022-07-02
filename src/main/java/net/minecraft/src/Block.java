@@ -454,10 +454,6 @@ public class Block
      */
     public float getBlockBrightness(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        if (ModuleRepository.get().getModule(XRay.class).getState()) {
-            return 10000.0f;
-        }
-
         return par1IBlockAccess.getBrightness(par2, par3, par4, lightValue[par1IBlockAccess.getBlockId(par2, par3, par4)]);
     }
 
@@ -879,10 +875,6 @@ public class Block
      */
     public int getRenderBlockPass()
     {
-        if (ModuleRepository.get().getModule(XRay.class).getState()) {
-            return XRay.blocks.contains(blockID) ? 0 : 1;
-        }
-
         return 0;
     }
 

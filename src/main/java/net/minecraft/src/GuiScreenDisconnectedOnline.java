@@ -29,8 +29,6 @@ public class GuiScreenDisconnectedOnline extends GuiScreen
      */
     public void initGui()
     {
-        System.out.println("ssss");
-
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.getString("gui.back")));
 
