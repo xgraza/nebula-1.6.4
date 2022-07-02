@@ -93,5 +93,9 @@ public class NumberComponent extends Component {
         if (value.getValue().floatValue() > value.getMax().floatValue()) {
             value.setValue(value.getMax());
         }
+
+        if (value.getValue().floatValue() < value.getMin().floatValue()) {
+            value.setValue(value.getMin());
+        }
     }
 }
