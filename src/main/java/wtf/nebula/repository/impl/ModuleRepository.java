@@ -53,7 +53,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         // misc modules
         addChild(new AutoReconnect());
         addChild(new AutoRespawn());
-        addChild(new ChatSuffix());
+        addChild(new ChatModifier());
         addChild(new MiddleClick());
         addChild(new Notifications());
         addChild(new XCarry());
