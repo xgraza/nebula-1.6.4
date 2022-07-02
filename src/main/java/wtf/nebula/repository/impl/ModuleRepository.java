@@ -3,6 +3,7 @@ package wtf.nebula.repository.impl;
 import com.google.gson.*;
 import me.bush.eventbus.annotation.EventListener;
 import org.lwjgl.input.Keyboard;
+import wtf.nebula.event.GuiOpenEvent;
 import wtf.nebula.event.KeyInputEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -31,6 +32,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ModuleRepository extends BaseRepository<Module> {
     public final Map<String, Module> moduleByName = new HashMap<>();
     public final Map<ModuleCategory, List<Module>> modulesByCategory = new HashMap<>();
+
+    private long timeOutOfGui = 0L;
 
     public ModuleRepository() {
         super();
@@ -117,6 +120,11 @@ public class ModuleRepository extends BaseRepository<Module> {
         // if we are not in a gui screen & the key is done being pressed
         if (mc.currentScreen == null && !event.isState() && event.getKeyCode() != Keyboard.KEY_NONE) {
 
+            // prevent module toggling after chat - idk why it does this
+            if (System.currentTimeMillis() - timeOutOfGui < 275L) {
+                return;
+            }
+
             // loop through all modules
             // TODO: keybind manager?
             for (Module module : children) {
@@ -126,6 +134,14 @@ public class ModuleRepository extends BaseRepository<Module> {
                     module.setState(!module.getState());
                 }
             }
+        }
+    }
+
+    @EventListener
+    public void onGuiChange(GuiOpenEvent event) {
+
+        if (event.getNewScreen() == null) {
+            timeOutOfGui = System.currentTimeMillis();
         }
     }
 
