@@ -57,6 +57,10 @@ public class AutoArmor extends Module {
             }
         }
 
+        if (mc.currentScreen != null) {
+            return;
+        }
+
         if (timer.passedTime(50L * delay.getValue().longValue(), false)) {
 
             for (int i = 0; i < 4; ++i) {
