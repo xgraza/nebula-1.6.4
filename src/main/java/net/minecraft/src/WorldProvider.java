@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import wtf.nebula.impl.module.render.NoOverlay;
+import wtf.nebula.repository.impl.ModuleRepository;
+
 public abstract class WorldProvider
 {
     public static final float[] moonPhaseFactors = new float[] {1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F};
@@ -224,6 +227,10 @@ public abstract class WorldProvider
      */
     public boolean getWorldHasVoidParticles()
     {
+        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+            return false;
+        }
+
         return this.terrainType != WorldType.FLAT && !this.hasNoSky;
     }
 

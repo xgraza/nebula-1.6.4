@@ -556,6 +556,10 @@ public class ItemRenderer
      */
     private void renderInsideOfBlock(float par1, Icon par2Icon)
     {
+        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+            return;
+        }
+
         this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
         Tessellator var3 = Tessellator.instance;
         float var4 = 0.1F;
@@ -617,6 +621,10 @@ public class ItemRenderer
      */
     private void renderFireInFirstPerson(float par1)
     {
+        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+            return;
+        }
+
         Tessellator var2 = Tessellator.instance;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
         GL11.glEnable(GL11.GL_BLEND);

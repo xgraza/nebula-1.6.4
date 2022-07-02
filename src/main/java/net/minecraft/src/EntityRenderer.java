@@ -443,6 +443,10 @@ public class EntityRenderer
 
     private void hurtCameraEffect(float par1)
     {
+        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+            return;
+        }
+
         EntityLivingBase var2 = this.mc.renderViewEntity;
         float var3 = (float)var2.hurtTime - par1;
         float var4;
