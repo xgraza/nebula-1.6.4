@@ -91,7 +91,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new EnderchestBP());
         addChild(new Freecam());
         addChild(new PortalChat());
-        // addChild(new Scaffold());
+        addChild(new Scaffold());
 
         log.logInfo("Loaded " + children.size() + " modules. Loading configurations.");
         load();

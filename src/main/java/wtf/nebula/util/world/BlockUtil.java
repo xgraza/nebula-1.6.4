@@ -1,10 +1,7 @@
 package wtf.nebula.util.world;
 
 import com.google.common.collect.Lists;
-import net.minecraft.src.Block;
-import net.minecraft.src.EnumFacing;
-import net.minecraft.src.Packet19EntityAction;
-import net.minecraft.src.Vec3;
+import net.minecraft.src.*;
 import wtf.nebula.util.Globals;
 
 import java.util.List;
@@ -41,7 +38,7 @@ public class BlockUtil implements Globals {
         return block == null || REPLACEABLE.contains(block);
     }
 
-    public static void placeBlock(Vec3 pos, int slot) {
+    public static void placeBlock(Vec3 pos, boolean swing, int slot) {
         for (EnumFacing facing : EnumFacing.values()) {
 
             Vec3 neighbor = pos.addVector(facing.getFrontOffsetX(), facing.getFrontOffsetY(), facing.getFrontOffsetZ());
@@ -71,7 +68,13 @@ public class BlockUtil implements Globals {
                     opposite.ordinal(),
                     hitVec)) {
 
-                mc.thePlayer.swingItem();
+                if (swing) {
+                    mc.thePlayer.swingItem();
+                }
+
+                else {
+                    mc.thePlayer.sendQueue.addToSendQueue(new Packet18Animation());
+                }
             }
 
             if (sneak) {
