@@ -4,6 +4,7 @@ import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.*;
 import org.lwjgl.input.Keyboard;
 import wtf.nebula.event.PacketEvent;
+import wtf.nebula.event.PacketEvent.Era;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -41,7 +42,7 @@ public class Jesus extends Module {
     public void onPacketSend(PacketEvent.Send event) {
 
         // if this is a move packet
-        if (event.getPacket() instanceof Packet10Flying) {
+        if (event.getPacket() instanceof Packet10Flying && event.getEra().equals(Era.PRE)) {
 
             // the movement packet
             Packet10Flying packet = event.getPacket();
