@@ -2110,6 +2110,8 @@ public class Minecraft implements IPlayerUsage
      */
     private void clickMiddleMouseButton()
     {
+        Nebula.BUS.post(new MiddleClickMouseEvent(objectMouseOver));
+
         if (this.objectMouseOver != null)
         {
             boolean var1 = this.thePlayer.capabilities.isCreativeMode;
