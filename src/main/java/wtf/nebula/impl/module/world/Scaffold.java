@@ -5,6 +5,7 @@ import net.minecraft.src.*;
 import org.lwjgl.input.Keyboard;
 import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.MotionUpdateEvent.Era;
+import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.RenderWorldEvent;
 import wtf.nebula.event.SafewalkEvent;
 import wtf.nebula.impl.module.Module;
@@ -28,11 +29,31 @@ public class Scaffold extends Module {
     public final Value<Boolean> render = new Value<>("Render", true);
 
     private Vec3 pos;
+    private boolean sentCancelSprint = false;
+
+    @Override
+    protected void onActivated() {
+        super.onActivated();
+
+        if (!nullCheck()) {
+            sentCancelSprint = true;
+            mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 5));
+        }
+    }
 
     @Override
     protected void onDeactivated() {
         super.onDeactivated();
+
         pos = null;
+        sentCancelSprint = false;
+
+        // re-sync
+        mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(mc.thePlayer.inventory.currentItem));
+
+        if (sentCancelSprint && mc.thePlayer.isSprinting()) {
+            mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 4));
+        }
     }
 
     @EventListener
@@ -78,6 +99,11 @@ public class Scaffold extends Module {
     @EventListener
     public void onMotionUpdate(MotionUpdateEvent event) {
 
+        if (!sentCancelSprint) {
+            sentCancelSprint = true;
+            mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 5));
+        }
+
         int slot = InventoryUtil.findSlot(InventoryRegion.HOTBAR,
                 (stack) -> stack.getItem() != null && stack.getItem() instanceof ItemBlock);
 
@@ -96,6 +122,11 @@ public class Scaffold extends Module {
 
             BlockUtil.placeBlock(pos, swing.getValue(), slot);
 
+            mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(oldSlot));
+        }
+
+        else {
+
             if (tower.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindJump.keyCode)) {
                 mc.thePlayer.motionX *= 0.5;
                 mc.thePlayer.motionZ *= 0.5;
@@ -105,8 +136,20 @@ public class Scaffold extends Module {
                     mc.thePlayer.motionY = -1.0;
                 }
             }
+        }
+    }
 
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(oldSlot));
+    @EventListener
+    public void onPacketSend(PacketEvent.Send event) {
+
+        if (event.getPacket() instanceof Packet19EntityAction) {
+
+            Packet19EntityAction packet = event.getPacket();
+
+            // do not allow us to start sprinting, but we can sprint client-side
+            if (packet.action == 4 && sentCancelSprint) {
+                event.setCancelled(true);
+            }
         }
     }
 }
