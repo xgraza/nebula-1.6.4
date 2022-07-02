@@ -1,9 +1,11 @@
 package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
+import net.minecraft.src.Packet10Flying;
 import net.minecraft.src.Packet13PlayerLookMove;
 import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.PacketEvent;
+import wtf.nebula.event.PacketEvent.Era;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -27,6 +29,8 @@ public class Speed extends Module {
     private boolean slow = false;
 
     private int lagTicks = 0;
+
+    private int onGroundTicks = 0;
 
     @Override
     protected void onDeactivated() {
@@ -115,6 +119,49 @@ public class Speed extends Module {
                 mc.thePlayer.motionZ = 0.0;
             }
         }
+
+        else if (mode.getValue().equals(Mode.ONGROUND)) {
+            --lagTicks;
+            if (lagTicks > 0) {
+                return;
+            }
+
+            mc.thePlayer.motionX *= 1.59000003337860;
+            mc.thePlayer.motionZ *= 1.59000003337860;
+        }
+
+        else if (mode.getValue().equals(Mode.YPORT)) {
+            --lagTicks;
+            if (lagTicks > 0) {
+                return;
+            }
+
+            moveSpeed = MotionUtil.getBaseNcpSpeed();
+
+            if (mc.thePlayer.onGround) {
+                mc.thePlayer.jump();
+                moveSpeed *= slow ? 1.12 : 1.31;
+            }
+
+            else {
+                slow = !slow;
+                mc.thePlayer.motionY = -1.0;
+            }
+
+            double[] strafe = MotionUtil.strafe(moveSpeed);
+
+            if (MotionUtil.isMoving()) {
+
+                mc.thePlayer.motionX = strafe[0];
+                mc.thePlayer.motionZ = strafe[1];
+            }
+
+            else {
+
+                mc.thePlayer.motionX = 0.0;
+                mc.thePlayer.motionZ = 0.0;
+            }
+        }
     }
 
     @EventListener
@@ -123,6 +170,29 @@ public class Speed extends Module {
         double diffZ = mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ;
 
         lastTickMoveSpeed = Math.sqrt(diffX * diffX + diffZ * diffZ);
+    }
+
+    @EventListener
+    public void onPacketSend(PacketEvent.Send event) {
+
+        if (event.getPacket() instanceof Packet10Flying && event.getEra().equals(Era.PRE)) {
+
+            Packet10Flying packet = event.getPacket();
+
+            if (!mode.getValue().equals(Mode.ONGROUND)) {
+                return;
+            }
+
+            if (stage == 4) {
+                packet.onGround = true;
+            }
+
+            else {
+                packet.yPosition += 0.198;
+                packet.stance += 0.198;
+                packet.onGround = false;
+            }
+        }
     }
 
     @EventListener
