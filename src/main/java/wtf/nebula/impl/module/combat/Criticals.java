@@ -6,13 +6,19 @@ import net.minecraft.src.Packet10Flying;
 import net.minecraft.src.Packet11PlayerPosition;
 import net.minecraft.src.Packet19EntityAction;
 import net.minecraft.src.Packet7UseEntity;
-import org.lwjgl.input.Keyboard;
 import wtf.nebula.event.PacketEvent;
+import wtf.nebula.event.PacketEvent.Era;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
 
 public class Criticals extends Module {
+    private static final double[][] CRITICALS = {
+            { 0.1, 0.100000004768371, },
+            { 0.119600000381469, 0.119600005149841 },
+            { 0.060407999603271, 0.0604080043716424 }
+    };
+
     public Criticals() {
         super("Criticals", ModuleCategory.COMBAT);
     }
@@ -24,11 +30,14 @@ public class Criticals extends Module {
     private double lastCrit = 0L;
     private boolean attacked = false;
 
+    private int modifyStage = 0;
+
     @Override
     protected void onDeactivated() {
         super.onDeactivated();
         lastCrit = 0L;
         attacked = false;
+        modifyStage = 0;
     }
 
     @EventListener(priority = ListenerPriority.HIGHEST)
@@ -36,6 +45,12 @@ public class Criticals extends Module {
 
         // if we use the entity
         if (event.getPacket() instanceof Packet7UseEntity) {
+
+            // dont try to crit twice
+            if (!event.getEra().equals(Era.PRE)) {
+                return;
+            }
+
             Packet7UseEntity packet = event.getPacket();
 
             // if the packet is an attack packet (left click = attack)
@@ -56,21 +71,21 @@ public class Criticals extends Module {
 
                 if (mode.getValue().equals(Mode.PACKET)) {
 
-                    mc.thePlayer.sendQueue.addToSendQueueSilent(new Packet11PlayerPosition(
-                            mc.thePlayer.posX,
-                            mc.thePlayer.boundingBox.minY + 0.12,
-                            mc.thePlayer.posY + 0.12,
-                            mc.thePlayer.posZ,
-                            false
-                    ));
+                    for (double[] offsets : CRITICALS) {
+                        mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
+                                mc.thePlayer.posX,
+                                mc.thePlayer.boundingBox.minY + offsets[0],
+                                mc.thePlayer.posY + offsets[1],
+                                mc.thePlayer.posZ,
+                                false
+                        ));
+                    }
 
-                    mc.thePlayer.sendQueue.addToSendQueueSilent(new Packet11PlayerPosition(
-                            mc.thePlayer.posX,
-                            mc.thePlayer.boundingBox.minY,
-                            mc.thePlayer.posY,
-                            mc.thePlayer.posZ,
-                            false
-                    ));
+                    /*
+                        2022-07-01 18:59:21 [CLIENT] [INFO] [CHAT] <Nebula> Stance: 5.720000004768371, Y: 4.1
+                        2022-07-01 18:59:21 [CLIENT] [INFO] [CHAT] <Nebula> Stance: 5.739600005149841, Y: 4.119600000381469
+                        2022-07-01 18:59:21 [CLIENT] [INFO] [CHAT] <Nebula> Stance: 5.6804080043716425, Y: 4.060407999603271
+                     */
                 }
 
                 else if (mode.getValue().equals(Mode.MOTION)) {
@@ -78,26 +93,51 @@ public class Criticals extends Module {
                     mc.thePlayer.fallDistance = 0.1f;
                     mc.thePlayer.onGround = false;
                 }
+
+                else if (mode.getValue().equals(Mode.MODIFY)) {
+                    mc.thePlayer.onGround = false;
+                    modifyStage = 0;
+                    attacked = true;
+                }
             }
         }
 
-//        else if (event.getPacket() instanceof Packet10Flying) {
-//
-//            Packet10Flying packet = event.getPacket();
-//
-//            if (attacked) {
-//                attacked = false;
-//
-//                packet.onGround = false;
-//                packet.yPosition += 0.10000000149011612;
-//                packet.stance += 0.10000000149011612;
-//
-//                mc.thePlayer.fallDistance = 0.1f;
-//            }
-//        }
+        else if (event.getPacket() instanceof Packet10Flying) {
+
+            // our movement packet
+            Packet10Flying packet = event.getPacket();
+
+            if (attacked) {
+                if (modifyStage >= CRITICALS.length) {
+                    lastCrit = System.currentTimeMillis();
+                    attacked = false;
+
+                    packet.onGround = false;
+
+                    return;
+                }
+
+                double[] offsets = CRITICALS[modifyStage];
+
+                packet.yPosition += offsets[0];
+                packet.stance += offsets[1];
+                packet.onGround = false;
+
+                ++modifyStage;
+            }
+        }
+
+        else if (event.getPacket() instanceof Packet19EntityAction) {
+
+            Packet19EntityAction packet = event.getPacket();
+
+            if (packet.action == 5 && attacked && stopSprint.getValue()) {
+                event.setCancelled(true);
+            }
+        }
     }
 
     public enum Mode {
-        PACKET, MOTION
+        PACKET, MOTION, MODIFY
     }
 }
