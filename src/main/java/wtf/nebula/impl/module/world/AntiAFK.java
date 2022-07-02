@@ -1,4 +1,4 @@
-package wtf.nebula.impl.module.misc;
+package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.Packet19EntityAction;
@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class AntiAFK extends Module {
     public AntiAFK() {
-        super("AntiAFK", ModuleCategory.MISC);
+        super("AntiAFK", ModuleCategory.WORLD);
     }
 
     private long lastAction = 0L;

@@ -1,4 +1,4 @@
-package wtf.nebula.impl.module.misc;
+package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.GuiChest;
@@ -14,7 +14,7 @@ import wtf.nebula.impl.value.Value;
 
 public class EnderchestBP extends Module {
     public EnderchestBP() {
-        super("EnderChestBP", ModuleCategory.MISC);
+        super("EnderChestBP", ModuleCategory.WORLD);
     }
 
     public final Value<Boolean> all = new Value<>("All", false);

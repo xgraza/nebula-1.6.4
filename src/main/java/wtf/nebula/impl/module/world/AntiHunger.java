@@ -1,4 +1,4 @@
-package wtf.nebula.impl.module.movement;
+package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.Packet10Flying;
@@ -10,7 +10,7 @@ import wtf.nebula.impl.value.Value;
 
 public class AntiHunger extends Module {
     public AntiHunger() {
-        super("AntiHunger", ModuleCategory.MOVEMENT);
+        super("AntiHunger", ModuleCategory.WORLD);
     }
 
     public final Value<Boolean> sprint = new Value<>("Sprint", true);

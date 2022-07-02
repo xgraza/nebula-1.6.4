@@ -1,4 +1,4 @@
-package wtf.nebula.impl.module.movement;
+package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.Vec3;
@@ -10,7 +10,7 @@ import wtf.nebula.util.world.BlockUtil;
 
 public class Scaffold extends Module {
     public Scaffold() {
-        super("Scaffold", ModuleCategory.MOVEMENT);
+        super("Scaffold", ModuleCategory.WORLD);
     }
 
     @EventListener

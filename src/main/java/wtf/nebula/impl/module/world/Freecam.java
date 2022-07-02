@@ -1,4 +1,4 @@
-package wtf.nebula.impl.module.misc;
+package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.*;
@@ -13,7 +13,7 @@ import wtf.nebula.util.world.player.MotionUtil;
 
 public class Freecam extends Module {
     public Freecam() {
-        super("Freecam", ModuleCategory.MISC);
+        super("Freecam", ModuleCategory.WORLD);
     }
 
     public final Value<Double> speed = new Value<>("Speed", 0.5, 0.1, 5.0);

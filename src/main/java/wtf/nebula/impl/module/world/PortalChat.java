@@ -1,4 +1,4 @@
-package wtf.nebula.impl.module.misc;
+package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
 import wtf.nebula.event.TickEvent;
@@ -7,7 +7,7 @@ import wtf.nebula.impl.module.ModuleCategory;
 
 public class PortalChat extends Module {
     public PortalChat() {
-        super("PortalChat", ModuleCategory.MISC);
+        super("PortalChat", ModuleCategory.WORLD);
     }
 
     @EventListener

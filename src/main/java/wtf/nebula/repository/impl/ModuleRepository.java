@@ -10,6 +10,7 @@ import wtf.nebula.impl.module.combat.*;
 import wtf.nebula.impl.module.misc.*;
 import wtf.nebula.impl.module.movement.*;
 import wtf.nebula.impl.module.render.*;
+import wtf.nebula.impl.module.world.*;
 import wtf.nebula.impl.value.Bind;
 import wtf.nebula.impl.value.Value;
 import wtf.nebula.repository.BaseRepository;
@@ -50,19 +51,14 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new WTap());
 
         // misc modules
-        addChild(new AntiAFK());
         addChild(new AutoReconnect());
         addChild(new AutoRespawn());
         addChild(new ChatSuffix());
-        addChild(new EnderchestBP());
-        addChild(new Freecam());
         addChild(new MiddleClick());
         addChild(new Notifications());
-        addChild(new PortalChat());
         addChild(new XCarry());
 
         // movement modules
-        addChild(new AntiHunger());
         addChild(new AutoWalk());
         addChild(new IceSpeed());
         addChild(new InventoryMove());
@@ -70,7 +66,6 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new NoSlow());
         addChild(new Phase());
         addChild(new Safewalk());
-        // addChild(new Scaffold());
         addChild(new Speed());
         addChild(new Sprint());
         addChild(new Velocity());
@@ -89,6 +84,14 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Tracers());
         addChild(new Waypoints());
         addChild(new XRay());
+
+        // world modules
+        addChild(new AntiAFK());
+        addChild(new AntiHunger());
+        addChild(new EnderchestBP());
+        addChild(new Freecam());
+        addChild(new PortalChat());
+        // addChild(new Scaffold());
 
         log.logInfo("Loaded " + children.size() + " modules. Loading configurations.");
         load();
