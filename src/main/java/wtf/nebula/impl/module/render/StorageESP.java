@@ -6,6 +6,7 @@ import wtf.nebula.event.RenderWorldEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.util.render.ColorUtil;
+import wtf.nebula.util.render.RenderUtil;
 
 import java.awt.*;
 
@@ -74,6 +75,9 @@ public class StorageESP extends Module {
                     .offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
             mc.renderGlobal.drawOutlinedBoundingBox(box);
+
+            ColorUtil.setColor(ColorUtil.addAlpha(color, 120));
+            RenderUtil.drawFilledBoundingBox(box);
 
             glLineWidth(1.0f);
             glDisable(GL_LINE_SMOOTH);

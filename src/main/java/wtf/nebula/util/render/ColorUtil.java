@@ -16,4 +16,9 @@ public class ColorUtil {
         float[] rgba = getColor(color);
         glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
     }
+
+    public static int addAlpha(int color, int alpha) {
+        // clear alpha value and add our alpha value
+        return color & 0x00ffffff | alpha << 24;
+    }
 }

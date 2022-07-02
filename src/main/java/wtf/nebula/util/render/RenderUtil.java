@@ -1,5 +1,6 @@
 package wtf.nebula.util.render;
 
+import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Tessellator;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -38,6 +39,70 @@ public class RenderUtil {
         tessellator.addVertex(x + width, y, 0.0);
 
         // draw the vertices
+        tessellator.draw();
+
+        // GL resets
+        glEnable(GL_TEXTURE_2D);
+        glDisable(GL_BLEND);
+    }
+
+    /**
+     * Draws a filled in bounding box
+     *
+     * Thanks to Gav06, he gave me this method and I don't feel like writing this myself and he let me use it
+     *
+     * @param box the AxisAlignedBB
+     */
+    public static void drawFilledBoundingBox(AxisAlignedBB box) {
+        Tessellator tessellator = Tessellator.instance;
+
+        // GL settings
+        glEnable(GL_BLEND);
+        glDisable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.minX, box.minY, box.minZ);
+        tessellator.addVertex(box.maxX, box.minY, box.minZ);
+        tessellator.addVertex(box.maxX, box.minY, box.maxZ);
+        tessellator.addVertex(box.minX, box.minY, box.maxZ);
+        tessellator.draw();
+
+        // sides
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.minX, box.minY, box.minZ);
+        tessellator.addVertex(box.minX, box.minY, box.maxZ);
+        tessellator.addVertex(box.minX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.minX, box.maxY, box.minZ);
+        tessellator.draw();
+
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.maxX, box.minY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.minY, box.minZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.minZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.maxZ);
+        tessellator.draw();
+
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.maxX, box.minY, box.minZ);
+        tessellator.addVertex(box.minX, box.minY, box.minZ);
+        tessellator.addVertex(box.minX, box.maxY, box.minZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.minZ);
+        tessellator.draw();
+
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.minX, box.minY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.minY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.minX, box.maxY, box.maxZ);
+        tessellator.draw();
+
+        // top
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.minX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.minZ);
+        tessellator.addVertex(box.minX, box.maxY, box.minZ);
         tessellator.draw();
 
         // GL resets
