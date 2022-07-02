@@ -6,6 +6,7 @@ import java.util.UUID;
 import net.minecraft.server.MinecraftServer;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.MotionEvent;
+import wtf.nebula.event.SafewalkEvent;
 import wtf.nebula.util.Globals;
 
 public abstract class Entity
@@ -612,6 +613,10 @@ public abstract class Entity
             double var17 = par5;
             AxisAlignedBB var19 = this.boundingBox.copy();
             boolean var20 = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
+
+            if (Nebula.BUS.post(new SafewalkEvent())) {
+                var20 = onGround && this instanceof EntityPlayer;
+            }
 
             if (var20)
             {
