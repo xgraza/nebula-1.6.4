@@ -68,6 +68,13 @@ public class Freecam extends Module {
     }
 
     @EventListener
+    public void onWorldUnload(WorldUnloadEvent event) {
+
+        // disable to prevent a kick
+        setState(false);
+    }
+
+    @EventListener
     public void onPacketSend(PacketEvent.Send event) {
         if (event.getPacket() instanceof Packet10Flying) {
             event.setCancelled(true);
