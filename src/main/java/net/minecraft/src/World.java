@@ -3998,7 +3998,7 @@ public abstract class World implements IBlockAccess
      */
     public boolean isThundering()
     {
-        if (!ModuleRepository.get().getModule(NoWeather.class).getState()) {
+        if (ModuleRepository.get().getModule(NoWeather.class).getState()) {
             return false;
         }
 
@@ -4010,7 +4010,8 @@ public abstract class World implements IBlockAccess
      */
     public boolean isRaining()
     {
-        if (!ModuleRepository.get().getModule(NoWeather.class).getState()) {
+        if (ModuleRepository.get().getModule(NoWeather.class).getState()) {
+            setRainStrength(0.0f);
             return false;
         }
 
