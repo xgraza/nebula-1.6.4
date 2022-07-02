@@ -4,6 +4,7 @@ import me.bush.eventbus.bus.EventBus;
 import net.minecraft.src.LogAgent;
 import net.minecraft.src.Minecraft;
 import net.minecraft.src.Session;
+import wtf.nebula.impl.module.render.XRay;
 import wtf.nebula.repository.Repositories;
 import wtf.nebula.repository.impl.CommandRepository;
 import wtf.nebula.repository.impl.FriendRepository;
@@ -54,6 +55,7 @@ public class Nebula {
             ModuleRepository.get().save();
             FriendRepository.get().save();
             WaypointRepository.get().save();
+            XRay.save();
         }, "Shutdown-Save-Thread"));
     }
 

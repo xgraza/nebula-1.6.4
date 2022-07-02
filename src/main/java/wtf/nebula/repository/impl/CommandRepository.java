@@ -30,6 +30,7 @@ public class CommandRepository extends BaseRepository<Command> {
         addChild(new Toggle());
         addChild(new Waypoints());
         addChild(new Write());
+        addChild(new Xray());
 
         log.logInfo("Loaded " + children.size() + " commands.");
     }
