@@ -7,6 +7,7 @@ import net.minecraft.src.Block;
 import wtf.nebula.Nebula;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
+import wtf.nebula.impl.value.Value;
 import wtf.nebula.util.FileUtil;
 
 import java.nio.file.Files;
@@ -55,6 +56,8 @@ public class XRay extends Module {
             }
         }
     }
+
+    public final Value<Integer> opacity = new Value<>("Opacity", 120, 0, 255);
 
     @Override
     protected void onActivated() {

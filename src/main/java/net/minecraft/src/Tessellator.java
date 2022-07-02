@@ -418,10 +418,11 @@ public class Tessellator
 
             // shit way to check
             try {
+                XRay xray = ModuleRepository.get().getModule(XRay.class);
                 // this is much harder on newer versions of MC and with mixins
-                if (ModuleRepository.get().getModule(XRay.class).getState()) {
+                if (xray.getState()) {
                     if (Globals.mc.theWorld != null && Globals.mc.thePlayer != null) {
-                        par4 = 120;
+                        par4 = xray.opacity.getValue();
                     }
                 }
             } catch (Exception ignored) {
