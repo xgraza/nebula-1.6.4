@@ -136,6 +136,9 @@ public class Speed extends Module {
                 return;
             }
 
+            // idk why yport bypasses better without sprinting but hey...
+            mc.thePlayer.setSprinting(false);
+
             moveSpeed = MotionUtil.getBaseNcpSpeed();
 
             if (mc.thePlayer.onGround) {
