@@ -10,11 +10,14 @@ import wtf.nebula.event.GuiOpenEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
+import wtf.nebula.impl.value.Value;
 
 public class EnderchestBP extends Module {
     public EnderchestBP() {
         super("EnderChestBP", ModuleCategory.MISC);
     }
+
+    public final Value<Boolean> all = new Value<>("All", false);
 
     private GuiChest gui;
 
@@ -38,14 +41,12 @@ public class EnderchestBP extends Module {
         if (event.getNewScreen() instanceof GuiChest) {
             GuiChest chest = (GuiChest) event.getNewScreen();
 
-            if (chest.lowerChestInventory.getInvName().equals("container.enderchest")) {
-                sendChatMessage("Saved ender chest GUI! Disable this module to access the container.");
-                gui = chest;
+            if (!all.getValue() && !chest.lowerChestInventory.getInvName().equals("container.enderchest")) {
+                return;
             }
 
-            else {
-                gui = null;
-            }
+            sendChatMessage("Saved chest GUI! Disable this module to access the container.");
+            gui = chest;
         }
     }
 
