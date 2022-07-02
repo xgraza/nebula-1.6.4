@@ -30,10 +30,7 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import wtf.nebula.Nebula;
-import wtf.nebula.event.GuiOpenEvent;
-import wtf.nebula.event.KeyInputEvent;
-import wtf.nebula.event.MiddleClickMouseEvent;
-import wtf.nebula.event.TickEvent;
+import wtf.nebula.event.*;
 
 public class Minecraft implements IPlayerUsage
 {
@@ -1920,6 +1917,10 @@ public class Minecraft implements IPlayerUsage
      */
     public void loadWorld(WorldClient par1WorldClient, String par2Str)
     {
+        if (theWorld != null) {
+            Nebula.BUS.post(new WorldUnloadEvent());
+        }
+
         this.statFileWriter.syncStats();
 
         if (par1WorldClient == null)

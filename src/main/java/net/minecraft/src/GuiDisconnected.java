@@ -1,5 +1,9 @@
 package net.minecraft.src;
 
+import wtf.nebula.impl.module.misc.AutoReconnect;
+import wtf.nebula.repository.impl.ModuleRepository;
+import wtf.nebula.util.Timer;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,6 +17,8 @@ public class GuiDisconnected extends GuiScreen
     private Object[] field_74247_c;
     private List field_74245_d;
     private final GuiScreen field_98095_n;
+
+    public final Timer timer = new Timer();
 
     public GuiDisconnected(GuiScreen par1GuiScreen, String par2Str, String par3Str, Object ... par4ArrayOfObj)
     {
@@ -32,6 +38,8 @@ public class GuiDisconnected extends GuiScreen
      */
     public void initGui()
     {
+        timer.resetTime();
+
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.getString("gui.toMenu")));
 
@@ -71,6 +79,21 @@ public class GuiDisconnected extends GuiScreen
             {
                 String var6 = (String)var5.next();
                 this.drawCenteredString(this.fontRenderer, var6, this.width / 2, var4, 16777215);
+            }
+        }
+
+        AutoReconnect autoReconnect = ModuleRepository.get().getModule(AutoReconnect.class);
+        if (autoReconnect.getState() && autoReconnect.serverData != null) {
+
+            long delay = autoReconnect.delay.getValue().longValue();
+
+            if (timer.passedTime(delay * 1000L, false)) {
+                mc.displayGuiScreen(new GuiConnecting(this, mc, autoReconnect.serverData));
+            }
+
+            else {
+                double time = delay - (timer.getTimePassedMs() / 1000.0);
+                drawCenteredString(fontRenderer, "Reconnecting in " + String.format("%.1f", time) + "s", this.width / 2, 65, -1);
             }
         }
 

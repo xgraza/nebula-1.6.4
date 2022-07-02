@@ -51,6 +51,8 @@ public class ModuleRepository extends BaseRepository<Module> {
 
         // misc modules
         addChild(new AntiAFK());
+        addChild(new AutoReconnect());
+        addChild(new AutoRespawn());
         addChild(new ChatSuffix());
         addChild(new EnderchestBP());
         addChild(new Freecam());

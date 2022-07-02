@@ -2,10 +2,11 @@ package wtf.nebula.impl.module.misc;
 
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.ServerData;
-import wtf.nebula.event.TickEvent;
+import wtf.nebula.event.WorldUnloadEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
+import wtf.nebula.util.Timer;
 
 public class AutoReconnect extends Module {
     public ServerData serverData;
@@ -15,18 +16,18 @@ public class AutoReconnect extends Module {
     }
 
     public final Value<Integer> notRespondingTimeout = new Value<>("NotResponding", 10, 1, 29);
-    public final Value<Integer> reconnectTimeout = new Value<>("Delay", 10, 5, 30);
-
-    @EventListener
-    public void onTick(TickEvent event) {
-        if (mc.currentServerData != null) {
-            serverData = mc.currentServerData;
-        }
-    }
+    public final Value<Integer> delay = new Value<>("Delay", 5, 0, 30);
 
     @Override
     protected void onDeactivated() {
         super.onDeactivated();
         serverData = null;
+    }
+
+    @EventListener
+    public void onWorldUnload(WorldUnloadEvent event) {
+        if (mc.currentServerData != null) {
+            serverData = mc.currentServerData;
+        }
     }
 }
