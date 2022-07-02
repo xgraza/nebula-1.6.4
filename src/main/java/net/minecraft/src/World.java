@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.server.MinecraftServer;
+import wtf.nebula.Nebula;
+import wtf.nebula.event.WaterMovementEvent;
+import wtf.nebula.impl.module.render.NoWeather;
+import wtf.nebula.impl.module.render.XRay;
+import wtf.nebula.repository.impl.ModuleRepository;
 
 public abstract class World implements IBlockAccess
 {
@@ -1098,6 +1103,10 @@ public abstract class World implements IBlockAccess
      */
     public float getLightBrightness(int par1, int par2, int par3)
     {
+        if (ModuleRepository.get().getModule(XRay.class).getState()) {
+            return 1.0f;
+        }
+
         return this.provider.lightBrightnessTable[this.getBlockLightValue(par1, par2, par3)];
     }
 
@@ -2373,6 +2382,11 @@ public abstract class World implements IBlockAccess
      */
     public boolean handleMaterialAcceleration(AxisAlignedBB par1AxisAlignedBB, Material par2Material, Entity par3Entity)
     {
+        // uncomment this and some shit in NoPush.java for some interesting shit
+//        if (Nebula.BUS.post(new WaterMovementEvent(par3Entity))) {
+//            return par3Entity.isPushedByWater();
+//        }
+
         int var4 = MathHelper.floor_double(par1AxisAlignedBB.minX);
         int var5 = MathHelper.floor_double(par1AxisAlignedBB.maxX + 1.0D);
         int var6 = MathHelper.floor_double(par1AxisAlignedBB.minY);
@@ -3984,6 +3998,10 @@ public abstract class World implements IBlockAccess
      */
     public boolean isThundering()
     {
+        if (!ModuleRepository.get().getModule(NoWeather.class).getState()) {
+            return false;
+        }
+
         return (double)this.getWeightedThunderStrength(1.0F) > 0.9D;
     }
 
@@ -3992,6 +4010,10 @@ public abstract class World implements IBlockAccess
      */
     public boolean isRaining()
     {
+        if (!ModuleRepository.get().getModule(NoWeather.class).getState()) {
+            return false;
+        }
+
         return (double)this.getRainStrength(1.0F) > 0.2D;
     }
 

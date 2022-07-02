@@ -20,6 +20,10 @@ public class Nametags extends Module {
         super("Nametags", ModuleCategory.RENDER);
     }
 
+    public final Value<Boolean> selfRender = new Value<>("Self", false);
+    public final Value<Double> scale = new Value<>("Scale", 0.3, 0.1, 1.5);
+
+    public final Value<Boolean> held = new Value<>("Held", true);
     public final Value<Boolean> armor = new Value<>("Armor", true);
     public final Value<Boolean> ping = new Value<>("Ping", true);
     public final Value<Boolean> health = new Value<>("Health", true);
@@ -32,6 +36,10 @@ public class Nametags extends Module {
             }
 
             EntityPlayer player = (EntityPlayer) obj;
+
+            if (!selfRender.getValue() && player.equals(mc.thePlayer)) {
+                continue;
+            }
 
             double x = MathUtil.interpolate(player.posX, player.lastTickPosX, event.getPartialTicks()) - RenderManager.renderPosX;
             double y = MathUtil.interpolate(player.posY, player.lastTickPosY, event.getPartialTicks()) + (player.equals(mc.thePlayer) ? 0.0 : 1.625) - RenderManager.renderPosY;
@@ -47,7 +55,7 @@ public class Nametags extends Module {
         double renderZ = RenderManager.renderPosZ;
 
         double distance = mc.renderViewEntity.getDistance(x + renderX, y + renderY, z + renderZ);
-        double scale = (0.3 * Math.max(distance, 4.0)) / 50.0;
+        double scale = (this.scale.getValue() * Math.max(distance, 4.0)) / 50.0;
 
         glPushMatrix();
 
@@ -73,7 +81,7 @@ public class Nametags extends Module {
 
         int xOffset = (-24 / 2 * player.inventory.armorInventory.length) + 12;
 
-        if (player.getHeldItem() != null && player.getHeldItem().getItem() != null) {
+        if (held.getValue() && player.getHeldItem() != null && player.getHeldItem().getItem() != null) {
             renderItem(player.getHeldItem(), xOffset, 1.0);
             xOffset += 16;
         }

@@ -66,6 +66,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new IceSpeed());
         addChild(new InventoryMove());
         addChild(new Jesus());
+        addChild(new NoPush());
         addChild(new NoSlow());
         addChild(new Phase());
         addChild(new Safewalk());
@@ -195,6 +196,10 @@ public class ModuleRepository extends BaseRepository<Module> {
                         object.addProperty(e.getKey(), (float) value);
                     }
                 }
+
+                else if (value instanceof Enum) {
+                    object.addProperty(e.getKey(), ((Enum<?>) value).name());
+                }
             }
 
             FileUtil.write(moduleConfig, new GsonBuilder().setPrettyPrinting().create().toJson(object));
@@ -237,24 +242,31 @@ public class ModuleRepository extends BaseRepository<Module> {
                 }
 
                 Object type = value.getValue();
+                JsonElement element = e.getValue();
 
-                if (type instanceof Boolean) {
-                    value.setValue((boolean) type);
-                }
+                try {
+                    if (type instanceof Boolean) {
+                        value.setValue(element.getAsBoolean());
+                    } else if (type instanceof Number) {
 
-                else if (type instanceof Number) {
+                        if (type instanceof Integer) {
+                            value.setValue(element.getAsInt());
+                        } else if (type instanceof Double) {
+                            value.setValue(element.getAsDouble());
+                        } else if (type instanceof Float) {
+                            value.setValue(element.getAsFloat());
+                        }
+                    } else if (type instanceof Enum) {
+                        try {
+                            Enum enumValue = Enum.valueOf(((Enum) type).getClass(), element.getAsString());
+                            value.setValue(enumValue);
+                        } catch (Exception ignored) {
 
-                    if (type instanceof Integer) {
-                        value.setValue((int) type);
+                        }
                     }
-
-                    else if (type instanceof Double) {
-                        value.setValue((double) type);
-                    }
-
-                    else if (type instanceof Float) {
-                        value.setValue((float) type);
-                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    log.logSevere("Failure to load module setting " + value.getValue());
                 }
             }
         }

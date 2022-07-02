@@ -6,7 +6,9 @@ import java.util.UUID;
 import net.minecraft.server.MinecraftServer;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.MotionEvent;
+import wtf.nebula.event.PushOutOfBlocksEvent;
 import wtf.nebula.event.SafewalkEvent;
+import wtf.nebula.event.WaterMovementEvent;
 import wtf.nebula.util.Globals;
 
 public abstract class Entity
@@ -2104,6 +2106,10 @@ public abstract class Entity
      */
     protected boolean pushOutOfBlocks(double par1, double par3, double par5)
     {
+        if (Nebula.BUS.post(new PushOutOfBlocksEvent())) {
+            return false;
+        }
+
         int var7 = MathHelper.floor_double(par1);
         int var8 = MathHelper.floor_double(par3);
         int var9 = MathHelper.floor_double(par5);

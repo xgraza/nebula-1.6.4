@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import wtf.nebula.impl.module.render.XRay;
+import wtf.nebula.repository.impl.ModuleRepository;
 
 public class RenderBlocks
 {
@@ -389,6 +391,11 @@ public class RenderBlocks
      */
     public boolean renderBlockByRenderType(Block par1Block, int par2, int par3, int par4)
     {
+        XRay xRay = ModuleRepository.get().getModule(XRay.class);
+        if (xRay.getState() && !XRay.blocks.contains(par1Block.blockID)) {
+            return false;
+        }
+
         int var5 = par1Block.getRenderType();
 
         if (var5 == -1)
