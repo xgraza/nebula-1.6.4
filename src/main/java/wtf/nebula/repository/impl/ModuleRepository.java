@@ -66,6 +66,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new IceSpeed());
         addChild(new InventoryMove());
         addChild(new Jesus());
+        addChild(new LongJump());
         addChild(new NoPush());
         addChild(new NoSlow());
         addChild(new Phase());

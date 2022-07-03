@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import wtf.nebula.Nebula;
+import wtf.nebula.event.CollisionBoxEvent;
 import wtf.nebula.impl.module.movement.Jesus;
 import wtf.nebula.repository.impl.ModuleRepository;
 
@@ -164,11 +166,21 @@ public abstract class BlockFluid extends Block
      */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
-        if (ModuleRepository.get().getModule(Jesus.class).getState()) {
-            return AxisAlignedBB.getBoundingBox(
-                    par2 + this.minX, par3 + this.minY, par4 + this.minZ,
-                    par2 + this.maxX, par3 + this.maxY, par4 + this.maxZ);
+
+        CollisionBoxEvent event = new CollisionBoxEvent(
+                new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ),
+                this,
+                Vec3.createVectorHelper(par2, par3, par4));
+
+        if (Nebula.BUS.post(event)) {
+            return event.getBox();
         }
+
+//        if (ModuleRepository.get().getModule(Jesus.class).getState()) {
+//            return AxisAlignedBB.getBoundingBox(
+//                    par2 + this.minX, par3 + this.minY, par4 + this.minZ,
+//                    par2 + this.maxX, par3 + this.maxY, par4 + this.maxZ);
+//        }
 
         return null;
     }
