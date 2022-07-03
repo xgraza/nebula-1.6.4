@@ -84,6 +84,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new NoDynamicFoV());
         addChild(new NoOverlay());
         addChild(new NoWeather());
+        addChild(new Searcher());
         addChild(new StorageESP());
         addChild(new Tracers());
         addChild(new Waypoints());

@@ -12,6 +12,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.ARBOcclusionQuery;
 import org.lwjgl.opengl.GL11;
+import wtf.nebula.Nebula;
+import wtf.nebula.event.ReloadRendersEvent;
 
 public class RenderGlobal implements IWorldAccess
 {
@@ -306,6 +308,8 @@ public class RenderGlobal implements IWorldAccess
     {
         if (this.theWorld != null)
         {
+            Nebula.BUS.post(new ReloadRendersEvent());
+
             Block.leaves.setGraphicsLevel(Config.isTreesFancy());
             this.renderDistance = this.mc.gameSettings.renderDistance;
             int var1;

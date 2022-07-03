@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import wtf.nebula.Nebula;
+import wtf.nebula.event.RenderBlockEvent;
 import wtf.nebula.impl.module.render.XRay;
 import wtf.nebula.repository.impl.ModuleRepository;
 
@@ -412,6 +414,8 @@ public class RenderBlocks
             }
 
             this.setRenderBoundsFromBlock(par1Block);
+
+            Nebula.BUS.post(new RenderBlockEvent(par1Block, Vec3.createVectorHelper(par2, par3, par4)));
 
             switch (var5)
             {
