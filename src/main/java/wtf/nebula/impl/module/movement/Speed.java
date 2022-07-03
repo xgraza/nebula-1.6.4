@@ -22,6 +22,7 @@ public class Speed extends Module {
     }
 
     public final Value<Mode> mode = new Value<>("Mode", Mode.STRAFE);
+    public final Value<Boolean> timer = new Value<>("Timer", true);
 
     private double lastTickMoveSpeed = 0.0;
     private double moveSpeed = 0.0;
@@ -30,7 +31,8 @@ public class Speed extends Module {
 
     private int lagTicks = 0;
 
-    private int onGroundTicks = 0;
+    private int timerTicks = 0;
+    private int limiter = 0;
 
     @Override
     protected void onDeactivated() {
@@ -40,6 +42,8 @@ public class Speed extends Module {
         mc.timer.timerSpeed = 1.0f;
         stage = 4;
         lagTicks = 0;
+        timerTicks = 0;
+        limiter = 0;
     }
 
     @EventListener
@@ -49,6 +53,10 @@ public class Speed extends Module {
             --lagTicks;
             if (lagTicks > 0) {
                 return;
+            }
+
+            if (!timer.getValue()) {
+                mc.timer.timerSpeed = 1.0f;
             }
 
             if (mc.thePlayer.onGround && MotionUtil.isMoving()) {
@@ -67,12 +75,21 @@ public class Speed extends Module {
 
                 if (mc.thePlayer.onGround && MotionUtil.isMoving()) {
                     mc.thePlayer.motionY = MotionUtil.getJumpHeight();
-                    moveSpeed *= slow ? 1.3605 : 1.41;
+
+                    if (timer.getValue()) {
+                        moveSpeed *= slow ? 1.3605 : 1.41;
+                    }
+
+                    else {
+                        moveSpeed *= slow ? 1.3605 : 1.705;
+                    }
                 }
             }
 
             else if (stage == 3) {
-                mc.timer.timerSpeed = 1.088f;
+                if (timer.getValue()) {
+                    mc.timer.timerSpeed = 1.088f;
+                }
 
                 stage = 4;
 
