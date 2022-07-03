@@ -48,7 +48,7 @@ public class Jesus extends Module {
             Packet10Flying packet = event.getPacket();
 
             // prevent phase checks
-            if (isAboveLiquid()) {
+            if (isAboveLiquid() && overLiquidTicks >= 5) {
 
                 // spoof ground state
                 packet.onGround = true;
@@ -80,7 +80,10 @@ public class Jesus extends Module {
             return false;
         }
 
-        Vec3 pos = Vec3.createVectorHelper(mc.thePlayer.posX, mc.thePlayer.boundingBox.minY - 1.0, mc.thePlayer.posZ);
+        Vec3 pos = Vec3.createVectorHelper(
+                Math.floor(mc.thePlayer.posX),
+                mc.thePlayer.boundingBox.minY - 1.0,
+                Math.floor(mc.thePlayer.posZ));
 
         Block block = BlockUtil.getBlockFromVec(pos);
         if (!lava.getValue() && (block == Block.lavaMoving || block == Block.lavaStill)) {
