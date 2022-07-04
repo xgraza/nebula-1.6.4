@@ -59,6 +59,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new ChatModifier());
         addChild(new MiddleClick());
         addChild(new Notifications());
+        addChild(new Spammer());
         addChild(new XCarry());
 
         // movement modules
