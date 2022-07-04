@@ -71,7 +71,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
     /**
      * Gets the File object corresponding to the base directory of this world.
      */
-    protected File getWorldDirectory()
+    public File getWorldDirectory()
     {
         return this.worldDirectory;
     }

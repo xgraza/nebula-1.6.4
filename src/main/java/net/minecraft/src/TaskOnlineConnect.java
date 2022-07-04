@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import wtf.nebula.impl.wdl.WDL;
+
 import java.io.IOException;
 
 public class TaskOnlineConnect extends TaskLongRunning
@@ -87,6 +89,7 @@ public class TaskOnlineConnect extends TaskLongRunning
 
     private void func_96582_a(String par1Str, int par2)
     {
+        WDL.mcos = this.field_96585_c;
         (new ThreadOnlineConnect(this, par1Str, par2)).start();
     }
 

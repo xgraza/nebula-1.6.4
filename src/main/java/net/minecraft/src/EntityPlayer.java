@@ -28,7 +28,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     protected int flyToggleTimer;
     public float prevCameraYaw;
     public float cameraYaw;
-    protected final String username;
+    public final String username;
 
     /**
      * Used by EntityPlayer to prevent too many xp orbs from getting absorbed at once.

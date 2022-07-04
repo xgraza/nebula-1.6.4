@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import wtf.nebula.impl.wdl.WDL;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -71,6 +73,26 @@ public class WorldClient extends World
         this.theProfiler.endStartSection("tiles");
         this.tickBlocksAndAmbiance();
         this.theProfiler.endSection();
+
+        if (WDL.guiToShowAsync != null)
+        {
+            WDL.mc.displayGuiScreen(WDL.guiToShowAsync);
+            WDL.guiToShowAsync = null;
+        }
+
+        if (WDL.downloading && WDL.tp.openContainer != WDL.windowContainer)
+        {
+            if (WDL.tp.openContainer == WDL.tp.inventoryContainer)
+            {
+                WDL.onItemGuiClosed();
+            }
+            else
+            {
+                WDL.onItemGuiOpened();
+            }
+
+            WDL.windowContainer = WDL.tp.openContainer;
+        }
     }
 
     /**
@@ -132,10 +154,20 @@ public class WorldClient extends World
     {
         if (par3)
         {
+            if (this != WDL.wc)
+            {
+                WDL.onWorldLoad();
+            }
+
             this.clientChunkProvider.loadChunk(par1, par2);
         }
         else
         {
+            if (WDL.downloading)
+            {
+                WDL.onChunkNoLongerNeeded(this.chunkProvider.provideChunk(par1, par2));
+            }
+
             this.clientChunkProvider.unloadChunk(par1, par2);
         }
 
@@ -231,6 +263,45 @@ public class WorldClient extends World
     public Entity removeEntityFromWorld(int par1)
     {
         Entity var2 = (Entity)this.entityHashSet.removeObject(par1);
+
+        if (WDL.downloading)
+        {
+            var2 = this.getEntityByID(par1);
+
+            if (var2 != null)
+            {
+                short var3 = 0;
+
+                if (!(var2 instanceof EntityFishHook) && !(var2 instanceof EntityEnderPearl) && !(var2 instanceof EntityEnderEye) && !(var2 instanceof EntityEgg) && !(var2 instanceof EntityPotion) && !(var2 instanceof EntityExpBottle) && !(var2 instanceof EntityItem) && !(var2 instanceof EntitySquid))
+                {
+                    if (!(var2 instanceof EntityMinecart) && !(var2 instanceof EntityBoat) && !(var2 instanceof IAnimals))
+                    {
+                        if (var2 instanceof EntityDragon || var2 instanceof EntityTNTPrimed || var2 instanceof EntityFallingSand || var2 instanceof EntityPainting || var2 instanceof EntityXPOrb)
+                        {
+                            var3 = 160;
+                        }
+                    }
+                    else
+                    {
+                        var3 = 80;
+                    }
+                }
+                else
+                {
+                    var3 = 64;
+                }
+
+                double var4 = var2.getDistance(WDL.tp.posX, var2.posY, WDL.tp.posZ);
+
+                if (var4 > (double)var3)
+                {
+                    WDL.chatDebug("removeEntityFromWorld: Refusing to remove " + var2.getEntityString() + " at distance " + var4);
+                    return null;
+                }
+
+                WDL.chatDebug("removeEntityFromWorld: Removing " + var2.getEntityString() + " at distance " + var4);
+            }
+        }
 
         if (var2 != null)
         {
@@ -477,5 +548,19 @@ public class WorldClient extends World
     static Minecraft func_142030_c(WorldClient par0WorldClient)
     {
         return par0WorldClient.mc;
+    }
+
+    /**
+     * Adds a block event with the given Args to the blockEventCache. During the next tick(), the block specified will
+     * have its onBlockEvent handler called with the given parameters. Args: X,Y,Z, BlockID, EventID, EventParameter
+     */
+    public void addBlockEvent(int par1, int par2, int par3, int par4, int par5, int par6)
+    {
+        super.addBlockEvent(par1, par2, par3, par4, par5, par6);
+
+        if (WDL.downloading)
+        {
+            WDL.onBlockEvent(par1, par2, par3, par4, par5, par6);
+        }
     }
 }

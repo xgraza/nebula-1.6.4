@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-class LongHashMapEntry
+public class LongHashMapEntry
 {
     /**
      * the key as a long (for playerInstances it is the x in the most significant 32 bits and then y)
@@ -8,10 +8,10 @@ class LongHashMapEntry
     final long key;
 
     /** the value held by the hash at the specified key */
-    Object value;
+    public Object value;
 
     /** the next hashentry in the table */
-    LongHashMapEntry nextEntry;
+    public LongHashMapEntry nextEntry;
     final int hash;
 
     LongHashMapEntry(int par1, long par2, Object par4Obj, LongHashMapEntry par5LongHashMapEntry)

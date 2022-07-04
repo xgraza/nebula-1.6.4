@@ -26,6 +26,7 @@ import wtf.nebula.Nebula;
 import wtf.nebula.event.DeathEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
+import wtf.nebula.impl.wdl.WDL;
 
 public class NetClientHandler extends NetHandler
 {
@@ -619,6 +620,20 @@ public class NetClientHandler extends NetHandler
 
     public void handleKickDisconnect(Packet255KickDisconnect par1Packet255KickDisconnect)
     {
+        if (WDL.downloading)
+        {
+            WDL.stop();
+
+            try
+            {
+                Thread.sleep(2000L);
+            }
+            catch (Exception var3)
+            {
+                ;
+            }
+        }
+
         this.netManager.networkShutdown("disconnect.kicked", new Object[0]);
         this.disconnected = true;
         this.mc.loadWorld((WorldClient)null);
@@ -637,6 +652,20 @@ public class NetClientHandler extends NetHandler
     {
         if (!this.disconnected)
         {
+            if (WDL.downloading)
+            {
+                WDL.stop();
+
+                try
+                {
+                    Thread.sleep(2000L);
+                }
+                catch (Exception var4)
+                {
+                    ;
+                }
+            }
+
             this.disconnected = true;
             this.mc.loadWorld((WorldClient)null);
 
@@ -711,6 +740,7 @@ public class NetClientHandler extends NetHandler
 
     public void handleChat(Packet3Chat par1Packet3Chat)
     {
+        WDL.handleServerSeedMessage(par1Packet3Chat.message);
         this.mc.ingameGUI.getChatGUI().printChatMessage(ChatMessageComponent.createFromJson(par1Packet3Chat.message).toStringWithFormatting(true));
     }
 

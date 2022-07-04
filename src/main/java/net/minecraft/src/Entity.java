@@ -1602,7 +1602,7 @@ public abstract class Entity
     /**
      * Returns the string that identifies this Entity's class
      */
-    protected final String getEntityString()
+    public final String getEntityString()
     {
         return EntityList.getEntityString(this);
     }

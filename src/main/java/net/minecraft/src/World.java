@@ -76,13 +76,13 @@ public abstract class World implements IBlockAccess
     protected List worldAccesses = new ArrayList();
 
     /** Handles chunk operations and caching */
-    protected IChunkProvider chunkProvider;
+    public IChunkProvider chunkProvider;
     protected final ISaveHandler saveHandler;
 
     /**
      * holds information about a world (size on disk, time, spawn point, seed, ...)
      */
-    protected WorldInfo worldInfo;
+    public WorldInfo worldInfo;
 
     /** Boolean that is set to true when trying to find a spawn point */
     public boolean findingSpawnPoint;
