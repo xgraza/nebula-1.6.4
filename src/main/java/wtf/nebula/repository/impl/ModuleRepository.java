@@ -70,7 +70,6 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new LongJump());
         addChild(new NoPush());
         addChild(new NoSlow());
-        addChild(new Phase());
         addChild(new Safewalk());
         addChild(new Speed());
         addChild(new Sprint());
