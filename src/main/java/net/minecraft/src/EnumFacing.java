@@ -59,6 +59,14 @@ public enum EnumFacing
         return faceList[par0 % faceList.length];
     }
 
+    public EnumFacing opposite() {
+        return values()[order_b];
+    }
+
+    public Vec3 dirVec() {
+        return new Vec3(Vec3.fakePool, frontOffsetX, frontOffsetY, frontOffsetZ);
+    }
+
     static {
         EnumFacing[] var0 = values();
         int var1 = var0.length;

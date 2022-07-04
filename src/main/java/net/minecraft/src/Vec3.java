@@ -26,7 +26,15 @@ public class Vec3
         return new Vec3(fakePool, par0, par2, par4);
     }
 
-    protected Vec3(Vec3Pool par1Vec3Pool, double par2, double par4, double par6)
+    public Vec3(double x, double y, double z) {
+        this(fakePool, x, y, z);
+    }
+
+    public Vec3(Vec3 vec) {
+        this(fakePool, vec.xCoord, vec.yCoord, vec.zCoord);
+    }
+
+    public Vec3(Vec3Pool par1Vec3Pool, double par2, double par4, double par6)
     {
         if (par2 == -0.0D)
         {
@@ -97,6 +105,18 @@ public class Vec3
     public Vec3 addVector(double par1, double par3, double par5)
     {
         return this.myVec3LocalPool.getVecFromPool(this.xCoord + par1, this.yCoord + par3, this.zCoord + par5);
+    }
+
+    public Vec3 add(Vec3 vec) {
+        return myVec3LocalPool.getVecFromPool(xCoord + vec.xCoord, yCoord + vec.yCoord, zCoord + vec.zCoord);
+    }
+
+    public Vec3 scale(double scale) {
+        return myVec3LocalPool.getVecFromPool(xCoord * scale, yCoord * scale, zCoord * scale);
+    }
+
+    public Vec3 offset(EnumFacing facing) {
+        return addVector(facing.getFrontOffsetX(), facing.getFrontOffsetY(), facing.getFrontOffsetZ());
     }
 
     /**

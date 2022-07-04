@@ -318,6 +318,8 @@ public class PlayerControllerMP
      */
     public boolean onPlayerRightClick(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack, int par4, int par5, int par6, int par7, Vec3 par8Vec3)
     {
+        System.out.println(par8Vec3.toStringTruncated() + "\n" + Vec3.createVectorHelper(par4, par5, par6).toStringTruncated() + "\n");
+
         this.syncCurrentPlayItem();
         float var9 = (float)par8Vec3.xCoord - (float)par4;
         float var10 = (float)par8Vec3.yCoord - (float)par5;

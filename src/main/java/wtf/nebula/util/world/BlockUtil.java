@@ -3,6 +3,7 @@ package wtf.nebula.util.world;
 import com.google.common.collect.Lists;
 import net.minecraft.src.*;
 import wtf.nebula.util.Globals;
+import wtf.nebula.util.MathUtil;
 
 import java.util.List;
 
@@ -38,11 +39,10 @@ public class BlockUtil implements Globals {
         return block == null || REPLACEABLE.contains(block);
     }
 
-    public static void placeBlock(Vec3 pos, boolean swing, int slot) {
+    public static boolean placeBlock(Vec3 pos, boolean swing, int slot) {
         for (EnumFacing facing : EnumFacing.values()) {
 
-            Vec3 neighbor = pos.addVector(facing.getFrontOffsetX(), facing.getFrontOffsetY(), facing.getFrontOffsetZ());
-            EnumFacing opposite = EnumFacing.values()[facing.order_b];
+            Vec3 neighbor = pos.offset(facing);
 
             if (isReplaceable(neighbor)) {
                 continue;
@@ -53,20 +53,17 @@ public class BlockUtil implements Globals {
                 mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 1));
             }
 
-            Vec3 hitVec = Vec3.createVectorHelper(neighbor.xCoord + 0.5, neighbor.yCoord + 0.5, neighbor.zCoord + 0.5);
-            hitVec.xCoord += opposite.getFrontOffsetX() * 0.5;
-            hitVec.yCoord += opposite.getFrontOffsetY() * 0.5;
-            hitVec.zCoord += opposite.getFrontOffsetZ() * 0.5;
+            int x = (int) neighbor.xCoord;
+            int y = (int) neighbor.yCoord;
+            int z = (int) neighbor.zCoord;
 
             if (mc.playerController.onPlayerRightClick(
                     mc.thePlayer,
                     mc.theWorld,
                     mc.thePlayer.inventory.getStackInSlot(slot),
-                    (int) neighbor.xCoord,
-                    (int) neighbor.yCoord,
-                    (int) neighbor.zCoord,
-                    opposite.ordinal(),
-                    hitVec)) {
+                    x, y, z,
+                    facing.order_b,
+                    new Vec3(Vec3.fakePool, x, y, z))) {
 
                 if (swing) {
                     mc.thePlayer.swingItem();
@@ -83,5 +80,7 @@ public class BlockUtil implements Globals {
 
             break;
         }
+
+        return true;
     }
 }

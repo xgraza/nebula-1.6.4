@@ -11,6 +11,7 @@ import wtf.nebula.event.SafewalkEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
+import wtf.nebula.util.Timer;
 import wtf.nebula.util.render.ColorUtil;
 import wtf.nebula.util.render.RenderUtil;
 import wtf.nebula.util.world.BlockUtil;
@@ -30,6 +31,8 @@ public class Scaffold extends Module {
 
     private Vec3 pos;
     private boolean sentCancelSprint = false;
+
+    private final Timer towerTimer = new Timer();
 
     @Override
     protected void onActivated() {
@@ -117,25 +120,23 @@ public class Scaffold extends Module {
         if (event.getEra().equals(Era.PRE)) {
             pos = Vec3.createVectorHelper(
                     Math.floor(mc.thePlayer.posX),
-                    mc.thePlayer.boundingBox.minY - 1,
+                    mc.thePlayer.posY - 2,
                     Math.floor(mc.thePlayer.posZ));
 
-            BlockUtil.placeBlock(pos, swing.getValue(), slot);
+            if (BlockUtil.placeBlock(pos, swing.getValue(), slot)) {
 
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(oldSlot));
-        }
+                if (tower.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindJump.keyCode)) {
+                    mc.thePlayer.jump();
+                    mc.thePlayer.motionX *= 0.3;
+                    mc.thePlayer.motionZ *= 0.3;
 
-        else {
-
-            if (tower.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindJump.keyCode)) {
-                mc.thePlayer.motionX *= 0.5;
-                mc.thePlayer.motionZ *= 0.5;
-                mc.thePlayer.motionY = 0.26;
-
-                if (mc.thePlayer.ticksExisted % 20 == 0) {
-                    mc.thePlayer.motionY = -1.0;
+                    if (towerTimer.passedTime(1200L, true)) {
+                        mc.thePlayer.motionY = -0.28;
+                    }
                 }
             }
+
+            mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(oldSlot));
         }
     }
 
