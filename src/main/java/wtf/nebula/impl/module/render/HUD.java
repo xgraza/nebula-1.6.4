@@ -5,24 +5,47 @@ import net.minecraft.src.*;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.RenderHUDEvent;
+import wtf.nebula.impl.gui.hud.HUDElement;
+import wtf.nebula.impl.gui.hud.impl.Arraylist;
+import wtf.nebula.impl.gui.hud.impl.Watermark;
 import wtf.nebula.impl.gui.ui.ClickGUIScreen;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
+import wtf.nebula.impl.value.Value;
 import wtf.nebula.repository.impl.ModuleRepository;
+import wtf.nebula.util.render.ColorUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 // TODO: use hud elements
 public class HUD extends Module {
+    public static final List<HUDElement> elements = new ArrayList<>();
+
     public HUD() {
         super("HUD", ModuleCategory.RENDER);
 
         setState(true);
         drawn.setValue(false);
+
+        elements.add(new Watermark(this));
+        elements.add(new Arraylist(this));
     }
 
+    public final Value<Boolean> watermark = new Value<>("Watermark", true);
+    public final Value<ArraylistMode> arrayList = new Value<>("ArrayList", ArraylistMode.OLD);
+
+    public final Value<Boolean> rainbow = new Value<>("Rainbow", false);
+
     private double speed = 0.0;
+
+    @Override
+    protected void onDeactivated() {
+        super.onDeactivated();
+    }
 
     @EventListener
     public void onRenderHUD(RenderHUDEvent event) {
@@ -31,6 +54,8 @@ public class HUD extends Module {
         }
 
         glPushMatrix();
+
+        // elements.forEach((element) -> element.onRender(event.getResolution()));
 
         // watermark
         mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.LIGHT_PURPLE + Nebula.NAME + " v" + Nebula.VERSION, 2, 2, -1);
@@ -106,5 +131,17 @@ public class HUD extends Module {
 
     private String getSpeedFormatted() {
         return String.format("%.2f", speed);
+    }
+
+    public int color(int d) {
+        if (rainbow.getValue()) {
+            return ColorUtil.rainbow(d, 1.0f, 1.0f);
+        }
+
+        return -1;
+    }
+
+    public enum ArraylistMode {
+        OFF, NEW, OLD
     }
 }

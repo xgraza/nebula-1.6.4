@@ -1,0 +1,26 @@
+package wtf.nebula.impl.gui.hud.impl;
+
+import net.minecraft.src.EnumChatFormatting;
+import net.minecraft.src.ScaledResolution;
+import wtf.nebula.Nebula;
+import wtf.nebula.impl.gui.hud.HUDElement;
+import wtf.nebula.impl.module.render.HUD;
+
+public class Watermark extends HUDElement {
+    public Watermark(HUD hud) {
+        super(hud, "Watermark");
+
+        x = 2;
+        y = 2;
+    }
+
+    @Override
+    public void onRender(ScaledResolution resolution) {
+        if (!hud.watermark.getValue()) {
+            return;
+        }
+
+        String text = Nebula.NAME + " v" + Nebula.VERSION + "-" + Nebula.TAG;
+        mc.fontRenderer.drawStringWithShadow((hud.rainbow.getValue() ? "" : EnumChatFormatting.LIGHT_PURPLE) + text, (int) x, (int) y, hud.color(100));
+    }
+}
