@@ -61,6 +61,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Notifications());
         addChild(new Spammer());
         addChild(new XCarry());
+        addChild(new Yaw());
 
         // movement modules
         addChild(new AutoWalk());
