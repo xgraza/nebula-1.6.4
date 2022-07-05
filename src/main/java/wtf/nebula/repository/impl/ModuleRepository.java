@@ -102,6 +102,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new PacketMine());
         addChild(new PortalChat());
         addChild(new Scaffold());
+        addChild(new ThunderHack());
 
         log.logInfo("Loaded " + children.size() + " modules. Loading configurations.");
         load();
