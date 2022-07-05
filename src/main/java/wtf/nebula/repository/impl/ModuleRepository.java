@@ -95,8 +95,10 @@ public class ModuleRepository extends BaseRepository<Module> {
         // world modules
         addChild(new AntiAFK());
         addChild(new AntiHunger());
+        addChild(new AutoTool());
         addChild(new EnderchestBP());
         addChild(new Freecam());
+        addChild(new PacketMine());
         addChild(new PortalChat());
         addChild(new Scaffold());
 

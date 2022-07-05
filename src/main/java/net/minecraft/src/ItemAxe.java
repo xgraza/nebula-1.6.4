@@ -3,7 +3,7 @@ package net.minecraft.src;
 public class ItemAxe extends ItemTool
 {
     /** an array of the blocks this axe is effective against */
-    private static Block[] blocksEffectiveAgainst = new Block[] {Block.planks, Block.bookShelf, Block.wood, Block.chest, Block.stoneDoubleSlab, Block.stoneSingleSlab, Block.pumpkin, Block.pumpkinLantern};
+    public static Block[] blocksEffectiveAgainst = new Block[] {Block.planks, Block.bookShelf, Block.wood, Block.chest, Block.stoneDoubleSlab, Block.stoneSingleSlab, Block.pumpkin, Block.pumpkinLantern};
 
     protected ItemAxe(int par1, EnumToolMaterial par2EnumToolMaterial)
     {

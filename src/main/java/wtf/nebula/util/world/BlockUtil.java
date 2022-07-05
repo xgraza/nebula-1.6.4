@@ -34,6 +34,10 @@ public class BlockUtil implements Globals {
         return Block.blocksList[mc.theWorld.getBlockId((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord)];
     }
 
+    public static Block getBlockFrom(int x, int y, int z) {
+        return Block.blocksList[mc.theWorld.getBlockId(x, y, z)];
+    }
+
     public static boolean isReplaceable(Vec3 vec) {
         Block block = getBlockFromVec(vec);
         return block == null || REPLACEABLE.contains(block);

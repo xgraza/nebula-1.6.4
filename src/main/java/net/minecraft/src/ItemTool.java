@@ -5,14 +5,14 @@ import com.google.common.collect.Multimap;
 public class ItemTool extends Item
 {
     /** Array of blocks the tool has extra effect against. */
-    private Block[] blocksEffectiveAgainst;
-    protected float efficiencyOnProperMaterial = 4.0F;
+    public Block[] blocksEffectiveAgainst;
+    public float efficiencyOnProperMaterial = 4.0F;
 
     /** Damage versus entities. */
     private float damageVsEntity;
 
     /** The material this tool is made from. */
-    protected EnumToolMaterial toolMaterial;
+    public EnumToolMaterial toolMaterial;
 
     protected ItemTool(int par1, float par2, EnumToolMaterial par3EnumToolMaterial, Block[] par4ArrayOfBlock)
     {
