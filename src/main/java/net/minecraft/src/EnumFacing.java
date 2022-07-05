@@ -19,7 +19,7 @@ public enum EnumFacing
     private final int frontOffsetZ;
 
     /** List of all values in EnumFacing. Order is D-U-N-S-E-W. */
-    private static final EnumFacing[] faceList = new EnumFacing[6];
+    public static final EnumFacing[] faceList = new EnumFacing[6];
 
     private EnumFacing(int par3, int par4, int par5, int par6, int par7)
     {

@@ -117,26 +117,60 @@ public class Scaffold extends Module {
         int oldSlot = mc.thePlayer.inventory.currentItem;
         mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(slot));
 
-        if (event.getEra().equals(Era.PRE)) {
+        if (event.getEra().equals(Era.POST)) {
             pos = Vec3.createVectorHelper(
                     Math.floor(mc.thePlayer.posX),
-                    mc.thePlayer.posY - 2,
+                    (int) mc.thePlayer.posY - 2,
                     Math.floor(mc.thePlayer.posZ));
 
-            if (BlockUtil.placeBlock(pos, swing.getValue(), slot)) {
+            for (EnumFacing facing : EnumFacing.faceList) {
+                Vec3 neighbor = pos.offset(facing);
 
-                if (tower.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindJump.keyCode)) {
-                    mc.thePlayer.jump();
-                    mc.thePlayer.motionX *= 0.3;
-                    mc.thePlayer.motionZ *= 0.3;
-
-                    if (towerTimer.passedTime(1200L, true)) {
-                        mc.thePlayer.motionY = -0.28;
-                    }
+                if (BlockUtil.isReplaceable(neighbor)) {
+                    continue;
                 }
-            }
 
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(oldSlot));
+                boolean sneak = BlockUtil.SNEAK_BLOCKS.contains(BlockUtil.getBlockFromVec(neighbor)) && !mc.thePlayer.isSneaking();
+                if (sneak) {
+                    mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 1));
+                }
+
+                int side = facing.order_b;
+
+                int x = (int) neighbor.xCoord;
+                int y = (int) neighbor.yCoord;
+                int z = (int) neighbor.zCoord;
+
+                boolean success = mc.playerController.onPlayerRightClick(
+                        mc.thePlayer,
+                        mc.theWorld,
+                        mc.thePlayer.inventory.getStackInSlot(slot),
+                        x, y, z,
+                        side,
+                        pos.addVector(0.5, 0.0, 0.5)
+                );
+
+                if (sneak) {
+                    mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 2));
+                }
+
+                if (success) {
+
+                    if (tower.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindJump.keyCode)) {
+                        mc.thePlayer.jump();
+                        mc.thePlayer.motionX *= 0.3;
+                        mc.thePlayer.motionZ *= 0.3;
+
+                        if (towerTimer.passedTime(1200L, true)) {
+                            mc.thePlayer.motionY = -0.28;
+                        }
+                    }
+
+                    mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(oldSlot));
+                }
+
+                break;
+            }
         }
     }
 

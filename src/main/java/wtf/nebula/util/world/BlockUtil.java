@@ -39,8 +39,7 @@ public class BlockUtil implements Globals {
     }
 
     public static boolean isReplaceable(Vec3 vec) {
-        Block block = getBlockFromVec(vec);
-        return block == null || REPLACEABLE.contains(block);
+        return mc.theWorld.getBlockMaterial((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord).isReplaceable();
     }
 
     public static boolean placeBlock(Vec3 pos, boolean swing, int slot) {

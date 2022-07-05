@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import org.lwjgl.Sys;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.ClickBlockEvent;
 
