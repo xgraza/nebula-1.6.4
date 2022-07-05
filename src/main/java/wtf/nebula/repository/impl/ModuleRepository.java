@@ -74,6 +74,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Safewalk());
         addChild(new Speed());
         addChild(new Sprint());
+        // addChild(new Step());
         addChild(new Velocity());
 
         // render modules

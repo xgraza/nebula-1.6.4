@@ -5,10 +5,7 @@ import java.util.Random;
 import java.util.UUID;
 import net.minecraft.server.MinecraftServer;
 import wtf.nebula.Nebula;
-import wtf.nebula.event.MotionEvent;
-import wtf.nebula.event.PushOutOfBlocksEvent;
-import wtf.nebula.event.SafewalkEvent;
-import wtf.nebula.event.WaterMovementEvent;
+import wtf.nebula.event.*;
 import wtf.nebula.util.Globals;
 
 public abstract class Entity
@@ -821,6 +818,8 @@ public abstract class Entity
                     this.boundingBox.setBB(var29);
                 }
             }
+
+            Nebula.BUS.post(new StepEvent(boundingBox));
 
             this.worldObj.theProfiler.endSection();
             this.worldObj.theProfiler.startSection("rest");
