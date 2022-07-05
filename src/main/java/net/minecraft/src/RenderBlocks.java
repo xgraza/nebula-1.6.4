@@ -393,11 +393,6 @@ public class RenderBlocks
      */
     public boolean renderBlockByRenderType(Block par1Block, int par2, int par3, int par4)
     {
-        XRay xRay = ModuleRepository.get().getModule(XRay.class);
-        if (xRay.getState() && !XRay.blocks.contains(par1Block.blockID)) {
-            return false;
-        }
-
         int var5 = par1Block.getRenderType();
 
         if (var5 == -1)
@@ -9180,6 +9175,10 @@ public class RenderBlocks
 
     private float getAmbientOcclusionLightValue(IBlockAccess iBlockAccess, int i, int j, int k)
     {
+        if (ModuleRepository.get().isToggled(XRay.class)) {
+            return 1.0f;
+        }
+
         Block block = Block.blocksList[iBlockAccess.getBlockId(i, j, k)];
 
         if (block == null)

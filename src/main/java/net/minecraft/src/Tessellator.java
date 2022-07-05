@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GLContext;
 import wtf.nebula.impl.module.render.XRay;
 import wtf.nebula.repository.impl.ModuleRepository;
 import wtf.nebula.util.Globals;
+import wtf.nebula.util.MathUtil;
 
 public class Tessellator
 {
@@ -497,30 +498,10 @@ public class Tessellator
     {
         if (!this.isColorDisabled)
         {
-            if (par1 > 255)
-            {
-                par1 = 255;
-            }
-
-            if (par2 > 255)
-            {
-                par2 = 255;
-            }
-
-            if (par3 > 255)
-            {
-                par3 = 255;
-            }
-
-            if (par4 > 255)
-            {
-                par4 = 255;
-            }
-
-            if (par1 < 0)
-            {
-                par1 = 0;
-            }
+//            par1 = (int) MathUtil.clamp(par1, 0, 255);
+//            par2 = (int) MathUtil.clamp(par2, 0, 255);
+//            par3 = (int) MathUtil.clamp(par3, 0, 255);
+//            par4 = (int) MathUtil.clamp(par4, 0, 255);
 
             if (par2 < 0)
             {
@@ -539,17 +520,11 @@ public class Tessellator
 
             this.hasColor = true;
 
-            // shit way to check
-            try {
-                XRay xray = ModuleRepository.get().getModule(XRay.class);
-                // this is much harder on newer versions of MC and with mixins
-                if (xray.getState()) {
-                    if (Globals.mc.theWorld != null && Globals.mc.thePlayer != null) {
-                        par4 = xray.opacity.getValue();
-                    }
+            if (ModuleRepository.get() != null) {
+                XRay xRay = ModuleRepository.get().getModule(XRay.class);
+                if (xRay.getState() && !xRay.nullCheck()) {
+                    par4 = xRay.opacity.getValue();
                 }
-            } catch (Exception ignored) {
-
             }
 
             if (littleEndianByteOrder)

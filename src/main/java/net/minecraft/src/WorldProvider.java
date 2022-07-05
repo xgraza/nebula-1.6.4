@@ -227,7 +227,7 @@ public abstract class WorldProvider
      */
     public boolean getWorldHasVoidParticles()
     {
-        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
             return false;
         }
 

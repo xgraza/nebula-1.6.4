@@ -11,6 +11,7 @@ import java.util.Set;
 import net.minecraft.server.MinecraftServer;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.WaterMovementEvent;
+import wtf.nebula.impl.module.render.NoOverlay;
 import wtf.nebula.impl.module.render.NoWeather;
 import wtf.nebula.impl.module.render.XRay;
 import wtf.nebula.repository.impl.ModuleRepository;
@@ -3998,7 +3999,7 @@ public abstract class World implements IBlockAccess
      */
     public boolean isThundering()
     {
-        if (ModuleRepository.get().getModule(NoWeather.class).getState()) {
+        if (ModuleRepository.get().isToggled(NoWeather.class)) {
             return false;
         }
 
@@ -4010,7 +4011,7 @@ public abstract class World implements IBlockAccess
      */
     public boolean isRaining()
     {
-        if (ModuleRepository.get().getModule(NoWeather.class).getState()) {
+        if (ModuleRepository.get().isToggled(NoWeather.class)) {
             setRainStrength(0.0f);
             return false;
         }

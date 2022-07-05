@@ -819,7 +819,7 @@ public class GuiIngame extends Gui
 
     private void renderPumpkinBlur(int par1, int par2)
     {
-        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
             return;
         }
 

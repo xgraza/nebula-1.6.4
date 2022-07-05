@@ -14,6 +14,10 @@ public class MathUtil implements Globals {
         return end + partialTicks * (start - end);
     }
 
+    public static double clamp(double v, double min, double max) {
+        return Math.min(Math.max(v, min), max);
+    }
+
     public static float calcYawTo(EntityLivingBase target) {
         Vec3 diff = diff(getEyes(target), getEyes(mc.thePlayer));
         float yaw = (float) (Math.atan2(diff.zCoord, diff.xCoord) * 180.0 / Math.PI - 90.0);

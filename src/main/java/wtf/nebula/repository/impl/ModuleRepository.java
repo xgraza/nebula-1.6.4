@@ -155,6 +155,11 @@ public class ModuleRepository extends BaseRepository<Module> {
         return (T) childMap.getOrDefault(clazz, null);
     }
 
+    public <T extends Module> boolean isToggled(Class<T> clazz) {
+        T module = getModule(clazz);
+        return module != null && module.getState();
+    }
+
     public void save() {
         if (!Files.exists(FileUtil.MODULES)) {
             try {

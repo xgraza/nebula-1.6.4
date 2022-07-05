@@ -376,14 +376,6 @@ public class Block
      */
     public int getRenderType()
     {
-        try {
-            if (ModuleRepository.get().getModule(XRay.class).getState()) {
-                return XRay.blocks.contains(blockID) ? 0 : 1;
-            }
-        } catch (Exception ignored) {
-
-        }
-
         return 0;
     }
 
@@ -472,10 +464,6 @@ public class Block
      */
     public int getMixedBrightnessForBlock(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        if (ModuleRepository.get().getModule(XRay.class).getState()) {
-            return 100;
-        }
-
         return par1IBlockAccess.getLightBrightnessForSkyBlocks(par2, par3, par4, lightValue[par1IBlockAccess.getBlockId(par2, par3, par4)]);
     }
 
@@ -485,8 +473,8 @@ public class Block
      */
     public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
     {
-        if (ModuleRepository.get().getModule(XRay.class).getState()) {
-            return XRay.blocks.contains(blockID);
+        if (ModuleRepository.get().isToggled(XRay.class) && XRay.blocks.contains(blockID)) {
+            return true;
         }
 
         return par5 == 0 && this.minY > 0.0D ? true : (par5 == 1 && this.maxY < 1.0D ? true : (par5 == 2 && this.minZ > 0.0D ? true : (par5 == 3 && this.maxZ < 1.0D ? true : (par5 == 4 && this.minX > 0.0D ? true : (par5 == 5 && this.maxX < 1.0D ? true : !par1IBlockAccess.isBlockOpaqueCube(par2, par3, par4))))));
@@ -889,6 +877,10 @@ public class Block
      */
     public int getRenderBlockPass()
     {
+        if (ModuleRepository.get().isToggled(XRay.class)) {
+            return XRay.blocks.contains(blockID) ? 0 : 1;
+        }
+
         return 0;
     }
 

@@ -274,7 +274,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         float var1 = 1.0F;
 
-        if (!ModuleRepository.get().getModule(NoDynamicFoV.class).getState()) {
+        if (!ModuleRepository.get().isToggled(NoDynamicFoV.class)) {
             if (this.capabilities.isFlying) {
                 var1 *= 1.1F;
             }

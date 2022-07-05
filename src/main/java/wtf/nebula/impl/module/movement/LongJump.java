@@ -10,6 +10,7 @@ import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.repository.impl.ModuleRepository;
 import wtf.nebula.util.world.player.MotionUtil;
+import wtf.nebula.util.world.player.PlayerUtil;
 
 // Credits: Direkt longjump
 // This longjump is used in Future client, but it's slightly modified
@@ -39,7 +40,7 @@ public class LongJump extends Module {
 
     @EventListener
     public void onTick(TickEvent event) {
-        if (ModuleRepository.get().getModule(Jesus.class).getState()) {
+        if (PlayerUtil.isOnLiquid(true)) {
             setState(false);
             return;
         }

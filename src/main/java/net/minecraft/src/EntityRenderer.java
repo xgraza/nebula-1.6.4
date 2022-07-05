@@ -443,7 +443,7 @@ public class EntityRenderer
 
     private void hurtCameraEffect(float par1)
     {
-        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
             return;
         }
 

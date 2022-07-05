@@ -556,7 +556,7 @@ public class ItemRenderer
      */
     private void renderInsideOfBlock(float par1, Icon par2Icon)
     {
-        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
             return;
         }
 
@@ -621,7 +621,7 @@ public class ItemRenderer
      */
     private void renderFireInFirstPerson(float par1)
     {
-        if (ModuleRepository.get().getModule(NoOverlay.class).getState()) {
+        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
             return;
         }
 
