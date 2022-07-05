@@ -56,6 +56,7 @@ public class Nebula {
             ModuleRepository.get().save();
             FriendRepository.get().save();
             WaypointRepository.get().save();
+            CommandRepository.save(CommandRepository.get().getPrefix());
             XRay.save();
         }, "Shutdown-Save-Thread"));
     }

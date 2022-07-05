@@ -9,7 +9,9 @@ import wtf.nebula.impl.command.impl.*;
 import wtf.nebula.repository.BaseRepository;
 import wtf.nebula.repository.Repositories;
 import wtf.nebula.repository.Repository;
+import wtf.nebula.util.FileUtil;
 
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +29,7 @@ public class CommandRepository extends BaseRepository<Command> {
         addChild(new Friend());
         addChild(new Github());
         addChild(new Help());
+        addChild(new Prefix());
         addChild(new Search());
         addChild(new SpammerFile());
         addChild(new Spawn());
@@ -37,6 +40,17 @@ public class CommandRepository extends BaseRepository<Command> {
         addChild(new Xray());
 
         log.logInfo("Loaded " + children.size() + " commands.");
+
+        if (!Files.exists(FileUtil.COMMAND_PREFIX)) {
+            save(prefix);
+        }
+
+        else {
+            String text = FileUtil.read(FileUtil.COMMAND_PREFIX);
+            if (text != null && !text.isEmpty()) {
+                prefix = text.trim().replaceAll("\n", "").replaceAll("\r\n", "");
+            }
+        }
     }
 
     @Override
@@ -79,10 +93,15 @@ public class CommandRepository extends BaseRepository<Command> {
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
+        save(prefix);
     }
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public static void save(String prefix) {
+        FileUtil.write(FileUtil.COMMAND_PREFIX, prefix);
     }
 
     public static CommandRepository get() {

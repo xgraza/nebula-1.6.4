@@ -20,6 +20,7 @@ public class FileUtil {
     public static final Path WAYPOINTS = CLIENT_PATH.resolve("waypoints.json");
     public static final Path XRAY_BLOCKS = CLIENT_PATH.resolve("xrayblocks.json");
     public static final Path AUTOGG = CLIENT_PATH.resolve("autogg.txt");
+    public static final Path COMMAND_PREFIX = CLIENT_PATH.resolve("cmd_prefix.txt");
 
     public static String read(Path path) {
         BufferedReader reader = null;
