@@ -131,7 +131,7 @@ public class Minecraft implements IPlayerUsage
     /**
      * When you place a block, it's set to 6, decremented once per tick, when it's 0, you can place another block.
      */
-    private int rightClickDelayTimer;
+    public int rightClickDelayTimer;
 
     /**
      * Checked in Minecraft's while(running) loop, if true it's set to false and the textures refreshed.
