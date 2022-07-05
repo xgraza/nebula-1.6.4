@@ -29,6 +29,7 @@ public class CommandRepository extends BaseRepository<Command> {
         addChild(new Search());
         addChild(new SpammerFile());
         addChild(new Spawn());
+        addChild(new Throw());
         addChild(new Toggle());
         addChild(new Waypoints());
         addChild(new Write());
