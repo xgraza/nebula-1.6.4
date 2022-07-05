@@ -3,6 +3,7 @@ package wtf.nebula.impl.module.misc;
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.src.*;
 import wtf.nebula.event.MiddleClickMouseEvent;
+import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
@@ -18,6 +19,45 @@ public class MiddleClick extends Module {
     public final Value<Boolean> friend = new Value<>("Friend", true);
     public final Value<Boolean> pearl = new Value<>("Pearl", true);
 
+    private int pearlTicks = -1;
+    private int oldSlot = -1, slot = -1;
+
+    @Override
+    protected void onDeactivated() {
+        super.onDeactivated();
+
+        pearlTicks = -1;
+        oldSlot = -1;
+        slot = -1;
+    }
+
+    @EventListener
+    public void onTick(TickEvent event) {
+        if (pearlTicks != -1) {
+            switch (pearlTicks) {
+                case 1:
+                    mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(slot));
+                    break;
+
+                case 2:
+                    mc.thePlayer.sendQueue.addToSendQueue(new Packet15Place(-1, -1, -1, 255, mc.thePlayer.inventory.getStackInSlot(slot), 0.0f, 0.0f, 0.0f));
+                    break;
+
+                case 3:
+                    mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(oldSlot));
+                    break;
+
+                case 4:
+                    pearlTicks = -1;
+                    oldSlot = -1;
+                    slot = -1;
+                    return;
+            }
+
+            ++pearlTicks;
+        }
+    }
+
     @EventListener
     public void onMiddleClickMouse(MiddleClickMouseEvent event) {
 
@@ -26,15 +66,11 @@ public class MiddleClick extends Module {
         if (result == null) {
 
             if (pearl.getValue()) {
-                int slot = InventoryUtil.findSlot(InventoryRegion.HOTBAR,
-                        (stack) -> stack.getItem() != null && stack.getItem().equals(Item.enderPearl));
+                slot = InventoryUtil.findSlot(InventoryRegion.HOTBAR, (stack) -> stack.getItem().equals(Item.enderPearl));
 
                 if (slot != -1) {
-                    int oldSlot = mc.thePlayer.inventory.currentItem;
-
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(slot));
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet15Place(-1, -1, -1, 255, mc.thePlayer.inventory.getStackInSlot(slot), 0.0f, 0.0f, 0.0f));
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(oldSlot));
+                    pearlTicks = 1;
+                    oldSlot = mc.thePlayer.inventory.currentItem;
                 }
             }
         }
