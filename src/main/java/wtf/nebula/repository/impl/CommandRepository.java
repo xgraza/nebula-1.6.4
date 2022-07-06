@@ -4,6 +4,7 @@ import me.bush.eventbus.annotation.EventListener;
 import me.bush.eventbus.annotation.ListenerPriority;
 import net.minecraft.src.Packet3Chat;
 import wtf.nebula.event.PacketEvent;
+import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.command.Command;
 import wtf.nebula.impl.command.impl.*;
 import wtf.nebula.repository.BaseRepository;
@@ -21,6 +22,7 @@ public class CommandRepository extends BaseRepository<Command> {
     public final Map<String, Command> commandByTrigger = new HashMap<>();
 
     private String prefix = "+";
+    private boolean introduction = false;
 
     @Override
     public void init() {
@@ -43,6 +45,7 @@ public class CommandRepository extends BaseRepository<Command> {
 
         if (!Files.exists(FileUtil.COMMAND_PREFIX)) {
             save(prefix);
+            introduction = true;
         }
 
         else {
@@ -68,6 +71,14 @@ public class CommandRepository extends BaseRepository<Command> {
                 event.setCancelled(true);
                 handle(packet.message);
             }
+        }
+    }
+
+    @EventListener
+    public void onTick(TickEvent event) {
+        if (introduction) {
+            introduction = false;
+            sendChatMessage("Hey there! You seem to be launching the client for the first time. Your command prefix is " + prefix + ". You can open the ClickGUI by pressing right shift on your keyboard! Happy hacking");
         }
     }
 
