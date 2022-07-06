@@ -143,6 +143,7 @@ public class Nametags extends Module {
         glDisable(GL_ALPHA_TEST);
         glDisable(GL_LIGHTING);
 
+        glEnable(GL_TEXTURE_2D);
         renderEnchantments(stack, x, -26);
 
         glEnable(GL_LIGHTING);
