@@ -25,12 +25,17 @@ public class FriendRepository extends BaseRepository<String> {
         }
 
         else {
-            String[] friends = new Gson().fromJson(FileUtil.read(FRIENDS), String[].class);
-            for (String fren : friends) {
-                addChild(fren);
-            }
 
-            log.logInfo("Added " + children.size() + " friend(s).");
+            try {
+                String[] friends = new Gson().fromJson(FileUtil.read(FRIENDS), String[].class);
+                for (String fren : friends) {
+                    addChild(fren);
+                }
+
+                log.logInfo("Added " + children.size() + " friend(s).");
+            } catch (Exception e) {
+                log.logSevere("An error occurred when parsing the friends.json file. Please make sure to not make any external edits.");
+            }
         }
     }
 
