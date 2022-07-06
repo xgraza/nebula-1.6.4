@@ -59,6 +59,8 @@ public class Nebula {
             CommandRepository.save(CommandRepository.get().getPrefix());
             XRay.save();
         }, "Shutdown-Save-Thread"));
+
+        log.logInfo("Aesthetical owns you!");
     }
 
     private static void setupLogger() {
