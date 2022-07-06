@@ -21,8 +21,13 @@ public class WaypointRepository extends BaseRepository<Waypoint> {
 
     @Override
     public void init() {
-        load();
-        log.logInfo("Loaded " + serverWaypoints.size() + " server waypoints with a total of " + children.size() + " waypoints.");
+        try {
+            load();
+            log.logInfo("Loaded " + serverWaypoints.size() + " server waypoints with a total of " + children.size() + " waypoints.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.logSevere("An error occurred when parsing the waypoints.json file. Please make sure to not make any external edits.");
+        }
     }
 
     @Override

@@ -34,6 +34,7 @@ public class FriendRepository extends BaseRepository<String> {
 
                 log.logInfo("Added " + children.size() + " friend(s).");
             } catch (Exception e) {
+                e.printStackTrace();
                 log.logSevere("An error occurred when parsing the friends.json file. Please make sure to not make any external edits.");
             }
         }

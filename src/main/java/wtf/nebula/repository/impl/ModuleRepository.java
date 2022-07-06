@@ -107,7 +107,13 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new ThunderHack());
 
         log.logInfo("Loaded " + children.size() + " modules. Loading configurations.");
-        load();
+
+        try {
+            load();
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.logSevere("An error occurred when parsing the module configurations. Please make sure to not make any external edits.");
+        }
     }
 
     @Override

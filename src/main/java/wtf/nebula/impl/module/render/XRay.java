@@ -51,7 +51,7 @@ public class XRay extends Module {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Nebula.log.logWarning("An exception occured trying to read Xray blocks, fallback to default...");
+                    Nebula.log.logWarning("An exception occurred trying to read Xray blocks, fallback to default...");
                 }
             }
         }
