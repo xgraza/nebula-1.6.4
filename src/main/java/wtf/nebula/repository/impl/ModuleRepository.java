@@ -48,7 +48,6 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new AutoLog());
         addChild(new BowRelease());
         addChild(new Criticals());
-        addChild(new FastProjectile());
         addChild(new KillAura());
         addChild(new TargetStrafe());
         addChild(new WTap());
