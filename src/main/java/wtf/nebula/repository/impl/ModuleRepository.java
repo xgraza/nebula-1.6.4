@@ -84,6 +84,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Fullbright());
         addChild(new HUD());
         addChild(new Nametags());
+        addChild(new NegativeViewer());
         addChild(new NewChunks());
         addChild(new NoDynamicFoV());
         addChild(new NoOverlay());

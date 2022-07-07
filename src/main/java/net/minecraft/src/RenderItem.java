@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import wtf.nebula.impl.module.render.NegativeViewer;
+import wtf.nebula.repository.impl.ModuleRepository;
 
 public class RenderItem extends Render
 {
@@ -493,9 +495,15 @@ public class RenderItem extends Render
     {
         if (par3ItemStack != null)
         {
-            if (par3ItemStack.stackSize != 1 || par6Str != null)
+            boolean y = ModuleRepository.get().isToggled(NegativeViewer.class);
+
+            if (y ? par3ItemStack.stackSize != 1 : par3ItemStack.stackSize > 1 || par6Str != null)
             {
                 String var7 = par6Str == null ? String.valueOf(par3ItemStack.stackSize) : par6Str;
+                if (ModuleRepository.get().getModule(NegativeViewer.class).simple.getValue() && par3ItemStack.stackSize < 0) {
+                    var7 = "-";
+                }
+
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
                 par1FontRenderer.drawStringWithShadow(var7, par4 + 19 - 2 - par1FontRenderer.getStringWidth(var7), par5 + 6 + 3, 16777215);
