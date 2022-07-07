@@ -57,6 +57,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new AutoReconnect());
         addChild(new AutoRespawn());
         addChild(new ChatModifier());
+        addChild(new IRC());
         addChild(new MiddleClick());
         addChild(new Notifications());
         addChild(new Spammer());

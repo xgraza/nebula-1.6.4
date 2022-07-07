@@ -20,6 +20,12 @@ public interface Globals {
             EnumChatFormatting.GRAY + ">" +
             EnumChatFormatting.RESET + " ";
 
+    // the irc client message prefix
+    String IRC_PREFIX = EnumChatFormatting.GRAY + "<" +
+            EnumChatFormatting.RED + "IRC" +
+            EnumChatFormatting.GRAY + ">" +
+            EnumChatFormatting.RESET + " ";
+
     /**
      * Checks if necessities needed by the client for modules are null
      * @return if they are null
@@ -43,5 +49,11 @@ public interface Globals {
      */
     default void sendChatMessage(int id, String msg) {
         mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(PREFIX + msg, id);
+    }
+
+    default void sendIRCMessage(String message) {
+        if (!nullCheck()) {
+            mc.ingameGUI.getChatGUI().printChatMessage(IRC_PREFIX + message);
+        }
     }
 }

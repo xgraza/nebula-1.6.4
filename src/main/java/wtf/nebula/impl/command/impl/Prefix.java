@@ -19,8 +19,14 @@ public class Prefix extends Command {
             return;
         }
 
+        String prefix = args.get(0).toLowerCase();
+        if (prefix.equals("@")) {
+            sendChatMessage("You cannot use that prefix. That is the IRC prefix.");
+            return;
+        }
+
         // if youre retarded and set ur prefix to "fhakgjfhakjfhkhkjhak" that not my problem if you forget it lol
-        CommandRepository.get().setPrefix(args.get(0).toLowerCase());
-        sendChatMessage("Set prefix to " + EnumChatFormatting.GREEN + args.get(0));
+        CommandRepository.get().setPrefix(prefix);
+        sendChatMessage("Set prefix to " + EnumChatFormatting.GREEN + prefix);
     }
 }
