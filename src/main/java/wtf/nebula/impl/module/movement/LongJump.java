@@ -8,6 +8,7 @@ import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
+import wtf.nebula.impl.value.Value;
 import wtf.nebula.repository.impl.ModuleRepository;
 import wtf.nebula.util.world.player.MotionUtil;
 import wtf.nebula.util.world.player.PlayerUtil;
@@ -28,6 +29,8 @@ public class LongJump extends Module {
     public LongJump() {
         super("LongJump", ModuleCategory.MOVEMENT);
     }
+
+    public final Value<Boolean> glide = new Value<>("Glide", true);
 
     private int airTicks;
     private int groundTicks;
@@ -105,6 +108,14 @@ public class LongJump extends Module {
 
             if (mc.thePlayer.motionY < -0.8D && mc.thePlayer.motionY > -1.6D) {
                 mc.thePlayer.motionY *= 0.99D;
+            }
+
+            if (glide.getValue()) {
+                if (!mc.theWorld.getCollidingBlockBounds(mc.thePlayer.boundingBox.instantCopy().offset(0, -0.4, 0)).isEmpty() &&
+                        !mc.theWorld.getCollidingBlockBounds(mc.thePlayer.boundingBox.instantCopy().offset(0, mc.thePlayer.motionY, 0)).isEmpty()) {
+
+                    mc.thePlayer.motionY = -0.001;
+                }
             }
 
             mc.timer.timerSpeed = 0.8f;
