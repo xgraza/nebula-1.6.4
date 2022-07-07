@@ -30,7 +30,7 @@ public class LongJump extends Module {
         super("LongJump", ModuleCategory.MOVEMENT);
     }
 
-    public final Value<Boolean> glide = new Value<>("Glide", true);
+    public final Value<Boolean> glide = new Value<>("Glide", false);
 
     private int airTicks;
     private int groundTicks;

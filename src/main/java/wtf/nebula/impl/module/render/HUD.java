@@ -35,8 +35,10 @@ public class HUD extends Module {
         elements.add(new Arraylist(this));
     }
 
+    public final Value<Mode> mode = new Value<>("Mode", Mode.OLD);
+
     public final Value<Boolean> watermark = new Value<>("Watermark", true);
-    public final Value<ArraylistMode> arrayList = new Value<>("ArrayList", ArraylistMode.OLD);
+    public final Value<Boolean> arrayList = new Value<>("ArrayList", true);
 
     public final Value<Boolean> rainbow = new Value<>("Rainbow", false);
 
@@ -55,67 +57,81 @@ public class HUD extends Module {
 
         glPushMatrix();
 
-        // elements.forEach((element) -> element.onRender(event.getResolution()));
-
-        // watermark
-        mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.LIGHT_PURPLE + Nebula.NAME + " v" + Nebula.VERSION, 2, 2, -1);
-
-        // active modules
-        double y = mc.fontRenderer.FONT_HEIGHT + 4.0;
-
-        for (Module module : ModuleRepository.get().getChildren()) {
-            if (!module.getState() || !module.drawn.getValue()) {
-                continue;
-            }
-
-            mc.fontRenderer.drawStringWithShadow(">" + module.getName(), 4, (int) y, -1);
-            y += mc.fontRenderer.FONT_HEIGHT + 2.0;
+        if (mode.getValue().equals(Mode.NEW)) {
+            elements.forEach((element) -> element.onRender(event.getResolution()));
         }
 
-        // coordinates
-        y = event.getResolution().getScaledHeight() - mc.fontRenderer.FONT_HEIGHT - 2;
-        if (mc.currentScreen instanceof GuiChat) {
-            y -= 14.0;
-        }
+        else {
 
-        mc.fontRenderer.drawStringWithShadow(
-                EnumChatFormatting.GRAY + "XYZ: " + EnumChatFormatting.RESET
-                        + String.format("%.1f", mc.thePlayer.posX) + ", "
-                        + String.format("%.1f", mc.thePlayer.boundingBox.minY) + ", "
-                        + String.format("%.1f", mc.thePlayer.posZ),
-                2, (int) y, -1);
+            // watermark
+            mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.LIGHT_PURPLE + Nebula.NAME + " v" + Nebula.VERSION, 2, 2, -1);
 
-        // speed and other counter shit
+            // active modules
+            double y = mc.fontRenderer.FONT_HEIGHT + 4.0;
 
-        String str = EnumChatFormatting.GRAY + "Speed: " + EnumChatFormatting.RESET + getSpeedFormatted();
-        mc.fontRenderer.drawStringWithShadow(str,
-                event.getResolution().getScaledWidth() - mc.fontRenderer.getStringWidth(str) - 2,
-                (int) y,
-                -1);
+            for (Module module : ModuleRepository.get().getChildren()) {
+                if (!module.getState() || !module.drawn.getValue()) {
+                    continue;
+                }
 
-        // armor hud
-        ScaledResolution resolution = event.getResolution();
-        for (int i = 0; i < 4; ++i) {
-            ItemStack stack = mc.thePlayer.inventory.armorInventory[i];
-            if (stack == null || stack.getItem() == null) {
-                continue;
+                mc.fontRenderer.drawStringWithShadow(">" + module.getName(), 4, (int) y, -1);
+                y += mc.fontRenderer.FONT_HEIGHT + 2.0;
             }
 
-            double x = (resolution.getScaledWidth() / 2.0) + ((9 - i) * 16) - 80.0;
-            double y1 = resolution.getScaledHeight() - 55.0;
+            // coordinates
+            y = event.getResolution().getScaledHeight() - mc.fontRenderer.FONT_HEIGHT - 2;
+            if (mc.currentScreen instanceof GuiChat) {
+                y -= 14.0;
+            }
 
-            glPushMatrix();
+            mc.fontRenderer.drawStringWithShadow(
+                    EnumChatFormatting.GRAY + "XYZ: " + EnumChatFormatting.RESET
+                            + String.format("%.1f", mc.thePlayer.posX) + ", "
+                            + String.format("%.1f", mc.thePlayer.boundingBox.minY) + ", "
+                            + String.format("%.1f", mc.thePlayer.posZ),
+                    2, (int) y, -1);
 
-            RenderHelper.enableGUIStandardItemLighting();
+            // speed and other counter shit
 
-            RenderItem renderItem = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
+            String str = EnumChatFormatting.GRAY + "Speed: " + EnumChatFormatting.RESET + getSpeedFormatted();
+            mc.fontRenderer.drawStringWithShadow(str,
+                    event.getResolution().getScaledWidth() - mc.fontRenderer.getStringWidth(str) - 2,
+                    (int) y,
+                    -1);
 
-            renderItem.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, (int) x, (int) y1);
-            renderItem.renderItemOverlayIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, (int) x, (int) y1);
+            y -= (mc.fontRenderer.FONT_HEIGHT + 2);
 
-            RenderHelper.disableStandardItemLighting();
+            str = EnumChatFormatting.GRAY + "FPS: " + EnumChatFormatting.RESET + Minecraft.debugFPS;
+            mc.fontRenderer.drawStringWithShadow(str,
+                    event.getResolution().getScaledWidth() - mc.fontRenderer.getStringWidth(str) - 2,
+                    (int) y,
+                    -1);
 
-            glPopMatrix();
+
+            // armor hud
+            ScaledResolution resolution = event.getResolution();
+            for (int i = 0; i < 4; ++i) {
+                ItemStack stack = mc.thePlayer.inventory.armorInventory[i];
+                if (stack == null || stack.getItem() == null) {
+                    continue;
+                }
+
+                double x = (resolution.getScaledWidth() / 2.0) + ((9 - i) * 16) - 80.0;
+                double y1 = resolution.getScaledHeight() - 55.0;
+
+                glPushMatrix();
+
+                RenderHelper.enableGUIStandardItemLighting();
+
+                RenderItem renderItem = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
+
+                renderItem.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, (int) x, (int) y1);
+                renderItem.renderItemOverlayIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, (int) x, (int) y1);
+
+                RenderHelper.disableStandardItemLighting();
+
+                glPopMatrix();
+            }
         }
 
         glPopMatrix();
@@ -141,7 +157,7 @@ public class HUD extends Module {
         return -1;
     }
 
-    public enum ArraylistMode {
-        OFF, NEW, OLD
+    public enum Mode {
+        NEW, OLD
     }
 }
