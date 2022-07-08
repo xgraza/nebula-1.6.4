@@ -75,7 +75,7 @@ public class MotionUpdateEvent extends Event {
 
     @Override
     protected boolean isCancellable() {
-        return false;
+        return true;
     }
 
     public enum Era {

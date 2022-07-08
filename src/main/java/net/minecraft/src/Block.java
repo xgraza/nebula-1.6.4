@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import wtf.nebula.Nebula;
+import wtf.nebula.event.AddBoundingBoxEvent;
 import wtf.nebula.impl.module.render.XRay;
 import wtf.nebula.repository.impl.ModuleRepository;
 
@@ -529,10 +531,10 @@ public class Block
     {
         AxisAlignedBB var8 = this.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
 
-//        AddBoundingBoxEvent event = new AddBoundingBoxEvent(var8, this, par7Entity);
-//        if (Nebula.BUS.post(event)) {
-//            var8 = event.getAxisAlignedBB();
-//        }
+        AddBoundingBoxEvent event = new AddBoundingBoxEvent(var8, par2, par3, par4,this, par7Entity);
+        if (Nebula.BUS.post(event)) {
+            var8 = event.getBox();
+        }
 
         if (var8 != null && par5AxisAlignedBB.intersectsWith(var8))
         {

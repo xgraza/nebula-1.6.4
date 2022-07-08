@@ -65,6 +65,7 @@ public class ModuleRepository extends BaseRepository<Module> {
 
         // movement modules
         addChild(new AutoWalk());
+        addChild(new Flight());
         addChild(new IceSpeed());
         addChild(new InventoryMove());
         addChild(new Jesus());
@@ -74,7 +75,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Safewalk());
         addChild(new Speed());
         addChild(new Sprint());
-        // addChild(new Step());
+        addChild(new Step());
         addChild(new Velocity());
 
         // render modules

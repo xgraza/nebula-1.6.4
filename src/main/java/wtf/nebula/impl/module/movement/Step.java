@@ -16,7 +16,7 @@ public class Step extends Module {
         put(.75, new double[] { .42, .75, .654 });
         put(.8125, new double[] { .42, .75, .654 });
         put(.875, new double[] { .39, .7, .875 });
-        put(1.0, new double[] { .42, .75 });
+        put(1.0, new double[] { .42, .753 });
         put(1.5, new double[] { .42, .75, 1.0, 1.16, 1.23, 1.2 });
         put(2.0, new double[] { .42, .78, .51, .9, 1.21, 1.45, 1.43 });
         put(2.5, new double[] { .425, .821, .699, .599, 1.022, 1.372, 1.652, 1.869, 2.019, 1.907 });
@@ -60,30 +60,23 @@ public class Step extends Module {
         }
 
         double[] positions = NCP.getOrDefault(stepHeight, null);
-        if (positions == null || positions.length == 0) {
+        if (positions == null) {
             return;
         }
 
         timer = true;
         mc.timer.timerSpeed = 1.0f / (positions.length + 1.0f);
 
+        double minY = event.getBox().minY - 1.0;
+        double stance = minY + (double) mc.thePlayer.yOffset - mc.thePlayer.ySize;
+
         for (double i : positions) {
-
-            double minY = event.getBox().minY - 1.0;
-            //double stance = minY + 1.620;
-            double stance = minY + (double) mc.thePlayer.yOffset - mc.thePlayer.ySize;
-
-            Packet11PlayerPosition packet = new Packet11PlayerPosition(
+            mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
                     mc.thePlayer.posX,
                     minY + i,
                     stance + i,
                     mc.thePlayer.posZ,
-                    false);
-
-            // this.boundingBox.minY + (double)this.yOffset - (double)this.ySize;
-            mc.thePlayer.sendQueue.addToSendQueueSilent(packet);
-
-            sendChatMessage("Y: " + packet.yPosition + ", Stance: " + packet.stance);
+                    false));
         }
     }
 }

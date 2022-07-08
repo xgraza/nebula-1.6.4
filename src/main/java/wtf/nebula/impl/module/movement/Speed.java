@@ -208,9 +208,11 @@ public class Speed extends Module {
             }
 
             else {
-                packet.yPosition += 0.198;
-                packet.stance += 0.198;
-                packet.onGround = false;
+                if (mc.thePlayer.ticksExisted % 2 == 0) {
+                    packet.yPosition += 0.3993000090122223;
+                    packet.stance += 0.3993000090122223;
+                    packet.onGround = false;
+                }
             }
         }
     }

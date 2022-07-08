@@ -73,7 +73,9 @@ public class EntityClientPlayerMP extends EntityPlayerSP
      */
     public void sendMotionUpdates()
     {
-        Nebula.BUS.post(new MotionUpdateEvent(Era.PRE));
+        if (Nebula.BUS.post(new MotionUpdateEvent(Era.PRE))) {
+            return;
+        }
 
         boolean var1 = this.isSprinting();
 
