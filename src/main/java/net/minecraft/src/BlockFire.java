@@ -1,5 +1,9 @@
 package net.minecraft.src;
 
+import wtf.nebula.impl.module.world.Avoid;
+import wtf.nebula.repository.impl.ModuleRepository;
+import wtf.nebula.util.Globals;
+
 import java.util.Random;
 
 public class BlockFire extends Block
@@ -62,6 +66,11 @@ public class BlockFire extends Block
      */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
+        Avoid avoid = ModuleRepository.get().getModule(Avoid.class);
+        if (avoid.getState() && avoid.fire.getValue()) {
+            return new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0).offset(par2, par3, par4);
+        }
+
         return null;
     }
 

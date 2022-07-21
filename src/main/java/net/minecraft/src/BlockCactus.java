@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import wtf.nebula.impl.module.world.Avoid;
+import wtf.nebula.repository.impl.ModuleRepository;
+
 import java.util.Random;
 
 public class BlockCactus extends Block
@@ -61,6 +64,11 @@ public class BlockCactus extends Block
      */
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
+        Avoid avoid = ModuleRepository.get().getModule(Avoid.class);
+        if (avoid.getState() && avoid.cacti.getValue()) {
+            return new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0).offset(par2, par3, par4);
+        }
+
         float var5 = 0.0625F;
         return AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + var5), (double)par3, (double)((float)par4 + var5), (double)((float)(par2 + 1) - var5), (double)(par3 + 1), (double)((float)(par4 + 1) - var5));
     }
