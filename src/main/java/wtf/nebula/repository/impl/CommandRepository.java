@@ -28,6 +28,7 @@ public class CommandRepository extends BaseRepository<Command> {
     public void init() {
         addChild(new Bind());
         addChild(new BookBot());
+        addChild(new FakePlayer());
         addChild(new Friend());
         addChild(new Github());
         addChild(new Help());
@@ -37,6 +38,7 @@ public class CommandRepository extends BaseRepository<Command> {
         addChild(new Spawn());
         addChild(new Throw());
         addChild(new Toggle());
+        addChild(new VClip());
         addChild(new Waypoints());
         addChild(new Write());
         addChild(new Xray());

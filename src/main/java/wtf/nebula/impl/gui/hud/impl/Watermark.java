@@ -10,8 +10,8 @@ public class Watermark extends HUDElement {
     public Watermark(HUD hud) {
         super(hud, "Watermark");
 
-        x = 2;
-        y = 2;
+        x = 4;
+        y = 4;
     }
 
     @Override

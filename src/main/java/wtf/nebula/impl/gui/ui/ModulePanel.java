@@ -9,7 +9,6 @@ import java.awt.*;
 import java.util.List;
 
 public class ModulePanel extends DraggableComponent {
-    private boolean settingsOpened = false;
 
     public ModulePanel(double x, String name, List<Module> modules) {
         super(name);
@@ -27,6 +26,12 @@ public class ModulePanel extends DraggableComponent {
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
+
+        if (!Mouse.isButtonDown(0) && isDragging()) {
+            setDragging(false);
+        }
+
+        updatePositioning(mouseX, mouseY);
 
         if (isMouseWithinBounds(mouseX, mouseY, x, y, width, totalCompHeight() + 1.0)) {
             int scroll = Mouse.getDWheel();
@@ -100,7 +105,8 @@ public class ModulePanel extends DraggableComponent {
             else {
 
                 if (isInBounds(mouseX, mouseY)) {
-                    settingsOpened = !settingsOpened;
+                    setDragging(true);
+                    updateDragging(mouseX, mouseY);
                 }
             }
         }
@@ -112,6 +118,10 @@ public class ModulePanel extends DraggableComponent {
 
     @Override
     public void mouseRelease(int mouseX, int mouseY, int state) {
+        if (getState() && state == 0 && isDragging()) {
+            setDragging(false);
+        }
+
         if (getState()) {
             children.forEach((child) -> child.mouseRelease(mouseX, mouseY, state));
         }

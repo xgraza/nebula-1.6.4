@@ -113,10 +113,19 @@ public class Speed extends Module {
             double[] strafe = null;
 
             TargetStrafe targetStrafe = ModuleRepository.get().getModule(TargetStrafe.class);
+            KillAura killAura = ModuleRepository.get().getModule(KillAura.class);
+
             if (targetStrafe.getState()) {
-                KillAura killAura = ModuleRepository.get().getModule(KillAura.class);
                 if (killAura.target != null && killAura.target.getDistanceSqToEntity(mc.thePlayer) < targetStrafe.range.getValue() * targetStrafe.range.getValue()) {
                     strafe = MotionUtil.strafe(moveSpeed, MathUtil.calcYawTo(killAura.target));
+                }
+            } else {
+                Chase chase = ModuleRepository.get().getModule(Chase.class);
+                if (chase.getState() && killAura.target != null) {
+                    double range = mc.thePlayer.getDistanceSqToEntity(killAura.target);
+                    if (range > chase.range.getValue() * chase.range.getValue()) {
+                        strafe = MotionUtil.strafe(moveSpeed, MathUtil.calcYawTo(killAura.target));
+                    }
                 }
             }
 

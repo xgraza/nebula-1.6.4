@@ -26,6 +26,7 @@ public class Criticals extends Module {
     public final Value<Mode> mode = new Value<>("Mode", Mode.PACKET);
     public final Value<Integer> delay = new Value<>("Delay", 200, 0, 1000);
     public final Value<Boolean> stopSprint = new Value<>("StopSprint", false);
+    public final Value<Integer> particles = new Value<>("Particles", 1, 0, 10);
 
     private double lastCrit = 0L;
     private boolean attacked = false;
@@ -69,6 +70,10 @@ public class Criticals extends Module {
                     mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 5));
                 }
 
+                for (int i = 0; i < particles.getValue(); ++i) {
+                    mc.thePlayer.onCriticalHit(mc.theWorld.getEntityByID(packet.targetEntity));
+                }
+
                 if (mode.getValue().equals(Mode.PACKET)) {
 
                     for (double[] offsets : CRITICALS) {
@@ -108,6 +113,11 @@ public class Criticals extends Module {
             Packet10Flying packet = event.getPacket();
 
             if (attacked) {
+                if (!mc.thePlayer.onGround) {
+                    attacked = false;
+                    return;
+                }
+
                 if (modifyStage >= CRITICALS.length) {
                     lastCrit = System.currentTimeMillis();
                     attacked = false;

@@ -44,11 +44,14 @@ public class ModuleRepository extends BaseRepository<Module> {
 
         // combat moudles
         addChild(new AutoArmor());
+        // addChild(new AutoBed());
         addChild(new AutoGG());
         addChild(new AutoLog());
+        addChild(new AutoPot());
         addChild(new BowRelease());
         addChild(new Criticals());
         addChild(new KillAura());
+        addChild(new OneHitVehicle());
         addChild(new TargetStrafe());
         addChild(new WTap());
 
@@ -65,6 +68,8 @@ public class ModuleRepository extends BaseRepository<Module> {
 
         // movement modules
         addChild(new AutoWalk());
+        addChild(new Chase());
+        addChild(new FastSwim());
         addChild(new Flight());
         addChild(new IceSpeed());
         addChild(new InventoryMove());
@@ -75,7 +80,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Safewalk());
         addChild(new Speed());
         addChild(new Sprint());
-        addChild(new Step());
+        // addChild(new Step());
         addChild(new Velocity());
 
         // render modules

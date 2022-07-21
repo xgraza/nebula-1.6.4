@@ -24,7 +24,14 @@ public class KillAura extends Module {
     public final Value<Integer> minCps = new Value<>("MinCPS", 12, 1, 20);
     public final Value<Integer> maxCps = new Value<>("MaxCPS", 16, 1, 20);
 
+    public final Value<Boolean> onlySword = new Value<>("OnlySword", true);
     public final Value<Boolean> autoBlock = new Value<>("AutoBlock", true);
+
+    // entities
+    public final Value<Boolean> players = new Value<>("Players", true);
+    public final Value<Boolean> animals = new Value<>("Animals", true);
+    public final Value<Boolean> tamed = new Value<>("Tamed", false);
+    public final Value<Boolean> mobs = new Value<>("Mobs", true);
 
     private long lastAttack = 0L;
     private boolean blocking = false;
@@ -66,6 +73,27 @@ public class KillAura extends Module {
                     continue;
                 }
 
+                if (!players.getValue() && base instanceof EntityPlayer) {
+                    continue;
+                }
+
+                if (animals.getValue()) {
+                    if (!tamed.getValue() && base instanceof EntityTameable) {
+                        EntityTameable animal = (EntityTameable) base;
+                        if (animal.isTamed()) {
+                            continue;
+                        }
+                    }
+                } else {
+                    if (base instanceof EntityAnimal || base instanceof EntityAmbientCreature || base instanceof EntityWaterMob) {
+                        continue;
+                    }
+                }
+
+                if (!mobs.getValue() && base instanceof EntityMob) {
+                    continue;
+                }
+
                 // do not target friends
                 if (base instanceof EntityPlayer && FriendRepository.get().isFriend((EntityPlayer) base)) {
                     continue;
@@ -101,6 +129,10 @@ public class KillAura extends Module {
         }
 
         boolean holdingSword = mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword;
+        if (onlySword.getValue() && !holdingSword) {
+            return;
+        }
+
         if (holdingSword && autoBlock.getValue()) {
             if (event.getEra().equals(Era.PRE)) {
                 blocking = false;

@@ -38,10 +38,12 @@ public class Velocity extends Module {
             // the explosion packet
             Packet60Explosion packet = event.getPacket();
 
-            // decrease our velocity to 0
-            packet.playerVelocityX = 0.0f;
-            packet.playerVelocityY = 0.0f;
-            packet.playerVelocityZ = 0.0f;
+            event.setCancelled(true);
+
+//            // decrease our velocity to 0
+//            packet.playerVelocityX = 0.0f;
+//            packet.playerVelocityY = 0.0f;
+//            packet.playerVelocityZ = 0.0f;
         }
     }
 }

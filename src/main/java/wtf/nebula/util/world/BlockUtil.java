@@ -42,6 +42,22 @@ public class BlockUtil implements Globals {
         return mc.theWorld.getBlockMaterial((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord).isReplaceable();
     }
 
+    public static EnumFacing hasPlaceableSide(Vec3 vec) {
+        if (vec == null) {
+            return null;
+        }
+
+        for (EnumFacing facing : EnumFacing.values()) {
+            Vec3 n = vec.offset(facing);
+
+            if (!isReplaceable(n)) {
+                return facing;
+            }
+        }
+
+        return null;
+    }
+
     public static boolean placeBlock(Vec3 pos, boolean swing, int slot) {
         for (EnumFacing facing : EnumFacing.values()) {
 
@@ -56,6 +72,8 @@ public class BlockUtil implements Globals {
                 mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 1));
             }
 
+            int side = facing.order_b;
+
             int x = (int) neighbor.xCoord;
             int y = (int) neighbor.yCoord;
             int z = (int) neighbor.zCoord;
@@ -65,8 +83,8 @@ public class BlockUtil implements Globals {
                     mc.theWorld,
                     mc.thePlayer.inventory.getStackInSlot(slot),
                     x, y, z,
-                    facing.order_b,
-                    new Vec3(Vec3.fakePool, x, y, z))) {
+                    side,
+                    pos.addVector(0.5, 0.0, 0.5))) {
 
                 if (swing) {
                     mc.thePlayer.swingItem();

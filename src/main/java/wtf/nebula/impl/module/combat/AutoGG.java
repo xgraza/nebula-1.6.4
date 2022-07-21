@@ -56,21 +56,25 @@ public class AutoGG extends Module {
     public void onDeath(DeathEvent event) {
         if (event.getPlayer().equals(target)) {
 
-            String message = "gg %player%!";
             try {
-                message = messages.get(MathUtil.RNG.nextInt(messages.size() - 1));
-            } catch (IndexOutOfBoundsException ignored) {
+                String message = "gg %player%!";
+                try {
+                    message = messages.get(MathUtil.RNG.nextInt(messages.size() - 1));
+                } catch (IndexOutOfBoundsException ignored) {
 
+                }
+
+                if (message == null) {
+                    message = "gg %player%!";
+                }
+
+                message = message.replaceAll("%player%", event.getPlayer().getEntityName());
+                mc.thePlayer.sendQueue.addToSendQueue(new Packet3Chat(message));
+
+                target = null;
+            } catch (Exception ignored) {
+                // LOL nice code gavin
             }
-
-            if (message == null) {
-                message = "gg %player%!";
-            }
-
-            message = message.replaceAll("%player%", event.getPlayer().getEntityName());
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet3Chat(message));
-
-            target = null;
         }
     }
 }

@@ -21,6 +21,8 @@ public enum EnumFacing
     /** List of all values in EnumFacing. Order is D-U-N-S-E-W. */
     public static final EnumFacing[] faceList = new EnumFacing[6];
 
+    public static final EnumFacing[] HORIZONTALS = { NORTH, SOUTH, EAST, WEST };
+
     private EnumFacing(int par3, int par4, int par5, int par6, int par7)
     {
         this.order_a = par3;
