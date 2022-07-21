@@ -26,6 +26,7 @@ public class PacketMine extends Module {
 
     public final Value<Boolean> autoSwitch = new Value<>("AutoSwitch", true);
     public final Value<Boolean> autoBreak = new Value<>("AutoBreak", true);
+    public final Value<Boolean> groundCheck = new Value<>("GroundCheck", true);
     public final Value<Boolean> render = new Value<>("Render", true);
 
     private int posX = -1;
@@ -108,13 +109,23 @@ public class PacketMine extends Module {
 
     @EventListener
     public void onClickBlock(ClickBlockEvent event) {
+
+        // i like the block hit the ground while walking so this is a fix to something annoying
+        if (mc.thePlayer.isBlocking()) {
+            return;
+        }
+
+        if (mc.playerController.currentGameType.equals(EnumGameType.CREATIVE)) {
+            return;
+        }
+
         int x = event.getX();
         int y = event.getY();
         int z = event.getZ();
 
         Vec3 v = new Vec3(Vec3.fakePool, x, y, z);
 
-        // block is unbreakable (hardness is -1)
+        // block is unbreakable (hardness is -1) examples are bedrock, command blocks, etc
         Block block = BlockUtil.getBlockFromVec(v);
         if (block != null && block.getBlockHardness(mc.theWorld, x, y, z) == -1) {
             return;
@@ -179,6 +190,10 @@ public class PacketMine extends Module {
         if (event.getPacket() instanceof Packet16BlockItemSwitch && event.getEra().equals(Era.PRE) && swapped) {
             event.setCancelled(true);
         }
+
+        if (event.getPacket() instanceof Packet10Flying && !groundCheck.getValue()) {
+            ((Packet10Flying) event.getPacket()).onGround = true;
+        }
     }
 
     private void syncItem() {
@@ -188,7 +203,7 @@ public class PacketMine extends Module {
         }
     }
 
-    public static double getDestroySpeed(Vec3 pos, int slot) {
+    public double getDestroySpeed(Vec3 pos, int slot) {
         ItemStack stack = mc.thePlayer.inventory.getStackInSlot(slot);
 
         Block at = BlockUtil.getBlockFromVec(pos);
@@ -228,7 +243,10 @@ public class PacketMine extends Module {
             }
         }
 
-        if ((mc.thePlayer.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(mc.thePlayer)) || !mc.thePlayer.onGround) {
+        if (
+                (mc.thePlayer.isInsideOfMaterial(Material.water)
+                        && !EnchantmentHelper.getAquaAffinityModifier(mc.thePlayer))
+                        || (!mc.thePlayer.onGround && groundCheck.getValue())) {
             multiplier /= 5.0;
         }
 
