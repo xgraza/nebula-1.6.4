@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  */
 public class Nebula {
     public static final String NAME = "Nebula";
-    public static final String VERSION = "1.3.0";
+    public static final String VERSION = "1.4.0";
     public static final String TAG = "rel"; // rel, beta, dev, rc(INT)
 
     public static LogAgent log;
@@ -48,7 +48,8 @@ public class Nebula {
         Repositories.add(new FriendRepository());
         Repositories.add(new WaypointRepository());
 
-        log.logInfo("Loaded client, henlo!!!!?!?!");
+        log.logInfo("Entering aestheti-botnet...");
+        log.logInfo("Loaded client.");
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             log.logInfo("Saving repository states...");
@@ -58,6 +59,8 @@ public class Nebula {
             WaypointRepository.get().save();
             CommandRepository.save(CommandRepository.get().getPrefix());
             XRay.save();
+
+            log.logInfo("Aesthetical owns you!");
         }, "Shutdown-Save-Thread"));
 
         log.logInfo("Aesthetical owns you!");
