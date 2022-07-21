@@ -182,6 +182,9 @@ public class GuiMainMenu extends GuiScreen
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, var3 + 72 + 12, 98, 20, I18n.getString("menu.options")));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, var3 + 72 + 12, 98, 20, I18n.getString("menu.quit")));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, var3 + 72 + 12));
+
+        buttonList.add(new GuiButton(69420, width / 2 - 200, var3 + 72 + 12, 75, 20, "Join alfheim.pw"));
+
         Object var4 = this.field_104025_t;
 
         synchronized (this.field_104025_t)
@@ -249,6 +252,11 @@ public class GuiMainMenu extends GuiScreen
      */
     protected void actionPerformed(GuiButton par1GuiButton)
     {
+        if (par1GuiButton.id == 69420) {
+            mc.displayGuiScreen(new GuiConnecting(this, mc, new ServerData("Minecraft Server", "alfheim.pw")));
+            return;
+        }
+
         if (par1GuiButton.id == 0)
         {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));

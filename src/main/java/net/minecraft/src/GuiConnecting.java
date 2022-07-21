@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import wtf.nebula.event.PacketEvent.Send;
+
 public class GuiConnecting extends GuiScreen
 {
     /** A reference to the NetClientHandler. */
@@ -11,6 +13,8 @@ public class GuiConnecting extends GuiScreen
 
     public GuiConnecting(GuiScreen par1GuiScreen, Minecraft par2Minecraft, ServerData par3ServerData)
     {
+        System.out.println(par3ServerData.serverIP + " : " + par3ServerData.serverName);
+
         this.mc = par2Minecraft;
         this.field_98098_c = par1GuiScreen;
         ServerAddress var4 = ServerAddress.func_78860_a(par3ServerData.serverIP);
