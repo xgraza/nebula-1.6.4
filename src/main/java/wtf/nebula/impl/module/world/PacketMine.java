@@ -191,7 +191,7 @@ public class PacketMine extends Module {
             event.setCancelled(true);
         }
 
-        if (event.getPacket() instanceof Packet10Flying && !groundCheck.getValue()) {
+        if (event.getPacket() instanceof Packet10Flying && !groundCheck.getValue() && sent) {
             ((Packet10Flying) event.getPacket()).onGround = true;
         }
     }
