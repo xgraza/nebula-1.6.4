@@ -139,10 +139,23 @@ public class HUD extends Module {
 
     @EventListener
     public void onMotionUpdate(MotionUpdateEvent event) {
-        double diffX = mc.thePlayer.posX - mc.thePlayer.lastTickPosX;
-        double diffZ = mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ;
+        double diffX = 0.0;
+        double diffZ = 0.0;
 
-        speed = (Math.sqrt(diffX * diffX + diffZ * diffZ) / 1000) / (0.05 / 3600) * (mc.timer.timerSpeed);
+        if (mc.thePlayer.isRiding()) {
+            Entity ridingEntity = mc.thePlayer.ridingEntity;
+
+            diffX = ridingEntity.posX - ridingEntity.lastTickPosX;
+            diffZ = ridingEntity.posZ - ridingEntity.lastTickPosZ;
+        }
+
+        else {
+            diffX = mc.thePlayer.posX - mc.thePlayer.lastTickPosX;
+            diffZ = mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ;
+        }
+
+        speed = (Math.sqrt(diffX * diffX + diffZ * diffZ) / 1000) / (0.05 / 3600);
+        speed *= mc.timer.timerSpeed;
     }
 
     private String getSpeedFormatted() {
