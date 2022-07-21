@@ -42,8 +42,6 @@ public class FakePlayer extends Command {
                 return;
             }
 
-            mc.thePlayer.copyLocationAndAnglesFrom(entity);
-
             mc.theWorld.removePlayerEntityDangerously(entity);
             mc.theWorld.removeEntityFromWorld(fakePlayerId);
 
