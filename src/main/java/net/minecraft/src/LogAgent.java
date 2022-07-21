@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class LogAgent implements ILogAgent
 {
     private final Logger serverLogger;
-    private final String logFile;
+    public final String logFile;
     private final String loggerName;
     private final String loggerPrefix;
 

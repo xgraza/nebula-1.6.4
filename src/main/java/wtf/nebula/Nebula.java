@@ -19,6 +19,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
+import static wtf.nebula.util.Globals.mc;
+
 /**
  * The main class of the client
  *
@@ -67,18 +69,6 @@ public class Nebula {
     }
 
     private static void setupLogger() {
-
-        Path path = FileUtil.ROOT.resolve("nebula_logs");
-
-        // create logger folder
-        if (!Files.exists(path)) {
-            try {
-                Files.createDirectory(path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        log = new LogAgent("Nebula", " [Nebula]", path.toFile().getAbsolutePath());
+        log = new LogAgent("Client", " [Nebula]", ((LogAgent) mc.getLogAgent()).logFile);
     }
 }

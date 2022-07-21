@@ -27,7 +27,7 @@ public abstract class BaseRepository<T> implements Globals {
             Repository repo = getClass().getAnnotation(Repository.class);
 
             // create a logger
-            log = new LogAgent("Nebula", " [" + repo.value() + "]", FileUtil.ROOT.resolve("nebula_logs").toFile().getAbsolutePath());
+            log = new LogAgent("Nebula", " [" + repo.value() + "]", ((LogAgent) mc.getLogAgent()).logFile);
         }
     }
 
