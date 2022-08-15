@@ -707,9 +707,7 @@ public class NetClientHandler extends NetHandler
     }
 
     public void addToSendQueueSilent(Packet packet) {
-        if (!disconnected) {
-            this.netManager.addToSendQueue(packet);
-        }
+        this.netManager.addToSendQueue(packet);
     }
 
     public void handleCollect(Packet22Collect par1Packet22Collect)

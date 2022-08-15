@@ -30,7 +30,7 @@ import static wtf.nebula.util.Globals.mc;
 public class Nebula {
     public static final String NAME = "Nebula";
     public static final String VERSION = "1.4.0";
-    public static final String TAG = "rel"; // rel, beta, dev, rc(INT)
+    public static final String TAG = "dev"; // rel, beta, dev, rc(INT)
 
     public static LogAgent log;
     public static EventBus BUS;

@@ -20,10 +20,15 @@ public class Flight extends Module {
 
     @EventListener
     public void onMotion(MotionEvent event) {
-        double[] motion = MotionUtil.strafe(speed.getValue());
+        if (MotionUtil.isMoving()) {
+            double[] motion = MotionUtil.strafe(speed.getValue());
 
-        event.setX(motion[0]);
-        event.setZ(motion[1]);
+            event.setX(motion[0]);
+            event.setZ(motion[1]);
+        } else {
+            event.setX(0.0);
+            event.setZ(0.0);
+        }
 
         double motionY = 0.0;
 

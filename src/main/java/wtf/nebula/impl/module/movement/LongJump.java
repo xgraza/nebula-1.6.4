@@ -48,7 +48,7 @@ public class LongJump extends Module {
             return;
         }
 
-        float dir = MotionUtil.getMovement()[2];
+        float dir = MotionUtil.getMovementYaw(mc.thePlayer.rotationYaw);
 
         float xDir = (float) Math.cos((dir + 90.0f) * Math.PI / 180.0);
         float zDir = (float) Math.sin((dir + 90.0f) * Math.PI / 180.0);

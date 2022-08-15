@@ -27,7 +27,8 @@ public class BlockUtil implements Globals {
             Block.chest,
             Block.chestTrapped,
             Block.enderChest,
-            Block.lockedChest
+            Block.lockedChest,
+            Block.music
     );
 
     public static Block getBlockFromVec(Vec3 vec) {

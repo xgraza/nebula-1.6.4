@@ -59,6 +59,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new AutoReconnect());
         addChild(new AutoRespawn());
         addChild(new ChatModifier());
+        addChild(new ForceOP());
         addChild(new HotbarRefill());
         addChild(new IRC());
         addChild(new MiddleClick());
@@ -81,7 +82,7 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Safewalk());
         addChild(new Speed());
         addChild(new Sprint());
-        // addChild(new Step());
+        addChild(new Step());
         addChild(new Velocity());
 
         // render modules

@@ -16,6 +16,8 @@ import wtf.nebula.repository.impl.ModuleRepository;
 import wtf.nebula.util.MathUtil;
 import wtf.nebula.util.world.player.MotionUtil;
 
+import java.util.List;
+
 public class Speed extends Module {
     public Speed() {
         super("Speed", ModuleCategory.MOVEMENT);
@@ -71,18 +73,9 @@ public class Speed extends Module {
             else if (stage == 2) {
                 stage = 3;
 
-                mc.timer.timerSpeed = 1.0f;
-
                 if (mc.thePlayer.onGround && MotionUtil.isMoving()) {
                     mc.thePlayer.motionY = MotionUtil.getJumpHeight();
-
-                    if (timer.getValue()) {
-                        moveSpeed *= slow ? 1.3605 : 1.41;
-                    }
-
-                    else {
-                        moveSpeed *= slow ? 1.3605 : 1.705;
-                    }
+                    moveSpeed *= slow ? 1.562 : 1.41;
                 }
             }
 
@@ -170,10 +163,16 @@ public class Speed extends Module {
             if (mc.thePlayer.onGround) {
                 mc.thePlayer.jump();
                 moveSpeed *= slow ? 1.12 : 1.31;
+                mc.timer.timerSpeed = 1.0f;
             }
 
             else {
                 slow = !slow;
+
+                if (timer.getValue()) {
+                    mc.timer.timerSpeed = 1.088f;
+                }
+
                 mc.thePlayer.motionY = -1.0;
             }
 
@@ -239,6 +238,6 @@ public class Speed extends Module {
     }
 
     public enum Mode {
-        STRAFE, ONGROUND, YPORT
+        STRAFE, ONGROUND, YPORT, TEST
     }
 }
