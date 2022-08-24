@@ -1,8 +1,8 @@
 package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet10Flying;
-import net.minecraft.src.Packet13PlayerLookMove;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
@@ -15,8 +15,6 @@ import wtf.nebula.impl.value.Value;
 import wtf.nebula.repository.impl.ModuleRepository;
 import wtf.nebula.util.MathUtil;
 import wtf.nebula.util.world.player.MotionUtil;
-
-import java.util.List;
 
 public class Speed extends Module {
     public Speed() {
@@ -203,9 +201,9 @@ public class Speed extends Module {
     @EventListener
     public void onPacketSend(PacketEvent.Send event) {
 
-        if (event.getPacket() instanceof Packet10Flying && event.getEra().equals(Era.PRE)) {
+        if (event.getPacket() instanceof C03PacketPlayer && event.getEra().equals(Era.PRE)) {
 
-            Packet10Flying packet = event.getPacket();
+            C03PacketPlayer packet = event.getPacket();
 
             if (!mode.getValue().equals(Mode.ONGROUND)) {
                 return;
@@ -217,7 +215,7 @@ public class Speed extends Module {
 
             else {
                 if (mc.thePlayer.ticksExisted % 2 == 0) {
-                    packet.yPosition += 0.3993000090122223;
+                    packet.y += 0.3993000090122223;
                     packet.stance += 0.3993000090122223;
                     packet.onGround = false;
                 }
@@ -227,7 +225,7 @@ public class Speed extends Module {
 
     @EventListener
     public void onPacketReceive(PacketEvent.Receive event) {
-        if (event.getPacket() instanceof Packet13PlayerLookMove) {
+        if (event.getPacket() instanceof S08PacketPlayerPosLook) {
             moveSpeed = MotionUtil.getBaseNcpSpeed();
             stage = 4;
             lastTickMoveSpeed = 0.0;

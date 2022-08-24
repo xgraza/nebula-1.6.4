@@ -1,7 +1,7 @@
 package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.KeyBinding;
+import net.minecraft.client.settings.KeyBinding;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;

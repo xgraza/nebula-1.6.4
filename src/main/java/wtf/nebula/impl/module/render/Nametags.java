@@ -1,7 +1,17 @@
 package wtf.nebula.impl.module.render;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.*;
+import net.minecraft.client.gui.GuiPlayerInfo;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.event.RenderWorldEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -117,6 +127,8 @@ public class Nametags extends Module {
     }
 
     private void renderItem(ItemStack stack, int x, double scale) {
+        RenderItem renderItem = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
+
         glPushMatrix();
 
         // allow item GLINT to render for enchants
@@ -124,16 +136,16 @@ public class Nametags extends Module {
         glScaled(scale, scale, scale);
         glClear(256);
 
-        // glEnable(GL_LIGHTING);
-
         RenderHelper.enableStandardItemLighting();
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_ALPHA_TEST);
 
-        RenderItem renderItem = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
+        renderItem.zLevel = -50.0f;
 
         renderItem.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, x, -26);
         renderItem.renderItemOverlayIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, x, -26);
+
+        renderItem.zLevel = 0.0f;
 
         glScaled(0.5, 0.5, 0.5);
 
@@ -146,6 +158,8 @@ public class Nametags extends Module {
         glEnable(GL_TEXTURE_2D);
         renderEnchantments(stack, x, -26);
 
+        //glScaled(2.0, 2.0, 2.0);
+
         glEnable(GL_LIGHTING);
 
         glPopMatrix();
@@ -155,7 +169,7 @@ public class Nametags extends Module {
         Map<Integer, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
 
         ArrayList<String> text = new ArrayList<>();
-        if (stack.getItem() == Item.appleGold && stack.hasEffect()) {
+        if (stack.getItem() == Items.golden_apple && stack.hasEffect()) {
             text.add(EnumChatFormatting.RED + "god");
         }
 
@@ -229,7 +243,7 @@ public class Nametags extends Module {
 
             try {
                 for (GuiPlayerInfo info : mc.getNetHandler().playerInfoList) {
-                    if (info.name.equals(player.getEntityName())) {
+                    if (info.name.equals(player.getGameProfile().getName())) {
                         latency = info.responseTime;
                     }
                 }
@@ -251,7 +265,7 @@ public class Nametags extends Module {
             }
         }
 
-        builder.append(player.getEntityName()).append(EnumChatFormatting.RESET);
+        builder.append(player.getCommandSenderName()).append(EnumChatFormatting.RESET);
 
         if (health.getValue()) {
             builder.append(" ");

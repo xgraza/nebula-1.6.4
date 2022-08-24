@@ -86,7 +86,7 @@ public class FileUtil {
         if (!Files.exists(CLIENT_PATH)) {
             try {
                 Files.createDirectory(CLIENT_PATH);
-                Nebula.log.logInfo("Created client directory");
+                Nebula.log.info("Created client directory");
             } catch (IOException e) {
                 e.printStackTrace();
             }

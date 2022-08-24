@@ -1,6 +1,6 @@
 package wtf.nebula.util.world.player.inventory;
 
-import net.minecraft.src.ItemStack;
+import net.minecraft.item.ItemStack;
 import wtf.nebula.util.Globals;
 
 import java.util.function.Predicate;

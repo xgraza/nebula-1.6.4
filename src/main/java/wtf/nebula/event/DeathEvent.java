@@ -1,7 +1,7 @@
 package wtf.nebula.event;
 
 import me.bush.eventbus.event.Event;
-import net.minecraft.src.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class DeathEvent extends Event {
     private final EntityPlayer player;

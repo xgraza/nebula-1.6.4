@@ -1,8 +1,16 @@
 package wtf.nebula.impl.module.combat;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.*;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.passive.EntityAmbientCreature;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.passive.EntityWaterMob;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemSword;
+import net.minecraft.network.play.client.C02PacketUseEntity;
 import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.MotionUpdateEvent.Era;
 import wtf.nebula.impl.module.Module;
@@ -149,7 +157,7 @@ public class KillAura extends Module {
             lastAttack = System.currentTimeMillis();
 
             mc.thePlayer.swingItem();
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet7UseEntity(mc.thePlayer.entityId, target.entityId, 1));
+            mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
 
             // fun little particle
             mc.thePlayer.onEnchantmentCritical(target);

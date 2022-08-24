@@ -1,6 +1,6 @@
 package wtf.nebula.util.world.player;
 
-import net.minecraft.src.Potion;
+import net.minecraft.potion.Potion;
 import wtf.nebula.util.Globals;
 
 public class MotionUtil implements Globals {

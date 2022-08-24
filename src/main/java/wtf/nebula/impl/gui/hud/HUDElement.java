@@ -1,6 +1,6 @@
 package wtf.nebula.impl.gui.hud;
 
-import net.minecraft.src.ScaledResolution;
+import net.minecraft.client.gui.ScaledResolution;
 import wtf.nebula.impl.gui.ui.DraggableComponent;
 import wtf.nebula.impl.module.render.HUD;
 

@@ -1,9 +1,9 @@
 package wtf.nebula.impl.module.render;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.EnumChatFormatting;
-import net.minecraft.src.RenderHelper;
-import net.minecraft.src.RenderManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.event.RenderWorldEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -73,7 +73,7 @@ public class Waypoints extends Module {
                     .append(EnumChatFormatting.RESET);
 
             if (showCoordinates.getValue()) {
-                text.append(" ").append(waypoint.getCoordinates().toStringTruncated());
+                text.append(" ").append(waypoint.getCoordinates().toString());
             }
 
             if (showDistance.getValue()) {

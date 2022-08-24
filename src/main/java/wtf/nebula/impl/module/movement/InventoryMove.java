@@ -1,8 +1,8 @@
 package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.GuiChat;
-import net.minecraft.src.KeyBinding;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;

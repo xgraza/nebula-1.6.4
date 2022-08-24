@@ -1,7 +1,7 @@
 package wtf.nebula.event;
 
 import me.bush.eventbus.event.Event;
-import net.minecraft.src.Entity;
+import net.minecraft.entity.Entity;
 
 public class WaterMovementEvent extends Event {
     private final Entity entity;

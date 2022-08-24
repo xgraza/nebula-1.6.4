@@ -1,13 +1,10 @@
 package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet10Flying;
-import net.minecraft.src.Packet14BlockDig;
-import net.minecraft.src.Packet15Place;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.MotionUpdateEvent.Era;
-import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PlayerSlowdownEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -33,11 +30,11 @@ public class NoSlow extends Module {
     public void onMotionUpdate(MotionUpdateEvent event) {
         if (mc.thePlayer.isBlocking() && ncp.getValue()) {
             if (event.getEra().equals(Era.PRE)) {
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet14BlockDig(5, 0, 0, 0, 255));
+                mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(5, 0, 0, 0, 255));
             }
 
             else {
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet15Place(-1, -1, -1, 255, mc.thePlayer.getHeldItem(), 0.0F, 0.0F, 0.0F));
+                mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(-1, -1, -1, 255, mc.thePlayer.getHeldItem(), 0.0F, 0.0F, 0.0F));
             }
         }
     }

@@ -1,7 +1,7 @@
 package wtf.nebula.event;
 
 import me.bush.eventbus.event.Event;
-import net.minecraft.src.MovementInput;
+import net.minecraft.util.MovementInput;
 
 public class PlayerSlowdownEvent extends Event {
     private final MovementInput movementInput;

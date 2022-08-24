@@ -1,9 +1,9 @@
 package wtf.nebula.impl.module.misc;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Block;
-import net.minecraft.src.ItemBlock;
-import net.minecraft.src.ItemStack;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -68,10 +68,10 @@ public class HotbarRefill extends Module {
                     continue;
                 }
 
-                int hotbarBlock = ((ItemBlock) stack.getItem()).getBlockID();
-                int invBlock = ((ItemBlock) itemStack.getItem()).getBlockID();
+                Block hotbarBlock = ((ItemBlock) stack.getItem()).block;
+                Block invBlock = ((ItemBlock) itemStack.getItem()).block;
 
-                if (hotbarBlock == invBlock) {
+                if (hotbarBlock.equals(invBlock)) {
                     s = i;
                 }
             }

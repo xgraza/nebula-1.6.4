@@ -1,7 +1,7 @@
 package wtf.nebula.impl.module.misc;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet3Chat;
+import net.minecraft.network.play.client.C01PacketChatMessage;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
 import wtf.nebula.impl.irc.IRCServer;
@@ -32,8 +32,8 @@ public class IRC extends Module {
 
     @EventListener
     public void onPacketSend(PacketEvent.Send event) {
-        if (event.getPacket() instanceof Packet3Chat && event.getEra().equals(Era.PRE)) {
-            String message = ((Packet3Chat) event.getPacket()).message;
+        if (event.getPacket() instanceof C01PacketChatMessage && event.getEra().equals(Era.PRE)) {
+            String message = ((C01PacketChatMessage) event.getPacket()).message;
             if (message.startsWith("@")) {
                 event.setCancelled(true);
 

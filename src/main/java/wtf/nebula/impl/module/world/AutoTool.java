@@ -1,14 +1,15 @@
 package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.*;
+import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import wtf.nebula.event.ClickBlockEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.util.world.BlockUtil;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class AutoTool extends Module {
     public AutoTool() {
@@ -37,10 +38,10 @@ public class AutoTool extends Module {
 
             ItemTool tool = (ItemTool) stack.getItem();
 
-            List<Block> effectiveBlocks = Arrays.asList(tool.blocksEffectiveAgainst);
-            if (!effectiveBlocks.contains(at) && !tool.canHarvestBlock(at)) {
-                continue;
-            }
+//            List<Block> effectiveBlocks = Arrays.asList(tool.blocksEffectiveAgainst);
+//            if (!effectiveBlocks.contains(at) && !tool.canHarvestBlock(at)) {
+//                continue;
+//            }
 
             float speed = tool.efficiencyOnProperMaterial;
 

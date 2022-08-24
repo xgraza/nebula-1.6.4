@@ -1,7 +1,16 @@
 package wtf.nebula.impl.module.render;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.RenderHUDEvent;

@@ -1,7 +1,7 @@
 package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet19EntityAction;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -34,8 +34,8 @@ public class AntiAFK extends Module {
                     break;
 
                 case 1:
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 1));
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 2));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 1));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 2));
                     break;
 
                 case 2:

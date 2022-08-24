@@ -1,7 +1,7 @@
 package wtf.nebula.event;
 
 import me.bush.eventbus.event.Event;
-import net.minecraft.src.Packet;
+import net.minecraft.network.Packet;
 
 public class PacketEvent extends Event {
     private final Packet packet;

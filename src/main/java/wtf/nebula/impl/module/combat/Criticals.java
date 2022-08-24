@@ -2,10 +2,9 @@ package wtf.nebula.impl.module.combat;
 
 import me.bush.eventbus.annotation.EventListener;
 import me.bush.eventbus.annotation.ListenerPriority;
-import net.minecraft.src.Packet10Flying;
-import net.minecraft.src.Packet11PlayerPosition;
-import net.minecraft.src.Packet19EntityAction;
-import net.minecraft.src.Packet7UseEntity;
+import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
 import wtf.nebula.impl.module.Module;
@@ -45,17 +44,17 @@ public class Criticals extends Module {
     public void onPacketSend(PacketEvent.Send event) {
 
         // if we use the entity
-        if (event.getPacket() instanceof Packet7UseEntity) {
+        if (event.getPacket() instanceof C02PacketUseEntity) {
 
             // dont try to crit twice
             if (!event.getEra().equals(Era.PRE)) {
                 return;
             }
 
-            Packet7UseEntity packet = event.getPacket();
+            C02PacketUseEntity packet = event.getPacket();
 
             // if the packet is an attack packet (left click = attack)
-            if (packet.isLeftClick == 1 && System.currentTimeMillis() - lastCrit >= delay.getValue()) {
+            if (packet.getAction().equals(C02PacketUseEntity.Action.ATTACK) && System.currentTimeMillis() - lastCrit >= delay.getValue()) {
 
                 // dont crit if we're in water or on ground
                 if (!mc.thePlayer.onGround || mc.thePlayer.isInWater()) {
@@ -67,17 +66,16 @@ public class Criticals extends Module {
 
                 // stop sprinting
                 if (mc.thePlayer.isSprinting() && stopSprint.getValue()) {
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 5));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 5));
                 }
 
                 for (int i = 0; i < particles.getValue(); ++i) {
-                    mc.thePlayer.onCriticalHit(mc.theWorld.getEntityByID(packet.targetEntity));
+                    mc.thePlayer.onCriticalHit(mc.theWorld.getEntityByID(packet.entityId));
                 }
 
                 if (mode.getValue().equals(Mode.PACKET)) {
-
                     for (double[] offsets : CRITICALS) {
-                        mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
+                        mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
                                 mc.thePlayer.posX,
                                 mc.thePlayer.boundingBox.minY + offsets[0],
                                 mc.thePlayer.posY + offsets[1],
@@ -85,12 +83,6 @@ public class Criticals extends Module {
                                 false
                         ));
                     }
-
-                    /*
-                        2022-07-01 18:59:21 [CLIENT] [INFO] [CHAT] <Nebula> Stance: 5.720000004768371, Y: 4.1
-                        2022-07-01 18:59:21 [CLIENT] [INFO] [CHAT] <Nebula> Stance: 5.739600005149841, Y: 4.119600000381469
-                        2022-07-01 18:59:21 [CLIENT] [INFO] [CHAT] <Nebula> Stance: 5.6804080043716425, Y: 4.060407999603271
-                     */
                 }
 
                 else if (mode.getValue().equals(Mode.MOTION)) {
@@ -107,10 +99,10 @@ public class Criticals extends Module {
             }
         }
 
-        else if (event.getPacket() instanceof Packet10Flying) {
+        else if (event.getPacket() instanceof C03PacketPlayer) {
 
             // our movement packet
-            Packet10Flying packet = event.getPacket();
+            C03PacketPlayer packet = event.getPacket();
 
             if (attacked) {
                 if (!mc.thePlayer.onGround) {
@@ -129,7 +121,7 @@ public class Criticals extends Module {
 
                 double[] offsets = CRITICALS[modifyStage];
 
-                packet.yPosition += offsets[0];
+                packet.y += offsets[0];
                 packet.stance += offsets[1];
                 packet.onGround = false;
 
@@ -137,9 +129,9 @@ public class Criticals extends Module {
             }
         }
 
-        else if (event.getPacket() instanceof Packet19EntityAction) {
+        else if (event.getPacket() instanceof C0BPacketEntityAction) {
 
-            Packet19EntityAction packet = event.getPacket();
+            C0BPacketEntityAction packet = event.getPacket();
 
             if (packet.action == 5 && attacked && stopSprint.getValue()) {
                 event.setCancelled(true);

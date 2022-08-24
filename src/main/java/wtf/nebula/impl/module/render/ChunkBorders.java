@@ -1,9 +1,9 @@
 package wtf.nebula.impl.module.render;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.RenderManager;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.util.AxisAlignedBB;
 import wtf.nebula.event.RenderWorldEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -36,7 +36,7 @@ public class ChunkBorders extends Module {
         glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
         glLineWidth(1.0f);
 
-        mc.renderGlobal.drawOutlinedBoundingBox(chunkBB);
+        RenderGlobal.drawOutlinedBoundingBox(chunkBB, 0); // TODO; fix color
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);

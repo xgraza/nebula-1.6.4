@@ -1,6 +1,9 @@
 package wtf.nebula.impl.gui;
 
-import net.minecraft.src.*;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.util.Session;
 import org.lwjgl.input.Keyboard;
 
 public class AltLoginScreen extends GuiScreen {
@@ -35,8 +38,8 @@ public class AltLoginScreen extends GuiScreen {
 
         mc.fontRenderer.drawStringWithShadow(
                 "Username & Password:",
-                username.xPos,
-                username.yPos - 12,
+                username.field_146209_f,
+                username.field_146210_g - 12,
                 -1);
 
         username.drawTextBox();
@@ -76,7 +79,7 @@ public class AltLoginScreen extends GuiScreen {
             String pass = password.getText();
 
             if (pass.isEmpty()) {
-                mc.session = new Session(usrname, "");
+                mc.session = new Session(usrname, "", "");
                 mc.displayGuiScreen(null);
             }
 

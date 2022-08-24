@@ -1,7 +1,14 @@
 package wtf.nebula.impl.module.misc;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.network.play.client.C01PacketChatMessage;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MovingObjectPosition;
 import wtf.nebula.event.MiddleClickMouseEvent;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
@@ -36,15 +43,15 @@ public class MiddleClick extends Module {
         if (pearlTicks != -1) {
             switch (pearlTicks) {
                 case 1:
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(slot));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
                     break;
 
                 case 2:
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet15Place(-1, -1, -1, 255, mc.thePlayer.inventory.getStackInSlot(slot), 0.0f, 0.0f, 0.0f));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(-1, -1, -1, 255, mc.thePlayer.inventory.getStackInSlot(slot), 0.0f, 0.0f, 0.0f));
                     break;
 
                 case 3:
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(oldSlot));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(oldSlot));
                     break;
 
                 case 4:
@@ -66,7 +73,7 @@ public class MiddleClick extends Module {
         if (result == null) {
 
             if (pearl.getValue()) {
-                slot = InventoryUtil.findSlot(InventoryRegion.HOTBAR, (stack) -> stack.getItem().equals(Item.enderPearl));
+                slot = InventoryUtil.findSlot(InventoryRegion.HOTBAR, (stack) -> stack.getItem().equals(Items.ender_pearl));
 
                 if (slot != -1) {
                     pearlTicks = 1;
@@ -77,14 +84,14 @@ public class MiddleClick extends Module {
 
         else {
 
-            if (result.typeOfHit.equals(EnumMovingObjectType.ENTITY)) {
+            if (result.typeOfHit.equals(MovingObjectPosition.MovingObjectType.ENTITY)) {
                 Entity entity = result.entityHit;
                 if (!(entity instanceof EntityPlayer)) {
                     return;
                 }
 
                 if (friend.getValue()) {
-                    String username = result.entityHit.getEntityName();
+                    String username = result.entityHit.getCommandSenderName();
 
                     if (FriendRepository.get().isFriend(username)) {
                         FriendRepository.get().removeChild(username);
@@ -96,7 +103,7 @@ public class MiddleClick extends Module {
                         sendChatMessage("Added " + EnumChatFormatting.GREEN + username + EnumChatFormatting.RESET + " to your friends list");
 
                         // we should notify this player they were added
-                        mc.thePlayer.sendQueue.addToSendQueue(new Packet3Chat("/msg " + username + " I just added you as a friend on Nebula!"));
+                        mc.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage("/msg " + username + " I just added you as a friend on Nebula!"));
                     }
                 }
             }

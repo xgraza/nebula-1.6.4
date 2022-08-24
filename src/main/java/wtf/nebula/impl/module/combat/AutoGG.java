@@ -1,9 +1,9 @@
 package wtf.nebula.impl.module.combat;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EnumChatFormatting;
-import net.minecraft.src.Packet3Chat;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.client.C01PacketChatMessage;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.event.DeathEvent;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
@@ -68,8 +68,8 @@ public class AutoGG extends Module {
                     message = "gg %player%!";
                 }
 
-                message = message.replaceAll("%player%", event.getPlayer().getEntityName());
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet3Chat(message));
+                message = message.replaceAll("%player%", event.getPlayer().getCommandSenderName());
+                mc.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
 
                 target = null;
             } catch (Exception ignored) {

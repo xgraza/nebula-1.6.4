@@ -1,7 +1,7 @@
 package wtf.nebula.impl.gui.hud.impl;
 
-import net.minecraft.src.EnumChatFormatting;
-import net.minecraft.src.ScaledResolution;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.Nebula;
 import wtf.nebula.impl.gui.hud.HUDElement;
 import wtf.nebula.impl.module.render.HUD;

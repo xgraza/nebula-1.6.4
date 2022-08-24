@@ -1,7 +1,7 @@
 package wtf.nebula.impl.command.impl;
 
-import net.minecraft.src.EnumChatFormatting;
-import net.minecraft.src.Packet3Chat;
+import net.minecraft.network.play.client.C01PacketChatMessage;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.impl.command.Command;
 import wtf.nebula.repository.impl.FriendRepository;
 
@@ -32,7 +32,7 @@ public class Friend extends Command {
             sendChatMessage("Added " + EnumChatFormatting.GREEN + username + EnumChatFormatting.RESET + " to your friends list");
 
             // we should notify this player they were added
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet3Chat("/msg " + username + " I just added you as a friend on Nebula!"));
+            mc.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage("/msg " + username + " I just added you as a friend on Nebula!"));
         }
     }
 }

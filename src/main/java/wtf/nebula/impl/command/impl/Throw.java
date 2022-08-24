@@ -1,8 +1,8 @@
 package wtf.nebula.impl.command.impl;
 
-import net.minecraft.src.EnumChatFormatting;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Packet15Place;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.impl.command.Command;
 
 import java.util.Collections;
@@ -33,7 +33,8 @@ public class Throw extends Command {
         }
 
         for (int i = 0; i < amount; ++i) {
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet15Place(-1, -1, -1, 255, held, 0.0f, 0.0f, 0.0f));
+            mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(-1, -1, -1, 255, held, 0.0f, 0.0f, 0.0f));
+            //mc.thePlayer.sendQueue.addToSendQueue(new Packet15Place(-1, -1, -1, 255, held, 0.0f, 0.0f, 0.0f));
         }
 
         sendChatMessage("Sent " + EnumChatFormatting.GREEN + amount + EnumChatFormatting.RESET + " packet(s)");

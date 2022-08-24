@@ -1,7 +1,7 @@
 package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet11PlayerPosition;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import wtf.nebula.event.StepEvent;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
@@ -71,7 +71,7 @@ public class Step extends Module {
         double stance = minY + (double) mc.thePlayer.yOffset - mc.thePlayer.ySize;
 
         for (double i : positions) {
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
+            mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
                     mc.thePlayer.posX,
                     minY + i,
                     stance + i,

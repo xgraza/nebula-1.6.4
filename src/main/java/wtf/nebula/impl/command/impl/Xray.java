@@ -1,7 +1,7 @@
 package wtf.nebula.impl.command.impl;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.EnumChatFormatting;
+import net.minecraft.block.Block;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.impl.command.Command;
 import wtf.nebula.impl.module.render.XRay;
 import wtf.nebula.repository.impl.ModuleRepository;
@@ -29,7 +29,7 @@ public class Xray extends Command {
 
             for (int blockId : XRay.blocks) {
                 try {
-                    Block block = Block.blocksList[blockId];
+                    Block block = Block.getBlockById(blockId);
                     if (block != null) {
                         builder.append(block.getLocalizedName())
                                 .append("[")
@@ -62,7 +62,7 @@ public class Xray extends Command {
             }
 
             try {
-                Block block = Block.blocksList[blockId];
+                Block block = Block.getBlockById(blockId);
                 if (block == null) {
                     sendChatMessage("That is not a valid block id");
                     return;

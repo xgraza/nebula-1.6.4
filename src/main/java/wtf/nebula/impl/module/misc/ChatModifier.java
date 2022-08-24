@@ -1,7 +1,7 @@
 package wtf.nebula.impl.module.misc;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet3Chat;
+import net.minecraft.network.play.client.C01PacketChatMessage;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
 import wtf.nebula.impl.module.Module;
@@ -22,8 +22,8 @@ public class ChatModifier extends Module {
     @EventListener
     public void onPacketSend(PacketEvent.Send event) {
 
-        if (event.getPacket() instanceof Packet3Chat && event.getEra().equals(Era.PRE)) {
-            Packet3Chat packet = event.getPacket();
+        if (event.getPacket() instanceof C01PacketChatMessage && event.getEra().equals(Era.PRE)) {
+            C01PacketChatMessage packet = event.getPacket();
 
             String message = packet.message;
             if (message.startsWith("/") || message.startsWith(CommandRepository.get().getPrefix())) {

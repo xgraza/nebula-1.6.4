@@ -1,5 +1,7 @@
 package wtf.nebula.impl.gui.ui;
 
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
 import wtf.nebula.util.feature.ToggleableFeature;
 
 import java.util.ArrayList;
@@ -28,6 +30,6 @@ public abstract class Component extends ToggleableFeature {
     }
 
     public static void playClickSound() {
-        mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+        mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("minecraft:gui.button.press"), 1.0f));
     }
 }

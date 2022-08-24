@@ -1,11 +1,8 @@
 package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.GuiChest;
-import net.minecraft.src.GuiContainer;
-import net.minecraft.src.Packet101CloseWindow;
-import org.lwjgl.Sys;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.gui.inventory.GuiChest;
+import net.minecraft.network.play.client.C0DPacketCloseWindow;
 import wtf.nebula.event.GuiOpenEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.impl.module.Module;
@@ -41,7 +38,7 @@ public class EnderchestBP extends Module {
         if (event.getNewScreen() instanceof GuiChest) {
             GuiChest chest = (GuiChest) event.getNewScreen();
 
-            if (!all.getValue() && !chest.lowerChestInventory.getInvName().equals("container.enderchest")) {
+            if (!all.getValue() && !chest.lowerInventory.getInventoryName().equals("container.enderchest")) {
                 return;
             }
 
@@ -54,15 +51,15 @@ public class EnderchestBP extends Module {
     public void onPacketSend(PacketEvent.Send event) {
 
         // if we try to close a window
-        if (event.getPacket() instanceof Packet101CloseWindow) {
+        if (event.getPacket() instanceof C0DPacketCloseWindow) {
 
             // our packet
-            Packet101CloseWindow packet = event.getPacket();
+            C0DPacketCloseWindow packet = event.getPacket();
 
             // if we saved an enderchest GUI and the window id being closed equates to the one we have saved, do not allow this to be closed.
-            if (gui != null && packet.windowId == gui.inventorySlots.windowId) {
-                event.setCancelled(true);
-            }
+//            if (gui != null && packet.windowId == gui..windowId) {
+//                event.setCancelled(true);
+//            }
         }
     }
 }

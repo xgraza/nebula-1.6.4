@@ -1,9 +1,9 @@
 package wtf.nebula.impl.module.combat;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.GuiDisconnected;
-import net.minecraft.src.Packet11PlayerPosition;
-import net.minecraft.src.Packet255KickDisconnect;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.server.S40PacketDisconnect;
+import net.minecraft.util.ChatComponentText;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -24,10 +24,10 @@ public class AutoLog extends Module {
         if (mc.thePlayer.getHealth() <= health.getValue()) {
 
             if (invalidPacket.getValue()) {
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(Double.NaN, Double.NaN, Double.NaN, Double.NaN, false));
+                mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(Double.NaN, Double.NaN, Double.NaN, Double.NaN, false));
             }
 
-            mc.thePlayer.sendQueue.quitWithPacket(new Packet255KickDisconnect("Quitting"));
+            mc.thePlayer.sendQueue.handleDisconnect(new S40PacketDisconnect(new ChatComponentText("fuck yo bitch ass")));
 
             if (autoDisable.getValue()) {
                 setState(false);

@@ -1,7 +1,7 @@
 package wtf.nebula.repository.impl;
 
 import com.google.gson.*;
-import net.minecraft.src.Vec3;
+import net.minecraft.util.Vec3;
 import wtf.nebula.repository.BaseRepository;
 import wtf.nebula.repository.Repositories;
 import wtf.nebula.repository.Repository;
@@ -10,7 +10,6 @@ import wtf.nebula.util.FileUtil;
 
 import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -23,10 +22,10 @@ public class WaypointRepository extends BaseRepository<Waypoint> {
     public void init() {
         try {
             load();
-            log.logInfo("Loaded " + serverWaypoints.size() + " server waypoints with a total of " + children.size() + " waypoints.");
+            log.info("Loaded " + serverWaypoints.size() + " server waypoints with a total of " + children.size() + " waypoints.");
         } catch (Exception e) {
             e.printStackTrace();
-            log.logSevere("An error occurred when parsing the waypoints.json file. Please make sure to not make any external edits.");
+            log.fatal("An error occurred when parsing the waypoints.json file. Please make sure to not make any external edits.");
         }
     }
 

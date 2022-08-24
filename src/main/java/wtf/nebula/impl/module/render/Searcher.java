@@ -1,7 +1,12 @@
 package wtf.nebula.impl.module.render;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.*;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import wtf.nebula.event.ReloadRendersEvent;
 import wtf.nebula.event.RenderBlockEvent;
 import wtf.nebula.event.RenderWorldEvent;
@@ -11,6 +16,7 @@ import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
 import wtf.nebula.util.render.ColorUtil;
 import wtf.nebula.util.render.RenderUtil;
+import wtf.nebula.util.world.BlockUtil;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -21,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Searcher extends Module {
-    public static Set<Integer> blocks = new HashSet<>();
+    public static Set<Block> blocks = new HashSet<>();
 
     public Searcher() {
         super("Searcher", ModuleCategory.RENDER);
@@ -30,7 +36,7 @@ public class Searcher extends Module {
     public final Value<Boolean> tracers = new Value<>("Tracers", false);
 
     // a cache of every block we need to render
-    private final Map<Vec3, Integer> renderBlocks = new ConcurrentHashMap<>();
+    private final Map<Vec3, Block> renderBlocks = new ConcurrentHashMap<>();
 
     @Override
     protected void onDeactivated() {
@@ -49,23 +55,21 @@ public class Searcher extends Module {
 
     @EventListener
     public void onRenderWorld(RenderWorldEvent event) {
-        for (Entry<Vec3, Integer> entry : renderBlocks.entrySet()) {
+        for (Entry<Vec3, Block> entry : renderBlocks.entrySet()) {
 
             Vec3 vec3 = entry.getKey();
-            int atPos = mc.theWorld.getBlockId((int) vec3.xCoord, (int) vec3.yCoord, (int) vec3.zCoord);
+            Block block = BlockUtil.getBlockFromVec(vec3);
 
             // unloaded the block / block is invalid / block has been removed
-            if (atPos == 0) {
+            if (block == null) {
                 continue;
             }
 
             // block has updated
-            if (atPos != entry.getValue()) {
+            if (!block.equals(entry.getValue())) {
                 renderBlocks.remove(vec3);
                 continue;
             }
-
-            Block block = Block.blocksList[atPos];
 
             // getSelectedBoundingBoxFromPool
             AxisAlignedBB bb = block.getSelectedBoundingBoxFromPool(mc.theWorld,
@@ -90,7 +94,8 @@ public class Searcher extends Module {
                 bb = bb.offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
                 ColorUtil.setColor(0xFFFFFFFF);
-                mc.renderGlobal.drawOutlinedBoundingBox(bb);
+                RenderGlobal.drawOutlinedBoundingBox(bb, 0xFFFFFFFF);
+                //mc.renderGlobal.drawOutlinedBoundingBox(bb);
                 ColorUtil.setColor(0x90FFFFFF);
                 RenderUtil.drawFilledBoundingBox(bb);
 
@@ -123,8 +128,8 @@ public class Searcher extends Module {
 
     @EventListener
     public void onRenderBlock(RenderBlockEvent event) {
-        if (blocks.contains(event.getBlock().blockID)) {
-            renderBlocks.put(event.getPos(), event.getBlock().blockID);
+        if (blocks.contains(event.getBlock())) {
+            renderBlocks.put(event.getPos(), event.getBlock());
         }
     }
 

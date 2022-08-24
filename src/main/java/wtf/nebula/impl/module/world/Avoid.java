@@ -1,7 +1,7 @@
 package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet11PlayerPosition;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -23,7 +23,7 @@ public class Avoid extends Module {
     public void onTick(TickEvent event) {
         if (falling.getValue() && mc.thePlayer.fallDistance >= fallDistance.getValue()) {
             mc.thePlayer.fallDistance = 0.0f;
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(
+            mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
                     mc.thePlayer.posX, mc.thePlayer.boundingBox.minY + 1.0, mc.thePlayer.posY + 1.0, mc.thePlayer.posZ, false));
         }
 

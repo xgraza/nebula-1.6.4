@@ -1,10 +1,10 @@
 package wtf.nebula.impl.module.combat;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityBoat;
-import net.minecraft.src.Packet18Animation;
-import net.minecraft.src.Packet7UseEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C0APacketAnimation;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
 import wtf.nebula.impl.module.Module;
@@ -17,25 +17,25 @@ public class OneHitVehicle extends Module {
 
     @EventListener
     public void onPacketSend(PacketEvent.Send event) {
-        if (event.getPacket() instanceof Packet7UseEntity) {
+        if (event.getPacket() instanceof C02PacketUseEntity) {
             if (!event.getEra().equals(Era.PRE)) {
                 return;
             }
 
-            Packet7UseEntity packet = event.getPacket();
+            C02PacketUseEntity packet = event.getPacket();
 
-            if (packet.isLeftClick == 0) {
+            if (!packet.getAction().equals(C02PacketUseEntity.Action.ATTACK)) {
                 return;
             }
 
-            Entity entity = mc.theWorld.getEntityByID(packet.targetEntity);
+            Entity entity = mc.theWorld.getEntityByID(packet.entityId);
             if (!(entity instanceof EntityBoat)) {
                 return;
             }
 
             for (int i = 0; i < 10; ++i) {
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet18Animation());
-                mc.thePlayer.sendQueue.addToSendQueueSilent(new Packet7UseEntity(mc.thePlayer.entityId, packet.targetEntity, 1));
+                mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
+                mc.thePlayer.sendQueue.addToSendQueueSilent(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.ATTACK));
             }
         }
     }

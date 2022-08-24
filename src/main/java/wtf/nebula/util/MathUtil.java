@@ -1,8 +1,8 @@
 package wtf.nebula.util;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLivingBase;
-import net.minecraft.src.Vec3;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.Vec3;
 
 import java.security.SecureRandom;
 import java.util.Random;

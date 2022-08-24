@@ -1,8 +1,8 @@
 package wtf.nebula.event;
 
 import me.bush.eventbus.event.Event;
-import net.minecraft.src.Block;
-import net.minecraft.src.Vec3;
+import net.minecraft.block.Block;
+import net.minecraft.util.Vec3;
 
 public class RenderBlockEvent extends Event {
     private final Block block;

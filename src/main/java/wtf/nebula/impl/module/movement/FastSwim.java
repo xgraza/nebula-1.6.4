@@ -1,7 +1,7 @@
 package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet13PlayerLookMove;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
@@ -69,7 +69,7 @@ public class FastSwim extends Module {
 
     @EventListener
     public void onPacketReceive(PacketEvent.Receive event) {
-        if (event.getPacket() instanceof Packet13PlayerLookMove) {
+        if (event.getPacket() instanceof S08PacketPlayerPosLook) {
             lagTime = 20;
         }
     }

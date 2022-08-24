@@ -1,7 +1,20 @@
 package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.WorldSettings;
 import wtf.nebula.event.ClickBlockEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
@@ -47,7 +60,7 @@ public class PacketMine extends Module {
         super.onDeactivated();
 
         if (sent && autoBreak.getValue()) {
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet14BlockDig(1, posX, posY, posZ, facing));
+            mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(1, posX, posY, posZ, facing));
         }
 
         syncItem();
@@ -115,7 +128,7 @@ public class PacketMine extends Module {
             return;
         }
 
-        if (mc.playerController.currentGameType.equals(EnumGameType.CREATIVE)) {
+        if (mc.playerController.currentGameType.equals(WorldSettings.GameType.CREATIVE)) {
             return;
         }
 
@@ -134,13 +147,13 @@ public class PacketMine extends Module {
         if (posX == x && posY == y && posZ == z && sent) {
 
             // send block break packet
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet14BlockDig(2, x, y, z, facing));
+            mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(2, x, y, z, facing));
             return;
         }
 
         if ((posX != x && posY != y && posZ != z && sent) || mc.playerController.isHittingBlock) {
             // line 179 in PlayerControllerMP
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet14BlockDig(1, x, y, z, facing));
+            mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(1, x, y, z, facing));
             sent = false;
         }
 
@@ -153,7 +166,7 @@ public class PacketMine extends Module {
         if (autoSwitch.getValue()) {
             int s = AutoTool.bestSlotForBlock((int) v.xCoord, (int) v.yCoord, (int) v.zCoord);
             if (s != -1) {
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(s));
+                mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(s));
                 swapped = true;
 
                 slot = s;
@@ -172,10 +185,10 @@ public class PacketMine extends Module {
             facing = event.getFacing();
 
             // start breaking
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet14BlockDig(0, x, y, z, facing));
+            mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(0, x, y, z, facing));
 
             if (autoBreak.getValue()) {
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet14BlockDig(2, posX, posY, posZ, facing));
+                mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(2, posX, posY, posZ, facing));
             }
 
             // reset our autoBreak timer
@@ -187,19 +200,19 @@ public class PacketMine extends Module {
     public void onPacketSend(PacketEvent.Send event) {
 
         // prevent us from swapping to anything else
-        if (event.getPacket() instanceof Packet16BlockItemSwitch && event.getEra().equals(Era.PRE) && swapped) {
+        if (event.getPacket() instanceof C09PacketHeldItemChange && event.getEra().equals(Era.PRE) && swapped) {
             event.setCancelled(true);
         }
 
-        if (event.getPacket() instanceof Packet10Flying && !groundCheck.getValue() && sent) {
-            ((Packet10Flying) event.getPacket()).onGround = true;
+        if (event.getPacket() instanceof C03PacketPlayer && !groundCheck.getValue() && sent) {
+            ((C03PacketPlayer) event.getPacket()).onGround = true;
         }
     }
 
     private void syncItem() {
         if (swapped) {
             swapped = false;
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(mc.thePlayer.inventory.currentItem));
+            mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
         }
     }
 
@@ -209,7 +222,8 @@ public class PacketMine extends Module {
         Block at = BlockUtil.getBlockFromVec(pos);
         float multiplier = 1.0f;
         if (stack != null) {
-            multiplier = stack.getStrVsBlock(at);
+            // TODO: find method name
+            //multiplier = stack.getStrVsBlock(at);
         }
 
         if (stack != null && EnchantmentHelper.getEnchantments(stack).containsKey(Enchantment.efficiency.effectId)) {
@@ -257,7 +271,7 @@ public class PacketMine extends Module {
 
         float dmg = multiplier / hardness;
 
-        if (stack != null && stack.canHarvestBlock(at)) {
+        if (stack != null){ //&& stack.canHarvestBlock(at)) {
             dmg /= 30.0f;
         }
 

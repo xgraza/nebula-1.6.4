@@ -1,12 +1,14 @@
 package wtf.nebula.impl.command.impl;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityOtherPlayerMP;
-import net.minecraft.src.EnumGameType;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.WorldSettings;
 import wtf.nebula.impl.command.Command;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class FakePlayer extends Command {
     public FakePlayer() {
@@ -18,7 +20,7 @@ public class FakePlayer extends Command {
     @Override
     public void execute(List<String> args) {
         if (fakePlayerId == -1) {
-            EntityOtherPlayerMP fake = new EntityOtherPlayerMP(mc.theWorld, "Fakeplayer");
+            EntityOtherPlayerMP fake = new EntityOtherPlayerMP(mc.theWorld, new GameProfile(UUID.randomUUID().toString(), "FakePlayer"));
             // fake.inventory.copyInventory(mc.thePlayer.inventory);
 
             fake.copyLocationAndAnglesFrom(mc.thePlayer);
@@ -26,10 +28,10 @@ public class FakePlayer extends Command {
 
             fake.setHealth(mc.thePlayer.getHealth());
             fake.setAbsorptionAmount(mc.thePlayer.getAbsorptionAmount());
-            fake.setGameType(EnumGameType.SURVIVAL);
-            fake.entityId = -133769420;
+            fake.setGameType(WorldSettings.GameType.SURVIVAL);
+            fake.setEntityId(-133769420);
 
-            fakePlayerId = fake.entityId;
+            fakePlayerId = fake.getEntityId();
 
             mc.theWorld.addEntityToWorld(fakePlayerId, fake);
         }

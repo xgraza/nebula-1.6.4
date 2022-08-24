@@ -1,8 +1,8 @@
 package wtf.nebula.util;
 
-import net.minecraft.src.ChatMessageComponent;
-import net.minecraft.src.EnumChatFormatting;
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 
 /**
  * An interface that includes all the basic utilities a feature should contain
@@ -39,7 +39,8 @@ public interface Globals {
      * @param msg the message to present to the user
      */
     default void sendChatMessage(String msg) {
-        mc.ingameGUI.getChatGUI().printChatMessage(PREFIX + msg);
+        mc.ingameGUI.getChatGUI().func_146227_a(new ChatComponentText(PREFIX + msg));
+        //mc.ingameGUI.getChatGUI().printChatMessage(PREFIX + msg);
     }
 
     /**
@@ -48,12 +49,12 @@ public interface Globals {
      * @param msg the message to present to the user
      */
     default void sendChatMessage(int id, String msg) {
-        mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(PREFIX + msg, id);
+        mc.ingameGUI.getChatGUI().func_146234_a(new ChatComponentText(PREFIX + msg), id);
     }
 
     default void sendIRCMessage(String message) {
         if (!nullCheck()) {
-            mc.ingameGUI.getChatGUI().printChatMessage(IRC_PREFIX + message);
+            mc.ingameGUI.getChatGUI().func_146227_a(new ChatComponentText(IRC_PREFIX + message));
         }
     }
 }

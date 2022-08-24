@@ -76,7 +76,6 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new IceSpeed());
         addChild(new InventoryMove());
         addChild(new Jesus());
-        addChild(new LongJump());
         addChild(new NoPush());
         addChild(new NoSlow());
         addChild(new Safewalk());
@@ -116,13 +115,13 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Scaffold());
         addChild(new ThunderHack());
 
-        log.logInfo("Loaded " + children.size() + " modules. Loading configurations.");
+        log.info("Loaded " + children.size() + " modules. Loading configurations.");
 
         try {
             load();
         } catch (Exception e) {
             e.printStackTrace();
-            log.logSevere("An error occurred when parsing the module configurations. Please make sure to not make any external edits.");
+            log.fatal("An error occurred when parsing the module configurations. Please make sure to not make any external edits.");
         }
     }
 
@@ -235,7 +234,7 @@ public class ModuleRepository extends BaseRepository<Module> {
             FileUtil.write(moduleConfig, new GsonBuilder().setPrettyPrinting().create().toJson(object));
         }
 
-        log.logInfo("Saved modules.");
+        log.info("Saved modules.");
     }
 
     public void load() {
@@ -296,12 +295,12 @@ public class ModuleRepository extends BaseRepository<Module> {
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    log.logSevere("Failure to load module setting " + value.getValue());
+                    log.fatal("Failure to load module setting " + value.getValue());
                 }
             }
         }
 
-        log.logInfo("Loaded modules");
+        log.info("Loaded modules");
     }
 
     public static ModuleRepository get() {

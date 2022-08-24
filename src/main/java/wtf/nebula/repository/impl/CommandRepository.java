@@ -2,7 +2,7 @@ package wtf.nebula.repository.impl;
 
 import me.bush.eventbus.annotation.EventListener;
 import me.bush.eventbus.annotation.ListenerPriority;
-import net.minecraft.src.Packet3Chat;
+import net.minecraft.network.play.client.C01PacketChatMessage;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.command.Command;
@@ -43,7 +43,7 @@ public class CommandRepository extends BaseRepository<Command> {
         addChild(new Write());
         addChild(new Xray());
 
-        log.logInfo("Loaded " + children.size() + " commands.");
+        log.info("Loaded " + children.size() + " commands.");
 
         if (!Files.exists(FileUtil.COMMAND_PREFIX)) {
             save(prefix);
@@ -67,8 +67,8 @@ public class CommandRepository extends BaseRepository<Command> {
 
     @EventListener(priority = ListenerPriority.HIGHEST)
     public void onPacketSend(PacketEvent.Send event) {
-        if (event.getPacket() instanceof Packet3Chat) {
-            Packet3Chat packet = event.getPacket();
+        if (event.getPacket() instanceof C01PacketChatMessage) {
+            C01PacketChatMessage packet = event.getPacket();
             if (packet.message.startsWith(prefix)) {
                 event.setCancelled(true);
                 handle(packet.message);

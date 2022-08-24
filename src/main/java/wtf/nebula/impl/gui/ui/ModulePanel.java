@@ -1,6 +1,6 @@
 package wtf.nebula.impl.gui.ui;
 
-import net.minecraft.src.EnumChatFormatting;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Mouse;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.util.render.RenderUtil;

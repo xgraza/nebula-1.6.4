@@ -3,7 +3,6 @@ package wtf.nebula.impl.module.render;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
-import net.minecraft.src.Block;
 import wtf.nebula.Nebula;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -16,14 +15,14 @@ import java.util.Set;
 
 public class XRay extends Module {
     public static final Set<Integer> blocks = new HashSet<Integer>() {{
-        add(Block.oreRedstone.blockID);
-        add(Block.oreCoal.blockID);
-        add(Block.oreDiamond.blockID);
-        add(Block.oreIron.blockID);
-        add(Block.oreEmerald.blockID);
-        add(Block.oreLapis.blockID);
-        add(Block.oreGold.blockID);
-        add(Block.oreNetherQuartz.blockID);
+//        add(Blocks.oreRedstone.blockID);
+//        add(Block.oreCoal.blockID);
+//        add(Block.oreDiamond.blockID);
+//        add(Block.oreIron.blockID);
+//        add(Block.oreEmerald.blockID);
+//        add(Block.oreLapis.blockID);
+//        add(Block.oreGold.blockID);
+//        add(Block.oreNetherQuartz.blockID);
     }};
 
     public XRay() {
@@ -47,11 +46,11 @@ public class XRay extends Module {
                             blocks.add(blockId);
                         }
 
-                        Nebula.log.logInfo("Loaded " + blockIds.length + " xray blocks.");
+                        Nebula.log.info("Loaded " + blockIds.length + " xray blocks.");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Nebula.log.logWarning("An exception occurred trying to read Xray blocks, fallback to default...");
+                    Nebula.log.warn("An exception occurred trying to read Xray blocks, fallback to default...");
                 }
             }
         }

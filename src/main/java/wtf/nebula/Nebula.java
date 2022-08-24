@@ -1,25 +1,16 @@
 package wtf.nebula;
 
 import me.bush.eventbus.bus.EventBus;
-import net.minecraft.src.LogAgent;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.Session;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Session;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import wtf.nebula.impl.module.render.XRay;
 import wtf.nebula.repository.Repositories;
 import wtf.nebula.repository.impl.CommandRepository;
 import wtf.nebula.repository.impl.FriendRepository;
 import wtf.nebula.repository.impl.ModuleRepository;
 import wtf.nebula.repository.impl.WaypointRepository;
-import wtf.nebula.util.FileUtil;
-import wtf.nebula.util.Globals;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.logging.Logger;
-
-import static wtf.nebula.util.Globals.mc;
 
 /**
  * The main class of the client
@@ -32,17 +23,16 @@ public class Nebula {
     public static final String VERSION = "1.4.0";
     public static final String TAG = "dev"; // rel, beta, dev, rc(INT)
 
-    public static LogAgent log;
+    public static Logger log = LogManager.getLogger(NAME);
     public static EventBus BUS;
 
     public static void init() {
-        setupLogger();
-        log.logInfo("Loading BushBus:tm:");
+        log.info("Loading BushBus:tm:");
 
         // our event bus
-        BUS = new EventBus(log::logInfo);
+        BUS = new EventBus(log::error);
 
-        log.logInfo("Loading " + NAME + " v" + VERSION + "...");
+        log.info("Loading {} v{}...", NAME, VERSION);
 
         // repos
         Repositories.add(new ModuleRepository());
@@ -50,11 +40,11 @@ public class Nebula {
         Repositories.add(new FriendRepository());
         Repositories.add(new WaypointRepository());
 
-        log.logInfo("Entering aestheti-botnet...");
-        log.logInfo("Loaded client.");
+        log.info("Entering aestheti-botnet...");
+        log.info("Loaded client.");
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            log.logInfo("Saving repository states...");
+            log.info("Saving repository states...");
 
             ModuleRepository.get().save();
             FriendRepository.get().save();
@@ -62,13 +52,9 @@ public class Nebula {
             CommandRepository.save(CommandRepository.get().getPrefix());
             XRay.save();
 
-            log.logInfo("Aesthetical owns you!");
+            log.info("Aesthetical owns you!");
         }, "Shutdown-Save-Thread"));
 
-        log.logInfo("Aesthetical owns you!");
-    }
-
-    private static void setupLogger() {
-        log = new LogAgent("Client", " [Nebula]", ((LogAgent) mc.getLogAgent()).logFile);
+        log.info("Aesthetical owns you!");
     }
 }

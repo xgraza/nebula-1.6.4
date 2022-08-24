@@ -1,9 +1,9 @@
 package wtf.nebula.impl.module.render;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.ActiveRenderInfo;
-import net.minecraft.src.EntityLivingBase;
-import net.minecraft.src.RenderManager;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.EntityLivingBase;
 import wtf.nebula.event.RenderWorldEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;

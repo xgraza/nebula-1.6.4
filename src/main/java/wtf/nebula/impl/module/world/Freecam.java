@@ -1,10 +1,11 @@
 package wtf.nebula.impl.module.world;
 
+import com.mojang.authlib.GameProfile;
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityOtherPlayerMP;
-import net.minecraft.src.EnumGameType;
-import net.minecraft.src.Packet10Flying;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.entity.Entity;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.world.WorldSettings;
 import wtf.nebula.event.MotionEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.TickEvent;
@@ -13,6 +14,8 @@ import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
 import wtf.nebula.util.world.player.MotionUtil;
+
+import java.util.UUID;
 
 public class Freecam extends Module {
     public Freecam() {
@@ -39,7 +42,7 @@ public class Freecam extends Module {
             return;
         }
 
-        EntityOtherPlayerMP fake = new EntityOtherPlayerMP(mc.theWorld, "You");
+        EntityOtherPlayerMP fake = new EntityOtherPlayerMP(mc.theWorld, new GameProfile(UUID.randomUUID().toString(), "You"));
         fake.inventory.copyInventory(mc.thePlayer.inventory);
 
         fake.copyLocationAndAnglesFrom(mc.thePlayer);
@@ -47,10 +50,10 @@ public class Freecam extends Module {
 
         fake.setHealth(mc.thePlayer.getHealth());
         fake.setAbsorptionAmount(mc.thePlayer.getAbsorptionAmount());
-        fake.setGameType(EnumGameType.SURVIVAL);
-        fake.entityId = -133769420;
+        fake.setGameType(WorldSettings.GameType.SURVIVAL);
+        fake.setEntityId(-133769420);
 
-        fakePlayerId = fake.entityId;
+        fakePlayerId = fake.getEntityId();
 
         mc.theWorld.addEntityToWorld(fakePlayerId, fake);
     }
@@ -86,7 +89,7 @@ public class Freecam extends Module {
 
     @EventListener
     public void onPacketSend(PacketEvent.Send event) {
-        if (event.getPacket() instanceof Packet10Flying) {
+        if (event.getPacket() instanceof C03PacketPlayer) {
             event.setCancelled(true);
         }
     }
@@ -96,7 +99,7 @@ public class Freecam extends Module {
 
         // prevent the server from kicking you for not sending movement packets for too long
         if (mc.thePlayer.ticksExisted % 30 == 0 && antiKick.getValue()) {
-            mc.thePlayer.sendQueue.addToSendQueueSilent(new Packet10Flying(true));
+            mc.thePlayer.sendQueue.addToSendQueueSilent(new C03PacketPlayer(true));
         }
     }
 

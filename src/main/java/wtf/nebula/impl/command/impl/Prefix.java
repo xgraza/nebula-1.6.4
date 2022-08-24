@@ -1,6 +1,6 @@
 package wtf.nebula.impl.command.impl;
 
-import net.minecraft.src.EnumChatFormatting;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.impl.command.Command;
 import wtf.nebula.repository.impl.CommandRepository;
 

@@ -1,7 +1,7 @@
 package wtf.nebula.event;
 
 import me.bush.eventbus.event.Event;
-import net.minecraft.src.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition;
 
 public class MiddleClickMouseEvent extends Event {
     private final MovingObjectPosition objectMouseOver;

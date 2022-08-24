@@ -1,12 +1,12 @@
 package wtf.nebula.impl.command.impl;
 
-import net.minecraft.src.*;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import wtf.nebula.impl.command.Command;
 import wtf.nebula.util.MathUtil;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -19,7 +19,7 @@ public class Write extends Command {
     @Override
     public void execute(List<String> args) {
         ItemStack held = mc.thePlayer.getHeldItem();
-        if (held == null || !held.getItem().equals(Item.writableBook)) {
+        if (held == null || !held.getItem().equals(Items.writable_book)) {
             sendChatMessage("Please hold a book and quill in your hand");
             return;
         }
@@ -44,7 +44,7 @@ public class Write extends Command {
                 builder.append((char) j);
             }
 
-            pages.appendTag(new NBTTagString(String.valueOf(i), builder.toString()));
+            pages.appendTag(new NBTTagString(builder.toString()));
         }
 
         signBook(held, pages, title);
@@ -52,22 +52,22 @@ public class Write extends Command {
     }
 
     public static void signBook(ItemStack stack, NBTTagList nbtTagList, String title) {
-        String CHANNEL_NAME = "MC|BSign";
-
-        stack.setTagInfo("pages", nbtTagList);
-        stack.setTagInfo("author", new NBTTagString("author", mc.thePlayer.getCommandSenderName()));
-        stack.setTagInfo("title", new NBTTagString("title", title.trim()));
-
-        stack.itemID = Item.writtenBook.itemID;
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
-
-        try {
-            Packet.writeItemStack(stack, dataOutputStream);
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload(CHANNEL_NAME, byteArrayOutputStream.toByteArray()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        String CHANNEL_NAME = "MC|BSign";
+//
+//        stack.setTagInfo("pages", nbtTagList);
+//        stack.setTagInfo("author", new NBTTagString("author", mc.thePlayer.getCommandSenderName()));
+//        stack.setTagInfo("title", new NBTTagString("title", title.trim()));
+//
+//
+//
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+//
+//        try {
+//            Packet.writeItemStack(stack, dataOutputStream);
+//            mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload(CHANNEL_NAME, byteArrayOutputStream.toByteArray()));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

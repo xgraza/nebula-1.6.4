@@ -1,7 +1,7 @@
 package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet10Flying;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import wtf.nebula.event.MotionEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
@@ -45,9 +45,9 @@ public class Flight extends Module {
 
     @EventListener
     public void onPacketSend(PacketEvent.Send event) {
-        if (event.getPacket() instanceof Packet10Flying && event.getEra().equals(Era.PRE)) {
+        if (event.getPacket() instanceof C03PacketPlayer && event.getEra().equals(Era.PRE)) {
 
-            ((Packet10Flying) event.getPacket()).onGround = groundSpoof.getValue();
+            ((C03PacketPlayer) event.getPacket()).onGround = groundSpoof.getValue();
         }
     }
 }

@@ -1,46 +1,46 @@
 package wtf.nebula.util.world;
 
 import com.google.common.collect.Lists;
-import net.minecraft.src.*;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.C0APacketAnimation;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3;
 import wtf.nebula.util.Globals;
-import wtf.nebula.util.MathUtil;
 
 import java.util.List;
 
 public class BlockUtil implements Globals {
-    public static final List<Block> REPLACEABLE = Lists.newArrayList(
-            Block.waterStill,
-            Block.waterMoving,
-            Block.lavaMoving,
-            Block.lavaStill
-    );
-
     public static final List<Block> SNEAK_BLOCKS = Lists.newArrayList(
-            Block.furnaceBurning,
-            Block.furnaceIdle,
-            Block.workbench,
-            Block.anvil,
-            Block.beacon,
-            Block.trapdoor,
-            Block.doorWood,
-            Block.brewingStand,
-            Block.chest,
-            Block.chestTrapped,
-            Block.enderChest,
-            Block.lockedChest,
-            Block.music
+            Blocks.crafting_table,
+            Blocks.furnace,
+            Blocks.lit_furnace,
+            Blocks.anvil,
+            Blocks.chest,
+            Blocks.ender_chest,
+            Blocks.trapped_chest,
+            Blocks.enchanting_table,
+            Blocks.bed,
+            Blocks.beacon,
+            Blocks.dispenser,
+            Blocks.dropper,
+            Blocks.powered_comparator,
+            Blocks.unpowered_comparator,
+            Blocks.powered_repeater,
+            Blocks.unpowered_repeater
     );
 
     public static Block getBlockFromVec(Vec3 vec) {
-        return Block.blocksList[mc.theWorld.getBlockId((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord)];
+        return mc.theWorld.getBlock((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord);
     }
 
     public static Block getBlockFrom(int x, int y, int z) {
-        return Block.blocksList[mc.theWorld.getBlockId(x, y, z)];
+        return mc.theWorld.getBlock(x, y, z);
     }
 
     public static boolean isReplaceable(Vec3 vec) {
-        return mc.theWorld.getBlockMaterial((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord).isReplaceable();
+        return getBlockFromVec(vec).getMaterial().isReplaceable();
     }
 
     public static EnumFacing hasPlaceableSide(Vec3 vec) {
@@ -70,10 +70,10 @@ public class BlockUtil implements Globals {
 
             boolean sneak = SNEAK_BLOCKS.contains(getBlockFromVec(neighbor)) && !mc.thePlayer.isSneaking();
             if (sneak) {
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 1));
+                mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 1));
             }
 
-            int side = facing.order_b;
+            int side = facing.order_a;
 
             int x = (int) neighbor.xCoord;
             int y = (int) neighbor.yCoord;
@@ -92,12 +92,12 @@ public class BlockUtil implements Globals {
                 }
 
                 else {
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet18Animation());
+                    mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
                 }
             }
 
             if (sneak) {
-                mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 2));
+                mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 2));
             }
 
             break;

@@ -1,8 +1,9 @@
 package wtf.nebula.util.world.player;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockFluid;
-import net.minecraft.src.Vec3;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.Vec3;
 import wtf.nebula.util.Globals;
 import wtf.nebula.util.world.BlockUtil;
 
@@ -18,10 +19,10 @@ public class PlayerUtil implements Globals {
                 Math.floor(mc.thePlayer.posZ));
 
         Block block = BlockUtil.getBlockFromVec(pos);
-        if (!lava && (block == Block.lavaMoving || block == Block.lavaStill)) {
+        if (!lava && (block == Blocks.flowing_lava || block == Blocks.lava)) {
             return false;
         }
 
-        return block instanceof BlockFluid;
+        return block instanceof BlockLiquid;
     }
 }

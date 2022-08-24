@@ -1,7 +1,7 @@
 package wtf.nebula.event;
 
 import me.bush.eventbus.event.Event;
-import net.minecraft.src.ScaledResolution;
+import net.minecraft.client.gui.ScaledResolution;
 
 public class RenderHUDEvent extends Event {
     private final ScaledResolution resolution;

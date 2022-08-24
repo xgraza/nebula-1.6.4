@@ -2,9 +2,8 @@ package wtf.nebula.repository.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import net.minecraft.src.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayer;
 import wtf.nebula.repository.BaseRepository;
 import wtf.nebula.repository.Repositories;
 import wtf.nebula.repository.Repository;
@@ -21,7 +20,7 @@ public class FriendRepository extends BaseRepository<String> {
         if (!Files.exists(FRIENDS)) {
             FileUtil.write(FRIENDS, "[]");
 
-            log.logInfo("Created friends.json");
+            log.info("Created friends.json");
         }
 
         else {
@@ -32,10 +31,10 @@ public class FriendRepository extends BaseRepository<String> {
                     addChild(fren);
                 }
 
-                log.logInfo("Added " + children.size() + " friend(s).");
+                log.info("Added " + children.size() + " friend(s).");
             } catch (Exception e) {
                 e.printStackTrace();
-                log.logSevere("An error occurred when parsing the friends.json file. Please make sure to not make any external edits.");
+                log.fatal("An error occurred when parsing the friends.json file. Please make sure to not make any external edits.");
             }
         }
     }
@@ -54,7 +53,7 @@ public class FriendRepository extends BaseRepository<String> {
     }
 
     public boolean isFriend(EntityPlayer player) {
-        return isFriend(player.getEntityName());
+        return isFriend(player.getCommandSenderName());
     }
 
     public void save() {

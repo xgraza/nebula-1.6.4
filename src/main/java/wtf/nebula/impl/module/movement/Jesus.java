@@ -1,10 +1,13 @@
 package wtf.nebula.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockFluid;
-import net.minecraft.src.KeyBinding;
-import net.minecraft.src.Packet10Flying;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.util.AxisAlignedBB;
+import wtf.nebula.event.AddBoundingBoxEvent;
 import wtf.nebula.event.CollisionBoxEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
@@ -69,23 +72,21 @@ public class Jesus extends Module {
     }
 
     @EventListener
-    public void onCollisionBox(CollisionBoxEvent event) {
+    public void onCollisionBox(AddBoundingBoxEvent event) {
 
-        if (mode.getValue().equals(Mode.SOLID)) {
+        if (mode.getValue().equals(Mode.SOLID) && event.getEntity() != null && event.getEntity().equals(mc.thePlayer)) {
             Block block = event.getBlock();
 
-            if (!(block instanceof BlockFluid)) {
+            if (!(block instanceof BlockLiquid)) {
                 return;
             }
 
-            if (!lava.getValue() && (block.equals(Block.lavaMoving) || block.equals(Block.lavaStill))) {
+            if (!lava.getValue() && (block.equals(Blocks.lava) || block.equals(Blocks.flowing_lava))) {
                 return;
             }
 
-            event.setBox(event.getBox().offset(
-                    event.getVec().xCoord,
-                    event.getVec().yCoord,
-                    event.getVec().zCoord));
+            event.setBox(new AxisAlignedBB(0, 0, 0, 1, 0.99, 1)
+                    .offset(event.getX(), event.getY(), event.getZ()));
             event.setCancelled(true);
         }
     }
@@ -94,10 +95,10 @@ public class Jesus extends Module {
     public void onPacketSend(PacketEvent.Send event) {
 
         // if this is a move packet
-        if (event.getPacket() instanceof Packet10Flying && event.getEra().equals(Era.PRE)) {
+        if (event.getPacket() instanceof C03PacketPlayer && event.getEra().equals(Era.PRE)) {
 
             // the movement packet
-            Packet10Flying packet = event.getPacket();
+            C03PacketPlayer packet = event.getPacket();
 
             if (mode.getValue().equals(Mode.SOLID)) {
 
@@ -112,13 +113,13 @@ public class Jesus extends Module {
 
                         // spoof falling down
                         packet.stance -= 0.01;
-                        packet.yPosition -= 0.01;
+                        packet.y -= 0.01;
 
                     } else {
 
                         // spoof floating up (pressing space bar)
                         packet.stance += 0.01;
-                        packet.yPosition += 0.01;
+                        packet.y += 0.01;
                     }
                 }
             }

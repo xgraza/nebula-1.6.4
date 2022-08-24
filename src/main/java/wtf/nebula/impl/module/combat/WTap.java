@@ -1,8 +1,8 @@
 package wtf.nebula.impl.module.combat;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet19EntityAction;
-import net.minecraft.src.Packet7UseEntity;
+import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
 import wtf.nebula.impl.module.Module;
@@ -16,17 +16,17 @@ public class WTap extends Module {
     @EventListener
     public void onPacketSend(PacketEvent.Send event) {
 
-        if (event.getPacket() instanceof Packet7UseEntity) {
+        if (event.getPacket() instanceof C02PacketUseEntity) {
 
-            Packet7UseEntity packet = event.getPacket();
-            if (packet.isLeftClick == 1) {
+            C02PacketUseEntity packet = event.getPacket();
+            if (packet.getAction().equals(C02PacketUseEntity.Action.ATTACK)) {
 
                 if (event.getEra().equals(Era.PRE)) {
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 4));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 4));
                 }
 
                 else {
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 5));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 5));
                 }
             }
         }

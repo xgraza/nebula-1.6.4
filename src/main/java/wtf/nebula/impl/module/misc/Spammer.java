@@ -1,7 +1,7 @@
 package wtf.nebula.impl.module.misc;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.Packet3Chat;
+import net.minecraft.network.play.client.C01PacketChatMessage;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -89,7 +89,7 @@ public class Spammer extends Module {
                     }
                 }
 
-                mc.thePlayer.sendQueue.addToSendQueueSilent(new Packet3Chat(str));
+                mc.thePlayer.sendQueue.addToSendQueueSilent(new C01PacketChatMessage(str));
             }
         }
     }

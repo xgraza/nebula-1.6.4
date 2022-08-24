@@ -1,6 +1,6 @@
 package wtf.nebula.impl.command.impl;
 
-import net.minecraft.src.Packet11PlayerPosition;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import wtf.nebula.impl.command.Command;
 
 import java.util.Arrays;
@@ -14,7 +14,7 @@ public class Spawn extends Command {
 
     @Override
     public void execute(List<String> args) {
-        mc.thePlayer.sendQueue.addToSendQueue(new Packet11PlayerPosition(Double.NaN, Double.NaN, Double.NaN, Double.NaN, false));
+        mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(Double.NaN, Double.NaN, Double.NaN, Double.NaN, false));
         sendChatMessage("Packet sent");
     }
 }

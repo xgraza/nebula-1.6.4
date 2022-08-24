@@ -1,7 +1,7 @@
 package wtf.nebula.event;
 
 import me.bush.eventbus.event.Event;
-import net.minecraft.src.AxisAlignedBB;
+import net.minecraft.util.AxisAlignedBB;
 
 public class StepEvent extends Event {
     private final AxisAlignedBB box;

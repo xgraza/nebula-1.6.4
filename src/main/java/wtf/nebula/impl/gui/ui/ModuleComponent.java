@@ -1,6 +1,6 @@
 package wtf.nebula.impl.gui.ui;
 
-import net.minecraft.src.EnumChatFormatting;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.impl.gui.ui.value.BindComponent;
 import wtf.nebula.impl.gui.ui.value.BooleanComponent;
 import wtf.nebula.impl.gui.ui.value.EnumComponent;

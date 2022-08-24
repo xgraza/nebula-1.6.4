@@ -1,7 +1,7 @@
 package wtf.nebula.impl.command.impl;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.EnumChatFormatting;
+import net.minecraft.block.Block;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.impl.command.Command;
 import wtf.nebula.impl.module.render.Searcher;
 
@@ -26,13 +26,12 @@ public class Search extends Command {
                     .append(EnumChatFormatting.RESET)
                     .append("\n");
 
-            for (int blockId : Searcher.blocks) {
+            for (Block block : Searcher.blocks) {
                 try {
-                    Block block = Block.blocksList[blockId];
                     if (block != null) {
                         builder.append(block.getLocalizedName())
                                 .append("[")
-                                .append(blockId)
+                                .append(block.getLocalizedName())
                                 .append("]")
                                 .append(" ");
                     }
@@ -61,20 +60,20 @@ public class Search extends Command {
             }
 
             try {
-                Block block = Block.blocksList[blockId];
+                Block block = Block.getBlockById(blockId);
                 if (block == null) {
                     sendChatMessage("That is not a valid block id");
                     return;
                 }
 
-                if (Searcher.blocks.contains(blockId)) {
-                    Searcher.blocks.remove(blockId);
-                    sendChatMessage("Removed block " + EnumChatFormatting.GREEN + block.getLocalizedName() + EnumChatFormatting.RESET + " [" + blockId + "]");
+                if (Searcher.blocks.contains(block)) {
+                    Searcher.blocks.remove(block);
+                    sendChatMessage("Removed block " + EnumChatFormatting.GREEN + block.getLocalizedName());
                 }
 
                 else {
-                    Searcher.blocks.add(blockId);
-                    sendChatMessage("Added block " + EnumChatFormatting.GREEN + block.getLocalizedName() + EnumChatFormatting.RESET + " [" + blockId + "]");
+                    Searcher.blocks.add(block);
+                    sendChatMessage("Added block " + EnumChatFormatting.GREEN + block.getLocalizedName());
                 }
             } catch (IndexOutOfBoundsException e) {
                 sendChatMessage("That is not a valid block id");

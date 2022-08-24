@@ -1,7 +1,9 @@
 package wtf.nebula.impl.module.render;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.*;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.network.play.server.S21PacketChunkData;
+import net.minecraft.world.chunk.Chunk;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.PacketEvent.Era;
 import wtf.nebula.event.RenderWorldEvent;
@@ -74,11 +76,11 @@ public class NewChunks extends Module {
     @EventListener
     public void onPacketReceive(PacketEvent.Receive event) {
 
-        if (event.getPacket() instanceof Packet51MapChunk && event.getEra().equals(Era.PRE)) {
-            Packet51MapChunk packet = event.getPacket();
+        if (event.getPacket() instanceof S21PacketChunkData && event.getEra().equals(Era.PRE)) {
+            S21PacketChunkData packet = event.getPacket();
 
-            if (packet.isChunkDataPacket && packet.includeInitialize) {
-                Chunk chunk = mc.theWorld.getChunkFromChunkCoords(packet.xCh, packet.zCh);
+            if (!packet.isFullChunk) {
+                Chunk chunk = mc.theWorld.getChunkFromChunkCoords(packet.x, packet.z);
                 if (chunk != null) {
                     chunks.add(chunk);
                 }

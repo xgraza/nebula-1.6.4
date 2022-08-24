@@ -1,7 +1,13 @@
 package wtf.nebula.impl.module.combat;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.*;
+import net.minecraft.item.ItemPotion;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
@@ -32,7 +38,7 @@ public class AutoPot extends Module {
         potSlot = -1;
         time = 0;
 
-        mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(mc.thePlayer.inventory.currentItem));
+        mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
     }
 
     @EventListener
@@ -84,16 +90,16 @@ public class AutoPot extends Module {
         else {
             switch (time) {
                 case 0:
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(potSlot));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(potSlot));
                     break;
 
                 case 1:
                     mc.thePlayer.swingItem();
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet15Place(-1, -1, -1, 255, mc.thePlayer.inventory.getStackInSlot(potSlot), 0.0f, 0.0f, 0.0f));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(-1, -1, -1, 255, mc.thePlayer.inventory.getStackInSlot(potSlot), 0.0f, 0.0f, 0.0f));
                     break;
 
                 case 2:
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(mc.thePlayer.inventory.currentItem));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                     break;
 
                 case 3:
@@ -110,8 +116,8 @@ public class AutoPot extends Module {
 
     @EventListener
     public void onPacketSend(PacketEvent.Send event) {
-        if (event.getPacket() instanceof Packet10Flying) {
-            Packet10Flying packet = event.getPacket();
+        if (event.getPacket() instanceof C03PacketPlayer) {
+            C03PacketPlayer packet = event.getPacket();
 
             if (!rotate.getValue().equals(Rotate.NONE) && potSlot != -1) {
 
@@ -120,9 +126,9 @@ public class AutoPot extends Module {
                 float pitch = rotate.getValue().pitch;
 
                 if (packet.moving) {
-                    mc.thePlayer.sendQueue.addToSendQueueSilent(new Packet13PlayerLookMove(packet.xPosition, packet.yPosition, packet.stance, packet.zPosition, packet.yaw, pitch, packet.onGround));
+                    mc.thePlayer.sendQueue.addToSendQueueSilent(new C03PacketPlayer.C06PacketPlayerPosLook(packet.x, packet.y, packet.stance, packet.z, packet.yaw, pitch, packet.onGround));
                 } else {
-                    mc.thePlayer.sendQueue.addToSendQueueSilent(new Packet12PlayerLook(mc.thePlayer.rotationYaw, pitch, packet.onGround));
+                    mc.thePlayer.sendQueue.addToSendQueueSilent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, pitch, packet.onGround));
                 }
             }
         }

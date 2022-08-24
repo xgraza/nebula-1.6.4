@@ -1,6 +1,6 @@
 package wtf.nebula.impl.command.impl;
 
-import net.minecraft.src.EnumChatFormatting;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 import wtf.nebula.impl.command.Command;
 import wtf.nebula.impl.module.Module;

@@ -1,7 +1,7 @@
 package wtf.nebula.impl.command.impl;
 
-import net.minecraft.src.EnumChatFormatting;
-import net.minecraft.src.Vec3;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Vec3;
 import wtf.nebula.impl.command.Command;
 import wtf.nebula.repository.impl.WaypointRepository;
 import wtf.nebula.repository.impl.waypoint.Waypoint;

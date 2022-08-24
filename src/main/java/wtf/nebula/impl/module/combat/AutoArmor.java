@@ -1,9 +1,8 @@
 package wtf.nebula.impl.module.combat;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.EnumArmorMaterial;
-import net.minecraft.src.ItemArmor;
-import net.minecraft.src.ItemStack;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
 import wtf.nebula.event.TickEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
@@ -47,7 +46,7 @@ public class AutoArmor extends Module {
                 ItemArmor wornArmor = (ItemArmor) worn.getItem();
 
                 reduction = wornArmor.damageReduceAmount;
-                if (wornArmor.getArmorMaterial().equals(EnumArmorMaterial.GOLD)) {
+                if (wornArmor.getArmorMaterial().equals(ItemArmor.ArmorMaterial.GOLD)) {
                     reduction -= 4;
                 }
             }

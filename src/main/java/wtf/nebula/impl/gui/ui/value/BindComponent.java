@@ -1,6 +1,6 @@
 package wtf.nebula.impl.gui.ui.value;
 
-import net.minecraft.src.EnumChatFormatting;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 import wtf.nebula.impl.gui.ui.ClickGUIScreen;
 import wtf.nebula.impl.gui.ui.Component;

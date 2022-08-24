@@ -1,9 +1,9 @@
 package wtf.nebula.event;
 
 import me.bush.eventbus.event.Event;
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.AxisAlignedBB;
 
 public class AddBoundingBoxEvent extends Event {
     private AxisAlignedBB box;

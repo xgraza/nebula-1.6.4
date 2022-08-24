@@ -1,7 +1,7 @@
 package wtf.nebula.util.render;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Tessellator;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.AxisAlignedBB;
 
 import static org.lwjgl.opengl.GL11.*;
 

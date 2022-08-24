@@ -1,24 +1,23 @@
 package wtf.nebula.impl.module.world;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.*;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.network.play.client.C0APacketAnimation;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3;
+import optifine.BlockPos;
 import wtf.nebula.event.MotionUpdateEvent;
-import wtf.nebula.event.MotionUpdateEvent.Era;
 import wtf.nebula.event.PacketEvent;
-import wtf.nebula.event.RenderWorldEvent;
 import wtf.nebula.event.SafewalkEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
 import wtf.nebula.util.Timer;
-import wtf.nebula.util.render.ColorUtil;
-import wtf.nebula.util.render.RenderUtil;
 import wtf.nebula.util.world.BlockUtil;
 import wtf.nebula.util.world.player.inventory.InventoryRegion;
 import wtf.nebula.util.world.player.inventory.InventoryUtil;
-
-import static org.lwjgl.opengl.GL11.*;
 
 public class Scaffold extends Module {
     public Scaffold() {
@@ -27,11 +26,8 @@ public class Scaffold extends Module {
 
     public final Value<Boolean> tower = new Value<>("Tower", false);
     public final Value<Boolean> swing = new Value<>("Swing", true);
-    public final Value<Boolean> render = new Value<>("Render", true);
 
-    private Vec3 pos;
     private boolean sentCancelSprint = false;
-
     private final Timer towerTimer = new Timer();
 
     @Override
@@ -40,7 +36,7 @@ public class Scaffold extends Module {
 
         if (!nullCheck()) {
             sentCancelSprint = true;
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 5));
+            mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 5));
         }
     }
 
@@ -48,49 +44,13 @@ public class Scaffold extends Module {
     protected void onDeactivated() {
         super.onDeactivated();
 
-        pos = null;
         sentCancelSprint = false;
 
         // re-sync
-        mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(mc.thePlayer.inventory.currentItem));
+        mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
 
         if (sentCancelSprint && mc.thePlayer.isSprinting()) {
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 4));
-        }
-    }
-
-    @EventListener
-    public void onRenderWorld(RenderWorldEvent event) {
-
-        if (render.getValue() && pos != null) {
-
-            AxisAlignedBB box = new AxisAlignedBB(
-                    pos.xCoord, pos.yCoord, pos.zCoord,
-                    pos.xCoord + 1, pos.yCoord + 1, pos.zCoord + 1
-            ).offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
-
-            glPushMatrix();
-
-            glDisable(GL_DEPTH_TEST);
-
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-            glEnable(GL_LINE_SMOOTH);
-            glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
-            glLineWidth(1.5f);
-
-            ColorUtil.setColor(0x90FFFFFF);
-            RenderUtil.drawFilledBoundingBox(box);
-            ColorUtil.setColor(0xFFFFFFFF);
-            mc.renderGlobal.drawOutlinedBoundingBox(box);
-
-            glDisable(GL_LINE_SMOOTH);
-            glEnable(GL_DEPTH_TEST);
-            glDisable(GL_BLEND);
-
-            glPopMatrix();
+            mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 4));
         }
     }
 
@@ -101,90 +61,115 @@ public class Scaffold extends Module {
 
     @EventListener
     public void onMotionUpdate(MotionUpdateEvent event) {
-
-        if (!sentCancelSprint) {
-            sentCancelSprint = true;
-            mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 5));
-        }
-
         int slot = InventoryUtil.findSlot(InventoryRegion.HOTBAR,
-                (stack) -> stack.getItem() != null && stack.getItem() instanceof ItemBlock);
-
+                (stack) -> stack != null && stack.getItem() instanceof ItemBlock && stack.stackSize > 0);
         if (slot == -1) {
+            mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
             return;
         }
 
-        int oldSlot = mc.thePlayer.inventory.currentItem;
-        mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(slot));
+        if (!sentCancelSprint) {
+            sentCancelSprint = true;
+            mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 5));
+        }
 
-        if (event.getEra().equals(Era.POST)) {
-            pos = Vec3.createVectorHelper(
-                    Math.floor(mc.thePlayer.posX),
-                    (int) mc.thePlayer.posY - 2,
-                    Math.floor(mc.thePlayer.posZ));
+        PlaceInfo next = getNextPlacement();
+        if (next != null && event.getEra().equals(MotionUpdateEvent.Era.POST)) {
+            mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
 
-            for (EnumFacing facing : EnumFacing.faceList) {
-                Vec3 neighbor = pos.offset(facing);
+            boolean sneak = BlockUtil.SNEAK_BLOCKS.contains(BlockUtil.getBlockFromVec(next.pos)) && !mc.thePlayer.isSneaking();
+            if (sneak) {
+                mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 1));
+            }
 
-                if (BlockUtil.isReplaceable(neighbor)) {
-                    continue;
-                }
+            int x = (int) next.pos.xCoord;
+            int y = (int) next.pos.yCoord;
+            int z = (int) next.pos.zCoord;
 
-                boolean sneak = BlockUtil.SNEAK_BLOCKS.contains(BlockUtil.getBlockFromVec(neighbor)) && !mc.thePlayer.isSneaking();
-                if (sneak) {
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 1));
-                }
+            boolean success = mc.playerController.onPlayerRightClick(
+                    mc.thePlayer,
+                    mc.theWorld,
+                    mc.thePlayer.inventory.getStackInSlot(slot),
+                    x, y, z,
+                    next.facing,
+                    next.pos.addVector(0.5, 0.0, 0.5)
+            );
 
-                int side = facing.order_b;
+            if (success) {
+                mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
 
-                int x = (int) neighbor.xCoord;
-                int y = (int) neighbor.yCoord;
-                int z = (int) neighbor.zCoord;
+                if (tower.getValue() && mc.gameSettings.keyBindJump.isPressed()) {
+                    mc.thePlayer.jump();
+                    mc.thePlayer.motionX *= 0.3;
+                    mc.thePlayer.motionZ *= 0.3;
 
-                boolean success = mc.playerController.onPlayerRightClick(
-                        mc.thePlayer,
-                        mc.theWorld,
-                        mc.thePlayer.inventory.getStackInSlot(slot),
-                        x, y, z,
-                        side,
-                        pos.addVector(0.5, 0.0, 0.5)
-                );
-
-                if (sneak) {
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet19EntityAction(mc.thePlayer, 2));
-                }
-
-                if (success) {
-
-                    if (tower.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindJump.keyCode)) {
-                        mc.thePlayer.jump();
-                        mc.thePlayer.motionX *= 0.3;
-                        mc.thePlayer.motionZ *= 0.3;
-
-                        if (towerTimer.passedTime(1200L, true)) {
-                            mc.thePlayer.motionY = -0.28;
-                        }
+                    if (towerTimer.passedTime(1200L, true)) {
+                        mc.thePlayer.motionY = -0.28;
                     }
-
-                    mc.thePlayer.sendQueue.addToSendQueue(new Packet16BlockItemSwitch(oldSlot));
                 }
 
-                break;
+                mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+            }
+
+            if (sneak) {
+                mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 2));
             }
         }
+    }
+
+    private PlaceInfo getNextPlacement() {
+        Vec3 below = Vec3.createVectorHelper(
+                Math.floor(mc.thePlayer.posX),
+                (int) mc.thePlayer.posY - 2,
+                Math.floor(mc.thePlayer.posZ));
+
+        if (!BlockUtil.isReplaceable(below)) {
+            return null;
+        }
+
+        for (EnumFacing facing : EnumFacing.values()) {
+            Vec3 n = below.offset(facing);
+            if (!BlockUtil.isReplaceable(n)) {
+                return new PlaceInfo(n, facing.order_b);
+            }
+        }
+
+        for (EnumFacing facing : EnumFacing.values()) {
+            Vec3 n = below.offset(facing);
+            if (BlockUtil.isReplaceable(n)) {
+                for (EnumFacing dir : EnumFacing.values()) {
+                    Vec3 v = n.offset(dir);
+                    if (!BlockUtil.isReplaceable(v)) {
+                        return new PlaceInfo(v, dir.order_b);
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     @EventListener
     public void onPacketSend(PacketEvent.Send event) {
 
-        if (event.getPacket() instanceof Packet19EntityAction) {
+        if (event.getPacket() instanceof C0BPacketEntityAction) {
 
-            Packet19EntityAction packet = event.getPacket();
+            C0BPacketEntityAction packet = event.getPacket();
 
             // do not allow us to start sprinting, but we can sprint client-side
             if (packet.action == 4 && sentCancelSprint) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    private static class PlaceInfo {
+        private final Vec3 pos;
+        private final int facing;
+
+        public PlaceInfo(Vec3 pos, int facing) {
+            this.pos = pos;
+            this.facing = facing;
         }
     }
 }

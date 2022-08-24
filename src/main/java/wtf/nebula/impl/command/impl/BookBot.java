@@ -2,7 +2,11 @@ package wtf.nebula.impl.command.impl;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.src.*;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.EnumChatFormatting;
 import wtf.nebula.impl.command.Command;
 import wtf.nebula.util.FileUtil;
 
@@ -22,7 +26,7 @@ public class BookBot extends Command {
     @Override
     public void execute(List<String> args) {
         ItemStack held = mc.thePlayer.getHeldItem();
-        if (held == null || !held.getItem().equals(Item.writableBook)) {
+        if (held == null || !held.getItem().equals(Items.writable_book)) {
             sendChatMessage("Please hold a book and quill in your hand");
             return;
         }
@@ -92,7 +96,7 @@ public class BookBot extends Command {
             String line = lines.get(i);
             line = line.substring(0, Math.min(256, line.length()));
 
-            list.appendTag(new NBTTagString(String.valueOf(i), line));
+            list.appendTag(new NBTTagString(line));
         }
 
         Write.signBook(held, list, title);

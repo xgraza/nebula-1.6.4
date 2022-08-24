@@ -1,6 +1,6 @@
 package wtf.nebula.impl.gui.ui;
 
-import net.minecraft.src.GuiScreen;
+import net.minecraft.client.gui.GuiScreen;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.module.render.ClickGUI;

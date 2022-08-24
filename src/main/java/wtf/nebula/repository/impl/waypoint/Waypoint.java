@@ -1,6 +1,6 @@
 package wtf.nebula.repository.impl.waypoint;
 
-import net.minecraft.src.Vec3;
+import net.minecraft.util.Vec3;
 
 public class Waypoint {
     private final String server;

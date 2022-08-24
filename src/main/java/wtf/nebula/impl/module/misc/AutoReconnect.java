@@ -1,12 +1,11 @@
 package wtf.nebula.impl.module.misc;
 
 import me.bush.eventbus.annotation.EventListener;
-import net.minecraft.src.ServerData;
+import net.minecraft.client.multiplayer.ServerData;
 import wtf.nebula.event.WorldUnloadEvent;
 import wtf.nebula.impl.module.Module;
 import wtf.nebula.impl.module.ModuleCategory;
 import wtf.nebula.impl.value.Value;
-import wtf.nebula.util.Timer;
 
 public class AutoReconnect extends Module {
     public ServerData serverData;
