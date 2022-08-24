@@ -1,5 +1,5 @@
-# nebula-1.6.4
-A client for MC 1.6.4 for the server alfheim.pw
+# nebula-1.7.2
+A client for MC 1.7.2 for the server alfheim.pw
 
 ## Issues
 
