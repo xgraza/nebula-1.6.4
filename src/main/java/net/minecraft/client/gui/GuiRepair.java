@@ -29,7 +29,7 @@ public class GuiRepair extends GuiContainer implements ICrafting
     {
         super(new ContainerRepair(par1InventoryPlayer, par2World, par3, par4, par5, Minecraft.getMinecraft().thePlayer));
         this.field_147094_x = par1InventoryPlayer;
-        this.field_147092_v = (ContainerRepair)this.field_147002_h;
+        this.field_147092_v = (ContainerRepair)this.container;
     }
 
     public void initGui()
@@ -43,15 +43,15 @@ public class GuiRepair extends GuiContainer implements ICrafting
         this.field_147091_w.func_146204_h(-1);
         this.field_147091_w.func_146185_a(false);
         this.field_147091_w.func_146203_f(40);
-        this.field_147002_h.removeCraftingFromCrafters(this);
-        this.field_147002_h.addCraftingToCrafters(this);
+        this.container.removeCraftingFromCrafters(this);
+        this.container.addCraftingToCrafters(this);
     }
 
     public void onGuiClosed()
     {
         super.onGuiClosed();
         Keyboard.enableRepeatEvents(false);
-        this.field_147002_h.removeCraftingFromCrafters(this);
+        this.container.removeCraftingFromCrafters(this);
     }
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
@@ -137,9 +137,9 @@ public class GuiRepair extends GuiContainer implements ICrafting
         this.field_147091_w.mouseClicked(par1, par2, par3);
     }
 
-    public void drawScreen(int par1, int par2, float par3)
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        super.drawScreen(par1, par2, par3);
+        super.drawScreen(mouseX, mouseY, partialTicks);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_BLEND);
         this.field_147091_w.drawTextBox();

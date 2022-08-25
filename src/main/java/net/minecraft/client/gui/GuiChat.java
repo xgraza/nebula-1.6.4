@@ -379,7 +379,7 @@ public class GuiChat extends GuiScreen
 
                 if (var6 != null)
                 {
-                    this.func_146285_a(var6, par1, par2);
+                    this.renderHoverInfo(var6, par1, par2);
                 }
                 else
                 {

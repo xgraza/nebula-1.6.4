@@ -52,11 +52,11 @@ public class GuiInventory extends InventoryEffectRenderer
         this.fontRenderer.drawString(I18n.format("container.crafting", new Object[0]), 86, 16, 4210752);
     }
 
-    public void drawScreen(int par1, int par2, float par3)
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        super.drawScreen(par1, par2, par3);
-        this.field_147048_u = (float)par1;
-        this.field_147047_v = (float)par2;
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.field_147048_u = (float) mouseX;
+        this.field_147047_v = (float) mouseY;
     }
 
     protected void func_146976_a(float p_146976_1_, int p_146976_2_, int p_146976_3_)
@@ -102,7 +102,7 @@ public class GuiInventory extends InventoryEffectRenderer
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        //GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
     }
 

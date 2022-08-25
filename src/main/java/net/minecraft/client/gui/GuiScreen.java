@@ -92,7 +92,7 @@ public class GuiScreen extends Gui
         }
     }
 
-    protected void func_146285_a(ItemStack p_146285_1_, int p_146285_2_, int p_146285_3_)
+    protected void renderHoverInfo(ItemStack p_146285_1_, int p_146285_2_, int p_146285_3_)
     {
         List var4 = p_146285_1_.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
 

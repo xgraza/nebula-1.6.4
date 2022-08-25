@@ -53,10 +53,10 @@ public class GuiScreenHorseInventory extends GuiContainer
         GuiInventory.func_147046_a(var4 + 51, var5 + 60, 17, (float)(var4 + 51) - this.field_147033_y, (float)(var5 + 75 - 50) - this.field_147032_z, this.field_147034_x);
     }
 
-    public void drawScreen(int par1, int par2, float par3)
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.field_147033_y = (float)par1;
-        this.field_147032_z = (float)par2;
-        super.drawScreen(par1, par2, par3);
+        this.field_147033_y = (float) mouseX;
+        this.field_147032_z = (float) mouseY;
+        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

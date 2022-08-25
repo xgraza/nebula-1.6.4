@@ -50,7 +50,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
     public GuiContainerCreative(EntityPlayer par1EntityPlayer)
     {
         super(new GuiContainerCreative.ContainerCreative(par1EntityPlayer));
-        par1EntityPlayer.openContainer = this.field_147002_h;
+        par1EntityPlayer.openContainer = this.container;
         this.allowUserInput = true;
         this.field_147000_g = 136;
         this.field_146999_f = 195;
@@ -221,19 +221,19 @@ public class GuiContainerCreative extends InventoryEffectRenderer
                 }
                 else
                 {
-                    this.field_147002_h.slotClick(p_146984_1_ == null ? p_146984_2_ : p_146984_1_.slotNumber, p_146984_3_, p_146984_4_, this.mc.thePlayer);
+                    this.container.slotClick(p_146984_1_ == null ? p_146984_2_ : p_146984_1_.slotNumber, p_146984_3_, p_146984_4_, this.mc.thePlayer);
 
                     if (Container.func_94532_c(p_146984_3_) == 2)
                     {
                         for (var10 = 0; var10 < 9; ++var10)
                         {
-                            this.mc.playerController.sendSlotPacket(this.field_147002_h.getSlot(45 + var10).getStack(), 36 + var10);
+                            this.mc.playerController.sendSlotPacket(this.container.getSlot(45 + var10).getStack(), 36 + var10);
                         }
                     }
                     else if (p_146984_1_ != null)
                     {
-                        var6 = this.field_147002_h.getSlot(p_146984_1_.slotNumber).getStack();
-                        this.mc.playerController.sendSlotPacket(var6, p_146984_1_.slotNumber - this.field_147002_h.inventorySlots.size() + 9 + 36);
+                        var6 = this.container.getSlot(p_146984_1_.slotNumber).getStack();
+                        this.mc.playerController.sendSlotPacket(var6, p_146984_1_.slotNumber - this.container.inventorySlots.size() + 9 + 36);
                     }
                 }
             }
@@ -313,7 +313,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
     private void func_147053_i()
     {
-        GuiContainerCreative.ContainerCreative var1 = (GuiContainerCreative.ContainerCreative)this.field_147002_h;
+        GuiContainerCreative.ContainerCreative var1 = (GuiContainerCreative.ContainerCreative)this.container;
         var1.field_148330_a.clear();
         Iterator var2 = Item.itemRegistry.iterator();
 
@@ -436,14 +436,14 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
     private boolean func_147055_p()
     {
-        return field_147058_w != CreativeTabs.tabInventory.getTabIndex() && CreativeTabs.creativeTabArray[field_147058_w].shouldHidePlayerInventory() && ((GuiContainerCreative.ContainerCreative)this.field_147002_h).func_148328_e();
+        return field_147058_w != CreativeTabs.tabInventory.getTabIndex() && CreativeTabs.creativeTabArray[field_147058_w].shouldHidePlayerInventory() && ((GuiContainerCreative.ContainerCreative)this.container).func_148328_e();
     }
 
     private void func_147050_b(CreativeTabs p_147050_1_)
     {
         int var2 = field_147058_w;
         field_147058_w = p_147050_1_.getTabIndex();
-        GuiContainerCreative.ContainerCreative var3 = (GuiContainerCreative.ContainerCreative)this.field_147002_h;
+        GuiContainerCreative.ContainerCreative var3 = (GuiContainerCreative.ContainerCreative)this.container;
         this.field_147008_s.clear();
         var3.field_148330_a.clear();
         p_147050_1_.displayAllReleventItems(var3.field_148330_a);
@@ -536,7 +536,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
         if (var1 != 0 && this.func_147055_p())
         {
-            int var2 = ((GuiContainerCreative.ContainerCreative)this.field_147002_h).field_148330_a.size() / 9 - 5 + 1;
+            int var2 = ((GuiContainerCreative.ContainerCreative)this.container).field_148330_a.size() / 9 - 5 + 1;
 
             if (var1 > 0)
             {
@@ -560,11 +560,11 @@ public class GuiContainerCreative extends InventoryEffectRenderer
                 this.field_147067_x = 1.0F;
             }
 
-            ((GuiContainerCreative.ContainerCreative)this.field_147002_h).func_148329_a(this.field_147067_x);
+            ((GuiContainerCreative.ContainerCreative)this.container).func_148329_a(this.field_147067_x);
         }
     }
 
-    public void drawScreen(int par1, int par2, float par3)
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         boolean var4 = Mouse.isButtonDown(0);
         int var5 = this.field_147003_i;
@@ -574,7 +574,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         int var9 = var7 + 14;
         int var10 = var8 + 112;
 
-        if (!this.field_147065_z && var4 && par1 >= var7 && par2 >= var8 && par1 < var9 && par2 < var10)
+        if (!this.field_147065_z && var4 && mouseX >= var7 && mouseY >= var8 && mouseX < var9 && mouseY < var10)
         {
             this.field_147066_y = this.func_147055_p();
         }
@@ -588,7 +588,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
         if (this.field_147066_y)
         {
-            this.field_147067_x = ((float)(par2 - var8) - 7.5F) / ((float)(var10 - var8) - 15.0F);
+            this.field_147067_x = ((float)(mouseY - var8) - 7.5F) / ((float)(var10 - var8) - 15.0F);
 
             if (this.field_147067_x < 0.0F)
             {
@@ -600,10 +600,10 @@ public class GuiContainerCreative extends InventoryEffectRenderer
                 this.field_147067_x = 1.0F;
             }
 
-            ((GuiContainerCreative.ContainerCreative)this.field_147002_h).func_148329_a(this.field_147067_x);
+            ((GuiContainerCreative.ContainerCreative)this.container).func_148329_a(this.field_147067_x);
         }
 
-        super.drawScreen(par1, par2, par3);
+        super.drawScreen(mouseX, mouseY, partialTicks);
         CreativeTabs[] var11 = CreativeTabs.creativeTabArray;
         int var12 = var11.length;
 
@@ -611,22 +611,22 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         {
             CreativeTabs var14 = var11[var13];
 
-            if (this.func_147052_b(var14, par1, par2))
+            if (this.func_147052_b(var14, mouseX, mouseY))
             {
                 break;
             }
         }
 
-        if (this.field_147064_C != null && field_147058_w == CreativeTabs.tabInventory.getTabIndex() && this.func_146978_c(this.field_147064_C.xDisplayPosition, this.field_147064_C.yDisplayPosition, 16, 16, par1, par2))
+        if (this.field_147064_C != null && field_147058_w == CreativeTabs.tabInventory.getTabIndex() && this.func_146978_c(this.field_147064_C.xDisplayPosition, this.field_147064_C.yDisplayPosition, 16, 16, mouseX, mouseY))
         {
-            this.func_146279_a(I18n.format("inventory.binSlot", new Object[0]), par1, par2);
+            this.func_146279_a(I18n.format("inventory.binSlot", new Object[0]), mouseX, mouseY);
         }
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_LIGHTING);
     }
 
-    protected void func_146285_a(ItemStack p_146285_1_, int p_146285_2_, int p_146285_3_)
+    protected void renderHoverInfo(ItemStack p_146285_1_, int p_146285_2_, int p_146285_3_)
     {
         if (field_147058_w == CreativeTabs.tabAllSearch.getTabIndex())
         {
@@ -677,7 +677,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         }
         else
         {
-            super.func_146285_a(p_146285_1_, p_146285_2_, p_146285_3_);
+            super.renderHoverInfo(p_146285_1_, p_146285_2_, p_146285_3_);
         }
     }
 

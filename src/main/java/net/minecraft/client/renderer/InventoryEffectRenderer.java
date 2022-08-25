@@ -30,9 +30,9 @@ public abstract class InventoryEffectRenderer extends GuiContainer
         }
     }
 
-    public void drawScreen(int par1, int par2, float par3)
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        super.drawScreen(par1, par2, par3);
+        super.drawScreen(mouseX, mouseY, partialTicks);
 
         if (this.field_147045_u)
         {

@@ -85,11 +85,13 @@ public class Gui
         float var12 = (float)(par6 >> 16 & 255) / 255.0F;
         float var13 = (float)(par6 >> 8 & 255) / 255.0F;
         float var14 = (float)(par6 & 255) / 255.0F;
+
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glShadeModel(GL11.GL_SMOOTH);
+
         Tessellator var15 = Tessellator.instance;
         var15.startDrawingQuads();
         var15.setColorRGBA_F(var8, var9, var10, var7);
@@ -99,6 +101,7 @@ public class Gui
         var15.addVertex((double)par1, (double)par4, (double)this.zLevel);
         var15.addVertex((double)par3, (double)par4, (double)this.zLevel);
         var15.draw();
+
         GL11.glShadeModel(GL11.GL_FLAT);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_ALPHA_TEST);

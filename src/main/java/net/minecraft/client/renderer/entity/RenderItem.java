@@ -514,21 +514,40 @@ public class RenderItem extends Render
                 throw new ReportedException(var7);
             }
 
+            // taken from MC 1.6.4 - 1.7.2 has bugged rendering
             if (par3ItemStack.hasEffect())
             {
-                GL11.glDepthFunc(GL11.GL_EQUAL);
+                GL11.glDepthFunc(GL11.GL_GREATER);
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDepthMask(false);
                 par2TextureManager.bindTexture(RES_ITEM_GLINT);
-                GL11.glEnable(GL11.GL_ALPHA_TEST);
+                this.zLevel -= 50.0F;
                 GL11.glEnable(GL11.GL_BLEND);
+                GL11.glBlendFunc(GL11.GL_DST_COLOR, GL11.GL_DST_COLOR);
                 GL11.glColor4f(0.5F, 0.25F, 0.8F, 1.0F);
                 this.renderGlint(par4 * 431278612 + par5 * 32178161, par4 - 2, par5 - 2, 20, 20);
+                GL11.glDisable(GL11.GL_BLEND);
                 GL11.glDepthMask(true);
-                GL11.glDisable(GL11.GL_ALPHA_TEST);
+                this.zLevel += 50.0F;
                 GL11.glEnable(GL11.GL_LIGHTING);
                 GL11.glDepthFunc(GL11.GL_LEQUAL);
             }
+
+//            if (par3ItemStack.hasEffect())
+//            {
+//                GL11.glDepthFunc(GL11.GL_EQUAL);
+//                GL11.glDisable(GL11.GL_LIGHTING);
+//                GL11.glDepthMask(false);
+//                par2TextureManager.bindTexture(RES_ITEM_GLINT);
+//                GL11.glEnable(GL11.GL_ALPHA_TEST);
+//                GL11.glEnable(GL11.GL_BLEND);
+//                GL11.glColor4f(0.5F, 0.25F, 0.8F, 1.0F);
+//                this.renderGlint(par4 * 431278612 + par5 * 32178161, par4 - 2, par5 - 2, 20, 20);
+//                GL11.glDepthMask(true);
+//                GL11.glDisable(GL11.GL_ALPHA_TEST);
+//                GL11.glEnable(GL11.GL_LIGHTING);
+//                GL11.glDepthFunc(GL11.GL_LEQUAL);
+//            }
 
             this.zLevel -= 50.0F;
         }
@@ -538,7 +557,16 @@ public class RenderItem extends Render
     {
         for (int var6 = 0; var6 < 2; ++var6)
         {
-            OpenGlHelper.glBlendFunc(772, 1, 0, 0);
+            if (var6 == 0)
+            {
+                GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
+            }
+
+            if (var6 == 1)
+            {
+                GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
+            }
+
             float var7 = 0.00390625F;
             float var8 = 0.00390625F;
             float var9 = (float)(Minecraft.getSystemTime() % (long)(3000 + var6 * 1873)) / (3000.0F + (float)(var6 * 1873)) * 256.0F;

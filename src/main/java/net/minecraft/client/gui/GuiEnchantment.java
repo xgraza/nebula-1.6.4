@@ -38,7 +38,7 @@ public class GuiEnchantment extends GuiContainer
     public GuiEnchantment(InventoryPlayer par1InventoryPlayer, World par2World, int par3, int par4, int par5, String par6Str)
     {
         super(new ContainerEnchantment(par1InventoryPlayer, par2World, par3, par4, par5));
-        this.field_147075_G = (ContainerEnchantment)this.field_147002_h;
+        this.field_147075_G = (ContainerEnchantment)this.container;
         this.field_147079_H = par6Str;
     }
 
@@ -192,7 +192,7 @@ public class GuiEnchantment extends GuiContainer
 
     public void func_147068_g()
     {
-        ItemStack var1 = this.field_147002_h.getSlot(0).getStack();
+        ItemStack var1 = this.container.getSlot(0).getStack();
 
         if (!ItemStack.areItemStacksEqual(var1, this.field_147077_B))
         {
