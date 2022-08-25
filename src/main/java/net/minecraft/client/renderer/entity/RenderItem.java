@@ -621,6 +621,8 @@ public class RenderItem extends Render
 
             if (par3ItemStack.isItemDamaged())
             {
+                GL11.glPushMatrix();
+
                 int var12 = (int)Math.round(13.0D - (double)par3ItemStack.getItemDamageForDisplay() * 13.0D / (double)par3ItemStack.getMaxDamage());
                 int var8 = (int)Math.round(255.0D - (double)par3ItemStack.getItemDamageForDisplay() * 255.0D / (double)par3ItemStack.getMaxDamage());
                 GL11.glDisable(GL11.GL_LIGHTING);
@@ -637,7 +639,10 @@ public class RenderItem extends Render
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
                 GL11.glEnable(GL11.GL_LIGHTING);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
+                GL11.glEnable(GL11.GL_ALPHA_TEST);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+                GL11.glPopMatrix();
             }
         }
     }
