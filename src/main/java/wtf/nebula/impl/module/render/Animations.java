@@ -9,7 +9,7 @@ public class Animations extends Module {
         super("Animations", ModuleCategory.RENDER);
     }
 
-    public final Value<Mode> mode = new Value<>("Mode", Mode.FATHUM);
+    public final Value<Mode> mode = new Value<>("Mode", Mode.WTF);
 
 //    public void hookRenderBlockAnimation(ItemRenderer renderer, float swingProgress) {
 //        switch (mode.getValue()) {
@@ -50,9 +50,6 @@ public class Animations extends Module {
 //    }
 
     public enum Mode {
-        DEFAULT,
-        STRAIGHT,
-        FATHUM,
-        SMOOTH
+        POINT, WTF, SMOOTH, NEBULA
     }
 }

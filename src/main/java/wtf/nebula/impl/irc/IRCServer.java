@@ -103,11 +103,17 @@ public class IRCServer extends Endpoint implements Globals {
 
     public void disconnect() {
         try {
-            timerTask.cancel();
+
+            if (timerTask != null) {
+                timerTask.cancel();
+            }
+
             timer.cancel();
             timer.purge();
 
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
