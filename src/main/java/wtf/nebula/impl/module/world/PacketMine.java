@@ -222,8 +222,7 @@ public class PacketMine extends Module {
         Block at = BlockUtil.getBlockFromVec(pos);
         float multiplier = 1.0f;
         if (stack != null) {
-            // TODO: find method name
-            //multiplier = stack.getStrVsBlock(at);
+            multiplier = stack.func_150997_a(at);
         }
 
         if (stack != null && EnchantmentHelper.getEnchantments(stack).containsKey(Enchantment.efficiency.effectId)) {
@@ -271,7 +270,7 @@ public class PacketMine extends Module {
 
         float dmg = multiplier / hardness;
 
-        if (stack != null){ //&& stack.canHarvestBlock(at)) {
+        if (stack != null && stack.func_150998_b(at)) {
             dmg /= 30.0f;
         }
 
