@@ -10,8 +10,6 @@ import net.minecraft.tileentity.TileEntityBrewingStand;
 public class ContainerBrewingStand extends Container
 {
     private TileEntityBrewingStand tileBrewingStand;
-
-    /** Instance of Slot. */
     private final Slot theSlot;
     private int brewTime;
     private static final String __OBFID = "CL_00001737";
@@ -45,9 +43,6 @@ public class ContainerBrewingStand extends Container
         par1ICrafting.sendProgressBarUpdate(this, 0, this.tileBrewingStand.func_145935_i());
     }
 
-    /**
-     * Looks for changes made in the container, sends them to every listener.
-     */
     public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
@@ -78,9 +73,6 @@ public class ContainerBrewingStand extends Container
         return this.tileBrewingStand.isUseableByPlayer(par1EntityPlayer);
     }
 
-    /**
-     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
-     */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;

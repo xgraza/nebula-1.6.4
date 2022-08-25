@@ -9,16 +9,8 @@ import net.minecraft.world.World;
 
 public class WorldGenBigTree extends WorldGenAbstractTree
 {
-    /**
-     * Contains three sets of two values that provide complimentary indices for a given 'major' index - 1 and 2 for 0, 0
-     * and 2 for 1, and 0 and 1 for 2.
-     */
     static final byte[] otherCoordPairs = new byte[] {(byte)2, (byte)0, (byte)0, (byte)1, (byte)2, (byte)1};
-
-    /** random seed for GenBigTree */
     Random rand = new Random();
-
-    /** Reference to the World object. */
     World worldObj;
     int[] basePos = new int[] {0, 0, 0};
     int heightLimit;
@@ -28,23 +20,9 @@ public class WorldGenBigTree extends WorldGenAbstractTree
     double branchSlope = 0.381D;
     double scaleWidth = 1.0D;
     double leafDensity = 1.0D;
-
-    /**
-     * Currently always 1, can be set to 2 in the class constructor to generate a double-sized tree trunk for big trees.
-     */
     int trunkSize = 1;
-
-    /**
-     * Sets the limit of the random value used to initialize the height limit.
-     */
     int heightLimitLimit = 12;
-
-    /**
-     * Sets the distance limit for how far away the generator will populate leaves from the base leaf node.
-     */
     int leafDistanceLimit = 4;
-
-    /** Contains a list of a points at which to generate groups of leaves. */
     int[][] leafNodes;
     private static final String __OBFID = "CL_00000400";
 
@@ -53,9 +31,6 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         super(par1);
     }
 
-    /**
-     * Generates a list of leaf nodes for the tree, to be populated by generateLeaves.
-     */
     void generateLeafNodeList()
     {
         this.height = (int)((double)this.heightLimit * this.heightAttenuation);
@@ -181,9 +156,6 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         }
     }
 
-    /**
-     * Gets the rough size of a layer of the tree.
-     */
     float layerSize(int par1)
     {
         if ((double)par1 < (double)((float)this.heightLimit) * 0.3D)
@@ -219,9 +191,6 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         return par1 >= 0 && par1 < this.leafDistanceLimit ? (par1 != 0 && par1 != this.leafDistanceLimit - 1 ? 3.0F : 2.0F) : -1.0F;
     }
 
-    /**
-     * Generates the leaves surrounding an individual entry in the leafNodes list.
-     */
     void generateLeafNode(int par1, int par2, int par3)
     {
         int var4 = par2;
@@ -296,9 +265,6 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         }
     }
 
-    /**
-     * Generates the leaf portion of the tree as specified by the leafNodes list.
-     */
     void generateLeaves()
     {
         int var1 = 0;
@@ -312,18 +278,11 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         }
     }
 
-    /**
-     * Indicates whether or not a leaf node requires additional wood to be added to preserve integrity.
-     */
     boolean leafNodeNeedsBase(int par1)
     {
         return (double)par1 >= (double)this.heightLimit * 0.2D;
     }
 
-    /**
-     * Places the trunk for the big tree that is being generated. Able to generate double-sized trunks by changing a
-     * field that is always 1 to 2.
-     */
     void generateTrunk()
     {
         int var1 = this.basePos[0];
@@ -348,9 +307,6 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         }
     }
 
-    /**
-     * Generates additional wood blocks to fill out the bases of different leaf nodes that would otherwise degrade.
-     */
     void generateLeafNodeBases()
     {
         int var1 = 0;
@@ -370,10 +326,6 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         }
     }
 
-    /**
-     * Checks a line of blocks in the world from the first coordinate to triplet to the second, returning the distance
-     * (in blocks) before a non-air, non-leaf block is encountered and/or the end is encountered.
-     */
     int checkBlockLine(int[] par1ArrayOfInteger, int[] par2ArrayOfInteger)
     {
         int[] var3 = new int[] {0, 0, 0};
@@ -432,10 +384,6 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         }
     }
 
-    /**
-     * Returns a boolean indicating whether or not the current location for the tree, spanning basePos to to the height
-     * limit, is valid.
-     */
     boolean validTreeLocation()
     {
         int[] var1 = new int[] {this.basePos[0], this.basePos[1], this.basePos[2]};
@@ -466,9 +414,6 @@ public class WorldGenBigTree extends WorldGenAbstractTree
         }
     }
 
-    /**
-     * Rescales the generator settings, only used in WorldGenBigTree
-     */
     public void setScale(double par1, double par3, double par5)
     {
         this.heightLimitLimit = (int)(par1 * 12.0D);

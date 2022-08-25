@@ -23,9 +23,6 @@ public class SharedMonsterAttributes
     public static final IAttribute attackDamage = new RangedAttribute("generic.attackDamage", 2.0D, 0.0D, Double.MAX_VALUE);
     private static final String __OBFID = "CL_00001695";
 
-    /**
-     * Creates an NBTTagList from a BaseAttributeMap, including all its AttributeInstances
-     */
     public static NBTTagList writeBaseAttributeMapToNBT(BaseAttributeMap par0BaseAttributeMap)
     {
         NBTTagList var1 = new NBTTagList();
@@ -40,9 +37,6 @@ public class SharedMonsterAttributes
         return var1;
     }
 
-    /**
-     * Creates an NBTTagCompound from an AttributeInstance, including its AttributeModifiers
-     */
     private static NBTTagCompound writeAttributeInstanceToNBT(IAttributeInstance par0AttributeInstance)
     {
         NBTTagCompound var1 = new NBTTagCompound();
@@ -72,9 +66,6 @@ public class SharedMonsterAttributes
         return var1;
     }
 
-    /**
-     * Creates an NBTTagCompound from an AttributeModifier
-     */
     private static NBTTagCompound writeAttributeModifierToNBT(AttributeModifier par0AttributeModifier)
     {
         NBTTagCompound var1 = new NBTTagCompound();
@@ -108,7 +99,7 @@ public class SharedMonsterAttributes
     {
         par0AttributeInstance.setBaseValue(par1NBTTagCompound.getDouble("Base"));
 
-        if (par1NBTTagCompound.func_150297_b("Modifiers", 9))
+        if (par1NBTTagCompound.hasKey("Modifiers", 9))
         {
             NBTTagList var2 = par1NBTTagCompound.getTagList("Modifiers", 10);
 
@@ -127,9 +118,6 @@ public class SharedMonsterAttributes
         }
     }
 
-    /**
-     * Creates an AttributeModifier from an NBTTagCompound
-     */
     public static AttributeModifier readAttributeModifierFromNBT(NBTTagCompound par0NBTTagCompound)
     {
         UUID var1 = new UUID(par0NBTTagCompound.getLong("UUIDMost"), par0NBTTagCompound.getLong("UUIDLeast"));

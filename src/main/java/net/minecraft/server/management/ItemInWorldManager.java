@@ -13,25 +13,15 @@ import net.minecraft.world.WorldSettings;
 
 public class ItemInWorldManager
 {
-    /** The world object that this object is connected to. */
     public World theWorld;
-
-    /** The EntityPlayerMP object that this object is connected to. */
     public EntityPlayerMP thisPlayerMP;
     private WorldSettings.GameType gameType;
-
-    /** True if the player is destroying a block */
     private boolean isDestroyingBlock;
     private int initialDamage;
     private int partiallyDestroyedBlockX;
     private int partiallyDestroyedBlockY;
     private int partiallyDestroyedBlockZ;
     private int curblockDamage;
-
-    /**
-     * Set to true when the "finished destroying block" packet is received but the block wasn't fully damaged yet. The
-     * block will not be destroyed while this is false.
-     */
     private boolean receivedFinishDiggingPacket;
     private int posX;
     private int posY;
@@ -59,17 +49,11 @@ public class ItemInWorldManager
         return this.gameType;
     }
 
-    /**
-     * Get if we are in creative game mode.
-     */
     public boolean isCreative()
     {
         return this.gameType.isCreative();
     }
 
-    /**
-     * if the gameType is currently NOT_SET then change it to par1
-     */
     public void initializeGameType(WorldSettings.GameType par1EnumGameType)
     {
         if (this.gameType == WorldSettings.GameType.NOT_SET)
@@ -138,10 +122,6 @@ public class ItemInWorldManager
         }
     }
 
-    /**
-     * if not creative, it calls destroyBlockInWorldPartially untill the block is broken first. par4 is the specific
-     * side. tryHarvestBlock can also be the result of this call
-     */
     public void onBlockClicked(int par1, int par2, int par3, int par4)
     {
         if (!this.gameType.isAdventure() || this.thisPlayerMP.isCurrentToolAdventureModeExempt(par1, par2, par3))
@@ -214,18 +194,12 @@ public class ItemInWorldManager
         }
     }
 
-    /**
-     * note: this ignores the pars passed in and continues to destroy the onClickedBlock
-     */
     public void cancelDestroyingBlock(int par1, int par2, int par3)
     {
         this.isDestroyingBlock = false;
         this.theWorld.destroyBlockInWorldPartially(this.thisPlayerMP.getEntityId(), this.partiallyDestroyedBlockX, this.partiallyDestroyedBlockY, this.partiallyDestroyedBlockZ, -1);
     }
 
-    /**
-     * Removes a block and triggers the appropriate events
-     */
     private boolean removeBlock(int par1, int par2, int par3)
     {
         Block var4 = this.theWorld.getBlock(par1, par2, par3);
@@ -241,9 +215,6 @@ public class ItemInWorldManager
         return var6;
     }
 
-    /**
-     * Attempts to harvest a block at the given coordinate
-     */
     public boolean tryHarvestBlock(int par1, int par2, int par3)
     {
         if (this.gameType.isAdventure() && !this.thisPlayerMP.isCurrentToolAdventureModeExempt(par1, par2, par3))
@@ -263,7 +234,7 @@ public class ItemInWorldManager
 
             if (this.isCreative())
             {
-                this.thisPlayerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(par1, par2, par3, this.theWorld));
+                this.thisPlayerMP.playerNetServerHandler.sendPacketToPlayer(new S23PacketBlockChange(par1, par2, par3, this.theWorld));
             }
             else
             {
@@ -290,9 +261,6 @@ public class ItemInWorldManager
         }
     }
 
-    /**
-     * Attempts to right-click use an item by the given EntityPlayer in the given World
-     */
     public boolean tryUseItem(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack)
     {
         int var4 = par3ItemStack.stackSize;
@@ -331,10 +299,6 @@ public class ItemInWorldManager
         }
     }
 
-    /**
-     * Activate the clicked on block, otherwise use the held item. Args: player, world, itemStack, x, y, z, side,
-     * xOffset, yOffset, zOffset
-     */
     public boolean activateBlockOrUseItem(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
         if ((!par1EntityPlayer.isSneaking() || par1EntityPlayer.getHeldItem() == null) && par2World.getBlock(par4, par5, par6).onBlockActivated(par2World, par4, par5, par6, par1EntityPlayer, par7, par8, par9, par10))
@@ -360,9 +324,6 @@ public class ItemInWorldManager
         }
     }
 
-    /**
-     * Sets the world instance.
-     */
     public void setWorld(WorldServer par1WorldServer)
     {
         this.theWorld = par1WorldServer;

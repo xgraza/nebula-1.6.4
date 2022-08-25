@@ -41,7 +41,7 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
         return p_150066_1_;
     }
 
-    public int func_149738_a(World p_149738_1_)
+    public int tickRate(World p_149738_1_)
     {
         return 10;
     }

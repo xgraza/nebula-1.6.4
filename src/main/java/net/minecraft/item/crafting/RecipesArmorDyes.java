@@ -13,9 +13,6 @@ public class RecipesArmorDyes implements IRecipe
 {
     private static final String __OBFID = "CL_00000079";
 
-    /**
-     * Used to check if a recipe matches current crafting inventory
-     */
     public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World)
     {
         ItemStack var3 = null;
@@ -53,9 +50,6 @@ public class RecipesArmorDyes implements IRecipe
         return var3 != null && !var4.isEmpty();
     }
 
-    /**
-     * Returns an Item that is the result of this recipe
-     */
     public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
     {
         ItemStack var2 = null;
@@ -141,9 +135,6 @@ public class RecipesArmorDyes implements IRecipe
         }
     }
 
-    /**
-     * Returns the size of the recipe area
-     */
     public int getRecipeSize()
     {
         return 10;

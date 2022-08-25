@@ -168,9 +168,6 @@ public class WorldGenSwamp extends WorldGenAbstractTree
         }
     }
 
-    /**
-     * Generates vines at the given position until it hits a block.
-     */
     private void generateVines(World par1World, int par2, int par3, int par4, int par5)
     {
         this.func_150516_a(par1World, par2, par3, par4, Blocks.vine, par5);

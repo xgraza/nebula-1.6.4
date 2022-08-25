@@ -75,32 +75,14 @@ import net.minecraft.world.chunk.IChunkProvider;
 
 public abstract class EntityPlayer extends EntityLivingBase implements ICommandSender
 {
-    /** Inventory of the player */
     public InventoryPlayer inventory = new InventoryPlayer(this);
     private InventoryEnderChest theInventoryEnderChest = new InventoryEnderChest();
-
-    /**
-     * The Container for the player's inventory (which opens when they press E)
-     */
     public Container inventoryContainer;
-
-    /** The Container the player has open. */
     public Container openContainer;
-
-    /** The food object of the player, the general hunger logic. */
     protected FoodStats foodStats = new FoodStats();
-
-    /**
-     * Used to tell if the player pressed jump twice. If this is at 0 and it's pressed (And they are allowed to fly, as
-     * defined in the player's movementInput) it sets this to 7. If it's pressed and it's greater than 0 enable fly.
-     */
     protected int flyToggleTimer;
     public float prevCameraYaw;
     public float cameraYaw;
-
-    /**
-     * Used by EntityPlayer to prevent too many xp orbs from getting absorbed at once.
-     */
     public int xpCooldown;
     public double field_71091_bM;
     public double field_71096_bN;
@@ -108,62 +90,25 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     public double field_71094_bP;
     public double field_71095_bQ;
     public double field_71085_bR;
-
-    /** Boolean value indicating weather a player is sleeping or not */
     protected boolean sleeping;
-
-    /** the current location of the player */
     public ChunkCoordinates playerLocation;
     private int sleepTimer;
     public float field_71079_bU;
     public float field_71082_cx;
     public float field_71089_bV;
-
-    /** holds the spawn chunk of the player */
     private ChunkCoordinates spawnChunk;
-
-    /**
-     * Whether this player's spawn point is forced, preventing execution of bed checks.
-     */
     private boolean spawnForced;
-
-    /** Holds the coordinate of the player when enter a minecraft to ride. */
     private ChunkCoordinates startMinecartRidingCoordinate;
-
-    /** The player's capabilities. (See class PlayerCapabilities) */
     public PlayerCapabilities capabilities = new PlayerCapabilities();
-
-    /** The current experience level the player is on. */
     public int experienceLevel;
-
-    /**
-     * The total amount of experience the player has. This also includes the amount of experience within their
-     * Experience Bar.
-     */
     public int experienceTotal;
-
-    /**
-     * The current amount of experience the player has within their Experience Bar.
-     */
     public float experience;
-
-    /**
-     * This is the item that is in use when the player is holding down the useItemButton (e.g., bow, food, sword)
-     */
     private ItemStack itemInUse;
-
-    /**
-     * This field starts off equal to getMaxItemUseDuration and is decremented on each tick
-     */
     private int itemInUseCount;
     protected float speedOnGround = 0.1F;
     protected float speedInAir = 0.02F;
     private int field_82249_h;
     private final GameProfile field_146106_i;
-
-    /**
-     * An instance of a fishing rod's hook. If this isn't null, the icon image of the fishing rod is slightly different
-     */
     public EntityFishHook fishEntity;
     private static final String __OBFID = "CL_00001711";
 
@@ -195,33 +140,21 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         this.dataWatcher.addObject(18, Integer.valueOf(0));
     }
 
-    /**
-     * returns the ItemStack containing the itemInUse
-     */
     public ItemStack getItemInUse()
     {
         return this.itemInUse;
     }
 
-    /**
-     * Returns the item in use count
-     */
     public int getItemInUseCount()
     {
         return this.itemInUseCount;
     }
 
-    /**
-     * Checks if the entity is currently using an item (e.g., bow, food, sword) by holding down the useItemButton
-     */
     public boolean isUsingItem()
     {
         return this.itemInUse != null;
     }
 
-    /**
-     * gets the duration for how long the current itemInUse has been in use
-     */
     public int getItemInUseDuration()
     {
         return this.isUsingItem() ? this.itemInUse.getMaxItemUseDuration() - this.itemInUseCount : 0;
@@ -253,9 +186,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return this.isUsingItem() && this.itemInUse.getItem().getItemUseAction(this.itemInUse) == EnumAction.block;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         if (this.itemInUse != null)
@@ -383,9 +313,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Return the amount of time this entity should stay in a portal before being transported.
-     */
     public int getMaxInPortalTime()
     {
         return this.capabilities.disableDamage ? 0 : 80;
@@ -401,9 +328,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return "game.player.swim.splash";
     }
 
-    /**
-     * Return the amount of cooldown before this entity can use a portal again.
-     */
     public int getPortalCooldown()
     {
         return 10;
@@ -414,9 +338,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         this.worldObj.playSoundToNearExcept(this, par1Str, par2, par3);
     }
 
-    /**
-     * Plays sounds and makes particles for item in use state
-     */
     protected void updateItemUse(ItemStack par1ItemStack, int par2)
     {
         if (par1ItemStack.getItemUseAction() == EnumAction.drink)
@@ -449,9 +370,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Used for when item use count runs out, ie: eating completed
-     */
     protected void onItemUseFinish()
     {
         if (this.itemInUse != null)
@@ -486,25 +404,16 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Dead and sleeping entities cannot move
-     */
     protected boolean isMovementBlocked()
     {
         return this.getHealth() <= 0.0F || this.isPlayerSleeping();
     }
 
-    /**
-     * set current crafting inventory back to the 2x2 square
-     */
     protected void closeScreen()
     {
         this.openContainer = this.inventoryContainer;
     }
 
-    /**
-     * Called when a player mounts an entity. e.g. mounts a pig, mounts a boat.
-     */
     public void mountEntity(Entity par1Entity)
     {
         if (this.ridingEntity != null && par1Entity == null)
@@ -527,9 +436,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Handles updating while being ridden by an entity
-     */
     public void updateRidden()
     {
         if (!this.worldObj.isClient && this.isSneaking())
@@ -558,10 +464,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Keeps moving the entity up so it isn't colliding with blocks and other requirements for this entity to be spawned
-     * (only actually used on players though its also on Entity)
-     */
     public void preparePlayerToSpawn()
     {
         this.yOffset = 1.62F;
@@ -577,10 +479,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         this.updateArmSwingProgress();
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         if (this.flyToggleTimer > 0)
@@ -672,26 +570,17 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return this.dataWatcher.getWatchableObjectInt(18);
     }
 
-    /**
-     * Set player's score
-     */
     public void setScore(int par1)
     {
         this.dataWatcher.updateObject(18, Integer.valueOf(par1));
     }
 
-    /**
-     * Add to player's score
-     */
     public void addScore(int par1)
     {
         int var2 = this.getScore();
         this.dataWatcher.updateObject(18, Integer.valueOf(var2 + par1));
     }
 
-    /**
-     * Called when the mob's health reaches 0.
-     */
     public void onDeath(DamageSource par1DamageSource)
     {
         super.onDeath(par1DamageSource);
@@ -723,26 +612,16 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         this.addStat(StatList.deathsStat, 1);
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "game.player.hurt";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "game.player.die";
     }
 
-    /**
-     * Adds a value to the player score. Currently not actually used and the entity passed in does nothing. Args:
-     * entity, scoreToAdd
-     */
     public void addToPlayerScore(Entity par1Entity, int par2)
     {
         this.addScore(par2);
@@ -768,17 +647,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Called when player presses the drop item key
-     */
     public EntityItem dropOneItem(boolean par1)
     {
         return this.func_146097_a(this.inventory.decrStackSize(this.inventory.currentItem, par1 && this.inventory.getCurrentItem() != null ? this.inventory.getCurrentItem().stackSize : 1), false, true);
     }
 
-    /**
-     * Args: itemstack, flag
-     */
     public EntityItem dropPlayerItemWithRandomChoice(ItemStack par1ItemStack, boolean par2)
     {
         return this.func_146097_a(par1ItemStack, false, false);
@@ -835,17 +708,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Joins the passed in entity item with the world. Args: entityItem
-     */
     protected void joinEntityItemWithWorld(EntityItem par1EntityItem)
     {
         this.worldObj.spawnEntityInWorld(par1EntityItem);
     }
 
-    /**
-     * Returns how strong the player is against the specified block at this moment
-     */
     public float getCurrentPlayerStrVsBlock(Block p_146096_1_, boolean p_146096_2_)
     {
         float var3 = this.inventory.func_146023_a(p_146096_1_);
@@ -893,17 +760,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return var3;
     }
 
-    /**
-     * Checks if the player has the ability to harvest a block (checks current inventory item for a tool if necessary)
-     */
     public boolean canHarvestBlock(Block p_146099_1_)
     {
         return this.inventory.func_146025_b(p_146099_1_);
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
@@ -924,7 +785,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             this.wakeUpPlayer(true, true, false);
         }
 
-        if (par1NBTTagCompound.func_150297_b("SpawnX", 99) && par1NBTTagCompound.func_150297_b("SpawnY", 99) && par1NBTTagCompound.func_150297_b("SpawnZ", 99))
+        if (par1NBTTagCompound.hasKey("SpawnX", 99) && par1NBTTagCompound.hasKey("SpawnY", 99) && par1NBTTagCompound.hasKey("SpawnZ", 99))
         {
             this.spawnChunk = new ChunkCoordinates(par1NBTTagCompound.getInteger("SpawnX"), par1NBTTagCompound.getInteger("SpawnY"), par1NBTTagCompound.getInteger("SpawnZ"));
             this.spawnForced = par1NBTTagCompound.getBoolean("SpawnForced");
@@ -933,16 +794,13 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         this.foodStats.readNBT(par1NBTTagCompound);
         this.capabilities.readCapabilitiesFromNBT(par1NBTTagCompound);
 
-        if (par1NBTTagCompound.func_150297_b("EnderItems", 9))
+        if (par1NBTTagCompound.hasKey("EnderItems", 9))
         {
             NBTTagList var3 = par1NBTTagCompound.getTagList("EnderItems", 10);
             this.theInventoryEnderChest.loadInventoryFromNBT(var3);
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
@@ -968,9 +826,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         par1NBTTagCompound.setTag("EnderItems", this.theInventoryEnderChest.saveInventoryToNBT());
     }
 
-    /**
-     * Displays the GUI for interacting with a chest inventory. Args: chestInventory
-     */
     public void displayGUIChest(IInventory par1IInventory) {}
 
     public void func_146093_a(TileEntityHopper p_146093_1_) {}
@@ -981,14 +836,8 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
     public void displayGUIEnchantment(int par1, int par2, int par3, String par4Str) {}
 
-    /**
-     * Displays the GUI for interacting with an anvil.
-     */
     public void displayGUIAnvil(int par1, int par2, int par3) {}
 
-    /**
-     * Displays the crafting GUI for a workbench.
-     */
     public void displayGUIWorkbench(int par1, int par2, int par3) {}
 
     public float getEyeHeight()
@@ -996,17 +845,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return 0.12F;
     }
 
-    /**
-     * sets the players height back to normal after doing things like sleeping and dieing
-     */
     protected void resetHeight()
     {
         this.yOffset = 1.62F;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (this.isEntityInvulnerable())
@@ -1082,18 +925,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         this.inventory.damageArmor(par1);
     }
 
-    /**
-     * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
-     */
     public int getTotalArmorValue()
     {
         return this.inventory.getTotalArmorValue();
     }
 
-    /**
-     * When searching for vulnerable players, if a player is invisible, the return value of this is the chance of seeing
-     * them anyway.
-     */
     public float getArmorVisibility()
     {
         int var1 = 0;
@@ -1113,10 +949,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return (float)var1 / (float)this.inventory.armorInventory.length;
     }
 
-    /**
-     * Deals damage to the entity. If its a EntityPlayer then will take damage from the armor first and then health
-     * second with the reduced value. Args: damageAmount
-     */
     protected void damageEntity(DamageSource par1DamageSource, float par2)
     {
         if (!this.isEntityInvulnerable())
@@ -1156,9 +988,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
     public void displayGUIMerchant(IMerchant par1IMerchant, String par2Str) {}
 
-    /**
-     * Displays the GUI for interacting with a book.
-     */
     public void displayGUIBook(ItemStack par1ItemStack) {}
 
     public boolean interactWith(Entity par1Entity)
@@ -1206,34 +1035,21 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Returns the currently being used item by the player.
-     */
     public ItemStack getCurrentEquippedItem()
     {
         return this.inventory.getCurrentItem();
     }
 
-    /**
-     * Destroys the currently equipped item from the player's inventory.
-     */
     public void destroyCurrentEquippedItem()
     {
         this.inventory.setInventorySlotContents(this.inventory.currentItem, (ItemStack)null);
     }
 
-    /**
-     * Returns the Y Offset of this entity.
-     */
     public double getYOffset()
     {
         return (double)(this.yOffset - 0.5F);
     }
 
-    /**
-     * Attacks for the player the targeted entity with the currently equipped item.  The equipped item has hitEntity
-     * called on it. Args: targetEntity
-     */
     public void attackTargetEntityWithCurrentItem(Entity par1Entity)
     {
         if (par1Entity.canAttackWithItem())
@@ -1353,18 +1169,12 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Called when the player performs a critical hit on the Entity. Args: entity that was hit critically
-     */
     public void onCriticalHit(Entity par1Entity) {}
 
     public void onEnchantmentCritical(Entity par1Entity) {}
 
     public void respawnPlayer() {}
 
-    /**
-     * Will get destroyed next tick.
-     */
     public void setDead()
     {
         super.setDead();
@@ -1376,25 +1186,16 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Checks if this entity is inside of an opaque block
-     */
     public boolean isEntityInsideOpaqueBlock()
     {
         return !this.sleeping && super.isEntityInsideOpaqueBlock();
     }
 
-    /**
-     * Returns the GameProfile for this player
-     */
     public GameProfile getGameProfile()
     {
         return this.field_146106_i;
     }
 
-    /**
-     * puts player to sleep on specified bed if possible
-     */
     public EntityPlayer.EnumStatus sleepInBedAt(int par1, int par2, int par3)
     {
         if (!this.worldObj.isClient)
@@ -1440,7 +1241,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (this.worldObj.blockExists(par1, par2, par3))
         {
             int var9 = this.worldObj.getBlockMetadata(par1, par2, par3);
-            int var5 = BlockBed.func_149895_l(var9);
+            int var5 = BlockBed.getDirection(var9);
             float var10 = 0.5F;
             float var7 = 0.5F;
 
@@ -1507,9 +1308,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Wake up the player if they're sleeping.
-     */
     public void wakeUpPlayer(boolean par1, boolean par2, boolean par3)
     {
         this.setSize(0.6F, 1.8F);
@@ -1552,18 +1350,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Checks if the player is currently in a bed
-     */
     private boolean isInBed()
     {
         return this.worldObj.getBlock(this.playerLocation.posX, this.playerLocation.posY, this.playerLocation.posZ) == Blocks.bed;
     }
 
-    /**
-     * Ensure that a block enabling respawning exists at the specified coordinates and find an empty space nearby to
-     * spawn.
-     */
     public static ChunkCoordinates verifyRespawnCoordinates(World par0World, ChunkCoordinates par1ChunkCoordinates, boolean par2)
     {
         IChunkProvider var3 = par0World.getChunkProvider();
@@ -1587,15 +1378,12 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Returns the orientation of the bed in degrees.
-     */
     public float getBedOrientationInDegrees()
     {
         if (this.playerLocation != null)
         {
             int var1 = this.worldObj.getBlockMetadata(this.playerLocation.posX, this.playerLocation.posY, this.playerLocation.posZ);
-            int var2 = BlockBed.func_149895_l(var1);
+            int var2 = BlockBed.getDirection(var1);
 
             switch (var2)
             {
@@ -1616,17 +1404,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return 0.0F;
     }
 
-    /**
-     * Returns whether player is sleeping or not
-     */
     public boolean isPlayerSleeping()
     {
         return this.sleeping;
     }
 
-    /**
-     * Returns whether or not the player is asleep and the screen has fully faded.
-     */
     public boolean isPlayerFullyAsleep()
     {
         return this.sleeping && this.sleepTimer >= 100;
@@ -1658,9 +1440,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
     public void addChatComponentMessage(IChatComponent p_146105_1_) {}
 
-    /**
-     * Returns the location of the bed the player will respawn at, or null if the player has not slept in a bed.
-     */
     public ChunkCoordinates getBedLocation()
     {
         return this.spawnChunk;
@@ -1671,9 +1450,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return this.spawnForced;
     }
 
-    /**
-     * Defines a spawn coordinate to player spawn. Used by bed after the player sleep on it.
-     */
     public void setSpawnChunk(ChunkCoordinates par1ChunkCoordinates, boolean par2)
     {
         if (par1ChunkCoordinates != null)
@@ -1688,22 +1464,13 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Will trigger the specified trigger.
-     */
     public void triggerAchievement(StatBase par1StatBase)
     {
         this.addStat(par1StatBase, 1);
     }
 
-    /**
-     * Adds a value to a statistic field.
-     */
     public void addStat(StatBase par1StatBase, int par2) {}
 
-    /**
-     * Causes this entity to do an upwards motion (jumping).
-     */
     public void jump()
     {
         super.jump();
@@ -1719,9 +1486,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Moves the entity based on the specified heading.  Args: strafe, forward
-     */
     public void moveEntityWithHeading(float par1, float par2)
     {
         double var3 = this.posX;
@@ -1745,17 +1509,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         this.addMovementStat(this.posX - var3, this.posY - var5, this.posZ - var7);
     }
 
-    /**
-     * the movespeed used for the new AI system
-     */
     public float getAIMoveSpeed()
     {
         return (float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
     }
 
-    /**
-     * Adds a value to a movement statistic field - like run, walk, swin or climb.
-     */
     public void addMovementStat(double par1, double par3, double par5)
     {
         if (this.ridingEntity == null)
@@ -1819,9 +1577,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Adds a value to a mounted movement statistic field - by minecart, boat, or pig.
-     */
     private void addMountedMovementStat(double par1, double par3, double par5)
     {
         if (this.ridingEntity != null)
@@ -1859,9 +1614,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
     protected void fall(float par1)
     {
         if (!this.capabilities.allowFlying)
@@ -1880,9 +1632,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return p_146067_1_ > 4 ? "game.player.hurt.fall.big" : "game.player.hurt.fall.small";
     }
 
-    /**
-     * This method gets called when the entity kills another one.
-     */
     public void onKillEntity(EntityLivingBase par1EntityLivingBase)
     {
         if (par1EntityLivingBase instanceof IMob)
@@ -1899,9 +1648,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Sets the Entity inside a web block.
-     */
     public void setInWeb()
     {
         if (!this.capabilities.isFlying)
@@ -1910,9 +1656,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Gets the Icon Index of the item currently held
-     */
     public IIcon getItemIcon(ItemStack par1ItemStack, int par2)
     {
         IIcon var3 = super.getItemIcon(par1ItemStack, par2);
@@ -1957,9 +1700,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return this.inventory.armorItemInSlot(par1);
     }
 
-    /**
-     * Add experience points to player.
-     */
     public void addExperience(int par1)
     {
         this.addScore(par1);
@@ -1979,9 +1719,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Add experience levels to this player.
-     */
     public void addExperienceLevel(int par1)
     {
         this.experienceLevel += par1;
@@ -2001,18 +1738,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * This method returns the cap amount of experience that the experience bar can hold. With each level, the
-     * experience cap on the player's experience bar is raised by 10.
-     */
     public int xpBarCap()
     {
         return this.experienceLevel >= 30 ? 62 + (this.experienceLevel - 30) * 7 : (this.experienceLevel >= 15 ? 17 + (this.experienceLevel - 15) * 3 : 17);
     }
 
-    /**
-     * increases exhaustion level by supplied amount
-     */
     public void addExhaustion(float par1)
     {
         if (!this.capabilities.disableDamage)
@@ -2024,9 +1754,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Returns the player's FoodStats object.
-     */
     public FoodStats getFoodStats()
     {
         return this.foodStats;
@@ -2037,17 +1764,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return (par1 || this.foodStats.needFood()) && !this.capabilities.disableDamage;
     }
 
-    /**
-     * Checks if the player's health is not full and not zero.
-     */
     public boolean shouldHeal()
     {
         return this.getHealth() > 0.0F && this.getHealth() < this.getMaxHealth();
     }
 
-    /**
-     * sets the itemInUse when the use item button is clicked. Args: itemstack, int maxItemUseDuration
-     */
     public void setItemInUse(ItemStack par1ItemStack, int par2)
     {
         if (par1ItemStack != this.itemInUse)
@@ -2062,9 +1783,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Returns true if the given block can be mined with the current tool in adventure mode.
-     */
     public boolean isCurrentToolAdventureModeExempt(int par1, int par2, int par3)
     {
         if (this.capabilities.allowEdit)
@@ -2102,9 +1820,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return this.capabilities.allowEdit ? true : (par5ItemStack != null ? par5ItemStack.canEditBlocks() : false);
     }
 
-    /**
-     * Get the experience points the entity currently has.
-     */
     protected int getExperiencePoints(EntityPlayer par1EntityPlayer)
     {
         if (this.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))
@@ -2118,9 +1833,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    /**
-     * Only use is to identify if class is an instance of player for experience dropping
-     */
     protected boolean isPlayer()
     {
         return true;
@@ -2131,10 +1843,6 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return true;
     }
 
-    /**
-     * Copies the values from the given player into this player if boolean par2 is true. Always clones Ender Chest
-     * Inventory.
-     */
     public void clonePlayer(EntityPlayer par1EntityPlayer, boolean par2)
     {
         if (par2)
@@ -2160,28 +1868,15 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         this.theInventoryEnderChest = par1EntityPlayer.theInventoryEnderChest;
     }
 
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
     protected boolean canTriggerWalking()
     {
         return !this.capabilities.isFlying;
     }
 
-    /**
-     * Sends the player's abilities to the server (if there is one).
-     */
     public void sendPlayerAbilities() {}
 
-    /**
-     * Sets the player's game mode and sends it to them.
-     */
     public void setGameType(WorldSettings.GameType par1EnumGameType) {}
 
-    /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
-     */
     public String getCommandSenderName()
     {
         return this.field_146106_i.getName();
@@ -2192,43 +1887,26 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return this.worldObj;
     }
 
-    /**
-     * Returns the InventoryEnderChest of this player.
-     */
     public InventoryEnderChest getInventoryEnderChest()
     {
         return this.theInventoryEnderChest;
     }
 
-    /**
-     * 0: Tool in Hand; 1-4: Armor
-     */
     public ItemStack getEquipmentInSlot(int par1)
     {
         return par1 == 0 ? this.inventory.getCurrentItem() : this.inventory.armorInventory[par1 - 1];
     }
 
-    /**
-     * Returns the item that this EntityLiving is holding, if any.
-     */
     public ItemStack getHeldItem()
     {
         return this.inventory.getCurrentItem();
     }
 
-    /**
-     * Sets the held item, or an armor slot. Slot 0 is held item. Slot 1-4 is armor. Params: Item, slot
-     */
     public void setCurrentItemOrArmor(int par1, ItemStack par2ItemStack)
     {
         this.inventory.armorInventory[par1] = par2ItemStack;
     }
 
-    /**
-     * Only used by renderer in EntityLivingBase subclasses.\nDetermines if an entity is visible or not to a specfic
-     * player, if the entity is normally invisible.\nFor EntityLivingBase subclasses, returning false when invisible
-     * will render the entity semitransparent.
-     */
     public boolean isInvisibleToPlayer(EntityPlayer par1EntityPlayer)
     {
         if (!this.isInvisible())

@@ -18,18 +18,8 @@ public class MapData extends WorldSavedData
     public int zCenter;
     public byte dimension;
     public byte scale;
-
-    /** colours */
     public byte[] colors = new byte[16384];
-
-    /**
-     * Holds a reference to the MapInfo of the players who own a copy of the map
-     */
     public List playersArrayList = new ArrayList();
-
-    /**
-     * Holds a reference to the players who own a copy of the map and a reference to their MapInfo
-     */
     private Map playersHashMap = new HashMap();
     public Map playersVisibleOnMap = new LinkedHashMap();
     private static final String __OBFID = "CL_00000577";
@@ -39,9 +29,6 @@ public class MapData extends WorldSavedData
         super(par1Str);
     }
 
-    /**
-     * reads in data from the NBTTagCompound into this MapDataBase
-     */
     public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         this.dimension = par1NBTTagCompound.getByte("dimension");
@@ -93,9 +80,6 @@ public class MapData extends WorldSavedData
         }
     }
 
-    /**
-     * write data to NBTTagCompound from this MapDataBase, similar to Entities and TileEntities
-     */
     public void writeToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setByte("dimension", this.dimension);
@@ -107,9 +91,6 @@ public class MapData extends WorldSavedData
         par1NBTTagCompound.setByteArray("colors", this.colors);
     }
 
-    /**
-     * Adds the player passed to the list of visible players and checks to see which players are visible
-     */
     public void updateVisiblePlayers(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
     {
         if (!this.playersHashMap.containsKey(par1EntityPlayer))
@@ -204,19 +185,12 @@ public class MapData extends WorldSavedData
         this.playersVisibleOnMap.put(par3Str, new MapData.MapCoord((byte)par1, var13, var14, var15));
     }
 
-    /**
-     * Get byte array of packet data to send to players on map for updating map data
-     */
     public byte[] getUpdatePacketData(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         MapData.MapInfo var4 = (MapData.MapInfo)this.playersHashMap.get(par3EntityPlayer);
         return var4 == null ? null : var4.getPlayersOnMap(par1ItemStack);
     }
 
-    /**
-     * Marks a vertical range of pixels as being modified so they will be resent to clients. Parameters: X, lowest Y,
-     * highest Y
-     */
     public void setColumnDirty(int par1, int par2, int par3)
     {
         super.markDirty();
@@ -237,9 +211,6 @@ public class MapData extends WorldSavedData
         }
     }
 
-    /**
-     * Updates the client's map with information from other players in MP
-     */
     public void updateMPMapData(byte[] par1ArrayOfByte)
     {
         int var2;

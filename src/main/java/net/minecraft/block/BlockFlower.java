@@ -24,9 +24,6 @@ public class BlockFlower extends BlockBush
         this.field_149862_O = par1;
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         if (p_149691_2_ >= this.field_149861_N.length)
@@ -37,7 +34,7 @@ public class BlockFlower extends BlockBush
         return this.field_149861_N[p_149691_2_];
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_149861_N = new IIcon[field_149860_M[this.field_149862_O].length];
 
@@ -47,9 +44,6 @@ public class BlockFlower extends BlockBush
         }
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int p_149692_1_)
     {
         return p_149692_1_;

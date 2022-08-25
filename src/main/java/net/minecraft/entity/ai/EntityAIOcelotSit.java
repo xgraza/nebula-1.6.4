@@ -26,25 +26,16 @@ public class EntityAIOcelotSit extends EntityAIBase
         this.setMutexBits(5);
     }
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
     public boolean shouldExecute()
     {
         return this.field_151493_a.isTamed() && !this.field_151493_a.isSitting() && this.field_151493_a.getRNG().nextDouble() <= 0.006500000134110451D && this.func_151485_f();
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
     public boolean continueExecuting()
     {
         return this.field_151492_c <= this.field_151490_e && this.field_151489_d <= 60 && this.func_151486_a(this.field_151493_a.worldObj, this.field_151487_f, this.field_151488_g, this.field_151494_h);
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void startExecuting()
     {
         this.field_151493_a.getNavigator().tryMoveToXYZ((double)((float)this.field_151487_f) + 0.5D, (double)(this.field_151488_g + 1), (double)((float)this.field_151494_h) + 0.5D, this.field_151491_b);
@@ -54,17 +45,11 @@ public class EntityAIOcelotSit extends EntityAIBase
         this.field_151493_a.func_70907_r().setSitting(false);
     }
 
-    /**
-     * Resets the task
-     */
     public void resetTask()
     {
         this.field_151493_a.setSitting(false);
     }
 
-    /**
-     * Updates the task
-     */
     public void updateTask()
     {
         ++this.field_151492_c;
@@ -134,7 +119,7 @@ public class EntityAIOcelotSit extends EntityAIBase
                 return true;
             }
 
-            if (var5 == Blocks.bed && !BlockBed.func_149975_b(var6))
+            if (var5 == Blocks.bed && !BlockBed.isBlockHeadOfBed(var6))
             {
                 return true;
             }

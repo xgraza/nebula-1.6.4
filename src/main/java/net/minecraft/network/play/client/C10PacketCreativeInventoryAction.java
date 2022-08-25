@@ -26,18 +26,12 @@ public class C10PacketCreativeInventoryAction extends Packet
         p_149626_1_.processCreativeInventoryAction(this);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149629_a = p_148837_1_.readShort();
         this.field_149628_b = p_148837_1_.readItemStackFromBuffer();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeShort(this.field_149629_a);

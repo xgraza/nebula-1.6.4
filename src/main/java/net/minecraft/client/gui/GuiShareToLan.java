@@ -20,9 +20,6 @@ public class GuiShareToLan extends GuiScreen
         this.field_146598_a = par1GuiScreen;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.buttonList.clear();
@@ -91,18 +88,15 @@ public class GuiShareToLan extends GuiScreen
                 var3 = new ChatComponentText("commands.publish.failed");
             }
 
-            this.mc.ingameGUI.getChatGUI().func_146227_a((IChatComponent)var3);
+            this.mc.ingameGUI.getChatGui().printChatMessage((IChatComponent)var3);
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("lanServer.title", new Object[0]), this.width / 2, 50, 16777215);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("lanServer.otherPlayers", new Object[0]), this.width / 2, 82, 16777215);
+        this.drawCenteredString(this.fontRenderer, I18n.format("lanServer.title", new Object[0]), this.width / 2, 50, 16777215);
+        this.drawCenteredString(this.fontRenderer, I18n.format("lanServer.otherPlayers", new Object[0]), this.width / 2, 82, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 }

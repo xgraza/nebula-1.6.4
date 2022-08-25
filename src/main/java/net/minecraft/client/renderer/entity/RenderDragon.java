@@ -10,9 +10,11 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.src.Config;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import shadersmod.client.Shaders;
 
 public class RenderDragon extends RenderLiving
 {
@@ -20,10 +22,7 @@ public class RenderDragon extends RenderLiving
     private static final ResourceLocation enderDragonCrystalBeamTextures = new ResourceLocation("textures/entity/endercrystal/endercrystal_beam.png");
     private static final ResourceLocation enderDragonEyesTextures = new ResourceLocation("textures/entity/enderdragon/dragon_eyes.png");
     private static final ResourceLocation enderDragonTextures = new ResourceLocation("textures/entity/enderdragon/dragon.png");
-
-    /** An instance of the dragon model in RenderDragon */
     protected ModelDragon modelDragon;
-    private static final String __OBFID = "CL_00000988";
 
     public RenderDragon()
     {
@@ -54,9 +53,6 @@ public class RenderDragon extends RenderLiving
         }
     }
 
-    /**
-     * Renders the model in RenderLiving
-     */
     protected void renderModel(EntityDragon par1EntityDragon, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         if (par1EntityDragon.deathTicks > 0)
@@ -88,12 +84,6 @@ public class RenderDragon extends RenderLiving
         }
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityDragon par1EntityDragon, double par2, double par4, double par6, float par8, float par9)
     {
         BossStatus.setBossStatus(par1EntityDragon, false);
@@ -142,9 +132,6 @@ public class RenderDragon extends RenderLiving
         }
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityDragon par1EntityDragon)
     {
         return enderDragonTextures;
@@ -210,9 +197,6 @@ public class RenderDragon extends RenderLiving
         }
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityDragon par1EntityDragon, int par2, float par3)
     {
         if (par2 == 1)
@@ -238,24 +222,21 @@ public class RenderDragon extends RenderLiving
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var5 / 1.0F, (float)var6 / 1.0F);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+            if (Config.isShaders())
+            {
+                Shaders.beginSpiderEyes();
+            }
+
             return 1;
         }
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityDragon)par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.shouldRenderPass((EntityDragon)par1EntityLivingBase, par2, par3);
@@ -271,39 +252,21 @@ public class RenderDragon extends RenderLiving
         this.rotateCorpse((EntityDragon)par1EntityLivingBase, par2, par3, par4);
     }
 
-    /**
-     * Renders the model in RenderLiving
-     */
     protected void renderModel(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         this.renderModel((EntityDragon)par1EntityLivingBase, par2, par3, par4, par5, par6, par7);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityDragon)par1Entity, par2, par4, par6, par8, par9);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityDragon)par1Entity);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityDragon)par1Entity, par2, par4, par6, par8, par9);

@@ -22,10 +22,7 @@ import net.minecraft.util.Vec3;
 
 public class Explosion
 {
-    /** whether or not the explosion sets fire to blocks around it */
     public boolean isFlaming;
-
-    /** whether or not this explosion spawns smoke particles */
     public boolean isSmoking = true;
     private int field_77289_h = 16;
     private Random explosionRNG = new Random();
@@ -35,8 +32,6 @@ public class Explosion
     public double explosionZ;
     public Entity exploder;
     public float explosionSize;
-
-    /** A list of ChunkPositions of blocks affected by this explosion */
     public List affectedBlockPositions = new ArrayList();
     private Map field_77288_k = new HashMap();
     private static final String __OBFID = "CL_00000134";
@@ -51,9 +46,6 @@ public class Explosion
         this.explosionZ = par7;
     }
 
-    /**
-     * Does the first part of the explosion (destroy blocks)
-     */
     public void doExplosionA()
     {
         float var1 = this.explosionSize;
@@ -159,9 +151,6 @@ public class Explosion
         this.explosionSize = var1;
     }
 
-    /**
-     * Does the second part of the explosion (sound, particles, drop spawn)
-     */
     public void doExplosionB(boolean par1)
     {
         this.worldObj.playSoundEffect(this.explosionX, this.explosionY, this.explosionZ, "random.explode", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
@@ -254,9 +243,6 @@ public class Explosion
         return this.field_77288_k;
     }
 
-    /**
-     * Returns either the entity that placed the explosive block, the entity that caused the explosion or null.
-     */
     public EntityLivingBase getExplosivePlacedBy()
     {
         return this.exploder == null ? null : (this.exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed)this.exploder).getTntPlacedBy() : (this.exploder instanceof EntityLivingBase ? (EntityLivingBase)this.exploder : null));

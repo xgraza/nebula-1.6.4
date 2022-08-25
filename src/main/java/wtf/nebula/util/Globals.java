@@ -39,8 +39,7 @@ public interface Globals {
      * @param msg the message to present to the user
      */
     default void sendChatMessage(String msg) {
-        mc.ingameGUI.getChatGUI().func_146227_a(new ChatComponentText(PREFIX + msg));
-        //mc.ingameGUI.getChatGUI().printChatMessage(PREFIX + msg);
+        mc.ingameGUI.getChatGui().printChatMessage(new ChatComponentText(PREFIX + msg));
     }
 
     /**
@@ -49,12 +48,12 @@ public interface Globals {
      * @param msg the message to present to the user
      */
     default void sendChatMessage(int id, String msg) {
-        mc.ingameGUI.getChatGUI().func_146234_a(new ChatComponentText(PREFIX + msg), id);
+        mc.ingameGUI.getChatGui().printChatMessageWithOptionalDeletion(new ChatComponentText(PREFIX + msg), id);
     }
 
     default void sendIRCMessage(String message) {
         if (!nullCheck()) {
-            mc.ingameGUI.getChatGUI().func_146227_a(new ChatComponentText(IRC_PREFIX + message));
+            mc.ingameGUI.getChatGui().printChatMessage(new ChatComponentText(IRC_PREFIX + message));
         }
     }
 }

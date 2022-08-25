@@ -27,9 +27,6 @@ public class BlockQuartz extends Block
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         if (p_149691_2_ != 2 && p_149691_2_ != 3 && p_149691_2_ != 4)
@@ -86,26 +83,16 @@ public class BlockQuartz extends Block
         return p_149660_9_;
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int p_149692_1_)
     {
         return p_149692_1_ != 3 && p_149692_1_ != 4 ? p_149692_1_ : 2;
     }
 
-    /**
-     * Returns an item stack containing a single instance of the current block type. 'i' is the block's subtype/damage
-     * and is ignored for blocks which do not support subtypes. Blocks which cannot be harvested should return null.
-     */
     protected ItemStack createStackedBlock(int p_149644_1_)
     {
         return p_149644_1_ != 3 && p_149644_1_ != 4 ? super.createStackedBlock(p_149644_1_) : new ItemStack(Item.getItemFromBlock(this), 1, 2);
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 39;
@@ -118,7 +105,7 @@ public class BlockQuartz extends Block
         p_149666_3_.add(new ItemStack(p_149666_1_, 1, 2));
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_150192_M = new IIcon[field_150189_b.length];
 

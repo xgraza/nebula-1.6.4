@@ -14,17 +14,14 @@ public class BlockRail extends BlockRailBase
         super(false);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return p_149691_2_ >= 6 ? this.field_150056_b : this.blockIcon;
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
-        super.registerBlockIcons(p_149651_1_);
+        super.registerIcons(p_149651_1_);
         this.field_150056_b = p_149651_1_.registerIcon(this.getTextureName() + "_turned");
     }
 

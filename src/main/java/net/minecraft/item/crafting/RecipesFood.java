@@ -8,9 +8,6 @@ public class RecipesFood
 {
     private static final String __OBFID = "CL_00000084";
 
-    /**
-     * Adds the food recipes to the CraftingManager.
-     */
     public void addRecipes(CraftingManager par1CraftingManager)
     {
         par1CraftingManager.addShapelessRecipe(new ItemStack(Items.mushroom_stew), new Object[] {Blocks.brown_mushroom, Blocks.red_mushroom, Items.bowl});

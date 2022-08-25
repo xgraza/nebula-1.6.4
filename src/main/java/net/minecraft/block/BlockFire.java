@@ -57,10 +57,6 @@ public class BlockFire extends Block
         this.field_149848_b[p_149842_1_] = p_149842_3_;
     }
 
-    /**
-     * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
-     * cleared to be reused)
-     */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
     {
         return null;
@@ -76,30 +72,21 @@ public class BlockFire extends Block
         return false;
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 3;
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
     public int quantityDropped(Random p_149745_1_)
     {
         return 0;
     }
 
-    public int func_149738_a(World p_149738_1_)
+    public int tickRate(World p_149738_1_)
     {
         return 30;
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         if (p_149674_1_.getGameRules().getGameRuleBooleanValue("doFireTick"))
@@ -129,7 +116,7 @@ public class BlockFire extends Block
                     p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, var7 + p_149674_5_.nextInt(3) / 2, 4);
                 }
 
-                p_149674_1_.scheduleBlockUpdate(p_149674_2_, p_149674_3_, p_149674_4_, this, this.func_149738_a(p_149674_1_) + p_149674_5_.nextInt(10));
+                p_149674_1_.scheduleBlockUpdate(p_149674_2_, p_149674_3_, p_149674_4_, this, this.tickRate(p_149674_1_) + p_149674_5_.nextInt(10));
 
                 if (!var6 && !this.func_149847_e(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_))
                 {
@@ -138,7 +125,7 @@ public class BlockFire extends Block
                         p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
                     }
                 }
-                else if (!var6 && !this.func_149844_e(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_) && var7 == 15 && p_149674_5_.nextInt(4) == 0)
+                else if (!var6 && !this.canBlockCatchFire(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_) && var7 == 15 && p_149674_5_.nextInt(4) == 0)
                 {
                     p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
                 }
@@ -244,7 +231,7 @@ public class BlockFire extends Block
 
     private boolean func_149847_e(World p_149847_1_, int p_149847_2_, int p_149847_3_, int p_149847_4_)
     {
-        return this.func_149844_e(p_149847_1_, p_149847_2_ + 1, p_149847_3_, p_149847_4_) ? true : (this.func_149844_e(p_149847_1_, p_149847_2_ - 1, p_149847_3_, p_149847_4_) ? true : (this.func_149844_e(p_149847_1_, p_149847_2_, p_149847_3_ - 1, p_149847_4_) ? true : (this.func_149844_e(p_149847_1_, p_149847_2_, p_149847_3_ + 1, p_149847_4_) ? true : (this.func_149844_e(p_149847_1_, p_149847_2_, p_149847_3_, p_149847_4_ - 1) ? true : this.func_149844_e(p_149847_1_, p_149847_2_, p_149847_3_, p_149847_4_ + 1)))));
+        return this.canBlockCatchFire(p_149847_1_, p_149847_2_ + 1, p_149847_3_, p_149847_4_) ? true : (this.canBlockCatchFire(p_149847_1_, p_149847_2_ - 1, p_149847_3_, p_149847_4_) ? true : (this.canBlockCatchFire(p_149847_1_, p_149847_2_, p_149847_3_ - 1, p_149847_4_) ? true : (this.canBlockCatchFire(p_149847_1_, p_149847_2_, p_149847_3_ + 1, p_149847_4_) ? true : (this.canBlockCatchFire(p_149847_1_, p_149847_2_, p_149847_3_, p_149847_4_ - 1) ? true : this.canBlockCatchFire(p_149847_1_, p_149847_2_, p_149847_3_, p_149847_4_ + 1)))));
     }
 
     private int func_149845_m(World p_149845_1_, int p_149845_2_, int p_149845_3_, int p_149845_4_)
@@ -272,7 +259,7 @@ public class BlockFire extends Block
         return false;
     }
 
-    public boolean func_149844_e(IBlockAccess p_149844_1_, int p_149844_2_, int p_149844_3_, int p_149844_4_)
+    public boolean canBlockCatchFire(IBlockAccess p_149844_1_, int p_149844_2_, int p_149844_3_, int p_149844_4_)
     {
         return this.field_149849_a[Block.getIdFromBlock(p_149844_1_.getBlock(p_149844_2_, p_149844_3_, p_149844_4_))] > 0;
     }
@@ -306,14 +293,11 @@ public class BlockFire extends Block
             }
             else
             {
-                p_149726_1_.scheduleBlockUpdate(p_149726_2_, p_149726_3_, p_149726_4_, this, this.func_149738_a(p_149726_1_) + p_149726_1_.rand.nextInt(10));
+                p_149726_1_.scheduleBlockUpdate(p_149726_2_, p_149726_3_, p_149726_4_, this, this.tickRate(p_149726_1_) + p_149726_1_.rand.nextInt(10));
             }
         }
     }
 
-    /**
-     * A randomly called display update to be able to add particles or other items for display
-     */
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
         if (p_149734_5_.nextInt(24) == 0)
@@ -326,9 +310,9 @@ public class BlockFire extends Block
         float var8;
         float var9;
 
-        if (!World.doesBlockHaveSolidTopSurface(p_149734_1_, p_149734_2_, p_149734_3_ - 1, p_149734_4_) && !Blocks.fire.func_149844_e(p_149734_1_, p_149734_2_, p_149734_3_ - 1, p_149734_4_))
+        if (!World.doesBlockHaveSolidTopSurface(p_149734_1_, p_149734_2_, p_149734_3_ - 1, p_149734_4_) && !Blocks.fire.canBlockCatchFire(p_149734_1_, p_149734_2_, p_149734_3_ - 1, p_149734_4_))
         {
-            if (Blocks.fire.func_149844_e(p_149734_1_, p_149734_2_ - 1, p_149734_3_, p_149734_4_))
+            if (Blocks.fire.canBlockCatchFire(p_149734_1_, p_149734_2_ - 1, p_149734_3_, p_149734_4_))
             {
                 for (var6 = 0; var6 < 2; ++var6)
                 {
@@ -339,7 +323,7 @@ public class BlockFire extends Block
                 }
             }
 
-            if (Blocks.fire.func_149844_e(p_149734_1_, p_149734_2_ + 1, p_149734_3_, p_149734_4_))
+            if (Blocks.fire.canBlockCatchFire(p_149734_1_, p_149734_2_ + 1, p_149734_3_, p_149734_4_))
             {
                 for (var6 = 0; var6 < 2; ++var6)
                 {
@@ -350,7 +334,7 @@ public class BlockFire extends Block
                 }
             }
 
-            if (Blocks.fire.func_149844_e(p_149734_1_, p_149734_2_, p_149734_3_, p_149734_4_ - 1))
+            if (Blocks.fire.canBlockCatchFire(p_149734_1_, p_149734_2_, p_149734_3_, p_149734_4_ - 1))
             {
                 for (var6 = 0; var6 < 2; ++var6)
                 {
@@ -361,7 +345,7 @@ public class BlockFire extends Block
                 }
             }
 
-            if (Blocks.fire.func_149844_e(p_149734_1_, p_149734_2_, p_149734_3_, p_149734_4_ + 1))
+            if (Blocks.fire.canBlockCatchFire(p_149734_1_, p_149734_2_, p_149734_3_, p_149734_4_ + 1))
             {
                 for (var6 = 0; var6 < 2; ++var6)
                 {
@@ -372,7 +356,7 @@ public class BlockFire extends Block
                 }
             }
 
-            if (Blocks.fire.func_149844_e(p_149734_1_, p_149734_2_, p_149734_3_ + 1, p_149734_4_))
+            if (Blocks.fire.canBlockCatchFire(p_149734_1_, p_149734_2_, p_149734_3_ + 1, p_149734_4_))
             {
                 for (var6 = 0; var6 < 2; ++var6)
                 {
@@ -395,19 +379,16 @@ public class BlockFire extends Block
         }
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_149850_M = new IIcon[] {p_149651_1_.registerIcon(this.getTextureName() + "_layer_0"), p_149651_1_.registerIcon(this.getTextureName() + "_layer_1")};
     }
 
-    public IIcon func_149840_c(int p_149840_1_)
+    public IIcon getFireIcon(int p_149840_1_)
     {
         return this.field_149850_M[p_149840_1_];
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return this.field_149850_M[0];

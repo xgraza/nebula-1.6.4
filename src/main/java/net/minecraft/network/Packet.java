@@ -11,9 +11,6 @@ public abstract class Packet
     private static final Logger logger = LogManager.getLogger();
     private static final String __OBFID = "CL_00001272";
 
-    /**
-     * Returns a packet instance, given the params: BiMap<int, (Packet) Class> and (int) id
-     */
     public static Packet generatePacket(BiMap p_148839_0_, int p_148839_1_)
     {
         try
@@ -28,20 +25,12 @@ public abstract class Packet
         }
     }
 
-    /**
-     * Will write a byte array to supplied ByteBuf as a separately defined structure by prefixing the byte array with
-     * its length
-     */
     public static void writeBlob(ByteBuf p_148838_0_, byte[] p_148838_1_)
     {
         p_148838_0_.writeShort(p_148838_1_.length);
         p_148838_0_.writeBytes(p_148838_1_);
     }
 
-    /**
-     * Will read a byte array from the supplied ByteBuf, the first short encountered will be interpreted as the size of
-     * the byte array to read in
-     */
     public static byte[] readBlob(ByteBuf p_148834_0_) throws IOException
     {
         short var1 = p_148834_0_.readShort();
@@ -58,22 +47,12 @@ public abstract class Packet
         }
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public abstract void readPacketData(PacketBuffer var1) throws IOException;
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public abstract void writePacketData(PacketBuffer var1) throws IOException;
 
     public abstract void processPacket(INetHandler var1);
 
-    /**
-     * If true, the network manager will process the packet immediately when received, otherwise it will queue it for
-     * processing. Currently true for: Disconnect, LoginSuccess, KeepAlive, ServerQuery/Info, Ping/Pong
-     */
     public boolean hasPriority()
     {
         return false;
@@ -84,9 +63,6 @@ public abstract class Packet
         return this.getClass().getSimpleName();
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return "";

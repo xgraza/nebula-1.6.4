@@ -22,9 +22,6 @@ public class S05PacketSpawnPosition extends Packet
         this.field_149363_c = p_i45229_3_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149364_a = p_148837_1_.readInt();
@@ -32,9 +29,6 @@ public class S05PacketSpawnPosition extends Packet
         this.field_149363_c = p_148837_1_.readInt();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeInt(this.field_149364_a);
@@ -47,18 +41,11 @@ public class S05PacketSpawnPosition extends Packet
         p_149361_1_.handleSpawnPosition(this);
     }
 
-    /**
-     * If true, the network manager will process the packet immediately when received, otherwise it will queue it for
-     * processing. Currently true for: Disconnect, LoginSuccess, KeepAlive, ServerQuery/Info, Ping/Pong
-     */
     public boolean hasPriority()
     {
         return false;
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("x=%d, y=%d, z=%d", new Object[] {Integer.valueOf(this.field_149364_a), Integer.valueOf(this.field_149362_b), Integer.valueOf(this.field_149363_c)});

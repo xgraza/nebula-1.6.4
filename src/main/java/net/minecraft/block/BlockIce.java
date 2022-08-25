@@ -24,9 +24,6 @@ public class BlockIce extends BlockBreakable
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    /**
-     * Returns which pass should this block be rendered on. 0 for solids and 1 for alpha
-     */
     public int getRenderBlockPass()
     {
         return 1;
@@ -70,17 +67,11 @@ public class BlockIce extends BlockBreakable
         }
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
     public int quantityDropped(Random p_149745_1_)
     {
         return 0;
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         if (p_149674_1_.getSavedLightValue(EnumSkyBlock.Block, p_149674_2_, p_149674_3_, p_149674_4_) > 11 - this.getLightOpacity())

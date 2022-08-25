@@ -91,7 +91,7 @@ public class WorldGenDungeons extends WorldGenerator
                 {
                     if (var11 < 3)
                     {
-                        label197:
+                        label101:
                         {
                             var12 = par3 + par2Random.nextInt(var7 * 2 + 1) - var7;
                             int var14 = par5 + par2Random.nextInt(var8 * 2 + 1) - var8;
@@ -131,7 +131,7 @@ public class WorldGenDungeons extends WorldGenerator
                                         WeightedRandomChestContent.generateChestContents(par2Random, var16, var17, 8);
                                     }
 
-                                    break label197;
+                                    break label101;
                                 }
                             }
 
@@ -165,9 +165,6 @@ public class WorldGenDungeons extends WorldGenerator
         }
     }
 
-    /**
-     * Randomly decides which spawner to use in a dungeon
-     */
     private String pickMobSpawner(Random par1Random)
     {
         int var2 = par1Random.nextInt(4);

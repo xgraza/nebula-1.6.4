@@ -57,9 +57,6 @@ public class S22PacketMultiBlockChange extends Packet
         }
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_148925_b = new ChunkCoordIntPair(p_148837_1_.readInt(), p_148837_1_.readInt());
@@ -73,9 +70,6 @@ public class S22PacketMultiBlockChange extends Packet
         }
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeInt(this.field_148925_b.chunkXPos);
@@ -98,9 +92,6 @@ public class S22PacketMultiBlockChange extends Packet
         p_148923_1_.handleMultiBlockChange(this);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("xc=%d, zc=%d, count=%d", new Object[] {Integer.valueOf(this.field_148925_b.chunkXPos), Integer.valueOf(this.field_148925_b.chunkZPos), Integer.valueOf(this.field_148924_d)});

@@ -6,8 +6,6 @@ import net.minecraft.world.World;
 public class EntityHugeExplodeFX extends EntityFX
 {
     private int timeSinceStart;
-
-    /** the maximum time for the explosion */
     private int maximumTime = 8;
     private static final String __OBFID = "CL_00000911";
 
@@ -18,9 +16,6 @@ public class EntityHugeExplodeFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7) {}
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         for (int var1 = 0; var1 < 6; ++var1)

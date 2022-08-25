@@ -16,16 +16,12 @@ import org.apache.commons.io.IOUtils;
 
 public class Locale
 {
-    /** Splits on "=" */
     private static final Splitter splitter = Splitter.on('=').limit(2);
     private static final Pattern field_135031_c = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
     Map field_135032_a = Maps.newHashMap();
     private boolean field_135029_d;
     private static final String __OBFID = "CL_00001097";
 
-    /**
-     * par2 is a list of languages. For each language $L and domain $D, attempts to load the resource $D:lang/$L.lang
-     */
     public synchronized void loadLocaleDataFiles(IResourceManager par1ResourceManager, List par2List)
     {
         this.field_135032_a.clear();
@@ -86,9 +82,6 @@ public class Locale
         this.field_135029_d = (double)var7 > 0.1D;
     }
 
-    /**
-     * par1 is a list of Resources
-     */
     private void loadLocaleData(List par1List) throws IOException
     {
         Iterator var2 = par1List.iterator();
@@ -122,18 +115,12 @@ public class Locale
         }
     }
 
-    /**
-     * Returns the translation, or the key itself if the key could not be translated.
-     */
     private String translateKeyPrivate(String par1Str)
     {
         String var2 = (String)this.field_135032_a.get(par1Str);
         return var2 == null ? par1Str : var2;
     }
 
-    /**
-     * Calls String.format(translateKey(key), params)
-     */
     public String formatMessage(String par1Str, Object[] par2ArrayOfObj)
     {
         String var3 = this.translateKeyPrivate(par1Str);

@@ -6,13 +6,10 @@ import net.minecraft.util.MathHelper;
 
 public class EntityMoveHelper
 {
-    /** The EntityLiving that is being moved */
     private EntityLiving entity;
     private double posX;
     private double posY;
     private double posZ;
-
-    /** The speed at which the entity should move */
     private double speed;
     private boolean update;
     private static final String __OBFID = "CL_00001573";
@@ -35,9 +32,6 @@ public class EntityMoveHelper
         return this.speed;
     }
 
-    /**
-     * Sets the speed and location to move to
-     */
     public void setMoveTo(double par1, double par3, double par5, double par7)
     {
         this.posX = par1;
@@ -74,9 +68,6 @@ public class EntityMoveHelper
         }
     }
 
-    /**
-     * Limits the given angle to a upper and lower limit.
-     */
     private float limitAngle(float par1, float par2, float par3)
     {
         float var4 = MathHelper.wrapAngleTo180_float(par2 - par1);

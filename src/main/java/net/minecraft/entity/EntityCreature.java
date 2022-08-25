@@ -18,20 +18,10 @@ public abstract class EntityCreature extends EntityLiving
     public static final UUID field_110179_h = UUID.fromString("E199AD21-BA8A-4C53-8D13-6182D5C69D3A");
     public static final AttributeModifier field_110181_i = (new AttributeModifier(field_110179_h, "Fleeing speed bonus", 2.0D, 2)).setSaved(false);
     private PathEntity pathToEntity;
-
-    /** The Entity this EntityCreature is set to attack. */
     protected Entity entityToAttack;
-
-    /**
-     * returns true if a creature has attacked recently only used for creepers and skeletons
-     */
     protected boolean hasAttacked;
-
-    /** Used to make a creature speed up and wander away when hit. */
     protected int fleeingTick;
     private ChunkCoordinates homePosition = new ChunkCoordinates(0, 0, 0);
-
-    /** If -1 there is no maximum distance */
     private float maximumHomeDistance = -1.0F;
     private EntityAIBase field_110178_bs = new EntityAIMoveTowardsRestriction(this, 1.0D);
     private boolean field_110180_bt;
@@ -42,9 +32,6 @@ public abstract class EntityCreature extends EntityLiving
         super(par1World);
     }
 
-    /**
-     * Disables a mob's ability to move on its own while true.
-     */
     protected boolean isMovementCeased()
     {
         return false;
@@ -192,9 +179,6 @@ public abstract class EntityCreature extends EntityLiving
         }
     }
 
-    /**
-     * Time remaining during which the Animal is sped up and flees.
-     */
     protected void updateWanderPath()
     {
         this.worldObj.theProfiler.startSection("stroll");
@@ -229,32 +213,18 @@ public abstract class EntityCreature extends EntityLiving
         this.worldObj.theProfiler.endSection();
     }
 
-    /**
-     * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
-     */
     protected void attackEntity(Entity par1Entity, float par2) {}
 
-    /**
-     * Takes a coordinate in and returns a weight to determine how likely this creature will try to path to the block.
-     * Args: x, y, z
-     */
     public float getBlockPathWeight(int par1, int par2, int par3)
     {
         return 0.0F;
     }
 
-    /**
-     * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
-     * (Animals, Spiders at day, peaceful PigZombies).
-     */
     protected Entity findPlayerToAttack()
     {
         return null;
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
     public boolean getCanSpawnHere()
     {
         int var1 = MathHelper.floor_double(this.posX);
@@ -263,33 +233,21 @@ public abstract class EntityCreature extends EntityLiving
         return super.getCanSpawnHere() && this.getBlockPathWeight(var1, var2, var3) >= 0.0F;
     }
 
-    /**
-     * if the entity got a PathEntity it returns true, else false
-     */
     public boolean hasPath()
     {
         return this.pathToEntity != null;
     }
 
-    /**
-     * sets the pathToEntity
-     */
     public void setPathToEntity(PathEntity par1PathEntity)
     {
         this.pathToEntity = par1PathEntity;
     }
 
-    /**
-     * returns the target Entity
-     */
     public Entity getEntityToAttack()
     {
         return this.entityToAttack;
     }
 
-    /**
-     * Sets the entity which is to be attacked.
-     */
     public void setTarget(Entity par1Entity)
     {
         this.entityToAttack = par1Entity;
@@ -311,9 +269,6 @@ public abstract class EntityCreature extends EntityLiving
         this.maximumHomeDistance = (float)par4;
     }
 
-    /**
-     * Returns the chunk coordinate object of the home position.
-     */
     public ChunkCoordinates getHomePosition()
     {
         return this.homePosition;
@@ -329,17 +284,11 @@ public abstract class EntityCreature extends EntityLiving
         this.maximumHomeDistance = -1.0F;
     }
 
-    /**
-     * Returns whether a home area is defined for this entity.
-     */
     public boolean hasHome()
     {
         return this.maximumHomeDistance != -1.0F;
     }
 
-    /**
-     * Applies logic related to leashes, for example dragging the entity or breaking the leash.
-     */
     protected void updateLeashedState()
     {
         super.updateLeashedState();

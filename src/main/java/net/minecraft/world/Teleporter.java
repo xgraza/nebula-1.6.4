@@ -15,17 +15,8 @@ import net.minecraft.util.MathHelper;
 public class Teleporter
 {
     private final WorldServer worldServerInstance;
-
-    /** A private Random() function in Teleporter */
     private final Random random;
-
-    /** Stores successful portal placement locations for rapid lookup. */
     private final LongHashMap destinationCoordinateCache = new LongHashMap();
-
-    /**
-     * A list of valid keys for the destinationCoordainteCache. These are based on the X & Z of the players initial
-     * location.
-     */
     private final List destinationCoordinateKeys = new ArrayList();
     private static final String __OBFID = "CL_00000153";
 
@@ -35,9 +26,6 @@ public class Teleporter
         this.random = new Random(par1WorldServer.getSeed());
     }
 
-    /**
-     * Place an entity in a nearby portal, creating one if necessary.
-     */
     public void placeInPortal(Entity par1Entity, double par2, double par4, double par6, float par8)
     {
         if (this.worldServerInstance.provider.dimensionId != 1)
@@ -76,9 +64,6 @@ public class Teleporter
         }
     }
 
-    /**
-     * Place an entity in a nearby portal which already exists.
-     */
     public boolean placeInExistingPortal(Entity par1Entity, double par2, double par4, double par6, float par8)
     {
         short var9 = 128;
@@ -486,10 +471,6 @@ public class Teleporter
         return true;
     }
 
-    /**
-     * called periodically to remove out-of-date portal locations from the cache list. Argument par1 is a
-     * WorldServer.getTotalWorldTime() value.
-     */
     public void removeStalePortalLocations(long par1)
     {
         if (par1 % 100L == 0L)

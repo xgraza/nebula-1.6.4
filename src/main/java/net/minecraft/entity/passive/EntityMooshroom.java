@@ -18,9 +18,6 @@ public class EntityMooshroom extends EntityCow
         this.setSize(0.9F, 1.3F);
     }
 
-    /**
-     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
-     */
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
         ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();

@@ -31,17 +31,11 @@ public class BlockStainedGlassPane extends BlockPane
         return field_150105_b[~p_150104_1_ & 15];
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return this.func_149735_b(p_149691_1_, ~p_149691_2_ & 15);
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int p_149692_1_)
     {
         return p_149692_1_;
@@ -60,17 +54,14 @@ public class BlockStainedGlassPane extends BlockPane
         }
     }
 
-    /**
-     * Returns which pass should this block be rendered on. 0 for solids and 1 for alpha
-     */
     public int getRenderBlockPass()
     {
         return 1;
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
-        super.registerBlockIcons(p_149651_1_);
+        super.registerIcons(p_149651_1_);
 
         for (int var2 = 0; var2 < field_150106_a.length; ++var2)
         {

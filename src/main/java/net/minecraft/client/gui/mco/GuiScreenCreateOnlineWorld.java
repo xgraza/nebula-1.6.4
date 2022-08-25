@@ -39,25 +39,19 @@ public class GuiScreenCreateOnlineWorld extends ScreenWithCallback
         this.field_146758_f = par1GuiScreen;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         this.field_146760_g.updateCursorCounter();
         this.field_146766_h = this.field_146760_g.getText();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(field_146767_i, this.width / 2 - 100, this.height / 4 + 120 + 17, 97, 20, I18n.format("mco.create.world", new Object[0])));
         this.buttonList.add(new GuiButton(field_146764_r, this.width / 2 + 5, this.height / 4 + 120 + 17, 95, 20, I18n.format("gui.cancel", new Object[0])));
-        this.field_146760_g = new GuiTextField(this.fontRendererObj, this.width / 2 - 100, 65, 200, 20);
+        this.field_146760_g = new GuiTextField(this.fontRenderer, this.width / 2 - 100, 65, 200, 20);
         this.field_146760_g.setFocused(true);
 
         if (this.field_146766_h != null)
@@ -75,9 +69,6 @@ public class GuiScreenCreateOnlineWorld extends ScreenWithCallback
         }
     }
 
-    /**
-     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
-     */
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
@@ -119,9 +110,6 @@ public class GuiScreenCreateOnlineWorld extends ScreenWithCallback
         return !this.field_146762_t;
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         this.field_146760_g.textboxKeyTyped(par1, par2);
@@ -137,27 +125,21 @@ public class GuiScreenCreateOnlineWorld extends ScreenWithCallback
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
         this.field_146760_g.mouseClicked(par1, par2, par3);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("mco.selectServer.create", new Object[0]), this.width / 2, 11, 16777215);
-        this.drawString(this.fontRendererObj, I18n.format("mco.configure.world.name", new Object[0]), this.width / 2 - 100, 52, 10526880);
+        this.drawCenteredString(this.fontRenderer, I18n.format("mco.selectServer.create", new Object[0]), this.width / 2, 11, 16777215);
+        this.drawString(this.fontRenderer, I18n.format("mco.configure.world.name", new Object[0]), this.width / 2 - 100, 52, 10526880);
 
         if (this.field_146762_t)
         {
-            this.drawCenteredString(this.fontRendererObj, this.field_146761_u, this.width / 2, 167, 16711680);
+            this.drawCenteredString(this.fontRenderer, this.field_146761_u, this.width / 2, 167, 16711680);
         }
 
         this.field_146760_g.drawTextBox();

@@ -19,12 +19,12 @@ public class TileEntityComparator extends TileEntity
         this.field_145997_a = p_145839_1_.getInteger("OutputSignal");
     }
 
-    public int func_145996_a()
+    public int getOutputSignal()
     {
         return this.field_145997_a;
     }
 
-    public void func_145995_a(int p_145995_1_)
+    public void setOutputSignal(int p_145995_1_)
     {
         this.field_145997_a = p_145995_1_;
     }

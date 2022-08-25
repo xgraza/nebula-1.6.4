@@ -19,9 +19,6 @@ public class S02PacketLoginSuccess extends Packet
         this.field_149602_a = p_i45267_1_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         String var2 = p_148837_1_.readStringFromBuffer(36);
@@ -29,9 +26,6 @@ public class S02PacketLoginSuccess extends Packet
         this.field_149602_a = new GameProfile(var2, var3);
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeStringToBuffer(this.field_149602_a.getId());
@@ -43,10 +37,6 @@ public class S02PacketLoginSuccess extends Packet
         p_149601_1_.handleLoginSuccess(this);
     }
 
-    /**
-     * If true, the network manager will process the packet immediately when received, otherwise it will queue it for
-     * processing. Currently true for: Disconnect, LoginSuccess, KeepAlive, ServerQuery/Info, Ping/Pong
-     */
     public boolean hasPriority()
     {
         return true;

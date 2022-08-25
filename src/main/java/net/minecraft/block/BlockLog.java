@@ -26,9 +26,6 @@ public abstract class BlockLog extends BlockRotatedPillar
         return p_150165_0_ & 3;
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
     public int quantityDropped(Random p_149745_1_)
     {
         return 1;

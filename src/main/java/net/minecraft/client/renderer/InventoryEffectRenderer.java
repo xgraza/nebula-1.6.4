@@ -19,9 +19,6 @@ public abstract class InventoryEffectRenderer extends GuiContainer
         super(par1Container);
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         super.initGui();
@@ -33,9 +30,6 @@ public abstract class InventoryEffectRenderer extends GuiContainer
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         super.drawScreen(par1, par2, par3);
@@ -93,9 +87,9 @@ public abstract class InventoryEffectRenderer extends GuiContainer
                     var11 = var11 + " IV";
                 }
 
-                this.fontRendererObj.drawStringWithShadow(var11, var1 + 10 + 18, var2 + 6, 16777215);
+                this.fontRenderer.drawStringWithShadow(var11, var1 + 10 + 18, var2 + 6, 16777215);
                 String var10 = Potion.getDurationString(var7);
-                this.fontRendererObj.drawStringWithShadow(var10, var1 + 10 + 18, var2 + 6 + 10, 8355711);
+                this.fontRenderer.drawStringWithShadow(var10, var1 + 10 + 18, var2 + 6 + 10, 8355711);
             }
         }
     }

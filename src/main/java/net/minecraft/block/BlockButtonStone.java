@@ -12,9 +12,6 @@ public class BlockButtonStone extends BlockButton
         super(false);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return Blocks.stone.getBlockTextureFromSide(1);

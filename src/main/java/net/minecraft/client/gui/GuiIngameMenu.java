@@ -11,9 +11,6 @@ public class GuiIngameMenu extends GuiScreen
     private int field_146444_f;
     private static final String __OBFID = "CL_00000703";
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.field_146445_a = 0;
@@ -73,22 +70,16 @@ public class GuiIngameMenu extends GuiScreen
         }
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         super.updateScreen();
         ++this.field_146444_f;
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, "Game menu", this.width / 2, 40, 16777215);
+        this.drawCenteredString(this.fontRenderer, "Game menu", this.width / 2, 40, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 }

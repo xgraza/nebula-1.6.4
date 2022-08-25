@@ -39,14 +39,8 @@ public class GuiScreenSubscription extends GuiScreen
         this.field_146781_g = par2McoServer;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen() {}
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.func_146778_a(this.field_146781_g.field_148812_a);
@@ -83,9 +77,6 @@ public class GuiScreenSubscription extends GuiScreen
         return SimpleDateFormat.getDateTimeInstance().format(var3.getTime());
     }
 
-    /**
-     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
-     */
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
@@ -131,30 +122,21 @@ public class GuiScreenSubscription extends GuiScreen
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2) {}
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("mco.configure.world.subscription.title", new Object[0]), this.width / 2, 17, 16777215);
-        this.drawString(this.fontRendererObj, I18n.format("mco.configure.world.subscription.start", new Object[0]), this.width / 2 - 100, 53, 10526880);
-        this.drawString(this.fontRendererObj, this.field_146784_s, this.width / 2 - 100, 66, 16777215);
-        this.drawString(this.fontRendererObj, I18n.format("mco.configure.world.subscription.daysleft", new Object[0]), this.width / 2 - 100, 85, 10526880);
-        this.drawString(this.fontRendererObj, String.valueOf(this.field_146785_r), this.width / 2 - 100, 98, 16777215);
+        this.drawCenteredString(this.fontRenderer, I18n.format("mco.configure.world.subscription.title", new Object[0]), this.width / 2, 17, 16777215);
+        this.drawString(this.fontRenderer, I18n.format("mco.configure.world.subscription.start", new Object[0]), this.width / 2 - 100, 53, 10526880);
+        this.drawString(this.fontRenderer, this.field_146784_s, this.width / 2 - 100, 66, 16777215);
+        this.drawString(this.fontRenderer, I18n.format("mco.configure.world.subscription.daysleft", new Object[0]), this.width / 2 - 100, 85, 10526880);
+        this.drawString(this.fontRenderer, String.valueOf(this.field_146785_r), this.width / 2 - 100, 98, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 }

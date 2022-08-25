@@ -18,17 +18,11 @@ public class C16PacketClientStatus extends Packet
         this.field_149437_a = p_i45242_1_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149437_a = C16PacketClientStatus.EnumState.field_151404_e[p_148837_1_.readByte() % C16PacketClientStatus.EnumState.field_151404_e.length];
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.field_149437_a.field_151403_d);

@@ -19,9 +19,6 @@ public class MusicTicker implements IUpdatePlayerListBox
         this.field_147677_b = p_i45112_1_;
     }
 
-    /**
-     * Updates the JList with a new model.
-     */
     public void update()
     {
         MusicTicker.MusicType var1 = this.field_147677_b.func_147109_W();

@@ -33,9 +33,6 @@ public class S3CPacketUpdateScore extends Packet
         this.field_149326_d = 1;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149329_a = p_148837_1_.readStringFromBuffer(16);
@@ -48,9 +45,6 @@ public class S3CPacketUpdateScore extends Packet
         }
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeStringToBuffer(this.field_149329_a);

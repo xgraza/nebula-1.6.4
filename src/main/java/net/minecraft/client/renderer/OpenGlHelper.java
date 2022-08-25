@@ -2,8 +2,8 @@ package net.minecraft.client.renderer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
-import optifine.Config;
-
+import net.minecraft.src.Config;
+import net.minecraft.src.GlStateManager;
 import org.lwjgl.opengl.ARBMultitexture;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -13,35 +13,18 @@ import org.lwjgl.opengl.GLContext;
 public class OpenGlHelper
 {
     public static boolean openGL21;
-
-    /**
-     * An OpenGL constant corresponding to GL_TEXTURE0, used when setting data pertaining to auxiliary OpenGL texture
-     * units.
-     */
     public static int defaultTexUnit;
-
-    /**
-     * An OpenGL constant corresponding to GL_TEXTURE1, used when setting data pertaining to auxiliary OpenGL texture
-     * units.
-     */
     public static int lightmapTexUnit;
     public static boolean anisotropicFilteringSupported;
     public static int anisotropicFilteringMax;
-
-    /**
-     * True if the renderer supports multitextures and the OpenGL version != 1.3
-     */
     private static boolean useMultitextureARB;
     private static boolean openGL14;
     public static boolean framebufferSupported;
     public static boolean shadersSupported;
-    private static final String __OBFID = "CL_00001179";
     public static float lastBrightnessX = 0.0F;
     public static float lastBrightnessY = 0.0F;
-    
-    /**
-     * Initializes the texture constants to be used when rendering lightmap values
-     */
+    public static boolean glBlendFuncZero = false;
+
     public static void initializeTextures()
     {
         Config.initDisplay();
@@ -67,11 +50,10 @@ public class OpenGlHelper
         shadersSupported = framebufferSupported && openGL21;
     }
 
-    /**
-     * Sets the current lightmap texture to the specified OpenGL constant
-     */
     public static void setActiveTexture(int par0)
     {
+        GlStateManager.activeTextureUnit = par0;
+
         if (useMultitextureARB)
         {
             ARBMultitexture.glActiveTextureARB(par0);
@@ -82,9 +64,6 @@ public class OpenGlHelper
         }
     }
 
-    /**
-     * Sets the current lightmap texture to the specified OpenGL constant
-     */
     public static void setClientActiveTexture(int par0)
     {
         if (useMultitextureARB)
@@ -97,9 +76,6 @@ public class OpenGlHelper
         }
     }
 
-    /**
-     * Sets the current coordinates of the given lightmap texture
-     */
     public static void setLightmapTextureCoords(int par0, float par1, float par2)
     {
         if (useMultitextureARB)
@@ -120,6 +96,8 @@ public class OpenGlHelper
 
     public static void glBlendFunc(int p_148821_0_, int p_148821_1_, int p_148821_2_, int p_148821_3_)
     {
+        glBlendFuncZero = (p_148821_0_ | p_148821_1_ | p_148821_2_ | p_148821_3_) == 0;
+
         if (openGL14)
         {
             GL14.glBlendFuncSeparate(p_148821_0_, p_148821_1_, p_148821_2_, p_148821_3_);
@@ -132,6 +110,6 @@ public class OpenGlHelper
 
     public static boolean isFramebufferEnabled()
     {
-        return Config.isFastRender() ? false : framebufferSupported && Minecraft.getMinecraft().gameSettings.fboEnable;
+        return Config.isFastRender() ? false : (Config.isAntialiasing() ? false : framebufferSupported && Minecraft.getMinecraft().gameSettings.fboEnable);
     }
 }

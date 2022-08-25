@@ -113,9 +113,6 @@ public abstract class EntityHanging extends Entity
         return par1 == 32 ? 0.5F : (par1 == 64 ? 0.5F : 0.0F);
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.prevPosX = this.posX;
@@ -134,9 +131,6 @@ public abstract class EntityHanging extends Entity
         }
     }
 
-    /**
-     * checks to make sure painting can be placed there
-     */
     public boolean onValidSurface()
     {
         if (!this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty())
@@ -214,17 +208,11 @@ public abstract class EntityHanging extends Entity
         }
     }
 
-    /**
-     * Returns true if other Entities should be prevented from moving through this Entity.
-     */
     public boolean canBeCollidedWith()
     {
         return true;
     }
 
-    /**
-     * Called when a player attacks an entity. If this returns true the attack will not happen.
-     */
     public boolean hitByEntity(Entity par1Entity)
     {
         return par1Entity instanceof EntityPlayer ? this.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)par1Entity), 0.0F) : false;
@@ -235,9 +223,6 @@ public abstract class EntityHanging extends Entity
         this.worldObj.func_147450_X();
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (this.isEntityInvulnerable())
@@ -257,9 +242,6 @@ public abstract class EntityHanging extends Entity
         }
     }
 
-    /**
-     * Tries to moves the entity by the passed in displacement. Args: x, y, z
-     */
     public void moveEntity(double par1, double par3, double par5)
     {
         if (!this.worldObj.isClient && !this.isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
@@ -269,9 +251,6 @@ public abstract class EntityHanging extends Entity
         }
     }
 
-    /**
-     * Adds to the current velocity of the entity. Args: x, y, z
-     */
     public void addVelocity(double par1, double par3, double par5)
     {
         if (!this.worldObj.isClient && !this.isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
@@ -281,9 +260,6 @@ public abstract class EntityHanging extends Entity
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setByte("Direction", (byte)this.hangingDirection);
@@ -310,12 +286,9 @@ public abstract class EntityHanging extends Entity
         }
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
-        if (par1NBTTagCompound.func_150297_b("Direction", 99))
+        if (par1NBTTagCompound.hasKey("Direction", 99))
         {
             this.hangingDirection = par1NBTTagCompound.getByte("Direction");
         }
@@ -350,9 +323,6 @@ public abstract class EntityHanging extends Entity
 
     public abstract int getHeightPixels();
 
-    /**
-     * Called when this entity is broken. Entity parameter may be null.
-     */
     public abstract void onBroken(Entity var1);
 
     protected boolean shouldSetPosAfterLoading()

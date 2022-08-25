@@ -7,24 +7,14 @@ import net.minecraft.util.Vec3;
 
 public class RandomPositionGenerator
 {
-    /**
-     * used to store a driection when the user passes a point to move towards or away from. WARNING: NEVER THREAD SAFE.
-     * MULTIPLE findTowards and findAway calls, will share this var
-     */
     private static Vec3 staticVector = Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
     private static final String __OBFID = "CL_00001629";
 
-    /**
-     * finds a random target within par1(x,z) and par2 (y) blocks
-     */
     public static Vec3 findRandomTarget(EntityCreature par0EntityCreature, int par1, int par2)
     {
         return findRandomTargetBlock(par0EntityCreature, par1, par2, (Vec3)null);
     }
 
-    /**
-     * finds a random target within par1(x,z) and par2 (y) blocks in the direction of the point par3
-     */
     public static Vec3 findRandomTargetBlockTowards(EntityCreature par0EntityCreature, int par1, int par2, Vec3 par3Vec3)
     {
         staticVector.xCoord = par3Vec3.xCoord - par0EntityCreature.posX;
@@ -33,9 +23,6 @@ public class RandomPositionGenerator
         return findRandomTargetBlock(par0EntityCreature, par1, par2, staticVector);
     }
 
-    /**
-     * finds a random target within par1(x,z) and par2 (y) blocks in the reverse direction of the point par3
-     */
     public static Vec3 findRandomTargetBlockAwayFrom(EntityCreature par0EntityCreature, int par1, int par2, Vec3 par3Vec3)
     {
         staticVector.xCoord = par0EntityCreature.posX - par3Vec3.xCoord;
@@ -44,10 +31,6 @@ public class RandomPositionGenerator
         return findRandomTargetBlock(par0EntityCreature, par1, par2, staticVector);
     }
 
-    /**
-     * searches 10 blocks at random in a within par1(x,z) and par2 (y) distance, ignores those not in the direction of
-     * par3Vec3, then points to the tile for which creature.getBlockPathWeight returns the highest number
-     */
     private static Vec3 findRandomTargetBlock(EntityCreature par0EntityCreature, int par1, int par2, Vec3 par3Vec3)
     {
         Random var4 = par0EntityCreature.getRNG();

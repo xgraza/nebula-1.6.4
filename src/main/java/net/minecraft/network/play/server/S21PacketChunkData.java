@@ -56,9 +56,6 @@ public class S21PacketChunkData extends Packet
         return 196864;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.x = p_148837_1_.readInt();
@@ -107,9 +104,6 @@ public class S21PacketChunkData extends Packet
         }
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeInt(this.x);
@@ -126,9 +120,6 @@ public class S21PacketChunkData extends Packet
         p_149277_1_.handleChunkData(this);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("x=%d, z=%d, full=%b, sects=%d, add=%d, size=%d", new Object[] {Integer.valueOf(this.x), Integer.valueOf(this.z), Boolean.valueOf(this.isFullChunk), Integer.valueOf(this.field_149283_c), Integer.valueOf(this.field_149280_d), Integer.valueOf(this.field_149285_h)});

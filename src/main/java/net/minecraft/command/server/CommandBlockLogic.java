@@ -50,25 +50,22 @@ public abstract class CommandBlockLogic implements ICommandSender
         this.field_145763_e = p_145759_1_.getString("Command");
         this.field_145764_b = p_145759_1_.getInteger("SuccessCount");
 
-        if (p_145759_1_.func_150297_b("CustomName", 8))
+        if (p_145759_1_.hasKey("CustomName", 8))
         {
             this.field_145761_f = p_145759_1_.getString("CustomName");
         }
 
-        if (p_145759_1_.func_150297_b("LastOutput", 8))
+        if (p_145759_1_.hasKey("LastOutput", 8))
         {
             this.field_145762_d = IChatComponent.Serializer.func_150699_a(p_145759_1_.getString("LastOutput"));
         }
 
-        if (p_145759_1_.func_150297_b("TrackOutput", 1))
+        if (p_145759_1_.hasKey("TrackOutput", 1))
         {
             this.field_145765_c = p_145759_1_.getBoolean("TrackOutput");
         }
     }
 
-    /**
-     * Returns true if the command sender is allowed to use the given command.
-     */
     public boolean canCommandSenderUseCommand(int par1, String par2Str)
     {
         return par1 <= 2;
@@ -104,9 +101,6 @@ public abstract class CommandBlockLogic implements ICommandSender
         }
     }
 
-    /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
-     */
     public String getCommandSenderName()
     {
         return this.field_145761_f;
@@ -122,12 +116,6 @@ public abstract class CommandBlockLogic implements ICommandSender
         this.field_145761_f = p_145754_1_;
     }
 
-    /**
-     * Notifies this sender of some sort of information.  This is for messages intended to display to the user.  Used
-     * for typical output (like "you asked for whether or not this game rule is set, so here's your answer"), warnings
-     * (like "I fetched this block for you by ID, but I'd like you to know that every time you do this, I die a little
-     * inside"), and errors (like "it's not called iron_pixacke, silly").
-     */
     public void addChatMessage(IChatComponent p_145747_1_)
     {
         if (this.field_145765_c && this.getEntityWorld() != null && !this.getEntityWorld().isClient)

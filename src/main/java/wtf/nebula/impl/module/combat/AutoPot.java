@@ -126,7 +126,7 @@ public class AutoPot extends Module {
                 float pitch = rotate.getValue().pitch;
 
                 if (packet.moving) {
-                    mc.thePlayer.sendQueue.addToSendQueueSilent(new C03PacketPlayer.C06PacketPlayerPosLook(packet.x, packet.y, packet.stance, packet.z, packet.yaw, pitch, packet.onGround));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(packet.x, packet.y, packet.stance, packet.z, packet.yaw, pitch, packet.onGround));
                 } else {
                     mc.thePlayer.sendQueue.addToSendQueueSilent(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, pitch, packet.onGround));
                 }

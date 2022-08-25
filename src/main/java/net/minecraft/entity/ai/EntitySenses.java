@@ -8,11 +8,7 @@ import net.minecraft.entity.EntityLiving;
 public class EntitySenses
 {
     EntityLiving entityObj;
-
-    /** Cache of entities which we can see */
     List seenEntities = new ArrayList();
-
-    /** Cache of entities which we cannot see */
     List unseenEntities = new ArrayList();
     private static final String __OBFID = "CL_00001628";
 
@@ -21,18 +17,12 @@ public class EntitySenses
         this.entityObj = par1EntityLiving;
     }
 
-    /**
-     * Clears canSeeCachePositive and canSeeCacheNegative.
-     */
     public void clearSensingCache()
     {
         this.seenEntities.clear();
         this.unseenEntities.clear();
     }
 
-    /**
-     * Checks, whether 'our' entity can see the entity given as argument (true) or not (false), caching the result.
-     */
     public boolean canSee(Entity par1Entity)
     {
         if (this.seenEntities.contains(par1Entity))

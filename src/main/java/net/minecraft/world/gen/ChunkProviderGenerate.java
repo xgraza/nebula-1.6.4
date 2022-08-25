@@ -24,45 +24,26 @@ import net.minecraft.world.gen.structure.MapGenVillage;
 
 public class ChunkProviderGenerate implements IChunkProvider
 {
-    /** RNG. */
     private Random rand;
     private NoiseGeneratorOctaves field_147431_j;
     private NoiseGeneratorOctaves field_147432_k;
     private NoiseGeneratorOctaves field_147429_l;
     private NoiseGeneratorPerlin field_147430_m;
-
-    /** A NoiseGeneratorOctaves used in generating terrain */
     public NoiseGeneratorOctaves noiseGen5;
-
-    /** A NoiseGeneratorOctaves used in generating terrain */
     public NoiseGeneratorOctaves noiseGen6;
     public NoiseGeneratorOctaves mobSpawnerNoise;
-
-    /** Reference to the World object. */
     private World worldObj;
-
-    /** are map structures going to be generated (e.g. strongholds) */
     private final boolean mapFeaturesEnabled;
     private WorldType field_147435_p;
     private final double[] field_147434_q;
     private final float[] parabolicField;
     private double[] stoneNoise = new double[256];
     private MapGenBase caveGenerator = new MapGenCaves();
-
-    /** Holds Stronghold Generator */
     private MapGenStronghold strongholdGenerator = new MapGenStronghold();
-
-    /** Holds Village Generator */
     private MapGenVillage villageGenerator = new MapGenVillage();
-
-    /** Holds Mineshaft Generator */
     private MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
     private MapGenScatteredFeature scatteredFeatureGenerator = new MapGenScatteredFeature();
-
-    /** Holds ravine generator */
     private MapGenBase ravineGenerator = new MapGenRavine();
-
-    /** The biomes that are used to generate the chunk */
     private BiomeGenBase[] biomesForGeneration;
     double[] field_147427_d;
     double[] field_147428_e;
@@ -189,18 +170,11 @@ public class ChunkProviderGenerate implements IChunkProvider
         }
     }
 
-    /**
-     * loads or generates the chunk at the chunk location specified
-     */
     public Chunk loadChunk(int par1, int par2)
     {
         return this.provideChunk(par1, par2);
     }
 
-    /**
-     * Will return back a chunk, if it doesn't exist and its not a MP client it will generates all the blocks for the
-     * specified chunk from the map seed and chunk seed
-     */
     public Chunk provideChunk(int par1, int par2)
     {
         this.rand.setSeed((long)par1 * 341873128712L + (long)par2 * 132897987541L);
@@ -354,17 +328,11 @@ public class ChunkProviderGenerate implements IChunkProvider
         }
     }
 
-    /**
-     * Checks to see if a chunk exists at x, y
-     */
     public boolean chunkExists(int par1, int par2)
     {
         return true;
     }
 
-    /**
-     * Populates chunk with ores etc etc
-     */
     public void populate(IChunkProvider par1IChunkProvider, int par2, int par3)
     {
         BlockFalling.field_149832_M = true;
@@ -443,48 +411,28 @@ public class ChunkProviderGenerate implements IChunkProvider
         BlockFalling.field_149832_M = false;
     }
 
-    /**
-     * Two modes of operation: if passed true, save all Chunks in one go.  If passed false, save up to two chunks.
-     * Return true if all chunks have been saved.
-     */
     public boolean saveChunks(boolean par1, IProgressUpdate par2IProgressUpdate)
     {
         return true;
     }
 
-    /**
-     * Save extra data not associated with any Chunk.  Not saved during autosave, only during world unload.  Currently
-     * unimplemented.
-     */
     public void saveExtraData() {}
 
-    /**
-     * Unloads chunks that are marked to be unloaded. This is not guaranteed to unload every such chunk.
-     */
     public boolean unloadQueuedChunks()
     {
         return false;
     }
 
-    /**
-     * Returns if the IChunkProvider supports saving.
-     */
     public boolean canSave()
     {
         return true;
     }
 
-    /**
-     * Converts the instance data to a readable string.
-     */
     public String makeString()
     {
         return "RandomLevelSource";
     }
 
-    /**
-     * Returns a list of creatures of the specified type that can spawn at the given location.
-     */
     public List getPossibleCreatures(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
     {
         BiomeGenBase var5 = this.worldObj.getBiomeGenForCoords(par2, par4);

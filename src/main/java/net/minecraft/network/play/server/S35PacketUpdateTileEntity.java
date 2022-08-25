@@ -27,9 +27,6 @@ public class S35PacketUpdateTileEntity extends Packet
         this.field_148860_e = p_i45175_5_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_148863_a = p_148837_1_.readInt();
@@ -39,9 +36,6 @@ public class S35PacketUpdateTileEntity extends Packet
         this.field_148860_e = p_148837_1_.readNBTTagCompoundFromBuffer();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeInt(this.field_148863_a);

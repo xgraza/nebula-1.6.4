@@ -63,10 +63,6 @@ public class EntityFallingBlock extends Entity
         this.prevPosZ = p_i45319_6_;
     }
 
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
     protected boolean canTriggerWalking()
     {
         return false;
@@ -74,17 +70,11 @@ public class EntityFallingBlock extends Entity
 
     protected void entityInit() {}
 
-    /**
-     * Returns true if other Entities should be prevented from moving through this Entity.
-     */
     public boolean canBeCollidedWith()
     {
         return !this.isDead;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         if (this.field_145811_e.getMaterial() == Material.air)
@@ -182,9 +172,6 @@ public class EntityFallingBlock extends Entity
         }
     }
 
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
     protected void fall(float par1)
     {
         if (this.field_145809_g)
@@ -223,9 +210,6 @@ public class EntityFallingBlock extends Entity
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setByte("Tile", (byte)Block.getIdFromBlock(this.field_145811_e));
@@ -243,12 +227,9 @@ public class EntityFallingBlock extends Entity
         }
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
-        if (par1NBTTagCompound.func_150297_b("TileID", 99))
+        if (par1NBTTagCompound.hasKey("TileID", 99))
         {
             this.field_145811_e = Block.getBlockById(par1NBTTagCompound.getInteger("TileID"));
         }
@@ -260,7 +241,7 @@ public class EntityFallingBlock extends Entity
         this.field_145814_a = par1NBTTagCompound.getByte("Data") & 255;
         this.field_145812_b = par1NBTTagCompound.getByte("Time") & 255;
 
-        if (par1NBTTagCompound.func_150297_b("HurtEntities", 99))
+        if (par1NBTTagCompound.hasKey("HurtEntities", 99))
         {
             this.field_145809_g = par1NBTTagCompound.getBoolean("HurtEntities");
             this.field_145816_i = par1NBTTagCompound.getFloat("FallHurtAmount");
@@ -271,12 +252,12 @@ public class EntityFallingBlock extends Entity
             this.field_145809_g = true;
         }
 
-        if (par1NBTTagCompound.func_150297_b("DropItem", 99))
+        if (par1NBTTagCompound.hasKey("DropItem", 99))
         {
             this.field_145813_c = par1NBTTagCompound.getBoolean("DropItem");
         }
 
-        if (par1NBTTagCompound.func_150297_b("TileEntityData", 10))
+        if (par1NBTTagCompound.hasKey("TileEntityData", 10))
         {
             this.field_145810_d = par1NBTTagCompound.getCompoundTag("TileEntityData");
         }
@@ -302,9 +283,6 @@ public class EntityFallingBlock extends Entity
         this.field_145809_g = p_145806_1_;
     }
 
-    /**
-     * Return whether this entity should be rendered as on fire.
-     */
     public boolean canRenderOnFire()
     {
         return false;

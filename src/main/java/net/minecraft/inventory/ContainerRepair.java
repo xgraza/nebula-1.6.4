@@ -17,13 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class ContainerRepair extends Container
 {
     private static final Logger logger = LogManager.getLogger();
-
-    /** Here comes out item you merged and/or renamed. */
     private IInventory outputSlot = new InventoryCraftResult();
-
-    /**
-     * The 2slots where you put your items in that you want to merge and/or rename.
-     */
     private IInventory inputSlots = new InventoryBasic("Repair", true, 2)
     {
         private static final String __OBFID = "CL_00001733";
@@ -37,15 +31,9 @@ public class ContainerRepair extends Container
     private int field_82861_i;
     private int field_82858_j;
     private int field_82859_k;
-
-    /** The maximum cost of repairing/renaming in the anvil. */
     public int maximumCost;
-
-    /** determined by damage of input item and stackSize of repair materials */
     private int stackSizeToBeUsedInRepair;
     private String repairedItemName;
-
-    /** The player that has this container open. */
     private final EntityPlayer thePlayer;
     private static final String __OBFID = "CL_00001732";
 
@@ -139,9 +127,6 @@ public class ContainerRepair extends Container
         }
     }
 
-    /**
-     * Callback for when the crafting matrix is changed.
-     */
     public void onCraftMatrixChanged(IInventory par1IInventory)
     {
         super.onCraftMatrixChanged(par1IInventory);
@@ -152,9 +137,6 @@ public class ContainerRepair extends Container
         }
     }
 
-    /**
-     * called when the Anvil Input Slot changes, calculates the new result and puts it in the output slot
-     */
     public void updateRepairOutput()
     {
         ItemStack var1 = this.inputSlots.getStackInSlot(0);
@@ -457,9 +439,6 @@ public class ContainerRepair extends Container
         }
     }
 
-    /**
-     * Called when the container is closed.
-     */
     public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
         super.onContainerClosed(par1EntityPlayer);
@@ -483,9 +462,6 @@ public class ContainerRepair extends Container
         return this.theWorld.getBlock(this.field_82861_i, this.field_82858_j, this.field_82859_k) != Blocks.anvil ? false : par1EntityPlayer.getDistanceSq((double)this.field_82861_i + 0.5D, (double)this.field_82858_j + 0.5D, (double)this.field_82859_k + 0.5D) <= 64.0D;
     }
 
-    /**
-     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
-     */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
@@ -537,9 +513,6 @@ public class ContainerRepair extends Container
         return var3;
     }
 
-    /**
-     * used by the Anvil GUI to update the Item Name being typed by the player
-     */
     public void updateItemName(String par1Str)
     {
         this.repairedItemName = par1Str;

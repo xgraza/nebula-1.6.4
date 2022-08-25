@@ -5,7 +5,6 @@ import net.minecraft.world.World;
 
 public class EntitySpellParticleFX extends EntityFX
 {
-    /** Base spell texture index */
     private int baseSpellTextureIndex = 128;
     private static final String __OBFID = "CL_00000926";
 
@@ -42,9 +41,6 @@ public class EntitySpellParticleFX extends EntityFX
         super.renderParticle(par1Tessellator, par2, par3, par4, par5, par6, par7);
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.prevPosX = this.posX;
@@ -77,9 +73,6 @@ public class EntitySpellParticleFX extends EntityFX
         }
     }
 
-    /**
-     * Sets the base spell texture index
-     */
     public void setBaseSpellTextureIndex(int par1)
     {
         this.baseSpellTextureIndex = par1;

@@ -5,9 +5,6 @@ import net.minecraft.util.MathHelper;
 
 public class NoiseGeneratorOctaves extends NoiseGenerator
 {
-    /**
-     * Collection of noise generation functions.  Output is combined to produce different octaves of noise.
-     */
     private NoiseGeneratorImproved[] generatorCollection;
     private int octaves;
     private static final String __OBFID = "CL_00000535";
@@ -23,10 +20,6 @@ public class NoiseGeneratorOctaves extends NoiseGenerator
         }
     }
 
-    /**
-     * pars:(par2,3,4=noiseOffset ; so that adjacent noise segments connect) (pars5,6,7=x,y,zArraySize),(pars8,10,12 =
-     * x,y,z noiseScale)
-     */
     public double[] generateNoiseOctaves(double[] par1ArrayOfDouble, int par2, int par3, int par4, int par5, int par6, int par7, double par8, double par10, double par12)
     {
         if (par1ArrayOfDouble == null)
@@ -63,9 +56,6 @@ public class NoiseGeneratorOctaves extends NoiseGenerator
         return par1ArrayOfDouble;
     }
 
-    /**
-     * Bouncer function to the main one with some default arguments.
-     */
     public double[] generateNoiseOctaves(double[] par1ArrayOfDouble, int par2, int par3, int par4, int par5, double par6, double par8, double par10)
     {
         return this.generateNoiseOctaves(par1ArrayOfDouble, par2, 10, par3, par4, 1, par5, par6, 1.0D, par8);

@@ -18,9 +18,6 @@ public class RenderPig extends RenderLiving
         this.setRenderPassModel(par2ModelBase);
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityPig par1EntityPig, int par2, float par3)
     {
         if (par2 == 0 && par1EntityPig.getSaddled())
@@ -34,25 +31,16 @@ public class RenderPig extends RenderLiving
         }
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityPig par1EntityPig)
     {
         return pigTextures;
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.shouldRenderPass((EntityPig)par1EntityLivingBase, par2, par3);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityPig)par1Entity);

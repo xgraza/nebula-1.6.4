@@ -14,9 +14,6 @@ public class ItemFireworkCharge extends Item
     private IIcon field_150904_a;
     private static final String __OBFID = "CL_00000030";
 
-    /**
-     * Gets an icon index based on an item's damage value and the given render pass
-     */
     public IIcon getIconFromDamageForRenderPass(int par1, int par2)
     {
         return par2 > 0 ? this.field_150904_a : super.getIconFromDamageForRenderPass(par1, par2);
@@ -90,9 +87,6 @@ public class ItemFireworkCharge extends Item
         return null;
     }
 
-    /**
-     * allows items to add custom lines of information to the mouseover description
-     */
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
         if (par1ItemStack.hasTagCompound())

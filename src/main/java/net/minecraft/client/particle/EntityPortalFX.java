@@ -58,9 +58,6 @@ public class EntityPortalFX extends EntityFX
         return var4 | var5 << 16;
     }
 
-    /**
-     * Gets how bright this entity is.
-     */
     public float getBrightness(float par1)
     {
         float var2 = super.getBrightness(par1);
@@ -69,9 +66,6 @@ public class EntityPortalFX extends EntityFX
         return var2 * (1.0F - var3) + var3;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.prevPosX = this.posX;

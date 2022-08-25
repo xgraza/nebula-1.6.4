@@ -23,17 +23,11 @@ public class S2EPacketCloseWindow extends Packet
         p_148895_1_.handleCloseWindow(this);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_148896_a = p_148837_1_.readUnsignedByte();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.field_148896_a);

@@ -33,9 +33,6 @@ public class BlockNote extends BlockContainer
         }
     }
 
-    /**
-     * Called upon block activation (right click on the block.)
-     */
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         if (p_149727_1_.isClient)
@@ -56,9 +53,6 @@ public class BlockNote extends BlockContainer
         }
     }
 
-    /**
-     * Called when a player hits the block. Args: world, x, y, z, player
-     */
     public void onBlockClicked(World p_149699_1_, int p_149699_2_, int p_149699_3_, int p_149699_4_, EntityPlayer p_149699_5_)
     {
         if (!p_149699_1_.isClient)
@@ -72,9 +66,6 @@ public class BlockNote extends BlockContainer
         }
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
         return new TileEntityNote();

@@ -42,10 +42,6 @@ public class EntityZombie extends EntityMob
     private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
     private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID, "Baby speed boost", 0.5D, 1);
     private final EntityAIBreakDoor field_146075_bs = new EntityAIBreakDoor(this);
-
-    /**
-     * Ticker used to determine the time remaining for this zombie to convert into a villager when cured.
-     */
     private int conversionTime;
     private boolean field_146076_bu = false;
     private float field_146074_bv = -1.0F;
@@ -87,9 +83,6 @@ public class EntityZombie extends EntityMob
         this.getDataWatcher().addObject(14, Byte.valueOf((byte)0));
     }
 
-    /**
-     * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
-     */
     public int getTotalArmorValue()
     {
         int var1 = super.getTotalArmorValue() + 2;
@@ -102,9 +95,6 @@ public class EntityZombie extends EntityMob
         return var1;
     }
 
-    /**
-     * Returns true if the newer Entity AI code should be run
-     */
     protected boolean isAIEnabled()
     {
         return true;
@@ -132,17 +122,11 @@ public class EntityZombie extends EntityMob
         }
     }
 
-    /**
-     * If Animal, checks if the age timer is negative
-     */
     public boolean isChild()
     {
         return this.getDataWatcher().getWatchableObjectByte(12) == 1;
     }
 
-    /**
-     * Get the experience points the entity currently has.
-     */
     protected int getExperiencePoints(EntityPlayer par1EntityPlayer)
     {
         if (this.isChild())
@@ -153,9 +137,6 @@ public class EntityZombie extends EntityMob
         return super.getExperiencePoints(par1EntityPlayer);
     }
 
-    /**
-     * Set whether this zombie is a child.
-     */
     public void setChild(boolean par1)
     {
         this.getDataWatcher().updateObject(12, Byte.valueOf((byte)(par1 ? 1 : 0)));
@@ -174,26 +155,16 @@ public class EntityZombie extends EntityMob
         this.func_146071_k(par1);
     }
 
-    /**
-     * Return whether this zombie is a villager.
-     */
     public boolean isVillager()
     {
         return this.getDataWatcher().getWatchableObjectByte(13) == 1;
     }
 
-    /**
-     * Set whether this zombie is a villager.
-     */
     public void setVillager(boolean par1)
     {
         this.getDataWatcher().updateObject(13, Byte.valueOf((byte)(par1 ? 1 : 0)));
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         if (this.worldObj.isDaytime() && !this.worldObj.isClient && !this.isChild())
@@ -231,9 +202,6 @@ public class EntityZombie extends EntityMob
         super.onLivingUpdate();
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (!super.attackEntityFrom(par1DamageSource, par2))
@@ -288,9 +256,6 @@ public class EntityZombie extends EntityMob
         }
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         if (!this.worldObj.isClient && this.isConverting())
@@ -324,25 +289,16 @@ public class EntityZombie extends EntityMob
         return var2;
     }
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return "mob.zombie.say";
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.zombie.hurt";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.zombie.death";
@@ -358,9 +314,6 @@ public class EntityZombie extends EntityMob
         return Items.rotten_flesh;
     }
 
-    /**
-     * Get this Entity's EnumCreatureAttribute
-     */
     public EnumCreatureAttribute getCreatureAttribute()
     {
         return EnumCreatureAttribute.UNDEAD;
@@ -383,9 +336,6 @@ public class EntityZombie extends EntityMob
         }
     }
 
-    /**
-     * Makes entity wear random armor based on difficulty
-     */
     protected void addRandomArmor()
     {
         super.addRandomArmor();
@@ -405,9 +355,6 @@ public class EntityZombie extends EntityMob
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
@@ -426,9 +373,6 @@ public class EntityZombie extends EntityMob
         par1NBTTagCompound.setBoolean("CanBreakDoors", this.func_146072_bX());
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
@@ -443,7 +387,7 @@ public class EntityZombie extends EntityMob
             this.setVillager(true);
         }
 
-        if (par1NBTTagCompound.func_150297_b("ConversionTime", 99) && par1NBTTagCompound.getInteger("ConversionTime") > -1)
+        if (par1NBTTagCompound.hasKey("ConversionTime", 99) && par1NBTTagCompound.getInteger("ConversionTime") > -1)
         {
             this.startConversion(par1NBTTagCompound.getInteger("ConversionTime"));
         }
@@ -451,9 +395,6 @@ public class EntityZombie extends EntityMob
         this.func_146070_a(par1NBTTagCompound.getBoolean("CanBreakDoors"));
     }
 
-    /**
-     * This method gets called when the entity kills another one.
-     */
     public void onKillEntity(EntityLivingBase par1EntityLivingBase)
     {
         super.onKillEntity(par1EntityLivingBase);
@@ -540,9 +481,6 @@ public class EntityZombie extends EntityMob
         return (IEntityLivingData)par1EntityLivingData1;
     }
 
-    /**
-     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
-     */
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
         ItemStack var2 = par1EntityPlayer.getCurrentEquippedItem();
@@ -572,10 +510,6 @@ public class EntityZombie extends EntityMob
         }
     }
 
-    /**
-     * Starts converting this zombie into a villager. The zombie converts into a villager after the specified time in
-     * ticks.
-     */
     protected void startConversion(int par1)
     {
         this.conversionTime = par1;
@@ -597,25 +531,16 @@ public class EntityZombie extends EntityMob
         }
     }
 
-    /**
-     * Determines if an entity can be despawned, used on idle far away entities
-     */
     protected boolean canDespawn()
     {
         return !this.isConverting();
     }
 
-    /**
-     * Returns whether this zombie is in the process of converting to a villager
-     */
     public boolean isConverting()
     {
         return this.getDataWatcher().getWatchableObjectByte(14) == 1;
     }
 
-    /**
-     * Convert this zombie into a villager.
-     */
     protected void convertToVillager()
     {
         EntityVillager var1 = new EntityVillager(this.worldObj);
@@ -634,9 +559,6 @@ public class EntityZombie extends EntityMob
         this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1017, (int)this.posX, (int)this.posY, (int)this.posZ, 0);
     }
 
-    /**
-     * Return the amount of time decremented from conversionTime every tick.
-     */
     protected int getConversionTimeBoost()
     {
         int var1 = 1;
@@ -675,9 +597,6 @@ public class EntityZombie extends EntityMob
         this.func_146069_a(p_146071_1_ ? 0.5F : 1.0F);
     }
 
-    /**
-     * Sets the width and height of the entity. Args: width, height
-     */
     protected final void setSize(float par1, float par2)
     {
         boolean var3 = this.field_146074_bv > 0.0F && this.field_146073_bw > 0.0F;

@@ -25,27 +25,18 @@ public class C11PacketEnchantItem extends Packet
         p_149538_1_.processEnchantItem(this);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149541_a = p_148837_1_.readByte();
         this.field_149540_b = p_148837_1_.readByte();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.field_149541_a);
         p_148840_1_.writeByte(this.field_149540_b);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("id=%d, button=%d", new Object[] {Integer.valueOf(this.field_149541_a), Integer.valueOf(this.field_149540_b)});

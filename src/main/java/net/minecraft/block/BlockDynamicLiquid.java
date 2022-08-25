@@ -23,9 +23,6 @@ public class BlockDynamicLiquid extends BlockLiquid
         p_149811_1_.setBlock(p_149811_2_, p_149811_3_, p_149811_4_, Block.getBlockById(Block.getIdFromBlock(this) + 1), var5, 2);
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         int var6 = this.func_149804_e(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
@@ -37,7 +34,7 @@ public class BlockDynamicLiquid extends BlockLiquid
         }
 
         boolean var8 = true;
-        int var9 = this.func_149738_a(p_149674_1_);
+        int var9 = this.tickRate(p_149674_1_);
         int var11;
 
         if (var6 > 0)
@@ -346,7 +343,7 @@ public class BlockDynamicLiquid extends BlockLiquid
 
         if (p_149726_1_.getBlock(p_149726_2_, p_149726_3_, p_149726_4_) == this)
         {
-            p_149726_1_.scheduleBlockUpdate(p_149726_2_, p_149726_3_, p_149726_4_, this, this.func_149738_a(p_149726_1_));
+            p_149726_1_.scheduleBlockUpdate(p_149726_2_, p_149726_3_, p_149726_4_, this, this.tickRate(p_149726_1_));
         }
     }
 

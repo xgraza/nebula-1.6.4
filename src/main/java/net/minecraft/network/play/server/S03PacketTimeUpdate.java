@@ -30,18 +30,12 @@ public class S03PacketTimeUpdate extends Packet
         }
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149369_a = p_148837_1_.readLong();
         this.field_149368_b = p_148837_1_.readLong();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeLong(this.field_149369_a);
@@ -53,9 +47,6 @@ public class S03PacketTimeUpdate extends Packet
         p_149367_1_.handleTimeUpdate(this);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("time=%d,dtime=%d", new Object[] {Long.valueOf(this.field_149369_a), Long.valueOf(this.field_149368_b)});

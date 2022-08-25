@@ -16,8 +16,8 @@ import net.minecraft.world.World;
 
 public class BlockEndPortalFrame extends Block
 {
-    private IIcon field_150023_a;
-    private IIcon field_150022_b;
+    private IIcon iconEndPortalFrameTop;
+    private IIcon iconEndPortalFrameEye;
     private static final String __OBFID = "CL_00000237";
 
     public BlockEndPortalFrame()
@@ -25,24 +25,21 @@ public class BlockEndPortalFrame extends Block
         super(Material.rock);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
-        return p_149691_1_ == 1 ? this.field_150023_a : (p_149691_1_ == 0 ? Blocks.end_stone.getBlockTextureFromSide(p_149691_1_) : this.blockIcon);
+        return p_149691_1_ == 1 ? this.iconEndPortalFrameTop : (p_149691_1_ == 0 ? Blocks.end_stone.getBlockTextureFromSide(p_149691_1_) : this.blockIcon);
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.blockIcon = p_149651_1_.registerIcon(this.getTextureName() + "_side");
-        this.field_150023_a = p_149651_1_.registerIcon(this.getTextureName() + "_top");
-        this.field_150022_b = p_149651_1_.registerIcon(this.getTextureName() + "_eye");
+        this.iconEndPortalFrameTop = p_149651_1_.registerIcon(this.getTextureName() + "_top");
+        this.iconEndPortalFrameEye = p_149651_1_.registerIcon(this.getTextureName() + "_eye");
     }
 
-    public IIcon func_150021_e()
+    public IIcon getIconEndPortalFrameEye()
     {
-        return this.field_150022_b;
+        return this.iconEndPortalFrameEye;
     }
 
     public boolean isOpaqueCube()
@@ -50,17 +47,11 @@ public class BlockEndPortalFrame extends Block
         return false;
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 26;
     }
 
-    /**
-     * Sets the block's bounds for rendering it as an item
-     */
     public void setBlockBoundsForItemRender()
     {
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.8125F, 1.0F);
@@ -72,7 +63,7 @@ public class BlockEndPortalFrame extends Block
         super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
         int var8 = p_149743_1_.getBlockMetadata(p_149743_2_, p_149743_3_, p_149743_4_);
 
-        if (func_150020_b(var8))
+        if (isEnderEyeInserted(var8))
         {
             this.setBlockBounds(0.3125F, 0.8125F, 0.3125F, 0.6875F, 1.0F, 0.6875F);
             super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
@@ -81,7 +72,7 @@ public class BlockEndPortalFrame extends Block
         this.setBlockBoundsForItemRender();
     }
 
-    public static boolean func_150020_b(int p_150020_0_)
+    public static boolean isEnderEyeInserted(int p_150020_0_)
     {
         return (p_150020_0_ & 4) != 0;
     }
@@ -91,9 +82,6 @@ public class BlockEndPortalFrame extends Block
         return null;
     }
 
-    /**
-     * Called when the block is placed in the world.
-     */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
         int var7 = ((MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 2) % 4;
@@ -108,6 +96,6 @@ public class BlockEndPortalFrame extends Block
     public int getComparatorInputOverride(World p_149736_1_, int p_149736_2_, int p_149736_3_, int p_149736_4_, int p_149736_5_)
     {
         int var6 = p_149736_1_.getBlockMetadata(p_149736_2_, p_149736_3_, p_149736_4_);
-        return func_150020_b(var6) ? 15 : 0;
+        return isEnderEyeInserted(var6) ? 15 : 0;
     }
 }

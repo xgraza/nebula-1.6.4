@@ -51,14 +51,11 @@ public class GuiContainerCreative extends InventoryEffectRenderer
     {
         super(new GuiContainerCreative.ContainerCreative(par1EntityPlayer));
         par1EntityPlayer.openContainer = this.field_147002_h;
-        this.field_146291_p = true;
+        this.allowUserInput = true;
         this.field_147000_g = 136;
         this.field_146999_f = 195;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         if (!this.mc.playerController.isInCreativeMode())
@@ -243,9 +240,6 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         }
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         if (this.mc.playerController.isInCreativeMode())
@@ -253,7 +247,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
             super.initGui();
             this.buttonList.clear();
             Keyboard.enableRepeatEvents(true);
-            this.field_147062_A = new GuiTextField(this.fontRendererObj, this.field_147003_i + 82, this.field_147009_r + 6, 89, this.fontRendererObj.FONT_HEIGHT);
+            this.field_147062_A = new GuiTextField(this.fontRenderer, this.field_147003_i + 82, this.field_147009_r + 6, 89, this.fontRenderer.FONT_HEIGHT);
             this.field_147062_A.func_146203_f(15);
             this.field_147062_A.func_146185_a(false);
             this.field_147062_A.func_146189_e(false);
@@ -270,9 +264,6 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         }
     }
 
-    /**
-     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
-     */
     public void onGuiClosed()
     {
         super.onGuiClosed();
@@ -285,9 +276,6 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         Keyboard.enableRepeatEvents(false);
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         if (field_147058_w != CreativeTabs.tabAllSearch.getTabIndex())
@@ -395,13 +383,10 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         if (var3.drawInForegroundOfTab())
         {
             GL11.glDisable(GL11.GL_BLEND);
-            this.fontRendererObj.drawString(I18n.format(var3.getTranslatedTabLabel(), new Object[0]), 8, 6, 4210752);
+            this.fontRenderer.drawString(I18n.format(var3.getTranslatedTabLabel(), new Object[0]), 8, 6, 4210752);
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         if (par3 == 0)
@@ -544,9 +529,6 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         var3.func_148329_a(0.0F);
     }
 
-    /**
-     * Handles mouse input.
-     */
     public void handleMouseInput()
     {
         super.handleMouseInput();
@@ -582,9 +564,6 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         boolean var4 = Mouse.isButtonDown(0);
@@ -848,16 +827,16 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         GL11.glDisable(GL11.GL_LIGHTING);
         this.drawTexturedModalRect(var7, var8, var5, var6, 28, var9);
         this.zLevel = 100.0F;
-        itemRender.zLevel = 100.0F;
+        renderItemGs.zLevel = 100.0F;
         var7 += 6;
         var8 += 8 + (var3 ? 1 : -1);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         ItemStack var10 = p_147051_1_.getIconItemStack();
-        itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var10, var7, var8);
-        itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var10, var7, var8);
+        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var7, var8);
+        renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var7, var8);
         GL11.glDisable(GL11.GL_LIGHTING);
-        itemRender.zLevel = 0.0F;
+        renderItemGs.zLevel = 0.0F;
         this.zLevel = 0.0F;
     }
 

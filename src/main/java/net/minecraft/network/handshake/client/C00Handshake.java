@@ -25,9 +25,6 @@ public class C00Handshake extends Packet
         this.field_149597_d = p_i45266_4_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149600_a = p_148837_1_.readVarIntFromBuffer();
@@ -36,9 +33,6 @@ public class C00Handshake extends Packet
         this.field_149597_d = EnumConnectionState.func_150760_a(p_148837_1_.readVarIntFromBuffer());
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeVarIntToBuffer(this.field_149600_a);
@@ -52,10 +46,6 @@ public class C00Handshake extends Packet
         p_149596_1_.processHandshake(this);
     }
 
-    /**
-     * If true, the network manager will process the packet immediately when received, otherwise it will queue it for
-     * processing. Currently true for: Disconnect, LoginSuccess, KeepAlive, ServerQuery/Info, Ping/Pong
-     */
     public boolean hasPriority()
     {
         return true;

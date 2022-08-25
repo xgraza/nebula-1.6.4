@@ -33,9 +33,6 @@ public class GuiScreenResourcePacks extends GuiScreen
         this.field_146965_f = p_i45050_1_;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.buttonList.add(new GuiOptionButton(2, this.width / 2 - 154, this.height - 48, I18n.format("resourcePack.openFolder", new Object[0])));
@@ -66,10 +63,10 @@ public class GuiScreenResourcePacks extends GuiScreen
         this.field_146969_h.add(new ResourcePackListEntryDefault(this));
         this.field_146970_i = new GuiResourcePackAvailable(this.mc, 200, this.height, this.field_146966_g);
         this.field_146970_i.func_148140_g(this.width / 2 - 4 - 200);
-        this.field_146970_i.func_148134_d(7, 8);
+        this.field_146970_i.registerScrollButtons(7, 8);
         this.field_146967_r = new GuiResourcePackSelected(this.mc, 200, this.height, this.field_146969_h);
         this.field_146967_r.func_148140_g(this.width / 2 + 4);
-        this.field_146967_r.func_148134_d(7, 8);
+        this.field_146967_r.registerScrollButtons(7, 8);
     }
 
     public boolean func_146961_a(ResourcePackListEntry p_146961_1_)
@@ -182,9 +179,6 @@ public class GuiScreenResourcePacks extends GuiScreen
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
@@ -197,16 +191,13 @@ public class GuiScreenResourcePacks extends GuiScreen
         super.mouseMovedOrUp(p_146286_1_, p_146286_2_, p_146286_3_);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
-        this.func_146278_c(0);
-        this.field_146970_i.func_148128_a(par1, par2, par3);
-        this.field_146967_r.func_148128_a(par1, par2, par3);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title", new Object[0]), this.width / 2, 16, 16777215);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.folderInfo", new Object[0]), this.width / 2 - 77, this.height - 26, 8421504);
+        this.drawBackground(0);
+        this.field_146970_i.drawScreen(par1, par2, par3);
+        this.field_146967_r.drawScreen(par1, par2, par3);
+        this.drawCenteredString(this.fontRenderer, I18n.format("resourcePack.title", new Object[0]), this.width / 2, 16, 16777215);
+        this.drawCenteredString(this.fontRenderer, I18n.format("resourcePack.folderInfo", new Object[0]), this.width / 2 - 77, this.height - 26, 8421504);
         super.drawScreen(par1, par2, par3);
     }
 }

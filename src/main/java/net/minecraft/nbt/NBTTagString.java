@@ -6,7 +6,6 @@ import java.io.IOException;
 
 public class NBTTagString extends NBTBase
 {
-    /** The string value for the tag (cannot be empty). */
     private String data;
     private static final String __OBFID = "CL_00001228";
 
@@ -25,25 +24,16 @@ public class NBTTagString extends NBTBase
         }
     }
 
-    /**
-     * Write the actual data contents of the tag, implemented in NBT extension classes
-     */
     void write(DataOutput par1DataOutput) throws IOException
     {
         par1DataOutput.writeUTF(this.data);
     }
 
-    /**
-     * Read the actual data contents of the tag, implemented in NBT extension classes
-     */
     void load(DataInput par1DataInput, int par2) throws IOException
     {
         this.data = par1DataInput.readUTF();
     }
 
-    /**
-     * Gets the type byte for the tag.
-     */
     public byte getId()
     {
         return (byte)8;
@@ -54,9 +44,6 @@ public class NBTTagString extends NBTBase
         return "\"" + this.data + "\"";
     }
 
-    /**
-     * Creates a clone of the tag.
-     */
     public NBTBase copy()
     {
         return new NBTTagString(this.data);

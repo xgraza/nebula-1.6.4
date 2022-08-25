@@ -20,9 +20,6 @@ public class S34PacketMaps extends Packet
         this.field_149190_b = p_i45202_2_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149191_a = p_148837_1_.readVarIntFromBuffer();
@@ -30,9 +27,6 @@ public class S34PacketMaps extends Packet
         p_148837_1_.readBytes(this.field_149190_b);
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeVarIntToBuffer(this.field_149191_a);
@@ -45,9 +39,6 @@ public class S34PacketMaps extends Packet
         p_149189_1_.handleMaps(this);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("id=%d, length=%d", new Object[] {Integer.valueOf(this.field_149191_a), Integer.valueOf(this.field_149190_b.length)});

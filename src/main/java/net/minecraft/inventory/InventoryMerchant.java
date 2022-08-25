@@ -21,26 +21,16 @@ public class InventoryMerchant implements IInventory
         this.theMerchant = par2IMerchant;
     }
 
-    /**
-     * Returns the number of slots in the inventory.
-     */
     public int getSizeInventory()
     {
         return this.theInventory.length;
     }
 
-    /**
-     * Returns the stack in slot i
-     */
     public ItemStack getStackInSlot(int par1)
     {
         return this.theInventory[par1];
     }
 
-    /**
-     * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and returns them in a
-     * new stack.
-     */
     public ItemStack decrStackSize(int par1, int par2)
     {
         if (this.theInventory[par1] != null)
@@ -88,18 +78,11 @@ public class InventoryMerchant implements IInventory
         }
     }
 
-    /**
-     * if par1 slot has changed, does resetRecipeAndSlots need to be called?
-     */
     private boolean inventoryResetNeededOnSlotChange(int par1)
     {
         return par1 == 0 || par1 == 1;
     }
 
-    /**
-     * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
-     * like when you close a workbench GUI.
-     */
     public ItemStack getStackInSlotOnClosing(int par1)
     {
         if (this.theInventory[par1] != null)
@@ -114,9 +97,6 @@ public class InventoryMerchant implements IInventory
         }
     }
 
-    /**
-     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
-     */
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
         this.theInventory[par1] = par2ItemStack;
@@ -132,33 +112,21 @@ public class InventoryMerchant implements IInventory
         }
     }
 
-    /**
-     * Returns the name of the inventory
-     */
     public String getInventoryName()
     {
         return "mob.villager";
     }
 
-    /**
-     * Returns if the inventory name is localized
-     */
     public boolean isInventoryNameLocalized()
     {
         return false;
     }
 
-    /**
-     * Returns the maximum stack size for a inventory slot.
-     */
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
-    /**
-     * Do not make give this method the name canInteractWith because it clashes with Container
-     */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
         return this.theMerchant.getCustomer() == par1EntityPlayer;
@@ -168,17 +136,11 @@ public class InventoryMerchant implements IInventory
 
     public void closeInventory() {}
 
-    /**
-     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
-     */
     public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
     {
         return true;
     }
 
-    /**
-     * Called when an the contents of an Inventory change, usually
-     */
     public void onInventoryChanged()
     {
         this.resetRecipeAndSlots();

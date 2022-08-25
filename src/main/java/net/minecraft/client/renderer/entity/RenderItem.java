@@ -27,13 +27,9 @@ import wtf.nebula.repository.impl.ModuleRepository;
 public class RenderItem extends Render
 {
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-    private RenderBlocks field_147913_i = new RenderBlocks();
-
-    /** The RNG used in RenderItem (for bobbing itemstacks on the ground) */
+    private RenderBlocks renderBlocksRi = new RenderBlocks();
     private Random random = new Random();
     public boolean renderWithColor = true;
-
-    /** Defines the zLevel of rendering of item on GUI. */
     public float zLevel;
     public static boolean renderInFrame;
     private static final String __OBFID = "CL_00001003";
@@ -44,12 +40,6 @@ public class RenderItem extends Render
         this.shadowOpaque = 0.75F;
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityItem par1EntityItem, double par2, double par4, double par6, float par8, float par9)
     {
         ItemStack var10 = par1EntityItem.getEntityItem();
@@ -130,7 +120,7 @@ public class RenderItem extends Render
                         GL11.glTranslatef(var18, var19, var20);
                     }
 
-                    this.field_147913_i.renderBlockAsItem(var22, var10.getItemDamage(), 1.0F);
+                    this.renderBlocksRi.renderBlockAsItem(var22, var10.getItemDamage(), 1.0F);
                     GL11.glPopMatrix();
                 }
 
@@ -221,17 +211,11 @@ public class RenderItem extends Render
         }
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityItem par1EntityItem)
     {
         return this.renderManager.renderEngine.getResourceLocation(par1EntityItem.getEntityItem().getItemSpriteNumber());
     }
 
-    /**
-     * Renders a dropped item
-     */
     private void renderDroppedItem(EntityItem par1EntityItem, IIcon par2Icon, int par3, float par4, float par5, float par6, float par7)
     {
         Tessellator var8 = Tessellator.instance;
@@ -372,9 +356,6 @@ public class RenderItem extends Render
         }
     }
 
-    /**
-     * Renders the item's icon or block into the UI at the specified position.
-     */
     public void renderItemIntoGUI(FontRenderer par1FontRenderer, TextureManager par2TextureManager, ItemStack par3ItemStack, int par4, int par5)
     {
         int var6 = par3ItemStack.getItemDamage();
@@ -408,9 +389,9 @@ public class RenderItem extends Render
             }
 
             GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-            this.field_147913_i.useInventoryTint = this.renderWithColor;
-            this.field_147913_i.renderBlockAsItem(var16, var6, 1.0F);
-            this.field_147913_i.useInventoryTint = true;
+            this.renderBlocksRi.useInventoryTint = this.renderWithColor;
+            this.renderBlocksRi.renderBlockAsItem(var16, var6, 1.0F);
+            this.renderBlocksRi.useInventoryTint = true;
             GL11.glPopMatrix();
         }
         else if (par3ItemStack.getItem().requiresMultipleRenderPasses())
@@ -484,9 +465,6 @@ public class RenderItem extends Render
         GL11.glEnable(GL11.GL_CULL_FACE);
     }
 
-    /**
-     * Render the item's icon or block into the GUI, including the glint effect.
-     */
     public void renderItemAndEffectIntoGUI(FontRenderer par1FontRenderer, TextureManager par2TextureManager, final ItemStack par3ItemStack, int par4, int par5)
     {
         if (par3ItemStack != null)
@@ -582,10 +560,6 @@ public class RenderItem extends Render
         }
     }
 
-    /**
-     * Renders the item's overlay information. Examples being stack count or damage on top of the item's image at the
-     * specified position.
-     */
     public void renderItemOverlayIntoGUI(FontRenderer par1FontRenderer, TextureManager par2TextureManager, ItemStack par3ItemStack, int par4, int par5)
     {
         this.renderItemOverlayIntoGUI(par1FontRenderer, par2TextureManager, par3ItemStack, par4, par5, (String)null);
@@ -600,7 +574,8 @@ public class RenderItem extends Render
             if (y ? par3ItemStack.stackSize != 1 : par3ItemStack.stackSize > 1 || par6Str != null)
             {
                 String var7 = par6Str == null ? String.valueOf(par3ItemStack.stackSize) : par6Str;
-                if (par3ItemStack.stackSize < 0) {
+
+                if (y && par3ItemStack.stackSize < 0) {
                     if (ModuleRepository.get().getModule(NegativeViewer.class).simple.getValue()) {
                         var7 = "-";
                     }
@@ -639,10 +614,6 @@ public class RenderItem extends Render
         }
     }
 
-    /**
-     * Adds a quad to the tesselator at the specified position with the set width and height and color.  Args:
-     * tessellator, x, y, width, height, color
-     */
     private void renderQuad(Tessellator par1Tessellator, int par2, int par3, int par4, int par5, int par6)
     {
         par1Tessellator.startDrawingQuads();
@@ -665,20 +636,11 @@ public class RenderItem extends Render
         var6.draw();
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityItem)par1Entity);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityItem)par1Entity, par2, par4, par6, par8, par9);

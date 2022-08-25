@@ -18,7 +18,7 @@ public class BlockNewLog extends BlockLog
         p_149666_3_.add(new ItemStack(p_149666_1_, 1, 1));
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_150167_a = new IIcon[field_150169_M.length];
         this.field_150166_b = new IIcon[field_150169_M.length];

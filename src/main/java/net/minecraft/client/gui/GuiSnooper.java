@@ -26,15 +26,12 @@ public class GuiSnooper extends GuiScreen
         this.field_146603_f = par2GameSettings;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.field_146610_i = I18n.format("options.snooper.title", new Object[0]);
         String var1 = I18n.format("options.snooper.desc", new Object[0]);
         ArrayList var2 = new ArrayList();
-        Iterator var3 = this.fontRendererObj.listFormattedStringToWidth(var1, this.width - 30).iterator();
+        Iterator var3 = this.fontRenderer.listFormattedStringToWidth(var1, this.width - 30).iterator();
 
         while (var3.hasNext())
         {
@@ -55,7 +52,7 @@ public class GuiSnooper extends GuiScreen
         {
             var5 = (Entry)var7.next();
             this.field_146604_g.add((var6 ? "C " : "") + (String)var5.getKey());
-            this.field_146609_h.add(this.fontRendererObj.trimStringToWidth((String)var5.getValue(), this.width - 220));
+            this.field_146609_h.add(this.fontRenderer.trimStringToWidth((String)var5.getValue(), this.width - 220));
         }
 
         if (var6)
@@ -66,7 +63,7 @@ public class GuiSnooper extends GuiScreen
             {
                 var5 = (Entry)var7.next();
                 this.field_146604_g.add("S " + (String)var5.getKey());
-                this.field_146609_h.add(this.fontRendererObj.trimStringToWidth((String)var5.getValue(), this.width - 220));
+                this.field_146609_h.add(this.fontRenderer.trimStringToWidth((String)var5.getValue(), this.width - 220));
             }
         }
 
@@ -92,14 +89,11 @@ public class GuiSnooper extends GuiScreen
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.field_146606_s.func_148128_a(par1, par2, par3);
-        this.drawCenteredString(this.fontRendererObj, this.field_146610_i, this.width / 2, 8, 16777215);
+        this.field_146606_s.drawScreen(par1, par2, par3);
+        this.drawCenteredString(this.fontRenderer, this.field_146610_i, this.width / 2, 8, 16777215);
         int var4 = 22;
         String[] var5 = this.field_146607_r;
         int var6 = var5.length;
@@ -107,8 +101,8 @@ public class GuiSnooper extends GuiScreen
         for (int var7 = 0; var7 < var6; ++var7)
         {
             String var8 = var5[var7];
-            this.drawCenteredString(this.fontRendererObj, var8, this.width / 2, var4, 8421504);
-            var4 += this.fontRendererObj.FONT_HEIGHT;
+            this.drawCenteredString(this.fontRenderer, var8, this.width / 2, var4, 8421504);
+            var4 += this.fontRenderer.FONT_HEIGHT;
         }
 
         super.drawScreen(par1, par2, par3);
@@ -120,7 +114,7 @@ public class GuiSnooper extends GuiScreen
 
         public List()
         {
-            super(GuiSnooper.this.mc, GuiSnooper.this.width, GuiSnooper.this.height, 80, GuiSnooper.this.height - 40, GuiSnooper.this.fontRendererObj.FONT_HEIGHT + 1);
+            super(GuiSnooper.this.mc, GuiSnooper.this.width, GuiSnooper.this.height, 80, GuiSnooper.this.height - 40, GuiSnooper.this.fontRenderer.FONT_HEIGHT + 1);
         }
 
         protected int getSize()
@@ -139,13 +133,13 @@ public class GuiSnooper extends GuiScreen
 
         protected void drawSlot(int p_148126_1_, int p_148126_2_, int p_148126_3_, int p_148126_4_, Tessellator p_148126_5_, int p_148126_6_, int p_148126_7_)
         {
-            GuiSnooper.this.fontRendererObj.drawString((String)GuiSnooper.this.field_146604_g.get(p_148126_1_), 10, p_148126_3_, 16777215);
-            GuiSnooper.this.fontRendererObj.drawString((String)GuiSnooper.this.field_146609_h.get(p_148126_1_), 230, p_148126_3_, 16777215);
+            GuiSnooper.this.fontRenderer.drawString((String)GuiSnooper.this.field_146604_g.get(p_148126_1_), 10, p_148126_3_, 16777215);
+            GuiSnooper.this.fontRenderer.drawString((String)GuiSnooper.this.field_146609_h.get(p_148126_1_), 230, p_148126_3_, 16777215);
         }
 
-        protected int func_148137_d()
+        protected int getScrollBarX()
         {
-            return this.field_148155_a - 10;
+            return this.width - 10;
         }
     }
 }

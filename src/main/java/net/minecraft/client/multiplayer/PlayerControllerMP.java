@@ -30,42 +30,17 @@ import wtf.nebula.event.ClickBlockEvent;
 
 public class PlayerControllerMP
 {
-    /** The Minecraft instance. */
     private final Minecraft mc;
     private final NetHandlerPlayClient netClientHandler;
-
-    /** PosX of the current block being destroyed */
     private int currentBlockX = -1;
-
-    /** PosY of the current block being destroyed */
     private int currentBlockY = -1;
-
-    /** PosZ of the current block being destroyed */
     private int currentblockZ = -1;
-
-    /** The Item currently being used to destroy a block */
     private ItemStack currentItemHittingBlock;
-
-    /** Current block damage (MP) */
     private float curBlockDamageMP;
-
-    /**
-     * Tick counter, when it hits 4 it resets back to 0 and plays the step sound
-     */
     private float stepSoundTickCounter;
-
-    /**
-     * Delays the first damage on the block after the first click on the block
-     */
     private int blockHitDelay;
-
-    /** Tells if the player is hitting a block */
     public boolean isHittingBlock;
-
-    /** Current game type for the player */
     public WorldSettings.GameType currentGameType;
-
-    /** Index of the current item held by the player in the inventory hotbar */
     private int currentPlayerItem;
     private static final String __OBFID = "CL_00000881";
 
@@ -76,9 +51,6 @@ public class PlayerControllerMP
         this.netClientHandler = p_i45062_2_;
     }
 
-    /**
-     * Block dig operation in creative mode (instantly digs the block).
-     */
     public static void clickBlockCreative(Minecraft par0Minecraft, PlayerControllerMP par1PlayerControllerMP, int par2, int par3, int par4, int par5)
     {
         if (!par0Minecraft.theWorld.extinguishFire(par0Minecraft.thePlayer, par2, par3, par4, par5))
@@ -87,37 +59,22 @@ public class PlayerControllerMP
         }
     }
 
-    /**
-     * Sets player capabilities depending on current gametype. params: player
-     */
     public void setPlayerCapabilities(EntityPlayer par1EntityPlayer)
     {
         this.currentGameType.configurePlayerCapabilities(par1EntityPlayer.capabilities);
     }
 
-    /**
-     * If modified to return true, the player spins around slowly around (0, 68.5, 0). The GUI is disabled, the view is
-     * set to first person, and both chat and menu are disabled. Unless the server is modified to ignore illegal
-     * stances, attempting to enter a world at all will result in an immediate kick due to an illegal stance. Appears to
-     * be left-over debug, or demo code.
-     */
     public boolean enableEverythingIsScrewedUpMode()
     {
         return false;
     }
 
-    /**
-     * Sets the game type for the player.
-     */
     public void setGameType(WorldSettings.GameType par1EnumGameType)
     {
         this.currentGameType = par1EnumGameType;
         this.currentGameType.configurePlayerCapabilities(this.mc.thePlayer.capabilities);
     }
 
-    /**
-     * Flips the player around. Args: player
-     */
     public void flipPlayer(EntityPlayer par1EntityPlayer)
     {
         par1EntityPlayer.rotationYaw = -180.0F;
@@ -128,9 +85,6 @@ public class PlayerControllerMP
         return this.currentGameType.isSurvivalOrAdventure();
     }
 
-    /**
-     * Called when a player completes the destruction of a block
-     */
     public boolean onPlayerDestroyBlock(int par1, int par2, int par3, int par4)
     {
         if (this.currentGameType.isAdventure() && !this.mc.thePlayer.isCurrentToolAdventureModeExempt(par1, par2, par3))
@@ -183,13 +137,9 @@ public class PlayerControllerMP
         }
     }
 
-    /**
-     * Called by Minecraft class when the player is hitting a block with an item. Args: x, y, z, side
-     */
     public void clickBlock(int par1, int par2, int par3, int par4)
     {
         if (Nebula.BUS.post(new ClickBlockEvent(par1, par2, par3, par4))) {
-
             return;
         }
 
@@ -236,9 +186,6 @@ public class PlayerControllerMP
         }
     }
 
-    /**
-     * Resets current block damage and isHittingBlock
-     */
     public void resetBlockRemoving()
     {
         if (this.isHittingBlock)
@@ -251,9 +198,6 @@ public class PlayerControllerMP
         this.mc.theWorld.destroyBlockInWorldPartially(this.mc.thePlayer.getEntityId(), this.currentBlockX, this.currentBlockY, this.currentblockZ, -1);
     }
 
-    /**
-     * Called when a player damages a block and updates damage counters
-     */
     public void onPlayerDamageBlock(int par1, int par2, int par3, int par4)
     {
         this.syncCurrentPlayItem();
@@ -308,9 +252,6 @@ public class PlayerControllerMP
         }
     }
 
-    /**
-     * player reach distance = 4F
-     */
     public float getBlockReachDistance()
     {
         return this.currentGameType.isCreative() ? 5.0F : 4.5F;
@@ -347,9 +288,6 @@ public class PlayerControllerMP
         return par1 == this.currentBlockX && par2 == this.currentBlockY && par3 == this.currentblockZ && var5;
     }
 
-    /**
-     * Syncs the current player item with the server
-     */
     private void syncCurrentPlayItem()
     {
         int var1 = this.mc.thePlayer.inventory.currentItem;
@@ -361,9 +299,6 @@ public class PlayerControllerMP
         }
     }
 
-    /**
-     * Handles a players right click. Args: player, world, x, y, z, side, hitVec
-     */
     public boolean onPlayerRightClick(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack, int par4, int par5, int par6, int par7, Vec3 par8Vec3)
     {
         this.syncCurrentPlayItem();
@@ -412,9 +347,6 @@ public class PlayerControllerMP
         }
     }
 
-    /**
-     * Notifies the server of things like consuming food, etc...
-     */
     public boolean sendUseItem(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack)
     {
         this.syncCurrentPlayItem();
@@ -444,9 +376,6 @@ public class PlayerControllerMP
         return new EntityClientPlayerMP(this.mc, p_147493_1_, this.mc.getSession(), this.netClientHandler, p_147493_2_);
     }
 
-    /**
-     * Attacks an entity
-     */
     public void attackEntity(EntityPlayer par1EntityPlayer, Entity par2Entity)
     {
         this.syncCurrentPlayItem();
@@ -454,9 +383,6 @@ public class PlayerControllerMP
         par1EntityPlayer.attackTargetEntityWithCurrentItem(par2Entity);
     }
 
-    /**
-     * Send packet to server - player is interacting with another entity (left click)
-     */
     public boolean interactWithEntitySendPacket(EntityPlayer par1EntityPlayer, Entity par2Entity)
     {
         this.syncCurrentPlayItem();
@@ -472,18 +398,11 @@ public class PlayerControllerMP
         return var7;
     }
 
-    /**
-     * GuiEnchantment uses this during multiplayer to tell PlayerControllerMP to send a packet indicating the
-     * enchantment action the player has taken.
-     */
     public void sendEnchantPacket(int par1, int par2)
     {
         this.netClientHandler.addToSendQueue(new C11PacketEnchantItem(par1, par2));
     }
 
-    /**
-     * Used in PlayerControllerMP to update the server with an ItemStack in a slot.
-     */
     public void sendSlotPacket(ItemStack par1ItemStack, int par2)
     {
         if (this.currentGameType.isCreative())
@@ -492,9 +411,6 @@ public class PlayerControllerMP
         }
     }
 
-    /**
-     * Sends a Packet107 to the server to drop the item on the ground
-     */
     public void sendPacketDropItem(ItemStack par1ItemStack)
     {
         if (this.currentGameType.isCreative() && par1ItemStack != null)
@@ -515,25 +431,16 @@ public class PlayerControllerMP
         return this.currentGameType.isSurvivalOrAdventure();
     }
 
-    /**
-     * Checks if the player is not creative, used for checking if it should break a block instantly
-     */
     public boolean isNotCreative()
     {
         return !this.currentGameType.isCreative();
     }
 
-    /**
-     * returns true if player is in creative mode
-     */
     public boolean isInCreativeMode()
     {
         return this.currentGameType.isCreative();
     }
 
-    /**
-     * true for hitting entities far away.
-     */
     public boolean extendedReach()
     {
         return this.currentGameType.isCreative();

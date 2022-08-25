@@ -14,12 +14,9 @@ public class ItemDoublePlant extends ItemMultiTexture
         super(p_i45335_1_, p_i45335_2_, p_i45335_3_);
     }
 
-    /**
-     * Gets an icon index based on an item's damage value
-     */
     public IIcon getIconFromDamage(int par1)
     {
-        return BlockDoublePlant.func_149890_d(par1) == 0 ? ((BlockDoublePlant)this.field_150941_b).field_149891_b[0] : ((BlockDoublePlant)this.field_150941_b).func_149888_a(true, par1);
+        return BlockDoublePlant.func_149890_d(par1) == 0 ? ((BlockDoublePlant)this.field_150941_b).sunflowerIcons[0] : ((BlockDoublePlant)this.field_150941_b).func_149888_a(true, par1);
     }
 
     public int getColorFromItemStack(ItemStack par1ItemStack, int par2)

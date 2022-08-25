@@ -22,17 +22,11 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
     private String field_145942_n;
     private static final String __OBFID = "CL_00000345";
 
-    /**
-     * Returns the name of the inventory
-     */
     public String getInventoryName()
     {
         return this.isInventoryNameLocalized() ? this.field_145942_n : "container.brewing";
     }
 
-    /**
-     * Returns if the inventory name is localized
-     */
     public boolean isInventoryNameLocalized()
     {
         return this.field_145942_n != null && this.field_145942_n.length() > 0;
@@ -43,9 +37,6 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
         this.field_145942_n = p_145937_1_;
     }
 
-    /**
-     * Returns the number of slots in the inventory.
-     */
     public int getSizeInventory()
     {
         return this.field_145945_j.length;
@@ -84,7 +75,7 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
         if (var1 != this.field_145943_l)
         {
             this.field_145943_l = var1;
-            this.worldObj.setBlockMetadataWithNotify(this.field_145851_c, this.field_145848_d, this.field_145849_e, var1, 2);
+            this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, var1, 2);
         }
 
         super.updateEntity();
@@ -211,7 +202,7 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
 
         this.field_145946_k = p_145839_1_.getShort("BrewTime");
 
-        if (p_145839_1_.func_150297_b("CustomName", 8))
+        if (p_145839_1_.hasKey("CustomName", 8))
         {
             this.field_145942_n = p_145839_1_.getString("CustomName");
         }
@@ -242,18 +233,11 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
         }
     }
 
-    /**
-     * Returns the stack in slot i
-     */
     public ItemStack getStackInSlot(int par1)
     {
         return par1 >= 0 && par1 < this.field_145945_j.length ? this.field_145945_j[par1] : null;
     }
 
-    /**
-     * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and returns them in a
-     * new stack.
-     */
     public ItemStack decrStackSize(int par1, int par2)
     {
         if (par1 >= 0 && par1 < this.field_145945_j.length)
@@ -268,10 +252,6 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
         }
     }
 
-    /**
-     * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
-     * like when you close a workbench GUI.
-     */
     public ItemStack getStackInSlotOnClosing(int par1)
     {
         if (par1 >= 0 && par1 < this.field_145945_j.length)
@@ -286,9 +266,6 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
         }
     }
 
-    /**
-     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
-     */
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
         if (par1 >= 0 && par1 < this.field_145945_j.length)
@@ -297,29 +274,20 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
         }
     }
 
-    /**
-     * Returns the maximum stack size for a inventory slot.
-     */
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
-    /**
-     * Do not make give this method the name canInteractWith because it clashes with Container
-     */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getTileEntity(this.field_145851_c, this.field_145848_d, this.field_145849_e) != this ? false : par1EntityPlayer.getDistanceSq((double)this.field_145851_c + 0.5D, (double)this.field_145848_d + 0.5D, (double)this.field_145849_e + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
     }
 
     public void openInventory() {}
 
     public void closeInventory() {}
 
-    /**
-     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
-     */
     public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
     {
         return par1 == 3 ? par2ItemStack.getItem().isPotionIngredient(par2ItemStack) : par2ItemStack.getItem() == Items.potionitem || par2ItemStack.getItem() == Items.glass_bottle;
@@ -345,28 +313,16 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
         return var1;
     }
 
-    /**
-     * Returns an array containing the indices of the slots that can be accessed by automation on the given side of this
-     * block.
-     */
     public int[] getAccessibleSlotsFromSide(int par1)
     {
         return par1 == 1 ? field_145941_a : field_145947_i;
     }
 
-    /**
-     * Returns true if automation can insert the given item in the given slot from the given side. Args: Slot, item,
-     * side
-     */
     public boolean canInsertItem(int par1, ItemStack par2ItemStack, int par3)
     {
         return this.isItemValidForSlot(par1, par2ItemStack);
     }
 
-    /**
-     * Returns true if automation can extract the given item in the given slot from the given side. Args: Slot, item,
-     * side
-     */
     public boolean canExtractItem(int par1, ItemStack par2ItemStack, int par3)
     {
         return true;

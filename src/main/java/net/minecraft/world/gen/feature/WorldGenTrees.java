@@ -9,16 +9,9 @@ import net.minecraft.world.World;
 
 public class WorldGenTrees extends WorldGenAbstractTree
 {
-    /** The minimum height of a generated tree. */
     private final int minTreeHeight;
-
-    /** True if this tree should grow Vines. */
     private final boolean vinesGrow;
-
-    /** The metadata value of the wood to use in tree generation. */
     private final int metaWood;
-
-    /** The metadata value of the leaves to use in tree generation. */
     private final int metaLeaves;
     private static final String __OBFID = "CL_00000438";
 
@@ -226,9 +219,6 @@ public class WorldGenTrees extends WorldGenAbstractTree
         }
     }
 
-    /**
-     * Grows vines downward from the given block for a given length. Args: World, x, starty, z, vine-length
-     */
     private void growVines(World par1World, int par2, int par3, int par4, int par5)
     {
         this.func_150516_a(par1World, par2, par3, par4, Blocks.vine, par5);

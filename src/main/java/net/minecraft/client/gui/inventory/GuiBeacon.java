@@ -37,9 +37,6 @@ public class GuiBeacon extends GuiContainer
         this.field_147000_g = 219;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         super.initGui();
@@ -49,9 +46,6 @@ public class GuiBeacon extends GuiContainer
         this.field_147028_x.enabled = false;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         super.updateScreen();
@@ -183,8 +177,8 @@ public class GuiBeacon extends GuiContainer
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
         RenderHelper.disableStandardItemLighting();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.primary", new Object[0]), 62, 10, 14737632);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.secondary", new Object[0]), 169, 10, 14737632);
+        this.drawCenteredString(this.fontRenderer, I18n.format("tile.beacon.primary", new Object[0]), 62, 10, 14737632);
+        this.drawCenteredString(this.fontRenderer, I18n.format("tile.beacon.secondary", new Object[0]), 169, 10, 14737632);
         Iterator var3 = this.buttonList.iterator();
 
         while (var3.hasNext())
@@ -208,12 +202,12 @@ public class GuiBeacon extends GuiContainer
         int var4 = (this.width - this.field_146999_f) / 2;
         int var5 = (this.height - this.field_147000_g) / 2;
         this.drawTexturedModalRect(var4, var5, 0, 0, this.field_146999_f, this.field_147000_g);
-        itemRender.zLevel = 100.0F;
-        itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), new ItemStack(Items.emerald), var4 + 42, var5 + 109);
-        itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), new ItemStack(Items.diamond), var4 + 42 + 22, var5 + 109);
-        itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), new ItemStack(Items.gold_ingot), var4 + 42 + 44, var5 + 109);
-        itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), new ItemStack(Items.iron_ingot), var4 + 42 + 66, var5 + 109);
-        itemRender.zLevel = 0.0F;
+        renderItemGs.zLevel = 100.0F;
+        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.emerald), var4 + 42, var5 + 109);
+        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.diamond), var4 + 42 + 22, var5 + 109);
+        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.gold_ingot), var4 + 42 + 44, var5 + 109);
+        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.iron_ingot), var4 + 42 + 66, var5 + 109);
+        renderItemGs.zLevel = 0.0F;
     }
 
     class CancelButton extends GuiBeacon.Button
@@ -249,35 +243,35 @@ public class GuiBeacon extends GuiContainer
 
         public void drawButton(Minecraft p_146112_1_, int p_146112_2_, int p_146112_3_)
         {
-            if (this.field_146125_m)
+            if (this.drawButton)
             {
                 p_146112_1_.getTextureManager().bindTexture(GuiBeacon.field_147025_v);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                this.field_146123_n = p_146112_2_ >= this.field_146128_h && p_146112_3_ >= this.field_146129_i && p_146112_2_ < this.field_146128_h + this.field_146120_f && p_146112_3_ < this.field_146129_i + this.field_146121_g;
+                this.field_146123_n = p_146112_2_ >= this.xPosition && p_146112_3_ >= this.yPosition && p_146112_2_ < this.xPosition + this.width && p_146112_3_ < this.yPosition + this.height;
                 short var4 = 219;
                 int var5 = 0;
 
                 if (!this.enabled)
                 {
-                    var5 += this.field_146120_f * 2;
+                    var5 += this.width * 2;
                 }
                 else if (this.field_146142_r)
                 {
-                    var5 += this.field_146120_f * 1;
+                    var5 += this.width * 1;
                 }
                 else if (this.field_146123_n)
                 {
-                    var5 += this.field_146120_f * 3;
+                    var5 += this.width * 3;
                 }
 
-                this.drawTexturedModalRect(this.field_146128_h, this.field_146129_i, var5, var4, this.field_146120_f, this.field_146121_g);
+                this.drawTexturedModalRect(this.xPosition, this.yPosition, var5, var4, this.width, this.height);
 
                 if (!GuiBeacon.field_147025_v.equals(this.field_146145_o))
                 {
                     p_146112_1_.getTextureManager().bindTexture(this.field_146145_o);
                 }
 
-                this.drawTexturedModalRect(this.field_146128_h + 2, this.field_146129_i + 2, this.field_146144_p, this.field_146143_q, 18, 18);
+                this.drawTexturedModalRect(this.xPosition + 2, this.yPosition + 2, this.field_146144_p, this.field_146143_q, 18, 18);
             }
         }
 

@@ -18,9 +18,6 @@ public class S13PacketDestroyEntities extends Packet
         this.field_149100_a = p_i45211_1_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149100_a = new int[p_148837_1_.readByte()];
@@ -31,9 +28,6 @@ public class S13PacketDestroyEntities extends Packet
         }
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.field_149100_a.length);
@@ -49,9 +43,6 @@ public class S13PacketDestroyEntities extends Packet
         p_149099_1_.handleDestroyEntities(this);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         StringBuilder var1 = new StringBuilder();

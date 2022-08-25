@@ -8,11 +8,8 @@ import net.minecraft.world.World;
 
 public class ContainerMerchant extends Container
 {
-    /** Instance of Merchant. */
     private IMerchant theMerchant;
     private InventoryMerchant merchantInventory;
-
-    /** Instance of World. */
     private final World theWorld;
     private static final String __OBFID = "CL_00001757";
 
@@ -50,17 +47,11 @@ public class ContainerMerchant extends Container
         super.addCraftingToCrafters(par1ICrafting);
     }
 
-    /**
-     * Looks for changes made in the container, sends them to every listener.
-     */
     public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
     }
 
-    /**
-     * Callback for when the crafting matrix is changed.
-     */
     public void onCraftMatrixChanged(IInventory par1IInventory)
     {
         this.merchantInventory.resetRecipeAndSlots();
@@ -79,9 +70,6 @@ public class ContainerMerchant extends Container
         return this.theMerchant.getCustomer() == par1EntityPlayer;
     }
 
-    /**
-     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
-     */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
@@ -140,9 +128,6 @@ public class ContainerMerchant extends Container
         return var3;
     }
 
-    /**
-     * Called when the container is closed.
-     */
     public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
         super.onContainerClosed(par1EntityPlayer);

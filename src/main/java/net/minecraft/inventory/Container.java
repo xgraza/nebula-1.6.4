@@ -13,27 +13,17 @@ import net.minecraft.util.MathHelper;
 
 public abstract class Container
 {
-    /** the list of all items(stacks) for the corresponding slot */
     public List inventoryItemStacks = new ArrayList();
-
-    /** the list of all slots in the inventory */
     public List inventorySlots = new ArrayList();
     public int windowId;
     private short transactionID;
     private int field_94535_f = -1;
     private int field_94536_g;
     private final Set field_94537_h = new HashSet();
-
-    /**
-     * list of all people that need to be notified when this craftinventory changes
-     */
     protected List crafters = new ArrayList();
     private Set playerList = new HashSet();
     private static final String __OBFID = "CL_00001730";
 
-    /**
-     * the slot is assumed empty
-     */
     protected Slot addSlotToContainer(Slot par1Slot)
     {
         par1Slot.slotNumber = this.inventorySlots.size();
@@ -56,17 +46,11 @@ public abstract class Container
         }
     }
 
-    /**
-     * Remove this crafting listener from the listener list.
-     */
     public void removeCraftingFromCrafters(ICrafting par1ICrafting)
     {
         this.crafters.remove(par1ICrafting);
     }
 
-    /**
-     * returns a list if itemStacks, for each slot.
-     */
     public List getInventory()
     {
         ArrayList var1 = new ArrayList();
@@ -79,9 +63,6 @@ public abstract class Container
         return var1;
     }
 
-    /**
-     * Looks for changes made in the container, sends them to every listener.
-     */
     public void detectAndSendChanges()
     {
         for (int var1 = 0; var1 < this.inventorySlots.size(); ++var1)
@@ -102,9 +83,6 @@ public abstract class Container
         }
     }
 
-    /**
-     * enchants the item on the table using the specified slot; also deducts XP from player
-     */
     public boolean enchantItem(EntityPlayer par1EntityPlayer, int par2)
     {
         return false;
@@ -130,9 +108,6 @@ public abstract class Container
         return (Slot)this.inventorySlots.get(par1);
     }
 
-    /**
-     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
-     */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         Slot var3 = (Slot)this.inventorySlots.get(par2);
@@ -517,9 +492,6 @@ public abstract class Container
         this.slotClick(par1, par2, 1, par4EntityPlayer);
     }
 
-    /**
-     * Called when the container is closed.
-     */
     public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
         InventoryPlayer var2 = par1EntityPlayer.inventory;
@@ -531,25 +503,16 @@ public abstract class Container
         }
     }
 
-    /**
-     * Callback for when the crafting matrix is changed.
-     */
     public void onCraftMatrixChanged(IInventory par1IInventory)
     {
         this.detectAndSendChanges();
     }
 
-    /**
-     * args: slotID, itemStack to put in slot
-     */
     public void putStackInSlot(int par1, ItemStack par2ItemStack)
     {
         this.getSlot(par1).putStack(par2ItemStack);
     }
 
-    /**
-     * places itemstacks in first x slots, x being aitemstack.lenght
-     */
     public void putStacksInSlots(ItemStack[] par1ArrayOfItemStack)
     {
         for (int var2 = 0; var2 < par1ArrayOfItemStack.length; ++var2)
@@ -560,26 +523,17 @@ public abstract class Container
 
     public void updateProgressBar(int par1, int par2) {}
 
-    /**
-     * Gets a unique transaction ID. Parameter is unused.
-     */
     public short getNextTransactionID(InventoryPlayer par1InventoryPlayer)
     {
         ++this.transactionID;
         return this.transactionID;
     }
 
-    /**
-     * NotUsing because adding a player twice is an error
-     */
     public boolean isPlayerNotUsingContainer(EntityPlayer par1EntityPlayer)
     {
         return !this.playerList.contains(par1EntityPlayer);
     }
 
-    /**
-     * adds or removes the player from the container based on par2
-     */
     public void setPlayerIsPresent(EntityPlayer par1EntityPlayer, boolean par2)
     {
         if (par2)
@@ -594,9 +548,6 @@ public abstract class Container
 
     public abstract boolean canInteractWith(EntityPlayer var1);
 
-    /**
-     * merges provided ItemStack with the first avaliable one in the container/player inventory
-     */
     protected boolean mergeItemStack(ItemStack par1ItemStack, int par2, int par3, boolean par4)
     {
         boolean var5 = false;
@@ -741,10 +692,6 @@ public abstract class Container
         par2ItemStack.stackSize += par3;
     }
 
-    /**
-     * Returns true if the player can "drag-spilt" items into this slot,. returns true by default. Called to check if
-     * the slot can be added to a list of Slots to split the held ItemStack across.
-     */
     public boolean canDragIntoSlot(Slot par1Slot)
     {
         return true;

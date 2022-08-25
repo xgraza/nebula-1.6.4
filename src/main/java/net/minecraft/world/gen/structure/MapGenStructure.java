@@ -20,12 +20,6 @@ import net.minecraft.world.gen.MapGenBase;
 public abstract class MapGenStructure extends MapGenBase
 {
     private MapGenStructureData field_143029_e;
-
-    /**
-     * Used to store a list of all structures that have been recursively generated. Used so that during recursive
-     * generation, the structure generator can avoid generating structures that intersect ones that have already been
-     * placed.
-     */
     protected Map structureMap = new HashMap();
     private static final String __OBFID = "CL_00000505";
 
@@ -82,9 +76,6 @@ public abstract class MapGenStructure extends MapGenBase
         }
     }
 
-    /**
-     * Generates structures in specified chunk next to existing structures. Does *not* generate StructureStarts.
-     */
     public boolean generateStructuresInChunk(World par1World, Random par2Random, int par3, int par4)
     {
         this.func_143027_a(par1World);
@@ -108,9 +99,6 @@ public abstract class MapGenStructure extends MapGenBase
         return var7;
     }
 
-    /**
-     * Returns true if the structure generator has generated a structure located at the given position tuple.
-     */
     public boolean hasStructureAt(int par1, int par2, int par3)
     {
         this.func_143027_a(this.worldObj);
@@ -242,10 +230,6 @@ public abstract class MapGenStructure extends MapGenBase
         }
     }
 
-    /**
-     * Returns a list of other locations at which the structure generation has been run, or null if not relevant to this
-     * structure generator.
-     */
     protected List getCoordList()
     {
         return null;

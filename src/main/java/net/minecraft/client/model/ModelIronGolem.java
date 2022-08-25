@@ -6,22 +6,11 @@ import net.minecraft.entity.monster.EntityIronGolem;
 
 public class ModelIronGolem extends ModelBase
 {
-    /** The head model for the iron golem. */
     public ModelRenderer ironGolemHead;
-
-    /** The body model for the iron golem. */
     public ModelRenderer ironGolemBody;
-
-    /** The right arm model for the iron golem. */
     public ModelRenderer ironGolemRightArm;
-
-    /** The left arm model for the iron golem. */
     public ModelRenderer ironGolemLeftArm;
-
-    /** The left leg model for the Iron Golem. */
     public ModelRenderer ironGolemLeftLeg;
-
-    /** The right leg model for the Iron Golem. */
     public ModelRenderer ironGolemRightLeg;
     private static final String __OBFID = "CL_00000863";
 
@@ -62,9 +51,6 @@ public class ModelIronGolem extends ModelBase
         this.ironGolemRightLeg.addBox(-3.5F, -3.0F, -3.0F, 6, 16, 5, par1);
     }
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
@@ -76,11 +62,6 @@ public class ModelIronGolem extends ModelBase
         this.ironGolemLeftArm.render(par7);
     }
 
-    /**
-     * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
-     * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
-     * "far" arms and legs can swing at most.
-     */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
         this.ironGolemHead.rotateAngleY = par4 / (180F / (float)Math.PI);
@@ -91,10 +72,6 @@ public class ModelIronGolem extends ModelBase
         this.ironGolemRightLeg.rotateAngleY = 0.0F;
     }
 
-    /**
-     * Used for easily adding entity-dependent animations. The second and third float params here are the same second
-     * and third as in the setRotationAngles method.
-     */
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
         EntityIronGolem var5 = (EntityIronGolem)par1EntityLivingBase;

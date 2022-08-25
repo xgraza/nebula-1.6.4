@@ -23,9 +23,6 @@ public class GuiScreenOptionsSounds extends GuiScreen
         this.field_146506_g = p_i45025_2_;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         byte var1 = 0;
@@ -62,13 +59,10 @@ public class GuiScreenOptionsSounds extends GuiScreen
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, this.field_146507_a, this.width / 2, 15, 16777215);
+        this.drawCenteredString(this.fontRenderer, this.field_146507_a, this.width / 2, 15, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 
@@ -102,11 +96,11 @@ public class GuiScreenOptionsSounds extends GuiScreen
 
         protected void mouseDragged(Minecraft p_146119_1_, int p_146119_2_, int p_146119_3_)
         {
-            if (this.field_146125_m)
+            if (this.drawButton)
             {
                 if (this.field_146155_p)
                 {
-                    this.field_146156_o = (float)(p_146119_2_ - (this.field_146128_h + 4)) / (float)(this.field_146120_f - 8);
+                    this.field_146156_o = (float)(p_146119_2_ - (this.xPosition + 4)) / (float)(this.width - 8);
 
                     if (this.field_146156_o < 0.0F)
                     {
@@ -124,8 +118,8 @@ public class GuiScreenOptionsSounds extends GuiScreen
                 }
 
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                this.drawTexturedModalRect(this.field_146128_h + (int)(this.field_146156_o * (float)(this.field_146120_f - 8)), this.field_146129_i, 0, 66, 4, 20);
-                this.drawTexturedModalRect(this.field_146128_h + (int)(this.field_146156_o * (float)(this.field_146120_f - 8)) + 4, this.field_146129_i, 196, 66, 4, 20);
+                this.drawTexturedModalRect(this.xPosition + (int)(this.field_146156_o * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
+                this.drawTexturedModalRect(this.xPosition + (int)(this.field_146156_o * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
             }
         }
 
@@ -133,7 +127,7 @@ public class GuiScreenOptionsSounds extends GuiScreen
         {
             if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_))
             {
-                this.field_146156_o = (float)(p_146116_2_ - (this.field_146128_h + 4)) / (float)(this.field_146120_f - 8);
+                this.field_146156_o = (float)(p_146116_2_ - (this.xPosition + 4)) / (float)(this.width - 8);
 
                 if (this.field_146156_o < 0.0F)
                 {

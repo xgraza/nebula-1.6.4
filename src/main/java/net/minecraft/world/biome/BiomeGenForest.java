@@ -186,9 +186,6 @@ public class BiomeGenForest extends BiomeGenBase
         super.decorate(par1World, par2Random, par3, par4);
     }
 
-    /**
-     * Provides the basic grass color based on the biome temperature and rainfall
-     */
     public int getBiomeGrassColor(int p_150558_1_, int p_150558_2_, int p_150558_3_)
     {
         int var4 = super.getBiomeGrassColor(p_150558_1_, p_150558_2_, p_150558_3_);

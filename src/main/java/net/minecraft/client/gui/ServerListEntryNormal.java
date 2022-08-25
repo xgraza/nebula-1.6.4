@@ -185,7 +185,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
     {
         if (this.field_148301_e.func_147409_e() == null)
         {
-            this.field_148300_d.getTextureManager().func_147645_c(this.field_148306_i);
+            this.field_148300_d.getTextureManager().deleteTexture(this.field_148306_i);
             this.field_148305_h = null;
         }
         else

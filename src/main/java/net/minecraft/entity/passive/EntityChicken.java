@@ -25,8 +25,6 @@ public class EntityChicken extends EntityAnimal
     public float field_70884_g;
     public float field_70888_h;
     public float field_70889_i = 1.0F;
-
-    /** The time until the next egg is spawned. */
     public int timeUntilNextEgg;
     private static final String __OBFID = "CL_00001639";
 
@@ -45,9 +43,6 @@ public class EntityChicken extends EntityAnimal
         this.tasks.addTask(7, new EntityAILookIdle(this));
     }
 
-    /**
-     * Returns true if the newer Entity AI code should be run
-     */
     public boolean isAIEnabled()
     {
         return true;
@@ -60,10 +55,6 @@ public class EntityChicken extends EntityAnimal
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
@@ -103,30 +94,18 @@ public class EntityChicken extends EntityAnimal
         }
     }
 
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
     protected void fall(float par1) {}
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return "mob.chicken.say";
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.chicken.hurt";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.chicken.hurt";
@@ -142,9 +121,6 @@ public class EntityChicken extends EntityAnimal
         return Items.feather;
     }
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
     protected void dropFewItems(boolean par1, int par2)
     {
         int var3 = this.rand.nextInt(3) + this.rand.nextInt(1 + par2);
@@ -169,10 +145,6 @@ public class EntityChicken extends EntityAnimal
         return new EntityChicken(this.worldObj);
     }
 
-    /**
-     * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
-     * the animal type)
-     */
     public boolean isBreedingItem(ItemStack par1ItemStack)
     {
         return par1ItemStack != null && par1ItemStack.getItem() instanceof ItemSeeds;

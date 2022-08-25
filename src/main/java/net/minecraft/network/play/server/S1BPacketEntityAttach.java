@@ -23,9 +23,6 @@ public class S1BPacketEntityAttach extends Packet
         this.field_149407_c = p_i45218_3_ != null ? p_i45218_3_.getEntityId() : -1;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149406_b = p_148837_1_.readInt();
@@ -33,9 +30,6 @@ public class S1BPacketEntityAttach extends Packet
         this.field_149408_a = p_148837_1_.readUnsignedByte();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeInt(this.field_149406_b);

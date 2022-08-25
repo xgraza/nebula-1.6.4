@@ -24,9 +24,6 @@ public class GuiScreenConfirmation extends GuiScreen
         this.field_146932_g = I18n.format("gui.no", new Object[0]);
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.buttonList.add(new GuiOptionButton(0, this.width / 2 - 155, this.height / 6 + 112, this.field_146931_f));
@@ -38,15 +35,12 @@ public class GuiScreenConfirmation extends GuiScreen
         this.field_146935_a.confirmClicked(p_146284_1_.id == 0, this.field_146936_h);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, this.field_146937_i.field_148515_d, this.width / 2, 70, this.field_146937_i.field_148518_c);
-        this.drawCenteredString(this.fontRendererObj, this.field_146934_r, this.width / 2, 90, 16777215);
-        this.drawCenteredString(this.fontRendererObj, this.field_146933_s, this.width / 2, 110, 16777215);
+        this.drawCenteredString(this.fontRenderer, this.field_146937_i.field_148515_d, this.width / 2, 70, this.field_146937_i.field_148518_c);
+        this.drawCenteredString(this.fontRenderer, this.field_146934_r, this.width / 2, 90, 16777215);
+        this.drawCenteredString(this.fontRenderer, this.field_146933_s, this.width / 2, 110, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 

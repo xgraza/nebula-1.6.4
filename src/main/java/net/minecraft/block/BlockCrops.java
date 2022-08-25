@@ -32,9 +32,6 @@ public class BlockCrops extends BlockBush implements IGrowable
         return p_149854_1_ == Blocks.farmland;
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         super.updateTick(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, p_149674_5_);
@@ -116,9 +113,6 @@ public class BlockCrops extends BlockBush implements IGrowable
         return var5;
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         if (p_149691_2_ < 0 || p_149691_2_ > 7)
@@ -129,9 +123,6 @@ public class BlockCrops extends BlockBush implements IGrowable
         return this.field_149867_a[p_149691_2_];
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 6;
@@ -147,9 +138,6 @@ public class BlockCrops extends BlockBush implements IGrowable
         return Items.wheat;
     }
 
-    /**
-     * Drops the block items with a specified chance of dropping the specified items
-     */
     public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_)
     {
         super.dropBlockAsItemWithChance(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, p_149690_5_, p_149690_6_, 0);
@@ -176,23 +164,17 @@ public class BlockCrops extends BlockBush implements IGrowable
         return p_149650_1_ == 7 ? this.func_149865_P() : this.func_149866_i();
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
     public int quantityDropped(Random p_149745_1_)
     {
         return 1;
     }
 
-    /**
-     * Gets an item for the block being called on. Args: world, x, y, z
-     */
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    public Item getItemPicked(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return this.func_149866_i();
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_149867_a = new IIcon[8];
 

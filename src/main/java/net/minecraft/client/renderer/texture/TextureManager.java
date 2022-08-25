@@ -12,14 +12,14 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.src.Config;
+import net.minecraft.src.RandomMobs;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
-import optifine.Config;
-import optifine.RandomMobs;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
+import shadersmod.client.ShadersTex;
 
 public class TextureManager implements ITickable, IResourceManagerReloadListener
 {
@@ -29,7 +29,6 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
     private final List listTickables = Lists.newArrayList();
     private final Map mapTextureCounters = Maps.newHashMap();
     private IResourceManager theResourceManager;
-    private static final String __OBFID = "CL_00001064";
 
     public TextureManager(IResourceManager par1ResourceManager)
     {
@@ -51,7 +50,14 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
             this.loadTexture(par1ResourceLocation, (ITextureObject)var2);
         }
 
-        TextureUtil.bindTexture(((ITextureObject)var2).getGlTextureId());
+        if (Config.isShaders())
+        {
+            ShadersTex.bindTexture((ITextureObject)var2);
+        }
+        else
+        {
+            TextureUtil.bindTexture(((ITextureObject)var2).getGlTextureId());
+        }
     }
 
     public ResourceLocation getResourceLocation(int par1)
@@ -108,14 +114,9 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
             var6.addCrashSection("Resource location", par1ResourceLocation);
             var6.addCrashSectionCallable("Texture object class", new Callable()
             {
-                private static final String __OBFID = "CL_00001065";
-                public String call1()
+                public String call()
                 {
                     return par2TextureObject.getClass().getName();
-                }
-                public Object call() throws Exception
-                {
-                    return this.call1();
                 }
             });
             throw new ReportedException(var5);
@@ -165,12 +166,13 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
         }
     }
 
-    public void func_147645_c(ResourceLocation p_147645_1_)
+    public void deleteTexture(ResourceLocation p_147645_1_)
     {
         ITextureObject var2 = this.getTexture(p_147645_1_);
 
         if (var2 != null)
         {
+            this.mapTextureObjects.remove(p_147645_1_);
             TextureUtil.deleteTexture(var2.getGlTextureId());
         }
     }
@@ -184,11 +186,12 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
         while (it.hasNext())
         {
             ResourceLocation var2 = (ResourceLocation)it.next();
+            String var3 = var2.getResourcePath();
 
-            if (var2.getResourcePath().startsWith("mcpatcher/"))
+            if (var3.startsWith("mcpatcher/") || var3.startsWith("optifine/"))
             {
-                ITextureObject var3 = (ITextureObject)this.mapTextureObjects.get(var2);
-                int glTexId = var3.getGlTextureId();
+                ITextureObject tex = (ITextureObject)this.mapTextureObjects.get(var2);
+                int glTexId = tex.getGlTextureId();
 
                 if (glTexId > 0)
                 {

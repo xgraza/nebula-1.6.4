@@ -19,8 +19,8 @@ public class GuiCrafting extends GuiContainer
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
-        this.fontRendererObj.drawString(I18n.format("container.crafting", new Object[0]), 28, 6, 4210752);
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
+        this.fontRenderer.drawString(I18n.format("container.crafting", new Object[0]), 28, 6, 4210752);
+        this.fontRenderer.drawString(I18n.format("container.inventory", new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
     }
 
     protected void func_146976_a(float p_146976_1_, int p_146976_2_, int p_146976_3_)

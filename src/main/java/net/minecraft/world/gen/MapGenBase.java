@@ -7,13 +7,8 @@ import net.minecraft.world.chunk.IChunkProvider;
 
 public class MapGenBase
 {
-    /** The number of Chunks to gen-check in any given direction. */
     protected int range = 8;
-
-    /** The RNG used by the MapGen classes. */
     protected Random rand = new Random();
-
-    /** This world object. */
     protected World worldObj;
     private static final String __OBFID = "CL_00000394";
 

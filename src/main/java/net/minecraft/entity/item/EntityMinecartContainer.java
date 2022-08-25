@@ -12,11 +12,6 @@ import net.minecraft.world.World;
 public abstract class EntityMinecartContainer extends EntityMinecart implements IInventory
 {
     private ItemStack[] minecartContainerItems = new ItemStack[36];
-
-    /**
-     * When set to true, the minecart will drop all items when setDead() is called. When false (such as when travelling
-     * dimensions) it preserves its contents.
-     */
     private boolean dropContentsWhenDead = true;
     private static final String __OBFID = "CL_00001674";
 
@@ -65,18 +60,11 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         }
     }
 
-    /**
-     * Returns the stack in slot i
-     */
     public ItemStack getStackInSlot(int par1)
     {
         return this.minecartContainerItems[par1];
     }
 
-    /**
-     * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and returns them in a
-     * new stack.
-     */
     public ItemStack decrStackSize(int par1, int par2)
     {
         if (this.minecartContainerItems[par1] != null)
@@ -107,10 +95,6 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         }
     }
 
-    /**
-     * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
-     * like when you close a workbench GUI.
-     */
     public ItemStack getStackInSlotOnClosing(int par1)
     {
         if (this.minecartContainerItems[par1] != null)
@@ -125,9 +109,6 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         }
     }
 
-    /**
-     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
-     */
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
         this.minecartContainerItems[par1] = par2ItemStack;
@@ -138,14 +119,8 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         }
     }
 
-    /**
-     * Called when an the contents of an Inventory change, usually
-     */
     public void onInventoryChanged() {}
 
-    /**
-     * Do not make give this method the name canInteractWith because it clashes with Container
-     */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
         return this.isDead ? false : par1EntityPlayer.getDistanceSqToEntity(this) <= 64.0D;
@@ -155,42 +130,27 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     public void closeInventory() {}
 
-    /**
-     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
-     */
     public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
     {
         return true;
     }
 
-    /**
-     * Returns the name of the inventory
-     */
     public String getInventoryName()
     {
         return this.isInventoryNameLocalized() ? this.func_95999_t() : "container.minecart";
     }
 
-    /**
-     * Returns the maximum stack size for a inventory slot.
-     */
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
-    /**
-     * Teleports the entity to another dimension. Params: Dimension number to teleport to
-     */
     public void travelToDimension(int par1)
     {
         this.dropContentsWhenDead = false;
         super.travelToDimension(par1);
     }
 
-    /**
-     * Will get destroyed next tick.
-     */
     public void setDead()
     {
         if (this.dropContentsWhenDead)
@@ -235,9 +195,6 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         super.setDead();
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
@@ -257,9 +214,6 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         par1NBTTagCompound.setTag("Items", var2);
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
@@ -278,9 +232,6 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         }
     }
 
-    /**
-     * First layer of player interaction
-     */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         if (!this.worldObj.isClient)

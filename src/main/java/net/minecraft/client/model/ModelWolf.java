@@ -8,28 +8,13 @@ import org.lwjgl.opengl.GL11;
 
 public class ModelWolf extends ModelBase
 {
-    /** main box for the wolf head */
     public ModelRenderer wolfHeadMain;
-
-    /** The wolf's body */
     public ModelRenderer wolfBody;
-
-    /** Wolf'se first leg */
     public ModelRenderer wolfLeg1;
-
-    /** Wolf's second leg */
     public ModelRenderer wolfLeg2;
-
-    /** Wolf's third leg */
     public ModelRenderer wolfLeg3;
-
-    /** Wolf's fourth leg */
     public ModelRenderer wolfLeg4;
-
-    /** The wolf's tail */
     ModelRenderer wolfTail;
-
-    /** The wolf's mane */
     ModelRenderer wolfMane;
     private static final String __OBFID = "CL_00000868";
 
@@ -66,9 +51,6 @@ public class ModelWolf extends ModelBase
         this.wolfHeadMain.setTextureOffset(0, 10).addBox(-1.5F, 0.0F, -5.0F, 3, 3, 4, var1);
     }
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         super.render(par1Entity, par2, par3, par4, par5, par6, par7);
@@ -106,10 +88,6 @@ public class ModelWolf extends ModelBase
         }
     }
 
-    /**
-     * Used for easily adding entity-dependent animations. The second and third float params here are the same second
-     * and third as in the setRotationAngles method.
-     */
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
         EntityWolf var5 = (EntityWolf)par1EntityLivingBase;
@@ -163,11 +141,6 @@ public class ModelWolf extends ModelBase
         this.wolfTail.rotateAngleZ = var5.getShakeAngle(par4, -0.2F);
     }
 
-    /**
-     * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
-     * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
-     * "far" arms and legs can swing at most.
-     */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
         super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);

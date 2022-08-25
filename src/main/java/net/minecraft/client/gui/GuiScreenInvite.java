@@ -32,30 +32,21 @@ public class GuiScreenInvite extends GuiScreen
         this.field_146923_g = par3McoServer;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         this.field_146921_f.updateCursorCounter();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 12, I18n.format("mco.configure.world.buttons.invite", new Object[0])));
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.cancel", new Object[0])));
-        this.field_146921_f = new GuiTextField(this.fontRendererObj, this.width / 2 - 100, 66, 200, 20);
+        this.field_146921_f = new GuiTextField(this.fontRenderer, this.width / 2 - 100, 66, 200, 20);
         this.field_146921_f.setFocused(true);
     }
 
-    /**
-     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
-     */
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
@@ -113,9 +104,6 @@ public class GuiScreenInvite extends GuiScreen
         this.field_146924_u = p_146920_1_;
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         this.field_146921_f.textboxKeyTyped(par1, par2);
@@ -138,26 +126,20 @@ public class GuiScreenInvite extends GuiScreen
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
         this.field_146921_f.mouseClicked(par1, par2, par3);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawString(this.fontRendererObj, I18n.format("mco.configure.world.invite.profile.name", new Object[0]), this.width / 2 - 100, 53, 10526880);
+        this.drawString(this.fontRenderer, I18n.format("mco.configure.world.invite.profile.name", new Object[0]), this.width / 2 - 100, 53, 10526880);
 
         if (this.field_146922_v)
         {
-            this.drawCenteredString(this.fontRendererObj, this.field_146924_u, this.width / 2, 100, 16711680);
+            this.drawCenteredString(this.fontRenderer, this.field_146924_u, this.width / 2, 100, 16711680);
         }
 
         this.field_146921_f.drawTextBox();

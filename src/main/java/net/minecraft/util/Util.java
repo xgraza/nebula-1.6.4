@@ -5,10 +5,6 @@ import java.util.regex.Pattern;
 
 public class Util
 {
-    /**
-     * Matches a UUID string, such as "b2a72a80-d078-4ea4-ae43-fcaf95707a76".  Will not match UUIDs containing upper-
-     * case letters.
-     */
     private static final Pattern uuidPattern = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
     private static final String __OBFID = "CL_00001633";
 
@@ -18,17 +14,11 @@ public class Util
         return var0.contains("win") ? Util.EnumOS.WINDOWS : (var0.contains("mac") ? Util.EnumOS.MACOS : (var0.contains("solaris") ? Util.EnumOS.SOLARIS : (var0.contains("sunos") ? Util.EnumOS.SOLARIS : (var0.contains("linux") ? Util.EnumOS.LINUX : (var0.contains("unix") ? Util.EnumOS.LINUX : Util.EnumOS.UNKNOWN)))));
     }
 
-    /**
-     * Determines whether or not the given parameter can be parsed as a UUID.
-     */
     public static boolean isUUIDString(String p_147172_0_)
     {
         return uuidPattern.matcher(p_147172_0_).matches();
     }
 
-    /**
-     * Parses the given string as a UUID, or returns null if the string could not be parsed.
-     */
     public static UUID tryGetUUIDFromString(String p_147173_0_)
     {
         if (p_147173_0_ == null)

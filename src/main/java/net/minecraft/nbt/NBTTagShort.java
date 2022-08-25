@@ -6,7 +6,6 @@ import java.io.IOException;
 
 public class NBTTagShort extends NBTBase.NBTPrimitive
 {
-    /** The short value for the tag. */
     private short data;
     private static final String __OBFID = "CL_00001227";
 
@@ -17,25 +16,16 @@ public class NBTTagShort extends NBTBase.NBTPrimitive
         this.data = p_i45135_1_;
     }
 
-    /**
-     * Write the actual data contents of the tag, implemented in NBT extension classes
-     */
     void write(DataOutput par1DataOutput) throws IOException
     {
         par1DataOutput.writeShort(this.data);
     }
 
-    /**
-     * Read the actual data contents of the tag, implemented in NBT extension classes
-     */
     void load(DataInput par1DataInput, int par2) throws IOException
     {
         this.data = par1DataInput.readShort();
     }
 
-    /**
-     * Gets the type byte for the tag.
-     */
     public byte getId()
     {
         return (byte)2;
@@ -46,9 +36,6 @@ public class NBTTagShort extends NBTBase.NBTPrimitive
         return "" + this.data + "s";
     }
 
-    /**
-     * Creates a clone of the tag.
-     */
     public NBTBase copy()
     {
         return new NBTTagShort(this.data);

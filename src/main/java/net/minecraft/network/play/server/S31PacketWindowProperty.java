@@ -27,9 +27,6 @@ public class S31PacketWindowProperty extends Packet
         p_149183_1_.handleWindowProperty(this);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149186_a = p_148837_1_.readUnsignedByte();
@@ -37,9 +34,6 @@ public class S31PacketWindowProperty extends Packet
         this.field_149185_c = p_148837_1_.readShort();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.field_149186_a);

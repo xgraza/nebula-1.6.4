@@ -10,7 +10,6 @@ public class ImageBufferDownload implements IImageBuffer
     private int[] imageData;
     private int imageWidth;
     private int imageHeight;
-    private static final String __OBFID = "CL_00000956";
 
     public BufferedImage parseUserSkin(BufferedImage par1BufferedImage)
     {
@@ -48,11 +47,6 @@ public class ImageBufferDownload implements IImageBuffer
         }
     }
 
-    /**
-     * Makes the given area of the image transparent if it was previously completely opaque (used to remove the outer
-     * layer of a skin around the head if it was saved all opaque; this would be redundant so it's assumed that the skin
-     * maker is just using an image editor without an alpha channel)
-     */
     private void setAreaTransparent(int par1, int par2, int par3, int par4)
     {
         if (!this.hasTransparency(par1, par2, par3, par4))
@@ -67,9 +61,6 @@ public class ImageBufferDownload implements IImageBuffer
         }
     }
 
-    /**
-     * Makes the given area of the image opaque
-     */
     private void setAreaOpaque(int par1, int par2, int par3, int par4)
     {
         for (int var5 = par1; var5 < par3; ++var5)
@@ -81,9 +72,6 @@ public class ImageBufferDownload implements IImageBuffer
         }
     }
 
-    /**
-     * Returns true if the given area of the image contains transparent pixels
-     */
     private boolean hasTransparency(int par1, int par2, int par3, int par4)
     {
         for (int var5 = par1; var5 < par3; ++var5)

@@ -38,9 +38,6 @@ public class RenderPlayer extends RendererLivingEntity
         this.modelArmor = new ModelBiped(0.5F);
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(AbstractClientPlayer par1AbstractClientPlayer, int par2, float par3)
     {
         ItemStack var4 = par1AbstractClientPlayer.inventory.armorItemInSlot(3 - par2);
@@ -112,12 +109,6 @@ public class RenderPlayer extends RendererLivingEntity
         }
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(AbstractClientPlayer par1AbstractClientPlayer, double par2, double par4, double par6, float par8, float par9)
     {
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -152,9 +143,6 @@ public class RenderPlayer extends RendererLivingEntity
         this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = 0;
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(AbstractClientPlayer par1AbstractClientPlayer)
     {
         return par1AbstractClientPlayer.getLocationSkin();
@@ -191,7 +179,7 @@ public class RenderPlayer extends RendererLivingEntity
                 GL11.glScalef(var4, -var4, -var4);
                 String var5 = "";
 
-                if (var3.hasTagCompound() && var3.getTagCompound().func_150297_b("SkullOwner", 8))
+                if (var3.hasTagCompound() && var3.getTagCompound().hasKey("SkullOwner", 8))
                 {
                     var5 = var3.getTagCompound().getString("SkullOwner");
                 }
@@ -377,10 +365,6 @@ public class RenderPlayer extends RendererLivingEntity
         }
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(AbstractClientPlayer par1AbstractClientPlayer, float par2)
     {
         float var3 = 0.9375F;
@@ -423,9 +407,6 @@ public class RenderPlayer extends RendererLivingEntity
         this.modelBipedMain.bipedRightArm.render(0.0625F);
     }
 
-    /**
-     * Sets a simple glTranslate on a LivingEntity.
-     */
     protected void renderLivingAt(AbstractClientPlayer par1AbstractClientPlayer, double par2, double par4, double par6)
     {
         if (par1AbstractClientPlayer.isEntityAlive() && par1AbstractClientPlayer.isPlayerSleeping())
@@ -457,10 +438,6 @@ public class RenderPlayer extends RendererLivingEntity
         this.func_96449_a((AbstractClientPlayer)par1EntityLivingBase, par2, par4, par6, par8Str, par9, par10);
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
         this.preRenderCallback((AbstractClientPlayer)par1EntityLivingBase, par2);
@@ -471,9 +448,6 @@ public class RenderPlayer extends RendererLivingEntity
         this.func_82408_c((AbstractClientPlayer)par1EntityLivingBase, par2, par3);
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.shouldRenderPass((AbstractClientPlayer)par1EntityLivingBase, par2, par3);
@@ -489,39 +463,21 @@ public class RenderPlayer extends RendererLivingEntity
         this.rotateCorpse((AbstractClientPlayer)par1EntityLivingBase, par2, par3, par4);
     }
 
-    /**
-     * Sets a simple glTranslate on a LivingEntity.
-     */
     protected void renderLivingAt(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6)
     {
         this.renderLivingAt((AbstractClientPlayer)par1EntityLivingBase, par2, par4, par6);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((AbstractClientPlayer)par1EntityLivingBase, par2, par4, par6, par8, par9);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((AbstractClientPlayer)par1Entity);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((AbstractClientPlayer)par1Entity, par2, par4, par6, par8, par9);

@@ -23,35 +23,21 @@ public class ItemSlab extends ItemBlock
         this.setHasSubtypes(true);
     }
 
-    /**
-     * Gets an icon index based on an item's damage value
-     */
     public IIcon getIconFromDamage(int par1)
     {
         return Block.getBlockFromItem(this).getIcon(2, par1);
     }
 
-    /**
-     * Returns the metadata of the block which this Item (ItemBlock) can place
-     */
     public int getMetadata(int par1)
     {
         return par1;
     }
 
-    /**
-     * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
-     * different names based on their damage or NBT.
-     */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
         return this.field_150949_c.func_150002_b(par1ItemStack.getItemDamage());
     }
 
-    /**
-     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
-     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
-     */
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
         if (this.field_150948_b)

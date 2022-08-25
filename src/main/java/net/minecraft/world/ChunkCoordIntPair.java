@@ -2,12 +2,8 @@ package net.minecraft.world;
 
 public class ChunkCoordIntPair
 {
-    /** The X position of this Chunk Coordinate Pair */
     public final int chunkXPos;
-
-    /** The Z position of this Chunk Coordinate Pair */
     public final int chunkZPos;
-    private static final String __OBFID = "CL_00000133";
     private int cachedHashCode = 0;
 
     public ChunkCoordIntPair(int par1, int par2)
@@ -16,9 +12,6 @@ public class ChunkCoordIntPair
         this.chunkZPos = par2;
     }
 
-    /**
-     * converts a chunk coordinate pair to an integer (suitable for hashing)
-     */
     public static long chunkXZ2Int(int par0, int par1)
     {
         return (long)par0 & 4294967295L | ((long)par1 & 4294967295L) << 32;

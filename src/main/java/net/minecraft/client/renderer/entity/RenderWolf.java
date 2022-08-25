@@ -22,17 +22,11 @@ public class RenderWolf extends RenderLiving
         this.setRenderPassModel(par2ModelBase);
     }
 
-    /**
-     * Defines what float the third param in setRotationAngles of ModelBase is
-     */
     protected float handleRotationFloat(EntityWolf par1EntityWolf, float par2)
     {
         return par1EntityWolf.getTailRotation();
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityWolf par1EntityWolf, int par2, float par3)
     {
         if (par2 == 0 && par1EntityWolf.getWolfShaking())
@@ -55,33 +49,21 @@ public class RenderWolf extends RenderLiving
         }
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityWolf par1EntityWolf)
     {
         return par1EntityWolf.isTamed() ? tamedWolfTextures : (par1EntityWolf.isAngry() ? anrgyWolfTextures : wolfTextures);
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.shouldRenderPass((EntityWolf)par1EntityLivingBase, par2, par3);
     }
 
-    /**
-     * Defines what float the third param in setRotationAngles of ModelBase is
-     */
     protected float handleRotationFloat(EntityLivingBase par1EntityLivingBase, float par2)
     {
         return this.handleRotationFloat((EntityWolf)par1EntityLivingBase, par2);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityWolf)par1Entity);

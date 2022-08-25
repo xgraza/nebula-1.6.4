@@ -25,9 +25,6 @@ public class GuiWinGame extends GuiScreen
     private float field_146578_s = 0.5F;
     private static final String __OBFID = "CL_00000719";
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         ++this.field_146581_h;
@@ -39,9 +36,6 @@ public class GuiWinGame extends GuiScreen
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         if (par2 == 1)
@@ -56,17 +50,11 @@ public class GuiWinGame extends GuiScreen
         this.mc.displayGuiScreen((GuiScreen)null);
     }
 
-    /**
-     * Returns true if this GUI should pause the game when it is displayed in single-player
-     */
     public boolean doesGuiPauseGame()
     {
         return true;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         if (this.field_146582_i == null)
@@ -156,9 +144,6 @@ public class GuiWinGame extends GuiScreen
         var4.draw();
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.func_146575_b(par1, par2, par3);
@@ -195,12 +180,12 @@ public class GuiWinGame extends GuiScreen
 
                 if (var12.startsWith("[C]"))
                 {
-                    this.fontRendererObj.drawStringWithShadow(var12.substring(3), var6 + (var5 - this.fontRendererObj.getStringWidth(var12.substring(3))) / 2, var9, 16777215);
+                    this.fontRenderer.drawStringWithShadow(var12.substring(3), var6 + (var5 - this.fontRenderer.getStringWidth(var12.substring(3))) / 2, var9, 16777215);
                 }
                 else
                 {
-                    this.fontRendererObj.fontRandom.setSeed((long)var10 * 4238972211L + (long)(this.field_146581_h / 4));
-                    this.fontRendererObj.drawStringWithShadow(var12, var6, var9, 16777215);
+                    this.fontRenderer.fontRandom.setSeed((long)var10 * 4238972211L + (long)(this.field_146581_h / 4));
+                    this.fontRenderer.drawStringWithShadow(var12, var6, var9, 16777215);
                 }
             }
 

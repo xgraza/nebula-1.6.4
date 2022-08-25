@@ -12,22 +12,19 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.shader.TesselatorVertexState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.src.ChunkCacheOF;
+import net.minecraft.src.Config;
+import net.minecraft.src.Reflector;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.ChunkCache;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import optifine.Config;
-import optifine.Reflector;
-
 import org.lwjgl.opengl.GL11;
 
 public class WorldRenderer
 {
     protected TesselatorVertexState vertexState;
-
-    /** Reference to the World object. */
     public World worldObj;
     protected int glRenderList;
     protected Tessellator tessellator;
@@ -35,63 +32,27 @@ public class WorldRenderer
     public int posX;
     public int posY;
     public int posZ;
-
-    /** Pos X minus */
     public int posXMinus;
-
-    /** Pos Y minus */
     public int posYMinus;
-
-    /** Pos Z minus */
     public int posZMinus;
-
-    /** Pos X clipped */
     public int posXClip;
-
-    /** Pos Y clipped */
     public int posYClip;
-
-    /** Pos Z clipped */
     public int posZClip;
     public boolean isInFrustum;
-
-    /** Should this renderer skip this render pass */
     public boolean[] skipRenderPass;
-
-    /** Pos X plus */
     public int posXPlus;
-
-    /** Pos Y plus */
     public int posYPlus;
-
-    /** Pos Z plus */
     public int posZPlus;
-
-    /** Boolean for whether this renderer needs to be updated or not */
     public volatile boolean needsUpdate;
-
-    /** Axis aligned bounding box */
     public AxisAlignedBB rendererBoundingBox;
-
-    /** Chunk index */
     public int chunkIndex;
-
-    /** Is this renderer visible according to the occlusion query */
     public boolean isVisible;
-
-    /** Is this renderer waiting on the result of the occlusion query */
     public boolean isWaitingOnOcclusionQuery;
-
-    /** OpenGL occlusion query */
     public int glOcclusionQuery;
-
-    /** Is the chunk lit */
     public boolean isChunkLit;
     protected boolean isInitialized;
     public List tileEntityRenderers;
     protected List tileEntities;
-
-    /** Bytes sent to the GPU */
     protected int bytesDrawn;
     public boolean isVisibleFromPosition;
     public double visibleFromX;
@@ -108,7 +69,6 @@ public class WorldRenderer
     public RenderGlobal renderGlobal;
     public static int globalChunkOffsetX = 0;
     public static int globalChunkOffsetZ = 0;
-    private static final String __OBFID = "CL_00000942";
 
     public WorldRenderer(World par1World, List par2List, int par3, int par4, int par5, int par6)
     {
@@ -134,9 +94,6 @@ public class WorldRenderer
         this.needsUpdate = false;
     }
 
-    /**
-     * Sets a new position for the renderer and setting it up so it can be reloaded with the new data for that position
-     */
     public void setPosition(int par1, int par2, int par3)
     {
         if (par1 != this.posX || par2 != this.posY || par3 != this.posZ)
@@ -166,9 +123,6 @@ public class WorldRenderer
         GL11.glTranslatef((float)this.posXClip, (float)this.posYClip, (float)this.posZClip);
     }
 
-    /**
-     * Will update this chunk renderer
-     */
     public void updateRenderer(EntityLivingBase p_147892_1_)
     {
         if (this.worldObj != null)
@@ -218,11 +172,12 @@ public class WorldRenderer
                 int viewEntityPosY = MathHelper.floor_double(var10.posY);
                 int viewEntityPosZ = MathHelper.floor_double(var10.posZ);
                 byte var14 = 1;
-                ChunkCache chunkcache = new ChunkCache(this.worldObj, xMin - var14, yMin - var14, zMain - var14, xMax + var14, yMax + var14, zMax + var14, var14);
+                ChunkCacheOF chunkcache = new ChunkCacheOF(this.worldObj, xMin - var14, yMin - var14, zMain - var14, xMax + var14, yMax + var14, zMax + var14, var14);
 
                 if (!chunkcache.extendedLevelsInChunkCache())
                 {
                     ++chunksUpdated;
+                    chunkcache.renderStart();
                     RenderBlocks var27 = new RenderBlocks(chunkcache);
                     Reflector.callVoid(Reflector.ForgeHooksClient_setWorldRendererRB, new Object[] {var27});
                     this.bytesDrawn = 0;
@@ -326,6 +281,7 @@ public class WorldRenderer
                     }
 
                     Reflector.callVoid(Reflector.ForgeHooksClient_setWorldRendererRB, new Object[] {(RenderBlocks)null});
+                    chunkcache.renderFinish();
                 }
 
                 HashSet var31 = new HashSet();
@@ -398,10 +354,6 @@ public class WorldRenderer
         }
     }
 
-    /**
-     * Returns the distance of this chunk renderer to the entity without performing the final normalizing square root,
-     * for performance reasons.
-     */
     public float distanceToEntitySquared(Entity par1Entity)
     {
         float var2 = (float)(par1Entity.posX - (double)this.posXPlus);
@@ -410,9 +362,6 @@ public class WorldRenderer
         return var2 * var2 + var3 * var3 + var4 * var4;
     }
 
-    /**
-     * When called this renderer won't draw anymore until its gets initialized again
-     */
     public void setDontDraw()
     {
         for (int var1 = 0; var1 < 2; ++var1)
@@ -432,9 +381,6 @@ public class WorldRenderer
         this.worldObj = null;
     }
 
-    /**
-     * Takes in the pass the call list is being requested for. Args: renderPass
-     */
     public int getGLCallListForPass(int par1)
     {
         return this.glRenderList + par1;
@@ -454,25 +400,16 @@ public class WorldRenderer
         }
     }
 
-    /**
-     * Renders the occlusion query GL List
-     */
     public void callOcclusionQueryList()
     {
         GL11.glCallList(this.glRenderList + 2);
     }
 
-    /**
-     * Checks if all render passes are to be skipped. Returns false if the renderer is not initialized
-     */
     public boolean skipAllRenderPasses()
     {
         return this.skipAllRenderPasses;
     }
 
-    /**
-     * Marks the current renderer data as dirty and needing to be updated.
-     */
     public void markDirty()
     {
         this.needsUpdate = true;

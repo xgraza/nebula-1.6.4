@@ -12,19 +12,8 @@ import net.minecraft.world.World;
 
 public class EntityLightningBolt extends EntityWeatherEffect
 {
-    /**
-     * Declares which state the lightning bolt is in. Whether it's in the air, hit the ground, etc.
-     */
     private int lightningState;
-
-    /**
-     * A random long that is used to change the vertex of the lightning rendered in RenderLightningBolt
-     */
     public long boltVertex;
-
-    /**
-     * Determines the time before the EntityLightningBolt is destroyed. It is a random integer decremented over time.
-     */
     private int boltLivingTime;
     private static final String __OBFID = "CL_00001666";
 
@@ -61,9 +50,6 @@ public class EntityLightningBolt extends EntityWeatherEffect
         }
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -124,13 +110,7 @@ public class EntityLightningBolt extends EntityWeatherEffect
 
     protected void entityInit() {}
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {}
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {}
 }

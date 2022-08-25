@@ -49,7 +49,7 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer
 
             if (var10 instanceof BlockChest && var9 == 0)
             {
-                ((BlockChest)var10).func_149954_e(p_147502_1_.getWorldObj(), p_147502_1_.field_145851_c, p_147502_1_.field_145848_d, p_147502_1_.field_145849_e);
+                ((BlockChest)var10).func_149954_e(p_147502_1_.getWorldObj(), p_147502_1_.xCoord, p_147502_1_.yCoord, p_147502_1_.zCoord);
                 var9 = p_147502_1_.getBlockMetadata();
             }
 

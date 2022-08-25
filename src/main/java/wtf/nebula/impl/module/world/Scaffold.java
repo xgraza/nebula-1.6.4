@@ -7,7 +7,6 @@ import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
-import optifine.BlockPos;
 import wtf.nebula.event.MotionUpdateEvent;
 import wtf.nebula.event.PacketEvent;
 import wtf.nebula.event.SafewalkEvent;
@@ -98,7 +97,7 @@ public class Scaffold extends Module {
             if (success) {
                 mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
 
-                if (tower.getValue() && mc.gameSettings.keyBindJump.isPressed()) {
+                if (tower.getValue() && mc.gameSettings.keyBindJump.pressed) {
                     mc.thePlayer.jump();
                     mc.thePlayer.motionX *= 0.3;
                     mc.thePlayer.motionZ *= 0.3;

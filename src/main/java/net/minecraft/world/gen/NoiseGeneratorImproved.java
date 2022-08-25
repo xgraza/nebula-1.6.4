@@ -59,10 +59,6 @@ public class NoiseGeneratorImproved extends NoiseGenerator
         return ((var8 & 1) == 0 ? var9 : -var9) + ((var8 & 2) == 0 ? var11 : -var11);
     }
 
-    /**
-     * pars: noiseArray , xOffset , yOffset , zOffset , xSize , ySize , zSize , xScale, yScale , zScale , noiseScale.
-     * noiseArray should be xSize*ySize*zSize in size
-     */
     public void populateNoiseArray(double[] par1ArrayOfDouble, double par2, double par4, double par6, int par8, int par9, int par10, double par11, double par13, double par15, double par17)
     {
         int var10001;

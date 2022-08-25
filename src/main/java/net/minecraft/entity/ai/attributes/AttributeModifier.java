@@ -9,10 +9,6 @@ public class AttributeModifier
     private final int operation;
     private final String name;
     private final UUID id;
-
-    /**
-     * If false, this modifier is not saved in NBT. Used for "natural" modifiers like speed boost from sprinting
-     */
     private boolean isSaved;
     private static final String __OBFID = "CL_00001564";
 
@@ -52,17 +48,11 @@ public class AttributeModifier
         return this.amount;
     }
 
-    /**
-     * @see #isSaved
-     */
     public boolean isSaved()
     {
         return this.isSaved;
     }
 
-    /**
-     * @see #isSaved
-     */
     public AttributeModifier setSaved(boolean par1)
     {
         this.isSaved = par1;

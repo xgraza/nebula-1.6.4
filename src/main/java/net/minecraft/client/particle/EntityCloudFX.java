@@ -46,9 +46,6 @@ public class EntityCloudFX extends EntityFX
         super.renderParticle(par1Tessellator, par2, par3, par4, par5, par6, par7);
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.prevPosX = this.posX;

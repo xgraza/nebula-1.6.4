@@ -23,25 +23,16 @@ public class BlockNewLeaf extends BlockLeaves
         }
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int p_149692_1_)
     {
         return super.damageDropped(p_149692_1_) + 4;
     }
 
-    /**
-     * Get the block's damage value (for use with pick block).
-     */
     public int getDamageValue(World p_149643_1_, int p_149643_2_, int p_149643_3_, int p_149643_4_)
     {
         return p_149643_1_.getBlockMetadata(p_149643_2_, p_149643_3_, p_149643_4_) & 3;
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return (p_149691_2_ & 3) == 1 ? this.field_150129_M[this.field_150127_b][1] : this.field_150129_M[this.field_150127_b][0];
@@ -53,7 +44,7 @@ public class BlockNewLeaf extends BlockLeaves
         p_149666_3_.add(new ItemStack(p_149666_1_, 1, 1));
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         for (int var2 = 0; var2 < field_150132_N.length; ++var2)
         {

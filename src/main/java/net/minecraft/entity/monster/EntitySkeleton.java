@@ -72,33 +72,21 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         this.dataWatcher.addObject(13, new Byte((byte)0));
     }
 
-    /**
-     * Returns true if the newer Entity AI code should be run
-     */
     public boolean isAIEnabled()
     {
         return true;
     }
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return "mob.skeleton.say";
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.skeleton.hurt";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.skeleton.death";
@@ -126,18 +114,11 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         }
     }
 
-    /**
-     * Get this Entity's EnumCreatureAttribute
-     */
     public EnumCreatureAttribute getCreatureAttribute()
     {
         return EnumCreatureAttribute.UNDEAD;
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         if (this.worldObj.isDaytime() && !this.worldObj.isClient)
@@ -180,9 +161,6 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         super.onLivingUpdate();
     }
 
-    /**
-     * Handles updating while being ridden by an entity
-     */
     public void updateRidden()
     {
         super.updateRidden();
@@ -194,9 +172,6 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         }
     }
 
-    /**
-     * Called when the mob's health reaches 0.
-     */
     public void onDeath(DamageSource par1DamageSource)
     {
         super.onDeath(par1DamageSource);
@@ -219,9 +194,6 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         return Items.arrow;
     }
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
     protected void dropFewItems(boolean par1, int par2)
     {
         int var3;
@@ -262,9 +234,6 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         }
     }
 
-    /**
-     * Makes entity wear random armor based on difficulty
-     */
     protected void addRandomArmor()
     {
         super.addRandomArmor();
@@ -305,9 +274,6 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         return par1EntityLivingData;
     }
 
-    /**
-     * sets this entity's combat AI.
-     */
     public void setCombatTask()
     {
         this.tasks.removeTask(this.aiAttackOnCollide);
@@ -324,9 +290,6 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         }
     }
 
-    /**
-     * Attack the specified entity using a ranged attack.
-     */
     public void attackEntityWithRangedAttack(EntityLivingBase par1EntityLivingBase, float par2)
     {
         EntityArrow var3 = new EntityArrow(this.worldObj, this, par1EntityLivingBase, 1.6F, (float)(14 - this.worldObj.difficultySetting.getDifficultyId() * 4));
@@ -353,17 +316,11 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         this.worldObj.spawnEntityInWorld(var3);
     }
 
-    /**
-     * Return this skeleton's type.
-     */
     public int getSkeletonType()
     {
         return this.dataWatcher.getWatchableObjectByte(13);
     }
 
-    /**
-     * Set this skeleton's type.
-     */
     public void setSkeletonType(int par1)
     {
         this.dataWatcher.updateObject(13, Byte.valueOf((byte)par1));
@@ -379,14 +336,11 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         }
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
 
-        if (par1NBTTagCompound.func_150297_b("SkeletonType", 99))
+        if (par1NBTTagCompound.hasKey("SkeletonType", 99))
         {
             byte var2 = par1NBTTagCompound.getByte("SkeletonType");
             this.setSkeletonType(var2);
@@ -395,18 +349,12 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         this.setCombatTask();
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setByte("SkeletonType", (byte)this.getSkeletonType());
     }
 
-    /**
-     * Sets the held item, or an armor slot. Slot 0 is held item. Slot 1-4 is armor. Params: Item, slot
-     */
     public void setCurrentItemOrArmor(int par1, ItemStack par2ItemStack)
     {
         super.setCurrentItemOrArmor(par1, par2ItemStack);
@@ -417,9 +365,6 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         }
     }
 
-    /**
-     * Returns the Y Offset of this entity.
-     */
     public double getYOffset()
     {
         return super.getYOffset() - 0.5D;

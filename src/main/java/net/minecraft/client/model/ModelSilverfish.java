@@ -5,17 +5,10 @@ import net.minecraft.util.MathHelper;
 
 public class ModelSilverfish extends ModelBase
 {
-    /** The body parts of the silverfish's model. */
     private ModelRenderer[] silverfishBodyParts = new ModelRenderer[7];
-
-    /** The wings (dust-looking sprites) on the silverfish's model. */
     private ModelRenderer[] silverfishWings;
     private float[] field_78170_c = new float[7];
-
-    /** The widths, heights, and lengths for the silverfish model boxes. */
     private static final int[][] silverfishBoxLength = new int[][] {{3, 2, 2}, {4, 3, 2}, {6, 4, 3}, {3, 3, 3}, {2, 2, 3}, {2, 1, 2}, {1, 1, 2}};
-
-    /** The texture positions for the silverfish's model's boxes. */
     private static final int[][] silverfishTexturePositions = new int[][] {{0, 0}, {0, 4}, {0, 9}, {0, 16}, {0, 22}, {11, 0}, {13, 4}};
     private static final String __OBFID = "CL_00000855";
 
@@ -48,9 +41,6 @@ public class ModelSilverfish extends ModelBase
         this.silverfishWings[2].setRotationPoint(0.0F, 19.0F, this.field_78170_c[1]);
     }
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
@@ -67,11 +57,6 @@ public class ModelSilverfish extends ModelBase
         }
     }
 
-    /**
-     * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
-     * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
-     * "far" arms and legs can swing at most.
-     */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
         for (int var8 = 0; var8 < this.silverfishBodyParts.length; ++var8)

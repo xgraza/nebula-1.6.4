@@ -20,27 +20,14 @@ import net.minecraft.world.World;
 public class Village
 {
     private World worldObj;
-
-    /** list of VillageDoorInfo objects */
     private final List villageDoorInfoList = new ArrayList();
-
-    /**
-     * This is the sum of all door coordinates and used to calculate the actual village center by dividing by the number
-     * of doors.
-     */
     private final ChunkCoordinates centerHelper = new ChunkCoordinates(0, 0, 0);
-
-    /** This is the actual village center. */
     private final ChunkCoordinates center = new ChunkCoordinates(0, 0, 0);
     private int villageRadius;
     private int lastAddDoorTimestamp;
     private int tickCounter;
     private int numVillagers;
-
-    /** Timestamp of tick count when villager last bred */
     private int noBreedTicks;
-
-    /** List of player reputations with this village */
     private TreeMap playerReputation = new TreeMap();
     private List villageAgressors = new ArrayList();
     private int numIronGolems;
@@ -58,9 +45,6 @@ public class Village
         this.worldObj = par1World;
     }
 
-    /**
-     * Called periodically by VillageCollection
-     */
     public void tick(int par1)
     {
         this.tickCounter = par1;
@@ -93,9 +77,6 @@ public class Village
         }
     }
 
-    /**
-     * Tries up to 10 times to get a valid spawning location before eventually failing and returning null.
-     */
     private Vec3 tryGetIronGolemSpawningLocation(int par1, int par2, int par3, int par4, int par5, int par6)
     {
         for (int var7 = 0; var7 < 10; ++var7)
@@ -169,10 +150,6 @@ public class Village
         return this.villageRadius;
     }
 
-    /**
-     * Actually get num village door info entries, but that boils down to number of doors. Called by
-     * EntityAIVillagerMate and VillageSiege
-     */
     public int getNumVillageDoors()
     {
         return this.villageDoorInfoList.size();
@@ -188,17 +165,11 @@ public class Village
         return this.numVillagers;
     }
 
-    /**
-     * Returns true, if the given coordinates are within the bounding box of the village.
-     */
     public boolean isInRange(int par1, int par2, int par3)
     {
         return this.center.getDistanceSquared(par1, par2, par3) < (float)(this.villageRadius * this.villageRadius);
     }
 
-    /**
-     * called only by class EntityAIMoveThroughVillage
-     */
     public List getVillageDoorInfoList()
     {
         return this.villageDoorInfoList;
@@ -225,11 +196,6 @@ public class Village
         return var4;
     }
 
-    /**
-     * Find a door suitable for shelter. If there are more doors in a distance of 16 blocks, then the least restricted
-     * one (i.e. the one protecting the lowest number of villagers) of them is chosen, else the nearest one regardless
-     * of restriction.
-     */
     public VillageDoorInfo findNearestDoorUnrestricted(int par1, int par2, int par3)
     {
         VillageDoorInfo var4 = null;
@@ -296,9 +262,6 @@ public class Village
         this.lastAddDoorTimestamp = par1VillageDoorInfo.lastActivityTimestamp;
     }
 
-    /**
-     * Returns true, if there is not a single village door left. Called by VillageCollection
-     */
     public boolean isAnnihilated()
     {
         return this.villageDoorInfoList.isEmpty();
@@ -450,18 +413,12 @@ public class Village
         }
     }
 
-    /**
-     * Return the village reputation for a player
-     */
     public int getReputationForPlayer(String par1Str)
     {
         Integer var2 = (Integer)this.playerReputation.get(par1Str);
         return var2 != null ? var2.intValue() : 0;
     }
 
-    /**
-     * Set the village reputation for a player.
-     */
     public int setReputationForPlayer(String par1Str, int par2)
     {
         int var3 = this.getReputationForPlayer(par1Str);
@@ -470,17 +427,11 @@ public class Village
         return var4;
     }
 
-    /**
-     * Return whether this player has a too low reputation with this village.
-     */
     public boolean isPlayerReputationTooLow(String par1Str)
     {
         return this.getReputationForPlayer(par1Str) <= -15;
     }
 
-    /**
-     * Read this village's data from NBT.
-     */
     public void readVillageDataFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         this.numVillagers = par1NBTTagCompound.getInteger("PopSize");
@@ -513,9 +464,6 @@ public class Village
         }
     }
 
-    /**
-     * Write this village's data to NBT.
-     */
     public void writeVillageDataToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setInteger("PopSize", this.numVillagers);
@@ -562,17 +510,11 @@ public class Village
         par1NBTTagCompound.setTag("Players", var7);
     }
 
-    /**
-     * Prevent villager breeding for a fixed interval of time
-     */
     public void endMatingSeason()
     {
         this.noBreedTicks = this.tickCounter;
     }
 
-    /**
-     * Return whether villagers mating refractory period has passed
-     */
     public boolean isMatingSeason()
     {
         return this.noBreedTicks == 0 || this.tickCounter - this.noBreedTicks >= 3600;

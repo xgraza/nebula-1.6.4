@@ -13,41 +13,26 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class FlatGeneratorInfo
 {
-    /** List of layers on this preset. */
     private final List flatLayers = new ArrayList();
-
-    /** List of world features enabled on this preset. */
     private final Map worldFeatures = new HashMap();
     private int biomeToUse;
     private static final String __OBFID = "CL_00000440";
 
-    /**
-     * Return the biome used on this preset.
-     */
     public int getBiome()
     {
         return this.biomeToUse;
     }
 
-    /**
-     * Set the biome used on this preset.
-     */
     public void setBiome(int par1)
     {
         this.biomeToUse = par1;
     }
 
-    /**
-     * Return the list of world features enabled on this preset.
-     */
     public Map getWorldFeatures()
     {
         return this.worldFeatures;
     }
 
-    /**
-     * Return the list of layers on this preset.
-     */
     public List getFlatLayers()
     {
         return this.flatLayers;

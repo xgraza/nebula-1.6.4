@@ -21,7 +21,6 @@ public abstract class AbstractResourcePack implements IResourcePack
 {
     private static final Logger resourceLog = LogManager.getLogger();
     public final File resourcePackFile;
-    private static final String __OBFID = "CL_00001072";
 
     public AbstractResourcePack(File par1File)
     {

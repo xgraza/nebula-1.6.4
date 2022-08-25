@@ -31,14 +31,7 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 {
     private static final UUID field_110184_bp = UUID.fromString("5CD17E52-A79A-43D3-A529-90FDE04B181E");
     private static final AttributeModifier field_110185_bq = (new AttributeModifier(field_110184_bp, "Drinking speed penalty", -0.25D, 0)).setSaved(false);
-
-    /** List of items a witch should drop on death. */
     private static final Item[] witchDrops = new Item[] {Items.glowstone_dust, Items.sugar, Items.redstone, Items.spider_eye, Items.glass_bottle, Items.gunpowder, Items.stick, Items.stick};
-
-    /**
-     * Timer used as interval for a witch's attack, decremented every tick if aggressive and when reaches zero the witch
-     * will throw a potion at the target entity.
-     */
     private int witchAttackTimer;
     private static final String __OBFID = "CL_00001701";
 
@@ -60,41 +53,26 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
         this.getDataWatcher().addObject(21, Byte.valueOf((byte)0));
     }
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return "mob.witch.idle";
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.witch.hurt";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.witch.death";
     }
 
-    /**
-     * Set whether this witch is aggressive at an entity.
-     */
     public void setAggressive(boolean par1)
     {
         this.getDataWatcher().updateObject(21, Byte.valueOf((byte)(par1 ? 1 : 0)));
     }
 
-    /**
-     * Return whether this witch is aggressive at an entity.
-     */
     public boolean getAggressive()
     {
         return this.getDataWatcher().getWatchableObjectByte(21) == 1;
@@ -107,18 +85,11 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
     }
 
-    /**
-     * Returns true if the newer Entity AI code should be run
-     */
     public boolean isAIEnabled()
     {
         return true;
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         if (!this.worldObj.isClient)
@@ -210,9 +181,6 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
         }
     }
 
-    /**
-     * Reduces damage, depending on potions
-     */
     protected float applyPotionDamageCalculations(DamageSource par1DamageSource, float par2)
     {
         par2 = super.applyPotionDamageCalculations(par1DamageSource, par2);
@@ -230,9 +198,6 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
         return par2;
     }
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
     protected void dropFewItems(boolean par1, int par2)
     {
         int var3 = this.rand.nextInt(3) + 1;
@@ -254,9 +219,6 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
         }
     }
 
-    /**
-     * Attack the specified entity using a ranged attack.
-     */
     public void attackEntityWithRangedAttack(EntityLivingBase par1EntityLivingBase, float par2)
     {
         if (!this.getAggressive())

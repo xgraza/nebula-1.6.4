@@ -24,8 +24,6 @@ public class RenderBiped extends RenderLiving
     protected ModelBiped field_82423_g;
     protected ModelBiped field_82425_h;
     private static final Map field_110859_k = Maps.newHashMap();
-
-    /** List of armor texture filenames. */
     private static final String[] bipedArmorFilenamePrefix = new String[] {"leather", "chainmail", "iron", "diamond", "gold"};
     private static final String __OBFID = "CL_00001001";
 
@@ -67,9 +65,6 @@ public class RenderBiped extends RenderLiving
         return var4;
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityLiving par1EntityLiving, int par2, float par3)
     {
         ItemStack var4 = par1EntityLiving.func_130225_q(3 - par2);
@@ -142,12 +137,6 @@ public class RenderBiped extends RenderLiving
         }
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -166,9 +155,6 @@ public class RenderBiped extends RenderLiving
         this.field_82423_g.heldItemRight = this.field_82425_h.heldItemRight = this.modelBipedMain.heldItemRight = 0;
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityLiving par1EntityLiving)
     {
         return null;
@@ -213,7 +199,7 @@ public class RenderBiped extends RenderLiving
                 GL11.glScalef(var6, -var6, -var6);
                 String var7 = "";
 
-                if (var4.hasTagCompound() && var4.getTagCompound().func_150297_b("SkullOwner", 8))
+                if (var4.hasTagCompound() && var4.getTagCompound().hasKey("SkullOwner", 8))
                 {
                     var7 = var4.getTagCompound().getString("SkullOwner");
                 }
@@ -323,9 +309,6 @@ public class RenderBiped extends RenderLiving
         this.func_82408_c((EntityLiving)par1EntityLivingBase, par2, par3);
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.shouldRenderPass((EntityLiving)par1EntityLivingBase, par2, par3);
@@ -336,31 +319,16 @@ public class RenderBiped extends RenderLiving
         this.renderEquippedItems((EntityLiving)par1EntityLivingBase, par2);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityLiving)par1Entity, par2, par4, par6, par8, par9);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityLiving)par1Entity);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityLiving)par1Entity, par2, par4, par6, par8, par9);

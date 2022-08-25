@@ -4,24 +4,13 @@ import net.minecraft.block.Block;
 
 public class NextTickListEntry implements Comparable
 {
-    /** The id number for the next tick entry */
     private static long nextTickEntryID;
     private final Block field_151352_g;
-
-    /** X position this tick is occuring at */
     public int xCoord;
-
-    /** Y position this tick is occuring at */
     public int yCoord;
-
-    /** Z position this tick is occuring at */
     public int zCoord;
-
-    /** Time this tick is scheduled to occur at */
     public long scheduledTime;
     public int priority;
-
-    /** The id of the tick entry */
     private long tickEntryID;
     private static final String __OBFID = "CL_00000156";
 
@@ -52,9 +41,6 @@ public class NextTickListEntry implements Comparable
         return (this.xCoord * 1024 * 1024 + this.zCoord * 1024 + this.yCoord) * 256;
     }
 
-    /**
-     * Sets the scheduled time for this tick entry
-     */
     public NextTickListEntry setScheduledTime(long par1)
     {
         this.scheduledTime = par1;

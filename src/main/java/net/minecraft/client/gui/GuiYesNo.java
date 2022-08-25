@@ -34,9 +34,6 @@ public class GuiYesNo extends GuiScreen
         this.field_146357_i = par6;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.buttonList.add(new GuiOptionButton(0, this.width / 2 - 155, this.height / 6 + 96, this.field_146352_g));
@@ -48,14 +45,11 @@ public class GuiYesNo extends GuiScreen
         this.field_146355_a.confirmClicked(p_146284_1_.id == 0, this.field_146357_i);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, this.field_146351_f, this.width / 2, 70, 16777215);
-        this.drawCenteredString(this.fontRendererObj, this.field_146354_r, this.width / 2, 90, 16777215);
+        this.drawCenteredString(this.fontRenderer, this.field_146351_f, this.width / 2, 70, 16777215);
+        this.drawCenteredString(this.fontRenderer, this.field_146354_r, this.width / 2, 90, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 
@@ -70,9 +64,6 @@ public class GuiYesNo extends GuiScreen
         }
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         super.updateScreen();

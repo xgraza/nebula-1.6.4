@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 public class BlockBrewingStand extends BlockContainer
 {
     private Random field_149961_a = new Random();
-    private IIcon field_149960_b;
+    private IIcon iconBrewingStandBase;
     private static final String __OBFID = "CL_00000207";
 
     public BlockBrewingStand()
@@ -35,17 +35,11 @@ public class BlockBrewingStand extends BlockContainer
         return false;
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 25;
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
         return new TileEntityBrewingStand();
@@ -64,17 +58,11 @@ public class BlockBrewingStand extends BlockContainer
         super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
     }
 
-    /**
-     * Sets the block's bounds for rendering it as an item
-     */
     public void setBlockBoundsForItemRender()
     {
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
     }
 
-    /**
-     * Called upon block activation (right click on the block.)
-     */
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         if (p_149727_1_.isClient)
@@ -94,9 +82,6 @@ public class BlockBrewingStand extends BlockContainer
         }
     }
 
-    /**
-     * Called when the block is placed in the world.
-     */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
         if (p_149689_6_.hasDisplayName())
@@ -105,9 +90,6 @@ public class BlockBrewingStand extends BlockContainer
         }
     }
 
-    /**
-     * A randomly called display update to be able to add particles or other items for display
-     */
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
         double var6 = (double)((float)p_149734_2_ + 0.4F + p_149734_5_.nextFloat() * 0.2F);
@@ -163,10 +145,7 @@ public class BlockBrewingStand extends BlockContainer
         return Items.brewing_stand;
     }
 
-    /**
-     * Gets an item for the block being called on. Args: world, x, y, z
-     */
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    public Item getItemPicked(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return Items.brewing_stand;
     }
@@ -181,14 +160,14 @@ public class BlockBrewingStand extends BlockContainer
         return Container.calcRedstoneFromInventory((IInventory)p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_));
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
-        super.registerBlockIcons(p_149651_1_);
-        this.field_149960_b = p_149651_1_.registerIcon(this.getTextureName() + "_base");
+        super.registerIcons(p_149651_1_);
+        this.iconBrewingStandBase = p_149651_1_.registerIcon(this.getTextureName() + "_base");
     }
 
-    public IIcon func_149959_e()
+    public IIcon getIconBrewingStandBase()
     {
-        return this.field_149960_b;
+        return this.iconBrewingStandBase;
     }
 }

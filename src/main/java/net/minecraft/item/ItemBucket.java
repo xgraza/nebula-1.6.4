@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 
 public class ItemBucket extends Item
 {
-    /** field for checking if the bucket has been filled. */
     private Block isFull;
     private static final String __OBFID = "CL_00000000";
 
@@ -22,9 +21,6 @@ public class ItemBucket extends Item
         this.setCreativeTab(CreativeTabs.tabMisc);
     }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         boolean var4 = this.isFull == Blocks.air;
@@ -143,9 +139,6 @@ public class ItemBucket extends Item
         }
     }
 
-    /**
-     * Attempts to place the liquid contained inside the bucket.
-     */
     public boolean tryPlaceContainedLiquid(World par1World, int par2, int par3, int par4)
     {
         if (this.isFull == Blocks.air)

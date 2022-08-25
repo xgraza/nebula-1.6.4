@@ -62,9 +62,6 @@ public class S12PacketEntityVelocity extends Packet
         this.motionZ = (int)(p_i45220_6_ * 8000.0D);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.entityId = p_148837_1_.readInt();
@@ -73,9 +70,6 @@ public class S12PacketEntityVelocity extends Packet
         this.motionZ = p_148837_1_.readShort();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeInt(this.entityId);
@@ -89,9 +83,6 @@ public class S12PacketEntityVelocity extends Packet
         p_149413_1_.handleEntityVelocity(this);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("id=%d, x=%.2f, y=%.2f, z=%.2f", new Object[] {Integer.valueOf(this.entityId), Float.valueOf((float)this.motionX / 8000.0F), Float.valueOf((float)this.motionY / 8000.0F), Float.valueOf((float)this.motionZ / 8000.0F)});

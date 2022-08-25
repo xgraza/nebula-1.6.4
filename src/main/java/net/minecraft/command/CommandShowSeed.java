@@ -9,9 +9,6 @@ public class CommandShowSeed extends CommandBase
 {
     private static final String __OBFID = "CL_00001053";
 
-    /**
-     * Returns true if the given command sender is allowed to use this command.
-     */
     public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
     {
         return MinecraftServer.getServer().isSinglePlayer() || super.canCommandSenderUseCommand(par1ICommandSender);
@@ -22,9 +19,6 @@ public class CommandShowSeed extends CommandBase
         return "seed";
     }
 
-    /**
-     * Return the required permission level for this command.
-     */
     public int getRequiredPermissionLevel()
     {
         return 2;

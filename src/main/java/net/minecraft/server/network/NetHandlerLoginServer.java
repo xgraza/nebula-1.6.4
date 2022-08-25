@@ -51,10 +51,6 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer
         field_147329_d.nextBytes(this.field_147330_e);
     }
 
-    /**
-     * For scheduled network tasks. Used in NetHandlerPlayServer to send keep-alive packets and in NetHandlerLoginServer
-     * for a login-timeout
-     */
     public void onNetworkTick()
     {
         if (this.field_147328_g == NetHandlerLoginServer.LoginState.READY_TO_ACCEPT)
@@ -91,7 +87,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer
             this.field_147337_i = new GameProfile(var1.toString().replaceAll("-", ""), this.field_147337_i.getName());
         }
 
-        String var2 = this.field_147327_f.getConfigurationManager().func_148542_a(this.field_147333_a.getSocketAddress(), this.field_147337_i);
+        String var2 = this.field_147327_f.getConfigurationManager().allowUserToConnect(this.field_147333_a.getSocketAddress(), this.field_147337_i);
 
         if (var2 != null)
         {
@@ -101,13 +97,10 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer
         {
             this.field_147328_g = NetHandlerLoginServer.LoginState.ACCEPTED;
             this.field_147333_a.scheduleOutboundPacket(new S02PacketLoginSuccess(this.field_147337_i), new GenericFutureListener[0]);
-            this.field_147327_f.getConfigurationManager().initializeConnectionToPlayer(this.field_147333_a, this.field_147327_f.getConfigurationManager().func_148545_a(this.field_147337_i));
+            this.field_147327_f.getConfigurationManager().initializeConnectionToPlayer(this.field_147333_a, this.field_147327_f.getConfigurationManager().createPlayerForUser(this.field_147337_i));
         }
     }
 
-    /**
-     * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
-     */
     public void onDisconnect(IChatComponent p_147231_1_)
     {
         logger.info(this.func_147317_d() + " lost connection: " + p_147231_1_.getUnformattedText());
@@ -118,10 +111,6 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer
         return this.field_147337_i != null ? this.field_147337_i.toString() + " (" + this.field_147333_a.getSocketAddress().toString() + ")" : String.valueOf(this.field_147333_a.getSocketAddress());
     }
 
-    /**
-     * Allows validation of the connection state transition. Parameters: from, to (connection state). Typically throws
-     * IllegalStateException or UnsupportedOperationException if validation fails
-     */
     public void onConnectionStateTransition(EnumConnectionState p_147232_1_, EnumConnectionState p_147232_2_)
     {
         Validate.validState(this.field_147328_g == NetHandlerLoginServer.LoginState.ACCEPTED || this.field_147328_g == NetHandlerLoginServer.LoginState.HELLO, "Unexpected change in protocol", new Object[0]);

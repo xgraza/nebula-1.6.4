@@ -9,21 +9,12 @@ public abstract class NBTBase
     public static final String[] NBTTypes = new String[] {"END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]"};
     private static final String __OBFID = "CL_00001229";
 
-    /**
-     * Write the actual data contents of the tag, implemented in NBT extension classes
-     */
     abstract void write(DataOutput var1) throws IOException;
 
-    /**
-     * Read the actual data contents of the tag, implemented in NBT extension classes
-     */
     abstract void load(DataInput var1, int var2) throws IOException;
 
     public abstract String toString();
 
-    /**
-     * Gets the type byte for the tag.
-     */
     public abstract byte getId();
 
     protected static NBTBase func_150284_a(byte p_150284_0_)
@@ -119,9 +110,6 @@ public abstract class NBTBase
         }
     }
 
-    /**
-     * Creates a clone of the tag.
-     */
     public abstract NBTBase copy();
 
     public boolean equals(Object par1Obj)

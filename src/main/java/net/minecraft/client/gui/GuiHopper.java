@@ -20,14 +20,14 @@ public class GuiHopper extends GuiContainer
         super(new ContainerHopper(par1InventoryPlayer, par2IInventory));
         this.field_147084_v = par1InventoryPlayer;
         this.field_147083_w = par2IInventory;
-        this.field_146291_p = false;
+        this.allowUserInput = false;
         this.field_147000_g = 133;
     }
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
-        this.fontRendererObj.drawString(this.field_147083_w.isInventoryNameLocalized() ? this.field_147083_w.getInventoryName() : I18n.format(this.field_147083_w.getInventoryName(), new Object[0]), 8, 6, 4210752);
-        this.fontRendererObj.drawString(this.field_147084_v.isInventoryNameLocalized() ? this.field_147084_v.getInventoryName() : I18n.format(this.field_147084_v.getInventoryName(), new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
+        this.fontRenderer.drawString(this.field_147083_w.isInventoryNameLocalized() ? this.field_147083_w.getInventoryName() : I18n.format(this.field_147083_w.getInventoryName(), new Object[0]), 8, 6, 4210752);
+        this.fontRenderer.drawString(this.field_147084_v.isInventoryNameLocalized() ? this.field_147084_v.getInventoryName() : I18n.format(this.field_147084_v.getInventoryName(), new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
     }
 
     protected void func_146976_a(float p_146976_1_, int p_146976_2_, int p_146976_3_)

@@ -18,18 +18,11 @@ public class RenderGhast extends RenderLiving
         super(new ModelGhast(), 0.5F);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityGhast par1EntityGhast)
     {
         return par1EntityGhast.func_110182_bF() ? ghastShootingTextures : ghastTextures;
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntityGhast par1EntityGhast, float par2)
     {
         float var4 = ((float)par1EntityGhast.prevAttackCounter + (float)(par1EntityGhast.attackCounter - par1EntityGhast.prevAttackCounter) * par2) / 20.0F;
@@ -46,18 +39,11 @@ public class RenderGhast extends RenderLiving
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
         this.preRenderCallback((EntityGhast)par1EntityLivingBase, par2);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityGhast)par1Entity);

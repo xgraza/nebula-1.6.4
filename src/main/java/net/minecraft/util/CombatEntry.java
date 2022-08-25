@@ -22,9 +22,6 @@ public class CombatEntry
         this.field_94564_f = par6;
     }
 
-    /**
-     * Get the DamageSource of the CombatEntry instance.
-     */
     public DamageSource getDamageSrc()
     {
         return this.damageSrc;

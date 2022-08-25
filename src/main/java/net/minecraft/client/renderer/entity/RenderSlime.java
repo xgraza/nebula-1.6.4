@@ -19,9 +19,6 @@ public class RenderSlime extends RenderLiving
         this.scaleAmount = par2ModelBase;
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntitySlime par1EntitySlime, int par2, float par3)
     {
         if (par1EntitySlime.isInvisible())
@@ -48,10 +45,6 @@ public class RenderSlime extends RenderLiving
         }
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntitySlime par1EntitySlime, float par2)
     {
         float var3 = (float)par1EntitySlime.getSlimeSize();
@@ -60,34 +53,21 @@ public class RenderSlime extends RenderLiving
         GL11.glScalef(var5 * var3, 1.0F / var5 * var3, var5 * var3);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntitySlime par1EntitySlime)
     {
         return slimeTextures;
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
         this.preRenderCallback((EntitySlime)par1EntityLivingBase, par2);
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.shouldRenderPass((EntitySlime)par1EntityLivingBase, par2, par3);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntitySlime)par1Entity);

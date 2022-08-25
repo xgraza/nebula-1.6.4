@@ -19,13 +19,9 @@ import org.apache.commons.lang3.ObjectUtils;
 public class DataWatcher
 {
     private final Entity field_151511_a;
-
-    /** When isBlank is true the DataWatcher is not watching any objects */
     private boolean isBlank = true;
     private static final HashMap dataTypes = new HashMap();
     private final Map watchedObjects = new HashMap();
-
-    /** true if one or more object was changed */
     private boolean objectChanged;
     private ReadWriteLock lock = new ReentrantReadWriteLock();
     private static final String __OBFID = "CL_00001559";
@@ -35,10 +31,6 @@ public class DataWatcher
         this.field_151511_a = p_i45313_1_;
     }
 
-    /**
-     * adds a new object to dataWatcher to watch, to update an already existing object see updateObject. Arguments: data
-     * Value Id, Object to add
-     */
     public void addObject(int par1, Object par2Obj)
     {
         Integer var3 = (Integer)dataTypes.get(par2Obj.getClass());
@@ -65,9 +57,6 @@ public class DataWatcher
         }
     }
 
-    /**
-     * Add a new object for the DataWatcher to watch, using the specified data type.
-     */
     public void addObjectByDataType(int par1, int par2)
     {
         DataWatcher.WatchableObject var3 = new DataWatcher.WatchableObject(par2, par1, (Object)null);
@@ -77,9 +66,6 @@ public class DataWatcher
         this.isBlank = false;
     }
 
-    /**
-     * gets the bytevalue of a watchable object
-     */
     public byte getWatchableObjectByte(int par1)
     {
         return ((Byte)this.getWatchedObject(par1).getObject()).byteValue();
@@ -90,9 +76,6 @@ public class DataWatcher
         return ((Short)this.getWatchedObject(par1).getObject()).shortValue();
     }
 
-    /**
-     * gets a watchable object and returns it as a Integer
-     */
     public int getWatchableObjectInt(int par1)
     {
         return ((Integer)this.getWatchedObject(par1).getObject()).intValue();
@@ -103,25 +86,16 @@ public class DataWatcher
         return ((Float)this.getWatchedObject(par1).getObject()).floatValue();
     }
 
-    /**
-     * gets a watchable object and returns it as a String
-     */
     public String getWatchableObjectString(int par1)
     {
         return (String)this.getWatchedObject(par1).getObject();
     }
 
-    /**
-     * Get a watchable object as an ItemStack.
-     */
     public ItemStack getWatchableObjectItemStack(int par1)
     {
         return (ItemStack)this.getWatchedObject(par1).getObject();
     }
 
-    /**
-     * is threadsafe, unless it throws an exception, then
-     */
     private DataWatcher.WatchableObject getWatchedObject(int par1)
     {
         this.lock.readLock().lock();
@@ -143,9 +117,6 @@ public class DataWatcher
         return var2;
     }
 
-    /**
-     * updates an already existing object
-     */
     public void updateObject(int par1, Object par2Obj)
     {
         DataWatcher.WatchableObject var3 = this.getWatchedObject(par1);
@@ -170,10 +141,6 @@ public class DataWatcher
         return this.objectChanged;
     }
 
-    /**
-     * Writes the list of watched objects (entity attribute of type {byte, short, int, float, string, ItemStack,
-     * ChunkCoordinates}) to the specified PacketBuffer
-     */
     public static void writeWatchedListToPacketBuffer(List p_151507_0_, PacketBuffer p_151507_1_) throws IOException
     {
         if (p_151507_0_ != null)
@@ -258,10 +225,6 @@ public class DataWatcher
         return var1;
     }
 
-    /**
-     * Writes a watchable object (entity attribute of type {byte, short, int, float, string, ItemStack,
-     * ChunkCoordinates}) to the specified PacketBuffer
-     */
     private static void writeWatchableObjectToPacketBuffer(PacketBuffer p_151510_0_, DataWatcher.WatchableObject p_151510_1_) throws IOException
     {
         int var2 = (p_151510_1_.getObjectType() << 5 | p_151510_1_.getDataValueId() & 31) & 255;
@@ -302,10 +265,6 @@ public class DataWatcher
         }
     }
 
-    /**
-     * Reads a list of watched objects (entity attribute of type {byte, short, int, float, string, ItemStack,
-     * ChunkCoordinates}) from the supplied PacketBuffer
-     */
     public static List readWatchedListFromPacketBuffer(PacketBuffer p_151508_0_) throws IOException
     {
         ArrayList var1 = null;

@@ -16,9 +16,6 @@ public class StatBasic extends StatBase
         super(p_i45304_1_, p_i45304_2_);
     }
 
-    /**
-     * Register the stat into StatList.
-     */
     public StatBase registerStat()
     {
         super.registerStat();

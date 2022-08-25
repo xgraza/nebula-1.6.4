@@ -4,9 +4,6 @@ import net.minecraft.block.BlockColored;
 
 public class MapColor
 {
-    /**
-     * Holds all the 16 colors used on maps, very similar of a pallete system.
-     */
     public static final MapColor[] mapColorArray = new MapColor[64];
     public static final MapColor field_151660_b = new MapColor(0, 0);
     public static final MapColor field_151661_c = new MapColor(1, 8368696);
@@ -44,11 +41,7 @@ public class MapColor
     public static final MapColor field_151653_I = new MapColor(33, 55610);
     public static final MapColor field_151654_J = new MapColor(34, 1381407);
     public static final MapColor field_151655_K = new MapColor(35, 7340544);
-
-    /** Holds the color in RGB value that will be rendered on maps. */
     public final int colorValue;
-
-    /** Holds the index of the color used on map. */
     public final int colorIndex;
     private static final String __OBFID = "CL_00000544";
 

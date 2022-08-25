@@ -12,10 +12,7 @@ import net.minecraft.world.World;
 
 public class EntityBlaze extends EntityMob
 {
-    /** Random offset used in floating behaviour */
     private float heightOffset = 0.5F;
-
-    /** ticks until heightOffset is randomized */
     private int heightOffsetUpdateTime;
     private int field_70846_g;
     private static final String __OBFID = "CL_00001682";
@@ -39,25 +36,16 @@ public class EntityBlaze extends EntityMob
         this.dataWatcher.addObject(16, new Byte((byte)0));
     }
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return "mob.blaze.breathe";
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.blaze.hit";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.blaze.death";
@@ -68,18 +56,11 @@ public class EntityBlaze extends EntityMob
         return 15728880;
     }
 
-    /**
-     * Gets how bright this entity is.
-     */
     public float getBrightness(float par1)
     {
         return 1.0F;
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         if (!this.worldObj.isClient)
@@ -121,9 +102,6 @@ public class EntityBlaze extends EntityMob
         super.onLivingUpdate();
     }
 
-    /**
-     * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
-     */
     protected void attackEntity(Entity par1Entity, float par2)
     {
         if (this.attackTime <= 0 && par2 < 2.0F && par1Entity.boundingBox.maxY > this.boundingBox.minY && par1Entity.boundingBox.minY < this.boundingBox.maxY)
@@ -176,9 +154,6 @@ public class EntityBlaze extends EntityMob
         }
     }
 
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
     protected void fall(float par1) {}
 
     protected Item func_146068_u()
@@ -186,17 +161,11 @@ public class EntityBlaze extends EntityMob
         return Items.blaze_rod;
     }
 
-    /**
-     * Returns true if the entity is on fire. Used by render to add the fire effect on rendering.
-     */
     public boolean isBurning()
     {
         return this.func_70845_n();
     }
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
     protected void dropFewItems(boolean par1, int par2)
     {
         if (par1)
@@ -231,9 +200,6 @@ public class EntityBlaze extends EntityMob
         this.dataWatcher.updateObject(16, Byte.valueOf(var2));
     }
 
-    /**
-     * Checks to make sure the light is not too bright where the mob is spawning
-     */
     protected boolean isValidLightLevel()
     {
         return true;

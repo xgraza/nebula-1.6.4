@@ -5,7 +5,6 @@ import net.minecraft.world.World;
 
 public class EntityFlameFX extends EntityFX
 {
-    /** the scale of the flame FX */
     private float flameScale;
     private static final String __OBFID = "CL_00000907";
 
@@ -59,9 +58,6 @@ public class EntityFlameFX extends EntityFX
         return var4 | var5 << 16;
     }
 
-    /**
-     * Gets how bright this entity is.
-     */
     public float getBrightness(float par1)
     {
         float var2 = ((float)this.particleAge + par1) / (float)this.particleMaxAge;
@@ -80,9 +76,6 @@ public class EntityFlameFX extends EntityFX
         return var3 * var2 + (1.0F - var2);
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.prevPosX = this.posX;

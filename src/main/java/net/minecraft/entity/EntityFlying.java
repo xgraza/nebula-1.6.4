@@ -12,20 +12,10 @@ public abstract class EntityFlying extends EntityLiving
         super(par1World);
     }
 
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
     protected void fall(float par1) {}
 
-    /**
-     * Takes in the distance the entity has fallen this tick and whether its on the ground to update the fall distance
-     * and deal fall damage if landing on the ground.  Args: distanceFallenThisTick, onGround
-     */
     protected void updateFallState(double par1, boolean par3) {}
 
-    /**
-     * Moves the entity based on the specified heading.  Args: strafe, forward
-     */
     public void moveEntityWithHeading(float par1, float par2)
     {
         if (this.isInWater())
@@ -82,9 +72,6 @@ public abstract class EntityFlying extends EntityLiving
         this.limbSwing += this.limbSwingAmount;
     }
 
-    /**
-     * returns true if this entity is by a ladder, false otherwise
-     */
     public boolean isOnLadder()
     {
         return false;

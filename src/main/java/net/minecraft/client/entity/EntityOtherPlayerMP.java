@@ -30,26 +30,16 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
         this.renderDistanceWeight = 10.0D;
     }
 
-    /**
-     * sets the players height back to normal after doing things like sleeping and dieing
-     */
     protected void resetHeight()
     {
         this.yOffset = 0.0F;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         return true;
     }
 
-    /**
-     * Sets the position and rotation. Only difference from the other one is no bounding on the rotation. Args: posX,
-     * posY, posZ, yaw, pitch
-     */
     public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9)
     {
         this.otherPlayerMPX = par1;
@@ -60,9 +50,6 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
         this.otherPlayerMPPosRotationIncrements = par9;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.field_71082_cx = 0.0F;
@@ -98,10 +85,6 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
         return 0.0F;
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         super.updateEntityActionState();
@@ -153,9 +136,6 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
         this.cameraPitch += (var2 - this.cameraPitch) * 0.8F;
     }
 
-    /**
-     * Sets the held item, or an armor slot. Slot 0 is held item. Slot 1-4 is armor. Params: Item, slot
-     */
     public void setCurrentItemOrArmor(int par1, ItemStack par2ItemStack)
     {
         if (par1 == 0)
@@ -173,28 +153,16 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
         return 1.82F;
     }
 
-    /**
-     * Notifies this sender of some sort of information.  This is for messages intended to display to the user.  Used
-     * for typical output (like "you asked for whether or not this game rule is set, so here's your answer"), warnings
-     * (like "I fetched this block for you by ID, but I'd like you to know that every time you do this, I die a little
-     * inside"), and errors (like "it's not called iron_pixacke, silly").
-     */
     public void addChatMessage(IChatComponent p_145747_1_)
     {
-        Minecraft.getMinecraft().ingameGUI.getChatGUI().func_146227_a(p_145747_1_);
+        Minecraft.getMinecraft().ingameGUI.getChatGui().printChatMessage(p_145747_1_);
     }
 
-    /**
-     * Returns true if the command sender is allowed to use the given command.
-     */
     public boolean canCommandSenderUseCommand(int par1, String par2Str)
     {
         return false;
     }
 
-    /**
-     * Return the position for this command sender.
-     */
     public ChunkCoordinates getPlayerCoordinates()
     {
         return new ChunkCoordinates(MathHelper.floor_double(this.posX + 0.5D), MathHelper.floor_double(this.posY + 0.5D), MathHelper.floor_double(this.posZ + 0.5D));

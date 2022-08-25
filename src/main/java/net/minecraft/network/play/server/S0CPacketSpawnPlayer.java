@@ -43,9 +43,6 @@ public class S0CPacketSpawnPlayer extends Packet
         this.field_148960_i = p_i45171_1_.getDataWatcher();
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_148957_a = p_148837_1_.readVarIntFromBuffer();
@@ -59,9 +56,6 @@ public class S0CPacketSpawnPlayer extends Packet
         this.field_148958_j = DataWatcher.readWatchedListFromPacketBuffer(p_148837_1_);
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeVarIntToBuffer(this.field_148957_a);
@@ -91,9 +85,6 @@ public class S0CPacketSpawnPlayer extends Packet
         return this.field_148958_j;
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("id=%d, gameProfile=\'%s\', x=%.2f, y=%.2f, z=%.2f, carried=%d", new Object[] {Integer.valueOf(this.field_148957_a), this.field_148955_b, Float.valueOf((float)this.field_148956_c / 32.0F), Float.valueOf((float)this.field_148953_d / 32.0F), Float.valueOf((float)this.field_148954_e / 32.0F), Integer.valueOf(this.field_148959_h)});

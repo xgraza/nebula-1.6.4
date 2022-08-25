@@ -41,17 +41,9 @@ public class NetworkSystem
 {
     private static final Logger logger = LogManager.getLogger();
     private static final NioEventLoopGroup eventLoops = new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty IO #%d").setDaemon(true).build());
-
-    /** Reference to the MinecraftServer object. */
     private final MinecraftServer mcServer;
-
-    /** True if this NetworkSystem has never had his endpoints terminated */
     public volatile boolean isAlive;
-
-    /** Contains all endpoints added to this NetworkSystem */
     private final List endpoints = Collections.synchronizedList(new ArrayList());
-
-    /** A list containing all NetworkManager instances of all endpoints */
     private final List networkManagers = Collections.synchronizedList(new ArrayList());
     private static final String __OBFID = "CL_00001447";
 
@@ -61,9 +53,6 @@ public class NetworkSystem
         this.isAlive = true;
     }
 
-    /**
-     * Adds a channel that listens on publicly accessible network ports
-     */
     public void addLanEndpoint(InetAddress p_151265_1_, int p_151265_2_) throws IOException
     {
         List var3 = this.endpoints;
@@ -103,9 +92,6 @@ public class NetworkSystem
         }
     }
 
-    /**
-     * Adds a channel that listens locally
-     */
     public SocketAddress addLocalEndpoint()
     {
         List var2 = this.endpoints;
@@ -130,9 +116,6 @@ public class NetworkSystem
         return var1.channel().localAddress();
     }
 
-    /**
-     * Shuts down all open endpoints (with immediate effect?)
-     */
     public void terminateEndpoints()
     {
         this.isAlive = false;
@@ -145,10 +128,6 @@ public class NetworkSystem
         }
     }
 
-    /**
-     * Will try to process the packets received by each NetworkManager, gracefully manage processing failures and cleans
-     * up dead connections
-     */
     public void networkTick()
     {
         List var1 = this.networkManagers;

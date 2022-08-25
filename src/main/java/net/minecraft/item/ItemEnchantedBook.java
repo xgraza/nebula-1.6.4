@@ -20,17 +20,11 @@ public class ItemEnchantedBook extends Item
         return true;
     }
 
-    /**
-     * Checks isDamagable and if it cannot be stacked
-     */
     public boolean isItemTool(ItemStack par1ItemStack)
     {
         return false;
     }
 
-    /**
-     * Return an item rarity from EnumRarity
-     */
     public EnumRarity getRarity(ItemStack par1ItemStack)
     {
         return this.func_92110_g(par1ItemStack).tagCount() > 0 ? EnumRarity.uncommon : super.getRarity(par1ItemStack);
@@ -38,12 +32,9 @@ public class ItemEnchantedBook extends Item
 
     public NBTTagList func_92110_g(ItemStack par1ItemStack)
     {
-        return par1ItemStack.stackTagCompound != null && par1ItemStack.stackTagCompound.func_150297_b("StoredEnchantments", 9) ? (NBTTagList)par1ItemStack.stackTagCompound.getTag("StoredEnchantments") : new NBTTagList();
+        return par1ItemStack.stackTagCompound != null && par1ItemStack.stackTagCompound.hasKey("StoredEnchantments", 9) ? (NBTTagList)par1ItemStack.stackTagCompound.getTag("StoredEnchantments") : new NBTTagList();
     }
 
-    /**
-     * allows items to add custom lines of information to the mouseover description
-     */
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
         super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
@@ -64,9 +55,6 @@ public class ItemEnchantedBook extends Item
         }
     }
 
-    /**
-     * Adds an stored enchantment to an enchanted book ItemStack
-     */
     public void addEnchantment(ItemStack par1ItemStack, EnchantmentData par2EnchantmentData)
     {
         NBTTagList var3 = this.func_92110_g(par1ItemStack);
@@ -104,9 +92,6 @@ public class ItemEnchantedBook extends Item
         par1ItemStack.getTagCompound().setTag("StoredEnchantments", var3);
     }
 
-    /**
-     * Returns the ItemStack of an enchanted version of this item.
-     */
     public ItemStack getEnchantedItemStack(EnchantmentData par1EnchantmentData)
     {
         ItemStack var2 = new ItemStack(this);

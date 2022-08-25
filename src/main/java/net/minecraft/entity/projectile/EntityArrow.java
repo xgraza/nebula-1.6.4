@@ -29,20 +29,12 @@ public class EntityArrow extends Entity implements IProjectile
     private Block field_145790_g;
     private int inData;
     private boolean inGround;
-
-    /** 1 if the player can pick up the arrow */
     public int canBePickedUp;
-
-    /** Seems to be some sort of timer for animating an arrow. */
     public int arrowShake;
-
-    /** The owner of this arrow. */
     public Entity shootingEntity;
     private int ticksInGround;
     private int ticksInAir;
     private double damage = 2.0D;
-
-    /** The amount of knockback an arrow applies when it hits a mob. */
     private int knockbackStrength;
     private static final String __OBFID = "CL_00001715";
 
@@ -121,9 +113,6 @@ public class EntityArrow extends Entity implements IProjectile
         this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
     }
 
-    /**
-     * Similar to setArrowHeading, it's point the throwable entity to a x, y, z direction.
-     */
     public void setThrowableHeading(double par1, double par3, double par5, float par7, float par8)
     {
         float var9 = MathHelper.sqrt_double(par1 * par1 + par3 * par3 + par5 * par5);
@@ -145,19 +134,12 @@ public class EntityArrow extends Entity implements IProjectile
         this.ticksInGround = 0;
     }
 
-    /**
-     * Sets the position and rotation. Only difference from the other one is no bounding on the rotation. Args: posX,
-     * posY, posZ, yaw, pitch
-     */
     public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9)
     {
         this.setPosition(par1, par3, par5);
         this.setRotation(par7, par8);
     }
 
-    /**
-     * Sets the velocity to the args. Args: x, y, z
-     */
     public void setVelocity(double par1, double par3, double par5)
     {
         this.motionX = par1;
@@ -176,9 +158,6 @@ public class EntityArrow extends Entity implements IProjectile
         }
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -349,7 +328,7 @@ public class EntityArrow extends Entity implements IProjectile
 
                             if (this.shootingEntity != null && var4.entityHit != this.shootingEntity && var4.entityHit instanceof EntityPlayer && this.shootingEntity instanceof EntityPlayerMP)
                             {
-                                ((EntityPlayerMP)this.shootingEntity).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0.0F));
+                                ((EntityPlayerMP)this.shootingEntity).playerNetServerHandler.sendPacketToPlayer(new S2BPacketChangeGameState(6, 0.0F));
                             }
                         }
 
@@ -460,9 +439,6 @@ public class EntityArrow extends Entity implements IProjectile
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setShort("xTile", (short)this.field_145791_d);
@@ -477,9 +453,6 @@ public class EntityArrow extends Entity implements IProjectile
         par1NBTTagCompound.setDouble("damage", this.damage);
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         this.field_145791_d = par1NBTTagCompound.getShort("xTile");
@@ -491,24 +464,21 @@ public class EntityArrow extends Entity implements IProjectile
         this.arrowShake = par1NBTTagCompound.getByte("shake") & 255;
         this.inGround = par1NBTTagCompound.getByte("inGround") == 1;
 
-        if (par1NBTTagCompound.func_150297_b("damage", 99))
+        if (par1NBTTagCompound.hasKey("damage", 99))
         {
             this.damage = par1NBTTagCompound.getDouble("damage");
         }
 
-        if (par1NBTTagCompound.func_150297_b("pickup", 99))
+        if (par1NBTTagCompound.hasKey("pickup", 99))
         {
             this.canBePickedUp = par1NBTTagCompound.getByte("pickup");
         }
-        else if (par1NBTTagCompound.func_150297_b("player", 99))
+        else if (par1NBTTagCompound.hasKey("player", 99))
         {
             this.canBePickedUp = par1NBTTagCompound.getBoolean("player") ? 1 : 0;
         }
     }
 
-    /**
-     * Called by a player entity when they collide with an entity
-     */
     public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
     {
         if (!this.worldObj.isClient && this.inGround && this.arrowShake <= 0)
@@ -529,10 +499,6 @@ public class EntityArrow extends Entity implements IProjectile
         }
     }
 
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
     protected boolean canTriggerWalking()
     {
         return false;
@@ -553,25 +519,16 @@ public class EntityArrow extends Entity implements IProjectile
         return this.damage;
     }
 
-    /**
-     * Sets the amount of knockback the arrow applies when it hits a mob.
-     */
     public void setKnockbackStrength(int par1)
     {
         this.knockbackStrength = par1;
     }
 
-    /**
-     * If returns false, the item will not inflict any damage against entities.
-     */
     public boolean canAttackWithItem()
     {
         return false;
     }
 
-    /**
-     * Whether the arrow has a stream of critical hit particles flying behind it.
-     */
     public void setIsCritical(boolean par1)
     {
         byte var2 = this.dataWatcher.getWatchableObjectByte(16);
@@ -586,9 +543,6 @@ public class EntityArrow extends Entity implements IProjectile
         }
     }
 
-    /**
-     * Whether the arrow has a stream of critical hit particles flying behind it.
-     */
     public boolean getIsCritical()
     {
         byte var1 = this.dataWatcher.getWatchableObjectByte(16);

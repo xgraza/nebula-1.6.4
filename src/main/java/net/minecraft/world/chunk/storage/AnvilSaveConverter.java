@@ -88,26 +88,17 @@ public class AnvilSaveConverter extends SaveFormatOld
         RegionFileCache.clearRegionFileReferences();
     }
 
-    /**
-     * Returns back a loader for the specified save directory
-     */
     public ISaveHandler getSaveLoader(String par1Str, boolean par2)
     {
         return new AnvilSaveHandler(this.savesDirectory, par1Str, par2);
     }
 
-    /**
-     * Checks if the save directory uses the old map format
-     */
     public boolean isOldMapFormat(String par1Str)
     {
         WorldInfo var2 = this.getWorldInfo(par1Str);
         return var2 != null && var2.getSaveVersion() != this.getSaveVersion();
     }
 
-    /**
-     * Converts the specified map to the new map format. Args: worldName, loadingScreen
-     */
     public boolean convertMapFormat(String par1Str, IProgressUpdate par2IProgressUpdate)
     {
         par2IProgressUpdate.setLoadingProgress(0);
@@ -160,9 +151,6 @@ public class AnvilSaveConverter extends SaveFormatOld
         return true;
     }
 
-    /**
-     * par: filename for the level.dat_mcr backup
-     */
     private void createFile(String par1Str)
     {
         File var2 = new File(this.savesDirectory, par1Str);
@@ -205,9 +193,6 @@ public class AnvilSaveConverter extends SaveFormatOld
         }
     }
 
-    /**
-     * copies a 32x32 chunk set from par2File to par1File, via AnvilConverterData
-     */
     private void convertChunks(File par1File, File par2File, WorldChunkManager par3WorldChunkManager, int par4, int par5, IProgressUpdate par6IProgressUpdate)
     {
         try
@@ -265,9 +250,6 @@ public class AnvilSaveConverter extends SaveFormatOld
         }
     }
 
-    /**
-     * filters the files in the par1 directory, and adds them to the par2 collections
-     */
     private void addRegionFilesToCollection(File par1File, Collection par2Collection)
     {
         File var3 = new File(par1File, "region");

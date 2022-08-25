@@ -62,9 +62,9 @@ public class GuiKeyBindingList extends GuiListExtended
         return this.field_148190_m[p_148180_1_];
     }
 
-    protected int func_148137_d()
+    protected int getScrollBarX()
     {
-        return super.func_148137_d() + 15;
+        return super.getScrollBarX() + 15;
     }
 
     public int func_148139_c()
@@ -117,12 +117,12 @@ public class GuiKeyBindingList extends GuiListExtended
         {
             boolean var10 = GuiKeyBindingList.this.field_148191_k.field_146491_f == this.field_148282_b;
             GuiKeyBindingList.this.field_148189_l.fontRenderer.drawString(this.field_148283_c, p_148279_2_ + 90 - GuiKeyBindingList.this.field_148188_n, p_148279_3_ + p_148279_5_ / 2 - GuiKeyBindingList.this.field_148189_l.fontRenderer.FONT_HEIGHT / 2, 16777215);
-            this.field_148281_e.field_146128_h = p_148279_2_ + 190;
-            this.field_148281_e.field_146129_i = p_148279_3_;
+            this.field_148281_e.xPosition = p_148279_2_ + 190;
+            this.field_148281_e.yPosition = p_148279_3_;
             this.field_148281_e.enabled = this.field_148282_b.getKeyCode() != this.field_148282_b.getKeyCodeDefault();
             this.field_148281_e.drawButton(GuiKeyBindingList.this.field_148189_l, p_148279_7_, p_148279_8_);
-            this.field_148280_d.field_146128_h = p_148279_2_ + 105;
-            this.field_148280_d.field_146129_i = p_148279_3_;
+            this.field_148280_d.xPosition = p_148279_2_ + 105;
+            this.field_148280_d.yPosition = p_148279_3_;
             this.field_148280_d.displayString = GameSettings.getKeyDisplayString(this.field_148282_b.getKeyCode());
             boolean var11 = false;
 

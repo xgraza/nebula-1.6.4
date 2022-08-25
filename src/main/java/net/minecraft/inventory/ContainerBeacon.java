@@ -9,10 +9,6 @@ import net.minecraft.tileentity.TileEntityBeacon;
 public class ContainerBeacon extends Container
 {
     private TileEntityBeacon theBeacon;
-
-    /**
-     * This beacon's slot where you put in Emerald, Diamond, Gold or Iron Ingot.
-     */
     private final ContainerBeacon.BeaconSlot beaconSlot;
     private int field_82865_g;
     private int field_82867_h;
@@ -81,9 +77,6 @@ public class ContainerBeacon extends Container
         return this.theBeacon.isUseableByPlayer(par1EntityPlayer);
     }
 
-    /**
-     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
-     */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;

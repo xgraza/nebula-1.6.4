@@ -22,13 +22,9 @@ import org.lwjgl.opengl.GL11;
 public class EffectRenderer
 {
     private static final ResourceLocation particleTextures = new ResourceLocation("textures/particle/particles.png");
-
-    /** Reference to the World object. */
     protected World worldObj;
     private List[] fxLayers = new List[4];
     private TextureManager renderer;
-
-    /** RNG. */
     private Random rand = new Random();
     private static final String __OBFID = "CL_00000915";
 
@@ -104,9 +100,6 @@ public class EffectRenderer
         }
     }
 
-    /**
-     * Renders all current particles. Args player, partialTickTime
-     */
     public void renderParticles(Entity par1Entity, float par2)
     {
         float var3 = ActiveRenderInfo.rotationX;
@@ -244,9 +237,6 @@ public class EffectRenderer
         }
     }
 
-    /**
-     * Adds block hit particles for the specified block. Args: x, y, z, sideHit
-     */
     public void addBlockHitEffects(int par1, int par2, int par3, int par4)
     {
         Block var5 = this.worldObj.getBlock(par1, par2, par3);

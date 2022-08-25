@@ -35,16 +35,13 @@ public class GuiOptionSlider extends GuiButton
         return 0;
     }
 
-    /**
-     * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
-     */
     protected void mouseDragged(Minecraft p_146119_1_, int p_146119_2_, int p_146119_3_)
     {
-        if (this.field_146125_m)
+        if (this.drawButton)
         {
             if (this.field_146135_o)
             {
-                this.field_146134_p = (float)(p_146119_2_ - (this.field_146128_h + 4)) / (float)(this.field_146120_f - 8);
+                this.field_146134_p = (float)(p_146119_2_ - (this.xPosition + 4)) / (float)(this.width - 8);
 
                 if (this.field_146134_p < 0.0F)
                 {
@@ -63,20 +60,16 @@ public class GuiOptionSlider extends GuiButton
             }
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.drawTexturedModalRect(this.field_146128_h + (int)(this.field_146134_p * (float)(this.field_146120_f - 8)), this.field_146129_i, 0, 66, 4, 20);
-            this.drawTexturedModalRect(this.field_146128_h + (int)(this.field_146134_p * (float)(this.field_146120_f - 8)) + 4, this.field_146129_i, 196, 66, 4, 20);
+            this.drawTexturedModalRect(this.xPosition + (int)(this.field_146134_p * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
+            this.drawTexturedModalRect(this.xPosition + (int)(this.field_146134_p * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
         }
     }
 
-    /**
-     * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
-     * e).
-     */
     public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_)
     {
         if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_))
         {
-            this.field_146134_p = (float)(p_146116_2_ - (this.field_146128_h + 4)) / (float)(this.field_146120_f - 8);
+            this.field_146134_p = (float)(p_146116_2_ - (this.xPosition + 4)) / (float)(this.width - 8);
 
             if (this.field_146134_p < 0.0F)
             {
@@ -99,9 +92,6 @@ public class GuiOptionSlider extends GuiButton
         }
     }
 
-    /**
-     * Fired when the mouse button is released. Equivalent of MouseListener.mouseReleased(MouseEvent e).
-     */
     public void mouseReleased(int p_146118_1_, int p_146118_2_)
     {
         this.field_146135_o = false;

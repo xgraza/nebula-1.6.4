@@ -99,10 +99,6 @@ public class EntityFishHook extends Entity
 
     protected void entityInit() {}
 
-    /**
-     * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
-     * length * 64 * renderDistanceWeight Args: distance
-     */
     public boolean isInRangeToRenderDist(double par1)
     {
         double var3 = this.boundingBox.getAverageEdgeLength() * 4.0D;
@@ -131,10 +127,6 @@ public class EntityFishHook extends Entity
         this.field_146049_av = 0;
     }
 
-    /**
-     * Sets the position and rotation. Only difference from the other one is no bounding on the rotation. Args: posX,
-     * posY, posZ, yaw, pitch
-     */
     public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9)
     {
         this.field_146056_aC = par1;
@@ -148,9 +140,6 @@ public class EntityFishHook extends Entity
         this.motionZ = this.field_146053_aJ;
     }
 
-    /**
-     * Sets the velocity to the args. Args: x, y, z
-     */
     public void setVelocity(double par1, double par3, double par5)
     {
         this.field_146061_aH = this.motionX = par1;
@@ -158,9 +147,6 @@ public class EntityFishHook extends Entity
         this.field_146053_aJ = this.motionZ = par5;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -476,9 +462,6 @@ public class EntityFishHook extends Entity
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setShort("xTile", (short)this.field_146037_g);
@@ -489,9 +472,6 @@ public class EntityFishHook extends Entity
         par1NBTTagCompound.setByte("inGround", (byte)(this.field_146051_au ? 1 : 0));
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         this.field_146037_g = par1NBTTagCompound.getShort("xTile");
@@ -589,9 +569,6 @@ public class EntityFishHook extends Entity
         }
     }
 
-    /**
-     * Will get destroyed next tick.
-     */
     public void setDead()
     {
         super.setDead();

@@ -78,9 +78,6 @@ public class S26PacketMapChunkBulk extends Packet
         return 5;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         short var2 = p_148837_1_.readShort();
@@ -147,9 +144,6 @@ public class S26PacketMapChunkBulk extends Packet
         }
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeShort(this.field_149266_a.length);
@@ -191,9 +185,6 @@ public class S26PacketMapChunkBulk extends Packet
         return this.field_149260_f[p_149256_1_];
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         StringBuilder var1 = new StringBuilder();

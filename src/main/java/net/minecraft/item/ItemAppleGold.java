@@ -22,9 +22,6 @@ public class ItemAppleGold extends ItemFood
         return par1ItemStack.getItemDamage() > 0;
     }
 
-    /**
-     * Return an item rarity from EnumRarity
-     */
     public EnumRarity getRarity(ItemStack par1ItemStack)
     {
         return par1ItemStack.getItemDamage() == 0 ? EnumRarity.rare : EnumRarity.epic;
@@ -52,9 +49,6 @@ public class ItemAppleGold extends ItemFood
         }
     }
 
-    /**
-     * This returns the sub items
-     */
     public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_)
     {
         p_150895_3_.add(new ItemStack(p_150895_1_, 1, 0));

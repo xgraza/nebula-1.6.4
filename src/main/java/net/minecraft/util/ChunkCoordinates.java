@@ -3,11 +3,7 @@ package net.minecraft.util;
 public class ChunkCoordinates implements Comparable
 {
     public int posX;
-
-    /** the y coordinate */
     public int posY;
-
-    /** the z coordinate */
     public int posZ;
     private static final String __OBFID = "CL_00001555";
 
@@ -57,9 +53,6 @@ public class ChunkCoordinates implements Comparable
         this.posZ = par3;
     }
 
-    /**
-     * Returns the squared distance between this coordinates and the coordinates given as argument.
-     */
     public float getDistanceSquared(int par1, int par2, int par3)
     {
         float var4 = (float)(this.posX - par1);
@@ -68,9 +61,6 @@ public class ChunkCoordinates implements Comparable
         return var4 * var4 + var5 * var5 + var6 * var6;
     }
 
-    /**
-     * Return the squared distance between this coordinates and the ChunkCoordinates given as argument.
-     */
     public float getDistanceSquaredToChunkCoordinates(ChunkCoordinates par1ChunkCoordinates)
     {
         return this.getDistanceSquared(par1ChunkCoordinates.posX, par1ChunkCoordinates.posY, par1ChunkCoordinates.posZ);

@@ -31,29 +31,18 @@ public class ItemDye extends Item
         this.setCreativeTab(CreativeTabs.tabMaterials);
     }
 
-    /**
-     * Gets an icon index based on an item's damage value
-     */
     public IIcon getIconFromDamage(int par1)
     {
         int var2 = MathHelper.clamp_int(par1, 0, 15);
         return this.field_150920_d[var2];
     }
 
-    /**
-     * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
-     * different names based on their damage or NBT.
-     */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
         int var2 = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, 15);
         return super.getUnlocalizedName() + "." + field_150923_a[var2];
     }
 
-    /**
-     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
-     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
-     */
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
         if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
@@ -180,9 +169,6 @@ public class ItemDye extends Item
         }
     }
 
-    /**
-     * Returns true if the item can be used on the given entity, e.g. shears on sheep.
-     */
     public boolean itemInteractionForEntity(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase)
     {
         if (par3EntityLivingBase instanceof EntitySheep)
@@ -204,9 +190,6 @@ public class ItemDye extends Item
         }
     }
 
-    /**
-     * This returns the sub items
-     */
     public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_)
     {
         for (int var4 = 0; var4 < 16; ++var4)

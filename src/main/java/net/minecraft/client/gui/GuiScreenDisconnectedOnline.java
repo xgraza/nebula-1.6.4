@@ -20,19 +20,13 @@ public class GuiScreenDisconnectedOnline extends GuiScreen
         this.field_146865_f = p_i45037_3_;
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2) {}
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.back", new Object[0])));
-        this.field_146866_g = this.fontRendererObj.listFormattedStringToWidth(this.field_146865_f.getFormattedText(), this.width - 50);
+        this.field_146866_g = this.fontRenderer.listFormattedStringToWidth(this.field_146865_f.getFormattedText(), this.width - 50);
     }
 
     protected void actionPerformed(GuiButton p_146284_1_)
@@ -43,21 +37,18 @@ public class GuiScreenDisconnectedOnline extends GuiScreen
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, this.field_146867_a, this.width / 2, this.height / 2 - 50, 11184810);
+        this.drawCenteredString(this.fontRenderer, this.field_146867_a, this.width / 2, this.height / 2 - 50, 11184810);
         int var4 = this.height / 2 - 30;
 
         if (this.field_146866_g != null)
         {
-            for (Iterator var5 = this.field_146866_g.iterator(); var5.hasNext(); var4 += this.fontRendererObj.FONT_HEIGHT)
+            for (Iterator var5 = this.field_146866_g.iterator(); var5.hasNext(); var4 += this.fontRenderer.FONT_HEIGHT)
             {
                 String var6 = (String)var5.next();
-                this.drawCenteredString(this.fontRendererObj, var6, this.width / 2, var4, 16777215);
+                this.drawCenteredString(this.fontRenderer, var6, this.width / 2, var4, 16777215);
             }
         }
 

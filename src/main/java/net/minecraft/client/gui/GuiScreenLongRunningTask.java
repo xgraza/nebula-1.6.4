@@ -38,9 +38,6 @@ public class GuiScreenLongRunningTask extends GuiScreen
         this.field_146914_r.start();
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         super.updateScreen();
@@ -48,14 +45,8 @@ public class GuiScreenLongRunningTask extends GuiScreen
         this.field_146918_x.func_148414_a();
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2) {}
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.field_146918_x.func_148411_d();
@@ -73,23 +64,20 @@ public class GuiScreenLongRunningTask extends GuiScreen
         this.field_146918_x.func_148415_a(p_146284_1_);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, this.field_146913_s, this.width / 2, this.height / 2 - 50, 16777215);
-        this.drawCenteredString(this.fontRendererObj, "", this.width / 2, this.height / 2 - 10, 16777215);
+        this.drawCenteredString(this.fontRenderer, this.field_146913_s, this.width / 2, this.height / 2 - 50, 16777215);
+        this.drawCenteredString(this.fontRenderer, "", this.width / 2, this.height / 2 - 10, 16777215);
 
         if (!this.field_146912_t)
         {
-            this.drawCenteredString(this.fontRendererObj, field_146915_a[this.field_146907_w % field_146915_a.length], this.width / 2, this.height / 2 + 15, 8421504);
+            this.drawCenteredString(this.fontRenderer, field_146915_a[this.field_146907_w % field_146915_a.length], this.width / 2, this.height / 2 + 15, 8421504);
         }
 
         if (this.field_146912_t)
         {
-            this.drawCenteredString(this.fontRendererObj, this.field_146911_u, this.width / 2, this.height / 2 + 15, 16711680);
+            this.drawCenteredString(this.fontRenderer, this.field_146911_u, this.width / 2, this.height / 2 + 15, 16711680);
         }
 
         super.drawScreen(par1, par2, par3);

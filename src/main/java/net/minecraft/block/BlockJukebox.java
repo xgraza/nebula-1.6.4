@@ -24,17 +24,11 @@ public class BlockJukebox extends BlockContainer
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return p_149691_1_ == 1 ? this.field_149927_a : this.blockIcon;
     }
 
-    /**
-     * Called upon block activation (right click on the block.)
-     */
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         if (p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_) == 0)
@@ -97,9 +91,6 @@ public class BlockJukebox extends BlockContainer
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 
-    /**
-     * Drops the block items with a specified chance of dropping the specified items
-     */
     public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_)
     {
         if (!p_149690_1_.isClient)
@@ -108,15 +99,12 @@ public class BlockJukebox extends BlockContainer
         }
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
         return new BlockJukebox.TileEntityJukebox();
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.blockIcon = p_149651_1_.registerIcon(this.getTextureName() + "_side");
         this.field_149927_a = p_149651_1_.registerIcon(this.getTextureName() + "_top");
@@ -142,7 +130,7 @@ public class BlockJukebox extends BlockContainer
         {
             super.readFromNBT(p_145839_1_);
 
-            if (p_145839_1_.func_150297_b("RecordItem", 10))
+            if (p_145839_1_.hasKey("RecordItem", 10))
             {
                 this.func_145857_a(ItemStack.loadItemStackFromNBT(p_145839_1_.getCompoundTag("RecordItem")));
             }

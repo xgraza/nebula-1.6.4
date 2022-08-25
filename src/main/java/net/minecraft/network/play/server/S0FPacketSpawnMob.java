@@ -81,9 +81,6 @@ public class S0FPacketSpawnMob extends Packet
         this.field_149043_l = p_i45192_1_.getDataWatcher();
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149042_a = p_148837_1_.readVarIntFromBuffer();
@@ -100,9 +97,6 @@ public class S0FPacketSpawnMob extends Packet
         this.field_149044_m = DataWatcher.readWatchedListFromPacketBuffer(p_148837_1_);
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeVarIntToBuffer(this.field_149042_a);
@@ -134,9 +128,6 @@ public class S0FPacketSpawnMob extends Packet
         return this.field_149044_m;
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f, xd=%.2f, yd=%.2f, zd=%.2f", new Object[] {Integer.valueOf(this.field_149042_a), Integer.valueOf(this.field_149040_b), Float.valueOf((float)this.field_149041_c / 32.0F), Float.valueOf((float)this.field_149038_d / 32.0F), Float.valueOf((float)this.field_149039_e / 32.0F), Float.valueOf((float)this.field_149036_f / 8000.0F), Float.valueOf((float)this.field_149037_g / 8000.0F), Float.valueOf((float)this.field_149047_h / 8000.0F)});

@@ -35,9 +35,6 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityLiving.class, 0, true, false, IMob.mobSelector));
     }
 
-    /**
-     * Returns true if the newer Entity AI code should be run
-     */
     public boolean isAIEnabled()
     {
         return true;
@@ -50,10 +47,6 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
@@ -89,9 +82,6 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
         return Items.snowball;
     }
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
     protected void dropFewItems(boolean par1, int par2)
     {
         int var3 = this.rand.nextInt(16);
@@ -102,9 +92,6 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
         }
     }
 
-    /**
-     * Attack the specified entity using a ranged attack.
-     */
     public void attackEntityWithRangedAttack(EntityLivingBase par1EntityLivingBase, float par2)
     {
         EntitySnowball var3 = new EntitySnowball(this.worldObj, this);

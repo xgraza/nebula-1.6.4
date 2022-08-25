@@ -5,14 +5,15 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import shadersmod.client.Shaders;
 
 public class RenderSpider extends RenderLiving
 {
     private static final ResourceLocation spiderEyesTextures = new ResourceLocation("textures/entity/spider_eyes.png");
     private static final ResourceLocation spiderTextures = new ResourceLocation("textures/entity/spider/spider.png");
-    private static final String __OBFID = "CL_00001027";
 
     public RenderSpider()
     {
@@ -25,9 +26,6 @@ public class RenderSpider extends RenderLiving
         return 180.0F;
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntitySpider par1EntitySpider, int par2, float par3)
     {
         if (par2 != 0)
@@ -55,13 +53,16 @@ public class RenderSpider extends RenderLiving
             int var6 = var4 / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var5 / 1.0F, (float)var6 / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+            if (Config.isShaders())
+            {
+                Shaders.beginSpiderEyes();
+            }
+
             return 1;
         }
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntitySpider par1EntitySpider)
     {
         return spiderTextures;
@@ -72,17 +73,11 @@ public class RenderSpider extends RenderLiving
         return this.getDeathMaxRotation((EntitySpider)par1EntityLivingBase);
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.shouldRenderPass((EntitySpider)par1EntityLivingBase, par2, par3);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntitySpider)par1Entity);

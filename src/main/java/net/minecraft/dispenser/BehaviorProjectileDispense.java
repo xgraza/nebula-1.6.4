@@ -11,9 +11,6 @@ public abstract class BehaviorProjectileDispense extends BehaviorDefaultDispense
 {
     private static final String __OBFID = "CL_00001394";
 
-    /**
-     * Dispense the specified stack, play the dispense sound and spawn particles.
-     */
     public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
     {
         World var3 = par1IBlockSource.getWorld();
@@ -26,17 +23,11 @@ public abstract class BehaviorProjectileDispense extends BehaviorDefaultDispense
         return par2ItemStack;
     }
 
-    /**
-     * Play the dispense sound from the specified block.
-     */
     protected void playDispenseSound(IBlockSource par1IBlockSource)
     {
         par1IBlockSource.getWorld().playAuxSFX(1002, par1IBlockSource.getXInt(), par1IBlockSource.getYInt(), par1IBlockSource.getZInt(), 0);
     }
 
-    /**
-     * Return the projectile entity spawned by this dispense behavior.
-     */
     protected abstract IProjectile getProjectileEntity(World var1, IPosition var2);
 
     protected float func_82498_a()

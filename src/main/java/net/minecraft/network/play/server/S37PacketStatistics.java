@@ -29,9 +29,6 @@ public class S37PacketStatistics extends Packet
         p_148975_1_.handleStatistics(this);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         int var2 = p_148837_1_.readVarIntFromBuffer();
@@ -49,9 +46,6 @@ public class S37PacketStatistics extends Packet
         }
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeVarIntToBuffer(this.field_148976_a.size());
@@ -65,9 +59,6 @@ public class S37PacketStatistics extends Packet
         }
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("count=%d", new Object[] {Integer.valueOf(this.field_148976_a.size())});

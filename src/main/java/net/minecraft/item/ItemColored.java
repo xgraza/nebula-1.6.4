@@ -26,17 +26,11 @@ public class ItemColored extends ItemBlock
         return this.field_150944_b.getRenderColor(par1ItemStack.getItemDamage());
     }
 
-    /**
-     * Gets an icon index based on an item's damage value
-     */
     public IIcon getIconFromDamage(int par1)
     {
         return this.field_150944_b.getIcon(0, par1);
     }
 
-    /**
-     * Returns the metadata of the block which this Item (ItemBlock) can place
-     */
     public int getMetadata(int par1)
     {
         return par1;
@@ -48,10 +42,6 @@ public class ItemColored extends ItemBlock
         return this;
     }
 
-    /**
-     * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
-     * different names based on their damage or NBT.
-     */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
         if (this.field_150945_c == null)

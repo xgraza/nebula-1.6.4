@@ -19,8 +19,6 @@ public class EntitySlime extends EntityLiving implements IMob
     public float squishAmount;
     public float squishFactor;
     public float prevSquishFactor;
-
-    /** ticks until this slime jumps again */
     private int slimeJumpDelay;
     private static final String __OBFID = "CL_00001698";
 
@@ -49,51 +47,33 @@ public class EntitySlime extends EntityLiving implements IMob
         this.experienceValue = par1;
     }
 
-    /**
-     * Returns the size of the slime.
-     */
     public int getSlimeSize()
     {
         return this.dataWatcher.getWatchableObjectByte(16);
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setInteger("Size", this.getSlimeSize() - 1);
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
         this.setSlimeSize(par1NBTTagCompound.getInteger("Size") + 1);
     }
 
-    /**
-     * Returns the name of a particle effect that may be randomly created by EntitySlime.onUpdate()
-     */
     protected String getSlimeParticle()
     {
         return "slime";
     }
 
-    /**
-     * Returns the name of the sound played when the slime jumps.
-     */
     protected String getJumpSound()
     {
         return "mob.slime." + (this.getSlimeSize() > 1 ? "big" : "small");
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         if (!this.worldObj.isClient && this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL && this.getSlimeSize() > 0)
@@ -186,9 +166,6 @@ public class EntitySlime extends EntityLiving implements IMob
         this.squishAmount *= 0.6F;
     }
 
-    /**
-     * Gets the amount of time the slime needs to wait between jumps.
-     */
     protected int getJumpDelay()
     {
         return this.rand.nextInt(20) + 10;
@@ -199,9 +176,6 @@ public class EntitySlime extends EntityLiving implements IMob
         return new EntitySlime(this.worldObj);
     }
 
-    /**
-     * Will get destroyed next tick.
-     */
     public void setDead()
     {
         int var1 = this.getSlimeSize();
@@ -224,9 +198,6 @@ public class EntitySlime extends EntityLiving implements IMob
         super.setDead();
     }
 
-    /**
-     * Called by a player entity when they collide with an entity
-     */
     public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
     {
         if (this.canDamagePlayer())
@@ -240,33 +211,21 @@ public class EntitySlime extends EntityLiving implements IMob
         }
     }
 
-    /**
-     * Indicates weather the slime is able to damage the player (based upon the slime's size)
-     */
     protected boolean canDamagePlayer()
     {
         return this.getSlimeSize() > 1;
     }
 
-    /**
-     * Gets the amount of damage dealt to the player when "attacked" by the slime.
-     */
     protected int getAttackStrength()
     {
         return this.getSlimeSize();
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.slime." + (this.getSlimeSize() > 1 ? "big" : "small");
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.slime." + (this.getSlimeSize() > 1 ? "big" : "small");
@@ -277,9 +236,6 @@ public class EntitySlime extends EntityLiving implements IMob
         return this.getSlimeSize() == 1 ? Items.slime_ball : Item.getItemById(0);
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
     public boolean getCanSpawnHere()
     {
         Chunk var1 = this.worldObj.getChunkFromBlockCoords(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posZ));
@@ -309,34 +265,21 @@ public class EntitySlime extends EntityLiving implements IMob
         }
     }
 
-    /**
-     * Returns the volume for the sounds this mob makes.
-     */
     protected float getSoundVolume()
     {
         return 0.4F * (float)this.getSlimeSize();
     }
 
-    /**
-     * The speed it takes to move the entityliving's rotationPitch through the faceEntity method. This is only currently
-     * use in wolves.
-     */
     public int getVerticalFaceSpeed()
     {
         return 0;
     }
 
-    /**
-     * Returns true if the slime makes a sound when it jumps (based upon the slime's size)
-     */
     protected boolean makesSoundOnJump()
     {
         return this.getSlimeSize() > 0;
     }
 
-    /**
-     * Returns true if the slime makes a sound when it lands after a jump (based upon the slime's size)
-     */
     protected boolean makesSoundOnLand()
     {
         return this.getSlimeSize() > 2;

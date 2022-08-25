@@ -17,21 +17,14 @@ import net.minecraft.util.HttpUtil;
 
 public class PlayerUsageSnooper
 {
-    /** String map for report data */
     private Map dataMap = new HashMap();
     private final String uniqueID = UUID.randomUUID().toString();
-
-    /** URL of the server to send the report to */
     private final URL serverUrl;
     private final IPlayerUsage playerStatsCollector;
-
-    /** set to fire the snooperThread every 15 mins */
     private final Timer threadTrigger = new Timer("Snooper Timer", true);
     private final Object syncLock = new Object();
     private final long minecraftStartTimeMilis;
     private boolean isRunning;
-
-    /** incremented on every getSelfCounterFor */
     private int selfCounter;
     private static final String __OBFID = "CL_00001515";
 
@@ -50,9 +43,6 @@ public class PlayerUsageSnooper
         this.minecraftStartTimeMilis = par3;
     }
 
-    /**
-     * Note issuing start multiple times is not an error.
-     */
     public void startSnooper()
     {
         if (!this.isRunning)
@@ -122,9 +112,6 @@ public class PlayerUsageSnooper
         this.playerStatsCollector.addServerStatsToSnooper(this);
     }
 
-    /**
-     * Adds information to the report
-     */
     public void addData(String par1Str, Object par2Obj)
     {
         Object var3 = this.syncLock;
@@ -170,17 +157,11 @@ public class PlayerUsageSnooper
         return this.uniqueID;
     }
 
-    /**
-     * Returns the saved value of System#currentTimeMillis when the game started
-     */
     public long getMinecraftStartTimeMillis()
     {
         return this.minecraftStartTimeMilis;
     }
 
-    /**
-     * returns a value indicating how many times this function has been run on the snooper
-     */
     static int getSelfCounterFor(PlayerUsageSnooper par0PlayerUsageSnooper)
     {
         return par0PlayerUsageSnooper.selfCounter++;

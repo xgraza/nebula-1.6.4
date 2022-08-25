@@ -13,10 +13,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class MapGenVillage extends MapGenStructure
 {
-    /** A list of all the biomes villages can spawn in. */
     public static final List villageSpawnBiomes = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.plains, BiomeGenBase.desert, BiomeGenBase.field_150588_X});
-
-    /** World terrain type, 0 for normal, 1 for flat map */
     private int terrainType;
     private int field_82665_g;
     private int field_82666_h;

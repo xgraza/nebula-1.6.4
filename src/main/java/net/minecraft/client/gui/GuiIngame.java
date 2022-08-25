@@ -52,25 +52,13 @@ public class GuiIngame extends Gui
     private static final RenderItem itemRenderer = new RenderItem();
     private final Random rand = new Random();
     private final Minecraft mc;
-
-    /** ChatGUI instance that retains all previous chat data */
     private final GuiNewChat persistantChatGUI;
     private int updateCounter;
-
-    /** The string specifying which record music is playing */
     private String recordPlaying = "";
-
-    /** How many ticks the record playing message will be displayed */
     private int recordPlayingUpFor;
     private boolean recordIsPlaying;
-
-    /** Previous frame vignette brightness (slowly changes by 1% each frame) */
     public float prevVignetteBrightness = 1.0F;
-
-    /** Remaining ticks the item highlight should be visible */
     private int remainingHighlightTicks;
-
-    /** The ItemStack that is currently being highlighted */
     private ItemStack highlightingItemStack;
     private static final String __OBFID = "CL_00000661";
 
@@ -80,9 +68,6 @@ public class GuiIngame extends Gui
         this.persistantChatGUI = new GuiNewChat(par1Minecraft);
     }
 
-    /**
-     * Render the ingame overlay with quick icon bar, ...
-     */
     public void renderGameOverlay(float par1, boolean par2, int par3, int par4)
     {
         ScaledResolution var5 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
@@ -399,7 +384,7 @@ public class GuiIngame extends Gui
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, (float)(var7 - 48), 0.0F);
         this.mc.mcProfiler.startSection("chat");
-        this.persistantChatGUI.func_146230_a(this.updateCounter);
+        this.persistantChatGUI.drawChat(this.updateCounter);
         this.mc.mcProfiler.endSection();
         GL11.glPopMatrix();
         var40 = this.mc.theWorld.getScoreboard().func_96539_a(0);
@@ -826,9 +811,6 @@ public class GuiIngame extends Gui
         this.mc.mcProfiler.endSection();
     }
 
-    /**
-     * Renders dragon's (boss) health on the HUD
-     */
     private void renderBossHealth()
     {
         if (BossStatus.bossName != null && BossStatus.statusBarTime > 0)
@@ -881,9 +863,6 @@ public class GuiIngame extends Gui
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    /**
-     * Renders the vignette. Args: vignetteBrightness, width, height
-     */
     private void renderVignette(float par1, int par2, int par3)
     {
         par1 = 1.0F - par1;
@@ -919,10 +898,6 @@ public class GuiIngame extends Gui
 
     private void func_130015_b(float par1, int par2, int par3)
     {
-        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
-            return;
-        }
-
         if (par1 < 1.0F)
         {
             par1 *= par1;
@@ -954,9 +929,6 @@ public class GuiIngame extends Gui
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    /**
-     * Renders the specified item of the inventory slot at the specified location. Args: slot, x, y, partialTick
-     */
     private void renderInventorySlot(int par1, int par2, int par3, float par4)
     {
         ItemStack var5 = this.mc.thePlayer.inventory.mainInventory[par1];
@@ -985,9 +957,6 @@ public class GuiIngame extends Gui
         }
     }
 
-    /**
-     * The update tick for the ingame UI
-     */
     public void updateTick()
     {
         if (this.recordPlayingUpFor > 0)
@@ -1033,7 +1002,7 @@ public class GuiIngame extends Gui
         this.recordIsPlaying = par2;
     }
 
-    public GuiNewChat getChatGUI()
+    public GuiNewChat getChatGui()
     {
         return this.persistantChatGUI;
     }

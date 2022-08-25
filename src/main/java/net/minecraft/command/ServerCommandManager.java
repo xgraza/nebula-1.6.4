@@ -97,10 +97,6 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
         CommandBase.setAdminCommander(this);
     }
 
-    /**
-     * Sends a message to the admins of the server from a given CommandSender with the given resource string and given
-     * extra srings. If the int par2 is even or zero, the original sender is also notified.
-     */
     public void notifyAdmins(ICommandSender par1ICommandSender, int par2, String par3Str, Object ... par4ArrayOfObj)
     {
         boolean var5 = true;

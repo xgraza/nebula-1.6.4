@@ -55,9 +55,6 @@ public class LanguageMetadataSectionSerializer extends BaseMetadataSectionSerial
         throw new JsonParseException("Duplicate language->\'" + var8 + "\' defined");
     }
 
-    /**
-     * The name of this section type as it appears in JSON.
-     */
     public String getSectionName()
     {
         return "language";

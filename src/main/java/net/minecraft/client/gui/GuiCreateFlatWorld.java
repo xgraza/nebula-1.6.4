@@ -42,9 +42,6 @@ public class GuiCreateFlatWorld extends GuiScreen
         this.field_146387_g = FlatGeneratorInfo.createFlatGeneratorFromString(p_146383_1_);
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.buttonList.clear();
@@ -58,7 +55,7 @@ public class GuiCreateFlatWorld extends GuiScreen
         this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("gui.done", new Object[0])));
         this.buttonList.add(new GuiButton(5, this.width / 2 + 5, this.height - 52, 150, 20, I18n.format("createWorld.customize.presets", new Object[0])));
         this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel", new Object[0])));
-        this.field_146389_t.field_146125_m = this.field_146388_u.field_146125_m = false;
+        this.field_146389_t.drawButton = this.field_146388_u.drawButton = false;
         this.field_146387_g.func_82645_d();
         this.func_146375_g();
     }
@@ -104,17 +101,14 @@ public class GuiCreateFlatWorld extends GuiScreen
         return this.field_146390_s.field_148228_k > -1 && this.field_146390_s.field_148228_k < this.field_146387_g.getFlatLayers().size();
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.field_146390_s.func_148128_a(par1, par2, par3);
-        this.drawCenteredString(this.fontRendererObj, this.field_146393_h, this.width / 2, 8, 16777215);
+        this.field_146390_s.drawScreen(par1, par2, par3);
+        this.drawCenteredString(this.fontRenderer, this.field_146393_h, this.width / 2, 8, 16777215);
         int var4 = this.width / 2 - 92 - 16;
-        this.drawString(this.fontRendererObj, this.field_146394_i, var4, 32, 16777215);
-        this.drawString(this.fontRendererObj, this.field_146391_r, var4 + 2 + 213 - this.fontRendererObj.getStringWidth(this.field_146391_r), 32, 16777215);
+        this.drawString(this.fontRenderer, this.field_146394_i, var4, 32, 16777215);
+        this.drawString(this.fontRenderer, this.field_146391_r, var4 + 2 + 213 - this.fontRenderer.getStringWidth(this.field_146391_r), 32, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 
@@ -136,7 +130,7 @@ public class GuiCreateFlatWorld extends GuiScreen
             if (p_148225_3_ != null)
             {
                 RenderHelper.enableGUIStandardItemLighting();
-                GuiCreateFlatWorld.field_146392_a.renderItemIntoGUI(GuiCreateFlatWorld.this.fontRendererObj, GuiCreateFlatWorld.this.mc.getTextureManager(), p_148225_3_, p_148225_1_ + 2, p_148225_2_ + 2);
+                GuiCreateFlatWorld.field_146392_a.renderItemIntoGUI(GuiCreateFlatWorld.this.fontRenderer, GuiCreateFlatWorld.this.mc.getTextureManager(), p_148225_3_, p_148225_1_ + 2, p_148225_2_ + 2);
                 RenderHelper.disableStandardItemLighting();
             }
 
@@ -190,7 +184,7 @@ public class GuiCreateFlatWorld extends GuiScreen
             ItemStack var10 = var8.func_151536_b() == Blocks.air ? null : new ItemStack(var9, 1, var8.getFillBlockMeta());
             String var11 = var10 != null && var9 != null ? var9.getItemStackDisplayName(var10) : "Air";
             this.func_148225_a(p_148126_2_, p_148126_3_, var10);
-            GuiCreateFlatWorld.this.fontRendererObj.drawString(var11, p_148126_2_ + 18 + 5, p_148126_3_ + 3, 16777215);
+            GuiCreateFlatWorld.this.fontRenderer.drawString(var11, p_148126_2_ + 18 + 5, p_148126_3_ + 3, 16777215);
             String var12;
 
             if (p_148126_1_ == 0)
@@ -206,12 +200,12 @@ public class GuiCreateFlatWorld extends GuiScreen
                 var12 = I18n.format("createWorld.customize.flat.layer", new Object[] {Integer.valueOf(var8.getLayerCount())});
             }
 
-            GuiCreateFlatWorld.this.fontRendererObj.drawString(var12, p_148126_2_ + 2 + 213 - GuiCreateFlatWorld.this.fontRendererObj.getStringWidth(var12), p_148126_3_ + 3, 16777215);
+            GuiCreateFlatWorld.this.fontRenderer.drawString(var12, p_148126_2_ + 2 + 213 - GuiCreateFlatWorld.this.fontRenderer.getStringWidth(var12), p_148126_3_ + 3, 16777215);
         }
 
-        protected int func_148137_d()
+        protected int getScrollBarX()
         {
-            return this.field_148155_a - 70;
+            return this.width - 70;
         }
     }
 }

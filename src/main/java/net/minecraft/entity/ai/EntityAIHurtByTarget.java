@@ -18,18 +18,12 @@ public class EntityAIHurtByTarget extends EntityAITarget
         this.setMutexBits(1);
     }
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
     public boolean shouldExecute()
     {
         int var1 = this.taskOwner.func_142015_aE();
         return var1 != this.field_142052_b && this.isSuitableTarget(this.taskOwner.getAITarget(), false);
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void startExecuting()
     {
         this.taskOwner.setAttackTarget(this.taskOwner.getAITarget());

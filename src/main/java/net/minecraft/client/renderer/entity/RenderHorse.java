@@ -26,10 +26,6 @@ public class RenderHorse extends RenderLiving
         super(par1ModelBase, par2);
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntityHorse par1EntityHorse, float par2)
     {
         float var3 = 1.0F;
@@ -48,9 +44,6 @@ public class RenderHorse extends RenderLiving
         super.preRenderCallback(par1EntityHorse, par2);
     }
 
-    /**
-     * Renders the model in RenderLiving
-     */
     protected void renderModel(EntityHorse par1EntityHorse, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         if (par1EntityHorse.isInvisible())
@@ -64,9 +57,6 @@ public class RenderHorse extends RenderLiving
         }
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityHorse par1EntityHorse)
     {
         if (!par1EntityHorse.func_110239_cn())
@@ -111,26 +101,16 @@ public class RenderHorse extends RenderLiving
         return var3;
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
         this.preRenderCallback((EntityHorse)par1EntityLivingBase, par2);
     }
 
-    /**
-     * Renders the model in RenderLiving
-     */
     protected void renderModel(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         this.renderModel((EntityHorse)par1EntityLivingBase, par2, par3, par4, par5, par6, par7);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityHorse)par1Entity);

@@ -13,15 +13,14 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
+import net.minecraft.src.ReflectorForge;
 import net.minecraft.util.ResourceLocation;
-import optifine.ReflectorForge;
 
 public class DefaultResourcePack implements IResourcePack
 {
     public static final Set defaultResourceDomains = ImmutableSet.of("minecraft");
     private final Map mapResourceFiles = Maps.newHashMap();
     private final File fileAssets;
-    private static final String __OBFID = "CL_00001073";
 
     public DefaultResourcePack(File par1File)
     {

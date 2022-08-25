@@ -8,11 +8,11 @@ import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.src.Config;
+import net.minecraft.src.PlayerConfigurations;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraft.world.World;
-import optifine.Config;
-import optifine.PlayerConfigurations;
 
 public abstract class AbstractClientPlayer extends EntityPlayer
 {
@@ -21,7 +21,6 @@ public abstract class AbstractClientPlayer extends EntityPlayer
     private ThreadDownloadImageData downloadImageCape;
     private ResourceLocation locationSkin;
     private ResourceLocation locationCape;
-    private static final String __OBFID = "CL_00000935";
     private String nameClear = null;
 
     public AbstractClientPlayer(World p_i45074_1_, GameProfile p_i45074_2_)
@@ -98,7 +97,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer
 
     public static String getSkinUrl(String par0Str)
     {
-        return String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", new Object[] {StringUtils.stripControlCodes(par0Str)});
+        return String.format("https://minotar.net/skin/%s.png", new Object[] {StringUtils.stripControlCodes(par0Str)});
     }
 
     public static String getCapeUrl(String par0Str)

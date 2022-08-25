@@ -9,8 +9,6 @@ import net.minecraft.world.World;
 public class WorldGenClay extends WorldGenerator
 {
     private Block field_150546_a;
-
-    /** The number of blocks to generate. */
     private int numberOfBlocks;
     private static final String __OBFID = "CL_00000405";
 

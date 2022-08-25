@@ -14,9 +14,6 @@ public class GuiScreenDemo extends GuiScreen
     private static final ResourceLocation field_146348_f = new ResourceLocation("textures/gui/demo_background.png");
     private static final String __OBFID = "CL_00000691";
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.buttonList.clear();
@@ -51,9 +48,6 @@ public class GuiScreenDemo extends GuiScreen
         }
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         super.updateScreen();
@@ -69,22 +63,19 @@ public class GuiScreenDemo extends GuiScreen
         this.drawTexturedModalRect(var1, var2, 0, 0, 248, 166);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
         int var4 = (this.width - 248) / 2 + 10;
         int var5 = (this.height - 166) / 2 + 8;
-        this.fontRendererObj.drawString(I18n.format("demo.help.title", new Object[0]), var4, var5, 2039583);
+        this.fontRenderer.drawString(I18n.format("demo.help.title", new Object[0]), var4, var5, 2039583);
         var5 += 12;
         GameSettings var6 = this.mc.gameSettings;
-        this.fontRendererObj.drawString(I18n.format("demo.help.movementShort", new Object[] {GameSettings.getKeyDisplayString(var6.keyBindForward.getKeyCode()), GameSettings.getKeyDisplayString(var6.keyBindLeft.getKeyCode()), GameSettings.getKeyDisplayString(var6.keyBindBack.getKeyCode()), GameSettings.getKeyDisplayString(var6.keyBindRight.getKeyCode())}), var4, var5, 5197647);
-        this.fontRendererObj.drawString(I18n.format("demo.help.movementMouse", new Object[0]), var4, var5 + 12, 5197647);
-        this.fontRendererObj.drawString(I18n.format("demo.help.jump", new Object[] {GameSettings.getKeyDisplayString(var6.keyBindJump.getKeyCode())}), var4, var5 + 24, 5197647);
-        this.fontRendererObj.drawString(I18n.format("demo.help.inventory", new Object[] {GameSettings.getKeyDisplayString(var6.keyBindInventory.getKeyCode())}), var4, var5 + 36, 5197647);
-        this.fontRendererObj.drawSplitString(I18n.format("demo.help.fullWrapped", new Object[0]), var4, var5 + 68, 218, 2039583);
+        this.fontRenderer.drawString(I18n.format("demo.help.movementShort", new Object[] {GameSettings.getKeyDisplayString(var6.keyBindForward.getKeyCode()), GameSettings.getKeyDisplayString(var6.keyBindLeft.getKeyCode()), GameSettings.getKeyDisplayString(var6.keyBindBack.getKeyCode()), GameSettings.getKeyDisplayString(var6.keyBindRight.getKeyCode())}), var4, var5, 5197647);
+        this.fontRenderer.drawString(I18n.format("demo.help.movementMouse", new Object[0]), var4, var5 + 12, 5197647);
+        this.fontRenderer.drawString(I18n.format("demo.help.jump", new Object[] {GameSettings.getKeyDisplayString(var6.keyBindJump.getKeyCode())}), var4, var5 + 24, 5197647);
+        this.fontRenderer.drawString(I18n.format("demo.help.inventory", new Object[] {GameSettings.getKeyDisplayString(var6.keyBindInventory.getKeyCode())}), var4, var5 + 36, 5197647);
+        this.fontRenderer.drawSplitString(I18n.format("demo.help.fullWrapped", new Object[0]), var4, var5 + 68, 218, 2039583);
         super.drawScreen(par1, par2, par3);
     }
 }

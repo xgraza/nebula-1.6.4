@@ -14,17 +14,11 @@ public class BlockGlass extends BlockBreakable
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
     public int quantityDropped(Random p_149745_1_)
     {
         return 0;
     }
 
-    /**
-     * Returns which pass should this block be rendered on. 0 for solids and 1 for alpha
-     */
     public int getRenderBlockPass()
     {
         return 0;

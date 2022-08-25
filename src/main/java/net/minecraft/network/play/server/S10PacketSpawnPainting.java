@@ -29,9 +29,6 @@ public class S10PacketSpawnPainting extends Packet
         this.field_148968_f = p_i45170_1_.art.title;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_148973_a = p_148837_1_.readVarIntFromBuffer();
@@ -42,9 +39,6 @@ public class S10PacketSpawnPainting extends Packet
         this.field_148970_e = p_148837_1_.readInt();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeVarIntToBuffer(this.field_148973_a);
@@ -60,9 +54,6 @@ public class S10PacketSpawnPainting extends Packet
         p_148967_1_.handleSpawnPainting(this);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("id=%d, type=%s, x=%d, y=%d, z=%d", new Object[] {Integer.valueOf(this.field_148973_a), this.field_148968_f, Integer.valueOf(this.field_148971_b), Integer.valueOf(this.field_148972_c), Integer.valueOf(this.field_148969_d)});

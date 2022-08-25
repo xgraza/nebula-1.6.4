@@ -27,10 +27,6 @@ public class ItemSkull extends Item
         this.setHasSubtypes(true);
     }
 
-    /**
-     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
-     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
-     */
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
         if (par7 == 0)
@@ -92,7 +88,7 @@ public class ItemSkull extends Item
                 {
                     String var13 = "";
 
-                    if (par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().func_150297_b("SkullOwner", 8))
+                    if (par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("SkullOwner", 8))
                     {
                         var13 = par1ItemStack.getTagCompound().getString("SkullOwner");
                     }
@@ -108,9 +104,6 @@ public class ItemSkull extends Item
         }
     }
 
-    /**
-     * This returns the sub items
-     */
     public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_)
     {
         for (int var4 = 0; var4 < skullTypes.length; ++var4)
@@ -119,9 +112,6 @@ public class ItemSkull extends Item
         }
     }
 
-    /**
-     * Gets an icon index based on an item's damage value
-     */
     public IIcon getIconFromDamage(int par1)
     {
         if (par1 < 0 || par1 >= skullTypes.length)
@@ -132,18 +122,11 @@ public class ItemSkull extends Item
         return this.field_94586_c[par1];
     }
 
-    /**
-     * Returns the metadata of the block which this Item (ItemBlock) can place
-     */
     public int getMetadata(int par1)
     {
         return par1;
     }
 
-    /**
-     * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
-     * different names based on their damage or NBT.
-     */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
         int var2 = par1ItemStack.getItemDamage();
@@ -158,7 +141,7 @@ public class ItemSkull extends Item
 
     public String getItemStackDisplayName(ItemStack par1ItemStack)
     {
-        return par1ItemStack.getItemDamage() == 3 && par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().func_150297_b("SkullOwner", 8) ? StatCollector.translateToLocalFormatted("item.skull.player.name", new Object[] {par1ItemStack.getTagCompound().getString("SkullOwner")}): super.getItemStackDisplayName(par1ItemStack);
+        return par1ItemStack.getItemDamage() == 3 && par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("SkullOwner", 8) ? StatCollector.translateToLocalFormatted("item.skull.player.name", new Object[] {par1ItemStack.getTagCompound().getString("SkullOwner")}): super.getItemStackDisplayName(par1ItemStack);
     }
 
     public void registerIcons(IIconRegister par1IconRegister)

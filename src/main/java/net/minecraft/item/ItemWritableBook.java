@@ -14,18 +14,12 @@ public class ItemWritableBook extends Item
         this.setMaxStackSize(1);
     }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         par3EntityPlayer.displayGUIBook(par1ItemStack);
         return par1ItemStack;
     }
 
-    /**
-     * If this function returns true (or the item is damageable), the ItemStack's NBT tag will be sent to the client.
-     */
     public boolean getShareTag()
     {
         return true;
@@ -37,7 +31,7 @@ public class ItemWritableBook extends Item
         {
             return false;
         }
-        else if (!p_150930_0_.func_150297_b("pages", 9))
+        else if (!p_150930_0_.hasKey("pages", 9))
         {
             return false;
         }

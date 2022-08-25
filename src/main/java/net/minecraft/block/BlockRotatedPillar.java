@@ -16,9 +16,6 @@ public abstract class BlockRotatedPillar extends Block
         super(p_i45425_1_);
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 31;
@@ -49,9 +46,6 @@ public abstract class BlockRotatedPillar extends Block
         return var10 | var11;
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         int var3 = p_149691_2_ & 12;
@@ -66,9 +60,6 @@ public abstract class BlockRotatedPillar extends Block
         return this.field_150164_N;
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int p_149692_1_)
     {
         return p_149692_1_ & 3;
@@ -79,10 +70,6 @@ public abstract class BlockRotatedPillar extends Block
         return p_150162_1_ & 3;
     }
 
-    /**
-     * Returns an item stack containing a single instance of the current block type. 'i' is the block's subtype/damage
-     * and is ignored for blocks which do not support subtypes. Blocks which cannot be harvested should return null.
-     */
     protected ItemStack createStackedBlock(int p_149644_1_)
     {
         return new ItemStack(Item.getItemFromBlock(this), 1, this.func_150162_k(p_149644_1_));

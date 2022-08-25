@@ -14,9 +14,6 @@ public class CommandGameRule extends CommandBase
         return "gamerule";
     }
 
-    /**
-     * Return the required permission level for this command.
-     */
     public int getRequiredPermissionLevel()
     {
         return 2;
@@ -73,17 +70,11 @@ public class CommandGameRule extends CommandBase
         }
     }
 
-    /**
-     * Adds the strings available in this command to the given list of tab completion options.
-     */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, this.getGameRules().getRules()) : (par2ArrayOfStr.length == 2 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] {"true", "false"}): null);
     }
 
-    /**
-     * Return the game rule set this command should be able to manipulate.
-     */
     private GameRules getGameRules()
     {
         return MinecraftServer.getServer().worldServerForDimension(0).getGameRules();

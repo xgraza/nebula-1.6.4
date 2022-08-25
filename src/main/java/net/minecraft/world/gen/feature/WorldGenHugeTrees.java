@@ -8,13 +8,8 @@ import net.minecraft.world.World;
 
 public abstract class WorldGenHugeTrees extends WorldGenAbstractTree
 {
-    /** The base height of the tree */
     protected final int baseHeight;
-
-    /** Sets the metadata for the wood blocks used */
     protected final int woodMetadata;
-
-    /** Sets the metadata for the leaves used in huge trees */
     protected final int leavesMetadata;
     protected int field_150538_d;
     private static final String __OBFID = "CL_00000423";

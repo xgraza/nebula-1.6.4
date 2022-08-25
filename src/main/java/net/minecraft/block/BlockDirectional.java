@@ -11,7 +11,7 @@ public abstract class BlockDirectional extends Block
         super(p_i45401_1_);
     }
 
-    public static int func_149895_l(int p_149895_0_)
+    public static int getDirection(int p_149895_0_)
     {
         return p_149895_0_ & 3;
     }

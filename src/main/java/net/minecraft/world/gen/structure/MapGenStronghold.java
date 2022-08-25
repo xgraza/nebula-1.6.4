@@ -15,10 +15,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class MapGenStronghold extends MapGenStructure
 {
     private List field_151546_e;
-
-    /**
-     * is spawned false and set true once the defined BiomeGenBases were compared with the present ones
-     */
     private boolean ranBiomeCheck;
     private ChunkCoordIntPair[] structureCoords;
     private double field_82671_h;
@@ -125,10 +121,6 @@ public class MapGenStronghold extends MapGenStructure
         return false;
     }
 
-    /**
-     * Returns a list of other locations at which the structure generation has been run, or null if not relevant to this
-     * structure generator.
-     */
     protected List getCoordList()
     {
         ArrayList var1 = new ArrayList();

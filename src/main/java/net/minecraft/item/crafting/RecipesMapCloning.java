@@ -9,9 +9,6 @@ public class RecipesMapCloning implements IRecipe
 {
     private static final String __OBFID = "CL_00000087";
 
-    /**
-     * Used to check if a recipe matches current crafting inventory
-     */
     public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World)
     {
         int var3 = 0;
@@ -47,9 +44,6 @@ public class RecipesMapCloning implements IRecipe
         return var4 != null && var3 > 0;
     }
 
-    /**
-     * Returns an Item that is the result of this recipe
-     */
     public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
     {
         int var2 = 0;
@@ -99,9 +93,6 @@ public class RecipesMapCloning implements IRecipe
         }
     }
 
-    /**
-     * Returns the size of the recipe area
-     */
     public int getRecipeSize()
     {
         return 9;

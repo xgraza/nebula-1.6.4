@@ -56,8 +56,6 @@ public abstract class BiomeGenBase
     protected static final BiomeGenBase.Height field_150601_k = new BiomeGenBase.Height(0.1F, 0.8F);
     protected static final BiomeGenBase.Height field_150598_l = new BiomeGenBase.Height(0.2F, 0.3F);
     protected static final BiomeGenBase.Height field_150599_m = new BiomeGenBase.Height(-0.2F, 0.1F);
-
-    /** An array of all the biomes, indexed by biome id. */
     private static final BiomeGenBase[] biomeList = new BiomeGenBase[256];
     public static final Set field_150597_n = Sets.newHashSet();
     public static final BiomeGenBase ocean = (new BiomeGenOcean(0)).setColor(112).setBiomeName("Ocean").func_150570_a(field_150595_c);
@@ -69,8 +67,6 @@ public abstract class BiomeGenBase
     public static final BiomeGenBase swampland = (new BiomeGenSwamp(6)).setColor(522674).setBiomeName("Swampland").func_76733_a(9154376).func_150570_a(field_150599_m).setTemperatureRainfall(0.8F, 0.9F);
     public static final BiomeGenBase river = (new BiomeGenRiver(7)).setColor(255).setBiomeName("River").func_150570_a(field_150594_b);
     public static final BiomeGenBase hell = (new BiomeGenHell(8)).setColor(16711680).setBiomeName("Hell").setDisableRain().setTemperatureRainfall(2.0F, 0.0F);
-
-    /** Is the biome used for sky world. */
     public static final BiomeGenBase sky = (new BiomeGenEnd(9)).setColor(8421631).setBiomeName("Sky").setDisableRain();
     public static final BiomeGenBase frozenOcean = (new BiomeGenOcean(10)).setColor(9474208).setBiomeName("FrozenOcean").setEnableSnow().func_150570_a(field_150595_c).setTemperatureRainfall(0.0F, 0.5F);
     public static final BiomeGenBase frozenRiver = (new BiomeGenRiver(11)).setColor(10526975).setBiomeName("FrozenRiver").setEnableSnow().func_150570_a(field_150594_b).setTemperatureRainfall(0.0F, 0.5F);
@@ -78,23 +74,11 @@ public abstract class BiomeGenBase
     public static final BiomeGenBase iceMountains = (new BiomeGenSnow(13, false)).setColor(10526880).setBiomeName("Ice Mountains").setEnableSnow().func_150570_a(field_150591_g).setTemperatureRainfall(0.0F, 0.5F);
     public static final BiomeGenBase mushroomIsland = (new BiomeGenMushroomIsland(14)).setColor(16711935).setBiomeName("MushroomIsland").setTemperatureRainfall(0.9F, 1.0F).func_150570_a(field_150598_l);
     public static final BiomeGenBase mushroomIslandShore = (new BiomeGenMushroomIsland(15)).setColor(10486015).setBiomeName("MushroomIslandShore").setTemperatureRainfall(0.9F, 1.0F).func_150570_a(field_150600_j);
-
-    /** Beach biome. */
     public static final BiomeGenBase beach = (new BiomeGenBeach(16)).setColor(16440917).setBiomeName("Beach").setTemperatureRainfall(0.8F, 0.4F).func_150570_a(field_150600_j);
-
-    /** Desert Hills biome. */
     public static final BiomeGenBase desertHills = (new BiomeGenDesert(17)).setColor(13786898).setBiomeName("DesertHills").setDisableRain().setTemperatureRainfall(2.0F, 0.0F).func_150570_a(field_150591_g);
-
-    /** Forest Hills biome. */
     public static final BiomeGenBase forestHills = (new BiomeGenForest(18, 0)).setColor(2250012).setBiomeName("ForestHills").func_150570_a(field_150591_g);
-
-    /** Taiga Hills biome. */
     public static final BiomeGenBase taigaHills = (new BiomeGenTaiga(19, 0)).setColor(1456435).setBiomeName("TaigaHills").func_76733_a(5159473).setTemperatureRainfall(0.25F, 0.8F).func_150570_a(field_150591_g);
-
-    /** Extreme Hills Edge biome. */
     public static final BiomeGenBase extremeHillsEdge = (new BiomeGenHills(20, true)).setColor(7501978).setBiomeName("Extreme Hills Edge").func_150570_a(field_150603_i.func_150775_a()).setTemperatureRainfall(0.2F, 0.3F);
-
-    /** Jungle biome identifier */
     public static final BiomeGenBase jungle = (new BiomeGenJungle(21, false)).setColor(5470985).setBiomeName("Jungle").func_76733_a(5470985).setTemperatureRainfall(0.95F, 0.9F);
     public static final BiomeGenBase jungleHills = (new BiomeGenJungle(22, false)).setColor(2900485).setBiomeName("JungleHills").func_76733_a(5470985).setTemperatureRainfall(0.95F, 0.9F).func_150570_a(field_150591_g);
     public static final BiomeGenBase field_150574_L = (new BiomeGenJungle(23, true)).setColor(6458135).setBiomeName("JungleEdge").func_76733_a(5470985).setTemperatureRainfall(0.95F, 0.8F);
@@ -120,67 +104,25 @@ public abstract class BiomeGenBase
     public String biomeName;
     public int color;
     public int field_150609_ah;
-
-    /** The block expected to be on the top of this biome */
     public Block topBlock;
     public int field_150604_aj;
-
-    /** The block to fill spots in when not on the top */
     public Block fillerBlock;
     public int field_76754_C;
-
-    /** The minimum height of this biome. Default 0.1. */
     public float minHeight;
-
-    /** The maximum height of this biome. Default 0.3. */
     public float maxHeight;
-
-    /** The temperature of this biome. */
     public float temperature;
-
-    /** The rainfall in this biome. */
     public float rainfall;
-
-    /** Color tint applied to water depending on biome */
     public int waterColorMultiplier;
-
-    /** The biome decorator. */
     public BiomeDecorator theBiomeDecorator;
-
-    /**
-     * Holds the classes of IMobs (hostile mobs) that can be spawned in the biome.
-     */
     protected List spawnableMonsterList;
-
-    /**
-     * Holds the classes of any creature that can be spawned in the biome as friendly creature.
-     */
     protected List spawnableCreatureList;
-
-    /**
-     * Holds the classes of any aquatic creature that can be spawned in the water of the biome.
-     */
     protected List spawnableWaterCreatureList;
     protected List spawnableCaveCreatureList;
-
-    /** Set to true if snow is enabled for this biome. */
     protected boolean enableSnow;
-
-    /**
-     * Is true (default) if the biome support rain (desert and nether can't have rain)
-     */
     protected boolean enableRain;
-
-    /** The id number to this biome, and its index in the biomeList array. */
     public final int biomeID;
-
-    /** The tree generator. */
     protected WorldGenTrees worldGeneratorTrees;
-
-    /** The big tree generator. */
     protected WorldGenBigTree worldGeneratorBigTree;
-
-    /** The swamp tree generator. */
     protected WorldGenSwamp worldGeneratorSwamp;
     private static final String __OBFID = "CL_00000158";
 
@@ -221,17 +163,11 @@ public abstract class BiomeGenBase
         this.spawnableCaveCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityBat.class, 10, 8, 8));
     }
 
-    /**
-     * Allocate a new BiomeDecorator for this BiomeGenBase
-     */
     protected BiomeDecorator createBiomeDecorator()
     {
         return new BiomeDecorator();
     }
 
-    /**
-     * Sets the temperature and rainfall of this biome.
-     */
     protected BiomeGenBase setTemperatureRainfall(float par1, float par2)
     {
         if (par1 > 0.1F && par1 < 0.2F)
@@ -253,9 +189,6 @@ public abstract class BiomeGenBase
         return this;
     }
 
-    /**
-     * Disable the rain for the biome.
-     */
     protected BiomeGenBase setDisableRain()
     {
         this.enableRain = false;
@@ -267,9 +200,6 @@ public abstract class BiomeGenBase
         return (WorldGenAbstractTree)(p_150567_1_.nextInt(10) == 0 ? this.worldGeneratorBigTree : this.worldGeneratorTrees);
     }
 
-    /**
-     * Gets a WorldGen appropriate for this biome.
-     */
     public WorldGenerator getRandomWorldGenForGrass(Random par1Random)
     {
         return new WorldGenTallGrass(Blocks.tallgrass, 1);
@@ -280,9 +210,6 @@ public abstract class BiomeGenBase
         return p_150572_1_.nextInt(3) > 0 ? BlockFlower.field_149858_b[0] : BlockFlower.field_149859_a[0];
     }
 
-    /**
-     * sets enableSnow to true during biome initialization. returns BiomeGenBase.
-     */
     protected BiomeGenBase setEnableSnow()
     {
         this.enableSnow = true;
@@ -329,9 +256,6 @@ public abstract class BiomeGenBase
         return this;
     }
 
-    /**
-     * takes temperature, returns color
-     */
     public int getSkyColorByTemp(float par1)
     {
         par1 /= 3.0F;
@@ -349,65 +273,41 @@ public abstract class BiomeGenBase
         return Color.getHSBColor(0.62222224F - par1 * 0.05F, 0.5F + par1 * 0.1F, 1.0F).getRGB();
     }
 
-    /**
-     * Returns the correspondent list of the EnumCreatureType informed.
-     */
     public List getSpawnableList(EnumCreatureType par1EnumCreatureType)
     {
         return par1EnumCreatureType == EnumCreatureType.monster ? this.spawnableMonsterList : (par1EnumCreatureType == EnumCreatureType.creature ? this.spawnableCreatureList : (par1EnumCreatureType == EnumCreatureType.waterCreature ? this.spawnableWaterCreatureList : (par1EnumCreatureType == EnumCreatureType.ambient ? this.spawnableCaveCreatureList : null)));
     }
 
-    /**
-     * Returns true if the biome have snowfall instead a normal rain.
-     */
     public boolean getEnableSnow()
     {
         return this.func_150559_j();
     }
 
-    /**
-     * Return true if the biome supports lightning bolt spawn, either by have the bolts enabled and have rain enabled.
-     */
     public boolean canSpawnLightningBolt()
     {
         return this.func_150559_j() ? false : this.enableRain;
     }
 
-    /**
-     * Checks to see if the rainfall level of the biome is extremely high
-     */
     public boolean isHighHumidity()
     {
         return this.rainfall > 0.85F;
     }
 
-    /**
-     * returns the chance a creature has to spawn.
-     */
     public float getSpawningChance()
     {
         return 0.1F;
     }
 
-    /**
-     * Gets an integer representation of this biome's rainfall
-     */
     public final int getIntRainfall()
     {
         return (int)(this.rainfall * 65536.0F);
     }
 
-    /**
-     * Gets a floating point representation of this biome's rainfall
-     */
     public final float getFloatRainfall()
     {
         return this.rainfall;
     }
 
-    /**
-     * Gets a floating point representation of this biome's temperature
-     */
     public final float getFloatTemperature(int p_150564_1_, int p_150564_2_, int p_150564_3_)
     {
         if (p_150564_2_ > 64)
@@ -426,9 +326,6 @@ public abstract class BiomeGenBase
         this.theBiomeDecorator.func_150512_a(par1World, par2Random, this, par3, par4);
     }
 
-    /**
-     * Provides the basic grass color based on the biome temperature and rainfall
-     */
     public int getBiomeGrassColor(int p_150558_1_, int p_150558_2_, int p_150558_3_)
     {
         double var4 = (double)MathHelper.clamp_float(this.getFloatTemperature(p_150558_1_, p_150558_2_, p_150558_3_), 0.0F, 1.0F);
@@ -436,9 +333,6 @@ public abstract class BiomeGenBase
         return ColorizerGrass.getGrassColor(var4, var6);
     }
 
-    /**
-     * Provides the basic foliage color based on the biome temperature and rainfall
-     */
     public int getBiomeFoliageColor(int p_150571_1_, int p_150571_2_, int p_150571_3_)
     {
         double var4 = (double)MathHelper.clamp_float(this.getFloatTemperature(p_150571_1_, p_150571_2_, p_150571_3_), 0.0F, 1.0F);

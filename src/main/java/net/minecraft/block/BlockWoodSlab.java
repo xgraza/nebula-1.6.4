@@ -21,9 +21,6 @@ public class BlockWoodSlab extends BlockSlab
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return Blocks.planks.getIcon(p_149691_1_, p_149691_2_ & 7);
@@ -34,10 +31,6 @@ public class BlockWoodSlab extends BlockSlab
         return Item.getItemFromBlock(Blocks.wooden_slab);
     }
 
-    /**
-     * Returns an item stack containing a single instance of the current block type. 'i' is the block's subtype/damage
-     * and is ignored for blocks which do not support subtypes. Blocks which cannot be harvested should return null.
-     */
     protected ItemStack createStackedBlock(int p_149644_1_)
     {
         return new ItemStack(Item.getItemFromBlock(Blocks.wooden_slab), 2, p_149644_1_ & 7);
@@ -64,5 +57,5 @@ public class BlockWoodSlab extends BlockSlab
         }
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_) {}
+    public void registerIcons(IIconRegister p_149651_1_) {}
 }

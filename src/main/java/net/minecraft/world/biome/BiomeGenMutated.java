@@ -47,9 +47,6 @@ public class BiomeGenMutated extends BiomeGenBase
         this.field_150611_aD.func_150573_a(p_150573_1_, p_150573_2_, p_150573_3_, p_150573_4_, p_150573_5_, p_150573_6_, p_150573_7_);
     }
 
-    /**
-     * returns the chance a creature has to spawn.
-     */
     public float getSpawningChance()
     {
         return this.field_150611_aD.getSpawningChance();
@@ -60,17 +57,11 @@ public class BiomeGenMutated extends BiomeGenBase
         return this.field_150611_aD.func_150567_a(p_150567_1_);
     }
 
-    /**
-     * Provides the basic foliage color based on the biome temperature and rainfall
-     */
     public int getBiomeFoliageColor(int p_150571_1_, int p_150571_2_, int p_150571_3_)
     {
         return this.field_150611_aD.getBiomeFoliageColor(p_150571_1_, p_150571_2_, p_150571_2_);
     }
 
-    /**
-     * Provides the basic grass color based on the biome temperature and rainfall
-     */
     public int getBiomeGrassColor(int p_150558_1_, int p_150558_2_, int p_150558_3_)
     {
         return this.field_150611_aD.getBiomeGrassColor(p_150558_1_, p_150558_2_, p_150558_2_);

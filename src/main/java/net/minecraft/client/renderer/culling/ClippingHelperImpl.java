@@ -13,18 +13,12 @@ public class ClippingHelperImpl extends ClippingHelper
     private FloatBuffer field_78564_h = GLAllocation.createDirectFloatBuffer(16);
     private static final String __OBFID = "CL_00000975";
 
-    /**
-     * Initialises the ClippingHelper object then returns an instance of it.
-     */
     public static ClippingHelper getInstance()
     {
         instance.init();
         return instance;
     }
 
-    /**
-     * Normalize the frustum.
-     */
     private void normalize(float[][] par1ArrayOfFloat, int par2)
     {
         float var3 = MathHelper.sqrt_float(par1ArrayOfFloat[par2][0] * par1ArrayOfFloat[par2][0] + par1ArrayOfFloat[par2][1] * par1ArrayOfFloat[par2][1] + par1ArrayOfFloat[par2][2] * par1ArrayOfFloat[par2][2]);

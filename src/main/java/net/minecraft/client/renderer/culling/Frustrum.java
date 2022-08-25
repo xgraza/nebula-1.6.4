@@ -8,7 +8,13 @@ public class Frustrum implements ICamera
     private double xPosition;
     private double yPosition;
     private double zPosition;
-    private static final String __OBFID = "CL_00000976";
+
+    public Frustrum(ClippingHelper clippingHelper)
+    {
+        this.clippingHelper = clippingHelper;
+    }
+
+    public Frustrum() {}
 
     public void setPosition(double par1, double par3, double par5)
     {
@@ -17,17 +23,11 @@ public class Frustrum implements ICamera
         this.zPosition = par5;
     }
 
-    /**
-     * Calls the clipping helper. Returns true if the box is inside all 6 clipping planes, otherwise returns false.
-     */
     public boolean isBoxInFrustum(double par1, double par3, double par5, double par7, double par9, double par11)
     {
         return this.clippingHelper.isBoxInFrustum(par1 - this.xPosition, par3 - this.yPosition, par5 - this.zPosition, par7 - this.xPosition, par9 - this.yPosition, par11 - this.zPosition);
     }
 
-    /**
-     * Returns true if the bounding box is inside all 6 clipping planes, otherwise returns false.
-     */
     public boolean isBoundingBoxInFrustum(AxisAlignedBB par1AxisAlignedBB)
     {
         return this.isBoxInFrustum(par1AxisAlignedBB.minX, par1AxisAlignedBB.minY, par1AxisAlignedBB.minZ, par1AxisAlignedBB.maxX, par1AxisAlignedBB.maxY, par1AxisAlignedBB.maxZ);

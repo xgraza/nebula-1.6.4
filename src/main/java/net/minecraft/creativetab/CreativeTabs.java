@@ -115,12 +115,8 @@ public abstract class CreativeTabs
     }).setBackgroundImageName("inventory.png").setNoScrollbar().setNoTitle();
     private final int tabIndex;
     private final String tabLabel;
-
-    /** Texture to use. */
     private String backgroundImageName = "items.png";
     private boolean hasScrollbar = true;
-
-    /** Whether to draw the title in the foreground of the creative GUI */
     private boolean drawTitle = true;
     private EnumEnchantmentType[] field_111230_s;
     private ItemStack field_151245_t;
@@ -143,9 +139,6 @@ public abstract class CreativeTabs
         return this.tabLabel;
     }
 
-    /**
-     * Gets the translated Label.
-     */
     public String getTranslatedTabLabel()
     {
         return "itemGroup." + this.getTabLabel();
@@ -201,17 +194,11 @@ public abstract class CreativeTabs
         return this;
     }
 
-    /**
-     * returns index % 6
-     */
     public int getTabColumn()
     {
         return this.tabIndex % 6;
     }
 
-    /**
-     * returns tabIndex < 6
-     */
     public boolean isTabInFirstRow()
     {
         return this.tabIndex < 6;
@@ -253,9 +240,6 @@ public abstract class CreativeTabs
         }
     }
 
-    /**
-     * only shows items which have tabToDisplayOn == this
-     */
     public void displayAllReleventItems(List par1List)
     {
         Iterator var2 = Item.itemRegistry.iterator();
@@ -276,9 +260,6 @@ public abstract class CreativeTabs
         }
     }
 
-    /**
-     * Adds the enchantment books from the supplied EnumEnchantmentType to the given list.
-     */
     public void addEnchantmentBooksToList(List par1List, EnumEnchantmentType ... par2ArrayOfEnumEnchantmentType)
     {
         Enchantment[] var3 = Enchantment.enchantmentsList;

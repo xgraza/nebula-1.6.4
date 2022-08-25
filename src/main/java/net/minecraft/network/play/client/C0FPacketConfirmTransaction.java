@@ -27,9 +27,6 @@ public class C0FPacketConfirmTransaction extends Packet
         p_149531_1_.processConfirmTransaction(this);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149536_a = p_148837_1_.readByte();
@@ -37,9 +34,6 @@ public class C0FPacketConfirmTransaction extends Packet
         this.field_149535_c = p_148837_1_.readByte() != 0;
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.field_149536_a);
@@ -47,9 +41,6 @@ public class C0FPacketConfirmTransaction extends Packet
         p_148840_1_.writeByte(this.field_149535_c ? 1 : 0);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("id=%d, uid=%d, accepted=%b", new Object[] {Integer.valueOf(this.field_149536_a), Short.valueOf(this.field_149534_b), Boolean.valueOf(this.field_149535_c)});

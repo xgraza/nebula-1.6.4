@@ -10,28 +10,13 @@ import net.minecraft.world.IBlockAccess;
 
 public class PathFinder
 {
-    /** Used to find obstacles */
     private IBlockAccess worldMap;
-
-    /** The path being generated */
     private Path path = new Path();
-
-    /** The points in the path */
     private IntHashMap pointMap = new IntHashMap();
-
-    /** Selection of path points to add to the path */
     private PathPoint[] pathOptions = new PathPoint[32];
-
-    /** should the PathFinder go through wodden door blocks */
     private boolean isWoddenDoorAllowed;
-
-    /**
-     * should the PathFinder disregard BlockMovement type materials in its path
-     */
     private boolean isMovementBlockAllowed;
     private boolean isPathingInWater;
-
-    /** tells the FathFinder to not stop pathing underwater */
     private boolean canEntityDrown;
     private static final String __OBFID = "CL_00000576";
 
@@ -44,25 +29,16 @@ public class PathFinder
         this.canEntityDrown = par5;
     }
 
-    /**
-     * Creates a path from one entity to another within a minimum distance
-     */
     public PathEntity createEntityPathTo(Entity par1Entity, Entity par2Entity, float par3)
     {
         return this.createEntityPathTo(par1Entity, par2Entity.posX, par2Entity.boundingBox.minY, par2Entity.posZ, par3);
     }
 
-    /**
-     * Creates a path from an entity to a specified location within a minimum distance
-     */
     public PathEntity createEntityPathTo(Entity par1Entity, int par2, int par3, int par4, float par5)
     {
         return this.createEntityPathTo(par1Entity, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), par5);
     }
 
-    /**
-     * Internal implementation of creating a path from an entity to a point
-     */
     private PathEntity createEntityPathTo(Entity par1Entity, double par2, double par4, double par6, float par8)
     {
         this.path.clearPath();
@@ -95,9 +71,6 @@ public class PathFinder
         return var14;
     }
 
-    /**
-     * Adds a path from start to end and returns the whole path (args: unused, start, end, unused, maxDistance)
-     */
     private PathEntity addToPath(Entity par1Entity, PathPoint par2PathPoint, PathPoint par3PathPoint, PathPoint par4PathPoint, float par5)
     {
         par2PathPoint.totalPathDistance = 0.0F;
@@ -158,10 +131,6 @@ public class PathFinder
         }
     }
 
-    /**
-     * populates pathOptions with available points and returns the number of options found (args: unused1, currentPoint,
-     * unused2, targetPoint, maxDistance)
-     */
     private int findPathOptions(Entity par1Entity, PathPoint par2PathPoint, PathPoint par3PathPoint, PathPoint par4PathPoint, float par5)
     {
         int var6 = 0;
@@ -200,9 +169,6 @@ public class PathFinder
         return var6;
     }
 
-    /**
-     * Returns a point that the entity can safely move to
-     */
     private PathPoint getSafePoint(Entity par1Entity, int par2, int par3, int par4, PathPoint par5PathPoint, int par6)
     {
         PathPoint var7 = null;
@@ -267,9 +233,6 @@ public class PathFinder
         }
     }
 
-    /**
-     * Returns a mapped point or creates and adds one
-     */
     private final PathPoint openPoint(int par1, int par2, int par3)
     {
         int var4 = PathPoint.makeHash(par1, par2, par3);
@@ -284,11 +247,6 @@ public class PathFinder
         return var5;
     }
 
-    /**
-     * Checks if an entity collides with blocks at a position. Returns 1 if clear, 0 for colliding with any solid block,
-     * -1 for water(if avoiding water) but otherwise clear, -2 for lava, -3 for fence, -4 for closed trapdoor, 2 if
-     * otherwise clear except for open trapdoor or water(if not avoiding)
-     */
     public int getVerticalOffset(Entity par1Entity, int par2, int par3, int par4, PathPoint par5PathPoint)
     {
         return func_82565_a(par1Entity, par2, par3, par4, par5PathPoint, this.isPathingInWater, this.isMovementBlockAllowed, this.isWoddenDoorAllowed);
@@ -374,9 +332,6 @@ public class PathFinder
         return var8 ? 2 : 1;
     }
 
-    /**
-     * Returns a new PathEntity for a given start and end point
-     */
     private PathEntity createEntityPath(PathPoint par1PathPoint, PathPoint par2PathPoint)
     {
         int var3 = 1;

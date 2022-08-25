@@ -17,9 +17,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class EntitySilverfish extends EntityMob
 {
-    /**
-     * A cooldown before this entity will search for another Silverfish to join them in battle.
-     */
     private int allySummonCooldown;
     private static final String __OBFID = "CL_00001696";
 
@@ -37,52 +34,32 @@ public class EntitySilverfish extends EntityMob
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0D);
     }
 
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
     protected boolean canTriggerWalking()
     {
         return false;
     }
 
-    /**
-     * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
-     * (Animals, Spiders at day, peaceful PigZombies).
-     */
     protected Entity findPlayerToAttack()
     {
         double var1 = 8.0D;
         return this.worldObj.getClosestVulnerablePlayerToEntity(this, var1);
     }
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return "mob.silverfish.say";
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.silverfish.hit";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.silverfish.kill";
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (this.isEntityInvulnerable())
@@ -100,9 +77,6 @@ public class EntitySilverfish extends EntityMob
         }
     }
 
-    /**
-     * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
-     */
     protected void attackEntity(Entity par1Entity, float par2)
     {
         if (this.attackTime <= 0 && par2 < 1.2F && par1Entity.boundingBox.maxY > this.boundingBox.minY && par1Entity.boundingBox.minY < this.boundingBox.maxY)
@@ -122,9 +96,6 @@ public class EntitySilverfish extends EntityMob
         return Item.getItemById(0);
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.renderYawOffset = this.rotationYaw;
@@ -213,26 +184,16 @@ public class EntitySilverfish extends EntityMob
         }
     }
 
-    /**
-     * Takes a coordinate in and returns a weight to determine how likely this creature will try to path to the block.
-     * Args: x, y, z
-     */
     public float getBlockPathWeight(int par1, int par2, int par3)
     {
         return this.worldObj.getBlock(par1, par2 - 1, par3) == Blocks.stone ? 10.0F : super.getBlockPathWeight(par1, par2, par3);
     }
 
-    /**
-     * Checks to make sure the light is not too bright where the mob is spawning
-     */
     protected boolean isValidLightLevel()
     {
         return true;
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
     public boolean getCanSpawnHere()
     {
         if (super.getCanSpawnHere())
@@ -246,9 +207,6 @@ public class EntitySilverfish extends EntityMob
         }
     }
 
-    /**
-     * Get this Entity's EnumCreatureAttribute
-     */
     public EnumCreatureAttribute getCreatureAttribute()
     {
         return EnumCreatureAttribute.ARTHROPOD;

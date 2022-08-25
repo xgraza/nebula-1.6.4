@@ -29,26 +29,16 @@ public class TileEntityFurnace extends TileEntity implements ISidedInventory
     private String field_145958_o;
     private static final String __OBFID = "CL_00000357";
 
-    /**
-     * Returns the number of slots in the inventory.
-     */
     public int getSizeInventory()
     {
         return this.field_145957_n.length;
     }
 
-    /**
-     * Returns the stack in slot i
-     */
     public ItemStack getStackInSlot(int par1)
     {
         return this.field_145957_n[par1];
     }
 
-    /**
-     * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and returns them in a
-     * new stack.
-     */
     public ItemStack decrStackSize(int par1, int par2)
     {
         if (this.field_145957_n[par1] != null)
@@ -79,10 +69,6 @@ public class TileEntityFurnace extends TileEntity implements ISidedInventory
         }
     }
 
-    /**
-     * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
-     * like when you close a workbench GUI.
-     */
     public ItemStack getStackInSlotOnClosing(int par1)
     {
         if (this.field_145957_n[par1] != null)
@@ -97,9 +83,6 @@ public class TileEntityFurnace extends TileEntity implements ISidedInventory
         }
     }
 
-    /**
-     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
-     */
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
         this.field_145957_n[par1] = par2ItemStack;
@@ -110,17 +93,11 @@ public class TileEntityFurnace extends TileEntity implements ISidedInventory
         }
     }
 
-    /**
-     * Returns the name of the inventory
-     */
     public String getInventoryName()
     {
         return this.isInventoryNameLocalized() ? this.field_145958_o : "container.furnace";
     }
 
-    /**
-     * Returns if the inventory name is localized
-     */
     public boolean isInventoryNameLocalized()
     {
         return this.field_145958_o != null && this.field_145958_o.length() > 0;
@@ -152,7 +129,7 @@ public class TileEntityFurnace extends TileEntity implements ISidedInventory
         this.field_145961_j = p_145839_1_.getShort("CookTime");
         this.field_145963_i = func_145952_a(this.field_145957_n[1]);
 
-        if (p_145839_1_.func_150297_b("CustomName", 8))
+        if (p_145839_1_.hasKey("CustomName", 8))
         {
             this.field_145958_o = p_145839_1_.getString("CustomName");
         }
@@ -184,9 +161,6 @@ public class TileEntityFurnace extends TileEntity implements ISidedInventory
         }
     }
 
-    /**
-     * Returns the maximum stack size for a inventory slot.
-     */
     public int getInventoryStackLimit()
     {
         return 64;
@@ -264,7 +238,7 @@ public class TileEntityFurnace extends TileEntity implements ISidedInventory
             if (var1 != this.field_145956_a > 0)
             {
                 var2 = true;
-                BlockFurnace.func_149931_a(this.field_145956_a > 0, this.worldObj, this.field_145851_c, this.field_145848_d, this.field_145849_e);
+                BlockFurnace.func_149931_a(this.field_145956_a > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
         }
 
@@ -350,48 +324,30 @@ public class TileEntityFurnace extends TileEntity implements ISidedInventory
         return func_145952_a(p_145954_0_) > 0;
     }
 
-    /**
-     * Do not make give this method the name canInteractWith because it clashes with Container
-     */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getTileEntity(this.field_145851_c, this.field_145848_d, this.field_145849_e) != this ? false : par1EntityPlayer.getDistanceSq((double)this.field_145851_c + 0.5D, (double)this.field_145848_d + 0.5D, (double)this.field_145849_e + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
     }
 
     public void openInventory() {}
 
     public void closeInventory() {}
 
-    /**
-     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
-     */
     public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
     {
         return par1 == 2 ? false : (par1 == 1 ? func_145954_b(par2ItemStack) : true);
     }
 
-    /**
-     * Returns an array containing the indices of the slots that can be accessed by automation on the given side of this
-     * block.
-     */
     public int[] getAccessibleSlotsFromSide(int par1)
     {
         return par1 == 0 ? field_145959_l : (par1 == 1 ? field_145962_k : field_145960_m);
     }
 
-    /**
-     * Returns true if automation can insert the given item in the given slot from the given side. Args: Slot, item,
-     * side
-     */
     public boolean canInsertItem(int par1, ItemStack par2ItemStack, int par3)
     {
         return this.isItemValidForSlot(par1, par2ItemStack);
     }
 
-    /**
-     * Returns true if automation can extract the given item in the given slot from the given side. Args: Slot, item,
-     * side
-     */
     public boolean canExtractItem(int par1, ItemStack par2ItemStack, int par3)
     {
         return par3 != 0 || par1 != 1 || par2ItemStack.getItem() == Items.bucket;

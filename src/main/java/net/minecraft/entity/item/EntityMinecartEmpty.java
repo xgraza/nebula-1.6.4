@@ -17,9 +17,6 @@ public class EntityMinecartEmpty extends EntityMinecart
         super(par1World, par2, par4, par6);
     }
 
-    /**
-     * First layer of player interaction
-     */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != par1EntityPlayer)

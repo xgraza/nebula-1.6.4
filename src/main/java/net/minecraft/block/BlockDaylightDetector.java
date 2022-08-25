@@ -34,9 +34,6 @@ public class BlockDaylightDetector extends BlockContainer
         return p_149709_1_.getBlockMetadata(p_149709_2_, p_149709_3_, p_149709_4_);
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_) {}
 
     public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_) {}
@@ -89,31 +86,22 @@ public class BlockDaylightDetector extends BlockContainer
         return false;
     }
 
-    /**
-     * Can this block provide power. Only wire currently seems to have this change based on its state.
-     */
     public boolean canProvidePower()
     {
         return true;
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
         return new TileEntityDaylightDetector();
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return p_149691_1_ == 1 ? this.field_149958_a[0] : this.field_149958_a[1];
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_149958_a[0] = p_149651_1_.registerIcon(this.getTextureName() + "_top");
         this.field_149958_a[1] = p_149651_1_.registerIcon(this.getTextureName() + "_side");

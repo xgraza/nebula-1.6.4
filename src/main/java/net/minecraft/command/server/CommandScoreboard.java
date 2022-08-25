@@ -33,9 +33,6 @@ public class CommandScoreboard extends CommandBase
         return "scoreboard";
     }
 
-    /**
-     * Return the required permission level for this command.
-     */
     public int getRequiredPermissionLevel()
     {
         return 2;
@@ -766,9 +763,6 @@ public class CommandScoreboard extends CommandBase
         notifyAdmins(p_147187_1_, "commands.scoreboard.players.reset.success", new Object[] {var5});
     }
 
-    /**
-     * Adds the strings available in this command to the given list of tab completion options.
-     */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         if (par2ArrayOfStr.length == 1)
@@ -923,9 +917,6 @@ public class CommandScoreboard extends CommandBase
         return var3;
     }
 
-    /**
-     * Return whether the specified command parameter index is a username parameter.
-     */
     public boolean isUsernameIndex(String[] par1ArrayOfStr, int par2)
     {
         return par1ArrayOfStr[0].equalsIgnoreCase("players") ? par2 == 2 : (!par1ArrayOfStr[0].equalsIgnoreCase("teams") ? false : par2 == 2 || par2 == 3);

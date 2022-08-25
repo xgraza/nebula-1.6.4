@@ -10,22 +10,14 @@ import java.util.Map;
 
 public class Scoreboard
 {
-    /** Map of objective names to ScoreObjective objects. */
     private final Map scoreObjectives = new HashMap();
     private final Map scoreObjectiveCriterias = new HashMap();
     private final Map field_96544_c = new HashMap();
     private final ScoreObjective[] field_96541_d = new ScoreObjective[3];
-
-    /** Map of teamnames to ScorePlayerTeam instances */
     private final Map teams = new HashMap();
-
-    /** Map of usernames to ScorePlayerTeam objects. */
     private final Map teamMemberships = new HashMap();
     private static final String __OBFID = "CL_00000619";
 
-    /**
-     * Returns a ScoreObjective for the objective name
-     */
     public ScoreObjective getObjective(String par1Str)
     {
         return (ScoreObjective)this.scoreObjectives.get(par1Str);
@@ -191,18 +183,11 @@ public class Scoreboard
         return this.field_96541_d[par1];
     }
 
-    /**
-     * Retrieve the ScorePlayerTeam instance identified by the passed team name
-     */
     public ScorePlayerTeam getTeam(String par1Str)
     {
         return (ScorePlayerTeam)this.teams.get(par1Str);
     }
 
-    /**
-     * Verifies that the given name doesn't already refer to an existing team, creates it otherwise and broadcasts the
-     * addition to all players
-     */
     public ScorePlayerTeam createTeam(String par1Str)
     {
         ScorePlayerTeam var2 = this.getTeam(par1Str);
@@ -220,9 +205,6 @@ public class Scoreboard
         }
     }
 
-    /**
-     * Removes the team from the scoreboard, updates all player memberships and broadcasts the deletion to all players
-     */
     public void removeTeam(ScorePlayerTeam par1ScorePlayerTeam)
     {
         this.teams.remove(par1ScorePlayerTeam.getRegisteredName());
@@ -273,10 +255,6 @@ public class Scoreboard
         }
     }
 
-    /**
-     * Removes the given username from the given ScorePlayerTeam. If the player is not on the team then an
-     * IllegalStateException is thrown.
-     */
     public void removePlayerFromTeam(String par1Str, ScorePlayerTeam par2ScorePlayerTeam)
     {
         if (this.getPlayersTeam(par1Str) != par2ScorePlayerTeam)
@@ -290,25 +268,16 @@ public class Scoreboard
         }
     }
 
-    /**
-     * Retrieve all registered ScorePlayerTeam names
-     */
     public Collection getTeamNames()
     {
         return this.teams.keySet();
     }
 
-    /**
-     * Retrieve all registered ScorePlayerTeam instances
-     */
     public Collection getTeams()
     {
         return this.teams.values();
     }
 
-    /**
-     * Gets the ScorePlayerTeam object for the given username.
-     */
     public ScorePlayerTeam getPlayersTeam(String par1Str)
     {
         return (ScorePlayerTeam)this.teamMemberships.get(par1Str);
@@ -330,9 +299,6 @@ public class Scoreboard
 
     public void func_96513_c(ScorePlayerTeam par1ScorePlayerTeam) {}
 
-    /**
-     * Returns 'list' for 0, 'sidebar' for 1, 'belowName for 2, otherwise null.
-     */
     public static String getObjectiveDisplaySlot(int par0)
     {
         switch (par0)
@@ -351,9 +317,6 @@ public class Scoreboard
         }
     }
 
-    /**
-     * Returns 0 for (case-insensitive) 'list', 1 for 'sidebar', 2 for 'belowName', otherwise -1.
-     */
     public static int getObjectiveDisplaySlotNumber(String par0Str)
     {
         return par0Str.equalsIgnoreCase("list") ? 0 : (par0Str.equalsIgnoreCase("sidebar") ? 1 : (par0Str.equalsIgnoreCase("belowName") ? 2 : -1));

@@ -26,9 +26,6 @@ public class EntityMinecartChest extends EntityMinecartContainer
         this.func_145778_a(Item.getItemFromBlock(Blocks.chest), 1, 0.0F);
     }
 
-    /**
-     * Returns the number of slots in the inventory.
-     */
     public int getSizeInventory()
     {
         return 27;

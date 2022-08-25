@@ -177,17 +177,11 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
         return (SoundEventAccessorComposite)this.field_147697_e.getObject(p_147680_1_);
     }
 
-    /**
-     * Play a sound
-     */
     public void playSound(ISound p_147682_1_)
     {
         this.field_147694_f.func_148611_c(p_147682_1_);
     }
 
-    /**
-     * Plays the sound in n ticks
-     */
     public void playDelayedSound(ISound p_147681_1_, int p_147681_2_)
     {
         this.field_147694_f.func_148599_a(p_147681_1_, p_147681_2_);
@@ -213,9 +207,6 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
         this.field_147694_f.func_148613_b();
     }
 
-    /**
-     * Updates the JList with a new model.
-     */
     public void update()
     {
         this.field_147694_f.func_148605_d();

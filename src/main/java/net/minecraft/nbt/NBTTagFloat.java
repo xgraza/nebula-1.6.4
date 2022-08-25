@@ -7,7 +7,6 @@ import net.minecraft.util.MathHelper;
 
 public class NBTTagFloat extends NBTBase.NBTPrimitive
 {
-    /** The float value for the tag. */
     private float data;
     private static final String __OBFID = "CL_00001220";
 
@@ -18,25 +17,16 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive
         this.data = p_i45131_1_;
     }
 
-    /**
-     * Write the actual data contents of the tag, implemented in NBT extension classes
-     */
     void write(DataOutput par1DataOutput) throws IOException
     {
         par1DataOutput.writeFloat(this.data);
     }
 
-    /**
-     * Read the actual data contents of the tag, implemented in NBT extension classes
-     */
     void load(DataInput par1DataInput, int par2) throws IOException
     {
         this.data = par1DataInput.readFloat();
     }
 
-    /**
-     * Gets the type byte for the tag.
-     */
     public byte getId()
     {
         return (byte)5;
@@ -47,9 +37,6 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive
         return "" + this.data + "f";
     }
 
-    /**
-     * Creates a clone of the tag.
-     */
     public NBTBase copy()
     {
         return new NBTTagFloat(this.data);

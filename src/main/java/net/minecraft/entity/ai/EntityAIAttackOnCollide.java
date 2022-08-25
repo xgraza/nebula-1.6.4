@@ -10,21 +10,9 @@ public class EntityAIAttackOnCollide extends EntityAIBase
 {
     World worldObj;
     EntityCreature attacker;
-
-    /**
-     * An amount of decrementing ticks that allows the entity to attack once the tick reaches 0.
-     */
     int attackTick;
-
-    /** The speed with which the mob will approach the target */
     double speedTowardsTarget;
-
-    /**
-     * When true, the mob will continue chasing its target, even if it can't find a path to them right now.
-     */
     boolean longMemory;
-
-    /** The PathEntity of our entity. */
     PathEntity entityPathEntity;
     Class classTarget;
     private int field_75445_i;
@@ -48,9 +36,6 @@ public class EntityAIAttackOnCollide extends EntityAIBase
         this.setMutexBits(3);
     }
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
     public boolean shouldExecute()
     {
         EntityLivingBase var1 = this.attacker.getAttackTarget();
@@ -74,35 +59,23 @@ public class EntityAIAttackOnCollide extends EntityAIBase
         }
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
     public boolean continueExecuting()
     {
         EntityLivingBase var1 = this.attacker.getAttackTarget();
         return var1 == null ? false : (!var1.isEntityAlive() ? false : (!this.longMemory ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistance(MathHelper.floor_double(var1.posX), MathHelper.floor_double(var1.posY), MathHelper.floor_double(var1.posZ))));
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void startExecuting()
     {
         this.attacker.getNavigator().setPath(this.entityPathEntity, this.speedTowardsTarget);
         this.field_75445_i = 0;
     }
 
-    /**
-     * Resets the task
-     */
     public void resetTask()
     {
         this.attacker.getNavigator().clearPathEntity();
     }
 
-    /**
-     * Updates the task
-     */
     public void updateTask()
     {
         EntityLivingBase var1 = this.attacker.getAttackTarget();

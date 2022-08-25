@@ -11,10 +11,7 @@ import java.util.UUID;
 
 public class ModifiableAttributeInstance implements IAttributeInstance
 {
-    /** The BaseAttributeMap this attributeInstance can be found in */
     private final BaseAttributeMap attributeMap;
-
-    /** The Attribute this is an instance of */
     private final IAttribute genericAttribute;
     private final Map mapByOperation = Maps.newHashMap();
     private final Map mapByName = Maps.newHashMap();
@@ -36,9 +33,6 @@ public class ModifiableAttributeInstance implements IAttributeInstance
         }
     }
 
-    /**
-     * Get the Attribute this is an instance of
-     */
     public IAttribute getAttribute()
     {
         return this.genericAttribute;
@@ -75,9 +69,6 @@ public class ModifiableAttributeInstance implements IAttributeInstance
         return var1;
     }
 
-    /**
-     * Returns attribute modifier, if any, by the given UUID
-     */
     public AttributeModifier getModifier(UUID par1UUID)
     {
         return (AttributeModifier)this.mapByUUID.get(par1UUID);

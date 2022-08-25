@@ -7,9 +7,6 @@ public class MouseFilter
     private float field_76335_c;
     private static final String __OBFID = "CL_00001500";
 
-    /**
-     * Smooths mouse input
-     */
     public float smooth(float par1, float par2)
     {
         this.field_76336_a += par1;

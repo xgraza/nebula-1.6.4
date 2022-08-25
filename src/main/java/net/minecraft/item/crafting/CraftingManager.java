@@ -15,16 +15,10 @@ import net.minecraft.world.World;
 
 public class CraftingManager
 {
-    /** The static instance of this class */
     private static final CraftingManager instance = new CraftingManager();
-
-    /** A list of all the recipes added */
     private List recipes = new ArrayList();
     private static final String __OBFID = "CL_00000090";
 
-    /**
-     * Returns the static instance of this class
-     */
     public static final CraftingManager getInstance()
     {
         return instance;
@@ -336,9 +330,6 @@ public class CraftingManager
         }
     }
 
-    /**
-     * returns the List<> of all recipes
-     */
     public List getRecipeList()
     {
         return this.recipes;

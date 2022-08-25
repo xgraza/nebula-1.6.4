@@ -41,43 +41,22 @@ public class EntityLeashKnot extends EntityHanging
         return 9;
     }
 
-    /**
-     * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
-     * length * 64 * renderDistanceWeight Args: distance
-     */
     public boolean isInRangeToRenderDist(double par1)
     {
         return par1 < 1024.0D;
     }
 
-    /**
-     * Called when this entity is broken. Entity parameter may be null.
-     */
     public void onBroken(Entity par1Entity) {}
 
-    /**
-     * Either write this entity to the NBT tag given and return true, or return false without doing anything. If this
-     * returns false the entity is not saved on disk. Ridden entities return false here as they are saved with their
-     * rider.
-     */
     public boolean writeToNBTOptional(NBTTagCompound par1NBTTagCompound)
     {
         return false;
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {}
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {}
 
-    /**
-     * First layer of player interaction
-     */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         ItemStack var2 = par1EntityPlayer.getHeldItem();
@@ -138,9 +117,6 @@ public class EntityLeashKnot extends EntityHanging
         return true;
     }
 
-    /**
-     * checks to make sure painting can be placed there
-     */
     public boolean onValidSurface()
     {
         return this.worldObj.getBlock(this.field_146063_b, this.field_146064_c, this.field_146062_d).getRenderType() == 11;

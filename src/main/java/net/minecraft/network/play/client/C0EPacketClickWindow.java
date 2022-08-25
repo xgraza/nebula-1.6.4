@@ -35,9 +35,6 @@ public class C0EPacketClickWindow extends Packet
         p_149545_1_.processClickWindow(this);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149554_a = p_148837_1_.readByte();
@@ -48,9 +45,6 @@ public class C0EPacketClickWindow extends Packet
         this.field_149551_e = p_148837_1_.readItemStackFromBuffer();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.field_149554_a);
@@ -61,9 +55,6 @@ public class C0EPacketClickWindow extends Packet
         p_148840_1_.writeItemStackToBuffer(this.field_149551_e);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return this.field_149551_e != null ? String.format("id=%d, slot=%d, button=%d, type=%d, itemid=%d, itemcount=%d, itemaux=%d", new Object[] {Integer.valueOf(this.field_149554_a), Integer.valueOf(this.field_149552_b), Integer.valueOf(this.field_149553_c), Integer.valueOf(this.field_149549_f), Integer.valueOf(Item.getIdFromItem(this.field_149551_e.getItem())), Integer.valueOf(this.field_149551_e.stackSize), Integer.valueOf(this.field_149551_e.getItemDamage())}): String.format("id=%d, slot=%d, button=%d, type=%d, itemid=-1", new Object[] {Integer.valueOf(this.field_149554_a), Integer.valueOf(this.field_149552_b), Integer.valueOf(this.field_149553_c), Integer.valueOf(this.field_149549_f)});

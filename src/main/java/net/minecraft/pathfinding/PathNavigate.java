@@ -15,45 +15,16 @@ public class PathNavigate
 {
     private EntityLiving theEntity;
     private World worldObj;
-
-    /** The PathEntity being followed. */
     private PathEntity currentPath;
     private double speed;
-
-    /**
-     * The number of blocks (extra) +/- in each axis that get pulled out as cache for the pathfinder's search space
-     */
     private IAttributeInstance pathSearchRange;
     private boolean noSunPathfind;
-
-    /** Time, in number of ticks, following the current path */
     private int totalTicks;
-
-    /**
-     * The time when the last position check was done (to detect successful movement)
-     */
     private int ticksAtLastPos;
-
-    /**
-     * Coordinates of the entity's position last time a check was done (part of monitoring getting 'stuck')
-     */
     private Vec3 lastPosCheck = Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
-
-    /**
-     * Specifically, if a wooden door block is even considered to be passable by the pathfinder
-     */
     private boolean canPassOpenWoodenDoors = true;
-
-    /** If door blocks are considered passable even when closed */
     private boolean canPassClosedWoodenDoors;
-
-    /** If water blocks are avoided (at least by the pathfinder) */
     private boolean avoidsWater;
-
-    /**
-     * If the entity can swim. Swimming AI enables this and the pathfinder will also cause the entity to swim straight
-     * upwards when underwater
-     */
     private boolean canSwim;
     private static final String __OBFID = "CL_00001627";
 
@@ -79,41 +50,26 @@ public class PathNavigate
         this.canPassClosedWoodenDoors = par1;
     }
 
-    /**
-     * Sets if the entity can enter open doors
-     */
     public void setEnterDoors(boolean par1)
     {
         this.canPassOpenWoodenDoors = par1;
     }
 
-    /**
-     * Returns true if the entity can break doors, false otherwise
-     */
     public boolean getCanBreakDoors()
     {
         return this.canPassClosedWoodenDoors;
     }
 
-    /**
-     * Sets if the path should avoid sunlight
-     */
     public void setAvoidSun(boolean par1)
     {
         this.noSunPathfind = par1;
     }
 
-    /**
-     * Sets the speed
-     */
     public void setSpeed(double par1)
     {
         this.speed = par1;
     }
 
-    /**
-     * Sets if the entity can swim
-     */
     public void setCanSwim(boolean par1)
     {
         this.canSwim = par1;
@@ -124,44 +80,28 @@ public class PathNavigate
         return (float)this.pathSearchRange.getAttributeValue();
     }
 
-    /**
-     * Returns the path to the given coordinates
-     */
     public PathEntity getPathToXYZ(double par1, double par3, double par5)
     {
         return !this.canNavigate() ? null : this.worldObj.getEntityPathToXYZ(this.theEntity, MathHelper.floor_double(par1), (int)par3, MathHelper.floor_double(par5), this.func_111269_d(), this.canPassOpenWoodenDoors, this.canPassClosedWoodenDoors, this.avoidsWater, this.canSwim);
     }
 
-    /**
-     * Try to find and set a path to XYZ. Returns true if successful.
-     */
     public boolean tryMoveToXYZ(double par1, double par3, double par5, double par7)
     {
         PathEntity var9 = this.getPathToXYZ((double)MathHelper.floor_double(par1), (double)((int)par3), (double)MathHelper.floor_double(par5));
         return this.setPath(var9, par7);
     }
 
-    /**
-     * Returns the path to the given EntityLiving
-     */
     public PathEntity getPathToEntityLiving(Entity par1Entity)
     {
         return !this.canNavigate() ? null : this.worldObj.getPathEntityToEntity(this.theEntity, par1Entity, this.func_111269_d(), this.canPassOpenWoodenDoors, this.canPassClosedWoodenDoors, this.avoidsWater, this.canSwim);
     }
 
-    /**
-     * Try to find and set a path to EntityLiving. Returns true if successful.
-     */
     public boolean tryMoveToEntityLiving(Entity par1Entity, double par2)
     {
         PathEntity var4 = this.getPathToEntityLiving(par1Entity);
         return var4 != null ? this.setPath(var4, par2) : false;
     }
 
-    /**
-     * sets the active path data if path is 100% unique compared to old path, checks to adjust path for sun avoiding
-     * ents and stores end coords
-     */
     public boolean setPath(PathEntity par1PathEntity, double par2)
     {
         if (par1PathEntity == null)
@@ -198,9 +138,6 @@ public class PathNavigate
         }
     }
 
-    /**
-     * gets the actively used PathEntity
-     */
     public PathEntity getPath()
     {
         return this.currentPath;
@@ -281,17 +218,11 @@ public class PathNavigate
         }
     }
 
-    /**
-     * If null path or reached the end
-     */
     public boolean noPath()
     {
         return this.currentPath == null || this.currentPath.isFinished();
     }
 
-    /**
-     * sets active PathEntity to null
-     */
     public void clearPathEntity()
     {
         this.currentPath = null;
@@ -302,9 +233,6 @@ public class PathNavigate
         return this.worldObj.getWorldVec3Pool().getVecFromPool(this.theEntity.posX, (double)this.getPathableYPos(), this.theEntity.posZ);
     }
 
-    /**
-     * Gets the safe pathing Y position for the entity depending on if it can path swim or not
-     */
     private int getPathableYPos()
     {
         if (this.theEntity.isInWater() && this.canSwim)
@@ -334,25 +262,16 @@ public class PathNavigate
         }
     }
 
-    /**
-     * If on ground or swimming and can swim
-     */
     private boolean canNavigate()
     {
         return this.theEntity.onGround || this.canSwim && this.isInFluid();
     }
 
-    /**
-     * Returns true if the entity is in water or lava, false otherwise
-     */
     private boolean isInFluid()
     {
         return this.theEntity.isInWater() || this.theEntity.handleLavaMovement();
     }
 
-    /**
-     * Trims path data from the end to the first sun covered block
-     */
     private void removeSunnyPath()
     {
         if (!this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.theEntity.posX), (int)(this.theEntity.boundingBox.minY + 0.5D), MathHelper.floor_double(this.theEntity.posZ)))
@@ -370,10 +289,6 @@ public class PathNavigate
         }
     }
 
-    /**
-     * Returns true when an entity of specified size could safely walk in a straight line between the two points. Args:
-     * pos1, pos2, entityXSize, entityYSize, entityZSize
-     */
     private boolean isDirectPathBetweenPoints(Vec3 par1Vec3, Vec3 par2Vec3, int par3, int par4, int par5)
     {
         int var6 = MathHelper.floor_double(par1Vec3.xCoord);
@@ -453,10 +368,6 @@ public class PathNavigate
         }
     }
 
-    /**
-     * Returns true when an entity could stand at a position, including solid blocks under the entire entity. Args:
-     * xOffset, yOffset, zOffset, entityXSize, entityYSize, entityZSize, originPosition, vecX, vecZ
-     */
     private boolean isSafeToStandAt(int par1, int par2, int par3, int par4, int par5, int par6, Vec3 par7Vec3, double par8, double par10)
     {
         int var12 = par1 - par4 / 2;
@@ -502,10 +413,6 @@ public class PathNavigate
         }
     }
 
-    /**
-     * Returns true if an entity does not collide with any solid blocks at the position. Args: xOffset, yOffset,
-     * zOffset, entityXSize, entityYSize, entityZSize, originPosition, vecX, vecZ
-     */
     private boolean isPositionClear(int par1, int par2, int par3, int par4, int par5, int par6, Vec3 par7Vec3, double par8, double par10)
     {
         for (int var12 = par1; var12 < par1 + par4; ++var12)

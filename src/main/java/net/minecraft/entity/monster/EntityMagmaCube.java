@@ -22,17 +22,11 @@ public class EntityMagmaCube extends EntitySlime
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
     public boolean getCanSpawnHere()
     {
         return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.worldObj.checkNoEntityCollision(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox);
     }
 
-    /**
-     * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
-     */
     public int getTotalArmorValue()
     {
         return this.getSlimeSize() * 3;
@@ -43,17 +37,11 @@ public class EntityMagmaCube extends EntitySlime
         return 15728880;
     }
 
-    /**
-     * Gets how bright this entity is.
-     */
     public float getBrightness(float par1)
     {
         return 1.0F;
     }
 
-    /**
-     * Returns the name of a particle effect that may be randomly created by EntitySlime.onUpdate()
-     */
     protected String getSlimeParticle()
     {
         return "flame";
@@ -69,9 +57,6 @@ public class EntityMagmaCube extends EntitySlime
         return Items.magma_cream;
     }
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
     protected void dropFewItems(boolean par1, int par2)
     {
         Item var3 = this.func_146068_u();
@@ -92,17 +77,11 @@ public class EntityMagmaCube extends EntitySlime
         }
     }
 
-    /**
-     * Returns true if the entity is on fire. Used by render to add the fire effect on rendering.
-     */
     public boolean isBurning()
     {
         return false;
     }
 
-    /**
-     * Gets the amount of time the slime needs to wait between jumps.
-     */
     protected int getJumpDelay()
     {
         return super.getJumpDelay() * 4;
@@ -113,55 +92,34 @@ public class EntityMagmaCube extends EntitySlime
         this.squishAmount *= 0.9F;
     }
 
-    /**
-     * Causes this entity to do an upwards motion (jumping).
-     */
     protected void jump()
     {
         this.motionY = (double)(0.42F + (float)this.getSlimeSize() * 0.1F);
         this.isAirBorne = true;
     }
 
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
     protected void fall(float par1) {}
 
-    /**
-     * Indicates weather the slime is able to damage the player (based upon the slime's size)
-     */
     protected boolean canDamagePlayer()
     {
         return true;
     }
 
-    /**
-     * Gets the amount of damage dealt to the player when "attacked" by the slime.
-     */
     protected int getAttackStrength()
     {
         return super.getAttackStrength() + 2;
     }
 
-    /**
-     * Returns the name of the sound played when the slime jumps.
-     */
     protected String getJumpSound()
     {
         return this.getSlimeSize() > 1 ? "mob.magmacube.big" : "mob.magmacube.small";
     }
 
-    /**
-     * Whether or not the current entity is in lava
-     */
     public boolean handleLavaMovement()
     {
         return false;
     }
 
-    /**
-     * Returns true if the slime makes a sound when it lands after a jump (based upon the slime's size)
-     */
     protected boolean makesSoundOnLand()
     {
         return true;

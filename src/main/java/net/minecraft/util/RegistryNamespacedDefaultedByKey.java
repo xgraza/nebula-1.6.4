@@ -11,9 +11,6 @@ public class RegistryNamespacedDefaultedByKey extends RegistryNamespaced
         this.field_148760_d = p_i45127_1_;
     }
 
-    /**
-     * Adds a new object to this registry, keyed by both the given integer ID and the given string.
-     */
     public void addObject(int p_148756_1_, String p_148756_2_, Object p_148756_3_)
     {
         if (this.field_148760_d.equals(p_148756_2_))
@@ -30,9 +27,6 @@ public class RegistryNamespacedDefaultedByKey extends RegistryNamespaced
         return var2 == null ? this.field_148761_e : var2;
     }
 
-    /**
-     * Gets the object identified by the given ID.
-     */
     public Object getObjectForID(int p_148754_1_)
     {
         Object var2 = super.getObjectForID(p_148754_1_);

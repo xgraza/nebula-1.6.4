@@ -17,33 +17,21 @@ import net.minecraft.world.World;
 
 public abstract class MobSpawnerBaseLogic
 {
-    /** The delay to spawn. */
     public int spawnDelay = 20;
     private String mobID = "Pig";
-
-    /** List of minecart to spawn. */
     private List minecartToSpawn;
     private MobSpawnerBaseLogic.WeightedRandomMinecart randomMinecart;
     public double field_98287_c;
     public double field_98284_d;
     private int minSpawnDelay = 200;
     private int maxSpawnDelay = 800;
-
-    /** A counter for spawn tries. */
     private int spawnCount = 4;
     private Entity field_98291_j;
     private int maxNearbyEntities = 6;
-
-    /** The distance from which a player activates the spawner. */
     private int activatingRangeFromPlayer = 16;
-
-    /** The range coefficient for spawning entities around. */
     private int spawnRange = 4;
     private static final String __OBFID = "CL_00000129";
 
-    /**
-     * Gets the entity name that should be spawned.
-     */
     public String getEntityNameToSpawn()
     {
         if (this.getRandomMinecart() == null)
@@ -66,9 +54,6 @@ public abstract class MobSpawnerBaseLogic
         this.mobID = par1Str;
     }
 
-    /**
-     * Returns true if there's a player close enough to this mob spawner to activate it.
-     */
     public boolean canRun()
     {
         return this.getSpawnerWorld().getClosestPlayer((double)this.getSpawnerX() + 0.5D, (double)this.getSpawnerY() + 0.5D, (double)this.getSpawnerZ() + 0.5D, (double)this.activatingRangeFromPlayer) != null;
@@ -180,7 +165,7 @@ public abstract class MobSpawnerBaseLogic
 
             NBTTagCompound var11;
 
-            for (Entity var10 = par1Entity; var2.func_150297_b("Riding", 10); var2 = var11)
+            for (Entity var10 = par1Entity; var2.hasKey("Riding", 10); var2 = var11)
             {
                 var11 = var2.getCompoundTag("Riding");
                 Entity var12 = EntityList.createEntityByName(var11.getString("id"), par1Entity.worldObj);
@@ -246,7 +231,7 @@ public abstract class MobSpawnerBaseLogic
         this.mobID = par1NBTTagCompound.getString("EntityId");
         this.spawnDelay = par1NBTTagCompound.getShort("Delay");
 
-        if (par1NBTTagCompound.func_150297_b("SpawnPotentials", 9))
+        if (par1NBTTagCompound.hasKey("SpawnPotentials", 9))
         {
             this.minecartToSpawn = new ArrayList();
             NBTTagList var2 = par1NBTTagCompound.getTagList("SpawnPotentials", 10);
@@ -261,7 +246,7 @@ public abstract class MobSpawnerBaseLogic
             this.minecartToSpawn = null;
         }
 
-        if (par1NBTTagCompound.func_150297_b("SpawnData", 10))
+        if (par1NBTTagCompound.hasKey("SpawnData", 10))
         {
             this.setRandomMinecart(new MobSpawnerBaseLogic.WeightedRandomMinecart(par1NBTTagCompound.getCompoundTag("SpawnData"), this.mobID));
         }
@@ -270,20 +255,20 @@ public abstract class MobSpawnerBaseLogic
             this.setRandomMinecart((MobSpawnerBaseLogic.WeightedRandomMinecart)null);
         }
 
-        if (par1NBTTagCompound.func_150297_b("MinSpawnDelay", 99))
+        if (par1NBTTagCompound.hasKey("MinSpawnDelay", 99))
         {
             this.minSpawnDelay = par1NBTTagCompound.getShort("MinSpawnDelay");
             this.maxSpawnDelay = par1NBTTagCompound.getShort("MaxSpawnDelay");
             this.spawnCount = par1NBTTagCompound.getShort("SpawnCount");
         }
 
-        if (par1NBTTagCompound.func_150297_b("MaxNearbyEntities", 99))
+        if (par1NBTTagCompound.hasKey("MaxNearbyEntities", 99))
         {
             this.maxNearbyEntities = par1NBTTagCompound.getShort("MaxNearbyEntities");
             this.activatingRangeFromPlayer = par1NBTTagCompound.getShort("RequiredPlayerRange");
         }
 
-        if (par1NBTTagCompound.func_150297_b("SpawnRange", 99))
+        if (par1NBTTagCompound.hasKey("SpawnRange", 99))
         {
             this.spawnRange = par1NBTTagCompound.getShort("SpawnRange");
         }
@@ -345,9 +330,6 @@ public abstract class MobSpawnerBaseLogic
         return this.field_98291_j;
     }
 
-    /**
-     * Sets the delay to minDelay if parameter given is 1, else return false.
-     */
     public boolean setDelayToMin(int par1)
     {
         if (par1 == 1 && this.getSpawnerWorld().isClient)

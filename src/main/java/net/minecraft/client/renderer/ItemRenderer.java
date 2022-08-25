@@ -33,19 +33,11 @@ public class ItemRenderer
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
     private static final ResourceLocation RES_MAP_BACKGROUND = new ResourceLocation("textures/map/map_background.png");
     private static final ResourceLocation RES_UNDERWATER_OVERLAY = new ResourceLocation("textures/misc/underwater.png");
-
-    /** A reference to the Minecraft object. */
     private Minecraft mc;
     private ItemStack itemToRender;
-
-    /**
-     * How far the current item has been equipped (0 disequipped and 1 fully up)
-     */
     private float equippedProgress;
     private float prevEquippedProgress;
     private RenderBlocks renderBlocksIr = new RenderBlocks();
-
-    /** The index of the currently held item (0-8, or -1 if not yet updated) */
     private int equippedItemSlot = -1;
     private static final String __OBFID = "CL_00000953";
 
@@ -54,9 +46,6 @@ public class ItemRenderer
         this.mc = par1Minecraft;
     }
 
-    /**
-     * Renders the item stack for being in an entity's hand Args: itemStack
-     */
     public void renderItem(EntityLivingBase par1EntityLivingBase, ItemStack par2ItemStack, int par3)
     {
         GL11.glPushMatrix();
@@ -149,9 +138,6 @@ public class ItemRenderer
         GL11.glPopMatrix();
     }
 
-    /**
-     * Renders an item held in hand as a 2D texture with thickness
-     */
     public static void renderItemIn2D(Tessellator par0Tessellator, float par1, float par2, float par3, float par4, int par5, int par6, float par7)
     {
         par0Tessellator.startDrawingQuads();
@@ -234,9 +220,6 @@ public class ItemRenderer
         par0Tessellator.draw();
     }
 
-    /**
-     * Renders the active item in the player's hand when in first person mode. Args: partialTickTime
-     */
     public void renderItemInFirstPerson(float par1)
     {
         float var2 = this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * par1;
@@ -517,9 +500,6 @@ public class ItemRenderer
         RenderHelper.disableStandardItemLighting();
     }
 
-    /**
-     * Renders all the overlays that are in first person mode. Args: partialTickTime
-     */
     public void renderOverlays(float par1)
     {
         GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -572,9 +552,6 @@ public class ItemRenderer
         GL11.glEnable(GL11.GL_ALPHA_TEST);
     }
 
-    /**
-     * Renders the texture of the block the player is inside as an overlay. Args: partialTickTime, blockTextureIndex
-     */
     private void renderInsideOfBlock(float par1, IIcon par2Icon)
     {
         if (ModuleRepository.get().isToggled(NoOverlay.class)) {
@@ -605,10 +582,6 @@ public class ItemRenderer
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    /**
-     * Renders a texture that warps around based on the direction the player is looking. Texture needs to be bound
-     * before being called. Used for the water overlay. Args: parialTickTime
-     */
     private void renderWarpedTextureOverlay(float par1)
     {
         if (ModuleRepository.get().isToggled(NoOverlay.class)) {
@@ -641,9 +614,6 @@ public class ItemRenderer
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    /**
-     * Renders the fire on the screen for first person mode. Arg: partialTickTime
-     */
     private void renderFireInFirstPerson(float par1)
     {
         if (ModuleRepository.get().isToggled(NoOverlay.class)) {
@@ -659,7 +629,7 @@ public class ItemRenderer
         for (int var4 = 0; var4 < 2; ++var4)
         {
             GL11.glPushMatrix();
-            IIcon var5 = Blocks.fire.func_149840_c(1);
+            IIcon var5 = Blocks.fire.getFireIcon(1);
             this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
             float var6 = var5.getMinU();
             float var7 = var5.getMaxU();
@@ -726,17 +696,11 @@ public class ItemRenderer
         }
     }
 
-    /**
-     * Resets equippedProgress
-     */
     public void resetEquippedProgress()
     {
         this.equippedProgress = 0.0F;
     }
 
-    /**
-     * Resets equippedProgress
-     */
     public void resetEquippedProgress2()
     {
         this.equippedProgress = 0.0F;

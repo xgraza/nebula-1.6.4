@@ -9,18 +9,10 @@ import java.util.List;
 
 public class NBTTagList extends NBTBase
 {
-    /** The array list containing the tags encapsulated in this list. */
     private List tagList = new ArrayList();
-
-    /**
-     * The type byte for the tags in the list - they must all be of the same type.
-     */
     private byte tagType = 0;
     private static final String __OBFID = "CL_00001224";
 
-    /**
-     * Write the actual data contents of the tag, implemented in NBT extension classes
-     */
     void write(DataOutput par1DataOutput) throws IOException
     {
         if (!this.tagList.isEmpty())
@@ -41,9 +33,6 @@ public class NBTTagList extends NBTBase
         }
     }
 
-    /**
-     * Read the actual data contents of the tag, implemented in NBT extension classes
-     */
     void load(DataInput par1DataInput, int par2) throws IOException
     {
         if (par2 > 512)
@@ -65,9 +54,6 @@ public class NBTTagList extends NBTBase
         }
     }
 
-    /**
-     * Gets the type byte for the tag.
-     */
     public byte getId()
     {
         return (byte)9;
@@ -87,10 +73,6 @@ public class NBTTagList extends NBTBase
         return var1 + "]";
     }
 
-    /**
-     * Adds the provided tag to the end of the list. There is no check to verify this tag is of the same type as any
-     * previous tag.
-     */
     public void appendTag(NBTBase par1NBTBase)
     {
         if (this.tagType == 0)
@@ -128,17 +110,11 @@ public class NBTTagList extends NBTBase
         }
     }
 
-    /**
-     * Removes a tag at the given index.
-     */
     public NBTBase removeTag(int par1)
     {
         return (NBTBase)this.tagList.remove(par1);
     }
 
-    /**
-     * Retrieves the NBTTagCompound at the specified index in the list
-     */
     public NBTTagCompound getCompoundTagAt(int p_150305_1_)
     {
         if (p_150305_1_ >= 0 && p_150305_1_ < this.tagList.size())
@@ -191,9 +167,6 @@ public class NBTTagList extends NBTBase
         }
     }
 
-    /**
-     * Retrieves the tag String value at the specified index in the list
-     */
     public String getStringTagAt(int p_150307_1_)
     {
         if (p_150307_1_ >= 0 && p_150307_1_ < this.tagList.size())
@@ -207,17 +180,11 @@ public class NBTTagList extends NBTBase
         }
     }
 
-    /**
-     * Returns the number of tags in the list.
-     */
     public int tagCount()
     {
         return this.tagList.size();
     }
 
-    /**
-     * Creates a clone of the tag.
-     */
     public NBTBase copy()
     {
         NBTTagList var1 = new NBTTagList();

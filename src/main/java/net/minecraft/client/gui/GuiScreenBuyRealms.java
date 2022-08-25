@@ -22,14 +22,8 @@ public class GuiScreenBuyRealms extends GuiScreen
         this.field_146817_f = p_i45035_1_;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen() {}
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
@@ -60,9 +54,6 @@ public class GuiScreenBuyRealms extends GuiScreen
         }).start();
     }
 
-    /**
-     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
-     */
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
@@ -79,26 +70,17 @@ public class GuiScreenBuyRealms extends GuiScreen
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2) {}
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("mco.buy.realms.title", new Object[0]), this.width / 2, 11, 16777215);
+        this.drawCenteredString(this.fontRenderer, I18n.format("mco.buy.realms.title", new Object[0]), this.width / 2, 11, 16777215);
         String[] var4 = this.field_146820_h.split("\n");
         int var5 = 52;
         String[] var6 = var4;
@@ -107,7 +89,7 @@ public class GuiScreenBuyRealms extends GuiScreen
         for (int var8 = 0; var8 < var7; ++var8)
         {
             String var9 = var6[var8];
-            this.drawCenteredString(this.fontRendererObj, var9, this.width / 2, var5, 10526880);
+            this.drawCenteredString(this.fontRenderer, var9, this.width / 2, var5, 10526880);
             var5 += 18;
         }
 

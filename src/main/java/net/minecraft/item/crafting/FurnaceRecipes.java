@@ -14,15 +14,10 @@ import net.minecraft.item.ItemStack;
 public class FurnaceRecipes
 {
     private static final FurnaceRecipes smeltingBase = new FurnaceRecipes();
-
-    /** The list of smelting results. */
     private Map smeltingList = new HashMap();
     private Map experienceList = new HashMap();
     private static final String __OBFID = "CL_00000085";
 
-    /**
-     * Used to call methods addSmelting and getSmeltingResult.
-     */
     public static FurnaceRecipes smelting()
     {
         return smeltingBase;

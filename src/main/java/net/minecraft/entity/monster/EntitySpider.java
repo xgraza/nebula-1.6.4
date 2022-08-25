@@ -30,9 +30,6 @@ public class EntitySpider extends EntityMob
         this.dataWatcher.addObject(16, new Byte((byte)0));
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -50,10 +47,6 @@ public class EntitySpider extends EntityMob
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.800000011920929D);
     }
 
-    /**
-     * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
-     * (Animals, Spiders at day, peaceful PigZombies).
-     */
     protected Entity findPlayerToAttack()
     {
         float var1 = this.getBrightness(1.0F);
@@ -69,25 +62,16 @@ public class EntitySpider extends EntityMob
         }
     }
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return "mob.spider.say";
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.spider.say";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.spider.death";
@@ -98,9 +82,6 @@ public class EntitySpider extends EntityMob
         this.playSound("mob.spider.step", 0.15F, 1.0F);
     }
 
-    /**
-     * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
-     */
     protected void attackEntity(Entity par1Entity, float par2)
     {
         float var3 = this.getBrightness(1.0F);
@@ -135,9 +116,6 @@ public class EntitySpider extends EntityMob
         return Items.string;
     }
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
     protected void dropFewItems(boolean par1, int par2)
     {
         super.dropFewItems(par1, par2);
@@ -148,22 +126,13 @@ public class EntitySpider extends EntityMob
         }
     }
 
-    /**
-     * returns true if this entity is by a ladder, false otherwise
-     */
     public boolean isOnLadder()
     {
         return this.isBesideClimbableBlock();
     }
 
-    /**
-     * Sets the Entity inside a web block.
-     */
     public void setInWeb() {}
 
-    /**
-     * Get this Entity's EnumCreatureAttribute
-     */
     public EnumCreatureAttribute getCreatureAttribute()
     {
         return EnumCreatureAttribute.ARTHROPOD;
@@ -174,19 +143,11 @@ public class EntitySpider extends EntityMob
         return par1PotionEffect.getPotionID() == Potion.poison.id ? false : super.isPotionApplicable(par1PotionEffect);
     }
 
-    /**
-     * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns false. The WatchableObject is updated using
-     * setBesideClimableBlock.
-     */
     public boolean isBesideClimbableBlock()
     {
         return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
 
-    /**
-     * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
-     * false.
-     */
     public void setBesideClimbableBlock(boolean par1)
     {
         byte var2 = this.dataWatcher.getWatchableObjectByte(16);

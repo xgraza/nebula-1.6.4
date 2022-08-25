@@ -38,9 +38,6 @@ public class ModelMinecart extends ModelBase
         this.sideModels[5].rotateAngleX = -((float)Math.PI / 2F);
     }
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         this.sideModels[5].rotationPointY = 4.0F - par4;

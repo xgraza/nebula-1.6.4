@@ -22,9 +22,6 @@ public class BlockFlowerPot extends BlockContainer
         this.setBlockBoundsForItemRender();
     }
 
-    /**
-     * Sets the block's bounds for rendering it as an item
-     */
     public void setBlockBoundsForItemRender()
     {
         float var1 = 0.375F;
@@ -37,9 +34,6 @@ public class BlockFlowerPot extends BlockContainer
         return false;
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 33;
@@ -50,9 +44,6 @@ public class BlockFlowerPot extends BlockContainer
         return false;
     }
 
-    /**
-     * Called upon block activation (right click on the block.)
-     */
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         ItemStack var10 = p_149727_5_.inventory.getCurrentItem();
@@ -110,27 +101,18 @@ public class BlockFlowerPot extends BlockContainer
         return p_149928_1_ != Blocks.yellow_flower && p_149928_1_ != Blocks.red_flower && p_149928_1_ != Blocks.cactus && p_149928_1_ != Blocks.brown_mushroom && p_149928_1_ != Blocks.red_mushroom && p_149928_1_ != Blocks.sapling && p_149928_1_ != Blocks.deadbush ? p_149928_1_ == Blocks.tallgrass && p_149928_2_ == 2 : true;
     }
 
-    /**
-     * Gets an item for the block being called on. Args: world, x, y, z
-     */
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    public Item getItemPicked(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         TileEntityFlowerPot var5 = this.func_149929_e(p_149694_1_, p_149694_2_, p_149694_3_, p_149694_4_);
-        return var5 != null && var5.func_145965_a() != null ? var5.func_145965_a() : Items.flower_pot;
+        return var5 != null && var5.getFlowerPotItem() != null ? var5.getFlowerPotItem() : Items.flower_pot;
     }
 
-    /**
-     * Get the block's damage value (for use with pick block).
-     */
     public int getDamageValue(World p_149643_1_, int p_149643_2_, int p_149643_3_, int p_149643_4_)
     {
         TileEntityFlowerPot var5 = this.func_149929_e(p_149643_1_, p_149643_2_, p_149643_3_, p_149643_4_);
-        return var5 != null && var5.func_145965_a() != null ? var5.func_145966_b() : 0;
+        return var5 != null && var5.getFlowerPotItem() != null ? var5.getFlowerPotData() : 0;
     }
 
-    /**
-     * Returns true only if block is flowerPot
-     */
     public boolean isFlowerPot()
     {
         return true;
@@ -150,17 +132,14 @@ public class BlockFlowerPot extends BlockContainer
         }
     }
 
-    /**
-     * Drops the block items with a specified chance of dropping the specified items
-     */
     public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_)
     {
         super.dropBlockAsItemWithChance(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, p_149690_5_, p_149690_6_, p_149690_7_);
         TileEntityFlowerPot var8 = this.func_149929_e(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_);
 
-        if (var8 != null && var8.func_145965_a() != null)
+        if (var8 != null && var8.getFlowerPotItem() != null)
         {
-            this.dropBlockAsItem_do(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, new ItemStack(var8.func_145965_a(), 1, var8.func_145966_b()));
+            this.dropBlockAsItem_do(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, new ItemStack(var8.getFlowerPotItem(), 1, var8.getFlowerPotData()));
         }
     }
 
@@ -168,17 +147,14 @@ public class BlockFlowerPot extends BlockContainer
     {
         TileEntityFlowerPot var7 = this.func_149929_e(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_);
 
-        if (var7 != null && var7.func_145965_a() != null)
+        if (var7 != null && var7.getFlowerPotItem() != null)
         {
-            this.dropBlockAsItem_do(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, new ItemStack(var7.func_145965_a(), 1, var7.func_145966_b()));
+            this.dropBlockAsItem_do(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, new ItemStack(var7.getFlowerPotItem(), 1, var7.getFlowerPotData()));
         }
 
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 
-    /**
-     * Called when the block is attempted to be harvested
-     */
     public void onBlockHarvested(World p_149681_1_, int p_149681_2_, int p_149681_3_, int p_149681_4_, int p_149681_5_, EntityPlayer p_149681_6_)
     {
         super.onBlockHarvested(p_149681_1_, p_149681_2_, p_149681_3_, p_149681_4_, p_149681_5_, p_149681_6_);
@@ -205,9 +181,6 @@ public class BlockFlowerPot extends BlockContainer
         return var5 != null && var5 instanceof TileEntityFlowerPot ? (TileEntityFlowerPot)var5 : null;
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
         Object var3 = null;

@@ -10,9 +10,6 @@ public class BehaviorDefaultDispenseItem implements IBehaviorDispenseItem
 {
     private static final String __OBFID = "CL_00001195";
 
-    /**
-     * Dispenses the specified ItemStack from a dispenser.
-     */
     public final ItemStack dispense(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
     {
         ItemStack var3 = this.dispenseStack(par1IBlockSource, par2ItemStack);
@@ -21,9 +18,6 @@ public class BehaviorDefaultDispenseItem implements IBehaviorDispenseItem
         return var3;
     }
 
-    /**
-     * Dispense the specified stack, play the dispense sound and spawn particles.
-     */
     protected ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
     {
         EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
@@ -49,17 +43,11 @@ public class BehaviorDefaultDispenseItem implements IBehaviorDispenseItem
         par0World.spawnEntityInWorld(var11);
     }
 
-    /**
-     * Play the dispense sound from the specified block.
-     */
     protected void playDispenseSound(IBlockSource par1IBlockSource)
     {
         par1IBlockSource.getWorld().playAuxSFX(1000, par1IBlockSource.getXInt(), par1IBlockSource.getYInt(), par1IBlockSource.getZInt(), 0);
     }
 
-    /**
-     * Order clients to display dispense particles from the specified block and facing.
-     */
     protected void spawnDispenseParticles(IBlockSource par1IBlockSource, EnumFacing par2EnumFacing)
     {
         par1IBlockSource.getWorld().playAuxSFX(2000, par1IBlockSource.getXInt(), par1IBlockSource.getYInt(), par1IBlockSource.getZInt(), this.func_82488_a(par2EnumFacing));

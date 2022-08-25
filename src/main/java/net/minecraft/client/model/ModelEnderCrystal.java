@@ -5,13 +5,8 @@ import org.lwjgl.opengl.GL11;
 
 public class ModelEnderCrystal extends ModelBase
 {
-    /** The cube model for the Ender Crystal. */
     private ModelRenderer cube;
-
-    /** The glass model for the Ender Crystal. */
     private ModelRenderer glass = new ModelRenderer(this, "glass");
-
-    /** The base model for the Ender Crystal. */
     private ModelRenderer base;
     private static final String __OBFID = "CL_00000871";
 
@@ -28,9 +23,6 @@ public class ModelEnderCrystal extends ModelBase
         }
     }
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         GL11.glPushMatrix();

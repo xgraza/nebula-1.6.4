@@ -36,10 +36,6 @@ public abstract class BlockLiquid extends Block
         return 16777215;
     }
 
-    /**
-     * Returns a integer with hex for 0xrrggbb with this color multiplied against the blocks color. Note only called
-     * when first determining what to render.
-     */
     public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_)
     {
         if (this.blockMaterial != Material.water)
@@ -67,7 +63,7 @@ public abstract class BlockLiquid extends Block
         }
     }
 
-    public static float func_149801_b(int p_149801_0_)
+    public static float getFluidHeightPercent(int p_149801_0_)
     {
         if (p_149801_0_ >= 8)
         {
@@ -77,9 +73,6 @@ public abstract class BlockLiquid extends Block
         return (float)(p_149801_0_ + 1) / 9.0F;
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return p_149691_1_ != 0 && p_149691_1_ != 1 ? this.field_149806_a[1] : this.field_149806_a[0];
@@ -119,10 +112,6 @@ public abstract class BlockLiquid extends Block
         return false;
     }
 
-    /**
-     * Returns whether this block is collideable based on the arguments passed in \n@param par1 block metaData \n@param
-     * par2 whether the player right-clicked while holding a boat
-     */
     public boolean canCollideCheck(int p_149678_1_, boolean p_149678_2_)
     {
         return p_149678_2_ && p_149678_1_ == 0;
@@ -140,18 +129,11 @@ public abstract class BlockLiquid extends Block
         return var6 == this.blockMaterial ? false : (p_149646_5_ == 1 ? true : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_));
     }
 
-    /**
-     * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
-     * cleared to be reused)
-     */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
     {
         return null;
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 4;
@@ -162,9 +144,6 @@ public abstract class BlockLiquid extends Block
         return null;
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
     public int quantityDropped(Random p_149745_1_)
     {
         return 0;
@@ -285,7 +264,7 @@ public abstract class BlockLiquid extends Block
         p_149640_6_.zCoord += var7.zCoord;
     }
 
-    public int func_149738_a(World p_149738_1_)
+    public int tickRate(World p_149738_1_)
     {
         return this.blockMaterial == Material.water ? 5 : (this.blockMaterial == Material.lava ? (p_149738_1_.provider.hasNoSky ? 10 : 30) : 0);
     }
@@ -301,17 +280,11 @@ public abstract class BlockLiquid extends Block
         return (var7 > var8 ? var7 : var8) | (var9 > var10 ? var9 : var10) << 16;
     }
 
-    /**
-     * Returns which pass should this block be rendered on. 0 for solids and 1 for alpha
-     */
     public int getRenderBlockPass()
     {
         return this.blockMaterial == Material.water ? 1 : 0;
     }
 
-    /**
-     * A randomly called display update to be able to add particles or other items for display
-     */
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
         int var6;
@@ -428,7 +401,7 @@ public abstract class BlockLiquid extends Block
             if (p_149734_5_.nextInt(100) == 0)
             {
                 var21 = (double)((float)p_149734_2_ + p_149734_5_.nextFloat());
-                var22 = (double)p_149734_3_ + this.field_149756_F;
+                var22 = (double)p_149734_3_ + this.maxY;
                 var23 = (double)((float)p_149734_4_ + p_149734_5_.nextFloat());
                 p_149734_1_.spawnParticle("lava", var21, var22, var23, 0.0D, 0.0D, 0.0D);
                 p_149734_1_.playSound(var21, var22, var23, "liquid.lavapop", 0.2F + p_149734_5_.nextFloat() * 0.2F, 0.9F + p_149734_5_.nextFloat() * 0.15F, false);
@@ -457,7 +430,7 @@ public abstract class BlockLiquid extends Block
         }
     }
 
-    public static double func_149802_a(IBlockAccess p_149802_0_, int p_149802_1_, int p_149802_2_, int p_149802_3_, Material p_149802_4_)
+    public static double getFlowDirection(IBlockAccess p_149802_0_, int p_149802_1_, int p_149802_2_, int p_149802_3_, Material p_149802_4_)
     {
         Vec3 var5 = null;
 
@@ -546,7 +519,7 @@ public abstract class BlockLiquid extends Block
         }
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         if (this.blockMaterial == Material.lava)
         {
@@ -558,7 +531,7 @@ public abstract class BlockLiquid extends Block
         }
     }
 
-    public static IIcon func_149803_e(String p_149803_0_)
+    public static IIcon getFluidIcon(String p_149803_0_)
     {
         return p_149803_0_ == "water_still" ? Blocks.flowing_water.field_149806_a[0] : (p_149803_0_ == "water_flow" ? Blocks.flowing_water.field_149806_a[1] : (p_149803_0_ == "lava_still" ? Blocks.flowing_lava.field_149806_a[0] : (p_149803_0_ == "lava_flow" ? Blocks.flowing_lava.field_149806_a[1] : null)));
     }

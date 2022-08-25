@@ -25,14 +25,11 @@ public class BlockRailDetector extends BlockRailBase
         this.setTickRandomly(true);
     }
 
-    public int func_149738_a(World p_149738_1_)
+    public int tickRate(World p_149738_1_)
     {
         return 20;
     }
 
-    /**
-     * Can this block provide power. Only wire currently seems to have this change based on its state.
-     */
     public boolean canProvidePower()
     {
         return true;
@@ -51,9 +48,6 @@ public class BlockRailDetector extends BlockRailBase
         }
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         if (!p_149674_1_.isClient)
@@ -107,7 +101,7 @@ public class BlockRailDetector extends BlockRailBase
 
         if (var7)
         {
-            p_150054_1_.scheduleBlockUpdate(p_150054_2_, p_150054_3_, p_150054_4_, this, this.func_149738_a(p_150054_1_));
+            p_150054_1_.scheduleBlockUpdate(p_150054_2_, p_150054_3_, p_150054_4_, this, this.tickRate(p_150054_1_));
         }
 
         p_150054_1_.func_147453_f(p_150054_2_, p_150054_3_, p_150054_4_, this);
@@ -147,16 +141,13 @@ public class BlockRailDetector extends BlockRailBase
         return 0;
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_150055_b = new IIcon[2];
         this.field_150055_b[0] = p_149651_1_.registerIcon(this.getTextureName());
         this.field_150055_b[1] = p_149651_1_.registerIcon(this.getTextureName() + "_powered");
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return (p_149691_2_ & 8) != 0 ? this.field_150055_b[1] : this.field_150055_b[0];

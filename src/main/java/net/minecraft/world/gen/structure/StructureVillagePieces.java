@@ -127,9 +127,6 @@ public class StructureVillagePieces
         return (StructureVillagePieces.Village)var10;
     }
 
-    /**
-     * attempts to find a next Village Component to be spawned
-     */
     private static StructureVillagePieces.Village getNextVillageComponent(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
     {
         int var8 = func_75079_a(par0ComponentVillageStartPiece.structureVillageWeightedPieceList);
@@ -191,9 +188,6 @@ public class StructureVillagePieces
         }
     }
 
-    /**
-     * attempts to find a next Structure Component to be spawned, private Village function
-     */
     private static StructureComponent getNextVillageStructureComponent(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
     {
         if (par7 > 50)

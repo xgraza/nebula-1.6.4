@@ -30,15 +30,12 @@ public class BlockCauldron extends Block
         super(Material.iron);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return p_149691_1_ == 1 ? this.field_150028_b : (p_149691_1_ == 0 ? this.field_150030_M : this.blockIcon);
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_150029_a = p_149651_1_.registerIcon(this.getTextureName() + "_" + "inner");
         this.field_150028_b = p_149651_1_.registerIcon(this.getTextureName() + "_top");
@@ -46,7 +43,7 @@ public class BlockCauldron extends Block
         this.blockIcon = p_149651_1_.registerIcon(this.getTextureName() + "_side");
     }
 
-    public static IIcon func_150026_e(String p_150026_0_)
+    public static IIcon getCauldronIcon(String p_150026_0_)
     {
         return p_150026_0_.equals("inner") ? Blocks.cauldron.field_150029_a : (p_150026_0_.equals("bottom") ? Blocks.cauldron.field_150030_M : null);
     }
@@ -67,9 +64,6 @@ public class BlockCauldron extends Block
         this.setBlockBoundsForItemRender();
     }
 
-    /**
-     * Sets the block's bounds for rendering it as an item
-     */
     public void setBlockBoundsForItemRender()
     {
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
@@ -80,9 +74,6 @@ public class BlockCauldron extends Block
         return false;
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 24;
@@ -105,9 +96,6 @@ public class BlockCauldron extends Block
         }
     }
 
-    /**
-     * Called upon block activation (right click on the block.)
-     */
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         if (p_149727_1_.isClient)
@@ -191,9 +179,6 @@ public class BlockCauldron extends Block
         p_150024_1_.func_147453_f(p_150024_2_, p_150024_3_, p_150024_4_, this);
     }
 
-    /**
-     * currently only used by BlockCauldron to incrament meta-data during rain
-     */
     public void fillWithRain(World p_149639_1_, int p_149639_2_, int p_149639_3_, int p_149639_4_)
     {
         if (p_149639_1_.rand.nextInt(20) == 1)
@@ -212,10 +197,7 @@ public class BlockCauldron extends Block
         return Items.cauldron;
     }
 
-    /**
-     * Gets an item for the block being called on. Args: world, x, y, z
-     */
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    public Item getItemPicked(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return Items.cauldron;
     }
@@ -236,7 +218,7 @@ public class BlockCauldron extends Block
         return p_150027_0_;
     }
 
-    public static float func_150025_c(int p_150025_0_)
+    public static float getRenderFluidLevel(int p_150025_0_)
     {
         int var1 = MathHelper.clamp_int(p_150025_0_, 0, 3);
         return (float)(6 + 3 * var1) / 16.0F;

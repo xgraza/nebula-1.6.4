@@ -17,11 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class CommandHandler implements ICommandManager
 {
     private static final Logger logger = LogManager.getLogger();
-
-    /** Map of Strings to the ICommand objects they represent */
     private final Map commandMap = new HashMap();
-
-    /** The set of ICommand objects currently loaded. */
     private final Set commandSet = new HashSet();
     private static final String __OBFID = "CL_00001765";
 
@@ -114,9 +110,6 @@ public class CommandHandler implements ICommandManager
         return var7;
     }
 
-    /**
-     * adds the command and any aliases it has to the internal map of available commands
-     */
     public ICommand registerCommand(ICommand par1ICommand)
     {
         List var2 = par1ICommand.getCommandAliases();
@@ -142,9 +135,6 @@ public class CommandHandler implements ICommandManager
         return par1ICommand;
     }
 
-    /**
-     * creates a new array and sets elements 0..n-2 to be 0..n-1 of the input (n elements)
-     */
     private static String[] dropFirstString(String[] par0ArrayOfStr)
     {
         String[] var1 = new String[par0ArrayOfStr.length - 1];
@@ -157,9 +147,6 @@ public class CommandHandler implements ICommandManager
         return var1;
     }
 
-    /**
-     * Performs a "begins with" string match on each token in par2. Only returns commands that par1 can use.
-     */
     public List getPossibleCommands(ICommandSender par1ICommandSender, String par2Str)
     {
         String[] var3 = par2Str.split(" ", -1);
@@ -198,9 +185,6 @@ public class CommandHandler implements ICommandManager
         }
     }
 
-    /**
-     * returns all commands that the commandSender can use
-     */
     public List getPossibleCommands(ICommandSender par1ICommandSender)
     {
         ArrayList var2 = new ArrayList();
@@ -219,17 +203,11 @@ public class CommandHandler implements ICommandManager
         return var2;
     }
 
-    /**
-     * returns a map of string to commads. All commands are returned, not just ones which someone has permission to use.
-     */
     public Map getCommands()
     {
         return this.commandMap;
     }
 
-    /**
-     * Return a command's first parameter index containing a valid username.
-     */
     private int getUsernameIndex(ICommand par1ICommand, String[] par2ArrayOfStr)
     {
         if (par1ICommand == null)

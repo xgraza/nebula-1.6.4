@@ -33,9 +33,6 @@ public class S2CPacketSpawnGlobalEntity extends Packet
         }
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149059_a = p_148837_1_.readVarIntFromBuffer();
@@ -45,9 +42,6 @@ public class S2CPacketSpawnGlobalEntity extends Packet
         this.field_149055_d = p_148837_1_.readInt();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeVarIntToBuffer(this.field_149059_a);
@@ -62,9 +56,6 @@ public class S2CPacketSpawnGlobalEntity extends Packet
         p_149054_1_.handleSpawnGlobalEntity(this);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", new Object[] {Integer.valueOf(this.field_149059_a), Integer.valueOf(this.field_149056_e), Float.valueOf((float)this.field_149057_b / 32.0F), Float.valueOf((float)this.field_149058_c / 32.0F), Float.valueOf((float)this.field_149055_d / 32.0F)});

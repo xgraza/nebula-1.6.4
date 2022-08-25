@@ -10,23 +10,21 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.src.Config;
+import net.minecraft.src.ThreadDownloadImage;
 import net.minecraft.util.ResourceLocation;
-import optifine.Config;
-import optifine.ThreadDownloadImage;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ThreadDownloadImageData extends SimpleTexture
 {
     private static final Logger logger = LogManager.getLogger();
-    private static final AtomicInteger field_147643_d = new AtomicInteger(0);
+    private static final AtomicInteger threadDownloadCounter = new AtomicInteger(0);
     private final String imageUrl;
     private final IImageBuffer imageBuffer;
     private BufferedImage bufferedImage;
     private Thread imageThread;
     private boolean textureUploaded;
-    private static final String __OBFID = "CL_00001049";
     public boolean enabled = true;
 
     public ThreadDownloadImageData(String par1Str, ResourceLocation par2ResourceLocation, IImageBuffer par3IImageBuffer)
@@ -36,27 +34,28 @@ public class ThreadDownloadImageData extends SimpleTexture
         this.imageBuffer = par3IImageBuffer;
     }
 
-    private void func_147640_e()
+    private void checkTextureUploaded()
     {
         if (!this.textureUploaded && this.bufferedImage != null)
         {
+            this.textureUploaded = true;
+
             if (this.textureLocation != null)
             {
-                this.func_147631_c();
+                this.deleteGlTexture();
             }
 
             TextureUtil.uploadTextureImage(super.getGlTextureId(), this.bufferedImage);
-            this.textureUploaded = true;
         }
     }
 
     public int getGlTextureId()
     {
-        this.func_147640_e();
+        this.checkTextureUploaded();
         return super.getGlTextureId();
     }
 
-    public void func_147641_a(BufferedImage p_147641_1_)
+    public void setBufferedImage(BufferedImage p_147641_1_)
     {
         this.bufferedImage = p_147641_1_;
     }
@@ -70,9 +69,8 @@ public class ThreadDownloadImageData extends SimpleTexture
 
         if (this.imageThread == null)
         {
-            this.imageThread = new Thread("Texture Downloader #" + field_147643_d.incrementAndGet())
+            this.imageThread = new Thread("Texture Downloader #" + threadDownloadCounter.incrementAndGet())
             {
-                private static final String __OBFID = "CL_00001050";
                 public void run()
                 {
                     HttpURLConnection var1 = null;
@@ -101,12 +99,12 @@ public class ThreadDownloadImageData extends SimpleTexture
                             var6 = ThreadDownloadImageData.this.imageBuffer.parseUserSkin(var6);
                         }
 
-                        ThreadDownloadImageData.this.func_147641_a(var6);
+                        ThreadDownloadImageData.this.setBufferedImage(var6);
+                        return;
                     }
                     catch (Exception var61)
                     {
                         ThreadDownloadImageData.logger.error("Couldn\'t download http texture", var61);
-                        return;
                     }
                     finally
                     {
@@ -153,7 +151,7 @@ public class ThreadDownloadImageData extends SimpleTexture
         }
         else
         {
-            this.func_147640_e();
+            this.checkTextureUploaded();
             return this.textureUploaded;
         }
     }

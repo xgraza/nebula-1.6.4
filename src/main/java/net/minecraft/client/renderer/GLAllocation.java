@@ -18,9 +18,6 @@ public class GLAllocation
     private static final List listDummy = new ArrayList();
     private static final String __OBFID = "CL_00000630";
 
-    /**
-     * Generates the specified number of display lists and returns the first index.
-     */
     public static synchronized int generateDisplayLists(int par0)
     {
         int var1 = GL11.glGenLists(par0);
@@ -33,9 +30,6 @@ public class GLAllocation
         GL11.glDeleteLists(par0, ((Integer)mapDisplayLists.remove(Integer.valueOf(par0))).intValue());
     }
 
-    /**
-     * Deletes all textures and display lists. Called when Minecraft is shutdown to free up resources.
-     */
     public static synchronized void deleteTexturesAndDisplayLists()
     {
         Iterator var0 = mapDisplayLists.entrySet().iterator();
@@ -49,26 +43,16 @@ public class GLAllocation
         mapDisplayLists.clear();
     }
 
-    /**
-     * Creates and returns a direct byte buffer with the specified capacity. Applies native ordering to speed up access.
-     */
     public static synchronized ByteBuffer createDirectByteBuffer(int par0)
     {
         return ByteBuffer.allocateDirect(par0).order(ByteOrder.nativeOrder());
     }
 
-    /**
-     * Creates and returns a direct int buffer with the specified capacity. Applies native ordering to speed up access.
-     */
     public static IntBuffer createDirectIntBuffer(int par0)
     {
         return createDirectByteBuffer(par0 << 2).asIntBuffer();
     }
 
-    /**
-     * Creates and returns a direct float buffer with the specified capacity. Applies native ordering to speed up
-     * access.
-     */
     public static FloatBuffer createDirectFloatBuffer(int par0)
     {
         return createDirectByteBuffer(par0 << 2).asFloatBuffer();

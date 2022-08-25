@@ -30,28 +30,15 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     public final NetHandlerPlayClient sendQueue;
     private final StatFileWriter field_146108_bO;
     private double oldPosX;
-
-    /** Old Minimum Y of the bounding box */
     private double oldMinY;
     private double oldPosY;
     private double oldPosZ;
     private float oldRotationYaw;
     private float oldRotationPitch;
-
-    /** Check if was on ground last update */
     private boolean wasOnGround;
-
-    /** should the player stop sneaking? */
     private boolean shouldStopSneaking;
     private boolean wasSneaking;
-
-    /**
-     * Counter used to ensure that the server sends a move packet (Packet11, 12 or 13) to the client at least once a
-     * second.
-     */
     private int ticksSinceMovePacket;
-
-    /** has the client player's health been set? */
     private boolean hasSetHealth;
     private String field_142022_ce;
     private static final String __OBFID = "CL_00000887";
@@ -63,22 +50,13 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         this.field_146108_bO = p_i45064_5_;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         return false;
     }
 
-    /**
-     * Heal living entity (param: amount of half-hearts)
-     */
     public void heal(float par1) {}
 
-    /**
-     * Called when a player mounts an entity. e.g. mounts a pig, mounts a boat.
-     */
     public void mountEntity(Entity par1Entity)
     {
         super.mountEntity(par1Entity);
@@ -89,9 +67,6 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         }
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         if (this.worldObj.blockExists(MathHelper.floor_double(this.posX), 0, MathHelper.floor_double(this.posZ)))
@@ -110,13 +85,9 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         }
     }
 
-    /**
-     * Send updated motion and position information to the server
-     */
     public void sendMotionUpdates()
     {
-        MotionUpdateEvent event = new MotionUpdateEvent(MotionUpdateEvent.Era.PRE);
-        Nebula.BUS.post(event);
+        Nebula.BUS.post(new MotionUpdateEvent(MotionUpdateEvent.Era.PRE));
 
         boolean var1 = this.isSprinting();
 
@@ -198,13 +169,9 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             this.oldRotationPitch = this.rotationPitch;
         }
 
-        MotionUpdateEvent e = new MotionUpdateEvent(MotionUpdateEvent.Era.POST);
-        Nebula.BUS.post(e);
+        Nebula.BUS.post(new MotionUpdateEvent(MotionUpdateEvent.Era.POST));
     }
 
-    /**
-     * Called when player presses the drop item key
-     */
     public EntityItem dropOneItem(boolean par1)
     {
         int var2 = par1 ? 3 : 4;
@@ -212,22 +179,13 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         return null;
     }
 
-    /**
-     * Joins the passed in entity item with the world. Args: entityItem
-     */
     protected void joinEntityItemWithWorld(EntityItem par1EntityItem) {}
 
-    /**
-     * Sends a chat message from the player. Args: chatMessage
-     */
     public void sendChatMessage(String par1Str)
     {
         this.sendQueue.addToSendQueue(new C01PacketChatMessage(par1Str));
     }
 
-    /**
-     * Swings the item the player is holding.
-     */
     public void swingItem()
     {
         super.swingItem();
@@ -239,10 +197,6 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         this.sendQueue.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.PERFORM_RESPAWN));
     }
 
-    /**
-     * Deals damage to the entity. If its a EntityPlayer then will take damage from the armor first and then health
-     * second with the reduced value. Args: damageAmount
-     */
     protected void damageEntity(DamageSource par1DamageSource, float par2)
     {
         if (!this.isEntityInvulnerable())
@@ -251,27 +205,18 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         }
     }
 
-    /**
-     * set current crafting inventory back to the 2x2 square
-     */
     public void closeScreen()
     {
         this.sendQueue.addToSendQueue(new C0DPacketCloseWindow(this.openContainer.windowId));
         this.closeScreenNoPacket();
     }
 
-    /**
-     * Closes the GUI screen without sending a packet to the server
-     */
     public void closeScreenNoPacket()
     {
         this.inventory.setItemStack((ItemStack)null);
         super.closeScreen();
     }
 
-    /**
-     * Updates health locally.
-     */
     public void setPlayerSPHealth(float par1)
     {
         if (this.hasSetHealth)
@@ -285,9 +230,6 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         }
     }
 
-    /**
-     * Adds a value to a statistic field.
-     */
     public void addStat(StatBase par1StatBase, int par2)
     {
         if (par1StatBase != null)
@@ -299,9 +241,6 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         }
     }
 
-    /**
-     * Sends the player's abilities to the server (if there is one).
-     */
     public void sendPlayerAbilities()
     {
         this.sendQueue.addToSendQueue(new C13PacketPlayerAbilities(this.capabilities));

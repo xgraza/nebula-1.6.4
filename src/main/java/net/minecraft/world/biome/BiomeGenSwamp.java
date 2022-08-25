@@ -35,18 +35,12 @@ public class BiomeGenSwamp extends BiomeGenBase
         return this.worldGeneratorSwamp;
     }
 
-    /**
-     * Provides the basic grass color based on the biome temperature and rainfall
-     */
     public int getBiomeGrassColor(int p_150558_1_, int p_150558_2_, int p_150558_3_)
     {
         double var4 = field_150606_ad.func_151601_a((double)p_150558_1_ * 0.0225D, (double)p_150558_3_ * 0.0225D);
         return var4 < -0.1D ? 5011004 : 6975545;
     }
 
-    /**
-     * Provides the basic foliage color based on the biome temperature and rainfall
-     */
     public int getBiomeFoliageColor(int p_150571_1_, int p_150571_2_, int p_150571_3_)
     {
         return 6975545;

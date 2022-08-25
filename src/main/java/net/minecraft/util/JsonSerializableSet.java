@@ -11,13 +11,9 @@ import java.util.Set;
 
 public class JsonSerializableSet extends ForwardingSet implements IJsonSerializable
 {
-    /** The set for this ForwardingSet to forward methods to. */
     private final Set underlyingSet = Sets.newHashSet();
     private static final String __OBFID = "CL_00001482";
 
-    /**
-     * Gets the JsonElement that can be serialized.
-     */
     public JsonElement getSerializableElement()
     {
         JsonArray var1 = new JsonArray();

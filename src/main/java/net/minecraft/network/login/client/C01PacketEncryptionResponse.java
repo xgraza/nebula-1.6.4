@@ -24,18 +24,12 @@ public class C01PacketEncryptionResponse extends Packet
         this.field_149301_b = CryptManager.encryptData(p_i45271_2_, p_i45271_3_);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149302_a = readBlob(p_148837_1_);
         this.field_149301_b = readBlob(p_148837_1_);
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         writeBlob(p_148840_1_, this.field_149302_a);

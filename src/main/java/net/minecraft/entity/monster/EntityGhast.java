@@ -23,13 +23,9 @@ public class EntityGhast extends EntityFlying implements IMob
     public double waypointY;
     public double waypointZ;
     private Entity targetedEntity;
-
-    /** Cooldown time between target loss and new target aquirement. */
     private int aggroCooldown;
     public int prevAttackCounter;
     public int attackCounter;
-
-    /** The explosion radius of spawned fireballs. */
     private int explosionStrength = 1;
     private static final String __OBFID = "CL_00001689";
 
@@ -46,9 +42,6 @@ public class EntityGhast extends EntityFlying implements IMob
         return this.dataWatcher.getWatchableObjectByte(16) != 0;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (this.isEntityInvulnerable())
@@ -193,9 +186,6 @@ public class EntityGhast extends EntityFlying implements IMob
         }
     }
 
-    /**
-     * True if the ghast has an unobstructed line of travel to the waypoint.
-     */
     private boolean isCourseTraversable(double par1, double par3, double par5, double par7)
     {
         double var9 = (this.waypointX - this.posX) / par7;
@@ -216,25 +206,16 @@ public class EntityGhast extends EntityFlying implements IMob
         return true;
     }
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return "mob.ghast.moan";
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.ghast.scream";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.ghast.death";
@@ -245,9 +226,6 @@ public class EntityGhast extends EntityFlying implements IMob
         return Items.gunpowder;
     }
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
     protected void dropFewItems(boolean par1, int par2)
     {
         int var3 = this.rand.nextInt(2) + this.rand.nextInt(1 + par2);
@@ -266,47 +244,32 @@ public class EntityGhast extends EntityFlying implements IMob
         }
     }
 
-    /**
-     * Returns the volume for the sounds this mob makes.
-     */
     protected float getSoundVolume()
     {
         return 10.0F;
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
     public boolean getCanSpawnHere()
     {
         return this.rand.nextInt(20) == 0 && super.getCanSpawnHere() && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL;
     }
 
-    /**
-     * Will return how many at most can spawn in a chunk at once.
-     */
     public int getMaxSpawnedInChunk()
     {
         return 1;
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setInteger("ExplosionPower", this.explosionStrength);
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
 
-        if (par1NBTTagCompound.func_150297_b("ExplosionPower", 99))
+        if (par1NBTTagCompound.hasKey("ExplosionPower", 99))
         {
             this.explosionStrength = par1NBTTagCompound.getInteger("ExplosionPower");
         }

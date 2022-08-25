@@ -38,9 +38,6 @@ public class GuiMerchant extends GuiContainer
         this.field_147040_A = par4Str != null && par4Str.length() >= 1 ? par4Str : I18n.format("entity.Villager.name", new Object[0]);
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         super.initGui();
@@ -54,13 +51,10 @@ public class GuiMerchant extends GuiContainer
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
-        this.fontRendererObj.drawString(this.field_147040_A, this.field_146999_f / 2 - this.fontRendererObj.getStringWidth(this.field_147040_A) / 2, 6, 4210752);
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
+        this.fontRenderer.drawString(this.field_147040_A, this.field_146999_f / 2 - this.fontRenderer.getStringWidth(this.field_147040_A) / 2, 6, 4210752);
+        this.fontRenderer.drawString(I18n.format("container.inventory", new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         super.updateScreen();
@@ -134,9 +128,6 @@ public class GuiMerchant extends GuiContainer
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         super.drawScreen(par1, par2, par3);
@@ -157,19 +148,19 @@ public class GuiMerchant extends GuiContainer
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glEnable(GL11.GL_COLOR_MATERIAL);
             GL11.glEnable(GL11.GL_LIGHTING);
-            itemRender.zLevel = 100.0F;
-            itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
-            itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
+            renderItemGs.zLevel = 100.0F;
+            renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
+            renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
 
             if (var10 != null)
             {
-                itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
-                itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
+                renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
+                renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
             }
 
-            itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
-            itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
-            itemRender.zLevel = 0.0F;
+            renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
+            renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
+            renderItemGs.zLevel = 0.0F;
             GL11.glDisable(GL11.GL_LIGHTING);
 
             if (this.func_146978_c(36, 24, 16, 16, par1, par2))
@@ -210,29 +201,29 @@ public class GuiMerchant extends GuiContainer
 
         public void drawButton(Minecraft p_146112_1_, int p_146112_2_, int p_146112_3_)
         {
-            if (this.field_146125_m)
+            if (this.drawButton)
             {
                 p_146112_1_.getTextureManager().bindTexture(GuiMerchant.field_147038_v);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                boolean var4 = p_146112_2_ >= this.field_146128_h && p_146112_3_ >= this.field_146129_i && p_146112_2_ < this.field_146128_h + this.field_146120_f && p_146112_3_ < this.field_146129_i + this.field_146121_g;
+                boolean var4 = p_146112_2_ >= this.xPosition && p_146112_3_ >= this.yPosition && p_146112_2_ < this.xPosition + this.width && p_146112_3_ < this.yPosition + this.height;
                 int var5 = 0;
                 int var6 = 176;
 
                 if (!this.enabled)
                 {
-                    var6 += this.field_146120_f * 2;
+                    var6 += this.width * 2;
                 }
                 else if (var4)
                 {
-                    var6 += this.field_146120_f;
+                    var6 += this.width;
                 }
 
                 if (!this.field_146157_o)
                 {
-                    var5 += this.field_146121_g;
+                    var5 += this.height;
                 }
 
-                this.drawTexturedModalRect(this.field_146128_h, this.field_146129_i, var6, var5, this.field_146120_f, this.field_146121_g);
+                this.drawTexturedModalRect(this.xPosition, this.yPosition, var6, var5, this.width, this.height);
             }
         }
     }

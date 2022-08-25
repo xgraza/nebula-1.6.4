@@ -7,14 +7,9 @@ import net.minecraft.village.MerchantRecipe;
 
 public class SlotMerchantResult extends Slot
 {
-    /** Merchant's inventory. */
     private final InventoryMerchant theMerchantInventory;
-
-    /** The Player whos trying to buy/sell stuff. */
     private EntityPlayer thePlayer;
     private int field_75231_g;
-
-    /** "Instance" of the Merchant. */
     private final IMerchant theMerchant;
     private static final String __OBFID = "CL_00001758";
 
@@ -26,18 +21,11 @@ public class SlotMerchantResult extends Slot
         this.theMerchantInventory = par3InventoryMerchant;
     }
 
-    /**
-     * Check if the stack is a valid item for this slot. Always true beside for the armor slots.
-     */
     public boolean isItemValid(ItemStack par1ItemStack)
     {
         return false;
     }
 
-    /**
-     * Decrease the size of the stack in slot (first int arg) by the amount of the second int arg. Returns the new
-     * stack.
-     */
     public ItemStack decrStackSize(int par1)
     {
         if (this.getHasStack())
@@ -48,19 +36,12 @@ public class SlotMerchantResult extends Slot
         return super.decrStackSize(par1);
     }
 
-    /**
-     * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood. Typically increases an
-     * internal count then calls onCrafting(item).
-     */
     protected void onCrafting(ItemStack par1ItemStack, int par2)
     {
         this.field_75231_g += par2;
         this.onCrafting(par1ItemStack);
     }
 
-    /**
-     * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood.
-     */
     protected void onCrafting(ItemStack par1ItemStack)
     {
         par1ItemStack.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.field_75231_g);

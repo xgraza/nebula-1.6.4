@@ -48,9 +48,6 @@ public class GuiStats extends GuiScreen implements IProgressMeter
         this.field_146546_t = par2StatFileWriter;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.field_146542_f = I18n.format("gui.stats", new Object[0]);
@@ -110,26 +107,23 @@ public class GuiStats extends GuiScreen implements IProgressMeter
             }
             else
             {
-                this.field_146545_u.func_148147_a(p_146284_1_);
+                this.field_146545_u.actionPerformed(p_146284_1_);
             }
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         if (this.field_146543_v)
         {
             this.drawDefaultBackground();
-            this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingStats", new Object[0]), this.width / 2, this.height / 2, 16777215);
-            this.drawCenteredString(this.fontRendererObj, field_146510_b_[(int)(Minecraft.getSystemTime() / 150L % (long)field_146510_b_.length)], this.width / 2, this.height / 2 + this.fontRendererObj.FONT_HEIGHT * 2, 16777215);
+            this.drawCenteredString(this.fontRenderer, I18n.format("multiplayer.downloadingStats", new Object[0]), this.width / 2, this.height / 2, 16777215);
+            this.drawCenteredString(this.fontRenderer, field_146510_b_[(int)(Minecraft.getSystemTime() / 150L % (long)field_146510_b_.length)], this.width / 2, this.height / 2 + this.fontRenderer.FONT_HEIGHT * 2, 16777215);
         }
         else
         {
-            this.field_146545_u.func_148128_a(par1, par2, par3);
-            this.drawCenteredString(this.fontRendererObj, this.field_146542_f, this.width / 2, 20, 16777215);
+            this.field_146545_u.drawScreen(par1, par2, par3);
+            this.drawCenteredString(this.fontRenderer, this.field_146542_f, this.width / 2, 20, 16777215);
             super.drawScreen(par1, par2, par3);
         }
     }
@@ -139,22 +133,19 @@ public class GuiStats extends GuiScreen implements IProgressMeter
         if (this.field_146543_v)
         {
             this.field_146550_h = new GuiStats.StatsGeneral();
-            this.field_146550_h.func_148134_d(1, 1);
+            this.field_146550_h.registerScrollButtons(1, 1);
             this.field_146551_i = new GuiStats.StatsItem();
-            this.field_146551_i.func_148134_d(1, 1);
+            this.field_146551_i.registerScrollButtons(1, 1);
             this.field_146548_r = new GuiStats.StatsBlock();
-            this.field_146548_r.func_148134_d(1, 1);
+            this.field_146548_r.registerScrollButtons(1, 1);
             this.field_146547_s = new GuiStats.StatsMobsList();
-            this.field_146547_s.func_148134_d(1, 1);
+            this.field_146547_s.registerScrollButtons(1, 1);
             this.field_146545_u = this.field_146550_h;
             this.func_146541_h();
             this.field_146543_v = false;
         }
     }
 
-    /**
-     * Returns true if this GUI should pause the game when it is displayed in single-player
-     */
     public boolean doesGuiPauseGame()
     {
         return !this.field_146543_v;
@@ -165,7 +156,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
         this.func_146531_b(p_146521_1_ + 1, p_146521_2_ + 1);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.enableGUIStandardItemLighting();
-        field_146544_g.renderItemIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), new ItemStack(p_146521_3_, 1, 0), p_146521_1_ + 2, p_146521_2_ + 2);
+        field_146544_g.renderItemIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(p_146521_3_, 1, 0), p_146521_1_ + 2, p_146521_2_ + 2);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
     }
@@ -343,7 +334,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
         protected Stats()
         {
             super(GuiStats.this.mc, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, 20);
-            this.func_148130_a(false);
+            this.setShowSelectionBox(false);
             this.func_148133_a(true, 20);
         }
 
@@ -459,21 +450,21 @@ public class GuiStats extends GuiScreen implements IProgressMeter
             if (p_148209_1_ != null)
             {
                 var5 = p_148209_1_.func_75968_a(GuiStats.this.field_146546_t.writeStat(p_148209_1_));
-                GuiStats.this.drawString(GuiStats.this.fontRendererObj, var5, p_148209_2_ - GuiStats.this.fontRendererObj.getStringWidth(var5), p_148209_3_ + 5, p_148209_4_ ? 16777215 : 9474192);
+                GuiStats.this.drawString(GuiStats.this.fontRenderer, var5, p_148209_2_ - GuiStats.this.fontRenderer.getStringWidth(var5), p_148209_3_ + 5, p_148209_4_ ? 16777215 : 9474192);
             }
             else
             {
                 var5 = "-";
-                GuiStats.this.drawString(GuiStats.this.fontRendererObj, var5, p_148209_2_ - GuiStats.this.fontRendererObj.getStringWidth(var5), p_148209_3_ + 5, p_148209_4_ ? 16777215 : 9474192);
+                GuiStats.this.drawString(GuiStats.this.fontRenderer, var5, p_148209_2_ - GuiStats.this.fontRenderer.getStringWidth(var5), p_148209_3_ + 5, p_148209_4_ ? 16777215 : 9474192);
             }
         }
 
         protected void func_148142_b(int p_148142_1_, int p_148142_2_)
         {
-            if (p_148142_2_ >= this.field_148153_b && p_148142_2_ <= this.field_148154_c)
+            if (p_148142_2_ >= this.top && p_148142_2_ <= this.bottom)
             {
                 int var3 = this.func_148124_c(p_148142_1_, p_148142_2_);
-                int var4 = this.field_148155_a / 2 - 92 - 16;
+                int var4 = this.width / 2 - 92 - 16;
 
                 if (var3 >= 0)
                 {
@@ -513,9 +504,9 @@ public class GuiStats extends GuiScreen implements IProgressMeter
                     {
                         int var6 = p_148142_1_ + 12;
                         int var7 = p_148142_2_ - 12;
-                        int var8 = GuiStats.this.fontRendererObj.getStringWidth(var9);
+                        int var8 = GuiStats.this.fontRenderer.getStringWidth(var9);
                         GuiStats.this.drawGradientRect(var6 - 3, var7 - 3, var6 + var8 + 3, var7 + 8 + 3, -1073741824, -1073741824);
-                        GuiStats.this.fontRendererObj.drawStringWithShadow(var9, var6, var7, -1);
+                        GuiStats.this.fontRenderer.drawStringWithShadow(var9, var6, var7, -1);
                     }
                 }
             }
@@ -532,9 +523,9 @@ public class GuiStats extends GuiScreen implements IProgressMeter
                 {
                     int var6 = p_148213_2_ + 12;
                     int var7 = p_148213_3_ - 12;
-                    int var8 = GuiStats.this.fontRendererObj.getStringWidth(var5);
+                    int var8 = GuiStats.this.fontRenderer.getStringWidth(var5);
                     GuiStats.this.drawGradientRect(var6 - 3, var7 - 3, var6 + var8 + 3, var7 + 8 + 3, -1073741824, -1073741824);
-                    GuiStats.this.fontRendererObj.drawStringWithShadow(var5, var6, var7, -1);
+                    GuiStats.this.fontRenderer.drawStringWithShadow(var5, var6, var7, -1);
                 }
             }
         }
@@ -567,8 +558,8 @@ public class GuiStats extends GuiScreen implements IProgressMeter
 
         public StatsMobsList()
         {
-            super(GuiStats.this.mc, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, GuiStats.this.fontRendererObj.FONT_HEIGHT * 4);
-            this.func_148130_a(false);
+            super(GuiStats.this.mc, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, GuiStats.this.fontRenderer.FONT_HEIGHT * 4);
+            this.setShowSelectionBox(false);
             Iterator var2 = EntityList.entityEggs.values().iterator();
 
             while (var2.hasNext())
@@ -594,9 +585,9 @@ public class GuiStats extends GuiScreen implements IProgressMeter
             return false;
         }
 
-        protected int func_148138_e()
+        protected int getContentHeight()
         {
-            return this.getSize() * GuiStats.this.fontRendererObj.FONT_HEIGHT * 4;
+            return this.getSize() * GuiStats.this.fontRenderer.FONT_HEIGHT * 4;
         }
 
         protected void drawBackground()
@@ -623,9 +614,9 @@ public class GuiStats extends GuiScreen implements IProgressMeter
                 var13 = I18n.format("stat.entityKilledBy.none", new Object[] {var9});
             }
 
-            GuiStats.this.drawString(GuiStats.this.fontRendererObj, var9, p_148126_2_ + 2 - 10, p_148126_3_ + 1, 16777215);
-            GuiStats.this.drawString(GuiStats.this.fontRendererObj, var12, p_148126_2_ + 2, p_148126_3_ + 1 + GuiStats.this.fontRendererObj.FONT_HEIGHT, var10 == 0 ? 6316128 : 9474192);
-            GuiStats.this.drawString(GuiStats.this.fontRendererObj, var13, p_148126_2_ + 2, p_148126_3_ + 1 + GuiStats.this.fontRendererObj.FONT_HEIGHT * 2, var11 == 0 ? 6316128 : 9474192);
+            GuiStats.this.drawString(GuiStats.this.fontRenderer, var9, p_148126_2_ + 2 - 10, p_148126_3_ + 1, 16777215);
+            GuiStats.this.drawString(GuiStats.this.fontRenderer, var12, p_148126_2_ + 2, p_148126_3_ + 1 + GuiStats.this.fontRenderer.FONT_HEIGHT, var10 == 0 ? 6316128 : 9474192);
+            GuiStats.this.drawString(GuiStats.this.fontRenderer, var13, p_148126_2_ + 2, p_148126_3_ + 1 + GuiStats.this.fontRenderer.FONT_HEIGHT * 2, var11 == 0 ? 6316128 : 9474192);
         }
     }
 
@@ -775,7 +766,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
         public StatsGeneral()
         {
             super(GuiStats.this.mc, GuiStats.this.width, GuiStats.this.height, 32, GuiStats.this.height - 64, 10);
-            this.func_148130_a(false);
+            this.setShowSelectionBox(false);
         }
 
         protected int getSize()
@@ -790,7 +781,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
             return false;
         }
 
-        protected int func_148138_e()
+        protected int getContentHeight()
         {
             return this.getSize() * 10;
         }
@@ -803,9 +794,9 @@ public class GuiStats extends GuiScreen implements IProgressMeter
         protected void drawSlot(int p_148126_1_, int p_148126_2_, int p_148126_3_, int p_148126_4_, Tessellator p_148126_5_, int p_148126_6_, int p_148126_7_)
         {
             StatBase var8 = (StatBase)StatList.generalStats.get(p_148126_1_);
-            GuiStats.this.drawString(GuiStats.this.fontRendererObj, var8.func_150951_e().getUnformattedText(), p_148126_2_ + 2, p_148126_3_ + 1, p_148126_1_ % 2 == 0 ? 16777215 : 9474192);
+            GuiStats.this.drawString(GuiStats.this.fontRenderer, var8.func_150951_e().getUnformattedText(), p_148126_2_ + 2, p_148126_3_ + 1, p_148126_1_ % 2 == 0 ? 16777215 : 9474192);
             String var9 = var8.func_75968_a(GuiStats.this.field_146546_t.writeStat(var8));
-            GuiStats.this.drawString(GuiStats.this.fontRendererObj, var9, p_148126_2_ + 2 + 213 - GuiStats.this.fontRendererObj.getStringWidth(var9), p_148126_3_ + 1, p_148126_1_ % 2 == 0 ? 16777215 : 9474192);
+            GuiStats.this.drawString(GuiStats.this.fontRenderer, var9, p_148126_2_ + 2 + 213 - GuiStats.this.fontRenderer.getStringWidth(var9), p_148126_3_ + 1, p_148126_1_ % 2 == 0 ? 16777215 : 9474192);
         }
     }
 }

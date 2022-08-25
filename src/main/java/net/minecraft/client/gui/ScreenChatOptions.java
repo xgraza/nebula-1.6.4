@@ -20,9 +20,6 @@ public class ScreenChatOptions extends GuiScreen
         this.field_146400_h = par2GameSettings;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         int var1 = 0;
@@ -84,7 +81,7 @@ public class ScreenChatOptions extends GuiScreen
         {
             if (p_146284_1_.id < 100 && p_146284_1_ instanceof GuiOptionButton)
             {
-                this.field_146400_h.setOptionValue(((GuiOptionButton)p_146284_1_).func_146136_c(), 1);
+                this.field_146400_h.setOptionValue(((GuiOptionButton)p_146284_1_).returnEnumOptions(), 1);
                 p_146284_1_.displayString = this.field_146400_h.getKeyBinding(GameSettings.Options.getEnumOptions(p_146284_1_.id));
             }
 
@@ -96,14 +93,11 @@ public class ScreenChatOptions extends GuiScreen
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, this.field_146401_i, this.width / 2, 20, 16777215);
-        this.drawCenteredString(this.fontRendererObj, this.field_146398_r, this.width / 2, this.field_146397_s + 7, 16777215);
+        this.drawCenteredString(this.fontRenderer, this.field_146401_i, this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRenderer, this.field_146398_r, this.width / 2, this.field_146397_s + 7, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 }

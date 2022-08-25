@@ -23,14 +23,14 @@ public class ItemEditableBook extends Item
         {
             return false;
         }
-        else if (!par0NBTTagCompound.func_150297_b("title", 8))
+        else if (!par0NBTTagCompound.hasKey("title", 8))
         {
             return false;
         }
         else
         {
             String var1 = par0NBTTagCompound.getString("title");
-            return var1 != null && var1.length() <= 16 ? par0NBTTagCompound.func_150297_b("author", 8) : false;
+            return var1 != null && var1.length() <= 16 ? par0NBTTagCompound.hasKey("author", 8) : false;
         }
     }
 
@@ -50,9 +50,6 @@ public class ItemEditableBook extends Item
         return super.getItemStackDisplayName(par1ItemStack);
     }
 
-    /**
-     * allows items to add custom lines of information to the mouseover description
-     */
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
         if (par1ItemStack.hasTagCompound())
@@ -67,18 +64,12 @@ public class ItemEditableBook extends Item
         }
     }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         par3EntityPlayer.displayGUIBook(par1ItemStack);
         return par1ItemStack;
     }
 
-    /**
-     * If this function returns true (or the item is damageable), the ItemStack's NBT tag will be sent to the client.
-     */
     public boolean getShareTag()
     {
         return true;

@@ -54,9 +54,9 @@ public class GuiOptionsRowList extends GuiListExtended
         return 400;
     }
 
-    protected int func_148137_d()
+    protected int getScrollBarX()
     {
-        return super.func_148137_d() + 32;
+        return super.getScrollBarX() + 32;
     }
 
     public static class Row implements GuiListExtended.IGuiListEntry
@@ -76,13 +76,13 @@ public class GuiOptionsRowList extends GuiListExtended
         {
             if (this.field_148323_b != null)
             {
-                this.field_148323_b.field_146129_i = p_148279_3_;
+                this.field_148323_b.yPosition = p_148279_3_;
                 this.field_148323_b.drawButton(this.field_148325_a, p_148279_7_, p_148279_8_);
             }
 
             if (this.field_148324_c != null)
             {
-                this.field_148324_c.field_146129_i = p_148279_3_;
+                this.field_148324_c.yPosition = p_148279_3_;
                 this.field_148324_c.drawButton(this.field_148325_a, p_148279_7_, p_148279_8_);
             }
         }
@@ -93,7 +93,7 @@ public class GuiOptionsRowList extends GuiListExtended
             {
                 if (this.field_148323_b instanceof GuiOptionButton)
                 {
-                    this.field_148325_a.gameSettings.setOptionValue(((GuiOptionButton)this.field_148323_b).func_146136_c(), 1);
+                    this.field_148325_a.gameSettings.setOptionValue(((GuiOptionButton)this.field_148323_b).returnEnumOptions(), 1);
                     this.field_148323_b.displayString = this.field_148325_a.gameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(this.field_148323_b.id));
                 }
 
@@ -103,7 +103,7 @@ public class GuiOptionsRowList extends GuiListExtended
             {
                 if (this.field_148324_c instanceof GuiOptionButton)
                 {
-                    this.field_148325_a.gameSettings.setOptionValue(((GuiOptionButton)this.field_148324_c).func_146136_c(), 1);
+                    this.field_148325_a.gameSettings.setOptionValue(((GuiOptionButton)this.field_148324_c).returnEnumOptions(), 1);
                     this.field_148324_c.displayString = this.field_148325_a.gameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(this.field_148324_c.id));
                 }
 

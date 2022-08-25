@@ -10,9 +10,6 @@ public class BlockCarrot extends BlockCrops
     private IIcon[] field_149868_a;
     private static final String __OBFID = "CL_00000212";
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         if (p_149691_2_ < 7)
@@ -40,7 +37,7 @@ public class BlockCarrot extends BlockCrops
         return Items.carrot;
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_149868_a = new IIcon[4];
 

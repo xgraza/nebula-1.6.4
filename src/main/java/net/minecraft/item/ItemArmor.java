@@ -20,7 +20,6 @@ import net.minecraft.world.World;
 
 public class ItemArmor extends Item
 {
-    /** Holds the 'base' maxDamage that each armorType have. */
     private static final int[] maxDamageArray = new int[] {11, 16, 15, 13};
     private static final String[] CLOTH_OVERLAY_NAMES = new String[] {"leather_helmet_overlay", "leather_chestplate_overlay", "leather_leggings_overlay", "leather_boots_overlay"};
     public static final String[] EMPTY_SLOT_NAMES = new String[] {"empty_armor_slot_helmet", "empty_armor_slot_chestplate", "empty_armor_slot_leggings", "empty_armor_slot_boots"};
@@ -59,22 +58,9 @@ public class ItemArmor extends Item
             }
         }
     };
-
-    /**
-     * Stores the armor type: 0 is helmet, 1 is plate, 2 is legs and 3 is boots
-     */
     public final int armorType;
-
-    /** Holds the amount of damage that the armor reduces at full durability. */
     public final int damageReduceAmount;
-
-    /**
-     * Used on RenderPlayer to select the correspondent armor to be rendered on the player: 0 is cloth, 1 is chain, 2 is
-     * iron, 3 is diamond and 4 is gold.
-     */
     public final int renderIndex;
-
-    /** The EnumArmorMaterial used for this ItemArmor */
     private final ItemArmor.ArmorMaterial material;
     private IIcon overlayIcon;
     private IIcon emptySlotIcon;
@@ -116,33 +102,21 @@ public class ItemArmor extends Item
         return this.material == ItemArmor.ArmorMaterial.CLOTH;
     }
 
-    /**
-     * Return the enchantability factor of the item, most of the time is based on material.
-     */
     public int getItemEnchantability()
     {
         return this.material.getEnchantability();
     }
 
-    /**
-     * Return the armor material for this armor item.
-     */
     public ItemArmor.ArmorMaterial getArmorMaterial()
     {
         return this.material;
     }
 
-    /**
-     * Return whether the specified armor ItemStack has a color.
-     */
     public boolean hasColor(ItemStack par1ItemStack)
     {
-        return this.material != ItemArmor.ArmorMaterial.CLOTH ? false : (!par1ItemStack.hasTagCompound() ? false : (!par1ItemStack.getTagCompound().func_150297_b("display", 10) ? false : par1ItemStack.getTagCompound().getCompoundTag("display").func_150297_b("color", 3)));
+        return this.material != ItemArmor.ArmorMaterial.CLOTH ? false : (!par1ItemStack.hasTagCompound() ? false : (!par1ItemStack.getTagCompound().hasKey("display", 10) ? false : par1ItemStack.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
     }
 
-    /**
-     * Return the color for the specified armor ItemStack.
-     */
     public int getColor(ItemStack par1ItemStack)
     {
         if (this.material != ItemArmor.ArmorMaterial.CLOTH)
@@ -160,22 +134,16 @@ public class ItemArmor extends Item
             else
             {
                 NBTTagCompound var3 = var2.getCompoundTag("display");
-                return var3 == null ? 10511680 : (var3.func_150297_b("color", 3) ? var3.getInteger("color") : 10511680);
+                return var3 == null ? 10511680 : (var3.hasKey("color", 3) ? var3.getInteger("color") : 10511680);
             }
         }
     }
 
-    /**
-     * Gets an icon index based on an item's damage value and the given render pass
-     */
     public IIcon getIconFromDamageForRenderPass(int par1, int par2)
     {
         return par2 == 1 ? this.overlayIcon : super.getIconFromDamageForRenderPass(par1, par2);
     }
 
-    /**
-     * Remove the color from the specified armor ItemStack.
-     */
     public void removeColor(ItemStack par1ItemStack)
     {
         if (this.material == ItemArmor.ArmorMaterial.CLOTH)
@@ -212,7 +180,7 @@ public class ItemArmor extends Item
 
             NBTTagCompound var4 = var3.getCompoundTag("display");
 
-            if (!var3.func_150297_b("display", 10))
+            if (!var3.hasKey("display", 10))
             {
                 var3.setTag("display", var4);
             }
@@ -221,9 +189,6 @@ public class ItemArmor extends Item
         }
     }
 
-    /**
-     * Return whether this item is repairable in an anvil.
-     */
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
         return this.material.func_151685_b() == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
@@ -241,9 +206,6 @@ public class ItemArmor extends Item
         this.emptySlotIcon = par1IconRegister.registerIcon(EMPTY_SLOT_NAMES[this.armorType]);
     }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         int var4 = EntityLiving.getArmorPosition(par1ItemStack) - 1;

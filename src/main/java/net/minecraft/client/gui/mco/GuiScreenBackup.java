@@ -46,9 +46,6 @@ public class GuiScreenBackup extends GuiScreen
         this.field_146846_h = par2;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
@@ -82,9 +79,6 @@ public class GuiScreenBackup extends GuiScreen
         this.buttonList.add(new GuiButton(0, this.width / 2 - 74, this.height - 52 + 25, 153, 20, I18n.format("gui.back", new Object[0])));
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         super.updateScreen();
@@ -191,14 +185,11 @@ public class GuiScreenBackup extends GuiScreen
         this.mc.displayGuiScreen(var3);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
         this.field_146844_r.func_148350_a(par1, par2, par3);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("mco.backup.title", new Object[0]), this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRenderer, I18n.format("mco.backup.title", new Object[0]), this.width / 2, 20, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 
@@ -292,8 +283,8 @@ public class GuiScreenBackup extends GuiScreen
         private void func_148385_b(int p_148385_1_, int p_148385_2_, int p_148385_3_, int p_148385_4_, Tessellator p_148385_5_)
         {
             Backup var6 = (Backup)GuiScreenBackup.this.field_146847_i.get(p_148385_1_);
-            GuiScreenBackup.this.drawString(GuiScreenBackup.this.fontRendererObj, "Backup (" + GuiScreenBackup.this.func_146829_a(Long.valueOf(MinecraftServer.getSystemTimeMillis() - var6.field_148778_b.getTime())) + ")", p_148385_2_ + 2, p_148385_3_ + 1, 16777215);
-            GuiScreenBackup.this.drawString(GuiScreenBackup.this.fontRendererObj, this.func_148384_a(var6.field_148778_b), p_148385_2_ + 2, p_148385_3_ + 12, 7105644);
+            GuiScreenBackup.this.drawString(GuiScreenBackup.this.fontRenderer, "Backup (" + GuiScreenBackup.this.func_146829_a(Long.valueOf(MinecraftServer.getSystemTimeMillis() - var6.field_148778_b.getTime())) + ")", p_148385_2_ + 2, p_148385_3_ + 1, 16777215);
+            GuiScreenBackup.this.drawString(GuiScreenBackup.this.fontRenderer, this.func_148384_a(var6.field_148778_b), p_148385_2_ + 2, p_148385_3_ + 12, 7105644);
         }
 
         private String func_148384_a(Date p_148384_1_)

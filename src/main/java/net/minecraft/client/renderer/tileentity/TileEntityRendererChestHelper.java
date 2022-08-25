@@ -13,7 +13,7 @@ public class TileEntityRendererChestHelper
     private TileEntityEnderChest field_147716_d = new TileEntityEnderChest();
     private static final String __OBFID = "CL_00000946";
 
-    public void func_147715_a(Block p_147715_1_, int p_147715_2_, float p_147715_3_)
+    public void renderChest(Block p_147715_1_, int p_147715_2_, float p_147715_3_)
     {
         if (p_147715_1_ == Blocks.ender_chest)
         {

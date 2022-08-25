@@ -22,9 +22,6 @@ public class VillageDoorInfo
         this.lastActivityTimestamp = par6;
     }
 
-    /**
-     * Returns the squared distance between this door and the given coordinate.
-     */
     public int getDistanceSquared(int par1, int par2, int par3)
     {
         int var4 = par1 - this.posX;
@@ -33,10 +30,6 @@ public class VillageDoorInfo
         return var4 * var4 + var5 * var5 + var6 * var6;
     }
 
-    /**
-     * Get the square of the distance from a location 2 blocks away from the door considered 'inside' and the given
-     * arguments
-     */
     public int getInsideDistanceSquare(int par1, int par2, int par3)
     {
         int var4 = par1 - this.posX - this.insideDirectionX;

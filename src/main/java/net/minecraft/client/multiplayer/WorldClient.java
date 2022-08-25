@@ -20,6 +20,9 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.src.Config;
+import net.minecraft.src.DynamicLights;
+import net.minecraft.src.Reflector;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IntHashMap;
 import net.minecraft.util.ResourceLocation;
@@ -34,41 +37,32 @@ import net.minecraft.world.storage.SaveHandlerMP;
 
 public class WorldClient extends World
 {
-    /** The packets that need to be sent to the server. */
     private NetHandlerPlayClient sendQueue;
-
-    /** The ChunkProviderClient instance */
     private ChunkProviderClient clientChunkProvider;
-
-    /**
-     * The hash set of entities handled by this client. Uses the entity's ID as the hash set's key.
-     */
     private IntHashMap entityHashSet = new IntHashMap();
-
-    /** Contains all entities for this client, both spawned and non-spawned. */
     private Set entityList = new HashSet();
-
-    /**
-     * Contains all entities for this client that were not spawned due to a non-present chunk. The game will attempt to
-     * spawn up to 10 pending entities with each subsequent tick until the spawn queue is empty.
-     */
     private Set entitySpawnQueue = new HashSet();
     private final Minecraft mc = Minecraft.getMinecraft();
     private final Set previousActiveChunkSet = new HashSet();
-    private static final String __OBFID = "CL_00000882";
+    public boolean renderItemInFirstPerson = false;
 
     public WorldClient(NetHandlerPlayClient p_i45063_1_, WorldSettings p_i45063_2_, int p_i45063_3_, EnumDifficulty p_i45063_4_, Profiler p_i45063_5_)
     {
         super(new SaveHandlerMP(), "MpServer", WorldProvider.getProviderForDimension(p_i45063_3_), p_i45063_2_, p_i45063_5_);
         this.sendQueue = p_i45063_1_;
         this.difficultySetting = p_i45063_4_;
-        this.setSpawnLocation(8, 64, 8);
         this.mapStorage = p_i45063_1_.mapStorageOrigin;
+
+        if (Reflector.ForgeWorld_finishSetup.exists())
+        {
+            this.isClient = true;
+            Reflector.call(this, Reflector.ForgeWorld_finishSetup, new Object[0]);
+        }
+
+        this.setSpawnLocation(8, 64, 8);
+        Reflector.postForgeBusEvent(Reflector.WorldEvent_Load_Constructor, new Object[] {this});
     }
 
-    /**
-     * Runs a single tick for the world
-     */
     public void tick()
     {
         super.tick();
@@ -101,15 +95,8 @@ public class WorldClient extends World
         this.theProfiler.endSection();
     }
 
-    /**
-     * Invalidates an AABB region of blocks from the receive queue, in the event that the block has been modified
-     * client-side in the intervening 80 receive ticks.
-     */
     public void invalidateBlockReceiveRegion(int par1, int par2, int par3, int par4, int par5, int par6) {}
 
-    /**
-     * Creates the chunk provider for this world. Called in the constructor. Retrieves provider from worldProvider?
-     */
     protected IChunkProvider createChunkProvider()
     {
         this.clientChunkProvider = new ChunkProviderClient(this);
@@ -169,9 +156,6 @@ public class WorldClient extends World
         }
     }
 
-    /**
-     * Called to place all entities as part of a world
-     */
     public boolean spawnEntityInWorld(Entity par1Entity)
     {
         boolean var2 = super.spawnEntityInWorld(par1Entity);
@@ -189,9 +173,6 @@ public class WorldClient extends World
         return var2;
     }
 
-    /**
-     * Schedule the entity for removal during the next tick. Marks the entity dead in anticipation.
-     */
     public void removeEntity(Entity par1Entity)
     {
         super.removeEntity(par1Entity);
@@ -226,15 +207,12 @@ public class WorldClient extends World
             }
         }
 
-        if (RenderManager.instance.getEntityRenderObject(par1Entity).func_147905_a() && !var2)
+        if (RenderManager.instance.getEntityRenderObject(par1Entity).isStaticEntity() && !var2)
         {
             this.mc.renderGlobal.onStaticEntitiesChanged();
         }
     }
 
-    /**
-     * Add an ID to Entity mapping to entityHashSet
-     */
     public void addEntityToWorld(int par1, Entity par2Entity)
     {
         Entity var3 = this.getEntityByID(par1);
@@ -254,15 +232,12 @@ public class WorldClient extends World
 
         this.entityHashSet.addKey(par1, par2Entity);
 
-        if (RenderManager.instance.getEntityRenderObject(par2Entity).func_147905_a())
+        if (RenderManager.instance.getEntityRenderObject(par2Entity).isStaticEntity())
         {
             this.mc.renderGlobal.onStaticEntitiesChanged();
         }
     }
 
-    /**
-     * Returns the Entity with the given ID, or null if it doesn't exist in this World.
-     */
     public Entity getEntityByID(int par1)
     {
         return (Entity)(par1 == this.mc.thePlayer.getEntityId() ? this.mc.thePlayer : (Entity)this.entityHashSet.lookup(par1));
@@ -287,18 +262,17 @@ public class WorldClient extends World
         return super.setBlock(p_147492_1_, p_147492_2_, p_147492_3_, p_147492_4_, p_147492_5_, 3);
     }
 
-    /**
-     * If on MP, sends a quitting packet.
-     */
     public void sendQuittingDisconnectingPacket()
     {
         this.sendQueue.getNetworkManager().closeChannel(new ChatComponentText("Quitting"));
     }
 
-    /**
-     * Updates all weather states.
-     */
     protected void updateWeather()
+    {
+        super.updateWeather();
+    }
+
+    public void updateWeatherBody()
     {
         if (!this.provider.hasNoSky)
         {
@@ -332,9 +306,6 @@ public class WorldClient extends World
         }
     }
 
-    /**
-     * also releases skins.
-     */
     public void removeAllEntities()
     {
         this.loadedEntityList.removeAll(this.unloadedEntityList);
@@ -393,15 +364,11 @@ public class WorldClient extends World
         }
     }
 
-    /**
-     * Adds some basic stats of the world to the given crash report.
-     */
     public CrashReportCategory addWorldInfoToCrashReport(CrashReport par1CrashReport)
     {
         CrashReportCategory var2 = super.addWorldInfoToCrashReport(par1CrashReport);
         var2.addCrashSectionCallable("Forced entities", new Callable()
         {
-            private static final String __OBFID = "CL_00000883";
             public String call()
             {
                 return WorldClient.this.entityList.size() + " total; " + WorldClient.this.entityList.toString();
@@ -409,7 +376,6 @@ public class WorldClient extends World
         });
         var2.addCrashSectionCallable("Retry entities", new Callable()
         {
-            private static final String __OBFID = "CL_00000884";
             public String call()
             {
                 return WorldClient.this.entitySpawnQueue.size() + " total; " + WorldClient.this.entitySpawnQueue.toString();
@@ -417,7 +383,6 @@ public class WorldClient extends World
         });
         var2.addCrashSectionCallable("Server brand", new Callable()
         {
-            private static final String __OBFID = "CL_00000885";
             public String call()
             {
                 return WorldClient.this.mc.thePlayer.func_142021_k();
@@ -425,7 +390,6 @@ public class WorldClient extends World
         });
         var2.addCrashSectionCallable("Server type", new Callable()
         {
-            private static final String __OBFID = "CL_00000886";
             public String call()
             {
                 return WorldClient.this.mc.getIntegratedServer() == null ? "Non-integrated multiplayer server" : "Integrated singleplayer server";
@@ -434,9 +398,6 @@ public class WorldClient extends World
         return var2;
     }
 
-    /**
-     * par8 is loudness, all pars passed to minecraftInstance.sndManager.playSound
-     */
     public void playSound(double par1, double par3, double par5, String par7Str, float par8, float par9, boolean par10)
     {
         double var11 = this.mc.renderViewEntity.getDistanceSq(par1, par3, par5);
@@ -463,9 +424,6 @@ public class WorldClient extends World
         this.worldScoreboard = par1Scoreboard;
     }
 
-    /**
-     * Sets the world time.
-     */
     public void setWorldTime(long par1)
     {
         if (par1 < 0L)
@@ -479,5 +437,25 @@ public class WorldClient extends World
         }
 
         super.setWorldTime(par1);
+    }
+
+    public int getLightBrightnessForSkyBlocks(int x, int y, int z, int lightValue)
+    {
+        int combinedLight = super.getLightBrightnessForSkyBlocks(x, y, z, lightValue);
+
+        if (Config.isDynamicLights())
+        {
+            if (this.renderItemInFirstPerson)
+            {
+                combinedLight = DynamicLights.getCombinedLight(this.mc.renderViewEntity, combinedLight);
+            }
+
+            if (!this.getBlock(x, y, z).isOpaqueCube())
+            {
+                combinedLight = DynamicLights.getCombinedLight(x, y, z, combinedLight);
+            }
+        }
+
+        return combinedLight;
     }
 }

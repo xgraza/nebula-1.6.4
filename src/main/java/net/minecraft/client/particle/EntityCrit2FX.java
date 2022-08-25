@@ -6,7 +6,6 @@ import net.minecraft.world.World;
 
 public class EntityCrit2FX extends EntityFX
 {
-    /** Entity that had been hit and done the Critical hit on. */
     private Entity theEntity;
     private int currentLife;
     private int maximumLife;
@@ -29,9 +28,6 @@ public class EntityCrit2FX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7) {}
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         for (int var1 = 0; var1 < 16; ++var1)

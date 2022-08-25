@@ -44,10 +44,6 @@ public class ItemSword extends Item
         }
     }
 
-    /**
-     * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
-     * the damage on the stack.
-     */
     public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
     {
         par1ItemStack.damageItem(1, par3EntityLivingBase);
@@ -64,33 +60,21 @@ public class ItemSword extends Item
         return true;
     }
 
-    /**
-     * Returns True is the item is renderer in full 3D when hold.
-     */
     public boolean isFull3D()
     {
         return true;
     }
 
-    /**
-     * returns the action that specifies what animation to play when the items is being used
-     */
     public EnumAction getItemUseAction(ItemStack par1ItemStack)
     {
         return EnumAction.block;
     }
 
-    /**
-     * How long it takes to use or consume an item
-     */
     public int getMaxItemUseDuration(ItemStack par1ItemStack)
     {
         return 72000;
     }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
@@ -102,9 +86,6 @@ public class ItemSword extends Item
         return p_150897_1_ == Blocks.web;
     }
 
-    /**
-     * Return the enchantability factor of the item, most of the time is based on material.
-     */
     public int getItemEnchantability()
     {
         return this.field_150933_b.getEnchantability();
@@ -115,17 +96,11 @@ public class ItemSword extends Item
         return this.field_150933_b.toString();
     }
 
-    /**
-     * Return whether this item is repairable in an anvil.
-     */
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
         return this.field_150933_b.func_150995_f() == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
     }
 
-    /**
-     * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
-     */
     public Multimap getItemAttributeModifiers()
     {
         Multimap var1 = super.getItemAttributeModifiers();

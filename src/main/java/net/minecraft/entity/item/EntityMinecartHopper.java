@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 
 public class EntityMinecartHopper extends EntityMinecartContainer implements IHopper
 {
-    /** Whether this hopper minecart is being blocked by an activator rail. */
     private boolean isBlocked = true;
     private int transferTicker = -1;
     private static final String __OBFID = "CL_00001676";
@@ -44,17 +43,11 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         return 1;
     }
 
-    /**
-     * Returns the number of slots in the inventory.
-     */
     public int getSizeInventory()
     {
         return 5;
     }
 
-    /**
-     * First layer of player interaction
-     */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         if (!this.worldObj.isClient)
@@ -65,9 +58,6 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         return true;
     }
 
-    /**
-     * Called every tick the minecart is on an activator rail. Args: x, y, z, is the rail receiving power
-     */
     public void onActivatorRailPass(int par1, int par2, int par3, boolean par4)
     {
         boolean var5 = !par4;
@@ -78,57 +68,36 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         }
     }
 
-    /**
-     * Get whether this hopper minecart is being blocked by an activator rail.
-     */
     public boolean getBlocked()
     {
         return this.isBlocked;
     }
 
-    /**
-     * Set whether this hopper minecart is being blocked by an activator rail.
-     */
     public void setBlocked(boolean par1)
     {
         this.isBlocked = par1;
     }
 
-    /**
-     * Returns the worldObj for this tileEntity.
-     */
     public World getWorldObj()
     {
         return this.worldObj;
     }
 
-    /**
-     * Gets the world X position for this hopper entity.
-     */
     public double getXPos()
     {
         return this.posX;
     }
 
-    /**
-     * Gets the world Y position for this hopper entity.
-     */
     public double getYPos()
     {
         return this.posY;
     }
 
-    /**
-     * Gets the world Z position for this hopper entity.
-     */
     public double getZPos()
     {
         return this.posZ;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -175,35 +144,23 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         this.func_145778_a(Item.getItemFromBlock(Blocks.hopper), 1, 0.0F);
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setInteger("TransferCooldown", this.transferTicker);
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
         this.transferTicker = par1NBTTagCompound.getInteger("TransferCooldown");
     }
 
-    /**
-     * Sets the transfer ticker, used to determine the delay between transfers.
-     */
     public void setTransferTicker(int par1)
     {
         this.transferTicker = par1;
     }
 
-    /**
-     * Returns whether the hopper cart can currently transfer an item.
-     */
     public boolean canTransfer()
     {
         return this.transferTicker > 0;

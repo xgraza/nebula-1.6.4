@@ -25,12 +25,6 @@ public class RenderWitch extends RenderLiving
         this.witchModel = (ModelWitch)this.mainModel;
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityWitch par1EntityWitch, double par2, double par4, double par6, float par8, float par9)
     {
         ItemStack var10 = par1EntityWitch.getHeldItem();
@@ -38,9 +32,6 @@ public class RenderWitch extends RenderLiving
         super.doRender((EntityLiving)par1EntityWitch, par2, par4, par6, par8, par9);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityWitch par1EntityWitch)
     {
         return witchTextures;
@@ -129,31 +120,17 @@ public class RenderWitch extends RenderLiving
         GL11.glTranslatef(0.0F, 0.1875F, 0.0F);
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntityWitch par1EntityWitch, float par2)
     {
         float var3 = 0.9375F;
         GL11.glScalef(var3, var3, var3);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityWitch)par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
         this.preRenderCallback((EntityWitch)par1EntityLivingBase, par2);
@@ -164,31 +141,16 @@ public class RenderWitch extends RenderLiving
         this.renderEquippedItems((EntityWitch)par1EntityLivingBase, par2);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityWitch)par1Entity, par2, par4, par6, par8, par9);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityWitch)par1Entity);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityWitch)par1Entity, par2, par4, par6, par8, par9);

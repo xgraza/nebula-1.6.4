@@ -24,9 +24,6 @@ public class BlockDirt extends Block
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         if (p_149691_2_ == 2)
@@ -45,7 +42,7 @@ public class BlockDirt extends Block
         return this.blockIcon;
     }
 
-    public IIcon getIcon(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_)
+    public IIcon getBlockTexture(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_)
     {
         int var6 = p_149673_1_.getBlockMetadata(p_149673_2_, p_149673_3_, p_149673_4_);
 
@@ -62,7 +59,7 @@ public class BlockDirt extends Block
 
                 if (var7 == Material.field_151597_y || var7 == Material.craftedSnow)
                 {
-                    return Blocks.grass.getIcon(p_149673_1_, p_149673_2_, p_149673_3_, p_149673_4_, p_149673_5_);
+                    return Blocks.grass.getBlockTexture(p_149673_1_, p_149673_2_, p_149673_3_, p_149673_4_, p_149673_5_);
                 }
 
                 Block var8 = p_149673_1_.getBlock(p_149673_2_, p_149673_3_ + 1, p_149673_4_);
@@ -77,18 +74,11 @@ public class BlockDirt extends Block
         return this.blockIcon;
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int p_149692_1_)
     {
         return 0;
     }
 
-    /**
-     * Returns an item stack containing a single instance of the current block type. 'i' is the block's subtype/damage
-     * and is ignored for blocks which do not support subtypes. Blocks which cannot be harvested should return null.
-     */
     protected ItemStack createStackedBlock(int p_149644_1_)
     {
         if (p_149644_1_ == 1)
@@ -105,16 +95,13 @@ public class BlockDirt extends Block
         p_149666_3_.add(new ItemStack(this, 1, 2));
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
-        super.registerBlockIcons(p_149651_1_);
+        super.registerIcons(p_149651_1_);
         this.field_150008_b = p_149651_1_.registerIcon(this.getTextureName() + "_" + "podzol_top");
         this.field_150010_M = p_149651_1_.registerIcon(this.getTextureName() + "_" + "podzol_side");
     }
 
-    /**
-     * Get the block's damage value (for use with pick block).
-     */
     public int getDamageValue(World p_149643_1_, int p_149643_2_, int p_149643_3_, int p_149643_4_)
     {
         int var5 = p_149643_1_.getBlockMetadata(p_149643_2_, p_149643_3_, p_149643_4_);

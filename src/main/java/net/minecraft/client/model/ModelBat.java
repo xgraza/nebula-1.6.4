@@ -7,20 +7,10 @@ import net.minecraft.util.MathHelper;
 public class ModelBat extends ModelBase
 {
     private ModelRenderer batHead;
-
-    /** The body box of the bat model. */
     private ModelRenderer batBody;
-
-    /** The inner right wing box of the bat model. */
     private ModelRenderer batRightWing;
-
-    /** The inner left wing box of the bat model. */
     private ModelRenderer batLeftWing;
-
-    /** The outer right wing box of the bat model. */
     private ModelRenderer batOuterRightWing;
-
-    /** The outer left wing box of the bat model. */
     private ModelRenderer batOuterLeftWing;
     private static final String __OBFID = "CL_00000830";
 
@@ -58,18 +48,11 @@ public class ModelBat extends ModelBase
         this.batLeftWing.addChild(this.batOuterLeftWing);
     }
 
-    /**
-     * not actually sure this is size, is not used as of now, but the model would be recreated if the value changed and
-     * it seems a good match for a bats size
-     */
     public int getBatSize()
     {
         return 36;
     }
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         EntityBat var8 = (EntityBat)par1Entity;

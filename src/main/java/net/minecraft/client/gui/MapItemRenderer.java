@@ -54,7 +54,7 @@ public class MapItemRenderer
         while (var1.hasNext())
         {
             MapItemRenderer.Instance var2 = (MapItemRenderer.Instance)var1.next();
-            this.field_148251_b.func_147645_c(var2.field_148240_d);
+            this.field_148251_b.deleteTexture(var2.field_148240_d);
         }
 
         this.field_148252_c.clear();

@@ -18,9 +18,6 @@ public class MerchantRecipeList extends ArrayList
         this.readRecipiesFromTags(par1NBTTagCompound);
     }
 
-    /**
-     * can par1,par2 be used to in crafting recipe par3
-     */
     public MerchantRecipe canRecipeBeUsed(ItemStack par1ItemStack, ItemStack par2ItemStack, int par3)
     {
         if (par3 > 0 && par3 < this.size())
@@ -44,9 +41,6 @@ public class MerchantRecipeList extends ArrayList
         }
     }
 
-    /**
-     * checks if there is a recipie for the same ingredients already on the list, and replaces it. otherwise, adds it
-     */
     public void addToListWithCheck(MerchantRecipe par1MerchantRecipe)
     {
         for (int var2 = 0; var2 < this.size(); ++var2)

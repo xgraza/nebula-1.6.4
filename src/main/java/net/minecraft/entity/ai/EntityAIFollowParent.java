@@ -6,7 +6,6 @@ import net.minecraft.entity.passive.EntityAnimal;
 
 public class EntityAIFollowParent extends EntityAIBase
 {
-    /** The child that is following its parent. */
     EntityAnimal childAnimal;
     EntityAnimal parentAnimal;
     double field_75347_c;
@@ -19,9 +18,6 @@ public class EntityAIFollowParent extends EntityAIBase
         this.field_75347_c = par2;
     }
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
     public boolean shouldExecute()
     {
         if (this.childAnimal.getGrowingAge() >= 0)
@@ -67,9 +63,6 @@ public class EntityAIFollowParent extends EntityAIBase
         }
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
     public boolean continueExecuting()
     {
         if (!this.parentAnimal.isEntityAlive())
@@ -83,25 +76,16 @@ public class EntityAIFollowParent extends EntityAIBase
         }
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void startExecuting()
     {
         this.field_75345_d = 0;
     }
 
-    /**
-     * Resets the task
-     */
     public void resetTask()
     {
         this.parentAnimal = null;
     }
 
-    /**
-     * Updates the task
-     */
     public void updateTask()
     {
         if (--this.field_75345_d <= 0)

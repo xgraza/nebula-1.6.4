@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 
 public class EntityBat extends EntityAmbientCreature
 {
-    /** Coordinates of where the bat spawned. */
     private ChunkCoordinates spawnPosition;
     private static final String __OBFID = "CL_00001637";
 
@@ -29,49 +28,31 @@ public class EntityBat extends EntityAmbientCreature
         this.dataWatcher.addObject(16, new Byte((byte)0));
     }
 
-    /**
-     * Returns the volume for the sounds this mob makes.
-     */
     protected float getSoundVolume()
     {
         return 0.1F;
     }
 
-    /**
-     * Gets the pitch of living sounds in living entities.
-     */
     protected float getSoundPitch()
     {
         return super.getSoundPitch() * 0.95F;
     }
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return this.getIsBatHanging() && this.rand.nextInt(4) != 0 ? null : "mob.bat.idle";
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.bat.hurt";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.bat.death";
     }
 
-    /**
-     * Returns true if this entity should push and be pushed by other entities when colliding.
-     */
     public boolean canBePushed()
     {
         return false;
@@ -106,17 +87,11 @@ public class EntityBat extends EntityAmbientCreature
         }
     }
 
-    /**
-     * Returns true if the newer Entity AI code should be run
-     */
     protected boolean isAIEnabled()
     {
         return true;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -187,24 +162,13 @@ public class EntityBat extends EntityAmbientCreature
         }
     }
 
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
     protected boolean canTriggerWalking()
     {
         return false;
     }
 
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
     protected void fall(float par1) {}
 
-    /**
-     * Takes in the distance the entity has fallen this tick and whether its on the ground to update the fall distance
-     * and deal fall damage if landing on the ground.  Args: distanceFallenThisTick, onGround
-     */
     protected void updateFallState(double par1, boolean par3) {}
 
     public boolean doesEntityNotTriggerPressurePlate()
@@ -212,9 +176,6 @@ public class EntityBat extends EntityAmbientCreature
         return true;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (this.isEntityInvulnerable())
@@ -232,27 +193,18 @@ public class EntityBat extends EntityAmbientCreature
         }
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
         this.dataWatcher.updateObject(16, Byte.valueOf(par1NBTTagCompound.getByte("BatFlags")));
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setByte("BatFlags", this.dataWatcher.getWatchableObjectByte(16));
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
     public boolean getCanSpawnHere()
     {
         int var1 = MathHelper.floor_double(this.boundingBox.minY);

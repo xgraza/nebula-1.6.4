@@ -8,17 +8,11 @@ public enum EnumFacing
     SOUTH(3, 2, 0, 0, 1),
     EAST(4, 5, -1, 0, 0),
     WEST(5, 4, 1, 0, 0);
-
-    /** Face order for D-U-N-S-E-W. */
     public final int order_a;
-
-    /** Face order for U-D-S-N-W-E. */
     public final int order_b;
     private final int frontOffsetX;
     private final int frontOffsetY;
     private final int frontOffsetZ;
-
-    /** List of all values in EnumFacing. Order is D-U-N-S-E-W. */
     private static final EnumFacing[] faceList = new EnumFacing[6];
     private static final String __OBFID = "CL_00001201";
 
@@ -31,9 +25,6 @@ public enum EnumFacing
         this.frontOffsetZ = par7;
     }
 
-    /**
-     * Returns a offset that addresses the block in front of this facing.
-     */
     public int getFrontOffsetX()
     {
         return this.frontOffsetX;
@@ -44,17 +35,11 @@ public enum EnumFacing
         return this.frontOffsetY;
     }
 
-    /**
-     * Returns a offset that addresses the block in front of this facing.
-     */
     public int getFrontOffsetZ()
     {
         return this.frontOffsetZ;
     }
 
-    /**
-     * Returns the facing that represents the block in front of it.
-     */
     public static EnumFacing getFront(int par0)
     {
         return faceList[par0 % faceList.length];

@@ -15,19 +15,9 @@ public class ModelBiped extends ModelBase
     public ModelRenderer bipedLeftLeg;
     public ModelRenderer bipedEars;
     public ModelRenderer bipedCloak;
-
-    /**
-     * Records whether the model should be rendered holding an item in the left hand, and if that item is a block.
-     */
     public int heldItemLeft;
-
-    /**
-     * Records whether the model should be rendered holding an item in the right hand, and if that item is a block.
-     */
     public int heldItemRight;
     public boolean isSneak;
-
-    /** Records whether the model should be rendered aiming a bow. */
     public boolean aimedBow;
     private static final String __OBFID = "CL_00000840";
 
@@ -74,9 +64,6 @@ public class ModelBiped extends ModelBase
         this.bipedLeftLeg.setRotationPoint(1.9F, 12.0F + par2, 0.0F);
     }
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
@@ -112,11 +99,6 @@ public class ModelBiped extends ModelBase
         }
     }
 
-    /**
-     * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
-     * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
-     * "far" arms and legs can swing at most.
-     */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
         this.bipedHead.rotateAngleY = par4 / (180F / (float)Math.PI);
@@ -226,9 +208,6 @@ public class ModelBiped extends ModelBase
         }
     }
 
-    /**
-     * renders the ears (specifically, deadmau5's)
-     */
     public void renderEars(float par1)
     {
         this.bipedEars.rotateAngleY = this.bipedHead.rotateAngleY;
@@ -238,9 +217,6 @@ public class ModelBiped extends ModelBase
         this.bipedEars.render(par1);
     }
 
-    /**
-     * Renders the cloak of the current biped (in most cases, it's a player)
-     */
     public void renderCloak(float par1)
     {
         this.bipedCloak.render(par1);

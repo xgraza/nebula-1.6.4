@@ -20,9 +20,6 @@ public class EntityDiggingFX extends EntityFX
         this.particleScale /= 2.0F;
     }
 
-    /**
-     * If the block has a colour multiplier, copies it to this particle and returns this particle.
-     */
     public EntityDiggingFX applyColourMultiplier(int par1, int par2, int par3)
     {
         if (this.field_145784_a == Blocks.grass)
@@ -39,9 +36,6 @@ public class EntityDiggingFX extends EntityFX
         }
     }
 
-    /**
-     * Creates a new EntityDiggingFX with the block render color applied to the base particle color
-     */
     public EntityDiggingFX applyRenderColor(int par1)
     {
         if (this.field_145784_a == Blocks.grass)

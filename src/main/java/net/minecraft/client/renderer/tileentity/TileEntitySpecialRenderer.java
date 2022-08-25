@@ -32,6 +32,6 @@ public abstract class TileEntitySpecialRenderer
 
     public FontRenderer func_147498_b()
     {
-        return this.field_147501_a.func_147548_a();
+        return this.field_147501_a.getFontRenderer();
     }
 }

@@ -11,8 +11,6 @@ import org.lwjgl.opengl.GL11;
 public class RenderBoat extends Render
 {
     private static final ResourceLocation boatTextures = new ResourceLocation("textures/entity/boat.png");
-
-    /** instance of ModelBoat for rendering */
     protected ModelBase modelBoat;
     private static final String __OBFID = "CL_00000981";
 
@@ -22,12 +20,6 @@ public class RenderBoat extends Render
         this.modelBoat = new ModelBoat();
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityBoat par1EntityBoat, double par2, double par4, double par6, float par8, float par9)
     {
         GL11.glPushMatrix();
@@ -55,28 +47,16 @@ public class RenderBoat extends Render
         GL11.glPopMatrix();
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityBoat par1EntityBoat)
     {
         return boatTextures;
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityBoat)par1Entity);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityBoat)par1Entity, par2, par4, par6, par8, par9);

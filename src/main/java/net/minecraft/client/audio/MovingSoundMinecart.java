@@ -18,9 +18,6 @@ public class MovingSoundMinecart extends MovingSound
         this.field_147665_h = 0;
     }
 
-    /**
-     * Updates the JList with a new model.
-     */
     public void update()
     {
         if (this.field_147670_k.isDead)

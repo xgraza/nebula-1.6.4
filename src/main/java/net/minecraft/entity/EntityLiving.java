@@ -27,58 +27,38 @@ import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.src.BlockPos;
+import net.minecraft.src.Reflector;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
-import optifine.BlockPos;
-import optifine.Reflector;
 
 public abstract class EntityLiving extends EntityLivingBase
 {
-    /** Number of ticks since this EntityLiving last produced its sound */
     public int livingSoundTime;
-
-    /** The experience points the Entity gives. */
     protected int experienceValue;
     private EntityLookHelper lookHelper;
     private EntityMoveHelper moveHelper;
-
-    /** Entity jumping helper */
     private EntityJumpHelper jumpHelper;
     private EntityBodyHelper bodyHelper;
     private PathNavigate navigator;
     protected final EntityAITasks tasks;
     protected final EntityAITasks targetTasks;
-
-    /** The active target the Task system uses for tracking */
     private EntityLivingBase attackTarget;
     private EntitySenses senses;
-
-    /** Equipment (armor and held item) for this entity. */
     private ItemStack[] equipment = new ItemStack[5];
-
-    /** Chances for each equipment piece from dropping when this entity dies. */
     protected float[] equipmentDropChances = new float[5];
-
-    /** Whether this entity can pick up items from the ground. */
     private boolean canPickUpLoot;
-
-    /** Whether this entity should NOT despawn. */
     private boolean persistenceRequired;
     protected float defaultPitch;
-
-    /** This entity's current target. */
     private Entity currentTarget;
-
-    /** How long to keep a specific target entity */
     protected int numTicksToChaseTarget;
     private boolean isLeashed;
     private Entity leashedToEntity;
     private NBTTagCompound field_110170_bx;
-    private static final String __OBFID = "CL_00001550";
     public int randomMobsId = 0;
     public BiomeGenBase spawnBiome = null;
     public BlockPos spawnPosition = null;
@@ -131,43 +111,27 @@ public abstract class EntityLiving extends EntityLivingBase
         return this.navigator;
     }
 
-    /**
-     * returns the EntitySenses Object for the EntityLiving
-     */
     public EntitySenses getEntitySenses()
     {
         return this.senses;
     }
 
-    /**
-     * Gets the active target the Task system uses for tracking
-     */
     public EntityLivingBase getAttackTarget()
     {
         return this.attackTarget;
     }
 
-    /**
-     * Sets the active target the Task system uses for tracking
-     */
     public void setAttackTarget(EntityLivingBase par1EntityLivingBase)
     {
         this.attackTarget = par1EntityLivingBase;
         Reflector.callVoid(Reflector.ForgeHooks_onLivingSetAttackTarget, new Object[] {this, par1EntityLivingBase});
     }
 
-    /**
-     * Returns true if this entity can attack entities of the specified class.
-     */
     public boolean canAttackClass(Class par1Class)
     {
         return EntityCreeper.class != par1Class && EntityGhast.class != par1Class;
     }
 
-    /**
-     * This function applies the benefits of growing back wool and faster growing up to the acting entity. (This
-     * function is used in the AIEatGrass)
-     */
     public void eatGrassBonus() {}
 
     protected void entityInit()
@@ -177,17 +141,11 @@ public abstract class EntityLiving extends EntityLivingBase
         this.dataWatcher.addObject(10, "");
     }
 
-    /**
-     * Get number of ticks, at least during which the living entity will be silent.
-     */
     public int getTalkInterval()
     {
         return 80;
     }
 
-    /**
-     * Plays living's sound at its position
-     */
     public void playLivingSound()
     {
         String var1 = this.getLivingSound();
@@ -198,9 +156,6 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * Gets called every tick from main Entity class
-     */
     public void onEntityUpdate()
     {
         super.onEntityUpdate();
@@ -215,9 +170,6 @@ public abstract class EntityLiving extends EntityLivingBase
         this.worldObj.theProfiler.endSection();
     }
 
-    /**
-     * Get the experience points the entity currently has.
-     */
     protected int getExperiencePoints(EntityPlayer par1EntityPlayer)
     {
         if (this.experienceValue > 0)
@@ -241,9 +193,6 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * Spawns an explosion particle around the Entity's location
-     */
     public void spawnExplosionParticle()
     {
         for (int var1 = 0; var1 < 20; ++var1)
@@ -256,9 +205,6 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -282,9 +228,6 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return null;
@@ -295,9 +238,6 @@ public abstract class EntityLiving extends EntityLivingBase
         return Item.getItemById(0);
     }
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
     protected void dropFewItems(boolean par1, int par2)
     {
         Item var3 = this.func_146068_u();
@@ -318,9 +258,6 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
@@ -375,16 +312,13 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
         this.setCanPickUpLoot(par1NBTTagCompound.getBoolean("CanPickUpLoot"));
         this.persistenceRequired = par1NBTTagCompound.getBoolean("PersistenceRequired");
 
-        if (par1NBTTagCompound.func_150297_b("CustomName", 8) && par1NBTTagCompound.getString("CustomName").length() > 0)
+        if (par1NBTTagCompound.hasKey("CustomName", 8) && par1NBTTagCompound.getString("CustomName").length() > 0)
         {
             this.setCustomNameTag(par1NBTTagCompound.getString("CustomName"));
         }
@@ -393,7 +327,7 @@ public abstract class EntityLiving extends EntityLivingBase
         NBTTagList var2;
         int var3;
 
-        if (par1NBTTagCompound.func_150297_b("Equipment", 9))
+        if (par1NBTTagCompound.hasKey("Equipment", 9))
         {
             var2 = par1NBTTagCompound.getTagList("Equipment", 10);
 
@@ -403,7 +337,7 @@ public abstract class EntityLiving extends EntityLivingBase
             }
         }
 
-        if (par1NBTTagCompound.func_150297_b("DropChances", 9))
+        if (par1NBTTagCompound.hasKey("DropChances", 9))
         {
             var2 = par1NBTTagCompound.getTagList("DropChances", 5);
 
@@ -415,7 +349,7 @@ public abstract class EntityLiving extends EntityLivingBase
 
         this.isLeashed = par1NBTTagCompound.getBoolean("Leashed");
 
-        if (this.isLeashed && par1NBTTagCompound.func_150297_b("Leash", 10))
+        if (this.isLeashed && par1NBTTagCompound.hasKey("Leash", 10))
         {
             this.field_110170_bx = par1NBTTagCompound.getCompoundTag("Leash");
         }
@@ -426,19 +360,12 @@ public abstract class EntityLiving extends EntityLivingBase
         this.moveForward = par1;
     }
 
-    /**
-     * set the movespeed used for the new AI system
-     */
     public void setAIMoveSpeed(float par1)
     {
         super.setAIMoveSpeed(par1);
         this.setMoveForward(par1);
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
@@ -545,25 +472,16 @@ public abstract class EntityLiving extends EntityLivingBase
         this.worldObj.theProfiler.endSection();
     }
 
-    /**
-     * Returns true if the newer Entity AI code should be run
-     */
     protected boolean isAIEnabled()
     {
         return false;
     }
 
-    /**
-     * Determines if an entity can be despawned, used on idle far away entities
-     */
     protected boolean canDespawn()
     {
         return true;
     }
 
-    /**
-     * Makes the entity despawn if requirements are reached
-     */
     public void despawnEntity()
     {
         Object result = null;
@@ -697,18 +615,11 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * The speed it takes to move the entityliving's rotationPitch through the faceEntity method. This is only currently
-     * use in wolves.
-     */
     public int getVerticalFaceSpeed()
     {
         return 40;
     }
 
-    /**
-     * Changes pitch and yaw so that the entity calling the function is facing the entity provided as an argument.
-     */
     public void faceEntity(Entity par1Entity, float par2, float par3)
     {
         double var4 = par1Entity.posX - this.posX;
@@ -732,9 +643,6 @@ public abstract class EntityLiving extends EntityLivingBase
         this.rotationYaw = this.updateRotation(this.rotationYaw, var12, par2);
     }
 
-    /**
-     * Arguments: current rotation, intended rotation, max increment.
-     */
     private float updateRotation(float par1, float par2, float par3)
     {
         float var4 = MathHelper.wrapAngleTo180_float(par2 - par1);
@@ -752,33 +660,21 @@ public abstract class EntityLiving extends EntityLivingBase
         return par1 + var4;
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
     public boolean getCanSpawnHere()
     {
         return this.worldObj.checkNoEntityCollision(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox);
     }
 
-    /**
-     * Returns render size modifier
-     */
     public float getRenderSizeModifier()
     {
         return 1.0F;
     }
 
-    /**
-     * Will return how many at most can spawn in a chunk at once.
-     */
     public int getMaxSpawnedInChunk()
     {
         return 4;
     }
 
-    /**
-     * The number of iterations PathFinder.getSafePoint will execute before giving up.
-     */
     public int getMaxSafePointTries()
     {
         if (this.getAttackTarget() == null)
@@ -799,17 +695,11 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * Returns the item that this EntityLiving is holding, if any.
-     */
     public ItemStack getHeldItem()
     {
         return this.equipment[0];
     }
 
-    /**
-     * 0: Tool in Hand; 1-4: Armor
-     */
     public ItemStack getEquipmentInSlot(int par1)
     {
         return this.equipment[par1];
@@ -820,9 +710,6 @@ public abstract class EntityLiving extends EntityLivingBase
         return this.equipment[par1 + 1];
     }
 
-    /**
-     * Sets the held item, or an armor slot. Slot 0 is held item. Slot 1-4 is armor. Params: Item, slot
-     */
     public void setCurrentItemOrArmor(int par1, ItemStack par2ItemStack)
     {
         this.equipment[par1] = par2ItemStack;
@@ -833,9 +720,6 @@ public abstract class EntityLiving extends EntityLivingBase
         return this.equipment;
     }
 
-    /**
-     * Drop the equipment for this entity.
-     */
     protected void dropEquipment(boolean par1, int par2)
     {
         for (int var3 = 0; var3 < this.getLastActiveItems().length; ++var3)
@@ -868,9 +752,6 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * Makes entity wear random armor based on difficulty
-     */
     protected void addRandomArmor()
     {
         if (this.rand.nextFloat() < 0.15F * this.worldObj.func_147462_b(this.posX, this.posY, this.posZ))
@@ -945,9 +826,6 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * Params: Armor slot, Item tier
-     */
     public static Item getArmorItemForSlot(int par0, int par1)
     {
         switch (par0)
@@ -1045,9 +923,6 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * Enchants the entity's armor and held item based on difficulty
-     */
     protected void enchantEquipment()
     {
         float var1 = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
@@ -1074,18 +949,11 @@ public abstract class EntityLiving extends EntityLivingBase
         return par1EntityLivingData;
     }
 
-    /**
-     * returns true if all the conditions for steering the entity are met. For pigs, this is true if it is being ridden
-     * by a player and the player is holding a carrot-on-a-stick
-     */
     public boolean canBeSteered()
     {
         return false;
     }
 
-    /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
-     */
     public String getCommandSenderName()
     {
         return this.hasCustomNameTag() ? this.getCustomNameTag() : super.getCommandSenderName();
@@ -1146,9 +1014,6 @@ public abstract class EntityLiving extends EntityLivingBase
         return this.persistenceRequired;
     }
 
-    /**
-     * First layer of player interaction
-     */
     public final boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         if (this.getLeashed() && this.getLeashedToEntity() == par1EntityPlayer)
@@ -1181,17 +1046,11 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
-     */
     protected boolean interact(EntityPlayer par1EntityPlayer)
     {
         return false;
     }
 
-    /**
-     * Applies logic related to leashes, for example dragging the entity or breaking the leash.
-     */
     protected void updateLeashedState()
     {
         if (this.field_110170_bx != null)
@@ -1205,9 +1064,6 @@ public abstract class EntityLiving extends EntityLivingBase
         }
     }
 
-    /**
-     * Removes the leash from this entity. Second parameter tells whether to send a packet to surrounding players.
-     */
     public void clearLeashed(boolean par1, boolean par2)
     {
         if (this.isLeashed)
@@ -1242,10 +1098,6 @@ public abstract class EntityLiving extends EntityLivingBase
         return this.leashedToEntity;
     }
 
-    /**
-     * Sets the entity to be leashed to.\nArgs:\n@param par1Entity: The entity to be tethered to.\n@param par2: Whether
-     * to send an attaching notification packet to surrounding players.
-     */
     public void setLeashedToEntity(Entity par1Entity, boolean par2)
     {
         this.isLeashed = true;
@@ -1261,7 +1113,7 @@ public abstract class EntityLiving extends EntityLivingBase
     {
         if (this.isLeashed && this.field_110170_bx != null)
         {
-            if (this.field_110170_bx.func_150297_b("UUIDMost", 4) && this.field_110170_bx.func_150297_b("UUIDLeast", 4))
+            if (this.field_110170_bx.hasKey("UUIDMost", 4) && this.field_110170_bx.hasKey("UUIDLeast", 4))
             {
                 UUID var11 = new UUID(this.field_110170_bx.getLong("UUIDMost"), this.field_110170_bx.getLong("UUIDLeast"));
                 List var21 = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(10.0D, 10.0D, 10.0D));
@@ -1278,7 +1130,7 @@ public abstract class EntityLiving extends EntityLivingBase
                     }
                 }
             }
-            else if (this.field_110170_bx.func_150297_b("X", 99) && this.field_110170_bx.func_150297_b("Y", 99) && this.field_110170_bx.func_150297_b("Z", 99))
+            else if (this.field_110170_bx.hasKey("X", 99) && this.field_110170_bx.hasKey("Y", 99) && this.field_110170_bx.hasKey("Z", 99))
             {
                 int var1 = this.field_110170_bx.getInteger("X");
                 int var2 = this.field_110170_bx.getInteger("Y");

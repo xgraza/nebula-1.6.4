@@ -17,7 +17,7 @@ public class BlockDropper extends BlockDispenser
     private final IBehaviorDispenseItem field_149947_P = new BehaviorDefaultDispenseItem();
     private static final String __OBFID = "CL_00000233";
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.blockIcon = p_149651_1_.registerIcon("furnace_side");
         this.field_149944_M = p_149651_1_.registerIcon("furnace_top");
@@ -30,9 +30,6 @@ public class BlockDropper extends BlockDispenser
         return this.field_149947_P;
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
         return new TileEntityDropper();

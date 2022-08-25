@@ -4,28 +4,12 @@ import net.minecraft.entity.Entity;
 
 public class MovingObjectPosition
 {
-    /** What type of ray trace hit was this? 0 = block, 1 = entity */
     public MovingObjectPosition.MovingObjectType typeOfHit;
-
-    /** x coordinate of the block ray traced against */
     public int blockX;
-
-    /** y coordinate of the block ray traced against */
     public int blockY;
-
-    /** z coordinate of the block ray traced against */
     public int blockZ;
-
-    /**
-     * Which side was hit. If its -1 then it went the full length of the ray trace. Bottom = 0, Top = 1, East = 2, West
-     * = 3, North = 4, South = 5.
-     */
     public int sideHit;
-
-    /** The vector position of the hit */
     public Vec3 hitVec;
-
-    /** The hit entity */
     public Entity entityHit;
     private static final String __OBFID = "CL_00000610";
 

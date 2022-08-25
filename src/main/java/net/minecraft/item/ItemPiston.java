@@ -11,9 +11,6 @@ public class ItemPiston extends ItemBlock
         super(p_i45348_1_);
     }
 
-    /**
-     * Returns the metadata of the block which this Item (ItemBlock) can place
-     */
     public int getMetadata(int par1)
     {
         return 7;

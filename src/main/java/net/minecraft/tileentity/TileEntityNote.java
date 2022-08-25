@@ -66,7 +66,7 @@ public class TileEntityNote extends TileEntity
                 var6 = 4;
             }
 
-            p_145878_1_.func_147452_c(p_145878_2_, p_145878_3_, p_145878_4_, Blocks.noteblock, var6, this.field_145879_a);
+            p_145878_1_.addBlockEvent(p_145878_2_, p_145878_3_, p_145878_4_, Blocks.noteblock, var6, this.field_145879_a);
         }
     }
 }

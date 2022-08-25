@@ -86,7 +86,7 @@ public class StatisticsFile extends StatFileWriter
 
             if (this.field_150890_c.func_147136_ar())
             {
-                this.field_150890_c.getConfigurationManager().func_148539_a(new ChatComponentTranslation("chat.type.achievement", new Object[] {p_150873_1_.func_145748_c_(), p_150873_2_.func_150955_j()}));
+                this.field_150890_c.getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.achievement", new Object[] {p_150873_1_.func_145748_c_(), p_150873_2_.func_150955_j()}));
             }
         }
     }
@@ -224,7 +224,7 @@ public class StatisticsFile extends StatFileWriter
             }
         }
 
-        p_150876_1_.playerNetServerHandler.sendPacket(new S37PacketStatistics(var3));
+        p_150876_1_.playerNetServerHandler.sendPacketToPlayer(new S37PacketStatistics(var3));
     }
 
     public void func_150884_b(EntityPlayerMP p_150884_1_)
@@ -243,7 +243,7 @@ public class StatisticsFile extends StatFileWriter
             }
         }
 
-        p_150884_1_.playerNetServerHandler.sendPacket(new S37PacketStatistics(var2));
+        p_150884_1_.playerNetServerHandler.sendPacketToPlayer(new S37PacketStatistics(var2));
     }
 
     public boolean func_150879_e()

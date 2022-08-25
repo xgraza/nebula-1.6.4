@@ -10,14 +10,7 @@ import net.minecraft.world.World;
 
 public class WorldGeneratorBonusChest extends WorldGenerator
 {
-    /**
-     * Instance of WeightedRandomChestContent what will randomly generate items into the Bonus Chest.
-     */
     private final WeightedRandomChestContent[] theBonusChestGenerator;
-
-    /**
-     * Value of this int will determine how much items gonna generate in Bonus Chest.
-     */
     private final int itemsToGenerateInBonusChest;
     private static final String __OBFID = "CL_00000403";
 

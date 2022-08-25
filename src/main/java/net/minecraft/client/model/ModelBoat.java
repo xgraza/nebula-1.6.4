@@ -34,9 +34,6 @@ public class ModelBoat extends ModelBase
         this.boatSides[3].rotateAngleY = (float)Math.PI;
     }
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         for (int var8 = 0; var8 < 5; ++var8)

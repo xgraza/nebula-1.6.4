@@ -23,9 +23,6 @@ public class ItemBow extends Item
         this.setCreativeTab(CreativeTabs.tabCombat);
     }
 
-    /**
-     * called when the player releases the use item button. Args: itemstack, world, entityplayer, itemInUseCount
-     */
     public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4)
     {
         boolean var5 = par3EntityPlayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
@@ -96,25 +93,16 @@ public class ItemBow extends Item
         return par1ItemStack;
     }
 
-    /**
-     * How long it takes to use or consume an item
-     */
     public int getMaxItemUseDuration(ItemStack par1ItemStack)
     {
         return 72000;
     }
 
-    /**
-     * returns the action that specifies what animation to play when the items is being used
-     */
     public EnumAction getItemUseAction(ItemStack par1ItemStack)
     {
         return EnumAction.bow;
     }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         if (par3EntityPlayer.capabilities.isCreativeMode || par3EntityPlayer.inventory.hasItem(Items.arrow))
@@ -125,9 +113,6 @@ public class ItemBow extends Item
         return par1ItemStack;
     }
 
-    /**
-     * Return the enchantability factor of the item, most of the time is based on material.
-     */
     public int getItemEnchantability()
     {
         return 1;
@@ -144,9 +129,6 @@ public class ItemBow extends Item
         }
     }
 
-    /**
-     * used to cycle through icons based on their used duration, i.e. for the bow
-     */
     public IIcon getItemIconForUseDuration(int par1)
     {
         return this.iconArray[par1];

@@ -58,9 +58,6 @@ public abstract class GuiContainer extends GuiScreen
         this.field_146995_H = true;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         super.initGui();
@@ -69,9 +66,6 @@ public abstract class GuiContainer extends GuiScreen
         this.field_147009_r = (this.height - this.field_147000_g) / 2;
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
@@ -178,11 +172,11 @@ public abstract class GuiContainer extends GuiScreen
     {
         GL11.glTranslatef(0.0F, 0.0F, 32.0F);
         this.zLevel = 200.0F;
-        itemRender.zLevel = 200.0F;
-        itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), p_146982_1_, p_146982_2_, p_146982_3_);
-        itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), p_146982_1_, p_146982_2_, p_146982_3_ - (this.field_147012_x == null ? 0 : 8), p_146982_4_);
+        renderItemGs.zLevel = 200.0F;
+        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), p_146982_1_, p_146982_2_, p_146982_3_);
+        renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), p_146982_1_, p_146982_2_, p_146982_3_ - (this.field_147012_x == null ? 0 : 8), p_146982_4_);
         this.zLevel = 0.0F;
-        itemRender.zLevel = 0.0F;
+        renderItemGs.zLevel = 0.0F;
     }
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_) {}
@@ -237,7 +231,7 @@ public abstract class GuiContainer extends GuiScreen
         }
 
         this.zLevel = 100.0F;
-        itemRender.zLevel = 100.0F;
+        renderItemGs.zLevel = 100.0F;
 
         if (var4 == null)
         {
@@ -261,11 +255,11 @@ public abstract class GuiContainer extends GuiScreen
             }
 
             GL11.glEnable(GL11.GL_DEPTH_TEST);
-            itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var4, var2, var3);
-            itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var4, var2, var3, var8);
+            renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var4, var2, var3);
+            renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var4, var2, var3, var8);
         }
 
-        itemRender.zLevel = 0.0F;
+        renderItemGs.zLevel = 0.0F;
         this.zLevel = 0.0F;
     }
 
@@ -314,9 +308,6 @@ public abstract class GuiContainer extends GuiScreen
         return null;
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
@@ -636,9 +627,6 @@ public abstract class GuiContainer extends GuiScreen
         this.mc.playerController.windowClick(this.field_147002_h.windowId, p_146984_2_, p_146984_3_, p_146984_4_, this.mc.thePlayer);
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         if (par2 == 1 || par2 == this.mc.gameSettings.keyBindInventory.getKeyCode())
@@ -678,9 +666,6 @@ public abstract class GuiContainer extends GuiScreen
         return false;
     }
 
-    /**
-     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
-     */
     public void onGuiClosed()
     {
         if (this.mc.thePlayer != null)
@@ -689,17 +674,11 @@ public abstract class GuiContainer extends GuiScreen
         }
     }
 
-    /**
-     * Returns true if this GUI should pause the game when it is displayed in single-player
-     */
     public boolean doesGuiPauseGame()
     {
         return false;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         super.updateScreen();

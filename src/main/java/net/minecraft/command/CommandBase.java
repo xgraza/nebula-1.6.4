@@ -19,9 +19,6 @@ public abstract class CommandBase implements ICommand
     private static IAdminCommand theAdmin;
     private static final String __OBFID = "CL_00001739";
 
-    /**
-     * Return the required permission level for this command.
-     */
     public int getRequiredPermissionLevel()
     {
         return 4;
@@ -32,25 +29,16 @@ public abstract class CommandBase implements ICommand
         return null;
     }
 
-    /**
-     * Returns true if the given command sender is allowed to use this command.
-     */
     public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
     {
         return par1ICommandSender.canCommandSenderUseCommand(this.getRequiredPermissionLevel(), this.getCommandName());
     }
 
-    /**
-     * Adds the strings available in this command to the given list of tab completion options.
-     */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         return null;
     }
 
-    /**
-     * Parses an int from the given string.
-     */
     public static int parseInt(ICommandSender par0ICommandSender, String par1Str)
     {
         try
@@ -63,17 +51,11 @@ public abstract class CommandBase implements ICommand
         }
     }
 
-    /**
-     * Parses an int from the given sring with a specified minimum.
-     */
     public static int parseIntWithMin(ICommandSender par0ICommandSender, String par1Str, int par2)
     {
         return parseIntBounded(par0ICommandSender, par1Str, par2, Integer.MAX_VALUE);
     }
 
-    /**
-     * Parses an int from the given string within a specified bound.
-     */
     public static int parseIntBounded(ICommandSender par0ICommandSender, String par1Str, int par2, int par3)
     {
         int var4 = parseInt(par0ICommandSender, par1Str);
@@ -92,9 +74,6 @@ public abstract class CommandBase implements ICommand
         }
     }
 
-    /**
-     * Parses a double from the given string or throws an exception if it's not a double.
-     */
     public static double parseDouble(ICommandSender par0ICommandSender, String par1Str)
     {
         try
@@ -116,19 +95,11 @@ public abstract class CommandBase implements ICommand
         }
     }
 
-    /**
-     * Parses a double from the given string.  Throws if the string could not be parsed as a double, or if it's less
-     * than the given minimum value.
-     */
     public static double parseDoubleWithMin(ICommandSender par0ICommandSender, String par1Str, double par2)
     {
         return parseDoubleBounded(par0ICommandSender, par1Str, par2, Double.MAX_VALUE);
     }
 
-    /**
-     * Parses a double from the given string.  Throws if the string could not be parsed as a double, or if it's not
-     * between the given min and max values.
-     */
     public static double parseDoubleBounded(ICommandSender par0ICommandSender, String par1Str, double par2, double par4)
     {
         double var6 = parseDouble(par0ICommandSender, par1Str);
@@ -147,10 +118,6 @@ public abstract class CommandBase implements ICommand
         }
     }
 
-    /**
-     * Parses a boolean value from the given string.  Throws if the string does not contain a boolean value.  Accepted
-     * values are (case-sensitive): "true", "false", "0", "1".
-     */
     public static boolean parseBoolean(ICommandSender par0ICommandSender, String par1Str)
     {
         if (!par1Str.equals("true") && !par1Str.equals("1"))
@@ -170,9 +137,6 @@ public abstract class CommandBase implements ICommand
         }
     }
 
-    /**
-     * Returns the given ICommandSender as a EntityPlayer or throw an exception.
-     */
     public static EntityPlayerMP getCommandSenderAsPlayer(ICommandSender par0ICommandSender)
     {
         if (par0ICommandSender instanceof EntityPlayerMP)
@@ -333,11 +297,6 @@ public abstract class CommandBase implements ICommand
         }
     }
 
-    /**
-     * Gets the Item specified by the given text string.  First checks the item registry, then tries by parsing the
-     * string as an integer ID (deprecated).  Warns the sender if we matched by parsing the ID.  Throws if the item
-     * wasn't found.  Returns the item if it was found.
-     */
     public static Item getItemByText(ICommandSender p_147179_0_, String p_147179_1_)
     {
         Item var2 = (Item)Item.itemRegistry.getObject(p_147179_1_);
@@ -373,11 +332,6 @@ public abstract class CommandBase implements ICommand
         }
     }
 
-    /**
-     * Gets the Block specified by the given text string.  First checks the block registry, then tries by parsing the
-     * string as an integer ID (deprecated).  Warns the sender if we matched by parsing the ID.  Throws if the block
-     * wasn't found.  Returns the block if it was found.
-     */
     public static Block getBlockByText(ICommandSender p_147180_0_, String p_147180_1_)
     {
         if (Block.blockRegistry.containsKey(p_147180_1_))
@@ -408,10 +362,6 @@ public abstract class CommandBase implements ICommand
         }
     }
 
-    /**
-     * Creates a linguistic series joining the input objects together.  Examples: 1) {} --> "",  2) {"Steve"} -->
-     * "Steve",  3) {"Steve", "Phil"} --> "Steve and Phil",  4) {"Steve", "Phil", "Mark"} --> "Steve, Phil and Mark"
-     */
     public static String joinNiceString(Object[] par0ArrayOfObj)
     {
         StringBuilder var1 = new StringBuilder();
@@ -438,10 +388,6 @@ public abstract class CommandBase implements ICommand
         return var1.toString();
     }
 
-    /**
-     * Creates a linguistic series joining the input chat components.  Examples: 1) {} --> "",  2) {"Steve"} -->
-     * "Steve",  3) {"Steve", "Phil"} --> "Steve and Phil",  4) {"Steve", "Phil", "Mark"} --> "Steve, Phil and Mark"
-     */
     public static IChatComponent joinNiceString(IChatComponent[] p_147177_0_)
     {
         ChatComponentText var1 = new ChatComponentText("");
@@ -466,28 +412,16 @@ public abstract class CommandBase implements ICommand
         return var1;
     }
 
-    /**
-     * Creates a linguistic series joining together the elements of the given collection.  Examples: 1) {} --> "",  2)
-     * {"Steve"} --> "Steve",  3) {"Steve", "Phil"} --> "Steve and Phil",  4) {"Steve", "Phil", "Mark"} --> "Steve, Phil
-     * and Mark"
-     */
     public static String joinNiceStringFromCollection(Collection par0Collection)
     {
         return joinNiceString(par0Collection.toArray(new String[par0Collection.size()]));
     }
 
-    /**
-     * Returns true if the given substring is exactly equal to the start of the given string (case insensitive).
-     */
     public static boolean doesStringStartWith(String par0Str, String par1Str)
     {
         return par1Str.regionMatches(true, 0, par0Str, 0, par0Str.length());
     }
 
-    /**
-     * Returns a List of strings (chosen from the given strings) which the last word in the given string array is a
-     * beginning-match for. (Tab completion).
-     */
     public static List getListOfStringsMatchingLastWord(String[] par0ArrayOfStr, String ... par1ArrayOfStr)
     {
         String var2 = par0ArrayOfStr[par0ArrayOfStr.length - 1];
@@ -508,10 +442,6 @@ public abstract class CommandBase implements ICommand
         return var3;
     }
 
-    /**
-     * Returns a List of strings (chosen from the given string iterable) which the last word in the given string array
-     * is a beginning-match for. (Tab completion).
-     */
     public static List getListOfStringsFromIterableMatchingLastWord(String[] par0ArrayOfStr, Iterable par1Iterable)
     {
         String var2 = par0ArrayOfStr[par0ArrayOfStr.length - 1];
@@ -531,9 +461,6 @@ public abstract class CommandBase implements ICommand
         return var3;
     }
 
-    /**
-     * Return whether the specified command parameter index is a username parameter.
-     */
     public boolean isUsernameIndex(String[] par1ArrayOfStr, int par2)
     {
         return false;
@@ -552,9 +479,6 @@ public abstract class CommandBase implements ICommand
         }
     }
 
-    /**
-     * Sets the static IAdminCommander.
-     */
     public static void setAdminCommander(IAdminCommand par0IAdminCommand)
     {
         theAdmin = par0IAdminCommand;

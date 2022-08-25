@@ -26,15 +26,12 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
         this.setTickRandomly(true);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return this.field_149989_a[2];
     }
 
-    public IIcon func_149988_b(int p_149988_1_)
+    public IIcon getCocoaIcon(int p_149988_1_)
     {
         if (p_149988_1_ < 0 || p_149988_1_ >= this.field_149989_a.length)
         {
@@ -44,9 +41,6 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
         return this.field_149989_a[p_149988_1_];
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         if (!this.canBlockStay(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_))
@@ -62,26 +56,20 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
             if (var7 < 2)
             {
                 ++var7;
-                p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, var7 << 2 | func_149895_l(var6), 2);
+                p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, var7 << 2 | getDirection(var6), 2);
             }
         }
     }
 
-    /**
-     * Can this block stay at this position.  Similar to canPlaceBlockAt except gets checked often with plants.
-     */
     public boolean canBlockStay(World p_149718_1_, int p_149718_2_, int p_149718_3_, int p_149718_4_)
     {
-        int var5 = func_149895_l(p_149718_1_.getBlockMetadata(p_149718_2_, p_149718_3_, p_149718_4_));
+        int var5 = getDirection(p_149718_1_.getBlockMetadata(p_149718_2_, p_149718_3_, p_149718_4_));
         p_149718_2_ += Direction.offsetX[var5];
         p_149718_4_ += Direction.offsetZ[var5];
         Block var6 = p_149718_1_.getBlock(p_149718_2_, p_149718_3_, p_149718_4_);
         return var6 == Blocks.log && BlockLog.func_150165_c(p_149718_1_.getBlockMetadata(p_149718_2_, p_149718_3_, p_149718_4_)) == 3;
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 28;
@@ -97,19 +85,12 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
         return false;
     }
 
-    /**
-     * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
-     * cleared to be reused)
-     */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
     {
         this.setBlockBoundsBasedOnState(p_149668_1_, p_149668_2_, p_149668_3_, p_149668_4_);
         return super.getCollisionBoundingBoxFromPool(p_149668_1_, p_149668_2_, p_149668_3_, p_149668_4_);
     }
 
-    /**
-     * Returns the bounding box of the wired rectangular prism to render.
-     */
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World p_149633_1_, int p_149633_2_, int p_149633_3_, int p_149633_4_)
     {
         this.setBlockBoundsBasedOnState(p_149633_1_, p_149633_2_, p_149633_3_, p_149633_4_);
@@ -119,7 +100,7 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
     public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
     {
         int var5 = p_149719_1_.getBlockMetadata(p_149719_2_, p_149719_3_, p_149719_4_);
-        int var6 = func_149895_l(var5);
+        int var6 = getDirection(var5);
         int var7 = func_149987_c(var5);
         int var8 = 4 + var7 * 2;
         int var9 = 5 + var7 * 2;
@@ -144,9 +125,6 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
         }
     }
 
-    /**
-     * Called when the block is placed in the world.
-     */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
         int var7 = ((MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 0) % 4;
@@ -177,9 +155,6 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
         return (p_149987_0_ & 12) >> 2;
     }
 
-    /**
-     * Drops the block items with a specified chance of dropping the specified items
-     */
     public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_)
     {
         int var8 = func_149987_c(p_149690_5_);
@@ -196,23 +171,17 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
         }
     }
 
-    /**
-     * Gets an item for the block being called on. Args: world, x, y, z
-     */
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    public Item getItemPicked(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return Items.dye;
     }
 
-    /**
-     * Get the block's damage value (for use with pick block).
-     */
     public int getDamageValue(World p_149643_1_, int p_149643_2_, int p_149643_3_, int p_149643_4_)
     {
         return 3;
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_149989_a = new IIcon[3];
 
@@ -237,7 +206,7 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
     public void func_149853_b(World p_149853_1_, Random p_149853_2_, int p_149853_3_, int p_149853_4_, int p_149853_5_)
     {
         int var6 = p_149853_1_.getBlockMetadata(p_149853_3_, p_149853_4_, p_149853_5_);
-        int var7 = BlockDirectional.func_149895_l(var6);
+        int var7 = BlockDirectional.getDirection(var6);
         int var8 = func_149987_c(var6);
         ++var8;
         p_149853_1_.setBlockMetadataWithNotify(p_149853_3_, p_149853_4_, p_149853_5_, var8 << 2 | var7, 2);

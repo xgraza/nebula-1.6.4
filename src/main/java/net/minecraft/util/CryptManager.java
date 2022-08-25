@@ -26,9 +26,6 @@ public class CryptManager
 {
     private static final String __OBFID = "CL_00001483";
 
-    /**
-     * Generate a new shared secret AES key from a secure random source
-     */
     public static SecretKey createNewSharedKey()
     {
         try
@@ -59,9 +56,6 @@ public class CryptManager
         }
     }
 
-    /**
-     * Compute a serverId hash for use by sendSessionRequest()
-     */
     public static byte[] getServerIdHash(String par0Str, PublicKey par1PublicKey, SecretKey par2SecretKey)
     {
         try
@@ -75,9 +69,6 @@ public class CryptManager
         }
     }
 
-    /**
-     * Compute a message digest on arbitrary byte[] data
-     */
     private static byte[] digestOperation(String par0Str, byte[] ... par1ArrayOfByte)
     {
         try
@@ -101,9 +92,6 @@ public class CryptManager
         }
     }
 
-    /**
-     * Create a new PublicKey from encoded X.509 data
-     */
     public static PublicKey decodePublicKey(byte[] par0ArrayOfByte)
     {
         try
@@ -125,33 +113,21 @@ public class CryptManager
         return null;
     }
 
-    /**
-     * Decrypt shared secret AES key using RSA private key
-     */
     public static SecretKey decryptSharedKey(PrivateKey par0PrivateKey, byte[] par1ArrayOfByte)
     {
         return new SecretKeySpec(decryptData(par0PrivateKey, par1ArrayOfByte), "AES");
     }
 
-    /**
-     * Encrypt byte[] data with RSA public key
-     */
     public static byte[] encryptData(Key par0Key, byte[] par1ArrayOfByte)
     {
         return cipherOperation(1, par0Key, par1ArrayOfByte);
     }
 
-    /**
-     * Decrypt byte[] data with RSA private key
-     */
     public static byte[] decryptData(Key par0Key, byte[] par1ArrayOfByte)
     {
         return cipherOperation(2, par0Key, par1ArrayOfByte);
     }
 
-    /**
-     * Encrypt or decrypt byte[] data using the specified key
-     */
     private static byte[] cipherOperation(int par0, Key par1Key, byte[] par2ArrayOfByte)
     {
         try
@@ -171,9 +147,6 @@ public class CryptManager
         return null;
     }
 
-    /**
-     * Creates the Cipher Instance.
-     */
     private static Cipher createTheCipherInstance(int par0, String par1Str, Key par2Key)
     {
         try

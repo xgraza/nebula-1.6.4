@@ -14,23 +14,10 @@ import org.apache.commons.io.IOUtils;
 
 public class StringTranslate
 {
-    /**
-     * Pattern that matches numeric variable placeholders in a resource string, such as "%d", "%3$d", "%.2f"
-     */
     private static final Pattern numericVariablePattern = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
-
-    /**
-     * A Splitter that splits a string on the first "=".  For example, "a=b=c" would split into ["a", "b=c"].
-     */
     private static final Splitter equalSignSplitter = Splitter.on('=').limit(2);
-
-    /** Is the private singleton instance of StringTranslate. */
     private static StringTranslate instance = new StringTranslate();
     private final Map languageList = Maps.newHashMap();
-
-    /**
-     * The time, in milliseconds since epoch, that this instance was last updated
-     */
     private long lastUpdateTimeInMilliseconds;
     private static final String __OBFID = "CL_00001212";
 
@@ -66,17 +53,11 @@ public class StringTranslate
         }
     }
 
-    /**
-     * Return the StringTranslate singleton instance
-     */
     static StringTranslate getInstance()
     {
         return instance;
     }
 
-    /**
-     * Replaces all the current instance's translations with the ones that are passed in.
-     */
     public static synchronized void replaceWith(Map par0Map)
     {
         instance.languageList.clear();
@@ -84,17 +65,11 @@ public class StringTranslate
         instance.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
     }
 
-    /**
-     * Translate a key to current language.
-     */
     public synchronized String translateKey(String par1Str)
     {
         return this.tryTranslateKey(par1Str);
     }
 
-    /**
-     * Translate a key to current language applying String.format()
-     */
     public synchronized String translateKeyFormat(String par1Str, Object ... par2ArrayOfObj)
     {
         String var3 = this.tryTranslateKey(par1Str);
@@ -109,9 +84,6 @@ public class StringTranslate
         }
     }
 
-    /**
-     * Tries to look up a translation for the given key; spits back the key if no result was found.
-     */
     private String tryTranslateKey(String par1Str)
     {
         String var2 = (String)this.languageList.get(par1Str);
@@ -123,9 +95,6 @@ public class StringTranslate
         return this.languageList.containsKey(par1Str);
     }
 
-    /**
-     * Gets the time, in milliseconds since epoch, that this instance was last updated
-     */
     public long getLastUpdateTimeInMilliseconds()
     {
         return this.lastUpdateTimeInMilliseconds;

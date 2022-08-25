@@ -32,9 +32,6 @@ public class GuiScreenPendingInvitation extends GuiScreen
         this.field_146730_g = par1GuiScreen;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
@@ -68,9 +65,6 @@ public class GuiScreenPendingInvitation extends GuiScreen
         this.buttonList.add(new GuiButton(0, this.width / 2 - 75, this.height - 28, 153, 20, I18n.format("gui.back", new Object[0])));
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         super.updateScreen();
@@ -166,14 +160,11 @@ public class GuiScreenPendingInvitation extends GuiScreen
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
         this.field_146733_h.func_148350_a(par1, par2, par3);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("mco.invites.title", new Object[0]), this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRenderer, I18n.format("mco.invites.title", new Object[0]), this.width / 2, 20, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 
@@ -230,8 +221,8 @@ public class GuiScreenPendingInvitation extends GuiScreen
         private void func_148382_b(int p_148382_1_, int p_148382_2_, int p_148382_3_, int p_148382_4_, Tessellator p_148382_5_)
         {
             PendingInvite var6 = (PendingInvite)GuiScreenPendingInvitation.this.field_146734_i.get(p_148382_1_);
-            GuiScreenPendingInvitation.this.drawString(GuiScreenPendingInvitation.this.fontRendererObj, var6.field_148774_b, p_148382_2_ + 2, p_148382_3_ + 1, 16777215);
-            GuiScreenPendingInvitation.this.drawString(GuiScreenPendingInvitation.this.fontRendererObj, var6.field_148775_c, p_148382_2_ + 2, p_148382_3_ + 12, 7105644);
+            GuiScreenPendingInvitation.this.drawString(GuiScreenPendingInvitation.this.fontRenderer, var6.field_148774_b, p_148382_2_ + 2, p_148382_3_ + 1, 16777215);
+            GuiScreenPendingInvitation.this.drawString(GuiScreenPendingInvitation.this.fontRenderer, var6.field_148775_c, p_148382_2_ + 2, p_148382_3_ + 12, 7105644);
         }
     }
 }

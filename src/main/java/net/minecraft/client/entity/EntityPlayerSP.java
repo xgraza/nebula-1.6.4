@@ -50,23 +50,12 @@ import net.minecraft.util.Session;
 import net.minecraft.world.World;
 import wtf.nebula.Nebula;
 import wtf.nebula.event.PlayerSlowdownEvent;
-import wtf.nebula.event.PushOutOfBlocksEvent;
-import wtf.nebula.impl.module.render.NoDynamicFoV;
-import wtf.nebula.repository.impl.ModuleRepository;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
     public MovementInput movementInput;
     protected Minecraft mc;
-
-    /**
-     * Used to tell if the player pressed forward twice. If this is at 0 and it's pressed (And they are allowed to
-     * sprint, aka enough food on the ground etc) it sets this to 7. If it's pressed and it's greater than 0 enable
-     * sprinting.
-     */
     protected int sprintToggleTimer;
-
-    /** Ticks left before sprinting is disabled. */
     public int sprintingTicksLeft;
     public float renderArmYaw;
     public float renderArmPitch;
@@ -77,11 +66,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     private MouseFilter field_71162_ch = new MouseFilter();
     private MouseFilter field_71160_ci = new MouseFilter();
     private MouseFilter field_71161_cj = new MouseFilter();
-
-    /** The amount of time an entity has been in a Portal */
     public float timeInPortal;
-
-    /** The amount of time an entity has been in a Portal the previous tick */
     public float prevTimeInPortal;
     private static final String __OBFID = "CL_00000938";
 
@@ -104,10 +89,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.renderArmYaw = (float)((double)this.renderArmYaw + (double)(this.rotationYaw - this.renderArmYaw) * 0.5D);
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         if (this.sprintingTicksLeft > 0)
@@ -311,24 +292,21 @@ public class EntityPlayerSP extends AbstractClientPlayer
         }
     }
 
-    /**
-     * Gets the player's field of view multiplier. (ex. when flying)
-     */
     public float getFOVMultiplier()
     {
         float var1 = 1.0F;
 
-        if (!ModuleRepository.get().isToggled(NoDynamicFoV.class)) {
-            if (this.capabilities.isFlying) {
-                var1 *= 1.1F;
-            }
+        if (this.capabilities.isFlying)
+        {
+            var1 *= 1.1F;
+        }
 
-            IAttributeInstance var2 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-            var1 = (float) ((double) var1 * ((var2.getAttributeValue() / (double) this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
+        IAttributeInstance var2 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+        var1 = (float)((double)var1 * ((var2.getAttributeValue() / (double)this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
 
-            if (this.capabilities.getWalkSpeed() == 0.0F || Float.isNaN(var1) || Float.isInfinite(var1)) {
-                var1 = 1.0F;
-            }
+        if (this.capabilities.getWalkSpeed() == 0.0F || Float.isNaN(var1) || Float.isInfinite(var1))
+        {
+            var1 = 1.0F;
         }
 
         if (this.isUsingItem() && this.getItemInUse().getItem() == Items.bow)
@@ -351,9 +329,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
         return var1;
     }
 
-    /**
-     * set current crafting inventory back to the 2x2 square
-     */
     public void closeScreen()
     {
         super.closeScreen();
@@ -377,9 +352,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.mc.displayGuiScreen(new GuiCommandBlock(p_146095_1_));
     }
 
-    /**
-     * Displays the GUI for interacting with a book.
-     */
     public void displayGUIBook(ItemStack par1ItemStack)
     {
         Item var2 = par1ItemStack.getItem();
@@ -394,9 +366,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
         }
     }
 
-    /**
-     * Displays the GUI for interacting with a chest inventory. Args: chestInventory
-     */
     public void displayGUIChest(IInventory par1IInventory)
     {
         this.mc.displayGuiScreen(new GuiChest(this.inventory, par1IInventory));
@@ -417,9 +386,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.mc.displayGuiScreen(new GuiScreenHorseInventory(this.inventory, par2IInventory, par1EntityHorse));
     }
 
-    /**
-     * Displays the crafting GUI for a workbench.
-     */
     public void displayGUIWorkbench(int par1, int par2, int par3)
     {
         this.mc.displayGuiScreen(new GuiCrafting(this.inventory, this.worldObj, par1, par2, par3));
@@ -430,9 +396,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.mc.displayGuiScreen(new GuiEnchantment(this.inventory, this.worldObj, par1, par2, par3, par4Str));
     }
 
-    /**
-     * Displays the GUI for interacting with an anvil.
-     */
     public void displayGUIAnvil(int par1, int par2, int par3)
     {
         this.mc.displayGuiScreen(new GuiRepair(this.inventory, this.worldObj, par1, par2, par3));
@@ -463,9 +426,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.mc.displayGuiScreen(new GuiMerchant(this.inventory, par1IMerchant, this.worldObj, par2Str));
     }
 
-    /**
-     * Called when the player performs a critical hit on the Entity. Args: entity that was hit critically
-     */
     public void onCriticalHit(Entity par1Entity)
     {
         this.mc.effectRenderer.addEffect(new EntityCrit2FX(this.mc.theWorld, par1Entity));
@@ -477,25 +437,16 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.mc.effectRenderer.addEffect(var2);
     }
 
-    /**
-     * Called whenever an item is picked up from walking over it. Args: pickedUpEntity, stackSize
-     */
     public void onItemPickup(Entity par1Entity, int par2)
     {
         this.mc.effectRenderer.addEffect(new EntityPickupFX(this.mc.theWorld, par1Entity, this, -0.5F));
     }
 
-    /**
-     * Returns if this entity is sneaking.
-     */
     public boolean isSneaking()
     {
         return this.movementInput.sneak && !this.sleeping;
     }
 
-    /**
-     * Updates health locally.
-     */
     public void setPlayerSPHealth(float par1)
     {
         float var2 = this.getHealth() - par1;
@@ -521,7 +472,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void addChatComponentMessage(IChatComponent p_146105_1_)
     {
-        this.mc.ingameGUI.getChatGUI().func_146227_a(p_146105_1_);
+        this.mc.ingameGUI.getChatGui().printChatMessage(p_146105_1_);
     }
 
     private boolean isBlockTranslucent(int par1, int par2, int par3)
@@ -531,10 +482,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     protected boolean func_145771_j(double p_145771_1_, double p_145771_3_, double p_145771_5_)
     {
-        if (Nebula.BUS.post(new PushOutOfBlocksEvent())) {
-            return false;
-        }
-
         int var7 = MathHelper.floor_double(p_145771_1_);
         int var8 = MathHelper.floor_double(p_145771_3_);
         int var9 = MathHelper.floor_double(p_145771_5_);
@@ -600,18 +547,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
         return false;
     }
 
-    /**
-     * Set sprinting switch for Entity.
-     */
     public void setSprinting(boolean par1)
     {
         super.setSprinting(par1);
         this.sprintingTicksLeft = par1 ? 600 : 0;
     }
 
-    /**
-     * Sets the current XP, total XP, and level number.
-     */
     public void setXPStats(float par1, int par2, int par3)
     {
         this.experience = par1;
@@ -619,28 +560,16 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.experienceLevel = par3;
     }
 
-    /**
-     * Notifies this sender of some sort of information.  This is for messages intended to display to the user.  Used
-     * for typical output (like "you asked for whether or not this game rule is set, so here's your answer"), warnings
-     * (like "I fetched this block for you by ID, but I'd like you to know that every time you do this, I die a little
-     * inside"), and errors (like "it's not called iron_pixacke, silly").
-     */
     public void addChatMessage(IChatComponent p_145747_1_)
     {
-        this.mc.ingameGUI.getChatGUI().func_146227_a(p_145747_1_);
+        this.mc.ingameGUI.getChatGui().printChatMessage(p_145747_1_);
     }
 
-    /**
-     * Returns true if the command sender is allowed to use the given command.
-     */
     public boolean canCommandSenderUseCommand(int par1, String par2Str)
     {
         return par1 <= 0;
     }
 
-    /**
-     * Return the position for this command sender.
-     */
     public ChunkCoordinates getPlayerCoordinates()
     {
         return new ChunkCoordinates(MathHelper.floor_double(this.posX + 0.5D), MathHelper.floor_double(this.posY + 0.5D), MathHelper.floor_double(this.posZ + 0.5D));
@@ -651,9 +580,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.worldObj.playSound(this.posX, this.posY - (double)this.yOffset, this.posZ, par1Str, par2, par3, false);
     }
 
-    /**
-     * Returns whether the entity is in a local (client) world
-     */
     public boolean isClientWorld()
     {
         return true;

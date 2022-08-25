@@ -12,18 +12,16 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.src.Reflector;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
-import optifine.Reflector;
 
 public final class SpawnerAnimals
 {
-    /** The 17x17 area around the player where mobs can spawn */
     private HashMap eligibleChunksForSpawning = new HashMap();
-    private static final String __OBFID = "CL_00000152";
     private Map mapSampleEntitiesByClass = new HashMap();
     private int lastPlayerChunkX = Integer.MAX_VALUE;
     private int lastPlayerChunkZ = Integer.MAX_VALUE;
@@ -37,10 +35,6 @@ public final class SpawnerAnimals
         return new ChunkPosition(var4, var6, var5);
     }
 
-    /**
-     * adds all chunks within the spawn radius of the players to eligibleChunksForSpawning. pars: the world,
-     * hostileCreatures, passiveCreatures. returns number of eligible chunks.
-     */
     public int findChunksForSpawning(WorldServer par1WorldServer, boolean par2, boolean par3, boolean par4)
     {
         if (!par2 && !par3)
@@ -253,9 +247,6 @@ public final class SpawnerAnimals
         }
     }
 
-    /**
-     * Returns whether or not the specified creature type can spawn at the specified location.
-     */
     public static boolean canCreatureTypeSpawnAtLocation(EnumCreatureType par0EnumCreatureType, World par1World, int par2, int par3, int par4)
     {
         if (par0EnumCreatureType.getCreatureMaterial() == Material.water)
@@ -273,9 +264,6 @@ public final class SpawnerAnimals
         }
     }
 
-    /**
-     * Called during chunk generation to spawn initial creatures.
-     */
     public static void performWorldGenSpawning(World par0World, BiomeGenBase par1BiomeGenBase, int par2, int par3, int par4, int par5, Random par6Random)
     {
         List var7 = par1BiomeGenBase.getSpawnableList(EnumCreatureType.creature);

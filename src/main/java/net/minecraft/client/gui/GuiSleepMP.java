@@ -8,18 +8,12 @@ public class GuiSleepMP extends GuiChat
 {
     private static final String __OBFID = "CL_00000697";
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         super.initGui();
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height - 40, I18n.format("multiplayer.stopSleeping", new Object[0])));
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         if (par2 == 1)
@@ -40,7 +34,7 @@ public class GuiSleepMP extends GuiChat
             }
 
             this.field_146415_a.setText("");
-            this.mc.ingameGUI.getChatGUI().resetScroll();
+            this.mc.ingameGUI.getChatGui().resetScroll();
         }
     }
 

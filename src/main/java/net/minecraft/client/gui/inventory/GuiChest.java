@@ -19,7 +19,7 @@ public class GuiChest extends GuiContainer
         super(new ContainerChest(par1IInventory, par2IInventory));
         this.field_147016_v = par1IInventory;
         this.lowerInventory = par2IInventory;
-        this.field_146291_p = false;
+        this.allowUserInput = false;
         short var3 = 222;
         int var4 = var3 - 108;
         this.field_147018_x = par2IInventory.getSizeInventory() / 9;
@@ -28,8 +28,8 @@ public class GuiChest extends GuiContainer
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
-        this.fontRendererObj.drawString(this.lowerInventory.isInventoryNameLocalized() ? this.lowerInventory.getInventoryName() : I18n.format(this.lowerInventory.getInventoryName(), new Object[0]), 8, 6, 4210752);
-        this.fontRendererObj.drawString(this.field_147016_v.isInventoryNameLocalized() ? this.field_147016_v.getInventoryName() : I18n.format(this.field_147016_v.getInventoryName(), new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
+        this.fontRenderer.drawString(this.lowerInventory.isInventoryNameLocalized() ? this.lowerInventory.getInventoryName() : I18n.format(this.lowerInventory.getInventoryName(), new Object[0]), 8, 6, 4210752);
+        this.fontRenderer.drawString(this.field_147016_v.isInventoryNameLocalized() ? this.field_147016_v.getInventoryName() : I18n.format(this.field_147016_v.getInventoryName(), new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
     }
 
     protected void func_146976_a(float p_146976_1_, int p_146976_2_, int p_146976_3_)

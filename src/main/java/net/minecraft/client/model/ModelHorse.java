@@ -13,15 +13,9 @@ public class ModelHorse extends ModelBase
     private ModelRenderer mouthBottom;
     private ModelRenderer horseLeftEar;
     private ModelRenderer horseRightEar;
-
-    /** The left ear box for the mule model. */
     private ModelRenderer muleLeftEar;
-
-    /** The right ear box for the mule model. */
     private ModelRenderer muleRightEar;
     private ModelRenderer neck;
-
-    /** The box for the horse's ropes on its face. */
     private ModelRenderer horseFaceRopes;
     private ModelRenderer mane;
     private ModelRenderer body;
@@ -40,11 +34,7 @@ public class ModelHorse extends ModelBase
     private ModelRenderer frontRightLeg;
     private ModelRenderer frontRightShin;
     private ModelRenderer frontRightHoof;
-
-    /** The left chest box on the mule model. */
     private ModelRenderer muleLeftChest;
-
-    /** The right chest box on the mule model. */
     private ModelRenderer muleRightChest;
     private ModelRenderer horseSaddleBottom;
     private ModelRenderer horseSaddleFront;
@@ -53,11 +43,7 @@ public class ModelHorse extends ModelBase
     private ModelRenderer horseLeftSaddleMetal;
     private ModelRenderer horseRightSaddleRope;
     private ModelRenderer horseRightSaddleMetal;
-
-    /** The left metal connected to the horse's face ropes. */
     private ModelRenderer horseLeftFaceMetal;
-
-    /** The right metal connected to the horse's face ropes. */
     private ModelRenderer horseRightFaceMetal;
     private ModelRenderer horseLeftRein;
     private ModelRenderer horseRightRein;
@@ -205,9 +191,6 @@ public class ModelHorse extends ModelBase
         this.setBoxRotation(this.horseFaceRopes, 0.5235988F, 0.0F, 0.0F);
     }
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         EntityHorse var8 = (EntityHorse)par1Entity;
@@ -317,9 +300,6 @@ public class ModelHorse extends ModelBase
         }
     }
 
-    /**
-     * Sets the rotations for a ModelRenderer in the ModelHorse class.
-     */
     private void setBoxRotation(ModelRenderer par1ModelRenderer, float par2, float par3, float par4)
     {
         par1ModelRenderer.rotateAngleX = par2;
@@ -327,9 +307,6 @@ public class ModelHorse extends ModelBase
         par1ModelRenderer.rotateAngleZ = par4;
     }
 
-    /**
-     * Fixes and offsets a rotation in the ModelHorse class.
-     */
     private float updateHorseRotation(float par1, float par2, float par3)
     {
         float var4;
@@ -347,10 +324,6 @@ public class ModelHorse extends ModelBase
         return par1 + par3 * var4;
     }
 
-    /**
-     * Used for easily adding entity-dependent animations. The second and third float params here are the same second
-     * and third as in the setRotationAngles method.
-     */
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
         super.setLivingAnimations(par1EntityLivingBase, par2, par3, par4);

@@ -15,50 +15,20 @@ import org.lwjgl.util.glu.GLU;
 
 public class ActiveRenderInfo
 {
-    /** The calculated view object X coordinate */
     public static float objectX;
-
-    /** The calculated view object Y coordinate */
     public static float objectY;
-
-    /** The calculated view object Z coordinate */
     public static float objectZ;
-
-    /** The current GL viewport */
     private static IntBuffer viewport = GLAllocation.createDirectIntBuffer(16);
-
-    /** The current GL modelview matrix */
     private static FloatBuffer modelview = GLAllocation.createDirectFloatBuffer(16);
-
-    /** The current GL projection matrix */
     private static FloatBuffer projection = GLAllocation.createDirectFloatBuffer(16);
-
-    /** The computed view object coordinates */
     private static FloatBuffer objectCoords = GLAllocation.createDirectFloatBuffer(3);
-
-    /** The X component of the entity's yaw rotation */
     public static float rotationX;
-
-    /** The combined X and Z components of the entity's pitch rotation */
     public static float rotationXZ;
-
-    /** The Z component of the entity's yaw rotation */
     public static float rotationZ;
-
-    /**
-     * The Y component (scaled along the Z axis) of the entity's pitch rotation
-     */
     public static float rotationYZ;
-
-    /**
-     * The Y component (scaled along the X axis) of the entity's pitch rotation
-     */
     public static float rotationXY;
     private static final String __OBFID = "CL_00000626";
 
-    /**
-     * Updates the current render info and camera location based on entity look angles and 1st/3rd person view mode
-     */
     public static void updateRenderInfo(EntityPlayer par0EntityPlayer, boolean par1)
     {
         GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelview);
@@ -80,9 +50,6 @@ public class ActiveRenderInfo
         rotationXZ = MathHelper.cos(var5 * (float)Math.PI / 180.0F);
     }
 
-    /**
-     * Returns a vector representing the projection along the given entity's view for the given distance
-     */
     public static Vec3 projectViewFromEntity(EntityLivingBase par0EntityLivingBase, double par1)
     {
         double var3 = par0EntityLivingBase.prevPosX + (par0EntityLivingBase.posX - par0EntityLivingBase.prevPosX) * par1;
@@ -102,7 +69,7 @@ public class ActiveRenderInfo
 
         if (var5.getMaterial().isLiquid())
         {
-            float var6 = BlockLiquid.func_149801_b(p_151460_0_.getBlockMetadata(var4.field_151329_a, var4.field_151327_b, var4.field_151328_c)) - 0.11111111F;
+            float var6 = BlockLiquid.getFluidHeightPercent(p_151460_0_.getBlockMetadata(var4.field_151329_a, var4.field_151327_b, var4.field_151328_c)) - 0.11111111F;
             float var7 = (float)(var4.field_151327_b + 1) - var6;
 
             if (var3.yCoord >= (double)var7)

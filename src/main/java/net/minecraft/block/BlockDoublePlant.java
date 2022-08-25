@@ -20,9 +20,9 @@ import net.minecraft.world.World;
 public class BlockDoublePlant extends BlockBush implements IGrowable
 {
     public static final String[] field_149892_a = new String[] {"sunflower", "syringa", "grass", "fern", "rose", "paeonia"};
-    private IIcon[] field_149893_M;
-    private IIcon[] field_149894_N;
-    public IIcon[] field_149891_b;
+    private IIcon[] doublePlantBottomIcons;
+    private IIcon[] doublePlantTopIcons;
+    public IIcon[] sunflowerIcons;
     private static final String __OBFID = "CL_00000231";
 
     public BlockDoublePlant()
@@ -33,9 +33,6 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         this.setBlockName("doublePlant");
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 40;
@@ -77,9 +74,6 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         }
     }
 
-    /**
-     * Can this block stay at this position.  Similar to canPlaceBlockAt except gets checked often with plants.
-     */
     public boolean canBlockStay(World p_149718_1_, int p_149718_2_, int p_149718_3_, int p_149718_4_)
     {
         int var5 = p_149718_1_.getBlockMetadata(p_149718_2_, p_149718_3_, p_149718_4_);
@@ -99,9 +93,6 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         }
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int p_149692_1_)
     {
         return func_149887_c(p_149692_1_) ? 0 : p_149692_1_ & 7;
@@ -117,23 +108,16 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         return p_149890_0_ & 7;
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
-        return func_149887_c(p_149691_2_) ? this.field_149893_M[0] : this.field_149893_M[p_149691_2_ & 7];
+        return func_149887_c(p_149691_2_) ? this.doublePlantBottomIcons[0] : this.doublePlantBottomIcons[p_149691_2_ & 7];
     }
 
     public IIcon func_149888_a(boolean p_149888_1_, int p_149888_2_)
     {
-        return p_149888_1_ ? this.field_149894_N[p_149888_2_] : this.field_149893_M[p_149888_2_];
+        return p_149888_1_ ? this.doublePlantTopIcons[p_149888_2_] : this.doublePlantBottomIcons[p_149888_2_];
     }
 
-    /**
-     * Returns a integer with hex for 0xrrggbb with this color multiplied against the blocks color. Note only called
-     * when first determining what to render.
-     */
     public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_)
     {
         int var5 = this.func_149885_e(p_149720_1_, p_149720_2_, p_149720_3_, p_149720_4_);
@@ -146,9 +130,6 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         p_149889_1_.setBlock(p_149889_2_, p_149889_3_ + 1, p_149889_4_, this, 8, p_149889_6_);
     }
 
-    /**
-     * Called when the block is placed in the world.
-     */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
         int var7 = ((MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 2) % 4;
@@ -163,9 +144,6 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         }
     }
 
-    /**
-     * Called when the block is attempted to be harvested
-     */
     public void onBlockHarvested(World p_149681_1_, int p_149681_2_, int p_149681_3_, int p_149681_4_, int p_149681_5_, EntityPlayer p_149681_6_)
     {
         if (func_149887_c(p_149681_5_))
@@ -228,33 +206,30 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         }
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
-        this.field_149893_M = new IIcon[field_149892_a.length];
-        this.field_149894_N = new IIcon[field_149892_a.length];
+        this.doublePlantBottomIcons = new IIcon[field_149892_a.length];
+        this.doublePlantTopIcons = new IIcon[field_149892_a.length];
 
-        for (int var2 = 0; var2 < this.field_149893_M.length; ++var2)
+        for (int var2 = 0; var2 < this.doublePlantBottomIcons.length; ++var2)
         {
-            this.field_149893_M[var2] = p_149651_1_.registerIcon("double_plant_" + field_149892_a[var2] + "_bottom");
-            this.field_149894_N[var2] = p_149651_1_.registerIcon("double_plant_" + field_149892_a[var2] + "_top");
+            this.doublePlantBottomIcons[var2] = p_149651_1_.registerIcon("double_plant_" + field_149892_a[var2] + "_bottom");
+            this.doublePlantTopIcons[var2] = p_149651_1_.registerIcon("double_plant_" + field_149892_a[var2] + "_top");
         }
 
-        this.field_149891_b = new IIcon[2];
-        this.field_149891_b[0] = p_149651_1_.registerIcon("double_plant_sunflower_front");
-        this.field_149891_b[1] = p_149651_1_.registerIcon("double_plant_sunflower_back");
+        this.sunflowerIcons = new IIcon[2];
+        this.sunflowerIcons[0] = p_149651_1_.registerIcon("double_plant_sunflower_front");
+        this.sunflowerIcons[1] = p_149651_1_.registerIcon("double_plant_sunflower_back");
     }
 
     public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_)
     {
-        for (int var4 = 0; var4 < this.field_149893_M.length; ++var4)
+        for (int var4 = 0; var4 < this.doublePlantBottomIcons.length; ++var4)
         {
             p_149666_3_.add(new ItemStack(p_149666_1_, 1, var4));
         }
     }
 
-    /**
-     * Get the block's damage value (for use with pick block).
-     */
     public int getDamageValue(World p_149643_1_, int p_149643_2_, int p_149643_3_, int p_149643_4_)
     {
         int var5 = p_149643_1_.getBlockMetadata(p_149643_2_, p_149643_3_, p_149643_4_);

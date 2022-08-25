@@ -21,9 +21,6 @@ public class MovingSoundMinecartRiding extends MovingSound
         this.field_147665_h = 0;
     }
 
-    /**
-     * Updates the JList with a new model.
-     */
     public void update()
     {
         if (!this.field_147671_l.isDead && this.field_147672_k.isRiding() && this.field_147672_k.ridingEntity == this.field_147671_l)

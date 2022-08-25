@@ -2,16 +2,10 @@ package net.minecraft.pathfinding;
 
 public class Path
 {
-    /** Contains the points in this path */
     private PathPoint[] pathPoints = new PathPoint[1024];
-
-    /** The number of points in this path */
     private int count;
     private static final String __OBFID = "CL_00000573";
 
-    /**
-     * Adds a point to the path
-     */
     public PathPoint addPoint(PathPoint par1PathPoint)
     {
         if (par1PathPoint.index >= 0)
@@ -34,17 +28,11 @@ public class Path
         }
     }
 
-    /**
-     * Clears the path
-     */
     public void clearPath()
     {
         this.count = 0;
     }
 
-    /**
-     * Returns and removes the first point in the path
-     */
     public PathPoint dequeue()
     {
         PathPoint var1 = this.pathPoints[0];
@@ -60,9 +48,6 @@ public class Path
         return var1;
     }
 
-    /**
-     * Changes the provided point's distance to target
-     */
     public void changeDistance(PathPoint par1PathPoint, float par2)
     {
         float var3 = par1PathPoint.distanceToTarget;
@@ -78,9 +63,6 @@ public class Path
         }
     }
 
-    /**
-     * Sorts a point to the left
-     */
     private void sortBack(int par1)
     {
         PathPoint var2 = this.pathPoints[par1];
@@ -104,9 +86,6 @@ public class Path
         var2.index = par1;
     }
 
-    /**
-     * Sorts a point to the right
-     */
     private void sortForward(int par1)
     {
         PathPoint var2 = this.pathPoints[par1];
@@ -166,9 +145,6 @@ public class Path
         var2.index = par1;
     }
 
-    /**
-     * Returns true if this path contains no points
-     */
     public boolean isPathEmpty()
     {
         return this.count == 0;

@@ -38,9 +38,6 @@ public class Gui
         drawRect(par1, par2 + 1, par1 + 1, par3, par4);
     }
 
-    /**
-     * Draws a solid color rectangle with the specified coordinates and color. Args: x1, y1, x2, y2, color
-     */
     public static void drawRect(int par0, int par1, int par2, int par3, int par4)
     {
         int var5;
@@ -78,9 +75,6 @@ public class Gui
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    /**
-     * Draws a rectangle with a vertical gradient between the specified colors.
-     */
     protected void drawGradientRect(int par1, int par2, int par3, int par4, int par5, int par6)
     {
         float var7 = (float)(par5 >> 24 & 255) / 255.0F;
@@ -111,25 +105,16 @@ public class Gui
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
-    /**
-     * Renders the specified text to the screen, center-aligned.
-     */
     public void drawCenteredString(FontRenderer par1FontRenderer, String par2Str, int par3, int par4, int par5)
     {
         par1FontRenderer.drawStringWithShadow(par2Str, par3 - par1FontRenderer.getStringWidth(par2Str) / 2, par4, par5);
     }
 
-    /**
-     * Renders the specified text to the screen.
-     */
     public void drawString(FontRenderer par1FontRenderer, String par2Str, int par3, int par4, int par5)
     {
         par1FontRenderer.drawStringWithShadow(par2Str, par3, par4, par5);
     }
 
-    /**
-     * Draws a textured rectangle at the stored z-value. Args: x, y, u, v, width, height
-     */
     public void drawTexturedModalRect(int par1, int par2, int par3, int par4, int par5, int par6)
     {
         float var7 = 0.00390625F;

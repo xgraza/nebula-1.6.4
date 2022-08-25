@@ -9,9 +9,6 @@ public class SoundRegistry extends RegistrySimple
     private Map field_148764_a;
     private static final String __OBFID = "CL_00001151";
 
-    /**
-     * Creates the Map we will use to map keys to their registered values.
-     */
     protected Map createUnderlyingMap()
     {
         this.field_148764_a = Maps.newHashMap();

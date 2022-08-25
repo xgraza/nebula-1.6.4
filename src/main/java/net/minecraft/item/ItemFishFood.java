@@ -66,18 +66,12 @@ public class ItemFishFood extends ItemFood
         super.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
     }
 
-    /**
-     * Gets an icon index based on an item's damage value
-     */
     public IIcon getIconFromDamage(int par1)
     {
         ItemFishFood.FishType var2 = ItemFishFood.FishType.func_150974_a(par1);
         return this.field_150907_b && var2.func_150973_i() ? var2.func_150979_h() : var2.func_150971_g();
     }
 
-    /**
-     * This returns the sub items
-     */
     public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_)
     {
         ItemFishFood.FishType[] var4 = ItemFishFood.FishType.values();
@@ -94,10 +88,6 @@ public class ItemFishFood extends ItemFood
         }
     }
 
-    /**
-     * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
-     * different names based on their damage or NBT.
-     */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
         ItemFishFood.FishType var2 = ItemFishFood.FishType.func_150978_a(par1ItemStack);

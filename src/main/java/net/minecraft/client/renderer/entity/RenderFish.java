@@ -15,12 +15,6 @@ public class RenderFish extends Render
     private static final ResourceLocation field_110792_a = new ResourceLocation("textures/particle/particles.png");
     private static final String __OBFID = "CL_00000996";
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(EntityFishHook p_147922_1_, double p_147922_2_, double p_147922_4_, double p_147922_6_, float p_147922_8_, float p_147922_9_)
     {
         GL11.glPushMatrix();
@@ -98,28 +92,16 @@ public class RenderFish extends Render
         }
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityFishHook p_147921_1_)
     {
         return field_110792_a;
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityFishHook)par1Entity);
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((EntityFishHook)par1Entity, par2, par4, par6, par8, par9);

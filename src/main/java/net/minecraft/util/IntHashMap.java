@@ -5,45 +5,25 @@ import java.util.Set;
 
 public class IntHashMap
 {
-    /** An array of HashEntries representing the heads of hash slot lists */
     private transient IntHashMap.Entry[] slots = new IntHashMap.Entry[16];
-
-    /** The number of items stored in this map */
     private transient int count;
-
-    /** The grow threshold */
     private int threshold = 12;
-
-    /** The scale factor used to determine when to grow the table */
     private final float growFactor = 0.75F;
-
-    /** A serial stamp used to mark changes */
     private transient volatile int versionStamp;
-
-    /** The set of all the keys stored in this MCHash object */
     private Set keySet = new HashSet();
     private static final String __OBFID = "CL_00001490";
 
-    /**
-     * Makes the passed in integer suitable for hashing by a number of shifts
-     */
     private static int computeHash(int par0)
     {
         par0 ^= par0 >>> 20 ^ par0 >>> 12;
         return par0 ^ par0 >>> 7 ^ par0 >>> 4;
     }
 
-    /**
-     * Computes the index of the slot for the hash and slot count passed in.
-     */
     private static int getSlotIndex(int par0, int par1)
     {
         return par0 & par1 - 1;
     }
 
-    /**
-     * Returns the object associated to a key
-     */
     public Object lookup(int par1)
     {
         int var2 = computeHash(par1);
@@ -59,17 +39,11 @@ public class IntHashMap
         return null;
     }
 
-    /**
-     * Return true if an object is associated with the given key
-     */
     public boolean containsItem(int par1)
     {
         return this.lookupEntry(par1) != null;
     }
 
-    /**
-     * Returns the key/object mapping for a given key as a MCHashEntry
-     */
     final IntHashMap.Entry lookupEntry(int par1)
     {
         int var2 = computeHash(par1);
@@ -85,9 +59,6 @@ public class IntHashMap
         return null;
     }
 
-    /**
-     * Adds a key and associated value to this map
-     */
     public void addKey(int par1, Object par2Obj)
     {
         this.keySet.add(Integer.valueOf(par1));
@@ -107,9 +78,6 @@ public class IntHashMap
         this.insert(var3, par1, par2Obj, var4);
     }
 
-    /**
-     * Increases the number of hash slots
-     */
     private void grow(int par1)
     {
         IntHashMap.Entry[] var2 = this.slots;
@@ -128,9 +96,6 @@ public class IntHashMap
         }
     }
 
-    /**
-     * Copies the hash slots to a new array
-     */
     private void copyTo(IntHashMap.Entry[] par1ArrayOfIntHashMapEntry)
     {
         IntHashMap.Entry[] var2 = this.slots;
@@ -158,9 +123,6 @@ public class IntHashMap
         }
     }
 
-    /**
-     * Removes the specified object from the map and returns it
-     */
     public Object removeObject(int par1)
     {
         this.keySet.remove(Integer.valueOf(par1));
@@ -168,9 +130,6 @@ public class IntHashMap
         return var2 == null ? null : var2.valueEntry;
     }
 
-    /**
-     * Removes the specified entry from the map and returns it
-     */
     final IntHashMap.Entry removeEntry(int par1)
     {
         int var2 = computeHash(par1);
@@ -206,9 +165,6 @@ public class IntHashMap
         return var5;
     }
 
-    /**
-     * Removes all entries from the map
-     */
     public void clearMap()
     {
         ++this.versionStamp;
@@ -222,9 +178,6 @@ public class IntHashMap
         this.count = 0;
     }
 
-    /**
-     * Adds an object to a slot
-     */
     private void insert(int par1, int par2, Object par3Obj, int par4)
     {
         IntHashMap.Entry var5 = this.slots[par4];

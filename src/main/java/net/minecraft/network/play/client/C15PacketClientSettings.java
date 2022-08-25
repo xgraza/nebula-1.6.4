@@ -30,9 +30,6 @@ public class C15PacketClientSettings extends Packet
         this.field_149525_f = p_i45243_6_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149530_a = p_148837_1_.readStringFromBuffer(7);
@@ -43,9 +40,6 @@ public class C15PacketClientSettings extends Packet
         this.field_149525_f = p_148837_1_.readBoolean();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeStringToBuffer(this.field_149530_a);
@@ -91,9 +85,6 @@ public class C15PacketClientSettings extends Packet
         return this.field_149525_f;
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("lang=\'%s\', view=%d, chat=%s, col=%b, difficulty=%s, cape=%b", new Object[] {this.field_149530_a, Integer.valueOf(this.field_149528_b), this.field_149529_c, Boolean.valueOf(this.field_149526_d), this.field_149527_e, Boolean.valueOf(this.field_149525_f)});

@@ -20,10 +20,6 @@ public class ItemHoe extends Item
         this.setCreativeTab(CreativeTabs.tabTools);
     }
 
-    /**
-     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
-     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
-     */
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
         if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
@@ -57,18 +53,11 @@ public class ItemHoe extends Item
         }
     }
 
-    /**
-     * Returns True is the item is renderer in full 3D when hold.
-     */
     public boolean isFull3D()
     {
         return true;
     }
 
-    /**
-     * Returns the name of the material this tool is made from as it is declared in EnumToolMaterial (meaning diamond
-     * would return "EMERALD")
-     */
     public String getMaterialName()
     {
         return this.theToolMaterial.toString();

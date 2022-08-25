@@ -28,9 +28,6 @@ public class S2FPacketSetSlot extends Packet
         p_149176_1_.handleSetSlot(this);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149179_a = p_148837_1_.readUnsignedByte();
@@ -38,9 +35,6 @@ public class S2FPacketSetSlot extends Packet
         this.field_149178_c = p_148837_1_.readItemStackFromBuffer();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.field_149179_a);

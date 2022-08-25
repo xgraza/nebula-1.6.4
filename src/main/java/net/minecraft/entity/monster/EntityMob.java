@@ -22,10 +22,6 @@ public abstract class EntityMob extends EntityCreature implements IMob
         this.experienceValue = 5;
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void onLivingUpdate()
     {
         this.updateArmSwingProgress();
@@ -39,9 +35,6 @@ public abstract class EntityMob extends EntityCreature implements IMob
         super.onLivingUpdate();
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -62,19 +55,12 @@ public abstract class EntityMob extends EntityCreature implements IMob
         return "game.hostile.swim.splash";
     }
 
-    /**
-     * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
-     * (Animals, Spiders at day, peaceful PigZombies).
-     */
     protected Entity findPlayerToAttack()
     {
         EntityPlayer var1 = this.worldObj.getClosestVulnerablePlayerToEntity(this, 16.0D);
         return var1 != null && this.canEntityBeSeen(var1) ? var1 : null;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (this.isEntityInvulnerable())
@@ -105,17 +91,11 @@ public abstract class EntityMob extends EntityCreature implements IMob
         }
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "game.hostile.hurt";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "game.hostile.die";
@@ -166,9 +146,6 @@ public abstract class EntityMob extends EntityCreature implements IMob
         return var4;
     }
 
-    /**
-     * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
-     */
     protected void attackEntity(Entity par1Entity, float par2)
     {
         if (this.attackTime <= 0 && par2 < 2.0F && par1Entity.boundingBox.maxY > this.boundingBox.minY && par1Entity.boundingBox.minY < this.boundingBox.maxY)
@@ -178,18 +155,11 @@ public abstract class EntityMob extends EntityCreature implements IMob
         }
     }
 
-    /**
-     * Takes a coordinate in and returns a weight to determine how likely this creature will try to path to the block.
-     * Args: x, y, z
-     */
     public float getBlockPathWeight(int par1, int par2, int par3)
     {
         return 0.5F - this.worldObj.getLightBrightness(par1, par2, par3);
     }
 
-    /**
-     * Checks to make sure the light is not too bright where the mob is spawning
-     */
     protected boolean isValidLightLevel()
     {
         int var1 = MathHelper.floor_double(this.posX);
@@ -216,9 +186,6 @@ public abstract class EntityMob extends EntityCreature implements IMob
         }
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
     public boolean getCanSpawnHere()
     {
         return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && super.getCanSpawnHere();

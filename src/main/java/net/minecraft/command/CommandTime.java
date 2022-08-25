@@ -13,9 +13,6 @@ public class CommandTime extends CommandBase
         return "time";
     }
 
-    /**
-     * Return the required permission level for this command.
-     */
     public int getRequiredPermissionLevel()
     {
         return 2;
@@ -64,17 +61,11 @@ public class CommandTime extends CommandBase
         throw new WrongUsageException("commands.time.usage", new Object[0]);
     }
 
-    /**
-     * Adds the strings available in this command to the given list of tab completion options.
-     */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] {"set", "add"}): (par2ArrayOfStr.length == 2 && par2ArrayOfStr[0].equals("set") ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] {"day", "night"}): null);
     }
 
-    /**
-     * Set the time in the server object.
-     */
     protected void setTime(ICommandSender par1ICommandSender, int par2)
     {
         for (int var3 = 0; var3 < MinecraftServer.getServer().worldServers.length; ++var3)
@@ -83,9 +74,6 @@ public class CommandTime extends CommandBase
         }
     }
 
-    /**
-     * Adds (or removes) time in the server object.
-     */
     protected void addTime(ICommandSender par1ICommandSender, int par2)
     {
         for (int var3 = 0; var3 < MinecraftServer.getServer().worldServers.length; ++var3)

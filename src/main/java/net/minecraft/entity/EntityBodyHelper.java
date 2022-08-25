@@ -4,7 +4,6 @@ import net.minecraft.util.MathHelper;
 
 public class EntityBodyHelper
 {
-    /** Instance of EntityLiving. */
     private EntityLivingBase theLiving;
     private int field_75666_b;
     private float field_75667_c;

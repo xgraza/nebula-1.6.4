@@ -12,6 +12,7 @@ import net.minecraft.client.resources.I18n;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
+import wtf.nebula.impl.gui.AltLoginScreen;
 
 public class GuiMultiplayer extends GuiScreen
 {
@@ -39,9 +40,6 @@ public class GuiMultiplayer extends GuiScreen
         this.field_146798_g = par1GuiScreen;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
@@ -84,12 +82,11 @@ public class GuiMultiplayer extends GuiScreen
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, I18n.format("selectServer.add", new Object[0])));
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.format("selectServer.refresh", new Object[0])));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel", new Object[0])));
+        buttonList.add(new GuiButton(69420, 15, 5, 75, 20, "Login"));
         this.func_146790_a(this.field_146803_h.func_148193_k());
+
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         super.updateScreen();
@@ -104,9 +101,6 @@ public class GuiMultiplayer extends GuiScreen
         this.field_146797_f.func_147223_a();
     }
 
-    /**
-     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
-     */
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
@@ -122,6 +116,11 @@ public class GuiMultiplayer extends GuiScreen
 
     protected void actionPerformed(GuiButton p_146284_1_)
     {
+        if (p_146284_1_.id == 69420) {
+            mc.displayGuiScreen(new AltLoginScreen());
+            return;
+        }
+
         if (p_146284_1_.enabled)
         {
             GuiListExtended.IGuiListEntry var2 = this.field_146803_h.func_148193_k() < 0 ? null : this.field_146803_h.func_148180_b(this.field_146803_h.func_148193_k());
@@ -242,9 +241,6 @@ public class GuiMultiplayer extends GuiScreen
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         int var3 = this.field_146803_h.func_148193_k();
@@ -344,15 +340,12 @@ public class GuiMultiplayer extends GuiScreen
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.field_146812_y = null;
         this.drawDefaultBackground();
-        this.field_146803_h.func_148128_a(par1, par2, par3);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.title", new Object[0]), this.width / 2, 20, 16777215);
+        this.field_146803_h.drawScreen(par1, par2, par3);
+        this.drawCenteredString(this.fontRenderer, I18n.format("multiplayer.title", new Object[0]), this.width / 2, 20, 16777215);
         super.drawScreen(par1, par2, par3);
 
         if (this.field_146812_y != null)
@@ -411,9 +404,6 @@ public class GuiMultiplayer extends GuiScreen
         this.field_146812_y = p_146793_1_;
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);

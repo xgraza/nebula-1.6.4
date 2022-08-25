@@ -34,9 +34,6 @@ public class S2APacketParticles extends Packet
         this.field_149238_i = p_i45199_9_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149236_a = p_148837_1_.readStringFromBuffer(64);
@@ -50,9 +47,6 @@ public class S2APacketParticles extends Packet
         this.field_149238_i = p_148837_1_.readInt();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeStringToBuffer(this.field_149236_a);

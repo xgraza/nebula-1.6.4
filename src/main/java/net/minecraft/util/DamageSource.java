@@ -23,26 +23,12 @@ public class DamageSource
     public static DamageSource wither = (new DamageSource("wither")).setDamageBypassesArmor();
     public static DamageSource anvil = new DamageSource("anvil");
     public static DamageSource fallingBlock = new DamageSource("fallingBlock");
-
-    /** This kind of damage can be blocked or not. */
     private boolean isUnblockable;
     private boolean isDamageAllowedInCreativeMode;
-
-    /**
-     * Whether or not the damage ignores modification by potion effects or enchantments.
-     */
     private boolean damageIsAbsolute;
     private float hungerDamage = 0.3F;
-
-    /** This kind of damage is based on fire or not. */
     private boolean fireDamage;
-
-    /** This kind of damage is based on a projectile or not. */
     private boolean projectile;
-
-    /**
-     * Whether this damage source will have its damage amount scaled based on the current difficulty.
-     */
     private boolean difficultyScaled;
     private boolean magicDamage;
     private boolean explosion;
@@ -54,25 +40,16 @@ public class DamageSource
         return new EntityDamageSource("mob", par0EntityLivingBase);
     }
 
-    /**
-     * returns an EntityDamageSource of type player
-     */
     public static DamageSource causePlayerDamage(EntityPlayer par0EntityPlayer)
     {
         return new EntityDamageSource("player", par0EntityPlayer);
     }
 
-    /**
-     * returns EntityDamageSourceIndirect of an arrow
-     */
     public static DamageSource causeArrowDamage(EntityArrow par0EntityArrow, Entity par1Entity)
     {
         return (new EntityDamageSourceIndirect("arrow", par0EntityArrow, par1Entity)).setProjectile();
     }
 
-    /**
-     * returns EntityDamageSourceIndirect of a fireball
-     */
     public static DamageSource causeFireballDamage(EntityFireball par0EntityFireball, Entity par1Entity)
     {
         return par1Entity == null ? (new EntityDamageSourceIndirect("onFire", par0EntityFireball, par0EntityFireball)).setFireDamage().setProjectile() : (new EntityDamageSourceIndirect("fireball", par0EntityFireball, par1Entity)).setFireDamage().setProjectile();
@@ -88,9 +65,6 @@ public class DamageSource
         return (new EntityDamageSourceIndirect("indirectMagic", par0Entity, par1Entity)).setDamageBypassesArmor().setMagicDamage();
     }
 
-    /**
-     * Returns the EntityDamageSource of the Thorns enchantment
-     */
     public static DamageSource causeThornsDamage(Entity par0Entity)
     {
         return (new EntityDamageSource("thorns", par0Entity)).setMagicDamage();
@@ -101,17 +75,11 @@ public class DamageSource
         return par0Explosion != null && par0Explosion.getExplosivePlacedBy() != null ? (new EntityDamageSource("explosion.player", par0Explosion.getExplosivePlacedBy())).setDifficultyScaled().setExplosion() : (new DamageSource("explosion")).setDifficultyScaled().setExplosion();
     }
 
-    /**
-     * Returns true if the damage is projectile based.
-     */
     public boolean isProjectile()
     {
         return this.projectile;
     }
 
-    /**
-     * Define the damage type as projectile based.
-     */
     public DamageSource setProjectile()
     {
         this.projectile = true;
@@ -134,9 +102,6 @@ public class DamageSource
         return this.isUnblockable;
     }
 
-    /**
-     * How much satiate(food) is consumed by this DamageSource
-     */
     public float getHungerDamage()
     {
         return this.hungerDamage;
@@ -147,9 +112,6 @@ public class DamageSource
         return this.isDamageAllowedInCreativeMode;
     }
 
-    /**
-     * Whether or not the damage ignores modification by potion effects or enchantments.
-     */
     public boolean isDamageAbsolute()
     {
         return this.damageIsAbsolute;
@@ -183,10 +145,6 @@ public class DamageSource
         return this;
     }
 
-    /**
-     * Sets a value indicating whether the damage is absolute (ignores modification by potion effects or enchantments),
-     * and also clears out hunger damage.
-     */
     protected DamageSource setDamageIsAbsolute()
     {
         this.damageIsAbsolute = true;
@@ -194,9 +152,6 @@ public class DamageSource
         return this;
     }
 
-    /**
-     * Define the damage type as fire based.
-     */
     protected DamageSource setFireDamage()
     {
         this.fireDamage = true;
@@ -211,50 +166,32 @@ public class DamageSource
         return var2 != null && StatCollector.canTranslate(var4) ? new ChatComponentTranslation(var4, new Object[] {p_151519_1_.func_145748_c_(), var2.func_145748_c_()}): new ChatComponentTranslation(var3, new Object[] {p_151519_1_.func_145748_c_()});
     }
 
-    /**
-     * Returns true if the damage is fire based.
-     */
     public boolean isFireDamage()
     {
         return this.fireDamage;
     }
 
-    /**
-     * Return the name of damage type.
-     */
     public String getDamageType()
     {
         return this.damageType;
     }
 
-    /**
-     * Set whether this damage source will have its damage amount scaled based on the current difficulty.
-     */
     public DamageSource setDifficultyScaled()
     {
         this.difficultyScaled = true;
         return this;
     }
 
-    /**
-     * Return whether this damage source will have its damage amount scaled based on the current difficulty.
-     */
     public boolean isDifficultyScaled()
     {
         return this.difficultyScaled;
     }
 
-    /**
-     * Returns true if the damage is magic based.
-     */
     public boolean isMagicDamage()
     {
         return this.magicDamage;
     }
 
-    /**
-     * Define the damage type as magic based.
-     */
     public DamageSource setMagicDamage()
     {
         this.magicDamage = true;

@@ -29,9 +29,6 @@ public class EntityDamageSource extends DamageSource
         return var2 != null && var2.hasDisplayName() && StatCollector.canTranslate(var4) ? new ChatComponentTranslation(var4, new Object[] {p_151519_1_.func_145748_c_(), this.damageSourceEntity.func_145748_c_(), var2.func_151000_E()}): new ChatComponentTranslation(var3, new Object[] {p_151519_1_.func_145748_c_(), this.damageSourceEntity.func_145748_c_()});
     }
 
-    /**
-     * Return whether this damage source will have its damage amount scaled based on the current difficulty.
-     */
     public boolean isDifficultyScaled()
     {
         return this.damageSourceEntity != null && this.damageSourceEntity instanceof EntityLivingBase && !(this.damageSourceEntity instanceof EntityPlayer);

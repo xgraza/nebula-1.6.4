@@ -93,7 +93,6 @@ public class ModuleRepository extends BaseRepository<Module> {
         addChild(new Nametags());
         addChild(new NegativeViewer());
         addChild(new NewChunks());
-        addChild(new NoDynamicFoV());
         addChild(new NoOverlay());
         addChild(new NoWeather());
         addChild(new Searcher());

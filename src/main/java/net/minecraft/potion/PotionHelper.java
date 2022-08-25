@@ -22,34 +22,21 @@ public class PotionHelper
     public static final String goldenCarrotEffect;
     public static final String field_151423_m;
     private static final HashMap potionRequirements = new HashMap();
-
-    /** Potion effect amplifier map */
     private static final HashMap potionAmplifiers = new HashMap();
     private static final HashMap field_77925_n;
-
-    /** An array of possible potion prefix names, as translation IDs. */
     private static final String[] potionPrefixes;
     private static final String __OBFID = "CL_00000078";
 
-    /**
-     * Is the bit given set to 1?
-     */
     public static boolean checkFlag(int par0, int par1)
     {
         return (par0 & 1 << par1) != 0;
     }
 
-    /**
-     * Returns 1 if the flag is set, 0 if it is not set.
-     */
     private static int isFlagSet(int par0, int par1)
     {
         return checkFlag(par0, par1) ? 1 : 0;
     }
 
-    /**
-     * Returns 0 if the flag is set, 1 if it is not set.
-     */
     private static int isFlagUnset(int par0, int par1)
     {
         return checkFlag(par0, par1) ? 0 : 1;
@@ -60,9 +47,6 @@ public class PotionHelper
         return func_77908_a(par0, 5, 4, 3, 2, 1);
     }
 
-    /**
-     * Given a {@link Collection}<{@link PotionEffect}> will return an Integer color.
-     */
     public static int calcPotionLiquidColor(Collection par0Collection)
     {
         int var1 = 3694022;
@@ -187,9 +171,6 @@ public class PotionHelper
         return var7;
     }
 
-    /**
-     * Count the number of bits in an integer set to ON.
-     */
     private static int countSetFlags(int par0)
     {
         int var1;
@@ -370,9 +351,6 @@ public class PotionHelper
         }
     }
 
-    /**
-     * Returns a list of effects for the specified potion damage value.
-     */
     public static List getPotionEffects(int par0, boolean par1)
     {
         ArrayList var2 = null;
@@ -443,11 +421,6 @@ public class PotionHelper
         return var2;
     }
 
-    /**
-     * Does bit operations for brewPotionData, given data, the index of the bit being operated upon, whether the bit
-     * will be removed, whether the bit will be toggled (NOT), or whether the data field will be set to 0 if the bit is
-     * not present.
-     */
     private static int brewBitOperations(int par0, int par1, boolean par2, boolean par3, boolean par4)
     {
         if (par4)
@@ -480,10 +453,6 @@ public class PotionHelper
         return par0;
     }
 
-    /**
-     * Generate a data value for a potion, given its previous data value and the encoded string of new effects it will
-     * receive
-     */
     public static int applyIngredient(int par0, String par1Str)
     {
         byte var2 = 0;

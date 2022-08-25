@@ -24,9 +24,6 @@ public abstract class BaseAttributeMap
         return (IAttributeInstance)this.attributesByName.get(par1Str);
     }
 
-    /**
-     * Registers an attribute with this AttributeMap, returns a modifiable AttributeInstance associated with this map
-     */
     public abstract IAttributeInstance registerAttribute(IAttribute var1);
 
     public Collection getAllAttributes()

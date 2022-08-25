@@ -4,9 +4,6 @@ import net.minecraft.util.AxisAlignedBB;
 
 public interface ICamera
 {
-    /**
-     * Returns true if the bounding box is inside all 6 clipping planes, otherwise returns false.
-     */
     boolean isBoundingBoxInFrustum(AxisAlignedBB var1);
 
     boolean isBoundingBoxInFrustumFully(AxisAlignedBB var1);

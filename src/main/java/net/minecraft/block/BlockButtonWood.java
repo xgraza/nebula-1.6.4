@@ -12,9 +12,6 @@ public class BlockButtonWood extends BlockButton
         super(true);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return Blocks.planks.getBlockTextureFromSide(1);

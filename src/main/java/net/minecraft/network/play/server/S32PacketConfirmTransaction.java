@@ -27,9 +27,6 @@ public class S32PacketConfirmTransaction extends Packet
         p_148891_1_.handleConfirmTransaction(this);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_148894_a = p_148837_1_.readUnsignedByte();
@@ -37,9 +34,6 @@ public class S32PacketConfirmTransaction extends Packet
         this.field_148893_c = p_148837_1_.readBoolean();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.field_148894_a);
@@ -47,9 +41,6 @@ public class S32PacketConfirmTransaction extends Packet
         p_148840_1_.writeBoolean(this.field_148893_c);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("id=%d, uid=%d, accepted=%b", new Object[] {Integer.valueOf(this.field_148894_a), Short.valueOf(this.field_148892_b), Boolean.valueOf(this.field_148893_c)});

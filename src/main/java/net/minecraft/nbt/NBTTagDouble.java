@@ -7,7 +7,6 @@ import net.minecraft.util.MathHelper;
 
 public class NBTTagDouble extends NBTBase.NBTPrimitive
 {
-    /** The double value for the tag. */
     private double data;
     private static final String __OBFID = "CL_00001218";
 
@@ -18,25 +17,16 @@ public class NBTTagDouble extends NBTBase.NBTPrimitive
         this.data = p_i45130_1_;
     }
 
-    /**
-     * Write the actual data contents of the tag, implemented in NBT extension classes
-     */
     void write(DataOutput par1DataOutput) throws IOException
     {
         par1DataOutput.writeDouble(this.data);
     }
 
-    /**
-     * Read the actual data contents of the tag, implemented in NBT extension classes
-     */
     void load(DataInput par1DataInput, int par2) throws IOException
     {
         this.data = par1DataInput.readDouble();
     }
 
-    /**
-     * Gets the type byte for the tag.
-     */
     public byte getId()
     {
         return (byte)6;
@@ -47,9 +37,6 @@ public class NBTTagDouble extends NBTBase.NBTPrimitive
         return "" + this.data + "d";
     }
 
-    /**
-     * Creates a clone of the tag.
-     */
     public NBTBase copy()
     {
         return new NBTTagDouble(this.data);

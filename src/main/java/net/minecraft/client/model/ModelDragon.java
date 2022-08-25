@@ -7,40 +7,17 @@ import org.lwjgl.opengl.GL11;
 
 public class ModelDragon extends ModelBase
 {
-    /** The head Model renderer of the dragon */
     private ModelRenderer head;
-
-    /** The spine Model renderer of the dragon */
     private ModelRenderer spine;
-
-    /** The jaw Model renderer of the dragon */
     private ModelRenderer jaw;
-
-    /** The body Model renderer of the dragon */
     private ModelRenderer body;
-
-    /** The rear leg Model renderer of the dragon */
     private ModelRenderer rearLeg;
-
-    /** The front leg Model renderer of the dragon */
     private ModelRenderer frontLeg;
-
-    /** The rear leg tip Model renderer of the dragon */
     private ModelRenderer rearLegTip;
-
-    /** The front leg tip Model renderer of the dragon */
     private ModelRenderer frontLegTip;
-
-    /** The rear foot Model renderer of the dragon */
     private ModelRenderer rearFoot;
-
-    /** The front foot Model renderer of the dragon */
     private ModelRenderer frontFoot;
-
-    /** The wing Model renderer of the dragon */
     private ModelRenderer wing;
-
-    /** The wing tip Model renderer of the dragon */
     private ModelRenderer wingTip;
     private float partialTicks;
     private static final String __OBFID = "CL_00000870";
@@ -124,18 +101,11 @@ public class ModelDragon extends ModelBase
         this.rearLegTip.addChild(this.rearFoot);
     }
 
-    /**
-     * Used for easily adding entity-dependent animations. The second and third float params here are the same second
-     * and third as in the setRotationAngles method.
-     */
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
         this.partialTicks = par4;
     }
 
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         GL11.glPushMatrix();
@@ -242,11 +212,6 @@ public class ModelDragon extends ModelBase
         GL11.glPopMatrix();
     }
 
-    /**
-     * Updates the rotations in the parameters for rotations greater than 180 degrees or less than -180 degrees. It adds
-     * or subtracts 360 degrees, so that the appearance is the same, although the numbers are then simplified to range
-     * -180 to 180
-     */
     private float updateRotations(double par1)
     {
         while (par1 >= 180.0D)

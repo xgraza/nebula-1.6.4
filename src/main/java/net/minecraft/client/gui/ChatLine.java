@@ -4,13 +4,8 @@ import net.minecraft.util.IChatComponent;
 
 public class ChatLine
 {
-    /** GUI Update Counter value this Line was created at */
     private final int updateCounterCreated;
     private final IChatComponent lineString;
-
-    /**
-     * int value to refer to existing Chat Lines, can be 0 which means unreferrable
-     */
     private final int chatLineID;
     private static final String __OBFID = "CL_00000627";
 

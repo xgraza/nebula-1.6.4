@@ -15,14 +15,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class MapGenScatteredFeature extends MapGenStructure
 {
     private static List biomelist = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.jungle, BiomeGenBase.jungleHills, BiomeGenBase.swampland});
-
-    /** contains possible spawns for scattered features */
     private List scatteredFeatureSpawnList;
-
-    /** the maximum distance between scattered features */
     private int maxDistanceBetweenScatteredFeatures;
-
-    /** the minimum distance between scattered features */
     private int minDistanceBetweenScatteredFeatures;
     private static final String __OBFID = "CL_00000471";
 
@@ -117,9 +111,6 @@ public class MapGenScatteredFeature extends MapGenStructure
         }
     }
 
-    /**
-     * returns possible spawns for scattered features
-     */
     public List getScatteredFeatureSpawnList()
     {
         return this.scatteredFeatureSpawnList;

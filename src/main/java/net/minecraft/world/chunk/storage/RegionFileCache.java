@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class RegionFileCache
 {
-    /** A map containing Files as keys and RegionFiles as values */
     private static final Map regionsByFilename = new HashMap();
     private static final String __OBFID = "CL_00000383";
 
@@ -42,9 +41,6 @@ public class RegionFileCache
         }
     }
 
-    /**
-     * Saves the current Chunk Map Cache
-     */
     public static synchronized void clearRegionFileReferences()
     {
         Iterator var0 = regionsByFilename.values().iterator();
@@ -69,18 +65,12 @@ public class RegionFileCache
         regionsByFilename.clear();
     }
 
-    /**
-     * Returns an input stream for the specified chunk. Args: worldDir, chunkX, chunkZ
-     */
     public static DataInputStream getChunkInputStream(File par0File, int par1, int par2)
     {
         RegionFile var3 = createOrLoadRegionFile(par0File, par1, par2);
         return var3.getChunkDataInputStream(par1 & 31, par2 & 31);
     }
 
-    /**
-     * Returns an output stream for the specified chunk. Args: worldDir, chunkX, chunkZ
-     */
     public static DataOutputStream getChunkOutputStream(File par0File, int par1, int par2)
     {
         RegionFile var3 = createOrLoadRegionFile(par0File, par1, par2);

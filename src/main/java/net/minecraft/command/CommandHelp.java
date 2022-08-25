@@ -20,9 +20,6 @@ public class CommandHelp extends CommandBase
         return "help";
     }
 
-    /**
-     * Return the required permission level for this command.
-     */
     public int getRequiredPermissionLevel()
     {
         return 0;
@@ -89,9 +86,6 @@ public class CommandHelp extends CommandBase
         }
     }
 
-    /**
-     * Returns a sorted list of all possible commands for the given ICommandSender.
-     */
     protected List getSortedPossibleCommands(ICommandSender par1ICommandSender)
     {
         List var2 = MinecraftServer.getServer().getCommandManager().getPossibleCommands(par1ICommandSender);

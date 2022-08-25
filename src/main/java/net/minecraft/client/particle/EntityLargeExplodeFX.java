@@ -12,8 +12,6 @@ public class EntityLargeExplodeFX extends EntityFX
     private static final ResourceLocation field_110127_a = new ResourceLocation("textures/entity/explosion.png");
     private int field_70581_a;
     private int field_70584_aq;
-
-    /** The Rendering Engine. */
     private TextureManager theRenderEngine;
     private float field_70582_as;
     private static final String __OBFID = "CL_00000910";
@@ -64,9 +62,6 @@ public class EntityLargeExplodeFX extends EntityFX
         return 61680;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.prevPosX = this.posX;

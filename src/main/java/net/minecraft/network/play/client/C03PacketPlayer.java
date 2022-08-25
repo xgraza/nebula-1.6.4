@@ -31,17 +31,11 @@ public class C03PacketPlayer extends Packet
         p_149468_1_.processPlayer(this);
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.onGround = p_148837_1_.readUnsignedByte() != 0;
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.onGround ? 1 : 0);

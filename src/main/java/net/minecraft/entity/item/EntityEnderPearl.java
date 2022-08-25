@@ -27,9 +27,6 @@ public class EntityEnderPearl extends EntityThrowable
         super(par1World, par2, par4, par6);
     }
 
-    /**
-     * Called when this EntityThrowable hits a block or entity.
-     */
     protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
     {
         if (par1MovingObjectPosition.entityHit != null)

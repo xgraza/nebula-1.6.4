@@ -21,9 +21,6 @@ public class GuiControls extends GuiScreen
         this.field_146497_i = par2GameSettings;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.field_146494_r = new GuiKeyBindingList(this, this.mc);
@@ -72,14 +69,11 @@ public class GuiControls extends GuiScreen
         }
         else if (p_146284_1_.id < 100 && p_146284_1_ instanceof GuiOptionButton)
         {
-            this.field_146497_i.setOptionValue(((GuiOptionButton)p_146284_1_).func_146136_c(), 1);
+            this.field_146497_i.setOptionValue(((GuiOptionButton)p_146284_1_).returnEnumOptions(), 1);
             p_146284_1_.displayString = this.field_146497_i.getKeyBinding(GameSettings.Options.getEnumOptions(p_146284_1_.id));
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         if (this.field_146491_f != null)
@@ -102,9 +96,6 @@ public class GuiControls extends GuiScreen
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         if (this.field_146491_f != null)
@@ -127,14 +118,11 @@ public class GuiControls extends GuiScreen
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.field_146494_r.func_148128_a(par1, par2, par3);
-        this.drawCenteredString(this.fontRendererObj, this.field_146495_a, this.width / 2, 8, 16777215);
+        this.field_146494_r.drawScreen(par1, par2, par3);
+        this.drawCenteredString(this.fontRenderer, this.field_146495_a, this.width / 2, 8, 16777215);
         boolean var4 = true;
         KeyBinding[] var5 = this.field_146497_i.keyBindings;
         int var6 = var5.length;

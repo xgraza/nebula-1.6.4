@@ -47,18 +47,12 @@ public class GuiCreateWorld extends GuiScreen
         this.field_146330_J = I18n.format("selectWorld.newWorld", new Object[0]);
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         this.field_146333_g.updateCursorCounter();
         this.field_146335_h.updateCursorCounter();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
@@ -68,19 +62,19 @@ public class GuiCreateWorld extends GuiScreen
         this.buttonList.add(this.field_146343_z = new GuiButton(2, this.width / 2 - 75, 115, 150, 20, I18n.format("selectWorld.gameMode", new Object[0])));
         this.buttonList.add(this.field_146324_A = new GuiButton(3, this.width / 2 - 75, 187, 150, 20, I18n.format("selectWorld.moreWorldOptions", new Object[0])));
         this.buttonList.add(this.field_146325_B = new GuiButton(4, this.width / 2 - 155, 100, 150, 20, I18n.format("selectWorld.mapFeatures", new Object[0])));
-        this.field_146325_B.field_146125_m = false;
+        this.field_146325_B.drawButton = false;
         this.buttonList.add(this.field_146326_C = new GuiButton(7, this.width / 2 + 5, 151, 150, 20, I18n.format("selectWorld.bonusItems", new Object[0])));
-        this.field_146326_C.field_146125_m = false;
+        this.field_146326_C.drawButton = false;
         this.buttonList.add(this.field_146320_D = new GuiButton(5, this.width / 2 + 5, 100, 150, 20, I18n.format("selectWorld.mapType", new Object[0])));
-        this.field_146320_D.field_146125_m = false;
+        this.field_146320_D.drawButton = false;
         this.buttonList.add(this.field_146321_E = new GuiButton(6, this.width / 2 - 155, 151, 150, 20, I18n.format("selectWorld.allowCommands", new Object[0])));
-        this.field_146321_E.field_146125_m = false;
+        this.field_146321_E.drawButton = false;
         this.buttonList.add(this.field_146322_F = new GuiButton(8, this.width / 2 + 5, 120, 150, 20, I18n.format("selectWorld.customizeType", new Object[0])));
-        this.field_146322_F.field_146125_m = false;
-        this.field_146333_g = new GuiTextField(this.fontRendererObj, this.width / 2 - 100, 60, 200, 20);
+        this.field_146322_F.drawButton = false;
+        this.field_146333_g = new GuiTextField(this.fontRenderer, this.width / 2 - 100, 60, 200, 20);
         this.field_146333_g.setFocused(true);
         this.field_146333_g.setText(this.field_146330_J);
-        this.field_146335_h = new GuiTextField(this.fontRendererObj, this.width / 2 - 100, 60, 200, 20);
+        this.field_146335_h = new GuiTextField(this.fontRenderer, this.width / 2 - 100, 60, 200, 20);
         this.field_146335_h.setText(this.field_146329_I);
         this.func_146316_a(this.field_146344_y);
         this.func_146314_g();
@@ -171,9 +165,6 @@ public class GuiCreateWorld extends GuiScreen
         return p_146317_1_;
     }
 
-    /**
-     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
-     */
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
@@ -337,12 +328,12 @@ public class GuiCreateWorld extends GuiScreen
     private void func_146316_a(boolean p_146316_1_)
     {
         this.field_146344_y = p_146316_1_;
-        this.field_146343_z.field_146125_m = !this.field_146344_y;
-        this.field_146325_B.field_146125_m = this.field_146344_y;
-        this.field_146326_C.field_146125_m = this.field_146344_y;
-        this.field_146320_D.field_146125_m = this.field_146344_y;
-        this.field_146321_E.field_146125_m = this.field_146344_y;
-        this.field_146322_F.field_146125_m = this.field_146344_y && WorldType.worldTypes[this.field_146331_K] == WorldType.FLAT;
+        this.field_146343_z.drawButton = !this.field_146344_y;
+        this.field_146325_B.drawButton = this.field_146344_y;
+        this.field_146326_C.drawButton = this.field_146344_y;
+        this.field_146320_D.drawButton = this.field_146344_y;
+        this.field_146321_E.drawButton = this.field_146344_y;
+        this.field_146322_F.drawButton = this.field_146344_y && WorldType.worldTypes[this.field_146331_K] == WorldType.FLAT;
 
         if (this.field_146344_y)
         {
@@ -354,9 +345,6 @@ public class GuiCreateWorld extends GuiScreen
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         if (this.field_146333_g.isFocused() && !this.field_146344_y)
@@ -379,9 +367,6 @@ public class GuiCreateWorld extends GuiScreen
         this.func_146314_g();
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
@@ -396,34 +381,31 @@ public class GuiCreateWorld extends GuiScreen
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.create", new Object[0]), this.width / 2, 20, -1);
+        this.drawCenteredString(this.fontRenderer, I18n.format("selectWorld.create", new Object[0]), this.width / 2, 20, -1);
 
         if (this.field_146344_y)
         {
-            this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterSeed", new Object[0]), this.width / 2 - 100, 47, -6250336);
-            this.drawString(this.fontRendererObj, I18n.format("selectWorld.seedInfo", new Object[0]), this.width / 2 - 100, 85, -6250336);
-            this.drawString(this.fontRendererObj, I18n.format("selectWorld.mapFeatures.info", new Object[0]), this.width / 2 - 150, 122, -6250336);
-            this.drawString(this.fontRendererObj, I18n.format("selectWorld.allowCommands.info", new Object[0]), this.width / 2 - 150, 172, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.enterSeed", new Object[0]), this.width / 2 - 100, 47, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.seedInfo", new Object[0]), this.width / 2 - 100, 85, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.mapFeatures.info", new Object[0]), this.width / 2 - 150, 122, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.allowCommands.info", new Object[0]), this.width / 2 - 150, 172, -6250336);
             this.field_146335_h.drawTextBox();
 
             if (WorldType.worldTypes[this.field_146331_K].func_151357_h())
             {
-                this.fontRendererObj.drawSplitString(I18n.format(WorldType.worldTypes[this.field_146331_K].func_151359_c(), new Object[0]), this.field_146320_D.field_146128_h + 2, this.field_146320_D.field_146129_i + 22, this.field_146320_D.func_146117_b(), 10526880);
+                this.fontRenderer.drawSplitString(I18n.format(WorldType.worldTypes[this.field_146331_K].func_151359_c(), new Object[0]), this.field_146320_D.xPosition + 2, this.field_146320_D.yPosition + 22, this.field_146320_D.getButtonWidth(), 10526880);
             }
         }
         else
         {
-            this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterName", new Object[0]), this.width / 2 - 100, 47, -6250336);
-            this.drawString(this.fontRendererObj, I18n.format("selectWorld.resultFolder", new Object[0]) + " " + this.field_146336_i, this.width / 2 - 100, 85, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.enterName", new Object[0]), this.width / 2 - 100, 47, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.resultFolder", new Object[0]) + " " + this.field_146336_i, this.width / 2 - 100, 85, -6250336);
             this.field_146333_g.drawTextBox();
-            this.drawString(this.fontRendererObj, this.field_146323_G, this.width / 2 - 100, 137, -6250336);
-            this.drawString(this.fontRendererObj, this.field_146328_H, this.width / 2 - 100, 149, -6250336);
+            this.drawString(this.fontRenderer, this.field_146323_G, this.width / 2 - 100, 137, -6250336);
+            this.drawString(this.fontRenderer, this.field_146328_H, this.width / 2 - 100, 149, -6250336);
         }
 
         super.drawScreen(par1, par2, par3);

@@ -20,9 +20,6 @@ public class GuiConfirmOpenLink extends GuiYesNo
         this.field_146361_t = par2Str;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.buttonList.add(new GuiButton(0, this.width / 3 - 83 + 0, this.height / 6 + 96, 100, 20, this.field_146352_g));
@@ -45,16 +42,13 @@ public class GuiConfirmOpenLink extends GuiYesNo
         setClipboardString(this.field_146361_t);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         super.drawScreen(par1, par2, par3);
 
         if (this.field_146360_u)
         {
-            this.drawCenteredString(this.fontRendererObj, this.field_146363_r, this.width / 2, 110, 16764108);
+            this.drawCenteredString(this.fontRenderer, this.field_146363_r, this.width / 2, 110, 16764108);
         }
     }
 

@@ -38,18 +38,11 @@ public abstract class BlockLeaves extends BlockLeavesBase
         return ColorizerFoliage.getFoliageColor(var1, var3);
     }
 
-    /**
-     * Returns the color this block should be rendered. Used by leaves.
-     */
     public int getRenderColor(int p_149741_1_)
     {
         return ColorizerFoliage.getFoliageColorBasic();
     }
 
-    /**
-     * Returns a integer with hex for 0xrrggbb with this color multiplied against the blocks color. Note only called
-     * when first determining what to render.
-     */
     public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_)
     {
         int var5 = 0;
@@ -94,9 +87,6 @@ public abstract class BlockLeaves extends BlockLeavesBase
         }
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         if (!p_149674_1_.isClient)
@@ -210,9 +200,6 @@ public abstract class BlockLeaves extends BlockLeavesBase
         }
     }
 
-    /**
-     * A randomly called display update to be able to add particles or other items for display
-     */
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
         if (p_149734_1_.canLightningStrikeAt(p_149734_2_, p_149734_3_ + 1, p_149734_4_) && !World.doesBlockHaveSolidTopSurface(p_149734_1_, p_149734_2_, p_149734_3_ - 1, p_149734_4_) && p_149734_5_.nextInt(15) == 1)
@@ -230,9 +217,6 @@ public abstract class BlockLeaves extends BlockLeavesBase
         p_150126_1_.setBlockToAir(p_150126_2_, p_150126_3_, p_150126_4_);
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
     public int quantityDropped(Random p_149745_1_)
     {
         return p_149745_1_.nextInt(20) == 0 ? 1 : 0;
@@ -243,9 +227,6 @@ public abstract class BlockLeaves extends BlockLeavesBase
         return Item.getItemFromBlock(Blocks.sapling);
     }
 
-    /**
-     * Drops the block items with a specified chance of dropping the specified items
-     */
     public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_)
     {
         if (!p_149690_1_.isClient)
@@ -304,9 +285,6 @@ public abstract class BlockLeaves extends BlockLeavesBase
         }
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int p_149692_1_)
     {
         return p_149692_1_ & 3;
@@ -317,21 +295,14 @@ public abstract class BlockLeaves extends BlockLeavesBase
         return !this.field_150121_P;
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public abstract IIcon getIcon(int var1, int var2);
 
-    public void func_150122_b(boolean p_150122_1_)
+    public void setGraphicsLevel(boolean p_150122_1_)
     {
         this.field_150121_P = p_150122_1_;
         this.field_150127_b = p_150122_1_ ? 0 : 1;
     }
 
-    /**
-     * Returns an item stack containing a single instance of the current block type. 'i' is the block's subtype/damage
-     * and is ignored for blocks which do not support subtypes. Blocks which cannot be harvested should return null.
-     */
     protected ItemStack createStackedBlock(int p_149644_1_)
     {
         return new ItemStack(Item.getItemFromBlock(this), 1, p_149644_1_ & 3);

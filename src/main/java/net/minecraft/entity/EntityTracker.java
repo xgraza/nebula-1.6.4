@@ -43,10 +43,6 @@ public class EntityTracker
 {
     private static final Logger logger = LogManager.getLogger();
     private final WorldServer theWorld;
-
-    /**
-     * List of tracked entities, used for iteration operations on tracked entities.
-     */
     private Set trackedEntities = new HashSet();
     private IntHashMap trackedEntityIDs = new IntHashMap();
     private int entityViewDistance;
@@ -58,10 +54,6 @@ public class EntityTracker
         this.entityViewDistance = par1WorldServer.func_73046_m().getConfigurationManager().getEntityViewDistance();
     }
 
-    /**
-     * if entity is a player sends all tracked events to the player, otherwise, adds with a visibility and update arate
-     * based on the class type
-     */
     public void addEntityToTracker(Entity par1Entity)
     {
         if (par1Entity instanceof EntityPlayerMP)

@@ -8,23 +8,13 @@ import net.minecraft.world.EnumDifficulty;
 
 public class FoodStats
 {
-    /** The player's food level. */
     private int foodLevel = 20;
-
-    /** The player's food saturation. */
     private float foodSaturationLevel = 5.0F;
-
-    /** The player's food exhaustion. */
     private float foodExhaustionLevel;
-
-    /** The player's food timer value. */
     private int foodTimer;
     private int prevFoodLevel = 20;
     private static final String __OBFID = "CL_00001729";
 
-    /**
-     * Args: int foodLevel, float foodSaturationModifier
-     */
     public void addStats(int par1, float par2)
     {
         this.foodLevel = Math.min(par1 + this.foodLevel, 20);
@@ -36,9 +26,6 @@ public class FoodStats
         this.addStats(p_151686_1_.func_150905_g(p_151686_2_), p_151686_1_.func_150906_h(p_151686_2_));
     }
 
-    /**
-     * Handles the food game logic.
-     */
     public void onUpdate(EntityPlayer par1EntityPlayer)
     {
         EnumDifficulty var2 = par1EntityPlayer.worldObj.difficultySetting;
@@ -89,12 +76,9 @@ public class FoodStats
         }
     }
 
-    /**
-     * Reads food stats from an NBT object.
-     */
     public void readNBT(NBTTagCompound par1NBTTagCompound)
     {
-        if (par1NBTTagCompound.func_150297_b("foodLevel", 99))
+        if (par1NBTTagCompound.hasKey("foodLevel", 99))
         {
             this.foodLevel = par1NBTTagCompound.getInteger("foodLevel");
             this.foodTimer = par1NBTTagCompound.getInteger("foodTickTimer");
@@ -103,9 +87,6 @@ public class FoodStats
         }
     }
 
-    /**
-     * Writes food stats to an NBT object.
-     */
     public void writeNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setInteger("foodLevel", this.foodLevel);
@@ -114,9 +95,6 @@ public class FoodStats
         par1NBTTagCompound.setFloat("foodExhaustionLevel", this.foodExhaustionLevel);
     }
 
-    /**
-     * Get the player's food level.
-     */
     public int getFoodLevel()
     {
         return this.foodLevel;
@@ -127,25 +105,16 @@ public class FoodStats
         return this.prevFoodLevel;
     }
 
-    /**
-     * If foodLevel is not max.
-     */
     public boolean needFood()
     {
         return this.foodLevel < 20;
     }
 
-    /**
-     * adds input to foodExhaustionLevel to a max of 40
-     */
     public void addExhaustion(float par1)
     {
         this.foodExhaustionLevel = Math.min(this.foodExhaustionLevel + par1, 40.0F);
     }
 
-    /**
-     * Get the player's food saturation level.
-     */
     public float getSaturationLevel()
     {
         return this.foodSaturationLevel;

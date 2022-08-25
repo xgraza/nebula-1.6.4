@@ -6,10 +6,6 @@ import net.minecraft.world.World;
 
 public abstract class WorldGenerator
 {
-    /**
-     * Sets wither or not the generator should notify blocks of blocks it changes. When the world is first generated,
-     * this is false, when saplings grow, this is true.
-     */
     private final boolean doBlockNotify;
     private static final String __OBFID = "CL_00000409";
 
@@ -25,9 +21,6 @@ public abstract class WorldGenerator
 
     public abstract boolean generate(World var1, Random var2, int var3, int var4, int var5);
 
-    /**
-     * Rescales the generator settings, only used in WorldGenBigTree
-     */
     public void setScale(double par1, double par3, double par5) {}
 
     protected void func_150515_a(World p_150515_1_, int p_150515_2_, int p_150515_3_, int p_150515_4_, Block p_150515_5_)

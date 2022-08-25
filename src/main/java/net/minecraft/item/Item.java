@@ -47,33 +47,15 @@ public class Item
     public static final RegistryNamespaced itemRegistry = new RegistryNamespaced();
     protected static final UUID field_111210_e = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
     private CreativeTabs tabToDisplayOn;
-
-    /** The RNG used by the Item subclasses. */
     protected static Random itemRand = new Random();
-
-    /** Maximum size of the stack. */
     protected int maxStackSize = 64;
-
-    /** Maximum damage an item can handle. */
     private int maxDamage;
-
-    /** If true, render the object in full 3D, like weapons and tools. */
     protected boolean bFull3D;
-
-    /**
-     * Some items (like dyes) have multiple subtypes on same item, this is field define this behavior
-     */
     protected boolean hasSubtypes;
     private Item containerItem;
     private String potionEffect;
-
-    /** The unlocalized name of this item. */
     private String unlocalizedName;
-
-    /** Icon index in the icons table. */
     protected IIcon itemIcon;
-
-    /** The string associated with this Item's Icon. */
     protected String iconString;
     private static final String __OBFID = "CL_00000041";
 
@@ -423,34 +405,21 @@ public class Item
         return this;
     }
 
-    /**
-     * Returns 0 for /terrain.png, 1 for /gui/items.png
-     */
     public int getSpriteNumber()
     {
         return 1;
     }
 
-    /**
-     * Gets an icon index based on an item's damage value
-     */
     public IIcon getIconFromDamage(int par1)
     {
         return this.itemIcon;
     }
 
-    /**
-     * Returns the icon index of the stack given as argument.
-     */
     public final IIcon getIconIndex(ItemStack par1ItemStack)
     {
         return this.getIconFromDamage(par1ItemStack.getItemDamage());
     }
 
-    /**
-     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
-     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
-     */
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
         return false;
@@ -461,9 +430,6 @@ public class Item
         return 1.0F;
     }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         return par1ItemStack;
@@ -474,17 +440,11 @@ public class Item
         return par1ItemStack;
     }
 
-    /**
-     * Returns the maximum size of the stack for a specific item.
-     */
     public int getItemStackLimit()
     {
         return this.maxStackSize;
     }
 
-    /**
-     * Returns the metadata of the block which this Item (ItemBlock) can place
-     */
     public int getMetadata(int par1)
     {
         return 0;
@@ -501,17 +461,11 @@ public class Item
         return this;
     }
 
-    /**
-     * Returns the maximum damage an item can take.
-     */
     public int getMaxDamage()
     {
         return this.maxDamage;
     }
 
-    /**
-     * set max damage of an Item
-     */
     protected Item setMaxDamage(int par1)
     {
         this.maxDamage = par1;
@@ -523,10 +477,6 @@ public class Item
         return this.maxDamage > 0 && !this.hasSubtypes;
     }
 
-    /**
-     * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
-     * the damage on the stack.
-     */
     public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
     {
         return false;
@@ -542,71 +492,44 @@ public class Item
         return false;
     }
 
-    /**
-     * Returns true if the item can be used on the given entity, e.g. shears on sheep.
-     */
     public boolean itemInteractionForEntity(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase)
     {
         return false;
     }
 
-    /**
-     * Sets bFull3D to True and return the object.
-     */
     public Item setFull3D()
     {
         this.bFull3D = true;
         return this;
     }
 
-    /**
-     * Returns True is the item is renderer in full 3D when hold.
-     */
     public boolean isFull3D()
     {
         return this.bFull3D;
     }
 
-    /**
-     * Returns true if this item should be rotated by 180 degrees around the Y axis when being held in an entities
-     * hands.
-     */
     public boolean shouldRotateAroundWhenRendering()
     {
         return false;
     }
 
-    /**
-     * Sets the unlocalized name of this item to the string passed as the parameter, prefixed by "item."
-     */
     public Item setUnlocalizedName(String par1Str)
     {
         this.unlocalizedName = par1Str;
         return this;
     }
 
-    /**
-     * Translates the unlocalized name of this item, but without the .name suffix, so the translation fails and the
-     * unlocalized name itself is returned.
-     */
     public String getUnlocalizedNameInefficiently(ItemStack par1ItemStack)
     {
         String var2 = this.getUnlocalizedName(par1ItemStack);
         return var2 == null ? "" : StatCollector.translateToLocal(var2);
     }
 
-    /**
-     * Returns the unlocalized name of this item.
-     */
     public String getUnlocalizedName()
     {
         return "item." + this.unlocalizedName;
     }
 
-    /**
-     * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
-     * different names based on their damage or NBT.
-     */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
         return "item." + this.unlocalizedName;
@@ -618,18 +541,11 @@ public class Item
         return this;
     }
 
-    /**
-     * If this returns true, after a recipe involving this item is crafted the container item will be added to the
-     * player's inventory instead of remaining in the crafting grid.
-     */
     public boolean doesContainerItemLeaveCraftingGrid(ItemStack par1ItemStack)
     {
         return true;
     }
 
-    /**
-     * If this function returns true (or the item is damageable), the ItemStack's NBT tag will be sent to the client.
-     */
     public boolean getShareTag()
     {
         return true;
@@ -640,9 +556,6 @@ public class Item
         return this.containerItem;
     }
 
-    /**
-     * True if this Item has a container item (a.k.a. crafting result)
-     */
     public boolean hasContainerItem()
     {
         return this.containerItem != null;
@@ -653,49 +566,27 @@ public class Item
         return 16777215;
     }
 
-    /**
-     * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
-     * update it's contents.
-     */
     public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {}
 
-    /**
-     * Called when item is crafted/smelted. Used only by maps so far.
-     */
     public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {}
 
-    /**
-     * false for all Items except sub-classes of ItemMapBase
-     */
     public boolean isMap()
     {
         return false;
     }
 
-    /**
-     * returns the action that specifies what animation to play when the items is being used
-     */
     public EnumAction getItemUseAction(ItemStack par1ItemStack)
     {
         return EnumAction.none;
     }
 
-    /**
-     * How long it takes to use or consume an item
-     */
     public int getMaxItemUseDuration(ItemStack par1ItemStack)
     {
         return 0;
     }
 
-    /**
-     * called when the player releases the use item button. Args: itemstack, world, entityplayer, itemInUseCount
-     */
     public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4) {}
 
-    /**
-     * Sets the string representing this item's effect on a potion when used as an ingredient.
-     */
     protected Item setPotionEffect(String par1Str)
     {
         this.potionEffect = par1Str;
@@ -712,9 +603,6 @@ public class Item
         return this.getPotionEffect(p_150892_1_) != null;
     }
 
-    /**
-     * allows items to add custom lines of information to the mouseover description
-     */
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {}
 
     public String getItemStackDisplayName(ItemStack par1ItemStack)
@@ -727,17 +615,11 @@ public class Item
         return par1ItemStack.isItemEnchanted();
     }
 
-    /**
-     * Return an item rarity from EnumRarity
-     */
     public EnumRarity getRarity(ItemStack par1ItemStack)
     {
         return par1ItemStack.isItemEnchanted() ? EnumRarity.rare : EnumRarity.common;
     }
 
-    /**
-     * Checks isDamagable and if it cannot be stacked
-     */
     public boolean isItemTool(ItemStack par1ItemStack)
     {
         return this.getItemStackLimit() == 1 && this.isDamageable();
@@ -763,9 +645,6 @@ public class Item
         return par1World.func_147447_a(var13, var23, par3, !par3, false);
     }
 
-    /**
-     * Return the enchantability factor of the item, most of the time is based on material.
-     */
     public int getItemEnchantability()
     {
         return 0;
@@ -776,51 +655,32 @@ public class Item
         return false;
     }
 
-    /**
-     * Gets an icon index based on an item's damage value and the given render pass
-     */
     public IIcon getIconFromDamageForRenderPass(int par1, int par2)
     {
         return this.getIconFromDamage(par1);
     }
 
-    /**
-     * This returns the sub items
-     */
     public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_)
     {
         p_150895_3_.add(new ItemStack(p_150895_1_, 1, 0));
     }
 
-    /**
-     * gets the CreativeTab this item is displayed on
-     */
     public CreativeTabs getCreativeTab()
     {
         return this.tabToDisplayOn;
     }
 
-    /**
-     * returns this;
-     */
     public Item setCreativeTab(CreativeTabs par1CreativeTabs)
     {
         this.tabToDisplayOn = par1CreativeTabs;
         return this;
     }
 
-    /**
-     * Returns true if players can use this item to affect the world (e.g. placing blocks, placing ender eyes in portal)
-     * when not in creative
-     */
     public boolean canItemEditBlocks()
     {
         return true;
     }
 
-    /**
-     * Return whether this item is repairable in an anvil.
-     */
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
         return false;
@@ -831,9 +691,6 @@ public class Item
         this.itemIcon = par1IconRegister.registerIcon(this.getIconString());
     }
 
-    /**
-     * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
-     */
     public Multimap getItemAttributeModifiers()
     {
         return HashMultimap.create();
@@ -845,9 +702,6 @@ public class Item
         return this;
     }
 
-    /**
-     * Returns the string associated with this Item's Icon.
-     */
     protected String getIconString()
     {
         return this.iconString == null ? "MISSING_ICON_ITEM_" + itemRegistry.getIDForObject(this) + "_" + this.unlocalizedName : this.iconString;

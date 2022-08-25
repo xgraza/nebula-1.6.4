@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public class EntityBoat extends Entity
 {
-    /** true if no player in boat */
     private boolean isBoatEmpty;
     private double speedMultiplier;
     private int boatPosRotationIncrements;
@@ -41,10 +40,6 @@ public class EntityBoat extends Entity
         this.yOffset = this.height / 2.0F;
     }
 
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
     protected boolean canTriggerWalking()
     {
         return false;
@@ -57,26 +52,16 @@ public class EntityBoat extends Entity
         this.dataWatcher.addObject(19, new Float(0.0F));
     }
 
-    /**
-     * Returns a boundingBox used to collide the entity with other entities and blocks. This enables the entity to be
-     * pushable on contact, like boats or minecarts.
-     */
     public AxisAlignedBB getCollisionBox(Entity par1Entity)
     {
         return par1Entity.boundingBox;
     }
 
-    /**
-     * returns the bounding box for this entity
-     */
     public AxisAlignedBB getBoundingBox()
     {
         return this.boundingBox;
     }
 
-    /**
-     * Returns true if this entity should push and be pushed by other entities when colliding.
-     */
     public boolean canBePushed()
     {
         return true;
@@ -94,17 +79,11 @@ public class EntityBoat extends Entity
         this.prevPosZ = par6;
     }
 
-    /**
-     * Returns the Y offset from the entity's position for any entity riding this one.
-     */
     public double getMountedYOffset()
     {
         return (double)this.height * 0.0D - 0.30000001192092896D;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (this.isEntityInvulnerable())
@@ -142,9 +121,6 @@ public class EntityBoat extends Entity
         }
     }
 
-    /**
-     * Setups the entity to do the hurt animation. Only used by packets in multiplayer.
-     */
     public void performHurtAnimation()
     {
         this.setForwardDirection(-this.getForwardDirection());
@@ -152,18 +128,11 @@ public class EntityBoat extends Entity
         this.setDamageTaken(this.getDamageTaken() * 11.0F);
     }
 
-    /**
-     * Returns true if other Entities should be prevented from moving through this Entity.
-     */
     public boolean canBeCollidedWith()
     {
         return !this.isDead;
     }
 
-    /**
-     * Sets the position and rotation. Only difference from the other one is no bounding on the rotation. Args: posX,
-     * posY, posZ, yaw, pitch
-     */
     public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9)
     {
         if (this.isBoatEmpty)
@@ -195,9 +164,6 @@ public class EntityBoat extends Entity
         this.motionZ = this.velocityZ;
     }
 
-    /**
-     * Sets the velocity to the args. Args: x, y, z
-     */
     public void setVelocity(double par1, double par3, double par5)
     {
         this.velocityX = this.motionX = par1;
@@ -205,9 +171,6 @@ public class EntityBoat extends Entity
         this.velocityZ = this.motionZ = par5;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -480,14 +443,8 @@ public class EntityBoat extends Entity
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {}
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {}
 
     public float getShadowSize()
@@ -495,9 +452,6 @@ public class EntityBoat extends Entity
         return 0.0F;
     }
 
-    /**
-     * First layer of player interaction
-     */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != par1EntityPlayer)
@@ -515,10 +469,6 @@ public class EntityBoat extends Entity
         }
     }
 
-    /**
-     * Takes in the distance the entity has fallen this tick and whether its on the ground to update the fall distance
-     * and deal fall damage if landing on the ground.  Args: distanceFallenThisTick, onGround
-     */
     protected void updateFallState(double par1, boolean par3)
     {
         int var4 = MathHelper.floor_double(this.posX);
@@ -556,57 +506,36 @@ public class EntityBoat extends Entity
         }
     }
 
-    /**
-     * Sets the damage taken from the last hit.
-     */
     public void setDamageTaken(float par1)
     {
         this.dataWatcher.updateObject(19, Float.valueOf(par1));
     }
 
-    /**
-     * Gets the damage taken from the last hit.
-     */
     public float getDamageTaken()
     {
         return this.dataWatcher.getWatchableObjectFloat(19);
     }
 
-    /**
-     * Sets the time to count down from since the last time entity was hit.
-     */
     public void setTimeSinceHit(int par1)
     {
         this.dataWatcher.updateObject(17, Integer.valueOf(par1));
     }
 
-    /**
-     * Gets the time since the last hit.
-     */
     public int getTimeSinceHit()
     {
         return this.dataWatcher.getWatchableObjectInt(17);
     }
 
-    /**
-     * Sets the forward direction of the entity.
-     */
     public void setForwardDirection(int par1)
     {
         this.dataWatcher.updateObject(18, Integer.valueOf(par1));
     }
 
-    /**
-     * Gets the forward direction of the entity.
-     */
     public int getForwardDirection()
     {
         return this.dataWatcher.getWatchableObjectInt(18);
     }
 
-    /**
-     * true if no player in boat
-     */
     public void setIsBoatEmpty(boolean par1)
     {
         this.isBoatEmpty = par1;

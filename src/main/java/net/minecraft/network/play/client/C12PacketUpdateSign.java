@@ -24,9 +24,6 @@ public class C12PacketUpdateSign extends Packet
         this.field_149590_d = new String[] {p_i45264_4_[0], p_i45264_4_[1], p_i45264_4_[2], p_i45264_4_[3]};
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149593_a = p_148837_1_.readInt();
@@ -40,9 +37,6 @@ public class C12PacketUpdateSign extends Packet
         }
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeInt(this.field_149593_a);

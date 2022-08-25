@@ -19,17 +19,11 @@ public class C00PacketLoginStart extends Packet
         this.field_149305_a = p_i45270_1_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149305_a = new GameProfile((String)null, p_148837_1_.readStringFromBuffer(16));
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeStringToBuffer(this.field_149305_a.getName());

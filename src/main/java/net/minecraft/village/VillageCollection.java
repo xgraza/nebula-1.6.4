@@ -14,11 +14,6 @@ import net.minecraft.world.WorldSavedData;
 public class VillageCollection extends WorldSavedData
 {
     private World worldObj;
-
-    /**
-     * This is a black hole. You can add data to this list through a public interface, but you can't query that
-     * information in any way and it's not used internally either.
-     */
     private final List villagerPositionsList = new ArrayList();
     private final List newDoors = new ArrayList();
     private final List villageList = new ArrayList();
@@ -49,10 +44,6 @@ public class VillageCollection extends WorldSavedData
         }
     }
 
-    /**
-     * This is a black hole. You can add data to this list through a public interface, but you can't query that
-     * information in any way and it's not used internally either.
-     */
     public void addVillagerPosition(int par1, int par2, int par3)
     {
         if (this.villagerPositionsList.size() <= 64)
@@ -64,9 +55,6 @@ public class VillageCollection extends WorldSavedData
         }
     }
 
-    /**
-     * Runs a single tick for the village collection
-     */
     public void tick()
     {
         ++this.tickCounter;
@@ -104,18 +92,11 @@ public class VillageCollection extends WorldSavedData
         }
     }
 
-    /**
-     * Get a list of villages.
-     */
     public List getVillageList()
     {
         return this.villageList;
     }
 
-    /**
-     * Finds the nearest village, but only the given coordinates are withing it's bounding box plus the given the
-     * distance.
-     */
     public Village findNearestVillage(int par1, int par2, int par3, int par4)
     {
         Village var5 = null;
@@ -339,9 +320,6 @@ public class VillageCollection extends WorldSavedData
         return this.worldObj.getBlock(par1, par2, par3) == Blocks.wooden_door;
     }
 
-    /**
-     * reads in data from the NBTTagCompound into this MapDataBase
-     */
     public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         this.tickCounter = par1NBTTagCompound.getInteger("Tick");
@@ -356,9 +334,6 @@ public class VillageCollection extends WorldSavedData
         }
     }
 
-    /**
-     * write data to NBTTagCompound from this MapDataBase, similar to Entities and TileEntities
-     */
     public void writeToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setInteger("Tick", this.tickCounter);

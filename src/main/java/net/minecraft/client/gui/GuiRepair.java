@@ -32,16 +32,13 @@ public class GuiRepair extends GuiContainer implements ICrafting
         this.field_147092_v = (ContainerRepair)this.field_147002_h;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         super.initGui();
         Keyboard.enableRepeatEvents(true);
         int var1 = (this.width - this.field_146999_f) / 2;
         int var2 = (this.height - this.field_147000_g) / 2;
-        this.field_147091_w = new GuiTextField(this.fontRendererObj, var1 + 62, var2 + 24, 103, 12);
+        this.field_147091_w = new GuiTextField(this.fontRenderer, var1 + 62, var2 + 24, 103, 12);
         this.field_147091_w.func_146193_g(-1);
         this.field_147091_w.func_146204_h(-1);
         this.field_147091_w.func_146185_a(false);
@@ -50,9 +47,6 @@ public class GuiRepair extends GuiContainer implements ICrafting
         this.field_147002_h.addCraftingToCrafters(this);
     }
 
-    /**
-     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
-     */
     public void onGuiClosed()
     {
         super.onGuiClosed();
@@ -64,7 +58,7 @@ public class GuiRepair extends GuiContainer implements ICrafting
     {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_BLEND);
-        this.fontRendererObj.drawString(I18n.format("container.repair", new Object[0]), 60, 6, 4210752);
+        this.fontRenderer.drawString(I18n.format("container.repair", new Object[0]), 60, 6, 4210752);
 
         if (this.field_147092_v.maximumCost > 0)
         {
@@ -89,31 +83,28 @@ public class GuiRepair extends GuiContainer implements ICrafting
             if (var4)
             {
                 int var6 = -16777216 | (var3 & 16579836) >> 2 | var3 & -16777216;
-                int var7 = this.field_146999_f - 8 - this.fontRendererObj.getStringWidth(var5);
+                int var7 = this.field_146999_f - 8 - this.fontRenderer.getStringWidth(var5);
                 byte var8 = 67;
 
-                if (this.fontRendererObj.getUnicodeFlag())
+                if (this.fontRenderer.getUnicodeFlag())
                 {
                     drawRect(var7 - 3, var8 - 2, this.field_146999_f - 7, var8 + 10, -16777216);
                     drawRect(var7 - 2, var8 - 1, this.field_146999_f - 8, var8 + 9, -12895429);
                 }
                 else
                 {
-                    this.fontRendererObj.drawString(var5, var7, var8 + 1, var6);
-                    this.fontRendererObj.drawString(var5, var7 + 1, var8, var6);
-                    this.fontRendererObj.drawString(var5, var7 + 1, var8 + 1, var6);
+                    this.fontRenderer.drawString(var5, var7, var8 + 1, var6);
+                    this.fontRenderer.drawString(var5, var7 + 1, var8, var6);
+                    this.fontRenderer.drawString(var5, var7 + 1, var8 + 1, var6);
                 }
 
-                this.fontRendererObj.drawString(var5, var7, var8, var3);
+                this.fontRenderer.drawString(var5, var7, var8, var3);
             }
         }
 
         GL11.glEnable(GL11.GL_LIGHTING);
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         if (this.field_147091_w.textboxKeyTyped(par1, par2))
@@ -140,18 +131,12 @@ public class GuiRepair extends GuiContainer implements ICrafting
         this.mc.thePlayer.sendQueue.addToSendQueue(new C17PacketCustomPayload("MC|ItemName", var1.getBytes(Charsets.UTF_8)));
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
         this.field_147091_w.mouseClicked(par1, par2, par3);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         super.drawScreen(par1, par2, par3);
@@ -180,10 +165,6 @@ public class GuiRepair extends GuiContainer implements ICrafting
         this.sendSlotContents(par1Container, 0, par1Container.getSlot(0).getStack());
     }
 
-    /**
-     * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual
-     * contents of that slot. Args: Container, slot number, slot contents
-     */
     public void sendSlotContents(Container par1Container, int par2, ItemStack par3ItemStack)
     {
         if (par2 == 0)
@@ -198,10 +179,5 @@ public class GuiRepair extends GuiContainer implements ICrafting
         }
     }
 
-    /**
-     * Sends two ints to the client-side Container. Used for furnace burning time, smelting progress, brewing progress,
-     * and enchanting level. Normally the first int identifies which variable to update, and the second contains the new
-     * value. Both are truncated to shorts in non-local SMP.
-     */
     public void sendProgressBarUpdate(Container par1Container, int par2, int par3) {}
 }

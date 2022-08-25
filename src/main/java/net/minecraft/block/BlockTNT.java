@@ -26,9 +26,6 @@ public class BlockTNT extends Block
         this.setCreativeTab(CreativeTabs.tabRedstone);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return p_149691_1_ == 0 ? this.field_150115_b : (p_149691_1_ == 1 ? this.field_150116_a : this.blockIcon);
@@ -54,17 +51,11 @@ public class BlockTNT extends Block
         }
     }
 
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
     public int quantityDropped(Random p_149745_1_)
     {
         return 1;
     }
 
-    /**
-     * Called upon the block being destroyed by an explosion
-     */
     public void onBlockDestroyedByExplosion(World p_149723_1_, int p_149723_2_, int p_149723_3_, int p_149723_4_, Explosion p_149723_5_)
     {
         if (!p_149723_1_.isClient)
@@ -93,9 +84,6 @@ public class BlockTNT extends Block
         }
     }
 
-    /**
-     * Called upon block activation (right click on the block.)
-     */
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         if (p_149727_5_.getCurrentEquippedItem() != null && p_149727_5_.getCurrentEquippedItem().getItem() == Items.flint_and_steel)
@@ -125,15 +113,12 @@ public class BlockTNT extends Block
         }
     }
 
-    /**
-     * Return whether this block can drop from an explosion.
-     */
     public boolean canDropFromExplosion(Explosion p_149659_1_)
     {
         return false;
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.blockIcon = p_149651_1_.registerIcon(this.getTextureName() + "_side");
         this.field_150116_a = p_149651_1_.registerIcon(this.getTextureName() + "_top");

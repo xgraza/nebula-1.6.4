@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 
 public class WorldGenBigMushroom extends WorldGenerator
 {
-    /** The mushroom type. 0 for brown, 1 for red. */
     private int mushroomType = -1;
     private static final String __OBFID = "CL_00000415";
 

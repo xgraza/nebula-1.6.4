@@ -24,9 +24,6 @@ public class EntityRainFX extends EntityFX
         this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.prevPosX = this.posX;
@@ -58,7 +55,7 @@ public class EntityRainFX extends EntityFX
 
         if (var1.isLiquid() || var1.isSolid())
         {
-            double var2 = (double)((float)(MathHelper.floor_double(this.posY) + 1) - BlockLiquid.func_149801_b(this.worldObj.getBlockMetadata(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))));
+            double var2 = (double)((float)(MathHelper.floor_double(this.posY) + 1) - BlockLiquid.getFluidHeightPercent(this.worldObj.getBlockMetadata(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))));
 
             if (this.posY < var2)
             {

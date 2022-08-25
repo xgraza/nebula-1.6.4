@@ -53,9 +53,6 @@ public class EntityFireworkStarterFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7) {}
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         boolean var1;
@@ -148,10 +145,6 @@ public class EntityFireworkStarterFX extends EntityFX
         return var1 == null || var1.renderViewEntity == null || var1.renderViewEntity.getDistanceSq(this.posX, this.posY, this.posZ) >= 256.0D;
     }
 
-    /**
-     * Creates a single particle. Args: x, y, z, x velocity, y velocity, z velocity, colours, fade colours, whether to
-     * trail, whether to twinkle
-     */
     private void createParticle(double par1, double par3, double par5, double par7, double par9, double par11, int[] par13ArrayOfInteger, int[] par14ArrayOfInteger, boolean par15, boolean par16)
     {
         EntityFireworkSparkFX var17 = new EntityFireworkSparkFX(this.worldObj, par1, par3, par5, par7, par9, par11, this.theEffectRenderer);
@@ -168,10 +161,6 @@ public class EntityFireworkStarterFX extends EntityFX
         this.theEffectRenderer.addEffect(var17);
     }
 
-    /**
-     * Creates a small ball or large ball type explosion. Args: particle speed, size, colours, fade colours, whether to
-     * trail, whether to flicker
-     */
     private void createBall(double par1, int par3, int[] par4ArrayOfInteger, int[] par5ArrayOfInteger, boolean par6, boolean par7)
     {
         double var8 = this.posX;
@@ -199,10 +188,6 @@ public class EntityFireworkStarterFX extends EntityFX
         }
     }
 
-    /**
-     * Creates a creeper-shaped or star-shaped explosion. Args: particle speed, shape, colours, fade colours, whether to
-     * trail, whether to flicker, unknown
-     */
     private void createShaped(double par1, double[][] par3ArrayOfDouble, int[] par4ArrayOfInteger, int[] par5ArrayOfInteger, boolean par6, boolean par7, boolean par8)
     {
         double var9 = par3ArrayOfDouble[0][0];
@@ -241,9 +226,6 @@ public class EntityFireworkStarterFX extends EntityFX
         }
     }
 
-    /**
-     * Creates a burst type explosion. Args: colours, fade colours, whether to trail, whether to flicker
-     */
     private void createBurst(int[] par1ArrayOfInteger, int[] par2ArrayOfInteger, boolean par3, boolean par4)
     {
         double var5 = this.rand.nextGaussian() * 0.05D;

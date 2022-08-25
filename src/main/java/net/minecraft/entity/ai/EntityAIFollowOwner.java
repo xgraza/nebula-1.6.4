@@ -30,9 +30,6 @@ public class EntityAIFollowOwner extends EntityAIBase
         this.setMutexBits(3);
     }
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
     public boolean shouldExecute()
     {
         EntityLivingBase var1 = this.thePet.getOwner();
@@ -56,17 +53,11 @@ public class EntityAIFollowOwner extends EntityAIBase
         }
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
     public boolean continueExecuting()
     {
         return !this.petPathfinder.noPath() && this.thePet.getDistanceSqToEntity(this.theOwner) > (double)(this.maxDist * this.maxDist) && !this.thePet.isSitting();
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void startExecuting()
     {
         this.field_75343_h = 0;
@@ -74,9 +65,6 @@ public class EntityAIFollowOwner extends EntityAIBase
         this.thePet.getNavigator().setAvoidsWater(false);
     }
 
-    /**
-     * Resets the task
-     */
     public void resetTask()
     {
         this.theOwner = null;
@@ -84,9 +72,6 @@ public class EntityAIFollowOwner extends EntityAIBase
         this.thePet.getNavigator().setAvoidsWater(this.field_75344_i);
     }
 
-    /**
-     * Updates the task
-     */
     public void updateTask()
     {
         this.thePet.getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F, (float)this.thePet.getVerticalFaceSpeed());

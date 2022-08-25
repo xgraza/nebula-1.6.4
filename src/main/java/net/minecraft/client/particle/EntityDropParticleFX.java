@@ -7,10 +7,7 @@ import net.minecraft.world.World;
 
 public class EntityDropParticleFX extends EntityFX
 {
-    /** the material type for dropped items/blocks */
     private Material materialType;
-
-    /** The height of the current bob */
     private int bobTimer;
     private static final String __OBFID = "CL_00000901";
 
@@ -46,17 +43,11 @@ public class EntityDropParticleFX extends EntityFX
         return this.materialType == Material.water ? super.getBrightnessForRender(par1) : 257;
     }
 
-    /**
-     * Gets how bright this entity is.
-     */
     public float getBrightness(float par1)
     {
         return this.materialType == Material.water ? super.getBrightness(par1) : 1.0F;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.prevPosX = this.posX;
@@ -120,7 +111,7 @@ public class EntityDropParticleFX extends EntityFX
 
         if (var1.isLiquid() || var1.isSolid())
         {
-            double var2 = (double)((float)(MathHelper.floor_double(this.posY) + 1) - BlockLiquid.func_149801_b(this.worldObj.getBlockMetadata(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))));
+            double var2 = (double)((float)(MathHelper.floor_double(this.posY) + 1) - BlockLiquid.getFluidHeightPercent(this.worldObj.getBlockMetadata(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))));
 
             if (this.posY < var2)
             {

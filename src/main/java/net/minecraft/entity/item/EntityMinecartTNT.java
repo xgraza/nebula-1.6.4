@@ -34,9 +34,6 @@ public class EntityMinecartTNT extends EntityMinecart
         return Blocks.tnt;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -78,9 +75,6 @@ public class EntityMinecartTNT extends EntityMinecart
         }
     }
 
-    /**
-     * Makes the minecart explode.
-     */
     protected void explodeCart(double par1)
     {
         if (!this.worldObj.isClient)
@@ -97,9 +91,6 @@ public class EntityMinecartTNT extends EntityMinecart
         }
     }
 
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
     protected void fall(float par1)
     {
         if (par1 >= 3.0F)
@@ -111,9 +102,6 @@ public class EntityMinecartTNT extends EntityMinecart
         super.fall(par1);
     }
 
-    /**
-     * Called every tick the minecart is on an activator rail. Args: x, y, z, is the rail receiving power
-     */
     public void onActivatorRailPass(int par1, int par2, int par3, boolean par4)
     {
         if (par4 && this.minecartTNTFuse < 0)
@@ -134,9 +122,6 @@ public class EntityMinecartTNT extends EntityMinecart
         }
     }
 
-    /**
-     * Ignites this TNT cart.
-     */
     public void ignite()
     {
         this.minecartTNTFuse = 80;
@@ -153,9 +138,6 @@ public class EntityMinecartTNT extends EntityMinecart
         return this.minecartTNTFuse;
     }
 
-    /**
-     * Returns true if the TNT minecart is ignited.
-     */
     public boolean isIgnited()
     {
         return this.minecartTNTFuse > -1;
@@ -171,22 +153,16 @@ public class EntityMinecartTNT extends EntityMinecart
         return this.isIgnited() && (BlockRailBase.func_150051_a(p_145774_6_) || BlockRailBase.func_150049_b_(p_145774_2_, p_145774_3_, p_145774_4_ + 1, p_145774_5_)) ? false : super.func_145774_a(p_145774_1_, p_145774_2_, p_145774_3_, p_145774_4_, p_145774_5_, p_145774_6_, p_145774_7_);
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
 
-        if (par1NBTTagCompound.func_150297_b("TNTFuse", 99))
+        if (par1NBTTagCompound.hasKey("TNTFuse", 99))
         {
             this.minecartTNTFuse = par1NBTTagCompound.getInteger("TNTFuse");
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);

@@ -10,9 +10,6 @@ public class RecipesDyes
 {
     private static final String __OBFID = "CL_00000082";
 
-    /**
-     * Adds the dye recipes to the CraftingManager.
-     */
     public void addRecipes(CraftingManager par1CraftingManager)
     {
         int var2;

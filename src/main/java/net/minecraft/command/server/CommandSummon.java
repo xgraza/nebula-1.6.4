@@ -24,9 +24,6 @@ public class CommandSummon extends CommandBase
         return "summon";
     }
 
-    /**
-     * Return the required permission level for this command.
-     */
     public int getRequiredPermissionLevel()
     {
         return 2;
@@ -103,7 +100,7 @@ public class CommandSummon extends CommandBase
                     var10.spawnEntityInWorld(var18);
                     Entity var19 = var18;
 
-                    for (NBTTagCompound var15 = var11; var15.func_150297_b("Riding", 10); var15 = var15.getCompoundTag("Riding"))
+                    for (NBTTagCompound var15 = var11; var15.hasKey("Riding", 10); var15 = var15.getCompoundTag("Riding"))
                     {
                         Entity var16 = EntityList.createEntityFromNBT(var15.getCompoundTag("Riding"), var10);
 
@@ -131,9 +128,6 @@ public class CommandSummon extends CommandBase
         }
     }
 
-    /**
-     * Adds the strings available in this command to the given list of tab completion options.
-     */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, this.func_147182_d()) : null;

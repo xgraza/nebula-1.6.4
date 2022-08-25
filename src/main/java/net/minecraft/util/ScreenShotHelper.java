@@ -21,29 +21,15 @@ public class ScreenShotHelper
 {
     private static final Logger logger = LogManager.getLogger();
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
-
-    /** A buffer to hold pixel values returned by OpenGL. */
     private static IntBuffer pixelBuffer;
-
-    /**
-     * The built-up array that contains all the pixel values returned by OpenGL.
-     */
     private static int[] pixelValues;
     private static final String __OBFID = "CL_00000656";
 
-    /**
-     * Saves a screenshot in the game directory with a time-stamped filename.  Args: gameDirectory,
-     * requestedWidthInPixels, requestedHeightInPixels, frameBuffer
-     */
     public static IChatComponent saveScreenshot(File p_148260_0_, int p_148260_1_, int p_148260_2_, Framebuffer p_148260_3_)
     {
         return saveScreenshot(p_148260_0_, (String)null, p_148260_1_, p_148260_2_, p_148260_3_);
     }
 
-    /**
-     * Saves a screenshot in the game directory with the given file name (or null to generate a time-stamped name).
-     * Args: gameDirectory, fileName, requestedWidthInPixels, requestedHeightInPixels, frameBuffer
-     */
     public static IChatComponent saveScreenshot(File p_148259_0_, String p_148259_1_, int p_148259_2_, int p_148259_3_, Framebuffer p_148259_4_)
     {
         try
@@ -126,12 +112,6 @@ public class ScreenShotHelper
         }
     }
 
-    /**
-     * Creates a unique PNG file in the given directory named by a timestamp.  Handles cases where the timestamp alone
-     * is not enough to create a uniquely named file, though it still might suffer from an unlikely race condition where
-     * the filename was unique when this method was called, but another process or thread created a file at the same
-     * path immediately after this method returned.
-     */
     private static File getTimestampedPNGFileForDirectory(File par0File)
     {
         String var2 = dateFormat.format(new Date()).toString();

@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 
 public class ContainerEnchantment extends Container
 {
-    /** SlotEnchantmentTable object with ItemStack to be enchanted */
     public IInventory tableInventory = new InventoryBasic("Enchant", true, 1)
     {
         private static final String __OBFID = "CL_00001746";
@@ -27,18 +26,12 @@ public class ContainerEnchantment extends Container
             ContainerEnchantment.this.onCraftMatrixChanged(this);
         }
     };
-
-    /** current world (for bookshelf counting) */
     private World worldPointer;
     private int posX;
     private int posY;
     private int posZ;
     private Random rand = new Random();
-
-    /** used as seed for EnchantmentNameParts (see GuiEnchantment) */
     public long nameSeed;
-
-    /** 3-member array storing the enchantment levels of each slot */
     public int[] enchantLevels = new int[3];
     private static final String __OBFID = "CL_00001745";
 
@@ -80,9 +73,6 @@ public class ContainerEnchantment extends Container
         par1ICrafting.sendProgressBarUpdate(this, 2, this.enchantLevels[2]);
     }
 
-    /**
-     * Looks for changes made in the container, sends them to every listener.
-     */
     public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
@@ -108,9 +98,6 @@ public class ContainerEnchantment extends Container
         }
     }
 
-    /**
-     * Callback for when the crafting matrix is changed.
-     */
     public void onCraftMatrixChanged(IInventory par1IInventory)
     {
         if (par1IInventory == this.tableInventory)
@@ -187,9 +174,6 @@ public class ContainerEnchantment extends Container
         }
     }
 
-    /**
-     * enchants the item on the table using the specified slot; also deducts XP from player
-     */
     public boolean enchantItem(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = this.tableInventory.getStackInSlot(0);
@@ -241,9 +225,6 @@ public class ContainerEnchantment extends Container
         }
     }
 
-    /**
-     * Called when the container is closed.
-     */
     public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
         super.onContainerClosed(par1EntityPlayer);
@@ -264,9 +245,6 @@ public class ContainerEnchantment extends Container
         return this.worldPointer.getBlock(this.posX, this.posY, this.posZ) != Blocks.enchanting_table ? false : par1EntityPlayer.getDistanceSq((double)this.posX + 0.5D, (double)this.posY + 0.5D, (double)this.posZ + 0.5D) <= 64.0D;
     }
 
-    /**
-     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
-     */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;

@@ -18,17 +18,11 @@ public class GuiRenameWorld extends GuiScreen
         this.field_146584_g = par2Str;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         this.field_146583_f.updateCursorCounter();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
@@ -38,14 +32,11 @@ public class GuiRenameWorld extends GuiScreen
         ISaveFormat var1 = this.mc.getSaveLoader();
         WorldInfo var2 = var1.getWorldInfo(this.field_146584_g);
         String var3 = var2.getWorldName();
-        this.field_146583_f = new GuiTextField(this.fontRendererObj, this.width / 2 - 100, 60, 200, 20);
+        this.field_146583_f = new GuiTextField(this.fontRenderer, this.width / 2 - 100, 60, 200, 20);
         this.field_146583_f.setFocused(true);
         this.field_146583_f.setText(var3);
     }
 
-    /**
-     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
-     */
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
@@ -68,9 +59,6 @@ public class GuiRenameWorld extends GuiScreen
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         this.field_146583_f.textboxKeyTyped(par1, par2);
@@ -82,23 +70,17 @@ public class GuiRenameWorld extends GuiScreen
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
         this.field_146583_f.mouseClicked(par1, par2, par3);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.renameTitle", new Object[0]), this.width / 2, 20, 16777215);
-        this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterName", new Object[0]), this.width / 2 - 100, 47, 10526880);
+        this.drawCenteredString(this.fontRenderer, I18n.format("selectWorld.renameTitle", new Object[0]), this.width / 2, 20, 16777215);
+        this.drawString(this.fontRenderer, I18n.format("selectWorld.enterName", new Object[0]), this.width / 2 - 100, 47, 10526880);
         this.field_146583_f.drawTextBox();
         super.drawScreen(par1, par2, par3);
     }

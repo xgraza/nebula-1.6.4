@@ -69,17 +69,11 @@ public class BlockHopper extends BlockContainer
         return var10;
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
         return new TileEntityHopper();
     }
 
-    /**
-     * Called when the block is placed in the world.
-     */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
         super.onBlockPlacedBy(p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, p_149689_5_, p_149689_6_);
@@ -97,9 +91,6 @@ public class BlockHopper extends BlockContainer
         this.func_149919_e(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
     }
 
-    /**
-     * Called upon block activation (right click on the block.)
-     */
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         if (p_149727_1_.isClient)
@@ -127,7 +118,7 @@ public class BlockHopper extends BlockContainer
     private void func_149919_e(World p_149919_1_, int p_149919_2_, int p_149919_3_, int p_149919_4_)
     {
         int var5 = p_149919_1_.getBlockMetadata(p_149919_2_, p_149919_3_, p_149919_4_);
-        int var6 = func_149918_b(var5);
+        int var6 = getDirectionFromMetadata(var5);
         boolean var7 = !p_149919_1_.isBlockIndirectlyGettingPowered(p_149919_2_, p_149919_3_, p_149919_4_);
         boolean var8 = func_149917_c(var5);
 
@@ -185,9 +176,6 @@ public class BlockHopper extends BlockContainer
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
     public int getRenderType()
     {
         return 38;
@@ -208,15 +196,12 @@ public class BlockHopper extends BlockContainer
         return true;
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return p_149691_1_ == 1 ? this.field_149923_M : this.field_149921_b;
     }
 
-    public static int func_149918_b(int p_149918_0_)
+    public static int getDirectionFromMetadata(int p_149918_0_)
     {
         return p_149918_0_ & 7;
     }
@@ -236,21 +221,18 @@ public class BlockHopper extends BlockContainer
         return Container.calcRedstoneFromInventory(func_149920_e(p_149736_1_, p_149736_2_, p_149736_3_, p_149736_4_));
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_149921_b = p_149651_1_.registerIcon("hopper_outside");
         this.field_149923_M = p_149651_1_.registerIcon("hopper_top");
         this.field_149924_N = p_149651_1_.registerIcon("hopper_inside");
     }
 
-    public static IIcon func_149916_e(String p_149916_0_)
+    public static IIcon getHopperIcon(String p_149916_0_)
     {
         return p_149916_0_.equals("hopper_outside") ? Blocks.hopper.field_149921_b : (p_149916_0_.equals("hopper_inside") ? Blocks.hopper.field_149924_N : null);
     }
 
-    /**
-     * Gets the icon name of the ItemBlock corresponding to this block. Used by hoppers.
-     */
     public String getItemIconName()
     {
         return "hopper";

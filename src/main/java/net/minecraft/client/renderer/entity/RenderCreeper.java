@@ -13,8 +13,6 @@ public class RenderCreeper extends RenderLiving
 {
     private static final ResourceLocation armoredCreeperTextures = new ResourceLocation("textures/entity/creeper/creeper_armor.png");
     private static final ResourceLocation creeperTextures = new ResourceLocation("textures/entity/creeper/creeper.png");
-
-    /** The creeper model. */
     private ModelBase creeperModel = new ModelCreeper(2.0F);
     private static final String __OBFID = "CL_00000985";
 
@@ -23,10 +21,6 @@ public class RenderCreeper extends RenderLiving
         super(new ModelCreeper(), 0.5F);
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntityCreeper par1EntityCreeper, float par2)
     {
         float var3 = par1EntityCreeper.getCreeperFlashIntensity(par2);
@@ -49,9 +43,6 @@ public class RenderCreeper extends RenderLiving
         GL11.glScalef(var5, var6, var5);
     }
 
-    /**
-     * Returns an ARGB int color back. Args: entityLiving, lightBrightness, partialTickTime
-     */
     protected int getColorMultiplier(EntityCreeper par1EntityCreeper, float par2, float par3)
     {
         float var4 = par1EntityCreeper.getCreeperFlashIntensity(par3);
@@ -81,9 +72,6 @@ public class RenderCreeper extends RenderLiving
         }
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityCreeper par1EntityCreeper, int par2, float par3)
     {
         if (par1EntityCreeper.getPowered())
@@ -134,34 +122,21 @@ public class RenderCreeper extends RenderLiving
         return -1;
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntityCreeper par1EntityCreeper)
     {
         return creeperTextures;
     }
 
-    /**
-     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
-     * entityLiving, partialTickTime
-     */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
         this.preRenderCallback((EntityCreeper)par1EntityLivingBase, par2);
     }
 
-    /**
-     * Returns an ARGB int color back. Args: entityLiving, lightBrightness, partialTickTime
-     */
     protected int getColorMultiplier(EntityLivingBase par1EntityLivingBase, float par2, float par3)
     {
         return this.getColorMultiplier((EntityCreeper)par1EntityLivingBase, par2, par3);
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.shouldRenderPass((EntityCreeper)par1EntityLivingBase, par2, par3);
@@ -172,9 +147,6 @@ public class RenderCreeper extends RenderLiving
         return this.inheritRenderPass((EntityCreeper)par1EntityLivingBase, par2, par3);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntityCreeper)par1Entity);

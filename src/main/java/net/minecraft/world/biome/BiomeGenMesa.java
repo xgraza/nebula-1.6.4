@@ -49,17 +49,11 @@ public class BiomeGenMesa extends BiomeGenBase
         return this.worldGeneratorTrees;
     }
 
-    /**
-     * Provides the basic foliage color based on the biome temperature and rainfall
-     */
     public int getBiomeFoliageColor(int p_150571_1_, int p_150571_2_, int p_150571_3_)
     {
         return 10387789;
     }
 
-    /**
-     * Provides the basic grass color based on the biome temperature and rainfall
-     */
     public int getBiomeGrassColor(int p_150558_1_, int p_150558_2_, int p_150558_3_)
     {
         return 9470285;

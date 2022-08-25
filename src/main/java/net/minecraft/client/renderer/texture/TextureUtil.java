@@ -8,10 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.src.Mipmaps;
+import net.minecraft.src.Reflector;
 import net.minecraft.util.ResourceLocation;
-import optifine.Mipmaps;
-import optifine.Reflector;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
@@ -27,7 +26,6 @@ public class TextureUtil
     private static int field_147958_e = -1;
     private static int field_147956_f = -1;
     private static final int[] field_147957_g;
-    private static final String __OBFID = "CL_00001067";
 
     public static int glGenTextures()
     {
@@ -47,10 +45,10 @@ public class TextureUtil
     public static void uploadTexture(int par0, int[] par1ArrayOfInteger, int par2, int par3)
     {
         bindTexture(par0);
-        func_147947_a(0, par1ArrayOfInteger, par2, par3, 0, 0, false, false, false);
+        uploadTextureSub(0, par1ArrayOfInteger, par2, par3, 0, 0, false, false, false);
     }
 
-    public static int[][] func_147949_a(int p_147949_0_, int p_147949_1_, int[][] p_147949_2_)
+    public static int[][] generateMipmapData(int p_147949_0_, int p_147949_1_, int[][] p_147949_2_)
     {
         int[][] var3 = new int[p_147949_0_ + 1][];
         var3[0] = p_147949_2_[0];
@@ -115,16 +113,16 @@ public class TextureUtil
         return (int)((double)var9 * 255.0D);
     }
 
-    public static void func_147955_a(int[][] p_147955_0_, int p_147955_1_, int p_147955_2_, int p_147955_3_, int p_147955_4_, boolean p_147955_5_, boolean p_147955_6_)
+    public static void uploadTextureMipmap(int[][] p_147955_0_, int p_147955_1_, int p_147955_2_, int p_147955_3_, int p_147955_4_, boolean p_147955_5_, boolean p_147955_6_)
     {
         for (int var7 = 0; var7 < p_147955_0_.length; ++var7)
         {
             int[] var8 = p_147955_0_[var7];
-            func_147947_a(var7, var8, p_147955_1_ >> var7, p_147955_2_ >> var7, p_147955_3_ >> var7, p_147955_4_ >> var7, p_147955_5_, p_147955_6_, p_147955_0_.length > 1);
+            uploadTextureSub(var7, var8, p_147955_1_ >> var7, p_147955_2_ >> var7, p_147955_3_ >> var7, p_147955_4_ >> var7, p_147955_5_, p_147955_6_, p_147955_0_.length > 1);
         }
     }
 
-    private static void func_147947_a(int p_147947_0_, int[] p_147947_1_, int p_147947_2_, int p_147947_3_, int p_147947_4_, int p_147947_5_, boolean p_147947_6_, boolean p_147947_7_, boolean p_147947_8_)
+    private static void uploadTextureSub(int p_147947_0_, int[] p_147947_1_, int p_147947_2_, int p_147947_3_, int p_147947_4_, int p_147947_5_, boolean p_147947_6_, boolean p_147947_7_, boolean p_147947_8_)
     {
         int var9 = 4194304 / p_147947_2_;
         func_147954_b(p_147947_6_, p_147947_8_);
@@ -149,10 +147,10 @@ public class TextureUtil
 
     public static void allocateTexture(int par0, int par1, int par2)
     {
-        func_147946_a(par0, 0, par1, par2, 1.0F);
+        allocateTextureImpl(par0, 0, par1, par2, 1.0F);
     }
 
-    public static void func_147946_a(int p_147946_0_, int p_147946_1_, int p_147946_2_, int p_147946_3_, float p_147946_4_)
+    public static void allocateTextureImpl(int p_147946_0_, int p_147946_1_, int p_147946_2_, int p_147946_3_, float p_147946_4_)
     {
         Class monitor = TextureUtil.class;
 
@@ -199,7 +197,7 @@ public class TextureUtil
         int var6 = par0BufferedImage.getHeight();
         int var7 = 4194304 / var5;
         int[] var8 = new int[var7 * var5];
-        func_147951_b(par3);
+        setTextureBlurred(par3);
         setTextureClamped(par4);
 
         for (int var9 = 0; var9 < var5 * var6; var9 += var5 * var7)
@@ -213,7 +211,7 @@ public class TextureUtil
         }
     }
 
-    private static void setTextureClamped(boolean par0)
+    public static void setTextureClamped(boolean par0)
     {
         if (par0)
         {
@@ -227,7 +225,7 @@ public class TextureUtil
         }
     }
 
-    private static void func_147951_b(boolean p_147951_0_)
+    private static void setTextureBlurred(boolean p_147951_0_)
     {
         func_147954_b(p_147951_0_, false);
     }
@@ -255,7 +253,7 @@ public class TextureUtil
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, p_147952_1_);
     }
 
-    private static void func_147954_b(boolean p_147954_0_, boolean p_147954_1_)
+    public static void func_147954_b(boolean p_147954_0_, boolean p_147954_1_)
     {
         if (p_147954_0_)
         {
@@ -330,7 +328,7 @@ public class TextureUtil
         return var1;
     }
 
-    public static int[] func_147948_a(int[] p_147948_0_, int p_147948_1_, int p_147948_2_, int p_147948_3_)
+    public static int[] prepareAnisotropicData(int[] p_147948_0_, int p_147948_1_, int p_147948_2_, int p_147948_3_)
     {
         int var4 = p_147948_1_ + 2 * p_147948_3_;
         int var5;
@@ -382,6 +380,11 @@ public class TextureUtil
             System.arraycopy(p_147953_0_, (p_147953_2_ - 1 - var5) * p_147953_1_, p_147953_0_, var5 * p_147953_1_, p_147953_1_);
             System.arraycopy(var3, 0, p_147953_0_, (p_147953_2_ - 1 - var5) * p_147953_1_, p_147953_1_);
         }
+    }
+
+    public static void allocateTextureImpl(int p_147946_0_, int p_147946_1_, int p_147946_2_, int p_147946_3_)
+    {
+        allocateTextureImpl(p_147946_0_, p_147946_1_, p_147946_2_, p_147946_3_, 1.0F);
     }
 
     static

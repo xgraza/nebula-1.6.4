@@ -14,8 +14,6 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
 {
     private EntityCreature theEntity;
     private double movementSpeed;
-
-    /** The PathNavigate of our entity. */
     private PathEntity entityPathNavigate;
     private VillageDoorInfo doorInfo;
     private boolean isNocturnal;
@@ -30,9 +28,6 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
         this.setMutexBits(1);
     }
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
     public boolean shouldExecute()
     {
         this.func_75414_f();
@@ -89,9 +84,6 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
         }
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
     public boolean continueExecuting()
     {
         if (this.theEntity.getNavigator().noPath())
@@ -105,17 +97,11 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
         }
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void startExecuting()
     {
         this.theEntity.getNavigator().setPath(this.entityPathNavigate, this.movementSpeed);
     }
 
-    /**
-     * Resets the task
-     */
     public void resetTask()
     {
         if (this.theEntity.getNavigator().noPath() || this.theEntity.getDistanceSq((double)this.doorInfo.posX, (double)this.doorInfo.posY, (double)this.doorInfo.posZ) < 16.0D)

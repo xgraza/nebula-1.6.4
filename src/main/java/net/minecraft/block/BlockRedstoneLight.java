@@ -19,7 +19,7 @@ public class BlockRedstoneLight extends Block
 
         if (p_i45421_1_)
         {
-            this.setLightLevel(1.0F);
+            this.setLightValue(1.0F);
         }
     }
 
@@ -53,9 +53,6 @@ public class BlockRedstoneLight extends Block
         }
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         if (!p_149674_1_.isClient && this.field_150171_a && !p_149674_1_.isBlockIndirectlyGettingPowered(p_149674_2_, p_149674_3_, p_149674_4_))
@@ -69,18 +66,11 @@ public class BlockRedstoneLight extends Block
         return Item.getItemFromBlock(Blocks.redstone_lamp);
     }
 
-    /**
-     * Gets an item for the block being called on. Args: world, x, y, z
-     */
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    public Item getItemPicked(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return Item.getItemFromBlock(Blocks.redstone_lamp);
     }
 
-    /**
-     * Returns an item stack containing a single instance of the current block type. 'i' is the block's subtype/damage
-     * and is ignored for blocks which do not support subtypes. Blocks which cannot be harvested should return null.
-     */
     protected ItemStack createStackedBlock(int p_149644_1_)
     {
         return new ItemStack(Blocks.redstone_lamp);

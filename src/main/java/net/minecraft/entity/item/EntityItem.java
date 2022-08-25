@@ -20,19 +20,11 @@ import org.apache.logging.log4j.Logger;
 public class EntityItem extends Entity
 {
     private static final Logger logger = LogManager.getLogger();
-
-    /**
-     * The age of this EntityItem (used to animate it up and down as well as expire it)
-     */
     public int age;
     public int delayBeforeCanPickup;
-
-    /** The health of this EntityItem. (For example, damage for tools) */
     private int health;
     private String field_145801_f;
     private String field_145802_g;
-
-    /** The EntityItem's random initial float height. */
     public float hoverStart;
     private static final String __OBFID = "CL_00001669";
 
@@ -56,10 +48,6 @@ public class EntityItem extends Entity
         this.setEntityItemStack(par8ItemStack);
     }
 
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
     protected boolean canTriggerWalking()
     {
         return false;
@@ -79,9 +67,6 @@ public class EntityItem extends Entity
         this.getDataWatcher().addObjectByDataType(10, 5);
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         if (this.getEntityItem() == null)
@@ -146,9 +131,6 @@ public class EntityItem extends Entity
         }
     }
 
-    /**
-     * Looks for other itemstacks nearby and tries to stack them together
-     */
     private void searchForOtherItemsNearby()
     {
         Iterator var1 = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(0.5D, 0.0D, 0.5D)).iterator();
@@ -160,10 +142,6 @@ public class EntityItem extends Entity
         }
     }
 
-    /**
-     * Tries to merge this item with the item passed as the parameter. Returns true if successful. Either this item or
-     * the other item will  be removed from the world.
-     */
     public boolean combineItems(EntityItem par1EntityItem)
     {
         if (par1EntityItem == this)
@@ -219,35 +197,21 @@ public class EntityItem extends Entity
         }
     }
 
-    /**
-     * sets the age of the item so that it'll despawn one minute after it has been dropped (instead of five). Used when
-     * items are dropped from players in creative mode
-     */
     public void setAgeToCreativeDespawnTime()
     {
         this.age = 4800;
     }
 
-    /**
-     * Returns if this entity is in water and will end up adding the waters velocity to the entity
-     */
     public boolean handleWaterMovement()
     {
         return this.worldObj.handleMaterialAcceleration(this.boundingBox, Material.water, this);
     }
 
-    /**
-     * Will deal the specified amount of damage to the entity if the entity isn't immune to fire damage. Args:
-     * amountDamage
-     */
     protected void dealFireDamage(int par1)
     {
         this.attackEntityFrom(DamageSource.inFire, (float)par1);
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (this.isEntityInvulnerable())
@@ -272,9 +236,6 @@ public class EntityItem extends Entity
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setShort("Health", (short)((byte)this.health));
@@ -296,9 +257,6 @@ public class EntityItem extends Entity
         }
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         this.health = par1NBTTagCompound.getShort("Health") & 255;
@@ -323,9 +281,6 @@ public class EntityItem extends Entity
         }
     }
 
-    /**
-     * Called by a player entity when they collide with an entity
-     */
     public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
     {
         if (!this.worldObj.isClient)
@@ -381,25 +336,16 @@ public class EntityItem extends Entity
         }
     }
 
-    /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
-     */
     public String getCommandSenderName()
     {
         return StatCollector.translateToLocal("item." + this.getEntityItem().getUnlocalizedName());
     }
 
-    /**
-     * If returns false, the item will not inflict any damage against entities.
-     */
     public boolean canAttackWithItem()
     {
         return false;
     }
 
-    /**
-     * Teleports the entity to another dimension. Params: Dimension number to teleport to
-     */
     public void travelToDimension(int par1)
     {
         super.travelToDimension(par1);
@@ -410,10 +356,6 @@ public class EntityItem extends Entity
         }
     }
 
-    /**
-     * Returns the ItemStack corresponding to the Entity (Note: if no item exists, will log an error but still return an
-     * ItemStack containing Block.stone)
-     */
     public ItemStack getEntityItem()
     {
         ItemStack var1 = this.getDataWatcher().getWatchableObjectItemStack(10);
@@ -433,9 +375,6 @@ public class EntityItem extends Entity
         }
     }
 
-    /**
-     * Sets the ItemStack for this entity
-     */
     public void setEntityItemStack(ItemStack par1ItemStack)
     {
         this.getDataWatcher().updateObject(10, par1ItemStack);

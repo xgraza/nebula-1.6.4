@@ -55,27 +55,15 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
     private boolean isMating;
     private boolean isPlaying;
     Village villageObj;
-
-    /** This villager's current customer. */
     private EntityPlayer buyingPlayer;
-
-    /** Initialises the MerchantRecipeList.java */
     private MerchantRecipeList buyingList;
     private int timeUntilReset;
-
-    /** addDefaultEquipmentAndRecipies is called if this is true */
     private boolean needsInitilization;
     private int wealth;
-
-    /** Last player to trade with this villager, used for aggressivity. */
     private String lastBuyingPlayer;
     private boolean isLookingForHome;
     private float field_82191_bN;
-
-    /** Selling list of Villagers items. */
     private static final Map villagersSellingList = new HashMap();
-
-    /** Selling list of Blacksmith items. */
     private static final Map blacksmithSellingList = new HashMap();
     private static final String __OBFID = "CL_00001707";
 
@@ -114,17 +102,11 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
     }
 
-    /**
-     * Returns true if the newer Entity AI code should be run
-     */
     public boolean isAIEnabled()
     {
         return true;
     }
 
-    /**
-     * main AI tick function, replaces updateEntityActionState
-     */
     protected void updateAITick()
     {
         if (--this.randomTickDivider <= 0)
@@ -190,9 +172,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
         super.updateAITick();
     }
 
-    /**
-     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
-     */
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
         ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
@@ -220,9 +199,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
         this.dataWatcher.addObject(16, Integer.valueOf(0));
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
@@ -235,49 +211,34 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
         }
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
         this.setProfession(par1NBTTagCompound.getInteger("Profession"));
         this.wealth = par1NBTTagCompound.getInteger("Riches");
 
-        if (par1NBTTagCompound.func_150297_b("Offers", 10))
+        if (par1NBTTagCompound.hasKey("Offers", 10))
         {
             NBTTagCompound var2 = par1NBTTagCompound.getCompoundTag("Offers");
             this.buyingList = new MerchantRecipeList(var2);
         }
     }
 
-    /**
-     * Determines if an entity can be despawned, used on idle far away entities
-     */
     protected boolean canDespawn()
     {
         return false;
     }
 
-    /**
-     * Returns the sound this mob makes while it's alive.
-     */
     protected String getLivingSound()
     {
         return this.isTrading() ? "mob.villager.haggle" : "mob.villager.idle";
     }
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
     protected String getHurtSound()
     {
         return "mob.villager.hit";
     }
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
     protected String getDeathSound()
     {
         return "mob.villager.death";
@@ -340,9 +301,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
         }
     }
 
-    /**
-     * Called when the mob's health reaches 0.
-     */
     public void onDeath(DamageSource par1DamageSource)
     {
         if (this.villageObj != null)
@@ -443,19 +401,12 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
         return this.buyingList;
     }
 
-    /**
-     * Adjusts the probability of obtaining a given recipe being offered by a villager
-     */
     private float adjustProbability(float par1)
     {
         float var2 = par1 + this.field_82191_bN;
         return var2 > 0.9F ? 0.9F - (var2 - 0.9F) : var2;
     }
 
-    /**
-     * based on the villagers profession add items, equipment, and recipies adds par1 random items to the list of things
-     * that the villager wants to buy. (at most 1 of each wanted type is added)
-     */
     private void addDefaultEquipmentAndRecipies(int par1)
     {
         if (this.buyingList != null)
@@ -672,9 +623,6 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
         }
     }
 
-    /**
-     * par1 is the particleName
-     */
     private void generateRandomParticles(String par1Str)
     {
         for (int var2 = 0; var2 < 5; ++var2)

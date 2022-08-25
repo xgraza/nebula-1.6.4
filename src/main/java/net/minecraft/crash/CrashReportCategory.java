@@ -26,9 +26,6 @@ public class CrashReportCategory
         return String.format("%.2f,%.2f,%.2f - %s", new Object[] {Double.valueOf(par0), Double.valueOf(par2), Double.valueOf(par4), getLocationInfo(MathHelper.floor_double(par0), MathHelper.floor_double(par2), MathHelper.floor_double(par4))});
     }
 
-    /**
-     * Returns a string with world information on location.Args:x,y,z
-     */
     public static String getLocationInfo(int par0, int par1, int par2)
     {
         StringBuilder var3 = new StringBuilder();
@@ -95,9 +92,6 @@ public class CrashReportCategory
         return var3.toString();
     }
 
-    /**
-     * Adds a Crashreport section with the given name with the value set to the result of the given Callable;
-     */
     public void addCrashSectionCallable(String par1Str, Callable par2Callable)
     {
         try
@@ -110,26 +104,16 @@ public class CrashReportCategory
         }
     }
 
-    /**
-     * Adds a Crashreport section with the given name with the given value (convered .toString())
-     */
     public void addCrashSection(String par1Str, Object par2Obj)
     {
         this.field_85077_c.add(new CrashReportCategory.Entry(par1Str, par2Obj));
     }
 
-    /**
-     * Adds a Crashreport section with the given name with the given Throwable
-     */
     public void addCrashSectionThrowable(String par1Str, Throwable par2Throwable)
     {
         this.addCrashSection(par1Str, par2Throwable);
     }
 
-    /**
-     * Resets our stack trace according to the current trace, pruning the deepest 3 entries.  The parameter indicates
-     * how many additional deepest entries to prune.  Returns the number of entries in the resulting pruned stack trace.
-     */
     public int getPrunedStackTrace(int par1)
     {
         StackTraceElement[] var2 = Thread.currentThread().getStackTrace();
@@ -146,9 +130,6 @@ public class CrashReportCategory
         }
     }
 
-    /**
-     * Do the deepest two elements of our saved stack trace match the given elements, in order from the deepest?
-     */
     public boolean firstTwoElementsOfStackTraceMatch(StackTraceElement par1StackTraceElement, StackTraceElement par2StackTraceElement)
     {
         if (this.stackTrace.length != 0 && par1StackTraceElement != null)
@@ -182,9 +163,6 @@ public class CrashReportCategory
         }
     }
 
-    /**
-     * Removes the given number entries from the bottom of the stack trace.
-     */
     public void trimStackTraceEntriesFromBottom(int par1)
     {
         StackTraceElement[] var2 = new StackTraceElement[this.stackTrace.length - par1];

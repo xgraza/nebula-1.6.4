@@ -40,9 +40,6 @@ public class S29PacketSoundEffect extends Packet
         }
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149219_a = p_148837_1_.readStringFromBuffer(256);
@@ -53,9 +50,6 @@ public class S29PacketSoundEffect extends Packet
         this.field_149214_f = p_148837_1_.readUnsignedByte();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeStringToBuffer(this.field_149219_a);

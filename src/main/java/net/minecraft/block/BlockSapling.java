@@ -33,9 +33,6 @@ public class BlockSapling extends BlockBush implements IGrowable
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         if (!p_149674_1_.isClient)
@@ -49,9 +46,6 @@ public class BlockSapling extends BlockBush implements IGrowable
         }
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         p_149691_2_ &= 7;
@@ -198,9 +192,6 @@ public class BlockSapling extends BlockBush implements IGrowable
         return p_149880_1_.getBlock(p_149880_2_, p_149880_3_, p_149880_4_) == this && (p_149880_1_.getBlockMetadata(p_149880_2_, p_149880_3_, p_149880_4_) & 7) == p_149880_5_;
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int p_149692_1_)
     {
         return MathHelper.clamp_int(p_149692_1_ & 7, 0, 5);
@@ -216,7 +207,7 @@ public class BlockSapling extends BlockBush implements IGrowable
         p_149666_3_.add(new ItemStack(p_149666_1_, 1, 5));
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         for (int var2 = 0; var2 < field_149881_b.length; ++var2)
         {

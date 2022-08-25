@@ -8,17 +8,10 @@ import java.util.List;
 
 public abstract class ChatComponentStyle implements IChatComponent
 {
-    /**
-     * The later siblings of this component.  If this component turns the text bold, that will apply to all the siblings
-     * until a later sibling turns the text something else.
-     */
     protected List siblings = Lists.newArrayList();
     private ChatStyle style;
     private static final String __OBFID = "CL_00001257";
 
-    /**
-     * Appends the given component to the end of this one.
-     */
     public IChatComponent appendSibling(IChatComponent p_150257_1_)
     {
         p_150257_1_.getChatStyle().setParentStyle(this.getChatStyle());
@@ -26,17 +19,11 @@ public abstract class ChatComponentStyle implements IChatComponent
         return this;
     }
 
-    /**
-     * Gets the sibling components of this one.
-     */
     public List getSiblings()
     {
         return this.siblings;
     }
 
-    /**
-     * Appends the given text to the end of this component.
-     */
     public IChatComponent appendText(String p_150258_1_)
     {
         return this.appendSibling(new ChatComponentText(p_150258_1_));
@@ -78,10 +65,6 @@ public abstract class ChatComponentStyle implements IChatComponent
         return Iterators.concat(Iterators.forArray(new ChatComponentStyle[] {this}), createDeepCopyIterator(this.siblings));
     }
 
-    /**
-     * Gets the text of this component, without any special formatting codes added.  TODO: why is this two different
-     * methods?
-     */
     public final String getUnformattedText()
     {
         StringBuilder var1 = new StringBuilder();
@@ -96,9 +79,6 @@ public abstract class ChatComponentStyle implements IChatComponent
         return var1.toString();
     }
 
-    /**
-     * Gets the text of this component, with formatting codes added for rendering.
-     */
     public final String getFormattedText()
     {
         StringBuilder var1 = new StringBuilder();
@@ -115,10 +95,6 @@ public abstract class ChatComponentStyle implements IChatComponent
         return var1.toString();
     }
 
-    /**
-     * Creates an iterator that iterates over the given components, returning deep copies of each component in turn so
-     * that the properties of the returned objects will remain externally consistent after being returned.
-     */
     public static Iterator createDeepCopyIterator(Iterable p_150262_0_)
     {
         Iterator var1 = Iterators.concat(Iterators.transform(p_150262_0_.iterator(), new Function()

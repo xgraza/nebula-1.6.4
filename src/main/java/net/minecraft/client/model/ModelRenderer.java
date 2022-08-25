@@ -4,22 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
-import optifine.ModelSprite;
-
+import net.minecraft.src.ModelSprite;
 import org.lwjgl.opengl.GL11;
 
 public class ModelRenderer
 {
-    /** The size of the texture file's width in pixels. */
     public float textureWidth;
-
-    /** The size of the texture file's height in pixels. */
     public float textureHeight;
-
-    /** The X offset into the texture used for displaying this model */
     private int textureOffsetX;
-
-    /** The Y offset into the texture used for displaying this model */
     private int textureOffsetY;
     public float rotationPointX;
     public float rotationPointY;
@@ -28,13 +20,9 @@ public class ModelRenderer
     public float rotateAngleY;
     public float rotateAngleZ;
     private boolean compiled;
-
-    /** The GL display list rendered by the Tessellator for this model */
     private int displayList;
     public boolean mirror;
     public boolean showModel;
-
-    /** Hides the model. */
     public boolean isHidden;
     public List cubeList;
     public List childModels;
@@ -43,9 +31,9 @@ public class ModelRenderer
     public float offsetX;
     public float offsetY;
     public float offsetZ;
-    private static final String __OBFID = "CL_00000874";
     public List spriteList;
     public boolean mirrorV;
+    float savedScale;
 
     public ModelRenderer(ModelBase par1ModelBase, String par2Str)
     {
@@ -72,9 +60,6 @@ public class ModelRenderer
         this.setTextureOffset(par2, par3);
     }
 
-    /**
-     * Sets the current box's rotation points and rotation angles to another box.
-     */
     public void addChild(ModelRenderer par1ModelRenderer)
     {
         if (this.childModels == null)
@@ -107,9 +92,6 @@ public class ModelRenderer
         return this;
     }
 
-    /**
-     * Creates a textured box. Args: originX, originY, originZ, width, height, depth, scaleFactor.
-     */
     public void addBox(float par1, float par2, float par3, int par4, int par5, int par6, float par7)
     {
         this.cubeList.add(new ModelBox(this, this.textureOffsetX, this.textureOffsetY, par1, par2, par3, par4, par5, par6, par7));
@@ -233,9 +215,6 @@ public class ModelRenderer
         }
     }
 
-    /**
-     * Allows the changing of Angles after a box has been rendered
-     */
     public void postRender(float par1)
     {
         if (!this.isHidden && this.showModel)
@@ -274,12 +253,14 @@ public class ModelRenderer
         }
     }
 
-    /**
-     * Compiles a GL display list for this model
-     */
     private void compileDisplayList(float par1)
     {
-        this.displayList = GLAllocation.generateDisplayLists(1);
+        if (this.displayList == 0)
+        {
+            this.savedScale = par1;
+            this.displayList = GLAllocation.generateDisplayLists(1);
+        }
+
         GL11.glNewList(this.displayList, GL11.GL_COMPILE);
         Tessellator var2 = Tessellator.instance;
         int i;
@@ -299,9 +280,6 @@ public class ModelRenderer
         this.compiled = true;
     }
 
-    /**
-     * Returns the model renderer with the new texture parameters.
-     */
     public ModelRenderer setTextureSize(int par1, int par2)
     {
         this.textureWidth = (float)par1;
@@ -312,5 +290,24 @@ public class ModelRenderer
     public void addSprite(float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ, float sizeAdd)
     {
         this.spriteList.add(new ModelSprite(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, sizeAdd));
+    }
+
+    public boolean getCompiled()
+    {
+        return this.compiled;
+    }
+
+    public int getDisplayList()
+    {
+        return this.displayList;
+    }
+
+    public void resetDisplayList()
+    {
+        if (this.compiled)
+        {
+            this.compiled = false;
+            this.compileDisplayList(this.savedScale);
+        }
     }
 }

@@ -24,7 +24,7 @@ public abstract class GuiResourcePackList extends GuiListExtended
     protected void func_148129_a(int p_148129_1_, int p_148129_2_, Tessellator p_148129_3_)
     {
         String var4 = EnumChatFormatting.UNDERLINE + "" + EnumChatFormatting.BOLD + this.func_148202_k();
-        this.field_148205_k.fontRenderer.drawString(var4, p_148129_1_ + this.field_148155_a / 2 - this.field_148205_k.fontRenderer.getStringWidth(var4) / 2, Math.min(this.field_148153_b + 3, p_148129_2_), 16777215);
+        this.field_148205_k.fontRenderer.drawString(var4, p_148129_1_ + this.width / 2 - this.field_148205_k.fontRenderer.getStringWidth(var4) / 2, Math.min(this.top + 3, p_148129_2_), 16777215);
     }
 
     protected abstract String func_148202_k();
@@ -46,11 +46,11 @@ public abstract class GuiResourcePackList extends GuiListExtended
 
     public int func_148139_c()
     {
-        return this.field_148155_a;
+        return this.width;
     }
 
-    protected int func_148137_d()
+    protected int getScrollBarX()
     {
-        return this.field_148151_d - 6;
+        return this.right - 6;
     }
 }

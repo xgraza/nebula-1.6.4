@@ -18,9 +18,6 @@ public class AnvilSaveHandler extends SaveHandler
         super(par1File, par2Str, par3);
     }
 
-    /**
-     * Returns the chunk loader with the provided world provider
-     */
     public IChunkLoader getChunkLoader(WorldProvider par1WorldProvider)
     {
         File var2 = this.getWorldDirectory();
@@ -44,18 +41,12 @@ public class AnvilSaveHandler extends SaveHandler
         }
     }
 
-    /**
-     * Saves the given World Info with the given NBTTagCompound as the Player.
-     */
     public void saveWorldInfoWithPlayer(WorldInfo par1WorldInfo, NBTTagCompound par2NBTTagCompound)
     {
         par1WorldInfo.setSaveVersion(19133);
         super.saveWorldInfoWithPlayer(par1WorldInfo, par2NBTTagCompound);
     }
 
-    /**
-     * Called to flush all changes to disk, waiting for them to complete.
-     */
     public void flush()
     {
         try

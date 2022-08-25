@@ -7,31 +7,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import net.minecraft.src.Config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import optifine.Config;
 
 public class Profiler
 {
     private static final Logger logger = LogManager.getLogger();
-
-    /** List of parent sections */
     private final List sectionList = new ArrayList();
-
-    /** List of timestamps (System.nanoTime) */
     private final List timestampList = new ArrayList();
-
-    /** Flag profiling enabled */
     public boolean profilingEnabled;
-
-    /** Current profiling section */
     private String profilingSection = "";
-
-    /** Profiling map */
     private final Map profilingMap = new HashMap();
-    private static final String __OBFID = "CL_00001497";
     public boolean profilerGlobalEnabled = true;
     private boolean profilerLocalEnabled;
     private long startTickNano;
@@ -48,9 +35,6 @@ public class Profiler
         this.timeUpdateChunksNano = 0L;
     }
 
-    /**
-     * Clear profiling.
-     */
     public void clearProfiling()
     {
         this.profilingMap.clear();
@@ -59,9 +43,6 @@ public class Profiler
         this.profilerLocalEnabled = this.profilerGlobalEnabled;
     }
 
-    /**
-     * Start section
-     */
     public void startSection(String par1Str)
     {
         if (Config.getGameSettings().showDebugInfo)
@@ -105,9 +86,6 @@ public class Profiler
         }
     }
 
-    /**
-     * End section
-     */
     public void endSection()
     {
         if (this.profilerLocalEnabled)
@@ -138,9 +116,6 @@ public class Profiler
         }
     }
 
-    /**
-     * Get profiling data
-     */
     public List getProfilingData(String par1Str)
     {
         this.profilerLocalEnabled = this.profilerGlobalEnabled;
@@ -225,9 +200,6 @@ public class Profiler
         }
     }
 
-    /**
-     * End current section and start a new section
-     */
     public void endStartSection(String par1Str)
     {
         if (this.profilerLocalEnabled)
@@ -247,7 +219,6 @@ public class Profiler
         public double field_76332_a;
         public double field_76330_b;
         public String field_76331_c;
-        private static final String __OBFID = "CL_00001498";
 
         public Result(String par1Str, double par2, double par4)
         {

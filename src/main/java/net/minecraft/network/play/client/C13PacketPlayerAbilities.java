@@ -29,9 +29,6 @@ public class C13PacketPlayerAbilities extends Packet
         this.func_149492_b(p_i45257_1_.getWalkSpeed());
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         byte var2 = p_148837_1_.readByte();
@@ -43,9 +40,6 @@ public class C13PacketPlayerAbilities extends Packet
         this.func_149492_b(p_148837_1_.readFloat());
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         byte var2 = 0;
@@ -80,9 +74,6 @@ public class C13PacketPlayerAbilities extends Packet
         p_149487_1_.processPlayerAbilities(this);
     }
 
-    /**
-     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
-     */
     public String serialize()
     {
         return String.format("invuln=%b, flying=%b, canfly=%b, instabuild=%b, flyspeed=%.4f, walkspped=%.4f", new Object[] {Boolean.valueOf(this.func_149494_c()), Boolean.valueOf(this.func_149488_d()), Boolean.valueOf(this.func_149486_e()), Boolean.valueOf(this.func_149484_f()), Float.valueOf(this.func_149482_g()), Float.valueOf(this.func_149489_h())});

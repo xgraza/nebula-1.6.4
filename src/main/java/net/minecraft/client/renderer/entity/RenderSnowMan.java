@@ -15,8 +15,6 @@ import org.lwjgl.opengl.GL11;
 public class RenderSnowMan extends RenderLiving
 {
     private static final ResourceLocation snowManTextures = new ResourceLocation("textures/entity/snowman.png");
-
-    /** A reference to the Snowman model in RenderSnowMan. */
     private ModelSnowMan snowmanModel;
     private static final String __OBFID = "CL_00001025";
 
@@ -50,9 +48,6 @@ public class RenderSnowMan extends RenderLiving
         }
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(EntitySnowman par1EntitySnowman)
     {
         return snowManTextures;
@@ -63,9 +58,6 @@ public class RenderSnowMan extends RenderLiving
         this.renderEquippedItems((EntitySnowman)par1EntityLivingBase, par2);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntitySnowman)par1Entity);

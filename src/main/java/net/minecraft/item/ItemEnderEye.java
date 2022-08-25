@@ -20,16 +20,12 @@ public class ItemEnderEye extends Item
         this.setCreativeTab(CreativeTabs.tabMisc);
     }
 
-    /**
-     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
-     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
-     */
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
         Block var11 = par3World.getBlock(par4, par5, par6);
         int var12 = par3World.getBlockMetadata(par4, par5, par6);
 
-        if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && var11 == Blocks.end_portal_frame && !BlockEndPortalFrame.func_150020_b(var12))
+        if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && var11 == Blocks.end_portal_frame && !BlockEndPortalFrame.isEnderEyeInserted(var12))
         {
             if (par3World.isClient)
             {
@@ -70,7 +66,7 @@ public class ItemEnderEye extends Item
 
                     if (par3World.getBlock(var29, par5, var21) == Blocks.end_portal_frame)
                     {
-                        if (!BlockEndPortalFrame.func_150020_b(par3World.getBlockMetadata(var29, par5, var21)))
+                        if (!BlockEndPortalFrame.isEnderEyeInserted(par3World.getBlockMetadata(var29, par5, var21)))
                         {
                             var17 = false;
                             break;
@@ -95,7 +91,7 @@ public class ItemEnderEye extends Item
                         var29 += Direction.offsetX[var13] * 4;
                         var21 += Direction.offsetZ[var13] * 4;
 
-                        if (par3World.getBlock(var29, par5, var21) != Blocks.end_portal_frame || !BlockEndPortalFrame.func_150020_b(par3World.getBlockMetadata(var29, par5, var21)))
+                        if (par3World.getBlock(var29, par5, var21) != Blocks.end_portal_frame || !BlockEndPortalFrame.isEnderEyeInserted(par3World.getBlockMetadata(var29, par5, var21)))
                         {
                             var17 = false;
                             break;
@@ -113,7 +109,7 @@ public class ItemEnderEye extends Item
                             var21 += Direction.offsetX[var13] * var29;
                             var30 += Direction.offsetZ[var13] * var29;
 
-                            if (par3World.getBlock(var21, par5, var30) != Blocks.end_portal_frame || !BlockEndPortalFrame.func_150020_b(par3World.getBlockMetadata(var21, par5, var30)))
+                            if (par3World.getBlock(var21, par5, var30) != Blocks.end_portal_frame || !BlockEndPortalFrame.isEnderEyeInserted(par3World.getBlockMetadata(var21, par5, var30)))
                             {
                                 var17 = false;
                                 break;
@@ -146,9 +142,6 @@ public class ItemEnderEye extends Item
         }
     }
 
-    /**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         MovingObjectPosition var4 = this.getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, false);

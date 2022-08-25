@@ -13,11 +13,7 @@ public class ChunkCache implements IBlockAccess
     private int chunkX;
     private int chunkZ;
     private Chunk[][] chunkArray;
-
-    /** True if the chunk cache is empty. */
     private boolean isEmpty;
-
-    /** Reference to the World object. */
     private World worldObj;
     private static final String __OBFID = "CL_00000155";
 
@@ -61,9 +57,6 @@ public class ChunkCache implements IBlockAccess
         }
     }
 
-    /**
-     * set by !chunk.getAreLevelsEmpty
-     */
     public boolean extendedLevelsInChunkCache()
     {
         return this.isEmpty;
@@ -99,9 +92,6 @@ public class ChunkCache implements IBlockAccess
         return this.chunkArray[var4][var5].func_150806_e(p_147438_1_ & 15, p_147438_2_, p_147438_3_ & 15);
     }
 
-    /**
-     * Any Light rendered on a 1.8 Block goes through here
-     */
     public int getLightBrightnessForSkyBlocks(int par1, int par2, int par3, int par4)
     {
         int var5 = this.getSkyBlockTypeBrightness(EnumSkyBlock.Sky, par1, par2, par3);
@@ -115,9 +105,6 @@ public class ChunkCache implements IBlockAccess
         return var5 << 20 | var6 << 4;
     }
 
-    /**
-     * Returns the block metadata at coords x,y,z
-     */
     public int getBlockMetadata(int par1, int par2, int par3)
     {
         if (par2 < 0)
@@ -136,34 +123,21 @@ public class ChunkCache implements IBlockAccess
         }
     }
 
-    /**
-     * Gets the biome for a given set of x/z coordinates
-     */
     public BiomeGenBase getBiomeGenForCoords(int par1, int par2)
     {
         return this.worldObj.getBiomeGenForCoords(par1, par2);
     }
 
-    /**
-     * Return the Vec3Pool object for this world.
-     */
     public Vec3Pool getWorldVec3Pool()
     {
         return this.worldObj.getWorldVec3Pool();
     }
 
-    /**
-     * Returns true if the block at the specified coordinates is empty
-     */
     public boolean isAirBlock(int p_147437_1_, int p_147437_2_, int p_147437_3_)
     {
         return this.getBlock(p_147437_1_, p_147437_2_, p_147437_3_).getMaterial() == Material.air;
     }
 
-    /**
-     * Brightness for SkyBlock.Sky is clear white and (through color computing it is assumed) DEPENDENT ON DAYTIME.
-     * Brightness for SkyBlock.Block is yellowish and independent.
-     */
     public int getSkyBlockTypeBrightness(EnumSkyBlock par1EnumSkyBlock, int par2, int par3, int par4)
     {
         if (par3 < 0)
@@ -231,9 +205,6 @@ public class ChunkCache implements IBlockAccess
         }
     }
 
-    /**
-     * is only used on stairs and tilled fields
-     */
     public int getSpecialBlockBrightness(EnumSkyBlock par1EnumSkyBlock, int par2, int par3, int par4)
     {
         if (par3 < 0)
@@ -258,17 +229,11 @@ public class ChunkCache implements IBlockAccess
         }
     }
 
-    /**
-     * Returns current world height.
-     */
     public int getHeight()
     {
         return 256;
     }
 
-    /**
-     * Is this block powering in the specified direction Args: x, y, z, direction
-     */
     public int isBlockProvidingPowerTo(int par1, int par2, int par3, int par4)
     {
         return this.getBlock(par1, par2, par3).isProvidingStrongPower(this, par1, par2, par3, par4);

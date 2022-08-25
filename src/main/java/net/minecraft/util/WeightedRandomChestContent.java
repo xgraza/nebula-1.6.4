@@ -8,13 +8,8 @@ import net.minecraft.tileentity.TileEntityDispenser;
 
 public class WeightedRandomChestContent extends WeightedRandom.Item
 {
-    /** The Item/Block ID to generate in the Chest. */
     private ItemStack theItemId;
-
-    /** The minimum chance of item generating. */
     private int theMinimumChanceToGenerateItem;
-
-    /** The maximum chance of item generating. */
     private int theMaximumChanceToGenerateItem;
     private static final String __OBFID = "CL_00001505";
 
@@ -34,9 +29,6 @@ public class WeightedRandomChestContent extends WeightedRandom.Item
         this.theMaximumChanceToGenerateItem = par3;
     }
 
-    /**
-     * Generates the Chest contents.
-     */
     public static void generateChestContents(Random par0Random, WeightedRandomChestContent[] par1ArrayOfWeightedRandomChestContent, IInventory par2IInventory, int par3)
     {
         for (int var4 = 0; var4 < par3; ++var4)

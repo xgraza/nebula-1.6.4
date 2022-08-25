@@ -21,9 +21,6 @@ public class GuiOptions extends GuiScreen
         this.field_146443_h = par2GameSettings;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         int var1 = 0;
@@ -84,7 +81,7 @@ public class GuiOptions extends GuiScreen
         {
             if (p_146284_1_.id < 100 && p_146284_1_ instanceof GuiOptionButton)
             {
-                this.field_146443_h.setOptionValue(((GuiOptionButton)p_146284_1_).func_146136_c(), 1);
+                this.field_146443_h.setOptionValue(((GuiOptionButton)p_146284_1_).returnEnumOptions(), 1);
                 p_146284_1_.displayString = this.field_146443_h.getKeyBinding(GameSettings.Options.getEnumOptions(p_146284_1_.id));
             }
 
@@ -143,13 +140,10 @@ public class GuiOptions extends GuiScreen
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, this.field_146442_a, this.width / 2, 15, 16777215);
+        this.drawCenteredString(this.fontRenderer, this.field_146442_a, this.width / 2, 15, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 }

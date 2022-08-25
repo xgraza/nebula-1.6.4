@@ -57,9 +57,6 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
         this.field_146568_t = this.field_146566_v = this.field_146573_x = (double)(AchievementList.openInventory.displayRow * 24 - var4 / 2);
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
     public void initGui()
     {
         this.mc.getNetHandler().addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.REQUEST_STATS));
@@ -78,9 +75,6 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
     protected void keyTyped(char par1, int par2)
     {
         if (par2 == this.mc.gameSettings.keyBindInventory.getKeyCode())
@@ -94,16 +88,13 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
     public void drawScreen(int par1, int par2, float par3)
     {
         if (this.field_146558_F)
         {
             this.drawDefaultBackground();
-            this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingStats", new Object[0]), this.width / 2, this.height / 2, 16777215);
-            this.drawCenteredString(this.fontRendererObj, field_146510_b_[(int)(Minecraft.getSystemTime() / 150L % (long)field_146510_b_.length)], this.width / 2, this.height / 2 + this.fontRendererObj.FONT_HEIGHT * 2, 16777215);
+            this.drawCenteredString(this.fontRenderer, I18n.format("multiplayer.downloadingStats", new Object[0]), this.width / 2, this.height / 2, 16777215);
+            this.drawCenteredString(this.fontRenderer, field_146510_b_[(int)(Minecraft.getSystemTime() / 150L % (long)field_146510_b_.length)], this.width / 2, this.height / 2 + this.fontRenderer.FONT_HEIGHT * 2, 16777215);
         }
         else
         {
@@ -204,9 +195,6 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
         }
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
     public void updateScreen()
     {
         if (!this.field_146558_F)
@@ -233,7 +221,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
     {
         int var1 = (this.width - this.field_146555_f) / 2;
         int var2 = (this.height - this.field_146557_g) / 2;
-        this.fontRendererObj.drawString("Achievements", var1 + 15, var2 + 5, 4210752);
+        this.fontRenderer.drawString("Achievements", var1 + 15, var2 + 5, 4210752);
     }
 
     protected void func_146552_b(int p_146552_1_, int p_146552_2_, float p_146552_3_)
@@ -517,19 +505,19 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
                 if (var30 == 3)
                 {
                     var44 = I18n.format("achievement.unknown", new Object[0]);
-                    var31 = Math.max(this.fontRendererObj.getStringWidth(var44), 120);
+                    var31 = Math.max(this.fontRenderer.getStringWidth(var44), 120);
                     var32 = (new ChatComponentTranslation("achievement.requires", new Object[] {var34.parentAchievement.func_150951_e()})).getUnformattedText();
-                    var33 = this.fontRendererObj.splitStringWidth(var32, var31);
+                    var33 = this.fontRenderer.splitStringWidth(var32, var31);
                     this.drawGradientRect(var41 - 3, var43 - 3, var41 + var31 + 3, var43 + var33 + 12 + 3, -1073741824, -1073741824);
-                    this.fontRendererObj.drawSplitString(var32, var41, var43 + 12, var31, -9416624);
+                    this.fontRenderer.drawSplitString(var32, var41, var43 + 12, var31, -9416624);
                 }
                 else if (var30 < 3)
                 {
-                    var31 = Math.max(this.fontRendererObj.getStringWidth(var44), 120);
+                    var31 = Math.max(this.fontRenderer.getStringWidth(var44), 120);
                     var32 = (new ChatComponentTranslation("achievement.requires", new Object[] {var34.parentAchievement.func_150951_e()})).getUnformattedText();
-                    var33 = this.fontRendererObj.splitStringWidth(var32, var31);
+                    var33 = this.fontRenderer.splitStringWidth(var32, var31);
                     this.drawGradientRect(var41 - 3, var43 - 3, var41 + var31 + 3, var43 + var33 + 12 + 3, -1073741824, -1073741824);
-                    this.fontRendererObj.drawSplitString(var32, var41, var43 + 12, var31, -9416624);
+                    this.fontRenderer.drawSplitString(var32, var41, var43 + 12, var31, -9416624);
                 }
                 else
                 {
@@ -538,8 +526,8 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
             }
             else
             {
-                var31 = Math.max(this.fontRendererObj.getStringWidth(var44), 120);
-                int var46 = this.fontRendererObj.splitStringWidth(var40, var31);
+                var31 = Math.max(this.fontRenderer.getStringWidth(var44), 120);
+                int var46 = this.fontRenderer.splitStringWidth(var40, var31);
 
                 if (this.field_146556_E.hasAchievementUnlocked(var34))
                 {
@@ -547,17 +535,17 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
                 }
 
                 this.drawGradientRect(var41 - 3, var43 - 3, var41 + var31 + 3, var43 + var46 + 3 + 12, -1073741824, -1073741824);
-                this.fontRendererObj.drawSplitString(var40, var41, var43 + 12, var31, -6250336);
+                this.fontRenderer.drawSplitString(var40, var41, var43 + 12, var31, -6250336);
 
                 if (this.field_146556_E.hasAchievementUnlocked(var34))
                 {
-                    this.fontRendererObj.drawStringWithShadow(I18n.format("achievement.taken", new Object[0]), var41, var43 + var46 + 4, -7302913);
+                    this.fontRenderer.drawStringWithShadow(I18n.format("achievement.taken", new Object[0]), var41, var43 + var46 + 4, -7302913);
                 }
             }
 
             if (var44 != null)
             {
-                this.fontRendererObj.drawStringWithShadow(var44, var41, var43, this.field_146556_E.canUnlockAchievement(var34) ? (var34.getSpecial() ? -128 : -1) : (var34.getSpecial() ? -8355776 : -8355712));
+                this.fontRenderer.drawStringWithShadow(var44, var41, var43, this.field_146556_E.canUnlockAchievement(var34) ? (var34.getSpecial() ? -128 : -1) : (var34.getSpecial() ? -8355776 : -8355712));
             }
         }
 
@@ -566,9 +554,6 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
         RenderHelper.disableStandardItemLighting();
     }
 
-    /**
-     * Returns true if this GUI should pause the game when it is displayed in single-player
-     */
     public boolean doesGuiPauseGame()
     {
         return !this.field_146558_F;

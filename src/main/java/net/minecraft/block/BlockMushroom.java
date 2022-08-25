@@ -16,9 +16,6 @@ public class BlockMushroom extends BlockBush implements IGrowable
         this.setTickRandomly(true);
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         if (p_149674_5_.nextInt(25) == 0)
@@ -83,9 +80,6 @@ public class BlockMushroom extends BlockBush implements IGrowable
         return p_149854_1_.func_149730_j();
     }
 
-    /**
-     * Can this block stay at this position.  Similar to canPlaceBlockAt except gets checked often with plants.
-     */
     public boolean canBlockStay(World p_149718_1_, int p_149718_2_, int p_149718_3_, int p_149718_4_)
     {
         if (p_149718_3_ >= 0 && p_149718_3_ < 256)

@@ -38,9 +38,6 @@ public class EntityMinecartFurnace extends EntityMinecart
         this.dataWatcher.addObject(16, new Byte((byte)0));
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         super.onUpdate();
@@ -123,9 +120,6 @@ public class EntityMinecartFurnace extends EntityMinecart
         super.applyDrag();
     }
 
-    /**
-     * First layer of player interaction
-     */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
@@ -145,9 +139,6 @@ public class EntityMinecartFurnace extends EntityMinecart
         return true;
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
@@ -156,9 +147,6 @@ public class EntityMinecartFurnace extends EntityMinecart
         par1NBTTagCompound.setShort("Fuel", (short)this.fuel);
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);

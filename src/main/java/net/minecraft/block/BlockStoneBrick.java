@@ -21,9 +21,6 @@ public class BlockStoneBrick extends Block
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         if (p_149691_2_ < 0 || p_149691_2_ >= field_150141_b.length)
@@ -34,9 +31,6 @@ public class BlockStoneBrick extends Block
         return this.field_150143_M[p_149691_2_];
     }
 
-    /**
-     * Determines the damage on the item the block drops. Used in cloth and wood.
-     */
     public int damageDropped(int p_149692_1_)
     {
         return p_149692_1_;
@@ -50,7 +44,7 @@ public class BlockStoneBrick extends Block
         }
     }
 
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public void registerIcons(IIconRegister p_149651_1_)
     {
         this.field_150143_M = new IIcon[field_150141_b.length];
 

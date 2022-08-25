@@ -26,11 +26,7 @@ public abstract class EntityMinecart extends Entity
 {
     private boolean isInReverse;
     private String entityName;
-
-    /** Minecart rotational logic matrix */
     private static final int[][][] matrix = new int[][][] {{{0, 0, -1}, {0, 0, 1}}, {{ -1, 0, 0}, {1, 0, 0}}, {{ -1, -1, 0}, {1, 0, 0}}, {{ -1, 0, 0}, {1, -1, 0}}, {{0, 0, -1}, {0, -1, 1}}, {{0, -1, -1}, {0, 0, 1}}, {{0, 0, 1}, {1, 0, 0}}, {{0, 0, 1}, { -1, 0, 0}}, {{0, 0, -1}, { -1, 0, 0}}, {{0, 0, -1}, {1, 0, 0}}};
-
-    /** appears to be the progress of the turn */
     private int turnProgress;
     private double minecartX;
     private double minecartY;
@@ -50,12 +46,6 @@ public abstract class EntityMinecart extends Entity
         this.yOffset = this.height / 2.0F;
     }
 
-    /**
-     * Creates a new minecart of the specified type in the specified location in the given world. par0World - world to
-     * create the minecart in, double par1,par3,par5 represent x,y,z respectively. int par7 specifies the type: 1 for
-     * MinecartChest, 2 for MinecartFurnace, 3 for MinecartTNT, 4 for MinecartMobSpawner, 5 for MinecartHopper and 0 for
-     * a standard empty minecart
-     */
     public static EntityMinecart createMinecart(World par0World, double par1, double par3, double par5, int par7)
     {
         switch (par7)
@@ -83,10 +73,6 @@ public abstract class EntityMinecart extends Entity
         }
     }
 
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
     protected boolean canTriggerWalking()
     {
         return false;
@@ -102,26 +88,16 @@ public abstract class EntityMinecart extends Entity
         this.dataWatcher.addObject(22, Byte.valueOf((byte)0));
     }
 
-    /**
-     * Returns a boundingBox used to collide the entity with other entities and blocks. This enables the entity to be
-     * pushable on contact, like boats or minecarts.
-     */
     public AxisAlignedBB getCollisionBox(Entity par1Entity)
     {
         return par1Entity.canBePushed() ? par1Entity.boundingBox : null;
     }
 
-    /**
-     * returns the bounding box for this entity
-     */
     public AxisAlignedBB getBoundingBox()
     {
         return null;
     }
 
-    /**
-     * Returns true if this entity should push and be pushed by other entities when colliding.
-     */
     public boolean canBePushed()
     {
         return true;
@@ -139,17 +115,11 @@ public abstract class EntityMinecart extends Entity
         this.prevPosZ = par6;
     }
 
-    /**
-     * Returns the Y offset from the entity's position for any entity riding this one.
-     */
     public double getMountedYOffset()
     {
         return (double)this.height * 0.0D - 0.30000001192092896D;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (!this.worldObj.isClient && !this.isDead)
@@ -205,9 +175,6 @@ public abstract class EntityMinecart extends Entity
         this.entityDropItem(var2, 0.0F);
     }
 
-    /**
-     * Setups the entity to do the hurt animation. Only used by packets in multiplayer.
-     */
     public void performHurtAnimation()
     {
         this.setRollingDirection(-this.getRollingDirection());
@@ -215,25 +182,16 @@ public abstract class EntityMinecart extends Entity
         this.setDamage(this.getDamage() + this.getDamage() * 10.0F);
     }
 
-    /**
-     * Returns true if other Entities should be prevented from moving through this Entity.
-     */
     public boolean canBeCollidedWith()
     {
         return !this.isDead;
     }
 
-    /**
-     * Will get destroyed next tick.
-     */
     public void setDead()
     {
         super.setDead();
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         if (this.getRollingAmplitude() > 0)
@@ -410,9 +368,6 @@ public abstract class EntityMinecart extends Entity
         }
     }
 
-    /**
-     * Called every tick the minecart is on an activator rail. Args: x, y, z, is the rail receiving power
-     */
     public void onActivatorRailPass(int par1, int par2, int par3, boolean par4) {}
 
     protected void func_94088_b(double par1)
@@ -468,7 +423,7 @@ public abstract class EntityMinecart extends Entity
             var12 = !var11;
         }
 
-        if (((BlockRailBase)p_145821_8_).func_150050_e())
+        if (((BlockRailBase)p_145821_8_).isPowered())
         {
             p_145821_9_ &= 7;
         }
@@ -730,7 +685,7 @@ public abstract class EntityMinecart extends Entity
         {
             int var13 = this.worldObj.getBlockMetadata(var9, var10, var11);
 
-            if (((BlockRailBase)var12).func_150050_e())
+            if (((BlockRailBase)var12).isPowered())
             {
                 var13 &= 7;
             }
@@ -782,7 +737,7 @@ public abstract class EntityMinecart extends Entity
             int var11 = this.worldObj.getBlockMetadata(var7, var8, var9);
             par3 = (double)var8;
 
-            if (((BlockRailBase)var10).func_150050_e())
+            if (((BlockRailBase)var10).isPowered())
             {
                 var11 &= 7;
             }
@@ -843,9 +798,6 @@ public abstract class EntityMinecart extends Entity
         }
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         if (par1NBTTagCompound.getBoolean("CustomDisplayTile"))
@@ -855,15 +807,12 @@ public abstract class EntityMinecart extends Entity
             this.setDisplayTileOffset(par1NBTTagCompound.getInteger("DisplayOffset"));
         }
 
-        if (par1NBTTagCompound.func_150297_b("CustomName", 8) && par1NBTTagCompound.getString("CustomName").length() > 0)
+        if (par1NBTTagCompound.hasKey("CustomName", 8) && par1NBTTagCompound.getString("CustomName").length() > 0)
         {
             this.entityName = par1NBTTagCompound.getString("CustomName");
         }
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         if (this.hasDisplayTile())
@@ -885,9 +834,6 @@ public abstract class EntityMinecart extends Entity
         return 0.0F;
     }
 
-    /**
-     * Applies a velocity to each of the entities pushing them away from each other. Args: entity
-     */
     public void applyEntityCollision(Entity par1Entity)
     {
         if (!this.worldObj.isClient)
@@ -978,10 +924,6 @@ public abstract class EntityMinecart extends Entity
         }
     }
 
-    /**
-     * Sets the position and rotation. Only difference from the other one is no bounding on the rotation. Args: posX,
-     * posY, posZ, yaw, pitch
-     */
     public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9)
     {
         this.minecartX = par1;
@@ -995,9 +937,6 @@ public abstract class EntityMinecart extends Entity
         this.motionZ = this.velocityZ;
     }
 
-    /**
-     * Sets the velocity to the args. Args: x, y, z
-     */
     public void setVelocity(double par1, double par3, double par5)
     {
         this.velocityX = this.motionX = par1;
@@ -1005,51 +944,31 @@ public abstract class EntityMinecart extends Entity
         this.velocityZ = this.motionZ = par5;
     }
 
-    /**
-     * Sets the current amount of damage the minecart has taken. Decreases over time. The cart breaks when this is over
-     * 40.
-     */
     public void setDamage(float par1)
     {
         this.dataWatcher.updateObject(19, Float.valueOf(par1));
     }
 
-    /**
-     * Gets the current amount of damage the minecart has taken. Decreases over time. The cart breaks when this is over
-     * 40.
-     */
     public float getDamage()
     {
         return this.dataWatcher.getWatchableObjectFloat(19);
     }
 
-    /**
-     * Sets the rolling amplitude the cart rolls while being attacked.
-     */
     public void setRollingAmplitude(int par1)
     {
         this.dataWatcher.updateObject(17, Integer.valueOf(par1));
     }
 
-    /**
-     * Gets the rolling amplitude the cart rolls while being attacked.
-     */
     public int getRollingAmplitude()
     {
         return this.dataWatcher.getWatchableObjectInt(17);
     }
 
-    /**
-     * Sets the rolling direction the cart rolls while being attacked. Can be 1 or -1.
-     */
     public void setRollingDirection(int par1)
     {
         this.dataWatcher.updateObject(18, Integer.valueOf(par1));
     }
 
-    /**
-     * Gets the rolling direction the cart rolls while being attacked. Can be 1 or -1.
-     */
     public int getRollingDirection()
     {
         return this.dataWatcher.getWatchableObjectInt(18);
@@ -1123,25 +1042,16 @@ public abstract class EntityMinecart extends Entity
         this.getDataWatcher().updateObject(22, Byte.valueOf((byte)(par1 ? 1 : 0)));
     }
 
-    /**
-     * Sets the minecart's name.
-     */
     public void setMinecartName(String par1Str)
     {
         this.entityName = par1Str;
     }
 
-    /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
-     */
     public String getCommandSenderName()
     {
         return this.entityName != null ? this.entityName : super.getCommandSenderName();
     }
 
-    /**
-     * Returns if the inventory name is localized
-     */
     public boolean isInventoryNameLocalized()
     {
         return this.entityName != null;

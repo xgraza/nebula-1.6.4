@@ -8,8 +8,6 @@ public class ScorePlayerTeam extends Team
 {
     private final Scoreboard theScoreboard;
     private final String field_96675_b;
-
-    /** A set of all team member usernames. */
     private final Set membershipSet = new HashSet();
     private String teamNameSPT;
     private String namePrefixSPT = "";
@@ -25,9 +23,6 @@ public class ScorePlayerTeam extends Team
         this.teamNameSPT = par2Str;
     }
 
-    /**
-     * Retrieve the name by which this team is registered in the scoreboard
-     */
     public String getRegisteredName()
     {
         return this.field_96675_b;
@@ -56,9 +51,6 @@ public class ScorePlayerTeam extends Team
         return this.membershipSet;
     }
 
-    /**
-     * Returns the color prefix for the player's team name
-     */
     public String getColorPrefix()
     {
         return this.namePrefixSPT;
@@ -77,9 +69,6 @@ public class ScorePlayerTeam extends Team
         }
     }
 
-    /**
-     * Returns the color suffix for the player's team name
-     */
     public String getColorSuffix()
     {
         return this.colorSuffix;
@@ -103,9 +92,6 @@ public class ScorePlayerTeam extends Team
         return this.getColorPrefix() + par1Str + this.getColorSuffix();
     }
 
-    /**
-     * Returns the player name including the color prefixes and suffixes
-     */
     public static String formatPlayerName(Team par0Team, String par1Str)
     {
         return par0Team == null ? par1Str : par0Team.func_142053_d(par1Str);

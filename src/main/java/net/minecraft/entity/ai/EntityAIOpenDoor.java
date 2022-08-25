@@ -15,26 +15,17 @@ public class EntityAIOpenDoor extends EntityAIDoorInteract
         this.field_75361_i = par2;
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
     public boolean continueExecuting()
     {
         return this.field_75361_i && this.field_75360_j > 0 && super.continueExecuting();
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void startExecuting()
     {
         this.field_75360_j = 20;
         this.field_151504_e.func_150014_a(this.theEntity.worldObj, this.entityPosX, this.entityPosY, this.entityPosZ, true);
     }
 
-    /**
-     * Resets the task
-     */
     public void resetTask()
     {
         if (this.field_75361_i)
@@ -43,9 +34,6 @@ public class EntityAIOpenDoor extends EntityAIDoorInteract
         }
     }
 
-    /**
-     * Updates the task
-     */
     public void updateTask()
     {
         --this.field_75360_j;

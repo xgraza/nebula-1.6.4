@@ -25,20 +25,17 @@ public class TileEntitySkull extends TileEntity
         this.field_145908_a = p_145839_1_.getByte("SkullType");
         this.field_145910_i = p_145839_1_.getByte("Rot");
 
-        if (p_145839_1_.func_150297_b("ExtraType", 8))
+        if (p_145839_1_.hasKey("ExtraType", 8))
         {
             this.field_145909_j = p_145839_1_.getString("ExtraType");
         }
     }
 
-    /**
-     * Overriden in a sign to provide the text.
-     */
     public Packet getDescriptionPacket()
     {
         NBTTagCompound var1 = new NBTTagCompound();
         this.writeToNBT(var1);
-        return new S35PacketUpdateTileEntity(this.field_145851_c, this.field_145848_d, this.field_145849_e, 4, var1);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 4, var1);
     }
 
     public void func_145905_a(int p_145905_1_, String p_145905_2_)

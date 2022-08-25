@@ -26,9 +26,6 @@ public class C07PacketPlayerDigging extends Packet
         this.field_149507_d = p_i45258_5_;
     }
 
-    /**
-     * Reads the raw packet data from the data stream.
-     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149508_e = p_148837_1_.readUnsignedByte();
@@ -38,9 +35,6 @@ public class C07PacketPlayerDigging extends Packet
         this.field_149507_d = p_148837_1_.readUnsignedByte();
     }
 
-    /**
-     * Writes the raw packet data to the data stream.
-     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.field_149508_e);

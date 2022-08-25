@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class XRay extends Module {
+    public static XRay INSTANCE;
+
     public static final Set<Integer> blocks = new HashSet<Integer>() {{
 //        add(Blocks.oreRedstone.blockID);
 //        add(Block.oreCoal.blockID);
@@ -54,6 +56,8 @@ public class XRay extends Module {
                 }
             }
         }
+
+        INSTANCE = this;
     }
 
     public final Value<Integer> opacity = new Value<>("Opacity", 120, 0, 255);
