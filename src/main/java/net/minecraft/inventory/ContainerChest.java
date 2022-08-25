@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 public class ContainerChest extends Container
 {
     private IInventory lowerChestInventory;
-    private int numRows;
+    public int numRows;
     private static final String __OBFID = "CL_00001742";
 
     public ContainerChest(IInventory par1IInventory, IInventory par2IInventory)
