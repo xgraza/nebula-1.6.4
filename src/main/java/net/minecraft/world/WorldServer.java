@@ -630,9 +630,9 @@ public class WorldServer extends World
     {
         ArrayList var7 = new ArrayList();
 
-        for (int var8 = 0; var8 < this.field_147482_g.size(); ++var8)
+        for (int var8 = 0; var8 < this.tileEntities.size(); ++var8)
         {
-            TileEntity var9 = (TileEntity)this.field_147482_g.get(var8);
+            TileEntity var9 = (TileEntity)this.tileEntities.get(var8);
 
             if (var9.xCoord >= p_147486_1_ && var9.yCoord >= p_147486_2_ && var9.zCoord >= p_147486_3_ && var9.xCoord < p_147486_4_ && var9.yCoord < p_147486_5_ && var9.zCoord < p_147486_6_)
             {
