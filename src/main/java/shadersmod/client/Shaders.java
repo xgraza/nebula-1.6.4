@@ -81,7 +81,7 @@ import shadersmod.uniform.Smoother;
 
 public class Shaders
 {
-    static Minecraft mc;
+    static Minecraft mc = Minecraft.getMinecraft();
     static EntityRenderer entityRenderer;
     public static boolean isInitializedOnce = false;
     public static boolean isShaderPackInitialized = false;

@@ -119,7 +119,7 @@ public class Nametags extends Module {
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_LIGHTING);
 
-        RenderHelper.disableStandardItemLighting();
+        RenderHelper.enableStandardItemLighting();
 
         glEnable(GL_ALPHA_TEST);
 
@@ -134,7 +134,7 @@ public class Nametags extends Module {
         // allow item GLINT to render for enchants
         glDepthMask(true);
         glScaled(scale, scale, scale);
-        glClear(256);
+        //glClear(256);
 
         RenderHelper.enableStandardItemLighting();
         glEnable(GL_DEPTH_TEST);

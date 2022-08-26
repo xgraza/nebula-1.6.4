@@ -175,29 +175,20 @@ public class BlockAliases
         }
     }
 
-    private static void addToList(List<List<BlockAlias>> blocksAliases, BlockAlias ba)
-    {
-        int[] blockIds = ba.getMatchBlockIds();
-
-        for (int i = 0; i < blockIds.length; ++i)
-        {
-            int blockId = blockIds[i];
-
-            while (blockId >= blocksAliases.size())
-            {
-                blocksAliases.addAll(null);
+    private static void addToList(List<List<BlockAlias>> list, BlockAlias blockAlias) {
+        int[] nArray = blockAlias.getMatchBlockIds();
+        for (int i = 0; i < nArray.length; ++i) {
+            int n = nArray[i];
+            while (n >= list.size()) {
+                list.add(null);
             }
-
-            List<BlockAlias> blockAliases = (List)blocksAliases.get(blockId);
-
-            if (blockAliases == null)
-            {
-                blockAliases = new ArrayList<>();
-                blocksAliases.add(blockAliases);
+            List<BlockAlias> list2 = list.get(n);
+            if (list2 == null) {
+                list2 = new ArrayList<BlockAlias>();
+                list.set(n, list2);
             }
-
-            BlockAlias baBlock = new BlockAlias(ba.getBlockId(), ba.getMatchBlocks(blockId));
-            ((List)blockAliases).add(baBlock);
+            BlockAlias blockAlias2 = new BlockAlias(blockAlias.getBlockId(), blockAlias.getMatchBlocks(n));
+            list2.add(blockAlias2);
         }
     }
 

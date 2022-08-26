@@ -102,7 +102,7 @@ public class GuiInventory extends InventoryEffectRenderer
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-        //GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
     }
 
