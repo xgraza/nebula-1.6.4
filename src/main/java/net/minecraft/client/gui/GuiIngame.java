@@ -39,10 +39,8 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import wtf.nebula.Nebula;
-import wtf.nebula.event.RenderHUDEvent;
-import wtf.nebula.impl.module.render.NoOverlay;
-import wtf.nebula.repository.impl.ModuleRepository;
+import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.impl.event.impl.render.RenderHUDEvent;
 
 public class GuiIngame extends Gui
 {
@@ -483,7 +481,7 @@ public class GuiIngame extends Gui
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
 
-        Nebula.BUS.post(new RenderHUDEvent(var5));
+        Launcher.BUS.post(new RenderHUDEvent(var5));
     }
 
     private void func_96136_a(ScoreObjective par1ScoreObjective, int par2, int par3, FontRenderer par4FontRenderer)
@@ -840,10 +838,6 @@ public class GuiIngame extends Gui
 
     private void renderPumpkinBlur(int par1, int par2)
     {
-        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
-            return;
-        }
-
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);

@@ -49,13 +49,11 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
-import wtf.nebula.impl.module.render.NoWeather;
-import wtf.nebula.repository.impl.ModuleRepository;
 
 public abstract class World implements IBlockAccess
 {
     public boolean scheduledUpdatesAreImmediate;
-    public List loadedEntityList = new ArrayList();
+    public List<Entity> loadedEntityList = new ArrayList<>();
     protected List unloadedEntityList = new ArrayList();
     public List tileEntities = new ArrayList();
     public List<TileEntity> field_147484_a = new ArrayList();
@@ -3414,10 +3412,6 @@ public abstract class World implements IBlockAccess
 
     public float getWeightedThunderStrength(float par1)
     {
-        if (ModuleRepository.get().isToggled(NoWeather.class)) {
-            return 0.0f;
-        }
-
         return (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * par1) * this.getRainStrength(par1);
     }
 
@@ -3429,10 +3423,6 @@ public abstract class World implements IBlockAccess
 
     public float getRainStrength(float par1)
     {
-        if (ModuleRepository.get().isToggled(NoWeather.class)) {
-            return 0.0f;
-        }
-
         return this.prevRainingStrength + (this.rainingStrength - this.prevRainingStrength) * par1;
     }
 
@@ -3444,19 +3434,11 @@ public abstract class World implements IBlockAccess
 
     public boolean isThundering()
     {
-        if (ModuleRepository.get().isToggled(NoWeather.class)) {
-            return false;
-        }
-
         return (double)this.getWeightedThunderStrength(1.0F) > 0.9D;
     }
 
     public boolean isRaining()
     {
-        if (ModuleRepository.get().isToggled(NoWeather.class)) {
-            return false;
-        }
-
         return (double)this.getRainStrength(1.0F) > 0.2D;
     }
 

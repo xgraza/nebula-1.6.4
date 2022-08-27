@@ -183,8 +183,6 @@ public class GuiMainMenu extends GuiScreen
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, var3 + 72 + 12));
         Object var4 = this.field_104025_t;
 
-        buttonList.add(new GuiButton(69420, width / 2 - 200, var3 + 72 + 12, 75, 20, "Join alfheim.pw"));
-
         synchronized (this.field_104025_t)
         {
             this.field_92023_s = this.fontRenderer.getStringWidth(this.field_92025_p);
@@ -291,11 +289,6 @@ public class GuiMainMenu extends GuiScreen
 
     protected void actionPerformed(GuiButton p_146284_1_)
     {
-        if (p_146284_1_.id == 69420) {
-            mc.displayGuiScreen(new GuiConnecting(this, mc, new ServerData("Minecraft Server", "alfheim.pw")));
-            return;
-        }
-
         if (p_146284_1_.id == 0)
         {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));

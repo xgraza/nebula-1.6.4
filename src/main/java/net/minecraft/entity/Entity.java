@@ -35,10 +35,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import wtf.nebula.Nebula;
-import wtf.nebula.event.MotionEvent;
-import wtf.nebula.event.SafewalkEvent;
-import wtf.nebula.event.StepEvent;
+import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.impl.event.impl.move.SafewalkEvent;
+import wtf.nebula.client.impl.module.movement.SafeWalk;
 
 public abstract class Entity
 {
@@ -461,15 +460,6 @@ public abstract class Entity
 
     public void moveEntity(double par1, double par3, double par5)
     {
-        if (this.equals(Minecraft.getMinecraft().thePlayer)) {
-            MotionEvent event = new MotionEvent(par1, par3, par5);
-            Nebula.BUS.post(event);
-
-            par1 = event.getX();
-            par3 = event.getY();
-            par5 = event.getZ();
-        }
-
         if (this.noClip)
         {
             this.boundingBox.offset(par1, par3, par5);
@@ -502,7 +492,10 @@ public abstract class Entity
             AxisAlignedBB var19 = this.boundingBox.copy();
             boolean var20 = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
 
-            if (Nebula.BUS.post(new SafewalkEvent())) {
+            SafewalkEvent event = new SafewalkEvent();
+            Launcher.BUS.post(event);
+
+            if (event.isCancelled()) {
                 var20 = true;
             }
 
@@ -707,8 +700,6 @@ public abstract class Entity
                     this.boundingBox.setBB(var29);
                 }
             }
-
-            Nebula.BUS.post(new StepEvent(boundingBox));
 
             this.worldObj.theProfiler.endSection();
             this.worldObj.theProfiler.startSection("rest");

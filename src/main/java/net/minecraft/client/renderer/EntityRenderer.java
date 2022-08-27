@@ -73,10 +73,6 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
-import wtf.nebula.Nebula;
-import wtf.nebula.event.RenderWorldEvent;
-import wtf.nebula.impl.module.render.NoOverlay;
-import wtf.nebula.repository.impl.ModuleRepository;
 
 public class EntityRenderer implements IResourceManagerReloadListener
 {
@@ -554,10 +550,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float par1)
     {
-        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
-            return;
-        }
-
         EntityLivingBase var2 = this.mc.renderViewEntity;
         float var3 = (float)var2.hurtTime - par1;
         float var4;
@@ -1785,8 +1777,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 this.mc.mcProfiler.endStartSection("FRenderLast");
                 Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, new Object[] {var5, Float.valueOf(par1)});
             }
-
-            Nebula.BUS.post(new RenderWorldEvent(par1));
 
             this.mc.mcProfiler.endStartSection("hand");
             boolean renderFirstPersonHand = Reflector.callBoolean(Reflector.ForgeHooksClient_renderFirstPersonHand, new Object[] {this.mc.renderGlobal, Float.valueOf(par1), Integer.valueOf(var13)});

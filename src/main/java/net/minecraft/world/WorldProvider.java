@@ -11,8 +11,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.ChunkProviderGenerate;
 import net.minecraft.world.gen.FlatGeneratorInfo;
-import wtf.nebula.impl.module.render.NoOverlay;
-import wtf.nebula.repository.impl.ModuleRepository;
 
 public abstract class WorldProvider
 {
@@ -180,10 +178,6 @@ public abstract class WorldProvider
 
     public boolean getWorldHasVoidParticles()
     {
-        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
-            return false;
-        }
-
         return this.terrainType != WorldType.FLAT && !this.hasNoSky;
     }
 

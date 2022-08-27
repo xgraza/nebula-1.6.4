@@ -25,8 +25,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
-import wtf.nebula.Nebula;
-import wtf.nebula.event.ClickBlockEvent;
 
 public class PlayerControllerMP
 {
@@ -139,10 +137,6 @@ public class PlayerControllerMP
 
     public void clickBlock(int par1, int par2, int par3, int par4)
     {
-        if (Nebula.BUS.post(new ClickBlockEvent(par1, par2, par3, par4))) {
-            return;
-        }
-
         if (!this.currentGameType.isAdventure() || this.mc.thePlayer.isCurrentToolAdventureModeExempt(par1, par2, par3))
         {
             if (this.currentGameType.isCreative())

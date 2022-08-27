@@ -143,10 +143,9 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
-import wtf.nebula.Nebula;
-import wtf.nebula.event.GuiOpenEvent;
-import wtf.nebula.event.KeyInputEvent;
-import wtf.nebula.event.TickEvent;
+import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.impl.event.impl.client.TickEvent;
+import wtf.nebula.client.impl.event.impl.input.KeyInputEvent;
 
 public class Minecraft implements IPlayerUsage
 {
@@ -531,9 +530,8 @@ public class Minecraft implements IPlayerUsage
         Display.setVSyncEnabled(this.gameSettings.enableVsync);
 
         try {
-            Nebula.init();
+            Launcher.launch();
         } catch (Exception e) {
-            Nebula.log.error("Nebula failed to start! Stack trace below:");
             e.printStackTrace();
         }
     }
@@ -699,10 +697,6 @@ public class Minecraft implements IPlayerUsage
 
     public void displayGuiScreen(GuiScreen p_147108_1_)
     {
-        if (Nebula.BUS != null) {
-            Nebula.BUS.post(new GuiOpenEvent(p_147108_1_, currentScreen));
-        }
-
         if (this.currentScreen != null)
         {
             this.currentScreen.onGuiClosed();
@@ -1505,7 +1499,7 @@ public class Minecraft implements IPlayerUsage
     public void runTick()
     {
         if (theWorld != null && thePlayer != null) {
-            Nebula.BUS.post(new TickEvent());
+            Launcher.BUS.post(new TickEvent());
         }
 
         if (this.rightClickDelayTimer > 0)
@@ -1682,7 +1676,7 @@ public class Minecraft implements IPlayerUsage
                     KeyBinding.onTick(Keyboard.getEventKey());
                 }
 
-                Nebula.BUS.post(new KeyInputEvent(Keyboard.getEventKey(), Keyboard.getEventKeyState()));
+                Launcher.BUS.post(new KeyInputEvent(Keyboard.getEventKey(), Keyboard.getEventKeyState()));
 
                 if (this.field_83002_am > 0L)
                 {

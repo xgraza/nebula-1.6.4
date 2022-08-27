@@ -21,8 +21,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import wtf.nebula.impl.module.render.NegativeViewer;
-import wtf.nebula.repository.impl.ModuleRepository;
 
 public class RenderItem extends Render
 {
@@ -597,20 +595,9 @@ public class RenderItem extends Render
     {
         if (par3ItemStack != null)
         {
-            boolean y = ModuleRepository.get().isToggled(NegativeViewer.class);
-
-            if (y ? par3ItemStack.stackSize != 1 : par3ItemStack.stackSize > 1 || par6Str != null)
+            if (par3ItemStack.stackSize > 1)
             {
                 String var7 = par6Str == null ? String.valueOf(par3ItemStack.stackSize) : par6Str;
-
-                if (y && par3ItemStack.stackSize < 0) {
-                    if (ModuleRepository.get().getModule(NegativeViewer.class).simple.getValue()) {
-                        var7 = "-";
-                    }
-
-                    var7 = EnumChatFormatting.RED + var7;
-                }
-
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
                 GL11.glDisable(GL11.GL_BLEND);

@@ -45,6 +45,16 @@ public enum EnumFacing
         return faceList[par0 % faceList.length];
     }
 
+    public EnumFacing getOpposite() {
+        for (EnumFacing facing : values()) {
+            if (facing.order_a == order_b) {
+                return facing;
+            }
+        }
+
+        return null;
+    }
+
     static {
         EnumFacing[] var0 = values();
         int var1 = var0.length;

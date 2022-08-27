@@ -27,8 +27,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import wtf.nebula.Nebula;
-import wtf.nebula.event.AddBoundingBoxEvent;
 
 public class Block
 {
@@ -542,13 +540,6 @@ public class Block
     public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_)
     {
         AxisAlignedBB var8 = this.getCollisionBoundingBoxFromPool(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_);
-
-        AddBoundingBoxEvent event = new AddBoundingBoxEvent(var8, p_149743_2_, p_149743_3_, p_149743_4_, this, p_149743_7_);
-        Nebula.BUS.post(event);
-
-        if (event.isCancelled()) {
-            var8 = event.getBox();
-        }
 
         if (var8 != null && p_149743_5_.intersectsWith(var8))
         {

@@ -22,8 +22,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
-import wtf.nebula.Nebula;
-import wtf.nebula.event.MotionUpdateEvent;
+import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.impl.event.impl.move.MotionUpdateEvent;
 
 public class EntityClientPlayerMP extends EntityPlayerSP
 {
@@ -87,7 +87,18 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     public void sendMotionUpdates()
     {
-        Nebula.BUS.post(new MotionUpdateEvent(MotionUpdateEvent.Era.PRE));
+        MotionUpdateEvent event = new MotionUpdateEvent(posX, boundingBox.minY, posY, posZ, rotationYaw, rotationPitch, onGround);
+        Launcher.BUS.post(event);
+
+        double x = event.x;
+        double y = event.y;
+        double stance = event.stance;
+        double z = event.z;
+
+        float yaw = event.yaw;
+        float pitch = event.pitch;
+
+        boolean ground = event.onGround;
 
         boolean var1 = this.isSprinting();
 
@@ -121,55 +132,55 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             this.shouldStopSneaking = var2;
         }
 
-        double var3 = this.posX - this.oldPosX;
-        double var5 = this.boundingBox.minY - this.oldMinY;
-        double var7 = this.posZ - this.oldPosZ;
-        double var9 = (double)(this.rotationYaw - this.oldRotationYaw);
-        double var11 = (double)(this.rotationPitch - this.oldRotationPitch);
+        double var3 = x - this.oldPosX;
+        double var5 = y - this.oldMinY;
+        double var7 = z - this.oldPosZ;
+        double var9 = (double)(yaw - this.oldRotationYaw);
+        double var11 = (double)(pitch - this.oldRotationPitch);
         boolean var13 = var3 * var3 + var5 * var5 + var7 * var7 > 9.0E-4D || this.ticksSinceMovePacket >= 20;
         boolean var14 = var9 != 0.0D || var11 != 0.0D;
 
         if (this.ridingEntity != null)
         {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
+            this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D, -999.0D, this.motionZ, yaw, pitch, ground));
             var13 = false;
         }
         else if (var13 && var14)
         {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, this.boundingBox.minY, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround));
+            this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(x, y, stance, z, yaw, pitch, ground));
         }
         else if (var13)
         {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(this.posX, this.boundingBox.minY, this.posY, this.posZ, this.onGround));
+            this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y, stance, z, ground));
         }
         else if (var14)
         {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
+            this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(yaw, pitch, ground));
         }
         else
         {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer(this.onGround));
+            this.sendQueue.addToSendQueue(new C03PacketPlayer(ground));
         }
 
         ++this.ticksSinceMovePacket;
-        this.wasOnGround = this.onGround;
+        this.wasOnGround = ground;
 
         if (var13)
         {
-            this.oldPosX = this.posX;
-            this.oldMinY = this.boundingBox.minY;
-            this.oldPosY = this.posY;
-            this.oldPosZ = this.posZ;
+            this.oldPosX = x;
+            this.oldMinY = y;
+            this.oldPosY = stance;
+            this.oldPosZ = z;
             this.ticksSinceMovePacket = 0;
         }
 
         if (var14)
         {
-            this.oldRotationYaw = this.rotationYaw;
-            this.oldRotationPitch = this.rotationPitch;
+            this.oldRotationYaw = yaw;
+            this.oldRotationPitch = pitch;
         }
 
-        Nebula.BUS.post(new MotionUpdateEvent(MotionUpdateEvent.Era.POST));
+        Launcher.BUS.post(new MotionUpdateEvent());
     }
 
     public EntityItem dropOneItem(boolean par1)

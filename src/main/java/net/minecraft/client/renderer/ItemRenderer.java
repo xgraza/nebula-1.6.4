@@ -26,9 +26,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import wtf.nebula.impl.module.render.Animations;
-import wtf.nebula.impl.module.render.NoOverlay;
-import wtf.nebula.repository.impl.ModuleRepository;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -388,40 +385,10 @@ public class ItemRenderer
                     EnumAction var26 = var8.getItemUseAction();
 
                     if (var26 == EnumAction.block) {
-
-                        float pro = 1.0f - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * par1);
-                        float swingPro = var3.getSwingProgress(par1);
-
-                        Animations animations = ModuleRepository.get().getModule(Animations.class);
-                        if (animations.getState()) {
-                            switch (animations.mode.getValue()) {
-                                case POINT: {
-                                    break;
-                                }
-
-                                case WTF: {
-                                    renderNormalblocking();
-                                    whatthefuck(pro, swingPro);
-                                    break;
-                                }
-
-                                case SMOOTH: {
-                                    glTranslated(0, 0.2, 0);
-                                    glRotatef(-pro, 4, -0.8f, -1.0f);
-                                    renderNormalblocking();
-                                    break;
-                                }
-
-                                case NEBULA: {
-                                    nebula(pro, swingPro);
-                                    renderNormalblocking();
-                                    break;
-                                }
-                            }
-                        } else {
-                            renderNormalblocking();
-                        }
-
+                        GL11.glTranslatef(-0.5F, 0.2F, 0.0F);
+                        GL11.glRotatef(30.0F, 0.0F, 1.0F, 0.0F);
+                        GL11.glRotatef(-80.0F, 1.0F, 0.0F, 0.0F);
+                        GL11.glRotatef(60.0F, 0.0F, 1.0F, 0.0F);
                     } else if (var26 == EnumAction.bow) {
                         GL11.glRotatef(-18.0F, 0.0F, 0.0F, 1.0F);
                         GL11.glRotatef(-12.0F, 0.0F, 1.0F, 0.0F);
@@ -506,31 +473,6 @@ public class ItemRenderer
             RenderHelper.disableStandardItemLighting();
     }
 
-
-    private void whatthefuck(float f, float f2) {
-        GlStateManager.rotate(45.0f, 0.0f, 1.0f, 0.0f);
-        float f3 = MathHelper.sin(f2 * f2 * (float)Math.PI);
-        float f4 = MathHelper.sin(MathHelper.sqrt_float(f2) * (float)Math.PI);
-        GlStateManager.rotate(f3 * -20.0f, 0.0f, 1.0f, 0.0f);
-        GlStateManager.rotate(f4 * -20.0f, 0.0f, 0.0f, 1.0f);
-        GlStateManager.rotate(f4 * -40.0f, 1.0f, 0.0f, 0.0f);
-    }
-
-    private void nebula(float f, float f2) {
-        glTranslatef(0.0f, 0.2f, 0.0f);
-        glRotatef(-20.0f, 1.0f, 0.0f, 0.0f);
-        float f3 = MathHelper.sin(f2 * f2 * (float)Math.PI);
-        GlStateManager.rotate(f3 * 45.0f, 0.0f, 1.0f, 0.0f);
-        glScalef(0.9f, 0.9f, 0.9f);
-    }
-
-    private void renderNormalblocking() {
-        GL11.glTranslatef(-0.5F, 0.2F, 0.0F);
-        GL11.glRotatef(30.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-80.0F, 1.0F, 0.0F, 0.0F);
-        GL11.glRotatef(60.0F, 0.0F, 1.0F, 0.0F);
-    }
-
     public void renderOverlays(float par1)
     {
         GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -585,10 +527,6 @@ public class ItemRenderer
 
     private void renderInsideOfBlock(float par1, IIcon par2Icon)
     {
-        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
-            return;
-        }
-
         this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
         Tessellator var3 = Tessellator.instance;
         float var4 = 0.1F;
@@ -615,10 +553,6 @@ public class ItemRenderer
 
     private void renderWarpedTextureOverlay(float par1)
     {
-        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
-            return;
-        }
-
         this.mc.getTextureManager().bindTexture(RES_UNDERWATER_OVERLAY);
         Tessellator var2 = Tessellator.instance;
         float var3 = this.mc.thePlayer.getBrightness(par1);
@@ -647,10 +581,6 @@ public class ItemRenderer
 
     private void renderFireInFirstPerson(float par1)
     {
-        if (ModuleRepository.get().isToggled(NoOverlay.class)) {
-            return;
-        }
-
         Tessellator var2 = Tessellator.instance;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
         GL11.glEnable(GL11.GL_BLEND);

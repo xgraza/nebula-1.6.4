@@ -190,6 +190,8 @@ import net.minecraft.world.storage.MapData;
 import net.minecraft.world.storage.MapStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.impl.event.impl.network.PlayerConnectionEvent;
 
 public class NetHandlerPlayClient implements INetHandlerPlayClient
 {
@@ -1340,10 +1342,14 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             var2 = new GuiPlayerInfo(p_147256_1_.func_149122_c());
             this.playerInfoMap.put(p_147256_1_.func_149122_c(), var2);
             this.playerInfoList.add(var2);
+
+            Launcher.BUS.post(new PlayerConnectionEvent(PlayerConnectionEvent.Action.JOIN, p_147256_1_.username));
         }
 
         if (var2 != null && !p_147256_1_.func_149121_d())
         {
+            Launcher.BUS.post(new PlayerConnectionEvent(PlayerConnectionEvent.Action.LEAVE, p_147256_1_.username));
+
             this.playerInfoMap.remove(p_147256_1_.func_149122_c());
             this.playerInfoList.remove(var2);
         }

@@ -48,8 +48,6 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
-import wtf.nebula.Nebula;
-import wtf.nebula.event.PlayerSlowdownEvent;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -177,8 +175,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.movementInput.moveStrafe *= 0.2F;
                 this.movementInput.moveForward *= 0.2F;
                 this.sprintToggleTimer = 0;
-
-                Nebula.BUS.post(new PlayerSlowdownEvent(movementInput));
             }
 
             if (this.movementInput.sneak && this.ySize < 0.2F)

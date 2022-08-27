@@ -33,8 +33,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import wtf.nebula.Nebula;
-import wtf.nebula.event.PacketEvent;
+import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.impl.event.base.Era;
+import wtf.nebula.client.impl.event.impl.network.PacketEvent;
 
 public class NetworkManager extends SimpleChannelInboundHandler
 {
@@ -91,7 +92,7 @@ public class NetworkManager extends SimpleChannelInboundHandler
     {
         if (this.channel.isOpen())
         {
-            if (Nebula.BUS.post(new PacketEvent.Receive(PacketEvent.Era.PRE, p_150728_2_))) {
+            if (Launcher.BUS.post(new PacketEvent(Era.PRE, p_150728_2_))) {
                 return;
             }
 
@@ -104,7 +105,7 @@ public class NetworkManager extends SimpleChannelInboundHandler
                 this.receivedPacketsQueue.add(p_150728_2_);
             }
 
-            Nebula.BUS.post(new PacketEvent.Receive(PacketEvent.Era.POST, p_150728_2_));
+            Launcher.BUS.post(new PacketEvent(Era.POST, p_150728_2_));
         }
     }
 
@@ -119,15 +120,14 @@ public class NetworkManager extends SimpleChannelInboundHandler
     {
         if (this.channel != null && this.channel.isOpen())
         {
-            this.flushOutboundQueue();
-
-            if (Nebula.BUS.post(new PacketEvent.Send(PacketEvent.Era.PRE, p_150725_1_))) {
+            if (Launcher.BUS.post(new PacketEvent(Era.PRE, p_150725_1_))) {
                 return;
             }
 
+            this.flushOutboundQueue();
             this.dispatchPacket(p_150725_1_, p_150725_2_);
 
-            Nebula.BUS.post(new PacketEvent.Send(PacketEvent.Era.POST, p_150725_1_));
+            Launcher.BUS.post(new PacketEvent(Era.POST, p_150725_1_));
         }
         else
         {

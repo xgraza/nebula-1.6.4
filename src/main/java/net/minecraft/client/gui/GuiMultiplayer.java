@@ -12,7 +12,6 @@ import net.minecraft.client.resources.I18n;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
-import wtf.nebula.impl.gui.AltLoginScreen;
 
 public class GuiMultiplayer extends GuiScreen
 {
@@ -82,7 +81,6 @@ public class GuiMultiplayer extends GuiScreen
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, I18n.format("selectServer.add", new Object[0])));
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.format("selectServer.refresh", new Object[0])));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel", new Object[0])));
-        buttonList.add(new GuiButton(69420, 15, 5, 75, 20, "Login"));
         this.func_146790_a(this.field_146803_h.func_148193_k());
 
     }
@@ -116,11 +114,6 @@ public class GuiMultiplayer extends GuiScreen
 
     protected void actionPerformed(GuiButton p_146284_1_)
     {
-        if (p_146284_1_.id == 69420) {
-            mc.displayGuiScreen(new AltLoginScreen());
-            return;
-        }
-
         if (p_146284_1_.enabled)
         {
             GuiListExtended.IGuiListEntry var2 = this.field_146803_h.func_148193_k() < 0 ? null : this.field_146803_h.func_148180_b(this.field_146803_h.func_148193_k());

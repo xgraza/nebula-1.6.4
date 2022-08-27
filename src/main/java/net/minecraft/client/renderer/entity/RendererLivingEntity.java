@@ -23,6 +23,9 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import shadersmod.client.Shaders;
+import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.impl.event.base.Era;
+import wtf.nebula.client.impl.event.impl.render.RenderRotationsEvent;
 
 public abstract class RendererLivingEntity extends Render
 {
@@ -171,8 +174,36 @@ public abstract class RendererLivingEntity extends Render
                 }
 
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
+
+                float rotationPitch = par1EntityLivingBase.rotationPitch;
+                float rotationYaw = par1EntityLivingBase.rotationYaw;
+
+                boolean reset = false;
+
+                if (par1EntityLivingBase.equals(Minecraft.getMinecraft().thePlayer)) {
+                    RenderRotationsEvent event = new RenderRotationsEvent(Era.PRE, rotationYaw, rotationPitch);
+                    Launcher.BUS.post(event);
+
+                    if (event.isCancelled()) {
+                        reset = true;
+
+                        var28 = event.yaw;
+                        var25 = event.yaw;
+                        var26 = event.pitch;
+
+//                        par1EntityLivingBase.rotationYaw = event.yaw;
+//                        par1EntityLivingBase.rotationPitch = event.pitch;
+                    }
+                }
+
                 this.mainModel.setLivingAnimations(par1EntityLivingBase, var16, var15, par9);
                 this.renderModel(par1EntityLivingBase, var16, var15, var291, var28 - var25, var26, var14);
+
+                if (reset) {
+                    par1EntityLivingBase.rotationYaw = rotationYaw;
+                    par1EntityLivingBase.rotationPitch = rotationPitch;
+                }
+
                 float var19;
                 int var18;
                 float var20;
