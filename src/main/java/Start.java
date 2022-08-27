@@ -6,7 +6,7 @@ public class Start
 {
     public static void main(String[] args)
     {
-        Main.main(concat(new String[] {"--version", "mcp", "--accessToken", "0", "--assetsDir", "assets/virtual/legacy", "--username", "Aestheticall"}, args));
+        Main.main(concat(new String[] {"--version", "mcp", "--accessToken", "0", "--assetsDir", "assets/virtual/legacy"}, args));
     }
 
     public static <T> T[] concat(T[] first, T[] second)
