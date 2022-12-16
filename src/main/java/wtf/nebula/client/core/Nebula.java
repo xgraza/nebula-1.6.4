@@ -13,7 +13,6 @@ import wtf.nebula.client.impl.discord.DiscordRPCHandler;
 import wtf.nebula.client.impl.manager.*;
 import wtf.nebula.client.impl.module.ModuleManager;
 import wtf.nebula.client.impl.waypoint.WaypointManager;
-import wtf.nebula.client.utils.client.Spooky;
 import wtf.nebula.client.utils.io.FileUtils;
 import wtf.nebula.client.utils.io.SystemTrayUtils;
 
@@ -96,7 +95,6 @@ public class Nebula {
         }
 
         Display.setTitle(title);
-        // Spooky.funny();
     }
 
     public static void launch() {
