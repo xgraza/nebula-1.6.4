@@ -35,9 +35,13 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import wtf.nebula.client.core.Launcher;
-import wtf.nebula.client.impl.event.impl.move.SafewalkEvent;
-import wtf.nebula.client.impl.module.movement.SafeWalk;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.move.EventEntityCollision;
+import wtf.nebula.client.impl.event.impl.move.EventMotion;
+import wtf.nebula.client.impl.event.impl.move.EventSafeWalk;
+import wtf.nebula.client.impl.event.impl.move.EventStep;
+import wtf.nebula.client.impl.event.impl.player.EventPlayerTurn;
+import wtf.nebula.client.impl.module.visuals.FreeLook;
 
 public abstract class Entity
 {
@@ -62,7 +66,7 @@ public abstract class Entity
     public float rotationPitch;
     public float prevRotationYaw;
     public float prevRotationPitch;
-    public final AxisAlignedBB boundingBox;
+    public AxisAlignedBB boundingBox;
     public boolean onGround;
     public boolean isCollidedHorizontally;
     public boolean isCollidedVertically;
@@ -89,7 +93,7 @@ public abstract class Entity
     protected Random rand;
     public int ticksExisted;
     public int fireResistance;
-    private int fire;
+    public int fire;
     protected boolean inWater;
     public int hurtResistantTime;
     private boolean firstUpdate;
@@ -262,6 +266,16 @@ public abstract class Entity
 
     public void setAngles(float par1, float par2)
     {
+        if (this.equals(Minecraft.getMinecraft().thePlayer)) {
+            EventPlayerTurn event = new EventPlayerTurn(this, par1, par2);
+            if (Nebula.BUS.post(event)) {
+                return;
+            }
+
+            par1 = event.getYaw();
+            par2 = event.getPitch();
+        }
+
         float var3 = this.rotationPitch;
         float var4 = this.rotationYaw;
         this.rotationYaw = (float)((double)this.rotationYaw + (double)par1 * 0.15D);
@@ -460,6 +474,18 @@ public abstract class Entity
 
     public void moveEntity(double par1, double par3, double par5)
     {
+        if (this.equals(Minecraft.getMinecraft().thePlayer)) {
+            EventMotion event = new EventMotion(par1, par3, par5);
+            Nebula.BUS.post(event);
+            if (event.isCancelled()) {
+                return;
+            }
+
+            par1 = event.x;
+            par3 = event.y;
+            par5 = event.z;
+        }
+
         if (this.noClip)
         {
             this.boundingBox.offset(par1, par3, par5);
@@ -492,10 +518,10 @@ public abstract class Entity
             AxisAlignedBB var19 = this.boundingBox.copy();
             boolean var20 = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
 
-            SafewalkEvent event = new SafewalkEvent();
-            Launcher.BUS.post(event);
+            EventSafeWalk safewalkEvent = new EventSafeWalk();
+            Nebula.BUS.post(safewalkEvent);
 
-            if (event.isCancelled()) {
+            if (safewalkEvent.isCancelled()) {
                 var20 = true;
             }
 
@@ -700,6 +726,8 @@ public abstract class Entity
                     this.boundingBox.setBB(var29);
                 }
             }
+
+            Nebula.BUS.post(new EventStep(this, boundingBox));
 
             this.worldObj.theProfiler.endSection();
             this.worldObj.theProfiler.startSection("rest");
@@ -934,6 +962,14 @@ public abstract class Entity
         return this.inWater;
     }
 
+    public boolean isInLava() {
+        return worldObj.handleMaterialAcceleration(
+                boundingBox.copy().expand(0.0D, -0.4000000059604645D, 0.0D).contract(0.001D, 0.001D, 0.001D),
+                Material.lava,
+                this
+        );
+    }
+
     public boolean handleWaterMovement()
     {
         if (this.worldObj.handleMaterialAcceleration(this.boundingBox.expand(0.0D, -0.4000000059604645D, 0.0D).contract(0.001D, 0.001D, 0.001D), Material.water, this))
@@ -1147,6 +1183,10 @@ public abstract class Entity
 
     public void applyEntityCollision(Entity par1Entity)
     {
+        if (Nebula.BUS.post(new EventEntityCollision(this, par1Entity))) {
+            return;
+        }
+
         if (par1Entity.riddenByEntity != this && par1Entity.ridingEntity != this)
         {
             double var2 = par1Entity.posX - this.posX;

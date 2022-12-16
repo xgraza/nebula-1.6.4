@@ -22,17 +22,18 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
-import wtf.nebula.client.core.Launcher;
-import wtf.nebula.client.impl.event.impl.move.MotionUpdateEvent;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.move.EventMotionUpdate;
+import wtf.nebula.client.impl.event.impl.player.EventSwingArm;
 
 public class EntityClientPlayerMP extends EntityPlayerSP
 {
     public final NetHandlerPlayClient sendQueue;
     private final StatFileWriter field_146108_bO;
-    private double oldPosX;
-    private double oldMinY;
-    private double oldPosY;
-    private double oldPosZ;
+    public double oldPosX;
+    public double oldMinY;
+    public double oldPosY;
+    public double oldPosZ;
     private float oldRotationYaw;
     private float oldRotationPitch;
     private boolean wasOnGround;
@@ -87,8 +88,12 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     public void sendMotionUpdates()
     {
-        MotionUpdateEvent event = new MotionUpdateEvent(posX, boundingBox.minY, posY, posZ, rotationYaw, rotationPitch, onGround);
-        Launcher.BUS.post(event);
+        EventMotionUpdate event = new EventMotionUpdate(posX, boundingBox.minY, posY, posZ, rotationYaw, rotationPitch, onGround);
+        Nebula.BUS.post(event);
+
+        if (event.isCancelled()) {
+            return;
+        }
 
         double x = event.x;
         double y = event.y;
@@ -180,7 +185,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             this.oldRotationPitch = pitch;
         }
 
-        Launcher.BUS.post(new MotionUpdateEvent());
+        Nebula.BUS.post(new EventMotionUpdate());
     }
 
     public EntityItem dropOneItem(boolean par1)
@@ -199,7 +204,13 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     public void swingItem()
     {
-        super.swingItem();
+        if (!Nebula.BUS.post(new EventSwingArm(this))) {
+            super.swingItem();
+            this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
+        }
+    }
+
+    public void swingItemSilent() {
         this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
     }
 

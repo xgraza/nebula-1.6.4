@@ -15,4 +15,8 @@ public class Timer {
     public void resetTime() {
         time = System.nanoTime();
     }
+
+    public long getTimePassedMs() {
+        return (System.nanoTime() - time) / 1000000L;
+    }
 }

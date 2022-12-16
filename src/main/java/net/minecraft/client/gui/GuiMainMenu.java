@@ -10,12 +10,6 @@ import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.mco.ExceptionMcoService;
-import net.minecraft.client.mco.ExceptionRetryCall;
-import net.minecraft.client.mco.GuiScreenClientOutdated;
-import net.minecraft.client.mco.McoClient;
-import net.minecraft.client.multiplayer.GuiConnecting;
-import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -23,7 +17,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Session;
 import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
@@ -32,6 +25,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.account.gui.GuiAccountLoginScreen;
 
 public class GuiMainMenu extends GuiScreen
 {
@@ -61,7 +56,6 @@ public class GuiMainMenu extends GuiScreen
     private int field_92020_v;
     private int field_92019_w;
     private ResourceLocation field_110351_G;
-    private GuiButton minecraftRealmsButton;
     private static final String __OBFID = "CL_00001154";
 
     public GuiMainMenu()
@@ -177,10 +171,11 @@ public class GuiMainMenu extends GuiScreen
             this.addSingleplayerMultiplayerButtons(var3, 24);
         }
 
-        this.func_130020_g();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, var3 + 72 + 12, 98, 20, I18n.format("menu.options", new Object[0])));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, var3 + 72 + 12, 98, 20, I18n.format("menu.quit", new Object[0])));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, var3 + 72 + 12));
+        this.buttonList.add(new GuiButton(14, this.width / 2 - 100, var3 + 24 * 2, "Account Manager"));
+
         Object var4 = this.field_104025_t;
 
         synchronized (this.field_104025_t)
@@ -195,83 +190,10 @@ public class GuiMainMenu extends GuiScreen
         }
     }
 
-    private void func_130020_g()
-    {
-        if (this.field_96141_q)
-        {
-            if (!field_96140_r)
-            {
-                field_96140_r = true;
-                (new Thread("MCO Availability Checker #" + field_146973_f.incrementAndGet())
-                {
-                    private static final String __OBFID = "CL_00001155";
-                    public void run()
-                    {
-                        Session var1 = GuiMainMenu.this.mc.getSession();
-                        McoClient var2 = new McoClient(var1.getSessionID(), var1.getUsername(), "1.7.2", Minecraft.getMinecraft().getProxy());
-                        boolean var3 = false;
-
-                        for (int var4 = 0; var4 < 3; ++var4)
-                        {
-                            try
-                            {
-                                Boolean var5 = var2.func_148687_b();
-
-                                if (var5.booleanValue())
-                                {
-                                    GuiMainMenu.this.func_130022_h();
-                                }
-
-                                GuiMainMenu.field_96139_s = var5.booleanValue();
-                            }
-                            catch (ExceptionRetryCall var7)
-                            {
-                                var3 = true;
-                            }
-                            catch (ExceptionMcoService var8)
-                            {
-                                GuiMainMenu.logger.error("Couldn\'t connect to Realms");
-                            }
-                            catch (IOException var9)
-                            {
-                                GuiMainMenu.logger.error("Couldn\'t parse response connecting to Realms");
-                            }
-
-                            if (!var3)
-                            {
-                                break;
-                            }
-
-                            try
-                            {
-                                Thread.sleep(10000L);
-                            }
-                            catch (InterruptedException var6)
-                            {
-                                Thread.currentThread().interrupt();
-                            }
-                        }
-                    }
-                }).start();
-            }
-            else if (field_96139_s)
-            {
-                this.func_130022_h();
-            }
-        }
-    }
-
-    private void func_130022_h()
-    {
-        this.minecraftRealmsButton.drawButton = true;
-    }
-
     private void addSingleplayerMultiplayerButtons(int par1, int par2)
     {
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, par1, I18n.format("menu.singleplayer", new Object[0])));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, par1 + par2 * 1, I18n.format("menu.multiplayer", new Object[0])));
-        this.buttonList.add(this.minecraftRealmsButton = new GuiButton(14, this.width / 2 - 100, par1 + par2 * 2, I18n.format("menu.online", new Object[0])));
-        this.minecraftRealmsButton.drawButton = false;
     }
 
     private void addDemoButtons(int par1, int par2)
@@ -309,11 +231,6 @@ public class GuiMainMenu extends GuiScreen
             this.mc.displayGuiScreen(new GuiMultiplayer(this));
         }
 
-        if (p_146284_1_.id == 14 && this.minecraftRealmsButton.drawButton)
-        {
-            this.func_140005_i();
-        }
-
         if (p_146284_1_.id == 4)
         {
             this.mc.shutdown();
@@ -335,31 +252,9 @@ public class GuiMainMenu extends GuiScreen
                 this.mc.displayGuiScreen(var4);
             }
         }
-    }
 
-    private void func_140005_i()
-    {
-        Session var1 = this.mc.getSession();
-        McoClient var2 = new McoClient(var1.getSessionID(), var1.getUsername(), "1.7.2", Minecraft.getMinecraft().getProxy());
-
-        try
-        {
-            if (var2.func_148695_c().booleanValue())
-            {
-                this.mc.displayGuiScreen(new GuiScreenClientOutdated(this));
-            }
-            else
-            {
-                this.mc.displayGuiScreen(new GuiScreenOnlineServers(this));
-            }
-        }
-        catch (ExceptionMcoService var4)
-        {
-            logger.error("Couldn\'t connect to realms");
-        }
-        catch (IOException var5)
-        {
-            logger.error("Couldn\'t connect to realms");
+        if (p_146284_1_.id == 14) {
+            mc.displayGuiScreen(new GuiAccountLoginScreen());
         }
     }
 
@@ -575,15 +470,15 @@ public class GuiMainMenu extends GuiScreen
         GL11.glScalef(var8, var8, var8);
         this.drawCenteredString(this.fontRenderer, this.splashText, 0, -8, -256);
         GL11.glPopMatrix();
-        String var9 = "Minecraft 1.7.2";
+        String var9 = "Nebula " + Nebula.VERSION.getVersionString() + " for MC 1.7.2";
 
-        if (this.mc.isDemo())
-        {
-            var9 = var9 + " Demo";
-        }
+//        if (this.mc.isDemo())
+//        {
+//            var9 = var9 + " Demo";
+//        }
 
         this.drawString(this.fontRenderer, var9, 2, this.height - 10, -1);
-        String var10 = "Copyright Mojang AB. Do not distribute!";
+        String var10 = "Aestheticall's Masterpiece";
         this.drawString(this.fontRenderer, var10, this.width - this.fontRenderer.getStringWidth(var10) - 2, this.height - 10, -1);
 
         if (this.field_92025_p != null && this.field_92025_p.length() > 0)

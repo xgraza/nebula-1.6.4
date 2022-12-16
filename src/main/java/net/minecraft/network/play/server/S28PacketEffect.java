@@ -58,7 +58,7 @@ public class S28PacketEffect extends Packet
         return this.field_149246_f;
     }
 
-    public int func_149242_d()
+    public int getEffectId()
     {
         return this.field_149251_a;
     }
@@ -68,17 +68,17 @@ public class S28PacketEffect extends Packet
         return this.field_149249_b;
     }
 
-    public int func_149240_f()
+    public int getX()
     {
         return this.field_149250_c;
     }
 
-    public int func_149243_g()
+    public int getY()
     {
         return this.field_149247_d;
     }
 
-    public int func_149239_h()
+    public int getZ()
     {
         return this.field_149248_e;
     }

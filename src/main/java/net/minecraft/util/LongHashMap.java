@@ -202,11 +202,11 @@ public class LongHashMap
         return 1.0D * (double)countValid / (double)this.numHashElements;
     }
 
-    static class Entry
+    public static class Entry
     {
         final long key;
         Object value;
-        LongHashMap.Entry nextEntry;
+        public LongHashMap.Entry nextEntry;
         final int hash;
 
         Entry(int par1, long par2, Object par4Obj, LongHashMap.Entry par5LongHashMapEntry)

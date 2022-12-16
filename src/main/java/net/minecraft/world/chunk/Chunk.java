@@ -34,7 +34,7 @@ public class Chunk
 {
     private static final Logger logger = LogManager.getLogger();
     public static boolean isLit;
-    private ExtendedBlockStorage[] storageArrays;
+    public ExtendedBlockStorage[] storageArrays;
     private byte[] blockBiomeArray;
     public int[] precipitationHeightMap;
     public boolean[] updateSkylightColumns;

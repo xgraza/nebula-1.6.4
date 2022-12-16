@@ -68,4 +68,9 @@ public class NumberButton extends Element {
             property.setValue(((Integer)property.getMin() + (int)(difference * percent)));
         }
     }
+
+    @Override
+    public boolean isVisible() {
+        return property.isVisible();
+    }
 }

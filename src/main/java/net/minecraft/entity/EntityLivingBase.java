@@ -78,6 +78,8 @@ public abstract class EntityLivingBase extends Entity
     public float prevRenderYawOffset;
     public float rotationYawHead;
     public float prevRotationYawHead;
+    public float rotationPitchHead;
+    public float prevRotationPitchHead;
     public float jumpMovementFactor = 0.02F;
     protected EntityPlayer attackingPlayer;
     protected int recentlyHit;
@@ -101,7 +103,7 @@ public abstract class EntityLivingBase extends Entity
     protected double newRotationYaw;
     protected double newRotationPitch;
     private boolean potionsNeedUpdate = true;
-    private EntityLivingBase entityLivingToAttack;
+    public EntityLivingBase entityLivingToAttack;
     private int revengeTimer;
     private EntityLivingBase lastAttacker;
     private int lastAttackerTime;
@@ -121,6 +123,7 @@ public abstract class EntityLivingBase extends Entity
         this.field_70769_ao = (float)Math.random() * 12398.0F;
         this.rotationYaw = (float)(Math.random() * Math.PI * 2.0D);
         this.rotationYawHead = this.rotationYaw;
+        this.rotationPitchHead = rotationPitch;
         this.stepHeight = 0.5F;
     }
 
@@ -290,6 +293,7 @@ public abstract class EntityLivingBase extends Entity
         this.field_70763_ax = this.field_70764_aw;
         this.prevRenderYawOffset = this.renderYawOffset;
         this.prevRotationYawHead = this.rotationYawHead;
+        this.prevRotationPitchHead = this.rotationPitchHead;
         this.prevRotationYaw = this.rotationYaw;
         this.prevRotationPitch = this.rotationPitch;
         this.worldObj.theProfiler.endSection();

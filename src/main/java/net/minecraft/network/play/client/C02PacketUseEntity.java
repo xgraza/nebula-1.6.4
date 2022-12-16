@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class C02PacketUseEntity extends Packet
 {
     public int entityId;
-    private C02PacketUseEntity.Action action;
+    public C02PacketUseEntity.Action action;
     private static final String __OBFID = "CL_00001357";
 
     public C02PacketUseEntity() {}

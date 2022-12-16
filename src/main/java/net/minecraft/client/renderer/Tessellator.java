@@ -13,6 +13,8 @@ import net.minecraft.src.Config;
 import net.minecraft.src.VertexData;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShadersTess;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.render.EventAlphaMultiplier;
 
 public class Tessellator
 {
@@ -332,6 +334,16 @@ public class Tessellator
             }
 
             this.hasColor = true;
+
+            EventAlphaMultiplier event = new EventAlphaMultiplier(littleEndianByteOrder ? par4 : par1);
+            Nebula.BUS.post(event);
+            if (event.isCancelled()) {
+                if (littleEndianByteOrder) {
+                    par4 = event.a;
+                } else {
+                    par1 = event.a;
+                }
+            }
 
             if (littleEndianByteOrder)
             {

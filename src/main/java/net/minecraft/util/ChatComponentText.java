@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class ChatComponentText extends ChatComponentStyle
 {
-    private final String text;
+    public String text;
     private static final String __OBFID = "CL_00001269";
 
     public ChatComponentText(String p_i45159_1_)

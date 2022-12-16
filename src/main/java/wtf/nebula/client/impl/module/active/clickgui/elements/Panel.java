@@ -1,7 +1,7 @@
 package wtf.nebula.client.impl.module.active.clickgui.elements;
 
 import net.minecraft.util.ResourceLocation;
-import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.core.Nebula;
 import wtf.nebula.client.impl.module.Module;
 import wtf.nebula.client.impl.module.ModuleCategory;
 import wtf.nebula.client.impl.module.active.Colors;
@@ -11,7 +11,7 @@ import wtf.nebula.client.utils.render.renderers.impl.two.Box;
 import wtf.nebula.client.utils.render.renderers.impl.two.TextureRenderer;
 
 public class Panel extends Element {
-    private static final ResourceLocation ARROW = new ResourceLocation("nebula/arrow.png");
+    private static final ResourceLocation ARROW = new ResourceLocation("nebula/textures/arrow.png");
 
     private boolean opened = true;
     private float angle = 180.0f;
@@ -22,7 +22,7 @@ public class Panel extends Element {
         width = 88.0;
         height = 15.0;
 
-        for (Module module : Launcher.getInstance().getModuleManager().getModulesByCategory(category)) {
+        for (Module module : Nebula.getInstance().getModuleManager().getModulesByCategory(category)) {
             elements.add(new ModuleElement(module));
         }
     }

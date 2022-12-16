@@ -5,7 +5,7 @@ import net.minecraft.util.IChatComponent;
 public class ChatLine
 {
     private final int updateCounterCreated;
-    private final IChatComponent lineString;
+    public IChatComponent lineString;
     private final int chatLineID;
     private static final String __OBFID = "CL_00000627";
 

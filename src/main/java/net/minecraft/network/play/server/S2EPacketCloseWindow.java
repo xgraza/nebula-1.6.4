@@ -8,7 +8,7 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S2EPacketCloseWindow extends Packet
 {
-    private int field_148896_a;
+    public int field_148896_a;
     private static final String __OBFID = "CL_00001292";
 
     public S2EPacketCloseWindow() {}

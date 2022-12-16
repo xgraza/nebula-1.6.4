@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 public class ItemFood extends Item
 {
     public final int itemUseDuration;
-    private final int healAmount;
+    public final int healAmount;
     private final float saturationModifier;
     private final boolean isWolfsFavoriteMeat;
     private boolean alwaysEdible;

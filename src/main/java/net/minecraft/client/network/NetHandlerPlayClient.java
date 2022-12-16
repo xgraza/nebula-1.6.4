@@ -28,7 +28,6 @@ import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiPlayerInfo;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenDemo;
-import net.minecraft.client.gui.GuiScreenDisconnectedOnline;
 import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.IProgressMeter;
@@ -181,6 +180,7 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.village.MerchantRecipeList;
+import net.minecraft.wdl.WDL;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.WorldSettings;
@@ -190,8 +190,8 @@ import net.minecraft.world.storage.MapData;
 import net.minecraft.world.storage.MapStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import wtf.nebula.client.core.Launcher;
-import wtf.nebula.client.impl.event.impl.network.PlayerConnectionEvent;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.network.EventPlayerConnection;
 
 public class NetHandlerPlayClient implements INetHandlerPlayClient
 {
@@ -245,11 +245,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         double var6 = (double)p_147235_1_.func_148994_f() / 32.0D;
         Object var8 = null;
 
-        if (p_147235_1_.func_148993_l() == 10)
+        if (p_147235_1_.getType() == 10)
         {
             var8 = EntityMinecart.createMinecart(this.clientWorldController, var2, var4, var6, p_147235_1_.func_149009_m());
         }
-        else if (p_147235_1_.func_148993_l() == 90)
+        else if (p_147235_1_.getType() == 90)
         {
             Entity var9 = this.clientWorldController.getEntityByID(p_147235_1_.func_149009_m());
 
@@ -260,82 +260,82 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
             p_147235_1_.func_149002_g(0);
         }
-        else if (p_147235_1_.func_148993_l() == 60)
+        else if (p_147235_1_.getType() == 60)
         {
             var8 = new EntityArrow(this.clientWorldController, var2, var4, var6);
         }
-        else if (p_147235_1_.func_148993_l() == 61)
+        else if (p_147235_1_.getType() == 61)
         {
             var8 = new EntitySnowball(this.clientWorldController, var2, var4, var6);
         }
-        else if (p_147235_1_.func_148993_l() == 71)
+        else if (p_147235_1_.getType() == 71)
         {
             var8 = new EntityItemFrame(this.clientWorldController, (int)var2, (int)var4, (int)var6, p_147235_1_.func_149009_m());
             p_147235_1_.func_149002_g(0);
         }
-        else if (p_147235_1_.func_148993_l() == 77)
+        else if (p_147235_1_.getType() == 77)
         {
             var8 = new EntityLeashKnot(this.clientWorldController, (int)var2, (int)var4, (int)var6);
             p_147235_1_.func_149002_g(0);
         }
-        else if (p_147235_1_.func_148993_l() == 65)
+        else if (p_147235_1_.getType() == 65)
         {
             var8 = new EntityEnderPearl(this.clientWorldController, var2, var4, var6);
         }
-        else if (p_147235_1_.func_148993_l() == 72)
+        else if (p_147235_1_.getType() == 72)
         {
             var8 = new EntityEnderEye(this.clientWorldController, var2, var4, var6);
         }
-        else if (p_147235_1_.func_148993_l() == 76)
+        else if (p_147235_1_.getType() == 76)
         {
             var8 = new EntityFireworkRocket(this.clientWorldController, var2, var4, var6, (ItemStack)null);
         }
-        else if (p_147235_1_.func_148993_l() == 63)
+        else if (p_147235_1_.getType() == 63)
         {
             var8 = new EntityLargeFireball(this.clientWorldController, var2, var4, var6, (double)p_147235_1_.func_149010_g() / 8000.0D, (double)p_147235_1_.func_149004_h() / 8000.0D, (double)p_147235_1_.func_148999_i() / 8000.0D);
             p_147235_1_.func_149002_g(0);
         }
-        else if (p_147235_1_.func_148993_l() == 64)
+        else if (p_147235_1_.getType() == 64)
         {
             var8 = new EntitySmallFireball(this.clientWorldController, var2, var4, var6, (double)p_147235_1_.func_149010_g() / 8000.0D, (double)p_147235_1_.func_149004_h() / 8000.0D, (double)p_147235_1_.func_148999_i() / 8000.0D);
             p_147235_1_.func_149002_g(0);
         }
-        else if (p_147235_1_.func_148993_l() == 66)
+        else if (p_147235_1_.getType() == 66)
         {
             var8 = new EntityWitherSkull(this.clientWorldController, var2, var4, var6, (double)p_147235_1_.func_149010_g() / 8000.0D, (double)p_147235_1_.func_149004_h() / 8000.0D, (double)p_147235_1_.func_148999_i() / 8000.0D);
             p_147235_1_.func_149002_g(0);
         }
-        else if (p_147235_1_.func_148993_l() == 62)
+        else if (p_147235_1_.getType() == 62)
         {
             var8 = new EntityEgg(this.clientWorldController, var2, var4, var6);
         }
-        else if (p_147235_1_.func_148993_l() == 73)
+        else if (p_147235_1_.getType() == 73)
         {
             var8 = new EntityPotion(this.clientWorldController, var2, var4, var6, p_147235_1_.func_149009_m());
             p_147235_1_.func_149002_g(0);
         }
-        else if (p_147235_1_.func_148993_l() == 75)
+        else if (p_147235_1_.getType() == 75)
         {
             var8 = new EntityExpBottle(this.clientWorldController, var2, var4, var6);
             p_147235_1_.func_149002_g(0);
         }
-        else if (p_147235_1_.func_148993_l() == 1)
+        else if (p_147235_1_.getType() == 1)
         {
             var8 = new EntityBoat(this.clientWorldController, var2, var4, var6);
         }
-        else if (p_147235_1_.func_148993_l() == 50)
+        else if (p_147235_1_.getType() == 50)
         {
             var8 = new EntityTNTPrimed(this.clientWorldController, var2, var4, var6, (EntityLivingBase)null);
         }
-        else if (p_147235_1_.func_148993_l() == 51)
+        else if (p_147235_1_.getType() == 51)
         {
             var8 = new EntityEnderCrystal(this.clientWorldController, var2, var4, var6);
         }
-        else if (p_147235_1_.func_148993_l() == 2)
+        else if (p_147235_1_.getType() == 2)
         {
             var8 = new EntityItem(this.clientWorldController, var2, var4, var6);
         }
-        else if (p_147235_1_.func_148993_l() == 70)
+        else if (p_147235_1_.getType() == 70)
         {
             var8 = new EntityFallingBlock(this.clientWorldController, var2, var4, var6, Block.getBlockById(p_147235_1_.func_149009_m() & 65535), p_147235_1_.func_149009_m() >> 16);
             p_147235_1_.func_149002_g(0);
@@ -352,7 +352,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
             if (var12 != null)
             {
-                int var10 = p_147235_1_.func_149001_c() - ((Entity)var8).getEntityId();
+                int var10 = p_147235_1_.getEntityId() - ((Entity)var8).getEntityId();
 
                 for (int var11 = 0; var11 < var12.length; ++var11)
                 {
@@ -360,12 +360,12 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
                 }
             }
 
-            ((Entity)var8).setEntityId(p_147235_1_.func_149001_c());
-            this.clientWorldController.addEntityToWorld(p_147235_1_.func_149001_c(), (Entity)var8);
+            ((Entity)var8).setEntityId(p_147235_1_.getEntityId());
+            this.clientWorldController.addEntityToWorld(p_147235_1_.getEntityId(), (Entity)var8);
 
             if (p_147235_1_.func_149009_m() > 0)
             {
-                if (p_147235_1_.func_148993_l() == 60)
+                if (p_147235_1_.getType() == 60)
                 {
                     Entity var13 = this.clientWorldController.getEntityByID(p_147235_1_.func_149009_m());
 
@@ -622,21 +622,52 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void handleDisconnect(S40PacketDisconnect p_147253_1_)
     {
+        if (WDL.downloading)
+        {
+            WDL.stop();
+
+            try
+            {
+                Thread.sleep(2000L);
+            }
+            catch (Exception var3)
+            {
+                ;
+            }
+        }
+
         this.netManager.closeChannel(p_147253_1_.func_149165_c());
     }
 
     public void onDisconnect(IChatComponent p_147231_1_)
     {
+        if (WDL.downloading)
+        {
+            WDL.stop();
+
+            try
+            {
+                Thread.sleep(2000L);
+            }
+            catch (Exception var3)
+            {
+                ;
+            }
+        }
+
         this.gameController.loadWorld((WorldClient)null);
 
-        if (this.guiScreenServer != null)
-        {
-            this.gameController.displayGuiScreen(new GuiScreenDisconnectedOnline(this.guiScreenServer, "disconnect.lost", p_147231_1_));
-        }
-        else
-        {
-            this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", p_147231_1_));
-        }
+        GuiScreen screen = guiScreenServer != null ? guiScreenServer : new GuiMultiplayer(new GuiMainMenu());
+        gameController.displayGuiScreen(new GuiDisconnected(screen, "disconnect.lost", p_147231_1_));
+
+//        if (this.guiScreenServer != null)
+//        {
+//            this.gameController.displayGuiScreen(new GuiScreenDisconnectedOnline(this.guiScreenServer, "disconnect.lost", p_147231_1_));
+//        }
+//        else
+//        {
+//            this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", p_147231_1_));
+//        }
     }
 
     public void addToSendQueue(Packet p_147297_1_)
@@ -645,7 +676,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     }
 
     public void addToSendQueueSilent(Packet packet) {
-        netManager.dispatchPacket(packet, null);
+        netManager.dispatchPacket(packet, new GenericFutureListener[0]);
     }
 
     public void handleCollectItem(S0DPacketCollectItem p_147246_1_)
@@ -676,6 +707,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void handleChat(S02PacketChat p_147251_1_)
     {
+        WDL.handleServerSeedMessage(p_147251_1_.func_148915_c().getFormattedText());
         this.gameController.ingameGUI.getChatGui().printChatMessage(p_147251_1_.func_148915_c());
     }
 
@@ -859,12 +891,12 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void handleExplosion(S27PacketExplosion p_147283_1_)
     {
-        Explosion var2 = new Explosion(this.gameController.theWorld, (Entity)null, p_147283_1_.func_149148_f(), p_147283_1_.func_149143_g(), p_147283_1_.func_149145_h(), p_147283_1_.func_149146_i());
+        Explosion var2 = new Explosion(this.gameController.theWorld, (Entity)null, p_147283_1_.getX(), p_147283_1_.getY(), p_147283_1_.getZ(), p_147283_1_.func_149146_i());
         var2.affectedBlockPositions = p_147283_1_.func_149150_j();
         var2.doExplosionB(true);
-        this.gameController.thePlayer.motionX += (double)p_147283_1_.func_149149_c();
-        this.gameController.thePlayer.motionY += (double)p_147283_1_.func_149144_d();
-        this.gameController.thePlayer.motionZ += (double)p_147283_1_.func_149147_e();
+        this.gameController.thePlayer.motionX += (double)p_147283_1_.getMotionX();
+        this.gameController.thePlayer.motionY += (double)p_147283_1_.getMotionY();
+        this.gameController.thePlayer.motionZ += (double)p_147283_1_.getMotionZ();
     }
 
     public void handleOpenWindow(S2DPacketOpenWindow p_147265_1_)
@@ -1261,11 +1293,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     {
         if (p_147277_1_.func_149244_c())
         {
-            this.gameController.theWorld.playBroadcastSound(p_147277_1_.func_149242_d(), p_147277_1_.func_149240_f(), p_147277_1_.func_149243_g(), p_147277_1_.func_149239_h(), p_147277_1_.func_149241_e());
+            this.gameController.theWorld.playBroadcastSound(p_147277_1_.getEffectId(), p_147277_1_.getX(), p_147277_1_.getY(), p_147277_1_.getZ(), p_147277_1_.func_149241_e());
         }
         else
         {
-            this.gameController.theWorld.playAuxSFX(p_147277_1_.func_149242_d(), p_147277_1_.func_149240_f(), p_147277_1_.func_149243_g(), p_147277_1_.func_149239_h(), p_147277_1_.func_149241_e());
+            this.gameController.theWorld.playAuxSFX(p_147277_1_.getEffectId(), p_147277_1_.getX(), p_147277_1_.getY(), p_147277_1_.getZ(), p_147277_1_.func_149241_e());
         }
     }
 
@@ -1343,12 +1375,12 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             this.playerInfoMap.put(p_147256_1_.func_149122_c(), var2);
             this.playerInfoList.add(var2);
 
-            Launcher.BUS.post(new PlayerConnectionEvent(PlayerConnectionEvent.Action.JOIN, p_147256_1_.username));
+            Nebula.BUS.post(new EventPlayerConnection(EventPlayerConnection.Action.JOIN, p_147256_1_.username));
         }
 
         if (var2 != null && !p_147256_1_.func_149121_d())
         {
-            Launcher.BUS.post(new PlayerConnectionEvent(PlayerConnectionEvent.Action.LEAVE, p_147256_1_.username));
+            Nebula.BUS.post(new EventPlayerConnection(EventPlayerConnection.Action.LEAVE, p_147256_1_.username));
 
             this.playerInfoMap.remove(p_147256_1_.func_149122_c());
             this.playerInfoList.remove(var2);
@@ -1394,7 +1426,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void handleSoundEffect(S29PacketSoundEffect p_147255_1_)
     {
-        this.gameController.theWorld.playSound(p_147255_1_.func_149207_d(), p_147255_1_.func_149211_e(), p_147255_1_.func_149210_f(), p_147255_1_.func_149212_c(), p_147255_1_.func_149208_g(), p_147255_1_.func_149209_h(), false);
+        this.gameController.theWorld.playSound(p_147255_1_.getX(), p_147255_1_.getY(), p_147255_1_.getZ(), p_147255_1_.func_149212_c(), p_147255_1_.func_149208_g(), p_147255_1_.func_149209_h(), false);
     }
 
     public void handleCustomPayload(S3FPacketCustomPayload p_147240_1_)

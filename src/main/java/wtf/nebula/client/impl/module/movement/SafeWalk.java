@@ -3,8 +3,8 @@ package wtf.nebula.client.impl.module.movement;
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.init.Blocks;
 import wtf.nebula.client.api.property.Property;
-import wtf.nebula.client.impl.event.impl.client.TickEvent;
-import wtf.nebula.client.impl.event.impl.move.SafewalkEvent;
+import wtf.nebula.client.impl.event.impl.client.EventTick;
+import wtf.nebula.client.impl.event.impl.move.EventSafeWalk;
 import wtf.nebula.client.impl.module.ModuleCategory;
 import wtf.nebula.client.impl.module.ToggleableModule;
 import wtf.nebula.client.utils.player.PlayerUtils;
@@ -32,7 +32,7 @@ public class SafeWalk extends ToggleableModule {
     }
 
     @EventListener
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if (eagle.getValue()) {
             eagling = WorldUtils.getBlock(PlayerUtils.getPosUnder()) == Blocks.air && mc.thePlayer.onGround;
             mc.gameSettings.keyBindSneak.pressed = eagling;
@@ -45,7 +45,7 @@ public class SafeWalk extends ToggleableModule {
     }
 
     @EventListener
-    public void onSafewalk(SafewalkEvent event) {
+    public void onSafewalk(EventSafeWalk event) {
         event.setCancelled(true);
     }
 }

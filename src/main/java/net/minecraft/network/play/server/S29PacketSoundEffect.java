@@ -65,17 +65,17 @@ public class S29PacketSoundEffect extends Packet
         return this.field_149219_a;
     }
 
-    public double func_149207_d()
+    public double getX()
     {
         return (double)((float)this.x / 8.0F);
     }
 
-    public double func_149211_e()
+    public double getY()
     {
         return (double)((float)this.y / 8.0F);
     }
 
-    public double func_149210_f()
+    public double getZ()
     {
         return (double)((float)this.z / 8.0F);
     }

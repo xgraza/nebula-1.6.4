@@ -1,6 +1,6 @@
 package wtf.nebula.client.api.config;
 
-import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.core.Nebula;
 import wtf.nebula.client.utils.io.FileUtils;
 
 import java.io.File;
@@ -17,10 +17,10 @@ public abstract class Config {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                if (Launcher.VERSION.isDev()) {
+                if (Nebula.VERSION.isDev()) {
                     e.printStackTrace();
                 } else {
-                    Launcher.LOGGER.info("Could not create file {}", file);
+                    Nebula.LOGGER.info("Could not create file {}", file);
                 }
             }
         }

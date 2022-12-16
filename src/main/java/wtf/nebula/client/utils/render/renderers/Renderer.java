@@ -8,7 +8,8 @@ public abstract class Renderer implements Wrapper {
 
     public abstract void render();
 
-    public void setDimension(Dimension dimension) {
+    public Renderer setDimension(Dimension dimension) {
         this.dimension = dimension;
+        return this;
     }
 }

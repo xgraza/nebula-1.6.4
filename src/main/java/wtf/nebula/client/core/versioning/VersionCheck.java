@@ -3,7 +3,7 @@ package wtf.nebula.client.core.versioning;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import wtf.nebula.client.core.ClientEnvironment;
-import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.core.Nebula;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +14,10 @@ public class VersionCheck {
     private static final String VERSION_JSON_URL = "https://raw.githubusercontent.com/Sxmurai/nebula-1.6.4/version/version.json";
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0";
 
+    public static boolean isOutdated = false;
+
     public static void check() {
-        if (Launcher.VERSION.getEnv().equals(ClientEnvironment.RELEASE)) {
+        if (Nebula.VERSION.getEnv().equals(ClientEnvironment.RELEASE)) {
             String res = getResponse();
             if (res != null && !res.isEmpty()) {
                 JsonObject object = new JsonParser().parse(res).getAsJsonObject();
@@ -27,12 +29,13 @@ public class VersionCheck {
                 int rcId = object.get("rcId").getAsInt();
 
                 Version serverVer = new Version(major, minor, patch, env).setRcId(rcId);
-                if (!serverVer.getVersionString().equals(Launcher.VERSION.getVersionString())) {
-                    Launcher.LOGGER.info("You are outdated!");
+                if (!serverVer.getVersionString().equals(Nebula.VERSION.getVersionString())) {
+                    Nebula.LOGGER.info("You are outdated!");
+                    isOutdated = true;
                 }
             }
         } else {
-            Launcher.LOGGER.info("In a client environment other than release, not checking for latest...");
+            Nebula.LOGGER.info("In a client environment other than release, not checking for latest...");
         }
     }
 
@@ -61,10 +64,10 @@ public class VersionCheck {
                 return null;
             }
         } catch (IOException e) {
-            if (Launcher.VERSION.isDev()) {
+            if (Nebula.VERSION.isDev()) {
                 e.printStackTrace();
             } else {
-                Launcher.LOGGER.info("An exception occurred while fetching for the latest version");
+                Nebula.LOGGER.info("An exception occurred while fetching for the latest version");
             }
         }
 

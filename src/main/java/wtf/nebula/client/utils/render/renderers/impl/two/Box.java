@@ -22,27 +22,8 @@ public class Box extends Renderer {
 
     @Override
     public void render() {
-
         if (dimension.equals(Dimension.TWO)) {
-            glPushMatrix();
-
-            glDisable(GL_TEXTURE_2D);
-            glEnable(GL_BLEND);
-            OpenGlHelper.glBlendFunc(770, 771, 0, 1);
-
-            RenderEngine.color(color);
-
-            Tessellator tessellator = Tessellator.instance;
-            tessellator.startDrawingQuads();
-            tessellator.addVertex(x, y, 0.0);
-            tessellator.addVertex(x, y + height, 0.0);
-            tessellator.addVertex(x + width, y + height, 0.0);
-            tessellator.addVertex(x + width, y, 0.0);
-            tessellator.draw();
-
-            glDisable(GL_BLEND);
-            glEnable(GL_TEXTURE_2D);
-            glPopMatrix();
+            RenderEngine.rectangle(x, y, width, height, color);
         }
     }
 }

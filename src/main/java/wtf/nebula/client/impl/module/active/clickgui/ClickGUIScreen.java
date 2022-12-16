@@ -1,7 +1,8 @@
 package wtf.nebula.client.impl.module.active.clickgui;
 
 import net.minecraft.client.gui.GuiScreen;
-import wtf.nebula.client.core.Launcher;
+import org.lwjgl.input.Mouse;
+import wtf.nebula.client.core.Nebula;
 import wtf.nebula.client.impl.module.ModuleCategory;
 import wtf.nebula.client.impl.module.active.ClickGUI;
 import wtf.nebula.client.impl.module.active.clickgui.elements.Panel;
@@ -33,6 +34,13 @@ public class ClickGUIScreen extends GuiScreen {
     public void drawScreen(int par1, int par2, float par3) {
         drawDefaultBackground();
         panels.forEach((panel) -> panel.drawScreen(par1, par2, par3));
+
+        int scroll = Mouse.getDWheel();
+        if (scroll > 0) {
+            panels.forEach((panel) -> panel.y += ClickGUI.scroll.getValue());
+        } else if (scroll < 0) {
+            panels.forEach((panel) -> panel.y -= ClickGUI.scroll.getValue());
+        }
     }
 
     @Override
@@ -55,7 +63,7 @@ public class ClickGUIScreen extends GuiScreen {
     @Override
     public void onGuiClosed() {
         super.onGuiClosed();
-        Launcher.getInstance().getModuleManager().getModule(ClickGUI.class).setRunning(false);
+        Nebula.getInstance().getModuleManager().getModule(ClickGUI.class).setRunning(false);
     }
 
     public static ClickGUIScreen getInstance() {

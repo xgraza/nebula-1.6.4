@@ -12,8 +12,8 @@ public class ExtendedBlockStorage
     private byte[] blockLSBArray;
     private NibbleArray blockMSBArray;
     private NibbleArray blockMetadataArray;
-    private NibbleArray blocklightArray;
-    private NibbleArray skylightArray;
+    public NibbleArray blocklightArray;
+    public NibbleArray skylightArray;
     private static final String __OBFID = "CL_00000375";
 
     public ExtendedBlockStorage(int par1, boolean par2)

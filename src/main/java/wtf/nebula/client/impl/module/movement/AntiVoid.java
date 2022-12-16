@@ -5,8 +5,8 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import wtf.nebula.client.api.property.Property;
 import wtf.nebula.client.impl.event.base.Era;
-import wtf.nebula.client.impl.event.impl.client.TickEvent;
-import wtf.nebula.client.impl.event.impl.network.PacketEvent;
+import wtf.nebula.client.impl.event.impl.client.EventTick;
+import wtf.nebula.client.impl.event.impl.network.EventPacket;
 import wtf.nebula.client.impl.module.ModuleCategory;
 import wtf.nebula.client.impl.module.ToggleableModule;
 
@@ -22,14 +22,19 @@ public class AntiVoid extends ToggleableModule {
     }
 
     @Override
+    public String getTag() {
+        return String.valueOf(distance.getValue());
+    }
+
+    @Override
     protected void onDisable() {
         super.onDisable();
         funny = false;
     }
 
     @EventListener
-    public void onTick(TickEvent event) {
-        if (mc.thePlayer.fallDistance >= distance.getValue()) {
+    public void onTick(EventTick event) {
+        if (mc.thePlayer.fallDistance >= distance.getValue() && !mc.isSingleplayer()) {
             funny = true;
             mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
                     mc.thePlayer.posX,
@@ -37,11 +42,12 @@ public class AntiVoid extends ToggleableModule {
                     mc.thePlayer.boundingBox.minY + 2.0,
                     mc.thePlayer.posZ,
                     false));
+            mc.thePlayer.fallDistance = 0.0f;
         }
     }
 
     @EventListener
-    public void onPacketReceive(PacketEvent event) {
+    public void onPacketReceive(EventPacket event) {
         if (event.getEra().equals(Era.PRE) && event.getPacket() instanceof S08PacketPlayerPosLook && autoDisable.getValue() && funny) {
             setRunning(false);
         }

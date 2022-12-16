@@ -11,6 +11,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.world.EventLiquidCollideCheck;
 
 public abstract class BlockLiquid extends Block
 {
@@ -114,7 +116,13 @@ public abstract class BlockLiquid extends Block
 
     public boolean canCollideCheck(int p_149678_1_, boolean p_149678_2_)
     {
-        return p_149678_2_ && p_149678_1_ == 0;
+        boolean in = p_149678_2_ && p_149678_1_ == 0;
+        EventLiquidCollideCheck event = new EventLiquidCollideCheck(this, in);
+        if (Nebula.BUS.post(event)) {
+            in = event.isIn();
+        }
+
+        return in;
     }
 
     public boolean isBlockSolid(IBlockAccess p_149747_1_, int p_149747_2_, int p_149747_3_, int p_149747_4_, int p_149747_5_)

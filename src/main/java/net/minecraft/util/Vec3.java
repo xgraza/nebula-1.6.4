@@ -71,6 +71,10 @@ public class Vec3
         return this.myVec3LocalPool.getVecFromPool(this.xCoord + par1, this.yCoord + par3, this.zCoord + par5);
     }
 
+    public Vec3 add(Vec3 vec) {
+        return addVector(vec.xCoord, vec.yCoord, vec.zCoord);
+    }
+
     public double distanceTo(Vec3 par1Vec3)
     {
         double var2 = par1Vec3.xCoord - this.xCoord;

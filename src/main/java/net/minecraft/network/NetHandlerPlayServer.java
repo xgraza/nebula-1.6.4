@@ -264,12 +264,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     var9 = p_147347_1_.func_149472_e();
                     var13 = p_147347_1_.func_149471_f() - p_147347_1_.func_149467_d();
 
-                    if (!this.playerEntity.isPlayerSleeping() && (var13 > 1.65D || var13 < 0.1D))
-                    {
-                        this.kickPlayerFromServer("Illegal stance");
-                        logger.warn(this.playerEntity.getCommandSenderName() + " had an illegal stance: " + var13);
-                        return;
-                    }
+//                    if (!this.playerEntity.isPlayerSleeping() && (var13 > 1.65D || var13 < 0.1D))
+//                    {
+//                        this.kickPlayerFromServer("Illegal stance");
+//                        logger.warn(this.playerEntity.getCommandSenderName() + " had an illegal stance: " + var13);
+//                        return;
+//                    }
 
                     if (Math.abs(p_147347_1_.func_149464_c()) > 3.2E7D || Math.abs(p_147347_1_.func_149472_e()) > 3.2E7D)
                     {

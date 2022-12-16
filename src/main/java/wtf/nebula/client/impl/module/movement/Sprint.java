@@ -2,7 +2,7 @@ package wtf.nebula.client.impl.module.movement;
 
 import me.bush.eventbus.annotation.EventListener;
 import wtf.nebula.client.api.property.Property;
-import wtf.nebula.client.impl.event.impl.client.TickEvent;
+import wtf.nebula.client.impl.event.impl.client.EventTick;
 import wtf.nebula.client.impl.module.ModuleCategory;
 import wtf.nebula.client.impl.module.ToggleableModule;
 
@@ -14,23 +14,29 @@ public class Sprint extends ToggleableModule {
         offerProperties(mode);
     }
 
-    @EventListener
-    public void onTick(TickEvent event) {
-        switch (mode.getValue()) {
-            case LEGIT: {
-                mc.thePlayer.setSprinting(
-                        !mc.thePlayer.isSprinting() &&
-                        !mc.thePlayer.isSneaking() &&
-                                !mc.thePlayer.isUsingItem() &&
-                                !mc.thePlayer.isCollidedHorizontally &&
-                                mc.thePlayer.getFoodStats().getFoodLevel() > 6 &&
-                                mc.thePlayer.movementInput.moveForward > 0.0f);
-                break;
-            }
+    @Override
+    public String getTag() {
+        return mode.getFixedValue();
+    }
 
-            case RAGE: {
-                mc.thePlayer.setSprinting(true);
-                break;
+    @EventListener
+    public void onTick(EventTick event) {
+        if (!mc.thePlayer.isSprinting()) {
+            switch (mode.getValue()) {
+                case LEGIT: {
+                    mc.thePlayer.setSprinting(
+                            !mc.thePlayer.isSneaking() &&
+                                    !mc.thePlayer.isUsingItem() &&
+                                    !mc.thePlayer.isCollidedHorizontally &&
+                                    mc.thePlayer.getFoodStats().getFoodLevel() > 6 &&
+                                    mc.thePlayer.movementInput.moveForward > 0.0f);
+                    break;
+                }
+
+                case RAGE: {
+                    mc.thePlayer.setSprinting(true);
+                    break;
+                }
             }
         }
     }

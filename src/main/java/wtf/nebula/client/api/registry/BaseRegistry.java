@@ -15,4 +15,12 @@ public class BaseRegistry<T> implements Wrapper {
         registryMap.put(instance.getClass(), instance);
         registry.add(instance);
     }
+
+    public Map<Class<?>, T> getRegistryMap() {
+        return registryMap;
+    }
+
+    public List<T> getRegistry() {
+        return registry;
+    }
 }

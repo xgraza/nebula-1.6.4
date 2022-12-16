@@ -9,7 +9,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class S3APacketTabComplete extends Packet
 {
-    private String[] field_149632_a;
+    public String[] field_149632_a;
     private static final String __OBFID = "CL_00001288";
 
     public S3APacketTabComplete() {}

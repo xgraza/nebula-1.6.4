@@ -129,10 +129,10 @@ public class S0EPacketSpawnObject extends Packet
 
     public String serialize()
     {
-        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", new Object[] {Integer.valueOf(this.field_149018_a), Integer.valueOf(this.field_149019_j), Float.valueOf((float)this.field_149016_b / 32.0F), Float.valueOf((float)this.field_149017_c / 32.0F), Float.valueOf((float)this.field_149014_d / 32.0F)});
+        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", this.field_149018_a, this.field_149019_j, (float) this.field_149016_b / 32.0F, Float.valueOf((float)this.field_149017_c / 32.0F), Float.valueOf((float)this.field_149014_d / 32.0F));
     }
 
-    public int func_149001_c()
+    public int getEntityId()
     {
         return this.field_149018_a;
     }
@@ -177,7 +177,7 @@ public class S0EPacketSpawnObject extends Packet
         return this.field_149022_i;
     }
 
-    public int func_148993_l()
+    public int getType()
     {
         return this.field_149019_j;
     }

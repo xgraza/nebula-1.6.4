@@ -13,6 +13,11 @@ import net.minecraft.src.PlayerConfigurations;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraft.world.World;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.manager.CapeManager;
+import wtf.nebula.client.impl.module.active.Capes;
+
+import java.awt.*;
 
 public abstract class AbstractClientPlayer extends EntityPlayer
 {
@@ -71,6 +76,11 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         return this.locationCape;
     }
 
+    public boolean hasCape() {
+        return Nebula.getInstance().getCapeManager().hasCape(getCommandSenderName())
+                && Nebula.getInstance().getModuleManager().getModule(Capes.class).isRunning();
+    }
+
     public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation par0ResourceLocation, String par1Str)
     {
         return getDownloadImage(par0ResourceLocation, getSkinUrl(par1Str), locationStevePng, new ImageBufferDownload());
@@ -115,8 +125,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         return new ResourceLocation("cloaks/" + StringUtils.stripControlCodes(par0Str));
     }
 
-    public static ResourceLocation getLocationSkull(String par0Str)
-    {
+    public static ResourceLocation getLocationSkull(String par0Str) {
         return new ResourceLocation("skull/" + StringUtils.stripControlCodes(par0Str));
     }
 

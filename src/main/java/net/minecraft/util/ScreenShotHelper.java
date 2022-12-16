@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import wtf.nebula.client.impl.module.visuals.Waypoints;
 
 public class ScreenShotHelper
 {

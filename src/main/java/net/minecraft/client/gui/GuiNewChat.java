@@ -13,13 +13,16 @@ import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.client.EventAddChatMessage;
+import wtf.nebula.client.impl.module.miscellaneous.Translator;
 
 public class GuiNewChat extends Gui
 {
     private static final Logger loggerGnc = LogManager.getLogger();
     private final Minecraft mc;
     private final List sentMessages = new ArrayList();
-    private final List chatLines = new ArrayList();
+    public final List chatLines = new ArrayList();
     private final List field_146253_i = new ArrayList();
     private int field_146250_j;
     private boolean field_146251_k;
@@ -141,6 +144,11 @@ public class GuiNewChat extends Gui
 
     public void printChatMessageWithOptionalDeletion(IChatComponent p_146234_1_, int p_146234_2_)
     {
+
+        if (Nebula.BUS.post(new EventAddChatMessage(p_146234_1_, p_146234_2_))) {
+            return;
+        }
+
         this.func_146237_a(p_146234_1_, p_146234_2_, this.mc.ingameGUI.getUpdateCounter(), false);
         loggerGnc.info("[CHAT] " + p_146234_1_.getUnformattedText());
     }
@@ -297,7 +305,7 @@ public class GuiNewChat extends Gui
 
     public IChatComponent func_146236_a(int p_146236_1_, int p_146236_2_)
     {
-        if (!this.getChatOpen())
+        if (!this.getChatOpen() && !Nebula.getInstance().getModuleManager().getModule(Translator.class).isRunning())
         {
             return null;
         }

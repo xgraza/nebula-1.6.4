@@ -20,7 +20,7 @@ public class ChunkProviderClient implements IChunkProvider
     private static final Logger logger = LogManager.getLogger();
     private Chunk blankChunk;
     private LongHashMap chunkMapping = new LongHashMap();
-    private List chunkListing = new ArrayList();
+    public List<Chunk> chunkListing = new ArrayList<>();
     private World worldObj;
     private static final String __OBFID = "CL_00000880";
 

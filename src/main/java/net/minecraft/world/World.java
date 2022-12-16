@@ -49,6 +49,9 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.render.EventUpdateLight;
+import wtf.nebula.client.impl.module.visuals.NoWeather;
 
 public abstract class World implements IBlockAccess
 {
@@ -58,7 +61,7 @@ public abstract class World implements IBlockAccess
     public List tileEntities = new ArrayList();
     public List<TileEntity> field_147484_a = new ArrayList();
     public List<TileEntity> field_147483_b = new ArrayList();
-    public List playerEntities = new ArrayList();
+    public List<EntityPlayer> playerEntities = new ArrayList<>();
     public List weatherEffects = new ArrayList();
     private long cloudColour = 16777215L;
     public int skylightSubtracted;
@@ -2819,6 +2822,10 @@ public abstract class World implements IBlockAccess
 
     public boolean updateLightByType(EnumSkyBlock p_147463_1_, int p_147463_2_, int p_147463_3_, int p_147463_4_)
     {
+        if (Nebula.BUS.post(new EventUpdateLight(p_147463_1_))) {
+            return false;
+        }
+
         if (!this.doChunksNearChunkExist(p_147463_2_, p_147463_3_, p_147463_4_, 17))
         {
             return false;
@@ -3412,6 +3419,10 @@ public abstract class World implements IBlockAccess
 
     public float getWeightedThunderStrength(float par1)
     {
+        if (Nebula.getInstance().getModuleManager().getModule(NoWeather.class).isRunning()) {
+            return 0.0f;
+        }
+
         return (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * par1) * this.getRainStrength(par1);
     }
 
@@ -3423,6 +3434,10 @@ public abstract class World implements IBlockAccess
 
     public float getRainStrength(float par1)
     {
+        if (Nebula.getInstance().getModuleManager().getModule(NoWeather.class).isRunning()) {
+            return 0.0f;
+        }
+
         return this.prevRainingStrength + (this.rainingStrength - this.prevRainingStrength) * par1;
     }
 
@@ -3434,11 +3449,19 @@ public abstract class World implements IBlockAccess
 
     public boolean isThundering()
     {
+        if (Nebula.getInstance().getModuleManager().getModule(NoWeather.class).isRunning()) {
+            return false;
+        }
+
         return (double)this.getWeightedThunderStrength(1.0F) > 0.9D;
     }
 
     public boolean isRaining()
     {
+        if (Nebula.getInstance().getModuleManager().getModule(NoWeather.class).isRunning()) {
+            return false;
+        }
+
         return (double)this.getRainStrength(1.0F) > 0.2D;
     }
 

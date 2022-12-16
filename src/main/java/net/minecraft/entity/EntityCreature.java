@@ -18,7 +18,7 @@ public abstract class EntityCreature extends EntityLiving
     public static final UUID field_110179_h = UUID.fromString("E199AD21-BA8A-4C53-8D13-6182D5C69D3A");
     public static final AttributeModifier field_110181_i = (new AttributeModifier(field_110179_h, "Fleeing speed bonus", 2.0D, 2)).setSaved(false);
     private PathEntity pathToEntity;
-    protected Entity entityToAttack;
+    public Entity entityToAttack;
     protected boolean hasAttacked;
     protected int fleeingTick;
     private ChunkCoordinates homePosition = new ChunkCoordinates(0, 0, 0);

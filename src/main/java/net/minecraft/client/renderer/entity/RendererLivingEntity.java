@@ -23,9 +23,9 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import shadersmod.client.Shaders;
-import wtf.nebula.client.core.Launcher;
+import wtf.nebula.client.core.Nebula;
 import wtf.nebula.client.impl.event.base.Era;
-import wtf.nebula.client.impl.event.impl.render.RenderRotationsEvent;
+import wtf.nebula.client.impl.event.impl.render.EventRenderRotations;
 
 public abstract class RendererLivingEntity extends Render
 {
@@ -152,6 +152,11 @@ public abstract class RendererLivingEntity extends Render
                 }
 
                 var26 = par1EntityLivingBase.prevRotationPitch + (par1EntityLivingBase.rotationPitch - par1EntityLivingBase.prevRotationPitch) * par9;
+
+                if (par1EntityLivingBase == renderManager.livingPlayer) {
+                    var26 = par1EntityLivingBase.prevRotationPitchHead + (par1EntityLivingBase.rotationPitchHead - par1EntityLivingBase.prevRotationPitchHead) * par9;
+                }
+
                 this.renderLivingAt(par1EntityLivingBase, par2, par4, par6);
                 var291 = this.handleRotationFloat(par1EntityLivingBase, par9);
                 this.rotateCorpse(par1EntityLivingBase, var291, var25, par9);
@@ -181,8 +186,8 @@ public abstract class RendererLivingEntity extends Render
                 boolean reset = false;
 
                 if (par1EntityLivingBase.equals(Minecraft.getMinecraft().thePlayer)) {
-                    RenderRotationsEvent event = new RenderRotationsEvent(Era.PRE, rotationYaw, rotationPitch);
-                    Launcher.BUS.post(event);
+                    EventRenderRotations event = new EventRenderRotations(Era.PRE, rotationYaw, rotationPitch);
+                    Nebula.BUS.post(event);
 
                     if (event.isCancelled()) {
                         reset = true;

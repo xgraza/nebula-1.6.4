@@ -38,6 +38,10 @@ public class AxisAlignedBB
         this.maxZ = par11;
     }
 
+    public AxisAlignedBB(Vec3 vec, Vec3 vec2) {
+        this(vec.xCoord, vec.yCoord, vec.zCoord, vec2.xCoord, vec2.yCoord, vec2.zCoord);
+    }
+
     public AxisAlignedBB setBounds(double par1, double par3, double par5, double par7, double par9, double par11)
     {
         this.minX = par1;
@@ -47,6 +51,15 @@ public class AxisAlignedBB
         this.maxY = par9;
         this.maxZ = par11;
         return this;
+    }
+
+    public AxisAlignedBB(Vec3 vec) {
+        this(vec, 1.0);
+        //this(vec.xCoord, vec.yCoord, vec.zCoord, vec.xCoord + 1, vec.yCoord + 1, vec.zCoord + 1);
+    }
+
+    public AxisAlignedBB(Vec3 vec, double factor) {
+        this(vec.xCoord, vec.yCoord, vec.zCoord, vec.xCoord + factor, vec.yCoord + factor, vec.zCoord + factor);
     }
 
     public AxisAlignedBB addCoord(double par1, double par3, double par5)
@@ -257,6 +270,10 @@ public class AxisAlignedBB
         return this;
     }
 
+    public AxisAlignedBB offset(Vec3 vec) {
+        return offset(vec.xCoord, vec.yCoord, vec.zCoord);
+    }
+
     public boolean isVecInside(Vec3 par1Vec3)
     {
         return par1Vec3.xCoord > this.minX && par1Vec3.xCoord < this.maxX ? (par1Vec3.yCoord > this.minY && par1Vec3.yCoord < this.maxY ? par1Vec3.zCoord > this.minZ && par1Vec3.zCoord < this.maxZ : false) : false;
@@ -284,6 +301,11 @@ public class AxisAlignedBB
     public AxisAlignedBB copy()
     {
         return getAABBPool().getAABB(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
+    }
+
+    public Vec3 getCenter()
+    {
+        return new Vec3(Vec3.fakePool, this.minX + (this.maxX - this.minX) * 0.5D, this.minY + (this.maxY - this.minY) * 0.5D, this.minZ + (this.maxZ - this.minZ) * 0.5D);
     }
 
     public MovingObjectPosition calculateIntercept(Vec3 par1Vec3, Vec3 par2Vec3)

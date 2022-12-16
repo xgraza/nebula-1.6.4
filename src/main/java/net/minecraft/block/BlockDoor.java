@@ -251,11 +251,13 @@ public class BlockDoor extends Block
 
             if ((var10 & 8) == 0)
             {
+                System.out.println("opened");
                 p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, var11, 2);
                 p_149727_1_.markBlockRangeForRenderUpdate(p_149727_2_, p_149727_3_, p_149727_4_, p_149727_2_, p_149727_3_, p_149727_4_);
             }
             else
             {
+                System.out.println("closed");
                 p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_ - 1, p_149727_4_, var11, 2);
                 p_149727_1_.markBlockRangeForRenderUpdate(p_149727_2_, p_149727_3_ - 1, p_149727_4_, p_149727_2_, p_149727_3_, p_149727_4_);
             }
@@ -263,6 +265,10 @@ public class BlockDoor extends Block
             p_149727_1_.playAuxSFXAtEntity(p_149727_5_, 1003, p_149727_2_, p_149727_3_, p_149727_4_, 0);
             return true;
         }
+    }
+
+    public boolean isOpen(IBlockAccess access, int x, int y, int z) {
+        return (func_150012_g(access, x, y, z) & 8) == 0;
     }
 
     public void func_150014_a(World p_150014_1_, int p_150014_2_, int p_150014_3_, int p_150014_4_, boolean p_150014_5_)

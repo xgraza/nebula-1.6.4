@@ -109,18 +109,7 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.stats.StatFileWriter;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MinecraftError;
-import net.minecraft.util.MouseHelper;
-import net.minecraft.util.MovementInputFromOptions;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ReportedException;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.ScreenShotHelper;
-import net.minecraft.util.Session;
-import net.minecraft.util.Timer;
-import net.minecraft.util.Util;
+import net.minecraft.util.*;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraft.world.WorldProviderHell;
@@ -143,9 +132,15 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
-import wtf.nebula.client.core.Launcher;
-import wtf.nebula.client.impl.event.impl.client.TickEvent;
-import wtf.nebula.client.impl.event.impl.input.KeyInputEvent;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.client.EventTick;
+import wtf.nebula.client.impl.event.impl.input.EventKeyInput;
+import wtf.nebula.client.impl.event.impl.input.EventMiddleClick;
+import wtf.nebula.client.impl.event.impl.input.EventMouseInput;
+import wtf.nebula.client.impl.event.impl.render.EventOpenGUI;
+import wtf.nebula.client.impl.event.impl.network.EventServerJoin;
+import wtf.nebula.client.impl.event.impl.world.EventWorldChange;
+import wtf.nebula.client.impl.module.visuals.Waypoints;
 
 public class Minecraft implements IPlayerUsage
 {
@@ -180,8 +175,8 @@ public class Minecraft implements IPlayerUsage
     public LoadingScreenRenderer loadingScreen;
     public EntityRenderer entityRenderer;
     private int leftClickCounter;
-    private int tempDisplayWidth;
-    private int tempDisplayHeight;
+    private final int tempDisplayWidth;
+    private final int tempDisplayHeight;
     private IntegratedServer theIntegratedServer;
     public GuiAchievement guiAchievement;
     public GuiIngame ingameGUI;
@@ -200,6 +195,7 @@ public class Minecraft implements IPlayerUsage
     private String serverName;
     private int serverPort;
     boolean isTakingScreenshot;
+    boolean antiScreenshot = false;
     public boolean inGameHasFocus;
     long systemTime = getSystemTime();
     private int joinPlayerCounter;
@@ -530,7 +526,7 @@ public class Minecraft implements IPlayerUsage
         Display.setVSyncEnabled(this.gameSettings.enableVsync);
 
         try {
-            Launcher.launch();
+            Nebula.launch();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -697,6 +693,12 @@ public class Minecraft implements IPlayerUsage
 
     public void displayGuiScreen(GuiScreen p_147108_1_)
     {
+        if (Nebula.BUS != null) {
+            if (Nebula.BUS.post(new EventOpenGUI(currentScreen, p_147108_1_))) {
+                return;
+            }
+        }
+
         if (this.currentScreen != null)
         {
             this.currentScreen.onGuiClosed();
@@ -1041,6 +1043,7 @@ public class Minecraft implements IPlayerUsage
         {
             System.gc();
             AxisAlignedBB.getAABBPool().clearPool();
+            Vec3.fakePool.clearAndFreeCache();
             this.theWorld.getWorldVec3Pool().clearAndFreeCache();
         }
         catch (Throwable var3)
@@ -1061,18 +1064,31 @@ public class Minecraft implements IPlayerUsage
         System.gc();
     }
 
-    private void screenshotListener()
+    public void screenshotListener()
     {
         if (this.gameSettings.keyBindScreenshot.isPressed())
         {
             if (!this.isTakingScreenshot)
             {
                 this.isTakingScreenshot = true;
+
+                if (Waypoints.antiScreenshot.getValue() && Nebula.getInstance().getModuleManager().getModule(Waypoints.class).isRunning()) {
+                    antiScreenshot = true;
+                    Waypoints.render = false;
+                    return;
+                }
+
                 this.ingameGUI.getChatGui().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
             }
         }
         else
         {
+            if (antiScreenshot) {
+                this.ingameGUI.getChatGui().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
+                antiScreenshot = false;
+                Waypoints.render = true;
+            }
+
             this.isTakingScreenshot = false;
         }
     }
@@ -1346,7 +1362,7 @@ public class Minecraft implements IPlayerUsage
         }
     }
 
-    private void func_147121_ag()
+    public void func_147121_ag()
     {
         this.rightClickDelayTimer = 4;
         boolean var1 = true;
@@ -1499,7 +1515,7 @@ public class Minecraft implements IPlayerUsage
     public void runTick()
     {
         if (theWorld != null && thePlayer != null) {
-            Launcher.BUS.post(new TickEvent());
+            Nebula.BUS.post(new EventTick());
         }
 
         if (this.rightClickDelayTimer > 0)
@@ -1598,6 +1614,8 @@ public class Minecraft implements IPlayerUsage
             }
         }
 
+        Nebula.BUS.post(new EventMouseInput(Mouse.getEventButton(), Mouse.getEventButtonState()));
+
         if (this.currentScreen == null || this.currentScreen.allowUserInput)
         {
             this.mcProfiler.endStartSection("mouse");
@@ -1606,6 +1624,10 @@ public class Minecraft implements IPlayerUsage
             while (Mouse.next())
             {
                 var1 = Mouse.getEventButton();
+
+                if (var1 == 2 && Mouse.getEventButtonState()) {
+                    Nebula.BUS.post(new EventMiddleClick(objectMouseOver));
+                }
 
                 if (isRunningOnMac && var1 == 0 && (Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157)))
                 {
@@ -1676,7 +1698,7 @@ public class Minecraft implements IPlayerUsage
                     KeyBinding.onTick(Keyboard.getEventKey());
                 }
 
-                Launcher.BUS.post(new KeyInputEvent(Keyboard.getEventKey(), Keyboard.getEventKeyState()));
+                Nebula.BUS.post(new EventKeyInput(Keyboard.getEventKey(), Keyboard.getEventKeyState()));
 
                 if (this.field_83002_am > 0L)
                 {
@@ -1998,7 +2020,7 @@ public class Minecraft implements IPlayerUsage
     public void launchIntegratedServer(String par1Str, String par2Str, WorldSettings par3WorldSettings)
     {
         this.loadWorld((WorldClient)null);
-        System.gc();
+        //System.gc();
         ISaveHandler var4 = this.saveLoader.getSaveLoader(par1Str, false);
         WorldInfo var5 = var4.loadWorldInfo();
 
@@ -2069,6 +2091,8 @@ public class Minecraft implements IPlayerUsage
 
     public void loadWorld(WorldClient par1WorldClient, String par2Str)
     {
+        Nebula.BUS.post(new EventWorldChange(theWorld, par1WorldClient));
+
         if (par1WorldClient == null)
         {
             NetHandlerPlayClient var3 = this.getNetHandler();
@@ -2524,6 +2548,7 @@ public class Minecraft implements IPlayerUsage
 
     public void setServerData(ServerData par1ServerData)
     {
+        Nebula.BUS.post(new EventServerJoin(par1ServerData));
         this.currentServerData = par1ServerData;
     }
 

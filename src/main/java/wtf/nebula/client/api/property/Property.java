@@ -1,7 +1,8 @@
 package wtf.nebula.client.api.property;
 
-import net.minecraft.util.MathHelper;
 import wtf.nebula.client.utils.client.Labeled;
+
+import java.util.function.Supplier;
 
 public class Property<T> implements Labeled {
     private T value;
@@ -9,6 +10,8 @@ public class Property<T> implements Labeled {
 
     private final String label;
     private final String[] aliases;
+
+    private Supplier<Boolean> visibility;
 
     public Property(T value, String... aliases) {
         this(value, null, null, aliases);
@@ -58,6 +61,15 @@ public class Property<T> implements Labeled {
         return max;
     }
 
+    public Property<T> setVisibility(Supplier<Boolean> visibility) {
+        this.visibility = visibility;
+        return this;
+    }
+
+    public boolean isVisible() {
+        return visibility == null || visibility.get();
+    }
+
     public void next() {
         if (value instanceof Enum) {
             Enum<?> val = ((Enum<?>) value);
@@ -89,10 +101,14 @@ public class Property<T> implements Labeled {
 
     public String getFixedValue() {
         if (value instanceof Enum) {
-            String name = ((Enum<?>) value).toString();
-            return Character.toString(name.charAt(0)).toUpperCase() + name.substring(1).toLowerCase();
+            return formatEnum((Enum) value);
         } else {
             return getLabel();
         }
+    }
+
+    public static String formatEnum(Enum value) {
+        String name = ((Enum<?>) value).toString();
+        return Character.toString(name.charAt(0)).toUpperCase() + name.substring(1).toLowerCase();
     }
 }

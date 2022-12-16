@@ -2,11 +2,9 @@ package wtf.nebula.client.impl.manager;
 
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.network.play.client.C03PacketPlayer;
-import wtf.nebula.client.core.Launcher;
-import wtf.nebula.client.impl.event.impl.client.TickEvent;
-import wtf.nebula.client.impl.event.impl.move.MotionUpdateEvent;
-import wtf.nebula.client.impl.event.impl.network.PacketEvent;
-import wtf.nebula.client.impl.event.impl.render.RenderRotationsEvent;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.move.EventMotionUpdate;
+import wtf.nebula.client.impl.event.impl.network.EventPacket;
 import wtf.nebula.client.utils.client.Timer;
 import wtf.nebula.client.utils.client.Wrapper;
 
@@ -17,11 +15,11 @@ public class RotationManager implements Wrapper {
     private final Timer timer = new Timer();
 
     public RotationManager() {
-        Launcher.BUS.subscribe(this);
+        Nebula.BUS.subscribe(this);
     }
 
     @EventListener
-    public void onMotionUpdate(MotionUpdateEvent event) {
+    public void onMotionUpdate(EventMotionUpdate event) {
         if (rotations != null) {
             if (timer.hasPassed(450L, false)) {
                 rotations = null;
@@ -33,25 +31,18 @@ public class RotationManager implements Wrapper {
                 mc.thePlayer.rotationYawHead = rotations[0];
             }
         }
+
+        mc.thePlayer.rotationPitchHead = rotations == null ? mc.thePlayer.rotationPitch : rotations[1];
     }
 
     @EventListener
-    public void onPacket(PacketEvent event) {
+    public void onPacket(EventPacket event) {
         if (event.getPacket() instanceof C03PacketPlayer) {
             C03PacketPlayer packet = event.getPacket();
             if (packet.rotating) {
                 serverRotation[0] = packet.yaw;
                 serverRotation[1] = packet.pitch;
             }
-        }
-    }
-
-    @EventListener
-    public void onRenderRotations(RenderRotationsEvent event) {
-        if (rotations != null) {
-            event.yaw = serverRotation[1];
-            event.pitch = serverRotation[1];
-            event.setCancelled(true);
         }
     }
 
@@ -62,5 +53,9 @@ public class RotationManager implements Wrapper {
 
     public void resetRotation() {
         rotations = null;
+    }
+
+    public float[] getServerRotation() {
+        return serverRotation;
     }
 }

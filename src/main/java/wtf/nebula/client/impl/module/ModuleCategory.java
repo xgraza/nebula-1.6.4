@@ -2,6 +2,7 @@ package wtf.nebula.client.impl.module;
 
 public enum ModuleCategory {
     COMBAT("Combat"),
+    EXPLOITS("Exploits"),
     MOVEMENT("Movement"),
     MISCELLANEOUS("Miscellaneous"),
     WORLD("World"),

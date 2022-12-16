@@ -455,7 +455,7 @@ public class BlockPistonBase extends Block
             Block[] var13;
             int var14;
             int var15;
-            int var16;
+            int var16 = 0;
 
             for (var13 = new Block[13]; var6 != p_150079_2_ || var7 != p_150079_3_ || var8 != p_150079_4_; var8 = var16)
             {

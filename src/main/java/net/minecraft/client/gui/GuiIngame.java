@@ -39,15 +39,17 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import wtf.nebula.client.core.Launcher;
-import wtf.nebula.client.impl.event.impl.render.RenderHUDEvent;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.render.EventRender2D;
+import wtf.nebula.client.impl.event.impl.render.EventRenderOverlay;
+import wtf.nebula.client.impl.event.impl.render.EventRenderTabListName;
 
 public class GuiIngame extends Gui
 {
     private static final ResourceLocation vignetteTexPath = new ResourceLocation("textures/misc/vignette.png");
     private static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
     private static final ResourceLocation pumpkinBlurTexPath = new ResourceLocation("textures/misc/pumpkinblur.png");
-    private static final RenderItem itemRenderer = new RenderItem();
+    public static final RenderItem itemRenderer = new RenderItem();
     private final Random rand = new Random();
     private final Minecraft mc;
     private final GuiNewChat persistantChatGUI;
@@ -112,7 +114,13 @@ public class GuiIngame extends Gui
             InventoryPlayer var31 = this.mc.thePlayer.inventory;
             this.zLevel = -90.0F;
             this.drawTexturedModalRect(var6 / 2 - 91, var7 - 22, 0, 0, 182, 22);
-            this.drawTexturedModalRect(var6 / 2 - 91 - 1 + var31.currentItem * 20, var7 - 22 - 1, 0, 22, 24, 22);
+
+            int slot = Nebula.getInstance().getInventoryManager().serverSlot;
+            if (slot < 0 || slot > 8) {
+                slot = mc.thePlayer.inventory.currentItem;
+            }
+
+            this.drawTexturedModalRect(var6 / 2 - 91 - 1 + slot * 20, var7 - 22 - 1, 0, 22, 24, 22);
             this.mc.getTextureManager().bindTexture(icons);
             GL11.glEnable(GL11.GL_BLEND);
             OpenGlHelper.glBlendFunc(775, 769, 1, 0);
@@ -424,6 +432,12 @@ public class GuiIngame extends Gui
                     GuiPlayerInfo var48 = (GuiPlayerInfo)var44.get(var21);
                     ScorePlayerTeam var49 = this.mc.theWorld.getScoreboard().getPlayersTeam(var48.name);
                     String var50 = ScorePlayerTeam.formatPlayerName(var49, var48.name);
+
+                    EventRenderTabListName event = new EventRenderTabListName(var48, var50);
+                    if (Nebula.BUS.post(event)) {
+                        var50 = event.getText();
+                    }
+
                     var8.drawStringWithShadow(var50, var22, var23, 16777215);
 
                     if (var40 != null)
@@ -481,7 +495,7 @@ public class GuiIngame extends Gui
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
 
-        Launcher.BUS.post(new RenderHUDEvent(var5));
+        Nebula.BUS.post(new EventRender2D(par1, var5));
     }
 
     private void func_96136_a(ScoreObjective par1ScoreObjective, int par2, int par3, FontRenderer par4FontRenderer)
@@ -892,6 +906,10 @@ public class GuiIngame extends Gui
 
     private void func_130015_b(float par1, int par2, int par3)
     {
+        if (Nebula.BUS.post(new EventRenderOverlay(EventRenderOverlay.Type.CONFUSION))) {
+            return;
+        }
+
         if (par1 < 1.0F)
         {
             par1 *= par1;

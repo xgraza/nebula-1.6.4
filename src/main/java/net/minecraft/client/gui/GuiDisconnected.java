@@ -2,8 +2,13 @@ package net.minecraft.client.gui;
 
 import java.util.Iterator;
 import java.util.List;
+
+import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IChatComponent;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.module.miscellaneous.AutoReconnect;
+import wtf.nebula.client.utils.client.Timer;
 
 public class GuiDisconnected extends GuiScreen
 {
@@ -12,6 +17,8 @@ public class GuiDisconnected extends GuiScreen
     private List field_146305_g;
     private final GuiScreen field_146307_h;
     private static final String __OBFID = "CL_00000693";
+
+    private final Timer timer = new Timer();
 
     public GuiDisconnected(GuiScreen p_i45020_1_, String p_i45020_2_, IChatComponent p_i45020_3_)
     {
@@ -27,13 +34,23 @@ public class GuiDisconnected extends GuiScreen
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.toMenu", new Object[0])));
         this.field_146305_g = this.fontRenderer.listFormattedStringToWidth(this.field_146304_f.getFormattedText(), this.width - 50);
+
+        AutoReconnect autoReconnect = Nebula.getInstance().getModuleManager().getModule(AutoReconnect.class);
+        if (autoReconnect.isRunning() && autoReconnect.serverData != null) {
+            timer.resetTime();
+            buttonList.add(new GuiButton(1, width / 2 - 100, ((GuiButton) buttonList.get(0)).yPosition + 23, "Reconnect"));
+        }
     }
 
     protected void actionPerformed(GuiButton p_146284_1_)
     {
-        if (p_146284_1_.id == 0)
-        {
+        if (p_146284_1_.id == 0) {
             this.mc.displayGuiScreen(this.field_146307_h);
+        } else if (p_146284_1_.id == 1) {
+            AutoReconnect autoReconnect = Nebula.getInstance().getModuleManager().getModule(AutoReconnect.class);
+            if (autoReconnect.isRunning() && autoReconnect.serverData != null) {
+                mc.displayGuiScreen(new GuiConnecting(this, mc, autoReconnect.serverData));
+            }
         }
     }
 
@@ -53,5 +70,18 @@ public class GuiDisconnected extends GuiScreen
         }
 
         super.drawScreen(par1, par2, par3);
+
+        AutoReconnect autoReconnect = Nebula.getInstance().getModuleManager().getModule(AutoReconnect.class);
+        if (autoReconnect.isRunning() && autoReconnect.serverData != null) {
+            if (timer.hasPassed(autoReconnect.delay.getValue() * 1000L, true)) {
+                mc.displayGuiScreen(new GuiConnecting(this, mc, autoReconnect.serverData));
+                return;
+            }
+
+            long timePassed = timer.getTimePassedMs();
+            double displayNum = (autoReconnect.delay.getValue() * 1000L - timePassed) / 1000.0;
+
+            drawCenteredString(fontRenderer, "Reconnecting in " + String.format("%.1f", displayNum) + "s...", width / 2, 30, 11184810);
+        }
     }
 }

@@ -72,6 +72,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.IChunkProvider;
+import wtf.nebula.client.core.Nebula;
 
 public abstract class EntityPlayer extends EntityLivingBase implements ICommandSender
 {
@@ -104,7 +105,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     public int experienceTotal;
     public float experience;
     private ItemStack itemInUse;
-    private int itemInUseCount;
+    public int itemInUseCount;
     protected float speedOnGround = 0.1F;
     protected float speedInAir = 0.02F;
     private int field_82249_h;

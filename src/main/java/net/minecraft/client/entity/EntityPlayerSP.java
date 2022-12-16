@@ -48,6 +48,10 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.move.EventBlockPushEntity;
+import wtf.nebula.client.impl.event.impl.move.EventSlowdown;
+import wtf.nebula.client.impl.event.impl.player.EventUpdate;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -89,6 +93,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void onLivingUpdate()
     {
+        if (this.equals(mc.thePlayer)) {
+            Nebula.BUS.post(new EventUpdate());
+        }
+
         if (this.sprintingTicksLeft > 0)
         {
             --this.sprintingTicksLeft;
@@ -175,6 +183,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.movementInput.moveStrafe *= 0.2F;
                 this.movementInput.moveForward *= 0.2F;
                 this.sprintToggleTimer = 0;
+
+                Nebula.BUS.post(new EventSlowdown(movementInput));
             }
 
             if (this.movementInput.sneak && this.ySize < 0.2F)
@@ -478,6 +488,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     protected boolean func_145771_j(double p_145771_1_, double p_145771_3_, double p_145771_5_)
     {
+        if (Nebula.BUS.post(new EventBlockPushEntity(this))) {
+            return false;
+        }
+
         int var7 = MathHelper.floor_double(p_145771_1_);
         int var8 = MathHelper.floor_double(p_145771_3_);
         int var9 = MathHelper.floor_double(p_145771_5_);

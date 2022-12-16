@@ -24,7 +24,7 @@ public class ThreadDownloadImageData extends SimpleTexture
     private final IImageBuffer imageBuffer;
     private BufferedImage bufferedImage;
     private Thread imageThread;
-    private boolean textureUploaded;
+    public boolean textureUploaded;
     public boolean enabled = true;
 
     public ThreadDownloadImageData(String par1Str, ResourceLocation par2ResourceLocation, IImageBuffer par3IImageBuffer)

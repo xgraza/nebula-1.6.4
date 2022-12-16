@@ -23,6 +23,9 @@ import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.base.Era;
+import wtf.nebula.client.impl.event.impl.render.EventRenderTileEntity;
 
 public class TileEntityRendererDispatcher
 {
@@ -123,7 +126,13 @@ public class TileEntityRendererDispatcher
         {
             try
             {
+                if (Nebula.BUS.post(new EventRenderTileEntity(Era.PRE, p_147549_1_))) {
+                    return;
+                }
+
                 var9.renderTileEntityAt(p_147549_1_, p_147549_2_, p_147549_4_, p_147549_6_, p_147549_8_);
+
+                Nebula.BUS.post(new EventRenderTileEntity(Era.POST, p_147549_1_));
             }
             catch (Throwable var13)
             {

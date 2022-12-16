@@ -3,7 +3,7 @@ package wtf.nebula.client.impl.module.miscellaneous;
 import me.bush.eventbus.annotation.EventListener;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import wtf.nebula.client.api.property.Property;
-import wtf.nebula.client.impl.event.impl.network.PlayerConnectionEvent;
+import wtf.nebula.client.impl.event.impl.network.EventPlayerConnection;
 import wtf.nebula.client.impl.module.ModuleCategory;
 import wtf.nebula.client.impl.module.ToggleableModule;
 import wtf.nebula.client.utils.client.MathUtils;
@@ -22,10 +22,10 @@ public class Announcer extends ToggleableModule {
     }
 
     @EventListener
-    public void onPlayerConnection(PlayerConnectionEvent event) {
-        PlayerConnectionEvent.Action action = event.getAction();
+    public void onPlayerConnection(EventPlayerConnection event) {
+        EventPlayerConnection.Action action = event.getAction();
 
-        if (action.equals(PlayerConnectionEvent.Action.JOIN) && !join.getValue() || action.equals(PlayerConnectionEvent.Action.LEAVE) && !leave.getValue()) {
+        if (action.equals(EventPlayerConnection.Action.JOIN) && !join.getValue() || action.equals(EventPlayerConnection.Action.LEAVE) && !leave.getValue()) {
             return;
         }
 
@@ -34,7 +34,11 @@ public class Announcer extends ToggleableModule {
             return;
         }
 
-        String[] arr = event.getAction().equals(PlayerConnectionEvent.Action.JOIN) ? GREETINGS : GOODBYES;
+        if (mc.thePlayer.ticksExisted <= 250) {
+            return;
+        }
+
+        String[] arr = event.getAction().equals(EventPlayerConnection.Action.JOIN) ? GREETINGS : GOODBYES;
         String random = MathUtils.randomElement(arr);
 
         if (random != null) {

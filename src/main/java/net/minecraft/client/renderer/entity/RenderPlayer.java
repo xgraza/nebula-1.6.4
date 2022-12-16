@@ -21,6 +21,10 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.base.Era;
+import wtf.nebula.client.impl.event.impl.render.EventRenderPlayer;
+import wtf.nebula.client.impl.manager.CapeManager;
 
 public class RenderPlayer extends RendererLivingEntity
 {
@@ -137,7 +141,11 @@ public class RenderPlayer extends RendererLivingEntity
             var13 -= 0.125D;
         }
 
-        super.doRender((EntityLivingBase)par1AbstractClientPlayer, par2, var13, par6, par8, par9);
+        if (!Nebula.BUS.post(new EventRenderPlayer(Era.PRE, par1AbstractClientPlayer))) {
+            super.doRender((EntityLivingBase)par1AbstractClientPlayer, par2, var13, par6, par8, par9);
+            Nebula.BUS.post(new EventRenderPlayer(Era.POST, par1AbstractClientPlayer));
+        }
+
         this.modelArmorChestplate.aimedBow = this.modelArmor.aimedBow = this.modelBipedMain.aimedBow = false;
         this.modelArmorChestplate.isSneak = this.modelArmor.isSneak = this.modelBipedMain.isSneak = false;
         this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = 0;
@@ -217,9 +225,18 @@ public class RenderPlayer extends RendererLivingEntity
         boolean var21 = par1AbstractClientPlayer.getTextureCape().isTextureUploaded();
         float var11;
 
+        if (par1AbstractClientPlayer.hasCape()) {
+            var21 = true;
+        }
+
         if (var21 && !par1AbstractClientPlayer.isInvisible() && !par1AbstractClientPlayer.getHideCape())
         {
-            this.bindTexture(par1AbstractClientPlayer.getLocationCape());
+            if (par1AbstractClientPlayer.hasCape()) {
+                bindTexture(CapeManager.CAPE_RESOURCE);
+            } else {
+                this.bindTexture(par1AbstractClientPlayer.getLocationCape());
+            }
+
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, 0.0F, 0.125F);
             double var23 = par1AbstractClientPlayer.field_71091_bM + (par1AbstractClientPlayer.field_71094_bP - par1AbstractClientPlayer.field_71091_bM) * (double)par2 - (par1AbstractClientPlayer.prevPosX + (par1AbstractClientPlayer.posX - par1AbstractClientPlayer.prevPosX) * (double)par2);

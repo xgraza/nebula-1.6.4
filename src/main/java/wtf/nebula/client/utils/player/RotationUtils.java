@@ -10,12 +10,17 @@ import wtf.nebula.client.utils.client.Wrapper;
 public class RotationUtils implements Wrapper {
 
     public static float[] calcAngles(Entity entity) {
-        Vec3 diff = getEyes(mc.thePlayer).subtract(getEyes(entity));
 
-        double dist = MathHelper.sqrt_double(diff.xCoord * diff.xCoord + diff.zCoord * diff.zCoord);
+        double diffX = entity.posX - mc.thePlayer.posX;
+        double diffY = (entity.boundingBox.minY + 1.620) - mc.thePlayer.posY;
+        double diffZ = entity.posZ - mc.thePlayer.posZ;
 
-        float yaw = (float) (Math.toDegrees(Math.atan2(diff.zCoord, diff.xCoord)) - 90.0);
-        float pitch = (float) (-Math.toDegrees(Math.atan2(diff.yCoord, dist)));
+        //Vec3 diff = getEyes(mc.thePlayer).subtract(getEyes(entity));
+
+        double dist = MathHelper.sqrt_double(diffX * diffX + diffZ * diffZ);
+
+        float yaw = (float) (Math.toDegrees(Math.atan2(diffZ, diffX)) - 90.0);
+        float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, dist)));
 
         yaw = MathHelper.wrapAngleTo180_float(yaw);
 
@@ -44,11 +49,20 @@ public class RotationUtils implements Wrapper {
         return new float[] { yaw, pitch };
     }
 
-    public static Vec3 getEyes(Entity entity) {
-        if (entity instanceof EntityLivingBase) {
-            return ((EntityLivingBase) entity).getPosition(1.0f);
-        } else {
-            return new Vec3(Vec3.fakePool, entity.posX, entity.posY, entity.posZ);
-        }
+    public static float[] calcAngles(Vec3 vec) {
+        double diffX = vec.xCoord - mc.thePlayer.posX;
+        double diffY = vec.yCoord - mc.thePlayer.posY;
+        double diffZ = vec.zCoord - mc.thePlayer.posZ;
+
+        //Vec3 diff = getEyes(mc.thePlayer).subtract(getEyes(entity));
+
+        double dist = MathHelper.sqrt_double(diffX * diffX + diffZ * diffZ);
+
+        float yaw = (float) (Math.toDegrees(Math.atan2(diffZ, diffX)) - 90.0);
+        float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, dist)));
+
+        yaw = MathHelper.wrapAngleTo180_float(yaw);
+
+        return new float[] { yaw, pitch };
     }
 }

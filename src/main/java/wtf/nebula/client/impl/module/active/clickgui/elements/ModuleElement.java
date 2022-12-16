@@ -15,7 +15,7 @@ import wtf.nebula.client.utils.render.renderers.impl.two.GradientBox;
 import wtf.nebula.client.utils.render.renderers.impl.two.TextureRenderer;
 
 public class ModuleElement extends Element {
-    private static final ResourceLocation GEAR = new ResourceLocation("nebula/gear.png");
+    private static final ResourceLocation GEAR = new ResourceLocation("nebula/textures/gear.png");
 
     private final Module module;
     private boolean opened = false;
@@ -51,6 +51,10 @@ public class ModuleElement extends Element {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        if (module instanceof ToggleableModule) {
+            state = ((ToggleableModule) module).isRunning();
+        }
+
         RenderEngine.RenderStack stack = RenderEngine.of(Dimension.TWO);
 
         int topColor = -1;
@@ -84,11 +88,19 @@ public class ModuleElement extends Element {
         if (opened) {
             height = 15;
             for (Element element : elements) {
+                if (!element.isVisible()) {
+                    continue;
+                }
+
                 height += element.height + 0.5;
             }
 
             double posY = y + 16.0;
             for (Element element : elements) {
+                if (!element.isVisible()) {
+                    continue;
+                }
+
                 element.x = x + 1;
                 element.y = posY;
                 element.height = 15;

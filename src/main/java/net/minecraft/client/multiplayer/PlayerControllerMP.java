@@ -25,6 +25,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.player.EventAttack;
+import wtf.nebula.client.impl.event.impl.world.EventClickBlock;
+import wtf.nebula.client.impl.event.impl.world.EventReachModifier;
+import wtf.nebula.client.impl.event.impl.world.EventRightClickBlock;
 
 public class PlayerControllerMP
 {
@@ -34,9 +39,9 @@ public class PlayerControllerMP
     private int currentBlockY = -1;
     private int currentblockZ = -1;
     private ItemStack currentItemHittingBlock;
-    private float curBlockDamageMP;
+    public float curBlockDamageMP;
     private float stepSoundTickCounter;
-    private int blockHitDelay;
+    public int blockHitDelay;
     public boolean isHittingBlock;
     public WorldSettings.GameType currentGameType;
     private int currentPlayerItem;
@@ -137,6 +142,10 @@ public class PlayerControllerMP
 
     public void clickBlock(int par1, int par2, int par3, int par4)
     {
+        if (Nebula.BUS.post(new EventClickBlock(par1, par2, par3, par4))) {
+            return;
+        }
+
         if (!this.currentGameType.isAdventure() || this.mc.thePlayer.isCurrentToolAdventureModeExempt(par1, par2, par3))
         {
             if (this.currentGameType.isCreative())
@@ -248,7 +257,14 @@ public class PlayerControllerMP
 
     public float getBlockReachDistance()
     {
-        return this.currentGameType.isCreative() ? 5.0F : 4.5F;
+        float dist = this.currentGameType.isCreative() ? 5.0F : 4.5F;
+
+        EventReachModifier event = new EventReachModifier(EventReachModifier.Type.INTERACT, dist);
+        if (Nebula.BUS.post(event)) {
+            return (float) event.getReach();
+        }
+
+        return dist;
     }
 
     public void updateController()
@@ -295,6 +311,10 @@ public class PlayerControllerMP
 
     public boolean onPlayerRightClick(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack, int par4, int par5, int par6, int par7, Vec3 par8Vec3)
     {
+        if (Nebula.BUS.post(new EventRightClickBlock(par4, par5, par6, par7, par8Vec3, par3ItemStack))) {
+            return false;
+        }
+
         this.syncCurrentPlayItem();
         float var9 = (float)par8Vec3.xCoord - (float)par4;
         float var10 = (float)par8Vec3.yCoord - (float)par5;
@@ -372,6 +392,12 @@ public class PlayerControllerMP
 
     public void attackEntity(EntityPlayer par1EntityPlayer, Entity par2Entity)
     {
+        if (par1EntityPlayer.equals(mc.thePlayer)) {
+            if (Nebula.BUS.post(new EventAttack(par2Entity))) {
+                return;
+            }
+        }
+
         this.syncCurrentPlayItem();
         this.netClientHandler.addToSendQueue(new C02PacketUseEntity(par2Entity, C02PacketUseEntity.Action.ATTACK));
         par1EntityPlayer.attackTargetEntityWithCurrentItem(par2Entity);

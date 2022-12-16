@@ -8,7 +8,7 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class C09PacketHeldItemChange extends Packet
 {
-    private int field_149615_a;
+    public int field_149615_a;
     private static final String __OBFID = "CL_00001368";
 
     public C09PacketHeldItemChange() {}

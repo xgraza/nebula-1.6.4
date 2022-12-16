@@ -6,7 +6,7 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import wtf.nebula.client.api.property.Property;
-import wtf.nebula.client.impl.event.impl.client.TickEvent;
+import wtf.nebula.client.impl.event.impl.client.EventTick;
 import wtf.nebula.client.impl.module.ModuleCategory;
 import wtf.nebula.client.impl.module.ToggleableModule;
 import wtf.nebula.client.utils.client.Timer;
@@ -21,8 +21,13 @@ public class ChestStealer extends ToggleableModule {
         offerProperties(delay);
     }
 
+    @Override
+    public String getTag() {
+        return String.valueOf(delay.getValue());
+    }
+
     @EventListener
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if (mc.currentScreen instanceof GuiChest && mc.thePlayer.openContainer instanceof ContainerChest) {
             ContainerChest container = (ContainerChest) mc.thePlayer.openContainer;
             IInventory lower = container.getLowerChestInventory();

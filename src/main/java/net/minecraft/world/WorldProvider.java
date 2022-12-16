@@ -11,6 +11,8 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.ChunkProviderGenerate;
 import net.minecraft.world.gen.FlatGeneratorInfo;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.render.EventVoidParticles;
 
 public abstract class WorldProvider
 {
@@ -178,7 +180,9 @@ public abstract class WorldProvider
 
     public boolean getWorldHasVoidParticles()
     {
-        return this.terrainType != WorldType.FLAT && !this.hasNoSky;
+        boolean has = this.terrainType != WorldType.FLAT && !this.hasNoSky;
+        EventVoidParticles event = new EventVoidParticles(has);
+        return Nebula.BUS.post(event) ? event.has : has;
     }
 
     public double getVoidFogYFactor()

@@ -19,6 +19,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.render.EventRenderVanillaNameTag;
 
 public abstract class Render
 {
@@ -28,6 +30,8 @@ public abstract class Render
     protected float shadowSize;
     protected float shadowOpaque = 1.0F;
     private boolean staticEntity = false;
+
+    public static boolean renderShadow = true;
 
     public abstract void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9);
 
@@ -105,6 +109,10 @@ public abstract class Render
     {
         if (!Config.isShaders() || !Shaders.shouldSkipDefaultShadow)
         {
+            if (!renderShadow) {
+                return;
+            }
+
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             this.renderManager.renderEngine.bindTexture(shadowTextures);
@@ -305,6 +313,10 @@ public abstract class Render
 
     protected void func_147906_a(Entity p_147906_1_, String p_147906_2_, double p_147906_3_, double p_147906_5_, double p_147906_7_, int p_147906_9_)
     {
+        if (Nebula.BUS.post(new EventRenderVanillaNameTag(p_147906_1_))) {
+            return;
+        }
+
         double var10 = p_147906_1_.getDistanceSqToEntity(this.renderManager.livingPlayer);
 
         if (var10 <= (double)(p_147906_9_ * p_147906_9_))

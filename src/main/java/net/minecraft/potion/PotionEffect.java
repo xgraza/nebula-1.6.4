@@ -2,6 +2,8 @@ package net.minecraft.potion;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.player.EventDeincrementPotionDuration;
 
 public class PotionEffect
 {
@@ -102,6 +104,10 @@ public class PotionEffect
 
     private int deincrementDuration()
     {
+        if (Nebula.BUS.post(new EventDeincrementPotionDuration(this, duration))) {
+            return duration;
+        }
+
         return --this.duration;
     }
 

@@ -45,6 +45,7 @@ public class BooleanButton extends Element {
     @Override
     public void mouseClick(int mouseX, int mouseY, int button) {
         if (isHovering(mouseX, mouseY) && button == 0) {
+            Element.playClickSound();
             property.setValue(!property.getValue());
         }
     }
@@ -52,5 +53,10 @@ public class BooleanButton extends Element {
     @Override
     public void keyTyped(char typedChar, int keyCode) {
 
+    }
+
+    @Override
+    public boolean isVisible() {
+        return property.isVisible();
     }
 }

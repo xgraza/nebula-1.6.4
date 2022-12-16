@@ -39,9 +39,9 @@ public class ResourcePackRepository
         }
     };
     private final File dirResourcepacks;
-    public final IResourcePack rprDefaultResourcePack;
+    public static IResourcePack rprDefaultResourcePack;
     private final File field_148534_e;
-    public final IMetadataSerializer rprMetadataSerializer;
+    public static IMetadataSerializer rprMetadataSerializer;
     private IResourcePack field_148532_f;
     private boolean field_148533_g;
     private List repositoryEntriesAll = Lists.newArrayList();
@@ -208,7 +208,7 @@ public class ResourcePackRepository
         this.field_148533_g = false;
     }
 
-    public class Entry
+    public static class Entry
     {
         private final File resourcePackFile;
         private IResourcePack reResourcePack;
@@ -217,7 +217,7 @@ public class ResourcePackRepository
         private ResourceLocation locationTexturePackIcon;
         private static final String __OBFID = "CL_00001090";
 
-        private Entry(File par2File)
+        public Entry(File par2File)
         {
             this.resourcePackFile = par2File;
         }
@@ -225,7 +225,7 @@ public class ResourcePackRepository
         public void updateResourcePack() throws IOException
         {
             this.reResourcePack = (IResourcePack)(this.resourcePackFile.isDirectory() ? new FolderResourcePack(this.resourcePackFile) : new FileResourcePack(this.resourcePackFile));
-            this.rePackMetadataSection = (PackMetadataSection)this.reResourcePack.getPackMetadata(ResourcePackRepository.this.rprMetadataSerializer, "pack");
+            this.rePackMetadataSection = (PackMetadataSection)this.reResourcePack.getPackMetadata(rprMetadataSerializer, "pack");
 
             try
             {
@@ -238,7 +238,7 @@ public class ResourcePackRepository
 
             if (this.texturePackIcon == null)
             {
-                this.texturePackIcon = ResourcePackRepository.this.rprDefaultResourcePack.getPackImage();
+                this.texturePackIcon = rprDefaultResourcePack.getPackImage();
             }
 
             this.closeResourcePack();

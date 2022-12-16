@@ -19,6 +19,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.inventory.EventWindowClick;
 
 public abstract class GuiContainer extends GuiScreen
 {
@@ -623,6 +625,10 @@ public abstract class GuiContainer extends GuiScreen
         if (p_146984_1_ != null)
         {
             p_146984_2_ = p_146984_1_.slotNumber;
+        }
+
+        if (Nebula.BUS.post(new EventWindowClick(container.windowId, p_146984_2_, p_146984_3_, p_146984_4_))) {
+            return;
         }
 
         this.mc.playerController.windowClick(this.container.windowId, p_146984_2_, p_146984_3_, p_146984_4_, this.mc.thePlayer);

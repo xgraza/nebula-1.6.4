@@ -27,6 +27,12 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import wtf.nebula.client.core.Nebula;
+import wtf.nebula.client.impl.event.impl.render.EventLightValue;
+import wtf.nebula.client.impl.event.impl.render.EventRenderPass;
+import wtf.nebula.client.impl.event.impl.render.EventBlockSide;
+import wtf.nebula.client.impl.event.impl.world.EventAddBox;
+import wtf.nebula.client.impl.event.impl.world.EventGetBox;
 
 public class Block
 {
@@ -79,7 +85,7 @@ public class Block
     protected boolean canBlockGrass;
     protected int lightValue;
     protected boolean field_149783_u;
-    protected float blockHardness;
+    public float blockHardness;
     protected float blockResistance;
     protected boolean blockConstructorCalled = true;
     protected boolean enableStats = true;
@@ -133,6 +139,10 @@ public class Block
         }
     }
 
+    public AxisAlignedBB getBaseBoundingBox() {
+        return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
+    }
+
     public boolean func_149730_j()
     {
         return this.opaque;
@@ -150,7 +160,9 @@ public class Block
 
     public int getLightValue()
     {
-        return this.lightValue;
+        EventLightValue event = new EventLightValue(this, lightValue);
+        Nebula.BUS.post(event);
+        return event.isCancelled() ? event.getLightValue() : this.lightValue;
     }
 
     public boolean func_149710_n()
@@ -509,6 +521,12 @@ public class Block
 
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
+        EventBlockSide event = new EventBlockSide(this);
+        Nebula.BUS.post(event);
+        if (event.isCancelled()) {
+            return true;
+        }
+
         return p_149646_5_ == 0 && this.minY > 0.0D ? true : (p_149646_5_ == 1 && this.maxY < 1.0D ? true : (p_149646_5_ == 2 && this.minZ > 0.0D ? true : (p_149646_5_ == 3 && this.maxZ < 1.0D ? true : (p_149646_5_ == 4 && this.minX > 0.0D ? true : (p_149646_5_ == 5 && this.maxX < 1.0D ? true : !p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_).isOpaqueCube())))));
     }
 
@@ -534,12 +552,19 @@ public class Block
 
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World p_149633_1_, int p_149633_2_, int p_149633_3_, int p_149633_4_)
     {
-        return AxisAlignedBB.getAABBPool().getAABB((double)p_149633_2_ + this.minX, (double)p_149633_3_ + this.minY, (double)p_149633_4_ + this.minZ, (double)p_149633_2_ + this.maxX, (double)p_149633_3_ + this.maxY, (double)p_149633_4_ + this.maxZ);
+        AxisAlignedBB bb = AxisAlignedBB.getAABBPool().getAABB((double)p_149633_2_ + this.minX, (double)p_149633_3_ + this.minY, (double)p_149633_4_ + this.minZ, (double)p_149633_2_ + this.maxX, (double)p_149633_3_ + this.maxY, (double)p_149633_4_ + this.maxZ);
+        EventGetBox event = new EventGetBox(this, p_149633_2_, p_149633_3_, p_149633_4_, bb);
+        return Nebula.BUS.post(event) ? event.getBox() : bb;
     }
 
     public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_)
     {
         AxisAlignedBB var8 = this.getCollisionBoundingBoxFromPool(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_);
+
+        EventAddBox event = new EventAddBox(this, p_149743_7_,  p_149743_2_, p_149743_3_, p_149743_4_, var8);
+        if (Nebula.BUS.post(event)) {
+            var8 = event.getBox();
+        }
 
         if (var8 != null && p_149743_5_.intersectsWith(var8))
         {
@@ -549,7 +574,9 @@ public class Block
 
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
     {
-        return AxisAlignedBB.getAABBPool().getAABB((double)p_149668_2_ + this.minX, (double)p_149668_3_ + this.minY, (double)p_149668_4_ + this.minZ, (double)p_149668_2_ + this.maxX, (double)p_149668_3_ + this.maxY, (double)p_149668_4_ + this.maxZ);
+        AxisAlignedBB bb = AxisAlignedBB.getAABBPool().getAABB((double)p_149668_2_ + this.minX, (double)p_149668_3_ + this.minY, (double)p_149668_4_ + this.minZ, (double)p_149668_2_ + this.maxX, (double)p_149668_3_ + this.maxY, (double)p_149668_4_ + this.maxZ);
+        EventGetBox event = new EventGetBox(this, p_149668_2_, p_149668_3_, p_149668_4_, bb);
+        return Nebula.BUS.post(event) ? event.getBox() : bb;
     }
 
     public boolean isOpaqueCube()
@@ -798,6 +825,12 @@ public class Block
 
     public int getRenderBlockPass()
     {
+        EventRenderPass event = new EventRenderPass(this, 0);
+        Nebula.BUS.post(event);
+        if (event.isCancelled()) {
+            return event.getRenderPass();
+        }
+
         return 0;
     }
 

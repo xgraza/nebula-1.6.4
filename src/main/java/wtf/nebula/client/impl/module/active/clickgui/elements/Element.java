@@ -38,4 +38,8 @@ public abstract class Element implements Labeled {
     public static void playClickSound() {
         mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("minecraft:gui.button.press"), 1.0f));
     }
+
+    public boolean isVisible() {
+        return true;
+    }
 }
