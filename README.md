@@ -20,6 +20,7 @@
 - [Cosmos & Linus](https://github.com/momentumdevelopment/cosmos) - shader esp
 - [Doogie13](https://github.com/Doogie13) - information on movement related modules
 - [MedMex](https://github.com/KingYeezus) - help/information on older versions of minecraft
+- hometea - images (seen in the readme and in the client!)
 
 ---
 
