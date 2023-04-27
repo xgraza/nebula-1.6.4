@@ -20,6 +20,9 @@ public class BlockWood extends Block
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
+    /**
+     * Gets the block's texture. Args: side, meta
+     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         if (p_149691_2_ < 0 || p_149691_2_ >= this.field_150095_b.length)
@@ -30,6 +33,9 @@ public class BlockWood extends Block
         return this.field_150095_b[p_149691_2_];
     }
 
+    /**
+     * Determines the damage on the item the block drops. Used in cloth and wood.
+     */
     public int damageDropped(int p_149692_1_)
     {
         return p_149692_1_;
@@ -45,7 +51,7 @@ public class BlockWood extends Block
         p_149666_3_.add(new ItemStack(p_149666_1_, 1, 5));
     }
 
-    public void registerIcons(IIconRegister p_149651_1_)
+    public void registerBlockIcons(IIconRegister p_149651_1_)
     {
         this.field_150095_b = new IIcon[field_150096_a.length];
 

@@ -76,6 +76,9 @@ public class ServerAddress
         }
     }
 
+    /**
+     * Returns a server's address and port for the specified hostname, looking up the SRV record if possible
+     */
     private static String[] getServerAddress(String par0Str)
     {
         try

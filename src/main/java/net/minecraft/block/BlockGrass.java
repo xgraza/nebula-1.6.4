@@ -28,12 +28,15 @@ public class BlockGrass extends Block implements IGrowable
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
+    /**
+     * Gets the block's texture. Args: side, meta
+     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return p_149691_1_ == 1 ? this.field_149991_b : (p_149691_1_ == 0 ? Blocks.dirt.getBlockTextureFromSide(p_149691_1_) : this.blockIcon);
     }
 
-    public IIcon getBlockTexture(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_)
+    public IIcon getIcon(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_)
     {
         if (p_149673_5_ == 1)
         {
@@ -50,7 +53,7 @@ public class BlockGrass extends Block implements IGrowable
         }
     }
 
-    public void registerIcons(IIconRegister p_149651_1_)
+    public void registerBlockIcons(IIconRegister p_149651_1_)
     {
         this.blockIcon = p_149651_1_.registerIcon(this.getTextureName() + "_side");
         this.field_149991_b = p_149651_1_.registerIcon(this.getTextureName() + "_top");
@@ -65,11 +68,18 @@ public class BlockGrass extends Block implements IGrowable
         return ColorizerGrass.getGrassColor(var1, var3);
     }
 
+    /**
+     * Returns the color this block should be rendered. Used by leaves.
+     */
     public int getRenderColor(int p_149741_1_)
     {
         return this.getBlockColor();
     }
 
+    /**
+     * Returns a integer with hex for 0xrrggbb with this color multiplied against the blocks color. Note only called
+     * when first determining what to render.
+     */
     public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_)
     {
         int var5 = 0;
@@ -90,6 +100,9 @@ public class BlockGrass extends Block implements IGrowable
         return (var5 / 9 & 255) << 16 | (var6 / 9 & 255) << 8 | var7 / 9 & 255;
     }
 
+    /**
+     * Ticks the block if it's been scheduled
+     */
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
         if (!p_149674_1_.isClient)
@@ -121,7 +134,7 @@ public class BlockGrass extends Block implements IGrowable
         return Blocks.dirt.getItemDropped(0, p_149650_2_, p_149650_3_);
     }
 
-    public static IIcon getIconSideOverlay()
+    public static IIcon func_149990_e()
     {
         return Blocks.grass.field_149994_N;
     }

@@ -86,9 +86,9 @@ public class ServerSelectionList extends GuiListExtended
         }
     }
 
-    protected int getScrollBarX()
+    protected int func_148137_d()
     {
-        return super.getScrollBarX() + 30;
+        return super.func_148137_d() + 30;
     }
 
     public int func_148139_c()

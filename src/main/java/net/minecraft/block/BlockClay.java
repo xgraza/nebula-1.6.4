@@ -21,6 +21,9 @@ public class BlockClay extends Block
         return Items.clay_ball;
     }
 
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
     public int quantityDropped(Random p_149745_1_)
     {
         return 4;

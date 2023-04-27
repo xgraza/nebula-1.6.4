@@ -1,9 +1,6 @@
 package net.minecraft.util;
 
 import net.minecraft.client.settings.GameSettings;
-import wtf.nebula.client.core.Nebula;
-import wtf.nebula.client.impl.event.impl.input.EventInputUpdate;
-import wtf.nebula.client.impl.event.impl.move.EventMoveForward;
 
 public class MovementInputFromOptions extends MovementInput
 {
@@ -17,14 +14,10 @@ public class MovementInputFromOptions extends MovementInput
 
     public void updatePlayerMoveState()
     {
-        if (Nebula.BUS.post(new EventInputUpdate(this))) {
-            return;
-        }
-
         this.moveStrafe = 0.0F;
         this.moveForward = 0.0F;
 
-        if (this.gameSettings.keyBindForward.getIsKeyPressed() || Nebula.BUS.post(new EventMoveForward(this)))
+        if (this.gameSettings.keyBindForward.getIsKeyPressed())
         {
             ++this.moveForward;
         }

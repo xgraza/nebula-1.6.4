@@ -7,8 +7,8 @@ import org.lwjgl.opengl.GL11;
 public class GuiTextField extends Gui
 {
     private final FontRenderer field_146211_a;
-    public final int field_146209_f;
-    public final int field_146210_g;
+    private final int field_146209_f;
+    private final int field_146210_g;
     private final int field_146218_h;
     private final int field_146219_i;
     private String field_146216_j = "";
@@ -35,11 +35,17 @@ public class GuiTextField extends Gui
         this.field_146219_i = par5;
     }
 
+    /**
+     * Increments the cursor counter
+     */
     public void updateCursorCounter()
     {
         ++this.field_146214_l;
     }
 
+    /**
+     * Sets the text of the textbox
+     */
     public void setText(String p_146180_1_)
     {
         if (p_146180_1_.length() > this.field_146217_k)
@@ -54,6 +60,9 @@ public class GuiTextField extends Gui
         this.func_146202_e();
     }
 
+    /**
+     * Returns the contents of the textbox
+     */
     public String getText()
     {
         return this.field_146216_j;
@@ -237,6 +246,9 @@ public class GuiTextField extends Gui
         this.func_146190_e(this.field_146216_j.length());
     }
 
+    /**
+     * Call this method from your GuiScreen to process the keys into the textbox
+     */
     public boolean textboxKeyTyped(char p_146201_1_, int p_146201_2_)
     {
         if (!this.field_146213_o)
@@ -396,6 +408,9 @@ public class GuiTextField extends Gui
         }
     }
 
+    /**
+     * Args: x, y, buttonClicked
+     */
     public void mouseClicked(int p_146192_1_, int p_146192_2_, int p_146192_3_)
     {
         boolean var4 = p_146192_1_ >= this.field_146209_f && p_146192_1_ < this.field_146209_f + this.field_146218_h && p_146192_2_ >= this.field_146210_g && p_146192_2_ < this.field_146210_g + this.field_146219_i;
@@ -419,6 +434,9 @@ public class GuiTextField extends Gui
         }
     }
 
+    /**
+     * Draws the textbox
+     */
     public void drawTextBox()
     {
         if (this.func_146176_q())
@@ -571,6 +589,9 @@ public class GuiTextField extends Gui
         this.field_146221_u = p_146204_1_;
     }
 
+    /**
+     * Sets focus to this gui element
+     */
     public void setFocused(boolean p_146195_1_)
     {
         if (p_146195_1_ && !this.field_146213_o)
@@ -581,6 +602,9 @@ public class GuiTextField extends Gui
         this.field_146213_o = p_146195_1_;
     }
 
+    /**
+     * Getter for the focused field
+     */
     public boolean isFocused()
     {
         return this.field_146213_o;

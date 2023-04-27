@@ -55,11 +55,17 @@ public class EntityFireworkSparkFX extends EntityFX
         this.hasFadeColour = true;
     }
 
+    /**
+     * returns the bounding box for this entity
+     */
     public AxisAlignedBB getBoundingBox()
     {
         return null;
     }
 
+    /**
+     * Returns true if this entity should push and be pushed by other entities when colliding.
+     */
     public boolean canBePushed()
     {
         return false;
@@ -73,6 +79,9 @@ public class EntityFireworkSparkFX extends EntityFX
         }
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate()
     {
         this.prevPosX = this.posX;
@@ -133,6 +142,9 @@ public class EntityFireworkSparkFX extends EntityFX
         return 15728880;
     }
 
+    /**
+     * Gets how bright this entity is.
+     */
     public float getBrightness(float par1)
     {
         return 1.0F;

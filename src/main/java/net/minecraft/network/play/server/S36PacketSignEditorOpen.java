@@ -27,6 +27,9 @@ public class S36PacketSignEditorOpen extends Packet
         p_149130_1_.handleSignEditorOpen(this);
     }
 
+    /**
+     * Reads the raw packet data from the data stream.
+     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149133_a = p_148837_1_.readInt();
@@ -34,6 +37,9 @@ public class S36PacketSignEditorOpen extends Packet
         this.field_149132_c = p_148837_1_.readInt();
     }
 
+    /**
+     * Writes the raw packet data to the data stream.
+     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeInt(this.field_149133_a);

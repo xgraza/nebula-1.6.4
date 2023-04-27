@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 public class ContainerChest extends Container
 {
     private IInventory lowerChestInventory;
-    public int numRows;
+    private int numRows;
     private static final String __OBFID = "CL_00001742";
 
     public ContainerChest(IInventory par1IInventory, IInventory par2IInventory)
@@ -45,6 +45,9 @@ public class ContainerChest extends Container
         return this.lowerChestInventory.isUseableByPlayer(par1EntityPlayer);
     }
 
+    /**
+     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
+     */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
@@ -80,12 +83,18 @@ public class ContainerChest extends Container
         return var3;
     }
 
+    /**
+     * Called when the container is closed.
+     */
     public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
         super.onContainerClosed(par1EntityPlayer);
         this.lowerChestInventory.closeInventory();
     }
 
+    /**
+     * Return this chest container's lower chest inventory.
+     */
     public IInventory getLowerChestInventory()
     {
         return this.lowerChestInventory;

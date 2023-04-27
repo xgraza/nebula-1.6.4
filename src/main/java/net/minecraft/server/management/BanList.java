@@ -16,6 +16,8 @@ public class BanList
     private static final Logger logger = LogManager.getLogger();
     private final LowerStringMap theBanList = new LowerStringMap();
     private final File fileName;
+
+    /** set to true if not singlePlayer */
     private boolean listActive = true;
     private static final String __OBFID = "CL_00001396";
 
@@ -34,6 +36,9 @@ public class BanList
         this.listActive = par1;
     }
 
+    /**
+     * removes expired Bans before returning
+     */
     public Map getBannedList()
     {
         this.removeExpiredBans();
@@ -85,6 +90,9 @@ public class BanList
         this.saveToFile(true);
     }
 
+    /**
+     * par1: include header
+     */
     public void saveToFile(boolean par1)
     {
         this.removeExpiredBans();

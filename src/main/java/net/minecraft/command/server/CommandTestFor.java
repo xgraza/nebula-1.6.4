@@ -14,6 +14,9 @@ public class CommandTestFor extends CommandBase
         return "testfor";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel()
     {
         return 2;
@@ -40,6 +43,9 @@ public class CommandTestFor extends CommandBase
         }
     }
 
+    /**
+     * Return whether the specified command parameter index is a username parameter.
+     */
     public boolean isUsernameIndex(String[] par1ArrayOfStr, int par2)
     {
         return par2 == 0;

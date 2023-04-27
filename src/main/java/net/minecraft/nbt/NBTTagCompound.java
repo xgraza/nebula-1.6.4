@@ -17,9 +17,16 @@ import org.apache.logging.log4j.Logger;
 public class NBTTagCompound extends NBTBase
 {
     private static final Logger logger = LogManager.getLogger();
+
+    /**
+     * The key-value pairs for the tag. Each key is a UTF string, each value is a tag.
+     */
     private Map tagMap = new HashMap();
     private static final String __OBFID = "CL_00001215";
 
+    /**
+     * Write the actual data contents of the tag, implemented in NBT extension classes
+     */
     void write(DataOutput par1DataOutput) throws IOException
     {
         Iterator var2 = this.tagMap.keySet().iterator();
@@ -34,6 +41,9 @@ public class NBTTagCompound extends NBTBase
         par1DataOutput.writeByte(0);
     }
 
+    /**
+     * Read the actual data contents of the tag, implemented in NBT extension classes
+     */
     void load(DataInput par1DataInput, int par2) throws IOException
     {
         if (par2 > 512)
@@ -59,66 +69,105 @@ public class NBTTagCompound extends NBTBase
         return this.tagMap.keySet();
     }
 
+    /**
+     * Gets the type byte for the tag.
+     */
     public byte getId()
     {
         return (byte)10;
     }
 
+    /**
+     * Stores the given tag into the map with the given string key. This is mostly used to store tag lists.
+     */
     public void setTag(String par1Str, NBTBase par2NBTBase)
     {
         this.tagMap.put(par1Str, par2NBTBase);
     }
 
+    /**
+     * Stores a new NBTTagByte with the given byte value into the map with the given string key.
+     */
     public void setByte(String par1Str, byte par2)
     {
         this.tagMap.put(par1Str, new NBTTagByte(par2));
     }
 
+    /**
+     * Stores a new NBTTagShort with the given short value into the map with the given string key.
+     */
     public void setShort(String par1Str, short par2)
     {
         this.tagMap.put(par1Str, new NBTTagShort(par2));
     }
 
+    /**
+     * Stores a new NBTTagInt with the given integer value into the map with the given string key.
+     */
     public void setInteger(String par1Str, int par2)
     {
         this.tagMap.put(par1Str, new NBTTagInt(par2));
     }
 
+    /**
+     * Stores a new NBTTagLong with the given long value into the map with the given string key.
+     */
     public void setLong(String par1Str, long par2)
     {
         this.tagMap.put(par1Str, new NBTTagLong(par2));
     }
 
+    /**
+     * Stores a new NBTTagFloat with the given float value into the map with the given string key.
+     */
     public void setFloat(String par1Str, float par2)
     {
         this.tagMap.put(par1Str, new NBTTagFloat(par2));
     }
 
+    /**
+     * Stores a new NBTTagDouble with the given double value into the map with the given string key.
+     */
     public void setDouble(String par1Str, double par2)
     {
         this.tagMap.put(par1Str, new NBTTagDouble(par2));
     }
 
+    /**
+     * Stores a new NBTTagString with the given string value into the map with the given string key.
+     */
     public void setString(String par1Str, String par2Str)
     {
         this.tagMap.put(par1Str, new NBTTagString(par2Str));
     }
 
+    /**
+     * Stores a new NBTTagByteArray with the given array as data into the map with the given string key.
+     */
     public void setByteArray(String par1Str, byte[] par2ArrayOfByte)
     {
         this.tagMap.put(par1Str, new NBTTagByteArray(par2ArrayOfByte));
     }
 
+    /**
+     * Stores a new NBTTagIntArray with the given array as data into the map with the given string key.
+     */
     public void setIntArray(String par1Str, int[] par2ArrayOfInteger)
     {
         this.tagMap.put(par1Str, new NBTTagIntArray(par2ArrayOfInteger));
     }
 
+    /**
+     * Stores the given boolean value as a NBTTagByte, storing 1 for true and 0 for false, using the given string key.
+     */
     public void setBoolean(String par1Str, boolean par2)
     {
         this.setByte(par1Str, (byte)(par2 ? 1 : 0));
     }
 
+    /**
+     * gets a generic tag with the specified name
+     */
     public NBTBase getTag(String par1Str)
     {
         return (NBTBase)this.tagMap.get(par1Str);
@@ -130,12 +179,15 @@ public class NBTTagCompound extends NBTBase
         return var2 != null ? var2.getId() : 0;
     }
 
+    /**
+     * Returns whether the given string has been previously stored as a key in the map.
+     */
     public boolean hasKey(String par1Str)
     {
         return this.tagMap.containsKey(par1Str);
     }
 
-    public boolean hasKey(String p_150297_1_, int p_150297_2_)
+    public boolean func_150297_b(String p_150297_1_, int p_150297_2_)
     {
         byte var3 = this.func_150299_b(p_150297_1_);
 
@@ -158,6 +210,9 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves a byte value using the specified key, or 0 if no such key was stored.
+     */
     public byte getByte(String par1Str)
     {
         try
@@ -170,6 +225,9 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves a short value using the specified key, or 0 if no such key was stored.
+     */
     public short getShort(String par1Str)
     {
         try
@@ -182,6 +240,9 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves an integer value using the specified key, or 0 if no such key was stored.
+     */
     public int getInteger(String par1Str)
     {
         try
@@ -194,6 +255,9 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves a long value using the specified key, or 0 if no such key was stored.
+     */
     public long getLong(String par1Str)
     {
         try
@@ -206,6 +270,9 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves a float value using the specified key, or 0 if no such key was stored.
+     */
     public float getFloat(String par1Str)
     {
         try
@@ -218,6 +285,9 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves a double value using the specified key, or 0 if no such key was stored.
+     */
     public double getDouble(String par1Str)
     {
         try
@@ -230,6 +300,9 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves a string value using the specified key, or an empty string if no such key was stored.
+     */
     public String getString(String par1Str)
     {
         try
@@ -242,6 +315,9 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves a byte array using the specified key, or a zero-length array if no such key was stored.
+     */
     public byte[] getByteArray(String par1Str)
     {
         try
@@ -254,6 +330,9 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves an int array using the specified key, or a zero-length array if no such key was stored.
+     */
     public int[] getIntArray(String par1Str)
     {
         try
@@ -266,6 +345,10 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves a NBTTagCompound subtag matching the specified key, or a new empty NBTTagCompound if no such key was
+     * stored.
+     */
     public NBTTagCompound getCompoundTag(String par1Str)
     {
         try
@@ -278,6 +361,9 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Gets the NBTTagList object with the given name. Args: name, NBTBase type
+     */
     public NBTTagList getTagList(String p_150295_1_, int p_150295_2_)
     {
         try
@@ -298,11 +384,18 @@ public class NBTTagCompound extends NBTBase
         }
     }
 
+    /**
+     * Retrieves a boolean value using the specified key, or false if no such key was stored. This uses the getByte
+     * method.
+     */
     public boolean getBoolean(String par1Str)
     {
         return this.getByte(par1Str) != 0;
     }
 
+    /**
+     * Remove the specified tag.
+     */
     public void removeTag(String par1Str)
     {
         this.tagMap.remove(par1Str);
@@ -321,11 +414,17 @@ public class NBTTagCompound extends NBTBase
         return var1 + "}";
     }
 
+    /**
+     * Return whether this compound has no tags.
+     */
     public boolean hasNoTags()
     {
         return this.tagMap.isEmpty();
     }
 
+    /**
+     * Create a crash report which indicates a NBT read error.
+     */
     private CrashReport createCrashReport(final String par1Str, final int par2, ClassCastException par3ClassCastException)
     {
         CrashReport var4 = CrashReport.makeCrashReport(par3ClassCastException, "Reading NBT data");
@@ -350,6 +449,9 @@ public class NBTTagCompound extends NBTBase
         return var4;
     }
 
+    /**
+     * Creates a clone of the tag.
+     */
     public NBTBase copy()
     {
         NBTTagCompound var1 = new NBTTagCompound();

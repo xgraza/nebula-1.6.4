@@ -13,6 +13,7 @@ import net.minecraft.world.storage.MapData;
 
 public class EntityItemFrame extends EntityHanging
 {
+    /** Chance for this item frame's item to drop from the frame. */
     private float itemDropChance = 1.0F;
     private static final String __OBFID = "CL_00001547";
 
@@ -33,6 +34,9 @@ public class EntityItemFrame extends EntityHanging
         this.getDataWatcher().addObject(3, Byte.valueOf((byte)0));
     }
 
+    /**
+     * Called when the entity is attacked.
+     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         if (this.isEntityInvulnerable())
@@ -65,6 +69,10 @@ public class EntityItemFrame extends EntityHanging
         return 9;
     }
 
+    /**
+     * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
+     * length * 64 * renderDistanceWeight Args: distance
+     */
     public boolean isInRangeToRenderDist(double par1)
     {
         double var3 = 16.0D;
@@ -72,6 +80,9 @@ public class EntityItemFrame extends EntityHanging
         return par1 < var3 * var3;
     }
 
+    /**
+     * Called when this entity is broken. Entity parameter may be null.
+     */
     public void onBroken(Entity par1Entity)
     {
         this.func_146065_b(par1Entity, true);
@@ -105,6 +116,9 @@ public class EntityItemFrame extends EntityHanging
         }
     }
 
+    /**
+     * Removes the dot representing this frame's position from the map when the item frame is broken.
+     */
     private void removeFrameFromMap(ItemStack par1ItemStack)
     {
         if (par1ItemStack != null)
@@ -137,6 +151,9 @@ public class EntityItemFrame extends EntityHanging
         this.getDataWatcher().setObjectWatched(2);
     }
 
+    /**
+     * Return the rotation of the item currently on this frame.
+     */
     public int getRotation()
     {
         return this.getDataWatcher().getWatchableObjectByte(3);
@@ -147,6 +164,9 @@ public class EntityItemFrame extends EntityHanging
         this.getDataWatcher().updateObject(3, Byte.valueOf((byte)(par1 % 4)));
     }
 
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         if (this.getDisplayedItem() != null)
@@ -159,6 +179,9 @@ public class EntityItemFrame extends EntityHanging
         super.writeEntityToNBT(par1NBTTagCompound);
     }
 
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         NBTTagCompound var2 = par1NBTTagCompound.getCompoundTag("Item");
@@ -168,7 +191,7 @@ public class EntityItemFrame extends EntityHanging
             this.setDisplayedItem(ItemStack.loadItemStackFromNBT(var2));
             this.setItemRotation(par1NBTTagCompound.getByte("ItemRotation"));
 
-            if (par1NBTTagCompound.hasKey("ItemDropChance", 99))
+            if (par1NBTTagCompound.func_150297_b("ItemDropChance", 99))
             {
                 this.itemDropChance = par1NBTTagCompound.getFloat("ItemDropChance");
             }
@@ -177,6 +200,9 @@ public class EntityItemFrame extends EntityHanging
         super.readEntityFromNBT(par1NBTTagCompound);
     }
 
+    /**
+     * First layer of player interaction
+     */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         if (this.getDisplayedItem() == null)

@@ -28,12 +28,15 @@ public class BlockDoor extends Block
         this.setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, var3, 0.5F + var2);
     }
 
+    /**
+     * Gets the block's texture. Args: side, meta
+     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return this.field_150016_b[0];
     }
 
-    public IIcon getBlockTexture(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_)
+    public IIcon getIcon(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_)
     {
         if (p_149673_5_ != 1 && p_149673_5_ != 0)
         {
@@ -95,7 +98,7 @@ public class BlockDoor extends Block
         }
     }
 
-    public void registerIcons(IIconRegister p_149651_1_)
+    public void registerBlockIcons(IIconRegister p_149651_1_)
     {
         this.field_150017_a = new IIcon[2];
         this.field_150016_b = new IIcon[2];
@@ -121,17 +124,27 @@ public class BlockDoor extends Block
         return false;
     }
 
+    /**
+     * The type of render function that is called for this block
+     */
     public int getRenderType()
     {
         return 7;
     }
 
+    /**
+     * Returns the bounding box of the wired rectangular prism to render.
+     */
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World p_149633_1_, int p_149633_2_, int p_149633_3_, int p_149633_4_)
     {
         this.setBlockBoundsBasedOnState(p_149633_1_, p_149633_2_, p_149633_3_, p_149633_4_);
         return super.getSelectedBoundingBoxFromPool(p_149633_1_, p_149633_2_, p_149633_3_, p_149633_4_);
     }
 
+    /**
+     * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
+     * cleared to be reused)
+     */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
     {
         this.setBlockBoundsBasedOnState(p_149668_1_, p_149668_2_, p_149668_3_, p_149668_4_);
@@ -235,8 +248,14 @@ public class BlockDoor extends Block
         }
     }
 
+    /**
+     * Called when a player hits the block. Args: world, x, y, z, player
+     */
     public void onBlockClicked(World p_149699_1_, int p_149699_2_, int p_149699_3_, int p_149699_4_, EntityPlayer p_149699_5_) {}
 
+    /**
+     * Called upon block activation (right click on the block.)
+     */
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         if (this.blockMaterial == Material.iron)
@@ -251,13 +270,11 @@ public class BlockDoor extends Block
 
             if ((var10 & 8) == 0)
             {
-                System.out.println("opened");
                 p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, var11, 2);
                 p_149727_1_.markBlockRangeForRenderUpdate(p_149727_2_, p_149727_3_, p_149727_4_, p_149727_2_, p_149727_3_, p_149727_4_);
             }
             else
             {
-                System.out.println("closed");
                 p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_ - 1, p_149727_4_, var11, 2);
                 p_149727_1_.markBlockRangeForRenderUpdate(p_149727_2_, p_149727_3_ - 1, p_149727_4_, p_149727_2_, p_149727_3_, p_149727_4_);
             }
@@ -265,10 +282,6 @@ public class BlockDoor extends Block
             p_149727_1_.playAuxSFXAtEntity(p_149727_5_, 1003, p_149727_2_, p_149727_3_, p_149727_4_, 0);
             return true;
         }
-    }
-
-    public boolean isOpen(IBlockAccess access, int x, int y, int z) {
-        return (func_150012_g(access, x, y, z) & 8) == 0;
     }
 
     public void func_150014_a(World p_150014_1_, int p_150014_2_, int p_150014_3_, int p_150014_4_, boolean p_150014_5_)
@@ -395,11 +408,17 @@ public class BlockDoor extends Block
         return var7 & 7 | (var6 ? 8 : 0) | (var9 ? 16 : 0);
     }
 
-    public Item getItemPicked(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    /**
+     * Gets an item for the block being called on. Args: world, x, y, z
+     */
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return this.blockMaterial == Material.iron ? Items.iron_door : Items.wooden_door;
     }
 
+    /**
+     * Called when the block is attempted to be harvested
+     */
     public void onBlockHarvested(World p_149681_1_, int p_149681_2_, int p_149681_3_, int p_149681_4_, int p_149681_5_, EntityPlayer p_149681_6_)
     {
         if (p_149681_6_.capabilities.isCreativeMode && (p_149681_5_ & 8) != 0 && p_149681_1_.getBlock(p_149681_2_, p_149681_3_ - 1, p_149681_4_) == this)

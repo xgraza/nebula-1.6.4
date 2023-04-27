@@ -9,7 +9,7 @@ import net.minecraft.util.IChatComponent;
 
 public class S02PacketChat extends Packet
 {
-    public IChatComponent field_148919_a;
+    private IChatComponent field_148919_a;
     private boolean field_148918_b;
     private static final String __OBFID = "CL_00001289";
 
@@ -30,11 +30,17 @@ public class S02PacketChat extends Packet
         this.field_148918_b = p_i45180_2_;
     }
 
+    /**
+     * Reads the raw packet data from the data stream.
+     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_148919_a = IChatComponent.Serializer.func_150699_a(p_148837_1_.readStringFromBuffer(32767));
     }
 
+    /**
+     * Writes the raw packet data to the data stream.
+     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeStringToBuffer(IChatComponent.Serializer.func_150696_a(this.field_148919_a));
@@ -45,6 +51,9 @@ public class S02PacketChat extends Packet
         p_148917_1_.handleChat(this);
     }
 
+    /**
+     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
+     */
     public String serialize()
     {
         return String.format("message=\'%s\'", new Object[] {this.field_148919_a});

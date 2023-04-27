@@ -7,7 +7,16 @@ public class Vec3Pool
 {
     private final int truncateArrayResetThreshold;
     private final int minimumSize;
+
+    /** items at and above nextFreeSpace are assumed to be available */
     private final List vec3Cache = new ArrayList();
+
+    /**
+     * The number of elements we consider "in the pool".  Elements already in the backing store whose indices are at or
+     * above this value may have their components reset at any time.  TODO: this variable should really be named
+     * "poolSize", but I'm not renaming it right now in case any mods are actually (inappropriately) using it instead of
+     * using the accessor method..
+     */
     private int nextFreeSpace;
     private int maximumSizeSinceLastTruncation;
     private int resetCount;
@@ -19,6 +28,9 @@ public class Vec3Pool
         this.minimumSize = par2;
     }
 
+    /**
+     * extends the pool if all vecs are currently "out"
+     */
     public Vec3 getVecFromPool(double par1, double par3, double par5)
     {
         if (this.skipCache())
@@ -45,6 +57,9 @@ public class Vec3Pool
         }
     }
 
+    /**
+     * Will truncate the array everyN clears to the maximum size observed since the last truncation.
+     */
     public void clear()
     {
         if (!this.skipCache())
@@ -80,16 +95,25 @@ public class Vec3Pool
         }
     }
 
+    /**
+     * Gets the number of elements in the pool.
+     */
     public int getPoolSize()
     {
         return this.vec3Cache.size();
     }
 
+    /**
+     * Get the next free space
+     */
     public int getNextFreeSpace()
     {
         return this.nextFreeSpace;
     }
 
+    /**
+     * True if we should skip caching altogether, possibly because this class is not thread-safe.
+     */
     private boolean skipCache()
     {
         return this.minimumSize < 0 || this.truncateArrayResetThreshold < 0;

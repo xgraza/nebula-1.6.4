@@ -136,6 +136,9 @@ public class AnimationMetadataSectionSerializer extends BaseMetadataSectionSeria
         return var4;
     }
 
+    /**
+     * The name of this section type as it appears in JSON.
+     */
     public String getSectionName()
     {
         return "animation";

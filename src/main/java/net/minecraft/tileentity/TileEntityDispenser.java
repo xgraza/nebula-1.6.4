@@ -14,16 +14,26 @@ public class TileEntityDispenser extends TileEntity implements IInventory
     protected String field_146020_a;
     private static final String __OBFID = "CL_00000352";
 
+    /**
+     * Returns the number of slots in the inventory.
+     */
     public int getSizeInventory()
     {
         return 9;
     }
 
+    /**
+     * Returns the stack in slot i
+     */
     public ItemStack getStackInSlot(int par1)
     {
         return this.field_146022_i[par1];
     }
 
+    /**
+     * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and returns them in a
+     * new stack.
+     */
     public ItemStack decrStackSize(int par1, int par2)
     {
         if (this.field_146022_i[par1] != null)
@@ -56,6 +66,10 @@ public class TileEntityDispenser extends TileEntity implements IInventory
         }
     }
 
+    /**
+     * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
+     * like when you close a workbench GUI.
+     */
     public ItemStack getStackInSlotOnClosing(int par1)
     {
         if (this.field_146022_i[par1] != null)
@@ -86,6 +100,9 @@ public class TileEntityDispenser extends TileEntity implements IInventory
         return var1;
     }
 
+    /**
+     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
+     */
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
         this.field_146022_i[par1] = par2ItemStack;
@@ -112,6 +129,9 @@ public class TileEntityDispenser extends TileEntity implements IInventory
         return -1;
     }
 
+    /**
+     * Returns the name of the inventory
+     */
     public String getInventoryName()
     {
         return this.isInventoryNameLocalized() ? this.field_146020_a : "container.dispenser";
@@ -122,6 +142,9 @@ public class TileEntityDispenser extends TileEntity implements IInventory
         this.field_146020_a = p_146018_1_;
     }
 
+    /**
+     * Returns if the inventory name is localized
+     */
     public boolean isInventoryNameLocalized()
     {
         return this.field_146020_a != null;
@@ -144,7 +167,7 @@ public class TileEntityDispenser extends TileEntity implements IInventory
             }
         }
 
-        if (p_145839_1_.hasKey("CustomName", 8))
+        if (p_145839_1_.func_150297_b("CustomName", 8))
         {
             this.field_146020_a = p_145839_1_.getString("CustomName");
         }
@@ -174,20 +197,29 @@ public class TileEntityDispenser extends TileEntity implements IInventory
         }
     }
 
+    /**
+     * Returns the maximum stack size for a inventory slot.
+     */
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
+    /**
+     * Do not make give this method the name canInteractWith because it clashes with Container
+     */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.field_145851_c, this.field_145848_d, this.field_145849_e) != this ? false : par1EntityPlayer.getDistanceSq((double)this.field_145851_c + 0.5D, (double)this.field_145848_d + 0.5D, (double)this.field_145849_e + 0.5D) <= 64.0D;
     }
 
     public void openInventory() {}
 
     public void closeInventory() {}
 
+    /**
+     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
+     */
     public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
     {
         return true;

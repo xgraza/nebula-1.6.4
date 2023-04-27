@@ -22,20 +22,40 @@ import org.lwjgl.opengl.GL12;
 
 public class GuiScreen extends Gui
 {
-    protected static RenderItem renderItemGs = new RenderItem();
+    /**
+     * Holds a instance of RenderItem, used to draw the achievement icons on screen (is based on ItemStack)
+     */
+    protected static RenderItem itemRender = new RenderItem();
+
+    /** Reference to the Minecraft object. */
     protected Minecraft mc;
+
+    /** The width of the screen object. */
     public int width;
+
+    /** The height of the screen object. */
     public int height;
+
+    /** A list of all the buttons in this container. */
     protected List buttonList = new ArrayList();
+
+    /** A list of all the labels in this container. */
     protected List labelList = new ArrayList();
-    public boolean allowUserInput;
-    protected FontRenderer fontRenderer;
+    public boolean field_146291_p;
+
+    /** The FontRenderer used by GuiScreen */
+    protected FontRenderer fontRendererObj;
+
+    /** The button that was just pressed. */
     private GuiButton selectedButton;
     private int eventButton;
     private long lastMouseEvent;
     private int field_146298_h;
     private static final String __OBFID = "CL_00000710";
 
+    /**
+     * Draws the screen and all the components in it.
+     */
     public void drawScreen(int par1, int par2, float par3)
     {
         int var4;
@@ -51,6 +71,9 @@ public class GuiScreen extends Gui
         }
     }
 
+    /**
+     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
+     */
     protected void keyTyped(char par1, int par2)
     {
         if (par2 == 1)
@@ -60,6 +83,9 @@ public class GuiScreen extends Gui
         }
     }
 
+    /**
+     * Returns a string stored in the system clipboard.
+     */
     public static String getClipboardString()
     {
         try
@@ -79,6 +105,9 @@ public class GuiScreen extends Gui
         return "";
     }
 
+    /**
+     * Stores the given string in the system clipboard
+     */
     public static void setClipboardString(String p_146275_0_)
     {
         try
@@ -92,7 +121,7 @@ public class GuiScreen extends Gui
         }
     }
 
-    protected void renderHoverInfo(ItemStack p_146285_1_, int p_146285_2_, int p_146285_3_)
+    protected void func_146285_a(ItemStack p_146285_1_, int p_146285_2_, int p_146285_3_)
     {
         List var4 = p_146285_1_.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
 
@@ -130,7 +159,7 @@ public class GuiScreen extends Gui
             while (var5.hasNext())
             {
                 String var6 = (String)var5.next();
-                int var7 = this.fontRenderer.getStringWidth(var6);
+                int var7 = this.fontRendererObj.getStringWidth(var6);
 
                 if (var7 > var4)
                 {
@@ -158,7 +187,7 @@ public class GuiScreen extends Gui
             }
 
             this.zLevel = 300.0F;
-            renderItemGs.zLevel = 300.0F;
+            itemRender.zLevel = 300.0F;
             int var9 = -267386864;
             this.drawGradientRect(var14 - 3, var15 - 4, var14 + var4 + 3, var15 - 3, var9, var9);
             this.drawGradientRect(var14 - 3, var15 + var8 + 3, var14 + var4 + 3, var15 + var8 + 4, var9, var9);
@@ -175,7 +204,7 @@ public class GuiScreen extends Gui
             for (int var12 = 0; var12 < p_146283_1_.size(); ++var12)
             {
                 String var13 = (String)p_146283_1_.get(var12);
-                this.fontRenderer.drawStringWithShadow(var13, var14, var15, -1);
+                this.fontRendererObj.drawStringWithShadow(var13, var14, var15, -1);
 
                 if (var12 == 0)
                 {
@@ -186,7 +215,7 @@ public class GuiScreen extends Gui
             }
 
             this.zLevel = 0.0F;
-            renderItemGs.zLevel = 0.0F;
+            itemRender.zLevel = 0.0F;
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             RenderHelper.enableStandardItemLighting();
@@ -194,6 +223,9 @@ public class GuiScreen extends Gui
         }
     }
 
+    /**
+     * Called when the mouse is clicked.
+     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         if (par3 == 0)
@@ -225,18 +257,28 @@ public class GuiScreen extends Gui
 
     protected void actionPerformed(GuiButton p_146284_1_) {}
 
+    /**
+     * Causes the screen to lay out its subcomponents again. This is the equivalent of the Java call
+     * Container.validate()
+     */
     public void setWorldAndResolution(Minecraft p_146280_1_, int p_146280_2_, int p_146280_3_)
     {
         this.mc = p_146280_1_;
-        this.fontRenderer = p_146280_1_.fontRenderer;
+        this.fontRendererObj = p_146280_1_.fontRenderer;
         this.width = p_146280_2_;
         this.height = p_146280_3_;
         this.buttonList.clear();
         this.initGui();
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question.
+     */
     public void initGui() {}
 
+    /**
+     * Delegates mouse and keyboard input.
+     */
     public void handleInput()
     {
         if (Mouse.isCreated())
@@ -256,6 +298,9 @@ public class GuiScreen extends Gui
         }
     }
 
+    /**
+     * Handles mouse input.
+     */
     public void handleMouseInput()
     {
         int var1 = Mouse.getEventX() * this.width / this.mc.displayWidth;
@@ -295,6 +340,9 @@ public class GuiScreen extends Gui
         }
     }
 
+    /**
+     * Handles keyboard input.
+     */
     public void handleKeyboardInput()
     {
         if (Keyboard.getEventKeyState())
@@ -312,16 +360,22 @@ public class GuiScreen extends Gui
         }
     }
 
+    /**
+     * Called from the main game loop to update the screen.
+     */
     public void updateScreen() {}
 
+    /**
+     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
+     */
     public void onGuiClosed() {}
 
     public void drawDefaultBackground()
     {
-        this.drawWorldBackground(0);
+        this.func_146270_b(0);
     }
 
-    public void drawWorldBackground(int p_146270_1_)
+    public void func_146270_b(int p_146270_1_)
     {
         if (this.mc.theWorld != null)
         {
@@ -329,11 +383,11 @@ public class GuiScreen extends Gui
         }
         else
         {
-            this.drawBackground(p_146270_1_);
+            this.func_146278_c(p_146270_1_);
         }
     }
 
-    public void drawBackground(int p_146278_1_)
+    public void func_146278_c(int p_146278_1_)
     {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_FOG);
@@ -350,6 +404,9 @@ public class GuiScreen extends Gui
         var2.draw();
     }
 
+    /**
+     * Returns true if this GUI should pause the game when it is displayed in single-player
+     */
     public boolean doesGuiPauseGame()
     {
         return true;
@@ -357,11 +414,17 @@ public class GuiScreen extends Gui
 
     public void confirmClicked(boolean par1, int par2) {}
 
+    /**
+     * Returns true if either windows ctrl key is down or if either mac meta key is down
+     */
     public static boolean isCtrlKeyDown()
     {
         return Minecraft.isRunningOnMac ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
     }
 
+    /**
+     * Returns true if either shift key is down
+     */
     public static boolean isShiftKeyDown()
     {
         return Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54);

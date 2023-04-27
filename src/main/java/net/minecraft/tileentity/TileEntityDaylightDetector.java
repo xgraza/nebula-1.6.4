@@ -14,7 +14,7 @@ public class TileEntityDaylightDetector extends TileEntity
 
             if (this.blockType instanceof BlockDaylightDetector)
             {
-                ((BlockDaylightDetector)this.blockType).func_149957_e(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+                ((BlockDaylightDetector)this.blockType).func_149957_e(this.worldObj, this.field_145851_c, this.field_145848_d, this.field_145849_e);
             }
         }
     }

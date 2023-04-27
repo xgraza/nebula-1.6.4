@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.EventRender2D;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -39,26 +42,34 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import wtf.nebula.client.core.Nebula;
-import wtf.nebula.client.impl.event.impl.render.EventRender2D;
-import wtf.nebula.client.impl.event.impl.render.EventRenderOverlay;
-import wtf.nebula.client.impl.event.impl.render.EventRenderTabListName;
 
 public class GuiIngame extends Gui
 {
     private static final ResourceLocation vignetteTexPath = new ResourceLocation("textures/misc/vignette.png");
     private static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
     private static final ResourceLocation pumpkinBlurTexPath = new ResourceLocation("textures/misc/pumpkinblur.png");
-    public static final RenderItem itemRenderer = new RenderItem();
+    private static final RenderItem itemRenderer = new RenderItem();
     private final Random rand = new Random();
     private final Minecraft mc;
+
+    /** ChatGUI instance that retains all previous chat data */
     private final GuiNewChat persistantChatGUI;
     private int updateCounter;
+
+    /** The string specifying which record music is playing */
     private String recordPlaying = "";
+
+    /** How many ticks the record playing message will be displayed */
     private int recordPlayingUpFor;
     private boolean recordIsPlaying;
+
+    /** Previous frame vignette brightness (slowly changes by 1% each frame) */
     public float prevVignetteBrightness = 1.0F;
+
+    /** Remaining ticks the item highlight should be visible */
     private int remainingHighlightTicks;
+
+    /** The ItemStack that is currently being highlighted */
     private ItemStack highlightingItemStack;
     private static final String __OBFID = "CL_00000661";
 
@@ -68,6 +79,9 @@ public class GuiIngame extends Gui
         this.persistantChatGUI = new GuiNewChat(par1Minecraft);
     }
 
+    /**
+     * Render the ingame overlay with quick icon bar, ...
+     */
     public void renderGameOverlay(float par1, boolean par2, int par3, int par4)
     {
         ScaledResolution var5 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
@@ -114,13 +128,7 @@ public class GuiIngame extends Gui
             InventoryPlayer var31 = this.mc.thePlayer.inventory;
             this.zLevel = -90.0F;
             this.drawTexturedModalRect(var6 / 2 - 91, var7 - 22, 0, 0, 182, 22);
-
-            int slot = Nebula.getInstance().getInventoryManager().serverSlot;
-            if (slot < 0 || slot > 8) {
-                slot = mc.thePlayer.inventory.currentItem;
-            }
-
-            this.drawTexturedModalRect(var6 / 2 - 91 - 1 + slot * 20, var7 - 22 - 1, 0, 22, 24, 22);
+            this.drawTexturedModalRect(var6 / 2 - 91 - 1 + var31.currentItem * 20, var7 - 22 - 1, 0, 22, 24, 22);
             this.mc.getTextureManager().bindTexture(icons);
             GL11.glEnable(GL11.GL_BLEND);
             OpenGlHelper.glBlendFunc(775, 769, 1, 0);
@@ -390,7 +398,7 @@ public class GuiIngame extends Gui
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, (float)(var7 - 48), 0.0F);
         this.mc.mcProfiler.startSection("chat");
-        this.persistantChatGUI.drawChat(this.updateCounter);
+        this.persistantChatGUI.func_146230_a(this.updateCounter);
         this.mc.mcProfiler.endSection();
         GL11.glPopMatrix();
         var40 = this.mc.theWorld.getScoreboard().func_96539_a(0);
@@ -432,12 +440,6 @@ public class GuiIngame extends Gui
                     GuiPlayerInfo var48 = (GuiPlayerInfo)var44.get(var21);
                     ScorePlayerTeam var49 = this.mc.theWorld.getScoreboard().getPlayersTeam(var48.name);
                     String var50 = ScorePlayerTeam.formatPlayerName(var49, var48.name);
-
-                    EventRenderTabListName event = new EventRenderTabListName(var48, var50);
-                    if (Nebula.BUS.post(event)) {
-                        var50 = event.getText();
-                    }
-
                     var8.drawStringWithShadow(var50, var22, var23, 16777215);
 
                     if (var40 != null)
@@ -495,7 +497,7 @@ public class GuiIngame extends Gui
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
 
-        Nebula.BUS.post(new EventRender2D(par1, var5));
+        Nebula.getBus().dispatch(new EventRender2D(var5, par1));
     }
 
     private void func_96136_a(ScoreObjective par1ScoreObjective, int par2, int par3, FontRenderer par4FontRenderer)
@@ -823,6 +825,9 @@ public class GuiIngame extends Gui
         this.mc.mcProfiler.endSection();
     }
 
+    /**
+     * Renders dragon's (boss) health on the HUD
+     */
     private void renderBossHealth()
     {
         if (BossStatus.bossName != null && BossStatus.statusBarTime > 0)
@@ -871,6 +876,9 @@ public class GuiIngame extends Gui
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
+    /**
+     * Renders the vignette. Args: vignetteBrightness, width, height
+     */
     private void renderVignette(float par1, int par2, int par3)
     {
         par1 = 1.0F - par1;
@@ -906,10 +914,6 @@ public class GuiIngame extends Gui
 
     private void func_130015_b(float par1, int par2, int par3)
     {
-        if (Nebula.BUS.post(new EventRenderOverlay(EventRenderOverlay.Type.CONFUSION))) {
-            return;
-        }
-
         if (par1 < 1.0F)
         {
             par1 *= par1;
@@ -941,6 +945,9 @@ public class GuiIngame extends Gui
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
+    /**
+     * Renders the specified item of the inventory slot at the specified location. Args: slot, x, y, partialTick
+     */
     private void renderInventorySlot(int par1, int par2, int par3, float par4)
     {
         ItemStack var5 = this.mc.thePlayer.inventory.mainInventory[par1];
@@ -969,6 +976,9 @@ public class GuiIngame extends Gui
         }
     }
 
+    /**
+     * The update tick for the ingame UI
+     */
     public void updateTick()
     {
         if (this.recordPlayingUpFor > 0)
@@ -1014,7 +1024,7 @@ public class GuiIngame extends Gui
         this.recordIsPlaying = par2;
     }
 
-    public GuiNewChat getChatGui()
+    public GuiNewChat getChatGUI()
     {
         return this.persistantChatGUI;
     }

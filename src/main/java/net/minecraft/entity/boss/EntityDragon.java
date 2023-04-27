@@ -27,22 +27,50 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
     public double targetX;
     public double targetY;
     public double targetZ;
+
+    /**
+     * Ring buffer array for the last 64 Y-positions and yaw rotations. Used to calculate offsets for the animations.
+     */
     public double[][] ringBuffer = new double[64][3];
+
+    /**
+     * Index into the ring buffer. Incremented once per tick and restarts at 0 once it reaches the end of the buffer.
+     */
     public int ringBufferIndex = -1;
+
+    /** An array containing all body parts of this dragon */
     public EntityDragonPart[] dragonPartArray;
+
+    /** The head bounding box of a dragon */
     public EntityDragonPart dragonPartHead;
+
+    /** The body bounding box of a dragon */
     public EntityDragonPart dragonPartBody;
     public EntityDragonPart dragonPartTail1;
     public EntityDragonPart dragonPartTail2;
     public EntityDragonPart dragonPartTail3;
     public EntityDragonPart dragonPartWing1;
     public EntityDragonPart dragonPartWing2;
+
+    /** Animation time at previous tick. */
     public float prevAnimTime;
+
+    /**
+     * Animation time, used to control the speed of the animation cycles (wings flapping, jaw opening, etc.)
+     */
     public float animTime;
+
+    /** Force selecting a new flight target at next tick if set to true. */
     public boolean forceNewTarget;
+
+    /**
+     * Activated if the dragon is flying though obsidian, white stone or bedrock. Slows movement and animation speed.
+     */
     public boolean slowed;
     private Entity target;
     public int deathTicks;
+
+    /** The current endercrystal that is healing this dragon */
     public EntityEnderCrystal healingEnderCrystal;
     private static final String __OBFID = "CL_00001659";
 
@@ -69,6 +97,10 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         super.entityInit();
     }
 
+    /**
+     * Returns a double[3] array with movement offsets, used to calculate trailing tail/neck positions. [0] = yaw
+     * offset, [1] = y offset, [2] = unused, always 0. Parameters: buffer index offset, partial ticks.
+     */
     public double[] getMovementOffsets(int par1, float par2)
     {
         if (this.getHealth() <= 0.0F)
@@ -90,6 +122,10 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         return var5;
     }
 
+    /**
+     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+     * use this to react to sunlight and start to burn.
+     */
     public void onLivingUpdate()
     {
         float var1;
@@ -347,6 +383,9 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         }
     }
 
+    /**
+     * Updates the state of the enderdragon's current endercrystal.
+     */
     private void updateDragonEnderCrystal()
     {
         if (this.healingEnderCrystal != null)
@@ -390,6 +429,9 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         }
     }
 
+    /**
+     * Pushes all entities inside the list away from the enderdragon.
+     */
     private void collideWithEntities(List par1List)
     {
         double var2 = (this.dragonPartBody.boundingBox.minX + this.dragonPartBody.boundingBox.maxX) / 2.0D;
@@ -410,6 +452,9 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         }
     }
 
+    /**
+     * Attacks all entities inside this list, dealing 5 hearts of damage.
+     */
     private void attackEntitiesInList(List par1List)
     {
         for (int var2 = 0; var2 < par1List.size(); ++var2)
@@ -423,6 +468,9 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         }
     }
 
+    /**
+     * Sets a new target for the flight AI. It can be a random coordinate or a nearby player.
+     */
     private void setNewTarget()
     {
         this.forceNewTarget = false;
@@ -453,11 +501,17 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         }
     }
 
+    /**
+     * Simplifies the value of a number by adding/subtracting 180 to the point that the number is between -180 and 180.
+     */
     private float simplifyAngle(double par1)
     {
         return (float)MathHelper.wrapAngleTo180_double(par1);
     }
 
+    /**
+     * Destroys all blocks that aren't associated with 'The End' inside the given bounding box.
+     */
     private boolean destroyBlocksInAABB(AxisAlignedBB par1AxisAlignedBB)
     {
         int var2 = MathHelper.floor_double(par1AxisAlignedBB.minX);
@@ -526,6 +580,9 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         return true;
     }
 
+    /**
+     * Called when the entity is attacked.
+     */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         return false;
@@ -536,6 +593,9 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         return super.attackEntityFrom(par1DamageSource, par2);
     }
 
+    /**
+     * handles entity death timer, experience orb and particle creation
+     */
     protected void onDeathUpdate()
     {
         ++this.deathTicks;
@@ -590,6 +650,9 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         }
     }
 
+    /**
+     * Creates the ender portal leading back to the normal world after defeating the enderdragon.
+     */
     private void createEnderPortal(int par1, int par2)
     {
         byte var3 = 64;
@@ -644,13 +707,22 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         BlockEndPortal.field_149948_a = false;
     }
 
+    /**
+     * Makes the entity despawn if requirements are reached
+     */
     public void despawnEntity() {}
 
+    /**
+     * Return the Entity parts making up this Entity (currently only for dragons)
+     */
     public Entity[] getParts()
     {
         return this.dragonPartArray;
     }
 
+    /**
+     * Returns true if other Entities should be prevented from moving through this Entity.
+     */
     public boolean canBeCollidedWith()
     {
         return false;
@@ -661,16 +733,25 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
         return this.worldObj;
     }
 
+    /**
+     * Returns the sound this mob makes while it's alive.
+     */
     protected String getLivingSound()
     {
         return "mob.enderdragon.growl";
     }
 
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
     protected String getHurtSound()
     {
         return "mob.enderdragon.hit";
     }
 
+    /**
+     * Returns the volume for the sounds this mob makes.
+     */
     protected float getSoundVolume()
     {
         return 5.0F;

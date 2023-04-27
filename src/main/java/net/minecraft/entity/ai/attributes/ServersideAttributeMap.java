@@ -31,6 +31,9 @@ public class ServersideAttributeMap extends BaseAttributeMap
         return (ModifiableAttributeInstance)var2;
     }
 
+    /**
+     * Registers an attribute with this AttributeMap, returns a modifiable AttributeInstance associated with this map
+     */
     public IAttributeInstance registerAttribute(IAttribute par1Attribute)
     {
         if (this.attributesByName.containsKey(par1Attribute.getAttributeUnlocalizedName()))

@@ -12,8 +12,6 @@ import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import wtf.nebula.client.core.Nebula;
-import wtf.nebula.client.impl.event.impl.world.EventAddBox;
 
 public class BlockEndPortal extends BlockContainer
 {
@@ -23,9 +21,12 @@ public class BlockEndPortal extends BlockContainer
     protected BlockEndPortal(Material p_i45404_1_)
     {
         super(p_i45404_1_);
-        this.setLightValue(1.0F);
+        this.setLightLevel(1.0F);
     }
 
+    /**
+     * Returns a new instance of a block's tile entity class. Called on placing the block.
+     */
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
         return new TileEntityEndPortal();
@@ -42,15 +43,7 @@ public class BlockEndPortal extends BlockContainer
         return p_149646_5_ != 0 ? false : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
     }
 
-    public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_) {
-        EventAddBox event = new EventAddBox(this, p_149743_7_,  p_149743_2_, p_149743_3_, p_149743_4_, null);
-        if (Nebula.BUS.post(event)) {
-            AxisAlignedBB bb = event.getBox();
-            if (bb != null && bb.intersectsWith(p_149743_5_)) {
-                p_149743_6_.add(bb);
-            }
-        }
-    }
+    public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_) {}
 
     public boolean isOpaqueCube()
     {
@@ -62,6 +55,9 @@ public class BlockEndPortal extends BlockContainer
         return false;
     }
 
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
     public int quantityDropped(Random p_149745_1_)
     {
         return 0;
@@ -75,6 +71,9 @@ public class BlockEndPortal extends BlockContainer
         }
     }
 
+    /**
+     * A randomly called display update to be able to add particles or other items for display
+     */
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
         double var6 = (double)((float)p_149734_2_ + p_149734_5_.nextFloat());
@@ -86,6 +85,9 @@ public class BlockEndPortal extends BlockContainer
         p_149734_1_.spawnParticle("smoke", var6, var8, var10, var12, var14, var16);
     }
 
+    /**
+     * The type of render function that is called for this block
+     */
     public int getRenderType()
     {
         return -1;
@@ -102,12 +104,15 @@ public class BlockEndPortal extends BlockContainer
         }
     }
 
-    public Item getItemPicked(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    /**
+     * Gets an item for the block being called on. Args: world, x, y, z
+     */
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return Item.getItemById(0);
     }
 
-    public void registerIcons(IIconRegister p_149651_1_)
+    public void registerBlockIcons(IIconRegister p_149651_1_)
     {
         this.blockIcon = p_149651_1_.registerIcon("portal");
     }

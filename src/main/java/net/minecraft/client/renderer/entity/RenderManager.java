@@ -85,7 +85,6 @@ import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.src.Reflector;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
@@ -94,24 +93,36 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderManager
 {
+    /** A map of entity classes and the associated renderer. */
     private Map entityRenderMap = new HashMap();
+
+    /** The static instance of RenderManager. */
     public static RenderManager instance = new RenderManager();
+
+    /** Renders fonts */
     private FontRenderer fontRenderer;
     public static double renderPosX;
     public static double renderPosY;
     public static double renderPosZ;
     public TextureManager renderEngine;
     public ItemRenderer itemRenderer;
+
+    /** Reference to the World object. */
     public World worldObj;
+
+    /** Rendermanager's variable for the player */
     public EntityLivingBase livingPlayer;
     public Entity field_147941_i;
     public float playerViewY;
     public float playerViewX;
+
+    /** Reference to the GameSettings object. */
     public GameSettings options;
     public double viewerPosX;
     public double viewerPosY;
     public double viewerPosZ;
     public static boolean field_85095_o;
+    private static final String __OBFID = "CL_00000991";
 
     private RenderManager()
     {
@@ -197,7 +208,7 @@ public class RenderManager
         return this.getEntityClassRenderObject(par1Entity.getClass());
     }
 
-    public void cacheActiveRenderInfo(World p_147938_1_, TextureManager p_147938_2_, FontRenderer p_147938_3_, EntityLivingBase p_147938_4_, Entity p_147938_5_, GameSettings p_147938_6_, float p_147938_7_)
+    public void func_147938_a(World p_147938_1_, TextureManager p_147938_2_, FontRenderer p_147938_3_, EntityLivingBase p_147938_4_, Entity p_147938_5_, GameSettings p_147938_6_, float p_147938_7_)
     {
         this.worldObj = p_147938_1_;
         this.renderEngine = p_147938_2_;
@@ -209,20 +220,10 @@ public class RenderManager
         if (p_147938_4_.isPlayerSleeping())
         {
             Block var8 = p_147938_1_.getBlock(MathHelper.floor_double(p_147938_4_.posX), MathHelper.floor_double(p_147938_4_.posY), MathHelper.floor_double(p_147938_4_.posZ));
-            int x = MathHelper.floor_double(p_147938_4_.posX);
-            int y = MathHelper.floor_double(p_147938_4_.posY);
-            int z = MathHelper.floor_double(p_147938_4_.posZ);
-            int var9;
 
-            if (Reflector.callBoolean(Reflector.ForgeBlock_isBed, new Object[] {p_147938_1_, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(z), p_147938_4_}))
+            if (var8 == Blocks.bed)
             {
-                var9 = Reflector.callInt(var8, Reflector.ForgeBlock_getBedDirection, new Object[] {p_147938_1_, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(z)});
-                this.playerViewY = (float)(var9 * 90 + 180);
-                this.playerViewX = 0.0F;
-            }
-            else if (var8 == Blocks.bed)
-            {
-                var9 = p_147938_1_.getBlockMetadata(MathHelper.floor_double(p_147938_4_.posX), MathHelper.floor_double(p_147938_4_.posY), MathHelper.floor_double(p_147938_4_.posZ));
+                int var9 = p_147938_1_.getBlockMetadata(MathHelper.floor_double(p_147938_4_.posX), MathHelper.floor_double(p_147938_4_.posY), MathHelper.floor_double(p_147938_4_.posZ));
                 int var10 = var9 & 3;
                 this.playerViewY = (float)(var10 * 90 + 180);
                 this.playerViewX = 0.0F;
@@ -244,12 +245,12 @@ public class RenderManager
         this.viewerPosZ = p_147938_4_.lastTickPosZ + (p_147938_4_.posZ - p_147938_4_.lastTickPosZ) * (double)p_147938_7_;
     }
 
-    public boolean renderEntity(Entity p_147937_1_, float p_147937_2_)
+    public boolean func_147937_a(Entity p_147937_1_, float p_147937_2_)
     {
-        return this.renderEntityStatic(p_147937_1_, p_147937_2_, false);
+        return this.func_147936_a(p_147937_1_, p_147937_2_, false);
     }
 
-    public boolean renderEntityStatic(Entity p_147936_1_, float p_147936_2_, boolean p_147936_3_)
+    public boolean func_147936_a(Entity p_147936_1_, float p_147936_2_, boolean p_147936_3_)
     {
         if (p_147936_1_.ticksExisted == 0)
         {
@@ -291,7 +292,7 @@ public class RenderManager
 
             if (var11 != null && this.renderEngine != null)
             {
-                if (!var11.isStaticEntity() || p_147939_10_)
+                if (!var11.func_147905_a() || p_147939_10_)
                 {
                     try
                     {
@@ -362,6 +363,9 @@ public class RenderManager
         GL11.glDepthMask(true);
     }
 
+    /**
+     * World sets this RenderManager's worldObj to the world provided
+     */
     public void set(World par1World)
     {
         this.worldObj = par1World;
@@ -375,6 +379,9 @@ public class RenderManager
         return var7 * var7 + var9 * var9 + var11 * var11;
     }
 
+    /**
+     * Returns the font renderer
+     */
     public FontRenderer getFontRenderer()
     {
         return this.fontRenderer;
@@ -389,15 +396,5 @@ public class RenderManager
             Render var3 = (Render)var2.next();
             var3.updateIcons(par1IconRegister);
         }
-    }
-
-    public Map getEntityRenderMap()
-    {
-        return this.entityRenderMap;
-    }
-
-    public void setEntityRenderMap(Map entityRenderMap)
-    {
-        this.entityRenderMap = entityRenderMap;
     }
 }

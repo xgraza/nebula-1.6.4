@@ -17,6 +17,9 @@ public class CommandEmote extends CommandBase
         return "me";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel()
     {
         return 0;
@@ -32,7 +35,7 @@ public class CommandEmote extends CommandBase
         if (par2ArrayOfStr.length > 0)
         {
             IChatComponent var3 = func_147176_a(par1ICommandSender, par2ArrayOfStr, 0, par1ICommandSender.canCommandSenderUseCommand(1, "me"));
-            MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.emote", new Object[] {par1ICommandSender.func_145748_c_(), var3}));
+            MinecraftServer.getServer().getConfigurationManager().func_148539_a(new ChatComponentTranslation("chat.type.emote", new Object[] {par1ICommandSender.func_145748_c_(), var3}));
         }
         else
         {
@@ -40,6 +43,9 @@ public class CommandEmote extends CommandBase
         }
     }
 
+    /**
+     * Adds the strings available in this command to the given list of tab completion options.
+     */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         return getListOfStringsMatchingLastWord(par2ArrayOfStr, MinecraftServer.getServer().getAllUsernames());

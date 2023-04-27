@@ -14,6 +14,9 @@ public class BlockCompressedPowered extends BlockCompressed
         this.setCreativeTab(CreativeTabs.tabRedstone);
     }
 
+    /**
+     * Can this block provide power. Only wire currently seems to have this change based on its state.
+     */
     public boolean canProvidePower()
     {
         return true;

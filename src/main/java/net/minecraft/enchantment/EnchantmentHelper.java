@@ -20,13 +20,25 @@ import net.minecraft.util.WeightedRandom;
 
 public class EnchantmentHelper
 {
+    /** Is the random seed of enchantment effects. */
     private static final Random enchantmentRand = new Random();
+
+    /**
+     * Used to calculate the extra armor of enchantments on armors equipped on player.
+     */
     private static final EnchantmentHelper.ModifierDamage enchantmentModifierDamage = new EnchantmentHelper.ModifierDamage(null);
+
+    /**
+     * Used to calculate the (magic) extra damage done by enchantments on current equipped item of player.
+     */
     private static final EnchantmentHelper.ModifierLiving enchantmentModifierLiving = new EnchantmentHelper.ModifierLiving(null);
     private static final EnchantmentHelper.HurtIterator field_151388_d = new EnchantmentHelper.HurtIterator(null);
     private static final EnchantmentHelper.DamageIterator field_151389_e = new EnchantmentHelper.DamageIterator(null);
     private static final String __OBFID = "CL_00000107";
 
+    /**
+     * Returns the level of enchantment on the ItemStack passed.
+     */
     public static int getEnchantmentLevel(int par0, ItemStack par1ItemStack)
     {
         if (par1ItemStack == null)
@@ -59,6 +71,9 @@ public class EnchantmentHelper
         }
     }
 
+    /**
+     * Return the enchantments for the specified stack.
+     */
     public static Map getEnchantments(ItemStack par0ItemStack)
     {
         LinkedHashMap var1 = new LinkedHashMap();
@@ -77,6 +92,9 @@ public class EnchantmentHelper
         return var1;
     }
 
+    /**
+     * Set the enchantments for the specified stack.
+     */
     public static void setEnchantments(Map par0Map, ItemStack par1ItemStack)
     {
         NBTTagList var2 = new NBTTagList();
@@ -109,6 +127,9 @@ public class EnchantmentHelper
         }
     }
 
+    /**
+     * Returns the biggest level of the enchantment on the array of ItemStack passed.
+     */
     public static int getMaxEnchantmentLevel(int par0, ItemStack[] par1ArrayOfItemStack)
     {
         if (par1ArrayOfItemStack == null)
@@ -136,6 +157,9 @@ public class EnchantmentHelper
         }
     }
 
+    /**
+     * Executes the enchantment modifier on the ItemStack passed.
+     */
     private static void applyEnchantmentModifier(EnchantmentHelper.IModifier par0IEnchantmentModifier, ItemStack par1ItemStack)
     {
         if (par1ItemStack != null)
@@ -158,6 +182,9 @@ public class EnchantmentHelper
         }
     }
 
+    /**
+     * Executes the enchantment modifier on the array of ItemStack passed.
+     */
     private static void applyEnchantmentModifierArray(EnchantmentHelper.IModifier par0IEnchantmentModifier, ItemStack[] par1ArrayOfItemStack)
     {
         ItemStack[] var2 = par1ArrayOfItemStack;
@@ -170,6 +197,9 @@ public class EnchantmentHelper
         }
     }
 
+    /**
+     * Returns the modifier of protection enchantments on armors equipped on player.
+     */
     public static int getEnchantmentModifierDamage(ItemStack[] par0ArrayOfItemStack, DamageSource par1DamageSource)
     {
         enchantmentModifierDamage.damageModifier = 0;
@@ -184,6 +214,9 @@ public class EnchantmentHelper
         return (enchantmentModifierDamage.damageModifier + 1 >> 1) + enchantmentRand.nextInt((enchantmentModifierDamage.damageModifier >> 1) + 1);
     }
 
+    /**
+     * Return the (magic) extra damage of the enchantments on player equipped item.
+     */
     public static float getEnchantmentModifierLiving(EntityLivingBase par0EntityLivingBase, EntityLivingBase par1EntityLivingBase)
     {
         enchantmentModifierLiving.livingModifier = 0.0F;
@@ -216,6 +249,9 @@ public class EnchantmentHelper
         }
     }
 
+    /**
+     * Returns the knockback value of enchantments on equipped player item.
+     */
     public static int getKnockbackModifier(EntityLivingBase par0EntityLivingBase, EntityLivingBase par1EntityLivingBase)
     {
         return getEnchantmentLevel(Enchantment.knockback.effectId, par0EntityLivingBase.getHeldItem());
@@ -226,21 +262,33 @@ public class EnchantmentHelper
         return getEnchantmentLevel(Enchantment.fireAspect.effectId, par0EntityLivingBase.getHeldItem());
     }
 
+    /**
+     * Returns the 'Water Breathing' modifier of enchantments on player equipped armors.
+     */
     public static int getRespiration(EntityLivingBase par0EntityLivingBase)
     {
         return getMaxEnchantmentLevel(Enchantment.respiration.effectId, par0EntityLivingBase.getLastActiveItems());
     }
 
+    /**
+     * Return the extra efficiency of tools based on enchantments on equipped player item.
+     */
     public static int getEfficiencyModifier(EntityLivingBase par0EntityLivingBase)
     {
         return getEnchantmentLevel(Enchantment.efficiency.effectId, par0EntityLivingBase.getHeldItem());
     }
 
+    /**
+     * Returns the silk touch status of enchantments on current equipped item of player.
+     */
     public static boolean getSilkTouchModifier(EntityLivingBase par0EntityLivingBase)
     {
         return getEnchantmentLevel(Enchantment.silkTouch.effectId, par0EntityLivingBase.getHeldItem()) > 0;
     }
 
+    /**
+     * Returns the fortune enchantment modifier of the current equipped item of player.
+     */
     public static int getFortuneModifier(EntityLivingBase par0EntityLivingBase)
     {
         return getEnchantmentLevel(Enchantment.fortune.effectId, par0EntityLivingBase.getHeldItem());
@@ -256,11 +304,17 @@ public class EnchantmentHelper
         return getEnchantmentLevel(Enchantment.field_151369_A.effectId, p_151387_0_.getHeldItem());
     }
 
+    /**
+     * Returns the looting enchantment modifier of the current equipped item of player.
+     */
     public static int getLootingModifier(EntityLivingBase par0EntityLivingBase)
     {
         return getEnchantmentLevel(Enchantment.looting.effectId, par0EntityLivingBase.getHeldItem());
     }
 
+    /**
+     * Returns the aqua affinity status of enchantments on current equipped item of player.
+     */
     public static boolean getAquaAffinityModifier(EntityLivingBase par0EntityLivingBase)
     {
         return getMaxEnchantmentLevel(Enchantment.aquaAffinity.effectId, par0EntityLivingBase.getLastActiveItems()) > 0;
@@ -284,6 +338,10 @@ public class EnchantmentHelper
         return null;
     }
 
+    /**
+     * Returns the enchantability of itemstack, it's uses a singular formula for each index (2nd parameter: 0, 1 and 2),
+     * cutting to the max enchantability power of the table (3rd parameter)
+     */
     public static int calcItemStackEnchantability(Random par0Random, int par1, int par2, ItemStack par3ItemStack)
     {
         Item var4 = par3ItemStack.getItem();
@@ -305,6 +363,9 @@ public class EnchantmentHelper
         }
     }
 
+    /**
+     * Adds a random enchantment to the specified item. Args: random, itemStack, enchantabilityLevel
+     */
     public static ItemStack addRandomEnchantment(Random par0Random, ItemStack par1ItemStack, int par2)
     {
         List var3 = buildEnchantmentList(par0Random, par1ItemStack, par2);
@@ -337,6 +398,10 @@ public class EnchantmentHelper
         return par1ItemStack;
     }
 
+    /**
+     * Create a list of random EnchantmentData (enchantments) that can be added together to the ItemStack, the 3rd
+     * parameter is the total enchantability level.
+     */
     public static List buildEnchantmentList(Random par0Random, ItemStack par1ItemStack, int par2)
     {
         Item var3 = par1ItemStack.getItem();
@@ -417,6 +482,10 @@ public class EnchantmentHelper
         }
     }
 
+    /**
+     * Creates a 'Map' of EnchantmentData (enchantments) possible to add on the ItemStack and the enchantability level
+     * passed.
+     */
     public static Map mapEnchantmentData(int par0, ItemStack par1ItemStack)
     {
         Item var2 = par1ItemStack.getItem();

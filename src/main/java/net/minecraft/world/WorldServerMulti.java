@@ -17,5 +17,8 @@ public class WorldServerMulti extends WorldServer
         this.worldInfo = new DerivedWorldInfo(p_i45283_6_.getWorldInfo());
     }
 
+    /**
+     * Saves the chunks to disk.
+     */
     protected void saveLevel() throws MinecraftException {}
 }

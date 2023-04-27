@@ -23,9 +23,6 @@ import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import wtf.nebula.client.core.Nebula;
-import wtf.nebula.client.impl.event.base.Era;
-import wtf.nebula.client.impl.event.impl.render.EventRenderTileEntity;
 
 public class TileEntityRendererDispatcher
 {
@@ -88,7 +85,7 @@ public class TileEntityRendererDispatcher
         return p_147547_1_ == null ? null : this.getSpecialRendererByClass(p_147547_1_.getClass());
     }
 
-    public void cacheActiveRenderInfo(World p_147542_1_, TextureManager p_147542_2_, FontRenderer p_147542_3_, EntityLivingBase p_147542_4_, float p_147542_5_)
+    public void func_147542_a(World p_147542_1_, TextureManager p_147542_2_, FontRenderer p_147542_3_, EntityLivingBase p_147542_4_, float p_147542_5_)
     {
         if (this.field_147550_f != p_147542_1_)
         {
@@ -105,16 +102,16 @@ public class TileEntityRendererDispatcher
         this.field_147558_l = p_147542_4_.lastTickPosZ + (p_147542_4_.posZ - p_147542_4_.lastTickPosZ) * (double)p_147542_5_;
     }
 
-    public void renderTileEntity(TileEntity p_147544_1_, float p_147544_2_)
+    public void func_147544_a(TileEntity p_147544_1_, float p_147544_2_)
     {
         if (p_147544_1_.getDistanceFrom(this.field_147560_j, this.field_147561_k, this.field_147558_l) < p_147544_1_.getMaxRenderDistanceSquared())
         {
-            int var3 = this.field_147550_f.getLightBrightnessForSkyBlocks(p_147544_1_.xCoord, p_147544_1_.yCoord, p_147544_1_.zCoord, 0);
+            int var3 = this.field_147550_f.getLightBrightnessForSkyBlocks(p_147544_1_.field_145851_c, p_147544_1_.field_145848_d, p_147544_1_.field_145849_e, 0);
             int var4 = var3 % 65536;
             int var5 = var3 / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var4 / 1.0F, (float)var5 / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.func_147549_a(p_147544_1_, (double)p_147544_1_.xCoord - staticPlayerX, (double)p_147544_1_.yCoord - staticPlayerY, (double)p_147544_1_.zCoord - staticPlayerZ, p_147544_2_);
+            this.func_147549_a(p_147544_1_, (double)p_147544_1_.field_145851_c - staticPlayerX, (double)p_147544_1_.field_145848_d - staticPlayerY, (double)p_147544_1_.field_145849_e - staticPlayerZ, p_147544_2_);
         }
     }
 
@@ -126,13 +123,7 @@ public class TileEntityRendererDispatcher
         {
             try
             {
-                if (Nebula.BUS.post(new EventRenderTileEntity(Era.PRE, p_147549_1_))) {
-                    return;
-                }
-
                 var9.renderTileEntityAt(p_147549_1_, p_147549_2_, p_147549_4_, p_147549_6_, p_147549_8_);
-
-                Nebula.BUS.post(new EventRenderTileEntity(Era.POST, p_147549_1_));
             }
             catch (Throwable var13)
             {
@@ -160,7 +151,7 @@ public class TileEntityRendererDispatcher
         }
     }
 
-    public FontRenderer getFontRenderer()
+    public FontRenderer func_147548_a()
     {
         return this.field_147557_n;
     }

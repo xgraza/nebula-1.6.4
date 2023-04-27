@@ -11,9 +11,13 @@ import net.minecraft.world.World;
 
 public class ItemTool extends Item
 {
-    public Set field_150914_c;
-    public float efficiencyOnProperMaterial = 4.0F;
+    private Set field_150914_c;
+    protected float efficiencyOnProperMaterial = 4.0F;
+
+    /** Damage versus entities. */
     private float damageVsEntity;
+
+    /** The material this tool is made from. */
     protected Item.ToolMaterial toolMaterial;
     private static final String __OBFID = "CL_00000019";
 
@@ -33,6 +37,10 @@ public class ItemTool extends Item
         return this.field_150914_c.contains(p_150893_2_) ? this.efficiencyOnProperMaterial : 1.0F;
     }
 
+    /**
+     * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
+     * the damage on the stack.
+     */
     public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
     {
         par1ItemStack.damageItem(2, par3EntityLivingBase);
@@ -49,6 +57,9 @@ public class ItemTool extends Item
         return true;
     }
 
+    /**
+     * Returns True is the item is renderer in full 3D when hold.
+     */
     public boolean isFull3D()
     {
         return true;
@@ -59,21 +70,33 @@ public class ItemTool extends Item
         return this.toolMaterial;
     }
 
+    /**
+     * Return the enchantability factor of the item, most of the time is based on material.
+     */
     public int getItemEnchantability()
     {
         return this.toolMaterial.getEnchantability();
     }
 
+    /**
+     * Return the name for this tool's material.
+     */
     public String getToolMaterialName()
     {
         return this.toolMaterial.toString();
     }
 
+    /**
+     * Return whether this item is repairable in an anvil.
+     */
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
         return this.toolMaterial.func_150995_f() == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
     }
 
+    /**
+     * Gets a map of item attribute modifiers, used by ItemSword to increase hit damage.
+     */
     public Multimap getItemAttributeModifiers()
     {
         Multimap var1 = super.getItemAttributeModifiers();

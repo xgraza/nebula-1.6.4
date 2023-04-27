@@ -4,10 +4,8 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.src.Config;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import shadersmod.client.Shaders;
 
 public class EntityPickupFX extends EntityFX
 {
@@ -15,7 +13,10 @@ public class EntityPickupFX extends EntityFX
     private Entity entityPickingUp;
     private int age;
     private int maxAge;
+
+    /** renamed from yOffset to fix shadowing Entity.yOffset */
     private float yOffs;
+    private static final String __OBFID = "CL_00000930";
 
     public EntityPickupFX(World par1World, Entity par2Entity, Entity par3Entity, float par4)
     {
@@ -28,14 +29,6 @@ public class EntityPickupFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        int oldShadersProgram = 0;
-
-        if (Config.isShaders())
-        {
-            oldShadersProgram = Shaders.activeProgram;
-            Shaders.nextEntity(this.entityToPickUp);
-        }
-
         float var8 = ((float)this.age + par2) / (float)this.maxAge;
         var8 *= var8;
         double var9 = this.entityToPickUp.posX;
@@ -56,13 +49,11 @@ public class EntityPickupFX extends EntityFX
         var23 -= interpPosY;
         var25 -= interpPosZ;
         RenderManager.instance.func_147940_a(this.entityToPickUp, (double)((float)var21), (double)((float)var23), (double)((float)var25), this.entityToPickUp.rotationYaw, par2);
-
-        if (Config.isShaders())
-        {
-            Shaders.useProgram(oldShadersProgram);
-        }
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate()
     {
         ++this.age;

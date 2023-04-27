@@ -38,6 +38,9 @@ public class GuiMerchant extends GuiContainer
         this.field_147040_A = par4Str != null && par4Str.length() >= 1 ? par4Str : I18n.format("entity.Villager.name", new Object[0]);
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question.
+     */
     public void initGui()
     {
         super.initGui();
@@ -51,10 +54,13 @@ public class GuiMerchant extends GuiContainer
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
-        this.fontRenderer.drawString(this.field_147040_A, this.field_146999_f / 2 - this.fontRenderer.getStringWidth(this.field_147040_A) / 2, 6, 4210752);
-        this.fontRenderer.drawString(I18n.format("container.inventory", new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
+        this.fontRendererObj.drawString(this.field_147040_A, this.field_146999_f / 2 - this.fontRendererObj.getStringWidth(this.field_147040_A) / 2, 6, 4210752);
+        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
     }
 
+    /**
+     * Called from the main game loop to update the screen.
+     */
     public void updateScreen()
     {
         super.updateScreen();
@@ -84,7 +90,7 @@ public class GuiMerchant extends GuiContainer
 
         if (var2)
         {
-            ((ContainerMerchant)this.container).setCurrentRecipeIndex(this.field_147041_z);
+            ((ContainerMerchant)this.field_147002_h).setCurrentRecipeIndex(this.field_147041_z);
             ByteBuf var3 = Unpooled.buffer();
 
             try
@@ -128,9 +134,12 @@ public class GuiMerchant extends GuiContainer
         }
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    /**
+     * Draws the screen and all the components in it.
+     */
+    public void drawScreen(int par1, int par2, float par3)
     {
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.drawScreen(par1, par2, par3);
         MerchantRecipeList var4 = this.field_147037_w.getRecipes(this.mc.thePlayer);
 
         if (var4 != null && !var4.isEmpty())
@@ -148,32 +157,32 @@ public class GuiMerchant extends GuiContainer
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glEnable(GL11.GL_COLOR_MATERIAL);
             GL11.glEnable(GL11.GL_LIGHTING);
-            renderItemGs.zLevel = 100.0F;
-            renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
-            renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
+            itemRender.zLevel = 100.0F;
+            itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
+            itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
 
             if (var10 != null)
             {
-                renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
-                renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
+                itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
+                itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
             }
 
-            renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
-            renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
-            renderItemGs.zLevel = 0.0F;
+            itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
+            itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
+            itemRender.zLevel = 0.0F;
             GL11.glDisable(GL11.GL_LIGHTING);
 
-            if (this.func_146978_c(36, 24, 16, 16, mouseX, mouseY))
+            if (this.func_146978_c(36, 24, 16, 16, par1, par2))
             {
-                this.renderHoverInfo(var9, mouseX, mouseY);
+                this.func_146285_a(var9, par1, par2);
             }
-            else if (var10 != null && this.func_146978_c(62, 24, 16, 16, mouseX, mouseY))
+            else if (var10 != null && this.func_146978_c(62, 24, 16, 16, par1, par2))
             {
-                this.renderHoverInfo(var10, mouseX, mouseY);
+                this.func_146285_a(var10, par1, par2);
             }
-            else if (this.func_146978_c(120, 24, 16, 16, mouseX, mouseY))
+            else if (this.func_146978_c(120, 24, 16, 16, par1, par2))
             {
-                this.renderHoverInfo(var11, mouseX, mouseY);
+                this.func_146285_a(var11, par1, par2);
             }
 
             GL11.glPopMatrix();
@@ -201,29 +210,29 @@ public class GuiMerchant extends GuiContainer
 
         public void drawButton(Minecraft p_146112_1_, int p_146112_2_, int p_146112_3_)
         {
-            if (this.drawButton)
+            if (this.field_146125_m)
             {
                 p_146112_1_.getTextureManager().bindTexture(GuiMerchant.field_147038_v);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                boolean var4 = p_146112_2_ >= this.xPosition && p_146112_3_ >= this.yPosition && p_146112_2_ < this.xPosition + this.width && p_146112_3_ < this.yPosition + this.height;
+                boolean var4 = p_146112_2_ >= this.field_146128_h && p_146112_3_ >= this.field_146129_i && p_146112_2_ < this.field_146128_h + this.field_146120_f && p_146112_3_ < this.field_146129_i + this.field_146121_g;
                 int var5 = 0;
                 int var6 = 176;
 
                 if (!this.enabled)
                 {
-                    var6 += this.width * 2;
+                    var6 += this.field_146120_f * 2;
                 }
                 else if (var4)
                 {
-                    var6 += this.width;
+                    var6 += this.field_146120_f;
                 }
 
                 if (!this.field_146157_o)
                 {
-                    var5 += this.height;
+                    var5 += this.field_146121_g;
                 }
 
-                this.drawTexturedModalRect(this.xPosition, this.yPosition, var6, var5, this.width, this.height);
+                this.drawTexturedModalRect(this.field_146128_h, this.field_146129_i, var6, var5, this.field_146120_f, this.field_146121_g);
             }
         }
     }

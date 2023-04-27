@@ -6,6 +6,8 @@ public class BlockEventData
     private int coordY;
     private int coordZ;
     private Block field_151344_d;
+
+    /** Different for each blockID */
     private int eventID;
     private int eventParameter;
     private static final String __OBFID = "CL_00000131";
@@ -35,6 +37,9 @@ public class BlockEventData
         return this.coordZ;
     }
 
+    /**
+     * Get the Event ID (different for each BlockID)
+     */
     public int getEventID()
     {
         return this.eventID;

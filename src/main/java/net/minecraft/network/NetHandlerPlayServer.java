@@ -92,12 +92,22 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     private final MinecraftServer serverController;
     public EntityPlayerMP playerEntity;
     private int networkTickCount;
+
+    /**
+     * Used to keep track of how the player is floating while gamerules should prevent that. Surpassing 80 ticks means
+     * kick
+     */
     private int floatingTickCount;
     private boolean field_147366_g;
     private int field_147378_h;
     private long field_147379_i;
     private static Random field_147376_j = new Random();
     private long field_147377_k;
+
+    /**
+     * Incremented by 20 each time a user sends a chat message, decreased by one every tick. Non-ops kicked when over
+     * 200
+     */
     private int chatSpamThresholdCount;
     private int field_147375_m;
     private IntHashMap field_147372_n = new IntHashMap();
@@ -116,6 +126,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         par3EntityPlayerMP.playerNetServerHandler = this;
     }
 
+    /**
+     * For scheduled network tasks. Used in NetHandlerPlayServer to send keep-alive packets and in NetHandlerLoginServer
+     * for a login-timeout
+     */
     public void onNetworkTick()
     {
         this.field_147366_g = false;
@@ -127,7 +141,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             this.field_147377_k = (long)this.networkTickCount;
             this.field_147379_i = this.func_147363_d();
             this.field_147378_h = (int)this.field_147379_i;
-            this.sendPacketToPlayer(new S00PacketKeepAlive(this.field_147378_h));
+            this.sendPacket(new S00PacketKeepAlive(this.field_147378_h));
         }
 
         if (this.chatSpamThresholdCount > 0)
@@ -149,6 +163,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         return this.netManager;
     }
 
+    /**
+     * Kick a player from the server with a reason
+     */
     public void kickPlayerFromServer(String p_147360_1_)
     {
         final ChatComponentText var2 = new ChatComponentText(p_147360_1_);
@@ -164,11 +181,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         this.netManager.disableAutoRead();
     }
 
+    /**
+     * Processes player movement input. Includes walking, strafing, jumping, sneaking; excludes riding and toggling
+     * flying/sprinting
+     */
     public void processInput(C0CPacketInput p_147358_1_)
     {
         this.playerEntity.setEntityActionState(p_147358_1_.func_149620_c(), p_147358_1_.func_149616_d(), p_147358_1_.func_149618_e(), p_147358_1_.func_149617_f());
     }
 
+    /**
+     * Processes clients perspective on player positioning and/or orientation
+     */
     public void processPlayer(C03PacketPlayer p_147347_1_)
     {
         WorldServer var2 = this.serverController.worldServerForDimension(this.playerEntity.dimension);
@@ -264,12 +288,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     var9 = p_147347_1_.func_149472_e();
                     var13 = p_147347_1_.func_149471_f() - p_147347_1_.func_149467_d();
 
-//                    if (!this.playerEntity.isPlayerSleeping() && (var13 > 1.65D || var13 < 0.1D))
-//                    {
-//                        this.kickPlayerFromServer("Illegal stance");
-//                        logger.warn(this.playerEntity.getCommandSenderName() + " had an illegal stance: " + var13);
-//                        return;
-//                    }
+                    if (!this.playerEntity.isPlayerSleeping() && (var13 > 1.65D || var13 < 0.1D))
+                    {
+                        this.kickPlayerFromServer("Illegal stance");
+                        logger.warn(this.playerEntity.getCommandSenderName() + " had an illegal stance: " + var13);
+                        return;
+                    }
 
                     if (Math.abs(p_147347_1_.func_149464_c()) > 3.2E7D || Math.abs(p_147347_1_.func_149472_e()) > 3.2E7D)
                     {
@@ -386,9 +410,14 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         this.lastPosY = p_147364_3_;
         this.lastPosZ = p_147364_5_;
         this.playerEntity.setPositionAndRotation(p_147364_1_, p_147364_3_, p_147364_5_, p_147364_7_, p_147364_8_);
-        this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S08PacketPlayerPosLook(p_147364_1_, p_147364_3_ + 1.6200000047683716D, p_147364_5_, p_147364_7_, p_147364_8_, false));
+        this.playerEntity.playerNetServerHandler.sendPacket(new S08PacketPlayerPosLook(p_147364_1_, p_147364_3_ + 1.6200000047683716D, p_147364_5_, p_147364_7_, p_147364_8_, false));
     }
 
+    /**
+     * Processes the player initiating/stopping digging on a particular spot, as well as a player dropping items?. (0:
+     * initiated, 1: reinitiated, 2? , 3-4 drop item (respectively without or with player control), 5: stopped; x,y,z,
+     * side clicked on;)
+     */
     public void processPlayerDigging(C07PacketPlayerDigging p_147345_1_)
     {
         WorldServer var2 = this.serverController.worldServerForDimension(this.playerEntity.dimension);
@@ -455,7 +484,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 }
                 else
                 {
-                    this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S23PacketBlockChange(var4, var5, var6, var2));
+                    this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(var4, var5, var6, var2));
                 }
             }
             else if (p_147345_1_.func_149506_g() == 2)
@@ -464,7 +493,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
                 if (var2.getBlock(var4, var5, var6).getMaterial() != Material.air)
                 {
-                    this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S23PacketBlockChange(var4, var5, var6, var2));
+                    this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(var4, var5, var6, var2));
                 }
             }
             else if (p_147345_1_.func_149506_g() == 1)
@@ -473,12 +502,15 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
                 if (var2.getBlock(var4, var5, var6).getMaterial() != Material.air)
                 {
-                    this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S23PacketBlockChange(var4, var5, var6, var2));
+                    this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(var4, var5, var6, var2));
                 }
             }
         }
     }
 
+    /**
+     * Processes block placement and block activation (anvil, furnace, etc.)
+     */
     public void processPlayerBlockPlacement(C08PacketPlayerBlockPlacement p_147346_1_)
     {
         WorldServer var2 = this.serverController.worldServerForDimension(this.playerEntity.dimension);
@@ -503,7 +535,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         {
             ChatComponentTranslation var9 = new ChatComponentTranslation("build.tooHigh", new Object[] {Integer.valueOf(this.serverController.getBuildLimit())});
             var9.getChatStyle().setColor(EnumChatFormatting.RED);
-            this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S02PacketChat(var9));
+            this.playerEntity.playerNetServerHandler.sendPacket(new S02PacketChat(var9));
             var4 = true;
         }
         else
@@ -518,7 +550,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
         if (var4)
         {
-            this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S23PacketBlockChange(var5, var6, var7, var2));
+            this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(var5, var6, var7, var2));
 
             if (var8 == 0)
             {
@@ -550,7 +582,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 ++var5;
             }
 
-            this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S23PacketBlockChange(var5, var6, var7, var2));
+            this.playerEntity.playerNetServerHandler.sendPacket(new S23PacketBlockChange(var5, var6, var7, var2));
         }
 
         var3 = this.playerEntity.inventory.getCurrentItem();
@@ -571,18 +603,21 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
             if (!ItemStack.areItemStacksEqual(this.playerEntity.inventory.getCurrentItem(), p_147346_1_.func_149574_g()))
             {
-                this.sendPacketToPlayer(new S2FPacketSetSlot(this.playerEntity.openContainer.windowId, var10.slotNumber, this.playerEntity.inventory.getCurrentItem()));
+                this.sendPacket(new S2FPacketSetSlot(this.playerEntity.openContainer.windowId, var10.slotNumber, this.playerEntity.inventory.getCurrentItem()));
             }
         }
     }
 
+    /**
+     * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
+     */
     public void onDisconnect(IChatComponent p_147231_1_)
     {
         logger.info(this.playerEntity.getCommandSenderName() + " lost connection: " + p_147231_1_);
         this.serverController.func_147132_au();
         ChatComponentTranslation var2 = new ChatComponentTranslation("multiplayer.player.left", new Object[] {this.playerEntity.func_145748_c_()});
         var2.getChatStyle().setColor(EnumChatFormatting.YELLOW);
-        this.serverController.getConfigurationManager().sendChatMsg(var2);
+        this.serverController.getConfigurationManager().func_148539_a(var2);
         this.playerEntity.mountEntityAndWakeUp();
         this.serverController.getConfigurationManager().playerLoggedOut(this.playerEntity);
 
@@ -593,7 +628,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
-    public void sendPacketToPlayer(final Packet p_147359_1_)
+    public void sendPacket(final Packet p_147359_1_)
     {
         if (p_147359_1_ instanceof S02PacketChat)
         {
@@ -631,6 +666,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Updates which quickbar slot is selected
+     */
     public void processHeldItemChange(C09PacketHeldItemChange p_147355_1_)
     {
         if (p_147355_1_.func_149614_c() >= 0 && p_147355_1_.func_149614_c() < InventoryPlayer.getHotbarSize())
@@ -644,13 +682,16 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Process chat messages (broadcast back to clients) and commands (executes)
+     */
     public void processChatMessage(C01PacketChatMessage p_147354_1_)
     {
         if (this.playerEntity.func_147096_v() == EntityPlayer.EnumChatVisibility.HIDDEN)
         {
             ChatComponentTranslation var4 = new ChatComponentTranslation("chat.cannotSend", new Object[0]);
             var4.getChatStyle().setColor(EnumChatFormatting.RED);
-            this.sendPacketToPlayer(new S02PacketChat(var4));
+            this.sendPacket(new S02PacketChat(var4));
         }
         else
         {
@@ -674,7 +715,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             else
             {
                 ChatComponentTranslation var5 = new ChatComponentTranslation("chat.type.text", new Object[] {this.playerEntity.func_145748_c_(), var2});
-                this.serverController.getConfigurationManager().sendChatMsgImpl(var5, false);
+                this.serverController.getConfigurationManager().func_148544_a(var5, false);
             }
 
             this.chatSpamThresholdCount += 20;
@@ -686,11 +727,17 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Handle commands that start with a /
+     */
     private void handleSlashCommand(String p_147361_1_)
     {
         this.serverController.getCommandManager().executeCommand(this.playerEntity, p_147361_1_);
     }
 
+    /**
+     * Processes the player swinging its held item
+     */
     public void processAnimation(C0APacketAnimation p_147350_1_)
     {
         this.playerEntity.func_143004_u();
@@ -701,6 +748,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Processes a range of action-types: sneaking, sprinting, waking from sleep, opening the inventory or setting jump
+     * height of the horse the player is riding
+     */
     public void processEntityAction(C0BPacketEntityAction p_147357_1_)
     {
         this.playerEntity.func_143004_u();
@@ -739,6 +790,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Processes interactions ((un)leashing, opening command block GUI) and attacks on an entity with players currently
+     * equipped item
+     */
     public void processUseEntity(C02PacketUseEntity p_147340_1_)
     {
         WorldServer var2 = this.serverController.worldServerForDimension(this.playerEntity.dimension);
@@ -757,11 +812,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
             if (this.playerEntity.getDistanceSqToEntity(var3) < var5)
             {
-                if (p_147340_1_.getAction() == C02PacketUseEntity.Action.INTERACT)
+                if (p_147340_1_.func_149565_c() == C02PacketUseEntity.Action.INTERACT)
                 {
                     this.playerEntity.interactWith(var3);
                 }
-                else if (p_147340_1_.getAction() == C02PacketUseEntity.Action.ATTACK)
+                else if (p_147340_1_.func_149565_c() == C02PacketUseEntity.Action.ATTACK)
                 {
                     if (var3 instanceof EntityItem || var3 instanceof EntityXPOrb || var3 instanceof EntityArrow || var3 == this.playerEntity)
                     {
@@ -776,6 +831,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Processes the client status updates: respawn attempt from player, opening statistics or achievements, or
+     * acquiring 'open inventory' achievement
+     */
     public void processClientStatus(C16PacketClientStatus p_147342_1_)
     {
         this.playerEntity.func_143004_u();
@@ -824,11 +883,19 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Processes the client closing windows (container)
+     */
     public void processCloseWindow(C0DPacketCloseWindow p_147356_1_)
     {
         this.playerEntity.closeContainer();
     }
 
+    /**
+     * Executes a container/inventory slot manipulation as indicated by the packet. Sends the serverside result if they
+     * didn't match the indicated result and prevents further manipulation by the player until he confirms that it has
+     * the same open container/inventory
+     */
     public void processClickWindow(C0EPacketClickWindow p_147351_1_)
     {
         this.playerEntity.func_143004_u();
@@ -839,7 +906,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
             if (ItemStack.areItemStacksEqual(p_147351_1_.func_149546_g(), var2))
             {
-                this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S32PacketConfirmTransaction(p_147351_1_.func_149548_c(), p_147351_1_.func_149547_f(), true));
+                this.playerEntity.playerNetServerHandler.sendPacket(new S32PacketConfirmTransaction(p_147351_1_.func_149548_c(), p_147351_1_.func_149547_f(), true));
                 this.playerEntity.isChangingQuantityOnly = true;
                 this.playerEntity.openContainer.detectAndSendChanges();
                 this.playerEntity.updateHeldItem();
@@ -848,7 +915,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             else
             {
                 this.field_147372_n.addKey(this.playerEntity.openContainer.windowId, Short.valueOf(p_147351_1_.func_149547_f()));
-                this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S32PacketConfirmTransaction(p_147351_1_.func_149548_c(), p_147351_1_.func_149547_f(), false));
+                this.playerEntity.playerNetServerHandler.sendPacket(new S32PacketConfirmTransaction(p_147351_1_.func_149548_c(), p_147351_1_.func_149547_f(), false));
                 this.playerEntity.openContainer.setPlayerIsPresent(this.playerEntity, false);
                 ArrayList var3 = new ArrayList();
 
@@ -862,6 +929,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Enchants the item identified by the packet given some convoluted conditions (matching window, which
+     * should/shouldn't be in use?)
+     */
     public void processEnchantItem(C11PacketEnchantItem p_147338_1_)
     {
         this.playerEntity.func_143004_u();
@@ -873,6 +944,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Update the server with an ItemStack in a slot.
+     */
     public void processCreativeInventoryAction(C10PacketCreativeInventoryAction p_147344_1_)
     {
         if (this.playerEntity.theItemInWorldManager.isCreative())
@@ -909,6 +983,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Received in response to the server requesting to confirm that the client-side open container matches the servers'
+     * after a mismatched container-slot manipulation. It will unlock the player's ability to manipulate the container
+     * contents
+     */
     public void processConfirmTransaction(C0FPacketConfirmTransaction p_147339_1_)
     {
         Short var2 = (Short)this.field_147372_n.lookup(this.playerEntity.openContainer.windowId);
@@ -980,6 +1059,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Updates a players' ping statistics
+     */
     public void processKeepAlive(C00PacketKeepAlive p_147353_1_)
     {
         if (p_147353_1_.func_149460_c() == this.field_147378_h)
@@ -994,11 +1076,17 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         return System.nanoTime() / 1000000L;
     }
 
+    /**
+     * Processes a player starting/stopping flying
+     */
     public void processPlayerAbilities(C13PacketPlayerAbilities p_147348_1_)
     {
         this.playerEntity.capabilities.isFlying = p_147348_1_.func_149488_d() && this.playerEntity.capabilities.allowFlying;
     }
 
+    /**
+     * Retrieves possible tab completions for the requested command string and sends them to the client
+     */
     public void processTabComplete(C14PacketTabComplete p_147341_1_)
     {
         ArrayList var2 = Lists.newArrayList();
@@ -1010,14 +1098,21 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             var2.add(var4);
         }
 
-        this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S3APacketTabComplete((String[])var2.toArray(new String[var2.size()])));
+        this.playerEntity.playerNetServerHandler.sendPacket(new S3APacketTabComplete((String[])var2.toArray(new String[var2.size()])));
     }
 
+    /**
+     * Updates serverside copy of client settings: language, render distance, chat visibility, chat colours, difficulty,
+     * and whether to show the cape
+     */
     public void processClientSettings(C15PacketClientSettings p_147352_1_)
     {
         this.playerEntity.func_147100_a(p_147352_1_);
     }
 
+    /**
+     * Synchronizes serverside and clientside book contents and signing
+     */
     public void processVanilla250Packet(C17PacketCustomPayload p_147349_1_)
     {
         ItemStack var2;
@@ -1195,6 +1290,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         }
     }
 
+    /**
+     * Allows validation of the connection state transition. Parameters: from, to (connection state). Typically throws
+     * IllegalStateException or UnsupportedOperationException if validation fails
+     */
     public void onConnectionStateTransition(EnumConnectionState p_147232_1_, EnumConnectionState p_147232_2_)
     {
         if (p_147232_2_ != EnumConnectionState.PLAY)

@@ -11,6 +11,9 @@ public class CommandSetPlayerTimeout extends CommandBase
         return "setidletimeout";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel()
     {
         return 3;

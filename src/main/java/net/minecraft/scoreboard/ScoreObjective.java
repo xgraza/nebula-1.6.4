@@ -4,6 +4,8 @@ public class ScoreObjective
 {
     private final Scoreboard theScoreboard;
     private final String name;
+
+    /** The ScoreObjectiveCriteria for this objetive */
     private final IScoreObjectiveCriteria objectiveCriteria;
     private String displayName;
     private static final String __OBFID = "CL_00000614";

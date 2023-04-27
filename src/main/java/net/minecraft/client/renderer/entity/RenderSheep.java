@@ -19,6 +19,9 @@ public class RenderSheep extends RenderLiving
         this.setRenderPassModel(par2ModelBase);
     }
 
+    /**
+     * Queries whether should render the specified pass or not.
+     */
     protected int shouldRenderPass(EntitySheep par1EntitySheep, int par2, float par3)
     {
         if (par2 == 0 && !par1EntitySheep.getSheared())
@@ -34,16 +37,25 @@ public class RenderSheep extends RenderLiving
         }
     }
 
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
     protected ResourceLocation getEntityTexture(EntitySheep par1EntitySheep)
     {
         return shearedSheepTextures;
     }
 
+    /**
+     * Queries whether should render the specified pass or not.
+     */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.shouldRenderPass((EntitySheep)par1EntityLivingBase, par2, par3);
     }
 
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((EntitySheep)par1Entity);

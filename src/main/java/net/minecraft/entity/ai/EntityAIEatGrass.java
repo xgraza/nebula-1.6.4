@@ -20,6 +20,9 @@ public class EntityAIEatGrass extends EntityAIBase
         this.setMutexBits(7);
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute()
     {
         if (this.field_151500_b.getRNG().nextInt(this.field_151500_b.isChild() ? 50 : 1000) != 0)
@@ -35,6 +38,9 @@ public class EntityAIEatGrass extends EntityAIBase
         }
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting()
     {
         this.field_151502_a = 40;
@@ -42,11 +48,17 @@ public class EntityAIEatGrass extends EntityAIBase
         this.field_151500_b.getNavigator().clearPathEntity();
     }
 
+    /**
+     * Resets the task
+     */
     public void resetTask()
     {
         this.field_151502_a = 0;
     }
 
+    /**
+     * Returns whether an in-progress EntityAIBase should continue executing
+     */
     public boolean continueExecuting()
     {
         return this.field_151502_a > 0;
@@ -57,6 +69,9 @@ public class EntityAIEatGrass extends EntityAIBase
         return this.field_151502_a;
     }
 
+    /**
+     * Updates the task
+     */
     public void updateTask()
     {
         this.field_151502_a = Math.max(0, this.field_151502_a - 1);

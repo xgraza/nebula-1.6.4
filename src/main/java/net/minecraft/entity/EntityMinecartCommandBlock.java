@@ -59,6 +59,9 @@ public class EntityMinecartCommandBlock extends EntityMinecart
         this.getDataWatcher().addObject(24, "");
     }
 
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
@@ -67,6 +70,9 @@ public class EntityMinecartCommandBlock extends EntityMinecart
         this.getDataWatcher().updateObject(24, IChatComponent.Serializer.func_150696_a(this.func_145822_e().func_145749_h()));
     }
 
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
@@ -88,6 +94,9 @@ public class EntityMinecartCommandBlock extends EntityMinecart
         return this.field_145824_a;
     }
 
+    /**
+     * Called every tick the minecart is on an activator rail. Args: x, y, z, is the rail receiving power
+     */
     public void onActivatorRailPass(int par1, int par2, int par3, boolean par4)
     {
         if (par4 && this.ticksExisted - this.field_145823_b >= 4)
@@ -97,6 +106,9 @@ public class EntityMinecartCommandBlock extends EntityMinecart
         }
     }
 
+    /**
+     * First layer of player interaction
+     */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         if (this.worldObj.isClient)

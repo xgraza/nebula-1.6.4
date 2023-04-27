@@ -66,12 +66,18 @@ public class EntityPainting extends EntityHanging
         this.setDirection(par5);
     }
 
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setString("Motive", this.art.title);
         super.writeEntityToNBT(par1NBTTagCompound);
     }
 
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         String var2 = par1NBTTagCompound.getString("Motive");
@@ -106,6 +112,9 @@ public class EntityPainting extends EntityHanging
         return this.art.sizeY;
     }
 
+    /**
+     * Called when this entity is broken. Entity parameter may be null.
+     */
     public void onBroken(Entity par1Entity)
     {
         if (par1Entity instanceof EntityPlayer)

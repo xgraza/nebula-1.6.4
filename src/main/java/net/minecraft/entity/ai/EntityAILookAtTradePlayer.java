@@ -14,6 +14,9 @@ public class EntityAILookAtTradePlayer extends EntityAIWatchClosest
         this.theMerchant = par1EntityVillager;
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute()
     {
         if (this.theMerchant.isTrading())

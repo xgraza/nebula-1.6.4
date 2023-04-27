@@ -22,6 +22,9 @@ public enum EnumEnchantmentType
     bow;
     private static final String __OBFID = "CL_00000106";
 
+    /**
+     * Return true if the item passed can be enchanted by a enchantment of this type.
+     */
     public boolean canEnchantItem(Item par1Item)
     {
         if (this == all)

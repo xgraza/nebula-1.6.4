@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 
 public class EntityPig extends EntityAnimal
 {
+    /** AI task for player control. */
     private final EntityAIControlledByPlayer aiControlledByPlayer;
     private static final String __OBFID = "CL_00001647";
 
@@ -44,6 +45,9 @@ public class EntityPig extends EntityAnimal
         this.tasks.addTask(8, new EntityAILookIdle(this));
     }
 
+    /**
+     * Returns true if the newer Entity AI code should be run
+     */
     public boolean isAIEnabled()
     {
         return true;
@@ -61,6 +65,10 @@ public class EntityPig extends EntityAnimal
         super.updateAITasks();
     }
 
+    /**
+     * returns true if all the conditions for steering the entity are met. For pigs, this is true if it is being ridden
+     * by a player and the player is holding a carrot-on-a-stick
+     */
     public boolean canBeSteered()
     {
         ItemStack var1 = ((EntityPlayer)this.riddenByEntity).getHeldItem();
@@ -73,28 +81,43 @@ public class EntityPig extends EntityAnimal
         this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
     }
 
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setBoolean("Saddle", this.getSaddled());
     }
 
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
         this.setSaddled(par1NBTTagCompound.getBoolean("Saddle"));
     }
 
+    /**
+     * Returns the sound this mob makes while it's alive.
+     */
     protected String getLivingSound()
     {
         return "mob.pig.say";
     }
 
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
     protected String getHurtSound()
     {
         return "mob.pig.say";
     }
 
+    /**
+     * Returns the sound this mob makes on death.
+     */
     protected String getDeathSound()
     {
         return "mob.pig.death";
@@ -105,6 +128,9 @@ public class EntityPig extends EntityAnimal
         this.playSound("mob.pig.step", 0.15F, 1.0F);
     }
 
+    /**
+     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
+     */
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
         if (super.interact(par1EntityPlayer))
@@ -127,6 +153,9 @@ public class EntityPig extends EntityAnimal
         return this.isBurning() ? Items.cooked_porkchop : Items.porkchop;
     }
 
+    /**
+     * Drop 0-2 items of this living's type
+     */
     protected void dropFewItems(boolean par1, int par2)
     {
         int var3 = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + par2);
@@ -149,11 +178,17 @@ public class EntityPig extends EntityAnimal
         }
     }
 
+    /**
+     * Returns true if the pig is saddled.
+     */
     public boolean getSaddled()
     {
         return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
 
+    /**
+     * Set or remove the saddle of the pig.
+     */
     public void setSaddled(boolean par1)
     {
         if (par1)
@@ -166,6 +201,9 @@ public class EntityPig extends EntityAnimal
         }
     }
 
+    /**
+     * Called when a lightning bolt hits the entity.
+     */
     public void onStruckByLightning(EntityLightningBolt par1EntityLightningBolt)
     {
         if (!this.worldObj.isClient)
@@ -178,6 +216,9 @@ public class EntityPig extends EntityAnimal
         }
     }
 
+    /**
+     * Called when the mob is falling. Calculates and applies fall damage.
+     */
     protected void fall(float par1)
     {
         super.fall(par1);
@@ -193,11 +234,18 @@ public class EntityPig extends EntityAnimal
         return new EntityPig(this.worldObj);
     }
 
+    /**
+     * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
+     * the animal type)
+     */
     public boolean isBreedingItem(ItemStack par1ItemStack)
     {
         return par1ItemStack != null && par1ItemStack.getItem() == Items.carrot;
     }
 
+    /**
+     * Return the AI task for player control.
+     */
     public EntityAIControlledByPlayer getAIControlledByPlayer()
     {
         return this.aiControlledByPlayer;

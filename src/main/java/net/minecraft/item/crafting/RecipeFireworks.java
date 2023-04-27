@@ -14,6 +14,9 @@ public class RecipeFireworks implements IRecipe
     private ItemStack field_92102_a;
     private static final String __OBFID = "CL_00000083";
 
+    /**
+     * Used to check if a recipe matches current crafting inventory
+     */
     public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World)
     {
         this.field_92102_a = null;
@@ -99,7 +102,7 @@ public class RecipeFireworks implements IRecipe
                     {
                         ItemStack var26 = par1InventoryCrafting.getStackInSlot(var22);
 
-                        if (var26 != null && var26.getItem() == Items.firework_charge && var26.hasTagCompound() && var26.getTagCompound().hasKey("Explosion", 10))
+                        if (var26 != null && var26.getItem() == Items.firework_charge && var26.hasTagCompound() && var26.getTagCompound().func_150297_b("Explosion", 10))
                         {
                             var25.appendTag(var26.getTagCompound().getCompoundTag("Explosion"));
                         }
@@ -230,11 +233,17 @@ public class RecipeFireworks implements IRecipe
         }
     }
 
+    /**
+     * Returns an Item that is the result of this recipe
+     */
     public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
     {
         return this.field_92102_a.copy();
     }
 
+    /**
+     * Returns the size of the recipe area
+     */
     public int getRecipeSize()
     {
         return 10;

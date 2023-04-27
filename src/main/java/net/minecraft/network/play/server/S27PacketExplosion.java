@@ -41,6 +41,9 @@ public class S27PacketExplosion extends Packet
         }
     }
 
+    /**
+     * Reads the raw packet data from the data stream.
+     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149158_a = (double)p_148837_1_.readFloat();
@@ -66,6 +69,9 @@ public class S27PacketExplosion extends Packet
         this.field_149159_h = p_148837_1_.readFloat();
     }
 
+    /**
+     * Writes the raw packet data to the data stream.
+     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeFloat((float)this.field_149158_a);
@@ -99,32 +105,32 @@ public class S27PacketExplosion extends Packet
         p_149151_1_.handleExplosion(this);
     }
 
-    public float getMotionX()
+    public float func_149149_c()
     {
         return this.field_149152_f;
     }
 
-    public float getMotionY()
+    public float func_149144_d()
     {
         return this.field_149153_g;
     }
 
-    public float getMotionZ()
+    public float func_149147_e()
     {
         return this.field_149159_h;
     }
 
-    public double getX()
+    public double func_149148_f()
     {
         return this.field_149158_a;
     }
 
-    public double getY()
+    public double func_149143_g()
     {
         return this.field_149156_b;
     }
 
-    public double getZ()
+    public double func_149145_h()
     {
         return this.field_149157_c;
     }

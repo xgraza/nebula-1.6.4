@@ -25,6 +25,9 @@ public class BlockSilverfish extends Block
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
+    /**
+     * Gets the block's texture. Args: side, meta
+     */
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         switch (p_149691_2_)
@@ -49,7 +52,7 @@ public class BlockSilverfish extends Block
         }
     }
 
-    public void registerIcons(IIconRegister p_149651_1_) {}
+    public void registerBlockIcons(IIconRegister p_149651_1_) {}
 
     public void onBlockDestroyedByPlayer(World p_149664_1_, int p_149664_2_, int p_149664_3_, int p_149664_4_, int p_149664_5_)
     {
@@ -64,6 +67,9 @@ public class BlockSilverfish extends Block
         super.onBlockDestroyedByPlayer(p_149664_1_, p_149664_2_, p_149664_3_, p_149664_4_, p_149664_5_);
     }
 
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
     public int quantityDropped(Random p_149745_1_)
     {
         return 0;
@@ -130,6 +136,10 @@ public class BlockSilverfish extends Block
         }
     }
 
+    /**
+     * Returns an item stack containing a single instance of the current block type. 'i' is the block's subtype/damage
+     * and is ignored for blocks which do not support subtypes. Blocks which cannot be harvested should return null.
+     */
     protected ItemStack createStackedBlock(int p_149644_1_)
     {
         switch (p_149644_1_)
@@ -154,6 +164,9 @@ public class BlockSilverfish extends Block
         }
     }
 
+    /**
+     * Drops the block items with a specified chance of dropping the specified items
+     */
     public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_)
     {
         if (!p_149690_1_.isClient)
@@ -165,6 +178,9 @@ public class BlockSilverfish extends Block
         }
     }
 
+    /**
+     * Get the block's damage value (for use with pick block).
+     */
     public int getDamageValue(World p_149643_1_, int p_149643_2_, int p_149643_3_, int p_149643_4_)
     {
         return p_149643_1_.getBlockMetadata(p_149643_2_, p_149643_3_, p_149643_4_);

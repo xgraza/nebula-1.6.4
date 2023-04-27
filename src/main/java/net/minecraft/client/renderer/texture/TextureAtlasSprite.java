@@ -2,26 +2,22 @@ package net.minecraft.client.renderer.texture;
 
 import com.google.common.collect.Lists;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
-import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.data.AnimationFrame;
 import net.minecraft.client.resources.data.AnimationMetadataSection;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.src.Config;
-import net.minecraft.src.Mipmaps;
-import net.minecraft.src.TextureUtils;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
+import optifine.Mipmaps;
+
 import org.lwjgl.opengl.GL11;
-import shadersmod.client.Shaders;
 
 public class TextureAtlasSprite implements IIcon
 {
@@ -29,7 +25,7 @@ public class TextureAtlasSprite implements IIcon
     protected List framesTextureData = Lists.newArrayList();
     private AnimationMetadataSection animationMetadata;
     protected boolean rotated;
-    private boolean useAnisotropicFiltering;
+    private boolean field_147966_k;
     protected int originX;
     protected int originY;
     protected int width;
@@ -51,10 +47,7 @@ public class TextureAtlasSprite implements IIcon
     private int uploadedOwnFrameIndex = -1;
     public IntBuffer[] frameBuffers;
     public Mipmaps[] frameMipmaps;
-    public int mipmapLevels = 0;
-    public TextureAtlasSprite spriteNormal = null;
-    public TextureAtlasSprite spriteSpecular = null;
-    public boolean isShadersSprite = false;
+    private static final String __OBFID = "CL_00001062";
 
     protected TextureAtlasSprite(String par1Str)
     {
@@ -73,7 +66,7 @@ public class TextureAtlasSprite implements IIcon
         this.minV = (float)par4 / (float)par2 + var7;
         this.maxV = (float)(par4 + this.height) / (float)par2 - var7;
 
-        if (this.useAnisotropicFiltering)
+        if (this.field_147966_k)
         {
             float var8 = 8.0F / (float)par1;
             float var9 = 8.0F / (float)par2;
@@ -85,16 +78,6 @@ public class TextureAtlasSprite implements IIcon
 
         this.baseU = Math.min(this.minU, this.maxU);
         this.baseV = Math.min(this.minV, this.maxV);
-
-        if (this.spriteNormal != null)
-        {
-            this.spriteNormal.initSprite(par1, par2, par3, par4, par5);
-        }
-
-        if (this.spriteSpecular != null)
-        {
-            this.spriteSpecular.initSprite(par1, par2, par3, par4, par5);
-        }
     }
 
     public void copyFrom(TextureAtlasSprite par1TextureAtlasSprite)
@@ -112,52 +95,82 @@ public class TextureAtlasSprite implements IIcon
         this.baseV = Math.min(this.minV, this.maxV);
     }
 
+    /**
+     * Returns the X position of this icon on its texture sheet, in pixels.
+     */
     public int getOriginX()
     {
         return this.originX;
     }
 
+    /**
+     * Returns the Y position of this icon on its texture sheet, in pixels.
+     */
     public int getOriginY()
     {
         return this.originY;
     }
 
+    /**
+     * Returns the width of the icon, in pixels.
+     */
     public int getIconWidth()
     {
         return this.width;
     }
 
+    /**
+     * Returns the height of the icon, in pixels.
+     */
     public int getIconHeight()
     {
         return this.height;
     }
 
+    /**
+     * Returns the minimum U coordinate to use when rendering with this icon.
+     */
     public float getMinU()
     {
         return this.minU;
     }
 
+    /**
+     * Returns the maximum U coordinate to use when rendering with this icon.
+     */
     public float getMaxU()
     {
         return this.maxU;
     }
 
+    /**
+     * Gets a U coordinate on the icon. 0 returns uMin and 16 returns uMax. Other arguments return in-between values.
+     */
     public float getInterpolatedU(double par1)
     {
         float var3 = this.maxU - this.minU;
         return this.minU + var3 * (float)par1 / 16.0F;
     }
 
+    /**
+     * Returns the minimum V coordinate to use when rendering with this icon.
+     */
     public float getMinV()
     {
         return this.minV;
     }
 
+    /**
+     * Returns the maximum V coordinate to use when rendering with this icon.
+     */
     public float getMaxV()
     {
         return this.maxV;
     }
 
+    /**
+     * Gets a V coordinate on the icon. 0 returns vMin and 16 returns vMax. Other arguments return in-between values.
+     */
     public float getInterpolatedV(double par1)
     {
         float var3 = this.maxV - this.minV;
@@ -171,30 +184,25 @@ public class TextureAtlasSprite implements IIcon
 
     public void updateAnimation()
     {
-        if (this.animationMetadata != null)
+        ++this.tickCounter;
+
+        if (this.tickCounter >= this.animationMetadata.getFrameTimeSingle(this.frameCounter))
         {
-            ++this.tickCounter;
+            int var1 = this.animationMetadata.getFrameIndex(this.frameCounter);
+            int var2 = this.animationMetadata.getFrameCount() == 0 ? this.framesTextureData.size() : this.animationMetadata.getFrameCount();
+            this.frameCounter = (this.frameCounter + 1) % var2;
+            this.tickCounter = 0;
+            int var3 = this.animationMetadata.getFrameIndex(this.frameCounter);
 
-            if (this.tickCounter >= this.animationMetadata.getFrameTimeSingle(this.frameCounter))
+            if (var1 != var3 && var3 >= 0 && var3 < this.framesTextureData.size())
             {
-                int var1 = this.animationMetadata.getFrameIndex(this.frameCounter);
-                int var2 = this.animationMetadata.getFrameCount() == 0 ? this.framesTextureData.size() : this.animationMetadata.getFrameCount();
-                this.frameCounter = (this.frameCounter + 1) % var2;
-                this.tickCounter = 0;
-                int var3 = this.animationMetadata.getFrameIndex(this.frameCounter);
-                boolean texBlur = false;
-                boolean texClamp = false;
-
-                if (var1 != var3 && var3 >= 0 && var3 < this.framesTextureData.size())
-                {
-                    TextureUtil.uploadTextureMipmap((int[][])((int[][])this.framesTextureData.get(var3)), this.width, this.height, this.originX, this.originY, texBlur, texClamp);
-                    this.uploadedFrameIndex = var3;
-                }
+                TextureUtil.func_147955_a((int[][])((int[][])this.framesTextureData.get(var3)), this.width, this.height, this.originX, this.originY, false, false);
+                this.uploadedFrameIndex = var3;
             }
         }
     }
 
-    public int[][] getFrameTextureData(int p_147965_1_)
+    public int[][] func_147965_a(int p_147965_1_)
     {
         return (int[][])((int[][])this.framesTextureData.get(p_147965_1_));
     }
@@ -214,10 +222,10 @@ public class TextureAtlasSprite implements IIcon
         this.height = par1;
     }
 
-    public void loadSprite(BufferedImage[] p_147964_1_, AnimationMetadataSection p_147964_2_, boolean p_147964_3_)
+    public void func_147964_a(BufferedImage[] p_147964_1_, AnimationMetadataSection p_147964_2_, boolean p_147964_3_)
     {
         this.resetSprite();
-        this.useAnisotropicFiltering = p_147964_3_;
+        this.field_147966_k = p_147964_3_;
         int var4 = p_147964_1_[0].getWidth();
         int var5 = p_147964_1_[0].getHeight();
         this.width = var4;
@@ -255,8 +263,8 @@ public class TextureAtlasSprite implements IIcon
                 throw new RuntimeException("broken aspect ratio and not an animation");
             }
 
-            this.fixTransparentPixels(var6);
-            this.framesTextureData.add(this.prepareAnisotropicFiltering(var6, var4, var5));
+            this.func_147961_a(var6);
+            this.framesTextureData.add(this.func_147960_a(var6, var4, var5));
         }
         else
         {
@@ -280,7 +288,7 @@ public class TextureAtlasSprite implements IIcon
                     }
 
                     this.allocateFrameTextureData(var11);
-                    this.framesTextureData.set(var11, this.prepareAnisotropicFiltering(getFrameTextureData(var6, var121, var9, var11), var121, var9));
+                    this.framesTextureData.set(var11, this.func_147960_a(func_147962_a(var6, var121, var9, var11), var121, var9));
                 }
 
                 this.animationMetadata = p_147964_2_;
@@ -291,24 +299,16 @@ public class TextureAtlasSprite implements IIcon
 
                 for (var11 = 0; var11 < var7; ++var11)
                 {
-                    this.framesTextureData.add(this.prepareAnisotropicFiltering(getFrameTextureData(var6, var121, var9, var11), var121, var9));
+                    this.framesTextureData.add(this.func_147960_a(func_147962_a(var6, var121, var9, var11), var121, var9));
                     var131.add(new AnimationFrame(var11, -1));
                 }
 
                 this.animationMetadata = new AnimationMetadataSection(var131, this.width, this.height, p_147964_2_.getFrameTime());
             }
         }
-
-        if (!this.isShadersSprite)
-        {
-            if (Config.isShaders())
-            {
-                this.loadShadersSprites();
-            }
-        }
     }
 
-    public void generateMipmaps(int p_147963_1_)
+    public void func_147963_d(int p_147963_1_)
     {
         ArrayList var2 = Lists.newArrayList();
 
@@ -320,7 +320,7 @@ public class TextureAtlasSprite implements IIcon
             {
                 try
                 {
-                    var2.add(TextureUtil.generateMipmapData(p_147963_1_, this.width, var4));
+                    var2.add(TextureUtil.func_147949_a(p_147963_1_, this.width, var4));
                 }
                 catch (Throwable var8)
                 {
@@ -329,7 +329,8 @@ public class TextureAtlasSprite implements IIcon
                     var7.addCrashSection("Frame index", Integer.valueOf(var3));
                     var7.addCrashSectionCallable("Frame sizes", new Callable()
                     {
-                        public String call()
+                        private static final String __OBFID = "CL_00001063";
+                        public String call1()
                         {
                             StringBuilder var1 = new StringBuilder();
                             int[][] var2 = var4;
@@ -349,6 +350,10 @@ public class TextureAtlasSprite implements IIcon
 
                             return var1.toString();
                         }
+                        public Object call() throws Exception
+                        {
+                            return this.call1();
+                        }
                     });
                     throw new ReportedException(var6);
                 }
@@ -358,7 +363,7 @@ public class TextureAtlasSprite implements IIcon
         this.setFramesTextureData(var2);
     }
 
-    private void fixTransparentPixels(int[][] p_147961_1_)
+    private void func_147961_a(int[][] p_147961_1_)
     {
         int[] var2 = p_147961_1_[0];
         int var3 = 0;
@@ -394,9 +399,9 @@ public class TextureAtlasSprite implements IIcon
         }
     }
 
-    private int[][] prepareAnisotropicFiltering(int[][] p_147960_1_, int p_147960_2_, int p_147960_3_)
+    private int[][] func_147960_a(int[][] p_147960_1_, int p_147960_2_, int p_147960_3_)
     {
-        if (!this.useAnisotropicFiltering)
+        if (!this.field_147966_k)
         {
             return p_147960_1_;
         }
@@ -412,7 +417,7 @@ public class TextureAtlasSprite implements IIcon
                 {
                     int[] var7 = new int[(p_147960_2_ + 16 >> var5) * (p_147960_3_ + 16 >> var5)];
                     System.arraycopy(var6, 0, var7, 0, var6.length);
-                    var4[var5] = TextureUtil.prepareAnisotropicData(var7, p_147960_2_ >> var5, p_147960_3_ >> var5, 8 >> var5);
+                    var4[var5] = TextureUtil.func_147948_a(var7, p_147960_2_ >> var5, p_147960_3_ >> var5, 8 >> var5);
                 }
             }
 
@@ -431,7 +436,7 @@ public class TextureAtlasSprite implements IIcon
         }
     }
 
-    private static int[][] getFrameTextureData(int[][] p_147962_0_, int p_147962_1_, int p_147962_2_, int p_147962_3_)
+    private static int[][] func_147962_a(int[][] p_147962_0_, int p_147962_1_, int p_147962_2_, int p_147962_3_)
     {
         int[][] var4 = new int[p_147962_0_.length][];
 
@@ -564,52 +569,49 @@ public class TextureAtlasSprite implements IIcon
 
     private void fixTransparentColor(int[] data)
     {
-        if (!this.isShadersSprite)
+        long redSum = 0L;
+        long greenSum = 0L;
+        long blueSum = 0L;
+        long count = 0L;
+        int redAvg;
+        int greenAvg;
+        int blueAvg;
+        int colAvg;
+        int i;
+        int col;
+
+        for (redAvg = 0; redAvg < data.length; ++redAvg)
         {
-            long redSum = 0L;
-            long greenSum = 0L;
-            long blueSum = 0L;
-            long count = 0L;
-            int redAvg;
-            int greenAvg;
-            int blueAvg;
-            int colAvg;
-            int i;
-            int col;
+            greenAvg = data[redAvg];
+            blueAvg = greenAvg >> 24 & 255;
 
-            for (redAvg = 0; redAvg < data.length; ++redAvg)
+            if (blueAvg >= 16)
             {
-                greenAvg = data[redAvg];
-                blueAvg = greenAvg >> 24 & 255;
-
-                if (blueAvg >= 16)
-                {
-                    colAvg = greenAvg >> 16 & 255;
-                    i = greenAvg >> 8 & 255;
-                    col = greenAvg & 255;
-                    redSum += (long)colAvg;
-                    greenSum += (long)i;
-                    blueSum += (long)col;
-                    ++count;
-                }
+                colAvg = greenAvg >> 16 & 255;
+                i = greenAvg >> 8 & 255;
+                col = greenAvg & 255;
+                redSum += (long)colAvg;
+                greenSum += (long)i;
+                blueSum += (long)col;
+                ++count;
             }
+        }
 
-            if (count > 0L)
+        if (count > 0L)
+        {
+            redAvg = (int)(redSum / count);
+            greenAvg = (int)(greenSum / count);
+            blueAvg = (int)(blueSum / count);
+            colAvg = redAvg << 16 | greenAvg << 8 | blueAvg;
+
+            for (i = 0; i < data.length; ++i)
             {
-                redAvg = (int)(redSum / count);
-                greenAvg = (int)(greenSum / count);
-                blueAvg = (int)(blueSum / count);
-                colAvg = redAvg << 16 | greenAvg << 8 | blueAvg;
+                col = data[i];
+                int alpha = col >> 24 & 255;
 
-                for (i = 0; i < data.length; ++i)
+                if (alpha <= 16)
                 {
-                    col = data[i];
-                    int alpha = col >> 24 & 255;
-
-                    if (alpha <= 16)
-                    {
-                        data[i] = colAvg;
-                    }
+                    data[i] = colAvg;
                 }
             }
         }
@@ -623,121 +625,5 @@ public class TextureAtlasSprite implements IIcon
     public boolean load(IResourceManager manager, ResourceLocation location)
     {
         return true;
-    }
-
-    private void loadShadersSprites()
-    {
-        this.mipmapLevels = Config.getTextureMap().getMipmapLevels();
-        String nameSpecular;
-        ResourceLocation locSpecular;
-        TextureAtlasSprite e;
-
-        if (Shaders.configNormalMap)
-        {
-            nameSpecular = this.iconName + "_n";
-            locSpecular = new ResourceLocation(nameSpecular);
-            locSpecular = Config.getTextureMap().completeResourceLocation(locSpecular, 0);
-
-            if (Config.hasResource(locSpecular))
-            {
-                try
-                {
-                    e = new TextureAtlasSprite(nameSpecular);
-                    e.isShadersSprite = true;
-                    e.copyFrom(this);
-                    e.loadShaderSpriteFrames(locSpecular, this.mipmapLevels + 1);
-                    e.generateMipmaps(this.mipmapLevels);
-                    this.spriteNormal = e;
-                }
-                catch (IOException var5)
-                {
-                    Config.warn("Error loading normal texture: " + nameSpecular);
-                    Config.warn(var5.getClass().getName() + ": " + var5.getMessage());
-                }
-            }
-        }
-
-        if (Shaders.configSpecularMap)
-        {
-            nameSpecular = this.iconName + "_s";
-            locSpecular = new ResourceLocation(nameSpecular);
-            locSpecular = Config.getTextureMap().completeResourceLocation(locSpecular, 0);
-
-            if (Config.hasResource(locSpecular))
-            {
-                try
-                {
-                    e = new TextureAtlasSprite(nameSpecular);
-                    e.isShadersSprite = true;
-                    e.copyFrom(this);
-                    e.loadShaderSpriteFrames(locSpecular, this.mipmapLevels + 1);
-                    e.generateMipmaps(this.mipmapLevels);
-                    this.spriteSpecular = e;
-                }
-                catch (IOException var4)
-                {
-                    Config.warn("Error loading specular texture: " + nameSpecular);
-                    Config.warn(var4.getClass().getName() + ": " + var4.getMessage());
-                }
-            }
-        }
-    }
-
-    public void loadShaderSpriteFrames(ResourceLocation loc, int mipmaplevels) throws IOException
-    {
-        IResource resource = Config.getResource(loc);
-        BufferedImage bufferedimage = TextureUtils.readBufferedImage(resource.getInputStream());
-
-        if (this.width != bufferedimage.getWidth())
-        {
-            bufferedimage = TextureUtils.scaleImage(bufferedimage, this.width);
-        }
-
-        AnimationMetadataSection animationmetadatasection = (AnimationMetadataSection)resource.getMetadata("animation");
-        int[][] aint = new int[mipmaplevels][];
-        aint[0] = new int[bufferedimage.getWidth() * bufferedimage.getHeight()];
-        bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), aint[0], 0, bufferedimage.getWidth());
-
-        if (animationmetadatasection == null)
-        {
-            this.framesTextureData.add(aint);
-        }
-        else
-        {
-            int i = bufferedimage.getHeight() / this.width;
-            int k;
-
-            if (animationmetadatasection.getFrameCount() > 0)
-            {
-                Iterator list = animationmetadatasection.getFrameIndexSet().iterator();
-
-                while (list.hasNext())
-                {
-                    k = ((Integer)list.next()).intValue();
-
-                    if (k >= i)
-                    {
-                        throw new RuntimeException("invalid frameindex " + k);
-                    }
-
-                    this.allocateFrameTextureData(k);
-                    this.framesTextureData.set(k, getFrameTextureData(aint, this.width, this.width, k));
-                }
-
-                this.animationMetadata = animationmetadatasection;
-            }
-            else
-            {
-                ArrayList var10 = Lists.newArrayList();
-
-                for (k = 0; k < i; ++k)
-                {
-                    this.framesTextureData.add(getFrameTextureData(aint, this.width, this.width, k));
-                    var10.add(new AnimationFrame(k, -1));
-                }
-
-                this.animationMetadata = new AnimationMetadataSection(var10, this.width, this.height, animationmetadatasection.getFrameTime());
-            }
-        }
     }
 }

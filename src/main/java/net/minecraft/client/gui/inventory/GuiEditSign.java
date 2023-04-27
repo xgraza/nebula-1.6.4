@@ -26,6 +26,9 @@ public class GuiEditSign extends GuiScreen
         this.field_146848_f = par1TileEntitySign;
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question.
+     */
     public void initGui()
     {
         this.buttonList.clear();
@@ -34,6 +37,9 @@ public class GuiEditSign extends GuiScreen
         this.field_146848_f.func_145913_a(false);
     }
 
+    /**
+     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
+     */
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
@@ -41,12 +47,15 @@ public class GuiEditSign extends GuiScreen
 
         if (var1 != null)
         {
-            var1.addToSendQueue(new C12PacketUpdateSign(this.field_146848_f.xCoord, this.field_146848_f.yCoord, this.field_146848_f.zCoord, this.field_146848_f.field_145915_a));
+            var1.addToSendQueue(new C12PacketUpdateSign(this.field_146848_f.field_145851_c, this.field_146848_f.field_145848_d, this.field_146848_f.field_145849_e, this.field_146848_f.field_145915_a));
         }
 
         this.field_146848_f.func_145913_a(true);
     }
 
+    /**
+     * Called from the main game loop to update the screen.
+     */
     public void updateScreen()
     {
         ++this.field_146849_g;
@@ -64,6 +73,9 @@ public class GuiEditSign extends GuiScreen
         }
     }
 
+    /**
+     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
+     */
     protected void keyTyped(char par1, int par2)
     {
         if (par2 == 200)
@@ -92,10 +104,13 @@ public class GuiEditSign extends GuiScreen
         }
     }
 
+    /**
+     * Draws the screen and all the components in it.
+     */
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, this.field_146850_a, this.width / 2, 40, 16777215);
+        this.drawCenteredString(this.fontRendererObj, this.field_146850_a, this.width / 2, 40, 16777215);
         GL11.glPushMatrix();
         GL11.glTranslatef((float)(this.width / 2), 0.0F, 50.0F);
         float var4 = 93.75F;

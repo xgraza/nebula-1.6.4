@@ -14,13 +14,13 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public class S21PacketChunkData extends Packet
 {
-    public int x;
-    public int z;
+    private int field_149284_a;
+    private int field_149282_b;
     private int field_149283_c;
     private int field_149280_d;
     private byte[] field_149281_e;
     private byte[] field_149278_f;
-    public boolean isFullChunk;
+    private boolean field_149279_g;
     private int field_149285_h;
     private static byte[] field_149286_i = new byte[196864];
     private static final String __OBFID = "CL_00001304";
@@ -29,9 +29,9 @@ public class S21PacketChunkData extends Packet
 
     public S21PacketChunkData(Chunk p_i45196_1_, boolean p_i45196_2_, int p_i45196_3_)
     {
-        this.x = p_i45196_1_.xPosition;
-        this.z = p_i45196_1_.zPosition;
-        this.isFullChunk = p_i45196_2_;
+        this.field_149284_a = p_i45196_1_.xPosition;
+        this.field_149282_b = p_i45196_1_.zPosition;
+        this.field_149279_g = p_i45196_2_;
         S21PacketChunkData.Extracted var4 = func_149269_a(p_i45196_1_, p_i45196_2_, p_i45196_3_);
         Deflater var5 = new Deflater(-1);
         this.field_149280_d = var4.field_150281_c;
@@ -56,11 +56,14 @@ public class S21PacketChunkData extends Packet
         return 196864;
     }
 
+    /**
+     * Reads the raw packet data from the data stream.
+     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.x = p_148837_1_.readInt();
-        this.z = p_148837_1_.readInt();
-        this.isFullChunk = p_148837_1_.readBoolean();
+        this.field_149284_a = p_148837_1_.readInt();
+        this.field_149282_b = p_148837_1_.readInt();
+        this.field_149279_g = p_148837_1_.readBoolean();
         this.field_149283_c = p_148837_1_.readShort();
         this.field_149280_d = p_148837_1_.readShort();
         this.field_149285_h = p_148837_1_.readInt();
@@ -81,7 +84,7 @@ public class S21PacketChunkData extends Packet
 
         var3 = 12288 * var2;
 
-        if (this.isFullChunk)
+        if (this.field_149279_g)
         {
             var3 += 256;
         }
@@ -104,11 +107,14 @@ public class S21PacketChunkData extends Packet
         }
     }
 
+    /**
+     * Writes the raw packet data to the data stream.
+     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeInt(this.x);
-        p_148840_1_.writeInt(this.z);
-        p_148840_1_.writeBoolean(this.isFullChunk);
+        p_148840_1_.writeInt(this.field_149284_a);
+        p_148840_1_.writeInt(this.field_149282_b);
+        p_148840_1_.writeBoolean(this.field_149279_g);
         p_148840_1_.writeShort((short)(this.field_149283_c & 65535));
         p_148840_1_.writeShort((short)(this.field_149280_d & 65535));
         p_148840_1_.writeInt(this.field_149285_h);
@@ -120,9 +126,12 @@ public class S21PacketChunkData extends Packet
         p_149277_1_.handleChunkData(this);
     }
 
+    /**
+     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
+     */
     public String serialize()
     {
-        return String.format("x=%d, z=%d, full=%b, sects=%d, add=%d, size=%d", new Object[] {Integer.valueOf(this.x), Integer.valueOf(this.z), Boolean.valueOf(this.isFullChunk), Integer.valueOf(this.field_149283_c), Integer.valueOf(this.field_149280_d), Integer.valueOf(this.field_149285_h)});
+        return String.format("x=%d, z=%d, full=%b, sects=%d, add=%d, size=%d", new Object[] {Integer.valueOf(this.field_149284_a), Integer.valueOf(this.field_149282_b), Boolean.valueOf(this.field_149279_g), Integer.valueOf(this.field_149283_c), Integer.valueOf(this.field_149280_d), Integer.valueOf(this.field_149285_h)});
     }
 
     public byte[] func_149272_d()
@@ -231,12 +240,12 @@ public class S21PacketChunkData extends Packet
 
     public int func_149273_e()
     {
-        return this.x;
+        return this.field_149284_a;
     }
 
     public int func_149271_f()
     {
-        return this.z;
+        return this.field_149282_b;
     }
 
     public int func_149276_g()
@@ -251,7 +260,7 @@ public class S21PacketChunkData extends Packet
 
     public boolean func_149274_i()
     {
-        return this.isFullChunk;
+        return this.field_149279_g;
     }
 
     public void processPacket(INetHandler p_148833_1_)

@@ -15,6 +15,10 @@ import org.apache.logging.log4j.Logger;
 public class SaveFormatOld implements ISaveFormat
 {
     private static final Logger logger = LogManager.getLogger();
+
+    /**
+     * Reference to the File object representing the directory for the world saves
+     */
     protected final File savesDirectory;
     private static final String __OBFID = "CL_00000586";
 
@@ -48,6 +52,9 @@ public class SaveFormatOld implements ISaveFormat
 
     public void flushCache() {}
 
+    /**
+     * gets the world info
+     */
     public WorldInfo getWorldInfo(String par1Str)
     {
         File var2 = new File(this.savesDirectory, par1Str);
@@ -96,6 +103,11 @@ public class SaveFormatOld implements ISaveFormat
         }
     }
 
+    /**
+     * @args: Takes two arguments - first the name of the directory containing the world and second the new name for
+     * that world. @desc: Renames the world by storing the new name in level.dat. It does *not* rename the directory
+     * containing the world data.
+     */
     public void renameWorld(String par1Str, String par2Str)
     {
         File var3 = new File(this.savesDirectory, par1Str);
@@ -121,6 +133,10 @@ public class SaveFormatOld implements ISaveFormat
         }
     }
 
+    /**
+     * @args: Takes one argument - the name of the directory of the world to delete. @desc: Delete the world by deleting
+     * the associated directory recursively.
+     */
     public boolean deleteWorldDirectory(String par1Str)
     {
         File var2 = new File(this.savesDirectory, par1Str);
@@ -161,6 +177,10 @@ public class SaveFormatOld implements ISaveFormat
         }
     }
 
+    /**
+     * @args: Takes one argument - the list of files and directories to delete. @desc: Deletes the files and directory
+     * listed in the list recursively.
+     */
     protected static boolean deleteFiles(File[] par0ArrayOfFile)
     {
         for (int var1 = 0; var1 < par0ArrayOfFile.length; ++var1)
@@ -184,21 +204,33 @@ public class SaveFormatOld implements ISaveFormat
         return true;
     }
 
+    /**
+     * Returns back a loader for the specified save directory
+     */
     public ISaveHandler getSaveLoader(String par1Str, boolean par2)
     {
         return new SaveHandler(this.savesDirectory, par1Str, par2);
     }
 
+    /**
+     * Checks if the save directory uses the old map format
+     */
     public boolean isOldMapFormat(String par1Str)
     {
         return false;
     }
 
+    /**
+     * Converts the specified map to the new map format. Args: worldName, loadingScreen
+     */
     public boolean convertMapFormat(String par1Str, IProgressUpdate par2IProgressUpdate)
     {
         return false;
     }
 
+    /**
+     * Return whether the given world can be loaded.
+     */
     public boolean canLoadWorld(String par1Str)
     {
         File var2 = new File(this.savesDirectory, par1Str);

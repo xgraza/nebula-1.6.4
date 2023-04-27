@@ -25,11 +25,17 @@ public class S00PacketServerInfo extends Packet
         this.field_149296_b = p_i45273_1_;
     }
 
+    /**
+     * Reads the raw packet data from the data stream.
+     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149296_b = (ServerStatusResponse)field_149297_a.fromJson(p_148837_1_.readStringFromBuffer(32767), ServerStatusResponse.class);
     }
 
+    /**
+     * Writes the raw packet data to the data stream.
+     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeStringToBuffer(field_149297_a.toJson(this.field_149296_b));
@@ -45,6 +51,10 @@ public class S00PacketServerInfo extends Packet
         return this.field_149296_b;
     }
 
+    /**
+     * If true, the network manager will process the packet immediately when received, otherwise it will queue it for
+     * processing. Currently true for: Disconnect, LoginSuccess, KeepAlive, ServerQuery/Info, Ping/Pong
+     */
     public boolean hasPriority()
     {
         return true;

@@ -2,11 +2,25 @@ package net.minecraft.util;
 
 public class LongHashMap
 {
+    /** the array of all elements in the hash */
     private transient LongHashMap.Entry[] hashArray = new LongHashMap.Entry[1024];
+
+    /** the number of elements in the hash array */
     private transient int numHashElements;
+
+    /**
+     * the maximum amount of elements in the hash (probably 3/4 the size due to meh hashing function)
+     */
     private int capacity;
+
+    /**
+     * percent of the hasharray that can be used without hash colliding probably
+     */
     private final float percentUseable;
+
+    /** count of times elements have been added/removed */
     private transient volatile int modCount;
+    private static final String __OBFID = "CL_00001492";
 
     public LongHashMap()
     {
@@ -14,17 +28,26 @@ public class LongHashMap
         this.percentUseable = 0.75F;
     }
 
+    /**
+     * returns the hashed key given the original key
+     */
     private static int getHashedKey(long par0)
     {
         return (int)(par0 ^ par0 >>> 27);
     }
 
+    /**
+     * the hash function
+     */
     private static int hash(int par0)
     {
         par0 ^= par0 >>> 20 ^ par0 >>> 12;
         return par0 ^ par0 >>> 7 ^ par0 >>> 4;
     }
 
+    /**
+     * gets the index in the hash given the array length and the hashed key
+     */
     private static int getHashIndex(int par0, int par1)
     {
         return par0 & par1 - 1;
@@ -35,6 +58,9 @@ public class LongHashMap
         return this.numHashElements;
     }
 
+    /**
+     * get the value from the map given the key
+     */
     public Object getValueByKey(long par1)
     {
         int var3 = getHashedKey(par1);
@@ -70,6 +96,9 @@ public class LongHashMap
         return null;
     }
 
+    /**
+     * Add a key-value pair.
+     */
     public void add(long par1, Object par3Obj)
     {
         int var4 = getHashedKey(par1);
@@ -88,6 +117,9 @@ public class LongHashMap
         this.createKey(var4, par1, par3Obj, var5);
     }
 
+    /**
+     * resizes the table
+     */
     private void resizeTable(int par1)
     {
         LongHashMap.Entry[] var2 = this.hashArray;
@@ -108,6 +140,9 @@ public class LongHashMap
         }
     }
 
+    /**
+     * copies the hash table to the specified array
+     */
     private void copyHashTableTo(LongHashMap.Entry[] par1ArrayOfLongHashMapEntry)
     {
         LongHashMap.Entry[] var2 = this.hashArray;
@@ -135,12 +170,18 @@ public class LongHashMap
         }
     }
 
+    /**
+     * calls the removeKey method and returns removed object
+     */
     public Object remove(long par1)
     {
         LongHashMap.Entry var3 = this.removeKey(par1);
         return var3 == null ? null : var3.value;
     }
 
+    /**
+     * removes the key from the hash linked list
+     */
     final LongHashMap.Entry removeKey(long par1)
     {
         int var3 = getHashedKey(par1);
@@ -176,6 +217,9 @@ public class LongHashMap
         return var6;
     }
 
+    /**
+     * creates the key in the hash table
+     */
     private void createKey(int par1, long par2, Object par4Obj, int par5)
     {
         LongHashMap.Entry var6 = this.hashArray[par5];
@@ -202,12 +246,13 @@ public class LongHashMap
         return 1.0D * (double)countValid / (double)this.numHashElements;
     }
 
-    public static class Entry
+    static class Entry
     {
         final long key;
         Object value;
-        public LongHashMap.Entry nextEntry;
+        LongHashMap.Entry nextEntry;
         final int hash;
+        private static final String __OBFID = "CL_00001493";
 
         Entry(int par1, long par2, Object par4Obj, LongHashMap.Entry par5LongHashMapEntry)
         {

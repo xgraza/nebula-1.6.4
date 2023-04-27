@@ -7,14 +7,14 @@ public class TextureMetadataSection implements IMetadataSection
 {
     private final boolean textureBlur;
     private final boolean textureClamp;
-    private final List listMipmaps;
+    private final List field_148536_c;
     private static final String __OBFID = "CL_00001114";
 
     public TextureMetadataSection(boolean p_i45102_1_, boolean p_i45102_2_, List p_i45102_3_)
     {
         this.textureBlur = p_i45102_1_;
         this.textureClamp = p_i45102_2_;
-        this.listMipmaps = p_i45102_3_;
+        this.field_148536_c = p_i45102_3_;
     }
 
     public boolean getTextureBlur()
@@ -27,8 +27,8 @@ public class TextureMetadataSection implements IMetadataSection
         return this.textureClamp;
     }
 
-    public List getListMipmaps()
+    public List func_148535_c()
     {
-        return Collections.unmodifiableList(this.listMipmaps);
+        return Collections.unmodifiableList(this.field_148536_c);
     }
 }

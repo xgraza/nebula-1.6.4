@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-version = '2.0.0-rc7'
-group = 'wtf.nebula'
+version = '3.0'
+group = 'lol.nebula'
 archivesBaseName = 'Nebula'
 
 sourceCompatibility = targetCompatibility = '8'
@@ -14,39 +14,22 @@ compileJava {
 
 repositories {
     mavenCentral()
-    maven { url 'https://jitpack.io' }
 }
 
 configurations {
-    embed
-    implementation.extendsFrom embed
+    dependency
+    implementation.extendsFrom dependency
 }
 
 dependencies {
-    // i love bush's libraries
-    embed 'com.github.therealbush:eventbus:1.0.2'
+    dependency group: 'javax.vecmath', name: 'vecmath', version: '1.5.2'
 
-    // noinspection GradlePackageUpdate
-    embed 'com.google.code.gson:gson:2.8.6'
-
-    // add all jars in /libs/
-    implementation fileTree('libs')
-
-    embed('club.minnced:java-discord-rpc:2.0.1')
-
-    implementation configurations.embed
+    implementation fileTree('depend/libs')
+    implementation configurations.dependency
 }
 
 jar {
-    from(configurations.embed.collect {
-        it.isDirectory() ? it : zipTree(it)
-    }) {
-        exclude 'dummyThing',
-                'LICENSE.txt',
-                'META-INF/MUMFREY.RSA',
-                'META-INF/maven/**',
-                'org/**/*.html'
-    }
+    from(configurations.dependency.collect { it.isDirectory() ? it : zipTree(it) })
 
     manifest.attributes(
             'Main-Class': 'Start',

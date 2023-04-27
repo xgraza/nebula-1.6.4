@@ -34,11 +34,25 @@ import net.minecraft.world.World;
 public final class ItemStack
 {
     public static final DecimalFormat field_111284_a = new DecimalFormat("#.###");
+
+    /** Size of the stack. */
     public int stackSize;
+
+    /**
+     * Number of animation frames to go when receiving an item (by walking into it, for example).
+     */
     public int animationsToGo;
     private Item field_151002_e;
+
+    /**
+     * A NBTTagMap containing data about an ItemStack. Can only be used for non stackable items
+     */
     public NBTTagCompound stackTagCompound;
+
+    /** Damage dealt to the item or number of use. Raise when using items. */
     private int itemDamage;
+
+    /** Item frame this stack is on, or null if not on an item frame. */
     private EntityItemFrame itemFrame;
     private static final String __OBFID = "CL_00000043";
 
@@ -88,6 +102,9 @@ public final class ItemStack
 
     private ItemStack() {}
 
+    /**
+     * Remove the argument from the stack size. Return a new stack object with argument size.
+     */
     public ItemStack splitStack(int par1)
     {
         ItemStack var2 = new ItemStack(this.field_151002_e, par1, this.itemDamage);
@@ -101,11 +118,17 @@ public final class ItemStack
         return var2;
     }
 
+    /**
+     * Returns the object corresponding to the stack.
+     */
     public Item getItem()
     {
         return this.field_151002_e;
     }
 
+    /**
+     * Returns the icon index of the current stack.
+     */
     public IIcon getIconIndex()
     {
         return this.getItem().getIconIndex(this);
@@ -133,6 +156,10 @@ public final class ItemStack
         return this.getItem().func_150893_a(this, p_150997_1_);
     }
 
+    /**
+     * Called whenever this item stack is equipped and right clicked. Returns the new item stack to put in the position
+     * where this item is. Args: world, player
+     */
     public ItemStack useItemRightClick(World par1World, EntityPlayer par2EntityPlayer)
     {
         return this.getItem().onItemRightClick(this, par1World, par2EntityPlayer);
@@ -143,6 +170,9 @@ public final class ItemStack
         return this.getItem().onEaten(this, par1World, par2EntityPlayer);
     }
 
+    /**
+     * Write the stack fields to a NBT object. Return the new NBT object.
+     */
     public NBTTagCompound writeToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setShort("id", (short)Item.getIdFromItem(this.field_151002_e));
@@ -157,6 +187,9 @@ public final class ItemStack
         return par1NBTTagCompound;
     }
 
+    /**
+     * Read the stack fields from a NBT object.
+     */
     public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         this.field_151002_e = Item.getItemById(par1NBTTagCompound.getShort("id"));
@@ -168,22 +201,31 @@ public final class ItemStack
             this.itemDamage = 0;
         }
 
-        if (par1NBTTagCompound.hasKey("tag", 10))
+        if (par1NBTTagCompound.func_150297_b("tag", 10))
         {
             this.stackTagCompound = par1NBTTagCompound.getCompoundTag("tag");
         }
     }
 
+    /**
+     * Returns maximum size of the stack.
+     */
     public int getMaxStackSize()
     {
         return this.getItem().getItemStackLimit();
     }
 
+    /**
+     * Returns true if the ItemStack can hold 2 or more units of the item.
+     */
     public boolean isStackable()
     {
         return this.getMaxStackSize() > 1 && (!this.isItemStackDamageable() || !this.isItemDamaged());
     }
 
+    /**
+     * true if this itemStack is damageable
+     */
     public boolean isItemStackDamageable()
     {
         return this.field_151002_e.getMaxDamage() <= 0 ? false : !this.hasTagCompound() || !this.getTagCompound().getBoolean("Unbreakable");
@@ -194,21 +236,33 @@ public final class ItemStack
         return this.field_151002_e.getHasSubtypes();
     }
 
+    /**
+     * returns true when a damageable item is damaged
+     */
     public boolean isItemDamaged()
     {
         return this.isItemStackDamageable() && this.itemDamage > 0;
     }
 
+    /**
+     * gets the damage of an itemstack, for displaying purposes
+     */
     public int getItemDamageForDisplay()
     {
         return this.itemDamage;
     }
 
+    /**
+     * gets the damage of an itemstack
+     */
     public int getItemDamage()
     {
         return this.itemDamage;
     }
 
+    /**
+     * Sets the item damage of the ItemStack.
+     */
     public void setItemDamage(int par1)
     {
         this.itemDamage = par1;
@@ -219,11 +273,20 @@ public final class ItemStack
         }
     }
 
+    /**
+     * Returns the max damage an item in the stack can take.
+     */
     public int getMaxDamage()
     {
         return this.field_151002_e.getMaxDamage();
     }
 
+    /**
+     * Attempts to damage the ItemStack with par1 amount of damage, If the ItemStack has the Unbreaking enchantment
+     * there is a chance for each point of damage to be negated. Returns true if it takes more damage than
+     * getMaxDamage(). Returns false otherwise or if the ItemStack can't be damaged or if all points of damage are
+     * negated.
+     */
     public boolean attemptDamageItem(int par1, Random par2Random)
     {
         if (!this.isItemStackDamageable())
@@ -258,6 +321,9 @@ public final class ItemStack
         }
     }
 
+    /**
+     * Damages the item in the ItemStack
+     */
     public void damageItem(int par1, EntityLivingBase par2EntityLivingBase)
     {
         if (!(par2EntityLivingBase instanceof EntityPlayer) || !((EntityPlayer)par2EntityLivingBase).capabilities.isCreativeMode)
@@ -291,6 +357,9 @@ public final class ItemStack
         }
     }
 
+    /**
+     * Calls the corresponding fct in di
+     */
     public void hitEntity(EntityLivingBase par1EntityLivingBase, EntityPlayer par2EntityPlayer)
     {
         boolean var3 = this.field_151002_e.hitEntity(this, par1EntityLivingBase, par2EntityPlayer);
@@ -321,6 +390,9 @@ public final class ItemStack
         return this.field_151002_e.itemInteractionForEntity(this, par1EntityPlayer, par2EntityLivingBase);
     }
 
+    /**
+     * Returns a new stack with the same properties.
+     */
     public ItemStack copy()
     {
         ItemStack var1 = new ItemStack(this.field_151002_e, this.stackSize, this.itemDamage);
@@ -338,16 +410,26 @@ public final class ItemStack
         return par0ItemStack == null && par1ItemStack == null ? true : (par0ItemStack != null && par1ItemStack != null ? (par0ItemStack.stackTagCompound == null && par1ItemStack.stackTagCompound != null ? false : par0ItemStack.stackTagCompound == null || par0ItemStack.stackTagCompound.equals(par1ItemStack.stackTagCompound)) : false);
     }
 
+    /**
+     * compares ItemStack argument1 with ItemStack argument2; returns true if both ItemStacks are equal
+     */
     public static boolean areItemStacksEqual(ItemStack par0ItemStack, ItemStack par1ItemStack)
     {
         return par0ItemStack == null && par1ItemStack == null ? true : (par0ItemStack != null && par1ItemStack != null ? par0ItemStack.isItemStackEqual(par1ItemStack) : false);
     }
 
+    /**
+     * compares ItemStack argument to the instance ItemStack; returns true if both ItemStacks are equal
+     */
     private boolean isItemStackEqual(ItemStack par1ItemStack)
     {
         return this.stackSize != par1ItemStack.stackSize ? false : (this.field_151002_e != par1ItemStack.field_151002_e ? false : (this.itemDamage != par1ItemStack.itemDamage ? false : (this.stackTagCompound == null && par1ItemStack.stackTagCompound != null ? false : this.stackTagCompound == null || this.stackTagCompound.equals(par1ItemStack.stackTagCompound))));
     }
 
+    /**
+     * compares ItemStack argument to the instance ItemStack; returns true if the Items contained in both ItemStacks are
+     * equal
+     */
     public boolean isItemEqual(ItemStack par1ItemStack)
     {
         return this.field_151002_e == par1ItemStack.field_151002_e && this.itemDamage == par1ItemStack.itemDamage;
@@ -358,6 +440,9 @@ public final class ItemStack
         return this.field_151002_e.getUnlocalizedName(this);
     }
 
+    /**
+     * Creates a copy of a ItemStack, a null parameters will return a null.
+     */
     public static ItemStack copyItemStack(ItemStack par0ItemStack)
     {
         return par0ItemStack == null ? null : par0ItemStack.copy();
@@ -368,6 +453,10 @@ public final class ItemStack
         return this.stackSize + "x" + this.field_151002_e.getUnlocalizedName() + "@" + this.itemDamage;
     }
 
+    /**
+     * Called each tick as long the ItemStack in on player inventory. Used to progress the pickup animation and update
+     * maps.
+     */
     public void updateAnimation(World par1World, Entity par2Entity, int par3, boolean par4)
     {
         if (this.animationsToGo > 0)
@@ -394,16 +483,25 @@ public final class ItemStack
         return this.getItem().getItemUseAction(this);
     }
 
+    /**
+     * Called when the player releases the use item button. Args: world, entityplayer, itemInUseCount
+     */
     public void onPlayerStoppedUsing(World par1World, EntityPlayer par2EntityPlayer, int par3)
     {
         this.getItem().onPlayerStoppedUsing(this, par1World, par2EntityPlayer, par3);
     }
 
+    /**
+     * Returns true if the ItemStack has an NBTTagCompound. Currently used to store enchantments.
+     */
     public boolean hasTagCompound()
     {
         return this.stackTagCompound != null;
     }
 
+    /**
+     * Returns the NBTTagCompound of the ItemStack.
+     */
     public NBTTagCompound getTagCompound()
     {
         return this.stackTagCompound;
@@ -414,20 +512,26 @@ public final class ItemStack
         return this.stackTagCompound == null ? null : this.stackTagCompound.getTagList("ench", 10);
     }
 
+    /**
+     * Assigns a NBTTagCompound to the ItemStack, minecraft validates that only non-stackable items can have it.
+     */
     public void setTagCompound(NBTTagCompound par1NBTTagCompound)
     {
         this.stackTagCompound = par1NBTTagCompound;
     }
 
+    /**
+     * returns the display name of the itemstack
+     */
     public String getDisplayName()
     {
         String var1 = this.getItem().getItemStackDisplayName(this);
 
-        if (this.stackTagCompound != null && this.stackTagCompound.hasKey("display", 10))
+        if (this.stackTagCompound != null && this.stackTagCompound.func_150297_b("display", 10))
         {
             NBTTagCompound var2 = this.stackTagCompound.getCompoundTag("display");
 
-            if (var2.hasKey("Name", 8))
+            if (var2.func_150297_b("Name", 8))
             {
                 var1 = var2.getString("Name");
             }
@@ -443,7 +547,7 @@ public final class ItemStack
             this.stackTagCompound = new NBTTagCompound();
         }
 
-        if (!this.stackTagCompound.hasKey("display", 10))
+        if (!this.stackTagCompound.func_150297_b("display", 10))
         {
             this.stackTagCompound.setTag("display", new NBTTagCompound());
         }
@@ -456,7 +560,7 @@ public final class ItemStack
     {
         if (this.stackTagCompound != null)
         {
-            if (this.stackTagCompound.hasKey("display", 10))
+            if (this.stackTagCompound.func_150297_b("display", 10))
             {
                 NBTTagCompound var1 = this.stackTagCompound.getCompoundTag("display");
                 var1.removeTag("Name");
@@ -474,11 +578,17 @@ public final class ItemStack
         }
     }
 
+    /**
+     * Returns true if the itemstack has a display name
+     */
     public boolean hasDisplayName()
     {
-        return this.stackTagCompound == null ? false : (!this.stackTagCompound.hasKey("display", 10) ? false : this.stackTagCompound.getCompoundTag("display").hasKey("Name", 8));
+        return this.stackTagCompound == null ? false : (!this.stackTagCompound.func_150297_b("display", 10) ? false : this.stackTagCompound.getCompoundTag("display").func_150297_b("Name", 8));
     }
 
+    /**
+     * Return a list of strings containing information about the item
+     */
     public List getTooltip(EntityPlayer par1EntityPlayer, boolean par2)
     {
         ArrayList var3 = new ArrayList();
@@ -538,11 +648,11 @@ public final class ItemStack
                 }
             }
 
-            if (this.stackTagCompound.hasKey("display", 10))
+            if (this.stackTagCompound.func_150297_b("display", 10))
             {
                 NBTTagCompound var15 = this.stackTagCompound.getCompoundTag("display");
 
-                if (var15.hasKey("color", 3))
+                if (var15.func_150297_b("color", 3))
                 {
                     if (par2)
                     {
@@ -627,11 +737,17 @@ public final class ItemStack
         return this.getItem().getRarity(this);
     }
 
+    /**
+     * True if it is a tool and has no enchantments to begin with
+     */
     public boolean isItemEnchantable()
     {
         return !this.getItem().isItemTool(this) ? false : !this.isItemEnchanted();
     }
 
+    /**
+     * Adds an enchantment with a desired level on the ItemStack.
+     */
     public void addEnchantment(Enchantment par1Enchantment, int par2)
     {
         if (this.stackTagCompound == null)
@@ -639,7 +755,7 @@ public final class ItemStack
             this.setTagCompound(new NBTTagCompound());
         }
 
-        if (!this.stackTagCompound.hasKey("ench", 9))
+        if (!this.stackTagCompound.func_150297_b("ench", 9))
         {
             this.stackTagCompound.setTag("ench", new NBTTagList());
         }
@@ -651,9 +767,12 @@ public final class ItemStack
         var3.appendTag(var4);
     }
 
+    /**
+     * True if the item has enchantment data
+     */
     public boolean isItemEnchanted()
     {
-        return this.stackTagCompound != null && this.stackTagCompound.hasKey("ench", 9);
+        return this.stackTagCompound != null && this.stackTagCompound.func_150297_b("ench", 9);
     }
 
     public void setTagInfo(String par1Str, NBTBase par2NBTBase)
@@ -671,26 +790,41 @@ public final class ItemStack
         return this.getItem().canItemEditBlocks();
     }
 
+    /**
+     * Return whether this stack is on an item frame.
+     */
     public boolean isOnItemFrame()
     {
         return this.itemFrame != null;
     }
 
+    /**
+     * Set the item frame this stack is on.
+     */
     public void setItemFrame(EntityItemFrame par1EntityItemFrame)
     {
         this.itemFrame = par1EntityItemFrame;
     }
 
+    /**
+     * Return the item frame this stack is on. Returns null if not on an item frame.
+     */
     public EntityItemFrame getItemFrame()
     {
         return this.itemFrame;
     }
 
+    /**
+     * Get this stack's repair cost, or 0 if no repair cost is defined.
+     */
     public int getRepairCost()
     {
-        return this.hasTagCompound() && this.stackTagCompound.hasKey("RepairCost", 3) ? this.stackTagCompound.getInteger("RepairCost") : 0;
+        return this.hasTagCompound() && this.stackTagCompound.func_150297_b("RepairCost", 3) ? this.stackTagCompound.getInteger("RepairCost") : 0;
     }
 
+    /**
+     * Set this stack's repair cost.
+     */
     public void setRepairCost(int par1)
     {
         if (!this.hasTagCompound())
@@ -701,11 +835,15 @@ public final class ItemStack
         this.stackTagCompound.setInteger("RepairCost", par1);
     }
 
+    /**
+     * Gets the attribute modifiers for this ItemStack.\nWill check for an NBT tag list containing modifiers for the
+     * stack.
+     */
     public Multimap getAttributeModifiers()
     {
         Object var1;
 
-        if (this.hasTagCompound() && this.stackTagCompound.hasKey("AttributeModifiers", 9))
+        if (this.hasTagCompound() && this.stackTagCompound.func_150297_b("AttributeModifiers", 9))
         {
             var1 = HashMultimap.create();
             NBTTagList var2 = this.stackTagCompound.getTagList("AttributeModifiers", 10);

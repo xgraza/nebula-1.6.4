@@ -21,10 +21,6 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import wtf.nebula.client.core.Nebula;
-import wtf.nebula.client.impl.event.base.Era;
-import wtf.nebula.client.impl.event.impl.render.EventRenderPlayer;
-import wtf.nebula.client.impl.manager.CapeManager;
 
 public class RenderPlayer extends RendererLivingEntity
 {
@@ -42,6 +38,9 @@ public class RenderPlayer extends RendererLivingEntity
         this.modelArmor = new ModelBiped(0.5F);
     }
 
+    /**
+     * Queries whether should render the specified pass or not.
+     */
     protected int shouldRenderPass(AbstractClientPlayer par1AbstractClientPlayer, int par2, float par3)
     {
         ItemStack var4 = par1AbstractClientPlayer.inventory.armorItemInSlot(3 - par2);
@@ -113,6 +112,12 @@ public class RenderPlayer extends RendererLivingEntity
         }
     }
 
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
+     */
     public void doRender(AbstractClientPlayer par1AbstractClientPlayer, double par2, double par4, double par6, float par8, float par9)
     {
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -141,16 +146,15 @@ public class RenderPlayer extends RendererLivingEntity
             var13 -= 0.125D;
         }
 
-        if (!Nebula.BUS.post(new EventRenderPlayer(Era.PRE, par1AbstractClientPlayer))) {
-            super.doRender((EntityLivingBase)par1AbstractClientPlayer, par2, var13, par6, par8, par9);
-            Nebula.BUS.post(new EventRenderPlayer(Era.POST, par1AbstractClientPlayer));
-        }
-
+        super.doRender((EntityLivingBase)par1AbstractClientPlayer, par2, var13, par6, par8, par9);
         this.modelArmorChestplate.aimedBow = this.modelArmor.aimedBow = this.modelBipedMain.aimedBow = false;
         this.modelArmorChestplate.isSneak = this.modelArmor.isSneak = this.modelBipedMain.isSneak = false;
         this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = 0;
     }
 
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
     protected ResourceLocation getEntityTexture(AbstractClientPlayer par1AbstractClientPlayer)
     {
         return par1AbstractClientPlayer.getLocationSkin();
@@ -187,7 +191,7 @@ public class RenderPlayer extends RendererLivingEntity
                 GL11.glScalef(var4, -var4, -var4);
                 String var5 = "";
 
-                if (var3.hasTagCompound() && var3.getTagCompound().hasKey("SkullOwner", 8))
+                if (var3.hasTagCompound() && var3.getTagCompound().func_150297_b("SkullOwner", 8))
                 {
                     var5 = var3.getTagCompound().getString("SkullOwner");
                 }
@@ -225,18 +229,9 @@ public class RenderPlayer extends RendererLivingEntity
         boolean var21 = par1AbstractClientPlayer.getTextureCape().isTextureUploaded();
         float var11;
 
-        if (par1AbstractClientPlayer.hasCape()) {
-            var21 = true;
-        }
-
         if (var21 && !par1AbstractClientPlayer.isInvisible() && !par1AbstractClientPlayer.getHideCape())
         {
-            if (par1AbstractClientPlayer.hasCape()) {
-                bindTexture(CapeManager.CAPE_RESOURCE);
-            } else {
-                this.bindTexture(par1AbstractClientPlayer.getLocationCape());
-            }
-
+            this.bindTexture(par1AbstractClientPlayer.getLocationCape());
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, 0.0F, 0.125F);
             double var23 = par1AbstractClientPlayer.field_71091_bM + (par1AbstractClientPlayer.field_71094_bP - par1AbstractClientPlayer.field_71091_bM) * (double)par2 - (par1AbstractClientPlayer.prevPosX + (par1AbstractClientPlayer.posX - par1AbstractClientPlayer.prevPosX) * (double)par2);
@@ -382,6 +377,10 @@ public class RenderPlayer extends RendererLivingEntity
         }
     }
 
+    /**
+     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
+     * entityLiving, partialTickTime
+     */
     protected void preRenderCallback(AbstractClientPlayer par1AbstractClientPlayer, float par2)
     {
         float var3 = 0.9375F;
@@ -424,6 +423,9 @@ public class RenderPlayer extends RendererLivingEntity
         this.modelBipedMain.bipedRightArm.render(0.0625F);
     }
 
+    /**
+     * Sets a simple glTranslate on a LivingEntity.
+     */
     protected void renderLivingAt(AbstractClientPlayer par1AbstractClientPlayer, double par2, double par4, double par6)
     {
         if (par1AbstractClientPlayer.isEntityAlive() && par1AbstractClientPlayer.isPlayerSleeping())
@@ -455,6 +457,10 @@ public class RenderPlayer extends RendererLivingEntity
         this.func_96449_a((AbstractClientPlayer)par1EntityLivingBase, par2, par4, par6, par8Str, par9, par10);
     }
 
+    /**
+     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
+     * entityLiving, partialTickTime
+     */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
         this.preRenderCallback((AbstractClientPlayer)par1EntityLivingBase, par2);
@@ -465,6 +471,9 @@ public class RenderPlayer extends RendererLivingEntity
         this.func_82408_c((AbstractClientPlayer)par1EntityLivingBase, par2, par3);
     }
 
+    /**
+     * Queries whether should render the specified pass or not.
+     */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.shouldRenderPass((AbstractClientPlayer)par1EntityLivingBase, par2, par3);
@@ -480,21 +489,39 @@ public class RenderPlayer extends RendererLivingEntity
         this.rotateCorpse((AbstractClientPlayer)par1EntityLivingBase, par2, par3, par4);
     }
 
+    /**
+     * Sets a simple glTranslate on a LivingEntity.
+     */
     protected void renderLivingAt(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6)
     {
         this.renderLivingAt((AbstractClientPlayer)par1EntityLivingBase, par2, par4, par6);
     }
 
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
+     */
     public void doRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((AbstractClientPlayer)par1EntityLivingBase, par2, par4, par6, par8, par9);
     }
 
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.getEntityTexture((AbstractClientPlayer)par1Entity);
     }
 
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
+     */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         this.doRender((AbstractClientPlayer)par1Entity, par2, par4, par6, par8, par9);

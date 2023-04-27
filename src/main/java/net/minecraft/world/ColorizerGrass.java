@@ -2,6 +2,7 @@ package net.minecraft.world;
 
 public class ColorizerGrass
 {
+    /** Color buffer for grass */
     private static int[] grassBuffer = new int[65536];
     private static final String __OBFID = "CL_00000138";
 
@@ -10,6 +11,9 @@ public class ColorizerGrass
         grassBuffer = par0ArrayOfInteger;
     }
 
+    /**
+     * Gets grass color from temperature and humidity. Args: temperature, humidity
+     */
     public static int getGrassColor(double par0, double par2)
     {
         par2 *= par0;

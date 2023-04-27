@@ -15,6 +15,9 @@ public class CommandDeOp extends CommandBase
         return "deop";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel()
     {
         return 3;
@@ -38,6 +41,9 @@ public class CommandDeOp extends CommandBase
         }
     }
 
+    /**
+     * Adds the strings available in this command to the given list of tab completion options.
+     */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         return par2ArrayOfStr.length == 1 ? getListOfStringsFromIterableMatchingLastWord(par2ArrayOfStr, MinecraftServer.getServer().getConfigurationManager().getOps()) : null;

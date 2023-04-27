@@ -69,14 +69,29 @@ import org.apache.logging.log4j.Logger;
 public class EntityList
 {
     private static final Logger logger = LogManager.getLogger();
+
+    /** Provides a mapping between entity classes and a string */
     private static Map stringToClassMapping = new HashMap();
+
+    /** Provides a mapping between a string and an entity classes */
     private static Map classToStringMapping = new HashMap();
+
+    /** provides a mapping between an entityID and an Entity Class */
     private static Map IDtoClassMapping = new HashMap();
+
+    /** provides a mapping between an Entity Class and an entity ID */
     private static Map classToIDMapping = new HashMap();
+
+    /** Maps entity names to their numeric identifiers */
     private static Map stringToIDMapping = new HashMap();
+
+    /** This is a HashMap of the Creative Entity Eggs/Spawners. */
     public static HashMap entityEggs = new LinkedHashMap();
     private static final String __OBFID = "CL_00001538";
 
+    /**
+     * adds a mapping between Entity classes and both a string representation and an ID
+     */
     private static void addMapping(Class par0Class, String par1Str, int par2)
     {
         if (stringToClassMapping.containsKey(par1Str))
@@ -97,12 +112,18 @@ public class EntityList
         }
     }
 
+    /**
+     * Adds a entity mapping with egg info.
+     */
     private static void addMapping(Class par0Class, String par1Str, int par2, int par3, int par4)
     {
         addMapping(par0Class, par1Str, par2);
         entityEggs.put(Integer.valueOf(par2), new EntityList.EntityEggInfo(par2, par3, par4));
     }
 
+    /**
+     * Create a new instance of an entity in the world by using the entity name.
+     */
     public static Entity createEntityByName(String par0Str, World par1World)
     {
         Entity var2 = null;
@@ -124,6 +145,9 @@ public class EntityList
         return var2;
     }
 
+    /**
+     * create a new instance of an entity from NBT store
+     */
     public static Entity createEntityFromNBT(NBTTagCompound par0NBTTagCompound, World par1World)
     {
         Entity var2 = null;
@@ -173,6 +197,9 @@ public class EntityList
         return var2;
     }
 
+    /**
+     * Create a new instance of an entity in the world by using an entity ID.
+     */
     public static Entity createEntityByID(int par0, World par1World)
     {
         Entity var2 = null;
@@ -199,22 +226,34 @@ public class EntityList
         return var2;
     }
 
+    /**
+     * gets the entityID of a specific entity
+     */
     public static int getEntityID(Entity par0Entity)
     {
         Class var1 = par0Entity.getClass();
         return classToIDMapping.containsKey(var1) ? ((Integer)classToIDMapping.get(var1)).intValue() : 0;
     }
 
+    /**
+     * Return the class assigned to this entity ID.
+     */
     public static Class getClassFromID(int par0)
     {
         return (Class)IDtoClassMapping.get(Integer.valueOf(par0));
     }
 
+    /**
+     * Gets the string representation of a specific entity.
+     */
     public static String getEntityString(Entity par0Entity)
     {
         return (String)classToStringMapping.get(par0Entity.getClass());
     }
 
+    /**
+     * Finds the class using IDtoClassMapping and classToStringMapping
+     */
     public static String getStringFromID(int par0)
     {
         Class var1 = getClassFromID(par0);

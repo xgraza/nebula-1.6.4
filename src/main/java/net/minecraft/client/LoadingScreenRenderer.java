@@ -12,7 +12,13 @@ import org.lwjgl.opengl.GL11;
 public class LoadingScreenRenderer implements IProgressUpdate
 {
     private String field_73727_a = "";
+
+    /** A reference to the Minecraft object. */
     private Minecraft mc;
+
+    /**
+     * The text currently displayed (i.e. the argument to the last call to printText or func_73722_d)
+     */
     private String currentlyDisplayedText = "";
     private long field_73723_d = Minecraft.getSystemTime();
     private boolean field_73724_e;
@@ -28,12 +34,19 @@ public class LoadingScreenRenderer implements IProgressUpdate
         this.field_146588_g.setFramebufferFilter(9728);
     }
 
+    /**
+     * this string, followed by "working..." and then the "% complete" are the 3 lines shown. This resets progress to 0,
+     * and the WorkingString to "working...".
+     */
     public void resetProgressAndMessage(String par1Str)
     {
         this.field_73724_e = false;
         this.func_73722_d(par1Str);
     }
 
+    /**
+     * "Saving level", or the loading,or downloading equivelent
+     */
     public void displayProgressMessage(String par1Str)
     {
         this.field_73724_e = true;
@@ -74,6 +87,9 @@ public class LoadingScreenRenderer implements IProgressUpdate
         }
     }
 
+    /**
+     * This is called with "Working..." by resetProgressAndMessage
+     */
     public void resetProgresAndWorkingMessage(String par1Str)
     {
         if (!this.mc.running)
@@ -92,6 +108,9 @@ public class LoadingScreenRenderer implements IProgressUpdate
         }
     }
 
+    /**
+     * Updates the progress bar on the loading screen to the specified amount. Args: loadProgress
+     */
     public void setLoadingProgress(int par1)
     {
         if (!this.mc.running)

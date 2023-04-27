@@ -84,6 +84,9 @@ public class S0EPacketSpawnObject extends Packet
         }
     }
 
+    /**
+     * Reads the raw packet data from the data stream.
+     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149018_a = p_148837_1_.readVarIntFromBuffer();
@@ -103,6 +106,9 @@ public class S0EPacketSpawnObject extends Packet
         }
     }
 
+    /**
+     * Writes the raw packet data to the data stream.
+     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeVarIntToBuffer(this.field_149018_a);
@@ -127,12 +133,15 @@ public class S0EPacketSpawnObject extends Packet
         p_149011_1_.handleSpawnObject(this);
     }
 
+    /**
+     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
+     */
     public String serialize()
     {
-        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", this.field_149018_a, this.field_149019_j, (float) this.field_149016_b / 32.0F, Float.valueOf((float)this.field_149017_c / 32.0F), Float.valueOf((float)this.field_149014_d / 32.0F));
+        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", new Object[] {Integer.valueOf(this.field_149018_a), Integer.valueOf(this.field_149019_j), Float.valueOf((float)this.field_149016_b / 32.0F), Float.valueOf((float)this.field_149017_c / 32.0F), Float.valueOf((float)this.field_149014_d / 32.0F)});
     }
 
-    public int getEntityId()
+    public int func_149001_c()
     {
         return this.field_149018_a;
     }
@@ -177,7 +186,7 @@ public class S0EPacketSpawnObject extends Packet
         return this.field_149022_i;
     }
 
-    public int getType()
+    public int func_148993_l()
     {
         return this.field_149019_j;
     }

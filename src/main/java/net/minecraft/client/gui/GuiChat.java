@@ -49,11 +49,14 @@ public class GuiChat extends GuiScreen
         this.field_146409_v = par1Str;
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question.
+     */
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
-        this.field_146416_h = this.mc.ingameGUI.getChatGui().getSentMessages().size();
-        this.field_146415_a = new GuiTextField(this.fontRenderer, 4, this.height - 12, this.width - 4, 12);
+        this.field_146416_h = this.mc.ingameGUI.getChatGUI().func_146238_c().size();
+        this.field_146415_a = new GuiTextField(this.fontRendererObj, 4, this.height - 12, this.width - 4, 12);
         this.field_146415_a.func_146203_f(100);
         this.field_146415_a.func_146185_a(false);
         this.field_146415_a.setFocused(true);
@@ -61,17 +64,26 @@ public class GuiChat extends GuiScreen
         this.field_146415_a.func_146205_d(false);
     }
 
+    /**
+     * "Called when the screen is unloaded. Used to disable keyboard repeat events."
+     */
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
-        this.mc.ingameGUI.getChatGui().resetScroll();
+        this.mc.ingameGUI.getChatGUI().resetScroll();
     }
 
+    /**
+     * Called from the main game loop to update the screen.
+     */
     public void updateScreen()
     {
         this.field_146415_a.updateCursorCounter();
     }
 
+    /**
+     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
+     */
     protected void keyTyped(char par1, int par2)
     {
         this.field_146414_r = false;
@@ -101,11 +113,11 @@ public class GuiChat extends GuiScreen
             }
             else if (par2 == 201)
             {
-                this.mc.ingameGUI.getChatGui().scroll(this.mc.ingameGUI.getChatGui().func_146232_i() - 1);
+                this.mc.ingameGUI.getChatGUI().func_146229_b(this.mc.ingameGUI.getChatGUI().func_146232_i() - 1);
             }
             else if (par2 == 209)
             {
-                this.mc.ingameGUI.getChatGui().scroll(-this.mc.ingameGUI.getChatGui().func_146232_i() + 1);
+                this.mc.ingameGUI.getChatGUI().func_146229_b(-this.mc.ingameGUI.getChatGUI().func_146232_i() + 1);
             }
             else
             {
@@ -127,10 +139,13 @@ public class GuiChat extends GuiScreen
 
     public void func_146403_a(String p_146403_1_)
     {
-        this.mc.ingameGUI.getChatGui().addToSentMessages(p_146403_1_);
+        this.mc.ingameGUI.getChatGUI().func_146239_a(p_146403_1_);
         this.mc.thePlayer.sendChatMessage(p_146403_1_);
     }
 
+    /**
+     * Handles mouse input.
+     */
     public void handleMouseInput()
     {
         super.handleMouseInput();
@@ -153,15 +168,18 @@ public class GuiChat extends GuiScreen
                 var1 *= 7;
             }
 
-            this.mc.ingameGUI.getChatGui().scroll(var1);
+            this.mc.ingameGUI.getChatGUI().func_146229_b(var1);
         }
     }
 
+    /**
+     * Called when the mouse is clicked.
+     */
     protected void mouseClicked(int par1, int par2, int par3)
     {
         if (par3 == 0 && this.mc.gameSettings.chatLinks)
         {
-            IChatComponent var4 = this.mc.ingameGUI.getChatGui().func_146236_a(Mouse.getX(), Mouse.getY());
+            IChatComponent var4 = this.mc.ingameGUI.getChatGUI().func_146236_a(Mouse.getX(), Mouse.getY());
 
             if (var4 != null)
             {
@@ -299,7 +317,7 @@ public class GuiChat extends GuiScreen
                 }
             }
 
-            this.mc.ingameGUI.getChatGui().printChatMessageWithOptionalDeletion(new ChatComponentText(var4.toString()), 1);
+            this.mc.ingameGUI.getChatGUI().func_146234_a(new ChatComponentText(var4.toString()), 1);
         }
 
         this.field_146415_a.func_146191_b((String)this.field_146412_t.get(this.field_146413_s++));
@@ -317,7 +335,7 @@ public class GuiChat extends GuiScreen
     public void func_146402_a(int p_146402_1_)
     {
         int var2 = this.field_146416_h + p_146402_1_;
-        int var3 = this.mc.ingameGUI.getChatGui().getSentMessages().size();
+        int var3 = this.mc.ingameGUI.getChatGUI().func_146238_c().size();
 
         if (var2 < 0)
         {
@@ -343,17 +361,20 @@ public class GuiChat extends GuiScreen
                     this.field_146410_g = this.field_146415_a.getText();
                 }
 
-                this.field_146415_a.setText((String)this.mc.ingameGUI.getChatGui().getSentMessages().get(var2));
+                this.field_146415_a.setText((String)this.mc.ingameGUI.getChatGUI().func_146238_c().get(var2));
                 this.field_146416_h = var2;
             }
         }
     }
 
+    /**
+     * Draws the screen and all the components in it.
+     */
     public void drawScreen(int par1, int par2, float par3)
     {
         drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
         this.field_146415_a.drawTextBox();
-        IChatComponent var4 = this.mc.ingameGUI.getChatGui().func_146236_a(Mouse.getX(), Mouse.getY());
+        IChatComponent var4 = this.mc.ingameGUI.getChatGUI().func_146236_a(Mouse.getX(), Mouse.getY());
 
         if (var4 != null && var4.getChatStyle().getChatHoverEvent() != null)
         {
@@ -379,7 +400,7 @@ public class GuiChat extends GuiScreen
 
                 if (var6 != null)
                 {
-                    this.renderHoverInfo(var6, par1, par2);
+                    this.func_146285_a(var6, par1, par2);
                 }
                 else
                 {
@@ -404,7 +425,7 @@ public class GuiChat extends GuiScreen
 
                     if (var9 != null)
                     {
-                        var10.addAll(this.fontRenderer.listFormattedStringToWidth(var9, 150));
+                        var10.addAll(this.fontRendererObj.listFormattedStringToWidth(var9, 150));
                     }
 
                     this.func_146283_a(var10, par1, par2);
@@ -448,6 +469,9 @@ public class GuiChat extends GuiScreen
         }
     }
 
+    /**
+     * Returns true if this GUI should pause the game when it is displayed in single-player
+     */
     public boolean doesGuiPauseGame()
     {
         return false;

@@ -12,7 +12,10 @@ import net.minecraft.item.ItemStack;
 
 public class CombatTracker
 {
+    /** The CombatEntry objects that we've tracked so far. */
     private final List combatEntries = new ArrayList();
+
+    /** The entity tracked. */
     private final EntityLivingBase fighter;
     private int field_94555_c;
     private boolean field_94552_d;

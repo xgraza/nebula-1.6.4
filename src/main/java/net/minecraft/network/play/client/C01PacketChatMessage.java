@@ -8,7 +8,7 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class C01PacketChatMessage extends Packet
 {
-    public String message;
+    private String field_149440_a;
     private static final String __OBFID = "CL_00001347";
 
     public C01PacketChatMessage() {}
@@ -20,17 +20,23 @@ public class C01PacketChatMessage extends Packet
             p_i45240_1_ = p_i45240_1_.substring(0, 100);
         }
 
-        this.message = p_i45240_1_;
+        this.field_149440_a = p_i45240_1_;
     }
 
+    /**
+     * Reads the raw packet data from the data stream.
+     */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.message = p_148837_1_.readStringFromBuffer(100);
+        this.field_149440_a = p_148837_1_.readStringFromBuffer(100);
     }
 
+    /**
+     * Writes the raw packet data to the data stream.
+     */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeStringToBuffer(this.message);
+        p_148840_1_.writeStringToBuffer(this.field_149440_a);
     }
 
     public void processPacket(INetHandlerPlayServer p_149438_1_)
@@ -38,14 +44,17 @@ public class C01PacketChatMessage extends Packet
         p_149438_1_.processChatMessage(this);
     }
 
+    /**
+     * Returns a string formatted as comma separated [field]=[value] values. Used by Minecraft for logging purposes.
+     */
     public String serialize()
     {
-        return String.format("message=\'%s\'", new Object[] {this.message});
+        return String.format("message=\'%s\'", new Object[] {this.field_149440_a});
     }
 
     public String func_149439_c()
     {
-        return this.message;
+        return this.field_149440_a;
     }
 
     public void processPacket(INetHandler p_148833_1_)

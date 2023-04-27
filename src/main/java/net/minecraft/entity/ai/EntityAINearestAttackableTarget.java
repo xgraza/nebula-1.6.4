@@ -12,7 +12,14 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
 {
     private final Class targetClass;
     private final int targetChance;
+
+    /** Instance of EntityAINearestAttackableTargetSorter. */
     private final EntityAINearestAttackableTarget.Sorter theNearestAttackableTargetSorter;
+
+    /**
+     * This filter is applied to the Entity search.  Only matching entities will be targetted.  (null -> no
+     * restrictions)
+     */
     private final IEntitySelector targetEntitySelector;
     private EntityLivingBase targetEntity;
     private static final String __OBFID = "CL_00001620";
@@ -44,6 +51,9 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
         };
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute()
     {
         if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0)
@@ -68,6 +78,9 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
         }
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting()
     {
         this.taskOwner.setAttackTarget(this.targetEntity);

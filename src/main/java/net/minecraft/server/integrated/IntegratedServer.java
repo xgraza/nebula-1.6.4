@@ -10,9 +10,6 @@ import net.minecraft.client.multiplayer.ThreadLanServerPing;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.profiler.PlayerUsageSnooper;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.src.Reflector;
-import net.minecraft.src.WorldServerMultiOF;
-import net.minecraft.src.WorldServerOF;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.HttpUtil;
 import net.minecraft.world.EnumDifficulty;
@@ -22,17 +19,24 @@ import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveHandler;
+import optifine.Reflector;
+import optifine.WorldServerMultiOF;
+import optifine.WorldServerOF;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class IntegratedServer extends MinecraftServer
 {
     private static final Logger logger = LogManager.getLogger();
+
+    /** The Minecraft instance. */
     private final Minecraft mc;
     private final WorldSettings theWorldSettings;
     private boolean isGamePaused;
     private boolean isPublic;
     private ThreadLanServerPing lanServerPing;
+    private static final String __OBFID = "CL_00001129";
 
     public IntegratedServer(Minecraft par1Minecraft, String par2Str, String par3Str, WorldSettings par4WorldSettings)
     {
@@ -124,6 +128,9 @@ public class IntegratedServer extends MinecraftServer
         this.initialWorldChunkLoad();
     }
 
+    /**
+     * Initialises the server and starts it.
+     */
     protected boolean startServer() throws IOException
     {
         logger.info("Starting integrated minecraft server version 1.7.2");
@@ -164,10 +171,13 @@ public class IntegratedServer extends MinecraftServer
         return true;
     }
 
+    /**
+     * Main function called by run() every loop.
+     */
     public void tick()
     {
         boolean var1 = this.isGamePaused;
-        this.isGamePaused = Minecraft.getMinecraft().getNetHandler() != null && Minecraft.getMinecraft().isGamePaused();
+        this.isGamePaused = Minecraft.getMinecraft().getNetHandler() != null && Minecraft.getMinecraft().func_147113_T();
 
         if (!var1 && this.isGamePaused)
         {
@@ -197,6 +207,9 @@ public class IntegratedServer extends MinecraftServer
         return this.mc.gameSettings.difficulty;
     }
 
+    /**
+     * Defaults to false.
+     */
     public boolean isHardcore()
     {
         return this.theWorldSettings.getHardcoreEnabled();
@@ -212,24 +225,36 @@ public class IntegratedServer extends MinecraftServer
         return false;
     }
 
+    /**
+     * Called on exit from the main run() loop.
+     */
     protected void finalTick(CrashReport par1CrashReport)
     {
         this.mc.crashed(par1CrashReport);
     }
 
+    /**
+     * Adds the server info, including from theWorldServer, to the crash report.
+     */
     public CrashReport addServerInfoToCrashReport(CrashReport par1CrashReport)
     {
         par1CrashReport = super.addServerInfoToCrashReport(par1CrashReport);
         par1CrashReport.getCategory().addCrashSectionCallable("Type", new Callable()
         {
-            public String call()
+            private static final String __OBFID = "CL_00001130";
+            public String call1()
             {
                 return "Integrated Server (map_client.txt)";
+            }
+            public Object call() throws Exception
+            {
+                return this.call1();
             }
         });
         par1CrashReport.getCategory().addCrashSectionCallable("Is Modded", new Callable()
         {
-            public String call()
+            private static final String __OBFID = "CL_00001131";
+            public String call1()
             {
                 String var1 = ClientBrandRetriever.getClientModName();
 
@@ -243,6 +268,10 @@ public class IntegratedServer extends MinecraftServer
                     return !var1.equals("vanilla") ? "Definitely; Server brand changed to \'" + var1 + "\'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and both client + server brands are untouched.");
                 }
             }
+            public Object call() throws Exception
+            {
+                return this.call1();
+            }
         });
         return par1CrashReport;
     }
@@ -253,11 +282,17 @@ public class IntegratedServer extends MinecraftServer
         par1PlayerUsageSnooper.addData("snooper_partner", this.mc.getPlayerUsageSnooper().getUniqueID());
     }
 
+    /**
+     * Returns whether snooping is enabled or not.
+     */
     public boolean isSnooperEnabled()
     {
         return Minecraft.getMinecraft().isSnooperEnabled();
     }
 
+    /**
+     * On dedicated does nothing. On integrated, sets commandsAllowedForAll, gameType and allows external connections.
+     */
     public String shareToLAN(WorldSettings.GameType par1EnumGameType, boolean par2)
     {
         try
@@ -293,6 +328,9 @@ public class IntegratedServer extends MinecraftServer
         }
     }
 
+    /**
+     * Saves all necessary data as preparation for stopping the server.
+     */
     public void stopServer()
     {
         super.stopServer();
@@ -304,6 +342,9 @@ public class IntegratedServer extends MinecraftServer
         }
     }
 
+    /**
+     * Sets the serverRunning variable to false, in order to get the server to shut down.
+     */
     public void initiateShutdown()
     {
         super.initiateShutdown();
@@ -315,16 +356,25 @@ public class IntegratedServer extends MinecraftServer
         }
     }
 
+    /**
+     * Returns true if this integrated server is open to LAN
+     */
     public boolean getPublic()
     {
         return this.isPublic;
     }
 
+    /**
+     * Sets the game type for all worlds.
+     */
     public void setGameType(WorldSettings.GameType par1EnumGameType)
     {
         this.getConfigurationManager().setGameType(par1EnumGameType);
     }
 
+    /**
+     * Return whether command blocks are enabled.
+     */
     public boolean isCommandBlockEnabled()
     {
         return true;

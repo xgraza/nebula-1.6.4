@@ -8,6 +8,9 @@ public class RecipesCrafting
 {
     private static final String __OBFID = "CL_00000095";
 
+    /**
+     * Adds the crafting recipes to the CraftingManager.
+     */
     public void addRecipes(CraftingManager par1CraftingManager)
     {
         par1CraftingManager.addRecipe(new ItemStack(Blocks.chest), new Object[] {"###", "# #", "###", '#', Blocks.planks});

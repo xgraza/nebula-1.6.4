@@ -11,16 +11,12 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
-import net.minecraft.src.Config;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import shadersmod.client.Shaders;
-import wtf.nebula.client.core.Nebula;
-import wtf.nebula.client.impl.event.impl.render.EventRenderVanillaNameTag;
 
 public abstract class Render
 {
@@ -28,18 +24,30 @@ public abstract class Render
     protected RenderManager renderManager;
     protected RenderBlocks field_147909_c = new RenderBlocks();
     protected float shadowSize;
+
+    /**
+     * Determines the darkness of the object's shadow. Higher value makes a darker shadow.
+     */
     protected float shadowOpaque = 1.0F;
-    private boolean staticEntity = false;
+    private boolean field_147908_f = false;
+    private static final String __OBFID = "CL_00000992";
 
-    public static boolean renderShadow = true;
-
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
+     */
     public abstract void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9);
 
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
     protected abstract ResourceLocation getEntityTexture(Entity var1);
 
-    public boolean isStaticEntity()
+    public boolean func_147905_a()
     {
-        return this.staticEntity;
+        return this.field_147908_f;
     }
 
     protected void bindEntityTexture(Entity par1Entity)
@@ -52,11 +60,14 @@ public abstract class Render
         this.renderManager.renderEngine.bindTexture(par1ResourceLocation);
     }
 
+    /**
+     * Renders fire on top of the entity. Args: entity, x, y, z, partialTickTime
+     */
     private void renderEntityOnFire(Entity par1Entity, double par2, double par4, double par6, float par8)
     {
         GL11.glDisable(GL11.GL_LIGHTING);
-        IIcon var9 = Blocks.fire.getFireIcon(0);
-        IIcon var10 = Blocks.fire.getFireIcon(1);
+        IIcon var9 = Blocks.fire.func_149840_c(0);
+        IIcon var10 = Blocks.fire.func_149840_c(1);
         GL11.glPushMatrix();
         GL11.glTranslatef((float)par2, (float)par4, (float)par6);
         float var11 = par1Entity.width * 1.4F;
@@ -105,70 +116,70 @@ public abstract class Render
         GL11.glEnable(GL11.GL_LIGHTING);
     }
 
+    /**
+     * Renders the entity shadows at the position, shadow alpha and partialTickTime. Args: entity, x, y, z, shadowAlpha,
+     * partialTickTime
+     */
     private void renderShadow(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        if (!Config.isShaders() || !Shaders.shouldSkipDefaultShadow)
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        this.renderManager.renderEngine.bindTexture(shadowTextures);
+        World var10 = this.getWorldFromRenderManager();
+        GL11.glDepthMask(false);
+        float var11 = this.shadowSize;
+
+        if (par1Entity instanceof EntityLiving)
         {
-            if (!renderShadow) {
-                return;
-            }
+            EntityLiving var12 = (EntityLiving)par1Entity;
+            var11 *= var12.getRenderSizeModifier();
 
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            this.renderManager.renderEngine.bindTexture(shadowTextures);
-            World var10 = this.getWorldFromRenderManager();
-            GL11.glDepthMask(false);
-            float var11 = this.shadowSize;
-
-            if (par1Entity instanceof EntityLiving)
+            if (var12.isChild())
             {
-                EntityLiving var35 = (EntityLiving)par1Entity;
-                var11 *= var35.getRenderSizeModifier();
-
-                if (var35.isChild())
-                {
-                    var11 *= 0.5F;
-                }
+                var11 *= 0.5F;
             }
+        }
 
-            double var351 = par1Entity.lastTickPosX + (par1Entity.posX - par1Entity.lastTickPosX) * (double)par9;
-            double var14 = par1Entity.lastTickPosY + (par1Entity.posY - par1Entity.lastTickPosY) * (double)par9 + (double)par1Entity.getShadowSize();
-            double var16 = par1Entity.lastTickPosZ + (par1Entity.posZ - par1Entity.lastTickPosZ) * (double)par9;
-            int var18 = MathHelper.floor_double(var351 - (double)var11);
-            int var19 = MathHelper.floor_double(var351 + (double)var11);
-            int var20 = MathHelper.floor_double(var14 - (double)var11);
-            int var21 = MathHelper.floor_double(var14);
-            int var22 = MathHelper.floor_double(var16 - (double)var11);
-            int var23 = MathHelper.floor_double(var16 + (double)var11);
-            double var24 = par2 - var351;
-            double var26 = par4 - var14;
-            double var28 = par6 - var16;
-            Tessellator var30 = Tessellator.instance;
-            var30.startDrawingQuads();
+        double var35 = par1Entity.lastTickPosX + (par1Entity.posX - par1Entity.lastTickPosX) * (double)par9;
+        double var14 = par1Entity.lastTickPosY + (par1Entity.posY - par1Entity.lastTickPosY) * (double)par9 + (double)par1Entity.getShadowSize();
+        double var16 = par1Entity.lastTickPosZ + (par1Entity.posZ - par1Entity.lastTickPosZ) * (double)par9;
+        int var18 = MathHelper.floor_double(var35 - (double)var11);
+        int var19 = MathHelper.floor_double(var35 + (double)var11);
+        int var20 = MathHelper.floor_double(var14 - (double)var11);
+        int var21 = MathHelper.floor_double(var14);
+        int var22 = MathHelper.floor_double(var16 - (double)var11);
+        int var23 = MathHelper.floor_double(var16 + (double)var11);
+        double var24 = par2 - var35;
+        double var26 = par4 - var14;
+        double var28 = par6 - var16;
+        Tessellator var30 = Tessellator.instance;
+        var30.startDrawingQuads();
 
-            for (int var31 = var18; var31 <= var19; ++var31)
+        for (int var31 = var18; var31 <= var19; ++var31)
+        {
+            for (int var32 = var20; var32 <= var21; ++var32)
             {
-                for (int var32 = var20; var32 <= var21; ++var32)
+                for (int var33 = var22; var33 <= var23; ++var33)
                 {
-                    for (int var33 = var22; var33 <= var23; ++var33)
+                    Block var34 = var10.getBlock(var31, var32 - 1, var33);
+
+                    if (var34.getMaterial() != Material.air && var10.getBlockLightValue(var31, var32, var33) > 3)
                     {
-                        Block var34 = var10.getBlock(var31, var32 - 1, var33);
-
-                        if (var34.getMaterial() != Material.air && var10.getBlockLightValue(var31, var32, var33) > 3)
-                        {
-                            this.func_147907_a(var34, par2, par4 + (double)par1Entity.getShadowSize(), par6, var31, var32, var33, par8, var11, var24, var26 + (double)par1Entity.getShadowSize(), var28);
-                        }
+                        this.func_147907_a(var34, par2, par4 + (double)par1Entity.getShadowSize(), par6, var31, var32, var33, par8, var11, var24, var26 + (double)par1Entity.getShadowSize(), var28);
                     }
                 }
             }
-
-            var30.draw();
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glDepthMask(true);
         }
+
+        var30.draw();
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDepthMask(true);
     }
 
+    /**
+     * Returns the render manager's world object
+     */
     private World getWorldFromRenderManager()
     {
         return this.renderManager.worldObj;
@@ -207,6 +218,9 @@ public abstract class Render
         }
     }
 
+    /**
+     * Renders a white box with the bounds of the AABB translated by the offset. Args: aabb, x, y, z
+     */
     public static void renderOffsetAABB(AxisAlignedBB par0AxisAlignedBB, double par1, double par3, double par5)
     {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -249,6 +263,9 @@ public abstract class Render
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
+    /**
+     * Adds to the tesselator a box using the aabb for the bounds. Args: aabb
+     */
     public static void renderAABB(AxisAlignedBB par0AxisAlignedBB)
     {
         Tessellator var1 = Tessellator.instance;
@@ -280,11 +297,17 @@ public abstract class Render
         var1.draw();
     }
 
+    /**
+     * Sets the RenderManager.
+     */
     public void setRenderManager(RenderManager par1RenderManager)
     {
         this.renderManager = par1RenderManager;
     }
 
+    /**
+     * Renders the entity's shadow and fire (if its on fire). Args: entity, x, y, z, yaw, partialTickTime
+     */
     public void doRenderShadowAndFire(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
         if (this.renderManager.options.fancyGraphics && this.shadowSize > 0.0F && !par1Entity.isInvisible())
@@ -304,6 +327,9 @@ public abstract class Render
         }
     }
 
+    /**
+     * Returns the font renderer from the set render manager
+     */
     public FontRenderer getFontRendererFromRenderManager()
     {
         return this.renderManager.getFontRenderer();
@@ -313,10 +339,6 @@ public abstract class Render
 
     protected void func_147906_a(Entity p_147906_1_, String p_147906_2_, double p_147906_3_, double p_147906_5_, double p_147906_7_, int p_147906_9_)
     {
-        if (Nebula.BUS.post(new EventRenderVanillaNameTag(p_147906_1_))) {
-            return;
-        }
-
         double var10 = p_147906_1_.getDistanceSqToEntity(this.renderManager.livingPlayer);
 
         if (var10 <= (double)(p_147906_9_ * p_147906_9_))

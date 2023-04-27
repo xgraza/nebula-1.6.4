@@ -25,6 +25,9 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
         this.dataWatcher.addObject(17, "");
     }
 
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
@@ -41,6 +44,9 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
         par1NBTTagCompound.setBoolean("Sitting", this.isSitting());
     }
 
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
@@ -56,6 +62,9 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
         this.setSitting(par1NBTTagCompound.getBoolean("Sitting"));
     }
 
+    /**
+     * Play the taming effect, will either be hearts or smoke depending on status
+     */
     protected void playTameEffect(boolean par1)
     {
         String var2 = "heart";

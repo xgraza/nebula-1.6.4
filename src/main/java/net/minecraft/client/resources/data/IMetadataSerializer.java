@@ -10,6 +10,10 @@ public class IMetadataSerializer
 {
     private final IRegistry metadataSectionSerializerRegistry = new RegistrySimple();
     private final GsonBuilder gsonBuilder = new GsonBuilder();
+
+    /**
+     * Cached Gson instance. Set to null when more sections are registered, and then re-created from the builder.
+     */
     private Gson gson;
     private static final String __OBFID = "CL_00001101";
 
@@ -49,6 +53,9 @@ public class IMetadataSerializer
         }
     }
 
+    /**
+     * Returns a Gson instance with type adapters registered for metadata sections.
+     */
     private Gson getGson()
     {
         if (this.gson == null)

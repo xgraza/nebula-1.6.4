@@ -55,6 +55,9 @@ public class EntityFootStepFX extends EntityFX
         GL11.glEnable(GL11.GL_LIGHTING);
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate()
     {
         ++this.footstepAge;

@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 public class NBTTagByteArray extends NBTBase
 {
+    /** The byte array stored in the tag. */
     private byte[] byteArray;
     private static final String __OBFID = "CL_00001213";
 
@@ -17,12 +18,18 @@ public class NBTTagByteArray extends NBTBase
         this.byteArray = p_i45128_1_;
     }
 
+    /**
+     * Write the actual data contents of the tag, implemented in NBT extension classes
+     */
     void write(DataOutput par1DataOutput) throws IOException
     {
         par1DataOutput.writeInt(this.byteArray.length);
         par1DataOutput.write(this.byteArray);
     }
 
+    /**
+     * Read the actual data contents of the tag, implemented in NBT extension classes
+     */
     void load(DataInput par1DataInput, int par2) throws IOException
     {
         int var3 = par1DataInput.readInt();
@@ -30,6 +37,9 @@ public class NBTTagByteArray extends NBTBase
         par1DataInput.readFully(this.byteArray);
     }
 
+    /**
+     * Gets the type byte for the tag.
+     */
     public byte getId()
     {
         return (byte)7;
@@ -40,6 +50,9 @@ public class NBTTagByteArray extends NBTBase
         return "[" + this.byteArray.length + " bytes]";
     }
 
+    /**
+     * Creates a clone of the tag.
+     */
     public NBTBase copy()
     {
         byte[] var1 = new byte[this.byteArray.length];

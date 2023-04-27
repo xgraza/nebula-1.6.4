@@ -13,6 +13,9 @@ public class CommandKill extends CommandBase
         return "kill";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel()
     {
         return 0;

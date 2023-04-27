@@ -19,6 +19,9 @@ public class EntityAIWander extends EntityAIBase
         this.setMutexBits(1);
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute()
     {
         if (this.entity.getAge() >= 100)
@@ -47,11 +50,17 @@ public class EntityAIWander extends EntityAIBase
         }
     }
 
+    /**
+     * Returns whether an in-progress EntityAIBase should continue executing
+     */
     public boolean continueExecuting()
     {
         return !this.entity.getNavigator().noPath();
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting()
     {
         this.entity.getNavigator().tryMoveToXYZ(this.xPosition, this.yPosition, this.zPosition, this.speed);
