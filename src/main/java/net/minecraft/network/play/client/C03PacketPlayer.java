@@ -67,12 +67,12 @@ public class C03PacketPlayer extends Packet
         return this.field_149475_d;
     }
 
-    public float func_149462_g()
+    public float getYaw()
     {
         return this.field_149476_e;
     }
 
-    public float func_149470_h()
+    public float getPitch()
     {
         return this.field_149473_f;
     }
@@ -87,7 +87,7 @@ public class C03PacketPlayer extends Packet
         return this.field_149480_h;
     }
 
-    public boolean func_149463_k()
+    public boolean hasLook()
     {
         return this.field_149481_i;
     }

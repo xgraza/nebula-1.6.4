@@ -227,10 +227,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     var7 = this.playerEntity.posY;
                     var9 = this.playerEntity.posZ;
 
-                    if (p_147347_1_.func_149463_k())
+                    if (p_147347_1_.hasLook())
                     {
-                        var34 = p_147347_1_.func_149462_g();
-                        var4 = p_147347_1_.func_149470_h();
+                        var34 = p_147347_1_.getYaw();
+                        var4 = p_147347_1_.getPitch();
                     }
 
                     this.playerEntity.onGround = p_147347_1_.func_149465_i();
@@ -302,10 +302,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     }
                 }
 
-                if (p_147347_1_.func_149463_k())
+                if (p_147347_1_.hasLook())
                 {
-                    var11 = p_147347_1_.func_149462_g();
-                    var12 = p_147347_1_.func_149470_h();
+                    var11 = p_147347_1_.getYaw();
+                    var12 = p_147347_1_.getPitch();
                 }
 
                 this.playerEntity.onUpdateEntity();

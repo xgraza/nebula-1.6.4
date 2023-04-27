@@ -4,6 +4,7 @@ import lol.nebula.bind.BindManager;
 import lol.nebula.config.Config;
 import lol.nebula.config.ConfigManager;
 import lol.nebula.listener.bus.EventBus;
+import lol.nebula.management.RotationManager;
 import lol.nebula.module.ModuleManager;
 import lol.nebula.util.math.timing.Timer;
 import org.apache.logging.log4j.LogManager;
@@ -39,6 +40,7 @@ public class Nebula {
     private final ConfigManager configs;
     private final BindManager binds;
     private final ModuleManager modules;
+    private final RotationManager rotations;
 
     private Nebula() {
         singleton = this;
@@ -53,9 +55,11 @@ public class Nebula {
         configs = new ConfigManager();
         binds = new BindManager();
         modules = new ModuleManager();
+        rotations = new RotationManager();
 
         // subscribe listeners
         Nebula.getBus().subscribe(binds);
+        Nebula.getBus().subscribe(rotations);
 
         logger.info("Instantiated {} {} in {}ms", name, version, timer.getTimeElapsedMS());
 
@@ -88,6 +92,14 @@ public class Nebula {
      */
     public ModuleManager getModules() {
         return modules;
+    }
+
+    /**
+     * Gets the rotation manager instance
+     * @return the rotation manager instacne
+     */
+    public RotationManager getRotations() {
+        return rotations;
     }
 
     /**

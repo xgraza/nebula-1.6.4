@@ -21,6 +21,11 @@ import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.util.Queue;
 import javax.crypto.SecretKey;
+
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.net.EventPacket;
+import lol.nebula.listener.events.net.EventPacket.Inbound;
+import lol.nebula.listener.events.net.EventPacket.Outbound;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
@@ -114,6 +119,10 @@ public class NetworkManager extends SimpleChannelInboundHandler
     {
         if (this.channel.isOpen())
         {
+            if (Nebula.getBus().dispatch(new Inbound(p_150728_2_))) {
+                return;
+            }
+
             if (p_150728_2_.hasPriority())
             {
                 p_150728_2_.processPacket(this.netHandler);
@@ -144,6 +153,10 @@ public class NetworkManager extends SimpleChannelInboundHandler
     {
         if (this.channel != null && this.channel.isOpen())
         {
+            if (Nebula.getBus().dispatch(new Outbound(p_150725_1_))) {
+                return;
+            }
+
             this.flushOutboundQueue();
             this.dispatchPacket(p_150725_1_, p_150725_2_);
         }

@@ -1,5 +1,8 @@
 package net.minecraft.client.entity;
 
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.EventStage;
+import lol.nebula.listener.events.entity.EventWalkingUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -113,6 +116,11 @@ public class EntityClientPlayerMP extends EntityPlayerSP
      */
     public void sendMotionUpdates()
     {
+        EventWalkingUpdate event = new EventWalkingUpdate(EventStage.PRE,
+                posX, boundingBox.minY, posY, posZ,
+                rotationYaw, rotationPitch, onGround);
+        if (Nebula.getBus().dispatch(event)) return;
+
         boolean var1 = this.isSprinting();
 
         if (var1 != this.wasSneaking)
@@ -145,53 +153,60 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             this.shouldStopSneaking = var2;
         }
 
-        double var3 = this.posX - this.oldPosX;
-        double var5 = this.boundingBox.minY - this.oldMinY;
-        double var7 = this.posZ - this.oldPosZ;
-        double var9 = (double)(this.rotationYaw - this.oldRotationYaw);
-        double var11 = (double)(this.rotationPitch - this.oldRotationPitch);
+        double var3 = event.getX() - this.oldPosX;
+        double var5 = event.getY() - this.oldMinY;
+        double var7 = event.getZ() - this.oldPosZ;
+        double var9 = (double)(event.getYaw() - this.oldRotationYaw);
+        double var11 = (double)(event.getPitch() - this.oldRotationPitch);
         boolean var13 = var3 * var3 + var5 * var5 + var7 * var7 > 9.0E-4D || this.ticksSinceMovePacket >= 20;
         boolean var14 = var9 != 0.0D || var11 != 0.0D;
 
         if (this.ridingEntity != null)
         {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
+            this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D, -999.0D, this.motionZ, event.getYaw(), event.getPitch(), event.isOnGround()));
             var13 = false;
         }
         else if (var13 && var14)
         {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, this.boundingBox.minY, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround));
+            this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(
+                    event.getX(), event.getY(), event.getStance(), event.getZ(),
+                    event.getYaw(), event.getPitch(), event.isOnGround()));
         }
         else if (var13)
         {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(this.posX, this.boundingBox.minY, this.posY, this.posZ, this.onGround));
+            this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
+                    event.getX(), event.getY(), event.getStance(), event.getZ(), event.isOnGround()));
         }
         else if (var14)
         {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
+            this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(event.getYaw(), event.getPitch(), event.isOnGround()));
         }
         else
         {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer(this.onGround));
+            this.sendQueue.addToSendQueue(new C03PacketPlayer(event.isOnGround()));
         }
 
         ++this.ticksSinceMovePacket;
-        this.wasOnGround = this.onGround;
+        this.wasOnGround = event.isOnGround();
 
         if (var13)
         {
-            this.oldPosX = this.posX;
-            this.oldMinY = this.boundingBox.minY;
-            this.oldPosY = this.posY;
-            this.oldPosZ = this.posZ;
+            this.oldPosX = event.getX();
+            this.oldMinY = event.getY();
+            this.oldPosY = event.getStance();
+            this.oldPosZ = event.getZ();
             this.ticksSinceMovePacket = 0;
         }
 
         if (var14)
         {
-            this.oldRotationYaw = this.rotationYaw;
-            this.oldRotationPitch = this.rotationPitch;
+            this.oldRotationYaw = event.getYaw();
+            this.oldRotationPitch = event.getPitch();
         }
+
+        Nebula.getBus().dispatch(new EventWalkingUpdate(EventStage.POST,
+                posX, boundingBox.minY, posY, posZ,
+                rotationYaw, rotationPitch, onGround));
     }
 
     /**
