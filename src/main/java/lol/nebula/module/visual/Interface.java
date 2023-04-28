@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @since 04/27/23
  */
 public class Interface extends Module {
-    private final Setting<Color> color = new Setting<>(new Color(45, 124, 224), "Color");
+    public static final Setting<Color> color = new Setting<>(new Color(45, 124, 224), "Color");
 
     public Interface() {
         super("Interface", "Renders an overlay over the vanilla HUD", ModuleCategory.VISUAL);
