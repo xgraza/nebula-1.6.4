@@ -6,6 +6,7 @@ import lol.nebula.listener.events.render.EventRender2D;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
+import lol.nebula.util.render.ColorUtils;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -45,11 +46,13 @@ public class Interface extends Module {
 
         if (!enabled.isEmpty()) {
             double y = 3.0;
-            for (Module module : enabled) {
+            for (int i = 0; i < enabled.size(); ++i) {
+                Module module = enabled.get(i);
+
                 double x = event.getRes().getScaledWidth_double()
                         - ((3.0 + mc.fontRenderer.getStringWidth(module.getTag())) * module.getAnimation().getFactor());
 
-                mc.fontRenderer.drawStringWithShadow(module.getTag(), (int) x, (int) y, color.getValue().getRGB());
+                mc.fontRenderer.drawStringWithShadow(module.getTag(), (int) x, (int) y, ColorUtils.rainbowCycle(i * 100, 5.0));
 
                 y += (mc.fontRenderer.FONT_HEIGHT + 2) * module.getAnimation().getFactor();
             }
