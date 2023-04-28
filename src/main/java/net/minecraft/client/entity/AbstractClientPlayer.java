@@ -1,6 +1,8 @@
 package net.minecraft.client.entity;
 
 import com.mojang.authlib.GameProfile;
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.entity.EventMove;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ImageBufferDownload;
@@ -36,6 +38,15 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         }
 
         PlayerConfigurations.getPlayerConfiguration(this);
+    }
+
+    @Override
+    public void moveEntity(double par1, double par3, double par5) {
+
+        EventMove event = new EventMove(par1, par3, par5);
+        Nebula.getBus().dispatch(event);
+
+        super.moveEntity(event.getX(), event.getY(), event.getZ());
     }
 
     protected void setupCustomSkin()
