@@ -105,7 +105,7 @@ public abstract class Entity
      */
     public boolean isCollided;
     public boolean velocityChanged;
-    protected boolean isInWeb;
+    public boolean isInWeb;
     public boolean field_70135_K;
 
     /**

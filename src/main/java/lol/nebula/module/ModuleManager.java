@@ -1,6 +1,7 @@
 package lol.nebula.module;
 
 import lol.nebula.Nebula;
+import lol.nebula.module.combat.Criticals;
 import lol.nebula.module.movement.Flight;
 import lol.nebula.module.movement.Sprint;
 import lol.nebula.module.visual.Interface;
@@ -21,6 +22,7 @@ public class ModuleManager {
     public ModuleManager() {
 
         register(
+                new Criticals(),
 
                 new Flight(),
                 new Sprint(),

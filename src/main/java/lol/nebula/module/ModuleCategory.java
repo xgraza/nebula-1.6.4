@@ -5,5 +5,5 @@ package lol.nebula.module;
  * @since 04/27/23
  */
 public enum ModuleCategory {
-    MOVEMENT, VISUAL
+    COMBAT, MOVEMENT, VISUAL
 }

@@ -797,7 +797,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     public void processUseEntity(C02PacketUseEntity p_147340_1_)
     {
         WorldServer var2 = this.serverController.worldServerForDimension(this.playerEntity.dimension);
-        Entity var3 = p_147340_1_.func_149564_a(var2);
+        Entity var3 = p_147340_1_.getEntity(var2);
         this.playerEntity.func_143004_u();
 
         if (var3 != null)
@@ -812,11 +812,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
             if (this.playerEntity.getDistanceSqToEntity(var3) < var5)
             {
-                if (p_147340_1_.func_149565_c() == C02PacketUseEntity.Action.INTERACT)
+                if (p_147340_1_.getAction() == C02PacketUseEntity.Action.INTERACT)
                 {
                     this.playerEntity.interactWith(var3);
                 }
-                else if (p_147340_1_.func_149565_c() == C02PacketUseEntity.Action.ATTACK)
+                else if (p_147340_1_.getAction() == C02PacketUseEntity.Action.ATTACK)
                 {
                     if (var3 instanceof EntityItem || var3 instanceof EntityXPOrb || var3 instanceof EntityArrow || var3 == this.playerEntity)
                     {
