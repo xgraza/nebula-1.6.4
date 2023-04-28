@@ -1,8 +1,10 @@
 package lol.nebula.module;
 
+import com.google.gson.JsonObject;
 import lol.nebula.Nebula;
 import lol.nebula.bind.Bind;
 import lol.nebula.bind.BindDevice;
+import lol.nebula.setting.IJsonSerializable;
 import lol.nebula.setting.Setting;
 import lol.nebula.setting.SettingContainer;
 import lol.nebula.util.feature.ITaggable;
@@ -19,7 +21,7 @@ import static org.lwjgl.input.Keyboard.KEY_NONE;
  * @author aesthetical
  * @since 04/27/23
  */
-public class Module extends SettingContainer implements ITaggable, IToggleable {
+public class Module extends SettingContainer implements ITaggable, IToggleable, IJsonSerializable {
 
     /**
      * The {@link Minecraft} instance used in this module
@@ -143,5 +145,18 @@ public class Module extends SettingContainer implements ITaggable, IToggleable {
 
     public void setDrawn(boolean drawn) {
         this.drawn = drawn;
+    }
+
+    @Override
+    public void fromJson(JsonObject object) {
+
+    }
+
+    @Override
+    public JsonObject toJson() {
+        JsonObject parent = super.toJson();
+        parent.addProperty("tag", tag);
+        parent.addProperty("drawn", drawn);
+        return parent;
     }
 }

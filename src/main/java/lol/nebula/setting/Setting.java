@@ -118,11 +118,22 @@ public class Setting<T> implements ITaggable, IJsonSerializable {
         settingObject.addProperty("id", tag);
 
         if (value instanceof Color) {
-
+            JsonObject colorObject = new JsonObject();
+            Color color = (Color) value;
+            colorObject.addProperty("r", color.getRed());
+            colorObject.addProperty("g", color.getGreen());
+            colorObject.addProperty("b", color.getBlue());
+            colorObject.addProperty("a", color.getAlpha());
         } else if (value instanceof Number) {
-
+            if (value instanceof Double) {
+                settingObject.addProperty("value", ((Double) value));
+            } else if (value instanceof Float) {
+                settingObject.addProperty("value", ((Float) value));
+            } else if (value instanceof Integer) {
+                settingObject.addProperty("value", ((Integer) value));
+            }
         } else if (value instanceof Boolean) {
-
+            settingObject.addProperty("value", ((Boolean) value));
         }
 
         return settingObject;
