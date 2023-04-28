@@ -7,6 +7,8 @@ import lol.nebula.setting.Setting;
 import lol.nebula.setting.SettingContainer;
 import lol.nebula.util.feature.ITaggable;
 import lol.nebula.util.feature.IToggleable;
+import lol.nebula.util.render.animation.Animation;
+import lol.nebula.util.render.animation.Easing;
 import net.minecraft.client.Minecraft;
 
 import java.lang.reflect.Field;
@@ -27,6 +29,8 @@ public class Module extends SettingContainer implements ITaggable, IToggleable {
     private final String tag, description;
     private final ModuleCategory category;
 
+    private final Animation animation = new Animation(Easing.CUBIC_IN_OUT, 235, false);
+
     private final Setting<Bind> bind = new Setting<>(new Bind(
             (bind) -> setState(bind.isToggled()), BindDevice.KEYBOARD, KEY_NONE), "Bind");
 
@@ -34,6 +38,11 @@ public class Module extends SettingContainer implements ITaggable, IToggleable {
      * The module state
      */
     private boolean state;
+
+    /**
+     * If the module should be drawn to the arraylist
+     */
+    private boolean drawn = true;
 
     /**
      * Creates a new module object
@@ -50,11 +59,13 @@ public class Module extends SettingContainer implements ITaggable, IToggleable {
     @Override
     public void onEnable() {
         Nebula.getBus().subscribe(this);
+        animation.setState(true);
     }
 
     @Override
     public void onDisable() {
         Nebula.getBus().unsubscribe(this);
+        animation.setState(false);
     }
 
     /**
@@ -103,6 +114,14 @@ public class Module extends SettingContainer implements ITaggable, IToggleable {
         return bind.getValue();
     }
 
+    /**
+     * Gets this module's animation
+     * @return the module animation instance
+     */
+    public Animation getAnimation() {
+        return animation;
+    }
+
     @Override
     public boolean isToggled() {
         return state;
@@ -116,5 +135,13 @@ public class Module extends SettingContainer implements ITaggable, IToggleable {
         } else {
             onDisable();
         }
+    }
+
+    public boolean isDrawn() {
+        return drawn;
+    }
+
+    public void setDrawn(boolean drawn) {
+        this.drawn = drawn;
     }
 }
