@@ -16,8 +16,6 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 
-import static org.lwjgl.input.Keyboard.KEY_N;
-
 /**
  * @author aesthetical
  * @since 04/28/23
@@ -34,8 +32,6 @@ public class Scaffold extends Module {
 
     public Scaffold() {
         super("Scaffold", "Rapidly places blocks under your feet", ModuleCategory.PLAYER);
-
-        getBind().setKey(KEY_N);
     }
 
     @Override

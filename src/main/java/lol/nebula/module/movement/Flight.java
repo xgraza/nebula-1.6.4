@@ -7,8 +7,6 @@ import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.player.MoveUtils;
 
-import static org.lwjgl.input.Keyboard.KEY_G;
-
 /**
  * @author aesthetical
  * @since 04/27/23
@@ -21,8 +19,6 @@ public class Flight extends Module {
 
     public Flight() {
         super("Flight", "Allows you to fly in survival mode", ModuleCategory.MOVEMENT);
-
-        getBind().setKey(KEY_G);
     }
 
     @Listener
