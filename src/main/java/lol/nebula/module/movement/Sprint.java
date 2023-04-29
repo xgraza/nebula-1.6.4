@@ -6,8 +6,6 @@ import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
 
-import static org.lwjgl.input.Keyboard.KEY_N;
-
 /**
  * @author aesthetical
  * @since 04/27/23
@@ -18,8 +16,6 @@ public class Sprint extends Module {
 
     public Sprint() {
         super("Sprint", "Automatically sprints for you", ModuleCategory.MOVEMENT);
-
-        getBind().setKey(KEY_N);
     }
 
     @Override
