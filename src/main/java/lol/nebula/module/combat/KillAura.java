@@ -28,11 +28,11 @@ public class KillAura extends Module {
 
     private final Setting<Boolean> rotate = new Setting<>(true, "Rotate");
 
-    private final Setting<Double> range = new Setting<>(4.0, 0.01, 1.0, 6.0, "Range");
-    private final Setting<Double> wallRange = new Setting<>(4.0, 0.01, 1.0, 6.0, "Wall Range");
+    private final Setting<Double> range = new Setting<>(4.5, 0.01, 1.0, 6.0, "Range");
+    private final Setting<Double> wallRange = new Setting<>(2.0, 0.01, 1.0, 6.0, "Wall Range");
 
     private final Setting<Integer> minCPS = new Setting<>(8, 0, 20, "Min CPS");
-    private final Setting<Integer> maxCPS = new Setting<>(8, 0, 20, "Max CPS");
+    private final Setting<Integer> maxCPS = new Setting<>(14, 0, 20, "Max CPS");
 
     private final Setting<Boolean> autoBlock = new Setting<>(true, "Auto Block");
 
