@@ -1,6 +1,7 @@
 package net.minecraft.client.entity;
 
 import lol.nebula.Nebula;
+import lol.nebula.listener.events.entity.EventSlowdown;
 import lol.nebula.listener.events.entity.EventUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -194,6 +195,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.movementInput.moveStrafe *= 0.2F;
                 this.movementInput.moveForward *= 0.2F;
                 this.sprintToggleTimer = 0;
+
+                Nebula.getBus().dispatch(new EventSlowdown(movementInput));
             }
 
             if (this.movementInput.sneak && this.ySize < 0.2F)
