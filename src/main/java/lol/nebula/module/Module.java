@@ -125,6 +125,14 @@ public class Module extends SettingContainer implements ITaggable, IToggleable, 
     }
 
     /**
+     * Gets the module suffix metadata
+     * @return gets the module metadata
+     */
+    public String getMetadata() {
+        return null;
+    }
+
+    /**
      * Gets this module's key bind
      * @return the bind value from this module's bind setting
      */
