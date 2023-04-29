@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import lol.nebula.Nebula;
+import lol.nebula.module.combat.KillAura;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -410,9 +412,14 @@ public class ItemRenderer
             float var19;
             float var20;
 
-            if (var3.getItemInUseCount() > 0)
+            KillAura killAura = Nebula.getInstance().getModules().get(KillAura.class);
+
+            if (var3.getItemInUseCount() > 0 || killAura.isBlocking())
             {
                 EnumAction var26 = var8.getItemUseAction();
+                if (killAura.isBlocking()) {
+                    var26 = EnumAction.block;
+                }
 
                 if (var26 == EnumAction.block)
                 {

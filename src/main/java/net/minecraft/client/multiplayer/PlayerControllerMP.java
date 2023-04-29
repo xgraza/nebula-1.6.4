@@ -412,6 +412,14 @@ public class PlayerControllerMP
     {
         this.syncCurrentPlayItem();
         this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(-1, -1, -1, 255, par1EntityPlayer.inventory.getCurrentItem(), 0.0F, 0.0F, 0.0F));
+        return sendUseItemClient(par1EntityPlayer, par2World, par3ItemStack);
+    }
+
+    /**
+     * Notifies the server of things like consuming food, etc...
+     */
+    public boolean sendUseItemClient(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack)
+    {
         int var4 = par3ItemStack.stackSize;
         ItemStack var5 = par3ItemStack.useItemRightClick(par2World, par1EntityPlayer);
 

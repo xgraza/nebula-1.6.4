@@ -16,6 +16,16 @@ public class MathUtils {
     private static final Random RNG = new Random();
 
     /**
+     * Generates a random double between min and max
+     * @param min the minimum integer
+     * @param max the maximum integer
+     * @return a random double between minimum and maximum
+     */
+    public static double random(double min, double max) {
+        return (RNG.nextDouble() * max) + min;
+    }
+
+    /**
      * Round a double to an amount of decimal places
      * @param value the value
      * @param scale the scale

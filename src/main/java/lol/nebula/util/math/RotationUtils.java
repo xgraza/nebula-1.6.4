@@ -3,6 +3,7 @@ package lol.nebula.util.math;
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.entity.EventWalkingUpdate;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -17,6 +18,24 @@ public class RotationUtils {
      * The minecraft instance
      */
     protected static final Minecraft mc = Minecraft.getMinecraft();
+
+    /**
+     * Calculates rotations to an entity
+     * @param target the target entity
+     * @return the resulting rotations
+     */
+    public static float[] rotateTo(EntityLivingBase target) {
+        Vec3 eyes = mc.thePlayer.getGroundPosition().addVector(0.0, mc.thePlayer.getEyeHeight(), 0.0);
+        Vec3 vec = target.getGroundPosition().addVector(0.0, target.getEyeHeight(), 0.0);
+
+        double diffX = vec.xCoord - eyes.xCoord;
+        double diffZ = vec.zCoord - eyes.zCoord;
+
+        float yaw = (float) -(Math.toDegrees(Math.atan2(diffX, diffZ)));
+        float pitch = (float) (-Math.toDegrees(Math.atan2(vec.yCoord - eyes.yCoord, Math.hypot(diffX, diffZ))));
+
+        return new float[] { yaw, MathHelper.clamp_float(pitch, -90.0f, 90.0f) };
+    }
 
     /**
      * Gets rotations to a block and its face

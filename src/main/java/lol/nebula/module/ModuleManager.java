@@ -2,6 +2,7 @@ package lol.nebula.module;
 
 import lol.nebula.Nebula;
 import lol.nebula.module.combat.Criticals;
+import lol.nebula.module.combat.KillAura;
 import lol.nebula.module.combat.Regen;
 import lol.nebula.module.combat.Velocity;
 import lol.nebula.module.movement.Flight;
@@ -29,6 +30,7 @@ public class ModuleManager {
 
         register(
                 new Criticals(),
+                new KillAura(),
                 new Regen(),
                 new Velocity(),
 
