@@ -241,6 +241,14 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
     }
 
+    /**
+     * Swings the item the player is holding silently
+     */
+    public void swingItemSilent()
+    {
+        this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
+    }
+
     public void respawnPlayer()
     {
         this.sendQueue.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.PERFORM_RESPAWN));

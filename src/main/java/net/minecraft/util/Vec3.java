@@ -27,7 +27,7 @@ public class Vec3
         return new Vec3(fakePool, par0, par2, par4);
     }
 
-    protected Vec3(Vec3Pool par1Vec3Pool, double par2, double par4, double par6)
+    public Vec3(Vec3Pool par1Vec3Pool, double par2, double par4, double par6)
     {
         if (par2 == -0.0D)
         {

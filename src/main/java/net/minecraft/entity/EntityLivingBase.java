@@ -2174,6 +2174,14 @@ public abstract class EntityLivingBase extends Entity
     }
 
     /**
+     * Gets the living base's ground position
+     * @return the ground position in a Vec3
+     */
+    public Vec3 getGroundPosition() {
+        return new Vec3(Vec3.fakePool, Math.floor(posX), boundingBox.minY, Math.floor(posZ));
+    }
+
+    /**
      * interpolated position vector
      */
     public Vec3 getPosition(float par1)
