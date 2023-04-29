@@ -12,6 +12,7 @@ import lol.nebula.module.movement.Flight;
 import lol.nebula.module.movement.NoSlow;
 import lol.nebula.module.movement.Speed;
 import lol.nebula.module.movement.Sprint;
+import lol.nebula.module.player.FastPlace;
 import lol.nebula.module.player.Scaffold;
 import lol.nebula.module.visual.ClickUI;
 import lol.nebula.module.visual.Fullbright;
@@ -63,6 +64,7 @@ public class ModuleManager {
                 new Speed(),
                 new Sprint(),
 
+                new FastPlace(),
                 new Scaffold(),
 
                 new ClickUI(),
