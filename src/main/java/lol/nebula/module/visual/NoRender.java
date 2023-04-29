@@ -18,6 +18,7 @@ public class NoRender extends Module {
     private final Setting<Boolean> pumpkin = new Setting<>(false, "Pumpkin");
     private final Setting<Boolean> weather = new Setting<>(true, "Weather");
     private final Setting<Boolean> voidParticles = new Setting<>(true, "Void Particles");
+    private final Setting<Boolean> dynamicFoV = new Setting<>(true, "Dynamic FoV");
 
     public NoRender() {
         super("No Render", "Stops annoying things from rendering", ModuleCategory.VISUAL);
@@ -54,5 +55,10 @@ public class NoRender extends Module {
     @Listener
     public void onVoidParticles(EventVoidParticles event) {
         if (voidParticles.getValue()) event.cancel();
+    }
+
+    @Listener
+    public void onFoV(EventFoV event) {
+        if (dynamicFoV.getValue()) event.cancel();
     }
 }

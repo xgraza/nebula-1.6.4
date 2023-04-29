@@ -3,6 +3,7 @@ package net.minecraft.client.entity;
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.entity.EventSlowdown;
 import lol.nebula.listener.events.entity.EventUpdate;
+import lol.nebula.listener.events.render.EventFoV;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiCommandBlock;
@@ -316,6 +317,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public float getFOVMultiplier()
     {
         float var1 = 1.0F;
+        if (Nebula.getBus().dispatch(new EventFoV())) return var1;
 
         if (this.capabilities.isFlying)
         {
