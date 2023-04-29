@@ -30,7 +30,7 @@ public class Module extends SettingContainer implements ITaggable, IToggleable, 
     /**
      * The {@link Minecraft} instance used in this module
      */
-    protected final Minecraft mc = Minecraft.getMinecraft();
+    protected static final Minecraft mc = Minecraft.getMinecraft();
 
     private final String tag, description;
     private final ModuleCategory category;

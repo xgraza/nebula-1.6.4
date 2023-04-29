@@ -3,6 +3,9 @@ package net.minecraft.block;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.world.EventCollisionBox;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -613,6 +616,10 @@ public class Block
     public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_)
     {
         AxisAlignedBB var8 = this.getCollisionBoundingBoxFromPool(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_);
+
+        EventCollisionBox event = new EventCollisionBox(this, p_149743_7_, p_149743_2_, p_149743_3_, p_149743_4_, var8);
+        Nebula.getBus().dispatch(event);
+        var8 = event.getAabb();
 
         if (var8 != null && p_149743_5_.intersectsWith(var8))
         {

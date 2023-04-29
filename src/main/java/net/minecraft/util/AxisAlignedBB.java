@@ -35,7 +35,7 @@ public class AxisAlignedBB
         return (AABBPool)theAABBLocalPool.get();
     }
 
-    protected AxisAlignedBB(double par1, double par3, double par5, double par7, double par9, double par11)
+    public AxisAlignedBB(double par1, double par3, double par5, double par7, double par9, double par11)
     {
         this.minX = par1;
         this.minY = par3;

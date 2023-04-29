@@ -4,6 +4,7 @@ import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.net.EventPacket;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
+import lol.nebula.module.movement.Jesus;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.math.timing.Timer;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,6 +45,7 @@ public class Criticals extends Module {
             // if we are not on ground, or in water, or we have blindness
             if (!mc.thePlayer.onGround
                     || mc.thePlayer.isInWater()
+                    || Jesus.isAboveWater()
                     || mc.thePlayer.isInWeb
                     || mc.thePlayer.isPotionActive(Potion.blindness)) return;
 
