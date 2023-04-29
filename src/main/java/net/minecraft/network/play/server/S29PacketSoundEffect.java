@@ -66,22 +66,22 @@ public class S29PacketSoundEffect extends Packet
         p_148840_1_.writeByte(this.field_149214_f);
     }
 
-    public String func_149212_c()
+    public String getSoundName()
     {
         return this.field_149219_a;
     }
 
-    public double func_149207_d()
+    public double getX()
     {
         return (double)((float)this.field_149217_b / 8.0F);
     }
 
-    public double func_149211_e()
+    public double getY()
     {
         return (double)((float)this.field_149218_c / 8.0F);
     }
 
-    public double func_149210_f()
+    public double getZ()
     {
         return (double)((float)this.field_149215_d / 8.0F);
     }

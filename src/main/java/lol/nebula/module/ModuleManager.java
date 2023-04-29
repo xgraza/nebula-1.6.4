@@ -7,6 +7,7 @@ import lol.nebula.config.ConfigManager;
 import lol.nebula.module.combat.*;
 import lol.nebula.module.exploit.FastUse;
 import lol.nebula.module.exploit.NoRotateSet;
+import lol.nebula.module.exploit.ThunderLocator;
 import lol.nebula.module.exploit.Timer;
 import lol.nebula.module.movement.*;
 import lol.nebula.module.player.AutoRespawn;
@@ -62,6 +63,7 @@ public class ModuleManager {
 
                 new FastUse(),
                 new NoRotateSet(),
+                new ThunderLocator(),
                 new Timer(),
 
                 new AutoWalk(),

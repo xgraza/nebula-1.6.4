@@ -21,7 +21,6 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiDisconnected;
-import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.client.gui.GuiMultiplayer;
@@ -1580,7 +1579,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void handleSoundEffect(S29PacketSoundEffect p_147255_1_)
     {
-        this.gameController.theWorld.playSound(p_147255_1_.func_149207_d(), p_147255_1_.func_149211_e(), p_147255_1_.func_149210_f(), p_147255_1_.func_149212_c(), p_147255_1_.func_149208_g(), p_147255_1_.func_149209_h(), false);
+        this.gameController.theWorld.playSound(p_147255_1_.getX(), p_147255_1_.getY(), p_147255_1_.getZ(), p_147255_1_.getSoundName(), p_147255_1_.func_149208_g(), p_147255_1_.func_149209_h(), false);
     }
 
     /**
