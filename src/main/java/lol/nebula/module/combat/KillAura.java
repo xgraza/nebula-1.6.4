@@ -56,6 +56,11 @@ public class KillAura extends Module {
         }
     }
 
+    @Override
+    public String getMetadata() {
+        return Setting.formatEnumName(mode.getValue());
+    }
+
     @Listener
     public void onWalkingUpdate(EventWalkingUpdate event) {
 

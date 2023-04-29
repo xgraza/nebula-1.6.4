@@ -20,6 +20,7 @@ public class Criticals extends Module {
 
     private final Setting<Mode> mode = new Setting<>(Mode.PACKET, "Mode");
     private final Setting<Double> delay = new Setting<>(0.5, 0.01, 0.0, 5.0, "Delay");
+    private final Setting<Integer> hurtTime = new Setting<>(3, 0, 20, "Hurt Time");
 
     private final Timer timer = new Timer();
 
@@ -43,6 +44,9 @@ public class Criticals extends Module {
 
             // if we have not passed the delay, do not continue
             if (!timer.ms((long) (delay.getValue() * 1000.0), false)) return;
+
+            // if we are below our hurt time requirement, don't crit
+            if (((EntityLivingBase) packet.getEntity(mc.theWorld)).hurtTime > hurtTime.getValue()) return;
 
             switch (mode.getValue()) {
                 case PACKET:
