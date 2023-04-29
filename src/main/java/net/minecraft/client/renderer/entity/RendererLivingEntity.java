@@ -1,6 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
 import java.util.Random;
+
+import lol.nebula.Nebula;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBase;
@@ -130,6 +132,11 @@ public abstract class RendererLivingEntity extends Render
             }
 
             float var26 = par1EntityLivingBase.prevRotationPitch + (par1EntityLivingBase.rotationPitch - par1EntityLivingBase.prevRotationPitch) * par9;
+
+            if (Nebula.getInstance().getRotations().isRotating() && renderManager.livingPlayer.equals(Minecraft.getMinecraft().thePlayer)) {
+                var26 = par1EntityLivingBase.prevRotationPitchHead + (par1EntityLivingBase.rotationPitchHead - par1EntityLivingBase.prevRotationPitchHead) * par9;
+            }
+
             this.renderLivingAt(par1EntityLivingBase, par2, par4, par6);
             var13 = this.handleRotationFloat(par1EntityLivingBase, par9);
             this.rotateCorpse(par1EntityLivingBase, var13, var10, par9);

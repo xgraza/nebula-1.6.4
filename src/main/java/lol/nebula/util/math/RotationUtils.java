@@ -25,7 +25,7 @@ public class RotationUtils {
      * @return the resulting rotations
      */
     public static float[] toBlock(Vec3 position, EnumFacing facing) {
-        Vec3 eyes = mc.thePlayer.getPosition(mc.timer.renderPartialTicks);
+        Vec3 eyes = mc.thePlayer.getGroundPosition().addVector(0.0, mc.thePlayer.getEyeHeight(), 0.0);
         Vec3 vec = new Vec3(Vec3.fakePool,
                 position.xCoord + 0.5 + (facing.getFrontOffsetX() / 2.0),
                 position.yCoord - 0.5 + (facing.getFrontOffsetY() / 2.0),
