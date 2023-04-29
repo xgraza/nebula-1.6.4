@@ -34,7 +34,7 @@ public class Fullbright extends Module {
         if (!mc.thePlayer.isPotionActive(Potion.nightVision)) {
             fakePotion = true;
 
-            PotionEffect effect = new PotionEffect(Potion.nightVision.getId(), 9999, 0);
+            PotionEffect effect = new PotionEffect(Potion.nightVision.getId(), Integer.MAX_VALUE, 0);
             effect.setPotionDurationMax(true); // force potion to be infinite
 
             // add potion to player
