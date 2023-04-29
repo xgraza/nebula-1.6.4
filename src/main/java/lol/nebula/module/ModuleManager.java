@@ -6,6 +6,7 @@ import lol.nebula.Nebula;
 import lol.nebula.config.ConfigManager;
 import lol.nebula.module.combat.*;
 import lol.nebula.module.movement.*;
+import lol.nebula.module.player.AutoRespawn;
 import lol.nebula.module.player.FastPlace;
 import lol.nebula.module.player.Scaffold;
 import lol.nebula.module.visual.ClickUI;
@@ -60,6 +61,7 @@ public class ModuleManager {
                 new Speed(),
                 new Sprint(),
 
+                new AutoRespawn(),
                 new FastPlace(),
                 new Scaffold(),
 

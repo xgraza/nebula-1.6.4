@@ -13,6 +13,9 @@ import lol.nebula.util.feature.IToggleable;
 import lol.nebula.util.render.animation.Animation;
 import lol.nebula.util.render.animation.Easing;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.lang.reflect.Field;
 
@@ -94,6 +97,18 @@ public class Module extends SettingContainer implements ITaggable, IToggleable, 
         register(bind);
         // register bind to bind manager
         Nebula.getInstance().getBinds().addBind(bind.getValue());
+    }
+
+    /**
+     * Prints a message for this command
+     * @param message the message to print to the in game chat
+     */
+    protected void print(String message) {
+        mc.ingameGUI.getChatGUI().func_146227_a(new ChatComponentText(EnumChatFormatting.LIGHT_PURPLE + "nebula")
+                .appendText(" ")
+                .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GRAY))
+                .appendText("> ")
+                .appendText(message));
     }
 
     @Override
