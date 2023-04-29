@@ -6,6 +6,7 @@ package lol.nebula.module;
  */
 public enum ModuleCategory {
     COMBAT("Combat"),
+    EXPLOIT("Exploit"),
     MOVEMENT("Movement"),
     PLAYER("Player"),
     VISUAL("Visual");

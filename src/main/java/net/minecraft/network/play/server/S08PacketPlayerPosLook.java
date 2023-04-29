@@ -8,11 +8,11 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S08PacketPlayerPosLook extends Packet
 {
-    private double field_148940_a;
-    private double field_148938_b;
-    private double field_148939_c;
-    private float field_148936_d;
-    private float field_148937_e;
+    private double x;
+    private double y;
+    private double z;
+    private float yaw;
+    private float pitch;
     private boolean field_148935_f;
     private static final String __OBFID = "CL_00001273";
 
@@ -20,11 +20,11 @@ public class S08PacketPlayerPosLook extends Packet
 
     public S08PacketPlayerPosLook(double p_i45164_1_, double p_i45164_3_, double p_i45164_5_, float p_i45164_7_, float p_i45164_8_, boolean p_i45164_9_)
     {
-        this.field_148940_a = p_i45164_1_;
-        this.field_148938_b = p_i45164_3_;
-        this.field_148939_c = p_i45164_5_;
-        this.field_148936_d = p_i45164_7_;
-        this.field_148937_e = p_i45164_8_;
+        this.x = p_i45164_1_;
+        this.y = p_i45164_3_;
+        this.z = p_i45164_5_;
+        this.yaw = p_i45164_7_;
+        this.pitch = p_i45164_8_;
         this.field_148935_f = p_i45164_9_;
     }
 
@@ -33,11 +33,11 @@ public class S08PacketPlayerPosLook extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_148940_a = p_148837_1_.readDouble();
-        this.field_148938_b = p_148837_1_.readDouble();
-        this.field_148939_c = p_148837_1_.readDouble();
-        this.field_148936_d = p_148837_1_.readFloat();
-        this.field_148937_e = p_148837_1_.readFloat();
+        this.x = p_148837_1_.readDouble();
+        this.y = p_148837_1_.readDouble();
+        this.z = p_148837_1_.readDouble();
+        this.yaw = p_148837_1_.readFloat();
+        this.pitch = p_148837_1_.readFloat();
         this.field_148935_f = p_148837_1_.readBoolean();
     }
 
@@ -46,11 +46,11 @@ public class S08PacketPlayerPosLook extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeDouble(this.field_148940_a);
-        p_148840_1_.writeDouble(this.field_148938_b);
-        p_148840_1_.writeDouble(this.field_148939_c);
-        p_148840_1_.writeFloat(this.field_148936_d);
-        p_148840_1_.writeFloat(this.field_148937_e);
+        p_148840_1_.writeDouble(this.x);
+        p_148840_1_.writeDouble(this.y);
+        p_148840_1_.writeDouble(this.z);
+        p_148840_1_.writeFloat(this.yaw);
+        p_148840_1_.writeFloat(this.pitch);
         p_148840_1_.writeBoolean(this.field_148935_f);
     }
 
@@ -61,27 +61,35 @@ public class S08PacketPlayerPosLook extends Packet
 
     public double func_148932_c()
     {
-        return this.field_148940_a;
+        return this.x;
     }
 
     public double func_148928_d()
     {
-        return this.field_148938_b;
+        return this.y;
     }
 
     public double func_148933_e()
     {
-        return this.field_148939_c;
+        return this.z;
     }
 
     public float func_148931_f()
     {
-        return this.field_148936_d;
+        return this.yaw;
+    }
+
+    public void setYaw(float yaw) {
+        this.yaw = yaw;
     }
 
     public float func_148930_g()
     {
-        return this.field_148937_e;
+        return this.pitch;
+    }
+
+    public void setPitch(float pitch) {
+        this.pitch = pitch;
     }
 
     public boolean func_148929_h()
