@@ -18,6 +18,10 @@ public class Velocity extends Module {
 
     @Listener
     public void onPacketInbound(EventPacket.Inbound event) {
+
+        // if the local player is null, do not try to check for things related to the player
+        if (mc.thePlayer == null) return;
+
         if (event.getPacket() instanceof S12PacketEntityVelocity) {
             S12PacketEntityVelocity packet = event.getPacket();
             if (packet.func_149412_c() == mc.thePlayer.getEntityId()) {
