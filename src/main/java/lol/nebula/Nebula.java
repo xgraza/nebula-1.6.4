@@ -8,6 +8,8 @@ import lol.nebula.listener.bus.EventBus;
 import lol.nebula.management.RotationManager;
 import lol.nebula.module.ModuleManager;
 import lol.nebula.util.math.timing.Timer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Session;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;

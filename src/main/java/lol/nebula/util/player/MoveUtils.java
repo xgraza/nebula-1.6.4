@@ -2,6 +2,8 @@ package lol.nebula.util.player;
 
 import lol.nebula.listener.events.entity.EventMove;
 import net.minecraft.client.Minecraft;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 
 /**
  * @author aesthetical
@@ -21,6 +23,46 @@ public class MoveUtils {
     public static boolean isMoving() {
         return mc.thePlayer.movementInput.moveForward != 0.0f
                 || mc.thePlayer.movementInput.moveStrafe != 0.0f;
+    }
+
+    /**
+     * Gets the base NCP speed
+     * @param potionTime the minimum potion duration left before not factoring potions
+     * @return the speed
+     */
+    public static double getBaseNcpSpeed(int potionTime) {
+        double baseSpeed = 0.2873;
+
+        if (mc.thePlayer.isPotionActive(Potion.moveSpeed.id)) {
+            PotionEffect effect = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed);
+            if (effect.getDuration() > potionTime) {
+                int amp = effect.getAmplifier();
+                baseSpeed *= 1.0 + (0.2 * (amp + 1));
+            }
+        }
+
+        if (mc.thePlayer.isPotionActive(Potion.moveSlowdown.id)) {
+            PotionEffect effect = mc.thePlayer.getActivePotionEffect(Potion.moveSlowdown);
+            if (effect.getDuration() > potionTime) {
+                int amp = effect.getAmplifier();
+                baseSpeed /= 1.0 + (0.2 * (amp + 1));
+            }
+        }
+
+        return baseSpeed;
+    }
+
+    /**
+     * Gets the jump height with potion modification
+     * @return the jump height to use
+     */
+    public static double getJumpHeight(double base) {
+        if (mc.thePlayer.isPotionActive(Potion.jump.id)) {
+            int amp = mc.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier();
+            base += (amp + 1.0) * 0.1;
+        }
+
+        return base;
     }
 
     /**

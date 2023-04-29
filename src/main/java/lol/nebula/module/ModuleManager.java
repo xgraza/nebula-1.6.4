@@ -4,6 +4,7 @@ import lol.nebula.Nebula;
 import lol.nebula.module.combat.Criticals;
 import lol.nebula.module.combat.Velocity;
 import lol.nebula.module.movement.Flight;
+import lol.nebula.module.movement.Speed;
 import lol.nebula.module.movement.Sprint;
 import lol.nebula.module.player.Scaffold;
 import lol.nebula.module.visual.ClickUI;
@@ -30,6 +31,7 @@ public class ModuleManager {
                 new Velocity(),
 
                 new Flight(),
+                new Speed(),
                 new Sprint(),
 
                 new Scaffold(),
