@@ -99,16 +99,8 @@ public class KillAura extends Module {
         }
 
         if (autoBlock.getValue()) {
-
-            ItemStack stack = mc.thePlayer.getHeldItem();
-            if (stack != null && stack.getItem() instanceof ItemSword) {
-
-                mc.playerController.sendUseItemClient(mc.thePlayer, mc.theWorld, stack);
-
-                if (event.getStage() == EventStage.PRE && !blocking) {
-                    mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
-                            -1, -1, -1, 255, stack, 0.0F, 0.0F, 0.0F));
-                }
+            if (blocking) {
+                mc.playerController.sendUseItemClient(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem());
             }
         } else {
             if (blocking) {
@@ -118,17 +110,26 @@ public class KillAura extends Module {
             }
         }
 
-        if (event.getStage() == EventStage.POST && timer.ms((long) getAttackDelay(), false)) {
+        if (event.getStage() == EventStage.PRE) {
 
-            if (autoBlock.getValue() && blocking) {
-                blocking = false;
-                mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
-                        5, 0, 0, 0, 255));
+            if (timer.ms((long) getAttackDelay(), false)) {
+
+                if (autoBlock.getValue() && blocking) {
+                    blocking = false;
+                    mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+                            5, 0, 0, 0, 255));
+                }
+
+                mc.thePlayer.swingItem();
+                mc.playerController.attackEntity(mc.thePlayer, target);
             }
-
-            mc.thePlayer.swingItem();
-            mc.playerController.attackEntity(mc.thePlayer, target);
-
+        } else {
+            ItemStack stack = mc.thePlayer.getHeldItem();
+            if (!blocking && (stack != null && stack.getItem() instanceof ItemSword)) {
+                blocking = true;
+                mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+                        -1, -1, -1, 255, stack, 0.0F, 0.0F, 0.0F));
+            }
         }
     }
 
