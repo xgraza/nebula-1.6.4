@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import lol.nebula.Nebula;
 import lol.nebula.config.ConfigManager;
 import lol.nebula.module.combat.*;
+import lol.nebula.module.exploit.FastUse;
 import lol.nebula.module.exploit.NoRotateSet;
 import lol.nebula.module.exploit.Timer;
 import lol.nebula.module.movement.*;
@@ -59,6 +60,7 @@ public class ModuleManager {
                 new VehicleOneTap(),
                 new Velocity(),
 
+                new FastUse(),
                 new NoRotateSet(),
                 new Timer(),
 
