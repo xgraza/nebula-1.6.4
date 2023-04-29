@@ -279,7 +279,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         this.clientWorldController.isClient = true;
         this.gameController.loadWorld(this.clientWorldController);
         this.gameController.thePlayer.dimension = p_147282_1_.func_149194_f();
-        this.gameController.displayGuiScreen(new GuiDownloadTerrain(this));
+        //this.gameController.displayGuiScreen(new GuiDownloadTerrain(this));
         this.gameController.thePlayer.setEntityId(p_147282_1_.func_149197_c());
         this.currentServerMaxPlayers = p_147282_1_.func_149193_h();
         this.gameController.playerController.setGameType(p_147282_1_.func_149198_e());
@@ -985,7 +985,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             this.clientWorldController.isClient = true;
             this.gameController.loadWorld(this.clientWorldController);
             this.gameController.thePlayer.dimension = p_147280_1_.func_149082_c();
-            this.gameController.displayGuiScreen(new GuiDownloadTerrain(this));
+            // this.gameController.displayGuiScreen(new GuiDownloadTerrain(this));
         }
 
         this.gameController.setDimensionAndSpawnPlayer(p_147280_1_.func_149082_c());
