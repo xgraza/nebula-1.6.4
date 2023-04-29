@@ -138,4 +138,24 @@ public class Setting<T> implements ITaggable, IJsonSerializable {
 
         return settingObject;
     }
+
+    public static String formatEnumName(Enum<?> input) {
+        String name = input.toString();
+
+        // allows custom overrides for names that may not be possible in java
+        if (!name.equals(input.name())) {
+            return name;
+        }
+
+        String[] parts = name.split("_");
+
+        StringBuilder builder = new StringBuilder();
+        for (String part : parts) {
+            builder.append(Character.toString(part.charAt(0)).toUpperCase())
+                    .append(part.substring(1).toLowerCase())
+                    .append(" ");
+        }
+
+        return builder.toString().trim();
+    }
 }

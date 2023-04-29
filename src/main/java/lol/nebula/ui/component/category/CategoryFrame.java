@@ -28,6 +28,7 @@ public class CategoryFrame extends DraggableComponent {
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), PANEL_COLOR.getRGB());
+        RenderUtils.scissor(getX(), getY(), getWidth(), getHeight());
         mc.fontRenderer.drawStringWithShadow(
                 categoryName,
                 (int) (getX() + 2.0),
@@ -46,6 +47,8 @@ public class CategoryFrame extends DraggableComponent {
                 y += component.getHeight();
             }
         }
+
+        RenderUtils.endScissor();
     }
 
     @Override
@@ -57,7 +60,9 @@ public class CategoryFrame extends DraggableComponent {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-
+        for (Component component : getChildren()) {
+            component.keyTyped(typedChar, keyCode);
+        }
     }
 
     @Override
