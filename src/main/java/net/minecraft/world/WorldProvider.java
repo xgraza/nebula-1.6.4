@@ -1,5 +1,7 @@
 package net.minecraft.world;
 
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.EventVoidParticles;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
@@ -236,6 +238,7 @@ public abstract class WorldProvider
      */
     public boolean getWorldHasVoidParticles()
     {
+        if (Nebula.getBus().dispatch(new EventVoidParticles())) return false;
         return this.terrainType != WorldType.FLAT && !this.hasNoSky;
     }
 

@@ -1,6 +1,8 @@
 package net.minecraft.client.renderer;
 
 import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.EventBurningOverlay;
+import lol.nebula.listener.events.render.EventSuffocatingOverlay;
 import lol.nebula.module.combat.KillAura;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -582,6 +584,8 @@ public class ItemRenderer
      */
     private void renderInsideOfBlock(float par1, IIcon par2Icon)
     {
+        if (Nebula.getBus().dispatch(new EventSuffocatingOverlay())) return;
+
         this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
         Tessellator var3 = Tessellator.instance;
         float var4 = 0.1F;
@@ -643,6 +647,8 @@ public class ItemRenderer
      */
     private void renderFireInFirstPerson(float par1)
     {
+        if (Nebula.getBus().dispatch(new EventBurningOverlay())) return;
+
         Tessellator var2 = Tessellator.instance;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
         GL11.glEnable(GL11.GL_BLEND);

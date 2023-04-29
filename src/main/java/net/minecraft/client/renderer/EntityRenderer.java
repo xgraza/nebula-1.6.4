@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
+
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.EventHurtCamera;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -634,6 +637,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float par1)
     {
+
+        if (Nebula.getBus().dispatch(new EventHurtCamera())) return;
+
         EntityLivingBase var2 = this.mc.renderViewEntity;
         float var3 = (float)var2.hurtTime - par1;
         float var4;

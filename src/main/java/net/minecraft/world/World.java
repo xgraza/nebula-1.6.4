@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Callable;
+
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.EventWeather;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.block.BlockLiquid;
@@ -3826,7 +3829,10 @@ public abstract class World implements IBlockAccess
 
     public float getWeightedThunderStrength(float par1)
     {
-        return (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * par1) * this.getRainStrength(par1);
+        float thunderStrength = (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * par1) * this.getRainStrength(par1);
+        EventWeather event = new EventWeather(rainingStrength, thunderStrength);
+        Nebula.getBus().dispatch(event);
+        return event.getThunderStrength();
     }
 
     /**
@@ -3843,7 +3849,10 @@ public abstract class World implements IBlockAccess
      */
     public float getRainStrength(float par1)
     {
-        return this.prevRainingStrength + (this.rainingStrength - this.prevRainingStrength) * par1;
+        float rainStrength = this.prevRainingStrength + (this.rainingStrength - this.prevRainingStrength) * par1;
+        EventWeather event = new EventWeather(rainStrength, thunderingStrength);
+        Nebula.getBus().dispatch(event);
+        return event.getRainStrength();
     }
 
     /**

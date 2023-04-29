@@ -13,6 +13,7 @@ import lol.nebula.module.player.Scaffold;
 import lol.nebula.module.visual.ClickUI;
 import lol.nebula.module.visual.Fullbright;
 import lol.nebula.module.visual.Interface;
+import lol.nebula.module.visual.NoRender;
 import lol.nebula.util.system.FileUtils;
 
 import java.io.File;
@@ -71,7 +72,8 @@ public class ModuleManager {
 
                 new ClickUI(),
                 new Fullbright(),
-                new Interface()
+                new Interface(),
+                new NoRender()
         );
 
         Nebula.getLogger().info("Loaded {} modules", moduleClassMap.size());

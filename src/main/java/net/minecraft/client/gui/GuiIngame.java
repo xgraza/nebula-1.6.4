@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.EventPumpkinBlur;
 import lol.nebula.listener.events.render.EventRender2D;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -857,6 +858,8 @@ public class GuiIngame extends Gui
 
     private void renderPumpkinBlur(int par1, int par2)
     {
+        if (Nebula.getBus().dispatch(new EventPumpkinBlur())) return;
+
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
