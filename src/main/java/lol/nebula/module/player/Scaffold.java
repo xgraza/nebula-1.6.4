@@ -8,6 +8,7 @@ import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.math.Pair;
 import lol.nebula.util.math.RotationUtils;
+import lol.nebula.util.math.timing.Timer;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -25,6 +26,8 @@ public class Scaffold extends Module {
 
     private final Setting<Boolean> tower = new Setting<>(true, "Tower");
     private final Setting<Boolean> rotate = new Setting<>(true, "Rotate");
+
+    private final Timer towerTimer = new Timer();
 
     // the previous rotations
     private float[] rotations;
@@ -87,10 +90,16 @@ public class Scaffold extends Module {
             mc.thePlayer.swingItemSilent();
 
             if (tower.getValue() && mc.gameSettings.keyBindJump.pressed) {
+
+                if (towerTimer.ms(1200L, true)) {
+                    mc.thePlayer.motionY = -1;
+                    return;
+                }
+
                 if (mc.thePlayer.onGround && mc.thePlayer.motionY < 0.1) {
-                    mc.thePlayer.motionY = 0.42;
+                    mc.thePlayer.motionY = 0.41999998688697815;
                 } else if (mc.thePlayer.motionY <= 0.16477328182606651) {
-                    mc.thePlayer.motionY = 0.42;
+                    mc.thePlayer.motionY = 0.41999998688697815;
                 }
             }
         }
