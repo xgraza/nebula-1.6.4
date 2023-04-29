@@ -7,6 +7,7 @@ import lol.nebula.module.movement.Flight;
 import lol.nebula.module.movement.Sprint;
 import lol.nebula.module.player.Scaffold;
 import lol.nebula.module.visual.ClickUI;
+import lol.nebula.module.visual.Fullbright;
 import lol.nebula.module.visual.Interface;
 
 import java.util.Collection;
@@ -34,6 +35,7 @@ public class ModuleManager {
                 new Scaffold(),
 
                 new ClickUI(),
+                new Fullbright(),
                 new Interface()
         );
 
