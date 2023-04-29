@@ -8,6 +8,7 @@ import lol.nebula.module.combat.*;
 import lol.nebula.module.movement.*;
 import lol.nebula.module.player.AutoRespawn;
 import lol.nebula.module.player.FastPlace;
+import lol.nebula.module.player.NoFall;
 import lol.nebula.module.player.Scaffold;
 import lol.nebula.module.visual.ClickUI;
 import lol.nebula.module.visual.Fullbright;
@@ -63,6 +64,7 @@ public class ModuleManager {
 
                 new AutoRespawn(),
                 new FastPlace(),
+                new NoFall(),
                 new Scaffold(),
 
                 new ClickUI(),
