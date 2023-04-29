@@ -15,7 +15,7 @@ public class Regen extends Module {
     private final Setting<Float> health = new Setting<>(16.0f, 0.01f, 1.0f, 19.0f, "Health");
 
     public Regen() {
-        super("Regen", "Regenerates health faster than vanilla", ModuleCategory.MOVEMENT);
+        super("Regen", "Regenerates health faster than vanilla", ModuleCategory.COMBAT);
     }
 
     @Listener
