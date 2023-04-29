@@ -25,14 +25,15 @@ public class RotationUtils {
      * @return the resulting rotations
      */
     public static float[] rotateTo(EntityLivingBase target) {
-        Vec3 eyes = mc.thePlayer.getGroundPosition().addVector(0.0, mc.thePlayer.getEyeHeight(), 0.0);
+        Vec3 eyes = mc.thePlayer.getGroundPosition();
         Vec3 vec = target.getGroundPosition().addVector(0.0, target.getEyeHeight(), 0.0);
 
         double diffX = vec.xCoord - eyes.xCoord;
+        double diffY = (target.boundingBox.minY + 1.620) - mc.thePlayer.posY;
         double diffZ = vec.zCoord - eyes.zCoord;
 
         float yaw = (float) -(Math.toDegrees(Math.atan2(diffX, diffZ)));
-        float pitch = (float) (-Math.toDegrees(Math.atan2(vec.yCoord - eyes.yCoord, Math.hypot(diffX, diffZ))));
+        float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, Math.hypot(diffX, diffZ))));
 
         return new float[] { yaw, MathHelper.clamp_float(pitch, -90.0f, 90.0f) };
     }
@@ -44,17 +45,18 @@ public class RotationUtils {
      * @return the resulting rotations
      */
     public static float[] toBlock(Vec3 position, EnumFacing facing) {
-        Vec3 eyes = mc.thePlayer.getGroundPosition().addVector(0.0, mc.thePlayer.getEyeHeight(), 0.0);
+        Vec3 eyes = mc.thePlayer.getGroundPosition();
         Vec3 vec = new Vec3(Vec3.fakePool,
                 position.xCoord + 0.5 + (facing.getFrontOffsetX() / 2.0),
                 position.yCoord - 0.5 + (facing.getFrontOffsetY() / 2.0),
                 position.zCoord + 0.5 + (facing.getFrontOffsetZ() / 2.0));
 
         double diffX = vec.xCoord - eyes.xCoord;
+        double diffY = vec.yCoord - mc.thePlayer.posY;
         double diffZ = vec.zCoord - eyes.zCoord;
 
         float yaw = (float) -(Math.toDegrees(Math.atan2(diffX, diffZ)));
-        float pitch = (float) (-Math.toDegrees(Math.atan2(vec.yCoord - eyes.yCoord, Math.hypot(diffX, diffZ))));
+        float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, Math.hypot(diffX, diffZ))));
 
         return new float[] { yaw, MathHelper.clamp_float(pitch, -90.0f, 90.0f) };
     }
