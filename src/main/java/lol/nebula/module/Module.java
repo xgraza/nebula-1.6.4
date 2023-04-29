@@ -1,5 +1,6 @@
 package lol.nebula.module;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lol.nebula.Nebula;
 import lol.nebula.bind.Bind;
@@ -132,6 +133,7 @@ public class Module extends SettingContainer implements ITaggable, IToggleable, 
     @Override
     public void setState(boolean state) {
         this.state = state;
+        getBind().setValue(state);
         if (state) {
             onEnable();
         } else {
@@ -149,7 +151,22 @@ public class Module extends SettingContainer implements ITaggable, IToggleable, 
 
     @Override
     public void fromJson(JsonObject object) {
+        if (object.has("settings")) {
+            JsonElement element = object.get("settings");
+            if (!element.isJsonArray()) return;
 
+            for (JsonElement e : object.get("settings").getAsJsonArray()) {
+                if (e.isJsonObject()) {
+                    JsonObject settingObject = e.getAsJsonObject();
+                    Setting<?> setting = getSetting(settingObject.get("id").getAsString());
+                    if (setting != null) setting.fromJson(settingObject);
+                }
+            }
+        }
+
+        if (object.has("drawn")) {
+            drawn = object.get("drawn").getAsBoolean();
+        }
     }
 
     @Override

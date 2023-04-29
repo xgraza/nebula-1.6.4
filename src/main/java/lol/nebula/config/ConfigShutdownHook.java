@@ -5,6 +5,8 @@ import lol.nebula.util.math.timing.Timer;
 
 import java.util.List;
 
+import static lol.nebula.module.ModuleManager.DEFAULT_CONFIG;
+
 /**
  * @author aesthetical
  * @since 04/27/23
@@ -39,5 +41,7 @@ public class ConfigShutdownHook extends Thread {
 
             System.out.printf("Saved %s config(s) in %sms\n", configList.size(), timer.getTimeElapsedMS());
         }
+
+        System.out.println(Nebula.getInstance().getModules().saveModules(DEFAULT_CONFIG));
     }
 }

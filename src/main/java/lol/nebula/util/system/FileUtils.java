@@ -1,5 +1,8 @@
 package lol.nebula.util.system;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +20,13 @@ public class FileUtils {
      * End stream indicator
      */
     private static final int END_STREAM = -1;
+
+    /**
+     * The GSON instance
+     */
+    private static final Gson GSON = new GsonBuilder()
+            .setPrettyPrinting()
+            .create();
 
     /**
      * Reads from a file
@@ -49,5 +59,13 @@ public class FileUtils {
         byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
         os.write(bytes, 0, bytes.length);
         os.close();
+    }
+
+    /**
+     * Gets the GSON instance
+     * @return the GSON instance
+     */
+    public static Gson getGSON() {
+        return GSON;
     }
 }

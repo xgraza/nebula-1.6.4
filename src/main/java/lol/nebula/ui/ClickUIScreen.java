@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static lol.nebula.module.ModuleManager.DEFAULT_CONFIG;
+
 /**
  * @author aesthetical
  * @since 04/27/23
@@ -60,5 +62,11 @@ public class ClickUIScreen extends GuiScreen {
         for (CategoryFrame categoryFrame : categoryFrames) {
             categoryFrame.keyTyped(par1, par2);
         }
+    }
+
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        Nebula.getInstance().getModules().saveModules(DEFAULT_CONFIG);
     }
 }

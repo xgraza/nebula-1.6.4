@@ -68,4 +68,9 @@ public class Bind implements IToggleable {
             action.accept(this);
         }
     }
+
+    public void setValue(boolean state) {
+        this.state = state;
+    }
+
 }

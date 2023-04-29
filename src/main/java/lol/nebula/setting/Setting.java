@@ -1,7 +1,9 @@
 package lol.nebula.setting;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import lol.nebula.bind.Bind;
+import lol.nebula.bind.BindDevice;
 import lol.nebula.util.feature.ITaggable;
 
 import java.awt.*;
@@ -109,7 +111,46 @@ public class Setting<T> implements ITaggable, IJsonSerializable {
 
     @Override
     public void fromJson(JsonObject object) {
+        if (object.has("value")) {
+            JsonElement element = object.get("value");
 
+            if (value instanceof Color) {
+                if (!element.isJsonObject()) return;
+
+                JsonObject colorObject = element.getAsJsonObject();
+
+                value = (T) new Color(
+                        colorObject.get("r").getAsInt(),
+                        colorObject.get("g").getAsInt(),
+                        colorObject.get("b").getAsInt(),
+                        colorObject.get("a").getAsInt());
+            } else if (value instanceof Number) {
+                if (value instanceof Double) {
+                    value = (T) (Double) element.getAsDouble();
+                } else if (value instanceof Float) {
+                    value = (T) (Float) element.getAsFloat();
+                } else if (value instanceof Integer) {
+                    value = (T) (Integer) element.getAsInt();
+                }
+            } else if (value instanceof Boolean) {
+                value = (T) (Boolean) element.getAsBoolean();
+            } else if (value instanceof Enum<?>) {
+                try {
+                    value = (T) (Enum<?>) Enum.valueOf((Class<Enum>) value.getClass(), element.getAsString());
+                } catch (Exception ignored) {
+
+                }
+            } else if (value instanceof Bind) {
+                if (!element.isJsonObject()) return;
+
+                JsonObject bindObject = element.getAsJsonObject();
+
+                ((Bind) value).setKey(bindObject.get("key").getAsInt());
+                ((Bind) value).setState(bindObject.get("state").getAsBoolean());
+                ((Bind) value).setDevice(BindDevice.valueOf(bindObject.get("device").getAsString()));
+
+            }
+        }
     }
 
     @Override
@@ -134,6 +175,17 @@ public class Setting<T> implements ITaggable, IJsonSerializable {
             }
         } else if (value instanceof Boolean) {
             settingObject.addProperty("value", ((Boolean) value));
+        } else if (value instanceof Enum<?>) {
+            settingObject.addProperty("value", ((Enum<?>) value).name());
+        } else if (value instanceof Bind) {
+            JsonObject bindObject = new JsonObject();
+            Bind bind = (Bind) value;
+
+            bindObject.addProperty("key", bind.getKey());
+            bindObject.addProperty("state", bind.isToggled());
+            bindObject.addProperty("device", bind.getDevice().name());
+
+            settingObject.add("value", bindObject);
         }
 
         return settingObject;
