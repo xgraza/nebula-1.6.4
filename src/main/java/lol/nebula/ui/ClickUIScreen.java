@@ -31,7 +31,7 @@ public class ClickUIScreen extends GuiScreen {
             CategoryFrame categoryFrame = new CategoryFrame(moduleCategory.getDisplay(), modules);
             categoryFrame.setX(x);
             categoryFrame.setY(30.0);
-            categoryFrame.setWidth(110.0);
+            categoryFrame.setWidth(120.0);
             categoryFrame.setHeight(16.5);
 
             categoryFrames.add(categoryFrame);
