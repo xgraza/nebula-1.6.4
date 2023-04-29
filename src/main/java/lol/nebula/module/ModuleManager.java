@@ -56,6 +56,7 @@ public class ModuleManager {
                 new VehicleOneTap(),
                 new Velocity(),
 
+                new AutoWalk(),
                 new Flight(),
                 new InvWalk(),
                 new Jesus(),
