@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @since 04/27/23
  */
 public class Interface extends Module {
-    public static final Setting<Color> color = new Setting<>(new Color(45, 124, 224), "Color");
+    public static final Setting<Color> color = new Setting<>(new Color(162, 108, 222), "Color");
 
     public Interface() {
         super("Interface", "Renders an overlay over the vanilla HUD", ModuleCategory.VISUAL);
@@ -37,7 +37,7 @@ public class Interface extends Module {
         // if the F3 debug menu is open, do not render over it
         if (mc.gameSettings.showDebugInfo) return;
 
-        Fonts.axiforma.drawStringWithShadow(Nebula.getName() + " v" + Nebula.getVersion(), 3.0f, 3.0f, -1);
+        Fonts.axiforma.drawStringWithShadow(Nebula.getName() + " v" + Nebula.getVersion(), 3.0f, 3.0f, color.getValue().getRGB());
 
         List<Module> enabled = Nebula.getInstance().getModules().getModules()
                 .stream()
