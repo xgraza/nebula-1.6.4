@@ -107,6 +107,10 @@ public abstract class RendererLivingEntity extends Render
             float var11 = this.interpolateRotation(par1EntityLivingBase.prevRotationYawHead, par1EntityLivingBase.rotationYawHead, par9);
             float var13;
 
+            if (Nebula.getInstance().getRotations().isRotating() && renderManager.livingPlayer.equals(Minecraft.getMinecraft().thePlayer)) {
+                var11 = this.interpolateRotation(par1EntityLivingBase.prevClientYaw, par1EntityLivingBase.clientYaw, par9);
+            }
+
             if (par1EntityLivingBase.isRiding() && par1EntityLivingBase.ridingEntity instanceof EntityLivingBase)
             {
                 EntityLivingBase var12 = (EntityLivingBase)par1EntityLivingBase.ridingEntity;
@@ -134,7 +138,7 @@ public abstract class RendererLivingEntity extends Render
             float var26 = par1EntityLivingBase.prevRotationPitch + (par1EntityLivingBase.rotationPitch - par1EntityLivingBase.prevRotationPitch) * par9;
 
             if (Nebula.getInstance().getRotations().isRotating() && renderManager.livingPlayer.equals(Minecraft.getMinecraft().thePlayer)) {
-                var26 = par1EntityLivingBase.prevRotationPitchHead + (par1EntityLivingBase.rotationPitchHead - par1EntityLivingBase.prevRotationPitchHead) * par9;
+                var26 = par1EntityLivingBase.prevClientPitch + (par1EntityLivingBase.clientPitch - par1EntityLivingBase.prevClientPitch) * par9;
             }
 
             this.renderLivingAt(par1EntityLivingBase, par2, par4, par6);

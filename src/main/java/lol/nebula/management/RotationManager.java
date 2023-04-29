@@ -62,9 +62,9 @@ public class RotationManager {
             event.setPitch(client[1]);
 
             if (event.getStage() == EventStage.PRE) {
-                mc.thePlayer.rotationYawHead = server[0];
-                mc.thePlayer.renderYawOffset = server[0];
-                mc.thePlayer.rotationPitchHead = server[1];
+                mc.thePlayer.renderYawOffset = client[0];
+                mc.thePlayer.clientYaw = client[0];
+                mc.thePlayer.clientPitch = client[1];
             }
         }
     }
