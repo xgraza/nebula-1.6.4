@@ -1,6 +1,7 @@
 package lol.nebula;
 
 import lol.nebula.bind.BindManager;
+import lol.nebula.command.CommandManager;
 import lol.nebula.config.Config;
 import lol.nebula.config.ConfigManager;
 import lol.nebula.listener.bus.EventBus;
@@ -40,6 +41,7 @@ public class Nebula {
     private final ConfigManager configs;
     private final BindManager binds;
     private final ModuleManager modules;
+    private final CommandManager commands;
     private final RotationManager rotations;
 
     private Nebula() {
@@ -55,10 +57,12 @@ public class Nebula {
         configs = new ConfigManager();
         binds = new BindManager();
         modules = new ModuleManager();
+        commands = new CommandManager();
         rotations = new RotationManager();
 
         // subscribe listeners
         Nebula.getBus().subscribe(binds);
+        Nebula.getBus().subscribe(commands);
         Nebula.getBus().subscribe(rotations);
 
         logger.info("Instantiated {} {} in {}ms", name, version, timer.getTimeElapsedMS());
@@ -92,6 +96,14 @@ public class Nebula {
      */
     public ModuleManager getModules() {
         return modules;
+    }
+
+    /**
+     * Gets the command manager instance
+     * @return the command manager instance
+     */
+    public CommandManager getCommands() {
+        return commands;
     }
 
     /**
