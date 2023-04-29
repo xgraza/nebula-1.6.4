@@ -57,6 +57,7 @@ public class ModuleManager {
         register(
                 new AutoArmor(),
                 new AutoLogout(),
+                new AutoPotion(),
                 new Criticals(),
                 new KillAura(),
                 new Regen(),
