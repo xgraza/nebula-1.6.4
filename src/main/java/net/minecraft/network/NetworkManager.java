@@ -167,6 +167,23 @@ public class NetworkManager extends SimpleChannelInboundHandler
     }
 
     /**
+     * Will flush the outbound queue and dispatch the supplied Packet if the channel is ready, otherwise it adds the
+     * packet to the outbound queue and registers the GenericFutureListener to fire after transmission
+     */
+    public void scheduleOutboundPacketNoEvent(Packet p_150725_1_, GenericFutureListener ... p_150725_2_)
+    {
+        if (this.channel != null && this.channel.isOpen())
+        {
+            this.flushOutboundQueue();
+            this.dispatchPacket(p_150725_1_, p_150725_2_);
+        }
+        else
+        {
+            this.outboundPacketsQueue.add(new NetworkManager.InboundHandlerTuplePacketListener(p_150725_1_, p_150725_2_));
+        }
+    }
+
+    /**
      * Will commit the packet to the channel. If the current thread 'owns' the channel it will write and flush the
      * packet, otherwise it will add a task for the channel eventloop thread to do that.
      */

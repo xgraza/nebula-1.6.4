@@ -4,10 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lol.nebula.Nebula;
 import lol.nebula.config.ConfigManager;
-import lol.nebula.module.combat.Criticals;
-import lol.nebula.module.combat.KillAura;
-import lol.nebula.module.combat.Regen;
-import lol.nebula.module.combat.Velocity;
+import lol.nebula.module.combat.*;
 import lol.nebula.module.movement.*;
 import lol.nebula.module.player.FastPlace;
 import lol.nebula.module.player.Scaffold;
@@ -54,6 +51,7 @@ public class ModuleManager {
                 new Criticals(),
                 new KillAura(),
                 new Regen(),
+                new VehicleOneTap(),
                 new Velocity(),
 
                 new Flight(),

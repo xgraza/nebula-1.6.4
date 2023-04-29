@@ -757,6 +757,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         this.netManager.scheduleOutboundPacket(p_147297_1_, new GenericFutureListener[0]);
     }
 
+    public void addToSendQueueNoEvent(Packet p_147297_1_)
+    {
+        this.netManager.scheduleOutboundPacketNoEvent(p_147297_1_, new GenericFutureListener[0]);
+    }
+
     public void handleCollectItem(S0DPacketCollectItem p_147246_1_)
     {
         Entity var2 = this.clientWorldController.getEntityByID(p_147246_1_.func_149354_c());
