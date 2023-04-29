@@ -83,6 +83,6 @@ public class RotationManager {
      * @return if client is spoofing rotations
      */
     public boolean isRotating() {
-        return client == null;
+        return client != null;
     }
 }
