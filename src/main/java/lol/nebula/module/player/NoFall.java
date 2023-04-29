@@ -17,6 +17,11 @@ public class NoFall extends Module {
         super("No Fall", "Negates fall damage", ModuleCategory.PLAYER);
     }
 
+    @Override
+    public String getMetadata() {
+        return distance.getValue().toString();
+    }
+
     @Listener
     public void onWalkingUpdate(EventWalkingUpdate event) {
         if (mc.thePlayer.fallDistance >= distance.getValue()) {

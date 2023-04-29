@@ -36,6 +36,11 @@ public class Speed extends Module {
         mc.timer.timerSpeed = 1.0f;
     }
 
+    @Override
+    public String getMetadata() {
+        return Setting.formatEnumName(mode.getValue());
+    }
+
     @Listener
     public void onUpdate(EventUpdate event) {
         if (mode.getValue() == Mode.PORT && MoveUtils.isMoving()) {

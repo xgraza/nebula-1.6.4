@@ -28,6 +28,11 @@ public class Criticals extends Module {
         super("Criticals", "Makes your attacks critical hits", ModuleCategory.COMBAT);
     }
 
+    @Override
+    public String getMetadata() {
+        return Setting.formatEnumName(mode.getValue()) + " " + hurtTime.getValue();
+    }
+
     @Listener
     public void onPacketOutbound(EventPacket.Outbound event) {
         if (event.getPacket() instanceof C02PacketUseEntity) {

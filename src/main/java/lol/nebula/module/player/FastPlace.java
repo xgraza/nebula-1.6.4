@@ -22,6 +22,11 @@ public class FastPlace extends Module {
         super("Fast Place", "Removes the place delay in the vanilla game", ModuleCategory.PLAYER);
     }
 
+    @Override
+    public String getMetadata() {
+        return String.valueOf(speed.getValue());
+    }
+
     @Listener
     public void onUpdate(EventUpdate event) {
         ItemStack s = mc.thePlayer.getHeldItem();

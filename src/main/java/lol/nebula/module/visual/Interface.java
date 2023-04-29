@@ -8,6 +8,7 @@ import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.render.ColorUtils;
 import lol.nebula.util.render.font.Fonts;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -42,21 +43,30 @@ public class Interface extends Module {
         List<Module> enabled = Nebula.getInstance().getModules().getModules()
                 .stream()
                 .filter((m) -> m.isDrawn() && (m.isToggled() || m.getAnimation().getFactor() > 0.0))
-                .sorted(Comparator.comparingInt((m) -> -Fonts.axiforma.getStringWidth(m.getTag())))
+                .sorted(Comparator.comparingInt((m) -> -Fonts.axiforma.getStringWidth(formatModule(m))))
                 .collect(Collectors.toList());
 
         if (!enabled.isEmpty()) {
             double y = 3.0;
             for (int i = 0; i < enabled.size(); ++i) {
                 Module module = enabled.get(i);
+                String tag = formatModule(module);
 
                 double x = event.getRes().getScaledWidth_double()
-                        - ((3.0 + Fonts.axiforma.getStringWidth(module.getTag())) * module.getAnimation().getFactor());
+                        - ((3.0 + Fonts.axiforma.getStringWidth(tag)) * module.getAnimation().getFactor());
 
-                Fonts.axiforma.drawStringWithShadow(module.getTag(), (float) x, (float) y, ColorUtils.rainbowCycle(i * 100, 5.0));
+                Fonts.axiforma.drawStringWithShadow(tag, (float) x, (float) y, ColorUtils.rainbowCycle(i * 100, 5.0));
 
                 y += (Fonts.axiforma.FONT_HEIGHT + 2) * module.getAnimation().getFactor();
             }
         }
+    }
+
+    private String formatModule(Module module) {
+        String tag = module.getTag();
+        if (module.getMetadata() != null) {
+            tag += " " + EnumChatFormatting.GRAY + module.getMetadata();
+        }
+        return tag;
     }
 }

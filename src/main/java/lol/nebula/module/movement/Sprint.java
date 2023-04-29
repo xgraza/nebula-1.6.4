@@ -27,6 +27,11 @@ public class Sprint extends Module {
         }
     }
 
+    @Override
+    public String getMetadata() {
+        return Setting.formatEnumName(mode.getValue());
+    }
+
     @Listener
     public void onUpdate(EventUpdate event) {
         if (mc.thePlayer.isSprinting()) return;
