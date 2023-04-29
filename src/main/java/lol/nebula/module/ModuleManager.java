@@ -8,10 +8,7 @@ import lol.nebula.module.combat.Criticals;
 import lol.nebula.module.combat.KillAura;
 import lol.nebula.module.combat.Regen;
 import lol.nebula.module.combat.Velocity;
-import lol.nebula.module.movement.Flight;
-import lol.nebula.module.movement.NoSlow;
-import lol.nebula.module.movement.Speed;
-import lol.nebula.module.movement.Sprint;
+import lol.nebula.module.movement.*;
 import lol.nebula.module.player.FastPlace;
 import lol.nebula.module.player.Scaffold;
 import lol.nebula.module.visual.ClickUI;
@@ -60,6 +57,7 @@ public class ModuleManager {
                 new Velocity(),
 
                 new Flight(),
+                new InvWalk(),
                 new NoSlow(),
                 new Speed(),
                 new Sprint(),
