@@ -884,8 +884,6 @@ public class Minecraft implements IPlayerUsage
                 System.exit(0);
             }
         }
-
-        System.gc();
     }
 
     public void run()
@@ -921,7 +919,6 @@ public class Minecraft implements IPlayerUsage
                         {
                             this.freeMemory();
                             this.displayGuiScreen(new GuiMemoryErrorScreen());
-                            System.gc();
                         }
 
                         continue;
@@ -1143,7 +1140,6 @@ public class Minecraft implements IPlayerUsage
 
         try
         {
-            System.gc();
             AxisAlignedBB.getAABBPool().clearPool();
             this.theWorld.getWorldVec3Pool().clearAndFreeCache();
         }
@@ -1154,15 +1150,12 @@ public class Minecraft implements IPlayerUsage
 
         try
         {
-            System.gc();
             this.loadWorld((WorldClient)null);
         }
         catch (Throwable var2)
         {
             ;
         }
-
-        System.gc();
     }
 
     /**
@@ -2133,7 +2126,6 @@ public class Minecraft implements IPlayerUsage
     public void launchIntegratedServer(String par1Str, String par2Str, WorldSettings par3WorldSettings)
     {
         this.loadWorld((WorldClient)null);
-        System.gc();
         ISaveHandler var4 = this.saveLoader.getSaveLoader(par1Str, false);
         WorldInfo var5 = var4.loadWorldInfo();
 
@@ -2283,7 +2275,6 @@ public class Minecraft implements IPlayerUsage
             this.thePlayer = null;
         }
 
-        System.gc();
         this.systemTime = 0L;
     }
 
