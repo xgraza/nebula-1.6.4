@@ -12,6 +12,7 @@ import lol.nebula.ui.component.module.setting.NumberSettingComponent;
 import lol.nebula.util.render.RenderUtils;
 import lol.nebula.util.render.animation.Animation;
 import lol.nebula.util.render.animation.Easing;
+import lol.nebula.util.render.font.Fonts;
 
 import java.awt.*;
 
@@ -51,10 +52,10 @@ public class ModuleComponent extends Component {
         }
 
         RenderUtils.rect(getX(), getY(), getWidth(), super.getHeight(), (module.isToggled() ? Interface.color.getValue() : UNTOGGLED_BG).getRGB());
-        mc.fontRenderer.drawStringWithShadow(
+        Fonts.axiforma.drawStringWithShadow(
                 module.getTag(),
-                (int) (getX() + 2.0),
-                (int) (getY() + 1.0 + (super.getHeight() / 2.0) - (mc.fontRenderer.FONT_HEIGHT / 2.0)),
+                (float) (getX() + 2.0),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                 -1);
 
         if (openAnimation.getFactor() > 0.0) {

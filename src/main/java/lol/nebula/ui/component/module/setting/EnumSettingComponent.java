@@ -3,6 +3,7 @@ package lol.nebula.ui.component.module.setting;
 import lol.nebula.setting.Setting;
 import lol.nebula.ui.component.Component;
 import lol.nebula.util.render.RenderUtils;
+import lol.nebula.util.render.font.Fonts;
 
 import java.awt.*;
 
@@ -22,17 +23,17 @@ public class EnumSettingComponent extends Component {
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), SETTING_BG.getRGB());
-        mc.fontRenderer.drawStringWithShadow(
+        Fonts.axiforma.drawStringWithShadow(
                 setting.getTag(),
-                (int) (getX() + 2.0),
-                (int) (getY() + 1.0 + (getHeight() / 2.0) - (mc.fontRenderer.FONT_HEIGHT / 2.0)),
+                (float) (getX() + 2.0),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                 -1);
 
         String formatted = Setting.formatEnumName(setting.getValue());
-        mc.fontRenderer.drawStringWithShadow(
+        Fonts.axiforma.drawStringWithShadow(
                 formatted,
-                (int) ((getX() + getWidth() - 2.0) - mc.fontRenderer.getStringWidth(formatted)),
-                (int) (getY() + 1.0 + (getHeight() / 2.0) - (mc.fontRenderer.FONT_HEIGHT / 2.0)),
+                (float) ((getX() + getWidth() - 2.0) - Fonts.axiforma.getStringWidth(formatted)),
+                (float) (getY() + (getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                 0xBBBBBB);
     }
 

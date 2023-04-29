@@ -4,6 +4,7 @@ import lol.nebula.module.visual.Interface;
 import lol.nebula.setting.Setting;
 import lol.nebula.ui.component.Component;
 import lol.nebula.util.render.RenderUtils;
+import lol.nebula.util.render.font.Fonts;
 
 import java.awt.*;
 
@@ -23,10 +24,10 @@ public class BooleanSettingComponent extends Component {
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), SETTING_BG.getRGB());
-        mc.fontRenderer.drawStringWithShadow(
+        Fonts.axiforma.drawStringWithShadow(
                 setting.getTag(),
-                (int) (getX() + 2.0),
-                (int) (getY() + 1.0 + (getHeight() / 2.0) - (mc.fontRenderer.FONT_HEIGHT / 2.0)),
+                (float) (getX() + 2.0),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                 -1);
 
         double dimension = getHeight() - 4.0;

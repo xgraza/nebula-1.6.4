@@ -5,6 +5,7 @@ import lol.nebula.ui.component.Component;
 import lol.nebula.ui.component.DraggableComponent;
 import lol.nebula.ui.component.module.ModuleComponent;
 import lol.nebula.util.render.RenderUtils;
+import lol.nebula.util.render.font.Fonts;
 
 import java.awt.*;
 import java.util.List;
@@ -29,10 +30,10 @@ public class CategoryFrame extends DraggableComponent {
     public void render(int mouseX, int mouseY, float partialTicks) {
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), PANEL_COLOR.getRGB());
         RenderUtils.scissor(getX(), getY(), getWidth(), getHeight());
-        mc.fontRenderer.drawStringWithShadow(
+        Fonts.axiforma.drawStringWithShadow(
                 categoryName,
-                (int) (getX() + 2.0),
-                (int) (getY() + 1.0 + (super.getHeight() / 2.0) - (mc.fontRenderer.FONT_HEIGHT / 2.0)),
+                (float) (getX() + 2.0),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                 -1);
 
         if (!getChildren().isEmpty()) {

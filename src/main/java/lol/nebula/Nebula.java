@@ -8,6 +8,7 @@ import lol.nebula.listener.bus.EventBus;
 import lol.nebula.management.RotationManager;
 import lol.nebula.module.ModuleManager;
 import lol.nebula.util.math.timing.Timer;
+import lol.nebula.util.render.font.Fonts;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 import org.apache.logging.log4j.LogManager;
@@ -66,6 +67,9 @@ public class Nebula {
         Nebula.getBus().subscribe(binds);
         Nebula.getBus().subscribe(commands);
         Nebula.getBus().subscribe(rotations);
+
+        // load fonts
+        Fonts.loadFonts();
 
         logger.info("Instantiated {} {} in {}ms", name, version, timer.getTimeElapsedMS());
 

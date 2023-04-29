@@ -5,6 +5,7 @@ import lol.nebula.bind.BindDevice;
 import lol.nebula.setting.Setting;
 import lol.nebula.ui.component.Component;
 import lol.nebula.util.render.RenderUtils;
+import lol.nebula.util.render.font.Fonts;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -29,18 +30,18 @@ public class BindSettingComponent extends Component {
     public void render(int mouseX, int mouseY, float partialTicks) {
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), SETTING_BG.getRGB());
 
-        mc.fontRenderer.drawStringWithShadow(
+        Fonts.axiforma.drawStringWithShadow(
                 listening ? "Listening..." : setting.getTag(),
-                (int) (getX() + 2.0),
-                (int) (getY() + 1.0 + (getHeight() / 2.0) - (mc.fontRenderer.FONT_HEIGHT / 2.0)),
+                (float) (getX() + 2.0),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                 -1);
 
         if (!listening) {
             String formatted = formatBind();
-            mc.fontRenderer.drawStringWithShadow(
+            Fonts.axiforma.drawStringWithShadow(
                     formatted,
-                    (int) ((getX() + getWidth() - 2.0) - mc.fontRenderer.getStringWidth(formatted)),
-                    (int) (getY() + 1.0 + (getHeight() / 2.0) - (mc.fontRenderer.FONT_HEIGHT / 2.0)),
+                    (float) ((getX() + getWidth() - 2.0) - Fonts.axiforma.getStringWidth(formatted)),
+                    (float) (getY() + (getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                     0xBBBBBB);
         }
     }

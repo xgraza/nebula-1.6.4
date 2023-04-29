@@ -7,6 +7,7 @@ import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.render.ColorUtils;
+import lol.nebula.util.render.font.Fonts;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -36,12 +37,12 @@ public class Interface extends Module {
         // if the F3 debug menu is open, do not render over it
         if (mc.gameSettings.showDebugInfo) return;
 
-        mc.fontRenderer.drawStringWithShadow(Nebula.getName() + " v" + Nebula.getVersion(), 3, 3, -1);
+        Fonts.axiforma.drawStringWithShadow(Nebula.getName() + " v" + Nebula.getVersion(), 3.0f, 3.0f, -1);
 
         List<Module> enabled = Nebula.getInstance().getModules().getModules()
                 .stream()
                 .filter((m) -> m.isDrawn() && (m.isToggled() || m.getAnimation().getFactor() > 0.0))
-                .sorted(Comparator.comparingInt((m) -> -mc.fontRenderer.getStringWidth(m.getTag())))
+                .sorted(Comparator.comparingInt((m) -> -Fonts.axiforma.getStringWidth(m.getTag())))
                 .collect(Collectors.toList());
 
         if (!enabled.isEmpty()) {
@@ -50,11 +51,11 @@ public class Interface extends Module {
                 Module module = enabled.get(i);
 
                 double x = event.getRes().getScaledWidth_double()
-                        - ((3.0 + mc.fontRenderer.getStringWidth(module.getTag())) * module.getAnimation().getFactor());
+                        - ((3.0 + Fonts.axiforma.getStringWidth(module.getTag())) * module.getAnimation().getFactor());
 
-                mc.fontRenderer.drawStringWithShadow(module.getTag(), (int) x, (int) y, ColorUtils.rainbowCycle(i * 100, 5.0));
+                Fonts.axiforma.drawStringWithShadow(module.getTag(), (float) x, (float) y, ColorUtils.rainbowCycle(i * 100, 5.0));
 
-                y += (mc.fontRenderer.FONT_HEIGHT + 2) * module.getAnimation().getFactor();
+                y += (Fonts.axiforma.FONT_HEIGHT + 2) * module.getAnimation().getFactor();
             }
         }
     }

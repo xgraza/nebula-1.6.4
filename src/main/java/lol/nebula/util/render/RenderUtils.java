@@ -27,6 +27,10 @@ public class RenderUtils {
         glColor4f(red, green, blue, alpha);
     }
 
+    public static void setColor(float r, float g, float b, float a) {
+        glColor4f(r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f);
+    }
+
     public static void scissor(double x, double y, double width, double height) {
         final ScaledResolution sr = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
         final double scale = sr.getScaleFactor();

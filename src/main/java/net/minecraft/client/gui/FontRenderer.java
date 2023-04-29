@@ -46,7 +46,7 @@ public class FontRenderer implements IResourceManagerReloadListener
      * Array of RGB triplets defining the 16 standard chat colors followed by 16 darker version of the same colors for
      * drop shadows.
      */
-    private int[] colorCode = new int[32];
+    public int[] colorCode = new int[32];
     private ResourceLocation locationFontTexture;
 
     /** The RenderEngine used to load and setup glyph textures. */
