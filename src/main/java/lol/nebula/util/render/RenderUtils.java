@@ -24,11 +24,11 @@ public class RenderUtils {
         float green = (color >> 8 & 0xff) / 255.0f;
         float blue = (color & 0xff) / 255.0f;
 
-        glColor4f(red, green, blue, alpha);
+        setColor(red, green, blue, alpha);
     }
 
     public static void setColor(float r, float g, float b, float a) {
-        glColor4f(r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f);
+        glColor4f(r, g, b, a);
     }
 
     public static void scissor(double x, double y, double width, double height) {
