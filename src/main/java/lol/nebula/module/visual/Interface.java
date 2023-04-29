@@ -52,8 +52,8 @@ public class Interface extends Module {
                 Module module = enabled.get(i);
                 String tag = formatModule(module);
 
-                double x = event.getRes().getScaledWidth_double()
-                        - ((3.0 + Fonts.axiforma.getStringWidth(tag)) * module.getAnimation().getFactor());
+                double x = event.getRes().getScaledWidth_double() - 4.0
+                        - (Fonts.axiforma.getStringWidth(tag) * module.getAnimation().getFactor());
 
                 Fonts.axiforma.drawStringWithShadow(tag, (float) x, (float) y, ColorUtils.rainbowCycle(i * 100, 5.0));
 
