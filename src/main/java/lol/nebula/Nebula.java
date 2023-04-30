@@ -30,6 +30,7 @@ public class Nebula {
 
     private static final String name = "Nebula";
     private static final String version = "3.0";
+    private static final int build = 1;
 
     /**
      * The global client logger
@@ -71,13 +72,13 @@ public class Nebula {
         // load fonts
         Fonts.loadFonts();
 
-        logger.info("Instantiated {} {} in {}ms", name, version, timer.getTimeElapsedMS());
+        logger.info("Instantiated {} {}-{}-{} in {}ms", name, version, BuildConfig.BRANCH, BuildConfig.HASH, timer.getTimeElapsedMS());
 
         // load all configs
         logger.info("Loading configs");
         configs.getConfigs().forEach(Config::load);
 
-        Display.setTitle(format("%s v%s", name, version));
+        Display.setTitle(getFormatted());
     }
 
     /**
@@ -146,6 +147,22 @@ public class Nebula {
      */
     public static String getVersion() {
         return version;
+    }
+
+    /**
+     * Gets the build number of the client
+     * @return the build number
+     */
+    public static int getBuild() {
+        return build;
+    }
+
+    /**
+     * Gets the formatted version
+     * @return the formatted version
+     */
+    public static String getFormatted() {
+        return format("%s v%s+%s-%s", getName(), getVersion(), getBuild(), BuildConfig.HASH);
     }
 
     /**

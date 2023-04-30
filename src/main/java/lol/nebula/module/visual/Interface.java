@@ -51,7 +51,7 @@ public class Interface extends Module {
         // if the F3 debug menu is open, do not render over it
         if (mc.gameSettings.showDebugInfo) return;
 
-        Fonts.axiforma.drawStringWithShadow(Nebula.getName() + " v" + Nebula.getVersion(), 3.0f, 3.0f, color.getValue().getRGB());
+        Fonts.axiforma.drawStringWithShadow(Nebula.getFormatted(), 3.0f, 3.0f, color.getValue().getRGB());
 
         List<Module> enabled = Nebula.getInstance().getModules().getModules()
                 .stream()
