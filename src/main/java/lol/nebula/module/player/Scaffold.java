@@ -16,6 +16,8 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 
+import static lol.nebula.util.player.InventoryUtils.isInfinite;
+
 /**
  * @author aesthetical
  * @since 04/28/23
@@ -112,7 +114,7 @@ public class Scaffold extends Module {
             if (stack == null || !(stack.getItem() instanceof ItemBlock) || stack.stackSize == 0) continue;
 
             // automatically pick infinite items
-            if (stack.stackSize < 0) return i;
+            if (isInfinite(stack)) return i;
 
             if (stack.stackSize > count) {
                 count = stack.stackSize;
