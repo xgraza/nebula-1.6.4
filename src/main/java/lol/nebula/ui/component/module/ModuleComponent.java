@@ -13,8 +13,12 @@ import lol.nebula.util.render.RenderUtils;
 import lol.nebula.util.render.animation.Animation;
 import lol.nebula.util.render.animation.Easing;
 import lol.nebula.util.render.font.Fonts;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * @author aesthetical
@@ -22,12 +26,15 @@ import java.awt.*;
  */
 public class ModuleComponent extends Component {
 
+    private static final ResourceLocation ARROW = new ResourceLocation("nebula/textures/click/arrow.png");
     private static final Color UNTOGGLED_BG = new Color(35, 35, 35);
 
     private final Animation openAnimation = new Animation(Easing.CUBIC_IN_OUT, 500, false);
 
     private final Module module;
     private boolean expanded;
+
+    private float arrowAnimation = 180.0f;
 
     public ModuleComponent(Module module) {
         this.module = module;
@@ -57,6 +64,21 @@ public class ModuleComponent extends Component {
                 (float) (getX() + 2.0),
                 (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                 -1);
+
+        if (!module.getSettings().isEmpty()) {
+            arrowAnimation = (float) ((expanded ? -180.0f : 180.0f) * openAnimation.getFactor());
+
+            glPushMatrix();
+            glEnable(GL_TEXTURE_2D);
+
+            RenderUtils.setColor(0xFFFFFFFF);
+            glTranslated(((getX() + getWidth()) - 12.0f) + 5, getY() + (super.getHeight() / 2.0) - 5.0 + 5, 0.0f);
+            glRotated(arrowAnimation, 0.0f, 0.0f, expanded ? -1.0f : 1.0f);
+            mc.getTextureManager().bindTexture(ARROW);
+            Gui.func_146110_a(-5, -5, 0, 0, 10, 10, 10.0f, 10.0f);
+
+            glPopMatrix();
+        }
 
         if (openAnimation.getFactor() > 0.0) {
             double y = getY() + super.getHeight() + 1.0;
