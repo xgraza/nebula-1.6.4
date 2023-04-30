@@ -4,6 +4,7 @@ import lol.nebula.Nebula;
 import lol.nebula.listener.events.render.EventBurningOverlay;
 import lol.nebula.listener.events.render.EventSuffocatingOverlay;
 import lol.nebula.module.combat.KillAura;
+import lol.nebula.module.visual.Animations;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -400,17 +401,23 @@ public class ItemRenderer
                 GL11.glTranslatef(-var15 * 0.4F, MathHelper.sin(MathHelper.sqrt_float(var13) * (float)Math.PI * 2.0F) * 0.2F, -var14 * 0.2F);
             }
 
-            GL11.glTranslatef(0.7F * var22, -0.65F * var22 - (1.0F - var2) * 0.6F, -0.9F * var22);
-            GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+            Animations animations = Nebula.getInstance().getModules().get(Animations.class);
+
             var13 = var3.getSwingProgress(par1);
             var14 = MathHelper.sin(var13 * var13 * (float)Math.PI);
             var15 = MathHelper.sin(MathHelper.sqrt_float(var13) * (float)Math.PI);
-            GL11.glRotatef(-var14 * 20.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(-var15 * 20.0F, 0.0F, 0.0F, 1.0F);
-            GL11.glRotatef(-var15 * 80.0F, 1.0F, 0.0F, 0.0F);
             var16 = 0.4F;
-            GL11.glScalef(var16, var16, var16);
+
+            if (!animations.isToggled() || var8.getItemUseAction() != EnumAction.block) {
+                GL11.glTranslatef(0.7F * var22, -0.65F * var22 - (1.0F - var2) * 0.6F, -0.9F * var22);
+                GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(-var14 * 20.0F, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(-var15 * 20.0F, 0.0F, 0.0F, 1.0F);
+                GL11.glRotatef(-var15 * 80.0F, 1.0F, 0.0F, 0.0F);
+                GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+                GL11.glScalef(var16, var16, var16);
+            }
+
             float var19;
             float var20;
 
@@ -425,10 +432,40 @@ public class ItemRenderer
 
                 if (var26 == EnumAction.block)
                 {
-                    GL11.glTranslatef(-0.5F, 0.2F, 0.0F);
-                    GL11.glRotatef(30.0F, 0.0F, 1.0F, 0.0F);
-                    GL11.glRotatef(-80.0F, 1.0F, 0.0F, 0.0F);
-                    GL11.glRotatef(60.0F, 0.0F, 1.0F, 0.0F);
+                    float f = MathHelper.sin(var13 * var13 * (float)Math.PI);
+                    float f1 = MathHelper.sin(MathHelper.sqrt_float(var13) * (float)Math.PI);
+
+                    if (animations.isToggled()) {
+                        switch (animations.animation.getValue()) {
+                            case DEFAULT:
+                                transformFirstPersonItem(1.0f - var2, var13);
+                                doBlockTransformations();
+                                break;
+
+                            case EXHIBITION:
+                                GL11.glTranslatef(0.56F, -0.52F, -0.71999997F);
+                                GL11.glTranslatef(0.0F, (1.0f - var2) * -0.1F, 0.0F);
+                                GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+                                GL11.glRotatef(-f1 * 40.0F / 2.0F, f1 / 2.0F, -0.0F, 9.0F);
+                                GL11.glRotatef(-f1 * 30.0F, 1.0F, f1 / 2.0F, -0.0F);
+                                GL11.glScalef(0.4F, 0.4F, 0.4F);
+                                doBlockTransformations();
+                                break;
+
+                            case AVATAR:
+                                GL11.glTranslatef(0.56F, -0.45F, -0.71999997F);
+                                GL11.glRotatef(42.0F, 0.0F, 1.0F, 0.0F);
+                                GL11.glRotatef(f * -20.0f, 0.0f, 1.0f, 0.0f);
+                                GL11.glRotatef(f1 * -20.0f, 0.0f, 0.0f, 1.0f);
+                                GL11.glRotatef(f1 * -40.0f, 1.0f, 0.0f, 0.0f);
+                                GL11.glScalef(0.4F, 0.4F, 0.4F);
+                                doBlockTransformations();
+                                break;
+                        }
+
+                    } else {
+                        doBlockTransformations();
+                    }
                 }
                 else if (var26 == EnumAction.bow)
                 {
@@ -459,6 +496,16 @@ public class ItemRenderer
                     GL11.glTranslatef(0.0F, -0.5F, 0.0F);
                     GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
                     GL11.glRotatef(335.0F, 0.0F, 0.0F, 1.0F);
+                }
+            } else {
+                if (animations.isToggled()) {
+                    GL11.glTranslatef(0.7F * var22, -0.65F * var22 - (1.0F - var2) * 0.6F, -0.9F * var22);
+                    GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(-var14 * 20.0F, 0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(-var15 * 20.0F, 0.0F, 0.0F, 1.0F);
+                    GL11.glRotatef(-var15 * 80.0F, 1.0F, 0.0F, 0.0F);
+                    GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+                    GL11.glScalef(var16, var16, var16);
                 }
             }
 
@@ -522,6 +569,33 @@ public class ItemRenderer
 
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();
+    }
+
+    /**
+     * Performs transformations prior to the rendering of a held item in first person.
+     */
+    private void transformFirstPersonItem(float equipProgress, float swingProgress)
+    {
+        GL11.glTranslatef(0.56F, -0.52F, -0.71999997F);
+        GL11.glTranslatef(0.0F, equipProgress * -0.6F, 0.0F);
+        GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+        float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
+        float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float)Math.PI);
+        GL11.glRotatef(f * -20.0F, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(f1 * -20.0F, 0.0F, 0.0F, 1.0F);
+        GL11.glRotatef(f1 * -80.0F, 1.0F, 0.0F, 0.0F);
+        GL11.glScalef(0.4F, 0.4F, 0.4F);
+    }
+
+    /**
+     * Translate and rotate the render for holding a block
+     */
+    private void doBlockTransformations()
+    {
+        GL11.glTranslatef(-0.5F, 0.2F, 0.0F);
+        GL11.glRotatef(30.0F, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(-80.0F, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(60.0F, 0.0F, 1.0F, 0.0F);
     }
 
     /**

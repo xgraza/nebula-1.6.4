@@ -11,10 +11,7 @@ import lol.nebula.module.exploit.ThunderLocator;
 import lol.nebula.module.exploit.Timer;
 import lol.nebula.module.movement.*;
 import lol.nebula.module.player.*;
-import lol.nebula.module.visual.ClickUI;
-import lol.nebula.module.visual.Fullbright;
-import lol.nebula.module.visual.Interface;
-import lol.nebula.module.visual.NoRender;
+import lol.nebula.module.visual.*;
 import lol.nebula.util.system.FileUtils;
 
 import java.io.File;
@@ -81,6 +78,7 @@ public class ModuleManager {
                 new NoFall(),
                 new Scaffold(),
 
+                new Animations(),
                 new ClickUI(),
                 new Fullbright(),
                 new Interface(),
