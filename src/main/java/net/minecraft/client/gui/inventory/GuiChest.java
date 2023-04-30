@@ -10,7 +10,7 @@ public class GuiChest extends GuiContainer
 {
     private static final ResourceLocation field_147017_u = new ResourceLocation("textures/gui/container/generic_54.png");
     private IInventory field_147016_v;
-    private IInventory field_147015_w;
+    public IInventory field_147015_w;
     private int field_147018_x;
     private static final String __OBFID = "CL_00000749";
 

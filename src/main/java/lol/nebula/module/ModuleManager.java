@@ -76,6 +76,7 @@ public class ModuleManager {
                 new AutoRape(),
                 new AutoRespawn(),
                 new FastPlace(),
+                new InfiniteMover(),
                 new NoFall(),
                 new Scaffold(),
 

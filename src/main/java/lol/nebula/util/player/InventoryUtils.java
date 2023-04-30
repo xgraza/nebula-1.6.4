@@ -18,6 +18,15 @@ public class InventoryUtils {
     private static final Minecraft mc = Minecraft.getMinecraft();
 
     /**
+     * Normalizes a slot id for a window click packet
+     * @param slot the slot
+     * @return the normalized slot id
+     */
+    public static int normalize(int slot) {
+        return slot < 9 ? slot + 36 : slot;
+    }
+
+    /**
      * Checks if an item is infinite
      * @param stack the stack
      * @return if the stack size is less than 0
