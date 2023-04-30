@@ -1,5 +1,7 @@
 package net.minecraft.client.multiplayer;
 
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.entity.EventAttack;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -450,6 +452,8 @@ public class PlayerControllerMP
      */
     public void attackEntity(EntityPlayer par1EntityPlayer, Entity par2Entity)
     {
+        if (Nebula.getBus().dispatch(new EventAttack(par1EntityPlayer, par2Entity))) return;
+
         this.syncCurrentPlayItem();
         this.netClientHandler.addToSendQueue(new C02PacketUseEntity(par2Entity, C02PacketUseEntity.Action.ATTACK));
         par1EntityPlayer.attackTargetEntityWithCurrentItem(par2Entity);

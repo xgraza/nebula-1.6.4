@@ -72,6 +72,7 @@ public class ModuleManager {
                 new Speed(),
                 new Sprint(),
 
+                new AntiRevert(),
                 new AutoRape(),
                 new AutoRespawn(),
                 new FastPlace(),
