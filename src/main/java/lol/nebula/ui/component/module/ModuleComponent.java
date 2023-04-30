@@ -30,6 +30,7 @@ public class ModuleComponent extends Component {
     private static final Color UNTOGGLED_BG = new Color(35, 35, 35);
 
     private final Animation openAnimation = new Animation(Easing.CUBIC_IN_OUT, 500, false);
+    private final Animation hoverAnimation = new Animation(Easing.CUBIC_IN_OUT, 200, false);
 
     private final Module module;
     private boolean expanded;
@@ -54,14 +55,15 @@ public class ModuleComponent extends Component {
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-        if (openAnimation.getState() != expanded) {
-            openAnimation.setState(expanded);
-        }
+        if (openAnimation.getState() != expanded) openAnimation.setState(expanded);
+
+        boolean bounds = isInBounds(mouseX, mouseY, getX(), getY(), getWidth(), super.getHeight());
+        if (hoverAnimation.getState() != bounds) hoverAnimation.setState(bounds);
 
         RenderUtils.rect(getX(), getY(), getWidth(), super.getHeight(), (module.isToggled() ? Interface.color.getValue() : UNTOGGLED_BG).getRGB());
         Fonts.axiforma.drawStringWithShadow(
                 module.getTag(),
-                (float) (getX() + 2.0),
+                (float) (getX() + 1.0 + (2.0 * hoverAnimation.getFactor())),
                 (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                 -1);
 
