@@ -4,6 +4,7 @@ import lol.nebula.util.render.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
@@ -72,6 +73,8 @@ public class AWTFontRenderer extends FontRenderer {
         glEnable(GL_RESCALE_NORMAL);
         glTranslated(x, y, 0.0);
         glScaled(0.5, 0.5, 0.5);
+
+        RenderHelper.disableStandardItemLighting();
 
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -180,6 +183,9 @@ public class AWTFontRenderer extends FontRenderer {
 
         glDisable(GL_RESCALE_NORMAL);
         glDisable(GL_POLYGON_SMOOTH);
+
+        RenderHelper.enableGUIStandardItemLighting();
+
         glPopMatrix();
 
         return (int) (x + offset);
