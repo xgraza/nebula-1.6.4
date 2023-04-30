@@ -19,7 +19,7 @@ public class AWTFont {
 
     public AWTFont(Font font) {
         this.font = font;
-        charDataCache = new CharData[256];
+        charDataCache = new CharData[512];
         texture = createBitmap();
         FONT_HEIGHT = font.getSize() / 2;
     }
@@ -66,7 +66,10 @@ public class AWTFont {
 
         int x = 0, y = 0, height = 0;
         // populate our char data array, so we can draw a properly sized bitmap with all the drawable characters
-        for (int i = 0; i < charDataCache.length; ++i) {
+
+        // 0-31 are all characters that we dont care about rendering
+        // https://www.asciitable.com/asciifull.gif
+        for (int i = 32; i < charDataCache.length; ++i) {
             char c = (char) i;
             if (!font.canDisplay(i) || i == font.getMissingGlyphCode()) {
                 continue;

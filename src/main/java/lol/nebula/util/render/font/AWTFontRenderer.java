@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.GL_RESCALE_NORMAL;
 
 public class AWTFontRenderer extends FontRenderer {
     protected static final Minecraft mc = Minecraft.getMinecraft();
@@ -68,9 +69,9 @@ public class AWTFontRenderer extends FontRenderer {
 
         glEnable(GL_TEXTURE_2D);
 
+        glEnable(GL_RESCALE_NORMAL);
+        glTranslated(x, y, 0.0);
         glScaled(0.5, 0.5, 0.5);
-        x *= 2.0f;
-        y *= 2.0f;
 
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -85,6 +86,7 @@ public class AWTFontRenderer extends FontRenderer {
         boolean boldFont = false, italicFont = false, strikethrough = false, underline = false;
         AWTFont awtFont = normal;
 
+        int offset = 0;
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             if (c == '\u00a7') {
@@ -162,7 +164,7 @@ public class AWTFontRenderer extends FontRenderer {
 
             CharData data = awtFont.getCharacter(c);
             if (data != null) {
-                awtFont.drawChar(data, (int) x, (int) y);
+                awtFont.drawChar(data, offset, 0);
 
                 if (strikethrough) {
                     //RenderUtils.line(x, y + data.height / 2.0f, x + data.width - AWTFont.CHAR_OFFSET, y + data.height / 2.0f, 1.5f);
@@ -172,14 +174,15 @@ public class AWTFontRenderer extends FontRenderer {
                     //RenderUtils.line(x + data.width, y + (data.height - AWTFont.CHAR_OFFSET), x, y + (data.height - AWTFont.CHAR_OFFSET), 1.5f);
                 }
 
-                x += data.width - AWTFont.CHAR_OFFSET;
+                offset += data.width - AWTFont.CHAR_OFFSET;
             }
         }
 
+        glDisable(GL_RESCALE_NORMAL);
         glDisable(GL_POLYGON_SMOOTH);
         glPopMatrix();
 
-        return (int) (x / 2.0f);
+        return (int) (x + offset);
     }
 
     @Override
