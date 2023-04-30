@@ -10,10 +10,7 @@ import lol.nebula.module.exploit.NoRotateSet;
 import lol.nebula.module.exploit.ThunderLocator;
 import lol.nebula.module.exploit.Timer;
 import lol.nebula.module.movement.*;
-import lol.nebula.module.player.AutoRespawn;
-import lol.nebula.module.player.FastPlace;
-import lol.nebula.module.player.NoFall;
-import lol.nebula.module.player.Scaffold;
+import lol.nebula.module.player.*;
 import lol.nebula.module.visual.ClickUI;
 import lol.nebula.module.visual.Fullbright;
 import lol.nebula.module.visual.Interface;
@@ -77,6 +74,7 @@ public class ModuleManager {
                 new Speed(),
                 new Sprint(),
 
+                new AutoRape(),
                 new AutoRespawn(),
                 new FastPlace(),
                 new NoFall(),

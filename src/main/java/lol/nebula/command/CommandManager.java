@@ -1,6 +1,7 @@
 package lol.nebula.command;
 
 import lol.nebula.Nebula;
+import lol.nebula.command.impl.FakePlayer;
 import lol.nebula.command.impl.Prefix;
 import lol.nebula.command.impl.SpawnTP;
 import lol.nebula.command.impl.VClip;
@@ -40,6 +41,7 @@ public class CommandManager {
         prefixConfig = new PrefixConfig(this);
 
         register(
+                new FakePlayer(),
                 new Prefix(),
                 new SpawnTP(),
                 new VClip()
