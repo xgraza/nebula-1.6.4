@@ -70,6 +70,7 @@ public class ModuleManager {
                 new Flight(),
                 new InvWalk(),
                 new Jesus(),
+                new LongJump(),
                 new NoSlow(),
                 new Speed(),
                 new Sprint(),
