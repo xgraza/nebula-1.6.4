@@ -8,12 +8,25 @@ import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.render.ColorUtils;
 import lol.nebula.util.render.font.Fonts;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.awt.*;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static net.minecraft.client.resources.I18n.format;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 /**
  * @author aesthetical
@@ -60,6 +73,64 @@ public class Interface extends Module {
                 y += (Fonts.axiforma.FONT_HEIGHT + 2) * module.getAnimation().getFactor();
             }
         }
+
+        // render held item and armor
+        {
+            double x = event.getRes().getScaledWidth_double() / 2.0 + 9.0;
+            double y = event.getRes().getScaledHeight() - 56.0;
+
+            if (mc.thePlayer.getHeldItem() != null) {
+                glPushMatrix();
+                RenderHelper.enableGUIStandardItemLighting();
+                RenderItem renderItem = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
+
+                renderItem.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), mc.thePlayer.getHeldItem(), (int) x, (int) y);
+                renderItem.renderItemOverlayIntoGUI(mc.fontRenderer, mc.getTextureManager(), mc.thePlayer.getHeldItem(), (int) x, (int) y);
+                glPopMatrix();
+
+                x += 16.0;
+            } else {
+                x += 6.0;
+            }
+
+            for (int i = 3; i >= 0; --i) {
+                ItemStack stack = mc.thePlayer.inventory.armorInventory[i];
+                if (stack != null) {
+                    glPushMatrix();
+                    RenderHelper.enableGUIStandardItemLighting();
+                    RenderItem renderItem = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
+
+                    renderItem.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, (int) x, (int) y);
+                    renderItem.renderItemOverlayIntoGUI(mc.fontRenderer, mc.getTextureManager(), stack, (int) x, (int) y);
+
+                    RenderHelper.disableStandardItemLighting();
+                    glPopMatrix();
+
+                    x += 16;
+                }
+            }
+        }
+
+        // render potion effects
+        potionRender: {
+            double y = event.getRes().getScaledHeight_double() - 3.0 - Fonts.axiforma.FONT_HEIGHT;
+            Collection<PotionEffect> activeEffects = mc.thePlayer.getActivePotionEffects();
+
+            // do not continue if there are no potion effects
+            if (activeEffects.isEmpty()) break potionRender;
+
+            for (PotionEffect potionEffect : activeEffects) {
+                String formatted = format("%s %s: %s",
+                        I18n.format(potionEffect.getEffectName()),
+                        String.valueOf(potionEffect.getAmplifier() + 1),
+                        EnumChatFormatting.GRAY + Potion.getDurationString(potionEffect));
+                double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.axiforma.getStringWidth(formatted);
+                Fonts.axiforma.drawStringWithShadow(formatted, (float) x, (float) y, Potion.potionTypes[potionEffect.getPotionID()].getLiquidColor());
+                y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
+            }
+        }
+
+
     }
 
     private String formatModule(Module module) {
