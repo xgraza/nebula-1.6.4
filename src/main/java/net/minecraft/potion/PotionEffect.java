@@ -1,5 +1,7 @@
 package net.minecraft.potion;
 
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.entity.EventDecrementPotion;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -126,6 +128,7 @@ public class PotionEffect
 
     private int deincrementDuration()
     {
+        if (Nebula.getBus().dispatch(new EventDecrementPotion(this))) return duration;
         return --this.duration;
     }
 

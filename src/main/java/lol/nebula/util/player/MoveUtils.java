@@ -91,6 +91,17 @@ public class MoveUtils {
     }
 
     /**
+     * Gets the player movement speed
+     * @return the player movement speed
+     */
+    public static double getSpeed() {
+        return Math.sqrt(
+                mc.thePlayer.motionX * mc.thePlayer.motionX
+                        + mc.thePlayer.motionX * mc.thePlayer.motionX
+        );
+    }
+
+    /**
      * Gets the direction yaw for movement
      * @return the direction yaw for calculated strafe movement
      */

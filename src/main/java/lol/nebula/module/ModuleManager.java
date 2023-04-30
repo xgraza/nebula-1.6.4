@@ -5,10 +5,7 @@ import com.google.gson.JsonObject;
 import lol.nebula.Nebula;
 import lol.nebula.config.ConfigManager;
 import lol.nebula.module.combat.*;
-import lol.nebula.module.exploit.FastUse;
-import lol.nebula.module.exploit.NoRotateSet;
-import lol.nebula.module.exploit.ThunderLocator;
-import lol.nebula.module.exploit.Timer;
+import lol.nebula.module.exploit.*;
 import lol.nebula.module.movement.*;
 import lol.nebula.module.player.*;
 import lol.nebula.module.visual.*;
@@ -60,6 +57,7 @@ public class ModuleManager {
 
                 new FastUse(),
                 new NoRotateSet(),
+                new PotionSaver(),
                 new ThunderLocator(),
                 new Timer(),
 
