@@ -81,6 +81,7 @@ public class ModuleManager {
                 new Animations(),
                 new ClickUI(),
                 new Fullbright(),
+                new InfiniteViewer(),
                 new Interface(),
                 new NoRender()
         );

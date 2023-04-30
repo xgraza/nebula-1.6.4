@@ -2,6 +2,9 @@ package net.minecraft.client.renderer.entity;
 
 import java.util.Random;
 import java.util.concurrent.Callable;
+
+import lol.nebula.Nebula;
+import lol.nebula.module.visual.InfiniteViewer;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -602,17 +605,6 @@ public class RenderItem extends Render
     {
         if (par3ItemStack != null)
         {
-            if (par3ItemStack.stackSize > 1 || par6Str != null)
-            {
-                String var7 = par6Str == null ? String.valueOf(par3ItemStack.stackSize) : par6Str;
-                GL11.glDisable(GL11.GL_LIGHTING);
-                GL11.glDisable(GL11.GL_DEPTH_TEST);
-                GL11.glDisable(GL11.GL_BLEND);
-                par1FontRenderer.drawStringWithShadow(var7, par4 + 19 - 2 - par1FontRenderer.getStringWidth(var7), par5 + 6 + 3, 16777215);
-                GL11.glEnable(GL11.GL_LIGHTING);
-                GL11.glEnable(GL11.GL_DEPTH_TEST);
-            }
-
             if (par3ItemStack.isItemDamaged())
             {
                 int var12 = (int)Math.round(13.0D - (double)par3ItemStack.getItemDamageForDisplay() * 13.0D / (double)par3ItemStack.getMaxDamage());
@@ -632,6 +624,19 @@ public class RenderItem extends Render
                 GL11.glEnable(GL11.GL_LIGHTING);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            }
+
+            InfiniteViewer infiniteViewer = Nebula.getInstance().getModules().get(InfiniteViewer.class);
+            if ((par3ItemStack.stackSize > 1 || (infiniteViewer.isToggled() && par3ItemStack.stackSize != 1)) || par6Str != null)
+            {
+                String var7 = par6Str == null ? String.valueOf(par3ItemStack.stackSize) : par6Str;
+                if (infiniteViewer.isToggled()) var7 = infiniteViewer.format(par3ItemStack);
+                GL11.glDisable(GL11.GL_LIGHTING);
+                GL11.glDisable(GL11.GL_DEPTH_TEST);
+                GL11.glDisable(GL11.GL_BLEND);
+                par1FontRenderer.drawStringWithShadow(var7, par4 + 19 - 2 - par1FontRenderer.getStringWidth(var7), par5 + 6 + 3, par3ItemStack.stackSize < 0 ? 0xFF3345 : 16777215);
+                GL11.glEnable(GL11.GL_LIGHTING);
+                GL11.glEnable(GL11.GL_DEPTH_TEST);
             }
         }
     }
