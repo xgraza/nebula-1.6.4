@@ -49,6 +49,8 @@ public class Fonts {
 
                 return null;
             }
+        } else {
+            Nebula.getLogger().error("Failed to load {}.ttf - InputStream is null", fontName);
         }
 
         return null;
@@ -58,6 +60,6 @@ public class Fonts {
      * Creates the fonts the client uses
      */
     public static void loadFonts() {
-        axiforma = create("axiforma", 17);
+        axiforma = create("Axiforma", 17);
     }
 }
