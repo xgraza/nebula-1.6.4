@@ -55,6 +55,7 @@ public class ModuleManager {
                 new VehicleOneTap(),
                 new Velocity(),
 
+                new CraftCarry(),
                 new FastUse(),
                 new NoRotateSet(),
                 new PotionSaver(),

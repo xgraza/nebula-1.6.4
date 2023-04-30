@@ -43,4 +43,8 @@ public class C0DPacketCloseWindow extends Packet
     {
         this.processPacket((INetHandlerPlayServer)p_148833_1_);
     }
+
+    public int getWindowId() {
+        return field_149556_a;
+    }
 }
