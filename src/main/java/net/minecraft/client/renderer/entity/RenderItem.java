@@ -28,6 +28,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import static org.lwjgl.opengl.GL11.glRotatef;
+
 public class RenderItem extends Render
 {
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
@@ -382,12 +384,11 @@ public class RenderItem extends Render
     public void renderItemIntoGUI(FontRenderer par1FontRenderer, TextureManager par2TextureManager, ItemStack par3ItemStack, int par4, int par5)
     {
         int var6 = par3ItemStack.getItemDamage();
-        Object var7 = par3ItemStack.getIconIndex();
-        GL11.glEnable(GL11.GL_BLEND);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        int var9;
+        int var7 = par3ItemStack.getItemDamage();
+        Object var8 = par3ItemStack.getIconIndex();
         float var12;
-        float var17;
+        float var13;
+        int var17;
         float var18;
 
         if (par3ItemStack.getItemSpriteNumber() == 0 && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(par3ItemStack.getItem()).getRenderType()))
@@ -399,54 +400,35 @@ public class RenderItem extends Render
             GL11.glScalef(10.0F, 10.0F, 10.0F);
             GL11.glTranslatef(1.0F, 0.5F, 1.0F);
             GL11.glScalef(1.0F, 1.0F, -1.0F);
-            GL11.glRotatef(210.0F, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            var9 = par3ItemStack.getItem().getColorFromItemStack(par3ItemStack, 0);
-            var17 = (float)(var9 >> 16 & 255) / 255.0F;
-            var18 = (float)(var9 >> 8 & 255) / 255.0F;
-            var12 = (float)(var9 & 255) / 255.0F;
+            glRotatef(210.0F, 1.0F, 0.0F, 0.0F);
+            glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+            var17 = par3ItemStack.getItem().getColorFromItemStack(par3ItemStack, 0);
+            var18 = (float)(var17 >> 16 & 255) / 255.0F;
+            var12 = (float)(var17 >> 8 & 255) / 255.0F;
+            var13 = (float)(var17 & 255) / 255.0F;
 
             if (this.renderWithColor)
             {
-                GL11.glColor4f(var17, var18, var12, 1.0F);
+                GL11.glColor4f(var18, var12, var13, 1.0F);
             }
 
-            GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+            glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
             this.field_147913_i.useInventoryTint = this.renderWithColor;
-            this.field_147913_i.renderBlockAsItem(var16, var6, 1.0F);
+            this.field_147913_i.renderBlockAsItem(var16, var7, 1.0F);
             this.field_147913_i.useInventoryTint = true;
             GL11.glPopMatrix();
         }
         else if (par3ItemStack.getItem().requiresMultipleRenderPasses())
         {
             GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_ALPHA_TEST);
             par2TextureManager.bindTexture(TextureMap.locationItemsTexture);
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glEnable(GL11.GL_BLEND);
-            OpenGlHelper.glBlendFunc(0, 0, 0, 0);
-            GL11.glColorMask(false, false, false, true);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            Tessellator var8 = Tessellator.instance;
-            var8.startDrawingQuads();
-            var8.setColorOpaque_I(-1);
-            var8.addVertex((double)(par4 - 2), (double)(par5 + 18), (double)this.zLevel);
-            var8.addVertex((double)(par4 + 18), (double)(par5 + 18), (double)this.zLevel);
-            var8.addVertex((double)(par4 + 18), (double)(par5 - 2), (double)this.zLevel);
-            var8.addVertex((double)(par4 - 2), (double)(par5 - 2), (double)this.zLevel);
-            var8.draw();
-            GL11.glColorMask(true, true, true, true);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glEnable(GL11.GL_ALPHA_TEST);
-            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 
-            for (var9 = 0; var9 <= 1; ++var9)
+            for (int var9 = 0; var9 <= 1; ++var9)
             {
-                IIcon var10 = par3ItemStack.getItem().getIconFromDamageForRenderPass(var6, var9);
+                IIcon var10 = par3ItemStack.getItem().getIconFromDamageForRenderPass(var7, var9);
                 int var11 = par3ItemStack.getItem().getColorFromItemStack(par3ItemStack, var9);
                 var12 = (float)(var11 >> 16 & 255) / 255.0F;
-                float var13 = (float)(var11 >> 8 & 255) / 255.0F;
+                var13 = (float)(var11 >> 8 & 255) / 255.0F;
                 float var14 = (float)(var11 & 255) / 255.0F;
 
                 if (this.renderWithColor)
@@ -457,7 +439,6 @@ public class RenderItem extends Render
                 this.renderIcon(par4, par5, var10, 16, 16);
             }
 
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
             GL11.glEnable(GL11.GL_LIGHTING);
         }
         else
@@ -466,22 +447,22 @@ public class RenderItem extends Render
             ResourceLocation var15 = par2TextureManager.getResourceLocation(par3ItemStack.getItemSpriteNumber());
             par2TextureManager.bindTexture(var15);
 
-            if (var7 == null)
+            if (var8 == null)
             {
-                var7 = ((TextureMap)Minecraft.getMinecraft().getTextureManager().getTexture(var15)).getAtlasSprite("missingno");
+                var8 = ((TextureMap)Minecraft.getMinecraft().getTextureManager().getTexture(var15)).getAtlasSprite("missingno");
             }
 
-            var9 = par3ItemStack.getItem().getColorFromItemStack(par3ItemStack, 0);
-            var17 = (float)(var9 >> 16 & 255) / 255.0F;
-            var18 = (float)(var9 >> 8 & 255) / 255.0F;
-            var12 = (float)(var9 & 255) / 255.0F;
+            var17 = par3ItemStack.getItem().getColorFromItemStack(par3ItemStack, 0);
+            var18 = (float)(var17 >> 16 & 255) / 255.0F;
+            var12 = (float)(var17 >> 8 & 255) / 255.0F;
+            var13 = (float)(var17 & 255) / 255.0F;
 
             if (this.renderWithColor)
             {
-                GL11.glColor4f(var17, var18, var12, 1.0F);
+                GL11.glColor4f(var18, var12, var13, 1.0F);
             }
 
-            this.renderIcon(par4, par5, (IIcon)var7, 16, 16);
+            this.renderIcon(par4, par5, (IIcon)var8, 16, 16);
             GL11.glEnable(GL11.GL_LIGHTING);
         }
 
