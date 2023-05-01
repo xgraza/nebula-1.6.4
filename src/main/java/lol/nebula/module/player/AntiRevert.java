@@ -1,5 +1,6 @@
 package lol.nebula.module.player;
 
+import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.entity.EventAttack;
 import lol.nebula.listener.events.net.EventPacket;
@@ -65,7 +66,7 @@ public class AntiRevert extends Module {
      * @return if the item is an infinite or a 32k (if option is checked)
      */
     private boolean isHoldingIllegal() {
-        ItemStack stack = mc.thePlayer.getHeldItem();
+        ItemStack stack = Nebula.getInstance().getInventory().getStack();
         return stack != null && (isInfinite(stack) || (max.getValue() && is32k(stack)));
     }
 }

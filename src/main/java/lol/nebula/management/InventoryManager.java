@@ -3,6 +3,7 @@ package lol.nebula.management;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.net.EventPacket;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.server.S09PacketHeldItemChange;
 
@@ -64,5 +65,13 @@ public class InventoryManager {
         return serverSlot == -1
                 ? mc.thePlayer.inventory.currentItem
                 : serverSlot;
+    }
+
+    /**
+     * Gets the item stack we're holding server-sided
+     * @return the stack
+     */
+    public ItemStack getStack() {
+        return mc.thePlayer.inventory.getStackInSlot(getServerSlot());
     }
 }
