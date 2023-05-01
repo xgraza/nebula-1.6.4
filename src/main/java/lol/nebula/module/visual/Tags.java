@@ -1,5 +1,6 @@
 package lol.nebula.module.visual;
 
+import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.render.EventRender3D;
 import lol.nebula.listener.events.render.EventRenderLabel;
@@ -108,6 +109,10 @@ public class Tags extends Module {
      */
     private String getDisplayInfo(EntityPlayer player) {
         StringBuilder builder = new StringBuilder();
+
+        if (Nebula.getInstance().getFriends().isFriend(player)) {
+            builder.append(EnumChatFormatting.AQUA);
+        }
 
         builder.append(player.func_145748_c_().getFormattedText());
         builder.append(" ");
