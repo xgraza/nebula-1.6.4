@@ -65,6 +65,9 @@ public class Jesus extends Module {
     @Listener
     public void onCollisionBox(EventCollisionBox event) {
 
+        // if the local player is null or the world is null, do not continue - prevents NPEs
+        if (mc.thePlayer == null || mc.theWorld == null) return;
+
         // if we are not on mode SOLID, don't add a bounding box
         if (mode.getValue() != Mode.SOLID) return;
 
