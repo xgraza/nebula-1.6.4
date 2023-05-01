@@ -38,7 +38,7 @@ public class BindManager {
     public void onMouseInput(EventMouseInput event) {
         for (Bind bind : bindList) {
 
-            if (bind.getKey() == event.getButton() && bind.getDevice() == BindDevice.KEYBOARD) {
+            if (bind.getKey() == event.getButton() && bind.getDevice() == BindDevice.MOUSE) {
                 bind.setState(!bind.isToggled());
             }
         }
