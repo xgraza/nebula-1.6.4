@@ -7,6 +7,7 @@ import lol.nebula.config.ConfigManager;
 import lol.nebula.listener.bus.EventBus;
 import lol.nebula.management.InventoryManager;
 import lol.nebula.management.RotationManager;
+import lol.nebula.management.friend.FriendManager;
 import lol.nebula.module.ModuleManager;
 import lol.nebula.util.math.timing.Timer;
 import lol.nebula.util.render.font.Fonts;
@@ -47,6 +48,7 @@ public class Nebula {
     private final BindManager binds;
     private final ModuleManager modules;
     private final CommandManager commands;
+    private final FriendManager friends;
     private final InventoryManager inventory;
     private final RotationManager rotations;
 
@@ -64,6 +66,7 @@ public class Nebula {
         binds = new BindManager();
         modules = new ModuleManager();
         commands = new CommandManager();
+        friends = new FriendManager();
         inventory = new InventoryManager();
         rotations = new RotationManager();
 
@@ -115,6 +118,14 @@ public class Nebula {
      */
     public CommandManager getCommands() {
         return commands;
+    }
+
+    /**
+     * Gets the friend manager instance
+     * @return the friend manager instance
+     */
+    public FriendManager getFriends() {
+        return friends;
     }
 
     /**
