@@ -8,6 +8,7 @@ import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.module.exploit.FastUse;
 import lol.nebula.setting.Setting;
+import lol.nebula.util.math.timing.Timer;
 import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -21,9 +22,11 @@ import net.minecraft.potion.Potion;
  */
 public class AutoGapple extends Module {
 
+    private final Setting<Double> delay = new Setting<>(1.0, 0.01, 0.0, 10.0, "Delay");
     private final Setting<Float> health = new Setting<>(14.0f, 0.1f, 1.0f, 19.0f, "Health");
     private final Setting<Boolean> silent = new Setting<>(false, "Silent");
 
+    private final Timer timer = new Timer();
     private boolean eating;
     private int ticks, slot;
 
@@ -54,6 +57,8 @@ public class AutoGapple extends Module {
         if (event.getStage() != EventStage.PRE) return;
 
         if (mc.thePlayer.getHealth() < health.getValue() || !mc.thePlayer.isPotionActive(Potion.field_76444_x)) {
+
+            if (!timer.ms((long) (delay.getValue() * 1000.0), false)) return;
 
             if (!eating) {
                 int gappleSlot = -1;
@@ -101,6 +106,7 @@ public class AutoGapple extends Module {
 
                 ++ticks;
                 if (ticks >= 35) {
+                    timer.resetTime();
                     eating = false;
                     ticks = 0;
 
