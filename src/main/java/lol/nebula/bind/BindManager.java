@@ -2,6 +2,7 @@ package lol.nebula.bind;
 
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.input.EventKeyInput;
+import lol.nebula.listener.events.input.EventMouseInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,16 @@ public class BindManager {
 
             // if the key pressed equals the bind key and this bind is a keyboard bind, toggle the bind
             if (bind.getKey() == event.getKeyCode() && bind.getDevice() == BindDevice.KEYBOARD) {
+                bind.setState(!bind.isToggled());
+            }
+        }
+    }
+
+    @Listener
+    public void onMouseInput(EventMouseInput event) {
+        for (Bind bind : bindList) {
+
+            if (bind.getKey() == event.getButton() && bind.getDevice() == BindDevice.KEYBOARD) {
                 bind.setState(!bind.isToggled());
             }
         }
