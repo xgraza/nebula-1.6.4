@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.render.EventHurtCamera;
+import lol.nebula.listener.events.render.EventRender3D;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -1721,6 +1722,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 this.mc.mcProfiler.endStartSection("FRenderLast");
                 Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, new Object[] {var5, Float.valueOf(par1)});
             }
+
+            Nebula.getBus().dispatch(new EventRender3D(par1));
 
             this.mc.mcProfiler.endStartSection("hand");
             boolean renderFirstPersonHand = Reflector.callBoolean(Reflector.ForgeHooksClient_renderFirstPersonHand, new Object[] {this.mc.renderGlobal, Float.valueOf(par1), Integer.valueOf(var13)});

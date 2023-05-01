@@ -87,7 +87,8 @@ public class ModuleManager {
                 new Fullbright(),
                 new InfiniteViewer(),
                 new Interface(),
-                new NoRender()
+                new NoRender(),
+                new Tags()
         );
 
         Nebula.getLogger().info("Loaded {} modules", moduleClassMap.size());
