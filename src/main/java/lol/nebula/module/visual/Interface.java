@@ -8,6 +8,7 @@ import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.render.ColorUtils;
 import lol.nebula.util.render.font.Fonts;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 import java.util.Collection;
@@ -25,14 +27,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.minecraft.client.resources.I18n.format;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * @author aesthetical
  * @since 04/27/23
  */
 public class Interface extends Module {
+    /**
+     * The location of the inventory textures
+     * Used for potion effects
+     */
+    private static final ResourceLocation CONTAINER_LOCATION = new ResourceLocation("textures/gui/container/inventory.png");
+
     public static final Setting<Color> color = new Setting<>(new Color(162, 108, 222), "Color");
 
     public Interface() {
@@ -125,7 +132,22 @@ public class Interface extends Module {
                         String.valueOf(potionEffect.getAmplifier() + 1),
                         EnumChatFormatting.GRAY + Potion.getDurationString(potionEffect));
                 double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.axiforma.getStringWidth(formatted);
-                Fonts.axiforma.drawStringWithShadow(formatted, (float) x, (float) y, Potion.potionTypes[potionEffect.getPotionID()].getLiquidColor());
+                Potion potion = Potion.potionTypes[potionEffect.getPotionID()];
+
+                Fonts.axiforma.drawStringWithShadow(formatted, (float) x, (float) y, potion.getLiquidColor());
+
+                if (potion.hasStatusIcon()) {
+                    glPushMatrix();
+                    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+                    glDisable(GL_LIGHTING);
+                    int var9 = potion.getStatusIconIndex();
+                    mc.getTextureManager().bindTexture(CONTAINER_LOCATION);
+                    glTranslated(x - (18.0 / 2.0), y, 0.0);
+                    glScaled(0.5, 0.5, 0.5);
+                    Gui.drawTexturedModalRectX(0, 0, var9 % 8 * 18, 198 + var9 / 8 * 18, 18, 18);
+                    glPopMatrix();
+                }
+
                 y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
             }
         }
