@@ -9,6 +9,8 @@ import lol.nebula.setting.Setting;
 import lol.nebula.util.render.ColorUtils;
 import lol.nebula.util.render.font.Fonts;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -41,6 +43,7 @@ public class Interface extends Module {
     private static final ResourceLocation CONTAINER_LOCATION = new ResourceLocation("textures/gui/container/inventory.png");
 
     public static final Setting<Color> color = new Setting<>(new Color(162, 108, 222), "Color");
+    private final Setting<Boolean> coordinates = new Setting<>(true, "Coordinates");
 
     public Interface() {
         super("Interface", "Renders an overlay over the vanilla HUD", ModuleCategory.VISUAL);
@@ -118,9 +121,11 @@ public class Interface extends Module {
             }
         }
 
+        double yOffset = mc.currentScreen instanceof GuiChat ? 14.0 : 0.0;
+
         // render potion effects
         potionRender: {
-            double y = event.getRes().getScaledHeight_double() - 3.0 - Fonts.axiforma.FONT_HEIGHT;
+            double y = event.getRes().getScaledHeight_double() - 3.0 - Fonts.axiforma.FONT_HEIGHT - yOffset;
             Collection<PotionEffect> activeEffects = mc.thePlayer.getActivePotionEffects();
 
             // do not continue if there are no potion effects
@@ -152,7 +157,18 @@ public class Interface extends Module {
             }
         }
 
+        if (coordinates.getValue()) {
 
+            Fonts.axiforma.drawStringWithShadow(
+                    "XYZ: " + EnumChatFormatting.GRAY +
+                            String.format("%.1f", mc.thePlayer.posX) + ", " +
+                            String.format("%.1f", mc.thePlayer.boundingBox.minY) + ", " +
+                            String.format("%.1f", mc.thePlayer.posZ),
+                    3.0f,
+                    (float) (event.getRes().getScaledHeight_double() - Fonts.axiforma.FONT_HEIGHT - 3.0 - yOffset),
+                    color.getValue().getRGB()
+            );
+        }
     }
 
     private String formatModule(Module module) {
