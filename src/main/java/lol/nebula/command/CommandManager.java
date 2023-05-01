@@ -1,10 +1,7 @@
 package lol.nebula.command;
 
 import lol.nebula.Nebula;
-import lol.nebula.command.impl.FakePlayer;
-import lol.nebula.command.impl.Prefix;
-import lol.nebula.command.impl.SpawnTP;
-import lol.nebula.command.impl.VClip;
+import lol.nebula.command.impl.*;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.net.EventPacket;
 import net.minecraft.network.play.client.C01PacketChatMessage;
@@ -41,9 +38,11 @@ public class CommandManager {
         prefixConfig = new PrefixConfig(this);
 
         register(
+                new Drawn(),
                 new FakePlayer(),
                 new Prefix(),
                 new SpawnTP(),
+                new Toggle(),
                 new VClip()
         );
     }
