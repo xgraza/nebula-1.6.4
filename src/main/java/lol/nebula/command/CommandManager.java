@@ -40,6 +40,7 @@ public class CommandManager {
         register(
                 new Drawn(),
                 new FakePlayer(),
+                new Friend(),
                 new Prefix(),
                 new SpawnTP(),
                 new Toggle(),

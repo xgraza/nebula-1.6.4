@@ -51,11 +51,20 @@ public class FriendManager {
 
     /**
      * Checks if a player is a friend
+     * @param name the friend's game profile name
+     * @return if the player has been added
+     */
+    public boolean isFriend(String name) {
+        return friendList.contains(name);
+    }
+
+    /**
+     * Checks if a player is a friend
      * @param player the player entity
      * @return if the player has been added
      */
     public boolean isFriend(EntityPlayer player) {
-        return friendList.contains(player.getGameProfile().getName());
+        return isFriend(player.getGameProfile().getName());
     }
 
     /**
