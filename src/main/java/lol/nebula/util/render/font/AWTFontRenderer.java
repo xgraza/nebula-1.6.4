@@ -74,8 +74,6 @@ public class AWTFontRenderer extends FontRenderer {
         glTranslated(x, y, 0.0);
         glScaled(0.5, 0.5, 0.5);
 
-        RenderHelper.disableStandardItemLighting();
-
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 
@@ -183,8 +181,6 @@ public class AWTFontRenderer extends FontRenderer {
 
         glDisable(GL_RESCALE_NORMAL);
         glDisable(GL_POLYGON_SMOOTH);
-
-        RenderHelper.enableGUIStandardItemLighting();
 
         glPopMatrix();
 
