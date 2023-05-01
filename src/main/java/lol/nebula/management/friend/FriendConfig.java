@@ -52,6 +52,8 @@ public class FriendConfig extends Config {
             return;
         }
 
+        if (content.isEmpty()) return;
+
         JsonArray array = FileUtils.getGSON().fromJson(content, JsonArray.class);
         for (JsonElement element : array) {
             if (!element.isJsonPrimitive()) continue;

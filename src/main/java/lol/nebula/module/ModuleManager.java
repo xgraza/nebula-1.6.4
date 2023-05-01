@@ -79,6 +79,7 @@ public class ModuleManager {
                 new Avoid(),
                 new FastPlace(),
                 new InfiniteMover(),
+                new MiddleClick(),
                 new NoFall(),
                 new Scaffold(),
 
