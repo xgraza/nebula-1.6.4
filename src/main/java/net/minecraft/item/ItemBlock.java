@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class ItemBlock extends Item
 {
-    protected final Block field_150939_a;
+    public final Block field_150939_a;
     private IIcon field_150938_b;
     private static final String __OBFID = "CL_00001772";
 
