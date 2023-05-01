@@ -1,6 +1,7 @@
 package lol.nebula.module.combat;
 
 import com.google.common.collect.Lists;
+import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
 import lol.nebula.listener.events.entity.EventWalkingUpdate;
@@ -12,7 +13,6 @@ import lol.nebula.util.math.timing.Timer;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
@@ -50,8 +50,7 @@ public class AutoPotion extends Module {
 
         if (mc.thePlayer != null) {
             // sync hotbar slot
-            mc.thePlayer.sendQueue.addToSendQueue(
-                    new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+            Nebula.getInstance().getInventory().sync();
         }
 
         potStage = -1;
@@ -62,8 +61,7 @@ public class AutoPotion extends Module {
         int slot = getBestPotSlot();
         if (slot == -1) {
             if (potStage != -1) {
-                mc.thePlayer.sendQueue.addToSendQueue(
-                        new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                Nebula.getInstance().getInventory().sync();
             }
 
             potStage = -1;
@@ -79,7 +77,7 @@ public class AutoPotion extends Module {
             if (timer.ms((long) (delay.getValue() * 1000.0), true)) {
                 if (potStage <= 0) {
                     potStage = 1;
-                    mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
+                    Nebula.getInstance().getInventory().setSlot(slot);
                 } else if (potStage == 1) {
                     potStage = 2;
                     mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
@@ -87,8 +85,7 @@ public class AutoPotion extends Module {
                             mc.thePlayer.inventory.getStackInSlot(slot),
                             0.0F, 0.0F, 0.0F));
                 } else if (potStage == 2) {
-                    mc.thePlayer.sendQueue.addToSendQueue(
-                            new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                    Nebula.getInstance().getInventory().sync();
                     potStage = -1;
                 }
 

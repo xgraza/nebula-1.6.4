@@ -5,6 +5,7 @@ import lol.nebula.command.CommandManager;
 import lol.nebula.config.Config;
 import lol.nebula.config.ConfigManager;
 import lol.nebula.listener.bus.EventBus;
+import lol.nebula.management.InventoryManager;
 import lol.nebula.management.RotationManager;
 import lol.nebula.module.ModuleManager;
 import lol.nebula.util.math.timing.Timer;
@@ -46,6 +47,7 @@ public class Nebula {
     private final BindManager binds;
     private final ModuleManager modules;
     private final CommandManager commands;
+    private final InventoryManager inventory;
     private final RotationManager rotations;
 
     private Nebula() {
@@ -62,12 +64,14 @@ public class Nebula {
         binds = new BindManager();
         modules = new ModuleManager();
         commands = new CommandManager();
+        inventory = new InventoryManager();
         rotations = new RotationManager();
 
         // subscribe listeners
-        Nebula.getBus().subscribe(binds);
-        Nebula.getBus().subscribe(commands);
-        Nebula.getBus().subscribe(rotations);
+        bus.subscribe(binds);
+        bus.subscribe(commands);
+        bus.subscribe(inventory);
+        bus.subscribe(rotations);
 
         // load fonts
         Fonts.loadFonts();
@@ -114,8 +118,16 @@ public class Nebula {
     }
 
     /**
+     * Gets the inventory manager instance
+     * @return the inventory manager instance
+     */
+    public InventoryManager getInventory() {
+        return inventory;
+    }
+
+    /**
      * Gets the rotation manager instance
-     * @return the rotation manager instacne
+     * @return the rotation manager instance
      */
     public RotationManager getRotations() {
         return rotations;

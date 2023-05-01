@@ -13,7 +13,6 @@ import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.potion.Potion;
 
 /**
@@ -40,8 +39,7 @@ public class AutoGapple extends Module {
 
         if (eating) {
             if (silent.getValue()) {
-                mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(
-                        mc.thePlayer.inventory.currentItem));
+                Nebula.getInstance().getInventory().sync();
             } else {
                 if (slot != -1) mc.thePlayer.inventory.currentItem = slot;
                 slot = -1;
@@ -73,7 +71,7 @@ public class AutoGapple extends Module {
 
                 if (silent.getValue()) {
                     slot = gappleSlot;
-                    mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
+                    Nebula.getInstance().getInventory().setSlot(slot);
                 } else {
                     slot = mc.thePlayer.inventory.currentItem;
                     mc.thePlayer.inventory.currentItem = gappleSlot;
@@ -111,8 +109,7 @@ public class AutoGapple extends Module {
                     ticks = 0;
 
                     if (silent.getValue()) {
-                        mc.thePlayer.sendQueue.addToSendQueue(
-                                new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                        Nebula.getInstance().getInventory().sync();
                     } else {
                         if (slot != -1) mc.thePlayer.inventory.currentItem = slot;
                     }
@@ -129,8 +126,7 @@ public class AutoGapple extends Module {
                 ticks = 0;
 
                 if (silent.getValue()) {
-                    mc.thePlayer.sendQueue.addToSendQueue(
-                            new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                    Nebula.getInstance().getInventory().sync();
                 } else {
                     if (slot != -1) mc.thePlayer.inventory.currentItem = slot;
                 }

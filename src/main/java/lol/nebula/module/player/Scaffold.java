@@ -1,5 +1,6 @@
 package lol.nebula.module.player;
 
+import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
 import lol.nebula.listener.events.entity.EventWalkingUpdate;
@@ -12,7 +13,6 @@ import lol.nebula.util.math.timing.Timer;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 
@@ -42,7 +42,7 @@ public class Scaffold extends Module {
         rotations = null;
 
         if (mc.thePlayer != null) {
-            mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+            Nebula.getInstance().getInventory().sync();
         }
     }
 
@@ -68,7 +68,7 @@ public class Scaffold extends Module {
         if (event.getStage() == EventStage.POST) {
 
             // swap to the block slot
-            mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
+            Nebula.getInstance().getInventory().setSlot(slot);
 
             boolean result = mc.playerController.onPlayerRightClick(mc.thePlayer,
                     mc.theWorld,
@@ -79,7 +79,7 @@ public class Scaffold extends Module {
                     next.getValue().getOrder_a(),
                     next.getKey().addVector(0.5, 0.5, 0.5));
 
-            mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+            Nebula.getInstance().getInventory().sync();
 
             // don't continue if we failed to place
             if (!result) return;
