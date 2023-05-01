@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.input.EventKeyInput;
-import lol.nebula.listener.events.input.EventMiddleClick;
+import lol.nebula.listener.events.input.EventMouseInput;
 import lol.nebula.listener.events.world.EventTick;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -1743,8 +1743,7 @@ public class Minecraft implements IPlayerUsage
                 if (Mouse.getEventButtonState())
                 {
                     KeyBinding.onTick(var1 - 100);
-
-                    if (var1 == 2) Nebula.getBus().dispatch(new EventMiddleClick());
+                    Nebula.getBus().dispatch(new EventMouseInput(var1));
                 }
 
                 long var9 = getSystemTime() - this.systemTime;

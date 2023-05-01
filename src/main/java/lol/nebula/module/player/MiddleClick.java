@@ -2,7 +2,7 @@ package lol.nebula.module.player;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
-import lol.nebula.listener.events.input.EventMiddleClick;
+import lol.nebula.listener.events.input.EventMouseInput;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
@@ -27,7 +27,9 @@ public class MiddleClick extends Module {
     }
 
     @Listener
-    public void onMiddleClick(EventMiddleClick event) {
+    public void onMiddleClick(EventMouseInput event) {
+        if (event.getButton() != 2) return;
+
         MovingObjectPosition result = mc.objectMouseOver;
         if (result == null) return;
 
