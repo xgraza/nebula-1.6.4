@@ -112,6 +112,9 @@ public class Tags extends Module {
 
         if (Nebula.getInstance().getFriends().isFriend(player)) {
             builder.append(EnumChatFormatting.AQUA);
+            builder.append("[F]");
+            builder.append(EnumChatFormatting.RESET);
+            builder.append(" ");
         }
 
         builder.append(player.func_145748_c_().getFormattedText());
