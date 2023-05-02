@@ -1,5 +1,6 @@
 package lol.nebula.module.combat;
 
+import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
 import lol.nebula.listener.events.entity.EventWalkingUpdate;
@@ -11,6 +12,7 @@ import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.math.timing.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
@@ -141,6 +143,11 @@ public class KillAura extends Module {
     private boolean isValidEntity(EntityLivingBase target) {
 
         if (target == null || target.isDead || target.getHealth() <= 0.0f || target.equals(mc.thePlayer)) {
+            return false;
+        }
+
+        // dont attack friends
+        if (target instanceof EntityPlayer && Nebula.getInstance().getFriends().isFriend((EntityPlayer) target)) {
             return false;
         }
 
