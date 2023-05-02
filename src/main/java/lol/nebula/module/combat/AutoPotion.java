@@ -5,6 +5,7 @@ import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
 import lol.nebula.listener.events.entity.EventWalkingUpdate;
+import lol.nebula.listener.events.net.EventPacket;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
@@ -13,6 +14,7 @@ import lol.nebula.util.math.timing.Timer;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
@@ -38,7 +40,8 @@ public class AutoPotion extends Module {
     private final Setting<Boolean> rotate = new Setting<>(true, "Rotate");
 
     private final Timer timer = new Timer();
-    private int potStage = -1;
+    private int potStage = -1, potId;
+    private boolean confirm;
 
     public AutoPotion() {
         super("Auto Potion", "Automatically throws splash potions at your feet", ModuleCategory.COMBAT);
@@ -54,10 +57,14 @@ public class AutoPotion extends Module {
         }
 
         potStage = -1;
+        potId = -1;
+        confirm = false;
     }
 
     @Listener
     public void onWalkingUpdate(EventWalkingUpdate event) {
+        if (confirm) return;
+
         int slot = getBestPotSlot();
         if (slot == -1) {
             if (potStage != -1) {
@@ -87,9 +94,21 @@ public class AutoPotion extends Module {
                 } else if (potStage == 2) {
                     Nebula.getInstance().getInventory().sync();
                     potStage = -1;
+                    if (potId != Potion.heal.getId()) confirm = true;
                 }
 
             }
+        }
+    }
+
+    @Listener
+    public void onPacketInbound(EventPacket.Inbound event) {
+        if (event.getPacket() instanceof S1DPacketEntityEffect) {
+            S1DPacketEntityEffect packet = event.getPacket();
+            if (packet.func_149426_d() != mc.thePlayer.getEntityId()) return;
+
+            timer.resetTime();
+            confirm = false;
         }
     }
 
@@ -107,14 +126,21 @@ public class AutoPotion extends Module {
                     Potion potion = Potion.potionTypes[effect.getPotionID()];
 
                     // if our health is low and the pot is an instant healing pot, we'll use this
-                    if (mc.thePlayer.getHealth() <= health.getValue() && potion.id == Potion.heal.id) return i;
+                    if (mc.thePlayer.getHealth() <= health.getValue() && potion.getId() == Potion.heal.id) {
+                        potId = potion.getId();
+                        return i;
+                    }
 
                     // if the potion effect is valid and the potion is not on ourselves, and it is not an instant healing potion
-                    if (VALID_POTIONS.contains(potion) && !mc.thePlayer.isPotionActive(potion) && !potion.isInstant()) return i;
+                    if (VALID_POTIONS.contains(potion) && !mc.thePlayer.isPotionActive(potion) && !potion.isInstant()) {
+                        potId = potion.getId();
+                        return i;
+                    }
                 }
             }
         }
 
+        potId = -1;
         return -1;
     }
 }
