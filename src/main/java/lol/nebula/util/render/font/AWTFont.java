@@ -32,7 +32,7 @@ public class AWTFont {
         }
     }
 
-    public void drawChar(CharData characterLocation, int x, int y) {
+    public void drawChar(CharData characterLocation, double x, double y) {
 
         float width = characterLocation.width;
         float height = characterLocation.height;

@@ -87,7 +87,7 @@ public class AWTFontRenderer extends FontRenderer {
         boolean boldFont = false, italicFont = false, strikethrough = false, underline = false;
         AWTFont awtFont = normal;
 
-        int offset = 0;
+        double offset = 0.0;
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             if (c == '\u00a7') {
