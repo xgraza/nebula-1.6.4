@@ -78,6 +78,7 @@ public class ModuleManager {
                 new AutoRespawn(),
                 new Avoid(),
                 new FastPlace(),
+                new Flatten(),
                 new InfiniteMover(),
                 new MiddleClick(),
                 new NoFall(),
