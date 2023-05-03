@@ -43,7 +43,7 @@ public class LongJump extends Module {
                 stage = 2;
             } else if (stage == 2) {
                 if (mc.thePlayer.onGround) {
-                    mc.thePlayer.motionY = MoveUtils.getJumpHeight(0.42);
+                    mc.thePlayer.motionY = MoveUtils.getJumpHeight(0.3995);
                     event.setY(mc.thePlayer.motionY);
                 }
 
@@ -65,7 +65,7 @@ public class LongJump extends Module {
                 List list1 = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer,
                         mc.thePlayer.boundingBox.copy().offset(0.0, mc.thePlayer.motionY, 0.0));
                 List list2 = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer,
-                        mc.thePlayer.boundingBox.copy().offset(0.0, -0.4, 0.0));
+                        mc.thePlayer.boundingBox.copy().offset(0.0, -0.3, 0.0));
 
                 if (!mc.thePlayer.isCollidedVertically && (!list1.isEmpty() || !list2.isEmpty())) {
                     mc.thePlayer.motionY = -1.0E-4;
