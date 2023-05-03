@@ -211,7 +211,7 @@ public abstract class Entity
     public int timeUntilPortal;
 
     /** Whether the entity is inside a Portal */
-    protected boolean inPortal;
+    public boolean inPortal;
     protected int portalCounter;
 
     /** Which dimension the player is in (-1 = the Nether, 0 = normal world) */
