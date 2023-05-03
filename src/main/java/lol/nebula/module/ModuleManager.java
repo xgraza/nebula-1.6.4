@@ -56,6 +56,7 @@ public class ModuleManager {
                 new SelfFill(),
                 new VehicleOneTap(),
                 new Velocity(),
+                new WTap(),
 
                 new AntiHunger(),
                 new CraftCarry(),
