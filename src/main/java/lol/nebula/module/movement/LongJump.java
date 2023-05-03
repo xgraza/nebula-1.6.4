@@ -39,7 +39,7 @@ public class LongJump extends Module {
     public void onMove(EventMove event) {
         if (MoveUtils.isMoving()) {
             if (stage == 1) {
-                speed = boost.getValue() * MoveUtils.getBaseNcpSpeed(0) - 0.05;
+                speed = boost.getValue() * 0.2873 - 0.05;
                 stage = 2;
             } else if (stage == 2) {
                 if (mc.thePlayer.onGround) {
