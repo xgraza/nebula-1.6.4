@@ -7,6 +7,7 @@ import java.util.concurrent.Callable;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.entity.EventPushOutOfBlocks;
+import lol.nebula.listener.events.entity.EventWaterPush;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;

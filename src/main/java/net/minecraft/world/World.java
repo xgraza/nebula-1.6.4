@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 import lol.nebula.Nebula;
+import lol.nebula.listener.events.entity.EventWaterPush;
 import lol.nebula.listener.events.render.EventWeather;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHopper;
@@ -2384,7 +2385,10 @@ public abstract class World implements IBlockAccess
                 }
             }
 
-            if (var11.lengthVector() > 0.0D && par3Entity.isPushedByWater())
+            EventWaterPush event = new EventWaterPush();
+            Nebula.getBus().dispatch(event);
+
+            if (var11.lengthVector() > 0.0D && (!event.isCanceled() && par3Entity.isPushedByWater()))
             {
                 var11 = var11.normalize();
                 double var18 = 0.014D;
