@@ -16,6 +16,9 @@ import net.minecraft.util.Vec3;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import static lol.nebula.util.world.WorldUtils.getOpposite;
+import static lol.nebula.util.world.WorldUtils.isReplaceable;
+
 /**
  * @author aesthetical
  * @since 05/02/23
@@ -111,11 +114,7 @@ public class Flatten extends Module {
                     for (EnumFacing facing : EnumFacing.values()) {
                         Vec3 neighbor = pos.addVector(facing.getFrontOffsetX(),
                                 facing.getFrontOffsetY(), facing.getFrontOffsetZ());
-                        if (!mc.theWorld.getBlock(
-                                (int) neighbor.xCoord,
-                                (int) neighbor.yCoord,
-                                (int) neighbor.zCoord).getMaterial().isReplaceable()) {
-
+                        if (!isReplaceable(neighbor)) {
                             placeQueue.add(new Pair<>(neighbor, getOpposite(facing)));
                             break;
                         }
@@ -123,15 +122,6 @@ public class Flatten extends Module {
                 }
             }
         }
-    }
-
-    /**
-     * Gets the opposite facing enum for the inputted face
-     * @param facing the face
-     * @return the opposite face enum constant
-     */
-    private EnumFacing getOpposite(EnumFacing facing) {
-        return EnumFacing.faceList[facing.getOrder_b()];
     }
 
 }

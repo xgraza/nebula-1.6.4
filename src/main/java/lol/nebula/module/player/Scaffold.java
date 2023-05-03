@@ -22,6 +22,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 
 import static lol.nebula.util.player.InventoryUtils.isInfinite;
+import static lol.nebula.util.world.WorldUtils.getOpposite;
+import static lol.nebula.util.world.WorldUtils.isReplaceable;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
@@ -200,25 +202,5 @@ public class Scaffold extends Module {
         }
 
         return null;
-    }
-
-    /**
-     * Gets the opposite facing enum for the inputted face
-     * @param facing the face
-     * @return the opposite face enum constant
-     */
-    private EnumFacing getOpposite(EnumFacing facing) {
-        return EnumFacing.faceList[facing.getOrder_b()];
-    }
-
-    /**
-     * Checks if the block at this position vector is replaceable
-     * @param position the position
-     * @return if the block can be replaced or not
-     */
-    private boolean isReplaceable(Vec3 position) {
-        Block blockAtPosition = mc.theWorld.getBlock(
-                (int) position.xCoord, (int) position.yCoord, (int) position.zCoord);
-        return blockAtPosition.getMaterial().isReplaceable();
     }
 }
