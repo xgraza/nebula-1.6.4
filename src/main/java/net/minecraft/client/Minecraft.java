@@ -24,6 +24,7 @@ import javax.imageio.ImageIO;
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.input.EventKeyInput;
 import lol.nebula.listener.events.input.EventMouseInput;
+import lol.nebula.listener.events.world.EventServerChange;
 import lol.nebula.listener.events.world.EventTick;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -2692,6 +2693,7 @@ public class Minecraft implements IPlayerUsage
     public void setServerData(ServerData par1ServerData)
     {
         this.currentServerData = par1ServerData;
+        Nebula.getBus().dispatch(new EventServerChange(par1ServerData));
     }
 
     public ServerData func_147104_D()

@@ -80,6 +80,7 @@ public class ModuleManager {
                 new AntiGhostBlock(),
                 new AntiRevert(),
                 new AutoRape(),
+                new AutoReconnect(),
                 new AutoRespawn(),
                 new AutoTool(),
                 new Avoid(),

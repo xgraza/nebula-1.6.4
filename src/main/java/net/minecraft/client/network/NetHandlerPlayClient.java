@@ -27,7 +27,6 @@ import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiPlayerInfo;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenDemo;
-import net.minecraft.client.gui.GuiScreenDisconnectedOnline;
 import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.IProgressMeter;
@@ -740,15 +739,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     public void onDisconnect(IChatComponent p_147231_1_)
     {
         this.gameController.loadWorld((WorldClient)null);
-
-        if (this.guiScreenServer != null)
-        {
-            this.gameController.displayGuiScreen(new GuiScreenDisconnectedOnline(this.guiScreenServer, "disconnect.lost", p_147231_1_));
-        }
-        else
-        {
-            this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", p_147231_1_));
-        }
+        this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", p_147231_1_));
     }
 
     public void addToSendQueue(Packet p_147297_1_)

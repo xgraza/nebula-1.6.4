@@ -170,7 +170,7 @@ public class TaskOnlineConnect extends TaskLongRunning
                     }
 
                     TaskOnlineConnect.logger.error("Couldn\'t connect to world", var2);
-                    TaskOnlineConnect.this.func_148413_b().displayGuiScreen(new GuiScreenDisconnectedOnline(TaskOnlineConnect.this.field_148435_f, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", new Object[] {"Unknown host \'" + p_148432_1_ + "\'"})));
+                    TaskOnlineConnect.this.func_148413_b().displayGuiScreen(new GuiDisconnected(TaskOnlineConnect.this.field_148435_f, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", new Object[] {"Unknown host \'" + p_148432_1_ + "\'"})));
                 }
                 catch (Exception var3)
                 {
@@ -180,7 +180,7 @@ public class TaskOnlineConnect extends TaskLongRunning
                     }
 
                     TaskOnlineConnect.logger.error("Couldn\'t connect to world", var3);
-                    TaskOnlineConnect.this.func_148413_b().displayGuiScreen(new GuiScreenDisconnectedOnline(TaskOnlineConnect.this.field_148435_f, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", new Object[] {var3.toString()})));
+                    TaskOnlineConnect.this.func_148413_b().displayGuiScreen(new GuiDisconnected(TaskOnlineConnect.this.field_148435_f, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", new Object[] {var3.toString()})));
                 }
             }
         }).start();
