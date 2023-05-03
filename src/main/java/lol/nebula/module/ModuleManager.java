@@ -53,6 +53,7 @@ public class ModuleManager {
                 new Criticals(),
                 new KillAura(),
                 new Regen(),
+                new SelfFill(),
                 new VehicleOneTap(),
                 new Velocity(),
 
