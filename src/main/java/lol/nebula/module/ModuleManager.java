@@ -79,6 +79,7 @@ public class ModuleManager {
                 new AntiRevert(),
                 new AutoRape(),
                 new AutoRespawn(),
+                new AutoTool(),
                 new Avoid(),
                 new FastPlace(),
                 new Flatten(),

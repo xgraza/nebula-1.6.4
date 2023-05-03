@@ -2,6 +2,7 @@ package net.minecraft.client.multiplayer;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.entity.EventAttack;
+import lol.nebula.listener.events.world.EventClickBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -188,6 +189,8 @@ public class PlayerControllerMP
      */
     public void clickBlock(int par1, int par2, int par3, int par4)
     {
+        if (Nebula.getBus().dispatch(new EventClickBlock(par1, par2, par3, par4))) return;
+
         if (!this.currentGameType.isAdventure() || this.mc.thePlayer.isCurrentToolAdventureModeExempt(par1, par2, par3))
         {
             if (this.currentGameType.isCreative())
