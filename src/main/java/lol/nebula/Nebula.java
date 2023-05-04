@@ -12,6 +12,7 @@ import lol.nebula.module.ModuleManager;
 import lol.nebula.util.math.timing.Timer;
 import lol.nebula.util.render.font.Fonts;
 import net.minecraft.client.Minecraft;
+import net.minecraft.crash.CrashReport;
 import net.minecraft.util.Session;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +30,11 @@ public class Nebula {
      * The Nebula client singleton
      */
     private static Nebula singleton;
+
+    /**
+     * If the client is in a development environment
+     */
+    public static boolean developmentSwitch;
 
     private static final String name = "Nebula";
     private static final String version = "3.0";
@@ -54,6 +60,11 @@ public class Nebula {
 
     private Nebula() {
         singleton = this;
+
+        if (developmentSwitch) logger.info("Development switch is on");
+
+        System.out.println("Running Nebula " + version + " on git " + BuildConfig.HASH + "/" + BuildConfig.BRANCH);
+        System.out.println(new CrashReport("THIS IS NOT A CRASH REPORT", new Throwable("hi hi hi")).getCompleteReport());
 
         logger.info("Loading {} v{}", name, version);
         Display.setTitle(format("Loading %s v%s", name, version));

@@ -1,5 +1,6 @@
 package lol.nebula.util.render.font;
 
+import lol.nebula.Nebula;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
 import java.awt.*;
@@ -129,7 +130,10 @@ public class AWTFont {
         graphics.setFont(font);
         graphics.setColor(Color.WHITE);
 
-        //graphics.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        if (!Nebula.developmentSwitch) {
+            graphics.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        }
+
         graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

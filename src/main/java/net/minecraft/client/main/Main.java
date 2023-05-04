@@ -11,13 +11,12 @@ import joptsimple.ArgumentAcceptingOptionSpec;
 import joptsimple.NonOptionArgumentSpec;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
+import lol.nebula.Nebula;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 
 public class Main
 {
-    private static final String __OBFID = "CL_00001461";
-
     public static void main(String[] par0ArrayOfStr)
     {
         System.setProperty("java.net.preferIPv4Stack", "true");
@@ -25,6 +24,7 @@ public class Main
         var1.allowsUnrecognizedOptions();
         var1.accepts("demo");
         var1.accepts("fullscreen");
+        var1.accepts("ilovetobyharnack");
         ArgumentAcceptingOptionSpec var2 = var1.accepts("server").withRequiredArg();
         ArgumentAcceptingOptionSpec var3 = var1.accepts("port").withRequiredArg().ofType(Integer.class).defaultsTo(Integer.valueOf(25565), new Integer[0]);
         ArgumentAcceptingOptionSpec var4 = var1.accepts("gameDir").withRequiredArg().ofType(File.class).defaultsTo(new File("."), new File[0]);
@@ -104,6 +104,8 @@ public class Main
         {
             System.out.println("Completely ignored arguments: " + var19);
         }
+
+        Nebula.developmentSwitch = var18.has("ilovetobyharnack");
 
         Thread.currentThread().setName("Client thread");
         var34.run();

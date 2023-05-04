@@ -9,6 +9,7 @@ import lol.nebula.module.exploit.*;
 import lol.nebula.module.movement.*;
 import lol.nebula.module.player.*;
 import lol.nebula.module.visual.*;
+import lol.nebula.util.feature.DevelopmentFeature;
 import lol.nebula.util.system.FileUtils;
 
 import java.io.File;
@@ -114,6 +115,12 @@ public class ModuleManager {
      */
     private void register(Module... modules) {
         for (Module module : modules) {
+
+            // if this feature is a dev feature and we're not in a dev environment, oopies
+            if (module.getClass().isAnnotationPresent(DevelopmentFeature.class) && !Nebula.developmentSwitch) {
+                continue;
+            }
+
             module.loadSettings();
 
             moduleClassMap.put(module.getClass(), module);

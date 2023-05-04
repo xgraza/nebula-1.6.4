@@ -1,5 +1,6 @@
 package lol.nebula.util.render.font;
 
+import lol.nebula.Nebula;
 import lol.nebula.util.render.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -71,7 +72,13 @@ public class AWTFontRenderer extends FontRenderer {
         glEnable(GL_TEXTURE_2D);
 
         glEnable(GL_RESCALE_NORMAL);
-        glTranslated(x, y, 0.0);
+
+        if (Nebula.developmentSwitch) {
+            glTranslated(x, y, 0.0);
+        } else {
+            glTranslated(x - 1.0, y - 3.0, 0.0);
+        }
+
         glScaled(0.5, 0.5, 0.5);
 
         glEnable(GL_BLEND);
