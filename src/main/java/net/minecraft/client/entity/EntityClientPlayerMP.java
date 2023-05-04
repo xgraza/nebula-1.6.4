@@ -2,6 +2,7 @@ package net.minecraft.client.entity;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.EventStage;
+import lol.nebula.listener.events.entity.EventEntityRidingUpdate;
 import lol.nebula.listener.events.entity.EventWalkingUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -101,6 +102,8 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
             if (this.isRiding())
             {
+                if (Nebula.getBus().dispatch(new EventEntityRidingUpdate(ridingEntity))) return;
+
                 this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
                 this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
             }

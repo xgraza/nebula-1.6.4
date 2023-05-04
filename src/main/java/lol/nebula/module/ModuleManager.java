@@ -68,6 +68,7 @@ public class ModuleManager {
                 new Timer(),
 
                 new AutoWalk(),
+                new EntitySpeed(),
                 new Flight(),
                 new InvWalk(),
                 new Jesus(),
