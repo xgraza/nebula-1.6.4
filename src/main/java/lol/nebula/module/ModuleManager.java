@@ -98,6 +98,7 @@ public class ModuleManager {
                 new InfiniteViewer(),
                 new Interface(),
                 new NoRender(),
+                new Projectiles(),
                 new Tags()
         );
 

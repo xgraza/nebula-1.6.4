@@ -85,4 +85,8 @@ public class RotationManager {
     public boolean isRotating() {
         return client != null;
     }
+
+    public float[] getServer() {
+        return server;
+    }
 }

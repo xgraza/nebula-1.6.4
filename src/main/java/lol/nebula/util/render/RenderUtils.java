@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.AxisAlignedBB;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -31,6 +32,16 @@ public class RenderUtils {
         glColor4f(r, g, b, a);
     }
 
+    /**
+     * Adds an alpha value to a color
+     * @param color the color
+     * @param alpha the alpha value (0-255)
+     * @return the color with the added alpha value
+     */
+    public static int alpha(int color, int alpha) {
+        return color & 0x00ffffff | alpha << 24;
+    }
+
     public static void scissor(double x, double y, double width, double height) {
         final ScaledResolution sr = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
         final double scale = sr.getScaleFactor();
@@ -50,7 +61,6 @@ public class RenderUtils {
         glDisable(GL_SCISSOR_TEST);
     }
 
-
     public static void rect(double x, double y, double width, double height, int color) {
         glDisable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
@@ -67,5 +77,53 @@ public class RenderUtils {
 
         glEnable(GL_TEXTURE_2D);
         glDisable(GL_BLEND);
+    }
+
+    public static void filledAabb(AxisAlignedBB box) {
+        Tessellator tessellator = Tessellator.instance;
+
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.minX, box.minY, box.minZ);
+        tessellator.addVertex(box.maxX, box.minY, box.minZ);
+        tessellator.addVertex(box.maxX, box.minY, box.maxZ);
+        tessellator.addVertex(box.minX, box.minY, box.maxZ);
+        tessellator.draw();
+
+        // sides
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.minX, box.minY, box.minZ);
+        tessellator.addVertex(box.minX, box.minY, box.maxZ);
+        tessellator.addVertex(box.minX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.minX, box.maxY, box.minZ);
+        tessellator.draw();
+
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.maxX, box.minY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.minY, box.minZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.minZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.maxZ);
+        tessellator.draw();
+
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.maxX, box.minY, box.minZ);
+        tessellator.addVertex(box.minX, box.minY, box.minZ);
+        tessellator.addVertex(box.minX, box.maxY, box.minZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.minZ);
+        tessellator.draw();
+
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.minX, box.minY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.minY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.minX, box.maxY, box.maxZ);
+        tessellator.draw();
+
+        // top
+        tessellator.startDrawing(GL_QUADS);
+        tessellator.addVertex(box.minX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.minZ);
+        tessellator.addVertex(box.minX, box.maxY, box.minZ);
+        tessellator.draw();
     }
 }
