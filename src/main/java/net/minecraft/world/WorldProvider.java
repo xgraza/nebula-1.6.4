@@ -1,7 +1,7 @@
 package net.minecraft.world;
 
 import lol.nebula.Nebula;
-import lol.nebula.listener.events.render.EventVoidParticles;
+import lol.nebula.listener.events.render.gui.overlay.EventVoidParticles;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;

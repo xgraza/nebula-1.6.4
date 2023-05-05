@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 import lol.nebula.Nebula;
-import lol.nebula.listener.events.render.EventPumpkinBlur;
-import lol.nebula.listener.events.render.EventRender2D;
+import lol.nebula.listener.events.render.gui.overlay.EventPumpkinBlur;
+import lol.nebula.listener.events.render.gui.overlay.EventRender2D;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;

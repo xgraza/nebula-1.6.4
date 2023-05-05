@@ -2,7 +2,7 @@ package lol.nebula.module.visual;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
-import lol.nebula.listener.events.render.EventRender2D;
+import lol.nebula.listener.events.render.gui.overlay.EventRender2D;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
@@ -10,7 +10,6 @@ import lol.nebula.util.render.ColorUtils;
 import lol.nebula.util.render.font.Fonts;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;

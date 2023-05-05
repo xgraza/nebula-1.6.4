@@ -1,8 +1,8 @@
 package net.minecraft.client.renderer;
 
 import lol.nebula.Nebula;
-import lol.nebula.listener.events.render.EventBurningOverlay;
-import lol.nebula.listener.events.render.EventSuffocatingOverlay;
+import lol.nebula.listener.events.render.gui.overlay.EventBurningOverlay;
+import lol.nebula.listener.events.render.gui.overlay.EventSuffocatingOverlay;
 import lol.nebula.module.combat.KillAura;
 import lol.nebula.module.visual.Animations;
 import net.minecraft.block.Block;

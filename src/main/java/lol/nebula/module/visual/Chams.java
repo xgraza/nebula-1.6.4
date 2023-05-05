@@ -2,8 +2,8 @@ package lol.nebula.module.visual;
 
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
-import lol.nebula.listener.events.render.EventRenderChest;
-import lol.nebula.listener.events.render.EventRenderPlayer;
+import lol.nebula.listener.events.render.world.EventRenderChest;
+import lol.nebula.listener.events.render.world.EventRenderPlayer;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;

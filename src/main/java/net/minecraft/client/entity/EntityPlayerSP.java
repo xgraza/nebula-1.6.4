@@ -3,7 +3,7 @@ package net.minecraft.client.entity;
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.entity.EventSlowdown;
 import lol.nebula.listener.events.entity.EventUpdate;
-import lol.nebula.listener.events.render.EventFoV;
+import lol.nebula.listener.events.render.gui.overlay.EventFoV;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiCommandBlock;

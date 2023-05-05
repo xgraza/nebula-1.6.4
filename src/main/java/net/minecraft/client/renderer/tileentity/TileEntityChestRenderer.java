@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.EventStage;
-import lol.nebula.listener.events.render.EventRenderChest;
+import lol.nebula.listener.events.render.world.EventRenderChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.client.model.ModelChest;

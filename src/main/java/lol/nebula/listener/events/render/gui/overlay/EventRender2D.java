@@ -1,4 +1,4 @@
-package lol.nebula.listener.events.render;
+package lol.nebula.listener.events.render.gui.overlay;
 
 import net.minecraft.client.gui.ScaledResolution;
 

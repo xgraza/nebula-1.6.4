@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.tileentity;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.EventStage;
-import lol.nebula.listener.events.render.EventRenderChest;
+import lol.nebula.listener.events.render.world.EventRenderChest;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEnderChest;

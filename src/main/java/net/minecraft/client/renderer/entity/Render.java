@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import lol.nebula.Nebula;
-import lol.nebula.listener.events.render.EventRenderLabel;
+import lol.nebula.listener.events.render.world.EventRenderLabel;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.FontRenderer;

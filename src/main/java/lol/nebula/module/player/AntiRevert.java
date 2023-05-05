@@ -4,7 +4,7 @@ import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.entity.EventAttack;
 import lol.nebula.listener.events.net.EventPacket;
-import lol.nebula.listener.events.render.EventRender2D;
+import lol.nebula.listener.events.render.gui.overlay.EventRender2D;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;

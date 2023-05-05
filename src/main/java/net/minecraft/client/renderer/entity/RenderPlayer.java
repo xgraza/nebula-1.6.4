@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.entity;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.EventStage;
-import lol.nebula.listener.events.render.EventRenderPlayer;
+import lol.nebula.listener.events.render.world.EventRenderPlayer;
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;

@@ -2,8 +2,8 @@ package lol.nebula.module.visual;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
-import lol.nebula.listener.events.render.EventRender3D;
-import lol.nebula.listener.events.render.EventRenderLabel;
+import lol.nebula.listener.events.render.world.EventRender3D;
+import lol.nebula.listener.events.render.world.EventRenderLabel;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
@@ -18,7 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 import java.util.Map;
