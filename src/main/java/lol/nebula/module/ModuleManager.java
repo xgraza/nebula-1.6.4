@@ -92,6 +92,7 @@ public class ModuleManager {
                 new MiddleClick(),
                 new NoFall(),
                 new Scaffold(),
+                new Test(),
 
                 new Animations(),
                 new Chams(),
