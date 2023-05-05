@@ -2,7 +2,6 @@ package lol.nebula.module.visual;
 
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.render.gui.overlay.*;
-import lol.nebula.listener.events.render.overlay.*;
 import lol.nebula.listener.events.render.world.EventWeather;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
