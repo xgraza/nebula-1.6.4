@@ -1,5 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.EventStage;
+import lol.nebula.listener.events.render.EventRenderPlayer;
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -120,6 +123,8 @@ public class RenderPlayer extends RendererLivingEntity
      */
     public void doRender(AbstractClientPlayer par1AbstractClientPlayer, double par2, double par4, double par6, float par8, float par9)
     {
+        if (Nebula.getBus().dispatch(new EventRenderPlayer(EventStage.PRE, par1AbstractClientPlayer))) return;
+
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         ItemStack var10 = par1AbstractClientPlayer.inventory.getCurrentItem();
         this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = var10 != null ? 1 : 0;
@@ -150,6 +155,8 @@ public class RenderPlayer extends RendererLivingEntity
         this.modelArmorChestplate.aimedBow = this.modelArmor.aimedBow = this.modelBipedMain.aimedBow = false;
         this.modelArmorChestplate.isSneak = this.modelArmor.isSneak = this.modelBipedMain.isSneak = false;
         this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = 0;
+
+        Nebula.getBus().dispatch(new EventRenderPlayer(EventStage.POST, par1AbstractClientPlayer));
     }
 
     /**

@@ -94,6 +94,7 @@ public class ModuleManager {
                 new Scaffold(),
 
                 new Animations(),
+                new Chams(),
                 new ClickUI(),
                 new Fullbright(),
                 new InfiniteViewer(),

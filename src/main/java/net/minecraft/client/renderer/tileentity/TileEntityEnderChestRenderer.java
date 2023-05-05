@@ -1,5 +1,8 @@
 package net.minecraft.client.renderer.tileentity;
 
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.EventStage;
+import lol.nebula.listener.events.render.EventRenderChest;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEnderChest;
@@ -15,6 +18,9 @@ public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer
 
     public void renderTileEntityAt(TileEntityEnderChest p_147519_1_, double p_147519_2_, double p_147519_4_, double p_147519_6_, float p_147519_8_)
     {
+
+        Nebula.getBus().dispatch(new EventRenderChest(EventStage.PRE, p_147519_1_));
+
         int var9 = 0;
 
         if (p_147519_1_.hasWorldObj())
@@ -61,6 +67,9 @@ public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+        Nebula.getBus().dispatch(new EventRenderChest(EventStage.POST, p_147519_1_));
+
     }
 
     public void renderTileEntityAt(TileEntity p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_)
