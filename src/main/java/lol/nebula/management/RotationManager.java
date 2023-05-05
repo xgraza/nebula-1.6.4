@@ -2,7 +2,7 @@ package lol.nebula.management;
 
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
-import lol.nebula.listener.events.entity.EventWalkingUpdate;
+import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.listener.events.net.EventPacket;
 import lol.nebula.util.math.timing.Timer;
 import net.minecraft.client.Minecraft;

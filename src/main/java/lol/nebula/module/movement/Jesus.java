@@ -2,7 +2,7 @@ package lol.nebula.module.movement;
 
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.entity.EventUpdate;
-import lol.nebula.listener.events.entity.EventWalkingUpdate;
+import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.listener.events.world.EventCollisionBox;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;

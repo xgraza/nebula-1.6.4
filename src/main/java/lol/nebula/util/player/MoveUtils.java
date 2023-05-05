@@ -1,6 +1,6 @@
 package lol.nebula.util.player;
 
-import lol.nebula.listener.events.entity.EventMove;
+import lol.nebula.listener.events.entity.move.EventMove;
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;

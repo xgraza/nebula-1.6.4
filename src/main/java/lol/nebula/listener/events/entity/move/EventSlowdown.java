@@ -1,4 +1,4 @@
-package lol.nebula.listener.events.entity;
+package lol.nebula.listener.events.entity.move;
 
 import net.minecraft.util.MovementInput;
 

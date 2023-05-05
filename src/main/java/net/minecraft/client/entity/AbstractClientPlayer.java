@@ -2,7 +2,7 @@ package net.minecraft.client.entity;
 
 import com.mojang.authlib.GameProfile;
 import lol.nebula.Nebula;
-import lol.nebula.listener.events.entity.EventMove;
+import lol.nebula.listener.events.entity.move.EventMove;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ImageBufferDownload;

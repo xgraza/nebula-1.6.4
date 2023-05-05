@@ -1,7 +1,7 @@
 package lol.nebula.module.player;
 
 import lol.nebula.listener.bus.Listener;
-import lol.nebula.listener.events.entity.EventWalkingUpdate;
+import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;

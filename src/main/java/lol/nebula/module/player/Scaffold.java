@@ -3,7 +3,7 @@ package lol.nebula.module.player;
 import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
-import lol.nebula.listener.events.entity.EventWalkingUpdate;
+import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.listener.events.render.gui.overlay.EventRender2D;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;

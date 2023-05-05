@@ -1,7 +1,7 @@
 package lol.nebula.util.math;
 
 import lol.nebula.Nebula;
-import lol.nebula.listener.events.entity.EventWalkingUpdate;
+import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;

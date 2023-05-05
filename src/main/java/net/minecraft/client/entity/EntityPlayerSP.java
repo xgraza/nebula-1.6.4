@@ -1,7 +1,7 @@
 package net.minecraft.client.entity;
 
 import lol.nebula.Nebula;
-import lol.nebula.listener.events.entity.EventSlowdown;
+import lol.nebula.listener.events.entity.move.EventSlowdown;
 import lol.nebula.listener.events.entity.EventUpdate;
 import lol.nebula.listener.events.render.gui.overlay.EventFoV;
 import net.minecraft.client.Minecraft;

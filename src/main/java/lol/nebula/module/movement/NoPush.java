@@ -1,8 +1,8 @@
 package lol.nebula.module.movement;
 
 import lol.nebula.listener.bus.Listener;
-import lol.nebula.listener.events.entity.EventPushOutOfBlocks;
-import lol.nebula.listener.events.entity.EventWaterPush;
+import lol.nebula.listener.events.entity.move.EventPushOutOfBlocks;
+import lol.nebula.listener.events.entity.move.EventWaterPush;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;

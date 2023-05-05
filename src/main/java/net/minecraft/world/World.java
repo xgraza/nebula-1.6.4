@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 import lol.nebula.Nebula;
-import lol.nebula.listener.events.entity.EventWaterPush;
+import lol.nebula.listener.events.entity.move.EventWaterPush;
 import lol.nebula.listener.events.render.world.EventWeather;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHopper;

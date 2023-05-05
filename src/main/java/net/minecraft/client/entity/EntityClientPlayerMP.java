@@ -3,7 +3,7 @@ package net.minecraft.client.entity;
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.EventStage;
 import lol.nebula.listener.events.entity.EventEntityRidingUpdate;
-import lol.nebula.listener.events.entity.EventWalkingUpdate;
+import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.network.NetHandlerPlayClient;
