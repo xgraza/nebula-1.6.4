@@ -33,6 +33,7 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 public class Scaffold extends Module {
 
     private final Setting<Boolean> tower = new Setting<>(true, "Tower");
+    private final Setting<Double> extend = new Setting<>(0.0, 0.5, 0.0, 6.0, "Extend");
     private final Setting<Boolean> rotate = new Setting<>(true, "Rotate");
 
     private final Setting<Boolean> blockCounter = new Setting<>(true, "Block Counter");
@@ -181,6 +182,25 @@ public class Scaffold extends Module {
      */
     private Pair<Vec3, EnumFacing> nextPlacePos() {
         Vec3 pos = mc.thePlayer.getGroundPosition().addVector(0, -1, 0);
+
+        if (extend.getValue() > 0.0 && !mc.gameSettings.keyBindJump.pressed) {
+            // EntityLivingBase#jump(), i do not take movement into account (soon maybe?)
+            float yaw = mc.thePlayer.rotationYaw * 0.017453292f;
+
+            double distance = 0.0;
+            while (distance <= extend.getValue()) {
+                distance += extend.getScale().doubleValue();
+
+                Vec3 extend = new Vec3(Vec3.fakePool,
+                        Math.floor(mc.thePlayer.posX) + -Math.sin(yaw) * distance,
+                        pos.yCoord,
+                        Math.floor(mc.thePlayer.posZ) + Math.cos(yaw) * distance);
+                if (isReplaceable(extend)) {
+                    pos = extend;
+                    break;
+                }
+            }
+        }
 
         for (EnumFacing facing : EnumFacing.values()) {
             Vec3 neighbor = pos.addVector(
