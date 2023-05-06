@@ -54,7 +54,7 @@ public class BindSettingComponent extends Component {
                 return;
             } else if (mouseButton == 1) {
                 listening = false;
-                setting.getValue().setKey(KEY_NONE);
+                setting.getValue().setKey(-1);
             }
         }
 
@@ -70,12 +70,14 @@ public class BindSettingComponent extends Component {
         if (listening) {
             listening = false;
             setting.getValue().setDevice(BindDevice.KEYBOARD);
-            setting.getValue().setKey(keyCode);
+            setting.getValue().setKey(keyCode == KEY_NONE ? -1 : keyCode);
         }
     }
 
     private String formatBind() {
         Bind bind = setting.getValue();
+        if (bind.getKey() == -1) return "NONE";
+
         switch (bind.getDevice()) {
             case KEYBOARD:
                 return Keyboard.getKeyName(bind.getKey());
