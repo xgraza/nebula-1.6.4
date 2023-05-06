@@ -75,6 +75,9 @@ public class AutoPotion extends Module {
             return;
         }
 
+        // if we are using an item, do not send additional c08s
+        if (mc.thePlayer.isUsingItem()) return;
+
         if (event.getStage() == EventStage.POST) {
 
             if (rotate.getValue()) {
