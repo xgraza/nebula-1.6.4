@@ -5,19 +5,24 @@ package lol.nebula.module;
  * @since 04/27/23
  */
 public enum ModuleCategory {
-    COMBAT("Combat"),
-    EXPLOIT("Exploit"),
-    MOVEMENT("Movement"),
-    PLAYER("Player"),
-    VISUAL("Visual");
+    COMBAT("Combat", "A"),
+    EXPLOIT("Exploit", "b"),
+    MOVEMENT("Movement", "E"),
+    PLAYER("Player", "d"),
+    VISUAL("Visual", "D");
 
-    private final String display;
+    private final String display, iconChar;
 
-    ModuleCategory(String display) {
+    ModuleCategory(String display, String iconChar) {
         this.display = display;
+        this.iconChar = iconChar;
     }
 
     public String getDisplay() {
         return display;
+    }
+
+    public String getIconChar() {
+        return iconChar;
     }
 }

@@ -1,6 +1,7 @@
 package lol.nebula.ui.component.category;
 
 import lol.nebula.module.Module;
+import lol.nebula.module.ModuleCategory;
 import lol.nebula.ui.component.Component;
 import lol.nebula.ui.component.DraggableComponent;
 import lol.nebula.ui.component.module.ModuleComponent;
@@ -18,10 +19,11 @@ public class CategoryFrame extends DraggableComponent {
 
     private static final Color PANEL_COLOR = new Color(30, 30, 30);
 
-    private final String categoryName;
+    private final String categoryName, iconChar;
 
-    public CategoryFrame(String categoryName, List<Module> modules) {
-        this.categoryName = categoryName;
+    public CategoryFrame(ModuleCategory category, List<Module> modules) {
+        this.categoryName = category.getDisplay();
+        this.iconChar = category.getIconChar();
 
         for (Module module : modules) getChildren().add(new ModuleComponent(module));
     }
@@ -30,9 +32,16 @@ public class CategoryFrame extends DraggableComponent {
     public void render(int mouseX, int mouseY, float partialTicks) {
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), PANEL_COLOR.getRGB());
         RenderUtils.scissor(getX(), getY(), getWidth(), getHeight());
+
+        int x = Fonts.icons.drawStringWithShadow(
+                iconChar,
+                (float) (getX() + 2.0),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
+                -1
+        );
         Fonts.axiforma.drawStringWithShadow(
                 categoryName,
-                (float) (getX() + 2.0),
+               x - 4,
                 (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                 -1);
 

@@ -13,7 +13,7 @@ import static java.awt.Font.TRUETYPE_FONT;
  * @since 03/05/23
  */
 public class Fonts {
-    public static AWTFontRenderer axiforma;
+    public static AWTFontRenderer axiforma, icons;
 
     /**
      * Loads a font from an input stream, creates the font, and adds it to the graphics Environment
@@ -61,5 +61,6 @@ public class Fonts {
      */
     public static void loadFonts() {
         axiforma = create("Axiforma", 17);
+        icons = create("Typeface", 20);
     }
 }

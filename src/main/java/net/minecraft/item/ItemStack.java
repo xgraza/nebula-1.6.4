@@ -54,7 +54,11 @@ public final class ItemStack
 
     /** Item frame this stack is on, or null if not on an item frame. */
     private EntityItemFrame itemFrame;
-    private static final String __OBFID = "CL_00000043";
+
+    /**
+     * The cached display name for this item stack
+     */
+    private String cachedDisplayName;
 
     public ItemStack(Block par1Block)
     {
@@ -525,6 +529,8 @@ public final class ItemStack
      */
     public String getDisplayName()
     {
+        if (cachedDisplayName != null) return cachedDisplayName;
+
         String var1 = this.getItem().getItemStackDisplayName(this);
 
         if (this.stackTagCompound != null && this.stackTagCompound.func_150297_b("display", 10))
@@ -537,6 +543,7 @@ public final class ItemStack
             }
         }
 
+        cachedDisplayName = var1;
         return var1;
     }
 
@@ -553,6 +560,7 @@ public final class ItemStack
         }
 
         this.stackTagCompound.getCompoundTag("display").setString("Name", p_151001_1_);
+        cachedDisplayName = p_151001_1_;
         return this;
     }
 
