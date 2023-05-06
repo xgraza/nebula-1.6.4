@@ -48,7 +48,8 @@ configurations {
 }
 
 dependencies {
-    dependency group: 'javax.vecmath', name: 'vecmath', version: '1.5.2'
+    // mc has this already as a lib in the json file
+    implementation group: 'javax.vecmath', name: 'vecmath', version: '1.5.2'
 
     implementation fileTree('depend/libs')
     implementation configurations.dependency

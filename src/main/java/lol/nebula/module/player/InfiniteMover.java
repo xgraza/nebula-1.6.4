@@ -25,27 +25,29 @@ public class InfiniteMover extends Module {
 
         // if the action is not a shift click, return
         if (event.getAction() != 1) return;
-        int slot = event.getSlot();
+        int clickedSlot = event.getSlot();
 
+        // get the stack that it clicked on
         ItemStack stack = null;
         if (mc.currentScreen instanceof GuiChest) {
             GuiChest container = (GuiChest) mc.currentScreen;
             int slots = container.field_147002_h.inventorySlots.size();
-            if (slot >= slots) {
-                slot -= 36;
-                stack = mc.thePlayer.inventory.getStackInSlot(slot);
+            if (clickedSlot >= slots) {
+                clickedSlot -= 36;
+                stack = mc.thePlayer.inventory.getStackInSlot(clickedSlot);
             } else {
-                Slot s = (Slot) container.field_147002_h.inventorySlots.get(slot);
+                Slot s = (Slot) container.field_147002_h.inventorySlots.get(clickedSlot);
                 if (s != null && s.getHasStack() && s.getStack() != null) stack = s.getStack();
             }
         } else {
-            if (slot >= 36) slot -= 36;
-            stack = mc.thePlayer.inventory.getStackInSlot(slot);
+            if (clickedSlot >= 36) clickedSlot -= 36;
+            stack = mc.thePlayer.inventory.getStackInSlot(clickedSlot);
         }
 
         // if the stack is null or is not an infinite, return
         if (stack == null || !isInfinite(stack)) return;
 
+        // this will be the slot the infinite is put in
         int clickTo = -1;
         if (mc.currentScreen instanceof GuiChest) {
             GuiChest chest = (GuiChest) mc.currentScreen;
@@ -63,14 +65,18 @@ public class InfiniteMover extends Module {
                     }
                 }
 
-                if (emptySlot != -1) clickTo = emptySlot < 9
-                        ? slots + (36 - (9 - emptySlot))
-                        : (emptySlot + slots) - 1;
+                if (emptySlot != -1) {
+                    if (emptySlot < 9) {
+                        clickTo = slots + (36 - (9 - emptySlot));
+                    } else {
+                        clickTo = ((slots + 27 - (35 - emptySlot)) - 1);
+                    }
+                }
 
             } else {
                 for (int i = 0; i < slots; ++i) {
-                    Slot s = (Slot) chest.field_147002_h.inventorySlots.get(i);
-                    if (s == null || !s.getHasStack()) {
+                    Slot slot = (Slot) chest.field_147002_h.inventorySlots.get(i);
+                    if (slot == null || slot.getStack() == null) {
                         clickTo = i;
                         break;
                     }
@@ -80,8 +86,8 @@ public class InfiniteMover extends Module {
         } else {
 
             // if the inf is in a hotbar slot, we're going to want to put it into the inventory
-            int start = slot <= 8 ? 9 : 0;
-            int end = slot <= 8 ? 36 : 9;
+            int start = clickedSlot <= 8 ? 9 : 0;
+            int end = clickedSlot <= 8 ? 36 : 9;
 
             for (int i = start; i < end; ++i) {
                 ItemStack s = mc.thePlayer.inventory.getStackInSlot(i);
@@ -95,6 +101,7 @@ public class InfiniteMover extends Module {
         }
 
         if (clickTo != -1) {
+            event.cancel();
             mc.playerController.windowClick(event.getWindowId(), event.getSlot(), 0, 0, mc.thePlayer);
             mc.playerController.windowClick(event.getWindowId(), clickTo, 0, 0, mc.thePlayer);
         }

@@ -1,5 +1,6 @@
 package lol.nebula.ui.component.category;
 
+import lol.nebula.Nebula;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.ui.component.Component;
@@ -36,7 +37,7 @@ public class CategoryFrame extends DraggableComponent {
         int x = Fonts.icons.drawStringWithShadow(
                 iconChar,
                 (float) (getX() + 2.0),
-                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0) + (Nebula.developmentSwitch ? 0.0 : 2.0)),
                 -1
         );
         Fonts.axiforma.drawStringWithShadow(
