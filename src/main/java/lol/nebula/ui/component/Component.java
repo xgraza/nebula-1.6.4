@@ -56,7 +56,7 @@ public abstract class Component {
         return children;
     }
 
-    protected boolean isInBounds(int mouseX, int mouseY) {
+    public boolean isInBounds(int mouseX, int mouseY) {
         return isInBounds(mouseX, mouseY, x, y, width, height);
     }
 

@@ -27,7 +27,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class ModuleComponent extends Component {
 
     private static final ResourceLocation ARROW = new ResourceLocation("nebula/textures/click/arrow.png");
-    private static final Color UNTOGGLED_BG = new Color(35, 35, 35);
+    public static final Color UNTOGGLED_BG = new Color(35, 35, 35);
 
     private final Animation openAnimation = new Animation(Easing.CUBIC_IN_OUT, 500, false);
     private final Animation hoverAnimation = new Animation(Easing.CUBIC_IN_OUT, 200, false);
@@ -131,5 +131,9 @@ public class ModuleComponent extends Component {
         }
 
         return super.getHeight() + (openedHeight * openAnimation.getFactor());
+    }
+
+    public Module getModule() {
+        return module;
     }
 }

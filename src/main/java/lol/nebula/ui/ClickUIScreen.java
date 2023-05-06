@@ -3,7 +3,14 @@ package lol.nebula.ui;
 import lol.nebula.Nebula;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
+import lol.nebula.ui.component.Component;
 import lol.nebula.ui.component.category.CategoryFrame;
+import lol.nebula.ui.component.module.ModuleComponent;
+import lol.nebula.util.math.timing.Timer;
+import lol.nebula.util.render.RenderUtils;
+import lol.nebula.util.render.animation.Animation;
+import lol.nebula.util.render.animation.Easing;
+import lol.nebula.util.render.font.Fonts;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.util.ArrayList;
@@ -19,6 +26,10 @@ import static lol.nebula.module.ModuleManager.DEFAULT_CONFIG;
 public class ClickUIScreen extends GuiScreen {
 
     private final List<CategoryFrame> categoryFrames = new ArrayList<>();
+
+    private final Animation descriptionAnimation = new Animation(Easing.CUBIC_IN_OUT, 250, false);
+    private final Timer descriptionTimer = new Timer();
+    private String renderedDescription;
 
     public ClickUIScreen() {
         double x = 4.0;
@@ -46,6 +57,33 @@ public class ClickUIScreen extends GuiScreen {
         for (CategoryFrame categoryFrame : categoryFrames) {
             categoryFrame.render(par1, par2, par3);
         }
+
+        for (CategoryFrame categoryFrame : categoryFrames) {
+            for (Component component : categoryFrame.getChildren()) {
+                if (!(component instanceof ModuleComponent)) continue;
+
+                ModuleComponent modComp = (ModuleComponent) component;
+                if (modComp.getModule() == null || !modComp.isInBounds(par1, par2)) {
+                    continue;
+                }
+
+                if (descriptionTimer.ms(230L, false)) {
+                    String renderedDescription = modComp.getModule().getDescription();
+
+                    double x = par1 + 6;
+                    double y = par2 + 4;
+                    double width = Fonts.axiforma.getStringWidth(renderedDescription) + 6.0;
+                    double height = Fonts.axiforma.FONT_HEIGHT + 4.0;
+
+                    RenderUtils.rect(x, y, width, height, ModuleComponent.UNTOGGLED_BG.getRGB());
+                    Fonts.axiforma.drawStringWithShadow(renderedDescription, (float) (x + 2.0), (float) (y + 2.0), -1);
+                }
+
+                return;
+            }
+        }
+
+        descriptionTimer.resetTime();
     }
 
     @Override
@@ -68,5 +106,6 @@ public class ClickUIScreen extends GuiScreen {
     public void onGuiClosed() {
         super.onGuiClosed();
         Nebula.getInstance().getModules().saveModules(DEFAULT_CONFIG);
+        renderedDescription = null;
     }
 }
