@@ -1,10 +1,15 @@
 package lol.nebula.util.render;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ResourceLocation;
+
+import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -77,6 +82,90 @@ public class RenderUtils {
 
         glEnable(GL_TEXTURE_2D);
         glDisable(GL_BLEND);
+    }
+
+    public static void gradientRect(double x, double y, double width, double height, int tl, int bl, int tr, int br) {
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        glDisable(GL_TEXTURE_2D);
+
+        glShadeModel(GL_SMOOTH);
+
+        glBegin(GL_QUADS);
+        {
+            setColor(tr);
+            glVertex2d(x + width, y);
+            setColor(tl);
+            glVertex2d(x, y);
+            setColor(bl);
+            glVertex2d(x, y + height);
+            setColor(br);
+            glVertex2d(x + width, y + height);
+        }
+        glEnd();
+
+        glShadeModel(GL_FLAT);
+
+        glEnable(GL_TEXTURE_2D);
+        glDisable(GL_BLEND);
+    }
+
+    public static void triangle(double x, double y, double width, double height, int color) {
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        glDisable(GL_TEXTURE_2D);
+
+        glEnable(GL_POLYGON_SMOOTH);
+        glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+
+        width *= 0.5;
+
+        setColor(color);
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawing(GL_POLYGON);
+        tessellator.addVertex(x, y, 0.0);
+        tessellator.addVertex(x - width, y + height, 0.0);
+        tessellator.addVertex(x, y + height, 0.0);
+        tessellator.addVertex(x + width, y + height, 0.0);
+        tessellator.addVertex(x, y, 0.0);
+        tessellator.draw();
+
+        glDisable(GL_POLYGON_SMOOTH);
+
+        glEnable(GL_TEXTURE_2D);
+        glDisable(GL_BLEND);
+    }
+
+    public static void renderTexture(ResourceLocation loc, double x, double y, int w, int h) {
+        glPushMatrix();
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        mc.getTextureManager().bindTexture(loc);
+
+        setColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+        // this is from mc 1.8.9 code cause 1.7.2 fucking sucks
+
+        float u = 0.0f;
+        float v = 0.0f;
+
+        float f = 1.0F / (float) w;
+        float f1 = 1.0F / (float) h;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV(x, y + h, 0.0D, u * f, (v + (float)h) * f1);
+        tessellator.addVertexWithUV(x + w, y + h, 0.0D, (u + (float)w) * f, (v + (float)h) * f1);
+        tessellator.addVertexWithUV(x + w, y, 0.0D, (u + (float)w) * f, v * f1);
+        tessellator.addVertexWithUV(x, y, 0.0D, u * f, v * f1);
+        tessellator.draw();
+
+        glDisable(GL_BLEND);
+        glPopMatrix();
     }
 
     public static void filledAabb(AxisAlignedBB box) {

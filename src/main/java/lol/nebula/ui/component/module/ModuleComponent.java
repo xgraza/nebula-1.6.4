@@ -5,10 +5,7 @@ import lol.nebula.module.Module;
 import lol.nebula.module.visual.Interface;
 import lol.nebula.setting.Setting;
 import lol.nebula.ui.component.Component;
-import lol.nebula.ui.component.module.setting.BindSettingComponent;
-import lol.nebula.ui.component.module.setting.BooleanSettingComponent;
-import lol.nebula.ui.component.module.setting.EnumSettingComponent;
-import lol.nebula.ui.component.module.setting.NumberSettingComponent;
+import lol.nebula.ui.component.module.setting.*;
 import lol.nebula.util.render.RenderUtils;
 import lol.nebula.util.render.animation.Animation;
 import lol.nebula.util.render.animation.Easing;
@@ -49,6 +46,8 @@ public class ModuleComponent extends Component {
                 getChildren().add(new NumberSettingComponent((Setting<Number>) setting));
             } else if (setting.getValue() instanceof Bind) {
                 getChildren().add(new BindSettingComponent((Setting<Bind>) setting));
+            } else if (setting.getValue() instanceof Color) {
+                getChildren().add(new ColorSettingComponent((Setting<Color>) setting));
             }
         }
     }
