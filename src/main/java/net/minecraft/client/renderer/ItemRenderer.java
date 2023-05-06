@@ -408,7 +408,7 @@ public class ItemRenderer
             var15 = MathHelper.sin(MathHelper.sqrt_float(var13) * (float)Math.PI);
             var16 = 0.4F;
 
-            if (!animations.isToggled() || var8.getItemUseAction() != EnumAction.block) {
+            if (!animations.isToggled()) {
                 GL11.glTranslatef(0.7F * var22, -0.65F * var22 - (1.0F - var2) * 0.6F, -0.9F * var22);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
                 GL11.glRotatef(-var14 * 20.0F, 0.0F, 1.0F, 0.0F);
@@ -430,8 +430,22 @@ public class ItemRenderer
                     var26 = EnumAction.block;
                 }
 
+                if (var26 != EnumAction.block && animations.isToggled()) {
+                    GL11.glTranslatef(0.7F * var22, -0.65F * var22 - (1.0F - var2) * 0.6F, -0.9F * var22);
+                    GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(-var14 * 20.0F, 0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(-var15 * 20.0F, 0.0F, 0.0F, 1.0F);
+                    GL11.glRotatef(-var15 * 80.0F, 1.0F, 0.0F, 0.0F);
+                    GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+                    GL11.glScalef(var16, var16, var16);
+                }
+
                 if (var26 == EnumAction.block)
                 {
+                    if (animations.isToggled()) {
+                        GL11.glTranslated(0.0, -0.07, 0.0);
+                    }
+
                     float f = MathHelper.sin(var13 * var13 * (float)Math.PI);
                     float f1 = MathHelper.sin(MathHelper.sqrt_float(var13) * (float)Math.PI);
 
