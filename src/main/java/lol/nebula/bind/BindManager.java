@@ -23,7 +23,7 @@ public class BindManager {
     @Listener
     public void onKeyInput(EventKeyInput event) {
         // if the key is not known, do not try to handle it
-        if (event.getKeyCode() == KEY_NONE) return;
+        if (event.getKeyCode() <= KEY_NONE) return;
 
         for (Bind bind : bindList) {
 
