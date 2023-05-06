@@ -2,6 +2,7 @@ package lol.nebula.module.visual;
 
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
+import lol.nebula.setting.Setting;
 import lol.nebula.ui.ClickUIScreen;
 
 import static org.lwjgl.input.Keyboard.KEY_RSHIFT;
@@ -16,6 +17,9 @@ public class ClickUI extends Module {
      * The instance of the Click UI
      */
     private static ClickUIScreen clickUIScreen;
+
+    public final Setting<Boolean> showDescriptions = new Setting<>(true, "Show Descriptions");
+    public final Setting<Boolean> pause = new Setting<>(false, "Pause");
 
     public ClickUI() {
         super("Click UI", "Displays an interface to modify modules and settings", ModuleCategory.VISUAL);

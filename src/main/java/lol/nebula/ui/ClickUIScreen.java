@@ -3,6 +3,7 @@ package lol.nebula.ui;
 import lol.nebula.Nebula;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
+import lol.nebula.module.visual.ClickUI;
 import lol.nebula.ui.component.Component;
 import lol.nebula.ui.component.category.CategoryFrame;
 import lol.nebula.ui.component.module.ModuleComponent;
@@ -25,11 +26,10 @@ import static lol.nebula.module.ModuleManager.DEFAULT_CONFIG;
  */
 public class ClickUIScreen extends GuiScreen {
 
-    private final List<CategoryFrame> categoryFrames = new ArrayList<>();
+    private static final ClickUI GUI = Nebula.getInstance().getModules().get(ClickUI.class);
 
-    private final Animation descriptionAnimation = new Animation(Easing.CUBIC_IN_OUT, 250, false);
+    private final List<CategoryFrame> categoryFrames = new ArrayList<>();
     private final Timer descriptionTimer = new Timer();
-    private String renderedDescription;
 
     public ClickUIScreen() {
         double x = 4.0;
@@ -57,6 +57,9 @@ public class ClickUIScreen extends GuiScreen {
         for (CategoryFrame categoryFrame : categoryFrames) {
             categoryFrame.render(par1, par2, par3);
         }
+
+        // if to not show descriptions then return
+        if (!GUI.showDescriptions.getValue()) return;
 
         for (CategoryFrame categoryFrame : categoryFrames) {
             for (Component component : categoryFrame.getChildren()) {
@@ -106,6 +109,10 @@ public class ClickUIScreen extends GuiScreen {
     public void onGuiClosed() {
         super.onGuiClosed();
         Nebula.getInstance().getModules().saveModules(DEFAULT_CONFIG);
-        renderedDescription = null;
+    }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return GUI.pause.getValue();
     }
 }
