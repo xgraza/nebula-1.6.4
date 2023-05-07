@@ -2,6 +2,7 @@ package lol.nebula.module.player;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
+import lol.nebula.listener.events.entity.move.EventMove;
 import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.listener.events.render.world.EventRender3D;
 import lol.nebula.module.Module;
@@ -9,6 +10,7 @@ import lol.nebula.module.ModuleCategory;
 import lol.nebula.module.combat.AutoGapple;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.math.RotationUtils;
+import lol.nebula.util.player.MoveUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -167,6 +169,11 @@ public class AutoHighway extends Module {
             place(next);
 
         }
+    }
+
+    @Listener
+    public void onMove(EventMove event) {
+        if (mc.thePlayer.onGround && autoWalk.getValue()) MoveUtils.safewalk(event);
     }
 
     private void breakBlock(Position next) {
