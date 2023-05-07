@@ -71,6 +71,7 @@ public class ModuleManager {
                 new AutoWalk(),
                 new EntitySpeed(),
                 new Flight(),
+                new IceSpeed(),
                 new InvWalk(),
                 new Jesus(),
                 new LongJump(),
