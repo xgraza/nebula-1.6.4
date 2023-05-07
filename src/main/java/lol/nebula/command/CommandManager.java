@@ -44,6 +44,7 @@ public class CommandManager {
                 new Prefix(),
                 new SpawnTP(),
                 new Toggle(),
+                new Value(),
                 new VClip()
         );
     }
