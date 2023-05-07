@@ -328,6 +328,9 @@ public class GuiIngame extends Gui
             this.drawString(var8, var20, var6 - var8.getStringWidth(var20) - 2, 2, 14737632);
             var20 = "Allocated memory: " + var41 * 100L / var38 + "% (" + var41 / 1024L / 1024L + "MB)";
             this.drawString(var8, var20, var6 - var8.getStringWidth(var20) - 2, 12, 14737632);
+            var20 = "Server TPS: " + Nebula.getInstance().getTick().getTps();
+            drawString(var8, var20, var6 - var8.getStringWidth(var20) - 2, 22, 14737632);
+
             var22 = MathHelper.floor_double(this.mc.thePlayer.posX);
             var23 = MathHelper.floor_double(this.mc.thePlayer.posY);
             int var24 = MathHelper.floor_double(this.mc.thePlayer.posZ);

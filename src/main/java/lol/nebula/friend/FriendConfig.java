@@ -1,4 +1,4 @@
-package lol.nebula.management.friend;
+package lol.nebula.friend;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

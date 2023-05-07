@@ -1,4 +1,4 @@
-package lol.nebula.management.friend;
+package lol.nebula.friend;
 
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.entity.player.EntityPlayer;

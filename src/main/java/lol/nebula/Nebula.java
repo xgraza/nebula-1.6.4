@@ -7,13 +7,12 @@ import lol.nebula.config.ConfigManager;
 import lol.nebula.listener.bus.EventBus;
 import lol.nebula.management.InventoryManager;
 import lol.nebula.management.RotationManager;
-import lol.nebula.management.friend.FriendManager;
+import lol.nebula.friend.FriendManager;
+import lol.nebula.management.TickManager;
 import lol.nebula.module.ModuleManager;
 import lol.nebula.util.math.timing.Timer;
 import lol.nebula.util.render.font.Fonts;
-import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.util.Session;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
@@ -57,6 +56,7 @@ public class Nebula {
     private final FriendManager friends;
     private final InventoryManager inventory;
     private final RotationManager rotations;
+    private final TickManager tick;
 
     private Nebula() {
         singleton = this;
@@ -80,12 +80,14 @@ public class Nebula {
         friends = new FriendManager();
         inventory = new InventoryManager();
         rotations = new RotationManager();
+        tick = new TickManager();
 
         // subscribe listeners
         bus.subscribe(binds);
         bus.subscribe(commands);
         bus.subscribe(inventory);
         bus.subscribe(rotations);
+        bus.subscribe(tick);
 
         // load fonts
         Fonts.loadFonts();
@@ -153,6 +155,14 @@ public class Nebula {
      */
     public RotationManager getRotations() {
         return rotations;
+    }
+
+    /**
+     * Gets the tick manager instance
+     * @return the tick manager instance
+     */
+    public TickManager getTick() {
+        return tick;
     }
 
     /**
