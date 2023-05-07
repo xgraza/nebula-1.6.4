@@ -1,5 +1,6 @@
 package lol.nebula;
 
+import lol.nebula.account.AccountManager;
 import lol.nebula.bind.BindManager;
 import lol.nebula.command.CommandManager;
 import lol.nebula.config.Config;
@@ -54,6 +55,7 @@ public class Nebula {
     private final ModuleManager modules;
     private final CommandManager commands;
     private final FriendManager friends;
+    private final AccountManager accounts;
     private final InventoryManager inventory;
     private final RotationManager rotations;
     private final TickManager tick;
@@ -78,6 +80,7 @@ public class Nebula {
         modules = new ModuleManager();
         commands = new CommandManager();
         friends = new FriendManager();
+        accounts = new AccountManager();
         inventory = new InventoryManager();
         rotations = new RotationManager();
         tick = new TickManager();
@@ -139,6 +142,14 @@ public class Nebula {
      */
     public FriendManager getFriends() {
         return friends;
+    }
+
+    /**
+     * Gets the account manager instance
+     * @return the account manager instance
+     */
+    public AccountManager getAccounts() {
+        return accounts;
     }
 
     /**
