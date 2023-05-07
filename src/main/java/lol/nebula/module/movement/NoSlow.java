@@ -6,6 +6,7 @@ import lol.nebula.listener.events.entity.move.EventSlowdown;
 import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
+import lol.nebula.setting.Setting;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 
@@ -14,6 +15,8 @@ import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
  * @since 04/29/23
  */
 public class NoSlow extends Module {
+    private final Setting<Boolean> swords = new Setting<>(true, "Swords");
+
     public NoSlow() {
         super("No Slow", "Stops items from slowing you down", ModuleCategory.MOVEMENT);
     }
@@ -28,7 +31,7 @@ public class NoSlow extends Module {
 
     @Listener
     public void onWalkingUpdate(EventWalkingUpdate event) {
-        if (!mc.thePlayer.isRiding() && mc.thePlayer.isBlocking()) {
+        if (!mc.thePlayer.isRiding() && mc.thePlayer.isBlocking() && swords.getValue()) {
             if (event.getStage() == EventStage.PRE) {
                 mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
                         5, 0, 0, 0, 255));
