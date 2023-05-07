@@ -81,6 +81,7 @@ public class ModuleManager {
 
                 new AntiGhostBlock(),
                 new AntiRevert(),
+                new AutoHighway(),
                 new AutoRape(),
                 new AutoReconnect(),
                 new AutoRespawn(),

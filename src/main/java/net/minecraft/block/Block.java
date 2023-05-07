@@ -104,7 +104,7 @@ public class Block
     protected boolean field_149783_u;
 
     /** Indicates how many hits it takes to break a block. */
-    protected float blockHardness;
+    public float blockHardness;
     protected float blockResistance;
     protected boolean field_149791_x = true;
     protected boolean enableStats = true;

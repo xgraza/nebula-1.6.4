@@ -21,6 +21,11 @@ public enum EnumFacing
     /** List of all values in EnumFacing. Order is D-U-N-S-E-W. */
     public static final EnumFacing[] faceList = new EnumFacing[6];
 
+    /**
+     * List of all values that are horizontals. Order is N-S-E-W
+     */
+    public static final EnumFacing[] HORIZONTALS = new EnumFacing[4];
+
     EnumFacing(int par3, int par4, int par5, int par6, int par7)
     {
         this.order_a = par3;
@@ -67,6 +72,10 @@ public enum EnumFacing
         return faceList[par0 % faceList.length];
     }
 
+    public static EnumFacing getHorizontal(int par0) {
+        return HORIZONTALS[Math.abs((par0 - 2) % HORIZONTALS.length)];
+    }
+
     static {
         EnumFacing[] var0 = values();
         int var1 = var0.length;
@@ -75,6 +84,15 @@ public enum EnumFacing
         {
             EnumFacing var3 = var0[var2];
             faceList[var3.order_a] = var3;
+        }
+
+        for (int i = 0; i < var1; ++i) {
+            EnumFacing facing = var0[i];
+            if (facing.equals(EnumFacing.UP) || facing.equals(EnumFacing.DOWN)) {
+                continue;
+            }
+
+            HORIZONTALS[facing.ordinal() - 2] = facing;
         }
     }
 }

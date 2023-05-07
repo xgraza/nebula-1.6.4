@@ -35,7 +35,7 @@ public class AutoTool extends Module {
      * @param block the block
      * @return the best slot or -1
      */
-    private int getBestSlotFor(Block block) {
+    public static int getBestSlotFor(Block block) {
         int slot = -1;
         float damage = 0.0f;
 
@@ -61,7 +61,7 @@ public class AutoTool extends Module {
      * @param block the block
      * @return the strVsBlock + enchantment or * 0.6 if gold material
      */
-    private float getToolDamage(ItemStack stack, Block block) {
+    private static float getToolDamage(ItemStack stack, Block block) {
 
         float score = stack.func_150997_a(block);
 
