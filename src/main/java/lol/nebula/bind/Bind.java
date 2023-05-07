@@ -1,5 +1,6 @@
 package lol.nebula.bind;
 
+import lol.nebula.util.feature.ITaggable;
 import lol.nebula.util.feature.IToggleable;
 
 import java.util.function.Consumer;
@@ -8,19 +9,18 @@ import java.util.function.Consumer;
  * @author aesthetical
  * @since 04/27/23
  */
-public class Bind implements IToggleable {
+public class Bind implements IToggleable, ITaggable {
 
-    private BindDevice device = BindDevice.KEYBOARD;
+    private final String tag;
+
+    private BindDevice device;
     private int key = -1;
 
     private boolean state;
     private Consumer<Bind> action;
 
-    public Bind(Consumer<Bind> action) {
-        this.action = action;
-    }
-
-    public Bind(Consumer<Bind> action, BindDevice device, int key) {
+    public Bind(String tag, Consumer<Bind> action, BindDevice device, int key) {
+        this.tag = tag;
         this.action = action;
         this.device = device;
         this.key = key;
@@ -73,4 +73,8 @@ public class Bind implements IToggleable {
         this.state = state;
     }
 
+    @Override
+    public String getTag() {
+        return tag;
+    }
 }

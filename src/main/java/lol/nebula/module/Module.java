@@ -37,8 +37,7 @@ public class Module extends SettingContainer implements ITaggable, IToggleable, 
 
     private final Animation animation = new Animation(Easing.CUBIC_IN_OUT, 235, false);
 
-    private final Setting<Bind> bind = new Setting<>(new Bind(
-            (bind) -> setState(bind.isToggled()), BindDevice.KEYBOARD, KEY_NONE), "Bind");
+    private final Setting<Bind> bind;
 
     /**
      * The module state
@@ -60,6 +59,9 @@ public class Module extends SettingContainer implements ITaggable, IToggleable, 
         this.tag = tag;
         this.description = description;
         this.category = category;
+
+        bind = new Setting<>(new Bind(tag,
+                (bind) -> setState(bind.isToggled()), BindDevice.KEYBOARD, KEY_NONE), "Bind");
     }
 
     @Override

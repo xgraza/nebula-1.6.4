@@ -140,15 +140,6 @@ public class Setting<T> implements ITaggable, IJsonSerializable {
                 } catch (Exception ignored) {
 
                 }
-            } else if (value instanceof Bind) {
-                if (!element.isJsonObject()) return;
-
-                JsonObject bindObject = element.getAsJsonObject();
-
-                ((Bind) value).setKey(bindObject.get("key").getAsInt());
-                ((Bind) value).setState(bindObject.get("state").getAsBoolean());
-                ((Bind) value).setDevice(BindDevice.valueOf(bindObject.get("device").getAsString()));
-
             }
         }
     }
@@ -177,15 +168,6 @@ public class Setting<T> implements ITaggable, IJsonSerializable {
             settingObject.addProperty("value", ((Boolean) value));
         } else if (value instanceof Enum<?>) {
             settingObject.addProperty("value", ((Enum<?>) value).name());
-        } else if (value instanceof Bind) {
-            JsonObject bindObject = new JsonObject();
-            Bind bind = (Bind) value;
-
-            bindObject.addProperty("key", bind.getKey());
-            bindObject.addProperty("state", bind.isToggled());
-            bindObject.addProperty("device", bind.getDevice().name());
-
-            settingObject.add("value", bindObject);
         }
 
         return settingObject;
