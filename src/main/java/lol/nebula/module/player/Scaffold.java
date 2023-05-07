@@ -3,6 +3,7 @@ package lol.nebula.module.player;
 import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
+import lol.nebula.listener.events.entity.move.EventMove;
 import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.listener.events.render.gui.overlay.EventRender2D;
 import lol.nebula.module.Module;
@@ -11,6 +12,7 @@ import lol.nebula.setting.Setting;
 import lol.nebula.util.math.Pair;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.math.timing.Timer;
+import lol.nebula.util.player.MoveUtils;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -152,6 +154,13 @@ public class Scaffold extends Module {
                 }
             }
         }
+    }
+
+    @Listener
+    public void onMove(EventMove event) {
+        if (mc.thePlayer.onGround
+                && MoveUtils.isMoving()
+                && !mc.gameSettings.keyBindJump.pressed) MoveUtils.safewalk(event);
     }
 
     /**
