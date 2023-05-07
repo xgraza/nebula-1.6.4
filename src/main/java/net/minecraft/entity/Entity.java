@@ -2117,8 +2117,6 @@ public abstract class Entity
 
     protected boolean func_145771_j(double p_145771_1_, double p_145771_3_, double p_145771_5_)
     {
-        if (Nebula.getBus().dispatch(new EventPushOutOfBlocks(this))) return false;
-
         int var7 = MathHelper.floor_double(p_145771_1_);
         int var8 = MathHelper.floor_double(p_145771_3_);
         int var9 = MathHelper.floor_double(p_145771_5_);

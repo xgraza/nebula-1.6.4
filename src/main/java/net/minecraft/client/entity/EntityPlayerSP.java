@@ -1,6 +1,7 @@
 package net.minecraft.client.entity;
 
 import lol.nebula.Nebula;
+import lol.nebula.listener.events.entity.move.EventPushOutOfBlocks;
 import lol.nebula.listener.events.entity.move.EventSlowdown;
 import lol.nebula.listener.events.entity.EventUpdate;
 import lol.nebula.listener.events.render.gui.overlay.EventFoV;
@@ -532,6 +533,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     protected boolean func_145771_j(double p_145771_1_, double p_145771_3_, double p_145771_5_)
     {
+        if (Nebula.getBus().dispatch(new EventPushOutOfBlocks(this))) return false;
+
         int var7 = MathHelper.floor_double(p_145771_1_);
         int var8 = MathHelper.floor_double(p_145771_3_);
         int var9 = MathHelper.floor_double(p_145771_5_);

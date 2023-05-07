@@ -37,8 +37,6 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class AutoHighway extends Module {
 
-    private static final AutoGapple AUTO_GAPPLE = Nebula.getInstance().getModules().get(AutoGapple.class);
-
     private static final int BREAKING_COLOR = new Color(255, 0, 0, 120).getRGB();
     private static final int BREAK_COLOR = new Color(0, 255, 0, 120).getRGB();
     private static final int PLACE_COLOR = new Color(0, 0, 255, 120).getRGB();
@@ -117,6 +115,8 @@ public class AutoHighway extends Module {
         updatePositions();
 
         if (autoWalk.getValue()) {
+
+            AutoGapple AUTO_GAPPLE = Nebula.getInstance().getModules().get(AutoGapple.class);
 
             // do not interfere with auto gapple / auto eat (TODO)
             if (AUTO_GAPPLE.isEating()) {
