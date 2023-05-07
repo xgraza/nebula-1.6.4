@@ -76,6 +76,7 @@ public class ModuleManager {
                 new Jesus(),
                 new LongJump(),
                 new MaxHorseJump(),
+                new NoJumpDelay(),
                 new NoPush(),
                 new NoSlow(),
                 new Safewalk(),
