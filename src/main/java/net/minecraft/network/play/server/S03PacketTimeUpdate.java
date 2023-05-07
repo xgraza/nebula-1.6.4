@@ -66,9 +66,17 @@ public class S03PacketTimeUpdate extends Packet
         return this.field_149369_a;
     }
 
+    public void setField_149368_b(long field_149368_b) {
+        this.field_149368_b = field_149368_b;
+    }
+
     public long func_149365_d()
     {
         return this.field_149368_b;
+    }
+
+    public void setField_149369_a(long field_149369_a) {
+        this.field_149369_a = field_149369_a;
     }
 
     public void processPacket(INetHandler p_148833_1_)
