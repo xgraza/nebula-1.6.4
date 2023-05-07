@@ -51,12 +51,24 @@ public abstract class Command {
      * Prints a message for this command
      * @param message the message to print to the in game chat
      */
-    public void print(String message) {
+    public void printEditable(String message) {
         mc.ingameGUI.getChatGUI().func_146234_a(new ChatComponentText(EnumChatFormatting.LIGHT_PURPLE + "nebula")
                 .appendText(" ")
                 .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GRAY))
                 .appendText("> ")
                 .appendText(message), hashCode());
+    }
+
+    /**
+     * Prints a message for this command
+     * @param message the message to print to the in game chat
+     */
+    public void print(String message) {
+        mc.ingameGUI.getChatGUI().func_146227_a(new ChatComponentText(EnumChatFormatting.LIGHT_PURPLE + "nebula")
+                .appendText(" ")
+                .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GRAY))
+                .appendText("> ")
+                .appendText(message));
     }
 
     /**

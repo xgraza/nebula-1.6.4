@@ -41,6 +41,7 @@ public class CommandManager {
                 new Drawn(),
                 new FakePlayer(),
                 new Friend(),
+                new Help(),
                 new Prefix(),
                 new SpawnTP(),
                 new Toggle(),
@@ -79,7 +80,7 @@ public class CommandManager {
                     String dispatched = command.dispatch(args);
                     if (dispatched == null) dispatched = "Command dispatched successfully.";
 
-                    command.print(dispatched);
+                    command.printEditable(dispatched);
                 } catch (Exception e) {
                     Nebula.getLogger().error("Failed to run command {}", command.getAliases()[0]);
                     e.printStackTrace();
