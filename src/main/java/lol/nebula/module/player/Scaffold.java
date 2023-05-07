@@ -13,6 +13,7 @@ import lol.nebula.util.math.Pair;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.math.timing.Timer;
 import lol.nebula.util.player.MoveUtils;
+import lol.nebula.util.world.WorldUtils;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -23,8 +24,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 
 import static lol.nebula.util.player.InventoryUtils.isInfinite;
-import static lol.nebula.util.world.WorldUtils.getOpposite;
-import static lol.nebula.util.world.WorldUtils.isReplaceable;
+import static lol.nebula.util.world.WorldUtils.*;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
@@ -131,7 +131,7 @@ public class Scaffold extends Module {
                     (int) next.getKey().yCoord,
                     (int) next.getKey().zCoord,
                     next.getValue().getOrder_a(),
-                    next.getKey().addVector(0.5, 0.5, 0.5));
+                    getHitVec(next.getKey(), next.getValue()));
 
             Nebula.getInstance().getInventory().sync();
 

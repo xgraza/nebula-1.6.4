@@ -16,8 +16,7 @@ import net.minecraft.util.Vec3;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import static lol.nebula.util.world.WorldUtils.getOpposite;
-import static lol.nebula.util.world.WorldUtils.isReplaceable;
+import static lol.nebula.util.world.WorldUtils.*;
 
 /**
  * @author aesthetical
@@ -82,7 +81,7 @@ public class Flatten extends Module {
                         (int) next.getKey().yCoord,
                         (int) next.getKey().zCoord,
                         next.getValue().getOrder_a(),
-                        next.getKey().addVector(0.5, 0.5, 0.5)
+                        getHitVec(next.getKey(), next.getValue())
                 );
 
                 // if the placement was successful, increment blocksPlaced and swing the item we're holding server-sided

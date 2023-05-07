@@ -29,8 +29,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static lol.nebula.util.render.RenderUtils.filledAabb;
 import static lol.nebula.util.render.RenderUtils.setColor;
-import static lol.nebula.util.world.WorldUtils.getOpposite;
-import static lol.nebula.util.world.WorldUtils.isReplaceable;
+import static lol.nebula.util.world.WorldUtils.*;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -190,22 +189,23 @@ public class AutoHighway extends Module {
     }
 
     private void place(Position next) {
-        int face = -1;
+        EnumFacing face = null;
         for (EnumFacing facing : EnumFacing.values()) {
             Position n = next.add(facing.getFrontOffsetX(), facing.getFrontOffsetY(), facing.getFrontOffsetZ());
             if (!isReplaceable(n.getX(), n.getY(), n.getZ())) {
                 next = n;
-                face = getOpposite(facing).getOrder_a();
+                face = getOpposite(facing);
                 break;
             }
         }
 
-        if (face == -1) return;
+        if (face == null) return;
 
         Block lookingFor = Blocks.obsidian;
-        if (mc.theWorld.getBlock(next.getX(), next.getY(), next.getZ()) instanceof BlockLiquid) {
-            lookingFor = Blocks.netherrack;
-        }
+        if (mc.theWorld.getBlock(
+                next.getX(),
+                next.getY(),
+                next.getZ()) instanceof BlockLiquid) lookingFor = Blocks.netherrack;
 
         int slot = -1;
         for (int i = 0; i < 9; ++i) {
@@ -222,13 +222,13 @@ public class AutoHighway extends Module {
         mc.thePlayer.inventory.currentItem = slot;
 
         if (rotate.getValue()) Nebula.getInstance().getRotations().spoof(RotationUtils.toBlock(
-                next.getX(), next.getY(), next.getZ(), EnumFacing.faceList[face]));
+                next.getX(), next.getY(), next.getZ(), face));
 
         boolean result = mc.playerController.onPlayerRightClick(mc.thePlayer,
                 mc.theWorld,
                 mc.thePlayer.getHeldItem(),
-                next.getX(), next.getY(), next.getZ(), face,
-                new Vec3(Vec3.fakePool, next.getX() + 0.5, next.getY() + 0.5, next.getZ() + 0.5));
+                next.getX(), next.getY(), next.getZ(), face.getOrder_a(),
+                getHitVec(next.getX(), next.getY(), next.getZ(), face));
         if (result) mc.thePlayer.swingItem();
     }
 

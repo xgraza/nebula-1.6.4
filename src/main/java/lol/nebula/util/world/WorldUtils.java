@@ -49,4 +49,29 @@ public class WorldUtils {
         return EnumFacing.faceList[facing.getOrder_b()];
     }
 
+    /**
+     * Gets a hit vector for a block placement
+     * @param vec the xyz vector
+     * @param facing the facing value
+     * @return the hit vector for this placement
+     */
+    public static Vec3 getHitVec(Vec3 vec, EnumFacing facing) {
+        return getHitVec((int) vec.xCoord, (int) vec.yCoord, (int) vec.zCoord, facing);
+    }
+
+    /**
+     * Gets a hit vector for a block placement
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param z the z coordinate
+     * @param facing the facing value
+     * @return the hit vector for this placement
+     */
+    public static Vec3 getHitVec(int x, int y, int z, EnumFacing facing) {
+        return new Vec3(Vec3.fakePool, x, y, z)
+                .addVector(0.5, 0.5, 0.5)
+                .addVector(facing.getFrontOffsetX() * 0.5,
+                        facing.getFrontOffsetY() * 0.5,
+                        facing.getFrontOffsetZ() * 0.5);
+    }
 }
