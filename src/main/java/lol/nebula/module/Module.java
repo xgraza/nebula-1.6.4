@@ -40,11 +40,6 @@ public class Module extends SettingContainer implements ITaggable, IToggleable, 
     private final Setting<Bind> bind;
 
     /**
-     * The module state
-     */
-    private boolean state;
-
-    /**
      * If the module should be drawn to the arraylist
      */
     private boolean drawn = true;
@@ -152,12 +147,11 @@ public class Module extends SettingContainer implements ITaggable, IToggleable, 
 
     @Override
     public boolean isToggled() {
-        return state;
+        return getBind().isToggled();
     }
 
     @Override
     public void setState(boolean state) {
-        this.state = state;
         getBind().setValue(state);
         if (state) {
             onEnable();
