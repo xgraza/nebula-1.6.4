@@ -33,13 +33,14 @@ public class ConfigShutdownHook extends Thread {
             for (Config config : configList) {
                 try {
                     config.save();
+                    System.out.printf("Saved config %s\n", config.getFile());
                 } catch (Exception e) {
-                    Nebula.getLogger().error("Failed to save {}", config.getFile());
+                    System.out.printf("Failed to save %s\n", config.getFile());
                     e.printStackTrace();
                 }
             }
 
-            System.out.printf("Saved %s config(s) in %sms\n", configList.size(), timer.getTimeElapsedMS());
+            System.out.printf("Saved %s configs in %sms\n", configList.size(), timer.getTimeElapsedMS());
         }
 
         System.out.println(Nebula.getInstance().getModules().saveModules(DEFAULT_CONFIG));
