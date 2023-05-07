@@ -17,6 +17,6 @@ public class Safewalk extends Module {
 
     @Listener
     public void onMove(EventMove event) {
-        MoveUtils.safewalk(event);
+        if (mc.thePlayer.onGround && MoveUtils.isMoving()) MoveUtils.safewalk(event);
     }
 }
