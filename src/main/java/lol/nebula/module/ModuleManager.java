@@ -76,6 +76,7 @@ public class ModuleManager {
                 new LongJump(),
                 new NoPush(),
                 new NoSlow(),
+                new Safewalk(),
                 new Speed(),
                 new Sprint(),
 

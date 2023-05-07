@@ -2,6 +2,8 @@ package lol.nebula.util.player;
 
 import lol.nebula.listener.events.entity.move.EventMove;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
@@ -88,6 +90,64 @@ public class MoveUtils {
     public static void freeze(EventMove event) {
         event.setX(0.0);
         event.setZ(0.0);
+    }
+
+    /**
+     * Forces safe walk onto this move event
+     * @param event the move event to modify
+     */
+    public static void safewalk(EventMove event) {
+
+        // see Entity#moveEntity
+
+        double x = event.getX();
+        double z = event.getZ();
+
+        EntityPlayerSP player = mc.thePlayer;
+        WorldClient world = mc.theWorld;
+
+        double d6 = 0.05;
+
+        while (x != 0.0 && world.getCollidingBoundingBoxes(player, player.boundingBox.copy().offset(x, -1.0, 0.0)).isEmpty()) {
+            if (x < d6 && x >= -d6) {
+                x = 0.0;
+            } else if (x > 0.0) {
+                x -= d6;
+            } else {
+                x += d6;
+            }
+        }
+
+        while (z != 0.0 && world.getCollidingBoundingBoxes(player, player.boundingBox.copy().offset(0.0, -1.0, z)).isEmpty()) {
+            if (z < d6 && z >= -d6) {
+                z = 0.0;
+            } else if (z > 0.0) {
+                z -= d6;
+            } else {
+                z += d6;
+            }
+        }
+
+        while (x != 0.0 && z != 0.0 && world.getCollidingBoundingBoxes(player, player.boundingBox.copy().offset(x, -1.0, z)).isEmpty()) {
+            if (x < d6 && x >= -d6) {
+                x = 0.0;
+            } else if (x > 0.0) {
+                x -= d6;
+            } else {
+                x += d6;
+            }
+
+            if (z < d6 && z >= -d6) {
+                z = 0.0;
+            } else if (z > 0.0) {
+                z -= d6;
+            } else {
+                z += d6;
+            }
+        }
+
+        event.setX(x);
+        event.setZ(z);
     }
 
     /**
