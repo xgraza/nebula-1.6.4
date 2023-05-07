@@ -60,6 +60,30 @@ public class RotationUtils {
     }
 
     /**
+     * Gets rotations to a block and its face
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param z the z coordinate
+     * @param facing the face of the block
+     * @return the resulting rotations
+     */
+    public static float[] toBlock(int x, int y, int z, EnumFacing facing) {
+        Vec3 vec = new Vec3(Vec3.fakePool,
+                x + 0.5 + (facing.getFrontOffsetX() / 2.0),
+                y - 0.5 + (facing.getFrontOffsetY() / 2.0),
+                z + 0.5 + (facing.getFrontOffsetZ() / 2.0));
+
+        double diffX = vec.xCoord - mc.thePlayer.posX;
+        double diffY = vec.yCoord - mc.thePlayer.posY;
+        double diffZ = vec.zCoord - mc.thePlayer.posZ;
+
+        float yaw = (float) -(Math.toDegrees(Math.atan2(diffX, diffZ)));
+        float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, Math.hypot(diffX, diffZ))));
+
+        return new float[] { yaw, MathHelper.clamp_float(pitch, -90.0f, 90.0f) };
+    }
+
+    /**
      * Sets server-side rotations
      * @param event the event to modify
      * @param rotations the spoofed rotations

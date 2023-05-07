@@ -29,6 +29,18 @@ public class WorldUtils {
     }
 
     /**
+     * Checks if a block is replaceable
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param z the z coordinate
+     * @return if that block can be replaced at that position
+     */
+    public static boolean isReplaceable(int x, int y, int z) {
+        Block block = mc.theWorld.getBlock(x, y, z);
+        return block != null && block.getMaterial().isReplaceable();
+    }
+
+    /**
      * Gets the opposite facing enum for the inputted face
      * @param facing the face
      * @return the opposite face enum constant

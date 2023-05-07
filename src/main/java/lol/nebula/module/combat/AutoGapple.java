@@ -135,4 +135,12 @@ public class AutoGapple extends Module {
             }
         }
     }
+
+    /**
+     * Checks if we are eating
+     * @return if we are eating or not
+     */
+    public boolean isEating() {
+        return eating;
+    }
 }
