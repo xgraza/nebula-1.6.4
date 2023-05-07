@@ -3,7 +3,7 @@ package lol.nebula.module.visual;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
-import lol.nebula.ui.ClickUIScreen;
+import lol.nebula.ui.click.ClickUIScreen;
 
 import static org.lwjgl.input.Keyboard.KEY_RSHIFT;
 

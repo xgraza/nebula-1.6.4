@@ -1,4 +1,4 @@
-package lol.nebula.ui.component;
+package lol.nebula.ui.click.component;
 
 import net.minecraft.client.Minecraft;
 

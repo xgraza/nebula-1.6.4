@@ -1,11 +1,11 @@
-package lol.nebula.ui.component.category;
+package lol.nebula.ui.click.component.category;
 
 import lol.nebula.Nebula;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
-import lol.nebula.ui.component.Component;
-import lol.nebula.ui.component.DraggableComponent;
-import lol.nebula.ui.component.module.ModuleComponent;
+import lol.nebula.ui.click.component.Component;
+import lol.nebula.ui.click.component.DraggableComponent;
+import lol.nebula.ui.click.component.module.ModuleComponent;
 import lol.nebula.util.render.RenderUtils;
 import lol.nebula.util.render.font.Fonts;
 

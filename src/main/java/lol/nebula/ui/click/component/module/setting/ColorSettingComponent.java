@@ -1,7 +1,7 @@
-package lol.nebula.ui.component.module.setting;
+package lol.nebula.ui.click.component.module.setting;
 
 import lol.nebula.setting.Setting;
-import lol.nebula.ui.component.Component;
+import lol.nebula.ui.click.component.Component;
 import lol.nebula.util.render.RenderUtils;
 import lol.nebula.util.render.animation.Animation;
 import lol.nebula.util.render.animation.Easing;

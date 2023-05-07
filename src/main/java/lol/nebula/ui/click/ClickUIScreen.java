@@ -1,16 +1,14 @@
-package lol.nebula.ui;
+package lol.nebula.ui.click;
 
 import lol.nebula.Nebula;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.module.visual.ClickUI;
-import lol.nebula.ui.component.Component;
-import lol.nebula.ui.component.category.CategoryFrame;
-import lol.nebula.ui.component.module.ModuleComponent;
+import lol.nebula.ui.click.component.Component;
+import lol.nebula.ui.click.component.category.CategoryFrame;
+import lol.nebula.ui.click.component.module.ModuleComponent;
 import lol.nebula.util.math.timing.Timer;
 import lol.nebula.util.render.RenderUtils;
-import lol.nebula.util.render.animation.Animation;
-import lol.nebula.util.render.animation.Easing;
 import lol.nebula.util.render.font.Fonts;
 import net.minecraft.client.gui.GuiScreen;
 
