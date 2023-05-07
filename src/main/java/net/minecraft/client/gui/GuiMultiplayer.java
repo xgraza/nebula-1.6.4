@@ -3,6 +3,8 @@ package net.minecraft.client.gui;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import java.util.List;
+
+import lol.nebula.ui.account.GuiAccountLoginScreen;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -85,6 +87,8 @@ public class GuiMultiplayer extends GuiScreen
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.format("selectServer.refresh", new Object[0])));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel", new Object[0])));
         this.func_146790_a(this.field_146803_h.func_148193_k());
+
+        buttonList.add(new GuiButton(69420, 4, 4, 100, 20, "Account Manager"));
     }
 
     /**
@@ -170,6 +174,9 @@ public class GuiMultiplayer extends GuiScreen
             else if (p_146284_1_.id == 8)
             {
                 this.func_146792_q();
+            }
+            else if (p_146284_1_.id == 69420) {
+                mc.displayGuiScreen(new GuiAccountLoginScreen());
             }
         }
     }
