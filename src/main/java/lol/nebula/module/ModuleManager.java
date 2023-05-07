@@ -95,6 +95,7 @@ public class ModuleManager {
                 new NoFall(),
                 new Scaffold(),
                 new Test(),
+                new YawLock(),
 
                 new Animations(),
                 new Chams(),
