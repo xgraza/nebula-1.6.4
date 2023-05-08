@@ -799,7 +799,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
     /**
      * sets up projection, view effects, camera position/rotation
      */
-    private void setupCameraTransform(float par1, int par2)
+    public void setupCameraTransform(float par1, int par2)
     {
         this.farPlaneDistance = (float)(this.mc.gameSettings.renderDistanceChunks * 16);
 

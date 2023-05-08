@@ -1,6 +1,7 @@
 package lol.nebula.util.render.shader;
 
 import lol.nebula.Nebula;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.ARBFragmentShader;
 import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
@@ -17,6 +18,11 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
  * <a href="http://web.archive.org/web/20200703200808/http://wiki.lwjgl.org/wiki/GLSL_Shaders_with_LWJGL.html">...</a>
  */
 public abstract class Shader {
+
+    /**
+     * The minecraft game instance
+     */
+    protected final Minecraft mc = Minecraft.getMinecraft();
 
     private final Map<String, Integer> uniforms = new LinkedHashMap<>();
 
