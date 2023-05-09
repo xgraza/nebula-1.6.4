@@ -82,6 +82,7 @@ public class ModuleManager {
                 new Safewalk(),
                 new Speed(),
                 new Sprint(),
+                new TargetStrafe(),
 
                 new AntiGhostBlock(),
                 new AntiRevert(),

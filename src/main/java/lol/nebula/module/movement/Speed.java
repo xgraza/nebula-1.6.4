@@ -119,11 +119,11 @@ public class Speed extends Module {
             }
 
             if (MoveUtils.isMoving()) {
-                MoveUtils.strafe(event, speed);
+                TargetStrafe.strafe(event, speed);
             }
         } else if (mode.getValue() == Mode.PORT) {
             if (MoveUtils.isMoving()) {
-                MoveUtils.strafe(event, speed);
+                TargetStrafe.strafe(event, speed);
             }
         }
     }

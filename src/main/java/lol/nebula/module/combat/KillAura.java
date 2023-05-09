@@ -169,6 +169,10 @@ public class KillAura extends Module {
         return blocking;
     }
 
+    public EntityLivingBase getTarget() {
+        return target;
+    }
+
     public enum Mode {
         SINGLE, SWITCH
     }
