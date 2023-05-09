@@ -51,6 +51,7 @@ public class ModuleManager {
                 new AutoGapple(),
                 new AutoLogout(),
                 new AutoPotion(),
+                new AutoTNTMinecart(),
                 new Criticals(),
                 new KillAura(),
                 new Regen(),
