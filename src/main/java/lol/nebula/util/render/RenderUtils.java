@@ -69,6 +69,7 @@ public class RenderUtils {
     public static void rect(double x, double y, double width, double height, int color) {
         glDisable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
+        glDisable(GL_LIGHTING);
         OpenGlHelper.glBlendFunc(770, 771, 0, 1);
 
         setColor(color);
