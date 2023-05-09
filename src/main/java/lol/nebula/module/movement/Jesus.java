@@ -17,7 +17,7 @@ import net.minecraft.util.Vec3;
  * @since 04/29/23
  */
 public class Jesus extends Module {
-    private static final AxisAlignedBB FULL_AABB = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
+    private static final AxisAlignedBB FULL_AABB = new AxisAlignedBB(0, 0, 0, 1, 0.99, 1);
 
     private final Setting<Mode> mode = new Setting<>(Mode.SOLID, "Mode");
 
@@ -56,8 +56,8 @@ public class Jesus extends Module {
 
         // every 2 ticks, move downwards in water
         if (mc.thePlayer.ticksExisted % 2 == 0) {
-            event.setY(event.getY() - 0.01);
-            event.setStance(event.getStance() - 0.01);
+            event.setY(event.getY() + 0.01);
+            event.setStance(event.getStance() + 0.01);
             event.setOnGround(false);
         }
     }
