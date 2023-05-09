@@ -76,7 +76,7 @@ public class AWTFontRenderer extends FontRenderer {
         if (Nebula.developmentSwitch) {
             glTranslated(x, y, 0.0);
         } else {
-            glTranslated(x - 1.0, y - 3.0, 0.0);
+            glTranslated(x, y - 3.0, 0.0);
         }
 
         glScaled(0.5, 0.5, 0.5);
