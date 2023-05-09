@@ -6,6 +6,7 @@ import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
+import lol.nebula.util.feature.DevelopmentFeature;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.math.timing.Timer;
 import net.minecraft.block.Block;
@@ -26,6 +27,7 @@ import static lol.nebula.util.world.WorldUtils.getHitVec;
  * @author aesthetical
  * @since 05/09/23
  */
+@DevelopmentFeature
 public class AutoTNTMinecart extends Module {
 
     private final Setting<Double> delay = new Setting<>(1.0, 0.01, 0.0, 10.0, "Delay");
