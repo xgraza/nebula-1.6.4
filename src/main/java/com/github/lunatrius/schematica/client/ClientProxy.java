@@ -47,7 +47,7 @@ public class ClientProxy extends CommonProxy
         //MinecraftForge.EVENT_BUS.register((Object)this.rendererSchematicGlobal);
         Nebula.getBus().subscribe(rendererSchematicGlobal);
         //MinecraftForge.EVENT_BUS.register((Object)new ChatEventHandler());
-        Nebula.getBus().subscribe(new ChatEventHandler());
+        //Nebula.getBus().subscribe(new ChatEventHandler());
     }
     
     @Override
