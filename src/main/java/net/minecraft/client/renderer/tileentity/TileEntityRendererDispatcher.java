@@ -106,12 +106,12 @@ public class TileEntityRendererDispatcher
     {
         if (p_147544_1_.getDistanceFrom(this.field_147560_j, this.field_147561_k, this.field_147558_l) < p_147544_1_.getMaxRenderDistanceSquared())
         {
-            int var3 = this.field_147550_f.getLightBrightnessForSkyBlocks(p_147544_1_.field_145851_c, p_147544_1_.field_145848_d, p_147544_1_.field_145849_e, 0);
+            int var3 = this.field_147550_f.getLightBrightnessForSkyBlocks(p_147544_1_.xCoord, p_147544_1_.yCoord, p_147544_1_.zCoord, 0);
             int var4 = var3 % 65536;
             int var5 = var3 / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var4 / 1.0F, (float)var5 / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.func_147549_a(p_147544_1_, (double)p_147544_1_.field_145851_c - staticPlayerX, (double)p_147544_1_.field_145848_d - staticPlayerY, (double)p_147544_1_.field_145849_e - staticPlayerZ, p_147544_2_);
+            this.func_147549_a(p_147544_1_, (double)p_147544_1_.xCoord - staticPlayerX, (double)p_147544_1_.yCoord - staticPlayerY, (double)p_147544_1_.zCoord - staticPlayerZ, p_147544_2_);
         }
     }
 

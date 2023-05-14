@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Map.Entry;
+
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.world.EventServerDisconnect;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -730,6 +733,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleDisconnect(S40PacketDisconnect p_147253_1_)
     {
+        Nebula.getBus().dispatch(new EventServerDisconnect());
         this.netManager.closeChannel(p_147253_1_.func_149165_c());
     }
 
@@ -1204,9 +1208,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         {
             var2 = new TileEntitySign();
             ((TileEntity)var2).setWorldObj(this.clientWorldController);
-            ((TileEntity)var2).field_145851_c = p_147268_1_.func_149129_c();
-            ((TileEntity)var2).field_145848_d = p_147268_1_.func_149128_d();
-            ((TileEntity)var2).field_145849_e = p_147268_1_.func_149127_e();
+            ((TileEntity)var2).xCoord = p_147268_1_.func_149129_c();
+            ((TileEntity)var2).yCoord = p_147268_1_.func_149128_d();
+            ((TileEntity)var2).zCoord = p_147268_1_.func_149127_e();
         }
 
         this.gameController.thePlayer.func_146100_a((TileEntity)var2);

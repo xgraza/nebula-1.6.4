@@ -198,7 +198,7 @@ public class TileEntityHopper extends TileEntity implements IHopper
      */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getTileEntity(this.field_145851_c, this.field_145848_d, this.field_145849_e) != this ? false : par1EntityPlayer.getDistanceSq((double)this.field_145851_c + 0.5D, (double)this.field_145848_d + 0.5D, (double)this.field_145849_e + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
     }
 
     public void openInventory() {}
@@ -459,7 +459,7 @@ public class TileEntityHopper extends TileEntity implements IHopper
     private IInventory func_145895_l()
     {
         int var1 = BlockHopper.func_149918_b(this.getBlockMetadata());
-        return func_145893_b(this.getWorldObj(), (double)(this.field_145851_c + Facing.offsetsXForSide[var1]), (double)(this.field_145848_d + Facing.offsetsYForSide[var1]), (double)(this.field_145849_e + Facing.offsetsZForSide[var1]));
+        return func_145893_b(this.getWorldObj(), (double)(this.xCoord + Facing.offsetsXForSide[var1]), (double)(this.yCoord + Facing.offsetsYForSide[var1]), (double)(this.zCoord + Facing.offsetsZForSide[var1]));
     }
 
     public static IInventory func_145884_b(IHopper p_145884_0_)
@@ -519,7 +519,7 @@ public class TileEntityHopper extends TileEntity implements IHopper
      */
     public double getXPos()
     {
-        return (double)this.field_145851_c;
+        return (double)this.xCoord;
     }
 
     /**
@@ -527,7 +527,7 @@ public class TileEntityHopper extends TileEntity implements IHopper
      */
     public double getYPos()
     {
-        return (double)this.field_145848_d;
+        return (double)this.yCoord;
     }
 
     /**
@@ -535,7 +535,7 @@ public class TileEntityHopper extends TileEntity implements IHopper
      */
     public double getZPos()
     {
-        return (double)this.field_145849_e;
+        return (double)this.zCoord;
     }
 
     public void func_145896_c(int p_145896_1_)

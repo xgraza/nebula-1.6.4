@@ -45,7 +45,7 @@ public class TileEntitySign extends TileEntity
     {
         String[] var1 = new String[4];
         System.arraycopy(this.field_145915_a, 0, var1, 0, 4);
-        return new S33PacketUpdateSign(this.field_145851_c, this.field_145848_d, this.field_145849_e, var1);
+        return new S33PacketUpdateSign(this.xCoord, this.yCoord, this.zCoord, var1);
     }
 
     public boolean func_145914_a()

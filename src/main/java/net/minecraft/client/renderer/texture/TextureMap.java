@@ -49,7 +49,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
     public static final ResourceLocation locationItemsTexture = new ResourceLocation("textures/atlas/items.png");
     private final List listAnimatedSprites;
     private final Map mapRegisteredSprites;
-    private final Map mapUploadedSprites;
+    public Map mapUploadedSprites;
 
     /** 0 = terrain.png, 1 = items.png */
     public final int textureType;

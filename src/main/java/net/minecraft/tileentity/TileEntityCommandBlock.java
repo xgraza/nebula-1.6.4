@@ -15,7 +15,7 @@ public class TileEntityCommandBlock extends TileEntity
         private static final String __OBFID = "CL_00000348";
         public ChunkCoordinates getPlayerCoordinates()
         {
-            return new ChunkCoordinates(TileEntityCommandBlock.this.field_145851_c, TileEntityCommandBlock.this.field_145848_d, TileEntityCommandBlock.this.field_145849_e);
+            return new ChunkCoordinates(TileEntityCommandBlock.this.xCoord, TileEntityCommandBlock.this.yCoord, TileEntityCommandBlock.this.zCoord);
         }
         public World getEntityWorld()
         {
@@ -28,7 +28,7 @@ public class TileEntityCommandBlock extends TileEntity
         }
         public void func_145756_e()
         {
-            TileEntityCommandBlock.this.getWorldObj().func_147471_g(TileEntityCommandBlock.this.field_145851_c, TileEntityCommandBlock.this.field_145848_d, TileEntityCommandBlock.this.field_145849_e);
+            TileEntityCommandBlock.this.getWorldObj().func_147471_g(TileEntityCommandBlock.this.xCoord, TileEntityCommandBlock.this.yCoord, TileEntityCommandBlock.this.zCoord);
         }
         public int func_145751_f()
         {
@@ -36,9 +36,9 @@ public class TileEntityCommandBlock extends TileEntity
         }
         public void func_145757_a(ByteBuf p_145757_1_)
         {
-            p_145757_1_.writeInt(TileEntityCommandBlock.this.field_145851_c);
-            p_145757_1_.writeInt(TileEntityCommandBlock.this.field_145848_d);
-            p_145757_1_.writeInt(TileEntityCommandBlock.this.field_145849_e);
+            p_145757_1_.writeInt(TileEntityCommandBlock.this.xCoord);
+            p_145757_1_.writeInt(TileEntityCommandBlock.this.yCoord);
+            p_145757_1_.writeInt(TileEntityCommandBlock.this.zCoord);
         }
     };
     private static final String __OBFID = "CL_00000347";
@@ -62,7 +62,7 @@ public class TileEntityCommandBlock extends TileEntity
     {
         NBTTagCompound var1 = new NBTTagCompound();
         this.writeToNBT(var1);
-        return new S35PacketUpdateTileEntity(this.field_145851_c, this.field_145848_d, this.field_145849_e, 2, var1);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 2, var1);
     }
 
     public CommandBlockLogic func_145993_a()

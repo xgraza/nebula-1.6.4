@@ -40,7 +40,7 @@ public class TileEntityFlowerPot extends TileEntity
     {
         NBTTagCompound var1 = new NBTTagCompound();
         this.writeToNBT(var1);
-        return new S35PacketUpdateTileEntity(this.field_145851_c, this.field_145848_d, this.field_145849_e, 5, var1);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 5, var1);
     }
 
     public void func_145964_a(Item p_145964_1_, int p_145964_2_)

@@ -94,7 +94,7 @@ public class TileEntityPiston extends TileEntity
             --p_145863_1_;
         }
 
-        AxisAlignedBB var3 = Blocks.piston_extension.func_149964_a(this.worldObj, this.field_145851_c, this.field_145848_d, this.field_145849_e, this.field_145869_a, p_145863_1_, this.field_145874_j);
+        AxisAlignedBB var3 = Blocks.piston_extension.func_149964_a(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.field_145869_a, p_145863_1_, this.field_145874_j);
 
         if (var3 != null)
         {
@@ -121,13 +121,13 @@ public class TileEntityPiston extends TileEntity
         if (this.field_145870_n < 1.0F && this.worldObj != null)
         {
             this.field_145870_n = this.field_145873_m = 1.0F;
-            this.worldObj.removeTileEntity(this.field_145851_c, this.field_145848_d, this.field_145849_e);
+            this.worldObj.removeTileEntity(this.xCoord, this.yCoord, this.zCoord);
             this.invalidate();
 
-            if (this.worldObj.getBlock(this.field_145851_c, this.field_145848_d, this.field_145849_e) == Blocks.piston_extension)
+            if (this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord) == Blocks.piston_extension)
             {
-                this.worldObj.setBlock(this.field_145851_c, this.field_145848_d, this.field_145849_e, this.field_145869_a, this.field_145876_i, 3);
-                this.worldObj.func_147460_e(this.field_145851_c, this.field_145848_d, this.field_145849_e, this.field_145869_a);
+                this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, this.field_145869_a, this.field_145876_i, 3);
+                this.worldObj.func_147460_e(this.xCoord, this.yCoord, this.zCoord, this.field_145869_a);
             }
         }
     }
@@ -139,13 +139,13 @@ public class TileEntityPiston extends TileEntity
         if (this.field_145870_n >= 1.0F)
         {
             this.func_145863_a(1.0F, 0.25F);
-            this.worldObj.removeTileEntity(this.field_145851_c, this.field_145848_d, this.field_145849_e);
+            this.worldObj.removeTileEntity(this.xCoord, this.yCoord, this.zCoord);
             this.invalidate();
 
-            if (this.worldObj.getBlock(this.field_145851_c, this.field_145848_d, this.field_145849_e) == Blocks.piston_extension)
+            if (this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord) == Blocks.piston_extension)
             {
-                this.worldObj.setBlock(this.field_145851_c, this.field_145848_d, this.field_145849_e, this.field_145869_a, this.field_145876_i, 3);
-                this.worldObj.func_147460_e(this.field_145851_c, this.field_145848_d, this.field_145849_e, this.field_145869_a);
+                this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, this.field_145869_a, this.field_145876_i, 3);
+                this.worldObj.func_147460_e(this.xCoord, this.yCoord, this.zCoord, this.field_145869_a);
             }
         }
         else

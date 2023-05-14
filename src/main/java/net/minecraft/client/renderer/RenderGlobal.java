@@ -110,7 +110,7 @@ public class RenderGlobal implements IWorldAccess
     /** The RenderEngine instance used by RenderGlobal */
     public final TextureManager renderEngine;
     public CompactArrayList worldRenderersToUpdate = new CompactArrayList(100, 0.8F);
-    private WorldRenderer[] sortedWorldRenderers;
+    public WorldRenderer[] sortedWorldRenderers;
     private WorldRenderer[] worldRenderers;
     private int renderChunksWide;
     private int renderChunksTall;
@@ -720,7 +720,7 @@ public class RenderGlobal implements IWorldAccess
 
                         if (var30 == TileEntityChest.class)
                         {
-                            Block var31 = this.theWorld.getBlock(var27.field_145851_c, var27.field_145848_d, var27.field_145849_e);
+                            Block var31 = this.theWorld.getBlock(var27.xCoord, var27.yCoord, var27.zCoord);
 
                             if (!(var31 instanceof BlockChest))
                             {
@@ -3261,7 +3261,7 @@ public class RenderGlobal implements IWorldAccess
 
             if (blockType == Blocks.enchanting_table)
             {
-                return AxisAlignedBB.getAABBPool().getAABB((double)te.field_145851_c, (double)te.field_145848_d, (double)te.field_145849_e, (double)(te.field_145851_c + 1), (double)(te.field_145848_d + 1), (double)(te.field_145849_e + 1));
+                return AxisAlignedBB.getAABBPool().getAABB((double)te.xCoord, (double)te.yCoord, (double)te.zCoord, (double)(te.xCoord + 1), (double)(te.yCoord + 1), (double)(te.zCoord + 1));
             }
             else if (blockType != Blocks.chest && blockType != Blocks.trapped_chest)
             {
@@ -3279,7 +3279,7 @@ public class RenderGlobal implements IWorldAccess
 
                 if (blockType != null && blockType != Blocks.beacon)
                 {
-                    blockAabb = blockType.getCollisionBoundingBoxFromPool(te.getWorldObj(), te.field_145851_c, te.field_145848_d, te.field_145849_e);
+                    blockAabb = blockType.getCollisionBoundingBoxFromPool(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
 
                     if (blockAabb != null)
                     {
@@ -3291,7 +3291,7 @@ public class RenderGlobal implements IWorldAccess
             }
             else
             {
-                return AxisAlignedBB.getAABBPool().getAABB((double)(te.field_145851_c - 1), (double)te.field_145848_d, (double)(te.field_145849_e - 1), (double)(te.field_145851_c + 2), (double)(te.field_145848_d + 2), (double)(te.field_145849_e + 2));
+                return AxisAlignedBB.getAABBPool().getAABB((double)(te.xCoord - 1), (double)te.yCoord, (double)(te.zCoord - 1), (double)(te.xCoord + 2), (double)(te.yCoord + 2), (double)(te.zCoord + 2));
             }
         }
     }

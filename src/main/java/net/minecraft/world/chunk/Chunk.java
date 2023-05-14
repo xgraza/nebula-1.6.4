@@ -963,9 +963,9 @@ public class Chunk
 
     public void addTileEntity(TileEntity p_150813_1_)
     {
-        int var2 = p_150813_1_.field_145851_c - this.xPosition * 16;
-        int var3 = p_150813_1_.field_145848_d;
-        int var4 = p_150813_1_.field_145849_e - this.zPosition * 16;
+        int var2 = p_150813_1_.xCoord - this.xPosition * 16;
+        int var3 = p_150813_1_.yCoord;
+        int var4 = p_150813_1_.zCoord - this.zPosition * 16;
         this.func_150812_a(var2, var3, var4, p_150813_1_);
 
         if (this.isChunkLoaded)
@@ -978,9 +978,9 @@ public class Chunk
     {
         ChunkPosition var5 = new ChunkPosition(p_150812_1_, p_150812_2_, p_150812_3_);
         p_150812_4_.setWorldObj(this.worldObj);
-        p_150812_4_.field_145851_c = this.xPosition * 16 + p_150812_1_;
-        p_150812_4_.field_145848_d = p_150812_2_;
-        p_150812_4_.field_145849_e = this.zPosition * 16 + p_150812_3_;
+        p_150812_4_.xCoord = this.xPosition * 16 + p_150812_1_;
+        p_150812_4_.yCoord = p_150812_2_;
+        p_150812_4_.zCoord = this.zPosition * 16 + p_150812_3_;
 
         if (this.func_150810_a(p_150812_1_, p_150812_2_, p_150812_3_) instanceof ITileEntityProvider)
         {

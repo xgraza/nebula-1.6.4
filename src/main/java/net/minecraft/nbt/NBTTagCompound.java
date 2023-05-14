@@ -484,7 +484,7 @@ public class NBTTagCompound extends NBTBase
         return super.hashCode() ^ this.tagMap.hashCode();
     }
 
-    private static void func_150298_a(String p_150298_0_, NBTBase p_150298_1_, DataOutput p_150298_2_) throws IOException
+    public static void func_150298_a(String p_150298_0_, NBTBase p_150298_1_, DataOutput p_150298_2_) throws IOException
     {
         p_150298_2_.writeByte(p_150298_1_.getId());
 

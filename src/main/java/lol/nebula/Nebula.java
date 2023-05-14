@@ -1,5 +1,6 @@
 package lol.nebula;
 
+import com.github.lunatrius.schematica.Schematica;
 import lol.nebula.account.AccountManager;
 import lol.nebula.bind.BindManager;
 import lol.nebula.command.CommandManager;
@@ -100,6 +101,9 @@ public class Nebula {
         // load all configs
         logger.info("Loading configs");
         configs.getConfigs().forEach(Config::load);
+
+        logger.info("Loading Schematica");
+        Schematica.init();
 
         Display.setTitle(getFormatted());
     }

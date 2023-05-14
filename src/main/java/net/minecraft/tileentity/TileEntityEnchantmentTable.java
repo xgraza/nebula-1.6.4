@@ -45,12 +45,12 @@ public class TileEntityEnchantmentTable extends TileEntity
         super.updateEntity();
         this.field_145927_n = this.field_145930_m;
         this.field_145925_p = this.field_145928_o;
-        EntityPlayer var1 = this.worldObj.getClosestPlayer((double)((float)this.field_145851_c + 0.5F), (double)((float)this.field_145848_d + 0.5F), (double)((float)this.field_145849_e + 0.5F), 3.0D);
+        EntityPlayer var1 = this.worldObj.getClosestPlayer((double)((float)this.xCoord + 0.5F), (double)((float)this.yCoord + 0.5F), (double)((float)this.zCoord + 0.5F), 3.0D);
 
         if (var1 != null)
         {
-            double var2 = var1.posX - (double)((float)this.field_145851_c + 0.5F);
-            double var4 = var1.posZ - (double)((float)this.field_145849_e + 0.5F);
+            double var2 = var1.posX - (double)((float)this.xCoord + 0.5F);
+            double var4 = var1.posZ - (double)((float)this.zCoord + 0.5F);
             this.field_145924_q = (float)Math.atan2(var4, var2);
             this.field_145930_m += 0.1F;
 

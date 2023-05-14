@@ -13,7 +13,7 @@ public class TileEntityMobSpawner extends TileEntity
         private static final String __OBFID = "CL_00000361";
         public void func_98267_a(int par1)
         {
-            TileEntityMobSpawner.this.worldObj.func_147452_c(TileEntityMobSpawner.this.field_145851_c, TileEntityMobSpawner.this.field_145848_d, TileEntityMobSpawner.this.field_145849_e, Blocks.mob_spawner, par1, 0);
+            TileEntityMobSpawner.this.worldObj.func_147452_c(TileEntityMobSpawner.this.xCoord, TileEntityMobSpawner.this.yCoord, TileEntityMobSpawner.this.zCoord, Blocks.mob_spawner, par1, 0);
         }
         public World getSpawnerWorld()
         {
@@ -21,15 +21,15 @@ public class TileEntityMobSpawner extends TileEntity
         }
         public int getSpawnerX()
         {
-            return TileEntityMobSpawner.this.field_145851_c;
+            return TileEntityMobSpawner.this.xCoord;
         }
         public int getSpawnerY()
         {
-            return TileEntityMobSpawner.this.field_145848_d;
+            return TileEntityMobSpawner.this.yCoord;
         }
         public int getSpawnerZ()
         {
-            return TileEntityMobSpawner.this.field_145849_e;
+            return TileEntityMobSpawner.this.zCoord;
         }
         public void setRandomMinecart(MobSpawnerBaseLogic.WeightedRandomMinecart par1WeightedRandomMinecart)
         {
@@ -37,7 +37,7 @@ public class TileEntityMobSpawner extends TileEntity
 
             if (this.getSpawnerWorld() != null)
             {
-                this.getSpawnerWorld().func_147471_g(TileEntityMobSpawner.this.field_145851_c, TileEntityMobSpawner.this.field_145848_d, TileEntityMobSpawner.this.field_145849_e);
+                this.getSpawnerWorld().func_147471_g(TileEntityMobSpawner.this.xCoord, TileEntityMobSpawner.this.yCoord, TileEntityMobSpawner.this.zCoord);
             }
         }
     };
@@ -69,7 +69,7 @@ public class TileEntityMobSpawner extends TileEntity
         NBTTagCompound var1 = new NBTTagCompound();
         this.writeToNBT(var1);
         var1.removeTag("SpawnPotentials");
-        return new S35PacketUpdateTileEntity(this.field_145851_c, this.field_145848_d, this.field_145849_e, 1, var1);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, var1);
     }
 
     public boolean receiveClientEvent(int p_145842_1_, int p_145842_2_)
