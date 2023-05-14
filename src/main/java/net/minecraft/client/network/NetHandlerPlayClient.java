@@ -182,6 +182,7 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.village.MerchantRecipeList;
+import net.minecraft.wdl.WDL;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.WorldSettings;
@@ -734,6 +735,19 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     public void handleDisconnect(S40PacketDisconnect p_147253_1_)
     {
         Nebula.getBus().dispatch(new EventServerDisconnect());
+        if (WDL.downloading)
+        {
+            WDL.stop();
+
+            try
+            {
+                Thread.sleep(2000L);
+            }
+            catch (Exception var3)
+            {
+                ;
+            }
+        }
         this.netManager.closeChannel(p_147253_1_.func_149165_c());
     }
 
@@ -742,6 +756,19 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void onDisconnect(IChatComponent p_147231_1_)
     {
+        if (WDL.downloading)
+        {
+            WDL.stop();
+
+            try
+            {
+                Thread.sleep(2000L);
+            }
+            catch (Exception var3)
+            {
+                ;
+            }
+        }
         this.gameController.loadWorld((WorldClient)null);
         this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", p_147231_1_));
     }
@@ -787,6 +814,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleChat(S02PacketChat p_147251_1_)
     {
+        WDL.handleServerSeedMessage(p_147251_1_.func_148915_c().getFormattedText());
         this.gameController.ingameGUI.getChatGUI().func_146227_a(p_147251_1_.func_148915_c());
     }
 

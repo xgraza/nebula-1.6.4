@@ -246,11 +246,11 @@ public class LongHashMap
         return 1.0D * (double)countValid / (double)this.numHashElements;
     }
 
-    static class Entry
+    public static class Entry
     {
         final long key;
         Object value;
-        LongHashMap.Entry nextEntry;
+        public LongHashMap.Entry nextEntry;
         final int hash;
         private static final String __OBFID = "CL_00001493";
 

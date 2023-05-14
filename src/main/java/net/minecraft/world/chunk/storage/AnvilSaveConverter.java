@@ -78,7 +78,7 @@ public class AnvilSaveConverter extends SaveFormatOld
         }
     }
 
-    protected int getSaveVersion()
+    public int getSaveVersion()
     {
         return 19133;
     }
