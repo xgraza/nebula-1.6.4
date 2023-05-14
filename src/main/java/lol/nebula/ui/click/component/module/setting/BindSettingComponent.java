@@ -40,7 +40,7 @@ public class BindSettingComponent extends Component {
             String formatted = formatBind();
             Fonts.axiforma.drawStringWithShadow(
                     formatted,
-                    (float) ((getX() + getWidth() - 2.0) - Fonts.axiforma.getStringWidth(formatted)),
+                    (float) ((getX() + getWidth() - 4.0) - Fonts.axiforma.getStringWidth(formatted)),
                     (float) (getY() + (getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                     0xBBBBBB);
         }
