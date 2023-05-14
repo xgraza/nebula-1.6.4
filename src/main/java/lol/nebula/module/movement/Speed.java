@@ -86,8 +86,10 @@ public class Speed extends Module {
                 stage = 2;
             }
 
+            double baseSpeed = MoveUtils.getBaseNcpSpeed(50);
+
             if (stage == 1) {
-                speed = 1.38 * MoveUtils.getBaseNcpSpeed(20) - 0.01;
+                speed = 1.38 * baseSpeed - 0.01;
                 stage = 2;
             } else if (stage == 2) {
 
@@ -100,7 +102,7 @@ public class Speed extends Module {
 
                 stage = 3;
             } else if (stage == 3) {
-                double adjust = (boost ? 0.72 : 0.66) * (distance - MoveUtils.getBaseNcpSpeed(20));
+                double adjust = (boost ? 0.72 : 0.66) * (distance - baseSpeed);
                 speed = distance - adjust;
 
                 boost = !boost;
@@ -113,9 +115,9 @@ public class Speed extends Module {
                 }
             }
 
-            speed = Math.max(speed, MoveUtils.getBaseNcpSpeed(20));
+            speed = Math.max(speed, baseSpeed);
             if (damageBoostTicks-- > 0) {
-                speed = 1.99 * MoveUtils.getBaseNcpSpeed(20);
+                speed = 1.99 * baseSpeed;
             }
 
             if (MoveUtils.isMoving()) {
