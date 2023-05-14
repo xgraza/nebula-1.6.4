@@ -27,7 +27,7 @@ public class SchematicPrinter
     public static final SchematicPrinter INSTANCE;
     private final Minecraft minecraft;
     private final Settings settings;
-    private boolean isEnabled;
+    private boolean isEnabled = true;
     private boolean isPrinting;
     private int hasSwitchedItems;
     private Random rand;
@@ -146,7 +146,7 @@ public class SchematicPrinter
         y += side.getFrontOffsetY();
         z += side.getFrontOffsetZ();
         final Block block = world.getBlock(x, y, z);
-        return block != null && block != Blocks.air /*!block.isAir((IBlockAccess)world, x, y, z)*/ && !(block instanceof BlockLiquid) && block.getMaterial().isReplaceable(); /*!block.isReplaceable((IBlockAccess)world, x, y, z);*/
+        return block != null && block.getMaterial().isSolid();//&& block != Blocks.air /*!block.isAir((IBlockAccess)world, x, y, z)*/ && !(block instanceof BlockLiquid) && block.getMaterial().isReplaceable(); /*!block.isReplaceable((IBlockAccess)world, x, y, z);*/
     }
     
     private EnumFacing[] getSolidSides(final World world, final int x, final int y, final int z) {

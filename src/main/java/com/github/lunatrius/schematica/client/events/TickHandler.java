@@ -23,12 +23,10 @@ public class TickHandler
 {
     private final Minecraft minecraft;
     private int ticks;
-    private final WorldRenderer[] sortedWorldRenderers;
-    
+
     public TickHandler() {
         this.minecraft = Minecraft.getMinecraft();
         this.ticks = -1;
-        this.sortedWorldRenderers = minecraft.renderGlobal.sortedWorldRenderers;
     }
     
 //    @SubscrilbeEvent
@@ -74,26 +72,22 @@ public class TickHandler
     }
     
     private void checkDirty() {
-        if (this.sortedWorldRenderers != null) {
-            try {
-                final WorldRenderer[] renderers = this.sortedWorldRenderers;
-                if (renderers != null) {
-                    int count = 0;
-                    for (final WorldRenderer worldRenderer : renderers) {
-                        if (worldRenderer != null && worldRenderer.needsUpdate && count++ < 125) {
-                            final AxisAlignedBB worldRendererBoundingBox = worldRenderer.rendererBoundingBox.getOffsetBoundingBox((double)(-Settings.instance.offset.x), (double)(-Settings.instance.offset.y), (double)(-Settings.instance.offset.z));
-                            for (final RendererSchematicChunk renderer : Settings.instance.sortedRendererSchematicChunk) {
-                                if (!renderer.getDirty() && renderer.getBoundingBox().intersectsWith(worldRendererBoundingBox)) {
-                                    renderer.setDirty();
-                                }
-                            }
+        try {
+            final WorldRenderer[] renderers = minecraft.renderGlobal.sortedWorldRenderers;
+            int count = 0;
+            for (final WorldRenderer worldRenderer : renderers) {
+                if (worldRenderer != null && worldRenderer.needsUpdate && count++ < 125) {
+                    final AxisAlignedBB worldRendererBoundingBox = worldRenderer.rendererBoundingBox.getOffsetBoundingBox((double)(-Settings.instance.offset.x), (double)(-Settings.instance.offset.y), (double)(-Settings.instance.offset.z));
+                    for (final RendererSchematicChunk renderer : Settings.instance.sortedRendererSchematicChunk) {
+                        if (!renderer.getDirty() && renderer.getBoundingBox().intersectsWith(worldRendererBoundingBox)) {
+                            renderer.setDirty();
                         }
                     }
                 }
             }
-            catch (Exception e) {
-                Reference.logger.error("Dirty check failed!", (Throwable)e);
-            }
+        }
+        catch (Exception e) {
+            Reference.logger.error("Dirty check failed!", (Throwable)e);
         }
     }
 }
