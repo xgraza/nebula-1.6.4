@@ -86,6 +86,7 @@ public class ModuleManager {
                 new TargetStrafe(),
 
                 new AntiGhostBlock(),
+                new AntiLag(),
                 new AntiRevert(),
                 new AutoHighway(),
                 new AutoRape(),

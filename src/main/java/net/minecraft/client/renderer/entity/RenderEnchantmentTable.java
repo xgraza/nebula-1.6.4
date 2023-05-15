@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.world.EventEnchantmentBookRender;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
@@ -64,7 +66,9 @@ public class RenderEnchantmentTable extends TileEntitySpecialRenderer
 
         float var14 = p_147539_1_.field_145927_n + (p_147539_1_.field_145930_m - p_147539_1_.field_145927_n) * p_147539_8_;
         GL11.glEnable(GL11.GL_CULL_FACE);
-        this.field_147541_c.render((Entity)null, var9, var12, var13, var14, 0.0F, 0.0625F);
+        if (!Nebula.getBus().dispatch(new EventEnchantmentBookRender())) {
+            this.field_147541_c.render((Entity) null, var9, var12, var13, var14, 0.0F, 0.0625F);
+        }
         GL11.glPopMatrix();
     }
 

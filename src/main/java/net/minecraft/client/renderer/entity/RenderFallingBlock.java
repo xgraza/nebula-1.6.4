@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.world.EventRenderFallingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockDragonEgg;
@@ -31,6 +33,8 @@ public class RenderFallingBlock extends Render
      */
     public void doRender(EntityFallingBlock p_147918_1_, double p_147918_2_, double p_147918_4_, double p_147918_6_, float p_147918_8_, float p_147918_9_)
     {
+        if (Nebula.getBus().dispatch(new EventRenderFallingBlock(p_147918_1_))) return;
+
         World var10 = p_147918_1_.func_145807_e();
         Block var11 = p_147918_1_.func_145805_f();
         int var12 = MathHelper.floor_double(p_147918_1_.posX);
