@@ -103,6 +103,7 @@ public class ModuleManager {
                 new YawLock(),
 
                 new Animations(),
+                new Camera(),
                 new Chams(),
                 new ClickUI(),
                 new Fullbright(),

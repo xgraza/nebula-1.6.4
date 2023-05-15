@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.render.gui.overlay.EventHurtCamera;
+import lol.nebula.listener.events.render.world.EventCameraDistance;
 import lol.nebula.listener.events.render.world.EventRender3D;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -765,6 +766,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
                         }
                     }
                 }
+
+                EventCameraDistance event = new EventCameraDistance(var271);
+                if (Nebula.getBus().dispatch(event)) var271 = event.getDistance();
 
                 if (this.mc.gameSettings.thirdPersonView == 2)
                 {
