@@ -112,7 +112,8 @@ public class ModuleManager {
                 new NoRender(),
                 new Projectiles(),
                 new Tags(),
-                new TimeChanger()
+                new TimeChanger(),
+                new Zoom()
         );
 
         Nebula.getLogger().info("Loaded {} modules", moduleClassMap.size());

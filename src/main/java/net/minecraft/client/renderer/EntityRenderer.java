@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 
 import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.gui.EventOptifineZoom;
 import lol.nebula.listener.events.render.gui.overlay.EventHurtCamera;
 import lol.nebula.listener.events.render.world.EventCameraDistance;
 import lol.nebula.listener.events.render.world.EventRender3D;
@@ -599,7 +600,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 }
             }
 
-            if (zoomActive)
+            if (zoomActive && !Nebula.getBus().dispatch(new EventOptifineZoom()))
             {
                 if (!Config.zoomMode)
                 {
