@@ -29,6 +29,8 @@ import static org.lwjgl.opengl.GL11.*;
  * @since 05/03/23
  */
 public class Projectiles extends Module {
+    private static final float PI_180 = (float) Math.PI / 180.0f;
+
     public Projectiles() {
         super("Projectiles", "Shows where projectiles will land", ModuleCategory.VISUAL);
     }
@@ -142,11 +144,9 @@ public class Projectiles extends Module {
             velocity = getArrowVelocity(charge) * 3.0f;
         }
 
-        float magicNumber = 0.017453292f;
-
-        double motionX = -MathHelper.sin(yaw * magicNumber) * MathHelper.cos(pitch * magicNumber);
-        double motionY = -MathHelper.sin((pitch + pitchOffset) * magicNumber);
-        double motionZ = MathHelper.cos(yaw * magicNumber) * MathHelper.cos(pitch * magicNumber);
+        double motionX = -MathHelper.sin(yaw * PI_180) * MathHelper.cos(pitch * PI_180);
+        double motionY = -MathHelper.sin((pitch + pitchOffset) * PI_180);
+        double motionZ = MathHelper.cos(yaw * PI_180) * MathHelper.cos(pitch * PI_180);
 
         double distance = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
 
