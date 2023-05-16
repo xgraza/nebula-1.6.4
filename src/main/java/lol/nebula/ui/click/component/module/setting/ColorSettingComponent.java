@@ -78,7 +78,7 @@ public class ColorSettingComponent extends Component {
 
         double size = super.getHeight() - (PADDING * 4);
         Color settingColor = setting.getValue();
-        RenderUtils.rect((float) ((getX() + getWidth()) - (PADDING * 6) - 0.5), (float) (getY() + (PADDING * 2)), (float) size, (float) size, settingColor.getRGB());
+        RenderUtils.rect((float) ((getX() + getWidth()) - (PADDING * 7)), (float) (getY() + (PADDING * 2)), (float) size, (float) size, settingColor.getRGB());
 
         if (openAnimation.getFactor() > 0.0) {
 
