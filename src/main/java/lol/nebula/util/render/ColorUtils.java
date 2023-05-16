@@ -18,4 +18,14 @@ public class ColorUtils {
         double hue = (((System.currentTimeMillis() + 10) + delay) * (speed / 100.0)) % 360.0;
         return Color.HSBtoRGB((float) hue / 360.0f, 1.0f, 1.0f);
     }
+
+    /**
+     * Changes the alpha bit in a hex color
+     * @param color the color with an alpha value
+     * @param alpha the new alpha value
+     * @return the new color
+     */
+    public static int withAlpha(int color, int alpha) {
+        return (color & 0x00ffffff) | (alpha << 24);
+    }
 }

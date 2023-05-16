@@ -15,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 
+import static lol.nebula.util.render.ColorUtils.withAlpha;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -28,6 +29,7 @@ public class ModuleComponent extends Component {
 
     private final Animation openAnimation = new Animation(Easing.CUBIC_IN_OUT, 500, false);
     private final Animation hoverAnimation = new Animation(Easing.CUBIC_IN_OUT, 200, false);
+    private final Animation toggleAnimation = new Animation(Easing.CUBIC_IN_OUT, 150, false);
 
     private final Module module;
     private boolean expanded;
@@ -56,10 +58,18 @@ public class ModuleComponent extends Component {
     public void render(int mouseX, int mouseY, float partialTicks) {
         if (openAnimation.getState() != expanded) openAnimation.setState(expanded);
 
+        if (toggleAnimation.getState() != module.isToggled())
+            toggleAnimation.setState(module.isToggled());
+
         boolean bounds = isInBounds(mouseX, mouseY, getX(), getY(), getWidth(), super.getHeight());
         if (hoverAnimation.getState() != bounds) hoverAnimation.setState(bounds);
 
-        RenderUtils.rect(getX(), getY(), getWidth(), super.getHeight(), (module.isToggled() ? Interface.color.getValue() : UNTOGGLED_BG).getRGB());
+        int rectColor = UNTOGGLED_BG.getRGB();
+        if (module.isToggled() || toggleAnimation.getFactor() > 0.0) {
+            rectColor = withAlpha(Interface.color.getValue().getRGB(), (int) (255.0 * toggleAnimation.getFactor()));
+        }
+
+        RenderUtils.rect(getX(), getY(), getWidth() * toggleAnimation.getFactor(), super.getHeight(), rectColor);
         Fonts.axiforma.drawStringWithShadow(
                 module.getTag(),
                 (float) (getX() + 1.0 + (2.0 * hoverAnimation.getFactor())),
