@@ -4,9 +4,13 @@ import lol.nebula.module.visual.Interface;
 import lol.nebula.setting.Setting;
 import lol.nebula.ui.click.component.Component;
 import lol.nebula.util.render.RenderUtils;
+import lol.nebula.util.render.animation.Animation;
+import lol.nebula.util.render.animation.Easing;
 import lol.nebula.util.render.font.Fonts;
 
 import java.awt.*;
+
+import static lol.nebula.util.render.ColorUtils.withAlpha;
 
 /**
  * @author aesthetical
@@ -14,6 +18,8 @@ import java.awt.*;
  */
 public class BooleanSettingComponent extends Component {
     private static final Color SETTING_BG = new Color(19, 19, 19);
+
+    private final Animation toggleAnimation = new Animation(Easing.CUBIC_IN_OUT, 150, false);
 
     private final Setting<Boolean> setting;
 
@@ -23,6 +29,9 @@ public class BooleanSettingComponent extends Component {
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
+        if (toggleAnimation.getState() != setting.getValue())
+            toggleAnimation.setState(setting.getValue());
+
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), SETTING_BG.getRGB());
         Fonts.axiforma.drawStringWithShadow(
                 setting.getTag(),
@@ -30,8 +39,14 @@ public class BooleanSettingComponent extends Component {
                 (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
                 -1);
 
+        int rectColor = SETTING_BG.brighter().getRGB();
+        if (setting.getValue() || toggleAnimation.getFactor() > 0.0) {
+            rectColor = withAlpha(Interface.color.getValue().getRGB(), (int) (255.0 * toggleAnimation.getFactor()));
+        }
+
         double dimension = getHeight() - 4.0;
-        RenderUtils.rect(getX() + getWidth() - 2.0 - dimension, getY() + 2.0, dimension, dimension, (setting.getValue() ? Interface.color.getValue() : SETTING_BG.brighter()).getRGB());
+        RenderUtils.rect(getX() + getWidth() - 2.0 - dimension, getY() + 2.0, dimension, dimension, SETTING_BG.brighter().getRGB());
+        RenderUtils.rect(getX() + getWidth() - 2.0 - dimension, getY() + 2.0, dimension, dimension, rectColor);
 
     }
 
