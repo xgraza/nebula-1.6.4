@@ -83,6 +83,11 @@ public class RotationManager {
             par1 = (float)Math.atan2(var10, var9) * 180.0F / (float)Math.PI - 90.0F;
         }
 
+        if (mc.thePlayer.swingProgress > 0.0F)
+        {
+            par1 = mc.thePlayer.rotationYaw;
+        }
+
         float var3 = MathHelper.wrapAngleTo180_float(par1 - mc.thePlayer.renderYawOffset);
         mc.thePlayer.renderYawOffset += var3 * 0.3F;
         float var4 = MathHelper.wrapAngleTo180_float(server[0] - mc.thePlayer.renderYawOffset);
