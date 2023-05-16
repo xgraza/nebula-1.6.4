@@ -1840,10 +1840,14 @@ public abstract class EntityLivingBase extends Entity
             var8 = 0.0F;
         }
 
+        boolean nutInMySock = Nebula.getInstance().getRotations().isRotating();
+
         this.field_110154_aX += (var8 - this.field_110154_aX) * 0.3F;
-        this.worldObj.theProfiler.startSection("headTurn");
-        var7 = this.func_110146_f(var6, var7);
-        this.worldObj.theProfiler.endSection();
+        if (!nutInMySock) {
+            this.worldObj.theProfiler.startSection("headTurn");
+            var7 = this.func_110146_f(var6, var7);
+            this.worldObj.theProfiler.endSection();
+        }
         this.worldObj.theProfiler.startSection("rangeChecks");
 
         while (this.rotationYaw - this.prevRotationYaw < -180.0F)
@@ -1856,14 +1860,14 @@ public abstract class EntityLivingBase extends Entity
             this.prevRotationYaw += 360.0F;
         }
 
-        while (this.renderYawOffset - this.prevRenderYawOffset < -180.0F)
-        {
-            this.prevRenderYawOffset -= 360.0F;
-        }
+        if (!nutInMySock) {
+            while (this.renderYawOffset - this.prevRenderYawOffset < -180.0F) {
+                this.prevRenderYawOffset -= 360.0F;
+            }
 
-        while (this.renderYawOffset - this.prevRenderYawOffset >= 180.0F)
-        {
-            this.prevRenderYawOffset += 360.0F;
+            while (this.renderYawOffset - this.prevRenderYawOffset >= 180.0F) {
+                this.prevRenderYawOffset += 360.0F;
+            }
         }
 
         while (this.rotationPitch - this.prevRotationPitch < -180.0F)
