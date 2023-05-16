@@ -34,8 +34,6 @@ public class ModuleComponent extends Component {
     private final Module module;
     private boolean expanded;
 
-    private float arrowAnimation = 180.0f;
-
     public ModuleComponent(Module module) {
         this.module = module;
 
@@ -77,7 +75,7 @@ public class ModuleComponent extends Component {
                 -1);
 
         if (!module.getSettings().isEmpty()) {
-            arrowAnimation = (float) ((expanded ? -180.0f : 180.0f) * openAnimation.getFactor());
+            float arrowAnimation = (float) ((expanded ? -180.0f : 180.0f) * openAnimation.getFactor());
 
             glPushMatrix();
             glEnable(GL_TEXTURE_2D);
