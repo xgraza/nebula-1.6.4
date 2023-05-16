@@ -114,6 +114,7 @@ public class ModuleManager {
                 new Projectiles(),
                 new Tags(),
                 new TimeChanger(),
+                new XRay(),
                 new Zoom()
         );
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.world.EventRenderBlockSide;
 import lol.nebula.listener.events.world.EventCollisionBox;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -576,6 +577,8 @@ public class Block
 
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
+        EventRenderBlockSide event = new EventRenderBlockSide(this, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
+        if (Nebula.getBus().dispatch(event)) return event.isRenderSide();
         return p_149646_5_ == 0 && this.field_149760_C > 0.0D ? true : (p_149646_5_ == 1 && this.field_149756_F < 1.0D ? true : (p_149646_5_ == 2 && this.field_149754_D > 0.0D ? true : (p_149646_5_ == 3 && this.field_149757_G < 1.0D ? true : (p_149646_5_ == 4 && this.field_149759_B > 0.0D ? true : (p_149646_5_ == 5 && this.field_149755_E < 1.0D ? true : !p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_).isOpaqueCube())))));
     }
 
