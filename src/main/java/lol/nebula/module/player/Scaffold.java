@@ -13,7 +13,6 @@ import lol.nebula.util.math.Pair;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.math.timing.Timer;
 import lol.nebula.util.player.MoveUtils;
-import lol.nebula.util.world.WorldUtils;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -107,7 +106,13 @@ public class Scaffold extends Module {
 
         if (rotate.getValue()) {
             if (next != null) {
-                rotations = RotationUtils.toBlock(next.getKey(), next.getValue());
+
+                double diffX = (next.getKey().xCoord + 0.5) - mc.thePlayer.posX;
+                double diffZ = (next.getKey().zCoord + 0.5) - mc.thePlayer.posZ;
+
+                rotations = new float[] {
+                        (float) -(Math.toDegrees(Math.atan2(diffX, diffZ))),
+                        (float) (94.0f - Math.random()) };
             }
 
             if (rotations != null) RotationUtils.setRotations(event, rotations);
@@ -139,7 +144,7 @@ public class Scaffold extends Module {
             if (!result) return;
 
             // silently swing the player's arm server-sided
-            mc.thePlayer.swingItemSilent();
+            mc.thePlayer.swingItem();
 
             if (tower.getValue() && mc.gameSettings.keyBindJump.pressed) {
                 if (mc.thePlayer.onGround && mc.thePlayer.motionY < 0.1) {

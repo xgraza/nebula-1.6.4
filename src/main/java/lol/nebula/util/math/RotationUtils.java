@@ -25,11 +25,9 @@ public class RotationUtils {
      * @return the resulting rotations
      */
     public static float[] rotateTo(EntityLivingBase target) {
-        Vec3 vec = target.getGroundPosition().addVector(0.0, target.getEyeHeight(), 0.0);
-
-        double diffX = vec.xCoord - mc.thePlayer.posX;
+        double diffX = target.posX - mc.thePlayer.posX;
         double diffY = (target.boundingBox.minY + 1.620) - mc.thePlayer.posY;
-        double diffZ = vec.zCoord - mc.thePlayer.posZ;
+        double diffZ = target.posZ - mc.thePlayer.posZ;
 
         float yaw = (float) -(Math.toDegrees(Math.atan2(diffX, diffZ)));
         float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, Math.hypot(diffX, diffZ))));
