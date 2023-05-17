@@ -4,7 +4,9 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 
 import lol.nebula.Nebula;
+import lol.nebula.listener.events.render.gui.EventRenderGlintColor;
 import lol.nebula.module.visual.InfiniteViewer;
+import lol.nebula.util.render.RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -551,7 +553,15 @@ public class RenderItem extends Render
                 par2TextureManager.bindTexture(RES_ITEM_GLINT);
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
                 GL11.glEnable(GL11.GL_BLEND);
-                GL11.glColor4f(0.5F, 0.25F, 0.8F, 1.0F);
+
+                EventRenderGlintColor event = new EventRenderGlintColor(0x8105f5);
+                Nebula.getBus().dispatch(event);
+                if (event.getColor() == 0x8105f5) {
+                    GL11.glColor4f(0.5F, 0.25F, 0.8F, 1.0F);
+                } else {
+                    RenderUtils.setColor(event.getColor());
+                }
+                // GL11.glColor4f(0.5F, 0.25F, 0.8F, 1.0F);
                 this.renderGlint(par4 * 431278612 + par5 * 32178161, par4 - 2, par5 - 2, 20, 20);
                 GL11.glDepthMask(true);
                 GL11.glDisable(GL11.GL_ALPHA_TEST);

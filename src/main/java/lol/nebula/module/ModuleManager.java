@@ -108,6 +108,7 @@ public class ModuleManager {
                 new Chams(),
                 new ClickUI(),
                 new Fullbright(),
+                new Glint(),
                 new InfiniteViewer(),
                 new Interface(),
                 new NoRender(),
