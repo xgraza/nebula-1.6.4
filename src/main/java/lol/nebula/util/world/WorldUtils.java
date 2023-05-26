@@ -41,6 +41,18 @@ public class WorldUtils {
     }
 
     /**
+     * Gets the block at these coordinates
+     * @param pos the coordinate vector the block is at
+     * @return the block or Blocks.air
+     */
+    public static Block getBlock(Vec3 pos) {
+        return mc.theWorld.getBlock(
+                (int) pos.xCoord,
+                (int) pos.yCoord,
+                (int) pos.zCoord);
+    }
+
+    /**
      * Gets the opposite facing enum for the inputted face
      * @param facing the face
      * @return the opposite face enum constant

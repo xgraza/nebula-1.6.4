@@ -1,5 +1,6 @@
 package lol.nebula.module.player;
 
+import com.google.common.collect.Lists;
 import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
@@ -13,14 +14,19 @@ import lol.nebula.util.math.Pair;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.math.timing.Timer;
 import lol.nebula.util.player.MoveUtils;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
+
+import java.util.List;
 
 import static lol.nebula.util.player.InventoryUtils.isInfinite;
 import static lol.nebula.util.world.WorldUtils.*;
@@ -32,6 +38,17 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
  * @since 04/28/23
  */
 public class Scaffold extends Module {
+
+    /**
+     * A list of all blocks to sneak on
+     */
+    private static final List<Block> blocksToSneak = Lists.newArrayList(
+            Blocks.chest, Blocks.trapped_chest, Blocks.ender_chest,
+            Blocks.beacon, Blocks.bed, Blocks.enchanting_table,
+            Blocks.crafting_table, Blocks.furnace, Blocks.lit_furnace,
+            Blocks.anvil, Blocks.command_block, Blocks.cake, Blocks.trapdoor,
+            Blocks.wooden_door, Blocks.wooden_button, Blocks.stone_button,
+            Blocks.fence_gate, Blocks.dragon_egg, Blocks.brewing_stand);
 
     private final Setting<Boolean> tower = new Setting<>(true, "Tower");
     private final Setting<Double> extend = new Setting<>(0.0, 0.5, 0.0, 6.0, "Extend");
@@ -129,6 +146,11 @@ public class Scaffold extends Module {
             // swap to the block slot
             Nebula.getInstance().getInventory().setSlot(slot);
 
+            // sneak if we need to
+            boolean sneakState = blocksToSneak.contains(getBlock(next.getKey())) && !mc.thePlayer.isSneaking();
+            if (sneakState) mc.thePlayer.sendQueue.addToSendQueue(
+                    new C0BPacketEntityAction(mc.thePlayer, 1));
+
             boolean result = mc.playerController.onPlayerRightClick(mc.thePlayer,
                     mc.theWorld,
                     mc.thePlayer.inventory.getStackInSlot(slot),
@@ -139,6 +161,10 @@ public class Scaffold extends Module {
                     getHitVec(next.getKey(), next.getValue()));
 
             Nebula.getInstance().getInventory().sync();
+
+            // un-sneak
+            if (sneakState) mc.thePlayer.sendQueue.addToSendQueue(
+                    new C0BPacketEntityAction(mc.thePlayer, 2));
 
             // don't continue if we failed to place
             if (!result) return;
