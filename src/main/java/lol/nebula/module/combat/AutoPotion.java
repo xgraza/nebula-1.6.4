@@ -8,6 +8,7 @@ import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.listener.events.net.EventPacket;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
+import lol.nebula.module.player.Scaffold;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.math.timing.Timer;
@@ -63,6 +64,10 @@ public class AutoPotion extends Module {
 
     @Listener
     public void onWalkingUpdate(EventWalkingUpdate event) {
+
+        // do not try to pot when scaffolding
+        if (Nebula.getInstance().getModules().get(Scaffold.class).isToggled()) return;
+
         if (confirm) return;
 
         int slot = getBestPotSlot();
