@@ -64,6 +64,7 @@ public class ModuleManager {
                 new CraftCarry(),
                 new FastUse(),
                 new NoRotateSet(),
+                new Phase(),
                 new Portal(),
                 new PotionSaver(),
                 new ThunderLocator(),
