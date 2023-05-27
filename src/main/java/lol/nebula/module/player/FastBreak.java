@@ -139,6 +139,24 @@ public class FastBreak extends Module {
             return;
         }
 
+//
+//        double reachDistance = mc.playerController.getBlockReachDistance();
+//
+//        // if the player distance to the block is greater than the reach distance
+//        if (mc.thePlayer.getDistanceSq(x, y, z) >= reachDistance * reachDistance) {
+//
+//            // reset states
+//            beginBreak = false;
+//            finishBreak = false;
+//            breakProgress = 0.0;
+//
+//            // send abort break packet
+//            mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(1, x, y, z, -1));
+//
+//            // early return
+//            return;
+//        }
+
         // the best tool slot for this block
         int slot = AutoTool.getBestSlotFor(getBlock(x, y, z));
 
