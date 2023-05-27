@@ -94,6 +94,7 @@ public class ModuleManager {
                 new AutoRespawn(),
                 new AutoTool(),
                 new Avoid(),
+                new FastBreak(),
                 new FastPlace(),
                 new Flatten(),
                 new InfiniteMover(),

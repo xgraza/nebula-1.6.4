@@ -64,7 +64,7 @@ public class PlayerControllerMP
     private boolean isHittingBlock;
 
     /** Current game type for the player */
-    private WorldSettings.GameType currentGameType;
+    public WorldSettings.GameType currentGameType;
 
     /** Index of the current item held by the player in the inventory hotbar */
     private int currentPlayerItem;

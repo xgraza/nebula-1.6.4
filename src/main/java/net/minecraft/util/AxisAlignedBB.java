@@ -45,6 +45,10 @@ public class AxisAlignedBB
         this.maxZ = par11;
     }
 
+    public AxisAlignedBB(Vec3 vec, double factor) {
+        this(vec.xCoord, vec.yCoord, vec.zCoord, vec.xCoord + factor, vec.yCoord + factor, vec.zCoord + factor);
+    }
+
     /**
      * Sets the bounds of the bounding box. Args: minX, minY, minZ, maxX, maxY, maxZ
      */
@@ -338,6 +342,11 @@ public class AxisAlignedBB
     public AxisAlignedBB copy()
     {
         return getAABBPool().getAABB(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
+    }
+
+    public Vec3 getCenter() {
+        // from another MCP build from a newer version of mc
+        return new Vec3(Vec3.fakePool, this.minX + (this.maxX - this.minX) * 0.5D, this.minY + (this.maxY - this.minY) * 0.5D, this.minZ + (this.maxZ - this.minZ) * 0.5D);
     }
 
     public MovingObjectPosition calculateIntercept(Vec3 par1Vec3, Vec3 par2Vec3)
