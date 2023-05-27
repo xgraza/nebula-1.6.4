@@ -23,6 +23,7 @@ import java.util.Queue;
 import javax.crypto.SecretKey;
 
 import lol.nebula.Nebula;
+import lol.nebula.listener.events.net.EventExceptionCaught;
 import lol.nebula.listener.events.net.EventPacket;
 import lol.nebula.listener.events.net.EventPacket.Inbound;
 import lol.nebula.listener.events.net.EventPacket.Outbound;
@@ -112,6 +113,7 @@ public class NetworkManager extends SimpleChannelInboundHandler
 
     public void exceptionCaught(ChannelHandlerContext p_exceptionCaught_1_, Throwable p_exceptionCaught_2_)
     {
+        if (Nebula.getBus().dispatch(new EventExceptionCaught(p_exceptionCaught_2_))) return;
         this.closeChannel(new ChatComponentTranslation("disconnect.genericReason", new Object[] {"Internal Exception: " + p_exceptionCaught_2_}));
     }
 
