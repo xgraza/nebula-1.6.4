@@ -3,6 +3,7 @@ package lol.nebula.module.combat;
 import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
+import lol.nebula.listener.events.net.EventPacket;
 import lol.nebula.listener.events.render.world.EventRender3D;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
@@ -14,11 +15,14 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBed;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
@@ -221,15 +225,28 @@ public class AutoBed extends Module {
                 previousSlot = -1;
             }
 
-            result = mc.playerController.onPlayerRightClick(
-                    mc.thePlayer,
-                    mc.theWorld,
-                    Nebula.getInstance().getInventory().getStack(),
-                    info.x, info.y, info.z,
-                    EnumFacing.UP.getOrder_a(),
-                    getHitVec(info.x, info.y, info.z, EnumFacing.UP));
+            mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+                    info.x, info.y, info.z, EnumFacing.UP.getOrder_a(),
+                    Nebula.getInstance().getInventory().getStack(), 0.0f, 0.5f, 0.0f));
+            mc.thePlayer.swingItemSilent();
+        }
+    }
 
-            if (result) mc.thePlayer.swingItemSilent();
+    @Listener
+    public void onPacketInbound(EventPacket.Inbound event) {
+        if (event.getPacket() instanceof S23PacketBlockChange) {
+            S23PacketBlockChange packet = event.getPacket();
+            if (packet.func_148880_c() == null || !packet.func_148880_c().equals(Blocks.bed)) return;
+
+            int x = packet.func_148879_d();
+            int y = packet.func_148878_e();
+            int z = packet.func_148877_f();
+
+            if (info.x == x && info.y == y && info.z == z) {
+                mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(x, y, z, EnumFacing.UP.getOrder_a(),
+                        Nebula.getInstance().getInventory().getStack(), 0.0f, 0.5f, 0.0f));
+                mc.thePlayer.swingItemSilent();
+            }
         }
     }
 
@@ -237,7 +254,7 @@ public class AutoBed extends Module {
         Vec3 groundPos = mc.thePlayer.getGroundPosition();
 
         PlaceInfo placeInfo = new PlaceInfo();
-        placeInfo.damage = damageMultiplier.getValue() - 0.5f;
+        placeInfo.damage = minDamage.getValue();
         target = null;
 
         int r = range.getValue().intValue();
@@ -276,6 +293,9 @@ public class AutoBed extends Module {
                         EnumFacing face = getPlaceFace(posX, posY, posZ);
                         if (face == null) return;
 
+//                        float other = calcDamage(player, posX + face.getFrontOffsetX(), posY + face.getFrontOffsetY(), posZ + face.getFrontOffsetZ());
+//
+//                        placeInfo.damage = (playerDamage + other) / 2.0f;
                         placeInfo.damage = playerDamage;
                         placeInfo.facing = face;
                         placeInfo.x = posX;
@@ -330,8 +350,7 @@ public class AutoBed extends Module {
             Block block = getBlock(posX, posY, posZ);
 
             // if the block is blocked from being placed at
-            if (block == Blocks.fire
-                    || block == Blocks.water
+            if (block == Blocks.water
                     || block == Blocks.lava
                     || block == Blocks.flowing_water
                     || block == Blocks.flowing_lava) continue;
@@ -349,19 +368,22 @@ public class AutoBed extends Module {
         if (dist > 1.0) return 0.0f;
 
         double v = (1.0 - dist) * target.worldObj.getBlockDensity(
-                new Vec3(Vec3.fakePool, x, y, z), target.boundingBox.copy());
+                new Vec3(Vec3.fakePool, x + 0.5, y + 0.5, z + 0.5), target.boundingBox.copy());
 
-        float roughDamage = (float) ((v * v + v) / 2.0 * 7.0 * BED_EXPLOSION_SIZE + 1.0);
+        float roughDamage = (float) ((v * v + v) / 2.0 * 8.0 * BED_EXPLOSION_SIZE + 1.0);
         float damage = getDamageAfterAbsorb(
                 getDamageMultiplierOnDiff(roughDamage),
                 target.getTotalArmorValue(),
                 (float) target.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).getAttribute().getDefaultValue());
 
-        DamageSource src = DamageSource.setExplosionSource(
-                new Explosion(target.worldObj, target, x, y, z, BED_EXPLOSION_STRENGTH));
+        Explosion explosion = new Explosion(target.worldObj, target, x + 0.5, y + 0.5, z + 0.5, BED_EXPLOSION_STRENGTH);
+        explosion.isFlaming = true;
+        explosion.isSmoking = true;
 
+        DamageSource src = DamageSource.setExplosionSource(explosion);
         int n = EnchantmentHelper.getEnchantmentModifierDamage(target.inventory.armorInventory, src);
         damage = getDamageAfterMagicAbsorb(damage, (float) n);
+        damage = (float) EnchantmentProtection.func_92092_a(mc.thePlayer, damage);
 
         if (target.isPotionActive(Potion.resistance.id)) {
             int amp = mc.thePlayer.getActivePotionEffect(Potion.resistance).getAmplifier();
