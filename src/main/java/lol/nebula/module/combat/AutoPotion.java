@@ -111,6 +111,8 @@ public class AutoPotion extends Module {
 
     @Listener
     public void onPacketInbound(EventPacket.Inbound event) {
+        if (mc.thePlayer == null) return;
+
         if (event.getPacket() instanceof S1DPacketEntityEffect) {
             S1DPacketEntityEffect packet = event.getPacket();
             if (packet.func_149426_d() != mc.thePlayer.getEntityId()) return;
