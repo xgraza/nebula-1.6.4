@@ -22,7 +22,9 @@ public class FakePlayer extends Command {
 
         if (fake == null) {
             fake = new EntityOtherPlayerMP(mc.theWorld, mc.thePlayer.getGameProfile());
-            fake.copyLocationAndAnglesFrom(mc.thePlayer);
+            fake.setLocationAndAngles(
+                    mc.thePlayer.posX, mc.thePlayer.boundingBox.minY, mc.thePlayer.posZ,
+                    mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch);
             fake.inventory.copyInventory(mc.thePlayer.inventory);
             fake.setEntityId(FAKE_ID);
 

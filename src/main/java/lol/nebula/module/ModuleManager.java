@@ -48,6 +48,7 @@ public class ModuleManager {
 
         register(
                 new AutoArmor(),
+                new AutoBed(),
                 new AutoGapple(),
                 new AutoLogout(),
                 new AutoPotion(),
