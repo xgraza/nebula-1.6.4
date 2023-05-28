@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.Proxy;
 import java.net.SocketAddress;
@@ -135,6 +136,7 @@ import net.minecraft.world.chunk.storage.AnvilSaveConverter;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.LWJGLException;
@@ -481,13 +483,22 @@ public class Minecraft implements IPlayerUsage
 
         if (var1 != Util.EnumOS.MACOS)
         {
-            try
-            {
-                Display.setIcon(new ByteBuffer[] {this.readImage(new File(this.fileAssets, "/icons/icon_16x16.png")), this.readImage(new File(this.fileAssets, "/icons/icon_32x32.png"))});
-            }
-            catch (IOException var6)
-            {
-                logger.error("Couldn\'t set icon", var6);
+            InputStream x16 = null, x32 = null;
+
+            try {
+                x16 = Minecraft.class.getResourceAsStream("/assets/minecraft/nebula/textures/icons/16x.png");
+                x32 = Minecraft.class.getResourceAsStream("/assets/minecraft/nebula/textures/icons/32x.png");
+
+                if (x16 != null && x32 != null) {
+                    Display.setIcon(new ByteBuffer[] { readImageToBuffer(x16), readImageToBuffer(x32) });
+                } else {
+                    logger.warn("One or more input streams are null: 16x: {}, 32x: {}.", x16 == null, x32 == null);
+                }
+            } catch (IOException e) {
+                logger.error("Couldn't set custom Nebula icon", e);
+            } finally {
+                IOUtils.closeQuietly(x16);
+                IOUtils.closeQuietly(x32);
             }
 
             if (var1 != Util.EnumOS.WINDOWS)
@@ -648,6 +659,21 @@ public class Minecraft implements IPlayerUsage
     private void addDefaultResourcePack()
     {
         this.defaultResourcePacks.add(this.mcDefaultResourcePack);
+    }
+
+    private ByteBuffer readImageToBuffer(InputStream imageStream) throws IOException
+    {
+        BufferedImage bufferedimage = ImageIO.read(imageStream);
+        int[] aint = bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), null, 0, bufferedimage.getWidth());
+        ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
+
+        for (int i : aint)
+        {
+            bytebuffer.putInt(i << 8 | i >> 24 & 255);
+        }
+
+        bytebuffer.flip();
+        return bytebuffer;
     }
 
     private ByteBuffer readImage(File par1File) throws IOException
