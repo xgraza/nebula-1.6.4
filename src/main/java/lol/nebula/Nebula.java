@@ -14,7 +14,10 @@ import lol.nebula.management.TickManager;
 import lol.nebula.module.ModuleManager;
 import lol.nebula.util.math.timing.Timer;
 import lol.nebula.util.render.font.Fonts;
+import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
+import net.minecraft.util.Util;
+import net.minecraft.util.Util.EnumOS;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
@@ -70,7 +73,14 @@ public class Nebula {
         System.out.println(new CrashReport("THIS IS NOT A CRASH REPORT", new Throwable("hi hi hi")).getCompleteReport());
 
         logger.info("Loading {} v{}", name, version);
-        Display.setTitle(format("Loading %s v%s", name, version));
+
+        String title = format("Loading %s v%s", name, version);
+        EnumOS os = Util.getOSType();
+        if (os != EnumOS.WINDOWS && os != EnumOS.MACOS) {
+            Minecraft.func_147105_a(title);
+        } else {
+            Display.setTitle(title);
+        }
 
         // time measuring for starting the base
         Timer timer = new Timer();
