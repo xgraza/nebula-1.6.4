@@ -6,6 +6,7 @@ import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.listener.events.render.world.EventRender3D;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
+import lol.nebula.module.visual.Interface;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.render.RenderUtils;
@@ -26,6 +27,7 @@ import net.minecraft.world.Explosion;
 import java.awt.*;
 import java.util.List;
 
+import static lol.nebula.util.render.ColorUtils.withAlpha;
 import static lol.nebula.util.render.RenderUtils.filledAabb;
 import static lol.nebula.util.render.RenderUtils.setColor;
 import static lol.nebula.util.world.WorldUtils.*;
@@ -94,7 +96,7 @@ public class AutoBed extends Module {
             glDisable(GL_TEXTURE_2D);
             glDisable(GL_DEPTH_TEST);
 
-            setColor(new Color(255, 0, 0, 80).getRGB());
+            setColor(withAlpha(Interface.color.getValue().getRGB(), 120));
             filledAabb(bb);
 
             glEnable(GL_DEPTH_TEST);
