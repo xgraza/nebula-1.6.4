@@ -25,8 +25,8 @@ import net.minecraft.world.WorldSettings.GameType;
 import java.awt.*;
 
 import static java.lang.Integer.MAX_VALUE;
-import static lol.nebula.util.render.RenderUtils.filledAabb;
-import static lol.nebula.util.render.RenderUtils.setColor;
+import static lol.nebula.util.render.ColorUtils.withAlpha;
+import static lol.nebula.util.render.RenderUtils.*;
 import static lol.nebula.util.world.WorldUtils.getBlock;
 import static lol.nebula.util.world.WorldUtils.isReplaceable;
 import static org.lwjgl.opengl.GL11.*;
@@ -106,10 +106,14 @@ public class FastBreak extends Module {
         glDisable(GL_TEXTURE_2D);
         glDisable(GL_DEPTH_TEST);
 
-        setColor((factor >= 0.95
+        int color = (factor >= 0.95
                 ? new Color(0, 255, 0, 80)
-                : new Color(255, 0, 0, 80)).getRGB());
+                : new Color(255, 0, 0, 80)).getRGB();
+
+        setColor(withAlpha(color, 120));
         filledAabb(bb);
+        setColor(color);
+        outlinedAabb(bb);
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);

@@ -216,4 +216,52 @@ public class RenderUtils {
         tessellator.addVertex(box.minX, box.maxY, box.minZ);
         tessellator.draw();
     }
+
+    public static void outlinedAabb(AxisAlignedBB box) {
+        Tessellator tessellator = Tessellator.instance;
+
+        tessellator.startDrawing(GL_LINE_STRIP);
+        tessellator.addVertex(box.minX, box.minY, box.minZ);
+        tessellator.addVertex(box.maxX, box.minY, box.minZ);
+        tessellator.addVertex(box.maxX, box.minY, box.maxZ);
+        tessellator.addVertex(box.minX, box.minY, box.maxZ);
+        tessellator.draw();
+
+        // sides
+        tessellator.startDrawing(GL_LINE_STRIP);
+        tessellator.addVertex(box.minX, box.minY, box.minZ);
+        tessellator.addVertex(box.minX, box.minY, box.maxZ);
+        tessellator.addVertex(box.minX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.minX, box.maxY, box.minZ);
+        tessellator.draw();
+
+        tessellator.startDrawing(GL_LINE_STRIP);
+        tessellator.addVertex(box.maxX, box.minY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.minY, box.minZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.minZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.maxZ);
+        tessellator.draw();
+
+        tessellator.startDrawing(GL_LINE_STRIP);
+        tessellator.addVertex(box.maxX, box.minY, box.minZ);
+        tessellator.addVertex(box.minX, box.minY, box.minZ);
+        tessellator.addVertex(box.minX, box.maxY, box.minZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.minZ);
+        tessellator.draw();
+
+        tessellator.startDrawing(GL_LINE_STRIP);
+        tessellator.addVertex(box.minX, box.minY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.minY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.minX, box.maxY, box.maxZ);
+        tessellator.draw();
+
+        // top
+        tessellator.startDrawing(GL_LINE_STRIP);
+        tessellator.addVertex(box.minX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.maxZ);
+        tessellator.addVertex(box.maxX, box.maxY, box.minZ);
+        tessellator.addVertex(box.minX, box.maxY, box.minZ);
+        tessellator.draw();
+    }
 }

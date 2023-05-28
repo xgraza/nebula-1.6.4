@@ -26,8 +26,7 @@ import net.minecraft.world.Explosion;
 import java.util.List;
 
 import static lol.nebula.util.render.ColorUtils.withAlpha;
-import static lol.nebula.util.render.RenderUtils.filledAabb;
-import static lol.nebula.util.render.RenderUtils.setColor;
+import static lol.nebula.util.render.RenderUtils.*;
 import static lol.nebula.util.world.WorldUtils.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -96,6 +95,8 @@ public class AutoBed extends Module {
 
             setColor(withAlpha(Interface.color.getValue().getRGB(), 120));
             filledAabb(bb);
+            setColor(Interface.color.getValue().getRGB());
+            outlinedAabb(bb);
 
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_TEXTURE_2D);
