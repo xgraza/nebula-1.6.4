@@ -9,7 +9,6 @@ import lol.nebula.module.ModuleCategory;
 import lol.nebula.module.visual.Interface;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.math.RotationUtils;
-import lol.nebula.util.render.RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -24,7 +23,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 
-import java.awt.*;
 import java.util.List;
 
 import static lol.nebula.util.render.ColorUtils.withAlpha;
@@ -32,7 +30,6 @@ import static lol.nebula.util.render.RenderUtils.filledAabb;
 import static lol.nebula.util.render.RenderUtils.setColor;
 import static lol.nebula.util.world.WorldUtils.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 /**
  * @author aesthetical
@@ -53,6 +50,7 @@ public class AutoBed extends Module {
 
     private final Setting<Float> damageMultiplier = new Setting<>(1.5f, 0.1f, 1.0f, 2.0f, "Damage Multiplier");
     private final Setting<Float> maxLocal = new Setting<>(6.0f, 0.01f, 0.0f, 20.0f, "Maximum Local");
+    private final Setting<Float> maxFriend = new Setting<>(8.0f, 0.01f, 0.0f, 20.0f, "Maximum Friend");
     private final Setting<Float> minDamage = new Setting<>(4.0f, 0.01f, 0.0f, 20.0f, "Minimum Damage");
 
     private EntityPlayer target;
@@ -76,7 +74,7 @@ public class AutoBed extends Module {
 
     @Listener
     public void onRender3D(EventRender3D event) {
-        if (target == null || (info.x == -1 && info.y == -1 && info.z == -1)) return;
+        if (target == null || info == null || (info.x == -1 && info.y == -1 && info.z == -1)) return;
 
         double renderX = RenderManager.renderPosX;
         double renderY = RenderManager.renderPosY;
@@ -261,6 +259,14 @@ public class AutoBed extends Module {
                     if (selfDamage > maxLocal.getValue() || selfDamage > mc.thePlayer.getHealth() * m) continue;
 
                     for (EntityPlayer player : (List<EntityPlayer>) mc.theWorld.playerEntities) {
+
+                        // dont try to attack the player if theyre "invalid"
+                        if (player == null
+                                || player.isDead
+                                || player.getHealth() <= 0.0f
+                                || player.equals(mc.thePlayer)
+                                || Nebula.getInstance().getFriends().isFriend(player)) continue;
+
                         float playerDamage = calcDamage(player, posX, posY, posZ) * m;
                         if (playerDamage < minDamage.getValue()
                                 || selfDamage > playerDamage
