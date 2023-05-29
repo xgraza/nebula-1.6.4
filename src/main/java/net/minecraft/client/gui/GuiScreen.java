@@ -345,7 +345,7 @@ public class GuiScreen extends Gui
      */
     public void handleKeyboardInput()
     {
-        if (Keyboard.getEventKeyState())
+        if (Keyboard.getEventKey() == 0 && Keyboard.getEventCharacter() >= ' ' || Keyboard.getEventKeyState())
         {
             int var1 = Keyboard.getEventKey();
             char var2 = Keyboard.getEventCharacter();

@@ -77,6 +77,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
             }
 
             var4 = CompressedStreamTools.read(var10);
+            var10.close();
         }
 
         return this.checkedReadChunkFromNBT(par1World, par2, par3, var4);

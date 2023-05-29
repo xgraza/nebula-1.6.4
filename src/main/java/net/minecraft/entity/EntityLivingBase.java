@@ -629,6 +629,8 @@ public abstract class EntityLivingBase extends Entity
             Integer var2 = (Integer)var1.next();
             PotionEffect var3 = (PotionEffect)this.activePotionsMap.get(var2);
 
+            if (var3 == null) continue;
+
             if (!var3.onUpdate(this))
             {
                 if (!this.worldObj.isClient)

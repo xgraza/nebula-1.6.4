@@ -1,6 +1,7 @@
 package net.minecraft.world;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import net.minecraft.nbt.NBTTagCompound;
@@ -128,6 +129,8 @@ public class GameRules
 
         public void setValue(String par1Str)
         {
+            if (Objects.equals(valueString, par1Str)) return;
+
             this.valueString = par1Str;
 
             if (par1Str != null)

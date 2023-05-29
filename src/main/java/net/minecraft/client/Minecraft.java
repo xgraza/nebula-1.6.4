@@ -1823,11 +1823,12 @@ public class Minecraft implements IPlayerUsage
 
             while (Keyboard.next())
             {
-                KeyBinding.setKeyBindState(Keyboard.getEventKey(), Keyboard.getEventKeyState());
+                int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
+                KeyBinding.setKeyBindState(k, Keyboard.getEventKeyState());
 
                 if (Keyboard.getEventKeyState())
                 {
-                    KeyBinding.onTick(Keyboard.getEventKey());
+                    KeyBinding.onTick(k);
                 }
 
                 if (this.field_83002_am > 0L)
@@ -1849,14 +1850,14 @@ public class Minecraft implements IPlayerUsage
 
                 if (Keyboard.getEventKeyState())
                 {
-                    Nebula.getBus().dispatch(new EventKeyInput(Keyboard.getEventKey()));
+                    Nebula.getBus().dispatch(new EventKeyInput(k));
 
-                    if (Keyboard.getEventKey() == 62 && this.entityRenderer != null)
+                    if (k == 62 && this.entityRenderer != null)
                     {
                         this.entityRenderer.deactivateShader();
                     }
 
-                    if (Keyboard.getEventKey() == 87)
+                    if (k == 87)
                     {
                         this.toggleFullscreen();
                     }
@@ -1868,55 +1869,55 @@ public class Minecraft implements IPlayerUsage
                         }
                         else
                         {
-                            if (Keyboard.getEventKey() == 1)
+                            if (k == 1)
                             {
                                 this.displayInGameMenu();
                             }
 
-                            if (Keyboard.getEventKey() == 31 && Keyboard.isKeyDown(61))
+                            if (k == 31 && Keyboard.isKeyDown(61))
                             {
                                 this.refreshResources();
                             }
 
-                            if (Keyboard.getEventKey() == 20 && Keyboard.isKeyDown(61))
+                            if (k == 20 && Keyboard.isKeyDown(61))
                             {
                                 this.refreshResources();
                             }
 
-                            if (Keyboard.getEventKey() == 33 && Keyboard.isKeyDown(61))
+                            if (k == 33 && Keyboard.isKeyDown(61))
                             {
                                 var8 = Keyboard.isKeyDown(42) | Keyboard.isKeyDown(54);
                                 this.gameSettings.setOptionValue(GameSettings.Options.RENDER_DISTANCE, var8 ? -1 : 1);
                             }
 
-                            if (Keyboard.getEventKey() == 30 && Keyboard.isKeyDown(61))
+                            if (k == 30 && Keyboard.isKeyDown(61))
                             {
                                 this.renderGlobal.loadRenderers();
                             }
 
-                            if (Keyboard.getEventKey() == 35 && Keyboard.isKeyDown(61))
+                            if (k == 35 && Keyboard.isKeyDown(61))
                             {
                                 this.gameSettings.advancedItemTooltips = !this.gameSettings.advancedItemTooltips;
                                 this.gameSettings.saveOptions();
                             }
 
-                            if (Keyboard.getEventKey() == 48 && Keyboard.isKeyDown(61))
+                            if (k == 48 && Keyboard.isKeyDown(61))
                             {
                                 RenderManager.field_85095_o = !RenderManager.field_85095_o;
                             }
 
-                            if (Keyboard.getEventKey() == 25 && Keyboard.isKeyDown(61))
+                            if (k == 25 && Keyboard.isKeyDown(61))
                             {
                                 this.gameSettings.pauseOnLostFocus = !this.gameSettings.pauseOnLostFocus;
                                 this.gameSettings.saveOptions();
                             }
 
-                            if (Keyboard.getEventKey() == 59)
+                            if (k == 59)
                             {
                                 this.gameSettings.hideGUI = !this.gameSettings.hideGUI;
                             }
 
-                            if (Keyboard.getEventKey() == 61)
+                            if (k == 61)
                             {
                                 this.gameSettings.showDebugInfo = !this.gameSettings.showDebugInfo;
                                 this.gameSettings.showDebugProfilerChart = GuiScreen.isShiftKeyDown();
@@ -1940,14 +1941,14 @@ public class Minecraft implements IPlayerUsage
 
                         if (this.gameSettings.showDebugInfo && this.gameSettings.showDebugProfilerChart)
                         {
-                            if (Keyboard.getEventKey() == 11)
+                            if (k == 11)
                             {
                                 this.updateDebugProfilerName(0);
                             }
 
                             for (var1 = 0; var1 < 9; ++var1)
                             {
-                                if (Keyboard.getEventKey() == 2 + var1)
+                                if (k == 2 + var1)
                                 {
                                     this.updateDebugProfilerName(var1 + 1);
                                 }
@@ -2231,6 +2232,8 @@ public class Minecraft implements IPlayerUsage
      */
     public void loadWorld(WorldClient par1WorldClient, String par2Str)
     {
+        if (par1WorldClient != theWorld) entityRenderer.getMapItemRenderer().func_148249_a();
+
         if (par1WorldClient == null)
         {
             NetHandlerPlayClient var3 = this.getNetHandler();

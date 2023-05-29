@@ -397,7 +397,7 @@ public class WorldClient extends World
         byte var4 = 16;
         Random var5 = new Random();
 
-        for (int var6 = 0; var6 < 1000; ++var6)
+        for (int var6 = 0; var6 < 100; ++var6)
         {
             int var7 = par1 + this.rand.nextInt(var4) - this.rand.nextInt(var4);
             int var8 = par2 + this.rand.nextInt(var4) - this.rand.nextInt(var4);

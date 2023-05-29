@@ -1,5 +1,6 @@
 package net.minecraft.client.multiplayer;
 
+import java.net.IDN;
 import java.util.Hashtable;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.InitialDirContext;
@@ -18,7 +19,12 @@ public class ServerAddress
 
     public String getIP()
     {
-        return this.ipAddress;
+        try {
+            return IDN.toASCII(this.ipAddress);
+        } catch (IllegalArgumentException e) {
+            return "";
+        }
+        //return this.ipAddress;
     }
 
     public int getPort()
