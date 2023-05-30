@@ -11,6 +11,8 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 
+import static java.lang.Math.min;
+
 /**
  * @author aesthetical
  * @since 05/03/23
@@ -37,15 +39,13 @@ public class AutoTool extends Module {
      */
     public static int getBestSlotFor(Block block) {
         int slot = -1;
-        float damage = 0.0f;
+        float damage = 1.0f;
 
         for (int i = 0; i < 9; ++i) {
             ItemStack stack = mc.thePlayer.inventory.getStackInSlot(i);
             if (stack == null) continue;
 
             float dmg = getToolDamage(stack, block);
-            if (dmg <= 1.0f) continue;
-
             if (dmg > damage) {
                 damage = dmg;
                 slot = i;
@@ -64,9 +64,10 @@ public class AutoTool extends Module {
     private static float getToolDamage(ItemStack stack, Block block) {
 
         float score = stack.func_150997_a(block);
+        if (score <= 1.0f) return 1.0f;
 
-        score += EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, stack) * 1.3f;
-        score += EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.5f;
+        score += EnchantmentHelper.getEnchantmentLevel(min(5, Enchantment.efficiency.effectId), stack) * 1.3f;
+        score += EnchantmentHelper.getEnchantmentLevel(min(5, Enchantment.unbreaking.effectId), stack) * 0.5f;
 
         if (stack.getItem() instanceof ItemTool) {
             ItemTool itemTool = (ItemTool) stack.getItem();
