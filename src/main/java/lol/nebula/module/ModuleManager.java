@@ -88,6 +88,7 @@ public class ModuleManager {
                 new Speed(),
                 new Sprint(),
                 new StairSpeed(),
+                new Step(),
                 new TargetStrafe(),
 
                 new AntiGhostBlock(),
