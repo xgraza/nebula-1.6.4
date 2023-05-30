@@ -41,7 +41,7 @@ public class Nebula {
     public static boolean developmentSwitch;
 
     private static final String name = "Nebula";
-    private static final String version = "3.0";
+    private static final String version = "3.0.0";
     private static final int build = 1;
 
     /**
@@ -231,7 +231,7 @@ public class Nebula {
      * @return the formatted version
      */
     public static String getFormatted() {
-        return format("%s v%s+%s-%s", getName(), getVersion(), getBuild(), BuildConfig.HASH);
+        return format("%s %s+%s-%s", getName(), getVersion(), getBuild(), BuildConfig.HASH);
     }
 
     /**
