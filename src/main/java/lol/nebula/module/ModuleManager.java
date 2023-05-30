@@ -84,6 +84,7 @@ public class ModuleManager {
                 new NoJumpDelay(),
                 new NoPush(),
                 new NoSlow(),
+                new ReverseStep(),
                 new Safewalk(),
                 new Speed(),
                 new Sprint(),
