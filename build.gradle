@@ -3,9 +3,8 @@ plugins {
     id 'de.fuerstenau.buildconfig' version '1.1.4'
 }
 
-version = '3.0'
 group = 'lol.nebula'
-archivesBaseName = 'Nebula'
+archivesBaseName = "Nebula+${project.build_number}"
 
 def execute(String cmd) {
     try {
@@ -26,6 +25,7 @@ buildConfig {
     buildConfigField "String", "HASH", "${execute("git rev-parse --short HEAD")}"
     buildConfigField "String", "BRANCH", "${execute("git branch").replace("* ", "")}"
     buildConfigField "String", "VERSION", "${project.version}"
+    buildConfigField "int", "BUILD_NUMBER", "${project.build_number}"
 
     packageName "lol.nebula"
 }

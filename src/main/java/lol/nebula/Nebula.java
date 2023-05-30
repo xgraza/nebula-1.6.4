@@ -42,7 +42,6 @@ public class Nebula {
 
     private static final String name = "Nebula";
     private static final String version = "3.0.0";
-    private static final int build = 1;
 
     /**
      * The global client logger
@@ -219,19 +218,11 @@ public class Nebula {
     }
 
     /**
-     * Gets the build number of the client
-     * @return the build number
-     */
-    public static int getBuild() {
-        return build;
-    }
-
-    /**
      * Gets the formatted version
      * @return the formatted version
      */
     public static String getFormatted() {
-        return format("%s %s+%s-%s", getName(), getVersion(), getBuild(), BuildConfig.HASH);
+        return format("%s %s+%s-%s", getName(), getVersion(), BuildConfig.BUILD_NUMBER, BuildConfig.HASH);
     }
 
     /**
