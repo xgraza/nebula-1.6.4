@@ -70,7 +70,7 @@ public class Nebula {
         if (developmentSwitch) logger.info("Development switch is on");
 
         System.out.println("Running Nebula " + version + " on git " + BuildConfig.HASH + "/" + BuildConfig.BRANCH);
-        System.out.println(new CrashReport("THIS IS NOT A CRASH REPORT", new Throwable("hi hi hi")).getCompleteReport());
+        System.out.println(new CrashReport("THIS IS NOT A CRASH REPORT", new Throwable("gabagoo")).getCompleteReport());
 
         logger.info("Loading {} v{}", name, version);
 
