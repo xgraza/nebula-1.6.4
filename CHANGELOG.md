@@ -10,6 +10,7 @@
 
 ```diff
 + Made SpawnTP command send NaN C04 silently (fixes interference with Potion Saver module)
++ Self Fill module swings client-sided instead of server-sided 
 ```
 
 ---

@@ -96,7 +96,7 @@ public class SelfFill extends Module {
                 facingY,
                 facingZ
         ));
-        mc.thePlayer.swingItemSilent();
+        mc.thePlayer.swingItem();
 
         Nebula.getInstance().getInventory().sync();
 
