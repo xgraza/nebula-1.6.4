@@ -139,6 +139,10 @@ public class FastBreak extends Module {
             finishBreak = false;
             breakProgress = 0.0;
 
+            x = -1;
+            y = -1;
+            z = -1;
+
             // early return
             return;
         }
