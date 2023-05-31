@@ -9,7 +9,7 @@ import net.minecraft.network.play.client.C03PacketPlayer.C04PacketPlayerPosition
  */
 public class SpawnTP extends Command {
     public SpawnTP() {
-        super(new String[]{"spawntp", "stp"}, "Warps to spawn on alfheim.pw");
+        super(new String[]{"spawn", "tpspawn", "spawntp", "stp"}, "Warps to spawn on alfheim.pw");
     }
 
     @Override
