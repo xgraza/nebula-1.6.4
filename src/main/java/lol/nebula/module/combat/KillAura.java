@@ -12,6 +12,7 @@ import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.math.timing.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -150,6 +151,8 @@ public class KillAura extends Module {
         if (target instanceof EntityPlayer && Nebula.getInstance().getFriends().isFriend((EntityPlayer) target)) {
             return false;
         }
+
+        if (target instanceof EntityPigZombie) return false;
 
         double distance = mc.thePlayer.getDistanceSqToEntity(target);
         if (!mc.thePlayer.canEntityBeSeen(target) && distance > wallRange.getValue() * wallRange.getValue()) {
