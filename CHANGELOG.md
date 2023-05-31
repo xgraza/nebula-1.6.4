@@ -13,6 +13,7 @@
 + Self Fill module swings client-sided instead of server-sided
 + Added aliases "spawn" and "tpspawn" to SpawnTP command 
 + Fixed Fast Break not allowing you to break the same block after it was replaced
++ Added "Auto Disable" option to Long Jump for when NCP lags you back
 ```
 
 ---

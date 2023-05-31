@@ -3,10 +3,12 @@ package lol.nebula.module.movement;
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.entity.move.EventMove;
 import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
+import lol.nebula.listener.events.net.EventPacket;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.player.MoveUtils;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class LongJump extends Module {
 
     private final Setting<Double> boost = new Setting<>(4.5, 0.1, 1.0, 8.0, "Boost");
     private final Setting<Boolean> glide = new Setting<>(true, "Glide");
+    private final Setting<Boolean> autoDisable = new Setting<>(true, "Auto Disable");
 
     private double speed, distance;
     private int stage;
@@ -84,5 +87,13 @@ public class LongJump extends Module {
         double x = mc.thePlayer.posX - mc.thePlayer.prevPosX;
         double z = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
         distance = Math.sqrt(x * x + z * z);
+    }
+
+    @Listener
+    public void onPacketInbound(EventPacket.Inbound event) {
+        if (event.getPacket() instanceof S08PacketPlayerPosLook && autoDisable.getValue()) {
+            print("Automatically disabling Long Jump due to NCP lagback");
+            setState(false);
+        }
     }
 }
