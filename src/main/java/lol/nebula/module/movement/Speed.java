@@ -20,6 +20,7 @@ import net.minecraft.network.play.server.S27PacketExplosion;
 public class Speed extends Module {
     private final Setting<Mode> mode = new Setting<>(Mode.HOP, "Mode");
     private final Setting<Boolean> damageBoost = new Setting<>(true, "Damage Boost");
+    private final Setting<Boolean> timer = new Setting<>(true, "Timer");
 
     private double distance, speed;
     private int stage;
@@ -61,7 +62,7 @@ public class Speed extends Module {
             if (mc.thePlayer.onGround) {
                 mc.thePlayer.jump();
 
-                if (mc.thePlayer.ticksExisted % 10 == 0) {
+                if (mc.thePlayer.ticksExisted % 10 == 0 && timer.getValue()) {
                     mc.timer.timerSpeed = 1.35f;
                 } else {
                     mc.timer.timerSpeed = boost ? 1.088f : 1.098f;
@@ -80,7 +81,7 @@ public class Speed extends Module {
     public void onMove(EventMove event) {
         if (mode.getValue() == Mode.HOP) {
 
-            mc.timer.timerSpeed = 1.088f;
+            mc.timer.timerSpeed = timer.getValue() ? 1.088f : 1.0f;
 
             if (mc.thePlayer.onGround && MoveUtils.isMoving()) {
                 stage = 2;
