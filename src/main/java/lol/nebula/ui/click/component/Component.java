@@ -52,6 +52,10 @@ public abstract class Component {
         this.height = height;
     }
 
+    public boolean isVisible() {
+        return true;
+    }
+
     public List<Component> getChildren() {
         return children;
     }

@@ -74,6 +74,11 @@ public class BindSettingComponent extends Component {
         }
     }
 
+    @Override
+    public boolean isVisible() {
+        return setting.isVisible();
+    }
+
     private String formatBind() {
         Bind bind = setting.getValue();
         if (bind.getKey() == -1) return "NONE";

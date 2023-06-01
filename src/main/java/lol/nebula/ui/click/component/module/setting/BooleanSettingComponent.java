@@ -61,4 +61,9 @@ public class BooleanSettingComponent extends Component {
     public void keyTyped(char typedChar, int keyCode) {
 
     }
+
+    @Override
+    public boolean isVisible() {
+        return setting.isVisible();
+    }
 }

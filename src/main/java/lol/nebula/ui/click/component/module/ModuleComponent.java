@@ -92,6 +92,8 @@ public class ModuleComponent extends Component {
         if (openAnimation.getFactor() > 0.0) {
             double y = getY() + super.getHeight() + 1.0;
             for (Component component : getChildren()) {
+                if (!component.isVisible()) continue;
+
                 component.setX(getX() + 1.0);
                 component.setWidth(getWidth() - 2.0);
                 component.setY(y);
@@ -134,6 +136,7 @@ public class ModuleComponent extends Component {
     public double getHeight() {
         double openedHeight = 2.0;
         for (Component component : getChildren()) {
+            if (!component.isVisible()) continue;
             openedHeight += component.getHeight();
         }
 

@@ -20,6 +20,7 @@
 + Fixed Auto Tool enchantment calculation for 32ks
 + Added/Fixed dimension filter for Auto Bed
 + Added Anti Web
++ Made some ClickUI elements visible based on the setting visibility
 ```
 
 ---

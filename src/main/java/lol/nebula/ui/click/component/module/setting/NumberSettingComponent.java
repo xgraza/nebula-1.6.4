@@ -93,4 +93,9 @@ public class NumberSettingComponent extends Component {
             setting.setValue((float) value);
         }
     }
+
+    @Override
+    public boolean isVisible() {
+        return setting.isVisible();
+    }
 }

@@ -132,4 +132,9 @@ public class ColorSettingComponent extends Component {
     public double getHeight() {
         return super.getHeight() + ((PICKER_HEIGHT + 5.0 + 6.0 + (PADDING)) * openAnimation.getFactor());
     }
+
+    @Override
+    public boolean isVisible() {
+        return setting.isVisible();
+    }
 }
