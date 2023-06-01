@@ -24,6 +24,7 @@
 + Added "Chest Backpack" module
 + Added "Bow Aim" module (not finished so no code is inside, just the base module)
 + Added thicker window icons
++ Edits to "Glide" option in Long Jump
 ```
 
 ---

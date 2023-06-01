@@ -53,14 +53,11 @@ public class LongJump extends Module {
                 speed *= 2.149;
                 stage = 3;
             } else if (stage == 3) {
-                double adjust = 0.66 * (distance - MoveUtils.getBaseNcpSpeed(0));
+                double adjust = 0.66 * (distance - 0.2873);
                 speed = distance - adjust;
                 stage = 4;
             } else {
                 speed -= speed / 150.0;
-                if (mc.thePlayer.onGround) {
-                    stage = 1;
-                }
             }
 
             // credits to Doogie13 for this block of code
@@ -68,7 +65,7 @@ public class LongJump extends Module {
                 List list1 = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer,
                         mc.thePlayer.boundingBox.copy().offset(0.0, mc.thePlayer.motionY, 0.0));
                 List list2 = mc.theWorld.getCollidingBoundingBoxes(mc.thePlayer,
-                        mc.thePlayer.boundingBox.copy().offset(0.0, -0.3, 0.0));
+                        mc.thePlayer.boundingBox.copy().offset(0.0, -0.2, 0.0));
 
                 if (!mc.thePlayer.isCollidedVertically && (!list1.isEmpty() || !list2.isEmpty())) {
                     mc.thePlayer.motionY = -1.0E-4;
