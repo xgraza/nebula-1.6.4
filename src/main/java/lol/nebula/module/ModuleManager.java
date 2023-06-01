@@ -73,6 +73,7 @@ public class ModuleManager {
                 new ThunderLocator(),
                 new Timer(),
 
+                new AntiWeb(),
                 new AutoWalk(),
                 new EntitySpeed(),
                 new Flight(),
