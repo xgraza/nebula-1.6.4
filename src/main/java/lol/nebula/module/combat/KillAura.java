@@ -10,6 +10,8 @@ import lol.nebula.setting.Setting;
 import lol.nebula.util.math.MathUtils;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.math.timing.Timer;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityPigZombie;
@@ -20,6 +22,8 @@ import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 
 import java.util.Comparator;
+
+import static java.lang.Math.min;
 
 /**
  * @author aesthetical
@@ -37,6 +41,7 @@ public class KillAura extends Module {
     private final Setting<Integer> minCPS = new Setting<>(8, 0, 20, "Min CPS");
     private final Setting<Integer> maxCPS = new Setting<>(14, 0, 20, "Max CPS");
 
+    private final Setting<RequiredWeapon> weapon = new Setting<>(RequiredWeapon.SWORD, "Required");
     private final Setting<Boolean> autoBlock = new Setting<>(true, "Auto Block");
 
     private final Timer timer = new Timer();
@@ -102,13 +107,51 @@ public class KillAura extends Module {
             return;
         }
 
+        ItemStack itemStack = mc.thePlayer.getHeldItem();
+        switch (weapon.getValue()) {
+            case NONE:
+                break;
+
+            case SWITCH:
+                float swordDamage = 0.0f;
+                int slot = -1;
+
+                for (int i = 0; i < 9; ++i) {
+                    ItemStack stack = mc.thePlayer.inventory.getStackInSlot(i);
+                    if (stack != null && stack.getItem() instanceof ItemSword) {
+                        ItemSword sword = (ItemSword) stack.getItem();
+
+                        float damage = sword.field_150934_a;
+
+                        damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, stack) * 1.1f;
+                        damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.5f;
+
+                        if (damage > swordDamage) {
+                            swordDamage = damage;
+                            slot = i;
+                        }
+                    }
+                }
+
+                if (slot == -1) return;
+                mc.thePlayer.inventory.currentItem = slot;
+                break;
+
+            case SWORD:
+                if (itemStack == null || !(itemStack.getItem() instanceof ItemSword)) return;
+                break;
+        }
+
+        boolean holdingSword = weapon.getValue() == RequiredWeapon.SWORD
+                || (itemStack != null && itemStack.getItem() instanceof ItemSword);
+
         if (rotate.getValue()) {
             RotationUtils.setRotations(event, RotationUtils.rotateTo(target));
         }
 
-        if (autoBlock.getValue()) {
+        if (autoBlock.getValue() && holdingSword) {
             if (blocking) {
-                mc.playerController.sendUseItemClient(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem());
+                mc.playerController.sendUseItemClient(mc.thePlayer, mc.theWorld, itemStack);
             }
         } else {
             if (blocking) {
@@ -132,11 +175,11 @@ public class KillAura extends Module {
                 mc.playerController.attackEntity(mc.thePlayer, target);
             }
         } else {
-            ItemStack stack = mc.thePlayer.getHeldItem();
-            if (!blocking && (stack != null && stack.getItem() instanceof ItemSword)) {
+            if (!blocking && holdingSword) {
                 blocking = true;
                 mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
-                        -1, -1, -1, 255, stack, 0.0F, 0.0F, 0.0F));
+                        -1, -1, -1, 255,
+                        itemStack, 0.0F, 0.0F, 0.0F));
             }
         }
     }
@@ -182,5 +225,9 @@ public class KillAura extends Module {
 
     public enum Priority {
         DISTANCE, HEALTH, ARMOR
+    }
+
+    public enum RequiredWeapon {
+        NONE, SWITCH, SWORD
     }
 }

@@ -16,6 +16,7 @@
 + Added "Auto Disable" option to Long Jump for when NCP lags you back
 + Exempt Zombie Pigmen from being Kill Aura targets
 + Add "Timer" option to Speed
++ Add "Required" option to KillAura None, Switch, Sword
 ```
 
 ---
