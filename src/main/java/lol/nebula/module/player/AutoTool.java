@@ -66,8 +66,8 @@ public class AutoTool extends Module {
         float score = stack.func_150997_a(block);
         if (score <= 1.0f) return 1.0f;
 
-        score += EnchantmentHelper.getEnchantmentLevel(min(5, Enchantment.efficiency.effectId), stack) * 1.3f;
-        score += EnchantmentHelper.getEnchantmentLevel(min(5, Enchantment.unbreaking.effectId), stack) * 0.5f;
+        score += min(5.0, EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, stack)) * 1.3f;
+        score += min(5.0, EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack)) * 0.5f;
 
         if (stack.getItem() instanceof ItemTool) {
             ItemTool itemTool = (ItemTool) stack.getItem();

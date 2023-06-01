@@ -17,6 +17,7 @@
 + Exempt Zombie Pigmen from being Kill Aura targets
 + Add "Timer" option to Speed
 + Add "Required" option to KillAura None, Switch, Sword
++ Fixed Auto Tool enchantment calculation for 32ks
 ```
 
 ---
