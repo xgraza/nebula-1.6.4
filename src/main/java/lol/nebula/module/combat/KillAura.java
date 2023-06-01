@@ -124,6 +124,7 @@ public class KillAura extends Module {
                         float damage = sword.field_150934_a;
 
                         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, stack) * 1.1f;
+                        damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, stack) * 0.8f;
                         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.5f;
 
                         if (damage > swordDamage) {
