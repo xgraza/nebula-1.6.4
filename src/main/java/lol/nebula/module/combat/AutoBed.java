@@ -151,6 +151,10 @@ public class AutoBed extends Module {
     @Listener
     public void onWalkingUpdate(EventWalkingUpdate event) {
 
+        //     /** The id for the dimension (ex. -1: Nether, 0: Overworld, 1: The End) */
+        //     public int dimensionId;
+        if (mc.theWorld.provider.dimensionId == 0) return;
+
         // calculate bed placement
         calculatePlace();
 
