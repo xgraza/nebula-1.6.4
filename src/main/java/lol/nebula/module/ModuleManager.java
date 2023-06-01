@@ -53,6 +53,7 @@ public class ModuleManager {
                 new AutoLogout(),
                 new AutoPotion(),
                 new AutoTNTMinecart(),
+                new BowAim(),
                 new Criticals(),
                 new KillAura(),
                 new Regen(),

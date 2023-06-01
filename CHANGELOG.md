@@ -22,6 +22,7 @@
 + Added "Anti Web" module
 + Made some ClickUI elements visible based on the setting visibility
 + Added "Chest Backpack" module
++ Added "Bow Aim" module (not finished so no code is inside, just the base module)
 ```
 
 ---
