@@ -19,8 +19,9 @@
 + Add "Required" option to KillAura None, Switch, Sword
 + Fixed Auto Tool enchantment calculation for 32ks
 + Added/Fixed dimension filter for Auto Bed
-+ Added Anti Web
++ Added "Anti Web" module
 + Made some ClickUI elements visible based on the setting visibility
++ Added "Chest Backpack" module
 ```
 
 ---

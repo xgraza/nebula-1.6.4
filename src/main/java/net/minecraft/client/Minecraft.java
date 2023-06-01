@@ -25,6 +25,7 @@ import javax.imageio.ImageIO;
 import lol.nebula.Nebula;
 import lol.nebula.listener.events.input.EventKeyInput;
 import lol.nebula.listener.events.input.EventMouseInput;
+import lol.nebula.listener.events.render.gui.EventDisplayGui;
 import lol.nebula.listener.events.world.EventServerChange;
 import lol.nebula.listener.events.world.EventTick;
 import net.minecraft.block.Block;
@@ -819,6 +820,9 @@ public class Minecraft implements IPlayerUsage
      */
     public void displayGuiScreen(GuiScreen p_147108_1_)
     {
+        if (Nebula.getBus() != null) Nebula.getBus().dispatch(
+                new EventDisplayGui(currentScreen, p_147108_1_));
+
         if (this.currentScreen != null)
         {
             this.currentScreen.onGuiClosed();

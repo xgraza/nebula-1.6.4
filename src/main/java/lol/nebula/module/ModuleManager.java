@@ -62,6 +62,7 @@ public class ModuleManager {
                 new WTap(),
 
                 new AntiHunger(),
+                new ChestBackpack(),
                 new ConsoleSpammer(),
                 new CraftCarry(),
                 new FastUse(),
