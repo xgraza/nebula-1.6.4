@@ -8,6 +8,7 @@ import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.render.ColorUtils;
 import lol.nebula.util.render.font.Fonts;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.renderer.RenderHelper;
@@ -43,6 +44,9 @@ public class Interface extends Module {
 
     public static final Setting<Color> color = new Setting<>(new Color(162, 108, 222), "Color");
     private final Setting<Boolean> coordinates = new Setting<>(true, "Coordinates");
+    private final Setting<Boolean> potions = new Setting<>(true, "Potions");
+    private final Setting<Boolean> tps = new Setting<>(true, "TPS");
+    private final Setting<Boolean> fps = new Setting<>(true, "FPS");
 
     public Interface() {
         super("Interface", "Renders an overlay over the vanilla HUD", ModuleCategory.VISUAL);
@@ -121,10 +125,13 @@ public class Interface extends Module {
         }
 
         double yOffset = mc.currentScreen instanceof GuiChat ? 14.0 : 0.0;
+        double y = event.getRes().getScaledHeight_double() - 3.0 - Fonts.axiforma.FONT_HEIGHT - yOffset;
 
         // render potion effects
         potionRender: {
-            double y = event.getRes().getScaledHeight_double() - 3.0 - Fonts.axiforma.FONT_HEIGHT - yOffset;
+
+            if (!potions.getValue()) break potionRender;
+
             Collection<PotionEffect> activeEffects = mc.thePlayer.getActivePotionEffects();
 
             // do not continue if there are no potion effects
@@ -154,6 +161,37 @@ public class Interface extends Module {
 
                 y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
             }
+        }
+
+        tpsRender: {
+
+            if (!tps.getValue()) break tpsRender;
+
+            String formatted = format("%sTPS: %s%.2f",
+                    EnumChatFormatting.GRAY,
+                    EnumChatFormatting.RESET,
+                    Nebula.getInstance().getTick().getTps());
+            double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.axiforma.getStringWidth(formatted);
+
+            Fonts.axiforma.drawStringWithShadow(formatted, (float) x, (float) y, -1);
+
+            y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
+
+        }
+
+        fpsRender: {
+
+            if (!fps.getValue()) break fpsRender;
+
+            String formatted = format("%sFPS: %s%s",
+                    EnumChatFormatting.GRAY,
+                    EnumChatFormatting.RESET,
+                    Minecraft.debugFPS);
+            double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.axiforma.getStringWidth(formatted);
+
+            Fonts.axiforma.drawStringWithShadow(formatted, (float) x, (float) y, -1);
+
+            y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
         }
 
         if (coordinates.getValue()) {
