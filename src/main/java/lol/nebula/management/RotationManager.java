@@ -9,6 +9,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.MathHelper;
 
+import static java.lang.Float.isNaN;
+
 /**
  * @author aesthetical
  * @since 04/27/23
@@ -59,8 +61,10 @@ public class RotationManager {
                 return;
             }
 
-            event.setYaw(client[0]);
-            event.setPitch(client[1]);
+            if (!isNaN(client[0]) && !isNaN(client[1])) {
+                event.setYaw(client[0]);
+                event.setYaw(client[1]);
+            }
 
             if (event.getStage() == EventStage.PRE) {
                 func_110146_f();
