@@ -72,8 +72,9 @@ public class Nuker extends Module {
         y = -1;
         z = -1;
 
-        Nebula.getInstance().getInventory().sync();
-
+        if (mc.thePlayer != null) {
+            Nebula.getInstance().getInventory().sync();
+        }
     }
 
     @Listener
