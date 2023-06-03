@@ -36,6 +36,7 @@
 + Fixed "Avoid" module not adding collision boxes to end portals
 + Added "Reset VL" module
 + Added "Nuker" module
++ Fixed Flatten to sneak to place on blocks that need to be sneaken on
 ```
 
 ---

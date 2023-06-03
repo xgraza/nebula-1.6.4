@@ -39,17 +39,6 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
  */
 public class Scaffold extends Module {
 
-    /**
-     * A list of all blocks to sneak on
-     */
-    private static final List<Block> blocksToSneak = Lists.newArrayList(
-            Blocks.chest, Blocks.trapped_chest, Blocks.ender_chest,
-            Blocks.beacon, Blocks.bed, Blocks.enchanting_table,
-            Blocks.crafting_table, Blocks.furnace, Blocks.lit_furnace,
-            Blocks.anvil, Blocks.command_block, Blocks.cake, Blocks.trapdoor,
-            Blocks.wooden_door, Blocks.wooden_button, Blocks.stone_button,
-            Blocks.fence_gate, Blocks.dragon_egg, Blocks.brewing_stand);
-
     private final Setting<Boolean> tower = new Setting<>(true, "Tower");
     private final Setting<Double> extend = new Setting<>(0.0, 0.5, 0.0, 6.0, "Extend");
     private final Setting<Boolean> rotate = new Setting<>(true, "Rotate");
@@ -72,6 +61,9 @@ public class Scaffold extends Module {
 
         if (mc.thePlayer != null) {
             Nebula.getInstance().getInventory().sync();
+
+            mc.thePlayer.sendQueue.addToSendQueue(
+                    new C0BPacketEntityAction(mc.thePlayer, 2));
         }
     }
 
@@ -147,7 +139,7 @@ public class Scaffold extends Module {
             Nebula.getInstance().getInventory().setSlot(slot);
 
             // sneak if we need to
-            boolean sneakState = blocksToSneak.contains(getBlock(next.getKey())) && !mc.thePlayer.isSneaking();
+            boolean sneakState = shouldSneak(next.getKey()) && !mc.thePlayer.isSneaking();
             if (sneakState) mc.thePlayer.sendQueue.addToSendQueue(
                     new C0BPacketEntityAction(mc.thePlayer, 1));
 
@@ -162,12 +154,12 @@ public class Scaffold extends Module {
 
             Nebula.getInstance().getInventory().sync();
 
+            // don't continue if we failed to place
+            if (!result) return;
+
             // un-sneak
             if (sneakState) mc.thePlayer.sendQueue.addToSendQueue(
                     new C0BPacketEntityAction(mc.thePlayer, 2));
-
-            // don't continue if we failed to place
-            if (!result) return;
 
             // silently swing the player's arm server-sided
             mc.thePlayer.swingItem();

@@ -1,19 +1,44 @@
 package lol.nebula.util.world;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
+
+import java.util.List;
 
 /**
  * @author aesthetical
  * @since 05/02/23
  */
 public class WorldUtils {
+
+    /**
+     * A list of all blocks to sneak on
+     */
+    private static final List<Block> blocksToSneak = Lists.newArrayList(
+            Blocks.chest, Blocks.trapped_chest, Blocks.ender_chest,
+            Blocks.beacon, Blocks.bed, Blocks.enchanting_table,
+            Blocks.crafting_table, Blocks.furnace, Blocks.lit_furnace,
+            Blocks.anvil, Blocks.command_block, Blocks.cake, Blocks.trapdoor,
+            Blocks.wooden_door, Blocks.wooden_button, Blocks.stone_button,
+            Blocks.fence_gate, Blocks.dragon_egg, Blocks.brewing_stand);
+
     /**
      * The minecraft game instance
      */
     private static final Minecraft mc = Minecraft.getMinecraft();
+
+    /**
+     * Checks if to place on this block we need to sneak
+     * @param pos the vector the block is at
+     * @return if we should sneak to place against this block
+     */
+    public static boolean shouldSneak(Vec3 pos) {
+        return blocksToSneak.contains(getBlock(pos));
+    }
 
     /**
      * Checks if a block is replaceable

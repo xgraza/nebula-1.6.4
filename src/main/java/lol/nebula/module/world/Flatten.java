@@ -10,6 +10,7 @@ import lol.nebula.util.math.Pair;
 import lol.nebula.util.math.RotationUtils;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 
@@ -73,6 +74,10 @@ public class Flatten extends Module {
                 if (rotate.getValue()) RotationUtils.setRotations(
                         20, RotationUtils.toBlock(next.getKey(), next.getValue()));
 
+                boolean sneakState = shouldSneak(next.getKey()) && !mc.thePlayer.isSneaking();
+                if (sneakState) mc.thePlayer.sendQueue.addToSendQueue(
+                        new C0BPacketEntityAction(mc.thePlayer, 1));
+
                 // place block
                 boolean result = mc.playerController.onPlayerRightClick(mc.thePlayer,
                         mc.theWorld,
@@ -88,6 +93,10 @@ public class Flatten extends Module {
                 if (result) {
                     ++blocksPlaced;
                     mc.thePlayer.swingItemSilent();
+
+                    // un-sneak
+                    if (sneakState) mc.thePlayer.sendQueue.addToSendQueue(
+                            new C0BPacketEntityAction(mc.thePlayer, 2));
                 }
 
             }
