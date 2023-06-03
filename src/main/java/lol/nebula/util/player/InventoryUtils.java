@@ -52,4 +52,22 @@ public class InventoryUtils {
 
         return false;
     }
+
+    /**
+     * Checks if an item has any 127 level enchantments
+     * @param stack the stack
+     * @return if the stack has 127 level enchants
+     */
+    public static boolean is127(ItemStack stack) {
+        if (!stack.hasEffect()) return false;
+
+        Map<Integer, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+        if (enchantments.isEmpty()) return false;
+
+        for (int level : enchantments.values()) {
+            if (level >= Byte.MAX_VALUE) return true;
+        }
+
+        return false;
+    }
 }

@@ -136,6 +136,7 @@ public class ModuleManager {
                 new FastBreak(),
                 new FastPlace(),
                 new Flatten(),
+                new Nuker(),
                 new Scaffold()
         );
 
