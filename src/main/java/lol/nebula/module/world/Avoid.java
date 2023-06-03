@@ -15,6 +15,8 @@ import net.minecraft.util.AxisAlignedBB;
 
 import java.util.List;
 
+import static java.lang.String.format;
+
 /**
  * @author aesthetical
  * @since 04/30/23
@@ -44,6 +46,11 @@ public class Avoid extends Module {
         if ((event.getBlock() instanceof BlockCactus && !cactus.getValue())
                 || (event.getBlock() instanceof BlockEndPortal && !endPortals.getValue())
                 || (event.getBlock() instanceof BlockFire && !fire.getValue())) return;
+
+        print(event.getBlock().toString());
+
+//        if (event.getBlock() instanceof BlockEndPortal)
+//            print(format("%s, %s, %s", event.getX(), event.getY(), event.getZ()));
 
         // set the aabb to a full block
         event.setAabb(FULL_AABB.copy().offset(event.getX(), event.getY(), event.getZ()));
