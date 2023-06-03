@@ -139,7 +139,7 @@ public class Interface extends Module {
             if (activeEffects.isEmpty()) break potionRender;
 
             for (PotionEffect potionEffect : activeEffects) {
-                String formatted = format("%s %s: %s",
+                String formatted = format("%s %s %s",
                         I18n.format(potionEffect.getEffectName()),
                         String.valueOf(potionEffect.getAmplifier() + 1),
                         EnumChatFormatting.GRAY + Potion.getDurationString(potionEffect));
@@ -176,7 +176,7 @@ public class Interface extends Module {
             speedTraveled *= mc.timer.timerSpeed;
             speedTraveled /= 3.6;
 
-            String formatted = format("%sSpeed: %s%.2f bps",
+            String formatted = format("%sSpeed %s%.2f bps",
                     EnumChatFormatting.GRAY,
                     EnumChatFormatting.RESET,
                     speedTraveled);
@@ -192,7 +192,7 @@ public class Interface extends Module {
 
             if (!tps.getValue()) break tpsRender;
 
-            String formatted = format("%sTPS: %s%.2f",
+            String formatted = format("%sTPS %s%.2f",
                     EnumChatFormatting.GRAY,
                     EnumChatFormatting.RESET,
                     Nebula.getInstance().getTick().getTps());
@@ -208,7 +208,7 @@ public class Interface extends Module {
 
             if (!fps.getValue()) break fpsRender;
 
-            String formatted = format("%sFPS: %s%s",
+            String formatted = format("%sFPS %s%s",
                     EnumChatFormatting.GRAY,
                     EnumChatFormatting.RESET,
                     Minecraft.debugFPS);
@@ -222,7 +222,7 @@ public class Interface extends Module {
         if (coordinates.getValue()) {
 
             Fonts.axiforma.drawStringWithShadow(
-                    "XYZ: " + EnumChatFormatting.GRAY +
+                    "XYZ " + EnumChatFormatting.GRAY +
                             String.format("%.1f", mc.thePlayer.posX) + ", " +
                             String.format("%.1f", mc.thePlayer.boundingBox.minY) + ", " +
                             String.format("%.1f", mc.thePlayer.posZ),
