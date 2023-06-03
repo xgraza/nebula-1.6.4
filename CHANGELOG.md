@@ -25,7 +25,7 @@
 + Added "Bow Aim" module (not finished so no code is inside, just the base module)
 + Added thicker window icons
 + Edits to "Glide" option in Long Jump
-+ Added options "FPS", "TPS", "Potions" to Interface module
++ Added options "FPS", "TPS", "Potions" and "Speed" to Interface module
 + Use "Float.isNaN" check on yaw and pitch spoof rotations
 + Added "Anti Stuck" module
 + Added "World" category

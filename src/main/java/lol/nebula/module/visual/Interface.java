@@ -45,6 +45,7 @@ public class Interface extends Module {
     public static final Setting<Color> color = new Setting<>(new Color(162, 108, 222), "Color");
     private final Setting<Boolean> coordinates = new Setting<>(true, "Coordinates");
     private final Setting<Boolean> potions = new Setting<>(true, "Potions");
+    private final Setting<Boolean> speed = new Setting<>(true, "Speed");
     private final Setting<Boolean> tps = new Setting<>(true, "TPS");
     private final Setting<Boolean> fps = new Setting<>(true, "FPS");
 
@@ -161,6 +162,30 @@ public class Interface extends Module {
 
                 y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
             }
+        }
+
+        speedRender: {
+
+            if (!speed.getValue()) break speedRender;
+
+            double diffX = mc.thePlayer.posX - mc.thePlayer.lastTickPosX;
+            double diffZ = mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ;
+
+            // thanks father linus
+            double speedTraveled = (Math.sqrt(diffX * diffX + diffZ * diffZ) / 1000) / (0.05 / 3600);
+            speedTraveled *= mc.timer.timerSpeed;
+            speedTraveled /= 3.6;
+
+            String formatted = format("%sSpeed: %s%.2f bps",
+                    EnumChatFormatting.GRAY,
+                    EnumChatFormatting.RESET,
+                    speedTraveled);
+            double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.axiforma.getStringWidth(formatted);
+
+            Fonts.axiforma.drawStringWithShadow(formatted, (float) x, (float) y, -1);
+
+            y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
+
         }
 
         tpsRender: {
