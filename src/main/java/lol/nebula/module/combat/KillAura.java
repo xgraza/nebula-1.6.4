@@ -24,6 +24,7 @@ import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import java.util.Comparator;
 
 import static java.lang.Math.min;
+import static lol.nebula.module.player.FreeCamera.CAMERA_ENTITY_ID;
 
 /**
  * @author aesthetical
@@ -195,6 +196,9 @@ public class KillAura extends Module {
         if (target instanceof EntityPlayer && Nebula.getInstance().getFriends().isFriend((EntityPlayer) target)) {
             return false;
         }
+
+        // dont attack our camera entity
+        if (target.getEntityId() == CAMERA_ENTITY_ID) return false;
 
         if (target instanceof EntityPigZombie) return false;
 

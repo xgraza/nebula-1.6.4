@@ -4,6 +4,7 @@ import lol.nebula.listener.events.entity.move.EventMove;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
@@ -166,26 +167,26 @@ public class MoveUtils {
      * @return the direction yaw for calculated strafe movement
      */
     public static float getDirectionYaw() {
-        float rotationYaw = mc.thePlayer.rotationYaw;
+        return getDirectionYaw(mc.thePlayer, mc.thePlayer.rotationYaw);
+    }
 
-        if (mc.thePlayer.moveForward < 0.0f) {
-            rotationYaw += 180.0f;
-        }
+    /**
+     * Gets the direction yaw for movement
+     * @param rotationYaw the entity rotation yaw
+     * @return the direction yaw for calculated strafe movement
+     */
+    public static float getDirectionYaw(EntityPlayer player, float rotationYaw) {
+        if (player.moveForward < 0.0f) rotationYaw += 180.0f;
 
         float forward = 1.0f;
-        if (mc.thePlayer.moveForward < 0.0f) {
+        if (player.moveForward < 0.0f) {
             forward = -0.5f;
-        } else if (mc.thePlayer.moveForward > 0.0f) {
+        } else if (player.moveForward > 0.0f) {
             forward = 0.5f;
         }
 
-        if (mc.thePlayer.moveStrafing > 0.0f) {
-            rotationYaw -= 90.0f * forward;
-        }
-
-        if (mc.thePlayer.moveStrafing < 0.0f) {
-            rotationYaw += 90.0f * forward;
-        }
+        if (player.moveStrafing > 0.0f) rotationYaw -= 90.0f * forward;
+        if (player.moveStrafing < 0.0f) rotationYaw += 90.0f * forward;
 
         return rotationYaw * 0.017453292f;
     }

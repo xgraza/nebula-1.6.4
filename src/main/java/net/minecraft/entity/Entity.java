@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import lol.nebula.Nebula;
+import lol.nebula.listener.events.entity.EventEntityTurn;
 import lol.nebula.listener.events.entity.move.EventPushOutOfBlocks;
 import lol.nebula.listener.events.entity.move.EventStep;
 import net.minecraft.block.Block;
@@ -389,6 +390,8 @@ public abstract class Entity
      */
     public void setAngles(float par1, float par2)
     {
+        if (Nebula.getBus().dispatch(new EventEntityTurn(this, par1, par2))) return;
+
         float var3 = this.rotationPitch;
         float var4 = this.rotationYaw;
         this.rotationYaw = (float)((double)this.rotationYaw + (double)par1 * 0.15D);

@@ -103,6 +103,7 @@ public class ModuleManager {
                 new AutoRape(),
                 new AutoReconnect(),
                 new AutoRespawn(),
+                new FreeCamera(),
                 new InfiniteMover(),
                 new MiddleClick(),
                 new NoFall(),

@@ -30,6 +30,7 @@
 + Added "Anti Stuck" module
 + Added "World" category
 + Added "Lagback Abuse" module
++ Added "Free Camera" module
 ```
 
 ---

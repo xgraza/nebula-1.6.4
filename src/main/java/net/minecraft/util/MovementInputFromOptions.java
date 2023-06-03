@@ -1,5 +1,7 @@
 package net.minecraft.util;
 
+import lol.nebula.Nebula;
+import lol.nebula.listener.events.input.EventUpdateMoveState;
 import net.minecraft.client.settings.GameSettings;
 
 public class MovementInputFromOptions extends MovementInput
@@ -14,6 +16,8 @@ public class MovementInputFromOptions extends MovementInput
 
     public void updatePlayerMoveState()
     {
+        if (Nebula.getBus().dispatch(new EventUpdateMoveState(this))) return;
+
         this.moveStrafe = 0.0F;
         this.moveForward = 0.0F;
 
