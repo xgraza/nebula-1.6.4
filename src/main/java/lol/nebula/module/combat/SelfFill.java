@@ -74,7 +74,7 @@ public class SelfFill extends Module {
 
         if (rotate.getValue()) {
             float[] angles = RotationUtils.toBlock(placement.getKey(), placement.getValue());
-            Nebula.getInstance().getRotations().spoof(angles);
+            Nebula.getInstance().getRotations().spoof(20, angles);
             mc.thePlayer.sendQueue.addToSendQueueNoEvent(new C06PacketPlayerPosLook(
                     mc.thePlayer.posX, mc.thePlayer.boundingBox.minY, mc.thePlayer.posY, mc.thePlayer.posZ,
                     angles[0], angles[1], mc.thePlayer.onGround));

@@ -31,6 +31,7 @@
 + Added "World" category
 + Added "Lagback Abuse" module
 + Added "Free Camera" module
++ Fixed rotations overriding eachother with a priority system
 ```
 
 ---

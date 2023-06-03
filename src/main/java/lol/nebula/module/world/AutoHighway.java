@@ -150,8 +150,8 @@ public class AutoHighway extends Module {
             Position next = breakPositions.poll();
             if (next == null) break breakBlocks;
 
-            if (rotate.getValue()) RotationUtils.setRotations(event, RotationUtils.toBlock(
-                    next.getX(), next.getY(), next.getZ(), EnumFacing.UP));
+            if (rotate.getValue()) RotationUtils.setRotations(
+                    20, RotationUtils.toBlock(next.getX(), next.getY(), next.getZ(), EnumFacing.UP));
 
             breakBlock(next);
 
@@ -221,7 +221,7 @@ public class AutoHighway extends Module {
         if (slot == -1) return;
         mc.thePlayer.inventory.currentItem = slot;
 
-        if (rotate.getValue()) Nebula.getInstance().getRotations().spoof(RotationUtils.toBlock(
+        if (rotate.getValue()) Nebula.getInstance().getRotations().spoof(10, RotationUtils.toBlock(
                 next.getX(), next.getY(), next.getZ(), face));
 
         boolean result = mc.playerController.onPlayerRightClick(mc.thePlayer,

@@ -132,7 +132,7 @@ public class Scaffold extends Module {
                         (float) (94.0f - Math.random()) };
             }
 
-            if (rotations != null) RotationUtils.setRotations(event, rotations);
+            if (rotations != null) RotationUtils.setRotations(20, rotations);
         }
 
         // cannot place a null block

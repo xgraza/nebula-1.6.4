@@ -171,7 +171,7 @@ public class AutoBed extends Module {
             float pitch = RotationUtils.toBlock(info.x, info.y, info.z, info.facing)[1];
 
             // spoof
-            Nebula.getInstance().getRotations().spoof(new float[] { yaw, pitch });
+            Nebula.getInstance().getRotations().spoof(10, new float[] { yaw, pitch });
         }
 
         // interact result

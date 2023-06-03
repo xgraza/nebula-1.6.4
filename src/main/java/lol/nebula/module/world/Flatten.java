@@ -71,7 +71,7 @@ public class Flatten extends Module {
 
                 // rotate if specified
                 if (rotate.getValue()) RotationUtils.setRotations(
-                        event, RotationUtils.toBlock(next.getKey(), next.getValue()));
+                        20, RotationUtils.toBlock(next.getKey(), next.getValue()));
 
                 // place block
                 boolean result = mc.playerController.onPlayerRightClick(mc.thePlayer,

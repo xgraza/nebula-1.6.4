@@ -4,6 +4,7 @@ import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
 import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.listener.events.net.EventPacket;
+import lol.nebula.util.math.Pair;
 import lol.nebula.util.math.timing.Timer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -33,9 +34,14 @@ public class RotationManager {
     private final Timer keepRotationsTimer = new Timer();
 
     /**
-     * The client and server rotations
+     * The server rotations
      */
-    private float[] server, client;
+    private final float[] server;
+
+    /**
+     * Client rotation pair containing the priority and the rotation array
+     */
+    private final Pair<Integer, float[]> client = new Pair<>(0, null);
 
     public RotationManager() {
         server = new float[] { 0.0f, 0.0f };
@@ -54,16 +60,18 @@ public class RotationManager {
 
     @Listener
     public void onWalkingUpdate(EventWalkingUpdate event) {
-        if (client != null) {
+        if (client.getValue() != null) {
 
             if (keepRotationsTimer.ticks(TICK_KEEP_TIME, false)) {
-                client = null;
+                client.setKey(-1);
+                client.setValue(null);
                 return;
             }
 
-            if (!isNaN(client[0]) && !isNaN(client[1])) {
-                event.setYaw(client[0]);
-                event.setYaw(client[1]);
+            float[] clientRotations = client.getValue();
+            if (!isNaN(clientRotations[0]) && !isNaN(clientRotations[1])) {
+                event.setYaw(clientRotations[0]);
+                event.setPitch(clientRotations[1]);
             }
 
             if (event.getStage() == EventStage.PRE) {
@@ -124,11 +132,16 @@ public class RotationManager {
 
     /**
      * Sets the client rotations
+     * @param priority the rotation priority
      * @param rotations the rotation array (len 2)
      */
-    public void spoof(float[] rotations) {
-        keepRotationsTimer.resetTime();
-        client = rotations;
+    public void spoof(int priority, float[] rotations) {
+        if (client.getKey() <= priority) {
+            keepRotationsTimer.resetTime();
+
+            client.setKey(priority);
+            client.setValue(rotations);
+        }
     }
 
     /**
@@ -136,7 +149,7 @@ public class RotationManager {
      * @return if client is spoofing rotations
      */
     public boolean isRotating() {
-        return client != null;
+        return client.getValue() != null;
     }
 
     public float[] getServer() {

@@ -147,9 +147,8 @@ public class KillAura extends Module {
         boolean holdingSword = weapon.getValue() == RequiredWeapon.SWORD
                 || (itemStack != null && itemStack.getItem() instanceof ItemSword);
 
-        if (rotate.getValue()) {
-            RotationUtils.setRotations(event, RotationUtils.rotateTo(target));
-        }
+        if (rotate.getValue()) RotationUtils.setRotations(
+                30, RotationUtils.rotateTo(target));
 
         if (autoBlock.getValue() && holdingSword) {
             if (blocking) {

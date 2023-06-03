@@ -80,14 +80,13 @@ public class AutoPotion extends Module {
             return;
         }
 
-        // if we are using an item, do not send additional c08s
-        if (mc.thePlayer.isUsingItem()) return;
-
-        if (event.getStage() == EventStage.POST) {
+        if (event.getStage() == EventStage.PRE) {
 
             if (rotate.getValue()) {
-                RotationUtils.setRotations(event, new float[] { mc.thePlayer.rotationYaw, 90.0f });
+                RotationUtils.setRotations(40, new float[] { mc.thePlayer.rotationYaw, 90.0f });
             }
+
+            if (Nebula.getInstance().getRotations().getServer()[1] != 90.0f) return;
 
             if (timer.ms((long) (delay.getValue() * 1000.0), true)) {
                 if (potStage <= 0) {

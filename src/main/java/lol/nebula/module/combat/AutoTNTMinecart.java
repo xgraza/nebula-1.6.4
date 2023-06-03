@@ -70,8 +70,8 @@ public class AutoTNTMinecart extends Module {
             return;
         }
 
-        if (rotate.getValue()) RotationUtils.setRotations(event,
-                RotationUtils.toBlock(railPos, EnumFacing.UP));
+        if (rotate.getValue()) RotationUtils.setRotations(
+                20, RotationUtils.toBlock(railPos, EnumFacing.UP));
 
         if (!timer.ms((long) (delay.getValue() * 1000.0), false)) return;
 

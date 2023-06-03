@@ -83,12 +83,10 @@ public class RotationUtils {
 
     /**
      * Sets server-side rotations
-     * @param event the event to modify
+     * @param priority the rotation priority
      * @param rotations the spoofed rotations
      */
-    public static void setRotations(EventWalkingUpdate event, float[] rotations) {
-        Nebula.getInstance().getRotations().spoof(rotations);
-        event.setYaw(rotations[0]);
-        event.setPitch(rotations[1]);
+    public static void setRotations(int priority, float[] rotations) {
+        Nebula.getInstance().getRotations().spoof(priority, rotations);
     }
 }
