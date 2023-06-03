@@ -130,6 +130,7 @@ public class ModuleManager {
                 new AutoFish(),
                 new AutoHighway(),
                 new AutoTool(),
+                new AutoTunnel(),
                 new Avoid(),
                 new FastBreak(),
                 new FastPlace(),
