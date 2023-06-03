@@ -102,8 +102,6 @@ public class ModuleManager {
                 new AutoRape(),
                 new AutoReconnect(),
                 new AutoRespawn(),
-                new AutoTool(),
-                new FastPlace(),
                 new InfiniteMover(),
                 new MiddleClick(),
                 new NoFall(),
@@ -128,8 +126,10 @@ public class ModuleManager {
                 new AntiGhostBlock(),
                 new AutoFish(),
                 new AutoHighway(),
+                new AutoTool(),
                 new Avoid(),
                 new FastBreak(),
+                new FastPlace(),
                 new Flatten(),
                 new Scaffold()
         );

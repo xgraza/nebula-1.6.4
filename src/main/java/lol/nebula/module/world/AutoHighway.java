@@ -8,7 +8,6 @@ import lol.nebula.listener.events.render.world.EventRender3D;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.module.combat.AutoGapple;
-import lol.nebula.module.player.AutoTool;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.player.MoveUtils;

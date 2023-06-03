@@ -1,4 +1,4 @@
-package lol.nebula.module.player;
+package lol.nebula.module.world;
 
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.entity.EventUpdate;
@@ -19,7 +19,7 @@ public class FastPlace extends Module {
     private final Setting<Boolean> exp = new Setting<>(true, "Experience");
 
     public FastPlace() {
-        super("Fast Place", "Removes the place delay in the vanilla game", ModuleCategory.PLAYER);
+        super("Fast Place", "Removes the place delay in the vanilla game", ModuleCategory.WORLD);
     }
 
     @Override

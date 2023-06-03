@@ -7,7 +7,6 @@ import lol.nebula.listener.events.render.world.EventRender3D;
 import lol.nebula.listener.events.world.EventClickBlock;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
-import lol.nebula.module.player.AutoTool;
 import lol.nebula.setting.Setting;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

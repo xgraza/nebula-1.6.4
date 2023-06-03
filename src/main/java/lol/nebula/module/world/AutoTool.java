@@ -1,4 +1,4 @@
-package lol.nebula.module.player;
+package lol.nebula.module.world;
 
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.world.EventClickBlock;
@@ -19,7 +19,7 @@ import static java.lang.Math.min;
  */
 public class AutoTool extends Module {
     public AutoTool() {
-        super("Auto Tool", "Automatically swaps to the best tool", ModuleCategory.PLAYER);
+        super("Auto Tool", "Automatically swaps to the best tool", ModuleCategory.WORLD);
     }
 
     @Listener
