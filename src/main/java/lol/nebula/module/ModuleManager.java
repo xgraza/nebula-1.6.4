@@ -75,6 +75,7 @@ public class ModuleManager {
                 new Phase(),
                 new Portal(),
                 new PotionSaver(),
+                new ResetVL(),
                 new ThunderLocator(),
                 new Timer(),
 

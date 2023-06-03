@@ -34,6 +34,7 @@
 + Fixed rotations overriding eachother with a priority system
 + Fixed "Anti Ghost Block" module from breaking blocks 
 + Fixed "Avoid" module not adding collision boxes to end portals
++ Added "Reset VL" module
 ```
 
 ---
