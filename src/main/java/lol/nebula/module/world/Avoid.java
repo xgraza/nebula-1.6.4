@@ -1,4 +1,4 @@
-package lol.nebula.module.player;
+package lol.nebula.module.world;
 
 import com.google.common.collect.Lists;
 import lol.nebula.listener.bus.Listener;
@@ -29,7 +29,7 @@ public class Avoid extends Module {
     private final Setting<Boolean> fire = new Setting<>(false, "Fire");
 
     public Avoid() {
-        super("Avoid", "Prevents you from walking into blocks", ModuleCategory.PLAYER);
+        super("Avoid", "Prevents you from walking into blocks", ModuleCategory.WORLD);
     }
 
     @Listener

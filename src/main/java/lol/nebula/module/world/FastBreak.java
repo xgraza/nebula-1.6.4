@@ -1,4 +1,4 @@
-package lol.nebula.module.player;
+package lol.nebula.module.world;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
@@ -7,6 +7,7 @@ import lol.nebula.listener.events.render.world.EventRender3D;
 import lol.nebula.listener.events.world.EventClickBlock;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
+import lol.nebula.module.player.AutoTool;
 import lol.nebula.setting.Setting;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -44,7 +45,7 @@ public class FastBreak extends Module {
     private boolean beginBreak, finishBreak, swapped;
 
     public FastBreak() {
-        super("Fast Break", "Breaks a block faster with packets", ModuleCategory.PLAYER);
+        super("Fast Break", "Breaks a block faster with packets", ModuleCategory.WORLD);
     }
 
     @Override

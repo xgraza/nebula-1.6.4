@@ -28,6 +28,7 @@
 + Added options "FPS", "TPS", "Potions" to Interface module
 + Use "Float.isNaN" check on yaw and pitch spoof rotations
 + Added "Anti Stuck" module
++ Added "World" category
 ```
 
 ---

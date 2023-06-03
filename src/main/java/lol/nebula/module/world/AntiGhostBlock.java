@@ -1,4 +1,4 @@
-package lol.nebula.module.player;
+package lol.nebula.module.world;
 
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.net.EventPacket;
@@ -13,7 +13,7 @@ import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
  */
 public class AntiGhostBlock extends Module {
     public AntiGhostBlock() {
-        super("Anti Ghost Block", "Stops ghost blocks from spawning", ModuleCategory.PLAYER);
+        super("Anti Ghost Block", "Stops ghost blocks from spawning", ModuleCategory.WORLD);
     }
 
     @Listener

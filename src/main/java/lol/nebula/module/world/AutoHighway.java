@@ -1,4 +1,4 @@
-package lol.nebula.module.player;
+package lol.nebula.module.world;
 
 import lol.nebula.Nebula;
 import lol.nebula.listener.bus.Listener;
@@ -8,6 +8,7 @@ import lol.nebula.listener.events.render.world.EventRender3D;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
 import lol.nebula.module.combat.AutoGapple;
+import lol.nebula.module.player.AutoTool;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.player.MoveUtils;
@@ -52,7 +53,7 @@ public class AutoHighway extends Module {
     private boolean autoWalking;
 
     public AutoHighway() {
-        super("Auto Highway", "Automatically builds highways", ModuleCategory.PLAYER);
+        super("Auto Highway", "Automatically builds highways", ModuleCategory.WORLD);
     }
 
     @Override

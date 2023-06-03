@@ -1,4 +1,4 @@
-package lol.nebula.module.player;
+package lol.nebula.module.world;
 
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.EventStage;
@@ -33,7 +33,7 @@ public class Flatten extends Module {
     private final Queue<Pair<Vec3, EnumFacing>> placeQueue = new ConcurrentLinkedQueue<>();
 
     public Flatten() {
-        super("Flatten", "Flattens an area by placing blocks below you", ModuleCategory.PLAYER);
+        super("Flatten", "Flattens an area by placing blocks below you", ModuleCategory.WORLD);
     }
 
     @Override

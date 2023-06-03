@@ -9,6 +9,7 @@ import lol.nebula.module.exploit.*;
 import lol.nebula.module.movement.*;
 import lol.nebula.module.player.*;
 import lol.nebula.module.visual.*;
+import lol.nebula.module.world.*;
 import lol.nebula.util.feature.DevelopmentFeature;
 import lol.nebula.util.system.FileUtils;
 
@@ -96,22 +97,16 @@ public class ModuleManager {
                 new Step(),
                 new TargetStrafe(),
 
-                new AntiGhostBlock(),
                 new AntiLag(),
                 new AntiRevert(),
-                new AutoHighway(),
                 new AutoRape(),
                 new AutoReconnect(),
                 new AutoRespawn(),
                 new AutoTool(),
-                new Avoid(),
-                new FastBreak(),
                 new FastPlace(),
-                new Flatten(),
                 new InfiniteMover(),
                 new MiddleClick(),
                 new NoFall(),
-                new Scaffold(),
                 new Test(),
                 new YawLock(),
 
@@ -128,7 +123,15 @@ public class ModuleManager {
                 new Tags(),
                 new TimeChanger(),
                 new XRay(),
-                new Zoom()
+                new Zoom(),
+
+                new AntiGhostBlock(),
+                new AutoFish(),
+                new AutoHighway(),
+                new Avoid(),
+                new FastBreak(),
+                new Flatten(),
+                new Scaffold()
         );
 
         Nebula.getLogger().info("Loaded {} modules", moduleClassMap.size());

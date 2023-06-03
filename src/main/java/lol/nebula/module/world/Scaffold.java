@@ -1,4 +1,4 @@
-package lol.nebula.module.player;
+package lol.nebula.module.world;
 
 import com.google.common.collect.Lists;
 import lol.nebula.Nebula;
@@ -62,7 +62,7 @@ public class Scaffold extends Module {
     private float[] rotations;
 
     public Scaffold() {
-        super("Scaffold", "Rapidly places blocks under your feet", ModuleCategory.PLAYER);
+        super("Scaffold", "Rapidly places blocks under your feet", ModuleCategory.WORLD);
     }
 
     @Override

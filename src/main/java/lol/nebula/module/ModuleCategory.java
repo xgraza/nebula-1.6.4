@@ -9,7 +9,8 @@ public enum ModuleCategory {
     EXPLOIT("Exploit", "b"),
     MOVEMENT("Movement", "E"),
     PLAYER("Player", "d"),
-    VISUAL("Visual", "D");
+    VISUAL("Visual", "D"),
+    WORLD("World", "e");
 
     private final String display, iconChar;
 

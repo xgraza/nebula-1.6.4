@@ -8,7 +8,7 @@ import lol.nebula.listener.events.entity.move.EventWalkingUpdate;
 import lol.nebula.listener.events.net.EventPacket;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
-import lol.nebula.module.player.Scaffold;
+import lol.nebula.module.world.Scaffold;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.math.RotationUtils;
 import lol.nebula.util.math.timing.Timer;
