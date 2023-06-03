@@ -29,6 +29,7 @@
 + Use "Float.isNaN" check on yaw and pitch spoof rotations
 + Added "Anti Stuck" module
 + Added "World" category
++ Added "Lagback Abuse" module
 ```
 
 ---
