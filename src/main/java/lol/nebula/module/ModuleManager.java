@@ -105,6 +105,7 @@ public class ModuleManager {
                 new AutoRespawn(),
                 new FreeCamera(),
                 new InfiniteMover(),
+                new InventorySync(),
                 new MiddleClick(),
                 new NoFall(),
                 new Test(),

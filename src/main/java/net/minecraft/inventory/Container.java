@@ -19,7 +19,7 @@ public abstract class Container
     /** the list of all slots in the inventory */
     public List inventorySlots = new ArrayList();
     public int windowId;
-    private short transactionID;
+    public short transactionID;
     private int field_94535_f = -1;
     private int field_94536_g;
     private final Set field_94537_h = new HashSet();
