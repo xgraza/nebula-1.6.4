@@ -30,7 +30,6 @@ public class AntiGhostBlock extends Module {
             if (x == -1 && y == -1 && z == -1) return;
 
             // start to break but then abort
-            mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(0, x, y, z, face));
             mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(1, x, y, z, -1));
         }
     }

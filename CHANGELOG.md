@@ -32,6 +32,7 @@
 + Added "Lagback Abuse" module
 + Added "Free Camera" module
 + Fixed rotations overriding eachother with a priority system
++ Fixed "Anti Ghost Block" module from breaking blocks 
 ```
 
 ---
