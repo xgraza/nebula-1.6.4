@@ -38,7 +38,7 @@
 + Added "Nuker" module
 + Fixed Flatten to sneak to place on blocks that need to be sneaken on
 + Fixed other entities render rotations from being 0'd out when using spoof rotations
-+ 
++ Add more options to Animations module
 ```
 
 ---

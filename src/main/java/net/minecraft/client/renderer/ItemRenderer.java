@@ -403,6 +403,13 @@ public class ItemRenderer
 
             Animations animations = Nebula.getInstance().getModules().get(Animations.class);
 
+            GL11.glTranslated(animations.translateX.getValue(),
+                    animations.translateY.getValue(),
+                    animations.translateZ.getValue());
+            GL11.glScaled(animations.scaleX.getValue(),
+                    animations.scaleY.getValue(),
+                    animations.scaleZ.getValue());
+
             var13 = var3.getSwingProgress(par1);
             var14 = MathHelper.sin(var13 * var13 * (float)Math.PI);
             var15 = MathHelper.sin(MathHelper.sqrt_float(var13) * (float)Math.PI);
