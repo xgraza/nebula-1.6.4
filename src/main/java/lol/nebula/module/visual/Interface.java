@@ -43,6 +43,12 @@ public class Interface extends Module {
     private static final ResourceLocation CONTAINER_LOCATION = new ResourceLocation("textures/gui/container/inventory.png");
 
     public static final Setting<Color> color = new Setting<>(new Color(162, 108, 222), "Color");
+    private final Setting<Colors> colors = new Setting<>(Colors.RAINBOW, "Colors");
+    private final Setting<Double> colorSpeed = new Setting<>(
+            () -> colors.getValue() == Colors.RAINBOW, 5.0, 0.01, 1.0, 10.0, "Color Speed");
+    private final Setting<Float> minBrightness = new Setting<>(
+            () -> colors.getValue() == Colors.GRADIENT, 0.65f, 0.01f, 0.1f, 1.0f, "Min Brightness");
+
     private final Setting<Boolean> coordinates = new Setting<>(true, "Coordinates");
     private final Setting<Boolean> potions = new Setting<>(true, "Potions");
     private final Setting<Boolean> speed = new Setting<>(true, "Speed");
@@ -65,7 +71,7 @@ public class Interface extends Module {
         // if the F3 debug menu is open, do not render over it
         if (mc.gameSettings.showDebugInfo) return;
 
-        Fonts.axiforma.drawStringWithShadow(Nebula.getFormatted(), 3.0f, 3.0f, color.getValue().getRGB());
+        Fonts.axiforma.drawStringWithShadow(Nebula.getFormatted(), 3.0f, 3.0f, getColor(100));
 
         List<Module> enabled = Nebula.getInstance().getModules().getModules()
                 .stream()
@@ -82,7 +88,7 @@ public class Interface extends Module {
                 double x = event.getRes().getScaledWidth_double() - 4.0
                         - (Fonts.axiforma.getStringWidth(tag) * module.getAnimation().getFactor());
 
-                Fonts.axiforma.drawStringWithShadow(tag, (float) x, (float) y, ColorUtils.rainbowCycle(i * 100, 5.0));
+                Fonts.axiforma.drawStringWithShadow(tag, (float) x, (float) y, getColor(i * 100));
 
                 y += (Fonts.axiforma.FONT_HEIGHT + 2) * module.getAnimation().getFactor();
             }
@@ -233,11 +239,29 @@ public class Interface extends Module {
         }
     }
 
+    private int getColor(int delay) {
+        switch (colors.getValue()) {
+            default:
+            case STATIC:
+                return color.getValue().getRGB();
+
+            case RAINBOW:
+                return ColorUtils.rainbowCycle(delay, colorSpeed.getValue());
+
+            case GRADIENT:
+                return ColorUtils.gradientRainbow(color.getValue(), minBrightness.getValue(), delay);
+        }
+    }
+
     private String formatModule(Module module) {
         String tag = module.getTag();
         if (module.getMetadata() != null) {
             tag += " " + EnumChatFormatting.GRAY + module.getMetadata();
         }
         return tag;
+    }
+
+    public enum Colors {
+        STATIC, RAINBOW, GRADIENT
     }
 }

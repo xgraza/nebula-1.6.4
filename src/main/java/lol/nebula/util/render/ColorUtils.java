@@ -20,6 +20,23 @@ public class ColorUtils {
     }
 
     /**
+     * Creates a gradient rainbow
+     * @param color the color
+     * @param minBrightness the minimum brightness value
+     * @param delay the delay between colors
+     * @return the hex color code for this rainbow cycle
+     */
+    public static int gradientRainbow(Color color, float minBrightness, int delay) {
+        float[] hsb = Color.RGBtoHSB(
+                color.getRed(), color.getGreen(), color.getBlue(), null);
+        float brightness = Math.abs(
+                ((float) (System.currentTimeMillis() % 2000L)
+                        / 1000.0f + 45.0F / (delay + 100.0f) * 2.0f) % 2.0f - 1.0f);
+        brightness = ((minBrightness + (1.0f - minBrightness) * brightness)) % 2.0f;
+        return Color.getHSBColor(hsb[0], hsb[1], brightness).getRGB();
+    }
+
+    /**
      * Changes the alpha bit in a hex color
      * @param color the color with an alpha value
      * @param alpha the new alpha value
