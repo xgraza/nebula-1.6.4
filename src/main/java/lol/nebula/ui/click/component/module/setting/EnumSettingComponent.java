@@ -23,17 +23,17 @@ public class EnumSettingComponent extends Component {
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), SETTING_BG.getRGB());
-        Fonts.axiforma.drawStringWithShadow(
+        Fonts.shadow(
                 setting.getTag(),
                 (float) (getX() + 2.0),
-                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.height() / 2.0)),
                 -1);
 
         String formatted = Setting.formatEnumName(setting.getValue());
-        Fonts.axiforma.drawStringWithShadow(
+        Fonts.shadow(
                 formatted,
-                (float) ((getX() + getWidth() - 4.0) - Fonts.axiforma.getStringWidth(formatted)),
-                (float) (getY() + (getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
+                (float) ((getX() + getWidth() - 4.0) - Fonts.width(formatted)),
+                (float) (getY() + (getHeight() / 2.0) - (Fonts.height() / 2.0)),
                 0xBBBBBB);
     }
 

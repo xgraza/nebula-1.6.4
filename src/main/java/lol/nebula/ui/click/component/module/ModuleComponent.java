@@ -68,10 +68,10 @@ public class ModuleComponent extends Component {
         }
 
         RenderUtils.rect(getX(), getY(), getWidth() * toggleAnimation.getFactor(), super.getHeight(), rectColor);
-        Fonts.axiforma.drawStringWithShadow(
+        Fonts.shadow(
                 module.getTag(),
-                (float) (getX() + 1.0 + (2.0 * hoverAnimation.getFactor())),
-                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
+                (float) (getX() + 2.0 + (2.0 * hoverAnimation.getFactor())),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.height() / 2.0)),
                 -1);
 
         if (!module.getSettings().isEmpty()) {

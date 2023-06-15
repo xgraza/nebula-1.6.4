@@ -73,11 +73,11 @@ public class ClickUIScreen extends GuiScreen {
 
                     double x = par1 + 6;
                     double y = par2 + 4;
-                    double width = Fonts.axiforma.getStringWidth(renderedDescription) + 6.0;
-                    double height = Fonts.axiforma.FONT_HEIGHT + 4.0;
+                    double width = Fonts.width(renderedDescription) + 6.0;
+                    double height = Fonts.height() + 4.0;
 
                     RenderUtils.rect(x, y, width, height, ModuleComponent.UNTOGGLED_BG.getRGB());
-                    Fonts.axiforma.drawStringWithShadow(renderedDescription, (float) (x + 2.0), (float) (y + 2.0), -1);
+                    Fonts.shadow(renderedDescription, (float) (x + 2.0), (float) (y + 2.0), -1);
                 }
 
                 return;

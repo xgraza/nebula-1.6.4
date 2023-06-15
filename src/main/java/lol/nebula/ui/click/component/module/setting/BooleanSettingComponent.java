@@ -33,10 +33,10 @@ public class BooleanSettingComponent extends Component {
             toggleAnimation.setState(setting.getValue());
 
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), SETTING_BG.getRGB());
-        Fonts.axiforma.drawStringWithShadow(
+        Fonts.shadow(
                 setting.getTag(),
                 (float) (getX() + 2.0),
-                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.height() / 2.0)),
                 -1);
 
         int rectColor = SETTING_BG.brighter().getRGB();

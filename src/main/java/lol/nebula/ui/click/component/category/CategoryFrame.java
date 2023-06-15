@@ -40,10 +40,10 @@ public class CategoryFrame extends DraggableComponent {
                 (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0) + (Nebula.developmentSwitch ? 0.0 : 2.0)),
                 -1
         );
-        Fonts.axiforma.drawStringWithShadow(
+        Fonts.shadow(
                 categoryName,
                x - 4,
-                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
+                (getY() + (super.getHeight() / 2.0) - (Fonts.height() / 2.0)),
                 -1);
 
         if (!getChildren().isEmpty()) {

@@ -70,10 +70,10 @@ public class ColorSettingComponent extends Component {
         }
 
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), SETTING_BG.getRGB());
-        Fonts.axiforma.drawStringWithShadow(
+        Fonts.shadow(
                 setting.getTag(),
                 (float) (getX() + 2.0),
-                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.height() / 2.0)),
                 -1);
 
         double size = super.getHeight() - (PADDING * 4);
@@ -89,8 +89,8 @@ public class ColorSettingComponent extends Component {
 
             RenderUtils.gradientRect(getX() + PADDING, y, w, PICKER_HEIGHT, Color.black.getRGB(), Color.black.getRGB(), s, Color.white.getRGB());
 
-            double scaledWidth = Fonts.axiforma.getStringWidth("+") / 2.0;
-            Fonts.axiforma.drawString("+", pickerX - scaledWidth, pickerY - scaledWidth, -1);
+            double scaledWidth = Fonts.width("+") / 2.0;
+            Fonts.shadow("+", pickerX - scaledWidth, pickerY - scaledWidth, -1);
 
             RenderUtils.renderTexture(RGB_GRADIENT, getX() + PADDING, y + (PICKER_HEIGHT + 5.0), (int) w, 5);
 

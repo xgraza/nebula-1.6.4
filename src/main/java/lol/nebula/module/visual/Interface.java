@@ -49,6 +49,7 @@ public class Interface extends Module {
     private final Setting<Float> minBrightness = new Setting<>(
             () -> colors.getValue() == Colors.GRADIENT, 0.65f, 0.01f, 0.1f, 1.0f, "Min Brightness");
 
+    public static final Setting<Boolean> customFont = new Setting<>(true, "Custom Font");
     private final Setting<Boolean> coordinates = new Setting<>(true, "Coordinates");
     private final Setting<Boolean> potions = new Setting<>(true, "Potions");
     private final Setting<Boolean> speed = new Setting<>(true, "Speed");
@@ -71,12 +72,12 @@ public class Interface extends Module {
         // if the F3 debug menu is open, do not render over it
         if (mc.gameSettings.showDebugInfo) return;
 
-        Fonts.axiforma.drawStringWithShadow(Nebula.getFormatted(), 3.0f, 3.0f, getColor(100));
+        Fonts.shadow(Nebula.getFormatted(), 3.0f, 3.0f, getColor(100));
 
         List<Module> enabled = Nebula.getInstance().getModules().getModules()
                 .stream()
                 .filter((m) -> m.isDrawn() && (m.isToggled() || m.getAnimation().getFactor() > 0.0))
-                .sorted(Comparator.comparingInt((m) -> -Fonts.axiforma.getStringWidth(formatModule(m))))
+                .sorted(Comparator.comparingInt((m) -> -Fonts.width(formatModule(m))))
                 .collect(Collectors.toList());
 
         if (!enabled.isEmpty()) {
@@ -86,11 +87,11 @@ public class Interface extends Module {
                 String tag = formatModule(module);
 
                 double x = event.getRes().getScaledWidth_double() - 4.0
-                        - (Fonts.axiforma.getStringWidth(tag) * module.getAnimation().getFactor());
+                        - (Fonts.width(tag) * module.getAnimation().getFactor());
 
-                Fonts.axiforma.drawStringWithShadow(tag, (float) x, (float) y, getColor(i * 100));
+                Fonts.shadow(tag, x, y, getColor(i * 100));
 
-                y += (Fonts.axiforma.FONT_HEIGHT + 2) * module.getAnimation().getFactor();
+                y += (Fonts.height() + 2) * module.getAnimation().getFactor();
             }
         }
 
@@ -132,7 +133,7 @@ public class Interface extends Module {
         }
 
         double yOffset = mc.currentScreen instanceof GuiChat ? 14.0 : 0.0;
-        double y = event.getRes().getScaledHeight_double() - 3.0 - Fonts.axiforma.FONT_HEIGHT - yOffset;
+        double y = event.getRes().getScaledHeight_double() - 3.0 - Fonts.height() - yOffset;
 
         // render potion effects
         potionRender: {
@@ -149,10 +150,10 @@ public class Interface extends Module {
                         I18n.format(potionEffect.getEffectName()),
                         String.valueOf(potionEffect.getAmplifier() + 1),
                         EnumChatFormatting.GRAY + Potion.getDurationString(potionEffect));
-                double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.axiforma.getStringWidth(formatted);
+                double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.width(formatted);
                 Potion potion = Potion.potionTypes[potionEffect.getPotionID()];
 
-                Fonts.axiforma.drawStringWithShadow(formatted, (float) x, (float) y, potion.getLiquidColor());
+                Fonts.shadow(formatted, x, y, potion.getLiquidColor());
 
                 if (potion.hasStatusIcon()) {
                     glPushMatrix();
@@ -160,13 +161,13 @@ public class Interface extends Module {
                     glDisable(GL_LIGHTING);
                     int var9 = potion.getStatusIconIndex();
                     mc.getTextureManager().bindTexture(CONTAINER_LOCATION);
-                    glTranslated(x - (18.0 / 2.0), y, 0.0);
+                    glTranslated(x - 2 - (18.0 / 2.0), y - 1, 0.0);
                     glScaled(0.5, 0.5, 0.5);
                     Gui.drawTexturedModalRectX(0, 0, var9 % 8 * 18, 198 + var9 / 8 * 18, 18, 18);
                     glPopMatrix();
                 }
 
-                y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
+                y -= (Fonts.height() + 2.0);
             }
         }
 
@@ -186,11 +187,11 @@ public class Interface extends Module {
                     EnumChatFormatting.GRAY,
                     EnumChatFormatting.RESET,
                     speedTraveled);
-            double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.axiforma.getStringWidth(formatted);
+            double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.width(formatted);
 
-            Fonts.axiforma.drawStringWithShadow(formatted, (float) x, (float) y, -1);
+            Fonts.shadow(formatted, (float) x, (float) y, -1);
 
-            y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
+            y -= (Fonts.height() + 2.0);
 
         }
 
@@ -202,11 +203,11 @@ public class Interface extends Module {
                     EnumChatFormatting.GRAY,
                     EnumChatFormatting.RESET,
                     Nebula.getInstance().getTick().getTps());
-            double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.axiforma.getStringWidth(formatted);
+            double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.width(formatted);
 
-            Fonts.axiforma.drawStringWithShadow(formatted, (float) x, (float) y, -1);
+            Fonts.shadow(formatted, (float) x, (float) y, -1);
 
-            y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
+            y -= (Fonts.height() + 2.0);
 
         }
 
@@ -218,22 +219,22 @@ public class Interface extends Module {
                     EnumChatFormatting.GRAY,
                     EnumChatFormatting.RESET,
                     Minecraft.debugFPS);
-            double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.axiforma.getStringWidth(formatted);
+            double x = event.getRes().getScaledWidth_double() - 3.0 - Fonts.width(formatted);
 
-            Fonts.axiforma.drawStringWithShadow(formatted, (float) x, (float) y, -1);
+            Fonts.shadow(formatted, (float) x, (float) y, -1);
 
-            y -= (Fonts.axiforma.FONT_HEIGHT + 2.0);
+            y -= (Fonts.height() + 2.0);
         }
 
         if (coordinates.getValue()) {
 
-            Fonts.axiforma.drawStringWithShadow(
+            Fonts.shadow(
                     "XYZ " + EnumChatFormatting.GRAY +
                             String.format("%.1f", mc.thePlayer.posX) + ", " +
                             String.format("%.1f", mc.thePlayer.boundingBox.minY) + ", " +
                             String.format("%.1f", mc.thePlayer.posZ),
                     3.0f,
-                    (float) (event.getRes().getScaledHeight_double() - Fonts.axiforma.FONT_HEIGHT - 3.0 - yOffset),
+                    (float) (event.getRes().getScaledHeight_double() - Fonts.height() - 3.0 - yOffset),
                     color.getValue().getRGB()
             );
         }

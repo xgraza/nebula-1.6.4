@@ -42,6 +42,7 @@
 + Add Color options to Interface
 + Add "Fog" option to NoRender
 + Add "Health" option to Tags
++ Add "Custom Font" option to Interface
 ```
 
 ---

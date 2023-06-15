@@ -45,17 +45,17 @@ public class NumberSettingComponent extends Component {
         RenderUtils.rect(getX(), getY(), getWidth(), getHeight(), SETTING_BG.getRGB());
         RenderUtils.rect(getX(), getY(), barWidth, getHeight(), Interface.color.getValue().getRGB());
 
-        Fonts.axiforma.drawStringWithShadow(
+        Fonts.shadow(
                 setting.getTag(),
                 (float) (getX() + 2.0),
-                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
+                (float) (getY() + (super.getHeight() / 2.0) - (Fonts.height() / 2.0)),
                 -1);
 
         String formatted = setting.getValue().toString();
-        Fonts.axiforma.drawStringWithShadow(
+        Fonts.shadow(
                 formatted,
-                (float) ((getX() + getWidth() - 4.0) - Fonts.axiforma.getStringWidth(formatted)),
-                (float) (getY() + (getHeight() / 2.0) - (Fonts.axiforma.FONT_HEIGHT / 2.0)),
+                (float) ((getX() + getWidth() - 4.0) - Fonts.width(formatted)),
+                (float) (getY() + (getHeight() / 2.0) - (Fonts.height() / 2.0)),
                 0xBBBBBB);
     }
 
