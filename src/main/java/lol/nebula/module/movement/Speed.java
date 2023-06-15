@@ -10,6 +10,7 @@ import lol.nebula.module.ModuleCategory;
 import lol.nebula.setting.Setting;
 import lol.nebula.util.math.timing.Timer;
 import lol.nebula.util.player.MoveUtils;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
@@ -23,7 +24,7 @@ public class Speed extends Module {
     private final Setting<Boolean> timer = new Setting<>(true, "Timer");
 
     private double distance, speed;
-    private int stage;
+    private int stage, lagTicks;
     private boolean boost;
 
     private final Timer damageBoostTimer = new Timer();
@@ -80,6 +81,11 @@ public class Speed extends Module {
     @Listener
     public void onMove(EventMove event) {
         if (mode.getValue() == Mode.HOP) {
+
+            if (--lagTicks > 0) {
+                mc.timer.timerSpeed = 1.0f;
+                return;
+            }
 
             mc.timer.timerSpeed = timer.getValue() ? 1.088f : 1.0f;
 
@@ -158,6 +164,8 @@ public class Speed extends Module {
                 damageBoostTimer.resetTime();
                 damageBoostTicks = 10;
             }
+        } else if (event.getPacket() instanceof S08PacketPlayerPosLook) {
+            lagTicks = 10;
         }
     }
 

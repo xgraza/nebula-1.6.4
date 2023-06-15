@@ -43,6 +43,7 @@
 + Add "Fog" option to NoRender
 + Add "Health" option to Tags
 + Add "Custom Font" option to Interface
++ Add lagback handler in Speed
 ```
 
 ---
