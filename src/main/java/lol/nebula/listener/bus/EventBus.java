@@ -122,6 +122,6 @@ public class EventBus {
      * @param in the list of subscribers to sort
      */
     private void sortSubscribers(List<Subscriber> in) {
-        in.sort(Comparator.comparingInt((s) -> -s.getEventPriority()));
+        in.sort(Comparator.comparingInt((s) -> s.getEventPriority()));
     }
 }

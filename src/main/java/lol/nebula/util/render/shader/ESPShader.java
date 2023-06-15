@@ -14,7 +14,7 @@ public class ESPShader extends Shader {
     private float opacity = 0.5f;
 
     public ESPShader() {
-        super("assets/minecraft/nebula/shader/esp.fsh");
+        super("/assets/minecraft/nebula/shader/esp.fsh");
     }
 
     @Override

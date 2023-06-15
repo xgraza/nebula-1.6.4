@@ -116,6 +116,7 @@ public class ModuleManager {
                 new Camera(),
                 new Chams(),
                 new ClickUI(),
+                new ESP(),
                 new Fullbright(),
                 new Glint(),
                 new InfiniteViewer(),

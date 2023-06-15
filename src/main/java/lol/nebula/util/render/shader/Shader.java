@@ -30,7 +30,7 @@ public abstract class Shader {
     protected boolean canUse = false;
 
     public Shader(String frag) {
-        this(frag, "/assets/minecraft/nebula/shaders/vertex.vsh");
+        this(frag, "/assets/minecraft/nebula/shader/vertex.vsh");
     }
 
     public Shader(String frag, String vert) {
@@ -123,6 +123,10 @@ public abstract class Shader {
 
             ARBShaderObjects.glShaderSourceARB(shader, content.toString());
             ARBShaderObjects.glCompileShaderARB(shader);
+
+            if (ARBShaderObjects.glGetObjectParameteriARB(shader, ARBShaderObjects.GL_OBJECT_COMPILE_STATUS_ARB) == GL_FALSE) {
+                Nebula.getLogger().error("Failed to create shader: \n{}", getLogInfo(shader));
+            }
         } catch (Exception e) {
             ARBShaderObjects.glDeleteObjectARB(shader);
             e.printStackTrace();
