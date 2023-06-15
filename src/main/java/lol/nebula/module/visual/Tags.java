@@ -32,6 +32,7 @@ public class Tags extends Module {
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 
     private final Setting<Boolean> background = new Setting<>(true, "Background");
+    private final Setting<Health> health = new Setting<>(Health.HEARTS, "Hearts");
 
     public Tags() {
         super("Tags", "Renders custom 3D tags over players", ModuleCategory.VISUAL);
@@ -214,17 +215,38 @@ public class Tags extends Module {
         }
 
         builder.append(player.func_145748_c_().getFormattedText());
-        builder.append(" ");
 
-        builder.append(EnumChatFormatting.GRAY);
-        builder.append("[");
-        builder.append(EnumChatFormatting.WHITE);
-        builder.append(String.format("%.1f", (player.getHealth() + player.getAbsorptionAmount()) / 2.0f));
-        builder.append(EnumChatFormatting.RED);
-        builder.append("\u2764");
-        builder.append(EnumChatFormatting.GRAY);
-        builder.append("]");
+        if (health.getValue() != Health.NONE) {
+            builder.append(" ");
+
+            float hp = player.getHealth() + player.getAbsorptionAmount();
+
+            if (health.getValue() == Health.BASIC) {
+                if (hp >= 20.0f) {
+                    builder.append(EnumChatFormatting.GREEN);
+                } else if (hp >= 17.0f) {
+                    builder.append(EnumChatFormatting.YELLOW);
+                } else {
+                    builder.append(EnumChatFormatting.RED);
+                }
+
+                builder.append(String.format("%.1f", hp));
+            } else if (health.getValue() == Health.HEARTS) {
+                builder.append(EnumChatFormatting.GRAY);
+                builder.append("[");
+                builder.append(EnumChatFormatting.WHITE);
+                builder.append(String.format("%.1f", hp / 2.0f));
+                builder.append(EnumChatFormatting.RED);
+                builder.append("\u2764");
+                builder.append(EnumChatFormatting.GRAY);
+                builder.append("]");
+            }
+        }
 
         return builder.toString();
+    }
+
+    public enum Health {
+        NONE, BASIC, HEARTS
     }
 }

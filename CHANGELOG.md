@@ -41,6 +41,7 @@
 + Add more options to Animations module
 + Add Color options to Interface
 + Add "Fog" option to NoRender
++ Add "Health" option to Tags
 ```
 
 ---
