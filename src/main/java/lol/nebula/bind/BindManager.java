@@ -30,6 +30,9 @@ public class BindManager {
 
         for (Bind bind : bindMap.values()) {
 
+            // shit fix
+            if (bind.getKey() == -1) continue;
+
             // if the key pressed equals the bind key and this bind is a keyboard bind, toggle the bind
             if (bind.getKey() == event.getKeyCode() && bind.getDevice() == BindDevice.KEYBOARD) {
                 bind.setState(!bind.isToggled());
@@ -40,6 +43,9 @@ public class BindManager {
     @Listener
     public void onMouseInput(EventMouseInput event) {
         for (Bind bind : bindMap.values()) {
+
+            // shit fix
+            if (bind.getKey() == -1) continue;
 
             if (bind.getKey() == event.getButton() && bind.getDevice() == BindDevice.MOUSE) {
                 bind.setState(!bind.isToggled());

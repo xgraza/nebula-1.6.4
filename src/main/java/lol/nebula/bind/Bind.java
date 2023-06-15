@@ -77,14 +77,4 @@ public class Bind implements IToggleable, ITaggable {
     public String getTag() {
         return tag;
     }
-
-    @Override
-    public String toString() {
-        return "Bind{" +
-                "tag='" + tag + '\'' +
-                ", device=" + device +
-                ", key=" + key +
-                ", state=" + state +
-                '}';
-    }
 }
