@@ -2265,6 +2265,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
      */
     private void setupFog(int par1, float par2)
     {
+
+
         EntityLivingBase var3 = this.mc.renderViewEntity;
         boolean var4 = false;
         this.fogStandard = false;

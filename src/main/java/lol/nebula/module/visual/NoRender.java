@@ -2,6 +2,7 @@ package lol.nebula.module.visual;
 
 import lol.nebula.listener.bus.Listener;
 import lol.nebula.listener.events.render.gui.overlay.*;
+import lol.nebula.listener.events.render.world.EventSetupFog;
 import lol.nebula.listener.events.render.world.EventWeather;
 import lol.nebula.module.Module;
 import lol.nebula.module.ModuleCategory;
@@ -20,6 +21,7 @@ public class NoRender extends Module {
     private final Setting<Boolean> weather = new Setting<>(true, "Weather");
     private final Setting<Boolean> voidParticles = new Setting<>(true, "Void Particles");
     private final Setting<Boolean> dynamicFoV = new Setting<>(true, "Dynamic FoV");
+    private final Setting<Boolean> fog = new Setting<>(true, "Fog");
 
     public NoRender() {
         super("No Render", "Stops annoying things from rendering", ModuleCategory.VISUAL);
@@ -61,5 +63,10 @@ public class NoRender extends Module {
     @Listener
     public void onFoV(EventFoV event) {
         if (dynamicFoV.getValue()) event.cancel();
+    }
+
+    @Listener
+    public void onSetupFog(EventSetupFog event) {
+        if (fog.getValue()) event.cancel();
     }
 }
