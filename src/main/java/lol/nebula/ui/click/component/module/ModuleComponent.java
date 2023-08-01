@@ -2,6 +2,7 @@ package lol.nebula.ui.click.component.module;
 
 import lol.nebula.bind.Bind;
 import lol.nebula.module.Module;
+import lol.nebula.module.exploit.Franky;
 import lol.nebula.module.visual.Interface;
 import lol.nebula.setting.Setting;
 import lol.nebula.ui.click.component.Component;

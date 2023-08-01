@@ -69,6 +69,7 @@ public class ModuleManager {
                 new ConsoleSpammer(),
                 new CraftCarry(),
                 new FastUse(),
+                new Franky(),
                 new LagbackAbuse(),
                 new NoPacketKick(),
                 new NoRotateSet(),

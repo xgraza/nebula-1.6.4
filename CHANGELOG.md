@@ -6,7 +6,7 @@
 
 ---
 
-## 3.0.0+2-
+## 3.0.0+2-66f1138
 
 ```diff
 + Made SpawnTP command send NaN C04 silently (fixes interference with Potion Saver module)

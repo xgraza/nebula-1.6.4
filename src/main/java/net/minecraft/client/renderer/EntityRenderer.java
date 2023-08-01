@@ -1215,15 +1215,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         if (world1 != null)
         {
-            if (Config.getNewRelease() != null)
-            {
-                String var2 = "HD_U".replace("HD_U", "HD Ultra").replace("L", "Light");
-                String var13 = var2 + " " + Config.getNewRelease();
-                ChatComponentText var14 = new ChatComponentText("A new \u00a7eOptiFine\u00a7f version is available: \u00a7e" + var13 + "\u00a7f");
-                this.mc.ingameGUI.getChatGUI().func_146227_a(var14);
-                Config.setNewRelease((String)null);
-            }
-
             if (Config.isNotify64BitJava())
             {
                 Config.setNotify64BitJava(false);
