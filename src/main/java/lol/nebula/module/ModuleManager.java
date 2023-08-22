@@ -79,6 +79,7 @@ public class ModuleManager {
                 new ResetVL(),
                 new ThunderLocator(),
                 new Timer(),
+                new PlayerPacketCanceller(),
 
                 new AntiWeb(),
                 new AutoWalk(),
