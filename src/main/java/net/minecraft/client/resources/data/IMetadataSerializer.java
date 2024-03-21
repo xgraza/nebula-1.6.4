@@ -19,7 +19,7 @@ public class IMetadataSerializer
 
     public void registerMetadataSectionType(IMetadataSectionSerializer par1MetadataSectionSerializer, Class par2Class)
     {
-        this.metadataSectionSerializerRegistry.putObject(par1MetadataSectionSerializer.getSectionName(), new Registration(par1MetadataSectionSerializer, par2Class, null));
+        this.metadataSectionSerializerRegistry.putObject(par1MetadataSectionSerializer.getSectionName(), new IMetadataSerializer.Registration(par1MetadataSectionSerializer, par2Class, null));
         this.gsonBuilder.registerTypeAdapter(par2Class, par1MetadataSectionSerializer);
         this.gson = null;
     }
@@ -40,7 +40,7 @@ public class IMetadataSerializer
         }
         else
         {
-            Registration var3 = (Registration)this.metadataSectionSerializerRegistry.getObject(par1Str);
+            IMetadataSerializer.Registration var3 = (IMetadataSerializer.Registration)this.metadataSectionSerializerRegistry.getObject(par1Str);
 
             if (var3 == null)
             {

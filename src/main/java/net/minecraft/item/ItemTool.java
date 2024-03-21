@@ -18,10 +18,10 @@ public class ItemTool extends Item
     private float damageVsEntity;
 
     /** The material this tool is made from. */
-    protected ToolMaterial toolMaterial;
+    protected Item.ToolMaterial toolMaterial;
     private static final String __OBFID = "CL_00000019";
 
-    protected ItemTool(float p_i45333_1_, ToolMaterial p_i45333_2_, Set p_i45333_3_)
+    protected ItemTool(float p_i45333_1_, Item.ToolMaterial p_i45333_2_, Set p_i45333_3_)
     {
         this.toolMaterial = p_i45333_2_;
         this.field_150914_c = p_i45333_3_;
@@ -65,7 +65,7 @@ public class ItemTool extends Item
         return true;
     }
 
-    public ToolMaterial func_150913_i()
+    public Item.ToolMaterial func_150913_i()
     {
         return this.toolMaterial;
     }

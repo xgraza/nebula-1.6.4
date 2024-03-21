@@ -65,7 +65,7 @@ public abstract class GuiListExtended extends GuiSlot
         return false;
     }
 
-    public abstract IGuiListEntry func_148180_b(int var1);
+    public abstract GuiListExtended.IGuiListEntry func_148180_b(int var1);
 
     public interface IGuiListEntry
     {

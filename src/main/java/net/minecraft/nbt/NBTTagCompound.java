@@ -217,7 +217,7 @@ public class NBTTagCompound extends NBTBase
     {
         try
         {
-            return !this.tagMap.containsKey(par1Str) ? 0 : ((NBTPrimitive)this.tagMap.get(par1Str)).func_150290_f();
+            return !this.tagMap.containsKey(par1Str) ? 0 : ((NBTBase.NBTPrimitive)this.tagMap.get(par1Str)).func_150290_f();
         }
         catch (ClassCastException var3)
         {
@@ -232,7 +232,7 @@ public class NBTTagCompound extends NBTBase
     {
         try
         {
-            return !this.tagMap.containsKey(par1Str) ? 0 : ((NBTPrimitive)this.tagMap.get(par1Str)).func_150289_e();
+            return !this.tagMap.containsKey(par1Str) ? 0 : ((NBTBase.NBTPrimitive)this.tagMap.get(par1Str)).func_150289_e();
         }
         catch (ClassCastException var3)
         {
@@ -247,7 +247,7 @@ public class NBTTagCompound extends NBTBase
     {
         try
         {
-            return !this.tagMap.containsKey(par1Str) ? 0 : ((NBTPrimitive)this.tagMap.get(par1Str)).func_150287_d();
+            return !this.tagMap.containsKey(par1Str) ? 0 : ((NBTBase.NBTPrimitive)this.tagMap.get(par1Str)).func_150287_d();
         }
         catch (ClassCastException var3)
         {
@@ -262,7 +262,7 @@ public class NBTTagCompound extends NBTBase
     {
         try
         {
-            return !this.tagMap.containsKey(par1Str) ? 0L : ((NBTPrimitive)this.tagMap.get(par1Str)).func_150291_c();
+            return !this.tagMap.containsKey(par1Str) ? 0L : ((NBTBase.NBTPrimitive)this.tagMap.get(par1Str)).func_150291_c();
         }
         catch (ClassCastException var3)
         {
@@ -277,7 +277,7 @@ public class NBTTagCompound extends NBTBase
     {
         try
         {
-            return !this.tagMap.containsKey(par1Str) ? 0.0F : ((NBTPrimitive)this.tagMap.get(par1Str)).func_150288_h();
+            return !this.tagMap.containsKey(par1Str) ? 0.0F : ((NBTBase.NBTPrimitive)this.tagMap.get(par1Str)).func_150288_h();
         }
         catch (ClassCastException var3)
         {
@@ -292,7 +292,7 @@ public class NBTTagCompound extends NBTBase
     {
         try
         {
-            return !this.tagMap.containsKey(par1Str) ? 0.0D : ((NBTPrimitive)this.tagMap.get(par1Str)).func_150286_g();
+            return !this.tagMap.containsKey(par1Str) ? 0.0D : ((NBTBase.NBTPrimitive)this.tagMap.get(par1Str)).func_150286_g();
         }
         catch (ClassCastException var3)
         {

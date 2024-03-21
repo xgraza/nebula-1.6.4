@@ -39,7 +39,7 @@ public class ShaderMacros
     {
         Util.EnumOS os = Util.getOSType();
 
-        switch (NamelessClass297955577.$SwitchMap$net$minecraft$util$Util$EnumOS[os.ordinal()])
+        switch (ShaderMacros.NamelessClass245672430.$SwitchMap$net$minecraft$util$Util$EnumOS[os.ordinal()])
         {
             case 1:
                 return "MC_OS_WINDOWS";
@@ -175,7 +175,7 @@ public class ShaderMacros
         sb.append("\n");
     }
 
-    static class NamelessClass297955577
+    static class NamelessClass245672430
     {
         static final int[] $SwitchMap$net$minecraft$util$Util$EnumOS = new int[Util.EnumOS.values().length];
 

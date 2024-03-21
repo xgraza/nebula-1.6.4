@@ -99,14 +99,14 @@ public class MapGenScatteredFeature extends MapGenStructure
 
     protected StructureStart getStructureStart(int par1, int par2)
     {
-        return new Start(this.worldObj, this.rand, par1, par2);
+        return new MapGenScatteredFeature.Start(this.worldObj, this.rand, par1, par2);
     }
 
     public boolean func_143030_a(int par1, int par2, int par3)
     {
         StructureStart var4 = this.func_143028_c(par1, par2, par3);
 
-        if (var4 != null && var4 instanceof Start && !var4.components.isEmpty())
+        if (var4 != null && var4 instanceof MapGenScatteredFeature.Start && !var4.components.isEmpty())
         {
             StructureComponent var5 = (StructureComponent)var4.components.getFirst();
             return var5 instanceof ComponentScatteredFeaturePieces.SwampHut;

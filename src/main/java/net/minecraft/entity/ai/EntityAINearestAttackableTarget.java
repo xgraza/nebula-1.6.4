@@ -14,7 +14,7 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
     private final int targetChance;
 
     /** Instance of EntityAINearestAttackableTargetSorter. */
-    private final Sorter theNearestAttackableTargetSorter;
+    private final EntityAINearestAttackableTarget.Sorter theNearestAttackableTargetSorter;
 
     /**
      * This filter is applied to the Entity search.  Only matching entities will be targetted.  (null -> no
@@ -39,7 +39,7 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
         super(par1EntityCreature, par4, par5);
         this.targetClass = par2Class;
         this.targetChance = par3;
-        this.theNearestAttackableTargetSorter = new Sorter(par1EntityCreature);
+        this.theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter(par1EntityCreature);
         this.setMutexBits(1);
         this.targetEntitySelector = new IEntitySelector()
         {

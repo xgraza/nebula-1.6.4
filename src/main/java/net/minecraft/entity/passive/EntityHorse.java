@@ -1558,10 +1558,10 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
         int var3 = 0;
         int var7;
 
-        if (par1EntityLivingData1 instanceof GroupData)
+        if (par1EntityLivingData1 instanceof EntityHorse.GroupData)
         {
-            var7 = ((GroupData)par1EntityLivingData1).field_111107_a;
-            var3 = ((GroupData)par1EntityLivingData1).field_111106_b & 255 | this.rand.nextInt(5) << 8;
+            var7 = ((EntityHorse.GroupData)par1EntityLivingData1).field_111107_a;
+            var3 = ((EntityHorse.GroupData)par1EntityLivingData1).field_111106_b & 255 | this.rand.nextInt(5) << 8;
         }
         else
         {
@@ -1577,7 +1577,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
                 var3 = var4 | var5 << 8;
             }
 
-            par1EntityLivingData1 = new GroupData(var7, var3);
+            par1EntityLivingData1 = new EntityHorse.GroupData(var7, var3);
         }
 
         this.setHorseType(var7);

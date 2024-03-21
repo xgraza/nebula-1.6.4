@@ -25,8 +25,8 @@ public class GuiMerchant extends GuiContainer
     private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation field_147038_v = new ResourceLocation("textures/gui/container/villager.png");
     private IMerchant field_147037_w;
-    private MerchantButton field_147043_x;
-    private MerchantButton field_147042_y;
+    private GuiMerchant.MerchantButton field_147043_x;
+    private GuiMerchant.MerchantButton field_147042_y;
     private int field_147041_z;
     private String field_147040_A;
     private static final String __OBFID = "CL_00000762";
@@ -46,8 +46,8 @@ public class GuiMerchant extends GuiContainer
         super.initGui();
         int var1 = (this.width - this.field_146999_f) / 2;
         int var2 = (this.height - this.field_147000_g) / 2;
-        this.buttonList.add(this.field_147043_x = new MerchantButton(1, var1 + 120 + 27, var2 + 24 - 1, true));
-        this.buttonList.add(this.field_147042_y = new MerchantButton(2, var1 + 36 - 19, var2 + 24 - 1, false));
+        this.buttonList.add(this.field_147043_x = new GuiMerchant.MerchantButton(1, var1 + 120 + 27, var2 + 24 - 1, true));
+        this.buttonList.add(this.field_147042_y = new GuiMerchant.MerchantButton(2, var1 + 36 - 19, var2 + 24 - 1, false));
         this.field_147043_x.enabled = false;
         this.field_147042_y.enabled = false;
     }

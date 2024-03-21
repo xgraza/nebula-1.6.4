@@ -9,11 +9,11 @@ public class ChunkLoader
 {
     private static final String __OBFID = "CL_00000379";
 
-    public static AnvilConverterData load(NBTTagCompound par0NBTTagCompound)
+    public static ChunkLoader.AnvilConverterData load(NBTTagCompound par0NBTTagCompound)
     {
         int var1 = par0NBTTagCompound.getInteger("xPos");
         int var2 = par0NBTTagCompound.getInteger("zPos");
-        AnvilConverterData var3 = new AnvilConverterData(var1, var2);
+        ChunkLoader.AnvilConverterData var3 = new ChunkLoader.AnvilConverterData(var1, var2);
         var3.blocks = par0NBTTagCompound.getByteArray("Blocks");
         var3.data = new NibbleArrayReader(par0NBTTagCompound.getByteArray("Data"), 7);
         var3.skyLight = new NibbleArrayReader(par0NBTTagCompound.getByteArray("SkyLight"), 7);
@@ -36,7 +36,7 @@ public class ChunkLoader
         return var3;
     }
 
-    public static void convertToAnvilFormat(AnvilConverterData par0AnvilConverterData, NBTTagCompound par1NBTTagCompound, WorldChunkManager par2WorldChunkManager)
+    public static void convertToAnvilFormat(ChunkLoader.AnvilConverterData par0AnvilConverterData, NBTTagCompound par1NBTTagCompound, WorldChunkManager par2WorldChunkManager)
     {
         par1NBTTagCompound.setInteger("xPos", par0AnvilConverterData.x);
         par1NBTTagCompound.setInteger("zPos", par0AnvilConverterData.z);

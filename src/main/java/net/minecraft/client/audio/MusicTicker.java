@@ -24,7 +24,7 @@ public class MusicTicker implements IUpdatePlayerListBox
      */
     public void update()
     {
-        MusicType var1 = this.field_147677_b.func_147109_W();
+        MusicTicker.MusicType var1 = this.field_147677_b.func_147109_W();
 
         if (this.field_147678_c != null)
         {
@@ -62,7 +62,7 @@ public class MusicTicker implements IUpdatePlayerListBox
         private final int field_148646_i;
         private final int field_148643_j;
 
-        private static final MusicType[] $VALUES = new MusicType[]{MENU, GAME, CREATIVE, CREDITS, NETHER, END_BOSS, END};
+        private static final MusicTicker.MusicType[] $VALUES = new MusicTicker.MusicType[]{MENU, GAME, CREATIVE, CREDITS, NETHER, END_BOSS, END};
         private static final String __OBFID = "CL_00001139";
 
         private MusicType(String p_i45111_1_, int p_i45111_2_, ResourceLocation p_i45111_3_, int p_i45111_4_, int p_i45111_5_)

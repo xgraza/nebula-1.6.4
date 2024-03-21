@@ -2,6 +2,7 @@ package net.minecraft.client.renderer.texture;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.IntBuffer;
 import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,7 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.src.Mipmaps;
 import net.minecraft.src.Reflector;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
@@ -307,6 +309,29 @@ public class TextureUtil
             int[] var5 = new int[var3 * var4];
             var2.getRGB(0, 0, var3, var4, var5, 0, var3);
             return var5;
+        }
+    }
+
+    public static BufferedImage readBufferedImage(InputStream imageStream) throws IOException
+    {
+        if (imageStream == null)
+        {
+            return null;
+        }
+        else
+        {
+            BufferedImage bufferedimage;
+
+            try
+            {
+                bufferedimage = ImageIO.read(imageStream);
+            }
+            finally
+            {
+                IOUtils.closeQuietly(imageStream);
+            }
+
+            return bufferedimage;
         }
     }
 

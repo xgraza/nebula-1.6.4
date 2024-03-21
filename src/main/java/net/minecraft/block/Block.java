@@ -3,6 +3,9 @@ package net.minecraft.block;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.world.EventCollision;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -33,23 +36,23 @@ public class Block
     public static final RegistryNamespaced blockRegistry = new RegistryNamespacedDefaultedByKey("air");
     private CreativeTabs displayOnCreativeTab;
     protected String textureName;
-    public static final SoundType soundTypeStone = new SoundType("stone", 1.0F, 1.0F);
+    public static final Block.SoundType soundTypeStone = new Block.SoundType("stone", 1.0F, 1.0F);
 
     /** the wood sound type */
-    public static final SoundType soundTypeWood = new SoundType("wood", 1.0F, 1.0F);
+    public static final Block.SoundType soundTypeWood = new Block.SoundType("wood", 1.0F, 1.0F);
 
     /** the gravel sound type */
-    public static final SoundType soundTypeGravel = new SoundType("gravel", 1.0F, 1.0F);
-    public static final SoundType soundTypeGrass = new SoundType("grass", 1.0F, 1.0F);
+    public static final Block.SoundType soundTypeGravel = new Block.SoundType("gravel", 1.0F, 1.0F);
+    public static final Block.SoundType soundTypeGrass = new Block.SoundType("grass", 1.0F, 1.0F);
 
     /** The piston step sound */
-    public static final SoundType soundStoneFootstep = new SoundType("stone", 1.0F, 1.0F);
+    public static final Block.SoundType soundStoneFootstep = new Block.SoundType("stone", 1.0F, 1.0F);
 
     /** The metal sound type */
-    public static final SoundType soundTypeMetal = new SoundType("stone", 1.0F, 1.5F);
+    public static final Block.SoundType soundTypeMetal = new Block.SoundType("stone", 1.0F, 1.5F);
 
     /** Glass footsteps */
-    public static final SoundType soundTypeGlass = new SoundType("stone", 1.0F, 1.0F)
+    public static final Block.SoundType soundTypeGlass = new Block.SoundType("stone", 1.0F, 1.0F)
     {
         private static final String __OBFID = "CL_00000200";
         public String func_150495_a()
@@ -63,12 +66,12 @@ public class Block
     };
 
     /** Sound for cloth and carpets */
-    public static final SoundType soundTypeCloth = new SoundType("cloth", 1.0F, 1.0F);
-    public static final SoundType field_149776_m = new SoundType("sand", 1.0F, 1.0F);
-    public static final SoundType soundTypeSnow = new SoundType("snow", 1.0F, 1.0F);
+    public static final Block.SoundType soundTypeCloth = new Block.SoundType("cloth", 1.0F, 1.0F);
+    public static final Block.SoundType field_149776_m = new Block.SoundType("sand", 1.0F, 1.0F);
+    public static final Block.SoundType soundTypeSnow = new Block.SoundType("snow", 1.0F, 1.0F);
 
     /** The ladder sound type */
-    public static final SoundType soundTypeLadder = new SoundType("ladder", 1.0F, 1.0F)
+    public static final Block.SoundType soundTypeLadder = new Block.SoundType("ladder", 1.0F, 1.0F)
     {
         private static final String __OBFID = "CL_00000201";
         public String func_150495_a()
@@ -78,7 +81,7 @@ public class Block
     };
 
     /** The anvil sound type */
-    public static final SoundType soundTypeAnvil = new SoundType("anvil", 0.3F, 1.0F)
+    public static final Block.SoundType soundTypeAnvil = new Block.SoundType("anvil", 0.3F, 1.0F)
     {
         private static final String __OBFID = "CL_00000202";
         public String func_150495_a()
@@ -101,7 +104,7 @@ public class Block
     protected boolean field_149783_u;
 
     /** Indicates how many hits it takes to break a block. */
-    protected float blockHardness;
+    public float blockHardness;
     protected float blockResistance;
     protected boolean blockConstructorCalled = true;
     protected boolean enableStats = true;
@@ -122,7 +125,7 @@ public class Block
     protected double maxZ;
 
     /** Sound of stepping on the block */
-    public SoundType stepSound;
+    public Block.SoundType stepSound;
     public float blockParticleGravity;
     protected final Material blockMaterial;
 
@@ -430,7 +433,7 @@ public class Block
     /**
      * Sets the footstep sound for the block. Returns the object for convenience in constructing.
      */
-    protected Block setStepSound(SoundType p_149672_1_)
+    protected Block setStepSound(Block.SoundType p_149672_1_)
     {
         this.stepSound = p_149672_1_;
         return this;
@@ -613,6 +616,10 @@ public class Block
     public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_)
     {
         AxisAlignedBB var8 = this.getCollisionBoundingBoxFromPool(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_);
+
+        EventCollision event = new EventCollision(var8, this, p_149743_7_, p_149743_2_, p_149743_3_, p_149743_4_);
+        Nebula.BUS.dispatch(event);
+        var8 = event.box();
 
         if (var8 != null && p_149743_5_.intersectsWith(var8))
         {

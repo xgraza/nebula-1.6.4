@@ -179,37 +179,37 @@ public abstract class Request
 
     public static Request func_148666_a(String p_148666_0_)
     {
-        return new Get(p_148666_0_, 5000, 10000);
+        return new Request.Get(p_148666_0_, 5000, 10000);
     }
 
     public static Request func_148670_a(String p_148670_0_, int p_148670_1_, int p_148670_2_)
     {
-        return new Get(p_148670_0_, p_148670_1_, p_148670_2_);
+        return new Request.Get(p_148670_0_, p_148670_1_, p_148670_2_);
     }
 
     public static Request func_148672_c(String p_148672_0_, String p_148672_1_)
     {
-        return new Post(p_148672_0_, p_148672_1_.getBytes(), 5000, 10000);
+        return new Request.Post(p_148672_0_, p_148672_1_.getBytes(), 5000, 10000);
     }
 
     public static Request func_148661_a(String p_148661_0_, String p_148661_1_, int p_148661_2_, int p_148661_3_)
     {
-        return new Post(p_148661_0_, p_148661_1_.getBytes(), p_148661_2_, p_148661_3_);
+        return new Request.Post(p_148661_0_, p_148661_1_.getBytes(), p_148661_2_, p_148661_3_);
     }
 
     public static Request func_148663_b(String p_148663_0_)
     {
-        return new Delete(p_148663_0_, 5000, 10000);
+        return new Request.Delete(p_148663_0_, 5000, 10000);
     }
 
     public static Request func_148668_d(String p_148668_0_, String p_148668_1_)
     {
-        return new Put(p_148668_0_, p_148668_1_.getBytes(), 5000, 10000);
+        return new Request.Put(p_148668_0_, p_148668_1_.getBytes(), 5000, 10000);
     }
 
     public static Request func_148669_b(String p_148669_0_, String p_148669_1_, int p_148669_2_, int p_148669_3_)
     {
-        return new Put(p_148669_0_, p_148669_1_.getBytes(), p_148669_2_, p_148669_3_);
+        return new Request.Put(p_148669_0_, p_148669_1_.getBytes(), p_148669_2_, p_148669_3_);
     }
 
     public int func_148673_g()
@@ -235,7 +235,7 @@ public abstract class Request
             super(par1Str, par2, par3);
         }
 
-        public Delete func_148662_f()
+        public Request.Delete func_148662_f()
         {
             try
             {
@@ -262,7 +262,7 @@ public abstract class Request
             this.field_148681_c = par2ArrayOfByte;
         }
 
-        public Put func_148662_f()
+        public Request.Put func_148662_f()
         {
             try
             {
@@ -292,7 +292,7 @@ public abstract class Request
             this.field_148683_c = par2ArrayOfByte;
         }
 
-        public Post func_148662_f()
+        public Request.Post func_148662_f()
         {
             try
             {
@@ -321,7 +321,7 @@ public abstract class Request
             super(par1Str, par2, par3);
         }
 
-        public Get func_148662_f()
+        public Request.Get func_148662_f()
         {
             try
             {

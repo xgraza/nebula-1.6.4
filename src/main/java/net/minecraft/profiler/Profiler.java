@@ -145,7 +145,7 @@ public class Profiler
 
         if (!this.profilerLocalEnabled)
         {
-            return new ArrayList(Arrays.asList(new Result[] {new Result("root", 0.0D, 0.0D)}));
+            return new ArrayList(Arrays.asList(new Profiler.Result[] {new Profiler.Result("root", 0.0D, 0.0D)}));
         }
         else if (!this.profilingEnabled)
         {
@@ -200,7 +200,7 @@ public class Profiler
                     double var15 = (double)var13 * 100.0D / (double)var8;
                     double var17 = (double)var13 * 100.0D / (double)var3;
                     String var19 = var12.substring(par1Str.length());
-                    var7.add(new Result(var19, var15, var17));
+                    var7.add(new Profiler.Result(var19, var15, var17));
                 }
             }
 
@@ -214,11 +214,11 @@ public class Profiler
 
             if ((float)var8 > var211)
             {
-                var7.add(new Result("unspecified", (double)((float)var8 - var211) * 100.0D / (double)var8, (double)((float)var8 - var211) * 100.0D / (double)var3));
+                var7.add(new Profiler.Result("unspecified", (double)((float)var8 - var211) * 100.0D / (double)var8, (double)((float)var8 - var211) * 100.0D / (double)var3));
             }
 
             Collections.sort(var7);
-            var7.add(0, new Result(par1Str, 100.0D, (double)var8 * 100.0D / (double)var3));
+            var7.add(0, new Profiler.Result(par1Str, 100.0D, (double)var8 * 100.0D / (double)var3));
             return var7;
         }
     }
@@ -254,7 +254,7 @@ public class Profiler
             this.field_76330_b = par4;
         }
 
-        public int compareTo(Result par1ProfilerResult)
+        public int compareTo(Profiler.Result par1ProfilerResult)
         {
             return par1ProfilerResult.field_76332_a < this.field_76332_a ? -1 : (par1ProfilerResult.field_76332_a > this.field_76332_a ? 1 : par1ProfilerResult.field_76331_c.compareTo(this.field_76331_c));
         }
@@ -266,7 +266,7 @@ public class Profiler
 
         public int compareTo(Object par1Obj)
         {
-            return this.compareTo((Result)par1Obj);
+            return this.compareTo((Profiler.Result)par1Obj);
         }
     }
 }

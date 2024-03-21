@@ -29,7 +29,7 @@ public class S20PacketEntityProperties extends Packet
         while (var3.hasNext())
         {
             IAttributeInstance var4 = (IAttributeInstance)var3.next();
-            this.field_149444_b.add(new Snapshot(var4.getAttribute().getAttributeUnlocalizedName(), var4.getBaseValue(), var4.func_111122_c()));
+            this.field_149444_b.add(new S20PacketEntityProperties.Snapshot(var4.getAttribute().getAttributeUnlocalizedName(), var4.getBaseValue(), var4.func_111122_c()));
         }
     }
 
@@ -54,7 +54,7 @@ public class S20PacketEntityProperties extends Packet
                 var7.add(new AttributeModifier(var10, "Unknown synced attribute modifier", p_148837_1_.readDouble(), p_148837_1_.readByte()));
             }
 
-            this.field_149444_b.add(new Snapshot(var4, var5, var7));
+            this.field_149444_b.add(new S20PacketEntityProperties.Snapshot(var4, var5, var7));
         }
     }
 
@@ -69,7 +69,7 @@ public class S20PacketEntityProperties extends Packet
 
         while (var2.hasNext())
         {
-            Snapshot var3 = (Snapshot)var2.next();
+            S20PacketEntityProperties.Snapshot var3 = (S20PacketEntityProperties.Snapshot)var2.next();
             p_148840_1_.writeStringToBuffer(var3.func_151409_a());
             p_148840_1_.writeDouble(var3.func_151410_b());
             p_148840_1_.writeShort(var3.func_151408_c().size());

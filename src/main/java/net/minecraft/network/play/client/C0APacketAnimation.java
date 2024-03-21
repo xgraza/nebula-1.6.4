@@ -57,6 +57,10 @@ public class C0APacketAnimation extends Packet
         return this.field_149423_b;
     }
 
+    public int getEntityId() {
+        return field_149424_a;
+    }
+
     public void processPacket(INetHandler p_148833_1_)
     {
         this.processPacket((INetHandlerPlayServer)p_148833_1_);

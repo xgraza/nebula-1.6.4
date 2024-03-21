@@ -25,7 +25,7 @@ public class GuiBeacon extends GuiContainer
     private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation field_147025_v = new ResourceLocation("textures/gui/container/beacon.png");
     private TileEntityBeacon field_147024_w;
-    private ConfirmButton field_147028_x;
+    private GuiBeacon.ConfirmButton field_147028_x;
     private boolean field_147027_y;
     private static final String __OBFID = "CL_00000739";
 
@@ -43,8 +43,8 @@ public class GuiBeacon extends GuiContainer
     public void initGui()
     {
         super.initGui();
-        this.buttonList.add(this.field_147028_x = new ConfirmButton(-1, this.field_147003_i + 164, this.field_147009_r + 107));
-        this.buttonList.add(new CancelButton(-2, this.field_147003_i + 190, this.field_147009_r + 107));
+        this.buttonList.add(this.field_147028_x = new GuiBeacon.ConfirmButton(-1, this.field_147003_i + 164, this.field_147009_r + 107));
+        this.buttonList.add(new GuiBeacon.CancelButton(-2, this.field_147003_i + 190, this.field_147009_r + 107));
         this.field_147027_y = true;
         this.field_147028_x.enabled = false;
     }
@@ -63,7 +63,7 @@ public class GuiBeacon extends GuiContainer
             int var3;
             int var4;
             int var5;
-            PowerButton var6;
+            GuiBeacon.PowerButton var6;
 
             for (int var1 = 0; var1 <= 2; ++var1)
             {
@@ -73,7 +73,7 @@ public class GuiBeacon extends GuiContainer
                 for (var4 = 0; var4 < var2; ++var4)
                 {
                     var5 = TileEntityBeacon.field_146009_a[var1][var4].id;
-                    var6 = new PowerButton(var1 << 8 | var5, this.field_147003_i + 76 + var4 * 24 - var3 / 2, this.field_147009_r + 22 + var1 * 25, var5, var1);
+                    var6 = new GuiBeacon.PowerButton(var1 << 8 | var5, this.field_147003_i + 76 + var4 * 24 - var3 / 2, this.field_147009_r + 22 + var1 * 25, var5, var1);
                     this.buttonList.add(var6);
 
                     if (var1 >= this.field_147024_w.func_145998_l())
@@ -94,7 +94,7 @@ public class GuiBeacon extends GuiContainer
             for (var4 = 0; var4 < var2 - 1; ++var4)
             {
                 var5 = TileEntityBeacon.field_146009_a[var7][var4].id;
-                var6 = new PowerButton(var7 << 8 | var5, this.field_147003_i + 167 + var4 * 24 - var3 / 2, this.field_147009_r + 47, var5, var7);
+                var6 = new GuiBeacon.PowerButton(var7 << 8 | var5, this.field_147003_i + 167 + var4 * 24 - var3 / 2, this.field_147009_r + 47, var5, var7);
                 this.buttonList.add(var6);
 
                 if (var7 >= this.field_147024_w.func_145998_l())
@@ -109,7 +109,7 @@ public class GuiBeacon extends GuiContainer
 
             if (this.field_147024_w.func_146007_j() > 0)
             {
-                PowerButton var8 = new PowerButton(var7 << 8 | this.field_147024_w.func_146007_j(), this.field_147003_i + 167 + (var2 - 1) * 24 - var3 / 2, this.field_147009_r + 47, this.field_147024_w.func_146007_j(), var7);
+                GuiBeacon.PowerButton var8 = new GuiBeacon.PowerButton(var7 << 8 | this.field_147024_w.func_146007_j(), this.field_147003_i + 167 + (var2 - 1) * 24 - var3 / 2, this.field_147009_r + 47, this.field_147024_w.func_146007_j(), var7);
                 this.buttonList.add(var8);
 
                 if (var7 >= this.field_147024_w.func_145998_l())
@@ -154,9 +154,9 @@ public class GuiBeacon extends GuiContainer
 
             this.mc.displayGuiScreen((GuiScreen)null);
         }
-        else if (p_146284_1_ instanceof PowerButton)
+        else if (p_146284_1_ instanceof GuiBeacon.PowerButton)
         {
-            if (((PowerButton)p_146284_1_).func_146141_c())
+            if (((GuiBeacon.PowerButton)p_146284_1_).func_146141_c())
             {
                 return;
             }
@@ -216,7 +216,7 @@ public class GuiBeacon extends GuiContainer
         renderItemGs.zLevel = 0.0F;
     }
 
-    class CancelButton extends Button
+    class CancelButton extends GuiBeacon.Button
     {
         private static final String __OBFID = "CL_00000740";
 
@@ -292,7 +292,7 @@ public class GuiBeacon extends GuiContainer
         }
     }
 
-    class PowerButton extends Button
+    class PowerButton extends GuiBeacon.Button
     {
         private final int field_146149_p;
         private final int field_146148_q;
@@ -318,7 +318,7 @@ public class GuiBeacon extends GuiContainer
         }
     }
 
-    class ConfirmButton extends Button
+    class ConfirmButton extends GuiBeacon.Button
     {
         private static final String __OBFID = "CL_00000741";
 

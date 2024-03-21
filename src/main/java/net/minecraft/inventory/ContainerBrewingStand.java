@@ -19,10 +19,10 @@ public class ContainerBrewingStand extends Container
     public ContainerBrewingStand(InventoryPlayer par1InventoryPlayer, TileEntityBrewingStand par2TileEntityBrewingStand)
     {
         this.tileBrewingStand = par2TileEntityBrewingStand;
-        this.addSlotToContainer(new Potion(par1InventoryPlayer.player, par2TileEntityBrewingStand, 0, 56, 46));
-        this.addSlotToContainer(new Potion(par1InventoryPlayer.player, par2TileEntityBrewingStand, 1, 79, 53));
-        this.addSlotToContainer(new Potion(par1InventoryPlayer.player, par2TileEntityBrewingStand, 2, 102, 46));
-        this.theSlot = this.addSlotToContainer(new Ingredient(par2TileEntityBrewingStand, 3, 79, 17));
+        this.addSlotToContainer(new ContainerBrewingStand.Potion(par1InventoryPlayer.player, par2TileEntityBrewingStand, 0, 56, 46));
+        this.addSlotToContainer(new ContainerBrewingStand.Potion(par1InventoryPlayer.player, par2TileEntityBrewingStand, 1, 79, 53));
+        this.addSlotToContainer(new ContainerBrewingStand.Potion(par1InventoryPlayer.player, par2TileEntityBrewingStand, 2, 102, 46));
+        this.theSlot = this.addSlotToContainer(new ContainerBrewingStand.Ingredient(par2TileEntityBrewingStand, 3, 79, 17));
         int var3;
 
         for (var3 = 0; var3 < 3; ++var3)
@@ -100,7 +100,7 @@ public class ContainerBrewingStand extends Container
                         return null;
                     }
                 }
-                else if (Potion.canHoldPotion(var3))
+                else if (ContainerBrewingStand.Potion.canHoldPotion(var3))
                 {
                     if (!this.mergeItemStack(var5, 0, 3, false))
                     {

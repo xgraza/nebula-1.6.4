@@ -9,7 +9,7 @@ public final class WorldSettings
     private final long seed;
 
     /** The EnumGameType. */
-    private final GameType theGameType;
+    private final WorldSettings.GameType theGameType;
 
     /**
      * Switch for the map features. 'true' for enabled, 'false' for disabled.
@@ -28,7 +28,7 @@ public final class WorldSettings
     private String field_82751_h;
     private static final String __OBFID = "CL_00000147";
 
-    public WorldSettings(long par1, GameType par3EnumGameType, boolean par4, boolean par5, WorldType par6WorldType)
+    public WorldSettings(long par1, WorldSettings.GameType par3EnumGameType, boolean par4, boolean par5, WorldType par6WorldType)
     {
         this.field_82751_h = "";
         this.seed = par1;
@@ -86,7 +86,7 @@ public final class WorldSettings
     /**
      * Gets the game type.
      */
-    public GameType getGameType()
+    public WorldSettings.GameType getGameType()
     {
         return this.theGameType;
     }
@@ -123,9 +123,9 @@ public final class WorldSettings
     /**
      * Gets the GameType by ID
      */
-    public static GameType getGameTypeById(int par0)
+    public static WorldSettings.GameType getGameTypeById(int par0)
     {
-        return GameType.getByID(par0);
+        return WorldSettings.GameType.getByID(par0);
     }
 
     public String func_82749_j()
@@ -142,7 +142,7 @@ public final class WorldSettings
         int id;
         String name;
 
-        private static final GameType[] $VALUES = new GameType[]{NOT_SET, SURVIVAL, CREATIVE, ADVENTURE};
+        private static final WorldSettings.GameType[] $VALUES = new WorldSettings.GameType[]{NOT_SET, SURVIVAL, CREATIVE, ADVENTURE};
         private static final String __OBFID = "CL_00000148";
 
         private GameType(String par1Str, int par2, int par3, String par4Str)
@@ -195,14 +195,14 @@ public final class WorldSettings
             return this == SURVIVAL || this == ADVENTURE;
         }
 
-        public static GameType getByID(int par0)
+        public static WorldSettings.GameType getByID(int par0)
         {
-            GameType[] var1 = values();
+            WorldSettings.GameType[] var1 = values();
             int var2 = var1.length;
 
             for (int var3 = 0; var3 < var2; ++var3)
             {
-                GameType var4 = var1[var3];
+                WorldSettings.GameType var4 = var1[var3];
 
                 if (var4.id == par0)
                 {
@@ -213,14 +213,14 @@ public final class WorldSettings
             return SURVIVAL;
         }
 
-        public static GameType getByName(String par0Str)
+        public static WorldSettings.GameType getByName(String par0Str)
         {
-            GameType[] var1 = values();
+            WorldSettings.GameType[] var1 = values();
             int var2 = var1.length;
 
             for (int var3 = 0; var3 < var2; ++var3)
             {
-                GameType var4 = var1[var3];
+                WorldSettings.GameType var4 = var1[var3];
 
                 if (var4.name.equals(par0Str))
                 {

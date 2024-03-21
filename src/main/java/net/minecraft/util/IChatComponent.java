@@ -272,7 +272,7 @@ public interface IChatComponent extends Iterable
         static
         {
             GsonBuilder var0 = new GsonBuilder();
-            var0.registerTypeHierarchyAdapter(IChatComponent.class, new Serializer());
+            var0.registerTypeHierarchyAdapter(IChatComponent.class, new IChatComponent.Serializer());
             var0.registerTypeHierarchyAdapter(ChatStyle.class, new ChatStyle.Serializer());
             var0.registerTypeAdapterFactory(new EnumTypeAdapterFactory());
             field_150700_a = var0.create();

@@ -66,7 +66,7 @@ public class McoServer
             var1.field_148812_a = !p_148802_0_.get("id").isJsonNull() ? p_148802_0_.get("id").getAsLong() : -1L;
             var1.field_148810_b = !p_148802_0_.get("name").isJsonNull() ? p_148802_0_.get("name").getAsString() : null;
             var1.field_148811_c = !p_148802_0_.get("motd").isJsonNull() ? p_148802_0_.get("motd").getAsString() : null;
-            var1.field_148808_d = !p_148802_0_.get("state").isJsonNull() ? p_148802_0_.get("state").getAsString() : State.CLOSED.name();
+            var1.field_148808_d = !p_148802_0_.get("state").isJsonNull() ? p_148802_0_.get("state").getAsString() : McoServer.State.CLOSED.name();
             var1.field_148809_e = !p_148802_0_.get("owner").isJsonNull() ? p_148802_0_.get("owner").getAsString() : null;
 
             if (p_148802_0_.get("invited").isJsonArray())
@@ -159,7 +159,7 @@ public class McoServer
         OPEN("OPEN", 1),
         ADMIN_LOCK("ADMIN_LOCK", 2);
 
-        private static final State[] $VALUES = new State[]{CLOSED, OPEN, ADMIN_LOCK};
+        private static final McoServer.State[] $VALUES = new McoServer.State[]{CLOSED, OPEN, ADMIN_LOCK};
         private static final String __OBFID = "CL_00001167";
 
         private State(String p_i45485_1_, int p_i45485_2_) {}

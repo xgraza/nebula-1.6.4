@@ -19,6 +19,8 @@ public class C10PacketCreativeInventoryAction extends Packet
     {
         this.field_149629_a = p_i45263_1_;
         this.field_149628_b = p_i45263_2_ != null ? p_i45263_2_.copy() : null;
+
+        System.out.println(p_i45263_1_ + " -> " + p_i45263_2_);
     }
 
     public void processPacket(INetHandlerPlayServer p_149626_1_)

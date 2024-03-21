@@ -26,14 +26,14 @@ public class EnchantmentHelper
     /**
      * Used to calculate the extra armor of enchantments on armors equipped on player.
      */
-    private static final ModifierDamage enchantmentModifierDamage = new ModifierDamage(null);
+    private static final EnchantmentHelper.ModifierDamage enchantmentModifierDamage = new EnchantmentHelper.ModifierDamage(null);
 
     /**
      * Used to calculate the (magic) extra damage done by enchantments on current equipped item of player.
      */
-    private static final ModifierLiving enchantmentModifierLiving = new ModifierLiving(null);
-    private static final HurtIterator field_151388_d = new HurtIterator(null);
-    private static final DamageIterator field_151389_e = new DamageIterator(null);
+    private static final EnchantmentHelper.ModifierLiving enchantmentModifierLiving = new EnchantmentHelper.ModifierLiving(null);
+    private static final EnchantmentHelper.HurtIterator field_151388_d = new EnchantmentHelper.HurtIterator(null);
+    private static final EnchantmentHelper.DamageIterator field_151389_e = new EnchantmentHelper.DamageIterator(null);
     private static final String __OBFID = "CL_00000107";
 
     /**
@@ -160,7 +160,7 @@ public class EnchantmentHelper
     /**
      * Executes the enchantment modifier on the ItemStack passed.
      */
-    private static void applyEnchantmentModifier(IModifier par0IEnchantmentModifier, ItemStack par1ItemStack)
+    private static void applyEnchantmentModifier(EnchantmentHelper.IModifier par0IEnchantmentModifier, ItemStack par1ItemStack)
     {
         if (par1ItemStack != null)
         {
@@ -185,7 +185,7 @@ public class EnchantmentHelper
     /**
      * Executes the enchantment modifier on the array of ItemStack passed.
      */
-    private static void applyEnchantmentModifierArray(IModifier par0IEnchantmentModifier, ItemStack[] par1ArrayOfItemStack)
+    private static void applyEnchantmentModifierArray(EnchantmentHelper.IModifier par0IEnchantmentModifier, ItemStack[] par1ArrayOfItemStack)
     {
         ItemStack[] var2 = par1ArrayOfItemStack;
         int var3 = par1ArrayOfItemStack.length;
@@ -518,7 +518,7 @@ public class EnchantmentHelper
         return var3;
     }
 
-    static final class ModifierDamage implements IModifier
+    static final class ModifierDamage implements EnchantmentHelper.IModifier
     {
         public int damageModifier;
         public DamageSource source;
@@ -537,7 +537,7 @@ public class EnchantmentHelper
         }
     }
 
-    static final class ModifierLiving implements IModifier
+    static final class ModifierLiving implements EnchantmentHelper.IModifier
     {
         public float livingModifier;
         public EntityLivingBase entityLiving;
@@ -561,7 +561,7 @@ public class EnchantmentHelper
         void calculateModifier(Enchantment var1, int var2);
     }
 
-    static final class DamageIterator implements IModifier
+    static final class DamageIterator implements EnchantmentHelper.IModifier
     {
         public EntityLivingBase field_151366_a;
         public Entity field_151365_b;
@@ -580,7 +580,7 @@ public class EnchantmentHelper
         }
     }
 
-    static final class HurtIterator implements IModifier
+    static final class HurtIterator implements EnchantmentHelper.IModifier
     {
         public EntityLivingBase field_151364_a;
         public Entity field_151363_b;

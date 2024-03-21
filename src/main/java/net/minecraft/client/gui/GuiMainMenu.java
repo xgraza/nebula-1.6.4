@@ -9,11 +9,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import nebula.client.gui.account.AccountManagerScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.mco.ExceptionMcoService;
 import net.minecraft.client.mco.ExceptionRetryCall;
 import net.minecraft.client.mco.GuiScreenClientOutdated;
 import net.minecraft.client.mco.McoClient;
+import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -73,7 +76,6 @@ public class GuiMainMenu extends GuiScreen
     private int field_92020_v;
     private int field_92019_w;
     private ResourceLocation field_110351_G;
-    private GuiButton minecraftRealmsButton;
     private static final String __OBFID = "CL_00001154";
 
     public GuiMainMenu()
@@ -201,7 +203,6 @@ public class GuiMainMenu extends GuiScreen
             this.addSingleplayerMultiplayerButtons(var3, 24);
         }
 
-        this.func_130020_g();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, var3 + 72 + 12, 98, 20, I18n.format("menu.options", new Object[0])));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, var3 + 72 + 12, 98, 20, I18n.format("menu.quit", new Object[0])));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, var3 + 72 + 12));
@@ -219,77 +220,6 @@ public class GuiMainMenu extends GuiScreen
         }
     }
 
-    private void func_130020_g()
-    {
-        if (this.field_96141_q)
-        {
-            if (!field_96140_r)
-            {
-                field_96140_r = true;
-                (new Thread("MCO Availability Checker #" + field_146973_f.incrementAndGet())
-                {
-                    private static final String __OBFID = "CL_00001155";
-                    public void run()
-                    {
-                        Session var1 = GuiMainMenu.this.mc.getSession();
-                        McoClient var2 = new McoClient(var1.getSessionID(), var1.getUsername(), "1.7.2", Minecraft.getMinecraft().getProxy());
-                        boolean var3 = false;
-
-                        for (int var4 = 0; var4 < 3; ++var4)
-                        {
-                            try
-                            {
-                                Boolean var5 = var2.func_148687_b();
-
-                                if (var5.booleanValue())
-                                {
-                                    GuiMainMenu.this.func_130022_h();
-                                }
-
-                                GuiMainMenu.field_96139_s = var5.booleanValue();
-                            }
-                            catch (ExceptionRetryCall var7)
-                            {
-                                var3 = true;
-                            }
-                            catch (ExceptionMcoService var8)
-                            {
-                                GuiMainMenu.logger.error("Couldn\'t connect to Realms");
-                            }
-                            catch (IOException var9)
-                            {
-                                GuiMainMenu.logger.error("Couldn\'t parse response connecting to Realms");
-                            }
-
-                            if (!var3)
-                            {
-                                break;
-                            }
-
-                            try
-                            {
-                                Thread.sleep(10000L);
-                            }
-                            catch (InterruptedException var6)
-                            {
-                                Thread.currentThread().interrupt();
-                            }
-                        }
-                    }
-                }).start();
-            }
-            else if (field_96139_s)
-            {
-                this.func_130022_h();
-            }
-        }
-    }
-
-    private void func_130022_h()
-    {
-        this.minecraftRealmsButton.drawButton = true;
-    }
-
     /**
      * Adds Singleplayer and Multiplayer buttons on Main Menu for players who have bought the game.
      */
@@ -297,8 +227,9 @@ public class GuiMainMenu extends GuiScreen
     {
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, par1, I18n.format("menu.singleplayer", new Object[0])));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, par1 + par2 * 1, I18n.format("menu.multiplayer", new Object[0])));
-        this.buttonList.add(this.minecraftRealmsButton = new GuiButton(14, this.width / 2 - 100, par1 + par2 * 2, I18n.format("menu.online", new Object[0])));
-        this.minecraftRealmsButton.drawButton = false;
+        this.buttonList.add(new GuiButton(69, this.width / 2 - 100, par1 + par2 * 2, "Account Manager"));
+
+        buttonList.add(new GuiButton(420, 4, 4, 65, 20, "alfheim.pw"));
     }
 
     /**
@@ -339,11 +270,6 @@ public class GuiMainMenu extends GuiScreen
             this.mc.displayGuiScreen(new GuiMultiplayer(this));
         }
 
-        if (p_146284_1_.id == 14 && this.minecraftRealmsButton.drawButton)
-        {
-            this.func_140005_i();
-        }
-
         if (p_146284_1_.id == 4)
         {
             this.mc.shutdown();
@@ -365,31 +291,13 @@ public class GuiMainMenu extends GuiScreen
                 this.mc.displayGuiScreen(var4);
             }
         }
-    }
 
-    private void func_140005_i()
-    {
-        Session var1 = this.mc.getSession();
-        McoClient var2 = new McoClient(var1.getSessionID(), var1.getUsername(), "1.7.2", Minecraft.getMinecraft().getProxy());
+        if (p_146284_1_.id == 69) {
+            mc.displayGuiScreen(new AccountManagerScreen(this));
+        }
 
-        try
-        {
-            if (var2.func_148695_c().booleanValue())
-            {
-                this.mc.displayGuiScreen(new GuiScreenClientOutdated(this));
-            }
-            else
-            {
-                this.mc.displayGuiScreen(new GuiScreenOnlineServers(this));
-            }
-        }
-        catch (ExceptionMcoService var4)
-        {
-            logger.error("Couldn\'t connect to realms");
-        }
-        catch (IOException var5)
-        {
-            logger.error("Couldn\'t connect to realms");
+        if (p_146284_1_.id == 420) {
+            mc.displayGuiScreen(new GuiConnecting(this, mc, "alfheim.pw", 25565));
         }
     }
 

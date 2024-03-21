@@ -171,7 +171,7 @@ public abstract class BlockRailBase extends Block
     {
         if (!p_150052_1_.isClient)
         {
-            (new Rail(p_150052_1_, p_150052_2_, p_150052_3_, p_150052_4_)).func_150655_a(p_150052_1_.isBlockIndirectlyGettingPowered(p_150052_2_, p_150052_3_, p_150052_4_), p_150052_5_);
+            (new BlockRailBase.Rail(p_150052_1_, p_150052_2_, p_150052_3_, p_150052_4_)).func_150655_a(p_150052_1_.isBlockIndirectlyGettingPowered(p_150052_2_, p_150052_3_, p_150052_4_), p_150052_5_);
         }
     }
 
@@ -295,7 +295,7 @@ public abstract class BlockRailBase extends Block
         {
             for (int var1 = 0; var1 < this.field_150657_g.size(); ++var1)
             {
-                Rail var2 = this.func_150654_a((ChunkPosition)this.field_150657_g.get(var1));
+                BlockRailBase.Rail var2 = this.func_150654_a((ChunkPosition)this.field_150657_g.get(var1));
 
                 if (var2 != null && var2.func_150653_a(this))
                 {
@@ -313,12 +313,12 @@ public abstract class BlockRailBase extends Block
             return BlockRailBase.func_150049_b_(this.field_150660_b, p_150646_1_, p_150646_2_, p_150646_3_) ? true : (BlockRailBase.func_150049_b_(this.field_150660_b, p_150646_1_, p_150646_2_ + 1, p_150646_3_) ? true : BlockRailBase.func_150049_b_(this.field_150660_b, p_150646_1_, p_150646_2_ - 1, p_150646_3_));
         }
 
-        private Rail func_150654_a(ChunkPosition p_150654_1_)
+        private BlockRailBase.Rail func_150654_a(ChunkPosition p_150654_1_)
         {
             return BlockRailBase.func_150049_b_(this.field_150660_b, p_150654_1_.field_151329_a, p_150654_1_.field_151327_b, p_150654_1_.field_151328_c) ? BlockRailBase.this.new Rail(this.field_150660_b, p_150654_1_.field_151329_a, p_150654_1_.field_151327_b, p_150654_1_.field_151328_c) : (BlockRailBase.func_150049_b_(this.field_150660_b, p_150654_1_.field_151329_a, p_150654_1_.field_151327_b + 1, p_150654_1_.field_151328_c) ? BlockRailBase.this.new Rail(this.field_150660_b, p_150654_1_.field_151329_a, p_150654_1_.field_151327_b + 1, p_150654_1_.field_151328_c) : (BlockRailBase.func_150049_b_(this.field_150660_b, p_150654_1_.field_151329_a, p_150654_1_.field_151327_b - 1, p_150654_1_.field_151328_c) ? BlockRailBase.this.new Rail(this.field_150660_b, p_150654_1_.field_151329_a, p_150654_1_.field_151327_b - 1, p_150654_1_.field_151328_c) : null));
         }
 
-        private boolean func_150653_a(Rail p_150653_1_)
+        private boolean func_150653_a(BlockRailBase.Rail p_150653_1_)
         {
             for (int var2 = 0; var2 < this.field_150657_g.size(); ++var2)
             {
@@ -375,12 +375,12 @@ public abstract class BlockRailBase extends Block
             return var1;
         }
 
-        private boolean func_150649_b(Rail p_150649_1_)
+        private boolean func_150649_b(BlockRailBase.Rail p_150649_1_)
         {
             return this.func_150653_a(p_150649_1_) ? true : (this.field_150657_g.size() == 2 ? false : (this.field_150657_g.isEmpty() ? true : true));
         }
 
-        private void func_150645_c(Rail p_150645_1_)
+        private void func_150645_c(BlockRailBase.Rail p_150645_1_)
         {
             this.field_150657_g.add(new ChunkPosition(p_150645_1_.field_150661_c, p_150645_1_.field_150658_d, p_150645_1_.field_150659_e));
             boolean var2 = this.func_150652_b(this.field_150661_c, this.field_150658_d, this.field_150659_e - 1);
@@ -465,7 +465,7 @@ public abstract class BlockRailBase extends Block
 
         private boolean func_150647_c(int p_150647_1_, int p_150647_2_, int p_150647_3_)
         {
-            Rail var4 = this.func_150654_a(new ChunkPosition(p_150647_1_, p_150647_2_, p_150647_3_));
+            BlockRailBase.Rail var4 = this.func_150654_a(new ChunkPosition(p_150647_1_, p_150647_2_, p_150647_3_));
 
             if (var4 == null)
             {
@@ -625,7 +625,7 @@ public abstract class BlockRailBase extends Block
 
                 for (int var9 = 0; var9 < this.field_150657_g.size(); ++var9)
                 {
-                    Rail var10 = this.func_150654_a((ChunkPosition)this.field_150657_g.get(var9));
+                    BlockRailBase.Rail var10 = this.func_150654_a((ChunkPosition)this.field_150657_g.get(var9));
 
                     if (var10 != null)
                     {

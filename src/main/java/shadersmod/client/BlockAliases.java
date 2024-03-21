@@ -185,7 +185,7 @@ public class BlockAliases
 
             while (blockId >= blocksAliases.size())
             {
-                blocksAliases.add((List<BlockAlias>) null);
+                blocksAliases.add(null);
             }
 
             Object blockAliases = (List)blocksAliases.get(blockId);

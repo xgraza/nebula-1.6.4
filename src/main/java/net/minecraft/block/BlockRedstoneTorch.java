@@ -28,14 +28,14 @@ public class BlockRedstoneTorch extends BlockTorch
 
         if (p_150111_5_)
         {
-            var6.add(new Toggle(p_150111_2_, p_150111_3_, p_150111_4_, p_150111_1_.getTotalWorldTime()));
+            var6.add(new BlockRedstoneTorch.Toggle(p_150111_2_, p_150111_3_, p_150111_4_, p_150111_1_.getTotalWorldTime()));
         }
 
         int var7 = 0;
 
         for (int var8 = 0; var8 < var6.size(); ++var8)
         {
-            Toggle var9 = (Toggle)var6.get(var8);
+            BlockRedstoneTorch.Toggle var9 = (BlockRedstoneTorch.Toggle)var6.get(var8);
 
             if (var9.field_150847_a == p_150111_2_ && var9.field_150845_b == p_150111_3_ && var9.field_150846_c == p_150111_4_)
             {
@@ -121,7 +121,7 @@ public class BlockRedstoneTorch extends BlockTorch
         boolean var6 = this.func_150110_m(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
         List var7 = (List)field_150112_b.get(p_149674_1_);
 
-        while (var7 != null && !var7.isEmpty() && p_149674_1_.getTotalWorldTime() - ((Toggle)var7.get(0)).field_150844_d > 60L)
+        while (var7 != null && !var7.isEmpty() && p_149674_1_.getTotalWorldTime() - ((BlockRedstoneTorch.Toggle)var7.get(0)).field_150844_d > 60L)
         {
             var7.remove(0);
         }

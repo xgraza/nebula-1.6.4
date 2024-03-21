@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Callable;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.player.EventWaterPush;
+import nebula.client.listener.event.render.weather.EventRainStrength;
+import nebula.client.listener.event.render.weather.EventThunderStrength;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.block.BlockLiquid;
@@ -2381,7 +2386,7 @@ public abstract class World implements IBlockAccess
                 }
             }
 
-            if (var11.lengthVector() > 0.0D && par3Entity.isPushedByWater())
+            if (var11.lengthVector() > 0.0D && par3Entity.isPushedByWater() && !Nebula.BUS.dispatch(new EventWaterPush(par3Entity)))
             {
                 var11 = var11.normalize();
                 double var18 = 0.014D;
@@ -3826,7 +3831,10 @@ public abstract class World implements IBlockAccess
 
     public float getWeightedThunderStrength(float par1)
     {
-        return (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * par1) * this.getRainStrength(par1);
+        float strength = (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * par1) * this.getRainStrength(par1);
+        EventThunderStrength event = new EventThunderStrength(strength);
+        Nebula.BUS.dispatch(event);
+        return event.strength();
     }
 
     /**
@@ -3843,7 +3851,10 @@ public abstract class World implements IBlockAccess
      */
     public float getRainStrength(float par1)
     {
-        return this.prevRainingStrength + (this.rainingStrength - this.prevRainingStrength) * par1;
+        float strength = this.prevRainingStrength + (this.rainingStrength - this.prevRainingStrength) * par1;
+        EventRainStrength event = new EventRainStrength(strength);
+        Nebula.BUS.dispatch(event);
+        return event.strength();
     }
 
     /**

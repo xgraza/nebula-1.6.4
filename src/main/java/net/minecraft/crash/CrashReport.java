@@ -131,7 +131,7 @@ public class CrashReport
                     }
                 }
 
-                return String.format("%d total; %s", new Object[] {Integer.valueOf(var3), var4.toString()});
+                return String.format("%d total; %s", var3, var4.toString());
             }
         });
         this.theReportCategory.addCrashSectionCallable("AABB Pool Size", new Callable()
@@ -159,8 +159,8 @@ public class CrashReport
 
         if (Reflector.FMLCommonHandler_enhanceCrashReport.exists())
         {
-            Object instance = Reflector.call(Reflector.FMLCommonHandler_instance, new Object[0]);
-            Reflector.callString(instance, Reflector.FMLCommonHandler_enhanceCrashReport, new Object[] {this, this.theReportCategory});
+            Object instance = Reflector.call(Reflector.FMLCommonHandler_instance);
+            Reflector.callString(instance, Reflector.FMLCommonHandler_enhanceCrashReport, this, this.theReportCategory);
         }
     }
 

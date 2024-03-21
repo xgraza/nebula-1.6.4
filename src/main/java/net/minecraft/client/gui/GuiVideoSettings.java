@@ -80,9 +80,6 @@ public class GuiVideoSettings extends GuiScreenOF
         this.buttonList.add(new GuiOptionButton(222, var6, y, Lang.get("of.options.other")));
         y += 21;
         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11, I18n.format("gui.done", new Object[0])));
-
-        this.buttonList.add(new GuiButton(420, this.width / 2 - 100, this.height / 6 + 168 + 32, "Quick Configure"));
-
     }
 
     protected void actionPerformed(GuiButton button)
@@ -114,20 +111,6 @@ public class GuiVideoSettings extends GuiScreenOF
             {
                 this.mc.gameSettings.saveOptions();
                 this.mc.displayGuiScreen(this.parentGuiScreen);
-            }
-            else if (button.id == 420) {
-                System.out.println("put my glasses on, i cant see these bitches");
-
-                // mc.gameSettings.fovSetting = 109.0f;
-                mc.gameSettings.guiScale = 2;
-                mc.gameSettings.particleSetting = 0;
-                mc.gameSettings.advancedItemTooltips = true;
-                mc.gameSettings.clouds = false;
-                mc.gameSettings.fboEnable = true;
-                mc.gameSettings.viewBobbing = false;
-                mc.gameSettings.ofFastMath = true;
-                mc.gameSettings.ofFastRender = true;
-
             }
 
             if (this.guiGameSettings.guiScale != guiScale)

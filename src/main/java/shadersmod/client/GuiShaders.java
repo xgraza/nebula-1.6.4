@@ -112,7 +112,7 @@ public class GuiShaders extends GuiScreen
                 float var12;
                 float[] var14;
 
-                switch (NamelessClass1337586178.$SwitchMap$shadersmod$client$EnumShaderOption[var11.getEnumShaderOption().ordinal()])
+                switch (GuiShaders.NamelessClass917592510.$SwitchMap$shadersmod$client$EnumShaderOption[var11.getEnumShaderOption().ordinal()])
                 {
                     case 1:
                         Shaders.nextAntialiasingLevel();
@@ -453,7 +453,7 @@ public class GuiShaders extends GuiScreen
         return osName.contains("win") ? 1 : (osName.contains("mac") ? 2 : (osName.contains("solaris") ? 3 : (osName.contains("sunos") ? 3 : (osName.contains("linux") ? 4 : (osName.contains("unix") ? 4 : 0)))));
     }
 
-    static class NamelessClass1337586178
+    static class NamelessClass917592510
     {
         static final int[] $SwitchMap$shadersmod$client$EnumShaderOption = new int[EnumShaderOption.values().length];
 

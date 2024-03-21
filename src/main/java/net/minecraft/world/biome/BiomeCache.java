@@ -30,16 +30,16 @@ public class BiomeCache
     /**
      * Returns a biome cache block at location specified.
      */
-    public Block getBiomeCacheBlock(int par1, int par2)
+    public BiomeCache.Block getBiomeCacheBlock(int par1, int par2)
     {
         par1 >>= 4;
         par2 >>= 4;
         long var3 = (long)par1 & 4294967295L | ((long)par2 & 4294967295L) << 32;
-        Block var5 = (Block)this.cacheMap.getValueByKey(var3);
+        BiomeCache.Block var5 = (BiomeCache.Block)this.cacheMap.getValueByKey(var3);
 
         if (var5 == null)
         {
-            var5 = new Block(par1, par2);
+            var5 = new BiomeCache.Block(par1, par2);
             this.cacheMap.add(var3, var5);
             this.cache.add(var5);
         }
@@ -70,7 +70,7 @@ public class BiomeCache
 
             for (int var5 = 0; var5 < this.cache.size(); ++var5)
             {
-                Block var6 = (Block)this.cache.get(var5);
+                BiomeCache.Block var6 = (BiomeCache.Block)this.cache.get(var5);
                 long var7 = var1 - var6.lastAccessTime;
 
                 if (var7 > 30000L || var7 < 0L)

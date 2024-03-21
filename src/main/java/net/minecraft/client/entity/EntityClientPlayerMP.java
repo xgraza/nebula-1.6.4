@@ -1,5 +1,10 @@
 package net.minecraft.client.entity;
 
+import nebula.client.Nebula;
+import nebula.client.listener.event.EventStage;
+import nebula.client.listener.event.player.EventMoveUpdate;
+import nebula.client.listener.event.player.EventMultiUpdate;
+import nebula.client.listener.event.player.EventUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -22,8 +27,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
-import yzy.szn.impl.event.EventUpdate;
-import yzy.szn.launcher.YZY;
 
 public class EntityClientPlayerMP extends EntityPlayerSP
 {
@@ -33,7 +36,6 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     /** Old Minimum Y of the bounding box */
     private double oldMinY;
-    private double oldPosY;
     private double oldPosZ;
     private float oldRotationYaw;
     private float oldRotationPitch;
@@ -42,8 +44,8 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     private boolean wasOnGround;
 
     /** should the player stop sneaking? */
-    private boolean shouldStopSneaking;
-    private boolean wasSneaking;
+    private boolean serverSneaking;
+    private boolean serverSprinting;
 
     /**
      * Counter used to ensure that the server sends a move packet (Packet11, 12 or 13) to the client at least once a
@@ -96,7 +98,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     {
         if (this.worldObj.blockExists(MathHelper.floor_double(this.posX), 0, MathHelper.floor_double(this.posZ)))
         {
-            YZY.BUS.dispatch(new EventUpdate());
+            Nebula.BUS.dispatch(new EventUpdate());
             super.onUpdate();
 
             if (this.isRiding())
@@ -107,6 +109,63 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             else
             {
                 this.sendMotionUpdates();
+
+                EventMultiUpdate event = new EventMultiUpdate();
+                Nebula.BUS.dispatch(event);
+
+                if (event.updates() > 1) {
+
+                    for (int i = 0; i < event.updates(); ++i) {
+                        int oldItemInUse = itemInUseCount;
+                        int oldHurtTime = hurtTime;
+                        float oldPSwingPro = prevSwingProgress;
+                        float oldSwingPro = swingProgress;
+                        int oldSwingProI = swingProgressInt;
+                        boolean oldISSwing = isSwingInProgress;
+                        float oldYaw = rotationYaw;
+                        float oldPYaw = prevRotationYaw;
+                        float oldYawOff = renderYawOffset;
+                        float oldPYawOff = prevRenderYawOffset;
+                        float oldYawHead = rotationYawHead;
+                        float oldPYawHead = prevRotationYawHead;
+                        float oldCamYaw = cameraYaw;
+                        float oldPCamYaw = prevCameraYaw;
+                        float oldRArmYaw = renderArmYaw;
+                        float oldPRArmYaw = prevRenderArmYaw;
+                        float oldRenderArmP = renderArmPitch;
+                        float oldPRenderArmP = prevRenderArmPitch;
+                        float oldDistWalkedM = distanceWalkedModified;
+                        float oldPDistWalkedM = prevDistanceWalkedModified;
+                        float oldLimbSwingAmount = limbSwingAmount;
+                        float oldPLimbSwingAmount = prevLimbSwingAmount;
+                        float oldLimbSwing = limbSwing;
+                        super.onUpdate();
+                        itemInUseCount = oldItemInUse;
+                        hurtTime = oldHurtTime;
+                        prevSwingProgress = oldPSwingPro;
+                        swingProgress = oldSwingPro;
+                        swingProgressInt = oldSwingProI;
+                        isSwingInProgress = oldISSwing;
+                        rotationYaw = oldYaw;
+                        prevRotationYaw = oldPYaw;
+                        renderYawOffset = oldYawOff;
+                        prevRenderYawOffset = oldPYawOff;
+                        rotationYawHead = oldYawHead;
+                        prevRotationYawHead = oldPYawHead;
+                        cameraYaw = oldCamYaw;
+                        prevCameraYaw = oldPCamYaw;
+                        renderArmYaw = oldRArmYaw;
+                        prevRenderArmYaw = oldPRArmYaw;
+                        renderArmPitch = oldRenderArmP;
+                        prevRenderArmPitch = oldPRenderArmP;
+                        distanceWalkedModified = oldDistWalkedM;
+                        prevDistanceWalkedModified = oldPDistWalkedM;
+                        limbSwingAmount = oldLimbSwingAmount;
+                        prevLimbSwingAmount = oldPLimbSwingAmount;
+                        limbSwing = oldLimbSwing;
+                        sendMotionUpdates();
+                    }
+                }
             }
         }
     }
@@ -116,85 +175,69 @@ public class EntityClientPlayerMP extends EntityPlayerSP
      */
     public void sendMotionUpdates()
     {
-        boolean var1 = this.isSprinting();
+        EventMoveUpdate event = new EventMoveUpdate(EventStage.PRE,
+          posX, boundingBox.minY, posY, posZ,
+          rotationYaw, rotationPitch, onGround);
+        if (Nebula.BUS.dispatch(event)) return;
 
-        if (var1 != this.wasSneaking)
-        {
-            if (var1)
-            {
-                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, 4));
-            }
-            else
-            {
-                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, 5));
-            }
-
-            this.wasSneaking = var1;
+        if (isSprinting() != serverSprinting) {
+            sendQueue.addToSendQueue(new C0BPacketEntityAction(
+              this, isSprinting() ? 4 : 5));
+            serverSprinting = isSprinting();
         }
 
-        boolean var2 = this.isSneaking();
-
-        if (var2 != this.shouldStopSneaking)
-        {
-            if (var2)
-            {
-                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, 1));
-            }
-            else
-            {
-                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, 2));
-            }
-
-            this.shouldStopSneaking = var2;
+        if (isSneaking() != serverSneaking) {
+            sendQueue.addToSendQueue(new C0BPacketEntityAction(
+              this, isSneaking() ? 1 : 2));
+            serverSneaking = isSneaking();
         }
 
-        double var3 = this.posX - this.oldPosX;
-        double var5 = this.boundingBox.minY - this.oldMinY;
-        double var7 = this.posZ - this.oldPosZ;
-        double var9 = (double)(this.rotationYaw - this.oldRotationYaw);
-        double var11 = (double)(this.rotationPitch - this.oldRotationPitch);
-        boolean var13 = var3 * var3 + var5 * var5 + var7 * var7 > 9.0E-4D || this.ticksSinceMovePacket >= 20;
-        boolean var14 = var9 != 0.0D || var11 != 0.0D;
+        double diffX = event.x() - oldPosX;
+        double diffY = event.y() - oldMinY;
+        double diffZ = event.z() - oldPosZ;
+        boolean moved = diffX * diffX + diffY * diffY + diffZ * diffZ > 9.0E-4D || ticksSinceMovePacket >= 20;
 
-        if (this.ridingEntity != null)
-        {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
-            var13 = false;
-        }
-        else if (var13 && var14)
-        {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, this.boundingBox.minY, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround));
-        }
-        else if (var13)
-        {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(this.posX, this.boundingBox.minY, this.posY, this.posZ, this.onGround));
-        }
-        else if (var14)
-        {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
-        }
-        else
-        {
-            this.sendQueue.addToSendQueue(new C03PacketPlayer(this.onGround));
+        float diffYaw = event.yaw() - oldRotationYaw;
+        float diffPitch = event.pitch() - oldRotationPitch;
+        boolean rotated = diffYaw != 0.0f || diffPitch != 0.0f;
+
+        if (ridingEntity != null) {
+            sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(
+              motionX, -999.0, -999.0, motionZ,
+              event.yaw(), event.pitch(), event.ground()));
+            moved = false;
+        } else if (moved && rotated) {
+            sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(
+              event.x(), event.y(), event.stance(), event.z(),
+              event.yaw(), event.pitch(), event.ground()));
+        } else if (moved) {
+            sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
+              event.x(), event.y(), event.stance(), event.z(), event.ground()));
+        } else if (rotated) {
+            sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(
+              event.yaw(), event.pitch(), event.ground()));
+        } else {
+            sendQueue.addToSendQueue(new C03PacketPlayer(event.ground()));
         }
 
-        ++this.ticksSinceMovePacket;
-        this.wasOnGround = this.onGround;
+        ++ticksSinceMovePacket;
+        wasOnGround = event.ground();
 
-        if (var13)
-        {
-            this.oldPosX = this.posX;
-            this.oldMinY = this.boundingBox.minY;
-            this.oldPosY = this.posY;
-            this.oldPosZ = this.posZ;
-            this.ticksSinceMovePacket = 0;
+        if (moved) {
+            oldPosX = event.x();
+            oldMinY = event.y();
+            oldPosZ = event.z();
+            ticksSinceMovePacket = 0;
         }
 
-        if (var14)
-        {
-            this.oldRotationYaw = this.rotationYaw;
-            this.oldRotationPitch = this.rotationPitch;
+        if (rotated) {
+            oldRotationYaw = event.yaw();
+            oldRotationPitch = event.pitch();
         }
+
+        Nebula.BUS.dispatch(new EventMoveUpdate(EventStage.POST,
+          posX, boundingBox.minY, posY, posZ,
+          rotationYaw, rotationPitch, onGround));
     }
 
     /**
@@ -226,6 +269,10 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     public void swingItem()
     {
         super.swingItem();
+        this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
+    }
+
+    public void swingSilent() {
         this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
     }
 

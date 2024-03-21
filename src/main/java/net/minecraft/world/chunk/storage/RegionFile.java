@@ -184,7 +184,7 @@ public class RegionFile
      */
     public DataOutputStream getChunkDataOutputStream(int par1, int par2)
     {
-        return this.outOfBounds(par1, par2) ? null : new DataOutputStream(new DeflaterOutputStream(new ChunkBuffer(par1, par2)));
+        return this.outOfBounds(par1, par2) ? null : new DataOutputStream(new DeflaterOutputStream(new RegionFile.ChunkBuffer(par1, par2)));
     }
 
     /**

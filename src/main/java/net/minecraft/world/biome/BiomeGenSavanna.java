@@ -16,7 +16,7 @@ public class BiomeGenSavanna extends BiomeGenBase
     protected BiomeGenSavanna(int p_i45383_1_)
     {
         super(p_i45383_1_);
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityHorse.class, 1, 2, 6));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityHorse.class, 1, 2, 6));
         this.theBiomeDecorator.treesPerChunk = 1;
         this.theBiomeDecorator.flowersPerChunk = 4;
         this.theBiomeDecorator.grassPerChunk = 20;
@@ -29,7 +29,7 @@ public class BiomeGenSavanna extends BiomeGenBase
 
     protected BiomeGenBase func_150566_k()
     {
-        Mutated var1 = new Mutated(this.biomeID + 128, this);
+        BiomeGenSavanna.Mutated var1 = new BiomeGenSavanna.Mutated(this.biomeID + 128, this);
         var1.temperature = (this.temperature + 1.0F) * 0.5F;
         var1.minHeight = this.minHeight * 0.5F + 0.3F;
         var1.maxHeight = this.maxHeight * 0.5F + 1.2F;

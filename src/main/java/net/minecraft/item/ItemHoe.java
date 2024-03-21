@@ -9,10 +9,10 @@ import net.minecraft.world.World;
 
 public class ItemHoe extends Item
 {
-    protected ToolMaterial theToolMaterial;
+    protected Item.ToolMaterial theToolMaterial;
     private static final String __OBFID = "CL_00000039";
 
-    public ItemHoe(ToolMaterial p_i45343_1_)
+    public ItemHoe(Item.ToolMaterial p_i45343_1_)
     {
         this.theToolMaterial = p_i45343_1_;
         this.maxStackSize = 1;

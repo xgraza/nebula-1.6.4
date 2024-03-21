@@ -12,7 +12,7 @@ public class ServerSelectionList extends GuiListExtended
     private final GuiMultiplayer field_148200_k;
     private final List field_148198_l = Lists.newArrayList();
     private final List field_148199_m = Lists.newArrayList();
-    private final IGuiListEntry field_148196_n = new ServerListEntryLanScan();
+    private final GuiListExtended.IGuiListEntry field_148196_n = new ServerListEntryLanScan();
     private int field_148197_o = -1;
     private static final String __OBFID = "CL_00000819";
 
@@ -22,11 +22,11 @@ public class ServerSelectionList extends GuiListExtended
         this.field_148200_k = p_i45049_1_;
     }
 
-    public IGuiListEntry func_148180_b(int p_148180_1_)
+    public GuiListExtended.IGuiListEntry func_148180_b(int p_148180_1_)
     {
         if (p_148180_1_ < this.field_148198_l.size())
         {
-            return (IGuiListEntry)this.field_148198_l.get(p_148180_1_);
+            return (GuiListExtended.IGuiListEntry)this.field_148198_l.get(p_148180_1_);
         }
         else
         {
@@ -39,7 +39,7 @@ public class ServerSelectionList extends GuiListExtended
             else
             {
                 --p_148180_1_;
-                return (IGuiListEntry)this.field_148199_m.get(p_148180_1_);
+                return (GuiListExtended.IGuiListEntry)this.field_148199_m.get(p_148180_1_);
             }
         }
     }

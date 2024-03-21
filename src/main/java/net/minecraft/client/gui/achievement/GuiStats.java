@@ -33,10 +33,10 @@ public class GuiStats extends GuiScreen implements IProgressMeter
     private static RenderItem field_146544_g = new RenderItem();
     protected GuiScreen field_146549_a;
     protected String field_146542_f = "Select world";
-    private StatsGeneral field_146550_h;
-    private StatsItem field_146551_i;
-    private StatsBlock field_146548_r;
-    private StatsMobsList field_146547_s;
+    private GuiStats.StatsGeneral field_146550_h;
+    private GuiStats.StatsItem field_146551_i;
+    private GuiStats.StatsBlock field_146548_r;
+    private GuiStats.StatsMobsList field_146547_s;
     private StatFileWriter field_146546_t;
     private GuiSlot field_146545_u;
     private boolean field_146543_v = true;
@@ -138,13 +138,13 @@ public class GuiStats extends GuiScreen implements IProgressMeter
     {
         if (this.field_146543_v)
         {
-            this.field_146550_h = new StatsGeneral();
+            this.field_146550_h = new GuiStats.StatsGeneral();
             this.field_146550_h.registerScrollButtons(1, 1);
-            this.field_146551_i = new StatsItem();
+            this.field_146551_i = new GuiStats.StatsItem();
             this.field_146551_i.registerScrollButtons(1, 1);
-            this.field_146548_r = new StatsBlock();
+            this.field_146548_r = new GuiStats.StatsBlock();
             this.field_146548_r.registerScrollButtons(1, 1);
-            this.field_146547_s = new StatsMobsList();
+            this.field_146547_s = new GuiStats.StatsMobsList();
             this.field_146547_s.registerScrollButtons(1, 1);
             this.field_146545_u = this.field_146550_h;
             this.func_146541_h();
@@ -192,7 +192,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
         var9.draw();
     }
 
-    class StatsBlock extends Stats
+    class StatsBlock extends GuiStats.Stats
     {
         private static final String __OBFID = "CL_00000724";
 
@@ -629,7 +629,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
         }
     }
 
-    class StatsItem extends Stats
+    class StatsItem extends GuiStats.Stats
     {
         private static final String __OBFID = "CL_00000727";
 

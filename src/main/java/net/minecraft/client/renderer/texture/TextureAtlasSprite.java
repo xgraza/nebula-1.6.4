@@ -361,18 +361,15 @@ public class TextureAtlasSprite implements IIcon
                     var7.addCrashSectionCallable("Frame sizes", new Callable()
                     {
                         private static final String __OBFID = "CL_00001063";
-                        public String call()
-                        {
+                        public String call() {
                             StringBuilder var1 = new StringBuilder();
                             int[][] var2 = var4;
                             int var3 = var2.length;
 
-                            for (int var4x = 0; var4x < var3; ++var4x)
-                            {
+                            for (int var4x = 0; var4x < var3; ++var4x) {
                                 int[] var5 = var2[var4x];
 
-                                if (var1.length() > 0)
-                                {
+                                if (var1.length() > 0) {
                                     var1.append(", ");
                                 }
 

@@ -114,7 +114,7 @@ public class MapData extends WorldSavedData
     {
         if (!this.playersHashMap.containsKey(par1EntityPlayer))
         {
-            MapInfo var3 = new MapInfo(par1EntityPlayer);
+            MapData.MapInfo var3 = new MapData.MapInfo(par1EntityPlayer);
             this.playersHashMap.put(par1EntityPlayer, var3);
             this.playersArrayList.add(var3);
         }
@@ -126,7 +126,7 @@ public class MapData extends WorldSavedData
 
         for (int var5 = 0; var5 < this.playersArrayList.size(); ++var5)
         {
-            MapInfo var4 = (MapInfo)this.playersArrayList.get(var5);
+            MapData.MapInfo var4 = (MapData.MapInfo)this.playersArrayList.get(var5);
 
             if (!var4.entityplayerObj.isDead && (var4.entityplayerObj.inventory.hasItemStack(par2ItemStack) || par2ItemStack.isOnItemFrame()))
             {
@@ -201,7 +201,7 @@ public class MapData extends WorldSavedData
             }
         }
 
-        this.playersVisibleOnMap.put(par3Str, new MapCoord((byte)par1, var13, var14, var15));
+        this.playersVisibleOnMap.put(par3Str, new MapData.MapCoord((byte)par1, var13, var14, var15));
     }
 
     /**
@@ -209,7 +209,7 @@ public class MapData extends WorldSavedData
      */
     public byte[] getUpdatePacketData(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-        MapInfo var4 = (MapInfo)this.playersHashMap.get(par3EntityPlayer);
+        MapData.MapInfo var4 = (MapData.MapInfo)this.playersHashMap.get(par3EntityPlayer);
         return var4 == null ? null : var4.getPlayersOnMap(par1ItemStack);
     }
 
@@ -223,7 +223,7 @@ public class MapData extends WorldSavedData
 
         for (int var4 = 0; var4 < this.playersArrayList.size(); ++var4)
         {
-            MapInfo var5 = (MapInfo)this.playersArrayList.get(var4);
+            MapData.MapInfo var5 = (MapData.MapInfo)this.playersArrayList.get(var4);
 
             if (var5.field_76209_b[par1] < 0 || var5.field_76209_b[par1] > par2)
             {
@@ -266,7 +266,7 @@ public class MapData extends WorldSavedData
                 byte var8 = par1ArrayOfByte[var2 * 3 + 2];
                 byte var5 = par1ArrayOfByte[var2 * 3 + 3];
                 byte var6 = (byte)(par1ArrayOfByte[var2 * 3 + 1] & 15);
-                this.playersVisibleOnMap.put("icon-" + var2, new MapCoord(var7, var8, var5, var6));
+                this.playersVisibleOnMap.put("icon-" + var2, new MapData.MapCoord(var7, var8, var5, var6));
             }
         }
         else if (par1ArrayOfByte[0] == 2)
@@ -275,13 +275,13 @@ public class MapData extends WorldSavedData
         }
     }
 
-    public MapInfo func_82568_a(EntityPlayer par1EntityPlayer)
+    public MapData.MapInfo func_82568_a(EntityPlayer par1EntityPlayer)
     {
-        MapInfo var2 = (MapInfo)this.playersHashMap.get(par1EntityPlayer);
+        MapData.MapInfo var2 = (MapData.MapInfo)this.playersHashMap.get(par1EntityPlayer);
 
         if (var2 == null)
         {
-            var2 = new MapInfo(par1EntityPlayer);
+            var2 = new MapData.MapInfo(par1EntityPlayer);
             this.playersHashMap.put(par1EntityPlayer, var2);
             this.playersArrayList.add(var2);
         }
@@ -336,7 +336,7 @@ public class MapData extends WorldSavedData
 
                     for (Iterator var4 = MapData.this.playersVisibleOnMap.values().iterator(); var4.hasNext(); ++var3)
                     {
-                        MapCoord var5 = (MapCoord)var4.next();
+                        MapData.MapCoord var5 = (MapData.MapCoord)var4.next();
                         var2[var3 * 3 + 1] = (byte)(var5.iconSize << 4 | var5.iconRotation & 15);
                         var2[var3 * 3 + 2] = var5.centerX;
                         var2[var3 * 3 + 3] = var5.centerZ;

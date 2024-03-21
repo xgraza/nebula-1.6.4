@@ -35,7 +35,7 @@ public class AxisAlignedBB
         return (AABBPool)theAABBLocalPool.get();
     }
 
-    protected AxisAlignedBB(double par1, double par3, double par5, double par7, double par9, double par11)
+    public AxisAlignedBB(double par1, double par3, double par5, double par7, double par9, double par11)
     {
         this.minX = par1;
         this.minY = par3;
@@ -43,6 +43,10 @@ public class AxisAlignedBB
         this.maxX = par7;
         this.maxY = par9;
         this.maxZ = par11;
+    }
+
+    public AxisAlignedBB(Vec3 center, double par3) {
+        this(center.xCoord, center.yCoord, center.zCoord, center.xCoord + par3, center.yCoord + par3, center.zCoord + par3);
     }
 
     /**
@@ -488,6 +492,11 @@ public class AxisAlignedBB
         this.maxX = par1AxisAlignedBB.maxX;
         this.maxY = par1AxisAlignedBB.maxY;
         this.maxZ = par1AxisAlignedBB.maxZ;
+    }
+
+    public Vec3 getCenter() {
+        // from another MCP build from a newer version of mc
+        return new Vec3(Vec3.fakePool, this.minX + (this.maxX - this.minX) * 0.5D, this.minY + (this.maxY - this.minY) * 0.5D, this.minZ + (this.maxZ - this.minZ) * 0.5D);
     }
 
     public String toString()

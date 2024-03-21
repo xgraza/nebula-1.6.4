@@ -34,13 +34,13 @@ public class MapItemRenderer
         this.func_148248_b(p_148250_1_).func_148237_a(p_148250_2_);
     }
 
-    private Instance func_148248_b(MapData p_148248_1_)
+    private MapItemRenderer.Instance func_148248_b(MapData p_148248_1_)
     {
-        Instance var2 = (Instance)this.field_148252_c.get(p_148248_1_.mapName);
+        MapItemRenderer.Instance var2 = (MapItemRenderer.Instance)this.field_148252_c.get(p_148248_1_.mapName);
 
         if (var2 == null)
         {
-            var2 = new Instance(p_148248_1_, null);
+            var2 = new MapItemRenderer.Instance(p_148248_1_, null);
             this.field_148252_c.put(p_148248_1_.mapName, var2);
         }
 
@@ -53,7 +53,7 @@ public class MapItemRenderer
 
         while (var1.hasNext())
         {
-            Instance var2 = (Instance)var1.next();
+            MapItemRenderer.Instance var2 = (MapItemRenderer.Instance)var1.next();
             this.field_148251_b.deleteTexture(var2.field_148240_d);
         }
 

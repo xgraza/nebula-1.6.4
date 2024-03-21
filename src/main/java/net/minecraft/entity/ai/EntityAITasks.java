@@ -30,7 +30,7 @@ public class EntityAITasks
 
     public void addTask(int par1, EntityAIBase par2EntityAIBase)
     {
-        this.taskEntries.add(new EntityAITaskEntry(par1, par2EntityAIBase));
+        this.taskEntries.add(new EntityAITasks.EntityAITaskEntry(par1, par2EntityAIBase));
     }
 
     /**
@@ -42,7 +42,7 @@ public class EntityAITasks
 
         while (var2.hasNext())
         {
-            EntityAITaskEntry var3 = (EntityAITaskEntry)var2.next();
+            EntityAITasks.EntityAITaskEntry var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
             EntityAIBase var4 = var3.action;
 
             if (var4 == par1EntityAIBase)
@@ -62,7 +62,7 @@ public class EntityAITasks
     {
         ArrayList var1 = new ArrayList();
         Iterator var2;
-        EntityAITaskEntry var3;
+        EntityAITasks.EntityAITaskEntry var3;
 
         if (this.tickCount++ % this.tickRate == 0)
         {
@@ -70,7 +70,7 @@ public class EntityAITasks
 
             while (var2.hasNext())
             {
-                var3 = (EntityAITaskEntry)var2.next();
+                var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
                 boolean var4 = this.executingTaskEntries.contains(var3);
 
                 if (var4)
@@ -97,7 +97,7 @@ public class EntityAITasks
 
             while (var2.hasNext())
             {
-                var3 = (EntityAITaskEntry)var2.next();
+                var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
 
                 if (!var3.action.continueExecuting())
                 {
@@ -112,7 +112,7 @@ public class EntityAITasks
 
         while (var2.hasNext())
         {
-            var3 = (EntityAITaskEntry)var2.next();
+            var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
             this.theProfiler.startSection(var3.action.getClass().getSimpleName());
             var3.action.startExecuting();
             this.theProfiler.endSection();
@@ -124,7 +124,7 @@ public class EntityAITasks
 
         while (var2.hasNext())
         {
-            var3 = (EntityAITaskEntry)var2.next();
+            var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
             var3.action.updateTask();
         }
 
@@ -134,7 +134,7 @@ public class EntityAITasks
     /**
      * Determine if a specific AI Task should continue being executed.
      */
-    private boolean canContinue(EntityAITaskEntry par1EntityAITaskEntry)
+    private boolean canContinue(EntityAITasks.EntityAITaskEntry par1EntityAITaskEntry)
     {
         this.theProfiler.startSection("canContinue");
         boolean var2 = par1EntityAITaskEntry.action.continueExecuting();
@@ -146,14 +146,14 @@ public class EntityAITasks
      * Determine if a specific AI Task can be executed, which means that all running higher (= lower int value) priority
      * tasks are compatible with it or all lower priority tasks can be interrupted.
      */
-    private boolean canUse(EntityAITaskEntry par1EntityAITaskEntry)
+    private boolean canUse(EntityAITasks.EntityAITaskEntry par1EntityAITaskEntry)
     {
         this.theProfiler.startSection("canUse");
         Iterator var2 = this.taskEntries.iterator();
 
         while (var2.hasNext())
         {
-            EntityAITaskEntry var3 = (EntityAITaskEntry)var2.next();
+            EntityAITasks.EntityAITaskEntry var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
 
             if (var3 != par1EntityAITaskEntry)
             {
@@ -180,7 +180,7 @@ public class EntityAITasks
     /**
      * Returns whether two EntityAITaskEntries can be executed concurrently
      */
-    private boolean areTasksCompatible(EntityAITaskEntry par1EntityAITaskEntry, EntityAITaskEntry par2EntityAITaskEntry)
+    private boolean areTasksCompatible(EntityAITasks.EntityAITaskEntry par1EntityAITaskEntry, EntityAITasks.EntityAITaskEntry par2EntityAITaskEntry)
     {
         return (par1EntityAITaskEntry.action.getMutexBits() & par2EntityAITaskEntry.action.getMutexBits()) == 0;
     }

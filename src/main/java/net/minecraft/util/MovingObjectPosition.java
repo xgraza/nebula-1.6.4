@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 public class MovingObjectPosition
 {
     /** What type of ray trace hit was this? 0 = block, 1 = entity */
-    public MovingObjectType typeOfHit;
+    public MovingObjectPosition.MovingObjectType typeOfHit;
 
     /** x coordinate of the block ray traced against */
     public int blockX;
@@ -36,7 +36,7 @@ public class MovingObjectPosition
 
     public MovingObjectPosition(int p_i45481_1_, int p_i45481_2_, int p_i45481_3_, int p_i45481_4_, Vec3 p_i45481_5_, boolean p_i45481_6_)
     {
-        this.typeOfHit = p_i45481_6_ ? MovingObjectType.BLOCK : MovingObjectType.MISS;
+        this.typeOfHit = p_i45481_6_ ? MovingObjectPosition.MovingObjectType.BLOCK : MovingObjectPosition.MovingObjectType.MISS;
         this.blockX = p_i45481_1_;
         this.blockY = p_i45481_2_;
         this.blockZ = p_i45481_3_;
@@ -51,7 +51,7 @@ public class MovingObjectPosition
 
     public MovingObjectPosition(Entity p_i45482_1_, Vec3 p_i45482_2_)
     {
-        this.typeOfHit = MovingObjectType.ENTITY;
+        this.typeOfHit = MovingObjectPosition.MovingObjectType.ENTITY;
         this.entityHit = p_i45482_1_;
         this.hitVec = p_i45482_2_;
     }
@@ -67,7 +67,7 @@ public class MovingObjectPosition
         BLOCK("BLOCK", 1),
         ENTITY("ENTITY", 2);
 
-        private static final MovingObjectType[] $VALUES = new MovingObjectType[]{MISS, BLOCK, ENTITY};
+        private static final MovingObjectPosition.MovingObjectType[] $VALUES = new MovingObjectPosition.MovingObjectType[]{MISS, BLOCK, ENTITY};
         private static final String __OBFID = "CL_00000611";
 
         private MovingObjectType(String par1Str, int par2) {}

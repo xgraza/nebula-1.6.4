@@ -22,6 +22,8 @@ import shadersmod.client.Shaders;
 
 public abstract class Render
 {
+    public static boolean renderShadow = true;
+
     private static final ResourceLocation shadowTextures = new ResourceLocation("textures/misc/shadow.png");
     protected RenderManager renderManager;
     protected RenderBlocks field_147909_c = new RenderBlocks();
@@ -124,6 +126,8 @@ public abstract class Render
      */
     private void renderShadow(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
+        if (!renderShadow) return;
+
         if (!Config.isShaders() || !Shaders.shouldSkipDefaultShadow)
         {
             GL11.glEnable(GL11.GL_BLEND);

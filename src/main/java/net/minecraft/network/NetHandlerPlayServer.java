@@ -756,35 +756,35 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     {
         this.playerEntity.func_143004_u();
 
-        if (p_147357_1_.func_149513_d() == 1)
+        if (p_147357_1_.getAction() == 1)
         {
             this.playerEntity.setSneaking(true);
         }
-        else if (p_147357_1_.func_149513_d() == 2)
+        else if (p_147357_1_.getAction() == 2)
         {
             this.playerEntity.setSneaking(false);
         }
-        else if (p_147357_1_.func_149513_d() == 4)
+        else if (p_147357_1_.getAction() == 4)
         {
             this.playerEntity.setSprinting(true);
         }
-        else if (p_147357_1_.func_149513_d() == 5)
+        else if (p_147357_1_.getAction() == 5)
         {
             this.playerEntity.setSprinting(false);
         }
-        else if (p_147357_1_.func_149513_d() == 3)
+        else if (p_147357_1_.getAction() == 3)
         {
             this.playerEntity.wakeUpPlayer(false, true, true);
             this.hasMoved = false;
         }
-        else if (p_147357_1_.func_149513_d() == 6)
+        else if (p_147357_1_.getAction() == 6)
         {
             if (this.playerEntity.ridingEntity != null && this.playerEntity.ridingEntity instanceof EntityHorse)
             {
                 ((EntityHorse)this.playerEntity.ridingEntity).setJumpPower(p_147357_1_.func_149512_e());
             }
         }
-        else if (p_147357_1_.func_149513_d() == 7 && this.playerEntity.ridingEntity != null && this.playerEntity.ridingEntity instanceof EntityHorse)
+        else if (p_147357_1_.getAction() == 7 && this.playerEntity.ridingEntity != null && this.playerEntity.ridingEntity instanceof EntityHorse)
         {
             ((EntityHorse)this.playerEntity.ridingEntity).openGUI(this.playerEntity);
         }
@@ -840,7 +840,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         this.playerEntity.func_143004_u();
         C16PacketClientStatus.EnumState var2 = p_147342_1_.func_149435_c();
 
-        switch (SwitchEnumState.field_151290_a[var2.ordinal()])
+        switch (NetHandlerPlayServer.SwitchEnumState.field_151290_a[var2.ordinal()])
         {
             case 1:
                 if (this.playerEntity.playerConqueredTheEnd)
@@ -955,7 +955,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             ItemStack var3 = p_147344_1_.func_149625_d();
             boolean var4 = p_147344_1_.func_149627_c() >= 1 && p_147344_1_.func_149627_c() < 36 + InventoryPlayer.getHotbarSize();
             boolean var5 = var3 == null || var3.getItem() != null;
-            boolean var6 = var3 == null || var3.getItemDamage() >= 0 && var3.stackSize <= 64 && var3.stackSize > 0;
+            //boolean var6 = var3 == null || var3.getItemDamage() >= 0 && var3.stackSize <= 64 && var3.stackSize > 0;
+            boolean var6 = true;
 
             if (var4 && var5 && var6)
             {

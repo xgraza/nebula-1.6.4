@@ -16,7 +16,7 @@ public class MovingSoundMinecartRiding extends MovingSound
         super(new ResourceLocation("minecraft:minecart.inside"));
         this.field_147672_k = p_i45106_1_;
         this.field_147671_l = p_i45106_2_;
-        this.field_147666_i = AttenuationType.NONE;
+        this.field_147666_i = ISound.AttenuationType.NONE;
         this.field_147659_g = true;
         this.field_147665_h = 0;
     }

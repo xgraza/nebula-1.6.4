@@ -39,7 +39,7 @@ public class SoundManager
     private static final Logger logger = LogManager.getLogger();
     private final SoundHandler field_148622_c;
     private final GameSettings field_148619_d;
-    private SoundSystemStarterThread field_148620_e;
+    private SoundManager.SoundSystemStarterThread field_148620_e;
     private boolean field_148617_f;
     private int field_148618_g = 0;
     private final Map field_148629_h = HashBiMap.create();

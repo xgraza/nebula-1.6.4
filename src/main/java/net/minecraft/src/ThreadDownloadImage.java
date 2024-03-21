@@ -33,28 +33,29 @@ public class ThreadDownloadImage extends Thread
             conn.setDoOutput(false);
             conn.connect();
 
-            if (conn.getResponseCode() / 100 == 2)
+            if (conn.getResponseCode() / 100 != 2)
             {
-                BufferedImage var2 = ImageIO.read(conn.getInputStream());
-
-                if (this.imageBuffer != null)
+                if (conn.getErrorStream() != null)
                 {
-                    var2 = this.imageBuffer.parseUserSkin(var2);
+                    Config.readAll(conn.getErrorStream());
                 }
 
-                this.parent.setBufferedImage(var2);
                 return;
             }
 
-            if (conn.getErrorStream() != null)
+            BufferedImage var2 = ImageIO.read(conn.getInputStream());
+
+            if (this.imageBuffer != null)
             {
-                Config.readAll(conn.getErrorStream());
+                var2 = this.imageBuffer.parseUserSkin(var2);
             }
+
+            this.parent.setBufferedImage(var2);
+            return;
         }
         catch (Exception var7)
         {
             System.out.println(var7.getClass().getName() + ": " + var7.getMessage());
-            return;
         }
         finally
         {

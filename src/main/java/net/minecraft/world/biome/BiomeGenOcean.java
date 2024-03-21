@@ -14,9 +14,9 @@ public class BiomeGenOcean extends BiomeGenBase
         this.spawnableCreatureList.clear();
     }
 
-    public TempCategory func_150561_m()
+    public BiomeGenBase.TempCategory func_150561_m()
     {
-        return TempCategory.OCEAN;
+        return BiomeGenBase.TempCategory.OCEAN;
     }
 
     public void func_150573_a(World p_150573_1_, Random p_150573_2_, Block[] p_150573_3_, byte[] p_150573_4_, int p_150573_5_, int p_150573_6_, double p_150573_7_)

@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.player.EventNoClip;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -105,7 +108,7 @@ public abstract class Entity
      */
     public boolean isCollided;
     public boolean velocityChanged;
-    protected boolean isInWeb;
+    public boolean isInWeb;
     public boolean field_70135_K;
 
     /**
@@ -216,7 +219,7 @@ public abstract class Entity
     protected int teleportDirection;
     private boolean invulnerable;
     protected UUID entityUniqueID;
-    public EnumEntitySize myEntitySize;
+    public Entity.EnumEntitySize myEntitySize;
     private static final String __OBFID = "CL_00001533";
 
     public int getEntityId()
@@ -242,7 +245,7 @@ public abstract class Entity
         this.fireResistance = 1;
         this.firstUpdate = true;
         this.entityUniqueID = UUID.randomUUID();
-        this.myEntitySize = EnumEntitySize.SIZE_2;
+        this.myEntitySize = Entity.EnumEntitySize.SIZE_2;
         this.worldObj = par1World;
         this.setPosition(0.0D, 0.0D, 0.0D);
 
@@ -333,27 +336,27 @@ public abstract class Entity
 
         if ((double)var3 < 0.375D)
         {
-            this.myEntitySize = EnumEntitySize.SIZE_1;
+            this.myEntitySize = Entity.EnumEntitySize.SIZE_1;
         }
         else if ((double)var3 < 0.75D)
         {
-            this.myEntitySize = EnumEntitySize.SIZE_2;
+            this.myEntitySize = Entity.EnumEntitySize.SIZE_2;
         }
         else if ((double)var3 < 1.0D)
         {
-            this.myEntitySize = EnumEntitySize.SIZE_3;
+            this.myEntitySize = Entity.EnumEntitySize.SIZE_3;
         }
         else if ((double)var3 < 1.375D)
         {
-            this.myEntitySize = EnumEntitySize.SIZE_4;
+            this.myEntitySize = Entity.EnumEntitySize.SIZE_4;
         }
         else if ((double)var3 < 1.75D)
         {
-            this.myEntitySize = EnumEntitySize.SIZE_5;
+            this.myEntitySize = Entity.EnumEntitySize.SIZE_5;
         }
         else
         {
-            this.myEntitySize = EnumEntitySize.SIZE_6;
+            this.myEntitySize = Entity.EnumEntitySize.SIZE_6;
         }
     }
 
@@ -610,7 +613,7 @@ public abstract class Entity
      */
     public void moveEntity(double par1, double par3, double par5)
     {
-        if (this.noClip)
+        if (this.noClip || Nebula.BUS.dispatch(new EventNoClip(this)))
         {
             this.boundingBox.offset(par1, par3, par5);
             this.posX = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;
@@ -2439,7 +2442,7 @@ public abstract class Entity
         SIZE_5("SIZE_5", 4),
         SIZE_6("SIZE_6", 5);
 
-        private static final EnumEntitySize[] $VALUES = new EnumEntitySize[]{SIZE_1, SIZE_2, SIZE_3, SIZE_4, SIZE_5, SIZE_6};
+        private static final Entity.EnumEntitySize[] $VALUES = new Entity.EnumEntitySize[]{SIZE_1, SIZE_2, SIZE_3, SIZE_4, SIZE_5, SIZE_6};
         private static final String __OBFID = "CL_00001537";
 
         private EnumEntitySize(String par1Str, int par2) {}
@@ -2448,7 +2451,7 @@ public abstract class Entity
         {
             double var3 = par1 - ((double)MathHelper.floor_double(par1) + 0.5D);
 
-            switch (SwitchEnumEntitySize.field_96565_a[this.ordinal()])
+            switch (Entity.SwitchEnumEntitySize.field_96565_a[this.ordinal()])
             {
                 case 1:
                     if (var3 < 0.0D)
@@ -2534,14 +2537,14 @@ public abstract class Entity
 
     static final class SwitchEnumEntitySize
     {
-        static final int[] field_96565_a = new int[EnumEntitySize.values().length];
+        static final int[] field_96565_a = new int[Entity.EnumEntitySize.values().length];
         private static final String __OBFID = "CL_00001536";
 
         static
         {
             try
             {
-                field_96565_a[EnumEntitySize.SIZE_1.ordinal()] = 1;
+                field_96565_a[Entity.EnumEntitySize.SIZE_1.ordinal()] = 1;
             }
             catch (NoSuchFieldError var6)
             {
@@ -2550,7 +2553,7 @@ public abstract class Entity
 
             try
             {
-                field_96565_a[EnumEntitySize.SIZE_2.ordinal()] = 2;
+                field_96565_a[Entity.EnumEntitySize.SIZE_2.ordinal()] = 2;
             }
             catch (NoSuchFieldError var5)
             {
@@ -2559,7 +2562,7 @@ public abstract class Entity
 
             try
             {
-                field_96565_a[EnumEntitySize.SIZE_3.ordinal()] = 3;
+                field_96565_a[Entity.EnumEntitySize.SIZE_3.ordinal()] = 3;
             }
             catch (NoSuchFieldError var4)
             {
@@ -2568,7 +2571,7 @@ public abstract class Entity
 
             try
             {
-                field_96565_a[EnumEntitySize.SIZE_4.ordinal()] = 4;
+                field_96565_a[Entity.EnumEntitySize.SIZE_4.ordinal()] = 4;
             }
             catch (NoSuchFieldError var3)
             {
@@ -2577,7 +2580,7 @@ public abstract class Entity
 
             try
             {
-                field_96565_a[EnumEntitySize.SIZE_5.ordinal()] = 5;
+                field_96565_a[Entity.EnumEntitySize.SIZE_5.ordinal()] = 5;
             }
             catch (NoSuchFieldError var2)
             {
@@ -2586,7 +2589,7 @@ public abstract class Entity
 
             try
             {
-                field_96565_a[EnumEntitySize.SIZE_6.ordinal()] = 6;
+                field_96565_a[Entity.EnumEntitySize.SIZE_6.ordinal()] = 6;
             }
             catch (NoSuchFieldError var1)
             {

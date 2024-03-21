@@ -11,12 +11,12 @@ import net.minecraft.world.World;
 public class C02PacketUseEntity extends Packet
 {
     private int field_149567_a;
-    private Action field_149566_b;
+    private C02PacketUseEntity.Action field_149566_b;
     private static final String __OBFID = "CL_00001357";
 
     public C02PacketUseEntity() {}
 
-    public C02PacketUseEntity(Entity p_i45251_1_, Action p_i45251_2_)
+    public C02PacketUseEntity(Entity p_i45251_1_, C02PacketUseEntity.Action p_i45251_2_)
     {
         this.field_149567_a = p_i45251_1_.getEntityId();
         this.field_149566_b = p_i45251_2_;
@@ -28,7 +28,7 @@ public class C02PacketUseEntity extends Packet
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.field_149567_a = p_148837_1_.readInt();
-        this.field_149566_b = Action.field_151421_c[p_148837_1_.readByte() % Action.field_151421_c.length];
+        this.field_149566_b = C02PacketUseEntity.Action.field_151421_c[p_148837_1_.readByte() % C02PacketUseEntity.Action.field_151421_c.length];
     }
 
     /**
@@ -50,7 +50,7 @@ public class C02PacketUseEntity extends Packet
         return p_149564_1_.getEntityByID(this.field_149567_a);
     }
 
-    public Action func_149565_c()
+    public C02PacketUseEntity.Action func_149565_c()
     {
         return this.field_149566_b;
     }
@@ -64,10 +64,10 @@ public class C02PacketUseEntity extends Packet
     {
         INTERACT("INTERACT", 0, 0),
         ATTACK("ATTACK", 1, 1);
-        private static final Action[] field_151421_c = new Action[values().length];
+        private static final C02PacketUseEntity.Action[] field_151421_c = new C02PacketUseEntity.Action[values().length];
         private final int field_151418_d;
 
-        private static final Action[] $VALUES = new Action[]{INTERACT, ATTACK};
+        private static final C02PacketUseEntity.Action[] $VALUES = new C02PacketUseEntity.Action[]{INTERACT, ATTACK};
         private static final String __OBFID = "CL_00001358";
 
         private Action(String p_i45250_1_, int p_i45250_2_, int p_i45250_3_)
@@ -76,12 +76,12 @@ public class C02PacketUseEntity extends Packet
         }
 
         static {
-            Action[] var0 = values();
+            C02PacketUseEntity.Action[] var0 = values();
             int var1 = var0.length;
 
             for (int var2 = 0; var2 < var1; ++var2)
             {
-                Action var3 = var0[var2];
+                C02PacketUseEntity.Action var3 = var0[var2];
                 field_151421_c[var3.field_151418_d] = var3;
             }
         }

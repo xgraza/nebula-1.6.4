@@ -30,8 +30,13 @@ public class PingResponseHandler extends ChannelInboundHandlerAdapter
 
         try
         {
-            if (var3.readUnsignedByte() == 254)
+            try
             {
+                if (var3.readUnsignedByte() != 254)
+                {
+                    return;
+                }
+
                 InetSocketAddress var5 = (InetSocketAddress)p_channelRead_1_.channel().remoteAddress();
                 MinecraftServer var6 = this.field_151257_b.func_151267_d();
                 int var7 = var3.readableBytes();
@@ -78,12 +83,11 @@ public class PingResponseHandler extends ChannelInboundHandlerAdapter
 
                 var3.release();
                 var4 = false;
-                return;
             }
-        }
-        catch (RuntimeException var14)
-        {
-            return;
+            catch (RuntimeException var14)
+            {
+                ;
+            }
         }
         finally
         {

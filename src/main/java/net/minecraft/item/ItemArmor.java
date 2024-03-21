@@ -75,12 +75,12 @@ public class ItemArmor extends Item
     public final int renderIndex;
 
     /** The EnumArmorMaterial used for this ItemArmor */
-    private final ArmorMaterial material;
+    private final ItemArmor.ArmorMaterial material;
     private IIcon overlayIcon;
     private IIcon emptySlotIcon;
     private static final String __OBFID = "CL_00001766";
 
-    public ItemArmor(ArmorMaterial p_i45325_1_, int p_i45325_2_, int p_i45325_3_)
+    public ItemArmor(ItemArmor.ArmorMaterial p_i45325_1_, int p_i45325_2_, int p_i45325_3_)
     {
         this.material = p_i45325_1_;
         this.armorType = p_i45325_3_;
@@ -113,7 +113,7 @@ public class ItemArmor extends Item
 
     public boolean requiresMultipleRenderPasses()
     {
-        return this.material == ArmorMaterial.CLOTH;
+        return this.material == ItemArmor.ArmorMaterial.CLOTH;
     }
 
     /**
@@ -127,7 +127,7 @@ public class ItemArmor extends Item
     /**
      * Return the armor material for this armor item.
      */
-    public ArmorMaterial getArmorMaterial()
+    public ItemArmor.ArmorMaterial getArmorMaterial()
     {
         return this.material;
     }
@@ -137,7 +137,7 @@ public class ItemArmor extends Item
      */
     public boolean hasColor(ItemStack par1ItemStack)
     {
-        return this.material != ArmorMaterial.CLOTH ? false : (!par1ItemStack.hasTagCompound() ? false : (!par1ItemStack.getTagCompound().hasKey("display", 10) ? false : par1ItemStack.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
+        return this.material != ItemArmor.ArmorMaterial.CLOTH ? false : (!par1ItemStack.hasTagCompound() ? false : (!par1ItemStack.getTagCompound().hasKey("display", 10) ? false : par1ItemStack.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
     }
 
     /**
@@ -145,7 +145,7 @@ public class ItemArmor extends Item
      */
     public int getColor(ItemStack par1ItemStack)
     {
-        if (this.material != ArmorMaterial.CLOTH)
+        if (this.material != ItemArmor.ArmorMaterial.CLOTH)
         {
             return -1;
         }
@@ -178,7 +178,7 @@ public class ItemArmor extends Item
      */
     public void removeColor(ItemStack par1ItemStack)
     {
-        if (this.material == ArmorMaterial.CLOTH)
+        if (this.material == ItemArmor.ArmorMaterial.CLOTH)
         {
             NBTTagCompound var2 = par1ItemStack.getTagCompound();
 
@@ -196,7 +196,7 @@ public class ItemArmor extends Item
 
     public void func_82813_b(ItemStack par1ItemStack, int par2)
     {
-        if (this.material != ArmorMaterial.CLOTH)
+        if (this.material != ItemArmor.ArmorMaterial.CLOTH)
         {
             throw new UnsupportedOperationException("Can\'t dye non-leather!");
         }
@@ -233,7 +233,7 @@ public class ItemArmor extends Item
     {
         super.registerIcons(par1IconRegister);
 
-        if (this.material == ArmorMaterial.CLOTH)
+        if (this.material == ItemArmor.ArmorMaterial.CLOTH)
         {
             this.overlayIcon = par1IconRegister.registerIcon(CLOTH_OVERLAY_NAMES[this.armorType]);
         }
@@ -290,7 +290,7 @@ public class ItemArmor extends Item
         private int[] damageReductionAmountArray;
         private int enchantability;
 
-        private static final ArmorMaterial[] $VALUES = new ArmorMaterial[]{CLOTH, CHAIN, IRON, GOLD, DIAMOND};
+        private static final ItemArmor.ArmorMaterial[] $VALUES = new ItemArmor.ArmorMaterial[]{CLOTH, CHAIN, IRON, GOLD, DIAMOND};
         private static final String __OBFID = "CL_00001768";
 
         private ArmorMaterial(String par1Str, int par2, int par3, int[] par4ArrayOfInteger, int par5)

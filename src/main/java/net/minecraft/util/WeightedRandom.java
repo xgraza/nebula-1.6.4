@@ -14,11 +14,11 @@ public class WeightedRandom
     public static int getTotalWeight(Collection par0Collection)
     {
         int var1 = 0;
-        Item var3;
+        WeightedRandom.Item var3;
 
         for (Iterator var2 = par0Collection.iterator(); var2.hasNext(); var1 += var3.itemWeight)
         {
-            var3 = (Item)var2.next();
+            var3 = (WeightedRandom.Item)var2.next();
         }
 
         return var1;
@@ -27,7 +27,7 @@ public class WeightedRandom
     /**
      * Returns a random choice from the input items, with a total weight value.
      */
-    public static Item getRandomItem(Random par0Random, Collection par1Collection, int par2)
+    public static WeightedRandom.Item getRandomItem(Random par0Random, Collection par1Collection, int par2)
     {
         if (par2 <= 0)
         {
@@ -37,7 +37,7 @@ public class WeightedRandom
         {
             int var3 = par0Random.nextInt(par2);
             Iterator var4 = par1Collection.iterator();
-            Item var5;
+            WeightedRandom.Item var5;
 
             do
             {
@@ -46,7 +46,7 @@ public class WeightedRandom
                     return null;
                 }
 
-                var5 = (Item)var4.next();
+                var5 = (WeightedRandom.Item)var4.next();
                 var3 -= var5.itemWeight;
             }
             while (var3 >= 0);
@@ -58,7 +58,7 @@ public class WeightedRandom
     /**
      * Returns a random choice from the input items.
      */
-    public static Item getRandomItem(Random par0Random, Collection par1Collection)
+    public static WeightedRandom.Item getRandomItem(Random par0Random, Collection par1Collection)
     {
         return getRandomItem(par0Random, par1Collection, getTotalWeight(par1Collection));
     }
@@ -66,15 +66,15 @@ public class WeightedRandom
     /**
      * Returns the total weight of all items in a array.
      */
-    public static int getTotalWeight(Item[] par0ArrayOfWeightedRandomItem)
+    public static int getTotalWeight(WeightedRandom.Item[] par0ArrayOfWeightedRandomItem)
     {
         int var1 = 0;
-        Item[] var2 = par0ArrayOfWeightedRandomItem;
+        WeightedRandom.Item[] var2 = par0ArrayOfWeightedRandomItem;
         int var3 = par0ArrayOfWeightedRandomItem.length;
 
         for (int var4 = 0; var4 < var3; ++var4)
         {
-            Item var5 = var2[var4];
+            WeightedRandom.Item var5 = var2[var4];
             var1 += var5.itemWeight;
         }
 
@@ -84,7 +84,7 @@ public class WeightedRandom
     /**
      * Returns a random choice from the input array of items, with a total weight value.
      */
-    public static Item getRandomItem(Random par0Random, Item[] par1ArrayOfWeightedRandomItem, int par2)
+    public static WeightedRandom.Item getRandomItem(Random par0Random, WeightedRandom.Item[] par1ArrayOfWeightedRandomItem, int par2)
     {
         if (par2 <= 0)
         {
@@ -93,12 +93,12 @@ public class WeightedRandom
         else
         {
             int var3 = par0Random.nextInt(par2);
-            Item[] var4 = par1ArrayOfWeightedRandomItem;
+            WeightedRandom.Item[] var4 = par1ArrayOfWeightedRandomItem;
             int var5 = par1ArrayOfWeightedRandomItem.length;
 
             for (int var6 = 0; var6 < var5; ++var6)
             {
-                Item var7 = var4[var6];
+                WeightedRandom.Item var7 = var4[var6];
                 var3 -= var7.itemWeight;
 
                 if (var3 < 0)
@@ -114,7 +114,7 @@ public class WeightedRandom
     /**
      * Returns a random choice from the input items.
      */
-    public static Item getRandomItem(Random par0Random, Item[] par1ArrayOfWeightedRandomItem)
+    public static WeightedRandom.Item getRandomItem(Random par0Random, WeightedRandom.Item[] par1ArrayOfWeightedRandomItem)
     {
         return getRandomItem(par0Random, par1ArrayOfWeightedRandomItem, getTotalWeight(par1ArrayOfWeightedRandomItem));
     }

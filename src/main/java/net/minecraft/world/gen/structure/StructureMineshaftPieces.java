@@ -24,10 +24,10 @@ public class StructureMineshaftPieces
 
     public static void func_143048_a()
     {
-        MapGenStructureIO.func_143031_a(Corridor.class, "MSCorridor");
-        MapGenStructureIO.func_143031_a(Cross.class, "MSCrossing");
-        MapGenStructureIO.func_143031_a(Room.class, "MSRoom");
-        MapGenStructureIO.func_143031_a(Stairs.class, "MSStairs");
+        MapGenStructureIO.func_143031_a(StructureMineshaftPieces.Corridor.class, "MSCorridor");
+        MapGenStructureIO.func_143031_a(StructureMineshaftPieces.Cross.class, "MSCrossing");
+        MapGenStructureIO.func_143031_a(StructureMineshaftPieces.Room.class, "MSRoom");
+        MapGenStructureIO.func_143031_a(StructureMineshaftPieces.Stairs.class, "MSStairs");
     }
 
     private static StructureComponent getRandomComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -37,29 +37,29 @@ public class StructureMineshaftPieces
 
         if (var7 >= 80)
         {
-            var8 = Cross.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
+            var8 = StructureMineshaftPieces.Cross.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
 
             if (var8 != null)
             {
-                return new Cross(par6, par1Random, var8, par5);
+                return new StructureMineshaftPieces.Cross(par6, par1Random, var8, par5);
             }
         }
         else if (var7 >= 70)
         {
-            var8 = Stairs.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
+            var8 = StructureMineshaftPieces.Stairs.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
 
             if (var8 != null)
             {
-                return new Stairs(par6, par1Random, var8, par5);
+                return new StructureMineshaftPieces.Stairs(par6, par1Random, var8, par5);
             }
         }
         else
         {
-            var8 = Corridor.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
+            var8 = StructureMineshaftPieces.Corridor.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
 
             if (var8 != null)
             {
-                return new Corridor(par6, par1Random, var8, par5);
+                return new StructureMineshaftPieces.Corridor(par6, par1Random, var8, par5);
             }
         }
 

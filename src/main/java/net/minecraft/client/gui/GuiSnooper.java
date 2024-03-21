@@ -16,7 +16,7 @@ public class GuiSnooper extends GuiScreen
     private final java.util.List field_146609_h = new ArrayList();
     private String field_146610_i;
     private String[] field_146607_r;
-    private List field_146606_s;
+    private GuiSnooper.List field_146606_s;
     private GuiButton field_146605_t;
     private static final String __OBFID = "CL_00000714";
 
@@ -70,7 +70,7 @@ public class GuiSnooper extends GuiScreen
             }
         }
 
-        this.field_146606_s = new List();
+        this.field_146606_s = new GuiSnooper.List();
     }
 
     protected void actionPerformed(GuiButton p_146284_1_)

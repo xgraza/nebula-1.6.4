@@ -15,8 +15,8 @@ import net.minecraft.util.JsonUtils;
 public class ServerStatusResponse
 {
     private IChatComponent field_151326_a;
-    private PlayerCountData field_151324_b;
-    private MinecraftProtocolVersionIdentifier field_151325_c;
+    private ServerStatusResponse.PlayerCountData field_151324_b;
+    private ServerStatusResponse.MinecraftProtocolVersionIdentifier field_151325_c;
     private String field_151323_d;
     private static final String __OBFID = "CL_00001385";
 
@@ -30,22 +30,22 @@ public class ServerStatusResponse
         this.field_151326_a = p_151315_1_;
     }
 
-    public PlayerCountData func_151318_b()
+    public ServerStatusResponse.PlayerCountData func_151318_b()
     {
         return this.field_151324_b;
     }
 
-    public void func_151319_a(PlayerCountData p_151319_1_)
+    public void func_151319_a(ServerStatusResponse.PlayerCountData p_151319_1_)
     {
         this.field_151324_b = p_151319_1_;
     }
 
-    public MinecraftProtocolVersionIdentifier func_151322_c()
+    public ServerStatusResponse.MinecraftProtocolVersionIdentifier func_151322_c()
     {
         return this.field_151325_c;
     }
 
-    public void func_151321_a(MinecraftProtocolVersionIdentifier p_151321_1_)
+    public void func_151321_a(ServerStatusResponse.MinecraftProtocolVersionIdentifier p_151321_1_)
     {
         this.field_151325_c = p_151321_1_;
     }
@@ -86,13 +86,13 @@ public class ServerStatusResponse
         {
             private static final String __OBFID = "CL_00001390";
 
-            public MinecraftProtocolVersionIdentifier deserialize(JsonElement p_151309_1_, Type p_151309_2_, JsonDeserializationContext p_151309_3_)
+            public ServerStatusResponse.MinecraftProtocolVersionIdentifier deserialize(JsonElement p_151309_1_, Type p_151309_2_, JsonDeserializationContext p_151309_3_)
             {
                 JsonObject var4 = JsonUtils.getJsonElementAsJsonObject(p_151309_1_, "version");
-                return new MinecraftProtocolVersionIdentifier(JsonUtils.getJsonObjectStringFieldValue(var4, "name"), JsonUtils.getJsonObjectIntegerFieldValue(var4, "protocol"));
+                return new ServerStatusResponse.MinecraftProtocolVersionIdentifier(JsonUtils.getJsonObjectStringFieldValue(var4, "name"), JsonUtils.getJsonObjectIntegerFieldValue(var4, "protocol"));
             }
 
-            public JsonElement serialize(MinecraftProtocolVersionIdentifier p_151310_1_, Type p_151310_2_, JsonSerializationContext p_151310_3_)
+            public JsonElement serialize(ServerStatusResponse.MinecraftProtocolVersionIdentifier p_151310_1_, Type p_151310_2_, JsonSerializationContext p_151310_3_)
             {
                 JsonObject var4 = new JsonObject();
                 var4.addProperty("name", p_151310_1_.func_151303_a());
@@ -102,7 +102,7 @@ public class ServerStatusResponse
 
             public JsonElement serialize(Object par1Obj, Type par2Type, JsonSerializationContext par3JsonSerializationContext)
             {
-                return this.serialize((MinecraftProtocolVersionIdentifier)par1Obj, par2Type, par3JsonSerializationContext);
+                return this.serialize((ServerStatusResponse.MinecraftProtocolVersionIdentifier)par1Obj, par2Type, par3JsonSerializationContext);
             }
         }
     }
@@ -123,12 +123,12 @@ public class ServerStatusResponse
 
             if (var4.has("players"))
             {
-                var5.func_151319_a((PlayerCountData)p_151314_3_.deserialize(var4.get("players"), PlayerCountData.class));
+                var5.func_151319_a((ServerStatusResponse.PlayerCountData)p_151314_3_.deserialize(var4.get("players"), ServerStatusResponse.PlayerCountData.class));
             }
 
             if (var4.has("version"))
             {
-                var5.func_151321_a((MinecraftProtocolVersionIdentifier)p_151314_3_.deserialize(var4.get("version"), MinecraftProtocolVersionIdentifier.class));
+                var5.func_151321_a((ServerStatusResponse.MinecraftProtocolVersionIdentifier)p_151314_3_.deserialize(var4.get("version"), ServerStatusResponse.MinecraftProtocolVersionIdentifier.class));
             }
 
             if (var4.has("favicon"))
@@ -209,10 +209,10 @@ public class ServerStatusResponse
         {
             private static final String __OBFID = "CL_00001387";
 
-            public PlayerCountData deserialize(JsonElement p_151311_1_, Type p_151311_2_, JsonDeserializationContext p_151311_3_)
+            public ServerStatusResponse.PlayerCountData deserialize(JsonElement p_151311_1_, Type p_151311_2_, JsonDeserializationContext p_151311_3_)
             {
                 JsonObject var4 = JsonUtils.getJsonElementAsJsonObject(p_151311_1_, "players");
-                PlayerCountData var5 = new PlayerCountData(JsonUtils.getJsonObjectIntegerFieldValue(var4, "max"), JsonUtils.getJsonObjectIntegerFieldValue(var4, "online"));
+                ServerStatusResponse.PlayerCountData var5 = new ServerStatusResponse.PlayerCountData(JsonUtils.getJsonObjectIntegerFieldValue(var4, "max"), JsonUtils.getJsonObjectIntegerFieldValue(var4, "online"));
 
                 if (JsonUtils.jsonObjectFieldTypeIsArray(var4, "sample"))
                 {
@@ -235,7 +235,7 @@ public class ServerStatusResponse
                 return var5;
             }
 
-            public JsonElement serialize(PlayerCountData p_151312_1_, Type p_151312_2_, JsonSerializationContext p_151312_3_)
+            public JsonElement serialize(ServerStatusResponse.PlayerCountData p_151312_1_, Type p_151312_2_, JsonSerializationContext p_151312_3_)
             {
                 JsonObject var4 = new JsonObject();
                 var4.addProperty("max", Integer.valueOf(p_151312_1_.func_151332_a()));
@@ -261,7 +261,7 @@ public class ServerStatusResponse
 
             public JsonElement serialize(Object par1Obj, Type par2Type, JsonSerializationContext par3JsonSerializationContext)
             {
-                return this.serialize((PlayerCountData)par1Obj, par2Type, par3JsonSerializationContext);
+                return this.serialize((ServerStatusResponse.PlayerCountData)par1Obj, par2Type, par3JsonSerializationContext);
             }
         }
     }

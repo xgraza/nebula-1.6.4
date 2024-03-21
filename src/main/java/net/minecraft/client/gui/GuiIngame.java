@@ -5,6 +5,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.render.EventRender2D;
+import nebula.client.listener.event.render.EventRenderHotbarSlot;
+import nebula.client.listener.event.render.overlay.EventRenderTabPlayerName;
+import nebula.client.module.impl.render.appleskin.AppleSkinModule;
+import nebula.client.util.render.RenderUtils;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -39,8 +46,8 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import yzy.szn.impl.event.EventRender;
-import yzy.szn.launcher.YZY;
+
+import static org.lwjgl.opengl.GL11.glColor4f;
 
 public class GuiIngame extends Gui
 {
@@ -84,6 +91,7 @@ public class GuiIngame extends Gui
     public void renderGameOverlay(float par1, boolean par2, int par3, int par4)
     {
         ScaledResolution var5 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+        RenderUtils.resolution = var5;
         int var6 = var5.getScaledWidth();
         int var7 = var5.getScaledHeight();
         FontRenderer var8 = this.mc.fontRenderer;
@@ -122,12 +130,16 @@ public class GuiIngame extends Gui
 
         if (!this.mc.playerController.enableEverythingIsScrewedUpMode())
         {
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(widgetsTexPath);
             InventoryPlayer var31 = this.mc.thePlayer.inventory;
             this.zLevel = -90.0F;
             this.drawTexturedModalRect(var6 / 2 - 91, var7 - 22, 0, 0, 182, 22);
-            this.drawTexturedModalRect(var6 / 2 - 91 - 1 + var31.currentItem * 20, var7 - 22 - 1, 0, 22, 24, 22);
+
+            EventRenderHotbarSlot event = new EventRenderHotbarSlot(var31.currentItem);
+            Nebula.BUS.dispatch(event);
+
+            this.drawTexturedModalRect(var6 / 2 - 91 - 1 + event.slot() * 20, var7 - 22 - 1, 0, 22, 24, 22);
             this.mc.getTextureManager().bindTexture(icons);
             GL11.glEnable(GL11.GL_BLEND);
             OpenGlHelper.glBlendFunc(775, 769, 1, 0);
@@ -182,7 +194,7 @@ public class GuiIngame extends Gui
         }
 
         var32 = 16777215;
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         var11 = var6 / 2 - 91;
         int var14;
         int var15;
@@ -431,7 +443,7 @@ public class GuiIngame extends Gui
                 var22 = var19 + var21 % var17 * var46;
                 var23 = var47 + var21 / var17 * 9;
                 drawRect(var22, var23, var22 + var46 - 1, var23 + 8, 553648127);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
 
                 if (var21 < var44.size())
@@ -439,6 +451,10 @@ public class GuiIngame extends Gui
                     GuiPlayerInfo var48 = (GuiPlayerInfo)var44.get(var21);
                     ScorePlayerTeam var49 = this.mc.theWorld.getScoreboard().getPlayersTeam(var48.name);
                     String var50 = ScorePlayerTeam.formatPlayerName(var49, var48.name);
+
+                    final EventRenderTabPlayerName event = new EventRenderTabPlayerName(var50);
+                    Nebula.BUS.dispatch(event);
+
                     var8.drawStringWithShadow(var50, var22, var23, 16777215);
 
                     if (var40 != null)
@@ -454,7 +470,7 @@ public class GuiIngame extends Gui
                         }
                     }
 
-                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                     this.mc.getTextureManager().bindTexture(icons);
                     byte var51 = 0;
                     boolean var52 = false;
@@ -492,11 +508,11 @@ public class GuiIngame extends Gui
             }
         }
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
 
-        YZY.BUS.dispatch(new EventRender.Overlay(par1, var5));
+        Nebula.BUS.dispatch(new EventRender2D(var5, par1));
     }
 
     private void func_96136_a(ScoreObjective par1ScoreObjective, int par2, int par3, FontRenderer par4FontRenderer)
@@ -703,11 +719,24 @@ public class GuiIngame extends Gui
         {
             this.mc.mcProfiler.endStartSection("food");
 
+            int render = 0;
+
+            AppleSkinModule appleSkin = Nebula.INSTANCE.module.get(AppleSkinModule.class);
+            if (appleSkin != null && appleSkin.macro().toggled()) {
+                render = (int) (mc.thePlayer.getFoodStats().getSaturationLevel() / 2.0f);
+            }
+
             for (var23 = 0; var23 < 10; ++var23)
             {
                 var35 = var13;
                 var25 = 16;
                 byte var36 = 0;
+
+                if (render > var23) {
+                    glColor4f(0.8f, 0, 0, 1.0f);
+                } else {
+                    glColor4f(1, 1, 1, 1);
+                }
 
                 if (this.mc.thePlayer.isPotionActive(Potion.hunger))
                 {
@@ -849,7 +878,7 @@ public class GuiIngame extends Gui
 
             String var8 = BossStatus.bossName;
             var1.drawStringWithShadow(var8, var3 / 2 - var1.getStringWidth(var8) / 2, var7 - 10, 16777215);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(icons);
         }
     }
@@ -859,7 +888,7 @@ public class GuiIngame extends Gui
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         this.mc.getTextureManager().bindTexture(pumpkinBlurTexPath);
         Tessellator var3 = Tessellator.instance;
@@ -872,7 +901,7 @@ public class GuiIngame extends Gui
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     /**
@@ -896,7 +925,7 @@ public class GuiIngame extends Gui
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
         OpenGlHelper.glBlendFunc(0, 769, 1, 0);
-        GL11.glColor4f(this.prevVignetteBrightness, this.prevVignetteBrightness, this.prevVignetteBrightness, 1.0F);
+        glColor4f(this.prevVignetteBrightness, this.prevVignetteBrightness, this.prevVignetteBrightness, 1.0F);
         this.mc.getTextureManager().bindTexture(vignetteTexPath);
         Tessellator var4 = Tessellator.instance;
         var4.startDrawingQuads();
@@ -907,7 +936,7 @@ public class GuiIngame extends Gui
         var4.draw();
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
     }
 
@@ -924,7 +953,7 @@ public class GuiIngame extends Gui
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, par1);
+        glColor4f(1.0F, 1.0F, 1.0F, par1);
         IIcon var4 = Blocks.portal.getBlockTextureFromSide(1);
         this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
         float var5 = var4.getMinU();
@@ -941,7 +970,7 @@ public class GuiIngame extends Gui
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     /**

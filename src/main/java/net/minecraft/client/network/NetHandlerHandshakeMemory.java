@@ -44,7 +44,7 @@ public class NetHandlerHandshakeMemory implements INetHandlerHandshakeServer
     {
         Validate.validState(p_147232_2_ == EnumConnectionState.LOGIN || p_147232_2_ == EnumConnectionState.STATUS, "Unexpected protocol " + p_147232_2_, new Object[0]);
 
-        switch (SwitchEnumConnectionState.field_151263_a[p_147232_2_.ordinal()])
+        switch (NetHandlerHandshakeMemory.SwitchEnumConnectionState.field_151263_a[p_147232_2_.ordinal()])
         {
             case 1:
                 this.field_147384_b.setNetHandler(new NetHandlerLoginServer(this.field_147385_a, this.field_147384_b));

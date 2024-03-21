@@ -28,7 +28,7 @@ public class GuiFlatPresets extends GuiScreen
     private String field_146438_h;
     private String field_146439_i;
     private String field_146436_r;
-    private ListSlot field_146435_s;
+    private GuiFlatPresets.ListSlot field_146435_s;
     private GuiButton field_146434_t;
     private GuiTextField field_146433_u;
     private static final String __OBFID = "CL_00000704";
@@ -49,7 +49,7 @@ public class GuiFlatPresets extends GuiScreen
         this.field_146439_i = I18n.format("createWorld.customize.presets.share", new Object[0]);
         this.field_146436_r = I18n.format("createWorld.customize.presets.list", new Object[0]);
         this.field_146433_u = new GuiTextField(this.fontRenderer, 50, 40, this.width - 100, 20);
-        this.field_146435_s = new ListSlot();
+        this.field_146435_s = new GuiFlatPresets.ListSlot();
         this.field_146433_u.func_146203_f(1230);
         this.field_146433_u.setText(this.field_146432_g.func_146384_e());
         this.buttonList.add(this.field_146434_t = new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("createWorld.customize.presets.select", new Object[0])));
@@ -160,7 +160,7 @@ public class GuiFlatPresets extends GuiScreen
             }
         }
 
-        field_146431_f.add(new LayerItem(p_146421_1_, p_146421_0_, var5.toString()));
+        field_146431_f.add(new GuiFlatPresets.LayerItem(p_146421_1_, p_146421_0_, var5.toString()));
     }
 
     static
@@ -241,7 +241,7 @@ public class GuiFlatPresets extends GuiScreen
         {
             this.field_148175_k = p_148144_1_;
             GuiFlatPresets.this.func_146426_g();
-            GuiFlatPresets.this.field_146433_u.setText(((LayerItem)GuiFlatPresets.field_146431_f.get(GuiFlatPresets.this.field_146435_s.field_148175_k)).field_148233_c);
+            GuiFlatPresets.this.field_146433_u.setText(((GuiFlatPresets.LayerItem)GuiFlatPresets.field_146431_f.get(GuiFlatPresets.this.field_146435_s.field_148175_k)).field_148233_c);
         }
 
         protected boolean isSelected(int p_148131_1_)
@@ -253,7 +253,7 @@ public class GuiFlatPresets extends GuiScreen
 
         protected void drawSlot(int p_148126_1_, int p_148126_2_, int p_148126_3_, int p_148126_4_, Tessellator p_148126_5_, int p_148126_6_, int p_148126_7_)
         {
-            LayerItem var8 = (LayerItem)GuiFlatPresets.field_146431_f.get(p_148126_1_);
+            GuiFlatPresets.LayerItem var8 = (GuiFlatPresets.LayerItem)GuiFlatPresets.field_146431_f.get(p_148126_1_);
             this.func_148172_a(p_148126_2_, p_148126_3_, var8.field_148234_a);
             GuiFlatPresets.this.fontRenderer.drawString(var8.field_148232_b, p_148126_2_ + 18 + 5, p_148126_3_ + 6, 16777215);
         }

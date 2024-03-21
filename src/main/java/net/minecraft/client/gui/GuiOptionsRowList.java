@@ -22,7 +22,7 @@ public class GuiOptionsRowList extends GuiListExtended
             GameSettings.Options var10 = var8 < p_i45015_7_.length - 1 ? p_i45015_7_[var8 + 1] : null;
             GuiButton var11 = this.func_148182_a(p_i45015_1_, p_i45015_2_ / 2 - 155, 0, var9);
             GuiButton var12 = this.func_148182_a(p_i45015_1_, p_i45015_2_ / 2 - 155 + 160, 0, var10);
-            this.field_148184_k.add(new Row(var11, var12));
+            this.field_148184_k.add(new GuiOptionsRowList.Row(var11, var12));
         }
     }
 
@@ -39,9 +39,9 @@ public class GuiOptionsRowList extends GuiListExtended
         }
     }
 
-    public Row func_148180_b(int p_148183_1_)
+    public GuiOptionsRowList.Row func_148180_b(int p_148183_1_)
     {
-        return (Row)this.field_148184_k.get(p_148183_1_);
+        return (GuiOptionsRowList.Row)this.field_148184_k.get(p_148183_1_);
     }
 
     protected int getSize()
@@ -59,7 +59,7 @@ public class GuiOptionsRowList extends GuiListExtended
         return super.getScrollBarX() + 32;
     }
 
-    public static class Row implements IGuiListEntry
+    public static class Row implements GuiListExtended.IGuiListEntry
     {
         private final Minecraft field_148325_a = Minecraft.getMinecraft();
         private final GuiButton field_148323_b;

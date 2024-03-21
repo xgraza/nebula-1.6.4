@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public class EntityPainting extends EntityHanging
 {
-    public EnumArt art;
+    public EntityPainting.EnumArt art;
     private static final String __OBFID = "CL_00001556";
 
     public EntityPainting(World par1World)
@@ -23,12 +23,12 @@ public class EntityPainting extends EntityHanging
     {
         super(par1World, par2, par3, par4, par5);
         ArrayList var6 = new ArrayList();
-        EnumArt[] var7 = EnumArt.values();
+        EntityPainting.EnumArt[] var7 = EntityPainting.EnumArt.values();
         int var8 = var7.length;
 
         for (int var9 = 0; var9 < var8; ++var9)
         {
-            EnumArt var10 = var7[var9];
+            EntityPainting.EnumArt var10 = var7[var9];
             this.art = var10;
             this.setDirection(par5);
 
@@ -40,7 +40,7 @@ public class EntityPainting extends EntityHanging
 
         if (!var6.isEmpty())
         {
-            this.art = (EnumArt)var6.get(this.rand.nextInt(var6.size()));
+            this.art = (EntityPainting.EnumArt)var6.get(this.rand.nextInt(var6.size()));
         }
 
         this.setDirection(par5);
@@ -49,12 +49,12 @@ public class EntityPainting extends EntityHanging
     public EntityPainting(World par1World, int par2, int par3, int par4, int par5, String par6Str)
     {
         this(par1World, par2, par3, par4, par5);
-        EnumArt[] var7 = EnumArt.values();
+        EntityPainting.EnumArt[] var7 = EntityPainting.EnumArt.values();
         int var8 = var7.length;
 
         for (int var9 = 0; var9 < var8; ++var9)
         {
-            EnumArt var10 = var7[var9];
+            EntityPainting.EnumArt var10 = var7[var9];
 
             if (var10.title.equals(par6Str))
             {
@@ -81,12 +81,12 @@ public class EntityPainting extends EntityHanging
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         String var2 = par1NBTTagCompound.getString("Motive");
-        EnumArt[] var3 = EnumArt.values();
+        EntityPainting.EnumArt[] var3 = EntityPainting.EnumArt.values();
         int var4 = var3.length;
 
         for (int var5 = 0; var5 < var4; ++var5)
         {
-            EnumArt var6 = var3[var5];
+            EntityPainting.EnumArt var6 = var3[var5];
 
             if (var6.title.equals(var2))
             {
@@ -96,7 +96,7 @@ public class EntityPainting extends EntityHanging
 
         if (this.art == null)
         {
-            this.art = EnumArt.Kebab;
+            this.art = EntityPainting.EnumArt.Kebab;
         }
 
         super.readEntityFromNBT(par1NBTTagCompound);
@@ -165,7 +165,7 @@ public class EntityPainting extends EntityHanging
         public final int offsetX;
         public final int offsetY;
 
-        private static final EnumArt[] $VALUES = new EnumArt[]{Kebab, Aztec, Alban, Aztec2, Bomb, Plant, Wasteland, Pool, Courbet, Sea, Sunset, Creebet, Wanderer, Graham, Match, Bust, Stage, Void, SkullAndRoses, Wither, Fighters, Pointer, Pigscene, BurningSkull, Skeleton, DonkeyKong};
+        private static final EntityPainting.EnumArt[] $VALUES = new EntityPainting.EnumArt[]{Kebab, Aztec, Alban, Aztec2, Bomb, Plant, Wasteland, Pool, Courbet, Sea, Sunset, Creebet, Wanderer, Graham, Match, Bust, Stage, Void, SkullAndRoses, Wither, Fighters, Pointer, Pigscene, BurningSkull, Skeleton, DonkeyKong};
         private static final String __OBFID = "CL_00001557";
 
         private EnumArt(String par1Str, int par2, String par3Str, int par4, int par5, int par6, int par7)

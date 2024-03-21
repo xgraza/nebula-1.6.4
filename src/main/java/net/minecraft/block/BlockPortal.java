@@ -104,8 +104,8 @@ public class BlockPortal extends BlockBreakable
 
     public boolean func_150000_e(World p_150000_1_, int p_150000_2_, int p_150000_3_, int p_150000_4_)
     {
-        Size var5 = new Size(p_150000_1_, p_150000_2_, p_150000_3_, p_150000_4_, 1);
-        Size var6 = new Size(p_150000_1_, p_150000_2_, p_150000_3_, p_150000_4_, 2);
+        BlockPortal.Size var5 = new BlockPortal.Size(p_150000_1_, p_150000_2_, p_150000_3_, p_150000_4_, 1);
+        BlockPortal.Size var6 = new BlockPortal.Size(p_150000_1_, p_150000_2_, p_150000_3_, p_150000_4_, 2);
 
         if (var5.func_150860_b() && var5.field_150864_e == 0)
         {
@@ -126,8 +126,8 @@ public class BlockPortal extends BlockBreakable
     public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
     {
         int var6 = func_149999_b(p_149695_1_.getBlockMetadata(p_149695_2_, p_149695_3_, p_149695_4_));
-        Size var7 = new Size(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, 1);
-        Size var8 = new Size(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, 2);
+        BlockPortal.Size var7 = new BlockPortal.Size(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, 1);
+        BlockPortal.Size var8 = new BlockPortal.Size(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, 2);
 
         if (var6 == 1 && (!var7.func_150860_b() || var7.field_150864_e < var7.field_150868_h * var7.field_150862_g))
         {

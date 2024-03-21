@@ -6,11 +6,11 @@ import net.minecraft.util.IChatComponent;
 
 public class HoverEvent
 {
-    private final Action action;
+    private final HoverEvent.Action action;
     private final IChatComponent value;
     private static final String __OBFID = "CL_00001264";
 
-    public HoverEvent(Action p_i45158_1_, IChatComponent p_i45158_2_)
+    public HoverEvent(HoverEvent.Action p_i45158_1_, IChatComponent p_i45158_2_)
     {
         this.action = p_i45158_1_;
         this.value = p_i45158_2_;
@@ -19,7 +19,7 @@ public class HoverEvent
     /**
      * Gets the action to perform when this event is raised.
      */
-    public Action getAction()
+    public HoverEvent.Action getAction()
     {
         return this.action;
     }
@@ -91,7 +91,7 @@ public class HoverEvent
         private final boolean allowedInChat;
         private final String canonicalName;
 
-        private static final Action[] $VALUES = new Action[]{SHOW_TEXT, SHOW_ACHIEVEMENT, SHOW_ITEM};
+        private static final HoverEvent.Action[] $VALUES = new HoverEvent.Action[]{SHOW_TEXT, SHOW_ACHIEVEMENT, SHOW_ITEM};
         private static final String __OBFID = "CL_00001265";
 
         private Action(String p_i45157_1_, int p_i45157_2_, String p_i45157_3_, boolean p_i45157_4_)
@@ -110,18 +110,18 @@ public class HoverEvent
             return this.canonicalName;
         }
 
-        public static Action getValueByCanonicalName(String p_150684_0_)
+        public static HoverEvent.Action getValueByCanonicalName(String p_150684_0_)
         {
-            return (Action)nameMapping.get(p_150684_0_);
+            return (HoverEvent.Action)nameMapping.get(p_150684_0_);
         }
 
         static {
-            Action[] var0 = values();
+            HoverEvent.Action[] var0 = values();
             int var1 = var0.length;
 
             for (int var2 = 0; var2 < var1; ++var2)
             {
-                Action var3 = var0[var2];
+                HoverEvent.Action var3 = var0[var2];
                 nameMapping.put(var3.getCanonicalName(), var3);
             }
         }

@@ -17,12 +17,12 @@ public class ComponentScatteredFeaturePieces
 
     public static void func_143045_a()
     {
-        MapGenStructureIO.func_143031_a(DesertPyramid.class, "TeDP");
-        MapGenStructureIO.func_143031_a(JunglePyramid.class, "TeJP");
-        MapGenStructureIO.func_143031_a(SwampHut.class, "TeSH");
+        MapGenStructureIO.func_143031_a(ComponentScatteredFeaturePieces.DesertPyramid.class, "TeDP");
+        MapGenStructureIO.func_143031_a(ComponentScatteredFeaturePieces.JunglePyramid.class, "TeJP");
+        MapGenStructureIO.func_143031_a(ComponentScatteredFeaturePieces.SwampHut.class, "TeSH");
     }
 
-    public static class JunglePyramid extends Feature
+    public static class JunglePyramid extends ComponentScatteredFeaturePieces.Feature
     {
         private boolean field_74947_h;
         private boolean field_74948_i;
@@ -30,7 +30,7 @@ public class ComponentScatteredFeaturePieces
         private boolean field_74946_k;
         private static final WeightedRandomChestContent[] junglePyramidsChestContents = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 3), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 2, 7, 15), new WeightedRandomChestContent(Items.emerald, 0, 1, 3, 2), new WeightedRandomChestContent(Items.bone, 0, 4, 6, 20), new WeightedRandomChestContent(Items.rotten_flesh, 0, 3, 7, 16), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)};
         private static final WeightedRandomChestContent[] junglePyramidsDispenserContents = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.arrow, 0, 2, 7, 30)};
-        private static Stones junglePyramidsRandomScatteredStones = new Stones(null);
+        private static ComponentScatteredFeaturePieces.JunglePyramid.Stones junglePyramidsRandomScatteredStones = new ComponentScatteredFeaturePieces.JunglePyramid.Stones(null);
         private static final String __OBFID = "CL_00000477";
 
         public JunglePyramid() {}
@@ -255,7 +255,7 @@ public class ComponentScatteredFeaturePieces
             }
         }
 
-        static class Stones extends BlockSelector
+        static class Stones extends StructureComponent.BlockSelector
         {
             private static final String __OBFID = "CL_00000478";
 
@@ -280,7 +280,7 @@ public class ComponentScatteredFeaturePieces
         }
     }
 
-    public static class DesertPyramid extends Feature
+    public static class DesertPyramid extends ComponentScatteredFeaturePieces.Feature
     {
         private boolean[] field_74940_h = new boolean[4];
         private static final WeightedRandomChestContent[] itemsToGenerateInTemple = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 3), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 2, 7, 15), new WeightedRandomChestContent(Items.emerald, 0, 1, 3, 2), new WeightedRandomChestContent(Items.bone, 0, 4, 6, 20), new WeightedRandomChestContent(Items.rotten_flesh, 0, 3, 7, 16), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)};
@@ -518,7 +518,7 @@ public class ComponentScatteredFeaturePieces
         }
     }
 
-    public static class SwampHut extends Feature
+    public static class SwampHut extends ComponentScatteredFeaturePieces.Feature
     {
         private boolean hasWitch;
         private static final String __OBFID = "CL_00000480";

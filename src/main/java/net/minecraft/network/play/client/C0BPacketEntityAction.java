@@ -53,7 +53,7 @@ public class C0BPacketEntityAction extends Packet
         p_149514_1_.processEntityAction(this);
     }
 
-    public int func_149513_d()
+    public int getAction()
     {
         return this.field_149515_b;
     }

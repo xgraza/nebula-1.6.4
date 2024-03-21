@@ -11,7 +11,7 @@ public class ItemAxe extends ItemTool
     private static final Set field_150917_c = Sets.newHashSet(new Block[] {Blocks.planks, Blocks.bookshelf, Blocks.log, Blocks.log2, Blocks.chest, Blocks.pumpkin, Blocks.lit_pumpkin});
     private static final String __OBFID = "CL_00001770";
 
-    protected ItemAxe(ToolMaterial p_i45327_1_)
+    protected ItemAxe(Item.ToolMaterial p_i45327_1_)
     {
         super(3.0F, p_i45327_1_, field_150917_c);
     }

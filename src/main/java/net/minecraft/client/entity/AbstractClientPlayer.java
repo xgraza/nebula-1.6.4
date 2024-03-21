@@ -1,6 +1,8 @@
 package net.minecraft.client.entity;
 
 import com.mojang.authlib.GameProfile;
+import nebula.client.Nebula;
+import nebula.client.listener.event.player.EventMove;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ImageBufferDownload;
@@ -8,8 +10,6 @@ import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.src.Config;
-import net.minecraft.src.PlayerConfigurations;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraft.world.World;
@@ -22,23 +22,29 @@ public abstract class AbstractClientPlayer extends EntityPlayer
     private ResourceLocation locationSkin;
     private ResourceLocation locationCape;
     private static final String __OBFID = "CL_00000935";
-    private String nameClear = null;
+    private String nameClear;
 
     public AbstractClientPlayer(World p_i45074_1_, GameProfile p_i45074_2_)
     {
         super(p_i45074_1_, p_i45074_2_);
-        this.setupCustomSkin();
+        this.setupCustomSkin(p_i45074_2_);
+
         this.nameClear = p_i45074_2_.getName();
 
         if (this.nameClear != null && !this.nameClear.isEmpty())
         {
             this.nameClear = StringUtils.stripControlCodes(this.nameClear);
         }
-
-        PlayerConfigurations.getPlayerConfiguration(this);
     }
 
-    protected void setupCustomSkin()
+    @Override
+    public void moveEntity(double par1, double par3, double par5) {
+        EventMove event = new EventMove(par1, par3, par5);
+        if (Nebula.BUS.dispatch(event)) return;
+        super.moveEntity(event.x(), event.y(), event.z());
+    }
+
+    protected void setupCustomSkin(GameProfile profile)
     {
         String var1 = this.getCommandSenderName();
 
@@ -48,7 +54,6 @@ public abstract class AbstractClientPlayer extends EntityPlayer
             this.locationCape = getLocationCape(var1);
             this.downloadImageSkin = getDownloadImageSkin(this.locationSkin, var1);
             this.downloadImageCape = getDownloadImageCape(this.locationCape, var1);
-            this.downloadImageCape.enabled = Config.isShowCapes();
         }
     }
 
@@ -89,7 +94,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer
 
         if (var5 == null)
         {
-            var5 = new ThreadDownloadImageData(par1Str, par2ResourceLocation, par3IImageBuffer);
+            var5 = new ThreadDownloadImageData(null, par1Str, locationStevePng, par3IImageBuffer);
             var4.loadTexture(par0ResourceLocation, (ITextureObject)var5);
         }
 
@@ -98,12 +103,12 @@ public abstract class AbstractClientPlayer extends EntityPlayer
 
     public static String getSkinUrl(String par0Str)
     {
-        return String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", new Object[] {StringUtils.stripControlCodes(par0Str)});
+        return String.format("https://minotar.net/skin/%s.png", StringUtils.stripControlCodes(par0Str));
     }
 
     public static String getCapeUrl(String par0Str)
     {
-        return String.format("http://skins.minecraft.net/MinecraftCloaks/%s.png", new Object[] {StringUtils.stripControlCodes(par0Str)});
+        return String.format("http://skins.minecraft.net/MinecraftCloaks/%s.png", StringUtils.stripControlCodes(par0Str));
     }
 
     public static ResourceLocation getLocationSkin(String par0Str)
@@ -121,8 +126,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         return new ResourceLocation("skull/" + StringUtils.stripControlCodes(par0Str));
     }
 
-    public String getNameClear()
-    {
-        return this.nameClear;
+    public String getNameClear() {
+        return nameClear;
     }
 }

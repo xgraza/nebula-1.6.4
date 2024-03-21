@@ -40,16 +40,16 @@ public class VersionCheckThread extends Thread
                 in.close();
                 String[] verLines = Config.tokenize(verStr, "\n\r");
 
-                if (verLines.length >= 1)
+                if (verLines.length < 1)
                 {
-                    String newVer = verLines[0].trim();
-                    Config.dbg("Version found: " + newVer);
+                    return;
+                }
 
-                    if (Config.compareRelease(newVer, "F7") <= 0)
-                    {
-                        return;
-                    }
+                String newVer = verLines[0].trim();
+                Config.dbg("Version found: " + newVer);
 
+                if (Config.compareRelease(newVer, "F7") > 0)
+                {
                     Config.setNewRelease(newVer);
                     return;
                 }

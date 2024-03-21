@@ -29,7 +29,7 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer
      */
     public void processHandshake(C00Handshake p_147383_1_)
     {
-        switch (SwitchEnumConnectionState.field_151291_a[p_147383_1_.func_149594_c().ordinal()])
+        switch (NetHandlerHandshakeTCP.SwitchEnumConnectionState.field_151291_a[p_147383_1_.func_149594_c().ordinal()])
         {
             case 1:
                 this.field_147386_b.setConnectionState(EnumConnectionState.LOGIN);

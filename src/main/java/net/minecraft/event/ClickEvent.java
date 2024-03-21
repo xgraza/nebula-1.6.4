@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class ClickEvent
 {
-    private final Action action;
+    private final ClickEvent.Action action;
     private final String value;
     private static final String __OBFID = "CL_00001260";
 
-    public ClickEvent(Action p_i45156_1_, String p_i45156_2_)
+    public ClickEvent(ClickEvent.Action p_i45156_1_, String p_i45156_2_)
     {
         this.action = p_i45156_1_;
         this.value = p_i45156_2_;
@@ -18,7 +18,7 @@ public class ClickEvent
     /**
      * Gets the action to perform when this event is raised.
      */
-    public Action getAction()
+    public ClickEvent.Action getAction()
     {
         return this.action;
     }
@@ -91,7 +91,7 @@ public class ClickEvent
         private final boolean allowedInChat;
         private final String canonicalName;
 
-        private static final Action[] $VALUES = new Action[]{OPEN_URL, OPEN_FILE, RUN_COMMAND, SUGGEST_COMMAND};
+        private static final ClickEvent.Action[] $VALUES = new ClickEvent.Action[]{OPEN_URL, OPEN_FILE, RUN_COMMAND, SUGGEST_COMMAND};
         private static final String __OBFID = "CL_00001261";
 
         private Action(String p_i45155_1_, int p_i45155_2_, String p_i45155_3_, boolean p_i45155_4_)
@@ -110,18 +110,18 @@ public class ClickEvent
             return this.canonicalName;
         }
 
-        public static Action getValueByCanonicalName(String p_150672_0_)
+        public static ClickEvent.Action getValueByCanonicalName(String p_150672_0_)
         {
-            return (Action)nameMapping.get(p_150672_0_);
+            return (ClickEvent.Action)nameMapping.get(p_150672_0_);
         }
 
         static {
-            Action[] var0 = values();
+            ClickEvent.Action[] var0 = values();
             int var1 = var0.length;
 
             for (int var2 = 0; var2 < var1; ++var2)
             {
-                Action var3 = var0[var2];
+                ClickEvent.Action var3 = var0[var2];
                 nameMapping.put(var3.getCanonicalName(), var3);
             }
         }

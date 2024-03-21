@@ -95,7 +95,7 @@ public class Teleporter
 
         if (this.destinationCoordinateCache.containsItem(var17))
         {
-            PortalPosition var20 = (PortalPosition)this.destinationCoordinateCache.getValueByKey(var17);
+            Teleporter.PortalPosition var20 = (Teleporter.PortalPosition)this.destinationCoordinateCache.getValueByKey(var17);
             var10 = 0.0D;
             var12 = var20.posX;
             var13 = var20.posY;
@@ -142,7 +142,7 @@ public class Teleporter
         {
             if (var19)
             {
-                this.destinationCoordinateCache.add(var17, new PortalPosition(var12, var13, var14, this.worldServerInstance.getTotalWorldTime()));
+                this.destinationCoordinateCache.add(var17, new Teleporter.PortalPosition(var12, var13, var14, this.worldServerInstance.getTotalWorldTime()));
                 this.destinationCoordinateKeys.add(Long.valueOf(var17));
             }
 
@@ -500,7 +500,7 @@ public class Teleporter
             while (var3.hasNext())
             {
                 Long var6 = (Long)var3.next();
-                PortalPosition var7 = (PortalPosition)this.destinationCoordinateCache.getValueByKey(var6.longValue());
+                Teleporter.PortalPosition var7 = (Teleporter.PortalPosition)this.destinationCoordinateCache.getValueByKey(var6.longValue());
 
                 if (var7 == null || var7.lastUpdateTime < var4)
                 {

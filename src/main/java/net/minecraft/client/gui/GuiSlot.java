@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 public abstract class GuiSlot
 {
-    private final Minecraft mc;
+    protected final Minecraft mc;
     protected int width;
     private int height;
     protected int top;

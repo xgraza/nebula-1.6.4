@@ -84,7 +84,7 @@ public class PlayerManager
     {
         long var1 = this.theWorldServer.getTotalWorldTime();
         int var3;
-        PlayerInstance var4;
+        PlayerManager.PlayerInstance var4;
 
         if (var1 - this.previousTotalWorldTime > 8000L)
         {
@@ -92,7 +92,7 @@ public class PlayerManager
 
             for (var3 = 0; var3 < this.playerInstanceList.size(); ++var3)
             {
-                var4 = (PlayerInstance)this.playerInstanceList.get(var3);
+                var4 = (PlayerManager.PlayerInstance)this.playerInstanceList.get(var3);
                 var4.sendChunkUpdate();
                 var4.processChunk();
             }
@@ -101,7 +101,7 @@ public class PlayerManager
         {
             for (var3 = 0; var3 < this.chunkWatcherWithPlayers.size(); ++var3)
             {
-                var4 = (PlayerInstance)this.chunkWatcherWithPlayers.get(var3);
+                var4 = (PlayerManager.PlayerInstance)this.chunkWatcherWithPlayers.get(var3);
                 var4.sendChunkUpdate();
             }
         }
@@ -135,7 +135,7 @@ public class PlayerManager
                 int maxDistSq = maxRadius * maxRadius + maxRadius2 * maxRadius2;
                 int bestDistSq = maxDistSq;
                 int bestIndex = -1;
-                PlayerInstance bestCw = null;
+                PlayerManager.PlayerInstance bestCw = null;
                 ChunkCoordIntPair bestCoords = null;
 
                 for (int chunk = 0; chunk < this.chunkCoordsNotLoaded.size(); ++chunk)
@@ -144,7 +144,7 @@ public class PlayerManager
 
                     if (coords != null)
                     {
-                        PlayerInstance cw = this.getOrCreateChunkWatcher(coords.chunkXPos, coords.chunkZPos, false);
+                        PlayerManager.PlayerInstance cw = this.getOrCreateChunkWatcher(coords.chunkXPos, coords.chunkZPos, false);
 
                         if (cw != null && !cw.chunkLoaded)
                         {
@@ -185,19 +185,19 @@ public class PlayerManager
         }
     }
 
-    public PlayerInstance getOrCreateChunkWatcher(int par1, int par2, boolean par3)
+    public PlayerManager.PlayerInstance getOrCreateChunkWatcher(int par1, int par2, boolean par3)
     {
         return this.getOrCreateChunkWatcher(par1, par2, par3, false);
     }
 
-    public PlayerInstance getOrCreateChunkWatcher(int par1, int par2, boolean par3, boolean lazy)
+    public PlayerManager.PlayerInstance getOrCreateChunkWatcher(int par1, int par2, boolean par3, boolean lazy)
     {
         long var4 = (long)par1 + 2147483647L | (long)par2 + 2147483647L << 32;
-        PlayerInstance var6 = (PlayerInstance)this.playerInstances.getValueByKey(var4);
+        PlayerManager.PlayerInstance var6 = (PlayerManager.PlayerInstance)this.playerInstances.getValueByKey(var4);
 
         if (var6 == null && par3)
         {
-            var6 = new PlayerInstance(par1, par2, lazy);
+            var6 = new PlayerManager.PlayerInstance(par1, par2, lazy);
             this.playerInstances.add(var4, var6);
             this.playerInstanceList.add(var6);
         }
@@ -209,7 +209,7 @@ public class PlayerManager
     {
         int var4 = p_151250_1_ >> 4;
         int var5 = p_151250_3_ >> 4;
-        PlayerInstance var6 = this.getOrCreateChunkWatcher(var4, var5, false);
+        PlayerManager.PlayerInstance var6 = this.getOrCreateChunkWatcher(var4, var5, false);
 
         if (var6 != null)
         {
@@ -316,7 +316,7 @@ public class PlayerManager
         {
             for (int var5 = var3 - this.playerViewRadius; var5 <= var3 + this.playerViewRadius; ++var5)
             {
-                PlayerInstance var6 = this.getOrCreateChunkWatcher(var4, var5, false);
+                PlayerManager.PlayerInstance var6 = this.getOrCreateChunkWatcher(var4, var5, false);
 
                 if (var6 != null)
                 {
@@ -383,7 +383,7 @@ public class PlayerManager
 
                         if (!this.overlaps(var15 - var13, var16 - var14, var2, var3, var12))
                         {
-                            PlayerInstance var17 = this.getOrCreateChunkWatcher(var15 - var13, var16 - var14, false);
+                            PlayerManager.PlayerInstance var17 = this.getOrCreateChunkWatcher(var15 - var13, var16 - var14, false);
 
                             if (var17 != null)
                             {
@@ -402,7 +402,7 @@ public class PlayerManager
 
     public boolean isPlayerWatchingChunk(EntityPlayerMP par1EntityPlayerMP, int par2, int par3)
     {
-        PlayerInstance var4 = this.getOrCreateChunkWatcher(par2, par3, false);
+        PlayerManager.PlayerInstance var4 = this.getOrCreateChunkWatcher(par2, par3, false);
         return var4 == null ? false : var4.playersWatchingChunk.contains(par1EntityPlayerMP) && !par1EntityPlayerMP.loadedChunks.contains(var4.chunkLocation);
     }
 

@@ -2,11 +2,20 @@ package net.minecraft.client.gui;
 
 import java.util.Iterator;
 import java.util.List;
+
+import nebula.client.Nebula;
+import nebula.client.module.impl.player.autoreconnect.AutoReconnectModule;
+import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IChatComponent;
 
+import static java.lang.String.format;
+
 public class GuiDisconnected extends GuiScreen
 {
+
+    private AutoReconnectModule autoReconnect;
+
     private String field_146306_a;
     private IChatComponent field_146304_f;
     private List field_146305_g;
@@ -30,9 +39,19 @@ public class GuiDisconnected extends GuiScreen
      */
     public void initGui()
     {
+        if (autoReconnect == null) {
+            autoReconnect = Nebula.INSTANCE.module.get(AutoReconnectModule.class);
+        }
+
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.toMenu", new Object[0])));
         this.field_146305_g = this.fontRenderer.listFormattedStringToWidth(this.field_146304_f.getFormattedText(), this.width - 50);
+
+        if (autoReconnect.canReconnect()) {
+            autoReconnect.timer().resetTime();
+            buttonList.add(new GuiButton(1, width / 2 - 100, this.height / 4 + 120 + 12 + 22,
+              "Reconnect to " + autoReconnect.lastServer().serverIP));
+        }
     }
 
     protected void actionPerformed(GuiButton p_146284_1_)
@@ -40,6 +59,9 @@ public class GuiDisconnected extends GuiScreen
         if (p_146284_1_.id == 0)
         {
             this.mc.displayGuiScreen(this.field_146307_h);
+        }
+        else if (p_146284_1_.id == 1) {
+            mc.displayGuiScreen(new GuiConnecting(new GuiMultiplayer(null), mc, autoReconnect.lastServer()));
         }
     }
 
@@ -59,6 +81,22 @@ public class GuiDisconnected extends GuiScreen
                 String var6 = (String)var5.next();
                 this.drawCenteredString(this.fontRenderer, var6, this.width / 2, var4, 16777215);
             }
+        }
+
+        if (autoReconnect.canReconnect()) {
+            double timeLeft = ((autoReconnect.delay.value() * 1000.0)
+              - autoReconnect.timer().timeElapsedMS()) / 1000.0;
+            timeLeft = Math.max(timeLeft, 0.0);
+
+            this.drawCenteredString(this.fontRenderer,
+              format("Automatically reconnecting in %.1f seconds...", timeLeft),
+              this.width / 2,
+              30, 11184810);
+
+            if (autoReconnect.timer().ms((long) (autoReconnect.delay.value() * 1000.0), true)) {
+                mc.displayGuiScreen(new GuiConnecting(new GuiMultiplayer(null), mc, autoReconnect.lastServer()));
+            }
+
         }
 
         super.drawScreen(par1, par2, par3);

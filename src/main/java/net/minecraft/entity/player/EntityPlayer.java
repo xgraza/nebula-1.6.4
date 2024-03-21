@@ -155,7 +155,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     /**
      * This field starts off equal to getMaxItemUseDuration and is decremented on each tick
      */
-    private int itemInUseCount;
+    protected int itemInUseCount;
     protected float speedOnGround = 0.1F;
     protected float speedInAir = 0.02F;
     private int field_82249_h;
@@ -1395,28 +1395,28 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     /**
      * puts player to sleep on specified bed if possible
      */
-    public EnumStatus sleepInBedAt(int par1, int par2, int par3)
+    public EntityPlayer.EnumStatus sleepInBedAt(int par1, int par2, int par3)
     {
         if (!this.worldObj.isClient)
         {
             if (this.isPlayerSleeping() || !this.isEntityAlive())
             {
-                return EnumStatus.OTHER_PROBLEM;
+                return EntityPlayer.EnumStatus.OTHER_PROBLEM;
             }
 
             if (!this.worldObj.provider.isSurfaceWorld())
             {
-                return EnumStatus.NOT_POSSIBLE_HERE;
+                return EntityPlayer.EnumStatus.NOT_POSSIBLE_HERE;
             }
 
             if (this.worldObj.isDaytime())
             {
-                return EnumStatus.NOT_POSSIBLE_NOW;
+                return EntityPlayer.EnumStatus.NOT_POSSIBLE_NOW;
             }
 
             if (Math.abs(this.posX - (double)par1) > 3.0D || Math.abs(this.posY - (double)par2) > 2.0D || Math.abs(this.posZ - (double)par3) > 3.0D)
             {
-                return EnumStatus.TOO_FAR_AWAY;
+                return EntityPlayer.EnumStatus.TOO_FAR_AWAY;
             }
 
             double var4 = 8.0D;
@@ -1425,7 +1425,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
             if (!var8.isEmpty())
             {
-                return EnumStatus.NOT_SAFE;
+                return EntityPlayer.EnumStatus.NOT_SAFE;
             }
         }
 
@@ -1480,7 +1480,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             this.worldObj.updateAllPlayersSleepingFlag();
         }
 
-        return EnumStatus.OK;
+        return EntityPlayer.EnumStatus.OK;
     }
 
     private void func_71013_b(int par1)
@@ -2306,11 +2306,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         FULL("FULL", 0, 0, "options.chat.visibility.full"),
         SYSTEM("SYSTEM", 1, 1, "options.chat.visibility.system"),
         HIDDEN("HIDDEN", 2, 2, "options.chat.visibility.hidden");
-        private static final EnumChatVisibility[] field_151432_d = new EnumChatVisibility[values().length];
+        private static final EntityPlayer.EnumChatVisibility[] field_151432_d = new EntityPlayer.EnumChatVisibility[values().length];
         private final int chatVisibility;
         private final String resourceKey;
 
-        private static final EnumChatVisibility[] $VALUES = new EnumChatVisibility[]{FULL, SYSTEM, HIDDEN};
+        private static final EntityPlayer.EnumChatVisibility[] $VALUES = new EntityPlayer.EnumChatVisibility[]{FULL, SYSTEM, HIDDEN};
         private static final String __OBFID = "CL_00001714";
 
         private EnumChatVisibility(String p_i45323_1_, int p_i45323_2_, int p_i45323_3_, String p_i45323_4_)
@@ -2324,7 +2324,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             return this.chatVisibility;
         }
 
-        public static EnumChatVisibility getEnumChatVisibility(int p_151426_0_)
+        public static EntityPlayer.EnumChatVisibility getEnumChatVisibility(int p_151426_0_)
         {
             return field_151432_d[p_151426_0_ % field_151432_d.length];
         }
@@ -2335,12 +2335,12 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
 
         static {
-            EnumChatVisibility[] var0 = values();
+            EntityPlayer.EnumChatVisibility[] var0 = values();
             int var1 = var0.length;
 
             for (int var2 = 0; var2 < var1; ++var2)
             {
-                EnumChatVisibility var3 = var0[var2];
+                EntityPlayer.EnumChatVisibility var3 = var0[var2];
                 field_151432_d[var3.chatVisibility] = var3;
             }
         }
@@ -2355,7 +2355,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         OTHER_PROBLEM("OTHER_PROBLEM", 4),
         NOT_SAFE("NOT_SAFE", 5);
 
-        private static final EnumStatus[] $VALUES = new EnumStatus[]{OK, NOT_POSSIBLE_HERE, NOT_POSSIBLE_NOW, TOO_FAR_AWAY, OTHER_PROBLEM, NOT_SAFE};
+        private static final EntityPlayer.EnumStatus[] $VALUES = new EntityPlayer.EnumStatus[]{OK, NOT_POSSIBLE_HERE, NOT_POSSIBLE_NOW, TOO_FAR_AWAY, OTHER_PROBLEM, NOT_SAFE};
         private static final String __OBFID = "CL_00001712";
 
         private EnumStatus(String par1Str, int par2) {}

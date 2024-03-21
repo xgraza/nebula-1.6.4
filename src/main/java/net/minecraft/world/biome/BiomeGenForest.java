@@ -44,7 +44,7 @@ public class BiomeGenForest extends BiomeGenBase
 
         if (this.field_150632_aF == 0)
         {
-            this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 5, 4, 4));
+            this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityWolf.class, 5, 4, 4));
         }
 
         if (this.field_150632_aF == 3)
@@ -200,7 +200,7 @@ public class BiomeGenForest extends BiomeGenBase
         if (this.biomeID == BiomeGenBase.forest.biomeID)
         {
             BiomeGenForest var1 = new BiomeGenForest(this.biomeID + 128, 1);
-            var1.func_150570_a(new Height(this.minHeight, this.maxHeight + 0.2F));
+            var1.func_150570_a(new BiomeGenBase.Height(this.minHeight, this.maxHeight + 0.2F));
             var1.setBiomeName("Flower Forest");
             var1.func_150557_a(6976549, true);
             var1.func_76733_a(8233509);

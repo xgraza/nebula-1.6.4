@@ -10,10 +10,10 @@ public enum EnumFacing
     WEST(5, 4, 1, 0, 0);
 
     /** Face order for D-U-N-S-E-W. */
-    private final int order_a;
+    public final int order_a;
 
     /** Face order for U-D-S-N-W-E. */
-    private final int order_b;
+    public final int order_b;
     private final int frontOffsetX;
     private final int frontOffsetY;
     private final int frontOffsetZ;

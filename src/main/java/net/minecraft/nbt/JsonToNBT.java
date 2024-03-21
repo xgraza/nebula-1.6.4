@@ -22,7 +22,7 @@ public class JsonToNBT
         }
         else
         {
-            Any var2 = null;
+            JsonToNBT.Any var2 = null;
 
             if (p_150315_0_.startsWith("{"))
             {
@@ -105,7 +105,7 @@ public class JsonToNBT
         }
     }
 
-    static Any func_150316_a(String p_150316_0_, String p_150316_1_) throws NBTException
+    static JsonToNBT.Any func_150316_a(String p_150316_0_, String p_150316_1_) throws NBTException
     {
         p_150316_1_ = p_150316_1_.trim();
         func_150310_b(p_150316_1_);
@@ -123,7 +123,7 @@ public class JsonToNBT
             else
             {
                 p_150316_1_ = p_150316_1_.substring(1, p_150316_1_.length() - 1);
-                Compound var7 = new Compound(p_150316_0_);
+                JsonToNBT.Compound var7 = new JsonToNBT.Compound(p_150316_0_);
 
                 while (p_150316_1_.length() > 0)
                 {
@@ -163,7 +163,7 @@ public class JsonToNBT
             else
             {
                 p_150316_1_ = p_150316_1_.substring(1, p_150316_1_.length() - 1);
-                List var2 = new List(p_150316_0_);
+                JsonToNBT.List var2 = new JsonToNBT.List(p_150316_0_);
 
                 while (p_150316_1_.length() > 0)
                 {
@@ -200,7 +200,7 @@ public class JsonToNBT
         }
         else
         {
-            return new Primitive(p_150316_0_, p_150316_1_);
+            return new JsonToNBT.Primitive(p_150316_0_, p_150316_1_);
         }
     }
 
@@ -404,7 +404,7 @@ public class JsonToNBT
         public abstract NBTBase func_150489_a();
     }
 
-    static class Primitive extends Any
+    static class Primitive extends JsonToNBT.Any
     {
         protected String field_150493_b;
         private static final String __OBFID = "CL_00001236";
@@ -508,7 +508,7 @@ public class JsonToNBT
         }
     }
 
-    static class List extends Any
+    static class List extends JsonToNBT.Any
     {
         protected ArrayList field_150492_b = new ArrayList();
         private static final String __OBFID = "CL_00001235";
@@ -525,7 +525,7 @@ public class JsonToNBT
 
             while (var2.hasNext())
             {
-                Any var3 = (Any)var2.next();
+                JsonToNBT.Any var3 = (JsonToNBT.Any)var2.next();
                 var1.appendTag(var3.func_150489_a());
             }
 
@@ -533,7 +533,7 @@ public class JsonToNBT
         }
     }
 
-    static class Compound extends Any
+    static class Compound extends JsonToNBT.Any
     {
         protected ArrayList field_150491_b = new ArrayList();
         private static final String __OBFID = "CL_00001234";
@@ -550,7 +550,7 @@ public class JsonToNBT
 
             while (var2.hasNext())
             {
-                Any var3 = (Any)var2.next();
+                JsonToNBT.Any var3 = (JsonToNBT.Any)var2.next();
                 var1.setTag(var3.field_150490_a, var3.func_150489_a());
             }
 

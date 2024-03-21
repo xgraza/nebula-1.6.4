@@ -21,6 +21,9 @@ import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.util.Queue;
 import javax.crypto.SecretKey;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.net.EventPacket;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
@@ -114,6 +117,8 @@ public class NetworkManager extends SimpleChannelInboundHandler
     {
         if (this.channel.isOpen())
         {
+            if (Nebula.BUS.dispatch(new EventPacket.In(p_150728_2_))) return;
+
             if (p_150728_2_.hasPriority())
             {
                 p_150728_2_.processPacket(this.netHandler);
@@ -144,12 +149,14 @@ public class NetworkManager extends SimpleChannelInboundHandler
     {
         if (this.channel != null && this.channel.isOpen())
         {
+            if (Nebula.BUS.dispatch(new EventPacket.Out(p_150725_1_))) return;
+
             this.flushOutboundQueue();
             this.dispatchPacket(p_150725_1_, p_150725_2_);
         }
         else
         {
-            this.outboundPacketsQueue.add(new InboundHandlerTuplePacketListener(p_150725_1_, p_150725_2_));
+            this.outboundPacketsQueue.add(new NetworkManager.InboundHandlerTuplePacketListener(p_150725_1_, p_150725_2_));
         }
     }
 
@@ -157,7 +164,7 @@ public class NetworkManager extends SimpleChannelInboundHandler
      * Will commit the packet to the channel. If the current thread 'owns' the channel it will write and flush the
      * packet, otherwise it will add a task for the channel eventloop thread to do that.
      */
-    private void dispatchPacket(final Packet p_150732_1_, final GenericFutureListener[] p_150732_2_)
+    public void dispatchPacket(final Packet p_150732_1_, final GenericFutureListener[] p_150732_2_)
     {
         final EnumConnectionState var3 = EnumConnectionState.func_150752_a(p_150732_1_);
         final EnumConnectionState var4 = (EnumConnectionState)this.channel.attr(attrKeyConnectionState).get();
@@ -204,7 +211,7 @@ public class NetworkManager extends SimpleChannelInboundHandler
         {
             while (!this.outboundPacketsQueue.isEmpty())
             {
-                InboundHandlerTuplePacketListener var1 = (InboundHandlerTuplePacketListener)this.outboundPacketsQueue.poll();
+                NetworkManager.InboundHandlerTuplePacketListener var1 = (NetworkManager.InboundHandlerTuplePacketListener)this.outboundPacketsQueue.poll();
                 this.dispatchPacket(var1.field_150774_a, var1.field_150773_b);
             }
         }

@@ -27,7 +27,7 @@ public class BiomeGenTaiga extends BiomeGenBase
     {
         super(p_i45385_1_);
         this.field_150644_aH = p_i45385_2_;
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 8, 4, 4));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityWolf.class, 8, 4, 4));
         this.theBiomeDecorator.treesPerChunk = 10;
 
         if (p_i45385_2_ != 1 && p_i45385_2_ != 2)
@@ -114,6 +114,6 @@ public class BiomeGenTaiga extends BiomeGenBase
 
     protected BiomeGenBase func_150566_k()
     {
-        return this.biomeID == BiomeGenBase.field_150578_U.biomeID ? (new BiomeGenTaiga(this.biomeID + 128, 2)).func_150557_a(5858897, true).setBiomeName("Mega Spruce Taiga").func_76733_a(5159473).setTemperatureRainfall(0.25F, 0.8F).func_150570_a(new Height(this.minHeight, this.maxHeight)) : super.func_150566_k();
+        return this.biomeID == BiomeGenBase.field_150578_U.biomeID ? (new BiomeGenTaiga(this.biomeID + 128, 2)).func_150557_a(5858897, true).setBiomeName("Mega Spruce Taiga").func_76733_a(5159473).setTemperatureRainfall(0.25F, 0.8F).func_150570_a(new BiomeGenBase.Height(this.minHeight, this.maxHeight)) : super.func_150566_k();
     }
 }

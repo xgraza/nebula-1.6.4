@@ -2,10 +2,10 @@ package net.minecraft.world.gen.layer;
 
 public class GenLayerEdge extends GenLayer
 {
-    private final Mode field_151627_c;
+    private final GenLayerEdge.Mode field_151627_c;
     private static final String __OBFID = "CL_00000547";
 
-    public GenLayerEdge(long p_i45474_1_, GenLayer p_i45474_3_, Mode p_i45474_4_)
+    public GenLayerEdge(long p_i45474_1_, GenLayer p_i45474_3_, GenLayerEdge.Mode p_i45474_4_)
     {
         super(p_i45474_1_);
         this.parent = p_i45474_3_;
@@ -18,7 +18,7 @@ public class GenLayerEdge extends GenLayer
      */
     public int[] getInts(int par1, int par2, int par3, int par4)
     {
-        switch (SwitchMode.field_151642_a[this.field_151627_c.ordinal()])
+        switch (GenLayerEdge.SwitchMode.field_151642_a[this.field_151627_c.ordinal()])
         {
             case 1:
             default:
@@ -137,7 +137,7 @@ public class GenLayerEdge extends GenLayer
         HEAT_ICE("HEAT_ICE", 1),
         SPECIAL("SPECIAL", 2);
 
-        private static final Mode[] $VALUES = new Mode[]{COOL_WARM, HEAT_ICE, SPECIAL};
+        private static final GenLayerEdge.Mode[] $VALUES = new GenLayerEdge.Mode[]{COOL_WARM, HEAT_ICE, SPECIAL};
         private static final String __OBFID = "CL_00000549";
 
         private Mode(String p_i45473_1_, int p_i45473_2_) {}
@@ -145,14 +145,14 @@ public class GenLayerEdge extends GenLayer
 
     static final class SwitchMode
     {
-        static final int[] field_151642_a = new int[Mode.values().length];
+        static final int[] field_151642_a = new int[GenLayerEdge.Mode.values().length];
         private static final String __OBFID = "CL_00000548";
 
         static
         {
             try
             {
-                field_151642_a[Mode.COOL_WARM.ordinal()] = 1;
+                field_151642_a[GenLayerEdge.Mode.COOL_WARM.ordinal()] = 1;
             }
             catch (NoSuchFieldError var3)
             {
@@ -161,7 +161,7 @@ public class GenLayerEdge extends GenLayer
 
             try
             {
-                field_151642_a[Mode.HEAT_ICE.ordinal()] = 2;
+                field_151642_a[GenLayerEdge.Mode.HEAT_ICE.ordinal()] = 2;
             }
             catch (NoSuchFieldError var2)
             {
@@ -170,7 +170,7 @@ public class GenLayerEdge extends GenLayer
 
             try
             {
-                field_151642_a[Mode.SPECIAL.ordinal()] = 3;
+                field_151642_a[GenLayerEdge.Mode.SPECIAL.ordinal()] = 3;
             }
             catch (NoSuchFieldError var1)
             {

@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Map.Entry;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.net.EventTabListUpdate;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -21,14 +24,12 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiDisconnected;
-import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiPlayerInfo;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenDemo;
-import net.minecraft.client.gui.GuiScreenDisconnectedOnline;
 import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.IProgressMeter;
@@ -225,7 +226,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     /**
      * A mapping from player names to their respective GuiPlayerInfo (specifies the clients response time to the server)
      */
-    private Map playerInfoMap = new HashMap();
+    public Map playerInfoMap = new HashMap();
 
     /**
      * An ArrayList of GuiPlayerInfo (includes all the players' GuiPlayerInfo on the current server)
@@ -279,7 +280,6 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         this.clientWorldController.isClient = true;
         this.gameController.loadWorld(this.clientWorldController);
         this.gameController.thePlayer.dimension = p_147282_1_.func_149194_f();
-        // this.gameController.displayGuiScreen(new GuiDownloadTerrain(this));
         this.gameController.thePlayer.setEntityId(p_147282_1_.func_149197_c());
         this.currentServerMaxPlayers = p_147282_1_.func_149193_h();
         this.gameController.playerController.setGameType(p_147282_1_.func_149198_e());
@@ -489,11 +489,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleEntityVelocity(S12PacketEntityVelocity p_147244_1_)
     {
-        Entity var2 = this.clientWorldController.getEntityByID(p_147244_1_.func_149412_c());
+        Entity var2 = this.clientWorldController.getEntityByID(p_147244_1_.getEntityId());
 
         if (var2 != null)
         {
-            var2.setVelocity((double)p_147244_1_.func_149411_d() / 8000.0D, (double)p_147244_1_.func_149410_e() / 8000.0D, (double)p_147244_1_.func_149409_f() / 8000.0D);
+            var2.setVelocity((double)p_147244_1_.getX() / 8000.0D, (double)p_147244_1_.getY() / 8000.0D, (double)p_147244_1_.getZ() / 8000.0D);
         }
     }
 
@@ -741,20 +741,17 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     public void onDisconnect(IChatComponent p_147231_1_)
     {
         this.gameController.loadWorld((WorldClient)null);
-
-        if (this.guiScreenServer != null)
-        {
-            this.gameController.displayGuiScreen(new GuiScreenDisconnectedOnline(this.guiScreenServer, "disconnect.lost", p_147231_1_));
-        }
-        else
-        {
-            this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", p_147231_1_));
-        }
+        this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", p_147231_1_));
     }
 
     public void addToSendQueue(Packet p_147297_1_)
     {
         this.netManager.scheduleOutboundPacket(p_147297_1_, new GenericFutureListener[0]);
+    }
+
+    public void addToSendQueueSilent(Packet p_147297_1_)
+    {
+        this.netManager.dispatchPacket(p_147297_1_, new GenericFutureListener[0]);
     }
 
     public void handleCollectItem(S0DPacketCollectItem p_147246_1_)
@@ -980,7 +977,6 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             this.clientWorldController.isClient = true;
             this.gameController.loadWorld(this.clientWorldController);
             this.gameController.thePlayer.dimension = p_147280_1_.func_149082_c();
-            //this.gameController.displayGuiScreen(new GuiDownloadTerrain(this));
         }
 
         this.gameController.setDimensionAndSpawnPlayer(p_147280_1_.func_149082_c());
@@ -995,9 +991,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         Explosion var2 = new Explosion(this.gameController.theWorld, (Entity)null, p_147283_1_.func_149148_f(), p_147283_1_.func_149143_g(), p_147283_1_.func_149145_h(), p_147283_1_.func_149146_i());
         var2.affectedBlockPositions = p_147283_1_.func_149150_j();
         var2.doExplosionB(true);
-        this.gameController.thePlayer.motionX += (double)p_147283_1_.func_149149_c();
-        this.gameController.thePlayer.motionY += (double)p_147283_1_.func_149144_d();
-        this.gameController.thePlayer.motionZ += (double)p_147283_1_.func_149147_e();
+        this.gameController.thePlayer.motionX += (double)p_147283_1_.getX();
+        this.gameController.thePlayer.motionY += (double)p_147283_1_.getY();
+        this.gameController.thePlayer.motionZ += (double)p_147283_1_.getZ();
     }
 
     /**
@@ -1520,12 +1516,18 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             var2 = new GuiPlayerInfo(p_147256_1_.func_149122_c());
             this.playerInfoMap.put(p_147256_1_.func_149122_c(), var2);
             this.playerInfoList.add(var2);
+
+            Nebula.BUS.dispatch(new EventTabListUpdate(
+              EventTabListUpdate.Action.ADD, var2));
         }
 
         if (var2 != null && !p_147256_1_.func_149121_d())
         {
             this.playerInfoMap.remove(p_147256_1_.func_149122_c());
             this.playerInfoList.remove(var2);
+
+            Nebula.BUS.dispatch(new EventTabListUpdate(
+              EventTabListUpdate.Action.REMOVE, var2));
         }
 
         if (var2 != null && p_147256_1_.func_149121_d())

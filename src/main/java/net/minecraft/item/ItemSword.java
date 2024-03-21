@@ -14,10 +14,10 @@ import net.minecraft.world.World;
 public class ItemSword extends Item
 {
     private float field_150934_a;
-    private final ToolMaterial field_150933_b;
+    private final Item.ToolMaterial field_150933_b;
     private static final String __OBFID = "CL_00000072";
 
-    public ItemSword(ToolMaterial p_i45356_1_)
+    public ItemSword(Item.ToolMaterial p_i45356_1_)
     {
         this.field_150933_b = p_i45356_1_;
         this.maxStackSize = 1;

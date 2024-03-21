@@ -3,6 +3,9 @@ package net.minecraft.client.gui.inventory;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.player.inventory.EventSlotClick;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -633,7 +636,11 @@ public abstract class GuiContainer extends GuiScreen
             p_146984_2_ = p_146984_1_.slotNumber;
         }
 
-        this.mc.playerController.windowClick(this.field_147002_h.windowId, p_146984_2_, p_146984_3_, p_146984_4_, this.mc.thePlayer);
+        EventSlotClick event = new EventSlotClick(
+          p_146984_1_, this, this.field_147002_h.windowId, p_146984_2_, p_146984_3_, p_146984_4_);
+        if (Nebula.BUS.dispatch(event)) return;
+
+        this.mc.playerController.windowClick(event.windowId(), event.slot(), event.mouseButton(), event.action(), this.mc.thePlayer);
     }
 
     /**

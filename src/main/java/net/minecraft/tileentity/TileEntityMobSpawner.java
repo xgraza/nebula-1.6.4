@@ -31,7 +31,7 @@ public class TileEntityMobSpawner extends TileEntity
         {
             return TileEntityMobSpawner.this.zCoord;
         }
-        public void setRandomMinecart(WeightedRandomMinecart par1WeightedRandomMinecart)
+        public void setRandomMinecart(MobSpawnerBaseLogic.WeightedRandomMinecart par1WeightedRandomMinecart)
         {
             super.setRandomMinecart(par1WeightedRandomMinecart);
 

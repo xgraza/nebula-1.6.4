@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import nebula.client.Nebula;
+import nebula.client.listener.event.render.overlay.EventRenderBurning;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -636,6 +638,8 @@ public class ItemRenderer
      */
     private void renderFireInFirstPerson(float par1)
     {
+        if (Nebula.BUS.dispatch(new EventRenderBurning())) return;
+
         Tessellator var2 = Tessellator.instance;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
         GL11.glEnable(GL11.GL_BLEND);

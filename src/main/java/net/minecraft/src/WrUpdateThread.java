@@ -46,7 +46,7 @@ public class WrUpdateThread extends Thread
             var8.printStackTrace();
         }
 
-        ThreadUpdateListener updateListener = new ThreadUpdateListener((NamelessClass1799466575)null);
+        WrUpdateThread.ThreadUpdateListener updateListener = new WrUpdateThread.ThreadUpdateListener((WrUpdateThread.NamelessClass1174128635)null);
 
         while (!Thread.interrupted() && !this.terminated)
         {
@@ -367,17 +367,17 @@ public class WrUpdateThread extends Thread
         this.terminated = true;
     }
 
-    static class NamelessClass1799466575
+    static class NamelessClass1174128635
     {
     }
 
     private class ThreadUpdateListener implements IWrUpdateListener
     {
-        private ThreadUpdateControl tuc;
+        private WrUpdateThread.ThreadUpdateControl tuc;
 
         private ThreadUpdateListener()
         {
-            this.tuc = WrUpdateThread.this.new ThreadUpdateControl((NamelessClass1799466575)null);
+            this.tuc = WrUpdateThread.this.new ThreadUpdateControl((WrUpdateThread.NamelessClass1174128635)null);
         }
 
         public void updating(IWrUpdateControl uc)
@@ -386,7 +386,7 @@ public class WrUpdateThread extends Thread
             WrUpdateThread.this.checkCanWork(this.tuc);
         }
 
-        ThreadUpdateListener(NamelessClass1799466575 x1)
+        ThreadUpdateListener(WrUpdateThread.NamelessClass1174128635 x1)
         {
             this();
         }
@@ -428,7 +428,7 @@ public class WrUpdateThread extends Thread
             this.updateControl = updateControl;
         }
 
-        ThreadUpdateControl(NamelessClass1799466575 x1)
+        ThreadUpdateControl(WrUpdateThread.NamelessClass1174128635 x1)
         {
             this();
         }

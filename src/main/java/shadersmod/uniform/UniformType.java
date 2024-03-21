@@ -13,7 +13,7 @@ public enum UniformType
 
     public ShaderUniformBase makeShaderUniform(String name)
     {
-        switch (NamelessClass1060549960.$SwitchMap$shadersmod$uniform$UniformType[this.ordinal()])
+        switch (UniformType.NamelessClass534670990.$SwitchMap$shadersmod$uniform$UniformType[this.ordinal()])
         {
             case 1:
                 return new ShaderUniformInt(name);
@@ -31,7 +31,7 @@ public enum UniformType
 
     public void updateUniform(IExpression expression, ShaderUniformBase uniform)
     {
-        switch (NamelessClass1060549960.$SwitchMap$shadersmod$uniform$UniformType[this.ordinal()])
+        switch (UniformType.NamelessClass534670990.$SwitchMap$shadersmod$uniform$UniformType[this.ordinal()])
         {
             case 1:
                 this.updateUniformBool((IExpressionBool)expression, (ShaderUniformInt)uniform);
@@ -71,7 +71,7 @@ public enum UniformType
 
     public boolean matchesExpressionType(ExpressionType expressionType)
     {
-        switch (NamelessClass1060549960.$SwitchMap$shadersmod$uniform$UniformType[this.ordinal()])
+        switch (UniformType.NamelessClass534670990.$SwitchMap$shadersmod$uniform$UniformType[this.ordinal()])
         {
             case 1:
                 return expressionType == ExpressionType.BOOL;
@@ -104,7 +104,7 @@ public enum UniformType
         return null;
     }
 
-    static class NamelessClass1060549960 {
+    static class NamelessClass534670990 {
         static final int[] $SwitchMap$shadersmod$uniform$UniformType = new int[UniformType.values().length];
 
         static {

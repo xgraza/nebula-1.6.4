@@ -123,7 +123,7 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
             final String var8 = var6.contains(":") ? var7.getResourceDomain() : p_147693_1_.getResourceDomain();
             Object var9;
 
-            switch (SwitchType.field_148765_a[var5.func_148563_e().ordinal()])
+            switch (SoundHandler.SwitchType.field_148765_a[var5.func_148563_e().ordinal()])
             {
                 case 1:
                     ResourceLocation var10 = new ResourceLocation(var8, "sounds/" + var7.getResourcePath() + ".ogg");

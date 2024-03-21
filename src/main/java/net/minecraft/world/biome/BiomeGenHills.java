@@ -95,7 +95,7 @@ public class BiomeGenHills extends BiomeGenBase
         this.field_150638_aH = this.field_150637_aG;
         this.func_150557_a(p_150633_1_.color, true);
         this.setBiomeName(p_150633_1_.biomeName + " M");
-        this.func_150570_a(new Height(p_150633_1_.minHeight, p_150633_1_.maxHeight));
+        this.func_150570_a(new BiomeGenBase.Height(p_150633_1_.minHeight, p_150633_1_.maxHeight));
         this.setTemperatureRainfall(p_150633_1_.temperature, p_150633_1_.rainfall);
         return this;
     }

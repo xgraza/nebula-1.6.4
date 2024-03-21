@@ -1995,7 +1995,7 @@ public class RenderGlobal implements IWorldAccess
                         float var19 = this.theWorld.provider.getCloudHeight() - var21 + 0.33F;
                         var19 += this.mc.gameSettings.ofCloudsHeight * 128.0F;
                         float var20 = (float)(dc * (double)var10);
-                        float var276 = (float)(cdx * (double)var10);
+                        var21 = (float)(cdx * (double)var10);
                         var5.startDrawingQuads();
                         var5.setColorRGBA_F(exactPlayerX, var8, exactPlayerY, 0.8F);
 
@@ -2003,10 +2003,10 @@ public class RenderGlobal implements IWorldAccess
                         {
                             for (int var23 = -var3 * var4; var23 < var3 * var4; var23 += var3)
                             {
-                                var5.addVertexWithUV((double)(var22 + 0), (double)var19, (double)(var23 + var3), (double)((float)(var22 + 0) * var10 + var20), (double)((float)(var23 + var3) * var10 + var276));
-                                var5.addVertexWithUV((double)(var22 + var3), (double)var19, (double)(var23 + var3), (double)((float)(var22 + var3) * var10 + var20), (double)((float)(var23 + var3) * var10 + var276));
-                                var5.addVertexWithUV((double)(var22 + var3), (double)var19, (double)(var23 + 0), (double)((float)(var22 + var3) * var10 + var20), (double)((float)(var23 + 0) * var10 + var276));
-                                var5.addVertexWithUV((double)(var22 + 0), (double)var19, (double)(var23 + 0), (double)((float)(var22 + 0) * var10 + var20), (double)((float)(var23 + 0) * var10 + var276));
+                                var5.addVertexWithUV((double)(var22 + 0), (double)var19, (double)(var23 + var3), (double)((float)(var22 + 0) * var10 + var20), (double)((float)(var23 + var3) * var10 + var21));
+                                var5.addVertexWithUV((double)(var22 + var3), (double)var19, (double)(var23 + var3), (double)((float)(var22 + var3) * var10 + var20), (double)((float)(var23 + var3) * var10 + var21));
+                                var5.addVertexWithUV((double)(var22 + var3), (double)var19, (double)(var23 + 0), (double)((float)(var22 + var3) * var10 + var20), (double)((float)(var23 + 0) * var10 + var21));
+                                var5.addVertexWithUV((double)(var22 + 0), (double)var19, (double)(var23 + 0), (double)((float)(var22 + 0) * var10 + var20), (double)((float)(var23 + 0) * var10 + var21));
                             }
                         }
 

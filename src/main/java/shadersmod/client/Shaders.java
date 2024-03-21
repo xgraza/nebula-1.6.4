@@ -501,7 +501,7 @@ public class Shaders
             str = eso.getValueDefault();
         }
 
-        switch (NamelessClass433798010.$SwitchMap$shadersmod$client$EnumShaderOption[eso.ordinal()])
+        switch (Shaders.NamelessClass1227656406.$SwitchMap$shadersmod$client$EnumShaderOption[eso.ordinal()])
         {
             case 1:
                 configAntialiasingLevel = Config.parseInt(str, 0);
@@ -613,7 +613,7 @@ public class Shaders
 
     public static String getEnumShaderOption(EnumShaderOption eso)
     {
-        switch (NamelessClass433798010.$SwitchMap$shadersmod$client$EnumShaderOption[eso.ordinal()])
+        switch (Shaders.NamelessClass1227656406.$SwitchMap$shadersmod$client$EnumShaderOption[eso.ordinal()])
         {
             case 1:
                 return Integer.toString(configAntialiasingLevel);
@@ -5178,7 +5178,7 @@ public class Shaders
         entityDataIndex = 0;
     }
 
-    static class NamelessClass433798010
+    static class NamelessClass1227656406
     {
         static final int[] $SwitchMap$shadersmod$client$EnumShaderOption = new int[EnumShaderOption.values().length];
 

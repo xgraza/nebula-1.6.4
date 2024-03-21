@@ -1,10 +1,43 @@
 plugins {
     id 'java'
-    id 'de.fuerstenau.buildconfig' version '1.1.4'
+    id 'de.fuerstenau.buildconfig' version "${build_config_version}"
 }
 
-group = 'yzy.szn'
-archivesBaseName = "Redline+${project.build_number}"
+group = project.group
+version = project.version
+
+println(' Java: ' + System.getProperty('java.version') +
+        ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ')' +
+        ' Arch: ' + System.getProperty('os.arch'))
+
+buildConfig {
+    buildConfigField "String", "HASH", "${execute("git rev-parse --short HEAD")}"
+    buildConfigField "String", "BRANCH", "${execute("git branch --show-current")}"
+    buildConfigField "String", "VERSION", "${project.version}"
+    buildConfigField "int", "BUILD", "${project.build}"
+
+    packageName "nebula.client"
+}
+
+sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    library
+    compile
+}
+
+dependencies {
+    implementation group: 'javax.vecmath', name: 'vecmath', version: vecmath_version
+    library group: 'org.java-websocket', name: 'Java-WebSocket', version: websocket_version
+    library group: 'io.sentry', name: 'sentry', version: '6.27.0'
+
+    implementation fileTree('libraries')
+    implementation configurations.library
+}
 
 def execute(String cmd) {
     try {
@@ -21,43 +54,8 @@ def execute(String cmd) {
     }
 }
 
-buildConfig {
-    buildConfigField "String", "HASH", "${execute("git rev-parse --short HEAD")}"
-    buildConfigField "String", "BRANCH", "${execute("git branch").replace("* ", "")}"
-    buildConfigField "String", "VERSION", "${project.version}"
-    buildConfigField "int", "BUILD_NUMBER", "${project.build_number}"
-
-    packageName "yzy.szn.launcher"
-}
-
-sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
-
-sourceCompatibility = targetCompatibility = '8'
-compileJava {
-    sourceCompatibility = targetCompatibility = '8'
-    options.encoding 'UTF-8'
-}
-
-repositories {
-    mavenCentral()
-}
-
-configurations {
-    dependency
-    implementation.extendsFrom dependency
-}
-
-dependencies {
-
-    implementation fileTree('libraries')
-    implementation configurations.dependency
-}
-
 jar {
-    from(configurations.dependency.collect { it.isDirectory() ? it : zipTree(it) })
-
-    manifest.attributes(
-            'Main-Class': 'Start',
-            'Class-Path': '.'
-    )
+    from {
+        configurations.library.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

@@ -19,7 +19,7 @@ public class KeyBinding implements Comparable
     private int keyCode;
 
     /** because _303 wanted me to call it that(Caironater) */
-    private boolean pressed;
+    public boolean pressed;
     private int presses;
     private static final String __OBFID = "CL_00000628";
 
@@ -152,9 +152,5 @@ public class KeyBinding implements Comparable
     public int compareTo(Object par1Obj)
     {
         return this.compareTo((KeyBinding)par1Obj);
-    }
-
-    public void setPressed(boolean b) {
-        this.pressed = b;
     }
 }

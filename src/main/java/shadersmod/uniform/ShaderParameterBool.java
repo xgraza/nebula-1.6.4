@@ -50,7 +50,7 @@ public enum ShaderParameterBool implements IExpressionBool
         {
             EntityLivingBase entity = (EntityLivingBase)entityGeneral;
 
-            switch (NamelessClass2102873134.$SwitchMap$shadersmod$uniform$ShaderParameterBool[this.ordinal()])
+            switch (ShaderParameterBool.NamelessClass185748887.$SwitchMap$shadersmod$uniform$ShaderParameterBool[this.ordinal()])
             {
                 case 1:
                     return entity.isEntityAlive();
@@ -121,7 +121,7 @@ public enum ShaderParameterBool implements IExpressionBool
         }
     }
 
-    static class NamelessClass2102873134 {
+    static class NamelessClass185748887 {
         static final int[] $SwitchMap$shadersmod$uniform$ShaderParameterBool = new int[ShaderParameterBool.values().length];
 
         static {

@@ -1,5 +1,9 @@
 package net.minecraft.client.gui;
 
+import io.sentry.Sentry;
+import nebula.client.Nebula;
+import nebula.client.module.impl.player.antidisconnect.AntiDisconnectModule;
+import nebula.client.module.impl.player.antidisconnect.DisconnectConfirmScreen;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -7,6 +11,9 @@ import net.minecraft.client.resources.I18n;
 
 public class GuiIngameMenu extends GuiScreen
 {
+
+    private AntiDisconnectModule antiDisconnect;
+
     private int field_146445_a;
     private int field_146444_f;
     private static final String __OBFID = "CL_00000703";
@@ -16,6 +23,11 @@ public class GuiIngameMenu extends GuiScreen
      */
     public void initGui()
     {
+
+        if (antiDisconnect == null) {
+            antiDisconnect = Nebula.INSTANCE.module.get(AntiDisconnectModule.class);
+        }
+
         this.field_146445_a = 0;
         this.buttonList.clear();
         byte var1 = -16;
@@ -45,10 +57,14 @@ public class GuiIngameMenu extends GuiScreen
                 break;
 
             case 1:
+
+                if (antiDisconnect.macro().toggled()) {
+                    mc.displayGuiScreen(new DisconnectConfirmScreen(this));
+                    break;
+                }
+
                 p_146284_1_.enabled = false;
-                this.mc.theWorld.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld((WorldClient)null);
-                this.mc.displayGuiScreen(new GuiMainMenu());
+                disconnectFromWorld();
 
             case 2:
             case 3:
@@ -90,5 +106,31 @@ public class GuiIngameMenu extends GuiScreen
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRenderer, "Game menu", this.width / 2, 40, 16777215);
         super.drawScreen(par1, par2, par3);
+    }
+
+    @Override
+    public void confirmClicked(boolean par1, int par2) {
+        if (par2 == 69420) {
+            if (par1) {
+                try {
+                    ((GuiButton) buttonList.get(0)).enabled = false;
+                } catch (IndexOutOfBoundsException e) {
+                    // how tf did this happen
+                    e.printStackTrace();
+                    Sentry.captureException(e);
+                    Nebula.LOGGER.error("Failed to set disconnect button state for some reason (size={})", buttonList.size());
+                }
+
+                disconnectFromWorld();
+            } else {
+                mc.displayGuiScreen(this);
+            }
+        }
+    }
+
+    private void disconnectFromWorld() {
+        this.mc.theWorld.sendQuittingDisconnectingPacket();
+        this.mc.loadWorld((WorldClient)null);
+        this.mc.displayGuiScreen(new GuiMainMenu());
     }
 }

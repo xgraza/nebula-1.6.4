@@ -115,7 +115,7 @@ public class CrashReportCategory
      */
     public void addCrashSection(String par1Str, Object par2Obj)
     {
-        this.field_85077_c.add(new Entry(par1Str, par2Obj));
+        this.field_85077_c.add(new CrashReportCategory.Entry(par1Str, par2Obj));
     }
 
     /**
@@ -200,7 +200,7 @@ public class CrashReportCategory
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
+            CrashReportCategory.Entry var3 = (CrashReportCategory.Entry)var2.next();
             par1StringBuilder.append("\n\t");
             par1StringBuilder.append(var3.func_85089_a());
             par1StringBuilder.append(": ");

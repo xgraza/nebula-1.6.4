@@ -23,12 +23,12 @@ public class LanServerDetector
 
     public static class ThreadLanServerFind extends Thread
     {
-        private final LanServerList localServerList;
+        private final LanServerDetector.LanServerList localServerList;
         private final InetAddress broadcastAddress;
         private final MulticastSocket socket;
         private static final String __OBFID = "CL_00001135";
 
-        public ThreadLanServerFind(LanServerList par1LanServerList) throws IOException
+        public ThreadLanServerFind(LanServerDetector.LanServerList par1LanServerList) throws IOException
         {
             super("LanServerDetector #" + LanServerDetector.field_148551_a.incrementAndGet());
             this.localServerList = par1LanServerList;
@@ -143,7 +143,7 @@ public class LanServerDetector
 
                 while (var6.hasNext())
                 {
-                    LanServer var7 = (LanServer)var6.next();
+                    LanServerDetector.LanServer var7 = (LanServerDetector.LanServer)var6.next();
 
                     if (var7.getServerIpPort().equals(var4))
                     {
@@ -155,7 +155,7 @@ public class LanServerDetector
 
                 if (!var5)
                 {
-                    this.listOfLanServers.add(new LanServer(var3, var4));
+                    this.listOfLanServers.add(new LanServerDetector.LanServer(var3, var4));
                     this.wasUpdated = true;
                 }
             }

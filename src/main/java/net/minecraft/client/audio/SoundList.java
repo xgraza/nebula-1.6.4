@@ -41,13 +41,13 @@ public class SoundList
         private float field_148567_b = 1.0F;
         private float field_148568_c = 1.0F;
         private int field_148565_d = 1;
-        private Type field_148566_e;
+        private SoundList.SoundEntry.Type field_148566_e;
         private boolean field_148564_f;
         private static final String __OBFID = "CL_00001122";
 
         public SoundEntry()
         {
-            this.field_148566_e = Type.FILE;
+            this.field_148566_e = SoundList.SoundEntry.Type.FILE;
             this.field_148564_f = false;
         }
 
@@ -91,12 +91,12 @@ public class SoundList
             this.field_148565_d = p_148554_1_;
         }
 
-        public Type func_148563_e()
+        public SoundList.SoundEntry.Type func_148563_e()
         {
             return this.field_148566_e;
         }
 
-        public void func_148562_a(Type p_148562_1_)
+        public void func_148562_a(SoundList.SoundEntry.Type p_148562_1_)
         {
             this.field_148566_e = p_148562_1_;
         }
@@ -117,7 +117,7 @@ public class SoundList
             SOUND_EVENT("SOUND_EVENT", 1, "event");
             private final String field_148583_c;
 
-            private static final Type[] $VALUES = new Type[]{FILE, SOUND_EVENT};
+            private static final SoundList.SoundEntry.Type[] $VALUES = new SoundList.SoundEntry.Type[]{FILE, SOUND_EVENT};
             private static final String __OBFID = "CL_00001123";
 
             private Type(String p_i45109_1_, int p_i45109_2_, String p_i45109_3_)
@@ -125,14 +125,14 @@ public class SoundList
                 this.field_148583_c = p_i45109_3_;
             }
 
-            public static Type func_148580_a(String p_148580_0_)
+            public static SoundList.SoundEntry.Type func_148580_a(String p_148580_0_)
             {
-                Type[] var1 = values();
+                SoundList.SoundEntry.Type[] var1 = values();
                 int var2 = var1.length;
 
                 for (int var3 = 0; var3 < var2; ++var3)
                 {
-                    Type var4 = var1[var3];
+                    SoundList.SoundEntry.Type var4 = var1[var3];
 
                     if (var4.field_148583_c.equals(p_148580_0_))
                     {

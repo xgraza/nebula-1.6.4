@@ -20,7 +20,7 @@ public interface ISound
 
     float func_147651_i();
 
-    AttenuationType func_147656_j();
+    ISound.AttenuationType func_147656_j();
 
     public static enum AttenuationType
     {
@@ -28,7 +28,7 @@ public interface ISound
         LINEAR("LINEAR", 1, 2);
         private final int field_148589_c;
 
-        private static final AttenuationType[] $VALUES = new AttenuationType[]{NONE, LINEAR};
+        private static final ISound.AttenuationType[] $VALUES = new ISound.AttenuationType[]{NONE, LINEAR};
         private static final String __OBFID = "CL_00001126";
 
         private AttenuationType(String p_i45110_1_, int p_i45110_2_, int p_i45110_3_)

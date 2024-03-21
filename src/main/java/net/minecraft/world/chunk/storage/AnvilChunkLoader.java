@@ -58,9 +58,9 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
             {
                 for (int var7 = 0; var7 < this.chunksToRemove.size(); ++var7)
                 {
-                    if (((PendingChunk)this.chunksToRemove.get(var7)).chunkCoordinate.equals(var5))
+                    if (((AnvilChunkLoader.PendingChunk)this.chunksToRemove.get(var7)).chunkCoordinate.equals(var5))
                     {
-                        var4 = ((PendingChunk)this.chunksToRemove.get(var7)).nbtTags;
+                        var4 = ((AnvilChunkLoader.PendingChunk)this.chunksToRemove.get(var7)).nbtTags;
                         break;
                     }
                 }
@@ -141,15 +141,15 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
             {
                 for (int var4 = 0; var4 < this.chunksToRemove.size(); ++var4)
                 {
-                    if (((PendingChunk)this.chunksToRemove.get(var4)).chunkCoordinate.equals(par1ChunkCoordIntPair))
+                    if (((AnvilChunkLoader.PendingChunk)this.chunksToRemove.get(var4)).chunkCoordinate.equals(par1ChunkCoordIntPair))
                     {
-                        this.chunksToRemove.set(var4, new PendingChunk(par1ChunkCoordIntPair, par2NBTTagCompound));
+                        this.chunksToRemove.set(var4, new AnvilChunkLoader.PendingChunk(par1ChunkCoordIntPair, par2NBTTagCompound));
                         return;
                     }
                 }
             }
 
-            this.chunksToRemove.add(new PendingChunk(par1ChunkCoordIntPair, par2NBTTagCompound));
+            this.chunksToRemove.add(new AnvilChunkLoader.PendingChunk(par1ChunkCoordIntPair, par2NBTTagCompound));
             this.pendingAnvilChunksCoordinates.add(par1ChunkCoordIntPair);
             ThreadedFileIOBase.threadedIOInstance.queueIO(this);
         }
@@ -160,7 +160,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
      */
     public boolean writeNextIO()
     {
-        PendingChunk var1 = null;
+        AnvilChunkLoader.PendingChunk var1 = null;
         Object var2 = this.syncLockObject;
 
         synchronized (this.syncLockObject)
@@ -170,7 +170,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
                 return false;
             }
 
-            var1 = (PendingChunk)this.chunksToRemove.remove(0);
+            var1 = (AnvilChunkLoader.PendingChunk)this.chunksToRemove.remove(0);
             this.pendingAnvilChunksCoordinates.remove(var1.chunkCoordinate);
         }
 
@@ -189,7 +189,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         return true;
     }
 
-    private void writeChunkNBTTags(PendingChunk par1AnvilChunkLoaderPending) throws IOException
+    private void writeChunkNBTTags(AnvilChunkLoader.PendingChunk par1AnvilChunkLoaderPending) throws IOException
     {
         DataOutputStream var2 = RegionFileCache.getChunkOutputStream(this.chunkSaveLocation, par1AnvilChunkLoaderPending.chunkCoordinate.chunkXPos, par1AnvilChunkLoaderPending.chunkCoordinate.chunkZPos);
         CompressedStreamTools.write(par1AnvilChunkLoaderPending.nbtTags, var2);

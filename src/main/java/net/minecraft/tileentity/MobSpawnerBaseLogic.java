@@ -23,7 +23,7 @@ public abstract class MobSpawnerBaseLogic
 
     /** List of minecart to spawn. */
     private List minecartToSpawn;
-    private WeightedRandomMinecart randomMinecart;
+    private MobSpawnerBaseLogic.WeightedRandomMinecart randomMinecart;
     public double field_98287_c;
     public double field_98284_d;
     private int minSpawnDelay = 200;
@@ -235,7 +235,7 @@ public abstract class MobSpawnerBaseLogic
 
         if (this.minecartToSpawn != null && this.minecartToSpawn.size() > 0)
         {
-            this.setRandomMinecart((WeightedRandomMinecart)WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.minecartToSpawn));
+            this.setRandomMinecart((MobSpawnerBaseLogic.WeightedRandomMinecart)WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.minecartToSpawn));
         }
 
         this.func_98267_a(1);
@@ -253,7 +253,7 @@ public abstract class MobSpawnerBaseLogic
 
             for (int var3 = 0; var3 < var2.tagCount(); ++var3)
             {
-                this.minecartToSpawn.add(new WeightedRandomMinecart(var2.getCompoundTagAt(var3)));
+                this.minecartToSpawn.add(new MobSpawnerBaseLogic.WeightedRandomMinecart(var2.getCompoundTagAt(var3)));
             }
         }
         else
@@ -263,11 +263,11 @@ public abstract class MobSpawnerBaseLogic
 
         if (par1NBTTagCompound.hasKey("SpawnData", 10))
         {
-            this.setRandomMinecart(new WeightedRandomMinecart(par1NBTTagCompound.getCompoundTag("SpawnData"), this.mobID));
+            this.setRandomMinecart(new MobSpawnerBaseLogic.WeightedRandomMinecart(par1NBTTagCompound.getCompoundTag("SpawnData"), this.mobID));
         }
         else
         {
-            this.setRandomMinecart((WeightedRandomMinecart)null);
+            this.setRandomMinecart((MobSpawnerBaseLogic.WeightedRandomMinecart)null);
         }
 
         if (par1NBTTagCompound.hasKey("MinSpawnDelay", 99))
@@ -320,7 +320,7 @@ public abstract class MobSpawnerBaseLogic
 
                 while (var3.hasNext())
                 {
-                    WeightedRandomMinecart var4 = (WeightedRandomMinecart)var3.next();
+                    MobSpawnerBaseLogic.WeightedRandomMinecart var4 = (MobSpawnerBaseLogic.WeightedRandomMinecart)var3.next();
                     var2.appendTag(var4.func_98220_a());
                 }
             }
@@ -361,12 +361,12 @@ public abstract class MobSpawnerBaseLogic
         }
     }
 
-    public WeightedRandomMinecart getRandomMinecart()
+    public MobSpawnerBaseLogic.WeightedRandomMinecart getRandomMinecart()
     {
         return this.randomMinecart;
     }
 
-    public void setRandomMinecart(WeightedRandomMinecart par1WeightedRandomMinecart)
+    public void setRandomMinecart(MobSpawnerBaseLogic.WeightedRandomMinecart par1WeightedRandomMinecart)
     {
         this.randomMinecart = par1WeightedRandomMinecart;
     }

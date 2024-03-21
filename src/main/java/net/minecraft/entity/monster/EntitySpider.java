@@ -218,17 +218,17 @@ public class EntitySpider extends EntityMob
 
         if (par1EntityLivingData1 == null)
         {
-            par1EntityLivingData1 = new GroupData();
+            par1EntityLivingData1 = new EntitySpider.GroupData();
 
             if (this.worldObj.difficultySetting == EnumDifficulty.HARD && this.worldObj.rand.nextFloat() < 0.1F * this.worldObj.func_147462_b(this.posX, this.posY, this.posZ))
             {
-                ((GroupData)par1EntityLivingData1).func_111104_a(this.worldObj.rand);
+                ((EntitySpider.GroupData)par1EntityLivingData1).func_111104_a(this.worldObj.rand);
             }
         }
 
-        if (par1EntityLivingData1 instanceof GroupData)
+        if (par1EntityLivingData1 instanceof EntitySpider.GroupData)
         {
-            int var4 = ((GroupData)par1EntityLivingData1).field_111105_a;
+            int var4 = ((EntitySpider.GroupData)par1EntityLivingData1).field_111105_a;
 
             if (var4 > 0 && Potion.potionTypes[var4] != null)
             {

@@ -144,7 +144,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
     /** must be between 3>x>15 (strictly between) */
     private int renderDistance;
-    private EnumChatVisibility chatVisibility;
+    private EntityPlayer.EnumChatVisibility chatVisibility;
     private boolean chatColours = true;
     private long field_143005_bX = 0L;
 
@@ -613,11 +613,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
     /**
      * puts player to sleep on specified bed if possible
      */
-    public EnumStatus sleepInBedAt(int par1, int par2, int par3)
+    public EntityPlayer.EnumStatus sleepInBedAt(int par1, int par2, int par3)
     {
-        EnumStatus var4 = super.sleepInBedAt(par1, par2, par3);
+        EntityPlayer.EnumStatus var4 = super.sleepInBedAt(par1, par2, par3);
 
-        if (var4 == EnumStatus.OK)
+        if (var4 == EntityPlayer.EnumStatus.OK)
         {
             S0APacketUseBed var5 = new S0APacketUseBed(this, par1, par2, par3);
             this.getServerForPlayer().getEntityTracker().func_151247_a(this, var5);
@@ -1115,7 +1115,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         this.setHideCape(1, !p_147100_1_.func_149519_h());
     }
 
-    public EnumChatVisibility func_147096_v()
+    public EntityPlayer.EnumChatVisibility func_147096_v()
     {
         return this.chatVisibility;
     }

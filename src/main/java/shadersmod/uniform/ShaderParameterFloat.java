@@ -86,7 +86,7 @@ public enum ShaderParameterFloat implements IExpressionFloat
 
     public float eval()
     {
-        switch (NamelessClass1361595393.$SwitchMap$shadersmod$uniform$ShaderParameterFloat[this.ordinal()])
+        switch (ShaderParameterFloat.NamelessClass1293093397.$SwitchMap$shadersmod$uniform$ShaderParameterFloat[this.ordinal()])
         {
             case 1:
                 Vec3 valLegacy = Shaders.getCameraPosition();
@@ -99,7 +99,7 @@ public enum ShaderParameterFloat implements IExpressionFloat
         }
     }
 
-    static class NamelessClass1361595393 {
+    static class NamelessClass1293093397 {
         static final int[] $SwitchMap$shadersmod$uniform$ShaderParameterFloat = new int[ShaderParameterFloat.values().length];
 
         static {

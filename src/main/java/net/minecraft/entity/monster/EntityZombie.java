@@ -489,12 +489,12 @@ public class EntityZombie extends EntityMob
 
         if (par1EntityLivingData1 == null)
         {
-            par1EntityLivingData1 = new GroupData(this.worldObj.rand.nextFloat() < 0.05F, this.worldObj.rand.nextFloat() < 0.05F, null);
+            par1EntityLivingData1 = new EntityZombie.GroupData(this.worldObj.rand.nextFloat() < 0.05F, this.worldObj.rand.nextFloat() < 0.05F, null);
         }
 
-        if (par1EntityLivingData1 instanceof GroupData)
+        if (par1EntityLivingData1 instanceof EntityZombie.GroupData)
         {
-            GroupData var3 = (GroupData)par1EntityLivingData1;
+            EntityZombie.GroupData var3 = (EntityZombie.GroupData)par1EntityLivingData1;
 
             if (var3.field_142046_b)
             {

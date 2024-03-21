@@ -15,13 +15,13 @@ import org.lwjgl.opengl.GL20;
 
 public class ShaderLoader
 {
-    private final ShaderType field_148061_a;
+    private final ShaderLoader.ShaderType field_148061_a;
     private final String field_148059_b;
     private int field_148060_c;
     private int field_148058_d = 0;
     private static final String __OBFID = "CL_00001043";
 
-    private ShaderLoader(ShaderType p_i45091_1_, int p_i45091_2_, String p_i45091_3_)
+    private ShaderLoader(ShaderLoader.ShaderType p_i45091_1_, int p_i45091_2_, String p_i45091_3_)
     {
         this.field_148061_a = p_i45091_1_;
         this.field_148060_c = p_i45091_2_;
@@ -50,7 +50,7 @@ public class ShaderLoader
         return this.field_148059_b;
     }
 
-    public static ShaderLoader func_148057_a(IResourceManager p_148057_0_, ShaderType p_148057_1_, String p_148057_2_) throws IOException
+    public static ShaderLoader func_148057_a(IResourceManager p_148057_0_, ShaderLoader.ShaderType p_148057_1_, String p_148057_2_) throws IOException
     {
         ShaderLoader var3 = (ShaderLoader)p_148057_1_.func_148064_d().get(p_148057_2_);
 
@@ -90,7 +90,7 @@ public class ShaderLoader
         private final int field_148070_e;
         private final Map field_148067_f = Maps.newHashMap();
 
-        private static final ShaderType[] $VALUES = new ShaderType[]{VERTEX, FRAGMENT};
+        private static final ShaderLoader.ShaderType[] $VALUES = new ShaderLoader.ShaderType[]{VERTEX, FRAGMENT};
         private static final String __OBFID = "CL_00001044";
 
         private ShaderType(String p_i45090_1_, int p_i45090_2_, String p_i45090_3_, String p_i45090_4_, int p_i45090_5_)

@@ -2,6 +2,8 @@ package net.minecraft.client.gui;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import nebula.client.Nebula;
+import nebula.client.util.math.MathUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,39 +28,38 @@ public class GuiScreenBook extends GuiScreen
     private static final ResourceLocation field_146466_f = new ResourceLocation("textures/gui/book.png");
     private final EntityPlayer field_146468_g;
     private final ItemStack field_146474_h;
-    private final boolean field_146475_i;
+    private final boolean writeable;
     private boolean field_146481_r;
-    private boolean field_146480_s;
+    private boolean signing;
     private int field_146479_t;
     private int field_146478_u = 192;
     private int field_146477_v = 192;
     private int field_146476_w = 1;
-    private int field_146484_x;
-    private NBTTagList field_146483_y;
+    private int pages;
+    private NBTTagList tagList;
     private String field_146482_z = "";
-    private NextPageButton field_146470_A;
-    private NextPageButton field_146471_B;
-    private GuiButton field_146472_C;
-    private GuiButton field_146465_D;
-    private GuiButton field_146467_E;
-    private GuiButton field_146469_F;
-    private static final String __OBFID = "CL_00000744";
+    private GuiScreenBook.NextPageButton butonPrevious;
+    private GuiScreenBook.NextPageButton buttonNext;
+    private GuiButton buttonDone;
+    private GuiButton buttonSign;
+    private GuiButton buttonFinalize;
+    private GuiButton buttonCancel;
 
-    public GuiScreenBook(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack, boolean par3)
+    public GuiScreenBook(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack, boolean writeable)
     {
         this.field_146468_g = par1EntityPlayer;
         this.field_146474_h = par2ItemStack;
-        this.field_146475_i = par3;
+        this.writeable = writeable;
 
         if (par2ItemStack.hasTagCompound())
         {
             NBTTagCompound var4 = par2ItemStack.getTagCompound();
-            this.field_146483_y = var4.getTagList("pages", 8);
+            this.tagList = var4.getTagList("pages", 8);
 
-            if (this.field_146483_y != null)
+            if (this.tagList != null)
             {
-                this.field_146483_y = (NBTTagList)this.field_146483_y.copy();
-                this.field_146476_w = this.field_146483_y.tagCount();
+                this.tagList = (NBTTagList)this.tagList.copy();
+                this.field_146476_w = this.tagList.tagCount();
 
                 if (this.field_146476_w < 1)
                 {
@@ -67,10 +68,10 @@ public class GuiScreenBook extends GuiScreen
             }
         }
 
-        if (this.field_146483_y == null && par3)
+        if (this.tagList == null && writeable)
         {
-            this.field_146483_y = new NBTTagList();
-            this.field_146483_y.appendTag(new NBTTagString(""));
+            this.tagList = new NBTTagList();
+            this.tagList.appendTag(new NBTTagString(""));
             this.field_146476_w = 1;
         }
     }
@@ -92,22 +93,22 @@ public class GuiScreenBook extends GuiScreen
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
 
-        if (this.field_146475_i)
+        if (this.writeable)
         {
-            this.buttonList.add(this.field_146465_D = new GuiButton(3, this.width / 2 - 100, 4 + this.field_146477_v, 98, 20, I18n.format("book.signButton", new Object[0])));
-            this.buttonList.add(this.field_146472_C = new GuiButton(0, this.width / 2 + 2, 4 + this.field_146477_v, 98, 20, I18n.format("gui.done", new Object[0])));
-            this.buttonList.add(this.field_146467_E = new GuiButton(5, this.width / 2 - 100, 4 + this.field_146477_v, 98, 20, I18n.format("book.finalizeButton", new Object[0])));
-            this.buttonList.add(this.field_146469_F = new GuiButton(4, this.width / 2 + 2, 4 + this.field_146477_v, 98, 20, I18n.format("gui.cancel", new Object[0])));
+            this.buttonList.add(this.buttonSign = new GuiButton(3, this.width / 2 - 100, 4 + this.field_146477_v, 98, 20, I18n.format("book.signButton", new Object[0])));
+            this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 + 2, 4 + this.field_146477_v, 98, 20, I18n.format("gui.done", new Object[0])));
+            this.buttonList.add(this.buttonFinalize = new GuiButton(5, this.width / 2 - 100, 4 + this.field_146477_v, 98, 20, I18n.format("book.finalizeButton", new Object[0])));
+            this.buttonList.add(this.buttonCancel = new GuiButton(4, this.width / 2 + 2, 4 + this.field_146477_v, 98, 20, I18n.format("gui.cancel", new Object[0])));
         }
         else
         {
-            this.buttonList.add(this.field_146472_C = new GuiButton(0, this.width / 2 - 100, 4 + this.field_146477_v, 200, 20, I18n.format("gui.done", new Object[0])));
+            this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 - 100, 4 + this.field_146477_v, 200, 20, I18n.format("gui.done", new Object[0])));
         }
 
         int var1 = (this.width - this.field_146478_u) / 2;
         byte var2 = 2;
-        this.buttonList.add(this.field_146470_A = new NextPageButton(1, var1 + 120, var2 + 154, true));
-        this.buttonList.add(this.field_146471_B = new NextPageButton(2, var1 + 38, var2 + 154, false));
+        this.buttonList.add(this.butonPrevious = new GuiScreenBook.NextPageButton(1, var1 + 120, var2 + 154, true));
+        this.buttonList.add(this.buttonNext = new GuiScreenBook.NextPageButton(2, var1 + 38, var2 + 154, false));
         this.func_146464_h();
     }
 
@@ -121,52 +122,52 @@ public class GuiScreenBook extends GuiScreen
 
     private void func_146464_h()
     {
-        this.field_146470_A.drawButton = !this.field_146480_s && (this.field_146484_x < this.field_146476_w - 1 || this.field_146475_i);
-        this.field_146471_B.drawButton = !this.field_146480_s && this.field_146484_x > 0;
-        this.field_146472_C.drawButton = !this.field_146475_i || !this.field_146480_s;
+        this.butonPrevious.drawButton = !this.signing && (this.pages < this.field_146476_w - 1 || this.writeable);
+        this.buttonNext.drawButton = !this.signing && this.pages > 0;
+        this.buttonDone.drawButton = !this.writeable || !this.signing;
 
-        if (this.field_146475_i)
+        if (this.writeable)
         {
-            this.field_146465_D.drawButton = !this.field_146480_s;
-            this.field_146469_F.drawButton = this.field_146480_s;
-            this.field_146467_E.drawButton = this.field_146480_s;
-            this.field_146467_E.enabled = this.field_146482_z.trim().length() > 0;
+            this.buttonSign.drawButton = !this.signing;
+            this.buttonCancel.drawButton = this.signing;
+            this.buttonFinalize.drawButton = this.signing;
+            this.buttonFinalize.enabled = this.field_146482_z.trim().length() > 0;
         }
     }
 
-    private void func_146462_a(boolean p_146462_1_)
+    private void writeToBook(boolean sign)
     {
-        if (this.field_146475_i && this.field_146481_r)
+        if (this.writeable && this.field_146481_r)
         {
-            if (this.field_146483_y != null)
+            if (this.tagList != null)
             {
                 String var2;
 
-                while (this.field_146483_y.tagCount() > 1)
+                while (this.tagList.tagCount() > 1)
                 {
-                    var2 = this.field_146483_y.getStringTagAt(this.field_146483_y.tagCount() - 1);
+                    var2 = this.tagList.getStringTagAt(this.tagList.tagCount() - 1);
 
                     if (var2.length() != 0)
                     {
                         break;
                     }
 
-                    this.field_146483_y.removeTag(this.field_146483_y.tagCount() - 1);
+                    this.tagList.removeTag(this.tagList.tagCount() - 1);
                 }
 
                 if (this.field_146474_h.hasTagCompound())
                 {
                     NBTTagCompound var10 = this.field_146474_h.getTagCompound();
-                    var10.setTag("pages", this.field_146483_y);
+                    var10.setTag("pages", this.tagList);
                 }
                 else
                 {
-                    this.field_146474_h.setTagInfo("pages", this.field_146483_y);
+                    this.field_146474_h.setTagInfo("pages", this.tagList);
                 }
 
                 var2 = "MC|BEdit";
 
-                if (p_146462_1_)
+                if (sign)
                 {
                     var2 = "MC|BSign";
                     this.field_146474_h.setTagInfo("author", new NBTTagString(this.field_146468_g.getCommandSenderName()));
@@ -193,50 +194,50 @@ public class GuiScreenBook extends GuiScreen
         }
     }
 
-    protected void actionPerformed(GuiButton p_146284_1_)
+    protected void actionPerformed(GuiButton button)
     {
-        if (p_146284_1_.enabled)
+        if (button.enabled)
         {
-            if (p_146284_1_.id == 0)
+            if (button.id == 0)
             {
                 this.mc.displayGuiScreen((GuiScreen)null);
-                this.func_146462_a(false);
+                this.writeToBook(false);
             }
-            else if (p_146284_1_.id == 3 && this.field_146475_i)
+            else if (button.id == 3 && this.writeable)
             {
-                this.field_146480_s = true;
+                this.signing = true;
             }
-            else if (p_146284_1_.id == 1)
+            else if (button.id == 1)
             {
-                if (this.field_146484_x < this.field_146476_w - 1)
+                if (this.pages < this.field_146476_w - 1)
                 {
-                    ++this.field_146484_x;
+                    ++this.pages;
                 }
-                else if (this.field_146475_i)
+                else if (this.writeable)
                 {
                     this.func_146461_i();
 
-                    if (this.field_146484_x < this.field_146476_w - 1)
+                    if (this.pages < this.field_146476_w - 1)
                     {
-                        ++this.field_146484_x;
+                        ++this.pages;
                     }
                 }
             }
-            else if (p_146284_1_.id == 2)
+            else if (button.id == 2)
             {
-                if (this.field_146484_x > 0)
+                if (this.pages > 0)
                 {
-                    --this.field_146484_x;
+                    --this.pages;
                 }
             }
-            else if (p_146284_1_.id == 5 && this.field_146480_s)
+            else if (button.id == 5 && this.signing)
             {
-                this.func_146462_a(true);
+                this.writeToBook(true);
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
-            else if (p_146284_1_.id == 4 && this.field_146480_s)
+            else if (button.id == 4 && this.signing)
             {
-                this.field_146480_s = false;
+                this.signing = false;
             }
 
             this.func_146464_h();
@@ -245,9 +246,9 @@ public class GuiScreenBook extends GuiScreen
 
     private void func_146461_i()
     {
-        if (this.field_146483_y != null && this.field_146483_y.tagCount() < 50)
+        if (this.tagList != null && this.tagList.tagCount() < 50)
         {
-            this.field_146483_y.appendTag(new NBTTagString(""));
+            this.tagList.appendTag(new NBTTagString(""));
             ++this.field_146476_w;
             this.field_146481_r = true;
         }
@@ -260,9 +261,9 @@ public class GuiScreenBook extends GuiScreen
     {
         super.keyTyped(par1, par2);
 
-        if (this.field_146475_i)
+        if (this.writeable)
         {
-            if (this.field_146480_s)
+            if (this.signing)
             {
                 this.func_146460_c(par1, par2);
             }
@@ -325,7 +326,7 @@ public class GuiScreenBook extends GuiScreen
             case 156:
                 if (!this.field_146482_z.isEmpty())
                 {
-                    this.func_146462_a(true);
+                    this.writeToBook(true);
                     this.mc.displayGuiScreen((GuiScreen)null);
                 }
 
@@ -343,14 +344,14 @@ public class GuiScreenBook extends GuiScreen
 
     private String func_146456_p()
     {
-        return this.field_146483_y != null && this.field_146484_x >= 0 && this.field_146484_x < this.field_146483_y.tagCount() ? this.field_146483_y.getStringTagAt(this.field_146484_x) : "";
+        return this.tagList != null && this.pages >= 0 && this.pages < this.tagList.tagCount() ? this.tagList.getStringTagAt(this.pages) : "";
     }
 
     private void func_146457_a(String p_146457_1_)
     {
-        if (this.field_146483_y != null && this.field_146484_x >= 0 && this.field_146484_x < this.field_146483_y.tagCount())
+        if (this.tagList != null && this.pages >= 0 && this.pages < this.tagList.tagCount())
         {
-            this.field_146483_y.func_150304_a(this.field_146484_x, new NBTTagString(p_146457_1_));
+            this.tagList.func_150304_a(this.pages, new NBTTagString(p_146457_1_));
             this.field_146481_r = true;
         }
     }
@@ -381,11 +382,11 @@ public class GuiScreenBook extends GuiScreen
         String var7;
         int var8;
 
-        if (this.field_146480_s)
+        if (this.signing)
         {
             var6 = this.field_146482_z;
 
-            if (this.field_146475_i)
+            if (this.writeable)
             {
                 if (this.field_146479_t / 6 % 2 == 0)
                 {
@@ -410,15 +411,15 @@ public class GuiScreenBook extends GuiScreen
         }
         else
         {
-            var6 = I18n.format("book.pageIndicator", new Object[] {Integer.valueOf(this.field_146484_x + 1), Integer.valueOf(this.field_146476_w)});
+            var6 = I18n.format("book.pageIndicator", new Object[] {Integer.valueOf(this.pages + 1), Integer.valueOf(this.field_146476_w)});
             var7 = "";
 
-            if (this.field_146483_y != null && this.field_146484_x >= 0 && this.field_146484_x < this.field_146483_y.tagCount())
+            if (this.tagList != null && this.pages >= 0 && this.pages < this.tagList.tagCount())
             {
-                var7 = this.field_146483_y.getStringTagAt(this.field_146484_x);
+                var7 = this.tagList.getStringTagAt(this.pages);
             }
 
-            if (this.field_146475_i)
+            if (this.writeable)
             {
                 if (this.fontRenderer.getBidiFlag())
                 {
@@ -440,6 +441,18 @@ public class GuiScreenBook extends GuiScreen
         }
 
         super.drawScreen(par1, par2, par3);
+    }
+
+    private int sizeOfText() {
+        int size = 0;
+        for (int i = 0; i < tagList.tagCount(); ++i) {
+            String string = tagList.getStringTagAt(i);
+            if (string != null && !string.isEmpty()) {
+                size += string.getBytes().length;
+            }
+        }
+
+        return size;
     }
 
     static class NextPageButton extends GuiButton

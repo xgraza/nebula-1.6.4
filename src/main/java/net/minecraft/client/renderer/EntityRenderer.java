@@ -9,11 +9,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.render.EventRender3D;
+import nebula.client.listener.event.render.EventWorldGamma;
+import nebula.client.listener.event.render.overlay.EventRenderHurtCamera;
+import nebula.client.util.render.ProjectionUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.MapItemRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -645,6 +650,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float par1)
     {
+        if (Nebula.BUS.dispatch(new EventRenderHurtCamera())) return;
+
         EntityLivingBase var2 = this.mc.renderViewEntity;
         float var3 = (float)var2.hurtTime - par1;
         float var4;
@@ -1163,6 +1170,11 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 }
 
                 var16 = this.mc.gameSettings.gammaSetting;
+
+                final EventWorldGamma event = new EventWorldGamma(var16);
+                Nebula.BUS.dispatch(event);
+                var16 = event.getGamma();
+
                 var17 = 1.0F - var13;
                 float var18 = 1.0F - var14;
                 float var19 = 1.0F - var15;
@@ -1456,9 +1468,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     var11.addCrashSectionCallable("Mouse location", new Callable()
                     {
                         private static final String __OBFID = "CL_00000950";
-                        public String call()
-                        {
-                            return String.format("Scaled: (%d, %d). Absolute: (%d, %d)", new Object[] {Integer.valueOf(var161), Integer.valueOf(var181), Integer.valueOf(Mouse.getX()), Integer.valueOf(Mouse.getY())});
+                        public String call() {
+                            return String.format("Scaled: (%d, %d). Absolute: (%d, %d)", new Object[]{Integer.valueOf(var161), Integer.valueOf(var181), Integer.valueOf(Mouse.getX()), Integer.valueOf(Mouse.getY())});
                         }
                     });
                     var11.addCrashSectionCallable("Screen size", new Callable()
@@ -1902,6 +1913,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 this.mc.mcProfiler.endStartSection("FRenderLast");
                 Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, new Object[] {var5, Float.valueOf(par1)});
             }
+
+            ProjectionUtils.updateProjection();
+            Nebula.BUS.dispatch(new EventRender3D(par1));
 
             this.mc.mcProfiler.endStartSection("hand");
             boolean renderFirstPersonHand = Reflector.callBoolean(Reflector.ForgeHooksClient_renderFirstPersonHand, new Object[] {this.mc.renderGlobal, Float.valueOf(par1), Integer.valueOf(var13)});
@@ -2752,7 +2766,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             IntegratedServer srv = this.mc.getIntegratedServer();
             boolean paused = this.mc.isGamePaused();
 
-            if (!paused && !(this.mc.currentScreen instanceof GuiDownloadTerrain))
+            if (!paused)
             {
                 if (this.serverWaitTime > 0)
                 {
@@ -2807,10 +2821,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
             else
             {
-                if (this.mc.currentScreen instanceof GuiDownloadTerrain)
-                {
-                    Config.sleep(20L);
-                }
 
                 this.lastServerTime = 0L;
                 this.lastServerTicks = 0;

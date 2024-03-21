@@ -123,7 +123,7 @@ public enum FunctionType
     {
         int id;
 
-        switch (NamelessClass111734371.$SwitchMap$net$optifine$entity$model$anim$FunctionType[this.ordinal()])
+        switch (FunctionType.NamelessClass1794710129.$SwitchMap$net$optifine$entity$model$anim$FunctionType[this.ordinal()])
         {
             case 1:
                 return evalFloat(args, 0) + evalFloat(args, 1);
@@ -320,7 +320,7 @@ public enum FunctionType
 
     public boolean evalBool(IExpression[] args)
     {
-        switch (NamelessClass111734371.$SwitchMap$net$optifine$entity$model$anim$FunctionType[this.ordinal()])
+        switch (FunctionType.NamelessClass1794710129.$SwitchMap$net$optifine$entity$model$anim$FunctionType[this.ordinal()])
         {
             case 35:
                 return true;
@@ -407,7 +407,7 @@ public enum FunctionType
         return null;
     }
 
-    static class NamelessClass111734371 {
+    static class NamelessClass1794710129 {
         static final int[] $SwitchMap$net$optifine$entity$model$anim$FunctionType = new int[FunctionType.values().length];
 
         static {

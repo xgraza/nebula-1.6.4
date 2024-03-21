@@ -114,7 +114,8 @@ public class Chunk
      * Contains the current round-robin relight check index, and is implied as the relight check location as well.
      */
     private int queuedLightChecks;
-    private static final String __OBFID = "CL_00000373";
+
+    public int chunkByteSize;
 
     public Chunk(World par1World, int par2, int par3)
     {
@@ -1280,6 +1281,8 @@ public class Chunk
      */
     public void fillChunk(byte[] par1ArrayOfByte, int par2, int par3, boolean par4)
     {
+        this.chunkByteSize = par1ArrayOfByte.length;
+
         int var5 = 0;
         boolean var6 = !this.worldObj.provider.hasNoSky;
         int var7;

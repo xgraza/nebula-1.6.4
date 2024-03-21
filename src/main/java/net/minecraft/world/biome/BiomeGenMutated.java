@@ -86,7 +86,7 @@ public class BiomeGenMutated extends BiomeGenBase
         return this.field_150611_aD.func_150569_a(p_150569_1_);
     }
 
-    public TempCategory func_150561_m()
+    public BiomeGenBase.TempCategory func_150561_m()
     {
         return this.field_150611_aD.func_150561_m();
     }

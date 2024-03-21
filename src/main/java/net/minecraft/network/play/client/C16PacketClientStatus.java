@@ -8,12 +8,12 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class C16PacketClientStatus extends Packet
 {
-    private EnumState field_149437_a;
+    private C16PacketClientStatus.EnumState field_149437_a;
     private static final String __OBFID = "CL_00001348";
 
     public C16PacketClientStatus() {}
 
-    public C16PacketClientStatus(EnumState p_i45242_1_)
+    public C16PacketClientStatus(C16PacketClientStatus.EnumState p_i45242_1_)
     {
         this.field_149437_a = p_i45242_1_;
     }
@@ -23,7 +23,7 @@ public class C16PacketClientStatus extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149437_a = EnumState.field_151404_e[p_148837_1_.readByte() % EnumState.field_151404_e.length];
+        this.field_149437_a = C16PacketClientStatus.EnumState.field_151404_e[p_148837_1_.readByte() % C16PacketClientStatus.EnumState.field_151404_e.length];
     }
 
     /**
@@ -39,7 +39,7 @@ public class C16PacketClientStatus extends Packet
         p_149436_1_.processClientStatus(this);
     }
 
-    public EnumState func_149435_c()
+    public C16PacketClientStatus.EnumState func_149435_c()
     {
         return this.field_149437_a;
     }
@@ -55,9 +55,9 @@ public class C16PacketClientStatus extends Packet
         REQUEST_STATS("REQUEST_STATS", 1, 1),
         OPEN_INVENTORY_ACHIEVEMENT("OPEN_INVENTORY_ACHIEVEMENT", 2, 2);
         private final int field_151403_d;
-        private static final EnumState[] field_151404_e = new EnumState[values().length];
+        private static final C16PacketClientStatus.EnumState[] field_151404_e = new C16PacketClientStatus.EnumState[values().length];
 
-        private static final EnumState[] $VALUES = new EnumState[]{PERFORM_RESPAWN, REQUEST_STATS, OPEN_INVENTORY_ACHIEVEMENT};
+        private static final C16PacketClientStatus.EnumState[] $VALUES = new C16PacketClientStatus.EnumState[]{PERFORM_RESPAWN, REQUEST_STATS, OPEN_INVENTORY_ACHIEVEMENT};
         private static final String __OBFID = "CL_00001349";
 
         private EnumState(String p_i45241_1_, int p_i45241_2_, int p_i45241_3_)
@@ -66,12 +66,12 @@ public class C16PacketClientStatus extends Packet
         }
 
         static {
-            EnumState[] var0 = values();
+            C16PacketClientStatus.EnumState[] var0 = values();
             int var1 = var0.length;
 
             for (int var2 = 0; var2 < var1; ++var2)
             {
-                EnumState var3 = var0[var2];
+                C16PacketClientStatus.EnumState var3 = var0[var2];
                 field_151404_e[var3.field_151403_d] = var3;
             }
         }

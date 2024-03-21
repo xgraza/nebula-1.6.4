@@ -65,7 +65,7 @@ public class ResourcePackRepository
 
             while (var8.hasNext())
             {
-                Entry var9 = (Entry)var8.next();
+                ResourcePackRepository.Entry var9 = (ResourcePackRepository.Entry)var8.next();
 
                 if (var9.getResourcePackName().equals(var7))
                 {
@@ -98,7 +98,7 @@ public class ResourcePackRepository
         while (var2.hasNext())
         {
             File var3 = (File)var2.next();
-            Entry var4 = new Entry(var3, null);
+            ResourcePackRepository.Entry var4 = new ResourcePackRepository.Entry(var3, null);
 
             if (!this.repositoryEntriesAll.contains(var4))
             {
@@ -128,7 +128,7 @@ public class ResourcePackRepository
 
         while (var2.hasNext())
         {
-            Entry var7 = (Entry)var2.next();
+            ResourcePackRepository.Entry var7 = (ResourcePackRepository.Entry)var2.next();
             var7.closeResourcePack();
         }
 
@@ -279,7 +279,7 @@ public class ResourcePackRepository
 
         public boolean equals(Object par1Obj)
         {
-            return this == par1Obj ? true : (par1Obj instanceof Entry ? this.toString().equals(par1Obj.toString()) : false);
+            return this == par1Obj ? true : (par1Obj instanceof ResourcePackRepository.Entry ? this.toString().equals(par1Obj.toString()) : false);
         }
 
         public int hashCode()

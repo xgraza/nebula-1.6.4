@@ -25,38 +25,38 @@ public class ItemFishFood extends ItemFood
 
     public int func_150905_g(ItemStack p_150905_1_)
     {
-        FishType var2 = FishType.func_150978_a(p_150905_1_);
+        ItemFishFood.FishType var2 = ItemFishFood.FishType.func_150978_a(p_150905_1_);
         return this.field_150907_b && var2.func_150973_i() ? var2.func_150970_e() : var2.func_150975_c();
     }
 
     public float func_150906_h(ItemStack p_150906_1_)
     {
-        FishType var2 = FishType.func_150978_a(p_150906_1_);
+        ItemFishFood.FishType var2 = ItemFishFood.FishType.func_150978_a(p_150906_1_);
         return this.field_150907_b && var2.func_150973_i() ? var2.func_150977_f() : var2.func_150967_d();
     }
 
     public String getPotionEffect(ItemStack p_150896_1_)
     {
-        return FishType.func_150978_a(p_150896_1_) == FishType.PUFFERFISH ? PotionHelper.field_151423_m : null;
+        return ItemFishFood.FishType.func_150978_a(p_150896_1_) == ItemFishFood.FishType.PUFFERFISH ? PotionHelper.field_151423_m : null;
     }
 
     public void registerIcons(IIconRegister par1IconRegister)
     {
-        FishType[] var2 = FishType.values();
+        ItemFishFood.FishType[] var2 = ItemFishFood.FishType.values();
         int var3 = var2.length;
 
         for (int var4 = 0; var4 < var3; ++var4)
         {
-            FishType var5 = var2[var4];
+            ItemFishFood.FishType var5 = var2[var4];
             var5.func_150968_a(par1IconRegister);
         }
     }
 
     protected void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-        FishType var4 = FishType.func_150978_a(par1ItemStack);
+        ItemFishFood.FishType var4 = ItemFishFood.FishType.func_150978_a(par1ItemStack);
 
-        if (var4 == FishType.PUFFERFISH)
+        if (var4 == ItemFishFood.FishType.PUFFERFISH)
         {
             par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.poison.id, 1200, 3));
             par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.hunger.id, 300, 2));
@@ -71,7 +71,7 @@ public class ItemFishFood extends ItemFood
      */
     public IIcon getIconFromDamage(int par1)
     {
-        FishType var2 = FishType.func_150974_a(par1);
+        ItemFishFood.FishType var2 = ItemFishFood.FishType.func_150974_a(par1);
         return this.field_150907_b && var2.func_150973_i() ? var2.func_150979_h() : var2.func_150971_g();
     }
 
@@ -80,12 +80,12 @@ public class ItemFishFood extends ItemFood
      */
     public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_)
     {
-        FishType[] var4 = FishType.values();
+        ItemFishFood.FishType[] var4 = ItemFishFood.FishType.values();
         int var5 = var4.length;
 
         for (int var6 = 0; var6 < var5; ++var6)
         {
-            FishType var7 = var4[var6];
+            ItemFishFood.FishType var7 = var4[var6];
 
             if (!this.field_150907_b || var7.func_150973_i())
             {
@@ -100,7 +100,7 @@ public class ItemFishFood extends ItemFood
      */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
-        FishType var2 = FishType.func_150978_a(par1ItemStack);
+        ItemFishFood.FishType var2 = ItemFishFood.FishType.func_150978_a(par1ItemStack);
         return this.getUnlocalizedName() + "." + var2.func_150972_b() + "." + (this.field_150907_b && var2.func_150973_i() ? "cooked" : "raw");
     }
 
@@ -121,7 +121,7 @@ public class ItemFishFood extends ItemFood
         private final float field_150990_m;
         private boolean field_150987_n = false;
 
-        private static final FishType[] $VALUES = new FishType[]{COD, SALMON, CLOWNFISH, PUFFERFISH};
+        private static final ItemFishFood.FishType[] $VALUES = new ItemFishFood.FishType[]{COD, SALMON, CLOWNFISH, PUFFERFISH};
         private static final String __OBFID = "CL_00000033";
 
         private FishType(String p_i45336_1_, int p_i45336_2_, int p_i45336_3_, String p_i45336_4_, int p_i45336_5_, float p_i45336_6_, int p_i45336_7_, float p_i45336_8_)
@@ -201,24 +201,24 @@ public class ItemFishFood extends ItemFood
             return this.field_150987_n;
         }
 
-        public static FishType func_150974_a(int p_150974_0_)
+        public static ItemFishFood.FishType func_150974_a(int p_150974_0_)
         {
-            FishType var1 = (FishType)field_150983_e.get(Integer.valueOf(p_150974_0_));
+            ItemFishFood.FishType var1 = (ItemFishFood.FishType)field_150983_e.get(Integer.valueOf(p_150974_0_));
             return var1 == null ? COD : var1;
         }
 
-        public static FishType func_150978_a(ItemStack p_150978_0_)
+        public static ItemFishFood.FishType func_150978_a(ItemStack p_150978_0_)
         {
             return p_150978_0_.getItem() instanceof ItemFishFood ? func_150974_a(p_150978_0_.getItemDamage()) : COD;
         }
 
         static {
-            FishType[] var0 = values();
+            ItemFishFood.FishType[] var0 = values();
             int var1 = var0.length;
 
             for (int var2 = 0; var2 < var1; ++var2)
             {
-                FishType var3 = var0[var2];
+                ItemFishFood.FishType var3 = var0[var2];
                 field_150983_e.put(Integer.valueOf(var3.func_150976_a()), var3);
             }
         }

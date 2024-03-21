@@ -23,38 +23,38 @@ public class StructureVillagePieces
 
     public static void func_143016_a()
     {
-        MapGenStructureIO.func_143031_a(House1.class, "ViBH");
-        MapGenStructureIO.func_143031_a(Field1.class, "ViDF");
-        MapGenStructureIO.func_143031_a(Field2.class, "ViF");
-        MapGenStructureIO.func_143031_a(Torch.class, "ViL");
-        MapGenStructureIO.func_143031_a(Hall.class, "ViPH");
-        MapGenStructureIO.func_143031_a(House4Garden.class, "ViSH");
-        MapGenStructureIO.func_143031_a(WoodHut.class, "ViSmH");
-        MapGenStructureIO.func_143031_a(Church.class, "ViST");
-        MapGenStructureIO.func_143031_a(House2.class, "ViS");
-        MapGenStructureIO.func_143031_a(Start.class, "ViStart");
-        MapGenStructureIO.func_143031_a(Path.class, "ViSR");
-        MapGenStructureIO.func_143031_a(House3.class, "ViTRH");
-        MapGenStructureIO.func_143031_a(Well.class, "ViW");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.House1.class, "ViBH");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.Field1.class, "ViDF");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.Field2.class, "ViF");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.Torch.class, "ViL");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.Hall.class, "ViPH");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.House4Garden.class, "ViSH");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.WoodHut.class, "ViSmH");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.Church.class, "ViST");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.House2.class, "ViS");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.Start.class, "ViStart");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.Path.class, "ViSR");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.House3.class, "ViTRH");
+        MapGenStructureIO.func_143031_a(StructureVillagePieces.Well.class, "ViW");
     }
 
     public static List getStructureVillageWeightedPieceList(Random par0Random, int par1)
     {
         ArrayList var2 = new ArrayList();
-        var2.add(new PieceWeight(House4Garden.class, 4, MathHelper.getRandomIntegerInRange(par0Random, 2 + par1, 4 + par1 * 2)));
-        var2.add(new PieceWeight(Church.class, 20, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 1 + par1)));
-        var2.add(new PieceWeight(House1.class, 20, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 2 + par1)));
-        var2.add(new PieceWeight(WoodHut.class, 3, MathHelper.getRandomIntegerInRange(par0Random, 2 + par1, 5 + par1 * 3)));
-        var2.add(new PieceWeight(Hall.class, 15, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 2 + par1)));
-        var2.add(new PieceWeight(Field1.class, 3, MathHelper.getRandomIntegerInRange(par0Random, 1 + par1, 4 + par1)));
-        var2.add(new PieceWeight(Field2.class, 3, MathHelper.getRandomIntegerInRange(par0Random, 2 + par1, 4 + par1 * 2)));
-        var2.add(new PieceWeight(House2.class, 15, MathHelper.getRandomIntegerInRange(par0Random, 0, 1 + par1)));
-        var2.add(new PieceWeight(House3.class, 8, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 3 + par1 * 2)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House4Garden.class, 4, MathHelper.getRandomIntegerInRange(par0Random, 2 + par1, 4 + par1 * 2)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Church.class, 20, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 1 + par1)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House1.class, 20, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 2 + par1)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.WoodHut.class, 3, MathHelper.getRandomIntegerInRange(par0Random, 2 + par1, 5 + par1 * 3)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Hall.class, 15, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 2 + par1)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Field1.class, 3, MathHelper.getRandomIntegerInRange(par0Random, 1 + par1, 4 + par1)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Field2.class, 3, MathHelper.getRandomIntegerInRange(par0Random, 2 + par1, 4 + par1 * 2)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House2.class, 15, MathHelper.getRandomIntegerInRange(par0Random, 0, 1 + par1)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House3.class, 8, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 3 + par1 * 2)));
         Iterator var3 = var2.iterator();
 
         while (var3.hasNext())
         {
-            if (((PieceWeight)var3.next()).villagePiecesLimit == 0)
+            if (((StructureVillagePieces.PieceWeight)var3.next()).villagePiecesLimit == 0)
             {
                 var3.remove();
             }
@@ -67,11 +67,11 @@ public class StructureVillagePieces
     {
         boolean var1 = false;
         int var2 = 0;
-        PieceWeight var4;
+        StructureVillagePieces.PieceWeight var4;
 
         for (Iterator var3 = par0List.iterator(); var3.hasNext(); var2 += var4.villagePieceWeight)
         {
-            var4 = (PieceWeight)var3.next();
+            var4 = (StructureVillagePieces.PieceWeight)var3.next();
 
             if (var4.villagePiecesLimit > 0 && var4.villagePiecesSpawned < var4.villagePiecesLimit)
             {
@@ -82,55 +82,55 @@ public class StructureVillagePieces
         return var1 ? var2 : -1;
     }
 
-    private static Village func_75083_a(Start par0ComponentVillageStartPiece, PieceWeight par1StructureVillagePieceWeight, List par2List, Random par3Random, int par4, int par5, int par6, int par7, int par8)
+    private static StructureVillagePieces.Village func_75083_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, StructureVillagePieces.PieceWeight par1StructureVillagePieceWeight, List par2List, Random par3Random, int par4, int par5, int par6, int par7, int par8)
     {
         Class var9 = par1StructureVillagePieceWeight.villagePieceClass;
         Object var10 = null;
 
-        if (var9 == House4Garden.class)
+        if (var9 == StructureVillagePieces.House4Garden.class)
         {
-            var10 = House4Garden.func_74912_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
+            var10 = StructureVillagePieces.House4Garden.func_74912_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
         }
-        else if (var9 == Church.class)
+        else if (var9 == StructureVillagePieces.Church.class)
         {
-            var10 = Church.func_74919_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
+            var10 = StructureVillagePieces.Church.func_74919_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
         }
-        else if (var9 == House1.class)
+        else if (var9 == StructureVillagePieces.House1.class)
         {
-            var10 = House1.func_74898_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
+            var10 = StructureVillagePieces.House1.func_74898_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
         }
-        else if (var9 == WoodHut.class)
+        else if (var9 == StructureVillagePieces.WoodHut.class)
         {
-            var10 = WoodHut.func_74908_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
+            var10 = StructureVillagePieces.WoodHut.func_74908_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
         }
-        else if (var9 == Hall.class)
+        else if (var9 == StructureVillagePieces.Hall.class)
         {
-            var10 = Hall.func_74906_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
+            var10 = StructureVillagePieces.Hall.func_74906_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
         }
-        else if (var9 == Field1.class)
+        else if (var9 == StructureVillagePieces.Field1.class)
         {
-            var10 = Field1.func_74900_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
+            var10 = StructureVillagePieces.Field1.func_74900_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
         }
-        else if (var9 == Field2.class)
+        else if (var9 == StructureVillagePieces.Field2.class)
         {
-            var10 = Field2.func_74902_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
+            var10 = StructureVillagePieces.Field2.func_74902_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
         }
-        else if (var9 == House2.class)
+        else if (var9 == StructureVillagePieces.House2.class)
         {
-            var10 = House2.func_74915_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
+            var10 = StructureVillagePieces.House2.func_74915_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
         }
-        else if (var9 == House3.class)
+        else if (var9 == StructureVillagePieces.House3.class)
         {
-            var10 = House3.func_74921_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
+            var10 = StructureVillagePieces.House3.func_74921_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
         }
 
-        return (Village)var10;
+        return (StructureVillagePieces.Village)var10;
     }
 
     /**
      * attempts to find a next Village Component to be spawned
      */
-    private static Village getNextVillageComponent(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+    private static StructureVillagePieces.Village getNextVillageComponent(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
     {
         int var8 = func_75079_a(par0ComponentVillageStartPiece.structureVillageWeightedPieceList);
 
@@ -150,7 +150,7 @@ public class StructureVillagePieces
 
                 while (var11.hasNext())
                 {
-                    PieceWeight var12 = (PieceWeight)var11.next();
+                    StructureVillagePieces.PieceWeight var12 = (StructureVillagePieces.PieceWeight)var11.next();
                     var10 -= var12.villagePieceWeight;
 
                     if (var10 < 0)
@@ -160,7 +160,7 @@ public class StructureVillagePieces
                             break;
                         }
 
-                        Village var13 = func_75083_a(par0ComponentVillageStartPiece, var12, par1List, par2Random, par3, par4, par5, par6, par7);
+                        StructureVillagePieces.Village var13 = func_75083_a(par0ComponentVillageStartPiece, var12, par1List, par2Random, par3, par4, par5, par6, par7);
 
                         if (var13 != null)
                         {
@@ -178,11 +178,11 @@ public class StructureVillagePieces
                 }
             }
 
-            StructureBoundingBox var14 = Torch.func_74904_a(par0ComponentVillageStartPiece, par1List, par2Random, par3, par4, par5, par6);
+            StructureBoundingBox var14 = StructureVillagePieces.Torch.func_74904_a(par0ComponentVillageStartPiece, par1List, par2Random, par3, par4, par5, par6);
 
             if (var14 != null)
             {
-                return new Torch(par0ComponentVillageStartPiece, par7, par2Random, var14, par6);
+                return new StructureVillagePieces.Torch(par0ComponentVillageStartPiece, par7, par2Random, var14, par6);
             }
             else
             {
@@ -194,7 +194,7 @@ public class StructureVillagePieces
     /**
      * attempts to find a next Structure Component to be spawned, private Village function
      */
-    private static StructureComponent getNextVillageStructureComponent(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+    private static StructureComponent getNextVillageStructureComponent(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
     {
         if (par7 > 50)
         {
@@ -202,7 +202,7 @@ public class StructureVillagePieces
         }
         else if (Math.abs(par3 - par0ComponentVillageStartPiece.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentVillageStartPiece.getBoundingBox().minZ) <= 112)
         {
-            Village var8 = getNextVillageComponent(par0ComponentVillageStartPiece, par1List, par2Random, par3, par4, par5, par6, par7 + 1);
+            StructureVillagePieces.Village var8 = getNextVillageComponent(par0ComponentVillageStartPiece, par1List, par2Random, par3, par4, par5, par6, par7 + 1);
 
             if (var8 != null)
             {
@@ -228,7 +228,7 @@ public class StructureVillagePieces
         }
     }
 
-    private static StructureComponent getNextComponentVillagePath(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+    private static StructureComponent getNextComponentVillagePath(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
     {
         if (par7 > 3 + par0ComponentVillageStartPiece.terrainType)
         {
@@ -236,11 +236,11 @@ public class StructureVillagePieces
         }
         else if (Math.abs(par3 - par0ComponentVillageStartPiece.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentVillageStartPiece.getBoundingBox().minZ) <= 112)
         {
-            StructureBoundingBox var8 = Path.func_74933_a(par0ComponentVillageStartPiece, par1List, par2Random, par3, par4, par5, par6);
+            StructureBoundingBox var8 = StructureVillagePieces.Path.func_74933_a(par0ComponentVillageStartPiece, par1List, par2Random, par3, par4, par5, par6);
 
             if (var8 != null && var8.minY > 10)
             {
-                Path var9 = new Path(par0ComponentVillageStartPiece, par7, par2Random, var8, par6);
+                StructureVillagePieces.Path var9 = new StructureVillagePieces.Path(par0ComponentVillageStartPiece, par7, par2Random, var8, par6);
                 int var10 = (var9.boundingBox.minX + var9.boundingBox.maxX) / 2;
                 int var11 = (var9.boundingBox.minZ + var9.boundingBox.maxZ) / 2;
                 int var12 = var9.boundingBox.maxX - var9.boundingBox.minX;
@@ -263,13 +263,13 @@ public class StructureVillagePieces
         }
     }
 
-    public static class Well extends Village
+    public static class Well extends StructureVillagePieces.Village
     {
         private static final String __OBFID = "CL_00000533";
 
         public Well() {}
 
-        public Well(Start par1ComponentVillageStartPiece, int par2, Random par3Random, int par4, int par5)
+        public Well(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, int par4, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par3Random.nextInt(4);
@@ -288,10 +288,10 @@ public class StructureVillagePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, 1, this.getComponentType());
-            StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, 3, this.getComponentType());
-            StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ - 1, 2, this.getComponentType());
-            StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.maxZ + 1, 0, this.getComponentType());
+            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, 1, this.getComponentType());
+            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, 3, this.getComponentType());
+            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ - 1, 2, this.getComponentType());
+            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.maxZ + 1, 0, this.getComponentType());
         }
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
@@ -339,12 +339,12 @@ public class StructureVillagePieces
         }
     }
 
-    public static class Start extends Well
+    public static class Start extends StructureVillagePieces.Well
     {
         public WorldChunkManager worldChunkMngr;
         public boolean inDesert;
         public int terrainType;
-        public PieceWeight structVillagePieceWeight;
+        public StructureVillagePieces.PieceWeight structVillagePieceWeight;
         public List structureVillageWeightedPieceList;
         public List field_74932_i = new ArrayList();
         public List field_74930_j = new ArrayList();
@@ -354,7 +354,7 @@ public class StructureVillagePieces
 
         public Start(WorldChunkManager par1WorldChunkManager, int par2, Random par3Random, int par4, int par5, List par6List, int par7)
         {
-            super((Start)null, 0, par3Random, par4, par5);
+            super((StructureVillagePieces.Start)null, 0, par3Random, par4, par5);
             this.worldChunkMngr = par1WorldChunkManager;
             this.structureVillageWeightedPieceList = par6List;
             this.terrainType = par7;
@@ -368,7 +368,7 @@ public class StructureVillagePieces
         }
     }
 
-    public static class Field1 extends Village
+    public static class Field1 extends StructureVillagePieces.Village
     {
         private Block cropTypeA;
         private Block cropTypeB;
@@ -378,7 +378,7 @@ public class StructureVillagePieces
 
         public Field1() {}
 
-        public Field1(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public Field1(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
@@ -422,10 +422,10 @@ public class StructureVillagePieces
             }
         }
 
-        public static Field1 func_74900_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+        public static StructureVillagePieces.Field1 func_74900_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
         {
             StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 13, 4, 9, par6);
-            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new Field1(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new StructureVillagePieces.Field1(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
         }
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
@@ -507,7 +507,7 @@ public class StructureVillagePieces
         }
     }
 
-    public static class Field2 extends Village
+    public static class Field2 extends StructureVillagePieces.Village
     {
         private Block cropTypeA;
         private Block cropTypeB;
@@ -515,7 +515,7 @@ public class StructureVillagePieces
 
         public Field2() {}
 
-        public Field2(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public Field2(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
@@ -553,10 +553,10 @@ public class StructureVillagePieces
             }
         }
 
-        public static Field2 func_74902_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+        public static StructureVillagePieces.Field2 func_74902_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
         {
             StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 7, 4, 9, par6);
-            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new Field2(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new StructureVillagePieces.Field2(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
         }
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
@@ -604,14 +604,14 @@ public class StructureVillagePieces
         }
     }
 
-    public static class House4Garden extends Village
+    public static class House4Garden extends StructureVillagePieces.Village
     {
         private boolean isRoofAccessible;
         private static final String __OBFID = "CL_00000523";
 
         public House4Garden() {}
 
-        public House4Garden(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public House4Garden(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
@@ -631,10 +631,10 @@ public class StructureVillagePieces
             this.isRoofAccessible = par1NBTTagCompound.getBoolean("Terrace");
         }
 
-        public static House4Garden func_74912_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+        public static StructureVillagePieces.House4Garden func_74912_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
         {
             StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 5, 6, 5, par6);
-            return StructureComponent.findIntersecting(par1List, var8) != null ? null : new House4Garden(par0ComponentVillageStartPiece, par7, par2Random, var8, par6);
+            return StructureComponent.findIntersecting(par1List, var8) != null ? null : new StructureVillagePieces.House4Garden(par0ComponentVillageStartPiece, par7, par2Random, var8, par6);
         }
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
@@ -734,23 +734,23 @@ public class StructureVillagePieces
         }
     }
 
-    public static class Church extends Village
+    public static class Church extends StructureVillagePieces.Village
     {
         private static final String __OBFID = "CL_00000525";
 
         public Church() {}
 
-        public Church(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public Church(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
             this.boundingBox = par4StructureBoundingBox;
         }
 
-        public static Church func_74919_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+        public static StructureVillagePieces.Church func_74919_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
         {
             StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 5, 12, 9, par6);
-            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new Church(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new StructureVillagePieces.Church(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
         }
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
@@ -849,23 +849,23 @@ public class StructureVillagePieces
         }
     }
 
-    public static class Hall extends Village
+    public static class Hall extends StructureVillagePieces.Village
     {
         private static final String __OBFID = "CL_00000522";
 
         public Hall() {}
 
-        public Hall(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public Hall(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
             this.boundingBox = par4StructureBoundingBox;
         }
 
-        public static Hall func_74906_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+        public static StructureVillagePieces.Hall func_74906_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
         {
             StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 9, 7, 11, par6);
-            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new Hall(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new StructureVillagePieces.Hall(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
         }
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
@@ -971,7 +971,7 @@ public class StructureVillagePieces
         }
     }
 
-    public static class House2 extends Village
+    public static class House2 extends StructureVillagePieces.Village
     {
         private static final WeightedRandomChestContent[] villageBlacksmithChestContents = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 3), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.apple, 0, 1, 3, 15), new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_sword, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_chestplate, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_helmet, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_leggings, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_boots, 0, 1, 1, 5), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.obsidian), 0, 3, 7, 5), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.sapling), 0, 3, 7, 5), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)};
         private boolean hasMadeChest;
@@ -979,17 +979,17 @@ public class StructureVillagePieces
 
         public House2() {}
 
-        public House2(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public House2(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
             this.boundingBox = par4StructureBoundingBox;
         }
 
-        public static House2 func_74915_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+        public static StructureVillagePieces.House2 func_74915_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
         {
             StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 10, 6, 7, par6);
-            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new House2(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new StructureVillagePieces.House2(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
         }
 
         protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
@@ -1096,23 +1096,23 @@ public class StructureVillagePieces
         }
     }
 
-    public static class House3 extends Village
+    public static class House3 extends StructureVillagePieces.Village
     {
         private static final String __OBFID = "CL_00000530";
 
         public House3() {}
 
-        public House3(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public House3(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
             this.boundingBox = par4StructureBoundingBox;
         }
 
-        public static House3 func_74921_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+        public static StructureVillagePieces.House3 func_74921_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
         {
             StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 9, 7, 12, par6);
-            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new House3(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new StructureVillagePieces.House3(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
         }
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
@@ -1257,23 +1257,23 @@ public class StructureVillagePieces
         }
     }
 
-    public static class House1 extends Village
+    public static class House1 extends StructureVillagePieces.Village
     {
         private static final String __OBFID = "CL_00000517";
 
         public House1() {}
 
-        public House1(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public House1(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
             this.boundingBox = par4StructureBoundingBox;
         }
 
-        public static House1 func_74898_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+        public static StructureVillagePieces.House1 func_74898_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
         {
             StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 9, 9, 6, par6);
-            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new House1(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new StructureVillagePieces.House1(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
         }
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
@@ -1382,7 +1382,7 @@ public class StructureVillagePieces
         }
     }
 
-    public static class WoodHut extends Village
+    public static class WoodHut extends StructureVillagePieces.Village
     {
         private boolean isTallHouse;
         private int tablePosition;
@@ -1390,7 +1390,7 @@ public class StructureVillagePieces
 
         public WoodHut() {}
 
-        public WoodHut(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public WoodHut(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
@@ -1413,10 +1413,10 @@ public class StructureVillagePieces
             this.isTallHouse = par1NBTTagCompound.getBoolean("C");
         }
 
-        public static WoodHut func_74908_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+        public static StructureVillagePieces.WoodHut func_74908_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
         {
             StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 4, 6, 5, par6);
-            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new WoodHut(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+            return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new StructureVillagePieces.WoodHut(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
         }
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
@@ -1496,20 +1496,20 @@ public class StructureVillagePieces
         }
     }
 
-    public static class Torch extends Village
+    public static class Torch extends StructureVillagePieces.Village
     {
         private static final String __OBFID = "CL_00000520";
 
         public Torch() {}
 
-        public Torch(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public Torch(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
             this.boundingBox = par4StructureBoundingBox;
         }
 
-        public static StructureBoundingBox func_74904_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6)
+        public static StructureBoundingBox func_74904_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6)
         {
             StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 3, 4, 2, par6);
             return StructureComponent.findIntersecting(par1List, var7) != null ? null : var7;
@@ -1542,14 +1542,14 @@ public class StructureVillagePieces
         }
     }
 
-    public static class Path extends Road
+    public static class Path extends StructureVillagePieces.Road
     {
         private int averageGroundLevel;
         private static final String __OBFID = "CL_00000528";
 
         public Path() {}
 
-        public Path(Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
+        public Path(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
             super(par1ComponentVillageStartPiece, par2);
             this.coordBaseMode = par5;
@@ -1577,7 +1577,7 @@ public class StructureVillagePieces
 
             for (var5 = par3Random.nextInt(5); var5 < this.averageGroundLevel - 8; var5 += 2 + par3Random.nextInt(5))
             {
-                var6 = this.getNextComponentNN((Start)par1StructureComponent, par2List, par3Random, 0, var5);
+                var6 = this.getNextComponentNN((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, 0, var5);
 
                 if (var6 != null)
                 {
@@ -1588,7 +1588,7 @@ public class StructureVillagePieces
 
             for (var5 = par3Random.nextInt(5); var5 < this.averageGroundLevel - 8; var5 += 2 + par3Random.nextInt(5))
             {
-                var6 = this.getNextComponentPP((Start)par1StructureComponent, par2List, par3Random, 0, var5);
+                var6 = this.getNextComponentPP((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, 0, var5);
 
                 if (var6 != null)
                 {
@@ -1602,19 +1602,19 @@ public class StructureVillagePieces
                 switch (this.coordBaseMode)
                 {
                     case 0:
-                        StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, 1, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, 1, this.getComponentType());
                         break;
 
                     case 1:
-                        StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, this.getComponentType());
                         break;
 
                     case 2:
-                        StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ, 1, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ, 1, this.getComponentType());
                         break;
 
                     case 3:
-                        StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, this.getComponentType());
                 }
             }
 
@@ -1623,24 +1623,24 @@ public class StructureVillagePieces
                 switch (this.coordBaseMode)
                 {
                     case 0:
-                        StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, 3, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, 3, this.getComponentType());
                         break;
 
                     case 1:
-                        StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
                         break;
 
                     case 2:
-                        StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ, 3, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ, 3, this.getComponentType());
                         break;
 
                     case 3:
-                        StructureVillagePieces.getNextComponentVillagePath((Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
                 }
             }
         }
 
-        public static StructureBoundingBox func_74933_a(Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6)
+        public static StructureBoundingBox func_74933_a(StructureVillagePieces.Start par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6)
         {
             for (int var7 = 7 * MathHelper.getRandomIntegerInRange(par2Random, 3, 5); var7 >= 7; var7 -= 7)
             {
@@ -1675,13 +1675,13 @@ public class StructureVillagePieces
         }
     }
 
-    public abstract static class Road extends Village
+    public abstract static class Road extends StructureVillagePieces.Village
     {
         private static final String __OBFID = "CL_00000532";
 
         public Road() {}
 
-        protected Road(Start par1ComponentVillageStartPiece, int par2)
+        protected Road(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2)
         {
             super(par1ComponentVillageStartPiece, par2);
         }
@@ -1696,7 +1696,7 @@ public class StructureVillagePieces
 
         public Village() {}
 
-        protected Village(Start par1ComponentVillageStartPiece, int par2)
+        protected Village(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2)
         {
             super(par2);
 
@@ -1720,7 +1720,7 @@ public class StructureVillagePieces
             this.field_143014_b = par1NBTTagCompound.getBoolean("Desert");
         }
 
-        protected StructureComponent getNextComponentNN(Start par1ComponentVillageStartPiece, List par2List, Random par3Random, int par4, int par5)
+        protected StructureComponent getNextComponentNN(StructureVillagePieces.Start par1ComponentVillageStartPiece, List par2List, Random par3Random, int par4, int par5)
         {
             switch (this.coordBaseMode)
             {
@@ -1741,7 +1741,7 @@ public class StructureVillagePieces
             }
         }
 
-        protected StructureComponent getNextComponentPP(Start par1ComponentVillageStartPiece, List par2List, Random par3Random, int par4, int par5)
+        protected StructureComponent getNextComponentPP(StructureVillagePieces.Start par1ComponentVillageStartPiece, List par2List, Random par3Random, int par4, int par5)
         {
             switch (this.coordBaseMode)
             {

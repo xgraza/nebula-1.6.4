@@ -125,7 +125,7 @@ public class HttpUtil
         }
     }
 
-    public static void func_151223_a(final File p_151223_0_, final String p_151223_1_, final DownloadListener p_151223_2_, final Map p_151223_3_, final int p_151223_4_, final IProgressUpdate p_151223_5_, final Proxy p_151223_6_)
+    public static void func_151223_a(final File p_151223_0_, final String p_151223_1_, final HttpUtil.DownloadListener p_151223_2_, final Map p_151223_3_, final int p_151223_4_, final IProgressUpdate p_151223_5_, final Proxy p_151223_6_)
     {
         Thread var7 = new Thread(new Runnable()
         {
@@ -144,104 +144,108 @@ public class HttpUtil
 
                 try
                 {
-                    byte[] var4 = new byte[4096];
-                    URL var5 = new URL(p_151223_1_);
-                    var1 = var5.openConnection(p_151223_6_);
-                    float var6 = 0.0F;
-                    float var7 = (float)p_151223_3_.entrySet().size();
-                    Iterator var8 = p_151223_3_.entrySet().iterator();
-
-                    while (var8.hasNext())
+                    try
                     {
-                        Entry var9 = (Entry)var8.next();
-                        var1.setRequestProperty((String)var9.getKey(), (String)var9.getValue());
+                        byte[] var4 = new byte[4096];
+                        URL var5 = new URL(p_151223_1_);
+                        var1 = var5.openConnection(p_151223_6_);
+                        float var6 = 0.0F;
+                        float var7 = (float)p_151223_3_.entrySet().size();
+                        Iterator var8 = p_151223_3_.entrySet().iterator();
+
+                        while (var8.hasNext())
+                        {
+                            Entry var9 = (Entry)var8.next();
+                            var1.setRequestProperty((String)var9.getKey(), (String)var9.getValue());
+
+                            if (p_151223_5_ != null)
+                            {
+                                p_151223_5_.setLoadingProgress((int)(++var6 / var7 * 100.0F));
+                            }
+                        }
+
+                        var2 = var1.getInputStream();
+                        var7 = (float)var1.getContentLength();
+                        int var28 = var1.getContentLength();
 
                         if (p_151223_5_ != null)
                         {
-                            p_151223_5_.setLoadingProgress((int)(++var6 / var7 * 100.0F));
+                            p_151223_5_.resetProgresAndWorkingMessage(String.format("Downloading file (%.2f MB)...", new Object[] {Float.valueOf(var7 / 1000.0F / 1000.0F)}));
                         }
-                    }
 
-                    var2 = var1.getInputStream();
-                    var7 = (float)var1.getContentLength();
-                    int var28 = var1.getContentLength();
-
-                    if (p_151223_5_ != null)
-                    {
-                        p_151223_5_.resetProgresAndWorkingMessage(String.format("Downloading file (%.2f MB)...", new Object[] {Float.valueOf(var7 / 1000.0F / 1000.0F)}));
-                    }
-
-                    if (p_151223_0_.exists())
-                    {
-                        long var29 = p_151223_0_.length();
-
-                        if (var29 == (long)var28)
+                        if (p_151223_0_.exists())
                         {
-                            p_151223_2_.func_148522_a(p_151223_0_);
+                            long var29 = p_151223_0_.length();
 
+                            if (var29 == (long)var28)
+                            {
+                                p_151223_2_.func_148522_a(p_151223_0_);
+
+                                if (p_151223_5_ != null)
+                                {
+                                    p_151223_5_.func_146586_a();
+                                }
+
+                                return;
+                            }
+
+                            HttpUtil.logger.warn("Deleting " + p_151223_0_ + " as it does not match what we currently have (" + var28 + " vs our " + var29 + ").");
+                            p_151223_0_.delete();
+                        }
+                        else if (p_151223_0_.getParentFile() != null)
+                        {
+                            p_151223_0_.getParentFile().mkdirs();
+                        }
+
+                        var3 = new DataOutputStream(new FileOutputStream(p_151223_0_));
+
+                        if (p_151223_4_ > 0 && var7 > (float)p_151223_4_)
+                        {
                             if (p_151223_5_ != null)
                             {
                                 p_151223_5_.func_146586_a();
                             }
 
-                            return;
+                            throw new IOException("Filesize is bigger than maximum allowed (file is " + var6 + ", limit is " + p_151223_4_ + ")");
                         }
 
-                        HttpUtil.logger.warn("Deleting " + p_151223_0_ + " as it does not match what we currently have (" + var28 + " vs our " + var29 + ").");
-                        p_151223_0_.delete();
-                    }
-                    else if (p_151223_0_.getParentFile() != null)
-                    {
-                        p_151223_0_.getParentFile().mkdirs();
-                    }
+                        boolean var30 = false;
+                        int var31;
 
-                    var3 = new DataOutputStream(new FileOutputStream(p_151223_0_));
+                        while ((var31 = var2.read(var4)) >= 0)
+                        {
+                            var6 += (float)var31;
 
-                    if (p_151223_4_ > 0 && var7 > (float)p_151223_4_)
-                    {
+                            if (p_151223_5_ != null)
+                            {
+                                p_151223_5_.setLoadingProgress((int)(var6 / var7 * 100.0F));
+                            }
+
+                            if (p_151223_4_ > 0 && var6 > (float)p_151223_4_)
+                            {
+                                if (p_151223_5_ != null)
+                                {
+                                    p_151223_5_.func_146586_a();
+                                }
+
+                                throw new IOException("Filesize was bigger than maximum allowed (got >= " + var6 + ", limit was " + p_151223_4_ + ")");
+                            }
+
+                            var3.write(var4, 0, var31);
+                        }
+
+                        p_151223_2_.func_148522_a(p_151223_0_);
+
                         if (p_151223_5_ != null)
                         {
                             p_151223_5_.func_146586_a();
+                            return;
                         }
-
-                        throw new IOException("Filesize is bigger than maximum allowed (file is " + var6 + ", limit is " + p_151223_4_ + ")");
                     }
-
-                    boolean var30 = false;
-                    int var31;
-
-                    while ((var31 = var2.read(var4)) >= 0)
+                    catch (Throwable var26)
                     {
-                        var6 += (float)var31;
-
-                        if (p_151223_5_ != null)
-                        {
-                            p_151223_5_.setLoadingProgress((int)(var6 / var7 * 100.0F));
-                        }
-
-                        if (p_151223_4_ > 0 && var6 > (float)p_151223_4_)
-                        {
-                            if (p_151223_5_ != null)
-                            {
-                                p_151223_5_.func_146586_a();
-                            }
-
-                            throw new IOException("Filesize was bigger than maximum allowed (got >= " + var6 + ", limit was " + p_151223_4_ + ")");
-                        }
-
-                        var3.write(var4, 0, var31);
+                        var26.printStackTrace();
                     }
-
-                    p_151223_2_.func_148522_a(p_151223_0_);
-
-                    if (p_151223_5_ != null)
-                    {
-                        p_151223_5_.func_146586_a();
-                    }
-                }
-                catch (Throwable var26)
-                {
-                    var26.printStackTrace();
                 }
                 finally
                 {

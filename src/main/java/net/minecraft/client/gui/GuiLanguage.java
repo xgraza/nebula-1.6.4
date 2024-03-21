@@ -13,7 +13,7 @@ import net.minecraft.client.settings.GameSettings;
 public class GuiLanguage extends GuiScreen
 {
     protected GuiScreen field_146453_a;
-    private List field_146450_f;
+    private GuiLanguage.List field_146450_f;
     private final GameSettings field_146451_g;
     private final LanguageManager field_146454_h;
     private GuiOptionButton field_146455_i;
@@ -34,7 +34,7 @@ public class GuiLanguage extends GuiScreen
     {
         this.buttonList.add(this.field_146455_i = new GuiOptionButton(100, this.width / 2 - 155, this.height - 38, GameSettings.Options.FORCE_UNICODE_FONT, this.field_146451_g.getKeyBinding(GameSettings.Options.FORCE_UNICODE_FONT)));
         this.buttonList.add(this.field_146452_r = new GuiOptionButton(6, this.width / 2 - 155 + 160, this.height - 38, I18n.format("gui.done", new Object[0])));
-        this.field_146450_f = new List();
+        this.field_146450_f = new GuiLanguage.List();
         this.field_146450_f.registerScrollButtons(7, 8);
     }
 

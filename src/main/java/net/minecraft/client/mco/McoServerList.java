@@ -18,7 +18,7 @@ public class McoServerList
 {
     private static final Logger logger = LogManager.getLogger();
     private volatile boolean field_148488_b;
-    private UpdateTask field_148489_c = new UpdateTask(null);
+    private McoServerList.UpdateTask field_148489_c = new McoServerList.UpdateTask(null);
     private Timer field_148486_d = new Timer();
     private Set field_148487_e = Sets.newHashSet();
     private List field_148484_f = Lists.newArrayList();
@@ -41,7 +41,7 @@ public class McoServerList
         if (this.field_148488_b)
         {
             this.field_148488_b = false;
-            this.field_148489_c = new UpdateTask(null);
+            this.field_148489_c = new McoServerList.UpdateTask(null);
             this.field_148486_d = new Timer();
             this.field_148486_d.schedule(this.field_148489_c, 0L, 10000L);
         }
@@ -192,7 +192,7 @@ public class McoServerList
 
         private void func_148497_a(List p_148497_1_)
         {
-            Collections.sort(p_148497_1_, new Comparator(McoServerList.this.field_148493_i.getUsername(), null));
+            Collections.sort(p_148497_1_, new McoServerList.UpdateTask.Comparator(McoServerList.this.field_148493_i.getUsername(), null));
         }
 
         UpdateTask(Object par2McoServerListEmptyAnon)

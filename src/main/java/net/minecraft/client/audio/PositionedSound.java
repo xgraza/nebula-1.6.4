@@ -12,12 +12,12 @@ public abstract class PositionedSound implements ISound
     protected float field_147658_f;
     protected boolean field_147659_g = false;
     protected int field_147665_h = 0;
-    protected AttenuationType field_147666_i;
+    protected ISound.AttenuationType field_147666_i;
     private static final String __OBFID = "CL_00001116";
 
     protected PositionedSound(ResourceLocation p_i45103_1_)
     {
-        this.field_147666_i = AttenuationType.LINEAR;
+        this.field_147666_i = ISound.AttenuationType.LINEAR;
         this.field_147664_a = p_i45103_1_;
     }
 
@@ -61,7 +61,7 @@ public abstract class PositionedSound implements ISound
         return this.field_147658_f;
     }
 
-    public AttenuationType func_147656_j()
+    public ISound.AttenuationType func_147656_j()
     {
         return this.field_147666_i;
     }

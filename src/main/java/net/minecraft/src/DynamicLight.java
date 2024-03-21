@@ -101,7 +101,7 @@ public class DynamicLight
 
     private EnumFacing getOpposite(EnumFacing facing)
     {
-        switch (NamelessClass1282895845.$SwitchMap$net$minecraft$util$EnumFacing[facing.ordinal()])
+        switch (DynamicLight.NamelessClass123125960.$SwitchMap$net$minecraft$util$EnumFacing[facing.ordinal()])
         {
             case 1:
                 return EnumFacing.UP;
@@ -200,7 +200,7 @@ public class DynamicLight
         return "Entity: " + this.entity + ", offsetY: " + this.offsetY;
     }
 
-    static class NamelessClass1282895845
+    static class NamelessClass123125960
     {
         static final int[] $SwitchMap$net$minecraft$util$EnumFacing = new int[EnumFacing.values().length];
 

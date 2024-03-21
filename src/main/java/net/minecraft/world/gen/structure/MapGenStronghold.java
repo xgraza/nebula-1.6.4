@@ -150,9 +150,9 @@ public class MapGenStronghold extends MapGenStructure
 
     protected StructureStart getStructureStart(int par1, int par2)
     {
-        Start var3;
+        MapGenStronghold.Start var3;
 
-        for (var3 = new Start(this.worldObj, this.rand, par1, par2); var3.getComponents().isEmpty() || ((StructureStrongholdPieces.Stairs2)var3.getComponents().get(0)).strongholdPortalRoom == null; var3 = new Start(this.worldObj, this.rand, par1, par2))
+        for (var3 = new MapGenStronghold.Start(this.worldObj, this.rand, par1, par2); var3.getComponents().isEmpty() || ((StructureStrongholdPieces.Stairs2)var3.getComponents().get(0)).strongholdPortalRoom == null; var3 = new MapGenStronghold.Start(this.worldObj, this.rand, par1, par2))
         {
             ;
         }

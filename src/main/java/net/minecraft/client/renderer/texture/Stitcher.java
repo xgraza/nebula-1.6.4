@@ -46,7 +46,7 @@ public class Stitcher
 
     public void addSprite(TextureAtlasSprite par1TextureAtlasSprite)
     {
-        Holder var2 = new Holder(par1TextureAtlasSprite, this.mipmapLevelStitcher);
+        Stitcher.Holder var2 = new Stitcher.Holder(par1TextureAtlasSprite, this.mipmapLevelStitcher);
 
         if (this.maxTileDimension > 0)
         {
@@ -58,14 +58,14 @@ public class Stitcher
 
     public void doStitch()
     {
-        Holder[] var1 = (Holder[])((Holder[])this.setStitchHolders.toArray(new Holder[this.setStitchHolders.size()]));
+        Stitcher.Holder[] var1 = (Stitcher.Holder[])((Stitcher.Holder[])this.setStitchHolders.toArray(new Stitcher.Holder[this.setStitchHolders.size()]));
         Arrays.sort(var1);
-        Holder[] var2 = var1;
+        Stitcher.Holder[] var2 = var1;
         int var3 = var1.length;
 
         for (int var4 = 0; var4 < var3; ++var4)
         {
-            Holder var5 = var2[var4];
+            Stitcher.Holder var5 = var2[var4];
 
             if (!this.allocateSlot(var5))
             {
@@ -88,7 +88,7 @@ public class Stitcher
 
         while (var2.hasNext())
         {
-            Slot var7 = (Slot)var2.next();
+            Stitcher.Slot var7 = (Stitcher.Slot)var2.next();
             var7.getAllStitchSlots(var1);
         }
 
@@ -97,8 +97,8 @@ public class Stitcher
 
         while (var8.hasNext())
         {
-            Slot var4 = (Slot)var8.next();
-            Holder var5 = var4.getStitchHolder();
+            Stitcher.Slot var4 = (Stitcher.Slot)var8.next();
+            Stitcher.Holder var5 = var4.getStitchHolder();
             TextureAtlasSprite var6 = var5.getAtlasSprite();
             var6.initSprite(this.currentWidth, this.currentHeight, var4.getOriginX(), var4.getOriginY(), var5.isRotated());
             var71.add(var6);
@@ -115,18 +115,18 @@ public class Stitcher
     /**
      * Attempts to find space for specified tile
      */
-    private boolean allocateSlot(Holder par1StitchHolder)
+    private boolean allocateSlot(Stitcher.Holder par1StitchHolder)
     {
         for (int var2 = 0; var2 < this.stitchSlots.size(); ++var2)
         {
-            if (((Slot)this.stitchSlots.get(var2)).addSlot(par1StitchHolder))
+            if (((Stitcher.Slot)this.stitchSlots.get(var2)).addSlot(par1StitchHolder))
             {
                 return true;
             }
 
             par1StitchHolder.rotate();
 
-            if (((Slot)this.stitchSlots.get(var2)).addSlot(par1StitchHolder))
+            if (((Stitcher.Slot)this.stitchSlots.get(var2)).addSlot(par1StitchHolder))
             {
                 return true;
             }
@@ -140,7 +140,7 @@ public class Stitcher
     /**
      * Expand stitched texture in order to make space for specified tile
      */
-    private boolean expandAndAllocateSlot(Holder par1StitchHolder)
+    private boolean expandAndAllocateSlot(Stitcher.Holder par1StitchHolder)
     {
         int var2 = Math.min(par1StitchHolder.getWidth(), par1StitchHolder.getHeight());
         boolean var3 = this.currentWidth == 0 && this.currentHeight == 0;
@@ -194,7 +194,7 @@ public class Stitcher
         }
         else
         {
-            Slot var142;
+            Stitcher.Slot var142;
 
             if (var4)
             {
@@ -208,12 +208,12 @@ public class Stitcher
                     this.currentHeight = par1StitchHolder.getHeight();
                 }
 
-                var142 = new Slot(this.currentWidth, 0, par1StitchHolder.getWidth(), this.currentHeight);
+                var142 = new Stitcher.Slot(this.currentWidth, 0, par1StitchHolder.getWidth(), this.currentHeight);
                 this.currentWidth += par1StitchHolder.getWidth();
             }
             else
             {
-                var142 = new Slot(0, this.currentHeight, this.currentWidth, par1StitchHolder.getHeight());
+                var142 = new Stitcher.Slot(0, this.currentHeight, this.currentWidth, par1StitchHolder.getHeight());
                 this.currentHeight += par1StitchHolder.getHeight();
             }
 
@@ -230,7 +230,7 @@ public class Stitcher
         private final int width;
         private final int height;
         private List subSlots;
-        private Holder holder;
+        private Stitcher.Holder holder;
         private static final String __OBFID = "CL_00001056";
 
         public Slot(int par1, int par2, int par3, int par4)
@@ -241,7 +241,7 @@ public class Stitcher
             this.height = par4;
         }
 
-        public Holder getStitchHolder()
+        public Stitcher.Holder getStitchHolder()
         {
             return this.holder;
         }
@@ -256,7 +256,7 @@ public class Stitcher
             return this.originY;
         }
 
-        public boolean addSlot(Holder par1StitchHolder)
+        public boolean addSlot(Stitcher.Holder par1StitchHolder)
         {
             if (this.holder != null)
             {
@@ -279,7 +279,7 @@ public class Stitcher
                         if (this.subSlots == null)
                         {
                             this.subSlots = new ArrayList(1);
-                            this.subSlots.add(new Slot(this.originX, this.originY, var2, var3));
+                            this.subSlots.add(new Stitcher.Slot(this.originX, this.originY, var2, var3));
                             int var8 = this.width - var2;
                             int var9 = this.height - var3;
 
@@ -290,22 +290,22 @@ public class Stitcher
 
                                 if (var6 >= var7)
                                 {
-                                    this.subSlots.add(new Slot(this.originX, this.originY + var3, var2, var9));
-                                    this.subSlots.add(new Slot(this.originX + var2, this.originY, var8, this.height));
+                                    this.subSlots.add(new Stitcher.Slot(this.originX, this.originY + var3, var2, var9));
+                                    this.subSlots.add(new Stitcher.Slot(this.originX + var2, this.originY, var8, this.height));
                                 }
                                 else
                                 {
-                                    this.subSlots.add(new Slot(this.originX + var2, this.originY, var8, var3));
-                                    this.subSlots.add(new Slot(this.originX, this.originY + var3, this.width, var9));
+                                    this.subSlots.add(new Stitcher.Slot(this.originX + var2, this.originY, var8, var3));
+                                    this.subSlots.add(new Stitcher.Slot(this.originX, this.originY + var3, this.width, var9));
                                 }
                             }
                             else if (var8 == 0)
                             {
-                                this.subSlots.add(new Slot(this.originX, this.originY + var3, var2, var9));
+                                this.subSlots.add(new Stitcher.Slot(this.originX, this.originY + var3, var2, var9));
                             }
                             else if (var9 == 0)
                             {
-                                this.subSlots.add(new Slot(this.originX + var2, this.originY, var8, var3));
+                                this.subSlots.add(new Stitcher.Slot(this.originX + var2, this.originY, var8, var3));
                             }
                         }
 
@@ -313,7 +313,7 @@ public class Stitcher
 
                         while (var81.hasNext())
                         {
-                            Slot var91 = (Slot)var81.next();
+                            Stitcher.Slot var91 = (Stitcher.Slot)var81.next();
 
                             if (var91.addSlot(par1StitchHolder))
                             {
@@ -343,7 +343,7 @@ public class Stitcher
 
                 while (var2.hasNext())
                 {
-                    Slot var3 = (Slot)var2.next();
+                    Stitcher.Slot var3 = (Stitcher.Slot)var2.next();
                     var3.getAllStitchSlots(par1List);
                 }
             }
@@ -412,7 +412,7 @@ public class Stitcher
             return "Holder{width=" + this.width + ", height=" + this.height + '}';
         }
 
-        public int compareTo(Holder par1StitchHolder)
+        public int compareTo(Stitcher.Holder par1StitchHolder)
         {
             int var2;
 
@@ -440,7 +440,7 @@ public class Stitcher
 
         public int compareTo(Object par1Obj)
         {
-            return this.compareTo((Holder)par1Obj);
+            return this.compareTo((Stitcher.Holder)par1Obj);
         }
     }
 }

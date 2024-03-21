@@ -52,7 +52,7 @@ public class BlockJukebox extends BlockContainer
     {
         if (!p_149926_1_.isClient)
         {
-            TileEntityJukebox var6 = (TileEntityJukebox)p_149926_1_.getTileEntity(p_149926_2_, p_149926_3_, p_149926_4_);
+            BlockJukebox.TileEntityJukebox var6 = (BlockJukebox.TileEntityJukebox)p_149926_1_.getTileEntity(p_149926_2_, p_149926_3_, p_149926_4_);
 
             if (var6 != null)
             {
@@ -66,7 +66,7 @@ public class BlockJukebox extends BlockContainer
     {
         if (!p_149925_1_.isClient)
         {
-            TileEntityJukebox var5 = (TileEntityJukebox)p_149925_1_.getTileEntity(p_149925_2_, p_149925_3_, p_149925_4_);
+            BlockJukebox.TileEntityJukebox var5 = (BlockJukebox.TileEntityJukebox)p_149925_1_.getTileEntity(p_149925_2_, p_149925_3_, p_149925_4_);
 
             if (var5 != null)
             {
@@ -113,7 +113,7 @@ public class BlockJukebox extends BlockContainer
      */
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
-        return new TileEntityJukebox();
+        return new BlockJukebox.TileEntityJukebox();
     }
 
     public void registerIcons(IIconRegister p_149651_1_)
@@ -129,7 +129,7 @@ public class BlockJukebox extends BlockContainer
 
     public int getComparatorInputOverride(World p_149736_1_, int p_149736_2_, int p_149736_3_, int p_149736_4_, int p_149736_5_)
     {
-        ItemStack var6 = ((TileEntityJukebox)p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_)).func_145856_a();
+        ItemStack var6 = ((BlockJukebox.TileEntityJukebox)p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_)).func_145856_a();
         return var6 == null ? 0 : Item.getIdFromItem(var6.getItem()) + 1 - Item.getIdFromItem(Items.record_13);
     }
 

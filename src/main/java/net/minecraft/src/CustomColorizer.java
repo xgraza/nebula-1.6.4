@@ -11,6 +11,9 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import javax.imageio.ImageIO;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.render.EventWorldGamma;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStem;
 import net.minecraft.block.material.Material;
@@ -1065,6 +1068,11 @@ public class CustomColorizer
                             float sunX = sun * (float)(width - 1);
                             float torchX = Config.limitTo1(torchFlickerX + 0.5F) * (float)(width - 1);
                             float gamma = Config.limitTo1(Config.getGameSettings().gammaSetting);
+
+                            final EventWorldGamma event = new EventWorldGamma(gamma);
+                            Nebula.BUS.dispatch(event);
+                            gamma = event.getGamma();
+
                             boolean hasGamma = gamma > 1.0E-4F;
                             getLightMapColumn(lightMapRgb, sunX, startIndex, width, sunRgbs);
                             getLightMapColumn(lightMapRgb, torchX, startIndex + 16 * width, width, torchRgbs);

@@ -226,7 +226,7 @@ public class RenderPlayer extends RendererLivingEntity
             }
         }
 
-        boolean var21 = par1AbstractClientPlayer.getTextureCape().isTextureUploaded();
+        boolean var21 = false;//par1AbstractClientPlayer.getTextureCape().isTextureUploaded();
         float var11;
 
         if (var21 && !par1AbstractClientPlayer.isInvisible() && !par1AbstractClientPlayer.getHideCape())

@@ -6,7 +6,6 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.Proxy;
 import java.net.SocketAddress;
@@ -21,6 +20,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import javax.imageio.ImageIO;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.io.EventKeyInput;
+import nebula.client.listener.event.io.EventMouseInput;
+import nebula.client.listener.event.net.EventChangeServer;
+import nebula.client.listener.event.render.EventChangeGui;
+import nebula.client.util.player.FakePlayerUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -144,9 +150,6 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
-import yzy.szn.impl.event.EventKey;
-import yzy.szn.launcher.YZY;
-import yzy.szn.launcher.YZYBootstrap;
 
 public class Minecraft implements IPlayerUsage
 {
@@ -175,7 +178,7 @@ public class Minecraft implements IPlayerUsage
     private CrashReport crashReporter;
     public int displayWidth;
     public int displayHeight;
-    private Timer timer = new Timer(20.0F);
+    public Timer timer = new Timer(20.0F);
 
     /** Instance of PlayerUsageSnooper. */
     private PlayerUsageSnooper usageSnooper = new PlayerUsageSnooper("client", this, MinecraftServer.getSystemTimeMillis());
@@ -192,7 +195,7 @@ public class Minecraft implements IPlayerUsage
     public EntityLivingBase renderViewEntity;
     public Entity pointedEntity;
     public EffectRenderer effectRenderer;
-    private final Session session;
+    private Session session;
     private boolean isGamePaused;
 
     /** The font renderer used for displaying and measuring text. */
@@ -246,7 +249,7 @@ public class Minecraft implements IPlayerUsage
     /**
      * When you place a block, it's set to 6, decremented once per tick, when it's 0, you can place another block.
      */
-    private int rightClickDelayTimer;
+    public int rightClickDelayTimer;
 
     /**
      * Checked in Minecraft's while(running) loop, if true it's set to false and the textures refreshed.
@@ -542,6 +545,8 @@ public class Minecraft implements IPlayerUsage
         this.loadScreen();
         this.fontRenderer = new FontRenderer(this.gameSettings, new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
 
+        Nebula.INSTANCE.init();
+
         if (this.gameSettings.language != null)
         {
             this.fontRenderer.setUnicodeFlag(this.mcLanguageManager.isCurrentLocaleUnicode() || this.gameSettings.forceUnicodeFont);
@@ -613,12 +618,7 @@ public class Minecraft implements IPlayerUsage
         }
 
         Display.setVSyncEnabled(this.gameSettings.enableVsync);
-
-        try {
-            YZYBootstrap.init(mcDataDir);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Nebula.INSTANCE.postInit();
     }
 
     public void refreshResources()
@@ -649,6 +649,7 @@ public class Minecraft implements IPlayerUsage
     private void addDefaultResourcePack()
     {
         this.defaultResourcePacks.add(this.mcDefaultResourcePack);
+        //
     }
 
     private ByteBuffer readImage(File par1File) throws IOException
@@ -808,6 +809,8 @@ public class Minecraft implements IPlayerUsage
             p_147108_1_ = new GuiGameOver();
         }
 
+        if (Nebula.BUS.dispatch(new EventChangeGui(p_147108_1_))) return;
+
         if (p_147108_1_ instanceof GuiMainMenu)
         {
             this.gameSettings.showDebugInfo = false;
@@ -887,8 +890,6 @@ public class Minecraft implements IPlayerUsage
                 System.exit(0);
             }
         }
-
-        System.gc();
     }
 
     public void run()
@@ -924,7 +925,6 @@ public class Minecraft implements IPlayerUsage
                         {
                             this.freeMemory();
                             this.displayGuiScreen(new GuiMemoryErrorScreen());
-                            System.gc();
                         }
 
                         continue;
@@ -1146,7 +1146,6 @@ public class Minecraft implements IPlayerUsage
 
         try
         {
-            System.gc();
             AxisAlignedBB.getAABBPool().clearPool();
             this.theWorld.getWorldVec3Pool().clearAndFreeCache();
         }
@@ -1157,15 +1156,12 @@ public class Minecraft implements IPlayerUsage
 
         try
         {
-            System.gc();
             this.loadWorld((WorldClient)null);
         }
         catch (Throwable var2)
         {
             ;
         }
-
-        System.gc();
     }
 
     /**
@@ -1445,7 +1441,7 @@ public class Minecraft implements IPlayerUsage
             }
             else
             {
-                switch (SwitchMovingObjectType.field_151437_a[this.objectMouseOver.typeOfHit.ordinal()])
+                switch (Minecraft.SwitchMovingObjectType.field_151437_a[this.objectMouseOver.typeOfHit.ordinal()])
                 {
                     case 1:
                         this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
@@ -1484,7 +1480,7 @@ public class Minecraft implements IPlayerUsage
         }
         else
         {
-            switch (SwitchMovingObjectType.field_151437_a[this.objectMouseOver.typeOfHit.ordinal()])
+            switch (Minecraft.SwitchMovingObjectType.field_151437_a[this.objectMouseOver.typeOfHit.ordinal()])
             {
                 case 1:
                     if (this.playerController.interactWithEntitySendPacket(this.thePlayer, this.objectMouseOver.entityHit))
@@ -1747,6 +1743,7 @@ public class Minecraft implements IPlayerUsage
 
                 if (Mouse.getEventButtonState())
                 {
+                    Nebula.BUS.dispatch(new EventMouseInput(var1));
                     KeyBinding.onTick(var1 - 100);
                 }
 
@@ -1800,12 +1797,14 @@ public class Minecraft implements IPlayerUsage
 
             while (Keyboard.next())
             {
-                KeyBinding.setKeyBindState(Keyboard.getEventKey(), Keyboard.getEventKeyState());
+                int k = Keyboard.getEventKey() <= 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
+
+                KeyBinding.setKeyBindState(k, Keyboard.getEventKeyState());
 
                 if (Keyboard.getEventKeyState())
                 {
-                    YZY.BUS.dispatch(new EventKey(Keyboard.getEventKey()));
-                    KeyBinding.onTick(Keyboard.getEventKey());
+                    Nebula.BUS.dispatch(new EventKeyInput(k));
+                    KeyBinding.onTick(k);
                 }
 
                 if (this.field_83002_am > 0L)
@@ -1827,12 +1826,12 @@ public class Minecraft implements IPlayerUsage
 
                 if (Keyboard.getEventKeyState())
                 {
-                    if (Keyboard.getEventKey() == 62 && this.entityRenderer != null)
+                    if (k == 62 && this.entityRenderer != null)
                     {
                         this.entityRenderer.deactivateShader();
                     }
 
-                    if (Keyboard.getEventKey() == 87)
+                    if (k == 87)
                     {
                         this.toggleFullscreen();
                     }
@@ -1844,55 +1843,55 @@ public class Minecraft implements IPlayerUsage
                         }
                         else
                         {
-                            if (Keyboard.getEventKey() == 1)
+                            if (k == 1)
                             {
                                 this.displayInGameMenu();
                             }
 
-                            if (Keyboard.getEventKey() == 31 && Keyboard.isKeyDown(61))
+                            if (k == 31 && Keyboard.isKeyDown(61))
                             {
                                 this.refreshResources();
                             }
 
-                            if (Keyboard.getEventKey() == 20 && Keyboard.isKeyDown(61))
+                            if (k == 20 && Keyboard.isKeyDown(61))
                             {
                                 this.refreshResources();
                             }
 
-                            if (Keyboard.getEventKey() == 33 && Keyboard.isKeyDown(61))
+                            if (k == 33 && Keyboard.isKeyDown(61))
                             {
                                 var8 = Keyboard.isKeyDown(42) | Keyboard.isKeyDown(54);
                                 this.gameSettings.setOptionValue(GameSettings.Options.RENDER_DISTANCE, var8 ? -1 : 1);
                             }
 
-                            if (Keyboard.getEventKey() == 30 && Keyboard.isKeyDown(61))
+                            if (k == 30 && Keyboard.isKeyDown(61))
                             {
                                 this.renderGlobal.loadRenderers();
                             }
 
-                            if (Keyboard.getEventKey() == 35 && Keyboard.isKeyDown(61))
+                            if (k == 35 && Keyboard.isKeyDown(61))
                             {
                                 this.gameSettings.advancedItemTooltips = !this.gameSettings.advancedItemTooltips;
                                 this.gameSettings.saveOptions();
                             }
 
-                            if (Keyboard.getEventKey() == 48 && Keyboard.isKeyDown(61))
+                            if (k == 48 && Keyboard.isKeyDown(61))
                             {
                                 RenderManager.field_85095_o = !RenderManager.field_85095_o;
                             }
 
-                            if (Keyboard.getEventKey() == 25 && Keyboard.isKeyDown(61))
+                            if (k == 25 && Keyboard.isKeyDown(61))
                             {
                                 this.gameSettings.pauseOnLostFocus = !this.gameSettings.pauseOnLostFocus;
                                 this.gameSettings.saveOptions();
                             }
 
-                            if (Keyboard.getEventKey() == 59)
+                            if (k == 59)
                             {
                                 this.gameSettings.hideGUI = !this.gameSettings.hideGUI;
                             }
 
-                            if (Keyboard.getEventKey() == 61)
+                            if (k == 61)
                             {
                                 this.gameSettings.showDebugInfo = !this.gameSettings.showDebugInfo;
                                 this.gameSettings.showDebugProfilerChart = GuiScreen.isShiftKeyDown();
@@ -2131,7 +2130,6 @@ public class Minecraft implements IPlayerUsage
     public void launchIntegratedServer(String par1Str, String par2Str, WorldSettings par3WorldSettings)
     {
         this.loadWorld((WorldClient)null);
-        System.gc();
         ISaveHandler var4 = this.saveLoader.getSaveLoader(par1Str, false);
         WorldInfo var5 = var4.loadWorldInfo();
 
@@ -2208,6 +2206,9 @@ public class Minecraft implements IPlayerUsage
      */
     public void loadWorld(WorldClient par1WorldClient, String par2Str)
     {
+        // clear caches
+        FakePlayerUtils.clear();
+
         if (par1WorldClient == null)
         {
             NetHandlerPlayClient var3 = this.getNetHandler();
@@ -2281,7 +2282,6 @@ public class Minecraft implements IPlayerUsage
             this.thePlayer = null;
         }
 
-        System.gc();
         this.systemTime = 0L;
     }
 
@@ -2360,22 +2360,6 @@ public class Minecraft implements IPlayerUsage
     public NetHandlerPlayClient getNetHandler()
     {
         return this.thePlayer != null ? this.thePlayer.sendQueue : null;
-    }
-
-
-    public static ByteBuffer readImageToBuffer(InputStream imageStream) throws IOException
-    {
-        BufferedImage bufferedimage = ImageIO.read(imageStream);
-        int[] aint = bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), (int[])null, 0, bufferedimage.getWidth());
-        ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
-
-        for (int i : aint)
-        {
-            bytebuffer.putInt(i << 8 | i >> 24 & 255);
-        }
-
-        bytebuffer.flip();
-        return bytebuffer;
     }
 
     public static boolean isGuiEnabled()
@@ -2712,6 +2696,7 @@ public class Minecraft implements IPlayerUsage
      */
     public void setServerData(ServerData par1ServerData)
     {
+        Nebula.BUS.dispatch(new EventChangeServer(par1ServerData));
         this.currentServerData = par1ServerData;
     }
 
@@ -2781,6 +2766,10 @@ public class Minecraft implements IPlayerUsage
     public Session getSession()
     {
         return this.session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 
     public Proxy getProxy()

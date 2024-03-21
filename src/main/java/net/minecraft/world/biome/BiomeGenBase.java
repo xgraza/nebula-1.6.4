@@ -43,19 +43,19 @@ import org.apache.logging.log4j.Logger;
 public abstract class BiomeGenBase
 {
     private static final Logger logger = LogManager.getLogger();
-    protected static final Height field_150596_a = new Height(0.1F, 0.2F);
-    protected static final Height field_150594_b = new Height(-0.5F, 0.0F);
-    protected static final Height field_150595_c = new Height(-1.0F, 0.1F);
-    protected static final Height field_150592_d = new Height(-1.8F, 0.1F);
-    protected static final Height field_150593_e = new Height(0.125F, 0.05F);
-    protected static final Height field_150590_f = new Height(0.2F, 0.2F);
-    protected static final Height field_150591_g = new Height(0.45F, 0.3F);
-    protected static final Height field_150602_h = new Height(1.5F, 0.025F);
-    protected static final Height field_150603_i = new Height(1.0F, 0.5F);
-    protected static final Height field_150600_j = new Height(0.0F, 0.025F);
-    protected static final Height field_150601_k = new Height(0.1F, 0.8F);
-    protected static final Height field_150598_l = new Height(0.2F, 0.3F);
-    protected static final Height field_150599_m = new Height(-0.2F, 0.1F);
+    protected static final BiomeGenBase.Height field_150596_a = new BiomeGenBase.Height(0.1F, 0.2F);
+    protected static final BiomeGenBase.Height field_150594_b = new BiomeGenBase.Height(-0.5F, 0.0F);
+    protected static final BiomeGenBase.Height field_150595_c = new BiomeGenBase.Height(-1.0F, 0.1F);
+    protected static final BiomeGenBase.Height field_150592_d = new BiomeGenBase.Height(-1.8F, 0.1F);
+    protected static final BiomeGenBase.Height field_150593_e = new BiomeGenBase.Height(0.125F, 0.05F);
+    protected static final BiomeGenBase.Height field_150590_f = new BiomeGenBase.Height(0.2F, 0.2F);
+    protected static final BiomeGenBase.Height field_150591_g = new BiomeGenBase.Height(0.45F, 0.3F);
+    protected static final BiomeGenBase.Height field_150602_h = new BiomeGenBase.Height(1.5F, 0.025F);
+    protected static final BiomeGenBase.Height field_150603_i = new BiomeGenBase.Height(1.0F, 0.5F);
+    protected static final BiomeGenBase.Height field_150600_j = new BiomeGenBase.Height(0.0F, 0.025F);
+    protected static final BiomeGenBase.Height field_150601_k = new BiomeGenBase.Height(0.1F, 0.8F);
+    protected static final BiomeGenBase.Height field_150598_l = new BiomeGenBase.Height(0.2F, 0.3F);
+    protected static final BiomeGenBase.Height field_150599_m = new BiomeGenBase.Height(-0.2F, 0.1F);
 
     /** An array of all the biomes, indexed by biome id. */
     private static final BiomeGenBase[] biomeList = new BiomeGenBase[256];
@@ -206,19 +206,19 @@ public abstract class BiomeGenBase
         this.biomeID = par1;
         biomeList[par1] = this;
         this.theBiomeDecorator = this.createBiomeDecorator();
-        this.spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 12, 4, 4));
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 10, 4, 4));
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 10, 4, 4));
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityCow.class, 8, 4, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntitySpider.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityZombie.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityCreeper.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityEnderman.class, 10, 1, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityWitch.class, 5, 1, 1));
-        this.spawnableWaterCreatureList.add(new SpawnListEntry(EntitySquid.class, 10, 4, 4));
-        this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityBat.class, 10, 8, 8));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntitySheep.class, 12, 4, 4));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityPig.class, 10, 4, 4));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityChicken.class, 10, 4, 4));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityCow.class, 8, 4, 4));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySpider.class, 100, 4, 4));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityZombie.class, 100, 4, 4));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityCreeper.class, 100, 4, 4));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySlime.class, 100, 4, 4));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityEnderman.class, 10, 1, 4));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityWitch.class, 5, 1, 1));
+        this.spawnableWaterCreatureList.add(new BiomeGenBase.SpawnListEntry(EntitySquid.class, 10, 4, 4));
+        this.spawnableCaveCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityBat.class, 10, 8, 8));
     }
 
     /**
@@ -246,7 +246,7 @@ public abstract class BiomeGenBase
         }
     }
 
-    protected final BiomeGenBase func_150570_a(Height p_150570_1_)
+    protected final BiomeGenBase func_150570_a(BiomeGenBase.Height p_150570_1_)
     {
         this.minHeight = p_150570_1_.field_150777_a;
         this.maxHeight = p_150570_1_.field_150776_b;
@@ -567,9 +567,9 @@ public abstract class BiomeGenBase
         return p_150569_1_ == this ? true : (p_150569_1_ == null ? false : this.func_150562_l() == p_150569_1_.func_150562_l());
     }
 
-    public TempCategory func_150561_m()
+    public BiomeGenBase.TempCategory func_150561_m()
     {
-        return (double)this.temperature < 0.2D ? TempCategory.COLD : ((double)this.temperature < 1.0D ? TempCategory.MEDIUM : TempCategory.WARM);
+        return (double)this.temperature < 0.2D ? BiomeGenBase.TempCategory.COLD : ((double)this.temperature < 1.0D ? BiomeGenBase.TempCategory.MEDIUM : BiomeGenBase.TempCategory.WARM);
     }
 
     public static BiomeGenBase[] getBiomeGenArray()
@@ -666,9 +666,9 @@ public abstract class BiomeGenBase
             this.field_150776_b = p_i45371_2_;
         }
 
-        public Height func_150775_a()
+        public BiomeGenBase.Height func_150775_a()
         {
-            return new Height(this.field_150777_a * 0.8F, this.field_150776_b * 0.6F);
+            return new BiomeGenBase.Height(this.field_150777_a * 0.8F, this.field_150776_b * 0.6F);
         }
     }
 
@@ -679,7 +679,7 @@ public abstract class BiomeGenBase
         MEDIUM("MEDIUM", 2),
         WARM("WARM", 3);
 
-        private static final TempCategory[] $VALUES = new TempCategory[]{OCEAN, COLD, MEDIUM, WARM};
+        private static final BiomeGenBase.TempCategory[] $VALUES = new BiomeGenBase.TempCategory[]{OCEAN, COLD, MEDIUM, WARM};
         private static final String __OBFID = "CL_00000160";
 
         private TempCategory(String p_i45372_1_, int p_i45372_2_) {}

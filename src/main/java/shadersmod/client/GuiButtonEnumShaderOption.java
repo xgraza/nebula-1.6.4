@@ -22,7 +22,7 @@ public class GuiButtonEnumShaderOption extends GuiButton
     {
         String nameText = I18n.format(eso.getResourceKey(), new Object[0]) + ": ";
 
-        switch (NamelessClass636338125.$SwitchMap$shadersmod$client$EnumShaderOption[eso.ordinal()])
+        switch (GuiButtonEnumShaderOption.NamelessClass17474188.$SwitchMap$shadersmod$client$EnumShaderOption[eso.ordinal()])
         {
             case 1:
                 return nameText + GuiShaders.toStringAa(Shaders.configAntialiasingLevel);
@@ -67,7 +67,7 @@ public class GuiButtonEnumShaderOption extends GuiButton
         this.displayString = getButtonText(this.enumShaderOption);
     }
 
-    static class NamelessClass636338125
+    static class NamelessClass17474188
     {
         static final int[] $SwitchMap$shadersmod$client$EnumShaderOption = new int[EnumShaderOption.values().length];
 

@@ -28,12 +28,12 @@ public class GameRules
      */
     public void addGameRule(String par1Str, String par2Str)
     {
-        this.theGameRules.put(par1Str, new Value(par2Str));
+        this.theGameRules.put(par1Str, new GameRules.Value(par2Str));
     }
 
     public void setOrCreateGameRule(String par1Str, String par2Str)
     {
-        Value var3 = (Value)this.theGameRules.get(par1Str);
+        GameRules.Value var3 = (GameRules.Value)this.theGameRules.get(par1Str);
 
         if (var3 != null)
         {
@@ -50,7 +50,7 @@ public class GameRules
      */
     public String getGameRuleStringValue(String par1Str)
     {
-        Value var2 = (Value)this.theGameRules.get(par1Str);
+        GameRules.Value var2 = (GameRules.Value)this.theGameRules.get(par1Str);
         return var2 != null ? var2.getGameRuleStringValue() : "";
     }
 
@@ -59,7 +59,7 @@ public class GameRules
      */
     public boolean getGameRuleBooleanValue(String par1Str)
     {
-        Value var2 = (Value)this.theGameRules.get(par1Str);
+        GameRules.Value var2 = (GameRules.Value)this.theGameRules.get(par1Str);
         return var2 != null ? var2.getGameRuleBooleanValue() : false;
     }
 
@@ -74,7 +74,7 @@ public class GameRules
         while (var2.hasNext())
         {
             String var3 = (String)var2.next();
-            Value var4 = (Value)this.theGameRules.get(var3);
+            GameRules.Value var4 = (GameRules.Value)this.theGameRules.get(var3);
             var1.setString(var3, var4.getGameRuleStringValue());
         }
 

@@ -307,17 +307,17 @@ public class Village
     public void addOrRenewAgressor(EntityLivingBase par1EntityLivingBase)
     {
         Iterator var2 = this.villageAgressors.iterator();
-        VillageAgressor var3;
+        Village.VillageAgressor var3;
 
         do
         {
             if (!var2.hasNext())
             {
-                this.villageAgressors.add(new VillageAgressor(par1EntityLivingBase, this.tickCounter));
+                this.villageAgressors.add(new Village.VillageAgressor(par1EntityLivingBase, this.tickCounter));
                 return;
             }
 
-            var3 = (VillageAgressor)var2.next();
+            var3 = (Village.VillageAgressor)var2.next();
         }
         while (var3.agressor != par1EntityLivingBase);
 
@@ -327,11 +327,11 @@ public class Village
     public EntityLivingBase findNearestVillageAggressor(EntityLivingBase par1EntityLivingBase)
     {
         double var2 = Double.MAX_VALUE;
-        VillageAgressor var4 = null;
+        Village.VillageAgressor var4 = null;
 
         for (int var5 = 0; var5 < this.villageAgressors.size(); ++var5)
         {
-            VillageAgressor var6 = (VillageAgressor)this.villageAgressors.get(var5);
+            Village.VillageAgressor var6 = (Village.VillageAgressor)this.villageAgressors.get(var5);
             double var7 = var6.agressor.getDistanceSqToEntity(par1EntityLivingBase);
 
             if (var7 <= var2)
@@ -380,7 +380,7 @@ public class Village
 
         while (var1.hasNext())
         {
-            VillageAgressor var2 = (VillageAgressor)var1.next();
+            Village.VillageAgressor var2 = (Village.VillageAgressor)var1.next();
 
             if (!var2.agressor.isEntityAlive() || Math.abs(this.tickCounter - var2.agressionTime) > 300)
             {
@@ -547,19 +547,19 @@ public class Village
         }
 
         par1NBTTagCompound.setTag("Doors", var2);
-        NBTTagList var8 = new NBTTagList();
-        Iterator var9 = this.playerReputation.keySet().iterator();
+        NBTTagList var7 = new NBTTagList();
+        Iterator var8 = this.playerReputation.keySet().iterator();
 
-        while (var9.hasNext())
+        while (var8.hasNext())
         {
-            String var7 = (String)var9.next();
+            String var9 = (String)var8.next();
             NBTTagCompound var6 = new NBTTagCompound();
-            var6.setString("Name", var7);
-            var6.setInteger("S", ((Integer)this.playerReputation.get(var7)).intValue());
-            var8.appendTag(var6);
+            var6.setString("Name", var9);
+            var6.setInteger("S", ((Integer)this.playerReputation.get(var9)).intValue());
+            var7.appendTag(var6);
         }
 
-        par1NBTTagCompound.setTag("Players", var8);
+        par1NBTTagCompound.setTag("Players", var7);
     }
 
     /**

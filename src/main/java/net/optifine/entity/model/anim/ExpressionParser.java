@@ -189,7 +189,7 @@ public class ExpressionParser
         Token token = (Token)deque.poll();
         checkNull(token, "Missing expression");
 
-        switch (NamelessClass958364668.$SwitchMap$net$optifine$entity$model$anim$TokenType[token.getType().ordinal()])
+        switch (ExpressionParser.NamelessClass1021586234.$SwitchMap$net$optifine$entity$model$anim$TokenType[token.getType().ordinal()])
         {
             case 1:
                 return makeConstantFloat(token);
@@ -425,7 +425,7 @@ public class ExpressionParser
         }
     }
 
-    static class NamelessClass958364668
+    static class NamelessClass1021586234
     {
         static final int[] $SwitchMap$net$optifine$entity$model$anim$TokenType = new int[TokenType.values().length];
 

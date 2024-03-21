@@ -32,7 +32,7 @@ public class S21PacketChunkData extends Packet
         this.field_149284_a = p_i45196_1_.xPosition;
         this.field_149282_b = p_i45196_1_.zPosition;
         this.field_149279_g = p_i45196_2_;
-        Extracted var4 = func_149269_a(p_i45196_1_, p_i45196_2_, p_i45196_3_);
+        S21PacketChunkData.Extracted var4 = func_149269_a(p_i45196_1_, p_i45196_2_, p_i45196_3_);
         Deflater var5 = new Deflater(-1);
         this.field_149280_d = var4.field_150281_c;
         this.field_149283_c = var4.field_150280_b;
@@ -139,12 +139,12 @@ public class S21PacketChunkData extends Packet
         return this.field_149278_f;
     }
 
-    public static Extracted func_149269_a(Chunk p_149269_0_, boolean p_149269_1_, int p_149269_2_)
+    public static S21PacketChunkData.Extracted func_149269_a(Chunk p_149269_0_, boolean p_149269_1_, int p_149269_2_)
     {
         int var3 = 0;
         ExtendedBlockStorage[] var4 = p_149269_0_.getBlockStorageArray();
         int var5 = 0;
-        Extracted var6 = new Extracted();
+        S21PacketChunkData.Extracted var6 = new S21PacketChunkData.Extracted();
         byte[] var7 = field_149286_i;
 
         if (p_149269_1_)

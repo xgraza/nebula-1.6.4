@@ -12,10 +12,10 @@ public class Util
     private static final Pattern uuidPattern = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
     private static final String __OBFID = "CL_00001633";
 
-    public static EnumOS getOSType()
+    public static Util.EnumOS getOSType()
     {
         String var0 = System.getProperty("os.name").toLowerCase();
-        return var0.contains("win") ? EnumOS.WINDOWS : (var0.contains("mac") ? EnumOS.MACOS : (var0.contains("solaris") ? EnumOS.SOLARIS : (var0.contains("sunos") ? EnumOS.SOLARIS : (var0.contains("linux") ? EnumOS.LINUX : (var0.contains("unix") ? EnumOS.LINUX : EnumOS.UNKNOWN)))));
+        return var0.contains("win") ? Util.EnumOS.WINDOWS : (var0.contains("mac") ? Util.EnumOS.MACOS : (var0.contains("solaris") ? Util.EnumOS.SOLARIS : (var0.contains("sunos") ? Util.EnumOS.SOLARIS : (var0.contains("linux") ? Util.EnumOS.LINUX : (var0.contains("unix") ? Util.EnumOS.LINUX : Util.EnumOS.UNKNOWN)))));
     }
 
     /**
@@ -63,7 +63,7 @@ public class Util
         MACOS("MACOS", 3),
         UNKNOWN("UNKNOWN", 4);
 
-        private static final EnumOS[] $VALUES = new EnumOS[]{LINUX, SOLARIS, WINDOWS, MACOS, UNKNOWN};
+        private static final Util.EnumOS[] $VALUES = new Util.EnumOS[]{LINUX, SOLARIS, WINDOWS, MACOS, UNKNOWN};
         private static final String __OBFID = "CL_00001660";
 
         private EnumOS(String par1Str, int par2) {}

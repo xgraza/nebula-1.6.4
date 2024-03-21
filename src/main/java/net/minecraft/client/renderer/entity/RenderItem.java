@@ -2,6 +2,10 @@ package net.minecraft.client.renderer.entity;
 
 import java.util.Random;
 import java.util.concurrent.Callable;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.render.EventRender3DItem;
+import nebula.client.listener.event.render.EventRenderStackCount;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -18,12 +22,14 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemCloth;
 import net.minecraft.item.ItemStack;
+import net.minecraft.src.Config;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL14;
 
 public class RenderItem extends Render
 {
@@ -53,6 +59,8 @@ public class RenderItem extends Render
      */
     public void doRender(EntityItem par1EntityItem, double par2, double par4, double par6, float par8, float par9)
     {
+        if (Nebula.BUS.dispatch(new EventRender3DItem(par1EntityItem))) return;
+
         ItemStack var10 = par1EntityItem.getEntityItem();
 
         if (var10.getItem() != null)
@@ -561,7 +569,12 @@ public class RenderItem extends Render
     {
         for (int var6 = 0; var6 < 2; ++var6)
         {
-            OpenGlHelper.glBlendFunc(772, 1, 0, 0);
+            if (Config.isFastRender()) {
+                GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
+            } else {
+                OpenGlHelper.glBlendFunc(GL11.GL_DST_ALPHA, GL11.GL_ONE, GL11.GL_ZERO, GL11.GL_ZERO);
+            }
+
             float var7 = 0.00390625F;
             float var8 = 0.00390625F;
             float var9 = (float)(Minecraft.getSystemTime() % (long)(3000 + var6 * 1873)) / (3000.0F + (float)(var6 * 1873)) * 256.0F;
@@ -596,15 +609,20 @@ public class RenderItem extends Render
     {
         if (par3ItemStack != null)
         {
-            if (par3ItemStack.stackSize > 1 || par6Str != null)
+            EventRenderStackCount event = new EventRenderStackCount(par3ItemStack,
+              par6Str == null ? String.valueOf(par3ItemStack.stackSize) : par6Str, 16777215);
+
+            if (par3ItemStack.stackSize > 1 || Nebula.BUS.dispatch(event))
             {
-                String var7 = par6Str == null ? String.valueOf(par3ItemStack.stackSize) : par6Str;
-                GL11.glDisable(GL11.GL_LIGHTING);
-                GL11.glDisable(GL11.GL_DEPTH_TEST);
-                GL11.glDisable(GL11.GL_BLEND);
-                par1FontRenderer.drawStringWithShadow(var7, par4 + 19 - 2 - par1FontRenderer.getStringWidth(var7), par5 + 6 + 3, 16777215);
-                GL11.glEnable(GL11.GL_LIGHTING);
-                GL11.glEnable(GL11.GL_DEPTH_TEST);
+                String var7 = event.text();
+                if (var7 != null) {
+                    GL11.glDisable(GL11.GL_LIGHTING);
+                    GL11.glDisable(GL11.GL_DEPTH_TEST);
+                    GL11.glDisable(GL11.GL_BLEND);
+                    par1FontRenderer.drawStringWithShadow(var7, par4 + 19 - 2 - par1FontRenderer.getStringWidth(var7), par5 + 6 + 3, event.color());
+                    GL11.glEnable(GL11.GL_LIGHTING);
+                    GL11.glEnable(GL11.GL_DEPTH_TEST);
+                }
             }
 
             if (par3ItemStack.isItemDamaged())
@@ -627,6 +645,11 @@ public class RenderItem extends Render
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             }
+
+            // fixes glint pickup bugs
+            // i love minecraft
+            GL11.glEnable(GL11.GL_ALPHA_TEST);
+            GL11.glDisable(GL11.GL_BLEND);
         }
     }
 

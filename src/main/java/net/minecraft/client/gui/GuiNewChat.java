@@ -4,6 +4,9 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import nebula.client.Nebula;
+import nebula.client.module.impl.render.chat.ChatModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
@@ -34,6 +37,8 @@ public class GuiNewChat extends Gui
     {
         if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN)
         {
+            ChatModule chat = Nebula.INSTANCE.module.get(ChatModule.class);
+
             int var2 = this.func_146232_i();
             boolean var3 = false;
             int var4 = 0;
@@ -93,10 +98,20 @@ public class GuiNewChat extends Gui
 
                             if (var14 > 3)
                             {
-                                byte var15 = 0;
+                                int var15 = 0;
+
+                                if (chat.macro().toggled() && chat.animate.value()) {
+                                    var10.getAnimation().setAnimationTime((1.0 - chat.speed.value()) * 1000.0);
+                                    var15 = (int) (-(var8 + 4) * (1.0 - var10.getAnimation().factor()));
+                                }
+
                                 int var16 = -var9 * 9;
-                                drawRect(var15, var16 - 9, var15 + var8 + 4, var16, var14 / 2 << 24);
-                                String var17 = var10.func_151461_a().getFormattedText();
+
+                                if (!chat.macro().toggled() || !chat.clearChat.value()) {
+                                    drawRect(var15, var16 - 9, var15 + var8 + 4, var16, var14 / 2 << 24);
+                                }
+                                String var17 = ((chat.macro().toggled() && chat.timestamps.value()) ? var10.getFormatted() : var10.getLineString())
+                                  .getFormattedText();
                                 this.mc.fontRenderer.drawStringWithShadow(var17, var15, var16 - 8, 16777215 + (var14 << 24));
                                 GL11.glDisable(GL11.GL_ALPHA_TEST);
                             }
@@ -129,9 +144,13 @@ public class GuiNewChat extends Gui
 
     public void clearChatMessages()
     {
-        this.field_146253_i.clear();
-        this.chatLines.clear();
-        this.sentMessages.clear();
+        ChatModule chat = Nebula.INSTANCE.module.get(ChatModule.class);
+
+        if (!chat.macro().toggled() || !chat.infinite.value()) {
+            this.field_146253_i.clear();
+            this.chatLines.clear();
+            this.sentMessages.clear();
+        }
     }
 
     public void printChatMessage(IChatComponent p_146227_1_)
@@ -249,13 +268,17 @@ public class GuiNewChat extends Gui
 
     public void refreshChat()
     {
-        this.field_146253_i.clear();
+        ChatModule chat = Nebula.INSTANCE.module.get(ChatModule.class);
+
+        if (!chat.macro().toggled() || !chat.infinite.value()) {
+            this.field_146253_i.clear();
+        }
         this.resetScroll();
 
         for (int var1 = this.chatLines.size() - 1; var1 >= 0; --var1)
         {
             ChatLine var2 = (ChatLine)this.chatLines.get(var1);
-            this.func_146237_a(var2.func_151461_a(), var2.getChatLineID(), var2.getUpdatedCounter(), true);
+            this.func_146237_a(var2.getLineString(), var2.getChatLineID(), var2.getUpdatedCounter(), true);
         }
     }
 
@@ -323,7 +346,7 @@ public class GuiNewChat extends Gui
                     {
                         ChatLine var10 = (ChatLine)this.field_146253_i.get(var9);
                         int var11 = 0;
-                        Iterator var12 = var10.func_151461_a().iterator();
+                        Iterator var12 = var10.getLineString().iterator();
 
                         while (var12.hasNext())
                         {

@@ -20,7 +20,7 @@ public class GuiCreateFlatWorld extends GuiScreen
     private String field_146393_h;
     private String field_146394_i;
     private String field_146391_r;
-    private Details field_146390_s;
+    private GuiCreateFlatWorld.Details field_146390_s;
     private GuiButton field_146389_t;
     private GuiButton field_146388_u;
     private GuiButton field_146386_v;
@@ -51,7 +51,7 @@ public class GuiCreateFlatWorld extends GuiScreen
         this.field_146393_h = I18n.format("createWorld.customize.flat.title", new Object[0]);
         this.field_146394_i = I18n.format("createWorld.customize.flat.tile", new Object[0]);
         this.field_146391_r = I18n.format("createWorld.customize.flat.height", new Object[0]);
-        this.field_146390_s = new Details();
+        this.field_146390_s = new GuiCreateFlatWorld.Details();
         this.buttonList.add(this.field_146389_t = new GuiButton(2, this.width / 2 - 154, this.height - 52, 100, 20, I18n.format("createWorld.customize.flat.addLayer", new Object[0]) + " (NYI)"));
         this.buttonList.add(this.field_146388_u = new GuiButton(3, this.width / 2 - 50, this.height - 52, 100, 20, I18n.format("createWorld.customize.flat.editLayer", new Object[0]) + " (NYI)"));
         this.buttonList.add(this.field_146386_v = new GuiButton(4, this.width / 2 - 155, this.height - 52, 150, 20, I18n.format("createWorld.customize.flat.removeLayer", new Object[0])));

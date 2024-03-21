@@ -1,5 +1,9 @@
 package net.minecraft.client.entity;
 
+import nebula.client.Nebula;
+import nebula.client.listener.event.player.EventBlockPush;
+import nebula.client.listener.event.player.EventSlowdown;
+import nebula.client.listener.event.render.EventPortalExitGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiCommandBlock;
@@ -135,7 +139,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
             if (this.inPortal)
             {
-                if (this.mc.currentScreen != null)
+                if (this.mc.currentScreen != null && !Nebula.BUS.dispatch(new EventPortalExitGui()))
                 {
                     this.mc.displayGuiScreen((GuiScreen)null);
                 }
@@ -191,6 +195,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.movementInput.moveStrafe *= 0.2F;
                 this.movementInput.moveForward *= 0.2F;
                 this.sprintToggleTimer = 0;
+
+                Nebula.BUS.dispatch(new EventSlowdown(movementInput));
             }
 
             if (this.movementInput.sneak && this.ySize < 0.2F)
@@ -524,6 +530,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     protected boolean func_145771_j(double p_145771_1_, double p_145771_3_, double p_145771_5_)
     {
+        if (Nebula.BUS.dispatch(new EventBlockPush(this))) {
+            return false;
+        }
+
         int var7 = MathHelper.floor_double(p_145771_1_);
         int var8 = MathHelper.floor_double(p_145771_3_);
         int var9 = MathHelper.floor_double(p_145771_5_);

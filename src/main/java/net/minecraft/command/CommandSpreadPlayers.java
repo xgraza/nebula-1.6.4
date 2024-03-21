@@ -95,20 +95,20 @@ public class CommandSpreadPlayers extends CommandBase
                 }
 
                 par1ICommandSender.addChatMessage(new ChatComponentTranslation("commands.spreadplayers.spreading." + (var12 ? "teams" : "players"), new Object[] {Integer.valueOf(var13.size()), Double.valueOf(var10), Double.valueOf(var4), Double.valueOf(var6), Double.valueOf(var8)}));
-                this.func_110669_a(par1ICommandSender, var13, new Position(var4, var6), var8, var10, ((EntityLivingBase)var13.get(0)).worldObj, var12);
+                this.func_110669_a(par1ICommandSender, var13, new CommandSpreadPlayers.Position(var4, var6), var8, var10, ((EntityLivingBase)var13.get(0)).worldObj, var12);
                 return;
             }
         }
     }
 
-    private void func_110669_a(ICommandSender par1ICommandSender, List par2List, Position par3CommandSpreadPlayersPosition, double par4, double par6, World par8World, boolean par9)
+    private void func_110669_a(ICommandSender par1ICommandSender, List par2List, CommandSpreadPlayers.Position par3CommandSpreadPlayersPosition, double par4, double par6, World par8World, boolean par9)
     {
         Random var10 = new Random();
         double var11 = par3CommandSpreadPlayersPosition.field_111101_a - par6;
         double var13 = par3CommandSpreadPlayersPosition.field_111100_b - par6;
         double var15 = par3CommandSpreadPlayersPosition.field_111101_a + par6;
         double var17 = par3CommandSpreadPlayersPosition.field_111100_b + par6;
-        Position[] var19 = this.func_110670_a(var10, par9 ? this.func_110667_a(par2List) : par2List.size(), var11, var13, var15, var17);
+        CommandSpreadPlayers.Position[] var19 = this.func_110670_a(var10, par9 ? this.func_110667_a(par2List) : par2List.size(), var11, var13, var15, var17);
         int var20 = this.func_110668_a(par3CommandSpreadPlayersPosition, par4, par8World, var10, var11, var13, var15, var17, var19, par9);
         double var21 = this.func_110671_a(par2List, par8World, var19, par9);
         notifyAdmins(par1ICommandSender, "commands.spreadplayers.success." + (par9 ? "teams" : "players"), new Object[] {Integer.valueOf(var19.length), Double.valueOf(par3CommandSpreadPlayersPosition.field_111101_a), Double.valueOf(par3CommandSpreadPlayersPosition.field_111100_b)});
@@ -141,7 +141,7 @@ public class CommandSpreadPlayers extends CommandBase
         return var2.size();
     }
 
-    private int func_110668_a(Position par1CommandSpreadPlayersPosition, double par2, World par4World, Random par5Random, double par6, double par8, double par10, double par12, Position[] par14ArrayOfCommandSpreadPlayersPosition, boolean par15)
+    private int func_110668_a(CommandSpreadPlayers.Position par1CommandSpreadPlayersPosition, double par2, World par4World, Random par5Random, double par6, double par8, double par10, double par12, CommandSpreadPlayers.Position[] par14ArrayOfCommandSpreadPlayersPosition, boolean par15)
     {
         boolean var16 = true;
         double var18 = 3.4028234663852886E38D;
@@ -152,19 +152,19 @@ public class CommandSpreadPlayers extends CommandBase
             var16 = false;
             var18 = 3.4028234663852886E38D;
             int var22;
-            Position var23;
+            CommandSpreadPlayers.Position var23;
 
             for (int var20 = 0; var20 < par14ArrayOfCommandSpreadPlayersPosition.length; ++var20)
             {
-                Position var21 = par14ArrayOfCommandSpreadPlayersPosition[var20];
+                CommandSpreadPlayers.Position var21 = par14ArrayOfCommandSpreadPlayersPosition[var20];
                 var22 = 0;
-                var23 = new Position();
+                var23 = new CommandSpreadPlayers.Position();
 
                 for (int var24 = 0; var24 < par14ArrayOfCommandSpreadPlayersPosition.length; ++var24)
                 {
                     if (var20 != var24)
                     {
-                        Position var25 = par14ArrayOfCommandSpreadPlayersPosition[var24];
+                        CommandSpreadPlayers.Position var25 = par14ArrayOfCommandSpreadPlayersPosition[var24];
                         double var26 = var21.func_111099_a(var25);
                         var18 = Math.min(var26, var18);
 
@@ -204,7 +204,7 @@ public class CommandSpreadPlayers extends CommandBase
 
             if (!var16)
             {
-                Position[] var28 = par14ArrayOfCommandSpreadPlayersPosition;
+                CommandSpreadPlayers.Position[] var28 = par14ArrayOfCommandSpreadPlayersPosition;
                 int var29 = par14ArrayOfCommandSpreadPlayersPosition.length;
 
                 for (var22 = 0; var22 < var29; ++var22)
@@ -230,7 +230,7 @@ public class CommandSpreadPlayers extends CommandBase
         }
     }
 
-    private double func_110671_a(List par1List, World par2World, Position[] par3ArrayOfCommandSpreadPlayersPosition, boolean par4)
+    private double func_110671_a(List par1List, World par2World, CommandSpreadPlayers.Position[] par3ArrayOfCommandSpreadPlayersPosition, boolean par4)
     {
         double var5 = 0.0D;
         int var7 = 0;
@@ -239,7 +239,7 @@ public class CommandSpreadPlayers extends CommandBase
         for (int var9 = 0; var9 < par1List.size(); ++var9)
         {
             EntityLivingBase var10 = (EntityLivingBase)par1List.get(var9);
-            Position var11;
+            CommandSpreadPlayers.Position var11;
 
             if (par4)
             {
@@ -250,7 +250,7 @@ public class CommandSpreadPlayers extends CommandBase
                     var8.put(var12, par3ArrayOfCommandSpreadPlayersPosition[var7++]);
                 }
 
-                var11 = (Position)var8.get(var12);
+                var11 = (CommandSpreadPlayers.Position)var8.get(var12);
             }
             else
             {
@@ -276,13 +276,13 @@ public class CommandSpreadPlayers extends CommandBase
         return var5;
     }
 
-    private Position[] func_110670_a(Random par1Random, int par2, double par3, double par5, double par7, double par9)
+    private CommandSpreadPlayers.Position[] func_110670_a(Random par1Random, int par2, double par3, double par5, double par7, double par9)
     {
-        Position[] var11 = new Position[par2];
+        CommandSpreadPlayers.Position[] var11 = new CommandSpreadPlayers.Position[par2];
 
         for (int var12 = 0; var12 < var11.length; ++var12)
         {
-            Position var13 = new Position();
+            CommandSpreadPlayers.Position var13 = new CommandSpreadPlayers.Position();
             var13.func_111097_a(par1Random, par3, par5, par7, par9);
             var11[var12] = var13;
         }
@@ -304,7 +304,7 @@ public class CommandSpreadPlayers extends CommandBase
             this.field_111100_b = par3;
         }
 
-        double func_111099_a(Position par1CommandSpreadPlayersPosition)
+        double func_111099_a(CommandSpreadPlayers.Position par1CommandSpreadPlayersPosition)
         {
             double var2 = this.field_111101_a - par1CommandSpreadPlayersPosition.field_111101_a;
             double var4 = this.field_111100_b - par1CommandSpreadPlayersPosition.field_111100_b;
@@ -323,7 +323,7 @@ public class CommandSpreadPlayers extends CommandBase
             return MathHelper.sqrt_double(this.field_111101_a * this.field_111101_a + this.field_111100_b * this.field_111100_b);
         }
 
-        public void func_111094_b(Position par1CommandSpreadPlayersPosition)
+        public void func_111094_b(CommandSpreadPlayers.Position par1CommandSpreadPlayersPosition)
         {
             this.field_111101_a -= par1CommandSpreadPlayersPosition.field_111101_a;
             this.field_111100_b -= par1CommandSpreadPlayersPosition.field_111100_b;

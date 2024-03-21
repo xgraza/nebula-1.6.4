@@ -91,7 +91,7 @@ public class MapGenVillage extends MapGenStructure
 
     protected StructureStart getStructureStart(int par1, int par2)
     {
-        return new Start(this.worldObj, this.rand, par1, par2, this.terrainType);
+        return new MapGenVillage.Start(this.worldObj, this.rand, par1, par2, this.terrainType);
     }
 
     public static class Start extends StructureStart

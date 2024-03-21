@@ -6,6 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.player.EventMoveBlockFriction;
+import nebula.client.listener.event.player.rotate.EventRotateBody;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -104,6 +108,8 @@ public abstract class EntityLivingBase extends Entity
     /** Entity head rotation yaw at previous tick */
     public float prevRotationYawHead;
 
+    public float renderPitch, prevRenderPitch;
+
     /**
      * A factor used to determine how far this entity will move each tick if it is jumping or falling.
      */
@@ -196,6 +202,7 @@ public abstract class EntityLivingBase extends Entity
         this.field_70769_ao = (float)Math.random() * 12398.0F;
         this.rotationYaw = (float)(Math.random() * Math.PI * 2.0D);
         this.rotationYawHead = this.rotationYaw;
+        renderPitch = rotationPitch;
         this.stepHeight = 0.5F;
     }
 
@@ -374,6 +381,7 @@ public abstract class EntityLivingBase extends Entity
         this.prevRotationYawHead = this.rotationYawHead;
         this.prevRotationYaw = this.rotationYaw;
         this.prevRotationPitch = this.rotationPitch;
+        prevRenderPitch = renderPitch;
         this.worldObj.theProfiler.endSection();
     }
 
@@ -1609,7 +1617,11 @@ public abstract class EntityLivingBase extends Entity
 
             if (this.onGround)
             {
-                var3 = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ)).slipperiness * 0.91F;
+                Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+                EventMoveBlockFriction event = new EventMoveBlockFriction(block, block.slipperiness);
+                Nebula.BUS.dispatch(event);
+
+                var3 = event.slipperiness() * 0.91f;
             }
 
             float var4 = 0.16277136F / (var3 * var3 * var3);
@@ -1629,7 +1641,11 @@ public abstract class EntityLivingBase extends Entity
 
             if (this.onGround)
             {
-                var3 = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ)).slipperiness * 0.91F;
+                Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+                EventMoveBlockFriction event = new EventMoveBlockFriction(block, block.slipperiness);
+                Nebula.BUS.dispatch(event);
+
+                var3 = event.slipperiness() * 0.91f;
             }
 
             if (this.isOnLadder())
@@ -1827,10 +1843,14 @@ public abstract class EntityLivingBase extends Entity
             var8 = 0.0F;
         }
 
+        boolean rotateBody = Nebula.BUS.dispatch(new EventRotateBody(this));
+
         this.field_110154_aX += (var8 - this.field_110154_aX) * 0.3F;
-        this.worldObj.theProfiler.startSection("headTurn");
-        var7 = this.func_110146_f(var6, var7);
-        this.worldObj.theProfiler.endSection();
+        if (!rotateBody) {
+            this.worldObj.theProfiler.startSection("headTurn");
+            var7 = this.func_110146_f(var6, var7);
+            this.worldObj.theProfiler.endSection();
+        }
         this.worldObj.theProfiler.startSection("rangeChecks");
 
         while (this.rotationYaw - this.prevRotationYaw < -180.0F)
@@ -1843,14 +1863,14 @@ public abstract class EntityLivingBase extends Entity
             this.prevRotationYaw += 360.0F;
         }
 
-        while (this.renderYawOffset - this.prevRenderYawOffset < -180.0F)
-        {
-            this.prevRenderYawOffset -= 360.0F;
-        }
+        if (!rotateBody) {
+            while (this.renderYawOffset - this.prevRenderYawOffset < -180.0F) {
+                this.prevRenderYawOffset -= 360.0F;
+            }
 
-        while (this.renderYawOffset - this.prevRenderYawOffset >= 180.0F)
-        {
-            this.prevRenderYawOffset += 360.0F;
+            while (this.renderYawOffset - this.prevRenderYawOffset >= 180.0F) {
+                this.prevRenderYawOffset += 360.0F;
+            }
         }
 
         while (this.rotationPitch - this.prevRotationPitch < -180.0F)

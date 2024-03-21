@@ -13,7 +13,7 @@ public class GuiKeyBindingList extends GuiListExtended
 {
     private final GuiControls field_148191_k;
     private final Minecraft field_148189_l;
-    private final IGuiListEntry[] field_148190_m;
+    private final GuiListExtended.IGuiListEntry[] field_148190_m;
     private int field_148188_n = 0;
     private static final String __OBFID = "CL_00000732";
 
@@ -23,7 +23,7 @@ public class GuiKeyBindingList extends GuiListExtended
         this.field_148191_k = p_i45031_1_;
         this.field_148189_l = p_i45031_2_;
         KeyBinding[] var3 = (KeyBinding[])ArrayUtils.clone(p_i45031_2_.gameSettings.keyBindings);
-        this.field_148190_m = new IGuiListEntry[var3.length + KeyBinding.func_151467_c().size()];
+        this.field_148190_m = new GuiListExtended.IGuiListEntry[var3.length + KeyBinding.func_151467_c().size()];
         Arrays.sort(var3);
         int var4 = 0;
         String var5 = null;
@@ -38,7 +38,7 @@ public class GuiKeyBindingList extends GuiListExtended
             if (!var10.equals(var5))
             {
                 var5 = var10;
-                this.field_148190_m[var4++] = new CategoryEntry(var10);
+                this.field_148190_m[var4++] = new GuiKeyBindingList.CategoryEntry(var10);
             }
 
             int var11 = p_i45031_2_.fontRenderer.getStringWidth(I18n.format(var9.getKeyDescription(), new Object[0]));
@@ -48,7 +48,7 @@ public class GuiKeyBindingList extends GuiListExtended
                 this.field_148188_n = var11;
             }
 
-            this.field_148190_m[var4++] = new KeyEntry(var9, null);
+            this.field_148190_m[var4++] = new GuiKeyBindingList.KeyEntry(var9, null);
         }
     }
 
@@ -57,7 +57,7 @@ public class GuiKeyBindingList extends GuiListExtended
         return this.field_148190_m.length;
     }
 
-    public IGuiListEntry func_148180_b(int p_148180_1_)
+    public GuiListExtended.IGuiListEntry func_148180_b(int p_148180_1_)
     {
         return this.field_148190_m[p_148180_1_];
     }
@@ -72,7 +72,7 @@ public class GuiKeyBindingList extends GuiListExtended
         return super.func_148139_c() + 32;
     }
 
-    public class CategoryEntry implements IGuiListEntry
+    public class CategoryEntry implements GuiListExtended.IGuiListEntry
     {
         private final String field_148285_b;
         private final int field_148286_c;
@@ -97,7 +97,7 @@ public class GuiKeyBindingList extends GuiListExtended
         public void func_148277_b(int p_148277_1_, int p_148277_2_, int p_148277_3_, int p_148277_4_, int p_148277_5_, int p_148277_6_) {}
     }
 
-    public class KeyEntry implements IGuiListEntry
+    public class KeyEntry implements GuiListExtended.IGuiListEntry
     {
         private final KeyBinding field_148282_b;
         private final String field_148283_c;

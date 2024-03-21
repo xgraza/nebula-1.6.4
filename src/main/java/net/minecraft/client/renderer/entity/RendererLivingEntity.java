@@ -1,6 +1,10 @@
 package net.minecraft.client.renderer.entity;
 
 import java.util.Random;
+
+import nebula.client.Nebula;
+import nebula.client.listener.event.player.rotate.EventHeadRotations;
+import nebula.client.listener.event.render.EventRenderLiving;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBase;
@@ -166,7 +170,13 @@ public abstract class RendererLivingEntity extends Render
                     }
                 }
 
-                var26 = par1EntityLivingBase.prevRotationPitch + (par1EntityLivingBase.rotationPitch - par1EntityLivingBase.prevRotationPitch) * par9;
+                EventHeadRotations event = new EventHeadRotations(par1EntityLivingBase);
+                if (Nebula.BUS.dispatch(event)) {
+                    var26 = par1EntityLivingBase.prevRenderPitch + (par1EntityLivingBase.renderPitch - par1EntityLivingBase.prevRenderPitch) * par9;
+                } else {
+                    var26 = par1EntityLivingBase.prevRotationPitch + (par1EntityLivingBase.rotationPitch - par1EntityLivingBase.prevRotationPitch) * par9;
+                }
+
                 this.renderLivingAt(par1EntityLivingBase, par2, par4, par6);
                 var291 = this.handleRotationFloat(par1EntityLivingBase, par9);
                 this.rotateCorpse(par1EntityLivingBase, var291, var25, par9);
@@ -372,7 +382,9 @@ public abstract class RendererLivingEntity extends Render
 
         if (!par1EntityLivingBase.isInvisible())
         {
-            this.mainModel.render(par1EntityLivingBase, par2, par3, par4, par5, par6, par7);
+            if (!Nebula.BUS.dispatch(new EventRenderLiving(mainModel, par1EntityLivingBase, par2, par3, par4, par5, par6, par7))) {
+                this.mainModel.render(par1EntityLivingBase, par2, par3, par4, par5, par6, par7);
+            }
         }
         else if (!par1EntityLivingBase.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
         {
