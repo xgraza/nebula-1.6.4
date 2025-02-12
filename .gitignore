@@ -1,0 +1,7 @@
+node_modules/
+logs/
+
+default_users.json
+package-lock.json
+.env
+db.sqlite
