@@ -46,7 +46,6 @@ configurations {
 
 dependencies {
     implementation group: 'javax.vecmath', name: 'vecmath', version: vecmath_version
-    library group: 'io.sentry', name: 'sentry', version: '6.27.0'
 
     implementation fileTree('libraries')
     implementation configurations.library
