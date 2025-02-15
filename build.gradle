@@ -20,8 +20,7 @@ buildConfig {
     buildConfigField "String", "VERSION", "${project.version}"
     buildConfigField "int", "BUILD", "${project.build}"
 
-    packageName "nebula.client"
-    //packageName "us.nebula.client"
+    packageName "us.nebula.client"
 }
 
 application {
