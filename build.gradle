@@ -1,0 +1,74 @@
+plugins {
+    id 'java'
+    id 'de.fuerstenau.buildconfig' version "${build_config_version}"
+    id 'application'
+}
+
+group = project.group
+version = project.version
+
+var userDir = System.getProperty("user.dir")
+var separator = System.getProperty("file.separator")
+
+println(' Java: ' + System.getProperty('java.version') +
+        ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ')' +
+        ' Arch: ' + System.getProperty('os.arch'))
+
+buildConfig {
+    buildConfigField "String", "HASH", "${execute("git rev-parse --short HEAD")}"
+    buildConfigField "String", "BRANCH", "${execute("git branch --show-current")}"
+    buildConfigField "String", "VERSION", "${project.version}"
+    buildConfigField "int", "BUILD", "${project.build}"
+
+    packageName "nebula.client"
+    //packageName "us.nebula.client"
+}
+
+application {
+    mainClass = 'Start'
+    applicationDefaultJvmArgs = ["-Djava.library.path=${userDir}${separator}natives"]
+}
+
+run {
+    workingDir = file("${userDir}${separator}run${separator}")
+}
+
+sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    library
+    compile
+}
+
+dependencies {
+    implementation group: 'javax.vecmath', name: 'vecmath', version: vecmath_version
+    library group: 'io.sentry', name: 'sentry', version: '6.27.0'
+
+    implementation fileTree('libraries')
+    implementation configurations.library
+}
+
+def execute(String cmd) {
+    try {
+        def stdout = new ByteArrayOutputStream()
+
+        exec {
+            commandLine cmd.split(" ")
+            standardOutput = stdout
+        }
+
+        return stdout.toString().trim()
+    } catch (ignored) {
+        return null
+    }
+}
+
+jar {
+    from {
+        configurations.library.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

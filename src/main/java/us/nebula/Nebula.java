@@ -1,0 +1,101 @@
+package us.nebula;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Util;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.Display;
+import us.nebula.api.config.ConfigurationManager;
+import us.nebula.api.manager.cheat.CheatManager;
+import us.nebula.api.manager.key.KeyManager;
+import us.nebula.api.systemtray.NebulaSystemTray;
+
+import java.io.File;
+import java.io.IOException;
+
+/**
+ * @author xgraza
+ * @since 02/12/25
+ */
+public enum Nebula
+{
+    INSTANCE;
+
+    private final Logger logger = LogManager.getLogger("Nebula");
+    private File nebulaRootDir;
+
+    private NebulaSystemTray systemTray;
+    private ConfigurationManager configurationManager;
+    private KeyManager keyManager;
+    private CheatManager cheatManager;
+
+    public void init(final File gameDir) throws IOException
+    {
+        setTitle("Setting up Nebula...");
+
+        nebulaRootDir = new File(gameDir, "nebula-client");
+        if (!nebulaRootDir.exists())
+        {
+            if (nebulaRootDir.mkdir())
+            {
+                logger.info("Created {} successfully", nebulaRootDir.getAbsolutePath());
+            } else
+            {
+                throw new RuntimeException("Failed to create nebula directory");
+            }
+        }
+
+        systemTray = new NebulaSystemTray();
+        configurationManager = new ConfigurationManager();
+        keyManager = new KeyManager();
+        cheatManager = new CheatManager();
+
+        setTitle("Nebula Client | Minecraft 1.7.2");
+        keyManager.init();
+        cheatManager.init();
+        configurationManager.init();
+        systemTray.init();
+    }
+
+    void setTitle(final String title)
+    {
+        final Util.EnumOS os = Util.getOSType();
+        if (os == Util.EnumOS.WINDOWS || os == Util.EnumOS.MACOS)
+        {
+            Display.setTitle(title);
+        } else
+        {
+            Minecraft.func_147105_a(title);
+        }
+    }
+
+    public Logger getLogger()
+    {
+        return logger;
+    }
+
+    public File getNebulaRootDir()
+    {
+        return nebulaRootDir;
+    }
+
+    public ConfigurationManager getConfigurationManager()
+    {
+        return configurationManager;
+    }
+
+    public KeyManager getKeyManager()
+    {
+        return keyManager;
+    }
+
+    public CheatManager getCheatManager()
+    {
+        return cheatManager;
+    }
+
+    public NebulaSystemTray getSystemTray()
+    {
+        return systemTray;
+    }
+}
