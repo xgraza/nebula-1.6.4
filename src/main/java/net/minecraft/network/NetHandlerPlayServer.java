@@ -696,7 +696,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         else
         {
             this.playerEntity.func_143004_u();
-            String var2 = p_147354_1_.func_149439_c();
+            String var2 = p_147354_1_.getMessage();
             var2 = StringUtils.normalizeSpace(var2);
 
             for (int var3 = 0; var3 < var2.length(); ++var3)

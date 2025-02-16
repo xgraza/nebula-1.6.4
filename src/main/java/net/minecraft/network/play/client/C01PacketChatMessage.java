@@ -8,40 +8,39 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class C01PacketChatMessage extends Packet
 {
-    private String field_149440_a;
-    private static final String __OBFID = "CL_00001347";
+    private String message;
 
     public C01PacketChatMessage() {}
 
-    public C01PacketChatMessage(String p_i45240_1_)
+    public C01PacketChatMessage(String message)
     {
-        if (p_i45240_1_.length() > 100)
+        if (message.length() > 100)
         {
-            p_i45240_1_ = p_i45240_1_.substring(0, 100);
+            message = message.substring(0, 100);
         }
 
-        this.field_149440_a = p_i45240_1_;
+        this.message = message;
     }
 
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer packetBuf) throws IOException
     {
-        this.field_149440_a = p_148837_1_.readStringFromBuffer(100);
+        this.message = packetBuf.readStringFromBuffer(100);
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    public void writePacketData(PacketBuffer packetBuf) throws IOException
     {
-        p_148840_1_.writeStringToBuffer(this.field_149440_a);
+        packetBuf.writeStringToBuffer(this.message);
     }
 
-    public void processPacket(INetHandlerPlayServer p_149438_1_)
+    public void processPacket(INetHandlerPlayServer handler)
     {
-        p_149438_1_.processChatMessage(this);
+        handler.processChatMessage(this);
     }
 
     /**
@@ -49,16 +48,16 @@ public class C01PacketChatMessage extends Packet
      */
     public String serialize()
     {
-        return String.format("message=\'%s\'", new Object[] {this.field_149440_a});
+        return String.format("message='%s'", this.message);
     }
 
-    public String func_149439_c()
+    public String getMessage()
     {
-        return this.field_149440_a;
+        return this.message;
     }
 
-    public void processPacket(INetHandler p_148833_1_)
+    public void processPacket(INetHandler netHandler)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) netHandler);
     }
 }

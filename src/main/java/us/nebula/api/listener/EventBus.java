@@ -1,9 +1,10 @@
 package us.nebula.api.listener;
 
+import io.netty.util.internal.ConcurrentSet;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -68,7 +69,7 @@ public final class EventBus
             final Class<?> eventClass = (Class<?>) ((ParameterizedType) field.getGenericType())
                     .getActualTypeArguments()[0];
             final Set<Subscriber> subscribers = eventSubscribers.computeIfAbsent(
-                    (Class<? extends Event>) eventClass, (x) -> new LinkedHashSet<>());
+                    (Class<? extends Event>) eventClass, (x) -> new ConcurrentSet<>());
             subscribers.add(new Subscriber(listener, properties, object));
         }
     }

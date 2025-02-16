@@ -5,6 +5,7 @@ import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
+import us.nebula.api.manager.command.CommandManager;
 import us.nebula.api.config.ConfigurationManager;
 import us.nebula.api.manager.cheat.CheatManager;
 import us.nebula.api.manager.key.KeyManager;
@@ -27,6 +28,7 @@ public enum Nebula
     private NebulaSystemTray systemTray;
     private ConfigurationManager configurationManager;
     private KeyManager keyManager;
+    private CommandManager commandManager;
     private CheatManager cheatManager;
 
     public void init(final File gameDir) throws IOException
@@ -48,10 +50,12 @@ public enum Nebula
         systemTray = new NebulaSystemTray();
         configurationManager = new ConfigurationManager();
         keyManager = new KeyManager();
+        commandManager = new CommandManager();
         cheatManager = new CheatManager();
 
         setTitle("Nebula Client | Minecraft 1.7.2");
         keyManager.init();
+        commandManager.init();
         cheatManager.init();
         configurationManager.init();
         systemTray.init();
@@ -87,6 +91,11 @@ public enum Nebula
     public KeyManager getKeyManager()
     {
         return keyManager;
+    }
+
+    public CommandManager getCommandManager()
+    {
+        return commandManager;
     }
 
     public CheatManager getCheatManager()

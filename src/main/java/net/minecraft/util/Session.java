@@ -7,7 +7,6 @@ public class Session
     private final String username;
     private final String playerID;
     private final String token;
-    private static final String __OBFID = "CL_00000659";
 
     public Session(String p_i45006_1_, String p_i45006_2_, String p_i45006_3_)
     {
