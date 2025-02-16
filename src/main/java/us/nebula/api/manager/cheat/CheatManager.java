@@ -32,6 +32,8 @@ public final class CheatManager implements ITypedManager<Cheat>
 
     private void addCheat(final Cheat cheat)
     {
+        cheat.reflectSettings();
+
         cheatInstanceMap.put(cheat.getClass(), cheat);
         cheatInstanceList.add(cheat);
 

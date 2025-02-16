@@ -4,6 +4,11 @@ import net.minecraft.client.Minecraft;
 import us.nebula.Nebula;
 import us.nebula.api.listener.EventBus;
 import us.nebula.api.manager.key.Key;
+import us.nebula.api.value.ISettingProvider;
+import us.nebula.api.value.Setting;
+
+import java.lang.reflect.Field;
+import java.util.*;
 
 import static org.lwjgl.input.Keyboard.KEY_NONE;
 
@@ -11,10 +16,14 @@ import static org.lwjgl.input.Keyboard.KEY_NONE;
  * @author xgraza
  * @since 02/14/25
  */
-public class Cheat
+@SuppressWarnings("unchecked")
+public class Cheat implements ISettingProvider
 {
     protected static final Minecraft MC = Minecraft.getMinecraft();
     static final String DEFAULT_DESCRIPTION = "No description provided for this cheat";
+
+    private final Map<String, Setting<?>> settingNameMap = new LinkedHashMap<>();
+    private final List<Setting<?>> settingList = new LinkedList<>();
 
     private final CheatManifest manifest;
     private final Key key;
@@ -39,6 +48,32 @@ public class Cheat
                         onDisable();
                     }
                 }, false, KEY_NONE));
+    }
+
+    @Override
+    public void reflectSettings()
+    {
+        for (final Field field : getClass().getDeclaredFields())
+        {
+            if (!Setting.class.isAssignableFrom(field.getType()))
+            {
+                continue;
+            }
+            field.setAccessible(true);
+            try
+            {
+                final Setting<?> setting = (Setting<?>) field.get(this);
+                settingNameMap.put(setting.getName(), setting);
+                settingList.add(setting);
+            } catch (IllegalAccessException e)
+            {
+                Nebula.INSTANCE.getLogger().error(
+                        "Failed to reflect setting from {}", this);
+                Nebula.INSTANCE.getLogger().error(e);
+            }
+        }
+        Nebula.INSTANCE.getLogger().debug("Reflected {} settings from {}",
+                settingList.size(), this);
     }
 
     protected void onEnable()
@@ -74,5 +109,17 @@ public class Cheat
     public boolean isToggled()
     {
         return key.isToggled();
+    }
+
+    @Override
+    public List<Setting<?>> getSettings()
+    {
+        return settingList;
+    }
+
+    @Override
+    public <T> Setting<T> getSetting(final String name)
+    {
+        return (Setting<T>)settingNameMap.get(name);
     }
 }
