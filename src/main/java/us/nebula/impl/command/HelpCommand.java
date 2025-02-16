@@ -25,7 +25,7 @@ public final class HelpCommand extends Command
                         .setRequired(false), (arg) ->
                 {
                     final Command command = arg.getValue();
-                    ChatUtil.send("Aliases: {}\nDescription: {}\nSyntax: {}",
+                    ChatUtil.send("Aliases: %s\nDescription: %s\nSyntax: %s",
                             String.join(", ", command.getManifest().aliases()),
                             command.getManifest().description(),
                             command.getSyntax());
@@ -39,7 +39,7 @@ public final class HelpCommand extends Command
                     {
                         joiner.add(command.getManifest().aliases()[0]);
                     }
-                    ChatUtil.send("Commands({}): {}", commands.size(), joiner.toString());
+                    ChatUtil.send("Commands(%s): %s", commands.size(), joiner.toString());
                     return CommandResult.SUCCESS;
                 });
     }

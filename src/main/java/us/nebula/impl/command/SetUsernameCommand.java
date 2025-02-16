@@ -26,12 +26,12 @@ public final class SetUsernameCommand extends Command
                         .setRequired(false), (arg) ->
                 {
                     MC.setSession(new Session(arg.getValue(), "", ""));
-                    ChatUtil.send("Set username to {}", arg.getValue());
+                    ChatUtil.send("Set username to %s", arg.getValue());
                     return CommandResult.SUCCESS;
                 })
                 .dispatchSingle(() ->
                 {
-                    ChatUtil.send("Your current username is {}", MC.getSession().getUsername());
+                    ChatUtil.send("Your current username is %s", MC.getSession().getUsername());
                     return CommandResult.SUCCESS;
                 });
     }

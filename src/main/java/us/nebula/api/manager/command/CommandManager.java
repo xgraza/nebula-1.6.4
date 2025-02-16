@@ -52,7 +52,7 @@ public final class CommandManager implements ITypedManager<Command>
                 commandParser.parse(message);
             } catch (final CommandParseException e)
             {
-                ChatUtil.send("&c{}", e.getMessage());
+                ChatUtil.send("&c%s", e.getMessage());
                 Nebula.INSTANCE.getLogger().error(e.getMessage());
             } catch (final Exception e)
             {
@@ -97,11 +97,12 @@ public final class CommandManager implements ITypedManager<Command>
         });
         commandParser.onCommandNotFound((commandName) ->
         {
-            ChatUtil.send("Could not resolve a command with the name {}", commandName);
+            ChatUtil.send("There is no command with the name %s. " +
+                    "Please run the help command (.help)", commandName);
         });
         commandParser.onInvalidSyntax((syntax) ->
         {
-            ChatUtil.send("The proper syntax is: {}", syntax);
+            ChatUtil.send("The proper syntax is: %s", syntax);
         });
     }
 

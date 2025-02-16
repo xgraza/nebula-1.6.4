@@ -21,14 +21,7 @@ public final class ChatUtil
     public static void send(String content, final Object... format)
     {
         content = content.replaceAll("(?i)&([0-9A-FK-OR])", "\u00a7$1");
-        for (Object obj : format)
-        {
-            if (obj == null)
-            {
-                obj = "null";
-            }
-            content = content.replaceFirst("\\{}", obj.toString());
-        }
+        content = String.format(content, format);
         send(content);
     }
 
