@@ -10,42 +10,41 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S1CPacketEntityMetadata extends Packet
 {
-    private int field_149379_a;
-    private List field_149378_b;
-    private static final String __OBFID = "CL_00001326";
+    private int entityId;
+    private List<DataWatcher.WatchableObject> changedProperties;
 
     public S1CPacketEntityMetadata() {}
 
-    public S1CPacketEntityMetadata(int p_i45217_1_, DataWatcher p_i45217_2_, boolean p_i45217_3_)
+    public S1CPacketEntityMetadata(int entityId, DataWatcher dataWatcher, boolean p_i45217_3_)
     {
-        this.field_149379_a = p_i45217_1_;
+        this.entityId = entityId;
 
         if (p_i45217_3_)
         {
-            this.field_149378_b = p_i45217_2_.getAllWatched();
+            this.changedProperties = dataWatcher.getAllWatched();
         }
         else
         {
-            this.field_149378_b = p_i45217_2_.getChanged();
+            this.changedProperties = dataWatcher.getChanged();
         }
     }
 
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer packetBuf) throws IOException
     {
-        this.field_149379_a = p_148837_1_.readInt();
-        this.field_149378_b = DataWatcher.readWatchedListFromPacketBuffer(p_148837_1_);
+        this.entityId = packetBuf.readInt();
+        this.changedProperties = DataWatcher.readWatchedListFromPacketBuffer(packetBuf);
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    public void writePacketData(PacketBuffer packetBuf) throws IOException
     {
-        p_148840_1_.writeInt(this.field_149379_a);
-        DataWatcher.writeWatchedListToPacketBuffer(this.field_149378_b, p_148840_1_);
+        packetBuf.writeInt(this.entityId);
+        DataWatcher.writeWatchedListToPacketBuffer(this.changedProperties, packetBuf);
     }
 
     public void processPacket(INetHandlerPlayClient p_149377_1_)
@@ -53,14 +52,14 @@ public class S1CPacketEntityMetadata extends Packet
         p_149377_1_.handleEntityMetadata(this);
     }
 
-    public List func_149376_c()
+    public List<DataWatcher.WatchableObject> getChangedProperties()
     {
-        return this.field_149378_b;
+        return this.changedProperties;
     }
 
-    public int func_149375_d()
+    public int getEntityId()
     {
-        return this.field_149379_a;
+        return this.entityId;
     }
 
     public void processPacket(INetHandler p_148833_1_)

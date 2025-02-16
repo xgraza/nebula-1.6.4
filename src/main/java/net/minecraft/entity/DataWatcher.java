@@ -190,9 +190,9 @@ public class DataWatcher
         p_151507_1_.writeByte(127);
     }
 
-    public List getChanged()
+    public List<DataWatcher.WatchableObject> getChanged()
     {
-        ArrayList var1 = null;
+        ArrayList<DataWatcher.WatchableObject> var1 = null;
 
         if (this.objectChanged)
         {
@@ -209,7 +209,7 @@ public class DataWatcher
 
                     if (var1 == null)
                     {
-                        var1 = new ArrayList();
+                        var1 = new ArrayList<>();
                     }
 
                     var1.add(var3);
@@ -238,9 +238,9 @@ public class DataWatcher
         p_151509_1_.writeByte(127);
     }
 
-    public List getAllWatched()
+    public List<DataWatcher.WatchableObject> getAllWatched()
     {
-        ArrayList var1 = null;
+        ArrayList<DataWatcher.WatchableObject> var1 = null;
         this.lock.readLock().lock();
         DataWatcher.WatchableObject var3;
 
@@ -250,7 +250,7 @@ public class DataWatcher
 
             if (var1 == null)
             {
-                var1 = new ArrayList();
+                var1 = new ArrayList<>();
             }
         }
 

@@ -40,13 +40,7 @@ import net.minecraft.client.particle.EntityPickupFX;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLeashKnot;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IMerchant;
-import net.minecraft.entity.NpcMerchant;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -180,6 +174,8 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.village.MerchantRecipeList;
+import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.player.EventPlayerDeath;
 import wdl.WDL;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.WorldProviderSurface;
@@ -500,13 +496,24 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      * Invoked when the server registers new proximate objects in your watchlist or when objects in your watchlist have
      * changed -> Registers any changes locally
      */
-    public void handleEntityMetadata(S1CPacketEntityMetadata p_147284_1_)
+    public void handleEntityMetadata(S1CPacketEntityMetadata packet)
     {
-        Entity var2 = this.clientWorldController.getEntityByID(p_147284_1_.func_149375_d());
-
-        if (var2 != null && p_147284_1_.func_149376_c() != null)
+        final Entity entity = this.clientWorldController.getEntityByID(packet.getEntityId());
+        if (entity != null && packet.getChangedProperties() != null)
         {
-            var2.getDataWatcher().updateWatchedObjectsFromList(p_147284_1_.func_149376_c());
+            entity.getDataWatcher().updateWatchedObjectsFromList(packet.getChangedProperties());
+        }
+
+        if (entity instanceof EntityPlayer)
+        {
+            for (final DataWatcher.WatchableObject object : packet.getChangedProperties())
+            {
+                // 6 = health, object is 0.0f-1.0f (or max health)
+                if (object.getDataValueId() == 6 && ((float) object.getObject()) == 0.0f)
+                {
+                    EventBus.dispatch(new EventPlayerDeath((EntityPlayer) entity));
+                }
+            }
         }
     }
 

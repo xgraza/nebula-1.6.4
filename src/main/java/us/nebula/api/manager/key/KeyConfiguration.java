@@ -41,6 +41,10 @@ public final class KeyConfiguration implements IConfiguration
         for (final String id : manager.getKeyIdMap().keySet())
         {
             final JsonElement keyElement = object.get(id);
+            if (keyElement == null)
+            {
+                continue;
+            }
             if (!keyElement.isJsonObject())
             {
                 throw new RuntimeException("must be JsonObject");
