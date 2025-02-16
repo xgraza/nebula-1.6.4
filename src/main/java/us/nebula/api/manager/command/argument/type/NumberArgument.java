@@ -1,6 +1,7 @@
 package us.nebula.api.manager.command.argument.type;
 
 import us.nebula.api.manager.command.argument.Argument;
+import us.nebula.api.manager.command.argument.Constraint;
 import us.nebula.api.manager.command.exception.ArgumentResolveException;
 
 /**
@@ -11,29 +12,31 @@ import us.nebula.api.manager.command.exception.ArgumentResolveException;
 @SuppressWarnings("unchecked")
 public final class NumberArgument<T extends Number> extends Argument<T>
 {
-    public NumberArgument(Class<T> type, String name)
+    public NumberArgument(final Class<T> type,
+                          final String name,
+                          final Constraint<T>... constraints)
     {
-        super(type, name);
+        super(type, name, constraints);
     }
 
     @Override
-    public void resolve(String input) throws ArgumentResolveException
+    public void resolve(final String raw) throws ArgumentResolveException
     {
         final Class<T> type = getType();
         try
         {
             if (Double.class.isAssignableFrom(type))
             {
-                setValue((T) (Object) Double.parseDouble(input));
+                setValue((T) (Object) Double.parseDouble(raw));
             } else if (Float.class.isAssignableFrom(type))
             {
-                setValue((T) (Object) Float.parseFloat(input));
+                setValue((T) (Object) Float.parseFloat(raw));
             } else if (Long.class.isAssignableFrom(type))
             {
-                setValue((T) (Object) Long.parseLong(input));
+                setValue((T) (Object) Long.parseLong(raw));
             } else if (Integer.class.isAssignableFrom(type))
             {
-                setValue((T) (Object) Integer.parseInt(input));
+                setValue((T) (Object) Integer.parseInt(raw));
             } else
             {
                 throw new ArgumentResolveException(this, "failed to resolve number type");

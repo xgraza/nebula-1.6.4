@@ -4,8 +4,10 @@ import net.minecraft.util.Session;
 import us.nebula.api.manager.command.Command;
 import us.nebula.api.manager.command.CommandManifest;
 import us.nebula.api.manager.command.CommandResult;
-import us.nebula.api.manager.command.argument.type.Arguments;
+import us.nebula.api.manager.command.argument.type.StringArgument;
 import us.nebula.util.ChatUtil;
+
+import java.util.regex.Pattern;
 
 /**
  * @author xgraza
@@ -18,7 +20,9 @@ public final class SetUsernameCommand extends Command
     public void build()
     {
         argumentBuilder
-                .argument(Arguments.string("username")
+                .argument(new StringArgument("username",
+                        StringArgument.minMax(1, 16),
+                        StringArgument.matches(Pattern.compile("^[a-zA-Z0-9_]+$")))
                         .setRequired(false), (arg) ->
                 {
                     MC.setSession(new Session(arg.getValue(), "", ""));

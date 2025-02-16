@@ -1,6 +1,7 @@
 package us.nebula.api.manager.command;
 
 import us.nebula.api.manager.command.argument.*;
+import us.nebula.api.manager.command.event.CommandDispatchEvent;
 import us.nebula.api.manager.command.exception.ArgumentResolveException;
 import us.nebula.api.manager.command.event.CommandNotFoundEvent;
 import us.nebula.api.manager.command.event.InvalidSyntaxEvent;
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
 @SuppressWarnings("all")
 public final class CommandParser
 {
-    private static final Pattern PHRASE_REGEX = Pattern.compile("\"([^\"]*)\"|(?<!\")\\b(\\w+)\\b(?!\")");
+    private static final Pattern PHRASE_REGEX = Pattern.compile("[\"'](.*?)[\"']|(\\S+)");
     private static final Pattern DOUBLE_QUOTE_REGEX = Pattern.compile("(\"{2,})|('{2,})");
     private static final Pattern DECIMAL_REGEX = Pattern.compile("-?\\d+\\.\\d+");
     private static final Pattern NUMBER_REGEX = Pattern.compile("-?\\d+");
@@ -27,6 +28,7 @@ public final class CommandParser
     private final CommandManager commandManager;
     private final String commandPrefix;
 
+    private CommandDispatchEvent commandDispatchEvent;
     private CommandNotFoundEvent commandNotFoundEvent;
     private InvalidSyntaxEvent invalidSyntaxEvent;
 
@@ -98,8 +100,7 @@ public final class CommandParser
                 final ArgumentDispatcher dispatcher = argument.getArgumentExecutor();
                 if (dispatcher != null)
                 {
-                    // TODO: use event?
-                    dispatcher.dispatch(argument);
+                    commandDispatchEvent.execute(command, dispatcher.dispatch(argument));
                     return;
                 }
             }
@@ -108,7 +109,7 @@ public final class CommandParser
         final CommandDispatcher dispatcher = argumentBuilder.getCommandDispatcher();
         if (dispatcher != null)
         {
-            dispatcher.dispatch();
+            commandDispatchEvent.execute(command, dispatcher.dispatch());
         }
     }
 
@@ -226,6 +227,7 @@ public final class CommandParser
     {
         try
         {
+            checkForConstraints(argument, raw);
             argument.resolve(raw);
         } catch (final ArgumentResolveException e)
         {
@@ -238,12 +240,28 @@ public final class CommandParser
         }
     }
 
-    public void onCommandNotFound(CommandNotFoundEvent commandNotFoundEvent)
+    private void checkForConstraints(final Argument<?> argument, final String raw)
+            throws CommandParseException
+    {
+        final String failReason = argument.passes(raw);
+        if (failReason == null || failReason.isEmpty())
+        {
+            return;
+        }
+        throw new CommandParseException(failReason);
+    }
+
+    public void onCommandDispatch(final CommandDispatchEvent commandDispatchEvent)
+    {
+        this.commandDispatchEvent = commandDispatchEvent;
+    }
+
+    public void onCommandNotFound(final CommandNotFoundEvent commandNotFoundEvent)
     {
         this.commandNotFoundEvent = commandNotFoundEvent;
     }
 
-    public void onInvalidSyntax(InvalidSyntaxEvent invalidSyntaxEvent)
+    public void onInvalidSyntax(final InvalidSyntaxEvent invalidSyntaxEvent)
     {
         this.invalidSyntaxEvent = invalidSyntaxEvent;
     }

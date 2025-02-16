@@ -1,5 +1,6 @@
 package us.nebula.api.manager.command.argument;
 
+import com.google.common.collect.Lists;
 import us.nebula.api.manager.command.exception.ArgumentResolveException;
 
 import java.util.*;
@@ -21,15 +22,36 @@ public abstract class Argument<T>
     private final List<Argument<?>> dependantsList = new LinkedList<>();
     private ArgumentDispatcher dispatcher;
 
-    public Argument(final Class<T> type, final String name)
+    private final List<Constraint<T>> constraints;
+
+    public Argument(final Class<T> type,
+                    final String name,
+                    final Constraint<T>... constraints)
     {
         this.name = name;
         this.type = type;
+        this.constraints = Lists.newArrayList(constraints);
 
         required = true;
     }
 
-    public abstract void resolve(final String input) throws ArgumentResolveException;
+    public String passes(final String raw)
+    {
+        if (constraints.isEmpty())
+        {
+            return null;
+        }
+        for (final Constraint<T> constraint : constraints)
+        {
+            if (!constraint.passes(raw))
+            {
+                return constraint.getFailReason();
+            }
+        }
+        return null;
+    }
+
+    public abstract void resolve(final String raw) throws ArgumentResolveException;
 
     public String getName()
     {

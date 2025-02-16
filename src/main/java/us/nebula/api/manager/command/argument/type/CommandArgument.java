@@ -9,6 +9,7 @@ import us.nebula.api.manager.command.exception.ArgumentResolveException;
  * @author xgraza
  * @since 4.0.0
  */
+@SuppressWarnings("unchecked")
 public final class CommandArgument extends Argument<Command>
 {
     public CommandArgument(final String name)
@@ -17,12 +18,13 @@ public final class CommandArgument extends Argument<Command>
     }
 
     @Override
-    public void resolve(final String input) throws ArgumentResolveException
+    public void resolve(final String raw) throws ArgumentResolveException
     {
-        final Command command = Nebula.INSTANCE.getCommandManager().getReference(input);
+        final Command command = Nebula.INSTANCE.getCommandManager()
+                .getReference(raw);
         if (command == null)
         {
-            throw new ArgumentResolveException(this, input);
+            throw new ArgumentResolveException(this, raw);
         }
         setValue(command);
     }

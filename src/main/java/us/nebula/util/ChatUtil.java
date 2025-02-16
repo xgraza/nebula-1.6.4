@@ -34,9 +34,13 @@ public final class ChatUtil
 
     public static void send(final String content)
     {
-        final IChatComponent component = createBaseChatComponent();
-        component.appendText(content);
-        MC.ingameGUI.getChatGui().printChatMessage(component);
+        final String[] lines = content.split("\n");
+        for (final String line : lines)
+        {
+            final IChatComponent component = createBaseChatComponent();
+            component.appendText(line);
+            MC.ingameGUI.getChatGui().printChatMessage(component);
+        }
     }
 
     private static IChatComponent createBaseChatComponent()
