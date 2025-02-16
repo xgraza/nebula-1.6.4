@@ -5,6 +5,7 @@ import us.nebula.api.manager.ITypedManager;
 import us.nebula.impl.cheat.exploit.XCarryCheat;
 import us.nebula.impl.cheat.movement.SprintCheat;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -29,6 +30,24 @@ public final class CheatManager implements ITypedManager<Cheat>
     {
         cheatInstanceMap.put(cheat.getClass(), cheat);
         cheatInstanceList.add(cheat);
+
+        // Find instance (if present)
+        for (final Field field : cheat.getClass().getDeclaredFields())
+        {
+            if (field.isAnnotationPresent(CheatInstance.class)
+                    && field.getType().isAssignableFrom(cheat.getClass()))
+            {
+                try
+                {
+                    field.set(null, cheat);
+                } catch (final IllegalAccessException e)
+                {
+                    Nebula.INSTANCE.getLogger().error("Failed to set {}$INSTANCE", cheat);
+                    Nebula.INSTANCE.getLogger().error(e);
+                }
+                return;
+            }
+        }
     }
 
     @Override
