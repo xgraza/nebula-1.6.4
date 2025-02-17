@@ -28,6 +28,8 @@ import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.render.EventGamma;
 
 public class CustomColorizer
 {
@@ -1067,10 +1069,9 @@ public class CustomColorizer
                             float torchX = Config.limitTo1(torchFlickerX + 0.5F) * (float)(width - 1);
                             float gamma = Config.limitTo1(Config.getGameSettings().gammaSetting);
 
-                            // TODO
-//                            final EventWorldGamma event = new EventWorldGamma(gamma);
-//                            Nebula.BUS.dispatch(event);
-//                            gamma = event.getGamma();
+                            final EventGamma event = new EventGamma(gamma);
+                            EventBus.dispatch(event);
+                            gamma = event.getGamma();
 
                             boolean hasGamma = gamma > 1.0E-4F;
                             getLightMapColumn(lightMapRgb, sunX, startIndex, width, sunRgbs);

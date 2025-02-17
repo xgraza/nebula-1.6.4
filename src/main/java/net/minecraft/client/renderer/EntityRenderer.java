@@ -73,6 +73,8 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
+import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.render.EventGamma;
 import us.nebula.util.ProjectionUtil;
 
 public class EntityRenderer implements IResourceManagerReloadListener
@@ -1164,6 +1166,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 }
 
                 var16 = this.mc.gameSettings.gammaSetting;
+                final EventGamma event = new EventGamma(var16);
+                EventBus.dispatch(event);
+                var16 = event.getGamma();
 
                 var17 = 1.0F - var13;
                 float var18 = 1.0F - var14;

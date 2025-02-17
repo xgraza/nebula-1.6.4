@@ -7,6 +7,7 @@ import us.nebula.impl.cheat.movement.SprintCheat;
 import us.nebula.impl.cheat.player.AutoRespawnCheat;
 import us.nebula.impl.cheat.player.ScaffoldCheat;
 import us.nebula.impl.cheat.render.ClickGUICheat;
+import us.nebula.impl.cheat.render.FullbrightCheat;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -28,6 +29,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AutoRespawnCheat());
         addCheat(new ScaffoldCheat());
         addCheat(new ClickGUICheat());
+        addCheat(new FullbrightCheat());
 
         Nebula.INSTANCE.getLogger().info("Registered {} cheats", cheatInstanceList.size());
     }
