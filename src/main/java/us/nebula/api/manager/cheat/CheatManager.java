@@ -5,6 +5,7 @@ import us.nebula.api.manager.ITypedManager;
 import us.nebula.impl.cheat.exploit.XCarryCheat;
 import us.nebula.impl.cheat.movement.SprintCheat;
 import us.nebula.impl.cheat.player.AutoRespawnCheat;
+import us.nebula.impl.cheat.player.ScaffoldCheat;
 import us.nebula.impl.cheat.render.ClickGUICheat;
 
 import java.lang.reflect.Field;
@@ -25,6 +26,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new XCarryCheat());
         addCheat(new SprintCheat());
         addCheat(new AutoRespawnCheat());
+        addCheat(new ScaffoldCheat());
         addCheat(new ClickGUICheat());
 
         Nebula.INSTANCE.getLogger().info("Registered {} cheats", cheatInstanceList.size());
