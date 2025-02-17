@@ -11,6 +11,7 @@ import us.nebula.api.manager.ITypedManager;
 import us.nebula.api.manager.command.exception.CommandParseException;
 import us.nebula.impl.command.HelpCommand;
 import us.nebula.impl.command.SetUsernameCommand;
+import us.nebula.impl.command.SpawnTPCommand;
 import us.nebula.impl.event.input.EventKey;
 import us.nebula.impl.event.network.EventPacket;
 import us.nebula.util.ChatUtil;
@@ -80,6 +81,7 @@ public final class CommandManager implements ITypedManager<Command>
 
         addCommand(new HelpCommand());
         addCommand(new SetUsernameCommand());
+        addCommand(new SpawnTPCommand());
 
         commandParser.onCommandDispatch((command, result) ->
         {
