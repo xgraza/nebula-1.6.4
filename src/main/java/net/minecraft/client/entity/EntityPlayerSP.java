@@ -48,6 +48,8 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
+import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.player.EventSprint;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -204,7 +206,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
             this.func_145771_j(this.posX + (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ + (double)this.width * 0.35D);
             boolean var4 = (float)this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
 
-            if (this.onGround && !var3 && this.movementInput.moveForward >= var2 && !this.isSprinting() && var4 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness))
+            final boolean overrideSprint = EventBus.dispatch(new EventSprint());
+
+            if (this.onGround && ((!var3 && this.movementInput.moveForward >= var2) || overrideSprint) && !this.isSprinting() && var4 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness))
             {
                 if (this.sprintToggleTimer <= 0 && !this.mc.gameSettings.keyBindSprint.getIsKeyPressed())
                 {
@@ -216,12 +220,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 }
             }
 
-            if (!this.isSprinting() && this.movementInput.moveForward >= var2 && var4 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness) && this.mc.gameSettings.keyBindSprint.getIsKeyPressed())
+            if (!this.isSprinting() && (this.movementInput.moveForward >= var2 || overrideSprint) && var4 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness) && this.mc.gameSettings.keyBindSprint.getIsKeyPressed())
             {
                 this.setSprinting(true);
             }
 
-            if (this.isSprinting() && (this.movementInput.moveForward < var2 || this.isCollidedHorizontally || !var4))
+            if (this.isSprinting() && ((this.movementInput.moveForward < var2 && !overrideSprint) || this.isCollidedHorizontally || !var4))
             {
                 this.setSprinting(false);
             }
