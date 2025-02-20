@@ -12,8 +12,8 @@ import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.impl.event.game.EventUpdate;
-
-import static org.lwjgl.input.Keyboard.KEY_G;
+import us.nebula.impl.event.network.EventPacket;
+import us.nebula.util.Timer;
 
 /**
  * @author xgraza
@@ -22,15 +22,6 @@ import static org.lwjgl.input.Keyboard.KEY_G;
 @CheatManifest(name = "Scaffold", category = CheatCategory.PLAYER)
 public final class ScaffoldCheat extends Cheat
 {
-    private int towerTicks;
-
-    @Override
-    protected void onDisable()
-    {
-        super.onDisable();
-        towerTicks = 0;
-    }
-
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
@@ -64,22 +55,24 @@ public final class ScaffoldCheat extends Cheat
 
             if (MC.gameSettings.keyBindJump.pressed)
             {
-                if (towerTicks >= 9)
-                {
-                    towerTicks = 0;
-                    //MC.thePlayer.motionY -= 0.08;
-                } else if (MC.thePlayer.onGround || MC.thePlayer.motionY == 0.16477328182606651)
+                if (MC.thePlayer.onGround || (MC.thePlayer.motionY == 0.16477328182606651))
                 {
                     MC.thePlayer.motionY = 0.42f;
                 }
-                ++towerTicks;
-            } else
-            {
-                towerTicks = 0;
             }
         }
 
         MC.thePlayer.inventory.currentItem = prevSlot;
+    };
+
+    @Subscribe
+    private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
+    {
+//        if (event.getPacket() instanceof S08PacketPlayerPosLook)
+//        {
+//            ChatUtil.send("Elapsed time: %.2f", timer.getTimeElapsedMS());
+//            //timer.resetTime();
+//        }
     };
 
     private BlockData getBlockData()

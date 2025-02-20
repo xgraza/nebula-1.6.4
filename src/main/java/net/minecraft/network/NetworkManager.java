@@ -117,12 +117,12 @@ public class NetworkManager extends SimpleChannelInboundHandler
     {
         if (this.channel.isOpen())
         {
+            if (EventBus.dispatch(new EventPacket.Inbound(netHandler, p_150728_2_)))
+            {
+                return;
+            }
             if (p_150728_2_.hasPriority())
             {
-                if (EventBus.dispatch(new EventPacket.Inbound(netHandler, p_150728_2_)))
-                {
-                    return;
-                }
                 p_150728_2_.processPacket(this.netHandler);
             }
             else
