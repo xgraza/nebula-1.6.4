@@ -204,9 +204,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
             if (!this.hasMoved)
             {
-                var3 = p_147347_1_.func_149467_d() - this.lastPosY;
+                var3 = p_147347_1_.getY() - this.lastPosY;
 
-                if (p_147347_1_.func_149464_c() == this.lastPosX && var3 * var3 < 0.01D && p_147347_1_.func_149472_e() == this.lastPosZ)
+                if (p_147347_1_.getX() == this.lastPosX && var3 * var3 < 0.01D && p_147347_1_.getZ() == this.lastPosZ)
                 {
                     this.hasMoved = true;
                 }
@@ -227,13 +227,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     var7 = this.playerEntity.posY;
                     var9 = this.playerEntity.posZ;
 
-                    if (p_147347_1_.func_149463_k())
+                    if (p_147347_1_.hasRotated())
                     {
-                        var34 = p_147347_1_.func_149462_g();
-                        var4 = p_147347_1_.func_149470_h();
+                        var34 = p_147347_1_.getYaw();
+                        var4 = p_147347_1_.getPitch();
                     }
 
-                    this.playerEntity.onGround = p_147347_1_.func_149465_i();
+                    this.playerEntity.onGround = p_147347_1_.isOnGround();
                     this.playerEntity.onUpdateEntity();
                     this.playerEntity.ySize = 0.0F;
                     this.playerEntity.setPositionAndRotation(var5, var7, var9, var34, var4);
@@ -274,19 +274,19 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 float var11 = this.playerEntity.rotationYaw;
                 float var12 = this.playerEntity.rotationPitch;
 
-                if (p_147347_1_.func_149466_j() && p_147347_1_.func_149467_d() == -999.0D && p_147347_1_.func_149471_f() == -999.0D)
+                if (p_147347_1_.hasMoved() && p_147347_1_.getY() == -999.0D && p_147347_1_.getPose() == -999.0D)
                 {
-                    p_147347_1_.func_149469_a(false);
+                    p_147347_1_.setMoved(false);
                 }
 
                 double var13;
 
-                if (p_147347_1_.func_149466_j())
+                if (p_147347_1_.hasMoved())
                 {
-                    var5 = p_147347_1_.func_149464_c();
-                    var7 = p_147347_1_.func_149467_d();
-                    var9 = p_147347_1_.func_149472_e();
-                    var13 = p_147347_1_.func_149471_f() - p_147347_1_.func_149467_d();
+                    var5 = p_147347_1_.getX();
+                    var7 = p_147347_1_.getY();
+                    var9 = p_147347_1_.getZ();
+                    var13 = p_147347_1_.getPose() - p_147347_1_.getY();
 
                     if (!this.playerEntity.isPlayerSleeping() && (var13 > 1.65D || var13 < 0.1D))
                     {
@@ -295,17 +295,17 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                         return;
                     }
 
-                    if (Math.abs(p_147347_1_.func_149464_c()) > 3.2E7D || Math.abs(p_147347_1_.func_149472_e()) > 3.2E7D)
+                    if (Math.abs(p_147347_1_.getX()) > 3.2E7D || Math.abs(p_147347_1_.getZ()) > 3.2E7D)
                     {
                         this.kickPlayerFromServer("Illegal position");
                         return;
                     }
                 }
 
-                if (p_147347_1_.func_149463_k())
+                if (p_147347_1_.hasRotated())
                 {
-                    var11 = p_147347_1_.func_149462_g();
-                    var12 = p_147347_1_.func_149470_h();
+                    var11 = p_147347_1_.getYaw();
+                    var12 = p_147347_1_.getPitch();
                 }
 
                 this.playerEntity.onUpdateEntity();
@@ -335,13 +335,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 float var27 = 0.0625F;
                 boolean var28 = var2.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().contract((double)var27, (double)var27, (double)var27)).isEmpty();
 
-                if (this.playerEntity.onGround && !p_147347_1_.func_149465_i() && var15 > 0.0D)
+                if (this.playerEntity.onGround && !p_147347_1_.isOnGround() && var15 > 0.0D)
                 {
                     this.playerEntity.jump();
                 }
 
                 this.playerEntity.moveEntity(var13, var15, var17);
-                this.playerEntity.onGround = p_147347_1_.func_149465_i();
+                this.playerEntity.onGround = p_147347_1_.isOnGround();
                 this.playerEntity.addMovementStat(var13, var15, var17);
                 double var29 = var15;
                 var13 = var5 - this.playerEntity.posX;
@@ -392,9 +392,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     this.floatingTickCount = 0;
                 }
 
-                this.playerEntity.onGround = p_147347_1_.func_149465_i();
+                this.playerEntity.onGround = p_147347_1_.isOnGround();
                 this.serverController.getConfigurationManager().serverUpdateMountedMovingPlayer(this.playerEntity);
-                this.playerEntity.handleFalling(this.playerEntity.posY - var3, p_147347_1_.func_149465_i());
+                this.playerEntity.handleFalling(this.playerEntity.posY - var3, p_147347_1_.isOnGround());
             }
             else if (this.networkTickCount % 20 == 0)
             {

@@ -35,6 +35,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.player.EventStep;
 
 public abstract class Entity
 {
@@ -843,6 +845,9 @@ public abstract class Entity
                     par3 = var25;
                     par5 = var27;
                     this.boundingBox.setBB(var29);
+                } else
+                {
+                    EventBus.dispatch(new EventStep(stepHeight));
                 }
             }
 
