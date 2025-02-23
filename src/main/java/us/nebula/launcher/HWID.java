@@ -25,7 +25,7 @@ public final class HWID
 
     public static String get()
     {
-        return sha256Hex(sha256Hex(System.getenv("OS") + "_"
+        final byte[] sha256Bytes = MESSAGE_DIGEST.digest((System.getenv("OS") + "_"
                 + System.getenv("COMPUTERNAME") + "_"
                 + System.getenv("USERNAME") + "_"
                 + System.getenv("USERDOMAIN") + "_"
@@ -33,17 +33,8 @@ public final class HWID
                 + System.getenv("PROCESSOR_LEVEL") + "_"
                 + System.getenv("PROCESSOR_ARCHITECTURE") + "_"
                 + System.getenv("NUMBER_OF_PROCESSORS") + "_"
-                + System.getenv("PROCESSOR_IDENTIFIER")));
-    }
-
-    private static String sha256Hex(final String input)
-    {
-        final byte[] bytes = MESSAGE_DIGEST.digest(input.getBytes(StandardCharsets.UTF_8));
-        final StringBuilder builder = new StringBuilder();
-        for (final byte b : bytes)
-        {
-            builder.append(Integer.toHexString(b & 0xFF));
-        }
-        return builder.toString();
+                + System.getenv("PROCESSOR_IDENTIFIER"))
+                .getBytes(StandardCharsets.UTF_8));
+        return Util.bytesToHex(sha256Bytes);
     }
 }

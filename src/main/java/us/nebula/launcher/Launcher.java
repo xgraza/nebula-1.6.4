@@ -205,11 +205,6 @@ public final class Launcher
         {
             return null;
         }
-
-        final StringBuilder builder = new StringBuilder();
-        for (final byte b : MESSAGE_DIGEST.digest()) {
-            builder.append(String.format("%02x", b));
-        }
-        return builder.toString();
+        return Util.bytesToHex(MESSAGE_DIGEST.digest());
     }
 }
