@@ -737,8 +737,8 @@ public class WorldServer extends World
 
             if (var5 != null)
             {
-                var6 = var5.field_151329_a;
-                var8 = var5.field_151328_c;
+                var6 = var5.xCoord;
+                var8 = var5.yCoord;
             }
             else
             {

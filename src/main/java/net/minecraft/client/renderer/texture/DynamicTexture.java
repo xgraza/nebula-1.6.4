@@ -8,14 +8,13 @@ import shadersmod.client.ShadersTex;
 
 public class DynamicTexture extends AbstractTexture
 {
-    private final int[] dynamicTextureData;
+    protected final int[] dynamicTextureData;
 
     /** width of this icon in pixels */
-    private final int width;
+    protected final int width;
 
     /** height of this icon in pixels */
-    private final int height;
-    private static final String __OBFID = "CL_00001048";
+    protected final int height;
     private boolean shadersInitialized;
 
     public DynamicTexture(BufferedImage par1BufferedImage)
@@ -43,6 +42,23 @@ public class DynamicTexture extends AbstractTexture
         }
     }
 
+    public DynamicTexture(final int width, final int height, final int[] dynamicTextureData)
+    {
+        this.width = width;
+        this.height = height;
+        this.dynamicTextureData = dynamicTextureData;
+
+        if (Config.isShaders())
+        {
+            ShadersTex.initDynamicTexture(this.getGlTextureId(), width, height, this);
+            this.shadersInitialized = true;
+        }
+        else
+        {
+            TextureUtil.allocateTexture(this.getGlTextureId(), width, height);
+        }
+    }
+
     public void loadTexture(IResourceManager par1ResourceManager) throws IOException {}
 
     public void updateDynamicTexture()
@@ -61,6 +77,16 @@ public class DynamicTexture extends AbstractTexture
         {
             TextureUtil.uploadTexture(this.getGlTextureId(), this.dynamicTextureData, this.width, this.height);
         }
+    }
+
+    public int getWidth()
+    {
+        return width;
+    }
+
+    public int getHeight()
+    {
+        return height;
     }
 
     public int[] getTextureData()

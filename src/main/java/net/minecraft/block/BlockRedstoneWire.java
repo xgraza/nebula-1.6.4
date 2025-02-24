@@ -82,7 +82,7 @@ public class BlockRedstoneWire extends Block
         for (int var6 = 0; var6 < var5.size(); ++var6)
         {
             ChunkPosition var7 = (ChunkPosition)var5.get(var6);
-            p_150177_1_.notifyBlocksOfNeighborChange(var7.field_151329_a, var7.field_151327_b, var7.field_151328_c, this);
+            p_150177_1_.notifyBlocksOfNeighborChange(var7.xCoord, var7.field_151327_b, var7.yCoord, this);
         }
     }
 

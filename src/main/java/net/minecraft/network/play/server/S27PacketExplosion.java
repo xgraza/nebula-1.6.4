@@ -87,9 +87,9 @@ public class S27PacketExplosion extends Packet
         while (var5.hasNext())
         {
             ChunkPosition var6 = (ChunkPosition)var5.next();
-            int var7 = var6.field_151329_a - var2;
+            int var7 = var6.xCoord - var2;
             int var8 = var6.field_151327_b - var3;
-            int var9 = var6.field_151328_c - var4;
+            int var9 = var6.yCoord - var4;
             p_148840_1_.writeByte(var7);
             p_148840_1_.writeByte(var8);
             p_148840_1_.writeByte(var9);

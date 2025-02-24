@@ -92,8 +92,8 @@ public class MapGenStronghold extends MapGenStructure
 
                 if (var12 != null)
                 {
-                    var10 = var12.field_151329_a >> 4;
-                    var11 = var12.field_151328_c >> 4;
+                    var10 = var12.xCoord >> 4;
+                    var11 = var12.yCoord >> 4;
                 }
 
                 this.structureCoords[var7] = new ChunkCoordIntPair(var10, var11);

@@ -98,16 +98,16 @@ public class ActiveRenderInfo
     {
         Vec3 var3 = projectViewFromEntity(p_151460_1_, (double)p_151460_2_);
         ChunkPosition var4 = new ChunkPosition(var3);
-        Block var5 = p_151460_0_.getBlock(var4.field_151329_a, var4.field_151327_b, var4.field_151328_c);
+        Block var5 = p_151460_0_.getBlock(var4.xCoord, var4.field_151327_b, var4.yCoord);
 
         if (var5.getMaterial().isLiquid())
         {
-            float var6 = BlockLiquid.getFluidHeightPercent(p_151460_0_.getBlockMetadata(var4.field_151329_a, var4.field_151327_b, var4.field_151328_c)) - 0.11111111F;
+            float var6 = BlockLiquid.getFluidHeightPercent(p_151460_0_.getBlockMetadata(var4.xCoord, var4.field_151327_b, var4.yCoord)) - 0.11111111F;
             float var7 = (float)(var4.field_151327_b + 1) - var6;
 
             if (var3.yCoord >= (double)var7)
             {
-                var5 = p_151460_0_.getBlock(var4.field_151329_a, var4.field_151327_b + 1, var4.field_151328_c);
+                var5 = p_151460_0_.getBlock(var4.xCoord, var4.field_151327_b + 1, var4.yCoord);
             }
         }
 

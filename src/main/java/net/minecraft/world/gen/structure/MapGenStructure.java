@@ -192,9 +192,9 @@ public abstract class MapGenStructure extends MapGenBase
             {
                 StructureComponent var18 = (StructureComponent)var17.getComponents().get(0);
                 var19 = var18.func_151553_a();
-                var20 = var19.field_151329_a - p_151545_2_;
+                var20 = var19.xCoord - p_151545_2_;
                 var21 = var19.field_151327_b - p_151545_3_;
-                var22 = var19.field_151328_c - p_151545_4_;
+                var22 = var19.yCoord - p_151545_4_;
                 var23 = (double)(var20 * var20 + var21 * var21 + var22 * var22);
 
                 if (var23 < var13)
@@ -221,9 +221,9 @@ public abstract class MapGenStructure extends MapGenBase
                 while (var27.hasNext())
                 {
                     var19 = (ChunkPosition)var27.next();
-                    var20 = var19.field_151329_a - p_151545_2_;
+                    var20 = var19.xCoord - p_151545_2_;
                     var21 = var19.field_151327_b - p_151545_3_;
-                    var22 = var19.field_151328_c - p_151545_4_;
+                    var22 = var19.yCoord - p_151545_4_;
                     var23 = (double)(var20 * var20 + var21 * var21 + var22 * var22);
 
                     if (var23 < var13)
