@@ -9,6 +9,7 @@ import us.nebula.api.manager.command.CommandManager;
 import us.nebula.api.config.ConfigurationManager;
 import us.nebula.api.manager.cheat.CheatManager;
 import us.nebula.api.manager.key.KeyManager;
+import us.nebula.api.manager.overlay.OverlayManager;
 import us.nebula.api.systemtray.NebulaSystemTray;
 
 import java.io.File;
@@ -29,6 +30,7 @@ public enum Nebula
     private ConfigurationManager configurationManager;
     private KeyManager keyManager;
     private CommandManager commandManager;
+    private OverlayManager overlayManager;
     private CheatManager cheatManager;
 
     public void init(final File gameDir) throws IOException
@@ -51,11 +53,13 @@ public enum Nebula
         configurationManager = new ConfigurationManager();
         keyManager = new KeyManager();
         commandManager = new CommandManager();
+        overlayManager = new OverlayManager();
         cheatManager = new CheatManager();
 
         setTitle("Nebula Client | Minecraft 1.7.2");
         keyManager.init();
         commandManager.init();
+        overlayManager.init();
         cheatManager.init();
         configurationManager.init();
         systemTray.init();
@@ -96,6 +100,11 @@ public enum Nebula
     public CommandManager getCommandManager()
     {
         return commandManager;
+    }
+
+    public OverlayManager getOverlayManager()
+    {
+        return overlayManager;
     }
 
     public CheatManager getCheatManager()

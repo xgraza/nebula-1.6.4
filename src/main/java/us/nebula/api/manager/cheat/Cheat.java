@@ -62,10 +62,8 @@ public class Cheat implements ISettingProvider
             field.setAccessible(true);
             try
             {
-                final Setting<?> setting = (Setting<?>) field.get(this);
-                settingNameMap.put(setting.getName(), setting);
-                settingList.add(setting);
-            } catch (IllegalAccessException e)
+                addSetting((Setting<?>) field.get(this));
+            } catch (final IllegalAccessException e)
             {
                 Nebula.INSTANCE.getLogger().error(
                         "Failed to reflect setting from {}", this);
@@ -121,5 +119,11 @@ public class Cheat implements ISettingProvider
     public <T> Setting<T> getSetting(final String name)
     {
         return (Setting<T>)settingNameMap.get(name);
+    }
+
+    public void addSetting(final Setting<?> setting)
+    {
+        settingNameMap.put(setting.getName(), setting);
+        settingList.add(setting);
     }
 }

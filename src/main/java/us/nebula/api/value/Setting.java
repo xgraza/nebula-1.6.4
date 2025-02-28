@@ -15,6 +15,7 @@ public final class Setting<T>
     private Number min, max, scale;
 
     private Supplier<Boolean> visibility = () -> true;
+    private ValueChanged<T> valueChanged;
 
     public Setting(final String name, final T value)
     {
@@ -68,6 +69,10 @@ public final class Setting<T>
 
     public void setValue(T value)
     {
+        if (valueChanged != null)
+        {
+            valueChanged.change(this.value, value);
+        }
         this.value = value;
     }
 
@@ -119,5 +124,11 @@ public final class Setting<T>
     public boolean isVisible()
     {
         return visibility.get();
+    }
+
+    public Setting<T> onValueChange(final ValueChanged<T> valueChanged)
+    {
+        this.valueChanged = valueChanged;
+        return this;
     }
 }

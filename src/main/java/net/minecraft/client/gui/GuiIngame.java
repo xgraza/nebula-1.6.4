@@ -40,6 +40,8 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.render.EventRender2D;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 
@@ -494,6 +496,7 @@ public class GuiIngame extends Gui
         }
 
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        EventBus.dispatch(new EventRender2D(var5, par1));
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
     }
