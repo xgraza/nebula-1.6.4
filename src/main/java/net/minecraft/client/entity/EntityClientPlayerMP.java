@@ -24,6 +24,7 @@ import net.minecraft.util.Session;
 import net.minecraft.world.World;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.event.game.EventUpdate;
+import us.nebula.impl.event.player.EventMoveUpdate;
 
 public class EntityClientPlayerMP extends EntityPlayerSP
 {
@@ -180,6 +181,9 @@ public class EntityClientPlayerMP extends EntityPlayerSP
      */
     public void sendMotionUpdates()
     {
+        final EventMoveUpdate event = new EventMoveUpdate(posX, boundingBox.minY, posY, posZ, rotationYaw, rotationPitch, onGround);
+        EventBus.dispatch(event);
+
         if (isSprinting() != serverSprinting) {
             sendQueue.addToSendQueue(new C0BPacketEntityAction(
               this, isSprinting() ? 4 : 5));
@@ -192,46 +196,46 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             serverSneaking = isSneaking();
         }
 
-        double diffX = posX - oldPosX;
-        double diffY = boundingBox.minY - oldMinY;
-        double diffZ = posZ - oldPosZ;
+        double diffX = event.getX() - oldPosX;
+        double diffY = event.getY() - oldMinY;
+        double diffZ = event.getZ() - oldPosZ;
         boolean moved = diffX * diffX + diffY * diffY + diffZ * diffZ > 9.0E-4D || ticksSinceMovePacket >= 20;
 
-        float diffYaw = rotationYaw - oldRotationYaw;
-        float diffPitch = rotationPitch - oldRotationPitch;
+        float diffYaw = event.getYaw() - oldRotationYaw;
+        float diffPitch = event.getPitch() - oldRotationPitch;
         boolean rotated = diffYaw != 0.0f || diffPitch != 0.0f;
 
         if (ridingEntity != null) {
             sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(
               motionX, -999.0, -999.0, motionZ,
-                    rotationYaw, rotationPitch, onGround));
+                    event.getYaw(), event.getPitch(), event.isOnGround()));
             moved = false;
         } else if (moved && rotated) {
             sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(
-              posX, boundingBox.minY, posY, posZ, rotationYaw, rotationPitch, onGround));
+              event.getX(), event.getY(), event.getStance(), event.getZ(), event.getYaw(), event.getPitch(), event.isOnGround()));
         } else if (moved) {
             sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
-                    posX, boundingBox.minY, posY, posZ, onGround));
+                    event.getX(), event.getY(), event.getStance(), event.getZ(), event.isOnGround()));
         } else if (rotated) {
             sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(
-                    rotationYaw, rotationPitch, onGround));
+                    event.getYaw(), event.getPitch(), event.isOnGround()));
         } else {
-            sendQueue.addToSendQueue(new C03PacketPlayer(onGround));
+            sendQueue.addToSendQueue(new C03PacketPlayer(event.isOnGround()));
         }
 
         ++ticksSinceMovePacket;
         wasOnGround = onGround;
 
         if (moved) {
-            oldPosX = posX;
-            oldMinY = boundingBox.minY;
-            oldPosZ = posZ;
+            oldPosX = event.getX();
+            oldMinY = event.getY();
+            oldPosZ = event.getZ();
             ticksSinceMovePacket = 0;
         }
 
         if (rotated) {
-            oldRotationYaw = rotationYaw;
-            oldRotationPitch = rotationPitch;
+            oldRotationYaw = event.getYaw();
+            oldRotationPitch = event.getPitch();
         }
     }
 
