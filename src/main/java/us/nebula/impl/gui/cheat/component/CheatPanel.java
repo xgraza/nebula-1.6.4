@@ -9,6 +9,9 @@ import us.nebula.api.gui.font.AWTFontRenderer;
 import us.nebula.api.gui.font.FontUtil;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.value.Setting;
+import us.nebula.impl.gui.cheat.component.setting.BooleanSettingComponent;
+import us.nebula.impl.gui.cheat.component.setting.EnumSettingComponent;
+import us.nebula.impl.gui.cheat.component.setting.NumberSettingComponent;
 import us.nebula.util.RenderUtil;
 
 import java.awt.Color;

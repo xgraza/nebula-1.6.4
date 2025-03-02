@@ -1,4 +1,4 @@
-package us.nebula.impl.gui.cheat.component;
+package us.nebula.impl.gui.cheat.component.setting;
 
 import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
