@@ -21,7 +21,9 @@ import java.util.List;
  * @since 03/01/25
  */
 @SuppressWarnings("unchecked")
-@CheatManifest(name = "InvWalk", category = CheatCategory.MOVEMENT)
+@CheatManifest(name = "InvWalk",
+        description = "Allows you to freely walk in GUIs",
+        category = CheatCategory.MOVEMENT)
 public final class InvWalkCheat extends Cheat
 {
     // preset GUI screens that require keyboard input that may be annoying to use with inv walk

@@ -14,7 +14,9 @@ import us.nebula.impl.event.player.EventSprint;
  * @author xgraza
  * @since 02/14/25
  */
-@CheatManifest(name = "Sprint", category = CheatCategory.MOVEMENT)
+@CheatManifest(name = "Sprint",
+        description = "Force holds the sprint key for you",
+        category = CheatCategory.MOVEMENT)
 public final class SprintCheat extends Cheat
 {
     final Setting<Boolean> omniSprintSetting = new Setting<>("Omni-Sprint", false);

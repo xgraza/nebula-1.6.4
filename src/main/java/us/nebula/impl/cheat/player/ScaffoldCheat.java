@@ -19,7 +19,9 @@ import us.nebula.util.Timer;
  * @author xgraza
  * @since 02/16/25
  */
-@CheatManifest(name = "Scaffold", category = CheatCategory.PLAYER)
+@CheatManifest(name = "Scaffold",
+        description = "Rapidly places blocks under you",
+        category = CheatCategory.PLAYER)
 public final class ScaffoldCheat extends Cheat
 {
     @Subscribe

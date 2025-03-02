@@ -14,7 +14,9 @@ import us.nebula.impl.event.render.EventRender2D;
  * @author xgraza
  * @since 02/26/25
  */
-@CheatManifest(name = "HUD", category = CheatCategory.RENDER)
+@CheatManifest(name = "HUD",
+        description = "Renders an information over the game GUI",
+        category = CheatCategory.RENDER)
 public final class HUDCheat extends Cheat
 {
     @CheatInstance

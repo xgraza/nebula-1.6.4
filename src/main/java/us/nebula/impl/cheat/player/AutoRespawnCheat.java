@@ -12,7 +12,9 @@ import us.nebula.impl.event.player.EventPlayerDeath;
  * @author xgraza
  * @since 02/16/25
  */
-@CheatManifest(name = "AutoRespawn", category = CheatCategory.PLAYER)
+@CheatManifest(name = "AutoRespawn",
+        description = "Automatically respawns & retains coordinates of death",
+        category = CheatCategory.PLAYER)
 public final class AutoRespawnCheat extends Cheat
 {
     @Subscribe

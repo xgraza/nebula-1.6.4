@@ -12,7 +12,9 @@ import static org.lwjgl.input.Keyboard.KEY_RSHIFT;
  * @author xgraza
  * @since 02/16/25
  */
-@CheatManifest(name = "ClickGUI", category = CheatCategory.RENDER)
+@CheatManifest(name = "ClickGUI",
+        description = "Overview of cheats & their settings",
+        category = CheatCategory.RENDER)
 public final class ClickGUICheat extends Cheat
 {
     @CheatInstance

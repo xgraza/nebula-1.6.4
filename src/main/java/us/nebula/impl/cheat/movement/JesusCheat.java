@@ -16,7 +16,9 @@ import us.nebula.impl.event.world.EventModifyBoundBox;
  * @author xgraza
  * @since 03/01/25
  */
-@CheatManifest(name = "Jesus", category = CheatCategory.MOVEMENT)
+@CheatManifest(name = "Jesus",
+        description = "Walk on water or lava",
+        category = CheatCategory.MOVEMENT)
 public final class JesusCheat extends Cheat
 {
     private static final AxisAlignedBB LIQUID_FULL_AABB = new AxisAlignedBB(
