@@ -2,6 +2,9 @@ package us.nebula.api.manager.cheat;
 
 import us.nebula.Nebula;
 import us.nebula.api.manager.ITypedManager;
+import us.nebula.impl.cheat.combat.RegenCheat;
+import us.nebula.impl.cheat.exploit.FrankyCheat;
+import us.nebula.impl.cheat.exploit.NoPortalGUICheat;
 import us.nebula.impl.cheat.exploit.XCarryCheat;
 import us.nebula.impl.cheat.movement.InvWalkCheat;
 import us.nebula.impl.cheat.movement.JesusCheat;
@@ -28,6 +31,9 @@ public final class CheatManager implements ITypedManager<Cheat>
     @Override
     public void init()
     {
+        addCheat(new RegenCheat());
+        addCheat(new FrankyCheat());
+        addCheat(new NoPortalGUICheat());
         addCheat(new XCarryCheat());
         addCheat(new InvWalkCheat());
         addCheat(new JesusCheat());

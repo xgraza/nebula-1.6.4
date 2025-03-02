@@ -29,7 +29,7 @@ public final class AutoRespawnCheat extends Cheat
             if (logCoordsSetting.getValue())
             {
                 // TODO: save to file...
-                ChatUtil.send("Saving coordinates at XYZ: %1.f, %1.f, %1.f", MC.thePlayer.posX, MC.thePlayer.boundingBox.minY, MC.thePlayer.posZ);
+                ChatUtil.send("Saving coordinates at XYZ: %.1f, %.1f, %.1f", MC.thePlayer.posX, MC.thePlayer.boundingBox.minY, MC.thePlayer.posZ);
             }
             MC.thePlayer.sendQueue.addToSendQueue(new C16PacketClientStatus(
                     C16PacketClientStatus.EnumState.PERFORM_RESPAWN));
