@@ -3,6 +3,7 @@ package us.nebula.api.manager.cheat;
 import us.nebula.Nebula;
 import us.nebula.api.manager.ITypedManager;
 import us.nebula.impl.cheat.exploit.XCarryCheat;
+import us.nebula.impl.cheat.movement.InvWalkCheat;
 import us.nebula.impl.cheat.movement.SprintCheat;
 import us.nebula.impl.cheat.player.AutoRespawnCheat;
 import us.nebula.impl.cheat.player.ScaffoldCheat;
@@ -26,6 +27,7 @@ public final class CheatManager implements ITypedManager<Cheat>
     public void init()
     {
         addCheat(new XCarryCheat());
+        addCheat(new InvWalkCheat());
         addCheat(new SprintCheat());
         addCheat(new AutoRespawnCheat());
         addCheat(new ScaffoldCheat());

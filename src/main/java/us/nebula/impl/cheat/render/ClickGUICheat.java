@@ -44,6 +44,6 @@ public final class ClickGUICheat extends Cheat
     @Override
     protected void onDisable()
     {
-        MC.displayGuiScreen(null);
+        // overriden because i dont want eventbus stuff
     }
 }
