@@ -20,12 +20,11 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemCloth;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.Config;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ReportedException;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.impl.cheat.render.InfiniteViewerCheat;
+import us.nebula.util.InventoryUtil;
 
 public class RenderItem extends Render
 {
@@ -603,9 +602,13 @@ public class RenderItem extends Render
     {
         if (par3ItemStack != null)
         {
-            if (par3ItemStack.stackSize > 1)
+            if (par3ItemStack.stackSize > 1 || (par3ItemStack.stackSize != 1 && InfiniteViewerCheat.INSTANCE.isToggled()))
             {
                 String var7 = String.valueOf(par3ItemStack.stackSize);
+                if (InventoryUtil.isInfinite(par3ItemStack))
+                {
+                    var7 = EnumChatFormatting.RED + var7;
+                }
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
                 GL11.glDisable(GL11.GL_BLEND);

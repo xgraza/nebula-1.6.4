@@ -16,6 +16,7 @@ import us.nebula.impl.cheat.player.ScaffoldCheat;
 import us.nebula.impl.cheat.render.ClickGUICheat;
 import us.nebula.impl.cheat.render.FullbrightCheat;
 import us.nebula.impl.cheat.render.HUDCheat;
+import us.nebula.impl.cheat.render.InfiniteViewerCheat;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -46,6 +47,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new ClickGUICheat());
         addCheat(new FullbrightCheat());
         addCheat(new HUDCheat());
+        addCheat(new InfiniteViewerCheat());
 
         Nebula.INSTANCE.getLogger().info("Registered {} cheats", cheatInstanceList.size());
     }
