@@ -19,12 +19,13 @@ public final class AWTFontRenderer
     private final int[] colorCodes = new int[32];
     private final int[] customColorCodes = new int[8];
 
-    public AWTFontRenderer(final String familyName, final int fontSize)
+    public AWTFontRenderer(Font font, final int size)
     {
-        normal = new AWTFont(familyName, Font.PLAIN, fontSize);
-        bold = new AWTFont(familyName, Font.BOLD, fontSize);
-        italic = new AWTFont(familyName, Font.ITALIC, fontSize);
-        boldItalic = new AWTFont(familyName, Font.BOLD + Font.ITALIC, fontSize);
+        font = font.deriveFont((float)size);
+        normal = new AWTFont(font.deriveFont(Font.PLAIN));
+        bold = new AWTFont(font.deriveFont(Font.BOLD));
+        italic = new AWTFont(font.deriveFont(Font.ITALIC));
+        boldItalic = new AWTFont(font.deriveFont(Font.BOLD + Font.ITALIC));
         generateColorCodes();
         generateCustomColorCodes();
     }
@@ -41,13 +42,12 @@ public final class AWTFontRenderer
 
         glPushMatrix();
 
-        glDisable(GL_LIGHTING);
-        glEnable(GL_ALPHA_TEST);
+        //glDisable(GL_LIGHTING);
+        //glEnable(GL_ALPHA_TEST);
 
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 0, 1);
 
-        glScaled(0.5, 0.5, 0.5);
         setColor(color);
 
         boolean bld = false;
@@ -68,6 +68,11 @@ public final class AWTFontRenderer
             posX += 1;
             posY += 1;
         }
+
+        glTranslated(posX, posY, 0);
+        glScaled(0.5, 0.5, 0.5);
+
+        double offset = 0;
 
         final char[] chars = input.toCharArray();
         for (int i = 0; i < chars.length; ++i)
@@ -171,7 +176,7 @@ public final class AWTFontRenderer
             {
                 continue;
             }
-            font.drawChar(glyph, posX, posY);
+            font.drawChar(glyph, offset, 0);
             if (strikethrough)
             {
 
@@ -180,13 +185,18 @@ public final class AWTFontRenderer
             {
 
             }
-            posX += glyph.getWidth() - glyph.getLeading() - 4;
+            offset += glyph.getWidth() - glyph.getLeading() - 4;
         }
 
-        glDisable(GL_ALPHA_TEST);
-        glEnable(GL_LIGHTING);
+        //glDisable(GL_ALPHA_TEST);
+        //glEnable(GL_LIGHTING);
         glDisable(GL_RESCALE_NORMAL);
         glPopMatrix();
+    }
+
+    public double getFontHeight()
+    {
+        return normal.getFontHeight();
     }
 
     public double getStringWidth(final String input)
@@ -243,7 +253,7 @@ public final class AWTFontRenderer
                 width += glyph.getWidth() - 4 - glyph.getLeading();
             }
         }
-        return width;
+        return width / 2.0;
     }
 
     private void generateColorCodes()

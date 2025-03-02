@@ -21,9 +21,9 @@ public final class AWTFont
     private final Glyph[] glyphBin;
     private double spaceWidth, fontHeight;
 
-    public AWTFont(final String familyName, final int style, final int size)
+    public AWTFont(final Font font)
     {
-        font = new Font(familyName, style, size);
+        this.font = font;
         glyphBin = new Glyph[1500];
         glyphTexture = createGlyphTextureMap();
     }
@@ -71,7 +71,7 @@ public final class AWTFont
         final FontMetrics metrics = graphics.getFontMetrics();
 
         spaceWidth = metrics.charWidth(' ');
-        fontHeight = (font.getSize() + metrics.getAscent()) / 2.0;
+        fontHeight = font.getSize() + metrics.getAscent();
 
         float x = 0;
         float y = font.getSize();
@@ -94,6 +94,8 @@ public final class AWTFont
             graphics.drawString(String.valueOf(c), x + 2.0f, y + metrics.getAscent());
             x += (float) glyph.getWidth();
         }
+
+        //fontHeight /= 2.0;
 
 //        try
 //        {

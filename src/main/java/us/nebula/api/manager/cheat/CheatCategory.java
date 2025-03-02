@@ -6,17 +6,23 @@ package us.nebula.api.manager.cheat;
  */
 public enum CheatCategory
 {
-    COMBAT("Combat"),
-    EXPLOIT("Exploit"),
-    MOVEMENT("Movement"),
-    PLAYER("Player"),
-    RENDER("Render");
+    COMBAT("Combat", "a"),
+    EXPLOIT("Exploit", "b"),
+    MOVEMENT("Movement", "E"),
+    PLAYER("Player", "d"),
+    RENDER("Render", "c");
 
-    private final String name;
+    private final String name, icon;
 
-    CheatCategory(final String name)
+    CheatCategory(final String name, final String icon)
     {
         this.name = name;
+        this.icon = icon;
+    }
+
+    public String getIcon()
+    {
+        return icon;
     }
 
     @Override

@@ -42,6 +42,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.event.render.EventRender2D;
+import us.nebula.util.RenderUtil;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 
@@ -87,6 +88,7 @@ public class GuiIngame extends Gui
     public void renderGameOverlay(float par1, boolean par2, int par3, int par4)
     {
         ScaledResolution var5 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+        RenderUtil.setGameResolution(var5);
         int var6 = var5.getScaledWidth();
         int var7 = var5.getScaledHeight();
         FontRenderer var8 = this.mc.fontRenderer;

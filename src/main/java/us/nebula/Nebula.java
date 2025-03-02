@@ -11,6 +11,7 @@ import us.nebula.api.manager.cheat.CheatManager;
 import us.nebula.api.manager.key.KeyManager;
 import us.nebula.api.manager.overlay.OverlayManager;
 import us.nebula.api.systemtray.NebulaSystemTray;
+import us.nebula.util.RenderUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,13 +57,17 @@ public enum Nebula
         overlayManager = new OverlayManager();
         cheatManager = new CheatManager();
 
-        setTitle("Nebula Client | Minecraft 1.7.2");
         keyManager.init();
         commandManager.init();
         overlayManager.init();
         cheatManager.init();
         configurationManager.init();
         systemTray.init();
+
+        RenderUtil.initShaders();
+
+        setTitle("Nebula Client | Minecraft 1.7.2");
+        logger.info("Instantiated Nebula");
     }
 
     void setTitle(final String title)
