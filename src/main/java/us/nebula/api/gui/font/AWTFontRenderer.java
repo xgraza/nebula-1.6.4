@@ -72,7 +72,8 @@ public final class AWTFontRenderer
         glTranslated(posX, posY, 0);
         glScaled(0.5, 0.5, 0.5);
 
-        double offset = 0;
+        double offsetX = 0;
+        double offsetY = 0;
 
         final char[] chars = input.toCharArray();
         for (int i = 0; i < chars.length; ++i)
@@ -80,12 +81,12 @@ public final class AWTFontRenderer
             final char ch = chars[i];
             if (ch == ' ')
             {
-                posX += font.getSpaceWidth();
+                offsetX += font.getSpaceWidth();
                 continue;
             } else if (ch == '\n')
             {
-                posX = x;
-                posY += font.getFontHeight() / 2.0;
+                offsetX = 0;
+                offsetY += font.getFontHeight() / 2.0;
                 continue;
             } else if (ch == COLOR_CONTROL_CHAR)
             {
@@ -176,7 +177,7 @@ public final class AWTFontRenderer
             {
                 continue;
             }
-            font.drawChar(glyph, offset, 0);
+            font.drawChar(glyph, offsetX, offsetY);
             if (strikethrough)
             {
 
@@ -185,7 +186,7 @@ public final class AWTFontRenderer
             {
 
             }
-            offset += glyph.getWidth() - glyph.getLeading() - 4;
+            offsetX += glyph.getWidth() - glyph.getLeading() - 4;
         }
 
         //glDisable(GL_ALPHA_TEST);
