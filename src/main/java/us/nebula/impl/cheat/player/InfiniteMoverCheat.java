@@ -112,7 +112,6 @@ public final class InfiniteMoverCheat extends Cheat
                 }
             }
         }
-        ChatUtil.send("moveSlot: " +moveSlot);
 
         // if we did not find a slot, don't do anything
         if (moveSlot == -1)

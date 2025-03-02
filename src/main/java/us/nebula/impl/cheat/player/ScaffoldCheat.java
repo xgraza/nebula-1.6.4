@@ -11,6 +11,7 @@ import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
+import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.network.EventPacket;
 import us.nebula.util.Timer;
@@ -24,6 +25,8 @@ import us.nebula.util.Timer;
         category = CheatCategory.PLAYER)
 public final class ScaffoldCheat extends Cheat
 {
+    private final Setting<Boolean> towerSetting = new Setting<>("Tower", true);
+
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
@@ -55,7 +58,7 @@ public final class ScaffoldCheat extends Cheat
         {
             MC.thePlayer.swingItem();
 
-            if (MC.gameSettings.keyBindJump.pressed)
+            if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
             {
                 if (MC.thePlayer.onGround || (MC.thePlayer.motionY == 0.16477328182606651))
                 {

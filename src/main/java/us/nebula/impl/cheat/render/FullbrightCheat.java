@@ -5,6 +5,7 @@ import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
+import us.nebula.api.value.Setting;
 import us.nebula.impl.event.render.EventGamma;
 
 /**
@@ -16,7 +17,14 @@ import us.nebula.impl.event.render.EventGamma;
         category = CheatCategory.RENDER)
 public final class FullbrightCheat extends Cheat
 {
+    private final Setting<Mode> modeSetting = new Setting<>("Mode", Mode.GAMMA);
+
     @Subscribe
     private final EventListener<EventGamma> gammaEventListener = event
             -> event.setGamma(1.0f);
+
+    private enum Mode
+    {
+        GAMMA, POTION
+    }
 }
