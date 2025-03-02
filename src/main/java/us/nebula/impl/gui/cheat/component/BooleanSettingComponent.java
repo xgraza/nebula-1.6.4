@@ -29,6 +29,7 @@ public final class BooleanSettingComponent extends GUIComponent implements IGUII
     public BooleanSettingComponent(final Setting<Boolean> setting)
     {
         this.setting = setting;
+        animation.setState(setting.getValue());
     }
 
     @Override
