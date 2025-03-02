@@ -20,6 +20,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.player.EventContainerAction;
 
 public abstract class GuiContainer extends GuiScreen
 {
@@ -628,14 +630,20 @@ public abstract class GuiContainer extends GuiScreen
         return p_146978_5_ >= p_146978_1_ - 1 && p_146978_5_ < p_146978_1_ + p_146978_3_ + 1 && p_146978_6_ >= p_146978_2_ - 1 && p_146978_6_ < p_146978_2_ + p_146978_4_ + 1;
     }
 
-    protected void func_146984_a(Slot p_146984_1_, int slot, int action, int mouseButton)
+    protected void func_146984_a(Slot p_146984_1_, int slot, int mouseButton, int action)
     {
         if (p_146984_1_ != null)
         {
             slot = p_146984_1_.slotNumber;
         }
 
-        this.mc.playerController.windowClick(this.container.windowId, slot, action, mouseButton, this.mc.thePlayer);
+        final EventContainerAction event = new EventContainerAction(container.windowId, slot, action, mouseButton, p_146984_1_);
+        if (EventBus.dispatch(event))
+        {
+            return;
+        }
+
+        this.mc.playerController.windowClick(this.container.windowId, slot, mouseButton, action, this.mc.thePlayer);
     }
 
     /**

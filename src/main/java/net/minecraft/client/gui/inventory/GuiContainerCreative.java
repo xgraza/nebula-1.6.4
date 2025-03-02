@@ -67,28 +67,28 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         }
     }
 
-    protected void func_146984_a(Slot p_146984_1_, int p_146984_2_, int action, int mouseButton)
+    protected void func_146984_a(Slot p_146984_1_, int p_146984_2_, int mouseButton, int action)
     {
         this.field_147057_D = true;
-        boolean var5 = mouseButton == 1;
-        mouseButton = p_146984_2_ == -999 && mouseButton == 0 ? 4 : mouseButton;
+        boolean var5 = action == 1;
+        action = p_146984_2_ == -999 && action == 0 ? 4 : action;
         ItemStack var7;
         InventoryPlayer var11;
 
-        if (p_146984_1_ == null && field_147058_w != CreativeTabs.tabInventory.getTabIndex() && mouseButton != 5)
+        if (p_146984_1_ == null && field_147058_w != CreativeTabs.tabInventory.getTabIndex() && action != 5)
         {
             var11 = this.mc.thePlayer.inventory;
 
             if (var11.getItemStack() != null)
             {
-                if (action == 0)
+                if (mouseButton == 0)
                 {
                     this.mc.thePlayer.dropPlayerItemWithRandomChoice(var11.getItemStack(), true);
                     this.mc.playerController.sendPacketDropItem(var11.getItemStack());
                     var11.setItemStack((ItemStack)null);
                 }
 
-                if (action == 1)
+                if (mouseButton == 1)
                 {
                     var7 = var11.getItemStack().splitStack(1);
                     this.mc.thePlayer.dropPlayerItemWithRandomChoice(var7, true);
@@ -122,13 +122,13 @@ public class GuiContainerCreative extends InventoryEffectRenderer
                     {
                         this.mc.thePlayer.inventory.setItemStack((ItemStack)null);
                     }
-                    else if (mouseButton == 4 && p_146984_1_ != null && p_146984_1_.getHasStack())
+                    else if (action == 4 && p_146984_1_ != null && p_146984_1_.getHasStack())
                     {
-                        var6 = p_146984_1_.decrStackSize(action == 0 ? 1 : p_146984_1_.getStack().getMaxStackSize());
+                        var6 = p_146984_1_.decrStackSize(mouseButton == 0 ? 1 : p_146984_1_.getStack().getMaxStackSize());
                         this.mc.thePlayer.dropPlayerItemWithRandomChoice(var6, true);
                         this.mc.playerController.sendPacketDropItem(var6);
                     }
-                    else if (mouseButton == 4 && this.mc.thePlayer.inventory.getItemStack() != null)
+                    else if (action == 4 && this.mc.thePlayer.inventory.getItemStack() != null)
                     {
                         this.mc.thePlayer.dropPlayerItemWithRandomChoice(this.mc.thePlayer.inventory.getItemStack(), true);
                         this.mc.playerController.sendPacketDropItem(this.mc.thePlayer.inventory.getItemStack());
@@ -136,31 +136,31 @@ public class GuiContainerCreative extends InventoryEffectRenderer
                     }
                     else
                     {
-                        this.mc.thePlayer.inventoryContainer.slotClick(p_146984_1_ == null ? p_146984_2_ : ((GuiContainerCreative.CreativeSlot)p_146984_1_).field_148332_b.slotNumber, action, mouseButton, this.mc.thePlayer);
+                        this.mc.thePlayer.inventoryContainer.slotClick(p_146984_1_ == null ? p_146984_2_ : ((GuiContainerCreative.CreativeSlot)p_146984_1_).field_148332_b.slotNumber, mouseButton, action, this.mc.thePlayer);
                         this.mc.thePlayer.inventoryContainer.detectAndSendChanges();
                     }
                 }
-                else if (mouseButton != 5 && p_146984_1_.inventory == field_147060_v)
+                else if (action != 5 && p_146984_1_.inventory == field_147060_v)
                 {
                     var11 = this.mc.thePlayer.inventory;
                     var7 = var11.getItemStack();
                     ItemStack var8 = p_146984_1_.getStack();
                     ItemStack var9;
 
-                    if (mouseButton == 2)
+                    if (action == 2)
                     {
-                        if (var8 != null && action >= 0 && action < 9)
+                        if (var8 != null && mouseButton >= 0 && mouseButton < 9)
                         {
                             var9 = var8.copy();
                             var9.stackSize = var9.getMaxStackSize();
-                            this.mc.thePlayer.inventory.setInventorySlotContents(action, var9);
+                            this.mc.thePlayer.inventory.setInventorySlotContents(mouseButton, var9);
                             this.mc.thePlayer.inventoryContainer.detectAndSendChanges();
                         }
 
                         return;
                     }
 
-                    if (mouseButton == 3)
+                    if (action == 3)
                     {
                         if (var11.getItemStack() == null && p_146984_1_.getHasStack())
                         {
@@ -172,12 +172,12 @@ public class GuiContainerCreative extends InventoryEffectRenderer
                         return;
                     }
 
-                    if (mouseButton == 4)
+                    if (action == 4)
                     {
                         if (var8 != null)
                         {
                             var9 = var8.copy();
-                            var9.stackSize = action == 0 ? 1 : var9.getMaxStackSize();
+                            var9.stackSize = mouseButton == 0 ? 1 : var9.getMaxStackSize();
                             this.mc.thePlayer.dropPlayerItemWithRandomChoice(var9, true);
                             this.mc.playerController.sendPacketDropItem(var9);
                         }
@@ -187,7 +187,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
                     if (var7 != null && var8 != null && var7.isItemEqual(var8))
                     {
-                        if (action == 0)
+                        if (mouseButton == 0)
                         {
                             if (var5)
                             {
@@ -224,9 +224,9 @@ public class GuiContainerCreative extends InventoryEffectRenderer
                 }
                 else
                 {
-                    this.container.slotClick(p_146984_1_ == null ? p_146984_2_ : p_146984_1_.slotNumber, action, mouseButton, this.mc.thePlayer);
+                    this.container.slotClick(p_146984_1_ == null ? p_146984_2_ : p_146984_1_.slotNumber, mouseButton, action, this.mc.thePlayer);
 
-                    if (Container.func_94532_c(action) == 2)
+                    if (Container.func_94532_c(mouseButton) == 2)
                     {
                         for (var10 = 0; var10 < 9; ++var10)
                         {

@@ -7,6 +7,7 @@ import us.nebula.impl.cheat.movement.InvWalkCheat;
 import us.nebula.impl.cheat.movement.JesusCheat;
 import us.nebula.impl.cheat.movement.SprintCheat;
 import us.nebula.impl.cheat.player.AutoRespawnCheat;
+import us.nebula.impl.cheat.player.InfiniteMoverCheat;
 import us.nebula.impl.cheat.player.ScaffoldCheat;
 import us.nebula.impl.cheat.render.ClickGUICheat;
 import us.nebula.impl.cheat.render.FullbrightCheat;
@@ -32,6 +33,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new JesusCheat());
         addCheat(new SprintCheat());
         addCheat(new AutoRespawnCheat());
+        addCheat(new InfiniteMoverCheat());
         addCheat(new ScaffoldCheat());
         addCheat(new ClickGUICheat());
         addCheat(new FullbrightCheat());

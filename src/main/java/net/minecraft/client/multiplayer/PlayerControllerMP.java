@@ -457,11 +457,11 @@ public class PlayerControllerMP
         return par1EntityPlayer.interactWith(par2Entity);
     }
 
-    public ItemStack windowClick(int windowId, int slot, int action, int mouseButton, EntityPlayer par5EntityPlayer)
+    public ItemStack windowClick(int windowId, int slot, int mouseButton, int action, EntityPlayer par5EntityPlayer)
     {
         short transactionId = par5EntityPlayer.openContainer.getNextTransactionID(par5EntityPlayer.inventory);
-        ItemStack stack = par5EntityPlayer.openContainer.slotClick(slot, action, mouseButton, par5EntityPlayer);
-        this.netClientHandler.addToSendQueue(new C0EPacketClickWindow(windowId, slot, action, mouseButton, stack, transactionId));
+        ItemStack stack = par5EntityPlayer.openContainer.slotClick(slot, mouseButton, action, par5EntityPlayer);
+        this.netClientHandler.addToSendQueue(new C0EPacketClickWindow(windowId, slot, mouseButton, action, stack, transactionId));
         return stack;
     }
 
