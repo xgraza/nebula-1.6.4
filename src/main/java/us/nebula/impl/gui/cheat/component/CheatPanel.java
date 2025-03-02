@@ -47,6 +47,9 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
             } else if (setting.getValue() instanceof Enum<?>)
             {
                 getChildrenComponentList().add(new EnumSettingComponent((Setting<Enum<?>>) setting));
+            } else if (setting.getValue() instanceof Number)
+            {
+                getChildrenComponentList().add(new NumberSettingComponent((Setting<Number>) setting));
             }
         }
     }
