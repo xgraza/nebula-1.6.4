@@ -4,6 +4,7 @@ import us.nebula.Nebula;
 import us.nebula.api.manager.ITypedManager;
 import us.nebula.impl.cheat.combat.RegenCheat;
 import us.nebula.impl.cheat.exploit.FrankyCheat;
+import us.nebula.impl.cheat.exploit.NoHungerCheat;
 import us.nebula.impl.cheat.exploit.NoPortalGUICheat;
 import us.nebula.impl.cheat.exploit.XCarryCheat;
 import us.nebula.impl.cheat.movement.InvWalkCheat;
@@ -33,6 +34,7 @@ public final class CheatManager implements ITypedManager<Cheat>
     {
         addCheat(new RegenCheat());
         addCheat(new FrankyCheat());
+        addCheat(new NoHungerCheat());
         addCheat(new NoPortalGUICheat());
         addCheat(new XCarryCheat());
         addCheat(new InvWalkCheat());

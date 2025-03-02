@@ -43,7 +43,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     /** should the player stop sneaking? */
     private boolean serverSneaking;
-    private boolean serverSprinting;
+    public boolean serverSprinting;
 
     /**
      * Counter used to ensure that the server sends a move packet (Packet11, 12 or 13) to the client at least once a
