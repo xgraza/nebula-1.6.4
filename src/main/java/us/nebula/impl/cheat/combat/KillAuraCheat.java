@@ -1,5 +1,7 @@
 package us.nebula.impl.cheat.combat;
 
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,6 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import us.nebula.api.gui.animation.Animation;
+import us.nebula.api.gui.animation.AnimationEasing;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -14,11 +19,14 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
+import us.nebula.impl.event.render.EventRender3D;
 import us.nebula.util.Timer;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * @author xgraza
@@ -44,6 +52,8 @@ public final class KillAuraCheat extends Cheat
             "Auto Block", true);
     private final Setting<Boolean> tickSetting = new Setting<>(
             "Tick", false);
+    private final Setting<Boolean> armorBreaker = new Setting<>(
+            "Armor Breaker", false);
     private final Setting<Boolean> keepSprint = new Setting<>(
             "Keep Sprint", false);
     private final Setting<Boolean> attackPlayersSetting = new Setting<>(
@@ -54,6 +64,9 @@ public final class KillAuraCheat extends Cheat
             "Attack Passive", true);
     private final Setting<Boolean> renderSetting = new Setting<>(
             "Render", false);
+
+    private final Animation renderAnimation = new Animation(
+            AnimationEasing.CUBIC_IN_OUT, 750.0);
 
     private final Timer timer = new Timer();
     private EntityLivingBase target;
@@ -100,14 +113,17 @@ public final class KillAuraCheat extends Cheat
                 blockSword(false);
             }
 
-            MC.thePlayer.swingItem();
-            if (keepSprint.getValue())
+            attackTarget();
+
+            if (armorBreaker.getValue())
             {
-                MC.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(
-                        target, C02PacketUseEntity.Action.ATTACK));
-            } else
-            {
-                MC.playerController.attackEntity(MC.thePlayer, target);
+                attackTarget();
+                MC.thePlayer.sendQueue.addToSendQueue(
+                        new C09PacketHeldItemChange(8));
+                attackTarget();
+                attackTarget();
+                MC.thePlayer.sendQueue.addToSendQueue(
+                        new C09PacketHeldItemChange(MC.thePlayer.inventory.currentItem));
             }
         }
         if (autoBlockSetting.getValue())
@@ -116,13 +132,83 @@ public final class KillAuraCheat extends Cheat
         }
     };
 
+    @Subscribe
+    private final EventListener<EventRender3D> render3DEventListener = event ->
+    {
+        if (!renderSetting.getValue() || target == null)
+        {
+            return;
+        }
+
+        glPushMatrix();
+        glDisable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 0, 1);
+        glDisable(GL_DEPTH_TEST);
+
+        glEnable(GL_LINE_SMOOTH);
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+        glLineWidth(2.5f);
+
+        if (renderAnimation.getFactor() >= 1.0 || renderAnimation.getFactor() <= 0.0)
+        {
+            renderAnimation.setState(!renderAnimation.getState());
+        }
+
+        final float hurtTime = target.hurtTime / (float) target.maxHurtTime;
+        if (hurtTime > 0.0f) {
+            glColor4f(0.3f + hurtTime, 0.0f, 0.0f, 1.0f);
+        } else {
+            glColor4f(1.0f - (target.hurtResistantTime / (float) target.maxHurtResistantTime),
+                    1.0f, 1.0f, 1.0f);
+        }
+        glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
+
+        final double x = target.prevPosX + (target.posX - target.prevPosX) * event.getPartialTicks();
+        final double y = target.prevPosY + (target.posY - target.prevPosY) * event.getPartialTicks();
+        final double z = target.prevPosZ + (target.posZ - target.prevPosZ) * event.getPartialTicks();
+
+        glBegin(GL_LINE_LOOP);
+        {
+            final double radius = target.width + 0.2;
+            for (double angle = 0.0; angle <= 360.0; angle += 1.0)
+            {
+                final double rad = Math.toRadians(angle);
+                glVertex3d(x + (Math.sin(rad) * radius),
+                        y + target.height - (target.height * renderAnimation.getEasedFactor()),
+                        z - (Math.cos(rad) * radius));
+            }
+        }
+        glEnd();
+
+        glDisable(GL_LINE_SMOOTH);
+        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
+        glEnable(GL_TEXTURE_2D);
+        glPopMatrix();
+    };
+
+    private void attackTarget()
+    {
+        MC.thePlayer.swingItem();
+        if (keepSprint.getValue())
+        {
+            MC.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(
+                    target, C02PacketUseEntity.Action.ATTACK));
+        } else
+        {
+            MC.playerController.attackEntity(MC.thePlayer, target);
+        }
+    }
+
     private boolean canAttack()
     {
         if (tickSetting.getValue())
         {
             return true;
         }
-        return timer.hasElapsed((long) (50L + (Math.random() * 100)));
+        return timer.hasElapsed((long) (50L + (Math.random() * 150)))
+                || target.hurtResistantTime <= 0;
     }
 
     private void blockSword(final boolean block)
