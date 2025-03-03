@@ -50,7 +50,7 @@ public class ReflectorClass
             }
             catch (ClassNotFoundException var2)
             {
-                Config.log("(Reflector) Class not present: " + this.targetClassName);
+                //Config.log("(Reflector) Class not present: " + this.targetClassName);
             }
             catch (Throwable var3)
             {

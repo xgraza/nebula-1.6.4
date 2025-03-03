@@ -63,7 +63,7 @@ public class ReflectorMethod
 
                         if (e.length <= 0)
                         {
-                            Config.log("(Reflector) Method not present: " + cls.getName() + "." + this.targetMethodName);
+                            //Config.log("(Reflector) Method not present: " + cls.getName() + "." + this.targetMethodName);
                             return null;
                         }
 
@@ -89,7 +89,7 @@ public class ReflectorMethod
 
                     if (this.targetMethod == null)
                     {
-                        Config.log("(Reflector) Method not present: " + cls.getName() + "." + this.targetMethodName);
+                        //Config.log("(Reflector) Method not present: " + cls.getName() + "." + this.targetMethodName);
                         return null;
                     }
                     else

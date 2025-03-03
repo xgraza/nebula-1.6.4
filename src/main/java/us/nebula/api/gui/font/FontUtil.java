@@ -21,11 +21,6 @@ public final class FontUtil
     private static final Map<String, AWTFontRenderer> FONT_RENDERER_MAP = new HashMap<>();
     private static AWTFontRenderer defaultFontRenderer;
 
-    static
-    {
-        registerCustomFonts();
-    }
-
     public static void drawStringShadow(final String text, final double x, final double y, final int color)
     {
         defaultFontRenderer.drawStringShadow(text, x, y, color);
@@ -51,6 +46,14 @@ public final class FontUtil
         return FONT_RENDERER_MAP.get(family + "_" + size);
     }
 
+    public static void initFonts()
+    {
+        final Font poppinsFont = loadFont("/assets/minecraft/nebula/font/Poppins-Regular.ttf");
+        FONT_RENDERER_MAP.put("poppins_18", defaultFontRenderer = new AWTFontRenderer(poppinsFont, 18));
+        FONT_RENDERER_MAP.put("poppins_12", new AWTFontRenderer(poppinsFont, 12));
+        FONT_RENDERER_MAP.put("icon_18", new AWTFontRenderer(loadFont("/assets/minecraft/nebula/font/Typeface.ttf"), 18));
+    }
+
     private static Font loadFont(final String location)
     {
         try (final InputStream stream = FontUtil.class.getResourceAsStream(location))
@@ -68,13 +71,5 @@ public final class FontUtil
         {
             throw new RuntimeException(e);
         }
-    }
-
-    private static void registerCustomFonts()
-    {
-        final Font poppinsFont = loadFont("/assets/minecraft/nebula/font/Poppins-Regular.ttf");
-        FONT_RENDERER_MAP.put("poppins_18", defaultFontRenderer = new AWTFontRenderer(poppinsFont, 18));
-        FONT_RENDERER_MAP.put("poppins_12", new AWTFontRenderer(poppinsFont, 12));
-        FONT_RENDERER_MAP.put("icon_18", new AWTFontRenderer(loadFont("/assets/minecraft/nebula/font/Typeface.ttf"), 18));
     }
 }
