@@ -75,6 +75,7 @@ import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.event.render.EventGamma;
+import us.nebula.impl.event.render.EventRender3D;
 import us.nebula.util.ProjectionUtil;
 
 public class EntityRenderer implements IResourceManagerReloadListener
@@ -1909,7 +1910,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, new Object[] {var5, Float.valueOf(par1)});
             }
 
-            //ProjectionUtil.updateProjection();
+            ProjectionUtil.updateProjection();
+            EventBus.dispatch(new EventRender3D(partialTicks));
 
             this.mc.mcProfiler.endStartSection("hand");
             boolean renderFirstPersonHand = Reflector.callBoolean(Reflector.ForgeHooksClient_renderFirstPersonHand, new Object[] {this.mc.renderGlobal, Float.valueOf(par1), Integer.valueOf(var13)});
