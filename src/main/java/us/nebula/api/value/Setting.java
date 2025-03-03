@@ -1,5 +1,11 @@
 package us.nebula.api.value;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import us.nebula.api.config.IJSONSerializable;
+
 import java.util.function.Supplier;
 
 /**
@@ -8,7 +14,7 @@ import java.util.function.Supplier;
  * @param <T>
  */
 @SuppressWarnings("unchecked")
-public final class Setting<T>
+public final class Setting<T> implements IJSONSerializable
 {
     private final String name;
     private T value;
@@ -130,5 +136,71 @@ public final class Setting<T>
     {
         this.valueChanged = valueChanged;
         return this;
+    }
+
+    @Override
+    public void fromJSON(final JsonElement element)
+    {
+        if (!element.isJsonPrimitive())
+        {
+            return;
+        }
+        final JsonPrimitive primitive = element.getAsJsonPrimitive();
+        if (primitive.isBoolean())
+        {
+            if (!(value instanceof Boolean))
+            {
+                throw new RuntimeException("mismatched JSON & value types");
+            }
+            setValue((T) (Object) primitive.getAsBoolean());
+        } else if (primitive.isNumber())
+        {
+            if (!(value instanceof Number))
+            {
+                throw new RuntimeException("mismatched JSON & value types");
+            }
+            if (value instanceof Integer)
+            {
+                setValue((T) (Object) primitive.getAsInt());
+            } else if (value instanceof Float)
+            {
+                setValue((T) (Object) primitive.getAsFloat());
+            } else if (value instanceof Double)
+            {
+                setValue((T) (Object) primitive.getAsDouble());
+            }
+        } else if (primitive.isString())
+        {
+            if (value instanceof Enum<?>)
+            {
+                setValue((T) Enum.valueOf(((Enum<?>)value).getDeclaringClass(), primitive.getAsString()));
+            } else
+            {
+                throw new RuntimeException("mismatched JSON & value types");
+            }
+        }
+    }
+
+    @Override
+    public JsonElement toJSON()
+    {
+        if (value == null)
+        {
+            return JsonNull.INSTANCE;
+        }
+
+        if (value instanceof Boolean)
+        {
+            return new JsonPrimitive((Boolean) value);
+        } else if (value instanceof Number)
+        {
+            return new JsonPrimitive((Number) value);
+        } else if (value instanceof Enum<?>)
+        {
+            return new JsonPrimitive(((Enum<?>)value).name());
+        } else
+        {
+            return new JsonPrimitive(value.toString());
+        }
     }
 }

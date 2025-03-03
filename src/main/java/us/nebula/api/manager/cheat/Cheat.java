@@ -1,7 +1,10 @@
 package us.nebula.api.manager.cheat;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import us.nebula.Nebula;
+import us.nebula.api.config.IJSONSerializable;
 import us.nebula.api.listener.EventBus;
 import us.nebula.api.manager.key.Key;
 import us.nebula.api.value.ISettingProvider;
@@ -17,7 +20,7 @@ import static org.lwjgl.input.Keyboard.KEY_NONE;
  * @since 02/14/25
  */
 @SuppressWarnings("unchecked")
-public class Cheat implements ISettingProvider
+public class Cheat implements ISettingProvider, IJSONSerializable
 {
     protected static final Minecraft MC = Minecraft.getMinecraft();
     static final String DEFAULT_DESCRIPTION = "No description provided for this cheat";
@@ -125,5 +128,39 @@ public class Cheat implements ISettingProvider
     {
         settingNameMap.put(setting.getName(), setting);
         settingList.add(setting);
+    }
+
+    @Override
+    public void fromJSON(final JsonElement element)
+    {
+        if (!element.isJsonObject())
+        {
+            return;
+        }
+        final JsonObject object = element.getAsJsonObject();
+        setToggled(object.get("toggled").getAsBoolean());
+        final JsonObject settingsObj = object.getAsJsonObject("settings");
+        for (final String settingName : settingNameMap.keySet())
+        {
+            if (!settingsObj.has(settingName))
+            {
+                continue;
+            }
+            settingNameMap.get(settingName).fromJSON(settingsObj.get(settingName));
+        }
+    }
+
+    @Override
+    public JsonElement toJSON()
+    {
+        final JsonObject object = new JsonObject();
+        object.addProperty("toggled", isToggled());
+        final JsonObject settingsObj = new JsonObject();
+        for (final Setting<?> setting : getSettings())
+        {
+            settingsObj.add(setting.getName(), setting.toJSON());
+        }
+        object.add("settings", settingsObj);
+        return object;
     }
 }

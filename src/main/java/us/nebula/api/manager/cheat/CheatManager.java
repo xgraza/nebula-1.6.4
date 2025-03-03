@@ -27,6 +27,9 @@ public final class CheatManager implements ITypedManager<Cheat>
     private final Map<Class<? extends Cheat>, Cheat> cheatInstanceMap = new LinkedHashMap<>();
     private final List<Cheat> cheatInstanceList = new LinkedList<>();
 
+    private final Map<String, CheatConfig> cachedConfigMap = new HashMap<>();
+    private CheatConfig defaultConfig;
+
     @Override
     public void init()
     {
@@ -50,6 +53,9 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new HUDCheat());
         addCheat(new InfiniteViewerCheat());
         addCheat(new TrajectoriesCheat());
+
+        defaultConfig = new CheatConfig(this, "default");
+        Nebula.INSTANCE.getConfigurationManager().addConfiguration(defaultConfig);
 
         Nebula.INSTANCE.getLogger().info("Registered {} cheats", cheatInstanceList.size());
     }
@@ -90,5 +96,10 @@ public final class CheatManager implements ITypedManager<Cheat>
     public List<Cheat> getAll()
     {
         return cheatInstanceList;
+    }
+
+    public CheatConfig getDefaultConfig()
+    {
+        return defaultConfig;
     }
 }
