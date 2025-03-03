@@ -49,6 +49,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.player.EventItemSlowdown;
+import us.nebula.impl.event.player.EventPushFromBlocks;
 import us.nebula.impl.event.player.EventSprint;
 
 public class EntityPlayerSP extends AbstractClientPlayer
@@ -193,6 +195,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.movementInput.moveStrafe *= 0.2F;
                 this.movementInput.moveForward *= 0.2F;
                 this.sprintToggleTimer = 0;
+                EventBus.dispatch(new EventItemSlowdown(movementInput));
             }
 
             if (this.movementInput.sneak && this.ySize < 0.2F)
@@ -528,10 +531,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     protected boolean func_145771_j(double p_145771_1_, double p_145771_3_, double p_145771_5_)
     {
-        // TODO
-//        if (Nebula.BUS.dispatch(new EventBlockPush(this))) {
-//            return false;
-//        }
+        if (EventBus.dispatch(new EventPushFromBlocks()))
+        {
+            return false;
+        }
 
         int var7 = MathHelper.floor_double(p_145771_1_);
         int var8 = MathHelper.floor_double(p_145771_3_);

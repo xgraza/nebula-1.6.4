@@ -2,14 +2,14 @@ package us.nebula.api.manager.cheat;
 
 import us.nebula.Nebula;
 import us.nebula.api.manager.ITypedManager;
+import us.nebula.impl.cheat.combat.KillAuraCheat;
 import us.nebula.impl.cheat.combat.RegenCheat;
+import us.nebula.impl.cheat.combat.VelocityCheat;
 import us.nebula.impl.cheat.exploit.FrankyCheat;
 import us.nebula.impl.cheat.exploit.NoHungerCheat;
 import us.nebula.impl.cheat.exploit.NoPortalGUICheat;
 import us.nebula.impl.cheat.exploit.XCarryCheat;
-import us.nebula.impl.cheat.movement.InvWalkCheat;
-import us.nebula.impl.cheat.movement.JesusCheat;
-import us.nebula.impl.cheat.movement.SprintCheat;
+import us.nebula.impl.cheat.movement.*;
 import us.nebula.impl.cheat.player.AutoRespawnCheat;
 import us.nebula.impl.cheat.player.InfiniteMoverCheat;
 import us.nebula.impl.cheat.player.ScaffoldCheat;
@@ -30,13 +30,17 @@ public final class CheatManager implements ITypedManager<Cheat>
     @Override
     public void init()
     {
+        addCheat(new KillAuraCheat());
         addCheat(new RegenCheat());
+        addCheat(new VelocityCheat());
         addCheat(new FrankyCheat());
         addCheat(new NoHungerCheat());
         addCheat(new NoPortalGUICheat());
         addCheat(new XCarryCheat());
         addCheat(new InvWalkCheat());
         addCheat(new JesusCheat());
+        addCheat(new NoPushCheat());
+        addCheat(new NoSlowCheat());
         addCheat(new SprintCheat());
         addCheat(new AutoRespawnCheat());
         addCheat(new InfiniteMoverCheat());

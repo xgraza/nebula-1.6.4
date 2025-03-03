@@ -50,6 +50,8 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
+import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.player.EventPushWater;
 
 public abstract class World implements IBlockAccess
 {
@@ -2382,7 +2384,7 @@ public abstract class World implements IBlockAccess
                 }
             }
 
-            if (var11.lengthVector() > 0.0D && par3Entity.isPushedByWater() /*&& !Nebula.BUS.dispatch(new EventWaterPush(par3Entity))*/)
+            if (var11.lengthVector() > 0.0D && par3Entity.isPushedByWater() && !EventBus.dispatch(new EventPushWater(par3Entity)))
             {
                 var11 = var11.normalize();
                 double var18 = 0.014D;

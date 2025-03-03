@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 public class ItemSword extends Item
 {
-    private float field_150934_a;
+    public float itemDamage;
     private final Item.ToolMaterial field_150933_b;
     private static final String __OBFID = "CL_00000072";
 
@@ -23,7 +23,7 @@ public class ItemSword extends Item
         this.maxStackSize = 1;
         this.setMaxDamage(p_i45356_1_.getMaxUses());
         this.setCreativeTab(CreativeTabs.tabCombat);
-        this.field_150934_a = 4.0F + p_i45356_1_.getDamageVsEntity();
+        this.itemDamage = 4.0F + p_i45356_1_.getDamageVsEntity();
     }
 
     public float func_150931_i()
@@ -129,7 +129,7 @@ public class ItemSword extends Item
     public Multimap getItemAttributeModifiers()
     {
         Multimap var1 = super.getItemAttributeModifiers();
-        var1.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.field_150934_a, 0));
+        var1.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.itemDamage, 0));
         return var1;
     }
 }
