@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import us.nebula.Nebula;
 import us.nebula.api.config.IConfiguration;
-import us.nebula.util.FileUtil;
+import us.nebula.util.io.FileUtil;
 
 import java.io.File;
 

@@ -8,7 +8,7 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.player.EventPlayerDeath;
-import us.nebula.util.ChatUtil;
+import us.nebula.util.player.ChatUtil;
 
 /**
  * @author xgraza

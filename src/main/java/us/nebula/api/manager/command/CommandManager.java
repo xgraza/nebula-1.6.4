@@ -14,7 +14,7 @@ import us.nebula.impl.command.SetUsernameCommand;
 import us.nebula.impl.command.SpawnTPCommand;
 import us.nebula.impl.event.input.EventKey;
 import us.nebula.impl.event.network.EventPacket;
-import us.nebula.util.ChatUtil;
+import us.nebula.util.player.ChatUtil;
 
 import java.util.*;
 

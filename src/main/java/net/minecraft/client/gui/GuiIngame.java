@@ -42,7 +42,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.event.render.EventRender2D;
-import us.nebula.util.RenderUtil;
+import us.nebula.util.render.RenderUtil;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 

@@ -5,8 +5,8 @@ import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
 import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.value.Setting;
-import us.nebula.util.MathUtil;
-import us.nebula.util.RenderUtil;
+import us.nebula.util.math.MathUtil;
+import us.nebula.util.render.RenderUtil;
 
 import java.awt.Color;
 

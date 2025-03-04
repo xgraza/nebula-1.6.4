@@ -1,4 +1,4 @@
-package us.nebula.util;
+package us.nebula.util.math;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

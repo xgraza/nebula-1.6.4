@@ -1,4 +1,4 @@
-package us.nebula.util;
+package us.nebula.util.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

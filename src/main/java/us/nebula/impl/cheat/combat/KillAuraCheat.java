@@ -20,7 +20,7 @@ import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.render.EventRender3D;
-import us.nebula.util.Timer;
+import us.nebula.util.math.Timer;
 
 import java.util.Comparator;
 import java.util.List;

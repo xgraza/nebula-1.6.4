@@ -1,4 +1,4 @@
-package us.nebula.util;
+package us.nebula.util.player;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;

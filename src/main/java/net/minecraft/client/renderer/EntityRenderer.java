@@ -76,7 +76,7 @@ import shadersmod.client.ShadersRender;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.event.render.EventGamma;
 import us.nebula.impl.event.render.EventRender3D;
-import us.nebula.util.ProjectionUtil;
+import us.nebula.util.render.ProjectionUtil;
 
 public class EntityRenderer implements IResourceManagerReloadListener
 {

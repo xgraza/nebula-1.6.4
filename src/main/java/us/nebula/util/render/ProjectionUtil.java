@@ -1,4 +1,4 @@
-package us.nebula.util;
+package us.nebula.util.render;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;

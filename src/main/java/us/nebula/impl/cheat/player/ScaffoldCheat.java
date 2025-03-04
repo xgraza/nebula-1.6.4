@@ -14,7 +14,6 @@ import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.network.EventPacket;
-import us.nebula.util.Timer;
 
 /**
  * @author xgraza

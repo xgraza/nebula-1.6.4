@@ -1,7 +1,7 @@
 package us.nebula.api.config;
 
 import us.nebula.Nebula;
-import us.nebula.util.FileUtil;
+import us.nebula.util.io.FileUtil;
 
 import java.io.File;
 import java.io.IOException;

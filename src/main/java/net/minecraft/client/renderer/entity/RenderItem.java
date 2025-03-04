@@ -24,7 +24,7 @@ import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import us.nebula.impl.cheat.render.InfiniteViewerCheat;
-import us.nebula.util.InventoryUtil;
+import us.nebula.util.player.InventoryUtil;
 
 public class RenderItem extends Render
 {

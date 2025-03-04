@@ -5,7 +5,7 @@ import us.nebula.api.manager.command.Command;
 import us.nebula.api.manager.command.CommandManifest;
 import us.nebula.api.manager.command.CommandResult;
 import us.nebula.api.manager.command.argument.type.CommandArgument;
-import us.nebula.util.ChatUtil;
+import us.nebula.util.player.ChatUtil;
 
 import java.util.List;
 import java.util.StringJoiner;

@@ -2,7 +2,7 @@ package us.nebula.api.systemtray;
 
 import org.lwjgl.opengl.Display;
 import us.nebula.Nebula;
-import us.nebula.util.FileUtil;
+import us.nebula.util.io.FileUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.AWTException;

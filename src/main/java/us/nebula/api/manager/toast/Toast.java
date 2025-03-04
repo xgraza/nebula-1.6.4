@@ -4,7 +4,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
 import us.nebula.api.gui.font.Fonts;
-import us.nebula.util.RenderUtil;
+import us.nebula.util.render.RenderUtil;
 
 import java.awt.Color;
 

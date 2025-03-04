@@ -10,11 +10,10 @@ import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.impl.event.player.EventContainerAction;
-import us.nebula.util.ChatUtil;
-import us.nebula.util.InventoryUtil;
+import us.nebula.util.player.InventoryUtil;
 
-import static us.nebula.util.InventoryUtil.HOTBAR_SIZE;
-import static us.nebula.util.InventoryUtil.PLAYER_INVENTORY_SIZE;
+import static us.nebula.util.player.InventoryUtil.HOTBAR_SIZE;
+import static us.nebula.util.player.InventoryUtil.PLAYER_INVENTORY_SIZE;
 
 /**
  * @author xgraza
