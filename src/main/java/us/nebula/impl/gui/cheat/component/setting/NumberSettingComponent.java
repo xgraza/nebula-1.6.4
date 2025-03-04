@@ -3,7 +3,7 @@ package us.nebula.impl.gui.cheat.component.setting;
 import org.lwjgl.input.Mouse;
 import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
-import us.nebula.api.gui.font.FontUtil;
+import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.value.Setting;
 import us.nebula.util.MathUtil;
 import us.nebula.util.RenderUtil;
@@ -40,10 +40,15 @@ public final class NumberSettingComponent extends GUIComponent implements IGUIIn
             setValue(mouseX);
         }
         drawSlider();
-        final double middle = FontUtil.getMiddlePoint(height, FontUtil.getFontHeight());
-        FontUtil.drawStringShadow(setting.getName(), x + (PADDING * 2), y + 3 + middle, -1);
+        drawText();
+    }
+
+    private void drawText()
+    {
+        final double middle = Fonts.getMiddlePoint(height, Fonts.POPPINS.getFontHeight());
+        Fonts.POPPINS.drawStringShadow(setting.getName(), x + (PADDING * 2), y + middle, -1);
         final String value = String.format("%.2f", setting.getValue().doubleValue());
-        FontUtil.drawStringShadow(value, x + width - FontUtil.getStringWidth(value) - (PADDING * 2), y + 3 + middle, -1);
+        Fonts.POPPINS.drawStringShadow(value, x + width - Fonts.POPPINS.getStringWidth(value) - (PADDING * 2), y + middle, -1);
     }
 
     private void drawSlider()

@@ -4,16 +4,15 @@ public class Glyph
 {
     private final char character;
     private final float x, y;
-    private final double width, height, leading;
+    private final double width, height;
 
-    public Glyph(char character, float x, float y, double width, double height, double leading)
+    public Glyph(char character, float x, float y, double width, double height)
     {
         this.character = character;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.leading = leading;
     }
 
     public char getCharacter()
@@ -39,10 +38,5 @@ public class Glyph
     public double getHeight()
     {
         return height;
-    }
-
-    public double getLeading()
-    {
-        return leading;
     }
 }

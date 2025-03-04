@@ -5,7 +5,7 @@ import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
 import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
-import us.nebula.api.gui.font.FontUtil;
+import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.util.RenderUtil;
 
@@ -52,12 +52,12 @@ public final class CheatCategoryPanel extends GUIComponent implements IGUIInputL
         RenderUtil.roundedRectangle2D(x, y, width, getHeight(), 6, PANEL_HEADER_COLOR);
         RenderUtil.roundedRectangle2D(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 2.8f, PANEL_BACKGROUND_COLOR);
 
-        FontUtil.getFont("icon", 18).drawStringShadow(categoryIcon, x + PADDING, y + 5, 0xAAAAAA);
-        FontUtil.drawStringShadow(categoryName, x + 12 + PADDING, y + 2, -1);
+        Fonts.TYPEFACE.drawStringShadow(categoryIcon, x + PADDING, y + 5, 0xAAAAAA);
+        Fonts.POPPINS.drawStringShadow(categoryName, x + 12 + PADDING, y + 2, -1);
 
         if (animation.getFactor() > 0.0)
         {
-            double posY = y + PANEL_HEADER_HEIGHT + PADDING;
+            double posY = y + PANEL_HEADER_HEIGHT;
             for (final GUIComponent component : getChildrenComponentList())
             {
                 component.setX(x + PADDING);
@@ -117,7 +117,7 @@ public final class CheatCategoryPanel extends GUIComponent implements IGUIInputL
         {
             h += component.getHeight();
         }
-        return (super.getHeight() + PADDING)
+        return (super.getHeight())
                 + ((h + PADDING) * animation.getEasedFactor());
     }
 }

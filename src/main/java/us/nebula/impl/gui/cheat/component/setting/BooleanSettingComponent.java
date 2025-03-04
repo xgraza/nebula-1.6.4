@@ -4,7 +4,7 @@ import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
 import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
-import us.nebula.api.gui.font.FontUtil;
+import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.value.Setting;
 import us.nebula.util.RenderUtil;
 
@@ -35,8 +35,8 @@ public final class BooleanSettingComponent extends GUIComponent implements IGUII
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        final double middle = FontUtil.getMiddlePoint(height, FontUtil.getFontHeight());
-        FontUtil.drawStringShadow(setting.getName(), x + (PADDING * 2), y + 3 + middle, -1);
+        final double middle = Fonts.getMiddlePoint(height, Fonts.POPPINS.getFontHeight());
+        Fonts.POPPINS.drawStringShadow(setting.getName(), x + (PADDING * 2), y + middle, -1);
         drawCheckbox();
     }
 

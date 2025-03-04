@@ -3,8 +3,7 @@ package us.nebula.api.manager.toast;
 import net.minecraft.client.gui.ScaledResolution;
 import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
-import us.nebula.api.gui.font.AWTFontRenderer;
-import us.nebula.api.gui.font.FontUtil;
+import us.nebula.api.gui.font.Fonts;
 import us.nebula.util.RenderUtil;
 
 import java.awt.Color;
@@ -44,8 +43,8 @@ public final class Toast
     public double render(final double posY, final ScaledResolution resolution)
     {
         final double screenWidth = resolution.getScaledWidth_double();
-        final double toastWidth = FontUtil.getStringWidth(details) + (PADDING * 3);
-        final double toastHeight = (FontUtil.getFontHeight() + 1.0) * 1.5;
+        final double toastWidth = Fonts.POPPINS.getStringWidth(details) + (PADDING * 3);
+        final double toastHeight = (Fonts.POPPINS.getFontHeight() + 1.0) * 1.5;
         double posX = screenWidth - (PADDING * 2) - (toastWidth * (animation.getEasedFactor()));
 
         animation.setState(deathTimeMS - 300 > System.currentTimeMillis());
@@ -55,9 +54,9 @@ public final class Toast
         final double progressBar = toastWidth * (((deathTimeMS - System.currentTimeMillis()) / (double)lifeMS));
         RenderUtil.roundedRectangle2D(posX, posY + toastHeight - 1.5, progressBar, 1.5, 2.5f, new Color(112, 82, 143).getRGB());
 
-        FontUtil.getFont("icon2", 18).drawStringShadow(toastType.getIconChar(), posX + 1, posY + 4, 0xAAAAAA);
-        FontUtil.drawStringShadow(title, posX + 11, posY + 1, -1);
-        FontUtil.drawStringShadow(details, posX + PADDING, posY + FontUtil.getFontHeight() - 5, -1);
+        Fonts.ICONFACE.drawStringShadow(toastType.getIconChar(), posX + 1, posY + 4, 0xAAAAAA);
+        Fonts.POPPINS.drawStringShadow(title, posX + 11, posY + 1, -1);
+        Fonts.POPPINS.drawStringShadow(details, posX + PADDING, posY + Fonts.POPPINS.getFontHeight() - 5, -1);
         return toastHeight;
     }
 

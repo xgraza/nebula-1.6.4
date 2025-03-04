@@ -42,9 +42,6 @@ public final class AWTFontRenderer
 
         glPushMatrix();
 
-        //glDisable(GL_LIGHTING);
-        //glEnable(GL_ALPHA_TEST);
-
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 0, 1);
 
@@ -86,7 +83,7 @@ public final class AWTFontRenderer
             } else if (ch == '\n')
             {
                 offsetX = 0;
-                offsetY += font.getFontHeight() / 2.0;
+                offsetY += font.getFontHeight();
                 continue;
             } else if (ch == COLOR_CONTROL_CHAR)
             {
@@ -186,11 +183,9 @@ public final class AWTFontRenderer
             {
 
             }
-            offsetX += glyph.getWidth() - glyph.getLeading() - 4;
+            offsetX += glyph.getWidth();
         }
 
-        //glDisable(GL_ALPHA_TEST);
-        //glEnable(GL_LIGHTING);
         glDisable(GL_RESCALE_NORMAL);
         glPopMatrix();
     }
@@ -251,7 +246,7 @@ public final class AWTFontRenderer
             final Glyph glyph = font.getGlyph(ch);
             if (glyph != null)
             {
-                width += glyph.getWidth() - 4 - glyph.getLeading();
+                width += glyph.getWidth();
             }
         }
         return width / 2.0;

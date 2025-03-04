@@ -1,7 +1,7 @@
 package us.nebula.impl.gui.overlay;
 
 import net.minecraft.client.gui.ScaledResolution;
-import us.nebula.api.gui.font.FontUtil;
+import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.manager.overlay.Overlay;
 import us.nebula.api.manager.overlay.OverlayManifest;
 
@@ -15,6 +15,6 @@ public final class WatermarkOverlay extends Overlay
     @Override
     public void render(final ScaledResolution resolution, final float partialTicks)
     {
-        FontUtil.drawStringShadow("Nebula Client", 2, 2, -1);
+        Fonts.POPPINS.drawStringShadow("Nebula Client", 2, 2, -1);
     }
 }

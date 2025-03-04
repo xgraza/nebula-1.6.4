@@ -82,28 +82,21 @@ public final class AWTFont
                 continue;
             }
             final Rectangle2D rect = metrics.getStringBounds(String.valueOf(c), graphics);
+            int charWidth = metrics.charWidth(c);
             if (x + rect.getWidth() >= 1000)
             {
                 y += (float) fontHeight;
                 x = 0;
             }
 
-            final Glyph glyph = new Glyph(c, x, y, rect.getWidth() + 4.0f, rect.getHeight(), metrics.stringWidth(String.valueOf(c)) - metrics.charWidth(c));
+            final Glyph glyph = new Glyph(c, x, y, charWidth, rect.getHeight());
             glyphBin[c] = glyph;
 
-            graphics.drawString(String.valueOf(c), x + 2.0f, y + metrics.getAscent());
-            x += (float) glyph.getWidth();
+            graphics.drawString(String.valueOf(c), x, y + metrics.getAscent());
+            x += (float) glyph.getWidth() + 8.0f;
         }
 
-        //fontHeight /= 2.0;
-
-//        try
-//        {
-//            ImageIO.write(image, "png", new File(Nebula.INSTANCE.getNebulaRootDir(), "font_bin.png"));
-//        } catch (IOException e)
-//        {
-//            throw new RuntimeException(e);
-//        }
+        fontHeight = ((fontHeight - metrics.getAscent()) / 2.0) + 3;
 
         return new DynamicTexture(image);
     }

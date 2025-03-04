@@ -5,7 +5,7 @@ import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
-import us.nebula.api.gui.font.FontUtil;
+import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.manager.command.CommandManager;
 import us.nebula.api.config.ConfigurationManager;
 import us.nebula.api.manager.cheat.CheatManager;
@@ -70,7 +70,7 @@ public enum Nebula
         toastManager.init();
 
         RenderUtil.initShaders();
-        FontUtil.initFonts();
+        Fonts.initFonts();
 
         setTitle("Nebula Client | Minecraft 1.7.2");
         logger.info("Instantiated Nebula successfully!");

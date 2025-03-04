@@ -2,6 +2,7 @@ package us.nebula.api.manager.key;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.lwjgl.input.Keyboard;
 import us.nebula.api.config.IJSONSerializable;
 
 /**
@@ -10,7 +11,9 @@ import us.nebula.api.config.IJSONSerializable;
  */
 public final class Key implements IJSONSerializable
 {
-    private int keyCode;
+    public static int DEFAULT_UNBOUND_KEY = -1;
+
+    private int keyCode = DEFAULT_UNBOUND_KEY;
     private boolean useMouse, state;
     private final KeyAction action;
 
@@ -29,6 +32,11 @@ public final class Key implements IJSONSerializable
     public void setKeyCode(final int keyCode)
     {
         this.keyCode = keyCode;
+    }
+
+    public boolean isUnbound()
+    {
+        return keyCode <= DEFAULT_UNBOUND_KEY;
     }
 
     public boolean isUseMouse()
@@ -79,5 +87,15 @@ public final class Key implements IJSONSerializable
         final JsonObject object = element.getAsJsonObject();
         keyCode = object.get("keyCode").getAsInt();
         useMouse = object.get("useMouse").getAsBoolean();
+    }
+
+    @Override
+    public String toString()
+    {
+        if (useMouse)
+        {
+            return "MOUSE" + (keyCode + 1);
+        }
+        return Keyboard.getKeyName(keyCode);
     }
 }

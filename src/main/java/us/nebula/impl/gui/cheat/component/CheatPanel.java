@@ -1,13 +1,12 @@
 package us.nebula.impl.gui.cheat.component;
 
-import org.lwjgl.input.Keyboard;
 import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
 import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
-import us.nebula.api.gui.font.AWTFontRenderer;
-import us.nebula.api.gui.font.FontUtil;
+import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.manager.cheat.Cheat;
+import us.nebula.api.manager.key.Key;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.gui.cheat.component.setting.BooleanSettingComponent;
 import us.nebula.impl.gui.cheat.component.setting.EnumSettingComponent;
@@ -16,7 +15,7 @@ import us.nebula.util.RenderUtil;
 
 import java.awt.Color;
 
-import static org.lwjgl.input.Keyboard.KEY_NONE;
+import static us.nebula.api.manager.key.Key.DEFAULT_UNBOUND_KEY;
 
 /**
  * @author xgraza
@@ -60,38 +59,22 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
+        hoverAnimation.setState(isMouseIn(mouseX, mouseY));
+
         if (cheat.isToggled())
         {
             RenderUtil.roundedRectangle2D(x, y, width, getHeight(), 1.5f, TEMP_TOGGLE_COLOR);
         }
-        hoverAnimation.setState(isMouseIn(mouseX, mouseY));
-        final double middle = FontUtil.getMiddlePoint(height, FontUtil.getFontHeight());
-        FontUtil.drawStringShadow(cheat.getManifest().name(), x + (PADDING * 2) + (2.5 * hoverAnimation.getEasedFactor()),
-                y + 3 + middle,
+        final double middle = Fonts.getMiddlePoint(height, Fonts.POPPINS.getFontHeight());
+        Fonts.POPPINS.drawStringShadow(cheat.getManifest().name(),
+                x + (PADDING * 4) + (2.5 * hoverAnimation.getEasedFactor()),
+                y + middle,
                 -1);
 
-        if (cheat.getKey().getKeyCode() != KEY_NONE || listeningForKey)
-        {
-            String keyName = "NONE";
-            if (cheat.getKey().isUseMouse())
-            {
-                keyName = "MOUSE" + (cheat.getKey().getKeyCode() + 1);
-            } else
-            {
-                keyName = Keyboard.getKeyName(cheat.getKey().getKeyCode());
-            }
-            if (listeningForKey)
-            {
-                keyName = "Listening...";
-            }
-            final AWTFontRenderer smallFont = FontUtil.getFont("poppins", 12);
-            final double textWidth = smallFont.getStringWidth(keyName);
-            RenderUtil.roundedRectangle2D((x + width) - textWidth - 21, y + 3, textWidth + (PADDING * 4), 9, 5f, KEY_BACKGROUND_COLOR);
-            smallFont.drawStringShadow(keyName, (x + width) - textWidth - 20, y + 3, -1);
-        }
-        FontUtil.getFont("icon", 18).drawStringShadow("g", x + width - (PADDING * 16), y + 5 + middle, -1);
+        final double offset = renderThreeDots();
+        renderBindBox(offset, middle);
 
-        if (panelAnimation.getFactor() > 0.0)
+        if (offset > 0.0 && panelAnimation.getFactor() > 0.0)
         {
             RenderUtil.roundedRectangle2D(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 4f, BACKGROUND_COLOR);
 
@@ -110,6 +93,37 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
         }
     }
 
+    private double renderThreeDots()
+    {
+        if (cheat.getSettings().isEmpty())
+        {
+            return PADDING * 2;
+        }
+        final double threeDotsTextWidth = Fonts.TYPEFACE.getStringWidth("g");
+        Fonts.TYPEFACE.drawStringShadow("g",
+                x + width - (PADDING * 4) - threeDotsTextWidth,
+                y + Fonts.getMiddlePoint(height, 6), -1);
+        return threeDotsTextWidth + (PADDING * 6);
+    }
+
+    private void renderBindBox(final double offset, final double middlePoint)
+    {
+        final Key key = cheat.getKey();
+        if (key.isUnbound() && !listeningForKey)
+        {
+            return;
+        }
+        final String text = listeningForKey ? "Listening..." : key.toString();
+        final double boxWidth = Fonts.POPPINS_SMALL.getStringWidth(text) + (PADDING * 4);
+        final double boxHeight = Fonts.POPPINS_SMALL.getFontHeight() + (PADDING * 2);
+
+        final double boxPosX = (x + width) - boxWidth - offset;
+        final double boxPosY = y - (middlePoint - ((boxHeight - (PADDING * 2)) / 2.0));
+
+        RenderUtil.roundedRectangle2D(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, KEY_BACKGROUND_COLOR);
+        Fonts.POPPINS_SMALL.drawStringShadow(text, boxPosX + (PADDING * 2), boxPosY + PADDING, -1);
+    }
+
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
@@ -126,7 +140,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
                 if (listeningForKey)
                 {
                     listeningForKey = false;
-                    cheat.getKey().setKeyCode(KEY_NONE);
+                    cheat.getKey().setKeyCode(DEFAULT_UNBOUND_KEY);
                     cheat.getKey().setUseMouse(false);
                     return;
                 } else
@@ -174,7 +188,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
                 h += component.getHeight();
             }
         }
-        return super.getHeight() + PADDING
+        return (super.getHeight() + PADDING)
                 + (h * panelAnimation.getEasedFactor());
     }
 }

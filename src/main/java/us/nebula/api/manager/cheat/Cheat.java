@@ -14,6 +14,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 import static org.lwjgl.input.Keyboard.KEY_NONE;
+import static us.nebula.api.manager.key.Key.DEFAULT_UNBOUND_KEY;
 
 /**
  * @author xgraza
@@ -45,16 +46,12 @@ public class Cheat implements ISettingProvider, IJSONSerializable
                 {
                     if (state)
                     {
-                        Nebula.INSTANCE.getToastManager()
-                                        .info(hashCode(), "Cheat Manager", manifest.name() + " toggled on", 1500L);
                         onEnable();
                     } else
                     {
-                        Nebula.INSTANCE.getToastManager()
-                                .info(hashCode(), "Cheat Manager", manifest.name() + " toggled off", 1500L);
                         onDisable();
                     }
-                }, false, KEY_NONE));
+                }, false, DEFAULT_UNBOUND_KEY));
     }
 
     @Override
