@@ -127,6 +127,12 @@ public final class Setting<T> implements IJSONSerializable
         return scale;
     }
 
+    public Setting<T> setVisibility(final Supplier<Boolean> visibility)
+    {
+        this.visibility = visibility;
+        return this;
+    }
+
     public boolean isVisible()
     {
         return visibility.get();
