@@ -45,9 +45,13 @@ public class Cheat implements ISettingProvider, IJSONSerializable
                 {
                     if (state)
                     {
+                        Nebula.INSTANCE.getToastManager()
+                                        .info(hashCode(), "Cheat Manager", manifest.name() + " toggled on", 1500L);
                         onEnable();
                     } else
                     {
+                        Nebula.INSTANCE.getToastManager()
+                                .info(hashCode(), "Cheat Manager", manifest.name() + " toggled off", 1500L);
                         onDisable();
                     }
                 }, false, KEY_NONE));

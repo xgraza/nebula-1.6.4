@@ -11,6 +11,7 @@ import us.nebula.api.config.ConfigurationManager;
 import us.nebula.api.manager.cheat.CheatManager;
 import us.nebula.api.manager.key.KeyManager;
 import us.nebula.api.manager.overlay.OverlayManager;
+import us.nebula.api.manager.toast.ToastManager;
 import us.nebula.api.systemtray.NebulaSystemTray;
 import us.nebula.util.RenderUtil;
 
@@ -34,6 +35,7 @@ public enum Nebula
     private CommandManager commandManager;
     private OverlayManager overlayManager;
     private CheatManager cheatManager;
+    private ToastManager toastManager;
 
     public void init(final File gameDir) throws IOException
     {
@@ -57,6 +59,7 @@ public enum Nebula
         commandManager = new CommandManager();
         overlayManager = new OverlayManager();
         cheatManager = new CheatManager();
+        toastManager = new ToastManager();
 
         keyManager.init();
         commandManager.init();
@@ -64,6 +67,7 @@ public enum Nebula
         cheatManager.init();
         configurationManager.init();
         systemTray.init();
+        toastManager.init();
 
         RenderUtil.initShaders();
         FontUtil.initFonts();
@@ -117,6 +121,11 @@ public enum Nebula
     public CheatManager getCheatManager()
     {
         return cheatManager;
+    }
+
+    public ToastManager getToastManager()
+    {
+        return toastManager;
     }
 
     public NebulaSystemTray getSystemTray()

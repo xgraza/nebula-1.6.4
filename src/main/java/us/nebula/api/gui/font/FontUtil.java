@@ -52,6 +52,7 @@ public final class FontUtil
         FONT_RENDERER_MAP.put("poppins_18", defaultFontRenderer = new AWTFontRenderer(poppinsFont, 18));
         FONT_RENDERER_MAP.put("poppins_12", new AWTFontRenderer(poppinsFont, 12));
         FONT_RENDERER_MAP.put("icon_18", new AWTFontRenderer(loadFont("/assets/minecraft/nebula/font/Typeface.ttf"), 18));
+        FONT_RENDERER_MAP.put("icon2_18", new AWTFontRenderer(loadFont("/assets/minecraft/nebula/font/Iconface-Regular.ttf"), 18));
     }
 
     private static Font loadFont(final String location)
