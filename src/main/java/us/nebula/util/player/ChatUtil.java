@@ -14,7 +14,7 @@ public final class ChatUtil
 {
     private static final Minecraft MC = Minecraft.getMinecraft();
     private static final String CHAT_PREFIX = String.format(
-            "%s(nebula):%s ",
+            "%s(Nebula):%s ",
             EnumChatFormatting.LIGHT_PURPLE,
             EnumChatFormatting.RESET);
 
