@@ -94,7 +94,21 @@ public final class Key implements IJSONSerializable
     {
         if (useMouse)
         {
-            return "MOUSE" + (keyCode + 1);
+            switch (keyCode)
+            {
+                case 0:
+                    return "M-LEFT";
+                case 1:
+                    return "M-RIGHT";
+                case 2:
+                    return "M-MIDDLE";
+                case 3:
+                    return "M-DOWN";
+                case 4:
+                    return "M-FORWARD";
+                default:
+                    return "MB-" + (keyCode + 1);
+            }
         }
         return Keyboard.getKeyName(keyCode);
     }
