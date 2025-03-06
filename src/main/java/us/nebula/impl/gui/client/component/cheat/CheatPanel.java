@@ -1,4 +1,4 @@
-package us.nebula.impl.gui.cheat.component;
+package us.nebula.impl.gui.client.component.cheat;
 
 import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
@@ -8,9 +8,9 @@ import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.key.Key;
 import us.nebula.api.value.Setting;
-import us.nebula.impl.gui.cheat.component.setting.BooleanSettingComponent;
-import us.nebula.impl.gui.cheat.component.setting.EnumSettingComponent;
-import us.nebula.impl.gui.cheat.component.setting.NumberSettingComponent;
+import us.nebula.impl.gui.client.component.cheat.value.BooleanSettingComponent;
+import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
+import us.nebula.impl.gui.client.component.cheat.value.NumberSettingComponent;
 import us.nebula.util.render.RenderUtil;
 
 import java.awt.Color;
@@ -78,12 +78,12 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
         {
             RenderUtil.roundedRectangle2D(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 4f, BACKGROUND_COLOR);
 
-            double posY = y + height;
+            double posY = y + height + PADDING;
             for (final GUIComponent component : getChildrenComponentList())
             {
-                component.setX(x + PADDING);
+                component.setX(x + (PADDING * 2));
                 component.setY(posY);
-                component.setWidth(width - (PADDING * 2));
+                component.setWidth(width - (PADDING * 4));
                 component.setHeight(height);
 
                 component.render(mouseX, mouseY, partialTicks);
@@ -188,7 +188,6 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
                 h += component.getHeight();
             }
         }
-        return (super.getHeight() + PADDING)
-                + (h * panelAnimation.getEasedFactor());
+        return height + ((h + (PADDING * 3)) * panelAnimation.getEasedFactor());
     }
 }

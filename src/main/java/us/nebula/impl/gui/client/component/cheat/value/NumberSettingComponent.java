@@ -1,4 +1,4 @@
-package us.nebula.impl.gui.cheat.component.setting;
+package us.nebula.impl.gui.client.component.cheat.value;
 
 import org.lwjgl.input.Mouse;
 import us.nebula.api.gui.GUIComponent;

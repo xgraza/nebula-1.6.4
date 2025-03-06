@@ -15,6 +15,11 @@ public abstract class GUIComponent
 
     public abstract void render(final int mouseX, final int mouseY, final float partialTicks);
 
+    public void init()
+    {
+
+    }
+
     protected boolean isMouseIn(final int mouseX, final int mouseY)
     {
         return x <= mouseX && x + width >= mouseX && y <= mouseY && y + height >= mouseY;

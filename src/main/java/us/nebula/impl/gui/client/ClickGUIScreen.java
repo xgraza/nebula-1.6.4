@@ -1,8 +1,10 @@
-package us.nebula.impl.gui.cheat;
+package us.nebula.impl.gui.client;
 
 import net.minecraft.client.gui.GuiScreen;
 import us.nebula.api.manager.cheat.CheatCategory;
-import us.nebula.impl.gui.cheat.component.CheatCategoryPanel;
+import us.nebula.impl.gui.client.component.CategoryPanel;
+import us.nebula.impl.gui.client.component.cheat.CheatCategoryPanel;
+import us.nebula.impl.gui.client.component.config.ConfigCategoryPanel;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
  */
 public final class ClickGUIScreen extends GuiScreen
 {
-    private final List<CheatCategoryPanel> categoryPanels = new LinkedList<>();
+    private final List<CategoryPanel> categoryPanels = new LinkedList<>();
 
     public ClickGUIScreen()
     {
@@ -26,12 +28,31 @@ public final class ClickGUIScreen extends GuiScreen
             posX += panel.getWidth() + 5;
             categoryPanels.add(panel);
         }
+        addConfigPanel(posX);
+    }
+
+    private void addConfigPanel(final double posX)
+    {
+        final ConfigCategoryPanel panel = new ConfigCategoryPanel();
+        panel.setX(posX);
+        panel.setY(26.0);
+        categoryPanels.add(panel);
+    }
+
+    @Override
+    public void initGui()
+    {
+        super.initGui();
+        for (final CategoryPanel panel : categoryPanels)
+        {
+            panel.init();
+        }
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        for (final CheatCategoryPanel panel : categoryPanels)
+        for (final CategoryPanel panel : categoryPanels)
         {
             panel.render(mouseX, mouseY, partialTicks);
         }
@@ -40,7 +61,7 @@ public final class ClickGUIScreen extends GuiScreen
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        for (final CheatCategoryPanel panel : categoryPanels)
+        for (final CategoryPanel panel : categoryPanels)
         {
             panel.mouseClicked(mouseX, mouseY, mouseButton);
         }
@@ -50,7 +71,7 @@ public final class ClickGUIScreen extends GuiScreen
     protected void keyTyped(char typedChar, int keyCode)
     {
         super.keyTyped(typedChar, keyCode);
-        for (final CheatCategoryPanel panel : categoryPanels)
+        for (final CategoryPanel panel : categoryPanels)
         {
             panel.keyTyped(typedChar, keyCode);
         }

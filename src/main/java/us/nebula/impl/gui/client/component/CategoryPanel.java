@@ -1,47 +1,37 @@
-package us.nebula.impl.gui.cheat.component;
+package us.nebula.impl.gui.client.component;
 
-import us.nebula.Nebula;
 import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
 import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
 import us.nebula.api.gui.font.Fonts;
-import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.util.render.RenderUtil;
 
 import java.awt.Color;
 
 /**
  * @author xgraza
- * @since 03/01/25
+ * @since 03/06/25
  */
-public final class CheatCategoryPanel extends GUIComponent implements IGUIInputListener
+public class CategoryPanel extends GUIComponent implements IGUIInputListener
 {
-    private static final double PADDING = 2.0;
-    private static final double PANEL_HEADER_HEIGHT = 16.0;
-    private static final int PANEL_HEADER_COLOR = new Color(33, 33, 33).getRGB();
-    private static final int PANEL_BACKGROUND_COLOR = new Color(48, 48, 48).getRGB();
+    protected static final double PADDING = 2.0;
+    protected static final double PANEL_HEADER_HEIGHT = 16.0;
+    protected static final double PANEL_WIDTH = 130.0;
 
-    private final Animation animation = new Animation(
+    protected static final int PANEL_HEADER_COLOR = new Color(33, 33, 33).getRGB();
+    protected static final int PANEL_BACKGROUND_COLOR = new Color(48, 48, 48).getRGB();
+
+    protected final Animation animation = new Animation(
             AnimationEasing.EXPO_IN_OUT, 300.0);
+    protected final String name;
 
-    private final String categoryName, categoryIcon;
-
-    public CheatCategoryPanel(final CheatCategory category)
+    public CategoryPanel(final String name)
     {
-        Nebula.INSTANCE.getCheatManager().getAll()
-                .stream()
-                .filter((cheat) -> cheat.getManifest().category().equals(category))
-                .forEach((cheat) ->
-                {
-                    childrenComponentList.add(new CheatPanel(cheat));
-                });
+        this.name = name;
         animation.setState(true);
-        categoryName = category.toString();
-        categoryIcon = category.getIcon();
-
         setHeight(PANEL_HEADER_HEIGHT);
-        setWidth(125.0);
+        setWidth(PANEL_WIDTH);
     }
 
     @Override
@@ -52,8 +42,7 @@ public final class CheatCategoryPanel extends GUIComponent implements IGUIInputL
         RenderUtil.roundedRectangle2D(x, y, width, getHeight(), 6, PANEL_HEADER_COLOR);
         RenderUtil.roundedRectangle2D(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 2.8f, PANEL_BACKGROUND_COLOR);
 
-        Fonts.TYPEFACE.drawStringShadow(categoryIcon, x + PADDING, y + 5, 0xAAAAAA);
-        Fonts.POPPINS.drawStringShadow(categoryName, x + 12 + PADDING, y + 2, -1);
+        drawHeaderText();
 
         if (animation.getFactor() > 0.0)
         {
@@ -72,6 +61,11 @@ public final class CheatCategoryPanel extends GUIComponent implements IGUIInputL
         }
 
         RenderUtil.endScissor();
+    }
+
+    protected void drawHeaderText()
+    {
+        Fonts.POPPINS.drawStringShadow(name, x + 12 + PADDING, y + 2, -1);
     }
 
     @Override
