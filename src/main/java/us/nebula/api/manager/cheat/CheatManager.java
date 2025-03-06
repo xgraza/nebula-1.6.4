@@ -2,6 +2,7 @@ package us.nebula.api.manager.cheat;
 
 import us.nebula.Nebula;
 import us.nebula.api.manager.ITypedManager;
+import us.nebula.impl.cheat.combat.CriticalsCheat;
 import us.nebula.impl.cheat.combat.KillAuraCheat;
 import us.nebula.impl.cheat.combat.RegenCheat;
 import us.nebula.impl.cheat.combat.VelocityCheat;
@@ -31,6 +32,7 @@ public final class CheatManager implements ITypedManager<Cheat>
     @Override
     public void init()
     {
+        addCheat(new CriticalsCheat());
         addCheat(new KillAuraCheat());
         addCheat(new RegenCheat());
         addCheat(new VelocityCheat());
