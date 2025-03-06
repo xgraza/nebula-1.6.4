@@ -34,7 +34,7 @@ public final class HUDCheat extends Cheat
     @Subscribe
     private final EventListener<EventRender2D> render2DEventListener = event ->
     {
-        if (MC.currentScreen != null || MC.gameSettings.showDebugInfo)
+        if (MC.gameSettings.showDebugInfo)
         {
             return;
         }
