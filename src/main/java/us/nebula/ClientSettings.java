@@ -1,5 +1,7 @@
 package us.nebula;
 
+import us.nebula.client.BuildConfig;
+
 /**
  * @author xgraza
  * @since 03/05/25
@@ -7,6 +9,12 @@ package us.nebula;
  */
 public final class ClientSettings
 {
+    public static final String VERSION = String.format("%s+%s/%s-%s",
+            BuildConfig.VERSION,
+            BuildConfig.BUILD,
+            BuildConfig.BRANCH,
+            BuildConfig.HASH);
+
     /**
      * If features should use verbose logging
      */

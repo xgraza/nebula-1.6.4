@@ -15,6 +15,8 @@ public abstract class Overlay
     private final OverlayManifest manifest;
     private final Setting<Boolean> stateSetting;
 
+    private boolean fixed;
+
     public Overlay()
     {
         manifest = getClass().getDeclaredAnnotation(OverlayManifest.class);
@@ -23,6 +25,7 @@ public abstract class Overlay
             throw new RuntimeException(
                     "@OverlayManifest needs to be annotated on top of an InterfaceOverlay class");
         }
+        fixed = getClass().isAnnotationPresent(StaticPosition.class);
         stateSetting = new Setting<>(manifest.value(), false)
                 .onValueChange((o, v) ->
                 {
@@ -57,5 +60,10 @@ public abstract class Overlay
     public Setting<Boolean> getStateSetting()
     {
         return stateSetting;
+    }
+
+    public boolean isFixed()
+    {
+        return fixed;
     }
 }
