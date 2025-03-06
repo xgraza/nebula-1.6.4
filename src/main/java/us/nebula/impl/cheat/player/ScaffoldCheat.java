@@ -24,7 +24,10 @@ import us.nebula.impl.event.network.EventPacket;
         category = CheatCategory.PLAYER)
 public final class ScaffoldCheat extends Cheat
 {
-    private final Setting<Boolean> towerSetting = new Setting<>("Tower", true);
+    private final Setting<Double> extend = new Setting<>(
+            "Extend", 0.0, 0.0, 6.0, 0.5);
+    private final Setting<Boolean> towerSetting = new Setting<>(
+            "Tower", true);
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
@@ -69,21 +72,31 @@ public final class ScaffoldCheat extends Cheat
         MC.thePlayer.inventory.currentItem = prevSlot;
     };
 
-    @Subscribe
-    private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
-    {
-//        if (event.getPacket() instanceof S08PacketPlayerPosLook)
-//        {
-//            ChatUtil.send("Elapsed time: %.2f", timer.getTimeElapsedMS());
-//            //timer.resetTime();
-//        }
-    };
-
     private BlockData getBlockData()
     {
-        final BlockPos pos = new BlockPos(MathHelper.floor_double(MC.thePlayer.posX),
+        BlockPos pos = new BlockPos(MathHelper.floor_double(MC.thePlayer.posX),
                 MathHelper.floor_double(MC.thePlayer.boundingBox.minY) - 1,
                 MathHelper.floor_double(MC.thePlayer.posZ));
+
+        if (extend.getValue() > 0.0 && !MC.gameSettings.keyBindJump.pressed)
+        {
+            final float yaw = MC.thePlayer.rotationYaw * 0.017453292f;
+
+            double distance = 0.0;
+            while (distance <= extend.getValue())
+            {
+                distance += extend.getScale().doubleValue();
+                final BlockPos extendedPos = pos.add(new BlockPos(
+                        (int) (-Math.sin(yaw) * distance),
+                        0, (int) (Math.cos(yaw) * distance)));
+                if (isReplaceable(extendedPos))
+                {
+                    pos = extendedPos;
+                    break;
+                }
+            }
+        }
+
         for (final EnumFacing facing : EnumFacing.values())
         {
             final BlockPos neighbor = offset(pos, facing);
