@@ -14,6 +14,7 @@ import us.nebula.impl.cheat.player.KeyPearlCheat;
 import us.nebula.impl.cheat.player.ScaffoldCheat;
 import us.nebula.impl.cheat.render.*;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -25,9 +26,6 @@ public final class CheatManager implements ITypedManager<Cheat>
 {
     private final Map<Class<? extends Cheat>, Cheat> cheatInstanceMap = new LinkedHashMap<>();
     private final List<Cheat> cheatInstanceList = new LinkedList<>();
-
-    private final Map<String, CheatConfig> cachedConfigMap = new HashMap<>();
-    private CheatConfig defaultConfig;
 
     @Override
     public void init()
@@ -57,9 +55,13 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new InfiniteViewerCheat());
         addCheat(new TrajectoriesCheat());
 
-        defaultConfig = new CheatConfig(this, "default");
-        Nebula.INSTANCE.getConfigurationManager().addConfiguration(defaultConfig);
-
+        try
+        {
+            CheatConfig.loadConfig("default");
+        } catch (final IOException e)
+        {
+            Nebula.INSTANCE.getLogger().error(e);
+        }
         Nebula.INSTANCE.getLogger().info("Registered {} cheats", cheatInstanceList.size());
     }
 
@@ -99,10 +101,5 @@ public final class CheatManager implements ITypedManager<Cheat>
     public List<Cheat> getAll()
     {
         return cheatInstanceList;
-    }
-
-    public CheatConfig getDefaultConfig()
-    {
-        return defaultConfig;
     }
 }

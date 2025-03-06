@@ -11,29 +11,30 @@ import java.awt.Color;
  * @author xgraza
  * @since 03/06/25
  */
-public abstract class ConfigTextButton extends GUIComponent implements IGUIInputListener
+public class ConfigTextButton extends GUIComponent implements IGUIInputListener
 {
     private static final int BACKGROUND_COLOR = new Color(33, 33, 33).getRGB();
     private static final double PADDING = 1.0;
 
-    private final ConfigPanel parent;
     private final String text;
 
-    public ConfigTextButton(final ConfigPanel parent, final String text)
+    public ConfigTextButton(final String text)
     {
-        this.parent = parent;
         this.text = text;
 
         setWidth(Fonts.POPPINS_SMALL.getStringWidth(text) + (PADDING * 4));
         setHeight(Fonts.POPPINS_SMALL.getFontHeight() + (PADDING * 2));
     }
 
-    public abstract void onButtonPress();
+    public void onButtonPress()
+    {
+
+    }
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        RenderUtil.roundedRectangle2D(x, y, getWidth(), getHeight(), 3.5f, new Color(33, 33, 33).getRGB());
+        RenderUtil.roundedRectangle2D(x, y, getWidth(), getHeight(), 3.5f, BACKGROUND_COLOR);
         Fonts.POPPINS_SMALL.drawStringShadow(text, x + (PADDING * 2), y + Fonts.getMiddlePoint(getHeight(), Fonts.POPPINS_SMALL.getFontHeight()), -1);
     }
 

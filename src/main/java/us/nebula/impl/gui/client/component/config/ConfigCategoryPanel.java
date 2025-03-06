@@ -15,9 +15,19 @@ public final class ConfigCategoryPanel extends CategoryPanel
     private static final File CONFIGS_DIR = new File(
             Nebula.INSTANCE.getNebulaRootDir(), "configs");
 
+    private final ConfigTextButton button;
+
     public ConfigCategoryPanel()
     {
         super("Configs");
+        button = new ConfigTextButton("New Config")
+        {
+            @Override
+            public void onButtonPress()
+            {
+                onCreateConfig();
+            }
+        };
     }
 
     @Override
@@ -35,8 +45,25 @@ public final class ConfigCategoryPanel extends CategoryPanel
             {
                 continue;
             }
-            childrenComponentList.add(new ConfigPanel(file));
+            childrenComponentList.add(new ConfigPanel(this, file));
         }
+    }
+
+    @Override
+    public void render(int mouseX, int mouseY, float partialTicks)
+    {
+        super.render(mouseX, mouseY, partialTicks);
+
+        button.setX(x + width - (PADDING * 2) - button.getWidth());
+        button.setY(y + (PADDING * 2));
+        button.render(mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton)
+    {
+        button.mouseClicked(mouseX, mouseY, mouseButton);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
@@ -44,5 +71,13 @@ public final class ConfigCategoryPanel extends CategoryPanel
     {
         Fonts.TYPEFACE.drawStringShadow("C", x + PADDING, y + 5, 0xAAAAAA);
         Fonts.POPPINS.drawStringShadow(name, x + 12 + PADDING, y + 2, -1);
+    }
+
+    private void onCreateConfig()
+    {
+        final ConfigPanel panel = new ConfigPanel(
+                ConfigCategoryPanel.this, null);
+        panel.setEditing(true);
+        childrenComponentList.add(panel);
     }
 }

@@ -1,6 +1,7 @@
 package us.nebula.api.config;
 
 import us.nebula.Nebula;
+import us.nebula.api.manager.cheat.CheatConfig;
 import us.nebula.util.io.FileUtil;
 
 import java.io.File;
@@ -23,6 +24,14 @@ public final class ConfigurationSaveThread extends Thread
     @Override
     public void run()
     {
+        try
+        {
+            CheatConfig.saveConfig("default");
+            Nebula.INSTANCE.getLogger().info("Saved cheat config");
+        } catch (final IOException e)
+        {
+            Nebula.INSTANCE.getLogger().error(e);
+        }
         for (final IConfiguration configuration : manager.getConfigList())
         {
             final File file = configuration.getFile();

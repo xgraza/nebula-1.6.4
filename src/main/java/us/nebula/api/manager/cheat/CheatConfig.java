@@ -3,18 +3,18 @@ package us.nebula.api.manager.cheat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import us.nebula.Nebula;
-import us.nebula.api.config.IConfiguration;
 import us.nebula.util.io.FileUtil;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author xgraza
  * @since 03/03/25
  */
-public final class CheatConfig implements IConfiguration
+public final class CheatConfig
 {
-    private static final File CHEAT_CONFIG_DIR = new File(
+    public static final File CHEAT_CONFIG_DIR = new File(
             Nebula.INSTANCE.getNebulaRootDir(), "configs");
 
     static
@@ -29,49 +29,46 @@ public final class CheatConfig implements IConfiguration
         }
     }
 
-    private final CheatManager manager;
-    private final String configName;
-
-    public CheatConfig(final CheatManager manager, final String configName)
+    public static void saveConfig(final String configName) throws IOException
     {
-        this.manager = manager;
-        this.configName = configName;
-    }
-
-    @Override
-    public String save()
-    {
+        final File file = new File(CHEAT_CONFIG_DIR, configName + ".cfg");
         final JsonObject object = new JsonObject();
-        for (final Cheat cheat : manager.getAll())
+        for (final Cheat cheat : Nebula.INSTANCE.getCheatManager().getAll())
         {
             object.add(cheat.getManifest().name(), cheat.toJSON());
         }
-        return FileUtil.GSON.toJson(object);
+        final String data = FileUtil.GSON.toJson(object);
+        FileUtil.save(file, data);
     }
 
-    @Override
-    public void load(final String data)
+    public static void loadConfig(final String configName) throws IOException
     {
-        final JsonElement element = FileUtil.JSON_PARSER.parse(data);
-        if (element == null || !element.isJsonObject())
+        final File file = new File(CHEAT_CONFIG_DIR, configName + ".cfg");
+        if (!file.exists())
         {
-            return;
-        }
-        final JsonObject object = element.getAsJsonObject();
-        for (final Cheat cheat : manager.getAll())
-        {
-            final String cheatName = cheat.getManifest().name();
-            if (!object.has(cheatName))
+            if (!file.createNewFile())
             {
-                continue;
+                throw new RuntimeException("failed to create config file");
             }
-            cheat.fromJSON(object.get(cheatName));
         }
-    }
-
-    @Override
-    public File getFile()
-    {
-        return new File(CHEAT_CONFIG_DIR, configName + ".cfg");
+        final String data = FileUtil.read(file);
+        if (!data.isEmpty())
+        {
+            final JsonElement element = FileUtil.JSON_PARSER.parse(data);
+            if (element == null || !element.isJsonObject())
+            {
+                return;
+            }
+            final JsonObject object = element.getAsJsonObject();
+            for (final Cheat cheat : Nebula.INSTANCE.getCheatManager().getAll())
+            {
+                final String cheatName = cheat.getManifest().name();
+                if (!object.has(cheatName))
+                {
+                    continue;
+                }
+                cheat.fromJSON(object.get(cheatName));
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ public abstract class GUIComponent
 
     }
 
-    protected boolean isMouseIn(final int mouseX, final int mouseY)
+    public boolean isMouseIn(final int mouseX, final int mouseY)
     {
         return x <= mouseX && x + width >= mouseX && y <= mouseY && y + height >= mouseY;
     }

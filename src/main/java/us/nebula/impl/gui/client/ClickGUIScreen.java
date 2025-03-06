@@ -1,6 +1,7 @@
 package us.nebula.impl.gui.client;
 
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.openal.AL;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.impl.gui.client.component.CategoryPanel;
 import us.nebula.impl.gui.client.component.cheat.CheatCategoryPanel;
@@ -15,6 +16,8 @@ import java.util.List;
  */
 public final class ClickGUIScreen extends GuiScreen
 {
+    public static boolean ALLOW_EXIT_ON_ESC = true;
+
     private final List<CategoryPanel> categoryPanels = new LinkedList<>();
 
     public ClickGUIScreen()
@@ -70,7 +73,10 @@ public final class ClickGUIScreen extends GuiScreen
     @Override
     protected void keyTyped(char typedChar, int keyCode)
     {
-        super.keyTyped(typedChar, keyCode);
+        if (ALLOW_EXIT_ON_ESC)
+        {
+            super.keyTyped(typedChar, keyCode);
+        }
         for (final CategoryPanel panel : categoryPanels)
         {
             panel.keyTyped(typedChar, keyCode);
