@@ -74,6 +74,7 @@ import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.render.EventCameraDistance;
 import us.nebula.impl.event.render.EventGamma;
 import us.nebula.impl.event.render.EventRender3D;
 import us.nebula.util.render.ProjectionUtil;
@@ -773,6 +774,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
                         }
                     }
                 }
+
+                final EventCameraDistance event = new EventCameraDistance(var271);
+                EventBus.dispatch(event);
+                var271 = event.getCameraDistance();
 
                 if (this.mc.gameSettings.thirdPersonView == 2)
                 {
