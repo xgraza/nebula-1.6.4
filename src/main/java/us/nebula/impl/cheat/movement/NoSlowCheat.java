@@ -8,6 +8,8 @@ import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
+import us.nebula.impl.cheat.combat.KillAuraCheat;
+import us.nebula.impl.event.game.EventPostUpdate;
 import us.nebula.impl.event.player.EventItemSlowdown;
 import us.nebula.impl.event.player.EventMoveUpdate;
 
@@ -23,20 +25,35 @@ public final class NoSlowCheat extends Cheat
     private final Setting<Boolean> ncpBypassSetting = new Setting<>(
             "NCP Bypass", false);
 
+    private boolean bypass;
+
+    @Override
+    protected void onDisable()
+    {
+        super.onDisable();
+        bypass = false;
+    }
+
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (ncpBypassSetting.getValue() && MC.thePlayer.isBlocking())
+        if (ncpBypassSetting.getValue() && isBlocking() && event.isOnGround())
         {
-            if (MC.thePlayer.ticksExisted % 2 == 0)
-            {
-                MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
-                        5, 0, 0, 0, 255));
-            } else
-            {
-                MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
-                        MC.thePlayer.getHeldItem()));
-            }
+            bypass = true;
+            MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+                    5, 0, 0, 0, 255));
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventPostUpdate> postUpdateEventListener = event ->
+    {
+        if (bypass)
+        {
+            bypass = false;
+            MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+                    -1, -1, -1, 255,
+                    MC.thePlayer.getHeldItem(), 0.0F, 0.0F, 0.0F));
         }
     };
 
@@ -46,4 +63,14 @@ public final class NoSlowCheat extends Cheat
         event.getInput().moveForward *= 5.0f;
         event.getInput().moveStrafe *= 5.0f;
     };
+
+    private boolean isBlocking()
+    {
+        if (KillAuraCheat.INSTANCE.isToggled()
+                && KillAuraCheat.INSTANCE.isAttacking())
+        {
+            return KillAuraCheat.INSTANCE.isBlocking();
+        }
+        return MC.thePlayer.isBlocking();
+    }
 }

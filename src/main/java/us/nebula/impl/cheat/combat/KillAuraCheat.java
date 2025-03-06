@@ -16,6 +16,7 @@ import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
+import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
@@ -38,6 +39,9 @@ import static org.lwjgl.opengl.GL11.*;
         category = CheatCategory.COMBAT)
 public final class KillAuraCheat extends Cheat
 {
+    @CheatInstance
+    public static KillAuraCheat INSTANCE;
+
     private final Setting<Mode> modeSetting = new Setting<>(
             "Mode", Mode.SINGLE);
     private final Setting<Priority> prioritySetting = new Setting<>(
@@ -313,6 +317,16 @@ public final class KillAuraCheat extends Cheat
         }
         // TODO: hostile & passive entities
         return true;
+    }
+
+    public boolean isBlocking()
+    {
+        return blocking;
+    }
+
+    public boolean isAttacking()
+    {
+        return target != null;
     }
 
     private enum Mode

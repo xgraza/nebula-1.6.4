@@ -23,6 +23,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.game.EventPostUpdate;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.player.EventMoveUpdate;
 
@@ -173,6 +174,8 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 //                    }
 //                }
             }
+
+            EventBus.dispatch(new EventPostUpdate());
         }
     }
 
