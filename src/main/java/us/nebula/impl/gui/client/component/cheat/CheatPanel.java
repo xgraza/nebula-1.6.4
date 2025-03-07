@@ -157,6 +157,11 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
             cheat.getKey().setKeyCode(mouseButton);
             return;
         }
+        // do not send listeners if not open
+        if (!panelAnimation.getState())
+        {
+           return;
+        }
         for (final GUIComponent component : getChildrenComponentList())
         {
             if (component instanceof IGUIInputListener)
