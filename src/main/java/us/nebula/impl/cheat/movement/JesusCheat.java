@@ -43,7 +43,7 @@ public final class JesusCheat extends Cheat
 
         if (MC.thePlayer.isInWater())
         {
-            MC.thePlayer.motionY = 0.13;
+            MC.thePlayer.motionY = 0.11;
             attemptExit = true;
         } else
         {
@@ -53,7 +53,6 @@ public final class JesusCheat extends Cheat
                 attemptExit = false;
             }
         }
-
     };
 
     @Subscribe
