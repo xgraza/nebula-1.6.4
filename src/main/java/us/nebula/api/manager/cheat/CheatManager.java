@@ -8,10 +8,7 @@ import us.nebula.impl.cheat.combat.RegenCheat;
 import us.nebula.impl.cheat.combat.VelocityCheat;
 import us.nebula.impl.cheat.exploit.*;
 import us.nebula.impl.cheat.movement.*;
-import us.nebula.impl.cheat.player.AutoRespawnCheat;
-import us.nebula.impl.cheat.player.InfiniteMoverCheat;
-import us.nebula.impl.cheat.player.KeyPearlCheat;
-import us.nebula.impl.cheat.player.ScaffoldCheat;
+import us.nebula.impl.cheat.player.*;
 import us.nebula.impl.cheat.render.*;
 
 import java.io.IOException;
@@ -45,6 +42,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new NoSlowCheat());
         addCheat(new SprintCheat());
         addCheat(new AutoRespawnCheat());
+        addCheat(new DiscordRPCCheat());
         addCheat(new InfiniteMoverCheat());
         addCheat(new KeyPearlCheat());
         addCheat(new ScaffoldCheat());

@@ -17,7 +17,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
 {
     protected static final double PADDING = 2.0;
     protected static final double PANEL_HEADER_HEIGHT = 16.0;
-    protected static final double PANEL_WIDTH = 130.0;
+    protected static final double PANEL_WIDTH = 120.0;
 
     protected static final int PANEL_HEADER_COLOR = new Color(33, 33, 33).getRGB();
     protected static final int PANEL_BACKGROUND_COLOR = new Color(48, 48, 48).getRGB();
