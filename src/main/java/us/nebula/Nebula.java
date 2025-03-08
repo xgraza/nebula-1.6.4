@@ -13,6 +13,7 @@ import us.nebula.api.manager.key.KeyManager;
 import us.nebula.api.manager.overlay.OverlayManager;
 import us.nebula.api.manager.toast.ToastManager;
 import us.nebula.api.systemtray.NebulaSystemTray;
+import us.nebula.client.BuildConfig;
 import us.nebula.util.render.RenderUtil;
 
 import java.io.File;
@@ -39,6 +40,7 @@ public enum Nebula
 
     public void init(final File gameDir) throws IOException
     {
+        logBuildInfo();
         setTitle("Setting up Nebula...");
 
         nebulaRootDir = new File(gameDir, "nebula-client");
@@ -86,6 +88,12 @@ public enum Nebula
         {
             Minecraft.func_147105_a(title);
         }
+    }
+
+    void logBuildInfo()
+    {
+        logger.info("Version: {}", ClientSettings.VERSION);
+        logger.info("Build Time: " + BuildConfig.BUILD_TIME);
     }
 
     public Logger getLogger()
