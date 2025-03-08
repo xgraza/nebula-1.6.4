@@ -21,6 +21,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
+import us.nebula.impl.cheat.render.XRayCheat;
 
 public class WorldRenderer
 {
@@ -348,6 +349,12 @@ public class WorldRenderer
         GL11.glNewList(this.glRenderList + renderpass, GL11.GL_COMPILE);
         this.tessellator.setRenderingChunk(true);
 
+        if (XRayCheat.INSTANCE.isToggled() && XRayCheat.INSTANCE.isWireframe())
+        {
+            GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+            GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+        }
+
         if (Config.isFastRender())
         {
             Reflector.callVoid(Reflector.ForgeHooksClient_onPreRenderWorld, new Object[] {this, Integer.valueOf(renderpass)});
@@ -378,6 +385,11 @@ public class WorldRenderer
         this.bytesDrawn += this.tessellator.draw();
         Reflector.callVoid(Reflector.ForgeHooksClient_onPostRenderWorld, new Object[] {this, Integer.valueOf(renderpass)});
         this.tessellator.setRenderingChunk(false);
+
+        if (XRayCheat.INSTANCE.isToggled() && XRayCheat.INSTANCE.isWireframe())
+        {
+            GL11.glPopAttrib();
+        }
 
         if (!Config.isFastRender())
         {

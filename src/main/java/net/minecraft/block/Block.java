@@ -29,6 +29,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.render.XRayCheat;
 import us.nebula.impl.event.world.EventModifyBoundBox;
 
 public class Block
@@ -188,6 +189,10 @@ public class Block
 
     public int getLightValue()
     {
+        if (XRayCheat.INSTANCE.isToggled())
+        {
+            return 100000;
+        }
         return this.lightValue;
     }
 
@@ -576,7 +581,20 @@ public class Block
 
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
-        return p_149646_5_ == 0 && this.minY > 0.0D ? true : (p_149646_5_ == 1 && this.maxY < 1.0D ? true : (p_149646_5_ == 2 && this.minZ > 0.0D ? true : (p_149646_5_ == 3 && this.maxZ < 1.0D ? true : (p_149646_5_ == 4 && this.minX > 0.0D ? true : (p_149646_5_ == 5 && this.maxX < 1.0D ? true : !p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_).isOpaqueCube())))));
+        if (XRayCheat.INSTANCE.isToggled())
+        {
+            if (XRayCheat.INSTANCE.isTransparent() || XRayCheat.INSTANCE.isWireframe())
+            {
+                if (XRayCheat.XRAY_WHITELIST.contains(this))
+                {
+                    return true;
+                }
+            } else
+            {
+                return XRayCheat.XRAY_WHITELIST.contains(this);
+            }
+        }
+        return p_149646_5_ == 0 && this.minY > 0.0D || (p_149646_5_ == 1 && this.maxY < 1.0D || (p_149646_5_ == 2 && this.minZ > 0.0D || (p_149646_5_ == 3 && this.maxZ < 1.0D || (p_149646_5_ == 4 && this.minX > 0.0D || (p_149646_5_ == 5 && this.maxX < 1.0D || !p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_).isOpaqueCube())))));
     }
 
     public boolean isBlockSolid(IBlockAccess p_149747_1_, int p_149747_2_, int p_149747_3_, int p_149747_4_, int p_149747_5_)
@@ -925,6 +943,10 @@ public class Block
      */
     public int getRenderBlockPass()
     {
+        if (XRayCheat.INSTANCE.isToggled() && XRayCheat.INSTANCE.isTransparent())
+        {
+            return XRayCheat.XRAY_WHITELIST.contains(this) ? 0 : 1;
+        }
         return 0;
     }
 

@@ -51,6 +51,7 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.render.XRayCheat;
 import us.nebula.impl.event.player.EventPushWater;
 
 public abstract class World implements IBlockAccess

@@ -54,6 +54,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new HUDCheat());
         addCheat(new InfiniteViewerCheat());
         addCheat(new TrajectoriesCheat());
+        addCheat(new XRayCheat());
 
         try
         {
