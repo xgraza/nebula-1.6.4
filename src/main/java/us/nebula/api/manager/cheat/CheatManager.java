@@ -44,6 +44,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AntiBlockCheat());
         addCheat(new AutoRespawnCheat());
         addCheat(new DiscordRPCCheat());
+        addCheat(new FastPlaceCheat());
         addCheat(new InfiniteMoverCheat());
         addCheat(new KeyPearlCheat());
         addCheat(new ScaffoldCheat());
