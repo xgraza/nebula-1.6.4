@@ -1,6 +1,5 @@
 plugins {
-    id 'java'
-    id 'de.fuerstenau.buildconfig' version "${build_config_version}"
+    id 'com.github.gmazzo.buildconfig' version "${build_config_version}"
     id 'application'
 }
 
@@ -15,12 +14,15 @@ println(' Java: ' + System.getProperty('java.version') +
         ' Arch: ' + System.getProperty('os.arch'))
 
 buildConfig {
-    buildConfigField "String", "HASH", "${execute("git rev-parse --short HEAD")}"
-    buildConfigField "String", "BRANCH", "${execute("git branch --show-current")}"
-    buildConfigField "String", "VERSION", "${project.version}"
-    buildConfigField "int", "BUILD", "${project.build}"
+    buildConfigField(String, "HASH", "${execute("git rev-parse --short HEAD")}")
+    buildConfigField(String, "BRANCH", "${execute("git branch --show-current")}")
+    buildConfigField(String, "VERSION", project.version.toString())
+    buildConfigField(String, "BUILD", project.build_number.toString())
+    buildConfigField(String, "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
 
     packageName "us.nebula.client"
+    useJavaOutput()
+    generateAtSync = true
 }
 
 application {
@@ -68,6 +70,13 @@ def execute(String cmd) {
 
 jar {
     from {
-        configurations.library.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.library.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
     }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.withType(JavaCompile).configureEach {
+    dependsOn(generateBuildConfig)
 }
