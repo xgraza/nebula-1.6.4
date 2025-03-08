@@ -13,7 +13,6 @@ import us.nebula.api.manager.key.KeyManager;
 import us.nebula.api.manager.overlay.OverlayManager;
 import us.nebula.api.manager.toast.ToastManager;
 import us.nebula.api.systemtray.NebulaSystemTray;
-import us.nebula.client.BuildConfig;
 import us.nebula.util.render.RenderUtil;
 
 import java.io.File;

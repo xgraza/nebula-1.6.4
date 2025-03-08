@@ -20,7 +20,7 @@ buildConfig {
     buildConfigField(String, "BUILD", project.build_number.toString())
     buildConfigField(String, "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
 
-    packageName "us.nebula.client"
+    packageName "us.nebula"
     useJavaOutput()
     generateAtSync = true
 }
