@@ -56,7 +56,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
 
                 component.render(mouseX, mouseY, partialTicks);
 
-                posY += component.getHeight();
+                posY += component.getHeight() + 1;
             }
         }
 
@@ -106,10 +106,10 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     @Override
     public double getHeight()
     {
-        double h = 0.0;
+        double h = -1;
         for (final GUIComponent component : getChildrenComponentList())
         {
-            h += component.getHeight();
+            h += component.getHeight() + 1;
         }
         return (super.getHeight())
                 + ((h + PADDING) * animation.getEasedFactor());
