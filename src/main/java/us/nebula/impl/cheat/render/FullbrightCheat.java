@@ -21,7 +21,7 @@ public final class FullbrightCheat extends Cheat
 
     @Subscribe
     private final EventListener<EventGamma> gammaEventListener = event
-            -> event.setGamma(1.0f);
+            -> event.setGamma(100.0f);
 
     private enum Mode
     {
