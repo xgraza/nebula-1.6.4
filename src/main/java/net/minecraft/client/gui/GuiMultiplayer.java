@@ -28,7 +28,7 @@ public class GuiMultiplayer extends GuiScreen
     private boolean field_146805_w;
     private boolean field_146813_x;
     private String field_146812_y;
-    private ServerData field_146811_z;
+    private ServerData serverData;
     private LanServerDetector.LanServerList field_146799_A;
     private LanServerDetector.ThreadLanServerFind field_146800_B;
     private boolean field_146801_C;
@@ -120,54 +120,54 @@ public class GuiMultiplayer extends GuiScreen
         this.field_146797_f.func_147226_b();
     }
 
-    protected void actionPerformed(GuiButton p_146284_1_)
+    protected void actionPerformed(GuiButton button)
     {
-        if (p_146284_1_.enabled)
+        if (button.enabled)
         {
             GuiListExtended.IGuiListEntry var2 = this.field_146803_h.func_148193_k() < 0 ? null : this.field_146803_h.func_148180_b(this.field_146803_h.func_148193_k());
 
-            if (p_146284_1_.id == 2 && var2 instanceof ServerListEntryNormal)
+            if (button.id == 2 && var2 instanceof ServerListEntryNormal)
             {
-                String var9 = ((ServerListEntryNormal)var2).func_148296_a().serverName;
+                String serverName = ((ServerListEntryNormal)var2).func_148296_a().serverName;
 
-                if (var9 != null)
+                if (serverName != null)
                 {
                     this.field_146807_u = true;
                     String var4 = I18n.format("selectServer.deleteQuestion", new Object[0]);
-                    String var5 = "\'" + var9 + "\' " + I18n.format("selectServer.deleteWarning", new Object[0]);
+                    String var5 = "\'" + serverName + "\' " + I18n.format("selectServer.deleteWarning", new Object[0]);
                     String var6 = I18n.format("selectServer.deleteButton", new Object[0]);
                     String var7 = I18n.format("gui.cancel", new Object[0]);
-                    GuiYesNo var8 = new GuiYesNo(this, var4, var5, var6, var7, this.field_146803_h.func_148193_k());
-                    this.mc.displayGuiScreen(var8);
+                    GuiYesNo screen = new GuiYesNo(this, var4, var5, var6, var7, this.field_146803_h.func_148193_k());
+                    this.mc.displayGuiScreen(screen);
                 }
             }
-            else if (p_146284_1_.id == 1)
+            else if (button.id == 1)
             {
                 this.func_146796_h();
             }
-            else if (p_146284_1_.id == 4)
+            else if (button.id == 4)
             {
                 this.field_146813_x = true;
-                this.mc.displayGuiScreen(new GuiScreenServerList(this, this.field_146811_z = new ServerData(I18n.format("selectServer.defaultName", new Object[0]), "")));
+                this.mc.displayGuiScreen(new GuiScreenServerList(this, this.serverData = new ServerData(I18n.format("selectServer.defaultName", new Object[0]), "")));
             }
-            else if (p_146284_1_.id == 3)
+            else if (button.id == 3)
             {
                 this.field_146806_v = true;
-                this.mc.displayGuiScreen(new GuiScreenAddServer(this, this.field_146811_z = new ServerData(I18n.format("selectServer.defaultName", new Object[0]), "")));
+                this.mc.displayGuiScreen(new GuiScreenAddServer(this, this.serverData = new ServerData(I18n.format("selectServer.defaultName", new Object[0]), "")));
             }
-            else if (p_146284_1_.id == 7 && var2 instanceof ServerListEntryNormal)
+            else if (button.id == 7 && var2 instanceof ServerListEntryNormal)
             {
                 this.field_146805_w = true;
                 ServerData var3 = ((ServerListEntryNormal)var2).func_148296_a();
-                this.field_146811_z = new ServerData(var3.serverName, var3.serverIP);
-                this.field_146811_z.setHideAddress(var3.isHidingAddress());
-                this.mc.displayGuiScreen(new GuiScreenAddServer(this, this.field_146811_z));
+                this.serverData = new ServerData(var3.serverName, var3.serverIP);
+                this.serverData.setHideAddress(var3.isHidingAddress());
+                this.mc.displayGuiScreen(new GuiScreenAddServer(this, this.serverData));
             }
-            else if (p_146284_1_.id == 0)
+            else if (button.id == 0)
             {
                 this.mc.displayGuiScreen(this.field_146798_g);
             }
-            else if (p_146284_1_.id == 8)
+            else if (button.id == 8)
             {
                 this.func_146792_q();
             }
@@ -203,7 +203,7 @@ public class GuiMultiplayer extends GuiScreen
 
             if (par1)
             {
-                this.func_146791_a(this.field_146811_z);
+                this.connectToServer(this.serverData);
             }
             else
             {
@@ -216,7 +216,7 @@ public class GuiMultiplayer extends GuiScreen
 
             if (par1)
             {
-                this.field_146804_i.addServerData(this.field_146811_z);
+                this.field_146804_i.addServerData(this.serverData);
                 this.field_146804_i.saveServerList();
                 this.field_146803_h.func_148192_c(-1);
                 this.field_146803_h.func_148195_a(this.field_146804_i);
@@ -231,9 +231,9 @@ public class GuiMultiplayer extends GuiScreen
             if (par1 && var3 instanceof ServerListEntryNormal)
             {
                 ServerData var4 = ((ServerListEntryNormal)var3).func_148296_a();
-                var4.serverName = this.field_146811_z.serverName;
-                var4.serverIP = this.field_146811_z.serverIP;
-                var4.setHideAddress(this.field_146811_z.isHidingAddress());
+                var4.serverName = this.serverData.serverName;
+                var4.serverIP = this.serverData.serverIP;
+                var4.setHideAddress(this.serverData.isHidingAddress());
                 this.field_146804_i.saveServerList();
                 this.field_146803_h.func_148195_a(this.field_146804_i);
             }
@@ -367,18 +367,18 @@ public class GuiMultiplayer extends GuiScreen
 
         if (var1 instanceof ServerListEntryNormal)
         {
-            this.func_146791_a(((ServerListEntryNormal)var1).func_148296_a());
+            this.connectToServer(((ServerListEntryNormal)var1).func_148296_a());
         }
         else if (var1 instanceof ServerListEntryLanDetected)
         {
             LanServerDetector.LanServer var2 = ((ServerListEntryLanDetected)var1).func_148289_a();
-            this.func_146791_a(new ServerData(var2.getServerMotd(), var2.getServerIpPort()));
+            this.connectToServer(new ServerData(var2.getServerMotd(), var2.getServerIpPort()));
         }
     }
 
-    private void func_146791_a(ServerData p_146791_1_)
+    private void connectToServer(ServerData data)
     {
-        this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, p_146791_1_));
+        this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, data));
     }
 
     public void func_146790_a(int p_146790_1_)

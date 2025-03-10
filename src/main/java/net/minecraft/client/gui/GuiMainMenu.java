@@ -12,6 +12,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.GuiConnecting;
+import net.minecraft.client.multiplayer.ServerAddress;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -286,7 +288,8 @@ public class GuiMainMenu extends GuiScreen
         }
 
         if (p_146284_1_.id == 420) {
-            mc.displayGuiScreen(new GuiConnecting(this, mc, "alfheim.pw", 25565));
+            final ServerAddress address = ServerAddress.func_78860_a("alfheim.pw");
+            mc.displayGuiScreen(new GuiConnecting(this, mc, address.getIP(), address.getPort()));
         }
     }
 
