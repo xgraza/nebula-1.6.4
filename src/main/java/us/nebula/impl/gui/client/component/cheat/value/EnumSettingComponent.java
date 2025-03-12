@@ -6,6 +6,7 @@ import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
 import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.value.Setting;
+import us.nebula.util.io.SoundUtil;
 import us.nebula.util.render.RenderUtil;
 
 import java.awt.Color;
@@ -59,9 +60,11 @@ public final class EnumSettingComponent extends GUIComponent implements IGUIInpu
         {
             if (mouseButton == 0)
             {
+                SoundUtil.playClickSound();
                 setting.nextEnum();
             } else if (mouseButton == 1)
             {
+                SoundUtil.playClickSound();
                 setting.previousEnum();
             }
         }

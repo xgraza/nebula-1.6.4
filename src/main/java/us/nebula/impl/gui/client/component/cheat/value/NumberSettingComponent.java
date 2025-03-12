@@ -5,6 +5,7 @@ import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
 import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.value.Setting;
+import us.nebula.util.io.SoundUtil;
 import us.nebula.util.math.MathUtil;
 import us.nebula.util.render.RenderUtil;
 
@@ -33,6 +34,7 @@ public final class NumberSettingComponent extends GUIComponent implements IGUIIn
     {
         if (dragging && !Mouse.isButtonDown(0))
         {
+            SoundUtil.playClickSound();
             dragging = false;
         }
         if (dragging)
@@ -62,8 +64,9 @@ public final class NumberSettingComponent extends GUIComponent implements IGUIIn
     {
         if (isMouseIn(mouseX, mouseY))
         {
-            if (mouseButton == 0)
+            if (mouseButton == 0 && !dragging)
             {
+                SoundUtil.playClickSound();
                 dragging = true;
             }
         }

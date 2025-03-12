@@ -11,6 +11,7 @@ import us.nebula.api.value.Setting;
 import us.nebula.impl.gui.client.component.cheat.value.BooleanSettingComponent;
 import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
 import us.nebula.impl.gui.client.component.cheat.value.NumberSettingComponent;
+import us.nebula.util.io.SoundUtil;
 import us.nebula.util.render.RenderUtil;
 
 import java.awt.Color;
@@ -147,6 +148,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
             if (mouseButton == 0)
             {
                 cheat.toggle();
+                SoundUtil.playClickSound();
             } else if (mouseButton == 1)
             {
                 panelAnimation.setState(!panelAnimation.getState());

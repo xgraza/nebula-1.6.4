@@ -5,6 +5,7 @@ import us.nebula.api.gui.IGUIInputListener;
 import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
 import us.nebula.api.gui.font.Fonts;
+import us.nebula.util.io.SoundUtil;
 import us.nebula.util.render.RenderUtil;
 
 import java.awt.Color;
@@ -78,6 +79,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
 
             } else if (mouseButton == 1)
             {
+                SoundUtil.playClickSound();
                 animation.setState(!animation.getState());
             }
             return;

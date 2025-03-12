@@ -6,6 +6,7 @@ import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
 import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.value.Setting;
+import us.nebula.util.io.SoundUtil;
 import us.nebula.util.render.RenderUtil;
 
 import java.awt.Color;
@@ -60,6 +61,7 @@ public final class BooleanSettingComponent extends GUIComponent implements IGUII
     {
         if (isMouseIn(mouseX, mouseY))
         {
+            SoundUtil.playClickSound();
             setting.setValue(!setting.getValue());
             animation.setState(setting.getValue());
         }

@@ -3,6 +3,7 @@ package us.nebula.impl.gui.client.component.config;
 import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
 import us.nebula.api.gui.font.Fonts;
+import us.nebula.util.io.SoundUtil;
 import us.nebula.util.render.RenderUtil;
 
 import java.awt.Color;
@@ -43,6 +44,7 @@ public class ConfigTextButton extends GUIComponent implements IGUIInputListener
     {
         if (isMouseIn(mouseX, mouseY) && mouseButton == 0)
         {
+            SoundUtil.playClickSound();
             onButtonPress();
         }
     }
