@@ -25,8 +25,9 @@ public final class KeyConfiguration implements IConfiguration
     public String save()
     {
         final JsonObject object = new JsonObject();
-        manager.getKeyIdMap().forEach((k, v) -> object.add(k, v.toJSON()));
-        return object.toString();
+        manager.getKeyIdMap().forEach((k, v)
+                -> object.add(k, v.toJSON()));
+        return FileUtil.GSON.toJson(object);
     }
 
     @Override
@@ -56,6 +57,6 @@ public final class KeyConfiguration implements IConfiguration
     @Override
     public File getFile()
     {
-        return new File(Nebula.INSTANCE.getNebulaRootDir(), "keys.txt");
+        return new File(Nebula.INSTANCE.getNebulaRootDir(), "keys.json");
     }
 }

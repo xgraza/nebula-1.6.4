@@ -41,6 +41,21 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
     public CheatPanel(final Cheat cheat)
     {
         this.cheat = cheat;
+        getChildrenComponentList().add(new BooleanSettingComponent(
+                new Setting<Boolean>("Hidden", cheat.isHidden())
+                {
+                    @Override
+                    public void setValue(final Boolean value)
+                    {
+                        cheat.setHidden(value);
+                    }
+
+                    @Override
+                    public Boolean getValue()
+                    {
+                        return cheat.isHidden();
+                    }
+                }));
         for (final Setting<?> setting : cheat.getSettings())
         {
             if (setting.getValue() instanceof Boolean)
@@ -95,7 +110,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
 
     private double renderThreeDots()
     {
-        if (cheat.getSettings().isEmpty())
+        if (getChildrenComponentList().size() <= 1)
         {
             return PADDING * 2;
         }
@@ -141,7 +156,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
                 {
                     listeningForKey = false;
                     cheat.getKey().setKeyCode(DEFAULT_UNBOUND_KEY);
-                    cheat.getKey().setUseMouse(false);
+                    cheat.getKey().setMouseBind(false);
                     return;
                 } else
                 {
@@ -153,7 +168,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
         if (listeningForKey)
         {
             listeningForKey = false;
-            cheat.getKey().setUseMouse(true);
+            cheat.getKey().setMouseBind(true);
             cheat.getKey().setKeyCode(mouseButton);
             return;
         }
@@ -177,7 +192,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
         if (listeningForKey)
         {
             listeningForKey = false;
-            cheat.getKey().setUseMouse(false);
+            cheat.getKey().setMouseBind(false);
             cheat.getKey().setKeyCode(keyCode);
         }
     }

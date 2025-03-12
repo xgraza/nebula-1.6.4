@@ -13,7 +13,6 @@ import us.nebula.api.value.Setting;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import static org.lwjgl.input.Keyboard.KEY_NONE;
 import static us.nebula.api.manager.key.Key.DEFAULT_UNBOUND_KEY;
 
 /**
@@ -31,6 +30,11 @@ public class Cheat implements ISettingProvider, IJSONSerializable
 
     private final CheatManifest manifest;
     private final Key key;
+
+    /**
+     * If this cheat should be hidden from the Arraylist render
+     */
+    private boolean hidden;
 
     public Cheat()
     {
@@ -113,6 +117,16 @@ public class Cheat implements ISettingProvider, IJSONSerializable
         return key.isToggled();
     }
 
+    public void setHidden(boolean hidden)
+    {
+        this.hidden = hidden;
+    }
+
+    public boolean isHidden()
+    {
+        return hidden;
+    }
+
     @Override
     public List<Setting<?>> getSettings()
     {
@@ -139,7 +153,18 @@ public class Cheat implements ISettingProvider, IJSONSerializable
             return;
         }
         final JsonObject object = element.getAsJsonObject();
-        setToggled(object.get("toggled").getAsBoolean());
+        if (object.has("toggled"))
+        {
+            setToggled(object.get("toggled").getAsBoolean());
+        }
+        if (object.has("hidden"))
+        {
+            setHidden(object.get("hidden").getAsBoolean());
+        }
+        if (!object.has("settings"))
+        {
+            return;
+        }
         final JsonObject settingsObj = object.getAsJsonObject("settings");
         for (final String settingName : settingNameMap.keySet())
         {
@@ -156,6 +181,7 @@ public class Cheat implements ISettingProvider, IJSONSerializable
     {
         final JsonObject object = new JsonObject();
         object.addProperty("toggled", isToggled());
+        object.addProperty("hidden", isHidden());
         final JsonObject settingsObj = new JsonObject();
         for (final Setting<?> setting : getSettings())
         {

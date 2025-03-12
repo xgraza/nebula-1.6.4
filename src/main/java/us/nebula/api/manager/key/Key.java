@@ -13,14 +13,14 @@ public final class Key implements IJSONSerializable
 {
     public static int DEFAULT_UNBOUND_KEY = -1;
 
-    private int keyCode = DEFAULT_UNBOUND_KEY;
-    private boolean useMouse, state;
+    private int keyCode;
+    private boolean mouseBind, state;
     private final KeyAction action;
 
-    public Key(final KeyAction action, final boolean useMouse, final int keyCode)
+    public Key(final KeyAction action, final boolean mouseBind, final int keyCode)
     {
         this.action = action;
-        this.useMouse = useMouse;
+        this.mouseBind = mouseBind;
         this.keyCode = keyCode;
     }
 
@@ -39,14 +39,14 @@ public final class Key implements IJSONSerializable
         return keyCode <= DEFAULT_UNBOUND_KEY;
     }
 
-    public boolean isUseMouse()
+    public boolean isMouseBind()
     {
-        return useMouse;
+        return mouseBind;
     }
 
-    public void setUseMouse(final boolean useMouse)
+    public void setMouseBind(final boolean mouseBind)
     {
-        this.useMouse = useMouse;
+        this.mouseBind = mouseBind;
     }
 
     public void setState(final boolean state)
@@ -73,7 +73,7 @@ public final class Key implements IJSONSerializable
     {
         final JsonObject object = new JsonObject();
         object.addProperty("keyCode", keyCode);
-        object.addProperty("useMouse", useMouse);
+        object.addProperty("mouseBind", mouseBind);
         return object;
     }
 
@@ -86,13 +86,13 @@ public final class Key implements IJSONSerializable
         }
         final JsonObject object = element.getAsJsonObject();
         keyCode = object.get("keyCode").getAsInt();
-        useMouse = object.get("useMouse").getAsBoolean();
+        mouseBind = object.get("mouseBind").getAsBoolean();
     }
 
     @Override
     public String toString()
     {
-        if (useMouse)
+        if (mouseBind)
         {
             switch (keyCode)
             {

@@ -1,6 +1,7 @@
 package us.nebula.api.manager.overlay;
 
 import us.nebula.api.manager.ITypedManager;
+import us.nebula.impl.gui.overlay.ArraylistOverlay;
 import us.nebula.impl.gui.overlay.WatermarkOverlay;
 
 import java.util.LinkedHashMap;
@@ -21,6 +22,7 @@ public final class OverlayManager implements ITypedManager<Overlay>
     @Override
     public void init()
     {
+        addOverlay(new ArraylistOverlay());
         addOverlay(new WatermarkOverlay());
     }
 

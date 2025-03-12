@@ -44,6 +44,15 @@ public final class Animation
         this.state = state;
     }
 
+    public void reset(boolean force)
+    {
+        if (!force && (factor > 0.0 && factor != 1.0))
+        {
+            return;
+        }
+        lastTimeMS = System.currentTimeMillis();
+    }
+
     public boolean getState()
     {
         return state;

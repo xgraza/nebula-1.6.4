@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  * @param <T>
  */
 @SuppressWarnings("unchecked")
-public final class Setting<T> implements IJSONSerializable
+public class Setting<T> implements IJSONSerializable
 {
     private final String name;
     private T value;

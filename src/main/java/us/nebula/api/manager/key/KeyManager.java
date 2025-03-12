@@ -33,7 +33,7 @@ public final class KeyManager implements ITypedManager<Key>
         }
         for (final Key key : keyList)
         {
-            if (key.getKeyCode() == event.getKeyCode() && !key.isUseMouse())
+            if (key.getKeyCode() == event.getKeyCode() && !key.isMouseBind())
             {
                 key.toggle();
             }
@@ -49,7 +49,7 @@ public final class KeyManager implements ITypedManager<Key>
         }
         for (final Key key : keyList)
         {
-            if (key.getKeyCode() == event.getMouseButton() && key.isUseMouse())
+            if (key.getKeyCode() == event.getMouseButton() && key.isMouseBind())
             {
                 key.toggle();
             }
