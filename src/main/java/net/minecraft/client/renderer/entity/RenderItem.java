@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
@@ -16,6 +18,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemCloth;
 import net.minecraft.item.ItemStack;
@@ -23,6 +26,7 @@ import net.minecraft.src.Config;
 import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.impl.cheat.player.AntiLagCheat;
 import us.nebula.impl.cheat.render.InfiniteViewerCheat;
 import us.nebula.util.player.InventoryUtil;
 
@@ -55,8 +59,9 @@ public class RenderItem extends Render
     public void doRender(EntityItem par1EntityItem, double par2, double par4, double par6, float par8, float par9)
     {
         ItemStack var10 = par1EntityItem.getEntityItem();
+        Item item = var10.getItem();
 
-        if (var10.getItem() != null)
+        if (item != null)
         {
             this.bindEntityTexture(par1EntityItem);
             this.random.setSeed(187L);
@@ -85,15 +90,21 @@ public class RenderItem extends Render
                 var13 = 5;
             }
 
+            if (AntiLagCheat.INSTANCE.isToggled()
+                    && AntiLagCheat.INSTANCE.groupItemsSetting.getValue())
+            {
+                var13 = 1;
+            }
+
             GL11.glTranslatef((float)par2, (float)par4 + var11, (float)par6);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             float var18;
             float var19;
             int var25;
 
-            if (var10.getItemSpriteNumber() == 0 && var10.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(var10.getItem()).getRenderType()))
+            if (var10.getItemSpriteNumber() == 0 && item instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(item).getRenderType()))
             {
-                Block var22 = Block.getBlockFromItem(var10.getItem());
+                Block var22 = Block.getBlockFromItem(item);
                 GL11.glRotatef(var12, 0.0F, 1.0F, 0.0F);
 
                 if (renderInFrame)
@@ -145,7 +156,7 @@ public class RenderItem extends Render
             {
                 float var17;
 
-                if (var10.getItemSpriteNumber() == 1 && var10.getItem().requiresMultipleRenderPasses())
+                if (var10.getItemSpriteNumber() == 1 && item.requiresMultipleRenderPasses())
                 {
                     if (renderInFrame)
                     {
@@ -160,11 +171,11 @@ public class RenderItem extends Render
                     for (int var21 = 0; var21 <= 1; ++var21)
                     {
                         this.random.setSeed(187L);
-                        IIcon var23 = var10.getItem().getIconFromDamageForRenderPass(var10.getItemDamage(), var21);
+                        IIcon var23 = item.getIconFromDamageForRenderPass(var10.getItemDamage(), var21);
 
                         if (this.renderWithColor)
                         {
-                            var25 = var10.getItem().getColorFromItemStack(var10, var21);
+                            var25 = item.getColorFromItemStack(var10, var21);
                             var17 = (float)(var25 >> 16 & 255) / 255.0F;
                             var18 = (float)(var25 >> 8 & 255) / 255.0F;
                             var19 = (float)(var25 & 255) / 255.0F;
@@ -179,7 +190,7 @@ public class RenderItem extends Render
                 }
                 else
                 {
-                    if (var10 != null && var10.getItem() instanceof ItemCloth)
+                    if (var10 != null && item instanceof ItemCloth)
                     {
                         GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
                         GL11.glEnable(GL11.GL_BLEND);
@@ -200,7 +211,7 @@ public class RenderItem extends Render
 
                     if (this.renderWithColor)
                     {
-                        int var15 = var10.getItem().getColorFromItemStack(var10, 0);
+                        int var15 = item.getColorFromItemStack(var10, 0);
                         float var16 = (float)(var15 >> 16 & 255) / 255.0F;
                         var17 = (float)(var15 >> 8 & 255) / 255.0F;
                         var18 = (float)(var15 & 255) / 255.0F;
@@ -211,7 +222,7 @@ public class RenderItem extends Render
                         this.renderDroppedItem(par1EntityItem, var14, var13, par9, 1.0F, 1.0F, 1.0F);
                     }
 
-                    if (var10 != null && var10.getItem() instanceof ItemCloth)
+                    if (var10 != null && item instanceof ItemCloth)
                     {
                         GL11.glDisable(GL11.GL_BLEND);
                     }

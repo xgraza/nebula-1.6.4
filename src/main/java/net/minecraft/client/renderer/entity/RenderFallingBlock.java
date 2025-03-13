@@ -12,6 +12,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
+import us.nebula.impl.cheat.player.AntiLagCheat;
 
 public class RenderFallingBlock extends Render
 {
@@ -31,6 +32,12 @@ public class RenderFallingBlock extends Render
      */
     public void doRender(EntityFallingBlock p_147918_1_, double p_147918_2_, double p_147918_4_, double p_147918_6_, float p_147918_8_, float p_147918_9_)
     {
+        if (AntiLagCheat.INSTANCE.isToggled()
+                && AntiLagCheat.INSTANCE.fallingBlocksSetting.getValue())
+        {
+            return;
+        }
+
         World var10 = p_147918_1_.func_145807_e();
         Block var11 = p_147918_1_.func_145805_f();
         int var12 = MathHelper.floor_double(p_147918_1_.posX);
