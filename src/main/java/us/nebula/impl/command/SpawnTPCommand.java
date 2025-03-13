@@ -9,7 +9,7 @@ import us.nebula.api.manager.command.CommandResult;
  * @author xgraza
  * @since 02/16/25
  */
-@CommandManifest(aliases = {"spawntp", "spawntp", "stp"})
+@CommandManifest(aliases = {"spawntp", "spawn", "stp", "s"})
 public final class SpawnTPCommand extends Command
 {
     @Override
