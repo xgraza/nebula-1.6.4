@@ -49,6 +49,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.exploit.NoPortalGUICheat;
 import us.nebula.impl.event.player.EventItemSlowdown;
 import us.nebula.impl.event.player.EventPushFromBlocks;
 import us.nebula.impl.event.player.EventSprint;
@@ -139,7 +140,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
             if (this.inPortal)
             {
-                if (this.mc.currentScreen != null)
+                if (this.mc.currentScreen != null && !NoPortalGUICheat.INSTANCE.isToggled())
                 {
                     this.mc.displayGuiScreen((GuiScreen)null);
                 }
