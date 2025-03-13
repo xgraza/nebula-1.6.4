@@ -4,9 +4,11 @@ import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import us.nebula.ClientSettings;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
+import us.nebula.util.player.ChatUtil;
 
 /**
  * @author xgraza
@@ -31,6 +33,10 @@ public final class KeyPearlCheat extends Cheat
         final int pearlSlot = getPearlSlot();
         if (pearlSlot == -1)
         {
+            if (ClientSettings.VERBOSE_LOGGING)
+            {
+                ChatUtil.send("No pearls found in slots 0-8!");
+            }
             return;
         }
 

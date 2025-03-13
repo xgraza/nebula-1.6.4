@@ -5,6 +5,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+import us.nebula.Nebula;
 
 /**
  * @author xgraza
@@ -32,7 +33,13 @@ public final class ChatUtil
         {
             final IChatComponent component = createBaseChatComponent();
             component.appendText(line);
-            MC.ingameGUI.getChatGui().printChatMessage(component);
+            if (MC.ingameGUI == null || MC.thePlayer == null)
+            {
+                Nebula.INSTANCE.getLogger().info(component);
+            } else
+            {
+                MC.ingameGUI.getChatGui().printChatMessage(component);
+            }
         }
     }
 

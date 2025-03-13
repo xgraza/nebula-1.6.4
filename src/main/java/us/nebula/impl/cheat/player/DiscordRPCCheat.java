@@ -1,9 +1,11 @@
 package us.nebula.impl.cheat.player;
 
+import us.nebula.ClientSettings;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.rpc.DiscordRPCHandler;
+import us.nebula.util.player.ChatUtil;
 
 /**
  * @author xgraza
@@ -18,6 +20,10 @@ public final class DiscordRPCCheat extends Cheat
     protected void onEnable()
     {
         super.onEnable();
+        if (ClientSettings.VERBOSE_LOGGING)
+        {
+            ChatUtil.send("Starting DiscordRPCHandler...");
+        }
         DiscordRPCHandler.start();
     }
 
@@ -25,6 +31,10 @@ public final class DiscordRPCCheat extends Cheat
     protected void onDisable()
     {
         super.onDisable();
+        if (ClientSettings.VERBOSE_LOGGING)
+        {
+            ChatUtil.send("Stopping DiscordRPCHandler thread & connection...");
+        }
         DiscordRPCHandler.stop();
     }
 }
