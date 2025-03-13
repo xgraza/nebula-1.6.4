@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockIce;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -47,6 +48,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import us.nebula.impl.cheat.movement.IceSpeedCheat;
 
 public abstract class EntityLivingBase extends Entity
 {
@@ -1616,6 +1618,11 @@ public abstract class EntityLivingBase extends Entity
             {
                 Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
                 var3 = block.slipperiness * 0.91f;
+
+                if (IceSpeedCheat.INSTANCE.isToggled() && block instanceof BlockIce)
+                {
+                    var3 = IceSpeedCheat.NCP_ICE_MAX;
+                }
             }
 
             float var4 = 0.16277136F / (var3 * var3 * var3);
@@ -1637,6 +1644,11 @@ public abstract class EntityLivingBase extends Entity
             {
                 Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
                 var3 = block.slipperiness * 0.91f;
+
+                if (IceSpeedCheat.INSTANCE.isToggled() && block instanceof BlockIce)
+                {
+                    var3 = IceSpeedCheat.NCP_ICE_MAX;
+                }
             }
 
             if (this.isOnLadder())
