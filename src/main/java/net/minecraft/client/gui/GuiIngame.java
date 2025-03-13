@@ -410,9 +410,9 @@ public class GuiIngame extends Gui
         if (this.mc.gameSettings.keyBindPlayerList.getIsKeyPressed() && (!this.mc.isIntegratedServerRunning() || this.mc.thePlayer.sendQueue.playerInfoList.size() > 1 || var40 != null))
         {
             this.mc.mcProfiler.startSection("playerList");
-            NetHandlerPlayClient var42 = this.mc.thePlayer.sendQueue;
-            List var44 = var42.playerInfoList;
-            var15 = var42.currentServerMaxPlayers;
+            NetHandlerPlayClient netClient = this.mc.thePlayer.sendQueue;
+            List<GuiPlayerInfo> playerInfoList = netClient.playerInfoList;
+            var15 = netClient.currentServerMaxPlayers;
             var16 = var15;
 
             for (var17 = 1; var16 > 20; var16 = (var15 + var17 - 1) / var17)
@@ -439,9 +439,9 @@ public class GuiIngame extends Gui
                 glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
 
-                if (var21 < var44.size())
+                if (var21 < playerInfoList.size())
                 {
-                    GuiPlayerInfo var48 = (GuiPlayerInfo)var44.get(var21);
+                    GuiPlayerInfo var48 = (GuiPlayerInfo) playerInfoList.get(var21);
                     ScorePlayerTeam var49 = this.mc.theWorld.getScoreboard().getPlayersTeam(var48.name);
                     String var50 = ScorePlayerTeam.formatPlayerName(var49, var48.name);
                     var8.drawStringWithShadow(var50, var22, var23, 16777215);

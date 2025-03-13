@@ -8,6 +8,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import us.nebula.impl.cheat.movement.NoSlowCheat;
 
 public class BlockWeb extends Block
 {
@@ -21,6 +22,11 @@ public class BlockWeb extends Block
 
     public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity p_149670_5_)
     {
+        if (NoSlowCheat.INSTANCE.isToggled()
+                && NoSlowCheat.INSTANCE.websSetting.getValue())
+        {
+            return;
+        }
         p_149670_5_.setInWeb();
     }
 

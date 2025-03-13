@@ -6,6 +6,7 @@ import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
+import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.cheat.combat.KillAuraCheat;
@@ -22,8 +23,13 @@ import us.nebula.impl.event.player.EventMoveUpdate;
         category = CheatCategory.MOVEMENT)
 public final class NoSlowCheat extends Cheat
 {
+    @CheatInstance
+    public static NoSlowCheat INSTANCE;
+
     private final Setting<Boolean> ncpBypassSetting = new Setting<>(
             "NCP Bypass", false);
+    public final Setting<Boolean> websSetting = new Setting<>(
+            "Webs", false);
 
     private boolean bypass;
 
