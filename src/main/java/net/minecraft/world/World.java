@@ -51,6 +51,7 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.render.NoWeatherCheat;
 import us.nebula.impl.cheat.render.XRayCheat;
 import us.nebula.impl.event.player.EventPushWater;
 
@@ -3830,6 +3831,10 @@ public abstract class World implements IBlockAccess
 
     public float getWeightedThunderStrength(float par1)
     {
+        if (NoWeatherCheat.INSTANCE.isToggled())
+        {
+            return 0.0f;
+        }
         return (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * par1) * this.getRainStrength(par1);
     }
 
@@ -3847,6 +3852,10 @@ public abstract class World implements IBlockAccess
      */
     public float getRainStrength(float par1)
     {
+        if (NoWeatherCheat.INSTANCE.isToggled())
+        {
+            return 0.0f;
+        }
         return this.prevRainingStrength + (this.rainingStrength - this.prevRainingStrength) * par1;
     }
 
