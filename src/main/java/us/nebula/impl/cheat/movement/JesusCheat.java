@@ -24,13 +24,14 @@ public final class JesusCheat extends Cheat
     private static final AxisAlignedBB LIQUID_FULL_AABB = new AxisAlignedBB(
             0, 0, 0, 1, 0.99, 1);
 
-    private boolean attemptExit;
+    private boolean attemptExit, lastTickSpoof;
 
     @Override
     protected void onDisable()
     {
         super.onDisable();
         attemptExit = false;
+        lastTickSpoof = false;
     }
 
     @Subscribe
@@ -58,12 +59,23 @@ public final class JesusCheat extends Cheat
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (isAboveWater() && !MC.thePlayer.isInWater() && MC.thePlayer.ticksExisted % 2 == 0)
+        if (!isAboveWater() || MC.thePlayer.isInWater())
         {
+            lastTickSpoof = false;
+            return;
+        }
+
+        if (MC.thePlayer.ticksExisted % 2 == 0
+                && MC.thePlayer.groundTicks >= 2
+                && !MC.gameSettings.keyBindJump.pressed)
+        {
+            lastTickSpoof = true;
             event.setY(event.getY() + 0.01);
             event.setStance(event.getStance() + 0.01);
             event.setOnGround(false);
+            return;
         }
+        lastTickSpoof = false;
     };
 
     @Subscribe
