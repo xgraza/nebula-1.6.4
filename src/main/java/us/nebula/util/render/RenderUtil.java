@@ -73,7 +73,7 @@ public final class RenderUtil
         glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
         TESSELLATOR.startDrawingQuads();
-        TESSELLATOR.setColorOpaque_I(color);
+        setTessellatorColor(color);
         TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
@@ -82,7 +82,7 @@ public final class RenderUtil
 
         // sides
         TESSELLATOR.startDrawingQuads();
-        TESSELLATOR.setColorOpaque_I(color);
+        setTessellatorColor(color);
         TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
         TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
@@ -90,7 +90,7 @@ public final class RenderUtil
         TESSELLATOR.draw();
 
         TESSELLATOR.startDrawingQuads();
-        TESSELLATOR.setColorOpaque_I(color);
+        setTessellatorColor(color);
         TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
@@ -98,7 +98,7 @@ public final class RenderUtil
         TESSELLATOR.draw();
 
         TESSELLATOR.startDrawingQuads();
-        TESSELLATOR.setColorOpaque_I(color);
+        setTessellatorColor(color);
         TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
@@ -106,7 +106,7 @@ public final class RenderUtil
         TESSELLATOR.draw();
 
         TESSELLATOR.startDrawingQuads();
-        TESSELLATOR.setColorOpaque_I(color);
+        setTessellatorColor(color);
         TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
@@ -115,7 +115,7 @@ public final class RenderUtil
 
         // top
         TESSELLATOR.startDrawingQuads();
-        TESSELLATOR.setColorOpaque_I(color);
+        setTessellatorColor(color);
         TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
@@ -151,7 +151,7 @@ public final class RenderUtil
         glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
         TESSELLATOR.startDrawing(GL_LINE_STRIP);
-        TESSELLATOR.setColorOpaque_I(color);
+        setTessellatorColor(color);
         TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
@@ -160,7 +160,7 @@ public final class RenderUtil
         TESSELLATOR.draw();
 
         TESSELLATOR.startDrawing(GL_LINE_STRIP);
-        TESSELLATOR.setColorOpaque_I(color);
+        setTessellatorColor(color);
         TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
@@ -169,7 +169,7 @@ public final class RenderUtil
         TESSELLATOR.draw();
 
         TESSELLATOR.startDrawing(GL_LINES);
-        TESSELLATOR.setColorOpaque_I(color);
+        setTessellatorColor(color);
         TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
         TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
@@ -258,6 +258,15 @@ public final class RenderUtil
         final float green = (color >> 8 & 0xff) / 255.0f;
         final float blue = (color & 0xff) / 255.0f;
         return new float[] { alpha, red, green, blue };
+    }
+
+    public static void setTessellatorColor(final int color)
+    {
+        final float red = (float) (color >> 16 & 255) / 255.0F;
+        final float blue = (float) (color >> 8 & 255) / 255.0F;
+        final float green = (float) (color & 255) / 255.0F;
+        final float alpha = (float) (color >> 24 & 255) / 255.0F;
+        TESSELLATOR.setColorRGBA_F(red, green, blue, alpha);
     }
 
     public static void setColor(final int color)
