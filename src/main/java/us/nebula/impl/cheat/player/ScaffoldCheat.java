@@ -3,6 +3,7 @@ package us.nebula.impl.cheat.player;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.BlockPos;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -13,7 +14,8 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
-import us.nebula.impl.event.network.EventPacket;
+import us.nebula.impl.event.render.EventRender3D;
+import us.nebula.util.render.RenderUtil;
 
 /**
  * @author xgraza
@@ -28,6 +30,17 @@ public final class ScaffoldCheat extends Cheat
             "Extend", 0.0, 0.0, 6.0, 0.5);
     private final Setting<Boolean> towerSetting = new Setting<>(
             "Tower", true);
+    private final Setting<Boolean> renderSetting = new Setting<>(
+            "Render", false);
+
+    private BlockData blockData;
+
+    @Override
+    protected void onDisable()
+    {
+        super.onDisable();
+        blockData = null;
+    }
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
@@ -38,7 +51,7 @@ public final class ScaffoldCheat extends Cheat
             return;
         }
 
-        final BlockData blockData = getBlockData();
+        blockData = getBlockData();
         if (blockData == null)
         {
             return;
@@ -70,6 +83,21 @@ public final class ScaffoldCheat extends Cheat
         }
 
         MC.thePlayer.inventory.currentItem = prevSlot;
+    };
+
+    @Subscribe
+    private final EventListener<EventRender3D> render3DEventListener = event ->
+    {
+        if (!renderSetting.getValue() || blockData == null)
+        {
+            return;
+        }
+
+        final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
+                blockData.pos.getX(), blockData.pos.getY(), blockData.pos.getZ()), 1);
+
+        RenderUtil.filledBox3D(aabb, 0, 0xFFFF0000);
+        RenderUtil.outlinedBox3D(aabb, 1.5f, 0xFFFF0000);
     };
 
     private BlockData getBlockData()

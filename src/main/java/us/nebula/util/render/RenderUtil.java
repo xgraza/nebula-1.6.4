@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.util.AxisAlignedBB;
 import us.nebula.api.gui.shader.Shader;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -52,6 +54,142 @@ public final class RenderUtil
     public static void endScissor()
     {
         glDisable(GL_SCISSOR_TEST);
+    }
+
+    public static void filledBox3D(final AxisAlignedBB aabb,
+                                   final int renderMask,
+                                   final int color)
+    {
+        glPushMatrix();
+
+        glDisable(GL_TEXTURE_2D);
+
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
+
+        glDepthMask(false);
+        glDisable(GL_DEPTH_TEST);
+
+        glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
+
+        TESSELLATOR.startDrawingQuads();
+        TESSELLATOR.setColorOpaque_I(color);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+        TESSELLATOR.draw();
+
+        // sides
+        TESSELLATOR.startDrawingQuads();
+        TESSELLATOR.setColorOpaque_I(color);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.draw();
+
+        TESSELLATOR.startDrawingQuads();
+        TESSELLATOR.setColorOpaque_I(color);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+        TESSELLATOR.draw();
+
+        TESSELLATOR.startDrawingQuads();
+        TESSELLATOR.setColorOpaque_I(color);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.draw();
+
+        TESSELLATOR.startDrawingQuads();
+        TESSELLATOR.setColorOpaque_I(color);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+        TESSELLATOR.draw();
+
+        // top
+        TESSELLATOR.startDrawingQuads();
+        TESSELLATOR.setColorOpaque_I(color);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.draw();
+
+        glEnable(GL_TEXTURE_2D);
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthMask(true);
+
+        glPopMatrix();
+    }
+
+    public static void outlinedBox3D(final AxisAlignedBB aabb,
+                                   final float lineWidth,
+                                   final int color)
+    {
+        glPushMatrix();
+
+        glDisable(GL_TEXTURE_2D);
+
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
+
+        glLineWidth(lineWidth);
+        glEnable(GL_LINE_SMOOTH);
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
+        glDepthMask(false);
+        glDisable(GL_DEPTH_TEST);
+
+        glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
+
+        TESSELLATOR.startDrawing(GL_LINE_STRIP);
+        TESSELLATOR.setColorOpaque_I(color);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+        TESSELLATOR.draw();
+
+        TESSELLATOR.startDrawing(GL_LINE_STRIP);
+        TESSELLATOR.setColorOpaque_I(color);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.draw();
+
+        TESSELLATOR.startDrawing(GL_LINES);
+        TESSELLATOR.setColorOpaque_I(color);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+        TESSELLATOR.draw();
+
+        glEnable(GL_TEXTURE_2D);
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthMask(true);
+
+        glLineWidth(1.0f);
+        glDisable(GL_LINE_SMOOTH);
+        glDisable(GL_BLEND);
+
+        glPopMatrix();
     }
 
     public static void rectangle2D(final double x,
