@@ -10,12 +10,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockHopper;
-import net.minecraft.block.BlockLiquid;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockSnow;
-import net.minecraft.block.BlockStairs;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.crash.CrashReport;
@@ -51,6 +46,7 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.exploit.GhostHandCheat;
 import us.nebula.impl.cheat.render.NoWeatherCheat;
 import us.nebula.impl.cheat.render.XRayCheat;
 import us.nebula.impl.event.player.EventPushWater;
@@ -1282,6 +1278,13 @@ public abstract class World implements IBlockAccess
                     }
 
                     Block var37 = this.getBlock(var9, var10, var11);
+                    if (GhostHandCheat.INSTANCE != null
+                            && GhostHandCheat.INSTANCE.isToggled()
+                            && GhostHandCheat.BLOCK_WHITELIST.contains(var37)
+                            && !GhostHandCheat.INSTANCE.isAllowedToInteract())
+                    {
+                        continue;
+                    }
                     int var38 = this.getBlockMetadata(var9, var10, var11);
 
                     if (!p_147447_4_ || var37.getCollisionBoundingBoxFromPool(this, var9, var10, var11) != null)

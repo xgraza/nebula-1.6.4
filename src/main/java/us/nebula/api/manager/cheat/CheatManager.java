@@ -33,6 +33,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new VelocityCheat());
         addCheat(new FastPortalCheat());
         addCheat(new FrankyCheat());
+        addCheat(new GhostHandCheat());
         addCheat(new NoHungerCheat());
         addCheat(new NoPortalGUICheat());
         addCheat(new TimerCheat());
