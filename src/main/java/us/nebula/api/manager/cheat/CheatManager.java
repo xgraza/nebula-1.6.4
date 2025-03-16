@@ -60,6 +60,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new FullbrightCheat());
         addCheat(new HUDCheat());
         addCheat(new InfiniteViewerCheat());
+        addCheat(new ItemPhysicsCheat());
         addCheat(new NoWeatherCheat());
         addCheat(new TrajectoriesCheat());
         addCheat(new XRayCheat());

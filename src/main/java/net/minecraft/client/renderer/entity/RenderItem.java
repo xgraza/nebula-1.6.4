@@ -1,7 +1,5 @@
 package net.minecraft.client.renderer.entity;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
@@ -28,6 +26,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import us.nebula.impl.cheat.player.AntiLagCheat;
 import us.nebula.impl.cheat.render.InfiniteViewerCheat;
+import us.nebula.impl.cheat.render.ItemPhysicsCheat;
 import us.nebula.util.player.InventoryUtil;
 
 public class RenderItem extends Render
@@ -96,16 +95,46 @@ public class RenderItem extends Render
                 var13 = 1;
             }
 
-            GL11.glTranslatef((float)par2, (float)par4 + var11, (float)par6);
+            if (ItemPhysicsCheat.INSTANCE != null && ItemPhysicsCheat.INSTANCE.isToggled())
+            {
+                float offset = 0.0f;
+                if (!(item instanceof ItemBlock))
+                {
+                    offset = -(par1EntityItem.height / 2.0f);
+                }
+                GL11.glTranslatef((float)par2, (float)par4 + offset, (float)par6);
+            } else
+            {
+                GL11.glTranslatef((float)par2, (float)par4 + var11, (float)par6);
+            }
+
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             float var18;
             float var19;
             int var25;
 
+            if (ItemPhysicsCheat.INSTANCE.isToggled())
+            {
+                if (par1EntityItem.onGround)
+                {
+                    par1EntityItem.rotationPitch = 90;
+                } else
+                {
+                    par1EntityItem.rotationPitch += 1.5f;
+                    par1EntityItem.rotationYaw += 1.5f;
+                }
+                GL11.glRotatef(par1EntityItem.rotationPitch % 360.0f, 1.0f, 0.0f, 0.0f);
+                GL11.glRotatef(par1EntityItem.rotationYaw, 0.0f, 0.0f, 1.0f);
+            }
+
             if (var10.getItemSpriteNumber() == 0 && item instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(item).getRenderType()))
             {
                 Block var22 = Block.getBlockFromItem(item);
-                GL11.glRotatef(var12, 0.0F, 1.0F, 0.0F);
+
+                if (ItemPhysicsCheat.INSTANCE == null || !ItemPhysicsCheat.INSTANCE.isToggled())
+                {
+                    GL11.glRotatef(var12, 0.0F, 1.0F, 0.0F);
+                }
 
                 if (renderInFrame)
                 {
@@ -275,7 +304,10 @@ public class RenderItem extends Render
             }
             else
             {
-                GL11.glRotatef((((float)par1EntityItem.age + par4) / 20.0F + par1EntityItem.hoverStart) * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+                if (ItemPhysicsCheat.INSTANCE == null || !ItemPhysicsCheat.INSTANCE.isToggled())
+                {
+                    GL11.glRotatef((((float)par1EntityItem.age + par4) / 20.0F + par1EntityItem.hoverStart) * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+                }
             }
 
             float var16 = 0.0625F;
