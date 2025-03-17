@@ -22,6 +22,7 @@ import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.render.EventRender3D;
 import us.nebula.util.math.Timer;
+import us.nebula.util.player.EntityUtil;
 
 import java.util.Comparator;
 import java.util.List;
@@ -315,7 +316,14 @@ public final class KillAuraCheat extends Cheat
         {
             return false;
         }
-        // TODO: hostile & passive entities
+        if (!attackHostileSetting.getValue() && EntityUtil.isEntityHostile(entity))
+        {
+            return false;
+        }
+        if (!attackPassiveSetting.getValue() && EntityUtil.isEntityPassive(entity))
+        {
+            return false;
+        }
         return true;
     }
 

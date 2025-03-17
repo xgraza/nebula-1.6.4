@@ -21,7 +21,7 @@ public class EntityPigZombie extends EntityZombie
     private static final AttributeModifier field_110190_br = (new AttributeModifier(field_110189_bq, "Attacking speed boost", 0.45D, 0)).setSaved(false);
 
     /** Above zero if this PigZombie is Angry. */
-    private int angerLevel;
+    public int angerLevel;
 
     /** A random delay until this PigZombie next makes a sound. */
     private int randomSoundDelay;

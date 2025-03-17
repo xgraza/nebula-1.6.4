@@ -2,12 +2,14 @@ package us.nebula.impl.cheat.render;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
+import us.nebula.util.player.EntityUtil;
 
 /**
  * @author xgraza
@@ -114,10 +116,18 @@ public final class ChamsCheat extends Cheat
 
     public boolean isEntityValid(final Entity entity)
     {
-//        if (!playersSetting.getValue() && entity instanceof EntityPlayer)
-//        {
-//            return false;
-//        }
+        if (!playersSetting.getValue() && entity instanceof EntityPlayer)
+        {
+            return false;
+        }
+        if (!hostileSetting.getValue() && EntityUtil.isEntityHostile(entity))
+        {
+            return false;
+        }
+        if (!passiveSetting.getValue() && EntityUtil.isEntityPassive(entity))
+        {
+            return false;
+        }
         return true;
     }
 
