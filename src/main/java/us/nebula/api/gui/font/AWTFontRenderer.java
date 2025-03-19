@@ -42,6 +42,7 @@ public final class AWTFontRenderer
 
         glPushMatrix();
 
+        glDisable(GL_LIGHTING);
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 0, 1);
 
@@ -186,6 +187,7 @@ public final class AWTFontRenderer
             offsetX += glyph.getWidth();
         }
 
+        glEnable(GL_LIGHTING);
         glDisable(GL_RESCALE_NORMAL);
         glPopMatrix();
     }
