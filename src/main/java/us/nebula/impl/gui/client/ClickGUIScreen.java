@@ -1,12 +1,15 @@
 package us.nebula.impl.gui.client;
 
 import net.minecraft.client.gui.GuiScreen;
-import org.lwjgl.openal.AL;
+import us.nebula.Nebula;
 import us.nebula.api.manager.cheat.CheatCategory;
+import us.nebula.api.manager.cheat.CheatConfig;
+import us.nebula.impl.cheat.render.ClickGUICheat;
 import us.nebula.impl.gui.client.component.CategoryPanel;
 import us.nebula.impl.gui.client.component.cheat.CheatCategoryPanel;
 import us.nebula.impl.gui.client.component.config.ConfigCategoryPanel;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,6 +83,22 @@ public final class ClickGUIScreen extends GuiScreen
         for (final CategoryPanel panel : categoryPanels)
         {
             panel.keyTyped(typedChar, keyCode);
+        }
+    }
+
+    @Override
+    public void onGuiClosed()
+    {
+        if (ClickGUICheat.INSTANCE.saveOnClose.getValue())
+        {
+            try
+            {
+                Nebula.INSTANCE.getLogger().info("Writing cheat save state to disk");
+                CheatConfig.saveConfig("default");
+            } catch (final IOException e)
+            {
+                throw new RuntimeException(e);
+            }
         }
     }
 

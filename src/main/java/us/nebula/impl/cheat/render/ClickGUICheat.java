@@ -4,6 +4,7 @@ import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
+import us.nebula.api.value.Setting;
 import us.nebula.impl.gui.client.ClickGUIScreen;
 
 import static org.lwjgl.input.Keyboard.KEY_RSHIFT;
@@ -19,6 +20,9 @@ public final class ClickGUICheat extends Cheat
 {
     @CheatInstance
     public static ClickGUICheat INSTANCE;
+
+    public final Setting<Boolean> saveOnClose = new Setting<>(
+            "Save on Close", true);
 
     private ClickGUIScreen guiScreen;
 
