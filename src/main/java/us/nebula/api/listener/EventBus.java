@@ -32,7 +32,10 @@ public final class EventBus
             if (!canceled || subscriber.getProperties().receiveCanceled())
             {
                 subscriber.invoke(event);
-                canceled = event.isCanceled();
+                if (event.isCanceled())
+                {
+                    canceled = true;
+                }
             }
         }
         return canceled;

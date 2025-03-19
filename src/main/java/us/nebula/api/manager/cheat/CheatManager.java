@@ -31,6 +31,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new KillAuraCheat());
         addCheat(new RegenCheat());
         addCheat(new VelocityCheat());
+        addCheat(new EnderchestBPCheat());
         addCheat(new FastPortalCheat());
         addCheat(new FrankyCheat());
         addCheat(new GhostHandCheat());

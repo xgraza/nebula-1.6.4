@@ -516,9 +516,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         WorldServer var2 = this.serverController.worldServerForDimension(this.playerEntity.dimension);
         ItemStack var3 = this.playerEntity.inventory.getCurrentItem();
         boolean var4 = false;
-        int var5 = p_147346_1_.func_149576_c();
-        int var6 = p_147346_1_.func_149571_d();
-        int var7 = p_147346_1_.func_149570_e();
+        int var5 = p_147346_1_.getPosX();
+        int var6 = p_147346_1_.getPosY();
+        int var7 = p_147346_1_.getPosZ();
         int var8 = p_147346_1_.func_149568_f();
         this.playerEntity.func_143004_u();
 
@@ -531,7 +531,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
             this.playerEntity.theItemInWorldManager.tryUseItem(this.playerEntity, var2, var3);
         }
-        else if (p_147346_1_.func_149571_d() >= this.serverController.getBuildLimit() - 1 && (p_147346_1_.func_149568_f() == 1 || p_147346_1_.func_149571_d() >= this.serverController.getBuildLimit()))
+        else if (p_147346_1_.getPosY() >= this.serverController.getBuildLimit() - 1 && (p_147346_1_.func_149568_f() == 1 || p_147346_1_.getPosY() >= this.serverController.getBuildLimit()))
         {
             ChatComponentTranslation var9 = new ChatComponentTranslation("build.tooHigh", new Object[] {Integer.valueOf(this.serverController.getBuildLimit())});
             var9.getChatStyle().setColor(EnumChatFormatting.RED);
