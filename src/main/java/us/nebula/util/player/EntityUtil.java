@@ -23,13 +23,7 @@ public final class EntityUtil
 
     public static boolean isEntityHostile(final Entity entity)
     {
-        if (entity instanceof EntityPigZombie)
-        {
-            return ((EntityPigZombie) entity).angerLevel > 0;
-        } else if (entity instanceof EntityEnderman)
-        {
-            return ((EntityEnderman) entity).isAggressive;
-        } else if (entity instanceof EntityWolf)
+        if (entity instanceof EntityWolf)
         {
             return ((EntityWolf) entity).isAngry();
         }
