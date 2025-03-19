@@ -42,7 +42,7 @@ public final class HUDCheat extends Cheat
         {
             if (!overlay.getStateSetting().getValue())
             {
-                return;
+                continue;
             }
             overlay.render(event.getResolution(), event.getPartialTicks());
         }
