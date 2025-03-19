@@ -9,10 +9,7 @@ import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.ITypedManager;
 import us.nebula.api.manager.command.exception.CommandParseException;
-import us.nebula.impl.command.HelpCommand;
-import us.nebula.impl.command.SetUsernameCommand;
-import us.nebula.impl.command.SpawnTPCommand;
-import us.nebula.impl.command.VerboseCommand;
+import us.nebula.impl.command.*;
 import us.nebula.impl.event.input.EventKey;
 import us.nebula.impl.event.network.EventPacket;
 import us.nebula.util.player.ChatUtil;
@@ -58,6 +55,7 @@ public final class CommandManager implements ITypedManager<Command>
                 Nebula.INSTANCE.getLogger().error(e.getMessage());
             } catch (final Exception e)
             {
+                e.printStackTrace();
                 ChatUtil.send("A fatal exception occurred while executing the command. " +
                         "Check console and report to my developers!" +
                         " https://github.com/xgraza/nebula-1.6.4");
@@ -81,6 +79,7 @@ public final class CommandManager implements ITypedManager<Command>
         EventBus.subscribe(this);
 
         addCommand(new HelpCommand());
+        addCommand(new HideCommand());
         addCommand(new SetUsernameCommand());
         addCommand(new SpawnTPCommand());
         addCommand(new VerboseCommand());
