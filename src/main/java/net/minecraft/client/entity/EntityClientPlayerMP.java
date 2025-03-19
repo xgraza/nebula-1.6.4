@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.event.game.EventPostUpdate;
 import us.nebula.impl.event.game.EventUpdate;
+import us.nebula.impl.event.player.EventMove;
 import us.nebula.impl.event.player.EventMoveUpdate;
 
 public class EntityClientPlayerMP extends EntityPlayerSP
@@ -64,6 +65,14 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         super(p_i45064_1_, p_i45064_2_, p_i45064_3_, 0);
         this.sendQueue = p_i45064_4_;
         this.field_146108_bO = p_i45064_5_;
+    }
+
+    @Override
+    public void moveEntity(double par1, double par3, double par5)
+    {
+        final EventMove event = new EventMove(par1, par3, par5);
+        EventBus.dispatch(event);
+        super.moveEntity(event.getX(), event.getY(), event.getZ());
     }
 
     /**

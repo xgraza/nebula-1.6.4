@@ -44,6 +44,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new JesusCheat());
         addCheat(new NoPushCheat());
         addCheat(new NoSlowCheat());
+        addCheat(new SpeedCheat());
         addCheat(new SprintCheat());
         addCheat(new AntiBlockCheat());
         addCheat(new AntiLagCheat());
