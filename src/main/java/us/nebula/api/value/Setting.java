@@ -5,7 +5,9 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import us.nebula.api.config.IJSONSerializable;
+import us.nebula.api.manager.key.Key;
 
+import java.awt.Color;
 import java.util.function.Supplier;
 
 /**
@@ -149,6 +151,17 @@ public class Setting<T> implements IJSONSerializable
     {
         if (!element.isJsonPrimitive())
         {
+            if (element.isJsonObject())
+            {
+                final JsonObject object = element.getAsJsonObject();
+                if (value instanceof Key)
+                {
+                    ((Key)value).fromJSON(object);
+                } else if (value instanceof Color)
+                {
+                    // TODO
+                }
+            }
             return;
         }
         final JsonPrimitive primitive = element.getAsJsonPrimitive();
@@ -175,7 +188,8 @@ public class Setting<T> implements IJSONSerializable
             {
                 setValue((T) (Object) primitive.getAsDouble());
             }
-        } else if (primitive.isString())
+        }
+        else if (primitive.isString())
         {
             if (value instanceof Enum<?>)
             {
@@ -196,7 +210,19 @@ public class Setting<T> implements IJSONSerializable
             return JsonNull.INSTANCE;
         }
 
-        if (value instanceof Boolean)
+        if (value instanceof Key)
+        {
+            return ((Key)value).toJSON();
+        } else if (value instanceof Color)
+        {
+            final Color c = (Color)value;
+            final JsonObject object = new JsonObject();
+            object.addProperty("r", c.getRed());
+            object.addProperty("g", c.getGreen());
+            object.addProperty("b", c.getBlue());
+            object.addProperty("a", c.getAlpha());
+            return object;
+        } else if (value instanceof Boolean)
         {
             return new JsonPrimitive((Boolean) value);
         } else if (value instanceof Number)

@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import org.lwjgl.input.Keyboard;
 import us.nebula.api.config.IJSONSerializable;
 
+import static org.lwjgl.input.Keyboard.KEY_NONE;
+
 /**
  * @author xgraza
  * @since 02/14/24
@@ -109,6 +111,10 @@ public final class Key implements IJSONSerializable
                 default:
                     return "MB-" + (keyCode + 1);
             }
+        }
+        if (keyCode <= KEY_NONE)
+        {
+            return "NONE";
         }
         return Keyboard.getKeyName(keyCode);
     }

@@ -143,6 +143,14 @@ public class Cheat implements ISettingProvider, IJSONSerializable
     {
         settingNameMap.put(setting.getName(), setting);
         settingList.add(setting);
+
+        if (setting.getValue() instanceof Key)
+        {
+            Nebula.INSTANCE.getLogger().debug(
+                    "Added runtime key for setting {}", setting);
+            Nebula.INSTANCE.getKeyManager()
+                    .addRuntimeKey((Key) setting.getValue());
+        }
     }
 
     @Override

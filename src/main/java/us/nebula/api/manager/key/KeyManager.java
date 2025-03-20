@@ -70,6 +70,11 @@ public final class KeyManager implements ITypedManager<Key>
         keyList.add(key);
     }
 
+    public void addRuntimeKey(final Key key)
+    {
+        keyList.add(key);
+    }
+
     public Key getReference(final String id)
     {
         return keyIdMap.get(id);

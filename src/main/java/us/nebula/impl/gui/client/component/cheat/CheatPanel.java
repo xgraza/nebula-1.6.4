@@ -10,6 +10,7 @@ import us.nebula.api.manager.key.Key;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.gui.client.component.cheat.value.BooleanSettingComponent;
 import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
+import us.nebula.impl.gui.client.component.cheat.value.KeySettingComponent;
 import us.nebula.impl.gui.client.component.cheat.value.NumberSettingComponent;
 import us.nebula.util.io.SoundUtil;
 import us.nebula.util.render.RenderUtil;
@@ -68,6 +69,12 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
             } else if (setting.getValue() instanceof Number)
             {
                 getChildrenComponentList().add(new NumberSettingComponent((Setting<Number>) setting));
+            } else if (setting.getValue() instanceof Key)
+            {
+                getChildrenComponentList().add(new KeySettingComponent((Setting<Key>) setting));
+            } else if (setting.getValue() instanceof Color)
+            {
+
             }
         }
     }
@@ -196,6 +203,18 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
             listeningForKey = false;
             cheat.getKey().setMouseBind(false);
             cheat.getKey().setKeyCode(keyCode);
+            return;
+        }
+        if (!panelAnimation.getState())
+        {
+            return;
+        }
+        for (final GUIComponent component : getChildrenComponentList())
+        {
+            if (component instanceof IGUIInputListener)
+            {
+                ((IGUIInputListener) component).keyTyped(typedChar, keyCode);
+            }
         }
     }
 
