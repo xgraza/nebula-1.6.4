@@ -23,11 +23,7 @@ public final class ChatUtil
     {
         content = content.replaceAll("(?i)&([0-9A-FK-OR])", "\u00a7$1");
         content = String.format(content, format);
-        send(content);
-    }
 
-    public static void send(final String content)
-    {
         final String[] lines = content.split("\n");
         for (final String line : lines)
         {

@@ -24,7 +24,7 @@ public final class InfiniteCommand extends Command
         argumentBuilder
                 .argument(new ItemArgument("item"), (arg) ->
                 {
-                    if (MC.playerController.isNotCreative() && !MC.isSingleplayer())
+                    if (MC.playerController.isNotCreative() || !MC.isSingleplayer())
                     {
                         ChatUtil.send("&cYou must be in creative and singleplayer mode");
                         return CommandResult.SUCCESS;
