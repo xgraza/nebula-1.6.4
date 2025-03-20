@@ -703,23 +703,23 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleChunkData(S21PacketChunkData p_147263_1_)
     {
-        if (p_147263_1_.func_149274_i())
+        if (p_147263_1_.isFull())
         {
-            if (p_147263_1_.func_149276_g() == 0)
+            if (p_147263_1_.getSects() == 0)
             {
-                this.clientWorldController.doPreChunk(p_147263_1_.func_149273_e(), p_147263_1_.func_149271_f(), false);
+                this.clientWorldController.doPreChunk(p_147263_1_.getX(), p_147263_1_.getZ(), false);
                 return;
             }
 
-            this.clientWorldController.doPreChunk(p_147263_1_.func_149273_e(), p_147263_1_.func_149271_f(), true);
+            this.clientWorldController.doPreChunk(p_147263_1_.getX(), p_147263_1_.getZ(), true);
         }
 
-        this.clientWorldController.invalidateBlockReceiveRegion(p_147263_1_.func_149273_e() << 4, 0, p_147263_1_.func_149271_f() << 4, (p_147263_1_.func_149273_e() << 4) + 15, 256, (p_147263_1_.func_149271_f() << 4) + 15);
-        Chunk var2 = this.clientWorldController.getChunkFromChunkCoords(p_147263_1_.func_149273_e(), p_147263_1_.func_149271_f());
-        var2.fillChunk(p_147263_1_.func_149272_d(), p_147263_1_.func_149276_g(), p_147263_1_.func_149270_h(), p_147263_1_.func_149274_i());
-        this.clientWorldController.markBlockRangeForRenderUpdate(p_147263_1_.func_149273_e() << 4, 0, p_147263_1_.func_149271_f() << 4, (p_147263_1_.func_149273_e() << 4) + 15, 256, (p_147263_1_.func_149271_f() << 4) + 15);
+        this.clientWorldController.invalidateBlockReceiveRegion(p_147263_1_.getX() << 4, 0, p_147263_1_.getZ() << 4, (p_147263_1_.getX() << 4) + 15, 256, (p_147263_1_.getZ() << 4) + 15);
+        Chunk var2 = this.clientWorldController.getChunkFromChunkCoords(p_147263_1_.getX(), p_147263_1_.getZ());
+        var2.fillChunk(p_147263_1_.getDeflatedChunkData(), p_147263_1_.getSects(), p_147263_1_.getAdd(), p_147263_1_.isFull());
+        this.clientWorldController.markBlockRangeForRenderUpdate(p_147263_1_.getX() << 4, 0, p_147263_1_.getZ() << 4, (p_147263_1_.getX() << 4) + 15, 256, (p_147263_1_.getZ() << 4) + 15);
 
-        if (!p_147263_1_.func_149274_i() || !(this.clientWorldController.provider instanceof WorldProviderSurface))
+        if (!p_147263_1_.isFull() || !(this.clientWorldController.provider instanceof WorldProviderSurface))
         {
             var2.resetRelightChecks();
         }
@@ -1288,9 +1288,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleUpdateTileEntity(S35PacketUpdateTileEntity p_147273_1_)
     {
-        if (this.gameController.theWorld.blockExists(p_147273_1_.func_148856_c(), p_147273_1_.func_148855_d(), p_147273_1_.func_148854_e()))
+        if (this.gameController.theWorld.blockExists(p_147273_1_.getX(), p_147273_1_.getY(), p_147273_1_.getZ()))
         {
-            TileEntity var2 = this.gameController.theWorld.getTileEntity(p_147273_1_.func_148856_c(), p_147273_1_.func_148855_d(), p_147273_1_.func_148854_e());
+            TileEntity var2 = this.gameController.theWorld.getTileEntity(p_147273_1_.getX(), p_147273_1_.getY(), p_147273_1_.getZ());
 
             if (var2 != null)
             {

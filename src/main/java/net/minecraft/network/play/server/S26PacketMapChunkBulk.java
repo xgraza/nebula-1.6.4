@@ -42,20 +42,20 @@ public class S26PacketMapChunkBulk extends Packet
             Chunk var5 = (Chunk)p_i45197_1_.get(var4);
             S21PacketChunkData.Extracted var6 = S21PacketChunkData.func_149269_a(var5, true, 65535);
 
-            if (field_149268_i.length < var3 + var6.field_150282_a.length)
+            if (field_149268_i.length < var3 + var6.deflatedChunkData.length)
             {
-                byte[] var7 = new byte[var3 + var6.field_150282_a.length];
+                byte[] var7 = new byte[var3 + var6.deflatedChunkData.length];
                 System.arraycopy(field_149268_i, 0, var7, 0, field_149268_i.length);
                 field_149268_i = var7;
             }
 
-            System.arraycopy(var6.field_150282_a, 0, field_149268_i, var3, var6.field_150282_a.length);
-            var3 += var6.field_150282_a.length;
+            System.arraycopy(var6.deflatedChunkData, 0, field_149268_i, var3, var6.deflatedChunkData.length);
+            var3 += var6.deflatedChunkData.length;
             this.field_149266_a[var4] = var5.xPosition;
             this.field_149264_b[var4] = var5.zPosition;
             this.field_149265_c[var4] = var6.field_150280_b;
             this.field_149262_d[var4] = var6.field_150281_c;
-            this.field_149260_f[var4] = var6.field_150282_a;
+            this.field_149260_f[var4] = var6.deflatedChunkData;
         }
 
         Deflater var11 = new Deflater(-1);

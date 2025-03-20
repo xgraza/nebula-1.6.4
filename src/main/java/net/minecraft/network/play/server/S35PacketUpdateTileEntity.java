@@ -56,17 +56,17 @@ public class S35PacketUpdateTileEntity extends Packet
         p_148858_1_.handleUpdateTileEntity(this);
     }
 
-    public int func_148856_c()
+    public int getX()
     {
         return this.field_148863_a;
     }
 
-    public int func_148855_d()
+    public int getY()
     {
         return this.field_148861_b;
     }
 
-    public int func_148854_e()
+    public int getZ()
     {
         return this.field_148862_c;
     }

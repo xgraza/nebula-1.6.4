@@ -14,40 +14,39 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public class S21PacketChunkData extends Packet
 {
-    private int field_149284_a;
-    private int field_149282_b;
-    private int field_149283_c;
-    private int field_149280_d;
-    private byte[] field_149281_e;
-    private byte[] field_149278_f;
-    private boolean field_149279_g;
-    private int field_149285_h;
+    private int x;
+    private int z;
+    private int sects;
+    private int add;
+    private byte[] chunkData;
+    private byte[] deflatedChunkData;
+    private boolean full;
+    private int size;
     private static byte[] field_149286_i = new byte[196864];
-    private static final String __OBFID = "CL_00001304";
 
     public S21PacketChunkData() {}
 
-    public S21PacketChunkData(Chunk p_i45196_1_, boolean p_i45196_2_, int p_i45196_3_)
+    public S21PacketChunkData(Chunk chunk, boolean full, int p_i45196_3_)
     {
-        this.field_149284_a = p_i45196_1_.xPosition;
-        this.field_149282_b = p_i45196_1_.zPosition;
-        this.field_149279_g = p_i45196_2_;
-        S21PacketChunkData.Extracted var4 = func_149269_a(p_i45196_1_, p_i45196_2_, p_i45196_3_);
-        Deflater var5 = new Deflater(-1);
-        this.field_149280_d = var4.field_150281_c;
-        this.field_149283_c = var4.field_150280_b;
+        this.x = chunk.xPosition;
+        this.z = chunk.zPosition;
+        this.full = full;
+        S21PacketChunkData.Extracted extractedChunk = func_149269_a(chunk, full, p_i45196_3_);
+        Deflater deflator = new Deflater(-1);
+        this.add = extractedChunk.field_150281_c;
+        this.sects = extractedChunk.field_150280_b;
 
         try
         {
-            this.field_149278_f = var4.field_150282_a;
-            var5.setInput(var4.field_150282_a, 0, var4.field_150282_a.length);
-            var5.finish();
-            this.field_149281_e = new byte[var4.field_150282_a.length];
-            this.field_149285_h = var5.deflate(this.field_149281_e);
+            this.deflatedChunkData = extractedChunk.deflatedChunkData;
+            deflator.setInput(extractedChunk.deflatedChunkData, 0, extractedChunk.deflatedChunkData.length);
+            deflator.finish();
+            this.chunkData = new byte[extractedChunk.deflatedChunkData.length];
+            this.size = deflator.deflate(this.chunkData);
         }
         finally
         {
-            var5.end();
+            deflator.end();
         }
     }
 
@@ -59,43 +58,43 @@ public class S21PacketChunkData extends Packet
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer buffer) throws IOException
     {
-        this.field_149284_a = p_148837_1_.readInt();
-        this.field_149282_b = p_148837_1_.readInt();
-        this.field_149279_g = p_148837_1_.readBoolean();
-        this.field_149283_c = p_148837_1_.readShort();
-        this.field_149280_d = p_148837_1_.readShort();
-        this.field_149285_h = p_148837_1_.readInt();
+        this.x = buffer.readInt();
+        this.z = buffer.readInt();
+        this.full = buffer.readBoolean();
+        this.sects = buffer.readShort();
+        this.add = buffer.readShort();
+        this.size = buffer.readInt();
 
-        if (field_149286_i.length < this.field_149285_h)
+        if (field_149286_i.length < this.size)
         {
-            field_149286_i = new byte[this.field_149285_h];
+            field_149286_i = new byte[this.size];
         }
 
-        p_148837_1_.readBytes(field_149286_i, 0, this.field_149285_h);
+        buffer.readBytes(field_149286_i, 0, this.size);
         int var2 = 0;
         int var3;
 
         for (var3 = 0; var3 < 16; ++var3)
         {
-            var2 += this.field_149283_c >> var3 & 1;
+            var2 += this.sects >> var3 & 1;
         }
 
         var3 = 12288 * var2;
 
-        if (this.field_149279_g)
+        if (this.full)
         {
             var3 += 256;
         }
 
-        this.field_149278_f = new byte[var3];
+        this.deflatedChunkData = new byte[var3];
         Inflater var4 = new Inflater();
-        var4.setInput(field_149286_i, 0, this.field_149285_h);
+        var4.setInput(field_149286_i, 0, this.size);
 
         try
         {
-            var4.inflate(this.field_149278_f);
+            var4.inflate(this.deflatedChunkData);
         }
         catch (DataFormatException var9)
         {
@@ -112,13 +111,13 @@ public class S21PacketChunkData extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeInt(this.field_149284_a);
-        p_148840_1_.writeInt(this.field_149282_b);
-        p_148840_1_.writeBoolean(this.field_149279_g);
-        p_148840_1_.writeShort((short)(this.field_149283_c & 65535));
-        p_148840_1_.writeShort((short)(this.field_149280_d & 65535));
-        p_148840_1_.writeInt(this.field_149285_h);
-        p_148840_1_.writeBytes(this.field_149281_e, 0, this.field_149285_h);
+        p_148840_1_.writeInt(this.x);
+        p_148840_1_.writeInt(this.z);
+        p_148840_1_.writeBoolean(this.full);
+        p_148840_1_.writeShort((short)(this.sects & 65535));
+        p_148840_1_.writeShort((short)(this.add & 65535));
+        p_148840_1_.writeInt(this.size);
+        p_148840_1_.writeBytes(this.chunkData, 0, this.size);
     }
 
     public void processPacket(INetHandlerPlayClient p_149277_1_)
@@ -131,12 +130,12 @@ public class S21PacketChunkData extends Packet
      */
     public String serialize()
     {
-        return String.format("x=%d, z=%d, full=%b, sects=%d, add=%d, size=%d", new Object[] {Integer.valueOf(this.field_149284_a), Integer.valueOf(this.field_149282_b), Boolean.valueOf(this.field_149279_g), Integer.valueOf(this.field_149283_c), Integer.valueOf(this.field_149280_d), Integer.valueOf(this.field_149285_h)});
+        return String.format("x=%d, z=%d, full=%b, sects=%d, add=%d, size=%d", new Object[] {Integer.valueOf(this.x), Integer.valueOf(this.z), Boolean.valueOf(this.full), Integer.valueOf(this.sects), Integer.valueOf(this.add), Integer.valueOf(this.size)});
     }
 
-    public byte[] func_149272_d()
+    public byte[] getDeflatedChunkData()
     {
-        return this.field_149278_f;
+        return this.deflatedChunkData;
     }
 
     public static S21PacketChunkData.Extracted func_149269_a(Chunk p_149269_0_, boolean p_149269_1_, int p_149269_2_)
@@ -233,34 +232,34 @@ public class S21PacketChunkData extends Packet
             var3 += var11.length;
         }
 
-        var6.field_150282_a = new byte[var3];
-        System.arraycopy(var7, 0, var6.field_150282_a, 0, var3);
+        var6.deflatedChunkData = new byte[var3];
+        System.arraycopy(var7, 0, var6.deflatedChunkData, 0, var3);
         return var6;
     }
 
-    public int func_149273_e()
+    public int getX()
     {
-        return this.field_149284_a;
+        return this.x;
     }
 
-    public int func_149271_f()
+    public int getZ()
     {
-        return this.field_149282_b;
+        return this.z;
     }
 
-    public int func_149276_g()
+    public int getSects()
     {
-        return this.field_149283_c;
+        return this.sects;
     }
 
-    public int func_149270_h()
+    public int getAdd()
     {
-        return this.field_149280_d;
+        return this.add;
     }
 
-    public boolean func_149274_i()
+    public boolean isFull()
     {
-        return this.field_149279_g;
+        return this.full;
     }
 
     public void processPacket(INetHandler p_148833_1_)
@@ -270,9 +269,8 @@ public class S21PacketChunkData extends Packet
 
     public static class Extracted
     {
-        public byte[] field_150282_a;
+        public byte[] deflatedChunkData;
         public int field_150280_b;
         public int field_150281_c;
-        private static final String __OBFID = "CL_00001305";
     }
 }
