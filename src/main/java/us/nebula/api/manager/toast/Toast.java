@@ -44,7 +44,7 @@ public final class Toast
     {
         final double screenWidth = resolution.getScaledWidth_double();
         final double toastWidth = Fonts.POPPINS.getStringWidth(details) + (PADDING * 3);
-        final double toastHeight = (Fonts.POPPINS.getFontHeight() + 1.0) * 1.5;
+        final double toastHeight = (Fonts.POPPINS.getFontHeight() + 1.0) * 2;
         double posX = screenWidth - (PADDING * 2) - (toastWidth * (animation.getEasedFactor()));
 
         animation.setState(deathTimeMS - 300 > System.currentTimeMillis());
@@ -54,10 +54,10 @@ public final class Toast
         final double progressBar = toastWidth * (((deathTimeMS - System.currentTimeMillis()) / (double)lifeMS));
         RenderUtil.roundedRectangle2D(posX, posY + toastHeight - 1.5, progressBar, 1.5, 2.5f, new Color(112, 82, 143).getRGB());
 
-        Fonts.ICONFACE.drawStringShadow(toastType.getIconChar(), posX + 1, posY + 4, 0xAAAAAA);
-        Fonts.POPPINS.drawStringShadow(title, posX + 11, posY + 1, -1);
-        Fonts.POPPINS.drawStringShadow(details, posX + PADDING, posY + Fonts.POPPINS.getFontHeight() - 5, -1);
-        return toastHeight;
+        Fonts.ICONFACE.drawStringShadow(toastType.getIconChar(), posX + 1, posY + 2.5, 0xAAAAAA);
+        Fonts.POPPINS.drawStringShadow(title, posX + 11, posY, -1);
+        Fonts.POPPINS.drawStringShadow(details, posX + PADDING, posY + Fonts.POPPINS.getFontHeight() - 1, -1);
+        return toastHeight * animation.getFactor();
     }
 
     public int getId()
