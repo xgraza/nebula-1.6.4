@@ -67,7 +67,13 @@ public final class CheatConfig
                 {
                     continue;
                 }
-                cheat.fromJSON(object.get(cheatName));
+                try
+                {
+                    cheat.fromJSON(object.get(cheatName));
+                } catch (final Exception e)
+                {
+                    Nebula.INSTANCE.getLogger().error(e);
+                }
             }
         }
     }

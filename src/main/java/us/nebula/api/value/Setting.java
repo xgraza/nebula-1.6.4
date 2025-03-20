@@ -182,7 +182,8 @@ public class Setting<T> implements IJSONSerializable
                 setValue((T) Enum.valueOf(((Enum<?>)value).getDeclaringClass(), primitive.getAsString()));
             } else
             {
-                throw new RuntimeException("mismatched JSON & value types");
+                throw new RuntimeException("mismatched JSON & value types for setting "
+                        + getName());
             }
         }
     }
