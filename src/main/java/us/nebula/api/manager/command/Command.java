@@ -1,6 +1,8 @@
 package us.nebula.api.manager.command;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import us.nebula.api.manager.command.argument.Argument;
 import us.nebula.api.manager.command.argument.ArgumentBuilder;
 
@@ -74,5 +76,11 @@ public abstract class Command
     public String getSyntax()
     {
         return syntax;
+    }
+
+    public static EntityPlayerMP getSeverPlayer()
+    {
+        return MinecraftServer.getServer().getConfigurationManager()
+                .getPlayerForUsername(MC.thePlayer.getCommandSenderName());
     }
 }

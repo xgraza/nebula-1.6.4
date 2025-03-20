@@ -83,7 +83,7 @@ public class CommandGive extends CommandBase
 
             EntityItem var11 = var3.dropPlayerItemWithRandomChoice(var7, false);
             var11.delayBeforeCanPickup = 0;
-            var11.func_145797_a(var3.getCommandSenderName());
+            var11.setOwner(var3.getCommandSenderName());
             notifyAdmins(par1ICommandSender, "commands.give.success", new Object[] {var7.func_151000_E(), Integer.valueOf(var5), var3.getCommandSenderName()});
         }
     }

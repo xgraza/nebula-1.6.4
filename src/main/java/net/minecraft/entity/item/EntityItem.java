@@ -447,7 +447,7 @@ public class EntityItem extends Entity
         return this.field_145802_g;
     }
 
-    public void func_145797_a(String p_145797_1_)
+    public void setOwner(String p_145797_1_)
     {
         this.field_145802_g = p_145797_1_;
     }

@@ -80,6 +80,7 @@ public final class CommandManager implements ITypedManager<Command>
 
         addCommand(new HelpCommand());
         addCommand(new HideCommand());
+        addCommand(new InfiniteCommand());
         addCommand(new SetUsernameCommand());
         addCommand(new SpawnTPCommand());
         addCommand(new VerboseCommand());
