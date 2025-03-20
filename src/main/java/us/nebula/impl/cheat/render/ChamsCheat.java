@@ -3,6 +3,9 @@ package us.nebula.impl.cheat.render;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityEnderChest;
 import org.lwjgl.opengl.GL11;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
@@ -33,13 +36,15 @@ public final class ChamsCheat extends Cheat
     private final Setting<Boolean> passiveSetting = new Setting<>(
             "Passive Mobs", true);
 
-    public void preEntityRender(final EntityLivingBase entity)
-    {
-        if (!isEntityValid(entity))
-        {
-            return;
-        }
+    private final Setting<Boolean> chestsSetting = new Setting<>(
+            "Chests", true);
+    private final Setting<Boolean> enderChestsSetting = new Setting<>(
+            "Ender Chests", true);
+    private final Setting<Boolean> otherTileSetting = new Setting<>(
+            "Other Tile Entities", false);
 
+    public void preEntityRender()
+    {
         if (modeSetting.getValue() != Mode.XQZ && modeSetting.getValue() != Mode.WIREFRAME)
         {
             GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
@@ -78,13 +83,8 @@ public final class ChamsCheat extends Cheat
         }
     }
 
-    public boolean postEntityRender(final EntityLivingBase entity)
+    public boolean postEntityRender()
     {
-        if (!isEntityValid(entity))
-        {
-            return false;
-        }
-
         switch (modeSetting.getValue())
         {
             case WIREFRAME:
@@ -112,6 +112,19 @@ public final class ChamsCheat extends Cheat
             }
         }
         return false;
+    }
+
+    public boolean isTileEntityValid(final TileEntity entity)
+    {
+        if (entity instanceof TileEntityChest)
+        {
+            return chestsSetting.getValue();
+        }
+        if (entity instanceof TileEntityEnderChest)
+        {
+            return enderChestsSetting.getValue();
+        }
+        return otherTileSetting.getValue();
     }
 
     public boolean isEntityValid(final Entity entity)

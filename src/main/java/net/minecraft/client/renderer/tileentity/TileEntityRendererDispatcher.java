@@ -23,6 +23,7 @@ import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
+import us.nebula.impl.cheat.render.ChamsCheat;
 
 public class TileEntityRendererDispatcher
 {
@@ -123,7 +124,20 @@ public class TileEntityRendererDispatcher
         {
             try
             {
+                final boolean renderingChams = ChamsCheat.INSTANCE != null
+                        && ChamsCheat.INSTANCE.isToggled()
+                        && ChamsCheat.INSTANCE.isTileEntityValid(p_147549_1_);
+
+                if (renderingChams)
+                {
+                    ChamsCheat.INSTANCE.preEntityRender();
+                }
                 var9.renderTileEntityAt(p_147549_1_, p_147549_2_, p_147549_4_, p_147549_6_, p_147549_8_);
+
+                if (renderingChams && ChamsCheat.INSTANCE.postEntityRender())
+                {
+                    var9.renderTileEntityAt(p_147549_1_, p_147549_2_, p_147549_4_, p_147549_6_, p_147549_8_);
+                }
             }
             catch (Throwable var13)
             {

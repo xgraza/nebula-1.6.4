@@ -196,7 +196,7 @@ public abstract class RendererLivingEntity extends Render
 
             if (renderingChams)
             {
-                ChamsCheat.INSTANCE.preEntityRender(par1EntityLivingBase);
+                ChamsCheat.INSTANCE.preEntityRender();
             }
 
             GL11.glEnable(GL11.GL_ALPHA_TEST);
@@ -210,7 +210,7 @@ public abstract class RendererLivingEntity extends Render
 
             if (renderingChams)
             {
-                if (ChamsCheat.INSTANCE.postEntityRender(par1EntityLivingBase))
+                if (ChamsCheat.INSTANCE.postEntityRender())
                 {
                     this.renderModel(par1EntityLivingBase, var16, var15, var291, var28 - var25, var26, var14);
                 }
