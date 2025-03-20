@@ -48,7 +48,7 @@ public final class ItemStack
     /**
      * A NBTTagMap containing data about an ItemStack. Can only be used for non stackable items
      */
-    public NBTTagCompound stackTagCompound;
+    public NBTTagCompound stackTagCompound, originalNBTData;
 
     /** Damage dealt to the item or number of use. Raise when using items. */
     private int itemDamage;
@@ -193,6 +193,7 @@ public final class ItemStack
      */
     public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
+        originalNBTData = par1NBTTagCompound;
         this.field_151002_e = Item.getItemById(par1NBTTagCompound.getShort("id"));
         this.stackSize = par1NBTTagCompound.getByte("Count");
         this.itemDamage = par1NBTTagCompound.getShort("Damage");
@@ -835,6 +836,11 @@ public final class ItemStack
         }
 
         this.stackTagCompound.setInteger("RepairCost", par1);
+    }
+
+    public NBTTagCompound getOriginalNBTData()
+    {
+        return originalNBTData;
     }
 
     /**
