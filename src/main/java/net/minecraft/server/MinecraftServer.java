@@ -546,6 +546,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable
                 Validate.validState(var4.getHeight() == 64, "Must be 64 pixels high", new Object[0]);
                 ImageIO.write(var4, "PNG", new ByteBufOutputStream(var3));
                 ByteBuf var5 = Base64.encode(var3);
+                var5.release();
                 p_147138_1_.func_151320_a("data:image/png;base64," + var5.toString(Charsets.UTF_8));
             }
             catch (Exception var6)

@@ -191,11 +191,16 @@ public class EffectRenderer
     public void renderLitParticles(Entity par1Entity, float par2)
     {
         float var3 = 0.017453292F;
-        float var4 = MathHelper.cos(par1Entity.rotationYaw * 0.017453292F);
-        float var5 = MathHelper.sin(par1Entity.rotationYaw * 0.017453292F);
-        float var6 = -var5 * MathHelper.sin(par1Entity.rotationPitch * 0.017453292F);
-        float var7 = var4 * MathHelper.sin(par1Entity.rotationPitch * 0.017453292F);
-        float var8 = MathHelper.cos(par1Entity.rotationPitch * 0.017453292F);
+//        float var4 = MathHelper.cos(par1Entity.rotationYaw * 0.017453292F);
+//        float var5 = MathHelper.sin(par1Entity.rotationYaw * 0.017453292F);
+//        float var6 = -var5 * MathHelper.sin(par1Entity.rotationPitch * 0.017453292F);
+//        float var7 = var4 * MathHelper.sin(par1Entity.rotationPitch * 0.017453292F);
+//        float var8 = MathHelper.cos(par1Entity.rotationPitch * 0.017453292F);
+        float var4 = ActiveRenderInfo.rotationX;
+        float var5 = ActiveRenderInfo.rotationZ;
+        float var6 = ActiveRenderInfo.rotationYZ;
+        float var7 = ActiveRenderInfo.rotationXY;
+        float var8 = ActiveRenderInfo.rotationXZ;
         byte var9 = 3;
         List var10 = this.fxLayers[var9];
 

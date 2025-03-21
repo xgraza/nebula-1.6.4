@@ -12,11 +12,15 @@ import java.util.concurrent.Callable;
 
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -48,7 +52,6 @@ import net.minecraft.world.storage.WorldInfo;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.cheat.exploit.GhostHandCheat;
 import us.nebula.impl.cheat.render.NoWeatherCheat;
-import us.nebula.impl.cheat.render.XRayCheat;
 import us.nebula.impl.event.player.EventPushWater;
 
 public abstract class World implements IBlockAccess
@@ -1545,18 +1548,23 @@ public abstract class World implements IBlockAccess
         }
 
         double var14 = 0.25D;
-        List var15 = this.getEntitiesWithinAABBExcludingEntity(par1Entity, par2AxisAlignedBB.expand(var14, var14, var14));
+        List<Entity> var15 = this.getEntitiesWithinAABBExcludingEntity(par1Entity, par2AxisAlignedBB.expand(var14, var14, var14));
 
         for (int var16 = 0; var16 < var15.size(); ++var16)
         {
-            AxisAlignedBB var13 = ((Entity)var15.get(var16)).getBoundingBox();
+            final Entity entity = var15.get(var16);
+            if (entity instanceof EntityTNTPrimed || entity instanceof EntityFallingBlock || entity instanceof EntityItem || entity instanceof EntityFX)
+            {
+                continue;
+            }
+            AxisAlignedBB var13 = entity.getBoundingBox();
 
             if (var13 != null && var13.intersectsWith(par2AxisAlignedBB))
             {
                 this.collidingBoundingBoxes.add(var13);
             }
 
-            var13 = par1Entity.getCollisionBox((Entity)var15.get(var16));
+            var13 = par1Entity.getCollisionBox(entity);
 
             if (var13 != null && var13.intersectsWith(par2AxisAlignedBB))
             {
@@ -2101,13 +2109,14 @@ public abstract class World implements IBlockAccess
      * Will update the entity in the world if the chunk the entity is in is currently loaded or its forced to update.
      * Args: entity, forceUpdate
      */
-    public void updateEntityWithOptionalForce(Entity par1Entity, boolean par2)
+    public void updateEntityWithOptionalForce(Entity par1Entity, boolean forceUpdate)
     {
+        //forceUpdate = forceUpdate && isClient;
         int var3 = MathHelper.floor_double(par1Entity.posX);
         int var4 = MathHelper.floor_double(par1Entity.posZ);
         byte var5 = 32;
 
-        if (!par2 || this.checkChunksExist(var3 - var5, 0, var4 - var5, var3 + var5, 0, var4 + var5))
+        if (!forceUpdate || this.checkChunksExist(var3 - var5, 0, var4 - var5, var3 + var5, 0, var4 + var5))
         {
             par1Entity.lastTickPosX = par1Entity.posX;
             par1Entity.lastTickPosY = par1Entity.posY;
@@ -2115,7 +2124,7 @@ public abstract class World implements IBlockAccess
             par1Entity.prevRotationYaw = par1Entity.rotationYaw;
             par1Entity.prevRotationPitch = par1Entity.rotationPitch;
 
-            if (par2 && par1Entity.addedToChunk)
+            if (forceUpdate && par1Entity.addedToChunk)
             {
                 ++par1Entity.ticksExisted;
 
@@ -2180,7 +2189,7 @@ public abstract class World implements IBlockAccess
 
             this.theProfiler.endSection();
 
-            if (par2 && par1Entity.addedToChunk && par1Entity.riddenByEntity != null)
+            if (forceUpdate && par1Entity.addedToChunk && par1Entity.riddenByEntity != null)
             {
                 if (!par1Entity.riddenByEntity.isDead && par1Entity.riddenByEntity.ridingEntity == par1Entity)
                 {
@@ -4031,7 +4040,8 @@ public abstract class World implements IBlockAccess
      */
     public double getHorizon()
     {
-        return this.worldInfo.getTerrainType() == WorldType.FLAT ? 0.0D : 63.0D;
+        return 0.0;
+        //return this.worldInfo.getTerrainType() == WorldType.FLAT ? 0.0D : 63.0D;
     }
 
     /**

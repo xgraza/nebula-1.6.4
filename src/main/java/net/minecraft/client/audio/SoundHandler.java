@@ -47,19 +47,19 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
     };
     public static final SoundPoolEntry field_147700_a = new SoundPoolEntry(new ResourceLocation("meta:missing_sound"), 0.0D, 0.0D, false);
     private final SoundRegistry field_147697_e = new SoundRegistry();
-    private final SoundManager field_147694_f;
+    private final SoundManager soundManager;
     private final IResourceManager field_147695_g;
     private static final String __OBFID = "CL_00001147";
 
     public SoundHandler(IResourceManager p_i45122_1_, GameSettings p_i45122_2_)
     {
         this.field_147695_g = p_i45122_1_;
-        this.field_147694_f = new SoundManager(this, p_i45122_2_);
+        this.soundManager = new SoundManager(this, p_i45122_2_);
     }
 
     public void onResourceManagerReload(IResourceManager par1ResourceManager)
     {
-        this.field_147694_f.func_148596_a();
+        this.soundManager.func_148596_a();
         this.field_147697_e.func_148763_c();
         Iterator var2 = par1ResourceManager.getResourceDomains().iterator();
 
@@ -182,7 +182,7 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
      */
     public void playSound(ISound p_147682_1_)
     {
-        this.field_147694_f.func_148611_c(p_147682_1_);
+        this.soundManager.playSound(p_147682_1_);
     }
 
     /**
@@ -190,27 +190,27 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
      */
     public void playDelayedSound(ISound p_147681_1_, int p_147681_2_)
     {
-        this.field_147694_f.func_148599_a(p_147681_1_, p_147681_2_);
+        this.soundManager.func_148599_a(p_147681_1_, p_147681_2_);
     }
 
     public void func_147691_a(EntityPlayer p_147691_1_, float p_147691_2_)
     {
-        this.field_147694_f.func_148615_a(p_147691_1_, p_147691_2_);
+        this.soundManager.func_148615_a(p_147691_1_, p_147691_2_);
     }
 
     public void func_147689_b()
     {
-        this.field_147694_f.func_148610_e();
+        this.soundManager.pauseAllSounds();
     }
 
     public void func_147690_c()
     {
-        this.field_147694_f.func_148614_c();
+        this.soundManager.func_148614_c();
     }
 
     public void func_147685_d()
     {
-        this.field_147694_f.func_148613_b();
+        this.soundManager.func_148613_b();
     }
 
     /**
@@ -218,12 +218,12 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
      */
     public void update()
     {
-        this.field_147694_f.func_148605_d();
+        this.soundManager.func_148605_d();
     }
 
     public void func_147687_e()
     {
-        this.field_147694_f.func_148604_f();
+        this.soundManager.resumeAllSounds();
     }
 
     public void setSoundLevel(SoundCategory p_147684_1_, float p_147684_2_)
@@ -233,12 +233,12 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
             this.func_147690_c();
         }
 
-        this.field_147694_f.func_148601_a(p_147684_1_, p_147684_2_);
+        this.soundManager.func_148601_a(p_147684_1_, p_147684_2_);
     }
 
     public void func_147683_b(ISound p_147683_1_)
     {
-        this.field_147694_f.func_148602_b(p_147683_1_);
+        this.soundManager.func_148602_b(p_147683_1_);
     }
 
     public SoundEventAccessorComposite func_147686_a(SoundCategory ... p_147686_1_)
@@ -267,9 +267,9 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
         }
     }
 
-    public boolean func_147692_c(ISound p_147692_1_)
+    public boolean isPlaying(ISound p_147692_1_)
     {
-        return this.field_147694_f.func_148597_a(p_147692_1_);
+        return this.soundManager.isPlaying(p_147692_1_);
     }
 
     static final class SwitchType

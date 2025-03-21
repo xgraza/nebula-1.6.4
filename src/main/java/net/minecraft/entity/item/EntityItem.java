@@ -151,6 +151,11 @@ public class EntityItem extends Entity
      */
     private void searchForOtherItemsNearby()
     {
+        // TODO: external fix
+        if (getEntityItem().stackSize >= getEntityItem().getMaxStackSize())
+        {
+            return;
+        }
         Iterator var1 = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(0.5D, 0.0D, 0.5D)).iterator();
 
         while (var1.hasNext())

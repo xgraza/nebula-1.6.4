@@ -152,6 +152,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
      */
     private final int[] lightmapColors;
     private final ResourceLocation locationLightMap;
+    private boolean compiledLightmap;
 
     /** FOV modifier hand */
     private float fovModifierHand;
@@ -1085,6 +1086,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void updateLightmap(float par1)
     {
+        if (compiledLightmap)
+        {
+            return;
+        }
         WorldClient var2 = this.mc.theWorld;
 
         if (var2 != null)
@@ -1229,6 +1234,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.lightmapTexture.updateDynamicTexture();
             this.lightmapUpdateNeeded = false;
         }
+        compiledLightmap = true;
     }
 
     /**

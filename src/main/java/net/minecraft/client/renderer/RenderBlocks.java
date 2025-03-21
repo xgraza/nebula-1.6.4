@@ -4542,7 +4542,8 @@ public class RenderBlocks
             double var26 = (double)this.getFluidHeight(p_147721_2_, p_147721_3_, p_147721_4_ + 1, var22);
             double var28 = (double)this.getFluidHeight(p_147721_2_ + 1, p_147721_3_, p_147721_4_ + 1, var22);
             double var30 = (double)this.getFluidHeight(p_147721_2_ + 1, p_147721_3_, p_147721_4_, var22);
-            double var32 = 0.0010000000474974513D;
+            //double var32 = 0.0010000000474974513D;
+            double var32 = 0.0;
             float var54;
             float var53;
             float var52;

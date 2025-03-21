@@ -644,7 +644,7 @@ public class WorldServer extends World
      * Will update the entity in the world if the chunk the entity is in is currently loaded or its forced to update.
      * Args: entity, forceUpdate
      */
-    public void updateEntityWithOptionalForce(Entity par1Entity, boolean par2)
+    public void updateEntityWithOptionalForce(Entity par1Entity, boolean forceUpdate)
     {
         if (!this.mcServer.getCanSpawnAnimals() && (par1Entity instanceof EntityAnimal || par1Entity instanceof EntityWaterMob))
         {
@@ -656,7 +656,7 @@ public class WorldServer extends World
             par1Entity.setDead();
         }
 
-        super.updateEntityWithOptionalForce(par1Entity, par2);
+        super.updateEntityWithOptionalForce(par1Entity, forceUpdate);
     }
 
     /**

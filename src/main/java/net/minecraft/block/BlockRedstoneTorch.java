@@ -1,10 +1,7 @@
 package net.minecraft.block;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -14,7 +11,7 @@ import net.minecraft.world.World;
 public class BlockRedstoneTorch extends BlockTorch
 {
     private boolean field_150113_a;
-    private static Map field_150112_b = new HashMap();
+    private static Map field_150112_b = new WeakHashMap();
     private static final String __OBFID = "CL_00000298";
 
     private boolean func_150111_a(World p_150111_1_, int p_150111_2_, int p_150111_3_, int p_150111_4_, boolean p_150111_5_)

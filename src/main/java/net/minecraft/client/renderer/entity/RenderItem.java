@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSnow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;

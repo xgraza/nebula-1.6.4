@@ -26,17 +26,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiGameOver;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiMemoryErrorScreen;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSleepMP;
-import net.minecraft.client.gui.GuiWinGame;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.achievement.GuiAchievement;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.multiplayer.GuiConnecting;
@@ -1095,6 +1085,7 @@ public class Minecraft
 
     public void freeMemory()
     {
+        System.gc();
         try
         {
             memoryReserve = new byte[0];
@@ -1545,6 +1536,7 @@ public class Minecraft
                 this.updateFramebufferSize();
             }
 
+            Display.setResizable(!fullscreen);
             Display.setFullscreen(this.fullscreen);
             Display.setVSyncEnabled(this.gameSettings.enableVsync);
             this.func_147120_f();
@@ -2167,6 +2159,13 @@ public class Minecraft
      */
     public void loadWorld(WorldClient par1WorldClient, String par2Str)
     {
+        System.gc();
+        // clear old map rendering stuff
+        if (par1WorldClient != theWorld)
+        {
+            entityRenderer.getMapItemRenderer().func_148249_a();
+        }
+
         if (par1WorldClient == null)
         {
             NetHandlerPlayClient var3 = this.getNetHandler();

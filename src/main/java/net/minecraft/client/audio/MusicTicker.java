@@ -34,7 +34,7 @@ public class MusicTicker implements IUpdatePlayerListBox
                 this.field_147676_d = MathHelper.getRandomIntegerInRange(this.field_147679_a, 0, var1.func_148634_b() / 2);
             }
 
-            if (!this.field_147677_b.getSoundHandler().func_147692_c(this.field_147678_c))
+            if (!this.field_147677_b.getSoundHandler().isPlaying(this.field_147678_c))
             {
                 this.field_147678_c = null;
                 this.field_147676_d = Math.min(MathHelper.getRandomIntegerInRange(this.field_147679_a, var1.func_148634_b(), var1.func_148633_c()), this.field_147676_d);
