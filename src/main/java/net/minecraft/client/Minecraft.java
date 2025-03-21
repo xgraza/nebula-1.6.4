@@ -102,8 +102,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.play.client.C16PacketClientStatus;
-import net.minecraft.profiler.IPlayerUsage;
-import net.minecraft.profiler.PlayerUsageSnooper;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -149,7 +147,7 @@ import us.nebula.api.listener.EventBus;
 import us.nebula.impl.event.input.EventKey;
 import us.nebula.impl.event.input.EventMouse;
 
-public class Minecraft implements IPlayerUsage
+public class Minecraft
 {
     private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
@@ -179,8 +177,6 @@ public class Minecraft implements IPlayerUsage
     public int displayHeight;
     public Timer timer = new Timer(20.0F);
 
-    /** Instance of PlayerUsageSnooper. */
-    private PlayerUsageSnooper usageSnooper = new PlayerUsageSnooper("client", this, MinecraftServer.getSystemTimeMillis());
     public WorldClient theWorld;
     public RenderGlobal renderGlobal;
     public EntityClientPlayerMP thePlayer;
@@ -1049,12 +1045,6 @@ public class Minecraft implements IPlayerUsage
             WorldRenderer.chunksUpdated = 0;
             this.debugUpdateTime += 1000L;
             this.fpsCounter = 0;
-            this.usageSnooper.addMemoryStatsToSnooper();
-
-            if (!this.usageSnooper.isSnooperRunning())
-            {
-                this.usageSnooper.startSnooper();
-            }
         }
 
         this.mcProfiler.endSection();
@@ -2582,83 +2572,6 @@ public class Minecraft implements IPlayerUsage
         this.refreshTexturePacksScheduled = true;
     }
 
-    public void addServerStatsToSnooper(PlayerUsageSnooper par1PlayerUsageSnooper)
-    {
-        par1PlayerUsageSnooper.addData("fps", Integer.valueOf(debugFPS));
-        par1PlayerUsageSnooper.addData("vsync_enabled", Boolean.valueOf(this.gameSettings.enableVsync));
-        par1PlayerUsageSnooper.addData("display_frequency", Integer.valueOf(Display.getDisplayMode().getFrequency()));
-        par1PlayerUsageSnooper.addData("display_type", this.fullscreen ? "fullscreen" : "windowed");
-        par1PlayerUsageSnooper.addData("run_time", Long.valueOf((MinecraftServer.getSystemTimeMillis() - par1PlayerUsageSnooper.getMinecraftStartTimeMillis()) / 60L * 1000L));
-        par1PlayerUsageSnooper.addData("resource_packs", Integer.valueOf(this.mcResourcePackRepository.getRepositoryEntries().size()));
-        int var2 = 0;
-        Iterator var3 = this.mcResourcePackRepository.getRepositoryEntries().iterator();
-
-        while (var3.hasNext())
-        {
-            ResourcePackRepository.Entry var4 = (ResourcePackRepository.Entry)var3.next();
-            par1PlayerUsageSnooper.addData("resource_pack[" + var2++ + "]", var4.getResourcePackName());
-        }
-
-        if (this.theIntegratedServer != null && this.theIntegratedServer.getPlayerUsageSnooper() != null)
-        {
-            par1PlayerUsageSnooper.addData("snooper_partner", this.theIntegratedServer.getPlayerUsageSnooper().getUniqueID());
-        }
-    }
-
-    public void addServerTypeToSnooper(PlayerUsageSnooper par1PlayerUsageSnooper)
-    {
-        par1PlayerUsageSnooper.addData("opengl_version", GL11.glGetString(GL11.GL_VERSION));
-        par1PlayerUsageSnooper.addData("opengl_vendor", GL11.glGetString(GL11.GL_VENDOR));
-        par1PlayerUsageSnooper.addData("client_brand", ClientBrandRetriever.getClientModName());
-        par1PlayerUsageSnooper.addData("launched_version", this.launchedVersion);
-        ContextCapabilities var2 = GLContext.getCapabilities();
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_multitexture]", Boolean.valueOf(var2.GL_ARB_multitexture));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_multisample]", Boolean.valueOf(var2.GL_ARB_multisample));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_texture_cube_map]", Boolean.valueOf(var2.GL_ARB_texture_cube_map));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_vertex_blend]", Boolean.valueOf(var2.GL_ARB_vertex_blend));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_matrix_palette]", Boolean.valueOf(var2.GL_ARB_matrix_palette));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_vertex_program]", Boolean.valueOf(var2.GL_ARB_vertex_program));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_vertex_shader]", Boolean.valueOf(var2.GL_ARB_vertex_shader));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_fragment_program]", Boolean.valueOf(var2.GL_ARB_fragment_program));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_fragment_shader]", Boolean.valueOf(var2.GL_ARB_fragment_shader));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_shader_objects]", Boolean.valueOf(var2.GL_ARB_shader_objects));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_vertex_buffer_object]", Boolean.valueOf(var2.GL_ARB_vertex_buffer_object));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_framebuffer_object]", Boolean.valueOf(var2.GL_ARB_framebuffer_object));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_pixel_buffer_object]", Boolean.valueOf(var2.GL_ARB_pixel_buffer_object));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_uniform_buffer_object]", Boolean.valueOf(var2.GL_ARB_uniform_buffer_object));
-        par1PlayerUsageSnooper.addData("gl_caps[ARB_texture_non_power_of_two]", Boolean.valueOf(var2.GL_ARB_texture_non_power_of_two));
-        par1PlayerUsageSnooper.addData("gl_caps[gl_max_vertex_uniforms]", Integer.valueOf(GL11.glGetInteger(GL20.GL_MAX_VERTEX_UNIFORM_COMPONENTS)));
-        par1PlayerUsageSnooper.addData("gl_caps[gl_max_fragment_uniforms]", Integer.valueOf(GL11.glGetInteger(GL20.GL_MAX_FRAGMENT_UNIFORM_COMPONENTS)));
-        par1PlayerUsageSnooper.addData("gl_max_texture_size", Integer.valueOf(getGLMaximumTextureSize()));
-    }
-
-    /**
-     * Used in the usage snooper.
-     */
-    public static int getGLMaximumTextureSize()
-    {
-        for (int var0 = 16384; var0 > 0; var0 >>= 1)
-        {
-            GL11.glTexImage2D(GL11.GL_PROXY_TEXTURE_2D, 0, GL11.GL_RGBA, var0, var0, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer)null);
-            int var1 = GL11.glGetTexLevelParameteri(GL11.GL_PROXY_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
-
-            if (var1 != 0)
-            {
-                return var0;
-            }
-        }
-
-        return -1;
-    }
-
-    /**
-     * Returns whether snooping is enabled or not.
-     */
-    public boolean isSnooperEnabled()
-    {
-        return this.gameSettings.snooperEnabled;
-    }
-
     /**
      * Set the current ServerData instance.
      */
@@ -2704,14 +2617,6 @@ public class Minecraft implements IPlayerUsage
                 var0.stopServer();
             }
         }
-    }
-
-    /**
-     * Returns the PlayerUsageSnooper instance.
-     */
-    public PlayerUsageSnooper getPlayerUsageSnooper()
-    {
-        return this.usageSnooper;
     }
 
     /**

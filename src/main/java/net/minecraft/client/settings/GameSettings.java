@@ -50,7 +50,6 @@ public class GameSettings
     private static final Gson gson = new Gson();
     private static final ParameterizedType typeListString = new ParameterizedType()
     {
-        private static final String __OBFID = "CL_00000651";
         public Type[] getActualTypeArguments()
         {
             return new Type[] {String.class};
@@ -175,7 +174,6 @@ public class GameSettings
     public boolean chatLinksPrompt;
     public float chatOpacity;
     public boolean serverTextures;
-    public boolean snooperEnabled;
     public boolean fullScreen;
     public boolean enableVsync;
     public boolean hideServerAddress;
@@ -270,7 +268,6 @@ public class GameSettings
         this.chatLinksPrompt = true;
         this.chatOpacity = 1.0F;
         this.serverTextures = true;
-        this.snooperEnabled = true;
         this.enableVsync = true;
         this.pauseOnLostFocus = true;
         this.showCape = true;
@@ -329,7 +326,6 @@ public class GameSettings
         this.chatLinksPrompt = true;
         this.chatOpacity = 1.0F;
         this.serverTextures = true;
-        this.snooperEnabled = true;
         this.enableVsync = true;
         this.pauseOnLostFocus = true;
         this.showCape = true;
@@ -1170,11 +1166,6 @@ public class GameSettings
             this.serverTextures = !this.serverTextures;
         }
 
-        if (par1EnumOptions == GameSettings.Options.SNOOPER_ENABLED)
-        {
-            this.snooperEnabled = !this.snooperEnabled;
-        }
-
         if (par1EnumOptions == GameSettings.Options.SHOW_CAPE)
         {
             this.showCape = !this.showCape;
@@ -1242,9 +1233,6 @@ public class GameSettings
 
             case 10:
                 return this.serverTextures;
-
-            case 11:
-                return this.snooperEnabled;
 
             case 12:
                 return this.fullScreen;
@@ -1983,11 +1971,6 @@ public class GameSettings
                         this.serverTextures = var8[1].equals("true");
                     }
 
-                    if (var8[0].equals("snooperEnabled"))
-                    {
-                        this.snooperEnabled = var8[1].equals("true");
-                    }
-
                     if (var8[0].equals("fullscreen"))
                     {
                         this.fullScreen = var8[1].equals("true");
@@ -2176,7 +2159,6 @@ public class GameSettings
             var81.println("chatLinksPrompt:" + this.chatLinksPrompt);
             var81.println("chatOpacity:" + this.chatOpacity);
             var81.println("serverTextures:" + this.serverTextures);
-            var81.println("snooperEnabled:" + this.snooperEnabled);
             var81.println("fullscreen:" + this.fullScreen);
             var81.println("enableVsync:" + this.enableVsync);
             var81.println("hideServerAddress:" + this.hideServerAddress);
@@ -2987,7 +2969,6 @@ public class GameSettings
         CHAT_OPACITY("CHAT_OPACITY", 20, "CHAT_OPACITY", 20, "options.chat.opacity", true, false),
         CHAT_LINKS_PROMPT("CHAT_LINKS_PROMPT", 21, "CHAT_LINKS_PROMPT", 21, "options.chat.links.prompt", false, true),
         USE_SERVER_TEXTURES("USE_SERVER_TEXTURES", 22, "USE_SERVER_TEXTURES", 22, "options.serverTextures", false, true),
-        SNOOPER_ENABLED("SNOOPER_ENABLED", 23, "SNOOPER_ENABLED", 23, "options.snooper", false, true),
         USE_FULLSCREEN("USE_FULLSCREEN", 24, "USE_FULLSCREEN", 24, "options.fullscreen", false, true),
         ENABLE_VSYNC("ENABLE_VSYNC", 25, "ENABLE_VSYNC", 25, "options.vsync", false, true),
         SHOW_CAPE("SHOW_CAPE", 26, "SHOW_CAPE", 26, "options.showCape", false, true),
@@ -3079,10 +3060,10 @@ public class GameSettings
         private final float valueStep;
         private float valueMin;
         private float valueMax;
-        private static final GameSettings.Options[] $VALUES = new GameSettings.Options[]{INVERT_MOUSE, SENSITIVITY, FOV, GAMMA, SATURATION, RENDER_DISTANCE, VIEW_BOBBING, ANAGLYPH, ADVANCED_OPENGL, FRAMERATE_LIMIT, FBO_ENABLE, DIFFICULTY, GRAPHICS, AMBIENT_OCCLUSION, GUI_SCALE, RENDER_CLOUDS, PARTICLES, CHAT_VISIBILITY, CHAT_COLOR, CHAT_LINKS, CHAT_OPACITY, CHAT_LINKS_PROMPT, USE_SERVER_TEXTURES, SNOOPER_ENABLED, USE_FULLSCREEN, ENABLE_VSYNC, SHOW_CAPE, TOUCHSCREEN, CHAT_SCALE, CHAT_WIDTH, CHAT_HEIGHT_FOCUSED, CHAT_HEIGHT_UNFOCUSED, MIPMAP_LEVELS, ANISOTROPIC_FILTERING, FORCE_UNICODE_FONT};
+        private static final GameSettings.Options[] $VALUES = new GameSettings.Options[]{INVERT_MOUSE, SENSITIVITY, FOV, GAMMA, SATURATION, RENDER_DISTANCE, VIEW_BOBBING, ANAGLYPH, ADVANCED_OPENGL, FRAMERATE_LIMIT, FBO_ENABLE, DIFFICULTY, GRAPHICS, AMBIENT_OCCLUSION, GUI_SCALE, RENDER_CLOUDS, PARTICLES, CHAT_VISIBILITY, CHAT_COLOR, CHAT_LINKS, CHAT_OPACITY, CHAT_LINKS_PROMPT, USE_SERVER_TEXTURES, USE_FULLSCREEN, ENABLE_VSYNC, SHOW_CAPE, TOUCHSCREEN, CHAT_SCALE, CHAT_WIDTH, CHAT_HEIGHT_FOCUSED, CHAT_HEIGHT_UNFOCUSED, MIPMAP_LEVELS, ANISOTROPIC_FILTERING, FORCE_UNICODE_FONT};
         private static final String __OBFID = "CL_00000653";
 
-        private static final GameSettings.Options[] $VALUES$ = new GameSettings.Options[]{INVERT_MOUSE, SENSITIVITY, FOV, GAMMA, SATURATION, RENDER_DISTANCE, VIEW_BOBBING, ANAGLYPH, ADVANCED_OPENGL, FRAMERATE_LIMIT, FBO_ENABLE, DIFFICULTY, GRAPHICS, AMBIENT_OCCLUSION, GUI_SCALE, RENDER_CLOUDS, PARTICLES, CHAT_VISIBILITY, CHAT_COLOR, CHAT_LINKS, CHAT_OPACITY, CHAT_LINKS_PROMPT, USE_SERVER_TEXTURES, SNOOPER_ENABLED, USE_FULLSCREEN, ENABLE_VSYNC, SHOW_CAPE, TOUCHSCREEN, CHAT_SCALE, CHAT_WIDTH, CHAT_HEIGHT_FOCUSED, CHAT_HEIGHT_UNFOCUSED, MIPMAP_LEVELS, ANISOTROPIC_FILTERING, FORCE_UNICODE_FONT, FOG_FANCY, FOG_START, MIPMAP_TYPE, LOAD_FAR, PRELOADED_CHUNKS, SMOOTH_FPS, CLOUDS, CLOUD_HEIGHT, TREES, GRASS, RAIN, WATER, ANIMATED_WATER, ANIMATED_LAVA, ANIMATED_FIRE, ANIMATED_PORTAL, AO_LEVEL, LAGOMETER, SHOW_FPS, AUTOSAVE_TICKS, BETTER_GRASS, ANIMATED_REDSTONE, ANIMATED_EXPLOSION, ANIMATED_FLAME, ANIMATED_SMOKE, WEATHER, SKY, STARS, SUN_MOON, VIGNETTE, CHUNK_UPDATES, CHUNK_UPDATES_DYNAMIC, TIME, CLEAR_WATER, SMOOTH_WORLD, DEPTH_FOG, VOID_PARTICLES, WATER_PARTICLES, RAIN_SPLASH, PORTAL_PARTICLES, POTION_PARTICLES, PROFILER, DRIPPING_WATER_LAVA, BETTER_SNOW, FULLSCREEN_MODE, ANIMATED_TERRAIN, ANIMATED_ITEMS, SWAMP_COLORS, RANDOM_MOBS, SMOOTH_BIOMES, CUSTOM_FONTS, CUSTOM_COLORS, SHOW_CAPES, CONNECTED_TEXTURES, AA_LEVEL, ANIMATED_TEXTURES, NATURAL_TEXTURES, CHUNK_LOADING, HELD_ITEM_TOOLTIPS, DROPPED_ITEMS, LAZY_CHUNK_LOADING, CUSTOM_SKY, FAST_MATH, FAST_RENDER, TRANSLUCENT_BLOCKS, DYNAMIC_FOV, DYNAMIC_LIGHTS};
+        private static final GameSettings.Options[] $VALUES$ = new GameSettings.Options[]{INVERT_MOUSE, SENSITIVITY, FOV, GAMMA, SATURATION, RENDER_DISTANCE, VIEW_BOBBING, ANAGLYPH, ADVANCED_OPENGL, FRAMERATE_LIMIT, FBO_ENABLE, DIFFICULTY, GRAPHICS, AMBIENT_OCCLUSION, GUI_SCALE, RENDER_CLOUDS, PARTICLES, CHAT_VISIBILITY, CHAT_COLOR, CHAT_LINKS, CHAT_OPACITY, CHAT_LINKS_PROMPT, USE_SERVER_TEXTURES, USE_FULLSCREEN, ENABLE_VSYNC, SHOW_CAPE, TOUCHSCREEN, CHAT_SCALE, CHAT_WIDTH, CHAT_HEIGHT_FOCUSED, CHAT_HEIGHT_UNFOCUSED, MIPMAP_LEVELS, ANISOTROPIC_FILTERING, FORCE_UNICODE_FONT, FOG_FANCY, FOG_START, MIPMAP_TYPE, LOAD_FAR, PRELOADED_CHUNKS, SMOOTH_FPS, CLOUDS, CLOUD_HEIGHT, TREES, GRASS, RAIN, WATER, ANIMATED_WATER, ANIMATED_LAVA, ANIMATED_FIRE, ANIMATED_PORTAL, AO_LEVEL, LAGOMETER, SHOW_FPS, AUTOSAVE_TICKS, BETTER_GRASS, ANIMATED_REDSTONE, ANIMATED_EXPLOSION, ANIMATED_FLAME, ANIMATED_SMOKE, WEATHER, SKY, STARS, SUN_MOON, VIGNETTE, CHUNK_UPDATES, CHUNK_UPDATES_DYNAMIC, TIME, CLEAR_WATER, SMOOTH_WORLD, DEPTH_FOG, VOID_PARTICLES, WATER_PARTICLES, RAIN_SPLASH, PORTAL_PARTICLES, POTION_PARTICLES, PROFILER, DRIPPING_WATER_LAVA, BETTER_SNOW, FULLSCREEN_MODE, ANIMATED_TERRAIN, ANIMATED_ITEMS, SWAMP_COLORS, RANDOM_MOBS, SMOOTH_BIOMES, CUSTOM_FONTS, CUSTOM_COLORS, SHOW_CAPES, CONNECTED_TEXTURES, AA_LEVEL, ANIMATED_TEXTURES, NATURAL_TEXTURES, CHUNK_LOADING, HELD_ITEM_TOOLTIPS, DROPPED_ITEMS, LAZY_CHUNK_LOADING, CUSTOM_SKY, FAST_MATH, FAST_RENDER, TRANSLUCENT_BLOCKS, DYNAMIC_FOV, DYNAMIC_LIGHTS};
 
         public static GameSettings.Options getEnumOptions(int par0)
         {
@@ -3277,15 +3258,6 @@ public class GameSettings
                 optionIds[GameSettings.Options.USE_SERVER_TEXTURES.ordinal()] = 10;
             }
             catch (NoSuchFieldError var7)
-            {
-                ;
-            }
-
-            try
-            {
-                optionIds[GameSettings.Options.SNOOPER_ENABLED.ordinal()] = 11;
-            }
-            catch (NoSuchFieldError var6)
             {
                 ;
             }

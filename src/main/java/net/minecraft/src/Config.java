@@ -155,7 +155,6 @@ public class Config
             {
                 initialized = true;
                 checkOpenGlCaps();
-                startVersionCheckThread();
             }
         }
     }
@@ -452,12 +451,6 @@ public class Config
     public static boolean isMinecraftThread()
     {
         return Thread.currentThread() == minecraftThread;
-    }
-
-    private static void startVersionCheckThread()
-    {
-        VersionCheckThread vct = new VersionCheckThread();
-        vct.start();
     }
 
     public static boolean isMipmaps()

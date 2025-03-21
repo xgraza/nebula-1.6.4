@@ -8,7 +8,6 @@ import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ThreadLanServerPing;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.profiler.PlayerUsageSnooper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.Reflector;
 import net.minecraft.src.WorldServerMultiOF;
@@ -265,20 +264,6 @@ public class IntegratedServer extends MinecraftServer
             }
         });
         return par1CrashReport;
-    }
-
-    public void addServerStatsToSnooper(PlayerUsageSnooper par1PlayerUsageSnooper)
-    {
-        super.addServerStatsToSnooper(par1PlayerUsageSnooper);
-        par1PlayerUsageSnooper.addData("snooper_partner", this.mc.getPlayerUsageSnooper().getUniqueID());
-    }
-
-    /**
-     * Returns whether snooping is enabled or not.
-     */
-    public boolean isSnooperEnabled()
-    {
-        return Minecraft.getMinecraft().isSnooperEnabled();
     }
 
     /**

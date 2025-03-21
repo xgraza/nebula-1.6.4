@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
-import net.minecraft.src.CrashReporter;
+
 import net.minecraft.src.Reflector;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ReportedException;
@@ -42,8 +42,6 @@ public class CrashReport
     private File crashReportFile;
     private boolean field_85059_f = true;
     private StackTraceElement[] stacktrace = new StackTraceElement[0];
-    private static final String __OBFID = "CL_00000990";
-    private boolean reported = false;
 
     public CrashReport(String par1Str, Throwable par2Throwable)
     {
@@ -269,12 +267,6 @@ public class CrashReport
      */
     public String getCompleteReport()
     {
-        if (!this.reported)
-        {
-            this.reported = true;
-            CrashReporter.onCrashReport(this, this.theReportCategory);
-        }
-
         StringBuilder var1 = new StringBuilder();
         var1.append("---- Minecraft Crash Report ----\n");
         var1.append("// ");
