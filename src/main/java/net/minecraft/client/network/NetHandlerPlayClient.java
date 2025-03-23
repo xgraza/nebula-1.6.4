@@ -1521,12 +1521,12 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void handleEntityEffect(S1DPacketEntityEffect p_147260_1_)
     {
-        Entity var2 = this.clientWorldController.getEntityByID(p_147260_1_.func_149426_d());
+        Entity var2 = this.clientWorldController.getEntityByID(p_147260_1_.getEntityId());
 
         if (var2 instanceof EntityLivingBase)
         {
-            PotionEffect var3 = new PotionEffect(p_147260_1_.func_149427_e(), p_147260_1_.func_149425_g(), p_147260_1_.func_149428_f());
-            var3.setPotionDurationMax(p_147260_1_.func_149429_c());
+            PotionEffect var3 = new PotionEffect(p_147260_1_.getPotionId(), p_147260_1_.getDuration(), p_147260_1_.getAmplifier());
+            var3.setPotionDurationMax(p_147260_1_.isInfinite());
             ((EntityLivingBase)var2).addPotionEffect(var3);
         }
     }

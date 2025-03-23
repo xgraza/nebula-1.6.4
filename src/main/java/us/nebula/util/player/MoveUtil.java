@@ -50,36 +50,40 @@ public final class MoveUtil
         {
             return NULL_VELOCITY;
         }
-        final float radians = getDirectionYaw(MC.thePlayer, MC.thePlayer.rotationYaw);
+        final float radians = getDirectionRadians(MC.thePlayer, MC.thePlayer.rotationYaw);
         return new double[] { -Math.sin(radians) * moveSpeed, Math.cos(radians) * moveSpeed };
     }
 
     public static float getDirectionYaw(final EntityPlayer player, float yaw)
     {
+        // if we're moving backwards, reverse our yaw
         if (player.moveForward < 0.0f)
         {
-            yaw += 180.0f;
+            yaw -= 180.0f;
         }
 
-        float forward = 1.0f;
-        if (player.moveForward < 0.0f)
+        // this is for handling holding forward & strafing side to side at the same time
+        float forward = player.moveForward * 0.5f;
+        if (forward == 0.0f)
         {
-            forward = -0.5f;
-        } else if (player.moveForward > 0.0f)
-        {
-            forward = 0.5f;
+            forward = 1.0f;
         }
 
-        if (player.moveStrafing > 0.0f)
+        float strafe = player.moveStrafing;
+        if (strafe > 0.0f)
         {
             yaw -= 90.0f * forward;
-        }
-        if (player.moveStrafing < 0.0f)
+        } else if (strafe < 0.0f)
         {
             yaw += 90.0f * forward;
         }
 
-        return yaw * 0.017453292f;
+        return yaw;
+    }
+
+    public static float getDirectionRadians(final EntityPlayer player, final float yaw)
+    {
+        return getDirectionYaw(player, yaw) * 0.017453292f;
     }
 
     public static double getBaseNcpSpeed(final int minPotionTime)
