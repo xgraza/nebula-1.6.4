@@ -114,7 +114,7 @@ public class RenderItem extends Render
             float var19;
             int var25;
 
-            if (ItemPhysicsCheat.INSTANCE.isToggled())
+            if (ItemPhysicsCheat.INSTANCE.isToggled() && !renderInFrame)
             {
                 if (par1EntityItem.onGround)
                 {
