@@ -298,16 +298,16 @@ public class NetworkManager extends SimpleChannelInboundHandler
                 {
                     p_initChannel_1_.config().setOption(ChannelOption.IP_TOS, Integer.valueOf(24));
                 }
-                catch (ChannelException var4)
+                catch (ChannelException ignored)
                 {
                     ;
                 }
 
                 try
                 {
-                    p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(false));
+                    p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, true);
                 }
-                catch (ChannelException var3)
+                catch (ChannelException ignored)
                 {
                     ;
                 }
@@ -330,6 +330,14 @@ public class NetworkManager extends SimpleChannelInboundHandler
             private static final String __OBFID = "CL_00001243";
             protected void initChannel(Channel p_initChannel_1_)
             {
+                try
+                {
+                    p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, true);
+                }
+                catch (ChannelException ignored)
+                {
+                    ;
+                }
                 p_initChannel_1_.pipeline().addLast("packet_handler", var1);
             }
         })).channel(LocalChannel.class)).connect(p_150722_0_).syncUninterruptibly();
