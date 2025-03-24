@@ -56,6 +56,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new InfiniteMoverCheat());
         addCheat(new KeyPearlCheat());
         addCheat(new NoFallCheat());
+        addCheat(new PearlPhaseCheat());
         addCheat(new ScaffoldCheat());
         addCheat(new CameraClipCheat());
         addCheat(new ChamsCheat());

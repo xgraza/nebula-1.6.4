@@ -83,7 +83,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     /** The amount of time an entity has been in a Portal the previous tick */
     public float prevTimeInPortal;
-    private static final String __OBFID = "CL_00000938";
+
+    public boolean phased;
 
     public EntityPlayerSP(Minecraft par1Minecraft, World par2World, Session par3Session, int par4)
     {
@@ -204,10 +205,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.ySize = 0.2F;
             }
 
-            this.func_145771_j(this.posX - (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ + (double)this.width * 0.35D);
-            this.func_145771_j(this.posX - (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ - (double)this.width * 0.35D);
-            this.func_145771_j(this.posX + (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ - (double)this.width * 0.35D);
-            this.func_145771_j(this.posX + (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ + (double)this.width * 0.35D);
+            boolean b1 = this.pushEntityFromBounds(this.posX - (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ + (double)this.width * 0.35D);
+            boolean b2 = this.pushEntityFromBounds(this.posX - (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ - (double)this.width * 0.35D);
+            boolean b3 = this.pushEntityFromBounds(this.posX + (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ - (double)this.width * 0.35D);
+            boolean b4 = this.pushEntityFromBounds(this.posX + (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ + (double)this.width * 0.35D);
+            phased = b1 || b2 || b3 || b4;
             boolean var4 = (float)this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
 
             final boolean overrideSprint = EventBus.dispatch(new EventSprint());
@@ -530,18 +532,13 @@ public class EntityPlayerSP extends AbstractClientPlayer
         return this.worldObj.getBlock(par1, par2, par3).isNormalCube();
     }
 
-    protected boolean func_145771_j(double p_145771_1_, double p_145771_3_, double p_145771_5_)
+    protected boolean pushEntityFromBounds(double x, double y, double z)
     {
-        if (EventBus.dispatch(new EventPushFromBlocks()))
-        {
-            return false;
-        }
-
-        int var7 = MathHelper.floor_double(p_145771_1_);
-        int var8 = MathHelper.floor_double(p_145771_3_);
-        int var9 = MathHelper.floor_double(p_145771_5_);
-        double var10 = p_145771_1_ - (double)var7;
-        double var12 = p_145771_5_ - (double)var9;
+        int var7 = MathHelper.floor_double(x);
+        int var8 = MathHelper.floor_double(y);
+        int var9 = MathHelper.floor_double(z);
+        double var10 = x - (double)var7;
+        double var12 = z - (double)var9;
 
         if (this.isBlockTranslucent(var7, var8, var9) || this.isBlockTranslucent(var7, var8 + 1, var9))
         {
@@ -578,25 +575,30 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
             float var21 = 0.1F;
 
-            if (var18 == 0)
+            final boolean movedPlayer = var18 == 0 || var18 == 1 || var18 == 4 || var18 == 5;
+            if (!EventBus.dispatch(new EventPushFromBlocks()))
             {
-                this.motionX = (double)(-var21);
-            }
+                if (var18 == 0)
+                {
+                    this.motionX = (double)(-var21);
+                }
 
-            if (var18 == 1)
-            {
-                this.motionX = (double)var21;
-            }
+                if (var18 == 1)
+                {
+                    this.motionX = (double)var21;
+                }
 
-            if (var18 == 4)
-            {
-                this.motionZ = (double)(-var21);
-            }
+                if (var18 == 4)
+                {
+                    this.motionZ = (double)(-var21);
+                }
 
-            if (var18 == 5)
-            {
-                this.motionZ = (double)var21;
+                if (var18 == 5)
+                {
+                    this.motionZ = (double)var21;
+                }
             }
+            return movedPlayer;
         }
 
         return false;

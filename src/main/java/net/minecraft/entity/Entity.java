@@ -2126,14 +2126,14 @@ public abstract class Entity
      */
     public void onKillEntity(EntityLivingBase par1EntityLivingBase) {}
 
-    protected boolean func_145771_j(double p_145771_1_, double p_145771_3_, double p_145771_5_)
+    protected boolean pushEntityFromBounds(double x, double y, double z)
     {
-        int var7 = MathHelper.floor_double(p_145771_1_);
-        int var8 = MathHelper.floor_double(p_145771_3_);
-        int var9 = MathHelper.floor_double(p_145771_5_);
-        double var10 = p_145771_1_ - (double)var7;
-        double var12 = p_145771_3_ - (double)var8;
-        double var14 = p_145771_5_ - (double)var9;
+        int var7 = MathHelper.floor_double(x);
+        int var8 = MathHelper.floor_double(y);
+        int var9 = MathHelper.floor_double(z);
+        double var10 = x - (double)var7;
+        double var12 = y - (double)var8;
+        double var14 = z - (double)var9;
         List var16 = this.worldObj.func_147461_a(this.boundingBox);
 
         if (var16.isEmpty() && !this.worldObj.func_147469_q(var7, var8, var9))

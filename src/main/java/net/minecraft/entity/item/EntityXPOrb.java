@@ -115,7 +115,7 @@ public class EntityXPOrb extends Entity
             this.playSound("random.fizz", 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
         }
 
-        this.func_145771_j(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
+        this.pushEntityFromBounds(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
         double var1 = 8.0D;
 
         if (this.xpTargetColor < this.xpColor - 20 + this.getEntityId() % 100)

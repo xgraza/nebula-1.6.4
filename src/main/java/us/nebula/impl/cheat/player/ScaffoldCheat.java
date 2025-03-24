@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
@@ -15,7 +14,9 @@ import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.render.EventRender3D;
+import us.nebula.util.player.PlayerUtil;
 import us.nebula.util.render.RenderUtil;
+import us.nebula.util.world.BlockUtil;
 
 /**
  * @author xgraza
@@ -102,10 +103,7 @@ public final class ScaffoldCheat extends Cheat
 
     private BlockData getBlockData()
     {
-        BlockPos pos = new BlockPos(MathHelper.floor_double(MC.thePlayer.posX),
-                MathHelper.floor_double(MC.thePlayer.boundingBox.minY) - 1,
-                MathHelper.floor_double(MC.thePlayer.posZ));
-
+        BlockPos pos = PlayerUtil.getOrigin().add(0, -1, 0);
         if (extend.getValue() > 0.0 && !MC.gameSettings.keyBindJump.pressed)
         {
             final float yaw = MC.thePlayer.rotationYaw * 0.017453292f;
@@ -117,7 +115,7 @@ public final class ScaffoldCheat extends Cheat
                 final BlockPos extendedPos = pos.add(new BlockPos(
                         (int) (-Math.sin(yaw) * distance),
                         0, (int) (Math.cos(yaw) * distance)));
-                if (isReplaceable(extendedPos))
+                if (BlockUtil.isReplaceable(extendedPos))
                 {
                     pos = extendedPos;
                     break;
@@ -127,46 +125,29 @@ public final class ScaffoldCheat extends Cheat
 
         for (final EnumFacing facing : EnumFacing.values())
         {
-            final BlockPos neighbor = offset(pos, facing);
-            if (!isReplaceable(neighbor))
+            final BlockPos neighbor = BlockUtil.offset(pos, facing);
+            if (!BlockUtil.isReplaceable(neighbor))
             {
-                return new BlockData(neighbor, opposite(facing));
+                return new BlockData(neighbor, BlockUtil.getOpposite(facing));
             }
         }
 
         for (final EnumFacing facing : EnumFacing.values())
         {
-            final BlockPos neighbor = offset(pos, facing);
-            if (isReplaceable(neighbor))
+            final BlockPos neighbor = BlockUtil.offset(pos, facing);
+            if (BlockUtil.isReplaceable(neighbor))
             {
                 for (final EnumFacing side : EnumFacing.values())
                 {
-                    final BlockPos n = offset(neighbor, side);
-                    if (!isReplaceable(n))
+                    final BlockPos n = BlockUtil.offset(neighbor, side);
+                    if (!BlockUtil.isReplaceable(n))
                     {
-                        return new BlockData(n, opposite(side));
+                        return new BlockData(n, BlockUtil.getOpposite(side));
                     }
                 }
             }
         }
         return null;
-    }
-
-    private boolean isReplaceable(final BlockPos pos)
-    {
-        return MC.theWorld.getBlock(pos.getX(), pos.getY(), pos.getZ()).getMaterial().isReplaceable();
-    }
-
-    private EnumFacing opposite(final EnumFacing facing)
-    {
-        return EnumFacing.values()[facing.order_b];
-    }
-
-    private BlockPos offset(final BlockPos pos, final EnumFacing facing)
-    {
-        return new BlockPos(pos.getX() + facing.getFrontOffsetX(),
-                pos.getY() + facing.getFrontOffsetY(),
-                pos.getZ() + facing.getFrontOffsetZ());
     }
 
     private int getBlockSlot()

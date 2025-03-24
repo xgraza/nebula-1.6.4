@@ -28,6 +28,11 @@ public class BlockPos
         return this.z;
     }
 
+    public BlockPos add(final int x, final int y, final int z)
+    {
+        return new BlockPos(this.x + x, this.y + y, this.z + z);
+    }
+
     public BlockPos add(BlockPos pos)
     {
         return new BlockPos(this.x + pos.x, this.y + pos.y, this.z + pos.z);

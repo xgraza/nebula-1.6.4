@@ -1,5 +1,7 @@
 package net.minecraft.util;
 
+import net.minecraft.src.BlockPos;
+
 public class AxisAlignedBB
 {
     /** ThreadLocal AABBPool */
@@ -43,6 +45,11 @@ public class AxisAlignedBB
         this.maxX = par7;
         this.maxY = par9;
         this.maxZ = par11;
+    }
+
+    public AxisAlignedBB(final BlockPos pos)
+    {
+        this(Vec3.createVectorHelper(pos.getX(), pos.getY(), pos.getZ()), 1);
     }
 
     public AxisAlignedBB(Vec3 center, double par3) {
