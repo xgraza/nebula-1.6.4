@@ -52,6 +52,7 @@ import net.minecraft.world.storage.WorldInfo;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.cheat.exploit.GhostHandCheat;
 import us.nebula.impl.cheat.render.NoWeatherCheat;
+import us.nebula.impl.cheat.render.TimeChangerCheat;
 import us.nebula.impl.event.player.EventPushWater;
 
 public abstract class World implements IBlockAccess

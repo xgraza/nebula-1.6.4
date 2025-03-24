@@ -7,6 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldType;
+import us.nebula.impl.cheat.render.TimeChangerCheat;
 
 public class WorldInfo
 {
@@ -318,6 +319,10 @@ public class WorldInfo
      */
     public long getWorldTime()
     {
+        if (TimeChangerCheat.INSTANCE.isToggled())
+        {
+            return (long) (TimeChangerCheat.INSTANCE.timeSetting.getValue() * 1000L);
+        }
         return this.worldTime;
     }
 
