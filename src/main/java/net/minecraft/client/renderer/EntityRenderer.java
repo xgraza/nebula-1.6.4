@@ -2503,12 +2503,13 @@ public class EntityRenderer implements IResourceManagerReloadListener
      */
     private void setupFog(int par1, float par2)
     {
+        EntityLivingBase var3 = this.mc.renderViewEntity;
         if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.fogSetting.getValue())
+                && NoRenderCheat.INSTANCE.fogSetting.getValue()
+                && var3.ticksExisted > 3)
         {
             return;
         }
-        EntityLivingBase var3 = this.mc.renderViewEntity;
         boolean var4 = false;
         this.fogStandard = false;
 
