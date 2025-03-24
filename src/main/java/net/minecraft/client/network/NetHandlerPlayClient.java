@@ -817,9 +817,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleChat(S02PacketChat p_147251_1_)
     {
-        String var2 = p_147251_1_.func_148915_c().getFormattedText();
+        String var2 = p_147251_1_.getMessage().getFormattedText();
         WDL.handleServerSeedMessage(var2);
-        this.gameController.ingameGUI.getChatGui().printChatMessage(p_147251_1_.func_148915_c());
+        this.gameController.ingameGUI.getChatGui().printChatMessage(p_147251_1_.getMessage());
     }
 
     /**

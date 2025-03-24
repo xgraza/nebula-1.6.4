@@ -18,6 +18,8 @@ import us.nebula.util.render.RenderUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * @author xgraza
@@ -29,6 +31,8 @@ public enum Nebula
 
     private final Logger logger = LogManager.getLogger("Nebula");
     private File nebulaRootDir;
+
+    private final Executor executor = Executors.newFixedThreadPool(1);
 
     private NebulaSystemTray systemTray;
     private ConfigurationManager configurationManager;
@@ -107,6 +111,11 @@ public enum Nebula
     public File getNebulaRootDir()
     {
         return nebulaRootDir;
+    }
+
+    public Executor getExecutor()
+    {
+        return executor;
     }
 
     public ConfigurationManager getConfigurationManager()

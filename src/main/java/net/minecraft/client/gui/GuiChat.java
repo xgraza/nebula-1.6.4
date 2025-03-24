@@ -27,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import us.nebula.impl.cheat.miscellaneous.TranslateCheat;
 
 public class GuiChat extends GuiScreen
 {
@@ -231,7 +232,13 @@ public class GuiChat extends GuiScreen
                         }
                         else
                         {
-                            logger.error("Don\'t know how to handle " + var5);
+                            if (TranslateCheat.INSTANCE.isToggled() && var5.getValue().equals("NEBULA_TRANSLATE"))
+                            {
+                                TranslateCheat.INSTANCE.handleTranslate(var4);
+                            } else
+                            {
+                                logger.error("Don\'t know how to handle " + var5);
+                            }
                         }
                     }
 

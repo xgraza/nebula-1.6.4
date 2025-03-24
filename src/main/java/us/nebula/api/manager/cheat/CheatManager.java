@@ -4,6 +4,7 @@ import us.nebula.Nebula;
 import us.nebula.api.manager.ITypedManager;
 import us.nebula.impl.cheat.combat.*;
 import us.nebula.impl.cheat.exploit.*;
+import us.nebula.impl.cheat.miscellaneous.TranslateCheat;
 import us.nebula.impl.cheat.movement.*;
 import us.nebula.impl.cheat.player.*;
 import us.nebula.impl.cheat.render.*;
@@ -41,6 +42,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new PotionSaverCheat());
         addCheat(new TimerCheat());
         addCheat(new XCarryCheat());
+        addCheat(new TranslateCheat());
         addCheat(new AutoWalkCheat());
         addCheat(new IceSpeedCheat());
         addCheat(new InvWalkCheat());
