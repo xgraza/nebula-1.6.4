@@ -74,9 +74,9 @@ public class EnchantmentHelper
     /**
      * Return the enchantments for the specified stack.
      */
-    public static Map getEnchantments(ItemStack par0ItemStack)
+    public static Map<Integer, Integer> getEnchantments(ItemStack par0ItemStack)
     {
-        LinkedHashMap var1 = new LinkedHashMap();
+        LinkedHashMap<Integer, Integer> var1 = new LinkedHashMap<>();
         NBTTagList var2 = par0ItemStack.getItem() == Items.enchanted_book ? Items.enchanted_book.func_92110_g(par0ItemStack) : par0ItemStack.getEnchantmentTagList();
 
         if (var2 != null)

@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class C02PacketUseEntity extends Packet
 {
-    private int field_149567_a;
+    private int entityId;
     private C02PacketUseEntity.Action field_149566_b;
     private static final String __OBFID = "CL_00001357";
 
@@ -18,7 +18,7 @@ public class C02PacketUseEntity extends Packet
 
     public C02PacketUseEntity(Entity p_i45251_1_, C02PacketUseEntity.Action p_i45251_2_)
     {
-        this.field_149567_a = p_i45251_1_.getEntityId();
+        this.entityId = p_i45251_1_.getEntityId();
         this.field_149566_b = p_i45251_2_;
     }
 
@@ -27,7 +27,7 @@ public class C02PacketUseEntity extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149567_a = p_148837_1_.readInt();
+        this.entityId = p_148837_1_.readInt();
         this.field_149566_b = C02PacketUseEntity.Action.field_151421_c[p_148837_1_.readByte() % C02PacketUseEntity.Action.field_151421_c.length];
     }
 
@@ -36,7 +36,7 @@ public class C02PacketUseEntity extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeInt(this.field_149567_a);
+        p_148840_1_.writeInt(this.entityId);
         p_148840_1_.writeByte(this.field_149566_b.field_151418_d);
     }
 
@@ -47,7 +47,7 @@ public class C02PacketUseEntity extends Packet
 
     public Entity func_149564_a(World p_149564_1_)
     {
-        return p_149564_1_.getEntityByID(this.field_149567_a);
+        return p_149564_1_.getEntityByID(this.entityId);
     }
 
     public C02PacketUseEntity.Action func_149565_c()

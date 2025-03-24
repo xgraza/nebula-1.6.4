@@ -72,6 +72,8 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.IChunkProvider;
+import us.nebula.impl.cheat.exploit.AntiRevertCheat;
+import us.nebula.util.player.InventoryUtil;
 
 public abstract class EntityPlayer extends EntityLivingBase implements ICommandSender
 {
@@ -1177,7 +1179,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
                 if (var2.interactWithEntity(this, (EntityLivingBase)par1Entity))
                 {
-                    if (var2.stackSize <= 0 && !this.capabilities.isCreativeMode)
+                    if ((var2.stackSize <= 0 && !this.capabilities.isCreativeMode) || (AntiRevertCheat.INSTANCE.isToggled() && !InventoryUtil.isInfinite(var2)))
                     {
                         this.destroyCurrentEquippedItem();
                     }
@@ -1192,7 +1194,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         {
             if (var2 != null && var2 == this.getCurrentEquippedItem())
             {
-                if (var2.stackSize <= 0 && !this.capabilities.isCreativeMode)
+                if ((var2.stackSize <= 0 && !this.capabilities.isCreativeMode) || (AntiRevertCheat.INSTANCE.isToggled() && !InventoryUtil.isInfinite(var2)))
                 {
                     this.destroyCurrentEquippedItem();
                 }
@@ -1326,7 +1328,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                         {
                             var9.hitEntity((EntityLivingBase)var10, this);
 
-                            if (var9.stackSize <= 0)
+                            if (var9.stackSize <= 0 || (AntiRevertCheat.INSTANCE.isToggled() && !InventoryUtil.isInfinite(var9)))
                             {
                                 this.destroyCurrentEquippedItem();
                             }

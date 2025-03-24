@@ -423,15 +423,15 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         WorldServer var2 = this.serverController.worldServerForDimension(this.playerEntity.dimension);
         this.playerEntity.func_143004_u();
 
-        if (p_147345_1_.func_149506_g() == 4)
+        if (p_147345_1_.getAction() == 4)
         {
             this.playerEntity.dropOneItem(false);
         }
-        else if (p_147345_1_.func_149506_g() == 3)
+        else if (p_147345_1_.getAction() == 3)
         {
             this.playerEntity.dropOneItem(true);
         }
-        else if (p_147345_1_.func_149506_g() == 5)
+        else if (p_147345_1_.getAction() == 5)
         {
             this.playerEntity.stopUsingItem();
         }
@@ -439,17 +439,17 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         {
             boolean var3 = false;
 
-            if (p_147345_1_.func_149506_g() == 0)
+            if (p_147345_1_.getAction() == 0)
             {
                 var3 = true;
             }
 
-            if (p_147345_1_.func_149506_g() == 1)
+            if (p_147345_1_.getAction() == 1)
             {
                 var3 = true;
             }
 
-            if (p_147345_1_.func_149506_g() == 2)
+            if (p_147345_1_.getAction() == 2)
             {
                 var3 = true;
             }
@@ -476,7 +476,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 }
             }
 
-            if (p_147345_1_.func_149506_g() == 0)
+            if (p_147345_1_.getAction() == 0)
             {
                 if (!this.serverController.isBlockProtected(var2, var4, var5, var6, this.playerEntity))
                 {
@@ -487,7 +487,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S23PacketBlockChange(var4, var5, var6, var2));
                 }
             }
-            else if (p_147345_1_.func_149506_g() == 2)
+            else if (p_147345_1_.getAction() == 2)
             {
                 this.playerEntity.theItemInWorldManager.uncheckedTryHarvestBlock(var4, var5, var6);
 
@@ -496,7 +496,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S23PacketBlockChange(var4, var5, var6, var2));
                 }
             }
-            else if (p_147345_1_.func_149506_g() == 1)
+            else if (p_147345_1_.getAction() == 1)
             {
                 this.playerEntity.theItemInWorldManager.cancelDestroyingBlock(var4, var5, var6);
 
