@@ -40,7 +40,9 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.Nebula;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.render.NoRenderCheat;
 import us.nebula.impl.event.render.EventRender2D;
 import us.nebula.util.render.RenderUtil;
 
@@ -117,7 +119,7 @@ public class GuiIngame extends Gui
 
             if (var10 > 0.0F)
             {
-                this.func_130015_b(var10, var6, var7);
+                this.renderPortalOverlay(var10, var6, var7);
             }
         }
 
@@ -874,6 +876,11 @@ public class GuiIngame extends Gui
 
     private void renderPumpkinBlur(int par1, int par2)
     {
+        if (NoRenderCheat.INSTANCE.isToggled()
+                && NoRenderCheat.INSTANCE.pumpkinSetting.getValue())
+        {
+            return;
+        }
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -929,8 +936,13 @@ public class GuiIngame extends Gui
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
     }
 
-    private void func_130015_b(float par1, int par2, int par3)
+    private void renderPortalOverlay(float par1, int par2, int par3)
     {
+        if (NoRenderCheat.INSTANCE.isToggled()
+                && NoRenderCheat.INSTANCE.portalSetting.getValue())
+        {
+            return;
+        }
         if (par1 < 1.0F)
         {
             par1 *= par1;

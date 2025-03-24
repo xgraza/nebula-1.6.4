@@ -10,6 +10,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.impl.cheat.render.NoRenderCheat;
 
 public class GuiAchievement extends Gui
 {
@@ -72,6 +73,11 @@ public class GuiAchievement extends Gui
 
     public void func_146254_a()
     {
+        if (NoRenderCheat.INSTANCE.isToggled()
+                && NoRenderCheat.INSTANCE.toastsSetting.getValue())
+        {
+            return;
+        }
         if (this.field_146266_k != null && this.field_146263_l != 0L && Minecraft.getMinecraft().thePlayer != null)
         {
             double var1 = (double)(Minecraft.getSystemTime() - this.field_146263_l) / 3000.0D;

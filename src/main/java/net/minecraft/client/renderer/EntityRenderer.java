@@ -74,6 +74,7 @@ import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.render.NoRenderCheat;
 import us.nebula.impl.event.render.EventCameraDistance;
 import us.nebula.impl.event.render.EventGamma;
 import us.nebula.impl.event.render.EventRender3D;
@@ -651,6 +652,11 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float par1)
     {
+        if (NoRenderCheat.INSTANCE.isToggled()
+                && NoRenderCheat.INSTANCE.hurtCameraSetting.getValue())
+        {
+            return;
+        }
         EntityLivingBase var2 = this.mc.renderViewEntity;
         float var3 = (float)var2.hurtTime - par1;
         float var4;
@@ -2497,6 +2503,11 @@ public class EntityRenderer implements IResourceManagerReloadListener
      */
     private void setupFog(int par1, float par2)
     {
+        if (NoRenderCheat.INSTANCE.isToggled()
+                && NoRenderCheat.INSTANCE.fogSetting.getValue())
+        {
+            return;
+        }
         EntityLivingBase var3 = this.mc.renderViewEntity;
         boolean var4 = false;
         this.fogStandard = false;

@@ -25,6 +25,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.impl.cheat.render.NoRenderCheat;
 
 public class ItemRenderer
 {
@@ -575,6 +576,12 @@ public class ItemRenderer
      */
     private void renderInsideOfBlock(float par1, IIcon par2Icon)
     {
+        if (NoRenderCheat.INSTANCE.isToggled()
+                && NoRenderCheat.INSTANCE.blockSetting.getValue())
+        {
+            return;
+        }
+
         this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
         Tessellator var3 = Tessellator.instance;
         float var4 = 0.1F;
@@ -605,6 +612,11 @@ public class ItemRenderer
      */
     private void renderWarpedTextureOverlay(float par1)
     {
+        if (NoRenderCheat.INSTANCE.isToggled()
+                && NoRenderCheat.INSTANCE.waterSetting.getValue())
+        {
+            return;
+        }
         this.mc.getTextureManager().bindTexture(RES_UNDERWATER_OVERLAY);
         Tessellator var2 = Tessellator.instance;
         float var3 = this.mc.thePlayer.getBrightness(par1);
@@ -636,6 +648,12 @@ public class ItemRenderer
      */
     private void renderFireInFirstPerson(float par1)
     {
+        if (NoRenderCheat.INSTANCE.isToggled()
+                && NoRenderCheat.INSTANCE.fireSetting.getValue())
+        {
+            return;
+        }
+
         Tessellator var2 = Tessellator.instance;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
         GL11.glEnable(GL11.GL_BLEND);
