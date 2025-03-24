@@ -194,7 +194,10 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     public void sendMotionUpdates()
     {
         final EventMoveUpdate event = new EventMoveUpdate(posX, boundingBox.minY, posY, posZ, rotationYaw, rotationPitch, onGround);
-        EventBus.dispatch(event);
+        if (EventBus.dispatch(event))
+        {
+            return;
+        }
 
         if (isSprinting() != serverSprinting) {
             sendQueue.addToSendQueue(new C0BPacketEntityAction(
