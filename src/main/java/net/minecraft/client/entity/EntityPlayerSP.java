@@ -50,6 +50,7 @@ import net.minecraft.util.Session;
 import net.minecraft.world.World;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.cheat.exploit.NoPortalGUICheat;
+import us.nebula.impl.event.input.EventUpdateInput;
 import us.nebula.impl.event.player.EventItemSlowdown;
 import us.nebula.impl.event.player.EventPushFromBlocks;
 import us.nebula.impl.event.player.EventSprint;
@@ -190,7 +191,14 @@ public class EntityPlayerSP extends AbstractClientPlayer
             boolean var1 = this.movementInput.jump;
             float var2 = 0.8F;
             boolean var3 = this.movementInput.moveForward >= var2;
-            this.movementInput.updatePlayerMoveState();
+
+            if (EventBus.dispatch(new EventUpdateInput(movementInput)))
+            {
+                movementInput.resetPlayerMoveState();
+            } else
+            {
+                movementInput.updatePlayerMoveState();
+            }
 
             if (this.isUsingItem() && !this.isRiding())
             {

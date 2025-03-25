@@ -44,14 +44,19 @@ public final class MoveUtil
         }
     }
 
-    public static double[] getStrafeMotion(final double moveSpeed)
+    public static double[] getStrafeMotion(final float angle, final double moveSpeed)
     {
         if (moveSpeed <= 0.0)
         {
             return NULL_VELOCITY;
         }
-        final float radians = getDirectionRadians(MC.thePlayer, MC.thePlayer.rotationYaw);
-        return new double[] { -Math.sin(radians) * moveSpeed, Math.cos(radians) * moveSpeed };
+        return new double[] { -Math.sin(angle) * moveSpeed, Math.cos(angle) * moveSpeed };
+    }
+
+    public static double[] getStrafeMotion(final double moveSpeed)
+    {
+        final float angle = getDirectionRadians(MC.thePlayer, MC.thePlayer.rotationYaw);
+        return getStrafeMotion(angle, moveSpeed);
     }
 
     public static float getDirectionYaw(final EntityPlayer player, float yaw)

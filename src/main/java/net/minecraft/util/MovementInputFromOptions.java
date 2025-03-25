@@ -1,11 +1,12 @@
 package net.minecraft.util;
 
 import net.minecraft.client.settings.GameSettings;
+import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.player.EventSneakSlowdown;
 
 public class MovementInputFromOptions extends MovementInput
 {
     private GameSettings gameSettings;
-    private static final String __OBFID = "CL_00000937";
 
     public MovementInputFromOptions(GameSettings par1GameSettings)
     {
@@ -40,10 +41,19 @@ public class MovementInputFromOptions extends MovementInput
         this.jump = this.gameSettings.keyBindJump.getIsKeyPressed();
         this.sneak = this.gameSettings.keyBindSneak.getIsKeyPressed();
 
-        if (this.sneak)
+        if (this.sneak && !EventBus.dispatch(new EventSneakSlowdown(this)))
         {
             this.moveStrafe = (float)((double)this.moveStrafe * 0.3D);
             this.moveForward = (float)((double)this.moveForward * 0.3D);
         }
+    }
+
+    @Override
+    public void resetPlayerMoveState()
+    {
+        moveForward = 0.0f;
+        moveStrafe = 0.0f;
+        jump = false;
+        sneak = false;
     }
 }

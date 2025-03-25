@@ -19,6 +19,7 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
+import us.nebula.impl.cheat.player.FreecamCheat;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.render.EventRender3D;
 import us.nebula.util.math.Timer;
@@ -299,7 +300,11 @@ public final class KillAuraCheat extends Cheat
 
     private boolean isValidEntity(final EntityLivingBase entity)
     {
-        if (entity == null || entity.getHealth() <= 0.0f || entity.isDead || entity.equals(MC.thePlayer))
+        if (entity == null
+                || entity.getHealth() <= 0.0f
+                || entity.isDead
+                || entity.equals(MC.thePlayer)
+                || entity.getEntityId() == FreecamCheat.CAMERA_ENTITY_ID)
         {
             return false;
         }

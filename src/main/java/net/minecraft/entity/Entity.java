@@ -36,6 +36,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.event.input.EventRotateCamera;
 import us.nebula.impl.event.player.EventStep;
 
 public abstract class Entity
@@ -391,18 +392,26 @@ public abstract class Entity
     {
         float var3 = this.rotationPitch;
         float var4 = this.rotationYaw;
-        this.rotationYaw = (float)((double)this.rotationYaw + (double)par1 * 0.15D);
-        this.rotationPitch = (float)((double)this.rotationPitch - (double)par2 * 0.15D);
+        float yaw = (float)((double)this.rotationYaw + (double)par1 * 0.15D);
+        float pitch = (float)((double)this.rotationPitch - (double)par2 * 0.15D);
 
-        if (this.rotationPitch < -90.0F)
+        if (pitch < -90.0F)
         {
-            this.rotationPitch = -90.0F;
+            pitch = -90.0F;
         }
 
-        if (this.rotationPitch > 90.0F)
+        if (pitch > 90.0F)
         {
-            this.rotationPitch = 90.0F;
+            pitch = 90.0F;
         }
+
+        if (EventBus.dispatch(new EventRotateCamera(this, yaw, pitch, par1, par2)))
+        {
+            return;
+        }
+
+        this.rotationYaw = yaw;
+        this.rotationPitch = pitch;
 
         this.prevRotationPitch += this.rotationPitch - var3;
         this.prevRotationYaw += this.rotationYaw - var4;

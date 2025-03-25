@@ -16,4 +16,6 @@ public class MovementInput
     private static final String __OBFID = "CL_00000936";
 
     public void updatePlayerMoveState() {}
+
+    public void resetPlayerMoveState() {}
 }
