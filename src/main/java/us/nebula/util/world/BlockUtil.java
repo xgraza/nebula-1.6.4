@@ -1,8 +1,13 @@
 package us.nebula.util.world;
 
+import com.google.common.collect.Lists;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
+
+import java.util.List;
 
 /**
  * @author xgraza
@@ -16,6 +21,28 @@ public final class BlockUtil
             EnumFacing.SOUTH,
             EnumFacing.EAST,
             EnumFacing.WEST };
+
+    public static final List<Block> INTERACTABLE_BLOCK_LIST = Lists.newArrayList(
+            Blocks.chest,
+            Blocks.ender_chest,
+            Blocks.trapped_chest,
+            Blocks.trapdoor,
+            Blocks.wooden_door,
+            Blocks.stone_button,
+            Blocks.wooden_button,
+            Blocks.furnace,
+            Blocks.lit_furnace,
+            Blocks.crafting_table,
+            Blocks.brewing_stand,
+            Blocks.bed,
+            Blocks.anvil,
+            Blocks.beacon,
+            Blocks.command_block,
+            Blocks.unpowered_comparator,
+            Blocks.powered_comparator,
+            Blocks.unpowered_repeater,
+            Blocks.powered_repeater,
+            Blocks.lever);
 
     public static int getHorizontalFacing(final EnumFacing facing)
     {

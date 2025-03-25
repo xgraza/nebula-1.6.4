@@ -29,6 +29,7 @@ public final class CheatManager implements ITypedManager<Cheat>
     {
         addCheat(new AutoArmorCheat());
         addCheat(new AutoPotCheat());
+        addCheat(new BurrowCheat());
         addCheat(new CriticalsCheat());
         addCheat(new KillAuraCheat());
         addCheat(new RegenCheat());
