@@ -8,14 +8,12 @@ import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.key.Key;
 import us.nebula.api.value.Setting;
-import us.nebula.impl.gui.client.component.cheat.value.BooleanSettingComponent;
-import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
-import us.nebula.impl.gui.client.component.cheat.value.KeySettingComponent;
-import us.nebula.impl.gui.client.component.cheat.value.NumberSettingComponent;
+import us.nebula.impl.gui.client.component.cheat.value.*;
 import us.nebula.util.io.SoundUtil;
 import us.nebula.util.render.RenderUtil;
 
 import java.awt.Color;
+import java.io.File;
 
 import static us.nebula.api.manager.key.Key.DEFAULT_UNBOUND_KEY;
 
@@ -75,6 +73,9 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
             } else if (setting.getValue() instanceof Color)
             {
 
+            } else if (setting.getValue() instanceof File || setting.getBaseDirectory() != null)
+            {
+                getChildrenComponentList().add(new FileSettingComponent((Setting<File>) setting));
             }
         }
     }

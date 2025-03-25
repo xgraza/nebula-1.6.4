@@ -4,10 +4,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import us.nebula.Nebula;
 import us.nebula.api.config.IJSONSerializable;
 import us.nebula.api.manager.key.Key;
 
 import java.awt.Color;
+import java.io.File;
 import java.util.function.Supplier;
 
 /**
@@ -22,19 +24,38 @@ public class Setting<T> implements IJSONSerializable
     private T value;
     private Number min, max, scale;
 
+    private File baseDirectory;
+
     private Supplier<Boolean> visibility = () -> true;
     private ValueChanged<T> valueChanged;
 
     public Setting(final String name, final T value)
     {
-        this.name = name;
-        this.value = value;
+        this(name, value, null);
     }
 
     public Setting(final String name, final T value, final Supplier<Boolean> visibility)
     {
-        this(name, value);
+        this.name = name;
+        this.value = value;
         this.visibility = visibility;
+
+        if (value instanceof File)
+        {
+            final File file = (File) value;
+            if (!file.exists())
+            {
+                if (!file.mkdir())
+                {
+                    throw new RuntimeException("Failed to create directory");
+                } else
+                {
+                    Nebula.INSTANCE.getLogger().info("Created {} successfully.", file);
+                }
+            }
+            this.baseDirectory = file;
+            this.value = null;
+        }
     }
 
     public Setting(final String name,
@@ -146,6 +167,11 @@ public class Setting<T> implements IJSONSerializable
         return this;
     }
 
+    public File getBaseDirectory()
+    {
+        return baseDirectory;
+    }
+
     @Override
     public void fromJSON(final JsonElement element)
     {
@@ -194,6 +220,18 @@ public class Setting<T> implements IJSONSerializable
             if (value instanceof Enum<?>)
             {
                 setValue((T) Enum.valueOf(((Enum<?>)value).getDeclaringClass(), primitive.getAsString()));
+            } else if (value instanceof File || baseDirectory != null)
+            {
+                final File file = new File(primitive.getAsString());
+                if (!file.isDirectory() && file.exists() && file.canRead())
+                {
+                    setValue((T) file);
+                } else
+                {
+                    Nebula.INSTANCE.getLogger().warn(
+                            "{} does not exist/doesnt have rw privileges",
+                            file);
+                }
             } else
             {
                 throw new RuntimeException("mismatched JSON & value types for setting "
@@ -210,7 +248,10 @@ public class Setting<T> implements IJSONSerializable
             return JsonNull.INSTANCE;
         }
 
-        if (value instanceof Key)
+        if (value instanceof File)
+        {
+            return new JsonPrimitive(((File)value).getAbsolutePath());
+        } else if (value instanceof Key)
         {
             return ((Key)value).toJSON();
         } else if (value instanceof Color)
