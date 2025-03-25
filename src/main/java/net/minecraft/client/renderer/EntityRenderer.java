@@ -74,6 +74,7 @@ import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 import us.nebula.api.listener.EventBus;
+import us.nebula.api.render.EntityCulling;
 import us.nebula.impl.cheat.render.NoRenderCheat;
 import us.nebula.impl.event.render.EventCameraDistance;
 import us.nebula.impl.event.render.EventGamma;
@@ -1927,6 +1928,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, new Object[] {var5, Float.valueOf(par1)});
             }
 
+            EntityCulling.checkCulling();
             ProjectionUtil.updateProjection();
             EventBus.dispatch(new EventRender3D(partialTicks));
 

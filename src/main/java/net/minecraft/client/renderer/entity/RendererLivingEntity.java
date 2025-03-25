@@ -503,7 +503,7 @@ public abstract class RendererLivingEntity extends Render
                 double var18 = 0.0D;
                 double var20 = 0.0D;
                 float var22 = 0.0F;
-                this.renderManager.func_147940_a(var4, var16, var18, var20, var22, par2);
+                this.renderManager.renderEntity(var4, var16, var18, var20, var22, par2);
                 GL11.glPopMatrix();
             }
 

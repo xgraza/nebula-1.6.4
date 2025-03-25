@@ -43,3 +43,26 @@ If you have a bypass for NCP that is publicly known, that is okay, I just don't 
 Or if you're lazy like me (or do not know how to do the above), check the actions tab or releases tab
 
 ---
+
+## Credits
+
+(no particular order)
+
+- [Gav06](https://github.com/Gav06) - First dude I made a 1.6.4 client with (gavhack-legacy on top!)
+- [hometea](https://github.com/h0metea) - GFX in client & testing
+- [MedMex](https://github.com/KingYeezus) - Information on exploits
+- Captain_S0L0 - Help with beta & really cool guy
+- [bush](https://github.com/therealbush/) - Google translate private API params (i love bushbus & bushtranslator!)
+- [Sk1er](https://github.com/Sk1erLLC/Patcher) - Entity culling & a ton of MC bug fixes to make the game run better (thanks open source :pray:)
+- [Pokechu22](https://github.com/Pokechu22/WorldDownloader/tree/v4) - WDL (World Downloader)
+- [Optifine](https://optifine.net/downloads) - MC performance mod (with Shadersmod)
+
+** Since this is not a forge mod (and will never be), I have combined some popular forge mods as a compromise
+
+#### Extra mods to add:
+
+- [ ] Add WaveyCapes
+- [ ] Add Minimap (of some sort)
+- [ ] Add Schematica
+
+---

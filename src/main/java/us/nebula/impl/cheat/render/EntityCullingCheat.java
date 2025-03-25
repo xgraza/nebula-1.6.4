@@ -1,0 +1,27 @@
+package us.nebula.impl.cheat.render;
+
+import us.nebula.api.manager.cheat.Cheat;
+import us.nebula.api.manager.cheat.CheatCategory;
+import us.nebula.api.manager.cheat.CheatInstance;
+import us.nebula.api.manager.cheat.CheatManifest;
+import us.nebula.api.render.EntityCulling;
+
+/**
+ * @author xgraza
+ * @since 03/25/25
+ */
+@CheatManifest(name = "EntityCulling",
+        description = "Prevents rendering entities you cannot see",
+        category = CheatCategory.RENDER)
+public final class EntityCullingCheat extends Cheat
+{
+    @CheatInstance
+    public static EntityCullingCheat INSTANCE;
+
+    @Override
+    protected void onDisable()
+    {
+        super.onDisable();
+        EntityCulling.reset();
+    }
+}

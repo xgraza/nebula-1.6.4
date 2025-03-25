@@ -98,6 +98,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.ARBOcclusionQuery;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
+import us.nebula.api.render.EntityCulling;
 
 public class RenderGlobal implements IWorldAccess
 {
@@ -433,6 +434,7 @@ public class RenderGlobal implements IWorldAccess
      */
     public void loadRenderers()
     {
+        EntityCulling.reset();
         if (this.theWorld != null)
         {
             Blocks.leaves.setGraphicsLevel(Config.isTreesFancy());

@@ -50,6 +50,7 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 import us.nebula.api.listener.EventBus;
+import us.nebula.api.render.EntityCulling;
 import us.nebula.impl.cheat.exploit.GhostHandCheat;
 import us.nebula.impl.cheat.render.NoWeatherCheat;
 import us.nebula.impl.cheat.render.TimeChangerCheat;
@@ -1438,6 +1439,7 @@ public abstract class World implements IBlockAccess
 
     protected void onEntityRemoved(Entity par1Entity)
     {
+        EntityCulling.removeEntity(par1Entity);
         for (int var2 = 0; var2 < this.worldAccesses.size(); ++var2)
         {
             ((IWorldAccess)this.worldAccesses.get(var2)).onEntityDestroy(par1Entity);
@@ -1449,6 +1451,7 @@ public abstract class World implements IBlockAccess
      */
     public void removeEntity(Entity par1Entity)
     {
+        EntityCulling.removeEntity(par1Entity);
         if (par1Entity.riddenByEntity != null)
         {
             par1Entity.riddenByEntity.mountEntity((Entity)null);

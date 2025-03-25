@@ -101,7 +101,7 @@ public class GuiInventory extends InventoryEffectRenderer
         p_147046_5_.prevRotationYawHead = p_147046_5_.rotationYaw;
         GL11.glTranslatef(0.0F, p_147046_5_.yOffset, 0.0F);
         RenderManager.instance.playerViewY = 180.0F;
-        RenderManager.instance.func_147940_a(p_147046_5_, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
+        RenderManager.instance.renderEntity(p_147046_5_, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
         p_147046_5_.renderYawOffset = var6;
         p_147046_5_.rotationYaw = var7;
         p_147046_5_.rotationPitch = var8;

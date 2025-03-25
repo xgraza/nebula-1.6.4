@@ -259,7 +259,7 @@ public class RenderItemFrame extends Render
                     }
 
                     RenderItem.renderInFrame = true;
-                    RenderManager.instance.func_147940_a(var3, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+                    RenderManager.instance.renderEntity(var3, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
                     RenderItem.renderInFrame = false;
 
                     if (var4 == Items.compass)
