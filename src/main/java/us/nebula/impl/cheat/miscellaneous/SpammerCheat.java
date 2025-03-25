@@ -124,7 +124,7 @@ public final class SpammerCheat extends Cheat
             final String content = FileUtil.read(file);
             for (final String line : content.split("\n"))
             {
-                if (line.isEmpty() || line.startsWith("#"))
+                if (line.isEmpty())
                 {
                     continue;
                 }
