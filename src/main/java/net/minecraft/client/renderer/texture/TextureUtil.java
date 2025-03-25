@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.src.Mipmaps;
-import net.minecraft.src.Reflector;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -155,14 +154,7 @@ public class TextureUtil
 
     public static void allocateTextureImpl(int p_147946_0_, int p_147946_1_, int p_147946_2_, int p_147946_3_, float p_147946_4_)
     {
-        Class monitor = TextureUtil.class;
-
-        if (Reflector.SplashScreen.exists())
-        {
-            monitor = Reflector.SplashScreen.getTargetClass();
-        }
-
-        synchronized (monitor)
+        synchronized (TextureUtil.class)
         {
             deleteTexture(p_147946_0_);
             bindTexture(p_147946_0_);

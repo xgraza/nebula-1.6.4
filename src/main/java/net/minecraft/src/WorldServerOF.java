@@ -272,7 +272,7 @@ public class WorldServerOF extends WorldServer
         if (this.canSkipEntityUpdate(par1Entity) && par1Entity instanceof EntityLivingBase)
         {
             EntityLivingBase elb = (EntityLivingBase)par1Entity;
-            int entityAge = EntityUtils.getEntityAge(elb);
+            int entityAge = elb.entityAge;
             ++entityAge;
 
             if (elb instanceof EntityMob)
@@ -285,12 +285,11 @@ public class WorldServerOF extends WorldServer
                 }
             }
 
-            EntityUtils.setEntityAge(elb, entityAge);
+            elb.entityAge = entityAge;
 
             if (elb instanceof EntityLiving)
             {
-                EntityLiving var5 = (EntityLiving)elb;
-                EntityUtils.despawnEntity(var5);
+                ((EntityLiving)elb).despawnEntity();
             }
         }
         else

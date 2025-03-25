@@ -74,7 +74,6 @@ import net.minecraft.src.CustomSky;
 import net.minecraft.src.DynamicLights;
 import net.minecraft.src.EntitySorterFast;
 import net.minecraft.src.RandomMobs;
-import net.minecraft.src.Reflector;
 import net.minecraft.src.WrDisplayListAllocator;
 import net.minecraft.src.WrUpdates;
 import net.minecraft.tileentity.TileEntity;
@@ -89,7 +88,6 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IWorldAccess;
-import net.minecraft.world.WorldProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
@@ -570,21 +568,11 @@ public class RenderGlobal implements IWorldAccess
     {
         int pass = 0;
 
-        if (Reflector.MinecraftForgeClient_getRenderPass.exists())
-        {
-            pass = Reflector.callInt(Reflector.MinecraftForgeClient_getRenderPass, new Object[0]);
-        }
-
-        boolean hasEntityShouldRenderInPass = Reflector.ForgeEntity_shouldRenderInPass.exists();
-        boolean hasTileEntityShouldRenderInPass = Reflector.ForgeTileEntity_shouldRenderInPass.exists();
+        boolean hasEntityShouldRenderInPass = false;
+        boolean hasTileEntityShouldRenderInPass = false;
 
         if (this.renderEntitiesStartupCounter > 0)
         {
-            if (pass > 0)
-            {
-                return;
-            }
-
             --this.renderEntitiesStartupCounter;
         }
         else
@@ -596,47 +584,41 @@ public class RenderGlobal implements IWorldAccess
             TileEntityRendererDispatcher.instance.cacheActiveRenderInfo(this.theWorld, this.mc.getTextureManager(), this.mc.fontRenderer, this.mc.renderViewEntity, p_147589_3_);
             RenderManager.instance.cacheActiveRenderInfo(this.theWorld, this.mc.getTextureManager(), this.mc.fontRenderer, this.mc.renderViewEntity, this.mc.pointedEntity, this.mc.gameSettings, p_147589_3_);
 
-            if (pass == 0)
+            this.countEntitiesTotal = 0;
+            this.countEntitiesRendered = 0;
+            this.countEntitiesHidden = 0;
+            this.countTileEntitiesRendered = 0;
+            EntityLivingBase var17 = this.mc.renderViewEntity;
+            double var19 = var17.lastTickPosX + (var17.posX - var17.lastTickPosX) * (double)p_147589_3_;
+            double isShaders = var17.lastTickPosY + (var17.posY - var17.lastTickPosY) * (double)p_147589_3_;
+            double te = var17.lastTickPosZ + (var17.posZ - var17.lastTickPosZ) * (double)p_147589_3_;
+            TileEntityRendererDispatcher.staticPlayerX = var19;
+            TileEntityRendererDispatcher.staticPlayerY = isShaders;
+            TileEntityRendererDispatcher.staticPlayerZ = te;
+            this.theWorld.theProfiler.endStartSection("staticentities");
+
+            if (this.displayListEntitiesDirty)
             {
-                this.countEntitiesTotal = 0;
-                this.countEntitiesRendered = 0;
-                this.countEntitiesHidden = 0;
-                this.countTileEntitiesRendered = 0;
-                EntityLivingBase var17 = this.mc.renderViewEntity;
-                double var19 = var17.lastTickPosX + (var17.posX - var17.lastTickPosX) * (double)p_147589_3_;
-                double isShaders = var17.lastTickPosY + (var17.posY - var17.lastTickPosY) * (double)p_147589_3_;
-                double te = var17.lastTickPosZ + (var17.posZ - var17.lastTickPosZ) * (double)p_147589_3_;
-                TileEntityRendererDispatcher.staticPlayerX = var19;
-                TileEntityRendererDispatcher.staticPlayerY = isShaders;
-                TileEntityRendererDispatcher.staticPlayerZ = te;
-                this.theWorld.theProfiler.endStartSection("staticentities");
-
-                if (this.displayListEntitiesDirty)
-                {
-                    RenderManager.renderPosX = 0.0D;
-                    RenderManager.renderPosY = 0.0D;
-                    RenderManager.renderPosZ = 0.0D;
-                    this.rebuildDisplayListEntities();
-                }
-
-                GL11.glMatrixMode(GL11.GL_MODELVIEW);
-                GL11.glPushMatrix();
-                GL11.glTranslated(-var19, -isShaders, -te);
-                GL11.glCallList(this.displayListEntities);
-                GL11.glPopMatrix();
-                RenderManager.renderPosX = var19;
-                RenderManager.renderPosY = isShaders;
-                RenderManager.renderPosZ = te;
+                RenderManager.renderPosX = 0.0D;
+                RenderManager.renderPosY = 0.0D;
+                RenderManager.renderPosZ = 0.0D;
+                this.rebuildDisplayListEntities();
             }
+
+            GL11.glMatrixMode(GL11.GL_MODELVIEW);
+            GL11.glPushMatrix();
+            GL11.glTranslated(-var19, -isShaders, -te);
+            GL11.glCallList(this.displayListEntities);
+            GL11.glPopMatrix();
+            RenderManager.renderPosX = var19;
+            RenderManager.renderPosY = isShaders;
+            RenderManager.renderPosZ = te;
 
             this.mc.entityRenderer.enableLightmap((double)p_147589_3_);
             this.theWorld.theProfiler.endStartSection("global");
             List var25 = this.theWorld.getLoadedEntityList();
 
-            if (pass == 0)
-            {
-                this.countEntitiesTotal = var25.size();
-            }
+            this.countEntitiesTotal = var25.size();
 
             if (Config.isFogOff() && this.mc.entityRenderer.fogStandard)
             {
@@ -650,14 +632,11 @@ public class RenderGlobal implements IWorldAccess
             {
                 var26 = (Entity)this.theWorld.weatherEffects.get(var18);
 
-                if (!hasEntityShouldRenderInPass || Reflector.callBoolean(var26, Reflector.ForgeEntity_shouldRenderInPass, new Object[] {Integer.valueOf(pass)}))
-                {
-                    ++this.countEntitiesRendered;
+                ++this.countEntitiesRendered;
 
-                    if (var26.isInRangeToRender3d(var4, var6, var8))
-                    {
-                        RenderManager.instance.renderEntity(var26, p_147589_3_);
-                    }
+                if (var26.isInRangeToRender3d(var4, var6, var8))
+                {
+                    RenderManager.instance.renderEntity(var26, p_147589_3_);
                 }
             }
 
@@ -676,40 +655,37 @@ public class RenderGlobal implements IWorldAccess
             {
                 var26 = (Entity)var25.get(var18);
 
-                if (!hasEntityShouldRenderInPass || Reflector.callBoolean(var26, Reflector.ForgeEntity_shouldRenderInPass, new Object[] {Integer.valueOf(pass)}))
+                boolean var28 = var26.isInRangeToRender3d(var4, var6, var8) && (var26.ignoreFrustumCheck || p_147589_2_.isBoundingBoxInFrustum(var26.boundingBox) || var26.riddenByEntity == this.mc.thePlayer);
+
+                if (!var28 && var26 instanceof EntityLiving)
                 {
-                    boolean var28 = var26.isInRangeToRender3d(var4, var6, var8) && (var26.ignoreFrustumCheck || p_147589_2_.isBoundingBoxInFrustum(var26.boundingBox) || var26.riddenByEntity == this.mc.thePlayer);
+                    EntityLiving aabb = (EntityLiving)var26;
 
-                    if (!var28 && var26 instanceof EntityLiving)
+                    if (aabb.getLeashed() && aabb.getLeashedToEntity() != null)
                     {
-                        EntityLiving aabb = (EntityLiving)var26;
+                        Entity teClass = aabb.getLeashedToEntity();
+                        var28 = p_147589_2_.isBoundingBoxInFrustum(teClass.boundingBox);
+                    }
+                }
 
-                        if (aabb.getLeashed() && aabb.getLeashedToEntity() != null)
-                        {
-                            Entity teClass = aabb.getLeashedToEntity();
-                            var28 = p_147589_2_.isBoundingBoxInFrustum(teClass.boundingBox);
-                        }
+                if (var28 && (var26 != this.mc.renderViewEntity || this.mc.gameSettings.thirdPersonView != 0 || this.mc.renderViewEntity.isPlayerSleeping()) && this.theWorld.blockExists(MathHelper.floor_double(var26.posX), 0, MathHelper.floor_double(var26.posZ)))
+                {
+                    ++this.countEntitiesRendered;
+
+                    if (var26.getClass() == EntityItemFrame.class)
+                    {
+                        var26.renderDistanceWeight = 0.06D;
                     }
 
-                    if (var28 && (var26 != this.mc.renderViewEntity || this.mc.gameSettings.thirdPersonView != 0 || this.mc.renderViewEntity.isPlayerSleeping()) && this.theWorld.blockExists(MathHelper.floor_double(var26.posX), 0, MathHelper.floor_double(var26.posZ)))
+                    this.renderedEntity = var26;
+
+                    if (var27)
                     {
-                        ++this.countEntitiesRendered;
-
-                        if (var26.getClass() == EntityItemFrame.class)
-                        {
-                            var26.renderDistanceWeight = 0.06D;
-                        }
-
-                        this.renderedEntity = var26;
-
-                        if (var27)
-                        {
-                            Shaders.nextEntity(var26);
-                        }
-
-                        RenderManager.instance.renderEntity(var26, p_147589_3_);
-                        this.renderedEntity = null;
+                        Shaders.nextEntity(var26);
                     }
+
+                    RenderManager.instance.renderEntity(var26, p_147589_3_);
+                    this.renderedEntity = null;
                 }
             }
 
@@ -728,54 +704,51 @@ public class RenderGlobal implements IWorldAccess
             {
                 TileEntity var29 = (TileEntity)this.tileEntities.get(var18);
 
-                if (!hasTileEntityShouldRenderInPass || Reflector.callBoolean(var29, Reflector.ForgeTileEntity_shouldRenderInPass, new Object[] {Integer.valueOf(pass)}))
+                AxisAlignedBB var30 = this.getTileEntityBoundingBox(var29);
+
+                if (var30 == AABB_INFINITE || p_147589_2_.isBoundingBoxInFrustum(var30))
                 {
-                    AxisAlignedBB var30 = this.getTileEntityBoundingBox(var29);
+                    Class var31 = var29.getClass();
 
-                    if (var30 == AABB_INFINITE || p_147589_2_.isBoundingBoxInFrustum(var30))
+                    if (var31 == TileEntitySign.class && !Config.zoomMode)
                     {
-                        Class var31 = var29.getClass();
+                        EntityClientPlayerMP block = this.mc.thePlayer;
+                        double distSq = var29.getDistanceFrom(block.posX, block.posY, block.posZ);
 
-                        if (var31 == TileEntitySign.class && !Config.zoomMode)
+                        if (distSq > 256.0D)
                         {
-                            EntityClientPlayerMP block = this.mc.thePlayer;
-                            double distSq = var29.getDistanceFrom(block.posX, block.posY, block.posZ);
+                            FontRenderer fr = TileEntityRendererDispatcher.instance.getFontRenderer();
+                            fr.enabled = false;
 
-                            if (distSq > 256.0D)
+                            if (Config.isShaders())
                             {
-                                FontRenderer fr = TileEntityRendererDispatcher.instance.getFontRenderer();
-                                fr.enabled = false;
-
-                                if (Config.isShaders())
-                                {
-                                    Shaders.nextBlockEntity(var29);
-                                }
-
-                                TileEntityRendererDispatcher.instance.renderTileEntity(var29, p_147589_3_);
-                                ++this.countTileEntitiesRendered;
-                                fr.enabled = true;
-                                continue;
+                                Shaders.nextBlockEntity(var29);
                             }
+
+                            TileEntityRendererDispatcher.instance.renderTileEntity(var29, p_147589_3_);
+                            ++this.countTileEntitiesRendered;
+                            fr.enabled = true;
+                            continue;
                         }
-
-                        if (var31 == TileEntityChest.class)
-                        {
-                            Block var32 = this.theWorld.getBlock(var29.xCoord, var29.yCoord, var29.zCoord);
-
-                            if (!(var32 instanceof BlockChest))
-                            {
-                                continue;
-                            }
-                        }
-
-                        if (Config.isShaders())
-                        {
-                            Shaders.nextBlockEntity(var29);
-                        }
-
-                        TileEntityRendererDispatcher.instance.renderTileEntity(var29, p_147589_3_);
-                        ++this.countTileEntitiesRendered;
                     }
+
+                    if (var31 == TileEntityChest.class)
+                    {
+                        Block var32 = this.theWorld.getBlock(var29.xCoord, var29.yCoord, var29.zCoord);
+
+                        if (!(var32 instanceof BlockChest))
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (Config.isShaders())
+                    {
+                        Shaders.nextBlockEntity(var29);
+                    }
+
+                    TileEntityRendererDispatcher.instance.renderTileEntity(var29, p_147589_3_);
+                    ++this.countTileEntitiesRendered;
                 }
             }
 
@@ -1557,18 +1530,6 @@ public class RenderGlobal implements IWorldAccess
      */
     public void renderSky(float par1)
     {
-        if (Reflector.ForgeWorldProvider_getSkyRenderer.exists())
-        {
-            WorldProvider var2 = this.mc.theWorld.provider;
-            Object var3 = Reflector.call(var2, Reflector.ForgeWorldProvider_getSkyRenderer, new Object[0]);
-
-            if (var3 != null)
-            {
-                Reflector.callVoid(var3, Reflector.IRenderHandler_render, new Object[] {Float.valueOf(par1), this.theWorld, this.mc});
-                return;
-            }
-        }
-
         if (this.mc.theWorld.provider.dimensionId == 1)
         {
             if (!Config.isSkyEnabled())
@@ -1934,18 +1895,6 @@ public class RenderGlobal implements IWorldAccess
     {
         if (!Config.isCloudsOff())
         {
-            if (Reflector.ForgeWorldProvider_getCloudRenderer.exists())
-            {
-                WorldProvider partialTicks = this.mc.theWorld.provider;
-                Object var2 = Reflector.call(partialTicks, Reflector.ForgeWorldProvider_getCloudRenderer, new Object[0]);
-
-                if (var2 != null)
-                {
-                    Reflector.callVoid(var2, Reflector.IRenderHandler_render, new Object[] {Float.valueOf(par1), this.theWorld, this.mc});
-                    return;
-                }
-            }
-
             if (this.mc.theWorld.provider.isSurfaceWorld())
             {
                 if (Config.isCloudsFancy())
@@ -2663,17 +2612,7 @@ public class RenderGlobal implements IWorldAccess
                 this.mc.ingameGUI.setRecordPlayingMessage(var7.getRecordNameLocal());
             }
 
-            ResourceLocation resource = null;
-
-            if (Reflector.ForgeItemRecord_getRecordResource.exists() && var7 != null)
-            {
-                resource = (ResourceLocation)Reflector.call(var7, Reflector.ForgeItemRecord_getRecordResource, new Object[] {par1Str});
-            }
-
-            if (resource == null)
-            {
-                resource = new ResourceLocation(par1Str);
-            }
+            ResourceLocation resource = new ResourceLocation(par1Str);
 
             PositionedSoundRecord var8 = PositionedSoundRecord.func_147675_a(resource, (float)par2, (float)par3, (float)par4);
             this.mapSoundPositions.put(var5, var8);
@@ -3479,16 +3418,6 @@ public class RenderGlobal implements IWorldAccess
             else if (blockType != Blocks.chest && blockType != Blocks.trapped_chest)
             {
                 AxisAlignedBB blockAabb;
-
-                if (Reflector.ForgeTileEntity_getRenderBoundingBox.exists())
-                {
-                    blockAabb = (AxisAlignedBB)Reflector.call(te, Reflector.ForgeTileEntity_getRenderBoundingBox, new Object[0]);
-
-                    if (blockAabb != null)
-                    {
-                        return blockAabb;
-                    }
-                }
 
                 if (blockType != null && blockType != Blocks.beacon)
                 {

@@ -1,7 +1,5 @@
 package net.minecraft.src;
 
-import java.lang.reflect.Field;
-import java.util.Map;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -39,49 +37,9 @@ public class RenderPlayerOF extends RenderPlayer
     public static void register()
     {
         RenderManager rm = RenderManager.instance;
-        Map mapRenderTypes = getMapRenderTypes(rm);
 
-        if (mapRenderTypes == null)
-        {
-            Config.warn("RenderPlayerOF init() failed: RenderManager.MapRenderTypes not found");
-        }
-        else
-        {
-            RenderPlayerOF rpof = new RenderPlayerOF();
-            rpof.setRenderManager(rm);
-            mapRenderTypes.put(EntityPlayer.class, rpof);
-        }
-    }
-
-    private static Map getMapRenderTypes(RenderManager rm)
-    {
-        try
-        {
-            Field[] e = Reflector.getFields(RenderManager.class, Map.class);
-
-            for (int i = 0; i < e.length; ++i)
-            {
-                Field field = e[i];
-                Map map = (Map)field.get(rm);
-
-                if (map != null)
-                {
-                    Object renderSteve = map.get(EntityPlayer.class);
-
-                    if (renderSteve instanceof RenderPlayer)
-                    {
-                        return map;
-                    }
-                }
-            }
-
-            return null;
-        }
-        catch (Exception var6)
-        {
-            Config.warn("Error getting RenderManager.mapRenderTypes");
-            Config.warn(var6.getClass().getName() + ": " + var6.getMessage());
-            return null;
-        }
+        RenderPlayerOF renderPlayerOF = new RenderPlayerOF();
+        renderPlayerOF.setRenderManager(rm);
+        rm.getEntityRenderMap().put(EntityPlayer.class, renderPlayerOF);
     }
 }

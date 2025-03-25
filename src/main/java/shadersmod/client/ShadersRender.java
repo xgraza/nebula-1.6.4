@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.src.Config;
 import net.minecraft.src.GlStateManager;
-import net.minecraft.src.Reflector;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.EXTFramebufferObject;
@@ -263,12 +262,6 @@ public class ShadersRender
             GlStateManager.popMatrix();
             GlStateManager.pushMatrix();
             mc.mcProfiler.endStartSection("shadow entities");
-
-            if (Reflector.ForgeHooksClient_setRenderPass.exists())
-            {
-                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(0)});
-            }
-
             RenderHelper.enableStandardItemLighting();
             renderGlobal.renderEntities(viewEntity, frustum, partialTicks);
             RenderHelper.disableStandardItemLighting();
@@ -304,16 +297,6 @@ public class ShadersRender
                 mc.mcProfiler.endStartSection("shadow translucent");
                 renderGlobal.renderAllSortedRenderers(1, (double)partialTicks);
                 Shaders.checkGLError("shadow translucent");
-            }
-
-            if (Reflector.ForgeHooksClient_setRenderPass.exists())
-            {
-                RenderHelper.enableStandardItemLighting();
-                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(1)});
-                renderGlobal.renderEntities(viewEntity, frustum, partialTicks);
-                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(-1)});
-                RenderHelper.disableStandardItemLighting();
-                Shaders.checkGLError("shadow entities 1");
             }
 
             GlStateManager.shadeModel(7424);

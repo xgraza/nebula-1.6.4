@@ -6,15 +6,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.src.Config;
 import net.minecraft.src.ConnectedParser;
 import net.minecraft.src.MatchBlock;
 import net.minecraft.src.PropertiesOrdered;
-import net.minecraft.src.Reflector;
-import net.minecraft.src.ReflectorForge;
 import net.minecraft.src.StrUtils;
-import net.minecraft.util.ResourceLocation;
 
 public class BlockAliases
 {
@@ -71,49 +68,18 @@ public class BlockAliases
 
         if (shaderPack != null)
         {
-            if (Reflector.Loader_getActiveModList.exists() && Minecraft.getMinecraft().getResourcePackRepository() == null)
+            ArrayList listBlockAliases = new ArrayList();
+            String path = "/shaders/block.properties";
+            InputStream in = shaderPack.getResourceAsStream(path);
+
+            if (in != null)
             {
-                Config.dbg("[Shaders] Delayed loading of block mappings after resources are loaded");
-                updateOnResourcesReloaded = true;
+                loadBlockAliases(in, path, listBlockAliases);
             }
-            else
+
+            if (listBlockAliases.size() > 0)
             {
-                ArrayList listBlockAliases = new ArrayList();
-                String path = "/shaders/block.properties";
-                InputStream in = shaderPack.getResourceAsStream(path);
-
-                if (in != null)
-                {
-                    loadBlockAliases(in, path, listBlockAliases);
-                }
-
-                loadModBlockAliases(listBlockAliases);
-
-                if (listBlockAliases.size() > 0)
-                {
-                    blockAliases = toArrays(listBlockAliases);
-                }
-            }
-        }
-    }
-
-    private static void loadModBlockAliases(List<List<BlockAlias>> listBlockAliases)
-    {
-        String[] modIds = ReflectorForge.getForgeModIds();
-
-        for (int i = 0; i < modIds.length; ++i)
-        {
-            String modId = modIds[i];
-
-            try
-            {
-                ResourceLocation e = new ResourceLocation(modId, "shaders/block.properties");
-                InputStream in = Config.getResourceStream(e);
-                loadBlockAliases(in, e.toString(), listBlockAliases);
-            }
-            catch (IOException var6)
-            {
-                ;
+                blockAliases = toArrays(listBlockAliases);
             }
         }
     }

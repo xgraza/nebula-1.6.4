@@ -92,16 +92,13 @@ public class WorldRendererThreaded extends WorldRenderer
                 ++chunksUpdated;
                 chunkcache.renderStart();
                 RenderBlocks hashset1 = new RenderBlocks(chunkcache);
-                Reflector.callVoid(Reflector.ForgeHooksClient_setWorldRendererRB, new Object[] {hashset1});
                 this.bytesDrawn = 0;
                 this.tempVertexState = null;
                 this.tessellator = Tessellator.instance;
-                boolean hasForge = Reflector.ForgeHooksClient.exists();
                 WrUpdateControl uc = new WrUpdateControl();
 
                 for (int renderPass = 0; renderPass < 2; ++renderPass)
                 {
-                    uc.setRenderPass(renderPass);
                     boolean renderNextPass = false;
                     boolean hasRenderedBlocks = false;
                     boolean hasGlList = false;
@@ -128,18 +125,7 @@ public class WorldRendererThreaded extends WorldRenderer
                                         this.preRenderBlocksThreaded(renderPass);
                                     }
 
-                                    boolean hasTileEntity = false;
-
-                                    if (hasForge)
-                                    {
-                                        hasTileEntity = Reflector.callBoolean(block, Reflector.ForgeBlock_hasTileEntity, new Object[] {Integer.valueOf(chunkcache.getBlockMetadata(x, y, z))});
-                                    }
-                                    else
-                                    {
-                                        hasTileEntity = block.hasTileEntity();
-                                    }
-
-                                    if (renderPass == 0 && hasTileEntity)
+                                    if (renderPass == 0 && block.hasTileEntity())
                                     {
                                         TileEntity blockPass = chunkcache.getTileEntity(x, y, z);
 
@@ -156,14 +142,7 @@ public class WorldRendererThreaded extends WorldRenderer
                                         renderNextPass = true;
                                     }
 
-                                    boolean canRender = var32 == renderPass;
-
-                                    if (Reflector.ForgeBlock_canRenderInPass.exists())
-                                    {
-                                        canRender = Reflector.callBoolean(block, Reflector.ForgeBlock_canRenderInPass, new Object[] {Integer.valueOf(renderPass)});
-                                    }
-
-                                    if (canRender)
+                                    if (var32 == renderPass)
                                     {
                                         hasRenderedBlocks |= hashset1.renderBlockByRenderType(block, x, y, z);
 
@@ -207,7 +186,6 @@ public class WorldRendererThreaded extends WorldRenderer
                     }
                 }
 
-                Reflector.callVoid(Reflector.ForgeHooksClient_setWorldRendererRB, new Object[] {(RenderBlocks)null});
                 chunkcache.renderFinish();
             }
 
@@ -229,7 +207,6 @@ public class WorldRendererThreaded extends WorldRenderer
 
         if (Config.isFastRender())
         {
-            Reflector.callVoid(Reflector.ForgeHooksClient_onPreRenderWorld, new Object[] {this, Integer.valueOf(renderpass)});
             this.tessellator.startDrawingQuads();
             this.tessellator.setTranslation((double)(-globalChunkOffsetX), 0.0D, (double)(-globalChunkOffsetZ));
         }
@@ -241,7 +218,6 @@ public class WorldRendererThreaded extends WorldRenderer
             GL11.glTranslatef(-8.0F, -8.0F, -8.0F);
             GL11.glScalef(var2, var2, var2);
             GL11.glTranslatef(8.0F, 8.0F, 8.0F);
-            Reflector.callVoid(Reflector.ForgeHooksClient_onPreRenderWorld, new Object[] {this, Integer.valueOf(renderpass)});
             this.tessellator.startDrawingQuads();
             this.tessellator.setTranslation((double)(-this.posX), (double)(-this.posY), (double)(-this.posZ));
         }
@@ -255,7 +231,6 @@ public class WorldRendererThreaded extends WorldRenderer
         }
 
         this.bytesDrawn += this.tessellator.draw();
-        Reflector.callVoid(Reflector.ForgeHooksClient_onPostRenderWorld, new Object[] {this, Integer.valueOf(renderpass)});
         this.tessellator.setRenderingChunk(false);
 
         if (!Config.isFastRender())
@@ -301,13 +276,6 @@ public class WorldRendererThreaded extends WorldRenderer
         this.vertexState = this.tempVertexState;
         this.isVisible = true;
         this.isVisibleFromPosition = false;
-
-        if (Reflector.LightCache.exists())
-        {
-            Object var3 = Reflector.getFieldValue(Reflector.LightCache_cache);
-            Reflector.callVoid(var3, Reflector.LightCache_clear, new Object[0]);
-            Reflector.callVoid(Reflector.BlockCoord_resetPool, new Object[0]);
-        }
 
         this.updateFinished();
     }

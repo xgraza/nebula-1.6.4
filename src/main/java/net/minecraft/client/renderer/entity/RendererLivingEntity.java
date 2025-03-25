@@ -15,7 +15,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.src.Config;
-import net.minecraft.src.Reflector;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -375,11 +374,6 @@ public abstract class RendererLivingEntity extends Render
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glPopMatrix();
         this.passSpecialRender(par1EntityLivingBase, par2, par4, par6);
-
-        if (Reflector.RenderLivingEvent_Post_Constructor.exists())
-        {
-            Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Post_Constructor, new Object[] {par1EntityLivingBase, this, Double.valueOf(par2), Double.valueOf(par4), Double.valueOf(par6)});
-        }
     }
 
     /**
@@ -550,63 +544,55 @@ public abstract class RendererLivingEntity extends Render
      */
     protected void passSpecialRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6)
     {
-        if (!Reflector.RenderLivingEvent_Specials_Pre_Constructor.exists() || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Pre_Constructor, new Object[] {par1EntityLivingBase, this, Double.valueOf(par2), Double.valueOf(par4), Double.valueOf(par6)}))
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+
+        if (this.func_110813_b(par1EntityLivingBase))
         {
-            GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+            float var8 = 1.6F;
+            float var9 = 0.016666668F * var8;
+            double var10 = par1EntityLivingBase.getDistanceSqToEntity(this.renderManager.livingPlayer);
+            float var12 = par1EntityLivingBase.isSneaking() ? NAME_TAG_RANGE_SNEAK : NAME_TAG_RANGE;
 
-            if (this.func_110813_b(par1EntityLivingBase))
+            if (var10 < (double)(var12 * var12))
             {
-                float var8 = 1.6F;
-                float var9 = 0.016666668F * var8;
-                double var10 = par1EntityLivingBase.getDistanceSqToEntity(this.renderManager.livingPlayer);
-                float var12 = par1EntityLivingBase.isSneaking() ? NAME_TAG_RANGE_SNEAK : NAME_TAG_RANGE;
+                String var13 = par1EntityLivingBase.func_145748_c_().getFormattedText();
 
-                if (var10 < (double)(var12 * var12))
+                if (par1EntityLivingBase.isSneaking())
                 {
-                    String var13 = par1EntityLivingBase.func_145748_c_().getFormattedText();
-
-                    if (par1EntityLivingBase.isSneaking())
-                    {
-                        FontRenderer var14 = this.getFontRendererFromRenderManager();
-                        GL11.glPushMatrix();
-                        GL11.glTranslatef((float)par2 + 0.0F, (float)par4 + par1EntityLivingBase.height + 0.5F, (float)par6);
-                        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-                        GL11.glRotatef(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-                        GL11.glRotatef(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-                        GL11.glScalef(-var9, -var9, var9);
-                        GL11.glDisable(GL11.GL_LIGHTING);
-                        GL11.glTranslatef(0.0F, 0.25F / var9, 0.0F);
-                        GL11.glDepthMask(false);
-                        GL11.glEnable(GL11.GL_BLEND);
-                        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-                        Tessellator var15 = Tessellator.instance;
-                        GL11.glDisable(GL11.GL_TEXTURE_2D);
-                        var15.startDrawingQuads();
-                        int var16 = var14.getStringWidth(var13) / 2;
-                        var15.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
-                        var15.addVertex((double)(-var16 - 1), -1.0D, 0.0D);
-                        var15.addVertex((double)(-var16 - 1), 8.0D, 0.0D);
-                        var15.addVertex((double)(var16 + 1), 8.0D, 0.0D);
-                        var15.addVertex((double)(var16 + 1), -1.0D, 0.0D);
-                        var15.draw();
-                        GL11.glEnable(GL11.GL_TEXTURE_2D);
-                        GL11.glDepthMask(true);
-                        var14.drawString(var13, -var14.getStringWidth(var13) / 2, 0, 553648127);
-                        GL11.glEnable(GL11.GL_LIGHTING);
-                        GL11.glDisable(GL11.GL_BLEND);
-                        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                        GL11.glPopMatrix();
-                    }
-                    else
-                    {
-                        this.func_96449_a(par1EntityLivingBase, par2, par4, par6, var13, var9, var10);
-                    }
+                    FontRenderer var14 = this.getFontRendererFromRenderManager();
+                    GL11.glPushMatrix();
+                    GL11.glTranslatef((float)par2 + 0.0F, (float)par4 + par1EntityLivingBase.height + 0.5F, (float)par6);
+                    GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+                    GL11.glScalef(-var9, -var9, var9);
+                    GL11.glDisable(GL11.GL_LIGHTING);
+                    GL11.glTranslatef(0.0F, 0.25F / var9, 0.0F);
+                    GL11.glDepthMask(false);
+                    GL11.glEnable(GL11.GL_BLEND);
+                    OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+                    Tessellator var15 = Tessellator.instance;
+                    GL11.glDisable(GL11.GL_TEXTURE_2D);
+                    var15.startDrawingQuads();
+                    int var16 = var14.getStringWidth(var13) / 2;
+                    var15.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+                    var15.addVertex((double)(-var16 - 1), -1.0D, 0.0D);
+                    var15.addVertex((double)(-var16 - 1), 8.0D, 0.0D);
+                    var15.addVertex((double)(var16 + 1), 8.0D, 0.0D);
+                    var15.addVertex((double)(var16 + 1), -1.0D, 0.0D);
+                    var15.draw();
+                    GL11.glEnable(GL11.GL_TEXTURE_2D);
+                    GL11.glDepthMask(true);
+                    var14.drawString(var13, -var14.getStringWidth(var13) / 2, 0, 553648127);
+                    GL11.glEnable(GL11.GL_LIGHTING);
+                    GL11.glDisable(GL11.GL_BLEND);
+                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    GL11.glPopMatrix();
                 }
-            }
-
-            if (Reflector.RenderLivingEvent_Specials_Post_Constructor.exists())
-            {
-                Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Post_Constructor, new Object[] {par1EntityLivingBase, this, Double.valueOf(par2), Double.valueOf(par4), Double.valueOf(par6)});
+                else
+                {
+                    this.func_96449_a(par1EntityLivingBase, par2, par4, par6, var13, var9, var10);
+                }
             }
         }
     }

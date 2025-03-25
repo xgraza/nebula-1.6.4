@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 
 public class DynamicLights
 {
-    private static DynamicLightsMap mapDynamicLights = new DynamicLightsMap();
+    private static final DynamicLightsMap mapDynamicLights = new DynamicLightsMap();
     private static long timeUpdateMs = 0L;
     private static final double MAX_DIST = 7.5D;
     private static final double MAX_DIST_SQ = 56.25D;
@@ -32,7 +32,6 @@ public class DynamicLights
     private static final int LIGHT_LEVEL_MAGMA_CUBE_CORE = 13;
     private static final int LIGHT_LEVEL_GLOWSTONE_DUST = 8;
     private static final int LIGHT_LEVEL_PRISMARINE_CRYSTALS = 8;
-    private static ReflectorField ItemBlock_block = Reflector.getReflectorField(ItemBlock.class, Block.class);
 
     public static void entityAdded(Entity entityIn, RenderGlobal renderGlobal) {}
 
@@ -153,7 +152,6 @@ public class DynamicLights
     public static double getLightLevel(int x, int y, int z)
     {
         double lightLevelMax = 0.0D;
-        DynamicLightsMap lightPlayer = mapDynamicLights;
 
         synchronized (mapDynamicLights)
         {
@@ -180,10 +178,10 @@ public class DynamicLights
                         distSq *= 2.0D;
                     }
 
-                    if (distSq <= 56.25D)
+                    if (distSq <= MAX_DIST_SQ)
                     {
                         double dist = Math.sqrt(distSq);
-                        double light = 1.0D - dist / 7.5D;
+                        double light = 1.0D - dist / MAX_DIST;
                         double lightLevel = light * (double)dynamicLightLevel;
 
                         if (lightLevel > lightLevelMax)
@@ -195,8 +193,7 @@ public class DynamicLights
             }
         }
 
-        double var32 = Config.limit(lightLevelMax, 0.0D, 15.0D);
-        return var32;
+        return Config.limit(lightLevelMax, 0.0D, LIGHT_LEVEL_MAX);
     }
 
     public static int getLightLevel(ItemStack itemStack)
@@ -208,19 +205,12 @@ public class DynamicLights
         else
         {
             Item item = itemStack.getItem();
-
             if (item instanceof ItemBlock)
             {
-                ItemBlock itemBlock = (ItemBlock)item;
-                Block block = (Block)Reflector.getFieldValue(itemBlock, ItemBlock_block);
-
-                if (block != null)
-                {
-                    return block.getLightValue();
-                }
+                return ((ItemBlock) item).getBlock().getLightValue();
             }
 
-            return item == Items.lava_bucket ? Blocks.lava.getLightValue() : (item != Items.blaze_rod && item != Items.blaze_powder ? (item == Items.glowstone_dust ? 8 : (item == Items.magma_cream ? 8 : (item == Items.nether_star ? Blocks.beacon.getLightValue() / 2 : 0))) : 10);
+            return item == Items.lava_bucket ? Blocks.lava.getLightValue() : (item != Items.blaze_rod && item != Items.blaze_powder ? (item == Items.glowstone_dust ? LIGHT_LEVEL_GLOWSTONE_DUST : (item == Items.magma_cream ? LIGHT_LEVEL_MAGMA_CUBE : (item == Items.nether_star ? Blocks.beacon.getLightValue() / 2 : 0))) : LIGHT_LEVEL_BLAZE);
         }
     }
 
@@ -232,25 +222,25 @@ public class DynamicLights
         }
         else if (entity.isBurning())
         {
-            return 15;
+            return LIGHT_LEVEL_FIRE;
         }
         else if (entity instanceof EntityFireball)
         {
-            return 15;
+            return LIGHT_LEVEL_FIRE;
         }
         else if (entity instanceof EntityTNTPrimed)
         {
-            return 15;
+            return LIGHT_LEVEL_FIRE;
         }
         else if (entity instanceof EntityBlaze)
         {
             EntityBlaze entityItem4 = (EntityBlaze)entity;
-            return entityItem4.func_70845_n() ? 15 : 10;
+            return entityItem4.func_70845_n() ? LIGHT_LEVEL_FIRE : LIGHT_LEVEL_BLAZE;
         }
         else if (entity instanceof EntityMagmaCube)
         {
             EntityMagmaCube entityItem3 = (EntityMagmaCube)entity;
-            return (double)entityItem3.squishFactor > 0.6D ? 13 : 8;
+            return (double)entityItem3.squishFactor > 0.6D ? LIGHT_LEVEL_MAGMA_CUBE_CORE : LIGHT_LEVEL_MAGMA_CUBE;
         }
         else
         {
@@ -260,7 +250,7 @@ public class DynamicLights
 
                 if (entityItem.getCreeperState() > 0)
                 {
-                    return 15;
+                    return LIGHT_LEVEL_FIRE;
                 }
             }
 

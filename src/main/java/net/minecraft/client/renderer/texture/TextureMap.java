@@ -30,8 +30,6 @@ import net.minecraft.item.Item;
 import net.minecraft.src.Config;
 import net.minecraft.src.ConnectedTextures;
 import net.minecraft.src.CustomItems;
-import net.minecraft.src.Reflector;
-import net.minecraft.src.ReflectorForge;
 import net.minecraft.src.TextureUtils;
 import net.minecraft.src.WrUpdates;
 import net.minecraft.util.IIcon;
@@ -159,7 +157,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         this.mapUploadedSprites.clear();
         this.listAnimatedSprites.clear();
         int var4 = Integer.MAX_VALUE;
-        Reflector.callVoid(Reflector.ForgeHooksClient_onTextureStitchedPre, new Object[] {this});
         Iterator var5 = this.mapRegisteredSprites.entrySet().iterator();
         TextureAtlasSprite var8;
 
@@ -238,13 +235,11 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                 catch (RuntimeException var22)
                 {
                     logger.error("Unable to parse metadata from " + sheetWidth, var22);
-                    ReflectorForge.FMLClientHandler_trackBrokenTexture(sheetWidth, var22.getMessage());
                     continue;
                 }
                 catch (IOException var23)
                 {
                     logger.error("Using missing texture, unable to load " + sheetWidth + ", " + var23.getClass().getName());
-                    ReflectorForge.FMLClientHandler_trackMissingTexture(sheetWidth);
                     continue;
                 }
 
@@ -406,8 +401,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         {
             this.writeDebugImage(debugImage2, "debug_" + this.basePath.replace('/', '_') + ".png");
         }
-
-        Reflector.callVoid(Reflector.ForgeHooksClient_onTextureStitchedPost, new Object[] {this});
     }
 
     public ResourceLocation completeResourceLocation(ResourceLocation p_147634_1_, int p_147634_2_)
@@ -587,11 +580,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         else
         {
             Object var2 = (TextureAtlasSprite)this.mapRegisteredSprites.get(par1Str);
-
-            if (var2 == null && this.textureType == 1 && Reflector.ModLoader_getCustomAnimationLogic.exists())
-            {
-                var2 = Reflector.call(Reflector.ModLoader_getCustomAnimationLogic, new Object[] {par1Str});
-            }
 
             if (var2 == null)
             {

@@ -43,7 +43,6 @@ import net.minecraft.src.ConnectedTextures;
 import net.minecraft.src.CustomColorizer;
 import net.minecraft.src.NaturalProperties;
 import net.minecraft.src.NaturalTextures;
-import net.minecraft.src.Reflector;
 import net.minecraft.src.TextureUtils;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFlowerPot;
@@ -402,22 +401,8 @@ public class RenderBlocks
 
                     case 22:
                     default:
-                        if (Reflector.ModLoader.exists())
-                        {
-                            var6 = Reflector.callBoolean(Reflector.ModLoader_renderWorldBlock, new Object[] {this, this.blockAccess, Integer.valueOf(par2), Integer.valueOf(par3), Integer.valueOf(par4), par1Block, Integer.valueOf(i)});
-                            return var6;
-                        }
-                        else
-                        {
-                            if (Reflector.FMLRenderAccessLibrary.exists())
-                            {
-                                var6 = Reflector.callBoolean(Reflector.FMLRenderAccessLibrary_renderWorldBlock, new Object[] {this, this.blockAccess, Integer.valueOf(par2), Integer.valueOf(par3), Integer.valueOf(par4), par1Block, Integer.valueOf(i)});
-                                return var6;
-                            }
-
-                            var6 = false;
-                            return var6;
-                        }
+                        var6 = false;
+                        return var6;
 
                     case 23:
                         var6 = this.renderBlockLilyPad(par1Block, par2, par3, par4);
@@ -558,16 +543,6 @@ public class RenderBlocks
         int var6 = this.blockAccess.getBlockMetadata(p_147773_2_, p_147773_3_, p_147773_4_);
         int var7 = BlockBed.getDirection(var6);
         boolean var8 = BlockBed.isBlockHeadOfBed(var6);
-
-        if (Reflector.ForgeBlock_getBedDirection.exists())
-        {
-            var7 = Reflector.callInt(p_147773_1_, Reflector.ForgeBlock_getBedDirection, new Object[] {this.blockAccess, Integer.valueOf(p_147773_2_), Integer.valueOf(p_147773_3_), Integer.valueOf(p_147773_4_)});
-        }
-
-        if (Reflector.ForgeBlock_isBedFoot.exists())
-        {
-            var8 = Reflector.callBoolean(p_147773_1_, Reflector.ForgeBlock_isBedFoot, new Object[] {this.blockAccess, Integer.valueOf(p_147773_2_), Integer.valueOf(p_147773_3_), Integer.valueOf(p_147773_4_)});
-        }
 
         float var9 = 0.5F;
         float var10 = 1.0F;
@@ -9390,14 +9365,6 @@ public class RenderBlocks
                 this.renderBlockHopperMetadata((BlockHopper)p_147800_1_, 0, 0, 0, 0, true);
                 GL11.glTranslatef(0.5F, 0.5F, 0.5F);
             }
-            else if (Reflector.ModLoader.exists())
-            {
-                Reflector.callVoid(Reflector.ModLoader_renderInvBlock, new Object[] {this, p_147800_1_, Integer.valueOf(p_147800_2_), Integer.valueOf(var6)});
-            }
-            else if (Reflector.FMLRenderAccessLibrary.exists())
-            {
-                Reflector.callVoid(Reflector.FMLRenderAccessLibrary_renderInventoryBlock, new Object[] {this, p_147800_1_, Integer.valueOf(p_147800_2_), Integer.valueOf(var6)});
-            }
         }
         else
         {
@@ -9504,7 +9471,12 @@ public class RenderBlocks
             case 37:
             case 38:
             default:
-                return Reflector.ModLoader.exists() ? Reflector.callBoolean(Reflector.ModLoader_renderBlockIsItemFull3D, new Object[] {Integer.valueOf(par0)}): (Reflector.FMLRenderAccessLibrary.exists() ? Reflector.callBoolean(Reflector.FMLRenderAccessLibrary_renderItemAsFull3DBlock, new Object[] {Integer.valueOf(par0)}): false);
+                return false;
+//                return Reflector.ModLoader.exists()
+//                        ? Reflector.callBoolean(Reflector.ModLoader_renderBlockIsItemFull3D, new Object[] {Integer.valueOf(par0)})
+//                        : (Reflector.FMLRenderAccessLibrary.exists()
+//                                ? Reflector.callBoolean(Reflector.FMLRenderAccessLibrary_renderItemAsFull3DBlock, new Object[] {Integer.valueOf(par0)})
+//                                : false);
         }
     }
 

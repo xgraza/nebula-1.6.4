@@ -60,7 +60,7 @@ public class ResUtils
         else
         {
             AbstractResourcePack arp = (AbstractResourcePack)rp;
-            File tpFile = ResourceUtils.getResourcePackFile(arp);
+            File tpFile = arp.resourcePackFile;
 
             if (tpFile == null)
             {

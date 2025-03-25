@@ -21,7 +21,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.Config;
-import net.minecraft.src.Reflector;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -190,86 +189,83 @@ public class RenderItemFrame extends Render
                     GL11.glTranslatef(0.16F, -0.16F, 0.0F);
             }
 
-            if (!Reflector.postForgeBusEvent(Reflector.RenderItemInFrameEvent_Constructor, new Object[] {par1EntityItemFrame, this}))
+            if (var4 == Items.filled_map)
             {
-                if (var4 == Items.filled_map)
+                this.renderManager.renderEngine.bindTexture(mapBackgroundTextures);
+                Tessellator var13 = Tessellator.instance;
+                GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+                float var14 = 0.0078125F;
+                GL11.glScalef(var14, var14, var14);
+
+                switch (par1EntityItemFrame.getRotation())
                 {
-                    this.renderManager.renderEngine.bindTexture(mapBackgroundTextures);
-                    Tessellator var13 = Tessellator.instance;
-                    GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-                    GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-                    float var14 = 0.0078125F;
-                    GL11.glScalef(var14, var14, var14);
+                    case 0:
+                        GL11.glTranslatef(-64.0F, -87.0F, -1.5F);
+                        break;
 
-                    switch (par1EntityItemFrame.getRotation())
+                    case 1:
+                        GL11.glTranslatef(-66.5F, -84.5F, -1.5F);
+                        break;
+
+                    case 2:
+                        GL11.glTranslatef(-64.0F, -82.0F, -1.5F);
+                        break;
+
+                    case 3:
+                        GL11.glTranslatef(-61.5F, -84.5F, -1.5F);
+                }
+
+                GL11.glNormal3f(0.0F, 0.0F, -1.0F);
+                MapData var15 = Items.filled_map.getMapData(var3.getEntityItem(), par1EntityItemFrame.worldObj);
+                GL11.glTranslatef(0.0F, 0.0F, -1.0F);
+
+                if (var15 != null)
+                {
+                    this.field_147917_g.entityRenderer.getMapItemRenderer().func_148250_a(var15, true);
+                }
+            }
+            else
+            {
+                if (var4 == Items.compass)
+                {
+                    TextureManager var131 = Minecraft.getMinecraft().getTextureManager();
+
+                    if (Config.isShaders())
                     {
-                        case 0:
-                            GL11.glTranslatef(-64.0F, -87.0F, -1.5F);
-                            break;
-
-                        case 1:
-                            GL11.glTranslatef(-66.5F, -84.5F, -1.5F);
-                            break;
-
-                        case 2:
-                            GL11.glTranslatef(-64.0F, -82.0F, -1.5F);
-                            break;
-
-                        case 3:
-                            GL11.glTranslatef(-61.5F, -84.5F, -1.5F);
+                        ShadersTex.bindTextureMapForUpdateAndRender(Config.getMinecraft().getTextureManager(), TextureMap.locationBlocksTexture);
+                    }
+                    else
+                    {
+                        var131.bindTexture(TextureMap.locationItemsTexture);
                     }
 
-                    GL11.glNormal3f(0.0F, 0.0F, -1.0F);
-                    MapData var15 = Items.filled_map.getMapData(var3.getEntityItem(), par1EntityItemFrame.worldObj);
-                    GL11.glTranslatef(0.0F, 0.0F, -1.0F);
+                    TextureAtlasSprite var141 = ((TextureMap)var131.getTexture(TextureMap.locationItemsTexture)).getAtlasSprite(Items.compass.getIconIndex(var3.getEntityItem()).getIconName());
 
-                    if (var15 != null)
+                    if (var141 instanceof TextureCompass)
                     {
-                        this.field_147917_g.entityRenderer.getMapItemRenderer().func_148250_a(var15, true);
+                        TextureCompass var151 = (TextureCompass)var141;
+                        double var8 = var151.currentAngle;
+                        double var10 = var151.angleDelta;
+                        var151.currentAngle = 0.0D;
+                        var151.angleDelta = 0.0D;
+                        var151.updateCompass(par1EntityItemFrame.worldObj, par1EntityItemFrame.posX, par1EntityItemFrame.posZ, (double)MathHelper.wrapAngleTo180_float((float)(180 + par1EntityItemFrame.hangingDirection * 90)), false, true);
+                        var151.currentAngle = var8;
+                        var151.angleDelta = var10;
                     }
                 }
-                else
+
+                RenderItem.renderInFrame = true;
+                RenderManager.instance.renderEntity(var3, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+                RenderItem.renderInFrame = false;
+
+                if (var4 == Items.compass)
                 {
-                    if (var4 == Items.compass)
+                    TextureAtlasSprite var132 = ((TextureMap)Minecraft.getMinecraft().getTextureManager().getTexture(TextureMap.locationItemsTexture)).getAtlasSprite(Items.compass.getIconIndex(var3.getEntityItem()).getIconName());
+
+                    if (var132.getFrameCount() > 0)
                     {
-                        TextureManager var131 = Minecraft.getMinecraft().getTextureManager();
-
-                        if (Config.isShaders())
-                        {
-                            ShadersTex.bindTextureMapForUpdateAndRender(Config.getMinecraft().getTextureManager(), TextureMap.locationBlocksTexture);
-                        }
-                        else
-                        {
-                            var131.bindTexture(TextureMap.locationItemsTexture);
-                        }
-
-                        TextureAtlasSprite var141 = ((TextureMap)var131.getTexture(TextureMap.locationItemsTexture)).getAtlasSprite(Items.compass.getIconIndex(var3.getEntityItem()).getIconName());
-
-                        if (var141 instanceof TextureCompass)
-                        {
-                            TextureCompass var151 = (TextureCompass)var141;
-                            double var8 = var151.currentAngle;
-                            double var10 = var151.angleDelta;
-                            var151.currentAngle = 0.0D;
-                            var151.angleDelta = 0.0D;
-                            var151.updateCompass(par1EntityItemFrame.worldObj, par1EntityItemFrame.posX, par1EntityItemFrame.posZ, (double)MathHelper.wrapAngleTo180_float((float)(180 + par1EntityItemFrame.hangingDirection * 90)), false, true);
-                            var151.currentAngle = var8;
-                            var151.angleDelta = var10;
-                        }
-                    }
-
-                    RenderItem.renderInFrame = true;
-                    RenderManager.instance.renderEntity(var3, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-                    RenderItem.renderInFrame = false;
-
-                    if (var4 == Items.compass)
-                    {
-                        TextureAtlasSprite var132 = ((TextureMap)Minecraft.getMinecraft().getTextureManager().getTexture(TextureMap.locationItemsTexture)).getAtlasSprite(Items.compass.getIconIndex(var3.getEntityItem()).getIconName());
-
-                        if (var132.getFrameCount() > 0)
-                        {
-                            var132.updateAnimation();
-                        }
+                        var132.updateAnimation();
                     }
                 }
             }

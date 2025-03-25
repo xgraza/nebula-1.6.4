@@ -46,8 +46,6 @@ import net.minecraft.src.Config;
 import net.minecraft.src.CustomColorizer;
 import net.minecraft.src.ItemRendererOF;
 import net.minecraft.src.RandomMobs;
-import net.minecraft.src.Reflector;
-import net.minecraft.src.ReflectorForge;
 import net.minecraft.src.RenderPlayerOF;
 import net.minecraft.src.TextureUtils;
 import net.minecraft.src.WrUpdates;
@@ -60,7 +58,6 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeGenBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -508,14 +505,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
                         if (var19 < var12 || var12 == 0.0D)
                         {
-                            boolean canRiderInteract = false;
-
-                            if (Reflector.ForgeEntity_canRiderInteract.exists())
-                            {
-                                canRiderInteract = Reflector.callBoolean(var15, Reflector.ForgeEntity_canRiderInteract, new Object[0]);
-                            }
-
-                            if (var15 == this.mc.renderViewEntity.ridingEntity && !canRiderInteract)
+                            if (var15 == this.mc.renderViewEntity.ridingEntity)
                             {
                                 if (var12 == 0.0D)
                                 {
@@ -719,11 +709,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             {
                 Block var27 = this.mc.theWorld.getBlock(MathHelper.floor_double(var2.posX), MathHelper.floor_double(var2.posY), MathHelper.floor_double(var2.posZ));
 
-                if (Reflector.ForgeHooksClient_orientBedCamera.exists())
-                {
-                    Reflector.callVoid(Reflector.ForgeHooksClient_orientBedCamera, new Object[] {this.mc, var2});
-                }
-                else if (var27 == Blocks.bed)
+                if (var27 == Blocks.bed)
                 {
                     int var11 = this.mc.theWorld.getBlockMetadata(MathHelper.floor_double(var2.posX), MathHelper.floor_double(var2.posY), MathHelper.floor_double(var2.posZ));
                     int var13 = var11 & 3;
@@ -994,9 +980,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     this.setupViewBobbing(par1);
                 }
 
-                boolean shouldRenderHand1 = !ReflectorForge.renderFirstPersonHand(this.mc.renderGlobal, par1, par2);
-
-                if (shouldRenderHand1 && this.mc.gameSettings.thirdPersonView == 0 && !this.mc.renderViewEntity.isPlayerSleeping() && !this.mc.gameSettings.hideGUI && !this.mc.playerController.enableEverythingIsScrewedUpMode())
+                if (this.mc.gameSettings.thirdPersonView == 0 && !this.mc.renderViewEntity.isPlayerSleeping() && !this.mc.gameSettings.hideGUI && !this.mc.playerController.enableEverythingIsScrewedUpMode())
                 {
                     this.enableLightmap((double)par1);
 
@@ -1453,19 +1437,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
                 try
                 {
-                    var12 = false;
-
-                    if (Reflector.EventBus_post.exists())
-                    {
-                        var12 = Reflector.postForgeBusEvent(Reflector.DrawScreenEvent_Pre_Constructor, new Object[] {this.mc.currentScreen, Integer.valueOf(var161), Integer.valueOf(var181), Float.valueOf(par1)});
-                    }
-
-                    if (!var12)
-                    {
-                        this.mc.currentScreen.drawScreen(var161, var181, par1);
-                    }
-
-                    Reflector.postForgeBusEvent(Reflector.DrawScreenEvent_Post_Constructor, new Object[] {this.mc.currentScreen, Integer.valueOf(var161), Integer.valueOf(var181), Float.valueOf(par1)});
+                    this.mc.currentScreen.drawScreen(var161, var181, par1);
                 }
                 catch (Throwable var131)
                 {
@@ -1703,7 +1675,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
 
             GL11.glShadeModel(GL11.GL_FLAT);
-            boolean hasForge = Reflector.ForgeHooksClient.exists();
             EntityPlayer var21;
 
             if (this.debugViewDirection == 0)
@@ -1713,19 +1684,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 GL11.glPushMatrix();
                 RenderHelper.enableStandardItemLighting();
                 this.mc.mcProfiler.endStartSection("entities");
-
-                if (hasForge)
-                {
-                    Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(0)});
-                }
-
                 var5.renderEntities(var4, var14, par1);
-
-                if (hasForge)
-                {
-                    Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(-1)});
-                }
-
                 RenderHelper.disableStandardItemLighting();
                 GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
                 GL11.glMatrixMode(GL11.GL_MODELVIEW);
@@ -1737,8 +1696,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     var21 = (EntityPlayer)var4;
                     GL11.glDisable(GL11.GL_ALPHA_TEST);
                     this.mc.mcProfiler.endStartSection("outline");
-
-                    if ((!hasForge || !Reflector.callBoolean(Reflector.ForgeHooksClient_onDrawBlockHighlight, new Object[] {var5, var21, this.mc.objectMouseOver, Integer.valueOf(0), var21.inventory.getCurrentItem(), Float.valueOf(par1)})) && !this.mc.gameSettings.hideGUI)
+                    if (!this.mc.gameSettings.hideGUI)
                     {
                         var5.drawSelectionBox(var21, this.mc.objectMouseOver, 0, par1);
                     }
@@ -1754,8 +1712,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 var21 = (EntityPlayer)var4;
                 GL11.glDisable(GL11.GL_ALPHA_TEST);
                 this.mc.mcProfiler.endStartSection("outline");
-
-                if ((!hasForge || !Reflector.callBoolean(Reflector.ForgeHooksClient_onDrawBlockHighlight, new Object[] {var5, var21, this.mc.objectMouseOver, Integer.valueOf(0), var21.inventory.getCurrentItem(), Float.valueOf(par1)})) && !this.mc.gameSettings.hideGUI)
+                if (!this.mc.gameSettings.hideGUI)
                 {
                     var5.drawSelectionBox(var21, this.mc.objectMouseOver, 0, par1);
                 }
@@ -1873,16 +1830,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
             WrUpdates.pauseBackgroundUpdates();
 
-            if (hasForge && this.debugViewDirection == 0)
-            {
-                RenderHelper.enableStandardItemLighting();
-                this.mc.mcProfiler.endStartSection("entities");
-                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(1)});
-                this.mc.renderGlobal.renderEntities(var4, var14, par1);
-                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(-1)});
-                RenderHelper.disableStandardItemLighting();
-            }
-
             GL11.glDepthMask(true);
             GL11.glEnable(GL11.GL_CULL_FACE);
             GL11.glDisable(GL11.GL_BLEND);
@@ -1922,20 +1869,13 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
             this.disableLightmap((double)par1);
 
-            if (hasForge)
-            {
-                this.mc.mcProfiler.endStartSection("FRenderLast");
-                Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, new Object[] {var5, Float.valueOf(par1)});
-            }
-
             EntityCulling.checkCulling();
             ProjectionUtil.updateProjection();
             EventBus.dispatch(new EventRender3D(partialTicks));
 
             this.mc.mcProfiler.endStartSection("hand");
-            boolean renderFirstPersonHand = Reflector.callBoolean(Reflector.ForgeHooksClient_renderFirstPersonHand, new Object[] {this.mc.renderGlobal, Float.valueOf(par1), Integer.valueOf(var13)});
 
-            if (!renderFirstPersonHand && this.cameraZoom == 1.0D && !Shaders.isShadowPass)
+            if (this.cameraZoom == 1.0D && !Shaders.isShadowPass)
             {
                 if (isShaders)
                 {
@@ -2090,18 +2030,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
      */
     protected void renderRainSnow(float par1)
     {
-        if (Reflector.ForgeWorldProvider_getWeatherRenderer.exists())
-        {
-            WorldProvider var2 = this.mc.theWorld.provider;
-            Object var41 = Reflector.call(var2, Reflector.ForgeWorldProvider_getWeatherRenderer, new Object[0]);
-
-            if (var41 != null)
-            {
-                Reflector.callVoid(var41, Reflector.IRenderHandler_render, new Object[] {Float.valueOf(par1), this.mc.theWorld, this.mc});
-                return;
-            }
-        }
-
         float var411 = this.mc.theWorld.getRainStrength(par1);
 
         if (var411 > 0.0F)
@@ -2480,15 +2408,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.fogColorBlue = event;
         }
 
-        if (Reflector.EntityViewRenderEvent_FogColors_Constructor.exists())
-        {
-            Object event1 = Reflector.newInstance(Reflector.EntityViewRenderEvent_FogColors_Constructor, new Object[] {this, var3, var21, Float.valueOf(par1), Float.valueOf(this.fogColorRed), Float.valueOf(this.fogColorGreen), Float.valueOf(this.fogColorBlue)});
-            Reflector.postForgeBusEvent(event1);
-            this.fogColorRed = Reflector.getFieldValueFloat(event1, Reflector.EntityViewRenderEvent_FogColors_red, this.fogColorRed);
-            this.fogColorGreen = Reflector.getFieldValueFloat(event1, Reflector.EntityViewRenderEvent_FogColors_green, this.fogColorGreen);
-            this.fogColorBlue = Reflector.getFieldValueFloat(event1, Reflector.EntityViewRenderEvent_FogColors_blue, this.fogColorBlue);
-        }
-
         if (Config.isShaders())
         {
             Shaders.setClearColor(this.fogColorRed, this.fogColorGreen, this.fogColorBlue, 0.0F);
@@ -2556,47 +2475,155 @@ public class EntityRenderer implements IResourceManagerReloadListener
             GL11.glNormal3f(0.0F, -1.0F, 0.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             Block var5 = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, var3, par2);
-            Object event = Reflector.newInstance(Reflector.EntityViewRenderEvent_FogDensity_Constructor, new Object[] {this, var3, var5, Float.valueOf(par2), Float.valueOf(0.1F)});
 
-            if (Reflector.postForgeBusEvent(event))
+            float var6;
+
+            if (var3.isPotionActive(Potion.blindness))
             {
-                float var10 = Reflector.getFieldValueFloat(event, Reflector.EntityViewRenderEvent_FogDensity_density, 0.0F);
-                GL11.glFogf(GL11.GL_FOG_DENSITY, var10);
+                var6 = 5.0F;
+                int var101 = var3.getActivePotionEffect(Potion.blindness).getDuration();
+
+                if (var101 < 20)
+                {
+                    var6 = 5.0F + (this.farPlaneDistance - 5.0F) * (1.0F - (float)var101 / 20.0F);
+                }
+
+                if (Config.isShaders())
+                {
+                    Shaders.sglFogi(2917, 9729);
+                }
+                else
+                {
+                    GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_LINEAR);
+                }
+
+                if (par1 < 0)
+                {
+                    GL11.glFogf(GL11.GL_FOG_START, 0.0F);
+                    GL11.glFogf(GL11.GL_FOG_END, var6 * 0.8F);
+                }
+                else
+                {
+                    GL11.glFogf(GL11.GL_FOG_START, var6 * 0.25F);
+                    GL11.glFogf(GL11.GL_FOG_END, var6);
+                }
+
+                if (Config.isFogFancy())
+                {
+                    if (Config.isShaders())
+                    {
+                        Shaders.sglFogi(34138, 34139);
+                    }
+                    else
+                    {
+                        GL11.glFogi(34138, 34139);
+                    }
+                }
+            }
+            else if (this.cloudFog)
+            {
+                if (Config.isShaders())
+                {
+                    Shaders.sglFogi(2917, 2048);
+                }
+                else
+                {
+                    GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+                }
+
+                GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
+            }
+            else if (var5.getMaterial() == Material.water)
+            {
+                if (Config.isShaders())
+                {
+                    Shaders.sglFogi(2917, 2048);
+                }
+                else
+                {
+                    GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+                }
+
+                if (var3.isPotionActive(Potion.waterBreathing))
+                {
+                    GL11.glFogf(GL11.GL_FOG_DENSITY, 0.05F);
+                }
+                else
+                {
+                    GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F - (float)EnchantmentHelper.getRespiration(var3) * 0.03F);
+                }
+
+                if (Config.isClearWater())
+                {
+                    GL11.glFogf(GL11.GL_FOG_DENSITY, 0.02F);
+                }
+            }
+            else if (var5.getMaterial() == Material.lava)
+            {
+                if (Config.isShaders())
+                {
+                    Shaders.sglFogi(2917, 2048);
+                }
+                else
+                {
+                    GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+                }
+
+                GL11.glFogf(GL11.GL_FOG_DENSITY, 2.0F);
             }
             else
             {
-                float var6;
+                var6 = this.farPlaneDistance;
+                this.fogStandard = true;
 
-                if (var3.isPotionActive(Potion.blindness))
+                if (Config.isDepthFog() && this.mc.theWorld.provider.getWorldHasVoidParticles() && !var4)
                 {
-                    var6 = 5.0F;
-                    int var101 = var3.getActivePotionEffect(Potion.blindness).getDuration();
+                    double var102 = (double)((var3.getBrightnessForRender(par2) & 15728640) >> 20) / 16.0D + (var3.lastTickPosY + (var3.posY - var3.lastTickPosY) * (double)par2 + 4.0D) / 32.0D;
 
-                    if (var101 < 20)
+                    if (var102 < 1.0D)
                     {
-                        var6 = 5.0F + (this.farPlaneDistance - 5.0F) * (1.0F - (float)var101 / 20.0F);
-                    }
+                        if (var102 < 0.0D)
+                        {
+                            var102 = 0.0D;
+                        }
 
-                    if (Config.isShaders())
-                    {
-                        Shaders.sglFogi(2917, 9729);
-                    }
-                    else
-                    {
-                        GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_LINEAR);
-                    }
+                        var102 *= var102;
+                        float var9 = 100.0F * (float)var102;
 
-                    if (par1 < 0)
-                    {
-                        GL11.glFogf(GL11.GL_FOG_START, 0.0F);
-                        GL11.glFogf(GL11.GL_FOG_END, var6 * 0.8F);
-                    }
-                    else
-                    {
-                        GL11.glFogf(GL11.GL_FOG_START, var6 * 0.25F);
-                        GL11.glFogf(GL11.GL_FOG_END, var6);
-                    }
+                        if (var9 < 5.0F)
+                        {
+                            var9 = 5.0F;
+                        }
 
+                        if (var6 > var9)
+                        {
+                            var6 = var9;
+                        }
+                    }
+                }
+
+                if (Config.isShaders())
+                {
+                    Shaders.sglFogi(2917, 9729);
+                }
+                else
+                {
+                    GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_LINEAR);
+                }
+
+                if (par1 < 0)
+                {
+                    GL11.glFogf(GL11.GL_FOG_START, 0.0F);
+                    GL11.glFogf(GL11.GL_FOG_END, var6);
+                }
+                else
+                {
+                    GL11.glFogf(GL11.GL_FOG_START, var6 * Config.getFogStart());
+                    GL11.glFogf(GL11.GL_FOG_END, var6);
+                }
+
+                if (GLContext.getCapabilities().GL_NV_fog_distance)
+                {
                     if (Config.isFogFancy())
                     {
                         if (Config.isShaders())
@@ -2608,142 +2635,25 @@ public class EntityRenderer implements IResourceManagerReloadListener
                             GL11.glFogi(34138, 34139);
                         }
                     }
-                }
-                else if (this.cloudFog)
-                {
-                    if (Config.isShaders())
-                    {
-                        Shaders.sglFogi(2917, 2048);
-                    }
-                    else
-                    {
-                        GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
-                    }
 
-                    GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
-                }
-                else if (var5.getMaterial() == Material.water)
-                {
-                    if (Config.isShaders())
+                    if (Config.isFogFast())
                     {
-                        Shaders.sglFogi(2917, 2048);
-                    }
-                    else
-                    {
-                        GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
-                    }
-
-                    if (var3.isPotionActive(Potion.waterBreathing))
-                    {
-                        GL11.glFogf(GL11.GL_FOG_DENSITY, 0.05F);
-                    }
-                    else
-                    {
-                        GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F - (float)EnchantmentHelper.getRespiration(var3) * 0.03F);
-                    }
-
-                    if (Config.isClearWater())
-                    {
-                        GL11.glFogf(GL11.GL_FOG_DENSITY, 0.02F);
+                        if (Config.isShaders())
+                        {
+                            Shaders.sglFogi(34138, 34140);
+                        }
+                        else
+                        {
+                            GL11.glFogi(34138, 34140);
+                        }
                     }
                 }
-                else if (var5.getMaterial() == Material.lava)
-                {
-                    if (Config.isShaders())
-                    {
-                        Shaders.sglFogi(2917, 2048);
-                    }
-                    else
-                    {
-                        GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
-                    }
 
-                    GL11.glFogf(GL11.GL_FOG_DENSITY, 2.0F);
-                }
-                else
+                if (this.mc.theWorld.provider.doesXZShowFog((int)var3.posX, (int)var3.posZ))
                 {
                     var6 = this.farPlaneDistance;
-                    this.fogStandard = true;
-
-                    if (Config.isDepthFog() && this.mc.theWorld.provider.getWorldHasVoidParticles() && !var4)
-                    {
-                        double var102 = (double)((var3.getBrightnessForRender(par2) & 15728640) >> 20) / 16.0D + (var3.lastTickPosY + (var3.posY - var3.lastTickPosY) * (double)par2 + 4.0D) / 32.0D;
-
-                        if (var102 < 1.0D)
-                        {
-                            if (var102 < 0.0D)
-                            {
-                                var102 = 0.0D;
-                            }
-
-                            var102 *= var102;
-                            float var9 = 100.0F * (float)var102;
-
-                            if (var9 < 5.0F)
-                            {
-                                var9 = 5.0F;
-                            }
-
-                            if (var6 > var9)
-                            {
-                                var6 = var9;
-                            }
-                        }
-                    }
-
-                    if (Config.isShaders())
-                    {
-                        Shaders.sglFogi(2917, 9729);
-                    }
-                    else
-                    {
-                        GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_LINEAR);
-                    }
-
-                    if (par1 < 0)
-                    {
-                        GL11.glFogf(GL11.GL_FOG_START, 0.0F);
-                        GL11.glFogf(GL11.GL_FOG_END, var6);
-                    }
-                    else
-                    {
-                        GL11.glFogf(GL11.GL_FOG_START, var6 * Config.getFogStart());
-                        GL11.glFogf(GL11.GL_FOG_END, var6);
-                    }
-
-                    if (GLContext.getCapabilities().GL_NV_fog_distance)
-                    {
-                        if (Config.isFogFancy())
-                        {
-                            if (Config.isShaders())
-                            {
-                                Shaders.sglFogi(34138, 34139);
-                            }
-                            else
-                            {
-                                GL11.glFogi(34138, 34139);
-                            }
-                        }
-
-                        if (Config.isFogFast())
-                        {
-                            if (Config.isShaders())
-                            {
-                                Shaders.sglFogi(34138, 34140);
-                            }
-                            else
-                            {
-                                GL11.glFogi(34138, 34140);
-                            }
-                        }
-                    }
-
-                    if (this.mc.theWorld.provider.doesXZShowFog((int)var3.posX, (int)var3.posZ))
-                    {
-                        var6 = this.farPlaneDistance;
-                        GL11.glFogf(GL11.GL_FOG_START, var6 * 0.05F);
-                        GL11.glFogf(GL11.GL_FOG_END, var6);
-                    }
+                    GL11.glFogf(GL11.GL_FOG_START, var6 * 0.05F);
+                    GL11.glFogf(GL11.GL_FOG_END, var6);
                 }
             }
 

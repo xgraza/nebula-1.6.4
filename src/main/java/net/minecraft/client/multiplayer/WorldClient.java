@@ -29,7 +29,6 @@ import net.minecraft.profiler.Profiler;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.src.Config;
 import net.minecraft.src.DynamicLights;
-import net.minecraft.src.Reflector;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IntHashMap;
 import net.minecraft.util.ResourceLocation;
@@ -75,15 +74,7 @@ public class WorldClient extends World
         this.sendQueue = p_i45063_1_;
         this.difficultySetting = p_i45063_4_;
         this.mapStorage = p_i45063_1_.mapStorageOrigin;
-
-        if (Reflector.ForgeWorld_finishSetup.exists())
-        {
-            this.isClient = true;
-            Reflector.call(this, Reflector.ForgeWorld_finishSetup, new Object[0]);
-        }
-
         this.setSpawnLocation(8, 64, 8);
-        Reflector.postForgeBusEvent(Reflector.WorldEvent_Load_Constructor, new Object[] {this});
     }
 
     /**

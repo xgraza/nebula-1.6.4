@@ -13,7 +13,6 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
-import net.minecraft.src.ReflectorForge;
 import net.minecraft.util.ResourceLocation;
 
 public class DefaultResourcePack implements IResourcePack
@@ -55,8 +54,8 @@ public class DefaultResourcePack implements IResourcePack
     private InputStream getResourceStream(ResourceLocation par1ResourceLocation)
     {
         String path = "/assets/" + par1ResourceLocation.getResourceDomain() + "/" + par1ResourceLocation.getResourcePath();
-        InputStream is = ReflectorForge.getOptiFineResourceStream(path);
-        return is != null ? is : DefaultResourcePack.class.getResourceAsStream("/assets/minecraft/" + par1ResourceLocation.getResourcePath());
+        return DefaultResourcePack.class.getResourceAsStream(path);
+        //return DefaultResourcePack.class.getResourceAsStream("/assets/minecraft/" + par1ResourceLocation.getResourcePath());
     }
 
     public void addResourceFile(String par1Str, File par2File)

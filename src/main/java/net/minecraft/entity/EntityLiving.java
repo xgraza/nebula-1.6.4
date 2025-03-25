@@ -28,7 +28,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.src.BlockPos;
-import net.minecraft.src.Reflector;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
@@ -153,7 +152,6 @@ public abstract class EntityLiving extends EntityLivingBase
     public void setAttackTarget(EntityLivingBase par1EntityLivingBase)
     {
         this.attackTarget = par1EntityLivingBase;
-        Reflector.callVoid(Reflector.ForgeHooks_onLivingSetAttackTarget, new Object[] {this, par1EntityLivingBase});
     }
 
     /**
@@ -566,24 +564,13 @@ public abstract class EntityLiving extends EntityLivingBase
      */
     public void despawnEntity()
     {
-        Object result = null;
-        Object Result_DEFAULT = Reflector.getFieldValue(Reflector.Event_Result_DEFAULT);
-        Object Result_DENY = Reflector.getFieldValue(Reflector.Event_Result_DENY);
-
         if (this.persistenceRequired)
         {
             this.entityAge = 0;
         }
-        else if ((this.entityAge & 31) == 31 && (result = Reflector.call(Reflector.ForgeEventFactory_canEntityDespawn, new Object[] {this})) != Result_DEFAULT)
+        else if ((this.entityAge & 31) == 31)
         {
-            if (result == Result_DENY)
-            {
-                this.entityAge = 0;
-            }
-            else
-            {
-                this.setDead();
-            }
+            this.setDead();
         }
         else
         {

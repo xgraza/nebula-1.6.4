@@ -10,8 +10,6 @@ import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.network.play.server.S26PacketMapChunkBulk;
 import net.minecraft.src.CompactArrayList;
 import net.minecraft.src.Config;
-import net.minecraft.src.Reflector;
-import net.minecraft.src.ReflectorForge;
 import net.minecraft.src.WorldServerOF;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.LongHashMap;
@@ -513,11 +511,6 @@ public class PlayerManager
                 this.playersWatchingChunk.remove(par1EntityPlayerMP);
                 par1EntityPlayerMP.loadedChunks.remove(this.chunkLocation);
 
-                if (Reflector.EventBus.exists())
-                {
-                    Reflector.postForgeBusEvent(Reflector.ChunkWatchEvent_UnWatch_Constructor, new Object[] {this.chunkLocation, par1EntityPlayerMP});
-                }
-
                 if (this.playersWatchingChunk.isEmpty())
                 {
                     long var3 = (long)this.chunkLocation.chunkXPos + 2147483647L | (long)this.chunkLocation.chunkZPos + 2147483647L << 32;
@@ -602,7 +595,7 @@ public class PlayerManager
                     var3 = this.chunkLocation.chunkZPos * 16 + (this.locationOfBlockChange[0] >> 8 & 15);
                     this.sendToAllPlayersWatchingChunk(new S23PacketBlockChange(var1, var2, var3, PlayerManager.this.theWorldServer));
 
-                    if (ReflectorForge.blockHasTileEntity(PlayerManager.this.theWorldServer, var1, var2, var3))
+                    if (theWorldServer.getBlock(var1, var2, var3).hasTileEntity())
                     {
                         this.sendTileToAllPlayersWatchingChunk(PlayerManager.this.theWorldServer.getTileEntity(var1, var2, var3));
                     }
@@ -641,7 +634,7 @@ public class PlayerManager
                             var3 = this.locationOfBlockChange[var1] & 255;
                             var4 = this.chunkLocation.chunkZPos * 16 + (this.locationOfBlockChange[var1] >> 8 & 15);
 
-                            if (ReflectorForge.blockHasTileEntity(PlayerManager.this.theWorldServer, var2, var3, var4))
+                            if (theWorldServer.getBlock(var2, var3, var4).hasTileEntity())
                             {
                                 this.sendTileToAllPlayersWatchingChunk(PlayerManager.this.theWorldServer.getTileEntity(var2, var3, var4));
                             }

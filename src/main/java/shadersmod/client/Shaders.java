@@ -52,7 +52,6 @@ import net.minecraft.src.CustomColorizer;
 import net.minecraft.src.GlStateManager;
 import net.minecraft.src.Lang;
 import net.minecraft.src.PropertiesOrdered;
-import net.minecraft.src.Reflector;
 import net.minecraft.src.StrUtils;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
@@ -5090,18 +5089,7 @@ public class Shaders
             }
             else
             {
-                ItemBlock itemBlock = (ItemBlock)item;
-                Block block = (Block)Reflector.getFieldValue((ItemBlock)item, Reflector.ItemBlock_block);
-
-                if (block == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    int renderPass = block.getRenderBlockPass();
-                    return renderPass != 0;
-                }
+                return false;
             }
         }
     }

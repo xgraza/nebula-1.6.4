@@ -34,8 +34,8 @@ public class ItemRenderer
     private static final ResourceLocation RES_UNDERWATER_OVERLAY = new ResourceLocation("textures/misc/underwater.png");
 
     /** A reference to the Minecraft object. */
-    private Minecraft mc;
-    private ItemStack itemToRender;
+    protected Minecraft mc;
+    protected ItemStack itemToRender;
 
     /**
      * How far the current item has been equipped (0 disequipped and 1 fully up)

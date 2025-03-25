@@ -86,7 +86,6 @@ import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.src.Reflector;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
@@ -97,7 +96,7 @@ import us.nebula.api.render.EntityCulling;
 public class RenderManager
 {
     /** A map of entity classes and the associated renderer. */
-    private Map entityRenderMap = new HashMap();
+    private Map<Class<? extends Entity>, Render> entityRenderMap = new HashMap<>();
 
     /** The static instance of RenderManager. */
     public static RenderManager instance = new RenderManager();
@@ -223,18 +222,9 @@ public class RenderManager
         if (p_147938_4_.isPlayerSleeping())
         {
             Block var8 = p_147938_1_.getBlock(MathHelper.floor_double(p_147938_4_.posX), MathHelper.floor_double(p_147938_4_.posY), MathHelper.floor_double(p_147938_4_.posZ));
-            int x = MathHelper.floor_double(p_147938_4_.posX);
-            int y = MathHelper.floor_double(p_147938_4_.posY);
-            int z = MathHelper.floor_double(p_147938_4_.posZ);
             int var9;
 
-            if (Reflector.callBoolean(Reflector.ForgeBlock_isBed, new Object[] {p_147938_1_, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(z), p_147938_4_}))
-            {
-                var9 = Reflector.callInt(var8, Reflector.ForgeBlock_getBedDirection, new Object[] {p_147938_1_, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(z)});
-                this.playerViewY = (float)(var9 * 90 + 180);
-                this.playerViewX = 0.0F;
-            }
-            else if (var8 == Blocks.bed)
+            if (var8 == Blocks.bed)
             {
                 var9 = p_147938_1_.getBlockMetadata(MathHelper.floor_double(p_147938_4_.posX), MathHelper.floor_double(p_147938_4_.posY), MathHelper.floor_double(p_147938_4_.posZ));
                 int var10 = var9 & 3;

@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import net.minecraft.src.Reflector;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.gen.layer.IntCache;
@@ -154,12 +153,6 @@ public class CrashReport
                 return IntCache.getCacheSizes();
             }
         });
-
-        if (Reflector.FMLCommonHandler_enhanceCrashReport.exists())
-        {
-            Object instance = Reflector.call(Reflector.FMLCommonHandler_instance);
-            Reflector.callString(instance, Reflector.FMLCommonHandler_enhanceCrashReport, this, this.theReportCategory);
-        }
     }
 
     /**

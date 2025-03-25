@@ -1,6 +1,5 @@
 package net.minecraft.src;
 
-import java.lang.reflect.Field;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -22,29 +21,13 @@ import shadersmod.client.Shaders;
 
 public class ItemRendererOF extends ItemRenderer
 {
-    private Minecraft mc = null;
-    private RenderBlocks renderBlocksIr = null;
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-    private static Field ItemRenderer_renderBlockInstance = Reflector.getField(ItemRenderer.class, RenderBlocks.class);
 
-    public ItemRendererOF(Minecraft par1Minecraft)
+    private final RenderBlocks renderBlocksIr = RenderBlocks.getInstance();
+
+    public ItemRendererOF(final Minecraft par1Minecraft)
     {
         super(par1Minecraft);
-        this.mc = par1Minecraft;
-
-        if (ItemRenderer_renderBlockInstance == null)
-        {
-            Config.error("ItemRenderOF not initialized");
-        }
-
-        try
-        {
-            this.renderBlocksIr = (RenderBlocks)ItemRenderer_renderBlockInstance.get(this);
-        }
-        catch (IllegalAccessException var3)
-        {
-            throw new RuntimeException(var3);
-        }
     }
 
     /**
@@ -56,21 +39,8 @@ public class ItemRendererOF extends ItemRenderer
         TextureManager var4 = this.mc.getTextureManager();
         Item var5 = par2ItemStack.getItem();
         Block var6 = Block.getBlockFromItem(var5);
-        Object type = null;
-        Object customRenderer = null;
 
-        if (Reflector.MinecraftForgeClient_getItemRenderer.exists())
-        {
-            type = Reflector.getFieldValue(Reflector.ItemRenderType_EQUIPPED);
-            customRenderer = Reflector.call(Reflector.MinecraftForgeClient_getItemRenderer, new Object[] {par2ItemStack, type});
-        }
-
-        if (customRenderer != null)
-        {
-            var4.bindTexture(var4.getResourceLocation(par2ItemStack.getItemSpriteNumber()));
-            Reflector.callVoid(Reflector.ForgeHooksClient_renderEquippedItem, new Object[] {type, customRenderer, this.renderBlocksIr, par1EntityLivingBase, par2ItemStack});
-        }
-        else if (par2ItemStack.getItemSpriteNumber() == 0 && var5 instanceof ItemBlock && RenderBlocks.renderItemIn3d(var6.getRenderType()))
+        if (par2ItemStack.getItemSpriteNumber() == 0 && var5 instanceof ItemBlock && RenderBlocks.renderItemIn3d(var6.getRenderType()))
         {
             var4.bindTexture(var4.getResourceLocation(0));
 
@@ -120,16 +90,7 @@ public class ItemRendererOF extends ItemRenderer
             GL11.glRotatef(335.0F, 0.0F, 0.0F, 1.0F);
             GL11.glTranslatef(-0.9375F, -0.0625F, 0.0F);
             renderItemIn2D(var8, var10, var11, var9, var12, var7.getIconWidth(), var7.getIconHeight(), 0.0625F);
-            boolean renderEffect = false;
-
-            if (Reflector.ForgeItemStack_hasEffect.exists())
-            {
-                renderEffect = Reflector.callBoolean(par2ItemStack, Reflector.ForgeItemStack_hasEffect, new Object[] {Integer.valueOf(par3)});
-            }
-            else
-            {
-                renderEffect = par2ItemStack.hasEffect() && par3 == 0;
-            }
+            boolean renderEffect = par2ItemStack.hasEffect() && par3 == 0;;
 
             if (renderEffect)
             {
@@ -186,7 +147,7 @@ public class ItemRendererOF extends ItemRenderer
 
         if (Config.isShaders())
         {
-            Shaders.setItemToRenderMain((ItemStack)Reflector.getFieldValue(this, Reflector.ItemRenderer_itemToRender));
+            Shaders.setItemToRenderMain(itemToRender);
         }
     }
 }

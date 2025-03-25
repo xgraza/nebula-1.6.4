@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.src.ChunkCacheOF;
 import net.minecraft.src.Config;
-import net.minecraft.src.Reflector;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -201,13 +200,6 @@ public class WorldRenderer
 
                 this.skipAllRenderPasses = true;
 
-                if (Reflector.LightCache.exists())
-                {
-                    Object var29 = Reflector.getFieldValue(Reflector.LightCache_cache);
-                    Reflector.callVoid(var29, Reflector.LightCache_clear, new Object[0]);
-                    Reflector.callVoid(Reflector.BlockCoord_resetPool, new Object[0]);
-                }
-
                 Chunk.isLit = false;
                 HashSet var30 = new HashSet();
                 var30.addAll(this.tileEntityRenderers);
@@ -225,11 +217,9 @@ public class WorldRenderer
                     ++chunksUpdated;
                     chunkcache.renderStart();
                     RenderBlocks var27 = new RenderBlocks(chunkcache);
-                    Reflector.callVoid(Reflector.ForgeHooksClient_setWorldRendererRB, new Object[] {var27});
                     this.bytesDrawn = 0;
                     this.vertexState = null;
                     this.tessellator = Tessellator.instance;
-                    boolean hasForge = Reflector.ForgeHooksClient.exists();
 
                     for (int renderPass = 0; renderPass < 2; ++renderPass)
                     {
@@ -253,16 +243,7 @@ public class WorldRenderer
                                             this.preRenderBlocks(renderPass);
                                         }
 
-                                        boolean hasTileEntity = false;
-
-                                        if (hasForge)
-                                        {
-                                            hasTileEntity = Reflector.callBoolean(block, Reflector.ForgeBlock_hasTileEntity, new Object[] {Integer.valueOf(chunkcache.getBlockMetadata(x, y, z))});
-                                        }
-                                        else
-                                        {
-                                            hasTileEntity = block.hasTileEntity();
-                                        }
+                                        boolean hasTileEntity = block.hasTileEntity();
 
                                         if (renderPass == 0 && hasTileEntity)
                                         {
@@ -281,14 +262,7 @@ public class WorldRenderer
                                             renderNextPass = true;
                                         }
 
-                                        boolean canRender = var32 == renderPass;
-
-                                        if (Reflector.ForgeBlock_canRenderInPass.exists())
-                                        {
-                                            canRender = Reflector.callBoolean(block, Reflector.ForgeBlock_canRenderInPass, new Object[] {Integer.valueOf(renderPass)});
-                                        }
-
-                                        if (canRender)
+                                        if (var32 == renderPass)
                                         {
                                             hasRenderedBlocks |= var27.renderBlockByRenderType(block, x, y, z);
 
@@ -326,7 +300,6 @@ public class WorldRenderer
                         }
                     }
 
-                    Reflector.callVoid(Reflector.ForgeHooksClient_setWorldRendererRB, new Object[] {(RenderBlocks)null});
                     chunkcache.renderFinish();
                 }
 
@@ -357,7 +330,6 @@ public class WorldRenderer
 
         if (Config.isFastRender())
         {
-            Reflector.callVoid(Reflector.ForgeHooksClient_onPreRenderWorld, new Object[] {this, Integer.valueOf(renderpass)});
             this.tessellator.startDrawingQuads();
             this.tessellator.setTranslation((double)(-globalChunkOffsetX), 0.0D, (double)(-globalChunkOffsetZ));
         }
@@ -369,7 +341,6 @@ public class WorldRenderer
             GL11.glTranslatef(-8.0F, -8.0F, -8.0F);
             GL11.glScalef(var2, var2, var2);
             GL11.glTranslatef(8.0F, 8.0F, 8.0F);
-            Reflector.callVoid(Reflector.ForgeHooksClient_onPreRenderWorld, new Object[] {this, Integer.valueOf(renderpass)});
             this.tessellator.startDrawingQuads();
             this.tessellator.setTranslation((double)(-this.posX), (double)(-this.posY), (double)(-this.posZ));
         }
@@ -383,7 +354,6 @@ public class WorldRenderer
         }
 
         this.bytesDrawn += this.tessellator.draw();
-        Reflector.callVoid(Reflector.ForgeHooksClient_onPostRenderWorld, new Object[] {this, Integer.valueOf(renderpass)});
         this.tessellator.setRenderingChunk(false);
 
         if (XRayCheat.INSTANCE.isToggled() && XRayCheat.INSTANCE.isWireframe())

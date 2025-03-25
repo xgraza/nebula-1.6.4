@@ -29,7 +29,6 @@ import net.minecraft.src.IWrUpdater;
 import net.minecraft.src.Lang;
 import net.minecraft.src.NaturalTextures;
 import net.minecraft.src.RandomMobs;
-import net.minecraft.src.Reflector;
 import net.minecraft.src.TextureUtils;
 import net.minecraft.src.WrUpdaterSmooth;
 import net.minecraft.src.WrUpdaterThreaded;
@@ -2120,16 +2119,6 @@ public class GameSettings
      */
     public void saveOptions()
     {
-        if (Reflector.FMLClientHandler.exists())
-        {
-            Object var6 = Reflector.call(Reflector.FMLClientHandler_instance, new Object[0]);
-
-            if (var6 != null && Reflector.callBoolean(var6, Reflector.FMLClientHandler_isLoading, new Object[0]))
-            {
-                return;
-            }
-        }
-
         try
         {
             PrintWriter var81 = new PrintWriter(new FileWriter(this.optionsFile));

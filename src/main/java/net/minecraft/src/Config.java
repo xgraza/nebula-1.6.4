@@ -132,7 +132,6 @@ public class Config
             gameSettings = settings;
             desktopDisplayMode = Display.getDesktopDisplayMode();
             updateAvailableProcessors();
-            ReflectorForge.putLaunchBlackboard("optifine.ForgeSplashCompatible", Boolean.TRUE);
         }
     }
 
@@ -547,10 +546,6 @@ public class Config
 
     public static void dbg(String s)
     {
-        // SHUT THE FUCK UP!!!!
-        if (s.startsWith("(Reflector)")) {
-            return;
-        }
         LOGGER.info("[OptiFine] " + s);
     }
 

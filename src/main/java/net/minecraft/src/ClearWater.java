@@ -23,8 +23,8 @@ public class ClearWater
                 cp = 1;
             }
 
-            BlockUtils.setLightOpacity(Blocks.water, cp);
-            BlockUtils.setLightOpacity(Blocks.flowing_water, cp);
+            Blocks.water.setLightOpacity(cp);
+            Blocks.flowing_water.setLightOpacity(cp);
         }
 
         if (world != null)

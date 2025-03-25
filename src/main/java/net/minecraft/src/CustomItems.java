@@ -323,7 +323,7 @@ public class CustomItems
         else
         {
             AbstractResourcePack arp = (AbstractResourcePack)rp;
-            File tpFile = ResourceUtils.getResourcePackFile(arp);
+            File tpFile = arp.resourcePackFile;
             return tpFile == null ? new String[0] : (tpFile.isDirectory() ? collectFilesFolder(tpFile, "", prefix, suffix) : (tpFile.isFile() ? collectFilesZIP(tpFile, prefix, suffix) : new String[0]));
         }
     }

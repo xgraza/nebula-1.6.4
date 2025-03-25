@@ -12,7 +12,6 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.src.Reflector;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.WeightedRandom;
@@ -108,14 +107,7 @@ public final class SpawnerAnimals
                 EnumCreatureType var44 = var42[var43];
                 boolean var45 = false;
 
-                if (Reflector.ForgeWorld_countEntities.exists())
-                {
-                    countEntities = Reflector.callInt(par1WorldServer, Reflector.ForgeWorld_countEntities, new Object[] {var44, Boolean.valueOf(true)});
-                }
-                else
-                {
-                    countEntities = par1WorldServer.countEntities(var44.getCreatureClass());
-                }
+                countEntities = par1WorldServer.countEntities(var44.getCreatureClass());
 
                 if ((!var44.getPeacefulCreature() || par3) && (var44.getPeacefulCreature() || par2) && (!var44.getAnimal() || par4) && countEntities <= var44.getMaxNumberOfCreature() * this.eligibleChunksForSpawning.size() / 256)
                 {
@@ -202,21 +194,8 @@ public final class SpawnerAnimals
                                                             }
 
                                                             var41.setLocationAndAngles((double)var26, (double)var27, (double)var28, par1WorldServer.rand.nextFloat() * 360.0F, 0.0F);
-                                                            boolean canSpawn = false;
 
-                                                            if (Reflector.ForgeEventFactory_canEntitySpawn.exists())
-                                                            {
-                                                                Object result = Reflector.call(Reflector.ForgeEventFactory_canEntitySpawn, new Object[] {var41, par1WorldServer, Float.valueOf(var26), Float.valueOf(var27), Float.valueOf(var28)});
-                                                                Object result_ALLOW = Reflector.getFieldValue(Reflector.Event_Result_ALLOW);
-                                                                Object result_DEFAULT = Reflector.getFieldValue(Reflector.Event_Result_DEFAULT);
-                                                                canSpawn = result == result_ALLOW || result == result_DEFAULT && var41.getCanSpawnHere();
-                                                            }
-                                                            else
-                                                            {
-                                                                canSpawn = var41.getCanSpawnHere();
-                                                            }
-
-                                                            if (canSpawn)
+                                                            if (var41.getCanSpawnHere())
                                                             {
                                                                 this.mapSampleEntitiesByClass.put(var23.entityClass, (Object)null);
                                                                 ++var17;
@@ -269,7 +248,7 @@ public final class SpawnerAnimals
         else
         {
             Block var5 = par1World.getBlock(par2, par3 - 1, par4);
-            return Reflector.ForgeBlock_canCreatureSpawn.exists() && !Reflector.callBoolean(var5, Reflector.ForgeBlock_canCreatureSpawn, new Object[] {par0EnumCreatureType, par1World, Integer.valueOf(par2), Integer.valueOf(par3), Integer.valueOf(par4)}) ? false : var5 != Blocks.bedrock && !par1World.getBlock(par2, par3, par4).isNormalCube() && !par1World.getBlock(par2, par3, par4).getMaterial().isLiquid() && !par1World.getBlock(par2, par3 + 1, par4).isNormalCube();
+            return var5 != Blocks.bedrock && !par1World.getBlock(par2, par3, par4).isNormalCube() && !par1World.getBlock(par2, par3, par4).getMaterial().isLiquid() && !par1World.getBlock(par2, par3 + 1, par4).isNormalCube();
         }
     }
 
