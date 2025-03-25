@@ -34,4 +34,6 @@ public final class NoRenderCheat extends Cheat
             "Pumpkin", false);
     public final Setting<Boolean> portalSetting = new Setting<>(
             "Portal", false);
+    public final Setting<Boolean> voidParticlesSetting = new Setting<>(
+            "Void Particles", false);
 }
