@@ -152,9 +152,9 @@ public final class ItemStack
         return var10;
     }
 
-    public float func_150997_a(Block p_150997_1_)
+    public float getStrVsBlock(Block p_150997_1_)
     {
-        return this.getItem().func_150893_a(this, p_150997_1_);
+        return this.getItem().getStrVsBlock(this, p_150997_1_);
     }
 
     /**

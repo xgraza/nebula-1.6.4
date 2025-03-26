@@ -460,7 +460,7 @@ public class Item
         return false;
     }
 
-    public float func_150893_a(ItemStack p_150893_1_, Block p_150893_2_)
+    public float getStrVsBlock(ItemStack p_150893_1_, Block p_150893_2_)
     {
         return 1.0F;
     }

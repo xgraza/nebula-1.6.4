@@ -11,6 +11,7 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.impl.event.player.EventContainerAction;
 import us.nebula.util.player.InventoryUtil;
+import us.nebula.util.player.ItemUtil;
 
 import static us.nebula.util.player.InventoryUtil.HOTBAR_SIZE;
 import static us.nebula.util.player.InventoryUtil.PLAYER_INVENTORY_SIZE;
@@ -30,7 +31,7 @@ public final class InfiniteMoverCheat extends Cheat
         // checks to see if the item is infinite - or exists at all
         if (event.getSlot() == null
                 || !event.getSlot().getHasStack()
-                || !InventoryUtil.isInfinite(event.getSlot().getStack()))
+                || !ItemUtil.isInfinite(event.getSlot().getStack()))
         {
             return;
         }

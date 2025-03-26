@@ -32,7 +32,7 @@ public class ItemTool extends Item
         this.setCreativeTab(CreativeTabs.tabTools);
     }
 
-    public float func_150893_a(ItemStack p_150893_1_, Block p_150893_2_)
+    public float getStrVsBlock(ItemStack p_150893_1_, Block p_150893_2_)
     {
         return this.field_150914_c.contains(p_150893_2_) ? this.efficiencyOnProperMaterial : 1.0F;
     }

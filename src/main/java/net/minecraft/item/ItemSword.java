@@ -31,7 +31,7 @@ public class ItemSword extends Item
         return this.field_150933_b.getDamageVsEntity();
     }
 
-    public float func_150893_a(ItemStack p_150893_1_, Block p_150893_2_)
+    public float getStrVsBlock(ItemStack p_150893_1_, Block p_150893_2_)
     {
         if (p_150893_2_ == Blocks.web)
         {

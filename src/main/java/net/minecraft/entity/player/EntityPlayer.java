@@ -73,7 +73,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.IChunkProvider;
 import us.nebula.impl.cheat.exploit.AntiRevertCheat;
-import us.nebula.util.player.InventoryUtil;
+import us.nebula.util.player.ItemUtil;
 
 public abstract class EntityPlayer extends EntityLivingBase implements ICommandSender
 {
@@ -850,7 +850,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
      */
     public float getCurrentPlayerStrVsBlock(Block p_146096_1_, boolean p_146096_2_)
     {
-        float var3 = this.inventory.func_146023_a(p_146096_1_);
+        float var3 = this.inventory.getStrVsBlock(p_146096_1_);
 
         if (var3 > 1.0F)
         {
@@ -1179,7 +1179,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
                 if (var2.interactWithEntity(this, (EntityLivingBase)par1Entity))
                 {
-                    if ((var2.stackSize <= 0 && !this.capabilities.isCreativeMode) || (AntiRevertCheat.INSTANCE.isToggled() && !InventoryUtil.isInfinite(var2)))
+                    if ((var2.stackSize <= 0 && !this.capabilities.isCreativeMode) || (AntiRevertCheat.INSTANCE.isToggled() && !ItemUtil.isInfinite(var2)))
                     {
                         this.destroyCurrentEquippedItem();
                     }
@@ -1194,7 +1194,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         {
             if (var2 != null && var2 == this.getCurrentEquippedItem())
             {
-                if ((var2.stackSize <= 0 && !this.capabilities.isCreativeMode) || (AntiRevertCheat.INSTANCE.isToggled() && !InventoryUtil.isInfinite(var2)))
+                if ((var2.stackSize <= 0 && !this.capabilities.isCreativeMode) || (AntiRevertCheat.INSTANCE.isToggled() && !ItemUtil.isInfinite(var2)))
                 {
                     this.destroyCurrentEquippedItem();
                 }
@@ -1328,7 +1328,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                         {
                             var9.hitEntity((EntityLivingBase)var10, this);
 
-                            if (var9.stackSize <= 0 || (AntiRevertCheat.INSTANCE.isToggled() && !InventoryUtil.isInfinite(var9)))
+                            if (var9.stackSize <= 0 || (AntiRevertCheat.INSTANCE.isToggled() && !ItemUtil.isInfinite(var9)))
                             {
                                 this.destroyCurrentEquippedItem();
                             }
@@ -2088,7 +2088,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                 {
                     ItemStack var5 = this.getCurrentEquippedItem();
 
-                    if (var5.func_150998_b(var4) || var5.func_150997_a(var4) > 1.0F)
+                    if (var5.func_150998_b(var4) || var5.getStrVsBlock(var4) > 1.0F)
                     {
                         return true;
                     }

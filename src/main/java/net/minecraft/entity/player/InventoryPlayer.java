@@ -532,13 +532,13 @@ public class InventoryPlayer implements IInventory
         var3[par1] = par2ItemStack;
     }
 
-    public float func_146023_a(Block p_146023_1_)
+    public float getStrVsBlock(Block p_146023_1_)
     {
         float var2 = 1.0F;
 
         if (this.mainInventory[this.currentItem] != null)
         {
-            var2 *= this.mainInventory[this.currentItem].func_150997_a(p_146023_1_);
+            var2 *= this.mainInventory[this.currentItem].getStrVsBlock(p_146023_1_);
         }
 
         return var2;

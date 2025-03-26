@@ -28,7 +28,7 @@ import org.lwjgl.opengl.GL12;
 import us.nebula.impl.cheat.player.AntiLagCheat;
 import us.nebula.impl.cheat.render.InfiniteViewerCheat;
 import us.nebula.impl.cheat.render.ItemPhysicsCheat;
-import us.nebula.util.player.InventoryUtil;
+import us.nebula.util.player.ItemUtil;
 
 public class RenderItem extends Render
 {
@@ -649,7 +649,7 @@ public class RenderItem extends Render
             if (par3ItemStack.stackSize > 1 || (par3ItemStack.stackSize != 1 && InfiniteViewerCheat.INSTANCE.isToggled()))
             {
                 String var7 = String.valueOf(par3ItemStack.stackSize);
-                if (InventoryUtil.isInfinite(par3ItemStack))
+                if (ItemUtil.isInfinite(par3ItemStack))
                 {
                     var7 = EnumChatFormatting.RED + var7;
                 }
