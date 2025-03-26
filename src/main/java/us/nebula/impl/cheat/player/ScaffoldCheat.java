@@ -1,7 +1,5 @@
 package us.nebula.impl.cheat.player;
 
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
@@ -14,6 +12,7 @@ import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.render.EventRender3D;
+import us.nebula.util.player.InventoryUtil;
 import us.nebula.util.player.PlayerUtil;
 import us.nebula.util.render.RenderUtil;
 import us.nebula.util.world.BlockUtil;
@@ -46,7 +45,8 @@ public final class ScaffoldCheat extends Cheat
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        final int slot = getBlockSlot();
+        final int slot = InventoryUtil.getHotbarSlot(
+                InventoryUtil.BLOCK_FILTER);
         if (slot == -1)
         {
             return;
@@ -148,19 +148,6 @@ public final class ScaffoldCheat extends Cheat
             }
         }
         return null;
-    }
-
-    private int getBlockSlot()
-    {
-        for (int i = 0; i < 9; ++i)
-        {
-            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(i);
-            if (itemStack != null && itemStack.getItem() instanceof ItemBlock)
-            {
-                return i;
-            }
-        }
-        return -1;
     }
 
     private static final class BlockData

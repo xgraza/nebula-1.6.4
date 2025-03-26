@@ -1,7 +1,6 @@
 package us.nebula.impl.cheat.player;
 
 import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
@@ -17,6 +16,7 @@ import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.manager.rotate.RotationConfirmation;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.player.EventPushFromBlocks;
+import us.nebula.util.player.InventoryUtil;
 import us.nebula.util.player.PlayerUtil;
 import us.nebula.util.world.BlockUtil;
 
@@ -51,7 +51,7 @@ public final class PearlPhaseCheat extends Cheat implements RotationConfirmation
         {
             return;
         }
-        slot = getPearlSlot();
+        slot = InventoryUtil.getHotbarItem(ItemEnderPearl.class);
         if (slot == -1)
         {
             toggle();
@@ -102,18 +102,5 @@ public final class PearlPhaseCheat extends Cheat implements RotationConfirmation
                 break;
             }
         }
-    }
-
-    private int getPearlSlot()
-    {
-        for (int i = 0; i < 9; ++i)
-        {
-            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(i);
-            if (itemStack != null && itemStack.getItem() instanceof ItemEnderPearl)
-            {
-                return i;
-            }
-        }
-        return -1;
     }
 }

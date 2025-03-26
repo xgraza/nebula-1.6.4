@@ -9,6 +9,7 @@ import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.util.player.ChatUtil;
+import us.nebula.util.player.InventoryUtil;
 
 /**
  * @author xgraza
@@ -30,7 +31,7 @@ public final class KeyPearlCheat extends Cheat
             return;
         }
 
-        final int pearlSlot = getPearlSlot();
+        final int pearlSlot = InventoryUtil.getHotbarItem(ItemEnderPearl.class);
         if (pearlSlot == -1)
         {
             if (ClientSettings.VERBOSE_LOGGING)
@@ -45,18 +46,5 @@ public final class KeyPearlCheat extends Cheat
                 MC.thePlayer.inventory.getStackInSlot(pearlSlot)));
         MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(
                 MC.thePlayer.inventory.currentItem));
-    }
-
-    private int getPearlSlot()
-    {
-        for (int i = 0; i < 9; ++i)
-        {
-            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(i);
-            if (itemStack != null && itemStack.getItem() instanceof ItemEnderPearl)
-            {
-                return i;
-            }
-        }
-        return -1;
     }
 }
