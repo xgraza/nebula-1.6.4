@@ -53,9 +53,9 @@ public class GuiWDLWorld extends GuiScreen
         this.spawnX = new GuiTextField(this.fontRenderer, var1 - 87, var3, 50, 16);
         this.spawnY = new GuiTextField(this.fontRenderer, var1 - 19, var3, 50, 16);
         this.spawnZ = new GuiTextField(this.fontRenderer, var1 + 48, var3, 50, 16);
-        this.spawnX.func_146203_f(7);
-        this.spawnY.func_146203_f(7);
-        this.spawnZ.func_146203_f(7);
+        this.spawnX.setMaxTextLength(7);
+        this.spawnY.setMaxTextLength(7);
+        this.spawnZ.setMaxTextLength(7);
         var3 += 18;
         this.pickSpawnBtn = new GuiButton(5, var1 - 0, var3, 100, 20, "Current position");
         this.buttonList.add(this.pickSpawnBtn);

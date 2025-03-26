@@ -48,9 +48,9 @@ public class GuiWDLPlayer extends GuiScreen
         this.posX = new GuiTextField(this.fontRenderer, var1 - 87, var3, 50, 16);
         this.posY = new GuiTextField(this.fontRenderer, var1 - 19, var3, 50, 16);
         this.posZ = new GuiTextField(this.fontRenderer, var1 + 48, var3, 50, 16);
-        this.posX.func_146203_f(7);
-        this.posY.func_146203_f(7);
-        this.posZ.func_146203_f(7);
+        this.posX.setMaxTextLength(7);
+        this.posY.setMaxTextLength(7);
+        this.posZ.setMaxTextLength(7);
         var3 += 18;
         this.pickPosBtn = new GuiButton(4, var1 - 0, var3, 100, 20, "Current position");
         this.buttonList.add(this.pickPosBtn);

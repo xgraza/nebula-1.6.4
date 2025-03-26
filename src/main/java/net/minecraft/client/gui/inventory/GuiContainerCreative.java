@@ -254,10 +254,10 @@ public class GuiContainerCreative extends InventoryEffectRenderer
             this.buttonList.clear();
             Keyboard.enableRepeatEvents(true);
             this.field_147062_A = new GuiTextField(this.fontRenderer, this.field_147003_i + 82, this.field_147009_r + 6, 89, this.fontRenderer.FONT_HEIGHT);
-            this.field_147062_A.func_146203_f(15);
+            this.field_147062_A.setMaxTextLength(15);
             this.field_147062_A.func_146185_a(false);
             this.field_147062_A.func_146189_e(false);
-            this.field_147062_A.func_146193_g(16777215);
+            this.field_147062_A.setEnabledColor(16777215);
             int var1 = field_147058_w;
             field_147058_w = -1;
             this.func_147050_b(CreativeTabs.creativeTabArray[var1]);

@@ -58,7 +58,7 @@ public class GuiChat extends GuiScreen
         Keyboard.enableRepeatEvents(true);
         this.field_146416_h = this.mc.ingameGUI.getChatGui().getSentMessages().size();
         this.field_146415_a = new GuiTextField(this.fontRenderer, 4, this.height - 12, this.width - 4, 12);
-        this.field_146415_a.func_146203_f(100);
+        this.field_146415_a.setMaxTextLength(100);
         this.field_146415_a.func_146185_a(false);
         this.field_146415_a.setFocused(true);
         this.field_146415_a.setText(this.field_146409_v);

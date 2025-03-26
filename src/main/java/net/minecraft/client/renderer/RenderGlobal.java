@@ -111,7 +111,7 @@ public class RenderGlobal implements IWorldAccess
     /** The RenderEngine instance used by RenderGlobal */
     public final TextureManager renderEngine;
     public CompactArrayList worldRenderersToUpdate = new CompactArrayList(100, 0.8F);
-    private WorldRenderer[] sortedWorldRenderers;
+    public WorldRenderer[] sortedWorldRenderers;
     public WorldRenderer[] worldRenderers;
     private int renderChunksWide;
     private int renderChunksTall;

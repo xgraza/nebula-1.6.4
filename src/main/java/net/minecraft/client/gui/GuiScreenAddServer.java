@@ -40,7 +40,7 @@ public class GuiScreenAddServer extends GuiScreen
         this.field_146309_g.setFocused(true);
         this.field_146309_g.setText(this.field_146311_h.serverName);
         this.field_146308_f = new GuiTextField(this.fontRenderer, this.width / 2 - 100, 106, 200, 20);
-        this.field_146308_f.func_146203_f(128);
+        this.field_146308_f.setMaxTextLength(128);
         this.field_146308_f.setText(this.field_146311_h.serverIP);
         ((GuiButton)this.buttonList.get(0)).enabled = this.field_146308_f.getText().length() > 0 && this.field_146308_f.getText().split(":").length > 0 && this.field_146309_g.getText().length() > 0;
     }

@@ -1,5 +1,6 @@
 package net.minecraft.client.settings;
 
+import com.github.lunatrius.schematica.client.events.KeyInputHandler;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
@@ -217,6 +218,10 @@ public class GameSettings
     public KeyBinding keyBindScreenshot;
     public KeyBinding keyBindTogglePerspective;
     public KeyBinding keyBindSmoothCamera;
+    // Schematica
+    public KeyBinding keyBindLoadSchematic;
+    public KeyBinding keyBindSaveSchematic;
+    public KeyBinding keyBindControlSchematic;
     public KeyBinding[] keyBindsHotbar;
     public KeyBinding[] keyBindings;
     protected Minecraft mc;
@@ -313,6 +318,7 @@ public class GameSettings
         this.keyBindings = (KeyBinding[])((KeyBinding[])ArrayUtils.add(this.keyBindings, this.ofKeyBindZoom));
         GameSettings.Options.RENDER_DISTANCE.setValueMax(32.0F);
         this.renderDistanceChunks = par1Minecraft.isJava64bit() ? 12 : 8;
+        KeyInputHandler.initKeyBindings(this);
         this.loadOptions();
         Config.initGameSettings(this);
     }

@@ -50,7 +50,7 @@ public class GuiFlatPresets extends GuiScreen
         this.field_146436_r = I18n.format("createWorld.customize.presets.list", new Object[0]);
         this.field_146433_u = new GuiTextField(this.fontRenderer, 50, 40, this.width - 100, 20);
         this.field_146435_s = new GuiFlatPresets.ListSlot();
-        this.field_146433_u.func_146203_f(1230);
+        this.field_146433_u.setMaxTextLength(1230);
         this.field_146433_u.setText(this.field_146432_g.func_146384_e());
         this.buttonList.add(this.field_146434_t = new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("createWorld.customize.presets.select", new Object[0])));
         this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel", new Object[0])));

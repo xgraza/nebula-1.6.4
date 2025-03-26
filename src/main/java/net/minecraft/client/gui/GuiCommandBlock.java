@@ -42,12 +42,12 @@ public class GuiCommandBlock extends GuiScreen
         this.buttonList.add(this.field_146490_i = new GuiButton(0, this.width / 2 - 4 - 150, this.height / 4 + 120 + 12, 150, 20, I18n.format("gui.done", new Object[0])));
         this.buttonList.add(this.field_146487_r = new GuiButton(1, this.width / 2 + 4, this.height / 4 + 120 + 12, 150, 20, I18n.format("gui.cancel", new Object[0])));
         this.field_146485_f = new GuiTextField(this.fontRenderer, this.width / 2 - 150, 50, 300, 20);
-        this.field_146485_f.func_146203_f(32767);
+        this.field_146485_f.setMaxTextLength(32767);
         this.field_146485_f.setFocused(true);
         this.field_146485_f.setText(this.field_146489_h.func_145753_i());
         this.field_146486_g = new GuiTextField(this.fontRenderer, this.width / 2 - 150, 135, 300, 20);
-        this.field_146486_g.func_146203_f(32767);
-        this.field_146486_g.func_146184_c(false);
+        this.field_146486_g.setMaxTextLength(32767);
+        this.field_146486_g.setEnabled(false);
         this.field_146486_g.setText(this.field_146489_h.func_145753_i());
 
         if (this.field_146489_h.func_145749_h() != null)

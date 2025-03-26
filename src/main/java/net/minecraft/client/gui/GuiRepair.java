@@ -42,10 +42,10 @@ public class GuiRepair extends GuiContainer implements ICrafting
         int var1 = (this.width - this.field_146999_f) / 2;
         int var2 = (this.height - this.field_147000_g) / 2;
         this.field_147091_w = new GuiTextField(this.fontRenderer, var1 + 62, var2 + 24, 103, 12);
-        this.field_147091_w.func_146193_g(-1);
-        this.field_147091_w.func_146204_h(-1);
+        this.field_147091_w.setEnabledColor(-1);
+        this.field_147091_w.setDisabledColor(-1);
         this.field_147091_w.func_146185_a(false);
-        this.field_147091_w.func_146203_f(40);
+        this.field_147091_w.setMaxTextLength(40);
         this.container.removeCraftingFromCrafters(this);
         this.container.addCraftingToCrafters(this);
     }
@@ -189,7 +189,7 @@ public class GuiRepair extends GuiContainer implements ICrafting
         if (par2 == 0)
         {
             this.field_147091_w.setText(par3ItemStack == null ? "" : par3ItemStack.getDisplayName());
-            this.field_147091_w.func_146184_c(par3ItemStack != null);
+            this.field_147091_w.setEnabled(par3ItemStack != null);
 
             if (par3ItemStack != null)
             {

@@ -8,14 +8,19 @@ import shadersmod.client.ShadersTex;
 
 public class DynamicTexture extends AbstractTexture
 {
-    protected final int[] dynamicTextureData;
+    protected int[] dynamicTextureData;
 
     /** width of this icon in pixels */
-    protected final int width;
+    protected int width;
 
     /** height of this icon in pixels */
-    protected final int height;
+    protected int height;
     private boolean shadersInitialized;
+
+    public DynamicTexture()
+    {
+
+    }
 
     public DynamicTexture(BufferedImage par1BufferedImage)
     {
@@ -47,6 +52,25 @@ public class DynamicTexture extends AbstractTexture
         this.width = width;
         this.height = height;
         this.dynamicTextureData = dynamicTextureData;
+
+        if (Config.isShaders())
+        {
+            ShadersTex.initDynamicTexture(this.getGlTextureId(), width, height, this);
+            this.shadersInitialized = true;
+        }
+        else
+        {
+            TextureUtil.allocateTexture(this.getGlTextureId(), width, height);
+        }
+    }
+
+    public void init(final BufferedImage par1BufferedImage)
+    {
+        this.width = par1BufferedImage.getWidth();
+        this.height = par1BufferedImage.getHeight();
+        par1BufferedImage.getRGB(0, 0, par1BufferedImage.getWidth(), par1BufferedImage.getHeight(), this.dynamicTextureData, 0, par1BufferedImage.getWidth());
+        this.updateDynamicTexture();
+        this.shadersInitialized = false;
 
         if (Config.isShaders())
         {

@@ -1,5 +1,6 @@
 package us.nebula;
 
+import com.github.lunatrius.schematica.Schematica;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
@@ -80,6 +81,9 @@ public enum Nebula
 
         RenderUtil.initShaders();
         Fonts.initFonts();
+
+        // Init schematica
+        Schematica.load();
 
         setTitle("Nebula Client | Minecraft 1.7.2");
         logger.info("Instantiated Nebula successfully!");
