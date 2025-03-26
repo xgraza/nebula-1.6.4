@@ -78,6 +78,7 @@ public final class CommandManager implements ITypedManager<Command>
     {
         EventBus.subscribe(this);
 
+        addCommand(new FriendCommand());
         addCommand(new GCCommand());
         addCommand(new HelpCommand());
         addCommand(new HideCommand());

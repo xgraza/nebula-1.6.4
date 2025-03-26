@@ -10,6 +10,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import us.nebula.Nebula;
 import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
 import us.nebula.api.listener.EventListener;
@@ -310,6 +311,10 @@ public final class KillAuraCheat extends Cheat
         }
         final double distanceSq = MC.thePlayer.getDistanceSqToEntity(entity);
         if (distanceSq > rangeSetting.getValue() * rangeSetting.getValue())
+        {
+            return false;
+        }
+        if (entity instanceof EntityPlayer && Nebula.INSTANCE.getFriendManager().isFriend((EntityPlayer) entity))
         {
             return false;
         }

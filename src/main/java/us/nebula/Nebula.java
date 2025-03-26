@@ -10,6 +10,7 @@ import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.manager.command.CommandManager;
 import us.nebula.api.config.ConfigurationManager;
 import us.nebula.api.manager.cheat.CheatManager;
+import us.nebula.api.manager.friend.FriendManager;
 import us.nebula.api.manager.key.KeyManager;
 import us.nebula.api.manager.overlay.OverlayManager;
 import us.nebula.api.manager.rotate.RotationManager;
@@ -41,6 +42,7 @@ public enum Nebula
     private CommandManager commandManager;
     private OverlayManager overlayManager;
     private CheatManager cheatManager;
+    private FriendManager friendManager;
     private ToastManager toastManager;
     private RotationManager rotationManager;
 
@@ -67,6 +69,7 @@ public enum Nebula
         commandManager = new CommandManager();
         overlayManager = new OverlayManager();
         cheatManager = new CheatManager();
+        friendManager = new FriendManager();
         toastManager = new ToastManager();
         rotationManager = new RotationManager();
 
@@ -78,6 +81,7 @@ public enum Nebula
         systemTray.init();
         toastManager.init();
         rotationManager.init();
+        friendManager.init();
 
         RenderUtil.initShaders();
         Fonts.initFonts();
@@ -145,6 +149,11 @@ public enum Nebula
     public CheatManager getCheatManager()
     {
         return cheatManager;
+    }
+
+    public FriendManager getFriendManager()
+    {
+        return friendManager;
     }
 
     public ToastManager getToastManager()
