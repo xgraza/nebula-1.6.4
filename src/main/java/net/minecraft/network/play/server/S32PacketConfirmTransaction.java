@@ -8,18 +8,17 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S32PacketConfirmTransaction extends Packet
 {
-    private int field_148894_a;
-    private short field_148892_b;
-    private boolean field_148893_c;
-    private static final String __OBFID = "CL_00001291";
+    private int id;
+    private short uid;
+    private boolean accepted;
 
     public S32PacketConfirmTransaction() {}
 
-    public S32PacketConfirmTransaction(int p_i45182_1_, short p_i45182_2_, boolean p_i45182_3_)
+    public S32PacketConfirmTransaction(int id, short uid, boolean accepted)
     {
-        this.field_148894_a = p_i45182_1_;
-        this.field_148892_b = p_i45182_2_;
-        this.field_148893_c = p_i45182_3_;
+        this.id = id;
+        this.uid = uid;
+        this.accepted = accepted;
     }
 
     public void processPacket(INetHandlerPlayClient p_148891_1_)
@@ -32,9 +31,9 @@ public class S32PacketConfirmTransaction extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_148894_a = p_148837_1_.readUnsignedByte();
-        this.field_148892_b = p_148837_1_.readShort();
-        this.field_148893_c = p_148837_1_.readBoolean();
+        this.id = p_148837_1_.readUnsignedByte();
+        this.uid = p_148837_1_.readShort();
+        this.accepted = p_148837_1_.readBoolean();
     }
 
     /**
@@ -42,9 +41,9 @@ public class S32PacketConfirmTransaction extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeByte(this.field_148894_a);
-        p_148840_1_.writeShort(this.field_148892_b);
-        p_148840_1_.writeBoolean(this.field_148893_c);
+        p_148840_1_.writeByte(this.id);
+        p_148840_1_.writeShort(this.uid);
+        p_148840_1_.writeBoolean(this.accepted);
     }
 
     /**
@@ -52,22 +51,22 @@ public class S32PacketConfirmTransaction extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, uid=%d, accepted=%b", new Object[] {Integer.valueOf(this.field_148894_a), Short.valueOf(this.field_148892_b), Boolean.valueOf(this.field_148893_c)});
+        return String.format("id=%d, uid=%d, accepted=%b", new Object[] {Integer.valueOf(this.id), Short.valueOf(this.uid), Boolean.valueOf(this.accepted)});
     }
 
-    public int func_148889_c()
+    public int getID()
     {
-        return this.field_148894_a;
+        return this.id;
     }
 
-    public short func_148890_d()
+    public short getUID()
     {
-        return this.field_148892_b;
+        return this.uid;
     }
 
-    public boolean func_148888_e()
+    public boolean isAccepted()
     {
-        return this.field_148893_c;
+        return this.accepted;
     }
 
     public void processPacket(INetHandler p_148833_1_)

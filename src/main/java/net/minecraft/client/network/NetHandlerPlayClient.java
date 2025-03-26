@@ -1191,23 +1191,23 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      * Verifies that the server and client are synchronized with respect to the inventory/container opened by the player
      * and confirms if it is the case.
      */
-    public void handleConfirmTransaction(S32PacketConfirmTransaction p_147239_1_)
+    public void handleConfirmTransaction(S32PacketConfirmTransaction packet)
     {
         Container var2 = null;
         EntityClientPlayerMP var3 = this.gameController.thePlayer;
 
-        if (p_147239_1_.func_148889_c() == 0)
+        if (packet.getID() == 0)
         {
             var2 = var3.inventoryContainer;
         }
-        else if (p_147239_1_.func_148889_c() == var3.openContainer.windowId)
+        else if (packet.getID() == var3.openContainer.windowId)
         {
             var2 = var3.openContainer;
         }
 
-        if (var2 != null && !p_147239_1_.func_148888_e())
+        if (var2 != null && !packet.isAccepted())
         {
-            this.addToSendQueue(new C0FPacketConfirmTransaction(p_147239_1_.func_148889_c(), p_147239_1_.func_148890_d(), true));
+            this.addToSendQueue(new C0FPacketConfirmTransaction(packet.getID(), packet.getUID(), true));
         }
     }
 

@@ -5,6 +5,7 @@ import us.nebula.api.manager.ITypedManager;
 import us.nebula.impl.cheat.combat.*;
 import us.nebula.impl.cheat.exploit.*;
 import us.nebula.impl.cheat.miscellaneous.DiscordRPCCheat;
+import us.nebula.impl.cheat.miscellaneous.InventorySyncCheat;
 import us.nebula.impl.cheat.miscellaneous.SpammerCheat;
 import us.nebula.impl.cheat.miscellaneous.TranslateCheat;
 import us.nebula.impl.cheat.movement.*;
@@ -46,6 +47,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new TimerCheat());
         addCheat(new XCarryCheat());
         addCheat(new DiscordRPCCheat());
+        addCheat(new InventorySyncCheat());
         addCheat(new SpammerCheat());
         addCheat(new TranslateCheat());
         addCheat(new AutoWalkCheat());
