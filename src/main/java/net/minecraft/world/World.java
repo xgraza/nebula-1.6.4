@@ -71,7 +71,7 @@ public abstract class World implements IBlockAccess
     private List field_147483_b = new ArrayList();
 
     /** Array list of players in the world. */
-    public List playerEntities = new ArrayList();
+    public List<EntityPlayer> playerEntities = new ArrayList();
 
     /** a list of all the lightning entities */
     public List weatherEffects = new ArrayList();

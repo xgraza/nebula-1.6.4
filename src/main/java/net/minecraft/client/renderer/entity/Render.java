@@ -346,48 +346,52 @@ public abstract class Render
 
     public void updateIcons(IIconRegister par1IconRegister) {}
 
-    protected void func_147906_a(Entity p_147906_1_, String p_147906_2_, double p_147906_3_, double p_147906_5_, double p_147906_7_, int p_147906_9_)
+    protected void renderEntityNameplate(Entity entity, String name, double x, double y, double z, int maxDistance)
     {
-        double var10 = p_147906_1_.getDistanceSqToEntity(this.renderManager.livingPlayer);
+        if (true)
+        {
+            return;
+        }
+        double distance = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);
 
-        if (var10 <= (double)(p_147906_9_ * p_147906_9_))
+        if (distance <= (double)(maxDistance * maxDistance))
         {
             FontRenderer var12 = this.getFontRendererFromRenderManager();
-            float var13 = 1.6F;
-            float var14 = 0.016666668F * var13;
+            float size = 1.6F;
+            float scale = 0.016666668F * size;
             GL11.glPushMatrix();
-            GL11.glTranslatef((float)p_147906_3_ + 0.0F, (float)p_147906_5_ + p_147906_1_.height + 0.5F, (float)p_147906_7_);
+            GL11.glTranslatef((float) x + 0.0F, (float) y + entity.height + 0.5F, (float) z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             GL11.glRotatef(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-            GL11.glScalef(-var14, -var14, var14);
+            GL11.glScalef(-scale, -scale, scale);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDepthMask(false);
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             GL11.glEnable(GL11.GL_BLEND);
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             Tessellator var15 = Tessellator.instance;
-            byte var16 = 0;
+            int posY = 0;
 
-            if (p_147906_2_.equals("deadmau5"))
+            if (name.equals("deadmau5"))
             {
-                var16 = -10;
+                posY = -10;
             }
 
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             var15.startDrawingQuads();
-            int var17 = var12.getStringWidth(p_147906_2_) / 2;
+            int var17 = var12.getStringWidth(name) / 2;
             var15.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
-            var15.addVertex((double)(-var17 - 1), (double)(-1 + var16), 0.0D);
-            var15.addVertex((double)(-var17 - 1), (double)(8 + var16), 0.0D);
-            var15.addVertex((double)(var17 + 1), (double)(8 + var16), 0.0D);
-            var15.addVertex((double)(var17 + 1), (double)(-1 + var16), 0.0D);
+            var15.addVertex((double)(-var17 - 1), (double)(-1 + posY), 0.0D);
+            var15.addVertex((double)(-var17 - 1), (double)(8 + posY), 0.0D);
+            var15.addVertex((double)(var17 + 1), (double)(8 + posY), 0.0D);
+            var15.addVertex((double)(var17 + 1), (double)(-1 + posY), 0.0D);
             var15.draw();
             GL11.glEnable(GL11.GL_TEXTURE_2D);
-            var12.drawString(p_147906_2_, -var12.getStringWidth(p_147906_2_) / 2, var16, 553648127);
+            var12.drawString(name, -var12.getStringWidth(name) / 2, posY, 553648127);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             GL11.glDepthMask(true);
-            var12.drawString(p_147906_2_, -var12.getStringWidth(p_147906_2_) / 2, var16, -1);
+            var12.drawString(name, -var12.getStringWidth(name) / 2, posY, -1);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

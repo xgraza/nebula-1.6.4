@@ -88,7 +88,7 @@ public final class AWTFontRenderer
                 continue;
             } else if (ch == COLOR_CONTROL_CHAR)
             {
-                if (i + 1 < chars.length)
+                if (i + 1 > chars.length)
                 {
                     break;
                 }
@@ -146,6 +146,7 @@ public final class AWTFontRenderer
                     default:
                     {
                         int colorCode = "0123456789abcdefklmnor".indexOf(colorControlChar);
+                        //System.out.println(colorCode);
                         if (colorCode == -1)
                         {
                             colorCode = "stuvwxyz".indexOf(colorControlChar);
@@ -290,8 +291,7 @@ public final class AWTFontRenderer
         float red = (float) (color >> 16 & 255) / 255.0F;
         float blue = (float) (color >> 8 & 255) / 255.0F;
         float green = (float) (color & 255) / 255.0F;
-        float alpha = (float) (color >> 24 & 255) / 255.0F;
-        glColor4f(red, green, blue, alpha);
+        glColor4f(red, green, blue, 1.0f);
     }
 
     private int adjustColor(int color, boolean shadow)

@@ -320,7 +320,7 @@ public class RenderItemFrame extends Render
                 }
                 else
                 {
-                    this.func_147906_a(p_147914_1_, var13, p_147914_2_, p_147914_4_, p_147914_6_, 64);
+                    this.renderEntityNameplate(p_147914_1_, var13, p_147914_2_, p_147914_4_, p_147914_6_, 64);
                 }
             }
         }

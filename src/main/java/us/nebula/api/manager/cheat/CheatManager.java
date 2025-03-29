@@ -76,6 +76,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new HUDCheat());
         addCheat(new InfiniteViewerCheat());
         addCheat(new ItemPhysicsCheat());
+        addCheat(new NametagsCheat());
         addCheat(new NoRenderCheat());
         addCheat(new NoWeatherCheat());
         addCheat(new TimeChangerCheat());

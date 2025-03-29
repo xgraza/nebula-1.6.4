@@ -400,11 +400,11 @@ public class RenderPlayer extends RendererLivingEntity
 
                 if (par1AbstractClientPlayer.isPlayerSleeping())
                 {
-                    this.func_147906_a(par1AbstractClientPlayer, var14.getScorePoints() + " " + var13.getDisplayName(), par2, par4 - 1.5D, par6, 64);
+                    this.renderEntityNameplate(par1AbstractClientPlayer, var14.getScorePoints() + " " + var13.getDisplayName(), par2, par4 - 1.5D, par6, 64);
                 }
                 else
                 {
-                    this.func_147906_a(par1AbstractClientPlayer, var14.getScorePoints() + " " + var13.getDisplayName(), par2, par4, par6, 64);
+                    this.renderEntityNameplate(par1AbstractClientPlayer, var14.getScorePoints() + " " + var13.getDisplayName(), par2, par4, par6, 64);
                 }
 
                 par4 += (double)((float)this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * par9);

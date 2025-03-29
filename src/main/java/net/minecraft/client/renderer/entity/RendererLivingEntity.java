@@ -606,11 +606,11 @@ public abstract class RendererLivingEntity extends Render
     {
         if (par1EntityLivingBase.isPlayerSleeping())
         {
-            this.func_147906_a(par1EntityLivingBase, par8Str, par2, par4 - 1.5D, par6, 64);
+            this.renderEntityNameplate(par1EntityLivingBase, par8Str, par2, par4 - 1.5D, par6, 64);
         }
         else
         {
-            this.func_147906_a(par1EntityLivingBase, par8Str, par2, par4, par6, 64);
+            this.renderEntityNameplate(par1EntityLivingBase, par8Str, par2, par4, par6, 64);
         }
     }
 

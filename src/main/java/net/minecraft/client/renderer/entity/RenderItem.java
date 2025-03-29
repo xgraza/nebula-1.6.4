@@ -602,7 +602,7 @@ public class RenderItem extends Render
         }
     }
 
-    private void renderGlint(int par1, int par2, int par3, int par4, int par5)
+    public void renderGlint(int par1, int par2, int par3, int par4, int par5)
     {
         for (int var6 = 0; var6 < 2; ++var6)
         {
