@@ -26,7 +26,6 @@ public final class SpeedCheat extends Cheat
 
     private double lastDistance, speed;
     private int lagTicks, stage;
-    private boolean boost;
 
     @Override
     protected void onDisable()
@@ -35,8 +34,6 @@ public final class SpeedCheat extends Cheat
         lastDistance = 0.0;
         speed = 0.0;
         lagTicks = 0;
-        boost = false;
-        MC.timer.timerSpeed = 1.0f;
     }
 
     @Subscribe
@@ -62,26 +59,23 @@ public final class SpeedCheat extends Cheat
                     if (stage == 0)
                     {
                         MC.timer.timerSpeed = 1.0f;
-                        speed = 1.2945 * MoveUtil.getBaseNcpSpeed(20) - 0.01;
+                        speed = 1.22 * MoveUtil.getBaseNcpSpeed(20) - 0.01;
                         stage = 1;
                     }
                     if (MoveUtil.isMoving() && MC.thePlayer.onGround)
                     {
-                        MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.4f);
+                        MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.3995);
                         event.setY(MC.thePlayer.motionY);
-                        speed *= boost ? 1.655 : 1.48;
-                        MC.timer.timerSpeed = boost ? 1.044f : 1.088f;
+                        speed *= 1.59;
                         stage = 2;
                     }
                     break;
                 }
                 case 2:
                 {
-                    final double mod = boost ? 0.76 : 0.66;
-                    final double diff = mod * (speed - MoveUtil.getBaseNcpSpeed(20));
+                    final double diff = 0.7 * (speed - MoveUtil.getBaseNcpSpeed(20));
                     speed = lastDistance - diff;
                     stage = 3;
-                    boost = !boost;
                     break;
                 }
                 case 3:
@@ -91,7 +85,7 @@ public final class SpeedCheat extends Cheat
                     {
                         stage = 0;
                     }
-                    speed = speed - speed / 159.0;
+                    speed = speed - speed / 139.0;
                     break;
                 }
             }
