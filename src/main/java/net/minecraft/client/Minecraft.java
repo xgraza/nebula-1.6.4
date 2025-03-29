@@ -134,6 +134,7 @@ import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import us.nebula.Nebula;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.render.CameraClipCheat;
 import us.nebula.impl.event.input.EventKey;
 import us.nebula.impl.event.input.EventMouse;
 
@@ -978,7 +979,10 @@ public class Minecraft
 
         if (this.thePlayer != null && this.thePlayer.isEntityInsideOpaqueBlock())
         {
-            this.gameSettings.thirdPersonView = 0;
+            if (!CameraClipCheat.INSTANCE.isToggled() || CameraClipCheat.INSTANCE.phasePerspective.getValue())
+            {
+                this.gameSettings.thirdPersonView = 0;
+            }
         }
 
         this.mcProfiler.endSection();

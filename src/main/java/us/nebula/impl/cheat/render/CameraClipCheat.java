@@ -4,6 +4,7 @@ import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
+import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.render.EventCameraDistance;
@@ -17,8 +18,13 @@ import us.nebula.impl.event.render.EventCameraDistance;
         category = CheatCategory.RENDER)
 public final class CameraClipCheat extends Cheat
 {
+    @CheatInstance
+    public static CameraClipCheat INSTANCE;
+
     private final Setting<Double> distanceSetting = new Setting<>(
             "Distance", 4.0, 0.5, 50.0, 0.5);
+    public final Setting<Boolean> phasePerspective = new Setting<>(
+            "Phase Perspective", true);
 
     @Subscribe
     private final EventListener<EventCameraDistance> cameraDistanceEventListener = event ->
