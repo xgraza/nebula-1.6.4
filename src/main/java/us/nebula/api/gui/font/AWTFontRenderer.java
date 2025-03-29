@@ -138,6 +138,7 @@ public final class AWTFontRenderer
                         strikethrough = false;
                         underline = false;
 
+                        setColor(color);
                         font = normal;
                         glBindTexture(GL_TEXTURE_2D, font.getGlyphTexture().getGlTextureId());
                         break;
@@ -187,7 +188,7 @@ public final class AWTFontRenderer
             offsetX += glyph.getWidth();
         }
 
-        glEnable(GL_LIGHTING);
+        //glEnable(GL_LIGHTING);
         glDisable(GL_RESCALE_NORMAL);
         glPopMatrix();
     }
