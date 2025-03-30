@@ -1,27 +1,29 @@
 package net.minecraft.client.gui;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IChatComponent;
+import us.nebula.impl.cheat.miscellaneous.AutoReconnect;
+import us.nebula.util.math.Timer;
 
 import static java.lang.String.format;
 
 public class GuiDisconnected extends GuiScreen
 {
-    private String field_146306_a;
-    private IChatComponent field_146304_f;
-    private List field_146305_g;
-    private final GuiScreen field_146307_h;
-    private static final String __OBFID = "CL_00000693";
+    private final GuiScreen parent;
+    private final String reason;
+    private final IChatComponent reasonChatComponent;
 
-    public GuiDisconnected(GuiScreen p_i45020_1_, String p_i45020_2_, IChatComponent p_i45020_3_)
+    private final Timer reconnectTimer = new Timer();
+    private List<String> splitText;
+
+    public GuiDisconnected(GuiScreen parent, String reason, IChatComponent reasonComponent)
     {
-        this.field_146307_h = p_i45020_1_;
-        this.field_146306_a = I18n.format(p_i45020_2_, new Object[0]);
-        this.field_146304_f = p_i45020_3_;
+        this.parent = parent;
+        this.reason = I18n.format(reason);
+        this.reasonChatComponent = reasonComponent;
     }
 
     /**
@@ -35,36 +37,74 @@ public class GuiDisconnected extends GuiScreen
     public void initGui()
     {
         this.buttonList.clear();
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.toMenu", new Object[0])));
-        this.field_146305_g = this.fontRenderer.listFormattedStringToWidth(this.field_146304_f.getFormattedText(), this.width - 50);
+        if (AutoReconnect.INSTANCE.getLastServer() != null)
+        {
+            buttonList.add(new GuiButton(1, width / 2 - 100, this.height / 4 + 120 + 12, "Reconnect"));
+            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 142 + 12, I18n.format("gui.toMenu", new Object[0])));
+        } else
+        {
+            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.toMenu", new Object[0])));
+        }
+        if (AutoReconnect.INSTANCE.isToggled())
+        {
+            reconnectTimer.resetTime();
+        }
+        this.splitText = this.fontRenderer.listFormattedStringToWidth(this.reasonChatComponent.getFormattedText(), this.width - 50);
     }
 
-    protected void actionPerformed(GuiButton p_146284_1_)
+    protected void actionPerformed(GuiButton guiButton)
     {
-        if (p_146284_1_.id == 0)
+        if (guiButton.id == 0)
         {
-            this.mc.displayGuiScreen(this.field_146307_h);
+            this.mc.displayGuiScreen(this.parent);
+        } else if (guiButton.id == 1)
+        {
+            mc.displayGuiScreen(new GuiConnecting(this, mc, AutoReconnect.INSTANCE.getLastServer()));
         }
     }
 
     /**
      * Draws the screen and all the components in it.
      */
-    public void drawScreen(int par1, int par2, float par3)
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, this.field_146306_a, this.width / 2, this.height / 2 - 50, 11184810);
-        int var4 = this.height / 2 - 30;
+        this.drawCenteredString(this.fontRenderer, this.reason, this.width / 2, this.height / 2 - 50, 11184810);
+        int posY = this.height / 2 - 30;
 
-        if (this.field_146305_g != null)
+        if (this.splitText != null)
         {
-            for (Iterator var5 = this.field_146305_g.iterator(); var5.hasNext(); var4 += this.fontRenderer.FONT_HEIGHT)
+            for (final String var6 : splitText)
             {
-                String var6 = (String)var5.next();
-                this.drawCenteredString(this.fontRenderer, var6, this.width / 2, var4, 16777215);
+                posY += this.fontRenderer.FONT_HEIGHT;
+                this.drawCenteredString(this.fontRenderer, var6, this.width / 2, posY, 16777215);
             }
         }
 
-        super.drawScreen(par1, par2, par3);
+        if (AutoReconnect.INSTANCE.isToggled()
+                && AutoReconnect.INSTANCE.getLastServer() != null)
+        {
+            final long reconnectDelay = AutoReconnect.INSTANCE.delaySetting.getValue() * 1000L;
+            final double elapsedTime = reconnectTimer.getTimeElapsedMS();
+            String timeFormatted = "";
+            if (elapsedTime > reconnectDelay)
+            {
+                timeFormatted = "Reconnecting now...";
+            } else
+            {
+                timeFormatted = "Reconnecting in "
+                        + String.format("%.2f", (reconnectDelay - elapsedTime) / 1000.0)
+                        + "s";
+            }
+            drawCenteredString(fontRenderer, timeFormatted, width / 2, 6, 11184810);
+
+            if (reconnectTimer.hasElapsed(reconnectDelay + 50L))
+            {
+                reconnectTimer.resetTime();
+                mc.displayGuiScreen(new GuiConnecting(this, mc, AutoReconnect.INSTANCE.getLastServer()));
+            }
+        }
+
+        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

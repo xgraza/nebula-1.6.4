@@ -134,6 +134,7 @@ import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import us.nebula.Nebula;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.miscellaneous.AutoReconnect;
 import us.nebula.impl.cheat.render.CameraClipCheat;
 import us.nebula.impl.event.input.EventKey;
 import us.nebula.impl.event.input.EventMouse;
@@ -2086,6 +2087,9 @@ public class Minecraft
      */
     public void launchIntegratedServer(String par1Str, String par2Str, WorldSettings par3WorldSettings)
     {
+        // do not reconnect to singleplayer
+        AutoReconnect.INSTANCE.setLastServer(null);
+
         this.loadWorld((WorldClient)null);
         ISaveHandler var4 = this.saveLoader.getSaveLoader(par1Str, false);
         WorldInfo var5 = var4.loadWorldInfo();
@@ -2580,6 +2584,10 @@ public class Minecraft
      */
     public void setServerData(ServerData par1ServerData)
     {
+        if (par1ServerData != null)
+        {
+            AutoReconnect.INSTANCE.setLastServer(par1ServerData);
+        }
         this.currentServerData = par1ServerData;
     }
 
