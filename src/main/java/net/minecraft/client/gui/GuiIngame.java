@@ -38,6 +38,7 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.Nebula;
 import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.cheat.miscellaneous.ExtraTabCheat;
@@ -462,13 +463,55 @@ public class GuiIngame extends Gui
             if (i < playerInfo.size())
             {
                 GuiPlayerInfo info = playerInfo.get(i);
-                ScorePlayerTeam team = this.mc.theWorld.getScoreboard().getPlayersTeam(info.name);
-                String formattedText = ScorePlayerTeam.formatPlayerName(team, info.name);
-                fontRenderer.drawStringWithShadow(formattedText, x, y, 16777215);
+
+                int offset = 0;
+                if (ExtraTabCheat.INSTANCE.isToggled()
+                        && ExtraTabCheat.INSTANCE.showPlayerHeadSetting.getValue())
+                {
+                    final int texSize = 7;
+                    final DynamicTexture texture = HeadDownloader.getOrDownloadTexture(info.name, texSize);
+                    if (texture != null)
+                    {
+                        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+                        glBindTexture(GL_TEXTURE_2D, texture.getGlTextureId());
+                        glPushMatrix();
+                        glBegin(GL_QUADS);
+                        {
+                            glTexCoord2d(0, 0);
+                            glVertex2d(x + 1, y + 0.5);
+
+                            glTexCoord2d(0, 1);
+                            glVertex2d(x + 1, y + texSize + 0.5);
+
+                            glTexCoord2d(1, 1);
+                            glVertex2d(x + texSize + 1, y + texSize + 0.5);
+
+                            glTexCoord2d(1, 0);
+                            glVertex2d(x + texSize + 1, y + 0.5);
+                        }
+                        glEnd();
+                        glPopMatrix();
+                        offset = texSize + 2;
+                    }
+                }
+
+                String name;
+                if (ExtraTabCheat.INSTANCE.isToggled()
+                        && ExtraTabCheat.INSTANCE.highlightFriendsSetting.getValue()
+                        && (Nebula.INSTANCE.getFriendManager().isFriend(info.name)
+                        || info.name.equals(mc.thePlayer.getCommandSenderName())))
+                {
+                    name = EnumChatFormatting.AQUA + info.name;
+                } else
+                {
+                    final ScorePlayerTeam team = mc.theWorld.getScoreboard().getPlayersTeam(info.name);
+                    name = ScorePlayerTeam.formatPlayerName(team, info.name);
+                }
+                fontRenderer.drawStringWithShadow(name, x + offset + 1, y, 16777215);
 
                 if (objective != null)
                 {
-                    int var27 = x + fontRenderer.getStringWidth(formattedText) + 5;
+                    int var27 = x + fontRenderer.getStringWidth(name) + 5;
                     int var28 = x + widthPerSection - 12 - 5;
 
                     if (var28 - var27 > 5)
@@ -480,38 +523,43 @@ public class GuiIngame extends Gui
                 }
 
                 glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                this.mc.getTextureManager().bindTexture(icons);
 
-                byte barIndex = 5;
-                if (info.responseTime < 0)
+                if (ExtraTabCheat.INSTANCE.isToggled()
+                        && ExtraTabCheat.INSTANCE.showBarsSetting.getValue())
                 {
-                    barIndex = 5;
-                }
-                else if (info.responseTime < 150)
-                {
-                    barIndex = 0;
-                }
-                else if (info.responseTime < 300)
-                {
-                    barIndex = 1;
-                }
-                else if (info.responseTime < 600)
-                {
-                    barIndex = 2;
-                }
-                else if (info.responseTime < 1000)
-                {
-                    barIndex = 3;
-                }
-                else
-                {
-                    barIndex = 4;
-                }
+                    this.mc.getTextureManager().bindTexture(icons);
 
-                // draw the response time
-                this.zLevel += 100.0F;
-                this.drawTexturedModalRect(x + widthPerSection - 12, y, 0, 176 + barIndex * 8, 10, 8);
-                this.zLevel -= 100.0F;
+                    byte barIndex;
+                    if (info.responseTime < 0)
+                    {
+                        barIndex = 5;
+                    }
+                    else if (info.responseTime < 150)
+                    {
+                        barIndex = 0;
+                    }
+                    else if (info.responseTime < 300)
+                    {
+                        barIndex = 1;
+                    }
+                    else if (info.responseTime < 600)
+                    {
+                        barIndex = 2;
+                    }
+                    else if (info.responseTime < 1000)
+                    {
+                        barIndex = 3;
+                    }
+                    else
+                    {
+                        barIndex = 4;
+                    }
+
+                    // draw the response time
+                    this.zLevel += 100.0F;
+                    this.drawTexturedModalRect(x + widthPerSection - 12, y, 0, 176 + barIndex * 8, 10, 8);
+                    this.zLevel -= 100.0F;
+                }
             }
         }
         this.mc.mcProfiler.endStartSection("playerList");
@@ -574,9 +622,17 @@ public class GuiIngame extends Gui
                 }
             }
 
-            String name = info.name;
-            ScorePlayerTeam team = mc.theWorld.getScoreboard().getPlayersTeam(name);
-            name = ScorePlayerTeam.formatPlayerName(team, name);
+            String name;
+            if (ExtraTabCheat.INSTANCE.highlightFriendsSetting.getValue()
+                    && (Nebula.INSTANCE.getFriendManager().isFriend(info.name)
+                    || info.name.equals(mc.thePlayer.getCommandSenderName())))
+            {
+                name = EnumChatFormatting.AQUA + info.name;
+            } else
+            {
+                final ScorePlayerTeam team = mc.theWorld.getScoreboard().getPlayersTeam(info.name);
+                name = ScorePlayerTeam.formatPlayerName(team, info.name);
+            }
 
             Fonts.POPPINS.drawStringShadow(name, x + 1 + offset, y - 1, 16777215);
 

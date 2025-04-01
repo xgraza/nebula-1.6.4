@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 /**
  * @author xgraza
@@ -18,7 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class HeadDownloader
 {
+    private static final Pattern USERNAME_REGEX = Pattern.compile("^[a-zA-Z0-9_]{1,16}$");
     private static final String IMAGE_URL = "https://minotar.net/helm/%s/%s.png";
+    private static final String DEFAULT_HEAD_NAME = "MHF_Steve";
 
     private static final Set<String> DOWNLOADING = new ConcurrentSet<>();
     private static final Map<String, BufferedImage> DOWNLOAD_THREAD_MAP = new ConcurrentHashMap<>();
@@ -51,7 +54,11 @@ public final class HeadDownloader
             {
                 try
                 {
-                    final URL url = new URL(String.format(IMAGE_URL, name, size));
+                    final URL url = new URL(String.format(IMAGE_URL,
+                            isValidUsername(name)
+                                    ? name
+                                    : DEFAULT_HEAD_NAME,
+                            size));
                     final BufferedImage image = ImageIO.read(url);
                     DOWNLOAD_THREAD_MAP.put(id, image);
                 } catch (final IOException e)
@@ -63,5 +70,10 @@ public final class HeadDownloader
             return null;
         }
         return texture;
+    }
+
+    private static boolean isValidUsername(final String username)
+    {
+        return username.matches(USERNAME_REGEX.pattern());
     }
 }
