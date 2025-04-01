@@ -42,7 +42,6 @@ public class RenderItem extends Render
     /** Defines the zLevel of rendering of item on GUI. */
     public float zLevel;
     public static boolean renderInFrame;
-    private static final String __OBFID = "CL_00001003";
 
     public RenderItem()
     {
@@ -96,7 +95,7 @@ public class RenderItem extends Render
                 var13 = 1;
             }
 
-            if (ItemPhysicsCheat.INSTANCE != null && ItemPhysicsCheat.INSTANCE.isToggled())
+            if (ItemPhysicsCheat.INSTANCE != null && ItemPhysicsCheat.INSTANCE.isToggled() && !renderInFrame)
             {
                 float offset = 0.0f;
                 if (!(item instanceof ItemBlock))
@@ -124,7 +123,7 @@ public class RenderItem extends Render
                     par1EntityItem.rotationPitch += 1.5f;
                     par1EntityItem.rotationYaw += 1.5f;
                 }
-                GL11.glRotatef(par1EntityItem.rotationPitch % 360.0f, 1.0f, 0.0f, 0.0f);
+                GL11.glRotatef(par1EntityItem.rotationPitch, 1.0f, 0.0f, 0.0f);
                 GL11.glRotatef(par1EntityItem.rotationYaw, 0.0f, 0.0f, 1.0f);
             }
 

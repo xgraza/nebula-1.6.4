@@ -10,7 +10,7 @@ import us.nebula.api.manager.cheat.CheatManifest;
  * @since 03/16/25
  */
 @CheatManifest(name = "ItemPhysics",
-        description = "Makes items render differently", // TODO: shit desc
+        description = "Makes items look like they have physics when dropped",
         category = CheatCategory.RENDER)
 public final class ItemPhysicsCheat extends Cheat
 {
