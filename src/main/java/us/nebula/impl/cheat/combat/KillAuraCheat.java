@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import us.nebula.Nebula;
 import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
@@ -21,6 +20,7 @@ import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.cheat.player.FreecamCheat;
+import us.nebula.impl.event.game.EventPostUpdate;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.render.EventRender3D;
 import us.nebula.util.math.Timer;
@@ -59,8 +59,6 @@ public final class KillAuraCheat extends Cheat
             "Auto Block", true);
     private final Setting<Boolean> tickSetting = new Setting<>(
             "Tick", false);
-    private final Setting<Boolean> armorBreaker = new Setting<>(
-            "Armor Breaker", false);
     private final Setting<Boolean> keepSprint = new Setting<>(
             "Keep Sprint", false);
     private final Setting<Boolean> attackPlayersSetting = new Setting<>(
@@ -114,26 +112,18 @@ public final class KillAuraCheat extends Cheat
         if (canAttack())
         {
             timer.resetTime();
-
             if (autoBlockSetting.getValue())
             {
                 blockSword(false);
             }
-
             attackTarget();
-
-            if (armorBreaker.getValue())
-            {
-                attackTarget();
-                MC.thePlayer.sendQueue.addToSendQueue(
-                        new C09PacketHeldItemChange(8));
-                attackTarget();
-                attackTarget();
-                MC.thePlayer.sendQueue.addToSendQueue(
-                        new C09PacketHeldItemChange(MC.thePlayer.inventory.currentItem));
-            }
         }
-        if (autoBlockSetting.getValue())
+    };
+
+    @Subscribe
+    private final EventListener<EventPostUpdate> moveUpdateEventListener = event ->
+    {
+        if (autoBlockSetting.getValue() && target != null)
         {
             blockSword(true);
         }

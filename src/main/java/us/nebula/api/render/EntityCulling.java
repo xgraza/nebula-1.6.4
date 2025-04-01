@@ -51,6 +51,10 @@ public final class EntityCulling
 
     public static void removeEntity(final Entity entity)
     {
+        if (!isActive())
+        {
+            return;
+        }
         if (!QUERY_RESULTS.containsKey(entity.getUniqueID()))
         {
             return;

@@ -75,7 +75,8 @@ public final class AutoArmorCheat extends Cheat
                 MC.playerController.windowClick(INVENTORY_WINDOW_ID, 8 - i, 1, 4, MC.thePlayer);
             }
 
-            if (destackSetting.getValue() && MC.thePlayer.inventory.getStackInSlot(slot).stackSize > 1)
+            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(slot);
+            if (destackSetting.getValue() && (itemStack != null && itemStack.stackSize > 1))
             {
                 // picks up armor
                 MC.playerController.windowClick(INVENTORY_WINDOW_ID, packetSlot, 0, 0, MC.thePlayer);
