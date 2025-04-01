@@ -1,7 +1,6 @@
 package us.nebula.impl.cheat.combat;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import us.nebula.api.listener.EventListener;
@@ -11,6 +10,7 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
+import us.nebula.util.player.ItemUtil;
 
 import java.util.Arrays;
 
@@ -139,7 +139,7 @@ public final class AutoArmorCheat extends Cheat
         float score = armor.damageReduceAmount;
         for (final Enchantment enchantment : RELEVANT_ENCHANTMENTS)
         {
-            float enchantmentLevel = getEnchantLevel(enchantment, itemStack);
+            float enchantmentLevel = ItemUtil.getEnchantLevel(enchantment, itemStack);
             if (enchantmentLevel == 0.0f)
             {
                 continue;
@@ -152,12 +152,5 @@ public final class AutoArmorCheat extends Cheat
             score += enchantmentLevel;
         }
         return score;
-    }
-
-    private int getEnchantLevel(final Enchantment enchantment, final ItemStack itemStack)
-    {
-        return Math.min(
-                EnchantmentHelper.getEnchantmentLevel(enchantment.effectId, itemStack),
-                enchantment.getMaxLevel());
     }
 }
