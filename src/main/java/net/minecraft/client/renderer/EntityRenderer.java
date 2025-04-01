@@ -1869,9 +1869,14 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
             this.disableLightmap((double)par1);
 
+            mc.mcProfiler.endStartSection("nebulaRender3D");
+            mc.mcProfiler.startSection("entityCulling");
             EntityCulling.checkCulling();
+            mc.mcProfiler.endStartSection("projection");
             ProjectionUtil.updateProjection();
+            mc.mcProfiler.endStartSection("dispatch");
             EventBus.dispatch(new EventRender3D(partialTicks));
+            mc.mcProfiler.endSection();
 
             this.mc.mcProfiler.endStartSection("hand");
 

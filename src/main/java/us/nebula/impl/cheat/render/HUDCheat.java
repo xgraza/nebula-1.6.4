@@ -38,13 +38,17 @@ public final class HUDCheat extends Cheat
         {
             return;
         }
+        MC.mcProfiler.startSection("nebulaRenderHUD");
         for (final Overlay overlay : Nebula.INSTANCE.getOverlayManager().getAll())
         {
             if (!overlay.getStateSetting().getValue())
             {
                 continue;
             }
+            MC.mcProfiler.startSection(overlay.getManifest().value());
             overlay.render(event.getResolution(), event.getPartialTicks());
+            MC.mcProfiler.endSection();
         }
+        MC.mcProfiler.endSection();
     };
 }
