@@ -1,14 +1,12 @@
 package us.nebula.impl.cheat.render;
 
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.ResourceLocation;
 import us.nebula.Nebula;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
@@ -18,7 +16,7 @@ import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.cheat.player.FreecamCheat;
 import us.nebula.impl.event.render.EventRender3D;
-import us.nebula.util.player.PlayerUtil;
+import us.nebula.util.render.RenderUtil;
 
 import java.util.Map;
 
@@ -33,10 +31,6 @@ import static org.lwjgl.opengl.GL11.*;
         category = CheatCategory.RENDER)
 public final class NametagsCheat extends Cheat
 {
-    private static final RenderItem RENDER_ITEM = new RenderItem();
-    private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation(
-            "textures/misc/enchanted_item_glint.png");
-
     private static final String HEART_UNICODE_CHARACTER = "\u2665";
     private static final int ITEM_RENDER_SIZE = 16;
 
@@ -138,30 +132,7 @@ public final class NametagsCheat extends Cheat
 
     private void renderItemStack(final ItemStack stack, final int x)
     {
-        glPushMatrix();
-        RenderHelper.enableGUIStandardItemLighting();
-
-        RENDER_ITEM.renderItemIntoGUI(MC.fontRenderer, MC.getTextureManager(), stack, x, -26);
-        RENDER_ITEM.renderItemOverlayIntoGUI(MC.fontRenderer, MC.getTextureManager(), stack, x, -26);
-
-        if (stack.hasEffect())
-        {
-            glEnable(GL_BLEND);
-            glDepthFunc(GL_EQUAL);
-            glDisable(GL_LIGHTING);
-            glDepthMask(false);
-            MC.getTextureManager().bindTexture(RES_ITEM_GLINT);
-            glEnable(GL_ALPHA_TEST);
-            glColor4f(0.5f, 0.25f, 0.8f, 1.0f);
-            RENDER_ITEM.renderGlint(x * 431278612 + -26 * 32178161, x - 2, -26 - 2, 20, 20);
-            glDepthMask(true);
-            glDisable(GL_ALPHA_TEST);
-            glEnable(GL_LIGHTING);
-            glDepthFunc(GL_LEQUAL);
-            glDisable(GL_BLEND);
-        }
-
-        RenderHelper.disableStandardItemLighting();
+        RenderUtil.renderItemWithEffects(stack, x, -26);
 
         renderEnchantmentText:
         {
@@ -205,8 +176,6 @@ public final class NametagsCheat extends Cheat
 
             glPopMatrix();
         }
-
-        glPopMatrix();
     }
 
     private String getDisplayInfo(final EntityPlayer player)

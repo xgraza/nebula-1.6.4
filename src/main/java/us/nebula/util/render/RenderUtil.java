@@ -3,9 +3,13 @@ package us.nebula.util.render;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ResourceLocation;
 import us.nebula.api.gui.shader.Shader;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -18,6 +22,10 @@ public final class RenderUtil
 {
     private static final Minecraft MC = Minecraft.getMinecraft();
     private static final Tessellator TESSELLATOR = Tessellator.instance;
+
+    private static final RenderItem RENDER_ITEM = new RenderItem();
+    private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation(
+            "textures/misc/enchanted_item_glint.png");
 
     private static ScaledResolution GAME_RESOLUTION;
     private static Shader ROUNDED_RECTANGLE_SHADER,
@@ -249,6 +257,44 @@ public final class RenderUtil
         ROUNDED_RECTANGLE_SHADER.stop();
 
         glDisable(GL_BLEND);
+    }
+
+    public static void renderItemWithEffects(final ItemStack itemStack,
+                                             final int posX,
+                                             final int posY)
+    {
+        if (itemStack == null)
+        {
+            return;
+        }
+
+        glPushMatrix();
+        RenderHelper.enableGUIStandardItemLighting();
+
+        RENDER_ITEM.renderItemIntoGUI(
+                MC.fontRenderer, MC.getTextureManager(), itemStack, posX, posY);
+        RENDER_ITEM.renderItemOverlayIntoGUI(
+                MC.fontRenderer, MC.getTextureManager(), itemStack, posX, posY);
+
+        if (itemStack.hasEffect())
+        {
+            glEnable(GL_BLEND);
+            glDepthFunc(GL_EQUAL);
+            glDisable(GL_LIGHTING);
+            glDepthMask(false);
+            MC.getTextureManager().bindTexture(RES_ITEM_GLINT);
+            glEnable(GL_ALPHA_TEST);
+            glColor4f(0.5f, 0.25f, 0.8f, 1.0f);
+            RENDER_ITEM.renderGlint(posX * 431278612 + -26 * 32178161, posX - 2, -26 - 2, 20, 20);
+            glDepthMask(true);
+            glDisable(GL_ALPHA_TEST);
+            glEnable(GL_LIGHTING);
+            glDepthFunc(GL_LEQUAL);
+            glDisable(GL_BLEND);
+        }
+
+        RenderHelper.disableStandardItemLighting();
+        glPopMatrix();
     }
 
     public static float[] getColorARGB(final int color)
