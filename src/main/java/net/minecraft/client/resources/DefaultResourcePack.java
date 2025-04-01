@@ -17,10 +17,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class DefaultResourcePack implements IResourcePack
 {
-    public static final Set defaultResourceDomains = ImmutableSet.of("minecraft");
+    public static final Set defaultResourceDomains = ImmutableSet.of("minecraft", "schematica");
     private final Map mapResourceFiles = Maps.newHashMap();
     private final File fileAssets;
-    private static final String __OBFID = "CL_00001073";
 
     public DefaultResourcePack(File par1File)
     {
