@@ -12,11 +12,11 @@ public class C08PacketPlayerBlockPlacement extends Packet
     private int posX;
     private int posY;
     private int posZ;
-    private int direction;
-    private ItemStack field_149580_e;
-    private float field_149577_f;
-    private float field_149578_g;
-    private float field_149584_h;
+    private int side;
+    private ItemStack stack;
+    private float faceX;
+    private float faceY;
+    private float faceZ;
     private static final String __OBFID = "CL_00001371";
 
     public C08PacketPlayerBlockPlacement() {}
@@ -30,11 +30,11 @@ public class C08PacketPlayerBlockPlacement extends Packet
         this.posX = posX;
         this.posY = posY;
         this.posZ = posZ;
-        this.direction = direction;
-        this.field_149580_e = p_i45265_5_ != null ? p_i45265_5_.copy() : null;
-        this.field_149577_f = p_i45265_6_;
-        this.field_149578_g = p_i45265_7_;
-        this.field_149584_h = p_i45265_8_;
+        this.side = direction;
+        this.stack = p_i45265_5_ != null ? p_i45265_5_.copy() : null;
+        this.faceX = p_i45265_6_;
+        this.faceY = p_i45265_7_;
+        this.faceZ = p_i45265_8_;
     }
 
     /**
@@ -45,11 +45,11 @@ public class C08PacketPlayerBlockPlacement extends Packet
         this.posX = p_148837_1_.readInt();
         this.posY = p_148837_1_.readUnsignedByte();
         this.posZ = p_148837_1_.readInt();
-        this.direction = p_148837_1_.readUnsignedByte();
-        this.field_149580_e = p_148837_1_.readItemStackFromBuffer();
-        this.field_149577_f = (float)p_148837_1_.readUnsignedByte() / 16.0F;
-        this.field_149578_g = (float)p_148837_1_.readUnsignedByte() / 16.0F;
-        this.field_149584_h = (float)p_148837_1_.readUnsignedByte() / 16.0F;
+        this.side = p_148837_1_.readUnsignedByte();
+        this.stack = p_148837_1_.readItemStackFromBuffer();
+        this.faceX = (float)p_148837_1_.readUnsignedByte() / 16.0F;
+        this.faceY = (float)p_148837_1_.readUnsignedByte() / 16.0F;
+        this.faceZ = (float)p_148837_1_.readUnsignedByte() / 16.0F;
     }
 
     /**
@@ -60,11 +60,11 @@ public class C08PacketPlayerBlockPlacement extends Packet
         p_148840_1_.writeInt(this.posX);
         p_148840_1_.writeByte(this.posY);
         p_148840_1_.writeInt(this.posZ);
-        p_148840_1_.writeByte(this.direction);
-        p_148840_1_.writeItemStackToBuffer(this.field_149580_e);
-        p_148840_1_.writeByte((int)(this.field_149577_f * 16.0F));
-        p_148840_1_.writeByte((int)(this.field_149578_g * 16.0F));
-        p_148840_1_.writeByte((int)(this.field_149584_h * 16.0F));
+        p_148840_1_.writeByte(this.side);
+        p_148840_1_.writeItemStackToBuffer(this.stack);
+        p_148840_1_.writeByte((int)(this.faceX * 16.0F));
+        p_148840_1_.writeByte((int)(this.faceY * 16.0F));
+        p_148840_1_.writeByte((int)(this.faceZ * 16.0F));
     }
 
     public void processPacket(INetHandlerPlayServer p_149572_1_)
@@ -87,29 +87,29 @@ public class C08PacketPlayerBlockPlacement extends Packet
         return this.posZ;
     }
 
-    public int func_149568_f()
+    public int getSide()
     {
-        return this.direction;
+        return this.side;
     }
 
-    public ItemStack func_149574_g()
+    public ItemStack getItemStack()
     {
-        return this.field_149580_e;
+        return this.stack;
     }
 
-    public float func_149573_h()
+    public float getFaceX()
     {
-        return this.field_149577_f;
+        return this.faceX;
     }
 
-    public float func_149569_i()
+    public float getFaceY()
     {
-        return this.field_149578_g;
+        return this.faceY;
     }
 
-    public float func_149575_j()
+    public float getFaceZ()
     {
-        return this.field_149584_h;
+        return this.faceZ;
     }
 
     public void processPacket(INetHandler p_148833_1_)

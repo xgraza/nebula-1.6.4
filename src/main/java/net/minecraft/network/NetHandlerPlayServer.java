@@ -519,10 +519,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         int var5 = p_147346_1_.getPosX();
         int var6 = p_147346_1_.getPosY();
         int var7 = p_147346_1_.getPosZ();
-        int var8 = p_147346_1_.func_149568_f();
+        int var8 = p_147346_1_.getSide();
         this.playerEntity.func_143004_u();
 
-        if (p_147346_1_.func_149568_f() == 255)
+        if (p_147346_1_.getSide() == 255)
         {
             if (var3 == null)
             {
@@ -531,7 +531,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
             this.playerEntity.theItemInWorldManager.tryUseItem(this.playerEntity, var2, var3);
         }
-        else if (p_147346_1_.getPosY() >= this.serverController.getBuildLimit() - 1 && (p_147346_1_.func_149568_f() == 1 || p_147346_1_.getPosY() >= this.serverController.getBuildLimit()))
+        else if (p_147346_1_.getPosY() >= this.serverController.getBuildLimit() - 1 && (p_147346_1_.getSide() == 1 || p_147346_1_.getPosY() >= this.serverController.getBuildLimit()))
         {
             ChatComponentTranslation var9 = new ChatComponentTranslation("build.tooHigh", new Object[] {Integer.valueOf(this.serverController.getBuildLimit())});
             var9.getChatStyle().setColor(EnumChatFormatting.RED);
@@ -542,7 +542,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         {
             if (this.hasMoved && this.playerEntity.getDistanceSq((double)var5 + 0.5D, (double)var6 + 0.5D, (double)var7 + 0.5D) < 64.0D && !this.serverController.isBlockProtected(var2, var5, var6, var7, this.playerEntity))
             {
-                this.playerEntity.theItemInWorldManager.activateBlockOrUseItem(this.playerEntity, var2, var3, var5, var6, var7, var8, p_147346_1_.func_149573_h(), p_147346_1_.func_149569_i(), p_147346_1_.func_149575_j());
+                this.playerEntity.theItemInWorldManager.activateBlockOrUseItem(this.playerEntity, var2, var3, var5, var6, var7, var8, p_147346_1_.getFaceX(), p_147346_1_.getFaceY(), p_147346_1_.getFaceZ());
             }
 
             var4 = true;
@@ -601,7 +601,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             this.playerEntity.openContainer.detectAndSendChanges();
             this.playerEntity.isChangingQuantityOnly = false;
 
-            if (!ItemStack.areItemStacksEqual(this.playerEntity.inventory.getCurrentItem(), p_147346_1_.func_149574_g()))
+            if (!ItemStack.areItemStacksEqual(this.playerEntity.inventory.getCurrentItem(), p_147346_1_.getItemStack()))
             {
                 this.sendPacketToPlayer(new S2FPacketSetSlot(this.playerEntity.openContainer.windowId, var10.slotNumber, this.playerEntity.inventory.getCurrentItem()));
             }
