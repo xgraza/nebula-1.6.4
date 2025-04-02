@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.server.S09PacketHeldItemChange;
+import us.nebula.ClientSettings;
+import us.nebula.Nebula;
 import us.nebula.api.listener.EventBus;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
@@ -38,6 +40,11 @@ public final class InventoryManager implements IManager
             final int slotIndex = packet.getSlotIndex();
             if (slotIndex > 8 || slotIndex < 0)
             {
+                if (ClientSettings.DEBUG)
+                {
+                    Nebula.INSTANCE.getLogger().warn(
+                            "Something tried to set slot to {}", slotIndex);
+                }
                 event.cancel();
                 return;
             }

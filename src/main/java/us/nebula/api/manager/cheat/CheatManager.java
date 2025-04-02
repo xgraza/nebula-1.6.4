@@ -1,6 +1,8 @@
 package us.nebula.api.manager.cheat;
 
+import us.nebula.ClientSettings;
 import us.nebula.Nebula;
+import us.nebula.api.DebugFeature;
 import us.nebula.api.manager.ITypedManager;
 import us.nebula.impl.cheat.combat.*;
 import us.nebula.impl.cheat.exploit.*;
@@ -99,6 +101,11 @@ public final class CheatManager implements ITypedManager<Cheat>
 
     private void addCheat(final Cheat cheat)
     {
+        if (cheat.getClass().isAnnotationPresent(DebugFeature.class) && !ClientSettings.DEBUG)
+        {
+            return;
+        }
+
         cheat.reflectSettings();
 
         cheatInstanceMap.put(cheat.getClass(), cheat);

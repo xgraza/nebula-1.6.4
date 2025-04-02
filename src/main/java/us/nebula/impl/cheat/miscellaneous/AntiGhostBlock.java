@@ -7,6 +7,7 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import us.nebula.ClientSettings;
+import us.nebula.api.DebugFeature;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -36,6 +37,7 @@ public final class AntiGhostBlock extends Cheat
             "Packet", true);
     private final Setting<Double> confirmTimeSetting = new Setting<>(
             "Confirm Time", 0.5, 0.1, 5.0, 0.1);
+    @DebugFeature
     private final Setting<Boolean> debugRenderSetting = new Setting<>(
             "Debug Render", false);
 

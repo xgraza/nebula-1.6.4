@@ -13,103 +13,129 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
+import us.nebula.ClientSettings;
 
 public class Main
 {
-    private static final String __OBFID = "CL_00001461";
-
-    public static void main(String[] par0ArrayOfStr)
+    public static void main(final String[] args)
     {
         System.setProperty("java.net.preferIPv4Stack", "true");
-        OptionParser var1 = new OptionParser();
-        var1.allowsUnrecognizedOptions();
-        var1.accepts("demo");
-        var1.accepts("fullscreen");
-        ArgumentAcceptingOptionSpec var2 = var1.accepts("server").withRequiredArg();
-        ArgumentAcceptingOptionSpec var3 = var1.accepts("port").withRequiredArg().ofType(Integer.class).defaultsTo(Integer.valueOf(25565), new Integer[0]);
-        ArgumentAcceptingOptionSpec var4 = var1.accepts("gameDir").withRequiredArg().ofType(File.class).defaultsTo(new File("."), new File[0]);
-        ArgumentAcceptingOptionSpec var5 = var1.accepts("assetsDir").withRequiredArg().ofType(File.class);
-        ArgumentAcceptingOptionSpec var6 = var1.accepts("resourcePackDir").withRequiredArg().ofType(File.class);
-        ArgumentAcceptingOptionSpec var7 = var1.accepts("proxyHost").withRequiredArg();
-        ArgumentAcceptingOptionSpec var8 = var1.accepts("proxyPort").withRequiredArg().defaultsTo("8080", new String[0]).ofType(Integer.class);
-        ArgumentAcceptingOptionSpec var9 = var1.accepts("proxyUser").withRequiredArg();
-        ArgumentAcceptingOptionSpec var10 = var1.accepts("proxyPass").withRequiredArg();
-        ArgumentAcceptingOptionSpec var11 = var1.accepts("username").withRequiredArg().defaultsTo("Player" + Minecraft.getSystemTime() % 1000L, new String[0]);
-        ArgumentAcceptingOptionSpec var12 = var1.accepts("uuid").withRequiredArg();
-        ArgumentAcceptingOptionSpec var13 = var1.accepts("accessToken").withRequiredArg().required();
-        ArgumentAcceptingOptionSpec var14 = var1.accepts("version").withRequiredArg().required();
-        ArgumentAcceptingOptionSpec var15 = var1.accepts("width").withRequiredArg().ofType(Integer.class).defaultsTo(Integer.valueOf(854), new Integer[0]);
-        ArgumentAcceptingOptionSpec var16 = var1.accepts("height").withRequiredArg().ofType(Integer.class).defaultsTo(Integer.valueOf(480), new Integer[0]);
-        NonOptionArgumentSpec var17 = var1.nonOptions();
-        OptionSet var18 = var1.parse(par0ArrayOfStr);
-        List var19 = var18.valuesOf(var17);
-        String var20 = (String)var18.valueOf(var7);
-        Proxy var21 = Proxy.NO_PROXY;
 
-        if (var20 != null)
+        final OptionParser optionParser = new OptionParser();
+        optionParser.allowsUnrecognizedOptions();
+        optionParser.accepts("demo");
+        optionParser.accepts("fullscreen");
+
+        ArgumentAcceptingOptionSpec<Boolean> nebulaDebugOpt = optionParser.accepts("nebulaDebug").withOptionalArg().ofType(Boolean.class).defaultsTo(false);
+        ArgumentAcceptingOptionSpec<String> serverOpt = optionParser.accepts("server").withRequiredArg();
+        ArgumentAcceptingOptionSpec<Integer> portOpt = optionParser.accepts("port").withRequiredArg().ofType(Integer.class).defaultsTo(25565);
+        ArgumentAcceptingOptionSpec<File> gameDirOpt = optionParser.accepts("gameDir").withRequiredArg().ofType(File.class).defaultsTo(new File("."));
+        ArgumentAcceptingOptionSpec<File> assetsDirOpt = optionParser.accepts("assetsDir").withRequiredArg().ofType(File.class);
+        ArgumentAcceptingOptionSpec<File> resourcePackDirOpt = optionParser.accepts("resourcePackDir").withRequiredArg().ofType(File.class);
+        ArgumentAcceptingOptionSpec<String> proxyHostOpt = optionParser.accepts("proxyHost").withRequiredArg();
+        ArgumentAcceptingOptionSpec<Integer> proxyPortOpt = optionParser.accepts("proxyPort").withRequiredArg().defaultsTo("8080").ofType(Integer.class);
+        ArgumentAcceptingOptionSpec<String> proxyUsernameOpt = optionParser.accepts("proxyUser").withRequiredArg();
+        ArgumentAcceptingOptionSpec<String> proxyPasswordOpt = optionParser.accepts("proxyPass").withRequiredArg();
+        ArgumentAcceptingOptionSpec<String> usernameOpt = optionParser.accepts("username").withRequiredArg().defaultsTo("Player" + Minecraft.getSystemTime() % 1000L);
+        ArgumentAcceptingOptionSpec<String> uuidOpt = optionParser.accepts("uuid").withRequiredArg();
+        ArgumentAcceptingOptionSpec<String> accessTokenOpt = optionParser.accepts("accessToken").withRequiredArg().required();
+        ArgumentAcceptingOptionSpec<String> versionOpt = optionParser.accepts("version").withRequiredArg().required();
+        ArgumentAcceptingOptionSpec<Integer> widthOpt = optionParser.accepts("width").withRequiredArg().ofType(Integer.class).defaultsTo(854);
+        ArgumentAcceptingOptionSpec<Integer> heightOpt = optionParser.accepts("height").withRequiredArg().ofType(Integer.class).defaultsTo(480);
+        NonOptionArgumentSpec<String> nonOptionArgs = optionParser.nonOptions();
+        OptionSet parsedOpts = optionParser.parse(args);
+
+        Proxy proxy = Proxy.NO_PROXY;
+        if (parsedOpts.has(proxyHostOpt) && parsedOpts.has(proxyPortOpt))
         {
             try
             {
-                var21 = new Proxy(Type.SOCKS, new InetSocketAddress(var20, ((Integer)var18.valueOf(var8)).intValue()));
+                proxy = new Proxy(Type.SOCKS, new InetSocketAddress(
+                        parsedOpts.valueOf(proxyHostOpt), parsedOpts.valueOf(proxyPortOpt)));
             }
-            catch (Exception var36)
+            catch (final Exception ignored)
             {
-                ;
             }
-        }
 
-        final String var22 = (String)var18.valueOf(var9);
-        final String var23 = (String)var18.valueOf(var10);
+            final String proxyUsername = parsedOpts.valueOf(proxyUsernameOpt);
+            final String proxyPassword = parsedOpts.valueOf(proxyPasswordOpt);
 
-        if (!var21.equals(Proxy.NO_PROXY) && func_110121_a(var22) && func_110121_a(var23))
-        {
-            Authenticator.setDefault(new Authenticator()
+            if (!proxy.equals(Proxy.NO_PROXY)
+                    && isNotNullOrEmpty(proxyUsername)
+                    && isNotNullOrEmpty(proxyPassword))
             {
-                private static final String __OBFID = "CL_00000828";
-                protected PasswordAuthentication getPasswordAuthentication()
+                Authenticator.setDefault(new Authenticator()
                 {
-                    return new PasswordAuthentication(var22, var23.toCharArray());
-                }
-            });
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication()
+                    {
+                        return new PasswordAuthentication(proxyUsername, proxyPassword.toCharArray());
+                    }
+                });
+            }
         }
 
-        int var24 = ((Integer)var18.valueOf(var15)).intValue();
-        int var25 = ((Integer)var18.valueOf(var16)).intValue();
-        boolean var26 = var18.has("fullscreen");
-        boolean var27 = var18.has("demo");
-        String var28 = (String)var18.valueOf(var14);
-        File var29 = (File)var18.valueOf(var4);
-        File var30 = var18.has(var5) ? (File)var18.valueOf(var5) : new File(var29, "assets/");
-        File var31 = var18.has(var6) ? (File)var18.valueOf(var6) : new File(var29, "resourcepacks/");
-        String var32 = var18.has(var12) ? (String)var12.value(var18) : (String)var11.value(var18);
-        Session var33 = new Session((String)var11.value(var18), var32, (String)var13.value(var18));
-        Minecraft var34 = new Minecraft(var33, var24, var25, var26, var27, var29, var30, var31, var21, var28);
-        String var35 = (String)var18.valueOf(var2);
+        final int width = parsedOpts.valueOf(widthOpt);
+        final int height = parsedOpts.valueOf(heightOpt);
+        final boolean fullscreen = parsedOpts.has("fullscreen");
+        final boolean demo = parsedOpts.has("demo");
+        final String version = parsedOpts.valueOf(versionOpt);
+        final File gameDir = parsedOpts.valueOf(gameDirOpt);
+        final File assetsDir = parsedOpts.has(assetsDirOpt)
+                ? parsedOpts.valueOf(assetsDirOpt)
+                : new File(gameDir, "assets/");
+        final File resourcePackDir = parsedOpts.has(resourcePackDirOpt)
+                ? parsedOpts.valueOf(resourcePackDirOpt)
+                : new File(gameDir, "resourcepacks/");
+        final String uuid = parsedOpts.has(uuidOpt)
+                ? uuidOpt.value(parsedOpts)
+                : usernameOpt.value(parsedOpts);
+        final Session session = new Session(usernameOpt.value(parsedOpts),
+                uuid,
+                accessTokenOpt.value(parsedOpts));
+        final Minecraft client = new Minecraft(session,
+                width,
+                height,
+                fullscreen,
+                demo,
+                gameDir,
+                assetsDir,
+                resourcePackDir,
+                proxy,
+                version);
 
-        if (var35 != null)
+        final String server = parsedOpts.valueOf(serverOpt);
+        if (server != null)
         {
-            var34.setServer(var35, ((Integer)var18.valueOf(var3)).intValue());
+            client.setServer(server, parsedOpts.valueOf(portOpt));
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread("Client Shutdown Thread")
         {
-            private static final String __OBFID = "CL_00000829";
+            @Override
             public void run()
             {
                 Minecraft.stopIntegratedServer();
             }
         });
 
-        if (!var19.isEmpty())
+        final List<String> ignoredArguments = parsedOpts.valuesOf(nonOptionArgs);
+        if (!ignoredArguments.isEmpty())
         {
-            System.out.println("Completely ignored arguments: " + var19);
+            System.out.println("Completely ignored arguments: " + ignoredArguments);
+        }
+
+        ClientSettings.DEBUG = parsedOpts.valueOf(nebulaDebugOpt);
+        if (ClientSettings.DEBUG)
+        {
+            System.out.println("Nebula debug enabled");
         }
 
         Thread.currentThread().setName("Client thread");
-        var34.run();
+        client.run();
     }
 
-    private static boolean func_110121_a(String par0Str)
+    private static boolean isNotNullOrEmpty(String par0Str)
     {
         return par0Str != null && !par0Str.isEmpty();
     }

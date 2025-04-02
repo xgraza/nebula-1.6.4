@@ -3,7 +3,9 @@ package us.nebula.api.manager.command;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.network.play.client.C01PacketChatMessage;
+import us.nebula.ClientSettings;
 import us.nebula.Nebula;
+import us.nebula.api.DebugFeature;
 import us.nebula.api.listener.EventBus;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
@@ -55,7 +57,10 @@ public final class CommandManager implements ITypedManager<Command>
                 Nebula.INSTANCE.getLogger().error(e.getMessage());
             } catch (final Exception e)
             {
-                e.printStackTrace();
+                if (ClientSettings.DEBUG || ClientSettings.VERBOSE_LOGGING)
+                {
+                    e.printStackTrace();
+                }
                 ChatUtil.send("A fatal exception occurred while executing the command. " +
                         "Check console and report to my developers!" +
                         " https://github.com/xgraza/nebula-1.6.4");
@@ -115,6 +120,11 @@ public final class CommandManager implements ITypedManager<Command>
 
     public void addCommand(final Command command)
     {
+        if (command.getClass().isAnnotationPresent(DebugFeature.class) && !ClientSettings.DEBUG)
+        {
+            return;
+        }
+
         command.build();
         command.generateSyntax();
         for (final String alias : command.getManifest().aliases())

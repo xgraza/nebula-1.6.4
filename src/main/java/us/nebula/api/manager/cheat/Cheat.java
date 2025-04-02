@@ -3,7 +3,9 @@ package us.nebula.api.manager.cheat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
+import us.nebula.ClientSettings;
 import us.nebula.Nebula;
+import us.nebula.api.DebugFeature;
 import us.nebula.api.config.IJSONSerializable;
 import us.nebula.api.listener.EventBus;
 import us.nebula.api.manager.key.Key;
@@ -67,6 +69,12 @@ public class Cheat implements ISettingProvider, IJSONSerializable
             {
                 continue;
             }
+
+            if (field.isAnnotationPresent(DebugFeature.class) && !ClientSettings.DEBUG)
+            {
+                continue;
+            }
+
             field.setAccessible(true);
             try
             {
