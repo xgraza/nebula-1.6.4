@@ -861,7 +861,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             {
                 float var6 = (float)(var4 * var4 + 1);
 
-                if (!var5.func_150998_b(p_146096_1_) && var3 <= 1.0F)
+                if (!var5.isProperItemForBlock(p_146096_1_) && var3 <= 1.0F)
                 {
                     var3 += var6 * 0.08F;
                 }
@@ -2088,7 +2088,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                 {
                     ItemStack var5 = this.getCurrentEquippedItem();
 
-                    if (var5.func_150998_b(var4) || var5.getStrVsBlock(var4) > 1.0F)
+                    if (var5.isProperItemForBlock(var4) || var5.getStrVsBlock(var4) > 1.0F)
                     {
                         return true;
                     }

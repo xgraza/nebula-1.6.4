@@ -1,5 +1,6 @@
 package us.nebula.util.player;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -21,6 +22,28 @@ public final class InventoryUtil
 
     public static final Predicate<ItemStack> BLOCK_FILTER =
             (stack) -> stack.getItem() instanceof ItemBlock;
+
+    public static int getBestToolSlotFor(final Block attackedBlock)
+    {
+        float bestScore = 1.0f;
+        int slot = -1;
+        for (int i = 0; i < 9; ++i)
+        {
+            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(i);
+            if (itemStack == null)
+            {
+                continue;
+            }
+            final float score = ItemUtil.getToolScore(itemStack, attackedBlock);
+            if (score > bestScore)
+            {
+                bestScore = score;
+                slot = i;
+            }
+        }
+        return slot;
+    }
+
 
     @SafeVarargs
     public static int getHotbarItem(final Class<? extends Item>... items)

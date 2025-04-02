@@ -664,7 +664,7 @@ public class InventoryPlayer implements IInventory
         else
         {
             ItemStack var2 = this.getStackInSlot(this.currentItem);
-            return var2 != null ? var2.func_150998_b(p_146025_1_) : false;
+            return var2 != null ? var2.isProperItemForBlock(p_146025_1_) : false;
         }
     }
 

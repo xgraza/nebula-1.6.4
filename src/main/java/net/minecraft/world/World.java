@@ -53,7 +53,6 @@ import us.nebula.api.listener.EventBus;
 import us.nebula.api.render.EntityCulling;
 import us.nebula.impl.cheat.exploit.GhostHandCheat;
 import us.nebula.impl.cheat.render.NoWeatherCheat;
-import us.nebula.impl.cheat.render.TimeChangerCheat;
 import us.nebula.impl.event.player.EventPushWater;
 
 public abstract class World implements IBlockAccess
@@ -3452,11 +3451,16 @@ public abstract class World implements IBlockAccess
         this.unloadedEntityList.addAll(par1List);
     }
 
-    public boolean canPlaceEntityOnSide(Block p_147472_1_, int p_147472_2_, int p_147472_3_, int p_147472_4_, boolean p_147472_5_, int p_147472_6_, Entity p_147472_7_, ItemStack p_147472_8_)
+    public boolean canPlaceEntityOnSide(Block block, int x, int y, int z, boolean noCollision, int side, Entity entity, ItemStack stack)
     {
-        Block var9 = this.getBlock(p_147472_2_, p_147472_3_, p_147472_4_);
-        AxisAlignedBB var10 = p_147472_5_ ? null : p_147472_1_.getCollisionBoundingBoxFromPool(this, p_147472_2_, p_147472_3_, p_147472_4_);
-        return var10 != null && !this.checkNoEntityCollision(var10, p_147472_7_) ? false : (var9.getMaterial() == Material.circuits && p_147472_1_ == Blocks.anvil ? true : var9.getMaterial().isReplaceable() && p_147472_1_.canReplace(this, p_147472_2_, p_147472_3_, p_147472_4_, p_147472_6_, p_147472_8_));
+        Block var9 = this.getBlock(x, y, z);
+        AxisAlignedBB var10 = noCollision
+                ? null
+                : block.getCollisionBoundingBoxFromPool(this, x, y, z);
+        return (var10 == null || this.checkNoEntityCollision(var10, entity))
+                && (var9.getMaterial() == Material.circuits && block == Blocks.anvil
+                    || var9.getMaterial().isReplaceable()
+                    && block.canReplace(this, x, y, z, side, stack));
     }
 
     public PathEntity getPathEntityToEntity(Entity par1Entity, Entity par2Entity, float par3, boolean par4, boolean par5, boolean par6, boolean par7)

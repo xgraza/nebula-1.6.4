@@ -97,7 +97,7 @@ public class ItemSword extends Item
         return par1ItemStack;
     }
 
-    public boolean func_150897_b(Block p_150897_1_)
+    public boolean isProperItemForBlock(Block p_150897_1_)
     {
         return p_150897_1_ == Blocks.web;
     }

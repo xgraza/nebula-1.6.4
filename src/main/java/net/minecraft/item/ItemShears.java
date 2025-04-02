@@ -31,7 +31,7 @@ public class ItemShears extends Item
         }
     }
 
-    public boolean func_150897_b(Block p_150897_1_)
+    public boolean isProperItemForBlock(Block p_150897_1_)
     {
         return p_150897_1_ == Blocks.web || p_150897_1_ == Blocks.redstone_wire || p_150897_1_ == Blocks.tripwire;
     }

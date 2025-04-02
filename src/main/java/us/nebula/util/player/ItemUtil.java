@@ -1,5 +1,6 @@
 package us.nebula.util.player;
 
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
@@ -10,14 +11,29 @@ import net.minecraft.item.ItemStack;
  */
 public final class ItemUtil
 {
+    public static float getToolScore(final ItemStack itemStack, final Block attackedBlock)
+    {
+        float damage = itemStack.getStrVsBlock(attackedBlock);
+        if (damage <= 1.0f)
+        {
+            return 0.0f;
+        }
+        damage += getEnchantLevel(Enchantment.unbreaking, itemStack) * 1.5f;
+        damage += getEnchantLevel(Enchantment.efficiency, itemStack) * 1.2f;
+        damage += getEnchantLevel(Enchantment.looting, itemStack) * 1.5f;
+        damage += getEnchantLevel(Enchantment.fortune, itemStack) * 1.5f;
+        return damage;
+    }
+
+    public static int getEnchantLevelNoLimit(final Enchantment enchantment, final ItemStack itemStack)
+    {
+        return EnchantmentHelper.getEnchantmentLevel(enchantment.effectId, itemStack);
+    }
+
     public static int getEnchantLevel(final Enchantment enchantment, final ItemStack itemStack)
     {
-        int level = EnchantmentHelper.getEnchantmentLevel(enchantment.effectId, itemStack);
-        if (level > enchantment.getMaxLevel())
-        {
-            level = enchantment.getMaxLevel();
-        }
-        return level;
+        return Math.min(getEnchantLevelNoLimit(enchantment, itemStack),
+                enchantment.getMaxLevel());
     }
 
     public static boolean isIllegal(final ItemStack itemStack)

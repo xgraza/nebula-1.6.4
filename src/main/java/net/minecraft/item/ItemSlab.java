@@ -90,56 +90,56 @@ public class ItemSlab extends ItemBlock
         }
     }
 
-    public boolean func_150936_a(World p_150936_1_, int p_150936_2_, int p_150936_3_, int p_150936_4_, int p_150936_5_, EntityPlayer p_150936_6_, ItemStack p_150936_7_)
+    public boolean canPlaceBlock(World world, int x, int y, int z, int side, EntityPlayer player, ItemStack stack)
     {
-        int var8 = p_150936_2_;
-        int var9 = p_150936_3_;
-        int var10 = p_150936_4_;
-        Block var11 = p_150936_1_.getBlock(p_150936_2_, p_150936_3_, p_150936_4_);
-        int var12 = p_150936_1_.getBlockMetadata(p_150936_2_, p_150936_3_, p_150936_4_);
+        int var8 = x;
+        int var9 = y;
+        int var10 = z;
+        Block var11 = world.getBlock(x, y, z);
+        int var12 = world.getBlockMetadata(x, y, z);
         int var13 = var12 & 7;
         boolean var14 = (var12 & 8) != 0;
 
-        if ((p_150936_5_ == 1 && !var14 || p_150936_5_ == 0 && var14) && var11 == this.field_150949_c && var13 == p_150936_7_.getItemDamage())
+        if ((side == 1 && !var14 || side == 0 && var14) && var11 == this.field_150949_c && var13 == stack.getItemDamage())
         {
             return true;
         }
         else
         {
-            if (p_150936_5_ == 0)
+            if (side == 0)
             {
-                --p_150936_3_;
+                --y;
             }
 
-            if (p_150936_5_ == 1)
+            if (side == 1)
             {
-                ++p_150936_3_;
+                ++y;
             }
 
-            if (p_150936_5_ == 2)
+            if (side == 2)
             {
-                --p_150936_4_;
+                --z;
             }
 
-            if (p_150936_5_ == 3)
+            if (side == 3)
             {
-                ++p_150936_4_;
+                ++z;
             }
 
-            if (p_150936_5_ == 4)
+            if (side == 4)
             {
-                --p_150936_2_;
+                --x;
             }
 
-            if (p_150936_5_ == 5)
+            if (side == 5)
             {
-                ++p_150936_2_;
+                ++x;
             }
 
-            Block var15 = p_150936_1_.getBlock(p_150936_2_, p_150936_3_, p_150936_4_);
-            int var16 = p_150936_1_.getBlockMetadata(p_150936_2_, p_150936_3_, p_150936_4_);
+            Block var15 = world.getBlock(x, y, z);
+            int var16 = world.getBlockMetadata(x, y, z);
             var13 = var16 & 7;
-            return var15 == this.field_150949_c && var13 == p_150936_7_.getItemDamage() ? true : super.func_150936_a(p_150936_1_, var8, var9, var10, p_150936_5_, p_150936_6_, p_150936_7_);
+            return var15 == this.field_150949_c && var13 == stack.getItemDamage() ? true : super.canPlaceBlock(world, var8, var9, var10, side, player, stack);
         }
     }
 

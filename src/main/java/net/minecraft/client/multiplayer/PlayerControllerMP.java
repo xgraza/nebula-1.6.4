@@ -363,51 +363,48 @@ public class PlayerControllerMP
     /**
      * Handles a players right click. Args: player, world, x, y, z, side, hitVec
      */
-    public boolean onPlayerRightClick(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack, int par4, int par5, int par6, int par7, Vec3 par8Vec3)
+    public boolean onPlayerRightClick(EntityPlayer player, World world, ItemStack stack, int x, int y, int z, int side, Vec3 hitVec)
     {
-        this.syncCurrentPlayItem();
-        float var9 = (float)par8Vec3.xCoord - (float)par4;
-        float var10 = (float)par8Vec3.yCoord - (float)par5;
-        float var11 = (float)par8Vec3.zCoord - (float)par6;
-        boolean var12 = false;
+        syncCurrentPlayItem();
+        final float facingX = (float) hitVec.xCoord - (float) x;
+        final float facingY = (float) hitVec.yCoord - (float) y;
+        final float facingZ = (float) hitVec.zCoord - (float) z;
 
-        if ((!par1EntityPlayer.isSneaking() || par1EntityPlayer.getHeldItem() == null) && par2World.getBlock(par4, par5, par6).onBlockActivated(par2World, par4, par5, par6, par1EntityPlayer, par7, var9, var10, var11))
+        boolean sneaking = (!player.isSneaking() || player.getHeldItem() == null)
+                && world.getBlock(x, y, z).onBlockActivated(world, x, y, z, player, side, facingX, facingY, facingZ);
+
+        if (!sneaking && stack != null && stack.getItem() instanceof ItemBlock)
         {
-            var12 = true;
-        }
-
-        if (!var12 && par3ItemStack != null && par3ItemStack.getItem() instanceof ItemBlock)
-        {
-            ItemBlock var13 = (ItemBlock)par3ItemStack.getItem();
-
-            if (!var13.func_150936_a(par2World, par4, par5, par6, par7, par1EntityPlayer, par3ItemStack))
+            final ItemBlock blockItem = (ItemBlock) stack.getItem();
+            if (!blockItem.canPlaceBlock(world, x, y, z, side, player, stack))
             {
                 return false;
             }
         }
 
-        this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(par4, par5, par6, par7, par1EntityPlayer.inventory.getCurrentItem(), var9, var10, var11));
+        netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(
+                x, y, z, side, player.inventory.getCurrentItem(), facingX, facingY, facingZ));
 
-        if (var12)
+        if (sneaking)
         {
             return true;
         }
-        else if (par3ItemStack == null)
+        else if (stack == null)
         {
             return false;
         }
         else if (this.currentGameType.isCreative())
         {
-            int var16 = par3ItemStack.getItemDamage();
-            int var14 = par3ItemStack.stackSize;
-            boolean var15 = par3ItemStack.tryPlaceItemIntoWorld(par1EntityPlayer, par2World, par4, par5, par6, par7, var9, var10, var11);
-            par3ItemStack.setItemDamage(var16);
-            par3ItemStack.stackSize = var14;
-            return var15;
+            final int damage = stack.getItemDamage();
+            final int size = stack.stackSize;
+            boolean result = stack.tryPlaceItemIntoWorld(player, world, x, y, z, side, facingX, facingY, facingZ);
+            stack.setItemDamage(damage);
+            stack.stackSize = size;
+            return result;
         }
         else
         {
-            return par3ItemStack.tryPlaceItemIntoWorld(par1EntityPlayer, par2World, par4, par5, par6, par7, var9, var10, var11);
+            return stack.tryPlaceItemIntoWorld(player, world, x, y, z, side, facingX, facingY, facingZ);
         }
     }
 

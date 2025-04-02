@@ -20,7 +20,7 @@ public class ItemCloth extends ItemBlock
      */
     public IIcon getIconFromDamage(int par1)
     {
-        return this.field_150939_a.func_149735_b(2, BlockColored.func_150032_b(par1));
+        return this.block.func_149735_b(2, BlockColored.func_150032_b(par1));
     }
 
     /**

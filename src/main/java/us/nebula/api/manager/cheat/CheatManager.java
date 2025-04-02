@@ -67,6 +67,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new InfiniteMoverCheat());
         addCheat(new KeyPearlCheat());
         addCheat(new NoFallCheat());
+        addCheat(new PacketMineCheat());
         addCheat(new PearlPhaseCheat());
         addCheat(new ScaffoldCheat());
         addCheat(new CameraClipCheat());
@@ -82,7 +83,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new NoRenderCheat());
         addCheat(new NoWeatherCheat());
         addCheat(new TimeChangerCheat());
-        addCheat(new TrajectoriesCheat());
+        // addCheat(new TrajectoriesCheat());
         addCheat(new XRayCheat());
 
         try

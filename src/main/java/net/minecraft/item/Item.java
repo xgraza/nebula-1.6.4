@@ -541,7 +541,7 @@ public class Item
         return false;
     }
 
-    public boolean func_150897_b(Block p_150897_1_)
+    public boolean isProperItemForBlock(Block p_150897_1_)
     {
         return false;
     }
