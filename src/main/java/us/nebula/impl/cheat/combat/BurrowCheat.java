@@ -7,13 +7,13 @@ import net.minecraft.block.BlockObsidian;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import us.nebula.Nebula;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -98,7 +98,7 @@ public final class BurrowCheat extends Cheat
                     new C0BPacketEntityAction(MC.thePlayer, 1));
         }
 
-        MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
+        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
 
         final Vec3 hitVec = Vec3.createVectorHelper(
                 blockData.pos.getX() + 0.5,
@@ -123,7 +123,7 @@ public final class BurrowCheat extends Cheat
 //                blockData.pos.getZ(),
 //                Vec3.createVectorHelper(blockData.pos.getX() + 0.5, blockData.pos.getY() + 0.5, blockData.pos.getZ() + 0.5));
         MC.thePlayer.swingItem();
-        MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(MC.thePlayer.inventory.currentItem));
+        Nebula.INSTANCE.getInventoryManager().syncSlot();
 
         if (sneak)
         {

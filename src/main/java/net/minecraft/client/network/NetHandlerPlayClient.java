@@ -578,9 +578,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleHeldItemChange(S09PacketHeldItemChange p_147257_1_)
     {
-        if (p_147257_1_.func_149385_c() >= 0 && p_147257_1_.func_149385_c() < InventoryPlayer.getHotbarSize())
+        if (p_147257_1_.getSlotIndex() >= 0 && p_147257_1_.getSlotIndex() < InventoryPlayer.getHotbarSize())
         {
-            this.gameController.thePlayer.inventory.currentItem = p_147257_1_.func_149385_c();
+            this.gameController.thePlayer.inventory.currentItem = p_147257_1_.getSlotIndex();
         }
     }
 

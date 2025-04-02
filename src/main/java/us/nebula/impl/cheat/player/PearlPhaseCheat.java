@@ -2,7 +2,6 @@ package us.nebula.impl.cheat.player;
 
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -78,10 +77,11 @@ public final class PearlPhaseCheat extends Cheat implements RotationConfirmation
     {
         if (slot != -1)
         {
-            MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
-            MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(MC.thePlayer.inventory.getStackInSlot(slot)));
+            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+            MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+                    Nebula.INSTANCE.getInventoryManager().getStack()));
             MC.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation(MC.thePlayer, 1));
-            MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(MC.thePlayer.inventory.currentItem));
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
         slot = -1;
         toggle();

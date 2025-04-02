@@ -8,14 +8,13 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S09PacketHeldItemChange extends Packet
 {
-    private int field_149387_a;
-    private static final String __OBFID = "CL_00001324";
+    private int slotIndex;
 
     public S09PacketHeldItemChange() {}
 
-    public S09PacketHeldItemChange(int p_i45215_1_)
+    public S09PacketHeldItemChange(int slotIndex)
     {
-        this.field_149387_a = p_i45215_1_;
+        this.slotIndex = slotIndex;
     }
 
     /**
@@ -23,7 +22,7 @@ public class S09PacketHeldItemChange extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149387_a = p_148837_1_.readByte();
+        this.slotIndex = p_148837_1_.readByte();
     }
 
     /**
@@ -31,7 +30,7 @@ public class S09PacketHeldItemChange extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeByte(this.field_149387_a);
+        p_148840_1_.writeByte(this.slotIndex);
     }
 
     public void processPacket(INetHandlerPlayClient p_149386_1_)
@@ -39,9 +38,9 @@ public class S09PacketHeldItemChange extends Packet
         p_149386_1_.handleHeldItemChange(this);
     }
 
-    public int func_149385_c()
+    public int getSlotIndex()
     {
-        return this.field_149387_a;
+        return this.slotIndex;
     }
 
     public void processPacket(INetHandler p_148833_1_)

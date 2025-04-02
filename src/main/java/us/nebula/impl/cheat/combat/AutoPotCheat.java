@@ -3,7 +3,6 @@ package us.nebula.impl.cheat.combat;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.potion.Potion;
@@ -45,6 +44,10 @@ public final class AutoPotCheat extends Cheat implements RotationConfirmation
     protected void onDisable()
     {
         super.onDisable();
+        if (potSlot != -1 && MC.thePlayer != null)
+        {
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
+        }
         potSlot = -1;
         await = false;
     }
@@ -93,11 +96,11 @@ public final class AutoPotCheat extends Cheat implements RotationConfirmation
         {
             return;
         }
-        final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(potSlot);
-        MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(potSlot));
-        MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(itemStack));
+        Nebula.INSTANCE.getInventoryManager().setSlot(potSlot);
+        MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+                Nebula.INSTANCE.getInventoryManager().getStack()));
         MC.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation(MC.thePlayer, 1));
-        MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(MC.thePlayer.inventory.currentItem));
+        Nebula.INSTANCE.getInventoryManager().syncSlot();
 
         timer.resetTime();
         if (serverConfirmSetting.getValue())

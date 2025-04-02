@@ -4,6 +4,7 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
+import us.nebula.Nebula;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -58,15 +59,14 @@ public final class ScaffoldCheat extends Cheat
             return;
         }
 
-        final int prevSlot = MC.thePlayer.inventory.currentItem;
-        MC.thePlayer.inventory.currentItem = slot;
+        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
 
         final int x = blockData.pos.getX();
         final int y = blockData.pos.getY();
         final int z = blockData.pos.getZ();
 
         final boolean result = MC.playerController.onPlayerRightClick(MC.thePlayer, MC.theWorld,
-                MC.thePlayer.inventory.getStackInSlot(slot),
+                Nebula.INSTANCE.getInventoryManager().getStack(),
                 x, y, z,
                 blockData.facing.order_a,
                 Vec3.createVectorHelper(x + 0.5, y + 0.5, z + 0.5));
@@ -83,7 +83,7 @@ public final class ScaffoldCheat extends Cheat
             }
         }
 
-        MC.thePlayer.inventory.currentItem = prevSlot;
+        Nebula.INSTANCE.getInventoryManager().syncSlot();
     };
 
     @Subscribe

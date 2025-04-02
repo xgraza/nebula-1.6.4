@@ -6,10 +6,10 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import us.nebula.Nebula;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -48,7 +48,6 @@ public final class PacketMineCheat extends Cheat
     protected void onDisable()
     {
         super.onDisable();
-        minePositionQueue.clear();
         if (currentPosition != null && currentPosition.sentBreak && MC.thePlayer != null)
         {
             MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
@@ -56,6 +55,11 @@ public final class PacketMineCheat extends Cheat
                     currentPosition.x, currentPosition.y, currentPosition.z,
                     currentPosition.side));
         }
+        if (MC.thePlayer != null)
+        {
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
+        }
+        minePositionQueue.clear();
         currentPosition = null;
     }
 
@@ -108,7 +112,7 @@ public final class PacketMineCheat extends Cheat
                         currentPosition.x, currentPosition.y, currentPosition.z) > 4.5f * 4.5f)
         {
             abortBreakingBlock(currentPosition);
-            resetServerSlot();
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
             currentPosition = null;
             return;
         }
@@ -122,15 +126,13 @@ public final class PacketMineCheat extends Cheat
                     0,
                     currentPosition.x, currentPosition.y, currentPosition.z,
                     currentPosition.side));
-            MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(
-                    MC.thePlayer.inventory.currentItem));
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
             return;
         }
         currentPosition.progress += getStrength(currentPosition);
         if (currentPosition.progress >= percentSetting.getValue() && !currentPosition.sentStop)
         {
-            MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(
-                    currentPosition.slot));
+            Nebula.INSTANCE.getInventoryManager().setSlot(currentPosition.slot);
             currentPosition.sentStop = true;
             MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
                     2,
@@ -162,16 +164,6 @@ public final class PacketMineCheat extends Cheat
                 event.getSide(),
                 slot));
     };
-
-    private void resetServerSlot()
-    {
-        if (currentPosition == null)
-        {
-            return;
-        }
-        MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(
-                MC.thePlayer.inventory.currentItem));
-    }
 
     private void abortBreakingBlock(final MinePosition minePosition)
     {

@@ -11,6 +11,7 @@ import us.nebula.api.manager.command.CommandManager;
 import us.nebula.api.config.ConfigurationManager;
 import us.nebula.api.manager.cheat.CheatManager;
 import us.nebula.api.manager.friend.FriendManager;
+import us.nebula.api.manager.inventory.InventoryManager;
 import us.nebula.api.manager.key.KeyManager;
 import us.nebula.api.manager.overlay.OverlayManager;
 import us.nebula.api.manager.rotate.RotationManager;
@@ -44,6 +45,7 @@ public enum Nebula
     private CheatManager cheatManager;
     private FriendManager friendManager;
     private ToastManager toastManager;
+    private InventoryManager inventoryManager;
     private RotationManager rotationManager;
 
     public void init(final File gameDir) throws IOException
@@ -71,6 +73,7 @@ public enum Nebula
         cheatManager = new CheatManager();
         friendManager = new FriendManager();
         toastManager = new ToastManager();
+        inventoryManager = new InventoryManager();
         rotationManager = new RotationManager();
 
         keyManager.init();
@@ -80,6 +83,7 @@ public enum Nebula
         configurationManager.init();
         systemTray.init();
         toastManager.init();
+        inventoryManager.init();
         rotationManager.init();
         friendManager.init();
 
@@ -159,6 +163,11 @@ public enum Nebula
     public ToastManager getToastManager()
     {
         return toastManager;
+    }
+
+    public InventoryManager getInventoryManager()
+    {
+        return inventoryManager;
     }
 
     public RotationManager getRotationManager()

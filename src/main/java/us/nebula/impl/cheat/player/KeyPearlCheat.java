@@ -1,10 +1,9 @@
 package us.nebula.impl.cheat.player;
 
 import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import us.nebula.ClientSettings;
+import us.nebula.Nebula;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
@@ -41,10 +40,9 @@ public final class KeyPearlCheat extends Cheat
             return;
         }
 
-        MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(pearlSlot));
+        Nebula.INSTANCE.getInventoryManager().setSlot(pearlSlot);
         MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
-                MC.thePlayer.inventory.getStackInSlot(pearlSlot)));
-        MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(
-                MC.thePlayer.inventory.currentItem));
+                Nebula.INSTANCE.getInventoryManager().getStack()));
+        Nebula.INSTANCE.getInventoryManager().syncSlot();
     }
 }
