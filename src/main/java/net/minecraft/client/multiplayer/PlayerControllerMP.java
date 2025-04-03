@@ -383,7 +383,7 @@ public class PlayerControllerMP
         }
 
         netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(
-                x, y, z, side, player.inventory.getCurrentItem(), facingX, facingY, facingZ));
+                x, y, z, side, stack, facingX, facingY, facingZ));
 
         if (sneaking)
         {
