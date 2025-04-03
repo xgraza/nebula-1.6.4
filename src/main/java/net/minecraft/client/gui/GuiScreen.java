@@ -37,7 +37,7 @@ public class GuiScreen extends Gui
     public int height;
 
     /** A list of all the buttons in this container. */
-    protected List buttonList = new ArrayList();
+    protected List<GuiButton> buttonList = new ArrayList();
 
     /** A list of all the labels in this container. */
     protected List labelList = new ArrayList();

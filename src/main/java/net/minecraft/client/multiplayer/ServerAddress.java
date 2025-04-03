@@ -26,7 +26,7 @@ public class ServerAddress
         return this.serverPort;
     }
 
-    public static ServerAddress func_78860_a(String par0Str)
+    public static ServerAddress resolveAddress(String par0Str)
     {
         if (par0Str == null)
         {

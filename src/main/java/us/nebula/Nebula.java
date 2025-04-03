@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 import us.nebula.api.gui.font.Fonts;
+import us.nebula.api.manager.account.AccountManager;
 import us.nebula.api.manager.command.CommandManager;
 import us.nebula.api.config.ConfigurationManager;
 import us.nebula.api.manager.cheat.CheatManager;
@@ -43,6 +44,7 @@ public enum Nebula
     private CommandManager commandManager;
     private OverlayManager overlayManager;
     private CheatManager cheatManager;
+    private AccountManager accountManager;
     private FriendManager friendManager;
     private ToastManager toastManager;
     private InventoryManager inventoryManager;
@@ -71,6 +73,7 @@ public enum Nebula
         commandManager = new CommandManager();
         overlayManager = new OverlayManager();
         cheatManager = new CheatManager();
+        accountManager = new AccountManager();
         friendManager = new FriendManager();
         toastManager = new ToastManager();
         inventoryManager = new InventoryManager();
@@ -80,6 +83,7 @@ public enum Nebula
         commandManager.init();
         overlayManager.init();
         cheatManager.init();
+        accountManager.init();
         configurationManager.init();
         systemTray.init();
         toastManager.init();
@@ -153,6 +157,11 @@ public enum Nebula
     public CheatManager getCheatManager()
     {
         return cheatManager;
+    }
+
+    public AccountManager getAccountManager()
+    {
+        return accountManager;
     }
 
     public FriendManager getFriendManager()

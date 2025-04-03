@@ -88,7 +88,7 @@ public class GuiShaderOptions extends GuiScreenOF
                     int y = baseY + row * stepY;
                     int w = colWidth - 10;
                     String text = getButtonText(so, w);
-                    Object btn;
+                    GuiButtonShaderOption btn;
 
                     if (Shaders.isShaderPackOptionSlider(so.getName()))
                     {
@@ -99,7 +99,7 @@ public class GuiShaderOptions extends GuiScreenOF
                         btn = new GuiButtonShaderOption(baseId + i, x, y, w, btnHeight, so, text);
                     }
 
-                    ((GuiButtonShaderOption)btn).enabled = so.isEnabled();
+                    btn.enabled = so.isEnabled();
                     this.buttonList.add(btn);
                 }
             }

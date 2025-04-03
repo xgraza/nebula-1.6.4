@@ -52,7 +52,7 @@ public class OldServerPinger
 
     public void func_147224_a(final ServerData p_147224_1_) throws UnknownHostException
     {
-        ServerAddress var2 = ServerAddress.func_78860_a(p_147224_1_.serverIP);
+        ServerAddress var2 = ServerAddress.resolveAddress(p_147224_1_.serverIP);
         final NetworkManager var3 = NetworkManager.provideLanClient(InetAddress.getByName(var2.getIP()), var2.getPort());
         this.field_147229_c.add(var3);
         p_147224_1_.serverMOTD = "Pinging...";
@@ -187,7 +187,7 @@ public class OldServerPinger
 
     private void func_147225_b(final ServerData p_147225_1_)
     {
-        final ServerAddress var2 = ServerAddress.func_78860_a(p_147225_1_.serverIP);
+        final ServerAddress var2 = ServerAddress.resolveAddress(p_147225_1_.serverIP);
         ((Bootstrap)((Bootstrap)((Bootstrap)(new Bootstrap()).group(NetworkManager.eventLoops)).handler(new ChannelInitializer()
         {
             private static final String __OBFID = "CL_00000894";

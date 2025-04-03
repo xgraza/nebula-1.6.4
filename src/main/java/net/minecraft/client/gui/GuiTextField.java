@@ -8,10 +8,10 @@ import org.lwjgl.opengl.GL11;
 public class GuiTextField extends Gui
 {
     private final FontRenderer fontRenderer;
-    private final int posX;
-    private final int posY;
-    private final int width;
-    private final int height;
+    public final int posX;
+    public final int posY;
+    public final int width;
+    public final int height;
     private String text = "";
     private int maxTextLength = 32;
     private int cursorCounter;

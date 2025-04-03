@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerAddress;
-import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -29,6 +28,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
+import us.nebula.impl.gui.account.AccountCreateScreen;
+import us.nebula.impl.gui.account.AccountSelectorScreen;
 
 public class GuiMainMenu extends GuiScreen
 {
@@ -287,8 +288,14 @@ public class GuiMainMenu extends GuiScreen
             }
         }
 
-        if (p_146284_1_.id == 420) {
-            final ServerAddress address = ServerAddress.func_78860_a("alfheim.pw");
+        if (p_146284_1_.id == 69)
+        {
+            mc.displayGuiScreen(new AccountSelectorScreen());
+        }
+
+        if (p_146284_1_.id == 420)
+        {
+            final ServerAddress address = ServerAddress.resolveAddress("alfheim.pw");
             mc.displayGuiScreen(new GuiConnecting(this, mc, address.getIP(), address.getPort()));
         }
     }
