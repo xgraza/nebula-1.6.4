@@ -23,6 +23,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.movement.SpeedCheat;
 import us.nebula.impl.event.game.EventPostUpdate;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.player.EventMove;
@@ -58,7 +59,6 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     /** has the client player's health been set? */
     private boolean hasSetHealth;
     private String field_142022_ce;
-    private static final String __OBFID = "CL_00000887";
 
     public EntityClientPlayerMP(Minecraft p_i45064_1_, World p_i45064_2_, Session p_i45064_3_, NetHandlerPlayClient p_i45064_4_, StatFileWriter p_i45064_5_)
     {
@@ -111,9 +111,11 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             EventBus.dispatch(new EventUpdate());
             super.onUpdate();
 
-            if (mc.thePlayer.onGround) {
+            if (mc.thePlayer.onGround)
+            {
                 ticksAirborne = 0;
-            } else {
+            } else
+            {
                 ++ticksAirborne;
             }
 
@@ -126,62 +128,62 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             {
                 this.sendMotionUpdates();
 
-//                EventMultiUpdate event = new EventMultiUpdate();
-//                Nebula.BUS.dispatch(event);
-//
-//                if (event.updates() > 1) {
-//
-//                    for (int i = 0; i < event.updates(); ++i) {
-//                        int oldItemInUse = itemInUseCount;
-//                        int oldHurtTime = hurtTime;
-//                        float oldPSwingPro = prevSwingProgress;
-//                        float oldSwingPro = swingProgress;
-//                        int oldSwingProI = swingProgressInt;
-//                        boolean oldISSwing = isSwingInProgress;
-//                        float oldYaw = rotationYaw;
-//                        float oldPYaw = prevRotationYaw;
-//                        float oldYawOff = renderYawOffset;
-//                        float oldPYawOff = prevRenderYawOffset;
-//                        float oldYawHead = rotationYawHead;
-//                        float oldPYawHead = prevRotationYawHead;
-//                        float oldCamYaw = cameraYaw;
-//                        float oldPCamYaw = prevCameraYaw;
-//                        float oldRArmYaw = renderArmYaw;
-//                        float oldPRArmYaw = prevRenderArmYaw;
-//                        float oldRenderArmP = renderArmPitch;
-//                        float oldPRenderArmP = prevRenderArmPitch;
-//                        float oldDistWalkedM = distanceWalkedModified;
-//                        float oldPDistWalkedM = prevDistanceWalkedModified;
-//                        float oldLimbSwingAmount = limbSwingAmount;
-//                        float oldPLimbSwingAmount = prevLimbSwingAmount;
-//                        float oldLimbSwing = limbSwing;
-//                        super.onUpdate();
-//                        itemInUseCount = oldItemInUse;
-//                        hurtTime = oldHurtTime;
-//                        prevSwingProgress = oldPSwingPro;
-//                        swingProgress = oldSwingPro;
-//                        swingProgressInt = oldSwingProI;
-//                        isSwingInProgress = oldISSwing;
-//                        rotationYaw = oldYaw;
-//                        prevRotationYaw = oldPYaw;
-//                        renderYawOffset = oldYawOff;
-//                        prevRenderYawOffset = oldPYawOff;
-//                        rotationYawHead = oldYawHead;
-//                        prevRotationYawHead = oldPYawHead;
-//                        cameraYaw = oldCamYaw;
-//                        prevCameraYaw = oldPCamYaw;
-//                        renderArmYaw = oldRArmYaw;
-//                        prevRenderArmYaw = oldPRArmYaw;
-//                        renderArmPitch = oldRenderArmP;
-//                        prevRenderArmPitch = oldPRenderArmP;
-//                        distanceWalkedModified = oldDistWalkedM;
-//                        prevDistanceWalkedModified = oldPDistWalkedM;
-//                        limbSwingAmount = oldLimbSwingAmount;
-//                        prevLimbSwingAmount = oldPLimbSwingAmount;
-//                        limbSwing = oldLimbSwing;
-//                        sendMotionUpdates();
-//                    }
-//                }
+                if (SpeedCheat.INSTANCE.isToggled()
+                        && SpeedCheat.INSTANCE.modeSetting.getValue() == SpeedCheat.Mode.TICK_ADVANCE)
+                {
+                    final int advance = SpeedCheat.INSTANCE.advanceSetting.getValue();
+                    for (int tick = 0; tick < advance; ++tick)
+                    {
+                        int oldItemInUse = itemInUseCount;
+                        int oldHurtTime = hurtTime;
+                        float oldPSwingProgress = prevSwingProgress;
+                        float oldSwingProgress = swingProgress;
+                        int oldSwingProgressInt = swingProgressInt;
+                        boolean oldSwingInProgress = isSwingInProgress;
+                        float oldYaw = rotationYaw;
+                        float oldPYaw = prevRotationYaw;
+                        float oldYawOff = renderYawOffset;
+                        float oldPYawOff = prevRenderYawOffset;
+                        float oldYawHead = rotationYawHead;
+                        float oldPYawHead = prevRotationYawHead;
+                        float oldCamYaw = cameraYaw;
+                        float oldPCamYaw = prevCameraYaw;
+                        float oldRArmYaw = renderArmYaw;
+                        float oldPRArmYaw = prevRenderArmYaw;
+                        float oldRenderArmP = renderArmPitch;
+                        float oldPRenderArmP = prevRenderArmPitch;
+                        float oldDistWalkedM = distanceWalkedModified;
+                        float oldPDistWalkedM = prevDistanceWalkedModified;
+                        float oldLimbSwingAmount = limbSwingAmount;
+                        float oldPLimbSwingAmount = prevLimbSwingAmount;
+                        float oldLimbSwing = limbSwing;
+                        super.onUpdate();
+                        itemInUseCount = oldItemInUse;
+                        hurtTime = oldHurtTime;
+                        prevSwingProgress = oldPSwingProgress;
+                        swingProgress = oldSwingProgress;
+                        swingProgressInt = oldSwingProgressInt;
+                        isSwingInProgress = oldSwingInProgress;
+                        rotationYaw = oldYaw;
+                        prevRotationYaw = oldPYaw;
+                        renderYawOffset = oldYawOff;
+                        prevRenderYawOffset = oldPYawOff;
+                        rotationYawHead = oldYawHead;
+                        prevRotationYawHead = oldPYawHead;
+                        cameraYaw = oldCamYaw;
+                        prevCameraYaw = oldPCamYaw;
+                        renderArmYaw = oldRArmYaw;
+                        prevRenderArmYaw = oldPRArmYaw;
+                        renderArmPitch = oldRenderArmP;
+                        prevRenderArmPitch = oldPRenderArmP;
+                        distanceWalkedModified = oldDistWalkedM;
+                        prevDistanceWalkedModified = oldPDistWalkedM;
+                        limbSwingAmount = oldLimbSwingAmount;
+                        prevLimbSwingAmount = oldPLimbSwingAmount;
+                        limbSwing = oldLimbSwing;
+                        sendMotionUpdates();
+                    }
+                }
             }
 
             EventBus.dispatch(new EventPostUpdate());

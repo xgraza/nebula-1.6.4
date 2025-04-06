@@ -5,6 +5,7 @@ import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
+import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.network.EventPacket;
@@ -21,8 +22,14 @@ import us.nebula.util.player.MoveUtil;
         category = CheatCategory.MOVEMENT)
 public final class SpeedCheat extends Cheat
 {
-    private final Setting<Mode> modeSetting = new Setting<>(
+    @CheatInstance
+    public static SpeedCheat INSTANCE;
+
+    public final Setting<Mode> modeSetting = new Setting<>(
             "Mode", Mode.STRAFE);
+    public final Setting<Integer> advanceSetting = new Setting<>(
+            "Advance", 1, 1, 10, 1)
+            .setVisibility(() -> modeSetting.getValue() == Mode.TICK_ADVANCE);
 
     private double lastDistance, speed;
     private int lagTicks, stage;
@@ -116,8 +123,8 @@ public final class SpeedCheat extends Cheat
         }
     };
 
-    private enum Mode
+    public enum Mode
     {
-        STRAFE
+        STRAFE, TICK_ADVANCE
     }
 }
