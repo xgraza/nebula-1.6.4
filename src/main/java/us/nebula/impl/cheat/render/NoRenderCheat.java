@@ -36,4 +36,6 @@ public final class NoRenderCheat extends Cheat
             "Portal", false);
     public final Setting<Boolean> voidParticlesSetting = new Setting<>(
             "Void Particles", false);
+    public final Setting<Boolean> signTextSetting = new Setting<>(
+            "Sign Text", false);
 }
