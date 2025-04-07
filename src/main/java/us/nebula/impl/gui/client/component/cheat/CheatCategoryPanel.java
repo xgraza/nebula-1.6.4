@@ -21,6 +21,7 @@ public final class CheatCategoryPanel extends CategoryPanel
                 .filter((cheat) -> cheat.getManifest().category().equals(category))
                 .forEach((cheat) -> childrenComponentList.add(new CheatPanel(cheat)));
         categoryIcon = category.getIcon();
+        setAllowScrolling(true);
     }
 
     @Override

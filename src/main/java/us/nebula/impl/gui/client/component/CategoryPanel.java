@@ -1,10 +1,12 @@
 package us.nebula.impl.gui.client.component;
 
+import org.lwjgl.input.Mouse;
 import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
 import us.nebula.api.gui.animation.Animation;
 import us.nebula.api.gui.animation.AnimationEasing;
 import us.nebula.api.gui.font.Fonts;
+import us.nebula.impl.gui.client.ClickGUIScreen;
 import us.nebula.util.io.SoundUtil;
 import us.nebula.util.render.RenderUtil;
 
@@ -27,6 +29,9 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
             AnimationEasing.EXPO_IN_OUT, 300.0);
     protected final String name;
 
+    private boolean allowScrolling;
+    protected int scrollOffset;
+
     public CategoryPanel(final String name)
     {
         this.name = name;
@@ -38,16 +43,42 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        RenderUtil.startScissor(x, y - 1, width, getHeight() + PADDING);
+        final double panelHeight = Math.min(getHeight(), ClickGUIScreen.MAX_PANEL_HEIGHT);
 
-        RenderUtil.roundedRectangle2D(x, y, width, getHeight(), 6, PANEL_HEADER_COLOR);
-        RenderUtil.roundedRectangle2D(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 2.8f, PANEL_BACKGROUND_COLOR);
+        if (isMouseInDynamic(mouseX, mouseY)
+                && allowScrolling
+                && panelHeight >= ClickGUIScreen.MAX_PANEL_HEIGHT)
+        {
+            final int scroll = Mouse.getDWheel();
+            if (scroll > 0)
+            {
+                final double posY = y + PANEL_HEADER_HEIGHT;
+                if (posY + scrollOffset < posY)
+                {
+                    scrollOffset += 10;
+                }
+            } else if (scroll < 0)
+            {
+                if ((y + panelHeight) - (y + scrollOffset + getComponentHeight()) < 21)
+                {
+                    scrollOffset -= 10;
+                }
+            }
+        }
 
-        drawHeaderText();
+        if (!allowScrolling || panelHeight < ClickGUIScreen.MAX_PANEL_HEIGHT)
+        {
+            scrollOffset = 0;
+        }
+
+        RenderUtil.startScissor(x, y - 0.1, width, panelHeight + 0.5);
+
+        RenderUtil.roundedRectangle2D(x, y, width, panelHeight, 6, PANEL_HEADER_COLOR);
+        RenderUtil.roundedRectangle2D(x + PADDING, y + height, width - (PADDING * 2), panelHeight - height - PADDING, 2.8f, PANEL_BACKGROUND_COLOR);
 
         if (animation.getFactor() > 0.0)
         {
-            double posY = y + PANEL_HEADER_HEIGHT;
+            double posY = y + scrollOffset + PANEL_HEADER_HEIGHT;
             for (final GUIComponent component : getChildrenComponentList())
             {
                 component.setX(x + PADDING);
@@ -60,6 +91,9 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
                 posY += component.getHeight() + 1;
             }
         }
+
+        RenderUtil.roundedRectangle2D(x, y, width, PANEL_HEADER_HEIGHT, 6, PANEL_HEADER_COLOR);
+        drawHeaderText();
 
         RenderUtil.endScissor();
     }
@@ -108,12 +142,21 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     @Override
     public double getHeight()
     {
-        double h = -1;
+        return super.getHeight() + ((getComponentHeight() + PADDING) * animation.getEasedFactor());
+    }
+
+    private double getComponentHeight()
+    {
+        double height = 0.0;
         for (final GUIComponent component : getChildrenComponentList())
         {
-            h += component.getHeight() + 1;
+            height += component.getHeight() + 1;
         }
-        return (super.getHeight())
-                + ((h + PADDING) * animation.getEasedFactor());
+        return height;
+    }
+
+    public void setAllowScrolling(boolean allowScrolling)
+    {
+        this.allowScrolling = allowScrolling;
     }
 }

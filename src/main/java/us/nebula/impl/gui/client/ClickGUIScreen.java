@@ -20,6 +20,7 @@ import java.util.List;
 public final class ClickGUIScreen extends GuiScreen
 {
     public static boolean ALLOW_EXIT_ON_ESC = true;
+    public static double MAX_PANEL_HEIGHT;
 
     private final List<CategoryPanel> categoryPanels = new LinkedList<>();
 
@@ -53,6 +54,7 @@ public final class ClickGUIScreen extends GuiScreen
         {
             panel.init();
         }
+        MAX_PANEL_HEIGHT = height - 70 - 26.0;
     }
 
     @Override

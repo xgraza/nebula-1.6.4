@@ -9,6 +9,7 @@ import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.key.Key;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.gui.client.component.cheat.value.*;
+import us.nebula.impl.gui.client.component.cheat.value.color.ColorSettingComponent;
 import us.nebula.util.io.SoundUtil;
 import us.nebula.util.render.RenderUtil;
 
@@ -72,7 +73,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
                 getChildrenComponentList().add(new KeySettingComponent((Setting<Key>) setting));
             } else if (setting.getValue() instanceof Color)
             {
-
+                getChildrenComponentList().add(new ColorSettingComponent((Setting<Color>) setting));
             } else if (setting.getValue() instanceof File || setting.getBaseDirectory() != null)
             {
                 getChildrenComponentList().add(new FileSettingComponent((Setting<File>) setting));

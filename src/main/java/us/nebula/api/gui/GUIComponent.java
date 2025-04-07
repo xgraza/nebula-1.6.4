@@ -25,6 +25,11 @@ public abstract class GUIComponent
         return x <= mouseX && x + width >= mouseX && y <= mouseY && y + height >= mouseY;
     }
 
+    public boolean isMouseInDynamic(final int mouseX, final int mouseY)
+    {
+        return getX() <= mouseX && getX() + getWidth() >= mouseX && getY() <= mouseY && getY() + getHeight() >= mouseY;
+    }
+
     public double getX()
     {
         return x;

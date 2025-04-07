@@ -8,7 +8,10 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.manager.overlay.Overlay;
+import us.nebula.api.value.Setting;
 import us.nebula.impl.event.render.EventRender2D;
+
+import java.awt.Color;
 
 /**
  * @author xgraza
@@ -21,6 +24,9 @@ public final class HUDCheat extends Cheat
 {
     @CheatInstance
     public static HUDCheat INSTANCE;
+
+    public final Setting<Color> primaryColorSetting = new Setting<>(
+            "Primary Color", new Color(112, 82, 143));
 
     public HUDCheat()
     {
