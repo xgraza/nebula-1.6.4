@@ -3,13 +3,15 @@ package net.minecraft.client.gui;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+import us.nebula.api.gui.animation.Animation;
+import us.nebula.api.gui.animation.AnimationEasing;
+import us.nebula.impl.cheat.render.ChatModifierCheat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class ChatLine
 {
-
     private static final DateFormat FORMAT = new SimpleDateFormat("hh:mm");
 
     /** GUI Update Counter value this Line was created at */
@@ -22,19 +24,25 @@ public class ChatLine
      */
     private final int chatLineID;
 
-    private final long creation;
+    private Animation animation;
+    private long creationTimeMS;
 
-    public ChatLine(int p_i45000_1_, IChatComponent p_i45000_2_, int p_i45000_3_)
+    public ChatLine(int counter, IChatComponent component, int id)
     {
-        this.updateCounterCreated = p_i45000_1_;
-        this.lineString = p_i45000_2_;
-        this.chatLineID = p_i45000_3_;
+        this.updateCounterCreated = counter;
+        this.lineString = component;
+        this.chatLineID = id;
 
-        creation = System.currentTimeMillis();
-
-        formatted = new ChatComponentText(
-          EnumChatFormatting.GRAY + "[" + FORMAT.format(creation) + "] " + EnumChatFormatting.RESET
-        ).appendSibling(p_i45000_2_);
+        if (ChatModifierCheat.INSTANCE.isToggled())
+        {
+            animation = new Animation(AnimationEasing.CUBIC_IN_OUT,
+                    200 * ChatModifierCheat.INSTANCE.animateSpeed.getValue());
+            creationTimeMS = System.currentTimeMillis();
+            formatted = new ChatComponentText(EnumChatFormatting.GRAY
+                    + "[" + FORMAT.format(creationTimeMS) + "] "
+                    + EnumChatFormatting.RESET)
+                        .appendSibling(component);
+        }
     }
 
     public IChatComponent getLineString()
@@ -56,7 +64,12 @@ public class ChatLine
         return this.chatLineID;
     }
 
-    public long getCreation() {
-        return creation;
+    public long getCreationTimeMS() {
+        return creationTimeMS;
+    }
+
+    public Animation getAnimation()
+    {
+        return animation;
     }
 }

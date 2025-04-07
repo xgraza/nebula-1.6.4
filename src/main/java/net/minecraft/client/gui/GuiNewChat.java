@@ -4,8 +4,11 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -14,14 +17,22 @@ import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
+import us.nebula.Nebula;
+import us.nebula.impl.cheat.render.ChatModifierCheat;
+import us.nebula.util.render.HeadDownloader;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 public class GuiNewChat extends Gui
 {
     private static final Logger loggerGnc = LogManager.getLogger();
+    private static final Pattern PLAYER_TAG_REGEX = Pattern.compile("<(.+)>\\s");
+
     private final Minecraft mc;
     private final List sentMessages = new ArrayList();
     private final List chatLines = new ArrayList();
-    private final List field_146253_i = new ArrayList();
+    private final List chatLineList = new ArrayList();
     private int field_146250_j;
     private boolean field_146251_k;
     private static final String __OBFID = "CL_00000669";
@@ -36,16 +47,16 @@ public class GuiNewChat extends Gui
         if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN)
         {
             int var2 = this.func_146232_i();
-            boolean var3 = false;
+            boolean chatOpen = false;
             int var4 = 0;
-            int var5 = this.field_146253_i.size();
-            float var6 = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
+            int size = this.chatLineList.size();
+            float chatAlpha = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
 
-            if (var5 > 0)
+            if (size > 0)
             {
-                if (this.getChatOpen())
+                if (getChatOpen())
                 {
-                    var3 = true;
+                    chatOpen = true;
                 }
 
                 float var7 = this.func_146244_h();
@@ -53,19 +64,19 @@ public class GuiNewChat extends Gui
                 GL11.glPushMatrix();
                 GL11.glTranslatef(2.0F, 20.0F, 0.0F);
                 GL11.glScalef(var7, var7, 1.0F);
-                int var9;
+                int i;
                 int var11;
                 int var14;
 
-                for (var9 = 0; var9 + this.field_146250_j < this.field_146253_i.size() && var9 < var2; ++var9)
+                for (i = 0; i + this.field_146250_j < this.chatLineList.size() && i < var2; ++i)
                 {
-                    ChatLine var10 = (ChatLine)this.field_146253_i.get(var9 + this.field_146250_j);
+                    ChatLine chatLine = (ChatLine)this.chatLineList.get(i + this.field_146250_j);
 
-                    if (var10 != null)
+                    if (chatLine != null)
                     {
-                        var11 = p_146230_1_ - var10.getUpdatedCounter();
+                        var11 = p_146230_1_ - chatLine.getUpdatedCounter();
 
-                        if (var11 < 200 || var3)
+                        if (var11 < 200 || chatOpen)
                         {
                             double var12 = (double)var11 / 200.0D;
                             var12 = 1.0D - var12;
@@ -84,36 +95,105 @@ public class GuiNewChat extends Gui
                             var12 *= var12;
                             var14 = (int)(255.0D * var12);
 
-                            if (var3)
+                            if (chatOpen)
                             {
                                 var14 = 255;
                             }
 
-                            var14 = (int)((float)var14 * var6);
+                            var14 = (int)((float)var14 * chatAlpha);
                             ++var4;
 
                             if (var14 > 3)
                             {
-                                int var15 = 0;
-                                int var16 = -var9 * 9;
+                                final int elementHeight = 9;
+                                double x = 0;
+                                int y = -i * elementHeight;
 
-                                drawRect(var15, var16 - 9, var15 + var8 + 4, var16, var14 / 2 << 24);
+                                if (ChatModifierCheat.INSTANCE.isToggled())
+                                {
+                                    if (ChatModifierCheat.INSTANCE.animateSpeed.getValue() > 0.0)
+                                    {
+                                        x = -(var8 + 4) * chatLine.getAnimation().getEasedFactor();
+                                    }
+                                }
 
-                                String var17 = var10.getLineString().getFormattedText();
-                                this.mc.fontRenderer.drawStringWithShadow(var17, var15, var16 - 8, 16777215 + (var14 << 24));
+                                if (!ChatModifierCheat.INSTANCE.isToggled() || !ChatModifierCheat.INSTANCE.transparentSetting.getValue())
+                                {
+                                    drawRect((int) x, y - elementHeight, (int) (x + var8 + 4), y, var14 / 2 << 24);
+                                }
+
+                                int offset = 0;
+                                String var17 = chatLine.getLineString().getFormattedText();
+                                if (ChatModifierCheat.INSTANCE.isToggled())
+                                {
+                                    if (ChatModifierCheat.INSTANCE.timestampSetting.getValue())
+                                    {
+                                        var17 = chatLine.getFormatted().getFormattedText();
+                                    }
+
+                                    String username = null;
+                                    final Matcher matcher = PLAYER_TAG_REGEX.matcher(var17);
+                                    if (matcher.find())
+                                    {
+                                        username = matcher.group(1);
+                                    }
+
+                                    if (ChatModifierCheat.INSTANCE.playerHeadsSetting.getValue() && username != null)
+                                    {
+                                        final int texSize = elementHeight - 2;
+                                        final DynamicTexture texture = HeadDownloader.getOrDownloadTexture(username, texSize);
+                                        if (texture != null)
+                                        {
+                                            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+                                            glBindTexture(GL_TEXTURE_2D, texture.getGlTextureId());
+                                            glPushMatrix();
+                                            glBegin(GL_QUADS);
+                                            {
+                                                glTexCoord2d(0, 0);
+                                                glVertex2d(x + 1, y - elementHeight + 0.5);
+
+                                                glTexCoord2d(0, 1);
+                                                glVertex2d(x + 1, y - elementHeight + texSize + 0.5);
+
+                                                glTexCoord2d(1, 1);
+                                                glVertex2d(x + texSize + 1, y - elementHeight + texSize + 0.5);
+
+                                                glTexCoord2d(1, 0);
+                                                glVertex2d(x + texSize + 1, y - elementHeight + 0.5);
+                                            }
+                                            glEnd();
+                                            glPopMatrix();
+                                            offset = texSize + 3;
+                                        }
+                                    }
+
+                                    if (ChatModifierCheat.INSTANCE.highlightFriendsSetting.getValue()
+                                            && username != null
+                                            && (username.equals(mc.thePlayer.getCommandSenderName())
+                                                || Nebula.INSTANCE.getFriendManager().isFriend(username)))
+                                    {
+                                        var17 = var17.replaceFirst(PLAYER_TAG_REGEX.pattern(),
+                                                "<"
+                                                        + EnumChatFormatting.AQUA
+                                                        + username
+                                                        + EnumChatFormatting.RESET
+                                                        + ">");
+                                    }
+                                }
+                                this.mc.fontRenderer.drawStringWithShadow(var17, (int) x + offset, y - 8, 16777215 + (var14 << 24));
                                 GL11.glDisable(GL11.GL_ALPHA_TEST);
                             }
                         }
                     }
                 }
 
-                if (var3)
+                if (chatOpen)
                 {
-                    var9 = this.mc.fontRenderer.FONT_HEIGHT;
+                    i = this.mc.fontRenderer.FONT_HEIGHT;
                     GL11.glTranslatef(-3.0F, 0.0F, 0.0F);
-                    int var18 = var5 * var9 + var5;
-                    var11 = var4 * var9 + var4;
-                    int var19 = this.field_146250_j * var11 / var5;
+                    int var18 = size * i + size;
+                    var11 = var4 * i + var4;
+                    int var19 = this.field_146250_j * var11 / size;
                     int var13 = var11 * var11 / var18;
 
                     if (var18 != var11)
@@ -132,7 +212,12 @@ public class GuiNewChat extends Gui
 
     public void clearChatMessages()
     {
-        this.field_146253_i.clear();
+        if (ChatModifierCheat.INSTANCE.isToggled()
+                && ChatModifierCheat.INSTANCE.infiniteChatSetting.getValue())
+        {
+            return;
+        }
+        this.chatLineList.clear();
         this.chatLines.clear();
         this.sentMessages.clear();
     }
@@ -223,7 +308,7 @@ public class GuiNewChat extends Gui
         boolean var20 = this.getChatOpen();
         IChatComponent var22;
 
-        for (Iterator var21 = var8.iterator(); var21.hasNext(); this.field_146253_i.add(0, new ChatLine(p_146237_3_, var22, p_146237_2_)))
+        for (Iterator var21 = var8.iterator(); var21.hasNext(); this.chatLineList.add(0, new ChatLine(p_146237_3_, var22, p_146237_2_)))
         {
             var22 = (IChatComponent)var21.next();
 
@@ -234,9 +319,9 @@ public class GuiNewChat extends Gui
             }
         }
 
-        while (this.field_146253_i.size() > 100)
+        while (this.chatLineList.size() > 100)
         {
-            this.field_146253_i.remove(this.field_146253_i.size() - 1);
+            this.chatLineList.remove(this.chatLineList.size() - 1);
         }
 
         if (!p_146237_4_)
@@ -252,7 +337,7 @@ public class GuiNewChat extends Gui
 
     public void refreshChat()
     {
-        this.field_146253_i.clear();
+        this.chatLineList.clear();
         this.resetScroll();
 
         for (int var1 = this.chatLines.size() - 1; var1 >= 0; --var1)
@@ -284,7 +369,7 @@ public class GuiNewChat extends Gui
     public void scroll(int p_146229_1_)
     {
         this.field_146250_j += p_146229_1_;
-        int var2 = this.field_146253_i.size();
+        int var2 = this.chatLineList.size();
 
         if (this.field_146250_j > var2 - this.func_146232_i())
         {
@@ -316,15 +401,15 @@ public class GuiNewChat extends Gui
 
             if (var6 >= 0 && var7 >= 0)
             {
-                int var8 = Math.min(this.func_146232_i(), this.field_146253_i.size());
+                int var8 = Math.min(this.func_146232_i(), this.chatLineList.size());
 
                 if (var6 <= MathHelper.floor_float((float)this.func_146228_f() / this.func_146244_h()) && var7 < this.mc.fontRenderer.FONT_HEIGHT * var8 + var8)
                 {
                     int var9 = var7 / this.mc.fontRenderer.FONT_HEIGHT + this.field_146250_j;
 
-                    if (var9 >= 0 && var9 < this.field_146253_i.size())
+                    if (var9 >= 0 && var9 < this.chatLineList.size())
                     {
-                        ChatLine var10 = (ChatLine)this.field_146253_i.get(var9);
+                        ChatLine var10 = (ChatLine)this.chatLineList.get(var9);
                         int var11 = 0;
                         Iterator var12 = var10.getLineString().iterator();
 
@@ -365,7 +450,7 @@ public class GuiNewChat extends Gui
 
     public void deleteChatLine(int p_146242_1_)
     {
-        Iterator var2 = this.field_146253_i.iterator();
+        Iterator var2 = this.chatLineList.iterator();
         ChatLine var3;
 
         do
