@@ -38,6 +38,14 @@ sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
 
 repositories {
     mavenCentral()
+    maven {
+        name = 'Velocity Repository'
+        url = 'https://nexus.velocitypowered.com/repository/maven-public/'
+    }
+    maven {
+        name = 'Carm Repository'
+        url = 'https://repo.carm.cc/repository/maven-public/'
+    }
 }
 
 configurations {
@@ -48,9 +56,19 @@ configurations {
 dependencies {
     implementation group: 'javax.vecmath', name: 'vecmath', version: vecmath_version
     implementation group: 'net.java.dev.jna', name: 'jna', version: jna_version
+    implementation group: 'net.sf.jopt-simple', name: 'jopt-simple', version: jopt_simple_version
+    implementation group: 'net.sf.trove4j', name: 'trove4j', version: trove4j_version
+    implementation group: 'io.netty', name: 'netty-all', version: netty_version
+    implementation group: 'commons-io', name: 'commons-io', version: commons_io_version
+    implementation group: 'com.google.code.gson', name: 'gson', version: gson_version
+
+    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: lwjgl_version
+    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl-platform', version: lwjgl_version, ext: 'pom'
+    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: lwjgl_version
 
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4j_version
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4j_version
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commons_lang3_version
 
     implementation fileTree('libraries')
     implementation configurations.library
