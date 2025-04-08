@@ -3,6 +3,7 @@ package us.nebula.util.player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 
 /**
@@ -12,6 +13,19 @@ import net.minecraft.util.MathHelper;
 public final class PlayerUtil
 {
     private static final Minecraft MC = Minecraft.getMinecraft();
+
+    public static final EnumFacing[] FACINGS = {
+            EnumFacing.SOUTH,
+            EnumFacing.WEST,
+            EnumFacing.NORTH,
+            EnumFacing.EAST };
+
+    public static EnumFacing getFacing()
+    {
+        final int face = MathHelper.floor_double(
+                (double)(MC.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        return FACINGS[face];
+    }
 
     public static BlockPos getOrigin()
     {

@@ -53,6 +53,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new DiscordRPCCheat());
         addCheat(new ExtraTabCheat());
         addCheat(new InventorySyncCheat());
+        addCheat(new PathfinderCheat());
         addCheat(new SpammerCheat());
         addCheat(new TranslateCheat());
         addCheat(new AutoWalkCheat());

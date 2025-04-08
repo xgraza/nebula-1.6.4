@@ -80,6 +80,16 @@ public final class BlockUtil
                 pos.getZ() + facing.getFrontOffsetZ());
     }
 
+    public static boolean isAir(final BlockPos pos)
+    {
+        return MC.theWorld.isAirBlock(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static boolean isUnbreakable(final BlockPos pos)
+    {
+        return MC.theWorld.getBlock(pos.getX(), pos.getY(), pos.getZ()).blockHardness == -1;
+    }
+
     public static boolean isReplaceable(final BlockPos pos)
     {
         return isReplaceable(pos.getX(), pos.getY(), pos.getZ());
