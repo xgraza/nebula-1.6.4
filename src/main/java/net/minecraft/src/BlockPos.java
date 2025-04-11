@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.util.EnumFacing;
+
 public class BlockPos
 {
     private final int x;
@@ -26,6 +28,23 @@ public class BlockPos
     public int getZ()
     {
         return this.z;
+    }
+
+    public BlockPos up()
+    {
+        return new BlockPos(x, y + 1, z);
+    }
+
+    public BlockPos down()
+    {
+        return new BlockPos(x, y - 1, z);
+    }
+
+    public BlockPos offset(final EnumFacing facing)
+    {
+        return new BlockPos(x + facing.getFrontOffsetX(),
+                y + facing.getFrontOffsetY(),
+                z + facing.getFrontOffsetZ());
     }
 
     public BlockPos add(final int x, final int y, final int z)

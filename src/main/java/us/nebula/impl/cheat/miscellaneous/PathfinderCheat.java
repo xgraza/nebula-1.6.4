@@ -2,38 +2,32 @@ package us.nebula.impl.cheat.miscellaneous;
 
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.src.BlockPos;
-import net.minecraft.util.AxisAlignedBB;
-import us.nebula.api.DebugFeature;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
-import us.nebula.api.pathfinding.MoveProcessor;
-import us.nebula.api.pathfinding.Node;
-import us.nebula.api.pathfinding.Pathfinder;
+import us.nebula.api.pathfinding.PathProcessor;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.render.EventRender3D;
-import us.nebula.util.player.ChatUtil;
-import us.nebula.util.render.RenderUtil;
 
 import java.util.List;
-import java.util.Queue;
 
 import static org.lwjgl.opengl.GL11.*;
 
-@DebugFeature
+//@DebugFeature
 @CheatManifest(name = "Pathfinder", category = CheatCategory.MISCELLANEOUS)
 public final class PathfinderCheat extends Cheat
 {
-    private Pathfinder pathfinder;
-    private MoveProcessor moveProcessor;
+    private PathProcessor pathfinder;
     private boolean attempted;
+
+    private int list;
 
     public PathfinderCheat()
     {
-        pathfinder = new Pathfinder();
-        moveProcessor = new MoveProcessor(pathfinder);
+        pathfinder = new PathProcessor();
+        //moveProcessor = new MoveProcessor(pathfinder);
     }
 
     @Override
@@ -41,23 +35,28 @@ public final class PathfinderCheat extends Cheat
     {
         super.onDisable();
         attempted = false;
-        moveProcessor.resetMovement();
+        //moveProcessor.resetMovement();
     }
 
     @Subscribe
     private final EventListener<EventRender3D> render2DEventListener = event ->
     {
-        final List<Node> nodeList = pathfinder.getNodes();
+        final List<BlockPos> nodeList = pathfinder.getPathQueue();
         if (nodeList.isEmpty())
         {
             return;
         }
 
-        if (moveProcessor.getGoalBlockPos() != null)
-        {
-            final BlockPos b = moveProcessor.getGoalBlockPos();
-            RenderUtil.filledBox3D(new AxisAlignedBB(b), 0, 0xAAFF0000);
-        }
+//        for (final BlockPos blockPos : nodeList)
+//        {
+//            RenderUtil.filledBox3D(new AxisAlignedBB(blockPos), 0, 0x20FF0000);
+//        }
+
+//        if (moveProcessor.getGoalBlockPos() != null)
+//        {
+//            final BlockPos b = moveProcessor.getGoalBlockPos();
+//            RenderUtil.filledBox3D(new AxisAlignedBB(b), 0, 0xAAFF0000);
+//        }
 
         glPushMatrix();
         glDisable(GL_TEXTURE_2D);
@@ -75,9 +74,8 @@ public final class PathfinderCheat extends Cheat
 
         glBegin(GL_LINE_STRIP);
         {
-            for (final Node node : nodeList)
+            for (final BlockPos pos : nodeList)
             {
-                final BlockPos pos = node.getPos();
                 glVertex3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
             }
         }
@@ -99,8 +97,8 @@ public final class PathfinderCheat extends Cheat
         if (!attempted)
         {
             attempted = true;
-            pathfinder.pathfind(new BlockPos(0, 4, 0));
+            pathfinder.process(new BlockPos(0, 4, 0));
         }
-        moveProcessor.updateMovement();
+        //moveProcessor.updateMovement();
     };
 }

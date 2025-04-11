@@ -6,36 +6,20 @@ import net.minecraft.src.BlockPos;
  * @author xgraza
  * @since 04/08/25
  */
-public final class Node
+public final class Node implements Comparable<Node>
 {
-    private final BlockPos pos;
-    private final double g, h, f;
+    public final BlockPos pos;
+    public Node parent;
+    public double g, h, f, w;
 
-    public Node(final BlockPos pos, final double g, final double h)
+    public Node(final BlockPos pos)
     {
         this.pos = pos;
-        this.g = g;
-        this.h = h;
-        this.f = g + h;
     }
 
-    public BlockPos getPos()
+    @Override
+    public int compareTo(Node o)
     {
-        return pos;
-    }
-
-    public double getG()
-    {
-        return g;
-    }
-
-    public double getH()
-    {
-        return h;
-    }
-
-    public double getF()
-    {
-        return f;
+        return Double.compare(f, o.f);
     }
 }

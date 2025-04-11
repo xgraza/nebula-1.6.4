@@ -30,6 +30,7 @@ import net.minecraft.pathfinding.PathFinder;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.src.BlockPos;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
@@ -335,6 +336,15 @@ public abstract class World implements IBlockAccess
         }
 
         return this.getBlock(p_147474_1_, var3, p_147474_2_);
+    }
+
+    public Block getBlock(final BlockPos pos)
+    {
+        if (pos == null)
+        {
+            return null;
+        }
+        return getBlock(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public Block getBlock(int p_147439_1_, int p_147439_2_, int p_147439_3_)

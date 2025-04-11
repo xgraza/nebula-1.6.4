@@ -7,6 +7,7 @@ import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
+import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.player.EventMoveUpdate;
@@ -21,6 +22,9 @@ import us.nebula.impl.event.world.EventModifyBoundBox;
         category = CheatCategory.MOVEMENT)
 public final class JesusCheat extends Cheat
 {
+    @CheatInstance
+    public static JesusCheat INSTANCE;
+
     private static final AxisAlignedBB LIQUID_FULL_AABB = new AxisAlignedBB(
             0, 0, 0, 1, 0.99, 1);
 
