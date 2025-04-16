@@ -35,19 +35,19 @@ public class PlayerControllerMP
     private final NetHandlerPlayClient netClientHandler;
 
     /** PosX of the current block being destroyed */
-    private int currentBlockX = -1;
+    public int currentBlockX = -1;
 
     /** PosY of the current block being destroyed */
-    private int currentBlockY = -1;
+    public int currentBlockY = -1;
 
     /** PosZ of the current block being destroyed */
-    private int currentblockZ = -1;
+    public int currentblockZ = -1;
 
     /** The Item currently being used to destroy a block */
     private ItemStack currentItemHittingBlock;
 
     /** Current block damage (MP) */
-    private float curBlockDamageMP;
+    public float curBlockDamageMP;
 
     /**
      * Tick counter, when it hits 4 it resets back to 0 and plays the step sound
@@ -60,7 +60,7 @@ public class PlayerControllerMP
     private int blockHitDelay;
 
     /** Tells if the player is hitting a block */
-    private boolean isHittingBlock;
+    public boolean isHittingBlock;
 
     /** Current game type for the player */
     private WorldSettings.GameType currentGameType;

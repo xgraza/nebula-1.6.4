@@ -35,46 +35,51 @@ public final class PathfinderCheat extends Cheat
     {
         super.onDisable();
         attempted = false;
-        //moveProcessor.resetMovement();
+        pathfinder.reset();
     }
 
     @Subscribe
     private final EventListener<EventRender3D> render2DEventListener = event ->
     {
-        final List<BlockPos> nodeList = pathfinder.getPathQueue();
-        if (nodeList.isEmpty())
+        if (!pathfinder.isProcessed())
         {
             return;
         }
 
-//        for (final BlockPos blockPos : nodeList)
-//        {
-//            RenderUtil.filledBox3D(new AxisAlignedBB(blockPos), 0, 0x20FF0000);
-//        }
+        final List<BlockPos> path = pathfinder.getPath();
+        if (path.isEmpty())
+        {
+            return;
+        }
 
-//        if (moveProcessor.getGoalBlockPos() != null)
-//        {
-//            final BlockPos b = moveProcessor.getGoalBlockPos();
-//            RenderUtil.filledBox3D(new AxisAlignedBB(b), 0, 0xAAFF0000);
-//        }
+        drawPath(path, 0.0f, 0.0f, 1.0f);
+    };
 
+    private void drawPath(final List<BlockPos> path, float r, float g, float b)
+    {
+        if (path.isEmpty())
+        {
+            return;
+        }
         glPushMatrix();
         glDisable(GL_TEXTURE_2D);
-        glDisable(GL_LIGHTING);
         glEnable(GL_BLEND);
         glBlendFunc(770, 771);
+
+        glDepthMask(false);
+        glDisable(GL_DEPTH_TEST);
 
         glEnable(GL_LINE_SMOOTH);
         glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
         glLineWidth(2.5f);
 
-        glColor4f(1.0f, 0.2f, 0.2f, 0.85f);
+        glColor4f(r, g, b, 0.85f);
 
         glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
         glBegin(GL_LINE_STRIP);
         {
-            for (final BlockPos pos : nodeList)
+            for (final BlockPos pos : path)
             {
                 glVertex3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
             }
@@ -84,12 +89,14 @@ public final class PathfinderCheat extends Cheat
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         glLineWidth(1.0f);
 
-        glEnable(GL_LIGHTING);
+        glEnable(GL_DEPTH_TEST);
+        glDepthMask(true);
+
         glEnable(GL_TEXTURE_2D);
         glDisable(GL_LINE_SMOOTH);
         glDisable(GL_BLEND);
         glPopMatrix();
-    };
+    }
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->

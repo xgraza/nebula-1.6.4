@@ -49,6 +49,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new XCarryCheat());
         addCheat(new AntiGhostBlock());
         addCheat(new AutoInfiniteCheat());
+        addCheat(new BetterF3Cheat());
         addCheat(new AutoReconnect());
         addCheat(new DiscordRPCCheat());
         addCheat(new ExtraTabCheat());

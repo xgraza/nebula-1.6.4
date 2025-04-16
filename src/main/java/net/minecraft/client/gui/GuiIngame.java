@@ -3,12 +3,14 @@ package net.minecraft.client.gui;
 import java.awt.Color;
 import java.util.*;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -18,7 +20,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.boss.BossStatus;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -27,23 +28,20 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.util.Direction;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.FoodStats;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.*;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.ClientSettings;
 import us.nebula.Nebula;
 import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.miscellaneous.BetterF3Cheat;
 import us.nebula.impl.cheat.miscellaneous.ExtraTabCheat;
 import us.nebula.impl.cheat.render.NoRenderCheat;
 import us.nebula.impl.event.render.EventRender2D;
+import us.nebula.util.player.PlayerUtil;
 import us.nebula.util.render.HeadDownloader;
 import us.nebula.util.render.RenderUtil;
 
@@ -317,46 +315,7 @@ public class GuiIngame extends Gui
 
         if (this.mc.gameSettings.showDebugInfo)
         {
-            this.mc.mcProfiler.startSection("debug");
-            GL11.glPushMatrix();
-            var8.drawStringWithShadow("Minecraft 1.7.2 (" + this.mc.debug + ")", 2, 2, 16777215);
-            var8.drawStringWithShadow(this.mc.debugInfoRenders(), 2, 12, 16777215);
-            var8.drawStringWithShadow(this.mc.getEntityDebug(), 2, 22, 16777215);
-            var8.drawStringWithShadow(this.mc.debugInfoEntities(), 2, 32, 16777215);
-            var8.drawStringWithShadow(this.mc.getWorldProviderName(), 2, 42, 16777215);
-            long var38 = Runtime.getRuntime().maxMemory();
-            long var41 = Runtime.getRuntime().totalMemory();
-            long var43 = Runtime.getRuntime().freeMemory();
-            long var45 = var41 - var43;
-            String var20 = "Used memory: " + var45 * 100L / var38 + "% (" + var45 / 1024L / 1024L + "MB) of " + var38 / 1024L / 1024L + "MB";
-            var21 = 14737632;
-            this.drawString(var8, var20, var6 - var8.getStringWidth(var20) - 2, 2, 14737632);
-            var20 = "Allocated memory: " + var41 * 100L / var38 + "% (" + var41 / 1024L / 1024L + "MB)";
-            this.drawString(var8, var20, var6 - var8.getStringWidth(var20) - 2, 12, 14737632);
-            var22 = MathHelper.floor_double(this.mc.thePlayer.posX);
-            var23 = MathHelper.floor_double(this.mc.thePlayer.posY);
-            int var24 = MathHelper.floor_double(this.mc.thePlayer.posZ);
-            this.drawString(var8, String.format("x: %.5f (%d) // c: %d (%d)", new Object[] {Double.valueOf(this.mc.thePlayer.posX), Integer.valueOf(var22), Integer.valueOf(var22 >> 4), Integer.valueOf(var22 & 15)}), 2, 64, 14737632);
-            this.drawString(var8, String.format("y: %.3f (feet pos, %.3f eyes pos)", new Object[] {Double.valueOf(this.mc.thePlayer.boundingBox.minY), Double.valueOf(this.mc.thePlayer.posY)}), 2, 72, 14737632);
-            this.drawString(var8, String.format("z: %.5f (%d) // c: %d (%d)", new Object[] {Double.valueOf(this.mc.thePlayer.posZ), Integer.valueOf(var24), Integer.valueOf(var24 >> 4), Integer.valueOf(var24 & 15)}), 2, 80, 14737632);
-            int var25 = MathHelper.floor_double((double)(this.mc.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-            this.drawString(var8, "f: " + var25 + " (" + Direction.directions[var25] + ") / " + MathHelper.wrapAngleTo180_float(this.mc.thePlayer.rotationYaw), 2, 88, 14737632);
-
-            if (this.mc.theWorld != null && this.mc.theWorld.blockExists(var22, var23, var24))
-            {
-                Chunk var26 = this.mc.theWorld.getChunkFromBlockCoords(var22, var24);
-                this.drawString(var8, "lc: " + (var26.getTopFilledSegment() + 15) + " b: " + var26.getBiomeGenForWorldCoords(var22 & 15, var24 & 15, this.mc.theWorld.getWorldChunkManager()).biomeName + " bl: " + var26.getSavedLightValue(EnumSkyBlock.Block, var22 & 15, var23, var24 & 15) + " sl: " + var26.getSavedLightValue(EnumSkyBlock.Sky, var22 & 15, var23, var24 & 15) + " rl: " + var26.getBlockLightValue(var22 & 15, var23, var24 & 15, 0), 2, 96, 14737632);
-            }
-
-            this.drawString(var8, String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", new Object[] {Float.valueOf(this.mc.thePlayer.capabilities.getWalkSpeed()), Float.valueOf(this.mc.thePlayer.capabilities.getFlySpeed()), Boolean.valueOf(this.mc.thePlayer.onGround), Integer.valueOf(this.mc.theWorld.getHeightValue(var22, var24))}), 2, 104, 14737632);
-
-            if (this.mc.entityRenderer != null && this.mc.entityRenderer.isShaderActive())
-            {
-                this.drawString(var8, String.format("shader: %s", new Object[] {this.mc.entityRenderer.getShaderGroup().getShaderGroupName()}), 2, 112, 14737632);
-            }
-
-            GL11.glPopMatrix();
-            this.mc.mcProfiler.endSection();
+            renderDebug(var6);
         }
 
         if (this.recordPlayingUpFor > 0)
@@ -418,6 +377,149 @@ public class GuiIngame extends Gui
         EventBus.dispatch(new EventRender2D(var5, par1));
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
+    }
+
+    private void renderDebug(int var6)
+    {
+        if (BetterF3Cheat.INSTANCE.isToggled())
+        {
+            renderCustomDebug(var6);
+            return;
+        }
+        this.mc.mcProfiler.startSection("debug");
+        GL11.glPushMatrix();
+        FontRenderer var8 = mc.fontRenderer;
+        var8.drawStringWithShadow("Minecraft 1.7.2 (" + this.mc.debug + ")", 2, 2, 16777215);
+        var8.drawStringWithShadow(this.mc.debugInfoRenders(), 2, 12, 16777215);
+        var8.drawStringWithShadow(this.mc.getEntityDebug(), 2, 22, 16777215);
+        var8.drawStringWithShadow(this.mc.debugInfoEntities(), 2, 32, 16777215);
+        var8.drawStringWithShadow(this.mc.getWorldProviderName(), 2, 42, 16777215);
+        long var38 = Runtime.getRuntime().maxMemory();
+        long var41 = Runtime.getRuntime().totalMemory();
+        long var43 = Runtime.getRuntime().freeMemory();
+        long var45 = var41 - var43;
+        String var20 = "Used memory: " + var45 * 100L / var38 + "% (" + var45 / 1024L / 1024L + "MB) of " + var38 / 1024L / 1024L + "MB";
+        int var21 = 14737632;
+        this.drawString(var8, var20, var6 - var8.getStringWidth(var20) - 2, 2, 14737632);
+        var20 = "Allocated memory: " + var41 * 100L / var38 + "% (" + var41 / 1024L / 1024L + "MB)";
+        this.drawString(var8, var20, var6 - var8.getStringWidth(var20) - 2, 12, 14737632);
+        int var22 = MathHelper.floor_double(this.mc.thePlayer.posX);
+        int var23 = MathHelper.floor_double(this.mc.thePlayer.posY);
+        int var24 = MathHelper.floor_double(this.mc.thePlayer.posZ);
+        this.drawString(var8, String.format("x: %.5f (%d) // c: %d (%d)", new Object[] {Double.valueOf(this.mc.thePlayer.posX), Integer.valueOf(var22), Integer.valueOf(var22 >> 4), Integer.valueOf(var22 & 15)}), 2, 64, 14737632);
+        this.drawString(var8, String.format("y: %.3f (feet pos, %.3f eyes pos)", new Object[] {Double.valueOf(this.mc.thePlayer.boundingBox.minY), Double.valueOf(this.mc.thePlayer.posY)}), 2, 72, 14737632);
+        this.drawString(var8, String.format("z: %.5f (%d) // c: %d (%d)", new Object[] {Double.valueOf(this.mc.thePlayer.posZ), Integer.valueOf(var24), Integer.valueOf(var24 >> 4), Integer.valueOf(var24 & 15)}), 2, 80, 14737632);
+        int var25 = MathHelper.floor_double((double)(this.mc.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        this.drawString(var8, "f: " + var25 + " (" + Direction.directions[var25] + ") / " + MathHelper.wrapAngleTo180_float(this.mc.thePlayer.rotationYaw), 2, 88, 14737632);
+
+        if (this.mc.theWorld != null && this.mc.theWorld.blockExists(var22, var23, var24))
+        {
+            Chunk var26 = this.mc.theWorld.getChunkFromBlockCoords(var22, var24);
+            this.drawString(var8, "lc: " + (var26.getTopFilledSegment() + 15) + " b: " + var26.getBiomeGenForWorldCoords(var22 & 15, var24 & 15, this.mc.theWorld.getWorldChunkManager()).biomeName + " bl: " + var26.getSavedLightValue(EnumSkyBlock.Block, var22 & 15, var23, var24 & 15) + " sl: " + var26.getSavedLightValue(EnumSkyBlock.Sky, var22 & 15, var23, var24 & 15) + " rl: " + var26.getBlockLightValue(var22 & 15, var23, var24 & 15, 0), 2, 96, 14737632);
+        }
+
+        this.drawString(var8, String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", new Object[] {Float.valueOf(this.mc.thePlayer.capabilities.getWalkSpeed()), Float.valueOf(this.mc.thePlayer.capabilities.getFlySpeed()), Boolean.valueOf(this.mc.thePlayer.onGround), Integer.valueOf(this.mc.theWorld.getHeightValue(var22, var24))}), 2, 104, 14737632);
+
+        if (this.mc.entityRenderer != null && this.mc.entityRenderer.isShaderActive())
+        {
+            this.drawString(var8, String.format("shader: %s", new Object[] {this.mc.entityRenderer.getShaderGroup().getShaderGroupName()}), 2, 112, 14737632);
+        }
+
+        GL11.glPopMatrix();
+        this.mc.mcProfiler.endSection();
+    }
+
+    private void renderCustomDebug(int width)
+    {
+        mc.mcProfiler.startSection("debug");
+
+        glPushMatrix();
+
+        final FontRenderer font = mc.fontRenderer;
+        final int color = 16777215;
+
+        int y = 2;
+
+        font.drawStringWithShadow("Minecraft 1.7.2", 2, y, color);
+        font.drawStringWithShadow("Nebula " + ClientSettings.VERSION, 2, y += 10, color);
+
+        font.drawStringWithShadow("FPS: " + Minecraft.debugFPS, 2, y += 18, color);
+        font.drawStringWithShadow("TPS: 20.00", 2, y += 10, color); // TODO
+        font.drawStringWithShadow("Chunk Updates: " + WorldRenderer.chunksUpdated, 2, y += 10, color);
+
+        font.drawStringWithShadow(String.format("X: %.5f", mc.thePlayer.posX), 2, y += 18, color);
+        font.drawStringWithShadow(String.format("Y: %.5f", mc.thePlayer.boundingBox.minY), 2, y += 10, color);
+        font.drawStringWithShadow(String.format("Pose: %.5f", mc.thePlayer.posY), 2, y += 10, color);
+        font.drawStringWithShadow(String.format("Z: %.5f", mc.thePlayer.posZ), 2, y += 10, color);
+        font.drawStringWithShadow(String.format("Ground: %s", mc.thePlayer.onGround), 2, y += 10, color);
+
+        font.drawStringWithShadow(String.format("Direction: %s (yaw: %.3f, pitch: %.3f)", PlayerUtil.getFacing(), mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch), 2, y += 10, color);
+
+        // other side
+        y = 2;
+        String text = String.format("Java Version: %s", System.getProperty("java.version", "NULL"));
+        font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y, color);
+        text = String.format("Java Vendor: %s", System.getProperty("java.vendor", "NULL"));
+        font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+        text = String.format("OS: %s", System.getProperty("os.name", "NULL"));
+        font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 18, color);
+        text = String.format("Arch: %s", System.getProperty("os.arch", "NULL"));
+        font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+
+        double totalMemory = Runtime.getRuntime().totalMemory() * 1E-6;
+        double freeMemory = Runtime.getRuntime().freeMemory() * 1E-6;
+        double maxMemory = Runtime.getRuntime().maxMemory() * 1E-6;
+
+        text = String.format("Allocated: %.2fMB", maxMemory);
+        font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 18, color);
+        text = String.format("Free: %.2fMB", freeMemory);
+        font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+        text = String.format("Total: %.2fMB", totalMemory);
+        font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+        text = String.format("Available Processors: %s", Runtime.getRuntime().availableProcessors());
+        font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+
+        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+        {
+            y += 18;
+            text = String.format("Hit Pos: %s, %s, %s", mc.objectMouseOver.blockX, mc.objectMouseOver.blockY, mc.objectMouseOver.blockZ);
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y, color);
+            text = String.format("Side: %s (%s)", EnumFacing.values()[mc.objectMouseOver.sideHit], mc.objectMouseOver.sideHit);
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+
+            final Block block = mc.theWorld.getBlock(mc.objectMouseOver.blockX, mc.objectMouseOver.blockY, mc.objectMouseOver.blockZ);
+            text = String.format("Block: %s (%s)", block.getUnlocalizedName(), block.getClass().getSimpleName());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("Replaceable: %s", block.getMaterial().isReplaceable());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("Liquid: %s", block.getMaterial().isLiquid());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("Can Burn: %s", block.getMaterial().getCanBurn());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("Solid: %s", block.getMaterial().isSolid());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("Hardness: %s", block.blockHardness);
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("Slipperiness: %s", block.slipperiness);
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+        }
+
+        if (mc.pointedEntity != null)
+        {
+            Entity entity = mc.pointedEntity;
+
+            y += 18;
+            text = String.format("UUID: %s", entity.getUniqueID());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y, color);
+            text = String.format("Name: %s", entity.getCommandSenderName());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("ID: %s", entity.getEntityId());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+        }
+
+        glPopMatrix();
+
+        mc.mcProfiler.endSection();
     }
 
     private void renderPlayerList(final int screenWidth, final ScoreObjective objective)

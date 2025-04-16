@@ -1,12 +1,10 @@
 package us.nebula.api.pathfinding;
 
-import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.src.BlockPos;
 import us.nebula.util.math.MathUtil;
-import us.nebula.util.player.ChatUtil;
 import us.nebula.util.player.PlayerUtil;
 
 import java.util.*;
@@ -50,114 +48,152 @@ public final class PathProcessor
     };
     private static final Minecraft MC = Minecraft.getMinecraft();
 
-    private final List<BlockPos> pathQueue = new LinkedList<>();
+    private final PathfindingThread pathfindingThread = new PathfindingThread(this);
+    private final List<BlockPos> pathList = new LinkedList<>();
     private BlockPos goalBlockPos;
 
+    /**
+     * Begin to process a new path for a goal position
+     * @param goalXYZ the {@link BlockPos}
+     */
     public void process(final BlockPos goalXYZ)
     {
+        pathList.clear();
         this.goalBlockPos = goalXYZ;
-        pathQueue.clear();
+    }
 
-        final Node startNode = new Node(PlayerUtil.getOrigin());
-        startNode.g = 0;
-        startNode.h = getHeuristicValue(startNode.pos);
-        startNode.f = startNode.g + startNode.h;
+    public void reset()
+    {
+        pathList.clear();
+        goalBlockPos = null;
+        pathfindingThread.reset();
+    }
 
-        final PriorityQueue<Node> searchedNodes = new PriorityQueue<>();
-        final Set<BlockPos> searchedBlocks = new ConcurrentSet<>();
-        final Set<BlockPos> closedList = new ConcurrentSet<>();
+    public List<BlockPos> getPath()
+    {
+        return pathList;
+    }
 
-        searchedNodes.add(startNode);
-        searchedBlocks.add(startNode.pos);
+    public boolean isProcessed()
+    {
+        return pathfindingThread.isProcessed();
+    }
 
-        while (!searchedNodes.isEmpty())
+    private static final class PathfindingThread extends Thread
+    {
+        private final PathProcessor processor;
+        private boolean processed;
+
+        public PathfindingThread(final PathProcessor processor)
         {
-            final Node node = searchedNodes.poll();
-            if (node.pos.equals(goalBlockPos))
+            this.processor = processor;
+            setName("Pathfinding Thread");
+            setDaemon(true);
+            start();
+        }
+
+        @Override
+        public void run()
+        {
+            while (!isInterrupted())
             {
-                reconstructPath(node);
-                break;
+                if (processor.goalBlockPos == null)
+                {
+                    processed = true;
+                    continue;
+                }
+                pathfind();
             }
+        }
 
-            closedList.add(node.pos);
+        public void reset()
+        {
+            processed = true;
+        }
 
-            for (final BlockPos n : getNeighboring(node.pos))
+        private void pathfind()
+        {
+            if (!processor.pathList.isEmpty())
             {
-                if (closedList.contains(n))
+                return;
+            }
+            processed = false;
+
+            final PriorityQueue<Node> nodeQueue = new PriorityQueue<>();
+
+            // create the starting node to build off of
+            final Node startNode = new Node(PlayerUtil.getOrigin());
+            startNode.setH(getHeuristicValue(startNode.getPos()));
+            nodeQueue.add(startNode);
+
+            while (!nodeQueue.isEmpty())
+            {
+                final Node current = nodeQueue.poll();
+                if (current.getPos().equals(processor.goalBlockPos))
+                {
+                    reconstructPath(current);
+                    processed = true;
+                    return;
+                }
+
+                for (final BlockPos neighboringPos : getNeighboringPositions(current.getPos()))
+                {
+                    final Node next = new Node(neighboringPos);
+                    next.setG(current.getG());
+                    next.setH(getHeuristicValue(neighboringPos));
+                    if (current.getF() < next.getF() || !nodeQueue.contains(next))
+                    {
+                        next.setG(next.getG() + 1);
+                        next.setParent(current);
+                        // add this new node to search its path
+                        nodeQueue.add(next);
+                    }
+                }
+            }
+        }
+
+        private void reconstructPath(Node node)
+        {
+            processor.pathList.clear();
+            while (node != null)
+            {
+                processor.pathList.add(node.getPos());
+                node = node.getParent();
+            }
+            Collections.reverse(processor.pathList);
+        }
+
+        private double getHeuristicValue(final BlockPos pos)
+        {
+            double h = MathUtil.getDistance(pos, processor.goalBlockPos);
+            // TODO
+            return h;
+        }
+
+        private List<BlockPos> getNeighboringPositions(final BlockPos pos)
+        {
+            final List<BlockPos> viableNeighbors = new LinkedList<>();
+            for (final BlockPos neighboring : NEIGHBOR_POS)
+            {
+                final BlockPos neighbor = pos.add(neighboring);
+                Block block = MC.theWorld.getBlock(neighbor);
+
+                // if we cannot walk through this block or if the block under it is air
+                if (!block.getMaterial().isReplaceable()
+                        || MC.theWorld.getBlock(neighbor.down()) == Blocks.air)
                 {
                     continue;
                 }
-                final Node neighborNode = new Node(n);
-                final double tentativeG  = node.g + 1;
-                if (tentativeG < neighborNode.g || !searchedBlocks.contains(n))
-                {
-                    neighborNode.g = tentativeG;
-                    neighborNode.h = getHeuristicValue(n);
-                    neighborNode.f = neighborNode.g + neighborNode.h;
-                    neighborNode.parent = node;
-                    // ensure these are not re-searched
-                    searchedNodes.add(neighborNode);
-                    searchedBlocks.add(neighborNode.pos);
-                }
+
+                viableNeighbors.add(neighbor);
             }
+            return viableNeighbors;
         }
 
-        ChatUtil.send("size: " + pathQueue.size());
-    }
 
-    private void reconstructPath(Node node)
-    {
-        pathQueue.clear();
-        while (node != null)
+        public boolean isProcessed()
         {
-            pathQueue.add(node.pos);
-            node = node.parent;
+            return processed;
         }
-        Collections.reverse(pathQueue);
-    }
-
-    private double getHeuristicValue(final BlockPos pos)
-    {
-        double h = MathUtil.getDistance(pos, goalBlockPos);
-
-        if (MC.theWorld.getBlock(pos) == Blocks.lava)
-        {
-            h *= 2;
-        }
-
-        final Block under = MC.theWorld.getBlock(pos.down());
-        if (under == Blocks.lava)
-        {
-            h *= 2;
-        }
-
-        // TODO
-
-        return h;
-    }
-
-    private List<BlockPos> getNeighboring(final BlockPos pos)
-    {
-        final List<BlockPos> viableNeighbors = new LinkedList<>();
-        for (final BlockPos neighboring : NEIGHBOR_POS)
-        {
-            final BlockPos neighbor = pos.add(neighboring);
-            Block block = MC.theWorld.getBlock(neighbor);
-
-            // if we cannot walk through this block or if the block under it is air
-            if (!block.getMaterial().isReplaceable()
-                    || MC.theWorld.getBlock(neighbor.down()) == Blocks.air)
-            {
-                continue;
-            }
-
-            viableNeighbors.add(neighbor);
-        }
-        return viableNeighbors;
-    }
-
-    public List<BlockPos> getPathQueue()
-    {
-        return pathQueue;
     }
 }
