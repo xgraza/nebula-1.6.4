@@ -59,7 +59,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
                 }
             } else if (scroll < 0)
             {
-                if ((y + panelHeight) - (y + scrollOffset + getComponentHeight()) < 21)
+                if ((y + panelHeight) - (y + scrollOffset + getComponentHeight()) < height)
                 {
                     scrollOffset -= 10;
                 }
