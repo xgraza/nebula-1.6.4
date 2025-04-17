@@ -64,7 +64,7 @@ public abstract class World implements IBlockAccess
     public boolean scheduledUpdatesAreImmediate;
 
     /** A list of all Entities in all currently-loaded chunks */
-    public List loadedEntityList = new ArrayList();
+    public List<Entity> loadedEntityList = new ArrayList();
     protected List unloadedEntityList = new ArrayList();
     public List field_147482_g = new ArrayList();
     private List field_147484_a = new ArrayList();

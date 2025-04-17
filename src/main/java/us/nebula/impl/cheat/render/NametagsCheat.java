@@ -4,6 +4,8 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -40,29 +42,29 @@ public final class NametagsCheat extends Cheat
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
-        for (final EntityPlayer player : MC.theWorld.playerEntities)
+        for (final Entity entity : MC.theWorld.loadedEntityList)
         {
-            if (player == null
-                    || player.getEntityId() == FreecamCheat.CAMERA_ENTITY_ID
-                    || (player == MC.renderViewEntity && MC.gameSettings.thirdPersonView == 0))
+            if (!(entity instanceof EntityPlayer || entity instanceof EntityTameable)
+                    || entity.getEntityId() == FreecamCheat.CAMERA_ENTITY_ID
+                    || (entity == MC.renderViewEntity && MC.gameSettings.thirdPersonView == 0))
             {
                 continue;
             }
-            final double x = player.prevPosX + (player.posX - player.prevPosX) * event.getPartialTicks();
-            double y = player.prevPosY + (player.posY - player.prevPosY) * event.getPartialTicks();
-            if (player == MC.thePlayer)
+            final double x = entity.prevPosX + (entity.posX - entity.prevPosX) * event.getPartialTicks();
+            double y = entity.prevPosY + (entity.posY - entity.prevPosY) * event.getPartialTicks();
+            if (entity == MC.thePlayer)
             {
                 y -= MC.thePlayer.height;
             }
-            final double z = player.prevPosZ + (player.posZ - player.prevPosZ) * event.getPartialTicks();
-            renderPlayerTag(player,
+            final double z = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * event.getPartialTicks();
+            renderPlayerTag(entity,
                     x - RenderManager.renderPosX,
                     y - RenderManager.renderPosY,
                     z - RenderManager.renderPosZ);
         }
     };
 
-    private void renderPlayerTag(final EntityPlayer player, final double x, final double y, final double z)
+    private void renderPlayerTag(final Entity entity, final double x, final double y, final double z)
     {
         glPushMatrix();
 
@@ -72,7 +74,13 @@ public final class NametagsCheat extends Cheat
         RenderHelper.disableStandardItemLighting();
         glDisable(GL_LIGHTING);
 
-        glTranslated(x, y + player.height + 0.5, z);
+        double offset = entity.height;
+        if (entity instanceof EntityPlayer)
+        {
+            offset += 0.5;
+        }
+
+        glTranslated(x, y + offset, z);
         glRotatef(-RenderManager.instance.playerViewY, 0.0f, 1.0f, 0.0f);
         glRotatef(RenderManager.instance.playerViewX,
                 MC.gameSettings.thirdPersonView == 2
@@ -88,34 +96,41 @@ public final class NametagsCheat extends Cheat
 
         glDisable(GL_DEPTH_TEST);
 
-        final String text = getDisplayInfo(player);
-        final int height = MC.fontRenderer.FONT_HEIGHT;
-        final double width = MC.fontRenderer.getStringWidth(text) / 2.0;
+        final String text = getDisplayInfo(entity);
+        if (text != null && !text.isEmpty())
+        {
+            final int height = MC.fontRenderer.FONT_HEIGHT;
+            final double width = MC.fontRenderer.getStringWidth(text) / 2.0;
 
-        MC.fontRenderer.drawStringWithShadow(text,
-                (int) -width,
-                (int) (-height + (((height + 3) / 2.0) - (height / 2.0))),
-                -1);
+            MC.fontRenderer.drawStringWithShadow(text,
+                    (int) -width,
+                    (int) (-height + (((height + 3) / 2.0) - (height / 2.0))),
+                    -1);
+        }
 
         glEnable(GL_DEPTH_TEST);
 
-        final ItemStack heldStack = player.getHeldItem();
-        int itemX = (-24 / 2 * player.inventory.armorInventory.length)
-                + (heldStack == null ? ITEM_RENDER_SIZE : 8);
-
-        if (heldStack != null)
+        if (entity instanceof EntityPlayer)
         {
-            renderItemStack(heldStack, itemX);
-            itemX += ITEM_RENDER_SIZE;
-        }
+            final EntityPlayer player = (EntityPlayer) entity;
+            final ItemStack heldStack = player.getHeldItem();
+            int itemX = (-24 / 2 * player.inventory.armorInventory.length)
+                    + (heldStack == null ? ITEM_RENDER_SIZE : 8);
 
-        for (int i = 3; i >= 0; --i)
-        {
-            final ItemStack stack = player.inventory.armorInventory[i];
-            if (stack != null)
+            if (heldStack != null)
             {
-                renderItemStack(stack, itemX);
+                renderItemStack(heldStack, itemX);
                 itemX += ITEM_RENDER_SIZE;
+            }
+
+            for (int i = 3; i >= 0; --i)
+            {
+                final ItemStack stack = player.inventory.armorInventory[i];
+                if (stack != null)
+                {
+                    renderItemStack(stack, itemX);
+                    itemX += ITEM_RENDER_SIZE;
+                }
             }
         }
 
@@ -134,52 +149,54 @@ public final class NametagsCheat extends Cheat
     {
         RenderUtil.renderItemWithEffects(stack, x, -26);
 
-        renderEnchantmentText:
+        final Map<Integer, Integer> enchantmentList = EnchantmentHelper.getEnchantments(stack);
+        if (enchantmentList.isEmpty())
         {
-            final Map<Integer, Integer> enchantmentList = EnchantmentHelper.getEnchantments(stack);
-            if (enchantmentList.isEmpty())
-            {
-                break renderEnchantmentText;
-            }
-
-            glPushMatrix();
-
-            glDisable(GL_DEPTH_TEST);
-            glScaled(0.5, 0.5, 0.5);
-
-            double textPosY = -26.0;
-            final boolean is32kStack = enchantmentList.values().stream().anyMatch((level) -> level >= Short.MAX_VALUE);
-            if (is32kStack)
-            {
-                textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
-                MC.fontRenderer.drawStringWithShadow("32k", (int) (x * 2.0), (int) textPosY, 0xFFFF0000);
-            } else
-            {
-                for (final int id : enchantmentList.keySet())
-                {
-                    final Enchantment enchantment = Enchantment.enchantmentsList[id];
-                    if (enchantment == null)
-                    {
-                        continue;
-                    }
-
-                    final int level = enchantmentList.get(id);
-                    String text = enchantment.getTranslatedName(level).substring(0, 3) + " " + level;
-
-                    textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
-                    MC.fontRenderer.drawStringWithShadow(text, (int) (x * 2.0), (int) textPosY, -1);
-                }
-            }
-
-            glScaled(2.0, 2.0, 0.0);
-            glEnable(GL_DEPTH_TEST);
-
-            glPopMatrix();
+            return;
         }
+
+        glPushMatrix();
+
+        glDisable(GL_DEPTH_TEST);
+        glScaled(0.5, 0.5, 0.5);
+
+        double textPosY = -26.0;
+        final boolean is32kStack = enchantmentList.values().stream().anyMatch((level) -> level >= Short.MAX_VALUE);
+        if (is32kStack)
+        {
+            textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
+            MC.fontRenderer.drawStringWithShadow("32k", (int) (x * 2.0), (int) textPosY, 0xFFFF0000);
+        } else
+        {
+            for (final int id : enchantmentList.keySet())
+            {
+                final Enchantment enchantment = Enchantment.enchantmentsList[id];
+                if (enchantment == null)
+                {
+                    continue;
+                }
+
+                final int level = enchantmentList.get(id);
+                String text = enchantment.getTranslatedName(level).substring(0, 3) + " " + level;
+
+                textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
+                MC.fontRenderer.drawStringWithShadow(text, (int) (x * 2.0), (int) textPosY, -1);
+            }
+        }
+
+        glScaled(2.0, 2.0, 0.0);
+        glEnable(GL_DEPTH_TEST);
+
+        glPopMatrix();
     }
 
-    private String getDisplayInfo(final EntityPlayer player)
+    private String getDisplayInfo(final Entity entity)
     {
+        if (entity instanceof EntityTameable)
+        {
+            return ((EntityTameable)entity).getOwnerName();
+        }
+        final EntityPlayer player = (EntityPlayer) entity;
         final StringBuilder builder = new StringBuilder();
 
         if (Nebula.INSTANCE.getFriendManager().isFriend(player)
