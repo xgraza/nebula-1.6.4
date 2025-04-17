@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -515,6 +516,20 @@ public class GuiIngame extends Gui
             font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
             text = String.format("ID: %s", entity.getEntityId());
             font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+
+            final DataWatcher watcher = entity.getDataWatcher();
+            final List<DataWatcher.WatchableObject> watched = watcher.getAllWatched();
+            if (!watched.isEmpty())
+            {
+                y += 18;
+                text = (EnumChatFormatting.GRAY + EnumChatFormatting.UNDERLINE.toString() + "Watcher Data:");
+                font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y, color);
+                for (final DataWatcher.WatchableObject obj : watched)
+                {
+                    text = String.format("%s(%s) %s%s", EnumChatFormatting.GRAY, obj.getDataValueId(), EnumChatFormatting.BLUE, obj.getObject());
+                    font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+                }
+            }
         }
 
         glPopMatrix();
