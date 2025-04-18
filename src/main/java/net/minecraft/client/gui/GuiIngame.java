@@ -499,6 +499,12 @@ public class GuiIngame extends Gui
             font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
             text = String.format("Solid: %s", block.getMaterial().isSolid());
             font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("Opaque: %s", block.getMaterial().isOpaque());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("Collidable: %s", block.isCollidable());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("Normal: %s", block.isNormalCube());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
             text = String.format("Hardness: %s", block.blockHardness);
             font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
             text = String.format("Slipperiness: %s", block.slipperiness);
