@@ -18,13 +18,13 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityBeacon extends TileEntity implements IInventory
 {
-    public static final Potion[][] field_146009_a = new Potion[][] {{Potion.moveSpeed, Potion.digSpeed}, {Potion.resistance, Potion.jump}, {Potion.damageBoost}, {Potion.regeneration}};
+    public static final Potion[][] POTION_LEVELS = new Potion[][] {{Potion.moveSpeed, Potion.digSpeed}, {Potion.resistance, Potion.jump}, {Potion.damageBoost}, {Potion.regeneration}};
     private long field_146016_i;
     private float field_146014_j;
     private boolean field_146015_k;
     private int field_146012_l = -1;
     private int field_146013_m;
-    private int field_146010_n;
+    public int field_146010_n;
     private ItemStack field_146011_o;
     private String field_146008_p;
     private static final String __OBFID = "CL_00000339";
@@ -196,7 +196,7 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 
         for (int var2 = 0; var2 < this.field_146012_l && var2 < 3; ++var2)
         {
-            Potion[] var3 = field_146009_a[var2];
+            Potion[] var3 = POTION_LEVELS[var2];
             int var4 = var3.length;
 
             for (int var5 = 0; var5 < var4; ++var5)
@@ -220,7 +220,7 @@ public class TileEntityBeacon extends TileEntity implements IInventory
         {
             for (int var2 = 0; var2 < 4; ++var2)
             {
-                Potion[] var3 = field_146009_a[var2];
+                Potion[] var3 = POTION_LEVELS[var2];
                 int var4 = var3.length;
 
                 for (int var5 = 0; var5 < var4; ++var5)

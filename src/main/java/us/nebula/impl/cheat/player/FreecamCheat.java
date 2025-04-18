@@ -143,6 +143,7 @@ public final class FreecamCheat extends Cheat
         @Override
         public void onUpdate()
         {
+            super.onUpdate();
             input.updatePlayerMoveState();
             moveForward = input.moveForward;
             moveStrafing = input.moveStrafe;

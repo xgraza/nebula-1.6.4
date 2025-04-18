@@ -1821,7 +1821,7 @@ public class RenderGlobal implements IWorldAccess
             }
 
             GL11.glColor3f(0.0F, 0.0F, 0.0F);
-            double var28 = this.mc.thePlayer.getPosition(par1).yCoord - this.theWorld.getHorizon();
+            double var28 = this.mc.renderViewEntity.getPosition(par1).yCoord - this.theWorld.getHorizon();
 
             if (var28 < 0.0D)
             {
