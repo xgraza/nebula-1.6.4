@@ -5,6 +5,9 @@ import us.nebula.api.manager.command.argument.Argument;
 import us.nebula.api.manager.command.argument.Constraint;
 import us.nebula.api.manager.command.exception.ArgumentResolveException;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author xgraza
  * @since 03/20/25
@@ -36,6 +39,29 @@ public final class ItemArgument extends Argument<Item>
             throw new ArgumentResolveException(this, raw);
         }
         setValue(resolvedItem);
+    }
+
+    @Override
+    public List<String> computeSuggestions(String input)
+    {
+        if (isDigit(input) != null)
+        {
+            return super.computeSuggestions(input);
+        }
+        if (input.startsWith("minecraft:"))
+        {
+            input = input.substring("minecraft:".length());
+        }
+        input = input.trim().toLowerCase();
+        final List<String> suggestionList = new LinkedList<>();
+        for (final String itemName : Item.itemRegistry.objectNameMap.values())
+        {
+            if (itemName.toLowerCase().contains(input))
+            {
+                suggestionList.add(itemName);
+            }
+        }
+        return suggestionList;
     }
 
     private Integer isDigit(final String raw)

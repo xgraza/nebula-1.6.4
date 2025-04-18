@@ -53,6 +53,11 @@ public abstract class Argument<T>
 
     public abstract void resolve(final String raw) throws ArgumentResolveException;
 
+    public List<String> computeSuggestions(final String input)
+    {
+        return Collections.emptyList();
+    }
+
     public String getName()
     {
         return name;

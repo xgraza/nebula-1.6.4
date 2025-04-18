@@ -9,12 +9,11 @@ public class RegistryNamespaced extends RegistrySimple implements IObjectIntIter
 {
     /** The backing store that maps Integers to objects. */
     protected final ObjectIntIdentityMap underlyingIntegerMap = new ObjectIntIdentityMap();
-    protected final Map field_148758_b;
-    private static final String __OBFID = "CL_00001206";
+    public final Map<Object, String> objectNameMap;
 
     public RegistryNamespaced()
     {
-        this.field_148758_b = ((BiMap)this.registryObjects).inverse();
+        this.objectNameMap = ((BiMap)this.registryObjects).inverse();
     }
 
     /**
@@ -44,7 +43,7 @@ public class RegistryNamespaced extends RegistrySimple implements IObjectIntIter
      */
     public String getNameForObject(Object p_148750_1_)
     {
-        return (String)this.field_148758_b.get(p_148750_1_);
+        return (String)this.objectNameMap.get(p_148750_1_);
     }
 
     /**

@@ -37,4 +37,10 @@ public final class BooleanArgument extends Argument<Boolean>
             throw new ArgumentResolveException(this, raw);
         }
     }
+
+    @Override
+    public List<String> computeSuggestions(final String input)
+    {
+        return super.computeSuggestions(input);
+    }
 }
