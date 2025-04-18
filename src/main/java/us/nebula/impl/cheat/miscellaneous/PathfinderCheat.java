@@ -2,6 +2,7 @@ package us.nebula.impl.cheat.miscellaneous;
 
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.src.BlockPos;
+import us.nebula.api.DebugFeature;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -15,7 +16,7 @@ import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 
-//@DebugFeature
+@DebugFeature
 @CheatManifest(name = "Pathfinder", category = CheatCategory.MISCELLANEOUS)
 public final class PathfinderCheat extends Cheat
 {
