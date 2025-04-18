@@ -47,9 +47,9 @@ public class GuiScreenClientOutdated extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        if (par2 == 28 || par2 == 156)
+        if (keyCode == 28 || keyCode == 156)
         {
             this.mc.displayGuiScreen(this.field_146901_a);
         }

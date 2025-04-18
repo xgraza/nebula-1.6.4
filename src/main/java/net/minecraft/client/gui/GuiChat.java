@@ -1,6 +1,7 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,27 +28,35 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import us.nebula.Nebula;
+import us.nebula.api.manager.command.CommandManager;
 import us.nebula.impl.cheat.miscellaneous.TranslateCheat;
+
+import static org.lwjgl.input.Keyboard.*;
 
 public class GuiChat extends GuiScreen
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
     private String field_146410_g = "";
-    private int field_146416_h = -1;
-    private boolean field_146417_i;
-    private boolean field_146414_r;
-    private int field_146413_s;
-    private List field_146412_t = new ArrayList();
-    private URI field_146411_u;
-    protected GuiTextField field_146415_a;
-    private String field_146409_v = "";
-    private static final String __OBFID = "CL_00000682";
+    private int chatSize = -1;
+    private boolean parsedTabComplete;
+    private boolean waitForTabComplete;
+    private int tabCompleteIndex;
+    private final List<String> tabCompleteCandidateList = new ArrayList<>();
+    private URI linkToOpen;
+    protected GuiTextField chatTextField;
+    private String text = "";
 
-    public GuiChat() {}
+    private int commandSuggestionIndex;
 
-    public GuiChat(String par1Str)
+    public GuiChat()
     {
-        this.field_146409_v = par1Str;
+
+    }
+
+    public GuiChat(String text)
+    {
+        this.text = text;
     }
 
     /**
@@ -56,13 +65,13 @@ public class GuiChat extends GuiScreen
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
-        this.field_146416_h = this.mc.ingameGUI.getChatGui().getSentMessages().size();
-        this.field_146415_a = new GuiTextField(this.fontRenderer, 4, this.height - 12, this.width - 4, 12);
-        this.field_146415_a.setMaxTextLength(100);
-        this.field_146415_a.func_146185_a(false);
-        this.field_146415_a.setFocused(true);
-        this.field_146415_a.setText(this.field_146409_v);
-        this.field_146415_a.func_146205_d(false);
+        this.chatSize = this.mc.ingameGUI.getChatGui().getSentMessages().size();
+        this.chatTextField = new GuiTextField(this.fontRenderer, 4, this.height - 12, this.width - 4, 12);
+        this.chatTextField.setMaxTextLength(100);
+        this.chatTextField.func_146185_a(false);
+        this.chatTextField.setFocused(true);
+        this.chatTextField.setText(this.text);
+        this.chatTextField.func_146205_d(false);
     }
 
     /**
@@ -79,69 +88,69 @@ public class GuiChat extends GuiScreen
      */
     public void updateScreen()
     {
-        this.field_146415_a.updateCursorCounter();
+        this.chatTextField.updateCursorCounter();
     }
 
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        this.field_146414_r = false;
+        this.waitForTabComplete = false;
 
-        if (par2 == 15)
+        if (keyCode == KEY_TAB)
         {
-            this.func_146404_p_();
+            this.offerTabCompleteResults();
+            ++commandSuggestionIndex;
         }
         else
         {
-            this.field_146417_i = false;
+            this.parsedTabComplete = false;
         }
 
-        if (par2 == 1)
+        if (keyCode == KEY_ESCAPE)
         {
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
         }
-        else if (par2 != 28 && par2 != 156)
+        else if (keyCode != KEY_RETURN && keyCode != KEY_NUMPADENTER)
         {
-            if (par2 == 200)
+            if (keyCode == KEY_UP)
             {
                 this.func_146402_a(-1);
             }
-            else if (par2 == 208)
+            else if (keyCode == KEY_DOWN)
             {
                 this.func_146402_a(1);
             }
-            else if (par2 == 201)
+            else if (keyCode == KEY_PRIOR)
             {
                 this.mc.ingameGUI.getChatGui().scroll(this.mc.ingameGUI.getChatGui().func_146232_i() - 1);
             }
-            else if (par2 == 209)
+            else if (keyCode == KEY_NEXT)
             {
                 this.mc.ingameGUI.getChatGui().scroll(-this.mc.ingameGUI.getChatGui().func_146232_i() + 1);
             }
             else
             {
-                this.field_146415_a.textboxKeyTyped(par1, par2);
+                this.chatTextField.textboxKeyTyped(typedChar, keyCode);
             }
         }
         else
         {
-            String var3 = this.field_146415_a.getText().trim();
-
-            if (var3.length() > 0)
+            String var3 = this.chatTextField.getText().trim();
+            if (!var3.isEmpty())
             {
-                this.func_146403_a(var3);
+                this.sendMessage(var3);
             }
 
             this.mc.displayGuiScreen((GuiScreen)null);
         }
     }
 
-    public void func_146403_a(String p_146403_1_)
+    public void sendMessage(String message)
     {
-        this.mc.ingameGUI.getChatGui().addToSentMessages(p_146403_1_);
-        this.mc.thePlayer.sendChatMessage(p_146403_1_);
+        this.mc.ingameGUI.getChatGui().addToSentMessages(message);
+        this.mc.thePlayer.sendChatMessage(message);
     }
 
     /**
@@ -150,35 +159,35 @@ public class GuiChat extends GuiScreen
     public void handleMouseInput()
     {
         super.handleMouseInput();
-        int var1 = Mouse.getEventDWheel();
+        int scroll = Mouse.getEventDWheel();
 
-        if (var1 != 0)
+        if (scroll != 0)
         {
-            if (var1 > 1)
+            if (scroll > 1)
             {
-                var1 = 1;
+                scroll = 1;
             }
 
-            if (var1 < -1)
+            if (scroll < -1)
             {
-                var1 = -1;
+                scroll = -1;
             }
 
             if (!isShiftKeyDown())
             {
-                var1 *= 7;
+                scroll *= 7;
             }
 
-            this.mc.ingameGUI.getChatGui().scroll(var1);
+            this.mc.ingameGUI.getChatGui().scroll(scroll);
         }
     }
 
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        if (par3 == 0 && this.mc.gameSettings.chatLinks)
+        if (mouseButton == 0 && this.mc.gameSettings.chatLinks)
         {
             IChatComponent var4 = this.mc.ingameGUI.getChatGui().func_146236_a(Mouse.getX(), Mouse.getY());
 
@@ -190,7 +199,7 @@ public class GuiChat extends GuiScreen
                 {
                     if (isShiftKeyDown())
                     {
-                        this.field_146415_a.func_146191_b(var4.getUnformattedTextForChat());
+                        this.chatTextField.func_146191_b(var4.getUnformattedTextForChat());
                     }
                     else
                     {
@@ -204,31 +213,31 @@ public class GuiChat extends GuiScreen
 
                                 if (this.mc.gameSettings.chatLinksPrompt)
                                 {
-                                    this.field_146411_u = var6;
+                                    this.linkToOpen = var6;
                                     this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, var5.getValue(), 0, false));
                                 }
                                 else
                                 {
-                                    this.func_146407_a(var6);
+                                    this.openURL(var6);
                                 }
                             }
                             catch (URISyntaxException var7)
                             {
-                                logger.error("Can\'t open url for " + var5, var7);
+                                LOGGER.error("Can\'t open url for " + var5, var7);
                             }
                         }
                         else if (var5.getAction() == ClickEvent.Action.OPEN_FILE)
                         {
                             var6 = (new File(var5.getValue())).toURI();
-                            this.func_146407_a(var6);
+                            this.openURL(var6);
                         }
                         else if (var5.getAction() == ClickEvent.Action.SUGGEST_COMMAND)
                         {
-                            this.field_146415_a.setText(var5.getValue());
+                            this.chatTextField.setText(var5.getValue());
                         }
                         else if (var5.getAction() == ClickEvent.Action.RUN_COMMAND)
                         {
-                            this.func_146403_a(var5.getValue());
+                            this.sendMessage(var5.getValue());
                         }
                         else
                         {
@@ -237,7 +246,7 @@ public class GuiChat extends GuiScreen
                                 TranslateCheat.INSTANCE.handleTranslate(var4);
                             } else
                             {
-                                logger.error("Don\'t know how to handle " + var5);
+                                LOGGER.error("Don\'t know how to handle " + var5);
                             }
                         }
                     }
@@ -247,76 +256,75 @@ public class GuiChat extends GuiScreen
             }
         }
 
-        this.field_146415_a.mouseClicked(par1, par2, par3);
-        super.mouseClicked(par1, par2, par3);
+        this.chatTextField.mouseClicked(mouseX, mouseY, mouseButton);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    public void confirmClicked(boolean par1, int par2)
+    public void confirmClicked(boolean confirmed, int result)
     {
-        if (par2 == 0)
+        if (result == 0)
         {
-            if (par1)
+            if (confirmed)
             {
-                this.func_146407_a(this.field_146411_u);
+                this.openURL(this.linkToOpen);
             }
 
-            this.field_146411_u = null;
+            this.linkToOpen = null;
             this.mc.displayGuiScreen(this);
         }
     }
 
-    private void func_146407_a(URI p_146407_1_)
+    private void openURL(URI uri)
     {
         try
         {
-            Class var2 = Class.forName("java.awt.Desktop");
-            Object var3 = var2.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-            var2.getMethod("browse", new Class[] {URI.class}).invoke(var3, new Object[] {p_146407_1_});
+            Class<?> desktopClass = Class.forName("java.awt.Desktop");
+            Object getDesktopMethod = desktopClass.getMethod("getDesktop", new Class[0]).invoke(null);
+            desktopClass.getMethod("browse", URI.class).invoke(getDesktopMethod, uri);
         }
-        catch (Throwable var4)
+        catch (final Throwable throwable)
         {
-            logger.error("Couldn\'t open link", var4);
+            LOGGER.error("Couldn't open link", throwable);
         }
     }
 
-    public void func_146404_p_()
+    public void offerTabCompleteResults()
     {
-        String var3;
+        String sanitizedText;
 
-        if (this.field_146417_i)
+        if (this.parsedTabComplete)
         {
-            this.field_146415_a.func_146175_b(this.field_146415_a.func_146197_a(-1, this.field_146415_a.func_146198_h(), false) - this.field_146415_a.func_146198_h());
+            this.chatTextField.func_146175_b(this.chatTextField.func_146197_a(-1, this.chatTextField.func_146198_h(), false) - this.chatTextField.func_146198_h());
 
-            if (this.field_146413_s >= this.field_146412_t.size())
+            if (this.tabCompleteIndex >= this.tabCompleteCandidateList.size())
             {
-                this.field_146413_s = 0;
+                this.tabCompleteIndex = 0;
             }
         }
         else
         {
-            int var1 = this.field_146415_a.func_146197_a(-1, this.field_146415_a.func_146198_h(), false);
-            this.field_146412_t.clear();
-            this.field_146413_s = 0;
-            String var2 = this.field_146415_a.getText().substring(var1).toLowerCase();
-            var3 = this.field_146415_a.getText().substring(0, this.field_146415_a.func_146198_h());
-            this.func_146405_a(var3, var2);
+            int var1 = this.chatTextField.func_146197_a(-1, this.chatTextField.func_146198_h(), false);
+            this.tabCompleteCandidateList.clear();
+            this.tabCompleteIndex = 0;
+            sanitizedText = this.chatTextField.getText().substring(0, this.chatTextField.func_146198_h());
+            this.tabComplete(sanitizedText);
 
-            if (this.field_146412_t.isEmpty())
+            if (this.tabCompleteCandidateList.isEmpty())
             {
                 return;
             }
 
-            this.field_146417_i = true;
-            this.field_146415_a.func_146175_b(var1 - this.field_146415_a.func_146198_h());
+            this.parsedTabComplete = true;
+            this.chatTextField.func_146175_b(var1 - this.chatTextField.func_146198_h());
         }
 
-        if (this.field_146412_t.size() > 1)
+        if (this.tabCompleteCandidateList.size() > 1)
         {
             StringBuilder var4 = new StringBuilder();
 
-            for (Iterator var5 = this.field_146412_t.iterator(); var5.hasNext(); var4.append(var3))
+            for (Iterator<String> var5 = this.tabCompleteCandidateList.iterator(); var5.hasNext(); var4.append(sanitizedText))
             {
-                var3 = (String)var5.next();
+                sanitizedText = var5.next();
 
                 if (var4.length() > 0)
                 {
@@ -327,21 +335,21 @@ public class GuiChat extends GuiScreen
             this.mc.ingameGUI.getChatGui().printChatMessageWithOptionalDeletion(new ChatComponentText(var4.toString()), 1);
         }
 
-        this.field_146415_a.func_146191_b((String)this.field_146412_t.get(this.field_146413_s++));
+        this.chatTextField.func_146191_b(this.tabCompleteCandidateList.get(this.tabCompleteIndex++));
     }
 
-    private void func_146405_a(String p_146405_1_, String p_146405_2_)
+    private void tabComplete(String text)
     {
-        if (p_146405_1_.length() >= 1)
+        if (!text.isEmpty())
         {
-            this.mc.thePlayer.sendQueue.addToSendQueue(new C14PacketTabComplete(p_146405_1_));
-            this.field_146414_r = true;
+            this.mc.thePlayer.sendQueue.addToSendQueue(new C14PacketTabComplete(text));
+            this.waitForTabComplete = true;
         }
     }
 
     public void func_146402_a(int p_146402_1_)
     {
-        int var2 = this.field_146416_h + p_146402_1_;
+        int var2 = this.chatSize + p_146402_1_;
         int var3 = this.mc.ingameGUI.getChatGui().getSentMessages().size();
 
         if (var2 < 0)
@@ -354,22 +362,22 @@ public class GuiChat extends GuiScreen
             var2 = var3;
         }
 
-        if (var2 != this.field_146416_h)
+        if (var2 != this.chatSize)
         {
             if (var2 == var3)
             {
-                this.field_146416_h = var3;
-                this.field_146415_a.setText(this.field_146410_g);
+                this.chatSize = var3;
+                this.chatTextField.setText(this.field_146410_g);
             }
             else
             {
-                if (this.field_146416_h == var3)
+                if (this.chatSize == var3)
                 {
-                    this.field_146410_g = this.field_146415_a.getText();
+                    this.field_146410_g = this.chatTextField.getText();
                 }
 
-                this.field_146415_a.setText((String)this.mc.ingameGUI.getChatGui().getSentMessages().get(var2));
-                this.field_146416_h = var2;
+                this.chatTextField.setText((String)this.mc.ingameGUI.getChatGui().getSentMessages().get(var2));
+                this.chatSize = var2;
             }
         }
     }
@@ -377,101 +385,131 @@ public class GuiChat extends GuiScreen
     /**
      * Draws the screen and all the components in it.
      */
-    public void drawScreen(int par1, int par2, float par3)
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
-        this.field_146415_a.drawTextBox();
-        IChatComponent var4 = this.mc.ingameGUI.getChatGui().func_146236_a(Mouse.getX(), Mouse.getY());
+        this.chatTextField.drawTextBox();
 
-        if (var4 != null && var4.getChatStyle().getChatHoverEvent() != null)
+        // TODO: improve this a little bit...
+        final String text = chatTextField.getText();
+        if (text.startsWith(CommandManager.COMMAND_PREFIX))
         {
-            HoverEvent var5 = var4.getChatStyle().getChatHoverEvent();
-
-            if (var5.getAction() == HoverEvent.Action.SHOW_ITEM)
+            final List<String> suggestions = Nebula.INSTANCE.getCommandManager().suggestCommand(text);
+            if (suggestions != null && !suggestions.isEmpty())
             {
-                ItemStack var6 = null;
-
-                try
+                if (suggestions.size() == 1)
                 {
-                    NBTBase var7 = JsonToNBT.func_150315_a(var5.getValue().getUnformattedText());
-
-                    if (var7 != null && var7 instanceof NBTTagCompound)
+                    chatTextField.setText(CommandManager.COMMAND_PREFIX + suggestions.get(0) + " ");
+                } else
+                {
+                    if (commandSuggestionIndex > suggestions.size() - 1)
                     {
-                        var6 = ItemStack.loadItemStackFromNBT((NBTTagCompound)var7);
+                        commandSuggestionIndex = 0;
                     }
-                }
-                catch (NBTException var11)
-                {
-                    ;
-                }
+                    final String suggestion = suggestions.get(commandSuggestionIndex);
 
-                if (var6 != null)
-                {
-                    this.func_146285_a(var6, par1, par2);
+                    int startPosX = chatTextField.posX + fontRenderer.getStringWidth(text);
+                    int posY = chatTextField.posY;
+                    fontRenderer.drawStringWithShadow(suggestion.substring(text.length() - 1), startPosX, posY, 8355711);
                 }
-                else
-                {
-                    this.func_146279_a(EnumChatFormatting.RED + "Invalid Item!", par1, par2);
-                }
-            }
-            else if (var5.getAction() == HoverEvent.Action.SHOW_TEXT)
+            } else
             {
-                this.func_146279_a(var5.getValue().getFormattedText(), par1, par2);
+                commandSuggestionIndex = 0;
             }
-            else if (var5.getAction() == HoverEvent.Action.SHOW_ACHIEVEMENT)
+        }
+
+        IChatComponent componentAt = this.mc.ingameGUI.getChatGui().func_146236_a(Mouse.getX(), Mouse.getY());
+
+        if (componentAt != null && componentAt.getChatStyle().getChatHoverEvent() != null)
+        {
+            final HoverEvent hoverEvent = componentAt.getChatStyle().getChatHoverEvent();
+            switch (hoverEvent.getAction())
             {
-                StatBase var12 = StatList.func_151177_a(var5.getValue().getUnformattedText());
-
-                if (var12 != null)
+                case SHOW_ITEM:
                 {
-                    IChatComponent var13 = var12.func_150951_e();
-                    ChatComponentTranslation var8 = new ChatComponentTranslation("stats.tooltip.type." + (var12.isAchievement() ? "achievement" : "statistic"), new Object[0]);
-                    var8.getChatStyle().setItalic(Boolean.valueOf(true));
-                    String var9 = var12 instanceof Achievement ? ((Achievement)var12).getDescription() : null;
-                    ArrayList var10 = Lists.newArrayList(new String[] {var13.getFormattedText(), var8.getFormattedText()});
-
-                    if (var9 != null)
+                    ItemStack itemStack = null;
+                    try
                     {
-                        var10.addAll(this.fontRenderer.listFormattedStringToWidth(var9, 150));
+                        final NBTBase nbtBase = JsonToNBT.func_150315_a(hoverEvent.getValue().getUnformattedText());
+                        if (nbtBase instanceof NBTTagCompound)
+                        {
+                            itemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtBase);
+                        }
+                    }
+                    catch (final NBTException ignored)
+                    {
+
                     }
 
-                    this.func_146283_a(var10, par1, par2);
+                    if (itemStack != null)
+                    {
+                        this.renderItem(itemStack, mouseX, mouseY);
+                    }
+                    else
+                    {
+                        this.renderText(EnumChatFormatting.RED + "Invalid Item!", mouseX, mouseY);
+                    }
+                    break;
                 }
-                else
+                case SHOW_TEXT:
                 {
-                    this.func_146279_a(EnumChatFormatting.RED + "Invalid statistic/achievement!", par1, par2);
+                    this.renderText(hoverEvent.getValue().getFormattedText(), mouseX, mouseY);
+                    break;
+                }
+                case SHOW_ACHIEVEMENT:
+                {
+                    StatBase statBase = StatList.func_151177_a(hoverEvent.getValue().getUnformattedText());
+                    if (statBase == null)
+                    {
+                        this.renderText(EnumChatFormatting.RED + "Invalid statistic/achievement!", mouseX, mouseY);
+                        break;
+                    }
+
+                    final IChatComponent chatComponent = statBase.func_150951_e();
+                    final ChatComponentTranslation translationComponent = new ChatComponentTranslation(
+                            "stats.tooltip.type."
+                                    + (statBase.isAchievement() ? "achievement" : "statistic"));
+                    translationComponent.getChatStyle().setItalic(true);
+                    final String description = statBase instanceof Achievement
+                            ? ((Achievement) statBase).getDescription()
+                            : null;
+                    ArrayList<String> textList = Lists.newArrayList(chatComponent.getFormattedText(), translationComponent.getFormattedText());
+
+                    if (description != null)
+                    {
+                        textList.addAll(this.fontRenderer.listFormattedStringToWidth(description, 150));
+                    }
+
+                    this.renderTextList(textList, mouseX, mouseY);
+                    break;
                 }
             }
 
             GL11.glDisable(GL11.GL_LIGHTING);
         }
 
-        super.drawScreen(par1, par2, par3);
+        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    public void func_146406_a(String[] p_146406_1_)
+    public void handleServerTabComplete(final String[] candidates)
     {
-        if (this.field_146414_r)
+        if (this.waitForTabComplete)
         {
-            this.field_146417_i = false;
-            this.field_146412_t.clear();
-            String[] var2 = p_146406_1_;
-            int var3 = p_146406_1_.length;
+            this.parsedTabComplete = false;
+            this.tabCompleteCandidateList.clear();
 
-            for (int var4 = 0; var4 < var3; ++var4)
+            for (String candidate : candidates)
             {
-                String var5 = var2[var4];
-
-                if (var5.length() > 0)
+                if (!candidate.isEmpty())
                 {
-                    this.field_146412_t.add(var5);
+                    this.tabCompleteCandidateList.add(candidate);
                 }
             }
 
-            if (this.field_146412_t.size() > 0)
+            if (!this.tabCompleteCandidateList.isEmpty())
             {
-                this.field_146417_i = true;
-                this.func_146404_p_();
+                this.parsedTabComplete = true;
+                this.offerTabCompleteResults();
             }
         }
     }

@@ -1,13 +1,11 @@
 package net.minecraft.client.gui;
 
 import java.awt.Toolkit;
-import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -20,12 +18,14 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import static org.lwjgl.input.Keyboard.KEY_ESCAPE;
+
 public class GuiScreen extends Gui
 {
     /**
      * Holds a instance of RenderItem, used to draw the achievement icons on screen (is based on ItemStack)
      */
-    protected static RenderItem renderItemGs = new RenderItem();
+    protected static final RenderItem RENDER_ITEM = new RenderItem();
 
     /** Reference to the Minecraft object. */
     protected Minecraft mc;
@@ -37,10 +37,10 @@ public class GuiScreen extends Gui
     public int height;
 
     /** A list of all the buttons in this container. */
-    protected List<GuiButton> buttonList = new ArrayList();
+    protected List<GuiButton> buttonList = new ArrayList<>();
 
     /** A list of all the labels in this container. */
-    protected List labelList = new ArrayList();
+    protected List<GuiLabel> labelList = new ArrayList<>();
     public boolean allowUserInput;
 
     /** The FontRenderer used by GuiScreen */
@@ -51,7 +51,6 @@ public class GuiScreen extends Gui
     private int eventButton;
     private long lastMouseEvent;
     private int field_146298_h;
-    private static final String __OBFID = "CL_00000710";
 
     /**
      * Draws the screen and all the components in it.
@@ -62,23 +61,23 @@ public class GuiScreen extends Gui
 
         for (var4 = 0; var4 < this.buttonList.size(); ++var4)
         {
-            ((GuiButton)this.buttonList.get(var4)).drawButton(this.mc, par1, par2);
+            this.buttonList.get(var4).drawButton(this.mc, par1, par2);
         }
 
         for (var4 = 0; var4 < this.labelList.size(); ++var4)
         {
-            ((GuiLabel)this.labelList.get(var4)).func_146159_a(this.mc, par1, par2);
+            this.labelList.get(var4).drawLabel(this.mc, par1, par2);
         }
     }
 
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        if (par2 == 1)
+        if (keyCode == KEY_ESCAPE)
         {
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
             this.mc.setIngameFocus();
         }
     }
@@ -90,95 +89,91 @@ public class GuiScreen extends Gui
     {
         try
         {
-            Transferable var0 = Toolkit.getDefaultToolkit().getSystemClipboard().getContents((Object)null);
-
-            if (var0 != null && var0.isDataFlavorSupported(DataFlavor.stringFlavor))
+            final Transferable contents = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+            if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor))
             {
-                return (String)var0.getTransferData(DataFlavor.stringFlavor);
+                return (String) contents.getTransferData(DataFlavor.stringFlavor);
             }
         }
-        catch (Exception var1)
+        catch (Exception ignored)
         {
-            ;
-        }
 
+        }
         return "";
     }
 
     /**
      * Stores the given string in the system clipboard
      */
-    public static void setClipboardString(String p_146275_0_)
+    public static void setClipboardString(final String text)
     {
         try
         {
-            StringSelection var1 = new StringSelection(p_146275_0_);
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(var1, (ClipboardOwner)null);
+            final StringSelection selection = new StringSelection(text);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
         }
-        catch (Exception var2)
+        catch (Exception ignored)
         {
-            ;
+
         }
     }
 
-    protected void func_146285_a(ItemStack p_146285_1_, int p_146285_2_, int p_146285_3_)
+    protected void renderItem(ItemStack itemStack, int x, int y)
     {
-        List var4 = p_146285_1_.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+        final List<String> tooltipList = itemStack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
 
-        for (int var5 = 0; var5 < var4.size(); ++var5)
+        for (int i = 0; i < tooltipList.size(); ++i)
         {
-            if (var5 == 0)
+            if (i == 0)
             {
-                var4.set(var5, p_146285_1_.getRarity().rarityColor + (String)var4.get(var5));
+                tooltipList.set(i, itemStack.getRarity().rarityColor + tooltipList.get(i));
             }
             else
             {
-                var4.set(var5, EnumChatFormatting.GRAY + (String)var4.get(var5));
+                tooltipList.set(i, EnumChatFormatting.GRAY + tooltipList.get(i));
             }
         }
 
-        this.func_146283_a(var4, p_146285_2_, p_146285_3_);
+        this.renderTextList(tooltipList, x, y);
     }
 
-    protected void func_146279_a(String p_146279_1_, int p_146279_2_, int p_146279_3_)
+    protected void renderText(String p_146279_1_, int p_146279_2_, int p_146279_3_)
     {
-        this.func_146283_a(Arrays.asList(new String[] {p_146279_1_}), p_146279_2_, p_146279_3_);
+        this.renderTextList(Collections.singletonList(p_146279_1_), p_146279_2_, p_146279_3_);
     }
 
-    protected void func_146283_a(List p_146283_1_, int p_146283_2_, int p_146283_3_)
+    protected void renderTextList(List<String> textList, int x, int y)
     {
-        if (!p_146283_1_.isEmpty())
+        if (!textList.isEmpty())
         {
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_DEPTH_TEST);
-            int var4 = 0;
-            Iterator var5 = p_146283_1_.iterator();
 
-            while (var5.hasNext())
+            int maxWidth = 0;
+            for (final String var6 : textList)
             {
-                String var6 = (String)var5.next();
                 int var7 = this.fontRenderer.getStringWidth(var6);
 
-                if (var7 > var4)
+                if (var7 > maxWidth)
                 {
-                    var4 = var7;
+                    maxWidth = var7;
                 }
             }
 
-            int var14 = p_146283_2_ + 12;
-            int var15 = p_146283_3_ - 12;
+            int var14 = x + 12;
+            int var15 = y - 12;
             int var8 = 8;
 
-            if (p_146283_1_.size() > 1)
+            if (textList.size() > 1)
             {
-                var8 += 2 + (p_146283_1_.size() - 1) * 10;
+                var8 += 2 + (textList.size() - 1) * 10;
             }
 
-            if (var14 + var4 > this.width)
+            if (var14 + maxWidth > this.width)
             {
-                var14 -= 28 + var4;
+                var14 -= 28 + maxWidth;
             }
 
             if (var15 + var8 + 6 > this.height)
@@ -187,23 +182,23 @@ public class GuiScreen extends Gui
             }
 
             this.zLevel = 300.0F;
-            renderItemGs.zLevel = 300.0F;
+            RENDER_ITEM.zLevel = 300.0F;
             int var9 = -267386864;
-            this.drawGradientRect(var14 - 3, var15 - 4, var14 + var4 + 3, var15 - 3, var9, var9);
-            this.drawGradientRect(var14 - 3, var15 + var8 + 3, var14 + var4 + 3, var15 + var8 + 4, var9, var9);
-            this.drawGradientRect(var14 - 3, var15 - 3, var14 + var4 + 3, var15 + var8 + 3, var9, var9);
+            this.drawGradientRect(var14 - 3, var15 - 4, var14 + maxWidth + 3, var15 - 3, var9, var9);
+            this.drawGradientRect(var14 - 3, var15 + var8 + 3, var14 + maxWidth + 3, var15 + var8 + 4, var9, var9);
+            this.drawGradientRect(var14 - 3, var15 - 3, var14 + maxWidth + 3, var15 + var8 + 3, var9, var9);
             this.drawGradientRect(var14 - 4, var15 - 3, var14 - 3, var15 + var8 + 3, var9, var9);
-            this.drawGradientRect(var14 + var4 + 3, var15 - 3, var14 + var4 + 4, var15 + var8 + 3, var9, var9);
+            this.drawGradientRect(var14 + maxWidth + 3, var15 - 3, var14 + maxWidth + 4, var15 + var8 + 3, var9, var9);
             int var10 = 1347420415;
             int var11 = (var10 & 16711422) >> 1 | var10 & -16777216;
             this.drawGradientRect(var14 - 3, var15 - 3 + 1, var14 - 3 + 1, var15 + var8 + 3 - 1, var10, var11);
-            this.drawGradientRect(var14 + var4 + 2, var15 - 3 + 1, var14 + var4 + 3, var15 + var8 + 3 - 1, var10, var11);
-            this.drawGradientRect(var14 - 3, var15 - 3, var14 + var4 + 3, var15 - 3 + 1, var10, var10);
-            this.drawGradientRect(var14 - 3, var15 + var8 + 2, var14 + var4 + 3, var15 + var8 + 3, var11, var11);
+            this.drawGradientRect(var14 + maxWidth + 2, var15 - 3 + 1, var14 + maxWidth + 3, var15 + var8 + 3 - 1, var10, var11);
+            this.drawGradientRect(var14 - 3, var15 - 3, var14 + maxWidth + 3, var15 - 3 + 1, var10, var10);
+            this.drawGradientRect(var14 - 3, var15 + var8 + 2, var14 + maxWidth + 3, var15 + var8 + 3, var11, var11);
 
-            for (int var12 = 0; var12 < p_146283_1_.size(); ++var12)
+            for (int var12 = 0; var12 < textList.size(); ++var12)
             {
-                String var13 = (String)p_146283_1_.get(var12);
+                String var13 = textList.get(var12);
                 this.fontRenderer.drawStringWithShadow(var13, var14, var15, -1);
 
                 if (var12 == 0)
@@ -215,7 +210,7 @@ public class GuiScreen extends Gui
             }
 
             this.zLevel = 0.0F;
-            renderItemGs.zLevel = 0.0F;
+            RENDER_ITEM.zLevel = 0.0F;
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
             RenderHelper.enableStandardItemLighting();
@@ -226,19 +221,17 @@ public class GuiScreen extends Gui
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        if (par3 == 0)
+        if (mouseButton == 0)
         {
-            for (int var4 = 0; var4 < this.buttonList.size(); ++var4)
+            for (GuiButton button : buttonList)
             {
-                GuiButton var5 = (GuiButton)this.buttonList.get(var4);
-
-                if (var5.mousePressed(this.mc, par1, par2))
+                if (button.mousePressed(mc, mouseX, mouseY))
                 {
-                    this.selectedButton = var5;
-                    var5.func_146113_a(this.mc.getSoundHandler());
-                    this.actionPerformed(var5);
+                    this.selectedButton = button;
+                    button.playClickSound(mc.getSoundHandler());
+                    this.actionPerformed(button);
                 }
             }
         }

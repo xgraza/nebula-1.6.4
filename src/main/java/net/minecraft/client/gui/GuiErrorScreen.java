@@ -37,7 +37,7 @@ public class GuiErrorScreen extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2) {}
+    protected void keyTyped(char typedChar, int keyCode) {}
 
     protected void actionPerformed(GuiButton p_146284_1_)
     {

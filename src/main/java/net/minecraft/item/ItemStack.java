@@ -596,9 +596,9 @@ public final class ItemStack
     /**
      * Return a list of strings containing information about the item
      */
-    public List getTooltip(EntityPlayer par1EntityPlayer, boolean par2)
+    public List<String> getTooltip(EntityPlayer par1EntityPlayer, boolean par2)
     {
-        ArrayList var3 = new ArrayList();
+        ArrayList<String> var3 = new ArrayList<>();
         String var4 = this.getDisplayName();
 
         if (this.hasDisplayName())
@@ -611,8 +611,7 @@ public final class ItemStack
         if (par2)
         {
             String var5 = "";
-
-            if (var4.length() > 0)
+            if (!var4.isEmpty())
             {
                 var4 = var4 + " (";
                 var5 = ")";

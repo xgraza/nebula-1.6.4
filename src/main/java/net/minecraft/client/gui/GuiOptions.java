@@ -59,13 +59,13 @@ public class GuiOptions extends GuiScreen
         this.buttonList.add(new GuiButton(8675309, this.width / 2 + 2, this.height / 6 + 72 - 6, 150, 20, "Super Secret Settings...")
         {
             private static final String __OBFID = "CL_00000701";
-            public void func_146113_a(SoundHandler p_146113_1_)
+            public void playClickSound(SoundHandler handler)
             {
-                SoundEventAccessorComposite var2 = p_146113_1_.func_147686_a(new SoundCategory[] {SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS, SoundCategory.WEATHER});
+                SoundEventAccessorComposite var2 = handler.func_147686_a(new SoundCategory[] {SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS, SoundCategory.WEATHER});
 
                 if (var2 != null)
                 {
-                    p_146113_1_.playSound(PositionedSoundRecord.func_147674_a(var2.func_148729_c(), 0.5F));
+                    handler.playSound(PositionedSoundRecord.func_147674_a(var2.func_148729_c(), 0.5F));
                 }
             }
         });

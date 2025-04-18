@@ -357,20 +357,20 @@ public class GuiCreateWorld extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
         if (this.field_146333_g.isFocused() && !this.field_146344_y)
         {
-            this.field_146333_g.textboxKeyTyped(par1, par2);
+            this.field_146333_g.textboxKeyTyped(typedChar, keyCode);
             this.field_146330_J = this.field_146333_g.getText();
         }
         else if (this.field_146335_h.isFocused() && this.field_146344_y)
         {
-            this.field_146335_h.textboxKeyTyped(par1, par2);
+            this.field_146335_h.textboxKeyTyped(typedChar, keyCode);
             this.field_146329_I = this.field_146335_h.getText();
         }
 
-        if (par2 == 28 || par2 == 156)
+        if (keyCode == 28 || keyCode == 156)
         {
             this.actionPerformed((GuiButton)this.buttonList.get(0));
         }
@@ -382,17 +382,17 @@ public class GuiCreateWorld extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(par1, par2, par3);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
 
         if (this.field_146344_y)
         {
-            this.field_146335_h.mouseClicked(par1, par2, par3);
+            this.field_146335_h.mouseClicked(mouseX, mouseY, mouseButton);
         }
         else
         {
-            this.field_146333_g.mouseClicked(par1, par2, par3);
+            this.field_146333_g.mouseClicked(mouseX, mouseY, mouseButton);
         }
     }
 

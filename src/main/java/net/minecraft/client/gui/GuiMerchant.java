@@ -157,32 +157,32 @@ public class GuiMerchant extends GuiContainer
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glEnable(GL11.GL_COLOR_MATERIAL);
             GL11.glEnable(GL11.GL_LIGHTING);
-            renderItemGs.zLevel = 100.0F;
-            renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
-            renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
+            RENDER_ITEM.zLevel = 100.0F;
+            RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
+            RENDER_ITEM.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var9, var5 + 36, var6 + 24);
 
             if (var10 != null)
             {
-                renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
-                renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
+                RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
+                RENDER_ITEM.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var5 + 62, var6 + 24);
             }
 
-            renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
-            renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
-            renderItemGs.zLevel = 0.0F;
+            RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
+            RENDER_ITEM.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var11, var5 + 120, var6 + 24);
+            RENDER_ITEM.zLevel = 0.0F;
             GL11.glDisable(GL11.GL_LIGHTING);
 
             if (this.func_146978_c(36, 24, 16, 16, par1, par2))
             {
-                this.func_146285_a(var9, par1, par2);
+                this.renderItem(var9, par1, par2);
             }
             else if (var10 != null && this.func_146978_c(62, 24, 16, 16, par1, par2))
             {
-                this.func_146285_a(var10, par1, par2);
+                this.renderItem(var10, par1, par2);
             }
             else if (this.func_146978_c(120, 24, 16, 16, par1, par2))
             {
-                this.func_146285_a(var11, par1, par2);
+                this.renderItem(var11, par1, par2);
             }
 
             GL11.glPopMatrix();

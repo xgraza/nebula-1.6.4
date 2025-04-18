@@ -102,15 +102,15 @@ public class GuiCommandBlock extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        this.field_146485_f.textboxKeyTyped(par1, par2);
-        this.field_146486_g.textboxKeyTyped(par1, par2);
+        this.field_146485_f.textboxKeyTyped(typedChar, keyCode);
+        this.field_146486_g.textboxKeyTyped(typedChar, keyCode);
         this.field_146490_i.enabled = this.field_146485_f.getText().trim().length() > 0;
 
-        if (par2 != 28 && par2 != 156)
+        if (keyCode != 28 && keyCode != 156)
         {
-            if (par2 == 1)
+            if (keyCode == 1)
             {
                 this.actionPerformed(this.field_146487_r);
             }
@@ -124,11 +124,11 @@ public class GuiCommandBlock extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(par1, par2, par3);
-        this.field_146485_f.mouseClicked(par1, par2, par3);
-        this.field_146486_g.mouseClicked(par1, par2, par3);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.field_146485_f.mouseClicked(mouseX, mouseY, mouseButton);
+        this.field_146486_g.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     /**

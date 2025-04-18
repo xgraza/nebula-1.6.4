@@ -9,14 +9,14 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class S3APacketTabComplete extends Packet
 {
-    private String[] field_149632_a;
+    private String[] candidates;
     private static final String __OBFID = "CL_00001288";
 
     public S3APacketTabComplete() {}
 
     public S3APacketTabComplete(String[] p_i45178_1_)
     {
-        this.field_149632_a = p_i45178_1_;
+        this.candidates = p_i45178_1_;
     }
 
     /**
@@ -24,11 +24,11 @@ public class S3APacketTabComplete extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149632_a = new String[p_148837_1_.readVarIntFromBuffer()];
+        this.candidates = new String[p_148837_1_.readVarIntFromBuffer()];
 
-        for (int var2 = 0; var2 < this.field_149632_a.length; ++var2)
+        for (int var2 = 0; var2 < this.candidates.length; ++var2)
         {
-            this.field_149632_a[var2] = p_148837_1_.readStringFromBuffer(32767);
+            this.candidates[var2] = p_148837_1_.readStringFromBuffer(32767);
         }
     }
 
@@ -37,8 +37,8 @@ public class S3APacketTabComplete extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeVarIntToBuffer(this.field_149632_a.length);
-        String[] var2 = this.field_149632_a;
+        p_148840_1_.writeVarIntToBuffer(this.candidates.length);
+        String[] var2 = this.candidates;
         int var3 = var2.length;
 
         for (int var4 = 0; var4 < var3; ++var4)
@@ -53,9 +53,9 @@ public class S3APacketTabComplete extends Packet
         p_149631_1_.handleTabComplete(this);
     }
 
-    public String[] func_149630_c()
+    public String[] getCandidates()
     {
-        return this.field_149632_a;
+        return this.candidates;
     }
 
     /**
@@ -63,7 +63,7 @@ public class S3APacketTabComplete extends Packet
      */
     public String serialize()
     {
-        return String.format("candidates=\'%s\'", new Object[] {ArrayUtils.toString(this.field_149632_a)});
+        return String.format("candidates=\'%s\'", new Object[] {ArrayUtils.toString(this.candidates)});
     }
 
     public void processPacket(INetHandler p_148833_1_)

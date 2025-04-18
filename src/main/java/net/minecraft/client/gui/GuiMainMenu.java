@@ -28,7 +28,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
-import us.nebula.impl.gui.account.AccountCreateScreen;
 import us.nebula.impl.gui.account.AccountSelectorScreen;
 
 public class GuiMainMenu extends GuiScreen
@@ -154,7 +153,7 @@ public class GuiMainMenu extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2) {}
+    protected void keyTyped(char typedChar, int keyCode) {}
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
@@ -548,14 +547,14 @@ public class GuiMainMenu extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(par1, par2, par3);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
         Object var4 = this.field_104025_t;
 
         synchronized (this.field_104025_t)
         {
-            if (this.field_92025_p.length() > 0 && par1 >= this.field_92022_t && par1 <= this.field_92020_v && par2 >= this.field_92021_u && par2 <= this.field_92019_w)
+            if (this.field_92025_p.length() > 0 && mouseX >= this.field_92022_t && mouseX <= this.field_92020_v && mouseY >= this.field_92021_u && mouseY <= this.field_92019_w)
             {
                 GuiConfirmOpenLink var5 = new GuiConfirmOpenLink(this, this.field_104024_v, 13, true);
                 var5.func_146358_g();

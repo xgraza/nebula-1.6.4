@@ -170,7 +170,7 @@ public abstract class GuiContainer extends GuiScreen
         if (var15.getItemStack() == null && this.theSlot != null && this.theSlot.getHasStack())
         {
             ItemStack var19 = this.theSlot.getStack();
-            this.func_146285_a(var19, par1, par2);
+            this.renderItem(var19, par1, par2);
         }
 
         GL11.glEnable(GL11.GL_LIGHTING);
@@ -182,11 +182,11 @@ public abstract class GuiContainer extends GuiScreen
     {
         GL11.glTranslatef(0.0F, 0.0F, 32.0F);
         this.zLevel = 200.0F;
-        renderItemGs.zLevel = 200.0F;
-        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), p_146982_1_, p_146982_2_, p_146982_3_);
-        renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), p_146982_1_, p_146982_2_, p_146982_3_ - (this.field_147012_x == null ? 0 : 8), p_146982_4_);
+        RENDER_ITEM.zLevel = 200.0F;
+        RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), p_146982_1_, p_146982_2_, p_146982_3_);
+        RENDER_ITEM.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), p_146982_1_, p_146982_2_, p_146982_3_ - (this.field_147012_x == null ? 0 : 8), p_146982_4_);
         this.zLevel = 0.0F;
-        renderItemGs.zLevel = 0.0F;
+        RENDER_ITEM.zLevel = 0.0F;
     }
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_) {}
@@ -241,7 +241,7 @@ public abstract class GuiContainer extends GuiScreen
         }
 
         this.zLevel = 100.0F;
-        renderItemGs.zLevel = 100.0F;
+        RENDER_ITEM.zLevel = 100.0F;
 
         if (itemStack == null)
         {
@@ -265,11 +265,11 @@ public abstract class GuiContainer extends GuiScreen
             }
 
             GL11.glEnable(GL11.GL_DEPTH_TEST);
-            renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), itemStack, posX, posY);
-            renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), itemStack, posX, posY, var8);
+            RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), itemStack, posX, posY);
+            RENDER_ITEM.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), itemStack, posX, posY, var8);
         }
 
-        renderItemGs.zLevel = 0.0F;
+        RENDER_ITEM.zLevel = 0.0F;
         this.zLevel = 0.0F;
     }
 
@@ -321,20 +321,20 @@ public abstract class GuiContainer extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(par1, par2, par3);
-        boolean var4 = par3 == this.mc.gameSettings.keyBindPickBlock.getKeyCode() + 100;
-        Slot var5 = this.getSlotAtPosition(par1, par2);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        boolean var4 = mouseButton == this.mc.gameSettings.keyBindPickBlock.getKeyCode() + 100;
+        Slot var5 = this.getSlotAtPosition(mouseX, mouseY);
         long var6 = Minecraft.getSystemTime();
-        this.field_146993_M = this.field_146998_K == var5 && var6 - this.field_146997_J < 250L && this.field_146992_L == par3;
+        this.field_146993_M = this.field_146998_K == var5 && var6 - this.field_146997_J < 250L && this.field_146992_L == mouseButton;
         this.field_146995_H = false;
 
-        if (par3 == 0 || par3 == 1 || var4)
+        if (mouseButton == 0 || mouseButton == 1 || var4)
         {
             int var8 = this.field_147003_i;
             int var9 = this.field_147009_r;
-            boolean var10 = par1 < var8 || par2 < var9 || par1 >= var8 + this.field_146999_f || par2 >= var9 + this.field_147000_g;
+            boolean var10 = mouseX < var8 || mouseY < var9 || mouseX >= var8 + this.field_146999_f || mouseY >= var9 + this.field_147000_g;
             int var11 = -1;
 
             if (var5 != null)
@@ -361,7 +361,7 @@ public abstract class GuiContainer extends GuiScreen
                     {
                         this.field_147005_v = var5;
                         this.field_147012_x = null;
-                        this.field_147004_w = par3 == 1;
+                        this.field_147004_w = mouseButton == 1;
                     }
                     else
                     {
@@ -372,9 +372,9 @@ public abstract class GuiContainer extends GuiScreen
                 {
                     if (this.mc.thePlayer.inventory.getItemStack() == null)
                     {
-                        if (par3 == this.mc.gameSettings.keyBindPickBlock.getKeyCode() + 100)
+                        if (mouseButton == this.mc.gameSettings.keyBindPickBlock.getKeyCode() + 100)
                         {
-                            this.func_146984_a(var5, var11, par3, 3);
+                            this.func_146984_a(var5, var11, mouseButton, 3);
                         }
                         else
                         {
@@ -391,7 +391,7 @@ public abstract class GuiContainer extends GuiScreen
                                 var13 = 4;
                             }
 
-                            this.func_146984_a(var5, var11, par3, var13);
+                            this.func_146984_a(var5, var11, mouseButton, var13);
                         }
 
                         this.field_146995_H = true;
@@ -399,14 +399,14 @@ public abstract class GuiContainer extends GuiScreen
                     else
                     {
                         this.field_147007_t = true;
-                        this.field_146988_G = par3;
+                        this.field_146988_G = mouseButton;
                         this.field_147008_s.clear();
 
-                        if (par3 == 0)
+                        if (mouseButton == 0)
                         {
                             this.field_146987_F = 0;
                         }
-                        else if (par3 == 1)
+                        else if (mouseButton == 1)
                         {
                             this.field_146987_F = 1;
                         }
@@ -417,7 +417,7 @@ public abstract class GuiContainer extends GuiScreen
 
         this.field_146998_K = var5;
         this.field_146997_J = var6;
-        this.field_146992_L = par3;
+        this.field_146992_L = mouseButton;
     }
 
     protected void mouseClickMove(int p_146273_1_, int p_146273_2_, int p_146273_3_, long p_146273_4_)
@@ -649,22 +649,22 @@ public abstract class GuiContainer extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        if (par2 == 1 || par2 == this.mc.gameSettings.keyBindInventory.getKeyCode())
+        if (keyCode == 1 || keyCode == this.mc.gameSettings.keyBindInventory.getKeyCode())
         {
             this.mc.thePlayer.closeScreen();
         }
 
-        this.func_146983_a(par2);
+        this.func_146983_a(keyCode);
 
         if (this.theSlot != null && this.theSlot.getHasStack())
         {
-            if (par2 == this.mc.gameSettings.keyBindPickBlock.getKeyCode())
+            if (keyCode == this.mc.gameSettings.keyBindPickBlock.getKeyCode())
             {
                 this.func_146984_a(this.theSlot, this.theSlot.slotNumber, 0, 3);
             }
-            else if (par2 == this.mc.gameSettings.keyBindDrop.getKeyCode())
+            else if (keyCode == this.mc.gameSettings.keyBindDrop.getKeyCode())
             {
                 this.func_146984_a(this.theSlot, this.theSlot.slotNumber, isCtrlKeyDown() ? 1 : 0, 4);
             }

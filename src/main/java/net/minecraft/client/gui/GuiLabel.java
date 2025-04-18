@@ -21,9 +21,8 @@ public class GuiLabel extends Gui
     private int field_146165_q;
     private FontRenderer field_146164_r;
     private int field_146163_s;
-    private static final String __OBFID = "CL_00000671";
 
-    public void func_146159_a(Minecraft p_146159_1_, int p_146159_2_, int p_146159_3_)
+    public void drawLabel(Minecraft p_146159_1_, int p_146159_2_, int p_146159_3_)
     {
         if (this.field_146172_j)
         {

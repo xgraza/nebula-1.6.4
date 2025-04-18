@@ -104,27 +104,27 @@ public class GuiWDLWorld extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int var1, int var2, int var3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(var1, var2, var3);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
 
         if (this.showSpawnFields)
         {
-            this.spawnX.mouseClicked(var1, var2, var3);
-            this.spawnY.mouseClicked(var1, var2, var3);
-            this.spawnZ.mouseClicked(var1, var2, var3);
+            this.spawnX.mouseClicked(mouseX, mouseY, mouseButton);
+            this.spawnY.mouseClicked(mouseX, mouseY, mouseButton);
+            this.spawnZ.mouseClicked(mouseX, mouseY, mouseButton);
         }
     }
 
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char var1, int var2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        super.keyTyped(var1, var2);
-        this.spawnX.textboxKeyTyped(var1, var2);
-        this.spawnY.textboxKeyTyped(var1, var2);
-        this.spawnZ.textboxKeyTyped(var1, var2);
+        super.keyTyped(typedChar, keyCode);
+        this.spawnX.textboxKeyTyped(typedChar, keyCode);
+        this.spawnY.textboxKeyTyped(typedChar, keyCode);
+        this.spawnZ.textboxKeyTyped(typedChar, keyCode);
     }
 
     /**

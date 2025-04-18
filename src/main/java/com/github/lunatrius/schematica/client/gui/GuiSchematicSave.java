@@ -226,16 +226,16 @@ public class GuiSchematicSave extends GuiScreen {
 	}
 
 	@Override
-	protected void mouseClicked(int x, int y, int action) {
-		this.tfFilename.mouseClicked(x, y, action);
-		super.mouseClicked(x, y, action);
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+		this.tfFilename.mouseClicked(mouseX, mouseY, mouseButton);
+		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
-	protected void keyTyped(char character, int code) {
-		this.tfFilename.textboxKeyTyped(character, code);
+	protected void keyTyped(char typedChar, int keyCode) {
+		this.tfFilename.textboxKeyTyped(typedChar, keyCode);
 		this.filename = this.tfFilename.getText();
-		super.keyTyped(character, code);
+		super.keyTyped(typedChar, keyCode);
 	}
 
 	@Override

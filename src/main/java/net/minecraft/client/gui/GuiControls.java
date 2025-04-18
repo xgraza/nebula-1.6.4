@@ -80,17 +80,17 @@ public class GuiControls extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
         if (this.field_146491_f != null)
         {
-            this.field_146497_i.setKeyCodeSave(this.field_146491_f, -100 + par3);
+            this.field_146497_i.setKeyCodeSave(this.field_146491_f, -100 + mouseButton);
             this.field_146491_f = null;
             KeyBinding.resetKeyBindingArrayAndHash();
         }
-        else if (par3 != 0 || !this.field_146494_r.func_148179_a(par1, par2, par3))
+        else if (mouseButton != 0 || !this.field_146494_r.func_148179_a(mouseX, mouseY, mouseButton))
         {
-            super.mouseClicked(par1, par2, par3);
+            super.mouseClicked(mouseX, mouseY, mouseButton);
         }
     }
 
@@ -105,17 +105,17 @@ public class GuiControls extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
         if (this.field_146491_f != null)
         {
-            if (par2 == 1)
+            if (keyCode == 1)
             {
                 this.field_146497_i.setKeyCodeSave(this.field_146491_f, 0);
             }
             else
             {
-                this.field_146497_i.setKeyCodeSave(this.field_146491_f, par2);
+                this.field_146497_i.setKeyCodeSave(this.field_146491_f, keyCode);
             }
 
             this.field_146491_f = null;
@@ -123,7 +123,7 @@ public class GuiControls extends GuiScreen
         }
         else
         {
-            super.keyTyped(par1, par2);
+            super.keyTyped(typedChar, keyCode);
         }
     }
 

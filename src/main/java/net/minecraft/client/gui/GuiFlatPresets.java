@@ -68,20 +68,20 @@ public class GuiFlatPresets extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        this.field_146433_u.mouseClicked(par1, par2, par3);
-        super.mouseClicked(par1, par2, par3);
+        this.field_146433_u.mouseClicked(mouseX, mouseY, mouseButton);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        if (!this.field_146433_u.textboxKeyTyped(par1, par2))
+        if (!this.field_146433_u.textboxKeyTyped(typedChar, keyCode))
         {
-            super.keyTyped(par1, par2);
+            super.keyTyped(typedChar, keyCode);
         }
     }
 

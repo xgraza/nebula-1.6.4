@@ -245,12 +245,12 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
         int var3 = this.field_146803_h.func_148193_k();
         GuiListExtended.IGuiListEntry var4 = var3 < 0 ? null : this.field_146803_h.func_148180_b(var3);
 
-        if (par2 == 63)
+        if (keyCode == 63)
         {
             this.func_146792_q();
         }
@@ -258,7 +258,7 @@ public class GuiMultiplayer extends GuiScreen
         {
             if (var3 >= 0)
             {
-                if (par2 == 200)
+                if (keyCode == 200)
                 {
                     if (isShiftKeyDown())
                     {
@@ -293,7 +293,7 @@ public class GuiMultiplayer extends GuiScreen
                         this.func_146790_a(-1);
                     }
                 }
-                else if (par2 == 208)
+                else if (keyCode == 208)
                 {
                     if (isShiftKeyDown())
                     {
@@ -328,9 +328,9 @@ public class GuiMultiplayer extends GuiScreen
                         this.func_146790_a(-1);
                     }
                 }
-                else if (par2 != 28 && par2 != 156)
+                else if (keyCode != 28 && keyCode != 156)
                 {
-                    super.keyTyped(par1, par2);
+                    super.keyTyped(typedChar, keyCode);
                 }
                 else
                 {
@@ -339,7 +339,7 @@ public class GuiMultiplayer extends GuiScreen
             }
             else
             {
-                super.keyTyped(par1, par2);
+                super.keyTyped(typedChar, keyCode);
             }
         }
     }
@@ -357,7 +357,7 @@ public class GuiMultiplayer extends GuiScreen
 
         if (this.field_146812_y != null)
         {
-            this.func_146283_a(Lists.newArrayList(Splitter.on("\n").split(this.field_146812_y)), par1, par2);
+            this.renderTextList(Lists.newArrayList(Splitter.on("\n").split(this.field_146812_y)), par1, par2);
         }
     }
 
@@ -414,10 +414,10 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(par1, par2, par3);
-        this.field_146803_h.func_148179_a(par1, par2, par3);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.field_146803_h.func_148179_a(mouseX, mouseY, mouseButton);
     }
 
     protected void mouseMovedOrUp(int p_146286_1_, int p_146286_2_, int p_146286_3_)

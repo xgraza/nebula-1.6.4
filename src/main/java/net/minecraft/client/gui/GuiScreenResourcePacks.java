@@ -185,11 +185,11 @@ public class GuiScreenResourcePacks extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(par1, par2, par3);
-        this.field_146970_i.func_148179_a(par1, par2, par3);
-        this.field_146967_r.func_148179_a(par1, par2, par3);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.field_146970_i.func_148179_a(mouseX, mouseY, mouseButton);
+        this.field_146967_r.func_148179_a(mouseX, mouseY, mouseButton);
     }
 
     protected void mouseMovedOrUp(int p_146286_1_, int p_146286_2_, int p_146286_3_)

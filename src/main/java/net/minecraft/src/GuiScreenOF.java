@@ -22,7 +22,7 @@ public class GuiScreenOF extends GuiScreen
 
             if (btn != null && btn.enabled)
             {
-                btn.func_146113_a(this.mc.getSoundHandler());
+                btn.playClickSound(this.mc.getSoundHandler());
                 this.actionPerformedRightClick(btn);
             }
         }

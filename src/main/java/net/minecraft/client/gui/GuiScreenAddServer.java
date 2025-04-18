@@ -73,18 +73,18 @@ public class GuiScreenAddServer extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        this.field_146309_g.textboxKeyTyped(par1, par2);
-        this.field_146308_f.textboxKeyTyped(par1, par2);
+        this.field_146309_g.textboxKeyTyped(typedChar, keyCode);
+        this.field_146308_f.textboxKeyTyped(typedChar, keyCode);
 
-        if (par2 == 15)
+        if (keyCode == 15)
         {
             this.field_146309_g.setFocused(!this.field_146309_g.isFocused());
             this.field_146308_f.setFocused(!this.field_146308_f.isFocused());
         }
 
-        if (par2 == 28 || par2 == 156)
+        if (keyCode == 28 || keyCode == 156)
         {
             this.actionPerformed((GuiButton)this.buttonList.get(0));
         }
@@ -95,11 +95,11 @@ public class GuiScreenAddServer extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(par1, par2, par3);
-        this.field_146308_f.mouseClicked(par1, par2, par3);
-        this.field_146309_g.mouseClicked(par1, par2, par3);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.field_146308_f.mouseClicked(mouseX, mouseY, mouseButton);
+        this.field_146309_g.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     /**

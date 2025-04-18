@@ -117,9 +117,9 @@ public class GuiButton extends Gui
 
     public void func_146111_b(int p_146111_1_, int p_146111_2_) {}
 
-    public void func_146113_a(SoundHandler p_146113_1_)
+    public void playClickSound(SoundHandler handler)
     {
-        p_146113_1_.playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+        handler.playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     }
 
     public int getButtonWidth()

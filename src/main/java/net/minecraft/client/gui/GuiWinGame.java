@@ -42,9 +42,9 @@ public class GuiWinGame extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        if (par2 == 1)
+        if (keyCode == 1)
         {
             this.func_146574_g();
         }

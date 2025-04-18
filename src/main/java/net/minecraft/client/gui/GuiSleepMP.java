@@ -20,26 +20,26 @@ public class GuiSleepMP extends GuiChat
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        if (par2 == 1)
+        if (keyCode == 1)
         {
             this.func_146418_g();
         }
-        else if (par2 != 28 && par2 != 156)
+        else if (keyCode != 28 && keyCode != 156)
         {
-            super.keyTyped(par1, par2);
+            super.keyTyped(typedChar, keyCode);
         }
         else
         {
-            String var3 = this.field_146415_a.getText().trim();
+            String var3 = this.chatTextField.getText().trim();
 
             if (!var3.isEmpty())
             {
                 this.mc.thePlayer.sendChatMessage(var3);
             }
 
-            this.field_146415_a.setText("");
+            this.chatTextField.setText("");
             this.mc.ingameGUI.getChatGui().resetScroll();
         }
     }

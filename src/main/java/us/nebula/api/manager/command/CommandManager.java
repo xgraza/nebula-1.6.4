@@ -28,7 +28,7 @@ import static org.lwjgl.input.Keyboard.KEY_PERIOD;
 public final class CommandManager implements ITypedManager<Command>
 {
     private static final Minecraft MC = Minecraft.getMinecraft();
-    private static final String COMMAND_PREFIX = ".";
+    public static final String COMMAND_PREFIX = ".";
 
     private final Map<String, Command> commandAliasMap = new HashMap<>();
     private final List<Command> commandList = new LinkedList<>();
@@ -118,6 +118,28 @@ public final class CommandManager implements ITypedManager<Command>
         });
     }
 
+    public List<String> suggestCommand(String text)
+    {
+        if (text.equals("."))
+        {
+            return new LinkedList<>(commandAliasMap.keySet());
+        }
+        text = text.substring(1).trim().split(" ")[0].toLowerCase();
+        if (getReference(text) != null)
+        {
+            return null;
+        }
+        final List<String> suggestionList = new LinkedList<>();
+        for (final String alias : commandAliasMap.keySet())
+        {
+            if (alias.startsWith(text))
+            {
+                suggestionList.add(alias);
+            }
+        }
+        return suggestionList;
+    }
+
     public void addCommand(final Command command)
     {
         if (command.getClass().isAnnotationPresent(DebugFeature.class) && !ClientSettings.DEBUG)
@@ -129,7 +151,7 @@ public final class CommandManager implements ITypedManager<Command>
         command.generateSyntax();
         for (final String alias : command.getManifest().aliases())
         {
-            commandAliasMap.put(alias, command);
+            commandAliasMap.put(alias.toLowerCase(), command);
         }
         commandList.add(command);
     }

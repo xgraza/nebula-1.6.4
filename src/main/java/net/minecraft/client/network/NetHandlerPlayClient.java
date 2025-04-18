@@ -1592,14 +1592,13 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     /**
      * Displays the available command-completion options the server knows of
      */
-    public void handleTabComplete(S3APacketTabComplete p_147274_1_)
+    public void handleTabComplete(S3APacketTabComplete packet)
     {
-        String[] var2 = p_147274_1_.func_149630_c();
+        String[] candidates = packet.getCandidates();
 
         if (this.gameController.currentScreen instanceof GuiChat)
         {
-            GuiChat var3 = (GuiChat)this.gameController.currentScreen;
-            var3.func_146406_a(var2);
+            ((GuiChat)this.gameController.currentScreen).handleServerTabComplete(candidates);
         }
     }
 

@@ -208,12 +208,12 @@ public class GuiBeacon extends GuiContainer
         int var4 = (this.width - this.field_146999_f) / 2;
         int var5 = (this.height - this.field_147000_g) / 2;
         this.drawTexturedModalRect(var4, var5, 0, 0, this.field_146999_f, this.field_147000_g);
-        renderItemGs.zLevel = 100.0F;
-        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.emerald), var4 + 42, var5 + 109);
-        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.diamond), var4 + 42 + 22, var5 + 109);
-        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.gold_ingot), var4 + 42 + 44, var5 + 109);
-        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.iron_ingot), var4 + 42 + 66, var5 + 109);
-        renderItemGs.zLevel = 0.0F;
+        RENDER_ITEM.zLevel = 100.0F;
+        RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.emerald), var4 + 42, var5 + 109);
+        RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.diamond), var4 + 42 + 22, var5 + 109);
+        RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.gold_ingot), var4 + 42 + 44, var5 + 109);
+        RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.iron_ingot), var4 + 42 + 66, var5 + 109);
+        RENDER_ITEM.zLevel = 0.0F;
     }
 
     class CancelButton extends GuiBeacon.Button
@@ -227,7 +227,7 @@ public class GuiBeacon extends GuiContainer
 
         public void func_146111_b(int p_146111_1_, int p_146111_2_)
         {
-            GuiBeacon.this.func_146279_a(I18n.format("gui.cancel", new Object[0]), p_146111_1_, p_146111_2_);
+            GuiBeacon.this.renderText(I18n.format("gui.cancel", new Object[0]), p_146111_1_, p_146111_2_);
         }
     }
 
@@ -314,7 +314,7 @@ public class GuiBeacon extends GuiContainer
                 var3 = var3 + " II";
             }
 
-            GuiBeacon.this.func_146279_a(var3, p_146111_1_, p_146111_2_);
+            GuiBeacon.this.renderText(var3, p_146111_1_, p_146111_2_);
         }
     }
 
@@ -329,7 +329,7 @@ public class GuiBeacon extends GuiContainer
 
         public void func_146111_b(int p_146111_1_, int p_146111_2_)
         {
-            GuiBeacon.this.func_146279_a(I18n.format("gui.done", new Object[0]), p_146111_1_, p_146111_2_);
+            GuiBeacon.this.renderText(I18n.format("gui.done", new Object[0]), p_146111_1_, p_146111_2_);
         }
     }
 }

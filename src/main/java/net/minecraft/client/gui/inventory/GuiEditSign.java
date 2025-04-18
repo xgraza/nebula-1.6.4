@@ -76,29 +76,29 @@ public class GuiEditSign extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        if (par2 == 200)
+        if (keyCode == 200)
         {
             this.field_146851_h = this.field_146851_h - 1 & 3;
         }
 
-        if (par2 == 208 || par2 == 28 || par2 == 156)
+        if (keyCode == 208 || keyCode == 28 || keyCode == 156)
         {
             this.field_146851_h = this.field_146851_h + 1 & 3;
         }
 
-        if (par2 == 14 && this.field_146848_f.field_145915_a[this.field_146851_h].length() > 0)
+        if (keyCode == 14 && this.field_146848_f.field_145915_a[this.field_146851_h].length() > 0)
         {
             this.field_146848_f.field_145915_a[this.field_146851_h] = this.field_146848_f.field_145915_a[this.field_146851_h].substring(0, this.field_146848_f.field_145915_a[this.field_146851_h].length() - 1);
         }
 
-        if (ChatAllowedCharacters.isAllowedCharacter(par1) && this.field_146848_f.field_145915_a[this.field_146851_h].length() < 15)
+        if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && this.field_146848_f.field_145915_a[this.field_146851_h].length() < 15)
         {
-            this.field_146848_f.field_145915_a[this.field_146851_h] = this.field_146848_f.field_145915_a[this.field_146851_h] + par1;
+            this.field_146848_f.field_145915_a[this.field_146851_h] = this.field_146848_f.field_145915_a[this.field_146851_h] + typedChar;
         }
 
-        if (par2 == 1)
+        if (keyCode == 1)
         {
             this.actionPerformed(this.field_146852_i);
         }

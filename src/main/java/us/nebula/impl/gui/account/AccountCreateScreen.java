@@ -80,18 +80,18 @@ public final class AccountCreateScreen extends GuiScreen
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int partialTicks)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(mouseX, mouseY, partialTicks);
-        usernameTextField.mouseClicked(mouseX, mouseY, partialTicks);
-        passwordTextField.mouseClicked(mouseX, mouseY, partialTicks);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        usernameTextField.mouseClicked(mouseX, mouseY, mouseButton);
+        passwordTextField.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    protected void keyTyped(char typedChar, int keyCodee)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        super.keyTyped(typedChar, keyCodee);
-        usernameTextField.textboxKeyTyped(typedChar, keyCodee);
-        passwordTextField.textboxKeyTyped(typedChar, keyCodee);
+        super.keyTyped(typedChar, keyCode);
+        usernameTextField.textboxKeyTyped(typedChar, keyCode);
+        passwordTextField.textboxKeyTyped(typedChar, keyCode);
     }
 }

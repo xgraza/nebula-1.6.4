@@ -288,7 +288,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
         if (field_147058_w != CreativeTabs.tabAllSearch.getTabIndex())
         {
@@ -298,7 +298,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
             }
             else
             {
-                super.keyTyped(par1, par2);
+                super.keyTyped(typedChar, keyCode);
             }
         }
         else
@@ -309,15 +309,15 @@ public class GuiContainerCreative extends InventoryEffectRenderer
                 this.field_147062_A.setText("");
             }
 
-            if (!this.func_146983_a(par2))
+            if (!this.func_146983_a(keyCode))
             {
-                if (this.field_147062_A.textboxKeyTyped(par1, par2))
+                if (this.field_147062_A.textboxKeyTyped(typedChar, keyCode))
                 {
                     this.func_147053_i();
                 }
                 else
                 {
-                    super.keyTyped(par1, par2);
+                    super.keyTyped(typedChar, keyCode);
                 }
             }
         }
@@ -402,12 +402,12 @@ public class GuiContainerCreative extends InventoryEffectRenderer
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        if (par3 == 0)
+        if (mouseButton == 0)
         {
-            int var4 = par1 - this.field_147003_i;
-            int var5 = par2 - this.field_147009_r;
+            int var4 = mouseX - this.field_147003_i;
+            int var5 = mouseY - this.field_147009_r;
             CreativeTabs[] var6 = CreativeTabs.creativeTabArray;
             int var7 = var6.length;
 
@@ -422,7 +422,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
             }
         }
 
-        super.mouseClicked(par1, par2, par3);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     protected void mouseMovedOrUp(int p_146286_1_, int p_146286_2_, int p_146286_3_)
@@ -640,23 +640,23 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
         if (this.field_147064_C != null && field_147058_w == CreativeTabs.tabInventory.getTabIndex() && this.func_146978_c(this.field_147064_C.xDisplayPosition, this.field_147064_C.yDisplayPosition, 16, 16, par1, par2))
         {
-            this.func_146279_a(I18n.format("inventory.binSlot", new Object[0]), par1, par2);
+            this.renderText(I18n.format("inventory.binSlot", new Object[0]), par1, par2);
         }
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_LIGHTING);
     }
 
-    protected void func_146285_a(ItemStack p_146285_1_, int p_146285_2_, int p_146285_3_)
+    protected void renderItem(ItemStack itemStack, int x, int y)
     {
         if (field_147058_w == CreativeTabs.tabAllSearch.getTabIndex())
         {
-            List var4 = p_146285_1_.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
-            CreativeTabs var5 = p_146285_1_.getItem().getCreativeTab();
+            List var4 = itemStack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+            CreativeTabs var5 = itemStack.getItem().getCreativeTab();
 
-            if (var5 == null && p_146285_1_.getItem() == Items.enchanted_book)
+            if (var5 == null && itemStack.getItem() == Items.enchanted_book)
             {
-                Map var6 = EnchantmentHelper.getEnchantments(p_146285_1_);
+                Map var6 = EnchantmentHelper.getEnchantments(itemStack);
 
                 if (var6.size() == 1)
                 {
@@ -686,7 +686,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
             {
                 if (var12 == 0)
                 {
-                    var4.set(var12, p_146285_1_.getRarity().rarityColor + (String)var4.get(var12));
+                    var4.set(var12, itemStack.getRarity().rarityColor + (String)var4.get(var12));
                 }
                 else
                 {
@@ -694,11 +694,11 @@ public class GuiContainerCreative extends InventoryEffectRenderer
                 }
             }
 
-            this.func_146283_a(var4, p_146285_2_, p_146285_3_);
+            this.renderTextList(var4, x, y);
         }
         else
         {
-            super.func_146285_a(p_146285_1_, p_146285_2_, p_146285_3_);
+            super.renderItem(itemStack, x, y);
         }
     }
 
@@ -801,7 +801,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
         if (this.func_146978_c(var5 + 3, var7 + 3, 23, 27, p_147052_2_, p_147052_3_))
         {
-            this.func_146279_a(I18n.format(p_147052_1_.getTranslatedTabLabel(), new Object[0]), p_147052_2_, p_147052_3_);
+            this.renderText(I18n.format(p_147052_1_.getTranslatedTabLabel(), new Object[0]), p_147052_2_, p_147052_3_);
             return true;
         }
         else
@@ -848,16 +848,16 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         GL11.glDisable(GL11.GL_LIGHTING);
         this.drawTexturedModalRect(var7, var8, var5, var6, 28, var9);
         this.zLevel = 100.0F;
-        renderItemGs.zLevel = 100.0F;
+        RENDER_ITEM.zLevel = 100.0F;
         var7 += 6;
         var8 += 8 + (var3 ? 1 : -1);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         ItemStack var10 = p_147051_1_.getIconItemStack();
-        renderItemGs.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var7, var8);
-        renderItemGs.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var7, var8);
+        RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var7, var8);
+        RENDER_ITEM.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var10, var7, var8);
         GL11.glDisable(GL11.GL_LIGHTING);
-        renderItemGs.zLevel = 0.0F;
+        RENDER_ITEM.zLevel = 0.0F;
         this.zLevel = 0.0F;
     }
 

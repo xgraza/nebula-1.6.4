@@ -95,27 +95,27 @@ public class GuiWDLPlayer extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int var1, int var2, int var3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(var1, var2, var3);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
 
         if (this.showPosFields)
         {
-            this.posX.mouseClicked(var1, var2, var3);
-            this.posY.mouseClicked(var1, var2, var3);
-            this.posZ.mouseClicked(var1, var2, var3);
+            this.posX.mouseClicked(mouseX, mouseY, mouseButton);
+            this.posY.mouseClicked(mouseX, mouseY, mouseButton);
+            this.posZ.mouseClicked(mouseX, mouseY, mouseButton);
         }
     }
 
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char var1, int var2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        super.keyTyped(var1, var2);
-        this.posX.textboxKeyTyped(var1, var2);
-        this.posY.textboxKeyTyped(var1, var2);
-        this.posZ.textboxKeyTyped(var1, var2);
+        super.keyTyped(typedChar, keyCode);
+        this.posX.textboxKeyTyped(typedChar, keyCode);
+        this.posY.textboxKeyTyped(typedChar, keyCode);
+        this.posZ.textboxKeyTyped(typedChar, keyCode);
     }
 
     /**

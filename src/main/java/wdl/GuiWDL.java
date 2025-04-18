@@ -108,19 +108,19 @@ public class GuiWDL extends GuiScreen
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int var1, int var2, int var3)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        super.mouseClicked(var1, var2, var3);
-        this.worldName.mouseClicked(var1, var2, var3);
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.worldName.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char c, int i)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        super.keyTyped(c, i);
-        this.worldName.textboxKeyTyped(c, i);
+        super.keyTyped(typedChar, keyCode);
+        this.worldName.textboxKeyTyped(typedChar, keyCode);
     }
 
     /**
