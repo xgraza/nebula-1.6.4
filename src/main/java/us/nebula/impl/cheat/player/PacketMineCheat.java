@@ -14,6 +14,7 @@ import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
+import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
@@ -36,6 +37,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         category = CheatCategory.PLAYER)
 public final class PacketMineCheat extends Cheat
 {
+    @CheatInstance
+    public static PacketMineCheat INSTANCE;
+
     private final Setting<Double> percentSetting = new Setting<>(
             "Percent", 0.95, 0.01, 1.0, 0.01);
     private final Setting<Boolean> renderSetting = new Setting<>(

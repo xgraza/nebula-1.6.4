@@ -132,6 +132,7 @@ import us.nebula.Nebula;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.cheat.miscellaneous.AutoReconnect;
 import us.nebula.impl.cheat.render.CameraClipCheat;
+import us.nebula.impl.event.game.EventTick;
 import us.nebula.impl.event.input.EventKey;
 import us.nebula.impl.event.input.EventMouse;
 
@@ -1346,6 +1347,11 @@ public class Minecraft
 
     private void func_147115_a(boolean p_147115_1_)
     {
+        if (PlayerControllerMP.ALLOW_BREAK_OVERRIDE)
+        {
+            return;
+        }
+
         if (!p_147115_1_)
         {
             this.leftClickCounter = 0;
@@ -1583,6 +1589,7 @@ public class Minecraft
      */
     public void runTick()
     {
+        EventBus.dispatch(new EventTick());
         if (this.rightClickDelayTimer > 0)
         {
             --this.rightClickDelayTimer;

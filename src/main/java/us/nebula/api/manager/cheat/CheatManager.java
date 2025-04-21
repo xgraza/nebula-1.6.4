@@ -51,6 +51,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AutoInfiniteCheat());
         addCheat(new BetterF3Cheat());
         addCheat(new AutoReconnect());
+        addCheat(new AutoTunnelCheat());
         addCheat(new DiscordRPCCheat());
         addCheat(new ExtraTabCheat());
         addCheat(new InventorySyncCheat());

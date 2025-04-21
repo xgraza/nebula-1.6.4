@@ -2,9 +2,7 @@ package us.nebula.util.player;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.BlockPos;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 
 /**
  * @author xgraza
@@ -22,9 +20,15 @@ public final class PlayerUtil
 
     public static EnumFacing getFacing()
     {
-        final int face = MathHelper.floor_double(
-                (double)(MC.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        return FACINGS[face];
+        int var25 = MathHelper.floor_double(MC.thePlayer.rotationYaw / 90.0D + 0.5D) & 3;
+        return FACINGS[var25 % FACINGS.length];
+    }
+
+    public static BlockPos getOrigin(final int posY)
+    {
+        return new BlockPos(MathHelper.floor_double(MC.thePlayer.posX),
+                posY,
+                MathHelper.floor_double(MC.thePlayer.posZ));
     }
 
     public static BlockPos getOrigin()

@@ -188,17 +188,15 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 --this.timeUntilPortal;
             }
 
-            boolean var1 = this.movementInput.jump;
-            float var2 = 0.8F;
-            boolean var3 = this.movementInput.moveForward >= var2;
-
+            movementInput.updatePlayerMoveState();
             if (EventBus.dispatch(new EventUpdateInput(movementInput)))
             {
                 movementInput.resetPlayerMoveState();
-            } else
-            {
-                movementInput.updatePlayerMoveState();
             }
+
+            boolean var1 = this.movementInput.jump;
+            float var2 = 0.8F;
+            boolean var3 = this.movementInput.moveForward >= var2;
 
             if (this.isUsingItem() && !this.isRiding())
             {

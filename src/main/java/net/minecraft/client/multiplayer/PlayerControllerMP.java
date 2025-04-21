@@ -27,9 +27,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.event.player.EventAttackBlock;
+import us.nebula.util.player.ChatUtil;
 
 public class PlayerControllerMP
 {
+    /** If features should be able to override the vanilla minecraft checks for block breaking */
+    public static boolean ALLOW_BREAK_OVERRIDE = false;
+
     /** The Minecraft instance. */
     private final Minecraft mc;
     private final NetHandlerPlayClient netClientHandler;
@@ -57,7 +61,7 @@ public class PlayerControllerMP
     /**
      * Delays the first damage on the block after the first click on the block
      */
-    private int blockHitDelay;
+    public int blockHitDelay;
 
     /** Tells if the player is hitting a block */
     public boolean isHittingBlock;
@@ -333,7 +337,7 @@ public class PlayerControllerMP
         }
     }
 
-    private boolean sameToolAndBlock(int par1, int par2, int par3)
+    public boolean sameToolAndBlock(int par1, int par2, int par3)
     {
         ItemStack var4 = this.mc.thePlayer.getHeldItem();
         boolean var5 = this.currentItemHittingBlock == null && var4 == null;
