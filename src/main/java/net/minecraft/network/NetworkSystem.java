@@ -86,7 +86,7 @@ public class NetworkSystem
 
                     try
                     {
-                        p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(false));
+                        p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
                     }
                     catch (ChannelException var3)
                     {

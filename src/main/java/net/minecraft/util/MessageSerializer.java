@@ -21,11 +21,11 @@ public class MessageSerializer extends MessageToByteEncoder
 
     protected void encode(ChannelHandlerContext p_150796_1_, Packet p_150796_2_, ByteBuf p_150796_3_) throws IOException
     {
-        Integer var4 = (Integer)((BiMap)p_150796_1_.channel().attr(NetworkManager.attrKeySendable).get()).inverse().get(p_150796_2_.getClass());
+        Integer var4 = (Integer)((BiMap)p_150796_1_.channel().attr(NetworkManager.ATTRIBUTE_SENDABLE).get()).inverse().get(p_150796_2_.getClass());
 
         if (logger.isDebugEnabled())
         {
-            logger.debug(field_150797_b, "OUT: [{}:{}] {}[{}]", new Object[] {p_150796_1_.channel().attr(NetworkManager.attrKeyConnectionState).get(), var4, p_150796_2_.getClass().getName(), p_150796_2_.serialize()});
+            logger.debug(field_150797_b, "OUT: [{}:{}] {}[{}]", new Object[] {p_150796_1_.channel().attr(NetworkManager.ATTRIBUTE_CONNECTION_STATE).get(), var4, p_150796_2_.getClass().getName(), p_150796_2_.serialize()});
         }
 
         if (var4 == null)

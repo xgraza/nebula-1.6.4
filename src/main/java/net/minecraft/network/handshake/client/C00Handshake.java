@@ -33,7 +33,7 @@ public class C00Handshake extends Packet
         this.field_149600_a = p_148837_1_.readVarIntFromBuffer();
         this.field_149598_b = p_148837_1_.readStringFromBuffer(255);
         this.field_149599_c = p_148837_1_.readUnsignedShort();
-        this.field_149597_d = EnumConnectionState.func_150760_a(p_148837_1_.readVarIntFromBuffer());
+        this.field_149597_d = EnumConnectionState.getStateForType(p_148837_1_.readVarIntFromBuffer());
     }
 
     /**
@@ -44,7 +44,7 @@ public class C00Handshake extends Packet
         p_148840_1_.writeVarIntToBuffer(this.field_149600_a);
         p_148840_1_.writeStringToBuffer(this.field_149598_b);
         p_148840_1_.writeShort(this.field_149599_c);
-        p_148840_1_.writeVarIntToBuffer(this.field_149597_d.func_150759_c());
+        p_148840_1_.writeVarIntToBuffer(this.field_149597_d.getType());
     }
 
     public void processPacket(INetHandlerHandshakeServer p_149596_1_)

@@ -778,12 +778,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void addToSendQueue(Packet p_147297_1_)
     {
-        this.netManager.scheduleOutboundPacket(p_147297_1_, new GenericFutureListener[0]);
-    }
-
-    public void addToSendQueueSilent(Packet p_147297_1_)
-    {
-        this.netManager.dispatchPacket(p_147297_1_, new GenericFutureListener[0]);
+        this.netManager.scheduleOutboundPacket(p_147297_1_);
     }
 
     public void handleCollectItem(S0DPacketCollectItem p_147246_1_)

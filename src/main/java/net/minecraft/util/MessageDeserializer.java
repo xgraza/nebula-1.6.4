@@ -26,7 +26,7 @@ public class MessageDeserializer extends ByteToMessageDecoder
         {
             PacketBuffer var4 = new PacketBuffer(p_decode_2_);
             int var5 = var4.readVarIntFromBuffer();
-            Packet var6 = Packet.generatePacket((BiMap)p_decode_1_.channel().attr(NetworkManager.attrKeyReceivable).get(), var5);
+            Packet var6 = Packet.generatePacket((BiMap)p_decode_1_.channel().attr(NetworkManager.ATTRIBUTE_RECEIVABLE).get(), var5);
 
             if (var6 == null)
             {
@@ -46,7 +46,7 @@ public class MessageDeserializer extends ByteToMessageDecoder
 
                     if (logger.isDebugEnabled())
                     {
-                        logger.debug(field_150799_b, " IN: [{}:{}] {}[{}]", new Object[] {p_decode_1_.channel().attr(NetworkManager.attrKeyConnectionState).get(), Integer.valueOf(var5), var6.getClass().getName(), var6.serialize()});
+                        logger.debug(field_150799_b, " IN: [{}:{}] {}[{}]", new Object[] {p_decode_1_.channel().attr(NetworkManager.ATTRIBUTE_CONNECTION_STATE).get(), Integer.valueOf(var5), var6.getClass().getName(), var6.serialize()});
                     }
                 }
             }
