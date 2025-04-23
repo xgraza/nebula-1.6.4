@@ -23,6 +23,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.exploit.NoMagicMovementCheat;
 import us.nebula.impl.cheat.movement.SpeedCheat;
 import us.nebula.impl.event.game.EventPostUpdate;
 import us.nebula.impl.event.game.EventUpdate;
@@ -213,10 +214,16 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             serverSneaking = isSneaking();
         }
 
+        double minimumMovement = 9.0E-4D;
+        if (NoMagicMovementCheat.INSTANCE.isToggled())
+        {
+            minimumMovement = 0.0;
+        }
+
         double diffX = event.getX() - oldPosX;
         double diffY = event.getY() - oldMinY;
         double diffZ = event.getZ() - oldPosZ;
-        boolean moved = diffX * diffX + diffY * diffY + diffZ * diffZ > 9.0E-4D || ticksSinceMovePacket >= 20;
+        boolean moved = diffX * diffX + diffY * diffY + diffZ * diffZ > minimumMovement || ticksSinceMovePacket >= 20;
 
         float diffYaw = event.getYaw() - oldRotationYaw;
         float diffPitch = event.getPitch() - oldRotationPitch;
