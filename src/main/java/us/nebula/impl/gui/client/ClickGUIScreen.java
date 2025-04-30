@@ -35,7 +35,7 @@ public final class ClickGUIScreen extends GuiScreen
             posX += panel.getWidth() + 5;
             categoryPanels.add(panel);
         }
-        addConfigPanel(posX);
+        //addConfigPanel(posX);
     }
 
     private void addConfigPanel(final double posX)

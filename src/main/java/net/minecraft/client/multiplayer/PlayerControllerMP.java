@@ -25,6 +25,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
+import us.nebula.Nebula;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.event.player.EventAttackBlock;
 import us.nebula.util.player.ChatUtil;
@@ -230,7 +231,7 @@ public class PlayerControllerMP
                     this.currentBlockX = par1;
                     this.currentBlockY = par2;
                     this.currentblockZ = par3;
-                    this.currentItemHittingBlock = this.mc.thePlayer.getHeldItem();
+                    this.currentItemHittingBlock = Nebula.INSTANCE.getInventoryManager().getStack();
                     this.curBlockDamageMP = 0.0F;
                     this.stepSoundTickCounter = 0.0F;
                     this.mc.theWorld.destroyBlockInWorldPartially(this.mc.thePlayer.getEntityId(), this.currentBlockX, this.currentBlockY, this.currentblockZ, (int)(this.curBlockDamageMP * 10.0F) - 1);
@@ -339,7 +340,7 @@ public class PlayerControllerMP
 
     public boolean sameToolAndBlock(int par1, int par2, int par3)
     {
-        ItemStack var4 = this.mc.thePlayer.getHeldItem();
+        ItemStack var4 = Nebula.INSTANCE.getInventoryManager().getStack();
         boolean var5 = this.currentItemHittingBlock == null && var4 == null;
 
         if (this.currentItemHittingBlock != null && var4 != null)

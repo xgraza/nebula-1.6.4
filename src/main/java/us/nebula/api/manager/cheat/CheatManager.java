@@ -10,6 +10,7 @@ import us.nebula.impl.cheat.miscellaneous.*;
 import us.nebula.impl.cheat.movement.*;
 import us.nebula.impl.cheat.player.*;
 import us.nebula.impl.cheat.render.*;
+import us.nebula.impl.cheat.world.*;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -49,14 +50,11 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new TimerCheat());
         addCheat(new XCarryCheat());
         addCheat(new AntiGhostBlock());
-        addCheat(new AutoInfiniteCheat());
         addCheat(new BetterF3Cheat());
         addCheat(new AutoReconnect());
-        addCheat(new AutoTunnelCheat());
         addCheat(new DiscordRPCCheat());
         addCheat(new ExtraTabCheat());
         addCheat(new InventorySyncCheat());
-        addCheat(new PathfinderCheat());
         addCheat(new SpammerCheat());
         addCheat(new TranslateCheat());
         addCheat(new AutoWalkCheat());
@@ -78,9 +76,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new InfiniteMoverCheat());
         addCheat(new KeyPearlCheat());
         addCheat(new NoFallCheat());
-        addCheat(new PacketMineCheat());
         addCheat(new PearlPhaseCheat());
-        addCheat(new ScaffoldCheat());
         addCheat(new CameraClipCheat());
         addCheat(new ChamsCheat());
         addCheat(new ChatModifierCheat());
@@ -97,6 +93,12 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new TimeChangerCheat());
         // addCheat(new TrajectoriesCheat());
         addCheat(new XRayCheat());
+        addCheat(new AutoHighwayCheat());
+        addCheat(new AutoInfiniteCheat());
+        addCheat(new AutoTunnelCheat());
+        addCheat(new PacketMineCheat());
+        addCheat(new PathfinderCheat());
+        addCheat(new ScaffoldCheat());
 
         try
         {

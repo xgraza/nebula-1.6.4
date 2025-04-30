@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ReportedException;
+import us.nebula.Nebula;
 
 public class InventoryPlayer implements IInventory
 {
@@ -536,9 +537,10 @@ public class InventoryPlayer implements IInventory
     {
         float var2 = 1.0F;
 
-        if (this.mainInventory[this.currentItem] != null)
+        final ItemStack stack = Nebula.INSTANCE.getInventoryManager().getStack();
+        if (stack != null)
         {
-            var2 *= this.mainInventory[this.currentItem].getStrVsBlock(p_146023_1_);
+            var2 *= stack.getStrVsBlock(p_146023_1_);
         }
 
         return var2;

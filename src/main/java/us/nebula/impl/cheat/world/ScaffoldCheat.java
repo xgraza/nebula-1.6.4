@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.player;
+package us.nebula.impl.cheat.world;
 
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
@@ -24,7 +24,7 @@ import us.nebula.util.world.BlockUtil;
  */
 @CheatManifest(name = "Scaffold",
         description = "Rapidly places blocks under you",
-        category = CheatCategory.PLAYER)
+        category = CheatCategory.WORLD)
 public final class ScaffoldCheat extends Cheat
 {
     private final Setting<Double> extend = new Setting<>(

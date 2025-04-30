@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.world;
 
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.src.BlockPos;
@@ -17,7 +17,7 @@ import java.util.List;
 import static org.lwjgl.opengl.GL11.*;
 
 @DebugFeature
-@CheatManifest(name = "Pathfinder", category = CheatCategory.MISCELLANEOUS)
+@CheatManifest(name = "Pathfinder", category = CheatCategory.WORLD)
 public final class PathfinderCheat extends Cheat
 {
     private PathProcessor pathfinder;

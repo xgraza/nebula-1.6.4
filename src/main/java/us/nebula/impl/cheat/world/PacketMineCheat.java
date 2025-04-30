@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.player;
+package us.nebula.impl.cheat.world;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 @CheatManifest(name = "PacketMine",
         description = "Mines blocks with packets",
-        category = CheatCategory.PLAYER)
+        category = CheatCategory.WORLD)
 public final class PacketMineCheat extends Cheat
 {
     @CheatInstance

@@ -11,7 +11,8 @@ public enum CheatCategory
     MISCELLANEOUS("Miscellaneous", "F"),
     MOVEMENT("Movement", "E"),
     PLAYER("Player", "d"),
-    RENDER("Render", "c");
+    RENDER("Render", "c"),
+    WORLD("World", "e");
 
     private final String name, icon;
 

@@ -72,6 +72,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.IChunkProvider;
+import us.nebula.Nebula;
 import us.nebula.impl.cheat.exploit.AntiRevertCheat;
 import us.nebula.util.player.ItemUtil;
 
@@ -855,7 +856,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (var3 > 1.0F)
         {
             int var4 = EnchantmentHelper.getEfficiencyModifier(this);
-            ItemStack var5 = this.inventory.getCurrentItem();
+            ItemStack var5 = Nebula.INSTANCE.getInventoryManager().getStack();
 
             if (var4 > 0 && var5 != null)
             {
@@ -2084,14 +2085,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                     return true;
                 }
 
-                if (this.getCurrentEquippedItem() != null)
+                final ItemStack equippedItemStack = Nebula.INSTANCE.getInventoryManager().getStack();
+                if (equippedItemStack != null)
                 {
-                    ItemStack var5 = this.getCurrentEquippedItem();
-
-                    if (var5.isProperItemForBlock(var4) || var5.getStrVsBlock(var4) > 1.0F)
-                    {
-                        return true;
-                    }
+                    return equippedItemStack.isProperItemForBlock(var4)
+                            || equippedItemStack.getStrVsBlock(var4) > 1.0F;
                 }
             }
 

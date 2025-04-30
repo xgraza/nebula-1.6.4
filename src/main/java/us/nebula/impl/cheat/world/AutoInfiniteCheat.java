@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.world;
 
 import net.minecraft.block.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -28,7 +28,7 @@ import us.nebula.util.world.BlockUtil;
  */
 @CheatManifest(name = "AutoInfinite",
         description = "Automatically creates infinite items",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.WORLD)
 public final class AutoInfiniteCheat extends Cheat
 {
     private final Setting<Boolean> placeTntSetting = new Setting<>(

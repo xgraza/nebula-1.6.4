@@ -68,6 +68,47 @@ public final class BlockUtil
         return -1;
     }
 
+    public static BlockPos getFacingVec(final EnumFacing facing)
+    {
+        // FUCK THIS GAME!!!!
+        switch (facing)
+        {
+            case UP:
+                return new BlockPos(0, 1, 0);
+            case DOWN:
+                return new BlockPos(0, -1, 0);
+            case NORTH:
+                return new BlockPos(0, 0, -1);
+            case SOUTH:
+                return new BlockPos(0, 0, 1);
+            case EAST:
+                return new BlockPos(1, 0, 0);
+            case WEST:
+                return new BlockPos(-1, 0, 0);
+            default:
+                return new BlockPos(0, 0, 0);
+        }
+    }
+
+    public static BlockPos[] getAdjacent(final EnumFacing facing)
+    {
+        switch (facing)
+        {
+            case SOUTH:
+            case NORTH:
+            {
+                return new BlockPos[] { new BlockPos(-1, 0, 0), new BlockPos(1, 0, 0) };
+            }
+            case EAST:
+            case WEST:
+            {
+                return new BlockPos[] { new BlockPos(0, 0, 1), new BlockPos(0, 0, -1) };
+            }
+            default:
+                return null;
+        }
+    }
+
     public static EnumFacing getOpposite(final EnumFacing facing)
     {
         return EnumFacing.values()[facing.order_b];

@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.world;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
@@ -16,7 +16,6 @@ import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
-import us.nebula.impl.cheat.player.PacketMineCheat;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.input.EventUpdateInput;
 import us.nebula.impl.event.render.EventRender3D;
@@ -38,7 +37,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 @CheatManifest(name = "AutoTunnel",
         description = "Automatically digs a tunnel in front of you",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.WORLD)
 public final class AutoTunnelCheat extends Cheat
 {
     private final Setting<Integer> blocksSetting = new Setting<>(
@@ -195,7 +194,7 @@ public final class AutoTunnelCheat extends Cheat
     private boolean isBlockBehindPlayer(final BlockPos pos)
     {
         final EnumFacing facing = PlayerUtil.getFacing();
-        final BlockPos vec = getFacingVec(facing);
+        final BlockPos vec = BlockUtil.getFacingVec(facing);
 
         int delta = 0;
         int axis = 0;
@@ -266,7 +265,7 @@ public final class AutoTunnelCheat extends Cheat
         final BlockPos origin = PlayerUtil.getOrigin(posY);
         final EnumFacing facing = PlayerUtil.getFacing();
         final EnumFacing opposite = BlockUtil.getOpposite(facing);
-        final BlockPos faceVec = getFacingVec(facing);
+        final BlockPos faceVec = BlockUtil.getFacingVec(facing);
 
         for (int offset = 0; offset < blocksSetting.getValue(); ++offset)
         {
@@ -284,28 +283,6 @@ public final class AutoTunnelCheat extends Cheat
             {
                 blockBreakQueue.add(new BlockInfo(offsetPos, opposite));
             }
-        }
-    }
-
-    private BlockPos getFacingVec(final EnumFacing facing)
-    {
-        // FUCK THIS GAME!!!!
-        switch (facing)
-        {
-            case UP:
-                return new BlockPos(0, 1, 0);
-            case DOWN:
-                return new BlockPos(0, -1, 0);
-            case NORTH:
-                return new BlockPos(0, 0, -1);
-            case SOUTH:
-                return new BlockPos(0, 0, 1);
-            case EAST:
-                return new BlockPos(1, 0, 0);
-            case WEST:
-                return new BlockPos(-1, 0, 0);
-            default:
-                return new BlockPos(0, 0, 0);
         }
     }
 
