@@ -8,8 +8,8 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import us.nebula.Nebula;
+import us.nebula.api.interaction.InteractionManager;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -60,6 +60,7 @@ public final class AutoHighwayCheat extends Cheat
 
         if (breakInfo != null && MC.playerController.isHittingBlock)
         {
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
             MC.playerController.resetBlockRemoving();
         }
         breakInfo = null;
@@ -84,7 +85,6 @@ public final class AutoHighwayCheat extends Cheat
     {
         if (breakSetting.getValue() && !breakPositionQueue.isEmpty())
         {
-            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = true;
             if (breakInfo == null)
             {
                 breakInfo = breakPositionQueue.poll();
@@ -95,7 +95,7 @@ public final class AutoHighwayCheat extends Cheat
             {
                 Nebula.INSTANCE.getInventoryManager().setSlot(slot);
             }
-            if (breakBlock(breakInfo))
+            if (InteractionManager.INSTANCE.breakBlock(breakInfo.getPos(), breakInfo.getFacing()))
             {
                 Nebula.INSTANCE.getInventoryManager().syncSlot();
                 breakInfo = null;
@@ -134,14 +134,7 @@ public final class AutoHighwayCheat extends Cheat
                 }
                 continue;
             }
-            currentBlockPos = pos;
-            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-            final boolean result = placeBlock(pos, slot);
-            if (result)
-            {
-                MC.thePlayer.swingItem();
-            }
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            placeBlock(pos, slot);
         }
     };
 
@@ -179,57 +172,16 @@ public final class AutoHighwayCheat extends Cheat
         return block != null && !block.getMaterial().isReplaceable() && block.blockHardness != -1;
     }
 
-    private boolean breakBlock(final BlockInfo info)
-    {
-        final PlayerControllerMP controller = MC.playerController;
-        final int x = info.getPos().getX();
-        final int y = info.getPos().getY();
-        final int z = info.getPos().getZ();
-
-        if (BlockUtil.isReplaceable(x, y, z))
-        {
-            return true;
-        }
-
-        controller.blockHitDelay = 0;
-
-        if (!controller.sameToolAndBlock(x, y, z))
-        {
-            controller.clickBlock(x, y, z, info.getFacing().order_a);
-            MC.thePlayer.swingItem();
-        } else
-        {
-            if (!PacketMineCheat.INSTANCE.isToggled())
-            {
-                controller.onPlayerDamageBlock(x, y, z, info.getFacing().order_a);
-                if (MC.thePlayer.isCurrentToolAdventureModeExempt(x, y, z))
-                {
-                    MC.effectRenderer.addBlockHitEffects(x, y, z, info.getFacing().order_a);
-                    MC.thePlayer.swingItem();
-                }
-                return controller.curBlockDamageMP >= 1.0f;
-            }
-        }
-        return false;
-    }
-
-    private boolean placeBlock(final BlockPos pos, final int slot)
+    private void placeBlock(final BlockPos pos, final int slot)
     {
         final BlockInfo info = getBlockInfo(pos);
         if (info == null)
         {
-            return false;
+            return;
         }
-        return MC.playerController.onPlayerRightClick(MC.thePlayer,
-                MC.theWorld,
-                MC.thePlayer.inventory.getStackInSlot(slot),
-                info.getPos().getX(),
-                info.getPos().getY(),
-                info.getPos().getZ(),
-                info.getFacing().order_a,
-                Vec3.createVectorHelper(info.getPos().getX() + 0.5,
-                        info.getPos().getY() + 0.5,
-                        info.getPos().getZ() + 0.5));
+        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+        InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing());
+        Nebula.INSTANCE.getInventoryManager().syncSlot();
     }
 
     private BlockInfo getBlockInfo(final BlockPos pos)

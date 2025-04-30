@@ -8,8 +8,8 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import us.nebula.Nebula;
+import us.nebula.api.interaction.InteractionManager;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -134,7 +134,6 @@ public final class AutoTunnelCheat extends Cheat
             moveForward = true;
             if (blockBreakQueue.isEmpty())
             {
-                PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
                 return;
             }
             currentBlock = blockBreakQueue.poll();
@@ -163,8 +162,7 @@ public final class AutoTunnelCheat extends Cheat
                 return;
             }
         }
-        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = true;
-        if (breakBlock(currentBlock))
+        if (InteractionManager.INSTANCE.breakBlock(currentBlock.getPos(), currentBlock.getFacing()))
         {
             moveForward = true;
             if (backPlaceSetting.getValue())
@@ -292,39 +290,6 @@ public final class AutoTunnelCheat extends Cheat
         return block != null && !block.getMaterial().isReplaceable() && block.blockHardness != -1;
     }
 
-    private boolean breakBlock(final BlockInfo info)
-    {
-        final PlayerControllerMP controller = MC.playerController;
-        final int x = info.getPos().getX();
-        final int y = info.getPos().getY();
-        final int z = info.getPos().getZ();
-
-        if (BlockUtil.isReplaceable(x, y, z))
-        {
-            return true;
-        }
-
-        controller.blockHitDelay = 0;
-
-        if (!controller.sameToolAndBlock(x, y, z))
-        {
-            controller.clickBlock(x, y, z, info.getFacing().order_a);
-            MC.thePlayer.swingItem();
-        } else
-        {
-            if (!PacketMineCheat.INSTANCE.isToggled())
-            {
-                controller.onPlayerDamageBlock(x, y, z, info.getFacing().order_a);
-                if (MC.thePlayer.isCurrentToolAdventureModeExempt(x, y, z))
-                {
-                    MC.effectRenderer.addBlockHitEffects(x, y, z, info.getFacing().order_a);
-                    MC.thePlayer.swingItem();
-                }
-            }
-        }
-        return false;
-    }
-
     private boolean replaceBlocks(final Collection<BlockInfo> positions)
     {
         if (positions.isEmpty())
@@ -355,16 +320,8 @@ public final class AutoTunnelCheat extends Cheat
                 continue;
             }
             Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-            final boolean placeResult = MC.playerController.onPlayerRightClick(MC.thePlayer,
-                    MC.theWorld,
-                    MC.thePlayer.inventory.getStackInSlot(slot),
-                    info.getPos().getX(),
-                    info.getPos().getY(),
-                    info.getPos().getZ(),
-                    info.getFacing().order_a,
-                    Vec3.createVectorHelper(info.getPos().getX() + 0.5,
-                            info.getPos().getY() + 0.5,
-                            info.getPos().getZ() + 0.5));
+            final boolean placeResult = InteractionManager.INSTANCE.rightClickBlock(
+                    info.getPos(), info.getFacing());
             if (placeResult)
             {
                 placed = true;

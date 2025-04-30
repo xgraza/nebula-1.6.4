@@ -5,6 +5,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import us.nebula.Nebula;
+import us.nebula.api.interaction.InteractionManager;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -61,19 +62,9 @@ public final class ScaffoldCheat extends Cheat
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
 
-        final int x = blockData.pos.getX();
-        final int y = blockData.pos.getY();
-        final int z = blockData.pos.getZ();
-
-        final boolean result = MC.playerController.onPlayerRightClick(MC.thePlayer, MC.theWorld,
-                Nebula.INSTANCE.getInventoryManager().getStack(),
-                x, y, z,
-                blockData.facing.order_a,
-                Vec3.createVectorHelper(x + 0.5, y + 0.5, z + 0.5));
+        final boolean result = InteractionManager.INSTANCE.rightClickBlock(blockData.pos, blockData.facing);
         if (result)
         {
-            MC.thePlayer.swingItem();
-
             if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
             {
                 if (MC.thePlayer.onGround || (MC.thePlayer.motionY == 0.16477328182606651))

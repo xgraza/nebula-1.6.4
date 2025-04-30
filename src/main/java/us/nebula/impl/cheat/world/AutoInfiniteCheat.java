@@ -10,8 +10,8 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import us.nebula.Nebula;
+import us.nebula.api.interaction.InteractionManager;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -101,12 +101,7 @@ public final class AutoInfiniteCheat extends Cheat
         if (!(MC.currentScreen instanceof GuiContainer))
         {
             // open chest
-            final boolean clickResult = MC.playerController.onPlayerRightClick(MC.thePlayer,
-                    MC.theWorld,
-                    null,
-                    result.blockX, result.blockY, result.blockZ,
-                    result.sideHit,
-                    result.hitVec);
+            final boolean clickResult = InteractionManager.INSTANCE.rightClickBlock(result);
             if (clickResult)
             {
                 MC.thePlayer.swingItem();
@@ -152,14 +147,8 @@ public final class AutoInfiniteCheat extends Cheat
             return false;
         }
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        boolean result = MC.playerController.onPlayerRightClick(MC.thePlayer,
-                MC.theWorld,
-                MC.thePlayer.inventory.getStackInSlot(slot),
-                blockPos.getX(),
-                blockPos.getY() - 1,
-                blockPos.getZ(),
-                EnumFacing.UP.order_a,
-                Vec3.createVectorHelper(blockPos.getX(), blockPos.getY() + 0.5, blockPos.getZ()));
+        final boolean result = InteractionManager.INSTANCE.rightClickBlock(
+                blockPos.down(), EnumFacing.UP);
         if (result)
         {
             MC.thePlayer.swingItem();
@@ -232,17 +221,8 @@ public final class AutoInfiniteCheat extends Cheat
             return null;
         }
         Nebula.INSTANCE.getInventoryManager().setSlot(tntSlot);
-        boolean result = MC.playerController.onPlayerRightClick(MC.thePlayer,
-                MC.theWorld,
-                MC.thePlayer.inventory.getStackInSlot(tntSlot),
-                placeBlockPos.getX(),
-                placeBlockPos.getY() - 1,
-                placeBlockPos.getZ(),
-                EnumFacing.UP.order_a,
-                Vec3.createVectorHelper(
-                        placeBlockPos.getX() + 0.5,
-                        placeBlockPos.getY() + 0.5,
-                        placeBlockPos.getZ() + 0.5));
+        final boolean result = InteractionManager.INSTANCE.rightClickBlock(
+                placeBlockPos.down(), EnumFacing.UP);
         if (result)
         {
             MC.thePlayer.swingItem();
