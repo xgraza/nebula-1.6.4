@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -67,6 +68,8 @@ public final class KillAuraCheat extends Cheat
             "Attack Hostile", true);
     private final Setting<Boolean> attackPassiveSetting = new Setting<>(
             "Attack Passive", true);
+    private final Setting<Boolean> attackTamedSetting = new Setting<>(
+            "Attack Tamed", false);
     private final Setting<Boolean> renderSetting = new Setting<>(
             "Render", false);
 
@@ -280,7 +283,7 @@ public final class KillAuraCheat extends Cheat
 
     private EntityLivingBase getNextTarget()
     {
-        return (EntityLivingBase) ((List<Entity>) MC.theWorld.loadedEntityList)
+        return (EntityLivingBase) MC.theWorld.loadedEntityList
                 .stream()
                 .filter((entity) -> entity instanceof EntityLivingBase
                         && isValidEntity((EntityLivingBase) entity))
@@ -321,6 +324,10 @@ public final class KillAuraCheat extends Cheat
             return false;
         }
         if (!attackPassiveSetting.getValue() && EntityUtil.isEntityPassive(entity))
+        {
+            return false;
+        }
+        if (!attackTamedSetting.getValue() && entity instanceof EntityTameable && ((EntityTameable)entity).isTamed())
         {
             return false;
         }
