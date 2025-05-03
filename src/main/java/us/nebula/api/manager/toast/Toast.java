@@ -16,6 +16,7 @@ public final class Toast
 {
     private static final double PADDING = 3.0;
 
+    private static final int TOAST_HEADER_COLOR = new Color(112, 82, 143).getRGB();
     private static final int TOAST_BACKGROUND_COLOR = new Color(33, 33, 33).getRGB();
 
     private final ToastType toastType;
@@ -44,20 +45,22 @@ public final class Toast
     {
         final double screenWidth = resolution.getScaledWidth_double();
         final double toastWidth = Fonts.POPPINS.getStringWidth(details) + (PADDING * 3);
-        final double toastHeight = (Fonts.POPPINS.getFontHeight() + 1.0) * 2;
+        final double toastHeight = (Fonts.POPPINS.getFontHeight() + 1.0) * 1.25;
         double posX = screenWidth - (PADDING * 2) - (toastWidth * (animation.getEasedFactor()));
 
         animation.setState(deathTimeMS - 300 > System.currentTimeMillis());
 
-        RenderUtil.roundedRectangle2D(posX, posY, toastWidth, toastHeight, 3.5f, TOAST_BACKGROUND_COLOR);
+        final double headerHeight = Fonts.POPPINS.getFontHeight() + PADDING;
+        RenderUtil.roundedRectangle2D(posX, posY, toastWidth, headerHeight, 5.5f, TOAST_HEADER_COLOR);
+        RenderUtil.rectangle2D(posX, posY + headerHeight - PADDING, toastWidth, toastHeight, TOAST_BACKGROUND_COLOR);
 
         final double progressBar = toastWidth * (((deathTimeMS - System.currentTimeMillis()) / (double)lifeMS));
-        RenderUtil.roundedRectangle2D(posX, posY + toastHeight - 1.5, progressBar, 1.5, 2.5f, new Color(112, 82, 143).getRGB());
+        RenderUtil.rectangle2D(posX, posY + toastHeight + headerHeight - 4.5, progressBar, 1.5, Color.white.getRGB());
 
-        Fonts.ICONFACE.drawStringShadow(toastType.getIconChar(), posX + 1, posY + 2.5, 0xAAAAAA);
+        Fonts.ICONFACE.drawString(toastType.getIconChar(), posX + 1, posY + 2.5, 0xAAAAAA, false);
         Fonts.POPPINS.drawStringShadow(title, posX + 11, posY, -1);
-        Fonts.POPPINS.drawStringShadow(details, posX + PADDING, posY + Fonts.POPPINS.getFontHeight() - 1, -1);
-        return toastHeight * animation.getFactor();
+        Fonts.POPPINS.drawStringShadow(details, posX + PADDING + 0.5, posY + Fonts.POPPINS.getFontHeight(), -1);
+        return (toastHeight + headerHeight) * animation.getFactor();
     }
 
     public int getId()
