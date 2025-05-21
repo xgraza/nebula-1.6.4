@@ -96,6 +96,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AutoHighwayCheat());
         addCheat(new AutoInfiniteCheat());
         addCheat(new AutoTunnelCheat());
+        addCheat(new LandscaperCheat());
         addCheat(new PacketMineCheat());
         addCheat(new PathfinderCheat());
         addCheat(new ScaffoldCheat());

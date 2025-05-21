@@ -8,7 +8,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import us.nebula.Nebula;
 import us.nebula.impl.cheat.world.PacketMineCheat;
-import us.nebula.util.world.BlockUtil;
 
 /**
  * @author xgraza
@@ -43,7 +42,7 @@ public final class InteractionManager
 
     public boolean breakBlock(final int x, final int y, final int z, final int face)
     {
-        if (BlockUtil.isReplaceable(x, y, z))
+        if (MC.theWorld.isAirBlock(x, y, z))
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
             return true;
@@ -72,7 +71,12 @@ public final class InteractionManager
             MC.effectRenderer.addBlockHitEffects(x, y, z, face);
             MC.thePlayer.swingItem();
         }
-        return MC.playerController.curBlockDamageMP >= 1.0f;
+        boolean brokeBlock = MC.playerController.curBlockDamageMP >= 1.0f;
+        if (brokeBlock)
+        {
+            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+        }
+        return brokeBlock;
     }
 
     public boolean breakBlock(final BlockPos pos, final EnumFacing facing)
