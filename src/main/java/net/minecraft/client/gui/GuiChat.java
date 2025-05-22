@@ -467,6 +467,7 @@ public class GuiChat extends GuiScreen
     {
         if (this.waitForTabComplete)
         {
+            waitForTabComplete = false;
             this.parsedTabComplete = false;
             this.tabCompleteCandidateList.clear();
 
