@@ -3,6 +3,7 @@ package us.nebula.api.manager.overlay;
 import us.nebula.api.manager.ITypedManager;
 import us.nebula.impl.gui.overlay.ArmorOverlay;
 import us.nebula.impl.gui.overlay.ArraylistOverlay;
+import us.nebula.impl.gui.overlay.CoordinatesOverlay;
 import us.nebula.impl.gui.overlay.WatermarkOverlay;
 
 import java.util.LinkedHashMap;
@@ -25,6 +26,7 @@ public final class OverlayManager implements ITypedManager<Overlay>
     {
         addOverlay(new ArmorOverlay());
         addOverlay(new ArraylistOverlay());
+        addOverlay(new CoordinatesOverlay());
         addOverlay(new WatermarkOverlay());
     }
 
