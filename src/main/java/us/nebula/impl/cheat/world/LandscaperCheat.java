@@ -60,7 +60,7 @@ public final class LandscaperCheat extends Cheat
         {
             return;
         }
-        RenderUtil.filledBox3D(new AxisAlignedBB(breakingBlockPos), 0, 0x800000FF);
+        RenderUtil.filledBox3D(new AxisAlignedBB(breakingBlockPos), 0, 0x8000FF00);
     };
 
     @Subscribe

@@ -95,7 +95,7 @@ public final class AutoTunnelCheat extends Cheat
             return;
         }
 
-        RenderUtil.filledBox3D(new AxisAlignedBB(currentBlock.getPos()), 0, 0x800000FF);
+        RenderUtil.filledBox3D(new AxisAlignedBB(currentBlock.getPos()), 0, 0x8000FF00);
     };
 
     @Subscribe

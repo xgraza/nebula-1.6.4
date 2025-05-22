@@ -1,6 +1,7 @@
 package us.nebula.api.gui.font;
 
 import net.minecraft.client.renderer.OpenGlHelper;
+import us.nebula.util.render.RenderUtil;
 
 import java.awt.Font;
 
@@ -38,7 +39,16 @@ public final class AWTFontRenderer
 
     public void drawString(final String input, double x, double y, int color, final boolean shadow)
     {
-        color = adjustColor(color, shadow);
+        if ((color & -67108864) == 0)
+        {
+            color |= -16777216;
+        }
+        if (shadow)
+        {
+            color = (color & 16579836) >> 2 | color & -16777216;
+        }
+
+        int textColor = color;
 
         glPushMatrix();
 
@@ -46,7 +56,7 @@ public final class AWTFontRenderer
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 0, 1);
 
-        setColor(color);
+        RenderUtil.setColorOpaque(textColor);
 
         boolean bld = false;
         boolean ital = false;
@@ -92,7 +102,7 @@ public final class AWTFontRenderer
                 {
                     break;
                 }
-                final char colorControlChar = chars[i + 1];
+                final char colorControlChar = Character.toLowerCase(chars[i + 1]);
                 switch (colorControlChar)
                 {
                     case 'l':
@@ -138,7 +148,7 @@ public final class AWTFontRenderer
                         strikethrough = false;
                         underline = false;
 
-                        setColor(color);
+                        textColor = color;
                         font = normal;
                         glBindTexture(GL_TEXTURE_2D, font.getGlyphTexture().getGlTextureId());
                         break;
@@ -146,7 +156,6 @@ public final class AWTFontRenderer
                     default:
                     {
                         int colorCode = "0123456789abcdefklmnor".indexOf(colorControlChar);
-                        //System.out.println(colorCode);
                         if (colorCode == -1)
                         {
                             colorCode = "stuvwxyz".indexOf(colorControlChar);
@@ -163,7 +172,7 @@ public final class AWTFontRenderer
                             {
                                 colorCode += 16;
                             }
-                            setColor(colorCodes[colorCode]);
+                            textColor = colorCodes[colorCode];
                         }
                         break;
                     }
@@ -177,6 +186,7 @@ public final class AWTFontRenderer
             {
                 continue;
             }
+            RenderUtil.setColorOpaque(textColor);
             font.drawChar(glyph, offsetX, offsetY);
             if (strikethrough)
             {
@@ -284,26 +294,5 @@ public final class AWTFontRenderer
     private void generateCustomColorCodes()
     {
 
-    }
-
-    private void setColor(final int color)
-    {
-        float red = (float) (color >> 16 & 255) / 255.0F;
-        float blue = (float) (color >> 8 & 255) / 255.0F;
-        float green = (float) (color & 255) / 255.0F;
-        glColor4f(red, green, blue, 1.0f);
-    }
-
-    private int adjustColor(int color, boolean shadow)
-    {
-        if ((color & -67108864) == 0)
-        {
-            color |= -16777216;
-        }
-        if (shadow)
-        {
-            color = (color & 16579836) >> 2 | color & -16777216;
-        }
-        return color;
     }
 }

@@ -30,7 +30,6 @@ public final class AWTFont
 
     public void drawChar(final Glyph glyph, final double x, final double y)
     {
-        glPushMatrix();
         glBegin(GL_QUADS);
         {
             glTexCoord2d(glyph.getX() / 1000.0, glyph.getY() / 512.0);
@@ -46,7 +45,6 @@ public final class AWTFont
             glVertex2d(x + glyph.getWidth(), y);
         }
         glEnd();
-        glPopMatrix();
     }
 
     public Glyph getGlyph(final char codePoint)

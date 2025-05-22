@@ -76,7 +76,7 @@ public final class AutoHighwayCheat extends Cheat
         }
         if (breakInfo != null)
         {
-            RenderUtil.filledBox3D(new AxisAlignedBB(breakInfo.getPos()), 0, 0x8000FF00);
+            RenderUtil.filledBox3D(new AxisAlignedBB(breakInfo.getPos()), 0, 0x800000FF);
         }
     };
 

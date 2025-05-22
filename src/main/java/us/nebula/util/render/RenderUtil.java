@@ -309,8 +309,8 @@ public final class RenderUtil
     public static void setTessellatorColor(final int color)
     {
         final float red = (float) (color >> 16 & 255) / 255.0F;
-        final float blue = (float) (color >> 8 & 255) / 255.0F;
-        final float green = (float) (color & 255) / 255.0F;
+        final float green = (float) (color >> 8 & 255) / 255.0F;
+        final float blue = (float) (color & 255) / 255.0F;
         final float alpha = (float) (color >> 24 & 255) / 255.0F;
         TESSELLATOR.setColorRGBA_F(red, green, blue, alpha);
     }
@@ -318,10 +318,18 @@ public final class RenderUtil
     public static void setColor(final int color)
     {
         final float red = (float) (color >> 16 & 255) / 255.0F;
-        final float blue = (float) (color >> 8 & 255) / 255.0F;
-        final float green = (float) (color & 255) / 255.0F;
+        final float green = (float) (color >> 8 & 255) / 255.0F;
+        final float blue = (float) (color & 255) / 255.0F;
         final float alpha = (float) (color >> 24 & 255) / 255.0F;
         glColor4f(red, green, blue, alpha);
+    }
+
+    public static void setColorOpaque(final int color)
+    {
+        final float red = (float) (color >> 16 & 255) / 255.0F;
+        final float blue = (float) (color & 255) / 255.0F;
+        final float green = (float) (color >> 8 & 255) / 255.0F;
+        glColor4f(red, green, blue, 1.0f);
     }
 
     public static void setGameResolution(final ScaledResolution gameResolution)

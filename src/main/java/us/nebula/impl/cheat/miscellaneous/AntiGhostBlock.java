@@ -37,7 +37,7 @@ public final class AntiGhostBlock extends Cheat
             "Packet", true);
     private final Setting<Double> confirmTimeSetting = new Setting<>(
             "Confirm Time", 0.5, 0.1, 5.0, 0.1);
-    @DebugFeature
+    //@DebugFeature
     private final Setting<Boolean> debugRenderSetting = new Setting<>(
             "Debug Render", false);
 

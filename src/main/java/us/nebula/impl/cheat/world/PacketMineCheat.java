@@ -91,7 +91,7 @@ public final class PacketMineCheat extends Cheat
 
         bb = bb.expand(factor * 0.5, factor * 0.5, factor * 0.5);
 
-        int color = factor >= percentSetting.getValue() ? 0x800000FF : 0x80FF0000;
+        int color = factor >= percentSetting.getValue() ? 0x8000FF00 : 0x80FF0000;
 
         RenderUtil.filledBox3D(bb, 0, color);
         RenderUtil.outlinedBox3D(bb, 1.5f, color);
