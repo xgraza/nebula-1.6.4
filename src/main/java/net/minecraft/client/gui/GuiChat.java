@@ -390,34 +390,6 @@ public class GuiChat extends GuiScreen
         drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
         this.chatTextField.drawTextBox();
 
-        // TODO: improve this a little bit...
-        final String text = chatTextField.getText();
-        if (text.startsWith(CommandManager.COMMAND_PREFIX))
-        {
-            final List<String> suggestions = Nebula.INSTANCE.getCommandManager().suggestCommand(text);
-            if (suggestions != null && !suggestions.isEmpty())
-            {
-                if (suggestions.size() == 1)
-                {
-                    chatTextField.setText(CommandManager.COMMAND_PREFIX + suggestions.get(0) + " ");
-                } else
-                {
-                    if (commandSuggestionIndex > suggestions.size() - 1)
-                    {
-                        commandSuggestionIndex = 0;
-                    }
-                    final String suggestion = suggestions.get(commandSuggestionIndex);
-
-                    int startPosX = chatTextField.posX + fontRenderer.getStringWidth(text);
-                    int posY = chatTextField.posY;
-                    fontRenderer.drawStringWithShadow(suggestion.substring(text.length() - 1), startPosX, posY, 8355711);
-                }
-            } else
-            {
-                commandSuggestionIndex = 0;
-            }
-        }
-
         IChatComponent componentAt = this.mc.ingameGUI.getChatGui().func_146236_a(Mouse.getX(), Mouse.getY());
 
         if (componentAt != null && componentAt.getChatStyle().getChatHoverEvent() != null)
