@@ -1,5 +1,6 @@
 package us.nebula.impl.gui.client.component.cheat.value;
 
+import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
 import us.nebula.api.gui.GUIComponent;
 import us.nebula.api.gui.IGUIInputListener;
@@ -91,6 +92,9 @@ public final class NumberSettingComponent extends GUIComponent implements IGUIIn
         final double precision = 1.0 / setting.getScale().doubleValue();
         value = Math.round(value * precision) / precision;
         value = MathUtil.round(value, 2);
+        value = MathHelper.clamp_double(value,
+                setting.getMin().doubleValue(),
+                setting.getMax().doubleValue());
 
         if (setting.getValue() instanceof Integer)
         {
