@@ -26,6 +26,7 @@ import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import us.nebula.impl.cheat.render.NoRenderCheat;
+import us.nebula.impl.cheat.render.ViewModelCheat;
 
 public class ItemRenderer
 {
@@ -287,6 +288,18 @@ public class ItemRenderer
         float var22;
         Render var27;
         RenderPlayer var29;
+
+        if (var8 != null && ViewModelCheat.INSTANCE.isToggled())
+        {
+            final ViewModelCheat viewModel = ViewModelCheat.INSTANCE;
+
+            GL11.glTranslated(viewModel.translateXSetting.getValue(),
+                    viewModel.translateYSetting.getValue(),
+                    viewModel.translateZSetting.getValue());
+            GL11.glScaled(viewModel.scaleXSetting.getValue(),
+                    viewModel.scaleYSetting.getValue(),
+                    viewModel.scaleZSetting.getValue());
+        }
 
         if (var8 != null && var8.getItem() == Items.filled_map)
         {

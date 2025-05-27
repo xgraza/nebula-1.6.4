@@ -10,6 +10,7 @@ import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockIce;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
@@ -49,6 +50,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import us.nebula.impl.cheat.movement.IceSpeedCheat;
+import us.nebula.impl.cheat.render.ViewModelCheat;
 
 public abstract class EntityLivingBase extends Entity
 {
@@ -1329,6 +1331,11 @@ public abstract class EntityLivingBase extends Entity
      */
     private int getArmSwingAnimationEnd()
     {
+        if (ViewModelCheat.INSTANCE.isToggled() && this.equals(Minecraft.getMinecraft().thePlayer))
+        {
+            return 20 - ViewModelCheat.INSTANCE.swingSpeedSetting.getValue();
+        }
+
         return this.isPotionActive(Potion.digSpeed) ? 6 - (1 + this.getActivePotionEffect(Potion.digSpeed).getAmplifier()) * 1 : (this.isPotionActive(Potion.digSlowdown) ? 6 + (1 + this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 : 6);
     }
 
