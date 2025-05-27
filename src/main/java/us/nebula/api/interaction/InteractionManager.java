@@ -1,13 +1,17 @@
 package us.nebula.api.interaction;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import us.nebula.Nebula;
 import us.nebula.impl.cheat.world.PacketMineCheat;
+import us.nebula.util.player.ChatUtil;
+import us.nebula.util.world.BlockUtil;
 
 /**
  * @author xgraza
@@ -25,9 +29,21 @@ public final class InteractionManager
                 EnumFacing.values()[raycast.sideHit]);
     }
 
-    public boolean rightClickBlock(final BlockPos pos, final EnumFacing facing)
+    public boolean rightClickBlock(final BlockPos pos,
+                                   final EnumFacing facing,
+                                   final boolean sneak)
     {
         MC.rightClickDelayTimer = 4;
+
+        final boolean sneakPacket = sneak
+                && BlockUtil.INTERACTABLE_BLOCK_LIST.contains(MC.theWorld.getBlock(pos))
+                && (!MC.thePlayer.isSneaking() || !MC.gameSettings.keyBindSneak.pressed);
+        if (sneakPacket)
+        {
+            MC.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(
+                    MC.thePlayer, 1));
+        }
+
         final boolean result = MC.playerController.onPlayerRightClick(MC.thePlayer,
                 MC.theWorld,
                 Nebula.INSTANCE.getInventoryManager().getStack(),
@@ -37,7 +53,17 @@ public final class InteractionManager
         {
             MC.thePlayer.swingItem();
         }
+        if (sneakPacket)
+        {
+            MC.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(
+                    MC.thePlayer, 2));
+        }
         return result;
+    }
+
+    public boolean rightClickBlock(final BlockPos pos, final EnumFacing facing)
+    {
+        return rightClickBlock(pos, facing, false);
     }
 
     public boolean breakBlock(final int x, final int y, final int z, final int face)

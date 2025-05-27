@@ -67,7 +67,8 @@ public final class ScaffoldCheat extends Cheat
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
 
-        final boolean result = InteractionManager.INSTANCE.rightClickBlock(blockData.pos, blockData.facing);
+        final boolean result = InteractionManager.INSTANCE.rightClickBlock(
+                blockData.pos, blockData.facing, true);
         if (result)
         {
             if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
@@ -99,7 +100,8 @@ public final class ScaffoldCheat extends Cheat
 
     private BlockData getBlockData()
     {
-        final double minY = MathHelper.floor_double(MC.thePlayer.boundingBox.minY);
+        final double diff = MC.thePlayer.boundingBox.minY % 1.0;
+        final double minY = MathHelper.floor_double(MC.thePlayer.boundingBox.minY + (1 - diff));
         if (!keeepYSetting.getValue()
                 || (towerSetting.getValue() && MC.gameSettings.keyBindJump.pressed)
                 || basePosY == -1.0)

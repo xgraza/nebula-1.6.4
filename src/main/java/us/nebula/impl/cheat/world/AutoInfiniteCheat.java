@@ -222,7 +222,7 @@ public final class AutoInfiniteCheat extends Cheat
         }
         Nebula.INSTANCE.getInventoryManager().setSlot(tntSlot);
         final boolean result = InteractionManager.INSTANCE.rightClickBlock(
-                placeBlockPos.down(), EnumFacing.UP);
+                placeBlockPos.down(), EnumFacing.UP, true);
         if (result)
         {
             MC.thePlayer.swingItem();

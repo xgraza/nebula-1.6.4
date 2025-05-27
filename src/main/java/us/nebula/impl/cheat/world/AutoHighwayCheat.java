@@ -180,7 +180,8 @@ public final class AutoHighwayCheat extends Cheat
             return;
         }
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing());
+        InteractionManager.INSTANCE.rightClickBlock(
+                info.getPos(), info.getFacing(), true);
         Nebula.INSTANCE.getInventoryManager().syncSlot();
     }
 
