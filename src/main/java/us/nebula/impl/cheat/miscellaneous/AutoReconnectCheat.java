@@ -14,10 +14,10 @@ import us.nebula.api.value.Setting;
 @CheatManifest(name = "AutoReconnect",
         description = "Automatically reconnects you to the last server",
         category = CheatCategory.MISCELLANEOUS)
-public final class AutoReconnect extends Cheat
+public final class AutoReconnectCheat extends Cheat
 {
     @CheatInstance
-    public static AutoReconnect INSTANCE;
+    public static AutoReconnectCheat INSTANCE;
 
     public final Setting<Integer> delaySetting = new Setting<>(
             "Delay", 5, 1, 20, 1);

@@ -5,7 +5,7 @@ import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.I18n;
-import us.nebula.impl.cheat.miscellaneous.AutoReconnect;
+import us.nebula.impl.cheat.miscellaneous.AutoReconnectCheat;
 import wdl.GuiWDL;
 import wdl.WDL;
 
@@ -41,7 +41,7 @@ public class GuiIngameMenu extends GuiScreen
         {
             GuiButton var3;
             this.buttonList.add(var3 = new GuiButton(7, this.width / 2 + 2, this.height / 4 + 96 + var1, 98, 20, "Reconnect"));
-            var3.enabled = AutoReconnect.INSTANCE.getLastServer() != null;
+            var3.enabled = AutoReconnectCheat.INSTANCE.getLastServer() != null;
         }
         this.buttonList.add(new GuiButton(5, this.width / 2 - 100, this.height / 4 + 48 + var1, 98, 20, I18n.format("gui.achievements", new Object[0])));
         this.buttonList.add(new GuiButton(6, this.width / 2 + 2, this.height / 4 + 48 + var1, 98, 20, I18n.format("gui.stats", new Object[0])));
@@ -103,7 +103,7 @@ public class GuiIngameMenu extends GuiScreen
                     if (p_146284_1_.enabled)
                     {
                         mc.theWorld.sendQuittingDisconnectingPacket();
-                        mc.displayGuiScreen(new GuiConnecting(new GuiMultiplayer(null), mc, AutoReconnect.INSTANCE.getLastServer()));
+                        mc.displayGuiScreen(new GuiConnecting(new GuiMultiplayer(null), mc, AutoReconnectCheat.INSTANCE.getLastServer()));
                     }
                 }
                 break;

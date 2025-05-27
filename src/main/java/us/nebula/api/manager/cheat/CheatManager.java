@@ -49,9 +49,9 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new PotionSaverCheat());
         addCheat(new TimerCheat());
         addCheat(new XCarryCheat());
-        addCheat(new AntiGhostBlock());
+        addCheat(new AntiGhostBlockCheat());
         addCheat(new BetterF3Cheat());
-        addCheat(new AutoReconnect());
+        addCheat(new AutoReconnectCheat());
         addCheat(new DiscordRPCCheat());
         addCheat(new ExtraTabCheat());
         addCheat(new FastLatencyCheat());

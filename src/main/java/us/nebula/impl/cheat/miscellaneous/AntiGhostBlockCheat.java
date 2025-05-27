@@ -7,7 +7,6 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import us.nebula.ClientSettings;
-import us.nebula.api.DebugFeature;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -31,7 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @CheatManifest(name = "AntiGhostBlock",
         description = "Prevents ghost blocks from spawning",
         category = CheatCategory.MISCELLANEOUS)
-public final class AntiGhostBlock extends Cheat
+public final class AntiGhostBlockCheat extends Cheat
 {
     private final Setting<Boolean> packetSetting = new Setting<>(
             "Packet", true);

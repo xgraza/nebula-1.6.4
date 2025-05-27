@@ -18,7 +18,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import us.nebula.impl.cheat.miscellaneous.AutoReconnect;
+import us.nebula.impl.cheat.miscellaneous.AutoReconnectCheat;
 
 public class GuiConnecting extends GuiScreen
 {
@@ -37,7 +37,7 @@ public class GuiConnecting extends GuiScreen
         par2Minecraft.loadWorld((WorldClient)null);
         par2Minecraft.setServerData(par3ServerData);
         this.func_146367_a(var4.getIP(), var4.getPort());
-        AutoReconnect.INSTANCE.setLastServer(par3ServerData);
+        AutoReconnectCheat.INSTANCE.setLastServer(par3ServerData);
     }
 
     public GuiConnecting(GuiScreen par1GuiScreen, Minecraft par2Minecraft, String par3Str, int par4)
@@ -46,7 +46,7 @@ public class GuiConnecting extends GuiScreen
         this.field_146374_i = par1GuiScreen;
         par2Minecraft.loadWorld((WorldClient)null);
         this.func_146367_a(par3Str, par4);
-        AutoReconnect.INSTANCE.setLastServer(new ServerData(par3Str, String.valueOf(par4)));
+        AutoReconnectCheat.INSTANCE.setLastServer(new ServerData(par3Str, String.valueOf(par4)));
     }
 
     private void func_146367_a(final String p_146367_1_, final int p_146367_2_)
