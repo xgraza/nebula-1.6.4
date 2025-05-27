@@ -36,6 +36,11 @@ public final class FastLatencyCheat extends Cheat
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
+        if (MC.thePlayer.ticksExisted < 20)
+        {
+            return;
+        }
+
         if (MC.thePlayer.ticksExisted % frequencySetting.getValue() == 0 && sentAt == -1L)
         {
             sentAt = System.currentTimeMillis();
