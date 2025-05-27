@@ -72,6 +72,7 @@ import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 import us.nebula.api.listener.EventBus;
 import us.nebula.api.render.EntityCulling;
+import us.nebula.impl.cheat.miscellaneous.UnfocusedCPUCheat;
 import us.nebula.impl.cheat.render.NoRenderCheat;
 import us.nebula.impl.event.render.EventCameraDistance;
 import us.nebula.impl.event.render.EventGamma;
@@ -1493,6 +1494,13 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     public void renderWorld(float par1, long par2)
     {
+        if (!Display.isActive()
+                && UnfocusedCPUCheat.INSTANCE.isToggled()
+                && UnfocusedCPUCheat.INSTANCE.stopRenderSetting.getValue())
+        {
+            return;
+        }
+
         boolean isShaders = Config.isShaders();
 
         if (isShaders)

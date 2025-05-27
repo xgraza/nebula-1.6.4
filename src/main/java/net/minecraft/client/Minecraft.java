@@ -131,6 +131,7 @@ import org.lwjgl.util.glu.GLU;
 import us.nebula.Nebula;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.cheat.miscellaneous.AutoReconnect;
+import us.nebula.impl.cheat.miscellaneous.UnfocusedCPUCheat;
 import us.nebula.impl.cheat.render.CameraClipCheat;
 import us.nebula.impl.event.game.EventTick;
 import us.nebula.impl.event.input.EventKey;
@@ -1077,6 +1078,10 @@ public class Minecraft
 
     public int getLimitFramerate()
     {
+        if (!Display.isActive() && UnfocusedCPUCheat.INSTANCE.isToggled())
+        {
+            return UnfocusedCPUCheat.INSTANCE.fpsSetting.getValue();
+        }
         return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
     }
 

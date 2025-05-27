@@ -58,6 +58,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new InventorySyncCheat());
         addCheat(new SpammerCheat());
         addCheat(new TranslateCheat());
+        addCheat(new UnfocusedCPUCheat());
         addCheat(new AutoWalkCheat());
         addCheat(new IceSpeedCheat());
         addCheat(new InvWalkCheat());
