@@ -23,11 +23,13 @@ public final class NumberSettingComponent extends GUIComponent implements IGUIIn
     private static final int TEMP_TOGGLE_COLOR = new Color(112, 82, 143).getRGB();
 
     private final Setting<Number> setting;
+    private final double diff;
     private boolean dragging;
 
     public NumberSettingComponent(final Setting<Number> setting)
     {
         this.setting = setting;
+        this.diff = setting.getMax().doubleValue() - setting.getMin().doubleValue();
     }
 
     @Override
@@ -56,8 +58,12 @@ public final class NumberSettingComponent extends GUIComponent implements IGUIIn
 
     private void drawSlider()
     {
-        final double percentage = width * (setting.getValue().doubleValue() / setting.getMax().doubleValue());
-        RenderUtil.roundedRectangle2D(x, y, percentage, height, 3.5f, TEMP_TOGGLE_COLOR);
+        final double min = setting.getMin().doubleValue();
+        final double value = setting.getValue().doubleValue();
+
+        final double barWidth = width * ((value - min) / diff);
+
+        RenderUtil.roundedRectangle2D(x, y, barWidth, height, 3.5f, TEMP_TOGGLE_COLOR);
     }
 
     @Override
@@ -85,9 +91,8 @@ public final class NumberSettingComponent extends GUIComponent implements IGUIIn
         {
             return;
         }
-        // think of the start of the slider = 0.0 and the end is = 1.0
-        final double diff = 1.0 - ((x + width) - mouseX) / width;
-        double value = setting.getMax().doubleValue() * diff;
+        double value = setting.getMin().doubleValue()
+                + diff * (mouseX - getX()) / getWidth();
 
         final double precision = 1.0 / setting.getScale().doubleValue();
         value = Math.round(value * precision) / precision;
