@@ -24,10 +24,10 @@ public final class PlayerUtil
         return FACINGS[var25 % FACINGS.length];
     }
 
-    public static BlockPos getOrigin(final int posY)
+    public static BlockPos getOrigin(final double posY)
     {
         return new BlockPos(MathHelper.floor_double(MC.thePlayer.posX),
-                posY,
+                (int) posY,
                 MathHelper.floor_double(MC.thePlayer.posZ));
     }
 

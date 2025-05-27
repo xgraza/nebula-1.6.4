@@ -217,6 +217,45 @@ public final class RenderUtil
         glEnable(GL_TEXTURE_2D);
     }
 
+    public static void gradientRectangle2D(
+            final double x,
+            final double y,
+            final double width,
+            final double height,
+            final int tl,
+            final int bl,
+            final int tr,
+            final int br)
+    {
+        glPushMatrix();
+
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        glDisable(GL_TEXTURE_2D);
+
+        glShadeModel(GL_SMOOTH);
+
+        glBegin(GL_QUADS);
+        {
+            setColor(tr);
+            glVertex2d(x + width, y);
+            setColor(tl);
+            glVertex2d(x, y);
+            setColor(bl);
+            glVertex2d(x, y + height);
+            setColor(br);
+            glVertex2d(x + width, y + height);
+        }
+        glEnd();
+
+        glShadeModel(GL_FLAT);
+
+        glEnable(GL_TEXTURE_2D);
+        glDisable(GL_BLEND);
+
+        glPopMatrix();
+    }
+
     public static void roundedRectangle2D(final double x,
                                           final double y,
                                           final double width,

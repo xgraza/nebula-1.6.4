@@ -44,7 +44,6 @@ public final class InventoryUtil
         return slot;
     }
 
-
     @SafeVarargs
     public static int getHotbarItem(final Class<? extends Item>... items)
     {

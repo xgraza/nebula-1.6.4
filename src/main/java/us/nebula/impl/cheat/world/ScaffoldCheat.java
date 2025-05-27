@@ -3,6 +3,7 @@ package us.nebula.impl.cheat.world;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import us.nebula.Nebula;
 import us.nebula.api.interaction.InteractionManager;
@@ -32,9 +33,12 @@ public final class ScaffoldCheat extends Cheat
             "Extend", 0.0, 0.0, 6.0, 0.5);
     private final Setting<Boolean> towerSetting = new Setting<>(
             "Tower", true);
+    private final Setting<Boolean> keeepYSetting = new Setting<>(
+            "Keep Y", false);
     private final Setting<Boolean> renderSetting = new Setting<>(
             "Render", false);
 
+    private double basePosY;
     private BlockData blockData;
 
     @Override
@@ -42,6 +46,7 @@ public final class ScaffoldCheat extends Cheat
     {
         super.onDisable();
         blockData = null;
+        basePosY = -1.0;
     }
 
     @Subscribe
@@ -94,7 +99,15 @@ public final class ScaffoldCheat extends Cheat
 
     private BlockData getBlockData()
     {
-        BlockPos pos = PlayerUtil.getOrigin().add(0, -1, 0);
+        final double minY = MathHelper.floor_double(MC.thePlayer.boundingBox.minY);
+        if (!keeepYSetting.getValue()
+                || (towerSetting.getValue() && MC.gameSettings.keyBindJump.pressed)
+                || basePosY == -1.0)
+        {
+            basePosY = minY - 1.0;
+        }
+
+        BlockPos pos = PlayerUtil.getOrigin(basePosY);
         if (extend.getValue() > 0.0 && !MC.gameSettings.keyBindJump.pressed)
         {
             final float yaw = MC.thePlayer.rotationYaw * 0.017453292f;
