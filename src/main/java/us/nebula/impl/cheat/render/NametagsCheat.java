@@ -1,5 +1,6 @@
 package us.nebula.impl.cheat.render;
 
+import net.minecraft.client.gui.GuiPlayerInfo;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.enchantment.Enchantment;
@@ -10,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import us.nebula.Nebula;
+import us.nebula.api.gui.font.Fonts;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -38,6 +40,8 @@ public final class NametagsCheat extends Cheat
 
     private final Setting<Float> sizeSetting = new Setting<>(
             "Size", 0.25f, 0.05f, 3.0f, 0.05f);
+    private final Setting<Boolean> pingSetting = new Setting<>(
+            "Ping", true);
 
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
@@ -100,9 +104,14 @@ public final class NametagsCheat extends Cheat
         if (text != null && !text.isEmpty())
         {
             final int height = MC.fontRenderer.FONT_HEIGHT;
-            final double width = MC.fontRenderer.getStringWidth(text) / 2.0;
+            //final double width = MC.fontRenderer.getStringWidth(text) / 2.0;
+            final double width = Fonts.POPPINS.getStringWidth(text) / 2.0;
 
-            MC.fontRenderer.drawStringWithShadow(text,
+//            MC.fontRenderer.drawStringWithShadow(text,
+//                    (int) -width,
+//                    (int) (-height + (((height + 3) / 2.0) - (height / 2.0))),
+//                    -1);
+            Fonts.POPPINS.drawStringShadow(text,
                     (int) -width,
                     (int) (-height + (((height + 3) / 2.0) - (height / 2.0))),
                     -1);
@@ -199,6 +208,19 @@ public final class NametagsCheat extends Cheat
         final EntityPlayer player = (EntityPlayer) entity;
         final StringBuilder builder = new StringBuilder();
 
+        if (pingSetting.getValue())
+        {
+            final GuiPlayerInfo info = (GuiPlayerInfo) MC.thePlayer.sendQueue.playerInfoMap
+                    .get(player.getCommandSenderName());
+            if (info != null)
+            {
+                builder.append(EnumChatFormatting.GRAY);
+                builder.append(info.responseTime);
+                builder.append("ms ");
+                builder.append(EnumChatFormatting.RESET);
+            }
+        }
+
         if (Nebula.INSTANCE.getFriendManager().isFriend(player)
                 || player == MC.thePlayer)
         {
@@ -212,14 +234,24 @@ public final class NametagsCheat extends Cheat
         builder.append(EnumChatFormatting.RESET);
 
         builder.append(" ");
-        builder.append(EnumChatFormatting.GRAY);
-        builder.append("[");
-        builder.append(EnumChatFormatting.WHITE);
-        builder.append(String.format("%.1f", (player.getHealth() + player.getAbsorptionAmount()) / 2.0f));
-        builder.append(EnumChatFormatting.RED);
-        builder.append(HEART_UNICODE_CHARACTER);
-        builder.append(EnumChatFormatting.GRAY);
-        builder.append("]");
+
+        final float health = player.getHealth() + player.getAbsorptionAmount();
+
+        if (health >= 20.0f)
+        {
+            builder.append(EnumChatFormatting.GREEN);
+        } else if (health >= 10.0f)
+        {
+            builder.append(EnumChatFormatting.YELLOW);
+        } else if (health >= 8.0f)
+        {
+            builder.append(EnumChatFormatting.RED);
+        } else
+        {
+            builder.append(EnumChatFormatting.DARK_RED);
+        }
+
+        builder.append(String.format("%.1f", health));
 
         return builder.toString();
     }
