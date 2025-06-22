@@ -49,6 +49,10 @@ public final class AWTFont
 
     public Glyph getGlyph(final char codePoint)
     {
+        if (codePoint >= glyphBin.length || codePoint < 0)
+        {
+            return null;
+        }
         return glyphBin[codePoint];
     }
 
