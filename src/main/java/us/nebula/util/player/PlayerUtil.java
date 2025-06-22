@@ -1,6 +1,7 @@
 package us.nebula.util.player;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.*;
 
@@ -22,6 +23,13 @@ public final class PlayerUtil
     {
         int var25 = MathHelper.floor_double(MC.thePlayer.rotationYaw / 90.0D + 0.5D) & 3;
         return FACINGS[var25 % FACINGS.length];
+    }
+
+    public static BlockPos getOrigin(final EntityLivingBase entity)
+    {
+        return new BlockPos(MathHelper.floor_double(entity.posX),
+                MathHelper.floor_double(entity.boundingBox.minY),
+                MathHelper.floor_double(entity.posZ));
     }
 
     public static BlockPos getOrigin(final double posY)

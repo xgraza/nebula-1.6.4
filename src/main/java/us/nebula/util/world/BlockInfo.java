@@ -7,15 +7,20 @@ import net.minecraft.util.EnumFacing;
  * @author xgraza
  * @since 04/18/25
  */
-public final class BlockInfo
+public class BlockInfo
 {
-    private final BlockPos pos;
-    private final EnumFacing facing;
+    private BlockPos pos;
+    private EnumFacing facing;
 
     public BlockInfo(BlockPos pos, EnumFacing facing)
     {
         this.pos = pos;
         this.facing = facing;
+    }
+
+    public void setPos(final BlockPos pos)
+    {
+        this.pos = pos;
     }
 
     public BlockPos getPos()
@@ -26,5 +31,10 @@ public final class BlockInfo
     public EnumFacing getFacing()
     {
         return facing;
+    }
+
+    public void setFacing(final EnumFacing facing)
+    {
+        this.facing = facing;
     }
 }

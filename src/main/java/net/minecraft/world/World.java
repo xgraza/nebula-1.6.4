@@ -53,6 +53,7 @@ import net.minecraft.world.storage.WorldInfo;
 import us.nebula.api.listener.EventBus;
 import us.nebula.api.render.EntityCulling;
 import us.nebula.impl.cheat.exploit.GhostHandCheat;
+import us.nebula.impl.cheat.player.AntiLagCheat;
 import us.nebula.impl.cheat.render.NoWeatherCheat;
 import us.nebula.impl.event.player.EventPushWater;
 
@@ -3240,6 +3241,9 @@ public abstract class World implements IBlockAccess
             this.theProfiler.endSection();
             this.theProfiler.startSection("checkedPosition < toCheckCount");
 
+            final boolean noRecompile = AntiLagCheat.INSTANCE.isToggled()
+                    && AntiLagCheat.INSTANCE.noLightRecompile.getValue();
+
             while (var5 < var6)
             {
                 var9 = this.lightUpdateBlockList[var5++];
@@ -3247,7 +3251,11 @@ public abstract class World implements IBlockAccess
                 var11 = (var9 >> 6 & 63) - 32 + p_147463_3_;
                 var12 = (var9 >> 12 & 63) - 32 + p_147463_4_;
                 var13 = this.getSavedLightValue(p_147463_1_, var10, var11, var12);
-                var14 = this.computeLightValue(var10, var11, var12, p_147463_1_);
+                var14 = var13;
+                if (!noRecompile)
+                {
+                    var14 = this.computeLightValue(var10, var11, var12, p_147463_1_);
+                }
 
                 if (var14 != var13)
                 {

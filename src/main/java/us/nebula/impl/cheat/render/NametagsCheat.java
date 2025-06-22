@@ -8,6 +8,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import us.nebula.Nebula;
@@ -35,6 +36,7 @@ import static org.lwjgl.opengl.GL11.*;
         category = CheatCategory.RENDER)
 public final class NametagsCheat extends Cheat
 {
+    private static final ItemStack FAKE_BONE_STACK = new ItemStack(Items.bone, 1);
     private static final String HEART_UNICODE_CHARACTER = "\u2665";
     private static final int ITEM_RENDER_SIZE = 16;
 
@@ -101,16 +103,10 @@ public final class NametagsCheat extends Cheat
         glDisable(GL_DEPTH_TEST);
 
         final String text = getDisplayInfo(entity);
-        if (text != null && !text.isEmpty())
+        final double width = Fonts.POPPINS.getStringWidth(text) / 2.0;
+        if (!text.isEmpty())
         {
             final int height = MC.fontRenderer.FONT_HEIGHT;
-            //final double width = MC.fontRenderer.getStringWidth(text) / 2.0;
-            final double width = Fonts.POPPINS.getStringWidth(text) / 2.0;
-
-//            MC.fontRenderer.drawStringWithShadow(text,
-//                    (int) -width,
-//                    (int) (-height + (((height + 3) / 2.0) - (height / 2.0))),
-//                    -1);
             Fonts.POPPINS.drawStringShadow(text,
                     (int) -width,
                     (int) (-height + (((height + 3) / 2.0) - (height / 2.0))),
@@ -128,7 +124,7 @@ public final class NametagsCheat extends Cheat
 
             if (heldStack != null)
             {
-                renderItemStack(heldStack, itemX);
+                renderItemStack(heldStack, itemX, -26);
                 itemX += ITEM_RENDER_SIZE;
             }
 
@@ -137,10 +133,13 @@ public final class NametagsCheat extends Cheat
                 final ItemStack stack = player.inventory.armorInventory[i];
                 if (stack != null)
                 {
-                    renderItemStack(stack, itemX);
+                    renderItemStack(stack, itemX, -26);
                     itemX += ITEM_RENDER_SIZE;
                 }
             }
+        } else if (entity instanceof EntityTameable)
+        {
+            renderItemStack(FAKE_BONE_STACK, (int) -(width + 16), -9);
         }
 
         glEnable(GL_DEPTH_TEST);
@@ -154,9 +153,9 @@ public final class NametagsCheat extends Cheat
         glPopMatrix();
     }
 
-    private void renderItemStack(final ItemStack stack, final int x)
+    private void renderItemStack(final ItemStack stack, final int x, final int y)
     {
-        RenderUtil.renderItemWithEffects(stack, x, -26);
+        RenderUtil.renderItemWithEffects(stack, x, y);
 
         final Map<Integer, Integer> enchantmentList = EnchantmentHelper.getEnchantments(stack);
         if (enchantmentList.isEmpty())
@@ -169,7 +168,7 @@ public final class NametagsCheat extends Cheat
         glDisable(GL_DEPTH_TEST);
         glScaled(0.5, 0.5, 0.5);
 
-        double textPosY = -26.0;
+        double textPosY = y;
         final boolean is32kStack = enchantmentList.values().stream().anyMatch((level) -> level >= Short.MAX_VALUE);
         if (is32kStack)
         {

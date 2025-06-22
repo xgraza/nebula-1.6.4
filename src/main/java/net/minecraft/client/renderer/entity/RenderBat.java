@@ -8,6 +8,7 @@ import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import us.nebula.impl.cheat.render.NoRenderCheat;
 
 public class RenderBat extends RenderLiving
 {
@@ -34,6 +35,10 @@ public class RenderBat extends RenderLiving
      */
     public void doRender(EntityBat par1EntityBat, double par2, double par4, double par6, float par8, float par9)
     {
+        if (NoRenderCheat.INSTANCE.isToggled() && NoRenderCheat.INSTANCE.batsSetting.getValue())
+        {
+            return;
+        }
         int var10 = ((ModelBat)this.mainModel).getBatSize();
 
         if (var10 != this.renderedBatSize)

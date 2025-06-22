@@ -1180,7 +1180,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
                 if (var2.interactWithEntity(this, (EntityLivingBase)par1Entity))
                 {
-                    if ((var2.stackSize <= 0 && !this.capabilities.isCreativeMode) || (AntiRevertCheat.INSTANCE.isToggled() && !ItemUtil.isInfinite(var2)))
+                    if (var2.stackSize <= 0 && !this.capabilities.isCreativeMode && (!AntiRevertCheat.INSTANCE.isToggled() || !ItemUtil.isInfinite(var2)))
                     {
                         this.destroyCurrentEquippedItem();
                     }
@@ -1195,7 +1195,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         {
             if (var2 != null && var2 == this.getCurrentEquippedItem())
             {
-                if ((var2.stackSize <= 0 && !this.capabilities.isCreativeMode) || (AntiRevertCheat.INSTANCE.isToggled() && !ItemUtil.isInfinite(var2)))
+                if (var2.stackSize <= 0 && !this.capabilities.isCreativeMode && (!AntiRevertCheat.INSTANCE.isToggled() || !ItemUtil.isInfinite(var2)))
                 {
                     this.destroyCurrentEquippedItem();
                 }
@@ -1328,8 +1328,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                         if (var9 != null && var10 instanceof EntityLivingBase)
                         {
                             var9.hitEntity((EntityLivingBase)var10, this);
-
-                            if (var9.stackSize <= 0 || (AntiRevertCheat.INSTANCE.isToggled() && !ItemUtil.isInfinite(var9)))
+                            if (var9.stackSize <= 0 && (!AntiRevertCheat.INSTANCE.isToggled() || !ItemUtil.isInfinite(var9)))
                             {
                                 this.destroyCurrentEquippedItem();
                             }

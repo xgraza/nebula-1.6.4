@@ -38,4 +38,6 @@ public final class NoRenderCheat extends Cheat
             "Void Particles", false);
     public final Setting<Boolean> signTextSetting = new Setting<>(
             "Sign Text", false);
+    public final Setting<Boolean> batsSetting = new Setting<>(
+            "Bats", false);
 }

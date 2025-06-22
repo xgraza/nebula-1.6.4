@@ -15,6 +15,7 @@ import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.render.EventRender3D;
+import us.nebula.util.player.ChatUtil;
 import us.nebula.util.player.InventoryUtil;
 import us.nebula.util.player.PlayerUtil;
 import us.nebula.util.render.RenderUtil;
@@ -100,8 +101,13 @@ public final class ScaffoldCheat extends Cheat
 
     private BlockData getBlockData()
     {
-        final double diff = MC.thePlayer.boundingBox.minY % 1.0;
-        final double minY = MathHelper.floor_double(MC.thePlayer.boundingBox.minY + (1 - diff));
+        double minY = MC.thePlayer.boundingBox.minY;
+        // if we're on ground and our remainder is not 0.0 (ex: 0.875 on ender chests)
+        if (minY % 0.015625 == 0.0 && minY % 1.0 != 0.0)
+        {
+            minY += 1.0 - (minY % 1.0);
+        }
+
         if (!keeepYSetting.getValue()
                 || (towerSetting.getValue() && MC.gameSettings.keyBindJump.pressed)
                 || basePosY == -1.0)

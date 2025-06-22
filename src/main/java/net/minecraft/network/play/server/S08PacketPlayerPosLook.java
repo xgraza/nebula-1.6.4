@@ -8,24 +8,24 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S08PacketPlayerPosLook extends Packet
 {
-    private double field_148940_a;
-    private double field_148938_b;
-    private double field_148939_c;
-    private float field_148936_d;
-    private float field_148937_e;
-    private boolean field_148935_f;
+    private double posX;
+    private double posY;
+    private double posZ;
+    private float yaw;
+    private float pitch;
+    private boolean onGround;
     private static final String __OBFID = "CL_00001273";
 
     public S08PacketPlayerPosLook() {}
 
     public S08PacketPlayerPosLook(double p_i45164_1_, double p_i45164_3_, double p_i45164_5_, float p_i45164_7_, float p_i45164_8_, boolean p_i45164_9_)
     {
-        this.field_148940_a = p_i45164_1_;
-        this.field_148938_b = p_i45164_3_;
-        this.field_148939_c = p_i45164_5_;
-        this.field_148936_d = p_i45164_7_;
-        this.field_148937_e = p_i45164_8_;
-        this.field_148935_f = p_i45164_9_;
+        this.posX = p_i45164_1_;
+        this.posY = p_i45164_3_;
+        this.posZ = p_i45164_5_;
+        this.yaw = p_i45164_7_;
+        this.pitch = p_i45164_8_;
+        this.onGround = p_i45164_9_;
     }
 
     /**
@@ -33,12 +33,12 @@ public class S08PacketPlayerPosLook extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_148940_a = p_148837_1_.readDouble();
-        this.field_148938_b = p_148837_1_.readDouble();
-        this.field_148939_c = p_148837_1_.readDouble();
-        this.field_148936_d = p_148837_1_.readFloat();
-        this.field_148937_e = p_148837_1_.readFloat();
-        this.field_148935_f = p_148837_1_.readBoolean();
+        this.posX = p_148837_1_.readDouble();
+        this.posY = p_148837_1_.readDouble();
+        this.posZ = p_148837_1_.readDouble();
+        this.yaw = p_148837_1_.readFloat();
+        this.pitch = p_148837_1_.readFloat();
+        this.onGround = p_148837_1_.readBoolean();
     }
 
     /**
@@ -46,12 +46,12 @@ public class S08PacketPlayerPosLook extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeDouble(this.field_148940_a);
-        p_148840_1_.writeDouble(this.field_148938_b);
-        p_148840_1_.writeDouble(this.field_148939_c);
-        p_148840_1_.writeFloat(this.field_148936_d);
-        p_148840_1_.writeFloat(this.field_148937_e);
-        p_148840_1_.writeBoolean(this.field_148935_f);
+        p_148840_1_.writeDouble(this.posX);
+        p_148840_1_.writeDouble(this.posY);
+        p_148840_1_.writeDouble(this.posZ);
+        p_148840_1_.writeFloat(this.yaw);
+        p_148840_1_.writeFloat(this.pitch);
+        p_148840_1_.writeBoolean(this.onGround);
     }
 
     public void processPacket(INetHandlerPlayClient p_148934_1_)
@@ -59,34 +59,44 @@ public class S08PacketPlayerPosLook extends Packet
         p_148934_1_.handlePlayerPosLook(this);
     }
 
-    public double func_148932_c()
+    public double getX()
     {
-        return this.field_148940_a;
+        return this.posX;
     }
 
-    public double func_148928_d()
+    public double getY()
     {
-        return this.field_148938_b;
+        return this.posY;
     }
 
-    public double func_148933_e()
+    public double getZ()
     {
-        return this.field_148939_c;
+        return this.posZ;
     }
 
-    public float func_148931_f()
+    public float getYaw()
     {
-        return this.field_148936_d;
+        return this.yaw;
     }
 
-    public float func_148930_g()
+    public void setYaw(float yaw)
     {
-        return this.field_148937_e;
+        this.yaw = yaw;
     }
 
-    public boolean func_148929_h()
+    public float getPitch()
     {
-        return this.field_148935_f;
+        return this.pitch;
+    }
+
+    public void setPitch(float pitch)
+    {
+        this.pitch = pitch;
+    }
+
+    public boolean isOnGround()
+    {
+        return this.onGround;
     }
 
     public void processPacket(INetHandler p_148833_1_)

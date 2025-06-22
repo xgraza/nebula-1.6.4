@@ -22,4 +22,6 @@ public final class AntiLagCheat extends Cheat
             "Group Items", false);
     public final Setting<Boolean> fallingBlocksSetting = new Setting<>(
             "Render Falling Blocks", false);
+    public final Setting<Boolean> noLightRecompile = new Setting<>(
+            "No Light Recompile", false);
 }

@@ -10,10 +10,7 @@ import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
@@ -136,6 +133,10 @@ public class GuiNewChat extends Gui
                                     if (matcher.find())
                                     {
                                         username = matcher.group(1);
+                                        if (username != null && !username.isEmpty())
+                                        {
+                                            username = StringUtils.stripControlCodes(username);
+                                        }
                                     }
 
                                     if (ChatModifierCheat.INSTANCE.playerHeadsSetting.getValue() && username != null)
@@ -177,7 +178,7 @@ public class GuiNewChat extends Gui
                                                         + EnumChatFormatting.AQUA
                                                         + username
                                                         + EnumChatFormatting.RESET
-                                                        + ">");
+                                                        + "> ");
                                     }
                                 }
                                 this.mc.fontRenderer.drawStringWithShadow(var17, (int) x + offset, y - 8, 16777215 + (var14 << 24));

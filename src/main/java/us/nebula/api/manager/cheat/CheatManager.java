@@ -29,6 +29,7 @@ public final class CheatManager implements ITypedManager<Cheat>
     public void init()
     {
         addCheat(new AutoArmorCheat());
+        addCheat(new AutoBedCheat());
         addCheat(new AutoLogCheat());
         addCheat(new AutoPotCheat());
         addCheat(new BurrowCheat());
@@ -46,6 +47,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new NoHungerCheat());
         addCheat(new NoMagicMovementCheat());
         addCheat(new NoPortalGUICheat());
+        addCheat(new NoRotateSetCheat());
         addCheat(new PotionSaverCheat());
         addCheat(new TimerCheat());
         addCheat(new XCarryCheat());
@@ -54,6 +56,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AutoReconnectCheat());
         addCheat(new DiscordRPCCheat());
         addCheat(new ExtraTabCheat());
+        addCheat(new FakePlayerCheat());
         addCheat(new FastLatencyCheat());
         addCheat(new InventorySyncCheat());
         addCheat(new SpammerCheat());

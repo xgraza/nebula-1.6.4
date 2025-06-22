@@ -38,6 +38,7 @@ public final class FastLatencyCheat extends Cheat
     {
         if (MC.thePlayer.ticksExisted < 20)
         {
+            sentAt = -1L;
             return;
         }
 

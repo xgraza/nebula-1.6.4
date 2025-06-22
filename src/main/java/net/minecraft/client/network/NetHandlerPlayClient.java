@@ -643,15 +643,15 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     public void handlePlayerPosLook(S08PacketPlayerPosLook p_147258_1_)
     {
         EntityClientPlayerMP var2 = this.gameController.thePlayer;
-        double var3 = p_147258_1_.func_148932_c();
-        double var5 = p_147258_1_.func_148928_d();
-        double var7 = p_147258_1_.func_148933_e();
-        float var9 = p_147258_1_.func_148931_f();
-        float var10 = p_147258_1_.func_148930_g();
+        double var3 = p_147258_1_.getX();
+        double var5 = p_147258_1_.getY();
+        double var7 = p_147258_1_.getZ();
+        float var9 = p_147258_1_.getYaw();
+        float var10 = p_147258_1_.getPitch();
         var2.ySize = 0.0F;
         var2.motionX = var2.motionY = var2.motionZ = 0.0D;
         var2.setPositionAndRotation(var3, var5, var7, var9, var10);
-        this.netManager.scheduleOutboundPacket(new C03PacketPlayer.C06PacketPlayerPosLook(var2.posX, var2.boundingBox.minY, var2.posY, var2.posZ, p_147258_1_.func_148931_f(), p_147258_1_.func_148930_g(), p_147258_1_.func_148929_h()), new GenericFutureListener[0]);
+        this.netManager.scheduleOutboundPacket(new C03PacketPlayer.C06PacketPlayerPosLook(var2.posX, var2.boundingBox.minY, var2.posY, var2.posZ, p_147258_1_.getYaw(), p_147258_1_.getPitch(), p_147258_1_.isOnGround()), new GenericFutureListener[0]);
 
         if (!this.doneLoadingTerrain)
         {
