@@ -24,6 +24,7 @@ import us.nebula.impl.cheat.player.FreecamCheat;
 import us.nebula.impl.event.game.EventPostUpdate;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.render.EventRender3D;
+import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
 import us.nebula.util.math.Timer;
 import us.nebula.util.player.EntityUtil;
 
@@ -342,6 +343,12 @@ public final class KillAuraCheat extends Cheat
     public boolean isAttacking()
     {
         return target != null;
+    }
+
+    @Override
+    public String getMetadata()
+    {
+        return EnumSettingComponent.formatEnum(modeSetting.getValue());
     }
 
     private enum Mode

@@ -105,6 +105,11 @@ public class Cheat implements ISettingProvider, IJSONSerializable
         return manifest;
     }
 
+    public String getMetadata()
+    {
+        return null;
+    }
+
     public Key getKey()
     {
         return key;

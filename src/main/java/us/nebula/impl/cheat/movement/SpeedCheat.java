@@ -11,6 +11,7 @@ import us.nebula.api.value.Setting;
 import us.nebula.impl.event.network.EventPacket;
 import us.nebula.impl.event.player.EventMove;
 import us.nebula.impl.event.player.EventMoveUpdate;
+import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
 import us.nebula.util.player.MoveUtil;
 
 /**
@@ -122,6 +123,12 @@ public final class SpeedCheat extends Cheat
             lagTicks = 8;
         }
     };
+
+    @Override
+    public String getMetadata()
+    {
+        return EnumSettingComponent.formatEnum(modeSetting.getValue());
+    }
 
     public enum Mode
     {

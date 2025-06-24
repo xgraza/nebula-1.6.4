@@ -38,4 +38,10 @@ public final class AutoLogCheat extends Cheat
                         .appendText("Health less than set minimum"));
         toggle();
     };
+
+    @Override
+    public String getMetadata()
+    {
+        return String.format("%.2f", healthSetting.getValue());
+    }
 }

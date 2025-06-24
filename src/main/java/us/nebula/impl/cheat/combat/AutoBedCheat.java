@@ -367,6 +367,16 @@ public final class AutoBedCheat extends Cheat
         return MC.thePlayer.dimension != 0;
     }
 
+    @Override
+    public String getMetadata()
+    {
+        if (target != null)
+        {
+            return target.getCommandSenderName();
+        }
+        return super.getMetadata();
+    }
+
     private static final class BedBlockInfo extends BlockInfo
     {
         private float targetDamage = 1.0f, localDamage;

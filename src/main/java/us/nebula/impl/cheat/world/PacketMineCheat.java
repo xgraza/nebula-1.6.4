@@ -257,6 +257,16 @@ public final class PacketMineCheat extends Cheat
         return breakSpeed;
     }
 
+    @Override
+    public String getMetadata()
+    {
+        if (currentPosition == null || currentPosition.progress < 0.0f)
+        {
+            return super.getMetadata();
+        }
+        return String.format("%.1f", (currentPosition.progress * 100.0f)) + "%";
+    }
+
     private static final class MinePosition
     {
         public final int x, y, z, side, slot;

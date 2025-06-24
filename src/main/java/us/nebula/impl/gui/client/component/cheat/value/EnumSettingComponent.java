@@ -76,7 +76,7 @@ public final class EnumSettingComponent extends GUIComponent implements IGUIInpu
 
     }
 
-    private String formatEnum(final Enum<?> e)
+    public static String formatEnum(final Enum<?> e)
     {
         if (!e.toString().equals(e.name()))
         {

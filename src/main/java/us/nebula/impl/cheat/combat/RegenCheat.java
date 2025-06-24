@@ -34,4 +34,10 @@ public final class RegenCheat extends Cheat
                     new C03PacketPlayer(MC.thePlayer.onGround));
         }
     };
+
+    @Override
+    public String getMetadata()
+    {
+        return String.format("%.2f", healthSetting.getValue());
+    }
 }

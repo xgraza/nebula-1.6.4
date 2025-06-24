@@ -11,6 +11,7 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.network.EventPacket;
+import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
 
 /**
  * @author xgraza
@@ -76,6 +77,12 @@ public final class CriticalsCheat extends Cheat
             }
         }
     };
+
+    @Override
+    public String getMetadata()
+    {
+        return EnumSettingComponent.formatEnum(modeSetting.getValue());
+    }
 
     private enum Mode
     {

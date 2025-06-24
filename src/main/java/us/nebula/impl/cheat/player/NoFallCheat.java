@@ -8,6 +8,7 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.player.EventMoveUpdate;
+import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
 import us.nebula.util.player.ChatUtil;
 
 /**
@@ -52,6 +53,12 @@ public final class NoFallCheat extends Cheat
         }
         MC.thePlayer.fallDistance = 0.0f;
     };
+
+    @Override
+    public String getMetadata()
+    {
+        return EnumSettingComponent.formatEnum(modeSetting.getValue());
+    }
 
     private enum Mode
     {
