@@ -27,6 +27,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import us.nebula.Nebula;
 import us.nebula.api.listener.EventBus;
+import us.nebula.impl.cheat.player.InteractCheat;
 import us.nebula.impl.event.player.EventAttackBlock;
 import us.nebula.util.player.ChatUtil;
 
@@ -317,6 +318,10 @@ public class PlayerControllerMP
      */
     public float getBlockReachDistance()
     {
+        if (InteractCheat.INSTANCE.isToggled())
+        {
+            return InteractCheat.INSTANCE.placeReachSetting.getValue();
+        }
         return this.currentGameType.isCreative() ? 5.0F : 4.5F;
     }
 

@@ -73,6 +73,7 @@ import shadersmod.client.ShadersRender;
 import us.nebula.api.listener.EventBus;
 import us.nebula.api.render.EntityCulling;
 import us.nebula.impl.cheat.miscellaneous.UnfocusedCPUCheat;
+import us.nebula.impl.cheat.player.InteractCheat;
 import us.nebula.impl.cheat.render.NoRenderCheat;
 import us.nebula.impl.event.render.EventCameraDistance;
 import us.nebula.impl.event.render.EventGamma;
@@ -460,9 +461,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
             else
             {
-                if (var2 > 3.0D)
+                if (var2 > 3.0)
                 {
-                    var4 = 3.0D;
+                    var4 = 3.0;
                 }
 
                 var2 = var4;
@@ -525,7 +526,11 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 }
             }
 
-            if (this.pointedEntity != null && (var12 < var4 || this.mc.objectMouseOver == null))
+            final double reach = InteractCheat.INSTANCE.isToggled() ?
+                    InteractCheat.INSTANCE.attackReachSetting.getValue() :
+                    var4;
+
+            if (this.pointedEntity != null && (var12 < reach || this.mc.objectMouseOver == null))
             {
                 this.mc.objectMouseOver = new MovingObjectPosition(this.pointedEntity, var9);
 

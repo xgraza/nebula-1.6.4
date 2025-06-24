@@ -18,6 +18,11 @@ public final class InteractCheat extends Cheat
     @CheatInstance
     public static InteractCheat INSTANCE;
 
+    public final Setting<Double> attackReachSetting = new Setting<>(
+            "Attack Reach", 3.0, 1.0, 6.0, 0.1);
+    public final Setting<Float> placeReachSetting = new Setting<>(
+            "Place Reach", 4.5f, 1.0f, 6.0f, 0.1f);
+
     public final Setting<Boolean> waterPlaceSetting = new Setting<>(
             "Water Place", false);
 }
