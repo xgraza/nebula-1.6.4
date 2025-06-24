@@ -13,16 +13,16 @@ public class BlockCarrot extends BlockCrops
     /**
      * Gets the block's texture. Args: side, meta
      */
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_)
+    public IIcon getIcon(int side, int meta)
     {
-        if (p_149691_2_ < 7)
+        if (meta < 7)
         {
-            if (p_149691_2_ == 6)
+            if (meta == 6)
             {
-                p_149691_2_ = 5;
+                meta = 5;
             }
 
-            return this.field_149868_a[p_149691_2_ >> 1];
+            return this.field_149868_a[meta >> 1];
         }
         else
         {

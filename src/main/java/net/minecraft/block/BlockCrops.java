@@ -119,14 +119,14 @@ public class BlockCrops extends BlockBush implements IGrowable
     /**
      * Gets the block's texture. Args: side, meta
      */
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_)
+    public IIcon getIcon(int side, int meta)
     {
-        if (p_149691_2_ < 0 || p_149691_2_ > 7)
+        if (meta < 0 || meta > 7)
         {
-            p_149691_2_ = 7;
+            meta = 7;
         }
 
-        return this.field_149867_a[p_149691_2_];
+        return this.field_149867_a[meta];
     }
 
     /**

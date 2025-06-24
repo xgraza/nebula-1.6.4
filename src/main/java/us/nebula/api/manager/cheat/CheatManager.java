@@ -100,6 +100,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         // addCheat(new TrajectoriesCheat());
         addCheat(new ViewModelCheat());
         addCheat(new XRayCheat());
+        addCheat(new AutoFarmCheat());
         addCheat(new AutoHighwayCheat());
         addCheat(new AutoInfiniteCheat());
         addCheat(new AutoTorchCheat());
