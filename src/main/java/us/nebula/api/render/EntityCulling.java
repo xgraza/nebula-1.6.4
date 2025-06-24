@@ -3,7 +3,9 @@ package us.nebula.api.render;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.src.BlockPos;
 import net.minecraft.src.GlStateManager;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import org.lwjgl.opengl.GL15;
 import us.nebula.impl.cheat.render.EntityCullingCheat;
@@ -89,6 +91,31 @@ public final class EntityCulling
         }
     }
 
+    public static void queryTileEntity(final TileEntity entity)
+    {
+        if (!isActive())
+        {
+            return;
+        }
+        final Result result = QUERY_RESULTS.computeIfAbsent(
+                entity.getRandomUUID(), (x) -> new Result());
+
+        if (System.currentTimeMillis() - result.reQueryAt < 50L)
+        {
+            return;
+        }
+
+        result.id = getQuery();
+        glBeginQuery(GL_ANY_SAMPLES_PASSED, result.id);
+        final AxisAlignedBB box = new AxisAlignedBB(new BlockPos(entity.xCoord, entity.yCoord, entity.zCoord));
+        final AxisAlignedBB renderBox = box.copy()
+                .expand(0.2, 0.2, 0.2)
+                .offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
+        drawOutlinedBoundingBox(renderBox);
+        glEndQuery(GL_ANY_SAMPLES_PASSED);
+        result.reQueryAt = System.currentTimeMillis() + 50L;
+    }
+
     public static void queryEntity(final Entity entity)
     {
         if (!isActive())
@@ -124,6 +151,19 @@ public final class EntityCulling
             return false;
         }
         return QUERY_RESULTS.get(entity.getUniqueID()).value;
+    }
+
+    public static boolean shouldRenderTileEntity(final TileEntity entity)
+    {
+        if (!isActive())
+        {
+            return true;
+        }
+        if (!QUERY_RESULTS.containsKey(entity.getRandomUUID()))
+        {
+            return false;
+        }
+        return QUERY_RESULTS.get(entity.getRandomUUID()).value;
     }
 
     public static void drawOutlinedBoundingBox(AxisAlignedBB bb)

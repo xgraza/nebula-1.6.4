@@ -23,6 +23,7 @@ import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
+import us.nebula.api.render.EntityCulling;
 import us.nebula.impl.cheat.render.ChamsCheat;
 
 public class TileEntityRendererDispatcher
@@ -124,6 +125,8 @@ public class TileEntityRendererDispatcher
         {
             try
             {
+                // EntityCulling.queryTileEntity(p_147549_1_);
+
                 final boolean renderingChams = ChamsCheat.INSTANCE != null
                         && ChamsCheat.INSTANCE.isToggled()
                         && ChamsCheat.INSTANCE.isTileEntityValid(p_147549_1_);

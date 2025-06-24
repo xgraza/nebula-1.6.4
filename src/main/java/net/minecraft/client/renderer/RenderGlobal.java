@@ -655,6 +655,11 @@ public class RenderGlobal implements IWorldAccess
             {
                 var26 = (Entity)var25.get(var18);
 
+                if (!EntityCulling.shouldRenderEntity(var26))
+                {
+                    continue;
+                }
+
                 boolean var28 = var26.isInRangeToRender3d(var4, var6, var8) && (var26.ignoreFrustumCheck || p_147589_2_.isBoundingBoxInFrustum(var26.boundingBox) || var26.riddenByEntity == this.mc.thePlayer);
 
                 if (!var28 && var26 instanceof EntityLiving)
@@ -703,6 +708,10 @@ public class RenderGlobal implements IWorldAccess
             for (var18 = 0; var18 < this.tileEntities.size(); ++var18)
             {
                 TileEntity var29 = (TileEntity)this.tileEntities.get(var18);
+//                if (!EntityCulling.shouldRenderTileEntity(var29))
+//                {
+//                    continue;
+//                }
 
                 AxisAlignedBB var30 = this.getTileEntityBoundingBox(var29);
 

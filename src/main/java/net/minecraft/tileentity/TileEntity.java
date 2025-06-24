@@ -2,6 +2,7 @@ package net.minecraft.tileentity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
@@ -37,7 +38,13 @@ public class TileEntity
 
     /** the Block type that this TileEntity is contained within */
     public Block blockType;
-    private static final String __OBFID = "CL_00000340";
+
+    private final UUID randomUUID;
+
+    public TileEntity()
+    {
+        randomUUID = UUID.randomUUID();
+    }
 
     private static void func_145826_a(Class p_145826_0_, String p_145826_1_)
     {
@@ -197,6 +204,11 @@ public class TileEntity
     public Packet getDescriptionPacket()
     {
         return null;
+    }
+
+    public UUID getRandomUUID()
+    {
+        return randomUUID;
     }
 
     public boolean isInvalid()
