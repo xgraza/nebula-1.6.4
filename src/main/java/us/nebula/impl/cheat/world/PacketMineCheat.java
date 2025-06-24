@@ -42,6 +42,8 @@ public final class PacketMineCheat extends Cheat
 
     private final Setting<Double> percentSetting = new Setting<>(
             "Percent", 0.95, 0.01, 1.0, 0.01);
+    private final Setting<Boolean> instantSetting = new Setting<>(
+            "Instant", false);
     private final Setting<Boolean> renderSetting = new Setting<>(
             "Render", true);
 
@@ -131,17 +133,16 @@ public final class PacketMineCheat extends Cheat
                     currentPosition.x, currentPosition.y, currentPosition.z,
                     currentPosition.side));
             Nebula.INSTANCE.getInventoryManager().syncSlot();
+            if (instantSetting.getValue() && getStrength(currentPosition) >= 1.0)
+            {
+                breakBlock();
+            }
             return;
         }
         currentPosition.progress += getStrength(currentPosition);
         if (currentPosition.progress >= percentSetting.getValue() && !currentPosition.sentStop)
         {
-            Nebula.INSTANCE.getInventoryManager().setSlot(currentPosition.slot);
-            currentPosition.sentStop = true;
-            MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
-                    2,
-                    currentPosition.x, currentPosition.y, currentPosition.z,
-                    currentPosition.side));
+            breakBlock();
         }
     };
 
@@ -168,6 +169,20 @@ public final class PacketMineCheat extends Cheat
                 event.getSide(),
                 slot));
     };
+
+    private void breakBlock()
+    {
+        Nebula.INSTANCE.getInventoryManager().setSlot(currentPosition.slot);
+        currentPosition.sentStop = true;
+        MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+                2,
+                currentPosition.x, currentPosition.y, currentPosition.z,
+                currentPosition.side));
+        if (instantSetting.getValue())
+        {
+            MC.theWorld.setBlockToAir(currentPosition.x, currentPosition.y, currentPosition.z);
+        }
+    }
 
     private void abortBreakingBlock(final MinePosition minePosition)
     {
