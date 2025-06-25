@@ -1245,35 +1245,31 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     /**
      * Updates a specified sign with the specified text lines
      */
-    public void handleUpdateSign(S33PacketUpdateSign p_147248_1_)
+    public void handleUpdateSign(S33PacketUpdateSign packet)
     {
-        boolean var2 = false;
+        boolean exists = false;
 
-        if (this.gameController.theWorld.blockExists(p_147248_1_.func_149346_c(), p_147248_1_.func_149345_d(), p_147248_1_.func_149344_e()))
+        if (this.gameController.theWorld.blockExists(packet.getX(), packet.getY(), packet.getZ()))
         {
-            TileEntity var3 = this.gameController.theWorld.getTileEntity(p_147248_1_.func_149346_c(), p_147248_1_.func_149345_d(), p_147248_1_.func_149344_e());
-
-            if (var3 instanceof TileEntitySign)
+            TileEntity tileEntity = this.gameController.theWorld.getTileEntity(packet.getX(), packet.getY(), packet.getZ());
+            if (tileEntity instanceof TileEntitySign)
             {
-                TileEntitySign var4 = (TileEntitySign)var3;
-
-                if (var4.func_145914_a())
+                TileEntitySign tileEntitySign = (TileEntitySign) tileEntity;
+                if (tileEntitySign.func_145914_a())
                 {
-                    for (int var5 = 0; var5 < 4; ++var5)
+                    for (int i = 0; i < 4; ++i)
                     {
-                        var4.field_145915_a[var5] = p_147248_1_.func_149347_f()[var5];
+                        tileEntitySign.lines[i] = packet.getLines()[i];
                     }
-
-                    var4.onInventoryChanged();
+                    tileEntitySign.onInventoryChanged();
                 }
-
-                var2 = true;
+                exists = true;
             }
         }
 
-        if (!var2 && this.gameController.thePlayer != null)
+        if (!exists && this.gameController.thePlayer != null)
         {
-            this.gameController.thePlayer.addChatMessage(new ChatComponentText("Unable to locate sign at " + p_147248_1_.func_149346_c() + ", " + p_147248_1_.func_149345_d() + ", " + p_147248_1_.func_149344_e()));
+            this.gameController.thePlayer.addChatMessage(new ChatComponentText("Unable to locate sign at " + packet.getX() + ", " + packet.getY() + ", " + packet.getZ()));
         }
     }
 

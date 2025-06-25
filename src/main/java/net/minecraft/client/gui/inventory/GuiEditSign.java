@@ -47,7 +47,7 @@ public class GuiEditSign extends GuiScreen
 
         if (var1 != null)
         {
-            var1.addToSendQueue(new C12PacketUpdateSign(this.field_146848_f.xCoord, this.field_146848_f.yCoord, this.field_146848_f.zCoord, this.field_146848_f.field_145915_a));
+            var1.addToSendQueue(new C12PacketUpdateSign(this.field_146848_f.xCoord, this.field_146848_f.yCoord, this.field_146848_f.zCoord, this.field_146848_f.lines));
         }
 
         this.field_146848_f.func_145913_a(true);
@@ -88,14 +88,14 @@ public class GuiEditSign extends GuiScreen
             this.field_146851_h = this.field_146851_h + 1 & 3;
         }
 
-        if (keyCode == 14 && this.field_146848_f.field_145915_a[this.field_146851_h].length() > 0)
+        if (keyCode == 14 && this.field_146848_f.lines[this.field_146851_h].length() > 0)
         {
-            this.field_146848_f.field_145915_a[this.field_146851_h] = this.field_146848_f.field_145915_a[this.field_146851_h].substring(0, this.field_146848_f.field_145915_a[this.field_146851_h].length() - 1);
+            this.field_146848_f.lines[this.field_146851_h] = this.field_146848_f.lines[this.field_146851_h].substring(0, this.field_146848_f.lines[this.field_146851_h].length() - 1);
         }
 
-        if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && this.field_146848_f.field_145915_a[this.field_146851_h].length() < 15)
+        if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && this.field_146848_f.lines[this.field_146851_h].length() < 15)
         {
-            this.field_146848_f.field_145915_a[this.field_146851_h] = this.field_146848_f.field_145915_a[this.field_146851_h] + typedChar;
+            this.field_146848_f.lines[this.field_146851_h] = this.field_146848_f.lines[this.field_146851_h] + typedChar;
         }
 
         if (keyCode == 1)

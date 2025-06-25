@@ -12,7 +12,6 @@ public class C12PacketUpdateSign extends Packet
     private int field_149591_b;
     private int field_149592_c;
     private String[] field_149590_d;
-    private static final String __OBFID = "CL_00001370";
 
     public C12PacketUpdateSign() {}
 
@@ -75,7 +74,7 @@ public class C12PacketUpdateSign extends Packet
         return this.field_149592_c;
     }
 
-    public String[] func_149589_f()
+    public String[] getLines()
     {
         return this.field_149590_d;
     }

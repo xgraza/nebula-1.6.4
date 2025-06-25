@@ -1026,15 +1026,15 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             {
                 boolean var5 = true;
 
-                if (p_147343_1_.func_149589_f()[var8].length() > 15)
+                if (p_147343_1_.getLines()[var8].length() > 15)
                 {
                     var5 = false;
                 }
                 else
                 {
-                    for (var6 = 0; var6 < p_147343_1_.func_149589_f()[var8].length(); ++var6)
+                    for (var6 = 0; var6 < p_147343_1_.getLines()[var8].length(); ++var6)
                     {
-                        if (!ChatAllowedCharacters.isAllowedCharacter(p_147343_1_.func_149589_f()[var8].charAt(var6)))
+                        if (!ChatAllowedCharacters.isAllowedCharacter(p_147343_1_.getLines()[var8].charAt(var6)))
                         {
                             var5 = false;
                         }
@@ -1043,7 +1043,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
                 if (!var5)
                 {
-                    p_147343_1_.func_149589_f()[var8] = "!?";
+                    p_147343_1_.getLines()[var8] = "!?";
                 }
             }
 
@@ -1053,7 +1053,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 int var9 = p_147343_1_.func_149586_d();
                 var6 = p_147343_1_.func_149585_e();
                 TileEntitySign var7 = (TileEntitySign)var3;
-                System.arraycopy(p_147343_1_.func_149589_f(), 0, var7.field_145915_a, 0, 4);
+                System.arraycopy(p_147343_1_.getLines(), 0, var7.lines, 0, 4);
                 var7.onInventoryChanged();
                 var2.func_147471_g(var8, var9, var6);
             }

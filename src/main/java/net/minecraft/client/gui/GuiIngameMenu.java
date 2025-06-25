@@ -5,6 +5,7 @@ import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.I18n;
+import us.nebula.impl.cheat.miscellaneous.AntiDisconnectCheat;
 import us.nebula.impl.cheat.miscellaneous.AutoReconnectCheat;
 import wdl.GuiWDL;
 import wdl.WDL;
@@ -70,11 +71,16 @@ public class GuiIngameMenu extends GuiScreen
                 break;
 
             case 1:
-                p_146284_1_.enabled = false;
-                WDL.stop();
-                this.mc.theWorld.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld((WorldClient)null);
-                this.mc.displayGuiScreen(new GuiMainMenu());
+            {
+                if (AntiDisconnectCheat.INSTANCE.isToggled())
+                {
+                    mc.displayGuiScreen(new AntiDisconnectCheat.ConfirmDisconnectScreen(this));
+                } else
+                {
+                    p_146284_1_.enabled = false;
+                    disconnectFromServer();
+                }
+            }
 
             case 2:
             case 3:
@@ -125,6 +131,29 @@ public class GuiIngameMenu extends GuiScreen
             case 51:
                 this.mc.displayGuiScreen(new GuiWDL(this));
         }
+    }
+
+    @Override
+    public void confirmClicked(boolean par1, int par2)
+    {
+        if (par2 == 69420)
+        {
+            if (par1)
+            {
+                disconnectFromServer();
+            } else
+            {
+                mc.displayGuiScreen(this);
+            }
+        }
+    }
+
+    private void disconnectFromServer()
+    {
+        WDL.stop();
+        this.mc.theWorld.sendQuittingDisconnectingPacket();
+        this.mc.loadWorld((WorldClient)null);
+        this.mc.displayGuiScreen(new GuiMainMenu());
     }
 
     /**

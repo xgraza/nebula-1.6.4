@@ -7,19 +7,18 @@ import net.minecraft.network.play.server.S33PacketUpdateSign;
 
 public class TileEntitySign extends TileEntity
 {
-    public String[] field_145915_a = new String[] {"", "", "", ""};
+    public String[] lines = new String[] {"", "", "", ""};
     public int field_145918_i = -1;
     private boolean field_145916_j = true;
     private EntityPlayer field_145917_k;
-    private static final String __OBFID = "CL_00000363";
 
     public void writeToNBT(NBTTagCompound p_145841_1_)
     {
         super.writeToNBT(p_145841_1_);
-        p_145841_1_.setString("Text1", this.field_145915_a[0]);
-        p_145841_1_.setString("Text2", this.field_145915_a[1]);
-        p_145841_1_.setString("Text3", this.field_145915_a[2]);
-        p_145841_1_.setString("Text4", this.field_145915_a[3]);
+        p_145841_1_.setString("Text1", this.lines[0]);
+        p_145841_1_.setString("Text2", this.lines[1]);
+        p_145841_1_.setString("Text3", this.lines[2]);
+        p_145841_1_.setString("Text4", this.lines[3]);
     }
 
     public void readFromNBT(NBTTagCompound p_145839_1_)
@@ -29,11 +28,11 @@ public class TileEntitySign extends TileEntity
 
         for (int var2 = 0; var2 < 4; ++var2)
         {
-            this.field_145915_a[var2] = p_145839_1_.getString("Text" + (var2 + 1));
+            this.lines[var2] = p_145839_1_.getString("Text" + (var2 + 1));
 
-            if (this.field_145915_a[var2].length() > 15)
+            if (this.lines[var2].length() > 15)
             {
-                this.field_145915_a[var2] = this.field_145915_a[var2].substring(0, 15);
+                this.lines[var2] = this.lines[var2].substring(0, 15);
             }
         }
     }
@@ -44,7 +43,7 @@ public class TileEntitySign extends TileEntity
     public Packet getDescriptionPacket()
     {
         String[] var1 = new String[4];
-        System.arraycopy(this.field_145915_a, 0, var1, 0, 4);
+        System.arraycopy(this.lines, 0, var1, 0, 4);
         return new S33PacketUpdateSign(this.xCoord, this.yCoord, this.zCoord, var1);
     }
 

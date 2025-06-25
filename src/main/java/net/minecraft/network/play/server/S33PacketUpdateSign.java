@@ -8,50 +8,49 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class S33PacketUpdateSign extends Packet
 {
-    private int field_149352_a;
-    private int field_149350_b;
-    private int field_149351_c;
-    private String[] field_149349_d;
-    private static final String __OBFID = "CL_00001338";
+    private int x;
+    private int y;
+    private int z;
+    private String[] lines;
 
     public S33PacketUpdateSign() {}
 
-    public S33PacketUpdateSign(int p_i45231_1_, int p_i45231_2_, int p_i45231_3_, String[] p_i45231_4_)
+    public S33PacketUpdateSign(int x, int y, int z, String[] lines)
     {
-        this.field_149352_a = p_i45231_1_;
-        this.field_149350_b = p_i45231_2_;
-        this.field_149351_c = p_i45231_3_;
-        this.field_149349_d = new String[] {p_i45231_4_[0], p_i45231_4_[1], p_i45231_4_[2], p_i45231_4_[3]};
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.lines = new String[] { lines[0], lines[1], lines[2], lines[3] };
     }
 
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer packetBuf) throws IOException
     {
-        this.field_149352_a = p_148837_1_.readInt();
-        this.field_149350_b = p_148837_1_.readShort();
-        this.field_149351_c = p_148837_1_.readInt();
-        this.field_149349_d = new String[4];
+        this.x = packetBuf.readInt();
+        this.y = packetBuf.readShort();
+        this.z = packetBuf.readInt();
+        this.lines = new String[4];
 
-        for (int var2 = 0; var2 < 4; ++var2)
+        for (int i = 0; i < 4; ++i)
         {
-            this.field_149349_d[var2] = p_148837_1_.readStringFromBuffer(15);
+            this.lines[i] = packetBuf.readStringFromBuffer(15);
         }
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    public void writePacketData(PacketBuffer packetBuf) throws IOException
     {
-        p_148840_1_.writeInt(this.field_149352_a);
-        p_148840_1_.writeShort(this.field_149350_b);
-        p_148840_1_.writeInt(this.field_149351_c);
+        packetBuf.writeInt(this.x);
+        packetBuf.writeShort(this.y);
+        packetBuf.writeInt(this.z);
 
-        for (int var2 = 0; var2 < 4; ++var2)
+        for (int i = 0; i < 4; ++i)
         {
-            p_148840_1_.writeStringToBuffer(this.field_149349_d[var2]);
+            packetBuf.writeStringToBuffer(this.lines[i]);
         }
     }
 
@@ -60,24 +59,24 @@ public class S33PacketUpdateSign extends Packet
         p_149348_1_.handleUpdateSign(this);
     }
 
-    public int func_149346_c()
+    public int getX()
     {
-        return this.field_149352_a;
+        return this.x;
     }
 
-    public int func_149345_d()
+    public int getY()
     {
-        return this.field_149350_b;
+        return this.y;
     }
 
-    public int func_149344_e()
+    public int getZ()
     {
-        return this.field_149351_c;
+        return this.z;
     }
 
-    public String[] func_149347_f()
+    public String[] getLines()
     {
-        return this.field_149349_d;
+        return this.lines;
     }
 
     public void processPacket(INetHandler p_148833_1_)

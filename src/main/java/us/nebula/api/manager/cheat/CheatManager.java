@@ -52,6 +52,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new PotionSaverCheat());
         addCheat(new TimerCheat());
         addCheat(new XCarryCheat());
+        addCheat(new AntiDisconnectCheat());
         addCheat(new AntiGhostBlockCheat());
         addCheat(new BetterF3Cheat());
         addCheat(new AutoReconnectCheat());
