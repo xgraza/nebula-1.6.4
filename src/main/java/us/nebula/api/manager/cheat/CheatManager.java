@@ -82,6 +82,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new KeyPearlCheat());
         addCheat(new NoFallCheat());
         addCheat(new PearlPhaseCheat());
+        addCheat(new YawCheat());
         addCheat(new CameraClipCheat());
         addCheat(new ChamsCheat());
         addCheat(new ChatModifierCheat());
