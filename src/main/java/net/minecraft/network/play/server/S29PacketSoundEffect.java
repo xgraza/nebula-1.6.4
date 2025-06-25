@@ -9,24 +9,23 @@ import org.apache.commons.lang3.Validate;
 
 public class S29PacketSoundEffect extends Packet
 {
-    private String field_149219_a;
-    private int field_149217_b;
-    private int field_149218_c = Integer.MAX_VALUE;
-    private int field_149215_d;
-    private float field_149216_e;
+    private String name;
+    private int x;
+    private int y = Integer.MAX_VALUE;
+    private int z;
+    private float loudness;
     private int field_149214_f;
-    private static final String __OBFID = "CL_00001309";
 
     public S29PacketSoundEffect() {}
 
-    public S29PacketSoundEffect(String p_i45200_1_, double p_i45200_2_, double p_i45200_4_, double p_i45200_6_, float p_i45200_8_, float p_i45200_9_)
+    public S29PacketSoundEffect(String name, double x, double y, double z, float loudness, float p_i45200_9_)
     {
-        Validate.notNull(p_i45200_1_, "name", new Object[0]);
-        this.field_149219_a = p_i45200_1_;
-        this.field_149217_b = (int)(p_i45200_2_ * 8.0D);
-        this.field_149218_c = (int)(p_i45200_4_ * 8.0D);
-        this.field_149215_d = (int)(p_i45200_6_ * 8.0D);
-        this.field_149216_e = p_i45200_8_;
+        Validate.notNull(name, "name");
+        this.name = name;
+        this.x = (int)(x * 8.0D);
+        this.y = (int)(y * 8.0D);
+        this.z = (int)(z * 8.0D);
+        this.loudness = loudness;
         this.field_149214_f = (int)(p_i45200_9_ * 63.0F);
 
         if (this.field_149214_f < 0)
@@ -45,11 +44,11 @@ public class S29PacketSoundEffect extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149219_a = p_148837_1_.readStringFromBuffer(256);
-        this.field_149217_b = p_148837_1_.readInt();
-        this.field_149218_c = p_148837_1_.readInt();
-        this.field_149215_d = p_148837_1_.readInt();
-        this.field_149216_e = p_148837_1_.readFloat();
+        this.name = p_148837_1_.readStringFromBuffer(256);
+        this.x = p_148837_1_.readInt();
+        this.y = p_148837_1_.readInt();
+        this.z = p_148837_1_.readInt();
+        this.loudness = p_148837_1_.readFloat();
         this.field_149214_f = p_148837_1_.readUnsignedByte();
     }
 
@@ -58,37 +57,37 @@ public class S29PacketSoundEffect extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeStringToBuffer(this.field_149219_a);
-        p_148840_1_.writeInt(this.field_149217_b);
-        p_148840_1_.writeInt(this.field_149218_c);
-        p_148840_1_.writeInt(this.field_149215_d);
-        p_148840_1_.writeFloat(this.field_149216_e);
+        p_148840_1_.writeStringToBuffer(this.name);
+        p_148840_1_.writeInt(this.x);
+        p_148840_1_.writeInt(this.y);
+        p_148840_1_.writeInt(this.z);
+        p_148840_1_.writeFloat(this.loudness);
         p_148840_1_.writeByte(this.field_149214_f);
     }
 
-    public String func_149212_c()
+    public String getName()
     {
-        return this.field_149219_a;
+        return this.name;
     }
 
-    public double func_149207_d()
+    public double getX()
     {
-        return (double)((float)this.field_149217_b / 8.0F);
+        return (float)this.x / 8.0F;
     }
 
-    public double func_149211_e()
+    public double getY()
     {
-        return (double)((float)this.field_149218_c / 8.0F);
+        return (float)this.y / 8.0F;
     }
 
-    public double func_149210_f()
+    public double getZ()
     {
-        return (double)((float)this.field_149215_d / 8.0F);
+        return (float)this.z / 8.0F;
     }
 
-    public float func_149208_g()
+    public float getLoudness()
     {
-        return this.field_149216_e;
+        return this.loudness;
     }
 
     public float func_149209_h()

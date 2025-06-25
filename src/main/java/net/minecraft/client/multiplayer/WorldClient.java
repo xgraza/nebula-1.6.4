@@ -525,19 +525,19 @@ public class WorldClient extends World
     /**
      * par8 is loudness, all pars passed to minecraftInstance.sndManager.playSound
      */
-    public void playSound(double par1, double par3, double par5, String par7Str, float par8, float par9, boolean par10)
+    public void playSound(double x, double y, double z, String par7Str, float loudness, float par9, boolean delayed)
     {
-        double var11 = this.mc.renderViewEntity.getDistanceSq(par1, par3, par5);
-        PositionedSoundRecord var13 = new PositionedSoundRecord(new ResourceLocation(par7Str), par8, par9, (float)par1, (float)par3, (float)par5);
+        double distanceSq = this.mc.renderViewEntity.getDistanceSq(x, y, z);
+        PositionedSoundRecord sound = new PositionedSoundRecord(new ResourceLocation(par7Str), loudness, par9, (float) x, (float) y, (float) z);
 
-        if (par10 && var11 > 100.0D)
+        if (delayed && distanceSq > 100.0D)
         {
-            double var14 = Math.sqrt(var11) / 40.0D;
-            this.mc.getSoundHandler().playDelayedSound(var13, (int)(var14 * 20.0D));
+            double var14 = Math.sqrt(distanceSq) / 40.0D;
+            this.mc.getSoundHandler().playDelayedSound(sound, (int)(var14 * 20.0D));
         }
         else
         {
-            this.mc.getSoundHandler().playSound(var13);
+            this.mc.getSoundHandler().playSound(sound);
         }
     }
 
