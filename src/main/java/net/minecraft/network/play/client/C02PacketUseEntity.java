@@ -50,7 +50,7 @@ public class C02PacketUseEntity extends Packet
         return p_149564_1_.getEntityByID(this.entityId);
     }
 
-    public C02PacketUseEntity.Action func_149565_c()
+    public C02PacketUseEntity.Action getAction()
     {
         return this.field_149566_b;
     }

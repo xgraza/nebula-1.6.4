@@ -36,6 +36,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new CriticalsCheat());
         addCheat(new KillAuraCheat());
         addCheat(new RegenCheat());
+        addCheat(new VehicleBreakerCheat());
         addCheat(new VelocityCheat());
         addCheat(new AntiRevertCheat());
         addCheat(new EnderchestBPCheat());

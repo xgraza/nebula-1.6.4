@@ -812,11 +812,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
             if (this.playerEntity.getDistanceSqToEntity(var3) < var5)
             {
-                if (p_147340_1_.func_149565_c() == C02PacketUseEntity.Action.INTERACT)
+                if (p_147340_1_.getAction() == C02PacketUseEntity.Action.INTERACT)
                 {
                     this.playerEntity.interactWith(var3);
                 }
-                else if (p_147340_1_.func_149565_c() == C02PacketUseEntity.Action.ATTACK)
+                else if (p_147340_1_.getAction() == C02PacketUseEntity.Action.ATTACK)
                 {
                     if (var3 instanceof EntityItem || var3 instanceof EntityXPOrb || var3 instanceof EntityArrow || var3 == this.playerEntity)
                     {

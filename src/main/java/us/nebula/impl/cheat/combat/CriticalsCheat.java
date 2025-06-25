@@ -31,7 +31,7 @@ public final class CriticalsCheat extends Cheat
         if (event.getPacket() instanceof C02PacketUseEntity)
         {
             final C02PacketUseEntity packet = event.getPacket();
-            if (!packet.func_149565_c().equals(C02PacketUseEntity.Action.ATTACK))
+            if (!packet.getAction().equals(C02PacketUseEntity.Action.ATTACK))
             {
                 return;
             }
