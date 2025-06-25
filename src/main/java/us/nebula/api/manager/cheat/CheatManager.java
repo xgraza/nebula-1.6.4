@@ -75,7 +75,6 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AntiBlockCheat());
         addCheat(new AntiLagCheat());
         addCheat(new AutoRespawnCheat());
-        addCheat(new AutoToolCheat());
         addCheat(new FastPlaceCheat());
         addCheat(new FreecamCheat());
         addCheat(new InfiniteMoverCheat());
@@ -104,6 +103,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AutoFishCheat());
         addCheat(new AutoHighwayCheat());
         addCheat(new AutoInfiniteCheat());
+        addCheat(new AutoToolCheat());
         addCheat(new AutoTorchCheat());
         addCheat(new AutoTunnelCheat());
         addCheat(new FlattenCheat());

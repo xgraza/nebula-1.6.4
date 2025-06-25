@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.player;
+package us.nebula.impl.cheat.world;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -16,7 +16,7 @@ import us.nebula.util.player.InventoryUtil;
  */
 @CheatManifest(name = "AutoTool",
         description = "Automatically switches to the best tool available",
-        category = CheatCategory.PLAYER)
+        category = CheatCategory.WORLD)
 public final class AutoToolCheat extends Cheat
 {
     @Subscribe
