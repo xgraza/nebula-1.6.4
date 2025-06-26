@@ -8,67 +8,66 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class C0CPacketInput extends Packet
 {
-    private float field_149624_a;
-    private float field_149622_b;
-    private boolean field_149623_c;
-    private boolean field_149621_d;
-    private static final String __OBFID = "CL_00001367";
+    private float movingStrafing;
+    private float moveForward;
+    private boolean jump;
+    private boolean sneak;
 
     public C0CPacketInput() {}
 
-    public C0CPacketInput(float p_i45261_1_, float p_i45261_2_, boolean p_i45261_3_, boolean p_i45261_4_)
+    public C0CPacketInput(float moveStrafing, float moveForward, boolean jump, boolean sneak)
     {
-        this.field_149624_a = p_i45261_1_;
-        this.field_149622_b = p_i45261_2_;
-        this.field_149623_c = p_i45261_3_;
-        this.field_149621_d = p_i45261_4_;
+        this.movingStrafing = moveStrafing;
+        this.moveForward = moveForward;
+        this.jump = jump;
+        this.sneak = sneak;
     }
 
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer packetBuf) throws IOException
     {
-        this.field_149624_a = p_148837_1_.readFloat();
-        this.field_149622_b = p_148837_1_.readFloat();
-        this.field_149623_c = p_148837_1_.readBoolean();
-        this.field_149621_d = p_148837_1_.readBoolean();
+        this.movingStrafing = packetBuf.readFloat();
+        this.moveForward = packetBuf.readFloat();
+        this.jump = packetBuf.readBoolean();
+        this.sneak = packetBuf.readBoolean();
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    public void writePacketData(PacketBuffer packetBuf) throws IOException
     {
-        p_148840_1_.writeFloat(this.field_149624_a);
-        p_148840_1_.writeFloat(this.field_149622_b);
-        p_148840_1_.writeBoolean(this.field_149623_c);
-        p_148840_1_.writeBoolean(this.field_149621_d);
+        packetBuf.writeFloat(this.movingStrafing);
+        packetBuf.writeFloat(this.moveForward);
+        packetBuf.writeBoolean(this.jump);
+        packetBuf.writeBoolean(this.sneak);
     }
 
-    public void processPacket(INetHandlerPlayServer p_149619_1_)
+    public void processPacket(INetHandlerPlayServer netHandler)
     {
-        p_149619_1_.processInput(this);
+        netHandler.processInput(this);
     }
 
-    public float func_149620_c()
+    public float getStrafing()
     {
-        return this.field_149624_a;
+        return this.movingStrafing;
     }
 
-    public float func_149616_d()
+    public float getForward()
     {
-        return this.field_149622_b;
+        return this.moveForward;
     }
 
-    public boolean func_149618_e()
+    public boolean getJump()
     {
-        return this.field_149623_c;
+        return this.jump;
     }
 
-    public boolean func_149617_f()
+    public boolean getSneak()
     {
-        return this.field_149621_d;
+        return this.sneak;
     }
 
     public void processPacket(INetHandler p_148833_1_)

@@ -896,22 +896,22 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         this.openContainer = this.inventoryContainer;
     }
 
-    public void setEntityActionState(float par1, float par2, boolean par3, boolean par4)
+    public void setEntityActionState(float strafe, float forward, boolean jump, boolean sneak)
     {
         if (this.ridingEntity != null)
         {
-            if (par1 >= -1.0F && par1 <= 1.0F)
+            if (strafe >= -1.0F && strafe <= 1.0F)
             {
-                this.moveStrafing = par1;
+                this.moveStrafing = strafe;
             }
 
-            if (par2 >= -1.0F && par2 <= 1.0F)
+            if (forward >= -1.0F && forward <= 1.0F)
             {
-                this.moveForward = par2;
+                this.moveForward = forward;
             }
 
-            this.isJumping = par3;
-            this.setSneaking(par4);
+            this.isJumping = jump;
+            this.setSneaking(sneak);
         }
     }
 

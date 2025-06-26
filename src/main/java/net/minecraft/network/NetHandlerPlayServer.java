@@ -84,6 +84,7 @@ import net.minecraft.world.WorldServer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import us.nebula.util.player.ChatUtil;
 
 public class NetHandlerPlayServer implements INetHandlerPlayServer
 {
@@ -185,9 +186,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
      * Processes player movement input. Includes walking, strafing, jumping, sneaking; excludes riding and toggling
      * flying/sprinting
      */
-    public void processInput(C0CPacketInput p_147358_1_)
+    public void processInput(C0CPacketInput packet)
     {
-        this.playerEntity.setEntityActionState(p_147358_1_.func_149620_c(), p_147358_1_.func_149616_d(), p_147358_1_.func_149618_e(), p_147358_1_.func_149617_f());
+        this.playerEntity.setEntityActionState(packet.getStrafing(), packet.getForward(), packet.getJump(), packet.getSneak());
     }
 
     /**

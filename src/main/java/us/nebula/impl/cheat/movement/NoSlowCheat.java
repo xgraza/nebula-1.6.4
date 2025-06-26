@@ -28,8 +28,6 @@ public final class NoSlowCheat extends Cheat
 
     private final Setting<Boolean> ncpBypassSetting = new Setting<>(
             "NCP Bypass", false);
-    public final Setting<Boolean> websSetting = new Setting<>(
-            "Webs", false);
 
     private boolean bypass;
 

@@ -27,8 +27,10 @@ import us.nebula.impl.cheat.exploit.NoMagicMovementCheat;
 import us.nebula.impl.cheat.movement.SpeedCheat;
 import us.nebula.impl.event.game.EventPostUpdate;
 import us.nebula.impl.event.game.EventUpdate;
+import us.nebula.impl.event.input.EventUpdateRiding;
 import us.nebula.impl.event.player.EventMove;
 import us.nebula.impl.event.player.EventMoveUpdate;
+import us.nebula.util.player.ChatUtil;
 
 public class EntityClientPlayerMP extends EntityPlayerSP
 {
@@ -122,8 +124,11 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
             if (this.isRiding())
             {
-                this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
-                this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
+                if (!EventBus.dispatch(new EventUpdateRiding()))
+                {
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
+                    this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
+                }
             }
             else
             {
