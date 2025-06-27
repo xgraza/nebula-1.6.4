@@ -41,9 +41,10 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AntiRevertCheat());
         addCheat(new EnderchestBPCheat());
         addCheat(new FastPortalCheat());
-        addCheat(new FrankyCheat());
+        addCheat(new FastUseCheat());
+        //addCheat(new FrankyCheat());
         addCheat(new GhostHandCheat());
-        addCheat(new NewChunksCheat());
+        //addCheat(new NewChunksCheat());
         addCheat(new NoC03Cheat());
         addCheat(new NoHungerCheat());
         addCheat(new NoMagicMovementCheat());
