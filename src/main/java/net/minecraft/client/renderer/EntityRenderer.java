@@ -1269,24 +1269,24 @@ public class EntityRenderer implements IResourceManagerReloadListener
         Config.checkDisplayMode();
         WorldClient world1 = this.mc.theWorld;
 
-        if (world1 != null)
-        {
-            if (Config.getNewRelease() != null)
-            {
-                String var2 = "HD_U".replace("HD_U", "HD Ultra").replace("L", "Light");
-                String var13 = var2 + " " + Config.getNewRelease();
-                ChatComponentText var14 = new ChatComponentText(I18n.format("of.message.newVersion", new Object[] {var13}));
-                this.mc.ingameGUI.getChatGui().printChatMessage(var14);
-                Config.setNewRelease((String)null);
-            }
-
-            if (Config.isNotify64BitJava())
-            {
-                Config.setNotify64BitJava(false);
-                ChatComponentText var21 = new ChatComponentText(I18n.format("of.message.java64Bit", new Object[0]));
-                this.mc.ingameGUI.getChatGui().printChatMessage(var21);
-            }
-        }
+//        if (world1 != null)
+//        {
+//            if (Config.getNewRelease() != null)
+//            {
+//                String var2 = "HD_U".replace("HD_U", "HD Ultra").replace("L", "Light");
+//                String var13 = var2 + " " + Config.getNewRelease();
+//                ChatComponentText var14 = new ChatComponentText(I18n.format("of.message.newVersion", new Object[] {var13}));
+//                this.mc.ingameGUI.getChatGui().printChatMessage(var14);
+//                Config.setNewRelease((String)null);
+//            }
+//
+//            if (Config.isNotify64BitJava())
+//            {
+//                Config.setNotify64BitJava(false);
+//                ChatComponentText var21 = new ChatComponentText(I18n.format("of.message.java64Bit", new Object[0]));
+//                this.mc.ingameGUI.getChatGui().printChatMessage(var21);
+//            }
+//        }
 
         if (this.mc.currentScreen instanceof GuiMainMenu)
         {

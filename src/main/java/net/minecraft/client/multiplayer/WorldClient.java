@@ -32,6 +32,7 @@ import net.minecraft.src.DynamicLights;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IntHashMap;
 import net.minecraft.util.ResourceLocation;
+import us.nebula.impl.cheat.render.NoRenderCheat;
 import wdl.WDL;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.EnumDifficulty;
@@ -396,6 +397,11 @@ public class WorldClient extends World
 
     public void doVoidFogParticles(int par1, int par2, int par3)
     {
+        if (NoRenderCheat.INSTANCE.isToggled()
+                && NoRenderCheat.INSTANCE.voidParticlesSetting.getValue())
+        {
+            return;
+        }
         byte var4 = 16;
         Random var5 = new Random();
 

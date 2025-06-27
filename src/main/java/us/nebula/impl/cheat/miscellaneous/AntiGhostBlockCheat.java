@@ -73,7 +73,14 @@ public final class AntiGhostBlockCheat extends Cheat
         }
         for (final BlockPos blockPos : confirmBlockPosMap.keySet())
         {
-            final long timeMS = confirmBlockPosMap.get(blockPos)
+            // fix random NPE thrown (inconsistency between Netty/Main thread?)
+            final Long confirmTime = confirmBlockPosMap.get(blockPos);
+            if (confirmTime == null)
+            {
+                continue;
+            }
+
+            final long timeMS = confirmTime
                     + (long) (confirmTimeSetting.getValue() * 1000.0);
             if (System.currentTimeMillis() > timeMS)
             {
