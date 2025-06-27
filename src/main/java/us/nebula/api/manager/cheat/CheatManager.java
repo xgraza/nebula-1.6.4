@@ -70,6 +70,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new IceSpeedCheat());
         addCheat(new InvWalkCheat());
         addCheat(new JesusCheat());
+        addCheat(new LongJumpCheat());
         addCheat(new NoJumpDelayCheat());
         addCheat(new NoPushCheat());
         addCheat(new NoSlowCheat());

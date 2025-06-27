@@ -15,7 +15,7 @@ public final class MoveUtil
     private static final Minecraft MC = Minecraft.getMinecraft();
 
     private static final double[] NULL_VELOCITY = new double[2];
-    private static final double NCP_BASE_SPEED = 0.2873f;
+    public static final double NCP_BASE_SPEED = 0.2873f;
 
     public static double getPlayerMoveDistance()
     {
