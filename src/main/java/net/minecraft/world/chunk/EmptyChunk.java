@@ -46,7 +46,7 @@ public class EmptyChunk extends Chunk
      */
     public void generateSkylightMap() {}
 
-    public Block func_150810_a(int p_150810_1_, int p_150810_2_, int p_150810_3_)
+    public Block getBlock(int p_150810_1_, int p_150810_2_, int p_150810_3_)
     {
         return Blocks.air;
     }

@@ -158,6 +158,7 @@ public class PlayerControllerMP
             }
             else
             {
+                this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(2, par1, par2, par3, par4));
                 var5.playAuxSFX(2001, par1, par2, par3, Block.getIdFromBlock(var6) + (var5.getBlockMetadata(par1, par2, par3) << 12));
                 int var7 = var5.getBlockMetadata(par1, par2, par3);
                 boolean var8 = var5.setBlockToAir(par1, par2, par3);
@@ -297,7 +298,7 @@ public class PlayerControllerMP
                 if (this.curBlockDamageMP >= 1.0F)
                 {
                     this.isHittingBlock = false;
-                    this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(2, par1, par2, par3, par4));
+                    //this.netClientHandler.addToSendQueue(new C07PacketPlayerDigging(2, par1, par2, par3, par4));
                     this.onPlayerDestroyBlock(par1, par2, par3, par4);
                     this.curBlockDamageMP = 0.0F;
                     this.stepSoundTickCounter = 0.0F;

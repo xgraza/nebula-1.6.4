@@ -1,12 +1,18 @@
 package us.nebula.impl.cheat.miscellaneous;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.server.S22PacketMultiBlockChange;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import us.nebula.ClientSettings;
+import us.nebula.Nebula;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -18,7 +24,6 @@ import us.nebula.impl.event.network.EventPacket;
 import us.nebula.impl.event.render.EventRender3D;
 import us.nebula.util.player.ChatUtil;
 import us.nebula.util.render.RenderUtil;
-import us.nebula.util.world.BlockUtil;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,31 +37,43 @@ import java.util.concurrent.ConcurrentHashMap;
         category = CheatCategory.MISCELLANEOUS)
 public final class AntiGhostBlockCheat extends Cheat
 {
+    private final Setting<Boolean> placeSetting = new Setting<>(
+            "Place", true);
+    private final Setting<Boolean> breakSetting = new Setting<>(
+            "Break", true);
+
     private final Setting<Boolean> packetSetting = new Setting<>(
             "Packet", true);
     private final Setting<Double> confirmTimeSetting = new Setting<>(
             "Confirm Time", 0.5, 0.1, 5.0, 0.1);
-    //@DebugFeature
     private final Setting<Boolean> debugRenderSetting = new Setting<>(
             "Debug Render", false);
 
-    private final Map<BlockPos, Long> confirmBlockPosMap = new ConcurrentHashMap<>();
+    private final Map<BlockPos, Long> placeConfirmBlockPosMap = new ConcurrentHashMap<>();
+    private final Map<BlockPos, OriginalBlockData> breakConfirmBlockPosMap = new ConcurrentHashMap<>();
 
     @Override
     protected void onDisable()
     {
         super.onDisable();
-        confirmBlockPosMap.clear();
+        placeConfirmBlockPosMap.clear();
+        breakConfirmBlockPosMap.clear();
     }
 
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
-        if (confirmBlockPosMap.isEmpty() || !debugRenderSetting.getValue())
+        if (placeConfirmBlockPosMap.isEmpty() || !debugRenderSetting.getValue())
         {
             return;
         }
-        for (final BlockPos pos : confirmBlockPosMap.keySet())
+        for (final BlockPos pos : placeConfirmBlockPosMap.keySet())
+        {
+            final AxisAlignedBB aabb = new AxisAlignedBB(pos);
+            RenderUtil.filledBox3D(aabb, 0, 0xAB00FF00);
+            RenderUtil.outlinedBox3D(aabb, 1.5f, 0xAB00FF00);
+        }
+        for (final BlockPos pos : breakConfirmBlockPosMap.keySet())
         {
             final AxisAlignedBB aabb = new AxisAlignedBB(pos);
             RenderUtil.filledBox3D(aabb, 0, 0xAB00FF00);
@@ -67,29 +84,49 @@ public final class AntiGhostBlockCheat extends Cheat
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (confirmBlockPosMap.isEmpty() || packetSetting.getValue())
+        if (placeSetting.getValue() && !placeConfirmBlockPosMap.isEmpty())
         {
-            return;
-        }
-        for (final BlockPos blockPos : confirmBlockPosMap.keySet())
-        {
-            // fix random NPE thrown (inconsistency between Netty/Main thread?)
-            final Long confirmTime = confirmBlockPosMap.get(blockPos);
-            if (confirmTime == null)
+            for (final BlockPos pos : placeConfirmBlockPosMap.keySet())
             {
-                continue;
-            }
-
-            final long timeMS = confirmTime
-                    + (long) (confirmTimeSetting.getValue() * 1000.0);
-            if (System.currentTimeMillis() > timeMS)
-            {
-                if (ClientSettings.VERBOSE_LOGGING)
+                // fix random NPE thrown (inconsistency between Netty/Main thread?)
+                final Long confirmTime = placeConfirmBlockPosMap.get(pos);
+                if (confirmTime == null)
                 {
-                    ChatUtil.send("Removing ghost block @{" + blockPos + "}");
+                    continue;
                 }
-                confirmBlockPosMap.remove(blockPos);
-                MC.theWorld.setBlockToAir(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+
+                final long timeMS = confirmTime + (long) (confirmTimeSetting.getValue() * 1000.0);
+                if (System.currentTimeMillis() > timeMS)
+                {
+                    if (ClientSettings.VERBOSE_LOGGING)
+                    {
+                        ChatUtil.send("Removing ghost block @{" + pos + "}");
+                    }
+                    placeConfirmBlockPosMap.remove(pos);
+                    MC.theWorld.setBlockToAir(pos.getX(), pos.getY(), pos.getZ());
+                }
+            }
+        }
+
+        if (breakSetting.getValue() && !breakConfirmBlockPosMap.isEmpty())
+        {
+            for (final BlockPos pos : breakConfirmBlockPosMap.keySet())
+            {
+                final OriginalBlockData data = breakConfirmBlockPosMap.get(pos);
+                if (data == null)
+                {
+                    continue;
+                }
+                final long timeMS = data.getTime() + (long) (confirmTimeSetting.getValue() * 1000.0);
+                if (System.currentTimeMillis() > timeMS)
+                {
+                    if (ClientSettings.VERBOSE_LOGGING)
+                    {
+                        ChatUtil.send("Fixing ghost block @{" + pos + "}");
+                    }
+                    breakConfirmBlockPosMap.remove(pos);
+                    MC.theWorld.setBlock(pos.getX(), pos.getY(), pos.getZ(), data.getBlock());
+                }
             }
         }
     };
@@ -97,39 +134,111 @@ public final class AntiGhostBlockCheat extends Cheat
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
     {
-        if (event.getPacket() instanceof S23PacketBlockChange)
+        if (event.getPacket() instanceof S22PacketMultiBlockChange)
+        {
+            // TODO
+        } else if (event.getPacket() instanceof S23PacketBlockChange)
         {
             final S23PacketBlockChange packet = event.getPacket();
-            confirmBlockPosMap.remove(new BlockPos(packet.getX(), packet.getY(), packet.getZ()));
+            final BlockPos pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
+
+            if (placeSetting.getValue())
+            {
+                // TODO: check if the block matches server-side?
+                placeConfirmBlockPosMap.remove(pos);
+            }
+
+            if (breakSetting.getValue() && breakConfirmBlockPosMap.containsKey(pos))
+            {
+                final Block block = packet.getType();
+                if (block == null || block instanceof BlockAir)
+                {
+                    breakConfirmBlockPosMap.remove(pos);
+                }
+            }
         }
     };
 
     @Subscribe
     private final EventListener<EventPacket.Outbound> outboundEventListener = event ->
     {
-        if (event.getPacket() instanceof C08PacketPlayerBlockPlacement)
+        if (event.getPacket() instanceof C08PacketPlayerBlockPlacement && placeSetting.getValue())
         {
             final C08PacketPlayerBlockPlacement packet = event.getPacket();
-
-            final int x = packet.getPosX();
-            final int y = packet.getPosY();
-            final int z = packet.getPosZ();
-            final int side = packet.getSide();
-
-            // ignore interact block packets
-            if (x == -1 && y == -1 && z == -1 && side == 255)
+            if (!isBlockPlacePacket(packet))
             {
                 return;
             }
 
+            final BlockPos pos = new BlockPos(packet.getPosX(), packet.getPosY(), packet.getPosZ());
+            final EnumFacing side = EnumFacing.faceList[packet.getSide()];
+
             if (packetSetting.getValue())
             {
                 MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
-                        1, x, y, z, side));
+                        1, pos, side.order_a));
             }
-            confirmBlockPosMap.put(BlockUtil.offset(
-                    new BlockPos(x, y, z),
-                    EnumFacing.faceList[side]), System.currentTimeMillis());
+            placeConfirmBlockPosMap.put(pos.offset(side), System.currentTimeMillis());
+        }
+
+        if (event.getPacket() instanceof C07PacketPlayerDigging && breakSetting.getValue())
+        {
+            final C07PacketPlayerDigging packet = event.getPacket();
+            if (packet.getAction() != 2) // STOP_BREAKING / FINISH
+            {
+                return;
+            }
+            final BlockPos pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
+            final Block block = MC.theWorld.getBlock(pos);
+            if (block == null || block instanceof BlockAir)
+            {
+                return;
+            }
+            // TODO: retain metadata?
+            breakConfirmBlockPosMap.put(pos, new OriginalBlockData(block, System.currentTimeMillis()));
         }
     };
+
+    private boolean isBlockPlacePacket(final C08PacketPlayerBlockPlacement packet)
+    {
+        // ignore interact block packets
+        if (packet.getPosX() == -1
+                && packet.getPosY() == -1
+                && packet.getPosZ() == -1
+                && packet.getSide() == 255)
+        {
+            return false;
+        }
+
+        ItemStack itemStack = packet.getItemStack();
+        // resort to the item stack in the server hand
+        if (itemStack == null)
+        {
+            itemStack = Nebula.INSTANCE.getInventoryManager().getStack();
+        }
+
+        return itemStack != null && itemStack.getItem() instanceof ItemBlock;
+    }
+
+    private static final class OriginalBlockData
+    {
+        private final Block block;
+        private final long time;
+
+        public OriginalBlockData(Block block, long time)
+        {
+            this.block = block;
+            this.time = time;
+        }
+
+        public Block getBlock()
+        {
+            return block;
+        }
+
+        public long getTime()
+        {
+            return time;
+        }
+    }
 }

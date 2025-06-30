@@ -84,7 +84,6 @@ import net.minecraft.world.WorldServer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import us.nebula.util.player.ChatUtil;
 
 public class NetHandlerPlayServer implements INetHandlerPlayServer
 {
@@ -455,9 +454,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 var3 = true;
             }
 
-            int var4 = p_147345_1_.func_149505_c();
-            int var5 = p_147345_1_.func_149503_d();
-            int var6 = p_147345_1_.func_149502_e();
+            int var4 = p_147345_1_.getX();
+            int var5 = p_147345_1_.getY();
+            int var6 = p_147345_1_.getZ();
 
             if (var3)
             {
@@ -481,7 +480,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             {
                 if (!this.serverController.isBlockProtected(var2, var4, var5, var6, this.playerEntity))
                 {
-                    this.playerEntity.theItemInWorldManager.onBlockClicked(var4, var5, var6, p_147345_1_.func_149501_f());
+                    this.playerEntity.theItemInWorldManager.onBlockClicked(var4, var5, var6, p_147345_1_.getSide());
                 }
                 else
                 {

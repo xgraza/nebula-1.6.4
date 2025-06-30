@@ -16,44 +16,43 @@ import org.apache.logging.log4j.Logger;
 public class S22PacketMultiBlockChange extends Packet
 {
     private static final Logger logger = LogManager.getLogger();
-    private ChunkCoordIntPair field_148925_b;
-    private byte[] field_148926_c;
-    private int field_148924_d;
-    private static final String __OBFID = "CL_00001290";
+    private ChunkCoordIntPair chunkCoords;
+    private byte[] blockUpdates;
+    private int count;
 
     public S22PacketMultiBlockChange() {}
 
-    public S22PacketMultiBlockChange(int p_i45181_1_, short[] p_i45181_2_, Chunk p_i45181_3_)
+    public S22PacketMultiBlockChange(int count, short[] location, Chunk chunk)
     {
-        this.field_148925_b = new ChunkCoordIntPair(p_i45181_3_.xPosition, p_i45181_3_.zPosition);
-        this.field_148924_d = p_i45181_1_;
-        int var4 = 4 * p_i45181_1_;
+        this.chunkCoords = new ChunkCoordIntPair(chunk.xPosition, chunk.zPosition);
+        this.count = count;
+        int size = 4 * count;
 
         try
         {
-            ByteArrayOutputStream var5 = new ByteArrayOutputStream(var4);
-            DataOutputStream var6 = new DataOutputStream(var5);
+            ByteArrayOutputStream arrOutputStream = new ByteArrayOutputStream(size);
+            DataOutputStream dataOutputStream = new DataOutputStream(arrOutputStream);
 
-            for (int var7 = 0; var7 < p_i45181_1_; ++var7)
+            for (int i = 0; i < count; ++i)
             {
-                int var8 = p_i45181_2_[var7] >> 12 & 15;
-                int var9 = p_i45181_2_[var7] >> 8 & 15;
-                int var10 = p_i45181_2_[var7] & 255;
-                var6.writeShort(p_i45181_2_[var7]);
-                var6.writeShort((short)((Block.getIdFromBlock(p_i45181_3_.func_150810_a(var8, var10, var9)) & 4095) << 4 | p_i45181_3_.getBlockMetadata(var8, var10, var9) & 15));
+                int var8 = location[i] >> 12 & 15;
+                int var9 = location[i] >> 8 & 15;
+                int var10 = location[i] & 255;
+                dataOutputStream.writeShort(location[i]);
+                dataOutputStream.writeShort((short)((Block.getIdFromBlock(chunk.getBlock(var8, var10, var9)) & 4095) << 4 | chunk.getBlockMetadata(var8, var10, var9) & 15));
             }
 
-            this.field_148926_c = var5.toByteArray();
+            this.blockUpdates = arrOutputStream.toByteArray();
 
-            if (this.field_148926_c.length != var4)
+            if (this.blockUpdates.length != size)
             {
-                throw new RuntimeException("Expected length " + var4 + " doesn\'t match received length " + this.field_148926_c.length);
+                throw new RuntimeException("Expected length " + size + " doesn\'t match received length " + this.blockUpdates.length);
             }
         }
         catch (IOException var11)
         {
             logger.error("Couldn\'t create bulk block update packet", var11);
-            this.field_148926_c = null;
+            this.blockUpdates = null;
         }
     }
 
@@ -62,14 +61,14 @@ public class S22PacketMultiBlockChange extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_148925_b = new ChunkCoordIntPair(p_148837_1_.readInt(), p_148837_1_.readInt());
-        this.field_148924_d = p_148837_1_.readShort() & 65535;
+        this.chunkCoords = new ChunkCoordIntPair(p_148837_1_.readInt(), p_148837_1_.readInt());
+        this.count = p_148837_1_.readShort() & 65535;
         int var2 = p_148837_1_.readInt();
 
         if (var2 > 0)
         {
-            this.field_148926_c = new byte[var2];
-            p_148837_1_.readBytes(this.field_148926_c);
+            this.blockUpdates = new byte[var2];
+            p_148837_1_.readBytes(this.blockUpdates);
         }
     }
 
@@ -78,14 +77,14 @@ public class S22PacketMultiBlockChange extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeInt(this.field_148925_b.chunkXPos);
-        p_148840_1_.writeInt(this.field_148925_b.chunkZPos);
-        p_148840_1_.writeShort((short)this.field_148924_d);
+        p_148840_1_.writeInt(this.chunkCoords.chunkXPos);
+        p_148840_1_.writeInt(this.chunkCoords.chunkZPos);
+        p_148840_1_.writeShort((short)this.count);
 
-        if (this.field_148926_c != null)
+        if (this.blockUpdates != null)
         {
-            p_148840_1_.writeInt(this.field_148926_c.length);
-            p_148840_1_.writeBytes(this.field_148926_c);
+            p_148840_1_.writeInt(this.blockUpdates.length);
+            p_148840_1_.writeBytes(this.blockUpdates);
         }
         else
         {
@@ -103,22 +102,22 @@ public class S22PacketMultiBlockChange extends Packet
      */
     public String serialize()
     {
-        return String.format("xc=%d, zc=%d, count=%d", new Object[] {Integer.valueOf(this.field_148925_b.chunkXPos), Integer.valueOf(this.field_148925_b.chunkZPos), Integer.valueOf(this.field_148924_d)});
+        return String.format("xc=%d, zc=%d, count=%d", new Object[] {Integer.valueOf(this.chunkCoords.chunkXPos), Integer.valueOf(this.chunkCoords.chunkZPos), Integer.valueOf(this.count)});
     }
 
-    public ChunkCoordIntPair func_148920_c()
+    public ChunkCoordIntPair getChunkCoords()
     {
-        return this.field_148925_b;
+        return this.chunkCoords;
     }
 
-    public byte[] func_148921_d()
+    public byte[] getBlockUpdates()
     {
-        return this.field_148926_c;
+        return this.blockUpdates;
     }
 
-    public int func_148922_e()
+    public int getCount()
     {
-        return this.field_148924_d;
+        return this.count;
     }
 
     public void processPacket(INetHandler p_148833_1_)

@@ -84,7 +84,7 @@ public class ChunkCache implements IBlockAccess
 
                 if (var7 != null)
                 {
-                    var4 = var7.func_150810_a(p_147439_1_ & 15, p_147439_2_, p_147439_3_ & 15);
+                    var4 = var7.getBlock(p_147439_1_ & 15, p_147439_2_, p_147439_3_ & 15);
                 }
             }
         }

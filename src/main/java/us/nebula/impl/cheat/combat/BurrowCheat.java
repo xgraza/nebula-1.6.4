@@ -68,7 +68,7 @@ public final class BurrowCheat extends Cheat
             if (packet.getX() == pos.getX()
                     && packet.getY() == pos.getY()
                     && packet.getZ() == pos.getZ()
-                    && packet.getBlock().getMaterial().isReplaceable())
+                    && packet.getType().getMaterial().isReplaceable())
             {
                 burrow();
             }

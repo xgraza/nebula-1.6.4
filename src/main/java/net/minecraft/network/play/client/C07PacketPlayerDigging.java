@@ -5,25 +5,34 @@ import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+import net.minecraft.src.BlockPos;
 
 public class C07PacketPlayerDigging extends Packet
 {
-    private int field_149511_a;
-    private int field_149509_b;
-    private int field_149510_c;
-    private int field_149507_d;
+    private int x;
+    private int y;
+    private int z;
+    private int side;
     private int action;
-    private static final String __OBFID = "CL_00001365";
 
     public C07PacketPlayerDigging() {}
+
+    public C07PacketPlayerDigging(int action, BlockPos pos, int face)
+    {
+        this.action = action;
+        this.x = pos.getX();
+        this.y = pos.getY();
+        this.z = pos.getZ();
+        this.side = face;
+    }
 
     public C07PacketPlayerDigging(int action, int p_i45258_2_, int p_i45258_3_, int p_i45258_4_, int p_i45258_5_)
     {
         this.action = action;
-        this.field_149511_a = p_i45258_2_;
-        this.field_149509_b = p_i45258_3_;
-        this.field_149510_c = p_i45258_4_;
-        this.field_149507_d = p_i45258_5_;
+        this.x = p_i45258_2_;
+        this.y = p_i45258_3_;
+        this.z = p_i45258_4_;
+        this.side = p_i45258_5_;
     }
 
     /**
@@ -32,10 +41,10 @@ public class C07PacketPlayerDigging extends Packet
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
         this.action = p_148837_1_.readUnsignedByte();
-        this.field_149511_a = p_148837_1_.readInt();
-        this.field_149509_b = p_148837_1_.readUnsignedByte();
-        this.field_149510_c = p_148837_1_.readInt();
-        this.field_149507_d = p_148837_1_.readUnsignedByte();
+        this.x = p_148837_1_.readInt();
+        this.y = p_148837_1_.readUnsignedByte();
+        this.z = p_148837_1_.readInt();
+        this.side = p_148837_1_.readUnsignedByte();
     }
 
     /**
@@ -44,10 +53,10 @@ public class C07PacketPlayerDigging extends Packet
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeByte(this.action);
-        p_148840_1_.writeInt(this.field_149511_a);
-        p_148840_1_.writeByte(this.field_149509_b);
-        p_148840_1_.writeInt(this.field_149510_c);
-        p_148840_1_.writeByte(this.field_149507_d);
+        p_148840_1_.writeInt(this.x);
+        p_148840_1_.writeByte(this.y);
+        p_148840_1_.writeInt(this.z);
+        p_148840_1_.writeByte(this.side);
     }
 
     public void processPacket(INetHandlerPlayServer p_149504_1_)
@@ -55,24 +64,24 @@ public class C07PacketPlayerDigging extends Packet
         p_149504_1_.processPlayerDigging(this);
     }
 
-    public int func_149505_c()
+    public int getX()
     {
-        return this.field_149511_a;
+        return this.x;
     }
 
-    public int func_149503_d()
+    public int getY()
     {
-        return this.field_149509_b;
+        return this.y;
     }
 
-    public int func_149502_e()
+    public int getZ()
     {
-        return this.field_149510_c;
+        return this.z;
     }
 
-    public int func_149501_f()
+    public int getSide()
     {
-        return this.field_149507_d;
+        return this.side;
     }
 
     public int getAction()

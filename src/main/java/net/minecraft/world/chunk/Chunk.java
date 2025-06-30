@@ -263,7 +263,7 @@ public class Chunk
                 {
                     if (var4 > 0)
                     {
-                        Block var5 = this.func_150810_a(var2, var4 - 1, var3);
+                        Block var5 = this.getBlock(var2, var4 - 1, var3);
 
                         if (var5.getLightOpacity() == 0)
                         {
@@ -576,10 +576,10 @@ public class Chunk
 
     public int func_150808_b(int p_150808_1_, int p_150808_2_, int p_150808_3_)
     {
-        return this.func_150810_a(p_150808_1_, p_150808_2_, p_150808_3_).getLightOpacity();
+        return this.getBlock(p_150808_1_, p_150808_2_, p_150808_3_).getLightOpacity();
     }
 
-    public Block func_150810_a(final int p_150810_1_, final int p_150810_2_, final int p_150810_3_)
+    public Block getBlock(final int p_150810_1_, final int p_150810_2_, final int p_150810_3_)
     {
         Block var4 = Blocks.air;
 
@@ -639,7 +639,7 @@ public class Chunk
         }
 
         int var7 = this.heightMap[var6];
-        Block var8 = this.func_150810_a(p_150807_1_, p_150807_2_, p_150807_3_);
+        Block var8 = this.getBlock(p_150807_1_, p_150807_2_, p_150807_3_);
         int var9 = this.getBlockMetadata(p_150807_1_, p_150807_2_, p_150807_3_);
 
         if (var8 == p_150807_4_ && var9 == p_150807_5_)
@@ -940,7 +940,7 @@ public class Chunk
 
         if (var5 == null)
         {
-            Block var6 = this.func_150810_a(p_150806_1_, p_150806_2_, p_150806_3_);
+            Block var6 = this.getBlock(p_150806_1_, p_150806_2_, p_150806_3_);
 
             if (!var6.hasTileEntity())
             {
@@ -983,7 +983,7 @@ public class Chunk
         p_150812_4_.yCoord = p_150812_2_;
         p_150812_4_.zCoord = this.zPosition * 16 + p_150812_3_;
 
-        if (this.func_150810_a(p_150812_1_, p_150812_2_, p_150812_3_) instanceof ITileEntityProvider)
+        if (this.getBlock(p_150812_1_, p_150812_2_, p_150812_3_) instanceof ITileEntityProvider)
         {
             if (this.chunkTileEntityMap.containsKey(var5))
             {
@@ -1195,7 +1195,7 @@ public class Chunk
 
             while (var5 > 0 && var4 == -1)
             {
-                Block var6 = this.func_150810_a(par1, var5, par2);
+                Block var6 = this.getBlock(par1, var5, par2);
                 Material var7 = var6.getMaterial();
 
                 if (!var7.blocksMovement() && !var7.isLiquid())
@@ -1605,7 +1605,7 @@ public class Chunk
 
         for (; var6 > 0; --var6)
         {
-            if (this.func_150810_a(p_150811_1_, var6, p_150811_2_).getLightValue() > 0)
+            if (this.getBlock(p_150811_1_, var6, p_150811_2_).getLightValue() > 0)
             {
                 this.worldObj.func_147451_t(this.xPosition * 16 + p_150811_1_, var6, this.zPosition * 16 + p_150811_2_);
             }

@@ -668,21 +668,20 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      * requires an update, the server sends S23PacketBlockChange and if 64 or more blocks are changed, the server sends
      * S21PacketChunkData
      */
-    public void handleMultiBlockChange(S22PacketMultiBlockChange p_147287_1_)
+    public void handleMultiBlockChange(S22PacketMultiBlockChange packet)
     {
-        int var2 = p_147287_1_.func_148920_c().chunkXPos * 16;
-        int var3 = p_147287_1_.func_148920_c().chunkZPos * 16;
+        int var2 = packet.getChunkCoords().chunkXPos * 16;
+        int var3 = packet.getChunkCoords().chunkZPos * 16;
 
-        if (p_147287_1_.func_148921_d() != null)
+        if (packet.getBlockUpdates() != null)
         {
-            DataInputStream var4 = new DataInputStream(new ByteArrayInputStream(p_147287_1_.func_148921_d()));
-
+            DataInputStream stream = new DataInputStream(new ByteArrayInputStream(packet.getBlockUpdates()));
             try
             {
-                for (int var5 = 0; var5 < p_147287_1_.func_148922_e(); ++var5)
+                for (int i = 0; i < packet.getCount(); ++i)
                 {
-                    short var6 = var4.readShort();
-                    short var7 = var4.readShort();
+                    short var6 = stream.readShort();
+                    short var7 = stream.readShort();
                     int var8 = var7 >> 4 & 4095;
                     int var9 = var7 & 15;
                     int var10 = var6 >> 12 & 15;
@@ -691,9 +690,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
                     this.clientWorldController.func_147492_c(var10 + var2, var12, var11 + var3, Block.getBlockById(var8), var9);
                 }
             }
-            catch (IOException var13)
+            catch (IOException ignored)
             {
-                ;
+
             }
         }
     }
@@ -730,7 +729,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleBlockChange(S23PacketBlockChange p_147234_1_)
     {
-        this.clientWorldController.func_147492_c(p_147234_1_.getX(), p_147234_1_.getY(), p_147234_1_.getZ(), p_147234_1_.getBlock(), p_147234_1_.func_148881_g());
+        this.clientWorldController.func_147492_c(p_147234_1_.getX(), p_147234_1_.getY(), p_147234_1_.getZ(), p_147234_1_.getType(), p_147234_1_.getData());
     }
 
     /**

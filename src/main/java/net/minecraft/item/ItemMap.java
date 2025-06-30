@@ -140,7 +140,7 @@ public class ItemMap extends ItemMapBase
                                                 do
                                                 {
                                                     --var31;
-                                                    var32 = var23.func_150810_a(var29 + var24, var31, var30 + var25);
+                                                    var32 = var23.getBlock(var29 + var24, var31, var30 + var25);
                                                     var33 = var23.getBlockMetadata(var29 + var24, var31, var30 + var25);
                                                 }
                                                 while (var32.getMapColor(var33) == MapColor.field_151660_b && var31 > 0);
@@ -152,7 +152,7 @@ public class ItemMap extends ItemMapBase
 
                                                     do
                                                     {
-                                                        var35 = var23.func_150810_a(var29 + var24, var34--, var30 + var25);
+                                                        var35 = var23.getBlock(var29 + var24, var34--, var30 + var25);
                                                         ++var26;
                                                     }
                                                     while (var34 > 0 && var35.getMaterial().isLiquid());

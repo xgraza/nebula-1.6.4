@@ -13,43 +13,42 @@ public class S23PacketBlockChange extends Packet
     private int x;
     private int y;
     private int z;
-    private Block field_148883_d;
-    private int field_148884_e;
-    private static final String __OBFID = "CL_00001287";
+    private Block type;
+    private int data;
 
     public S23PacketBlockChange() {}
 
-    public S23PacketBlockChange(int x, int y, int z, World p_i45177_4_)
+    public S23PacketBlockChange(int x, int y, int z, World world)
     {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.field_148883_d = p_i45177_4_.getBlock(x, y, z);
-        this.field_148884_e = p_i45177_4_.getBlockMetadata(x, y, z);
+        this.type = world.getBlock(x, y, z);
+        this.data = world.getBlockMetadata(x, y, z);
     }
 
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer packetBuf) throws IOException
     {
-        this.x = p_148837_1_.readInt();
-        this.y = p_148837_1_.readUnsignedByte();
-        this.z = p_148837_1_.readInt();
-        this.field_148883_d = Block.getBlockById(p_148837_1_.readVarIntFromBuffer());
-        this.field_148884_e = p_148837_1_.readUnsignedByte();
+        this.x = packetBuf.readInt();
+        this.y = packetBuf.readUnsignedByte();
+        this.z = packetBuf.readInt();
+        this.type = Block.getBlockById(packetBuf.readVarIntFromBuffer());
+        this.data = packetBuf.readUnsignedByte();
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    public void writePacketData(PacketBuffer packetBuf) throws IOException
     {
-        p_148840_1_.writeInt(this.x);
-        p_148840_1_.writeByte(this.y);
-        p_148840_1_.writeInt(this.z);
-        p_148840_1_.writeVarIntToBuffer(Block.getIdFromBlock(this.field_148883_d));
-        p_148840_1_.writeByte(this.field_148884_e);
+        packetBuf.writeInt(this.x);
+        packetBuf.writeByte(this.y);
+        packetBuf.writeInt(this.z);
+        packetBuf.writeVarIntToBuffer(Block.getIdFromBlock(this.type));
+        packetBuf.writeByte(this.data);
     }
 
     public void processPacket(INetHandlerPlayClient p_148882_1_)
@@ -62,12 +61,12 @@ public class S23PacketBlockChange extends Packet
      */
     public String serialize()
     {
-        return String.format("type=%d, data=%d, x=%d, y=%d, z=%d", new Object[] {Integer.valueOf(Block.getIdFromBlock(this.field_148883_d)), Integer.valueOf(this.field_148884_e), Integer.valueOf(this.x), Integer.valueOf(this.y), Integer.valueOf(this.z)});
+        return String.format("type=%d, data=%d, x=%d, y=%d, z=%d", new Object[] {Integer.valueOf(Block.getIdFromBlock(this.type)), Integer.valueOf(this.data), Integer.valueOf(this.x), Integer.valueOf(this.y), Integer.valueOf(this.z)});
     }
 
-    public Block getBlock()
+    public Block getType()
     {
-        return this.field_148883_d;
+        return this.type;
     }
 
     public int getX()
@@ -85,9 +84,9 @@ public class S23PacketBlockChange extends Packet
         return this.z;
     }
 
-    public int func_148881_g()
+    public int getData()
     {
-        return this.field_148884_e;
+        return this.data;
     }
 
     public void processPacket(INetHandler p_148833_1_)

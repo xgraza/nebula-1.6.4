@@ -357,7 +357,7 @@ public abstract class World implements IBlockAccess
             try
             {
                 var4 = this.getChunkFromChunkCoords(p_147439_1_ >> 4, p_147439_3_ >> 4);
-                return var4.func_150810_a(p_147439_1_ & 15, p_147439_2_, p_147439_3_ & 15);
+                return var4.getBlock(p_147439_1_ & 15, p_147439_2_, p_147439_3_ & 15);
             }
             catch (Throwable var8)
             {
@@ -477,7 +477,7 @@ public abstract class World implements IBlockAccess
 
                 if ((p_147465_6_ & 1) != 0)
                 {
-                    var8 = var7.func_150810_a(p_147465_1_ & 15, p_147465_2_, p_147465_3_ & 15);
+                    var8 = var7.getBlock(p_147465_1_ & 15, p_147465_2_, p_147465_3_ & 15);
                 }
 
                 boolean var9 = var7.func_150807_a(p_147465_1_ & 15, p_147465_2_, p_147465_3_ & 15, p_147465_4_, p_147465_5_);
@@ -566,7 +566,7 @@ public abstract class World implements IBlockAccess
 
                 if (var9)
                 {
-                    Block var10 = var6.func_150810_a(var7, par2, var8);
+                    Block var10 = var6.getBlock(var7, par2, var8);
 
                     if ((par5 & 2) != 0 && (!this.isClient || (par5 & 4) == 0) && var6.func_150802_k())
                     {
@@ -1854,7 +1854,7 @@ public abstract class World implements IBlockAccess
 
         for (par2 &= 15; var4 > 0; --var4)
         {
-            Block var5 = var3.func_150810_a(par1, var4, par2);
+            Block var5 = var3.getBlock(par1, var4, par2);
 
             if (var5.getMaterial().blocksMovement() && var5.getMaterial() != Material.leaves)
             {
@@ -2968,7 +2968,7 @@ public abstract class World implements IBlockAccess
             int var5 = var4 & 15;
             int var6 = var4 >> 8 & 15;
             int var7 = var4 >> 16 & 255;
-            Block var8 = p_147467_3_.func_150810_a(var5, var7, var6);
+            Block var8 = p_147467_3_.getBlock(var5, var7, var6);
             var5 += p_147467_1_;
             var6 += p_147467_2_;
 
