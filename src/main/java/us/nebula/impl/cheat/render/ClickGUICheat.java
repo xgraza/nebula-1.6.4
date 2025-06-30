@@ -21,8 +21,10 @@ public final class ClickGUICheat extends Cheat
     @CheatInstance
     public static ClickGUICheat INSTANCE;
 
-    public final Setting<Boolean> saveOnClose = new Setting<>(
+    public final Setting<Boolean> saveOnCloseSetting = new Setting<>(
             "Save on Close", true);
+    public final Setting<Boolean> hoverDescriptionSetting = new Setting<>(
+            "Hover Description", true);
 
     private ClickGUIScreen guiScreen;
 

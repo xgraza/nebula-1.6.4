@@ -233,4 +233,9 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
         }
         return height + ((h + (PADDING * 3)) * panelAnimation.getEasedFactor());
     }
+
+    public Cheat getCheat()
+    {
+        return cheat;
+    }
 }
