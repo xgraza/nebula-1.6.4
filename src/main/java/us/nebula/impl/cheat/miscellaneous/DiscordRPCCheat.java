@@ -12,7 +12,7 @@ import us.nebula.util.player.ChatUtil;
  * @since 03/07/25
  */
 @CheatManifest(name = "DiscordRPC",
-        description = "Shows that you're using Nebula on discord (if it's on)",
+        description = "Shows that you're using Nebula on discord",
         category = CheatCategory.MISCELLANEOUS)
 public final class DiscordRPCCheat extends Cheat
 {

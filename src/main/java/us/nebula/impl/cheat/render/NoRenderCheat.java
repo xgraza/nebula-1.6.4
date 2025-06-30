@@ -11,7 +11,7 @@ import us.nebula.api.value.Setting;
  * @since 03/24/25
  */
 @CheatManifest(name = "NoRender",
-        description = "Prevents rendering",
+        description = "Prevents visual annoyances from rendering",
         category = CheatCategory.RENDER)
 public final class NoRenderCheat extends Cheat
 {

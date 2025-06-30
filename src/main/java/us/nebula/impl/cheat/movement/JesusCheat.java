@@ -18,7 +18,7 @@ import us.nebula.impl.event.world.EventModifyBoundBox;
  * @since 03/01/25
  */
 @CheatManifest(name = "Jesus",
-        description = "Walk on water or lava",
+        description = "Walks on water or lava",
         category = CheatCategory.MOVEMENT)
 public final class JesusCheat extends Cheat
 {

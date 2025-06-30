@@ -9,7 +9,9 @@ import us.nebula.api.manager.cheat.CheatManifest;
  * @author xgraza
  * @since 04/11/25
  */
-@CheatManifest(name = "BetterF3", category = CheatCategory.MISCELLANEOUS)
+@CheatManifest(name = "BetterF3",
+        description = "Renders a more descriptive F3 debug menu",
+        category = CheatCategory.MISCELLANEOUS)
 public final class BetterF3Cheat extends Cheat
 {
     @CheatInstance
