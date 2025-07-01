@@ -102,7 +102,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new NoRenderCheat());
         addCheat(new NoWeatherCheat());
         addCheat(new TimeChangerCheat());
-        // addCheat(new TrajectoriesCheat());
+        addCheat(new TrajectoriesCheat());
         addCheat(new ViewModelCheat());
         addCheat(new XRayCheat());
         addCheat(new AutoFarmCheat());

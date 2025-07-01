@@ -27,7 +27,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 @SuppressWarnings("unchecked")
 @CheatManifest(name = "Trajectories",
-        description = "Shows where a projectile may land",
+        description = "Renders the projected path of a projectile",
         category = CheatCategory.RENDER)
 public final class TrajectoriesCheat extends Cheat
 {
@@ -46,6 +46,7 @@ public final class TrajectoriesCheat extends Cheat
         glDisable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 0, 1);
+        glDepthMask(false);
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_LINE_SMOOTH);
         glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
@@ -54,7 +55,7 @@ public final class TrajectoriesCheat extends Cheat
         glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
         glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-        glBegin(GL_LINE_LOOP);
+        glBegin(GL_LINE_STRIP);
         {
             for (final Vec3 vec3 : result.getTrail())
             {
@@ -63,8 +64,29 @@ public final class TrajectoriesCheat extends Cheat
         }
         glEnd();
 
+        final Vec3 hitVec = result.getTrail().get(result.getTrail().size() - 1);
+
+        glBegin(GL_LINE_STRIP);
+        {
+            for (double angle = 0.0; angle <= 360.0; angle += 0.5)
+            {
+                double rad = Math.toRadians(angle);
+                glVertex3d(hitVec.xCoord + (Math.sin(rad) * 0.5),
+                        hitVec.yCoord,
+                        hitVec.zCoord - (Math.cos(rad) * 0.5));
+            }
+        }
+        glEnd();
+
+        final MovingObjectPosition landing = result.getLanding();
+        if (landing != null)
+        {
+
+        }
+
         glDisable(GL_LINE_SMOOTH);
         glEnable(GL_DEPTH_TEST);
+        glDepthMask(true);
         glDisable(GL_BLEND);
         glEnable(GL_TEXTURE_2D);
         glPopMatrix();
