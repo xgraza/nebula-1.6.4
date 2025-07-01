@@ -47,7 +47,6 @@ public final class CheatManager implements ITypedManager<Cheat>
         //addCheat(new NewChunksCheat());
         addCheat(new NoC03Cheat());
         addCheat(new NoHungerCheat());
-        addCheat(new NoMagicMovementCheat());
         addCheat(new NoPortalGUICheat());
         addCheat(new NoRotateSetCheat());
         addCheat(new PotionSaverCheat());
