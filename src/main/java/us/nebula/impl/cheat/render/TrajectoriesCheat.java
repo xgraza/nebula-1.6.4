@@ -162,7 +162,8 @@ public final class TrajectoriesCheat extends Cheat
         while (!landed && y > 0.0)
         {
             final Vec3 pos = Vec3.createVectorHelper(x, y, z);
-            final Vec3 motion = Vec3.createVectorHelper(x + motionX, y + motionY, z + motionZ);
+            final Vec3 motion = pos.addVector(motionX, motionY, motionZ);
+            //Vec3.createVectorHelper(x + motionX, y + motionY, z + motionZ);
 
             final MovingObjectPosition result = MC.theWorld.rayTraceBlocks(pos, motion);
             if (result != null && !result.typeOfHit.equals(MovingObjectPosition.MovingObjectType.MISS))
@@ -187,15 +188,16 @@ public final class TrajectoriesCheat extends Cheat
                         continue;
                     }
                     aabb = aabb.copy().expand(0.3, 0.3, 0.3);
-                    final MovingObjectPosition r = aabb.calculateIntercept(pos, motion);
-                    if (r != null)
+                    final MovingObjectPosition interceptedRaytrace = aabb.calculateIntercept(pos, motion);
+                    if (interceptedRaytrace != null)
                     {
-                        final double hitVecDistance = pos.distanceTo(r.hitVec);
+                        // TODO: exempt foliage blocks as they don't hit with a projectile 
+                        final double hitVecDistance = pos.distanceTo(interceptedRaytrace.hitVec);
                         if (hitVecDistance < lastDist || lastDist == 0.0)
                         {
                             lastDist = hitVecDistance;
                             landed = true;
-                            finalResult = r;
+                            finalResult = interceptedRaytrace;
                         }
                     }
                 }
@@ -204,6 +206,8 @@ public final class TrajectoriesCheat extends Cheat
             x += motionX;
             y += motionY;
             z += motionZ;
+
+            trajectoryResult.addTrail(Vec3.createVectorHelper(x, y, z));
 
             motionX *= 0.99;
             motionY *= 0.99;
@@ -220,8 +224,6 @@ public final class TrajectoriesCheat extends Cheat
             {
                 motionY -= 0.03;
             }
-
-            trajectoryResult.addTrail(Vec3.createVectorHelper(x, y, z));
         }
 
         trajectoryResult.setLanding(finalResult);

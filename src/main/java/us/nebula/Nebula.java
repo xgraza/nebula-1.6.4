@@ -109,7 +109,7 @@ public enum Nebula
             Display.setTitle(title);
         } else
         {
-            Minecraft.func_147105_a(title);
+            Minecraft.setTitle(title);
         }
     }
 

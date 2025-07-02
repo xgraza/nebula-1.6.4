@@ -49,11 +49,10 @@ public class Timer
      * A ratio used to sync the high-resolution clock to the system clock, updated once per second
      */
     private double timeSyncAdjustment = 1.0D;
-    private static final String __OBFID = "CL_00000658";
 
-    public Timer(float par1)
+    public Timer(float tps)
     {
-        this.ticksPerSecond = par1;
+        this.ticksPerSecond = tps;
         this.lastSyncSysClock = Minecraft.getSystemTime();
         this.lastSyncHRClock = System.nanoTime() / 1000000L;
     }

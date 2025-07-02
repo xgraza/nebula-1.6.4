@@ -300,7 +300,7 @@ public class GuiScreen extends Gui
         int var2 = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
         int var3 = Mouse.getEventButton();
 
-        if (Minecraft.isRunningOnMac && var3 == 0 && (Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157)))
+        if (Minecraft.IS_ON_MAC && var3 == 0 && (Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157)))
         {
             var3 = 1;
         }
@@ -412,7 +412,7 @@ public class GuiScreen extends Gui
      */
     public static boolean isCtrlKeyDown()
     {
-        return Minecraft.isRunningOnMac ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
+        return Minecraft.IS_ON_MAC ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
     }
 
     /**

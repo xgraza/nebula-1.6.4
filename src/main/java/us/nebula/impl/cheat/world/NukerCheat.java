@@ -1,6 +1,7 @@
 package us.nebula.impl.cheat.world;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
 import us.nebula.api.interaction.InteractionManager;
@@ -40,6 +41,13 @@ public final class NukerCheat extends Cheat
     private final Queue<BlockPos> breakPosQueue = new ConcurrentLinkedQueue<>();
     private BlockPos currentBlock;
     private int oldSlot = -1;
+
+    @Override
+    protected void onDisable()
+    {
+        super.onDisable();
+        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+    }
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = evnet ->
