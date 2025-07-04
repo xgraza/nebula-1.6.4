@@ -1,8 +1,11 @@
 package us.nebula.api.render;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.src.BlockPos;
 import net.minecraft.src.GlStateManager;
 import net.minecraft.tileentity.TileEntity;
@@ -148,7 +151,7 @@ public final class EntityCulling
         }
         if (!QUERY_RESULTS.containsKey(entity.getUniqueID()))
         {
-            return false;
+            return true;
         }
         return QUERY_RESULTS.get(entity.getUniqueID()).value;
     }

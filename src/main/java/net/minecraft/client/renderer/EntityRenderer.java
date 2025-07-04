@@ -79,6 +79,7 @@ import us.nebula.impl.event.render.EventCameraDistance;
 import us.nebula.impl.event.render.EventGamma;
 import us.nebula.impl.event.render.EventRender3D;
 import us.nebula.util.render.ProjectionUtil;
+import us.nebula.util.render.Renderer3D;
 
 public class EntityRenderer implements IResourceManagerReloadListener
 {
@@ -254,6 +255,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
     private long lastErrorCheckTimeMs = 0L;
     private ShaderGroup[] fxaaShaders = new ShaderGroup[10];
     public int frameCount;
+
+    private final Renderer3D renderer3D = new Renderer3D();
 
     public EntityRenderer(Minecraft p_i45076_1_, IResourceManager p_i45076_2_)
     {
@@ -1888,7 +1891,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             mc.mcProfiler.endStartSection("projection");
             ProjectionUtil.updateProjection();
             mc.mcProfiler.endStartSection("dispatch");
-            EventBus.dispatch(new EventRender3D(partialTicks));
+            EventBus.dispatch(new EventRender3D(renderer3D, partialTicks));
             mc.mcProfiler.endSection();
 
             this.mc.mcProfiler.endStartSection("hand");
