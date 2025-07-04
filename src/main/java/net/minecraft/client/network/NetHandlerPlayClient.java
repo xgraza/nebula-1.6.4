@@ -211,7 +211,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      * True if the client has finished downloading terrain and may spawn. Set upon receipt of S08PacketPlayerPosLook,
      * reset upon respawning
      */
-    private boolean doneLoadingTerrain;
+    public boolean doneLoadingTerrain;
 
     /**
      * Origin of the central MapStorage serving as a public reference for WorldClient. Not used in this class
