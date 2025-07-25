@@ -32,6 +32,8 @@ If you have a bypass for NCP that is publicly known, that is okay, I just don't 
 
 *requires basic knowledge of how to use the IDE & gradle*
 
+> Note: If you are on MacOS and on an M chip series Mac, be sure to install the x86-64 version of your JDK and run via Rosetta. You also need to run a lower version (I'm on 242-b20) so it doesn't tweak when trying to run
+
 1. Clone this repository with git (do NOT download the .zip, it will not build correctly)
 2. Extract the content from the .zip downloaded into a folder
 3. Open up that extracted folder in IntelliJ
