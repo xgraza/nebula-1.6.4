@@ -39,9 +39,13 @@ public final class Shader
 
         final int vertShader = compileShader(vertex, GL_VERTEX_SHADER);
         final int fragShader = compileShader(fragment, GL_FRAGMENT_SHADER);
-        if (vertShader == 0 || fragShader == 0)
+        if (vertShader == 0)
         {
-            throw new RuntimeException("Vert or Frag shader have not compiled correctly.");
+            throw new RuntimeException("Vertex shader has not compiled correctly.");
+        }
+        if (fragShader == 0)
+        {
+            throw new RuntimeException("Fragment shader has not compiled correctly.");
         }
 
         glAttachShader(program, vertShader);

@@ -136,6 +136,10 @@ import us.nebula.impl.event.game.EventTick;
 import us.nebula.impl.event.input.EventKey;
 import us.nebula.impl.event.input.EventMouse;
 
+import static org.lwjgl.opengl.GL11.GL_VERSION;
+import static org.lwjgl.opengl.GL11.glGetString;
+import static org.lwjgl.opengl.GL20.GL_SHADING_LANGUAGE_VERSION;
+
 public class Minecraft
 {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -443,16 +447,15 @@ public class Minecraft
             {
                 LOGGER.error("Couldn't set icon", var6);
             }
-
-            if (var1 != Util.EnumOS.WINDOWS)
-            {
-                setTitle("Minecraft");
-            }
+        }
+        if (var1 != Util.EnumOS.WINDOWS)
+        {
+            setTitle("Minecraft");
         }
 
         try
         {
-            Display.create((new PixelFormat()).withDepthBits(24));
+            Display.create(new PixelFormat().withDepthBits(24));
         }
         catch (LWJGLException var5)
         {
@@ -2488,7 +2491,7 @@ public class Minecraft
             private static final String __OBFID = "CL_00000645";
             public String call()
             {
-                return GL11.glGetString(GL11.GL_RENDERER) + " GL version " + GL11.glGetString(GL11.GL_VERSION) + ", " + GL11.glGetString(GL11.GL_VENDOR);
+                return glGetString(GL11.GL_RENDERER) + " GL version " + glGetString(GL11.GL_VERSION) + ", " + glGetString(GL11.GL_VENDOR);
             }
         });
         par1CrashReport.getCategory().addCrashSectionCallable("Is Modded", new Callable()

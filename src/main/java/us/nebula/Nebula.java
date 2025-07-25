@@ -91,7 +91,13 @@ public enum Nebula
         rotationManager.init();
         friendManager.init();
 
-        RenderUtil.initShaders();
+        try
+        {
+            RenderUtil.initShaders();
+        } catch (Exception e)
+        {
+            logger.error(e);
+        }
         Fonts.initFonts();
 
         // Init schematica

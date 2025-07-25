@@ -6,13 +6,6 @@ plugins {
 group = project.group
 version = project.version
 
-var userDir = System.getProperty("user.dir")
-var separator = System.getProperty("file.separator")
-
-println(' Java: ' + System.getProperty('java.version') +
-        ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ')' +
-        ' Arch: ' + System.getProperty('os.arch'))
-
 buildConfig {
     buildConfigField(String, "HASH", "${execute("git rev-parse --short HEAD")}")
     buildConfigField(String, "BRANCH", "${execute("git branch --show-current")}")
@@ -25,13 +18,49 @@ buildConfig {
     generateAtSync = true
 }
 
+static def getJVMArgs() {
+    // stolen from the mc launcher - run as close as we can to the launcher
+    var args = [
+            "-XX:+UnlockExperimentalVMOptions",
+            "-XX:+UseG1GC",
+            "-XX:G1NewSizePercent=20",
+            "-XX:G1ReservePercent=20",
+            "-XX:MaxGCPauseMillis=50",
+            "-XX:G1HeapRegionSize=32M"
+    ]
+
+    String separator = System.getProperty("file.separator")
+    var nativeLibraryPath = "-Djava.library.path=${System.getProperty("user.dir")}${separator}dependencies${separator}"
+
+    switch (getOSType()) {
+        case OS.MAC: {
+            // this prevents a crash in a dylib where it creates a window in a different thread...
+            //args.add("-XstartOnFirstThread")
+            nativeLibraryPath = nativeLibraryPath + "macos${separator}natives"
+            break
+        }
+        case OS.WINDOWS: {
+            nativeLibraryPath = nativeLibraryPath + "windows"
+            break
+        }
+        case OS.UNIX: {
+            // TODO: im too lazy to add the natives needed...
+            throw new Error("Unix is not supported for gradle builds yet...")
+        }
+    }
+
+    args.add(nativeLibraryPath)
+    return args
+}
+
 application {
     mainClass = 'Start'
-    applicationDefaultJvmArgs = ["-Djava.library.path=${userDir}${separator}natives"]
+    applicationDefaultJvmArgs = getJVMArgs()
 }
 
 run {
-    workingDir = file("${userDir}${separator}run${separator}")
+    workingDir = file("${System.getProperty("user.dir")}" +
+            "${System.getProperty("file.separator")}run")
 }
 
 sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
@@ -50,7 +79,6 @@ repositories {
 
 configurations {
     library
-    compile
 }
 
 dependencies {
@@ -62,16 +90,37 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: commons_io_version
     implementation group: 'com.google.code.gson', name: 'gson', version: gson_version
 
-    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: lwjgl_version
-    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl-platform', version: lwjgl_version, ext: 'pom'
-    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: lwjgl_version
-
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4j_version
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4j_version
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: commons_lang3_version
 
-    implementation fileTree('libraries')
+    // multi-os support!!
+    implementation fileTree("dependencies${System.getProperty("file.separator")}shared")
     implementation configurations.library
+
+    // why is this such a pain in my dick to do...
+    // using 2.9.4 on MacOS crashes real nice...
+    // for whatever reaon, the repos do not have the 2.9.1 version either so... manually add them i guess
+    if (getOSType() == OS.MAC) {
+        implementation fileTree('dependencies/macos/libraries')
+    } else {
+        implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: lwjgl_version
+        implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl-platform', version: lwjgl_version, ext: 'pom'
+        implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: lwjgl_version
+    }
+}
+
+jar {
+    from {
+        configurations.library.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.withType(JavaCompile).configureEach {
+    dependsOn(generateBuildConfig)
 }
 
 def execute(String cmd) {
@@ -89,15 +138,18 @@ def execute(String cmd) {
     }
 }
 
-jar {
-    from {
-        configurations.library.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
+static def getOSType() {
+    final String name = System.getProperty("os.name").toLowerCase()
+    if (name.startsWith("mac")) {
+        return OS.MAC
+    } else if (name.startsWith("win")) {
+        return OS.WINDOWS
     }
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    return OS.UNIX
 }
 
-tasks.withType(JavaCompile).configureEach {
-    dependsOn(generateBuildConfig)
+enum OS {
+    WINDOWS,
+    MAC,
+    UNIX
 }
