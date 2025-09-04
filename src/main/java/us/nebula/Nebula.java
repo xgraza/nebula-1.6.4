@@ -42,6 +42,7 @@ public enum Nebula
     private ConfigurationManager configurationManager;
     private KeyManager keyManager;
     private CommandManager commandManager;
+    private us.nebula.api.manager.command_test.CommandManager commandManager2;
     private OverlayManager overlayManager;
     private CheatManager cheatManager;
     private AccountManager accountManager;
@@ -70,7 +71,8 @@ public enum Nebula
         systemTray = new NebulaSystemTray();
         configurationManager = new ConfigurationManager();
         keyManager = new KeyManager();
-        commandManager = new CommandManager();
+        //commandManager = new CommandManager();
+        commandManager2 = new us.nebula.api.manager.command_test.CommandManager();
         overlayManager = new OverlayManager();
         cheatManager = new CheatManager();
         accountManager = new AccountManager();
@@ -80,7 +82,8 @@ public enum Nebula
         rotationManager = new RotationManager();
 
         keyManager.init();
-        commandManager.init();
+        //commandManager.init();
+        commandManager2.init();
         overlayManager.init();
         cheatManager.init();
         accountManager.init();
@@ -153,6 +156,11 @@ public enum Nebula
     public CommandManager getCommandManager()
     {
         return commandManager;
+    }
+
+    public us.nebula.api.manager.command_test.CommandManager getCommandManager2()
+    {
+        return commandManager2;
     }
 
     public OverlayManager getOverlayManager()
