@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import us.nebula.Nebula;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
@@ -29,6 +30,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static org.lwjgl.opengl.GL11.*;
+
 /**
  * @author xgraza
  * @since 09/04/2025
@@ -37,6 +40,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public final class ESPCheat extends Cheat
 {
     private final Setting<Mode> modeSetting = new Setting<>("Mode", Mode.SIMPLE);
+
+    private final Setting<Boolean> labelsSetting = new Setting<>(
+            "Labels", true)
+            .setVisibility(() -> modeSetting.getValue() == Mode.CS_GO);
 
     // entities
     private final Setting<Boolean> playersSetting = new Setting<>(
@@ -134,7 +141,7 @@ public final class ESPCheat extends Cheat
         {
             return;
         }
-
+        renderCSGOESP();
     };
 
     @Subscribe
@@ -161,6 +168,113 @@ public final class ESPCheat extends Cheat
             }
         }
     };
+
+    private void renderCSGOESP()
+    {
+        for (final int entityID : projected.keySet())
+        {
+            Object gEntity = MC.theWorld.getEntityByID(entityID);
+            if (gEntity == null)
+            {
+                for (final TileEntity tileEntity : MC.theWorld.loadedTileEntityList)
+                {
+                    if (tileEntity.hashCode() == entityID)
+                    {
+                        gEntity = tileEntity;
+                        break;
+                    }
+                }
+            }
+
+            if (gEntity instanceof EntityLivingBase)
+            {
+                final EntityLivingBase e = (EntityLivingBase)gEntity;
+                if (e.isDead || e.getHealth() <= 0.0f)
+                {
+                    renderTargetList.remove(e);
+                    projected.remove(entityID);
+                    continue;
+                }
+            }
+
+            final float[][] projection = projected.get(entityID);
+            final float[] top = projection[0], bottom = projection[1];
+
+            double height = top[1] - bottom[1];
+            double width = height * 0.3;
+
+            glPushMatrix();
+
+            glLineWidth(1.0f);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_TEXTURE_2D);
+
+            glScaled(0.5, 0.5, 0.5);
+            glColor4f(1, 1, 1, 1);
+
+            glBegin(GL_LINES);
+            {
+                glVertex2d(top[0] - width, top[1]);
+                glVertex2d(top[0] + width, top[1]);
+
+                glVertex2d(top[0] - width, top[1]);
+                glVertex2d(top[0] - width, bottom[1]);
+
+                glVertex2d(top[0] + width, top[1]);
+                glVertex2d(top[0] + width, bottom[1]);
+
+                glVertex2d(top[0] - width, bottom[1]);
+                glVertex2d(top[0] + width, bottom[1]);
+            }
+            glEnd();
+
+            // heath bar
+
+            if (gEntity instanceof EntityLivingBase)
+            {
+                final EntityLivingBase e = (EntityLivingBase)gEntity;
+                final float healthPercent = (e.getHealth() + e.getAbsorptionAmount()) / 24.0f;
+                glColor4f(
+                        1.0f - healthPercent,
+                        healthPercent,
+                        0.0f,
+                        1.0f
+                );
+
+                glBegin(GL_LINES);
+                {
+                    glVertex2d(top[0] + (height * 0.35), top[1]);
+                    glVertex2d(top[0] + (height * 0.35), bottom[1]);
+                }
+                glEnd();
+            }
+
+            glEnable(GL_TEXTURE_2D);
+            glEnable(GL_DEPTH_TEST);
+
+            if (labelsSetting.getValue())
+            {
+                String text = null;
+                if (gEntity instanceof EntityLivingBase)
+                {
+                    final EntityLivingBase e = (EntityLivingBase)gEntity;
+                    text = e.getCommandSenderName() + EnumChatFormatting.RED + " " + e.getHealth() + "\u2764";
+                } else if (gEntity instanceof TileEntity)
+                {
+                    final TileEntity e = (TileEntity)gEntity;
+                    text = e.getBlockType().getLocalizedName();
+                }
+
+                if (text != null)
+                {
+                    final int textWidth = MC.fontRenderer.getStringWidth(text);
+                    MC.fontRenderer.drawStringWithShadow(text, (int) (top[0] - (textWidth / 2.0f)), (int) top[1] - 10, -1);
+                }
+            }
+
+            glPopMatrix();
+        }
+    }
 
     private void renderBoxESP(final Object entity, final float partialTicks)
     {
