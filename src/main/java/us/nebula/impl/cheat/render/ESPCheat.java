@@ -1,16 +1,232 @@
 package us.nebula.impl.cheat.render;
 
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityEnderChest;
+import net.minecraft.util.AxisAlignedBB;
+import us.nebula.Nebula;
+import us.nebula.api.listener.EventListener;
+import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
+import us.nebula.api.value.Setting;
+import us.nebula.impl.cheat.player.FreecamCheat;
+import us.nebula.impl.event.game.EventUpdate;
+import us.nebula.impl.event.render.EventRender2D;
+import us.nebula.impl.event.render.EventRender3D;
+import us.nebula.util.math.MathUtil;
+import us.nebula.util.player.EntityUtil;
+import us.nebula.util.render.ProjectionUtil;
+import us.nebula.util.render.RenderUtil;
 
+import java.awt.Color;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+/**
+ * @author xgraza
+ * @since 09/04/2025
+ */
 @CheatManifest(name = "ESP", category = CheatCategory.RENDER)
 public final class ESPCheat extends Cheat
 {
+    private final Setting<Mode> modeSetting = new Setting<>("Mode", Mode.SIMPLE);
+
+    // entities
+    private final Setting<Boolean> playersSetting = new Setting<>(
+            "Players", true);
+    private final Setting<Boolean> hostileSetting = new Setting<>(
+            "Hostile", true);
+    private final Setting<Boolean> passiveSetting = new Setting<>(
+            "Passive", true);
+    private final Setting<Boolean> chestsSetting = new Setting<>(
+            "Chests", true);
+    private final Setting<Boolean> tileEntitiesSetting = new Setting<>(
+            "Other Tile Entities", true)
+            .setVisibility(() -> modeSetting.getValue() != Mode.CS_GO);
+
+    private final Map<Integer, float[][]> projected = new ConcurrentHashMap<>();
+    private final List<Object> renderTargetList = new CopyOnWriteArrayList<>();
+
+    @Override
+    protected void onDisable()
+    {
+        super.onDisable();
+        projected.clear();
+        renderTargetList.clear();
+    }
+
+    @Subscribe
+    private final EventListener<EventUpdate> updateEventListener = event ->
+    {
+        if (MC.thePlayer.ticksExisted % 20 != 0)
+        {
+            return;
+        }
+
+        for (int entityId : projected.keySet())
+        {
+            projected.remove(entityId);
+        }
+
+        renderTargetList.clear();
+        for (final Entity bEntity : MC.theWorld.loadedEntityList)
+        {
+            if (bEntity == null
+                    || bEntity.isDead
+                    || bEntity.equals(MC.thePlayer)
+                    || bEntity.getEntityId() == FreecamCheat.CAMERA_ENTITY_ID)
+            {
+                continue;
+            }
+
+            if (!playersSetting.getValue() && bEntity instanceof EntityPlayer)
+            {
+                continue;
+            }
+            if (!hostileSetting.getValue() && EntityUtil.isEntityHostile(bEntity))
+            {
+                continue;
+            }
+            if (!passiveSetting.getValue() && EntityUtil.isEntityPassive(bEntity))
+            {
+                continue;
+            }
+
+            renderTargetList.add(bEntity);
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventRender2D> render2DEventListener = event ->
+    {
+        if (!modeSetting.getValue().equals(Mode.CS_GO))
+        {
+            return;
+        }
+
+    };
+
+    @Subscribe
+    private final EventListener<EventRender3D> render3DEventListener = event ->
+    {
+        for (final Object entity : renderTargetList)
+        {
+            switch (modeSetting.getValue())
+            {
+                case CS_GO:
+                {
+                    projectEntity(entity, event.getPartialTicks());
+                    break;
+                }
+                case SHADER:
+                {
+                    break;
+                }
+                case SIMPLE:
+                {
+                    renderBoxESP(entity, event.getPartialTicks());
+                    break;
+                }
+            }
+        }
+    };
+
+    private void renderBoxESP(final Object entity, final float partialTicks)
+    {
+        AxisAlignedBB aabb = null;
+        if (entity instanceof EntityLivingBase)
+        {
+            final EntityLivingBase e = (EntityLivingBase)entity;
+
+            double x = (e.lastTickPosX + (e.posX - e.lastTickPosX) * partialTicks);
+            double y = (e.lastTickPosY + (e.posY - e.lastTickPosY) * partialTicks);
+            double z = (e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * partialTicks);
+
+            aabb = new AxisAlignedBB(x - 0.2, y - 0.2, z - 0.2,
+                    x + 0.2,
+                    y + e.height + 0.2,
+                    z + 0.2);
+        }
+
+        if (aabb == null)
+        {
+            return;
+        }
+
+
+        final int color = getColor(entity);
+        RenderUtil.outlinedBox3D(aabb, 1.5f, color);
+    }
+
+    // amazing gavcode 3000
+    private int getColor(final Object entity)
+    {
+        if (entity instanceof EntityLivingBase)
+        {
+            if (entity instanceof EntityPlayer)
+            {
+                final EntityPlayer player = (EntityPlayer)entity;
+                if (Nebula.INSTANCE.getFriendManager().isFriend(player))
+                {
+                    return Color.cyan.getRGB();
+                }
+                return Color.gray.getRGB();
+            } else if (EntityUtil.isEntityPassive((Entity) entity))
+            {
+                return Color.green.getRGB();
+            } else if (EntityUtil.isEntityHostile((Entity) entity))
+            {
+                return Color.red.getRGB();
+            }
+        } else if (entity instanceof TileEntity)
+        {
+            if (entity instanceof TileEntityEnderChest)
+            {
+                return Color.magenta.getRGB();
+            } else if (entity instanceof TileEntityChest)
+            {
+                return Color.orange.getRGB();
+            }
+        }
+        return Color.gray.getRGB();
+    }
+
+    private void projectEntity(final Object entity, final float partialTicks)
+    {
+        if (entity instanceof EntityLivingBase)
+        {
+            final EntityLivingBase e = (EntityLivingBase)entity;
+            double x = (e.lastTickPosX + (e.posX - e.lastTickPosX) * partialTicks) - RenderManager.renderPosX;
+            double y = (e.lastTickPosY + (e.posY - e.lastTickPosY) * partialTicks) - RenderManager.renderPosY;
+            double z = (e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * partialTicks) - RenderManager.renderPosZ;
+
+            float[] top = ProjectionUtil.project(x, y + e.height + 0.2, z);
+            float[] bottom = ProjectionUtil.project(x, y - 0.2, z);
+
+            projected.put(e.getEntityId(), new float[][] { top, bottom });
+        } else if (entity instanceof TileEntity)
+        {
+            final TileEntity e = (TileEntity)entity;
+            double x = e.xCoord;
+            double y = e.yCoord;
+            double z = e.zCoord;
+            float[] top = ProjectionUtil.project(x, y + 1.2, z);
+            float[] bottom = ProjectionUtil.project(x, y - 0.2, z);
+
+            projected.put(e.hashCode(), new float[][] { top, bottom });
+        }
+    }
+
     private enum Mode
     {
-        SIMPLE,
-        CS_GO,
-        SHADER
+        SIMPLE, CS_GO, SHADER
     }
 }

@@ -95,6 +95,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new ChunkBoundariesCheat());
         addCheat(new ClickGUICheat());
         addCheat(new EntityCullingCheat());
+        addCheat(new ESPCheat());
         addCheat(new FullbrightCheat());
         addCheat(new HUDCheat());
         addCheat(new InfiniteViewerCheat());
