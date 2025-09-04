@@ -346,6 +346,9 @@ public final class ESPCheat extends Cheat
 
     private void projectEntity(final Object entity, final float partialTicks)
     {
+        float[] top, bottom;
+        int id;
+
         if (entity instanceof EntityLivingBase)
         {
             final EntityLivingBase e = (EntityLivingBase)entity;
@@ -353,21 +356,31 @@ public final class ESPCheat extends Cheat
             double y = (e.lastTickPosY + (e.posY - e.lastTickPosY) * partialTicks) - RenderManager.renderPosY;
             double z = (e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * partialTicks) - RenderManager.renderPosZ;
 
-            float[] top = ProjectionUtil.project(x, y + e.height + 0.2, z);
-            float[] bottom = ProjectionUtil.project(x, y - 0.2, z);
-
-            projected.put(e.getEntityId(), new float[][] { top, bottom });
+            top = ProjectionUtil.project(x, y + e.height + 0.2, z);
+            bottom = ProjectionUtil.project(x, y - 0.2, z);
+            id = e.getEntityId();
         } else if (entity instanceof TileEntity)
         {
             final TileEntity e = (TileEntity)entity;
             double x = e.xCoord;
             double y = e.yCoord;
             double z = e.zCoord;
-            float[] top = ProjectionUtil.project(x, y + 1.2, z);
-            float[] bottom = ProjectionUtil.project(x, y - 0.2, z);
-
-            projected.put(e.hashCode(), new float[][] { top, bottom });
+            top = ProjectionUtil.project(x, y + 1.2, z);
+            bottom = ProjectionUtil.project(x, y - 0.2, z);
+            id = e.hashCode();
+        } else
+        {
+            return;
         }
+
+        if (top[2] > 1 || bottom[2] > 1)
+        {
+            projected.remove(id);
+            return;
+        }
+
+        projected.put(id, new float[][] { top, bottom });
+
     }
 
     private enum Mode
