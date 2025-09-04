@@ -19,7 +19,6 @@ import us.nebula.impl.cheat.player.FreecamCheat;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.render.EventRender2D;
 import us.nebula.impl.event.render.EventRender3D;
-import us.nebula.util.math.MathUtil;
 import us.nebula.util.player.EntityUtil;
 import us.nebula.util.render.ProjectionUtil;
 import us.nebula.util.render.RenderUtil;
@@ -102,6 +101,30 @@ public final class ESPCheat extends Cheat
 
             renderTargetList.add(bEntity);
         }
+
+        for (final TileEntity entity : MC.theWorld.loadedTileEntityList)
+        {
+            if (modeSetting.getValue() == Mode.CS_GO)
+            {
+                if (entity instanceof TileEntityChest && chestsSetting.getValue())
+                {
+                    renderTargetList.add(entity);
+                }
+                continue;
+            }
+
+            if (!chestsSetting.getValue() && entity instanceof TileEntityChest)
+            {
+                continue;
+            }
+
+            if (!tileEntitiesSetting.getValue())
+            {
+                continue;
+            }
+
+            renderTargetList.add(entity);
+        }
     };
 
     @Subscribe
@@ -150,10 +173,19 @@ public final class ESPCheat extends Cheat
             double y = (e.lastTickPosY + (e.posY - e.lastTickPosY) * partialTicks);
             double z = (e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * partialTicks);
 
-            aabb = new AxisAlignedBB(x - 0.2, y - 0.2, z - 0.2,
-                    x + 0.2,
+            double o = e.width - 0.25;
+
+            aabb = new AxisAlignedBB(x - o, y - 0.2, z - o,
+                    x + o,
                     y + e.height + 0.2,
-                    z + 0.2);
+                    z + o);
+        } else if (entity instanceof TileEntity)
+        {
+            final TileEntity e = (TileEntity)entity;
+            aabb = new AxisAlignedBB(e.xCoord, e.yCoord, e.zCoord,
+                    e.xCoord + 1,
+                    e.yCoord + 1,
+                    e.zCoord + 1);
         }
 
         if (aabb == null)
@@ -161,9 +193,8 @@ public final class ESPCheat extends Cheat
             return;
         }
 
-
         final int color = getColor(entity);
-        RenderUtil.outlinedBox3D(aabb, 1.5f, color);
+        RenderUtil.outlinedBox3D(aabb, 2.5f, color);
     }
 
     // amazing gavcode 3000
