@@ -6,6 +6,7 @@ import us.nebula.api.listener.EventBus;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.IManager;
+import us.nebula.impl.command_test.FriendCommand;
 import us.nebula.impl.command_test.GCCommand;
 import us.nebula.impl.command_test.HelpCommand;
 import us.nebula.impl.command_test.SpawnTPCommand;
@@ -47,6 +48,7 @@ public final class CommandManager extends CommandRegistry implements IManager
     public void init()
     {
         EventBus.subscribe(this);
+        register(new FriendCommand());
         register(new GCCommand());
         register(new HelpCommand(this));
         register(new SpawnTPCommand());
@@ -62,6 +64,6 @@ public final class CommandManager extends CommandRegistry implements IManager
     public void handleDispatchException(final Exception e)
     {
         ChatUtil.send("&cException Occurred -> {}", e.getMessage());
-        Nebula.INSTANCE.getLogger().error(e);
+        e.printStackTrace();
     }
 }
