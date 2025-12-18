@@ -1,7 +1,8 @@
-package net.minecraft.client.gui;
+/*
+ * Copyright (c) xgraza 2025
+ */
 
-import java.awt.Color;
-import java.util.*;
+package net.minecraft.client.gui;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -46,6 +47,12 @@ import us.nebula.util.player.PlayerUtil;
 import us.nebula.util.render.HeadDownloader;
 import us.nebula.util.render.RenderUtil;
 
+import java.awt.Color;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class GuiIngame extends Gui
@@ -57,24 +64,36 @@ public class GuiIngame extends Gui
     private final Random rand = new Random();
     private final Minecraft mc;
 
-    /** ChatGUI instance that retains all previous chat data */
+    /**
+     * ChatGUI instance that retains all previous chat data
+     */
     private final GuiNewChat persistantChatGUI;
     private int updateCounter;
 
-    /** The string specifying which record music is playing */
+    /**
+     * The string specifying which record music is playing
+     */
     private String recordPlaying = "";
 
-    /** How many ticks the record playing message will be displayed */
+    /**
+     * How many ticks the record playing message will be displayed
+     */
     private int recordPlayingUpFor;
     private boolean recordIsPlaying;
 
-    /** Previous frame vignette brightness (slowly changes by 1% each frame) */
+    /**
+     * Previous frame vignette brightness (slowly changes by 1% each frame)
+     */
     public float prevVignetteBrightness = 1.0F;
 
-    /** Remaining ticks the item highlight should be visible */
+    /**
+     * Remaining ticks the item highlight should be visible
+     */
     private int remainingHighlightTicks;
 
-    /** The ItemStack that is currently being highlighted */
+    /**
+     * The ItemStack that is currently being highlighted
+     */
     private ItemStack highlightingItemStack;
     private static final String __OBFID = "CL_00000661";
 
@@ -100,8 +119,7 @@ public class GuiIngame extends Gui
         if (Minecraft.isFancyGraphicsEnabled())
         {
             this.renderVignette(this.mc.thePlayer.getBrightness(par1), var6, var7);
-        }
-        else
+        } else
         {
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         }
@@ -173,14 +191,14 @@ public class GuiIngame extends Gui
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             GL11.glDisable(GL11.GL_ALPHA_TEST);
             var32 = this.mc.thePlayer.getSleepTimer();
-            float var33 = (float)var32 / 100.0F;
+            float var33 = (float) var32 / 100.0F;
 
             if (var33 > 1.0F)
             {
-                var33 = 1.0F - (float)(var32 - 100) / 10.0F;
+                var33 = 1.0F - (float) (var32 - 100) / 10.0F;
             }
 
-            var12 = (int)(220.0F * var33) << 24 | 1052704;
+            var12 = (int) (220.0F * var33) << 24 | 1052704;
             drawRect(0, 0, var6, var7, var12);
             GL11.glEnable(GL11.GL_ALPHA_TEST);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -203,7 +221,7 @@ public class GuiIngame extends Gui
             this.mc.getTextureManager().bindTexture(Gui.icons);
             var34 = this.mc.thePlayer.getHorseJumpPower();
             var35 = 182;
-            var14 = (int)(var34 * (float)(var35 + 1));
+            var14 = (int) (var34 * (float) (var35 + 1));
             var15 = var7 - 32 + 3;
             this.drawTexturedModalRect(var11, var15, 0, 84, var35, 5);
 
@@ -213,8 +231,7 @@ public class GuiIngame extends Gui
             }
 
             this.mc.mcProfiler.endSection();
-        }
-        else if (this.mc.playerController.gameIsSurvivalOrAdventure())
+        } else if (this.mc.playerController.gameIsSurvivalOrAdventure())
         {
             this.mc.mcProfiler.startSection("expBar");
             this.mc.getTextureManager().bindTexture(Gui.icons);
@@ -223,7 +240,7 @@ public class GuiIngame extends Gui
             if (var12 > 0)
             {
                 var35 = 182;
-                var14 = (int)(this.mc.thePlayer.experience * (float)(var35 + 1));
+                var14 = (int) (this.mc.thePlayer.experience * (float) (var35 + 1));
                 var15 = var7 - 32 + 3;
                 this.drawTexturedModalRect(var11, var15, 0, 64, var35, 5);
 
@@ -270,7 +287,7 @@ public class GuiIngame extends Gui
                     var14 += 14;
                 }
 
-                var15 = (int)((float)this.remainingHighlightTicks * 256.0F / 10.0F);
+                var15 = (int) ((float) this.remainingHighlightTicks * 256.0F / 10.0F);
 
                 if (var15 > 255)
                 {
@@ -299,10 +316,9 @@ public class GuiIngame extends Gui
             if (this.mc.theWorld.getTotalWorldTime() >= 120500L)
             {
                 var36 = I18n.format("demo.demoExpired", new Object[0]);
-            }
-            else
+            } else
             {
-                var36 = I18n.format("demo.remainingTime", new Object[] {StringUtils.ticksToElapsedTime((int)(120500L - this.mc.theWorld.getTotalWorldTime()))});
+                var36 = I18n.format("demo.remainingTime", new Object[]{ StringUtils.ticksToElapsedTime((int) (120500L - this.mc.theWorld.getTotalWorldTime())) });
             }
 
             var13 = var8.getStringWidth(var36);
@@ -322,8 +338,8 @@ public class GuiIngame extends Gui
         if (this.recordPlayingUpFor > 0)
         {
             this.mc.mcProfiler.startSection("overlayMessage");
-            var34 = (float)this.recordPlayingUpFor - par1;
-            var13 = (int)(var34 * 255.0F / 20.0F);
+            var34 = (float) this.recordPlayingUpFor - par1;
+            var13 = (int) (var34 * 255.0F / 20.0F);
 
             if (var13 > 255)
             {
@@ -333,7 +349,7 @@ public class GuiIngame extends Gui
             if (var13 > 8)
             {
                 GL11.glPushMatrix();
-                GL11.glTranslatef((float)(var6 / 2), (float)(var7 - 68), 0.0F);
+                GL11.glTranslatef((float) (var6 / 2), (float) (var7 - 68), 0.0F);
                 GL11.glEnable(GL11.GL_BLEND);
                 OpenGlHelper.glBlendFunc(770, 771, 1, 0);
                 var14 = 16777215;
@@ -362,9 +378,9 @@ public class GuiIngame extends Gui
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GL11.glPushMatrix();
-        GL11.glTranslatef(0.0F, (float)(var7 - 48), 0.0F);
+        GL11.glTranslatef(0.0F, (float) (var7 - 48), 0.0F);
         this.mc.mcProfiler.startSection("chat");
-        this.persistantChatGUI.drawChat(this.updateCounter);
+        this.persistantChatGUI.fuckMojang_drawChat(this.updateCounter);
         this.mc.mcProfiler.endSection();
         GL11.glPopMatrix();
         var40 = this.mc.theWorld.getScoreboard().func_96539_a(0);
@@ -407,10 +423,10 @@ public class GuiIngame extends Gui
         int var22 = MathHelper.floor_double(this.mc.thePlayer.posX);
         int var23 = MathHelper.floor_double(this.mc.thePlayer.posY);
         int var24 = MathHelper.floor_double(this.mc.thePlayer.posZ);
-        this.drawString(var8, String.format("x: %.5f (%d) // c: %d (%d)", new Object[] {Double.valueOf(this.mc.thePlayer.posX), Integer.valueOf(var22), Integer.valueOf(var22 >> 4), Integer.valueOf(var22 & 15)}), 2, 64, 14737632);
-        this.drawString(var8, String.format("y: %.3f (feet pos, %.3f eyes pos)", new Object[] {Double.valueOf(this.mc.thePlayer.boundingBox.minY), Double.valueOf(this.mc.thePlayer.posY)}), 2, 72, 14737632);
-        this.drawString(var8, String.format("z: %.5f (%d) // c: %d (%d)", new Object[] {Double.valueOf(this.mc.thePlayer.posZ), Integer.valueOf(var24), Integer.valueOf(var24 >> 4), Integer.valueOf(var24 & 15)}), 2, 80, 14737632);
-        int var25 = MathHelper.floor_double((double)(this.mc.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        this.drawString(var8, String.format("x: %.5f (%d) // c: %d (%d)", new Object[]{ Double.valueOf(this.mc.thePlayer.posX), Integer.valueOf(var22), Integer.valueOf(var22 >> 4), Integer.valueOf(var22 & 15) }), 2, 64, 14737632);
+        this.drawString(var8, String.format("y: %.3f (feet pos, %.3f eyes pos)", new Object[]{ Double.valueOf(this.mc.thePlayer.boundingBox.minY), Double.valueOf(this.mc.thePlayer.posY) }), 2, 72, 14737632);
+        this.drawString(var8, String.format("z: %.5f (%d) // c: %d (%d)", new Object[]{ Double.valueOf(this.mc.thePlayer.posZ), Integer.valueOf(var24), Integer.valueOf(var24 >> 4), Integer.valueOf(var24 & 15) }), 2, 80, 14737632);
+        int var25 = MathHelper.floor_double((double) (this.mc.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
         this.drawString(var8, "f: " + var25 + " (" + Direction.directions[var25] + ") / " + MathHelper.wrapAngleTo180_float(this.mc.thePlayer.rotationYaw), 2, 88, 14737632);
 
         if (this.mc.theWorld != null && this.mc.theWorld.blockExists(var22, var23, var24))
@@ -419,11 +435,11 @@ public class GuiIngame extends Gui
             this.drawString(var8, "lc: " + (var26.getTopFilledSegment() + 15) + " b: " + var26.getBiomeGenForWorldCoords(var22 & 15, var24 & 15, this.mc.theWorld.getWorldChunkManager()).biomeName + " bl: " + var26.getSavedLightValue(EnumSkyBlock.Block, var22 & 15, var23, var24 & 15) + " sl: " + var26.getSavedLightValue(EnumSkyBlock.Sky, var22 & 15, var23, var24 & 15) + " rl: " + var26.getBlockLightValue(var22 & 15, var23, var24 & 15, 0), 2, 96, 14737632);
         }
 
-        this.drawString(var8, String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", new Object[] {Float.valueOf(this.mc.thePlayer.capabilities.getWalkSpeed()), Float.valueOf(this.mc.thePlayer.capabilities.getFlySpeed()), Boolean.valueOf(this.mc.thePlayer.onGround), Integer.valueOf(this.mc.theWorld.getHeightValue(var22, var24))}), 2, 104, 14737632);
+        this.drawString(var8, String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", new Object[]{ Float.valueOf(this.mc.thePlayer.capabilities.getWalkSpeed()), Float.valueOf(this.mc.thePlayer.capabilities.getFlySpeed()), Boolean.valueOf(this.mc.thePlayer.onGround), Integer.valueOf(this.mc.theWorld.getHeightValue(var22, var24)) }), 2, 104, 14737632);
 
         if (this.mc.entityRenderer != null && this.mc.entityRenderer.isShaderActive())
         {
-            this.drawString(var8, String.format("shader: %s", new Object[] {this.mc.entityRenderer.getShaderGroup().getShaderGroupName()}), 2, 112, 14737632);
+            this.drawString(var8, String.format("shader: %s", new Object[]{ this.mc.entityRenderer.getShaderGroup().getShaderGroupName() }), 2, 112, 14737632);
         }
 
         GL11.glPopMatrix();
@@ -655,24 +671,19 @@ public class GuiIngame extends Gui
                     if (info.responseTime < 0)
                     {
                         barIndex = 5;
-                    }
-                    else if (info.responseTime < 150)
+                    } else if (info.responseTime < 150)
                     {
                         barIndex = 0;
-                    }
-                    else if (info.responseTime < 300)
+                    } else if (info.responseTime < 300)
                     {
                         barIndex = 1;
-                    }
-                    else if (info.responseTime < 600)
+                    } else if (info.responseTime < 600)
                     {
                         barIndex = 2;
-                    }
-                    else if (info.responseTime < 1000)
+                    } else if (info.responseTime < 1000)
                     {
                         barIndex = 3;
-                    }
-                    else
+                    } else
                     {
                         barIndex = 4;
                     }
@@ -767,24 +778,19 @@ public class GuiIngame extends Gui
                 if (info.responseTime < 0)
                 {
                     barIndex = 5;
-                }
-                else if (info.responseTime < 150)
+                } else if (info.responseTime < 150)
                 {
                     barIndex = 0;
-                }
-                else if (info.responseTime < 300)
+                } else if (info.responseTime < 300)
                 {
                     barIndex = 1;
-                }
-                else if (info.responseTime < 600)
+                } else if (info.responseTime < 600)
                 {
                     barIndex = 2;
-                }
-                else if (info.responseTime < 1000)
+                } else if (info.responseTime < 1000)
                 {
                     barIndex = 3;
-                }
-                else
+                } else
                 {
                     barIndex = 4;
                 }
@@ -810,7 +816,7 @@ public class GuiIngame extends Gui
 
             for (Iterator var8 = var6.iterator(); var8.hasNext(); var7 = Math.max(var7, par4FontRenderer.getStringWidth(var11)))
             {
-                Score var9 = (Score)var8.next();
+                Score var9 = (Score) var8.next();
                 ScorePlayerTeam var10 = var5.getPlayersTeam(var9.getPlayerName());
                 var11 = ScorePlayerTeam.formatPlayerName(var10, var9.getPlayerName()) + ": " + EnumChatFormatting.RED + var9.getScorePoints();
             }
@@ -824,7 +830,7 @@ public class GuiIngame extends Gui
 
             while (var13.hasNext())
             {
-                Score var14 = (Score)var13.next();
+                Score var14 = (Score) var13.next();
                 ++var12;
                 ScorePlayerTeam var15 = var5.getPlayersTeam(var14.getPlayerName());
                 String var16 = ScorePlayerTeam.formatPlayerName(var15, var14.getPlayerName());
@@ -857,7 +863,7 @@ public class GuiIngame extends Gui
 
         int var4 = MathHelper.ceiling_float_int(this.mc.thePlayer.getHealth());
         int var5 = MathHelper.ceiling_float_int(this.mc.thePlayer.prevHealth);
-        this.rand.setSeed((long)(this.updateCounter * 312871));
+        this.rand.setSeed((long) (this.updateCounter * 312871));
         boolean var6 = false;
         FoodStats var7 = this.mc.thePlayer.getFoodStats();
         int var8 = var7.getFoodLevel();
@@ -866,7 +872,7 @@ public class GuiIngame extends Gui
         int var11 = par1 / 2 - 91;
         int var12 = par1 / 2 + 91;
         int var13 = par2 - 39;
-        float var14 = (float)var10.getAttributeValue();
+        float var14 = (float) var10.getAttributeValue();
         float var15 = this.mc.thePlayer.getAbsorptionAmount();
         int var16 = MathHelper.ceiling_float_int((var14 + var15) / 2.0F / 10.0F);
         int var17 = Math.max(10 - (var16 - 2), 3);
@@ -919,8 +925,7 @@ public class GuiIngame extends Gui
             if (this.mc.thePlayer.isPotionActive(Potion.poison))
             {
                 var23 += 36;
-            }
-            else if (this.mc.thePlayer.isPotionActive(Potion.wither))
+            } else if (this.mc.thePlayer.isPotionActive(Potion.wither))
             {
                 var23 += 72;
             }
@@ -932,7 +937,7 @@ public class GuiIngame extends Gui
                 var24 = 1;
             }
 
-            var25 = MathHelper.ceiling_float_int((float)(var22 + 1) / 10.0F) - 1;
+            var25 = MathHelper.ceiling_float_int((float) (var22 + 1) / 10.0F) - 1;
             var26 = var11 + var22 % 10 * 8;
             var27 = var13 - var25 * var17;
 
@@ -973,15 +978,13 @@ public class GuiIngame extends Gui
                 if (var19 == var15 && var15 % 2.0F == 1.0F)
                 {
                     this.drawTexturedModalRect(var26, var27, var23 + 153, 9 * var28, 9, 9);
-                }
-                else
+                } else
                 {
                     this.drawTexturedModalRect(var26, var27, var23 + 144, 9 * var28, 9, 9);
                 }
 
                 var19 -= 2.0F;
-            }
-            else
+            } else
             {
                 if (var22 * 2 + 1 < var4)
                 {
@@ -1064,14 +1067,13 @@ public class GuiIngame extends Gui
                     this.drawTexturedModalRect(var27, var35, var25 + 45, 27, 9, 9);
                 }
             }
-        }
-        else if (var34 instanceof EntityLivingBase)
+        } else if (var34 instanceof EntityLivingBase)
         {
             this.mc.mcProfiler.endStartSection("mountHealth");
-            EntityLivingBase var37 = (EntityLivingBase)var34;
-            var35 = (int)Math.ceil((double)var37.getHealth());
+            EntityLivingBase var37 = (EntityLivingBase) var34;
+            var35 = (int) Math.ceil((double) var37.getHealth());
             float var38 = var37.getMaxHealth();
-            var26 = (int)(var38 + 0.5F) / 2;
+            var26 = (int) (var38 + 0.5F) / 2;
 
             if (var26 > 30)
             {
@@ -1118,16 +1120,15 @@ public class GuiIngame extends Gui
         if (this.mc.thePlayer.isInsideOfMaterial(Material.water))
         {
             var23 = this.mc.thePlayer.getAir();
-            var35 = MathHelper.ceiling_double_int((double)(var23 - 2) * 10.0D / 300.0D);
-            var25 = MathHelper.ceiling_double_int((double)var23 * 10.0D / 300.0D) - var35;
+            var35 = MathHelper.ceiling_double_int((double) (var23 - 2) * 10.0D / 300.0D);
+            var25 = MathHelper.ceiling_double_int((double) var23 * 10.0D / 300.0D) - var35;
 
             for (var26 = 0; var26 < var35 + var25; ++var26)
             {
                 if (var26 < var35)
                 {
                     this.drawTexturedModalRect(var12 - var26 * 8 - 9, var18, 16, 18, 9, 9);
-                }
-                else
+                } else
                 {
                     this.drawTexturedModalRect(var12 - var26 * 8 - 9, var18, 25, 18, 9, 9);
                 }
@@ -1150,7 +1151,7 @@ public class GuiIngame extends Gui
             int var3 = var2.getScaledWidth();
             short var4 = 182;
             int var5 = var3 / 2 - var4 / 2;
-            int var6 = (int)(BossStatus.healthScale * (float)(var4 + 1));
+            int var6 = (int) (BossStatus.healthScale * (float) (var4 + 1));
             byte var7 = 12;
             this.drawTexturedModalRect(var5, var7, 0, 74, var4, 5);
             this.drawTexturedModalRect(var5, var7, 0, 74, var4, 5);
@@ -1182,9 +1183,9 @@ public class GuiIngame extends Gui
         this.mc.getTextureManager().bindTexture(pumpkinBlurTexPath);
         Tessellator var3 = Tessellator.instance;
         var3.startDrawingQuads();
-        var3.addVertexWithUV(0.0D, (double)par2, -90.0D, 0.0D, 1.0D);
-        var3.addVertexWithUV((double)par1, (double)par2, -90.0D, 1.0D, 1.0D);
-        var3.addVertexWithUV((double)par1, 0.0D, -90.0D, 1.0D, 0.0D);
+        var3.addVertexWithUV(0.0D, (double) par2, -90.0D, 0.0D, 1.0D);
+        var3.addVertexWithUV((double) par1, (double) par2, -90.0D, 1.0D, 1.0D);
+        var3.addVertexWithUV((double) par1, 0.0D, -90.0D, 1.0D, 0.0D);
         var3.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
         var3.draw();
         GL11.glDepthMask(true);
@@ -1210,7 +1211,7 @@ public class GuiIngame extends Gui
             par1 = 1.0F;
         }
 
-        this.prevVignetteBrightness = (float)((double)this.prevVignetteBrightness + (double)(par1 - this.prevVignetteBrightness) * 0.01D);
+        this.prevVignetteBrightness = (float) ((double) this.prevVignetteBrightness + (double) (par1 - this.prevVignetteBrightness) * 0.01D);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
         OpenGlHelper.glBlendFunc(0, 769, 1, 0);
@@ -1218,9 +1219,9 @@ public class GuiIngame extends Gui
         this.mc.getTextureManager().bindTexture(vignetteTexPath);
         Tessellator var4 = Tessellator.instance;
         var4.startDrawingQuads();
-        var4.addVertexWithUV(0.0D, (double)par3, -90.0D, 0.0D, 1.0D);
-        var4.addVertexWithUV((double)par2, (double)par3, -90.0D, 1.0D, 1.0D);
-        var4.addVertexWithUV((double)par2, 0.0D, -90.0D, 1.0D, 0.0D);
+        var4.addVertexWithUV(0.0D, (double) par3, -90.0D, 0.0D, 1.0D);
+        var4.addVertexWithUV((double) par2, (double) par3, -90.0D, 1.0D, 1.0D);
+        var4.addVertexWithUV((double) par2, 0.0D, -90.0D, 1.0D, 0.0D);
         var4.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
         var4.draw();
         GL11.glDepthMask(true);
@@ -1256,10 +1257,10 @@ public class GuiIngame extends Gui
         float var8 = var4.getMaxV();
         Tessellator var9 = Tessellator.instance;
         var9.startDrawingQuads();
-        var9.addVertexWithUV(0.0D, (double)par3, -90.0D, (double)var5, (double)var8);
-        var9.addVertexWithUV((double)par2, (double)par3, -90.0D, (double)var7, (double)var8);
-        var9.addVertexWithUV((double)par2, 0.0D, -90.0D, (double)var7, (double)var6);
-        var9.addVertexWithUV(0.0D, 0.0D, -90.0D, (double)var5, (double)var6);
+        var9.addVertexWithUV(0.0D, (double) par3, -90.0D, (double) var5, (double) var8);
+        var9.addVertexWithUV((double) par2, (double) par3, -90.0D, (double) var7, (double) var8);
+        var9.addVertexWithUV((double) par2, 0.0D, -90.0D, (double) var7, (double) var6);
+        var9.addVertexWithUV(0.0D, 0.0D, -90.0D, (double) var5, (double) var6);
         var9.draw();
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -1276,15 +1277,15 @@ public class GuiIngame extends Gui
 
         if (var5 != null)
         {
-            float var6 = (float)var5.animationsToGo - par4;
+            float var6 = (float) var5.animationsToGo - par4;
 
             if (var6 > 0.0F)
             {
                 GL11.glPushMatrix();
                 float var7 = 1.0F + var6 / 5.0F;
-                GL11.glTranslatef((float)(par2 + 8), (float)(par3 + 12), 0.0F);
+                GL11.glTranslatef((float) (par2 + 8), (float) (par3 + 12), 0.0F);
                 GL11.glScalef(1.0F / var7, (var7 + 1.0F) / 2.0F, 1.0F);
-                GL11.glTranslatef((float)(-(par2 + 8)), (float)(-(par3 + 12)), 0.0F);
+                GL11.glTranslatef((float) (-(par2 + 8)), (float) (-(par3 + 12)), 0.0F);
             }
 
             itemRenderer.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.getTextureManager(), var5, par2, par3);
@@ -1317,15 +1318,13 @@ public class GuiIngame extends Gui
             if (var1 == null)
             {
                 this.remainingHighlightTicks = 0;
-            }
-            else if (this.highlightingItemStack != null && var1.getItem() == this.highlightingItemStack.getItem() && ItemStack.areItemStackTagsEqual(var1, this.highlightingItemStack) && (var1.isItemStackDamageable() || var1.getItemDamage() == this.highlightingItemStack.getItemDamage()))
+            } else if (this.highlightingItemStack != null && var1.getItem() == this.highlightingItemStack.getItem() && ItemStack.areItemStackTagsEqual(var1, this.highlightingItemStack) && (var1.isItemStackDamageable() || var1.getItemDamage() == this.highlightingItemStack.getItemDamage()))
             {
                 if (this.remainingHighlightTicks > 0)
                 {
                     --this.remainingHighlightTicks;
                 }
-            }
-            else
+            } else
             {
                 this.remainingHighlightTicks = 40;
             }

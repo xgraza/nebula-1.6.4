@@ -81,8 +81,6 @@ public final class ScaffoldCheat extends Cheat
         {
             if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
             {
-                ChatUtil.send(MC.thePlayer.motionY + "");
-
                 ++towerTicks;
                 if (MC.thePlayer.onGround || (MC.thePlayer.motionY == 0.16477328182606651))
                 {
@@ -116,12 +114,11 @@ public final class ScaffoldCheat extends Cheat
         RenderUtil.outlinedBox3D(aabb, 1.5f, 0xFFFF0000);
     };
 
-    @Subscribe
+    // @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
     {
         if (event.getPacket() instanceof S08PacketPlayerPosLook)
         {
-            final S08PacketPlayerPosLook packet = event.getPacket();
             ChatUtil.send("Ticks: " + towerTicks);
         }
     };

@@ -1,13 +1,10 @@
+/*
+ * Copyright (c) xgraza 2025
+ */
+
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.item.ItemStack;
@@ -28,9 +25,14 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import us.nebula.Nebula;
-import us.nebula.api.manager.command.CommandManager;
 import us.nebula.impl.cheat.miscellaneous.TranslateCheat;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static org.lwjgl.input.Keyboard.*;
 
@@ -46,8 +48,6 @@ public class GuiChat extends GuiScreen
     private URI linkToOpen;
     protected GuiTextField chatTextField;
     private String text = "";
-
-    private int commandSuggestionIndex;
 
     public GuiChat()
     {
@@ -101,9 +101,7 @@ public class GuiChat extends GuiScreen
         if (keyCode == KEY_TAB)
         {
             this.offerTabCompleteResults();
-            ++commandSuggestionIndex;
-        }
-        else
+        } else
         {
             this.parsedTabComplete = false;
         }
@@ -111,31 +109,25 @@ public class GuiChat extends GuiScreen
         if (keyCode == KEY_ESCAPE)
         {
             this.mc.displayGuiScreen(null);
-        }
-        else if (keyCode != KEY_RETURN && keyCode != KEY_NUMPADENTER)
+        } else if (keyCode != KEY_RETURN && keyCode != KEY_NUMPADENTER)
         {
             if (keyCode == KEY_UP)
             {
                 this.func_146402_a(-1);
-            }
-            else if (keyCode == KEY_DOWN)
+            } else if (keyCode == KEY_DOWN)
             {
                 this.func_146402_a(1);
-            }
-            else if (keyCode == KEY_PRIOR)
+            } else if (keyCode == KEY_PRIOR)
             {
-                this.mc.ingameGUI.getChatGui().scroll(this.mc.ingameGUI.getChatGui().func_146232_i() - 1);
-            }
-            else if (keyCode == KEY_NEXT)
+                this.mc.ingameGUI.getChatGui().scroll(this.mc.ingameGUI.getChatGui().getHeightPerElement() - 1);
+            } else if (keyCode == KEY_NEXT)
             {
-                this.mc.ingameGUI.getChatGui().scroll(-this.mc.ingameGUI.getChatGui().func_146232_i() + 1);
-            }
-            else
+                this.mc.ingameGUI.getChatGui().scroll(-this.mc.ingameGUI.getChatGui().getHeightPerElement() + 1);
+            } else
             {
                 this.chatTextField.textboxKeyTyped(typedChar, keyCode);
             }
-        }
-        else
+        } else
         {
             String var3 = this.chatTextField.getText().trim();
             if (!var3.isEmpty())
@@ -143,7 +135,7 @@ public class GuiChat extends GuiScreen
                 this.sendMessage(var3);
             }
 
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen((GuiScreen) null);
         }
     }
 
@@ -200,8 +192,7 @@ public class GuiChat extends GuiScreen
                     if (isShiftKeyDown())
                     {
                         this.chatTextField.func_146191_b(var4.getUnformattedTextForChat());
-                    }
-                    else
+                    } else
                     {
                         URI var6;
 
@@ -215,31 +206,25 @@ public class GuiChat extends GuiScreen
                                 {
                                     this.linkToOpen = var6;
                                     this.mc.displayGuiScreen(new GuiConfirmOpenLink(this, var5.getValue(), 0, false));
-                                }
-                                else
+                                } else
                                 {
                                     this.openURL(var6);
                                 }
-                            }
-                            catch (URISyntaxException var7)
+                            } catch (URISyntaxException var7)
                             {
                                 LOGGER.error("Can\'t open url for " + var5, var7);
                             }
-                        }
-                        else if (var5.getAction() == ClickEvent.Action.OPEN_FILE)
+                        } else if (var5.getAction() == ClickEvent.Action.OPEN_FILE)
                         {
                             var6 = (new File(var5.getValue())).toURI();
                             this.openURL(var6);
-                        }
-                        else if (var5.getAction() == ClickEvent.Action.SUGGEST_COMMAND)
+                        } else if (var5.getAction() == ClickEvent.Action.SUGGEST_COMMAND)
                         {
                             this.chatTextField.setText(var5.getValue());
-                        }
-                        else if (var5.getAction() == ClickEvent.Action.RUN_COMMAND)
+                        } else if (var5.getAction() == ClickEvent.Action.RUN_COMMAND)
                         {
                             this.sendMessage(var5.getValue());
-                        }
-                        else
+                        } else
                         {
                             if (TranslateCheat.INSTANCE.isToggled() && var5.getValue().equals("NEBULA_TRANSLATE"))
                             {
@@ -281,8 +266,7 @@ public class GuiChat extends GuiScreen
             Class<?> desktopClass = Class.forName("java.awt.Desktop");
             Object getDesktopMethod = desktopClass.getMethod("getDesktop", new Class[0]).invoke(null);
             desktopClass.getMethod("browse", URI.class).invoke(getDesktopMethod, uri);
-        }
-        catch (final Throwable throwable)
+        } catch (final Throwable throwable)
         {
             LOGGER.error("Couldn't open link", throwable);
         }
@@ -300,8 +284,7 @@ public class GuiChat extends GuiScreen
             {
                 this.tabCompleteIndex = 0;
             }
-        }
-        else
+        } else
         {
             int var1 = this.chatTextField.func_146197_a(-1, this.chatTextField.func_146198_h(), false);
             this.tabCompleteCandidateList.clear();
@@ -368,15 +351,14 @@ public class GuiChat extends GuiScreen
             {
                 this.chatSize = var3;
                 this.chatTextField.setText(this.field_146410_g);
-            }
-            else
+            } else
             {
                 if (this.chatSize == var3)
                 {
                     this.field_146410_g = this.chatTextField.getText();
                 }
 
-                this.chatTextField.setText((String)this.mc.ingameGUI.getChatGui().getSentMessages().get(var2));
+                this.chatTextField.setText((String) this.mc.ingameGUI.getChatGui().getSentMessages().get(var2));
                 this.chatSize = var2;
             }
         }
@@ -407,8 +389,7 @@ public class GuiChat extends GuiScreen
                         {
                             itemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtBase);
                         }
-                    }
-                    catch (final NBTException ignored)
+                    } catch (final NBTException ignored)
                     {
 
                     }
@@ -416,8 +397,7 @@ public class GuiChat extends GuiScreen
                     if (itemStack != null)
                     {
                         this.renderItem(itemStack, mouseX, mouseY);
-                    }
-                    else
+                    } else
                     {
                         this.renderText(EnumChatFormatting.RED + "Invalid Item!", mouseX, mouseY);
                     }

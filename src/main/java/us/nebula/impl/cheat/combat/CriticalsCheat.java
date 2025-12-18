@@ -18,7 +18,6 @@ import us.nebula.api.value.Setting;
 import us.nebula.impl.event.network.EventPacket;
 import us.nebula.impl.event.player.EventMoveUpdate;
 import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
-import us.nebula.util.player.ChatUtil;
 
 /**
  * @author xgraza
@@ -53,7 +52,6 @@ public final class CriticalsCheat extends Cheat
             modifyStage = -1;
             return;
         }
-        ChatUtil.send("Crit Stage: " + modifyStage);
         event.setOnGround(false);
         switch (modifyStage)
         {

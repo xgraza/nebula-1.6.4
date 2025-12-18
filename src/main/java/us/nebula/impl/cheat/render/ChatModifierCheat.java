@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) xgraza 2025
+ */
+
 package us.nebula.impl.cheat.render;
 
 import us.nebula.api.manager.cheat.Cheat;
@@ -26,6 +30,8 @@ public final class ChatModifierCheat extends Cheat
             "Timestamp", false);
     public final Setting<Boolean> playerHeadsSetting = new Setting<>(
             "Player Heads", false);
+    public final Setting<Boolean> highlightSelfSetting = new Setting<>(
+            "Highlight Self", true);
     public final Setting<Boolean> highlightFriendsSetting = new Setting<>(
             "Highlight Friends", true);
     public final Setting<Boolean> infiniteChatSetting = new Setting<>(
