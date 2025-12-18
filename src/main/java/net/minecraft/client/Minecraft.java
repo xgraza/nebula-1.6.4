@@ -1,26 +1,10 @@
+/*
+ * Copyright (c) xgraza 2025
+ */
+
 package net.minecraft.client;
 
 import com.google.common.collect.Lists;
-
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.net.Proxy;
-import java.net.SocketAddress;
-import java.nio.ByteBuffer;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.Callable;
-import javax.imageio.ImageIO;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -36,37 +20,12 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerLoginClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.particle.EffectRenderer;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.resources.DefaultResourcePack;
-import net.minecraft.client.resources.FoliageColorReloadListener;
-import net.minecraft.client.resources.GrassColorReloadListener;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.LanguageManager;
-import net.minecraft.client.resources.ResourcePackRepository;
-import net.minecraft.client.resources.SimpleReloadableResourceManager;
-import net.minecraft.client.resources.data.AnimationMetadataSection;
-import net.minecraft.client.resources.data.AnimationMetadataSectionSerializer;
-import net.minecraft.client.resources.data.FontMetadataSection;
-import net.minecraft.client.resources.data.FontMetadataSectionSerializer;
-import net.minecraft.client.resources.data.IMetadataSerializer;
-import net.minecraft.client.resources.data.LanguageMetadataSection;
-import net.minecraft.client.resources.data.LanguageMetadataSectionSerializer;
-import net.minecraft.client.resources.data.PackMetadataSection;
-import net.minecraft.client.resources.data.PackMetadataSectionSerializer;
-import net.minecraft.client.resources.data.TextureMetadataSection;
-import net.minecraft.client.resources.data.TextureMetadataSectionSerializer;
+import net.minecraft.client.resources.*;
+import net.minecraft.client.resources.data.*;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.shader.Framebuffer;
@@ -96,18 +55,8 @@ import net.minecraft.profiler.Profiler;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MinecraftError;
-import net.minecraft.util.MouseHelper;
-import net.minecraft.util.MovementInputFromOptions;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ReportedException;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.ScreenShotHelper;
-import net.minecraft.util.Session;
+import net.minecraft.util.*;
 import net.minecraft.util.Timer;
-import net.minecraft.util.Util;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraft.world.WorldProviderHell;
@@ -136,9 +85,21 @@ import us.nebula.impl.event.game.EventTick;
 import us.nebula.impl.event.input.EventKey;
 import us.nebula.impl.event.input.EventMouse;
 
-import static org.lwjgl.opengl.GL11.GL_VERSION;
+import javax.imageio.ImageIO;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.Proxy;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.Callable;
+
 import static org.lwjgl.opengl.GL11.glGetString;
-import static org.lwjgl.opengl.GL20.GL_SHADING_LANGUAGE_VERSION;
 
 public class Minecraft
 {
@@ -150,12 +111,16 @@ public class Minecraft
     private static final List<DisplayMode> MAC_DISPLAY_MODES = Lists.newArrayList(
             new DisplayMode(2560, 1600), new DisplayMode(2880, 1800));
 
-    /** A 10MiB preallocation to ensure the heap is reasonably sized. */
+    /**
+     * A 10MiB preallocation to ensure the heap is reasonably sized.
+     */
     public static byte[] MEMORY_RESERVE = new byte[10485760];
     private final File fileResourcepacks;
     private ServerData currentServerData;
 
-    /** The RenderEngine instance used by Minecraft */
+    /**
+     * The RenderEngine instance used by Minecraft
+     */
     private TextureManager renderEngine;
 
     /**
@@ -166,7 +131,9 @@ public class Minecraft
     private boolean fullscreen;
     private boolean hasCrashed;
 
-    /** Instance of CrashReport. */
+    /**
+     * Instance of CrashReport.
+     */
     private CrashReport crashReporter;
     public int displayWidth;
     public int displayHeight;
@@ -188,41 +155,63 @@ public class Minecraft
     private Session session;
     private boolean isGamePaused;
 
-    /** The font renderer used for displaying and measuring text. */
+    /**
+     * The font renderer used for displaying and measuring text.
+     */
     public FontRenderer fontRenderer;
     public FontRenderer standardGalacticFontRenderer;
 
-    /** The GuiScreen that's being displayed at the moment. */
+    /**
+     * The GuiScreen that's being displayed at the moment.
+     */
     public GuiScreen currentScreen;
     public LoadingScreenRenderer loadingScreen;
     public EntityRenderer entityRenderer;
 
-    /** Mouse left click counter */
+    /**
+     * Mouse left click counter
+     */
     private int leftClickCounter;
 
-    /** Display width */
+    /**
+     * Display width
+     */
     private final int tempDisplayWidth;
 
-    /** Display height */
+    /**
+     * Display height
+     */
     private final int tempDisplayHeight;
 
-    /** Instance of IntegratedServer. */
+    /**
+     * Instance of IntegratedServer.
+     */
     private IntegratedServer theIntegratedServer;
 
-    /** Gui achievement */
+    /**
+     * Gui achievement
+     */
     public GuiAchievement guiAchievement;
     public GuiIngame ingameGUI;
 
-    /** Skip render world */
+    /**
+     * Skip render world
+     */
     public boolean skipRenderWorld;
 
-    /** The ray trace hit that the mouse is over. */
+    /**
+     * The ray trace hit that the mouse is over.
+     */
     public MovingObjectPosition objectMouseOver;
 
-    /** The game settings that currently hold effect. */
+    /**
+     * The game settings that currently hold effect.
+     */
     public GameSettings gameSettings;
 
-    /** Mouse helper instance. */
+    /**
+     * Mouse helper instance.
+     */
     public MouseHelper mouseHelper;
     public final File mcDataDir;
     private final File fileAssets;
@@ -259,14 +248,18 @@ public class Minecraft
     public boolean inGameHasFocus;
     long systemTime = getSystemTime();
 
-    /** Join player counter */
+    /**
+     * Join player counter
+     */
     private int joinPlayerCounter;
     private final boolean jvm64bit;
     private final boolean isDemo;
     private NetworkManager myNetworkManager;
     private boolean integratedServerIsRunning;
 
-    /** The profiler instance */
+    /**
+     * The profiler instance
+     */
     public final Profiler mcProfiler = new Profiler();
     private long field_83002_am = -1L;
     private IReloadableResourceManager mcResourceManager;
@@ -285,17 +278,25 @@ public class Minecraft
      */
     volatile boolean running = true;
 
-    /** String that shows the debug information */
+    /**
+     * String that shows the debug information
+     */
     public String debug = "";
 
-    /** Approximate time (in ms) of last update to debug string */
+    /**
+     * Approximate time (in ms) of last update to debug string
+     */
     long debugUpdateTime = getSystemTime();
 
-    /** holds the current fps */
+    /**
+     * holds the current fps
+     */
     int fpsCounter;
     long prevFrameTime = -1L;
 
-    /** Profiler currently displayed in the debug screen pie chart */
+    /**
+     * Profiler currently displayed in the debug screen pie chart
+     */
     private String debugProfilerName = "root";
 
     public Minecraft(Session session, int width, int height, boolean fullscreen, boolean demo, File mcDataDir, File assetDir, File resourcePackDir, Proxy proxy, String launchedVersion)
@@ -324,7 +325,7 @@ public class Minecraft
 
     private static boolean isJvm64bit()
     {
-        final String[] properties = new String[] {"sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch"};
+        final String[] properties = new String[]{ "sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch" };
         for (final String location : properties)
         {
             final String value = System.getProperty(location);
@@ -348,8 +349,7 @@ public class Minecraft
                 field.setAccessible(true);
                 field.set(toolKit, title);
             }
-        }
-        catch (final Exception ignored)
+        } catch (final Exception ignored)
         {
 
         }
@@ -379,13 +379,11 @@ public class Minecraft
         {
             System.out.println("#@!@# Game crashed! Crash report saved to: #@!@# " + par1CrashReport.getFile());
             System.exit(-1);
-        }
-        else if (par1CrashReport.saveToFile(var3))
+        } else if (par1CrashReport.saveToFile(var3))
         {
             System.out.println("#@!@# Game crashed! Crash report saved to: #@!@# " + var3.getAbsolutePath());
             System.exit(-1);
-        }
-        else
+        } else
         {
             System.out.println("#@?@# Game crashed! Crash report could not be saved. #@?@#");
             System.exit(-2);
@@ -426,8 +424,7 @@ public class Minecraft
             {
                 this.displayHeight = 1;
             }
-        }
-        else
+        } else
         {
             Display.setDisplayMode(new DisplayMode(this.displayWidth, this.displayHeight));
         }
@@ -441,9 +438,8 @@ public class Minecraft
         {
             try
             {
-                Display.setIcon(new ByteBuffer[] {this.readImage(new File(this.fileAssets, "/icons/icon_16x16.png")), this.readImage(new File(this.fileAssets, "/icons/icon_32x32.png"))});
-            }
-            catch (IOException var6)
+                Display.setIcon(new ByteBuffer[]{ this.readImage(new File(this.fileAssets, "/icons/icon_16x16.png")), this.readImage(new File(this.fileAssets, "/icons/icon_32x32.png")) });
+            } catch (IOException var6)
             {
                 LOGGER.error("Couldn't set icon", var6);
             }
@@ -456,16 +452,14 @@ public class Minecraft
         try
         {
             Display.create(new PixelFormat().withDepthBits(24));
-        }
-        catch (LWJGLException var5)
+        } catch (LWJGLException var5)
         {
             LOGGER.error("Couldn't set pixel format", var5);
 
             try
             {
                 Thread.sleep(1000L);
-            }
-            catch (InterruptedException ignored)
+            } catch (InterruptedException ignored)
             {
             }
 
@@ -527,8 +521,7 @@ public class Minecraft
             try
             {
                 return String.format(fmt, GameSettings.getKeyDisplayString(Minecraft.this.gameSettings.keyBindInventory.getKeyCode()));
-            }
-            catch (Exception var3)
+            } catch (Exception var3)
             {
                 return "Error: " + var3.getLocalizedMessage();
             }
@@ -561,8 +554,7 @@ public class Minecraft
         if (this.serverName != null)
         {
             this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
-        }
-        else
+        } else
         {
             this.displayGuiScreen(new GuiMainMenu());
         }
@@ -584,7 +576,7 @@ public class Minecraft
 
         while (var2.hasNext())
         {
-            ResourcePackRepository.Entry var3 = (ResourcePackRepository.Entry)var2.next();
+            ResourcePackRepository.Entry var3 = (ResourcePackRepository.Entry) var2.next();
             var1.add(var3.getResourcePack());
         }
 
@@ -638,14 +630,14 @@ public class Minecraft
 
             while (var3.hasNext())
             {
-                DisplayMode var4 = (DisplayMode)var3.next();
+                DisplayMode var4 = (DisplayMode) var3.next();
                 boolean var5 = true;
                 Iterator var6 = var1.iterator();
                 DisplayMode var7;
 
                 while (var6.hasNext())
                 {
-                    var7 = (DisplayMode)var6.next();
+                    var7 = (DisplayMode) var6.next();
 
                     if (var7.getBitsPerPixel() == 32 && var7.getWidth() == var4.getWidth() && var7.getHeight() == var4.getHeight())
                     {
@@ -660,7 +652,7 @@ public class Minecraft
 
                     while (var6.hasNext())
                     {
-                        var7 = (DisplayMode)var6.next();
+                        var7 = (DisplayMode) var6.next();
 
                         if (var7.getBitsPerPixel() == 32 && var7.getWidth() == var4.getWidth() / 2 && var7.getHeight() == var4.getHeight() / 2)
                         {
@@ -732,10 +724,10 @@ public class Minecraft
         float var8 = 0.00390625F;
         Tessellator var9 = Tessellator.instance;
         var9.startDrawingQuads();
-        var9.addVertexWithUV(par1, par2 + par6, 0.0D, (float)(par3) * var7, (float)(par4 + par6) * var8);
-        var9.addVertexWithUV(par1 + par5, par2 + par6, 0.0D, (float)(par3 + par5) * var7, (float)(par4 + par6) * var8);
-        var9.addVertexWithUV(par1 + par5, par2, 0.0D, (float)(par3 + par5) * var7, (float)(par4) * var8);
-        var9.addVertexWithUV(par1, par2, 0.0D, (float)(par3) * var7, (float)(par4) * var8);
+        var9.addVertexWithUV(par1, par2 + par6, 0.0D, (float) (par3) * var7, (float) (par4 + par6) * var8);
+        var9.addVertexWithUV(par1 + par5, par2 + par6, 0.0D, (float) (par3 + par5) * var7, (float) (par4 + par6) * var8);
+        var9.addVertexWithUV(par1 + par5, par2, 0.0D, (float) (par3 + par5) * var7, (float) (par4) * var8);
+        var9.addVertexWithUV(par1, par2, 0.0D, (float) (par3) * var7, (float) (par4) * var8);
         var9.draw();
     }
 
@@ -760,8 +752,7 @@ public class Minecraft
         if (p_147108_1_ == null && this.theWorld == null)
         {
             p_147108_1_ = new GuiMainMenu();
-        }
-        else if (p_147108_1_ == null && this.thePlayer.getHealth() <= 0.0F)
+        } else if (p_147108_1_ == null && this.thePlayer.getHealth() <= 0.0F)
         {
             p_147108_1_ = new GuiGameOver();
         }
@@ -782,8 +773,7 @@ public class Minecraft
             int var4 = var2.getScaledHeight();
             p_147108_1_.setWorldAndResolution(this, var3, var4);
             this.skipRenderWorld = false;
-        }
-        else
+        } else
         {
             this.mcSoundHandler.func_147687_e();
             this.setIngameFocus();
@@ -819,22 +809,19 @@ public class Minecraft
             try
             {
                 this.loadWorld(null);
-            }
-            catch (Throwable var7)
+            } catch (Throwable var7)
             {
             }
 
             try
             {
                 GLAllocation.deleteTexturesAndDisplayLists();
-            }
-            catch (Throwable var6)
+            } catch (Throwable var6)
             {
             }
 
             this.mcSoundHandler.func_147685_d();
-        }
-        finally
+        } finally
         {
             Nebula.INSTANCE.getSystemTray().destroy();
             Display.destroy();
@@ -854,8 +841,7 @@ public class Minecraft
         try
         {
             this.startGame();
-        }
-        catch (Throwable var11)
+        } catch (Throwable var11)
         {
             var2 = CrashReport.makeCrashReport(var11, "Initializing game");
             var2.makeCategory("Initialization");
@@ -874,8 +860,7 @@ public class Minecraft
                         try
                         {
                             this.runGameLoop();
-                        }
-                        catch (OutOfMemoryError var10)
+                        } catch (OutOfMemoryError var10)
                         {
                             this.freeMemory();
                             this.displayGuiScreen(new GuiMemoryErrorScreen());
@@ -887,25 +872,21 @@ public class Minecraft
                     this.displayCrashReport(this.crashReporter);
                     return;
                 }
-            }
-            catch (MinecraftError var12)
+            } catch (MinecraftError var12)
             {
-            }
-            catch (ReportedException var13)
+            } catch (ReportedException var13)
             {
                 this.addGraphicsAndWorldToCrashReport(var13.getCrashReport());
                 this.freeMemory();
                 LOGGER.fatal("Reported exception thrown!", var13);
                 this.displayCrashReport(var13.getCrashReport());
-            }
-            catch (Throwable var14)
+            } catch (Throwable var14)
             {
                 var2 = this.addGraphicsAndWorldToCrashReport(new CrashReport("Unexpected error", var14));
                 this.freeMemory();
                 LOGGER.fatal("Unreported exception thrown!", var14);
                 this.displayCrashReport(var2);
-            }
-            finally
+            } finally
             {
                 this.shutdownMinecraftApplet();
             }
@@ -938,8 +919,7 @@ public class Minecraft
             float var1 = this.timer.renderPartialTicks;
             this.timer.updateTimer();
             this.timer.renderPartialTicks = var1;
-        }
-        else
+        } else
         {
             this.timer.updateTimer();
         }
@@ -1006,8 +986,7 @@ public class Minecraft
 
             this.mcProfiler.profilingEnabled = true;
             this.displayDebugInfo(var6);
-        }
-        else
+        } else
         {
             this.mcProfiler.profilingEnabled = false;
             this.prevFrameTime = System.nanoTime();
@@ -1083,7 +1062,7 @@ public class Minecraft
 
     public boolean isFramerateLimitBelowMax()
     {
-        return (float)this.getLimitFramerate() < GameSettings.Options.FRAMERATE_LIMIT.getValueMax();
+        return (float) this.getLimitFramerate() < GameSettings.Options.FRAMERATE_LIMIT.getValueMax();
     }
 
     public void freeMemory()
@@ -1093,8 +1072,7 @@ public class Minecraft
         {
             MEMORY_RESERVE = new byte[0];
             this.renderGlobal.deleteAllDisplayLists();
-        }
-        catch (Throwable var4)
+        } catch (Throwable var4)
         {
         }
 
@@ -1102,16 +1080,14 @@ public class Minecraft
         {
             AxisAlignedBB.getAABBPool().clearPool();
             this.theWorld.getWorldVec3Pool().clearAndFreeCache();
-        }
-        catch (Throwable var3)
+        } catch (Throwable var3)
         {
         }
 
         try
         {
             this.loadWorld(null);
-        }
-        catch (Throwable var2)
+        } catch (Throwable var2)
         {
         }
     }
@@ -1126,10 +1102,9 @@ public class Minecraft
             if (!this.isTakingScreenshot)
             {
                 this.isTakingScreenshot = true;
-                this.ingameGUI.getChatGui().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
+                ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc);
             }
-        }
-        else
+        } else
         {
             this.isTakingScreenshot = false;
         }
@@ -1144,7 +1119,7 @@ public class Minecraft
 
         if (var2 != null && !var2.isEmpty())
         {
-            Profiler.Result var3 = (Profiler.Result)var2.remove(0);
+            Profiler.Result var3 = (Profiler.Result) var2.remove(0);
 
             if (par1 == 0)
             {
@@ -1157,19 +1132,18 @@ public class Minecraft
                         this.debugProfilerName = this.debugProfilerName.substring(0, var4);
                     }
                 }
-            }
-            else
+            } else
             {
                 --par1;
 
-                if (par1 < var2.size() && !((Profiler.Result)var2.get(par1)).field_76331_c.equals("unspecified"))
+                if (par1 < var2.size() && !((Profiler.Result) var2.get(par1)).field_76331_c.equals("unspecified"))
                 {
                     if (this.debugProfilerName.length() > 0)
                     {
                         this.debugProfilerName = this.debugProfilerName + ".";
                     }
 
-                    this.debugProfilerName = this.debugProfilerName + ((Profiler.Result)var2.get(par1)).field_76331_c;
+                    this.debugProfilerName = this.debugProfilerName + ((Profiler.Result) var2.get(par1)).field_76331_c;
                 }
             }
         }
@@ -1180,7 +1154,7 @@ public class Minecraft
         if (this.mcProfiler.profilingEnabled)
         {
             List var3 = this.mcProfiler.getProfilingData(this.debugProfilerName);
-            Profiler.Result var4 = (Profiler.Result)var3.remove(0);
+            Profiler.Result var4 = (Profiler.Result) var3.remove(0);
             GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
             GL11.glMatrixMode(GL11.GL_PROJECTION);
             GL11.glEnable(GL11.GL_COLOR_MATERIAL);
@@ -1198,10 +1172,10 @@ public class Minecraft
             GL11.glEnable(GL11.GL_BLEND);
             var5.startDrawingQuads();
             var5.setColorRGBA_I(0, 200);
-            var5.addVertex((float)var7 - (float)var6 * 1.1F, (float)var8 - (float)var6 * 0.6F - 16.0F, 0.0D);
-            var5.addVertex((float)var7 - (float)var6 * 1.1F, var8 + var6 * 2, 0.0D);
-            var5.addVertex((float)var7 + (float)var6 * 1.1F, var8 + var6 * 2, 0.0D);
-            var5.addVertex((float)var7 + (float)var6 * 1.1F, (float)var8 - (float)var6 * 0.6F - 16.0F, 0.0D);
+            var5.addVertex((float) var7 - (float) var6 * 1.1F, (float) var8 - (float) var6 * 0.6F - 16.0F, 0.0D);
+            var5.addVertex((float) var7 - (float) var6 * 1.1F, var8 + var6 * 2, 0.0D);
+            var5.addVertex((float) var7 + (float) var6 * 1.1F, var8 + var6 * 2, 0.0D);
+            var5.addVertex((float) var7 + (float) var6 * 1.1F, (float) var8 - (float) var6 * 0.6F - 16.0F, 0.0D);
             var5.draw();
             GL11.glDisable(GL11.GL_BLEND);
             double var9 = 0.0D;
@@ -1209,7 +1183,7 @@ public class Minecraft
 
             for (int var11 = 0; var11 < var3.size(); ++var11)
             {
-                Profiler.Result var12 = (Profiler.Result)var3.get(var11);
+                Profiler.Result var12 = (Profiler.Result) var3.get(var11);
                 var13 = MathHelper.floor_double(var12.field_76332_a / 4.0D) + 1;
                 var5.startDrawing(6);
                 var5.setColorOpaque_I(var12.func_76329_a());
@@ -1221,10 +1195,10 @@ public class Minecraft
 
                 for (var14 = var13; var14 >= 0; --var14)
                 {
-                    var15 = (float)((var9 + var12.field_76332_a * (double)var14 / (double)var13) * Math.PI * 2.0D / 100.0D);
-                    var16 = MathHelper.sin(var15) * (float)var6;
-                    var17 = MathHelper.cos(var15) * (float)var6 * 0.5F;
-                    var5.addVertex((float)var7 + var16, (float)var8 - var17, 0.0D);
+                    var15 = (float) ((var9 + var12.field_76332_a * (double) var14 / (double) var13) * Math.PI * 2.0D / 100.0D);
+                    var16 = MathHelper.sin(var15) * (float) var6;
+                    var17 = MathHelper.cos(var15) * (float) var6 * 0.5F;
+                    var5.addVertex((float) var7 + var16, (float) var8 - var17, 0.0D);
                 }
 
                 var5.draw();
@@ -1233,11 +1207,11 @@ public class Minecraft
 
                 for (var14 = var13; var14 >= 0; --var14)
                 {
-                    var15 = (float)((var9 + var12.field_76332_a * (double)var14 / (double)var13) * Math.PI * 2.0D / 100.0D);
-                    var16 = MathHelper.sin(var15) * (float)var6;
-                    var17 = MathHelper.cos(var15) * (float)var6 * 0.5F;
-                    var5.addVertex((float)var7 + var16, (float)var8 - var17, 0.0D);
-                    var5.addVertex((float)var7 + var16, (float)var8 - var17 + 10.0F, 0.0D);
+                    var15 = (float) ((var9 + var12.field_76332_a * (double) var14 / (double) var13) * Math.PI * 2.0D / 100.0D);
+                    var16 = MathHelper.sin(var15) * (float) var6;
+                    var17 = MathHelper.cos(var15) * (float) var6 * 0.5F;
+                    var5.addVertex((float) var7 + var16, (float) var8 - var17, 0.0D);
+                    var5.addVertex((float) var7 + var16, (float) var8 - var17 + 10.0F, 0.0D);
                 }
 
                 var5.draw();
@@ -1256,8 +1230,7 @@ public class Minecraft
             if (var4.field_76331_c.length() == 0)
             {
                 var19 = var19 + "ROOT ";
-            }
-            else
+            } else
             {
                 var19 = var19 + var4.field_76331_c + " ";
             }
@@ -1268,14 +1241,13 @@ public class Minecraft
 
             for (int var21 = 0; var21 < var3.size(); ++var21)
             {
-                Profiler.Result var20 = (Profiler.Result)var3.get(var21);
+                Profiler.Result var20 = (Profiler.Result) var3.get(var21);
                 String var22 = "";
 
                 if (var20.field_76331_c.equals("unspecified"))
                 {
                     var22 = var22 + "[?] ";
-                }
-                else
+                } else
                 {
                     var22 = var22 + "[" + (var21 + 1) + "] ";
                 }
@@ -1373,8 +1345,7 @@ public class Minecraft
                         this.thePlayer.swingItem();
                     }
                 }
-            }
-            else
+            } else
             {
                 this.playerController.resetBlockRemoving();
             }
@@ -1395,8 +1366,7 @@ public class Minecraft
                 {
                     this.leftClickCounter = 10;
                 }
-            }
-            else
+            } else
             {
                 switch (Minecraft.SwitchMovingObjectType.field_151437_a[this.objectMouseOver.typeOfHit.ordinal()])
                 {
@@ -1415,8 +1385,7 @@ public class Minecraft
                             {
                                 this.leftClickCounter = 10;
                             }
-                        }
-                        else
+                        } else
                         {
                             this.playerController.clickBlock(var1, var2, var3, this.objectMouseOver.sideHit);
                         }
@@ -1434,8 +1403,7 @@ public class Minecraft
         if (objectMouseOver == null)
         {
             LOGGER.warn("Null returned as 'hitResult', this shouldn't happen!");
-        }
-        else
+        } else
         {
             switch (objectMouseOver.typeOfHit)
             {
@@ -1515,8 +1483,7 @@ public class Minecraft
                 {
                     this.displayHeight = 1;
                 }
-            }
-            else
+            } else
             {
                 Display.setDisplayMode(new DisplayMode(this.tempDisplayWidth, this.tempDisplayHeight));
                 this.displayWidth = this.tempDisplayWidth;
@@ -1536,8 +1503,7 @@ public class Minecraft
             if (this.currentScreen != null)
             {
                 this.resize(this.displayWidth, this.displayHeight);
-            }
-            else
+            } else
             {
                 this.updateFramebufferSize();
             }
@@ -1546,8 +1512,7 @@ public class Minecraft
             Display.setFullscreen(this.fullscreen);
             Display.setVSyncEnabled(this.gameSettings.enableVsync);
             this.func_147120_f();
-        }
-        catch (Exception var2)
+        } catch (Exception var2)
         {
             LOGGER.error("Couldn't toggle fullscreen", var2);
         }
@@ -1622,13 +1587,11 @@ public class Minecraft
             if (this.thePlayer.getHealth() <= 0.0F)
             {
                 this.displayGuiScreen(null);
-            }
-            else if (this.thePlayer.isPlayerSleeping() && this.theWorld != null)
+            } else if (this.thePlayer.isPlayerSleeping() && this.theWorld != null)
             {
                 this.displayGuiScreen(new GuiSleepMP());
             }
-        }
-        else if (this.currentScreen != null && this.currentScreen instanceof GuiSleepMP && !this.thePlayer.isPlayerSleeping())
+        } else if (this.currentScreen != null && this.currentScreen instanceof GuiSleepMP && !this.thePlayer.isPlayerSleeping())
         {
             this.displayGuiScreen(null);
         }
@@ -1646,14 +1609,14 @@ public class Minecraft
             try
             {
                 this.currentScreen.handleInput();
-            }
-            catch (Throwable var6)
+            } catch (Throwable var6)
             {
                 var2 = CrashReport.makeCrashReport(var6, "Updating screen events");
                 var3 = var2.makeCategory("Affected screen");
                 var3.addCrashSectionCallable("Screen name", new Callable()
                 {
                     private static final String __OBFID = "CL_00000640";
+
                     public String call()
                     {
                         return Minecraft.this.currentScreen.getClass().getCanonicalName();
@@ -1667,14 +1630,14 @@ public class Minecraft
                 try
                 {
                     this.currentScreen.updateScreen();
-                }
-                catch (Throwable var5)
+                } catch (Throwable var5)
                 {
                     var2 = CrashReport.makeCrashReport(var5, "Ticking screen");
                     var3 = var2.makeCategory("Affected screen");
                     var3.addCrashSectionCallable("Screen name", new Callable()
                     {
                         private static final String __OBFID = "CL_00000642";
+
                         public String call()
                         {
                             return Minecraft.this.currentScreen.getClass().getCanonicalName();
@@ -1729,7 +1692,7 @@ public class Minecraft
                                 var4 = -1;
                             }
 
-                            this.gameSettings.noclipRate += (float)var4 * 0.25F;
+                            this.gameSettings.noclipRate += (float) var4 * 0.25F;
                         }
                     }
 
@@ -1739,8 +1702,7 @@ public class Minecraft
                         {
                             this.setIngameFocus();
                         }
-                    }
-                    else if (this.currentScreen != null)
+                    } else if (this.currentScreen != null)
                     {
                         this.currentScreen.handleMouseInput();
                     }
@@ -1778,8 +1740,7 @@ public class Minecraft
                     {
                         this.field_83002_am = -1L;
                     }
-                }
-                else if (Keyboard.isKeyDown(46) && Keyboard.isKeyDown(61))
+                } else if (Keyboard.isKeyDown(46) && Keyboard.isKeyDown(61))
                 {
                     this.field_83002_am = getSystemTime();
                 }
@@ -1794,14 +1755,12 @@ public class Minecraft
                     if (k == 87)
                     {
                         this.toggleFullscreen();
-                    }
-                    else
+                    } else
                     {
                         if (this.currentScreen != null)
                         {
                             this.currentScreen.handleKeyboardInput();
-                        }
-                        else
+                        } else
                         {
                             if (k == 1)
                             {
@@ -1907,8 +1866,7 @@ public class Minecraft
                 if (this.playerController.func_110738_j())
                 {
                     this.thePlayer.func_110322_i();
-                }
-                else
+                } else
                 {
                     this.getNetHandler().addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
                     this.displayGuiScreen(new GuiInventory(this.thePlayer));
@@ -1958,8 +1916,7 @@ public class Minecraft
                         }
                     }
                 }
-            }
-            else
+            } else
             {
                 while (this.gameSettings.keyBindAttack.isPressed())
                 {
@@ -2040,8 +1997,7 @@ public class Minecraft
                 try
                 {
                     this.theWorld.tick();
-                }
-                catch (Throwable var7)
+                } catch (Throwable var7)
                 {
                     var2 = CrashReport.makeCrashReport(var7, "Exception in world tick");
 
@@ -2049,8 +2005,7 @@ public class Minecraft
                     {
                         var3 = var2.makeCategory("Affected level");
                         var3.addCrashSection("Problem", "Level is null!");
-                    }
-                    else
+                    } else
                     {
                         this.theWorld.addWorldInfoToCrashReport(var2);
                     }
@@ -2072,8 +2027,7 @@ public class Minecraft
             {
                 this.effectRenderer.updateEffects();
             }
-        }
-        else if (this.myNetworkManager != null)
+        } else if (this.myNetworkManager != null)
         {
             this.mcProfiler.endStartSection("pendingConnection");
             this.myNetworkManager.processReceivedPackets();
@@ -2111,8 +2065,7 @@ public class Minecraft
             this.theIntegratedServer = new IntegratedServer(this, par1Str, par2Str, par3WorldSettings);
             this.theIntegratedServer.startServerThread();
             this.integratedServerIsRunning = true;
-        }
-        catch (Throwable var10)
+        } catch (Throwable var10)
         {
             CrashReport var7 = CrashReport.makeCrashReport(var10, "Starting integrated server");
             CrashReportCategory var8 = var7.makeCategory("Starting integrated server");
@@ -2130,8 +2083,7 @@ public class Minecraft
             if (var6 != null)
             {
                 this.loadingScreen.resetProgresAndWorkingMessage(I18n.format(var6));
-            }
-            else
+            } else
             {
                 this.loadingScreen.resetProgresAndWorkingMessage("");
             }
@@ -2139,8 +2091,7 @@ public class Minecraft
             try
             {
                 Thread.sleep(200L);
-            }
-            catch (InterruptedException var9)
+            } catch (InterruptedException var9)
             {
             }
         }
@@ -2240,8 +2191,7 @@ public class Minecraft
             this.thePlayer.movementInput = new MovementInputFromOptions(this.gameSettings);
             this.playerController.setPlayerCapabilities(this.thePlayer);
             this.renderViewEntity = this.thePlayer;
-        }
-        else
+        } else
         {
             this.saveLoader.flushCache();
             this.thePlayer = null;
@@ -2377,8 +2327,7 @@ public class Minecraft
                 var4 = var2.getHasSubtypes();
                 Block var9 = var2 instanceof ItemBlock && !var8.isFlowerPot() ? Block.getBlockFromItem(var2) : var8;
                 var3 = var9.getDamageValue(this.theWorld, var5, var6, var7);
-            }
-            else
+            } else
             {
                 if (this.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.ENTITY || this.objectMouseOver.entityHit == null || !var1)
                 {
@@ -2388,61 +2337,50 @@ public class Minecraft
                 if (this.objectMouseOver.entityHit instanceof EntityPainting)
                 {
                     var2 = Items.painting;
-                }
-                else if (this.objectMouseOver.entityHit instanceof EntityLeashKnot)
+                } else if (this.objectMouseOver.entityHit instanceof EntityLeashKnot)
                 {
                     var2 = Items.lead;
-                }
-                else if (this.objectMouseOver.entityHit instanceof EntityItemFrame)
+                } else if (this.objectMouseOver.entityHit instanceof EntityItemFrame)
                 {
-                    EntityItemFrame var10 = (EntityItemFrame)this.objectMouseOver.entityHit;
+                    EntityItemFrame var10 = (EntityItemFrame) this.objectMouseOver.entityHit;
                     ItemStack var12 = var10.getDisplayedItem();
 
                     if (var12 == null)
                     {
                         var2 = Items.item_frame;
-                    }
-                    else
+                    } else
                     {
                         var2 = var12.getItem();
                         var3 = var12.getItemDamage();
                         var4 = true;
                     }
-                }
-                else if (this.objectMouseOver.entityHit instanceof EntityMinecart)
+                } else if (this.objectMouseOver.entityHit instanceof EntityMinecart)
                 {
-                    EntityMinecart var11 = (EntityMinecart)this.objectMouseOver.entityHit;
+                    EntityMinecart var11 = (EntityMinecart) this.objectMouseOver.entityHit;
 
                     if (var11.getMinecartType() == 2)
                     {
                         var2 = Items.furnace_minecart;
-                    }
-                    else if (var11.getMinecartType() == 1)
+                    } else if (var11.getMinecartType() == 1)
                     {
                         var2 = Items.chest_minecart;
-                    }
-                    else if (var11.getMinecartType() == 3)
+                    } else if (var11.getMinecartType() == 3)
                     {
                         var2 = Items.tnt_minecart;
-                    }
-                    else if (var11.getMinecartType() == 5)
+                    } else if (var11.getMinecartType() == 5)
                     {
                         var2 = Items.hopper_minecart;
-                    }
-                    else if (var11.getMinecartType() == 6)
+                    } else if (var11.getMinecartType() == 6)
                     {
                         var2 = Items.command_block_minecart;
-                    }
-                    else
+                    } else
                     {
                         var2 = Items.minecart;
                     }
-                }
-                else if (this.objectMouseOver.entityHit instanceof EntityBoat)
+                } else if (this.objectMouseOver.entityHit instanceof EntityBoat)
                 {
                     var2 = Items.boat;
-                }
-                else
+                } else
                 {
                     var2 = Items.spawn_egg;
                     var3 = EntityList.getEntityID(this.objectMouseOver.entityHit);
@@ -2473,6 +2411,7 @@ public class Minecraft
         par1CrashReport.getCategory().addCrashSectionCallable("Launched Version", new Callable()
         {
             private static final String __OBFID = "CL_00000643";
+
             public String call()
             {
                 return Minecraft.this.launchedVersion;
@@ -2481,6 +2420,7 @@ public class Minecraft
         par1CrashReport.getCategory().addCrashSectionCallable("LWJGL", new Callable()
         {
             private static final String __OBFID = "CL_00000644";
+
             public String call()
             {
                 return Sys.getVersion();
@@ -2489,6 +2429,7 @@ public class Minecraft
         par1CrashReport.getCategory().addCrashSectionCallable("OpenGL", new Callable()
         {
             private static final String __OBFID = "CL_00000645";
+
             public String call()
             {
                 return glGetString(GL11.GL_RENDERER) + " GL version " + glGetString(GL11.GL_VERSION) + ", " + glGetString(GL11.GL_VENDOR);
@@ -2497,6 +2438,7 @@ public class Minecraft
         par1CrashReport.getCategory().addCrashSectionCallable("Is Modded", new Callable()
         {
             private static final String __OBFID = "CL_00000646";
+
             public String call()
             {
                 String var1 = ClientBrandRetriever.getClientModName();
@@ -2506,6 +2448,7 @@ public class Minecraft
         par1CrashReport.getCategory().addCrashSectionCallable("Type", new Callable()
         {
             private static final String __OBFID = "CL_00000647";
+
             public String call()
             {
                 return "Client (map_client.txt)";
@@ -2514,6 +2457,7 @@ public class Minecraft
         par1CrashReport.getCategory().addCrashSectionCallable("Resource Packs", new Callable()
         {
             private static final String __OBFID = "CL_00000633";
+
             public String call()
             {
                 return Minecraft.this.gameSettings.resourcePacks.toString();
@@ -2522,6 +2466,7 @@ public class Minecraft
         par1CrashReport.getCategory().addCrashSectionCallable("Current Language", new Callable()
         {
             private static final String __OBFID = "CL_00000634";
+
             public String call()
             {
                 return Minecraft.this.mcLanguageManager.getCurrentLanguage().toString();
@@ -2530,6 +2475,7 @@ public class Minecraft
         par1CrashReport.getCategory().addCrashSectionCallable("Profiler Position", new Callable()
         {
             private static final String __OBFID = "CL_00000635";
+
             public String call()
             {
                 return Minecraft.this.mcProfiler.profilingEnabled ? Minecraft.this.mcProfiler.getNameOfLastSection() : "N/A (disabled)";
@@ -2538,6 +2484,7 @@ public class Minecraft
         par1CrashReport.getCategory().addCrashSectionCallable("Vec3 Pool Size", new Callable()
         {
             private static final String __OBFID = "CL_00000636";
+
             public String call()
             {
                 int var1 = Minecraft.this.theWorld.getWorldVec3Pool().getPoolSize();
@@ -2552,6 +2499,7 @@ public class Minecraft
         par1CrashReport.getCategory().addCrashSectionCallable("Anisotropic Filtering", new Callable()
         {
             private static final String __OBFID = "CL_00000637";
+
             public String call()
             {
                 return Minecraft.this.gameSettings.anisotropicFiltering == 1 ? "Off (1)" : "On (" + Minecraft.this.gameSettings.anisotropicFiltering + ")";
@@ -2651,7 +2599,8 @@ public class Minecraft
         return this.session;
     }
 
-    public void setSession(Session session) {
+    public void setSession(Session session)
+    {
         this.session = session;
     }
 
@@ -2715,16 +2664,14 @@ public class Minecraft
             try
             {
                 field_151437_a[MovingObjectPosition.MovingObjectType.ENTITY.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
             }
 
             try
             {
                 field_151437_a[MovingObjectPosition.MovingObjectType.BLOCK.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
             }
         }

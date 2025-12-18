@@ -56,11 +56,13 @@ static def getJVMArgs() {
 application {
     mainClass = 'Start'
     applicationDefaultJvmArgs = getJVMArgs()
+
 }
 
 run {
     workingDir = file("${System.getProperty("user.dir")}" +
             "${System.getProperty("file.separator")}run")
+    args += "-gameDir=" + workingDir.absolutePath
 }
 
 sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
@@ -147,6 +149,10 @@ static def getOSType() {
     }
     return OS.UNIX
 }
+
+/*
+ * Copyright (c) xgraza 2025
+ */
 
 enum OS {
     WINDOWS,
