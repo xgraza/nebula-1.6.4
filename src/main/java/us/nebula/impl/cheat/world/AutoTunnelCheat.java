@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) xgraza 2025
+ */
+
 package us.nebula.impl.cheat.world;
 
 import net.minecraft.block.Block;
@@ -16,6 +20,7 @@ import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
+import us.nebula.impl.cheat.combat.KillAuraCheat;
 import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.input.EventUpdateInput;
 import us.nebula.impl.event.render.EventRender3D;
@@ -101,6 +106,12 @@ public final class AutoTunnelCheat extends Cheat
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
+        // do not interfere, we may be trying to kill a creeper or something...
+        if (KillAuraCheat.INSTANCE.isAttacking() || KillAuraCheat.INSTANCE.isBlocking())
+        {
+            return;
+        }
+
         if (blockBreakQueue.isEmpty() && backPlaceSetting.getValue())
         {
             final List<BlockInfo> replaceBlockList = new LinkedList<>();
@@ -131,7 +142,6 @@ public final class AutoTunnelCheat extends Cheat
         searchForBlocks();
         if (currentBlock == null)
         {
-            moveForward = true;
             if (blockBreakQueue.isEmpty())
             {
                 return;
@@ -140,7 +150,7 @@ public final class AutoTunnelCheat extends Cheat
             return;
         }
 
-        moveForward = false;
+        moveForward = blockBreakQueue.size() < 4;
 
         if (replaceLavaSetting.getValue())
         {
@@ -164,7 +174,6 @@ public final class AutoTunnelCheat extends Cheat
         }
         if (InteractionManager.INSTANCE.breakBlock(currentBlock.getPos(), currentBlock.getFacing()))
         {
-            moveForward = true;
             if (backPlaceSetting.getValue())
             {
                 backPlaceQueue.add(currentBlock);
@@ -312,7 +321,7 @@ public final class AutoTunnelCheat extends Cheat
                 {
                     return false;
                 }
-                final ItemBlock itemBlock = (ItemBlock)stack.getItem();
+                final ItemBlock itemBlock = (ItemBlock) stack.getItem();
                 return itemBlock.getBlock().blockHardness != -1;
             });
             if (slot == -1)
