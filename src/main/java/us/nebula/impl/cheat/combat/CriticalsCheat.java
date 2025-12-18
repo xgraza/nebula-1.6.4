@@ -1,9 +1,14 @@
+/*
+ * Copyright (c) xgraza 2025
+ */
+
 package us.nebula.impl.cheat.combat;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.potion.Potion;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -11,7 +16,9 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.network.EventPacket;
+import us.nebula.impl.event.player.EventMoveUpdate;
 import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
+import us.nebula.util.player.ChatUtil;
 
 /**
  * @author xgraza
@@ -24,6 +31,52 @@ public final class CriticalsCheat extends Cheat
 {
     private final Setting<Mode> modeSetting = new Setting<>(
             "Mode", Mode.MOTION);
+    private final Setting<Boolean> efficentSetting = new Setting<>(
+            "Efficient", false);
+
+    private boolean crit;
+    private int modifyStage = -1;
+
+    @Override
+    protected void onDisable()
+    {
+        super.onDisable();
+        crit = false;
+        modifyStage = -1;
+    }
+
+    @Subscribe
+    private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
+    {
+        if (modifyStage == -1 || !MC.thePlayer.onGround)
+        {
+            modifyStage = -1;
+            return;
+        }
+        ChatUtil.send("Crit Stage: " + modifyStage);
+        event.setOnGround(false);
+        switch (modifyStage)
+        {
+            case 0:
+            {
+                event.setY(event.getY() + 0.1);
+                event.setStance(event.getStance() + 0.100000004768371);
+                break;
+            }
+            case 1:
+            case 2:
+            {
+                break;
+            }
+            case 3:
+            {
+                event.setOnGround(true);
+                modifyStage = -1;
+                return;
+            }
+        }
+        ++modifyStage;
+    };
 
     @Subscribe
     private final EventListener<EventPacket.Outbound> outboundEventListener = event ->
@@ -41,10 +94,20 @@ public final class CriticalsCheat extends Cheat
                 return;
             }
 
+            if (efficentSetting.getValue())
+            {
+                final EntityLivingBase living = (EntityLivingBase) entity;
+                if (living.hurtResistantTime < living.maxHurtResistantTime / 2.0f)
+                {
+                    return;
+                }
+            }
+
             if (!MC.thePlayer.onGround
                     || MC.thePlayer.isOnLadder()
                     || MC.thePlayer.isInWater()
-                    || MC.thePlayer.isInWeb)
+                    || MC.thePlayer.isInWeb
+                    || MC.thePlayer.isPotionActive(Potion.blindness))
             {
                 return;
             }
@@ -60,6 +123,11 @@ public final class CriticalsCheat extends Cheat
                 }
                 case PACKET:
                 {
+                    if (crit)
+                    {
+                        return;
+                    }
+                    crit = true;
                     MC.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
                             MC.thePlayer.posX,
                             MC.thePlayer.boundingBox.minY + 0.1,
@@ -72,6 +140,15 @@ public final class CriticalsCheat extends Cheat
                             MC.thePlayer.posY,
                             MC.thePlayer.posZ,
                             false));
+                    crit = false;
+                    break;
+                }
+                case PACKET_2:
+                {
+                    if (modifyStage == -1)
+                    {
+                        modifyStage = 0;
+                    }
                     break;
                 }
             }
@@ -86,6 +163,6 @@ public final class CriticalsCheat extends Cheat
 
     private enum Mode
     {
-        MOTION, PACKET
+        MOTION, PACKET, PACKET_2
     }
 }

@@ -1,12 +1,9 @@
+/*
+ * Copyright (c) xgraza 2025
+ */
+
 package net.minecraft.client.gui;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -18,6 +15,15 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import static org.lwjgl.input.Keyboard.KEY_ESCAPE;
 
 public class GuiScreen extends Gui
@@ -27,26 +33,40 @@ public class GuiScreen extends Gui
      */
     protected static final RenderItem RENDER_ITEM = new RenderItem();
 
-    /** Reference to the Minecraft object. */
+    /**
+     * Reference to the Minecraft object.
+     */
     protected Minecraft mc;
 
-    /** The width of the screen object. */
+    /**
+     * The width of the screen object.
+     */
     public int width;
 
-    /** The height of the screen object. */
+    /**
+     * The height of the screen object.
+     */
     public int height;
 
-    /** A list of all the buttons in this container. */
-    protected List<GuiButton> buttonList = new ArrayList<>();
+    /**
+     * A list of all the buttons in this container.
+     */
+    protected List<GuiButton> buttonList = new CopyOnWriteArrayList<>();
 
-    /** A list of all the labels in this container. */
+    /**
+     * A list of all the labels in this container.
+     */
     protected List<GuiLabel> labelList = new ArrayList<>();
     public boolean allowUserInput;
 
-    /** The FontRenderer used by GuiScreen */
+    /**
+     * The FontRenderer used by GuiScreen
+     */
     protected FontRenderer fontRenderer;
 
-    /** The button that was just pressed. */
+    /**
+     * The button that was just pressed.
+     */
     private GuiButton selectedButton;
     private int eventButton;
     private long lastMouseEvent;
@@ -94,8 +114,7 @@ public class GuiScreen extends Gui
             {
                 return (String) contents.getTransferData(DataFlavor.stringFlavor);
             }
-        }
-        catch (Exception ignored)
+        } catch (Exception ignored)
         {
 
         }
@@ -111,8 +130,7 @@ public class GuiScreen extends Gui
         {
             final StringSelection selection = new StringSelection(text);
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
-        }
-        catch (Exception ignored)
+        } catch (Exception ignored)
         {
 
         }
@@ -127,8 +145,7 @@ public class GuiScreen extends Gui
             if (i == 0)
             {
                 tooltipList.set(i, itemStack.getRarity().rarityColor + tooltipList.get(i));
-            }
-            else
+            } else
             {
                 tooltipList.set(i, EnumChatFormatting.GRAY + tooltipList.get(i));
             }
@@ -246,9 +263,13 @@ public class GuiScreen extends Gui
         }
     }
 
-    protected void mouseClickMove(int p_146273_1_, int p_146273_2_, int p_146273_3_, long p_146273_4_) {}
+    protected void mouseClickMove(int p_146273_1_, int p_146273_2_, int p_146273_3_, long p_146273_4_)
+    {
+    }
 
-    protected void actionPerformed(GuiButton p_146284_1_) {}
+    protected void actionPerformed(GuiButton p_146284_1_)
+    {
+    }
 
     /**
      * Causes the screen to lay out its subcomponents again. This is the equivalent of the Java call
@@ -267,7 +288,9 @@ public class GuiScreen extends Gui
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui() {}
+    public void initGui()
+    {
+    }
 
     /**
      * Delegates mouse and keyboard input.
@@ -315,8 +338,7 @@ public class GuiScreen extends Gui
             this.eventButton = var3;
             this.lastMouseEvent = Minecraft.getSystemTime();
             this.mouseClicked(var1, var2, this.eventButton);
-        }
-        else if (var3 != -1)
+        } else if (var3 != -1)
         {
             if (this.mc.gameSettings.touchscreen && --this.field_146298_h > 0)
             {
@@ -325,8 +347,7 @@ public class GuiScreen extends Gui
 
             this.eventButton = -1;
             this.mouseMovedOrUp(var1, var2, var3);
-        }
-        else if (this.eventButton != -1 && this.lastMouseEvent > 0L)
+        } else if (this.eventButton != -1 && this.lastMouseEvent > 0L)
         {
             long var4 = Minecraft.getSystemTime() - this.lastMouseEvent;
             this.mouseClickMove(var1, var2, this.eventButton, var4);
@@ -356,12 +377,16 @@ public class GuiScreen extends Gui
     /**
      * Called from the main game loop to update the screen.
      */
-    public void updateScreen() {}
+    public void updateScreen()
+    {
+    }
 
     /**
      * "Called when the screen is unloaded. Used to disable keyboard repeat events."
      */
-    public void onGuiClosed() {}
+    public void onGuiClosed()
+    {
+    }
 
     public void drawDefaultBackground()
     {
@@ -373,8 +398,7 @@ public class GuiScreen extends Gui
         if (this.mc.theWorld != null)
         {
             this.drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
-        }
-        else
+        } else
         {
             this.drawBackground(p_146270_1_);
         }
@@ -390,10 +414,10 @@ public class GuiScreen extends Gui
         float var3 = 32.0F;
         var2.startDrawingQuads();
         var2.setColorOpaque_I(4210752);
-        var2.addVertexWithUV(0.0D, (double)this.height, 0.0D, 0.0D, (double)((float)this.height / var3 + (float)p_146278_1_));
-        var2.addVertexWithUV((double)this.width, (double)this.height, 0.0D, (double)((float)this.width / var3), (double)((float)this.height / var3 + (float)p_146278_1_));
-        var2.addVertexWithUV((double)this.width, 0.0D, 0.0D, (double)((float)this.width / var3), (double)p_146278_1_);
-        var2.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, (double)p_146278_1_);
+        var2.addVertexWithUV(0.0D, (double) this.height, 0.0D, 0.0D, (double) ((float) this.height / var3 + (float) p_146278_1_));
+        var2.addVertexWithUV((double) this.width, (double) this.height, 0.0D, (double) ((float) this.width / var3), (double) ((float) this.height / var3 + (float) p_146278_1_));
+        var2.addVertexWithUV((double) this.width, 0.0D, 0.0D, (double) ((float) this.width / var3), (double) p_146278_1_);
+        var2.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, (double) p_146278_1_);
         var2.draw();
     }
 
@@ -405,7 +429,9 @@ public class GuiScreen extends Gui
         return true;
     }
 
-    public void confirmClicked(boolean par1, int par2) {}
+    public void confirmClicked(boolean par1, int par2)
+    {
+    }
 
     /**
      * Returns true if either windows ctrl key is down or if either mac meta key is down

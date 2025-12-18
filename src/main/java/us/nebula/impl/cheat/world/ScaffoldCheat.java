@@ -1,9 +1,13 @@
+/*
+ * Copyright (c) xgraza 2025
+ */
+
 package us.nebula.impl.cheat.world;
 
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import us.nebula.Nebula;
 import us.nebula.api.interaction.InteractionManager;
@@ -14,6 +18,7 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
+import us.nebula.impl.event.network.EventPacket;
 import us.nebula.impl.event.render.EventRender3D;
 import us.nebula.util.player.ChatUtil;
 import us.nebula.util.player.InventoryUtil;
@@ -41,6 +46,7 @@ public final class ScaffoldCheat extends Cheat
 
     private double basePosY;
     private BlockData blockData;
+    private int towerTicks;
 
     @Override
     protected void onDisable()
@@ -48,6 +54,7 @@ public final class ScaffoldCheat extends Cheat
         super.onDisable();
         blockData = null;
         basePosY = -1.0;
+        towerTicks = 0;
     }
 
     @Subscribe
@@ -74,10 +81,20 @@ public final class ScaffoldCheat extends Cheat
         {
             if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
             {
+                ChatUtil.send(MC.thePlayer.motionY + "");
+
+                ++towerTicks;
                 if (MC.thePlayer.onGround || (MC.thePlayer.motionY == 0.16477328182606651))
                 {
                     MC.thePlayer.motionY = 0.42f;
                 }
+                if (MC.thePlayer.motionY == 0.33319999363422365 || towerTicks % 18 == 0)
+                {
+                    MC.thePlayer.motionY = -0.078f;
+                }
+            } else
+            {
+                towerTicks = 0;
             }
         }
 
@@ -97,6 +114,16 @@ public final class ScaffoldCheat extends Cheat
 
         RenderUtil.filledBox3D(aabb, 0, 0x80FF0000);
         RenderUtil.outlinedBox3D(aabb, 1.5f, 0xFFFF0000);
+    };
+
+    @Subscribe
+    private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
+    {
+        if (event.getPacket() instanceof S08PacketPlayerPosLook)
+        {
+            final S08PacketPlayerPosLook packet = event.getPacket();
+            ChatUtil.send("Ticks: " + towerTicks);
+        }
     };
 
     private BlockData getBlockData()
