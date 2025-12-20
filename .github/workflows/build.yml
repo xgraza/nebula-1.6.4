@@ -37,7 +37,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: package
-          path: build/libs/Nebula+*-*.jar # what can I say, im a programer
+          path: build/libs/nebula-rewrite-4.0.0.jar # what can I say, im a programer
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`.
           retention-days: 30 # The retention period must be between 1 and 90 inclusive.
         env:
