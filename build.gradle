@@ -1,3 +1,5 @@
+import us.nebula.gradle.PublishBuildDataTask
+
 plugins {
     id 'com.github.gmazzo.buildconfig' version "${build_config_version}"
     id 'application'
@@ -6,11 +8,16 @@ plugins {
 group = project.group
 version = project.version
 
+var buildNumber = project.build_number
+var gitHash = execute("git rev-parse --short HEAD")
+var gitBranch = execute("git branch --show-current")
+var directory = "${System.getProperty("user.dir")}${System.getProperty("file.separator")}"
+
 buildConfig {
-    buildConfigField(String, "HASH", "${execute("git rev-parse --short HEAD")}")
-    buildConfigField(String, "BRANCH", "${execute("git branch --show-current")}")
-    buildConfigField(String, "VERSION", project.version.toString())
-    buildConfigField(String, "BUILD", project.build_number.toString())
+    buildConfigField(String, "HASH", gitHash)
+    buildConfigField(String, "BRANCH", gitBranch)
+    buildConfigField(String, "VERSION", project.version)
+    buildConfigField(String, "BUILD", buildNumber)
     buildConfigField(String, "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
 
     packageName "us.nebula"
@@ -56,12 +63,10 @@ static def getJVMArgs() {
 application {
     mainClass = 'Start'
     applicationDefaultJvmArgs = getJVMArgs()
-
 }
 
 run {
-    workingDir = file("${System.getProperty("user.dir")}" +
-            "${System.getProperty("file.separator")}run")
+    workingDir = file("${directory}run")
     args += "-gameDir=" + workingDir.absolutePath
 }
 
@@ -119,6 +124,20 @@ jar {
         }
     }
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    manifest.attributes(
+            'Nebula-Version': project.version,
+            'Nebula-BuildID': buildNumber,
+            'Nebula-Branch': gitBranch,
+            'Nebula-Hash': gitHash,
+            'ImInYourWalls': 'true'
+    )
+}
+
+tasks.register('publishBuildData', PublishBuildDataTask) {
+    it.directory = directory
+    it.gitHash = gitHash
+    it.buildID = buildNumber
+    it.version = project.version
 }
 
 tasks.withType(JavaCompile).configureEach {
