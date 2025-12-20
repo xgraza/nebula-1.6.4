@@ -52,7 +52,7 @@ static def getJVMArgs() {
         }
         case OS.UNIX: {
             // TODO: im too lazy to add the natives needed...
-            throw new Error("Unix is not supported for gradle builds yet...")
+            println "Unix is not supported for gradle builds yet..."
         }
     }
 
