@@ -144,6 +144,10 @@ tasks.withType(JavaCompile).configureEach {
     dependsOn(generateBuildConfig)
 }
 
+tasks.withType(Copy).configureEach {
+    it.duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
 def execute(String cmd) {
     try {
         def stdout = new ByteArrayOutputStream()
