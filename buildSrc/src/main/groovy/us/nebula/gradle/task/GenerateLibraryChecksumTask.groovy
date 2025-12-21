@@ -18,11 +18,11 @@ class GenerateLibraryChecksumTask extends DefaultTask {
         try {
             SHA256_DIGEST = MessageDigest.getInstance("SHA-256")
         } catch (exception) {
-            println "Failed to get digest algorithm for SHA-1"
+            println "Failed to get digest algorithm for SHA-256"
             exception.printStackTrace()
         }
         if (SHA256_DIGEST == null) {
-            throw new RuntimeException("SHA1 digest algorithm is null")
+            throw new RuntimeException("SHA-256 digest algorithm is null")
         }
     }
 
