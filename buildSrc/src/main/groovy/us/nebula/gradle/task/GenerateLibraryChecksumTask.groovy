@@ -67,19 +67,9 @@ class GenerateLibraryChecksumTask extends DefaultTask {
             checksumFile.createNewFile()
         }
 
-        SHA256_DIGEST.reset()
-
         byte[] digestBytes
-        try (var stream = new FileInputStream(file)) {
-            int n = 0
-            byte[] buffer = new byte[8192]
-            while (n != -1) {
-                n = stream.read(buffer)
-                if (n > 0) {
-                    SHA256_DIGEST.digest(buffer, 0, n)
-                }
-            }
-            digestBytes = SHA256_DIGEST.digest()
+        try (var stream = new BufferedInputStream(new FileInputStream(file))) {
+            digestBytes = SHA256_DIGEST.digest(stream.bytes)
         } catch (exception) {
             digestBytes = null
             exception.printStackTrace()
@@ -89,10 +79,8 @@ class GenerateLibraryChecksumTask extends DefaultTask {
             return null
         }
 
-        try (var stream = Files.newOutputStream(checksumFile.toPath())) {
-            var checksum = sha256ToHex(digestBytes)
-            var bytes = checksum.getBytes()
-            stream.write(bytes, 0, bytes.length)
+        try (var writer = Files.newBufferedWriter(checksumFile.toPath())) {
+            writer.write(sha256ToHex(digestBytes))
         } catch (exception) {
             exception.printStackTrace()
             return null
