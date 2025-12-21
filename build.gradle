@@ -1,4 +1,5 @@
 import us.nebula.gradle.Util
+import us.nebula.gradle.task.GenerateBuildChecksumTask
 import us.nebula.gradle.task.GenerateLibraryChecksumTask
 import us.nebula.gradle.task.PublishBuildDataTask
 
@@ -7,13 +8,14 @@ plugins {
     id 'application'
 }
 
-group = project.group
-version = project.version
-
 var buildNumber = project.build_number
 var gitHash = Util.execute("git rev-parse --short HEAD")
 var gitBranch = Util.execute("git branch --show-current")
 var directory = Util.createPathString(Util.USER_DIR, "")
+
+group = project.group
+version = project.version
+archivesBaseName = "nebula+$buildNumber-${gitBranch}_$gitHash"
 
 buildConfig {
     buildConfigField(String, "HASH", gitHash)
@@ -104,6 +106,13 @@ tasks.register('publishBuildData', PublishBuildDataTask) {
     setVersion(project.version)
 }
 
+tasks.register('generateBuildChecksum', GenerateBuildChecksumTask) {
+    setGroup("nebula")
+    setDescription("Creates a checksum file for the build")
+
+    setBuildDirectory("${directory}build${Util.SEPARATOR}libs")
+}
+
 tasks.register('generateLibraryChecksums', GenerateLibraryChecksumTask) {
     setGroup("nebula")
     setDescription("Creates *.sha256 files with each files checksum for the Nebula launcher")
@@ -118,4 +127,5 @@ tasks.register('createNebulaBuild') {
     dependsOn(build)
     dependsOn(publishBuildData)
     dependsOn(generateLibraryChecksums)
+    dependsOn(generateBuildChecksum)
 }

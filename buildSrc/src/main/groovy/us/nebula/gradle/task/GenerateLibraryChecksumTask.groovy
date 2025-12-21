@@ -3,8 +3,8 @@ package us.nebula.gradle.task
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
+import us.nebula.gradle.Util
 
-import java.nio.file.Files
 import java.security.MessageDigest
 
 /**
@@ -44,7 +44,7 @@ class GenerateLibraryChecksumTask extends DefaultTask {
         println "Creating checksums for ${libraries.size()} libraries"
         libraries.forEach {
             try {
-                var file = generateChecksumFile(it)
+                var file = Util.generateChecksumFile(it)
                 if (file == null) {
                     println "Failed to generate checksum for $it"
                 } else {
@@ -55,47 +55,6 @@ class GenerateLibraryChecksumTask extends DefaultTask {
                 exception.printStackTrace()
             }
         }
-    }
-
-    static File generateChecksumFile(File file) {
-        var checksumFile = new File(file.absolutePath + ".sha256")
-        if (checksumFile.exists() && !checksumFile.delete()) {
-            println "WARN: Failed to delete previous checksum file $checksumFile"
-        }
-
-        if (!checksumFile.exists()) {
-            checksumFile.createNewFile()
-        }
-
-        byte[] digestBytes
-        try (var stream = new BufferedInputStream(new FileInputStream(file))) {
-            digestBytes = SHA256_DIGEST.digest(stream.bytes)
-        } catch (exception) {
-            digestBytes = null
-            exception.printStackTrace()
-        }
-
-        if (digestBytes == null) {
-            return null
-        }
-
-        try (var writer = Files.newBufferedWriter(checksumFile.toPath())) {
-            writer.write(sha256ToHex(digestBytes))
-        } catch (exception) {
-            exception.printStackTrace()
-            return null
-        }
-
-        return checksumFile
-    }
-
-    static String sha256ToHex(byte[] digestBytes) {
-        var builder = new StringBuilder(digestBytes.length * 2)
-        for (var b in digestBytes) {
-            builder.append(Integer.toHexString(0xFF & b)
-                    .padLeft(1, "0"))
-        }
-        return builder.toString()
     }
 
     static List<File> listLibraries(File file) {
