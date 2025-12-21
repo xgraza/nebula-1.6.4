@@ -92,11 +92,8 @@ class GenerateLibraryChecksumTask extends DefaultTask {
     static String sha256ToHex(byte[] digestBytes) {
         var builder = new StringBuilder(digestBytes.length * 2)
         for (var b in digestBytes) {
-            var hex = Integer.toHexString(0xFF & b)
-            if (hex.length() == 1) {
-                builder.append("0")
-            }
-            builder.append(hex)
+            builder.append(Integer.toHexString(0xFF & b)
+                    .padLeft(1, "0"))
         }
         return builder.toString()
     }
