@@ -1,4 +1,4 @@
-package us.nebula.gradle
+package us.nebula.gradle.task
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
@@ -33,7 +33,15 @@ class PublishBuildDataTask extends DefaultTask {
             println "ERROR!! Failed to read properties..."
             return
         }
-        updateGist(properties.getProperty("github_token"))
+        if (!properties.containsKey("github_token")) {
+            println "ERROR!! publishing.properties must have key 'github_token'"
+        }
+        var token = properties.getProperty("github_token")
+        if (token == null || token.isEmpty()) {
+            println "ERROR!! 'github_token' must not be null or empty"
+            return
+        }
+        updateGist(token)
     }
 
     void updateGist(String token) {

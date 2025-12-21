@@ -1,7 +1,9 @@
-import us.nebula.gradle.PublishBuildDataTask
+import us.nebula.gradle.Util
+import us.nebula.gradle.task.GenerateLibraryChecksumTask
+import us.nebula.gradle.task.PublishBuildDataTask
 
 plugins {
-    id 'com.github.gmazzo.buildconfig' version "${build_config_version}"
+    id 'com.github.gmazzo.buildconfig' version "$build_config_version"
     id 'application'
 }
 
@@ -9,9 +11,9 @@ group = project.group
 version = project.version
 
 var buildNumber = project.build_number
-var gitHash = execute("git rev-parse --short HEAD")
-var gitBranch = execute("git branch --show-current")
-var directory = "${System.getProperty("user.dir")}${System.getProperty("file.separator")}"
+var gitHash = Util.execute("git rev-parse --short HEAD")
+var gitBranch = Util.execute("git branch --show-current")
+var directory = Util.createPathString(Util.USER_DIR, "")
 
 buildConfig {
     buildConfigField(String, "HASH", gitHash)
@@ -25,52 +27,21 @@ buildConfig {
     generateAtSync = true
 }
 
-static def getJVMArgs() {
-    // stolen from the mc launcher - run as close as we can to the launcher
-    var args = [
-            "-XX:+UnlockExperimentalVMOptions",
-            "-XX:+UseG1GC",
-            "-XX:G1NewSizePercent=20",
-            "-XX:G1ReservePercent=20",
-            "-XX:MaxGCPauseMillis=50",
-            "-XX:G1HeapRegionSize=32M"
-    ]
-
-    String separator = System.getProperty("file.separator")
-    var nativeLibraryPath = "-Djava.library.path=${System.getProperty("user.dir")}${separator}dependencies${separator}"
-
-    switch (getOSType()) {
-        case OS.MAC: {
-            // this prevents a crash in a dylib where it creates a window in a different thread...
-            //args.add("-XstartOnFirstThread")
-            nativeLibraryPath = nativeLibraryPath + "macos${separator}natives"
-            break
-        }
-        case OS.WINDOWS: {
-            nativeLibraryPath = nativeLibraryPath + "windows"
-            break
-        }
-        case OS.UNIX: {
-            // TODO: im too lazy to add the natives needed...
-            println "Unix is not supported for gradle builds yet..."
-        }
-    }
-
-    args.add(nativeLibraryPath)
-    return args
-}
-
 application {
     mainClass = 'Start'
-    applicationDefaultJvmArgs = getJVMArgs()
+    applicationDefaultJvmArgs = Util.getLaunchJVMFlags()
 }
 
 run {
     workingDir = file("${directory}run")
-    args += "-gameDir=" + workingDir.absolutePath
+    args += "-gameDir=$workingDir.absolutePath"
 }
 
 sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
+
+configurations {
+    library
+}
 
 repositories {
     mavenCentral()
@@ -78,18 +49,9 @@ repositories {
         name = 'Velocity Repository'
         url = 'https://nexus.velocitypowered.com/repository/maven-public/'
     }
-    maven {
-        name = 'Carm Repository'
-        url = 'https://repo.carm.cc/repository/maven-public/'
-    }
 }
 
-configurations {
-    library
-}
-
-var dependenciesPath = "dependencies${System.getProperty("file.separator")}"
-
+var dependenciesPath = "dependencies$Util.SEPARATOR"
 dependencies {
     library group: 'net.java.dev.jna', name: 'jna', version: jna_version
     library fileTree("${dependenciesPath}buildLibraries")
@@ -100,8 +62,8 @@ dependencies {
     // why is this such a pain in my dick to do...
     // using 2.9.4 on MacOS crashes real nice...
     // for whatever reason, the repos do not have the 2.9.1 version either so... manually add them i guess
-    if (getOSType() == OS.MAC) {
-        implementation fileTree("${dependenciesPath}macos/libraries")
+    if (Util.getOSType() == Util.OS.MAC) {
+        implementation fileTree("${dependenciesPath}macos${Util.SEPARATOR}libraries")
     } else {
         implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: lwjgl_version
         implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl-platform', version: lwjgl_version, ext: 'pom'
@@ -109,9 +71,12 @@ dependencies {
     }
 }
 
-jar {
+tasks.withType(Jar).configureEach {
     from {
         configurations.library.collect {
+            if (it.name.endsWithIgnoreCase(".sha256")) {
+                return
+            }
             it.isDirectory() ? it : zipTree(it)
         }
     }
@@ -125,52 +90,32 @@ jar {
     )
 }
 
-tasks.register('publishBuildData', PublishBuildDataTask) {
-    it.directory = directory
-    it.gitHash = gitHash
-    it.buildID = buildNumber
-    it.version = project.version
-}
-
 tasks.withType(JavaCompile).configureEach {
     dependsOn(generateBuildConfig)
 }
 
-tasks.withType(Copy).configureEach {
-    it.duplicatesStrategy = DuplicatesStrategy.INCLUDE
+tasks.register('publishBuildData', PublishBuildDataTask) {
+    setGroup("nebula")
+    setDescription("Publishes build data to a GitHub Gist")
+
+    setDirectory(directory)
+    setGitHash(gitHash)
+    setBuildID(buildNumber)
+    setVersion(project.version)
 }
 
-def execute(String cmd) {
-    try {
-        def stdout = new ByteArrayOutputStream()
+tasks.register('generateLibraryChecksums', GenerateLibraryChecksumTask) {
+    setGroup("nebula")
+    setDescription("Creates *.sha256 files with each files checksum for the Nebula launcher")
 
-        exec {
-            commandLine cmd.split(" ")
-            standardOutput = stdout
-        }
-
-        return stdout.toString().trim()
-    } catch (ignored) {
-        return null
-    }
+    setDirectory("${dependenciesPath}buildLibraries")
 }
 
-static def getOSType() {
-    final String name = System.getProperty("os.name").toLowerCase()
-    if (name.startsWith("mac")) {
-        return OS.MAC
-    } else if (name.startsWith("win")) {
-        return OS.WINDOWS
-    }
-    return OS.UNIX
-}
+tasks.register('createNebulaBuild') {
+    setGroup("nebula")
+    setDescription("Runs the normal 'build' task with both publishBuildData and generateLibraryChecksums tasks")
 
-/*
- * Copyright (c) xgraza 2025
- */
-
-enum OS {
-    WINDOWS,
-    MAC,
-    UNIX
+    dependsOn(build)
+    dependsOn(publishBuildData)
+    dependsOn(generateLibraryChecksums)
 }
