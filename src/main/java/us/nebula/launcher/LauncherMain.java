@@ -21,7 +21,7 @@ import java.util.Properties;
  * @author xgraza
  * @since 12/20/25
  */
-public final class Main
+public final class LauncherMain
 {
     public static final File LAUNCHER_DIRECTORY = Paths.get(System.getProperty("user.home"))
             .resolve("nebula_launcher")
@@ -29,12 +29,20 @@ public final class Main
     public static final Properties LAUNCHER_PROPERTIES = new Properties();
     public static final Wrapper WRAPPER = new Wrapper();
     public static GUI GUI_INSTANCE;
+    public static String[] ARGS;
 
     private static final Logger LOGGER = LogManager.getLogger("Main");
     private static final File OPTIONS_FILE = new File(LAUNCHER_DIRECTORY, "launcher.properties");
 
     public static void main(String[] args) throws Exception
     {
+        LOGGER.info("Nebula Launcher");
+        LOGGER.info("\tVersion - {}", BuildConfig.VERSION);
+        LOGGER.info("\tCommit - {}", BuildConfig.HASH);
+        LOGGER.info("\tBuild ID - {}", BuildConfig.BUILD);
+        LOGGER.info("\tTime - {}", BuildConfig.BUILD_TIME);
+
+        ARGS = args;
         if (!LAUNCHER_DIRECTORY.exists())
         {
             if (!LAUNCHER_DIRECTORY.mkdir())

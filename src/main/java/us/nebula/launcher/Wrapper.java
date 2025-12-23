@@ -6,6 +6,8 @@ package us.nebula.launcher;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import us.nebula.launcher.github.GithubAPIUtil;
+import us.nebula.launcher.github.GithubOauthFlow;
 import us.nebula.launcher.util.NebulaMetadata;
 import us.nebula.launcher.util.Util;
 
@@ -13,9 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -29,21 +29,27 @@ public final class Wrapper
     public static final int LAUNCH_TYPE_LATEST = 1;
 
     private static final Logger LOGGER = LogManager.getLogger("Launcher");
-
-    private static final String CHECKSUM_BASE_URL = "https://raw.githubusercontent.com/xgraza/nebula-1.7.2/refs/heads/%s/dependencies/buildLibraries/%s.sha256";
     private static final String JAR_BASE_URL = "https://github.com/xgraza/nebula-1.7.2/raw/refs/heads/%s/dependencies/buildLibraries/%s";
-
+    private static final String START_CLASS = "net.minecraft.client.main.Main";
     private static final File LIBRARIES_DIRECTORY = new File(
-            Main.LAUNCHER_DIRECTORY, "libraries");
+            LauncherMain.LAUNCHER_DIRECTORY, "libraries");
+
+    private final Map<String, String> headers = new LinkedHashMap<>();
 
     public void launch(final int type)
     {
         if (type != LAUNCH_TYPE_STABLE && type != LAUNCH_TYPE_LATEST)
         {
-            Main.launchGUI();
+            LauncherMain.launchGUI();
             return;
         }
         LOGGER.debug("Launch type: {}", type);
+        if (type == LAUNCH_TYPE_LATEST)
+        {
+            final GithubOauthFlow githubOauthFlow = new GithubOauthFlow();
+            final String accessToken = githubOauthFlow.startVerification();
+            headers.put("Authorization", "Bearer " + accessToken);
+        }
         try
         {
             NebulaMetadata.fetch();
@@ -62,14 +68,37 @@ public final class Wrapper
         }
 
         LOGGER.info("Done! Indexing Minecraft client jarmod...");
-        final File file = new File(Main.LAUNCHER_DIRECTORY,
+        final File file = new File(LauncherMain.LAUNCHER_DIRECTORY,
                 type == LAUNCH_TYPE_STABLE
                         ? "nebula-stable.jar"
                         : "nebula-latest.jar");
-        if (!file.exists() || checkClientJarmodChecksum(type, file))
+        if (!file.exists() /*|| !checkClientJarmodChecksum(type, file)*/)
         {
             LOGGER.info("Client jarmod checksum is invalid OR does not exist. Redownloading...");
             downloadClientJarmod(type, file);
+        }
+        LOGGER.debug("Adding {} to classpath", file);
+        Util.addToClasspath(file);
+        LOGGER.info("Starting minecraft...");
+        startClient();
+    }
+
+    private void startClient()
+    {
+        LOGGER.info("Invoking Main#main() with args:");
+        for (final String arg : LauncherMain.ARGS)
+        {
+            LOGGER.info("\t{}", arg);
+        }
+        try
+        {
+            final Class<?> mainClass = Class.forName(START_CLASS);
+            mainClass.getMethod("main", String[].class)
+                    .invoke(null, (Object) LauncherMain.ARGS);
+        } catch (final Exception exception)
+        {
+            LOGGER.error(exception);
+            System.exit(-1);
         }
     }
 
@@ -82,7 +111,27 @@ public final class Wrapper
     {
         // stable is directly from the releases tab
         // latest is from the most recent successful action runner result
-        final String url = type == LAUNCH_TYPE_STABLE ? "" : "";
+        final String url = type == LAUNCH_TYPE_STABLE ? "" : GithubAPIUtil.getLatestReleaseURL();
+        final File tempZip = new File(LauncherMain.LAUNCHER_DIRECTORY, "tmp.zip");
+        try
+        {
+            LOGGER.info(url);
+            Util.downloadFile(url, headers, tempZip);
+        } catch (final IOException exception)
+        {
+            LOGGER.error(exception);
+            System.exit(-1);
+        }
+
+        try
+        {
+            unpackJarFromZipStream(new ZipInputStream(Files.newInputStream(tempZip.toPath())), file);
+        } catch (final IOException exception)
+        {
+            LOGGER.error(exception);
+            System.exit(-1);
+        }
+        tempZip.delete();
     }
 
     private void unpackJarFromZipStream(final ZipInputStream stream, final File file)
@@ -108,6 +157,7 @@ public final class Wrapper
                 }
             }
             // once we're done, break the loop and close the zip file
+            stream.closeEntry();
             stream.close();
             return;
         }
@@ -122,7 +172,10 @@ public final class Wrapper
             try
             {
                 LOGGER.info("Downloading {}", library);
-                Util.downloadFile(String.format(JAR_BASE_URL, NebulaMetadata.BRANCH, library), file);
+                Util.downloadFile(String.format(JAR_BASE_URL,
+                                NebulaMetadata.BRANCH,
+                                library),
+                        null, file);
                 LOGGER.info("Downloaded {} successfully", library);
             } catch (final IOException exception)
             {
@@ -154,7 +207,7 @@ public final class Wrapper
             {
                 checksum = Util.getChecksum(libFile);
             }
-            final String officialChecksum = getOfficialChecksum(library);
+            final String officialChecksum = GithubAPIUtil.getGithubChecksum(library);
             LOGGER.debug("{} -> (Local: {}, Server: {})", library, checksum, officialChecksum);
             if (!Objects.equals(officialChecksum, checksum))
             {
@@ -171,20 +224,5 @@ public final class Wrapper
             }
         }
         return librariesToDownloadList;
-    }
-
-    private String getOfficialChecksum(final String fileName)
-    {
-        try
-        {
-            return Util.makeConnection("GET",
-                    String.format(CHECKSUM_BASE_URL,
-                            NebulaMetadata.BRANCH, fileName),
-                    null);
-        } catch (final IOException exception)
-        {
-            LOGGER.error(exception);
-            return null;
-        }
     }
 }

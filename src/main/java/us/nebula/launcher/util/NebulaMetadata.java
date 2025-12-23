@@ -25,7 +25,7 @@ public final class NebulaMetadata
 
     public static void fetch() throws Exception
     {
-        final String content = Util.makeConnection("GET", METADATA_GIST_URL, null);
+        final String content = Util.makeConnection("GET", METADATA_GIST_URL, null, null);
         final JsonObject object = new JsonParser().parse(content).getAsJsonObject();
         load(object);
     }

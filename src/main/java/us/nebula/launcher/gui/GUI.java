@@ -4,7 +4,7 @@
 
 package us.nebula.launcher.gui;
 
-import us.nebula.launcher.Main;
+import us.nebula.launcher.LauncherMain;
 import us.nebula.launcher.Wrapper;
 
 import javax.swing.*;
@@ -56,7 +56,7 @@ public final class GUI extends JFrame implements ActionListener
     {
         final String actionCommand = event.getActionCommand();
         setVisible(false);
-        Main.WRAPPER.launch(actionCommand.equals("stable")
+        LauncherMain.WRAPPER.launch(actionCommand.equals("stable")
                 ? Wrapper.LAUNCH_TYPE_STABLE
                 : Wrapper.LAUNCH_TYPE_LATEST);
     }

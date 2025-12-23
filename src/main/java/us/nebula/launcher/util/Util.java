@@ -17,6 +17,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author xgraza
@@ -85,13 +87,32 @@ public final class Util
         return builder.toString();
     }
 
-    public static void downloadFile(final String url, final File file) throws IOException
+    public static Map<String, String> parseQueryString(final String queryString)
+    {
+        final Map<String, String> queryMap = new LinkedHashMap<>();
+        final String[] queries = queryString.split("&");
+        for (final String query : queries)
+        {
+            final String[] splitQuery = query.split("=");
+            queryMap.put(splitQuery[0], splitQuery.length == 1 ? null : splitQuery[1]);
+        }
+        return queryMap;
+    }
+
+    public static void downloadFile(final String url,
+                                    final Map<String, String> headers,
+                                    final File file) throws IOException
     {
         final HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setReadTimeout(READ_CONNECT_TIMEOUT);
         connection.setConnectTimeout(READ_CONNECT_TIMEOUT);
         connection.setRequestMethod("GET");
         connection.setInstanceFollowRedirects(true);
+
+        if (headers != null && !headers.isEmpty())
+        {
+            headers.forEach(connection::setRequestProperty);
+        }
 
         connection.connect();
 
@@ -115,6 +136,7 @@ public final class Util
 
     public static String makeConnection(final String method,
                                         final String url,
+                                        final Map<String, String> headers,
                                         final Object body) throws IOException
     {
         final HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -122,6 +144,11 @@ public final class Util
         connection.setConnectTimeout(READ_CONNECT_TIMEOUT);
         connection.setRequestMethod(method.toUpperCase());
         connection.setInstanceFollowRedirects(true);
+
+        if (headers != null && !headers.isEmpty())
+        {
+            headers.forEach(connection::setRequestProperty);
+        }
 
         if (body != null)
         {
