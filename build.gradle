@@ -15,6 +15,7 @@ var gitHash = execute("git rev-parse --short HEAD")
 var gitBranch = execute("git branch --show-current")
 
 buildConfig {
+    buildConfigField(String, "GROUP", project.group)
     buildConfigField(String, "HASH", gitHash)
     buildConfigField(String, "BRANCH", gitBranch)
     buildConfigField(String, "VERSION", project.version)
