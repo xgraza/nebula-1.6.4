@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) xgraza 2025
+  -->
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="CONSOLE"
+                 target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%highlight{%level}{FATAL=bright_red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=green, TRACE=magenta} [%style{%d{MM/dd/yy HH:mm:ss}}{blue}] %style{%class{0}}{white} (%style{%t}{magenta}): %msg%n%throwable"/>
+        </Console>
+        <RollingRandomAccessFile name="FILE"
+                                 fileName="logs/latest.log"
+                                 filePattern="logs/%d{yyyy-MM-dd}/log-%d{HH_mm_ss}.log">
+            <PatternLayout
+                    pattern="%level [%d{MM/dd/yy HH:mm:ss}] %class (%t): %msg%n%throwable"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="ALL">
+            <AppenderRef ref="FILE"/>
+            <AppenderRef ref="CONSOLE" level="INFO"/>
+        </Root>
+    </Loggers>
+</Configuration>

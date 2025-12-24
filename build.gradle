@@ -1,0 +1,64 @@
+/*
+ * Copyright (c) xgraza 2025
+ */
+
+plugins {
+    id 'java'
+    id 'com.github.gmazzo.buildconfig' version "$build_config_version"
+}
+
+group = project.group
+version = project.version
+
+var buildNumber = project.build_number
+var gitHash = execute("git rev-parse --short HEAD")
+var gitBranch = execute("git branch --show-current")
+
+buildConfig {
+    buildConfigField(String, "GROUP", project.group)
+    buildConfigField(String, "HASH", gitHash)
+    buildConfigField(String, "BRANCH", gitBranch)
+    buildConfigField(String, "VERSION", project.version)
+    buildConfigField(String, "BUILD", buildNumber)
+    buildConfigField(String, "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
+
+    packageName "$project.group"
+    useJavaOutput()
+    generateAtSync = true
+}
+
+sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: project.log4j_version
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: project.log4j_version
+    implementation group: 'org.postgresql', name: 'postgresql', version: project.postgresql_version
+    implementation group: 'io.fusionauth', name: 'java-http', version: project.java_http_version
+    implementation group: 'com.google.code.gson', name: 'gson', version: project.gson_version
+}
+
+tasks.withType(JavaCompile).configureEach {
+    dependsOn(generateBuildConfigClasses)
+}
+
+tasks.withType(Jar).configureEach {
+    from(configurations.dependencies.collect {
+        it.isDirectory() ? it : zipTree(it)
+    })
+    manifest.attributes(
+            'Main-Class': "${project.group}.Launcher"
+    )
+}
+
+static def execute(String cmd) {
+    try {
+        return cmd.execute().text.trim()
+    } catch (exception) {
+        exception.printStackTrace()
+        return null
+    }
+}
