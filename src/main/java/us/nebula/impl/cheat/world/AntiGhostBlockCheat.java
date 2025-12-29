@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.world;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @CheatManifest(name = "AntiGhostBlock",
         description = "Prevents ghost blocks from spawning",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.WORLD)
 public final class AntiGhostBlockCheat extends Cheat
 {
     private final Setting<Boolean> placeSetting = new Setting<>(

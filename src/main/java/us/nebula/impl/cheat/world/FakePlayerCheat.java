@@ -1,8 +1,7 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.world;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.util.DamageSource;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
@@ -20,7 +19,7 @@ import java.util.UUID;
  */
 @CheatManifest(name = "FakePlayer",
         description = "Spawns a fake player to test things on",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.WORLD)
 public final class FakePlayerCheat extends Cheat
 {
     private static final GameProfile FAKE_PROFILE = new GameProfile(

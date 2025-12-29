@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.player;
 
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.util.ChatAllowedCharacters;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 @CheatManifest(name = "Spammer",
         description = "Spams things in chat",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.PLAYER)
 public final class SpammerCheat extends Cheat
 {
     public static final File SPAMMER_DIRECTORY = new File(

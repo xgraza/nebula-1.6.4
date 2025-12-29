@@ -6,7 +6,6 @@ import us.nebula.api.DebugFeature;
 import us.nebula.api.manager.ITypedManager;
 import us.nebula.impl.cheat.combat.*;
 import us.nebula.impl.cheat.exploit.*;
-import us.nebula.impl.cheat.miscellaneous.*;
 import us.nebula.impl.cheat.movement.*;
 import us.nebula.impl.cheat.player.*;
 import us.nebula.impl.cheat.render.*;
@@ -14,7 +13,10 @@ import us.nebula.impl.cheat.world.*;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author xgraza
@@ -40,6 +42,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new VelocityCheat());
         addCheat(new AntiRevertCheat());
         addCheat(new EnderchestBPCheat());
+        addCheat(new FastLatencyCheat());
         addCheat(new FastPortalCheat());
         addCheat(new FastUseCheat());
         //addCheat(new FrankyCheat());
@@ -52,18 +55,6 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new PotionSaverCheat());
         addCheat(new TimerCheat());
         addCheat(new XCarryCheat());
-        addCheat(new AntiDisconnectCheat());
-        addCheat(new AntiGhostBlockCheat());
-        addCheat(new BetterF3Cheat());
-        addCheat(new AutoReconnectCheat());
-        addCheat(new DiscordRPCCheat());
-        addCheat(new ExtraTabCheat());
-        addCheat(new FakePlayerCheat());
-        addCheat(new FastLatencyCheat());
-        addCheat(new InventorySyncCheat());
-        addCheat(new SpammerCheat());
-        addCheat(new TranslateCheat());
-        addCheat(new UnfocusedCPUCheat());
         addCheat(new AutoWalkCheat());
         addCheat(new BlinkCheat());
         addCheat(new IceSpeedCheat());
@@ -79,16 +70,23 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new StaticCheat());
         addCheat(new StepCheat());
         addCheat(new AntiBlockCheat());
+        addCheat(new AntiDisconnectCheat());
         addCheat(new AntiLagCheat());
+        addCheat(new AutoReconnectCheat());
         addCheat(new AutoRespawnCheat());
+        addCheat(new DiscordRPCCheat());
         addCheat(new FastPlaceCheat());
         addCheat(new FreecamCheat());
         addCheat(new InfiniteMoverCheat());
         addCheat(new InteractCheat());
+        addCheat(new InventorySyncCheat());
         addCheat(new KeyPearlCheat());
         addCheat(new NoFallCheat());
         addCheat(new PearlPhaseCheat());
+        addCheat(new SpammerCheat());
+        addCheat(new TranslateCheat());
         addCheat(new YawCheat());
+        addCheat(new BetterF3Cheat());
         addCheat(new CameraClipCheat());
         addCheat(new ChamsCheat());
         addCheat(new ChatModifierCheat());
@@ -96,6 +94,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new ClickGUICheat());
         addCheat(new EntityCullingCheat());
         addCheat(new ESPCheat());
+        addCheat(new ExtraTabCheat());
         addCheat(new FullbrightCheat());
         addCheat(new HUDCheat());
         addCheat(new InfiniteViewerCheat());
@@ -105,8 +104,10 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new NoWeatherCheat());
         addCheat(new TimeChangerCheat());
         addCheat(new TrajectoriesCheat());
+        addCheat(new UnfocusedCPUCheat());
         addCheat(new ViewModelCheat());
         addCheat(new XRayCheat());
+        addCheat(new AntiGhostBlockCheat());
         addCheat(new AutoFarmCheat());
         addCheat(new AutoFishCheat());
         addCheat(new AutoHighwayCheat());
@@ -114,6 +115,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AutoToolCheat());
         addCheat(new AutoTorchCheat());
         addCheat(new AutoTunnelCheat());
+        addCheat(new FakePlayerCheat());
         addCheat(new FlattenCheat());
         addCheat(new LandscaperCheat());
         addCheat(new NukerCheat());

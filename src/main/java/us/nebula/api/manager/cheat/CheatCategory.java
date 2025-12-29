@@ -8,7 +8,7 @@ public enum CheatCategory
 {
     COMBAT("Combat", "a"),
     EXPLOIT("Exploit", "b"),
-    MISCELLANEOUS("Miscellaneous", "F"),
+    // MISCELLANEOUS("Miscellaneous", "F"),
     MOVEMENT("Movement", "E"),
     PLAYER("Player", "d"),
     RENDER("Render", "c"),

@@ -1,14 +1,12 @@
 package net.minecraft.client.gui;
 
-import java.util.List;
-
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IChatComponent;
-import us.nebula.impl.cheat.miscellaneous.AutoReconnectCheat;
+import us.nebula.impl.cheat.player.AutoReconnectCheat;
 import us.nebula.util.math.Timer;
 
-import static java.lang.String.format;
+import java.util.List;
 
 public class GuiDisconnected extends GuiScreen
 {
@@ -29,7 +27,9 @@ public class GuiDisconnected extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char typedChar, int keyCode) {}
+    protected void keyTyped(char typedChar, int keyCode)
+    {
+    }
 
     /**
      * Adds the buttons (and other controls) to the screen in question.

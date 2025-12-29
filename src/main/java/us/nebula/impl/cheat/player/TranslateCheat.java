@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.player;
 
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  */
 @CheatManifest(name = "Translate",
         description = "Translates things in chat",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.PLAYER)
 public final class TranslateCheat extends Cheat
 {
     @CheatInstance
@@ -66,7 +66,8 @@ public final class TranslateCheat extends Cheat
         final String unformatted = raw.replaceFirst(PLAYER_TAG_REGEX.pattern(), "").trim();
         GoogleTranslateService.INSTANCE.translate(
                 targetSetting.getValue(), Language.AUTO, unformatted,
-                (source, text) -> {
+                (source, text) ->
+                {
                     final ChatComponentText c = new ChatComponentText("");
                     c.appendSibling(new ChatComponentText("[from " + source.getLocale() + "]")
                             .setChatStyle(new ChatStyle()

@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.player;
 
 import net.minecraft.client.multiplayer.ServerData;
 import us.nebula.api.manager.cheat.Cheat;
@@ -13,7 +13,7 @@ import us.nebula.api.value.Setting;
  */
 @CheatManifest(name = "AutoReconnect",
         description = "Automatically reconnects you to the last server",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.PLAYER)
 public final class AutoReconnectCheat extends Cheat
 {
     @CheatInstance

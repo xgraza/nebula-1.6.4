@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.player;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
@@ -13,7 +13,7 @@ import us.nebula.api.manager.cheat.CheatManifest;
  */
 @CheatManifest(name = "AntiDisconnect",
         description = "Are you sure you want to disconnect?",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.PLAYER)
 public final class AntiDisconnectCheat extends Cheat
 {
     @CheatInstance

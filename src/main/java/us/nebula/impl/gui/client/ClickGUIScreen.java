@@ -45,7 +45,7 @@ public final class ClickGUIScreen extends GuiScreen
             posX += panel.getWidth() + 5;
             categoryPanels.add(panel);
         }
-        //addConfigPanel(posX);
+        addConfigPanel(posX);
     }
 
     private void addConfigPanel(final double posX)
@@ -138,7 +138,7 @@ public final class ClickGUIScreen extends GuiScreen
             {
                 if (c instanceof CheatPanel)
                 {
-                    final CheatPanel cheatPanel = (CheatPanel)c;
+                    final CheatPanel cheatPanel = (CheatPanel) c;
                     if (cheatPanel.isMouseIn(mouseX, mouseY))
                     {
                         drawCheatDescription(cheatPanel.getCheat(), mouseX, mouseY);

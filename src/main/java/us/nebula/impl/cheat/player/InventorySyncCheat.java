@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.player;
 
 import net.minecraft.inventory.Container;
 import net.minecraft.network.play.server.S32PacketConfirmTransaction;
@@ -15,7 +15,7 @@ import us.nebula.impl.event.network.EventPacket;
  */
 @CheatManifest(name = "InventorySync",
         description = "Syncs the transactionId in containers",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.PLAYER)
 public final class InventorySyncCheat extends Cheat
 {
     @Subscribe

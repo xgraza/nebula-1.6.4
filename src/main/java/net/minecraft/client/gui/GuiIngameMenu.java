@@ -5,8 +5,8 @@ import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.I18n;
-import us.nebula.impl.cheat.miscellaneous.AntiDisconnectCheat;
-import us.nebula.impl.cheat.miscellaneous.AutoReconnectCheat;
+import us.nebula.impl.cheat.player.AntiDisconnectCheat;
+import us.nebula.impl.cheat.player.AutoReconnectCheat;
 import wdl.GuiWDL;
 import wdl.WDL;
 
@@ -29,7 +29,7 @@ public class GuiIngameMenu extends GuiScreen
 
         if (!this.mc.isIntegratedServerRunning())
         {
-            ((GuiButton)this.buttonList.get(0)).displayString = I18n.format("menu.disconnect", new Object[0]);
+            ((GuiButton) this.buttonList.get(0)).displayString = I18n.format("menu.disconnect", new Object[0]);
         }
 
         this.buttonList.add(new GuiButton(4, this.width / 2 - 100, this.height / 4 + 24 + var1, I18n.format("menu.returnToGame", new Object[0])));
@@ -56,9 +56,9 @@ public class GuiIngameMenu extends GuiScreen
             GuiButton wdlOptions = new GuiButton(51, this.width / 2 + 71, this.height / 4 + 72 + var1, 28, 20, "...");
             this.buttonList.add(wdlOptions);
             wdlOptions.enabled = !WDL.downloading || WDL.downloading && !WDL.saving;
-            ((GuiButton)this.buttonList.get(0)).yPosition = this.height / 4 + 144 + var1;
-            ((GuiButton)this.buttonList.get(2)).yPosition = this.height / 4 + 120 + var1;
-            ((GuiButton)this.buttonList.get(3)).yPosition = this.height / 4 + 120 + var1;
+            ((GuiButton) this.buttonList.get(0)).yPosition = this.height / 4 + 144 + var1;
+            ((GuiButton) this.buttonList.get(2)).yPosition = this.height / 4 + 120 + var1;
+            ((GuiButton) this.buttonList.get(3)).yPosition = this.height / 4 + 120 + var1;
         }
     }
 
@@ -88,7 +88,7 @@ public class GuiIngameMenu extends GuiScreen
                 break;
 
             case 4:
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen((GuiScreen) null);
                 this.mc.setIngameFocus();
                 break;
 
@@ -118,13 +118,12 @@ public class GuiIngameMenu extends GuiScreen
                 if (WDL.downloading)
                 {
                     WDL.stop();
-                }
-                else
+                } else
                 {
                     WDL.start();
                 }
 
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen((GuiScreen) null);
                 this.mc.setIngameFocus();
                 break;
 
@@ -152,7 +151,7 @@ public class GuiIngameMenu extends GuiScreen
     {
         WDL.stop();
         this.mc.theWorld.sendQuittingDisconnectingPacket();
-        this.mc.loadWorld((WorldClient)null);
+        this.mc.loadWorld((WorldClient) null);
         this.mc.displayGuiScreen(new GuiMainMenu());
     }
 

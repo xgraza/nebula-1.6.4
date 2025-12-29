@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.player;
 
 import us.nebula.ClientSettings;
 import us.nebula.api.manager.cheat.Cheat;
@@ -13,7 +13,7 @@ import us.nebula.util.player.ChatUtil;
  */
 @CheatManifest(name = "DiscordRPC",
         description = "Shows that you're using Nebula on discord",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.PLAYER)
 public final class DiscordRPCCheat extends Cheat
 {
     @Override

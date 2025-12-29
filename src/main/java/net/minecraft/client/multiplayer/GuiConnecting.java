@@ -1,9 +1,6 @@
 package net.minecraft.client.multiplayer;
 
 import io.netty.util.concurrent.GenericFutureListener;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -18,7 +15,11 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import us.nebula.impl.cheat.miscellaneous.AutoReconnectCheat;
+import us.nebula.impl.cheat.player.AutoReconnectCheat;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GuiConnecting extends GuiScreen
 {
@@ -34,7 +35,7 @@ public class GuiConnecting extends GuiScreen
         this.mc = par2Minecraft;
         this.field_146374_i = par1GuiScreen;
         ServerAddress var4 = ServerAddress.resolveAddress(par3ServerData.serverIP);
-        par2Minecraft.loadWorld((WorldClient)null);
+        par2Minecraft.loadWorld((WorldClient) null);
         par2Minecraft.setServerData(par3ServerData);
         this.func_146367_a(var4.getIP(), var4.getPort());
         AutoReconnectCheat.INSTANCE.setLastServer(par3ServerData);
@@ -44,7 +45,7 @@ public class GuiConnecting extends GuiScreen
     {
         this.mc = par2Minecraft;
         this.field_146374_i = par1GuiScreen;
-        par2Minecraft.loadWorld((WorldClient)null);
+        par2Minecraft.loadWorld((WorldClient) null);
         this.func_146367_a(par3Str, par4);
         AutoReconnectCheat.INSTANCE.setLastServer(new ServerData(par3Str, String.valueOf(par4)));
     }
@@ -55,6 +56,7 @@ public class GuiConnecting extends GuiScreen
         (new Thread("Server Connector #" + field_146372_a.incrementAndGet())
         {
             private static final String __OBFID = "CL_00000686";
+
             public void run()
             {
                 try
@@ -68,8 +70,7 @@ public class GuiConnecting extends GuiScreen
                     GuiConnecting.this.field_146371_g.setNetHandler(new NetHandlerLoginClient(GuiConnecting.this.field_146371_g, GuiConnecting.this.mc, GuiConnecting.this.field_146374_i));
                     GuiConnecting.this.field_146371_g.scheduleOutboundPacket(new C00Handshake(4, p_146367_1_, p_146367_2_, EnumConnectionState.LOGIN), new GenericFutureListener[0]);
                     GuiConnecting.this.field_146371_g.scheduleOutboundPacket(new C00PacketLoginStart(GuiConnecting.this.mc.getSession().func_148256_e()), new GenericFutureListener[0]);
-                }
-                catch (UnknownHostException var2)
+                } catch (UnknownHostException var2)
                 {
                     if (GuiConnecting.this.field_146373_h)
                     {
@@ -77,9 +78,8 @@ public class GuiConnecting extends GuiScreen
                     }
 
                     GuiConnecting.logger.error("Couldn\'t connect to server", var2);
-                    GuiConnecting.this.mc.displayGuiScreen(new GuiDisconnected(GuiConnecting.this.field_146374_i, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", new Object[] {"Unknown host \'" + p_146367_1_ + "\'"})));
-                }
-                catch (Exception var3)
+                    GuiConnecting.this.mc.displayGuiScreen(new GuiDisconnected(GuiConnecting.this.field_146374_i, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", new Object[]{ "Unknown host \'" + p_146367_1_ + "\'" })));
+                } catch (Exception var3)
                 {
                     if (GuiConnecting.this.field_146373_h)
                     {
@@ -87,7 +87,7 @@ public class GuiConnecting extends GuiScreen
                     }
 
                     GuiConnecting.logger.error("Couldn\'t connect to server", var3);
-                    GuiConnecting.this.mc.displayGuiScreen(new GuiDisconnected(GuiConnecting.this.field_146374_i, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", new Object[] {var3.toString()})));
+                    GuiConnecting.this.mc.displayGuiScreen(new GuiDisconnected(GuiConnecting.this.field_146374_i, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", new Object[]{ var3.toString() })));
                 }
             }
         }).start();
@@ -103,8 +103,7 @@ public class GuiConnecting extends GuiScreen
             if (this.field_146371_g.isChannelOpen())
             {
                 this.field_146371_g.processReceivedPackets();
-            }
-            else if (this.field_146371_g.getExitMessage() != null)
+            } else if (this.field_146371_g.getExitMessage() != null)
             {
                 this.field_146371_g.getNetHandler().onDisconnect(this.field_146371_g.getExitMessage());
             }
@@ -114,7 +113,9 @@ public class GuiConnecting extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char typedChar, int keyCode) {}
+    protected void keyTyped(char typedChar, int keyCode)
+    {
+    }
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
@@ -150,8 +151,7 @@ public class GuiConnecting extends GuiScreen
         if (this.field_146371_g == null)
         {
             this.drawCenteredString(this.fontRenderer, I18n.format("connect.connecting", new Object[0]), this.width / 2, this.height / 2 - 50, 16777215);
-        }
-        else
+        } else
         {
             this.drawCenteredString(this.fontRenderer, I18n.format("connect.authorizing", new Object[0]), this.width / 2, this.height / 2 - 50, 16777215);
         }

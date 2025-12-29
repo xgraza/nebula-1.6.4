@@ -1,4 +1,4 @@
-package us.nebula.impl.cheat.miscellaneous;
+package us.nebula.impl.cheat.render;
 
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
@@ -12,7 +12,7 @@ import us.nebula.api.value.Setting;
  */
 @CheatManifest(name = "UnfocusedCPU",
         description = "Reduces the load on your PC when unfocused",
-        category = CheatCategory.MISCELLANEOUS)
+        category = CheatCategory.RENDER)
 public final class UnfocusedCPUCheat extends Cheat
 {
     @CheatInstance
