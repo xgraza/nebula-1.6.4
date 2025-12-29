@@ -4,10 +4,8 @@
 
 package us.nebula.server.server.endpoint.impl;
 
-import io.fusionauth.http.server.HTTPRequest;
-import io.fusionauth.http.server.HTTPResponse;
 import us.nebula.server.BuildConfig;
-import us.nebula.server.server.endpoint.IEndpoint;
+import us.nebula.server.server.endpoint.Endpoint;
 
 import java.io.IOException;
 
@@ -15,17 +13,12 @@ import java.io.IOException;
  * @author xgraza
  * @since 1.0.0
  */
-public final class BaseEndpoint implements IEndpoint
+@Endpoint.Metadata("/")
+public final class BaseEndpoint extends Endpoint
 {
     @Override
-    public void handle(final HTTPRequest req, final HTTPResponse res) throws IOException
+    public void handle() throws IOException
     {
-        writeResponse(res, BuildConfig.VERSION, 200);
-    }
-
-    @Override
-    public String getEndpoint()
-    {
-        return "/";
+        writeResponse(BuildConfig.VERSION, OK);
     }
 }

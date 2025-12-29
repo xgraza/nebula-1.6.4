@@ -1,9 +1,7 @@
 package us.nebula.server.server.endpoint.impl;
 
-import io.fusionauth.http.server.HTTPRequest;
-import io.fusionauth.http.server.HTTPResponse;
 import us.nebula.server.file.FileManager;
-import us.nebula.server.server.endpoint.IEndpoint;
+import us.nebula.server.server.endpoint.Endpoint;
 
 import java.io.IOException;
 
@@ -11,31 +9,20 @@ import java.io.IOException;
  * @author xgraza
  * @since 1.0.0
  */
-public final class ChecksumEndpoint implements IEndpoint
+@Endpoint.Metadata(value = "/checksum", method = "POST")
+public final class ChecksumEndpoint extends Endpoint
 {
     @Override
-    public void handle(final HTTPRequest req, final HTTPResponse res) throws IOException
+    public void handle() throws IOException
     {
-        final String body = readRequest(req);
+        final String body = readBody();
         final String checksum = FileManager.getChecksum(body);
         if (checksum == null)
         {
-            writeResponse(res, "invalid file name", 400);
+            writeResponse("invalid file name", BAD_REQUEST);
         } else
         {
-            writeResponse(res, checksum, 200);
+            writeResponse(checksum, OK);
         }
-    }
-
-    @Override
-    public String getMethod()
-    {
-        return "POST";
-    }
-
-    @Override
-    public String getEndpoint()
-    {
-        return "/checksum";
     }
 }

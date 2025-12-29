@@ -57,14 +57,74 @@ public final class FileManager
         scanAssetDirectory(DIRECTORY);
     }
 
-    public static String getChecksum(final String file)
+    public static String getChecksum(final String name)
     {
-        return FILE_CHECKSUM_CACHE.get(file);
+        return FILE_CHECKSUM_CACHE.get(name);
     }
 
-    public static File getFile(final String file)
+    public static File getFile(final String name)
     {
-        return FILE_NAME_CACHE.get(file);
+        return FILE_NAME_CACHE.get(name);
+    }
+
+    public static void cacheFile(final File file)
+    {
+        final String name = file.getName();
+        if (FILE_NAME_CACHE.containsKey(name))
+        {
+            LOGGER.warn("{} already exists, overriding", file.getName());
+        }
+        createChecksumFile(file);
+        FILE_NAME_CACHE.put(name, file);
+    }
+
+    public static void deleteFile(final File file)
+    {
+        // if the file was not cached, it will not be deleted
+        // however, we still want to delete the file since we were given the object
+        if (!deleteFile(file.getName()))
+        {
+            file.delete();
+        }
+    }
+
+    public static boolean deleteFile(final String name)
+    {
+        final File file = FILE_NAME_CACHE.get(name);
+        if (file == null)
+        {
+            return false;
+        }
+        FILE_CHECKSUM_CACHE.remove(name);
+        FILE_NAME_CACHE.remove(name);
+        file.delete();
+
+        final File checksumFile = new File(file.getAbsoluteFile() + ".sha256");
+        if (checksumFile.exists())
+        {
+            checksumFile.delete();
+        }
+        return true;
+    }
+
+    public static String readFile(final String name) throws IOException
+    {
+        final File file = getFile(name);
+        if (file == null)
+        {
+            return null;
+        }
+
+        final StringBuilder builder = new StringBuilder();
+        try (final InputStream is = Files.newInputStream(file.toPath()))
+        {
+            int b;
+            while ((b = is.read()) != -1)
+            {
+                builder.append((char) b);
+            }
+        }
+        return builder.toString();
     }
 
     private static void scanAssetDirectory(final File directory)
@@ -82,13 +142,12 @@ public final class FileManager
                 scanAssetDirectory(file);
             } else
             {
-                createChecksumFile(file);
-                FILE_NAME_CACHE.put(file.getName(), file);
+                cacheFile(file);
             }
         }
     }
 
-    private static void createChecksumFile(final File file)
+    public static void createChecksumFile(final File file)
     {
         // don't hash checksum files lol
         if (file.getName().endsWith(".sha256"))
