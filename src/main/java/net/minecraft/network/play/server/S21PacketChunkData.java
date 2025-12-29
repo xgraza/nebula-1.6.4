@@ -50,7 +50,7 @@ public class S21PacketChunkData extends Packet
         }
     }
 
-    public static int func_149275_c()
+    public static int chunkSize()
     {
         return 196864;
     }

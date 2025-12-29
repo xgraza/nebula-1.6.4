@@ -1279,7 +1279,7 @@ public class Chunk
     /**
      * Initialise this chunk with new binary data
      */
-    public void fillChunk(byte[] par1ArrayOfByte, int par2, int par3, boolean par4)
+    public void fillChunk(byte[] par1ArrayOfByte, int sections, int par3, boolean par4)
     {
         this.chunkByteSize = par1ArrayOfByte.length;
 
@@ -1289,7 +1289,7 @@ public class Chunk
 
         for (var7 = 0; var7 < this.storageArrays.length; ++var7)
         {
-            if ((par2 & 1 << var7) != 0)
+            if ((sections & 1 << var7) != 0)
             {
                 if (this.storageArrays[var7] == null)
                 {
@@ -1310,7 +1310,7 @@ public class Chunk
 
         for (var7 = 0; var7 < this.storageArrays.length; ++var7)
         {
-            if ((par2 & 1 << var7) != 0 && this.storageArrays[var7] != null)
+            if ((sections & 1 << var7) != 0 && this.storageArrays[var7] != null)
             {
                 var9 = this.storageArrays[var7].getMetadataArray();
                 System.arraycopy(par1ArrayOfByte, var5, var9.data, 0, var9.data.length);
@@ -1320,7 +1320,7 @@ public class Chunk
 
         for (var7 = 0; var7 < this.storageArrays.length; ++var7)
         {
-            if ((par2 & 1 << var7) != 0 && this.storageArrays[var7] != null)
+            if ((sections & 1 << var7) != 0 && this.storageArrays[var7] != null)
             {
                 var9 = this.storageArrays[var7].getBlocklightArray();
                 System.arraycopy(par1ArrayOfByte, var5, var9.data, 0, var9.data.length);
@@ -1332,7 +1332,7 @@ public class Chunk
         {
             for (var7 = 0; var7 < this.storageArrays.length; ++var7)
             {
-                if ((par2 & 1 << var7) != 0 && this.storageArrays[var7] != null)
+                if ((sections & 1 << var7) != 0 && this.storageArrays[var7] != null)
                 {
                     var9 = this.storageArrays[var7].getSkylightArray();
                     System.arraycopy(par1ArrayOfByte, var5, var9.data, 0, var9.data.length);
@@ -1376,7 +1376,7 @@ public class Chunk
 
         for (var7 = 0; var7 < this.storageArrays.length; ++var7)
         {
-            if (this.storageArrays[var7] != null && (par2 & 1 << var7) != 0)
+            if (this.storageArrays[var7] != null && (sections & 1 << var7) != 0)
             {
                 this.storageArrays[var7].removeInvalidBlocks();
             }
