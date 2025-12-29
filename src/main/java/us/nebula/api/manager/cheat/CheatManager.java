@@ -45,7 +45,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new FastLatencyCheat());
         addCheat(new FastPortalCheat());
         addCheat(new FastUseCheat());
-        //addCheat(new FrankyCheat());
+        addCheat(new FrankyCheat());
         addCheat(new GhostHandCheat());
         //addCheat(new NewChunksCheat());
         addCheat(new NoC03Cheat());
