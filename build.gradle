@@ -8,7 +8,7 @@ plugins {
 
 // Set to true when you want to build with all needed dependencies
 // Defaulted to false because deps are placed on the server to launch w/ launcher
-var BUILD_LOCAL = false
+var BUILD_LOCAL = true
 if (BUILD_LOCAL) {
     println "Local build is turned on, will not attempt to upload build"
 }

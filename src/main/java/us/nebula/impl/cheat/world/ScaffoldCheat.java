@@ -15,6 +15,7 @@ import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
+import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
@@ -35,6 +36,9 @@ import us.nebula.util.world.BlockUtil;
         category = CheatCategory.WORLD)
 public final class ScaffoldCheat extends Cheat
 {
+    @CheatInstance
+    public static ScaffoldCheat INSTANCE;
+
     private final Setting<Double> extend = new Setting<>(
             "Extend", 0.0, 0.0, 6.0, 0.5);
     private final Setting<Boolean> towerSetting = new Setting<>(

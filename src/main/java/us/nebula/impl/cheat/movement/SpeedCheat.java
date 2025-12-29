@@ -8,6 +8,7 @@ import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
+import us.nebula.impl.cheat.world.ScaffoldCheat;
 import us.nebula.impl.event.network.EventPacket;
 import us.nebula.impl.event.player.EventMove;
 import us.nebula.impl.event.player.EventMoveUpdate;
@@ -28,6 +29,9 @@ public final class SpeedCheat extends Cheat
 
     public final Setting<Mode> modeSetting = new Setting<>(
             "Mode", Mode.STRAFE);
+    public final Setting<Boolean> timerSetting = new Setting<>(
+            "Use Timer", false)
+            .setVisibility(() -> modeSetting.getValue() == Mode.STRAFE);
     public final Setting<Integer> advanceSetting = new Setting<>(
             "Advance", 1, 1, 10, 1)
             .setVisibility(() -> modeSetting.getValue() == Mode.TICK_ADVANCE);
@@ -42,6 +46,7 @@ public final class SpeedCheat extends Cheat
         lastDistance = 0.0;
         speed = 0.0;
         lagTicks = 0;
+        MC.timer.timerSpeed = 1.0f;
     }
 
     @Subscribe
@@ -49,11 +54,14 @@ public final class SpeedCheat extends Cheat
     {
         if (--lagTicks > 0)
         {
+            MC.timer.timerSpeed = 1.0f;
             return;
         }
 
         if (modeSetting.getValue() == Mode.STRAFE)
         {
+            final boolean useTimer = timerSetting.getValue() && !ScaffoldCheat.INSTANCE.isToggled();
+
             if (MoveUtil.isMoving() && MC.thePlayer.onGround)
             {
                 stage = 0;
@@ -67,7 +75,7 @@ public final class SpeedCheat extends Cheat
                     if (stage == 0)
                     {
                         MC.timer.timerSpeed = 1.0f;
-                        speed = 1.22 * MoveUtil.getBaseNcpSpeed(20) - 0.01;
+                        speed = 1.22 * MoveUtil.getBaseNcpSpeed(20);
                         stage = 1;
                     }
                     if (MoveUtil.isMoving() && MC.thePlayer.onGround)
@@ -76,6 +84,10 @@ public final class SpeedCheat extends Cheat
                         event.setY(MC.thePlayer.motionY);
                         speed *= 1.59;
                         stage = 2;
+                    }
+                    if (useTimer)
+                    {
+                        MC.timer.timerSpeed = 1.088f;
                     }
                     break;
                 }
@@ -88,7 +100,6 @@ public final class SpeedCheat extends Cheat
                 }
                 case 3:
                 {
-                    MC.timer.timerSpeed = 1.0f;
                     if (!MoveUtil.isMoving() && MC.thePlayer.onGround)
                     {
                         stage = 0;
@@ -103,6 +114,9 @@ public final class SpeedCheat extends Cheat
             if (MoveUtil.isMoving())
             {
                 MoveUtil.setSpeed(event, speed);
+            } else
+            {
+                MC.timer.timerSpeed = 1.0f;
             }
         }
     };
@@ -120,6 +134,7 @@ public final class SpeedCheat extends Cheat
     {
         if (event.getPacket() instanceof S08PacketPlayerPosLook)
         {
+            MC.timer.timerSpeed = 1.0f;
             lagTicks = 8;
         }
     };
