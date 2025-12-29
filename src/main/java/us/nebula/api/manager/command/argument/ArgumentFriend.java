@@ -1,4 +1,4 @@
-package us.nebula.api.manager.command_test.argument;
+package us.nebula.api.manager.command.argument;
 
 import world.xgraza.xcmd.parser.argument.Argument;
 import world.xgraza.xcmd.parser.argument.exception.ArgumentParseException;

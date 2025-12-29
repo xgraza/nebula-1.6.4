@@ -1,26 +1,25 @@
 package us.nebula.api.manager.command;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
-import us.nebula.api.manager.command.argument.Argument;
-import us.nebula.api.manager.command.argument.ArgumentBuilder;
+import world.xgraza.xcmd.executor.ICommandExecutor;
+import world.xgraza.xcmd.parser.argument.Argument;
+import world.xgraza.xcmd.parser.flag.Flag;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
 /**
  * @author xgraza
- * @since 1.0.0
+ * @since 08/12/25
  */
-public abstract class Command
+public abstract class Command implements ICommandExecutor
 {
     static final String DEFAULT_DESCRIPTION = "No description provided for this command";
     protected static final Minecraft MC = Minecraft.getMinecraft();
 
-    protected final ArgumentBuilder argumentBuilder = new ArgumentBuilder();
     private final CommandManifest manifest;
+    private final List<Argument<?>> arguments = new LinkedList<>();
+    private final List<Flag<?>> flags = new LinkedList<>();
     private String syntax;
 
     public Command()
@@ -32,55 +31,75 @@ public abstract class Command
         manifest = getClass().getDeclaredAnnotation(CommandManifest.class);
     }
 
-    public abstract void build();
-
-    public void generateSyntax()
+    private void generateSyntax()
     {
-        if (syntax != null)
+        final StringBuilder builder = new StringBuilder();
+        if (!arguments.isEmpty())
         {
-            return;
-        }
-        final StringJoiner joiner = new StringJoiner(" ");
-        for (final Argument<?> argument : argumentBuilder.getArguments())
-        {
-            final List<Argument<?>> dependants = argument.getDependants();
-            if (dependants.isEmpty())
+            for (final Argument<?> argument : arguments)
             {
-                joiner.add(
-                        (argument.isRequired() ? "[" : "<") +
-                                argument.getName() +
-                                (argument.isRequired() ? "]" : ">"));
-            } else
-            {
-                joiner.add(
-                        (argument.isRequired() ? "[" : "<") +
-                                argument.getName() +
-                                "?" +
-                                dependants.stream().map(Argument::getName).collect(Collectors.joining("|")) +
-                                (argument.isRequired() ? "]" : ">"));
+                final boolean required = argument.isRequired();
+                builder.append(required ? "[" : "<");
+                builder.append(argument.getName());
+                builder.append(":");
+                builder.append(argument.getTokenType());
+                builder.append(required ? "]" : ">");
+                builder.append(" ");
             }
         }
-        syntax = joiner.toString();
+        if (!flags.isEmpty())
+        {
+            for (final Flag<?> flag : flags)
+            {
+                builder.append("-");
+                builder.append(flag.getName());
+                builder.append(":");
+                builder.append(flag.getArgument().getTokenType());
+                builder.append(" ");
+            }
+        }
+        syntax = builder.toString();
     }
 
-    public ArgumentBuilder getArgumentBuilder()
+    protected void registerArgument(final Argument<?> argument)
     {
-        return argumentBuilder;
+        arguments.add(argument);
     }
 
-    public CommandManifest getManifest()
+    protected void registerFlag(final Flag<?> flag)
     {
-        return manifest;
+        flags.add(flag);
+    }
+
+    @Override
+    public List<Argument<?>> getArguments()
+    {
+        return arguments;
+    }
+
+    @Override
+    public List<Flag<?>> getFlags()
+    {
+        return flags;
+    }
+
+    @Override
+    public String[] getAliases()
+    {
+        return manifest.aliases();
+    }
+
+    public String getDescription()
+    {
+        return manifest.description();
     }
 
     public String getSyntax()
     {
+        if (syntax == null)
+        {
+            generateSyntax();
+        }
         return syntax;
-    }
-
-    public static EntityPlayerMP getSeverPlayer()
-    {
-        return MinecraftServer.getServer().getConfigurationManager()
-                .getPlayerForUsername(MC.thePlayer.getCommandSenderName());
     }
 }

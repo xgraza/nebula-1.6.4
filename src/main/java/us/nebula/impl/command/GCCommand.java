@@ -1,26 +1,23 @@
 package us.nebula.impl.command;
 
-import us.nebula.api.DebugFeature;
 import us.nebula.api.manager.command.Command;
 import us.nebula.api.manager.command.CommandManifest;
-import us.nebula.api.manager.command.CommandResult;
+import world.xgraza.xcmd.executor.CommandResult;
+import world.xgraza.xcmd.parser.CommandContext;
 
 /**
  * @author xgraza
- * @since 03/24/25
+ * @since 08/12/25
  */
-@DebugFeature
-@CommandManifest(aliases = {"gc"},
+@CommandManifest(
+        aliases = { "gc", "garbagecollect" },
         description = "Runs the garbage collector")
 public final class GCCommand extends Command
 {
     @Override
-    public void build()
+    public CommandResult dispatch(final CommandContext ctx)
     {
-        argumentBuilder.dispatchSingle(() ->
-        {
-            System.gc();
-            return CommandResult.SUCCESS_DEFAULT;
-        });
+        System.gc();
+        return ctx.ok("Ran the garbage collector");
     }
 }

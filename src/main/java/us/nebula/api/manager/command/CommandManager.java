@@ -1,40 +1,25 @@
 package us.nebula.api.manager.command;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
 import net.minecraft.network.play.client.C01PacketChatMessage;
-import us.nebula.ClientSettings;
 import us.nebula.Nebula;
-import us.nebula.api.DebugFeature;
 import us.nebula.api.listener.EventBus;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
-import us.nebula.api.manager.ITypedManager;
-import us.nebula.api.manager.command.exception.CommandParseException;
+import us.nebula.api.manager.IManager;
 import us.nebula.impl.command.*;
-import us.nebula.impl.event.input.EventKey;
 import us.nebula.impl.event.network.EventPacket;
 import us.nebula.util.player.ChatUtil;
-
-import java.util.*;
-
-import static org.lwjgl.input.Keyboard.KEY_PERIOD;
+import world.xgraza.xcmd.executor.CommandResult;
+import world.xgraza.xcmd.parser.CommandContext;
+import world.xgraza.xcmd.registry.CommandRegistry;
 
 /**
  * @author xgraza
- * @since 4.0.0
+ * @since 08/12/25
  */
-@SuppressWarnings("unchecked")
-public final class CommandManager implements ITypedManager<Command>
+public final class CommandManager extends CommandRegistry implements IManager
 {
-    private static final Minecraft MC = Minecraft.getMinecraft();
-    public static final String COMMAND_PREFIX = ".";
-
-    private final Map<String, Command> commandAliasMap = new HashMap<>();
-    private final List<Command> commandList = new LinkedList<>();
-
-    private final CommandParser commandParser = new CommandParser(
-            this, COMMAND_PREFIX);
+    private static final String COMMAND_PREFIX = ".";
 
     @Subscribe
     private final EventListener<EventPacket.Outbound> outboundEventListener = event ->
@@ -43,127 +28,40 @@ public final class CommandManager implements ITypedManager<Command>
         {
             final C01PacketChatMessage packet = event.getPacket();
             final String message = packet.getMessage();
-            if (!message.startsWith(COMMAND_PREFIX))
+            if (message.startsWith(COMMAND_PREFIX))
             {
-                return;
-            }
-            event.cancel();
-            try
-            {
-                commandParser.parse(message);
-            } catch (final CommandParseException e)
-            {
-                ChatUtil.send("&c%s", e.getMessage());
-                Nebula.INSTANCE.getLogger().error(e.getMessage());
-            } catch (final Exception e)
-            {
-                if (ClientSettings.DEBUG || ClientSettings.VERBOSE_LOGGING)
-                {
-                    e.printStackTrace();
-                }
-                ChatUtil.send("A fatal exception occurred while executing the command. " +
-                        "Check console and report to my developers!" +
-                        " https://github.com/xgraza/nebula-1.6.4");
-                Nebula.INSTANCE.getLogger().error(e);
+                event.cancel();
+                process(message);
             }
         }
     };
 
-    @Subscribe
-    private final EventListener<EventKey> keyEventListener = event ->
+    public CommandManager()
     {
-        if (event.getKeyCode() == KEY_PERIOD && MC.currentScreen == null)
-        {
-            MC.displayGuiScreen(new GuiChat());
-        }
-    };
+        super(COMMAND_PREFIX);
+    }
 
     @Override
     public void init()
     {
         EventBus.subscribe(this);
-
-        addCommand(new FriendCommand());
-        addCommand(new GCCommand());
-        addCommand(new HelpCommand());
-        addCommand(new HideCommand());
-        addCommand(new InfiniteCommand());
-        addCommand(new ReadNBTCommand());
-        addCommand(new SetUsernameCommand());
-        addCommand(new SpawnTPCommand());
-        addCommand(new VerboseCommand());
-
-        commandParser.onCommandDispatch((command, result) ->
-        {
-            switch (result)
-            {
-                case CommandResult.FAIL:
-                    ChatUtil.send("Command failed to execute");
-                    break;
-                case CommandResult.SUCCESS:
-                    break;
-                case CommandResult.SUCCESS_DEFAULT:
-                    ChatUtil.send("Command dispatched successfully");
-                    break;
-            }
-        });
-        commandParser.onCommandNotFound((commandName) ->
-        {
-            ChatUtil.send("There is no command with the name %s. " +
-                    "Please run the help command (.help)", commandName);
-        });
-        commandParser.onInvalidSyntax((syntax) ->
-        {
-            ChatUtil.send("The proper syntax is: %s", syntax);
-        });
-    }
-
-    public List<String> suggestCommand(String text)
-    {
-        if (text.equals("."))
-        {
-            return new LinkedList<>(commandAliasMap.keySet());
-        }
-        text = text.substring(1).trim().split(" ")[0].toLowerCase();
-        if (getReference(text) != null)
-        {
-            return null;
-        }
-        final List<String> suggestionList = new LinkedList<>();
-        for (final String alias : commandAliasMap.keySet())
-        {
-            if (alias.startsWith(text))
-            {
-                suggestionList.add(alias);
-            }
-        }
-        return suggestionList;
-    }
-
-    public void addCommand(final Command command)
-    {
-        if (command.getClass().isAnnotationPresent(DebugFeature.class) && !ClientSettings.DEBUG)
-        {
-            return;
-        }
-
-        command.build();
-        command.generateSyntax();
-        for (final String alias : command.getManifest().aliases())
-        {
-            commandAliasMap.put(alias.toLowerCase(), command);
-        }
-        commandList.add(command);
-    }
-
-    public <T extends Command> T getReference(final String alias)
-    {
-        return (T)commandAliasMap.get(alias);
+        register(new FriendCommand());
+        register(new GCCommand());
+        register(new HelpCommand(this));
+        register(new HideCommand(Nebula.INSTANCE.getCheatManager()));
+        register(new SpawnTPCommand());
     }
 
     @Override
-    public List<Command> getAll()
+    public void handleDispatchResult(final CommandResult commandResult, final CommandContext commandContext)
     {
-        return commandList;
+        ChatUtil.send(commandResult.getMessage());
+    }
+
+    @Override
+    public void handleDispatchException(final Exception e)
+    {
+        ChatUtil.send("&cException Occurred -> {}", e.getMessage());
+        e.printStackTrace();
     }
 }

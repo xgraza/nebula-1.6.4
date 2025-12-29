@@ -1,46 +1,64 @@
 package us.nebula.impl.command;
 
-import us.nebula.Nebula;
 import us.nebula.api.manager.command.Command;
 import us.nebula.api.manager.command.CommandManifest;
-import us.nebula.api.manager.command.CommandResult;
-import us.nebula.api.manager.command.argument.type.CommandArgument;
-import us.nebula.util.player.ChatUtil;
+import world.xgraza.xcmd.executor.CommandResult;
+import world.xgraza.xcmd.executor.ICommandExecutor;
+import world.xgraza.xcmd.parser.CommandContext;
+import world.xgraza.xcmd.parser.argument.internal.ArgumentCommand;
+import world.xgraza.xcmd.registry.CommandRegistry;
 
-import java.util.List;
 import java.util.StringJoiner;
 
 /**
  * @author xgraza
- * @since 02/16/25
+ * @since 08/13/25
  */
-@CommandManifest(aliases = {"help", "cmd", "commands"})
+@CommandManifest(
+        aliases = { "help", "h", "cmds", "commands" },
+        description = "Displays a list of commands and other information")
 public final class HelpCommand extends Command
 {
-    @Override
-    public void build()
+    private final CommandRegistry registry;
+
+    public HelpCommand(final CommandRegistry registry)
     {
-        argumentBuilder.argument(
-                new CommandArgument("command")
-                        .setRequired(false), (arg) ->
+        this.registry = registry;
+        registerArgument(ArgumentCommand.command(registry, "command-name")
+                .setRequired(false));
+    }
+
+    @Override
+    public CommandResult dispatch(final CommandContext ctx)
+    {
+        if (ctx.hasArgument("command-name"))
+        {
+            final ICommandExecutor executor = ctx.getArgument("command-name");
+            final StringBuilder builder = new StringBuilder();
+            builder.append("&lAliases&r: ");
+            builder.append(String.join(", ", executor.getAliases()));
+            if (executor instanceof Command)
+            {
+                final Command command = (Command) executor;
+                builder.append("\n");
+                builder.append("&lDescription&r: ");
+                builder.append(command.getDescription());
+
+                final String syntax = command.getSyntax();
+                if (syntax != null && !syntax.isEmpty())
                 {
-                    final Command command = arg.getValue();
-                    ChatUtil.send("Aliases: %s\nDescription: %s\nSyntax: %s",
-                            String.join(", ", command.getManifest().aliases()),
-                            command.getManifest().description(),
-                            command.getSyntax());
-                    return CommandResult.SUCCESS;
-                })
-                .dispatchSingle(() ->
-                {
-                    final List<Command> commands = Nebula.INSTANCE.getCommandManager().getAll();
-                    final StringJoiner joiner = new StringJoiner(", ");
-                    for (final Command command : commands)
-                    {
-                        joiner.add(command.getManifest().aliases()[0]);
-                    }
-                    ChatUtil.send("Commands(%s): %s", commands.size(), joiner.toString());
-                    return CommandResult.SUCCESS;
-                });
+                    builder.append("\n");
+                    builder.append("&lSyntax&r: ");
+                    builder.append(command.getSyntax());
+                }
+            }
+            return ctx.ok(builder.toString());
+        }
+        final StringJoiner joiner = new StringJoiner(", ");
+        for (final ICommandExecutor executor : registry.getExecutors())
+        {
+            joiner.add(executor.getAliases()[0]);
+        }
+        return ctx.ok("Commands (" + registry.getExecutors().size() + "): " + joiner);
     }
 }
