@@ -1,9 +1,9 @@
 package us.nebula.api.manager.command;
 
 import net.minecraft.client.Minecraft;
-import world.xgraza.xcmd.executor.ICommandExecutor;
-import world.xgraza.xcmd.parser.argument.Argument;
-import world.xgraza.xcmd.parser.flag.Flag;
+import us.xgraza.xcmd.executor.ICommandExecutor;
+import us.xgraza.xcmd.parser.argument.Argument;
+import us.xgraza.xcmd.parser.flag.Flag;
 
 import java.util.LinkedList;
 import java.util.List;

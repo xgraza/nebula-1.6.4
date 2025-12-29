@@ -2,11 +2,11 @@ package us.nebula.impl.command;
 
 import us.nebula.api.manager.command.Command;
 import us.nebula.api.manager.command.CommandManifest;
-import world.xgraza.xcmd.executor.CommandResult;
-import world.xgraza.xcmd.executor.ICommandExecutor;
-import world.xgraza.xcmd.parser.CommandContext;
-import world.xgraza.xcmd.parser.argument.internal.ArgumentCommand;
-import world.xgraza.xcmd.registry.CommandRegistry;
+import us.xgraza.xcmd.executor.CommandResult;
+import us.xgraza.xcmd.executor.ICommandExecutor;
+import us.xgraza.xcmd.parser.CommandContext;
+import us.xgraza.xcmd.parser.argument.internal.ArgumentCommand;
+import us.xgraza.xcmd.registry.CommandRegistry;
 
 import java.util.StringJoiner;
 

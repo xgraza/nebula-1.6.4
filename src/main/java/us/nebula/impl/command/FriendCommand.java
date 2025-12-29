@@ -3,10 +3,10 @@ package us.nebula.impl.command;
 import us.nebula.Nebula;
 import us.nebula.api.manager.command.Command;
 import us.nebula.api.manager.command.CommandManifest;
-import world.xgraza.xcmd.executor.CommandResult;
-import world.xgraza.xcmd.parser.CommandContext;
-import world.xgraza.xcmd.parser.argument.internal.ArgumentEnum;
-import world.xgraza.xcmd.parser.argument.internal.ArgumentString;
+import us.xgraza.xcmd.executor.CommandResult;
+import us.xgraza.xcmd.parser.CommandContext;
+import us.xgraza.xcmd.parser.argument.internal.ArgumentEnum;
+import us.xgraza.xcmd.parser.argument.internal.ArgumentString;
 
 import java.util.List;
 import java.util.StringJoiner;

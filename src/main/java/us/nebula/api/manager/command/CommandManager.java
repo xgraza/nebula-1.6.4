@@ -9,9 +9,9 @@ import us.nebula.api.manager.IManager;
 import us.nebula.impl.command.*;
 import us.nebula.impl.event.network.EventPacket;
 import us.nebula.util.player.ChatUtil;
-import world.xgraza.xcmd.executor.CommandResult;
-import world.xgraza.xcmd.parser.CommandContext;
-import world.xgraza.xcmd.registry.CommandRegistry;
+import us.xgraza.xcmd.executor.CommandResult;
+import us.xgraza.xcmd.parser.CommandContext;
+import us.xgraza.xcmd.registry.CommandRegistry;
 
 /**
  * @author xgraza

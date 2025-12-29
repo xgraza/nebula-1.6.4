@@ -2,8 +2,8 @@ package us.nebula.api.manager.command.argument;
 
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatManager;
-import world.xgraza.xcmd.parser.argument.Argument;
-import world.xgraza.xcmd.parser.argument.exception.ArgumentParseException;
+import us.xgraza.xcmd.parser.argument.Argument;
+import us.xgraza.xcmd.parser.argument.exception.ArgumentParseException;
 
 import java.util.List;
 

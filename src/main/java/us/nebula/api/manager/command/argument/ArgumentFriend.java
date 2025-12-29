@@ -1,7 +1,7 @@
 package us.nebula.api.manager.command.argument;
 
-import world.xgraza.xcmd.parser.argument.Argument;
-import world.xgraza.xcmd.parser.argument.exception.ArgumentParseException;
+import us.xgraza.xcmd.parser.argument.Argument;
+import us.xgraza.xcmd.parser.argument.exception.ArgumentParseException;
 
 /**
  * @author xgraza
