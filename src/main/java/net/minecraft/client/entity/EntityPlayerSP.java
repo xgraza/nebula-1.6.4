@@ -2,21 +2,8 @@ package net.minecraft.client.entity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.GuiCommandBlock;
-import net.minecraft.client.gui.GuiEnchantment;
-import net.minecraft.client.gui.GuiHopper;
-import net.minecraft.client.gui.GuiMerchant;
-import net.minecraft.client.gui.GuiRepair;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiScreenBook;
-import net.minecraft.client.gui.inventory.GuiBeacon;
-import net.minecraft.client.gui.inventory.GuiBrewingStand;
-import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.client.gui.inventory.GuiCrafting;
-import net.minecraft.client.gui.inventory.GuiDispenser;
-import net.minecraft.client.gui.inventory.GuiEditSign;
-import net.minecraft.client.gui.inventory.GuiFurnace;
-import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.inventory.*;
 import net.minecraft.client.particle.EntityCrit2FX;
 import net.minecraft.client.particle.EntityPickupFX;
 import net.minecraft.command.server.CommandBlockLogic;
@@ -31,22 +18,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBeacon;
-import net.minecraft.tileentity.TileEntityBrewingStand;
-import net.minecraft.tileentity.TileEntityCommandBlock;
-import net.minecraft.tileentity.TileEntityDispenser;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.tileentity.TileEntityHopper;
-import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MouseFilter;
-import net.minecraft.util.MovementInput;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Session;
+import net.minecraft.tileentity.*;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import us.nebula.api.listener.EventBus;
 import us.nebula.impl.cheat.exploit.NoPortalGUICheat;
@@ -67,7 +40,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     protected int sprintToggleTimer;
 
-    /** Ticks left before sprinting is disabled. */
+    /**
+     * Ticks left before sprinting is disabled.
+     */
     public int sprintingTicksLeft;
     public float renderArmYaw;
     public float renderArmPitch;
@@ -79,10 +54,14 @@ public class EntityPlayerSP extends AbstractClientPlayer
     private MouseFilter field_71160_ci = new MouseFilter();
     private MouseFilter field_71161_cj = new MouseFilter();
 
-    /** The amount of time an entity has been in a Portal */
+    /**
+     * The amount of time an entity has been in a Portal
+     */
     public float timeInPortal;
 
-    /** The amount of time an entity has been in a Portal the previous tick */
+    /**
+     * The amount of time an entity has been in a Portal the previous tick
+     */
     public float prevTimeInPortal;
 
     public boolean phased;
@@ -102,8 +81,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.isJumping = this.movementInput.jump;
         this.prevRenderArmYaw = this.renderArmYaw;
         this.prevRenderArmPitch = this.renderArmPitch;
-        this.renderArmPitch = (float)((double)this.renderArmPitch + (double)(this.rotationPitch - this.renderArmPitch) * 0.5D);
-        this.renderArmYaw = (float)((double)this.renderArmYaw + (double)(this.rotationYaw - this.renderArmYaw) * 0.5D);
+        this.renderArmPitch = (float) ((double) this.renderArmPitch + (double) (this.rotationPitch - this.renderArmPitch) * 0.5D);
+        this.renderArmYaw = (float) ((double) this.renderArmYaw + (double) (this.rotationYaw - this.renderArmYaw) * 0.5D);
     }
 
     /**
@@ -132,11 +111,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
             this.posX = this.posZ = 0.5D;
             this.posX = 0.0D;
             this.posZ = 0.0D;
-            this.rotationYaw = (float)this.ticksExisted / 12.0F;
+            this.rotationYaw = (float) this.ticksExisted / 12.0F;
             this.rotationPitch = 10.0F;
             this.posY = 68.5D;
-        }
-        else
+        } else
         {
             this.prevTimeInPortal = this.timeInPortal;
 
@@ -144,7 +122,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
             {
                 if (this.mc.currentScreen != null && !NoPortalGUICheat.INSTANCE.isToggled())
                 {
-                    this.mc.displayGuiScreen((GuiScreen)null);
+                    this.mc.displayGuiScreen((GuiScreen) null);
                 }
 
                 if (this.timeInPortal == 0.0F)
@@ -160,8 +138,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 }
 
                 this.inPortal = false;
-            }
-            else if (this.isPotionActive(Potion.confusion) && this.getActivePotionEffect(Potion.confusion).getDuration() > 60)
+            } else if (this.isPotionActive(Potion.confusion) && this.getActivePotionEffect(Potion.confusion).getDuration() > 60)
             {
                 this.timeInPortal += 0.006666667F;
 
@@ -169,8 +146,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 {
                     this.timeInPortal = 1.0F;
                 }
-            }
-            else
+            } else
             {
                 if (this.timeInPortal > 0.0F)
                 {
@@ -188,15 +164,18 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 --this.timeUntilPortal;
             }
 
-            movementInput.updatePlayerMoveState();
-            if (EventBus.dispatch(new EventUpdateInput(movementInput)))
-            {
-                movementInput.resetPlayerMoveState();
-            }
-
             boolean var1 = this.movementInput.jump;
             float var2 = 0.8F;
             boolean var3 = this.movementInput.moveForward >= var2;
+
+            movementInput.updatePlayerMoveState();
+            if (EventBus.dispatch(new EventUpdateInput(movementInput)))
+            {
+                movementInput.moveForward = 0.0f;
+                movementInput.moveStrafe = 0.0f;
+                movementInput.jump = false;
+                movementInput.sneak = false;
+            }
 
             if (this.isUsingItem() && !this.isRiding())
             {
@@ -211,12 +190,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.ySize = 0.2F;
             }
 
-            boolean b1 = this.pushEntityFromBounds(this.posX - (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ + (double)this.width * 0.35D);
-            boolean b2 = this.pushEntityFromBounds(this.posX - (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ - (double)this.width * 0.35D);
-            boolean b3 = this.pushEntityFromBounds(this.posX + (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ - (double)this.width * 0.35D);
-            boolean b4 = this.pushEntityFromBounds(this.posX + (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ + (double)this.width * 0.35D);
+            boolean b1 = this.pushEntityFromBounds(this.posX - (double) this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ + (double) this.width * 0.35D);
+            boolean b2 = this.pushEntityFromBounds(this.posX - (double) this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ - (double) this.width * 0.35D);
+            boolean b3 = this.pushEntityFromBounds(this.posX + (double) this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ - (double) this.width * 0.35D);
+            boolean b4 = this.pushEntityFromBounds(this.posX + (double) this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ + (double) this.width * 0.35D);
             phased = b1 || b2 || b3 || b4;
-            boolean var4 = (float)this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
+            boolean var4 = (float) this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
 
             final boolean overrideSprint = EventBus.dispatch(new EventSprint());
 
@@ -225,8 +204,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 if (this.sprintToggleTimer <= 0 && !this.mc.gameSettings.keyBindSprint.getIsKeyPressed())
                 {
                     this.sprintToggleTimer = 7;
-                }
-                else
+                } else
                 {
                     this.setSprinting(true);
                 }
@@ -247,8 +225,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 if (this.flyToggleTimer == 0)
                 {
                     this.flyToggleTimer = 7;
-                }
-                else
+                } else
                 {
                     this.capabilities.isFlying = !this.capabilities.isFlying;
                     this.sendPlayerAbilities();
@@ -285,27 +262,23 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 {
                     this.horseJumpPowerCounter = -10;
                     this.func_110318_g();
-                }
-                else if (!var1 && this.movementInput.jump)
+                } else if (!var1 && this.movementInput.jump)
                 {
                     this.horseJumpPowerCounter = 0;
                     this.horseJumpPower = 0.0F;
-                }
-                else if (var1)
+                } else if (var1)
                 {
                     ++this.horseJumpPowerCounter;
 
                     if (this.horseJumpPowerCounter < 10)
                     {
-                        this.horseJumpPower = (float)this.horseJumpPowerCounter * 0.1F;
-                    }
-                    else
+                        this.horseJumpPower = (float) this.horseJumpPowerCounter * 0.1F;
+                    } else
                     {
-                        this.horseJumpPower = 0.8F + 2.0F / (float)(this.horseJumpPowerCounter - 9) * 0.1F;
+                        this.horseJumpPower = 0.8F + 2.0F / (float) (this.horseJumpPowerCounter - 9) * 0.1F;
                     }
                 }
-            }
-            else
+            } else
             {
                 this.horseJumpPower = 0.0F;
             }
@@ -333,7 +306,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         }
 
         IAttributeInstance var2 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-        var1 = (float)((double)var1 * ((var2.getAttributeValue() / (double)this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
+        var1 = (float) ((double) var1 * ((var2.getAttributeValue() / (double) this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
 
         if (this.capabilities.getWalkSpeed() == 0.0F || Float.isNaN(var1) || Float.isInfinite(var1))
         {
@@ -343,13 +316,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
         if (this.isUsingItem() && this.getItemInUse().getItem() == Items.bow)
         {
             int var3 = this.getItemInUseDuration();
-            float var4 = (float)var3 / 20.0F;
+            float var4 = (float) var3 / 20.0F;
 
             if (var4 > 1.0F)
             {
                 var4 = 1.0F;
-            }
-            else
+            } else
             {
                 var4 *= var4;
             }
@@ -366,18 +338,17 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public void closeScreen()
     {
         super.closeScreen();
-        this.mc.displayGuiScreen((GuiScreen)null);
+        this.mc.displayGuiScreen((GuiScreen) null);
     }
 
     public void func_146100_a(TileEntity p_146100_1_)
     {
         if (p_146100_1_ instanceof TileEntitySign)
         {
-            this.mc.displayGuiScreen(new GuiEditSign((TileEntitySign)p_146100_1_));
-        }
-        else if (p_146100_1_ instanceof TileEntityCommandBlock)
+            this.mc.displayGuiScreen(new GuiEditSign((TileEntitySign) p_146100_1_));
+        } else if (p_146100_1_ instanceof TileEntityCommandBlock)
         {
-            this.mc.displayGuiScreen(new GuiCommandBlock(((TileEntityCommandBlock)p_146100_1_).func_145993_a()));
+            this.mc.displayGuiScreen(new GuiCommandBlock(((TileEntityCommandBlock) p_146100_1_).func_145993_a()));
         }
     }
 
@@ -396,8 +367,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         if (var2 == Items.written_book)
         {
             this.mc.displayGuiScreen(new GuiScreenBook(this, par1ItemStack, false));
-        }
-        else if (var2 == Items.writable_book)
+        } else if (var2 == Items.writable_book)
         {
             this.mc.displayGuiScreen(new GuiScreenBook(this, par1ItemStack, true));
         }
@@ -517,8 +487,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
             {
                 this.hurtResistantTime = this.maxHurtResistantTime / 2;
             }
-        }
-        else
+        } else
         {
             this.lastDamage = var2;
             this.setHealth(this.getHealth());
@@ -543,8 +512,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
         int var7 = MathHelper.floor_double(x);
         int var8 = MathHelper.floor_double(y);
         int var9 = MathHelper.floor_double(z);
-        double var10 = x - (double)var7;
-        double var12 = z - (double)var9;
+        double var10 = x - (double) var7;
+        double var12 = z - (double) var9;
 
         if (this.isBlockTranslucent(var7, var8, var9) || this.isBlockTranslucent(var7, var8 + 1, var9))
         {
@@ -586,22 +555,22 @@ public class EntityPlayerSP extends AbstractClientPlayer
             {
                 if (var18 == 0)
                 {
-                    this.motionX = (double)(-var21);
+                    this.motionX = (double) (-var21);
                 }
 
                 if (var18 == 1)
                 {
-                    this.motionX = (double)var21;
+                    this.motionX = (double) var21;
                 }
 
                 if (var18 == 4)
                 {
-                    this.motionZ = (double)(-var21);
+                    this.motionZ = (double) (-var21);
                 }
 
                 if (var18 == 5)
                 {
-                    this.motionZ = (double)var21;
+                    this.motionZ = (double) var21;
                 }
             }
             return movedPlayer;
@@ -658,7 +627,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void playSound(String par1Str, float par2, float par3)
     {
-        this.worldObj.playSound(this.posX, this.posY - (double)this.yOffset, this.posZ, par1Str, par2, par3, false);
+        this.worldObj.playSound(this.posX, this.posY - (double) this.yOffset, this.posZ, par1Str, par2, par3, false);
     }
 
     /**
@@ -679,5 +648,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         return this.horseJumpPower;
     }
 
-    protected void func_110318_g() {}
+    protected void func_110318_g()
+    {
+    }
 }

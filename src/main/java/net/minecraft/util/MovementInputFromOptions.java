@@ -6,7 +6,7 @@ import us.nebula.impl.event.player.EventSneakSlowdown;
 
 public class MovementInputFromOptions extends MovementInput
 {
-    private GameSettings gameSettings;
+    private final GameSettings gameSettings;
 
     public MovementInputFromOptions(GameSettings par1GameSettings)
     {
@@ -43,17 +43,8 @@ public class MovementInputFromOptions extends MovementInput
 
         if (this.sneak && !EventBus.dispatch(new EventSneakSlowdown(this)))
         {
-            this.moveStrafe = (float)((double)this.moveStrafe * 0.3D);
-            this.moveForward = (float)((double)this.moveForward * 0.3D);
+            this.moveStrafe = (float) ((double) this.moveStrafe * 0.3D);
+            this.moveForward = (float) ((double) this.moveForward * 0.3D);
         }
-    }
-
-    @Override
-    public void resetPlayerMoveState()
-    {
-        moveForward = 0.0f;
-        moveStrafe = 0.0f;
-        jump = false;
-        sneak = false;
     }
 }

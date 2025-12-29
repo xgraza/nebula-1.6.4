@@ -1,21 +1,24 @@
+import us.nebula.gradle.UploadBuildToServerTask
 import us.nebula.gradle.Util
-import us.nebula.gradle.task.GenerateBuildChecksumTask
-import us.nebula.gradle.task.GenerateLibraryChecksumTask
-import us.nebula.gradle.task.PublishBuildDataTask
 
 plugins {
     id 'com.github.gmazzo.buildconfig' version "$build_config_version"
     id 'application'
 }
 
+// Set to true when you want to build with all needed dependencies
+// Defaulted to false because deps are placed on the server to launch w/ launcher
+var BUILD_LOCAL = true
+if (BUILD_LOCAL) {
+    println "Local build is turned on, will not attempt to upload build"
+}
+
 var buildNumber = project.build_number
 var gitHash = Util.execute("git rev-parse --short HEAD")
 var gitBranch = Util.execute("git branch --show-current")
-var directory = Util.createPathString(Util.USER_DIR, "")
 
 group = project.group
 version = project.version
-archivesBaseName = "nebula+$buildNumber-${gitBranch}_$gitHash"
 
 buildConfig {
     buildConfigField(String, "HASH", gitHash)
@@ -35,51 +38,40 @@ application {
 }
 
 run {
-    workingDir = file("${directory}run")
+    workingDir = file(Util.createPathString(Util.USER_DIR, "run"))
     args += "-gameDir=$workingDir.absolutePath"
 }
 
 sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
 
 configurations {
-    library
+    jarLib
+    implementation.extendsFrom(jarLib)
 }
 
 repositories {
-    mavenCentral()
     maven {
-        name = 'Velocity Repository'
-        url = 'https://nexus.velocitypowered.com/repository/maven-public/'
+        name = "Minecraft Libraries"
+        url = "https://libraries.minecraft.net/"
     }
 }
 
 var dependenciesPath = "dependencies$Util.SEPARATOR"
 dependencies {
-    library group: 'net.java.dev.jna', name: 'jna', version: jna_version
-    library fileTree("${dependenciesPath}buildLibraries")
-    // multi-os support!!
-    implementation fileTree("${dependenciesPath}shared")
-    implementation configurations.library
+    implementation fileTree("${dependenciesPath}libraries")
+    jarLib fileTree("${dependenciesPath}nebula_libraries")
 
-    // why is this such a pain in my dick to do...
-    // using 2.9.4 on MacOS crashes real nice...
-    // for whatever reason, the repos do not have the 2.9.1 version either so... manually add them i guess
-    if (Util.getOSType() == Util.OS.MAC) {
-        implementation fileTree("${dependenciesPath}macos${Util.SEPARATOR}libraries")
-    } else {
-        implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: lwjgl_version
-        implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl-platform', version: lwjgl_version, ext: 'pom'
-        implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: lwjgl_version
-    }
+    var lwjglVersion = Util.getOSType().is(Util.OS.OSX) ? mac_lwjgl_version : lwjgl_version
+    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: lwjglVersion
+    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: lwjglVersion
 }
 
 tasks.withType(Jar).configureEach {
-    from {
-        configurations.library.collect {
-            if (it.name.endsWithIgnoreCase(".sha256")) {
-                return
-            }
-            it.isDirectory() ? it : zipTree(it)
+    if (BUILD_LOCAL) {
+        from {
+            configurations.jarLib
+                    .filter { !it.name.endsWithIgnoreCase(".sha256") }
+                    .collect { it.isDirectory() ? it : zipTree(it) }
         }
     }
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
@@ -94,38 +86,15 @@ tasks.withType(Jar).configureEach {
 
 tasks.withType(JavaCompile).configureEach {
     dependsOn(generateBuildConfig)
+    if (!BUILD_LOCAL) {
+        dependsOn(uploadBuildToServer)
+    }
 }
 
-tasks.register('publishBuildData', PublishBuildDataTask) {
+tasks.register('uploadBuildToServer', UploadBuildToServerTask) {
     setGroup("nebula")
-    setDescription("Publishes build data to a GitHub Gist")
+    setDescription("Creates a nebula build and uploads the build and its dependants to the server")
 
-    setDirectory(directory)
-    setGitHash(gitHash)
-    setBuildID(buildNumber)
-    setVersion(project.version)
-}
-
-tasks.register('generateBuildChecksum', GenerateBuildChecksumTask) {
-    setGroup("nebula")
-    setDescription("Creates a checksum file for the build")
-
-    setBuildDirectory("${directory}build${Util.SEPARATOR}libs")
-}
-
-tasks.register('generateLibraryChecksums', GenerateLibraryChecksumTask) {
-    setGroup("nebula")
-    setDescription("Creates *.sha256 files with each files checksum for the Nebula launcher")
-
-    setDirectory("${dependenciesPath}buildLibraries")
-}
-
-tasks.register('createNebulaBuild') {
-    setGroup("nebula")
-    setDescription("Runs the normal 'build' task with both publishBuildData and generateLibraryChecksums tasks")
-
-    dependsOn(build)
-    dependsOn(publishBuildData)
-    dependsOn(generateLibraryChecksums)
-    dependsOn(generateBuildChecksum)
+    setBuildDirectory(Util.createPathString(Util.USER_DIR, "build", "libs"))
+    setLibrariesDirectory(Util.createPathString(Util.USER_DIR, "dependencies", "nebula_libraries"))
 }

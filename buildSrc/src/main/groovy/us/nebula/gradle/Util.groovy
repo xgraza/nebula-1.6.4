@@ -68,7 +68,7 @@ class Util {
     static getOSType() {
         var name = System.getProperty("os.name").toLowerCase()
         if (name.startsWithIgnoreCase("mac")) {
-            return OS.MAC
+            return OS.OSX
         } else if (name.startsWithIgnoreCase("win")) {
             return OS.WINDOWS
         }
@@ -93,40 +93,21 @@ class Util {
     }
 
     static Iterable<String> getLaunchJVMFlags() {
-        // stolen from the mc launcher - run as close as we can to the launcher
-        var args = [
+        return [
+                // stolen from the mc launcher - run as close as we can to the launcher
                 "-XX:+UnlockExperimentalVMOptions",
                 "-XX:+UseG1GC",
                 "-XX:G1NewSizePercent=20",
                 "-XX:G1ReservePercent=20",
                 "-XX:MaxGCPauseMillis=50",
-                "-XX:G1HeapRegionSize=32M"
+                "-XX:G1HeapRegionSize=32M",
+                "-Djava.library.path=${createPathString(USER_DIR, "dependencies", "natives", getOSType().toString().toLowerCase())}"
         ]
-
-        var natives = createPathString(Util.USER_DIR, "dependencies")
-        switch (getOSType()) {
-            case OS.MAC: {
-                // this prevents a crash in a dylib where it creates a window in a different thread...
-                //args.add("-XstartOnFirstThread")
-                natives = createPathString(natives, "macos", "natives")
-                break
-            }
-            case OS.WINDOWS: {
-                natives = createPathString(natives, "windows")
-                break
-            }
-            case OS.UNIX: {
-                break
-            }
-        }
-
-        args.add("-Djava.library.path=$natives")
-        return args
     }
 
     enum OS {
         WINDOWS,
-        MAC,
+        OSX,
         UNIX
     }
 }

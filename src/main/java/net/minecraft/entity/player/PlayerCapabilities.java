@@ -4,13 +4,19 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class PlayerCapabilities
 {
-    /** Disables player damage. */
+    /**
+     * Disables player damage.
+     */
     public boolean disableDamage;
 
-    /** Sets/indicates whether the player is flying. */
+    /**
+     * Sets/indicates whether the player is flying.
+     */
     public boolean isFlying;
 
-    /** whether or not to allow the player to fly when they double jump. */
+    /**
+     * whether or not to allow the player to fly when they double jump.
+     */
     public boolean allowFlying;
 
     /**
@@ -18,11 +24,12 @@ public class PlayerCapabilities
      */
     public boolean isCreativeMode;
 
-    /** Indicates whether the player is allowed to modify the surroundings */
+    /**
+     * Indicates whether the player is allowed to modify the surroundings
+     */
     public boolean allowEdit = true;
     private float flySpeed = 0.05F;
     private float walkSpeed = 0.1F;
-    private static final String __OBFID = "CL_00001708";
 
     public void writeCapabilitiesToNBT(NBTTagCompound par1NBTTagCompound)
     {
