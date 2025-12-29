@@ -40,4 +40,6 @@ public final class NoRenderCheat extends Cheat
             "Sign Text", false);
     public final Setting<Boolean> batsSetting = new Setting<>(
             "Bats", false);
+    public final Setting<Boolean> weatherSetting = new Setting<>(
+            "Weather", false);
 }
