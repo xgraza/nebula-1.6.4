@@ -85,7 +85,7 @@ public final class Launcher
             {
                 LOGGER.warn("Couldn't delete original file, will just override.");
             }
-            downloadAndRecheckChecksum(jarFile, version.getFileName());
+            downloadAndRecheckChecksum(version, jarFile, version.getFileName());
         }
 
         LOGGER.info("Indexing libraries");
@@ -114,7 +114,7 @@ public final class Launcher
                 {
                     LOGGER.warn("Couldn't delete original file, will just override.");
                 }
-                downloadAndRecheckChecksum(file, name);
+                downloadAndRecheckChecksum(version, file, name);
             }
             addToClasspath(file);
         }
@@ -163,14 +163,17 @@ public final class Launcher
         }
     }
 
-    private static void downloadAndRecheckChecksum(final File jarFile,
+    private static void downloadAndRecheckChecksum(final LaunchVersion version,
+                                                   final File jarFile,
                                                    final String fileName)
     {
+        final Map<String, String> headerMap = new LinkedHashMap<>();
+        headerMap.put("X-Nebula-Version", version.toString());
         LOGGER.info("Checksum mismatch, downloading to {}", jarFile);
         final int responseCode = HTTP.connect("POST",
                 "/download",
                 fileName,
-                null,
+                headerMap,
                 HTTP.downloadFile(jarFile));
         if (responseCode != 200)
         {
