@@ -49,6 +49,8 @@ public final class UploadEndpoint extends Endpoint
                 {
                     directory.mkdir();
                 }
+            } else
+            {
                 name = "nebula-latest.jar";
             }
             writeFile(new File(directory, name), zis);
