@@ -11,17 +11,14 @@ import us.nebula.api.value.Setting;
 import us.nebula.impl.cheat.combat.KillAuraCheat;
 import us.nebula.impl.event.game.EventPostUpdate;
 import us.nebula.impl.event.game.EventUpdate;
-import us.nebula.impl.event.player.EventItemSlowdown;
-import us.nebula.impl.event.player.EventMoveUpdate;
-import us.nebula.impl.event.player.EventPushFromBlocks;
-import us.nebula.impl.event.player.EventPushWater;
+import us.nebula.impl.event.player.*;
 
 /**
  * @author xgraza
  * @since 03/02/25
  */
 @CheatManifest(name = "NoSlow",
-        description = "Negates slowdowns when eating",
+        description = "Negates vanilla slowdowns for eating, blocking, webs, blocks, and water",
         category = CheatCategory.MOVEMENT)
 public final class NoSlowCheat extends Cheat
 {
@@ -34,13 +31,14 @@ public final class NoSlowCheat extends Cheat
     private final Setting<Boolean> waterSetting = new Setting<>(
             "Water", false);
 
-    private boolean bypass;
+    private boolean bypass, inWeb;
 
     @Override
     protected void onDisable()
     {
         super.onDisable();
         bypass = false;
+        inWeb = false;
     }
 
     @Subscribe
@@ -59,11 +57,18 @@ public final class NoSlowCheat extends Cheat
     {
         if (websSetting.getValue())
         {
-            if (MC.thePlayer.isInWeb && modeSetting.getValue() == Mode.NCP)
-            {
-                MC.thePlayer.motionY *= 0.05000000074505806D;
-            }
+            inWeb = MC.thePlayer.isInWeb;
             MC.thePlayer.isInWeb = false;
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventMove> moveEventListener = event ->
+    {
+        if (inWeb)
+        {
+            // Entity#moveEntity
+            event.setY(event.getY() * 0.05000000074505806D);
         }
     };
 
