@@ -34,7 +34,8 @@ public class ChatLine
     private final int chatLineID;
 
     private String parsedUsername;
-    private Animation animation;
+    private final Animation animation = new Animation(AnimationEasing.CUBIC_IN_OUT,
+            200 * ChatModifierCheat.INSTANCE.animateSpeed.getValue());
 
     public ChatLine(int counter, IChatComponent component, int id)
     {
@@ -42,8 +43,6 @@ public class ChatLine
         final long creationTimeMS = System.currentTimeMillis();
         if (ChatModifierCheat.INSTANCE.isToggled())
         {
-            animation = new Animation(AnimationEasing.CUBIC_IN_OUT,
-                    200 * ChatModifierCheat.INSTANCE.animateSpeed.getValue());
             if (ChatModifierCheat.INSTANCE.timestampSetting.getValue())
             {
                 component = new ChatComponentText(EnumChatFormatting.GRAY
