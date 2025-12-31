@@ -2,7 +2,6 @@ package us.nebula.impl.cheat.movement;
 
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.util.AxisAlignedBB;
-import sun.util.resources.cldr.uk.CalendarData_uk_UA;
 import us.nebula.Nebula;
 import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
@@ -13,10 +12,7 @@ import us.nebula.api.value.Setting;
 import us.nebula.impl.event.network.EventPacket;
 import us.nebula.impl.event.player.EventMove;
 import us.nebula.impl.event.player.EventMoveUpdate;
-import us.nebula.util.player.ChatUtil;
 import us.nebula.util.player.MoveUtil;
-
-import java.util.List;
 
 /**
  * @author xgraza
@@ -30,7 +26,7 @@ public final class LongJumpCheat extends Cheat
     private final Setting<Double> boostSetting = new Setting<>(
             "Boost", 4.5, 1.0, 6.0, 0.1);
     private final Setting<Boolean> glideSetting = new Setting<>(
-            "NCP-Glide", false);
+            "NCP Glide", false);
     private final Setting<Boolean> autoDisableSetting = new Setting<>(
             "Auto Disable", true);
 

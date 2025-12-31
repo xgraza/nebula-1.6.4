@@ -4,6 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author xgraza
@@ -11,6 +15,35 @@ import net.minecraft.item.ItemStack;
  */
 public final class ItemUtil
 {
+    private static final Map<Enchantment, Float> TOOL_ENCHANTMENTS = new HashMap<>();
+    private static final Map<Enchantment, Float> SWORD_ENCHANTMENTS = new HashMap<>();
+
+    static
+    {
+        // tools
+        TOOL_ENCHANTMENTS.put(Enchantment.unbreaking, 1.5f);
+        TOOL_ENCHANTMENTS.put(Enchantment.looting, 1.5f);
+        TOOL_ENCHANTMENTS.put(Enchantment.fortune, 1.5f);
+        TOOL_ENCHANTMENTS.put(Enchantment.efficiency, 1.2f);
+
+        // sword
+        SWORD_ENCHANTMENTS.put(Enchantment.sharpness, 1.8f);
+        SWORD_ENCHANTMENTS.put(Enchantment.unbreaking, 1.5f);
+        SWORD_ENCHANTMENTS.put(Enchantment.looting, 1.3f);
+        SWORD_ENCHANTMENTS.put(Enchantment.baneOfArthropods, 1.05f);
+        SWORD_ENCHANTMENTS.put(Enchantment.smite, 1.05f);
+    }
+
+    public static float getSwordScore(final ItemStack itemStack, final boolean _32k)
+    {
+        if (itemStack == null || !(itemStack.getItem() instanceof ItemSword))
+        {
+            return 0.0f;
+        }
+        return getEnchantScore(((ItemSword) itemStack.getItem()).itemDamage,
+                SWORD_ENCHANTMENTS, itemStack, _32k);
+    }
+
     public static float getToolScore(final ItemStack itemStack, final Block attackedBlock)
     {
         float damage = itemStack.getStrVsBlock(attackedBlock);
@@ -18,11 +51,21 @@ public final class ItemUtil
         {
             return 0.0f;
         }
-        damage += getEnchantLevel(Enchantment.unbreaking, itemStack) * 1.5f;
-        damage += getEnchantLevel(Enchantment.efficiency, itemStack) * 1.2f;
-        damage += getEnchantLevel(Enchantment.looting, itemStack) * 1.5f;
-        damage += getEnchantLevel(Enchantment.fortune, itemStack) * 1.5f;
-        return damage;
+        return getEnchantScore(damage, TOOL_ENCHANTMENTS, itemStack, true);
+    }
+
+    public static float getEnchantScore(float score,
+                                        final Map<Enchantment, Float> map,
+                                        final ItemStack itemStack,
+                                        final boolean _32k)
+    {
+        for (final Enchantment enchantment : map.keySet())
+        {
+            score += (_32k
+                    ? getEnchantLevelNoLimit(enchantment, itemStack)
+                    : getEnchantLevel(enchantment, itemStack)) * map.get(enchantment);
+        }
+        return score;
     }
 
     public static int getEnchantLevelNoLimit(final Enchantment enchantment, final ItemStack itemStack)
@@ -43,7 +86,9 @@ public final class ItemUtil
 
     public static boolean isInfinite(final ItemStack itemStack)
     {
-        return itemStack != null && (itemStack.stackSize <= 0 || itemStack.stackSize > itemStack.getMaxStackSize());
+        return itemStack != null
+                && (itemStack.stackSize <= 0
+                || itemStack.stackSize > itemStack.getMaxStackSize());
     }
 
     public static boolean is32k(final ItemStack itemStack)

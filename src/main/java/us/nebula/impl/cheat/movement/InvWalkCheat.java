@@ -12,6 +12,7 @@ import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
+import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
 
 import java.util.List;
@@ -36,6 +37,9 @@ public final class InvWalkCheat extends Cheat
             GuiRepair.class);
 
     private final KeyBinding[] moveKeyBindings = new KeyBinding[6];
+
+    private final Setting<Boolean> allowBlacklistedGUIsSetting = new Setting<>(
+            "Allow Blacklisted GUIs", false);
 
     @Override
     protected void onEnable()
@@ -74,6 +78,8 @@ public final class InvWalkCheat extends Cheat
 
     private boolean isScreenBlacklisted()
     {
-        return MC.currentScreen != null && SCREEN_BLACKLIST.contains(MC.currentScreen.getClass());
+        return MC.currentScreen != null
+                && SCREEN_BLACKLIST.contains(MC.currentScreen.getClass())
+                && !allowBlacklistedGUIsSetting.getValue();
     }
 }

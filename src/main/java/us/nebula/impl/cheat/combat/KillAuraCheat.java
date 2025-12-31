@@ -2,7 +2,6 @@ package us.nebula.impl.cheat.combat;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,9 +26,9 @@ import us.nebula.impl.event.render.EventRender3D;
 import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
 import us.nebula.util.math.Timer;
 import us.nebula.util.player.EntityUtil;
+import us.nebula.util.player.ItemUtil;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.function.Function;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -57,6 +56,9 @@ public final class KillAuraCheat extends Cheat
             "Walls", true);
     private final Setting<Weapon> weaponSetting = new Setting<>(
             "Weapon", Weapon.NONE);
+    private final Setting<Boolean> prefer32KSetting = new Setting<>(
+            "Prefer 32k Sword", false)
+            .setVisibility(() -> weaponSetting.getValue() == Weapon.SWAP);
     private final Setting<Boolean> autoBlockSetting = new Setting<>(
             "Auto Block", true);
     private final Setting<Boolean> tickSetting = new Setting<>(
@@ -157,9 +159,11 @@ public final class KillAuraCheat extends Cheat
         }
 
         final float hurtTime = target.hurtTime / (float) target.maxHurtTime;
-        if (hurtTime > 0.0f) {
+        if (hurtTime > 0.0f)
+        {
             glColor4f(0.3f + hurtTime, 0.0f, 0.0f, 1.0f);
-        } else {
+        } else
+        {
             glColor4f(1.0f - (target.hurtResistantTime / (float) target.maxHurtResistantTime),
                     1.0f, 1.0f, 1.0f);
         }
@@ -245,7 +249,7 @@ public final class KillAuraCheat extends Cheat
         {
             case SWAP:
             {
-                float maxDamage = 0.0f;
+                float maxSwordScore = 0.0f;
                 int slot = -1;
                 for (int i = 0; i < 9; ++i)
                 {
@@ -254,11 +258,11 @@ public final class KillAuraCheat extends Cheat
                     {
                         continue;
                     }
-                    final float itemDamage = ((ItemSword)stack.getItem()).itemDamage;
-                    // TODO: calc w/ enchantments
-                    if (itemDamage > maxDamage)
+                    final float score = ItemUtil.getSwordScore(
+                            itemStack, prefer32KSetting.getValue());
+                    if (score > maxSwordScore)
                     {
-                        maxDamage = itemDamage;
+                        maxSwordScore = score;
                         slot = i;
                     }
                 }
@@ -328,7 +332,7 @@ public final class KillAuraCheat extends Cheat
         {
             return false;
         }
-        if (!attackTamedSetting.getValue() && entity instanceof EntityTameable && ((EntityTameable)entity).isTamed())
+        if (!attackTamedSetting.getValue() && entity instanceof EntityTameable && ((EntityTameable) entity).isTamed())
         {
             return false;
         }
