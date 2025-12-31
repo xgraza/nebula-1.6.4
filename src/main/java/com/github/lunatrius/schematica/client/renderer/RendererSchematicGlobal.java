@@ -12,9 +12,9 @@ import net.minecraft.profiler.Profiler;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
-import us.nebula.api.listener.EventListener;
-import us.nebula.api.listener.Subscribe;
-import us.nebula.impl.event.render.EventRender3D;
+import us.nebula.client.api.listener.EventListener;
+import us.nebula.client.api.listener.Subscribe;
+import us.nebula.client.impl.event.render.EventRender3D;
 
 import java.util.Collections;
 

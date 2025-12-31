@@ -28,8 +28,8 @@ import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import us.nebula.api.listener.EventBus;
-import us.nebula.impl.event.render.EventGamma;
+import us.nebula.client.api.listener.EventBus;
+import us.nebula.client.impl.event.render.EventGamma;
 
 public class CustomColorizer
 {

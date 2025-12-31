@@ -20,7 +20,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
-import us.nebula.impl.cheat.render.XRayCheat;
+import us.nebula.client.impl.cheat.render.XRayCheat;
 
 public class WorldRenderer
 {

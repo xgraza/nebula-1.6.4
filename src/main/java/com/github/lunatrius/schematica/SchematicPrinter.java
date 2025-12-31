@@ -19,7 +19,7 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import us.nebula.util.world.BlockUtil;
+import us.nebula.client.util.world.BlockUtil;
 
 import java.util.ArrayList;
 import java.util.List;

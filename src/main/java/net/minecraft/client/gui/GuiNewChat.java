@@ -15,9 +15,9 @@ import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
-import us.nebula.Nebula;
-import us.nebula.impl.cheat.render.ChatModifierCheat;
-import us.nebula.util.render.HeadDownloader;
+import us.nebula.client.Nebula;
+import us.nebula.client.impl.cheat.render.ChatModifierCheat;
+import us.nebula.client.util.render.HeadDownloader;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -20,8 +20,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import us.nebula.api.listener.EventBus;
-import us.nebula.impl.event.player.EventContainerAction;
+import us.nebula.client.api.listener.EventBus;
+import us.nebula.client.impl.event.player.EventContainerAction;
 
 public abstract class GuiContainer extends GuiScreen
 {

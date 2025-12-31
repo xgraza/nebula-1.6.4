@@ -13,7 +13,7 @@ if (BUILD_LOCAL) {
     println "Local build is turned on, will not attempt to upload build"
 }
 
-var buildNumber = project.build_number
+var buildNumber = project.build_id.toInteger()
 var gitHash = Util.execute("git rev-parse --short HEAD")
 var gitBranch = Util.execute("git branch --show-current")
 
@@ -24,10 +24,10 @@ buildConfig {
     buildConfigField(String, "HASH", gitHash)
     buildConfigField(String, "BRANCH", gitBranch)
     buildConfigField(String, "VERSION", project.version)
-    buildConfigField(String, "BUILD", buildNumber)
+    buildConfigField(Integer, "BUILD", buildNumber)
     buildConfigField(String, "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
 
-    packageName "us.nebula"
+    packageName project.group.toString()
     useJavaOutput()
     generateAtSync = true
 }
@@ -86,6 +86,15 @@ tasks.withType(Jar).configureEach {
 
 tasks.withType(JavaCompile).configureEach {
     dependsOn(generateBuildConfig)
+}
+
+tasks.register('createNebulaBuild') {
+    setGroup("nebula")
+    setDescription("Creates a new nebula build")
+
+    // dependsOn(updateBuildID)
+    dependsOn(build)
+
     if (!BUILD_LOCAL) {
         finalizedBy uploadBuildToServer
     }

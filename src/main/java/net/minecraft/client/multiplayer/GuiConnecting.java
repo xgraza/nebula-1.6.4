@@ -15,7 +15,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import us.nebula.impl.cheat.player.AutoReconnectCheat;
+import us.nebula.client.impl.cheat.player.AutoReconnectCheat;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

@@ -21,12 +21,12 @@ import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
-import us.nebula.api.listener.EventBus;
-import us.nebula.impl.cheat.exploit.NoPortalGUICheat;
-import us.nebula.impl.event.input.EventUpdateInput;
-import us.nebula.impl.event.player.EventItemSlowdown;
-import us.nebula.impl.event.player.EventPushFromBlocks;
-import us.nebula.impl.event.player.EventSprint;
+import us.nebula.client.api.listener.EventBus;
+import us.nebula.client.impl.cheat.exploit.NoPortalGUICheat;
+import us.nebula.client.impl.event.input.EventUpdateInput;
+import us.nebula.client.impl.event.player.EventItemSlowdown;
+import us.nebula.client.impl.event.player.EventPushFromBlocks;
+import us.nebula.client.impl.event.player.EventSprint;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {

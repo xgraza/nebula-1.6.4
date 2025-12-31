@@ -35,8 +35,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import us.nebula.api.listener.EventBus;
-import us.nebula.impl.event.network.EventPacket;
+import us.nebula.client.api.listener.EventBus;
+import us.nebula.client.impl.event.network.EventPacket;
 
 public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 {

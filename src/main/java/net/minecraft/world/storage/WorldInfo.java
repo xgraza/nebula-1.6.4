@@ -7,7 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldType;
-import us.nebula.impl.cheat.render.TimeChangerCheat;
+import us.nebula.client.impl.cheat.render.TimeChangerCheat;
 
 public class WorldInfo
 {

@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSnow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -25,10 +24,10 @@ import net.minecraft.src.Config;
 import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import us.nebula.impl.cheat.player.AntiLagCheat;
-import us.nebula.impl.cheat.render.InfiniteViewerCheat;
-import us.nebula.impl.cheat.render.ItemPhysicsCheat;
-import us.nebula.util.player.ItemUtil;
+import us.nebula.client.impl.cheat.player.AntiLagCheat;
+import us.nebula.client.impl.cheat.render.InfiniteViewerCheat;
+import us.nebula.client.impl.cheat.render.ItemPhysicsCheat;
+import us.nebula.client.util.player.ItemUtil;
 
 public class RenderItem extends Render
 {

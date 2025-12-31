@@ -22,13 +22,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
-import us.nebula.api.listener.EventBus;
-import us.nebula.impl.cheat.movement.SpeedCheat;
-import us.nebula.impl.event.game.EventPostUpdate;
-import us.nebula.impl.event.game.EventUpdate;
-import us.nebula.impl.event.input.EventUpdateRiding;
-import us.nebula.impl.event.player.EventMove;
-import us.nebula.impl.event.player.EventMoveUpdate;
+import us.nebula.client.api.listener.EventBus;
+import us.nebula.client.impl.cheat.movement.SpeedCheat;
+import us.nebula.client.impl.event.game.EventPostUpdate;
+import us.nebula.client.impl.event.game.EventUpdate;
+import us.nebula.client.impl.event.input.EventUpdateRiding;
+import us.nebula.client.impl.event.player.EventMove;
+import us.nebula.client.impl.event.player.EventMoveUpdate;
 
 public class EntityClientPlayerMP extends EntityPlayerSP
 {

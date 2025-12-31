@@ -72,9 +72,9 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.IChunkProvider;
-import us.nebula.Nebula;
-import us.nebula.impl.cheat.exploit.AntiRevertCheat;
-import us.nebula.util.player.ItemUtil;
+import us.nebula.client.Nebula;
+import us.nebula.client.impl.cheat.exploit.AntiRevertCheat;
+import us.nebula.client.util.player.ItemUtil;
 
 public abstract class EntityPlayer extends EntityLivingBase implements ICommandSender
 {

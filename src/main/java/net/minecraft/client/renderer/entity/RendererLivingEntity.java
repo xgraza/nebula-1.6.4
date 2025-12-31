@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import shadersmod.client.Shaders;
-import us.nebula.impl.cheat.render.ChamsCheat;
+import us.nebula.client.impl.cheat.render.ChamsCheat;
 
 public abstract class RendererLivingEntity extends Render
 {

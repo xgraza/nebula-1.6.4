@@ -35,9 +35,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import us.nebula.api.listener.EventBus;
-import us.nebula.impl.event.input.EventRotateCamera;
-import us.nebula.impl.event.player.EventStep;
+import us.nebula.client.api.listener.EventBus;
+import us.nebula.client.impl.event.input.EventRotateCamera;
+import us.nebula.client.impl.event.player.EventStep;
 
 public abstract class Entity
 {

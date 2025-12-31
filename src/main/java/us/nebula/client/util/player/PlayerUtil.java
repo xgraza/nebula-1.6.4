@@ -1,0 +1,60 @@
+package us.nebula.client.util.player;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.src.BlockPos;
+import net.minecraft.util.*;
+
+/**
+ * @author xgraza
+ * @since 03/24/25
+ */
+public final class PlayerUtil
+{
+    private static final Minecraft MC = Minecraft.getMinecraft();
+
+    public static final EnumFacing[] FACINGS = {
+            EnumFacing.SOUTH,
+            EnumFacing.WEST,
+            EnumFacing.NORTH,
+            EnumFacing.EAST };
+
+    public static EnumFacing getFacing()
+    {
+        int var25 = MathHelper.floor_double(MC.thePlayer.rotationYaw / 90.0D + 0.5D) & 3;
+        return FACINGS[var25 % FACINGS.length];
+    }
+
+    public static BlockPos getOrigin(final EntityLivingBase entity)
+    {
+        return new BlockPos(MathHelper.floor_double(entity.posX),
+                MathHelper.floor_double(entity.boundingBox.minY),
+                MathHelper.floor_double(entity.posZ));
+    }
+
+    public static BlockPos getOrigin(final double posY)
+    {
+        return new BlockPos(MathHelper.floor_double(MC.thePlayer.posX),
+                (int) posY,
+                MathHelper.floor_double(MC.thePlayer.posZ));
+    }
+
+    public static BlockPos getOrigin()
+    {
+        return new BlockPos(MathHelper.floor_double(MC.thePlayer.posX),
+                MathHelper.floor_double(MC.thePlayer.boundingBox.minY),
+                MathHelper.floor_double(MC.thePlayer.posZ));
+    }
+
+    public static boolean isPlayerCollided(final BlockPos pos)
+    {
+        return isPlayerCollided(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static boolean isPlayerCollided(final int x, final int y, final int z)
+    {
+        final AxisAlignedBB aabb = MC.thePlayer.boundingBox.copy().expand(0.0625, 0, 0.0625);
+        final AxisAlignedBB aabb2 = new AxisAlignedBB(x, y, z, x + 1, y + 1, z + 1);
+        return aabb.intersectsWith(aabb2);
+    }
+}

@@ -13,7 +13,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
-import us.nebula.ClientSettings;
+import us.nebula.client.ClientSettings;
 
 public class Main
 {

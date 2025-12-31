@@ -28,7 +28,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
-import us.nebula.impl.gui.account.AccountSelectorScreen;
+import us.nebula.client.impl.gui.account.AccountSelectorScreen;
 
 public class GuiMainMenu extends GuiScreen
 {

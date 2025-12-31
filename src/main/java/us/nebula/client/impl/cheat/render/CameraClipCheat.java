@@ -1,0 +1,32 @@
+package us.nebula.client.impl.cheat.render;
+
+import us.nebula.client.api.listener.EventListener;
+import us.nebula.client.api.listener.Subscribe;
+import us.nebula.client.api.manager.cheat.Cheat;
+import us.nebula.client.api.manager.cheat.CheatCategory;
+import us.nebula.client.api.manager.cheat.CheatInstance;
+import us.nebula.client.api.manager.cheat.CheatManifest;
+import us.nebula.client.api.value.Setting;
+import us.nebula.client.impl.event.render.EventCameraDistance;
+
+/**
+ * @author xgraza
+ * @since 03/06/25
+ */
+@CheatManifest(name = "CameraClip",
+        description = "Clips your camera through blocks and extends the distance",
+        category = CheatCategory.RENDER)
+public final class CameraClipCheat extends Cheat
+{
+    @CheatInstance
+    public static CameraClipCheat INSTANCE;
+
+    private final Setting<Double> distanceSetting = new Setting<>(
+            "Distance", 4.0, 0.5, 50.0, 0.5);
+    public final Setting<Boolean> phasePerspective = new Setting<>(
+            "Phase Perspective", true);
+
+    @Subscribe
+    private final EventListener<EventCameraDistance> cameraDistanceEventListener = event ->
+            event.setCameraDistance(distanceSetting.getValue());
+}

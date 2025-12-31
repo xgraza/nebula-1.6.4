@@ -2,7 +2,7 @@ package net.minecraft.potion;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
-import us.nebula.impl.cheat.exploit.PotionSaverCheat;
+import us.nebula.client.impl.cheat.exploit.PotionSaverCheat;
 
 public class PotionEffect
 {

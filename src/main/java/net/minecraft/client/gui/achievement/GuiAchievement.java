@@ -10,7 +10,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import us.nebula.impl.cheat.render.NoRenderCheat;
+import us.nebula.client.impl.cheat.render.NoRenderCheat;
 
 public class GuiAchievement extends Gui
 {

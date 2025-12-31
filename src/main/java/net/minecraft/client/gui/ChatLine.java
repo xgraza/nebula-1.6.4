@@ -8,9 +8,9 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StringUtils;
-import us.nebula.api.gui.animation.Animation;
-import us.nebula.api.gui.animation.AnimationEasing;
-import us.nebula.impl.cheat.render.ChatModifierCheat;
+import us.nebula.client.api.gui.animation.Animation;
+import us.nebula.client.api.gui.animation.AnimationEasing;
+import us.nebula.client.impl.cheat.render.ChatModifierCheat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

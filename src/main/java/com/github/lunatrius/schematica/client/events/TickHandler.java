@@ -9,9 +9,9 @@ import com.github.lunatrius.schematica.world.SchematicWorld;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.util.AxisAlignedBB;
-import us.nebula.api.listener.EventListener;
-import us.nebula.api.listener.Subscribe;
-import us.nebula.impl.event.game.EventUpdate;
+import us.nebula.client.api.listener.EventListener;
+import us.nebula.client.api.listener.Subscribe;
+import us.nebula.client.impl.event.game.EventUpdate;
 
 public class TickHandler {
 	private final Minecraft minecraft = Minecraft.getMinecraft();

@@ -23,8 +23,7 @@ import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import us.nebula.api.render.EntityCulling;
-import us.nebula.impl.cheat.render.ChamsCheat;
+import us.nebula.client.impl.cheat.render.ChamsCheat;
 
 public class TileEntityRendererDispatcher
 {

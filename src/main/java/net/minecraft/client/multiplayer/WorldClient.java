@@ -32,7 +32,7 @@ import net.minecraft.src.DynamicLights;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IntHashMap;
 import net.minecraft.util.ResourceLocation;
-import us.nebula.impl.cheat.render.NoRenderCheat;
+import us.nebula.client.impl.cheat.render.NoRenderCheat;
 import wdl.WDL;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.EnumDifficulty;

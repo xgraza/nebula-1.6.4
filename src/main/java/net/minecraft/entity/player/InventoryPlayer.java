@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ReportedException;
-import us.nebula.Nebula;
+import us.nebula.client.Nebula;
 
 public class InventoryPlayer implements IInventory
 {

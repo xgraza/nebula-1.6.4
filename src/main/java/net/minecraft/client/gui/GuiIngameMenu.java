@@ -5,8 +5,8 @@ import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.I18n;
-import us.nebula.impl.cheat.player.AntiDisconnectCheat;
-import us.nebula.impl.cheat.player.AutoReconnectCheat;
+import us.nebula.client.impl.cheat.player.AntiDisconnectCheat;
+import us.nebula.client.impl.cheat.player.AutoReconnectCheat;
 import wdl.GuiWDL;
 import wdl.WDL;
 
