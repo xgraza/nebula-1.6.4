@@ -1,14 +1,5 @@
 package net.minecraft.client.renderer;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.URL;
-import java.util.concurrent.atomic.AtomicInteger;
-import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -18,6 +9,16 @@ import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadDownloadImageData extends SimpleTexture
 {
@@ -81,18 +82,23 @@ public class ThreadDownloadImageData extends SimpleTexture
                     HttpURLConnection var1 = null;
                     ThreadDownloadImageData.logger.debug("Downloading http texture from {} to {}", ThreadDownloadImageData.this.imageUrl, ThreadDownloadImageData.this.cacheFile);
 
-                    if (shouldPipeline()) {
+                    if (shouldPipeline())
+                    {
                         loadPipelined();
-                    } else {
+                    } else
+                    {
 
-                        try {
+                        try
+                        {
                             var1 = (HttpURLConnection) (new URL(ThreadDownloadImageData.this.imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
                             var1.setDoInput(true);
                             var1.setDoOutput(false);
                             var1.connect();
 
-                            if (var1.getResponseCode() / 100 != 2) {
-                                if (var1.getErrorStream() != null) {
+                            if (var1.getResponseCode() / 100 != 2)
+                            {
+                                if (var1.getErrorStream() != null)
+                                {
                                     Config.readAll(var1.getErrorStream());
                                 }
 
@@ -101,22 +107,28 @@ public class ThreadDownloadImageData extends SimpleTexture
 
                             BufferedImage var6;
 
-                            if (ThreadDownloadImageData.this.cacheFile != null) {
+                            if (ThreadDownloadImageData.this.cacheFile != null)
+                            {
                                 FileUtils.copyInputStreamToFile(var1.getInputStream(), ThreadDownloadImageData.this.cacheFile);
                                 var6 = ImageIO.read(ThreadDownloadImageData.this.cacheFile);
-                            } else {
+                            } else
+                            {
                                 var6 = TextureUtil.readBufferedImage(var1.getInputStream());
                             }
 
-                            if (ThreadDownloadImageData.this.imageBuffer != null) {
+                            if (ThreadDownloadImageData.this.imageBuffer != null)
+                            {
                                 var6 = ThreadDownloadImageData.this.imageBuffer.parseUserSkin(var6);
                             }
 
                             ThreadDownloadImageData.this.setBufferedImage(var6);
-                        } catch (Exception var61) {
+                        } catch (Exception var61)
+                        {
                             ThreadDownloadImageData.logger.error("Couldn't download http texture", var61);
-                        } finally {
-                            if (var1 != null) {
+                        } finally
+                        {
+                            if (var1 != null)
+                            {
                                 var1.disconnect();
                             }
                         }
@@ -143,8 +155,7 @@ public class ThreadDownloadImageData extends SimpleTexture
                     t.setName("Cape downloader: " + this.imageUrl);
                     t.start();
                 }
-            }
-            catch (Exception var9)
+            } catch (Exception var9)
             {
                 ;
             }
@@ -156,8 +167,7 @@ public class ThreadDownloadImageData extends SimpleTexture
         if (!this.pipeline)
         {
             return false;
-        }
-        else
+        } else
         {
             Proxy proxy = Minecraft.getMinecraft().getProxy();
             return (proxy.type() == Proxy.Type.DIRECT || proxy.type() == Proxy.Type.SOCKS) && this.imageUrl.startsWith("http://");
@@ -184,8 +194,7 @@ public class ThreadDownloadImageData extends SimpleTexture
             {
                 FileUtils.copyInputStreamToFile(bytearrayinputstream, this.cacheFile);
                 bufferedimage = ImageIO.read(this.cacheFile);
-            }
-            else
+            } else
             {
                 bufferedimage = TextureUtil.readBufferedImage(bytearrayinputstream);
             }
@@ -196,8 +205,7 @@ public class ThreadDownloadImageData extends SimpleTexture
             }
 
             this.setBufferedImage(bufferedimage);
-        }
-        catch (Exception exception)
+        } catch (Exception exception)
         {
             logger.error("Couldn\'t download http texture: " + exception.getClass().getName() + ": " + exception.getMessage());
             return;
@@ -209,8 +217,7 @@ public class ThreadDownloadImageData extends SimpleTexture
         if (!this.enabled)
         {
             return false;
-        }
-        else
+        } else
         {
             this.checkTextureUploaded();
             return this.textureUploaded;

@@ -1,12 +1,13 @@
 package net.minecraft.src;
 
-import java.awt.image.BufferedImage;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class ThreadDownloadImage extends Thread
 {
@@ -28,7 +29,7 @@ public class ThreadDownloadImage extends Thread
         try
         {
             URL e = new URL(this.urlStr);
-            conn = (HttpURLConnection)e.openConnection(Minecraft.getMinecraft().getProxy());
+            conn = (HttpURLConnection) e.openConnection(Minecraft.getMinecraft().getProxy());
             conn.setDoInput(true);
             conn.setDoOutput(false);
             conn.connect();
@@ -52,12 +53,10 @@ public class ThreadDownloadImage extends Thread
 
             this.parent.setBufferedImage(var2);
             return;
-        }
-        catch (Exception var7)
+        } catch (Exception var7)
         {
             System.out.println(var7.getClass().getName() + ": " + var7.getMessage());
-        }
-        finally
+        } finally
         {
             if (conn != null)
             {

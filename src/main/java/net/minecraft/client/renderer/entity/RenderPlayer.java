@@ -10,11 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
@@ -33,7 +29,7 @@ public class RenderPlayer extends RendererLivingEntity
     public RenderPlayer()
     {
         super(new ModelBiped(0.0F), 0.5F);
-        this.modelBipedMain = (ModelBiped)this.mainModel;
+        this.modelBipedMain = (ModelBiped) this.mainModel;
         this.modelArmorChestplate = new ModelBiped(1.0F);
         this.modelArmor = new ModelBiped(0.5F);
     }
@@ -51,7 +47,7 @@ public class RenderPlayer extends RendererLivingEntity
 
             if (var5 instanceof ItemArmor)
             {
-                ItemArmor var6 = (ItemArmor)var5;
+                ItemArmor var6 = (ItemArmor) var5;
                 this.bindTexture(RenderBiped.func_110857_a(var6, par2));
                 ModelBiped var7 = par2 == 2 ? this.modelArmor : this.modelArmorChestplate;
                 var7.bipedHead.showModel = par2 == 0;
@@ -69,9 +65,9 @@ public class RenderPlayer extends RendererLivingEntity
                 if (var6.getArmorMaterial() == ItemArmor.ArmorMaterial.CLOTH)
                 {
                     int var8 = var6.getColor(var4);
-                    float var9 = (float)(var8 >> 16 & 255) / 255.0F;
-                    float var10 = (float)(var8 >> 8 & 255) / 255.0F;
-                    float var11 = (float)(var8 & 255) / 255.0F;
+                    float var9 = (float) (var8 >> 16 & 255) / 255.0F;
+                    float var10 = (float) (var8 >> 8 & 255) / 255.0F;
+                    float var11 = (float) (var8 & 255) / 255.0F;
                     GL11.glColor3f(var9, var10, var11);
 
                     if (var4.isItemEnchanted())
@@ -106,7 +102,7 @@ public class RenderPlayer extends RendererLivingEntity
 
             if (var5 instanceof ItemArmor)
             {
-                this.bindTexture(RenderBiped.func_110858_a((ItemArmor)var5, par2, "overlay"));
+                this.bindTexture(RenderBiped.func_110858_a((ItemArmor) var5, par2, "overlay"));
                 GL11.glColor3f(1.0F, 1.0F, 1.0F);
             }
         }
@@ -131,22 +127,21 @@ public class RenderPlayer extends RendererLivingEntity
             if (var11 == EnumAction.block)
             {
                 this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = 3;
-            }
-            else if (var11 == EnumAction.bow)
+            } else if (var11 == EnumAction.bow)
             {
                 this.modelArmorChestplate.aimedBow = this.modelArmor.aimedBow = this.modelBipedMain.aimedBow = true;
             }
         }
 
         this.modelArmorChestplate.isSneak = this.modelArmor.isSneak = this.modelBipedMain.isSneak = par1AbstractClientPlayer.isSneaking();
-        double var13 = par4 - (double)par1AbstractClientPlayer.yOffset;
+        double var13 = par4 - (double) par1AbstractClientPlayer.yOffset;
 
         if (par1AbstractClientPlayer.isSneaking() && !(par1AbstractClientPlayer instanceof EntityPlayerSP))
         {
             var13 -= 0.125D;
         }
 
-        super.doRender((EntityLivingBase)par1AbstractClientPlayer, par2, var13, par6, par8, par9);
+        super.doRender((EntityLivingBase) par1AbstractClientPlayer, par2, var13, par6, par8, par9);
         this.modelArmorChestplate.aimedBow = this.modelArmor.aimedBow = this.modelBipedMain.aimedBow = false;
         this.modelArmorChestplate.isSneak = this.modelArmor.isSneak = this.modelBipedMain.isSneak = false;
         this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = 0;
@@ -184,8 +179,7 @@ public class RenderPlayer extends RendererLivingEntity
                 }
 
                 this.renderManager.itemRenderer.renderItem(par1AbstractClientPlayer, var3, 0);
-            }
-            else if (var3.getItem() == Items.skull)
+            } else if (var3.getItem() == Items.skull)
             {
                 var4 = 1.0625F;
                 GL11.glScalef(var4, -var4, -var4);
@@ -215,7 +209,7 @@ public class RenderPlayer extends RendererLivingEntity
                 GL11.glPushMatrix();
                 GL11.glRotatef(var22, 0.0F, 1.0F, 0.0F);
                 GL11.glRotatef(var6, 1.0F, 0.0F, 0.0F);
-                GL11.glTranslatef(0.375F * (float)(var20 * 2 - 1), 0.0F, 0.0F);
+                GL11.glTranslatef(0.375F * (float) (var20 * 2 - 1), 0.0F, 0.0F);
                 GL11.glTranslatef(0.0F, -0.375F, 0.0F);
                 GL11.glRotatef(-var6, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(-var22, 0.0F, 1.0F, 0.0F);
@@ -226,7 +220,7 @@ public class RenderPlayer extends RendererLivingEntity
             }
         }
 
-        boolean var21 = false;//par1AbstractClientPlayer.getTextureCape().isTextureUploaded();
+        boolean var21 = par1AbstractClientPlayer.getTextureCape().isTextureUploaded();
         float var11;
 
         if (var21 && !par1AbstractClientPlayer.isInvisible() && !par1AbstractClientPlayer.getHideCape())
@@ -234,13 +228,13 @@ public class RenderPlayer extends RendererLivingEntity
             this.bindTexture(par1AbstractClientPlayer.getLocationCape());
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, 0.0F, 0.125F);
-            double var23 = par1AbstractClientPlayer.field_71091_bM + (par1AbstractClientPlayer.field_71094_bP - par1AbstractClientPlayer.field_71091_bM) * (double)par2 - (par1AbstractClientPlayer.prevPosX + (par1AbstractClientPlayer.posX - par1AbstractClientPlayer.prevPosX) * (double)par2);
-            double var26 = par1AbstractClientPlayer.field_71096_bN + (par1AbstractClientPlayer.field_71095_bQ - par1AbstractClientPlayer.field_71096_bN) * (double)par2 - (par1AbstractClientPlayer.prevPosY + (par1AbstractClientPlayer.posY - par1AbstractClientPlayer.prevPosY) * (double)par2);
-            double var9 = par1AbstractClientPlayer.field_71097_bO + (par1AbstractClientPlayer.field_71085_bR - par1AbstractClientPlayer.field_71097_bO) * (double)par2 - (par1AbstractClientPlayer.prevPosZ + (par1AbstractClientPlayer.posZ - par1AbstractClientPlayer.prevPosZ) * (double)par2);
+            double var23 = par1AbstractClientPlayer.field_71091_bM + (par1AbstractClientPlayer.field_71094_bP - par1AbstractClientPlayer.field_71091_bM) * (double) par2 - (par1AbstractClientPlayer.prevPosX + (par1AbstractClientPlayer.posX - par1AbstractClientPlayer.prevPosX) * (double) par2);
+            double var26 = par1AbstractClientPlayer.field_71096_bN + (par1AbstractClientPlayer.field_71095_bQ - par1AbstractClientPlayer.field_71096_bN) * (double) par2 - (par1AbstractClientPlayer.prevPosY + (par1AbstractClientPlayer.posY - par1AbstractClientPlayer.prevPosY) * (double) par2);
+            double var9 = par1AbstractClientPlayer.field_71097_bO + (par1AbstractClientPlayer.field_71085_bR - par1AbstractClientPlayer.field_71097_bO) * (double) par2 - (par1AbstractClientPlayer.prevPosZ + (par1AbstractClientPlayer.posZ - par1AbstractClientPlayer.prevPosZ) * (double) par2);
             var11 = par1AbstractClientPlayer.prevRenderYawOffset + (par1AbstractClientPlayer.renderYawOffset - par1AbstractClientPlayer.prevRenderYawOffset) * par2;
-            double var12 = (double)MathHelper.sin(var11 * (float)Math.PI / 180.0F);
-            double var14 = (double)(-MathHelper.cos(var11 * (float)Math.PI / 180.0F));
-            float var16 = (float)var26 * 10.0F;
+            double var12 = (double) MathHelper.sin(var11 * (float) Math.PI / 180.0F);
+            double var14 = (double) (-MathHelper.cos(var11 * (float) Math.PI / 180.0F));
+            float var16 = (float) var26 * 10.0F;
 
             if (var16 < -6.0F)
             {
@@ -252,8 +246,8 @@ public class RenderPlayer extends RendererLivingEntity
                 var16 = 32.0F;
             }
 
-            float var17 = (float)(var23 * var12 + var9 * var14) * 100.0F;
-            float var18 = (float)(var23 * var14 - var9 * var12) * 100.0F;
+            float var17 = (float) (var23 * var12 + var9 * var14) * 100.0F;
+            float var18 = (float) (var23 * var14 - var9 * var12) * 100.0F;
 
             if (var17 < 0.0F)
             {
@@ -304,8 +298,7 @@ public class RenderPlayer extends RendererLivingEntity
                 GL11.glRotatef(20.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
                 GL11.glScalef(-var7, -var7, var7);
-            }
-            else if (var25.getItem() == Items.bow)
+            } else if (var25.getItem() == Items.bow)
             {
                 var7 = 0.625F;
                 GL11.glTranslatef(0.0F, 0.125F, 0.3125F);
@@ -313,8 +306,7 @@ public class RenderPlayer extends RendererLivingEntity
                 GL11.glScalef(var7, -var7, var7);
                 GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            }
-            else if (var25.getItem().isFull3D())
+            } else if (var25.getItem().isFull3D())
             {
                 var7 = 0.625F;
 
@@ -336,8 +328,7 @@ public class RenderPlayer extends RendererLivingEntity
                 GL11.glScalef(var7, -var7, var7);
                 GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            }
-            else
+            } else
             {
                 var7 = 0.375F;
                 GL11.glTranslatef(0.25F, 0.1875F, -0.1875F);
@@ -356,19 +347,18 @@ public class RenderPlayer extends RendererLivingEntity
                 for (var28 = 0; var28 <= 1; ++var28)
                 {
                     int var8 = var25.getItem().getColorFromItemStack(var25, var28);
-                    var29 = (float)(var8 >> 16 & 255) / 255.0F;
-                    var10 = (float)(var8 >> 8 & 255) / 255.0F;
-                    var11 = (float)(var8 & 255) / 255.0F;
+                    var29 = (float) (var8 >> 16 & 255) / 255.0F;
+                    var10 = (float) (var8 >> 8 & 255) / 255.0F;
+                    var11 = (float) (var8 & 255) / 255.0F;
                     GL11.glColor4f(var29, var10, var11, 1.0F);
                     this.renderManager.itemRenderer.renderItem(par1AbstractClientPlayer, var25, var28);
                 }
-            }
-            else
+            } else
             {
                 var28 = var25.getItem().getColorFromItemStack(var25, 0);
-                float var27 = (float)(var28 >> 16 & 255) / 255.0F;
-                var29 = (float)(var28 >> 8 & 255) / 255.0F;
-                var10 = (float)(var28 & 255) / 255.0F;
+                float var27 = (float) (var28 >> 16 & 255) / 255.0F;
+                var29 = (float) (var28 >> 8 & 255) / 255.0F;
+                var10 = (float) (var28 & 255) / 255.0F;
                 GL11.glColor4f(var27, var29, var10, 1.0F);
                 this.renderManager.itemRenderer.renderItem(par1AbstractClientPlayer, var25, 0);
             }
@@ -401,13 +391,12 @@ public class RenderPlayer extends RendererLivingEntity
                 if (par1AbstractClientPlayer.isPlayerSleeping())
                 {
                     this.renderEntityNameplate(par1AbstractClientPlayer, var14.getScorePoints() + " " + var13.getDisplayName(), par2, par4 - 1.5D, par6, 64);
-                }
-                else
+                } else
                 {
                     this.renderEntityNameplate(par1AbstractClientPlayer, var14.getScorePoints() + " " + var13.getDisplayName(), par2, par4, par6, 64);
                 }
 
-                par4 += (double)((float)this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * par9);
+                par4 += (double) ((float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * par9);
             }
         }
 
@@ -430,9 +419,8 @@ public class RenderPlayer extends RendererLivingEntity
     {
         if (par1AbstractClientPlayer.isEntityAlive() && par1AbstractClientPlayer.isPlayerSleeping())
         {
-            super.renderLivingAt(par1AbstractClientPlayer, par2 + (double)par1AbstractClientPlayer.field_71079_bU, par4 + (double)par1AbstractClientPlayer.field_71082_cx, par6 + (double)par1AbstractClientPlayer.field_71089_bV);
-        }
-        else
+            super.renderLivingAt(par1AbstractClientPlayer, par2 + (double) par1AbstractClientPlayer.field_71079_bU, par4 + (double) par1AbstractClientPlayer.field_71082_cx, par6 + (double) par1AbstractClientPlayer.field_71089_bV);
+        } else
         {
             super.renderLivingAt(par1AbstractClientPlayer, par2, par4, par6);
         }
@@ -445,8 +433,7 @@ public class RenderPlayer extends RendererLivingEntity
             GL11.glRotatef(par1AbstractClientPlayer.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(this.getDeathMaxRotation(par1AbstractClientPlayer), 0.0F, 0.0F, 1.0F);
             GL11.glRotatef(270.0F, 0.0F, 1.0F, 0.0F);
-        }
-        else
+        } else
         {
             super.rotateCorpse(par1AbstractClientPlayer, par2, par3, par4);
         }
@@ -454,7 +441,7 @@ public class RenderPlayer extends RendererLivingEntity
 
     protected void func_96449_a(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, String par8Str, float par9, double par10)
     {
-        this.func_96449_a((AbstractClientPlayer)par1EntityLivingBase, par2, par4, par6, par8Str, par9, par10);
+        this.func_96449_a((AbstractClientPlayer) par1EntityLivingBase, par2, par4, par6, par8Str, par9, par10);
     }
 
     /**
@@ -463,12 +450,12 @@ public class RenderPlayer extends RendererLivingEntity
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((AbstractClientPlayer)par1EntityLivingBase, par2);
+        this.preRenderCallback((AbstractClientPlayer) par1EntityLivingBase, par2);
     }
 
     protected void func_82408_c(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        this.func_82408_c((AbstractClientPlayer)par1EntityLivingBase, par2, par3);
+        this.func_82408_c((AbstractClientPlayer) par1EntityLivingBase, par2, par3);
     }
 
     /**
@@ -476,17 +463,17 @@ public class RenderPlayer extends RendererLivingEntity
      */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.shouldRenderPass((AbstractClientPlayer)par1EntityLivingBase, par2, par3);
+        return this.shouldRenderPass((AbstractClientPlayer) par1EntityLivingBase, par2, par3);
     }
 
     protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.renderEquippedItems((AbstractClientPlayer)par1EntityLivingBase, par2);
+        this.renderEquippedItems((AbstractClientPlayer) par1EntityLivingBase, par2);
     }
 
     protected void rotateCorpse(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
-        this.rotateCorpse((AbstractClientPlayer)par1EntityLivingBase, par2, par3, par4);
+        this.rotateCorpse((AbstractClientPlayer) par1EntityLivingBase, par2, par3, par4);
     }
 
     /**
@@ -494,7 +481,7 @@ public class RenderPlayer extends RendererLivingEntity
      */
     protected void renderLivingAt(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6)
     {
-        this.renderLivingAt((AbstractClientPlayer)par1EntityLivingBase, par2, par4, par6);
+        this.renderLivingAt((AbstractClientPlayer) par1EntityLivingBase, par2, par4, par6);
     }
 
     /**
@@ -505,7 +492,7 @@ public class RenderPlayer extends RendererLivingEntity
      */
     public void doRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((AbstractClientPlayer)par1EntityLivingBase, par2, par4, par6, par8, par9);
+        this.doRender((AbstractClientPlayer) par1EntityLivingBase, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -513,7 +500,7 @@ public class RenderPlayer extends RendererLivingEntity
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((AbstractClientPlayer)par1Entity);
+        return this.getEntityTexture((AbstractClientPlayer) par1Entity);
     }
 
     /**
@@ -524,6 +511,6 @@ public class RenderPlayer extends RendererLivingEntity
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((AbstractClientPlayer)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((AbstractClientPlayer) par1Entity, par2, par4, par6, par8, par9);
     }
 }
