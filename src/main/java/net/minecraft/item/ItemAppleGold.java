@@ -1,11 +1,12 @@
 package net.minecraft.item;
 
-import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemAppleGold extends ItemFood
 {
@@ -34,7 +35,7 @@ public class ItemAppleGold extends ItemFood
     {
         if (!par2World.isClient)
         {
-            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 2400, 0));
+            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.absorption.id, 2400, 0));
         }
 
         if (par1ItemStack.getItemDamage() > 0)
@@ -45,8 +46,7 @@ public class ItemAppleGold extends ItemFood
                 par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.resistance.id, 6000, 0));
                 par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 6000, 0));
             }
-        }
-        else
+        } else
         {
             super.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
         }
