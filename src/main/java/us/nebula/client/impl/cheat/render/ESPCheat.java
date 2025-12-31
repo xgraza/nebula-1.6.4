@@ -188,7 +188,7 @@ public final class ESPCheat extends Cheat
 
             if (gEntity instanceof EntityLivingBase)
             {
-                final EntityLivingBase e = (EntityLivingBase)gEntity;
+                final EntityLivingBase e = (EntityLivingBase) gEntity;
                 if (e.isDead || e.getHealth() <= 0.0f)
                 {
                     renderTargetList.remove(e);
@@ -205,12 +205,19 @@ public final class ESPCheat extends Cheat
 
             glPushMatrix();
 
-            glLineWidth(1.0f);
+            glLineWidth(2.0f);
             glDisable(GL_DEPTH_TEST);
             glDisable(GL_TEXTURE_2D);
 
-            glScaled(0.5, 0.5, 0.5);
-            glColor4f(1, 1, 1, 1);
+            // TODO
+            if (MC.gameSettings.guiScale == 2)
+            {
+                glScaled(0.5, 0.5, 0.5);
+            } else if (MC.gameSettings.guiScale == 3)
+            {
+                glScaled(0.33f, 0.33f, 0.33f);
+            }
+            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
             glBegin(GL_LINES);
             {
@@ -232,7 +239,7 @@ public final class ESPCheat extends Cheat
 
             if (gEntity instanceof EntityLivingBase)
             {
-                final EntityLivingBase e = (EntityLivingBase)gEntity;
+                final EntityLivingBase e = (EntityLivingBase) gEntity;
                 final float healthPercent = (e.getHealth() + e.getAbsorptionAmount()) / 24.0f;
                 glColor4f(
                         1.0f - healthPercent,
@@ -257,11 +264,11 @@ public final class ESPCheat extends Cheat
                 String text = null;
                 if (gEntity instanceof EntityLivingBase)
                 {
-                    final EntityLivingBase e = (EntityLivingBase)gEntity;
+                    final EntityLivingBase e = (EntityLivingBase) gEntity;
                     text = e.getCommandSenderName() + EnumChatFormatting.RED + " " + e.getHealth() + "\u2764";
                 } else if (gEntity instanceof TileEntity)
                 {
-                    final TileEntity e = (TileEntity)gEntity;
+                    final TileEntity e = (TileEntity) gEntity;
                     text = e.getBlockType().getLocalizedName();
                 }
 
@@ -281,7 +288,7 @@ public final class ESPCheat extends Cheat
         AxisAlignedBB aabb = null;
         if (entity instanceof EntityLivingBase)
         {
-            final EntityLivingBase e = (EntityLivingBase)entity;
+            final EntityLivingBase e = (EntityLivingBase) entity;
 
             double x = (e.lastTickPosX + (e.posX - e.lastTickPosX) * partialTicks);
             double y = (e.lastTickPosY + (e.posY - e.lastTickPosY) * partialTicks);
@@ -295,7 +302,7 @@ public final class ESPCheat extends Cheat
                     z + o);
         } else if (entity instanceof TileEntity)
         {
-            final TileEntity e = (TileEntity)entity;
+            final TileEntity e = (TileEntity) entity;
             aabb = new AxisAlignedBB(e.xCoord, e.yCoord, e.zCoord,
                     e.xCoord + 1,
                     e.yCoord + 1,
@@ -318,7 +325,7 @@ public final class ESPCheat extends Cheat
         {
             if (entity instanceof EntityPlayer)
             {
-                final EntityPlayer player = (EntityPlayer)entity;
+                final EntityPlayer player = (EntityPlayer) entity;
                 if (Nebula.INSTANCE.getFriendManager().isFriend(player))
                 {
                     return Color.cyan.getRGB();
@@ -351,7 +358,7 @@ public final class ESPCheat extends Cheat
 
         if (entity instanceof EntityLivingBase)
         {
-            final EntityLivingBase e = (EntityLivingBase)entity;
+            final EntityLivingBase e = (EntityLivingBase) entity;
             double x = (e.lastTickPosX + (e.posX - e.lastTickPosX) * partialTicks) - RenderManager.renderPosX;
             double y = (e.lastTickPosY + (e.posY - e.lastTickPosY) * partialTicks) - RenderManager.renderPosY;
             double z = (e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * partialTicks) - RenderManager.renderPosZ;
@@ -361,7 +368,7 @@ public final class ESPCheat extends Cheat
             id = e.getEntityId();
         } else if (entity instanceof TileEntity)
         {
-            final TileEntity e = (TileEntity)entity;
+            final TileEntity e = (TileEntity) entity;
             double x = e.xCoord;
             double y = e.yCoord;
             double z = e.zCoord;
@@ -379,7 +386,7 @@ public final class ESPCheat extends Cheat
             return;
         }
 
-        projected.put(id, new float[][] { top, bottom });
+        projected.put(id, new float[][]{ top, bottom });
 
     }
 
