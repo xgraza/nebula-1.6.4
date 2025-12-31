@@ -80,7 +80,7 @@ public final class SpeedCheat extends Cheat
                     }
                     if (MoveUtil.isMoving() && MC.thePlayer.onGround)
                     {
-                        MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.38f);
+                        MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.3995f);
                         event.setY(MC.thePlayer.motionY);
                         speed *= 1.59;
                         stage = 2;
