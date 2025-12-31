@@ -303,7 +303,8 @@ public final class KillAuraCheat extends Cheat
                 || entity.getHealth() <= 0.0f
                 || entity.isDead
                 || entity.equals(MC.thePlayer)
-                || entity.getEntityId() == FreecamCheat.CAMERA_ENTITY_ID)
+                || entity.getEntityId() == FreecamCheat.CAMERA_ENTITY_ID
+                || entity.equals(MC.thePlayer.ridingEntity))
         {
             return false;
         }
