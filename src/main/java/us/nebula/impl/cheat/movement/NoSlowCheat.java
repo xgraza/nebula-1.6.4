@@ -6,13 +6,15 @@ import us.nebula.api.listener.EventListener;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
-import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.cheat.combat.KillAuraCheat;
 import us.nebula.impl.event.game.EventPostUpdate;
+import us.nebula.impl.event.game.EventUpdate;
 import us.nebula.impl.event.player.EventItemSlowdown;
 import us.nebula.impl.event.player.EventMoveUpdate;
+import us.nebula.impl.event.player.EventPushFromBlocks;
+import us.nebula.impl.event.player.EventPushWater;
 
 /**
  * @author xgraza
@@ -23,11 +25,14 @@ import us.nebula.impl.event.player.EventMoveUpdate;
         category = CheatCategory.MOVEMENT)
 public final class NoSlowCheat extends Cheat
 {
-    @CheatInstance
-    public static NoSlowCheat INSTANCE;
-
-    private final Setting<Boolean> ncpBypassSetting = new Setting<>(
-            "NCP Bypass", false);
+    private final Setting<Mode> modeSetting = new Setting<>(
+            "Mode", Mode.VANILLA);
+    private final Setting<Boolean> websSetting = new Setting<>(
+            "Webs", false);
+    private final Setting<Boolean> blocksSetting = new Setting<>(
+            "Blocks", false);
+    private final Setting<Boolean> waterSetting = new Setting<>(
+            "Water", false);
 
     private boolean bypass;
 
@@ -41,11 +46,24 @@ public final class NoSlowCheat extends Cheat
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (ncpBypassSetting.getValue() && isBlocking() && event.isOnGround())
+        if (modeSetting.getValue() == Mode.NCP && isBlocking() && event.isOnGround())
         {
             bypass = true;
             MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
                     5, 0, 0, 0, 255));
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventUpdate> updateEventListener = event ->
+    {
+        if (websSetting.getValue())
+        {
+            if (MC.thePlayer.isInWeb && modeSetting.getValue() == Mode.NCP)
+            {
+                MC.thePlayer.motionY *= 0.05000000074505806D;
+            }
+            MC.thePlayer.isInWeb = false;
         }
     };
 
@@ -68,6 +86,24 @@ public final class NoSlowCheat extends Cheat
         event.getInput().moveStrafe *= 5.0f;
     };
 
+    @Subscribe
+    private final EventListener<EventPushFromBlocks> pushFromBlocksEventListener = event ->
+    {
+        if (blocksSetting.getValue())
+        {
+            event.setCanceled(true);
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventPushWater> pushWaterEventListener = event ->
+    {
+        if (waterSetting.getValue() && event.getEntity().equals(MC.thePlayer))
+        {
+            event.setCanceled(true);
+        }
+    };
+
     private boolean isBlocking()
     {
         if (KillAuraCheat.INSTANCE.isToggled()
@@ -76,5 +112,17 @@ public final class NoSlowCheat extends Cheat
             return KillAuraCheat.INSTANCE.isBlocking();
         }
         return MC.thePlayer.isBlocking();
+    }
+
+    private enum Mode
+    {
+        VANILLA,
+        NCP
+                {
+                    @Override public String toString()
+                    {
+                        return "NCP";
+                    }
+                }
     }
 }
