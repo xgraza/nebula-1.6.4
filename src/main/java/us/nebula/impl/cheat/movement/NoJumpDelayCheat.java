@@ -17,18 +17,13 @@ import us.nebula.impl.event.game.EventUpdate;
         category = CheatCategory.MOVEMENT)
 public final class NoJumpDelayCheat extends Cheat
 {
-    private final Setting<Boolean> playerSetting = new Setting<>(
-            "Player", true);
     private final Setting<Boolean> horsesSetting = new Setting<>(
             "Horses", false);
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (playerSetting.getValue())
-        {
-            MC.thePlayer.jumpTicks = 0;
-        }
+        MC.thePlayer.jumpTicks = 0;
 
         if (horsesSetting.getValue() && MC.thePlayer.isRidingHorse())
         {
