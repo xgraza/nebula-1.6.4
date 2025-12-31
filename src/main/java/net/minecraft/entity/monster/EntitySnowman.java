@@ -5,11 +5,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIArrowAttack;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.init.Blocks;
@@ -73,9 +69,9 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
 
         for (int var4 = 0; var4 < 4; ++var4)
         {
-            var1 = MathHelper.floor_double(this.posX + (double)((float)(var4 % 2 * 2 - 1) * 0.25F));
+            var1 = MathHelper.floor_double(this.posX + (double) ((float) (var4 % 2 * 2 - 1) * 0.25F));
             var2 = MathHelper.floor_double(this.posY);
-            var3 = MathHelper.floor_double(this.posZ + (double)((float)(var4 / 2 % 2 * 2 - 1) * 0.25F));
+            var3 = MathHelper.floor_double(this.posZ + (double) ((float) (var4 / 2 % 2 * 2 - 1) * 0.25F));
 
             if (this.worldObj.getBlock(var1, var2, var3).getMaterial() == Material.air && this.worldObj.getBiomeGenForCoords(var1, var3).getFloatTemperature(var1, var2, var3) < 0.8F && Blocks.snow_layer.canPlaceBlockAt(this.worldObj, var1, var2, var3))
             {
@@ -84,7 +80,7 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
         }
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Items.snowball;
     }
@@ -109,10 +105,10 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
     {
         EntitySnowball var3 = new EntitySnowball(this.worldObj, this);
         double var4 = par1EntityLivingBase.posX - this.posX;
-        double var6 = par1EntityLivingBase.posY + (double)par1EntityLivingBase.getEyeHeight() - 1.100000023841858D - var3.posY;
+        double var6 = par1EntityLivingBase.posY + (double) par1EntityLivingBase.getEyeHeight() - 1.100000023841858D - var3.posY;
         double var8 = par1EntityLivingBase.posZ - this.posZ;
         float var10 = MathHelper.sqrt_double(var4 * var4 + var8 * var8) * 0.2F;
-        var3.setThrowableHeading(var4, var6 + (double)var10, var8, 1.6F, 12.0F);
+        var3.setThrowableHeading(var4, var6 + (double) var10, var8, 1.6F, 12.0F);
         this.playSound("random.bow", 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
         this.worldObj.spawnEntityInWorld(var3);
     }

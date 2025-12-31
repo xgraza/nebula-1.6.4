@@ -1,6 +1,5 @@
 package net.minecraft.entity.monster;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -13,6 +12,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class EntitySpider extends EntityMob
 {
@@ -27,7 +28,7 @@ public class EntitySpider extends EntityMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, new Byte((byte)0));
+        this.dataWatcher.addObject(16, new Byte((byte) 0));
     }
 
     /**
@@ -62,8 +63,7 @@ public class EntitySpider extends EntityMob
         {
             double var2 = 16.0D;
             return this.worldObj.getClosestVulnerablePlayerToEntity(this, var2);
-        }
-        else
+        } else
         {
             return null;
         }
@@ -108,8 +108,7 @@ public class EntitySpider extends EntityMob
         if (var3 > 0.5F && this.rand.nextInt(100) == 0)
         {
             this.entityToAttack = null;
-        }
-        else
+        } else
         {
             if (par2 > 2.0F && par2 < 6.0F && this.rand.nextInt(10) == 0)
             {
@@ -118,19 +117,18 @@ public class EntitySpider extends EntityMob
                     double var4 = par1Entity.posX - this.posX;
                     double var6 = par1Entity.posZ - this.posZ;
                     float var8 = MathHelper.sqrt_double(var4 * var4 + var6 * var6);
-                    this.motionX = var4 / (double)var8 * 0.5D * 0.800000011920929D + this.motionX * 0.20000000298023224D;
-                    this.motionZ = var6 / (double)var8 * 0.5D * 0.800000011920929D + this.motionZ * 0.20000000298023224D;
+                    this.motionX = var4 / (double) var8 * 0.5D * 0.800000011920929D + this.motionX * 0.20000000298023224D;
+                    this.motionZ = var6 / (double) var8 * 0.5D * 0.800000011920929D + this.motionZ * 0.20000000298023224D;
                     this.motionY = 0.4000000059604645D;
                 }
-            }
-            else
+            } else
             {
                 super.attackEntity(par1Entity, par2);
             }
         }
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Items.string;
     }
@@ -159,7 +157,9 @@ public class EntitySpider extends EntityMob
     /**
      * Sets the Entity inside a web block.
      */
-    public void setInWeb() {}
+    public void setInWeb()
+    {
+    }
 
     /**
      * Get this Entity's EnumCreatureAttribute
@@ -193,9 +193,8 @@ public class EntitySpider extends EntityMob
 
         if (par1)
         {
-            var2 = (byte)(var2 | 1);
-        }
-        else
+            var2 = (byte) (var2 | 1);
+        } else
         {
             var2 &= -2;
         }
@@ -211,7 +210,7 @@ public class EntitySpider extends EntityMob
         {
             EntitySkeleton var2 = new EntitySkeleton(this.worldObj);
             var2.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-            var2.onSpawnWithEgg((IEntityLivingData)null);
+            var2.onSpawnWithEgg((IEntityLivingData) null);
             this.worldObj.spawnEntityInWorld(var2);
             var2.mountEntity(this);
         }
@@ -222,13 +221,13 @@ public class EntitySpider extends EntityMob
 
             if (this.worldObj.difficultySetting == EnumDifficulty.HARD && this.worldObj.rand.nextFloat() < 0.1F * this.worldObj.func_147462_b(this.posX, this.posY, this.posZ))
             {
-                ((EntitySpider.GroupData)par1EntityLivingData1).func_111104_a(this.worldObj.rand);
+                ((EntitySpider.GroupData) par1EntityLivingData1).func_111104_a(this.worldObj.rand);
             }
         }
 
         if (par1EntityLivingData1 instanceof EntitySpider.GroupData)
         {
-            int var4 = ((EntitySpider.GroupData)par1EntityLivingData1).field_111105_a;
+            int var4 = ((EntitySpider.GroupData) par1EntityLivingData1).field_111105_a;
 
             if (var4 > 0 && Potion.potionTypes[var4] != null)
             {
@@ -236,7 +235,7 @@ public class EntitySpider extends EntityMob
             }
         }
 
-        return (IEntityLivingData)par1EntityLivingData1;
+        return (IEntityLivingData) par1EntityLivingData1;
     }
 
     public static class GroupData implements IEntityLivingData
@@ -251,16 +250,13 @@ public class EntitySpider extends EntityMob
             if (var2 <= 1)
             {
                 this.field_111105_a = Potion.moveSpeed.id;
-            }
-            else if (var2 <= 2)
+            } else if (var2 <= 2)
             {
                 this.field_111105_a = Potion.damageBoost.id;
-            }
-            else if (var2 <= 3)
+            } else if (var2 <= 3)
             {
                 this.field_111105_a = Potion.regeneration.id;
-            }
-            else if (var2 <= 4)
+            } else if (var2 <= 4)
             {
                 this.field_111105_a = Potion.invisibility.id;
             }

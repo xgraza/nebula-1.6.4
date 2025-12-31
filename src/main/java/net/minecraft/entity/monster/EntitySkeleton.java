@@ -1,26 +1,10 @@
 package net.minecraft.entity.monster;
 
-import java.util.Calendar;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIArrowAttack;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIFleeSun;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
@@ -35,6 +19,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderHell;
+
+import java.util.Calendar;
 
 public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 {
@@ -69,7 +55,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(13, new Byte((byte)0));
+        this.dataWatcher.addObject(13, new Byte((byte) 0));
     }
 
     /**
@@ -115,12 +101,11 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         {
             if (this.getSkeletonType() == 1 && par1Entity instanceof EntityLivingBase)
             {
-                ((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.wither.id, 200));
+                ((EntityLivingBase) par1Entity).addPotionEffect(new PotionEffect(Potion.wither.id, 200));
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -158,7 +143,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
                         if (var3.getItemDamageForDisplay() >= var3.getMaxDamage())
                         {
                             this.renderBrokenItemStack(var3);
-                            this.setCurrentItemOrArmor(4, (ItemStack)null);
+                            this.setCurrentItemOrArmor(4, (ItemStack) null);
                         }
                     }
 
@@ -189,7 +174,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 
         if (this.ridingEntity instanceof EntityCreature)
         {
-            EntityCreature var1 = (EntityCreature)this.ridingEntity;
+            EntityCreature var1 = (EntityCreature) this.ridingEntity;
             this.renderYawOffset = var1.renderYawOffset;
         }
     }
@@ -203,7 +188,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 
         if (par1DamageSource.getSourceOfDamage() instanceof EntityArrow && par1DamageSource.getEntity() instanceof EntityPlayer)
         {
-            EntityPlayer var2 = (EntityPlayer)par1DamageSource.getEntity();
+            EntityPlayer var2 = (EntityPlayer) par1DamageSource.getEntity();
             double var3 = var2.posX - this.posX;
             double var5 = var2.posZ - this.posZ;
 
@@ -214,7 +199,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         }
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Items.arrow;
     }
@@ -235,8 +220,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
             {
                 this.func_145779_a(Items.coal, 1);
             }
-        }
-        else
+        } else
         {
             var3 = this.rand.nextInt(3 + par2);
 
@@ -281,8 +265,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
             this.setSkeletonType(1);
             this.setCurrentItemOrArmor(0, new ItemStack(Items.stone_sword));
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
-        }
-        else
+        } else
         {
             this.tasks.addTask(4, this.aiArrowAttack);
             this.addRandomArmor();
@@ -317,8 +300,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         if (var1 != null && var1.getItem() == Items.bow)
         {
             this.tasks.addTask(4, this.aiArrowAttack);
-        }
-        else
+        } else
         {
             this.tasks.addTask(4, this.aiAttackOnCollide);
         }
@@ -329,14 +311,14 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
      */
     public void attackEntityWithRangedAttack(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        EntityArrow var3 = new EntityArrow(this.worldObj, this, par1EntityLivingBase, 1.6F, (float)(14 - this.worldObj.difficultySetting.getDifficultyId() * 4));
+        EntityArrow var3 = new EntityArrow(this.worldObj, this, par1EntityLivingBase, 1.6F, (float) (14 - this.worldObj.difficultySetting.getDifficultyId() * 4));
         int var4 = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, this.getHeldItem());
         int var5 = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, this.getHeldItem());
-        var3.setDamage((double)(par2 * 2.0F) + this.rand.nextGaussian() * 0.25D + (double)((float)this.worldObj.difficultySetting.getDifficultyId() * 0.11F));
+        var3.setDamage((double) (par2 * 2.0F) + this.rand.nextGaussian() * 0.25D + (double) ((float) this.worldObj.difficultySetting.getDifficultyId() * 0.11F));
 
         if (var4 > 0)
         {
-            var3.setDamage(var3.getDamage() + (double)var4 * 0.5D + 0.5D);
+            var3.setDamage(var3.getDamage() + (double) var4 * 0.5D + 0.5D);
         }
 
         if (var5 > 0)
@@ -366,14 +348,13 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
      */
     public void setSkeletonType(int par1)
     {
-        this.dataWatcher.updateObject(13, Byte.valueOf((byte)par1));
+        this.dataWatcher.updateObject(13, Byte.valueOf((byte) par1));
         this.isImmuneToFire = par1 == 1;
 
         if (par1 == 1)
         {
             this.setSize(0.72F, 2.34F);
-        }
-        else
+        } else
         {
             this.setSize(0.6F, 1.8F);
         }
@@ -401,7 +382,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
-        par1NBTTagCompound.setByte("SkeletonType", (byte)this.getSkeletonType());
+        par1NBTTagCompound.setByte("SkeletonType", (byte) this.getSkeletonType());
     }
 
     /**

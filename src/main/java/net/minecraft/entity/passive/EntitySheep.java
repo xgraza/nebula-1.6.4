@@ -1,19 +1,10 @@
 package net.minecraft.entity.passive;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIEatGrass;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -27,11 +18,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class EntitySheep extends EntityAnimal
 {
     private final InventoryCrafting field_90016_e = new InventoryCrafting(new Container()
     {
         private static final String __OBFID = "CL_00001649";
+
         public boolean canInteractWith(EntityPlayer par1EntityPlayer)
         {
             return false;
@@ -41,7 +35,7 @@ public class EntitySheep extends EntityAnimal
     /**
      * Holds the RGB table of the sheep colors - in OpenGL glColor3f values - used to render the sheep colored fleece.
      */
-    public static final float[][] fleeceColorTable = new float[][] {{1.0F, 1.0F, 1.0F}, {0.85F, 0.5F, 0.2F}, {0.7F, 0.3F, 0.85F}, {0.4F, 0.6F, 0.85F}, {0.9F, 0.9F, 0.2F}, {0.5F, 0.8F, 0.1F}, {0.95F, 0.5F, 0.65F}, {0.3F, 0.3F, 0.3F}, {0.6F, 0.6F, 0.6F}, {0.3F, 0.5F, 0.6F}, {0.5F, 0.25F, 0.7F}, {0.2F, 0.3F, 0.7F}, {0.4F, 0.3F, 0.2F}, {0.4F, 0.5F, 0.2F}, {0.6F, 0.2F, 0.2F}, {0.1F, 0.1F, 0.1F}};
+    public static final float[][] fleeceColorTable = new float[][]{ { 1.0F, 1.0F, 1.0F }, { 0.85F, 0.5F, 0.2F }, { 0.7F, 0.3F, 0.85F }, { 0.4F, 0.6F, 0.85F }, { 0.9F, 0.9F, 0.2F }, { 0.5F, 0.8F, 0.1F }, { 0.95F, 0.5F, 0.65F }, { 0.3F, 0.3F, 0.3F }, { 0.6F, 0.6F, 0.6F }, { 0.3F, 0.5F, 0.6F }, { 0.5F, 0.25F, 0.7F }, { 0.2F, 0.3F, 0.7F }, { 0.4F, 0.3F, 0.2F }, { 0.4F, 0.5F, 0.2F }, { 0.6F, 0.2F, 0.2F }, { 0.1F, 0.1F, 0.1F } };
 
     /**
      * Used to control movement as well as wool regrowth. Set to 40 on handleHealthUpdate and counts down with each
@@ -107,7 +101,7 @@ public class EntitySheep extends EntityAnimal
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, new Byte((byte)0));
+        this.dataWatcher.addObject(16, new Byte((byte) 0));
     }
 
     /**
@@ -121,7 +115,7 @@ public class EntitySheep extends EntityAnimal
         }
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Item.getItemFromBlock(Blocks.wool);
     }
@@ -131,8 +125,7 @@ public class EntitySheep extends EntityAnimal
         if (par1 == 10)
         {
             this.sheepTimer = 40;
-        }
-        else
+        } else
         {
             super.handleHealthUpdate(par1);
         }
@@ -140,19 +133,18 @@ public class EntitySheep extends EntityAnimal
 
     public float func_70894_j(float par1)
     {
-        return this.sheepTimer <= 0 ? 0.0F : (this.sheepTimer >= 4 && this.sheepTimer <= 36 ? 1.0F : (this.sheepTimer < 4 ? ((float)this.sheepTimer - par1) / 4.0F : -((float)(this.sheepTimer - 40) - par1) / 4.0F));
+        return this.sheepTimer <= 0 ? 0.0F : (this.sheepTimer >= 4 && this.sheepTimer <= 36 ? 1.0F : (this.sheepTimer < 4 ? ((float) this.sheepTimer - par1) / 4.0F : -((float) (this.sheepTimer - 40) - par1) / 4.0F));
     }
 
     public float func_70890_k(float par1)
     {
         if (this.sheepTimer > 4 && this.sheepTimer <= 36)
         {
-            float var2 = ((float)(this.sheepTimer - 4) - par1) / 32.0F;
-            return ((float)Math.PI / 5F) + ((float)Math.PI * 7F / 100F) * MathHelper.sin(var2 * 28.7F);
-        }
-        else
+            float var2 = ((float) (this.sheepTimer - 4) - par1) / 32.0F;
+            return ((float) Math.PI / 5F) + ((float) Math.PI * 7F / 100F) * MathHelper.sin(var2 * 28.7F);
+        } else
         {
-            return this.sheepTimer > 0 ? ((float)Math.PI / 5F) : this.rotationPitch / (180F / (float)Math.PI);
+            return this.sheepTimer > 0 ? ((float) Math.PI / 5F) : this.rotationPitch / (180F / (float) Math.PI);
         }
     }
 
@@ -173,9 +165,9 @@ public class EntitySheep extends EntityAnimal
                 for (int var4 = 0; var4 < var3; ++var4)
                 {
                     EntityItem var5 = this.entityDropItem(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, this.getFleeceColor()), 1.0F);
-                    var5.motionY += (double)(this.rand.nextFloat() * 0.05F);
-                    var5.motionX += (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
-                    var5.motionZ += (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
+                    var5.motionY += (double) (this.rand.nextFloat() * 0.05F);
+                    var5.motionX += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
+                    var5.motionZ += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
                 }
             }
 
@@ -193,7 +185,7 @@ public class EntitySheep extends EntityAnimal
     {
         super.writeEntityToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setBoolean("Sheared", this.getSheared());
-        par1NBTTagCompound.setByte("Color", (byte)this.getFleeceColor());
+        par1NBTTagCompound.setByte("Color", (byte) this.getFleeceColor());
     }
 
     /**
@@ -243,7 +235,7 @@ public class EntitySheep extends EntityAnimal
     public void setFleeceColor(int par1)
     {
         byte var2 = this.dataWatcher.getWatchableObjectByte(16);
-        this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & 240 | par1 & 15)));
+        this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 & 240 | par1 & 15)));
     }
 
     /**
@@ -263,11 +255,10 @@ public class EntitySheep extends EntityAnimal
 
         if (par1)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 | 16)));
-        }
-        else
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 | 16)));
+        } else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & -17)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 & -17)));
         }
     }
 
@@ -282,7 +273,7 @@ public class EntitySheep extends EntityAnimal
 
     public EntitySheep createChild(EntityAgeable par1EntityAgeable)
     {
-        EntitySheep var2 = (EntitySheep)par1EntityAgeable;
+        EntitySheep var2 = (EntitySheep) par1EntityAgeable;
         EntitySheep var3 = new EntitySheep(this.worldObj);
         int var4 = this.func_90014_a(this, var2);
         var3.setFleeceColor(15 - var4);
@@ -316,14 +307,13 @@ public class EntitySheep extends EntityAnimal
         int var4 = this.func_90013_b(par2EntityAnimal);
         this.field_90016_e.getStackInSlot(0).setItemDamage(var3);
         this.field_90016_e.getStackInSlot(1).setItemDamage(var4);
-        ItemStack var5 = CraftingManager.getInstance().findMatchingRecipe(this.field_90016_e, ((EntitySheep)par1EntityAnimal).worldObj);
+        ItemStack var5 = CraftingManager.getInstance().findMatchingRecipe(this.field_90016_e, ((EntitySheep) par1EntityAnimal).worldObj);
         int var6;
 
         if (var5 != null && var5.getItem() == Items.dye)
         {
             var6 = var5.getItemDamage();
-        }
-        else
+        } else
         {
             var6 = this.worldObj.rand.nextBoolean() ? var3 : var4;
         }
@@ -333,6 +323,6 @@ public class EntitySheep extends EntityAnimal
 
     private int func_90013_b(EntityAnimal par1EntityAnimal)
     {
-        return 15 - ((EntitySheep)par1EntityAnimal).getFleeceColor();
+        return 15 - ((EntitySheep) par1EntityAnimal).getFleeceColor();
     }
 }

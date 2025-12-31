@@ -88,8 +88,7 @@ public class EntitySilverfish extends EntityMob
         if (this.isEntityInvulnerable())
         {
             return false;
-        }
-        else
+        } else
         {
             if (this.allySummonCooldown <= 0 && (par1DamageSource instanceof EntityDamageSource || par1DamageSource == DamageSource.magic))
             {
@@ -117,7 +116,7 @@ public class EntitySilverfish extends EntityMob
         this.playSound("mob.silverfish.step", 0.15F, 1.0F);
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Item.getItemById(0);
     }
@@ -165,9 +164,8 @@ public class EntitySilverfish extends EntityMob
                                     {
                                         int var8 = this.worldObj.getBlockMetadata(var1 + var6, var2 + var5, var3 + var7);
                                         ImmutablePair var9 = BlockSilverfish.func_150197_b(var8);
-                                        this.worldObj.setBlock(var1 + var6, var2 + var5, var3 + var7, (Block)var9.getLeft(), ((Integer)var9.getRight()).intValue(), 3);
-                                    }
-                                    else
+                                        this.worldObj.setBlock(var1 + var6, var2 + var5, var3 + var7, (Block) var9.getLeft(), ((Integer) var9.getRight()).intValue(), 3);
+                                    } else
                                     {
                                         this.worldObj.func_147480_a(var1 + var6, var2 + var5, var3 + var7, false);
                                     }
@@ -200,13 +198,11 @@ public class EntitySilverfish extends EntityMob
                     this.worldObj.setBlock(var1 + Facing.offsetsXForSide[var10], var2 + Facing.offsetsYForSide[var10], var3 + Facing.offsetsZForSide[var10], Blocks.monster_egg, BlockSilverfish.func_150195_a(var11, var6), 3);
                     this.spawnExplosionParticle();
                     this.setDead();
-                }
-                else
+                } else
                 {
                     this.updateWanderPath();
                 }
-            }
-            else if (this.entityToAttack != null && !this.hasPath())
+            } else if (this.entityToAttack != null && !this.hasPath())
             {
                 this.entityToAttack = null;
             }
@@ -239,8 +235,7 @@ public class EntitySilverfish extends EntityMob
         {
             EntityPlayer var1 = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
             return var1 == null;
-        }
-        else
+        } else
         {
             return false;
         }

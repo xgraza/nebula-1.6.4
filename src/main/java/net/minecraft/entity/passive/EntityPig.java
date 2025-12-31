@@ -3,15 +3,7 @@ package net.minecraft.entity.passive;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIControlledByPlayer;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +16,9 @@ import net.minecraft.world.World;
 
 public class EntityPig extends EntityAnimal
 {
-    /** AI task for player control. */
+    /**
+     * AI task for player control.
+     */
     private final EntityAIControlledByPlayer aiControlledByPlayer;
     private static final String __OBFID = "CL_00001647";
 
@@ -71,14 +65,14 @@ public class EntityPig extends EntityAnimal
      */
     public boolean canBeSteered()
     {
-        ItemStack var1 = ((EntityPlayer)this.riddenByEntity).getHeldItem();
+        ItemStack var1 = ((EntityPlayer) this.riddenByEntity).getHeldItem();
         return var1 != null && var1.getItem() == Items.carrot_on_a_stick;
     }
 
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
     }
 
     /**
@@ -136,19 +130,17 @@ public class EntityPig extends EntityAnimal
         if (super.interact(par1EntityPlayer))
         {
             return true;
-        }
-        else if (this.getSaddled() && !this.worldObj.isClient && (this.riddenByEntity == null || this.riddenByEntity == par1EntityPlayer))
+        } else if (this.getSaddled() && !this.worldObj.isClient && (this.riddenByEntity == null || this.riddenByEntity == par1EntityPlayer))
         {
             par1EntityPlayer.mountEntity(this);
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return this.isBurning() ? Items.cooked_porkchop : Items.porkchop;
     }
@@ -165,8 +157,7 @@ public class EntityPig extends EntityAnimal
             if (this.isBurning())
             {
                 this.func_145779_a(Items.cooked_porkchop, 1);
-            }
-            else
+            } else
             {
                 this.func_145779_a(Items.porkchop, 1);
             }
@@ -193,11 +184,10 @@ public class EntityPig extends EntityAnimal
     {
         if (par1)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)1));
-        }
-        else
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) 1));
+        } else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)0));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) 0));
         }
     }
 
@@ -225,7 +215,7 @@ public class EntityPig extends EntityAnimal
 
         if (par1 > 5.0F && this.riddenByEntity instanceof EntityPlayer)
         {
-            ((EntityPlayer)this.riddenByEntity).triggerAchievement(AchievementList.flyPig);
+            ((EntityPlayer) this.riddenByEntity).triggerAchievement(AchievementList.flyPig);
         }
     }
 

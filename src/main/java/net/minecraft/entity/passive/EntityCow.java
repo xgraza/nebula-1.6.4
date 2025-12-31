@@ -3,14 +3,7 @@ package net.minecraft.entity.passive;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -88,7 +81,7 @@ public class EntityCow extends EntityAnimal
         return 0.4F;
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Items.leather;
     }
@@ -113,8 +106,7 @@ public class EntityCow extends EntityAnimal
             if (this.isBurning())
             {
                 this.func_145779_a(Items.cooked_beef, 1);
-            }
-            else
+            } else
             {
                 this.func_145779_a(Items.beef, 1);
             }
@@ -133,15 +125,13 @@ public class EntityCow extends EntityAnimal
             if (var2.stackSize-- == 1)
             {
                 par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, new ItemStack(Items.milk_bucket));
-            }
-            else if (!par1EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.milk_bucket)))
+            } else if (!par1EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.milk_bucket)))
             {
                 par1EntityPlayer.dropPlayerItemWithRandomChoice(new ItemStack(Items.milk_bucket, 1, 0), false);
             }
 
             return true;
-        }
-        else
+        } else
         {
             return super.interact(par1EntityPlayer);
         }

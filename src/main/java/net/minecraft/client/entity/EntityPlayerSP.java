@@ -48,8 +48,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public float renderArmPitch;
     public float prevRenderArmYaw;
     public float prevRenderArmPitch;
-    private int horseJumpPowerCounter;
-    private float horseJumpPower;
+    public int horseJumpPowerCounter;
+    public float horseJumpPower;
     private MouseFilter field_71162_ch = new MouseFilter();
     private MouseFilter field_71160_ci = new MouseFilter();
     private MouseFilter field_71161_cj = new MouseFilter();

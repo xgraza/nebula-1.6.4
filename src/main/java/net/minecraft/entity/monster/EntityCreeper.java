@@ -2,15 +2,7 @@ package net.minecraft.entity.monster;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAICreeperSwell;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +27,9 @@ public class EntityCreeper extends EntityMob
     private int timeSinceIgnited;
     private int fuseTime = 30;
 
-    /** Explosion radius for this creeper. */
+    /**
+     * Explosion radius for this creeper.
+     */
     private int explosionRadius = 3;
     private static final String __OBFID = "CL_00001684";
 
@@ -72,7 +66,7 @@ public class EntityCreeper extends EntityMob
      */
     public int getMaxSafePointTries()
     {
-        return this.getAttackTarget() == null ? 3 : 3 + (int)(this.getHealth() - 1.0F);
+        return this.getAttackTarget() == null ? 3 : 3 + (int) (this.getHealth() - 1.0F);
     }
 
     /**
@@ -81,7 +75,7 @@ public class EntityCreeper extends EntityMob
     protected void fall(float par1)
     {
         super.fall(par1);
-        this.timeSinceIgnited = (int)((float)this.timeSinceIgnited + par1 * 1.5F);
+        this.timeSinceIgnited = (int) ((float) this.timeSinceIgnited + par1 * 1.5F);
 
         if (this.timeSinceIgnited > this.fuseTime - 5)
         {
@@ -92,9 +86,9 @@ public class EntityCreeper extends EntityMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte) - 1));
-        this.dataWatcher.addObject(17, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(18, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, Byte.valueOf((byte) -1));
+        this.dataWatcher.addObject(17, Byte.valueOf((byte) 0));
+        this.dataWatcher.addObject(18, Byte.valueOf((byte) 0));
     }
 
     /**
@@ -109,8 +103,8 @@ public class EntityCreeper extends EntityMob
             par1NBTTagCompound.setBoolean("powered", true);
         }
 
-        par1NBTTagCompound.setShort("Fuse", (short)this.fuseTime);
-        par1NBTTagCompound.setByte("ExplosionRadius", (byte)this.explosionRadius);
+        par1NBTTagCompound.setShort("Fuse", (short) this.fuseTime);
+        par1NBTTagCompound.setByte("ExplosionRadius", (byte) this.explosionRadius);
         par1NBTTagCompound.setBoolean("ignited", this.func_146078_ca());
     }
 
@@ -120,7 +114,7 @@ public class EntityCreeper extends EntityMob
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
-        this.dataWatcher.updateObject(17, Byte.valueOf((byte)(par1NBTTagCompound.getBoolean("powered") ? 1 : 0)));
+        this.dataWatcher.updateObject(17, Byte.valueOf((byte) (par1NBTTagCompound.getBoolean("powered") ? 1 : 0)));
 
         if (par1NBTTagCompound.hasKey("Fuse", 99))
         {
@@ -226,10 +220,10 @@ public class EntityCreeper extends EntityMob
      */
     public float getCreeperFlashIntensity(float par1)
     {
-        return ((float)this.lastActiveTime + (float)(this.timeSinceIgnited - this.lastActiveTime) * par1) / (float)(this.fuseTime - 2);
+        return ((float) this.lastActiveTime + (float) (this.timeSinceIgnited - this.lastActiveTime) * par1) / (float) (this.fuseTime - 2);
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Items.gunpowder;
     }
@@ -247,7 +241,7 @@ public class EntityCreeper extends EntityMob
      */
     public void setCreeperState(int par1)
     {
-        this.dataWatcher.updateObject(16, Byte.valueOf((byte)par1));
+        this.dataWatcher.updateObject(16, Byte.valueOf((byte) par1));
     }
 
     /**
@@ -256,7 +250,7 @@ public class EntityCreeper extends EntityMob
     public void onStruckByLightning(EntityLightningBolt par1EntityLightningBolt)
     {
         super.onStruckByLightning(par1EntityLightningBolt);
-        this.dataWatcher.updateObject(17, Byte.valueOf((byte)1));
+        this.dataWatcher.updateObject(17, Byte.valueOf((byte) 1));
     }
 
     /**
@@ -290,11 +284,10 @@ public class EntityCreeper extends EntityMob
 
             if (this.getPowered())
             {
-                this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(this.explosionRadius * 2), var1);
-            }
-            else
+                this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float) (this.explosionRadius * 2), var1);
+            } else
             {
-                this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)this.explosionRadius, var1);
+                this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float) this.explosionRadius, var1);
             }
 
             this.setDead();
@@ -308,6 +301,6 @@ public class EntityCreeper extends EntityMob
 
     public void func_146079_cb()
     {
-        this.dataWatcher.updateObject(18, Byte.valueOf((byte)1));
+        this.dataWatcher.updateObject(18, Byte.valueOf((byte) 1));
     }
 }

@@ -6,17 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIOcelotAttack;
-import net.minecraft.entity.ai.EntityAIOcelotSit;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITargetNonTamed;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -58,7 +48,7 @@ public class EntityOcelot extends EntityTameable
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(18, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(18, Byte.valueOf((byte) 0));
     }
 
     /**
@@ -74,19 +64,16 @@ public class EntityOcelot extends EntityTameable
             {
                 this.setSneaking(true);
                 this.setSprinting(false);
-            }
-            else if (var1 == 1.33D)
+            } else if (var1 == 1.33D)
             {
                 this.setSneaking(false);
                 this.setSprinting(true);
-            }
-            else
+            } else
             {
                 this.setSneaking(false);
                 this.setSprinting(false);
             }
-        }
-        else
+        } else
         {
             this.setSneaking(false);
             this.setSprinting(false);
@@ -119,7 +106,9 @@ public class EntityOcelot extends EntityTameable
     /**
      * Called when the mob is falling. Calculates and applies fall damage.
      */
-    protected void fall(float par1) {}
+    protected void fall(float par1)
+    {
+    }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
@@ -171,7 +160,7 @@ public class EntityOcelot extends EntityTameable
         return 0.4F;
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Items.leather;
     }
@@ -189,8 +178,7 @@ public class EntityOcelot extends EntityTameable
         if (this.isEntityInvulnerable())
         {
             return false;
-        }
-        else
+        } else
         {
             this.aiSit.setSitting(false);
             return super.attackEntityFrom(par1DamageSource, par2);
@@ -200,7 +188,9 @@ public class EntityOcelot extends EntityTameable
     /**
      * Drop 0-2 items of this living's type
      */
-    protected void dropFewItems(boolean par1, int par2) {}
+    protected void dropFewItems(boolean par1, int par2)
+    {
+    }
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
@@ -215,8 +205,7 @@ public class EntityOcelot extends EntityTameable
             {
                 this.aiSit.setSitting(!this.isSitting());
             }
-        }
-        else if (this.aiTempt.isRunning() && var2 != null && var2.getItem() == Items.fish && par1EntityPlayer.getDistanceSqToEntity(this) < 9.0D)
+        } else if (this.aiTempt.isRunning() && var2 != null && var2.getItem() == Items.fish && par1EntityPlayer.getDistanceSqToEntity(this) < 9.0D)
         {
             if (!par1EntityPlayer.capabilities.isCreativeMode)
             {
@@ -225,7 +214,7 @@ public class EntityOcelot extends EntityTameable
 
             if (var2.stackSize <= 0)
             {
-                par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
+                par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack) null);
             }
 
             if (!this.worldObj.isClient)
@@ -237,12 +226,11 @@ public class EntityOcelot extends EntityTameable
                     this.setOwner(par1EntityPlayer.getCommandSenderName());
                     this.playTameEffect(true);
                     this.aiSit.setSitting(true);
-                    this.worldObj.setEntityState(this, (byte)7);
-                }
-                else
+                    this.worldObj.setEntityState(this, (byte) 7);
+                } else
                 {
                     this.playTameEffect(false);
-                    this.worldObj.setEntityState(this, (byte)6);
+                    this.worldObj.setEntityState(this, (byte) 6);
                 }
             }
 
@@ -283,18 +271,15 @@ public class EntityOcelot extends EntityTameable
         if (par1EntityAnimal == this)
         {
             return false;
-        }
-        else if (!this.isTamed())
+        } else if (!this.isTamed())
         {
             return false;
-        }
-        else if (!(par1EntityAnimal instanceof EntityOcelot))
+        } else if (!(par1EntityAnimal instanceof EntityOcelot))
         {
             return false;
-        }
-        else
+        } else
         {
-            EntityOcelot var2 = (EntityOcelot)par1EntityAnimal;
+            EntityOcelot var2 = (EntityOcelot) par1EntityAnimal;
             return !var2.isTamed() ? false : this.isInLove() && var2.isInLove();
         }
     }
@@ -306,7 +291,7 @@ public class EntityOcelot extends EntityTameable
 
     public void setTameSkin(int par1)
     {
-        this.dataWatcher.updateObject(18, Byte.valueOf((byte)par1));
+        this.dataWatcher.updateObject(18, Byte.valueOf((byte) par1));
     }
 
     /**
@@ -317,8 +302,7 @@ public class EntityOcelot extends EntityTameable
         if (this.worldObj.rand.nextInt(3) == 0)
         {
             return false;
-        }
-        else
+        } else
         {
             if (this.worldObj.checkNoEntityCollision(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox))
             {

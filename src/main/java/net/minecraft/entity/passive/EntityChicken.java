@@ -3,14 +3,7 @@ package net.minecraft.entity.passive;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -26,7 +19,9 @@ public class EntityChicken extends EntityAnimal
     public float field_70888_h;
     public float field_70889_i = 1.0F;
 
-    /** The time until the next egg is spawned. */
+    /**
+     * The time until the next egg is spawned.
+     */
     public int timeUntilNextEgg;
     private static final String __OBFID = "CL_00001639";
 
@@ -69,7 +64,7 @@ public class EntityChicken extends EntityAnimal
         super.onLivingUpdate();
         this.field_70888_h = this.field_70886_e;
         this.field_70884_g = this.destPos;
-        this.destPos = (float)((double)this.destPos + (double)(this.onGround ? -1 : 4) * 0.3D);
+        this.destPos = (float) ((double) this.destPos + (double) (this.onGround ? -1 : 4) * 0.3D);
 
         if (this.destPos < 0.0F)
         {
@@ -86,7 +81,7 @@ public class EntityChicken extends EntityAnimal
             this.field_70889_i = 1.0F;
         }
 
-        this.field_70889_i = (float)((double)this.field_70889_i * 0.9D);
+        this.field_70889_i = (float) ((double) this.field_70889_i * 0.9D);
 
         if (!this.onGround && this.motionY < 0.0D)
         {
@@ -106,7 +101,9 @@ public class EntityChicken extends EntityAnimal
     /**
      * Called when the mob is falling. Calculates and applies fall damage.
      */
-    protected void fall(float par1) {}
+    protected void fall(float par1)
+    {
+    }
 
     /**
      * Returns the sound this mob makes while it's alive.
@@ -137,7 +134,7 @@ public class EntityChicken extends EntityAnimal
         this.playSound("mob.chicken.step", 0.15F, 1.0F);
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Items.feather;
     }
@@ -157,8 +154,7 @@ public class EntityChicken extends EntityAnimal
         if (this.isBurning())
         {
             this.func_145779_a(Items.cooked_chicken, 1);
-        }
-        else
+        } else
         {
             this.func_145779_a(Items.chicken, 1);
         }

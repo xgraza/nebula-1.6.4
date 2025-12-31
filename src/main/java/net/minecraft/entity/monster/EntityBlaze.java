@@ -12,10 +12,14 @@ import net.minecraft.world.World;
 
 public class EntityBlaze extends EntityMob
 {
-    /** Random offset used in floating behaviour */
+    /**
+     * Random offset used in floating behaviour
+     */
     private float heightOffset = 0.5F;
 
-    /** ticks until heightOffset is randomized */
+    /**
+     * ticks until heightOffset is randomized
+     */
     private int heightOffsetUpdateTime;
     private int field_70846_g;
     private static final String __OBFID = "CL_00001682";
@@ -36,7 +40,7 @@ public class EntityBlaze extends EntityMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, new Byte((byte)0));
+        this.dataWatcher.addObject(16, new Byte((byte) 0));
     }
 
     /**
@@ -94,10 +98,10 @@ public class EntityBlaze extends EntityMob
             if (this.heightOffsetUpdateTime <= 0)
             {
                 this.heightOffsetUpdateTime = 100;
-                this.heightOffset = 0.5F + (float)this.rand.nextGaussian() * 3.0F;
+                this.heightOffset = 0.5F + (float) this.rand.nextGaussian() * 3.0F;
             }
 
-            if (this.getEntityToAttack() != null && this.getEntityToAttack().posY + (double)this.getEntityToAttack().getEyeHeight() > this.posY + (double)this.getEyeHeight() + (double)this.heightOffset)
+            if (this.getEntityToAttack() != null && this.getEntityToAttack().posY + (double) this.getEntityToAttack().getEyeHeight() > this.posY + (double) this.getEyeHeight() + (double) this.heightOffset)
             {
                 this.motionY += (0.30000001192092896D - this.motionY) * 0.30000001192092896D;
             }
@@ -115,7 +119,7 @@ public class EntityBlaze extends EntityMob
 
         for (int var1 = 0; var1 < 2; ++var1)
         {
-            this.worldObj.spawnParticle("largesmoke", this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle("largesmoke", this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width, this.posY + this.rand.nextDouble() * (double) this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width, 0.0D, 0.0D, 0.0D);
         }
 
         super.onLivingUpdate();
@@ -130,11 +134,10 @@ public class EntityBlaze extends EntityMob
         {
             this.attackTime = 20;
             this.attackEntityAsMob(par1Entity);
-        }
-        else if (par2 < 30.0F)
+        } else if (par2 < 30.0F)
         {
             double var3 = par1Entity.posX - this.posX;
-            double var5 = par1Entity.boundingBox.minY + (double)(par1Entity.height / 2.0F) - (this.posY + (double)(this.height / 2.0F));
+            double var5 = par1Entity.boundingBox.minY + (double) (par1Entity.height / 2.0F) - (this.posY + (double) (this.height / 2.0F));
             double var7 = par1Entity.posZ - this.posZ;
 
             if (this.attackTime == 0)
@@ -145,12 +148,10 @@ public class EntityBlaze extends EntityMob
                 {
                     this.attackTime = 60;
                     this.func_70844_e(true);
-                }
-                else if (this.field_70846_g <= 4)
+                } else if (this.field_70846_g <= 4)
                 {
                     this.attackTime = 6;
-                }
-                else
+                } else
                 {
                     this.attackTime = 100;
                     this.field_70846_g = 0;
@@ -160,18 +161,18 @@ public class EntityBlaze extends EntityMob
                 if (this.field_70846_g > 1)
                 {
                     float var9 = MathHelper.sqrt_float(par2) * 0.5F;
-                    this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1009, (int)this.posX, (int)this.posY, (int)this.posZ, 0);
+                    this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
 
                     for (int var10 = 0; var10 < 1; ++var10)
                     {
-                        EntitySmallFireball var11 = new EntitySmallFireball(this.worldObj, this, var3 + this.rand.nextGaussian() * (double)var9, var5, var7 + this.rand.nextGaussian() * (double)var9);
-                        var11.posY = this.posY + (double)(this.height / 2.0F) + 0.5D;
+                        EntitySmallFireball var11 = new EntitySmallFireball(this.worldObj, this, var3 + this.rand.nextGaussian() * (double) var9, var5, var7 + this.rand.nextGaussian() * (double) var9);
+                        var11.posY = this.posY + (double) (this.height / 2.0F) + 0.5D;
                         this.worldObj.spawnEntityInWorld(var11);
                     }
                 }
             }
 
-            this.rotationYaw = (float)(Math.atan2(var7, var3) * 180.0D / Math.PI) - 90.0F;
+            this.rotationYaw = (float) (Math.atan2(var7, var3) * 180.0D / Math.PI) - 90.0F;
             this.hasAttacked = true;
         }
     }
@@ -179,9 +180,11 @@ public class EntityBlaze extends EntityMob
     /**
      * Called when the mob is falling. Calculates and applies fall damage.
      */
-    protected void fall(float par1) {}
+    protected void fall(float par1)
+    {
+    }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Items.blaze_rod;
     }
@@ -221,9 +224,8 @@ public class EntityBlaze extends EntityMob
 
         if (par1)
         {
-            var2 = (byte)(var2 | 1);
-        }
-        else
+            var2 = (byte) (var2 | 1);
+        } else
         {
             var2 &= -2;
         }

@@ -288,7 +288,7 @@ public abstract class EntityLiving extends EntityLivingBase
         return null;
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Item.getItemById(0);
     }
@@ -298,7 +298,7 @@ public abstract class EntityLiving extends EntityLivingBase
      */
     protected void dropFewItems(boolean par1, int par2)
     {
-        Item var3 = this.func_146068_u();
+        Item var3 = this.getDeathDropItem();
 
         if (var3 != null)
         {

@@ -20,7 +20,9 @@ public class EntitySlime extends EntityLiving implements IMob
     public float squishFactor;
     public float prevSquishFactor;
 
-    /** ticks until this slime jumps again */
+    /**
+     * ticks until this slime jumps again
+     */
     private int slimeJumpDelay;
     private static final String __OBFID = "CL_00001698";
 
@@ -36,15 +38,15 @@ public class EntitySlime extends EntityLiving implements IMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, new Byte((byte)1));
+        this.dataWatcher.addObject(16, new Byte((byte) 1));
     }
 
     protected void setSlimeSize(int par1)
     {
-        this.dataWatcher.updateObject(16, new Byte((byte)par1));
-        this.setSize(0.6F * (float)par1, 0.6F * (float)par1);
+        this.dataWatcher.updateObject(16, new Byte((byte) par1));
+        this.setSize(0.6F * (float) par1, 0.6F * (float) par1);
         this.setPosition(this.posX, this.posY, this.posZ);
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue((double)(par1 * par1));
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue((double) (par1 * par1));
         this.setHealth(this.getMaxHealth());
         this.experienceValue = par1;
     }
@@ -113,11 +115,11 @@ public class EntitySlime extends EntityLiving implements IMob
 
             for (int var3 = 0; var3 < var2 * 8; ++var3)
             {
-                float var4 = this.rand.nextFloat() * (float)Math.PI * 2.0F;
+                float var4 = this.rand.nextFloat() * (float) Math.PI * 2.0F;
                 float var5 = this.rand.nextFloat() * 0.5F + 0.5F;
-                float var6 = MathHelper.sin(var4) * (float)var2 * 0.5F * var5;
-                float var7 = MathHelper.cos(var4) * (float)var2 * 0.5F * var5;
-                this.worldObj.spawnParticle(this.getSlimeParticle(), this.posX + (double)var6, this.boundingBox.minY, this.posZ + (double)var7, 0.0D, 0.0D, 0.0D);
+                float var6 = MathHelper.sin(var4) * (float) var2 * 0.5F * var5;
+                float var7 = MathHelper.cos(var4) * (float) var2 * 0.5F * var5;
+                this.worldObj.spawnParticle(this.getSlimeParticle(), this.posX + (double) var6, this.boundingBox.minY, this.posZ + (double) var7, 0.0D, 0.0D, 0.0D);
             }
 
             if (this.makesSoundOnLand())
@@ -126,8 +128,7 @@ public class EntitySlime extends EntityLiving implements IMob
             }
 
             this.squishAmount = -0.5F;
-        }
-        else if (!this.onGround && var1)
+        } else if (!this.onGround && var1)
         {
             this.squishAmount = 1.0F;
         }
@@ -137,7 +138,7 @@ public class EntitySlime extends EntityLiving implements IMob
         if (this.worldObj.isClient)
         {
             var2 = this.getSlimeSize();
-            this.setSize(0.6F * (float)var2, 0.6F * (float)var2);
+            this.setSize(0.6F * (float) var2, 0.6F * (float) var2);
         }
     }
 
@@ -168,9 +169,8 @@ public class EntitySlime extends EntityLiving implements IMob
             }
 
             this.moveStrafing = 1.0F - this.rand.nextFloat() * 2.0F;
-            this.moveForward = (float)(1 * this.getSlimeSize());
-        }
-        else
+            this.moveForward = (float) (1 * this.getSlimeSize());
+        } else
         {
             this.isJumping = false;
 
@@ -212,11 +212,11 @@ public class EntitySlime extends EntityLiving implements IMob
 
             for (int var3 = 0; var3 < var2; ++var3)
             {
-                float var4 = ((float)(var3 % 2) - 0.5F) * (float)var1 / 4.0F;
-                float var5 = ((float)(var3 / 2) - 0.5F) * (float)var1 / 4.0F;
+                float var4 = ((float) (var3 % 2) - 0.5F) * (float) var1 / 4.0F;
+                float var5 = ((float) (var3 / 2) - 0.5F) * (float) var1 / 4.0F;
                 EntitySlime var6 = this.createInstance();
                 var6.setSlimeSize(var1 / 2);
-                var6.setLocationAndAngles(this.posX + (double)var4, this.posY + 0.5D, this.posZ + (double)var5, this.rand.nextFloat() * 360.0F, 0.0F);
+                var6.setLocationAndAngles(this.posX + (double) var4, this.posY + 0.5D, this.posZ + (double) var5, this.rand.nextFloat() * 360.0F, 0.0F);
                 this.worldObj.spawnEntityInWorld(var6);
             }
         }
@@ -233,7 +233,7 @@ public class EntitySlime extends EntityLiving implements IMob
         {
             int var2 = this.getSlimeSize();
 
-            if (this.canEntityBeSeen(par1EntityPlayer) && this.getDistanceSqToEntity(par1EntityPlayer) < 0.6D * (double)var2 * 0.6D * (double)var2 && par1EntityPlayer.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getAttackStrength()))
+            if (this.canEntityBeSeen(par1EntityPlayer) && this.getDistanceSqToEntity(par1EntityPlayer) < 0.6D * (double) var2 * 0.6D * (double) var2 && par1EntityPlayer.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttackStrength()))
             {
                 this.playSound("mob.attack", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
             }
@@ -272,7 +272,7 @@ public class EntitySlime extends EntityLiving implements IMob
         return "mob.slime." + (this.getSlimeSize() > 1 ? "big" : "small");
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return this.getSlimeSize() == 1 ? Items.slime_ball : Item.getItemById(0);
     }
@@ -287,8 +287,7 @@ public class EntitySlime extends EntityLiving implements IMob
         if (this.worldObj.getWorldInfo().getTerrainType() == WorldType.FLAT && this.rand.nextInt(4) != 1)
         {
             return false;
-        }
-        else
+        } else
         {
             if (this.getSlimeSize() == 1 || this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL)
             {
@@ -314,7 +313,7 @@ public class EntitySlime extends EntityLiving implements IMob
      */
     protected float getSoundVolume()
     {
-        return 0.4F * (float)this.getSlimeSize();
+        return 0.4F * (float) this.getSlimeSize();
     }
 
     /**

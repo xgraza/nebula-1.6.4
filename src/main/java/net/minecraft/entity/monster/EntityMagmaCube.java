@@ -64,7 +64,7 @@ public class EntityMagmaCube extends EntitySlime
         return new EntityMagmaCube(this.worldObj);
     }
 
-    protected Item func_146068_u()
+    protected Item getDeathDropItem()
     {
         return Items.magma_cream;
     }
@@ -74,7 +74,7 @@ public class EntityMagmaCube extends EntitySlime
      */
     protected void dropFewItems(boolean par1, int par2)
     {
-        Item var3 = this.func_146068_u();
+        Item var3 = this.getDeathDropItem();
 
         if (var3 != null && this.getSlimeSize() > 1)
         {
@@ -118,14 +118,16 @@ public class EntityMagmaCube extends EntitySlime
      */
     protected void jump()
     {
-        this.motionY = (double)(0.42F + (float)this.getSlimeSize() * 0.1F);
+        this.motionY = (double) (0.42F + (float) this.getSlimeSize() * 0.1F);
         this.isAirBorne = true;
     }
 
     /**
      * Called when the mob is falling. Calculates and applies fall damage.
      */
-    protected void fall(float par1) {}
+    protected void fall(float par1)
+    {
+    }
 
     /**
      * Indicates weather the slime is able to damage the player (based upon the slime's size)
