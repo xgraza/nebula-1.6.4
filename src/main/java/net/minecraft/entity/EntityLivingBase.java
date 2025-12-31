@@ -28,7 +28,7 @@ import net.minecraft.scoreboard.Team;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import us.nebula.impl.cheat.movement.IceSpeedCheat;
+import us.nebula.impl.cheat.movement.TerrainCheat;
 import us.nebula.impl.cheat.render.ViewModelCheat;
 
 import java.util.*;
@@ -1624,9 +1624,9 @@ public abstract class EntityLivingBase extends Entity
                 Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
                 var3 = block.slipperiness * 0.91f;
 
-                if (IceSpeedCheat.INSTANCE.isToggled() && block instanceof BlockIce)
+                if (TerrainCheat.iceSpeed() && block instanceof BlockIce)
                 {
-                    var3 = IceSpeedCheat.NCP_ICE_MAX;
+                    var3 = TerrainCheat.NCP_ICE_MAX;
                 }
             }
 
@@ -1649,9 +1649,9 @@ public abstract class EntityLivingBase extends Entity
                 Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
                 var3 = block.slipperiness * 0.91f;
 
-                if (IceSpeedCheat.INSTANCE.isToggled() && block instanceof BlockIce)
+                if (TerrainCheat.iceSpeed() && block instanceof BlockIce)
                 {
-                    var3 = IceSpeedCheat.NCP_ICE_MAX;
+                    var3 = TerrainCheat.NCP_ICE_MAX;
                 }
             }
 

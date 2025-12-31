@@ -56,7 +56,6 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new XCarryCheat());
         addCheat(new AutoWalkCheat());
         addCheat(new BlinkCheat());
-        addCheat(new IceSpeedCheat());
         addCheat(new InvWalkCheat());
         addCheat(new JesusCheat());
         addCheat(new LongJumpCheat());
@@ -66,6 +65,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new SprintCheat());
         addCheat(new StaticCheat());
         addCheat(new StepCheat());
+        addCheat(new TerrainCheat());
         addCheat(new AntiBlockCheat());
         addCheat(new AntiDisconnectCheat());
         addCheat(new AntiLagCheat());
