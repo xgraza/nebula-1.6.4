@@ -15,6 +15,7 @@ import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
+import us.nebula.impl.cheat.world.FakePlayerCheat;
 import us.nebula.impl.event.network.EventPacket;
 import us.nebula.impl.event.player.EventMoveUpdate;
 import us.nebula.impl.gui.client.component.cheat.value.EnumSettingComponent;
@@ -70,6 +71,7 @@ public final class CriticalsCheat extends Cheat
             {
                 event.setOnGround(true);
                 modifyStage = -1;
+                FakePlayerCheat.INSTANCE.critFake();
                 return;
             }
         }
@@ -138,6 +140,7 @@ public final class CriticalsCheat extends Cheat
                             MC.thePlayer.posY,
                             MC.thePlayer.posZ,
                             false));
+                    FakePlayerCheat.INSTANCE.critFake();
                     crit = false;
                     break;
                 }

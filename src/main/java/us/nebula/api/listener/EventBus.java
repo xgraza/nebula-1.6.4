@@ -1,13 +1,10 @@
 package us.nebula.api.listener;
 
-import io.netty.util.internal.ConcurrentSet;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author xgraza
@@ -17,11 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class EventBus
 {
     private static final Set<Object> subscribedListeners = new HashSet<>();
-    private static final Map<Class<? extends Event>, Set<Subscriber>> eventSubscribers = new ConcurrentHashMap<>();
+    private static final Map<Class<? extends Event>, List<Subscriber>> eventSubscribers = new ConcurrentHashMap<>();
 
     public static boolean dispatch(final Event event)
     {
-        final Set<Subscriber> subscribers = eventSubscribers.get(event.getClass());
+        final List<Subscriber> subscribers = eventSubscribers.get(event.getClass());
         if (subscribers == null || subscribers.isEmpty())
         {
             return false;
@@ -47,6 +44,7 @@ public final class EventBus
         {
             return;
         }
+        final List<Class<? extends Event>> modifiedEvents = new ArrayList<>();
         for (final Field field : object.getClass().getDeclaredFields())
         {
             if (!EventListener.class.isAssignableFrom(field.getType())
@@ -71,9 +69,16 @@ public final class EventBus
             }
             final Class<?> eventClass = (Class<?>) ((ParameterizedType) field.getGenericType())
                     .getActualTypeArguments()[0];
-            final Set<Subscriber> subscribers = eventSubscribers.computeIfAbsent(
-                    (Class<? extends Event>) eventClass, (x) -> new ConcurrentSet<>());
+            final List<Subscriber> subscribers = eventSubscribers.computeIfAbsent(
+                    (Class<? extends Event>) eventClass, (x) -> new CopyOnWriteArrayList<>());
             subscribers.add(new Subscriber(listener, properties, object));
+            modifiedEvents.add((Class<? extends Event>) eventClass);
+        }
+
+        for (final Class<? extends Event> eventClass : modifiedEvents)
+        {
+            eventSubscribers.get(eventClass).sort(Comparator.comparingInt(
+                    (subscriber) -> -subscriber.getProperties().priority()));
         }
     }
 
@@ -83,9 +88,11 @@ public final class EventBus
         {
             return;
         }
-        eventSubscribers.forEach(
-                (eventClass, subscribers) -> subscribers.removeIf(
-                        (subscriber) -> subscriber.getParent().equals(object)));
+        for (final List<Subscriber> subscribers : eventSubscribers.values())
+        {
+            subscribers.removeIf(
+                    (subscriber) -> subscriber.getParent().equals(object));
+        }
     }
 
     private EventBus()

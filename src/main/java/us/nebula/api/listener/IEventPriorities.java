@@ -6,5 +6,6 @@ package us.nebula.api.listener;
  */
 public interface IEventPriorities
 {
+    int LOW = -10;
     int DEFAULT = 0;
 }

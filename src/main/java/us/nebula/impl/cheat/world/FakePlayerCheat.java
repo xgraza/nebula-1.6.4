@@ -10,9 +10,11 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import us.nebula.api.listener.EventListener;
+import us.nebula.api.listener.IEventPriorities;
 import us.nebula.api.listener.Subscribe;
 import us.nebula.api.manager.cheat.Cheat;
 import us.nebula.api.manager.cheat.CheatCategory;
+import us.nebula.api.manager.cheat.CheatInstance;
 import us.nebula.api.manager.cheat.CheatManifest;
 import us.nebula.api.value.Setting;
 import us.nebula.impl.event.game.EventUpdate;
@@ -30,6 +32,9 @@ import java.util.List;
         category = CheatCategory.WORLD)
 public final class FakePlayerCheat extends Cheat
 {
+    @CheatInstance
+    public static FakePlayerCheat INSTANCE;
+
     private static final List<String> FAKE_USERNAMES = Lists.newArrayList(
             "Aestheticall", "epearl", "hometea", "iWoodz", "EstrogenInjector");
 
@@ -73,7 +78,7 @@ public final class FakePlayerCheat extends Cheat
         }
     };
 
-    @Subscribe
+    @Subscribe(priority = IEventPriorities.LOW)
     private final EventListener<EventPacket.Outbound> outboundEventListener = event ->
     {
         if (event.getPacket() instanceof C02PacketUseEntity)
@@ -86,6 +91,14 @@ public final class FakePlayerCheat extends Cheat
             }
         }
     };
+
+    public void critFake()
+    {
+        if (isToggled() && fakePlayerEntity != null)
+        {
+            MC.thePlayer.onCriticalHit(fakePlayerEntity);
+        }
+    }
 
     private EntityOtherPlayerMP createFakePlayer()
     {
