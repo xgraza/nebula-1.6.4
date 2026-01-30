@@ -25,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import us.nebula.client.Nebula;
 import us.nebula.client.impl.cheat.player.TranslateCheat;
 
 import java.io.File;
@@ -373,7 +374,6 @@ public class GuiChat extends GuiScreen
         this.chatTextField.drawTextBox();
 
         IChatComponent componentAt = this.mc.ingameGUI.getChatGui().func_146236_a(Mouse.getX(), Mouse.getY());
-
         if (componentAt != null && componentAt.getChatStyle().getChatHoverEvent() != null)
         {
             final HoverEvent hoverEvent = componentAt.getChatStyle().getChatHoverEvent();
