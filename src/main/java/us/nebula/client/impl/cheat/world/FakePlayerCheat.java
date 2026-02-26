@@ -9,6 +9,7 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Vec3;
 import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.IEventPriorities;
 import us.nebula.client.api.listener.Subscribe;
@@ -22,6 +23,8 @@ import us.nebula.client.impl.event.network.EventPacket;
 import us.nebula.client.util.math.MathUtil;
 
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * @author xgraza
@@ -44,7 +47,10 @@ public final class FakePlayerCheat extends Cheat
             "Take Damage", false);
     private final Setting<Boolean> gapChugSetting = new Setting<>(
             "Gap Chug", false, takeDamageSetting::getValue);
+    private final Setting<Boolean> moveSetting = new Setting<>(
+            "Move", false);
 
+    public final Queue<Movement> fakePlayerMovement = new ConcurrentLinkedQueue<>();
     private EntityOtherPlayerMP fakePlayerEntity;
 
     @Override
@@ -57,6 +63,8 @@ public final class FakePlayerCheat extends Cheat
             MC.theWorld.removePlayerEntityDangerously(fakePlayerEntity);
         }
         fakePlayerEntity = null;
+
+        //fakePlayerMovement.clear();
     }
 
     @Subscribe
@@ -64,6 +72,7 @@ public final class FakePlayerCheat extends Cheat
     {
         if (isFakePlayerInvalidated())
         {
+            fakePlayerMovement.clear();
             if (fakePlayerEntity != null)
             {
                 MC.theWorld.removeEntityFromWorld(FAKE_ENTITY_ID);
@@ -75,7 +84,28 @@ public final class FakePlayerCheat extends Cheat
             }
             fakePlayerEntity = createFakePlayer();
             MC.theWorld.addEntityToWorld(FAKE_ENTITY_ID, fakePlayerEntity);
+            return;
         }
+
+        if (!moveSetting.getValue())
+        {
+            return;
+        }
+
+        if (fakePlayerMovement.isEmpty())
+        {
+            return;
+        }
+
+        final Movement movement = fakePlayerMovement.poll();
+        if (movement == null)
+        {
+            return;
+        }
+
+        fakePlayerMovement.add(movement);
+        
+        fakePlayerEntity.setPositionAndRotation(movement.position.xCoord, movement.position.yCoord, movement.position.zCoord, movement.yaw, movement.pitch);
     };
 
     @Subscribe(priority = IEventPriorities.LOW)
@@ -219,5 +249,33 @@ public final class FakePlayerCheat extends Cheat
                 //|| MC.theWorld.getEntityByID(FAKE_ENTITY_ID) == null
                 || fakePlayerEntity.isDead
                 || fakePlayerEntity.dimension != MC.thePlayer.dimension;
+    }
+
+    public static final class Movement
+    {
+        private Vec3 position;
+        private float yaw, pitch;
+
+        public Movement(Vec3 position, float yaw, float pitch)
+        {
+            this.position = position;
+            this.yaw = yaw;
+            this.pitch = pitch;
+        }
+
+        public Vec3 getPosition()
+        {
+            return position;
+        }
+
+        public float getYaw()
+        {
+            return yaw;
+        }
+
+        public float getPitch()
+        {
+            return pitch;
+        }
     }
 }
