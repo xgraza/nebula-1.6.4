@@ -50,6 +50,8 @@ public final class AutoBedCheat extends Cheat
             "Range", 4.2f, 1.0f, 6.0f, 0.1f);
     private final Setting<Integer> yRangeSetting = new Setting<>(
             "Y-Range", 1, 1, 5, 1);
+    private final Setting<Boolean> extinguishFireSetting = new Setting<>(
+            "Extinguish Fire", true);
 
     private final Setting<Float> minDamageSetting = new Setting<>(
             "Min Damage", 6.0f, 1.0f, 19.5f, 0.1f);
@@ -92,9 +94,9 @@ public final class AutoBedCheat extends Cheat
             return;
         }
         RenderUtil.filledBox3D(new AxisAlignedBB(blockInfo.getPos())
-                .addCoord(blockInfo.getFacing().getFrontOffsetX(),
-                        blockInfo.getFacing().getFrontOffsetY(),
-                        blockInfo.getFacing().getFrontOffsetZ()),
+                        .addCoord(blockInfo.getFacing().getFrontOffsetX(),
+                                blockInfo.getFacing().getFrontOffsetY(),
+                                blockInfo.getFacing().getFrontOffsetZ()),
                 0, 0x80FF0000);
     };
 
@@ -121,6 +123,24 @@ public final class AutoBedCheat extends Cheat
         if (blockInfo.getPos() == null || blockInfo.getFacing() == null)
         {
             return;
+        }
+
+        if (extinguishFireSetting.getValue())
+        {
+            final BlockPos pos1 = blockInfo.getPos();
+            final BlockPos pos2 = blockInfo.getPos().offset(blockInfo.getFacing());
+
+            if (BlockUtil.isFire(pos1))
+            {
+                MC.playerController.clickBlock(pos1.getX(), pos1.getY(), pos1.getZ(), EnumFacing.UP.order_a);
+                MC.thePlayer.swingItem();
+            }
+
+            if (BlockUtil.isFire(pos2))
+            {
+                MC.playerController.clickBlock(pos2.getX(), pos2.getY(), pos2.getZ(), EnumFacing.UP.order_a);
+                MC.thePlayer.swingItem();
+            }
         }
 
         Nebula.INSTANCE.getInventoryManager().setSlot(bedSlot);
@@ -340,7 +360,7 @@ public final class AutoBedCheat extends Cheat
 
     private float getDamageAfterMagicAbsorb(final float damage, final int enchantModifiers)
     {
-        return damage * (1.0f - (float)MathHelper.clamp_int(enchantModifiers, 0, 20) / 25.0f);
+        return damage * (1.0f - (float) MathHelper.clamp_int(enchantModifiers, 0, 20) / 25.0f);
     }
 
     private float getDmgMultiplier(final float damage)

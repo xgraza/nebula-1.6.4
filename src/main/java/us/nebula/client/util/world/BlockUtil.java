@@ -2,6 +2,7 @@ package us.nebula.client.util.world;
 
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.src.BlockPos;
@@ -97,12 +98,12 @@ public final class BlockUtil
             case SOUTH:
             case NORTH:
             {
-                return new BlockPos[] { new BlockPos(-1, 0, 0), new BlockPos(1, 0, 0) };
+                return new BlockPos[]{ new BlockPos(-1, 0, 0), new BlockPos(1, 0, 0) };
             }
             case EAST:
             case WEST:
             {
-                return new BlockPos[] { new BlockPos(0, 0, 1), new BlockPos(0, 0, -1) };
+                return new BlockPos[]{ new BlockPos(0, 0, 1), new BlockPos(0, 0, -1) };
             }
             default:
                 return null;
@@ -147,5 +148,15 @@ public final class BlockUtil
     public static boolean isReplaceable(final int x, final int y, final int z)
     {
         return MC.theWorld.getBlock(x, y, z).getMaterial().isReplaceable();
+    }
+
+    public static boolean isFire(final BlockPos pos)
+    {
+        return isFire(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static boolean isFire(final int x, final int y, final int z)
+    {
+        return MC.theWorld.getBlock(x, y, z) instanceof BlockFire;
     }
 }
