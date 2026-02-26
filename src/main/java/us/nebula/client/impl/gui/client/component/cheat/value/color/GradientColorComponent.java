@@ -1,5 +1,7 @@
 package us.nebula.client.impl.gui.client.component.cheat.value.color;
 
+import net.minecraft.util.MathHelper;
+import org.lwjgl.input.Mouse;
 import us.nebula.client.api.gui.GUIComponent;
 import us.nebula.client.api.gui.IGUIInputListener;
 import us.nebula.client.util.render.RenderUtil;
@@ -14,27 +16,56 @@ public final class GradientColorComponent extends GUIComponent implements IGUIIn
 {
     private final ColorSettingComponent parent;
 
+    final float[] hsb = new float[3];
+    private double pointerX, pointerY;
+    private boolean dragging;
+
     public GradientColorComponent(final ColorSettingComponent parent)
     {
         this.parent = parent;
+
+        final Color color = parent.setting.getValue();
+        Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), hsb);
     }
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        final Color color = parent.setting.getValue();
+        if (dragging)
+        {
+            pointerX = MathHelper.clamp_double(mouseX, x, x + getWidth());
+            pointerY = MathHelper.clamp_double(mouseY, y, y + getHeight());
+            setColors();
+            if (!Mouse.isButtonDown(0))
+            {
+                dragging = false;
+            }
+        }
 
-        RenderUtil.gradientRectangle2D(x, y, width, height,
+        RenderUtil.gradientRectangle2D(x, y, getWidth(), getHeight(),
                 Color.black.hashCode(),
                 Color.black.hashCode(),
-                color.hashCode(),
+                Color.HSBtoRGB(hsb[0], 1, 1),
                 Color.white.hashCode());
+
+        RenderUtil.rectangle2D(pointerX - 2.5, pointerY - 2.5, 5, 5, Color.black.getRGB());
+        RenderUtil.renderOutline2D(pointerX - 2.5, pointerY - 2.5, 5, 5, 1.5f, Color.white.getRGB());
+    }
+
+    private void setColors()
+    {
+        hsb[1] = (float) (1.0 - ((pointerY - getY()) / getHeight()));
+        hsb[2] = (float) ((pointerX - getX()) / getWidth());
+        parent.setting.setValue(Color.getHSBColor(hsb[0], hsb[1], hsb[2]));
     }
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-
+        if (isMouseInDynamic(mouseX, mouseY))
+        {
+            dragging = true;
+        }
     }
 
     @Override

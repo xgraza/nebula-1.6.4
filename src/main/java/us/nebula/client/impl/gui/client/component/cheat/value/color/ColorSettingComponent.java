@@ -17,13 +17,15 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
     private static final double PADDING = 1.0;
 
     private boolean opened;
+    final GradientColorComponent gradientColorComponent;
     final Setting<Color> setting;
 
     public ColorSettingComponent(final Setting<Color> setting)
     {
         this.setting = setting;
 
-        getChildrenComponentList().add(new GradientColorComponent(this));
+        getChildrenComponentList().add(gradientColorComponent = new GradientColorComponent(this));
+        getChildrenComponentList().add(new HueSliderColorComponent(this));
     }
 
     @Override
@@ -42,6 +44,8 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
             component.setWidth(getWidth() - (PADDING * 2));
 
             component.render(mouseX, mouseY, partialTicks);
+
+            posY += component.getHeight() + (PADDING * 2);
         }
     }
 
@@ -73,6 +77,17 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
+        if (opened)
+        {
+            for (GUIComponent guiComponent : getChildrenComponentList())
+            {
+                if (guiComponent instanceof IGUIInputListener)
+                {
+                    ((IGUIInputListener) guiComponent).mouseClicked(mouseX, mouseY, mouseButton);
+                }
+            }
+        }
+
         if (isMouseIn(mouseX, mouseY) && mouseButton == 1)
         {
             opened = !opened;

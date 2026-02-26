@@ -57,4 +57,9 @@ public final class HUDCheat extends Cheat
         }
         MC.mcProfiler.endSection();
     };
+
+    public int getPrimary()
+    {
+        return primaryColorSetting.getValue().getRGB();
+    }
 }

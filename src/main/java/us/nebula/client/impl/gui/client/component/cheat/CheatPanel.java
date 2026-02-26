@@ -8,6 +8,7 @@ import us.nebula.client.api.gui.font.Fonts;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.key.Key;
 import us.nebula.client.api.value.Setting;
+import us.nebula.client.impl.cheat.render.HUDCheat;
 import us.nebula.client.impl.gui.client.component.cheat.value.*;
 import us.nebula.client.impl.gui.client.component.cheat.value.color.ColorSettingComponent;
 import us.nebula.client.util.io.SoundUtil;
@@ -29,7 +30,6 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
 
     private static final int KEY_BACKGROUND_COLOR = new Color(33, 33, 33).getRGB();
     private static final int BACKGROUND_COLOR = new Color(41, 41, 41).getRGB();
-    private static final int TEMP_TOGGLE_COLOR = new Color(112, 82, 143).getRGB();
 
     private final Animation hoverAnimation = new Animation(
             AnimationEasing.EXPO_IN_OUT, 350.0);
@@ -88,7 +88,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
 
         if (cheat.isToggled())
         {
-            RenderUtil.roundedRectangle2D(x, y, width, getHeight(), 1.5f, TEMP_TOGGLE_COLOR);
+            RenderUtil.roundedRectangle2D(x, y, width, getHeight(), 1.5f, HUDCheat.INSTANCE.getPrimary());
         }
         final double middle = Fonts.getMiddlePoint(height, Fonts.POPPINS.getFontHeight());
         Fonts.POPPINS.drawStringShadow(cheat.getManifest().name(),

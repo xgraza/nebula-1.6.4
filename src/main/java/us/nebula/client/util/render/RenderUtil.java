@@ -139,8 +139,8 @@ public final class RenderUtil
     }
 
     public static void outlinedBox3D(final AxisAlignedBB aabb,
-                                   final float lineWidth,
-                                   final int color)
+                                     final float lineWidth,
+                                     final int color)
     {
         glPushMatrix();
 
@@ -217,6 +217,47 @@ public final class RenderUtil
         glEnable(GL_TEXTURE_2D);
     }
 
+    public static void renderOutline2D(final double x,
+                                       final double y,
+                                       final double width,
+                                       final double height,
+                                       final float lineWidth,
+                                       final int color)
+    {
+        glDisable(GL_TEXTURE_2D);
+        setColor(color);
+
+        glLineWidth(lineWidth);
+        glEnable(GL_LINE_SMOOTH);
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
+        TESSELLATOR.startDrawing(GL_LINES);
+
+        // top
+        TESSELLATOR.addVertex(x, y, 0);
+        TESSELLATOR.addVertex(x + width, y, 0);
+
+        // left side
+        TESSELLATOR.addVertex(x, y, 0);
+        TESSELLATOR.addVertex(x, y + height, 0);
+
+        // right side
+        TESSELLATOR.addVertex(x + width, y, 0);
+        TESSELLATOR.addVertex(x + width, y + height, 0);
+
+        // bottom
+        TESSELLATOR.addVertex(x, y + height, 0);
+        TESSELLATOR.addVertex(x + width, y + height, 0);
+
+        TESSELLATOR.draw();
+
+        glLineWidth(1.0f);
+        glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+        glDisable(GL_LINE_SMOOTH);
+
+        glEnable(GL_TEXTURE_2D);
+    }
+
     public static void gradientRectangle2D(
             final double x,
             final double y,
@@ -267,9 +308,11 @@ public final class RenderUtil
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 0, 1);
 
-        ROUNDED_RECTANGLE_SHADER.use(() -> {
+        ROUNDED_RECTANGLE_SHADER.use(() ->
+        {
             int scaleFactor = MC.gameSettings.guiScale;
-            if (GAME_RESOLUTION != null) {
+            if (GAME_RESOLUTION != null)
+            {
                 scaleFactor = GAME_RESOLUTION.getScaleFactor();
             }
 
@@ -296,6 +339,38 @@ public final class RenderUtil
         ROUNDED_RECTANGLE_SHADER.stop();
 
         glDisable(GL_BLEND);
+    }
+
+    public static void texture(ResourceLocation loc, double x, double y, int w, int h)
+    {
+        glPushMatrix();
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        MC.getTextureManager().bindTexture(loc);
+
+        glColor4f(1, 1, 1, 1);
+        // this is from mc 1.8.9 code cause 1.7.2 fucking sucks
+
+        float u = 0.0f;
+        float v = 0.0f;
+
+        float f = 1.0F / (float) w;
+        float f1 = 1.0F / (float) h;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV(x, y + h, 0.0D, u * f, (v + (float) h) * f1);
+        tessellator.addVertexWithUV(x + w, y + h, 0.0D, (u + (float) w) * f, (v + (float) h) * f1);
+        tessellator.addVertexWithUV(x + w, y, 0.0D, (u + (float) w) * f, v * f1);
+        tessellator.addVertexWithUV(x, y, 0.0D, u * f, v * f1);
+        tessellator.draw();
+
+        glDisable(GL_BLEND);
+        glPopMatrix();
     }
 
     public static void renderItemWithEffects(final ItemStack itemStack,
@@ -342,7 +417,7 @@ public final class RenderUtil
         final float red = (color >> 16 & 0xff) / 255.0f;
         final float green = (color >> 8 & 0xff) / 255.0f;
         final float blue = (color & 0xff) / 255.0f;
-        return new float[] { alpha, red, green, blue };
+        return new float[]{ alpha, red, green, blue };
     }
 
     public static void setTessellatorColor(final int color)

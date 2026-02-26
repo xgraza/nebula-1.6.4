@@ -6,6 +6,7 @@ import us.nebula.client.api.gui.animation.Animation;
 import us.nebula.client.api.gui.animation.AnimationEasing;
 import us.nebula.client.api.gui.font.Fonts;
 import us.nebula.client.api.value.Setting;
+import us.nebula.client.impl.cheat.render.HUDCheat;
 import us.nebula.client.util.io.SoundUtil;
 import us.nebula.client.util.render.RenderUtil;
 
@@ -20,7 +21,6 @@ public final class BooleanSettingComponent extends GUIComponent implements IGUII
     private static final double PADDING = 1.0;
 
     private static final int BACKGROUND_COLOR = new Color(52, 52, 52).getRGB();
-    private static final int TEMP_TOGGLE_COLOR = new Color(112, 82, 143).getRGB();
 
     private final Animation animation = new Animation(
             AnimationEasing.EXPO_IN_OUT, 300.0);
@@ -53,7 +53,7 @@ public final class BooleanSettingComponent extends GUIComponent implements IGUII
         RenderUtil.roundedRectangle2D(posX + (dimensions - factoredDimension),
                 posY + (dimensions - factoredDimension),
                 factoredDimension, factoredDimension,
-                3.5f, TEMP_TOGGLE_COLOR);
+                3.5f, HUDCheat.INSTANCE.getPrimary());
     }
 
     @Override
