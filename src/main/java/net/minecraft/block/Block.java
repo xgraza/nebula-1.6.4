@@ -1,9 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,19 +14,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.RegistryNamespaced;
-import net.minecraft.util.RegistryNamespacedDefaultedByKey;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import us.nebula.client.api.listener.EventBus;
 import us.nebula.client.impl.cheat.render.XRayCheat;
 import us.nebula.client.impl.event.world.EventModifyBoundBox;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 public class Block
 {
@@ -39,56 +33,77 @@ public class Block
     protected String textureName;
     public static final Block.SoundType soundTypeStone = new Block.SoundType("stone", 1.0F, 1.0F);
 
-    /** the wood sound type */
+    /**
+     * the wood sound type
+     */
     public static final Block.SoundType soundTypeWood = new Block.SoundType("wood", 1.0F, 1.0F);
 
-    /** the gravel sound type */
+    /**
+     * the gravel sound type
+     */
     public static final Block.SoundType soundTypeGravel = new Block.SoundType("gravel", 1.0F, 1.0F);
     public static final Block.SoundType soundTypeGrass = new Block.SoundType("grass", 1.0F, 1.0F);
 
-    /** The piston step sound */
+    /**
+     * The piston step sound
+     */
     public static final Block.SoundType soundStoneFootstep = new Block.SoundType("stone", 1.0F, 1.0F);
 
-    /** The metal sound type */
+    /**
+     * The metal sound type
+     */
     public static final Block.SoundType soundTypeMetal = new Block.SoundType("stone", 1.0F, 1.5F);
 
-    /** Glass footsteps */
+    /**
+     * Glass footsteps
+     */
     public static final Block.SoundType soundTypeGlass = new Block.SoundType("stone", 1.0F, 1.0F)
     {
         private static final String __OBFID = "CL_00000200";
+
         public String func_150495_a()
         {
             return "dig.glass";
         }
+
         public String func_150496_b()
         {
             return "step.stone";
         }
     };
 
-    /** Sound for cloth and carpets */
+    /**
+     * Sound for cloth and carpets
+     */
     public static final Block.SoundType soundTypeCloth = new Block.SoundType("cloth", 1.0F, 1.0F);
     public static final Block.SoundType field_149776_m = new Block.SoundType("sand", 1.0F, 1.0F);
     public static final Block.SoundType soundTypeSnow = new Block.SoundType("snow", 1.0F, 1.0F);
 
-    /** The ladder sound type */
+    /**
+     * The ladder sound type
+     */
     public static final Block.SoundType soundTypeLadder = new Block.SoundType("ladder", 1.0F, 1.0F)
     {
         private static final String __OBFID = "CL_00000201";
+
         public String func_150495_a()
         {
             return "dig.wood";
         }
     };
 
-    /** The anvil sound type */
+    /**
+     * The anvil sound type
+     */
     public static final Block.SoundType soundTypeAnvil = new Block.SoundType("anvil", 0.3F, 1.0F)
     {
         private static final String __OBFID = "CL_00000202";
+
         public String func_150495_a()
         {
             return "dig.stone";
         }
+
         public String func_150496_b()
         {
             return "random.anvil_land";
@@ -96,15 +111,21 @@ public class Block
     };
     protected boolean opaque;
 
-    /** How much light is subtracted for going through this block */
+    /**
+     * How much light is subtracted for going through this block
+     */
     protected int lightOpacity;
     protected boolean canBlockGrass;
 
-    /** Amount of light emitted */
+    /**
+     * Amount of light emitted
+     */
     protected int lightValue;
     protected boolean field_149783_u;
 
-    /** Indicates how many hits it takes to break a block. */
+    /**
+     * Indicates how many hits it takes to break a block.
+     */
     public float blockHardness;
     protected float blockResistance;
     protected boolean blockConstructorCalled = true;
@@ -116,7 +137,9 @@ public class Block
      */
     protected boolean needsRandomTick;
 
-    /** true if the Block contains a Tile Entity */
+    /**
+     * true if the Block contains a Tile Entity
+     */
     protected boolean isBlockContainer;
     protected double minX;
     protected double minY;
@@ -125,7 +148,9 @@ public class Block
     protected double maxY;
     protected double maxZ;
 
-    /** Sound of stepping on the block */
+    /**
+     * Sound of stepping on the block
+     */
     public Block.SoundType stepSound;
     public float blockParticleGravity;
     protected final Material blockMaterial;
@@ -145,7 +170,7 @@ public class Block
 
     public static Block getBlockById(int p_149729_0_)
     {
-        return (Block)blockRegistry.getObjectForID(p_149729_0_);
+        return (Block) blockRegistry.getObjectForID(p_149729_0_);
     }
 
     public static Block getBlockFromItem(Item p_149634_0_)
@@ -157,15 +182,13 @@ public class Block
     {
         if (blockRegistry.containsKey(p_149684_0_))
         {
-            return (Block)blockRegistry.getObject(p_149684_0_);
-        }
-        else
+            return (Block) blockRegistry.getObject(p_149684_0_);
+        } else
         {
             try
             {
-                return (Block)blockRegistry.getObjectForID(Integer.parseInt(p_149684_0_));
-            }
-            catch (NumberFormatException var2)
+                return (Block) blockRegistry.getObjectForID(Integer.parseInt(p_149684_0_));
+            } catch (NumberFormatException var2)
             {
                 return null;
             }
@@ -341,7 +364,7 @@ public class Block
         blockRegistry.addObject(116, "enchanting_table", (new BlockEnchantmentTable()).setHardness(5.0F).setResistance(2000.0F).setBlockName("enchantmentTable").setTextureName("enchanting_table"));
         blockRegistry.addObject(117, "brewing_stand", (new BlockBrewingStand()).setHardness(0.5F).setLightValue(0.125F).setBlockName("brewingStand").setTextureName("brewing_stand"));
         blockRegistry.addObject(118, "cauldron", (new BlockCauldron()).setHardness(2.0F).setBlockName("cauldron").setTextureName("cauldron"));
-        blockRegistry.addObject(119, "end_portal", (new BlockEndPortal(Material.Portal)).setHardness(-1.0F).setResistance(6000000.0F));
+        blockRegistry.addObject(119, "end_portal", (new BlockEndPortal(Material.Portal)).setBlockName("endPortal").setHardness(-1.0F).setResistance(6000000.0F));
         blockRegistry.addObject(120, "end_portal_frame", (new BlockEndPortalFrame()).setStepSound(soundTypeGlass).setLightValue(0.125F).setHardness(-1.0F).setBlockName("endPortalFrame").setResistance(6000000.0F).setCreativeTab(CreativeTabs.tabDecorations).setTextureName("endframe"));
         blockRegistry.addObject(121, "end_stone", (new Block(Material.rock)).setHardness(3.0F).setResistance(15.0F).setStepSound(soundStoneFootstep).setBlockName("whiteStone").setCreativeTab(CreativeTabs.tabBlock).setTextureName("end_stone"));
         blockRegistry.addObject(122, "dragon_egg", (new BlockDragonEgg()).setHardness(3.0F).setResistance(15.0F).setStepSound(soundStoneFootstep).setLightValue(0.125F).setBlockName("dragonEgg").setTextureName("dragon_egg"));
@@ -398,13 +421,12 @@ public class Block
 
         while (var10.hasNext())
         {
-            Block var11 = (Block)var10.next();
+            Block var11 = (Block) var10.next();
 
             if (var11.blockMaterial == Material.air)
             {
                 var11.field_149783_u = false;
-            }
-            else
+            } else
             {
                 boolean var12 = false;
                 boolean var13 = var11.getRenderType() == 10;
@@ -459,7 +481,7 @@ public class Block
      */
     protected Block setLightValue(float p_149715_1_)
     {
-        this.lightValue = (int)(15.0F * p_149715_1_);
+        this.lightValue = (int) (15.0F * p_149715_1_);
         return this;
     }
 
@@ -554,12 +576,12 @@ public class Block
 
     protected final void setBlockBounds(float p_149676_1_, float p_149676_2_, float p_149676_3_, float p_149676_4_, float p_149676_5_, float p_149676_6_)
     {
-        this.minX = (double)p_149676_1_;
-        this.minY = (double)p_149676_2_;
-        this.minZ = (double)p_149676_3_;
-        this.maxX = (double)p_149676_4_;
-        this.maxY = (double)p_149676_5_;
-        this.maxZ = (double)p_149676_6_;
+        this.minX = (double) p_149676_1_;
+        this.minY = (double) p_149676_2_;
+        this.minZ = (double) p_149676_3_;
+        this.maxX = (double) p_149676_4_;
+        this.maxY = (double) p_149676_5_;
+        this.maxZ = (double) p_149676_6_;
     }
 
     public int getBlockBrightness(IBlockAccess p_149677_1_, int p_149677_2_, int p_149677_3_, int p_149677_4_)
@@ -572,8 +594,7 @@ public class Block
             --p_149677_3_;
             var5 = p_149677_1_.getBlock(p_149677_2_, p_149677_3_, p_149677_4_);
             return p_149677_1_.getLightBrightnessForSkyBlocks(p_149677_2_, p_149677_3_, p_149677_4_, var5.getLightValue());
-        }
-        else
+        } else
         {
             return var6;
         }
@@ -628,7 +649,7 @@ public class Block
      */
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World p_149633_1_, int p_149633_2_, int p_149633_3_, int p_149633_4_)
     {
-        return AxisAlignedBB.getAABBPool().getAABB((double)p_149633_2_ + this.minX, (double)p_149633_3_ + this.minY, (double)p_149633_4_ + this.minZ, (double)p_149633_2_ + this.maxX, (double)p_149633_3_ + this.maxY, (double)p_149633_4_ + this.maxZ);
+        return AxisAlignedBB.getAABBPool().getAABB((double) p_149633_2_ + this.minX, (double) p_149633_3_ + this.minY, (double) p_149633_4_ + this.minZ, (double) p_149633_2_ + this.maxX, (double) p_149633_3_ + this.maxY, (double) p_149633_4_ + this.maxZ);
     }
 
     public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_)
@@ -651,7 +672,7 @@ public class Block
      */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
     {
-        return AxisAlignedBB.getAABBPool().getAABB((double)p_149668_2_ + this.minX, (double)p_149668_3_ + this.minY, (double)p_149668_4_ + this.minZ, (double)p_149668_2_ + this.maxX, (double)p_149668_3_ + this.maxY, (double)p_149668_4_ + this.maxZ);
+        return AxisAlignedBB.getAABBPool().getAABB((double) p_149668_2_ + this.minX, (double) p_149668_3_ + this.minY, (double) p_149668_4_ + this.minZ, (double) p_149668_2_ + this.maxX, (double) p_149668_3_ + this.maxY, (double) p_149668_4_ + this.maxZ);
     }
 
     public boolean isOpaqueCube()
@@ -676,25 +697,37 @@ public class Block
     /**
      * Ticks the block if it's been scheduled
      */
-    public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_) {}
+    public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
+    {
+    }
 
     /**
      * A randomly called display update to be able to add particles or other items for display
      */
-    public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_) {}
+    public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
+    {
+    }
 
-    public void onBlockDestroyedByPlayer(World p_149664_1_, int p_149664_2_, int p_149664_3_, int p_149664_4_, int p_149664_5_) {}
+    public void onBlockDestroyedByPlayer(World p_149664_1_, int p_149664_2_, int p_149664_3_, int p_149664_4_, int p_149664_5_)
+    {
+    }
 
-    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_) {}
+    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
+    {
+    }
 
     public int tickRate(World p_149738_1_)
     {
         return 10;
     }
 
-    public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_) {}
+    public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_)
+    {
+    }
 
-    public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {}
+    public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
+    {
+    }
 
     /**
      * Returns the quantity of items to drop on block destruction.
@@ -755,10 +788,10 @@ public class Block
         if (!p_149642_1_.isClient && p_149642_1_.getGameRules().getGameRuleBooleanValue("doTileDrops"))
         {
             float var6 = 0.7F;
-            double var7 = (double)(p_149642_1_.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
-            double var9 = (double)(p_149642_1_.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
-            double var11 = (double)(p_149642_1_.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
-            EntityItem var13 = new EntityItem(p_149642_1_, (double)p_149642_2_ + var7, (double)p_149642_3_ + var9, (double)p_149642_4_ + var11, p_149642_5_);
+            double var7 = (double) (p_149642_1_.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;
+            double var9 = (double) (p_149642_1_.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;
+            double var11 = (double) (p_149642_1_.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;
+            EntityItem var13 = new EntityItem(p_149642_1_, (double) p_149642_2_ + var7, (double) p_149642_3_ + var9, (double) p_149642_4_ + var11, p_149642_5_);
             var13.delayBeforeCanPickup = 10;
             p_149642_1_.spawnEntityInWorld(var13);
         }
@@ -772,7 +805,7 @@ public class Block
             {
                 int var6 = EntityXPOrb.getXPSplit(p_149657_5_);
                 p_149657_5_ -= var6;
-                p_149657_1_.spawnEntityInWorld(new EntityXPOrb(p_149657_1_, (double)p_149657_2_ + 0.5D, (double)p_149657_3_ + 0.5D, (double)p_149657_4_ + 0.5D, var6));
+                p_149657_1_.spawnEntityInWorld(new EntityXPOrb(p_149657_1_, (double) p_149657_2_ + 0.5D, (double) p_149657_3_ + 0.5D, (double) p_149657_4_ + 0.5D, var6));
             }
         }
     }
@@ -796,8 +829,8 @@ public class Block
     public MovingObjectPosition collisionRayTrace(World p_149731_1_, int p_149731_2_, int p_149731_3_, int p_149731_4_, Vec3 p_149731_5_, Vec3 p_149731_6_)
     {
         this.setBlockBoundsBasedOnState(p_149731_1_, p_149731_2_, p_149731_3_, p_149731_4_);
-        p_149731_5_ = p_149731_5_.addVector((double)(-p_149731_2_), (double)(-p_149731_3_), (double)(-p_149731_4_));
-        p_149731_6_ = p_149731_6_.addVector((double)(-p_149731_2_), (double)(-p_149731_3_), (double)(-p_149731_4_));
+        p_149731_5_ = p_149731_5_.addVector((double) (-p_149731_2_), (double) (-p_149731_3_), (double) (-p_149731_4_));
+        p_149731_6_ = p_149731_6_.addVector((double) (-p_149731_2_), (double) (-p_149731_3_), (double) (-p_149731_4_));
         Vec3 var7 = p_149731_5_.getIntermediateWithXValue(p_149731_6_, this.minX);
         Vec3 var8 = p_149731_5_.getIntermediateWithXValue(p_149731_6_, this.maxX);
         Vec3 var9 = p_149731_5_.getIntermediateWithYValue(p_149731_6_, this.minY);
@@ -870,8 +903,7 @@ public class Block
         if (var13 == null)
         {
             return null;
-        }
-        else
+        } else
         {
             byte var14 = -1;
 
@@ -905,7 +937,7 @@ public class Block
                 var14 = 3;
             }
 
-            return new MovingObjectPosition(p_149731_2_, p_149731_3_, p_149731_4_, var14, var13.addVector((double)p_149731_2_, (double)p_149731_3_, (double)p_149731_4_));
+            return new MovingObjectPosition(p_149731_2_, p_149731_3_, p_149731_4_, var14, var13.addVector((double) p_149731_2_, (double) p_149731_3_, (double) p_149731_4_));
         }
     }
 
@@ -936,7 +968,9 @@ public class Block
     /**
      * Called upon the block being destroyed by an explosion
      */
-    public void onBlockDestroyedByExplosion(World p_149723_1_, int p_149723_2_, int p_149723_3_, int p_149723_4_, Explosion p_149723_5_) {}
+    public void onBlockDestroyedByExplosion(World p_149723_1_, int p_149723_2_, int p_149723_3_, int p_149723_4_, Explosion p_149723_5_)
+    {
+    }
 
     /**
      * Returns which pass should this block be rendered on. 0 for solids and 1 for alpha
@@ -976,7 +1010,9 @@ public class Block
         return false;
     }
 
-    public void onEntityWalking(World p_149724_1_, int p_149724_2_, int p_149724_3_, int p_149724_4_, Entity p_149724_5_) {}
+    public void onEntityWalking(World p_149724_1_, int p_149724_2_, int p_149724_3_, int p_149724_4_, Entity p_149724_5_)
+    {
+    }
 
     public int onBlockPlaced(World p_149660_1_, int p_149660_2_, int p_149660_3_, int p_149660_4_, int p_149660_5_, float p_149660_6_, float p_149660_7_, float p_149660_8_, int p_149660_9_)
     {
@@ -986,11 +1022,17 @@ public class Block
     /**
      * Called when a player hits the block. Args: world, x, y, z, player
      */
-    public void onBlockClicked(World p_149699_1_, int p_149699_2_, int p_149699_3_, int p_149699_4_, EntityPlayer p_149699_5_) {}
+    public void onBlockClicked(World p_149699_1_, int p_149699_2_, int p_149699_3_, int p_149699_4_, EntityPlayer p_149699_5_)
+    {
+    }
 
-    public void velocityToAddToEntity(World p_149640_1_, int p_149640_2_, int p_149640_3_, int p_149640_4_, Entity p_149640_5_, Vec3 p_149640_6_) {}
+    public void velocityToAddToEntity(World p_149640_1_, int p_149640_2_, int p_149640_3_, int p_149640_4_, Entity p_149640_5_, Vec3 p_149640_6_)
+    {
+    }
 
-    public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) {}
+    public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
+    {
+    }
 
     /**
      * returns the block bounderies minX value
@@ -1075,7 +1117,9 @@ public class Block
         return false;
     }
 
-    public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity p_149670_5_) {}
+    public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity p_149670_5_)
+    {
+    }
 
     public int isProvidingStrongPower(IBlockAccess p_149748_1_, int p_149748_2_, int p_149748_3_, int p_149748_4_, int p_149748_5_)
     {
@@ -1085,7 +1129,9 @@ public class Block
     /**
      * Sets the block's bounds for rendering it as an item
      */
-    public void setBlockBoundsForItemRender() {}
+    public void setBlockBoundsForItemRender()
+    {
+    }
 
     public void harvestBlock(World p_149636_1_, EntityPlayer p_149636_2_, int p_149636_3_, int p_149636_4_, int p_149636_5_, int p_149636_6_)
     {
@@ -1100,8 +1146,7 @@ public class Block
             {
                 this.dropBlockAsItem_do(p_149636_1_, p_149636_3_, p_149636_4_, p_149636_5_, var8);
             }
-        }
-        else
+        } else
         {
             int var7 = EnchantmentHelper.getFortuneModifier(p_149636_2_);
             this.dropBlockAsItem(p_149636_1_, p_149636_3_, p_149636_4_, p_149636_5_, p_149636_6_, var7);
@@ -1149,12 +1194,16 @@ public class Block
     /**
      * Called when the block is placed in the world.
      */
-    public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {}
+    public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
+    {
+    }
 
     /**
      * Called after a block is placed
      */
-    public void onPostBlockPlaced(World p_149714_1_, int p_149714_2_, int p_149714_3_, int p_149714_4_, int p_149714_5_) {}
+    public void onPostBlockPlaced(World p_149714_1_, int p_149714_2_, int p_149714_3_, int p_149714_4_, int p_149714_5_)
+    {
+    }
 
     /**
      * Sets the mod-specific block name
@@ -1216,7 +1265,9 @@ public class Block
     /**
      * Block's chance to react to an entity falling on it.
      */
-    public void onFallenUpon(World p_149746_1_, int p_149746_2_, int p_149746_3_, int p_149746_4_, Entity p_149746_5_, float p_149746_6_) {}
+    public void onFallenUpon(World p_149746_1_, int p_149746_2_, int p_149746_3_, int p_149746_4_, Entity p_149746_5_, float p_149746_6_)
+    {
+    }
 
     /**
      * Gets an item for the block being called on. Args: world, x, y, z
@@ -1256,14 +1307,20 @@ public class Block
     /**
      * Called when the block is attempted to be harvested
      */
-    public void onBlockHarvested(World p_149681_1_, int p_149681_2_, int p_149681_3_, int p_149681_4_, int p_149681_5_, EntityPlayer p_149681_6_) {}
+    public void onBlockHarvested(World p_149681_1_, int p_149681_2_, int p_149681_3_, int p_149681_4_, int p_149681_5_, EntityPlayer p_149681_6_)
+    {
+    }
 
-    public void onBlockPreDestroy(World p_149725_1_, int p_149725_2_, int p_149725_3_, int p_149725_4_, int p_149725_5_) {}
+    public void onBlockPreDestroy(World p_149725_1_, int p_149725_2_, int p_149725_3_, int p_149725_4_, int p_149725_5_)
+    {
+    }
 
     /**
      * currently only used by BlockCauldron to incrament meta-data during rain
      */
-    public void fillWithRain(World p_149639_1_, int p_149639_2_, int p_149639_3_, int p_149639_4_) {}
+    public void fillWithRain(World p_149639_1_, int p_149639_2_, int p_149639_3_, int p_149639_4_)
+    {
+    }
 
     /**
      * Returns true only if block is flowerPot

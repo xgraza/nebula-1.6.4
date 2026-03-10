@@ -5,10 +5,14 @@ import net.minecraft.item.ItemStack;
 
 public class InventoryCrafting implements IInventory
 {
-    /** List of the stacks in the crafting matrix. */
-    private ItemStack[] stackList;
+    /**
+     * List of the stacks in the crafting matrix.
+     */
+    public ItemStack[] stackList;
 
-    /** the width of the crafting inventory */
+    /**
+     * the width of the crafting inventory
+     */
     private int inventoryWidth;
 
     /**
@@ -50,8 +54,7 @@ public class InventoryCrafting implements IInventory
         {
             int var3 = par1 + par2 * this.inventoryWidth;
             return this.getStackInSlot(var3);
-        }
-        else
+        } else
         {
             return null;
         }
@@ -84,8 +87,7 @@ public class InventoryCrafting implements IInventory
             ItemStack var2 = this.stackList[par1];
             this.stackList[par1] = null;
             return var2;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -107,8 +109,7 @@ public class InventoryCrafting implements IInventory
                 this.stackList[par1] = null;
                 this.eventHandler.onCraftMatrixChanged(this);
                 return var3;
-            }
-            else
+            } else
             {
                 var3 = this.stackList[par1].splitStack(par2);
 
@@ -120,8 +121,7 @@ public class InventoryCrafting implements IInventory
                 this.eventHandler.onCraftMatrixChanged(this);
                 return var3;
             }
-        }
-        else
+        } else
         {
             return null;
         }
@@ -147,7 +147,9 @@ public class InventoryCrafting implements IInventory
     /**
      * Called when an the contents of an Inventory change, usually
      */
-    public void onInventoryChanged() {}
+    public void onInventoryChanged()
+    {
+    }
 
     /**
      * Do not make give this method the name canInteractWith because it clashes with Container
@@ -157,9 +159,13 @@ public class InventoryCrafting implements IInventory
         return true;
     }
 
-    public void openInventory() {}
+    public void openInventory()
+    {
+    }
 
-    public void closeInventory() {}
+    public void closeInventory()
+    {
+    }
 
     /**
      * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.

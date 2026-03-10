@@ -12,11 +12,15 @@ import net.minecraft.util.IIcon;
 
 public class ContainerPlayer extends Container
 {
-    /** The crafting matrix inventory. */
+    /**
+     * The crafting matrix inventory.
+     */
     public InventoryCrafting craftMatrix = new InventoryCrafting(this, 2, 2);
     public IInventory craftResult = new InventoryCraftResult();
 
-    /** Determines if inventory manipulation should be handled. */
+    /**
+     * Determines if inventory manipulation should be handled.
+     */
     public boolean isLocalWorld;
     private final EntityPlayer thePlayer;
     private static final String __OBFID = "CL_00001754";
@@ -43,14 +47,17 @@ public class ContainerPlayer extends Container
             this.addSlotToContainer(new Slot(par1InventoryPlayer, par1InventoryPlayer.getSizeInventory() - 1 - var4, 8, 8 + var4 * 18)
             {
                 private static final String __OBFID = "CL_00001755";
+
                 public int getSlotStackLimit()
                 {
                     return 1;
                 }
+
                 public boolean isItemValid(ItemStack par1ItemStack)
                 {
-                    return par1ItemStack == null ? false : (par1ItemStack.getItem() instanceof ItemArmor ? ((ItemArmor)par1ItemStack.getItem()).armorType == var44 : (par1ItemStack.getItem() != Item.getItemFromBlock(Blocks.pumpkin) && par1ItemStack.getItem() != Items.skull ? false : var44 == 0));
+                    return par1ItemStack == null ? false : (par1ItemStack.getItem() instanceof ItemArmor ? ((ItemArmor) par1ItemStack.getItem()).armorType == var44 : (par1ItemStack.getItem() != Item.getItemFromBlock(Blocks.pumpkin) && par1ItemStack.getItem() != Items.skull ? false : var44 == 0));
                 }
+
                 public IIcon getBackgroundIconIndex()
                 {
                     return ItemArmor.func_94602_b(var44);
@@ -99,7 +106,7 @@ public class ContainerPlayer extends Container
             }
         }
 
-        this.craftResult.setInventorySlotContents(0, (ItemStack)null);
+        this.craftResult.setInventorySlotContents(0, (ItemStack) null);
     }
 
     public boolean canInteractWith(EntityPlayer par1EntityPlayer)
@@ -113,7 +120,7 @@ public class ContainerPlayer extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = (Slot) this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -128,54 +135,47 @@ public class ContainerPlayer extends Container
                 }
 
                 var4.onSlotChange(var5, var3);
-            }
-            else if (par2 >= 1 && par2 < 5)
+            } else if (par2 >= 1 && par2 < 5)
             {
                 if (!this.mergeItemStack(var5, 9, 45, false))
                 {
                     return null;
                 }
-            }
-            else if (par2 >= 5 && par2 < 9)
+            } else if (par2 >= 5 && par2 < 9)
             {
                 if (!this.mergeItemStack(var5, 9, 45, false))
                 {
                     return null;
                 }
-            }
-            else if (var3.getItem() instanceof ItemArmor && !((Slot)this.inventorySlots.get(5 + ((ItemArmor)var3.getItem()).armorType)).getHasStack())
+            } else if (var3.getItem() instanceof ItemArmor && !((Slot) this.inventorySlots.get(5 + ((ItemArmor) var3.getItem()).armorType)).getHasStack())
             {
-                int var6 = 5 + ((ItemArmor)var3.getItem()).armorType;
+                int var6 = 5 + ((ItemArmor) var3.getItem()).armorType;
 
                 if (!this.mergeItemStack(var5, var6, var6 + 1, false))
                 {
                     return null;
                 }
-            }
-            else if (par2 >= 9 && par2 < 36)
+            } else if (par2 >= 9 && par2 < 36)
             {
                 if (!this.mergeItemStack(var5, 36, 45, false))
                 {
                     return null;
                 }
-            }
-            else if (par2 >= 36 && par2 < 45)
+            } else if (par2 >= 36 && par2 < 45)
             {
                 if (!this.mergeItemStack(var5, 9, 36, false))
                 {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 9, 45, false))
+            } else if (!this.mergeItemStack(var5, 9, 45, false))
             {
                 return null;
             }
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack((ItemStack) null);
+            } else
             {
                 var4.onSlotChanged();
             }

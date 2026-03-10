@@ -1,12 +1,14 @@
 package us.nebula.client.impl.cheat.player;
 
 import net.minecraft.inventory.Container;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S32PacketConfirmTransaction;
 import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatCategory;
 import us.nebula.client.api.manager.cheat.CheatManifest;
+import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.network.EventPacket;
 
 /**
@@ -18,6 +20,9 @@ import us.nebula.client.impl.event.network.EventPacket;
         category = CheatCategory.PLAYER)
 public final class InventorySyncCheat extends Cheat
 {
+    private final Setting<Boolean> packetSetting = new Setting<>(
+            "Packet", false);
+
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
     {
@@ -34,6 +39,10 @@ public final class InventorySyncCheat extends Cheat
             if (transaction + 1 <= currentTransaction || transaction > currentTransaction)
             {
                 container.transactionID = (short) (transaction + 1);
+            }
+            if (packetSetting.getValue())
+            {
+                MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement());
             }
         }
     };
