@@ -712,7 +712,7 @@ public class Minecraft
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
         GL11.glFlush();
-        this.func_147120_f();
+        this.updateDisplay();
     }
 
     /**
@@ -874,6 +874,8 @@ public class Minecraft
                 }
             } catch (MinecraftError var12)
             {
+                LOGGER.fatal("Minecraft error thrown!", var12);
+                displayCrashReport(new CrashReport("MC Error", var12));
             } catch (ReportedException var13)
             {
                 this.addGraphicsAndWorldToCrashReport(var13.getCrashReport());
@@ -999,7 +1001,7 @@ public class Minecraft
         this.framebufferMc.framebufferRender(this.displayWidth, this.displayHeight);
         GL11.glPopMatrix();
         this.mcProfiler.startSection("root");
-        this.func_147120_f();
+        this.updateDisplay();
         Thread.yield();
         this.screenshotListener();
         this.checkGLError("Post render");
@@ -1023,7 +1025,7 @@ public class Minecraft
         }
     }
 
-    public void func_147120_f()
+    public void updateDisplay()
     {
         Display.update();
 
@@ -1511,7 +1513,7 @@ public class Minecraft
             Display.setResizable(!fullscreen);
             Display.setFullscreen(this.fullscreen);
             Display.setVSyncEnabled(this.gameSettings.enableVsync);
-            this.func_147120_f();
+            this.updateDisplay();
         } catch (Exception var2)
         {
             LOGGER.error("Couldn't toggle fullscreen", var2);

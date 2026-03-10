@@ -11,27 +11,28 @@ import org.lwjgl.opengl.GL11;
 
 public class LoadingScreenRenderer implements IProgressUpdate
 {
-    private String field_73727_a = "";
-
-    /** A reference to the Minecraft object. */
-    private Minecraft mc;
+    /**
+     * A reference to the Minecraft object.
+     */
+    private final Minecraft mc;
 
     /**
      * The text currently displayed (i.e. the argument to the last call to printText or func_73722_d)
      */
     private String currentlyDisplayedText = "";
-    private long field_73723_d = Minecraft.getSystemTime();
-    private boolean field_73724_e;
-    private ScaledResolution field_146587_f;
-    private Framebuffer field_146588_g;
-    private static final String __OBFID = "CL_00000655";
+    private String workingMessage = "";
 
-    public LoadingScreenRenderer(Minecraft par1Minecraft)
+    private long time = Minecraft.getSystemTime();
+    private boolean field_73724_e;
+    private final ScaledResolution resolution;
+    private final Framebuffer fb;
+
+    public LoadingScreenRenderer(Minecraft client)
     {
-        this.mc = par1Minecraft;
-        this.field_146587_f = new ScaledResolution(par1Minecraft.gameSettings, par1Minecraft.displayWidth, par1Minecraft.displayHeight);
-        this.field_146588_g = new Framebuffer(this.field_146587_f.getScaledWidth(), this.field_146587_f.getScaledHeight(), false);
-        this.field_146588_g.setFramebufferFilter(9728);
+        this.mc = client;
+        this.resolution = new ScaledResolution(client.gameSettings, client.displayWidth, client.displayHeight);
+        this.fb = new Framebuffer(resolution.getScaledWidth(), resolution.getScaledHeight(), false);
+        this.fb.setFramebufferFilter(9728);
     }
 
     /**
@@ -41,7 +42,7 @@ public class LoadingScreenRenderer implements IProgressUpdate
     public void resetProgressAndMessage(String par1Str)
     {
         this.field_73724_e = false;
-        this.func_73722_d(par1Str);
+        this.printText(par1Str);
     }
 
     /**
@@ -50,10 +51,10 @@ public class LoadingScreenRenderer implements IProgressUpdate
     public void displayProgressMessage(String par1Str)
     {
         this.field_73724_e = true;
-        this.func_73722_d(par1Str);
+        this.printText(par1Str);
     }
 
-    public void func_73722_d(String par1Str)
+    public void printText(String par1Str)
     {
         this.currentlyDisplayedText = par1Str;
 
@@ -63,8 +64,7 @@ public class LoadingScreenRenderer implements IProgressUpdate
             {
                 throw new MinecraftError();
             }
-        }
-        else
+        } else
         {
             GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
             GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -72,10 +72,9 @@ public class LoadingScreenRenderer implements IProgressUpdate
 
             if (OpenGlHelper.isFramebufferEnabled())
             {
-                int var2 = this.field_146587_f.getScaleFactor();
-                GL11.glOrtho(0.0D, (double)(this.field_146587_f.getScaledWidth() * var2), (double)(this.field_146587_f.getScaledHeight() * var2), 0.0D, 100.0D, 300.0D);
-            }
-            else
+                int var2 = this.resolution.getScaleFactor();
+                GL11.glOrtho(0.0D, this.resolution.getScaledWidth() * var2, this.resolution.getScaledHeight() * var2, 0.0D, 100.0D, 300.0D);
+            } else
             {
                 ScaledResolution var3 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
                 GL11.glOrtho(0.0D, var3.getScaledWidth_double(), var3.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
@@ -98,20 +97,19 @@ public class LoadingScreenRenderer implements IProgressUpdate
             {
                 throw new MinecraftError();
             }
-        }
-        else
+        } else
         {
-            this.field_73723_d = 0L;
-            this.field_73727_a = par1Str;
+            this.time = 0L;
+            this.workingMessage = par1Str;
             this.setLoadingProgress(-1);
-            this.field_73723_d = 0L;
+            this.time = 0L;
         }
     }
 
     /**
      * Updates the progress bar on the loading screen to the specified amount. Args: loadProgress
      */
-    public void setLoadingProgress(int par1)
+    public void setLoadingProgress(int loadProgress)
     {
         if (!this.mc.running)
         {
@@ -119,14 +117,13 @@ public class LoadingScreenRenderer implements IProgressUpdate
             {
                 throw new MinecraftError();
             }
-        }
-        else
+        } else
         {
             long var2 = Minecraft.getSystemTime();
 
-            if (var2 - this.field_73723_d >= 100L)
+            if (var2 - this.time >= 100L)
             {
-                this.field_73723_d = var2;
+                this.time = var2;
                 ScaledResolution var4 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
                 int var5 = var4.getScaleFactor();
                 int var6 = var4.getScaledWidth();
@@ -134,22 +131,20 @@ public class LoadingScreenRenderer implements IProgressUpdate
 
                 if (OpenGlHelper.isFramebufferEnabled())
                 {
-                    this.field_146588_g.framebufferClear();
-                }
-                else
+                    this.fb.framebufferClear();
+                } else
                 {
                     GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
                 }
 
-                this.field_146588_g.bindFramebuffer(true);
+                this.fb.bindFramebuffer(true);
                 GL11.glMatrixMode(GL11.GL_PROJECTION);
                 GL11.glLoadIdentity();
 
                 if (OpenGlHelper.isFramebufferEnabled())
                 {
-                    GL11.glOrtho(0.0D, (double)var6, (double)var7, 0.0D, 100.0D, 300.0D);
-                }
-                else
+                    GL11.glOrtho(0.0D, var6, var7, 0.0D, 100.0D, 300.0D);
+                } else
                 {
                     GL11.glOrtho(0.0D, var4.getScaledWidth_double(), var4.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
                 }
@@ -168,13 +163,13 @@ public class LoadingScreenRenderer implements IProgressUpdate
                 float var9 = 32.0F;
                 var8.startDrawingQuads();
                 var8.setColorOpaque_I(4210752);
-                var8.addVertexWithUV(0.0D, (double)var7, 0.0D, 0.0D, (double)((float)var7 / var9));
-                var8.addVertexWithUV((double)var6, (double)var7, 0.0D, (double)((float)var6 / var9), (double)((float)var7 / var9));
-                var8.addVertexWithUV((double)var6, 0.0D, 0.0D, (double)((float)var6 / var9), 0.0D);
+                var8.addVertexWithUV(0.0D, var7, 0.0D, 0.0D, (float) var7 / var9);
+                var8.addVertexWithUV(var6, var7, 0.0D, (float) var6 / var9, (float) var7 / var9);
+                var8.addVertexWithUV(var6, 0.0D, 0.0D, (float) var6 / var9, 0.0D);
                 var8.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
                 var8.draw();
 
-                if (par1 >= 0)
+                if (loadProgress >= 0)
                 {
                     byte var10 = 100;
                     byte var11 = 2;
@@ -183,15 +178,15 @@ public class LoadingScreenRenderer implements IProgressUpdate
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
                     var8.startDrawingQuads();
                     var8.setColorOpaque_I(8421504);
-                    var8.addVertex((double)var12, (double)var13, 0.0D);
-                    var8.addVertex((double)var12, (double)(var13 + var11), 0.0D);
-                    var8.addVertex((double)(var12 + var10), (double)(var13 + var11), 0.0D);
-                    var8.addVertex((double)(var12 + var10), (double)var13, 0.0D);
+                    var8.addVertex(var12, var13, 0.0D);
+                    var8.addVertex(var12, var13 + var11, 0.0D);
+                    var8.addVertex(var12 + var10, var13 + var11, 0.0D);
+                    var8.addVertex(var12 + var10, var13, 0.0D);
                     var8.setColorOpaque_I(8454016);
-                    var8.addVertex((double)var12, (double)var13, 0.0D);
-                    var8.addVertex((double)var12, (double)(var13 + var11), 0.0D);
-                    var8.addVertex((double)(var12 + par1), (double)(var13 + var11), 0.0D);
-                    var8.addVertex((double)(var12 + par1), (double)var13, 0.0D);
+                    var8.addVertex(var12, var13, 0.0D);
+                    var8.addVertex(var12, var13 + var11, 0.0D);
+                    var8.addVertex(var12 + loadProgress, var13 + var11, 0.0D);
+                    var8.addVertex(var12 + loadProgress, var13, 0.0D);
                     var8.draw();
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                 }
@@ -199,27 +194,27 @@ public class LoadingScreenRenderer implements IProgressUpdate
                 GL11.glEnable(GL11.GL_BLEND);
                 OpenGlHelper.glBlendFunc(770, 771, 1, 0);
                 this.mc.fontRenderer.drawStringWithShadow(this.currentlyDisplayedText, (var6 - this.mc.fontRenderer.getStringWidth(this.currentlyDisplayedText)) / 2, var7 / 2 - 4 - 16, 16777215);
-                this.mc.fontRenderer.drawStringWithShadow(this.field_73727_a, (var6 - this.mc.fontRenderer.getStringWidth(this.field_73727_a)) / 2, var7 / 2 - 4 + 8, 16777215);
-                this.field_146588_g.unbindFramebuffer();
+                this.mc.fontRenderer.drawStringWithShadow(this.workingMessage, (var6 - this.mc.fontRenderer.getStringWidth(this.workingMessage)) / 2, var7 / 2 - 4 + 8, 16777215);
+                this.fb.unbindFramebuffer();
 
                 if (OpenGlHelper.isFramebufferEnabled())
                 {
-                    this.field_146588_g.framebufferRender(var6 * var5, var7 * var5);
+                    this.fb.framebufferRender(var6 * var5, var7 * var5);
                 }
 
-                this.mc.func_147120_f();
+                this.mc.updateDisplay();
 
                 try
                 {
                     Thread.yield();
-                }
-                catch (Exception var14)
+                } catch (Exception ignored)
                 {
-                    ;
                 }
             }
         }
     }
 
-    public void func_146586_a() {}
+    public void func_146586_a()
+    {
+    }
 }
