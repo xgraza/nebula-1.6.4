@@ -28,7 +28,7 @@ public final class HueSliderColorComponent extends NumberSettingComponent
     protected void drawSlider()
     {
         RenderUtil.texture(RGB_GRADIENT_LOCATION, getX(), y, (int) width, (int) getHeight());
-        final double position = parent.gradientColorComponent.hsb[0] * getWidth();
+        final double position = parent.gradientColorComponent.getHue() * getWidth();
         RenderUtil.rectangle2D(getX() + position - 2.5, y, 5, getHeight(), Color.white.getRGB());
     }
 
@@ -51,8 +51,7 @@ public final class HueSliderColorComponent extends NumberSettingComponent
             mouseX = (int) (getX() + getWidth());
         }
 
-        float h = (float) ((mouseX - getX()) / getWidth());
-        parent.gradientColorComponent.hsb[0] = h;
+        parent.gradientColorComponent.updateHue((float) ((mouseX - getX()) / getWidth()));
     }
 
     @Override

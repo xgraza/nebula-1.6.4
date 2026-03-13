@@ -15,15 +15,13 @@ import java.awt.Color;
 public final class GradientColorComponent extends GUIComponent implements IGUIInputListener
 {
     private final ColorSettingComponent parent;
-
-    final float[] hsb = new float[3];
+    private final float[] hsb = new float[3];
     private double pointerX, pointerY;
     private boolean dragging;
 
     public GradientColorComponent(final ColorSettingComponent parent)
     {
         this.parent = parent;
-
         final Color color = parent.setting.getValue();
         Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), hsb);
     }
@@ -35,11 +33,16 @@ public final class GradientColorComponent extends GUIComponent implements IGUIIn
         {
             pointerX = MathHelper.clamp_double(mouseX, x, x + getWidth());
             pointerY = MathHelper.clamp_double(mouseY, y, y + getHeight());
-            setColors();
+            hsb[1] = (float) (1.0 - ((pointerY - getY()) / getHeight()));
+            hsb[2] = (float) ((pointerX - getX()) / getWidth());
+            updateColor();
             if (!Mouse.isButtonDown(0))
             {
                 dragging = false;
             }
+        } else
+        {
+            updatePointerPos();
         }
 
         RenderUtil.gradientRectangle2D(x, y, getWidth(), getHeight(),
@@ -50,13 +53,6 @@ public final class GradientColorComponent extends GUIComponent implements IGUIIn
 
         RenderUtil.rectangle2D(pointerX - 2.5, pointerY - 2.5, 5, 5, Color.black.getRGB());
         RenderUtil.renderOutline2D(pointerX - 2.5, pointerY - 2.5, 5, 5, 1.5f, Color.white.getRGB());
-    }
-
-    private void setColors()
-    {
-        hsb[1] = (float) (1.0 - ((pointerY - getY()) / getHeight()));
-        hsb[2] = (float) ((pointerX - getX()) / getWidth());
-        parent.setting.setValue(Color.getHSBColor(hsb[0], hsb[1], hsb[2]));
     }
 
     @Override
@@ -78,5 +74,27 @@ public final class GradientColorComponent extends GUIComponent implements IGUIIn
     public double getHeight()
     {
         return getWidth();
+    }
+
+    private void updatePointerPos()
+    {
+        pointerX = getX() + (getWidth() * hsb[2]);
+        pointerY = getY() + (getHeight() * (1 - hsb[1]));
+    }
+
+    public float getHue()
+    {
+        return hsb[0];
+    }
+
+    public void updateHue(float hue)
+    {
+        hsb[0] = hue;
+        updateColor();
+    }
+
+    private void updateColor()
+    {
+        parent.setting.setValue(Color.getHSBColor(hsb[0], hsb[1], hsb[2]));
     }
 }
