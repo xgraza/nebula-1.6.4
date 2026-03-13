@@ -4,6 +4,7 @@ import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
 import us.nebula.client.api.gui.GUIComponent;
 import us.nebula.client.api.gui.IGUIInputListener;
+import us.nebula.client.util.io.SoundUtil;
 import us.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
@@ -60,6 +61,7 @@ public final class GradientColorComponent extends GUIComponent implements IGUIIn
     {
         if (isMouseInDynamic(mouseX, mouseY))
         {
+            SoundUtil.playClickSound();
             dragging = true;
         }
     }
