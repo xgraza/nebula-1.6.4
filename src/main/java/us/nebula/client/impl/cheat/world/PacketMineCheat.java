@@ -44,6 +44,8 @@ public final class PacketMineCheat extends Cheat
             "Percent", 0.95, 0.01, 1.0, 0.01);
     private final Setting<Boolean> instantSetting = new Setting<>(
             "Instant", false);
+    private final Setting<Boolean> ignoreGroundSetting = new Setting<>(
+            "Ignore Ground", false);
     private final Setting<Boolean> renderSetting = new Setting<>(
             "Render", true);
 
@@ -104,7 +106,7 @@ public final class PacketMineCheat extends Cheat
     {
         minePositionQueue.removeIf(
                 (position) -> MC.thePlayer.getDistanceSq(
-                        position.x, position.y, position.z) > 4.5f * 4.5f);
+                        position.x, position.y, position.z) > getReachDistanceSq());
         if (currentPosition == null)
         {
             if (!minePositionQueue.isEmpty())
@@ -115,7 +117,7 @@ public final class PacketMineCheat extends Cheat
         }
         if (BlockUtil.isReplaceable(currentPosition.x, currentPosition.y, currentPosition.z)
                 || MC.thePlayer.getDistanceSq(
-                        currentPosition.x, currentPosition.y, currentPosition.z) > 4.5f * 4.5f)
+                currentPosition.x, currentPosition.y, currentPosition.z) > getReachDistanceSq())
         {
             abortBreakingBlock(currentPosition);
             Nebula.INSTANCE.getInventoryManager().syncSlot();
@@ -249,12 +251,18 @@ public final class PacketMineCheat extends Cheat
             breakSpeed /= 5.0f;
         }
 
-        if (!MC.thePlayer.onGround)
+        if (!MC.thePlayer.onGround && !ignoreGroundSetting.getValue())
         {
-            breakSpeed /= 5.0f; // TODO: ground spoof option?
+            breakSpeed /= 5.0f;
         }
 
         return breakSpeed;
+    }
+
+    private float getReachDistanceSq()
+    {
+        return MC.playerController.getBlockReachDistance()
+                * MC.playerController.getBlockReachDistance();
     }
 
     @Override
