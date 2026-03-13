@@ -17,6 +17,7 @@ import us.nebula.client.impl.event.game.EventUpdate;
 import us.nebula.client.impl.event.input.EventRotateCamera;
 import us.nebula.client.impl.event.input.EventUpdateInput;
 import us.nebula.client.impl.event.network.EventPacket;
+import us.nebula.client.impl.event.player.EventRaytrace;
 import us.nebula.client.impl.event.player.EventSneakSlowdown;
 import us.nebula.client.util.player.MoveUtil;
 
@@ -33,6 +34,8 @@ public final class FreecamCheat extends Cheat
 
     private static final Setting<Double> SPEED_SETTING = new Setting<>(
             "Speed", 1.0, 0.1, 7.0, 0.05);
+    private final Setting<Boolean> interactSetting = new Setting<>(
+            "Interact", true);
 
     private CameraPlayerEntity playerEntity;
 
@@ -75,6 +78,19 @@ public final class FreecamCheat extends Cheat
     };
 
     @Subscribe
+    private final EventListener<EventRaytrace> raytraceEventListener = event ->
+    {
+        if (event.getEntity().equals(playerEntity))
+        {
+            event.cancel();
+            if (!interactSetting.getValue())
+            {
+                event.setResult(null);
+            }
+        }
+    };
+
+    @Subscribe
     private final EventListener<EventUpdateInput> updateInputEventListener = event ->
     {
         if (playerEntity != null)
@@ -90,6 +106,8 @@ public final class FreecamCheat extends Cheat
         {
             event.cancel();
             playerEntity.setAngles(event.getDiffYaw(), event.getDiffPitch());
+            playerEntity.renderPitch = playerEntity.rotationPitch;
+            playerEntity.rotationYawHead = playerEntity.rotationYaw;
         }
     };
 
@@ -132,10 +150,11 @@ public final class FreecamCheat extends Cheat
         public CameraPlayerEntity(final World world, final EntityPlayer player)
         {
             super(world, getPlayerProfile());
+            yOffset = 1.62f;
+            setSize(0.6F, 1.8F);
             setEntityId(CAMERA_ENTITY_ID);
             setInvisible(true);
-            copyLocationAndAnglesFrom(player);
-            copyDataFrom(player, false);
+            setLocationAndAngles(player.posX, player.boundingBox.minY, player.posZ, player.rotationYaw, player.rotationPitch);
             inventory.copyInventory(player.inventory);
             input = new MovementInputFromOptions(MC.gameSettings);
         }

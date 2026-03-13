@@ -53,6 +53,7 @@ import us.nebula.client.api.render.EntityCulling;
 import us.nebula.client.impl.cheat.player.InteractCheat;
 import us.nebula.client.impl.cheat.render.NoRenderCheat;
 import us.nebula.client.impl.cheat.render.UnfocusedCPUCheat;
+import us.nebula.client.impl.event.player.EventRaytrace;
 import us.nebula.client.impl.event.render.EventCameraDistance;
 import us.nebula.client.impl.event.render.EventGamma;
 import us.nebula.client.impl.event.render.EventRender3D;
@@ -501,7 +502,13 @@ public class EntityRenderer implements IResourceManagerReloadListener
         {
             this.mc.pointedEntity = null;
             double var2 = (double) this.mc.playerController.getBlockReachDistance();
-            this.mc.objectMouseOver = this.mc.renderViewEntity.rayTrace(var2, par1);
+            MovingObjectPosition result = this.mc.renderViewEntity.rayTrace(var2, par1);
+            EventRaytrace event = new EventRaytrace(mc.renderViewEntity, result, par1);
+            if (EventBus.dispatch(event))
+            {
+                result = event.getResult();
+            }
+            mc.objectMouseOver = result;
             double var4 = var2;
             Vec3 var6 = this.mc.renderViewEntity.getPosition(par1);
 
