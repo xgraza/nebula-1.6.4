@@ -10,6 +10,7 @@ import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.overlay.Overlay;
 import us.nebula.client.api.manager.overlay.OverlayManifest;
 import us.nebula.client.api.manager.overlay.StaticPosition;
+import us.nebula.client.impl.cheat.render.HUDCheat;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,6 +54,7 @@ public final class ArraylistOverlay extends Overlay
             cheatMetaMap.put(builder.toString(), cheat);
         }
 
+        int i = 0;
         for (final String display : cheatMetaMap.keySet())
         {
             final Cheat cheat = cheatMetaMap.get(display);
@@ -66,8 +68,9 @@ public final class ArraylistOverlay extends Overlay
             Fonts.POPPINS.drawStringShadow(display,
                     screenBoundsX - (Fonts.POPPINS.getStringWidth(display) * factor) - PADDING,
                     posY,
-                    -1);
+                    HUDCheat.INSTANCE.getBaseColor(i * 10));
             posY += (Fonts.POPPINS.getFontHeight() + PADDING) * factor;
+            ++i;
         }
     }
 

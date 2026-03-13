@@ -6,6 +6,7 @@ import us.nebula.client.api.gui.font.Fonts;
 import us.nebula.client.api.manager.overlay.Overlay;
 import us.nebula.client.api.manager.overlay.OverlayManifest;
 import us.nebula.client.api.manager.overlay.StaticPosition;
+import us.nebula.client.impl.cheat.render.HUDCheat;
 
 /**
  * @author xgraza
@@ -18,6 +19,6 @@ public final class WatermarkOverlay extends Overlay
     @Override
     public void render(final ScaledResolution resolution, final float partialTicks)
     {
-        Fonts.POPPINS.drawStringShadow("Nebula " + ClientSettings.VERSION, 2, 2, -1);
+        Fonts.POPPINS.drawStringShadow("Nebula " + ClientSettings.VERSION, 2, 2, HUDCheat.INSTANCE.getBaseColor(10));
     }
 }

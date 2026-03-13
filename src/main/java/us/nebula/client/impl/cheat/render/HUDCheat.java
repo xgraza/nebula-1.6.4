@@ -10,6 +10,7 @@ import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.manager.overlay.Overlay;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.render.EventRender2D;
+import us.nebula.client.util.render.ColorUtil;
 
 import java.awt.Color;
 
@@ -27,6 +28,14 @@ public final class HUDCheat extends Cheat
 
     public final Setting<Color> primaryColorSetting = new Setting<>(
             "Primary Color", new Color(112, 82, 143));
+    public final Setting<ColorMode> colorModeSetting = new Setting<>(
+            "Color Mode", ColorMode.STATIC);
+    public final Setting<Float> minBrightnessSetting = new Setting<>(
+            "Minimum Brightness", 0.65f, 0.05f, 0.95f, 0.05f)
+            .setVisibility(() -> colorModeSetting.getValue() == ColorMode.GRADIENT_RAINBOW);
+    public final Setting<Double> speedSetting = new Setting<>(
+            "Speed", 2.5, 1.0, 10.0, 0.5)
+            .setVisibility(() -> colorModeSetting.getValue() == ColorMode.RAINBOW);
 
     public HUDCheat()
     {
@@ -61,5 +70,29 @@ public final class HUDCheat extends Cheat
     public int getPrimary()
     {
         return primaryColorSetting.getValue().getRGB();
+    }
+
+    public int getBaseColor(int meta)
+    {
+        switch (colorModeSetting.getValue())
+        {
+            case STATIC:
+                return getPrimary();
+
+            case WHITE:
+                return Color.white.getRGB();
+
+            case RAINBOW:
+                return ColorUtil.rainbowCycle(meta, speedSetting.getValue());
+
+            case GRADIENT_RAINBOW:
+                return ColorUtil.gradientRainbow(primaryColorSetting.getValue(), minBrightnessSetting.getValue(), meta);
+        }
+        return getPrimary();
+    }
+
+    public enum ColorMode
+    {
+        STATIC, WHITE, RAINBOW, GRADIENT_RAINBOW
     }
 }
