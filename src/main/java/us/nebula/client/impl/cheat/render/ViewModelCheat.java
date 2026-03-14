@@ -47,6 +47,8 @@ public final class ViewModelCheat extends Cheat
                     {
                         return "1.8";
                     }
-                }
+                },
+        EXHIBITION,
+        AVATAR
     }
 }

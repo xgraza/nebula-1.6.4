@@ -33,18 +33,18 @@ public class ItemRendererOF extends ItemRenderer
     /**
      * Renders the item stack for being in an entity's hand Args: itemStack
      */
-    public void renderItem(EntityLivingBase par1EntityLivingBase, ItemStack par2ItemStack, int par3)
+    public void renderItem(EntityLivingBase entity, ItemStack itemStack, int par3)
     {
         GL11.glPushMatrix();
         TextureManager var4 = this.mc.getTextureManager();
-        Item var5 = par2ItemStack.getItem();
+        Item var5 = itemStack.getItem();
         Block var6 = Block.getBlockFromItem(var5);
 
-        if (par2ItemStack.getItemSpriteNumber() == 0 && var5 instanceof ItemBlock && RenderBlocks.renderItemIn3d(var6.getRenderType()))
+        if (itemStack.getItemSpriteNumber() == 0 && var5 instanceof ItemBlock && RenderBlocks.renderItemIn3d(var6.getRenderType()))
         {
             var4.bindTexture(var4.getResourceLocation(0));
 
-            if (par2ItemStack != null && par2ItemStack.getItem() instanceof ItemCloth)
+            if (itemStack != null && itemStack.getItem() instanceof ItemCloth)
             {
                 GL11.glEnable(GL11.GL_BLEND);
 
@@ -54,18 +54,16 @@ public class ItemRendererOF extends ItemRenderer
                 }
 
                 OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-                this.renderBlocksIr.renderBlockAsItem(var6, par2ItemStack.getItemDamage(), 1.0F);
+                this.renderBlocksIr.renderBlockAsItem(var6, itemStack.getItemDamage(), 1.0F);
                 GL11.glDepthMask(true);
                 GL11.glDisable(GL11.GL_BLEND);
-            }
-            else
+            } else
             {
-                this.renderBlocksIr.renderBlockAsItem(var6, par2ItemStack.getItemDamage(), 1.0F);
+                this.renderBlocksIr.renderBlockAsItem(var6, itemStack.getItemDamage(), 1.0F);
             }
-        }
-        else
+        } else
         {
-            IIcon var7 = par1EntityLivingBase.getItemIcon(par2ItemStack, par3);
+            IIcon var7 = entity.getItemIcon(itemStack, par3);
 
             if (var7 == null)
             {
@@ -73,7 +71,7 @@ public class ItemRendererOF extends ItemRenderer
                 return;
             }
 
-            var4.bindTexture(var4.getResourceLocation(par2ItemStack.getItemSpriteNumber()));
+            var4.bindTexture(var4.getResourceLocation(itemStack.getItemSpriteNumber()));
             TextureUtil.func_147950_a(false, false);
             Tessellator var8 = Tessellator.instance;
             float var9 = var7.getMinU();
@@ -90,7 +88,8 @@ public class ItemRendererOF extends ItemRenderer
             GL11.glRotatef(335.0F, 0.0F, 0.0F, 1.0F);
             GL11.glTranslatef(-0.9375F, -0.0625F, 0.0F);
             renderItemIn2D(var8, var10, var11, var9, var12, var7.getIconWidth(), var7.getIconHeight(), 0.0625F);
-            boolean renderEffect = par2ItemStack.hasEffect() && par3 == 0;;
+            boolean renderEffect = itemStack.hasEffect() && par3 == 0;
+            ;
 
             if (renderEffect)
             {
@@ -105,14 +104,14 @@ public class ItemRendererOF extends ItemRenderer
                 GL11.glPushMatrix();
                 float var17 = 0.125F;
                 GL11.glScalef(var17, var17, var17);
-                float var18 = (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F * 8.0F;
+                float var18 = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F * 8.0F;
                 GL11.glTranslatef(var18, 0.0F, 0.0F);
                 GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
                 renderItemIn2D(var8, 0.0F, 0.0F, 1.0F, 1.0F, 16, 16, 0.0625F);
                 GL11.glPopMatrix();
                 GL11.glPushMatrix();
                 GL11.glScalef(var17, var17, var17);
-                var18 = (float)(Minecraft.getSystemTime() % 4873L) / 4873.0F * 8.0F;
+                var18 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F * 8.0F;
                 GL11.glTranslatef(-var18, 0.0F, 0.0F);
                 GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
                 renderItemIn2D(var8, 0.0F, 0.0F, 1.0F, 1.0F, 16, 16, 0.0625F);
@@ -124,7 +123,7 @@ public class ItemRendererOF extends ItemRenderer
             }
 
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            var4.bindTexture(var4.getResourceLocation(par2ItemStack.getItemSpriteNumber()));
+            var4.bindTexture(var4.getResourceLocation(itemStack.getItemSpriteNumber()));
             TextureUtil.func_147945_b();
         }
 
@@ -134,10 +133,10 @@ public class ItemRendererOF extends ItemRenderer
     /**
      * Renders the active item in the player's hand when in first person mode. Args: partialTickTime
      */
-    public void renderItemInFirstPerson(float par1)
+    public void renderItemInFirstPerson(float partialTickTime)
     {
         this.mc.theWorld.renderItemInFirstPerson = true;
-        super.renderItemInFirstPerson(par1);
+        super.renderItemInFirstPerson(partialTickTime);
         this.mc.theWorld.renderItemInFirstPerson = false;
     }
 
