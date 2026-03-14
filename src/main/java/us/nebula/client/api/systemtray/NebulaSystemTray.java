@@ -20,7 +20,7 @@ import java.io.InputStream;
  */
 public final class NebulaSystemTray
 {
-    private static final String ICON_LOCATION = "/assets/minecraft/nebula/texture/icon/16x.png";
+    private static final String ICON_LOCATION = "/assets/nebula/texture/icon/16x.png";
 
     private TrayIcon icon;
 

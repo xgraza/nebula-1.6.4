@@ -2,22 +2,19 @@ package net.minecraft.client.resources;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Set;
-import javax.imageio.ImageIO;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.Map;
+import java.util.Set;
+
 public class DefaultResourcePack implements IResourcePack
 {
-    public static final Set defaultResourceDomains = ImmutableSet.of("minecraft", "schematica");
+    public static final Set DEFAULT_DOMAINS = ImmutableSet.of("minecraft", "schematica", "nebula");
     private final Map mapResourceFiles = Maps.newHashMap();
     private final File fileAssets;
 
@@ -34,16 +31,14 @@ public class DefaultResourcePack implements IResourcePack
         if (var2 != null)
         {
             return var2;
-        }
-        else
+        } else
         {
-            File var3 = (File)this.mapResourceFiles.get(par1ResourceLocation.toString());
+            File var3 = (File) this.mapResourceFiles.get(par1ResourceLocation.toString());
 
             if (var3 != null)
             {
                 return new FileInputStream(var3);
-            }
-            else
+            } else
             {
                 throw new FileNotFoundException(par1ResourceLocation.getResourcePath());
             }
@@ -69,7 +64,7 @@ public class DefaultResourcePack implements IResourcePack
 
     public Set getResourceDomains()
     {
-        return defaultResourceDomains;
+        return DEFAULT_DOMAINS;
     }
 
     public void readAssetsDir(File par1File)
@@ -84,8 +79,7 @@ public class DefaultResourcePack implements IResourcePack
                 File var5 = var2[var4];
                 this.readAssetsDir(var5);
             }
-        }
-        else
+        } else
         {
             this.addResourceFile(AbstractResourcePack.getRelativeName(this.fileAssets, par1File), par1File);
         }
@@ -96,8 +90,7 @@ public class DefaultResourcePack implements IResourcePack
         try
         {
             return AbstractResourcePack.readMetadata(par1MetadataSerializer, new FileInputStream(new File(this.fileAssets, "pack.mcmeta")), par2Str);
-        }
-        catch (FileNotFoundException var4)
+        } catch (FileNotFoundException var4)
         {
             return null;
         }

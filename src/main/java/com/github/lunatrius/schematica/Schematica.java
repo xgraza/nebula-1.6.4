@@ -25,9 +25,12 @@ public class Schematica
         registerEvents();
     }
 
-    public void createFolders() {
-        if (!Reference.schematicDirectory.exists()) {
-            if (!Reference.schematicDirectory.mkdirs()) {
+    public void createFolders()
+    {
+        if (!Reference.schematicDirectory.exists())
+        {
+            if (!Reference.schematicDirectory.mkdirs())
+            {
                 Reference.logger.info("Could not create schematic directory [%s]!", Reference.schematicDirectory.getAbsolutePath());
             }
         }
@@ -35,7 +38,8 @@ public class Schematica
         Reference.config = new Config(new File(Reference.schematicDirectory, "config.json"));
     }
 
-    public void registerEvents() {
+    public void registerEvents()
+    {
         //FMLCommonHandler.instance().bus().register(new KeyInputHandler());
         //FMLCommonHandler.instance().bus().register(new TickHandler());
         EventBus.subscribe(new KeyInputHandler());
@@ -46,19 +50,23 @@ public class Schematica
         //MinecraftForge.EVENT_BUS.register(this.rendererSchematicGlobal);
     }
 
-    public void setActiveSchematic(SchematicWorld world) {
+    public void setActiveSchematic(SchematicWorld world)
+    {
         this.schematicWorld = world;
     }
 
-    public void setActiveSchematic(SchematicWorld world, EntityPlayer player) {
+    public void setActiveSchematic(SchematicWorld world, EntityPlayer player)
+    {
         setActiveSchematic(world);
     }
 
-    public SchematicWorld getActiveSchematic() {
+    public SchematicWorld getActiveSchematic()
+    {
         return this.schematicWorld;
     }
 
-    public SchematicWorld getActiveSchematic(EntityPlayer player) {
+    public SchematicWorld getActiveSchematic(EntityPlayer player)
+    {
         return getActiveSchematic();
     }
 

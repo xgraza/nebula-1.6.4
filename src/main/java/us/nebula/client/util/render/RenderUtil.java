@@ -25,6 +25,7 @@ public final class RenderUtil
 
     private static final RenderItem RENDER_ITEM = new RenderItem();
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation(
+            "nebula",
             "textures/misc/enchanted_item_glint.png");
 
     private static ScaledResolution GAME_RESOLUTION;
@@ -35,8 +36,8 @@ public final class RenderUtil
     public static void initShaders()
     {
         ROUNDED_RECTANGLE_SHADER = new Shader(
-                "/assets/minecraft/nebula/shader/vertex.vsh",
-                "/assets/minecraft/nebula/shader/roundedrect.frag",
+                "/assets/nebula/shader/vertex.vsh",
+                "/assets/nebula/shader/roundedrect.frag",
                 (shader) ->
                 {
                     shader.createUniform("rectSize");

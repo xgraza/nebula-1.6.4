@@ -13,7 +13,8 @@ import java.awt.Color;
 public final class HueSliderColorComponent extends NumberSettingComponent
 {
     private static final ResourceLocation RGB_GRADIENT_LOCATION = new ResourceLocation(
-            "nebula/texture/clickgui/rgb_gradient.png");
+            "nebula",
+            "texture/clickgui/rgb_gradient.png");
     private static final double SLIDER_HEIGHT = 5.0;
 
     private final ColorSettingComponent parent;

@@ -16,7 +16,7 @@ import static java.awt.Font.TRUETYPE_FONT;
  */
 public final class Fonts
 {
-    private static final String BASE_ASSET_LOCATION = "/assets/minecraft/nebula/font/%s";
+    private static final String BASE_ASSET_LOCATION = "/assets/nebula/font/%s";
 
     public static final int NORMAL_FONT_SIZE = 18;
     public static final int SMALL_FONT_SIZE = 11;
