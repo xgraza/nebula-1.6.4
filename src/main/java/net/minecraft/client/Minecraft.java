@@ -77,6 +77,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import us.nebula.client.Nebula;
+import us.nebula.client.api.gui.font.Fonts;
 import us.nebula.client.api.listener.EventBus;
 import us.nebula.client.impl.cheat.player.AutoReconnectCheat;
 import us.nebula.client.impl.cheat.render.CameraClipCheat;
@@ -84,6 +85,7 @@ import us.nebula.client.impl.cheat.render.UnfocusedCPUCheat;
 import us.nebula.client.impl.event.game.EventTick;
 import us.nebula.client.impl.event.input.EventKey;
 import us.nebula.client.impl.event.input.EventMouse;
+import us.nebula.client.impl.gui.loading.LoadingScreen;
 
 import javax.imageio.ImageIO;
 import java.awt.Toolkit;
@@ -99,13 +101,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 
-import static org.lwjgl.opengl.GL11.glGetString;
+import static org.lwjgl.opengl.GL11.*;
 
 public class Minecraft
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final ResourceLocation MOJANG_PNG_LOCATION = new ResourceLocation(
-            "textures/gui/title/mojang.png");
+    private static final ResourceLocation NEBULA_PNG_LOCATION = new ResourceLocation(
+            "nebula",
+            "texture/banner.png");
 
     public static final boolean IS_ON_MAC = Util.getOSType() == Util.EnumOS.MACOS;
     private static final List<DisplayMode> MAC_DISPLAY_MODES = Lists.newArrayList(
@@ -491,6 +494,7 @@ public class Minecraft
         this.mcSoundHandler = new SoundHandler(this.mcResourceManager, this.gameSettings);
         this.mcMusicTicker = new MusicTicker(this);
         this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
+        Fonts.initFonts();
         this.loadScreen();
         this.fontRenderer = new FontRenderer(this.gameSettings, new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
 
@@ -508,6 +512,7 @@ public class Minecraft
             this.fontRenderer.setBidiFlag(this.mcLanguageManager.isCurrentLanguageBidirectional());
         }
 
+        LoadingScreen.setStage(7, "Init MC resource manager");
         this.standardGalacticFontRenderer = new FontRenderer(this.gameSettings, new ResourceLocation("textures/font/ascii_sga.png"), this.renderEngine, false);
         this.mcResourceManager.registerReloadListener(this.fontRenderer);
         this.mcResourceManager.registerReloadListener(this.standardGalacticFontRenderer);
@@ -528,6 +533,7 @@ public class Minecraft
         });
         this.mouseHelper = new MouseHelper();
         this.checkGLError("Pre startup");
+        LoadingScreen.setStage(8, "Pre MC startup");
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glShadeModel(GL11.GL_SMOOTH);
         GL11.glClearDepth(1.0D);
@@ -540,15 +546,18 @@ public class Minecraft
         GL11.glLoadIdentity();
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         this.checkGLError("Startup");
+        LoadingScreen.setStage(9, "MC startup");
         this.renderGlobal = new RenderGlobal(this);
         this.textureMapBlocks = new TextureMap(0, "textures/blocks");
         this.textureMapBlocks.setAnisotropicFiltering(this.gameSettings.anisotropicFiltering);
         this.textureMapBlocks.setMipmapLevels(this.gameSettings.mipmapLevels);
+        LoadingScreen.setStage(11, "Render engine load textures");
         this.renderEngine.loadTextureMap(TextureMap.locationBlocksTexture, this.textureMapBlocks);
         this.renderEngine.loadTextureMap(TextureMap.locationItemsTexture, new TextureMap(1, "textures/items"));
         GL11.glViewport(0, 0, this.displayWidth, this.displayHeight);
         this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
         this.checkGLError("Post startup");
+        LoadingScreen.setStage(12, "Post MC startup");
         this.ingameGUI = new GuiIngame(this);
 
         if (this.serverName != null)
@@ -672,17 +681,18 @@ public class Minecraft
     /**
      * Displays a new screen.
      */
-    private void loadScreen() throws LWJGLException
+    public void loadScreen() throws LWJGLException
     {
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        this.renderEngine.bindTexture(MOJANG_PNG_LOCATION);
-        ScaledResolution var1 = new ScaledResolution(this.gameSettings, this.displayWidth, this.displayHeight);
-        int var2 = var1.getScaleFactor();
-        Framebuffer var3 = new Framebuffer(var1.getScaledWidth() * var2, var1.getScaledHeight() * var2, true);
-        var3.bindFramebuffer(false);
+        glEnable(GL_TEXTURE_2D);
+
+        final ScaledResolution res = new ScaledResolution(gameSettings, displayWidth, displayHeight);
+        int factor = res.getScaleFactor();
+        final Framebuffer fb = new Framebuffer(res.getScaledWidth() * factor,
+                res.getScaledHeight() * factor, true);
+        fb.bindFramebuffer(true);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0.0D, var1.getScaledWidth(), var1.getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
+        GL11.glOrtho(0.0D, res.getScaledWidth(), res.getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glLoadIdentity();
         GL11.glTranslatef(0.0F, 0.0F, -2000.0F);
@@ -690,25 +700,15 @@ public class Minecraft
         GL11.glDisable(GL11.GL_FOG);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-        this.renderEngine.bindTexture(MOJANG_PNG_LOCATION);
-        Tessellator var4 = Tessellator.instance;
-        var4.startDrawingQuads();
-        var4.setColorOpaque_I(16777215);
-        int w = 2160, h = 1080;
-        var4.addVertexWithUV(0.0D, this.displayHeight, 0.0D, 0.0D, 0.0D);
-        var4.addVertexWithUV(this.displayWidth, this.displayHeight, 0.0D, 0.0D, 0.0D);
-        var4.addVertexWithUV(this.displayWidth, 0.0D, 0.0D, 0.0D, 0.0D);
-        var4.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
-        var4.draw();
+
+        LoadingScreen.render(this, res, factor);
+
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        var4.setColorOpaque_I(16777215);
-        short var5 = 256;
-        short var6 = 256;
-        this.scaledTessellator((var1.getScaledWidth() - var5) / 2, (var1.getScaledHeight() - var6) / 2, 0, 0, var5, var6);
+
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_FOG);
-        var3.unbindFramebuffer();
-        var3.framebufferRender(var1.getScaledWidth() * var2, var1.getScaledHeight() * var2);
+        fb.unbindFramebuffer();
+        fb.framebufferRender(res.getScaledWidth() * factor, res.getScaledHeight() * factor);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
         GL11.glFlush();

@@ -1,17 +1,5 @@
 package net.minecraft.src;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockQuartz;
 import net.minecraft.block.BlockRotatedPillar;
@@ -25,11 +13,20 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeGenBase;
+import us.nebula.client.impl.gui.loading.LoadingScreen;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class ConnectedTextures
 {
-    private static ConnectedProperties[][] blockProperties = (ConnectedProperties[][])null;
-    private static ConnectedProperties[][] tileProperties = (ConnectedProperties[][])null;
+    private static ConnectedProperties[][] blockProperties = (ConnectedProperties[][]) null;
+    private static ConnectedProperties[][] tileProperties = (ConnectedProperties[][]) null;
     private static boolean multipass = false;
     private static final int BOTTOM = 0;
     private static final int TOP = 1;
@@ -46,28 +43,25 @@ public class ConnectedTextures
     private static final int Y_AXIS = 0;
     private static final int Z_AXIS = 1;
     private static final int X_AXIS = 2;
-    private static final String[] propSuffixes = new String[] {"", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-    private static final int[] ctmIndexes = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 0, 0, 0, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0, 0, 0, 0, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 0, 0, 0, 0, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 0, 0, 0, 0, 0};
+    private static final String[] propSuffixes = new String[]{ "", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+    private static final int[] ctmIndexes = new int[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 0, 0, 0, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0, 0, 0, 0, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 0, 0, 0, 0, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 0, 0, 0, 0, 0 };
 
     public static IIcon getConnectedTexture(IBlockAccess blockAccess, Block block, int x, int y, int z, int side, IIcon icon)
     {
         if (blockAccess == null)
         {
             return icon;
-        }
-        else
+        } else
         {
             IIcon newIcon = getConnectedTextureSingle(blockAccess, block, x, y, z, side, icon, true);
 
             if (!multipass)
             {
                 return newIcon;
-            }
-            else if (newIcon == icon)
+            } else if (newIcon == icon)
             {
                 return newIcon;
-            }
-            else
+            } else
             {
                 IIcon mpIcon = newIcon;
 
@@ -93,10 +87,9 @@ public class ConnectedTextures
         if (!(icon instanceof TextureAtlasSprite))
         {
             return icon;
-        }
-        else
+        } else
         {
-            TextureAtlasSprite ts = (TextureAtlasSprite)icon;
+            TextureAtlasSprite ts = (TextureAtlasSprite) icon;
             int iconId = ts.getIndexInMap();
             int metadata = -1;
 
@@ -154,14 +147,12 @@ public class ConnectedTextures
         if (blockAccess == null)
         {
             return null;
-        }
-        else if (!(icon instanceof TextureAtlasSprite))
+        } else if (!(icon instanceof TextureAtlasSprite))
         {
             return null;
-        }
-        else
+        } else
         {
-            TextureAtlasSprite ts = (TextureAtlasSprite)icon;
+            TextureAtlasSprite ts = (TextureAtlasSprite) icon;
             int iconId = ts.getIndexInMap();
             int metadata = -1;
 
@@ -259,8 +250,7 @@ public class ConnectedTextures
         if (cp.heights != null && !cp.heights.isInRange(y))
         {
             return null;
-        }
-        else
+        } else
         {
             int mds;
 
@@ -464,8 +454,7 @@ public class ConnectedTextures
         if (cp.tileIcons.length == 1)
         {
             return cp.tileIcons[0];
-        }
-        else
+        } else
         {
             int face = side / cp.symmetry * cp.symmetry;
             int rand;
@@ -491,8 +480,7 @@ public class ConnectedTextures
             if (cp.weights == null)
             {
                 var13 = rand % cp.tileIcons.length;
-            }
-            else
+            } else
             {
                 int randWeight = rand % cp.sumAllWeights;
                 int[] sumWeights = cp.sumWeights;
@@ -521,8 +509,7 @@ public class ConnectedTextures
         if (cp.tileIcons.length == 1)
         {
             return cp.tileIcons[0];
-        }
-        else
+        } else
         {
             int nx = 0;
             int ny = 0;
@@ -624,60 +611,46 @@ public class ConnectedTextures
         if (borders[0] & !borders[1] & !borders[2] & !borders[3])
         {
             index = 3;
-        }
-        else if (!borders[0] & borders[1] & !borders[2] & !borders[3])
+        } else if (!borders[0] & borders[1] & !borders[2] & !borders[3])
         {
             index = 1;
-        }
-        else if (!borders[0] & !borders[1] & borders[2] & !borders[3])
+        } else if (!borders[0] & !borders[1] & borders[2] & !borders[3])
         {
             index = 12;
-        }
-        else if (!borders[0] & !borders[1] & !borders[2] & borders[3])
+        } else if (!borders[0] & !borders[1] & !borders[2] & borders[3])
         {
             index = 36;
-        }
-        else if (borders[0] & borders[1] & !borders[2] & !borders[3])
+        } else if (borders[0] & borders[1] & !borders[2] & !borders[3])
         {
             index = 2;
-        }
-        else if (!borders[0] & !borders[1] & borders[2] & borders[3])
+        } else if (!borders[0] & !borders[1] & borders[2] & borders[3])
         {
             index = 24;
-        }
-        else if (borders[0] & !borders[1] & borders[2] & !borders[3])
+        } else if (borders[0] & !borders[1] & borders[2] & !borders[3])
         {
             index = 15;
-        }
-        else if (borders[0] & !borders[1] & !borders[2] & borders[3])
+        } else if (borders[0] & !borders[1] & !borders[2] & borders[3])
         {
             index = 39;
-        }
-        else if (!borders[0] & borders[1] & borders[2] & !borders[3])
+        } else if (!borders[0] & borders[1] & borders[2] & !borders[3])
         {
             index = 13;
-        }
-        else if (!borders[0] & borders[1] & !borders[2] & borders[3])
+        } else if (!borders[0] & borders[1] & !borders[2] & borders[3])
         {
             index = 37;
-        }
-        else if (!borders[0] & borders[1] & borders[2] & borders[3])
+        } else if (!borders[0] & borders[1] & borders[2] & borders[3])
         {
             index = 25;
-        }
-        else if (borders[0] & !borders[1] & borders[2] & borders[3])
+        } else if (borders[0] & !borders[1] & borders[2] & borders[3])
         {
             index = 27;
-        }
-        else if (borders[0] & borders[1] & !borders[2] & borders[3])
+        } else if (borders[0] & borders[1] & !borders[2] & borders[3])
         {
             index = 38;
-        }
-        else if (borders[0] & borders[1] & borders[2] & !borders[3])
+        } else if (borders[0] & borders[1] & borders[2] & !borders[3])
         {
             index = 14;
-        }
-        else if (borders[0] & borders[1] & borders[2] & borders[3])
+        } else if (borders[0] & borders[1] & borders[2] & borders[3])
         {
             index = 26;
         }
@@ -685,12 +658,10 @@ public class ConnectedTextures
         if (index == 0)
         {
             return cp.tileIcons[index];
-        }
-        else if (!Config.isConnectedTexturesFancy())
+        } else if (!Config.isConnectedTexturesFancy())
         {
             return cp.tileIcons[index];
-        }
-        else
+        } else
         {
             boolean[] edges = new boolean[6];
 
@@ -735,124 +706,94 @@ public class ConnectedTextures
             if (index == 13 && edges[0])
             {
                 index = 4;
-            }
-            else if (index == 15 && edges[1])
+            } else if (index == 15 && edges[1])
             {
                 index = 5;
-            }
-            else if (index == 37 && edges[2])
+            } else if (index == 37 && edges[2])
             {
                 index = 16;
-            }
-            else if (index == 39 && edges[3])
+            } else if (index == 39 && edges[3])
             {
                 index = 17;
-            }
-            else if (index == 14 && edges[0] && edges[1])
+            } else if (index == 14 && edges[0] && edges[1])
             {
                 index = 7;
-            }
-            else if (index == 25 && edges[0] && edges[2])
+            } else if (index == 25 && edges[0] && edges[2])
             {
                 index = 6;
-            }
-            else if (index == 27 && edges[3] && edges[1])
+            } else if (index == 27 && edges[3] && edges[1])
             {
                 index = 19;
-            }
-            else if (index == 38 && edges[3] && edges[2])
+            } else if (index == 38 && edges[3] && edges[2])
             {
                 index = 18;
-            }
-            else if (index == 14 && !edges[0] && edges[1])
+            } else if (index == 14 && !edges[0] && edges[1])
             {
                 index = 31;
-            }
-            else if (index == 25 && edges[0] && !edges[2])
+            } else if (index == 25 && edges[0] && !edges[2])
             {
                 index = 30;
-            }
-            else if (index == 27 && !edges[3] && edges[1])
+            } else if (index == 27 && !edges[3] && edges[1])
             {
                 index = 41;
-            }
-            else if (index == 38 && edges[3] && !edges[2])
+            } else if (index == 38 && edges[3] && !edges[2])
             {
                 index = 40;
-            }
-            else if (index == 14 && edges[0] && !edges[1])
+            } else if (index == 14 && edges[0] && !edges[1])
             {
                 index = 29;
-            }
-            else if (index == 25 && !edges[0] && edges[2])
+            } else if (index == 25 && !edges[0] && edges[2])
             {
                 index = 28;
-            }
-            else if (index == 27 && edges[3] && !edges[1])
+            } else if (index == 27 && edges[3] && !edges[1])
             {
                 index = 43;
-            }
-            else if (index == 38 && !edges[3] && edges[2])
+            } else if (index == 38 && !edges[3] && edges[2])
             {
                 index = 42;
-            }
-            else if (index == 26 && edges[0] && edges[1] && edges[2] && edges[3])
+            } else if (index == 26 && edges[0] && edges[1] && edges[2] && edges[3])
             {
                 index = 46;
-            }
-            else if (index == 26 && !edges[0] && edges[1] && edges[2] && edges[3])
+            } else if (index == 26 && !edges[0] && edges[1] && edges[2] && edges[3])
             {
                 index = 9;
-            }
-            else if (index == 26 && edges[0] && !edges[1] && edges[2] && edges[3])
+            } else if (index == 26 && edges[0] && !edges[1] && edges[2] && edges[3])
             {
                 index = 21;
-            }
-            else if (index == 26 && edges[0] && edges[1] && !edges[2] && edges[3])
+            } else if (index == 26 && edges[0] && edges[1] && !edges[2] && edges[3])
             {
                 index = 8;
-            }
-            else if (index == 26 && edges[0] && edges[1] && edges[2] && !edges[3])
+            } else if (index == 26 && edges[0] && edges[1] && edges[2] && !edges[3])
             {
                 index = 20;
-            }
-            else if (index == 26 && edges[0] && edges[1] && !edges[2] && !edges[3])
+            } else if (index == 26 && edges[0] && edges[1] && !edges[2] && !edges[3])
             {
                 index = 11;
-            }
-            else if (index == 26 && !edges[0] && !edges[1] && edges[2] && edges[3])
+            } else if (index == 26 && !edges[0] && !edges[1] && edges[2] && edges[3])
             {
                 index = 22;
-            }
-            else if (index == 26 && !edges[0] && edges[1] && !edges[2] && edges[3])
+            } else if (index == 26 && !edges[0] && edges[1] && !edges[2] && edges[3])
             {
                 index = 23;
-            }
-            else if (index == 26 && edges[0] && !edges[1] && edges[2] && !edges[3])
+            } else if (index == 26 && edges[0] && !edges[1] && edges[2] && !edges[3])
             {
                 index = 10;
-            }
-            else if (index == 26 && edges[0] && !edges[1] && !edges[2] && edges[3])
+            } else if (index == 26 && edges[0] && !edges[1] && !edges[2] && edges[3])
             {
                 index = 34;
-            }
-            else if (index == 26 && !edges[0] && edges[1] && edges[2] && !edges[3])
+            } else if (index == 26 && !edges[0] && edges[1] && edges[2] && !edges[3])
             {
                 index = 35;
-            }
-            else if (index == 26 && edges[0] && !edges[1] && !edges[2] && !edges[3])
+            } else if (index == 26 && edges[0] && !edges[1] && !edges[2] && !edges[3])
             {
                 index = 32;
-            }
-            else if (index == 26 && !edges[0] && edges[1] && !edges[2] && !edges[3])
+            } else if (index == 26 && !edges[0] && edges[1] && !edges[2] && !edges[3])
             {
                 index = 33;
-            }
-            else if (index == 26 && !edges[0] && !edges[1] && edges[2] && !edges[3])
+            } else if (index == 26 && !edges[0] && !edges[1] && edges[2] && !edges[3])
             {
                 index = 44;
-            }
-            else if (index == 26 && !edges[0] && !edges[1] && !edges[2] && edges[3])
+            } else if (index == 26 && !edges[0] && !edges[1] && !edges[2] && edges[3])
             {
                 index = 45;
             }
@@ -870,8 +811,7 @@ public class ConnectedTextures
             if (neighbourBlock == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 int neighbourMetadata = iblockaccess.getBlockMetadata(x, y, z);
                 IIcon neighbourIcon;
@@ -879,16 +819,14 @@ public class ConnectedTextures
                 if (side >= 0)
                 {
                     neighbourIcon = neighbourBlock.getIcon(side, neighbourMetadata);
-                }
-                else
+                } else
                 {
                     neighbourIcon = neighbourBlock.getIcon(1, neighbourMetadata);
                 }
 
                 return neighbourIcon == icon;
             }
-        }
-        else
+        } else
         {
             return cp.connect == 3 ? (neighbourBlock == null ? false : neighbourBlock.getMaterial() == block.getMaterial()) : neighbourBlock == block && iblockaccess.getBlockMetadata(x, y, z) == metadata;
         }
@@ -1001,17 +939,14 @@ public class ConnectedTextures
             if (right)
             {
                 index1 = 1;
-            }
-            else
+            } else
             {
                 index1 = 2;
             }
-        }
-        else if (right)
+        } else if (right)
         {
             index1 = 0;
-        }
-        else
+        } else
         {
             index1 = 3;
         }
@@ -1064,17 +999,14 @@ public class ConnectedTextures
             if (top)
             {
                 index1 = 1;
-            }
-            else
+            } else
             {
                 index1 = 2;
             }
-        }
-        else if (top)
+        } else if (top)
         {
             index1 = 0;
-        }
-        else
+        } else
         {
             index1 = 3;
         }
@@ -1090,8 +1022,7 @@ public class ConnectedTextures
         if (iconH != null && iconH != icon && iconH != tileIcons[3])
         {
             return iconH;
-        }
-        else
+        } else
         {
             IIcon iconV = getConnectedTextureVertical(cp, blockAccess, block, x, y, z, vertAxis, side, icon, metadata);
             return iconV == tileIcons[0] ? tileIcons[4] : (iconV == tileIcons[1] ? tileIcons[5] : (iconV == tileIcons[2] ? tileIcons[6] : iconV));
@@ -1106,8 +1037,7 @@ public class ConnectedTextures
         if (iconV != null && iconV != icon && iconV != tileIcons[3])
         {
             return iconV;
-        }
-        else
+        } else
         {
             IIcon iconH = getConnectedTextureHorizontal(cp, blockAccess, block, x, y, z, vertAxis, side, icon, metadata);
             return iconH == tileIcons[0] ? tileIcons[4] : (iconH == tileIcons[1] ? tileIcons[5] : (iconH == tileIcons[2] ? tileIcons[6] : iconH));
@@ -1152,8 +1082,8 @@ public class ConnectedTextures
 
     public static void updateIcons(TextureMap textureMap)
     {
-        blockProperties = (ConnectedProperties[][])null;
-        tileProperties = (ConnectedProperties[][])null;
+        blockProperties = (ConnectedProperties[][]) null;
+        tileProperties = (ConnectedProperties[][]) null;
         IResourcePack[] rps = Config.getResourcePacks();
 
         for (int i = rps.length - 1; i >= 0; --i)
@@ -1167,6 +1097,8 @@ public class ConnectedTextures
 
     public static void updateIcons(TextureMap textureMap, IResourcePack rp)
     {
+        LoadingScreen.setStage(10, "Load Optifine textures");
+
         String[] names = collectFiles(rp, "mcpatcher/ctm/", ".properties");
         Arrays.sort(names);
         List tileList = makePropertyList(tileProperties);
@@ -1185,8 +1117,7 @@ public class ConnectedTextures
                 if (in == null)
                 {
                     Config.warn("ConnectedTextures file not found: " + name);
-                }
-                else
+                } else
                 {
                     Properties props = new Properties();
                     props.load(in);
@@ -1199,12 +1130,10 @@ public class ConnectedTextures
                         addToBlockList(cp, blockList);
                     }
                 }
-            }
-            catch (FileNotFoundException var11)
+            } catch (FileNotFoundException var11)
             {
                 Config.warn("ConnectedTextures file not found: " + name);
-            }
-            catch (IOException var12)
+            } catch (IOException var12)
             {
                 var12.printStackTrace();
             }
@@ -1265,7 +1194,7 @@ public class ConnectedTextures
             }
         }
 
-        ConnectedProperties[] var6 = (ConnectedProperties[])((ConnectedProperties[])propList.toArray(new ConnectedProperties[propList.size()]));
+        ConnectedProperties[] var6 = (ConnectedProperties[]) ((ConnectedProperties[]) propList.toArray(new ConnectedProperties[propList.size()]));
         HashSet var7 = new HashSet();
         HashSet tileIconSet = new HashSet();
 
@@ -1294,11 +1223,11 @@ public class ConnectedTextures
 
         for (int i = 0; i < list.size(); ++i)
         {
-            List subList = (List)list.get(i);
+            List subList = (List) list.get(i);
 
             if (subList != null)
             {
-                ConnectedProperties[] subArr = (ConnectedProperties[])((ConnectedProperties[])subList.toArray(new ConnectedProperties[subList.size()]));
+                ConnectedProperties[] subArr = (ConnectedProperties[]) ((ConnectedProperties[]) subList.toArray(new ConnectedProperties[subList.size()]));
                 propArr[i] = subArr;
             }
         }
@@ -1317,17 +1246,15 @@ public class ConnectedTextures
                 if (!(icon instanceof TextureAtlasSprite))
                 {
                     Config.warn("IIcon is not TextureAtlasSprite: " + icon + ", name: " + icon.getIconName());
-                }
-                else
+                } else
                 {
-                    TextureAtlasSprite ts = (TextureAtlasSprite)icon;
+                    TextureAtlasSprite ts = (TextureAtlasSprite) icon;
                     int tileId = ts.getIndexInMap();
 
                     if (tileId < 0)
                     {
                         Config.warn("Invalid tile ID: " + tileId + ", icon: " + ts.getIconName());
-                    }
-                    else
+                    } else
                     {
                         addToList(cp, tileList, tileId);
                     }
@@ -1347,8 +1274,7 @@ public class ConnectedTextures
                 if (blockId < 0)
                 {
                     Config.warn("Invalid block ID: " + blockId);
-                }
-                else
+                } else
                 {
                     addToList(cp, blockList, blockId);
                 }
@@ -1360,10 +1286,10 @@ public class ConnectedTextures
     {
         while (id >= list.size())
         {
-            list.add((Object)null);
+            list.add((Object) null);
         }
 
-        Object subList = (List)list.get(id);
+        Object subList = (List) list.get(id);
 
         if (subList == null)
         {
@@ -1371,7 +1297,7 @@ public class ConnectedTextures
             list.set(id, subList);
         }
 
-        ((List)subList).add(cp);
+        ((List) subList).add(cp);
     }
 
     private static String[] collectFiles(IResourcePack rp, String prefix, String suffix)
@@ -1379,14 +1305,12 @@ public class ConnectedTextures
         if (rp instanceof DefaultResourcePack)
         {
             return collectFilesDefault(rp);
-        }
-        else if (!(rp instanceof AbstractResourcePack))
+        } else if (!(rp instanceof AbstractResourcePack))
         {
             return new String[0];
-        }
-        else
+        } else
         {
-            AbstractResourcePack arp = (AbstractResourcePack)rp;
+            AbstractResourcePack arp = (AbstractResourcePack) rp;
             File tpFile = arp.resourcePackFile;
             return tpFile == null ? new String[0] : (tpFile.isDirectory() ? collectFilesFolder(tpFile, "", prefix, suffix) : (tpFile.isFile() ? collectFilesZIP(tpFile, prefix, suffix) : new String[0]));
         }
@@ -1408,7 +1332,7 @@ public class ConnectedTextures
             }
         }
 
-        String[] var6 = (String[])((String[])list.toArray(new String[list.size()]));
+        String[] var6 = (String[]) ((String[]) list.toArray(new String[list.size()]));
         return var6;
     }
 
@@ -1433,7 +1357,7 @@ public class ConnectedTextures
             list.add(defPath + "sandstone.properties");
         }
 
-        String[] colors = new String[] {"white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "silver", "cyan", "purple", "blue", "brown", "green", "red", "black"};
+        String[] colors = new String[]{ "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "silver", "cyan", "purple", "blue", "brown", "green", "red", "black" };
 
         for (int paths = 0; paths < colors.length; ++paths)
         {
@@ -1446,7 +1370,7 @@ public class ConnectedTextures
             }
         }
 
-        String[] var5 = (String[])((String[])list.toArray(new String[list.size()]));
+        String[] var5 = (String[]) ((String[]) list.toArray(new String[list.size()]));
         return var5;
     }
 
@@ -1459,8 +1383,7 @@ public class ConnectedTextures
         if (files == null)
         {
             return new String[0];
-        }
-        else
+        } else
         {
             for (int names = 0; names < files.length; ++names)
             {
@@ -1480,8 +1403,7 @@ public class ConnectedTextures
                             list.add(dirPath);
                         }
                     }
-                }
-                else if (file.isDirectory())
+                } else if (file.isDirectory())
                 {
                     dirPath = basePath + file.getName() + "/";
                     String[] names1 = collectFilesFolder(file, dirPath, prefix, suffix);
@@ -1494,7 +1416,7 @@ public class ConnectedTextures
                 }
             }
 
-            String[] var13 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] var13 = (String[]) ((String[]) list.toArray(new String[list.size()]));
             return var13;
         }
     }
@@ -1511,7 +1433,7 @@ public class ConnectedTextures
 
             while (en.hasMoreElements())
             {
-                ZipEntry names = (ZipEntry)en.nextElement();
+                ZipEntry names = (ZipEntry) en.nextElement();
                 String name = names.getName();
 
                 if (name.startsWith(prefixAssets))
@@ -1526,10 +1448,9 @@ public class ConnectedTextures
             }
 
             e.close();
-            String[] names1 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] names1 = (String[]) ((String[]) list.toArray(new String[list.size()]));
             return names1;
-        }
-        catch (IOException var9)
+        } catch (IOException var9)
         {
             var9.printStackTrace();
             return new String[0];
@@ -1552,14 +1473,12 @@ public class ConnectedTextures
         if (cp.method != 1)
         {
             return icon;
-        }
-        else if (ctmIndex >= 0 && ctmIndex < ctmIndexes.length)
+        } else if (ctmIndex >= 0 && ctmIndex < ctmIndexes.length)
         {
             int index = ctmIndexes[ctmIndex];
             IIcon[] ctmIcons = cp.tileIcons;
             return index >= 0 && index < ctmIcons.length ? ctmIcons[index] : icon;
-        }
-        else
+        } else
         {
             return icon;
         }

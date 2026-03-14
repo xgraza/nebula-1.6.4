@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 import us.nebula.client.api.config.ConfigurationManager;
-import us.nebula.client.api.gui.font.Fonts;
 import us.nebula.client.api.manager.account.AccountManager;
 import us.nebula.client.api.manager.cheat.CheatManager;
 import us.nebula.client.api.manager.command.CommandManager;
@@ -18,6 +17,7 @@ import us.nebula.client.api.manager.overlay.OverlayManager;
 import us.nebula.client.api.manager.rotate.RotationManager;
 import us.nebula.client.api.manager.toast.ToastManager;
 import us.nebula.client.api.systemtray.NebulaSystemTray;
+import us.nebula.client.impl.gui.loading.LoadingScreen;
 import us.nebula.client.util.render.RenderUtil;
 
 import javax.imageio.ImageIO;
@@ -56,12 +56,16 @@ public enum Nebula
 
     public void init(final File gameDir) throws IOException
     {
+        LoadingScreen.setTotalLoadingStages(12);
+        LoadingScreen.setStage(1, "Setting up Nebula");
+
         logBuildInfo();
         setTitle("Setting up Nebula...");
 
         nebulaRootDir = new File(gameDir, "nebula-client");
         if (!nebulaRootDir.exists())
         {
+            LoadingScreen.setStage(2, "Creating Nebula directories");
             if (nebulaRootDir.mkdir())
             {
                 logger.info("Created {} successfully", nebulaRootDir.getAbsolutePath());
@@ -70,6 +74,8 @@ public enum Nebula
                 throw new RuntimeException("Failed to create nebula directory");
             }
         }
+
+        LoadingScreen.setStage(3, "Creating Nebula core");
 
         systemTray = new NebulaSystemTray();
         configurationManager = new ConfigurationManager();
@@ -83,6 +89,8 @@ public enum Nebula
         inventoryManager = new InventoryManager();
         rotationManager = new RotationManager();
 
+        LoadingScreen.setStage(4, "Initializing Nebula core");
+
         keyManager.init();
         commandManager.init();
         overlayManager.init();
@@ -95,6 +103,7 @@ public enum Nebula
         rotationManager.init();
         friendManager.init();
 
+        LoadingScreen.setStage(5, "Initializing Nebula shaders");
         try
         {
             RenderUtil.initShaders();
@@ -102,8 +111,8 @@ public enum Nebula
         {
             logger.error(e);
         }
-        Fonts.initFonts();
 
+        LoadingScreen.setStage(6, "Initializing Schematica");
         // Init schematica
         Schematica.load();
 

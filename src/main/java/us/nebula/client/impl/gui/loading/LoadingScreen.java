@@ -1,0 +1,61 @@
+package us.nebula.client.impl.gui.loading;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.LWJGLException;
+import us.nebula.client.ClientSettings;
+import us.nebula.client.api.gui.font.Fonts;
+import us.nebula.client.util.render.RenderUtil;
+
+import java.awt.Color;
+
+/**
+ * @author xgraza
+ * @since 3/13/26
+ */
+public final class LoadingScreen
+{
+    private static int totalLoadingStages, loadingStage;
+    private static String loadingStageText;
+    private static Minecraft mc;
+
+    public static void render(final Minecraft mc, final ScaledResolution res, final int factor)
+    {
+        LoadingScreen.mc = mc;
+        int width = res.getScaledWidth();
+        int height = res.getScaledHeight();
+        RenderUtil.rectangle2D(0, 0, width, height, Color.black.getRGB());
+
+        String text = "Loading Nebula " + ClientSettings.VERSION;
+        int textWidth = (int) Fonts.POPPINS_LARGE.getStringWidth(text);
+        Fonts.POPPINS_LARGE.drawStringShadow(text, width / 2.0 - (textWidth / 2.0), 50, -1);
+
+        text = "Stage " + loadingStage + "/" + totalLoadingStages + " - " + loadingStageText;
+        textWidth = (int) Fonts.POPPINS_LARGE.getStringWidth(text);
+        Fonts.POPPINS_LARGE.drawStringShadow(text, width / 2.0 - (textWidth / 2.0), 100, -1);
+
+        int progressBarTotalWidth = width - 150;
+        RenderUtil.rectangle2D(75, 135, progressBarTotalWidth, 20, Color.lightGray.getRGB());
+        double progressPercent = loadingStage / (double) totalLoadingStages;
+        RenderUtil.rectangle2D(77, 137, (progressBarTotalWidth - 4) * progressPercent, 16, Color.green.getRGB());
+    }
+
+    public static void setTotalLoadingStages(int totalStages)
+    {
+        totalLoadingStages = totalStages;
+    }
+
+    public static void setStage(int stage, String text)
+    {
+        System.out.println(stage + "/" + totalLoadingStages + " -> " + text);
+        loadingStage = stage;
+        loadingStageText = text;
+        try
+        {
+            mc.loadScreen();
+        } catch (LWJGLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+}

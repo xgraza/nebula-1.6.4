@@ -18,13 +18,13 @@ public final class Fonts
 {
     private static final String BASE_ASSET_LOCATION = "/assets/nebula/font/%s";
 
+    public static final int LARGE_FONT_SIZE = 26;
     public static final int NORMAL_FONT_SIZE = 18;
     public static final int SMALL_FONT_SIZE = 11;
 
     private static final Map<String, Font> CUSTOM_FONT_CACHE = new HashMap<>();
 
-    public static AWTFontRenderer POPPINS;
-    public static AWTFontRenderer POPPINS_SMALL;
+    public static AWTFontRenderer POPPINS, POPPINS_SMALL, POPPINS_LARGE;
     public static AWTFontRenderer TYPEFACE, ICONFACE;
 
     public static double getMiddlePoint(final double height, final double fontHeight)
@@ -36,6 +36,7 @@ public final class Fonts
     {
         POPPINS = createFont(loadFont("Poppins-Regular"), NORMAL_FONT_SIZE);
         POPPINS_SMALL = createFont(loadFont("Poppins-Regular"), SMALL_FONT_SIZE);
+        POPPINS_LARGE = createFont(loadFont("Poppins-Regular"), LARGE_FONT_SIZE);
         TYPEFACE = createFont(loadFont("Typeface"), NORMAL_FONT_SIZE);
         ICONFACE = createFont(loadFont("Iconface-Regular"), NORMAL_FONT_SIZE);
     }
