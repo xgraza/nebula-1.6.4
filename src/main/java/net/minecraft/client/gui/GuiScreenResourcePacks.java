@@ -1,6 +1,13 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.resources.*;
+import net.minecraft.util.Util;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.Sys;
+import us.nebula.client.impl.gui.loading.LoadingScreen;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -8,15 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.resources.ResourcePackListEntry;
-import net.minecraft.client.resources.ResourcePackListEntryDefault;
-import net.minecraft.client.resources.ResourcePackListEntryFound;
-import net.minecraft.client.resources.ResourcePackRepository;
-import net.minecraft.util.Util;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.Sys;
 
 public class GuiScreenResourcePacks extends GuiScreen
 {
@@ -51,7 +49,7 @@ public class GuiScreenResourcePacks extends GuiScreen
 
         while (var3.hasNext())
         {
-            var4 = (ResourcePackRepository.Entry)var3.next();
+            var4 = (ResourcePackRepository.Entry) var3.next();
             this.field_146966_g.add(new ResourcePackListEntryFound(this, var4));
         }
 
@@ -59,7 +57,7 @@ public class GuiScreenResourcePacks extends GuiScreen
 
         while (var3.hasNext())
         {
-            var4 = (ResourcePackRepository.Entry)var3.next();
+            var4 = (ResourcePackRepository.Entry) var3.next();
             this.field_146969_h.add(new ResourcePackListEntryFound(this, var4));
         }
 
@@ -106,24 +104,21 @@ public class GuiScreenResourcePacks extends GuiScreen
                     try
                     {
                         logger.info(var3);
-                        Runtime.getRuntime().exec(new String[] {"/usr/bin/open", var3});
+                        Runtime.getRuntime().exec(new String[]{ "/usr/bin/open", var3 });
                         return;
-                    }
-                    catch (IOException var9)
+                    } catch (IOException var9)
                     {
                         logger.error("Couldn\'t open file", var9);
                     }
-                }
-                else if (Util.getOSType() == Util.EnumOS.WINDOWS)
+                } else if (Util.getOSType() == Util.EnumOS.WINDOWS)
                 {
-                    String var4 = String.format("cmd.exe /C start \"Open file\" \"%s\"", new Object[] {var3});
+                    String var4 = String.format("cmd.exe /C start \"Open file\" \"%s\"", new Object[]{ var3 });
 
                     try
                     {
                         Runtime.getRuntime().exec(var4);
                         return;
-                    }
-                    catch (IOException var8)
+                    } catch (IOException var8)
                     {
                         logger.error("Couldn\'t open file", var8);
                     }
@@ -134,10 +129,9 @@ public class GuiScreenResourcePacks extends GuiScreen
                 try
                 {
                     Class var5 = Class.forName("java.awt.Desktop");
-                    Object var6 = var5.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                    var5.getMethod("browse", new Class[] {URI.class}).invoke(var6, new Object[] {var2.toURI()});
-                }
-                catch (Throwable var7)
+                    Object var6 = var5.getMethod("getDesktop", new Class[0]).invoke((Object) null, new Object[0]);
+                    var5.getMethod("browse", new Class[]{ URI.class }).invoke(var6, new Object[]{ var2.toURI() });
+                } catch (Throwable var7)
                 {
                     logger.error("Couldn\'t open link", var7);
                     var12 = true;
@@ -148,19 +142,18 @@ public class GuiScreenResourcePacks extends GuiScreen
                     logger.info("Opening via system class!");
                     Sys.openURL("file://" + var3);
                 }
-            }
-            else if (p_146284_1_.id == 1)
+            } else if (p_146284_1_.id == 1)
             {
                 ArrayList var10 = Lists.newArrayList();
                 Iterator var11 = this.field_146969_h.iterator();
 
                 while (var11.hasNext())
                 {
-                    ResourcePackListEntry var13 = (ResourcePackListEntry)var11.next();
+                    ResourcePackListEntry var13 = (ResourcePackListEntry) var11.next();
 
                     if (var13 instanceof ResourcePackListEntryFound)
                     {
-                        var10.add(((ResourcePackListEntryFound)var13).func_148318_i());
+                        var10.add(((ResourcePackListEntryFound) var13).func_148318_i());
                     }
                 }
 
@@ -171,13 +164,14 @@ public class GuiScreenResourcePacks extends GuiScreen
 
                 while (var11.hasNext())
                 {
-                    ResourcePackRepository.Entry var14 = (ResourcePackRepository.Entry)var11.next();
+                    ResourcePackRepository.Entry var14 = (ResourcePackRepository.Entry) var11.next();
                     this.mc.gameSettings.resourcePacks.add(var14.getResourcePackName());
                 }
 
                 this.mc.gameSettings.saveOptions();
                 this.mc.refreshResources();
                 this.mc.displayGuiScreen(this.field_146965_f);
+                LoadingScreen.setTotalLoadingStages(0);
             }
         }
     }

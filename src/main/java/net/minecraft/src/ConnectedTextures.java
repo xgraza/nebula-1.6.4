@@ -13,7 +13,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeGenBase;
-import us.nebula.client.impl.gui.loading.LoadingScreen;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -1097,8 +1096,6 @@ public class ConnectedTextures
 
     public static void updateIcons(TextureMap textureMap, IResourcePack rp)
     {
-        LoadingScreen.setStage(10, "Load Optifine textures");
-
         String[] names = collectFiles(rp, "mcpatcher/ctm/", ".properties");
         Arrays.sort(names);
         List tileList = makePropertyList(tileProperties);

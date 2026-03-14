@@ -488,14 +488,14 @@ public class Minecraft
         this.mcResourceManager = new SimpleReloadableResourceManager(this.metadataSerializer_);
         this.mcLanguageManager = new LanguageManager(this.metadataSerializer_, this.gameSettings.language);
         this.mcResourceManager.registerReloadListener(this.mcLanguageManager);
+        Fonts.initFonts();
+        this.loadScreen();
         this.refreshResources();
         this.renderEngine = new TextureManager(this.mcResourceManager);
         this.mcResourceManager.registerReloadListener(this.renderEngine);
         this.mcSoundHandler = new SoundHandler(this.mcResourceManager, this.gameSettings);
         this.mcMusicTicker = new MusicTicker(this);
         this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
-        Fonts.initFonts();
-        this.loadScreen();
         this.fontRenderer = new FontRenderer(this.gameSettings, new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
 
         try
@@ -576,10 +576,22 @@ public class Minecraft
         }
 
         Display.setVSyncEnabled(this.gameSettings.enableVsync);
+        LoadingScreen.setTotalLoadingStages(0);
     }
 
     public void refreshResources()
     {
+        boolean showLoadingScreen = LoadingScreen.getTotalLoadingStages() == 0;
+        if (showLoadingScreen)
+        {
+            LoadingScreen.setTotalLoadingStages(3);
+        }
+
+        if (showLoadingScreen)
+        {
+            LoadingScreen.setStage(1, "Reading repository");
+        }
+
         ArrayList var1 = Lists.newArrayList(this.defaultResourcePacks);
         Iterator var2 = this.mcResourcePackRepository.getRepositoryEntries().iterator();
 
@@ -594,9 +606,18 @@ public class Minecraft
             var1.add(this.mcResourcePackRepository.func_148530_e());
         }
 
+        if (showLoadingScreen)
+        {
+            LoadingScreen.setStage(2, "Parse meta & resources");
+        }
+
         this.mcLanguageManager.parseLanguageMetadata(var1);
         this.mcResourceManager.reloadResources(var1);
 
+        if (showLoadingScreen)
+        {
+            LoadingScreen.setStage(3, "Reload global renderer");
+        }
         if (this.renderGlobal != null)
         {
             this.renderGlobal.loadRenderers();
