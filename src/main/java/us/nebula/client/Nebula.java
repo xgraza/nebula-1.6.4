@@ -20,8 +20,12 @@ import us.nebula.client.api.manager.toast.ToastManager;
 import us.nebula.client.api.systemtray.NebulaSystemTray;
 import us.nebula.client.util.render.RenderUtil;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -103,6 +107,7 @@ public enum Nebula
         // Init schematica
         Schematica.load();
 
+        setIcon();
         setTitle("Nebula Client | Minecraft 1.7.2");
         logger.info("Instantiated Nebula successfully!");
     }
@@ -116,6 +121,54 @@ public enum Nebula
         } else
         {
             Minecraft.setTitle(title);
+        }
+    }
+
+    void setIcon()
+    {
+        if (Util.getOSType() == Util.EnumOS.MACOS)
+        {
+            return;
+        }
+        try
+        {
+            ByteBuffer buffer16x = readImage("/assets/nebula/texture/icon/16x.png");
+            ByteBuffer buffer32x = readImage("/assets/nebula/texture/icon/32x.png");
+            if (buffer16x == null || buffer32x == null)
+            {
+                logger.error("Failed to read Nebula icon buffer(s).");
+                return;
+            }
+
+            Display.setIcon(new ByteBuffer[]{ buffer16x, buffer32x });
+        } catch (Exception exception)
+        {
+            logger.error("Couldn't set icon", exception);
+        }
+    }
+
+    ByteBuffer readImage(String location)
+    {
+        try (final InputStream is = Nebula.class.getResourceAsStream(location))
+        {
+            if (is == null)
+            {
+                return null;
+            }
+            BufferedImage bufferedimage = ImageIO.read(is);
+            int[] aint = bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), null, 0, bufferedimage.getWidth());
+            ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
+
+            for (int i : aint)
+            {
+                bytebuffer.putInt(i << 8 | i >> 24 & 255);
+            }
+
+            bytebuffer.flip();
+            return bytebuffer;
+        } catch (IOException e)
+        {
+            return null;
         }
     }
 
