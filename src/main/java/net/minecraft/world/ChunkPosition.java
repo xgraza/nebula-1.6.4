@@ -27,10 +27,9 @@ public class ChunkPosition
         if (!(par1Obj instanceof ChunkPosition))
         {
             return false;
-        }
-        else
+        } else
         {
-            ChunkPosition var2 = (ChunkPosition)par1Obj;
+            ChunkPosition var2 = (ChunkPosition) par1Obj;
             return var2.xCoord == this.xCoord && var2.field_151327_b == this.field_151327_b && var2.yCoord == this.yCoord;
         }
     }

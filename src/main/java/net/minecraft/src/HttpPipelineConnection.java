@@ -1,10 +1,6 @@
 package net.minecraft.src;
 
-import java.io.BufferedOutputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Proxy;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -16,8 +12,8 @@ public class HttpPipelineConnection
     private String host;
     private int port;
     private Proxy proxy;
-    private List<HttpPipelineRequest> listRequests;
-    private List<HttpPipelineRequest> listRequestsSend;
+    private final List<HttpPipelineRequest> listRequests;
+    private final List<HttpPipelineRequest> listRequestsSend;
     private Socket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
@@ -71,8 +67,7 @@ public class HttpPipelineConnection
         if (this.isClosed())
         {
             return false;
-        }
-        else
+        } else
         {
             this.addRequest(pr, this.listRequests);
             this.addRequest(pr, this.listRequestsSend);
@@ -94,8 +89,7 @@ public class HttpPipelineConnection
             if (this.socket != null)
             {
                 throw new IllegalArgumentException("Already connected");
-            }
-            else
+            } else
             {
                 this.socket = s;
                 this.socket.setTcpNoDelay(true);
@@ -156,11 +150,10 @@ public class HttpPipelineConnection
 
         if (remove)
         {
-            return (HttpPipelineRequest)list.remove(0);
-        }
-        else
+            return list.remove(0);
+        } else
         {
-            return (HttpPipelineRequest)list.get(0);
+            return list.get(0);
         }
     }
 
@@ -219,21 +212,18 @@ public class HttpPipelineConnection
                         listener1.setRedirects(pr.getHttpRequest().getRedirects() + 1);
                         HttpPipelineRequest hpr2 = new HttpPipelineRequest(listener1, pr.getHttpListener());
                         HttpPipeline.addRequest(hpr2);
-                    }
-                    catch (IOException var6)
+                    } catch (IOException var6)
                     {
                         pr.getHttpListener().failed(pr.getHttpRequest(), var6);
                     }
-                }
-                else
+                } else
                 {
                     HttpListener listener = pr.getHttpListener();
                     listener.finished(pr.getHttpRequest(), resp);
                 }
 
                 this.checkResponseHeader(resp);
-            }
-            else
+            } else
             {
                 throw new IllegalArgumentException("Response out of order: " + pr);
             }
@@ -245,12 +235,10 @@ public class HttpPipelineConnection
         if (patternFullUrl.matcher(url).matches())
         {
             return url;
-        }
-        else if (url.startsWith("//"))
+        } else if (url.startsWith("//"))
         {
             return "http:" + url;
-        }
-        else
+        } else
         {
             String server = hr.getHost();
 
@@ -262,8 +250,7 @@ public class HttpPipelineConnection
             if (url.startsWith("/"))
             {
                 return "http://" + server + url;
-            }
-            else
+            } else
             {
                 String file = hr.getFile();
                 int pos = file.lastIndexOf("/");
@@ -276,7 +263,7 @@ public class HttpPipelineConnection
     {
         String connStr = resp.getHeader("Connection");
 
-        if (connStr != null && !connStr.toLowerCase().equals("keep-alive"))
+        if (connStr != null && !connStr.equalsIgnoreCase("keep-alive"))
         {
             this.terminate(new EOFException("Connection not keep-alive"));
         }
@@ -302,7 +289,7 @@ public class HttpPipelineConnection
 
                         if (max > 0)
                         {
-                            this.keepaliveTimeoutMs = (long)(max * 1000);
+                            this.keepaliveTimeoutMs = max * 1000L;
                         }
                     }
 
@@ -326,13 +313,12 @@ public class HttpPipelineConnection
 
         if (pos < 0)
         {
-            return new String[] {str};
-        }
-        else
+            return new String[]{ str };
+        } else
         {
             String str1 = str.substring(0, pos);
             String str2 = str.substring(pos + 1);
-            return new String[] {str1, str2};
+            return new String[]{ str1, str2 };
         }
     }
 
@@ -369,10 +355,8 @@ public class HttpPipelineConnection
                 {
                     this.socket.close();
                 }
-            }
-            catch (IOException var3)
+            } catch (IOException var3)
             {
-                ;
             }
 
             this.socket = null;
@@ -389,14 +373,14 @@ public class HttpPipelineConnection
 
             if (!this.responseReceived)
             {
-                pr = (HttpPipelineRequest)this.listRequests.remove(0);
+                pr = this.listRequests.remove(0);
                 pr.getHttpListener().failed(pr.getHttpRequest(), e);
                 pr.setClosed(true);
             }
 
             while (this.listRequests.size() > 0)
             {
-                pr = (HttpPipelineRequest)this.listRequests.remove(0);
+                pr = this.listRequests.remove(0);
                 HttpPipeline.addRequest(pr);
             }
         }
@@ -404,7 +388,7 @@ public class HttpPipelineConnection
 
     public synchronized boolean isClosed()
     {
-        return this.terminated ? true : this.countRequests >= this.keepaliveMaxCount;
+        return this.terminated || this.countRequests >= this.keepaliveMaxCount;
     }
 
     public int getCountRequests()

@@ -28,12 +28,12 @@ public class Language implements Comparable
 
     public String toString()
     {
-        return String.format("%s (%s)", new Object[] {this.name, this.region});
+        return String.format("%s (%s)", this.name, this.region);
     }
 
     public boolean equals(Object par1Obj)
     {
-        return this == par1Obj ? true : (!(par1Obj instanceof Language) ? false : this.languageCode.equals(((Language)par1Obj).languageCode));
+        return this == par1Obj || (par1Obj instanceof Language && this.languageCode.equals(((Language) par1Obj).languageCode));
     }
 
     public int hashCode()
@@ -48,6 +48,6 @@ public class Language implements Comparable
 
     public int compareTo(Object par1Obj)
     {
-        return this.compareTo((Language)par1Obj);
+        return this.compareTo((Language) par1Obj);
     }
 }

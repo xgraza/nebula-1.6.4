@@ -22,7 +22,7 @@ public class ItemSaddle extends Item
     {
         if (par3EntityLivingBase instanceof EntityPig)
         {
-            EntityPig var4 = (EntityPig)par3EntityLivingBase;
+            EntityPig var4 = (EntityPig) par3EntityLivingBase;
 
             if (!var4.getSaddled() && !var4.isChild())
             {
@@ -32,8 +32,7 @@ public class ItemSaddle extends Item
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -45,7 +44,7 @@ public class ItemSaddle extends Item
      */
     public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
     {
-        this.itemInteractionForEntity(par1ItemStack, (EntityPlayer)null, par2EntityLivingBase);
+        this.itemInteractionForEntity(par1ItemStack, null, par2EntityLivingBase);
         return true;
     }
 }

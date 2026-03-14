@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,6 +9,9 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public abstract class BlockButton extends Block
 {
@@ -54,12 +55,12 @@ public abstract class BlockButton extends Block
      */
     public boolean canPlaceBlockOnSide(World p_149707_1_, int p_149707_2_, int p_149707_3_, int p_149707_4_, int p_149707_5_)
     {
-        return p_149707_5_ == 2 && p_149707_1_.getBlock(p_149707_2_, p_149707_3_, p_149707_4_ + 1).isNormalCube() ? true : (p_149707_5_ == 3 && p_149707_1_.getBlock(p_149707_2_, p_149707_3_, p_149707_4_ - 1).isNormalCube() ? true : (p_149707_5_ == 4 && p_149707_1_.getBlock(p_149707_2_ + 1, p_149707_3_, p_149707_4_).isNormalCube() ? true : p_149707_5_ == 5 && p_149707_1_.getBlock(p_149707_2_ - 1, p_149707_3_, p_149707_4_).isNormalCube()));
+        return p_149707_5_ == 2 && p_149707_1_.getBlock(p_149707_2_, p_149707_3_, p_149707_4_ + 1).isNormalCube() || (p_149707_5_ == 3 && p_149707_1_.getBlock(p_149707_2_, p_149707_3_, p_149707_4_ - 1).isNormalCube() || (p_149707_5_ == 4 && p_149707_1_.getBlock(p_149707_2_ + 1, p_149707_3_, p_149707_4_).isNormalCube() || p_149707_5_ == 5 && p_149707_1_.getBlock(p_149707_2_ - 1, p_149707_3_, p_149707_4_).isNormalCube()));
     }
 
     public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
     {
-        return p_149742_1_.getBlock(p_149742_2_ - 1, p_149742_3_, p_149742_4_).isNormalCube() ? true : (p_149742_1_.getBlock(p_149742_2_ + 1, p_149742_3_, p_149742_4_).isNormalCube() ? true : (p_149742_1_.getBlock(p_149742_2_, p_149742_3_, p_149742_4_ - 1).isNormalCube() ? true : p_149742_1_.getBlock(p_149742_2_, p_149742_3_, p_149742_4_ + 1).isNormalCube()));
+        return p_149742_1_.getBlock(p_149742_2_ - 1, p_149742_3_, p_149742_4_).isNormalCube() || (p_149742_1_.getBlock(p_149742_2_ + 1, p_149742_3_, p_149742_4_).isNormalCube() || (p_149742_1_.getBlock(p_149742_2_, p_149742_3_, p_149742_4_ - 1).isNormalCube() || p_149742_1_.getBlock(p_149742_2_, p_149742_3_, p_149742_4_ + 1).isNormalCube()));
     }
 
     public int onBlockPlaced(World p_149660_1_, int p_149660_2_, int p_149660_3_, int p_149660_4_, int p_149660_5_, float p_149660_6_, float p_149660_7_, float p_149660_8_, int p_149660_9_)
@@ -71,20 +72,16 @@ public abstract class BlockButton extends Block
         if (p_149660_5_ == 2 && p_149660_1_.getBlock(p_149660_2_, p_149660_3_, p_149660_4_ + 1).isNormalCube())
         {
             var10 = 4;
-        }
-        else if (p_149660_5_ == 3 && p_149660_1_.getBlock(p_149660_2_, p_149660_3_, p_149660_4_ - 1).isNormalCube())
+        } else if (p_149660_5_ == 3 && p_149660_1_.getBlock(p_149660_2_, p_149660_3_, p_149660_4_ - 1).isNormalCube())
         {
             var10 = 3;
-        }
-        else if (p_149660_5_ == 4 && p_149660_1_.getBlock(p_149660_2_ + 1, p_149660_3_, p_149660_4_).isNormalCube())
+        } else if (p_149660_5_ == 4 && p_149660_1_.getBlock(p_149660_2_ + 1, p_149660_3_, p_149660_4_).isNormalCube())
         {
             var10 = 2;
-        }
-        else if (p_149660_5_ == 5 && p_149660_1_.getBlock(p_149660_2_ - 1, p_149660_3_, p_149660_4_).isNormalCube())
+        } else if (p_149660_5_ == 5 && p_149660_1_.getBlock(p_149660_2_ - 1, p_149660_3_, p_149660_4_).isNormalCube())
         {
             var10 = 1;
-        }
-        else
+        } else
         {
             var10 = this.func_150045_e(p_149660_1_, p_149660_2_, p_149660_3_, p_149660_4_);
         }
@@ -102,12 +99,7 @@ public abstract class BlockButton extends Block
         if (this.func_150044_m(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_))
         {
             int var6 = p_149695_1_.getBlockMetadata(p_149695_2_, p_149695_3_, p_149695_4_) & 7;
-            boolean var7 = false;
-
-            if (!p_149695_1_.getBlock(p_149695_2_ - 1, p_149695_3_, p_149695_4_).isNormalCube() && var6 == 1)
-            {
-                var7 = true;
-            }
+            boolean var7 = !p_149695_1_.getBlock(p_149695_2_ - 1, p_149695_3_, p_149695_4_).isNormalCube() && var6 == 1;
 
             if (!p_149695_1_.getBlock(p_149695_2_ + 1, p_149695_3_, p_149695_4_).isNormalCube() && var6 == 2)
             {
@@ -139,8 +131,7 @@ public abstract class BlockButton extends Block
             this.dropBlockAsItem(p_150044_1_, p_150044_2_, p_150044_3_, p_150044_4_, p_150044_1_.getBlockMetadata(p_150044_2_, p_150044_3_, p_150044_4_), 0);
             p_150044_1_.setBlockToAir(p_150044_2_, p_150044_3_, p_150044_4_);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -169,16 +160,13 @@ public abstract class BlockButton extends Block
         if (var2 == 1)
         {
             this.setBlockBounds(0.0F, var4, 0.5F - var6, var7, var5, 0.5F + var6);
-        }
-        else if (var2 == 2)
+        } else if (var2 == 2)
         {
             this.setBlockBounds(1.0F - var7, var4, 0.5F - var6, 1.0F, var5, 0.5F + var6);
-        }
-        else if (var2 == 3)
+        } else if (var2 == 3)
         {
             this.setBlockBounds(0.5F - var6, var4, 0.0F, 0.5F + var6, var5, var7);
-        }
-        else if (var2 == 4)
+        } else if (var2 == 4)
         {
             this.setBlockBounds(0.5F - var6, var4, 1.0F - var7, 0.5F + var6, var5, 1.0F);
         }
@@ -187,7 +175,9 @@ public abstract class BlockButton extends Block
     /**
      * Called when a player hits the block. Args: world, x, y, z, player
      */
-    public void onBlockClicked(World p_149699_1_, int p_149699_2_, int p_149699_3_, int p_149699_4_, EntityPlayer p_149699_5_) {}
+    public void onBlockClicked(World p_149699_1_, int p_149699_2_, int p_149699_3_, int p_149699_4_, EntityPlayer p_149699_5_)
+    {
+    }
 
     /**
      * Called upon block activation (right click on the block.)
@@ -201,12 +191,11 @@ public abstract class BlockButton extends Block
         if (var12 == 0)
         {
             return true;
-        }
-        else
+        } else
         {
             p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, var11 + var12, 3);
             p_149727_1_.markBlockRangeForRenderUpdate(p_149727_2_, p_149727_3_, p_149727_4_, p_149727_2_, p_149727_3_, p_149727_4_);
-            p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F, 0.6F);
+            p_149727_1_.playSoundEffect((double) p_149727_2_ + 0.5D, (double) p_149727_3_ + 0.5D, (double) p_149727_4_ + 0.5D, "random.click", 0.3F, 0.6F);
             this.func_150042_a(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_, var11);
             p_149727_1_.scheduleBlockUpdate(p_149727_2_, p_149727_3_, p_149727_4_, this, this.tickRate(p_149727_1_));
             return true;
@@ -236,8 +225,7 @@ public abstract class BlockButton extends Block
         if ((var6 & 8) == 0)
         {
             return 0;
-        }
-        else
+        } else
         {
             int var7 = var6 & 7;
             return var7 == 5 && p_149748_5_ == 1 ? 15 : (var7 == 4 && p_149748_5_ == 2 ? 15 : (var7 == 3 && p_149748_5_ == 3 ? 15 : (var7 == 2 && p_149748_5_ == 4 ? 15 : (var7 == 1 && p_149748_5_ == 5 ? 15 : 0))));
@@ -266,13 +254,12 @@ public abstract class BlockButton extends Block
                 if (this.field_150047_a)
                 {
                     this.func_150046_n(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
-                }
-                else
+                } else
                 {
                     p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, var6 & 7, 3);
                     int var7 = var6 & 7;
                     this.func_150042_a(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, var7);
-                    p_149674_1_.playSoundEffect((double)p_149674_2_ + 0.5D, (double)p_149674_3_ + 0.5D, (double)p_149674_4_ + 0.5D, "random.click", 0.3F, 0.5F);
+                    p_149674_1_.playSoundEffect((double) p_149674_2_ + 0.5D, (double) p_149674_3_ + 0.5D, (double) p_149674_4_ + 0.5D, "random.click", 0.3F, 0.5F);
                     p_149674_1_.markBlockRangeForRenderUpdate(p_149674_2_, p_149674_3_, p_149674_4_, p_149674_2_, p_149674_3_, p_149674_4_);
                 }
             }
@@ -310,7 +297,7 @@ public abstract class BlockButton extends Block
         int var6 = var5 & 7;
         boolean var7 = (var5 & 8) != 0;
         this.func_150043_b(var5);
-        List var9 = p_150046_1_.getEntitiesWithinAABB(EntityArrow.class, AxisAlignedBB.getAABBPool().getAABB((double)p_150046_2_ + this.minX, (double)p_150046_3_ + this.minY, (double)p_150046_4_ + this.minZ, (double)p_150046_2_ + this.maxX, (double)p_150046_3_ + this.maxY, (double)p_150046_4_ + this.maxZ));
+        List var9 = p_150046_1_.getEntitiesWithinAABB(EntityArrow.class, AxisAlignedBB.getAABBPool().getAABB((double) p_150046_2_ + this.minX, (double) p_150046_3_ + this.minY, (double) p_150046_4_ + this.minZ, (double) p_150046_2_ + this.maxX, (double) p_150046_3_ + this.maxY, (double) p_150046_4_ + this.maxZ));
         boolean var8 = !var9.isEmpty();
 
         if (var8 && !var7)
@@ -318,7 +305,7 @@ public abstract class BlockButton extends Block
             p_150046_1_.setBlockMetadataWithNotify(p_150046_2_, p_150046_3_, p_150046_4_, var6 | 8, 3);
             this.func_150042_a(p_150046_1_, p_150046_2_, p_150046_3_, p_150046_4_, var6);
             p_150046_1_.markBlockRangeForRenderUpdate(p_150046_2_, p_150046_3_, p_150046_4_, p_150046_2_, p_150046_3_, p_150046_4_);
-            p_150046_1_.playSoundEffect((double)p_150046_2_ + 0.5D, (double)p_150046_3_ + 0.5D, (double)p_150046_4_ + 0.5D, "random.click", 0.3F, 0.6F);
+            p_150046_1_.playSoundEffect((double) p_150046_2_ + 0.5D, (double) p_150046_3_ + 0.5D, (double) p_150046_4_ + 0.5D, "random.click", 0.3F, 0.6F);
         }
 
         if (!var8 && var7)
@@ -326,7 +313,7 @@ public abstract class BlockButton extends Block
             p_150046_1_.setBlockMetadataWithNotify(p_150046_2_, p_150046_3_, p_150046_4_, var6, 3);
             this.func_150042_a(p_150046_1_, p_150046_2_, p_150046_3_, p_150046_4_, var6);
             p_150046_1_.markBlockRangeForRenderUpdate(p_150046_2_, p_150046_3_, p_150046_4_, p_150046_2_, p_150046_3_, p_150046_4_);
-            p_150046_1_.playSoundEffect((double)p_150046_2_ + 0.5D, (double)p_150046_3_ + 0.5D, (double)p_150046_4_ + 0.5D, "random.click", 0.3F, 0.5F);
+            p_150046_1_.playSoundEffect((double) p_150046_2_ + 0.5D, (double) p_150046_3_ + 0.5D, (double) p_150046_4_ + 0.5D, "random.click", 0.3F, 0.5F);
         }
 
         if (var8)
@@ -342,24 +329,22 @@ public abstract class BlockButton extends Block
         if (p_150042_5_ == 1)
         {
             p_150042_1_.notifyBlocksOfNeighborChange(p_150042_2_ - 1, p_150042_3_, p_150042_4_, this);
-        }
-        else if (p_150042_5_ == 2)
+        } else if (p_150042_5_ == 2)
         {
             p_150042_1_.notifyBlocksOfNeighborChange(p_150042_2_ + 1, p_150042_3_, p_150042_4_, this);
-        }
-        else if (p_150042_5_ == 3)
+        } else if (p_150042_5_ == 3)
         {
             p_150042_1_.notifyBlocksOfNeighborChange(p_150042_2_, p_150042_3_, p_150042_4_ - 1, this);
-        }
-        else if (p_150042_5_ == 4)
+        } else if (p_150042_5_ == 4)
         {
             p_150042_1_.notifyBlocksOfNeighborChange(p_150042_2_, p_150042_3_, p_150042_4_ + 1, this);
-        }
-        else
+        } else
         {
             p_150042_1_.notifyBlocksOfNeighborChange(p_150042_2_, p_150042_3_ - 1, p_150042_4_, this);
         }
     }
 
-    public void registerIcons(IIconRegister p_149651_1_) {}
+    public void registerIcons(IIconRegister p_149651_1_)
+    {
+    }
 }

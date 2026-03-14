@@ -25,21 +25,21 @@ public class EntityReddustFX extends EntityFX
             par9 = 1.0F;
         }
 
-        float var12 = (float)Math.random() * 0.4F + 0.6F;
-        this.particleRed = ((float)(Math.random() * 0.20000000298023224D) + 0.8F) * par9 * var12;
-        this.particleGreen = ((float)(Math.random() * 0.20000000298023224D) + 0.8F) * par10 * var12;
-        this.particleBlue = ((float)(Math.random() * 0.20000000298023224D) + 0.8F) * par11 * var12;
+        float var12 = (float) Math.random() * 0.4F + 0.6F;
+        this.particleRed = ((float) (Math.random() * 0.20000000298023224D) + 0.8F) * par9 * var12;
+        this.particleGreen = ((float) (Math.random() * 0.20000000298023224D) + 0.8F) * par10 * var12;
+        this.particleBlue = ((float) (Math.random() * 0.20000000298023224D) + 0.8F) * par11 * var12;
         this.particleScale *= 0.75F;
         this.particleScale *= par8;
         this.reddustParticleScale = this.particleScale;
-        this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
-        this.particleMaxAge = (int)((float)this.particleMaxAge * par8);
+        this.particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D));
+        this.particleMaxAge = (int) ((float) this.particleMaxAge * par8);
         this.noClip = false;
     }
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        float var8 = ((float)this.particleAge + par2) / (float)this.particleMaxAge * 32.0F;
+        float var8 = ((float) this.particleAge + par2) / (float) this.particleMaxAge * 32.0F;
 
         if (var8 < 0.0F)
         {

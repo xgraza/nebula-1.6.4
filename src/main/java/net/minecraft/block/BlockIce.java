@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -11,6 +10,8 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockIce extends BlockBreakable
 {
@@ -50,8 +51,7 @@ public class BlockIce extends BlockBreakable
             {
                 this.dropBlockAsItem_do(p_149636_1_, p_149636_3_, p_149636_4_, p_149636_5_, var9);
             }
-        }
-        else
+        } else
         {
             if (p_149636_1_.provider.isHellWorld)
             {

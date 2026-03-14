@@ -16,13 +16,13 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer
     private static final ResourceLocation field_147535_e = new ResourceLocation("textures/entity/zombie/zombie.png");
     private static final ResourceLocation field_147532_f = new ResourceLocation("textures/entity/creeper/creeper.png");
     public static TileEntitySkullRenderer field_147536_b;
-    private ModelSkeletonHead field_147533_g = new ModelSkeletonHead(0, 0, 64, 32);
-    private ModelSkeletonHead field_147538_h = new ModelSkeletonHead(0, 0, 64, 64);
+    private final ModelSkeletonHead field_147533_g = new ModelSkeletonHead(0, 0, 64, 32);
+    private final ModelSkeletonHead field_147538_h = new ModelSkeletonHead(0, 0, 64, 64);
     private static final String __OBFID = "CL_00000971";
 
     public void renderTileEntityAt(TileEntitySkull p_147531_1_, double p_147531_2_, double p_147531_4_, double p_147531_6_, float p_147531_8_)
     {
-        this.func_147530_a((float)p_147531_2_, (float)p_147531_4_, (float)p_147531_6_, p_147531_1_.getBlockMetadata() & 7, (float)(p_147531_1_.func_145906_b() * 360) / 16.0F, p_147531_1_.func_145904_a(), p_147531_1_.func_145907_c());
+        this.func_147530_a((float) p_147531_2_, (float) p_147531_4_, (float) p_147531_6_, p_147531_1_.getBlockMetadata() & 7, (float) (p_147531_1_.func_145906_b() * 360) / 16.0F, p_147531_1_.func_145904_a(), p_147531_1_.func_145907_c());
     }
 
     public void func_147497_a(TileEntityRendererDispatcher p_147497_1_)
@@ -93,8 +93,7 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer
                     GL11.glTranslatef(p_147530_1_ + 0.26F, p_147530_2_ + 0.25F, p_147530_3_ + 0.5F);
                     p_147530_5_ = 90.0F;
             }
-        }
-        else
+        } else
         {
             GL11.glTranslatef(p_147530_1_ + 0.5F, p_147530_2_, p_147530_3_ + 0.5F);
         }
@@ -103,12 +102,12 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glScalef(-1.0F, -1.0F, 1.0F);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
-        var8.render((Entity)null, 0.0F, 0.0F, 0.0F, p_147530_5_, 0.0F, var10);
+        var8.render(null, 0.0F, 0.0F, 0.0F, p_147530_5_, 0.0F, var10);
         GL11.glPopMatrix();
     }
 
     public void renderTileEntityAt(TileEntity p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_)
     {
-        this.renderTileEntityAt((TileEntitySkull)p_147500_1_, p_147500_2_, p_147500_4_, p_147500_6_, p_147500_8_);
+        this.renderTileEntityAt((TileEntitySkull) p_147500_1_, p_147500_2_, p_147500_4_, p_147500_6_, p_147500_8_);
     }
 }

@@ -9,7 +9,7 @@ import net.minecraft.world.storage.ISaveHandler;
 
 public class DemoWorldServer extends WorldServer
 {
-    private static final long demoWorldSeed = (long)"North Carolina".hashCode();
+    private static final long demoWorldSeed = "North Carolina".hashCode();
     public static final WorldSettings demoWorldSettings = (new WorldSettings(demoWorldSeed, WorldSettings.GameType.SURVIVAL, true, false, WorldType.DEFAULT)).enableBonusChest();
     private static final String __OBFID = "CL_00001428";
 

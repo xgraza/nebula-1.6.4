@@ -7,7 +7,9 @@ import net.minecraft.util.DamageSource;
 
 public class EntityDragonPart extends Entity
 {
-    /** The dragon entity this dragon part belongs to */
+    /**
+     * The dragon entity this dragon part belongs to
+     */
     public final IEntityMultiPart entityDragonObj;
     public final String field_146032_b;
     private static final String __OBFID = "CL_00001657";
@@ -20,17 +22,23 @@ public class EntityDragonPart extends Entity
         this.field_146032_b = par2Str;
     }
 
-    protected void entityInit() {}
+    protected void entityInit()
+    {
+    }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {}
+    protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {}
+    protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     /**
      * Returns true if other Entities should be prevented from moving through this Entity.
@@ -45,7 +53,7 @@ public class EntityDragonPart extends Entity
      */
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
-        return this.isEntityInvulnerable() ? false : this.entityDragonObj.attackEntityFromPart(this, par1DamageSource, par2);
+        return !this.isEntityInvulnerable() && this.entityDragonObj.attackEntityFromPart(this, par1DamageSource, par2);
     }
 
     /**

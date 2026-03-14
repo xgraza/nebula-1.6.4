@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -8,6 +7,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockOre extends Block
 {
@@ -47,8 +48,7 @@ public class BlockOre extends Block
             }
 
             return this.quantityDropped(p_149679_2_) * (var3 + 1);
-        }
-        else
+        } else
         {
             return this.quantityDropped(p_149679_2_);
         }
@@ -68,20 +68,16 @@ public class BlockOre extends Block
             if (this == Blocks.coal_ore)
             {
                 var8 = MathHelper.getRandomIntegerInRange(p_149690_1_.rand, 0, 2);
-            }
-            else if (this == Blocks.diamond_ore)
+            } else if (this == Blocks.diamond_ore)
             {
                 var8 = MathHelper.getRandomIntegerInRange(p_149690_1_.rand, 3, 7);
-            }
-            else if (this == Blocks.emerald_ore)
+            } else if (this == Blocks.emerald_ore)
             {
                 var8 = MathHelper.getRandomIntegerInRange(p_149690_1_.rand, 3, 7);
-            }
-            else if (this == Blocks.lapis_ore)
+            } else if (this == Blocks.lapis_ore)
             {
                 var8 = MathHelper.getRandomIntegerInRange(p_149690_1_.rand, 2, 5);
-            }
-            else if (this == Blocks.quartz_ore)
+            } else if (this == Blocks.quartz_ore)
             {
                 var8 = MathHelper.getRandomIntegerInRange(p_149690_1_.rand, 2, 5);
             }

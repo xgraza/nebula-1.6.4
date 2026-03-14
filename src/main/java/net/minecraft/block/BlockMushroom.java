@@ -1,9 +1,10 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenBigMushroom;
+
+import java.util.Random;
 
 public class BlockMushroom extends BlockBush implements IGrowable
 {
@@ -92,8 +93,7 @@ public class BlockMushroom extends BlockBush implements IGrowable
         {
             Block var5 = p_149718_1_.getBlock(p_149718_2_, p_149718_3_ - 1, p_149718_4_);
             return var5 == Blocks.mycelium || var5 == Blocks.dirt && p_149718_1_.getBlockMetadata(p_149718_2_, p_149718_3_ - 1, p_149718_4_) == 2 || p_149718_1_.getFullBlockLightValue(p_149718_2_, p_149718_3_, p_149718_4_) < 13 && this.func_149854_a(var5);
-        }
-        else
+        } else
         {
             return false;
         }
@@ -108,8 +108,7 @@ public class BlockMushroom extends BlockBush implements IGrowable
         if (this == Blocks.brown_mushroom)
         {
             var7 = new WorldGenBigMushroom(0);
-        }
-        else if (this == Blocks.red_mushroom)
+        } else if (this == Blocks.red_mushroom)
         {
             var7 = new WorldGenBigMushroom(1);
         }
@@ -117,8 +116,7 @@ public class BlockMushroom extends BlockBush implements IGrowable
         if (var7 != null && var7.generate(p_149884_1_, p_149884_5_, p_149884_2_, p_149884_3_, p_149884_4_))
         {
             return true;
-        }
-        else
+        } else
         {
             p_149884_1_.setBlock(p_149884_2_, p_149884_3_, p_149884_4_, this, var6, 3);
             return false;
@@ -132,7 +130,7 @@ public class BlockMushroom extends BlockBush implements IGrowable
 
     public boolean func_149852_a(World p_149852_1_, Random p_149852_2_, int p_149852_3_, int p_149852_4_, int p_149852_5_)
     {
-        return (double)p_149852_2_.nextFloat() < 0.4D;
+        return (double) p_149852_2_.nextFloat() < 0.4D;
     }
 
     public void func_149853_b(World p_149853_1_, Random p_149853_2_, int p_149853_3_, int p_149853_4_, int p_149853_5_)

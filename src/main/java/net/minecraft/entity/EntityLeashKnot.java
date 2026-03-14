@@ -1,13 +1,14 @@
 package net.minecraft.entity;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class EntityLeashKnot extends EntityHanging
 {
@@ -21,7 +22,7 @@ public class EntityLeashKnot extends EntityHanging
     public EntityLeashKnot(World par1World, int par2, int par3, int par4)
     {
         super(par1World, par2, par3, par4, 0);
-        this.setPosition((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D);
+        this.setPosition((double) par2 + 0.5D, (double) par3 + 0.5D, (double) par4 + 0.5D);
     }
 
     protected void entityInit()
@@ -29,7 +30,9 @@ public class EntityLeashKnot extends EntityHanging
         super.entityInit();
     }
 
-    public void setDirection(int par1) {}
+    public void setDirection(int par1)
+    {
+    }
 
     public int getWidthPixels()
     {
@@ -53,7 +56,9 @@ public class EntityLeashKnot extends EntityHanging
     /**
      * Called when this entity is broken. Entity parameter may be null.
      */
-    public void onBroken(Entity par1Entity) {}
+    public void onBroken(Entity par1Entity)
+    {
+    }
 
     /**
      * Either write this entity to the NBT tag given and return true, or return false without doing anything. If this
@@ -68,12 +73,16 @@ public class EntityLeashKnot extends EntityHanging
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {}
+    public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {}
+    public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     /**
      * First layer of player interaction
@@ -98,7 +107,7 @@ public class EntityLeashKnot extends EntityHanging
 
                 while (var7.hasNext())
                 {
-                    var8 = (EntityLiving)var7.next();
+                    var8 = (EntityLiving) var7.next();
 
                     if (var8.getLeashed() && var8.getLeashedToEntity() == par1EntityPlayer)
                     {
@@ -124,7 +133,7 @@ public class EntityLeashKnot extends EntityHanging
 
                     while (var7.hasNext())
                     {
-                        var8 = (EntityLiving)var7.next();
+                        var8 = (EntityLiving) var7.next();
 
                         if (var8.getLeashed() && var8.getLeashedToEntity() == this)
                         {
@@ -156,7 +165,7 @@ public class EntityLeashKnot extends EntityHanging
 
     public static EntityLeashKnot getKnotForBlock(World par0World, int par1, int par2, int par3)
     {
-        List var4 = par0World.getEntitiesWithinAABB(EntityLeashKnot.class, AxisAlignedBB.getAABBPool().getAABB((double)par1 - 1.0D, (double)par2 - 1.0D, (double)par3 - 1.0D, (double)par1 + 1.0D, (double)par2 + 1.0D, (double)par3 + 1.0D));
+        List var4 = par0World.getEntitiesWithinAABB(EntityLeashKnot.class, AxisAlignedBB.getAABBPool().getAABB((double) par1 - 1.0D, (double) par2 - 1.0D, (double) par3 - 1.0D, (double) par1 + 1.0D, (double) par2 + 1.0D, (double) par3 + 1.0D));
 
         if (var4 != null)
         {
@@ -164,7 +173,7 @@ public class EntityLeashKnot extends EntityHanging
 
             while (var5.hasNext())
             {
-                EntityLeashKnot var6 = (EntityLeashKnot)var5.next();
+                EntityLeashKnot var6 = (EntityLeashKnot) var5.next();
 
                 if (var6.field_146063_b == par1 && var6.field_146064_c == par2 && var6.field_146062_d == par3)
                 {

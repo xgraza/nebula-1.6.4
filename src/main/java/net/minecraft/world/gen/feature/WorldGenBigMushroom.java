@@ -1,14 +1,17 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenBigMushroom extends WorldGenerator
 {
-    /** The mushroom type. 0 for brown, 1 for red. */
+    /**
+     * The mushroom type. 0 for brown, 1 for red.
+     */
     private int mushroomType = -1;
     private static final String __OBFID = "CL_00000415";
 
@@ -61,8 +64,7 @@ public class WorldGenBigMushroom extends WorldGenerator
                             {
                                 var8 = false;
                             }
-                        }
-                        else
+                        } else
                         {
                             var8 = false;
                         }
@@ -73,16 +75,14 @@ public class WorldGenBigMushroom extends WorldGenerator
             if (!var8)
             {
                 return false;
-            }
-            else
+            } else
             {
                 Block var16 = par1World.getBlock(par3, par4 - 1, par5);
 
                 if (var16 != Blocks.dirt && var16 != Blocks.grass && var16 != Blocks.mycelium)
                 {
                     return false;
-                }
-                else
+                } else
                 {
                     int var17 = par4 + var7;
 
@@ -205,8 +205,7 @@ public class WorldGenBigMushroom extends WorldGenerator
                     return true;
                 }
             }
-        }
-        else
+        } else
         {
             return false;
         }

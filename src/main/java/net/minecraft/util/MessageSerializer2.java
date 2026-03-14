@@ -17,8 +17,7 @@ public class MessageSerializer2 extends MessageToByteEncoder
         if (var5 > 3)
         {
             throw new IllegalArgumentException("unable to fit " + var4 + " into " + 3);
-        }
-        else
+        } else
         {
             PacketBuffer var6 = new PacketBuffer(p_150667_3_);
             var6.ensureWritable(var5 + var4);
@@ -29,6 +28,6 @@ public class MessageSerializer2 extends MessageToByteEncoder
 
     protected void encode(ChannelHandlerContext p_encode_1_, Object p_encode_2_, ByteBuf p_encode_3_)
     {
-        this.encode(p_encode_1_, (ByteBuf)p_encode_2_, p_encode_3_);
+        this.encode(p_encode_1_, (ByteBuf) p_encode_2_, p_encode_3_);
     }
 }

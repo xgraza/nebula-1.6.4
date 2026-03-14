@@ -1,15 +1,16 @@
 package net.minecraft.src;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
 public class CustomSkyLayer
 {
@@ -33,7 +34,7 @@ public class CustomSkyLayer
     private SmoothFloat smoothPositionBrightness;
     public int textureId;
     private World lastWorld;
-    public static final float[] DEFAULT_AXIS = new float[] {1.0F, 0.0F, 0.0F};
+    public static final float[] DEFAULT_AXIS = new float[]{ 1.0F, 0.0F, 0.0F };
     private static final String WEATHER_CLEAR = "clear";
     private static final String WEATHER_RAIN = "rain";
     private static final String WEATHER_THUNDER = "thunder";
@@ -75,7 +76,7 @@ public class CustomSkyLayer
 
     private List<String> parseWeatherList(String str)
     {
-        List weatherAllowedList = Arrays.asList(new String[] {"clear", "rain", "thunder"});
+        List weatherAllowedList = Arrays.asList("clear", "rain", "thunder");
         ArrayList weatherList = new ArrayList();
         String[] weatherStrs = Config.tokenize(str, " ");
 
@@ -86,8 +87,7 @@ public class CustomSkyLayer
             if (!weatherAllowedList.contains(token))
             {
                 Config.warn("Unknown weather: " + token);
-            }
-            else
+            } else
             {
                 weatherList.add(token);
             }
@@ -101,8 +101,7 @@ public class CustomSkyLayer
         if (str == null)
         {
             return -1;
-        }
-        else
+        } else
         {
             String[] strs = Config.tokenize(str, ":");
 
@@ -110,8 +109,7 @@ public class CustomSkyLayer
             {
                 Config.warn("Invalid time: " + str);
                 return -1;
-            }
-            else
+            } else
             {
                 String hourStr = strs[0];
                 String minStr = strs[1];
@@ -127,10 +125,9 @@ public class CustomSkyLayer
                         hour += 24;
                     }
 
-                    int time = hour * 1000 + (int)((double)min / 60.0D * 1000.0D);
+                    int time = hour * 1000 + (int) ((double) min / 60.0D * 1000.0D);
                     return time;
-                }
-                else
+                } else
                 {
                     Config.warn("Invalid time: " + str);
                     return -1;
@@ -144,16 +141,13 @@ public class CustomSkyLayer
         if (str == null)
         {
             return defVal;
-        }
-        else if (str.toLowerCase().equals("true"))
+        } else if (str.equalsIgnoreCase("true"))
         {
             return true;
-        }
-        else if (str.toLowerCase().equals("false"))
+        } else if (str.equalsIgnoreCase("false"))
         {
             return false;
-        }
-        else
+        } else
         {
             Config.warn("Unknown boolean: " + str);
             return defVal;
@@ -165,8 +159,7 @@ public class CustomSkyLayer
         if (str == null)
         {
             return defVal;
-        }
-        else
+        } else
         {
             float val = Config.parseFloat(str, Float.MIN_VALUE);
 
@@ -174,8 +167,7 @@ public class CustomSkyLayer
             {
                 Config.warn("Invalid value: " + str);
                 return defVal;
-            }
-            else
+            } else
             {
                 return val;
             }
@@ -187,8 +179,7 @@ public class CustomSkyLayer
         if (str == null)
         {
             return defVal;
-        }
-        else
+        } else
         {
             String[] strs = Config.tokenize(str, " ");
 
@@ -196,8 +187,7 @@ public class CustomSkyLayer
             {
                 Config.warn("Invalid axis: " + str);
                 return defVal;
-            }
-            else
+            } else
             {
                 float[] fs = new float[3];
 
@@ -226,10 +216,9 @@ public class CustomSkyLayer
                 {
                     Config.warn("Invalid axis values: " + str);
                     return defVal;
-                }
-                else
+                } else
                 {
-                    float[] as = new float[] {az, ay, -var9};
+                    float[] as = new float[]{ az, ay, -var9 };
                     return as;
                 }
             }
@@ -242,8 +231,7 @@ public class CustomSkyLayer
         {
             Config.warn("No source texture: " + path);
             return false;
-        }
-        else
+        } else
         {
             this.source = TextureUtils.fixResourcePath(this.source, TextureUtils.getBasePath(path));
 
@@ -270,23 +258,19 @@ public class CustomSkyLayer
                 {
                     Config.warn("Invalid fadeIn/fadeOut times, sum is not 24h: " + timeSum);
                     return false;
-                }
-                else if (this.speed < 0.0F)
+                } else if (this.speed < 0.0F)
                 {
                     Config.warn("Invalid speed: " + this.speed);
                     return false;
-                }
-                else if (this.daysLoop <= 0)
+                } else if (this.daysLoop <= 0)
                 {
                     Config.warn("Invalid daysLoop: " + this.daysLoop);
                     return false;
-                }
-                else
+                } else
                 {
                     return true;
                 }
-            }
-            else
+            } else
             {
                 Config.warn("Invalid times, required are: startFadeIn, endFadeIn and endFadeOut.");
                 return false;
@@ -327,12 +311,12 @@ public class CustomSkyLayer
             {
                 float tess = 0.0F;
 
-                if (this.speed != (float)Math.round(this.speed))
+                if (this.speed != (float) Math.round(this.speed))
                 {
                     long worldDay = (world.getWorldTime() + 18000L) / 24000L;
-                    double anglePerDay = (double)(this.speed % 1.0F);
-                    double angleDayNow = (double)worldDay * anglePerDay;
-                    tess = (float)(angleDayNow % 1.0D);
+                    double anglePerDay = this.speed % 1.0F;
+                    double angleDayNow = (double) worldDay * anglePerDay;
+                    tess = (float) (angleDayNow % 1.0D);
                 }
 
                 GL11.glRotatef(360.0F * (tess + celestialAngle * this.speed), this.axis[0], this.axis[1], this.axis[2]);
@@ -365,8 +349,7 @@ public class CustomSkyLayer
         if (this.biomes == null && this.heights == null)
         {
             return 1.0F;
-        }
-        else
+        } else
         {
             float positionBrightness = this.getPositionBrightnessRaw(world);
 
@@ -387,8 +370,7 @@ public class CustomSkyLayer
         if (renderViewEntity == null)
         {
             return 0.0F;
-        }
-        else
+        } else
         {
             double posX = renderViewEntity.posX;
             double posY = renderViewEntity.posY;
@@ -396,7 +378,7 @@ public class CustomSkyLayer
 
             if (this.biomes != null)
             {
-                BiomeGenBase biome = world.getBiomeGenForCoords((int)posX, (int)posZ);
+                BiomeGenBase biome = world.getBiomeGenForCoords((int) posX, (int) posZ);
 
                 if (biome == null)
                 {
@@ -409,7 +391,7 @@ public class CustomSkyLayer
                 }
             }
 
-            return this.heights != null && !this.heights.isInRange((int)posY) ? 0.0F : 1.0F;
+            return this.heights != null && !this.heights.isInRange((int) posY) ? 0.0F : 1.0F;
         }
     }
 
@@ -447,19 +429,16 @@ public class CustomSkyLayer
         {
             timeFadeOut = this.normalizeTime(this.endFadeIn - this.startFadeIn);
             timeDiff = this.normalizeTime(timeOfDay - this.startFadeIn);
-            return (float)timeDiff / (float)timeFadeOut;
-        }
-        else if (this.timeBetween(timeOfDay, this.endFadeIn, this.startFadeOut))
+            return (float) timeDiff / (float) timeFadeOut;
+        } else if (this.timeBetween(timeOfDay, this.endFadeIn, this.startFadeOut))
         {
             return 1.0F;
-        }
-        else if (this.timeBetween(timeOfDay, this.startFadeOut, this.endFadeOut))
+        } else if (this.timeBetween(timeOfDay, this.startFadeOut, this.endFadeOut))
         {
             timeFadeOut = this.normalizeTime(this.endFadeOut - this.startFadeOut);
             timeDiff = this.normalizeTime(timeOfDay - this.startFadeOut);
-            return 1.0F - (float)timeDiff / (float)timeFadeOut;
-        }
-        else
+            return 1.0F - (float) timeDiff / (float) timeFadeOut;
+        } else
         {
             return 0.0F;
         }
@@ -467,8 +446,8 @@ public class CustomSkyLayer
 
     private void renderSide(Tessellator tess, int side)
     {
-        double tx = (double)(side % 3) / 3.0D;
-        double ty = (double)(side / 3) / 2.0D;
+        double tx = (double) (side % 3) / 3.0D;
+        double ty = (double) (side / 3) / 2.0D;
         tess.startDrawingQuads();
         tess.addVertexWithUV(-100.0D, -100.0D, -100.0D, tx, ty);
         tess.addVertexWithUV(-100.0D, -100.0D, 100.0D, tx, ty + 0.5D);
@@ -488,26 +467,21 @@ public class CustomSkyLayer
         if (this.timeBetween(timeOfDay, this.endFadeOut, this.startFadeIn))
         {
             return false;
-        }
-        else
+        } else
         {
             if (this.days != null)
             {
                 long time = world.getWorldTime();
                 long timeShift;
 
-                for (timeShift = time - (long)this.startFadeIn; timeShift < 0L; timeShift += (long)(24000 * this.daysLoop))
+                for (timeShift = time - (long) this.startFadeIn; timeShift < 0L; timeShift += 24000L * this.daysLoop)
                 {
-                    ;
                 }
 
-                int day = (int)(timeShift / 24000L);
+                int day = (int) (timeShift / 24000L);
                 int dayOfLoop = day % this.daysLoop;
 
-                if (!this.days.isInRange(dayOfLoop))
-                {
-                    return false;
-                }
+                return this.days.isInRange(dayOfLoop);
             }
 
             return true;
@@ -521,6 +495,6 @@ public class CustomSkyLayer
 
     public String toString()
     {
-        return "" + this.source + ", " + this.startFadeIn + "-" + this.endFadeIn + " " + this.startFadeOut + "-" + this.endFadeOut;
+        return this.source + ", " + this.startFadeIn + "-" + this.endFadeIn + " " + this.startFadeOut + "-" + this.endFadeOut;
     }
 }

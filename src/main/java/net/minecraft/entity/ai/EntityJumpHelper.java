@@ -4,7 +4,7 @@ import net.minecraft.entity.EntityLiving;
 
 public class EntityJumpHelper
 {
-    private EntityLiving entity;
+    private final EntityLiving entity;
     private boolean isJumping;
     private static final String __OBFID = "CL_00001571";
 

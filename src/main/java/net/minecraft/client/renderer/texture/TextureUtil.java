@@ -1,10 +1,5 @@
 package net.minecraft.client.renderer.texture;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.IntBuffer;
-import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -15,8 +10,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL14;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.IntBuffer;
 
 public class TextureUtil
 {
@@ -74,8 +75,7 @@ public class TextureUtil
                 if (p_147949_2_[var5] != null)
                 {
                     var3[var5] = p_147949_2_[var5];
-                }
-                else
+                } else
                 {
                     int[] var6 = var3[var5 - 1];
                     int[] var7 = new int[var6.length >> 2];
@@ -88,7 +88,7 @@ public class TextureUtil
                         for (int var12 = 0; var12 < var9; ++var12)
                         {
                             int var13 = 2 * (var11 + var12 * var10);
-                            var7[var11 + var12 * var8] = func_147943_a(var6[var13 + 0], var6[var13 + 1], var6[var13 + 0 + var10], var6[var13 + 1 + var10], var4);
+                            var7[var11 + var12 * var8] = func_147943_a(var6[var13], var6[var13 + 1], var6[var13 + var10], var6[var13 + 1 + var10], var4);
                         }
                     }
 
@@ -107,12 +107,12 @@ public class TextureUtil
 
     private static int func_147944_a(int p_147944_0_, int p_147944_1_, int p_147944_2_, int p_147944_3_, int p_147944_4_)
     {
-        float var5 = (float)Math.pow((double)((float)(p_147944_0_ >> p_147944_4_ & 255) / 255.0F), 2.2D);
-        float var6 = (float)Math.pow((double)((float)(p_147944_1_ >> p_147944_4_ & 255) / 255.0F), 2.2D);
-        float var7 = (float)Math.pow((double)((float)(p_147944_2_ >> p_147944_4_ & 255) / 255.0F), 2.2D);
-        float var8 = (float)Math.pow((double)((float)(p_147944_3_ >> p_147944_4_ & 255) / 255.0F), 2.2D);
-        float var9 = (float)Math.pow((double)(var5 + var6 + var7 + var8) * 0.25D, 0.45454545454545453D);
-        return (int)((double)var9 * 255.0D);
+        float var5 = (float) Math.pow((float) (p_147944_0_ >> p_147944_4_ & 255) / 255.0F, 2.2D);
+        float var6 = (float) Math.pow((float) (p_147944_1_ >> p_147944_4_ & 255) / 255.0F, 2.2D);
+        float var7 = (float) Math.pow((float) (p_147944_2_ >> p_147944_4_ & 255) / 255.0F, 2.2D);
+        float var8 = (float) Math.pow((float) (p_147944_3_ >> p_147944_4_ & 255) / 255.0F, 2.2D);
+        float var9 = (float) Math.pow((double) (var5 + var6 + var7 + var8) * 0.25D, 0.45454545454545453D);
+        return (int) ((double) var9 * 255.0D);
     }
 
     public static void uploadTextureMipmap(int[][] p_147955_0_, int p_147955_1_, int p_147955_2_, int p_147955_3_, int p_147955_4_, boolean p_147955_5_, boolean p_147955_6_)
@@ -169,13 +169,13 @@ public class TextureUtil
         {
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, p_147946_1_);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MIN_LOD, 0.0F);
-            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LOD, (float)p_147946_1_);
+            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LOD, (float) p_147946_1_);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, 0.0F);
         }
 
         for (int var5 = 0; var5 <= p_147946_1_; ++var5)
         {
-            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, var5, GL11.GL_RGBA, p_147946_2_ >> var5, p_147946_3_ >> var5, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)null);
+            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, var5, GL11.GL_RGBA, p_147946_2_ >> var5, p_147946_3_ >> var5, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer) null);
         }
     }
 
@@ -212,8 +212,7 @@ public class TextureUtil
         {
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
-        }
-        else
+        } else
         {
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
@@ -254,8 +253,7 @@ public class TextureUtil
         {
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, p_147954_1_ ? GL11.GL_LINEAR_MIPMAP_LINEAR : GL11.GL_LINEAR);
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-        }
-        else
+        } else
         {
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, p_147954_1_ ? GL11.GL_NEAREST_MIPMAP_LINEAR : GL11.GL_NEAREST);
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
@@ -293,8 +291,7 @@ public class TextureUtil
         if (var2 == null)
         {
             return null;
-        }
-        else
+        } else
         {
             int var3 = var2.getWidth();
             int var4 = var2.getHeight();
@@ -309,16 +306,14 @@ public class TextureUtil
         if (imageStream == null)
         {
             return null;
-        }
-        else
+        } else
         {
             BufferedImage bufferedimage;
 
             try
             {
                 bufferedimage = ImageIO.read(imageStream);
-            }
-            finally
+            } finally
             {
                 IOUtils.closeQuietly(imageStream);
             }
@@ -409,8 +404,8 @@ public class TextureUtil
     {
         int var0 = -16777216;
         int var1 = -524040;
-        int[] var2 = new int[] { -524040, -524040, -524040, -524040, -524040, -524040, -524040, -524040};
-        int[] var3 = new int[] { -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216};
+        int[] var2 = new int[]{ -524040, -524040, -524040, -524040, -524040, -524040, -524040, -524040 };
+        int[] var3 = new int[]{ -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216 };
         int var4 = var2.length;
 
         for (int var5 = 0; var5 < 16; ++var5)

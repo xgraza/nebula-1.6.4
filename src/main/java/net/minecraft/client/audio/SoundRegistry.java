@@ -1,8 +1,9 @@
 package net.minecraft.client.audio;
 
 import com.google.common.collect.Maps;
-import java.util.Map;
 import net.minecraft.util.RegistrySimple;
+
+import java.util.Map;
 
 public class SoundRegistry extends RegistrySimple
 {

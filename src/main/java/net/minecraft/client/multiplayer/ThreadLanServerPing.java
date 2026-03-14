@@ -1,12 +1,13 @@
 package net.minecraft.client.multiplayer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ThreadLanServerPing extends Thread
 {
@@ -14,7 +15,9 @@ public class ThreadLanServerPing extends Thread
     private static final Logger logger = LogManager.getLogger();
     private final String motd;
 
-    /** The socket we're using to send packets on. */
+    /**
+     * The socket we're using to send packets on.
+     */
     private final DatagramSocket socket;
     private boolean isStopping = true;
     private final String address;
@@ -41,8 +44,7 @@ public class ThreadLanServerPing extends Thread
                 InetAddress var3 = InetAddress.getByName("224.0.2.60");
                 DatagramPacket var4 = new DatagramPacket(var2, var2.length, var3, 4445);
                 this.socket.send(var4);
-            }
-            catch (IOException var6)
+            } catch (IOException var6)
             {
                 logger.warn("LanServerPinger: " + var6.getMessage());
                 break;
@@ -51,10 +53,8 @@ public class ThreadLanServerPing extends Thread
             try
             {
                 sleep(1500L);
-            }
-            catch (InterruptedException var5)
+            } catch (InterruptedException var5)
             {
-                ;
             }
         }
     }
@@ -77,8 +77,7 @@ public class ThreadLanServerPing extends Thread
         if (var1 < 0)
         {
             return "missing no";
-        }
-        else
+        } else
         {
             int var2 = par0Str.indexOf("[/MOTD]", var1 + "[MOTD]".length());
             return var2 < var1 ? "missing no" : par0Str.substring(var1 + "[MOTD]".length(), var2);
@@ -92,24 +91,21 @@ public class ThreadLanServerPing extends Thread
         if (var1 < 0)
         {
             return null;
-        }
-        else
+        } else
         {
             int var2 = par0Str.indexOf("[/MOTD]", var1 + "[/MOTD]".length());
 
             if (var2 >= 0)
             {
                 return null;
-            }
-            else
+            } else
             {
                 int var3 = par0Str.indexOf("[AD]", var1 + "[/MOTD]".length());
 
                 if (var3 < 0)
                 {
                     return null;
-                }
-                else
+                } else
                 {
                     int var4 = par0Str.indexOf("[/AD]", var3 + "[AD]".length());
                     return var4 < var3 ? null : par0Str.substring(var3 + "[AD]".length(), var4);

@@ -2,28 +2,17 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.src.Config;
-import net.minecraft.src.GuiAnimationSettingsOF;
-import net.minecraft.src.GuiDetailSettingsOF;
-import net.minecraft.src.GuiOptionButtonOF;
-import net.minecraft.src.GuiOptionSliderOF;
-import net.minecraft.src.GuiOtherSettingsOF;
-import net.minecraft.src.GuiPerformanceSettingsOF;
-import net.minecraft.src.GuiQualitySettingsOF;
-import net.minecraft.src.GuiScreenOF;
-import net.minecraft.src.Lang;
-import net.minecraft.src.TooltipManager;
-import net.minecraft.src.TooltipProviderOptions;
+import net.minecraft.src.*;
 import shadersmod.client.GuiShaders;
 
 public class GuiVideoSettings extends GuiScreenOF
 {
-    private GuiScreen parentGuiScreen;
+    private final GuiScreen parentGuiScreen;
     protected String screenTitle = "Video Settings";
-    private GameSettings guiGameSettings;
-    private static GameSettings.Options[] videoOptions = new GameSettings.Options[] {GameSettings.Options.GRAPHICS, GameSettings.Options.RENDER_DISTANCE, GameSettings.Options.AMBIENT_OCCLUSION, GameSettings.Options.FRAMERATE_LIMIT, GameSettings.Options.AO_LEVEL, GameSettings.Options.VIEW_BOBBING, GameSettings.Options.GUI_SCALE, GameSettings.Options.ADVANCED_OPENGL, GameSettings.Options.GAMMA, GameSettings.Options.CHUNK_LOADING, GameSettings.Options.DYNAMIC_LIGHTS, GameSettings.Options.DYNAMIC_FOV};
+    private final GameSettings guiGameSettings;
+    private static final GameSettings.Options[] videoOptions = new GameSettings.Options[]{ GameSettings.Options.GRAPHICS, GameSettings.Options.RENDER_DISTANCE, GameSettings.Options.AMBIENT_OCCLUSION, GameSettings.Options.FRAMERATE_LIMIT, GameSettings.Options.AO_LEVEL, GameSettings.Options.VIEW_BOBBING, GameSettings.Options.GUI_SCALE, GameSettings.Options.ADVANCED_OPENGL, GameSettings.Options.GAMMA, GameSettings.Options.CHUNK_LOADING, GameSettings.Options.DYNAMIC_LIGHTS, GameSettings.Options.DYNAMIC_FOV };
     private static final String __OBFID = "CL_00000718";
-    private TooltipManager tooltipManager = new TooltipManager(this, new TooltipProviderOptions());
+    private final TooltipManager tooltipManager = new TooltipManager(this, new TooltipProviderOptions());
     private FontRenderer fontRendererObj;
 
     public GuiVideoSettings(GuiScreen par1GuiScreen, GameSettings par2GameSettings)
@@ -38,7 +27,7 @@ public class GuiVideoSettings extends GuiScreenOF
     public void initGui()
     {
         this.fontRendererObj = this.fontRenderer;
-        this.screenTitle = I18n.format("options.videoTitle", new Object[0]);
+        this.screenTitle = I18n.format("options.videoTitle");
         this.buttonList.clear();
         int y;
 
@@ -54,8 +43,7 @@ public class GuiVideoSettings extends GuiScreenOF
                 if (x.getEnumFloat())
                 {
                     this.buttonList.add(new GuiOptionSliderOF(x.returnEnumOrdinal(), x1, y1, x));
-                }
-                else
+                } else
                 {
                     this.buttonList.add(new GuiOptionButtonOF(x.returnEnumOrdinal(), x1, y1, x, this.guiGameSettings.getKeyBinding(x)));
                 }
@@ -64,22 +52,22 @@ public class GuiVideoSettings extends GuiScreenOF
 
         y = this.height / 6 + 21 * (videoOptions.length / 2) - 12;
         boolean var5 = false;
-        int var6 = this.width / 2 - 155 + 0;
+        int var6 = this.width / 2 - 155;
         this.buttonList.add(new GuiOptionButton(231, var6, y, Lang.get("of.options.shaders")));
         var6 = this.width / 2 - 155 + 160;
         this.buttonList.add(new GuiOptionButton(202, var6, y, Lang.get("of.options.quality")));
         y += 21;
-        var6 = this.width / 2 - 155 + 0;
+        var6 = this.width / 2 - 155;
         this.buttonList.add(new GuiOptionButton(201, var6, y, Lang.get("of.options.details")));
         var6 = this.width / 2 - 155 + 160;
         this.buttonList.add(new GuiOptionButton(212, var6, y, Lang.get("of.options.performance")));
         y += 21;
-        var6 = this.width / 2 - 155 + 0;
+        var6 = this.width / 2 - 155;
         this.buttonList.add(new GuiOptionButton(211, var6, y, Lang.get("of.options.animations")));
         var6 = this.width / 2 - 155 + 160;
         this.buttonList.add(new GuiOptionButton(222, var6, y, Lang.get("of.options.other")));
         y += 21;
-        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11, I18n.format("gui.done", new Object[0])));
+        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11, I18n.format("gui.done")));
     }
 
     protected void actionPerformed(GuiButton button)
@@ -103,7 +91,7 @@ public class GuiVideoSettings extends GuiScreenOF
 
             if (button.id < 200 && button instanceof GuiOptionButton)
             {
-                this.guiGameSettings.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), val);
+                this.guiGameSettings.setOptionValue(((GuiOptionButton) button).returnEnumOptions(), val);
                 button.displayString = this.guiGameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
             }
 

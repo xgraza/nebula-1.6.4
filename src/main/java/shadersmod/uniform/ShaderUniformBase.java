@@ -4,7 +4,7 @@ import org.lwjgl.opengl.ARBShaderObjects;
 
 public abstract class ShaderUniformBase
 {
-    private String name;
+    private final String name;
     private int program = -1;
     private int location = -1;
 

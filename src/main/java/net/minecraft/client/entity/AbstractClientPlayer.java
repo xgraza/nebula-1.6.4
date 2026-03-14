@@ -75,7 +75,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer
 
     public static ThreadDownloadImageData getDownloadImageCape(ResourceLocation par0ResourceLocation, String par1Str)
     {
-        return getDownloadImage(par0ResourceLocation, getCapeUrl(par1Str), (ResourceLocation)null, (IImageBuffer)null);
+        return getDownloadImage(par0ResourceLocation, getCapeUrl(par1Str), null, null);
     }
 
     private static ThreadDownloadImageData getDownloadImage(ResourceLocation par0ResourceLocation, String par1Str, ResourceLocation par2ResourceLocation, IImageBuffer par3IImageBuffer)
@@ -86,10 +86,10 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         if (var5 == null)
         {
             var5 = new ThreadDownloadImageData(null, par1Str, locationStevePng, par3IImageBuffer);
-            var4.loadTexture(par0ResourceLocation, (ITextureObject)var5);
+            var4.loadTexture(par0ResourceLocation, (ITextureObject) var5);
         }
 
-        return (ThreadDownloadImageData)var5;
+        return (ThreadDownloadImageData) var5;
     }
 
     public static String getSkinUrl(String par0Str)
@@ -117,7 +117,8 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         return new ResourceLocation("skull/" + StringUtils.stripControlCodes(par0Str));
     }
 
-    public String getNameClear() {
+    public String getNameClear()
+    {
         return nameClear;
     }
 }

@@ -1,17 +1,20 @@
 package net.minecraft.network.status.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.status.INetHandlerStatusClient;
+
+import java.io.IOException;
 
 public class S01PacketPong extends Packet
 {
     private long field_149293_a;
     private static final String __OBFID = "CL_00001383";
 
-    public S01PacketPong() {}
+    public S01PacketPong()
+    {
+    }
 
     public S01PacketPong(long p_i45272_1_)
     {
@@ -55,6 +58,6 @@ public class S01PacketPong extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerStatusClient)p_148833_1_);
+        this.processPacket((INetHandlerStatusClient) p_148833_1_);
     }
 }

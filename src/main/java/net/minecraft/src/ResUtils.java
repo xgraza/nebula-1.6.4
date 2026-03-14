@@ -1,23 +1,21 @@
 package net.minecraft.src;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.LinkedHashSet;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import net.minecraft.client.resources.AbstractResourcePack;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.util.ResourceLocation;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 public class ResUtils
 {
     public static String[] collectFiles(String prefix, String suffix)
     {
-        return collectFiles(new String[] {prefix}, new String[] {suffix});
+        return collectFiles(new String[]{ prefix }, new String[]{ suffix });
     }
 
     public static String[] collectFiles(String[] prefixes, String[] suffixes)
@@ -28,22 +26,22 @@ public class ResUtils
         for (int paths = 0; paths < rps.length; ++paths)
         {
             IResourcePack rp = rps[paths];
-            String[] ps = collectFiles(rp, prefixes, suffixes, (String[])null);
+            String[] ps = collectFiles(rp, prefixes, suffixes, null);
             setPaths.addAll(Arrays.asList(ps));
         }
 
-        String[] var7 = (String[])setPaths.toArray(new String[setPaths.size()]);
+        String[] var7 = (String[]) setPaths.toArray(new String[setPaths.size()]);
         return var7;
     }
 
     public static String[] collectFiles(IResourcePack rp, String prefix, String suffix, String[] defaultPaths)
     {
-        return collectFiles(rp, new String[] {prefix}, new String[] {suffix}, defaultPaths);
+        return collectFiles(rp, new String[]{ prefix }, new String[]{ suffix }, defaultPaths);
     }
 
     public static String[] collectFiles(IResourcePack rp, String[] prefixes, String[] suffixes)
     {
-        return collectFiles(rp, prefixes, suffixes, (String[])null);
+        return collectFiles(rp, prefixes, suffixes, null);
     }
 
     public static String[] collectFiles(IResourcePack rp, String[] prefixes, String[] suffixes, String[] defaultPaths)
@@ -51,30 +49,25 @@ public class ResUtils
         if (rp instanceof DefaultResourcePack)
         {
             return collectFilesFixed(rp, defaultPaths);
-        }
-        else if (!(rp instanceof AbstractResourcePack))
+        } else if (!(rp instanceof AbstractResourcePack))
         {
             Config.warn("Unknown resource pack type: " + rp);
             return new String[0];
-        }
-        else
+        } else
         {
-            AbstractResourcePack arp = (AbstractResourcePack)rp;
+            AbstractResourcePack arp = (AbstractResourcePack) rp;
             File tpFile = arp.resourcePackFile;
 
             if (tpFile == null)
             {
                 return new String[0];
-            }
-            else if (tpFile.isDirectory())
+            } else if (tpFile.isDirectory())
             {
                 return collectFilesFolder(tpFile, "", prefixes, suffixes);
-            }
-            else if (tpFile.isFile())
+            } else if (tpFile.isFile())
             {
                 return collectFilesZIP(tpFile, prefixes, suffixes);
-            }
-            else
+            } else
             {
                 Config.warn("Unknown resource pack file: " + tpFile);
                 return new String[0];
@@ -87,8 +80,7 @@ public class ResUtils
         if (paths == null)
         {
             return new String[0];
-        }
-        else
+        } else
         {
             ArrayList list = new ArrayList();
 
@@ -103,7 +95,7 @@ public class ResUtils
                 }
             }
 
-            String[] var6 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] var6 = (String[]) list.toArray(new String[list.size()]);
             return var6;
         }
     }
@@ -117,8 +109,7 @@ public class ResUtils
         if (files == null)
         {
             return new String[0];
-        }
-        else
+        } else
         {
             for (int names = 0; names < files.length; ++names)
             {
@@ -138,21 +129,16 @@ public class ResUtils
                             list.add(dirPath);
                         }
                     }
-                }
-                else if (file.isDirectory())
+                } else if (file.isDirectory())
                 {
                     dirPath = basePath + file.getName() + "/";
                     String[] names1 = collectFilesFolder(file, dirPath, prefixes, suffixes);
 
-                    for (int n = 0; n < names1.length; ++n)
-                    {
-                        String name = names1[n];
-                        list.add(name);
-                    }
+                    Collections.addAll(list, names1);
                 }
             }
 
-            String[] var13 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] var13 = (String[]) list.toArray(new String[list.size()]);
             return var13;
         }
     }
@@ -169,7 +155,7 @@ public class ResUtils
 
             while (en.hasMoreElements())
             {
-                ZipEntry names = (ZipEntry)en.nextElement();
+                ZipEntry names = (ZipEntry) en.nextElement();
                 String name = names.getName();
 
                 if (name.startsWith(prefixAssets))
@@ -184,10 +170,9 @@ public class ResUtils
             }
 
             e.close();
-            String[] names1 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] names1 = (String[]) list.toArray(new String[list.size()]);
             return names1;
-        }
-        catch (IOException var9)
+        } catch (IOException var9)
         {
             var9.printStackTrace();
             return new String[0];

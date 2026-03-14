@@ -1,8 +1,9 @@
 package net.minecraft.client.gui;
 
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+
+import java.util.List;
 
 public class GuiResourcePackSelected extends GuiResourcePackList
 {
@@ -15,6 +16,6 @@ public class GuiResourcePackSelected extends GuiResourcePackList
 
     protected String func_148202_k()
     {
-        return I18n.format("resourcePack.selected.title", new Object[0]);
+        return I18n.format("resourcePack.selected.title");
     }
 }

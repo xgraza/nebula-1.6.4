@@ -5,7 +5,7 @@ import net.minecraft.util.IIcon;
 
 public class ItemBlockWithMetadata extends ItemBlock
 {
-    private Block field_150950_b;
+    private final Block field_150950_b;
     private static final String __OBFID = "CL_00001769";
 
     public ItemBlockWithMetadata(Block p_i45326_1_, Block p_i45326_2_)

@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,6 +13,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockSnow extends Block
 {
@@ -41,7 +42,7 @@ public class BlockSnow extends Block
     {
         int var5 = p_149668_1_.getBlockMetadata(p_149668_2_, p_149668_3_, p_149668_4_) & 7;
         float var6 = 0.125F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)p_149668_2_ + this.minX, (double)p_149668_3_ + this.minY, (double)p_149668_4_ + this.minZ, (double)p_149668_2_ + this.maxX, (double)((float)p_149668_3_ + (float)var5 * var6), (double)p_149668_4_ + this.maxZ);
+        return AxisAlignedBB.getAABBPool().getAABB((double) p_149668_2_ + this.minX, (double) p_149668_3_ + this.minY, (double) p_149668_4_ + this.minZ, (double) p_149668_2_ + this.maxX, (float) p_149668_3_ + (float) var5 * var6, (double) p_149668_4_ + this.maxZ);
     }
 
     public boolean isOpaqueCube()
@@ -70,14 +71,14 @@ public class BlockSnow extends Block
     protected void func_150154_b(int p_150154_1_)
     {
         int var2 = p_150154_1_ & 7;
-        float var3 = (float)(2 * (1 + var2)) / 16.0F;
+        float var3 = (float) (2 * (1 + var2)) / 16.0F;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, var3, 1.0F);
     }
 
     public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
     {
         Block var5 = p_149742_1_.getBlock(p_149742_2_, p_149742_3_ - 1, p_149742_4_);
-        return var5 != Blocks.ice && var5 != Blocks.packed_ice ? (var5.getMaterial() == Material.leaves ? true : (var5 == this && (p_149742_1_.getBlockMetadata(p_149742_2_, p_149742_3_ - 1, p_149742_4_) & 7) == 7 ? true : var5.isOpaqueCube() && var5.blockMaterial.blocksMovement())) : false;
+        return var5 != Blocks.ice && var5 != Blocks.packed_ice && (var5.getMaterial() == Material.leaves || (var5 == this && (p_149742_1_.getBlockMetadata(p_149742_2_, p_149742_3_ - 1, p_149742_4_) & 7) == 7 || var5.isOpaqueCube() && var5.blockMaterial.blocksMovement()));
     }
 
     public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
@@ -92,8 +93,7 @@ public class BlockSnow extends Block
             this.dropBlockAsItem(p_150155_1_, p_150155_2_, p_150155_3_, p_150155_4_, p_150155_1_.getBlockMetadata(p_150155_2_, p_150155_3_, p_150155_4_), 0);
             p_150155_1_.setBlockToAir(p_150155_2_, p_150155_3_, p_150155_4_);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -134,6 +134,6 @@ public class BlockSnow extends Block
 
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
-        return p_149646_5_ == 1 ? true : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
+        return p_149646_5_ == 1 || super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
     }
 }

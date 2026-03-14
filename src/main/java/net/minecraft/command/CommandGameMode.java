@@ -1,10 +1,11 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.WorldSettings;
+
+import java.util.List;
 
 public class CommandGameMode extends CommandBase
 {
@@ -36,20 +37,18 @@ public class CommandGameMode extends CommandBase
             EntityPlayerMP var4 = par2ArrayOfStr.length >= 2 ? getPlayer(par1ICommandSender, par2ArrayOfStr[1]) : getCommandSenderAsPlayer(par1ICommandSender);
             var4.setGameType(var3);
             var4.fallDistance = 0.0F;
-            ChatComponentTranslation var5 = new ChatComponentTranslation("gameMode." + var3.getName(), new Object[0]);
+            ChatComponentTranslation var5 = new ChatComponentTranslation("gameMode." + var3.getName());
 
             if (var4 != par1ICommandSender)
             {
-                notifyAdmins(par1ICommandSender, 1, "commands.gamemode.success.other", new Object[] {var4.getCommandSenderName(), var5});
-            }
-            else
+                notifyAdmins(par1ICommandSender, 1, "commands.gamemode.success.other", var4.getCommandSenderName(), var5);
+            } else
             {
-                notifyAdmins(par1ICommandSender, 1, "commands.gamemode.success.self", new Object[] {var5});
+                notifyAdmins(par1ICommandSender, 1, "commands.gamemode.success.self", var5);
             }
-        }
-        else
+        } else
         {
-            throw new WrongUsageException("commands.gamemode.usage", new Object[0]);
+            throw new WrongUsageException("commands.gamemode.usage");
         }
     }
 
@@ -66,7 +65,7 @@ public class CommandGameMode extends CommandBase
      */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] {"survival", "creative", "adventure"}): (par2ArrayOfStr.length == 2 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, this.getListOfPlayerUsernames()) : null);
+        return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, "survival", "creative", "adventure") : (par2ArrayOfStr.length == 2 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, this.getListOfPlayerUsernames()) : null);
     }
 
     /**

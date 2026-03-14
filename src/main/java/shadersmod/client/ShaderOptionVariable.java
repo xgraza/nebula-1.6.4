@@ -1,10 +1,11 @@
 package shadersmod.client;
 
+import net.minecraft.src.Config;
+import net.minecraft.src.StrUtils;
+
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.minecraft.src.Config;
-import net.minecraft.src.StrUtils;
 
 public class ShaderOptionVariable extends ShaderOption
 {
@@ -43,8 +44,7 @@ public class ShaderOptionVariable extends ShaderOption
         if (!m.matches())
         {
             return false;
-        }
-        else
+        } else
         {
             String defName = m.group(1);
             return defName.matches(this.getName());
@@ -58,8 +58,7 @@ public class ShaderOptionVariable extends ShaderOption
         if (!m.matches())
         {
             return null;
-        }
-        else
+        } else
         {
             String name = m.group(1);
             String value = m.group(2);
@@ -78,8 +77,7 @@ public class ShaderOptionVariable extends ShaderOption
                 path = StrUtils.removePrefix(path, "/shaders/");
                 ShaderOptionVariable so = new ShaderOptionVariable(name, description, value, values, path);
                 return so;
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -88,13 +86,12 @@ public class ShaderOptionVariable extends ShaderOption
 
     public static String[] parseValues(String value, String valuesStr)
     {
-        String[] values = new String[] {value};
+        String[] values = new String[]{ value };
 
         if (valuesStr == null)
         {
             return values;
-        }
-        else
+        } else
         {
             valuesStr = valuesStr.trim();
             valuesStr = StrUtils.removePrefix(valuesStr, "[");
@@ -104,20 +101,18 @@ public class ShaderOptionVariable extends ShaderOption
             if (valuesStr.length() <= 0)
             {
                 return values;
-            }
-            else
+            } else
             {
                 String[] parts = Config.tokenize(valuesStr, " ");
 
                 if (parts.length <= 0)
                 {
                     return values;
-                }
-                else
+                } else
                 {
                     if (!Arrays.asList(parts).contains(value))
                     {
-                        parts = (String[])((String[])Config.addObjectToArray(parts, value, 0));
+                        parts = (String[]) Config.addObjectToArray(parts, value, 0);
                     }
 
                     return parts;

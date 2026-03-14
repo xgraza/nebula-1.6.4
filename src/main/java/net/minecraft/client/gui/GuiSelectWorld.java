@@ -1,9 +1,5 @@
 package net.minecraft.client.gui;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
 import net.minecraft.client.AnvilConverterException;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
@@ -17,6 +13,11 @@ import net.minecraft.world.storage.WorldInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+
 public class GuiSelectWorld extends GuiScreen
 {
     private static final Logger logger = LogManager.getLogger();
@@ -29,7 +30,7 @@ public class GuiSelectWorld extends GuiScreen
     private GuiSelectWorld.List field_146638_t;
     private String field_146637_u;
     private String field_146636_v;
-    private String[] field_146635_w = new String[3];
+    private final String[] field_146635_w = new String[3];
     private boolean field_146643_x;
     private GuiButton field_146642_y;
     private GuiButton field_146641_z;
@@ -47,24 +48,23 @@ public class GuiSelectWorld extends GuiScreen
      */
     public void initGui()
     {
-        this.field_146628_f = I18n.format("selectWorld.title", new Object[0]);
+        this.field_146628_f = I18n.format("selectWorld.title");
 
         try
         {
             this.func_146627_h();
-        }
-        catch (AnvilConverterException var2)
+        } catch (AnvilConverterException var2)
         {
-            logger.error("Couldn\'t load level list", var2);
+            logger.error("Couldn't load level list", var2);
             this.mc.displayGuiScreen(new GuiErrorScreen("Unable to load worlds", var2.getMessage()));
             return;
         }
 
-        this.field_146637_u = I18n.format("selectWorld.world", new Object[0]);
-        this.field_146636_v = I18n.format("selectWorld.conversion", new Object[0]);
-        this.field_146635_w[WorldSettings.GameType.SURVIVAL.getID()] = I18n.format("gameMode.survival", new Object[0]);
-        this.field_146635_w[WorldSettings.GameType.CREATIVE.getID()] = I18n.format("gameMode.creative", new Object[0]);
-        this.field_146635_w[WorldSettings.GameType.ADVENTURE.getID()] = I18n.format("gameMode.adventure", new Object[0]);
+        this.field_146637_u = I18n.format("selectWorld.world");
+        this.field_146636_v = I18n.format("selectWorld.conversion");
+        this.field_146635_w[WorldSettings.GameType.SURVIVAL.getID()] = I18n.format("gameMode.survival");
+        this.field_146635_w[WorldSettings.GameType.CREATIVE.getID()] = I18n.format("gameMode.creative");
+        this.field_146635_w[WorldSettings.GameType.ADVENTURE.getID()] = I18n.format("gameMode.adventure");
         this.field_146638_t = new GuiSelectWorld.List();
         this.field_146638_t.registerScrollButtons(4, 5);
         this.func_146618_g();
@@ -80,16 +80,16 @@ public class GuiSelectWorld extends GuiScreen
 
     protected String func_146621_a(int p_146621_1_)
     {
-        return ((SaveFormatComparator)this.field_146639_s.get(p_146621_1_)).getFileName();
+        return ((SaveFormatComparator) this.field_146639_s.get(p_146621_1_)).getFileName();
     }
 
     protected String func_146614_d(int p_146614_1_)
     {
-        String var2 = ((SaveFormatComparator)this.field_146639_s.get(p_146614_1_)).getDisplayName();
+        String var2 = ((SaveFormatComparator) this.field_146639_s.get(p_146614_1_)).getDisplayName();
 
         if (var2 == null || MathHelper.stringNullOrLengthZero(var2))
         {
-            var2 = I18n.format("selectWorld.world", new Object[0]) + " " + (p_146614_1_ + 1);
+            var2 = I18n.format("selectWorld.world") + " " + (p_146614_1_ + 1);
         }
 
         return var2;
@@ -97,12 +97,12 @@ public class GuiSelectWorld extends GuiScreen
 
     public void func_146618_g()
     {
-        this.buttonList.add(this.field_146641_z = new GuiButton(1, this.width / 2 - 154, this.height - 52, 150, 20, I18n.format("selectWorld.select", new Object[0])));
-        this.buttonList.add(new GuiButton(3, this.width / 2 + 4, this.height - 52, 150, 20, I18n.format("selectWorld.create", new Object[0])));
-        this.buttonList.add(this.field_146630_A = new GuiButton(6, this.width / 2 - 154, this.height - 28, 72, 20, I18n.format("selectWorld.rename", new Object[0])));
-        this.buttonList.add(this.field_146642_y = new GuiButton(2, this.width / 2 - 76, this.height - 28, 72, 20, I18n.format("selectWorld.delete", new Object[0])));
-        this.buttonList.add(this.field_146631_B = new GuiButton(7, this.width / 2 + 4, this.height - 28, 72, 20, I18n.format("selectWorld.recreate", new Object[0])));
-        this.buttonList.add(new GuiButton(0, this.width / 2 + 82, this.height - 28, 72, 20, I18n.format("gui.cancel", new Object[0])));
+        this.buttonList.add(this.field_146641_z = new GuiButton(1, this.width / 2 - 154, this.height - 52, 150, 20, I18n.format("selectWorld.select")));
+        this.buttonList.add(new GuiButton(3, this.width / 2 + 4, this.height - 52, 150, 20, I18n.format("selectWorld.create")));
+        this.buttonList.add(this.field_146630_A = new GuiButton(6, this.width / 2 - 154, this.height - 28, 72, 20, I18n.format("selectWorld.rename")));
+        this.buttonList.add(this.field_146642_y = new GuiButton(2, this.width / 2 - 76, this.height - 28, 72, 20, I18n.format("selectWorld.delete")));
+        this.buttonList.add(this.field_146631_B = new GuiButton(7, this.width / 2 + 4, this.height - 28, 72, 20, I18n.format("selectWorld.recreate")));
+        this.buttonList.add(new GuiButton(0, this.width / 2 + 82, this.height - 28, 72, 20, I18n.format("gui.cancel")));
         this.field_146641_z.enabled = false;
         this.field_146642_y.enabled = false;
         this.field_146630_A.enabled = false;
@@ -123,24 +123,19 @@ public class GuiSelectWorld extends GuiScreen
                     GuiYesNo var3 = func_146623_a(this, var2, this.field_146640_r);
                     this.mc.displayGuiScreen(var3);
                 }
-            }
-            else if (p_146284_1_.id == 1)
+            } else if (p_146284_1_.id == 1)
             {
                 this.func_146615_e(this.field_146640_r);
-            }
-            else if (p_146284_1_.id == 3)
+            } else if (p_146284_1_.id == 3)
             {
                 this.mc.displayGuiScreen(new GuiCreateWorld(this));
-            }
-            else if (p_146284_1_.id == 6)
+            } else if (p_146284_1_.id == 6)
             {
                 this.mc.displayGuiScreen(new GuiRenameWorld(this, this.func_146621_a(this.field_146640_r)));
-            }
-            else if (p_146284_1_.id == 0)
+            } else if (p_146284_1_.id == 0)
             {
                 this.mc.displayGuiScreen(this.field_146632_a);
-            }
-            else if (p_146284_1_.id == 7)
+            } else if (p_146284_1_.id == 7)
             {
                 GuiCreateWorld var5 = new GuiCreateWorld(this);
                 ISaveHandler var6 = this.mc.getSaveLoader().getSaveLoader(this.func_146621_a(this.field_146640_r), false);
@@ -148,8 +143,7 @@ public class GuiSelectWorld extends GuiScreen
                 var6.flush();
                 var5.func_146318_a(var4);
                 this.mc.displayGuiScreen(var5);
-            }
-            else
+            } else
             {
                 this.field_146638_t.actionPerformed(p_146284_1_);
             }
@@ -158,7 +152,7 @@ public class GuiSelectWorld extends GuiScreen
 
     public void func_146615_e(int p_146615_1_)
     {
-        this.mc.displayGuiScreen((GuiScreen)null);
+        this.mc.displayGuiScreen(null);
 
         if (!this.field_146634_i)
         {
@@ -179,7 +173,7 @@ public class GuiSelectWorld extends GuiScreen
 
             if (this.mc.getSaveLoader().canLoadWorld(var2))
             {
-                this.mc.launchIntegratedServer(var2, var3, (WorldSettings)null);
+                this.mc.launchIntegratedServer(var2, var3, null);
             }
         }
     }
@@ -199,10 +193,9 @@ public class GuiSelectWorld extends GuiScreen
                 try
                 {
                     this.func_146627_h();
-                }
-                catch (AnvilConverterException var5)
+                } catch (AnvilConverterException var5)
                 {
-                    logger.error("Couldn\'t load level list", var5);
+                    logger.error("Couldn't load level list", var5);
                 }
             }
 
@@ -222,10 +215,10 @@ public class GuiSelectWorld extends GuiScreen
 
     public static GuiYesNo func_146623_a(GuiScreen p_146623_0_, String p_146623_1_, int p_146623_2_)
     {
-        String var3 = I18n.format("selectWorld.deleteQuestion", new Object[0]);
-        String var4 = "\'" + p_146623_1_ + "\' " + I18n.format("selectWorld.deleteWarning", new Object[0]);
-        String var5 = I18n.format("selectWorld.deleteButton", new Object[0]);
-        String var6 = I18n.format("gui.cancel", new Object[0]);
+        String var3 = I18n.format("selectWorld.deleteQuestion");
+        String var4 = "'" + p_146623_1_ + "' " + I18n.format("selectWorld.deleteWarning");
+        String var5 = I18n.format("selectWorld.deleteButton");
+        String var6 = I18n.format("gui.cancel");
         GuiYesNo var7 = new GuiYesNo(p_146623_0_, var3, var4, var5, var6, p_146623_2_);
         return var7;
     }
@@ -276,7 +269,7 @@ public class GuiSelectWorld extends GuiScreen
 
         protected void drawSlot(int p_148126_1_, int p_148126_2_, int p_148126_3_, int p_148126_4_, Tessellator p_148126_5_, int p_148126_6_, int p_148126_7_)
         {
-            SaveFormatComparator var8 = (SaveFormatComparator)GuiSelectWorld.this.field_146639_s.get(p_148126_1_);
+            SaveFormatComparator var8 = (SaveFormatComparator) GuiSelectWorld.this.field_146639_s.get(p_148126_1_);
             String var9 = var8.getDisplayName();
 
             if (var9 == null || MathHelper.stringNullOrLengthZero(var9))
@@ -292,8 +285,7 @@ public class GuiSelectWorld extends GuiScreen
             if (var8.requiresConversion())
             {
                 var11 = GuiSelectWorld.this.field_146636_v + " " + var11;
-            }
-            else
+            } else
             {
                 var11 = GuiSelectWorld.this.field_146635_w[var8.getEnumGameType().getID()];
 
@@ -304,7 +296,7 @@ public class GuiSelectWorld extends GuiScreen
 
                 if (var8.getCheatsEnabled())
                 {
-                    var11 = var11 + ", " + I18n.format("selectWorld.cheats", new Object[0]);
+                    var11 = var11 + ", " + I18n.format("selectWorld.cheats");
                 }
             }
 

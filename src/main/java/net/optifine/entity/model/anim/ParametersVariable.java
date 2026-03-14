@@ -5,15 +5,15 @@ import java.util.Arrays;
 
 public class ParametersVariable implements IParameters
 {
-    private ExpressionType[] first;
-    private ExpressionType[] repeat;
-    private ExpressionType[] last;
+    private final ExpressionType[] first;
+    private final ExpressionType[] repeat;
+    private final ExpressionType[] last;
     private int maxCount;
     private static final ExpressionType[] EMPTY = new ExpressionType[0];
 
     public ParametersVariable()
     {
-        this((ExpressionType[])null, (ExpressionType[])null, (ExpressionType[])null);
+        this(null, null, null);
     }
 
     public ParametersVariable(ExpressionType[] first, ExpressionType[] repeat, ExpressionType[] last)
@@ -75,21 +75,21 @@ public class ParametersVariable implements IParameters
         }
 
         list.addAll(Arrays.asList(this.last));
-        ExpressionType[] var8 = (ExpressionType[])list.toArray(new ExpressionType[list.size()]);
+        ExpressionType[] var8 = (ExpressionType[]) list.toArray(new ExpressionType[list.size()]);
         return var8;
     }
 
-    public ParametersVariable first(ExpressionType ... first)
+    public ParametersVariable first(ExpressionType... first)
     {
         return new ParametersVariable(first, this.repeat, this.last);
     }
 
-    public ParametersVariable repeat(ExpressionType ... repeat)
+    public ParametersVariable repeat(ExpressionType... repeat)
     {
         return new ParametersVariable(this.first, repeat, this.last);
     }
 
-    public ParametersVariable last(ExpressionType ... last)
+    public ParametersVariable last(ExpressionType... last)
     {
         return new ParametersVariable(this.first, this.repeat, last);
     }

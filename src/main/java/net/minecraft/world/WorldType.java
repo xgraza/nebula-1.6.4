@@ -2,29 +2,45 @@ package net.minecraft.world;
 
 public class WorldType
 {
-    /** List of world types. */
+    /**
+     * List of world types.
+     */
     public static final WorldType[] worldTypes = new WorldType[16];
 
-    /** Default world type. */
+    /**
+     * Default world type.
+     */
     public static final WorldType DEFAULT = (new WorldType(0, "default", 1)).setVersioned();
 
-    /** Flat world type. */
+    /**
+     * Flat world type.
+     */
     public static final WorldType FLAT = new WorldType(1, "flat");
 
-    /** Large Biome world Type. */
+    /**
+     * Large Biome world Type.
+     */
     public static final WorldType LARGE_BIOMES = new WorldType(2, "largeBiomes");
     public static final WorldType field_151360_e = (new WorldType(3, "amplified")).func_151358_j();
 
-    /** Default (1.1) world type. */
+    /**
+     * Default (1.1) world type.
+     */
     public static final WorldType DEFAULT_1_1 = (new WorldType(8, "default_1_1", 0)).setCanBeCreated(false);
 
-    /** ID for this world type. */
+    /**
+     * ID for this world type.
+     */
     private final int worldTypeId;
 
-    /** 'default' or 'flat' */
+    /**
+     * 'default' or 'flat'
+     */
     private final String worldType;
 
-    /** The int version of the ChunkProvider that generated this world. */
+    /**
+     * The int version of the ChunkProvider that generated this world.
+     */
     private final int generatorVersion;
 
     /**
@@ -32,7 +48,9 @@ public class WorldType
      */
     private boolean canBeCreated;
 
-    /** Whether this WorldType has a version or not. */
+    /**
+     * Whether this WorldType has a version or not.
+     */
     private boolean isWorldTypeVersioned;
     private boolean field_151361_l;
     private static final String __OBFID = "CL_00000150";

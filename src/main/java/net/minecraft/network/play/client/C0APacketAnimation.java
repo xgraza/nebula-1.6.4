@@ -1,11 +1,12 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C0APacketAnimation extends Packet
 {
@@ -13,7 +14,9 @@ public class C0APacketAnimation extends Packet
     private int field_149423_b;
     private static final String __OBFID = "CL_00001345";
 
-    public C0APacketAnimation() {}
+    public C0APacketAnimation()
+    {
+    }
 
     public C0APacketAnimation(Entity p_i45238_1_, int p_i45238_2_)
     {
@@ -49,7 +52,7 @@ public class C0APacketAnimation extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, type=%d", new Object[] {Integer.valueOf(this.field_149424_a), Integer.valueOf(this.field_149423_b)});
+        return String.format("id=%d, type=%d", Integer.valueOf(this.field_149424_a), Integer.valueOf(this.field_149423_b));
     }
 
     public int func_149421_d()
@@ -57,12 +60,13 @@ public class C0APacketAnimation extends Packet
         return this.field_149423_b;
     }
 
-    public int getEntityId() {
+    public int getEntityId()
+    {
         return field_149424_a;
     }
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

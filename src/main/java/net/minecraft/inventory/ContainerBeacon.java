@@ -8,15 +8,15 @@ import net.minecraft.tileentity.TileEntityBeacon;
 
 public class ContainerBeacon extends Container
 {
-    private TileEntityBeacon theBeacon;
+    private final TileEntityBeacon theBeacon;
 
     /**
      * This beacon's slot where you put in Emerald, Diamond, Gold or Iron Ingot.
      */
     private final ContainerBeacon.BeaconSlot beaconSlot;
-    private int field_82865_g;
-    private int field_82867_h;
-    private int field_82868_i;
+    private final int field_82865_g;
+    private final int field_82867_h;
+    private final int field_82868_i;
     private static final String __OBFID = "CL_00001735";
 
     public ContainerBeacon(InventoryPlayer par1InventoryPlayer, TileEntityBeacon par2TileEntityBeacon)
@@ -87,7 +87,7 @@ public class ContainerBeacon extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -102,38 +102,33 @@ public class ContainerBeacon extends Container
                 }
 
                 var4.onSlotChange(var5, var3);
-            }
-            else if (!this.beaconSlot.getHasStack() && this.beaconSlot.isItemValid(var5) && var5.stackSize == 1)
+            } else if (!this.beaconSlot.getHasStack() && this.beaconSlot.isItemValid(var5) && var5.stackSize == 1)
             {
                 if (!this.mergeItemStack(var5, 0, 1, false))
                 {
                     return null;
                 }
-            }
-            else if (par2 >= 1 && par2 < 28)
+            } else if (par2 >= 1 && par2 < 28)
             {
                 if (!this.mergeItemStack(var5, 28, 37, false))
                 {
                     return null;
                 }
-            }
-            else if (par2 >= 28 && par2 < 37)
+            } else if (par2 >= 28 && par2 < 37)
             {
                 if (!this.mergeItemStack(var5, 1, 28, false))
                 {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 1, 37, false))
+            } else if (!this.mergeItemStack(var5, 1, 37, false))
             {
                 return null;
             }
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack(null);
+            } else
             {
                 var4.onSlotChanged();
             }
@@ -160,7 +155,7 @@ public class ContainerBeacon extends Container
 
         public boolean isItemValid(ItemStack par1ItemStack)
         {
-            return par1ItemStack == null ? false : par1ItemStack.getItem() == Items.emerald || par1ItemStack.getItem() == Items.diamond || par1ItemStack.getItem() == Items.gold_ingot || par1ItemStack.getItem() == Items.iron_ingot;
+            return par1ItemStack != null && (par1ItemStack.getItem() == Items.emerald || par1ItemStack.getItem() == Items.diamond || par1ItemStack.getItem() == Items.gold_ingot || par1ItemStack.getItem() == Items.iron_ingot);
         }
 
         public int getSlotStackLimit()

@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,10 +13,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class BlockAnvil extends BlockFalling
 {
-    public static final String[] anvilDamageNames = new String[] {"intact", "slightlyDamaged", "veryDamaged"};
-    private static final String[] anvilIconNames = new String[] {"anvil_top_damaged_0", "anvil_top_damaged_1", "anvil_top_damaged_2"};
+    public static final String[] anvilDamageNames = new String[]{ "intact", "slightlyDamaged", "veryDamaged" };
+    private static final String[] anvilIconNames = new String[]{ "anvil_top_damaged_0", "anvil_top_damaged_1", "anvil_top_damaged_2" };
     public int anvilRenderSide;
     private IIcon[] anvilIcons;
     private static final String __OBFID = "CL_00000192";
@@ -48,8 +49,7 @@ public class BlockAnvil extends BlockFalling
         {
             int var3 = (p_149691_2_ >> 2) % this.anvilIcons.length;
             return this.anvilIcons[var3];
-        }
-        else
+        } else
         {
             return this.blockIcon;
         }
@@ -71,7 +71,7 @@ public class BlockAnvil extends BlockFalling
      */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
-        int var7 = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int var7 = MathHelper.floor_double((double) (p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
         int var8 = p_149689_1_.getBlockMetadata(p_149689_2_, p_149689_3_, p_149689_4_) >> 2;
         ++var7;
         var7 %= 4;
@@ -105,8 +105,7 @@ public class BlockAnvil extends BlockFalling
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
             p_149727_5_.displayGUIAnvil(p_149727_2_, p_149727_3_, p_149727_4_);
             return true;
@@ -136,8 +135,7 @@ public class BlockAnvil extends BlockFalling
         if (var5 != 3 && var5 != 1)
         {
             this.setBlockBounds(0.125F, 0.0F, 0.0F, 0.875F, 1.0F, 1.0F);
-        }
-        else
+        } else
         {
             this.setBlockBounds(0.0F, 0.0F, 0.125F, 1.0F, 1.0F, 0.875F);
         }

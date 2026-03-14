@@ -1,8 +1,5 @@
 package net.minecraft.item;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,6 +7,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ItemRecord extends Item
 {
@@ -44,16 +45,14 @@ public class ItemRecord extends Item
             if (par3World.isClient)
             {
                 return true;
-            }
-            else
+            } else
             {
-                ((BlockJukebox)Blocks.jukebox).func_149926_b(par3World, par4, par5, par6, par1ItemStack);
-                par3World.playAuxSFXAtEntity((EntityPlayer)null, 1005, par4, par5, par6, Item.getIdFromItem(this));
+                ((BlockJukebox) Blocks.jukebox).func_149926_b(par3World, par4, par5, par6, par1ItemStack);
+                par3World.playAuxSFXAtEntity(null, 1005, par4, par5, par6, Item.getIdFromItem(this));
                 --par1ItemStack.stackSize;
                 return true;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -82,6 +81,6 @@ public class ItemRecord extends Item
 
     public static ItemRecord func_150926_b(String p_150926_0_)
     {
-        return (ItemRecord)field_150928_b.get(p_150926_0_);
+        return (ItemRecord) field_150928_b.get(p_150926_0_);
     }
 }

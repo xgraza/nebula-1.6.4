@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,9 +15,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 public class BlockDoublePlant extends BlockBush implements IGrowable
 {
-    public static final String[] field_149892_a = new String[] {"sunflower", "syringa", "grass", "fern", "rose", "paeonia"};
+    public static final String[] field_149892_a = new String[]{ "sunflower", "syringa", "grass", "fern", "rose", "paeonia" };
     private IIcon[] doublePlantBottomIcons;
     private IIcon[] doublePlantTopIcons;
     public IIcon[] sunflowerIcons;
@@ -91,8 +92,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         if (func_149887_c(p_149650_1_))
         {
             return null;
-        }
-        else
+        } else
         {
             int var4 = func_149890_d(p_149650_1_);
             return var4 != 3 && var4 != 2 ? Item.getItemFromBlock(this) : null;
@@ -151,7 +151,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
      */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
-        int var7 = ((MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 2) % 4;
+        int var7 = ((MathHelper.floor_double((double) (p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 2) % 4;
         p_149689_1_.setBlock(p_149689_2_, p_149689_3_ + 1, p_149689_4_, this, 8 | var7, 2);
     }
 
@@ -180,8 +180,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
                     if (var8 != 3 && var8 != 2)
                     {
                         p_149681_1_.func_147480_a(p_149681_2_, p_149681_3_ - 1, p_149681_4_, true);
-                    }
-                    else
+                    } else
                     {
                         if (!p_149681_1_.isClient && p_149681_6_.getCurrentEquippedItem() != null && p_149681_6_.getCurrentEquippedItem().getItem() == Items.shears)
                         {
@@ -190,14 +189,12 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
                         p_149681_1_.setBlockToAir(p_149681_2_, p_149681_3_ - 1, p_149681_4_);
                     }
-                }
-                else
+                } else
                 {
                     p_149681_1_.setBlockToAir(p_149681_2_, p_149681_3_ - 1, p_149681_4_);
                 }
             }
-        }
-        else if (p_149681_6_.capabilities.isCreativeMode && p_149681_1_.getBlock(p_149681_2_, p_149681_3_ + 1, p_149681_4_) == this)
+        } else if (p_149681_6_.capabilities.isCreativeMode && p_149681_1_.getBlock(p_149681_2_, p_149681_3_ + 1, p_149681_4_) == this)
         {
             p_149681_1_.setBlock(p_149681_2_, p_149681_3_ + 1, p_149681_4_, Blocks.air, 0, 2);
         }
@@ -212,8 +209,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         if (var7 != 3 && var7 != 2)
         {
             return false;
-        }
-        else
+        } else
         {
             p_149886_6_.addStat(StatList.mineBlockStatArray[Block.getIdFromBlock(this)], 1);
             byte var8 = 1;

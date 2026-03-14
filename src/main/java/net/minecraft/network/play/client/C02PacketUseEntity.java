@@ -1,6 +1,5 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
@@ -8,13 +7,17 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.world.World;
 
+import java.io.IOException;
+
 public class C02PacketUseEntity extends Packet
 {
     private int entityId;
     private C02PacketUseEntity.Action field_149566_b;
     private static final String __OBFID = "CL_00001357";
 
-    public C02PacketUseEntity() {}
+    public C02PacketUseEntity()
+    {
+    }
 
     public C02PacketUseEntity(Entity p_i45251_1_, C02PacketUseEntity.Action p_i45251_2_)
     {
@@ -57,25 +60,26 @@ public class C02PacketUseEntity extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 
-    public static enum Action
+    public enum Action
     {
         INTERACT("INTERACT", 0, 0),
         ATTACK("ATTACK", 1, 1);
         private static final C02PacketUseEntity.Action[] field_151421_c = new C02PacketUseEntity.Action[values().length];
         private final int field_151418_d;
 
-        private static final C02PacketUseEntity.Action[] $VALUES = new C02PacketUseEntity.Action[]{INTERACT, ATTACK};
+        private static final C02PacketUseEntity.Action[] $VALUES = new C02PacketUseEntity.Action[]{ INTERACT, ATTACK };
         private static final String __OBFID = "CL_00001358";
 
-        private Action(String p_i45250_1_, int p_i45250_2_, int p_i45250_3_)
+        Action(String p_i45250_1_, int p_i45250_2_, int p_i45250_3_)
         {
             this.field_151418_d = p_i45250_3_;
         }
 
-        static {
+        static
+        {
             C02PacketUseEntity.Action[] var0 = values();
             int var1 = var0.length;
 

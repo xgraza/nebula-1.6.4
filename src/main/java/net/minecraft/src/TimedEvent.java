@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class TimedEvent
 {
-    private static Map<String, Long> mapEventTimes = new HashMap();
+    private static final Map<String, Long> mapEventTimes = new HashMap();
 
     public static boolean isActive(String name, long timeIntervalMs)
     {
@@ -14,7 +14,7 @@ public class TimedEvent
         synchronized (mapEventTimes)
         {
             long timeNowMs = System.currentTimeMillis();
-            Long timeLastMsObj = (Long)mapEventTimes.get(name);
+            Long timeLastMsObj = mapEventTimes.get(name);
 
             if (timeLastMsObj == null)
             {
@@ -27,8 +27,7 @@ public class TimedEvent
             if (timeNowMs < timeLastMs + timeIntervalMs)
             {
                 return false;
-            }
-            else
+            } else
             {
                 mapEventTimes.put(name, new Long(timeNowMs));
                 return true;

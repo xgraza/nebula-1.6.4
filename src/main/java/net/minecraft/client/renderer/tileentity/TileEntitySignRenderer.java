@@ -25,12 +25,11 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
 
         if (var9 == Blocks.standing_sign)
         {
-            GL11.glTranslatef((float)p_147512_2_ + 0.5F, (float)p_147512_4_ + 0.75F * var10, (float)p_147512_6_ + 0.5F);
-            float var11 = (float)(p_147512_1_.getBlockMetadata() * 360) / 16.0F;
+            GL11.glTranslatef((float) p_147512_2_ + 0.5F, (float) p_147512_4_ + 0.75F * var10, (float) p_147512_6_ + 0.5F);
+            float var11 = (float) (p_147512_1_.getBlockMetadata() * 360) / 16.0F;
             GL11.glRotatef(-var11, 0.0F, 1.0F, 0.0F);
             this.field_147514_c.signStick.showModel = true;
-        }
-        else
+        } else
         {
             int var16 = p_147512_1_.getBlockMetadata();
             var12 = 0.0F;
@@ -50,7 +49,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
                 var12 = -90.0F;
             }
 
-            GL11.glTranslatef((float)p_147512_2_ + 0.5F, (float)p_147512_4_ + 0.75F * var10, (float)p_147512_6_ + 0.5F);
+            GL11.glTranslatef((float) p_147512_2_ + 0.5F, (float) p_147512_4_ + 0.75F * var10, (float) p_147512_6_ + 0.5F);
             GL11.glRotatef(-var12, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, -0.3125F, -0.4375F);
             this.field_147514_c.signStick.showModel = false;
@@ -79,8 +78,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
                 {
                     var15 = "> " + var15 + " <";
                     var17.drawString(var15, -var17.getStringWidth(var15) / 2, var14 * 10 - p_147512_1_.lines.length * 5, var13);
-                }
-                else
+                } else
                 {
                     var17.drawString(var15, -var17.getStringWidth(var15) / 2, var14 * 10 - p_147512_1_.lines.length * 5, var13);
                 }
@@ -94,6 +92,6 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
 
     public void renderTileEntityAt(TileEntity p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_)
     {
-        this.renderTileEntityAt((TileEntitySign)p_147500_1_, p_147500_2_, p_147500_4_, p_147500_6_, p_147500_8_);
+        this.renderTileEntityAt((TileEntitySign) p_147500_1_, p_147500_2_, p_147500_4_, p_147500_6_, p_147500_8_);
     }
 }

@@ -1,16 +1,17 @@
 package net.minecraft.world.storage;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.AnvilConverterException;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IProgressUpdate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaveFormatOld implements ISaveFormat
 {
@@ -50,7 +51,9 @@ public class SaveFormatOld implements ISaveFormat
         return var1;
     }
 
-    public void flushCache() {}
+    public void flushCache()
+    {
+    }
 
     /**
      * gets the world info
@@ -62,8 +65,7 @@ public class SaveFormatOld implements ISaveFormat
         if (!var2.exists())
         {
             return null;
-        }
-        else
+        } else
         {
             File var3 = new File(var2, "level.dat");
             NBTTagCompound var4;
@@ -76,8 +78,7 @@ public class SaveFormatOld implements ISaveFormat
                     var4 = CompressedStreamTools.readCompressed(new FileInputStream(var3));
                     var5 = var4.getCompoundTag("Data");
                     return new WorldInfo(var5);
-                }
-                catch (Exception var7)
+                } catch (Exception var7)
                 {
                     logger.error("Exception reading " + var3, var7);
                 }
@@ -92,8 +93,7 @@ public class SaveFormatOld implements ISaveFormat
                     var4 = CompressedStreamTools.readCompressed(new FileInputStream(var3));
                     var5 = var4.getCompoundTag("Data");
                     return new WorldInfo(var5);
-                }
-                catch (Exception var6)
+                } catch (Exception var6)
                 {
                     logger.error("Exception reading " + var3, var6);
                 }
@@ -124,8 +124,7 @@ public class SaveFormatOld implements ISaveFormat
                     NBTTagCompound var6 = var5.getCompoundTag("Data");
                     var6.setString("LevelName", par2Str);
                     CompressedStreamTools.writeCompressed(var5, new FileOutputStream(var4));
-                }
-                catch (Exception var7)
+                } catch (Exception var7)
                 {
                     var7.printStackTrace();
                 }
@@ -144,8 +143,7 @@ public class SaveFormatOld implements ISaveFormat
         if (!var2.exists())
         {
             return true;
-        }
-        else
+        } else
         {
             logger.info("Deleting level " + par1Str);
 
@@ -165,10 +163,8 @@ public class SaveFormatOld implements ISaveFormat
                     try
                     {
                         Thread.sleep(500L);
-                    }
-                    catch (InterruptedException var5)
+                    } catch (InterruptedException var5)
                     {
-                        ;
                     }
                 }
             }
@@ -190,13 +186,13 @@ public class SaveFormatOld implements ISaveFormat
 
             if (var2.isDirectory() && !deleteFiles(var2.listFiles()))
             {
-                logger.warn("Couldn\'t delete directory " + var2);
+                logger.warn("Couldn't delete directory " + var2);
                 return false;
             }
 
             if (!var2.delete())
             {
-                logger.warn("Couldn\'t delete file " + var2);
+                logger.warn("Couldn't delete file " + var2);
                 return false;
             }
         }

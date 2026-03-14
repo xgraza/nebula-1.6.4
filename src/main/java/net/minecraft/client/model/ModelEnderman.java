@@ -4,10 +4,14 @@ import net.minecraft.entity.Entity;
 
 public class ModelEnderman extends ModelBiped
 {
-    /** Is the enderman carrying a block? */
+    /**
+     * Is the enderman carrying a block?
+     */
     public boolean isCarrying;
 
-    /** Is the enderman attacking an entity? */
+    /**
+     * Is the enderman attacking an entity?
+     */
     public boolean isAttacking;
     private static final String __OBFID = "CL_00000838";
 
@@ -53,10 +57,10 @@ public class ModelEnderman extends ModelBiped
         this.bipedBody.rotationPointZ = -0.0F;
         this.bipedRightLeg.rotateAngleX -= 0.0F;
         this.bipedLeftLeg.rotateAngleX -= 0.0F;
-        this.bipedRightArm.rotateAngleX = (float)((double)this.bipedRightArm.rotateAngleX * 0.5D);
-        this.bipedLeftArm.rotateAngleX = (float)((double)this.bipedLeftArm.rotateAngleX * 0.5D);
-        this.bipedRightLeg.rotateAngleX = (float)((double)this.bipedRightLeg.rotateAngleX * 0.5D);
-        this.bipedLeftLeg.rotateAngleX = (float)((double)this.bipedLeftLeg.rotateAngleX * 0.5D);
+        this.bipedRightArm.rotateAngleX = (float) ((double) this.bipedRightArm.rotateAngleX * 0.5D);
+        this.bipedLeftArm.rotateAngleX = (float) ((double) this.bipedLeftArm.rotateAngleX * 0.5D);
+        this.bipedRightLeg.rotateAngleX = (float) ((double) this.bipedRightLeg.rotateAngleX * 0.5D);
+        this.bipedLeftLeg.rotateAngleX = (float) ((double) this.bipedLeftLeg.rotateAngleX * 0.5D);
         float var9 = 0.4F;
 
         if (this.bipedRightArm.rotateAngleX > var9)

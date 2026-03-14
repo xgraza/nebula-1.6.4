@@ -10,8 +10,10 @@ import net.minecraft.util.MathHelper;
 
 public class SlotFurnace extends Slot
 {
-    /** The player that is using the GUI where this slot resides. */
-    private EntityPlayer thePlayer;
+    /**
+     * The player that is using the GUI where this slot resides.
+     */
+    private final EntityPlayer thePlayer;
     private int field_75228_b;
     private static final String __OBFID = "CL_00001749";
 
@@ -75,12 +77,11 @@ public class SlotFurnace extends Slot
             if (var3 == 0.0F)
             {
                 var2 = 0;
-            }
-            else if (var3 < 1.0F)
+            } else if (var3 < 1.0F)
             {
-                var4 = MathHelper.floor_float((float)var2 * var3);
+                var4 = MathHelper.floor_float((float) var2 * var3);
 
-                if (var4 < MathHelper.ceiling_float_int((float)var2 * var3) && (float)Math.random() < (float)var2 * var3 - (float)var4)
+                if (var4 < MathHelper.ceiling_float_int((float) var2 * var3) && (float) Math.random() < (float) var2 * var3 - (float) var4)
                 {
                     ++var4;
                 }

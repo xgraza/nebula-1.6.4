@@ -1,10 +1,11 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C03PacketPlayer extends Packet
 {
@@ -19,7 +20,9 @@ public class C03PacketPlayer extends Packet
     protected boolean rotated;
     private static final String __OBFID = "CL_00001360";
 
-    public C03PacketPlayer() {}
+    public C03PacketPlayer()
+    {
+    }
 
     public C03PacketPlayer(boolean p_i45256_1_)
     {
@@ -99,7 +102,7 @@ public class C03PacketPlayer extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 
     public static class C04PacketPlayerPosition extends C03PacketPlayer
@@ -141,7 +144,7 @@ public class C03PacketPlayer extends Packet
 
         public void processPacket(INetHandler p_148833_1_)
         {
-            super.processPacket((INetHandlerPlayServer)p_148833_1_);
+            super.processPacket((INetHandlerPlayServer) p_148833_1_);
         }
     }
 
@@ -192,7 +195,7 @@ public class C03PacketPlayer extends Packet
 
         public void processPacket(INetHandler p_148833_1_)
         {
-            super.processPacket((INetHandlerPlayServer)p_148833_1_);
+            super.processPacket((INetHandlerPlayServer) p_148833_1_);
         }
     }
 
@@ -229,7 +232,7 @@ public class C03PacketPlayer extends Packet
 
         public void processPacket(INetHandler p_148833_1_)
         {
-            super.processPacket((INetHandlerPlayServer)p_148833_1_);
+            super.processPacket((INetHandlerPlayServer) p_148833_1_);
         }
     }
 }

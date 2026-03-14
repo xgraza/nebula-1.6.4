@@ -1,6 +1,5 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -10,6 +9,8 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.List;
 
 public class CommandGive extends CommandBase
 {
@@ -37,9 +38,8 @@ public class CommandGive extends CommandBase
     {
         if (par2ArrayOfStr.length < 2)
         {
-            throw new WrongUsageException("commands.give.usage", new Object[0]);
-        }
-        else
+            throw new WrongUsageException("commands.give.usage");
+        } else
         {
             EntityPlayerMP var3 = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
             Item var4 = getItemByText(par1ICommandSender, par2ArrayOfStr[1]);
@@ -68,15 +68,14 @@ public class CommandGive extends CommandBase
 
                     if (!(var9 instanceof NBTTagCompound))
                     {
-                        notifyAdmins(par1ICommandSender, "commands.give.tagError", new Object[] {"Not a valid tag"});
+                        notifyAdmins(par1ICommandSender, "commands.give.tagError", "Not a valid tag");
                         return;
                     }
 
-                    var7.setTagCompound((NBTTagCompound)var9);
-                }
-                catch (NBTException var10)
+                    var7.setTagCompound((NBTTagCompound) var9);
+                } catch (NBTException var10)
                 {
-                    notifyAdmins(par1ICommandSender, "commands.give.tagError", new Object[] {var10.getMessage()});
+                    notifyAdmins(par1ICommandSender, "commands.give.tagError", var10.getMessage());
                     return;
                 }
             }
@@ -84,7 +83,7 @@ public class CommandGive extends CommandBase
             EntityItem var11 = var3.dropPlayerItemWithRandomChoice(var7, false);
             var11.delayBeforeCanPickup = 0;
             var11.setOwner(var3.getCommandSenderName());
-            notifyAdmins(par1ICommandSender, "commands.give.success", new Object[] {var7.func_151000_E(), Integer.valueOf(var5), var3.getCommandSenderName()});
+            notifyAdmins(par1ICommandSender, "commands.give.success", var7.func_151000_E(), Integer.valueOf(var5), var3.getCommandSenderName());
         }
     }
 

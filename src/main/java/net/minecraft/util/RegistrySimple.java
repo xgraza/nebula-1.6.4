@@ -1,17 +1,20 @@
 package net.minecraft.util;
 
 import com.google.common.collect.Maps;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class RegistrySimple implements IRegistry
 {
     private static final Logger logger = LogManager.getLogger();
 
-    /** Objects registered on this registry. */
+    /**
+     * Objects registered on this registry.
+     */
     protected final Map registryObjects = this.createUnderlyingMap();
     private static final String __OBFID = "CL_00001210";
 
@@ -35,7 +38,7 @@ public class RegistrySimple implements IRegistry
     {
         if (this.registryObjects.containsKey(par1Obj))
         {
-            logger.warn("Adding duplicate key \'" + par1Obj + "\' to registry");
+            logger.warn("Adding duplicate key '" + par1Obj + "' to registry");
         }
 
         this.registryObjects.put(par1Obj, par2Obj);

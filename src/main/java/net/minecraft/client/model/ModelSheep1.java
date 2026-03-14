@@ -40,8 +40,8 @@ public class ModelSheep1 extends ModelQuadruped
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
         super.setLivingAnimations(par1EntityLivingBase, par2, par3, par4);
-        this.head.rotationPointY = 6.0F + ((EntitySheep)par1EntityLivingBase).func_70894_j(par4) * 9.0F;
-        this.field_78152_i = ((EntitySheep)par1EntityLivingBase).func_70890_k(par4);
+        this.head.rotationPointY = 6.0F + ((EntitySheep) par1EntityLivingBase).func_70894_j(par4) * 9.0F;
+        this.field_78152_i = ((EntitySheep) par1EntityLivingBase).func_70890_k(par4);
     }
 
     /**

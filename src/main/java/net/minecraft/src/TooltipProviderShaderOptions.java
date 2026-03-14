@@ -1,15 +1,16 @@
 package net.minecraft.src;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.settings.GameSettings;
 import shadersmod.client.GuiButtonShaderOption;
 import shadersmod.client.ShaderOption;
 import shadersmod.client.ShaderOptionProfile;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class TooltipProviderShaderOptions extends TooltipProviderOptions
 {
@@ -18,10 +19,9 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
         if (!(btn instanceof GuiButtonShaderOption))
         {
             return null;
-        }
-        else
+        } else
         {
-            GuiButtonShaderOption btnSo = (GuiButtonShaderOption)btn;
+            GuiButtonShaderOption btnSo = (GuiButtonShaderOption) btn;
             ShaderOption so = btnSo.getShaderOption();
             String[] lines = this.makeTooltipLines(so, width);
             return lines;
@@ -33,8 +33,7 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
         if (so instanceof ShaderOptionProfile)
         {
             return null;
-        }
-        else
+        } else
         {
             String name = so.getNameText();
             String desc = Config.normalize(so.getDescriptionText()).trim();
@@ -51,7 +50,7 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
 
             if (so.getPaths() != null && settings.advancedItemTooltips)
             {
-                source = "\u00a78" + Lang.get("of.general.from") + ": " + Config.arrayToString((Object[])so.getPaths());
+                source = "\u00a78" + Lang.get("of.general.from") + ": " + Config.arrayToString(so.getPaths());
             }
 
             String def = null;
@@ -91,8 +90,7 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
         if (desc.length() <= 0)
         {
             return new String[0];
-        }
-        else
+        } else
         {
             desc = StrUtils.removePrefix(desc, "//");
             String[] descs = desc.split("\\. ");
@@ -114,7 +112,7 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
 
         for (int lines = 0; lines < args.size(); ++lines)
         {
-            String arg = (String)args.get(lines);
+            String arg = args.get(lines);
 
             if (arg != null && arg.length() > 0)
             {
@@ -123,13 +121,13 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
 
                 while (it.hasNext())
                 {
-                    String part = (String)it.next();
+                    String part = (String) it.next();
                     list.add(part);
                 }
             }
         }
 
-        String[] var10 = (String[])((String[])list.toArray(new String[list.size()]));
+        String[] var10 = (String[]) list.toArray(new String[list.size()]);
         return var10;
     }
 }

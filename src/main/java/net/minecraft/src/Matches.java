@@ -10,8 +10,7 @@ public class Matches
         if (matchBlocks == null)
         {
             return true;
-        }
-        else
+        } else
         {
             for (int i = 0; i < matchBlocks.length; ++i)
             {
@@ -32,8 +31,7 @@ public class Matches
         if (matchBlocks == null)
         {
             return true;
-        }
-        else
+        } else
         {
             for (int i = 0; i < matchBlocks.length; ++i)
             {
@@ -54,8 +52,7 @@ public class Matches
         if (metadatas == null)
         {
             return true;
-        }
-        else
+        } else
         {
             for (int i = 0; i < metadatas.length; ++i)
             {
@@ -74,8 +71,7 @@ public class Matches
         if (sprites == null)
         {
             return true;
-        }
-        else
+        } else
         {
             for (int i = 0; i < sprites.length; ++i)
             {
@@ -94,8 +90,7 @@ public class Matches
         if (biomes == null)
         {
             return true;
-        }
-        else
+        } else
         {
             for (int i = 0; i < biomes.length; ++i)
             {

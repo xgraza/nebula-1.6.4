@@ -1,20 +1,19 @@
 package net.minecraft.entity.ai.attributes;
 
 import com.google.common.collect.Maps;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+
+import java.util.*;
 
 public class ModifiableAttributeInstance implements IAttributeInstance
 {
-    /** The BaseAttributeMap this attributeInstance can be found in */
+    /**
+     * The BaseAttributeMap this attributeInstance can be found in
+     */
     private final BaseAttributeMap attributeMap;
 
-    /** The Attribute this is an instance of */
+    /**
+     * The Attribute this is an instance of
+     */
     private final IAttribute genericAttribute;
     private final Map mapByOperation = Maps.newHashMap();
     private final Map mapByName = Maps.newHashMap();
@@ -60,7 +59,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance
 
     public Collection getModifiersByOperation(int par1)
     {
-        return (Collection)this.mapByOperation.get(Integer.valueOf(par1));
+        return (Collection) this.mapByOperation.get(Integer.valueOf(par1));
     }
 
     public Collection func_111122_c()
@@ -80,7 +79,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance
      */
     public AttributeModifier getModifier(UUID par1UUID)
     {
-        return (AttributeModifier)this.mapByUUID.get(par1UUID);
+        return (AttributeModifier) this.mapByUUID.get(par1UUID);
     }
 
     public void applyModifier(AttributeModifier par1AttributeModifier)
@@ -88,10 +87,9 @@ public class ModifiableAttributeInstance implements IAttributeInstance
         if (this.getModifier(par1AttributeModifier.getID()) != null)
         {
             throw new IllegalArgumentException("Modifier is already applied on this attribute!");
-        }
-        else
+        } else
         {
-            Object var2 = (Set)this.mapByName.get(par1AttributeModifier.getName());
+            Object var2 = this.mapByName.get(par1AttributeModifier.getName());
 
             if (var2 == null)
             {
@@ -99,8 +97,8 @@ public class ModifiableAttributeInstance implements IAttributeInstance
                 this.mapByName.put(par1AttributeModifier.getName(), var2);
             }
 
-            ((Set)this.mapByOperation.get(Integer.valueOf(par1AttributeModifier.getOperation()))).add(par1AttributeModifier);
-            ((Set)var2).add(par1AttributeModifier);
+            ((Set) this.mapByOperation.get(Integer.valueOf(par1AttributeModifier.getOperation()))).add(par1AttributeModifier);
+            ((Set) var2).add(par1AttributeModifier);
             this.mapByUUID.put(par1AttributeModifier.getID(), par1AttributeModifier);
             this.flagForUpdate();
         }
@@ -116,11 +114,11 @@ public class ModifiableAttributeInstance implements IAttributeInstance
     {
         for (int var2 = 0; var2 < 3; ++var2)
         {
-            Set var3 = (Set)this.mapByOperation.get(Integer.valueOf(var2));
+            Set var3 = (Set) this.mapByOperation.get(Integer.valueOf(var2));
             var3.remove(par1AttributeModifier);
         }
 
-        Set var4 = (Set)this.mapByName.get(par1AttributeModifier.getName());
+        Set var4 = (Set) this.mapByName.get(par1AttributeModifier.getName());
 
         if (var4 != null)
         {
@@ -147,7 +145,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance
 
             while (var2.hasNext())
             {
-                AttributeModifier var3 = (AttributeModifier)var2.next();
+                AttributeModifier var3 = (AttributeModifier) var2.next();
                 this.removeModifier(var3);
             }
         }
@@ -171,7 +169,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance
 
         for (Iterator var3 = this.getModifiersByOperation(0).iterator(); var3.hasNext(); var1 += var4.getAmount())
         {
-            var4 = (AttributeModifier)var3.next();
+            var4 = (AttributeModifier) var3.next();
         }
 
         double var7 = var1;
@@ -180,12 +178,12 @@ public class ModifiableAttributeInstance implements IAttributeInstance
 
         for (var5 = this.getModifiersByOperation(1).iterator(); var5.hasNext(); var7 += var1 * var6.getAmount())
         {
-            var6 = (AttributeModifier)var5.next();
+            var6 = (AttributeModifier) var5.next();
         }
 
         for (var5 = this.getModifiersByOperation(2).iterator(); var5.hasNext(); var7 *= 1.0D + var6.getAmount())
         {
-            var6 = (AttributeModifier)var5.next();
+            var6 = (AttributeModifier) var5.next();
         }
 
         return this.genericAttribute.clampValue(var7);

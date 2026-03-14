@@ -1,10 +1,11 @@
 package net.minecraft.src;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;
+
+import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class TooltipProviderOptions implements TooltipProvider
 {
@@ -33,10 +34,9 @@ public class TooltipProviderOptions implements TooltipProvider
         if (!(btn instanceof IOptionControl))
         {
             return null;
-        }
-        else
+        } else
         {
-            IOptionControl ctl = (IOptionControl)btn;
+            IOptionControl ctl = (IOptionControl) btn;
             GameSettings.Options option = ctl.getOption();
             String[] lines = getTooltipLines(option.getEnumString());
             return lines;
@@ -50,7 +50,7 @@ public class TooltipProviderOptions implements TooltipProvider
         for (int lines = 0; lines < 10; ++lines)
         {
             String lineKey = key + ".tooltip." + (lines + 1);
-            String line = Lang.get(lineKey, (String)null);
+            String line = Lang.get(lineKey, null);
 
             if (line == null)
             {
@@ -63,10 +63,9 @@ public class TooltipProviderOptions implements TooltipProvider
         if (list.size() <= 0)
         {
             return null;
-        }
-        else
+        } else
         {
-            String[] var5 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] var5 = (String[]) list.toArray(new String[list.size()]);
             return var5;
         }
     }

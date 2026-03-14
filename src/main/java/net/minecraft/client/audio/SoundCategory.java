@@ -1,6 +1,7 @@
 package net.minecraft.client.audio;
 
 import com.google.common.collect.Maps;
+
 import java.util.Map;
 
 public enum SoundCategory
@@ -20,7 +21,7 @@ public enum SoundCategory
     private final int categoryId;
     private static final String __OBFID = "CL_00001686";
 
-    private SoundCategory(String p_i45126_3_, int p_i45126_4_)
+    SoundCategory(String p_i45126_3_, int p_i45126_4_)
     {
         this.categoryName = p_i45126_3_;
         this.categoryId = p_i45126_4_;
@@ -38,10 +39,11 @@ public enum SoundCategory
 
     public static SoundCategory func_147154_a(String p_147154_0_)
     {
-        return (SoundCategory)field_147168_j.get(p_147154_0_);
+        return (SoundCategory) field_147168_j.get(p_147154_0_);
     }
 
-    static {
+    static
+    {
         SoundCategory[] var0 = values();
         int var1 = var0.length;
 

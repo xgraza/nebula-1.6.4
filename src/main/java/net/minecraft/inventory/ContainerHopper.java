@@ -46,7 +46,7 @@ public class ContainerHopper extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -59,17 +59,15 @@ public class ContainerHopper extends Container
                 {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 0, this.field_94538_a.getSizeInventory(), false))
+            } else if (!this.mergeItemStack(var5, 0, this.field_94538_a.getSizeInventory(), false))
             {
                 return null;
             }
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack(null);
+            } else
             {
                 var4.onSlotChanged();
             }

@@ -23,17 +23,15 @@ public abstract class Request
 
             if (var4 != null)
             {
-                this.field_148677_a = (HttpURLConnection)(new URL(par1Str)).openConnection(var4);
-            }
-            else
+                this.field_148677_a = (HttpURLConnection) (new URL(par1Str)).openConnection(var4);
+            } else
             {
-                this.field_148677_a = (HttpURLConnection)(new URL(par1Str)).openConnection();
+                this.field_148677_a = (HttpURLConnection) (new URL(par1Str)).openConnection();
             }
 
             this.field_148677_a.setConnectTimeout(par2);
             this.field_148677_a.setReadTimeout(par3);
-        }
-        catch (Exception var5)
+        } catch (Exception var5)
         {
             throw new ExceptionMcoHttp("Failed URL: " + par1Str, var5);
         }
@@ -46,8 +44,7 @@ public abstract class Request
         if (var3 == null)
         {
             this.field_148677_a.setRequestProperty("Cookie", p_148665_1_ + "=" + p_148665_2_);
-        }
-        else
+        } else
         {
             this.field_148677_a.setRequestProperty("Cookie", var3 + ";" + p_148665_1_ + "=" + p_148665_2_);
         }
@@ -59,8 +56,7 @@ public abstract class Request
         {
             this.func_148667_e();
             return this.field_148677_a.getResponseCode();
-        }
-        catch (Exception var2)
+        } catch (Exception var2)
         {
             throw new ExceptionMcoHttp("Failed URL: " + this.field_148675_b, var2);
         }
@@ -73,8 +69,7 @@ public abstract class Request
         try
         {
             return Integer.valueOf(var1).intValue();
-        }
-        catch (Exception var3)
+        } catch (Exception var3)
         {
             return 5;
         }
@@ -88,8 +83,7 @@ public abstract class Request
             String var1 = this.func_148671_a() >= 400 ? this.func_148660_a(this.field_148677_a.getErrorStream()) : this.func_148660_a(this.field_148677_a.getInputStream());
             this.func_148674_h();
             return var1;
-        }
-        catch (IOException var2)
+        } catch (IOException var2)
         {
             throw new ExceptionMcoHttp("Failed URL: " + this.field_148675_b, var2);
         }
@@ -100,14 +94,13 @@ public abstract class Request
         if (p_148660_1_ == null)
         {
             return "";
-        }
-        else
+        } else
         {
             StringBuilder var2 = new StringBuilder();
 
             for (int var3 = p_148660_1_.read(); var3 != -1; var3 = p_148660_1_.read())
             {
-                var2.append((char)var3);
+                var2.append((char) var3);
             }
 
             return var2.toString();
@@ -132,8 +125,7 @@ public abstract class Request
                     break;
                 }
             }
-        }
-        catch (Exception var6)
+        } catch (Exception var6)
         {
             try
             {
@@ -153,10 +145,8 @@ public abstract class Request
                         break;
                     }
                 }
-            }
-            catch (IOException var5)
+            } catch (IOException var5)
             {
-                ;
             }
         }
     }
@@ -168,8 +158,7 @@ public abstract class Request
             Request var1 = this.func_148662_f();
             this.field_148676_c = true;
             return var1;
-        }
-        else
+        } else
         {
             return this;
         }
@@ -219,8 +208,7 @@ public abstract class Request
         try
         {
             return Integer.valueOf(var1).intValue();
-        }
-        catch (Exception var3)
+        } catch (Exception var3)
         {
             return -1;
         }
@@ -243,8 +231,7 @@ public abstract class Request
                 this.field_148677_a.setRequestMethod("DELETE");
                 this.field_148677_a.connect();
                 return this;
-            }
-            catch (Exception var2)
+            } catch (Exception var2)
             {
                 throw new ExceptionMcoHttp("Failed URL: " + this.field_148675_b, var2);
             }
@@ -253,7 +240,7 @@ public abstract class Request
 
     public static class Put extends Request
     {
-        private byte[] field_148681_c;
+        private final byte[] field_148681_c;
         private static final String __OBFID = "CL_00001163";
 
         public Put(String par1Str, byte[] par2ArrayOfByte, int par3, int par4)
@@ -273,8 +260,7 @@ public abstract class Request
                 var1.write(this.field_148681_c);
                 var1.flush();
                 return this;
-            }
-            catch (Exception var2)
+            } catch (Exception var2)
             {
                 throw new ExceptionMcoHttp("Failed URL: " + this.field_148675_b, var2);
             }
@@ -283,7 +269,7 @@ public abstract class Request
 
     public static class Post extends Request
     {
-        private byte[] field_148683_c;
+        private final byte[] field_148683_c;
         private static final String __OBFID = "CL_00001162";
 
         public Post(String par1Str, byte[] par2ArrayOfByte, int par3, int par4)
@@ -304,8 +290,7 @@ public abstract class Request
                 var1.write(this.field_148683_c);
                 var1.flush();
                 return this;
-            }
-            catch (Exception var2)
+            } catch (Exception var2)
             {
                 throw new ExceptionMcoHttp("Failed URL: " + this.field_148675_b, var2);
             }
@@ -330,8 +315,7 @@ public abstract class Request
                 this.field_148677_a.setUseCaches(false);
                 this.field_148677_a.setRequestMethod("GET");
                 return this;
-            }
-            catch (Exception var2)
+            } catch (Exception var2)
             {
                 throw new ExceptionMcoHttp("Failed URL: " + this.field_148675_b, var2);
             }

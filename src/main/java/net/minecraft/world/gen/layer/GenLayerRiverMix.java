@@ -4,8 +4,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class GenLayerRiverMix extends GenLayer
 {
-    private GenLayer biomePatternGeneratorChain;
-    private GenLayer riverPatternGeneratorChain;
+    private final GenLayer biomePatternGeneratorChain;
+    private final GenLayer riverPatternGeneratorChain;
     private static final String __OBFID = "CL_00000567";
 
     public GenLayerRiverMix(long par1, GenLayer par3GenLayer, GenLayer par4GenLayer)
@@ -45,22 +45,18 @@ public class GenLayerRiverMix extends GenLayer
                     if (var5[var8] == BiomeGenBase.icePlains.biomeID)
                     {
                         var7[var8] = BiomeGenBase.frozenRiver.biomeID;
-                    }
-                    else if (var5[var8] != BiomeGenBase.mushroomIsland.biomeID && var5[var8] != BiomeGenBase.mushroomIslandShore.biomeID)
+                    } else if (var5[var8] != BiomeGenBase.mushroomIsland.biomeID && var5[var8] != BiomeGenBase.mushroomIslandShore.biomeID)
                     {
                         var7[var8] = var6[var8] & 255;
-                    }
-                    else
+                    } else
                     {
                         var7[var8] = BiomeGenBase.mushroomIslandShore.biomeID;
                     }
-                }
-                else
+                } else
                 {
                     var7[var8] = var5[var8];
                 }
-            }
-            else
+            } else
             {
                 var7[var8] = var5[var8];
             }

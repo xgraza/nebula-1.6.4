@@ -31,13 +31,11 @@ public class CommandTestFor extends CommandBase
     {
         if (par2ArrayOfStr.length != 1)
         {
-            throw new WrongUsageException("commands.testfor.usage", new Object[0]);
-        }
-        else if (!(par1ICommandSender instanceof CommandBlockLogic))
+            throw new WrongUsageException("commands.testfor.usage");
+        } else if (!(par1ICommandSender instanceof CommandBlockLogic))
         {
-            throw new CommandException("commands.testfor.failed", new Object[0]);
-        }
-        else
+            throw new CommandException("commands.testfor.failed");
+        } else
         {
             getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
         }

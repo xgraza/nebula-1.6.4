@@ -1,7 +1,8 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public interface IGrowable
 {

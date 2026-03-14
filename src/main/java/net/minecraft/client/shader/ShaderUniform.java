@@ -1,13 +1,14 @@
 package net.minecraft.client.shader;
 
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import javax.vecmath.Matrix4f;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL21;
+
+import javax.vecmath.Matrix4f;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class ShaderUniform
 {
@@ -33,8 +34,7 @@ public class ShaderUniform
         {
             this.field_148101_e = BufferUtils.createIntBuffer(p_i45092_3_);
             this.field_148098_f = null;
-        }
-        else
+        } else
         {
             this.field_148101_e = null;
             this.field_148098_f = BufferUtils.createFloatBuffer(p_i45092_3_);
@@ -61,46 +61,36 @@ public class ShaderUniform
         if (p_148085_0_.equals("int"))
         {
             var1 = 0;
-        }
-        else if (p_148085_0_.equals("float"))
+        } else if (p_148085_0_.equals("float"))
         {
             var1 = 4;
-        }
-        else if (p_148085_0_.startsWith("matrix"))
+        } else if (p_148085_0_.startsWith("matrix"))
         {
             if (p_148085_0_.endsWith("2x2"))
             {
                 var1 = 8;
-            }
-            else if (p_148085_0_.endsWith("3x3"))
+            } else if (p_148085_0_.endsWith("3x3"))
             {
                 var1 = 9;
-            }
-            else if (p_148085_0_.endsWith("4x4"))
+            } else if (p_148085_0_.endsWith("4x4"))
             {
                 var1 = 10;
-            }
-            else if (p_148085_0_.endsWith("2x3"))
+            } else if (p_148085_0_.endsWith("2x3"))
             {
                 var1 = 11;
-            }
-            else if (p_148085_0_.endsWith("2x4"))
+            } else if (p_148085_0_.endsWith("2x4"))
             {
                 var1 = 12;
-            }
-            else if (p_148085_0_.endsWith("3x2"))
+            } else if (p_148085_0_.endsWith("3x2"))
             {
                 var1 = 13;
-            }
-            else if (p_148085_0_.endsWith("3x4"))
+            } else if (p_148085_0_.endsWith("3x4"))
             {
                 var1 = 14;
-            }
-            else if (p_148085_0_.endsWith("4x2"))
+            } else if (p_148085_0_.endsWith("4x2"))
             {
                 var1 = 15;
-            }
-            else if (p_148085_0_.endsWith("4x3"))
+            } else if (p_148085_0_.endsWith("4x3"))
             {
                 var1 = 16;
             }
@@ -213,8 +203,7 @@ public class ShaderUniform
         if (p_148097_1_.length < this.field_148103_c)
         {
             logger.warn("Uniform.set called with a too-small value array (expected " + this.field_148103_c + ", got " + p_148097_1_.length + "). Ignoring.");
-        }
-        else
+        } else
         {
             this.field_148098_f.position(0);
             this.field_148098_f.put(p_148097_1_);
@@ -254,7 +243,6 @@ public class ShaderUniform
     {
         if (!this.field_148105_h)
         {
-            ;
         }
 
         this.field_148105_h = false;
@@ -262,12 +250,10 @@ public class ShaderUniform
         if (this.field_148100_d <= 3)
         {
             this.func_148091_i();
-        }
-        else if (this.field_148100_d <= 7)
+        } else if (this.field_148100_d <= 7)
         {
             this.func_148089_j();
-        }
-        else
+        } else
         {
             if (this.field_148100_d > 16)
             {

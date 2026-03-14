@@ -1,14 +1,15 @@
 package net.minecraft.tileentity;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Facing;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class TileEntityPiston extends TileEntity
 {
@@ -19,10 +20,12 @@ public class TileEntityPiston extends TileEntity
     private boolean field_145872_l;
     private float field_145873_m;
     private float field_145870_n;
-    private List field_145871_o = new ArrayList();
+    private final List field_145871_o = new ArrayList();
     private static final String __OBFID = "CL_00000369";
 
-    public TileEntityPiston() {}
+    public TileEntityPiston()
+    {
+    }
 
     public TileEntityPiston(Block p_i45444_1_, int p_i45444_2_, int p_i45444_3_, boolean p_i45444_4_, boolean p_i45444_5_)
     {
@@ -70,17 +73,17 @@ public class TileEntityPiston extends TileEntity
 
     public float func_145865_b(float p_145865_1_)
     {
-        return this.field_145875_k ? (this.func_145860_a(p_145865_1_) - 1.0F) * (float)Facing.offsetsXForSide[this.field_145874_j] : (1.0F - this.func_145860_a(p_145865_1_)) * (float)Facing.offsetsXForSide[this.field_145874_j];
+        return this.field_145875_k ? (this.func_145860_a(p_145865_1_) - 1.0F) * (float) Facing.offsetsXForSide[this.field_145874_j] : (1.0F - this.func_145860_a(p_145865_1_)) * (float) Facing.offsetsXForSide[this.field_145874_j];
     }
 
     public float func_145862_c(float p_145862_1_)
     {
-        return this.field_145875_k ? (this.func_145860_a(p_145862_1_) - 1.0F) * (float)Facing.offsetsYForSide[this.field_145874_j] : (1.0F - this.func_145860_a(p_145862_1_)) * (float)Facing.offsetsYForSide[this.field_145874_j];
+        return this.field_145875_k ? (this.func_145860_a(p_145862_1_) - 1.0F) * (float) Facing.offsetsYForSide[this.field_145874_j] : (1.0F - this.func_145860_a(p_145862_1_)) * (float) Facing.offsetsYForSide[this.field_145874_j];
     }
 
     public float func_145859_d(float p_145859_1_)
     {
-        return this.field_145875_k ? (this.func_145860_a(p_145859_1_) - 1.0F) * (float)Facing.offsetsZForSide[this.field_145874_j] : (1.0F - this.func_145860_a(p_145859_1_)) * (float)Facing.offsetsZForSide[this.field_145874_j];
+        return this.field_145875_k ? (this.func_145860_a(p_145859_1_) - 1.0F) * (float) Facing.offsetsZForSide[this.field_145874_j] : (1.0F - this.func_145860_a(p_145859_1_)) * (float) Facing.offsetsZForSide[this.field_145874_j];
     }
 
     private void func_145863_a(float p_145863_1_, float p_145863_2_)
@@ -88,8 +91,7 @@ public class TileEntityPiston extends TileEntity
         if (this.field_145875_k)
         {
             p_145863_1_ = 1.0F - p_145863_1_;
-        }
-        else
+        } else
         {
             --p_145863_1_;
         }
@@ -98,7 +100,7 @@ public class TileEntityPiston extends TileEntity
 
         if (var3 != null)
         {
-            List var4 = this.worldObj.getEntitiesWithinAABBExcludingEntity((Entity)null, var3);
+            List var4 = this.worldObj.getEntitiesWithinAABBExcludingEntity(null, var3);
 
             if (!var4.isEmpty())
             {
@@ -107,8 +109,8 @@ public class TileEntityPiston extends TileEntity
 
                 while (var5.hasNext())
                 {
-                    Entity var6 = (Entity)var5.next();
-                    var6.moveEntity((double)(p_145863_2_ * (float)Facing.offsetsXForSide[this.field_145874_j]), (double)(p_145863_2_ * (float)Facing.offsetsYForSide[this.field_145874_j]), (double)(p_145863_2_ * (float)Facing.offsetsZForSide[this.field_145874_j]));
+                    Entity var6 = (Entity) var5.next();
+                    var6.moveEntity(p_145863_2_ * (float) Facing.offsetsXForSide[this.field_145874_j], p_145863_2_ * (float) Facing.offsetsYForSide[this.field_145874_j], p_145863_2_ * (float) Facing.offsetsZForSide[this.field_145874_j]);
                 }
 
                 this.field_145871_o.clear();
@@ -147,8 +149,7 @@ public class TileEntityPiston extends TileEntity
                 this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, this.field_145869_a, this.field_145876_i, 3);
                 this.worldObj.notifyBlockOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.field_145869_a);
             }
-        }
-        else
+        } else
         {
             this.field_145873_m += 0.5F;
 

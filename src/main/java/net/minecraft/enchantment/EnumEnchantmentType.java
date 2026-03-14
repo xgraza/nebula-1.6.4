@@ -1,11 +1,6 @@
 package net.minecraft.enchantment;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemFishingRod;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.*;
 
 public enum EnumEnchantmentType
 {
@@ -30,26 +25,22 @@ public enum EnumEnchantmentType
         if (this == all)
         {
             return true;
-        }
-        else if (this == breakable && par1Item.isDamageable())
+        } else if (this == breakable && par1Item.isDamageable())
         {
             return true;
-        }
-        else if (par1Item instanceof ItemArmor)
+        } else if (par1Item instanceof ItemArmor)
         {
             if (this == armor)
             {
                 return true;
-            }
-            else
+            } else
             {
-                ItemArmor var2 = (ItemArmor)par1Item;
-                return var2.armorType == 0 ? this == armor_head : (var2.armorType == 2 ? this == armor_legs : (var2.armorType == 1 ? this == armor_torso : (var2.armorType == 3 ? this == armor_feet : false)));
+                ItemArmor var2 = (ItemArmor) par1Item;
+                return var2.armorType == 0 ? this == armor_head : (var2.armorType == 2 ? this == armor_legs : (var2.armorType == 1 ? this == armor_torso : (var2.armorType == 3 && this == armor_feet)));
             }
-        }
-        else
+        } else
         {
-            return par1Item instanceof ItemSword ? this == weapon : (par1Item instanceof ItemTool ? this == digger : (par1Item instanceof ItemBow ? this == bow : (par1Item instanceof ItemFishingRod ? this == fishing_rod : false)));
+            return par1Item instanceof ItemSword ? this == weapon : (par1Item instanceof ItemTool ? this == digger : (par1Item instanceof ItemBow ? this == bow : (par1Item instanceof ItemFishingRod && this == fishing_rod)));
         }
     }
 }

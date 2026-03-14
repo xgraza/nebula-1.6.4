@@ -1,11 +1,12 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WorldGenSavannaTree extends WorldGenAbstractTree
 {
@@ -52,8 +53,7 @@ public class WorldGenSavannaTree extends WorldGenAbstractTree
                             {
                                 var7 = false;
                             }
-                        }
-                        else
+                        } else
                         {
                             var7 = false;
                         }
@@ -64,8 +64,7 @@ public class WorldGenSavannaTree extends WorldGenAbstractTree
             if (!var7)
             {
                 return false;
-            }
-            else
+            } else
             {
                 Block var21 = par1World.getBlock(par3, par4 - 1, par5);
 
@@ -180,14 +179,12 @@ public class WorldGenSavannaTree extends WorldGenAbstractTree
                     }
 
                     return true;
-                }
-                else
+                } else
                 {
                     return false;
                 }
             }
-        }
-        else
+        } else
         {
             return false;
         }

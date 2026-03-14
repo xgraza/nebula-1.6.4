@@ -1,14 +1,11 @@
 package net.minecraft.client.mco;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
+import net.minecraft.util.ValueObject;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import net.minecraft.util.ValueObject;
 
 public class WorldTemplateList extends ValueObject
 {
@@ -31,17 +28,13 @@ public class WorldTemplateList extends ValueObject
 
                 while (var4.hasNext())
                 {
-                    var1.field_148782_a.add(WorldTemplate.func_148783_a(((JsonElement)var4.next()).getAsJsonObject()));
+                    var1.field_148782_a.add(WorldTemplate.func_148783_a(((JsonElement) var4.next()).getAsJsonObject()));
                 }
             }
-        }
-        catch (JsonIOException var5)
+        } catch (JsonIOException var5)
         {
-            ;
-        }
-        catch (JsonSyntaxException var6)
+        } catch (JsonSyntaxException var6)
         {
-            ;
         }
 
         return var1;

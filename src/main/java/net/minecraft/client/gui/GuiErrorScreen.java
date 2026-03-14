@@ -4,8 +4,8 @@ import net.minecraft.client.resources.I18n;
 
 public class GuiErrorScreen extends GuiScreen
 {
-    private String field_146313_a;
-    private String field_146312_f;
+    private final String field_146313_a;
+    private final String field_146312_f;
     private static final String __OBFID = "CL_00000696";
 
     public GuiErrorScreen(String par1Str, String par2Str)
@@ -20,7 +20,7 @@ public class GuiErrorScreen extends GuiScreen
     public void initGui()
     {
         super.initGui();
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, 140, I18n.format("gui.cancel", new Object[0])));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, 140, I18n.format("gui.cancel")));
     }
 
     /**
@@ -37,10 +37,12 @@ public class GuiErrorScreen extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char typedChar, int keyCode) {}
+    protected void keyTyped(char typedChar, int keyCode)
+    {
+    }
 
     protected void actionPerformed(GuiButton p_146284_1_)
     {
-        this.mc.displayGuiScreen((GuiScreen)null);
+        this.mc.displayGuiScreen(null);
     }
 }

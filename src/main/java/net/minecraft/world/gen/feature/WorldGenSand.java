@@ -1,17 +1,20 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenSand extends WorldGenerator
 {
-    private Block field_150517_a;
+    private final Block field_150517_a;
 
-    /** The maximum radius used when generating a patch of blocks. */
-    private int radius;
+    /**
+     * The maximum radius used when generating a patch of blocks.
+     */
+    private final int radius;
     private static final String __OBFID = "CL_00000431";
 
     public WorldGenSand(Block p_i45462_1_, int p_i45462_2_)
@@ -25,8 +28,7 @@ public class WorldGenSand extends WorldGenerator
         if (par1World.getBlock(par3, par4, par5).getMaterial() != Material.water)
         {
             return false;
-        }
-        else
+        } else
         {
             int var6 = par2Random.nextInt(this.radius - 2) + 2;
             byte var7 = 2;

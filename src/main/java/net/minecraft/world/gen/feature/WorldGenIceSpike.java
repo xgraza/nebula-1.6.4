@@ -1,11 +1,12 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WorldGenIceSpike extends WorldGenerator
 {
@@ -21,8 +22,7 @@ public class WorldGenIceSpike extends WorldGenerator
         if (par1World.getBlock(par3, par4, par5) != Blocks.snow)
         {
             return false;
-        }
-        else
+        } else
         {
             par4 += par2Random.nextInt(4);
             int var6 = par2Random.nextInt(4) + 7;
@@ -39,16 +39,16 @@ public class WorldGenIceSpike extends WorldGenerator
 
             for (var8 = 0; var8 < var6; ++var8)
             {
-                float var9 = (1.0F - (float)var8 / (float)var6) * (float)var7;
+                float var9 = (1.0F - (float) var8 / (float) var6) * (float) var7;
                 var10 = MathHelper.ceiling_float_int(var9);
 
                 for (var11 = -var10; var11 <= var10; ++var11)
                 {
-                    float var12 = (float)MathHelper.abs_int(var11) - 0.25F;
+                    float var12 = (float) MathHelper.abs_int(var11) - 0.25F;
 
                     for (int var13 = -var10; var13 <= var10; ++var13)
                     {
-                        float var14 = (float)MathHelper.abs_int(var13) - 0.25F;
+                        float var14 = (float) MathHelper.abs_int(var13) - 0.25F;
 
                         if ((var11 == 0 && var13 == 0 || var12 * var12 + var14 * var14 <= var9 * var9) && (var11 != -var10 && var11 != var10 && var13 != -var10 && var13 != var10 || par2Random.nextFloat() <= 0.75F))
                         {
@@ -78,8 +78,7 @@ public class WorldGenIceSpike extends WorldGenerator
             if (var8 < 0)
             {
                 var8 = 0;
-            }
-            else if (var8 > 1)
+            } else if (var8 > 1)
             {
                 var8 = 1;
             }

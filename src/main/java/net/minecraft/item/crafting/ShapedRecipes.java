@@ -7,17 +7,25 @@ import net.minecraft.world.World;
 
 public class ShapedRecipes implements IRecipe
 {
-    /** How many horizontal slots this recipe is wide. */
-    private int recipeWidth;
+    /**
+     * How many horizontal slots this recipe is wide.
+     */
+    private final int recipeWidth;
 
-    /** How many vertical slots this recipe uses. */
-    private int recipeHeight;
+    /**
+     * How many vertical slots this recipe uses.
+     */
+    private final int recipeHeight;
 
-    /** Is a array of ItemStack that composes the recipe. */
-    private ItemStack[] recipeItems;
+    /**
+     * Is a array of ItemStack that composes the recipe.
+     */
+    private final ItemStack[] recipeItems;
 
-    /** Is the ItemStack that you get when craft the recipe. */
-    private ItemStack recipeOutput;
+    /**
+     * Is the ItemStack that you get when craft the recipe.
+     */
+    private final ItemStack recipeOutput;
     private boolean field_92101_f;
     private static final String __OBFID = "CL_00000093";
 
@@ -76,8 +84,7 @@ public class ShapedRecipes implements IRecipe
                     if (par4)
                     {
                         var9 = this.recipeItems[this.recipeWidth - var7 - 1 + var8 * this.recipeWidth];
-                    }
-                    else
+                    } else
                     {
                         var9 = this.recipeItems[var7 + var8 * this.recipeWidth];
                     }
@@ -123,7 +130,7 @@ public class ShapedRecipes implements IRecipe
 
                 if (var4 != null && var4.hasTagCompound())
                 {
-                    var2.setTagCompound((NBTTagCompound)var4.stackTagCompound.copy());
+                    var2.setTagCompound((NBTTagCompound) var4.stackTagCompound.copy());
                 }
             }
         }

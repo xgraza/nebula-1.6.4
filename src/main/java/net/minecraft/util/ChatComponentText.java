@@ -41,7 +41,7 @@ public class ChatComponentText extends ChatComponentStyle
 
         while (var2.hasNext())
         {
-            IChatComponent var3 = (IChatComponent)var2.next();
+            IChatComponent var3 = (IChatComponent) var2.next();
             var1.appendSibling(var3.createCopy());
         }
 
@@ -53,20 +53,18 @@ public class ChatComponentText extends ChatComponentStyle
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (!(par1Obj instanceof ChatComponentText))
+        } else if (!(par1Obj instanceof ChatComponentText))
         {
             return false;
-        }
-        else
+        } else
         {
-            ChatComponentText var2 = (ChatComponentText)par1Obj;
+            ChatComponentText var2 = (ChatComponentText) par1Obj;
             return this.text.equals(var2.getChatComponentText_TextValue()) && super.equals(par1Obj);
         }
     }
 
     public String toString()
     {
-        return "TextComponent{text=\'" + this.text + '\'' + ", siblings=" + this.siblings + ", style=" + this.getChatStyle() + '}';
+        return "TextComponent{text='" + this.text + '\'' + ", siblings=" + this.siblings + ", style=" + this.getChatStyle() + '}';
     }
 }

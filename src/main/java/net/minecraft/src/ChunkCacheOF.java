@@ -1,19 +1,20 @@
 package net.minecraft.src;
 
-import java.util.Arrays;
 import net.minecraft.block.Block;
 import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+
 public class ChunkCacheOF extends ChunkCache
 {
-    private IBlockAccess blockAccess;
-    private BlockPos position;
+    private final IBlockAccess blockAccess;
+    private final BlockPos position;
     private int[] combinedLights;
     private Block[] blocks;
-    private static ArrayCache cacheCombinedLights = new ArrayCache(Integer.TYPE, 16);
-    private static ArrayCache cacheBlocks = new ArrayCache(Block.class, 16);
+    private static final ArrayCache cacheCombinedLights = new ArrayCache(Integer.TYPE, 16);
+    private static final ArrayCache cacheBlocks = new ArrayCache(Block.class, 16);
     private static final int ARRAY_SIZE = 8000;
 
     public ChunkCacheOF(World world, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, int subIn)
@@ -31,8 +32,7 @@ public class ChunkCacheOF extends ChunkCache
         if (this.combinedLights == null)
         {
             return this.getLightBrightnessForSkyBlocksRaw(x, y, z, lightValue);
-        }
-        else
+        } else
         {
             int index = this.getPositionIndex(x, y, z);
 
@@ -47,8 +47,7 @@ public class ChunkCacheOF extends ChunkCache
                 }
 
                 return light;
-            }
-            else
+            } else
             {
                 return this.getLightBrightnessForSkyBlocksRaw(x, y, z, lightValue);
             }
@@ -72,8 +71,7 @@ public class ChunkCacheOF extends ChunkCache
         if (this.blocks == null)
         {
             return this.blockAccess.getBlock(x, y, z);
-        }
-        else
+        } else
         {
             int index = this.getPositionIndex(x, y, z);
 
@@ -88,8 +86,7 @@ public class ChunkCacheOF extends ChunkCache
                 }
 
                 return block;
-            }
-            else
+            } else
             {
                 return this.blockAccess.getBlock(x, y, z);
             }
@@ -108,17 +105,17 @@ public class ChunkCacheOF extends ChunkCache
     {
         if (this.combinedLights == null)
         {
-            this.combinedLights = (int[])((int[])cacheCombinedLights.allocate(8000));
+            this.combinedLights = (int[]) cacheCombinedLights.allocate(8000);
         }
 
         Arrays.fill(this.combinedLights, -1);
 
         if (this.blocks == null)
         {
-            this.blocks = (Block[])((Block[])cacheBlocks.allocate(8000));
+            this.blocks = (Block[]) cacheBlocks.allocate(8000);
         }
 
-        Arrays.fill(this.blocks, (Object)null);
+        Arrays.fill(this.blocks, null);
     }
 
     public void renderFinish()

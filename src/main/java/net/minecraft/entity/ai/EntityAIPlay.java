@@ -1,16 +1,17 @@
 package net.minecraft.entity.ai;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.Vec3;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class EntityAIPlay extends EntityAIBase
 {
-    private EntityVillager villagerObj;
+    private final EntityVillager villagerObj;
     private EntityLivingBase targetVillager;
-    private double field_75261_c;
+    private final double field_75261_c;
     private int playTime;
     private static final String __OBFID = "CL_00001605";
 
@@ -29,12 +30,10 @@ public class EntityAIPlay extends EntityAIBase
         if (this.villagerObj.getGrowingAge() >= 0)
         {
             return false;
-        }
-        else if (this.villagerObj.getRNG().nextInt(400) != 0)
+        } else if (this.villagerObj.getRNG().nextInt(400) != 0)
         {
             return false;
-        }
-        else
+        } else
         {
             List var1 = this.villagerObj.worldObj.getEntitiesWithinAABB(EntityVillager.class, this.villagerObj.boundingBox.expand(6.0D, 3.0D, 6.0D));
             double var2 = Double.MAX_VALUE;
@@ -42,7 +41,7 @@ public class EntityAIPlay extends EntityAIBase
 
             while (var4.hasNext())
             {
-                EntityVillager var5 = (EntityVillager)var4.next();
+                EntityVillager var5 = (EntityVillager) var4.next();
 
                 if (var5 != this.villagerObj && !var5.isPlaying() && var5.getGrowingAge() < 0)
                 {
@@ -60,10 +59,7 @@ public class EntityAIPlay extends EntityAIBase
             {
                 Vec3 var8 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
 
-                if (var8 == null)
-                {
-                    return false;
-                }
+                return var8 != null;
             }
 
             return true;
@@ -113,8 +109,7 @@ public class EntityAIPlay extends EntityAIBase
             {
                 this.villagerObj.getNavigator().tryMoveToEntityLiving(this.targetVillager, this.field_75261_c);
             }
-        }
-        else if (this.villagerObj.getNavigator().noPath())
+        } else if (this.villagerObj.getNavigator().noPath())
         {
             Vec3 var1 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
 

@@ -6,19 +6,29 @@ import net.minecraft.util.IIcon;
 
 public class Slot
 {
-    /** The index of the slot in the inventory. */
+    /**
+     * The index of the slot in the inventory.
+     */
     private final int slotIndex;
 
-    /** The inventory we want to extract a slot from. */
+    /**
+     * The inventory we want to extract a slot from.
+     */
     public final IInventory inventory;
 
-    /** the id of the slot(also the index in the inventory arraylist) */
+    /**
+     * the id of the slot(also the index in the inventory arraylist)
+     */
     public int slotNumber;
 
-    /** display position of the inventory slot on the screen x axis */
+    /**
+     * display position of the inventory slot on the screen x axis
+     */
     public int xDisplayPosition;
 
-    /** display position of the inventory slot on the screen y axis */
+    /**
+     * display position of the inventory slot on the screen y axis
+     */
     public int yDisplayPosition;
     private static final String __OBFID = "CL_00001762";
 
@@ -53,12 +63,16 @@ public class Slot
      * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood. Typically increases an
      * internal count then calls onCrafting(item).
      */
-    protected void onCrafting(ItemStack par1ItemStack, int par2) {}
+    protected void onCrafting(ItemStack par1ItemStack, int par2)
+    {
+    }
 
     /**
      * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood.
      */
-    protected void onCrafting(ItemStack par1ItemStack) {}
+    protected void onCrafting(ItemStack par1ItemStack)
+    {
+    }
 
     public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
     {

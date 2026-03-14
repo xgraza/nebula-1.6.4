@@ -3,6 +3,8 @@ package net.minecraft.src;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import java.nio.charset.StandardCharsets;
+
 public class PlayerConfigurationReceiver implements IFileDownloadListener
 {
     private String player = null;
@@ -18,7 +20,7 @@ public class PlayerConfigurationReceiver implements IFileDownloadListener
         {
             try
             {
-                String e = new String(bytes, "ASCII");
+                String e = new String(bytes, StandardCharsets.US_ASCII);
                 JsonParser jp = new JsonParser();
                 JsonElement je = jp.parse(e);
                 PlayerConfigurationParser pcp = new PlayerConfigurationParser(this.player);
@@ -29,8 +31,7 @@ public class PlayerConfigurationReceiver implements IFileDownloadListener
                     pc.setInitialized(true);
                     PlayerConfigurations.setPlayerConfiguration(this.player, pc);
                 }
-            }
-            catch (Exception var9)
+            } catch (Exception var9)
             {
                 Config.dbg("Error parsing configuration: " + url + ", " + var9.getClass().getName() + ": " + var9.getMessage());
             }

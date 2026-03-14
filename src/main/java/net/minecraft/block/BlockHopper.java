@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,6 +18,9 @@ import net.minecraft.util.Facing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockHopper extends BlockContainer
 {
@@ -105,8 +106,7 @@ public class BlockHopper extends BlockContainer
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
             TileEntityHopper var10 = func_149920_e(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
 
@@ -139,7 +139,7 @@ public class BlockHopper extends BlockContainer
 
     public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
-        TileEntityHopper var7 = (TileEntityHopper)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        TileEntityHopper var7 = (TileEntityHopper) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
         if (var7 != null)
         {
@@ -163,17 +163,17 @@ public class BlockHopper extends BlockContainer
                         }
 
                         var9.stackSize -= var13;
-                        EntityItem var14 = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + var10), (double)((float)p_149749_3_ + var11), (double)((float)p_149749_4_ + var12), new ItemStack(var9.getItem(), var13, var9.getItemDamage()));
+                        EntityItem var14 = new EntityItem(p_149749_1_, (float) p_149749_2_ + var10, (float) p_149749_3_ + var11, (float) p_149749_4_ + var12, new ItemStack(var9.getItem(), var13, var9.getItemDamage()));
 
                         if (var9.hasTagCompound())
                         {
-                            var14.getEntityItem().setTagCompound((NBTTagCompound)var9.getTagCompound().copy());
+                            var14.getEntityItem().setTagCompound((NBTTagCompound) var9.getTagCompound().copy());
                         }
 
                         float var15 = 0.05F;
-                        var14.motionX = (double)((float)this.field_149922_a.nextGaussian() * var15);
-                        var14.motionY = (double)((float)this.field_149922_a.nextGaussian() * var15 + 0.2F);
-                        var14.motionZ = (double)((float)this.field_149922_a.nextGaussian() * var15);
+                        var14.motionX = (float) this.field_149922_a.nextGaussian() * var15;
+                        var14.motionY = (float) this.field_149922_a.nextGaussian() * var15 + 0.2F;
+                        var14.motionZ = (float) this.field_149922_a.nextGaussian() * var15;
                         p_149749_1_.spawnEntityInWorld(var14);
                     }
                 }
@@ -258,6 +258,6 @@ public class BlockHopper extends BlockContainer
 
     public static TileEntityHopper func_149920_e(IBlockAccess p_149920_0_, int p_149920_1_, int p_149920_2_, int p_149920_3_)
     {
-        return (TileEntityHopper)p_149920_0_.getTileEntity(p_149920_1_, p_149920_2_, p_149920_3_);
+        return (TileEntityHopper) p_149920_0_.getTileEntity(p_149920_1_, p_149920_2_, p_149920_3_);
     }
 }

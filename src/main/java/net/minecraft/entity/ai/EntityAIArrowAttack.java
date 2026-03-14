@@ -7,7 +7,9 @@ import net.minecraft.util.MathHelper;
 
 public class EntityAIArrowAttack extends EntityAIBase
 {
-    /** The entity the AI instance has been applied to */
+    /**
+     * The entity the AI instance has been applied to
+     */
     private final EntityLiving entityHost;
 
     /**
@@ -21,16 +23,16 @@ public class EntityAIArrowAttack extends EntityAIBase
      * maxRangedAttackTime.
      */
     private int rangedAttackTime;
-    private double entityMoveSpeed;
+    private final double entityMoveSpeed;
     private int field_75318_f;
-    private int field_96561_g;
+    private final int field_96561_g;
 
     /**
      * The maximum time the AI has to wait before peforming another ranged attack.
      */
-    private int maxRangedAttackTime;
-    private float field_96562_i;
-    private float field_82642_h;
+    private final int maxRangedAttackTime;
+    private final float field_96562_i;
+    private final float field_82642_h;
     private static final String __OBFID = "CL_00001609";
 
     public EntityAIArrowAttack(IRangedAttackMob par1IRangedAttackMob, double par2, int par4, float par5)
@@ -45,11 +47,10 @@ public class EntityAIArrowAttack extends EntityAIBase
         if (!(par1IRangedAttackMob instanceof EntityLivingBase))
         {
             throw new IllegalArgumentException("ArrowAttackGoal requires Mob implements RangedAttackMob");
-        }
-        else
+        } else
         {
             this.rangedAttackEntityHost = par1IRangedAttackMob;
-            this.entityHost = (EntityLiving)par1IRangedAttackMob;
+            this.entityHost = (EntityLiving) par1IRangedAttackMob;
             this.entityMoveSpeed = par2;
             this.field_96561_g = par4;
             this.maxRangedAttackTime = par5;
@@ -69,8 +70,7 @@ public class EntityAIArrowAttack extends EntityAIBase
         if (var1 == null)
         {
             return false;
-        }
-        else
+        } else
         {
             this.attackTarget = var1;
             return true;
@@ -106,17 +106,15 @@ public class EntityAIArrowAttack extends EntityAIBase
         if (var3)
         {
             ++this.field_75318_f;
-        }
-        else
+        } else
         {
             this.field_75318_f = 0;
         }
 
-        if (var1 <= (double)this.field_82642_h && this.field_75318_f >= 20)
+        if (var1 <= (double) this.field_82642_h && this.field_75318_f >= 20)
         {
             this.entityHost.getNavigator().clearPathEntity();
-        }
-        else
+        } else
         {
             this.entityHost.getNavigator().tryMoveToEntityLiving(this.attackTarget, this.entityMoveSpeed);
         }
@@ -126,7 +124,7 @@ public class EntityAIArrowAttack extends EntityAIBase
 
         if (--this.rangedAttackTime == 0)
         {
-            if (var1 > (double)this.field_82642_h || !var3)
+            if (var1 > (double) this.field_82642_h || !var3)
             {
                 return;
             }
@@ -145,12 +143,11 @@ public class EntityAIArrowAttack extends EntityAIBase
             }
 
             this.rangedAttackEntityHost.attackEntityWithRangedAttack(this.attackTarget, var5);
-            this.rangedAttackTime = MathHelper.floor_float(var4 * (float)(this.maxRangedAttackTime - this.field_96561_g) + (float)this.field_96561_g);
-        }
-        else if (this.rangedAttackTime < 0)
+            this.rangedAttackTime = MathHelper.floor_float(var4 * (float) (this.maxRangedAttackTime - this.field_96561_g) + (float) this.field_96561_g);
+        } else if (this.rangedAttackTime < 0)
         {
             var4 = MathHelper.sqrt_double(var1) / this.field_96562_i;
-            this.rangedAttackTime = MathHelper.floor_float(var4 * (float)(this.maxRangedAttackTime - this.field_96561_g) + (float)this.field_96561_g);
+            this.rangedAttackTime = MathHelper.floor_float(var4 * (float) (this.maxRangedAttackTime - this.field_96561_g) + (float) this.field_96561_g);
         }
     }
 }

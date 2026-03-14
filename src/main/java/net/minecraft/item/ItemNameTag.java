@@ -22,16 +22,14 @@ public class ItemNameTag extends Item
         if (!par1ItemStack.hasDisplayName())
         {
             return false;
-        }
-        else if (par3EntityLivingBase instanceof EntityLiving)
+        } else if (par3EntityLivingBase instanceof EntityLiving)
         {
-            EntityLiving var4 = (EntityLiving)par3EntityLivingBase;
+            EntityLiving var4 = (EntityLiving) par3EntityLivingBase;
             var4.setCustomNameTag(par1ItemStack.getDisplayName());
             var4.func_110163_bv();
             --par1ItemStack.stackSize;
             return true;
-        }
-        else
+        } else
         {
             return super.itemInteractionForEntity(par1ItemStack, par2EntityPlayer, par3EntityLivingBase);
         }

@@ -1,8 +1,9 @@
 package net.minecraft.server.management;
 
-import java.util.Comparator;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChunkCoordinates;
+
+import java.util.Comparator;
 
 public class PlayerPositionComparator implements Comparator
 {
@@ -16,13 +17,13 @@ public class PlayerPositionComparator implements Comparator
 
     public int compare(EntityPlayerMP par1EntityPlayerMP, EntityPlayerMP par2EntityPlayerMP)
     {
-        double var3 = par1EntityPlayerMP.getDistanceSq((double)this.theChunkCoordinates.posX, (double)this.theChunkCoordinates.posY, (double)this.theChunkCoordinates.posZ);
-        double var5 = par2EntityPlayerMP.getDistanceSq((double)this.theChunkCoordinates.posX, (double)this.theChunkCoordinates.posY, (double)this.theChunkCoordinates.posZ);
+        double var3 = par1EntityPlayerMP.getDistanceSq(this.theChunkCoordinates.posX, this.theChunkCoordinates.posY, this.theChunkCoordinates.posZ);
+        double var5 = par2EntityPlayerMP.getDistanceSq(this.theChunkCoordinates.posX, this.theChunkCoordinates.posY, this.theChunkCoordinates.posZ);
         return var3 < var5 ? -1 : (var3 > var5 ? 1 : 0);
     }
 
     public int compare(Object par1Obj, Object par2Obj)
     {
-        return this.compare((EntityPlayerMP)par1Obj, (EntityPlayerMP)par2Obj);
+        return this.compare((EntityPlayerMP) par1Obj, (EntityPlayerMP) par2Obj);
     }
 }

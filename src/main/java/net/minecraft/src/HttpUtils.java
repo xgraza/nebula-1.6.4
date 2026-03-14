@@ -1,17 +1,14 @@
 package net.minecraft.src;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import net.minecraft.client.Minecraft;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import net.minecraft.client.Minecraft;
 
 public class HttpUtils
 {
@@ -26,7 +23,7 @@ public class HttpUtils
         try
         {
             URL url = new URL(urlStr);
-            conn = (HttpURLConnection)url.openConnection(Minecraft.getMinecraft().getProxy());
+            conn = (HttpURLConnection) url.openConnection(Minecraft.getMinecraft().getProxy());
             conn.setDoInput(true);
             conn.setDoOutput(false);
             conn.connect();
@@ -39,8 +36,7 @@ public class HttpUtils
                 }
 
                 throw new IOException("HTTP response: " + conn.getResponseCode());
-            }
-            else
+            } else
             {
                 InputStream in = conn.getInputStream();
                 byte[] bytes = new byte[conn.getContentLength()];
@@ -62,8 +58,7 @@ public class HttpUtils
                 byte[] len1 = bytes;
                 return len1;
             }
-        }
-        finally
+        } finally
         {
             if (conn != null)
             {
@@ -79,7 +74,7 @@ public class HttpUtils
         try
         {
             URL url = new URL(urlStr);
-            conn = (HttpURLConnection)url.openConnection(Minecraft.getMinecraft().getProxy());
+            conn = (HttpURLConnection) url.openConnection(Minecraft.getMinecraft().getProxy());
             conn.setRequestMethod("POST");
 
             if (headers != null)
@@ -89,7 +84,7 @@ public class HttpUtils
 
                 while (in.hasNext())
                 {
-                    String isr = (String)in.next();
+                    String isr = (String) in.next();
                     String br = "" + headers.get(isr);
                     conn.setRequestProperty(isr, br);
                 }
@@ -106,7 +101,7 @@ public class HttpUtils
             os1.flush();
             os1.close();
             InputStream in1 = conn.getInputStream();
-            InputStreamReader isr1 = new InputStreamReader(in1, "ASCII");
+            InputStreamReader isr1 = new InputStreamReader(in1, StandardCharsets.US_ASCII);
             BufferedReader br1 = new BufferedReader(isr1);
             StringBuffer sb = new StringBuffer();
             String line;
@@ -120,8 +115,7 @@ public class HttpUtils
             br1.close();
             String var11 = sb.toString();
             return var11;
-        }
-        finally
+        } finally
         {
             if (conn != null)
             {
@@ -144,10 +138,9 @@ public class HttpUtils
                     File dirModels = new File(dirMc, "playermodels");
                     playerItemsUrl = dirModels.toURI().toURL().toExternalForm();
                 }
-            }
-            catch (Exception var3)
+            } catch (Exception var3)
             {
-                Config.warn("" + var3.getClass().getName() + ": " + var3.getMessage());
+                Config.warn(var3.getClass().getName() + ": " + var3.getMessage());
             }
 
             if (playerItemsUrl == null)

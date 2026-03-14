@@ -1,12 +1,13 @@
 package net.minecraft.command.server;
 
-import java.util.List;
-import java.util.regex.Matcher;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.SyntaxErrorException;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.List;
+import java.util.regex.Matcher;
 
 public class CommandPardonIp extends CommandBase
 {
@@ -47,16 +48,14 @@ public class CommandPardonIp extends CommandBase
             if (var3.matches())
             {
                 MinecraftServer.getServer().getConfigurationManager().getBannedIPs().remove(par2ArrayOfStr[0]);
-                notifyAdmins(par1ICommandSender, "commands.unbanip.success", new Object[] {par2ArrayOfStr[0]});
-            }
-            else
+                notifyAdmins(par1ICommandSender, "commands.unbanip.success", par2ArrayOfStr[0]);
+            } else
             {
-                throw new SyntaxErrorException("commands.unbanip.invalid", new Object[0]);
+                throw new SyntaxErrorException("commands.unbanip.invalid");
             }
-        }
-        else
+        } else
         {
-            throw new WrongUsageException("commands.unbanip.usage", new Object[0]);
+            throw new WrongUsageException("commands.unbanip.usage");
         }
     }
 

@@ -7,10 +7,10 @@ public class MathHelper
     private static final int SIN_BITS = 12;
     private static final int SIN_MASK = 4095;
     private static final int SIN_COUNT = 4096;
-    public static final float PI = (float)Math.PI;
-    public static final float PI2 = ((float)Math.PI * 2F);
-    public static final float PId2 = ((float)Math.PI / 2F);
-    private static final float radFull = ((float)Math.PI * 2F);
+    public static final float PI = (float) Math.PI;
+    public static final float PI2 = ((float) Math.PI * 2F);
+    public static final float PId2 = ((float) Math.PI / 2F);
+    private static final float radFull = ((float) Math.PI * 2F);
     private static final float degFull = 360.0F;
     private static final float radToIndex = 651.8986F;
     private static final float degToIndex = 11.377778F;
@@ -21,7 +21,7 @@ public class MathHelper
     /**
      * A table of sin values computed from 0 (inclusive) to 2*pi (exclusive), with steps of 2*PI / 65536.
      */
-    private static float[] SIN_TABLE = new float[65536];
+    private static final float[] SIN_TABLE = new float[65536];
 
     /**
      * Though it looks like an array, this is really more like a mapping.  Key (index of this array) is the upper 5 bits
@@ -38,7 +38,7 @@ public class MathHelper
      */
     public static final float sin(float par0)
     {
-        return fastMath ? SIN_TABLE_FAST[(int)(par0 * 651.8986F) & 4095] : SIN_TABLE[(int)(par0 * 10430.378F) & 65535];
+        return fastMath ? SIN_TABLE_FAST[(int) (par0 * 651.8986F) & 4095] : SIN_TABLE[(int) (par0 * 10430.378F) & 65535];
     }
 
     /**
@@ -46,17 +46,17 @@ public class MathHelper
      */
     public static final float cos(float par0)
     {
-        return fastMath ? SIN_TABLE_FAST[(int)((par0 + ((float)Math.PI / 2F)) * 651.8986F) & 4095] : SIN_TABLE[(int)(par0 * 10430.378F + 16384.0F) & 65535];
+        return fastMath ? SIN_TABLE_FAST[(int) ((par0 + ((float) Math.PI / 2F)) * 651.8986F) & 4095] : SIN_TABLE[(int) (par0 * 10430.378F + 16384.0F) & 65535];
     }
 
     public static final float sqrt_float(float par0)
     {
-        return (float)Math.sqrt((double)par0);
+        return (float) Math.sqrt(par0);
     }
 
     public static final float sqrt_double(double par0)
     {
-        return (float)Math.sqrt(par0);
+        return (float) Math.sqrt(par0);
     }
 
     /**
@@ -64,8 +64,8 @@ public class MathHelper
      */
     public static int floor_float(float par0)
     {
-        int var1 = (int)par0;
-        return par0 < (float)var1 ? var1 - 1 : var1;
+        int var1 = (int) par0;
+        return par0 < (float) var1 ? var1 - 1 : var1;
     }
 
     /**
@@ -73,7 +73,7 @@ public class MathHelper
      */
     public static int truncateDoubleToInt(double par0)
     {
-        return (int)(par0 + 1024.0D) - 1024;
+        return (int) (par0 + 1024.0D) - 1024;
     }
 
     /**
@@ -81,8 +81,8 @@ public class MathHelper
      */
     public static int floor_double(double par0)
     {
-        int var2 = (int)par0;
-        return par0 < (double)var2 ? var2 - 1 : var2;
+        int var2 = (int) par0;
+        return par0 < (double) var2 ? var2 - 1 : var2;
     }
 
     /**
@@ -90,8 +90,8 @@ public class MathHelper
      */
     public static long floor_double_long(double par0)
     {
-        long var2 = (long)par0;
-        return par0 < (double)var2 ? var2 - 1L : var2;
+        long var2 = (long) par0;
+        return par0 < (double) var2 ? var2 - 1L : var2;
     }
 
     public static float abs(float par0)
@@ -109,14 +109,14 @@ public class MathHelper
 
     public static int ceiling_float_int(float par0)
     {
-        int var1 = (int)par0;
-        return par0 > (float)var1 ? var1 + 1 : var1;
+        int var1 = (int) par0;
+        return par0 > (float) var1 ? var1 + 1 : var1;
     }
 
     public static int ceiling_double_int(double par0)
     {
-        int var2 = (int)par0;
-        return par0 > (double)var2 ? var2 + 1 : var2;
+        int var2 = (int) par0;
+        return par0 > (double) var2 ? var2 + 1 : var2;
     }
 
     /**
@@ -208,7 +208,7 @@ public class MathHelper
             var1 += var6;
         }
 
-        return (double)var1 / (double)par0ArrayOfLong.length;
+        return (double) var1 / (double) par0ArrayOfLong.length;
     }
 
     /**
@@ -261,10 +261,8 @@ public class MathHelper
         try
         {
             var2 = Integer.parseInt(par0Str);
-        }
-        catch (Throwable var4)
+        } catch (Throwable var4)
         {
-            ;
         }
 
         return var2;
@@ -280,10 +278,8 @@ public class MathHelper
         try
         {
             var3 = Integer.parseInt(par0Str);
-        }
-        catch (Throwable var5)
+        } catch (Throwable var5)
         {
-            ;
         }
 
         if (var3 < par2)
@@ -304,10 +300,8 @@ public class MathHelper
         try
         {
             var3 = Double.parseDouble(par0Str);
-        }
-        catch (Throwable var6)
+        } catch (Throwable var6)
         {
-            ;
         }
 
         return var3;
@@ -320,10 +314,8 @@ public class MathHelper
         try
         {
             var5 = Double.parseDouble(par0Str);
-        }
-        catch (Throwable var8)
+        } catch (Throwable var8)
         {
-            ;
         }
 
         if (var5 < par3)
@@ -364,7 +356,7 @@ public class MathHelper
     private static int calculateLogBaseTwoDeBruijn(int p_151241_0_)
     {
         p_151241_0_ = isPowerOfTwo(p_151241_0_) ? p_151241_0_ : roundUpToPowerOfTwo(p_151241_0_);
-        return multiplyDeBruijnBitPosition[(int)((long)p_151241_0_ * 125613361L >> 27) & 31];
+        return multiplyDeBruijnBitPosition[(int) ((long) p_151241_0_ * 125613361L >> 27) & 31];
     }
 
     /**
@@ -382,19 +374,19 @@ public class MathHelper
 
         for (i = 0; i < 65536; ++i)
         {
-            SIN_TABLE[i] = (float)Math.sin((double)i * Math.PI * 2.0D / 65536.0D);
+            SIN_TABLE[i] = (float) Math.sin((double) i * Math.PI * 2.0D / 65536.0D);
         }
 
-        multiplyDeBruijnBitPosition = new int[] {0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9};
+        multiplyDeBruijnBitPosition = new int[]{ 0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9 };
 
         for (i = 0; i < 4096; ++i)
         {
-            SIN_TABLE_FAST[i] = (float)Math.sin((double)(((float)i + 0.5F) / 4096.0F * ((float)Math.PI * 2F)));
+            SIN_TABLE_FAST[i] = (float) Math.sin(((float) i + 0.5F) / 4096.0F * ((float) Math.PI * 2F));
         }
 
         for (i = 0; i < 360; i += 90)
         {
-            SIN_TABLE_FAST[(int)((float)i * 11.377778F) & 4095] = (float)Math.sin((double)((float)i * 0.017453292F));
+            SIN_TABLE_FAST[(int) ((float) i * 11.377778F) & 4095] = (float) Math.sin((float) i * 0.017453292F);
         }
     }
 }

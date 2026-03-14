@@ -9,7 +9,9 @@ public class ScorePlayerTeam extends Team
     private final Scoreboard theScoreboard;
     private final String field_96675_b;
 
-    /** A set of all team member usernames. */
+    /**
+     * A set of all team member usernames.
+     */
     private final Set membershipSet = new HashSet();
     private String teamNameSPT;
     private String namePrefixSPT = "";
@@ -43,8 +45,7 @@ public class ScorePlayerTeam extends Team
         if (par1Str == null)
         {
             throw new IllegalArgumentException("Name cannot be null");
-        }
-        else
+        } else
         {
             this.teamNameSPT = par1Str;
             this.theScoreboard.func_96538_b(this);
@@ -69,8 +70,7 @@ public class ScorePlayerTeam extends Team
         if (par1Str == null)
         {
             throw new IllegalArgumentException("Prefix cannot be null");
-        }
-        else
+        } else
         {
             this.namePrefixSPT = par1Str;
             this.theScoreboard.func_96538_b(this);
@@ -90,8 +90,7 @@ public class ScorePlayerTeam extends Team
         if (par1Str == null)
         {
             throw new IllegalArgumentException("Suffix cannot be null");
-        }
-        else
+        } else
         {
             this.colorSuffix = par1Str;
             this.theScoreboard.func_96538_b(this);

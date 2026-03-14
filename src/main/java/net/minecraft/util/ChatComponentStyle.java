@@ -3,6 +3,7 @@ package net.minecraft.util;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public abstract class ChatComponentStyle implements IChatComponent
 
         while (var2.hasNext())
         {
-            IChatComponent var3 = (IChatComponent)var2.next();
+            IChatComponent var3 = (IChatComponent) var2.next();
             var3.getChatStyle().setParentStyle(this.getChatStyle());
         }
 
@@ -65,7 +66,7 @@ public abstract class ChatComponentStyle implements IChatComponent
 
             while (var1.hasNext())
             {
-                IChatComponent var2 = (IChatComponent)var1.next();
+                IChatComponent var2 = (IChatComponent) var1.next();
                 var2.getChatStyle().setParentStyle(this.style);
             }
         }
@@ -75,7 +76,7 @@ public abstract class ChatComponentStyle implements IChatComponent
 
     public Iterator iterator()
     {
-        return Iterators.concat(Iterators.forArray(new ChatComponentStyle[] {this}), createDeepCopyIterator(this.siblings));
+        return Iterators.concat(Iterators.forArray(this), createDeepCopyIterator(this.siblings));
     }
 
     /**
@@ -89,7 +90,7 @@ public abstract class ChatComponentStyle implements IChatComponent
 
         while (var2.hasNext())
         {
-            IChatComponent var3 = (IChatComponent)var2.next();
+            IChatComponent var3 = (IChatComponent) var2.next();
             var1.append(var3.getUnformattedTextForChat());
         }
 
@@ -106,7 +107,7 @@ public abstract class ChatComponentStyle implements IChatComponent
 
         while (var2.hasNext())
         {
-            IChatComponent var3 = (IChatComponent)var2.next();
+            IChatComponent var3 = (IChatComponent) var2.next();
             var1.append(var3.getChatStyle().getFormattingCode());
             var1.append(var3.getUnformattedTextForChat());
             var1.append(EnumChatFormatting.RESET);
@@ -124,27 +125,31 @@ public abstract class ChatComponentStyle implements IChatComponent
         Iterator var1 = Iterators.concat(Iterators.transform(p_150262_0_.iterator(), new Function()
         {
             private static final String __OBFID = "CL_00001258";
+
             public Iterator apply(IChatComponent p_150665_1_)
             {
                 return p_150665_1_.iterator();
             }
+
             public Object apply(Object par1Obj)
             {
-                return this.apply((IChatComponent)par1Obj);
+                return this.apply((IChatComponent) par1Obj);
             }
         }));
         var1 = Iterators.transform(var1, new Function()
         {
             private static final String __OBFID = "CL_00001259";
+
             public IChatComponent apply(IChatComponent p_150666_1_)
             {
                 IChatComponent var2 = p_150666_1_.createCopy();
                 var2.setChatStyle(var2.getChatStyle().createDeepCopy());
                 return var2;
             }
+
             public Object apply(Object par1Obj)
             {
-                return this.apply((IChatComponent)par1Obj);
+                return this.apply((IChatComponent) par1Obj);
             }
         });
         return var1;
@@ -155,14 +160,12 @@ public abstract class ChatComponentStyle implements IChatComponent
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (!(par1Obj instanceof ChatComponentStyle))
+        } else if (!(par1Obj instanceof ChatComponentStyle))
         {
             return false;
-        }
-        else
+        } else
         {
-            ChatComponentStyle var2 = (ChatComponentStyle)par1Obj;
+            ChatComponentStyle var2 = (ChatComponentStyle) par1Obj;
             return this.siblings.equals(var2.siblings) && this.getChatStyle().equals(var2.getChatStyle());
         }
     }

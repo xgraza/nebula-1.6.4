@@ -7,7 +7,9 @@ import net.minecraft.world.World;
 
 public class EntityTNTPrimed extends Entity
 {
-    /** How long the fuse is */
+    /**
+     * How long the fuse is
+     */
     public int fuse;
     private EntityLivingBase tntPlacedBy;
     private static final String __OBFID = "CL_00001681";
@@ -24,10 +26,10 @@ public class EntityTNTPrimed extends Entity
     {
         this(par1World);
         this.setPosition(par2, par4, par6);
-        float var9 = (float)(Math.random() * Math.PI * 2.0D);
-        this.motionX = (double)(-((float)Math.sin((double)var9)) * 0.02F);
+        float var9 = (float) (Math.random() * Math.PI * 2.0D);
+        this.motionX = -((float) Math.sin(var9)) * 0.02F;
         this.motionY = 0.20000000298023224D;
-        this.motionZ = (double)(-((float)Math.cos((double)var9)) * 0.02F);
+        this.motionZ = -((float) Math.cos(var9)) * 0.02F;
         this.fuse = 80;
         this.prevPosX = par2;
         this.prevPosY = par4;
@@ -35,7 +37,9 @@ public class EntityTNTPrimed extends Entity
         this.tntPlacedBy = par8EntityLivingBase;
     }
 
-    protected void entityInit() {}
+    protected void entityInit()
+    {
+    }
 
     /**
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
@@ -83,8 +87,7 @@ public class EntityTNTPrimed extends Entity
             {
                 this.explode();
             }
-        }
-        else
+        } else
         {
             this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
@@ -101,7 +104,7 @@ public class EntityTNTPrimed extends Entity
      */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
-        par1NBTTagCompound.setByte("Fuse", (byte)this.fuse);
+        par1NBTTagCompound.setByte("Fuse", (byte) this.fuse);
     }
 
     /**

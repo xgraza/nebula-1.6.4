@@ -1,7 +1,5 @@
 package net.minecraft.src;
 
-import java.util.HashSet;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -19,11 +17,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 
+import java.util.HashSet;
+import java.util.List;
+
 public class WorldRendererSmooth extends WorldRenderer
 {
-    private WrUpdateState updateState = new WrUpdateState();
+    private final WrUpdateState updateState = new WrUpdateState();
     public int activeSet = 0;
-    public int[] activeListIndex = new int[] {0, 0};
+    public int[] activeListIndex = new int[]{ 0, 0 };
     public int[][][] glWorkLists = new int[2][2][16];
     public boolean[] tempSkipRenderPass = new boolean[2];
     public TesselatorVertexState tempVertexState;
@@ -83,8 +84,7 @@ public class WorldRendererSmooth extends WorldRenderer
         if (this.worldObj == null)
         {
             return true;
-        }
-        else
+        } else
         {
             this.needsUpdate = false;
 
@@ -93,7 +93,7 @@ public class WorldRendererSmooth extends WorldRenderer
                 if (this.needsBoxUpdate)
                 {
                     GL11.glNewList(this.glRenderList + 2, GL11.GL_COMPILE);
-                    RenderItem.renderAABB(AxisAlignedBB.getAABBPool().getAABB((double)this.posXClip, (double)this.posYClip, (double)this.posZClip, (double)(this.posXClip + 16), (double)(this.posYClip + 16), (double)(this.posZClip + 16)));
+                    RenderItem.renderAABB(AxisAlignedBB.getAABBPool().getAABB(this.posXClip, this.posYClip, this.posZClip, this.posXClip + 16, this.posYClip + 16, this.posZClip + 16));
                     GL11.glEndList();
                     this.needsBoxUpdate = false;
                 }
@@ -174,8 +174,7 @@ public class WorldRendererSmooth extends WorldRenderer
                             {
                                 this.preRenderBlocksSmooth(var31);
                             }
-                        }
-                        else if (hasGlList && finishTime != 0L && System.nanoTime() - finishTime > 0L && this.activeListIndex[var31] < 15)
+                        } else if (hasGlList && finishTime != 0L && System.nanoTime() - finishTime > 0L && this.activeListIndex[var31] < 15)
                         {
                             if (hasRenderedBlocks)
                             {
@@ -256,8 +255,7 @@ public class WorldRendererSmooth extends WorldRenderer
                     if (hasGlList)
                     {
                         this.postRenderBlocksSmooth(var31, this.renderGlobal.renderViewEntity, true);
-                    }
-                    else
+                    } else
                     {
                         hasRenderedBlocks = false;
                     }
@@ -300,9 +298,8 @@ public class WorldRendererSmooth extends WorldRenderer
         if (Config.isFastRender())
         {
             this.tessellator.startDrawingQuads();
-            this.tessellator.setTranslation((double)(-globalChunkOffsetX), 0.0D, (double)(-globalChunkOffsetZ));
-        }
-        else
+            this.tessellator.setTranslation(-globalChunkOffsetX, 0.0D, -globalChunkOffsetZ);
+        } else
         {
             GL11.glPushMatrix();
             this.setupGLTranslation();
@@ -311,7 +308,7 @@ public class WorldRendererSmooth extends WorldRenderer
             GL11.glScalef(var2, var2, var2);
             GL11.glTranslatef(8.0F, 8.0F, 8.0F);
             this.tessellator.startDrawingQuads();
-            this.tessellator.setTranslation((double)(-this.posX), (double)(-this.posY), (double)(-this.posZ));
+            this.tessellator.setTranslation(-this.posX, -this.posY, -this.posZ);
         }
     }
 
@@ -319,13 +316,12 @@ public class WorldRendererSmooth extends WorldRenderer
     {
         if (Config.isTranslucentBlocksFancy() && renderpass == 1 && !this.tempSkipRenderPass[renderpass])
         {
-            TesselatorVertexState tsv = this.tessellator.getVertexState((float)entityLiving.posX, (float)entityLiving.posY, (float)entityLiving.posZ);
+            TesselatorVertexState tsv = this.tessellator.getVertexState((float) entityLiving.posX, (float) entityLiving.posY, (float) entityLiving.posZ);
 
             if (this.tempVertexState == null)
             {
                 this.tempVertexState = tsv;
-            }
-            else
+            } else
             {
                 this.tempVertexState.addTessellatorVertexState(tsv);
             }
@@ -368,8 +364,7 @@ public class WorldRendererSmooth extends WorldRenderer
         if (this.activeSet == 0)
         {
             this.activeSet = 1;
-        }
-        else
+        } else
         {
             this.activeSet = 0;
         }

@@ -1,9 +1,10 @@
 package net.minecraft.entity.ai;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.util.AxisAlignedBB;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class EntityAIHurtByTarget extends EntityAITarget
 {
@@ -43,7 +44,7 @@ public class EntityAIHurtByTarget extends EntityAITarget
 
             while (var4.hasNext())
             {
-                EntityCreature var5 = (EntityCreature)var4.next();
+                EntityCreature var5 = (EntityCreature) var4.next();
 
                 if (this.taskOwner != var5 && var5.getAttackTarget() == null && !var5.isOnSameTeam(this.taskOwner.getAITarget()))
                 {

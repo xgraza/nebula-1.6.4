@@ -1,6 +1,5 @@
 package net.minecraft.world.biome;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -9,13 +8,15 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenTaiga2;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+import java.util.Random;
+
 public class BiomeGenHills extends BiomeGenBase
 {
-    private WorldGenerator theWorldGenerator;
-    private WorldGenTaiga2 field_150634_aD;
-    private int field_150635_aE;
-    private int field_150636_aF;
-    private int field_150637_aG;
+    private final WorldGenerator theWorldGenerator;
+    private final WorldGenTaiga2 field_150634_aD;
+    private final int field_150635_aE;
+    private final int field_150636_aF;
+    private final int field_150637_aG;
     private int field_150638_aH;
     private static final String __OBFID = "CL_00000168";
 
@@ -38,7 +39,7 @@ public class BiomeGenHills extends BiomeGenBase
 
     public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
     {
-        return (WorldGenAbstractTree)(p_150567_1_.nextInt(3) > 0 ? this.field_150634_aD : super.func_150567_a(p_150567_1_));
+        return p_150567_1_.nextInt(3) > 0 ? this.field_150634_aD : super.func_150567_a(p_150567_1_);
     }
 
     public void decorate(World par1World, Random par2Random, int par3, int par4)
@@ -80,8 +81,7 @@ public class BiomeGenHills extends BiomeGenBase
         {
             this.topBlock = Blocks.gravel;
             this.fillerBlock = Blocks.gravel;
-        }
-        else if (p_150573_7_ > 1.0D && this.field_150638_aH != this.field_150636_aF)
+        } else if (p_150573_7_ > 1.0D && this.field_150638_aH != this.field_150636_aF)
         {
             this.topBlock = Blocks.stone;
             this.fillerBlock = Blocks.stone;

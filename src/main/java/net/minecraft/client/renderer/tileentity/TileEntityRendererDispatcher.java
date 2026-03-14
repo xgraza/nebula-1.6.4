@@ -1,8 +1,5 @@
 package net.minecraft.client.renderer.tileentity;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderEnchantmentTable;
@@ -10,24 +7,19 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBeacon;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityEnchantmentTable;
-import net.minecraft.tileentity.TileEntityEndPortal;
-import net.minecraft.tileentity.TileEntityEnderChest;
-import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.tileentity.TileEntityPiston;
-import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.tileentity.TileEntitySkull;
+import net.minecraft.tileentity.*;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import us.nebula.client.impl.cheat.render.ChamsCheat;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 public class TileEntityRendererDispatcher
 {
-    private Map mapSpecialRenderers = new HashMap();
+    private final Map mapSpecialRenderers = new HashMap();
     public static TileEntityRendererDispatcher instance = new TileEntityRendererDispatcher();
     private FontRenderer field_147557_n;
     public static double staticPlayerX;
@@ -58,14 +50,14 @@ public class TileEntityRendererDispatcher
 
         while (var1.hasNext())
         {
-            TileEntitySpecialRenderer var2 = (TileEntitySpecialRenderer)var1.next();
+            TileEntitySpecialRenderer var2 = (TileEntitySpecialRenderer) var1.next();
             var2.func_147497_a(this);
         }
     }
 
     public TileEntitySpecialRenderer getSpecialRendererByClass(Class p_147546_1_)
     {
-        TileEntitySpecialRenderer var2 = (TileEntitySpecialRenderer)this.mapSpecialRenderers.get(p_147546_1_);
+        TileEntitySpecialRenderer var2 = (TileEntitySpecialRenderer) this.mapSpecialRenderers.get(p_147546_1_);
 
         if (var2 == null && p_147546_1_ != TileEntity.class)
         {
@@ -98,9 +90,9 @@ public class TileEntityRendererDispatcher
         this.field_147557_n = p_147542_3_;
         this.field_147562_h = p_147542_4_.prevRotationYaw + (p_147542_4_.rotationYaw - p_147542_4_.prevRotationYaw) * p_147542_5_;
         this.field_147563_i = p_147542_4_.prevRotationPitch + (p_147542_4_.rotationPitch - p_147542_4_.prevRotationPitch) * p_147542_5_;
-        this.field_147560_j = p_147542_4_.lastTickPosX + (p_147542_4_.posX - p_147542_4_.lastTickPosX) * (double)p_147542_5_;
-        this.field_147561_k = p_147542_4_.lastTickPosY + (p_147542_4_.posY - p_147542_4_.lastTickPosY) * (double)p_147542_5_;
-        this.field_147558_l = p_147542_4_.lastTickPosZ + (p_147542_4_.posZ - p_147542_4_.lastTickPosZ) * (double)p_147542_5_;
+        this.field_147560_j = p_147542_4_.lastTickPosX + (p_147542_4_.posX - p_147542_4_.lastTickPosX) * (double) p_147542_5_;
+        this.field_147561_k = p_147542_4_.lastTickPosY + (p_147542_4_.posY - p_147542_4_.lastTickPosY) * (double) p_147542_5_;
+        this.field_147558_l = p_147542_4_.lastTickPosZ + (p_147542_4_.posZ - p_147542_4_.lastTickPosZ) * (double) p_147542_5_;
     }
 
     public void renderTileEntity(TileEntity p_147544_1_, float p_147544_2_)
@@ -110,9 +102,9 @@ public class TileEntityRendererDispatcher
             int var3 = this.field_147550_f.getLightBrightnessForSkyBlocks(p_147544_1_.xCoord, p_147544_1_.yCoord, p_147544_1_.zCoord, 0);
             int var4 = var3 % 65536;
             int var5 = var3 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var4 / 1.0F, (float)var5 / 1.0F);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var4, (float) var5);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.func_147549_a(p_147544_1_, (double)p_147544_1_.xCoord - staticPlayerX, (double)p_147544_1_.yCoord - staticPlayerY, (double)p_147544_1_.zCoord - staticPlayerZ, p_147544_2_);
+            this.func_147549_a(p_147544_1_, (double) p_147544_1_.xCoord - staticPlayerX, (double) p_147544_1_.yCoord - staticPlayerY, (double) p_147544_1_.zCoord - staticPlayerZ, p_147544_2_);
         }
     }
 
@@ -140,8 +132,7 @@ public class TileEntityRendererDispatcher
                 {
                     var9.renderTileEntityAt(p_147549_1_, p_147549_2_, p_147549_4_, p_147549_6_, p_147549_8_);
                 }
-            }
-            catch (Throwable var13)
+            } catch (Throwable var13)
             {
                 CrashReport var11 = CrashReport.makeCrashReport(var13, "Rendering Block Entity");
                 CrashReportCategory var12 = var11.makeCategory("Block Entity Details");
@@ -158,7 +149,7 @@ public class TileEntityRendererDispatcher
 
         while (var2.hasNext())
         {
-            TileEntitySpecialRenderer var3 = (TileEntitySpecialRenderer)var2.next();
+            TileEntitySpecialRenderer var3 = (TileEntitySpecialRenderer) var2.next();
 
             if (var3 != null)
             {

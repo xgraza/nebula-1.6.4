@@ -1,12 +1,15 @@
 package net.minecraft.entity.ai;
 
+import net.minecraft.entity.passive.EntityAnimal;
+
 import java.util.Iterator;
 import java.util.List;
-import net.minecraft.entity.passive.EntityAnimal;
 
 public class EntityAIFollowParent extends EntityAIBase
 {
-    /** The child that is following its parent. */
+    /**
+     * The child that is following its parent.
+     */
     EntityAnimal childAnimal;
     EntityAnimal parentAnimal;
     double field_75347_c;
@@ -27,8 +30,7 @@ public class EntityAIFollowParent extends EntityAIBase
         if (this.childAnimal.getGrowingAge() >= 0)
         {
             return false;
-        }
-        else
+        } else
         {
             List var1 = this.childAnimal.worldObj.getEntitiesWithinAABB(this.childAnimal.getClass(), this.childAnimal.boundingBox.expand(8.0D, 4.0D, 8.0D));
             EntityAnimal var2 = null;
@@ -37,7 +39,7 @@ public class EntityAIFollowParent extends EntityAIBase
 
             while (var5.hasNext())
             {
-                EntityAnimal var6 = (EntityAnimal)var5.next();
+                EntityAnimal var6 = (EntityAnimal) var5.next();
 
                 if (var6.getGrowingAge() >= 0)
                 {
@@ -54,12 +56,10 @@ public class EntityAIFollowParent extends EntityAIBase
             if (var2 == null)
             {
                 return false;
-            }
-            else if (var3 < 9.0D)
+            } else if (var3 < 9.0D)
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.parentAnimal = var2;
                 return true;
@@ -75,8 +75,7 @@ public class EntityAIFollowParent extends EntityAIBase
         if (!this.parentAnimal.isEntityAlive())
         {
             return false;
-        }
-        else
+        } else
         {
             double var1 = this.childAnimal.getDistanceSqToEntity(this.parentAnimal);
             return var1 >= 9.0D && var1 <= 256.0D;

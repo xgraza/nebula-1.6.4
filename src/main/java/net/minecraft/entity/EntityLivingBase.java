@@ -331,7 +331,7 @@ public abstract class EntityLivingBase extends Entity
 
             if (!this.worldObj.isClient && this.isRiding() && this.ridingEntity instanceof EntityLivingBase)
             {
-                this.mountEntity((Entity) null);
+                this.mountEntity(null);
             }
         } else
         {
@@ -382,10 +382,10 @@ public abstract class EntityLivingBase extends Entity
         {
             if (!this.entityLivingToAttack.isEntityAlive())
             {
-                this.setRevengeTarget((EntityLivingBase) null);
+                this.setRevengeTarget(null);
             } else if (this.ticksExisted - this.revengeTimer > 100)
             {
-                this.setRevengeTarget((EntityLivingBase) null);
+                this.setRevengeTarget(null);
             }
         }
 
@@ -527,7 +527,7 @@ public abstract class EntityLivingBase extends Entity
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         par1NBTTagCompound.setFloat("HealF", this.getHealth());
-        par1NBTTagCompound.setShort("Health", (short) ((int) Math.ceil((double) this.getHealth())));
+        par1NBTTagCompound.setShort("Health", (short) ((int) Math.ceil(this.getHealth())));
         par1NBTTagCompound.setShort("HurtTime", (short) this.hurtTime);
         par1NBTTagCompound.setShort("DeathTime", (short) this.deathTime);
         par1NBTTagCompound.setShort("AttackTime", (short) this.attackTime);
@@ -619,7 +619,7 @@ public abstract class EntityLivingBase extends Entity
                 this.setHealth(((NBTTagFloat) var6).func_150288_h());
             } else if (var6.getId() == 2)
             {
-                this.setHealth((float) ((NBTTagShort) var6).func_150289_e());
+                this.setHealth(((NBTTagShort) var6).func_150289_e());
             }
         }
 
@@ -635,7 +635,7 @@ public abstract class EntityLivingBase extends Entity
         while (var1.hasNext())
         {
             Integer var2 = (Integer) var1.next();
-            PotionEffect var3 = (PotionEffect) this.activePotionsMap.get(var2);
+            PotionEffect var3 = this.activePotionsMap.get(var2);
 
             if (!var3.onUpdate(this))
             {
@@ -710,7 +710,7 @@ public abstract class EntityLivingBase extends Entity
         while (var1.hasNext())
         {
             Integer var2 = (Integer) var1.next();
-            PotionEffect var3 = (PotionEffect) this.activePotionsMap.get(var2);
+            PotionEffect var3 = this.activePotionsMap.get(var2);
 
             if (!this.worldObj.isClient)
             {
@@ -752,8 +752,8 @@ public abstract class EntityLivingBase extends Entity
         {
             if (this.activePotionsMap.containsKey(Integer.valueOf(par1PotionEffect.getPotionID())))
             {
-                ((PotionEffect) this.activePotionsMap.get(Integer.valueOf(par1PotionEffect.getPotionID()))).combine(par1PotionEffect);
-                this.onChangedPotionEffect((PotionEffect) this.activePotionsMap.get(Integer.valueOf(par1PotionEffect.getPotionID())), true);
+                this.activePotionsMap.get(Integer.valueOf(par1PotionEffect.getPotionID())).combine(par1PotionEffect);
+                this.onChangedPotionEffect(this.activePotionsMap.get(Integer.valueOf(par1PotionEffect.getPotionID())), true);
             } else
             {
                 this.activePotionsMap.put(Integer.valueOf(par1PotionEffect.getPotionID()), par1PotionEffect);
@@ -768,10 +768,7 @@ public abstract class EntityLivingBase extends Entity
         {
             int var2 = par1PotionEffect.getPotionID();
 
-            if (var2 == Potion.regeneration.id || var2 == Potion.poison.id)
-            {
-                return false;
-            }
+            return var2 != Potion.regeneration.id && var2 != Potion.poison.id;
         }
 
         return true;
@@ -798,7 +795,7 @@ public abstract class EntityLivingBase extends Entity
      */
     public void removePotionEffect(int par1)
     {
-        PotionEffect var2 = (PotionEffect) this.activePotionsMap.remove(Integer.valueOf(par1));
+        PotionEffect var2 = this.activePotionsMap.remove(Integer.valueOf(par1));
 
         if (var2 != null)
         {
@@ -1081,7 +1078,7 @@ public abstract class EntityLivingBase extends Entity
             this.motionY /= 2.0D;
             this.motionZ /= 2.0D;
             this.motionX -= par3 / (double) var7 * (double) var8;
-            this.motionY += (double) var8;
+            this.motionY += var8;
             this.motionZ -= par5 / (double) var7 * (double) var8;
 
             if (this.motionY > 0.4000000059604645D)
@@ -1304,7 +1301,7 @@ public abstract class EntityLivingBase extends Entity
 
     public EntityLivingBase func_94060_bK()
     {
-        return (EntityLivingBase) (this._combatTracker.func_94550_c() != null ? this._combatTracker.func_94550_c() : (this.attackingPlayer != null ? this.attackingPlayer : (this.entityLivingToAttack != null ? this.entityLivingToAttack : null)));
+        return this._combatTracker.func_94550_c() != null ? this._combatTracker.func_94550_c() : (this.attackingPlayer != null ? this.attackingPlayer : (this.entityLivingToAttack != null ? this.entityLivingToAttack : null));
     }
 
     public final float getMaxHealth()
@@ -1339,7 +1336,7 @@ public abstract class EntityLivingBase extends Entity
             return 20 - ViewModelCheat.INSTANCE.swingSpeedSetting.getValue();
         }
 
-        return this.isPotionActive(Potion.digSpeed) ? 6 - (1 + this.getActivePotionEffect(Potion.digSpeed).getAmplifier()) * 1 : (this.isPotionActive(Potion.digSlowdown) ? 6 + (1 + this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 : 6);
+        return this.isPotionActive(Potion.digSpeed) ? 6 - (1 + this.getActivePotionEffect(Potion.digSpeed).getAmplifier()) : (this.isPotionActive(Potion.digSlowdown) ? 6 + (1 + this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 : 6);
     }
 
     /**
@@ -1521,7 +1518,7 @@ public abstract class EntityLivingBase extends Entity
                 {
                     int var12 = (int) (this.posX + (double) var10);
                     int var13 = (int) (this.posZ + (double) var11);
-                    AxisAlignedBB var2 = this.boundingBox.getOffsetBoundingBox((double) var10, 1.0D, (double) var11);
+                    AxisAlignedBB var2 = this.boundingBox.getOffsetBoundingBox(var10, 1.0D, var11);
 
                     if (this.worldObj.func_147461_a(var2).isEmpty())
                     {
@@ -1567,14 +1564,14 @@ public abstract class EntityLivingBase extends Entity
 
         if (this.isPotionActive(Potion.jump))
         {
-            this.motionY += (double) ((float) (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
+            this.motionY += (float) (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F;
         }
 
         if (this.isSprinting())
         {
             float var1 = this.rotationYaw * 0.017453292F;
-            this.motionX -= (double) (MathHelper.sin(var1) * 0.2F);
-            this.motionZ += (double) (MathHelper.cos(var1) * 0.2F);
+            this.motionX -= MathHelper.sin(var1) * 0.2F;
+            this.motionZ += MathHelper.cos(var1) * 0.2F;
         }
 
         this.isAirBorne = true;
@@ -1661,22 +1658,22 @@ public abstract class EntityLivingBase extends Entity
 
                 if (this.motionX < (double) (-var6))
                 {
-                    this.motionX = (double) (-var6);
+                    this.motionX = -var6;
                 }
 
                 if (this.motionX > (double) var6)
                 {
-                    this.motionX = (double) var6;
+                    this.motionX = var6;
                 }
 
                 if (this.motionZ < (double) (-var6))
                 {
-                    this.motionZ = (double) (-var6);
+                    this.motionZ = -var6;
                 }
 
                 if (this.motionZ > (double) var6)
                 {
-                    this.motionZ = (double) var6;
+                    this.motionZ = var6;
                 }
 
                 this.fallDistance = 0.0F;
@@ -1716,8 +1713,8 @@ public abstract class EntityLivingBase extends Entity
             }
 
             this.motionY *= 0.9800000190734863;
-            this.motionX *= (double) var3;
-            this.motionZ *= (double) var3;
+            this.motionX *= var3;
+            this.motionZ *= var3;
         }
 
         this.prevLimbSwingAmount = this.limbSwingAmount;
@@ -1834,7 +1831,7 @@ public abstract class EntityLivingBase extends Entity
         if (var5 > 0.0025000002F)
         {
             var8 = 1.0F;
-            var7 = (float) Math.sqrt((double) var5) * 3.0F;
+            var7 = (float) Math.sqrt(var5) * 3.0F;
             var6 = (float) Math.atan2(var10, var9) * 180.0F / (float) Math.PI - 90.0F;
         }
 
@@ -2084,8 +2081,8 @@ public abstract class EntityLivingBase extends Entity
         this.newPosX = par1;
         this.newPosY = par3;
         this.newPosZ = par5;
-        this.newRotationYaw = (double) par7;
-        this.newRotationPitch = (double) par8;
+        this.newRotationYaw = par7;
+        this.newRotationPitch = par8;
         this.newPosRotationIncrements = par9;
     }
 
@@ -2164,7 +2161,7 @@ public abstract class EntityLivingBase extends Entity
             var3 = MathHelper.sin(-this.rotationYaw * 0.017453292F - (float) Math.PI);
             var4 = -MathHelper.cos(-this.rotationPitch * 0.017453292F);
             var5 = MathHelper.sin(-this.rotationPitch * 0.017453292F);
-            return this.worldObj.getWorldVec3Pool().getVecFromPool((double) (var3 * var4), (double) var5, (double) (var2 * var4));
+            return this.worldObj.getWorldVec3Pool().getVecFromPool(var3 * var4, var5, var2 * var4);
         } else
         {
             var2 = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * par1;
@@ -2173,7 +2170,7 @@ public abstract class EntityLivingBase extends Entity
             var5 = MathHelper.sin(-var3 * 0.017453292F - (float) Math.PI);
             float var6 = -MathHelper.cos(-var2 * 0.017453292F);
             float var7 = MathHelper.sin(-var2 * 0.017453292F);
-            return this.worldObj.getWorldVec3Pool().getVecFromPool((double) (var5 * var6), (double) var7, (double) (var4 * var6));
+            return this.worldObj.getWorldVec3Pool().getVecFromPool(var5 * var6, var7, var4 * var6);
         }
     }
 
@@ -2300,6 +2297,6 @@ public abstract class EntityLivingBase extends Entity
      */
     public boolean isOnTeam(Team par1Team)
     {
-        return this.getTeam() != null ? this.getTeam().isSameTeam(par1Team) : false;
+        return this.getTeam() != null && this.getTeam().isSameTeam(par1Team);
     }
 }

@@ -15,7 +15,7 @@ public abstract class Overlay
     private final OverlayManifest manifest;
     private final Setting<Boolean> stateSetting;
 
-    private boolean fixed;
+    private final boolean fixed;
 
     public Overlay()
     {

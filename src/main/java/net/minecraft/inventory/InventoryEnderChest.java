@@ -27,7 +27,7 @@ public class InventoryEnderChest extends InventoryBasic
 
         for (var2 = 0; var2 < this.getSizeInventory(); ++var2)
         {
-            this.setInventorySlotContents(var2, (ItemStack)null);
+            this.setInventorySlotContents(var2, null);
         }
 
         for (var2 = 0; var2 < par1NBTTagList.tagCount(); ++var2)
@@ -53,7 +53,7 @@ public class InventoryEnderChest extends InventoryBasic
             if (var3 != null)
             {
                 NBTTagCompound var4 = new NBTTagCompound();
-                var4.setByte("Slot", (byte)var2);
+                var4.setByte("Slot", (byte) var2);
                 var3.writeToNBT(var4);
                 var1.appendTag(var4);
             }
@@ -67,7 +67,7 @@ public class InventoryEnderChest extends InventoryBasic
      */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.associatedChest != null && !this.associatedChest.func_145971_a(par1EntityPlayer) ? false : super.isUseableByPlayer(par1EntityPlayer);
+        return (this.associatedChest == null || this.associatedChest.func_145971_a(par1EntityPlayer)) && super.isUseableByPlayer(par1EntityPlayer);
     }
 
     public void openInventory()

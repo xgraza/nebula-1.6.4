@@ -1,17 +1,20 @@
 package net.minecraft.village;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.PacketBuffer;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class MerchantRecipeList extends ArrayList
 {
     private static final String __OBFID = "CL_00000127";
 
-    public MerchantRecipeList() {}
+    public MerchantRecipeList()
+    {
+    }
 
     public MerchantRecipeList(NBTTagCompound par1NBTTagCompound)
     {
@@ -25,14 +28,13 @@ public class MerchantRecipeList extends ArrayList
     {
         if (par3 > 0 && par3 < this.size())
         {
-            MerchantRecipe var6 = (MerchantRecipe)this.get(par3);
+            MerchantRecipe var6 = (MerchantRecipe) this.get(par3);
             return par1ItemStack.getItem() == var6.getItemToBuy().getItem() && (par2ItemStack == null && !var6.hasSecondItemToBuy() || var6.hasSecondItemToBuy() && par2ItemStack != null && var6.getSecondItemToBuy().getItem() == par2ItemStack.getItem()) && par1ItemStack.stackSize >= var6.getItemToBuy().stackSize && (!var6.hasSecondItemToBuy() || par2ItemStack.stackSize >= var6.getSecondItemToBuy().stackSize) ? var6 : null;
-        }
-        else
+        } else
         {
             for (int var4 = 0; var4 < this.size(); ++var4)
             {
-                MerchantRecipe var5 = (MerchantRecipe)this.get(var4);
+                MerchantRecipe var5 = (MerchantRecipe) this.get(var4);
 
                 if (par1ItemStack.getItem() == var5.getItemToBuy().getItem() && par1ItemStack.stackSize >= var5.getItemToBuy().stackSize && (!var5.hasSecondItemToBuy() && par2ItemStack == null || var5.hasSecondItemToBuy() && par2ItemStack != null && var5.getSecondItemToBuy().getItem() == par2ItemStack.getItem() && par2ItemStack.stackSize >= var5.getSecondItemToBuy().stackSize))
                 {
@@ -51,7 +53,7 @@ public class MerchantRecipeList extends ArrayList
     {
         for (int var2 = 0; var2 < this.size(); ++var2)
         {
-            MerchantRecipe var3 = (MerchantRecipe)this.get(var2);
+            MerchantRecipe var3 = (MerchantRecipe) this.get(var2);
 
             if (par1MerchantRecipe.hasSameIDsAs(var3))
             {
@@ -69,11 +71,11 @@ public class MerchantRecipeList extends ArrayList
 
     public void func_151391_a(PacketBuffer p_151391_1_) throws IOException
     {
-        p_151391_1_.writeByte((byte)(this.size() & 255));
+        p_151391_1_.writeByte((byte) (this.size() & 255));
 
         for (int var2 = 0; var2 < this.size(); ++var2)
         {
-            MerchantRecipe var3 = (MerchantRecipe)this.get(var2);
+            MerchantRecipe var3 = (MerchantRecipe) this.get(var2);
             p_151391_1_.writeItemStackToBuffer(var3.getItemToBuy());
             p_151391_1_.writeItemStackToBuffer(var3.getItemToSell());
             ItemStack var4 = var3.getSecondItemToBuy();
@@ -136,7 +138,7 @@ public class MerchantRecipeList extends ArrayList
 
         for (int var3 = 0; var3 < this.size(); ++var3)
         {
-            MerchantRecipe var4 = (MerchantRecipe)this.get(var3);
+            MerchantRecipe var4 = (MerchantRecipe) this.get(var3);
             var2.appendTag(var4.writeToTags());
         }
 

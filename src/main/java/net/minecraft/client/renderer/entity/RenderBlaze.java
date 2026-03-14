@@ -16,7 +16,7 @@ public class RenderBlaze extends RenderLiving
     public RenderBlaze()
     {
         super(new ModelBlaze(), 0.5F);
-        this.field_77068_a = ((ModelBlaze)this.mainModel).func_78104_a();
+        this.field_77068_a = ((ModelBlaze) this.mainModel).func_78104_a();
     }
 
     /**
@@ -27,7 +27,7 @@ public class RenderBlaze extends RenderLiving
      */
     public void doRender(EntityBlaze par1EntityBlaze, double par2, double par4, double par6, float par8, float par9)
     {
-        int var10 = ((ModelBlaze)this.mainModel).func_78104_a();
+        int var10 = ((ModelBlaze) this.mainModel).func_78104_a();
 
         if (var10 != this.field_77068_a)
         {
@@ -35,7 +35,7 @@ public class RenderBlaze extends RenderLiving
             this.mainModel = new ModelBlaze();
         }
 
-        super.doRender((EntityLiving)par1EntityBlaze, par2, par4, par6, par8, par9);
+        super.doRender(par1EntityBlaze, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -54,7 +54,7 @@ public class RenderBlaze extends RenderLiving
      */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityBlaze)par1EntityLiving, par2, par4, par6, par8, par9);
+        this.doRender((EntityBlaze) par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -65,7 +65,7 @@ public class RenderBlaze extends RenderLiving
      */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityBlaze)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityBlaze) par1Entity, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -73,7 +73,7 @@ public class RenderBlaze extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityBlaze)par1Entity);
+        return this.getEntityTexture((EntityBlaze) par1Entity);
     }
 
     /**
@@ -84,6 +84,6 @@ public class RenderBlaze extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityBlaze)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityBlaze) par1Entity, par2, par4, par6, par8, par9);
     }
 }

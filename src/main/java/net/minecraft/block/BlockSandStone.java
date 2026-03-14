@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -8,10 +7,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
+import java.util.List;
+
 public class BlockSandStone extends Block
 {
-    public static final String[] field_150157_a = new String[] {"default", "chiseled", "smooth"};
-    private static final String[] field_150156_b = new String[] {"normal", "carved", "smooth"};
+    public static final String[] field_150157_a = new String[]{ "default", "chiseled", "smooth" };
+    private static final String[] field_150156_b = new String[]{ "normal", "carved", "smooth" };
     private IIcon[] field_150158_M;
     private IIcon field_150159_N;
     private IIcon field_150160_O;
@@ -33,8 +34,7 @@ public class BlockSandStone extends Block
             if (p_149691_1_ == 0)
             {
                 return this.field_150160_O;
-            }
-            else
+            } else
             {
                 if (p_149691_2_ < 0 || p_149691_2_ >= this.field_150158_M.length)
                 {
@@ -43,8 +43,7 @@ public class BlockSandStone extends Block
 
                 return this.field_150158_M[p_149691_2_];
             }
-        }
-        else
+        } else
         {
             return this.field_150159_N;
         }

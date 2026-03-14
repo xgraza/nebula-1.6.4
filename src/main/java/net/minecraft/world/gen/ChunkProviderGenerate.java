@@ -1,7 +1,5 @@
 package net.minecraft.world.gen;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.entity.EnumCreatureType;
@@ -22,47 +20,70 @@ import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import net.minecraft.world.gen.structure.MapGenStronghold;
 import net.minecraft.world.gen.structure.MapGenVillage;
 
+import java.util.List;
+import java.util.Random;
+
 public class ChunkProviderGenerate implements IChunkProvider
 {
-    /** RNG. */
-    private Random rand;
-    private NoiseGeneratorOctaves field_147431_j;
-    private NoiseGeneratorOctaves field_147432_k;
-    private NoiseGeneratorOctaves field_147429_l;
-    private NoiseGeneratorPerlin field_147430_m;
+    /**
+     * RNG.
+     */
+    private final Random rand;
+    private final NoiseGeneratorOctaves field_147431_j;
+    private final NoiseGeneratorOctaves field_147432_k;
+    private final NoiseGeneratorOctaves field_147429_l;
+    private final NoiseGeneratorPerlin field_147430_m;
 
-    /** A NoiseGeneratorOctaves used in generating terrain */
+    /**
+     * A NoiseGeneratorOctaves used in generating terrain
+     */
     public NoiseGeneratorOctaves noiseGen5;
 
-    /** A NoiseGeneratorOctaves used in generating terrain */
+    /**
+     * A NoiseGeneratorOctaves used in generating terrain
+     */
     public NoiseGeneratorOctaves noiseGen6;
     public NoiseGeneratorOctaves mobSpawnerNoise;
 
-    /** Reference to the World object. */
-    private World worldObj;
+    /**
+     * Reference to the World object.
+     */
+    private final World worldObj;
 
-    /** are map structures going to be generated (e.g. strongholds) */
+    /**
+     * are map structures going to be generated (e.g. strongholds)
+     */
     private final boolean mapFeaturesEnabled;
-    private WorldType field_147435_p;
+    private final WorldType field_147435_p;
     private final double[] field_147434_q;
     private final float[] parabolicField;
     private double[] stoneNoise = new double[256];
-    private MapGenBase caveGenerator = new MapGenCaves();
+    private final MapGenBase caveGenerator = new MapGenCaves();
 
-    /** Holds Stronghold Generator */
-    private MapGenStronghold strongholdGenerator = new MapGenStronghold();
+    /**
+     * Holds Stronghold Generator
+     */
+    private final MapGenStronghold strongholdGenerator = new MapGenStronghold();
 
-    /** Holds Village Generator */
-    private MapGenVillage villageGenerator = new MapGenVillage();
+    /**
+     * Holds Village Generator
+     */
+    private final MapGenVillage villageGenerator = new MapGenVillage();
 
-    /** Holds Mineshaft Generator */
-    private MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
-    private MapGenScatteredFeature scatteredFeatureGenerator = new MapGenScatteredFeature();
+    /**
+     * Holds Mineshaft Generator
+     */
+    private final MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
+    private final MapGenScatteredFeature scatteredFeatureGenerator = new MapGenScatteredFeature();
 
-    /** Holds ravine generator */
-    private MapGenBase ravineGenerator = new MapGenRavine();
+    /**
+     * Holds ravine generator
+     */
+    private final MapGenBase ravineGenerator = new MapGenRavine();
 
-    /** The biomes that are used to generate the chunk */
+    /**
+     * The biomes that are used to generate the chunk
+     */
     private BiomeGenBase[] biomesForGeneration;
     double[] field_147427_d;
     double[] field_147428_e;
@@ -91,7 +112,7 @@ public class ChunkProviderGenerate implements IChunkProvider
         {
             for (int var6 = -2; var6 <= 2; ++var6)
             {
-                float var7 = 10.0F / MathHelper.sqrt_float((float)(var5 * var5 + var6 * var6) + 0.2F);
+                float var7 = 10.0F / MathHelper.sqrt_float((float) (var5 * var5 + var6 * var6) + 0.2F);
                 this.parabolicField[var5 + 2 + (var6 + 2) * 5] = var7;
             }
         }
@@ -137,7 +158,7 @@ public class ChunkProviderGenerate implements IChunkProvider
 
                         for (int var43 = 0; var43 < 4; ++var43)
                         {
-                            int var44 = var43 + var5 * 4 << 12 | 0 + var8 * 4 << 8 | var13 * 8 + var32;
+                            int var44 = var43 + var5 * 4 << 12 | var8 * 4 << 8 | var13 * 8 + var32;
                             short var45 = 256;
                             var44 -= var45;
                             double var46 = 0.25D;
@@ -149,12 +170,10 @@ public class ChunkProviderGenerate implements IChunkProvider
                                 if ((var48 += var50) > 0.0D)
                                 {
                                     p_147424_3_[var44 += var45] = Blocks.stone;
-                                }
-                                else if (var13 * 8 + var32 < var4)
+                                } else if (var13 * 8 + var32 < var4)
                                 {
                                     p_147424_3_[var44 += var45] = Blocks.water;
-                                }
-                                else
+                                } else
                                 {
                                     p_147424_3_[var44 += var45] = null;
                                 }
@@ -177,7 +196,7 @@ public class ChunkProviderGenerate implements IChunkProvider
     public void func_147422_a(int p_147422_1_, int p_147422_2_, Block[] p_147422_3_, byte[] p_147422_4_, BiomeGenBase[] p_147422_5_)
     {
         double var6 = 0.03125D;
-        this.stoneNoise = this.field_147430_m.func_151599_a(this.stoneNoise, (double)(p_147422_1_ * 16), (double)(p_147422_2_ * 16), 16, 16, var6 * 2.0D, var6 * 2.0D, 1.0D);
+        this.stoneNoise = this.field_147430_m.func_151599_a(this.stoneNoise, p_147422_1_ * 16, p_147422_2_ * 16, 16, 16, var6 * 2.0D, var6 * 2.0D, 1.0D);
 
         for (int var8 = 0; var8 < 16; ++var8)
         {
@@ -203,7 +222,7 @@ public class ChunkProviderGenerate implements IChunkProvider
      */
     public Chunk provideChunk(int par1, int par2)
     {
-        this.rand.setSeed((long)par1 * 341873128712L + (long)par2 * 132897987541L);
+        this.rand.setSeed((long) par1 * 341873128712L + (long) par2 * 132897987541L);
         Block[] var3 = new Block[65536];
         byte[] var4 = new byte[65536];
         this.func_147424_a(par1, par2, var3);
@@ -225,7 +244,7 @@ public class ChunkProviderGenerate implements IChunkProvider
 
         for (int var7 = 0; var7 < var6.length; ++var7)
         {
-            var6[var7] = (byte)this.biomesForGeneration[var7].biomeID;
+            var6[var7] = (byte) this.biomesForGeneration[var7].biomeID;
         }
 
         var5.generateSkylightMap();
@@ -309,8 +328,7 @@ public class ChunkProviderGenerate implements IChunkProvider
 
                     var46 /= 1.4D;
                     var46 /= 2.0D;
-                }
-                else
+                } else
                 {
                     if (var46 > 1.0D)
                     {
@@ -321,15 +339,15 @@ public class ChunkProviderGenerate implements IChunkProvider
                 }
 
                 ++var13;
-                double var47 = (double)var19;
-                double var48 = (double)var18;
+                double var47 = var19;
+                double var48 = var18;
                 var47 += var46 * 0.2D;
                 var47 = var47 * 8.5D / 8.0D;
                 double var29 = 8.5D + var47 * 4.0D;
 
                 for (int var31 = 0; var31 < 33; ++var31)
                 {
-                    double var32 = ((double)var31 - var29) * 12.0D * 128.0D / 256.0D / var48;
+                    double var32 = ((double) var31 - var29) * 12.0D * 128.0D / 256.0D / var48;
 
                     if (var32 < 0.0D)
                     {
@@ -343,7 +361,7 @@ public class ChunkProviderGenerate implements IChunkProvider
 
                     if (var31 > 29)
                     {
-                        double var42 = (double)((float)(var31 - 29) / 3.0F);
+                        double var42 = (float) (var31 - 29) / 3.0F;
                         var40 = var40 * (1.0D - var42) + -10.0D * var42;
                     }
 
@@ -374,7 +392,7 @@ public class ChunkProviderGenerate implements IChunkProvider
         this.rand.setSeed(this.worldObj.getSeed());
         long var7 = this.rand.nextLong() / 2L * 2L + 1L;
         long var9 = this.rand.nextLong() / 2L * 2L + 1L;
-        this.rand.setSeed((long)par2 * var7 + (long)par3 * var9 ^ this.worldObj.getSeed());
+        this.rand.setSeed((long) par2 * var7 + (long) par3 * var9 ^ this.worldObj.getSeed());
         boolean var11 = false;
 
         if (this.mapFeaturesEnabled)
@@ -456,7 +474,9 @@ public class ChunkProviderGenerate implements IChunkProvider
      * Save extra data not associated with any Chunk.  Not saved during autosave, only during world unload.  Currently
      * unimplemented.
      */
-    public void saveExtraData() {}
+    public void saveExtraData()
+    {
+    }
 
     /**
      * Unloads chunks that are marked to be unloaded. This is not guaranteed to unload every such chunk.
@@ -505,10 +525,10 @@ public class ChunkProviderGenerate implements IChunkProvider
     {
         if (this.mapFeaturesEnabled)
         {
-            this.mineshaftGenerator.func_151539_a(this, this.worldObj, par1, par2, (Block[])null);
-            this.villageGenerator.func_151539_a(this, this.worldObj, par1, par2, (Block[])null);
-            this.strongholdGenerator.func_151539_a(this, this.worldObj, par1, par2, (Block[])null);
-            this.scatteredFeatureGenerator.func_151539_a(this, this.worldObj, par1, par2, (Block[])null);
+            this.mineshaftGenerator.func_151539_a(this, this.worldObj, par1, par2, null);
+            this.villageGenerator.func_151539_a(this, this.worldObj, par1, par2, null);
+            this.strongholdGenerator.func_151539_a(this, this.worldObj, par1, par2, null);
+            this.scatteredFeatureGenerator.func_151539_a(this, this.worldObj, par1, par2, null);
         }
     }
 }

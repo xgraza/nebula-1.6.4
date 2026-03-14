@@ -1,22 +1,23 @@
 package net.minecraft.world.gen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.biome.BiomeGenBase;
 
+import java.util.*;
+import java.util.Map.Entry;
+
 public class FlatGeneratorInfo
 {
-    /** List of layers on this preset. */
+    /**
+     * List of layers on this preset.
+     */
     private final List flatLayers = new ArrayList();
 
-    /** List of world features enabled on this preset. */
+    /**
+     * List of world features enabled on this preset.
+     */
     private final Map worldFeatures = new HashMap();
     private int biomeToUse;
     private static final String __OBFID = "CL_00000440";
@@ -60,7 +61,7 @@ public class FlatGeneratorInfo
 
         for (Iterator var2 = this.flatLayers.iterator(); var2.hasNext(); var1 += var3.getLayerCount())
         {
-            var3 = (FlatLayerInfo)var2.next();
+            var3 = (FlatLayerInfo) var2.next();
             var3.setMinY(var1);
         }
     }
@@ -79,7 +80,7 @@ public class FlatGeneratorInfo
                 var1.append(",");
             }
 
-            var1.append(((FlatLayerInfo)this.flatLayers.get(var2)).toString());
+            var1.append(this.flatLayers.get(var2).toString());
         }
 
         var1.append(";");
@@ -93,15 +94,15 @@ public class FlatGeneratorInfo
 
             while (var3.hasNext())
             {
-                Entry var4 = (Entry)var3.next();
+                Entry var4 = (Entry) var3.next();
 
                 if (var2++ > 0)
                 {
                     var1.append(",");
                 }
 
-                var1.append(((String)var4.getKey()).toLowerCase());
-                Map var5 = (Map)var4.getValue();
+                var1.append(((String) var4.getKey()).toLowerCase());
+                Map var5 = (Map) var4.getValue();
 
                 if (!var5.isEmpty())
                 {
@@ -111,23 +112,22 @@ public class FlatGeneratorInfo
 
                     while (var7.hasNext())
                     {
-                        Entry var8 = (Entry)var7.next();
+                        Entry var8 = (Entry) var7.next();
 
                         if (var6++ > 0)
                         {
                             var1.append(" ");
                         }
 
-                        var1.append((String)var8.getKey());
+                        var1.append((String) var8.getKey());
                         var1.append("=");
-                        var1.append((String)var8.getValue());
+                        var1.append((String) var8.getValue());
                     }
 
                     var1.append(")");
                 }
             }
-        }
-        else
+        } else
         {
             var1.append(";");
         }
@@ -156,8 +156,7 @@ public class FlatGeneratorInfo
                 {
                     var3 = 0;
                 }
-            }
-            catch (Throwable var7)
+            } catch (Throwable var7)
             {
                 return null;
             }
@@ -186,8 +185,7 @@ public class FlatGeneratorInfo
             {
                 var5 = 0;
             }
-        }
-        catch (Throwable var8)
+        } catch (Throwable var8)
         {
             return null;
         }
@@ -222,8 +220,7 @@ public class FlatGeneratorInfo
             }
 
             return var1;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -234,8 +231,7 @@ public class FlatGeneratorInfo
         if (par0Str == null)
         {
             return getDefaultFlatGenerator();
-        }
-        else
+        } else
         {
             String[] var1 = par0Str.split(";", -1);
             int var2 = var1.length == 1 ? 0 : MathHelper.parseIntWithDefault(var1[0], 0);
@@ -291,20 +287,17 @@ public class FlatGeneratorInfo
                                 }
                             }
                         }
-                    }
-                    else
+                    } else
                     {
                         var3.getWorldFeatures().put("village", new HashMap());
                     }
 
                     return var3;
-                }
-                else
+                } else
                 {
                     return getDefaultFlatGenerator();
                 }
-            }
-            else
+            } else
             {
                 return getDefaultFlatGenerator();
             }

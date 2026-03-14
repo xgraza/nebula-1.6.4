@@ -1,10 +1,11 @@
 package shadersmod.client;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.minecraft.src.Config;
 import net.minecraft.src.Lang;
 import net.minecraft.src.StrUtils;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ShaderOptionSwitch extends ShaderOption
 {
@@ -13,7 +14,7 @@ public class ShaderOptionSwitch extends ShaderOption
 
     public ShaderOptionSwitch(String name, String description, String value, String path)
     {
-        super(name, description, value, new String[] {"false", "true"}, value, path);
+        super(name, description, value, new String[]{ "false", "true" }, value, path);
     }
 
     public String getSourceLine()
@@ -39,8 +40,7 @@ public class ShaderOptionSwitch extends ShaderOption
         if (!m.matches())
         {
             return null;
-        }
-        else
+        } else
         {
             String comment = m.group(1);
             String name = m.group(2);
@@ -53,8 +53,7 @@ public class ShaderOptionSwitch extends ShaderOption
                 path = StrUtils.removePrefix(path, "/shaders/");
                 ShaderOptionSwitch so = new ShaderOptionSwitch(name, description, String.valueOf(enabled), path);
                 return so;
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -68,8 +67,7 @@ public class ShaderOptionSwitch extends ShaderOption
         if (!m.matches())
         {
             return false;
-        }
-        else
+        } else
         {
             String defName = m.group(2);
             return defName.matches(this.getName());
@@ -89,10 +87,7 @@ public class ShaderOptionSwitch extends ShaderOption
         {
             String name = mif.group(2);
 
-            if (name.equals(this.getName()))
-            {
-                return true;
-            }
+            return name.equals(this.getName());
         }
 
         return false;

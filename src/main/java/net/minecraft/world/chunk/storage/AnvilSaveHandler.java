@@ -1,6 +1,5 @@
 package net.minecraft.world.chunk.storage;
 
-import java.io.File;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldProviderEnd;
@@ -8,6 +7,8 @@ import net.minecraft.world.WorldProviderHell;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraft.world.storage.ThreadedFileIOBase;
 import net.minecraft.world.storage.WorldInfo;
+
+import java.io.File;
 
 public class AnvilSaveHandler extends SaveHandler
 {
@@ -31,14 +32,12 @@ public class AnvilSaveHandler extends SaveHandler
             var3 = new File(var2, "DIM-1");
             var3.mkdirs();
             return new AnvilChunkLoader(var3);
-        }
-        else if (par1WorldProvider instanceof WorldProviderEnd)
+        } else if (par1WorldProvider instanceof WorldProviderEnd)
         {
             var3 = new File(var2, "DIM1");
             var3.mkdirs();
             return new AnvilChunkLoader(var3);
-        }
-        else
+        } else
         {
             return new AnvilChunkLoader(var2);
         }
@@ -61,8 +60,7 @@ public class AnvilSaveHandler extends SaveHandler
         try
         {
             ThreadedFileIOBase.threadedIOInstance.waitForFinish();
-        }
-        catch (InterruptedException var2)
+        } catch (InterruptedException var2)
         {
             var2.printStackTrace();
         }

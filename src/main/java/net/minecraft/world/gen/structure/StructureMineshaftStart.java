@@ -1,13 +1,16 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.Random;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class StructureMineshaftStart extends StructureStart
 {
     private static final String __OBFID = "CL_00000450";
 
-    public StructureMineshaftStart() {}
+    public StructureMineshaftStart()
+    {
+    }
 
     public StructureMineshaftStart(World par1World, Random par2Random, int par3, int par4)
     {

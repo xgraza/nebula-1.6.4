@@ -1,12 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
+
+import java.io.IOException;
 
 public class S11PacketSpawnExperienceOrb extends Packet
 {
@@ -17,7 +18,9 @@ public class S11PacketSpawnExperienceOrb extends Packet
     private int field_148989_e;
     private static final String __OBFID = "CL_00001277";
 
-    public S11PacketSpawnExperienceOrb() {}
+    public S11PacketSpawnExperienceOrb()
+    {
+    }
 
     public S11PacketSpawnExperienceOrb(EntityXPOrb p_i45167_1_)
     {
@@ -62,7 +65,7 @@ public class S11PacketSpawnExperienceOrb extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, value=%d, x=%.2f, y=%.2f, z=%.2f", new Object[] {Integer.valueOf(this.field_148992_a), Integer.valueOf(this.field_148989_e), Float.valueOf((float)this.field_148990_b / 32.0F), Float.valueOf((float)this.field_148991_c / 32.0F), Float.valueOf((float)this.field_148988_d / 32.0F)});
+        return String.format("id=%d, value=%d, x=%.2f, y=%.2f, z=%.2f", Integer.valueOf(this.field_148992_a), Integer.valueOf(this.field_148989_e), Float.valueOf((float) this.field_148990_b / 32.0F), Float.valueOf((float) this.field_148991_c / 32.0F), Float.valueOf((float) this.field_148988_d / 32.0F));
     }
 
     public int func_148985_c()
@@ -92,6 +95,6 @@ public class S11PacketSpawnExperienceOrb extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

@@ -33,17 +33,23 @@ public abstract class EntityAIBase
     /**
      * Execute a one shot task or start executing a continuous task
      */
-    public void startExecuting() {}
+    public void startExecuting()
+    {
+    }
 
     /**
      * Resets the task
      */
-    public void resetTask() {}
+    public void resetTask()
+    {
+    }
 
     /**
      * Updates the task
      */
-    public void updateTask() {}
+    public void updateTask()
+    {
+    }
 
     /**
      * Sets a bitmask telling which other tasks may not run concurrently. The test is a simple bitwise AND - if it

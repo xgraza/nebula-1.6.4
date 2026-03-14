@@ -1,6 +1,7 @@
 package net.minecraft.event;
 
 import com.google.common.collect.Maps;
+
 import java.util.Map;
 
 public class ClickEvent
@@ -37,33 +38,21 @@ public class ClickEvent
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (par1Obj != null && this.getClass() == par1Obj.getClass())
+        } else if (par1Obj != null && this.getClass() == par1Obj.getClass())
         {
-            ClickEvent var2 = (ClickEvent)par1Obj;
+            ClickEvent var2 = (ClickEvent) par1Obj;
 
             if (this.action != var2.action)
             {
                 return false;
-            }
-            else
+            } else
             {
                 if (this.value != null)
                 {
-                    if (!this.value.equals(var2.value))
-                    {
-                        return false;
-                    }
-                }
-                else if (var2.value != null)
-                {
-                    return false;
-                }
-
-                return true;
+                    return this.value.equals(var2.value);
+                } else return var2.value == null;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -71,7 +60,7 @@ public class ClickEvent
 
     public String toString()
     {
-        return "ClickEvent{action=" + this.action + ", value=\'" + this.value + '\'' + '}';
+        return "ClickEvent{action=" + this.action + ", value='" + this.value + '\'' + '}';
     }
 
     public int hashCode()
@@ -81,7 +70,7 @@ public class ClickEvent
         return var1;
     }
 
-    public static enum Action
+    public enum Action
     {
         OPEN_URL("OPEN_URL", 0, "open_url", true),
         OPEN_FILE("OPEN_FILE", 1, "open_file", false),
@@ -91,10 +80,10 @@ public class ClickEvent
         private final boolean allowedInChat;
         private final String canonicalName;
 
-        private static final ClickEvent.Action[] $VALUES = new ClickEvent.Action[]{OPEN_URL, OPEN_FILE, RUN_COMMAND, SUGGEST_COMMAND};
+        private static final ClickEvent.Action[] $VALUES = new ClickEvent.Action[]{ OPEN_URL, OPEN_FILE, RUN_COMMAND, SUGGEST_COMMAND };
         private static final String __OBFID = "CL_00001261";
 
-        private Action(String p_i45155_1_, int p_i45155_2_, String p_i45155_3_, boolean p_i45155_4_)
+        Action(String p_i45155_1_, int p_i45155_2_, String p_i45155_3_, boolean p_i45155_4_)
         {
             this.canonicalName = p_i45155_3_;
             this.allowedInChat = p_i45155_4_;
@@ -112,10 +101,11 @@ public class ClickEvent
 
         public static ClickEvent.Action getValueByCanonicalName(String p_150672_0_)
         {
-            return (ClickEvent.Action)nameMapping.get(p_150672_0_);
+            return (ClickEvent.Action) nameMapping.get(p_150672_0_);
         }
 
-        static {
+        static
+        {
             ClickEvent.Action[] var0 = values();
             int var1 = var0.length;
 

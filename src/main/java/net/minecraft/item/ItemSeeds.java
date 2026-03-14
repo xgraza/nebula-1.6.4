@@ -7,10 +7,12 @@ import net.minecraft.world.World;
 
 public class ItemSeeds extends Item
 {
-    private Block field_150925_a;
+    private final Block field_150925_a;
 
-    /** BlockID of the block the seeds can be planted on. */
-    private Block soilBlockID;
+    /**
+     * BlockID of the block the seeds can be planted on.
+     */
+    private final Block soilBlockID;
     private static final String __OBFID = "CL_00000061";
 
     public ItemSeeds(Block p_i45352_1_, Block p_i45352_2_)
@@ -29,21 +31,18 @@ public class ItemSeeds extends Item
         if (par7 != 1)
         {
             return false;
-        }
-        else if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
+        } else if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
         {
             if (par3World.getBlock(par4, par5, par6) == this.soilBlockID && par3World.isAirBlock(par4, par5 + 1, par6))
             {
                 par3World.setBlock(par4, par5 + 1, par6, this.field_150925_a);
                 --par1ItemStack.stackSize;
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return false;
         }

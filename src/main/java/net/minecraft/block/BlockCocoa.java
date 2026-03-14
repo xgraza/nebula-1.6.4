@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,6 +13,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockCocoa extends BlockDirectional implements IGrowable
 {
@@ -53,8 +54,7 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
         {
             this.dropBlockAsItem(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, p_149674_1_.getBlockMetadata(p_149674_2_, p_149674_3_, p_149674_4_), 0);
             p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, getBlockById(0), 0, 2);
-        }
-        else if (p_149674_1_.rand.nextInt(5) == 0)
+        } else if (p_149674_1_.rand.nextInt(5) == 0)
         {
             int var6 = p_149674_1_.getBlockMetadata(p_149674_2_, p_149674_3_, p_149674_4_);
             int var7 = func_149987_c(var6);
@@ -123,24 +123,24 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
         int var7 = func_149987_c(var5);
         int var8 = 4 + var7 * 2;
         int var9 = 5 + var7 * 2;
-        float var10 = (float)var8 / 2.0F;
+        float var10 = (float) var8 / 2.0F;
 
         switch (var6)
         {
             case 0:
-                this.setBlockBounds((8.0F - var10) / 16.0F, (12.0F - (float)var9) / 16.0F, (15.0F - (float)var8) / 16.0F, (8.0F + var10) / 16.0F, 0.75F, 0.9375F);
+                this.setBlockBounds((8.0F - var10) / 16.0F, (12.0F - (float) var9) / 16.0F, (15.0F - (float) var8) / 16.0F, (8.0F + var10) / 16.0F, 0.75F, 0.9375F);
                 break;
 
             case 1:
-                this.setBlockBounds(0.0625F, (12.0F - (float)var9) / 16.0F, (8.0F - var10) / 16.0F, (1.0F + (float)var8) / 16.0F, 0.75F, (8.0F + var10) / 16.0F);
+                this.setBlockBounds(0.0625F, (12.0F - (float) var9) / 16.0F, (8.0F - var10) / 16.0F, (1.0F + (float) var8) / 16.0F, 0.75F, (8.0F + var10) / 16.0F);
                 break;
 
             case 2:
-                this.setBlockBounds((8.0F - var10) / 16.0F, (12.0F - (float)var9) / 16.0F, 0.0625F, (8.0F + var10) / 16.0F, 0.75F, (1.0F + (float)var8) / 16.0F);
+                this.setBlockBounds((8.0F - var10) / 16.0F, (12.0F - (float) var9) / 16.0F, 0.0625F, (8.0F + var10) / 16.0F, 0.75F, (1.0F + (float) var8) / 16.0F);
                 break;
 
             case 3:
-                this.setBlockBounds((15.0F - (float)var8) / 16.0F, (12.0F - (float)var9) / 16.0F, (8.0F - var10) / 16.0F, 0.9375F, 0.75F, (8.0F + var10) / 16.0F);
+                this.setBlockBounds((15.0F - (float) var8) / 16.0F, (12.0F - (float) var9) / 16.0F, (8.0F - var10) / 16.0F, 0.9375F, 0.75F, (8.0F + var10) / 16.0F);
         }
     }
 
@@ -149,7 +149,7 @@ public class BlockCocoa extends BlockDirectional implements IGrowable
      */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
-        int var7 = ((MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 0) % 4;
+        int var7 = ((MathHelper.floor_double((double) (p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3)) % 4;
         p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, var7, 2);
     }
 

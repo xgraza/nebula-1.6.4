@@ -12,14 +12,18 @@ public abstract class GuiListExtended extends GuiSlot
         super(p_i45010_1_, p_i45010_2_, p_i45010_3_, p_i45010_4_, p_i45010_5_, p_i45010_6_);
     }
 
-    protected void elementClicked(int p_148144_1_, boolean p_148144_2_, int p_148144_3_, int p_148144_4_) {}
+    protected void elementClicked(int p_148144_1_, boolean p_148144_2_, int p_148144_3_, int p_148144_4_)
+    {
+    }
 
     protected boolean isSelected(int p_148131_1_)
     {
         return false;
     }
 
-    protected void drawBackground() {}
+    protected void drawBackground()
+    {
+    }
 
     protected void drawSlot(int p_148126_1_, int p_148126_2_, int p_148126_3_, int p_148126_4_, Tessellator p_148126_5_, int p_148126_6_, int p_148126_7_)
     {

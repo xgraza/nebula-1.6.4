@@ -4,8 +4,10 @@ import net.minecraft.util.MathHelper;
 
 public class EntityBodyHelper
 {
-    /** Instance of EntityLiving. */
-    private EntityLivingBase theLiving;
+    /**
+     * Instance of EntityLiving.
+     */
+    private final EntityLivingBase theLiving;
     private int field_75666_b;
     private float field_75667_c;
     private static final String __OBFID = "CL_00001570";
@@ -26,8 +28,7 @@ public class EntityBodyHelper
             this.theLiving.rotationYawHead = this.func_75665_a(this.theLiving.renderYawOffset, this.theLiving.rotationYawHead, 75.0F);
             this.field_75667_c = this.theLiving.rotationYawHead;
             this.field_75666_b = 0;
-        }
-        else
+        } else
         {
             float var5 = 75.0F;
 
@@ -35,15 +36,14 @@ public class EntityBodyHelper
             {
                 this.field_75666_b = 0;
                 this.field_75667_c = this.theLiving.rotationYawHead;
-            }
-            else
+            } else
             {
                 ++this.field_75666_b;
                 boolean var6 = true;
 
                 if (this.field_75666_b > 10)
                 {
-                    var5 = Math.max(1.0F - (float)(this.field_75666_b - 10) / 10.0F, 0.0F) * 75.0F;
+                    var5 = Math.max(1.0F - (float) (this.field_75666_b - 10) / 10.0F, 0.0F) * 75.0F;
                 }
             }
 

@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,9 +8,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
+import java.util.List;
+import java.util.Random;
+
 public class BlockWoodSlab extends BlockSlab
 {
-    public static final String[] field_150005_b = new String[] {"oak", "spruce", "birch", "jungle", "acacia", "big_oak"};
+    public static final String[] field_150005_b = new String[]{ "oak", "spruce", "birch", "jungle", "acacia", "big_oak" };
     private static final String __OBFID = "CL_00000337";
 
     public BlockWoodSlab(boolean p_i45437_1_)
@@ -64,5 +65,7 @@ public class BlockWoodSlab extends BlockSlab
         }
     }
 
-    public void registerIcons(IIconRegister p_149651_1_) {}
+    public void registerIcons(IIconRegister p_149651_1_)
+    {
+    }
 }

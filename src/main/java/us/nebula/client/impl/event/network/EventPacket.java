@@ -20,7 +20,7 @@ public class EventPacket extends Event
 
     public <T extends Packet> T getPacket()
     {
-        return (T)packet;
+        return (T) packet;
     }
 
     public static final class Inbound extends EventPacket

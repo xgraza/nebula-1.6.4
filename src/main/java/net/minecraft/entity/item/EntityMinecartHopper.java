@@ -1,6 +1,5 @@
 package net.minecraft.entity.item;
 
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,9 +11,13 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class EntityMinecartHopper extends EntityMinecartContainer implements IHopper
 {
-    /** Whether this hopper minecart is being blocked by an activator rail. */
+    /**
+     * Whether this hopper minecart is being blocked by an activator rail.
+     */
     private boolean isBlocked = true;
     private int transferTicker = -1;
     private static final String __OBFID = "CL_00001676";
@@ -155,14 +158,13 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         if (TileEntityHopper.func_145891_a(this))
         {
             return true;
-        }
-        else
+        } else
         {
             List var1 = this.worldObj.selectEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(0.25D, 0.0D, 0.25D), IEntitySelector.selectAnything);
 
             if (var1.size() > 0)
             {
-                TileEntityHopper.func_145898_a(this, (EntityItem)var1.get(0));
+                TileEntityHopper.func_145898_a(this, (EntityItem) var1.get(0));
             }
 
             return false;

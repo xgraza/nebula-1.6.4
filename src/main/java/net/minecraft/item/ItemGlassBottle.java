@@ -36,8 +36,7 @@ public class ItemGlassBottle extends Item
         if (var4 == null)
         {
             return par1ItemStack;
-        }
-        else
+        } else
         {
             if (var4.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
             {
@@ -75,5 +74,7 @@ public class ItemGlassBottle extends Item
         }
     }
 
-    public void registerIcons(IIconRegister par1IconRegister) {}
+    public void registerIcons(IIconRegister par1IconRegister)
+    {
+    }
 }

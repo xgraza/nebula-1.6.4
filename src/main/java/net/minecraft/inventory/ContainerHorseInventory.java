@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerHorseInventory extends Container
 {
-    private IInventory field_111243_a;
-    private EntityHorse theHorse;
+    private final IInventory field_111243_a;
+    private final EntityHorse theHorse;
     private static final String __OBFID = "CL_00001751";
 
     public ContainerHorseInventory(IInventory par1IInventory, final IInventory par2IInventory, final EntityHorse par3EntityHorse)
@@ -21,6 +21,7 @@ public class ContainerHorseInventory extends Container
         this.addSlotToContainer(new Slot(par2IInventory, 0, 8, 18)
         {
             private static final String __OBFID = "CL_00001752";
+
             public boolean isItemValid(ItemStack par1ItemStack)
             {
                 return super.isItemValid(par1ItemStack) && par1ItemStack.getItem() == Items.saddle && !this.getHasStack();
@@ -29,10 +30,12 @@ public class ContainerHorseInventory extends Container
         this.addSlotToContainer(new Slot(par2IInventory, 1, 8, 36)
         {
             private static final String __OBFID = "CL_00001753";
+
             public boolean isItemValid(ItemStack par1ItemStack)
             {
                 return super.isItemValid(par1ItemStack) && par3EntityHorse.func_110259_cr() && EntityHorse.func_146085_a(par1ItemStack.getItem());
             }
+
             public boolean func_111238_b()
             {
                 return par3EntityHorse.func_110259_cr();
@@ -77,7 +80,7 @@ public class ContainerHorseInventory extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -90,31 +93,27 @@ public class ContainerHorseInventory extends Container
                 {
                     return null;
                 }
-            }
-            else if (this.getSlot(1).isItemValid(var5) && !this.getSlot(1).getHasStack())
+            } else if (this.getSlot(1).isItemValid(var5) && !this.getSlot(1).getHasStack())
             {
                 if (!this.mergeItemStack(var5, 1, 2, false))
                 {
                     return null;
                 }
-            }
-            else if (this.getSlot(0).isItemValid(var5))
+            } else if (this.getSlot(0).isItemValid(var5))
             {
                 if (!this.mergeItemStack(var5, 0, 1, false))
                 {
                     return null;
                 }
-            }
-            else if (this.field_111243_a.getSizeInventory() <= 2 || !this.mergeItemStack(var5, 2, this.field_111243_a.getSizeInventory(), false))
+            } else if (this.field_111243_a.getSizeInventory() <= 2 || !this.mergeItemStack(var5, 2, this.field_111243_a.getSizeInventory(), false))
             {
                 return null;
             }
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack(null);
+            } else
             {
                 var4.onSlotChanged();
             }

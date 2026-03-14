@@ -107,7 +107,7 @@ public final class ConfigPanel extends GUIComponent implements IGUIInputListener
         {
             if (component instanceof IGUIInputListener)
             {
-                ((IGUIInputListener)component).mouseClicked(mouseX, mouseY, mouseButton);
+                ((IGUIInputListener) component).mouseClicked(mouseX, mouseY, mouseButton);
             }
         }
     }
@@ -229,8 +229,7 @@ public final class ConfigPanel extends GUIComponent implements IGUIInputListener
                     "Cheat Config",
                     "Config " + configName + " was deleted successfully",
                     1700L);
-        }
-        else
+        } else
         {
             Nebula.INSTANCE.getToastManager().error(
                     "Cheat Config",

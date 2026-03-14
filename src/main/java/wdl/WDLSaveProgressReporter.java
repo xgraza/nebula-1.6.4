@@ -11,8 +11,7 @@ public class WDLSaveProgressReporter implements Runnable
             try
             {
                 Thread.sleep(10000L);
-            }
-            catch (InterruptedException var2)
+            } catch (InterruptedException var2)
             {
                 var2.printStackTrace();
             }

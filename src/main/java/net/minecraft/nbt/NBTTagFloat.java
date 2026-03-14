@@ -1,17 +1,22 @@
 package net.minecraft.nbt;
 
+import net.minecraft.util.MathHelper;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import net.minecraft.util.MathHelper;
 
 public class NBTTagFloat extends NBTBase.NBTPrimitive
 {
-    /** The float value for the tag. */
+    /**
+     * The float value for the tag.
+     */
     private float data;
     private static final String __OBFID = "CL_00001220";
 
-    NBTTagFloat() {}
+    NBTTagFloat()
+    {
+    }
 
     public NBTTagFloat(float p_i45131_1_)
     {
@@ -39,12 +44,12 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive
      */
     public byte getId()
     {
-        return (byte)5;
+        return (byte) 5;
     }
 
     public String toString()
     {
-        return "" + this.data + "f";
+        return this.data + "f";
     }
 
     /**
@@ -59,10 +64,9 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive
     {
         if (super.equals(par1Obj))
         {
-            NBTTagFloat var2 = (NBTTagFloat)par1Obj;
+            NBTTagFloat var2 = (NBTTagFloat) par1Obj;
             return this.data == var2.data;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -75,7 +79,7 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive
 
     public long func_150291_c()
     {
-        return (long)this.data;
+        return (long) this.data;
     }
 
     public int func_150287_d()
@@ -85,17 +89,17 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive
 
     public short func_150289_e()
     {
-        return (short)(MathHelper.floor_float(this.data) & 65535);
+        return (short) (MathHelper.floor_float(this.data) & 65535);
     }
 
     public byte func_150290_f()
     {
-        return (byte)(MathHelper.floor_float(this.data) & 255);
+        return (byte) (MathHelper.floor_float(this.data) & 255);
     }
 
     public double func_150286_g()
     {
-        return (double)this.data;
+        return this.data;
     }
 
     public float func_150288_h()

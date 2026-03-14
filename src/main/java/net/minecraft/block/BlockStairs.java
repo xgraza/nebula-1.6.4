@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,18 +8,17 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 public class BlockStairs extends Block
 {
-    private static final int[][] field_150150_a = new int[][] {{2, 6}, {3, 7}, {2, 3}, {6, 7}, {0, 4}, {1, 5}, {0, 1}, {4, 5}};
+    private static final int[][] field_150150_a = new int[][]{ { 2, 6 }, { 3, 7 }, { 2, 3 }, { 6, 7 }, { 0, 4 }, { 1, 5 }, { 0, 1 }, { 4, 5 } };
     private final Block field_150149_b;
     private final int field_150151_M;
     private boolean field_150152_N;
@@ -44,9 +41,8 @@ public class BlockStairs extends Block
     {
         if (this.field_150152_N)
         {
-            this.setBlockBounds(0.5F * (float)(this.field_150153_O % 2), 0.5F * (float)(this.field_150153_O / 2 % 2), 0.5F * (float)(this.field_150153_O / 4 % 2), 0.5F + 0.5F * (float)(this.field_150153_O % 2), 0.5F + 0.5F * (float)(this.field_150153_O / 2 % 2), 0.5F + 0.5F * (float)(this.field_150153_O / 4 % 2));
-        }
-        else
+            this.setBlockBounds(0.5F * (float) (this.field_150153_O % 2), 0.5F * (float) (this.field_150153_O / 2 % 2), 0.5F * (float) (this.field_150153_O / 4 % 2), 0.5F + 0.5F * (float) (this.field_150153_O % 2), 0.5F + 0.5F * (float) (this.field_150153_O / 2 % 2), 0.5F + 0.5F * (float) (this.field_150153_O / 4 % 2));
+        } else
         {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         }
@@ -77,8 +73,7 @@ public class BlockStairs extends Block
         if ((var5 & 4) != 0)
         {
             this.setBlockBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
-        }
-        else
+        } else
         {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
         }
@@ -132,15 +127,13 @@ public class BlockStairs extends Block
                 {
                     var12 = 0.5F;
                     var13 = false;
-                }
-                else if (var16 == 2 && !this.func_150146_f(p_150145_1_, p_150145_2_, p_150145_3_, p_150145_4_ - 1, var5))
+                } else if (var16 == 2 && !this.func_150146_f(p_150145_1_, p_150145_2_, p_150145_3_, p_150145_4_ - 1, var5))
                 {
                     var11 = 0.5F;
                     var13 = false;
                 }
             }
-        }
-        else if (var6 == 1)
+        } else if (var6 == 1)
         {
             var10 = 0.5F;
             var12 = 1.0F;
@@ -155,15 +148,13 @@ public class BlockStairs extends Block
                 {
                     var12 = 0.5F;
                     var13 = false;
-                }
-                else if (var16 == 2 && !this.func_150146_f(p_150145_1_, p_150145_2_, p_150145_3_, p_150145_4_ - 1, var5))
+                } else if (var16 == 2 && !this.func_150146_f(p_150145_1_, p_150145_2_, p_150145_3_, p_150145_4_ - 1, var5))
                 {
                     var11 = 0.5F;
                     var13 = false;
                 }
             }
-        }
-        else if (var6 == 2)
+        } else if (var6 == 2)
         {
             var11 = 0.5F;
             var12 = 1.0F;
@@ -178,15 +169,13 @@ public class BlockStairs extends Block
                 {
                     var10 = 0.5F;
                     var13 = false;
-                }
-                else if (var16 == 0 && !this.func_150146_f(p_150145_1_, p_150145_2_ - 1, p_150145_3_, p_150145_4_, var5))
+                } else if (var16 == 0 && !this.func_150146_f(p_150145_1_, p_150145_2_ - 1, p_150145_3_, p_150145_4_, var5))
                 {
                     var9 = 0.5F;
                     var13 = false;
                 }
             }
-        }
-        else if (var6 == 3)
+        } else if (var6 == 3)
         {
             var14 = p_150145_1_.getBlock(p_150145_2_, p_150145_3_, p_150145_4_ - 1);
             var15 = p_150145_1_.getBlockMetadata(p_150145_2_, p_150145_3_, p_150145_4_ - 1);
@@ -199,8 +188,7 @@ public class BlockStairs extends Block
                 {
                     var10 = 0.5F;
                     var13 = false;
-                }
-                else if (var16 == 0 && !this.func_150146_f(p_150145_1_, p_150145_2_ - 1, p_150145_3_, p_150145_4_, var5))
+                } else if (var16 == 0 && !this.func_150146_f(p_150145_1_, p_150145_2_ - 1, p_150145_3_, p_150145_4_, var5))
                 {
                     var9 = 0.5F;
                     var13 = false;
@@ -248,16 +236,14 @@ public class BlockStairs extends Block
                     var11 = 0.0F;
                     var12 = 0.5F;
                     var13 = true;
-                }
-                else if (var16 == 2 && !this.func_150146_f(p_150144_1_, p_150144_2_, p_150144_3_, p_150144_4_ + 1, var5))
+                } else if (var16 == 2 && !this.func_150146_f(p_150144_1_, p_150144_2_, p_150144_3_, p_150144_4_ + 1, var5))
                 {
                     var11 = 0.5F;
                     var12 = 1.0F;
                     var13 = true;
                 }
             }
-        }
-        else if (var6 == 1)
+        } else if (var6 == 1)
         {
             var14 = p_150144_1_.getBlock(p_150144_2_ + 1, p_150144_3_, p_150144_4_);
             var15 = p_150144_1_.getBlockMetadata(p_150144_2_ + 1, p_150144_3_, p_150144_4_);
@@ -273,16 +259,14 @@ public class BlockStairs extends Block
                     var11 = 0.0F;
                     var12 = 0.5F;
                     var13 = true;
-                }
-                else if (var16 == 2 && !this.func_150146_f(p_150144_1_, p_150144_2_, p_150144_3_, p_150144_4_ + 1, var5))
+                } else if (var16 == 2 && !this.func_150146_f(p_150144_1_, p_150144_2_, p_150144_3_, p_150144_4_ + 1, var5))
                 {
                     var11 = 0.5F;
                     var12 = 1.0F;
                     var13 = true;
                 }
             }
-        }
-        else if (var6 == 2)
+        } else if (var6 == 2)
         {
             var14 = p_150144_1_.getBlock(p_150144_2_, p_150144_3_, p_150144_4_ - 1);
             var15 = p_150144_1_.getBlockMetadata(p_150144_2_, p_150144_3_, p_150144_4_ - 1);
@@ -296,16 +280,14 @@ public class BlockStairs extends Block
                 if (var16 == 1 && !this.func_150146_f(p_150144_1_, p_150144_2_ - 1, p_150144_3_, p_150144_4_, var5))
                 {
                     var13 = true;
-                }
-                else if (var16 == 0 && !this.func_150146_f(p_150144_1_, p_150144_2_ + 1, p_150144_3_, p_150144_4_, var5))
+                } else if (var16 == 0 && !this.func_150146_f(p_150144_1_, p_150144_2_ + 1, p_150144_3_, p_150144_4_, var5))
                 {
                     var9 = 0.5F;
                     var10 = 1.0F;
                     var13 = true;
                 }
             }
-        }
-        else if (var6 == 3)
+        } else if (var6 == 3)
         {
             var14 = p_150144_1_.getBlock(p_150144_2_, p_150144_3_, p_150144_4_ + 1);
             var15 = p_150144_1_.getBlockMetadata(p_150144_2_, p_150144_3_, p_150144_4_ + 1);
@@ -317,8 +299,7 @@ public class BlockStairs extends Block
                 if (var16 == 1 && !this.func_150146_f(p_150144_1_, p_150144_2_ - 1, p_150144_3_, p_150144_4_, var5))
                 {
                     var13 = true;
-                }
-                else if (var16 == 0 && !this.func_150146_f(p_150144_1_, p_150144_2_ + 1, p_150144_3_, p_150144_4_, var5))
+                } else if (var16 == 0 && !this.func_150146_f(p_150144_1_, p_150144_2_ + 1, p_150144_3_, p_150144_4_, var5))
                 {
                     var9 = 0.5F;
                     var10 = 1.0F;
@@ -487,7 +468,7 @@ public class BlockStairs extends Block
      */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
-        int var7 = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int var7 = MathHelper.floor_double((double) (p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
         int var8 = p_149689_1_.getBlockMetadata(p_149689_2_, p_149689_3_, p_149689_4_) & 4;
 
         if (var7 == 0)
@@ -513,7 +494,7 @@ public class BlockStairs extends Block
 
     public int onBlockPlaced(World p_149660_1_, int p_149660_2_, int p_149660_3_, int p_149660_4_, int p_149660_5_, float p_149660_6_, float p_149660_7_, float p_149660_8_, int p_149660_9_)
     {
-        return p_149660_5_ != 0 && (p_149660_5_ == 1 || (double)p_149660_7_ <= 0.5D) ? p_149660_9_ : p_149660_9_ | 4;
+        return p_149660_5_ != 0 && (p_149660_5_ == 1 || (double) p_149660_7_ <= 0.5D) ? p_149660_9_ : p_149660_9_ | 4;
     }
 
     public MovingObjectPosition collisionRayTrace(World p_149731_1_, int p_149731_2_, int p_149731_3_, int p_149731_4_, Vec3 p_149731_5_, Vec3 p_149731_6_)
@@ -540,7 +521,6 @@ public class BlockStairs extends Block
 
                 if (var16 == var12)
                 {
-                    ;
                 }
             }
 
@@ -580,5 +560,7 @@ public class BlockStairs extends Block
         return var22;
     }
 
-    public void registerIcons(IIconRegister p_149651_1_) {}
+    public void registerIcons(IIconRegister p_149651_1_)
+    {
+    }
 }

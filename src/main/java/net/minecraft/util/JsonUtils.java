@@ -1,10 +1,6 @@
 package net.minecraft.util;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 
 public class JsonUtils
 {
@@ -15,7 +11,7 @@ public class JsonUtils
      */
     public static boolean jsonObjectFieldTypeIsString(JsonObject p_151205_0_, String p_151205_1_)
     {
-        return !jsonObjectFieldTypeIsPrimitive(p_151205_0_, p_151205_1_) ? false : p_151205_0_.getAsJsonPrimitive(p_151205_1_).isString();
+        return jsonObjectFieldTypeIsPrimitive(p_151205_0_, p_151205_1_) && p_151205_0_.getAsJsonPrimitive(p_151205_1_).isString();
     }
 
     /**
@@ -23,7 +19,7 @@ public class JsonUtils
      */
     public static boolean jsonElementTypeIsString(JsonElement p_151211_0_)
     {
-        return !p_151211_0_.isJsonPrimitive() ? false : p_151211_0_.getAsJsonPrimitive().isString();
+        return p_151211_0_.isJsonPrimitive() && p_151211_0_.getAsJsonPrimitive().isString();
     }
 
     /**
@@ -31,7 +27,7 @@ public class JsonUtils
      */
     public static boolean jsonObjectFieldTypeIsArray(JsonObject p_151202_0_, String p_151202_1_)
     {
-        return !jsonObjectHasNamedField(p_151202_0_, p_151202_1_) ? false : p_151202_0_.get(p_151202_1_).isJsonArray();
+        return jsonObjectHasNamedField(p_151202_0_, p_151202_1_) && p_151202_0_.get(p_151202_1_).isJsonArray();
     }
 
     /**
@@ -40,7 +36,7 @@ public class JsonUtils
      */
     public static boolean jsonObjectFieldTypeIsPrimitive(JsonObject p_151201_0_, String p_151201_1_)
     {
-        return !jsonObjectHasNamedField(p_151201_0_, p_151201_1_) ? false : p_151201_0_.get(p_151201_1_).isJsonPrimitive();
+        return jsonObjectHasNamedField(p_151201_0_, p_151201_1_) && p_151201_0_.get(p_151201_1_).isJsonPrimitive();
     }
 
     /**
@@ -48,7 +44,7 @@ public class JsonUtils
      */
     public static boolean jsonObjectHasNamedField(JsonObject p_151204_0_, String p_151204_1_)
     {
-        return p_151204_0_ == null ? false : p_151204_0_.get(p_151204_1_) != null;
+        return p_151204_0_ != null && p_151204_0_.get(p_151204_1_) != null;
     }
 
     /**
@@ -60,8 +56,7 @@ public class JsonUtils
         if (p_151206_0_.isJsonPrimitive())
         {
             return p_151206_0_.getAsString();
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Expected " + p_151206_1_ + " to be a string, was " + getJsonElementTypeDescription(p_151206_0_));
         }
@@ -75,8 +70,7 @@ public class JsonUtils
         if (p_151200_0_.has(p_151200_1_))
         {
             return getJsonElementStringValue(p_151200_0_.get(p_151200_1_), p_151200_1_);
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Missing " + p_151200_1_ + ", expected to find a string");
         }
@@ -100,8 +94,7 @@ public class JsonUtils
         if (p_151216_0_.isJsonPrimitive())
         {
             return p_151216_0_.getAsBoolean();
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Expected " + p_151216_1_ + " to be a Boolean, was " + getJsonElementTypeDescription(p_151216_0_));
         }
@@ -115,8 +108,7 @@ public class JsonUtils
         if (p_151212_0_.has(p_151212_1_))
         {
             return getJsonElementBooleanValue(p_151212_0_.get(p_151212_1_), p_151212_1_);
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Missing " + p_151212_1_ + ", expected to find a Boolean");
         }
@@ -140,8 +132,7 @@ public class JsonUtils
         if (p_151220_0_.isJsonPrimitive() && p_151220_0_.getAsJsonPrimitive().isNumber())
         {
             return p_151220_0_.getAsFloat();
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Expected " + p_151220_1_ + " to be a Float, was " + getJsonElementTypeDescription(p_151220_0_));
         }
@@ -155,8 +146,7 @@ public class JsonUtils
         if (p_151217_0_.has(p_151217_1_))
         {
             return getJsonElementFloatValue(p_151217_0_.get(p_151217_1_), p_151217_1_);
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Missing " + p_151217_1_ + ", expected to find a Float");
         }
@@ -180,8 +170,7 @@ public class JsonUtils
         if (p_151215_0_.isJsonPrimitive() && p_151215_0_.getAsJsonPrimitive().isNumber())
         {
             return p_151215_0_.getAsInt();
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Expected " + p_151215_1_ + " to be a Int, was " + getJsonElementTypeDescription(p_151215_0_));
         }
@@ -195,8 +184,7 @@ public class JsonUtils
         if (p_151203_0_.has(p_151203_1_))
         {
             return getJsonElementIntegerValue(p_151203_0_.get(p_151203_1_), p_151203_1_);
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Missing " + p_151203_1_ + ", expected to find a Int");
         }
@@ -220,8 +208,7 @@ public class JsonUtils
         if (p_151210_0_.isJsonObject())
         {
             return p_151210_0_.getAsJsonObject();
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Expected " + p_151210_1_ + " to be a JsonObject, was " + getJsonElementTypeDescription(p_151210_0_));
         }
@@ -245,8 +232,7 @@ public class JsonUtils
         if (p_151207_0_.isJsonArray())
         {
             return p_151207_0_.getAsJsonArray();
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Expected " + p_151207_1_ + " to be a JsonArray, was " + getJsonElementTypeDescription(p_151207_0_));
         }
@@ -260,8 +246,7 @@ public class JsonUtils
         if (p_151214_0_.has(p_151214_1_))
         {
             return getJsonElementAsJsonArray(p_151214_0_.get(p_151214_1_), p_151214_1_);
-        }
-        else
+        } else
         {
             throw new JsonSyntaxException("Missing " + p_151214_1_ + ", expected to find a JsonArray");
         }
@@ -286,20 +271,16 @@ public class JsonUtils
         if (p_151222_0_ == null)
         {
             return "null (missing)";
-        }
-        else if (p_151222_0_.isJsonNull())
+        } else if (p_151222_0_.isJsonNull())
         {
             return "null (json)";
-        }
-        else if (p_151222_0_.isJsonArray())
+        } else if (p_151222_0_.isJsonArray())
         {
             return "an array (" + var1 + ")";
-        }
-        else if (p_151222_0_.isJsonObject())
+        } else if (p_151222_0_.isJsonObject())
         {
             return "an object (" + var1 + ")";
-        }
-        else
+        } else
         {
             if (p_151222_0_.isJsonPrimitive())
             {

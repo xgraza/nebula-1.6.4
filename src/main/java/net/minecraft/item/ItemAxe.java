@@ -1,14 +1,15 @@
 package net.minecraft.item;
 
 import com.google.common.collect.Sets;
-import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 
+import java.util.Set;
+
 public class ItemAxe extends ItemTool
 {
-    private static final Set field_150917_c = Sets.newHashSet(new Block[] {Blocks.planks, Blocks.bookshelf, Blocks.log, Blocks.log2, Blocks.chest, Blocks.pumpkin, Blocks.lit_pumpkin});
+    private static final Set field_150917_c = Sets.newHashSet(Blocks.planks, Blocks.bookshelf, Blocks.log, Blocks.log2, Blocks.chest, Blocks.pumpkin, Blocks.lit_pumpkin);
     private static final String __OBFID = "CL_00001770";
 
     protected ItemAxe(Item.ToolMaterial p_i45327_1_)

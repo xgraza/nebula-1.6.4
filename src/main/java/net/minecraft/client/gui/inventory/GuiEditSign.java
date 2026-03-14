@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11;
 public class GuiEditSign extends GuiScreen
 {
     protected String field_146850_a = "Edit sign message:";
-    private TileEntitySign field_146848_f;
+    private final TileEntitySign field_146848_f;
     private int field_146849_g;
     private int field_146851_h;
     private GuiButton field_146852_i;
@@ -68,7 +68,7 @@ public class GuiEditSign extends GuiScreen
             if (p_146284_1_.id == 0)
             {
                 this.field_146848_f.onInventoryChanged();
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
             }
         }
     }
@@ -112,7 +112,7 @@ public class GuiEditSign extends GuiScreen
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRenderer, this.field_146850_a, this.width / 2, 40, 16777215);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)(this.width / 2), 0.0F, 50.0F);
+        GL11.glTranslatef((float) (this.width / 2), 0.0F, 50.0F);
         float var4 = 93.75F;
         GL11.glScalef(-var4, -var4, -var4);
         GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
@@ -120,11 +120,10 @@ public class GuiEditSign extends GuiScreen
 
         if (var5 == Blocks.standing_sign)
         {
-            float var6 = (float)(this.field_146848_f.getBlockMetadata() * 360) / 16.0F;
+            float var6 = (float) (this.field_146848_f.getBlockMetadata() * 360) / 16.0F;
             GL11.glRotatef(var6, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, -1.0625F, 0.0F);
-        }
-        else
+        } else
         {
             int var8 = this.field_146848_f.getBlockMetadata();
             float var7 = 0.0F;

@@ -105,7 +105,7 @@ public class EntityGhast extends EntityFlying implements IMob
         if (this.courseChangeCooldown-- <= 0)
         {
             this.courseChangeCooldown += this.rand.nextInt(5) + 2;
-            var7 = (double) MathHelper.sqrt_double(var7);
+            var7 = MathHelper.sqrt_double(var7);
 
             if (this.isCourseTraversable(this.waypointX, this.waypointY, this.waypointZ, var7))
             {
@@ -148,14 +148,14 @@ public class EntityGhast extends EntityFlying implements IMob
             {
                 if (this.attackCounter == 10)
                 {
-                    this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1007, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+                    this.worldObj.playAuxSFXAtEntity(null, 1007, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
                 }
 
                 ++this.attackCounter;
 
                 if (this.attackCounter == 20)
                 {
-                    this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1008, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+                    this.worldObj.playAuxSFXAtEntity(null, 1008, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
                     EntityLargeFireball var17 = new EntityLargeFireball(this.worldObj, this, var11, var13, var15);
                     var17.field_92057_e = this.explosionStrength;
                     double var18 = 4.0D;

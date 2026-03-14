@@ -1,11 +1,12 @@
 package net.minecraft.client.renderer.entity;
 
-import java.util.Random;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.util.Random;
 
 public class RenderLightningBolt extends Render
 {
@@ -34,8 +35,8 @@ public class RenderLightningBolt extends Render
         {
             var11[var18] = var13;
             var12[var18] = var15;
-            var13 += (double)(var17.nextInt(11) - 5);
-            var15 += (double)(var17.nextInt(11) - 5);
+            var13 += var17.nextInt(11) - 5;
+            var15 += var17.nextInt(11) - 5;
         }
 
         for (int var45 = 0; var45 < 4; ++var45)
@@ -67,30 +68,29 @@ public class RenderLightningBolt extends Render
 
                     if (var19 == 0)
                     {
-                        var22 += (double)(var46.nextInt(11) - 5);
-                        var24 += (double)(var46.nextInt(11) - 5);
-                    }
-                    else
+                        var22 += var46.nextInt(11) - 5;
+                        var24 += var46.nextInt(11) - 5;
+                    } else
                     {
-                        var22 += (double)(var46.nextInt(31) - 15);
-                        var24 += (double)(var46.nextInt(31) - 15);
+                        var22 += var46.nextInt(31) - 15;
+                        var24 += var46.nextInt(31) - 15;
                     }
 
                     var10.startDrawing(5);
                     float var31 = 0.5F;
-                    var10.setColorRGBA_F(0.9F * var31, 0.9F * var31, 1.0F * var31, 0.3F);
-                    double var32 = 0.1D + (double)var45 * 0.2D;
+                    var10.setColorRGBA_F(0.9F * var31, 0.9F * var31, var31, 0.3F);
+                    double var32 = 0.1D + (double) var45 * 0.2D;
 
                     if (var19 == 0)
                     {
-                        var32 *= (double)var26 * 0.1D + 1.0D;
+                        var32 *= (double) var26 * 0.1D + 1.0D;
                     }
 
-                    double var34 = 0.1D + (double)var45 * 0.2D;
+                    double var34 = 0.1D + (double) var45 * 0.2D;
 
                     if (var19 == 0)
                     {
-                        var34 *= (double)(var26 - 1) * 0.1D + 1.0D;
+                        var34 *= (double) (var26 - 1) * 0.1D + 1.0D;
                     }
 
                     for (int var36 = 0; var36 < 5; ++var36)
@@ -121,8 +121,8 @@ public class RenderLightningBolt extends Render
                             var43 += var34 * 2.0D;
                         }
 
-                        var10.addVertex(var41 + var22, par4 + (double)(var26 * 16), var43 + var24);
-                        var10.addVertex(var37 + var27, par4 + (double)((var26 + 1) * 16), var39 + var29);
+                        var10.addVertex(var41 + var22, par4 + (double) (var26 * 16), var43 + var24);
+                        var10.addVertex(var37 + var27, par4 + (double) ((var26 + 1) * 16), var39 + var29);
                     }
 
                     var10.draw();
@@ -148,7 +148,7 @@ public class RenderLightningBolt extends Render
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityLightningBolt)par1Entity);
+        return this.getEntityTexture((EntityLightningBolt) par1Entity);
     }
 
     /**
@@ -159,6 +159,6 @@ public class RenderLightningBolt extends Render
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityLightningBolt)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityLightningBolt) par1Entity, par2, par4, par6, par8, par9);
     }
 }

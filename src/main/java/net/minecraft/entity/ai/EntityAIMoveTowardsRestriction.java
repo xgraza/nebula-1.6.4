@@ -6,11 +6,11 @@ import net.minecraft.util.Vec3;
 
 public class EntityAIMoveTowardsRestriction extends EntityAIBase
 {
-    private EntityCreature theEntity;
+    private final EntityCreature theEntity;
     private double movePosX;
     private double movePosY;
     private double movePosZ;
-    private double movementSpeed;
+    private final double movementSpeed;
     private static final String __OBFID = "CL_00001598";
 
     public EntityAIMoveTowardsRestriction(EntityCreature par1EntityCreature, double par2)
@@ -28,17 +28,15 @@ public class EntityAIMoveTowardsRestriction extends EntityAIBase
         if (this.theEntity.isWithinHomeDistanceCurrentPosition())
         {
             return false;
-        }
-        else
+        } else
         {
             ChunkCoordinates var1 = this.theEntity.getHomePosition();
-            Vec3 var2 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, this.theEntity.worldObj.getWorldVec3Pool().getVecFromPool((double)var1.posX, (double)var1.posY, (double)var1.posZ));
+            Vec3 var2 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, this.theEntity.worldObj.getWorldVec3Pool().getVecFromPool(var1.posX, var1.posY, var1.posZ));
 
             if (var2 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.movePosX = var2.xCoord;
                 this.movePosY = var2.yCoord;

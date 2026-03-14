@@ -13,7 +13,10 @@ import us.nebula.client.api.value.ISettingProvider;
 import us.nebula.client.api.value.Setting;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import static us.nebula.client.api.manager.key.Key.DEFAULT_UNBOUND_KEY;
 
@@ -149,7 +152,7 @@ public class Cheat implements ISettingProvider, IJSONSerializable
     @Override
     public <T> Setting<T> getSetting(final String name)
     {
-        return (Setting<T>)settingNameMap.get(name);
+        return (Setting<T>) settingNameMap.get(name);
     }
 
     public void addSetting(final Setting<?> setting)

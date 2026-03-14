@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +15,7 @@ public class HttpPipelineSender extends Thread
 {
     private HttpPipelineConnection httpPipelineConnection = null;
     private static final String CRLF = "\r\n";
-    private static Charset ASCII = Charset.forName("ASCII");
+    private static final Charset ASCII = StandardCharsets.US_ASCII;
 
     public HttpPipelineSender(HttpPipelineConnection httpPipelineConnection)
     {
@@ -38,12 +39,9 @@ public class HttpPipelineSender extends Thread
                 this.writeRequest(e, out);
                 this.httpPipelineConnection.onRequestSent(hpr);
             }
-        }
-        catch (InterruptedException var4)
+        } catch (InterruptedException var4)
         {
-            return;
-        }
-        catch (Exception var5)
+        } catch (Exception var5)
         {
             this.httpPipelineConnection.onExceptionSend(hpr, var5);
         }
@@ -68,8 +66,8 @@ public class HttpPipelineSender extends Thread
 
         while (it.hasNext())
         {
-            String key = (String)it.next();
-            String val = (String)req.getHeaders().get(key);
+            String key = (String) it.next();
+            String val = req.getHeaders().get(key);
             this.write(out, key + ": " + val + "\r\n");
         }
 

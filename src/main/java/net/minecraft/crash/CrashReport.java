@@ -1,5 +1,13 @@
 package net.minecraft.crash;
 
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ReportedException;
+import net.minecraft.world.gen.layer.IntCache;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -13,31 +21,33 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ReportedException;
-import net.minecraft.world.gen.layer.IntCache;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class CrashReport
 {
     private static final Logger logger = LogManager.getLogger();
 
-    /** Description of the crash report. */
+    /**
+     * Description of the crash report.
+     */
     private final String description;
 
-    /** The Throwable that is the "cause" for this crash and Crash Report. */
+    /**
+     * The Throwable that is the "cause" for this crash and Crash Report.
+     */
     private final Throwable cause;
 
-    /** Category of crash */
+    /**
+     * Category of crash
+     */
     private final CrashReportCategory theReportCategory = new CrashReportCategory(this, "System Details");
 
-    /** Holds the keys and values of all crash report sections. */
+    /**
+     * Holds the keys and values of all crash report sections.
+     */
     private final List crashReportSections = new ArrayList();
 
-    /** File of crash report. */
+    /**
+     * File of crash report.
+     */
     private File crashReportFile;
     private boolean field_85059_f = true;
     private StackTraceElement[] stacktrace = new StackTraceElement[0];
@@ -58,6 +68,7 @@ public class CrashReport
         this.theReportCategory.addCrashSectionCallable("Minecraft Version", new Callable()
         {
             private static final String __OBFID = "CL_00001197";
+
             public String call()
             {
                 return "1.7.2";
@@ -66,6 +77,7 @@ public class CrashReport
         this.theReportCategory.addCrashSectionCallable("Operating System", new Callable()
         {
             private static final String __OBFID = "CL_00001222";
+
             public String call()
             {
                 return System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version");
@@ -74,6 +86,7 @@ public class CrashReport
         this.theReportCategory.addCrashSectionCallable("Java Version", new Callable()
         {
             private static final String __OBFID = "CL_00001248";
+
             public String call()
             {
                 return System.getProperty("java.version") + ", " + System.getProperty("java.vendor");
@@ -82,6 +95,7 @@ public class CrashReport
         this.theReportCategory.addCrashSectionCallable("Java VM Version", new Callable()
         {
             private static final String __OBFID = "CL_00001275";
+
             public String call()
             {
                 return System.getProperty("java.vm.name") + " (" + System.getProperty("java.vm.info") + "), " + System.getProperty("java.vm.vendor");
@@ -90,6 +104,7 @@ public class CrashReport
         this.theReportCategory.addCrashSectionCallable("Memory", new Callable()
         {
             private static final String __OBFID = "CL_00001302";
+
             public String call()
             {
                 Runtime var1 = Runtime.getRuntime();
@@ -105,6 +120,7 @@ public class CrashReport
         this.theReportCategory.addCrashSectionCallable("JVM Flags", new Callable()
         {
             private static final String __OBFID = "CL_00001329";
+
             public String call()
             {
                 RuntimeMXBean var1 = ManagementFactory.getRuntimeMXBean();
@@ -115,7 +131,7 @@ public class CrashReport
 
                 while (var5.hasNext())
                 {
-                    String var6 = (String)var5.next();
+                    String var6 = (String) var5.next();
 
                     if (var6.startsWith("-X"))
                     {
@@ -128,12 +144,13 @@ public class CrashReport
                     }
                 }
 
-                return String.format("%d total; %s", var3, var4.toString());
+                return String.format("%d total; %s", var3, var4);
             }
         });
         this.theReportCategory.addCrashSectionCallable("AABB Pool Size", new Callable()
         {
             private static final String __OBFID = "CL_00001355";
+
             public String call()
             {
                 int var1 = AxisAlignedBB.getAABBPool().getlistAABBsize();
@@ -148,6 +165,7 @@ public class CrashReport
         this.theReportCategory.addCrashSectionCallable("IntCache", new Callable()
         {
             private static final String __OBFID = "CL_00001382";
+
             public String call() throws SecurityException, NoSuchFieldException, IllegalAccessException, IllegalArgumentException
             {
                 return IntCache.getCacheSizes();
@@ -178,7 +196,7 @@ public class CrashReport
     {
         if ((this.stacktrace == null || this.stacktrace.length <= 0) && this.crashReportSections.size() > 0)
         {
-            this.stacktrace = (StackTraceElement[])((StackTraceElement[])ArrayUtils.subarray(((CrashReportCategory)this.crashReportSections.get(0)).func_147152_a(), 0, 1));
+            this.stacktrace = ArrayUtils.subarray(((CrashReportCategory) this.crashReportSections.get(0)).func_147152_a(), 0, 1);
         }
 
         if (this.stacktrace != null && this.stacktrace.length > 0)
@@ -202,7 +220,7 @@ public class CrashReport
 
         while (var61.hasNext())
         {
-            CrashReportCategory var71 = (CrashReportCategory)var61.next();
+            CrashReportCategory var71 = (CrashReportCategory) var61.next();
             var71.appendToStringBuilder(par1StringBuilder);
             par1StringBuilder.append("\n\n");
         }
@@ -219,34 +237,31 @@ public class CrashReport
         PrintWriter var2 = null;
         Object var3 = this.cause;
 
-        if (((Throwable)var3).getMessage() == null)
+        if (((Throwable) var3).getMessage() == null)
         {
             if (var3 instanceof NullPointerException)
             {
                 var3 = new NullPointerException(this.description);
-            }
-            else if (var3 instanceof StackOverflowError)
+            } else if (var3 instanceof StackOverflowError)
             {
                 var3 = new StackOverflowError(this.description);
-            }
-            else if (var3 instanceof OutOfMemoryError)
+            } else if (var3 instanceof OutOfMemoryError)
             {
                 var3 = new OutOfMemoryError(this.description);
             }
 
-            ((Throwable)var3).setStackTrace(this.cause.getStackTrace());
+            ((Throwable) var3).setStackTrace(this.cause.getStackTrace());
         }
 
-        String var4 = ((Throwable)var3).toString();
+        String var4 = var3.toString();
 
         try
         {
             var1 = new StringWriter();
             var2 = new PrintWriter(var1);
-            ((Throwable)var3).printStackTrace(var2);
+            ((Throwable) var3).printStackTrace(var2);
             var4 = var1.toString();
-        }
-        finally
+        } finally
         {
             IOUtils.closeQuietly(var1);
             IOUtils.closeQuietly(var2);
@@ -300,8 +315,7 @@ public class CrashReport
         if (this.crashReportFile != null)
         {
             return false;
-        }
-        else
+        } else
         {
             if (p_147149_1_.getParentFile() != null)
             {
@@ -315,8 +329,7 @@ public class CrashReport
                 var3.close();
                 this.crashReportFile = p_147149_1_;
                 return true;
-            }
-            catch (Throwable var31)
+            } catch (Throwable var31)
             {
                 logger.error("Could not save crash report to " + p_147149_1_, var31);
                 return false;
@@ -365,15 +378,13 @@ public class CrashReport
 
             if (var4 > 0 && !this.crashReportSections.isEmpty())
             {
-                CrashReportCategory var8 = (CrashReportCategory)this.crashReportSections.get(this.crashReportSections.size() - 1);
+                CrashReportCategory var8 = (CrashReportCategory) this.crashReportSections.get(this.crashReportSections.size() - 1);
                 var8.trimStackTraceEntriesFromBottom(var4);
-            }
-            else if (var5 != null && var5.length >= var4)
+            } else if (var5 != null && var5.length >= var4)
             {
                 this.stacktrace = new StackTraceElement[var5.length - var4];
                 System.arraycopy(var5, 0, this.stacktrace, 0, this.stacktrace.length);
-            }
-            else
+            } else
             {
                 this.field_85059_f = false;
             }
@@ -388,13 +399,12 @@ public class CrashReport
      */
     private static String getWittyComment()
     {
-        String[] var0 = new String[] {"Who set us up the TNT?", "Everything\'s going to plan. No, really, that was supposed to happen.", "Uh... Did I do that?", "Oops.", "Why did you do that?", "I feel sad now :(", "My bad.", "I\'m sorry, Dave.", "I let you down. Sorry :(", "On the bright side, I bought you a teddy bear!", "Daisy, daisy...", "Oh - I know what I did wrong!", "Hey, that tickles! Hehehe!", "I blame Dinnerbone.", "You should try our sister game, Minceraft!", "Don\'t be sad. I\'ll do better next time, I promise!", "Don\'t be sad, have a hug! <3", "I just don\'t know what went wrong :(", "Shall we play a game?", "Quite honestly, I wouldn\'t worry myself about that.", "I bet Cylons wouldn\'t have this problem.", "Sorry :(", "Surprise! Haha. Well, this is awkward.", "Would you like a cupcake?", "Hi. I\'m Minecraft, and I\'m a crashaholic.", "Ooh. Shiny.", "This doesn\'t make any sense!", "Why is it breaking :(", "Don\'t do that.", "Ouch. That hurt :(", "You\'re mean.", "This is a token for 1 free hug. Redeem at your nearest Mojangsta: [~~HUG~~]", "There are four lights!"};
+        String[] var0 = new String[]{ "Who set us up the TNT?", "Everything's going to plan. No, really, that was supposed to happen.", "Uh... Did I do that?", "Oops.", "Why did you do that?", "I feel sad now :(", "My bad.", "I'm sorry, Dave.", "I let you down. Sorry :(", "On the bright side, I bought you a teddy bear!", "Daisy, daisy...", "Oh - I know what I did wrong!", "Hey, that tickles! Hehehe!", "I blame Dinnerbone.", "You should try our sister game, Minceraft!", "Don't be sad. I'll do better next time, I promise!", "Don't be sad, have a hug! <3", "I just don't know what went wrong :(", "Shall we play a game?", "Quite honestly, I wouldn't worry myself about that.", "I bet Cylons wouldn't have this problem.", "Sorry :(", "Surprise! Haha. Well, this is awkward.", "Would you like a cupcake?", "Hi. I'm Minecraft, and I'm a crashaholic.", "Ooh. Shiny.", "This doesn't make any sense!", "Why is it breaking :(", "Don't do that.", "Ouch. That hurt :(", "You're mean.", "This is a token for 1 free hug. Redeem at your nearest Mojangsta: [~~HUG~~]", "There are four lights!" };
 
         try
         {
-            return var0[(int)(System.nanoTime() % (long)var0.length)];
-        }
-        catch (Throwable var2)
+            return var0[(int) (System.nanoTime() % (long) var0.length)];
+        } catch (Throwable var2)
         {
             return "Witty comment unavailable :(";
         }
@@ -409,9 +419,8 @@ public class CrashReport
 
         if (par0Throwable instanceof ReportedException)
         {
-            var2 = ((ReportedException)par0Throwable).getCrashReport();
-        }
-        else
+            var2 = ((ReportedException) par0Throwable).getCrashReport();
+        } else
         {
             var2 = new CrashReport(par1Str, par0Throwable);
         }

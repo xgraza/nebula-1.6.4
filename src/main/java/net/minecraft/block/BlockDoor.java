@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -13,6 +12,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockDoor extends Block
 {
@@ -51,35 +52,28 @@ public class BlockDoor extends Block
                 if (var7 == 0 && p_149673_5_ == 2)
                 {
                     var9 = !var9;
-                }
-                else if (var7 == 1 && p_149673_5_ == 5)
+                } else if (var7 == 1 && p_149673_5_ == 5)
+                {
+                    var9 = !var9;
+                } else if (var7 == 2 && p_149673_5_ == 3)
+                {
+                    var9 = !var9;
+                } else if (var7 == 3 && p_149673_5_ == 4)
                 {
                     var9 = !var9;
                 }
-                else if (var7 == 2 && p_149673_5_ == 3)
-                {
-                    var9 = !var9;
-                }
-                else if (var7 == 3 && p_149673_5_ == 4)
-                {
-                    var9 = !var9;
-                }
-            }
-            else
+            } else
             {
                 if (var7 == 0 && p_149673_5_ == 5)
                 {
                     var9 = !var9;
-                }
-                else if (var7 == 1 && p_149673_5_ == 3)
+                } else if (var7 == 1 && p_149673_5_ == 3)
                 {
                     var9 = !var9;
-                }
-                else if (var7 == 2 && p_149673_5_ == 4)
+                } else if (var7 == 2 && p_149673_5_ == 4)
                 {
                     var9 = !var9;
-                }
-                else if (var7 == 3 && p_149673_5_ == 2)
+                } else if (var7 == 3 && p_149673_5_ == 2)
                 {
                     var9 = !var9;
                 }
@@ -91,8 +85,7 @@ public class BlockDoor extends Block
             }
 
             return var10 ? this.field_150017_a[var9 ? 1 : 0] : this.field_150016_b[var9 ? 1 : 0];
-        }
-        else
+        } else
         {
             return this.field_150016_b[0];
         }
@@ -181,67 +174,56 @@ public class BlockDoor extends Block
                 if (!var5)
                 {
                     this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var2);
-                }
-                else
+                } else
                 {
                     this.setBlockBounds(0.0F, 0.0F, 1.0F - var2, 1.0F, 1.0F, 1.0F);
                 }
-            }
-            else
+            } else
             {
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, var2, 1.0F, 1.0F);
             }
-        }
-        else if (var3 == 1)
+        } else if (var3 == 1)
         {
             if (var4)
             {
                 if (!var5)
                 {
                     this.setBlockBounds(1.0F - var2, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-                }
-                else
+                } else
                 {
                     this.setBlockBounds(0.0F, 0.0F, 0.0F, var2, 1.0F, 1.0F);
                 }
-            }
-            else
+            } else
             {
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var2);
             }
-        }
-        else if (var3 == 2)
+        } else if (var3 == 2)
         {
             if (var4)
             {
                 if (!var5)
                 {
                     this.setBlockBounds(0.0F, 0.0F, 1.0F - var2, 1.0F, 1.0F, 1.0F);
-                }
-                else
+                } else
                 {
                     this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var2);
                 }
-            }
-            else
+            } else
             {
                 this.setBlockBounds(1.0F - var2, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             }
-        }
-        else if (var3 == 3)
+        } else if (var3 == 3)
         {
             if (var4)
             {
                 if (!var5)
                 {
                     this.setBlockBounds(0.0F, 0.0F, 0.0F, var2, 1.0F, 1.0F);
-                }
-                else
+                } else
                 {
                     this.setBlockBounds(1.0F - var2, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
                 }
-            }
-            else
+            } else
             {
                 this.setBlockBounds(0.0F, 0.0F, 1.0F - var2, 1.0F, 1.0F, 1.0F);
             }
@@ -251,7 +233,9 @@ public class BlockDoor extends Block
     /**
      * Called when a player hits the block. Args: world, x, y, z, player
      */
-    public void onBlockClicked(World p_149699_1_, int p_149699_2_, int p_149699_3_, int p_149699_4_, EntityPlayer p_149699_5_) {}
+    public void onBlockClicked(World p_149699_1_, int p_149699_2_, int p_149699_3_, int p_149699_4_, EntityPlayer p_149699_5_)
+    {
+    }
 
     /**
      * Called upon block activation (right click on the block.)
@@ -261,8 +245,7 @@ public class BlockDoor extends Block
         if (this.blockMaterial == Material.iron)
         {
             return true;
-        }
-        else
+        } else
         {
             int var10 = this.func_150012_g(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
             int var11 = var10 & 7;
@@ -272,8 +255,7 @@ public class BlockDoor extends Block
             {
                 p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, var11, 2);
                 p_149727_1_.markBlockRangeForRenderUpdate(p_149727_2_, p_149727_3_, p_149727_4_, p_149727_2_, p_149727_3_, p_149727_4_);
-            }
-            else
+            } else
             {
                 p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_ - 1, p_149727_4_, var11, 2);
                 p_149727_1_.markBlockRangeForRenderUpdate(p_149727_2_, p_149727_3_ - 1, p_149727_4_, p_149727_2_, p_149727_3_, p_149727_4_);
@@ -298,14 +280,13 @@ public class BlockDoor extends Block
             {
                 p_150014_1_.setBlockMetadataWithNotify(p_150014_2_, p_150014_3_, p_150014_4_, var8, 2);
                 p_150014_1_.markBlockRangeForRenderUpdate(p_150014_2_, p_150014_3_, p_150014_4_, p_150014_2_, p_150014_3_, p_150014_4_);
-            }
-            else
+            } else
             {
                 p_150014_1_.setBlockMetadataWithNotify(p_150014_2_, p_150014_3_ - 1, p_150014_4_, var8, 2);
                 p_150014_1_.markBlockRangeForRenderUpdate(p_150014_2_, p_150014_3_ - 1, p_150014_4_, p_150014_2_, p_150014_3_, p_150014_4_);
             }
 
-            p_150014_1_.playAuxSFXAtEntity((EntityPlayer)null, 1003, p_150014_2_, p_150014_3_, p_150014_4_, 0);
+            p_150014_1_.playAuxSFXAtEntity(null, 1003, p_150014_2_, p_150014_3_, p_150014_4_, 0);
         }
     }
 
@@ -340,8 +321,7 @@ public class BlockDoor extends Block
                 {
                     this.dropBlockAsItem(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, var6, 0);
                 }
-            }
-            else
+            } else
             {
                 boolean var8 = p_149695_1_.isBlockIndirectlyGettingPowered(p_149695_2_, p_149695_3_, p_149695_4_) || p_149695_1_.isBlockIndirectlyGettingPowered(p_149695_2_, p_149695_3_ + 1, p_149695_4_);
 
@@ -350,8 +330,7 @@ public class BlockDoor extends Block
                     this.func_150014_a(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, var8);
                 }
             }
-        }
-        else
+        } else
         {
             if (p_149695_1_.getBlock(p_149695_2_, p_149695_3_ - 1, p_149695_4_) != this)
             {
@@ -378,7 +357,7 @@ public class BlockDoor extends Block
 
     public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
     {
-        return p_149742_3_ >= 255 ? false : World.doesBlockHaveSolidTopSurface(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_) && super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_) && super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_ + 1, p_149742_4_);
+        return p_149742_3_ < 255 && World.doesBlockHaveSolidTopSurface(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_) && super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_) && super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_ + 1, p_149742_4_);
     }
 
     public int getMobilityFlag()
@@ -397,8 +376,7 @@ public class BlockDoor extends Block
         {
             var7 = p_150012_1_.getBlockMetadata(p_150012_2_, p_150012_3_ - 1, p_150012_4_);
             var8 = var5;
-        }
-        else
+        } else
         {
             var7 = var5;
             var8 = p_150012_1_.getBlockMetadata(p_150012_2_, p_150012_3_ + 1, p_150012_4_);

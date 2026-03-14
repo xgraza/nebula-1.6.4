@@ -22,14 +22,10 @@ public class ValueObjectSubscription extends ValueObject
             JsonObject var3 = var2.parse(p_148788_0_).getAsJsonObject();
             var1.field_148790_a = var3.get("startDate").getAsLong();
             var1.field_148789_b = var3.get("daysLeft").getAsInt();
-        }
-        catch (JsonIOException var4)
+        } catch (JsonIOException var4)
         {
-            ;
-        }
-        catch (JsonSyntaxException var5)
+        } catch (JsonSyntaxException var5)
         {
-            ;
         }
 
         return var1;

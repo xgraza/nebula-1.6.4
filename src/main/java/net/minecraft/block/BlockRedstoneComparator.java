@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -11,6 +10,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITileEntityProvider
 {
@@ -94,15 +95,13 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
         if (var6 >= 15)
         {
             return true;
-        }
-        else if (var6 == 0)
+        } else if (var6 == 0)
         {
             return false;
-        }
-        else
+        } else
         {
             int var7 = this.func_149902_h(p_149900_1_, p_149900_2_, p_149900_3_, p_149900_4_, p_149900_5_);
-            return var7 == 0 ? true : var6 >= var7;
+            return var7 == 0 || var6 >= var7;
         }
     }
 
@@ -117,8 +116,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
         if (var10.hasComparatorInputOverride())
         {
             var6 = var10.getComparatorInputOverride(p_149903_1_, var8, p_149903_3_, var9, Direction.rotateOpposite[var7]);
-        }
-        else if (var6 < 15 && var10.isNormalCube())
+        } else if (var6 < 15 && var10.isNormalCube())
         {
             var8 += Direction.offsetX[var7];
             var9 += Direction.offsetZ[var7];
@@ -135,7 +133,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
 
     public TileEntityComparator getTileEntityComparator(IBlockAccess p_149971_1_, int p_149971_2_, int p_149971_3_, int p_149971_4_)
     {
-        return (TileEntityComparator)p_149971_1_.getTileEntity(p_149971_2_, p_149971_3_, p_149971_4_);
+        return (TileEntityComparator) p_149971_1_.getTileEntity(p_149971_2_, p_149971_3_, p_149971_4_);
     }
 
     /**
@@ -148,7 +146,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
         boolean var12 = !this.func_149969_d(var10);
         int var13 = var12 ? 4 : 0;
         var13 |= var11 ? 8 : 0;
-        p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F, var12 ? 0.55F : 0.5F);
+        p_149727_1_.playSoundEffect((double) p_149727_2_ + 0.5D, (double) p_149727_3_ + 0.5D, (double) p_149727_4_ + 0.5D, "random.click", 0.3F, var12 ? 0.55F : 0.5F);
         p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, var13 | var10 & 3, 2);
         this.func_149972_c(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_, p_149727_1_.rand);
         return true;
@@ -167,8 +165,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
                 if (this.func_149912_i(p_149897_1_, p_149897_2_, p_149897_3_, p_149897_4_, var6))
                 {
                     p_149897_1_.scheduleBlockUpdateWithPriority(p_149897_2_, p_149897_3_, p_149897_4_, this, this.func_149901_b(0), -1);
-                }
-                else
+                } else
                 {
                     p_149897_1_.scheduleBlockUpdateWithPriority(p_149897_2_, p_149897_3_, p_149897_4_, this, this.func_149901_b(0), 0);
                 }
@@ -191,8 +188,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
             if (var10 && !var9)
             {
                 p_149972_1_.setBlockMetadataWithNotify(p_149972_2_, p_149972_3_, p_149972_4_, var6 & -9, 2);
-            }
-            else if (!var10 && var9)
+            } else if (!var10 && var9)
             {
                 p_149972_1_.setBlockMetadataWithNotify(p_149972_2_, p_149972_3_, p_149972_4_, var6 | 8, 2);
             }
@@ -232,7 +228,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
     {
         super.onBlockEventReceived(p_149696_1_, p_149696_2_, p_149696_3_, p_149696_4_, p_149696_5_, p_149696_6_);
         TileEntity var7 = p_149696_1_.getTileEntity(p_149696_2_, p_149696_3_, p_149696_4_);
-        return var7 != null ? var7.receiveClientEvent(p_149696_5_, p_149696_6_) : false;
+        return var7 != null && var7.receiveClientEvent(p_149696_5_, p_149696_6_);
     }
 
     /**

@@ -5,17 +5,17 @@ import java.util.Map;
 
 public class LegacyUniforms
 {
-    private static Map<String, Number> map = new HashMap();
-    private static Map<String, String> mapKeysX = new HashMap();
-    private static Map<String, String> mapKeysY = new HashMap();
-    private static Map<String, String> mapKeysZ = new HashMap();
-    private static Map<String, String> mapKeysR = new HashMap();
-    private static Map<String, String> mapKeysG = new HashMap();
-    private static Map<String, String> mapKeysB = new HashMap();
+    private static final Map<String, Number> map = new HashMap();
+    private static final Map<String, String> mapKeysX = new HashMap();
+    private static final Map<String, String> mapKeysY = new HashMap();
+    private static final Map<String, String> mapKeysZ = new HashMap();
+    private static final Map<String, String> mapKeysR = new HashMap();
+    private static final Map<String, String> mapKeysG = new HashMap();
+    private static final Map<String, String> mapKeysB = new HashMap();
 
     public static Number getNumber(String name)
     {
-        return (Number)map.get(name);
+        return map.get(name);
     }
 
     public static void setFloat(String name, float val)
@@ -50,13 +50,12 @@ public class LegacyUniforms
 
     private static String getCompoundKey(String name, String suffix, Map<String, String> mapKeys)
     {
-        String key = (String)mapKeys.get(name);
+        String key = mapKeys.get(name);
 
         if (key != null)
         {
             return key;
-        }
-        else
+        } else
         {
             key = name + "." + suffix;
             mapKeys.put(name, key);

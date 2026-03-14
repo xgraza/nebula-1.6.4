@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,6 +16,8 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockFurnace extends BlockContainer
 {
@@ -101,31 +102,28 @@ public class BlockFurnace extends BlockContainer
         if (this.field_149932_b)
         {
             int var6 = p_149734_1_.getBlockMetadata(p_149734_2_, p_149734_3_, p_149734_4_);
-            float var7 = (float)p_149734_2_ + 0.5F;
-            float var8 = (float)p_149734_3_ + 0.0F + p_149734_5_.nextFloat() * 6.0F / 16.0F;
-            float var9 = (float)p_149734_4_ + 0.5F;
+            float var7 = (float) p_149734_2_ + 0.5F;
+            float var8 = (float) p_149734_3_ + 0.0F + p_149734_5_.nextFloat() * 6.0F / 16.0F;
+            float var9 = (float) p_149734_4_ + 0.5F;
             float var10 = 0.52F;
             float var11 = p_149734_5_.nextFloat() * 0.6F - 0.3F;
 
             if (var6 == 4)
             {
-                p_149734_1_.spawnParticle("smoke", (double)(var7 - var10), (double)var8, (double)(var9 + var11), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("flame", (double)(var7 - var10), (double)var8, (double)(var9 + var11), 0.0D, 0.0D, 0.0D);
-            }
-            else if (var6 == 5)
+                p_149734_1_.spawnParticle("smoke", var7 - var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", var7 - var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
+            } else if (var6 == 5)
             {
-                p_149734_1_.spawnParticle("smoke", (double)(var7 + var10), (double)var8, (double)(var9 + var11), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("flame", (double)(var7 + var10), (double)var8, (double)(var9 + var11), 0.0D, 0.0D, 0.0D);
-            }
-            else if (var6 == 2)
+                p_149734_1_.spawnParticle("smoke", var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
+            } else if (var6 == 2)
             {
-                p_149734_1_.spawnParticle("smoke", (double)(var7 + var11), (double)var8, (double)(var9 - var10), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("flame", (double)(var7 + var11), (double)var8, (double)(var9 - var10), 0.0D, 0.0D, 0.0D);
-            }
-            else if (var6 == 3)
+                p_149734_1_.spawnParticle("smoke", var7 + var11, var8, var9 - var10, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", var7 + var11, var8, var9 - var10, 0.0D, 0.0D, 0.0D);
+            } else if (var6 == 3)
             {
-                p_149734_1_.spawnParticle("smoke", (double)(var7 + var11), (double)var8, (double)(var9 + var10), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("flame", (double)(var7 + var11), (double)var8, (double)(var9 + var10), 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("smoke", var7 + var11, var8, var9 + var10, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", var7 + var11, var8, var9 + var10, 0.0D, 0.0D, 0.0D);
             }
         }
     }
@@ -138,10 +136,9 @@ public class BlockFurnace extends BlockContainer
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
-            TileEntityFurnace var10 = (TileEntityFurnace)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+            TileEntityFurnace var10 = (TileEntityFurnace) p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
 
             if (var10 != null)
             {
@@ -161,8 +158,7 @@ public class BlockFurnace extends BlockContainer
         if (p_149931_0_)
         {
             p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, Blocks.lit_furnace);
-        }
-        else
+        } else
         {
             p_149931_1_.setBlock(p_149931_2_, p_149931_3_, p_149931_4_, Blocks.furnace);
         }
@@ -190,7 +186,7 @@ public class BlockFurnace extends BlockContainer
      */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
-        int var7 = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int var7 = MathHelper.floor_double((double) (p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
         if (var7 == 0)
         {
@@ -214,7 +210,7 @@ public class BlockFurnace extends BlockContainer
 
         if (p_149689_6_.hasDisplayName())
         {
-            ((TileEntityFurnace)p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145951_a(p_149689_6_.getDisplayName());
+            ((TileEntityFurnace) p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145951_a(p_149689_6_.getDisplayName());
         }
     }
 
@@ -222,7 +218,7 @@ public class BlockFurnace extends BlockContainer
     {
         if (!field_149934_M)
         {
-            TileEntityFurnace var7 = (TileEntityFurnace)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+            TileEntityFurnace var7 = (TileEntityFurnace) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
             if (var7 != null)
             {
@@ -246,17 +242,17 @@ public class BlockFurnace extends BlockContainer
                             }
 
                             var9.stackSize -= var13;
-                            EntityItem var14 = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + var10), (double)((float)p_149749_3_ + var11), (double)((float)p_149749_4_ + var12), new ItemStack(var9.getItem(), var13, var9.getItemDamage()));
+                            EntityItem var14 = new EntityItem(p_149749_1_, (float) p_149749_2_ + var10, (float) p_149749_3_ + var11, (float) p_149749_4_ + var12, new ItemStack(var9.getItem(), var13, var9.getItemDamage()));
 
                             if (var9.hasTagCompound())
                             {
-                                var14.getEntityItem().setTagCompound((NBTTagCompound)var9.getTagCompound().copy());
+                                var14.getEntityItem().setTagCompound((NBTTagCompound) var9.getTagCompound().copy());
                             }
 
                             float var15 = 0.05F;
-                            var14.motionX = (double)((float)this.field_149933_a.nextGaussian() * var15);
-                            var14.motionY = (double)((float)this.field_149933_a.nextGaussian() * var15 + 0.2F);
-                            var14.motionZ = (double)((float)this.field_149933_a.nextGaussian() * var15);
+                            var14.motionX = (float) this.field_149933_a.nextGaussian() * var15;
+                            var14.motionY = (float) this.field_149933_a.nextGaussian() * var15 + 0.2F;
+                            var14.motionZ = (float) this.field_149933_a.nextGaussian() * var15;
                             p_149749_1_.spawnEntityInWorld(var14);
                         }
                     }
@@ -276,7 +272,7 @@ public class BlockFurnace extends BlockContainer
 
     public int getComparatorInputOverride(World p_149736_1_, int p_149736_2_, int p_149736_3_, int p_149736_4_, int p_149736_5_)
     {
-        return Container.calcRedstoneFromInventory((IInventory)p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_));
+        return Container.calcRedstoneFromInventory((IInventory) p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_));
     }
 
     /**

@@ -8,7 +8,9 @@ public class Vec3Pool
     private final int truncateArrayResetThreshold;
     private final int minimumSize;
 
-    /** items at and above nextFreeSpace are assumed to be available */
+    /**
+     * items at and above nextFreeSpace are assumed to be available
+     */
     private final List vec3Cache = new ArrayList();
 
     /**
@@ -36,8 +38,7 @@ public class Vec3Pool
         if (this.skipCache())
         {
             return new Vec3(this, par1, par3, par5);
-        }
-        else
+        } else
         {
             Vec3 var7;
 
@@ -45,10 +46,9 @@ public class Vec3Pool
             {
                 var7 = new Vec3(this, par1, par3, par5);
                 this.vec3Cache.add(var7);
-            }
-            else
+            } else
             {
-                var7 = (Vec3)this.vec3Cache.get(this.nextFreeSpace);
+                var7 = (Vec3) this.vec3Cache.get(this.nextFreeSpace);
                 var7.setComponents(par1, par3, par5);
             }
 

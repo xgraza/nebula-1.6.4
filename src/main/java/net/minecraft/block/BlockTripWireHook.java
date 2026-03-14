@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -8,6 +7,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Direction;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockTripWireHook extends Block
 {
@@ -57,12 +58,12 @@ public class BlockTripWireHook extends Block
      */
     public boolean canPlaceBlockOnSide(World p_149707_1_, int p_149707_2_, int p_149707_3_, int p_149707_4_, int p_149707_5_)
     {
-        return p_149707_5_ == 2 && p_149707_1_.getBlock(p_149707_2_, p_149707_3_, p_149707_4_ + 1).isNormalCube() ? true : (p_149707_5_ == 3 && p_149707_1_.getBlock(p_149707_2_, p_149707_3_, p_149707_4_ - 1).isNormalCube() ? true : (p_149707_5_ == 4 && p_149707_1_.getBlock(p_149707_2_ + 1, p_149707_3_, p_149707_4_).isNormalCube() ? true : p_149707_5_ == 5 && p_149707_1_.getBlock(p_149707_2_ - 1, p_149707_3_, p_149707_4_).isNormalCube()));
+        return p_149707_5_ == 2 && p_149707_1_.getBlock(p_149707_2_, p_149707_3_, p_149707_4_ + 1).isNormalCube() || (p_149707_5_ == 3 && p_149707_1_.getBlock(p_149707_2_, p_149707_3_, p_149707_4_ - 1).isNormalCube() || (p_149707_5_ == 4 && p_149707_1_.getBlock(p_149707_2_ + 1, p_149707_3_, p_149707_4_).isNormalCube() || p_149707_5_ == 5 && p_149707_1_.getBlock(p_149707_2_ - 1, p_149707_3_, p_149707_4_).isNormalCube()));
     }
 
     public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
     {
-        return p_149742_1_.getBlock(p_149742_2_ - 1, p_149742_3_, p_149742_4_).isNormalCube() ? true : (p_149742_1_.getBlock(p_149742_2_ + 1, p_149742_3_, p_149742_4_).isNormalCube() ? true : (p_149742_1_.getBlock(p_149742_2_, p_149742_3_, p_149742_4_ - 1).isNormalCube() ? true : p_149742_1_.getBlock(p_149742_2_, p_149742_3_, p_149742_4_ + 1).isNormalCube()));
+        return p_149742_1_.getBlock(p_149742_2_ - 1, p_149742_3_, p_149742_4_).isNormalCube() || (p_149742_1_.getBlock(p_149742_2_ + 1, p_149742_3_, p_149742_4_).isNormalCube() || (p_149742_1_.getBlock(p_149742_2_, p_149742_3_, p_149742_4_ - 1).isNormalCube() || p_149742_1_.getBlock(p_149742_2_, p_149742_3_, p_149742_4_ + 1).isNormalCube()));
     }
 
     public int onBlockPlaced(World p_149660_1_, int p_149660_2_, int p_149660_3_, int p_149660_4_, int p_149660_5_, float p_149660_6_, float p_149660_7_, float p_149660_8_, int p_149660_9_)
@@ -108,12 +109,7 @@ public class BlockTripWireHook extends Block
             {
                 int var6 = p_149695_1_.getBlockMetadata(p_149695_2_, p_149695_3_, p_149695_4_);
                 int var7 = var6 & 3;
-                boolean var8 = false;
-
-                if (!p_149695_1_.getBlock(p_149695_2_ - 1, p_149695_3_, p_149695_4_).isNormalCube() && var7 == 3)
-                {
-                    var8 = true;
-                }
+                boolean var8 = !p_149695_1_.getBlock(p_149695_2_ - 1, p_149695_3_, p_149695_4_).isNormalCube() && var7 == 3;
 
                 if (!p_149695_1_.getBlock(p_149695_2_ + 1, p_149695_3_, p_149695_4_).isNormalCube() && var7 == 1)
                 {
@@ -178,8 +174,7 @@ public class BlockTripWireHook extends Block
             {
                 var19[var20] = -1;
                 var13 = false;
-            }
-            else
+            } else
             {
                 var24 = var20 == p_150136_8_ ? p_150136_9_ : p_150136_1_.getBlockMetadata(var21, p_150136_3_, var22);
                 boolean var25 = (var24 & 8) != 8;
@@ -238,8 +233,7 @@ public class BlockTripWireHook extends Block
                     if (var13)
                     {
                         var24 |= 4;
-                    }
-                    else
+                    } else
                     {
                         var24 &= -5;
                     }
@@ -262,19 +256,16 @@ public class BlockTripWireHook extends Block
     {
         if (p_150135_6_ && !p_150135_8_)
         {
-            p_150135_1_.playSoundEffect((double)p_150135_2_ + 0.5D, (double)p_150135_3_ + 0.1D, (double)p_150135_4_ + 0.5D, "random.click", 0.4F, 0.6F);
-        }
-        else if (!p_150135_6_ && p_150135_8_)
+            p_150135_1_.playSoundEffect((double) p_150135_2_ + 0.5D, (double) p_150135_3_ + 0.1D, (double) p_150135_4_ + 0.5D, "random.click", 0.4F, 0.6F);
+        } else if (!p_150135_6_ && p_150135_8_)
         {
-            p_150135_1_.playSoundEffect((double)p_150135_2_ + 0.5D, (double)p_150135_3_ + 0.1D, (double)p_150135_4_ + 0.5D, "random.click", 0.4F, 0.5F);
-        }
-        else if (p_150135_5_ && !p_150135_7_)
+            p_150135_1_.playSoundEffect((double) p_150135_2_ + 0.5D, (double) p_150135_3_ + 0.1D, (double) p_150135_4_ + 0.5D, "random.click", 0.4F, 0.5F);
+        } else if (p_150135_5_ && !p_150135_7_)
         {
-            p_150135_1_.playSoundEffect((double)p_150135_2_ + 0.5D, (double)p_150135_3_ + 0.1D, (double)p_150135_4_ + 0.5D, "random.click", 0.4F, 0.7F);
-        }
-        else if (!p_150135_5_ && p_150135_7_)
+            p_150135_1_.playSoundEffect((double) p_150135_2_ + 0.5D, (double) p_150135_3_ + 0.1D, (double) p_150135_4_ + 0.5D, "random.click", 0.4F, 0.7F);
+        } else if (!p_150135_5_ && p_150135_7_)
         {
-            p_150135_1_.playSoundEffect((double)p_150135_2_ + 0.5D, (double)p_150135_3_ + 0.1D, (double)p_150135_4_ + 0.5D, "random.bowhit", 0.4F, 1.2F / (p_150135_1_.rand.nextFloat() * 0.2F + 0.9F));
+            p_150135_1_.playSoundEffect((double) p_150135_2_ + 0.5D, (double) p_150135_3_ + 0.1D, (double) p_150135_4_ + 0.5D, "random.bowhit", 0.4F, 1.2F / (p_150135_1_.rand.nextFloat() * 0.2F + 0.9F));
         }
     }
 
@@ -285,16 +276,13 @@ public class BlockTripWireHook extends Block
         if (p_150134_5_ == 3)
         {
             p_150134_1_.notifyBlocksOfNeighborChange(p_150134_2_ - 1, p_150134_3_, p_150134_4_, this);
-        }
-        else if (p_150134_5_ == 1)
+        } else if (p_150134_5_ == 1)
         {
             p_150134_1_.notifyBlocksOfNeighborChange(p_150134_2_ + 1, p_150134_3_, p_150134_4_, this);
-        }
-        else if (p_150134_5_ == 0)
+        } else if (p_150134_5_ == 0)
         {
             p_150134_1_.notifyBlocksOfNeighborChange(p_150134_2_, p_150134_3_, p_150134_4_ - 1, this);
-        }
-        else if (p_150134_5_ == 2)
+        } else if (p_150134_5_ == 2)
         {
             p_150134_1_.notifyBlocksOfNeighborChange(p_150134_2_, p_150134_3_, p_150134_4_ + 1, this);
         }
@@ -307,8 +295,7 @@ public class BlockTripWireHook extends Block
             this.dropBlockAsItem(p_150137_1_, p_150137_2_, p_150137_3_, p_150137_4_, p_150137_1_.getBlockMetadata(p_150137_2_, p_150137_3_, p_150137_4_), 0);
             p_150137_1_.setBlockToAir(p_150137_2_, p_150137_3_, p_150137_4_);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -322,16 +309,13 @@ public class BlockTripWireHook extends Block
         if (var5 == 3)
         {
             this.setBlockBounds(0.0F, 0.2F, 0.5F - var6, var6 * 2.0F, 0.8F, 0.5F + var6);
-        }
-        else if (var5 == 1)
+        } else if (var5 == 1)
         {
             this.setBlockBounds(1.0F - var6 * 2.0F, 0.2F, 0.5F - var6, 1.0F, 0.8F, 0.5F + var6);
-        }
-        else if (var5 == 0)
+        } else if (var5 == 0)
         {
             this.setBlockBounds(0.5F - var6, 0.2F, 0.0F, 0.5F + var6, 0.8F, var6 * 2.0F);
-        }
-        else if (var5 == 2)
+        } else if (var5 == 2)
         {
             this.setBlockBounds(0.5F - var6, 0.2F, 1.0F - var6 * 2.0F, 0.5F + var6, 0.8F, 1.0F);
         }
@@ -355,16 +339,13 @@ public class BlockTripWireHook extends Block
             if (var9 == 3)
             {
                 p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_ - 1, p_149749_3_, p_149749_4_, this);
-            }
-            else if (var9 == 1)
+            } else if (var9 == 1)
             {
                 p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_ + 1, p_149749_3_, p_149749_4_, this);
-            }
-            else if (var9 == 0)
+            } else if (var9 == 0)
             {
                 p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_, p_149749_3_, p_149749_4_ - 1, this);
-            }
-            else if (var9 == 2)
+            } else if (var9 == 2)
             {
                 p_149749_1_.notifyBlocksOfNeighborChange(p_149749_2_, p_149749_3_, p_149749_4_ + 1, this);
             }
@@ -385,8 +366,7 @@ public class BlockTripWireHook extends Block
         if ((var6 & 8) != 8)
         {
             return 0;
-        }
-        else
+        } else
         {
             int var7 = var6 & 3;
             return var7 == 2 && p_149748_5_ == 2 ? 15 : (var7 == 0 && p_149748_5_ == 3 ? 15 : (var7 == 1 && p_149748_5_ == 4 ? 15 : (var7 == 3 && p_149748_5_ == 5 ? 15 : 0)));

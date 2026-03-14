@@ -7,11 +7,15 @@ import java.util.Arrays;
 
 public class NBTTagIntArray extends NBTBase
 {
-    /** The array of saved integers */
+    /**
+     * The array of saved integers
+     */
     private int[] intArray;
     private static final String __OBFID = "CL_00001221";
 
-    NBTTagIntArray() {}
+    NBTTagIntArray()
+    {
+    }
 
     public NBTTagIntArray(int[] p_i45132_1_)
     {
@@ -50,7 +54,7 @@ public class NBTTagIntArray extends NBTBase
      */
     public byte getId()
     {
-        return (byte)11;
+        return (byte) 11;
     }
 
     public String toString()
@@ -80,7 +84,7 @@ public class NBTTagIntArray extends NBTBase
 
     public boolean equals(Object par1Obj)
     {
-        return super.equals(par1Obj) ? Arrays.equals(this.intArray, ((NBTTagIntArray)par1Obj).intArray) : false;
+        return super.equals(par1Obj) && Arrays.equals(this.intArray, ((NBTTagIntArray) par1Obj).intArray);
     }
 
     public int hashCode()

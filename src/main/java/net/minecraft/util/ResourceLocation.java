@@ -15,8 +15,7 @@ public class ResourceLocation
         if (par1Str != null && par1Str.length() != 0)
         {
             this.resourceDomain = par1Str;
-        }
-        else
+        } else
         {
             this.resourceDomain = "minecraft";
         }
@@ -32,7 +31,7 @@ public class ResourceLocation
 
         if (var4 >= 0)
         {
-            var3 = par1Str.substring(var4 + 1, par1Str.length());
+            var3 = par1Str.substring(var4 + 1);
 
             if (var4 > 1)
             {
@@ -64,14 +63,12 @@ public class ResourceLocation
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (!(par1Obj instanceof ResourceLocation))
+        } else if (!(par1Obj instanceof ResourceLocation))
         {
             return false;
-        }
-        else
+        } else
         {
-            ResourceLocation var2 = (ResourceLocation)par1Obj;
+            ResourceLocation var2 = (ResourceLocation) par1Obj;
             return this.resourceDomain.equals(var2.resourceDomain) && this.resourcePath.equals(var2.resourcePath);
         }
     }

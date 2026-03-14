@@ -24,8 +24,8 @@ import java.util.Calendar;
 
 public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 {
-    private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
-    private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D, false);
+    private final EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
+    private final EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D, false);
     private static final String __OBFID = "CL_00001697";
 
     public EntitySkeleton(World par1World)
@@ -143,7 +143,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
                         if (var3.getItemDamageForDisplay() >= var3.getMaxDamage())
                         {
                             this.renderBrokenItemStack(var3);
-                            this.setCurrentItemOrArmor(4, (ItemStack) null);
+                            this.setCurrentItemOrArmor(4, null);
                         }
                     }
 

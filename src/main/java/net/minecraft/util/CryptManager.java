@@ -1,26 +1,12 @@
 package net.minecraft.util;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
+import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 
 public class CryptManager
 {
@@ -36,8 +22,7 @@ public class CryptManager
             KeyGenerator var0 = KeyGenerator.getInstance("AES");
             var0.init(128);
             return var0.generateKey();
-        }
-        catch (NoSuchAlgorithmException var1)
+        } catch (NoSuchAlgorithmException var1)
         {
             throw new Error(var1);
         }
@@ -50,8 +35,7 @@ public class CryptManager
             KeyPairGenerator var0 = KeyPairGenerator.getInstance("RSA");
             var0.initialize(1024);
             return var0.generateKeyPair();
-        }
-        catch (NoSuchAlgorithmException var1)
+        } catch (NoSuchAlgorithmException var1)
         {
             var1.printStackTrace();
             System.err.println("Key pair generation failed!");
@@ -66,9 +50,8 @@ public class CryptManager
     {
         try
         {
-            return digestOperation("SHA-1", new byte[][] {par0Str.getBytes("ISO_8859_1"), par2SecretKey.getEncoded(), par1PublicKey.getEncoded()});
-        }
-        catch (UnsupportedEncodingException var4)
+            return digestOperation("SHA-1", par0Str.getBytes("ISO_8859_1"), par2SecretKey.getEncoded(), par1PublicKey.getEncoded());
+        } catch (UnsupportedEncodingException var4)
         {
             var4.printStackTrace();
             return null;
@@ -78,7 +61,7 @@ public class CryptManager
     /**
      * Compute a message digest on arbitrary byte[] data
      */
-    private static byte[] digestOperation(String par0Str, byte[] ... par1ArrayOfByte)
+    private static byte[] digestOperation(String par0Str, byte[]... par1ArrayOfByte)
     {
         try
         {
@@ -93,8 +76,7 @@ public class CryptManager
             }
 
             return var2.digest();
-        }
-        catch (NoSuchAlgorithmException var7)
+        } catch (NoSuchAlgorithmException var7)
         {
             var7.printStackTrace();
             return null;
@@ -111,14 +93,10 @@ public class CryptManager
             X509EncodedKeySpec var1 = new X509EncodedKeySpec(par0ArrayOfByte);
             KeyFactory var2 = KeyFactory.getInstance("RSA");
             return var2.generatePublic(var1);
-        }
-        catch (NoSuchAlgorithmException var3)
+        } catch (NoSuchAlgorithmException var3)
         {
-            ;
-        }
-        catch (InvalidKeySpecException var4)
+        } catch (InvalidKeySpecException var4)
         {
-            ;
         }
 
         System.err.println("Public key reconstitute failed!");
@@ -157,12 +135,10 @@ public class CryptManager
         try
         {
             return createTheCipherInstance(par0, par1Key.getAlgorithm(), par1Key).doFinal(par2ArrayOfByte);
-        }
-        catch (IllegalBlockSizeException var4)
+        } catch (IllegalBlockSizeException var4)
         {
             var4.printStackTrace();
-        }
-        catch (BadPaddingException var5)
+        } catch (BadPaddingException var5)
         {
             var5.printStackTrace();
         }
@@ -181,16 +157,13 @@ public class CryptManager
             Cipher var3 = Cipher.getInstance(par1Str);
             var3.init(par0, par2Key);
             return var3;
-        }
-        catch (InvalidKeyException var4)
+        } catch (InvalidKeyException var4)
         {
             var4.printStackTrace();
-        }
-        catch (NoSuchAlgorithmException var5)
+        } catch (NoSuchAlgorithmException var5)
         {
             var5.printStackTrace();
-        }
-        catch (NoSuchPaddingException var6)
+        } catch (NoSuchPaddingException var6)
         {
             var6.printStackTrace();
         }
@@ -206,8 +179,7 @@ public class CryptManager
             Cipher var2 = Cipher.getInstance("AES/CFB8/NoPadding");
             var2.init(p_151229_0_, p_151229_1_, new IvParameterSpec(p_151229_1_.getEncoded()));
             return var2;
-        }
-        catch (GeneralSecurityException var3)
+        } catch (GeneralSecurityException var3)
         {
             throw new RuntimeException(var3);
         }

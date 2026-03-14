@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
@@ -12,10 +11,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BlockSign extends BlockContainer
 {
-    private Class field_149968_a;
-    private boolean field_149967_b;
+    private final Class field_149968_a;
+    private final boolean field_149967_b;
     private static final String __OBFID = "CL_00000306";
 
     protected BlockSign(Class p_i45426_1_, boolean p_i45426_2_)
@@ -118,9 +119,8 @@ public class BlockSign extends BlockContainer
     {
         try
         {
-            return (TileEntity)this.field_149968_a.newInstance();
-        }
-        catch (Exception var4)
+            return (TileEntity) this.field_149968_a.newInstance();
+        } catch (Exception var4)
         {
             throw new RuntimeException(var4);
         }
@@ -141,16 +141,11 @@ public class BlockSign extends BlockContainer
             {
                 var6 = true;
             }
-        }
-        else
+        } else
         {
             int var7 = p_149695_1_.getBlockMetadata(p_149695_2_, p_149695_3_, p_149695_4_);
-            var6 = true;
 
-            if (var7 == 2 && p_149695_1_.getBlock(p_149695_2_, p_149695_3_, p_149695_4_ + 1).getMaterial().isSolid())
-            {
-                var6 = false;
-            }
+            var6 = var7 != 2 || !p_149695_1_.getBlock(p_149695_2_, p_149695_3_, p_149695_4_ + 1).getMaterial().isSolid();
 
             if (var7 == 3 && p_149695_1_.getBlock(p_149695_2_, p_149695_3_, p_149695_4_ - 1).getMaterial().isSolid())
             {
@@ -185,5 +180,7 @@ public class BlockSign extends BlockContainer
         return Items.sign;
     }
 
-    public void registerIcons(IIconRegister p_149651_1_) {}
+    public void registerIcons(IIconRegister p_149651_1_)
+    {
+    }
 }

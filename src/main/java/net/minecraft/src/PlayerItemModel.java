@@ -1,7 +1,5 @@
 package net.minecraft.src;
 
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
@@ -11,6 +9,9 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+
 public class PlayerItemModel
 {
     private Dimension textureSize = null;
@@ -19,7 +20,7 @@ public class PlayerItemModel
     private ResourceLocation textureLocation = null;
     private BufferedImage textureImage = null;
     private DynamicTexture texture = null;
-    private ResourceLocation locationMissing = new ResourceLocation("textures/blocks/wool_colored_red.png");
+    private final ResourceLocation locationMissing = new ResourceLocation("textures/blocks/wool_colored_red.png");
     public static final int ATTACH_BODY = 0;
     public static final int ATTACH_HEAD = 1;
     public static final int ATTACH_LEFT_ARM = 2;
@@ -42,8 +43,7 @@ public class PlayerItemModel
         if (this.usePlayerTexture)
         {
             textureManager.bindTexture(player.getLocationSkin());
-        }
-        else if (this.textureLocation != null)
+        } else if (this.textureLocation != null)
         {
             if (this.texture == null && this.textureImage != null)
             {
@@ -52,8 +52,7 @@ public class PlayerItemModel
             }
 
             textureManager.bindTexture(this.textureLocation);
-        }
-        else
+        } else
         {
             textureManager.bindTexture(this.locationMissing);
         }

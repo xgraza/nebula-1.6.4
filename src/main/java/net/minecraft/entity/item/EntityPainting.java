@@ -1,6 +1,5 @@
 package net.minecraft.entity.item;
 
-import java.util.ArrayList;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,6 +7,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class EntityPainting extends EntityHanging
 {
@@ -40,7 +41,7 @@ public class EntityPainting extends EntityHanging
 
         if (!var6.isEmpty())
         {
-            this.art = (EntityPainting.EnumArt)var6.get(this.rand.nextInt(var6.size()));
+            this.art = (EntityPainting.EnumArt) var6.get(this.rand.nextInt(var6.size()));
         }
 
         this.setDirection(par5);
@@ -119,7 +120,7 @@ public class EntityPainting extends EntityHanging
     {
         if (par1Entity instanceof EntityPlayer)
         {
-            EntityPlayer var2 = (EntityPlayer)par1Entity;
+            EntityPlayer var2 = (EntityPlayer) par1Entity;
 
             if (var2.capabilities.isCreativeMode)
             {
@@ -130,7 +131,7 @@ public class EntityPainting extends EntityHanging
         this.entityDropItem(new ItemStack(Items.painting), 0.0F);
     }
 
-    public static enum EnumArt
+    public enum EnumArt
     {
         Kebab("Kebab", 0, "Kebab", 16, 16, 0, 0),
         Aztec("Aztec", 1, "Aztec", 16, 16, 16, 0),
@@ -165,10 +166,10 @@ public class EntityPainting extends EntityHanging
         public final int offsetX;
         public final int offsetY;
 
-        private static final EntityPainting.EnumArt[] $VALUES = new EntityPainting.EnumArt[]{Kebab, Aztec, Alban, Aztec2, Bomb, Plant, Wasteland, Pool, Courbet, Sea, Sunset, Creebet, Wanderer, Graham, Match, Bust, Stage, Void, SkullAndRoses, Wither, Fighters, Pointer, Pigscene, BurningSkull, Skeleton, DonkeyKong};
+        private static final EntityPainting.EnumArt[] $VALUES = new EntityPainting.EnumArt[]{ Kebab, Aztec, Alban, Aztec2, Bomb, Plant, Wasteland, Pool, Courbet, Sea, Sunset, Creebet, Wanderer, Graham, Match, Bust, Stage, Void, SkullAndRoses, Wither, Fighters, Pointer, Pigscene, BurningSkull, Skeleton, DonkeyKong };
         private static final String __OBFID = "CL_00001557";
 
-        private EnumArt(String par1Str, int par2, String par3Str, int par4, int par5, int par6, int par7)
+        EnumArt(String par1Str, int par2, String par3Str, int par4, int par5, int par6, int par7)
         {
             this.title = par3Str;
             this.sizeX = par4;

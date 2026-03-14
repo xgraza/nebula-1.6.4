@@ -1,6 +1,5 @@
 package net.minecraft.item.crafting;
 
-import java.util.ArrayList;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemDye;
@@ -8,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class RecipeFireworks implements IRecipe
 {
@@ -36,40 +37,31 @@ public class RecipeFireworks implements IRecipe
                 if (var10.getItem() == Items.gunpowder)
                 {
                     ++var4;
-                }
-                else if (var10.getItem() == Items.firework_charge)
+                } else if (var10.getItem() == Items.firework_charge)
                 {
                     ++var6;
-                }
-                else if (var10.getItem() == Items.dye)
+                } else if (var10.getItem() == Items.dye)
                 {
                     ++var5;
-                }
-                else if (var10.getItem() == Items.paper)
+                } else if (var10.getItem() == Items.paper)
                 {
                     ++var3;
-                }
-                else if (var10.getItem() == Items.glowstone_dust)
+                } else if (var10.getItem() == Items.glowstone_dust)
                 {
                     ++var7;
-                }
-                else if (var10.getItem() == Items.diamond)
+                } else if (var10.getItem() == Items.diamond)
                 {
                     ++var7;
-                }
-                else if (var10.getItem() == Items.fire_charge)
+                } else if (var10.getItem() == Items.fire_charge)
                 {
                     ++var8;
-                }
-                else if (var10.getItem() == Items.feather)
+                } else if (var10.getItem() == Items.feather)
                 {
                     ++var8;
-                }
-                else if (var10.getItem() == Items.gold_nugget)
+                } else if (var10.getItem() == Items.gold_nugget)
                 {
                     ++var8;
-                }
-                else
+                } else
                 {
                     if (var10.getItem() != Items.skull)
                     {
@@ -109,14 +101,13 @@ public class RecipeFireworks implements IRecipe
                     }
 
                     var19.setTag("Explosions", var25);
-                    var19.setByte("Flight", (byte)var4);
+                    var19.setByte("Flight", (byte) var4);
                     var16.setTag("Fireworks", var19);
                     this.field_92102_a.setTagCompound(var16);
                 }
 
                 return true;
-            }
-            else if (var4 == 1 && var3 == 0 && var6 == 0 && var5 > 0 && var8 <= 1)
+            } else if (var4 == 1 && var3 == 0 && var6 == 0 && var5 > 0 && var8 <= 1)
             {
                 this.field_92102_a = new ItemStack(Items.firework_charge);
                 var16 = new NBTTagCompound();
@@ -133,28 +124,22 @@ public class RecipeFireworks implements IRecipe
                         if (var14.getItem() == Items.dye)
                         {
                             var12.add(Integer.valueOf(ItemDye.field_150922_c[var14.getItemDamage()]));
-                        }
-                        else if (var14.getItem() == Items.glowstone_dust)
+                        } else if (var14.getItem() == Items.glowstone_dust)
                         {
                             var19.setBoolean("Flicker", true);
-                        }
-                        else if (var14.getItem() == Items.diamond)
+                        } else if (var14.getItem() == Items.diamond)
                         {
                             var19.setBoolean("Trail", true);
-                        }
-                        else if (var14.getItem() == Items.fire_charge)
+                        } else if (var14.getItem() == Items.fire_charge)
                         {
                             var23 = 1;
-                        }
-                        else if (var14.getItem() == Items.feather)
+                        } else if (var14.getItem() == Items.feather)
                         {
                             var23 = 4;
-                        }
-                        else if (var14.getItem() == Items.gold_nugget)
+                        } else if (var14.getItem() == Items.gold_nugget)
                         {
                             var23 = 2;
-                        }
-                        else if (var14.getItem() == Items.skull)
+                        } else if (var14.getItem() == Items.skull)
                         {
                             var23 = 3;
                         }
@@ -165,7 +150,7 @@ public class RecipeFireworks implements IRecipe
 
                 for (int var27 = 0; var27 < var24.length; ++var27)
                 {
-                    var24[var27] = ((Integer)var12.get(var27)).intValue();
+                    var24[var27] = ((Integer) var12.get(var27)).intValue();
                 }
 
                 var19.setIntArray("Colors", var24);
@@ -173,8 +158,7 @@ public class RecipeFireworks implements IRecipe
                 var16.setTag("Explosion", var19);
                 this.field_92102_a.setTagCompound(var16);
                 return true;
-            }
-            else if (var4 == 0 && var3 == 0 && var6 == 1 && var5 > 0 && var5 == var7)
+            } else if (var4 == 0 && var3 == 0 && var6 == 1 && var5 > 0 && var5 == var7)
             {
                 ArrayList var15 = new ArrayList();
 
@@ -187,8 +171,7 @@ public class RecipeFireworks implements IRecipe
                         if (var11.getItem() == Items.dye)
                         {
                             var15.add(Integer.valueOf(ItemDye.field_150922_c[var11.getItemDamage()]));
-                        }
-                        else if (var11.getItem() == Items.firework_charge)
+                        } else if (var11.getItem() == Items.firework_charge)
                         {
                             this.field_92102_a = var11.copy();
                             this.field_92102_a.stackSize = 1;
@@ -200,7 +183,7 @@ public class RecipeFireworks implements IRecipe
 
                 for (int var20 = 0; var20 < var18.length; ++var20)
                 {
-                    var18[var20] = ((Integer)var15.get(var20)).intValue();
+                    var18[var20] = ((Integer) var15.get(var20)).intValue();
                 }
 
                 if (this.field_92102_a != null && this.field_92102_a.hasTagCompound())
@@ -210,24 +193,20 @@ public class RecipeFireworks implements IRecipe
                     if (var21 == null)
                     {
                         return false;
-                    }
-                    else
+                    } else
                     {
                         var21.setIntArray("FadeColors", var18);
                         return true;
                     }
-                }
-                else
+                } else
                 {
                     return false;
                 }
-            }
-            else
+            } else
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return false;
         }

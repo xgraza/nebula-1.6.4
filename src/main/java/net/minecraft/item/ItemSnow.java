@@ -23,12 +23,10 @@ public class ItemSnow extends ItemBlockWithMetadata
         if (par1ItemStack.stackSize == 0)
         {
             return false;
-        }
-        else if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
+        } else if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
         {
             return false;
-        }
-        else
+        } else
         {
             Block var11 = par3World.getBlock(par4, par5, par6);
 
@@ -39,7 +37,7 @@ public class ItemSnow extends ItemBlockWithMetadata
 
                 if (var13 <= 6 && par3World.checkNoEntityCollision(this.block.getCollisionBoundingBoxFromPool(par3World, par4, par5, par6)) && par3World.setBlockMetadataWithNotify(par4, par5, par6, var13 + 1 | var12 & -8, 2))
                 {
-                    par3World.playSoundEffect((double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), this.block.stepSound.func_150496_b(), (this.block.stepSound.func_150497_c() + 1.0F) / 2.0F, this.block.stepSound.func_150494_d() * 0.8F);
+                    par3World.playSoundEffect((float) par4 + 0.5F, (float) par5 + 0.5F, (float) par6 + 0.5F, this.block.stepSound.func_150496_b(), (this.block.stepSound.func_150497_c() + 1.0F) / 2.0F, this.block.stepSound.func_150494_d() * 0.8F);
                     --par1ItemStack.stackSize;
                     return true;
                 }

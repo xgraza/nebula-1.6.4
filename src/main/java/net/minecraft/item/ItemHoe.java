@@ -29,28 +29,25 @@ public class ItemHoe extends Item
         if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
         {
             return false;
-        }
-        else
+        } else
         {
             Block var11 = par3World.getBlock(par4, par5, par6);
 
             if (par7 != 0 && par3World.getBlock(par4, par5 + 1, par6).getMaterial() == Material.air && (var11 == Blocks.grass || var11 == Blocks.dirt))
             {
                 Block var12 = Blocks.farmland;
-                par3World.playSoundEffect((double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), var12.stepSound.func_150498_e(), (var12.stepSound.func_150497_c() + 1.0F) / 2.0F, var12.stepSound.func_150494_d() * 0.8F);
+                par3World.playSoundEffect((float) par4 + 0.5F, (float) par5 + 0.5F, (float) par6 + 0.5F, var12.stepSound.func_150498_e(), (var12.stepSound.func_150497_c() + 1.0F) / 2.0F, var12.stepSound.func_150494_d() * 0.8F);
 
                 if (par3World.isClient)
                 {
                     return true;
-                }
-                else
+                } else
                 {
                     par3World.setBlock(par4, par5, par6, var12);
                     par1ItemStack.damageItem(1, par2EntityPlayer);
                     return true;
                 }
-            }
-            else
+            } else
             {
                 return false;
             }

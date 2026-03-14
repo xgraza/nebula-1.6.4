@@ -157,7 +157,6 @@ public class ThreadDownloadImageData extends SimpleTexture
                 }
             } catch (Exception var9)
             {
-                ;
             }
         }
     }
@@ -207,8 +206,7 @@ public class ThreadDownloadImageData extends SimpleTexture
             this.setBufferedImage(bufferedimage);
         } catch (Exception exception)
         {
-            logger.error("Couldn\'t download http texture: " + exception.getClass().getName() + ": " + exception.getMessage());
-            return;
+            logger.error("Couldn't download http texture: " + exception.getClass().getName() + ": " + exception.getMessage());
         }
     }
 

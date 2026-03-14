@@ -35,29 +35,26 @@ public class TileEntityRendererPiston extends TileEntitySpecialRenderer
             if (Minecraft.isAmbientOcclusionEnabled())
             {
                 GL11.glShadeModel(GL11.GL_SMOOTH);
-            }
-            else
+            } else
             {
                 GL11.glShadeModel(GL11.GL_FLAT);
             }
 
             var10.startDrawingQuads();
-            var10.setTranslation((double)((float)p_147515_2_ - (float)p_147515_1_.xCoord + p_147515_1_.func_145865_b(p_147515_8_)), (double)((float)p_147515_4_ - (float)p_147515_1_.yCoord + p_147515_1_.func_145862_c(p_147515_8_)), (double)((float)p_147515_6_ - (float)p_147515_1_.zCoord + p_147515_1_.func_145859_d(p_147515_8_)));
+            var10.setTranslation((float) p_147515_2_ - (float) p_147515_1_.xCoord + p_147515_1_.func_145865_b(p_147515_8_), (float) p_147515_4_ - (float) p_147515_1_.yCoord + p_147515_1_.func_145862_c(p_147515_8_), (float) p_147515_6_ - (float) p_147515_1_.zCoord + p_147515_1_.func_145859_d(p_147515_8_));
             var10.setColorOpaque_F(1.0F, 1.0F, 1.0F);
 
             if (var9 == Blocks.piston_head && p_147515_1_.func_145860_a(p_147515_8_) < 0.5F)
             {
                 this.field_147516_b.renderPistonExtensionAllFaces(var9, p_147515_1_.xCoord, p_147515_1_.yCoord, p_147515_1_.zCoord, false);
-            }
-            else if (p_147515_1_.func_145867_d() && !p_147515_1_.isExtending())
+            } else if (p_147515_1_.func_145867_d() && !p_147515_1_.isExtending())
             {
-                Blocks.piston_head.func_150086_a(((BlockPistonBase)var9).getPistonExtensionTexture());
+                Blocks.piston_head.func_150086_a(((BlockPistonBase) var9).getPistonExtensionTexture());
                 this.field_147516_b.renderPistonExtensionAllFaces(Blocks.piston_head, p_147515_1_.xCoord, p_147515_1_.yCoord, p_147515_1_.zCoord, p_147515_1_.func_145860_a(p_147515_8_) < 0.5F);
                 Blocks.piston_head.func_150087_e();
-                var10.setTranslation((double)((float)p_147515_2_ - (float)p_147515_1_.xCoord), (double)((float)p_147515_4_ - (float)p_147515_1_.yCoord), (double)((float)p_147515_6_ - (float)p_147515_1_.zCoord));
+                var10.setTranslation((float) p_147515_2_ - (float) p_147515_1_.xCoord, (float) p_147515_4_ - (float) p_147515_1_.yCoord, (float) p_147515_6_ - (float) p_147515_1_.zCoord);
                 this.field_147516_b.renderPistonBaseAllFaces(var9, p_147515_1_.xCoord, p_147515_1_.yCoord, p_147515_1_.zCoord);
-            }
-            else
+            } else
             {
                 this.field_147516_b.renderBlockAllFaces(var9, p_147515_1_.xCoord, p_147515_1_.yCoord, p_147515_1_.zCoord);
             }
@@ -75,6 +72,6 @@ public class TileEntityRendererPiston extends TileEntitySpecialRenderer
 
     public void renderTileEntityAt(TileEntity p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_)
     {
-        this.renderTileEntityAt((TileEntityPiston)p_147500_1_, p_147500_2_, p_147500_4_, p_147500_6_, p_147500_8_);
+        this.renderTileEntityAt((TileEntityPiston) p_147500_1_, p_147500_2_, p_147500_4_, p_147500_6_, p_147500_8_);
     }
 }

@@ -1,10 +1,11 @@
 package shadersmod.client;
 
+import net.minecraft.src.Config;
+import shadersmod.common.SMCLog;
+
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import net.minecraft.src.Config;
-import shadersmod.common.SMCLog;
 
 public class ShadersBuiltIn
 {
@@ -18,16 +19,14 @@ public class ShadersBuiltIn
         if (!hasDeferredPrograms() && !hasSkipClear())
         {
             return null;
-        }
-        else
+        } else
         {
             int[] flipBuffers = getLastFlipBuffers(deferred);
 
             if (flipBuffers == null)
             {
                 return null;
-            }
-            else
+            } else
             {
                 String shader;
 
@@ -40,8 +39,7 @@ public class ShadersBuiltIn
                 if (vertex)
                 {
                     shader = getCompositeVertexShader(flipBuffers);
-                }
-                else
+                } else
                 {
                     shader = getCompositeFragmentShader(flipBuffers);
                 }
@@ -56,16 +54,14 @@ public class ShadersBuiltIn
         if (!hasDeferredPrograms() && !hasSkipClear())
         {
             return null;
-        }
-        else
+        } else
         {
             int[] flipBuffers = getLastFlipBuffers(deferred);
 
             if (flipBuffers == null)
             {
                 return null;
-            }
-            else
+            } else
             {
                 String shader = getCompositeFragmentShader(flipBuffers);
                 return new StringReader(shader);
@@ -180,10 +176,9 @@ public class ShadersBuiltIn
         if (list.isEmpty())
         {
             return null;
-        }
-        else
+        } else
         {
-            Integer[] var9 = (Integer[])list.toArray(new Integer[list.size()]);
+            Integer[] var9 = (Integer[]) list.toArray(new Integer[list.size()]);
             return Config.toPrimitive(var9);
         }
     }
@@ -196,8 +191,7 @@ public class ShadersBuiltIn
         if (drawBufStr == null)
         {
             return toggles;
-        }
-        else
+        } else
         {
             for (int i = 0; i < drawBufStr.length(); ++i)
             {

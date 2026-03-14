@@ -1,6 +1,5 @@
 package net.minecraft.entity.passive;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.ai.EntityAISit;
@@ -21,7 +20,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
         this.dataWatcher.addObject(17, "");
     }
 
@@ -35,8 +34,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
         if (this.getOwnerName() == null)
         {
             par1NBTTagCompound.setString("Owner", "");
-        }
-        else
+        } else
         {
             par1NBTTagCompound.setString("Owner", this.getOwnerName());
         }
@@ -79,7 +77,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
             double var4 = this.rand.nextGaussian() * 0.02D;
             double var6 = this.rand.nextGaussian() * 0.02D;
             double var8 = this.rand.nextGaussian() * 0.02D;
-            this.worldObj.spawnParticle(var2, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, var4, var6, var8);
+            this.worldObj.spawnParticle(var2, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, var4, var6, var8);
         }
     }
 
@@ -88,12 +86,10 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
         if (par1 == 7)
         {
             this.playTameEffect(true);
-        }
-        else if (par1 == 6)
+        } else if (par1 == 6)
         {
             this.playTameEffect(false);
-        }
-        else
+        } else
         {
             super.handleHealthUpdate(par1);
         }
@@ -110,11 +106,10 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
         if (par1)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 | 4)));
-        }
-        else
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 | 4)));
+        } else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & -5)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 & -5)));
         }
     }
 
@@ -129,11 +124,10 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
         if (par1)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 | 1)));
-        }
-        else
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 | 1)));
+        } else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & -2)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 & -2)));
         }
     }
 

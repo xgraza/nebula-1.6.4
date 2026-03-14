@@ -2,13 +2,13 @@ package net.minecraft.util;
 
 public class StatCollector
 {
-    private static StringTranslate localizedName = StringTranslate.getInstance();
+    private static final StringTranslate localizedName = StringTranslate.getInstance();
 
     /**
      * A StringTranslate instance using the hardcoded default locale (en_US).  Used as a fallback in case the shared
      * StringTranslate singleton instance fails to translate a key.
      */
-    private static StringTranslate fallbackTranslator = new StringTranslate();
+    private static final StringTranslate fallbackTranslator = new StringTranslate();
     private static final String __OBFID = "CL_00001211";
 
     /**
@@ -22,7 +22,7 @@ public class StatCollector
     /**
      * Translates a Stat name with format args
      */
-    public static String translateToLocalFormatted(String par0Str, Object ... par1ArrayOfObj)
+    public static String translateToLocalFormatted(String par0Str, Object... par1ArrayOfObj)
     {
         return localizedName.translateKeyFormat(par0Str, par1ArrayOfObj);
     }

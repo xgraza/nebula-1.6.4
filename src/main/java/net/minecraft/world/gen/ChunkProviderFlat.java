@@ -1,10 +1,5 @@
 package net.minecraft.world.gen;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
@@ -17,16 +12,14 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.feature.WorldGenDungeons;
 import net.minecraft.world.gen.feature.WorldGenLakes;
-import net.minecraft.world.gen.structure.MapGenMineshaft;
-import net.minecraft.world.gen.structure.MapGenScatteredFeature;
-import net.minecraft.world.gen.structure.MapGenStronghold;
-import net.minecraft.world.gen.structure.MapGenStructure;
-import net.minecraft.world.gen.structure.MapGenVillage;
+import net.minecraft.world.gen.structure.*;
+
+import java.util.*;
 
 public class ChunkProviderFlat implements IChunkProvider
 {
-    private World worldObj;
-    private Random random;
+    private final World worldObj;
+    private final Random random;
     private final Block[] cachedBlockIDs = new Block[256];
     private final byte[] cachedBlockMetadata = new byte[256];
     private final FlatGeneratorInfo flatWorldGenInfo;
@@ -49,7 +42,7 @@ public class ChunkProviderFlat implements IChunkProvider
 
             if (var6.containsKey("village"))
             {
-                Map var7 = (Map)var6.get("village");
+                Map var7 = (Map) var6.get("village");
 
                 if (!var7.containsKey("size"))
                 {
@@ -61,17 +54,17 @@ public class ChunkProviderFlat implements IChunkProvider
 
             if (var6.containsKey("biome_1"))
             {
-                this.structureGenerators.add(new MapGenScatteredFeature((Map)var6.get("biome_1")));
+                this.structureGenerators.add(new MapGenScatteredFeature((Map) var6.get("biome_1")));
             }
 
             if (var6.containsKey("mineshaft"))
             {
-                this.structureGenerators.add(new MapGenMineshaft((Map)var6.get("mineshaft")));
+                this.structureGenerators.add(new MapGenMineshaft((Map) var6.get("mineshaft")));
             }
 
             if (var6.containsKey("stronghold"))
             {
-                this.structureGenerators.add(new MapGenStronghold((Map)var6.get("stronghold")));
+                this.structureGenerators.add(new MapGenStronghold((Map) var6.get("stronghold")));
             }
         }
 
@@ -92,12 +85,12 @@ public class ChunkProviderFlat implements IChunkProvider
 
         while (var9.hasNext())
         {
-            FlatLayerInfo var10 = (FlatLayerInfo)var9.next();
+            FlatLayerInfo var10 = (FlatLayerInfo) var9.next();
 
             for (int var8 = var10.getMinY(); var8 < var10.getMinY() + var10.getLayerCount(); ++var8)
             {
                 this.cachedBlockIDs[var8] = var10.func_151536_b();
-                this.cachedBlockMetadata[var8] = (byte)var10.getFillBlockMeta();
+                this.cachedBlockMetadata[var8] = (byte) var10.getFillBlockMeta();
             }
         }
     }
@@ -146,20 +139,20 @@ public class ChunkProviderFlat implements IChunkProvider
         }
 
         var3.generateSkylightMap();
-        BiomeGenBase[] var10 = this.worldObj.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[])null, par1 * 16, par2 * 16, 16, 16);
+        BiomeGenBase[] var10 = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(null, par1 * 16, par2 * 16, 16, 16);
         byte[] var11 = var3.getBiomeArray();
 
         for (var6 = 0; var6 < var11.length; ++var6)
         {
-            var11[var6] = (byte)var10[var6].biomeID;
+            var11[var6] = (byte) var10[var6].biomeID;
         }
 
         Iterator var12 = this.structureGenerators.iterator();
 
         while (var12.hasNext())
         {
-            MapGenStructure var13 = (MapGenStructure)var12.next();
-            var13.func_151539_a(this, this.worldObj, par1, par2, (Block[])null);
+            MapGenStructure var13 = (MapGenStructure) var12.next();
+            var13.func_151539_a(this, this.worldObj, par1, par2, null);
         }
 
         var3.generateSkylightMap();
@@ -186,12 +179,12 @@ public class ChunkProviderFlat implements IChunkProvider
         this.random.setSeed(this.worldObj.getSeed());
         long var8 = this.random.nextLong() / 2L * 2L + 1L;
         long var10 = this.random.nextLong() / 2L * 2L + 1L;
-        this.random.setSeed((long)par2 * var8 + (long)par3 * var10 ^ this.worldObj.getSeed());
+        this.random.setSeed((long) par2 * var8 + (long) par3 * var10 ^ this.worldObj.getSeed());
         Iterator var12 = this.structureGenerators.iterator();
 
         while (var12.hasNext())
         {
-            MapGenStructure var13 = (MapGenStructure)var12.next();
+            MapGenStructure var13 = (MapGenStructure) var12.next();
             boolean var14 = var13.generateStructuresInChunk(this.worldObj, this.random, par2, par3);
 
             if (var13 instanceof MapGenVillage)
@@ -254,7 +247,9 @@ public class ChunkProviderFlat implements IChunkProvider
      * Save extra data not associated with any Chunk.  Not saved during autosave, only during world unload.  Currently
      * unimplemented.
      */
-    public void saveExtraData() {}
+    public void saveExtraData()
+    {
+    }
 
     /**
      * Unloads chunks that are marked to be unloaded. This is not guaranteed to unload every such chunk.
@@ -297,7 +292,7 @@ public class ChunkProviderFlat implements IChunkProvider
 
             while (var6.hasNext())
             {
-                MapGenStructure var7 = (MapGenStructure)var6.next();
+                MapGenStructure var7 = (MapGenStructure) var6.next();
 
                 if (var7 instanceof MapGenStronghold)
                 {
@@ -320,8 +315,8 @@ public class ChunkProviderFlat implements IChunkProvider
 
         while (var3.hasNext())
         {
-            MapGenStructure var4 = (MapGenStructure)var3.next();
-            var4.func_151539_a(this, this.worldObj, par1, par2, (Block[])null);
+            MapGenStructure var4 = (MapGenStructure) var3.next();
+            var4.func_151539_a(this, this.worldObj, par1, par2, null);
         }
     }
 }

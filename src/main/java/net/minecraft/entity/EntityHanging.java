@@ -1,7 +1,5 @@
 package net.minecraft.entity;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,6 +7,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
+import java.util.List;
 
 public abstract class EntityHanging extends Entity
 {
@@ -34,32 +35,33 @@ public abstract class EntityHanging extends Entity
         this.field_146062_d = par4;
     }
 
-    protected void entityInit() {}
+    protected void entityInit()
+    {
+    }
 
     public void setDirection(int par1)
     {
         this.hangingDirection = par1;
-        this.prevRotationYaw = this.rotationYaw = (float)(par1 * 90);
-        float var2 = (float)this.getWidthPixels();
-        float var3 = (float)this.getHeightPixels();
-        float var4 = (float)this.getWidthPixels();
+        this.prevRotationYaw = this.rotationYaw = (float) (par1 * 90);
+        float var2 = (float) this.getWidthPixels();
+        float var3 = (float) this.getHeightPixels();
+        float var4 = (float) this.getWidthPixels();
 
         if (par1 != 2 && par1 != 0)
         {
             var2 = 0.5F;
-        }
-        else
+        } else
         {
             var4 = 0.5F;
-            this.rotationYaw = this.prevRotationYaw = (float)(Direction.rotateOpposite[par1] * 90);
+            this.rotationYaw = this.prevRotationYaw = (float) (Direction.rotateOpposite[par1] * 90);
         }
 
         var2 /= 32.0F;
         var3 /= 32.0F;
         var4 /= 32.0F;
-        float var5 = (float)this.field_146063_b + 0.5F;
-        float var6 = (float)this.field_146064_c + 0.5F;
-        float var7 = (float)this.field_146062_d + 0.5F;
+        float var5 = (float) this.field_146063_b + 0.5F;
+        float var6 = (float) this.field_146064_c + 0.5F;
+        float var7 = (float) this.field_146062_d + 0.5F;
         float var8 = 0.5625F;
 
         if (par1 == 2)
@@ -103,9 +105,9 @@ public abstract class EntityHanging extends Entity
         }
 
         var6 += this.func_70517_b(this.getHeightPixels());
-        this.setPosition((double)var5, (double)var6, (double)var7);
+        this.setPosition(var5, var6, var7);
         float var9 = -0.03125F;
-        this.boundingBox.setBounds((double)(var5 - var2 - var9), (double)(var6 - var3 - var9), (double)(var7 - var4 - var9), (double)(var5 + var2 + var9), (double)(var6 + var3 + var9), (double)(var7 + var4 + var9));
+        this.boundingBox.setBounds(var5 - var2 - var9, var6 - var3 - var9, var7 - var4 - var9, var5 + var2 + var9, var6 + var3 + var9, var7 + var4 + var9);
     }
 
     private float func_70517_b(int par1)
@@ -129,7 +131,7 @@ public abstract class EntityHanging extends Entity
             if (!this.isDead && !this.onValidSurface())
             {
                 this.setDead();
-                this.onBroken((Entity)null);
+                this.onBroken(null);
             }
         }
     }
@@ -142,8 +144,7 @@ public abstract class EntityHanging extends Entity
         if (!this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty())
         {
             return false;
-        }
-        else
+        } else
         {
             int var1 = Math.max(1, this.getWidthPixels() / 16);
             int var2 = Math.max(1, this.getHeightPixels() / 16);
@@ -153,25 +154,25 @@ public abstract class EntityHanging extends Entity
 
             if (this.hangingDirection == 2)
             {
-                var3 = MathHelper.floor_double(this.posX - (double)((float)this.getWidthPixels() / 32.0F));
+                var3 = MathHelper.floor_double(this.posX - (double) ((float) this.getWidthPixels() / 32.0F));
             }
 
             if (this.hangingDirection == 1)
             {
-                var5 = MathHelper.floor_double(this.posZ - (double)((float)this.getWidthPixels() / 32.0F));
+                var5 = MathHelper.floor_double(this.posZ - (double) ((float) this.getWidthPixels() / 32.0F));
             }
 
             if (this.hangingDirection == 0)
             {
-                var3 = MathHelper.floor_double(this.posX - (double)((float)this.getWidthPixels() / 32.0F));
+                var3 = MathHelper.floor_double(this.posX - (double) ((float) this.getWidthPixels() / 32.0F));
             }
 
             if (this.hangingDirection == 3)
             {
-                var5 = MathHelper.floor_double(this.posZ - (double)((float)this.getWidthPixels() / 32.0F));
+                var5 = MathHelper.floor_double(this.posZ - (double) ((float) this.getWidthPixels() / 32.0F));
             }
 
-            var4 = MathHelper.floor_double(this.posY - (double)((float)this.getHeightPixels() / 32.0F));
+            var4 = MathHelper.floor_double(this.posY - (double) ((float) this.getHeightPixels() / 32.0F));
 
             for (int var6 = 0; var6 < var1; ++var6)
             {
@@ -182,8 +183,7 @@ public abstract class EntityHanging extends Entity
                     if (this.hangingDirection != 2 && this.hangingDirection != 0)
                     {
                         var8 = this.worldObj.getBlock(this.field_146063_b, var4 + var7, var5 + var6).getMaterial();
-                    }
-                    else
+                    } else
                     {
                         var8 = this.worldObj.getBlock(var3 + var6, var4 + var7, this.field_146062_d).getMaterial();
                     }
@@ -206,7 +206,7 @@ public abstract class EntityHanging extends Entity
                     return true;
                 }
 
-                var11 = (Entity)var10.next();
+                var11 = (Entity) var10.next();
             }
             while (!(var11 instanceof EntityHanging));
 
@@ -227,7 +227,7 @@ public abstract class EntityHanging extends Entity
      */
     public boolean hitByEntity(Entity par1Entity)
     {
-        return par1Entity instanceof EntityPlayer ? this.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)par1Entity), 0.0F) : false;
+        return par1Entity instanceof EntityPlayer && this.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) par1Entity), 0.0F);
     }
 
     public void func_145781_i(int p_145781_1_)
@@ -243,8 +243,7 @@ public abstract class EntityHanging extends Entity
         if (this.isEntityInvulnerable())
         {
             return false;
-        }
-        else
+        } else
         {
             if (!this.isDead && !this.worldObj.isClient)
             {
@@ -265,7 +264,7 @@ public abstract class EntityHanging extends Entity
         if (!this.worldObj.isClient && !this.isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
         {
             this.setDead();
-            this.onBroken((Entity)null);
+            this.onBroken(null);
         }
     }
 
@@ -277,7 +276,7 @@ public abstract class EntityHanging extends Entity
         if (!this.worldObj.isClient && !this.isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
         {
             this.setDead();
-            this.onBroken((Entity)null);
+            this.onBroken(null);
         }
     }
 
@@ -286,7 +285,7 @@ public abstract class EntityHanging extends Entity
      */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
-        par1NBTTagCompound.setByte("Direction", (byte)this.hangingDirection);
+        par1NBTTagCompound.setByte("Direction", (byte) this.hangingDirection);
         par1NBTTagCompound.setInteger("TileX", this.field_146063_b);
         par1NBTTagCompound.setInteger("TileY", this.field_146064_c);
         par1NBTTagCompound.setInteger("TileZ", this.field_146062_d);
@@ -294,19 +293,19 @@ public abstract class EntityHanging extends Entity
         switch (this.hangingDirection)
         {
             case 0:
-                par1NBTTagCompound.setByte("Dir", (byte)2);
+                par1NBTTagCompound.setByte("Dir", (byte) 2);
                 break;
 
             case 1:
-                par1NBTTagCompound.setByte("Dir", (byte)1);
+                par1NBTTagCompound.setByte("Dir", (byte) 1);
                 break;
 
             case 2:
-                par1NBTTagCompound.setByte("Dir", (byte)0);
+                par1NBTTagCompound.setByte("Dir", (byte) 0);
                 break;
 
             case 3:
-                par1NBTTagCompound.setByte("Dir", (byte)3);
+                par1NBTTagCompound.setByte("Dir", (byte) 3);
         }
     }
 
@@ -318,8 +317,7 @@ public abstract class EntityHanging extends Entity
         if (par1NBTTagCompound.hasKey("Direction", 99))
         {
             this.hangingDirection = par1NBTTagCompound.getByte("Direction");
-        }
-        else
+        } else
         {
             switch (par1NBTTagCompound.getByte("Dir"))
             {

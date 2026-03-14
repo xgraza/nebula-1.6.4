@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,9 +9,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BlockRedstoneOre extends Block
 {
-    private boolean field_150187_a;
+    private final boolean field_150187_a;
     private static final String __OBFID = "CL_00000294";
 
     public BlockRedstoneOre(boolean p_i45420_1_)
@@ -130,41 +131,41 @@ public class BlockRedstoneOre extends Block
 
         for (int var8 = 0; var8 < 6; ++var8)
         {
-            double var9 = (double)((float)p_150186_2_ + var5.nextFloat());
-            double var11 = (double)((float)p_150186_3_ + var5.nextFloat());
-            double var13 = (double)((float)p_150186_4_ + var5.nextFloat());
+            double var9 = (float) p_150186_2_ + var5.nextFloat();
+            double var11 = (float) p_150186_3_ + var5.nextFloat();
+            double var13 = (float) p_150186_4_ + var5.nextFloat();
 
             if (var8 == 0 && !p_150186_1_.getBlock(p_150186_2_, p_150186_3_ + 1, p_150186_4_).isOpaqueCube())
             {
-                var11 = (double)(p_150186_3_ + 1) + var6;
+                var11 = (double) (p_150186_3_ + 1) + var6;
             }
 
             if (var8 == 1 && !p_150186_1_.getBlock(p_150186_2_, p_150186_3_ - 1, p_150186_4_).isOpaqueCube())
             {
-                var11 = (double)(p_150186_3_ + 0) - var6;
+                var11 = (double) (p_150186_3_) - var6;
             }
 
             if (var8 == 2 && !p_150186_1_.getBlock(p_150186_2_, p_150186_3_, p_150186_4_ + 1).isOpaqueCube())
             {
-                var13 = (double)(p_150186_4_ + 1) + var6;
+                var13 = (double) (p_150186_4_ + 1) + var6;
             }
 
             if (var8 == 3 && !p_150186_1_.getBlock(p_150186_2_, p_150186_3_, p_150186_4_ - 1).isOpaqueCube())
             {
-                var13 = (double)(p_150186_4_ + 0) - var6;
+                var13 = (double) (p_150186_4_) - var6;
             }
 
             if (var8 == 4 && !p_150186_1_.getBlock(p_150186_2_ + 1, p_150186_3_, p_150186_4_).isOpaqueCube())
             {
-                var9 = (double)(p_150186_2_ + 1) + var6;
+                var9 = (double) (p_150186_2_ + 1) + var6;
             }
 
             if (var8 == 5 && !p_150186_1_.getBlock(p_150186_2_ - 1, p_150186_3_, p_150186_4_).isOpaqueCube())
             {
-                var9 = (double)(p_150186_2_ + 0) - var6;
+                var9 = (double) (p_150186_2_) - var6;
             }
 
-            if (var9 < (double)p_150186_2_ || var9 > (double)(p_150186_2_ + 1) || var11 < 0.0D || var11 > (double)(p_150186_3_ + 1) || var13 < (double)p_150186_4_ || var13 > (double)(p_150186_4_ + 1))
+            if (var9 < (double) p_150186_2_ || var9 > (double) (p_150186_2_ + 1) || var11 < 0.0D || var11 > (double) (p_150186_3_ + 1) || var13 < (double) p_150186_4_ || var13 > (double) (p_150186_4_ + 1))
             {
                 p_150186_1_.spawnParticle("reddust", var9, var11, var13, 0.0D, 0.0D, 0.0D);
             }

@@ -13,9 +13,9 @@ import java.util.List;
 
 /**
  * @author xgraza
- * @since 03/07/25
  * @see net.minecraft.block.Block
  * @see net.minecraft.client.renderer.WorldRenderer
+ * @since 03/07/25
  */
 @CheatManifest(name = "XRay",
         description = "Exposes ores or other blocks underground",

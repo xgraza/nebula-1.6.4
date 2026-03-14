@@ -1,6 +1,5 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
@@ -8,13 +7,17 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.world.World;
 
+import java.io.IOException;
+
 public class S19PacketEntityHeadLook extends Packet
 {
     private int field_149384_a;
     private byte field_149383_b;
     private static final String __OBFID = "CL_00001323";
 
-    public S19PacketEntityHeadLook() {}
+    public S19PacketEntityHeadLook()
+    {
+    }
 
     public S19PacketEntityHeadLook(Entity p_i45214_1_, byte p_i45214_2_)
     {
@@ -50,7 +53,7 @@ public class S19PacketEntityHeadLook extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, rot=%d", new Object[] {Integer.valueOf(this.field_149384_a), Byte.valueOf(this.field_149383_b)});
+        return String.format("id=%d, rot=%d", Integer.valueOf(this.field_149384_a), Byte.valueOf(this.field_149383_b));
     }
 
     public Entity func_149381_a(World p_149381_1_)
@@ -65,6 +68,6 @@ public class S19PacketEntityHeadLook extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

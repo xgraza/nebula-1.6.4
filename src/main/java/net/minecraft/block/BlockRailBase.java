@@ -1,8 +1,5 @@
 package net.minecraft.block;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -12,6 +9,10 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public abstract class BlockRailBase extends Block
 {
@@ -68,8 +69,7 @@ public abstract class BlockRailBase extends Block
         if (var5 >= 2 && var5 <= 5)
         {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
-        }
-        else
+        } else
         {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
         }
@@ -126,12 +126,7 @@ public abstract class BlockRailBase extends Block
                 var7 = var6 & 7;
             }
 
-            boolean var8 = false;
-
-            if (!World.doesBlockHaveSolidTopSurface(p_149695_1_, p_149695_2_, p_149695_3_ - 1, p_149695_4_))
-            {
-                var8 = true;
-            }
+            boolean var8 = !World.doesBlockHaveSolidTopSurface(p_149695_1_, p_149695_2_, p_149695_3_ - 1, p_149695_4_);
 
             if (var7 == 2 && !World.doesBlockHaveSolidTopSurface(p_149695_1_, p_149695_2_ + 1, p_149695_3_, p_149695_4_))
             {
@@ -157,15 +152,16 @@ public abstract class BlockRailBase extends Block
             {
                 this.dropBlockAsItem(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, p_149695_1_.getBlockMetadata(p_149695_2_, p_149695_3_, p_149695_4_), 0);
                 p_149695_1_.setBlockToAir(p_149695_2_, p_149695_3_, p_149695_4_);
-            }
-            else
+            } else
             {
                 this.func_150048_a(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, var6, var7, p_149695_5_);
             }
         }
     }
 
-    protected void func_150048_a(World p_150048_1_, int p_150048_2_, int p_150048_3_, int p_150048_4_, int p_150048_5_, int p_150048_6_, Block p_150048_7_) {}
+    protected void func_150048_a(World p_150048_1_, int p_150048_2_, int p_150048_3_, int p_150048_4_, int p_150048_5_, int p_150048_6_, Block p_150048_7_)
+    {
+    }
 
     protected void func_150052_a(World p_150052_1_, int p_150052_2_, int p_150052_3_, int p_150052_4_, boolean p_150052_5_)
     {
@@ -205,12 +201,12 @@ public abstract class BlockRailBase extends Block
 
     public class Rail
     {
-        private World field_150660_b;
-        private int field_150661_c;
-        private int field_150658_d;
-        private int field_150659_e;
+        private final World field_150660_b;
+        private final int field_150661_c;
+        private final int field_150658_d;
+        private final int field_150659_e;
         private final boolean field_150656_f;
-        private List field_150657_g = new ArrayList();
+        private final List field_150657_g = new ArrayList();
         private static final String __OBFID = "CL_00000196";
 
         public Rail(World p_i45388_2_, int p_i45388_3_, int p_i45388_4_, int p_i45388_5_)
@@ -222,12 +218,11 @@ public abstract class BlockRailBase extends Block
             Block var6 = p_i45388_2_.getBlock(p_i45388_3_, p_i45388_4_, p_i45388_5_);
             int var7 = p_i45388_2_.getBlockMetadata(p_i45388_3_, p_i45388_4_, p_i45388_5_);
 
-            if (((BlockRailBase)var6).field_150053_a)
+            if (((BlockRailBase) var6).field_150053_a)
             {
                 this.field_150656_f = true;
                 var7 &= -9;
-            }
-            else
+            } else
             {
                 this.field_150656_f = false;
             }
@@ -243,48 +238,39 @@ public abstract class BlockRailBase extends Block
             {
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c, this.field_150658_d, this.field_150659_e - 1));
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c, this.field_150658_d, this.field_150659_e + 1));
-            }
-            else if (p_150648_1_ == 1)
+            } else if (p_150648_1_ == 1)
             {
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c - 1, this.field_150658_d, this.field_150659_e));
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c + 1, this.field_150658_d, this.field_150659_e));
-            }
-            else if (p_150648_1_ == 2)
+            } else if (p_150648_1_ == 2)
             {
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c - 1, this.field_150658_d, this.field_150659_e));
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c + 1, this.field_150658_d + 1, this.field_150659_e));
-            }
-            else if (p_150648_1_ == 3)
+            } else if (p_150648_1_ == 3)
             {
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c - 1, this.field_150658_d + 1, this.field_150659_e));
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c + 1, this.field_150658_d, this.field_150659_e));
-            }
-            else if (p_150648_1_ == 4)
+            } else if (p_150648_1_ == 4)
             {
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c, this.field_150658_d + 1, this.field_150659_e - 1));
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c, this.field_150658_d, this.field_150659_e + 1));
-            }
-            else if (p_150648_1_ == 5)
+            } else if (p_150648_1_ == 5)
             {
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c, this.field_150658_d, this.field_150659_e - 1));
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c, this.field_150658_d + 1, this.field_150659_e + 1));
-            }
-            else if (p_150648_1_ == 6)
+            } else if (p_150648_1_ == 6)
             {
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c + 1, this.field_150658_d, this.field_150659_e));
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c, this.field_150658_d, this.field_150659_e + 1));
-            }
-            else if (p_150648_1_ == 7)
+            } else if (p_150648_1_ == 7)
             {
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c - 1, this.field_150658_d, this.field_150659_e));
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c, this.field_150658_d, this.field_150659_e + 1));
-            }
-            else if (p_150648_1_ == 8)
+            } else if (p_150648_1_ == 8)
             {
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c - 1, this.field_150658_d, this.field_150659_e));
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c, this.field_150658_d, this.field_150659_e - 1));
-            }
-            else if (p_150648_1_ == 9)
+            } else if (p_150648_1_ == 9)
             {
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c + 1, this.field_150658_d, this.field_150659_e));
                 this.field_150657_g.add(new ChunkPosition(this.field_150661_c, this.field_150658_d, this.field_150659_e - 1));
@@ -295,13 +281,12 @@ public abstract class BlockRailBase extends Block
         {
             for (int var1 = 0; var1 < this.field_150657_g.size(); ++var1)
             {
-                BlockRailBase.Rail var2 = this.func_150654_a((ChunkPosition)this.field_150657_g.get(var1));
+                BlockRailBase.Rail var2 = this.func_150654_a((ChunkPosition) this.field_150657_g.get(var1));
 
                 if (var2 != null && var2.func_150653_a(this))
                 {
                     this.field_150657_g.set(var1, new ChunkPosition(var2.field_150661_c, var2.field_150658_d, var2.field_150659_e));
-                }
-                else
+                } else
                 {
                     this.field_150657_g.remove(var1--);
                 }
@@ -310,7 +295,7 @@ public abstract class BlockRailBase extends Block
 
         private boolean func_150646_a(int p_150646_1_, int p_150646_2_, int p_150646_3_)
         {
-            return BlockRailBase.func_150049_b_(this.field_150660_b, p_150646_1_, p_150646_2_, p_150646_3_) ? true : (BlockRailBase.func_150049_b_(this.field_150660_b, p_150646_1_, p_150646_2_ + 1, p_150646_3_) ? true : BlockRailBase.func_150049_b_(this.field_150660_b, p_150646_1_, p_150646_2_ - 1, p_150646_3_));
+            return BlockRailBase.func_150049_b_(this.field_150660_b, p_150646_1_, p_150646_2_, p_150646_3_) || (BlockRailBase.func_150049_b_(this.field_150660_b, p_150646_1_, p_150646_2_ + 1, p_150646_3_) || BlockRailBase.func_150049_b_(this.field_150660_b, p_150646_1_, p_150646_2_ - 1, p_150646_3_));
         }
 
         private BlockRailBase.Rail func_150654_a(ChunkPosition p_150654_1_)
@@ -322,7 +307,7 @@ public abstract class BlockRailBase extends Block
         {
             for (int var2 = 0; var2 < this.field_150657_g.size(); ++var2)
             {
-                ChunkPosition var3 = (ChunkPosition)this.field_150657_g.get(var2);
+                ChunkPosition var3 = (ChunkPosition) this.field_150657_g.get(var2);
 
                 if (var3.xCoord == p_150653_1_.field_150661_c && var3.yCoord == p_150653_1_.field_150659_e)
                 {
@@ -337,7 +322,7 @@ public abstract class BlockRailBase extends Block
         {
             for (int var4 = 0; var4 < this.field_150657_g.size(); ++var4)
             {
-                ChunkPosition var5 = (ChunkPosition)this.field_150657_g.get(var4);
+                ChunkPosition var5 = (ChunkPosition) this.field_150657_g.get(var4);
 
                 if (var5.xCoord == p_150652_1_ && var5.yCoord == p_150652_3_)
                 {
@@ -377,7 +362,7 @@ public abstract class BlockRailBase extends Block
 
         private boolean func_150649_b(BlockRailBase.Rail p_150649_1_)
         {
-            return this.func_150653_a(p_150649_1_) ? true : (this.field_150657_g.size() == 2 ? false : (this.field_150657_g.isEmpty() ? true : true));
+            return this.func_150653_a(p_150649_1_) || (this.field_150657_g.size() != 2);
         }
 
         private void func_150645_c(BlockRailBase.Rail p_150645_1_)
@@ -470,8 +455,7 @@ public abstract class BlockRailBase extends Block
             if (var4 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 var4.func_150651_b();
                 return var4.func_150649_b(this);
@@ -554,8 +538,7 @@ public abstract class BlockRailBase extends Block
                         {
                             var7 = 8;
                         }
-                    }
-                    else
+                    } else
                     {
                         if (var3 && var5)
                         {
@@ -625,7 +608,7 @@ public abstract class BlockRailBase extends Block
 
                 for (int var9 = 0; var9 < this.field_150657_g.size(); ++var9)
                 {
-                    BlockRailBase.Rail var10 = this.func_150654_a((ChunkPosition)this.field_150657_g.get(var9));
+                    BlockRailBase.Rail var10 = this.func_150654_a((ChunkPosition) this.field_150657_g.get(var9));
 
                     if (var10 != null)
                     {

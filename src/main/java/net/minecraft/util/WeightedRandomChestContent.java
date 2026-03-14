@@ -1,21 +1,28 @@
 package net.minecraft.util;
 
-import java.util.Random;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityDispenser;
 
+import java.util.Random;
+
 public class WeightedRandomChestContent extends WeightedRandom.Item
 {
-    /** The Item/Block ID to generate in the Chest. */
-    private ItemStack theItemId;
+    /**
+     * The Item/Block ID to generate in the Chest.
+     */
+    private final ItemStack theItemId;
 
-    /** The minimum chance of item generating. */
-    private int theMinimumChanceToGenerateItem;
+    /**
+     * The minimum chance of item generating.
+     */
+    private final int theMinimumChanceToGenerateItem;
 
-    /** The maximum chance of item generating. */
-    private int theMaximumChanceToGenerateItem;
+    /**
+     * The maximum chance of item generating.
+     */
+    private final int theMaximumChanceToGenerateItem;
     private static final String __OBFID = "CL_00001505";
 
     public WeightedRandomChestContent(Item p_i45311_1_, int p_i45311_2_, int p_i45311_3_, int p_i45311_4_, int p_i45311_5_)
@@ -41,7 +48,7 @@ public class WeightedRandomChestContent extends WeightedRandom.Item
     {
         for (int var4 = 0; var4 < par3; ++var4)
         {
-            WeightedRandomChestContent var5 = (WeightedRandomChestContent)WeightedRandom.getRandomItem(par0Random, par1ArrayOfWeightedRandomChestContent);
+            WeightedRandomChestContent var5 = (WeightedRandomChestContent) WeightedRandom.getRandomItem(par0Random, par1ArrayOfWeightedRandomChestContent);
             int var6 = var5.theMinimumChanceToGenerateItem + par0Random.nextInt(var5.theMaximumChanceToGenerateItem - var5.theMinimumChanceToGenerateItem + 1);
 
             if (var5.theItemId.getMaxStackSize() >= var6)
@@ -49,8 +56,7 @@ public class WeightedRandomChestContent extends WeightedRandom.Item
                 ItemStack var7 = var5.theItemId.copy();
                 var7.stackSize = var6;
                 par2IInventory.setInventorySlotContents(par0Random.nextInt(par2IInventory.getSizeInventory()), var7);
-            }
-            else
+            } else
             {
                 for (int var9 = 0; var9 < var6; ++var9)
                 {
@@ -66,7 +72,7 @@ public class WeightedRandomChestContent extends WeightedRandom.Item
     {
         for (int var4 = 0; var4 < p_150706_3_; ++var4)
         {
-            WeightedRandomChestContent var5 = (WeightedRandomChestContent)WeightedRandom.getRandomItem(p_150706_0_, p_150706_1_);
+            WeightedRandomChestContent var5 = (WeightedRandomChestContent) WeightedRandom.getRandomItem(p_150706_0_, p_150706_1_);
             int var6 = var5.theMinimumChanceToGenerateItem + p_150706_0_.nextInt(var5.theMaximumChanceToGenerateItem - var5.theMinimumChanceToGenerateItem + 1);
 
             if (var5.theItemId.getMaxStackSize() >= var6)
@@ -74,8 +80,7 @@ public class WeightedRandomChestContent extends WeightedRandom.Item
                 ItemStack var7 = var5.theItemId.copy();
                 var7.stackSize = var6;
                 p_150706_2_.setInventorySlotContents(p_150706_0_.nextInt(p_150706_2_.getSizeInventory()), var7);
-            }
-            else
+            } else
             {
                 for (int var9 = 0; var9 < var6; ++var9)
                 {
@@ -87,7 +92,7 @@ public class WeightedRandomChestContent extends WeightedRandom.Item
         }
     }
 
-    public static WeightedRandomChestContent[] func_92080_a(WeightedRandomChestContent[] par0ArrayOfWeightedRandomChestContent, WeightedRandomChestContent ... par1ArrayOfWeightedRandomChestContent)
+    public static WeightedRandomChestContent[] func_92080_a(WeightedRandomChestContent[] par0ArrayOfWeightedRandomChestContent, WeightedRandomChestContent... par1ArrayOfWeightedRandomChestContent)
     {
         WeightedRandomChestContent[] var2 = new WeightedRandomChestContent[par0ArrayOfWeightedRandomChestContent.length + par1ArrayOfWeightedRandomChestContent.length];
         int var3 = 0;

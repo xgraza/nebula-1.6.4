@@ -51,8 +51,7 @@ public class GuiTextField extends Gui
         if (text.length() > this.maxTextLength)
         {
             this.text = text.substring(0, this.maxTextLength);
-        }
-        else
+        } else
         {
             this.text = text;
         }
@@ -95,8 +94,7 @@ public class GuiTextField extends Gui
         {
             var2 = var2 + sanitized.substring(0, var6);
             length = var6;
-        }
-        else
+        } else
         {
             var2 = var2 + sanitized;
             length = sanitized.length();
@@ -118,8 +116,7 @@ public class GuiTextField extends Gui
             if (this.cursorPosition != this.cursorTextOffset)
             {
                 this.func_146191_b("");
-            }
-            else
+            } else
             {
                 this.func_146175_b(this.func_146187_c(p_146177_1_) - this.cursorTextOffset);
             }
@@ -133,8 +130,7 @@ public class GuiTextField extends Gui
             if (this.cursorPosition != this.cursorTextOffset)
             {
                 this.func_146191_b("");
-            }
-            else
+            } else
             {
                 boolean var2 = p_146175_1_ < 0;
                 int var3 = var2 ? this.cursorTextOffset + p_146175_1_ : this.cursorTextOffset;
@@ -190,8 +186,7 @@ public class GuiTextField extends Gui
                 {
                     --var4;
                 }
-            }
-            else
+            } else
             {
                 int var8 = this.text.length();
                 var4 = this.text.indexOf(32, var4);
@@ -199,8 +194,7 @@ public class GuiTextField extends Gui
                 if (var4 == -1)
                 {
                     var4 = var8;
-                }
-                else
+                } else
                 {
                     while (p_146197_3_ && var4 < var8 && this.text.charAt(var4) == 32)
                     {
@@ -254,8 +248,7 @@ public class GuiTextField extends Gui
         if (!this.focused)
         {
             return false;
-        }
-        else
+        } else
         {
             switch (typedChar)
             {
@@ -296,8 +289,7 @@ public class GuiTextField extends Gui
                                 {
                                     this.func_146177_a(-1);
                                 }
-                            }
-                            else if (this.enabled)
+                            } else if (this.enabled)
                             {
                                 this.func_146175_b(-1);
                             }
@@ -308,8 +300,7 @@ public class GuiTextField extends Gui
                             if (GuiScreen.isShiftKeyDown())
                             {
                                 this.func_146199_i(0);
-                            }
-                            else
+                            } else
                             {
                                 this.func_146196_d();
                             }
@@ -322,17 +313,14 @@ public class GuiTextField extends Gui
                                 if (GuiScreen.isCtrlKeyDown())
                                 {
                                     this.func_146199_i(this.func_146183_a(-1, this.func_146186_n()));
-                                }
-                                else
+                                } else
                                 {
                                     this.func_146199_i(this.func_146186_n() - 1);
                                 }
-                            }
-                            else if (GuiScreen.isCtrlKeyDown())
+                            } else if (GuiScreen.isCtrlKeyDown())
                             {
                                 this.func_146190_e(this.func_146187_c(-1));
-                            }
-                            else
+                            } else
                             {
                                 this.func_146182_d(-1);
                             }
@@ -345,17 +333,14 @@ public class GuiTextField extends Gui
                                 if (GuiScreen.isCtrlKeyDown())
                                 {
                                     this.func_146199_i(this.func_146183_a(1, this.func_146186_n()));
-                                }
-                                else
+                                } else
                                 {
                                     this.func_146199_i(this.func_146186_n() + 1);
                                 }
-                            }
-                            else if (GuiScreen.isCtrlKeyDown())
+                            } else if (GuiScreen.isCtrlKeyDown())
                             {
                                 this.func_146190_e(this.func_146187_c(1));
-                            }
-                            else
+                            } else
                             {
                                 this.func_146182_d(1);
                             }
@@ -366,8 +351,7 @@ public class GuiTextField extends Gui
                             if (GuiScreen.isShiftKeyDown())
                             {
                                 this.func_146199_i(this.text.length());
-                            }
-                            else
+                            } else
                             {
                                 this.func_146202_e();
                             }
@@ -381,8 +365,7 @@ public class GuiTextField extends Gui
                                 {
                                     this.func_146177_a(1);
                                 }
-                            }
-                            else if (this.enabled)
+                            } else if (this.enabled)
                             {
                                 this.func_146175_b(1);
                             }
@@ -398,8 +381,7 @@ public class GuiTextField extends Gui
                                 }
 
                                 return true;
-                            }
-                            else
+                            } else
                             {
                                 return false;
                             }
@@ -473,8 +455,7 @@ public class GuiTextField extends Gui
             if (!var5)
             {
                 var11 = var2 > 0 ? var7 + this.width : var7;
-            }
-            else if (var13)
+            } else if (var13)
             {
                 var11 = var9 - 1;
                 --var9;
@@ -490,8 +471,7 @@ public class GuiTextField extends Gui
                 if (var13)
                 {
                     Gui.drawRect(var11, var8 - 1, var11 + 1, var8 + 1 + this.fontRenderer.FONT_HEIGHT, -3092272);
-                }
-                else
+                } else
                 {
                     this.fontRenderer.drawStringWithShadow("_", var11, var8, var1);
                 }
@@ -539,10 +519,10 @@ public class GuiTextField extends Gui
         GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
         GL11.glLogicOp(GL11.GL_OR_REVERSE);
         var6.startDrawingQuads();
-        var6.addVertex((double)p_146188_1_, (double)p_146188_4_, 0.0D);
-        var6.addVertex((double)p_146188_3_, (double)p_146188_4_, 0.0D);
-        var6.addVertex((double)p_146188_3_, (double)p_146188_2_, 0.0D);
-        var6.addVertex((double)p_146188_1_, (double)p_146188_2_, 0.0D);
+        var6.addVertex(p_146188_1_, p_146188_4_, 0.0D);
+        var6.addVertex(p_146188_3_, p_146188_4_, 0.0D);
+        var6.addVertex(p_146188_3_, p_146188_2_, 0.0D);
+        var6.addVertex(p_146188_1_, p_146188_2_, 0.0D);
         var6.draw();
         GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -659,8 +639,7 @@ public class GuiTextField extends Gui
             if (p_146199_1_ > var5)
             {
                 this.field_146225_q += p_146199_1_ - var5;
-            }
-            else if (p_146199_1_ <= this.field_146225_q)
+            } else if (p_146199_1_ <= this.field_146225_q)
             {
                 this.field_146225_q -= this.field_146225_q - p_146199_1_;
             }

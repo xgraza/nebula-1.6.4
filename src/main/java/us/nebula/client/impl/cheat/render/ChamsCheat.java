@@ -136,11 +136,7 @@ public final class ChamsCheat extends Cheat
         {
             return false;
         }
-        if (!passiveSetting.getValue() && EntityUtil.isEntityPassive(entity))
-        {
-            return false;
-        }
-        return true;
+        return passiveSetting.getValue() || !EntityUtil.isEntityPassive(entity);
     }
 
     public enum Mode

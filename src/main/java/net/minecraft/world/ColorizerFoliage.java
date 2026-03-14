@@ -2,7 +2,9 @@ package net.minecraft.world;
 
 public class ColorizerFoliage
 {
-    /** Color buffer for foliage */
+    /**
+     * Color buffer for foliage
+     */
     private static int[] foliageBuffer = new int[65536];
     private static final String __OBFID = "CL_00000135";
 
@@ -17,8 +19,8 @@ public class ColorizerFoliage
     public static int getFoliageColor(double par0, double par2)
     {
         par2 *= par0;
-        int var4 = (int)((1.0D - par0) * 255.0D);
-        int var5 = (int)((1.0D - par2) * 255.0D);
+        int var4 = (int) ((1.0D - par0) * 255.0D);
+        int var5 = (int) ((1.0D - par2) * 255.0D);
         return foliageBuffer[var5 << 8 | var4];
     }
 

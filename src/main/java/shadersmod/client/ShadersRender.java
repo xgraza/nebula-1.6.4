@@ -1,14 +1,7 @@
 package shadersmod.client;
 
-import java.nio.IntBuffer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.culling.ClippingHelper;
 import net.minecraft.client.renderer.culling.Frustrum;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -21,6 +14,8 @@ import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+
+import java.nio.IntBuffer;
 
 public class ShadersRender
 {
@@ -223,9 +218,9 @@ public class ShadersRender
             mc.mcProfiler.endStartSection("shadow culling");
             Frustrum frustum = new Frustrum(clippingHelper);
             EntityLivingBase viewEntity = mc.renderViewEntity;
-            double viewPosX = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * (double)partialTicks;
-            double viewPosY = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * (double)partialTicks;
-            double viewPosZ = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * (double)partialTicks;
+            double viewPosX = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * (double) partialTicks;
+            double viewPosY = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * (double) partialTicks;
+            double viewPosZ = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * (double) partialTicks;
             frustum.setPosition(viewPosX, viewPosY, viewPosZ);
             GlStateManager.shadeModel(7425);
             GlStateManager.enableDepth();
@@ -254,7 +249,7 @@ public class ShadersRender
             GlStateManager.matrixMode(5888);
             GlStateManager.pushMatrix();
             GlStateManager.enableAlpha();
-            renderGlobal.renderAllSortedRenderers(0, (double)partialTicks);
+            renderGlobal.renderAllSortedRenderers(0, partialTicks);
             Shaders.checkGLError("shadow terrain cutoutmipped");
             GlStateManager.shadeModel(7424);
             GlStateManager.alphaFunc(516, 0.1F);
@@ -295,7 +290,7 @@ public class ShadersRender
             if (Shaders.isRenderShadowTranslucent())
             {
                 mc.mcProfiler.endStartSection("shadow translucent");
-                renderGlobal.renderAllSortedRenderers(1, (double)partialTicks);
+                renderGlobal.renderAllSortedRenderers(1, partialTicks);
                 Shaders.checkGLError("shadow translucent");
             }
 
@@ -374,11 +369,17 @@ public class ShadersRender
         Shaders.useProgram(14);
     }
 
-    public static void beaconBeamStartQuad1() {}
+    public static void beaconBeamStartQuad1()
+    {
+    }
 
-    public static void beaconBeamStartQuad2() {}
+    public static void beaconBeamStartQuad2()
+    {
+    }
 
-    public static void beaconBeamDraw1() {}
+    public static void beaconBeamDraw1()
+    {
+    }
 
     public static void beaconBeamDraw2()
     {
@@ -397,13 +398,11 @@ public class ShadersRender
             if (Shaders.isRenderingFirstPersonHand() && Shaders.isRenderBothHands())
             {
                 Shaders.useProgram(19);
-            }
-            else
+            } else
             {
                 Shaders.useProgram(16);
             }
-        }
-        else
+        } else
         {
             Shaders.useProgram(0);
         }
@@ -414,8 +413,7 @@ public class ShadersRender
         if (!Shaders.isShadowPass && Shaders.programsID[Shaders.activeProgram] == 0)
         {
             return false;
-        }
-        else
+        } else
         {
             GlStateManager.disableLighting();
             Config.getTextureManager().bindTexture(END_PORTAL_TEXTURE);
@@ -427,14 +425,14 @@ public class ShadersRender
             float b = col * 0.4F;
             float u0 = 0.0F;
             float u1 = 0.2F;
-            float du = (float)(System.currentTimeMillis() % 100000L) / 100000.0F;
+            float du = (float) (System.currentTimeMillis() % 100000L) / 100000.0F;
             short lu = 240;
             vertexbuffer.setColorRGBA_F(r, g, b, 1.0F);
             vertexbuffer.setBrightness(lu << 16 | lu);
-            vertexbuffer.addVertexWithUV(x, y + (double)offset, z + 1.0D, (double)(u0 + du), (double)(u0 + du));
-            vertexbuffer.addVertexWithUV(x + 1.0D, y + (double)offset, z + 1.0D, (double)(u0 + du), (double)(u1 + du));
-            vertexbuffer.addVertexWithUV(x + 1.0D, y + (double)offset, z, (double)(u1 + du), (double)(u1 + du));
-            vertexbuffer.addVertexWithUV(x, y + (double)offset, z, (double)(u1 + du), (double)(u0 + du));
+            vertexbuffer.addVertexWithUV(x, y + (double) offset, z + 1.0D, u0 + du, u0 + du);
+            vertexbuffer.addVertexWithUV(x + 1.0D, y + (double) offset, z + 1.0D, u0 + du, u1 + du);
+            vertexbuffer.addVertexWithUV(x + 1.0D, y + (double) offset, z, u1 + du, u1 + du);
+            vertexbuffer.addVertexWithUV(x, y + (double) offset, z, u1 + du, u0 + du);
             vertexbuffer.draw();
             GlStateManager.enableLighting();
             return true;

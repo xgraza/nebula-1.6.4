@@ -1,16 +1,17 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.IChatComponent;
 
+import java.io.IOException;
+
 public class S02PacketChat extends Packet
 {
     private IChatComponent message;
-    private boolean field_148918_b;
+    private final boolean field_148918_b;
     private static final String __OBFID = "CL_00001289";
 
     public S02PacketChat()
@@ -55,7 +56,7 @@ public class S02PacketChat extends Packet
      */
     public String serialize()
     {
-        return String.format("message=\'%s\'", new Object[] {this.message });
+        return String.format("message='%s'", this.message);
     }
 
     public IChatComponent getMessage()
@@ -75,6 +76,6 @@ public class S02PacketChat extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

@@ -1,10 +1,11 @@
 package net.minecraft.command.server;
 
-import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.List;
 
 public class CommandDeOp extends CommandBase
 {
@@ -33,11 +34,10 @@ public class CommandDeOp extends CommandBase
         if (par2ArrayOfStr.length == 1 && par2ArrayOfStr[0].length() > 0)
         {
             MinecraftServer.getServer().getConfigurationManager().removeOp(par2ArrayOfStr[0]);
-            notifyAdmins(par1ICommandSender, "commands.deop.success", new Object[] {par2ArrayOfStr[0]});
-        }
-        else
+            notifyAdmins(par1ICommandSender, "commands.deop.success", par2ArrayOfStr[0]);
+        } else
         {
-            throw new WrongUsageException("commands.deop.usage", new Object[0]);
+            throw new WrongUsageException("commands.deop.usage");
         }
     }
 

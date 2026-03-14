@@ -1,8 +1,9 @@
 package shadersmod.client;
 
+import net.minecraft.src.StrUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.minecraft.src.StrUtils;
 
 public class ShaderOptionSwitchConst extends ShaderOptionSwitch
 {
@@ -25,8 +26,7 @@ public class ShaderOptionSwitchConst extends ShaderOptionSwitch
         if (!m.matches())
         {
             return null;
-        }
-        else
+        } else
         {
             String name = m.group(1);
             String value = m.group(2);
@@ -38,8 +38,7 @@ public class ShaderOptionSwitchConst extends ShaderOptionSwitch
                 ShaderOptionSwitchConst so = new ShaderOptionSwitchConst(name, description, value, path);
                 so.setVisible(false);
                 return so;
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -53,8 +52,7 @@ public class ShaderOptionSwitchConst extends ShaderOptionSwitch
         if (!m.matches())
         {
             return false;
-        }
-        else
+        } else
         {
             String defName = m.group(1);
             return defName.matches(this.getName());

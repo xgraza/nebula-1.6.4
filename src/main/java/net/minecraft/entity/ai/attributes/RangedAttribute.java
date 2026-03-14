@@ -16,12 +16,10 @@ public class RangedAttribute extends BaseAttribute
         if (par4 > par6)
         {
             throw new IllegalArgumentException("Minimum value cannot be bigger than maximum value!");
-        }
-        else if (par2 < par4)
+        } else if (par2 < par4)
         {
             throw new IllegalArgumentException("Default value cannot be lower than minimum value!");
-        }
-        else if (par2 > par6)
+        } else if (par2 > par6)
         {
             throw new IllegalArgumentException("Default value cannot be bigger than maximum value!");
         }

@@ -1,25 +1,32 @@
 package net.minecraft.world.biome;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.LongHashMap;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BiomeCache
 {
-    /** Reference to the WorldChunkManager */
+    /**
+     * Reference to the WorldChunkManager
+     */
     private final WorldChunkManager chunkManager;
 
-    /** The last time this BiomeCache was cleaned, in milliseconds. */
+    /**
+     * The last time this BiomeCache was cleaned, in milliseconds.
+     */
     private long lastCleanupTime;
 
     /**
      * The map of keys to BiomeCacheBlocks. Keys are based on the chunk x, z coordinates as (x | z << 32).
      */
-    private LongHashMap cacheMap = new LongHashMap();
+    private final LongHashMap cacheMap = new LongHashMap();
 
-    /** The list of cached BiomeCacheBlocks */
-    private List cache = new ArrayList();
+    /**
+     * The list of cached BiomeCacheBlocks
+     */
+    private final List cache = new ArrayList();
     private static final String __OBFID = "CL_00000162";
 
     public BiomeCache(WorldChunkManager par1WorldChunkManager)
@@ -34,8 +41,8 @@ public class BiomeCache
     {
         par1 >>= 4;
         par2 >>= 4;
-        long var3 = (long)par1 & 4294967295L | ((long)par2 & 4294967295L) << 32;
-        BiomeCache.Block var5 = (BiomeCache.Block)this.cacheMap.getValueByKey(var3);
+        long var3 = (long) par1 & 4294967295L | ((long) par2 & 4294967295L) << 32;
+        BiomeCache.Block var5 = (BiomeCache.Block) this.cacheMap.getValueByKey(var3);
 
         if (var5 == null)
         {
@@ -70,13 +77,13 @@ public class BiomeCache
 
             for (int var5 = 0; var5 < this.cache.size(); ++var5)
             {
-                BiomeCache.Block var6 = (BiomeCache.Block)this.cache.get(var5);
+                BiomeCache.Block var6 = (BiomeCache.Block) this.cache.get(var5);
                 long var7 = var1 - var6.lastAccessTime;
 
                 if (var7 > 30000L || var7 < 0L)
                 {
                     this.cache.remove(var5--);
-                    long var9 = (long)var6.xPosition & 4294967295L | ((long)var6.zPosition & 4294967295L) << 32;
+                    long var9 = (long) var6.xPosition & 4294967295L | ((long) var6.zPosition & 4294967295L) << 32;
                     this.cacheMap.remove(var9);
                 }
             }

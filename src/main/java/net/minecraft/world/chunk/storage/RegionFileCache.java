@@ -10,7 +10,9 @@ import java.util.Map;
 
 public class RegionFileCache
 {
-    /** A map containing Files as keys and RegionFiles as values */
+    /**
+     * A map containing Files as keys and RegionFiles as values
+     */
     private static final Map regionsByFilename = new HashMap();
     private static final String __OBFID = "CL_00000383";
 
@@ -18,13 +20,12 @@ public class RegionFileCache
     {
         File var3 = new File(par0File, "region");
         File var4 = new File(var3, "r." + (par1 >> 5) + "." + (par2 >> 5) + ".mca");
-        RegionFile var5 = (RegionFile)regionsByFilename.get(var4);
+        RegionFile var5 = (RegionFile) regionsByFilename.get(var4);
 
         if (var5 != null)
         {
             return var5;
-        }
-        else
+        } else
         {
             if (!var3.exists())
             {
@@ -51,7 +52,7 @@ public class RegionFileCache
 
         while (var0.hasNext())
         {
-            RegionFile var1 = (RegionFile)var0.next();
+            RegionFile var1 = (RegionFile) var0.next();
 
             try
             {
@@ -59,8 +60,7 @@ public class RegionFileCache
                 {
                     var1.close();
                 }
-            }
-            catch (IOException var3)
+            } catch (IOException var3)
             {
                 var3.printStackTrace();
             }

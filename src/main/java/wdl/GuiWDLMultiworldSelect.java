@@ -1,13 +1,14 @@
 package wdl;
 
-import java.io.File;
-import java.util.Properties;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.Session;
+
+import java.io.File;
+import java.util.Properties;
 
 public class GuiWDLMultiworldSelect extends GuiScreen
 {
@@ -16,10 +17,10 @@ public class GuiWDLMultiworldSelect extends GuiScreen
     private boolean newWorld = false;
     private int positionID;
     private float yaw;
-    private int thirdPersonViewSave;
+    private final int thirdPersonViewSave;
     private GuiButton[] buttons;
     private String[] worlds;
-    private GuiScreen parent;
+    private final GuiScreen parent;
     EntityPlayerSP cam;
 
     public GuiWDLMultiworldSelect(GuiScreen var1)
@@ -27,7 +28,7 @@ public class GuiWDLMultiworldSelect extends GuiScreen
         this.parent = var1;
         EntityClientPlayerMP var2 = WDL.tp;
         this.cam = new EntityPlayerSP(WDL.mc, WDL.wc, new Session("Camera", "", ""), var2.dimension);
-        this.cam.setLocationAndAngles(var2.posX, var2.posY - (double)var2.yOffset, var2.posZ, var2.rotationYaw, 0.0F);
+        this.cam.setLocationAndAngles(var2.posX, var2.posY - (double) var2.yOffset, var2.posZ, var2.rotationYaw, 0.0F);
         this.yaw = var2.rotationYaw;
         this.thirdPersonViewSave = WDL.mc.gameSettings.thirdPersonView;
         WDL.mc.gameSettings.thirdPersonView = 0;
@@ -63,16 +64,14 @@ public class GuiWDLMultiworldSelect extends GuiScreen
             if (var6[var9].isEmpty())
             {
                 var6[var9] = null;
-            }
-            else
+            } else
             {
                 Properties var12 = WDL.loadWorldProps(var6[var9]);
 
                 if (var12 == null)
                 {
                     var6[var9] = null;
-                }
-                else
+                } else
                 {
                     ++var8;
                     var7[var9] = var12.getProperty("WorldName");
@@ -123,13 +122,11 @@ public class GuiWDLMultiworldSelect extends GuiScreen
             {
                 this.newWorld = true;
                 this.buttonList.remove(this.buttons[this.worlds.length]);
-            }
-            else if (var1.id == 100)
+            } else if (var1.id == 100)
             {
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
                 this.mc.setIngameFocus();
-            }
-            else
+            } else
             {
                 this.worldSelected(this.worlds[var1.id]);
             }
@@ -191,8 +188,7 @@ public class GuiWDLMultiworldSelect extends GuiScreen
         if (this.parent == null)
         {
             this.drawCenteredString(this.fontRenderer, "World Downloader - Trying To Start Download", this.width / 2, this.height / 16, 16777215);
-        }
-        else
+        } else
         {
             this.drawCenteredString(this.fontRenderer, "World Downloader - Trying To Change Options", this.width / 2, this.height / 16, 16777215);
         }
@@ -202,10 +198,10 @@ public class GuiWDLMultiworldSelect extends GuiScreen
         this.cam.prevRotationYaw = this.cam.rotationYaw = this.yaw;
         float var4 = 0.475F;
         this.cam.lastTickPosY = this.cam.prevPosY = this.cam.posY = WDL.tp.posY;
-        this.cam.lastTickPosX = this.cam.prevPosX = this.cam.posX = WDL.tp.posX - (double)var4 * Math.sin((double)this.yaw / 180.0D * Math.PI);
-        this.cam.lastTickPosZ = this.cam.prevPosZ = this.cam.posZ = WDL.tp.posZ + (double)var4 * Math.cos((double)this.yaw / 180.0D * Math.PI);
+        this.cam.lastTickPosX = this.cam.prevPosX = this.cam.posX = WDL.tp.posX - (double) var4 * Math.sin((double) this.yaw / 180.0D * Math.PI);
+        this.cam.lastTickPosZ = this.cam.prevPosZ = this.cam.posZ = WDL.tp.posZ + (double) var4 * Math.cos((double) this.yaw / 180.0D * Math.PI);
         float var5 = 1.0F;
-        this.yaw = (float)((double)this.yaw + (double)var5 * (1.0D + 0.699999988079071D * Math.cos((double)(this.yaw + 45.0F) / 45.0D * Math.PI)));
+        this.yaw = (float) ((double) this.yaw + (double) var5 * (1.0D + 0.699999988079071D * Math.cos((double) (this.yaw + 45.0F) / 45.0D * Math.PI)));
 
         if (this.newWorld)
         {
@@ -234,10 +230,9 @@ public class GuiWDLMultiworldSelect extends GuiScreen
         if (this.parent == null)
         {
             WDL.start();
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
             this.mc.setIngameFocus();
-        }
-        else
+        } else
         {
             WDL.worldProps = WDL.loadWorldProps(var1);
             this.mc.displayGuiScreen(new GuiWDL(this.parent));

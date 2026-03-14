@@ -25,16 +25,14 @@ public class ItemBed extends Item
         if (par3World.isClient)
         {
             return true;
-        }
-        else if (par7 != 1)
+        } else if (par7 != 1)
         {
             return false;
-        }
-        else
+        } else
         {
             ++par5;
-            BlockBed var11 = (BlockBed)Blocks.bed;
-            int var12 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+            BlockBed var11 = (BlockBed) Blocks.bed;
+            int var12 = MathHelper.floor_double((double) (par2EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
             byte var13 = 0;
             byte var14 = 0;
 
@@ -71,13 +69,11 @@ public class ItemBed extends Item
 
                     --par1ItemStack.stackSize;
                     return true;
-                }
-                else
+                } else
                 {
                     return false;
                 }
-            }
-            else
+            } else
             {
                 return false;
             }

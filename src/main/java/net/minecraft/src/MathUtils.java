@@ -9,8 +9,7 @@ public class MathUtils
         if (vals.length <= 0)
         {
             return 0;
-        }
-        else
+        } else
         {
             int sum = getSum(vals);
             int avg = sum / vals.length;
@@ -23,8 +22,7 @@ public class MathUtils
         if (vals.length <= 0)
         {
             return 0;
-        }
-        else
+        } else
         {
             int sum = 0;
 
@@ -51,11 +49,11 @@ public class MathUtils
 
     public static float toDeg(float angle)
     {
-        return angle * 180.0F / (float)Math.PI;
+        return angle * 180.0F / (float) Math.PI;
     }
 
     public static float toRad(float angle)
     {
-        return angle / 180.0F * (float)Math.PI;
+        return angle / 180.0F * (float) Math.PI;
     }
 }

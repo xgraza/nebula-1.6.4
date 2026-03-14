@@ -1,5 +1,7 @@
 package shadersmod.client;
 
+import net.minecraft.src.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -7,15 +9,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import net.minecraft.src.Config;
-import net.minecraft.src.ConnectedParser;
-import net.minecraft.src.MatchBlock;
-import net.minecraft.src.PropertiesOrdered;
-import net.minecraft.src.StrUtils;
-
 public class BlockAliases
 {
-    private static BlockAlias[][] blockAliases = (BlockAlias[][])null;
+    private static BlockAlias[][] blockAliases = null;
     private static boolean updateOnResourcesReloaded;
 
     public static int getMappedBlockId(int blockId, int metadata)
@@ -23,16 +19,14 @@ public class BlockAliases
         if (blockAliases == null)
         {
             return blockId;
-        }
-        else if (blockId >= 0 && blockId < blockAliases.length)
+        } else if (blockId >= 0 && blockId < blockAliases.length)
         {
             BlockAlias[] aliases = blockAliases[blockId];
 
             if (aliases == null)
             {
                 return blockId;
-            }
-            else
+            } else
             {
                 for (int i = 0; i < aliases.length; ++i)
                 {
@@ -46,8 +40,7 @@ public class BlockAliases
 
                 return blockId;
             }
-        }
-        else
+        } else
         {
             return blockId;
         }
@@ -100,15 +93,14 @@ public class BlockAliases
 
                 while (it.hasNext())
                 {
-                    String key = (String)it.next();
+                    String key = (String) it.next();
                     String val = e.getProperty(key);
                     String prefix = "block.";
 
                     if (!key.startsWith(prefix))
                     {
                         Config.warn("[Shaders] Invalid block ID: " + key);
-                    }
-                    else
+                    } else
                     {
                         String blockIdStr = StrUtils.removePrefix(key, prefix);
                         int blockId = Config.parseInt(blockIdStr, -1);
@@ -116,8 +108,7 @@ public class BlockAliases
                         if (blockId < 0)
                         {
                             Config.warn("[Shaders] Invalid block ID: " + key);
-                        }
-                        else
+                        } else
                         {
                             MatchBlock[] matchBlocks = cp.parseMatchBlocks(val);
 
@@ -125,16 +116,14 @@ public class BlockAliases
                             {
                                 BlockAlias ba = new BlockAlias(blockId, matchBlocks);
                                 addToList(listBlockAliases, ba);
-                            }
-                            else
+                            } else
                             {
                                 Config.warn("[Shaders] Invalid block ID mapping: " + key + "=" + val);
                             }
                         }
                     }
                 }
-            }
-            catch (IOException var14)
+            } catch (IOException var14)
             {
                 Config.warn("[Shaders] Error reading: " + path);
             }
@@ -154,7 +143,7 @@ public class BlockAliases
                 blocksAliases.add(null);
             }
 
-            Object blockAliases = (List)blocksAliases.get(blockId);
+            Object blockAliases = blocksAliases.get(blockId);
 
             if (blockAliases == null)
             {
@@ -163,7 +152,7 @@ public class BlockAliases
             }
 
             BlockAlias baBlock = new BlockAlias(ba.getBlockId(), ba.getMatchBlocks(blockId));
-            ((List)blockAliases).add(baBlock);
+            ((List) blockAliases).add(baBlock);
         }
     }
 
@@ -173,11 +162,11 @@ public class BlockAliases
 
         for (int i = 0; i < bas.length; ++i)
         {
-            List listBlockAliases = (List)listBlocksAliases.get(i);
+            List listBlockAliases = listBlocksAliases.get(i);
 
             if (listBlockAliases != null)
             {
-                bas[i] = (BlockAlias[])((BlockAlias[])listBlockAliases.toArray(new BlockAlias[listBlockAliases.size()]));
+                bas[i] = (BlockAlias[]) listBlockAliases.toArray(new BlockAlias[listBlockAliases.size()]);
             }
         }
 
@@ -186,6 +175,6 @@ public class BlockAliases
 
     public static void reset()
     {
-        blockAliases = (BlockAlias[][])null;
+        blockAliases = null;
     }
 }

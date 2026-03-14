@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,6 +9,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockCake extends Block
 {
@@ -28,7 +29,7 @@ public class BlockCake extends Block
     {
         int var5 = p_149719_1_.getBlockMetadata(p_149719_2_, p_149719_3_, p_149719_4_);
         float var6 = 0.0625F;
-        float var7 = (float)(1 + var5 * 2) / 16.0F;
+        float var7 = (float) (1 + var5 * 2) / 16.0F;
         float var8 = 0.5F;
         this.setBlockBounds(var7, 0.0F, var6, 1.0F - var6, var8, 1.0F - var6);
     }
@@ -51,9 +52,9 @@ public class BlockCake extends Block
     {
         int var5 = p_149668_1_.getBlockMetadata(p_149668_2_, p_149668_3_, p_149668_4_);
         float var6 = 0.0625F;
-        float var7 = (float)(1 + var5 * 2) / 16.0F;
+        float var7 = (float) (1 + var5 * 2) / 16.0F;
         float var8 = 0.5F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)((float)p_149668_2_ + var7), (double)p_149668_3_, (double)((float)p_149668_4_ + var6), (double)((float)(p_149668_2_ + 1) - var6), (double)((float)p_149668_3_ + var8 - var6), (double)((float)(p_149668_4_ + 1) - var6));
+        return AxisAlignedBB.getAABBPool().getAABB((float) p_149668_2_ + var7, p_149668_3_, (float) p_149668_4_ + var6, (float) (p_149668_2_ + 1) - var6, (float) p_149668_3_ + var8 - var6, (float) (p_149668_4_ + 1) - var6);
     }
 
     /**
@@ -63,9 +64,9 @@ public class BlockCake extends Block
     {
         int var5 = p_149633_1_.getBlockMetadata(p_149633_2_, p_149633_3_, p_149633_4_);
         float var6 = 0.0625F;
-        float var7 = (float)(1 + var5 * 2) / 16.0F;
+        float var7 = (float) (1 + var5 * 2) / 16.0F;
         float var8 = 0.5F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)((float)p_149633_2_ + var7), (double)p_149633_3_, (double)((float)p_149633_4_ + var6), (double)((float)(p_149633_2_ + 1) - var6), (double)((float)p_149633_3_ + var8), (double)((float)(p_149633_4_ + 1) - var6));
+        return AxisAlignedBB.getAABBPool().getAABB((float) p_149633_2_ + var7, p_149633_3_, (float) p_149633_4_ + var6, (float) (p_149633_2_ + 1) - var6, (float) p_149633_3_ + var8, (float) (p_149633_4_ + 1) - var6);
     }
 
     /**
@@ -121,8 +122,7 @@ public class BlockCake extends Block
             if (var6 >= 6)
             {
                 p_150036_1_.setBlockToAir(p_150036_2_, p_150036_3_, p_150036_4_);
-            }
-            else
+            } else
             {
                 p_150036_1_.setBlockMetadataWithNotify(p_150036_2_, p_150036_3_, p_150036_4_, var6, 2);
             }
@@ -131,7 +131,7 @@ public class BlockCake extends Block
 
     public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
     {
-        return !super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_) ? false : this.canBlockStay(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_);
+        return super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_) && this.canBlockStay(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_);
     }
 
     public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)

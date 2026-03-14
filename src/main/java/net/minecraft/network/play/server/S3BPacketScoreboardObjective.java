@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.scoreboard.ScoreObjective;
+
+import java.io.IOException;
 
 public class S3BPacketScoreboardObjective extends Packet
 {
@@ -14,7 +15,9 @@ public class S3BPacketScoreboardObjective extends Packet
     private int field_149342_c;
     private static final String __OBFID = "CL_00001333";
 
-    public S3BPacketScoreboardObjective() {}
+    public S3BPacketScoreboardObjective()
+    {
+    }
 
     public S3BPacketScoreboardObjective(ScoreObjective p_i45224_1_, int p_i45224_2_)
     {
@@ -65,6 +68,6 @@ public class S3BPacketScoreboardObjective extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

@@ -1,5 +1,10 @@
 package net.minecraft.client.network;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ThreadLanServerPing;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -10,10 +15,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ThreadLanServerPing;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class LanServerDetector
 {
@@ -50,14 +51,12 @@ public class LanServerDetector
                 try
                 {
                     this.socket.receive(var1);
-                }
-                catch (SocketTimeoutException var5)
+                } catch (SocketTimeoutException var5)
                 {
                     continue;
-                }
-                catch (IOException var6)
+                } catch (IOException var6)
                 {
-                    LanServerDetector.logger.error("Couldn\'t ping server", var6);
+                    LanServerDetector.logger.error("Couldn't ping server", var6);
                     break;
                 }
 
@@ -69,10 +68,8 @@ public class LanServerDetector
             try
             {
                 this.socket.leaveGroup(this.broadcastAddress);
-            }
-            catch (IOException var4)
+            } catch (IOException var4)
             {
-                ;
             }
 
             this.socket.close();
@@ -81,8 +78,8 @@ public class LanServerDetector
 
     public static class LanServer
     {
-        private String lanServerMotd;
-        private String lanServerIpPort;
+        private final String lanServerMotd;
+        private final String lanServerIpPort;
         private long timeLastSeen;
         private static final String __OBFID = "CL_00001134";
 
@@ -111,7 +108,7 @@ public class LanServerDetector
 
     public static class LanServerList
     {
-        private ArrayList listOfLanServers = new ArrayList();
+        private final ArrayList listOfLanServers = new ArrayList();
         boolean wasUpdated;
         private static final String __OBFID = "CL_00001136";
 
@@ -143,7 +140,7 @@ public class LanServerDetector
 
                 while (var6.hasNext())
                 {
-                    LanServerDetector.LanServer var7 = (LanServerDetector.LanServer)var6.next();
+                    LanServerDetector.LanServer var7 = (LanServerDetector.LanServer) var6.next();
 
                     if (var7.getServerIpPort().equals(var4))
                     {

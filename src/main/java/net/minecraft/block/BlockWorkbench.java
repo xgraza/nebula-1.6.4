@@ -43,8 +43,7 @@ public class BlockWorkbench extends Block
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
             p_149727_5_.displayGUIWorkbench(p_149727_2_, p_149727_3_, p_149727_4_);
             return true;

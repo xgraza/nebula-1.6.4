@@ -30,16 +30,14 @@ public class MovingSoundMinecartRiding extends MovingSound
         {
             float var1 = MathHelper.sqrt_double(this.field_147671_l.motionX * this.field_147671_l.motionX + this.field_147671_l.motionZ * this.field_147671_l.motionZ);
 
-            if ((double)var1 >= 0.01D)
+            if ((double) var1 >= 0.01D)
             {
                 this.field_147662_b = 0.0F + MathHelper.clamp_float(var1, 0.0F, 1.0F) * 0.75F;
-            }
-            else
+            } else
             {
                 this.field_147662_b = 0.0F;
             }
-        }
-        else
+        } else
         {
             this.field_147668_j = true;
         }

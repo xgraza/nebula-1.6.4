@@ -1,6 +1,9 @@
 package net.minecraft.client.resources;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.resources.data.IMetadataSerializer;
+import net.minecraft.util.ResourceLocation;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import net.minecraft.client.resources.data.IMetadataSerializer;
-import net.minecraft.util.ResourceLocation;
 
 public class FallbackResourceManager implements IResourceManager
 {
@@ -39,7 +40,7 @@ public class FallbackResourceManager implements IResourceManager
 
         for (int var4 = this.resourcePacks.size() - 1; var4 >= 0; --var4)
         {
-            IResourcePack var5 = (IResourcePack)this.resourcePacks.get(var4);
+            IResourcePack var5 = (IResourcePack) this.resourcePacks.get(var4);
 
             if (var2 == null && var5.resourceExists(var3))
             {
@@ -70,7 +71,7 @@ public class FallbackResourceManager implements IResourceManager
 
         while (var4.hasNext())
         {
-            IResourcePack var5 = (IResourcePack)var4.next();
+            IResourcePack var5 = (IResourcePack) var4.next();
 
             if (var5.resourceExists(par1ResourceLocation))
             {
@@ -82,8 +83,7 @@ public class FallbackResourceManager implements IResourceManager
         if (var2.isEmpty())
         {
             throw new FileNotFoundException(par1ResourceLocation.toString());
-        }
-        else
+        } else
         {
             return var2;
         }

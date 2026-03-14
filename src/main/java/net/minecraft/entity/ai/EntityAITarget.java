@@ -14,7 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 
 public abstract class EntityAITarget extends EntityAIBase
 {
-    /** The entity that this task belongs to */
+    /**
+     * The entity that this task belongs to
+     */
     protected EntityCreature taskOwner;
 
     /**
@@ -25,7 +27,7 @@ public abstract class EntityAITarget extends EntityAIBase
     /**
      * When true, only entities that can be reached with minimal effort will be targetted.
      */
-    private boolean nearbyOnly;
+    private final boolean nearbyOnly;
 
     /**
      * When nearbyOnly is true: 0 -> No target, but OK to search; 1 -> Nearby target found; 2 -> Target too far.
@@ -61,34 +63,30 @@ public abstract class EntityAITarget extends EntityAIBase
         if (var1 == null)
         {
             return false;
-        }
-        else if (!var1.isEntityAlive())
+        } else if (!var1.isEntityAlive())
         {
             return false;
-        }
-        else
+        } else
         {
             double var2 = this.getTargetDistance();
 
             if (this.taskOwner.getDistanceSqToEntity(var1) > var2 * var2)
             {
                 return false;
-            }
-            else
+            } else
             {
                 if (this.shouldCheckSight)
                 {
                     if (this.taskOwner.getEntitySenses().canSee(var1))
                     {
                         this.field_75298_g = 0;
-                    }
-                    else if (++this.field_75298_g > 60)
+                    } else if (++this.field_75298_g > 60)
                     {
                         return false;
                     }
                 }
 
-                return !(var1 instanceof EntityPlayerMP) || !((EntityPlayerMP)var1).theItemInWorldManager.isCreative();
+                return !(var1 instanceof EntityPlayerMP) || !((EntityPlayerMP) var1).theItemInWorldManager.isCreative();
             }
         }
     }
@@ -114,7 +112,7 @@ public abstract class EntityAITarget extends EntityAIBase
      */
     public void resetTask()
     {
-        this.taskOwner.setAttackTarget((EntityLivingBase)null);
+        this.taskOwner.setAttackTarget(null);
     }
 
     /**
@@ -125,34 +123,29 @@ public abstract class EntityAITarget extends EntityAIBase
         if (par1EntityLivingBase == null)
         {
             return false;
-        }
-        else if (par1EntityLivingBase == this.taskOwner)
+        } else if (par1EntityLivingBase == this.taskOwner)
         {
             return false;
-        }
-        else if (!par1EntityLivingBase.isEntityAlive())
+        } else if (!par1EntityLivingBase.isEntityAlive())
         {
             return false;
-        }
-        else if (!this.taskOwner.canAttackClass(par1EntityLivingBase.getClass()))
+        } else if (!this.taskOwner.canAttackClass(par1EntityLivingBase.getClass()))
         {
             return false;
-        }
-        else
+        } else
         {
-            if (this.taskOwner instanceof IEntityOwnable && StringUtils.isNotEmpty(((IEntityOwnable)this.taskOwner).getOwnerName()))
+            if (this.taskOwner instanceof IEntityOwnable && StringUtils.isNotEmpty(((IEntityOwnable) this.taskOwner).getOwnerName()))
             {
-                if (par1EntityLivingBase instanceof IEntityOwnable && ((IEntityOwnable)this.taskOwner).getOwnerName().equals(((IEntityOwnable)par1EntityLivingBase).getOwnerName()))
+                if (par1EntityLivingBase instanceof IEntityOwnable && ((IEntityOwnable) this.taskOwner).getOwnerName().equals(((IEntityOwnable) par1EntityLivingBase).getOwnerName()))
                 {
                     return false;
                 }
 
-                if (par1EntityLivingBase == ((IEntityOwnable)this.taskOwner).getOwner())
+                if (par1EntityLivingBase == ((IEntityOwnable) this.taskOwner).getOwner())
                 {
                     return false;
                 }
-            }
-            else if (par1EntityLivingBase instanceof EntityPlayer && !par2 && ((EntityPlayer)par1EntityLivingBase).capabilities.disableDamage)
+            } else if (par1EntityLivingBase instanceof EntityPlayer && !par2 && ((EntityPlayer) par1EntityLivingBase).capabilities.disableDamage)
             {
                 return false;
             }
@@ -160,12 +153,10 @@ public abstract class EntityAITarget extends EntityAIBase
             if (!this.taskOwner.isWithinHomeDistance(MathHelper.floor_double(par1EntityLivingBase.posX), MathHelper.floor_double(par1EntityLivingBase.posY), MathHelper.floor_double(par1EntityLivingBase.posZ)))
             {
                 return false;
-            }
-            else if (this.shouldCheckSight && !this.taskOwner.getEntitySenses().canSee(par1EntityLivingBase))
+            } else if (this.shouldCheckSight && !this.taskOwner.getEntitySenses().canSee(par1EntityLivingBase))
             {
                 return false;
-            }
-            else
+            } else
             {
                 if (this.nearbyOnly)
                 {
@@ -179,10 +170,7 @@ public abstract class EntityAITarget extends EntityAIBase
                         this.targetSearchStatus = this.canEasilyReach(par1EntityLivingBase) ? 1 : 2;
                     }
 
-                    if (this.targetSearchStatus == 2)
-                    {
-                        return false;
-                    }
+                    return this.targetSearchStatus != 2;
                 }
 
                 return true;
@@ -201,20 +189,18 @@ public abstract class EntityAITarget extends EntityAIBase
         if (var2 == null)
         {
             return false;
-        }
-        else
+        } else
         {
             PathPoint var3 = var2.getFinalPathPoint();
 
             if (var3 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 int var4 = var3.xCoord - MathHelper.floor_double(par1EntityLivingBase.posX);
                 int var5 = var3.zCoord - MathHelper.floor_double(par1EntityLivingBase.posZ);
-                return (double)(var4 * var4 + var5 * var5) <= 2.25D;
+                return (double) (var4 * var4 + var5 * var5) <= 2.25D;
             }
         }
     }

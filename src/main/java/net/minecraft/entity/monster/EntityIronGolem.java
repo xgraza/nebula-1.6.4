@@ -6,17 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIDefendVillage;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookAtVillager;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -30,7 +20,9 @@ import net.minecraft.world.World;
 
 public class EntityIronGolem extends EntityGolem
 {
-    /** deincrements, and a distance-to-home check is done at 0 */
+    /**
+     * deincrements, and a distance-to-home check is done at 0
+     */
     private int homeCheckTimer;
     Village villageObj;
     private int attackTimer;
@@ -58,7 +50,7 @@ public class EntityIronGolem extends EntityGolem
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
     }
 
     /**
@@ -82,11 +74,10 @@ public class EntityIronGolem extends EntityGolem
             if (this.villageObj == null)
             {
                 this.detachHome();
-            }
-            else
+            } else
             {
                 ChunkCoordinates var1 = this.villageObj.getCenter();
-                this.setHomeArea(var1.posX, var1.posY, var1.posZ, (int)((float)this.villageObj.getVillageRadius() * 0.6F));
+                this.setHomeArea(var1.posX, var1.posY, var1.posZ, (int) ((float) this.villageObj.getVillageRadius() * 0.6F));
             }
         }
 
@@ -112,7 +103,7 @@ public class EntityIronGolem extends EntityGolem
     {
         if (par1Entity instanceof IMob && this.getRNG().nextInt(20) == 0)
         {
-            this.setAttackTarget((EntityLivingBase)par1Entity);
+            this.setAttackTarget((EntityLivingBase) par1Entity);
         }
 
         super.collideWithEntity(par1Entity);
@@ -139,13 +130,13 @@ public class EntityIronGolem extends EntityGolem
         if (this.motionX * this.motionX + this.motionZ * this.motionZ > 2.500000277905201E-7D && this.rand.nextInt(5) == 0)
         {
             int var1 = MathHelper.floor_double(this.posX);
-            int var2 = MathHelper.floor_double(this.posY - 0.20000000298023224D - (double)this.yOffset);
+            int var2 = MathHelper.floor_double(this.posY - 0.20000000298023224D - (double) this.yOffset);
             int var3 = MathHelper.floor_double(this.posZ);
             Block var4 = this.worldObj.getBlock(var1, var2, var3);
 
             if (var4.getMaterial() != Material.air)
             {
-                this.worldObj.spawnParticle("blockcrack_" + Block.getIdFromBlock(var4) + "_" + this.worldObj.getBlockMetadata(var1, var2, var3), this.posX + ((double)this.rand.nextFloat() - 0.5D) * (double)this.width, this.boundingBox.minY + 0.1D, this.posZ + ((double)this.rand.nextFloat() - 0.5D) * (double)this.width, 4.0D * ((double)this.rand.nextFloat() - 0.5D), 0.5D, ((double)this.rand.nextFloat() - 0.5D) * 4.0D);
+                this.worldObj.spawnParticle("blockcrack_" + Block.getIdFromBlock(var4) + "_" + this.worldObj.getBlockMetadata(var1, var2, var3), this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, this.boundingBox.minY + 0.1D, this.posZ + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, 4.0D * ((double) this.rand.nextFloat() - 0.5D), 0.5D, ((double) this.rand.nextFloat() - 0.5D) * 4.0D);
             }
         }
     }
@@ -155,7 +146,7 @@ public class EntityIronGolem extends EntityGolem
      */
     public boolean canAttackClass(Class par1Class)
     {
-        return this.isPlayerCreated() && EntityPlayer.class.isAssignableFrom(par1Class) ? false : super.canAttackClass(par1Class);
+        return (!this.isPlayerCreated() || !EntityPlayer.class.isAssignableFrom(par1Class)) && super.canAttackClass(par1Class);
     }
 
     /**
@@ -179,8 +170,8 @@ public class EntityIronGolem extends EntityGolem
     public boolean attackEntityAsMob(Entity par1Entity)
     {
         this.attackTimer = 10;
-        this.worldObj.setEntityState(this, (byte)4);
-        boolean var2 = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float)(7 + this.rand.nextInt(15)));
+        this.worldObj.setEntityState(this, (byte) 4);
+        boolean var2 = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (7 + this.rand.nextInt(15)));
 
         if (var2)
         {
@@ -197,12 +188,10 @@ public class EntityIronGolem extends EntityGolem
         {
             this.attackTimer = 10;
             this.playSound("mob.irongolem.throw", 1.0F, 1.0F);
-        }
-        else if (par1 == 11)
+        } else if (par1 == 11)
         {
             this.holdRoseTick = 400;
-        }
-        else
+        } else
         {
             super.handleHealthUpdate(par1);
         }
@@ -221,7 +210,7 @@ public class EntityIronGolem extends EntityGolem
     public void setHoldingRose(boolean par1)
     {
         this.holdRoseTick = par1 ? 400 : 0;
-        this.worldObj.setEntityState(this, (byte)11);
+        this.worldObj.setEntityState(this, (byte) 11);
     }
 
     /**
@@ -282,11 +271,10 @@ public class EntityIronGolem extends EntityGolem
 
         if (par1)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 | 1)));
-        }
-        else
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 | 1)));
+        } else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & -2)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 & -2)));
         }
     }
 

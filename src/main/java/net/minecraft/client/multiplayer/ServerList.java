@@ -1,9 +1,5 @@
 package net.minecraft.client.multiplayer;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,14 +7,23 @@ import net.minecraft.nbt.NBTTagList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class ServerList
 {
     private static final Logger logger = LogManager.getLogger();
 
-    /** The Minecraft instance. */
+    /**
+     * The Minecraft instance.
+     */
     private final Minecraft mc;
 
-    /** List of ServerData instances. */
+    /**
+     * List of ServerData instances.
+     */
     private final List servers = new ArrayList();
     private static final String __OBFID = "CL_00000891";
 
@@ -50,10 +55,9 @@ public class ServerList
             {
                 this.servers.add(ServerData.getServerDataFromNBTCompound(var2.getCompoundTagAt(var3)));
             }
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
-            logger.error("Couldn\'t load server list", var4);
+            logger.error("Couldn't load server list", var4);
         }
     }
 
@@ -70,17 +74,16 @@ public class ServerList
 
             while (var2.hasNext())
             {
-                ServerData var3 = (ServerData)var2.next();
+                ServerData var3 = (ServerData) var2.next();
                 var1.appendTag(var3.getNBTCompound());
             }
 
             NBTTagCompound var5 = new NBTTagCompound();
             var5.setTag("servers", var1);
             CompressedStreamTools.safeWrite(var5, new File(this.mc.mcDataDir, "servers.dat"));
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
-            logger.error("Couldn\'t save server list", var4);
+            logger.error("Couldn't save server list", var4);
         }
     }
 
@@ -89,7 +92,7 @@ public class ServerList
      */
     public ServerData getServerData(int par1)
     {
-        return (ServerData)this.servers.get(par1);
+        return (ServerData) this.servers.get(par1);
     }
 
     /**

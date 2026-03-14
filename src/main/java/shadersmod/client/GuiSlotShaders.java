@@ -1,9 +1,10 @@
 package shadersmod.client;
 
-import java.util.ArrayList;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.src.Lang;
+
+import java.util.ArrayList;
 
 class GuiSlotShaders extends GuiSlot
 {
@@ -39,7 +40,7 @@ class GuiSlotShaders extends GuiSlot
 
         for (int n = this.shaderslist.size(); i < n; ++i)
         {
-            if (((String)this.shaderslist.get(i)).equals(Shaders.currentshadername))
+            if (this.shaderslist.get(i).equals(Shaders.currentshadername))
             {
                 this.selectedIndex = i;
                 break;
@@ -58,7 +59,7 @@ class GuiSlotShaders extends GuiSlot
         {
             this.selectedIndex = index;
             this.lastClickedCached = System.currentTimeMillis();
-            Shaders.setShaderPack((String)this.shaderslist.get(index));
+            Shaders.setShaderPack((String) this.shaderslist.get(index));
             Shaders.uninit();
             this.shadersGui.updateButtons();
         }
@@ -79,17 +80,18 @@ class GuiSlotShaders extends GuiSlot
         return this.getSize() * 18;
     }
 
-    protected void drawBackground() {}
+    protected void drawBackground()
+    {
+    }
 
     protected void drawSlot(int index, int posX, int posY, int contentY, Tessellator tess, int mouseX, int mouseY)
     {
-        String label = (String)this.shaderslist.get(index);
+        String label = (String) this.shaderslist.get(index);
 
         if (label.equals(Shaders.packNameNone))
         {
             label = Lang.get("of.options.shaders.packNone");
-        }
-        else if (label.equals(Shaders.packNameDefault))
+        } else if (label.equals(Shaders.packNameDefault))
         {
             label = Lang.get("of.options.shaders.packDefault");
         }

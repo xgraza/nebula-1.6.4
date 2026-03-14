@@ -53,7 +53,7 @@ public abstract class EntityAgeable extends EntityCreature
 
                             if (var2.stackSize <= 0)
                             {
-                                par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
+                                par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, null);
                             }
                         }
                     }
@@ -61,8 +61,7 @@ public abstract class EntityAgeable extends EntityCreature
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -140,8 +139,7 @@ public abstract class EntityAgeable extends EntityCreature
         if (this.worldObj.isClient)
         {
             this.setScaleForAge(this.isChild());
-        }
-        else
+        } else
         {
             int var1 = this.getGrowingAge();
 
@@ -149,8 +147,7 @@ public abstract class EntityAgeable extends EntityCreature
             {
                 ++var1;
                 this.setGrowingAge(var1);
-            }
-            else if (var1 > 0)
+            } else if (var1 > 0)
             {
                 --var1;
                 this.setGrowingAge(var1);

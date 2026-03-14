@@ -1,17 +1,20 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C16PacketClientStatus extends Packet
 {
     private C16PacketClientStatus.EnumState field_149437_a;
     private static final String __OBFID = "CL_00001348";
 
-    public C16PacketClientStatus() {}
+    public C16PacketClientStatus()
+    {
+    }
 
     public C16PacketClientStatus(C16PacketClientStatus.EnumState p_i45242_1_)
     {
@@ -46,10 +49,10 @@ public class C16PacketClientStatus extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 
-    public static enum EnumState
+    public enum EnumState
     {
         PERFORM_RESPAWN("PERFORM_RESPAWN", 0, 0),
         REQUEST_STATS("REQUEST_STATS", 1, 1),
@@ -57,15 +60,16 @@ public class C16PacketClientStatus extends Packet
         private final int field_151403_d;
         private static final C16PacketClientStatus.EnumState[] field_151404_e = new C16PacketClientStatus.EnumState[values().length];
 
-        private static final C16PacketClientStatus.EnumState[] $VALUES = new C16PacketClientStatus.EnumState[]{PERFORM_RESPAWN, REQUEST_STATS, OPEN_INVENTORY_ACHIEVEMENT};
+        private static final C16PacketClientStatus.EnumState[] $VALUES = new C16PacketClientStatus.EnumState[]{ PERFORM_RESPAWN, REQUEST_STATS, OPEN_INVENTORY_ACHIEVEMENT };
         private static final String __OBFID = "CL_00001349";
 
-        private EnumState(String p_i45241_1_, int p_i45241_2_, int p_i45241_3_)
+        EnumState(String p_i45241_1_, int p_i45241_2_, int p_i45241_3_)
         {
             this.field_151403_d = p_i45241_3_;
         }
 
-        static {
+        static
+        {
             C16PacketClientStatus.EnumState[] var0 = values();
             int var1 = var0.length;
 

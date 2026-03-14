@@ -1,16 +1,19 @@
 package net.minecraft.world.gen.structure;
 
+import net.minecraft.util.MathHelper;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.minecraft.util.MathHelper;
 
 public class MapGenMineshaft extends MapGenStructure
 {
     private double field_82673_e = 0.004D;
     private static final String __OBFID = "CL_00000443";
 
-    public MapGenMineshaft() {}
+    public MapGenMineshaft()
+    {
+    }
 
     public String func_143025_a()
     {
@@ -23,11 +26,11 @@ public class MapGenMineshaft extends MapGenStructure
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
+            Entry var3 = (Entry) var2.next();
 
-            if (((String)var3.getKey()).equals("chance"))
+            if (var3.getKey().equals("chance"))
             {
-                this.field_82673_e = MathHelper.parseDoubleWithDefault((String)var3.getValue(), this.field_82673_e);
+                this.field_82673_e = MathHelper.parseDoubleWithDefault((String) var3.getValue(), this.field_82673_e);
             }
         }
     }

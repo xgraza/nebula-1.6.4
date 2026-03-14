@@ -3,17 +3,14 @@ package net.minecraft.client.resources;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.client.resources.data.LanguageMetadataSection;
 import net.minecraft.util.StringTranslate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.*;
 
 public class LanguageManager implements IResourceManagerReloadListener
 {
@@ -21,7 +18,7 @@ public class LanguageManager implements IResourceManagerReloadListener
     private final IMetadataSerializer theMetadataSerializer;
     private String currentLanguage;
     protected static final Locale currentLocale = new Locale();
-    private Map languageMap = Maps.newHashMap();
+    private final Map languageMap = Maps.newHashMap();
     private static final String __OBFID = "CL_00001096";
 
     public LanguageManager(IMetadataSerializer par1MetadataSerializer, String par2Str)
@@ -38,11 +35,11 @@ public class LanguageManager implements IResourceManagerReloadListener
 
         while (var2.hasNext())
         {
-            IResourcePack var3 = (IResourcePack)var2.next();
+            IResourcePack var3 = (IResourcePack) var2.next();
 
             try
             {
-                LanguageMetadataSection var4 = (LanguageMetadataSection)var3.getPackMetadata(this.theMetadataSerializer, "language");
+                LanguageMetadataSection var4 = (LanguageMetadataSection) var3.getPackMetadata(this.theMetadataSerializer, "language");
 
                 if (var4 != null)
                 {
@@ -50,7 +47,7 @@ public class LanguageManager implements IResourceManagerReloadListener
 
                     while (var5.hasNext())
                     {
-                        Language var6 = (Language)var5.next();
+                        Language var6 = (Language) var5.next();
 
                         if (!this.languageMap.containsKey(var6.getLanguageCode()))
                         {
@@ -58,12 +55,10 @@ public class LanguageManager implements IResourceManagerReloadListener
                         }
                     }
                 }
-            }
-            catch (RuntimeException var7)
+            } catch (RuntimeException var7)
             {
                 logger.warn("Unable to parse metadata section of resourcepack: " + var3.getPackName(), var7);
-            }
-            catch (IOException var8)
+            } catch (IOException var8)
             {
                 logger.warn("Unable to parse metadata section of resourcepack: " + var3.getPackName(), var8);
             }
@@ -72,7 +67,7 @@ public class LanguageManager implements IResourceManagerReloadListener
 
     public void onResourceManagerReload(IResourceManager par1ResourceManager)
     {
-        ArrayList var2 = Lists.newArrayList(new String[] {"en_US"});
+        ArrayList var2 = Lists.newArrayList("en_US");
 
         if (!"en_US".equals(this.currentLanguage))
         {
@@ -100,7 +95,7 @@ public class LanguageManager implements IResourceManagerReloadListener
 
     public Language getCurrentLanguage()
     {
-        return this.languageMap.containsKey(this.currentLanguage) ? (Language)this.languageMap.get(this.currentLanguage) : (Language)this.languageMap.get("en_US");
+        return this.languageMap.containsKey(this.currentLanguage) ? (Language) this.languageMap.get(this.currentLanguage) : (Language) this.languageMap.get("en_US");
     }
 
     public SortedSet getLanguages()

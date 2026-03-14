@@ -2,8 +2,9 @@ package net.minecraft.client.mco;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.util.Date;
 import net.minecraft.util.ValueObject;
+
+import java.util.Date;
 
 public class Backup extends ValueObject
 {
@@ -22,10 +23,8 @@ public class Backup extends ValueObject
             var2.field_148780_a = var1.get("backupId").getAsString();
             var2.field_148778_b = new Date(Long.parseLong(var1.get("lastModifiedDate").getAsString()));
             var2.field_148779_c = Long.parseLong(var1.get("size").getAsString());
-        }
-        catch (IllegalArgumentException var4)
+        } catch (IllegalArgumentException var4)
         {
-            ;
         }
 
         return var2;

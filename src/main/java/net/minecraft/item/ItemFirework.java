@@ -1,13 +1,14 @@
 package net.minecraft.item;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemFirework extends Item
 {
@@ -21,7 +22,7 @@ public class ItemFirework extends Item
     {
         if (!par3World.isClient)
         {
-            EntityFireworkRocket var11 = new EntityFireworkRocket(par3World, (double)((float)par4 + par8), (double)((float)par5 + par9), (double)((float)par6 + par10), par1ItemStack);
+            EntityFireworkRocket var11 = new EntityFireworkRocket(par3World, (float) par4 + par8, (float) par5 + par9, (float) par6 + par10, par1ItemStack);
             par3World.spawnEntityInWorld(var11);
 
             if (!par2EntityPlayer.capabilities.isCreativeMode)
@@ -30,8 +31,7 @@ public class ItemFirework extends Item
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -67,7 +67,7 @@ public class ItemFirework extends Item
                         {
                             for (int var10 = 1; var10 < var9.size(); ++var10)
                             {
-                                var9.set(var10, "  " + (String)var9.get(var10));
+                                var9.set(var10, "  " + var9.get(var10));
                             }
 
                             par3List.addAll(var9);

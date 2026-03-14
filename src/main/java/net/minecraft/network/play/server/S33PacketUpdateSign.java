@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S33PacketUpdateSign extends Packet
 {
@@ -13,14 +14,16 @@ public class S33PacketUpdateSign extends Packet
     private int z;
     private String[] lines;
 
-    public S33PacketUpdateSign() {}
+    public S33PacketUpdateSign()
+    {
+    }
 
     public S33PacketUpdateSign(int x, int y, int z, String[] lines)
     {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.lines = new String[] { lines[0], lines[1], lines[2], lines[3] };
+        this.lines = new String[]{ lines[0], lines[1], lines[2], lines[3] };
     }
 
     /**
@@ -81,6 +84,6 @@ public class S33PacketUpdateSign extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

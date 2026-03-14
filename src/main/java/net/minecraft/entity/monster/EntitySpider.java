@@ -171,7 +171,7 @@ public class EntitySpider extends EntityMob
 
     public boolean isPotionApplicable(PotionEffect par1PotionEffect)
     {
-        return par1PotionEffect.getPotionID() == Potion.poison.id ? false : super.isPotionApplicable(par1PotionEffect);
+        return par1PotionEffect.getPotionID() != Potion.poison.id && super.isPotionApplicable(par1PotionEffect);
     }
 
     /**
@@ -210,7 +210,7 @@ public class EntitySpider extends EntityMob
         {
             EntitySkeleton var2 = new EntitySkeleton(this.worldObj);
             var2.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-            var2.onSpawnWithEgg((IEntityLivingData) null);
+            var2.onSpawnWithEgg(null);
             this.worldObj.spawnEntityInWorld(var2);
             var2.mountEntity(this);
         }

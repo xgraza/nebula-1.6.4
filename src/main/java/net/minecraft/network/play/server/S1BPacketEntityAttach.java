@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S1BPacketEntityAttach extends Packet
 {
@@ -14,7 +15,9 @@ public class S1BPacketEntityAttach extends Packet
     private int field_149407_c;
     private static final String __OBFID = "CL_00001327";
 
-    public S1BPacketEntityAttach() {}
+    public S1BPacketEntityAttach()
+    {
+    }
 
     public S1BPacketEntityAttach(int p_i45218_1_, Entity p_i45218_2_, Entity p_i45218_3_)
     {
@@ -65,6 +68,6 @@ public class S1BPacketEntityAttach extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

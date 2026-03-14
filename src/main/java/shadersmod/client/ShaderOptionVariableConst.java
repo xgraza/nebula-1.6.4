@@ -1,8 +1,9 @@
 package shadersmod.client;
 
+import net.minecraft.src.StrUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.minecraft.src.StrUtils;
 
 public class ShaderOptionVariableConst extends ShaderOptionVariable
 {
@@ -27,8 +28,7 @@ public class ShaderOptionVariableConst extends ShaderOptionVariable
         if (!m.matches())
         {
             return false;
-        }
-        else
+        } else
         {
             String defName = m.group(2);
             return defName.matches(this.getName());
@@ -42,8 +42,7 @@ public class ShaderOptionVariableConst extends ShaderOptionVariable
         if (!m.matches())
         {
             return null;
-        }
-        else
+        } else
         {
             String type = m.group(1);
             String name = m.group(2);
@@ -63,8 +62,7 @@ public class ShaderOptionVariableConst extends ShaderOptionVariable
                 path = StrUtils.removePrefix(path, "/shaders/");
                 ShaderOptionVariableConst so = new ShaderOptionVariableConst(name, type, description, value, values, path);
                 return so;
-            }
-            else
+            } else
             {
                 return null;
             }

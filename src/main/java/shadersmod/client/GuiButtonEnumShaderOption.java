@@ -20,7 +20,7 @@ public class GuiButtonEnumShaderOption extends GuiButton
 
     private static String getButtonText(EnumShaderOption eso)
     {
-        String nameText = I18n.format(eso.getResourceKey(), new Object[0]) + ": ";
+        String nameText = I18n.format(eso.getResourceKey()) + ": ";
 
         switch (GuiButtonEnumShaderOption.NamelessClass17474188.$SwitchMap$shadersmod$client$EnumShaderOption[eso.ordinal()])
         {
@@ -76,100 +76,78 @@ public class GuiButtonEnumShaderOption extends GuiButton
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.ANTIALIASING.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var11)
+            } catch (NoSuchFieldError var11)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.NORMAL_MAP.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var10)
+            } catch (NoSuchFieldError var10)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.SPECULAR_MAP.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var9)
+            } catch (NoSuchFieldError var9)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.RENDER_RES_MUL.ordinal()] = 4;
-            }
-            catch (NoSuchFieldError var8)
+            } catch (NoSuchFieldError var8)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.SHADOW_RES_MUL.ordinal()] = 5;
-            }
-            catch (NoSuchFieldError var7)
+            } catch (NoSuchFieldError var7)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.HAND_DEPTH_MUL.ordinal()] = 6;
-            }
-            catch (NoSuchFieldError var6)
+            } catch (NoSuchFieldError var6)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.CLOUD_SHADOW.ordinal()] = 7;
-            }
-            catch (NoSuchFieldError var5)
+            } catch (NoSuchFieldError var5)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.OLD_HAND_LIGHT.ordinal()] = 8;
-            }
-            catch (NoSuchFieldError var4)
+            } catch (NoSuchFieldError var4)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.OLD_LIGHTING.ordinal()] = 9;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.SHADOW_CLIP_FRUSTRUM.ordinal()] = 10;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.TWEAK_BLOCK_DAMAGE.ordinal()] = 11;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

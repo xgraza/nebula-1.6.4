@@ -1,8 +1,9 @@
 package net.minecraft.tileentity;
 
-import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+
+import java.util.Random;
 
 public class TileEntityEnchantmentTable extends TileEntity
 {
@@ -16,7 +17,7 @@ public class TileEntityEnchantmentTable extends TileEntity
     public float field_145928_o;
     public float field_145925_p;
     public float field_145924_q;
-    private static Random field_145923_r = new Random();
+    private static final Random field_145923_r = new Random();
     private String field_145922_s;
     private static final String __OBFID = "CL_00000354";
 
@@ -45,13 +46,13 @@ public class TileEntityEnchantmentTable extends TileEntity
         super.updateEntity();
         this.field_145927_n = this.field_145930_m;
         this.field_145925_p = this.field_145928_o;
-        EntityPlayer var1 = this.worldObj.getClosestPlayer((double)((float)this.xCoord + 0.5F), (double)((float)this.yCoord + 0.5F), (double)((float)this.zCoord + 0.5F), 3.0D);
+        EntityPlayer var1 = this.worldObj.getClosestPlayer((float) this.xCoord + 0.5F, (float) this.yCoord + 0.5F, (float) this.zCoord + 0.5F, 3.0D);
 
         if (var1 != null)
         {
-            double var2 = var1.posX - (double)((float)this.xCoord + 0.5F);
-            double var4 = var1.posZ - (double)((float)this.zCoord + 0.5F);
-            this.field_145924_q = (float)Math.atan2(var4, var2);
+            double var2 = var1.posX - (double) ((float) this.xCoord + 0.5F);
+            double var4 = var1.posZ - (double) ((float) this.zCoord + 0.5F);
+            this.field_145924_q = (float) Math.atan2(var4, var2);
             this.field_145930_m += 0.1F;
 
             if (this.field_145930_m < 0.5F || field_145923_r.nextInt(40) == 0)
@@ -60,47 +61,45 @@ public class TileEntityEnchantmentTable extends TileEntity
 
                 do
                 {
-                    this.field_145932_k += (float)(field_145923_r.nextInt(4) - field_145923_r.nextInt(4));
+                    this.field_145932_k += (float) (field_145923_r.nextInt(4) - field_145923_r.nextInt(4));
                 }
                 while (var6 == this.field_145932_k);
             }
-        }
-        else
+        } else
         {
             this.field_145924_q += 0.02F;
             this.field_145930_m -= 0.1F;
         }
 
-        while (this.field_145928_o >= (float)Math.PI)
+        while (this.field_145928_o >= (float) Math.PI)
         {
-            this.field_145928_o -= ((float)Math.PI * 2F);
+            this.field_145928_o -= ((float) Math.PI * 2F);
         }
 
-        while (this.field_145928_o < -(float)Math.PI)
+        while (this.field_145928_o < -(float) Math.PI)
         {
-            this.field_145928_o += ((float)Math.PI * 2F);
+            this.field_145928_o += ((float) Math.PI * 2F);
         }
 
-        while (this.field_145924_q >= (float)Math.PI)
+        while (this.field_145924_q >= (float) Math.PI)
         {
-            this.field_145924_q -= ((float)Math.PI * 2F);
+            this.field_145924_q -= ((float) Math.PI * 2F);
         }
 
-        while (this.field_145924_q < -(float)Math.PI)
+        while (this.field_145924_q < -(float) Math.PI)
         {
-            this.field_145924_q += ((float)Math.PI * 2F);
+            this.field_145924_q += ((float) Math.PI * 2F);
         }
 
         float var7;
 
-        for (var7 = this.field_145924_q - this.field_145928_o; var7 >= (float)Math.PI; var7 -= ((float)Math.PI * 2F))
+        for (var7 = this.field_145924_q - this.field_145928_o; var7 >= (float) Math.PI; var7 -= ((float) Math.PI * 2F))
         {
-            ;
         }
 
-        while (var7 < -(float)Math.PI)
+        while (var7 < -(float) Math.PI)
         {
-            var7 += ((float)Math.PI * 2F);
+            var7 += ((float) Math.PI * 2F);
         }
 
         this.field_145928_o += var7 * 0.4F;

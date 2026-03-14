@@ -12,7 +12,9 @@ public class RenderBoat extends Render
 {
     private static final ResourceLocation boatTextures = new ResourceLocation("textures/entity/boat.png");
 
-    /** instance of ModelBoat for rendering */
+    /**
+     * instance of ModelBoat for rendering
+     */
     protected ModelBase modelBoat;
     private static final String __OBFID = "CL_00000981";
 
@@ -31,9 +33,9 @@ public class RenderBoat extends Render
     public void doRender(EntityBoat par1EntityBoat, double par2, double par4, double par6, float par8, float par9)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+        GL11.glTranslatef((float) par2, (float) par4, (float) par6);
         GL11.glRotatef(180.0F - par8, 0.0F, 1.0F, 0.0F);
-        float var10 = (float)par1EntityBoat.getTimeSinceHit() - par9;
+        float var10 = (float) par1EntityBoat.getTimeSinceHit() - par9;
         float var11 = par1EntityBoat.getDamageTaken() - par9;
 
         if (var11 < 0.0F)
@@ -43,7 +45,7 @@ public class RenderBoat extends Render
 
         if (var10 > 0.0F)
         {
-            GL11.glRotatef(MathHelper.sin(var10) * var10 * var11 / 10.0F * (float)par1EntityBoat.getForwardDirection(), 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(MathHelper.sin(var10) * var10 * var11 / 10.0F * (float) par1EntityBoat.getForwardDirection(), 1.0F, 0.0F, 0.0F);
         }
 
         float var12 = 0.75F;
@@ -68,7 +70,7 @@ public class RenderBoat extends Render
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityBoat)par1Entity);
+        return this.getEntityTexture((EntityBoat) par1Entity);
     }
 
     /**
@@ -79,6 +81,6 @@ public class RenderBoat extends Render
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityBoat)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityBoat) par1Entity, par2, par4, par6, par8, par9);
     }
 }

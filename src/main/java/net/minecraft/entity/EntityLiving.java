@@ -1,14 +1,7 @@
 package net.minecraft.entity;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityJumpHelper;
-import net.minecraft.entity.ai.EntityLookHelper;
-import net.minecraft.entity.ai.EntityMoveHelper;
-import net.minecraft.entity.ai.EntitySenses;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -35,44 +28,68 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
+
 public abstract class EntityLiving extends EntityLivingBase
 {
-    /** Number of ticks since this EntityLiving last produced its sound */
+    /**
+     * Number of ticks since this EntityLiving last produced its sound
+     */
     public int livingSoundTime;
 
-    /** The experience points the Entity gives. */
+    /**
+     * The experience points the Entity gives.
+     */
     protected int experienceValue;
-    private EntityLookHelper lookHelper;
-    private EntityMoveHelper moveHelper;
+    private final EntityLookHelper lookHelper;
+    private final EntityMoveHelper moveHelper;
 
-    /** Entity jumping helper */
-    private EntityJumpHelper jumpHelper;
-    private EntityBodyHelper bodyHelper;
-    private PathNavigate navigator;
+    /**
+     * Entity jumping helper
+     */
+    private final EntityJumpHelper jumpHelper;
+    private final EntityBodyHelper bodyHelper;
+    private final PathNavigate navigator;
     protected final EntityAITasks tasks;
     protected final EntityAITasks targetTasks;
 
-    /** The active target the Task system uses for tracking */
+    /**
+     * The active target the Task system uses for tracking
+     */
     private EntityLivingBase attackTarget;
-    private EntitySenses senses;
+    private final EntitySenses senses;
 
-    /** Equipment (armor and held item) for this entity. */
-    private ItemStack[] equipment = new ItemStack[5];
+    /**
+     * Equipment (armor and held item) for this entity.
+     */
+    private final ItemStack[] equipment = new ItemStack[5];
 
-    /** Chances for each equipment piece from dropping when this entity dies. */
+    /**
+     * Chances for each equipment piece from dropping when this entity dies.
+     */
     protected float[] equipmentDropChances = new float[5];
 
-    /** Whether this entity can pick up items from the ground. */
+    /**
+     * Whether this entity can pick up items from the ground.
+     */
     private boolean canPickUpLoot;
 
-    /** Whether this entity should NOT despawn. */
+    /**
+     * Whether this entity should NOT despawn.
+     */
     private boolean persistenceRequired;
     protected float defaultPitch;
 
-    /** This entity's current target. */
+    /**
+     * This entity's current target.
+     */
     private Entity currentTarget;
 
-    /** How long to keep a specific target entity */
+    /**
+     * How long to keep a specific target entity
+     */
     protected int numTicksToChaseTarget;
     private boolean isLeashed;
     private Entity leashedToEntity;
@@ -101,7 +118,7 @@ public abstract class EntityLiving extends EntityLivingBase
 
         UUID var5 = this.getUniqueID();
         long uuidLow = var5.getLeastSignificantBits();
-        this.randomMobsId = (int)(uuidLow & 2147483647L);
+        this.randomMobsId = (int) (uuidLow & 2147483647L);
     }
 
     protected void applyEntityAttributes()
@@ -166,12 +183,14 @@ public abstract class EntityLiving extends EntityLivingBase
      * This function applies the benefits of growing back wool and faster growing up to the acting entity. (This
      * function is used in the AIEatGrass)
      */
-    public void eatGrassBonus() {}
+    public void eatGrassBonus()
+    {
+    }
 
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(11, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(11, Byte.valueOf((byte) 0));
         this.dataWatcher.addObject(10, "");
     }
 
@@ -232,8 +251,7 @@ public abstract class EntityLiving extends EntityLivingBase
             }
 
             return var2;
-        }
-        else
+        } else
         {
             return this.experienceValue;
         }
@@ -250,7 +268,7 @@ public abstract class EntityLiving extends EntityLivingBase
             double var4 = this.rand.nextGaussian() * 0.02D;
             double var6 = this.rand.nextGaussian() * 0.02D;
             double var8 = 10.0D;
-            this.worldObj.spawnParticle("explode", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width - var2 * var8, this.posY + (double)(this.rand.nextFloat() * this.height) - var4 * var8, this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width - var6 * var8, var2, var4, var6);
+            this.worldObj.spawnParticle("explode", this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width - var2 * var8, this.posY + (double) (this.rand.nextFloat() * this.height) - var4 * var8, this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width - var6 * var8, var2, var4, var6);
         }
     }
 
@@ -273,8 +291,7 @@ public abstract class EntityLiving extends EntityLivingBase
         {
             this.bodyHelper.func_75664_a();
             return par2;
-        }
-        else
+        } else
         {
             return super.func_110146_f(par1, par2);
         }
@@ -360,10 +377,9 @@ public abstract class EntityLiving extends EntityLivingBase
             {
                 var4.setLong("UUIDMost", this.leashedToEntity.getUniqueID().getMostSignificantBits());
                 var4.setLong("UUIDLeast", this.leashedToEntity.getUniqueID().getLeastSignificantBits());
-            }
-            else if (this.leashedToEntity instanceof EntityHanging)
+            } else if (this.leashedToEntity instanceof EntityHanging)
             {
-                EntityHanging var7 = (EntityHanging)this.leashedToEntity;
+                EntityHanging var7 = (EntityHanging) this.leashedToEntity;
                 var4.setInteger("X", var7.field_146063_b);
                 var4.setInteger("Y", var7.field_146064_c);
                 var4.setInteger("Z", var7.field_146062_d);
@@ -449,7 +465,7 @@ public abstract class EntityLiving extends EntityLivingBase
 
             while (var2.hasNext())
             {
-                EntityItem var3 = (EntityItem)var2.next();
+                EntityItem var3 = (EntityItem) var2.next();
 
                 if (!var3.isDead && var3.getEntityItem() != null)
                 {
@@ -468,45 +484,38 @@ public abstract class EntityLiving extends EntityLivingBase
                                 if (var4.getItem() instanceof ItemSword && !(var7.getItem() instanceof ItemSword))
                                 {
                                     var6 = true;
-                                }
-                                else if (var4.getItem() instanceof ItemSword && var7.getItem() instanceof ItemSword)
+                                } else if (var4.getItem() instanceof ItemSword && var7.getItem() instanceof ItemSword)
                                 {
-                                    ItemSword var10 = (ItemSword)var4.getItem();
-                                    ItemSword var12 = (ItemSword)var7.getItem();
+                                    ItemSword var10 = (ItemSword) var4.getItem();
+                                    ItemSword var12 = (ItemSword) var7.getItem();
 
                                     if (var10.func_150931_i() == var12.func_150931_i())
                                     {
                                         var6 = var4.getItemDamage() > var7.getItemDamage() || var4.hasTagCompound() && !var7.hasTagCompound();
-                                    }
-                                    else
+                                    } else
                                     {
                                         var6 = var10.func_150931_i() > var12.func_150931_i();
                                     }
-                                }
-                                else
+                                } else
                                 {
                                     var6 = false;
                                 }
-                            }
-                            else if (var4.getItem() instanceof ItemArmor && !(var7.getItem() instanceof ItemArmor))
+                            } else if (var4.getItem() instanceof ItemArmor && !(var7.getItem() instanceof ItemArmor))
                             {
                                 var6 = true;
-                            }
-                            else if (var4.getItem() instanceof ItemArmor && var7.getItem() instanceof ItemArmor)
+                            } else if (var4.getItem() instanceof ItemArmor && var7.getItem() instanceof ItemArmor)
                             {
-                                ItemArmor var101 = (ItemArmor)var4.getItem();
-                                ItemArmor var121 = (ItemArmor)var7.getItem();
+                                ItemArmor var101 = (ItemArmor) var4.getItem();
+                                ItemArmor var121 = (ItemArmor) var7.getItem();
 
                                 if (var101.damageReduceAmount == var121.damageReduceAmount)
                                 {
                                     var6 = var4.getItemDamage() > var7.getItemDamage() || var4.hasTagCompound() && !var7.hasTagCompound();
-                                }
-                                else
+                                } else
                                 {
                                     var6 = var101.damageReduceAmount > var121.damageReduceAmount;
                                 }
-                            }
-                            else
+                            } else
                             {
                                 var6 = false;
                             }
@@ -567,12 +576,10 @@ public abstract class EntityLiving extends EntityLivingBase
         if (this.persistenceRequired)
         {
             this.entityAge = 0;
-        }
-        else if ((this.entityAge & 31) == 31)
+        } else if ((this.entityAge & 31) == 31)
         {
             this.setDead();
-        }
-        else
+        } else
         {
             EntityPlayer var1 = this.worldObj.getClosestPlayerToEntity(this, -1.0D);
 
@@ -591,8 +598,7 @@ public abstract class EntityLiving extends EntityLivingBase
                 if (this.entityAge > 600 && this.rand.nextInt(800) == 0 && var8 > 1024.0D && this.canDespawn())
                 {
                     this.setDead();
-                }
-                else if (var8 < 1024.0D)
+                } else if (var8 < 1024.0D)
                 {
                     this.entityAge = 0;
                 }
@@ -642,14 +648,13 @@ public abstract class EntityLiving extends EntityLivingBase
 
         if (this.rand.nextFloat() < 0.02F)
         {
-            EntityPlayer var4 = this.worldObj.getClosestPlayerToEntity(this, (double)var1);
+            EntityPlayer var4 = this.worldObj.getClosestPlayerToEntity(this, var1);
 
             if (var4 != null)
             {
                 this.currentTarget = var4;
                 this.numTicksToChaseTarget = 10 + this.rand.nextInt(20);
-            }
-            else
+            } else
             {
                 this.randomYawVelocity = (this.rand.nextFloat() - 0.5F) * 20.0F;
             }
@@ -657,14 +662,13 @@ public abstract class EntityLiving extends EntityLivingBase
 
         if (this.currentTarget != null)
         {
-            this.faceEntity(this.currentTarget, 10.0F, (float)this.getVerticalFaceSpeed());
+            this.faceEntity(this.currentTarget, 10.0F, (float) this.getVerticalFaceSpeed());
 
-            if (this.numTicksToChaseTarget-- <= 0 || this.currentTarget.isDead || this.currentTarget.getDistanceSqToEntity(this) > (double)(var1 * var1))
+            if (this.numTicksToChaseTarget-- <= 0 || this.currentTarget.isDead || this.currentTarget.getDistanceSqToEntity(this) > (double) (var1 * var1))
             {
                 this.currentTarget = null;
             }
-        }
-        else
+        } else
         {
             if (this.rand.nextFloat() < 0.05F)
             {
@@ -704,17 +708,16 @@ public abstract class EntityLiving extends EntityLivingBase
 
         if (par1Entity instanceof EntityLivingBase)
         {
-            EntityLivingBase var14 = (EntityLivingBase)par1Entity;
-            var6 = var14.posY + (double)var14.getEyeHeight() - (this.posY + (double)this.getEyeHeight());
-        }
-        else
+            EntityLivingBase var14 = (EntityLivingBase) par1Entity;
+            var6 = var14.posY + (double) var14.getEyeHeight() - (this.posY + (double) this.getEyeHeight());
+        } else
         {
-            var6 = (par1Entity.boundingBox.minY + par1Entity.boundingBox.maxY) / 2.0D - (this.posY + (double)this.getEyeHeight());
+            var6 = (par1Entity.boundingBox.minY + par1Entity.boundingBox.maxY) / 2.0D - (this.posY + (double) this.getEyeHeight());
         }
 
-        double var141 = (double)MathHelper.sqrt_double(var4 * var4 + var8 * var8);
-        float var12 = (float)(Math.atan2(var8, var4) * 180.0D / Math.PI) - 90.0F;
-        float var13 = (float)(-(Math.atan2(var6, var141) * 180.0D / Math.PI));
+        double var141 = MathHelper.sqrt_double(var4 * var4 + var8 * var8);
+        float var12 = (float) (Math.atan2(var8, var4) * 180.0D / Math.PI) - 90.0F;
+        float var13 = (float) (-(Math.atan2(var6, var141) * 180.0D / Math.PI));
         this.rotationPitch = this.updateRotation(this.rotationPitch, var13, par3);
         this.rotationYaw = this.updateRotation(this.rotationYaw, var12, par2);
     }
@@ -771,10 +774,9 @@ public abstract class EntityLiving extends EntityLivingBase
         if (this.getAttackTarget() == null)
         {
             return 3;
-        }
-        else
+        } else
         {
-            int var1 = (int)(this.getHealth() - this.getMaxHealth() * 0.33F);
+            int var1 = (int) (this.getHealth() - this.getMaxHealth() * 0.33F);
             var1 -= (3 - this.worldObj.difficultySetting.getDifficultyId()) * 4;
 
             if (var1 < 0)
@@ -830,7 +832,7 @@ public abstract class EntityLiving extends EntityLivingBase
             ItemStack var4 = this.getEquipmentInSlot(var3);
             boolean var5 = this.equipmentDropChances[var3] > 1.0F;
 
-            if (var4 != null && (par1 || var5) && this.rand.nextFloat() - (float)par2 * 0.01F < this.equipmentDropChances[var3])
+            if (var4 != null && (par1 || var5) && this.rand.nextFloat() - (float) par2 * 0.01F < this.equipmentDropChances[var3])
             {
                 if (!var5 && var4.isItemStackDamageable())
                 {
@@ -908,7 +910,7 @@ public abstract class EntityLiving extends EntityLivingBase
         {
             if (par0ItemStack.getItem() instanceof ItemArmor)
             {
-                switch (((ItemArmor)par0ItemStack.getItem()).armorType)
+                switch (((ItemArmor) par0ItemStack.getItem()).armorType)
                 {
                     case 0:
                         return 4;
@@ -925,8 +927,7 @@ public abstract class EntityLiving extends EntityLivingBase
             }
 
             return 0;
-        }
-        else
+        } else
         {
             return 4;
         }
@@ -943,20 +944,16 @@ public abstract class EntityLiving extends EntityLivingBase
                 if (par1 == 0)
                 {
                     return Items.leather_helmet;
-                }
-                else if (par1 == 1)
+                } else if (par1 == 1)
                 {
                     return Items.golden_helmet;
-                }
-                else if (par1 == 2)
+                } else if (par1 == 2)
                 {
                     return Items.chainmail_helmet;
-                }
-                else if (par1 == 3)
+                } else if (par1 == 3)
                 {
                     return Items.iron_helmet;
-                }
-                else if (par1 == 4)
+                } else if (par1 == 4)
                 {
                     return Items.diamond_helmet;
                 }
@@ -965,20 +962,16 @@ public abstract class EntityLiving extends EntityLivingBase
                 if (par1 == 0)
                 {
                     return Items.leather_chestplate;
-                }
-                else if (par1 == 1)
+                } else if (par1 == 1)
                 {
                     return Items.golden_chestplate;
-                }
-                else if (par1 == 2)
+                } else if (par1 == 2)
                 {
                     return Items.chainmail_chestplate;
-                }
-                else if (par1 == 3)
+                } else if (par1 == 3)
                 {
                     return Items.iron_chestplate;
-                }
-                else if (par1 == 4)
+                } else if (par1 == 4)
                 {
                     return Items.diamond_chestplate;
                 }
@@ -987,20 +980,16 @@ public abstract class EntityLiving extends EntityLivingBase
                 if (par1 == 0)
                 {
                     return Items.leather_leggings;
-                }
-                else if (par1 == 1)
+                } else if (par1 == 1)
                 {
                     return Items.golden_leggings;
-                }
-                else if (par1 == 2)
+                } else if (par1 == 2)
                 {
                     return Items.chainmail_leggings;
-                }
-                else if (par1 == 3)
+                } else if (par1 == 3)
                 {
                     return Items.iron_leggings;
-                }
-                else if (par1 == 4)
+                } else if (par1 == 4)
                 {
                     return Items.diamond_leggings;
                 }
@@ -1009,20 +998,16 @@ public abstract class EntityLiving extends EntityLivingBase
                 if (par1 == 0)
                 {
                     return Items.leather_boots;
-                }
-                else if (par1 == 1)
+                } else if (par1 == 1)
                 {
                     return Items.golden_boots;
-                }
-                else if (par1 == 2)
+                } else if (par1 == 2)
                 {
                     return Items.chainmail_boots;
-                }
-                else if (par1 == 3)
+                } else if (par1 == 3)
                 {
                     return Items.iron_boots;
-                }
-                else if (par1 == 4)
+                } else if (par1 == 4)
                 {
                     return Items.diamond_boots;
                 }
@@ -1041,7 +1026,7 @@ public abstract class EntityLiving extends EntityLivingBase
 
         if (this.getHeldItem() != null && this.rand.nextFloat() < 0.25F * var1)
         {
-            EnchantmentHelper.addRandomEnchantment(this.rand, this.getHeldItem(), (int)(5.0F + var1 * (float)this.rand.nextInt(18)));
+            EnchantmentHelper.addRandomEnchantment(this.rand, this.getHeldItem(), (int) (5.0F + var1 * (float) this.rand.nextInt(18)));
         }
 
         for (int var2 = 0; var2 < 4; ++var2)
@@ -1050,7 +1035,7 @@ public abstract class EntityLiving extends EntityLivingBase
 
             if (var3 != null && this.rand.nextFloat() < 0.5F * var1)
             {
-                EnchantmentHelper.addRandomEnchantment(this.rand, var3, (int)(5.0F + var1 * (float)this.rand.nextInt(18)));
+                EnchantmentHelper.addRandomEnchantment(this.rand, var3, (int) (5.0F + var1 * (float) this.rand.nextInt(18)));
             }
         }
     }
@@ -1100,7 +1085,7 @@ public abstract class EntityLiving extends EntityLivingBase
 
     public void setAlwaysRenderNameTag(boolean par1)
     {
-        this.dataWatcher.updateObject(11, Byte.valueOf((byte)(par1 ? 1 : 0)));
+        this.dataWatcher.updateObject(11, Byte.valueOf((byte) (par1 ? 1 : 0)));
     }
 
     public boolean getAlwaysRenderNameTag()
@@ -1142,21 +1127,20 @@ public abstract class EntityLiving extends EntityLivingBase
         {
             this.clearLeashed(true, !par1EntityPlayer.capabilities.isCreativeMode);
             return true;
-        }
-        else
+        } else
         {
             ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
 
             if (var2 != null && var2.getItem() == Items.lead && this.allowLeashing())
             {
-                if (!(this instanceof EntityTameable) || !((EntityTameable)this).isTamed())
+                if (!(this instanceof EntityTameable) || !((EntityTameable) this).isTamed())
                 {
                     this.setLeashedToEntity(par1EntityPlayer, true);
                     --var2.stackSize;
                     return true;
                 }
 
-                if (par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(((EntityTameable)this).getOwnerName()))
+                if (par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(((EntityTameable) this).getOwnerName()))
                 {
                     this.setLeashedToEntity(par1EntityPlayer, true);
                     --var2.stackSize;
@@ -1164,7 +1148,7 @@ public abstract class EntityLiving extends EntityLivingBase
                 }
             }
 
-            return this.interact(par1EntityPlayer) ? true : super.interactFirst(par1EntityPlayer);
+            return this.interact(par1EntityPlayer) || super.interactFirst(par1EntityPlayer);
         }
     }
 
@@ -1209,7 +1193,7 @@ public abstract class EntityLiving extends EntityLivingBase
 
             if (!this.worldObj.isClient && par1 && this.worldObj instanceof WorldServer)
             {
-                ((WorldServer)this.worldObj).getEntityTracker().func_151247_a(this, new S1BPacketEntityAttach(1, this, (Entity)null));
+                ((WorldServer) this.worldObj).getEntityTracker().func_151247_a(this, new S1BPacketEntityAttach(1, this, null));
             }
         }
     }
@@ -1240,7 +1224,7 @@ public abstract class EntityLiving extends EntityLivingBase
 
         if (!this.worldObj.isClient && par2 && this.worldObj instanceof WorldServer)
         {
-            ((WorldServer)this.worldObj).getEntityTracker().func_151247_a(this, new S1BPacketEntityAttach(1, this, this.leashedToEntity));
+            ((WorldServer) this.worldObj).getEntityTracker().func_151247_a(this, new S1BPacketEntityAttach(1, this, this.leashedToEntity));
         }
     }
 
@@ -1256,7 +1240,7 @@ public abstract class EntityLiving extends EntityLivingBase
 
                 while (var31.hasNext())
                 {
-                    EntityLivingBase var41 = (EntityLivingBase)var31.next();
+                    EntityLivingBase var41 = (EntityLivingBase) var31.next();
 
                     if (var41.getUniqueID().equals(var11))
                     {
@@ -1264,8 +1248,7 @@ public abstract class EntityLiving extends EntityLivingBase
                         break;
                     }
                 }
-            }
-            else if (this.field_110170_bx.hasKey("X", 99) && this.field_110170_bx.hasKey("Y", 99) && this.field_110170_bx.hasKey("Z", 99))
+            } else if (this.field_110170_bx.hasKey("X", 99) && this.field_110170_bx.hasKey("Y", 99) && this.field_110170_bx.hasKey("Z", 99))
             {
                 int var1 = this.field_110170_bx.getInteger("X");
                 int var2 = this.field_110170_bx.getInteger("Y");
@@ -1278,8 +1261,7 @@ public abstract class EntityLiving extends EntityLivingBase
                 }
 
                 this.leashedToEntity = var4;
-            }
-            else
+            } else
             {
                 this.clearLeashed(false, true);
             }

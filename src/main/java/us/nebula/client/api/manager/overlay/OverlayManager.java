@@ -38,7 +38,7 @@ public final class OverlayManager implements ITypedManager<Overlay>
 
     public <T extends Overlay> T getReference(final String id)
     {
-        return (T)overlayIdMap.get(id);
+        return (T) overlayIdMap.get(id);
     }
 
     @Override

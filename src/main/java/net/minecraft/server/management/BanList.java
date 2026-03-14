@@ -1,5 +1,8 @@
 package net.minecraft.server.management;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,8 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class BanList
 {
@@ -17,7 +18,9 @@ public class BanList
     private final LowerStringMap theBanList = new LowerStringMap();
     private final File fileName;
 
-    /** set to true if not singlePlayer */
+    /**
+     * set to true if not singlePlayer
+     */
     private boolean listActive = true;
     private static final String __OBFID = "CL_00001396";
 
@@ -50,8 +53,7 @@ public class BanList
         if (!this.isListActive())
         {
             return false;
-        }
-        else
+        } else
         {
             this.removeExpiredBans();
             return this.theBanList.containsKey(par1Str);
@@ -76,7 +78,7 @@ public class BanList
 
         while (var1.hasNext())
         {
-            BanEntry var2 = (BanEntry)var1.next();
+            BanEntry var2 = (BanEntry) var1.next();
 
             if (var2.hasBanExpired())
             {
@@ -112,13 +114,12 @@ public class BanList
 
             while (var3.hasNext())
             {
-                BanEntry var4 = (BanEntry)var3.next();
+                BanEntry var4 = (BanEntry) var3.next();
                 var2.println(var4.buildBanString());
             }
 
             var2.close();
-        }
-        catch (IOException var5)
+        } catch (IOException var5)
         {
             logger.error("Could not save ban list", var5);
         }

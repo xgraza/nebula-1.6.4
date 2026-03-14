@@ -23,10 +23,9 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
         if (var5 <= 0)
         {
             return 0;
-        }
-        else
+        } else
         {
-            float var6 = (float)Math.min(this.field_150068_a, var5) / (float)this.field_150068_a;
+            float var6 = (float) Math.min(this.field_150068_a, var5) / (float) this.field_150068_a;
             return MathHelper.ceiling_float_int(var6 * 15.0F);
         }
     }

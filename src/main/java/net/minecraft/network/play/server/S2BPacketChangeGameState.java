@@ -1,19 +1,22 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 
+import java.io.IOException;
+
 public class S2BPacketChangeGameState extends Packet
 {
-    public static final String[] field_149142_a = new String[] {"tile.bed.notValid", null, null, "gameMode.changed"};
+    public static final String[] field_149142_a = new String[]{ "tile.bed.notValid", null, null, "gameMode.changed" };
     private int field_149140_b;
     private float field_149141_c;
     private static final String __OBFID = "CL_00001301";
 
-    public S2BPacketChangeGameState() {}
+    public S2BPacketChangeGameState()
+    {
+    }
 
     public S2BPacketChangeGameState(int p_i45194_1_, float p_i45194_2_)
     {
@@ -56,6 +59,6 @@ public class S2BPacketChangeGameState extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

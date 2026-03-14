@@ -5,12 +5,13 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 
 public class HttpPipelineReceiver extends Thread
 {
     private HttpPipelineConnection httpPipelineConnection = null;
-    private static final Charset ASCII = Charset.forName("ASCII");
+    private static final Charset ASCII = StandardCharsets.US_ASCII;
     private static final String HEADER_CONTENT_LENGTH = "Content-Length";
     private static final char CR = '\r';
     private static final char LF = '\n';
@@ -33,12 +34,10 @@ public class HttpPipelineReceiver extends Thread
                 InputStream e = this.httpPipelineConnection.getInputStream();
                 HttpResponse resp = this.readResponse(e);
                 this.httpPipelineConnection.onResponseReceived(currentRequest, resp);
-            }
-            catch (InterruptedException var4)
+            } catch (InterruptedException var4)
             {
                 return;
-            }
-            catch (Exception var5)
+            } catch (Exception var5)
             {
                 this.httpPipelineConnection.onExceptionReceive(currentRequest, var5);
             }
@@ -53,8 +52,7 @@ public class HttpPipelineReceiver extends Thread
         if (parts.length < 3)
         {
             throw new IOException("Invalid status line: " + statusLine);
-        }
-        else
+        } else
         {
             String http = parts[0];
             int status = Config.parseInt(parts[1], 0);
@@ -69,7 +67,7 @@ public class HttpPipelineReceiver extends Thread
                 if (body.length() <= 0)
                 {
                     byte[] body1 = null;
-                    String lenStr1 = (String)headers.get("Content-Length");
+                    String lenStr1 = (String) headers.get("Content-Length");
 
                     if (lenStr1 != null)
                     {
@@ -80,10 +78,9 @@ public class HttpPipelineReceiver extends Thread
                             body1 = new byte[enc1];
                             this.readFull(body1, in);
                         }
-                    }
-                    else
+                    } else
                     {
-                        enc = (String)headers.get("Transfer-Encoding");
+                        enc = (String) headers.get("Transfer-Encoding");
 
                         if (Config.equals(enc, "chunked"))
                         {

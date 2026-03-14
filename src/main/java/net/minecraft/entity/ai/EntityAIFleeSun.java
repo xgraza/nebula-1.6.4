@@ -1,19 +1,20 @@
 package net.minecraft.entity.ai;
 
-import java.util.Random;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class EntityAIFleeSun extends EntityAIBase
 {
-    private EntityCreature theCreature;
+    private final EntityCreature theCreature;
     private double shelterX;
     private double shelterY;
     private double shelterZ;
-    private double movementSpeed;
-    private World theWorld;
+    private final double movementSpeed;
+    private final World theWorld;
     private static final String __OBFID = "CL_00001583";
 
     public EntityAIFleeSun(EntityCreature par1EntityCreature, double par2)
@@ -32,24 +33,20 @@ public class EntityAIFleeSun extends EntityAIBase
         if (!this.theWorld.isDaytime())
         {
             return false;
-        }
-        else if (!this.theCreature.isBurning())
+        } else if (!this.theCreature.isBurning())
         {
             return false;
-        }
-        else if (!this.theWorld.canBlockSeeTheSky(MathHelper.floor_double(this.theCreature.posX), (int)this.theCreature.boundingBox.minY, MathHelper.floor_double(this.theCreature.posZ)))
+        } else if (!this.theWorld.canBlockSeeTheSky(MathHelper.floor_double(this.theCreature.posX), (int) this.theCreature.boundingBox.minY, MathHelper.floor_double(this.theCreature.posZ)))
         {
             return false;
-        }
-        else
+        } else
         {
             Vec3 var1 = this.findPossibleShelter();
 
             if (var1 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.shelterX = var1.xCoord;
                 this.shelterY = var1.yCoord;
@@ -81,13 +78,13 @@ public class EntityAIFleeSun extends EntityAIBase
 
         for (int var2 = 0; var2 < 10; ++var2)
         {
-            int var3 = MathHelper.floor_double(this.theCreature.posX + (double)var1.nextInt(20) - 10.0D);
-            int var4 = MathHelper.floor_double(this.theCreature.boundingBox.minY + (double)var1.nextInt(6) - 3.0D);
-            int var5 = MathHelper.floor_double(this.theCreature.posZ + (double)var1.nextInt(20) - 10.0D);
+            int var3 = MathHelper.floor_double(this.theCreature.posX + (double) var1.nextInt(20) - 10.0D);
+            int var4 = MathHelper.floor_double(this.theCreature.boundingBox.minY + (double) var1.nextInt(6) - 3.0D);
+            int var5 = MathHelper.floor_double(this.theCreature.posZ + (double) var1.nextInt(20) - 10.0D);
 
             if (!this.theWorld.canBlockSeeTheSky(var3, var4, var5) && this.theCreature.getBlockPathWeight(var3, var4, var5) < 0.0F)
             {
-                return this.theWorld.getWorldVec3Pool().getVecFromPool((double)var3, (double)var4, (double)var5);
+                return this.theWorld.getWorldVec3Pool().getVecFromPool(var3, var4, var5);
             }
         }
 

@@ -7,5 +7,6 @@ package us.nebula.client.api.gui;
 public interface IGUIInputListener
 {
     void mouseClicked(final int mouseX, final int mouseY, final int mouseButton);
+
     void keyTyped(final char typedChar, final int keyCode);
 }

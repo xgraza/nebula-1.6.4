@@ -1,16 +1,17 @@
 package net.minecraft.src;
 
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.model.ModelBiped;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PlayerConfigurations
 {
     private static Map mapConfigurations = null;
-    private static boolean reloadPlayerItems = Boolean.getBoolean("player.models.reload");
+    private static final boolean reloadPlayerItems = Boolean.getBoolean("player.models.reload");
     private static long timeReloadPlayerItemsMs = System.currentTimeMillis();
 
     public static void renderPlayerItems(ModelBiped modelBiped, AbstractClientPlayer player, float scale, float partialTicks)
@@ -31,7 +32,7 @@ public class PlayerConfigurations
 
             if (name != null)
             {
-                setPlayerConfiguration(name.getNameClear(), (PlayerConfiguration)null);
+                setPlayerConfiguration(name.getNameClear(), null);
                 timeReloadPlayerItemsMs = System.currentTimeMillis();
             }
         }
@@ -41,10 +42,9 @@ public class PlayerConfigurations
         if (name1 == null)
         {
             return null;
-        }
-        else
+        } else
         {
-            PlayerConfiguration pc = (PlayerConfiguration)getMapConfigurations().get(name1);
+            PlayerConfiguration pc = (PlayerConfiguration) getMapConfigurations().get(name1);
 
             if (pc == null)
             {

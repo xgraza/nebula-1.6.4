@@ -1,11 +1,5 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.network.INetHandler;
@@ -13,13 +7,18 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 
+import java.io.IOException;
+import java.util.*;
+
 public class S20PacketEntityProperties extends Packet
 {
     private int field_149445_a;
     private final List field_149444_b = new ArrayList();
     private static final String __OBFID = "CL_00001341";
 
-    public S20PacketEntityProperties() {}
+    public S20PacketEntityProperties()
+    {
+    }
 
     public S20PacketEntityProperties(int p_i45236_1_, Collection p_i45236_2_)
     {
@@ -28,7 +27,7 @@ public class S20PacketEntityProperties extends Packet
 
         while (var3.hasNext())
         {
-            IAttributeInstance var4 = (IAttributeInstance)var3.next();
+            IAttributeInstance var4 = (IAttributeInstance) var3.next();
             this.field_149444_b.add(new S20PacketEntityProperties.Snapshot(var4.getAttribute().getAttributeUnlocalizedName(), var4.getBaseValue(), var4.func_111122_c()));
         }
     }
@@ -69,7 +68,7 @@ public class S20PacketEntityProperties extends Packet
 
         while (var2.hasNext())
         {
-            S20PacketEntityProperties.Snapshot var3 = (S20PacketEntityProperties.Snapshot)var2.next();
+            S20PacketEntityProperties.Snapshot var3 = (S20PacketEntityProperties.Snapshot) var2.next();
             p_148840_1_.writeStringToBuffer(var3.func_151409_a());
             p_148840_1_.writeDouble(var3.func_151410_b());
             p_148840_1_.writeShort(var3.func_151408_c().size());
@@ -77,7 +76,7 @@ public class S20PacketEntityProperties extends Packet
 
             while (var4.hasNext())
             {
-                AttributeModifier var5 = (AttributeModifier)var4.next();
+                AttributeModifier var5 = (AttributeModifier) var4.next();
                 p_148840_1_.writeLong(var5.getID().getMostSignificantBits());
                 p_148840_1_.writeLong(var5.getID().getLeastSignificantBits());
                 p_148840_1_.writeDouble(var5.getAmount());
@@ -103,7 +102,7 @@ public class S20PacketEntityProperties extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 
     public class Snapshot

@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -10,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockCrops extends BlockBush implements IGrowable
 {
@@ -21,7 +22,7 @@ public class BlockCrops extends BlockBush implements IGrowable
         this.setTickRandomly(true);
         float var1 = 0.5F;
         this.setBlockBounds(0.5F - var1, 0.0F, 0.5F - var1, 0.5F + var1, 0.25F, 0.5F + var1);
-        this.setCreativeTab((CreativeTabs)null);
+        this.setCreativeTab(null);
         this.setHardness(0.0F);
         this.setStepSound(soundTypeGrass);
         this.disableStats();
@@ -47,7 +48,7 @@ public class BlockCrops extends BlockBush implements IGrowable
             {
                 float var7 = this.func_149864_n(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
 
-                if (p_149674_5_.nextInt((int)(25.0F / var7) + 1) == 0)
+                if (p_149674_5_.nextInt((int) (25.0F / var7) + 1) == 0)
                 {
                     ++var6;
                     p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, var6, 2);

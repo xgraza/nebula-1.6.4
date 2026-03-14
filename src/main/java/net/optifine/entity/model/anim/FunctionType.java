@@ -1,7 +1,5 @@
 package net.optifine.entity.model.anim;
 
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.src.Config;
@@ -9,79 +7,82 @@ import net.minecraft.src.MathUtils;
 import net.minecraft.util.MathHelper;
 import shadersmod.uniform.Smoother;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum FunctionType
 {
-    PLUS(10, ExpressionType.FLOAT, "+", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    MINUS(10, ExpressionType.FLOAT, "-", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    MUL(11, ExpressionType.FLOAT, "*", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    DIV(11, ExpressionType.FLOAT, "/", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    MOD(11, ExpressionType.FLOAT, "%", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    NEG(12, ExpressionType.FLOAT, "neg", new ExpressionType[]{ExpressionType.FLOAT}),
-    PI(ExpressionType.FLOAT, "pi", new ExpressionType[0]),
-    SIN(ExpressionType.FLOAT, "sin", new ExpressionType[]{ExpressionType.FLOAT}),
-    COS(ExpressionType.FLOAT, "cos", new ExpressionType[]{ExpressionType.FLOAT}),
-    ASIN(ExpressionType.FLOAT, "asin", new ExpressionType[]{ExpressionType.FLOAT}),
-    ACOS(ExpressionType.FLOAT, "acos", new ExpressionType[]{ExpressionType.FLOAT}),
-    TAN(ExpressionType.FLOAT, "tan", new ExpressionType[]{ExpressionType.FLOAT}),
-    ATAN(ExpressionType.FLOAT, "atan", new ExpressionType[]{ExpressionType.FLOAT}),
-    ATAN2(ExpressionType.FLOAT, "atan2", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    TORAD(ExpressionType.FLOAT, "torad", new ExpressionType[]{ExpressionType.FLOAT}),
-    TODEG(ExpressionType.FLOAT, "todeg", new ExpressionType[]{ExpressionType.FLOAT}),
-    MIN(ExpressionType.FLOAT, "min", (new ParametersVariable()).first(new ExpressionType[]{ExpressionType.FLOAT}).repeat(new ExpressionType[]{ExpressionType.FLOAT})),
-    MAX(ExpressionType.FLOAT, "max", (new ParametersVariable()).first(new ExpressionType[]{ExpressionType.FLOAT}).repeat(new ExpressionType[]{ExpressionType.FLOAT})),
-    CLAMP(ExpressionType.FLOAT, "clamp", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    ABS(ExpressionType.FLOAT, "abs", new ExpressionType[]{ExpressionType.FLOAT}),
-    FLOOR(ExpressionType.FLOAT, "floor", new ExpressionType[]{ExpressionType.FLOAT}),
-    CEIL(ExpressionType.FLOAT, "ceil", new ExpressionType[]{ExpressionType.FLOAT}),
-    EXP(ExpressionType.FLOAT, "exp", new ExpressionType[]{ExpressionType.FLOAT}),
-    FRAC(ExpressionType.FLOAT, "frac", new ExpressionType[]{ExpressionType.FLOAT}),
-    LOG(ExpressionType.FLOAT, "log", new ExpressionType[]{ExpressionType.FLOAT}),
-    POW(ExpressionType.FLOAT, "pow", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    RANDOM(ExpressionType.FLOAT, "random", new ExpressionType[0]),
-    ROUND(ExpressionType.FLOAT, "round", new ExpressionType[]{ExpressionType.FLOAT}),
-    SIGNUM(ExpressionType.FLOAT, "signum", new ExpressionType[]{ExpressionType.FLOAT}),
-    SQRT(ExpressionType.FLOAT, "sqrt", new ExpressionType[]{ExpressionType.FLOAT}),
-    FMOD(ExpressionType.FLOAT, "fmod", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    TIME(ExpressionType.FLOAT, "time", new ExpressionType[0]),
-    IF(ExpressionType.FLOAT, "if", (new ParametersVariable()).first(new ExpressionType[]{ExpressionType.BOOL, ExpressionType.FLOAT}).repeat(new ExpressionType[]{ExpressionType.BOOL, ExpressionType.FLOAT}).last(new ExpressionType[]{ExpressionType.FLOAT})),
-    NOT(12, ExpressionType.BOOL, "!", new ExpressionType[]{ExpressionType.BOOL}),
-    AND(3, ExpressionType.BOOL, "&&", new ExpressionType[]{ExpressionType.BOOL, ExpressionType.BOOL}),
-    OR(2, ExpressionType.BOOL, "||", new ExpressionType[]{ExpressionType.BOOL, ExpressionType.BOOL}),
-    GREATER(8, ExpressionType.BOOL, ">", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    GREATER_OR_EQUAL(8, ExpressionType.BOOL, ">=", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    SMALLER(8, ExpressionType.BOOL, "<", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    SMALLER_OR_EQUAL(8, ExpressionType.BOOL, "<=", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    EQUAL(7, ExpressionType.BOOL, "==", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    NOT_EQUAL(7, ExpressionType.BOOL, "!=", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    BETWEEN(7, ExpressionType.BOOL, "between", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    EQUALS(7, ExpressionType.BOOL, "equals", new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT, ExpressionType.FLOAT}),
-    IN(ExpressionType.BOOL, "in", (new ParametersVariable()).first(new ExpressionType[]{ExpressionType.FLOAT}).repeat(new ExpressionType[]{ExpressionType.FLOAT}).last(new ExpressionType[]{ExpressionType.FLOAT})),
-    SMOOTH(ExpressionType.FLOAT, "smooth", (new ParametersVariable()).first(new ExpressionType[]{ExpressionType.FLOAT, ExpressionType.FLOAT}).repeat(new ExpressionType[]{ExpressionType.FLOAT}).maxCount(4)),
-    TRUE(ExpressionType.BOOL, "true", new ExpressionType[0]),
-    FALSE(ExpressionType.BOOL, "false", new ExpressionType[0]);
-    private int precedence;
-    private ExpressionType expressionType;
-    private String name;
-    private IParameters parameters;
+    PLUS(10, ExpressionType.FLOAT, "+", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    MINUS(10, ExpressionType.FLOAT, "-", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    MUL(11, ExpressionType.FLOAT, "*", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    DIV(11, ExpressionType.FLOAT, "/", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    MOD(11, ExpressionType.FLOAT, "%", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    NEG(12, ExpressionType.FLOAT, "neg", ExpressionType.FLOAT),
+    PI(ExpressionType.FLOAT, "pi"),
+    SIN(ExpressionType.FLOAT, "sin", ExpressionType.FLOAT),
+    COS(ExpressionType.FLOAT, "cos", ExpressionType.FLOAT),
+    ASIN(ExpressionType.FLOAT, "asin", ExpressionType.FLOAT),
+    ACOS(ExpressionType.FLOAT, "acos", ExpressionType.FLOAT),
+    TAN(ExpressionType.FLOAT, "tan", ExpressionType.FLOAT),
+    ATAN(ExpressionType.FLOAT, "atan", ExpressionType.FLOAT),
+    ATAN2(ExpressionType.FLOAT, "atan2", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    TORAD(ExpressionType.FLOAT, "torad", ExpressionType.FLOAT),
+    TODEG(ExpressionType.FLOAT, "todeg", ExpressionType.FLOAT),
+    MIN(ExpressionType.FLOAT, "min", (new ParametersVariable()).first(ExpressionType.FLOAT).repeat(ExpressionType.FLOAT)),
+    MAX(ExpressionType.FLOAT, "max", (new ParametersVariable()).first(ExpressionType.FLOAT).repeat(ExpressionType.FLOAT)),
+    CLAMP(ExpressionType.FLOAT, "clamp", ExpressionType.FLOAT, ExpressionType.FLOAT, ExpressionType.FLOAT),
+    ABS(ExpressionType.FLOAT, "abs", ExpressionType.FLOAT),
+    FLOOR(ExpressionType.FLOAT, "floor", ExpressionType.FLOAT),
+    CEIL(ExpressionType.FLOAT, "ceil", ExpressionType.FLOAT),
+    EXP(ExpressionType.FLOAT, "exp", ExpressionType.FLOAT),
+    FRAC(ExpressionType.FLOAT, "frac", ExpressionType.FLOAT),
+    LOG(ExpressionType.FLOAT, "log", ExpressionType.FLOAT),
+    POW(ExpressionType.FLOAT, "pow", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    RANDOM(ExpressionType.FLOAT, "random"),
+    ROUND(ExpressionType.FLOAT, "round", ExpressionType.FLOAT),
+    SIGNUM(ExpressionType.FLOAT, "signum", ExpressionType.FLOAT),
+    SQRT(ExpressionType.FLOAT, "sqrt", ExpressionType.FLOAT),
+    FMOD(ExpressionType.FLOAT, "fmod", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    TIME(ExpressionType.FLOAT, "time"),
+    IF(ExpressionType.FLOAT, "if", (new ParametersVariable()).first(ExpressionType.BOOL, ExpressionType.FLOAT).repeat(ExpressionType.BOOL, ExpressionType.FLOAT).last(ExpressionType.FLOAT)),
+    NOT(12, ExpressionType.BOOL, "!", ExpressionType.BOOL),
+    AND(3, ExpressionType.BOOL, "&&", ExpressionType.BOOL, ExpressionType.BOOL),
+    OR(2, ExpressionType.BOOL, "||", ExpressionType.BOOL, ExpressionType.BOOL),
+    GREATER(8, ExpressionType.BOOL, ">", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    GREATER_OR_EQUAL(8, ExpressionType.BOOL, ">=", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    SMALLER(8, ExpressionType.BOOL, "<", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    SMALLER_OR_EQUAL(8, ExpressionType.BOOL, "<=", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    EQUAL(7, ExpressionType.BOOL, "==", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    NOT_EQUAL(7, ExpressionType.BOOL, "!=", ExpressionType.FLOAT, ExpressionType.FLOAT),
+    BETWEEN(7, ExpressionType.BOOL, "between", ExpressionType.FLOAT, ExpressionType.FLOAT, ExpressionType.FLOAT),
+    EQUALS(7, ExpressionType.BOOL, "equals", ExpressionType.FLOAT, ExpressionType.FLOAT, ExpressionType.FLOAT),
+    IN(ExpressionType.BOOL, "in", (new ParametersVariable()).first(ExpressionType.FLOAT).repeat(ExpressionType.FLOAT).last(ExpressionType.FLOAT)),
+    SMOOTH(ExpressionType.FLOAT, "smooth", (new ParametersVariable()).first(ExpressionType.FLOAT, ExpressionType.FLOAT).repeat(ExpressionType.FLOAT).maxCount(4)),
+    TRUE(ExpressionType.BOOL, "true"),
+    FALSE(ExpressionType.BOOL, "false");
+    private final int precedence;
+    private final ExpressionType expressionType;
+    private final String name;
+    private final IParameters parameters;
     public static FunctionType[] VALUES = values();
     private static final Map<Integer, Float> mapSmooth = new HashMap();
 
-    private FunctionType(ExpressionType expressionType, String name, ExpressionType ... parameterTypes)
+    FunctionType(ExpressionType expressionType, String name, ExpressionType... parameterTypes)
     {
         this(0, expressionType, name, parameterTypes);
     }
 
-    private FunctionType(int precedence, ExpressionType expressionType, String name, ExpressionType ... parameterTypes)
+    FunctionType(int precedence, ExpressionType expressionType, String name, ExpressionType... parameterTypes)
     {
-        this(precedence, expressionType, name, (IParameters)(new Parameters(parameterTypes)));
+        this(precedence, expressionType, name, new Parameters(parameterTypes));
     }
 
-    private FunctionType(ExpressionType expressionType, String name, IParameters parameters)
+    FunctionType(ExpressionType expressionType, String name, IParameters parameters)
     {
         this(0, expressionType, name, parameters);
     }
 
-    private FunctionType(int precedence, ExpressionType expressionType, String name, IParameters parameters)
+    FunctionType(int precedence, ExpressionType expressionType, String name, IParameters parameters)
     {
         this.precedence = precedence;
         this.expressionType = expressionType;
@@ -140,13 +141,13 @@ public enum FunctionType
             case 5:
                 float modX = evalFloat(args, 0);
                 float modY = evalFloat(args, 1);
-                return modX - modY * (float)((int)(modX / modY));
+                return modX - modY * (float) ((int) (modX / modY));
 
             case 6:
                 return -evalFloat(args, 0);
 
             case 7:
-                return (float)Math.PI;
+                return (float) Math.PI;
 
             case 8:
                 return MathHelper.sin(evalFloat(args, 0));
@@ -155,19 +156,19 @@ public enum FunctionType
                 return MathHelper.cos(evalFloat(args, 0));
 
             case 10:
-                return (float)Math.asin((double)evalFloat(args, 0));
+                return (float) Math.asin(evalFloat(args, 0));
 
             case 11:
-                return (float)Math.acos((double)evalFloat(args, 0));
+                return (float) Math.acos(evalFloat(args, 0));
 
             case 12:
-                return (float)Math.tan((double)evalFloat(args, 0));
+                return (float) Math.tan(evalFloat(args, 0));
 
             case 13:
-                return (float)Math.atan((double)evalFloat(args, 0));
+                return (float) Math.atan(evalFloat(args, 0));
 
             case 14:
-                return (float)Math.atan2((double)evalFloat(args, 0), (double)evalFloat(args, 1));
+                return (float) Math.atan2(evalFloat(args, 0), evalFloat(args, 1));
 
             case 15:
                 return MathUtils.toRad(evalFloat(args, 0));
@@ -188,29 +189,29 @@ public enum FunctionType
                 return MathHelper.abs(evalFloat(args, 0));
 
             case 21:
-                return (float)Math.exp((double)evalFloat(args, 0));
+                return (float) Math.exp(evalFloat(args, 0));
 
             case 22:
-                return (float)MathHelper.floor_float(evalFloat(args, 0));
+                return (float) MathHelper.floor_float(evalFloat(args, 0));
 
             case 23:
-                return (float)MathHelper.ceiling_float_int(evalFloat(args, 0));
+                return (float) MathHelper.ceiling_float_int(evalFloat(args, 0));
 
             case 24:
                 float valFrac = evalFloat(args, 0);
-                return valFrac - (float)MathHelper.floor_float(valFrac);
+                return valFrac - (float) MathHelper.floor_float(valFrac);
 
             case 25:
-                return (float)Math.log((double)evalFloat(args, 0));
+                return (float) Math.log(evalFloat(args, 0));
 
             case 26:
-                return (float)Math.pow((double)evalFloat(args, 0), (double)evalFloat(args, 1));
+                return (float) Math.pow(evalFloat(args, 0), evalFloat(args, 1));
 
             case 27:
-                return (float)Math.random();
+                return (float) Math.random();
 
             case 28:
-                return (float)Math.round(evalFloat(args, 0));
+                return (float) Math.round(evalFloat(args, 0));
 
             case 29:
                 return Math.signum(evalFloat(args, 0));
@@ -221,7 +222,7 @@ public enum FunctionType
             case 31:
                 float fmodX = evalFloat(args, 0);
                 float fmodY = evalFloat(args, 1);
-                return fmodX - fmodY * (float)MathHelper.floor_float(fmodX / fmodY);
+                return fmodX - fmodY * (float) MathHelper.floor_float(fmodX / fmodY);
 
             case 32:
                 Minecraft mc = Minecraft.getMinecraft();
@@ -232,7 +233,7 @@ public enum FunctionType
                     return 0.0F;
                 }
 
-                return (float)(world.getTotalWorldTime() % 24000L) + Config.renderPartialTicks;
+                return (float) (world.getTotalWorldTime() % 24000L) + Config.renderPartialTicks;
 
             case 33:
                 int countChecks = (args.length - 1) / 2;
@@ -250,7 +251,7 @@ public enum FunctionType
                 return evalFloat(args, countChecks * 2);
 
             case 34:
-                id = (int)evalFloat(args, 0);
+                id = (int) evalFloat(args, 0);
                 float valRaw = evalFloat(args, 1);
                 float valFadeUp = args.length > 2 ? evalFloat(args, 2) : 1.0F;
                 float valFadeDown = args.length > 3 ? evalFloat(args, 3) : valFadeUp;
@@ -268,8 +269,7 @@ public enum FunctionType
         if (exprs.length == 2)
         {
             return Math.min(evalFloat(exprs, 0), evalFloat(exprs, 1));
-        }
-        else
+        } else
         {
             float valMin = evalFloat(exprs, 0);
 
@@ -292,8 +292,7 @@ public enum FunctionType
         if (exprs.length == 2)
         {
             return Math.max(evalFloat(exprs, 0), evalFloat(exprs, 1));
-        }
-        else
+        } else
         {
             float valMax = evalFloat(exprs, 0);
 
@@ -313,7 +312,7 @@ public enum FunctionType
 
     private static float evalFloat(IExpression[] exprs, int index)
     {
-        IExpressionFloat ef = (IExpressionFloat)exprs[index];
+        IExpressionFloat ef = (IExpressionFloat) exprs[index];
         float val = ef.eval();
         return val;
     }
@@ -387,7 +386,7 @@ public enum FunctionType
 
     private static boolean evalBool(IExpression[] exprs, int index)
     {
-        IExpressionBool eb = (IExpressionBool)exprs[index];
+        IExpressionBool eb = (IExpressionBool) exprs[index];
         boolean val = eb.eval();
         return val;
     }
@@ -407,392 +406,346 @@ public enum FunctionType
         return null;
     }
 
-    static class NamelessClass1794710129 {
+    static class NamelessClass1794710129
+    {
         static final int[] $SwitchMap$net$optifine$entity$model$anim$FunctionType = new int[FunctionType.values().length];
 
-        static {
-            try {
+        static
+        {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.PLUS.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var48)
+            } catch (NoSuchFieldError var48)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.MINUS.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var47)
+            } catch (NoSuchFieldError var47)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.MUL.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var46)
+            } catch (NoSuchFieldError var46)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.DIV.ordinal()] = 4;
-            }
-            catch (NoSuchFieldError var45)
+            } catch (NoSuchFieldError var45)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.MOD.ordinal()] = 5;
-            }
-            catch (NoSuchFieldError var44)
+            } catch (NoSuchFieldError var44)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.NEG.ordinal()] = 6;
-            }
-            catch (NoSuchFieldError var43)
+            } catch (NoSuchFieldError var43)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.PI.ordinal()] = 7;
-            }
-            catch (NoSuchFieldError var42)
+            } catch (NoSuchFieldError var42)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.SIN.ordinal()] = 8;
-            }
-            catch (NoSuchFieldError var41)
+            } catch (NoSuchFieldError var41)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.COS.ordinal()] = 9;
-            }
-            catch (NoSuchFieldError var40)
+            } catch (NoSuchFieldError var40)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.ASIN.ordinal()] = 10;
-            }
-            catch (NoSuchFieldError var39)
+            } catch (NoSuchFieldError var39)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.ACOS.ordinal()] = 11;
-            }
-            catch (NoSuchFieldError var38)
+            } catch (NoSuchFieldError var38)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.TAN.ordinal()] = 12;
-            }
-            catch (NoSuchFieldError var37)
+            } catch (NoSuchFieldError var37)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.ATAN.ordinal()] = 13;
-            }
-            catch (NoSuchFieldError var36)
+            } catch (NoSuchFieldError var36)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.ATAN2.ordinal()] = 14;
-            }
-            catch (NoSuchFieldError var35)
+            } catch (NoSuchFieldError var35)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.TORAD.ordinal()] = 15;
-            }
-            catch (NoSuchFieldError var34)
+            } catch (NoSuchFieldError var34)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.TODEG.ordinal()] = 16;
-            }
-            catch (NoSuchFieldError var33)
+            } catch (NoSuchFieldError var33)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.MIN.ordinal()] = 17;
-            }
-            catch (NoSuchFieldError var32)
+            } catch (NoSuchFieldError var32)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.MAX.ordinal()] = 18;
-            }
-            catch (NoSuchFieldError var31)
+            } catch (NoSuchFieldError var31)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.CLAMP.ordinal()] = 19;
-            }
-            catch (NoSuchFieldError var30)
+            } catch (NoSuchFieldError var30)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.ABS.ordinal()] = 20;
-            }
-            catch (NoSuchFieldError var29)
+            } catch (NoSuchFieldError var29)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.EXP.ordinal()] = 21;
-            }
-            catch (NoSuchFieldError var28)
+            } catch (NoSuchFieldError var28)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.FLOOR.ordinal()] = 22;
-            }
-            catch (NoSuchFieldError var27)
+            } catch (NoSuchFieldError var27)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.CEIL.ordinal()] = 23;
-            }
-            catch (NoSuchFieldError var26)
+            } catch (NoSuchFieldError var26)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.FRAC.ordinal()] = 24;
-            }
-            catch (NoSuchFieldError var25)
+            } catch (NoSuchFieldError var25)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.LOG.ordinal()] = 25;
-            }
-            catch (NoSuchFieldError var24)
+            } catch (NoSuchFieldError var24)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.POW.ordinal()] = 26;
-            }
-            catch (NoSuchFieldError var23)
+            } catch (NoSuchFieldError var23)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.RANDOM.ordinal()] = 27;
-            }
-            catch (NoSuchFieldError var22)
+            } catch (NoSuchFieldError var22)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.ROUND.ordinal()] = 28;
-            }
-            catch (NoSuchFieldError var21)
+            } catch (NoSuchFieldError var21)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.SIGNUM.ordinal()] = 29;
-            }
-            catch (NoSuchFieldError var20)
+            } catch (NoSuchFieldError var20)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.SQRT.ordinal()] = 30;
-            }
-            catch (NoSuchFieldError var19)
+            } catch (NoSuchFieldError var19)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.FMOD.ordinal()] = 31;
-            }
-            catch (NoSuchFieldError var18)
+            } catch (NoSuchFieldError var18)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.TIME.ordinal()] = 32;
-            }
-            catch (NoSuchFieldError var17)
+            } catch (NoSuchFieldError var17)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.IF.ordinal()] = 33;
-            }
-            catch (NoSuchFieldError var16)
+            } catch (NoSuchFieldError var16)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.SMOOTH.ordinal()] = 34;
-            }
-            catch (NoSuchFieldError var15)
+            } catch (NoSuchFieldError var15)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.TRUE.ordinal()] = 35;
-            }
-            catch (NoSuchFieldError var14)
+            } catch (NoSuchFieldError var14)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.FALSE.ordinal()] = 36;
-            }
-            catch (NoSuchFieldError var13)
+            } catch (NoSuchFieldError var13)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.NOT.ordinal()] = 37;
-            }
-            catch (NoSuchFieldError var12)
+            } catch (NoSuchFieldError var12)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.AND.ordinal()] = 38;
-            }
-            catch (NoSuchFieldError var11)
+            } catch (NoSuchFieldError var11)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.OR.ordinal()] = 39;
-            }
-            catch (NoSuchFieldError var10)
+            } catch (NoSuchFieldError var10)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.GREATER.ordinal()] = 40;
-            }
-            catch (NoSuchFieldError var9)
+            } catch (NoSuchFieldError var9)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.GREATER_OR_EQUAL.ordinal()] = 41;
-            }
-            catch (NoSuchFieldError var8)
+            } catch (NoSuchFieldError var8)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.SMALLER.ordinal()] = 42;
-            }
-            catch (NoSuchFieldError var7)
+            } catch (NoSuchFieldError var7)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.SMALLER_OR_EQUAL.ordinal()] = 43;
-            }
-            catch (NoSuchFieldError var6)
+            } catch (NoSuchFieldError var6)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.EQUAL.ordinal()] = 44;
-            }
-            catch (NoSuchFieldError var5)
+            } catch (NoSuchFieldError var5)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.NOT_EQUAL.ordinal()] = 45;
-            }
-            catch (NoSuchFieldError var4)
+            } catch (NoSuchFieldError var4)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.BETWEEN.ordinal()] = 46;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.EQUALS.ordinal()] = 47;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
-            try {
-                $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.IN.ordinal()] = 48;
-            }
-            catch (NoSuchFieldError var1)
+            try
             {
-                ;
+                $SwitchMap$net$optifine$entity$model$anim$FunctionType[FunctionType.IN.ordinal()] = 48;
+            } catch (NoSuchFieldError var1)
+            {
             }
         }
     }

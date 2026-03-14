@@ -5,11 +5,11 @@ import net.minecraft.util.Vec3;
 
 public class EntityAIWander extends EntityAIBase
 {
-    private EntityCreature entity;
+    private final EntityCreature entity;
     private double xPosition;
     private double yPosition;
     private double zPosition;
-    private double speed;
+    private final double speed;
     private static final String __OBFID = "CL_00001608";
 
     public EntityAIWander(EntityCreature par1EntityCreature, double par2)
@@ -27,20 +27,17 @@ public class EntityAIWander extends EntityAIBase
         if (this.entity.getAge() >= 100)
         {
             return false;
-        }
-        else if (this.entity.getRNG().nextInt(120) != 0)
+        } else if (this.entity.getRNG().nextInt(120) != 0)
         {
             return false;
-        }
-        else
+        } else
         {
             Vec3 var1 = RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
 
             if (var1 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.xPosition = var1.xCoord;
                 this.yPosition = var1.yCoord;

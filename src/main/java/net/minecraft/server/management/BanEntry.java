@@ -1,16 +1,17 @@
 package net.minecraft.server.management;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class BanEntry
 {
     private static final Logger logger = LogManager.getLogger();
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
     private final String username;
-    private Date banStartDate = new Date();
+    private final Date banStartDate = new Date();
     private String bannedBy = "(Unknown)";
     private Date banEndDate;
     private String reason = "Banned by an operator.";
@@ -48,7 +49,7 @@ public class BanEntry
 
     public boolean hasBanExpired()
     {
-        return this.banEndDate == null ? false : this.banEndDate.before(new Date());
+        return this.banEndDate != null && this.banEndDate.before(new Date());
     }
 
     public String getBanReason()
@@ -63,16 +64,15 @@ public class BanEntry
 
     public String buildBanString()
     {
-        StringBuilder var1 = new StringBuilder();
-        var1.append(this.getBannedUsername());
-        var1.append("|");
-        var1.append(dateFormat.format(this.getBanStartDate()));
-        var1.append("|");
-        var1.append(this.getBannedBy());
-        var1.append("|");
-        var1.append(this.getBanEndDate() == null ? "Forever" : dateFormat.format(this.getBanEndDate()));
-        var1.append("|");
-        var1.append(this.getBanReason());
-        return var1.toString();
+        String var1 = this.getBannedUsername() +
+                "|" +
+                dateFormat.format(this.getBanStartDate()) +
+                "|" +
+                this.getBannedBy() +
+                "|" +
+                (this.getBanEndDate() == null ? "Forever" : dateFormat.format(this.getBanEndDate())) +
+                "|" +
+                this.getBanReason();
+        return var1;
     }
 }

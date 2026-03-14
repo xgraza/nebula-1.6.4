@@ -9,7 +9,10 @@ import us.nebula.client.api.manager.ITypedManager;
 import us.nebula.client.impl.event.input.EventKey;
 import us.nebula.client.impl.event.input.EventMouse;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.lwjgl.input.Keyboard.KEY_NONE;
 

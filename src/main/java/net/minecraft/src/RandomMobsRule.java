@@ -8,7 +8,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class RandomMobsRule
 {
     private ResourceLocation baseResLoc = null;
-    private int index;
+    private final int index;
     private int[] skins = null;
     private ResourceLocation[] resourceLocations = null;
     private int[] weights = null;
@@ -38,8 +38,7 @@ public class RandomMobsRule
             if (this.resourceLocations != null)
             {
                 return true;
-            }
-            else
+            } else
             {
                 this.resourceLocations = new ResourceLocation[this.skins.length];
                 ResourceLocation locMcp = RandomMobs.getMcpatcherLocation(this.baseResLoc);
@@ -48,8 +47,7 @@ public class RandomMobsRule
                 {
                     Config.warn("Invalid path: " + this.baseResLoc.getResourcePath());
                     return false;
-                }
-                else
+                } else
                 {
                     int sum;
                     int i;
@@ -61,8 +59,7 @@ public class RandomMobsRule
                         if (i <= 1)
                         {
                             this.resourceLocations[sum] = this.baseResLoc;
-                        }
-                        else
+                        } else
                         {
                             ResourceLocation i1 = RandomMobs.getLocationIndexed(locMcp, i);
 
@@ -137,15 +134,13 @@ public class RandomMobsRule
                     {
                         Config.warn("Invalid professions or careers: " + path);
                         return false;
-                    }
-                    else
+                    } else
                     {
                         return true;
                     }
                 }
             }
-        }
-        else
+        } else
         {
             Config.warn("Invalid skins for rule: " + this.index);
             return false;
@@ -179,8 +174,7 @@ public class RandomMobsRule
         if (this.heights != null && el.spawnPosition != null)
         {
             return this.heights.isInRange(el.spawnPosition.getY());
-        }
-        else
+        } else
         {
             if (this.nbtName != null)
             {
@@ -194,7 +188,7 @@ public class RandomMobsRule
 
             if (this.professions != null && el instanceof EntityVillager)
             {
-                EntityVillager var9 = (EntityVillager)el;
+                EntityVillager var9 = (EntityVillager) el;
                 int var10 = var9.getProfession();
                 byte var11 = 0;
 
@@ -216,10 +210,7 @@ public class RandomMobsRule
                     }
                 }
 
-                if (!var12)
-                {
-                    return false;
-                }
+                return var12;
             }
 
             return true;
@@ -235,8 +226,7 @@ public class RandomMobsRule
             if (this.weights == null)
             {
                 index = randomId % this.resourceLocations.length;
-            }
-            else
+            } else
             {
                 int randWeight = randomId % this.sumAllWeights;
 
@@ -251,8 +241,7 @@ public class RandomMobsRule
             }
 
             return this.resourceLocations[index];
-        }
-        else
+        } else
         {
             return loc;
         }

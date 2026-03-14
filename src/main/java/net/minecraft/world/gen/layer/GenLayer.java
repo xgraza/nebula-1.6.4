@@ -1,18 +1,23 @@
 package net.minecraft.world.gen.layer;
 
-import java.util.concurrent.Callable;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
 
+import java.util.concurrent.Callable;
+
 public abstract class GenLayer
 {
-    /** seed from World#getWorldSeed that is used in the LCG prng */
+    /**
+     * seed from World#getWorldSeed that is used in the LCG prng
+     */
     private long worldGenSeed;
 
-    /** parent GenLayer that was provided via the constructor */
+    /**
+     * parent GenLayer that was provided via the constructor
+     */
     protected GenLayer parent;
 
     /**
@@ -21,7 +26,9 @@ public abstract class GenLayer
      */
     private long chunkSeed;
 
-    /** base seed to the LCG prng provided via the constructor */
+    /**
+     * base seed to the LCG prng provided via the constructor
+     */
     protected long baseSeed;
     private static final String __OBFID = "CL_00000559";
 
@@ -69,12 +76,12 @@ public abstract class GenLayer
 
         if (!var3)
         {
-            GenLayer var18 = GenLayerZoom.magnify(1000L, (GenLayer)var7, 2);
+            GenLayer var18 = GenLayerZoom.magnify(1000L, (GenLayer) var7, 2);
             var7 = new GenLayerBiomeEdge(1000L, var18);
         }
 
         GenLayer var8 = GenLayerZoom.magnify(1000L, var15, 2);
-        GenLayerHills var21 = new GenLayerHills(1000L, (GenLayer)var7, var8);
+        GenLayerHills var21 = new GenLayerHills(1000L, (GenLayer) var7, var8);
         var6 = GenLayerZoom.magnify(1000L, var15, 2);
         var6 = GenLayerZoom.magnify(1000L, var6, var5);
         GenLayerRiver var19 = new GenLayerRiver(1L, var6);
@@ -83,25 +90,25 @@ public abstract class GenLayer
 
         for (int var9 = 0; var9 < var5; ++var9)
         {
-            var7 = new GenLayerZoom((long)(1000 + var9), (GenLayer)var7);
+            var7 = new GenLayerZoom(1000 + var9, (GenLayer) var7);
 
             if (var9 == 0)
             {
-                var7 = new GenLayerAddIsland(3L, (GenLayer)var7);
+                var7 = new GenLayerAddIsland(3L, (GenLayer) var7);
             }
 
             if (var9 == 1)
             {
-                var7 = new GenLayerShore(1000L, (GenLayer)var7);
+                var7 = new GenLayerShore(1000L, (GenLayer) var7);
             }
         }
 
-        GenLayerSmooth var25 = new GenLayerSmooth(1000L, (GenLayer)var7);
+        GenLayerSmooth var25 = new GenLayerSmooth(1000L, (GenLayer) var7);
         GenLayerRiverMix var26 = new GenLayerRiverMix(100L, var25, var20);
         GenLayerVoronoiZoom var10 = new GenLayerVoronoiZoom(10L, var26);
         var26.initWorldGenSeed(par0);
         var10.initWorldGenSeed(par0);
-        return new GenLayer[] {var26, var10, var26};
+        return new GenLayer[]{ var26, var10, var26 };
     }
 
     public GenLayer(long par1)
@@ -157,7 +164,7 @@ public abstract class GenLayer
      */
     protected int nextInt(int par1)
     {
-        int var2 = (int)((this.chunkSeed >> 24) % (long)par1);
+        int var2 = (int) ((this.chunkSeed >> 24) % (long) par1);
 
         if (var2 < 0)
         {
@@ -180,14 +187,12 @@ public abstract class GenLayer
         if (p_151616_0_ == p_151616_1_)
         {
             return true;
-        }
-        else if (p_151616_0_ != BiomeGenBase.field_150607_aa.biomeID && p_151616_0_ != BiomeGenBase.field_150608_ab.biomeID)
+        } else if (p_151616_0_ != BiomeGenBase.field_150607_aa.biomeID && p_151616_0_ != BiomeGenBase.field_150608_ab.biomeID)
         {
             try
             {
-                return BiomeGenBase.func_150568_d(p_151616_0_) != null && BiomeGenBase.func_150568_d(p_151616_1_) != null ? BiomeGenBase.func_150568_d(p_151616_0_).func_150569_a(BiomeGenBase.func_150568_d(p_151616_1_)) : false;
-            }
-            catch (Throwable var5)
+                return BiomeGenBase.func_150568_d(p_151616_0_) != null && BiomeGenBase.func_150568_d(p_151616_1_) != null && BiomeGenBase.func_150568_d(p_151616_0_).func_150569_a(BiomeGenBase.func_150568_d(p_151616_1_));
+            } catch (Throwable var5)
             {
                 CrashReport var3 = CrashReport.makeCrashReport(var5, "Comparing biomes");
                 CrashReportCategory var4 = var3.makeCategory("Biomes being compared");
@@ -196,6 +201,7 @@ public abstract class GenLayer
                 var4.addCrashSectionCallable("Biome A", new Callable()
                 {
                     private static final String __OBFID = "CL_00000560";
+
                     public String call()
                     {
                         return String.valueOf(BiomeGenBase.func_150568_d(p_151616_0_));
@@ -204,6 +210,7 @@ public abstract class GenLayer
                 var4.addCrashSectionCallable("Biome B", new Callable()
                 {
                     private static final String __OBFID = "CL_00000561";
+
                     public String call()
                     {
                         return String.valueOf(BiomeGenBase.func_150568_d(p_151616_1_));
@@ -211,8 +218,7 @@ public abstract class GenLayer
                 });
                 throw new ReportedException(var3);
             }
-        }
-        else
+        } else
         {
             return p_151616_1_ == BiomeGenBase.field_150607_aa.biomeID || p_151616_1_ == BiomeGenBase.field_150608_ab.biomeID;
         }
@@ -223,13 +229,13 @@ public abstract class GenLayer
         return p_151618_0_ == BiomeGenBase.ocean.biomeID || p_151618_0_ == BiomeGenBase.field_150575_M.biomeID || p_151618_0_ == BiomeGenBase.frozenOcean.biomeID;
     }
 
-    protected int func_151619_a(int ... p_151619_1_)
+    protected int func_151619_a(int... p_151619_1_)
     {
         return p_151619_1_[this.nextInt(p_151619_1_.length)];
     }
 
     protected int func_151617_b(int p_151617_1_, int p_151617_2_, int p_151617_3_, int p_151617_4_)
     {
-        return p_151617_2_ == p_151617_3_ && p_151617_3_ == p_151617_4_ ? p_151617_2_ : (p_151617_1_ == p_151617_2_ && p_151617_1_ == p_151617_3_ ? p_151617_1_ : (p_151617_1_ == p_151617_2_ && p_151617_1_ == p_151617_4_ ? p_151617_1_ : (p_151617_1_ == p_151617_3_ && p_151617_1_ == p_151617_4_ ? p_151617_1_ : (p_151617_1_ == p_151617_2_ && p_151617_3_ != p_151617_4_ ? p_151617_1_ : (p_151617_1_ == p_151617_3_ && p_151617_2_ != p_151617_4_ ? p_151617_1_ : (p_151617_1_ == p_151617_4_ && p_151617_2_ != p_151617_3_ ? p_151617_1_ : (p_151617_2_ == p_151617_3_ && p_151617_1_ != p_151617_4_ ? p_151617_2_ : (p_151617_2_ == p_151617_4_ && p_151617_1_ != p_151617_3_ ? p_151617_2_ : (p_151617_3_ == p_151617_4_ && p_151617_1_ != p_151617_2_ ? p_151617_3_ : this.func_151619_a(new int[] {p_151617_1_, p_151617_2_, p_151617_3_, p_151617_4_}))))))))));
+        return p_151617_2_ == p_151617_3_ && p_151617_3_ == p_151617_4_ ? p_151617_2_ : (p_151617_1_ == p_151617_2_ && p_151617_1_ == p_151617_3_ ? p_151617_1_ : (p_151617_1_ == p_151617_2_ && p_151617_1_ == p_151617_4_ ? p_151617_1_ : (p_151617_1_ == p_151617_3_ && p_151617_1_ == p_151617_4_ ? p_151617_1_ : (p_151617_1_ == p_151617_2_ && p_151617_3_ != p_151617_4_ ? p_151617_1_ : (p_151617_1_ == p_151617_3_ && p_151617_2_ != p_151617_4_ ? p_151617_1_ : (p_151617_1_ == p_151617_4_ && p_151617_2_ != p_151617_3_ ? p_151617_1_ : (p_151617_2_ == p_151617_3_ && p_151617_1_ != p_151617_4_ ? p_151617_2_ : (p_151617_2_ == p_151617_4_ && p_151617_1_ != p_151617_3_ ? p_151617_2_ : (p_151617_3_ == p_151617_4_ && p_151617_1_ != p_151617_2_ ? p_151617_3_ : this.func_151619_a(p_151617_1_, p_151617_2_, p_151617_3_, p_151617_4_))))))))));
     }
 }

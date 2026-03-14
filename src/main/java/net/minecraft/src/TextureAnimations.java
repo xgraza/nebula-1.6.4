@@ -1,5 +1,10 @@
 package net.minecraft.src;
 
+import net.minecraft.client.resources.IResourcePack;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.util.ResourceLocation;
+
+import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -10,10 +15,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
-import javax.imageio.ImageIO;
-import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.util.ResourceLocation;
 
 public class TextureAnimations
 {
@@ -74,19 +75,18 @@ public class TextureAnimations
             }
         }
 
-        TextureAnimation[] var5 = (TextureAnimation[])((TextureAnimation[])list.toArray(new TextureAnimation[list.size()]));
+        TextureAnimation[] var5 = (TextureAnimation[]) list.toArray(new TextureAnimation[list.size()]);
         return var5;
     }
 
     public static TextureAnimation[] getTextureAnimations(IResourcePack rp)
     {
-        String[] animPropNames = ResUtils.collectFiles(rp, "mcpatcher/anim/", ".properties", (String[])null);
+        String[] animPropNames = ResUtils.collectFiles(rp, "mcpatcher/anim/", ".properties", null);
 
         if (animPropNames.length <= 0)
         {
             return null;
-        }
-        else
+        } else
         {
             ArrayList list = new ArrayList();
 
@@ -110,24 +110,21 @@ public class TextureAnimations
                         if (Config.getDefiningResourcePack(locDstTex) != rp)
                         {
                             Config.dbg("Skipped: " + propName + ", target texture not loaded from same resource pack");
-                        }
-                        else
+                        } else
                         {
                             list.add(anim);
                         }
                     }
-                }
-                catch (FileNotFoundException var10)
+                } catch (FileNotFoundException var10)
                 {
                     Config.warn("File not found: " + var10.getMessage());
-                }
-                catch (IOException var11)
+                } catch (IOException var11)
                 {
                     var11.printStackTrace();
                 }
             }
 
-            TextureAnimation[] var12 = (TextureAnimation[])((TextureAnimation[])list.toArray(new TextureAnimation[list.size()]));
+            TextureAnimation[] var12 = (TextureAnimation[]) list.toArray(new TextureAnimation[list.size()]);
             return var12;
         }
     }
@@ -156,8 +153,7 @@ public class TextureAnimations
                 {
                     Config.warn("TextureAnimation: Source texture not found: " + texTo);
                     return null;
-                }
-                else
+                } else
                 {
                     int countPixels = imageBytes.length / 4;
                     int countFrames = countPixels / (width * height);
@@ -165,10 +161,9 @@ public class TextureAnimations
 
                     if (countPixels != countPixelsAllFrames)
                     {
-                        Config.warn("TextureAnimation: Source texture has invalid number of frames: " + texFrom + ", frames: " + (float)countPixels / (float)(width * height));
+                        Config.warn("TextureAnimation: Source texture has invalid number of frames: " + texFrom + ", frames: " + (float) countPixels / (float) (width * height));
                         return null;
-                    }
-                    else
+                    } else
                     {
                         ResourceLocation locTexTo = new ResourceLocation(texTo);
 
@@ -180,8 +175,7 @@ public class TextureAnimations
                             {
                                 Config.warn("TextureAnimation: Target texture not found: " + texTo);
                                 return null;
-                            }
-                            else
+                            } else
                             {
                                 BufferedImage imgTexTo = readTextureImage(e);
 
@@ -189,29 +183,25 @@ public class TextureAnimations
                                 {
                                     TextureAnimation anim = new TextureAnimation(texFrom, imageBytes, texTo, locTexTo, x, y, width, height, props, 1);
                                     return anim;
-                                }
-                                else
+                                } else
                                 {
                                     Config.warn("TextureAnimation: Animation coordinates are outside the target texture: " + texTo);
                                     return null;
                                 }
                             }
-                        }
-                        catch (IOException var17)
+                        } catch (IOException var17)
                         {
                             Config.warn("TextureAnimation: Target texture not found: " + texTo);
                             return null;
                         }
                     }
                 }
-            }
-            else
+            } else
             {
                 Config.warn("TextureAnimation: Invalid coordinates");
                 return null;
             }
-        }
-        else
+        } else
         {
             Config.warn("TextureAnimation: Source or target texture not specified");
             return null;
@@ -242,8 +232,7 @@ public class TextureAnimations
             if (in == null)
             {
                 return null;
-            }
-            else
+            } else
             {
                 BufferedImage image = readTextureImage(in);
                 in.close();
@@ -251,13 +240,12 @@ public class TextureAnimations
                 if (image == null)
                 {
                     return null;
-                }
-                else
+                } else
                 {
                     if (targetWidth > 0 && image.getWidth() != targetWidth)
                     {
-                        double width = (double)(image.getHeight() / image.getWidth());
-                        int ai = (int)((double)targetWidth * width);
+                        double width = image.getHeight() / image.getWidth();
+                        int ai = (int) ((double) targetWidth * width);
                         image = scaleBufferedImage(image, targetWidth, ai);
                     }
 
@@ -284,21 +272,19 @@ public class TextureAnimations
                             blue = j4;
                         }
 
-                        byteBuf[l * 4 + 0] = (byte)red;
-                        byteBuf[l * 4 + 1] = (byte)green;
-                        byteBuf[l * 4 + 2] = (byte)blue;
-                        byteBuf[l * 4 + 3] = (byte)alpha;
+                        byteBuf[l * 4] = (byte) red;
+                        byteBuf[l * 4 + 1] = (byte) green;
+                        byteBuf[l * 4 + 2] = (byte) blue;
+                        byteBuf[l * 4 + 3] = (byte) alpha;
                     }
 
                     return byteBuf;
                 }
             }
-        }
-        catch (FileNotFoundException var18)
+        } catch (FileNotFoundException var18)
         {
             return null;
-        }
-        catch (Exception var19)
+        } catch (Exception var19)
         {
             var19.printStackTrace();
             return null;
@@ -317,7 +303,7 @@ public class TextureAnimations
         BufferedImage scaledImage = new BufferedImage(width, height, 2);
         Graphics2D gr = scaledImage.createGraphics();
         gr.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        gr.drawImage(image, 0, 0, width, height, (ImageObserver)null);
+        gr.drawImage(image, 0, 0, width, height, null);
         return scaledImage;
     }
 }

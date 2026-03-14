@@ -1,14 +1,11 @@
 package net.minecraft.client.mco;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
+import net.minecraft.util.ValueObject;
+
 import java.util.Iterator;
 import java.util.List;
-import net.minecraft.util.ValueObject;
 
 public class PendingInvitesList extends ValueObject
 {
@@ -30,17 +27,13 @@ public class PendingInvitesList extends ValueObject
 
                 while (var4.hasNext())
                 {
-                    var1.field_148768_a.add(PendingInvite.func_148773_a(((JsonElement)var4.next()).getAsJsonObject()));
+                    var1.field_148768_a.add(PendingInvite.func_148773_a(((JsonElement) var4.next()).getAsJsonObject()));
                 }
             }
-        }
-        catch (JsonIOException var5)
+        } catch (JsonIOException var5)
         {
-            ;
-        }
-        catch (JsonSyntaxException var6)
+        } catch (JsonSyntaxException var6)
         {
-            ;
         }
 
         return var1;

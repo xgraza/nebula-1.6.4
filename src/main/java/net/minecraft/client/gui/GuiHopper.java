@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL11;
 public class GuiHopper extends GuiContainer
 {
     private static final ResourceLocation field_147085_u = new ResourceLocation("textures/gui/container/hopper.png");
-    private IInventory field_147084_v;
-    private IInventory field_147083_w;
+    private final IInventory field_147084_v;
+    private final IInventory field_147083_w;
     private static final String __OBFID = "CL_00000759";
 
     public GuiHopper(InventoryPlayer par1InventoryPlayer, IInventory par2IInventory)
@@ -26,8 +26,8 @@ public class GuiHopper extends GuiContainer
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
-        this.fontRenderer.drawString(this.field_147083_w.isInventoryNameLocalized() ? this.field_147083_w.getInventoryName() : I18n.format(this.field_147083_w.getInventoryName(), new Object[0]), 8, 6, 4210752);
-        this.fontRenderer.drawString(this.field_147084_v.isInventoryNameLocalized() ? this.field_147084_v.getInventoryName() : I18n.format(this.field_147084_v.getInventoryName(), new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
+        this.fontRenderer.drawString(this.field_147083_w.isInventoryNameLocalized() ? this.field_147083_w.getInventoryName() : I18n.format(this.field_147083_w.getInventoryName()), 8, 6, 4210752);
+        this.fontRenderer.drawString(this.field_147084_v.isInventoryNameLocalized() ? this.field_147084_v.getInventoryName() : I18n.format(this.field_147084_v.getInventoryName()), 8, this.field_147000_g - 96 + 2, 4210752);
     }
 
     protected void func_146976_a(float p_146976_1_, int p_146976_2_, int p_146976_3_)

@@ -13,14 +13,20 @@ import net.minecraft.world.WorldSettings;
 
 public class ItemInWorldManager
 {
-    /** The world object that this object is connected to. */
+    /**
+     * The world object that this object is connected to.
+     */
     public World theWorld;
 
-    /** The EntityPlayerMP object that this object is connected to. */
+    /**
+     * The EntityPlayerMP object that this object is connected to.
+     */
     public EntityPlayerMP thisPlayerMP;
     private WorldSettings.GameType gameType;
 
-    /** True if the player is destroying a block */
+    /**
+     * True if the player is destroying a block
+     */
     private boolean isDestroyingBlock;
     private int initialDamage;
     private int partiallyDestroyedBlockX;
@@ -94,11 +100,10 @@ public class ItemInWorldManager
             if (var2.getMaterial() == Material.air)
             {
                 this.receivedFinishDiggingPacket = false;
-            }
-            else
+            } else
             {
-                var3 = var2.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.worldObj, this.posX, this.posY, this.posZ) * (float)(var1 + 1);
-                var4 = (int)(var3 * 10.0F);
+                var3 = var2.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.worldObj, this.posX, this.posY, this.posZ) * (float) (var1 + 1);
+                var4 = (int) (var3 * 10.0F);
 
                 if (var4 != this.durabilityRemainingOnBlock)
                 {
@@ -112,8 +117,7 @@ public class ItemInWorldManager
                     this.tryHarvestBlock(this.posX, this.posY, this.posZ);
                 }
             }
-        }
-        else if (this.isDestroyingBlock)
+        } else if (this.isDestroyingBlock)
         {
             Block var5 = this.theWorld.getBlock(this.partiallyDestroyedBlockX, this.partiallyDestroyedBlockY, this.partiallyDestroyedBlockZ);
 
@@ -122,12 +126,11 @@ public class ItemInWorldManager
                 this.theWorld.destroyBlockInWorldPartially(this.thisPlayerMP.getEntityId(), this.partiallyDestroyedBlockX, this.partiallyDestroyedBlockY, this.partiallyDestroyedBlockZ, -1);
                 this.durabilityRemainingOnBlock = -1;
                 this.isDestroyingBlock = false;
-            }
-            else
+            } else
             {
                 int var6 = this.curblockDamage - this.initialDamage;
-                var3 = var5.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.worldObj, this.partiallyDestroyedBlockX, this.partiallyDestroyedBlockY, this.partiallyDestroyedBlockZ) * (float)(var6 + 1);
-                var4 = (int)(var3 * 10.0F);
+                var3 = var5.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.worldObj, this.partiallyDestroyedBlockX, this.partiallyDestroyedBlockY, this.partiallyDestroyedBlockZ) * (float) (var6 + 1);
+                var4 = (int) (var3 * 10.0F);
 
                 if (var4 != this.durabilityRemainingOnBlock)
                 {
@@ -148,14 +151,13 @@ public class ItemInWorldManager
         {
             if (this.isCreative())
             {
-                if (!this.theWorld.extinguishFire((EntityPlayer)null, par1, par2, par3, par4))
+                if (!this.theWorld.extinguishFire(null, par1, par2, par3, par4))
                 {
                     this.tryHarvestBlock(par1, par2, par3);
                 }
-            }
-            else
+            } else
             {
-                this.theWorld.extinguishFire((EntityPlayer)null, par1, par2, par3, par4);
+                this.theWorld.extinguishFire(null, par1, par2, par3, par4);
                 this.initialDamage = this.curblockDamage;
                 float var5 = 1.0F;
                 Block var6 = this.theWorld.getBlock(par1, par2, par3);
@@ -169,14 +171,13 @@ public class ItemInWorldManager
                 if (var6.getMaterial() != Material.air && var5 >= 1.0F)
                 {
                     this.tryHarvestBlock(par1, par2, par3);
-                }
-                else
+                } else
                 {
                     this.isDestroyingBlock = true;
                     this.partiallyDestroyedBlockX = par1;
                     this.partiallyDestroyedBlockY = par2;
                     this.partiallyDestroyedBlockZ = par3;
-                    int var7 = (int)(var5 * 10.0F);
+                    int var7 = (int) (var5 * 10.0F);
                     this.theWorld.destroyBlockInWorldPartially(this.thisPlayerMP.getEntityId(), par1, par2, par3, var7);
                     this.durabilityRemainingOnBlock = var7;
                 }
@@ -193,15 +194,14 @@ public class ItemInWorldManager
 
             if (var5.getMaterial() != Material.air)
             {
-                float var6 = var5.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.worldObj, par1, par2, par3) * (float)(var4 + 1);
+                float var6 = var5.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.worldObj, par1, par2, par3) * (float) (var4 + 1);
 
                 if (var6 >= 0.7F)
                 {
                     this.isDestroyingBlock = false;
                     this.theWorld.destroyBlockInWorldPartially(this.thisPlayerMP.getEntityId(), par1, par2, par3, -1);
                     this.tryHarvestBlock(par1, par2, par3);
-                }
-                else if (!this.receivedFinishDiggingPacket)
+                } else if (!this.receivedFinishDiggingPacket)
                 {
                     this.isDestroyingBlock = false;
                     this.receivedFinishDiggingPacket = true;
@@ -249,12 +249,10 @@ public class ItemInWorldManager
         if (this.gameType.isAdventure() && !this.thisPlayerMP.isCurrentToolAdventureModeExempt(par1, par2, par3))
         {
             return false;
-        }
-        else if (this.gameType.isCreative() && this.thisPlayerMP.getHeldItem() != null && this.thisPlayerMP.getHeldItem().getItem() instanceof ItemSword)
+        } else if (this.gameType.isCreative() && this.thisPlayerMP.getHeldItem() != null && this.thisPlayerMP.getHeldItem().getItem() instanceof ItemSword)
         {
             return false;
-        }
-        else
+        } else
         {
             Block var4 = this.theWorld.getBlock(par1, par2, par3);
             int var5 = this.theWorld.getBlockMetadata(par1, par2, par3);
@@ -264,8 +262,7 @@ public class ItemInWorldManager
             if (this.isCreative())
             {
                 this.thisPlayerMP.playerNetServerHandler.sendPacketToPlayer(new S23PacketBlockChange(par1, par2, par3, this.theWorld));
-            }
-            else
+            } else
             {
                 ItemStack var7 = this.thisPlayerMP.getCurrentEquippedItem();
                 boolean var8 = this.thisPlayerMP.canHarvestBlock(var4);
@@ -302,8 +299,7 @@ public class ItemInWorldManager
         if (var6 == par3ItemStack && (var6 == null || var6.stackSize == var4 && var6.getMaxItemUseDuration() <= 0 && var6.getItemDamage() == var5))
         {
             return false;
-        }
-        else
+        } else
         {
             par1EntityPlayer.inventory.mainInventory[par1EntityPlayer.inventory.currentItem] = var6;
 
@@ -324,7 +320,7 @@ public class ItemInWorldManager
 
             if (!par1EntityPlayer.isUsingItem())
             {
-                ((EntityPlayerMP)par1EntityPlayer).sendContainerToPlayer(par1EntityPlayer.inventoryContainer);
+                ((EntityPlayerMP) par1EntityPlayer).sendContainerToPlayer(par1EntityPlayer.inventoryContainer);
             }
 
             return true;
@@ -340,12 +336,10 @@ public class ItemInWorldManager
         if ((!par1EntityPlayer.isSneaking() || par1EntityPlayer.getHeldItem() == null) && par2World.getBlock(par4, par5, par6).onBlockActivated(par2World, par4, par5, par6, par1EntityPlayer, par7, par8, par9, par10))
         {
             return true;
-        }
-        else if (par3ItemStack == null)
+        } else if (par3ItemStack == null)
         {
             return false;
-        }
-        else if (this.isCreative())
+        } else if (this.isCreative())
         {
             int var11 = par3ItemStack.getItemDamage();
             int var12 = par3ItemStack.stackSize;
@@ -353,8 +347,7 @@ public class ItemInWorldManager
             par3ItemStack.setItemDamage(var11);
             par3ItemStack.stackSize = var12;
             return var13;
-        }
-        else
+        } else
         {
             return par3ItemStack.tryPlaceItemIntoWorld(par1EntityPlayer, par2World, par4, par5, par6, par7, par8, par9, par10);
         }

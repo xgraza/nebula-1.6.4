@@ -27,12 +27,12 @@ public class GenLayerAddIsland extends GenLayer
         {
             for (int var12 = 0; var12 < par3; ++var12)
             {
-                int var13 = var9[var12 + 0 + (var11 + 0) * var7];
-                int var14 = var9[var12 + 2 + (var11 + 0) * var7];
-                int var15 = var9[var12 + 0 + (var11 + 2) * var7];
+                int var13 = var9[var12 + (var11) * var7];
+                int var14 = var9[var12 + 2 + (var11) * var7];
+                int var15 = var9[var12 + (var11 + 2) * var7];
                 int var16 = var9[var12 + 2 + (var11 + 2) * var7];
                 int var17 = var9[var12 + 1 + (var11 + 1) * var7];
-                this.initChunkSeed((long)(var12 + par1), (long)(var11 + par2));
+                this.initChunkSeed(var12 + par1, var11 + par2);
 
                 if (var17 == 0 && (var13 != 0 || var14 != 0 || var15 != 0 || var16 != 0))
                 {
@@ -62,35 +62,29 @@ public class GenLayerAddIsland extends GenLayer
                     if (this.nextInt(3) == 0)
                     {
                         var10[var12 + var11 * par3] = var19;
-                    }
-                    else if (var19 == 4)
+                    } else if (var19 == 4)
                     {
                         var10[var12 + var11 * par3] = 4;
-                    }
-                    else
+                    } else
                     {
                         var10[var12 + var11 * par3] = 0;
                     }
-                }
-                else if (var17 > 0 && (var13 == 0 || var14 == 0 || var15 == 0 || var16 == 0))
+                } else if (var17 > 0 && (var13 == 0 || var14 == 0 || var15 == 0 || var16 == 0))
                 {
                     if (this.nextInt(5) == 0)
                     {
                         if (var17 == 4)
                         {
                             var10[var12 + var11 * par3] = 4;
-                        }
-                        else
+                        } else
                         {
                             var10[var12 + var11 * par3] = 0;
                         }
-                    }
-                    else
+                    } else
                     {
                         var10[var12 + var11 * par3] = var17;
                     }
-                }
-                else
+                } else
                 {
                     var10[var12 + var11 * par3] = var17;
                 }

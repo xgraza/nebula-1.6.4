@@ -80,8 +80,7 @@ public abstract class EntityMob extends EntityCreature implements IMob
         if (this.isEntityInvulnerable())
         {
             return false;
-        }
-        else if (super.attackEntityFrom(par1DamageSource, par2))
+        } else if (super.attackEntityFrom(par1DamageSource, par2))
         {
             Entity var3 = par1DamageSource.getEntity();
 
@@ -93,13 +92,11 @@ public abstract class EntityMob extends EntityCreature implements IMob
                 }
 
                 return true;
-            }
-            else
+            } else
             {
                 return true;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -128,13 +125,13 @@ public abstract class EntityMob extends EntityCreature implements IMob
 
     public boolean attackEntityAsMob(Entity par1Entity)
     {
-        float var2 = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+        float var2 = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
         int var3 = 0;
 
         if (par1Entity instanceof EntityLivingBase)
         {
-            var2 += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase)par1Entity);
-            var3 += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase)par1Entity);
+            var2 += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase) par1Entity);
+            var3 += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase) par1Entity);
         }
 
         boolean var4 = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), var2);
@@ -143,7 +140,7 @@ public abstract class EntityMob extends EntityCreature implements IMob
         {
             if (var3 > 0)
             {
-                par1Entity.addVelocity((double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)var3 * 0.5F), 0.1D, (double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)var3 * 0.5F));
+                par1Entity.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) var3 * 0.5F, 0.1D, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) var3 * 0.5F);
                 this.motionX *= 0.6D;
                 this.motionZ *= 0.6D;
             }
@@ -157,7 +154,7 @@ public abstract class EntityMob extends EntityCreature implements IMob
 
             if (par1Entity instanceof EntityLivingBase)
             {
-                EnchantmentHelper.func_151384_a((EntityLivingBase)par1Entity, this);
+                EnchantmentHelper.func_151384_a((EntityLivingBase) par1Entity, this);
             }
 
             EnchantmentHelper.func_151385_b(this, par1Entity);
@@ -199,8 +196,7 @@ public abstract class EntityMob extends EntityCreature implements IMob
         if (this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, var1, var2, var3) > this.rand.nextInt(32))
         {
             return false;
-        }
-        else
+        } else
         {
             int var4 = this.worldObj.getBlockLightValue(var1, var2, var3);
 

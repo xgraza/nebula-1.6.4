@@ -5,15 +5,11 @@ import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.net.Proxy;
 import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class HttpPipeline
 {
-    private static Map mapConnections = new HashMap();
+    private static final Map mapConnections = new HashMap();
     public static final String HEADER_USER_AGENT = "User-Agent";
     public static final String HEADER_HOST = "Host";
     public static final String HEADER_ACCEPT = "Accept";
@@ -43,8 +39,7 @@ public class HttpPipeline
         if (!url.getProtocol().equals("http"))
         {
             throw new IOException("Only protocol http is supported: " + url);
-        }
-        else
+        } else
         {
             String file = url.getFile();
             String host = url.getHost();
@@ -81,7 +76,7 @@ public class HttpPipeline
     private static synchronized HttpPipelineConnection getConnection(String host, int port, Proxy proxy)
     {
         String key = makeConnectionKey(host, port, proxy);
-        HttpPipelineConnection conn = (HttpPipelineConnection)mapConnections.get(key);
+        HttpPipelineConnection conn = (HttpPipelineConnection) mapConnections.get(key);
 
         if (conn == null)
         {
@@ -95,7 +90,7 @@ public class HttpPipeline
     private static synchronized void removeConnection(String host, int port, Proxy proxy, HttpPipelineConnection hpc)
     {
         String key = makeConnectionKey(host, port, proxy);
-        HttpPipelineConnection conn = (HttpPipelineConnection)mapConnections.get(key);
+        HttpPipelineConnection conn = (HttpPipelineConnection) mapConnections.get(key);
 
         if (conn == hpc)
         {
@@ -122,8 +117,7 @@ public class HttpPipeline
             InputStream resp1 = req1.openStream();
             byte[] bytes = Config.readAll(resp1);
             return bytes;
-        }
-        else
+        } else
         {
             HttpRequest req = makeRequest(urlStr, proxy);
             HttpResponse resp = executeRequest(req);
@@ -131,8 +125,7 @@ public class HttpPipeline
             if (resp.getStatus() / 100 != 2)
             {
                 throw new IOException("HTTP response: " + resp.getStatus());
-            }
-            else
+            } else
             {
                 return resp.getBody();
             }
@@ -156,6 +149,7 @@ public class HttpPipeline
                     map.notifyAll();
                 }
             }
+
             public void failed(HttpRequest req, Exception e)
             {
                 Map var3 = map;
@@ -176,38 +170,33 @@ public class HttpPipeline
             try
             {
                 map.wait();
-            }
-            catch (InterruptedException var10)
+            } catch (InterruptedException var10)
             {
                 throw new InterruptedIOException("Interrupted");
             }
 
-            Exception e = (Exception)map.get("Exception");
+            Exception e = (Exception) map.get("Exception");
 
             if (e != null)
             {
                 if (e instanceof IOException)
                 {
-                    throw(IOException)e;
-                }
-                else if (e instanceof RuntimeException)
+                    throw (IOException) e;
+                } else if (e instanceof RuntimeException)
                 {
-                    throw(RuntimeException)e;
-                }
-                else
+                    throw (RuntimeException) e;
+                } else
                 {
                     throw new RuntimeException(e.getMessage(), e);
                 }
-            }
-            else
+            } else
             {
-                HttpResponse resp = (HttpResponse)map.get("Response");
+                HttpResponse resp = (HttpResponse) map.get("Response");
 
                 if (resp == null)
                 {
                     throw new IOException("Response is null");
-                }
-                else
+                } else
                 {
                     return resp;
                 }
@@ -228,7 +217,7 @@ public class HttpPipeline
                 return false;
             }
 
-            conn = (HttpPipelineConnection)it.next();
+            conn = (HttpPipelineConnection) it.next();
         }
         while (!conn.hasActiveRequests());
 

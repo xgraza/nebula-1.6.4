@@ -1,9 +1,5 @@
 package shadersmod.client;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.Iterator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -16,19 +12,24 @@ import net.minecraft.src.TooltipManager;
 import net.minecraft.src.TooltipProviderEnumShaderOptions;
 import org.lwjgl.Sys;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.Iterator;
+
 public class GuiShaders extends GuiScreen
 {
     protected GuiScreen parentGui;
     protected String screenTitle = "Shaders";
-    private TooltipManager tooltipManager = new TooltipManager(this, new TooltipProviderEnumShaderOptions());
+    private final TooltipManager tooltipManager = new TooltipManager(this, new TooltipProviderEnumShaderOptions());
     private int updateTimer = -1;
     private GuiSlotShaders shaderList;
     private boolean saved = false;
     private FontRenderer fontRendererObj;
-    private static float[] QUALITY_MULTIPLIERS = new float[] {0.5F, 0.70710677F, 1.0F, 1.4142135F, 2.0F};
-    private static String[] QUALITY_MULTIPLIER_NAMES = new String[] {"0.5x", "0.7x", "1x", "1.5x", "2x"};
-    private static float[] HAND_DEPTH_VALUES = new float[] {0.0625F, 0.125F, 0.25F};
-    private static String[] HAND_DEPTH_NAMES = new String[] {"0.5x", "1x", "2x"};
+    private static final float[] QUALITY_MULTIPLIERS = new float[]{ 0.5F, 0.70710677F, 1.0F, 1.4142135F, 2.0F };
+    private static final String[] QUALITY_MULTIPLIER_NAMES = new String[]{ "0.5x", "0.7x", "1x", "1.5x", "2x" };
+    private static final float[] HAND_DEPTH_VALUES = new float[]{ 0.0625F, 0.125F, 0.25F };
+    private static final String[] HAND_DEPTH_NAMES = new String[]{ "0.5x", "1x", "2x" };
     public static final int EnumOS_UNKNOWN = 0;
     public static final int EnumOS_WINDOWS = 1;
     public static final int EnumOS_OSX = 2;
@@ -46,7 +47,7 @@ public class GuiShaders extends GuiScreen
     public void initGui()
     {
         this.fontRendererObj = this.fontRenderer;
-        this.screenTitle = I18n.format("of.options.shadersTitle", new Object[0]);
+        this.screenTitle = I18n.format("of.options.shadersTitle");
 
         if (Shaders.shadersConfig == null)
         {
@@ -61,8 +62,8 @@ public class GuiShaders extends GuiScreen
         int shaderListWidth = this.width - btnWidth - 20;
         this.shaderList = new GuiSlotShaders(this, shaderListWidth, this.height, baseY, this.height - 50, 16);
         this.shaderList.registerScrollButtons(7, 8);
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.ANTIALIASING, btnX, 0 * stepY + baseY, btnWidth, btnHeight));
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.NORMAL_MAP, btnX, 1 * stepY + baseY, btnWidth, btnHeight));
+        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.ANTIALIASING, btnX, 0 + baseY, btnWidth, btnHeight));
+        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.NORMAL_MAP, btnX, stepY + baseY, btnWidth, btnHeight));
         this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SPECULAR_MAP, btnX, 2 * stepY + baseY, btnWidth, btnHeight));
         this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.RENDER_RES_MUL, btnX, 3 * stepY + baseY, btnWidth, btnHeight));
         this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SHADOW_RES_MUL, btnX, 4 * stepY + baseY, btnWidth, btnHeight));
@@ -71,7 +72,7 @@ public class GuiShaders extends GuiScreen
         this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.OLD_LIGHTING, btnX, 7 * stepY + baseY, btnWidth, btnHeight));
         int btnFolderWidth = Math.min(150, shaderListWidth / 2 - 10);
         this.buttonList.add(new GuiButton(201, shaderListWidth / 4 - btnFolderWidth / 2, this.height - 25, btnFolderWidth, btnHeight, Lang.get("of.options.shaders.shadersFolder")));
-        this.buttonList.add(new GuiButton(202, shaderListWidth / 4 * 3 - btnFolderWidth / 2, this.height - 25, btnFolderWidth, btnHeight, I18n.format("gui.done", new Object[0])));
+        this.buttonList.add(new GuiButton(202, shaderListWidth / 4 * 3 - btnFolderWidth / 2, this.height - 25, btnFolderWidth, btnHeight, I18n.format("gui.done")));
         this.buttonList.add(new GuiButton(203, btnX, this.height - 25, btnWidth, btnHeight, Lang.get("of.options.shaders.shaderOptions")));
         this.updateButtons();
     }
@@ -83,7 +84,7 @@ public class GuiShaders extends GuiScreen
 
         while (it.hasNext())
         {
-            GuiButton button = (GuiButton)it.next();
+            GuiButton button = (GuiButton) it.next();
 
             if (button.id != 201 && button.id != 202 && button.id != EnumShaderOption.ANTIALIASING.ordinal())
             {
@@ -106,7 +107,7 @@ public class GuiShaders extends GuiScreen
         {
             if (button instanceof GuiButtonEnumShaderOption)
             {
-                GuiButtonEnumShaderOption var11 = (GuiButtonEnumShaderOption)button;
+                GuiButtonEnumShaderOption var11 = (GuiButtonEnumShaderOption) button;
                 String[] names;
                 int index;
                 float var12;
@@ -145,8 +146,7 @@ public class GuiShaders extends GuiScreen
                             {
                                 index = var14.length - 1;
                             }
-                        }
-                        else
+                        } else
                         {
                             ++index;
 
@@ -175,8 +175,7 @@ public class GuiShaders extends GuiScreen
                             {
                                 index = var14.length - 1;
                             }
-                        }
-                        else
+                        } else
                         {
                             ++index;
 
@@ -205,8 +204,7 @@ public class GuiShaders extends GuiScreen
                             {
                                 index = var14.length - 1;
                             }
-                        }
-                        else
+                        } else
                         {
                             ++index;
 
@@ -266,8 +264,7 @@ public class GuiShaders extends GuiScreen
                 }
 
                 var11.updateButtonText();
-            }
-            else
+            } else
             {
                 switch (button.id)
                 {
@@ -275,14 +272,13 @@ public class GuiShaders extends GuiScreen
                         switch (getOSType())
                         {
                             case 1:
-                                String gbeso = String.format("cmd.exe /C start \"Open file\" \"%s\"", new Object[] {Shaders.shaderpacksdir.getAbsolutePath()});
+                                String gbeso = String.format("cmd.exe /C start \"Open file\" \"%s\"", Shaders.shaderpacksdir.getAbsolutePath());
 
                                 try
                                 {
                                     Runtime.getRuntime().exec(gbeso);
                                     return;
-                                }
-                                catch (IOException var8)
+                                } catch (IOException var8)
                                 {
                                     var8.printStackTrace();
                                     break;
@@ -291,10 +287,9 @@ public class GuiShaders extends GuiScreen
                             case 2:
                                 try
                                 {
-                                    Runtime.getRuntime().exec(new String[] {"/usr/bin/open", Shaders.shaderpacksdir.getAbsolutePath()});
+                                    Runtime.getRuntime().exec(new String[]{ "/usr/bin/open", Shaders.shaderpacksdir.getAbsolutePath() });
                                     return;
-                                }
-                                catch (IOException var9)
+                                } catch (IOException var9)
                                 {
                                     var9.printStackTrace();
                                 }
@@ -305,10 +300,9 @@ public class GuiShaders extends GuiScreen
                         try
                         {
                             Class val = Class.forName("java.awt.Desktop");
-                            Object var13 = val.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                            val.getMethod("browse", new Class[] {URI.class}).invoke(var13, new Object[] {(new File(this.mc.mcDataDir, Shaders.shaderpacksdirname)).toURI()});
-                        }
-                        catch (Throwable var7)
+                            Object var13 = val.getMethod("getDesktop", new Class[0]).invoke(null);
+                            val.getMethod("browse", new Class[]{ URI.class }).invoke(var13, (new File(this.mc.mcDataDir, Shaders.shaderpacksdirname)).toURI());
+                        } catch (Throwable var7)
                         {
                             var7.printStackTrace();
                             var10 = true;
@@ -375,8 +369,7 @@ public class GuiShaders extends GuiScreen
         if (infoWidth < this.width - 5)
         {
             this.drawCenteredString(this.fontRendererObj, info, this.width / 2, this.height - 40, 8421504);
-        }
-        else
+        } else
         {
             this.drawString(this.fontRendererObj, info, 5, this.height - 40, 8421504);
         }
@@ -462,127 +455,99 @@ public class GuiShaders extends GuiScreen
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.ANTIALIASING.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var14)
+            } catch (NoSuchFieldError var14)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.NORMAL_MAP.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var13)
+            } catch (NoSuchFieldError var13)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.SPECULAR_MAP.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var12)
+            } catch (NoSuchFieldError var12)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.RENDER_RES_MUL.ordinal()] = 4;
-            }
-            catch (NoSuchFieldError var11)
+            } catch (NoSuchFieldError var11)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.SHADOW_RES_MUL.ordinal()] = 5;
-            }
-            catch (NoSuchFieldError var10)
+            } catch (NoSuchFieldError var10)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.HAND_DEPTH_MUL.ordinal()] = 6;
-            }
-            catch (NoSuchFieldError var9)
+            } catch (NoSuchFieldError var9)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.OLD_HAND_LIGHT.ordinal()] = 7;
-            }
-            catch (NoSuchFieldError var8)
+            } catch (NoSuchFieldError var8)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.OLD_LIGHTING.ordinal()] = 8;
-            }
-            catch (NoSuchFieldError var7)
+            } catch (NoSuchFieldError var7)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.TWEAK_BLOCK_DAMAGE.ordinal()] = 9;
-            }
-            catch (NoSuchFieldError var6)
+            } catch (NoSuchFieldError var6)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.CLOUD_SHADOW.ordinal()] = 10;
-            }
-            catch (NoSuchFieldError var5)
+            } catch (NoSuchFieldError var5)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.TEX_MIN_FIL_B.ordinal()] = 11;
-            }
-            catch (NoSuchFieldError var4)
+            } catch (NoSuchFieldError var4)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.TEX_MAG_FIL_N.ordinal()] = 12;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.TEX_MAG_FIL_S.ordinal()] = 13;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$shadersmod$client$EnumShaderOption[EnumShaderOption.SHADOW_CLIP_FRUSTRUM.ordinal()] = 14;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

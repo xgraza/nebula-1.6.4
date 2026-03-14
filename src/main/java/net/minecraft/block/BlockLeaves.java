@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +12,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public abstract class BlockLeaves extends BlockLeavesBase
 {
@@ -136,13 +137,11 @@ public abstract class BlockLeaves extends BlockLeavesBase
                                     if (var15.getMaterial() == Material.leaves)
                                     {
                                         this.field_150128_a[(var12 + var11) * var10 + (var13 + var11) * var9 + var14 + var11] = -2;
-                                    }
-                                    else
+                                    } else
                                     {
                                         this.field_150128_a[(var12 + var11) * var10 + (var13 + var11) * var9 + var14 + var11] = -1;
                                     }
-                                }
-                                else
+                                } else
                                 {
                                     this.field_150128_a[(var12 + var11) * var10 + (var13 + var11) * var9 + var14 + var11] = 0;
                                 }
@@ -201,8 +200,7 @@ public abstract class BlockLeaves extends BlockLeavesBase
                 if (var12 >= 0)
                 {
                     p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, var6 & -9, 4);
-                }
-                else
+                } else
                 {
                     this.func_150126_e(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
                 }
@@ -217,9 +215,9 @@ public abstract class BlockLeaves extends BlockLeavesBase
     {
         if (p_149734_1_.canLightningStrikeAt(p_149734_2_, p_149734_3_ + 1, p_149734_4_) && !World.doesBlockHaveSolidTopSurface(p_149734_1_, p_149734_2_, p_149734_3_ - 1, p_149734_4_) && p_149734_5_.nextInt(15) == 1)
         {
-            double var6 = (double)((float)p_149734_2_ + p_149734_5_.nextFloat());
-            double var8 = (double)p_149734_3_ - 0.05D;
-            double var10 = (double)((float)p_149734_4_ + p_149734_5_.nextFloat());
+            double var6 = (float) p_149734_2_ + p_149734_5_.nextFloat();
+            double var8 = (double) p_149734_3_ - 0.05D;
+            double var10 = (float) p_149734_4_ + p_149734_5_.nextFloat();
             p_149734_1_.spawnParticle("dripWater", var6, var8, var10, 0.0D, 0.0D, 0.0D);
         }
     }
@@ -284,7 +282,9 @@ public abstract class BlockLeaves extends BlockLeavesBase
         }
     }
 
-    protected void func_150124_c(World p_150124_1_, int p_150124_2_, int p_150124_3_, int p_150124_4_, int p_150124_5_, int p_150124_6_) {}
+    protected void func_150124_c(World p_150124_1_, int p_150124_2_, int p_150124_3_, int p_150124_4_, int p_150124_5_, int p_150124_6_)
+    {
+    }
 
     protected int func_150123_b(int p_150123_1_)
     {
@@ -297,8 +297,7 @@ public abstract class BlockLeaves extends BlockLeavesBase
         {
             p_149636_2_.addStat(StatList.mineBlockStatArray[Block.getIdFromBlock(this)], 1);
             this.dropBlockAsItem_do(p_149636_1_, p_149636_3_, p_149636_4_, p_149636_5_, new ItemStack(Item.getItemFromBlock(this), 1, p_149636_6_ & 3));
-        }
-        else
+        } else
         {
             super.harvestBlock(p_149636_1_, p_149636_2_, p_149636_3_, p_149636_4_, p_149636_5_, p_149636_6_);
         }

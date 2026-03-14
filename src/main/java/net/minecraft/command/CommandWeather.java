@@ -1,10 +1,11 @@
 package net.minecraft.command;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.WorldInfo;
+
+import java.util.List;
+import java.util.Random;
 
 public class CommandWeather extends CommandBase
 {
@@ -48,32 +49,29 @@ public class CommandWeather extends CommandBase
                 var5.setThunderTime(0);
                 var5.setRaining(false);
                 var5.setThundering(false);
-                notifyAdmins(par1ICommandSender, "commands.weather.clear", new Object[0]);
-            }
-            else if ("rain".equalsIgnoreCase(par2ArrayOfStr[0]))
+                notifyAdmins(par1ICommandSender, "commands.weather.clear");
+            } else if ("rain".equalsIgnoreCase(par2ArrayOfStr[0]))
             {
                 var5.setRainTime(var3);
                 var5.setRaining(true);
                 var5.setThundering(false);
-                notifyAdmins(par1ICommandSender, "commands.weather.rain", new Object[0]);
-            }
-            else
+                notifyAdmins(par1ICommandSender, "commands.weather.rain");
+            } else
             {
                 if (!"thunder".equalsIgnoreCase(par2ArrayOfStr[0]))
                 {
-                    throw new WrongUsageException("commands.weather.usage", new Object[0]);
+                    throw new WrongUsageException("commands.weather.usage");
                 }
 
                 var5.setRainTime(var3);
                 var5.setThunderTime(var3);
                 var5.setRaining(true);
                 var5.setThundering(true);
-                notifyAdmins(par1ICommandSender, "commands.weather.thunder", new Object[0]);
+                notifyAdmins(par1ICommandSender, "commands.weather.thunder");
             }
-        }
-        else
+        } else
         {
-            throw new WrongUsageException("commands.weather.usage", new Object[0]);
+            throw new WrongUsageException("commands.weather.usage");
         }
     }
 
@@ -82,6 +80,6 @@ public class CommandWeather extends CommandBase
      */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] {"clear", "rain", "thunder"}): null;
+        return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, "clear", "rain", "thunder") : null;
     }
 }

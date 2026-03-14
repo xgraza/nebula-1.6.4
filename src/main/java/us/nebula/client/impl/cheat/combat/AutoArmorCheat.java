@@ -110,7 +110,7 @@ public final class AutoArmorCheat extends Cheat
             if (itemStack != null && itemStack.getItem() instanceof ItemArmor)
             {
                 equippedArmorScores[i] = getArmorScore(
-                        itemStack, ((ItemArmor)itemStack.getItem()));
+                        itemStack, ((ItemArmor) itemStack.getItem()));
             }
         }
 
@@ -122,7 +122,7 @@ public final class AutoArmorCheat extends Cheat
             {
                 continue;
             }
-            final ItemArmor armor = (ItemArmor)itemStack.getItem();
+            final ItemArmor armor = (ItemArmor) itemStack.getItem();
             final float armorScore = getArmorScore(itemStack, armor);
             final int armorIndex = 3 - armor.armorType;
             if (armorScore > equippedArmorScores[armorIndex])

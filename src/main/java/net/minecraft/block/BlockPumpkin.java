@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class BlockPumpkin extends BlockDirectional
 {
-    private boolean field_149985_a;
+    private final boolean field_149985_a;
     private IIcon field_149984_b;
     private IIcon field_149986_M;
     private static final String __OBFID = "CL_00000291";
@@ -47,7 +47,7 @@ public class BlockPumpkin extends BlockDirectional
                 p_149726_1_.setBlock(p_149726_2_, p_149726_3_ - 1, p_149726_4_, getBlockById(0), 0, 2);
                 p_149726_1_.setBlock(p_149726_2_, p_149726_3_ - 2, p_149726_4_, getBlockById(0), 0, 2);
                 EntitySnowman var9 = new EntitySnowman(p_149726_1_);
-                var9.setLocationAndAngles((double)p_149726_2_ + 0.5D, (double)p_149726_3_ - 1.95D, (double)p_149726_4_ + 0.5D, 0.0F, 0.0F);
+                var9.setLocationAndAngles((double) p_149726_2_ + 0.5D, (double) p_149726_3_ - 1.95D, (double) p_149726_4_ + 0.5D, 0.0F, 0.0F);
                 p_149726_1_.spawnEntityInWorld(var9);
                 p_149726_1_.notifyBlockChange(p_149726_2_, p_149726_3_, p_149726_4_, getBlockById(0));
                 p_149726_1_.notifyBlockChange(p_149726_2_, p_149726_3_ - 1, p_149726_4_, getBlockById(0));
@@ -56,10 +56,9 @@ public class BlockPumpkin extends BlockDirectional
 
             for (int var10 = 0; var10 < 120; ++var10)
             {
-                p_149726_1_.spawnParticle("snowshovel", (double)p_149726_2_ + p_149726_1_.rand.nextDouble(), (double)(p_149726_3_ - 2) + p_149726_1_.rand.nextDouble() * 2.5D, (double)p_149726_4_ + p_149726_1_.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
+                p_149726_1_.spawnParticle("snowshovel", (double) p_149726_2_ + p_149726_1_.rand.nextDouble(), (double) (p_149726_3_ - 2) + p_149726_1_.rand.nextDouble() * 2.5D, (double) p_149726_4_ + p_149726_1_.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
             }
-        }
-        else if (p_149726_1_.getBlock(p_149726_2_, p_149726_3_ - 1, p_149726_4_) == Blocks.iron_block && p_149726_1_.getBlock(p_149726_2_, p_149726_3_ - 2, p_149726_4_) == Blocks.iron_block)
+        } else if (p_149726_1_.getBlock(p_149726_2_, p_149726_3_ - 1, p_149726_4_) == Blocks.iron_block && p_149726_1_.getBlock(p_149726_2_, p_149726_3_ - 2, p_149726_4_) == Blocks.iron_block)
         {
             boolean var5 = p_149726_1_.getBlock(p_149726_2_ - 1, p_149726_3_ - 1, p_149726_4_) == Blocks.iron_block && p_149726_1_.getBlock(p_149726_2_ + 1, p_149726_3_ - 1, p_149726_4_) == Blocks.iron_block;
             boolean var6 = p_149726_1_.getBlock(p_149726_2_, p_149726_3_ - 1, p_149726_4_ - 1) == Blocks.iron_block && p_149726_1_.getBlock(p_149726_2_, p_149726_3_ - 1, p_149726_4_ + 1) == Blocks.iron_block;
@@ -74,8 +73,7 @@ public class BlockPumpkin extends BlockDirectional
                 {
                     p_149726_1_.setBlock(p_149726_2_ - 1, p_149726_3_ - 1, p_149726_4_, getBlockById(0), 0, 2);
                     p_149726_1_.setBlock(p_149726_2_ + 1, p_149726_3_ - 1, p_149726_4_, getBlockById(0), 0, 2);
-                }
-                else
+                } else
                 {
                     p_149726_1_.setBlock(p_149726_2_, p_149726_3_ - 1, p_149726_4_ - 1, getBlockById(0), 0, 2);
                     p_149726_1_.setBlock(p_149726_2_, p_149726_3_ - 1, p_149726_4_ + 1, getBlockById(0), 0, 2);
@@ -83,12 +81,12 @@ public class BlockPumpkin extends BlockDirectional
 
                 EntityIronGolem var7 = new EntityIronGolem(p_149726_1_);
                 var7.setPlayerCreated(true);
-                var7.setLocationAndAngles((double)p_149726_2_ + 0.5D, (double)p_149726_3_ - 1.95D, (double)p_149726_4_ + 0.5D, 0.0F, 0.0F);
+                var7.setLocationAndAngles((double) p_149726_2_ + 0.5D, (double) p_149726_3_ - 1.95D, (double) p_149726_4_ + 0.5D, 0.0F, 0.0F);
                 p_149726_1_.spawnEntityInWorld(var7);
 
                 for (int var8 = 0; var8 < 120; ++var8)
                 {
-                    p_149726_1_.spawnParticle("snowballpoof", (double)p_149726_2_ + p_149726_1_.rand.nextDouble(), (double)(p_149726_3_ - 2) + p_149726_1_.rand.nextDouble() * 3.9D, (double)p_149726_4_ + p_149726_1_.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
+                    p_149726_1_.spawnParticle("snowballpoof", (double) p_149726_2_ + p_149726_1_.rand.nextDouble(), (double) (p_149726_3_ - 2) + p_149726_1_.rand.nextDouble() * 3.9D, (double) p_149726_4_ + p_149726_1_.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
                 }
 
                 p_149726_1_.notifyBlockChange(p_149726_2_, p_149726_3_, p_149726_4_, getBlockById(0));
@@ -99,8 +97,7 @@ public class BlockPumpkin extends BlockDirectional
                 {
                     p_149726_1_.notifyBlockChange(p_149726_2_ - 1, p_149726_3_ - 1, p_149726_4_, getBlockById(0));
                     p_149726_1_.notifyBlockChange(p_149726_2_ + 1, p_149726_3_ - 1, p_149726_4_, getBlockById(0));
-                }
-                else
+                } else
                 {
                     p_149726_1_.notifyBlockChange(p_149726_2_, p_149726_3_ - 1, p_149726_4_ - 1, getBlockById(0));
                     p_149726_1_.notifyBlockChange(p_149726_2_, p_149726_3_ - 1, p_149726_4_ + 1, getBlockById(0));
@@ -119,7 +116,7 @@ public class BlockPumpkin extends BlockDirectional
      */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
-        int var7 = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
+        int var7 = MathHelper.floor_double((double) (p_149689_5_.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
         p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, var7, 2);
     }
 

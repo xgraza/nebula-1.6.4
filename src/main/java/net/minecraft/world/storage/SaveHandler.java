@@ -1,11 +1,5 @@
 package net.minecraft.world.storage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,14 +10,20 @@ import net.minecraft.world.chunk.storage.IChunkLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.*;
+
 public class SaveHandler implements ISaveHandler, IPlayerFileData
 {
     private static final Logger logger = LogManager.getLogger();
 
-    /** The directory in which to save world data. */
+    /**
+     * The directory in which to save world data.
+     */
     private final File worldDirectory;
 
-    /** The directory in which to save player data. */
+    /**
+     * The directory in which to save player data.
+     */
     private final File playersDirectory;
     private final File mapDataDir;
 
@@ -32,7 +32,9 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
      */
     private final long initializationTime = MinecraftServer.getSystemTimeMillis();
 
-    /** The directory name of the world */
+    /**
+     * The directory name of the world
+     */
     private final String saveDirectoryName;
     private static final String __OBFID = "CL_00000585";
 
@@ -66,13 +68,11 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
             try
             {
                 var2.writeLong(this.initializationTime);
-            }
-            finally
+            } finally
             {
                 var2.close();
             }
-        }
-        catch (IOException var7)
+        } catch (IOException var7)
         {
             var7.printStackTrace();
             throw new RuntimeException("Failed to check session lock, aborting");
@@ -103,13 +103,11 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
                 {
                     throw new MinecraftException("The save is being accessed from another location, aborting");
                 }
-            }
-            finally
+            } finally
             {
                 var2.close();
             }
-        }
-        catch (IOException var7)
+        } catch (IOException var7)
         {
             throw new MinecraftException("Failed to check session lock, aborting");
         }
@@ -139,8 +137,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
                 var2 = CompressedStreamTools.readCompressed(new FileInputStream(var1));
                 var3 = var2.getCompoundTag("Data");
                 return new WorldInfo(var3);
-            }
-            catch (Exception var5)
+            } catch (Exception var5)
             {
                 var5.printStackTrace();
             }
@@ -155,8 +152,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
                 var2 = CompressedStreamTools.readCompressed(new FileInputStream(var1));
                 var3 = var2.getCompoundTag("Data");
                 return new WorldInfo(var3);
-            }
-            catch (Exception var4)
+            } catch (Exception var4)
             {
                 var4.printStackTrace();
             }
@@ -199,8 +195,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
             {
                 var5.delete();
             }
-        }
-        catch (Exception var8)
+        } catch (Exception var8)
         {
             var8.printStackTrace();
         }
@@ -240,8 +235,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
             {
                 var4.delete();
             }
-        }
-        catch (Exception var7)
+        } catch (Exception var7)
         {
             var7.printStackTrace();
         }
@@ -266,8 +260,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
             }
 
             var3.renameTo(var4);
-        }
-        catch (Exception var5)
+        } catch (Exception var5)
         {
             logger.warn("Failed to save player data for " + par1EntityPlayer.getCommandSenderName());
         }
@@ -301,8 +294,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
             {
                 return CompressedStreamTools.readCompressed(new FileInputStream(var2));
             }
-        }
-        catch (Exception var3)
+        } catch (Exception var3)
         {
             logger.warn("Failed to load player data for " + par1Str);
         }
@@ -339,7 +331,9 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
     /**
      * Called to flush all changes to disk, waiting for them to complete.
      */
-    public void flush() {}
+    public void flush()
+    {
+    }
 
     /**
      * Gets the file location of the given map

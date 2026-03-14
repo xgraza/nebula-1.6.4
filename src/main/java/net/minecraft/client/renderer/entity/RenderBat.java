@@ -24,7 +24,7 @@ public class RenderBat extends RenderLiving
     public RenderBat()
     {
         super(new ModelBat(), 0.25F);
-        this.renderedBatSize = ((ModelBat)this.mainModel).getBatSize();
+        this.renderedBatSize = ((ModelBat) this.mainModel).getBatSize();
     }
 
     /**
@@ -39,7 +39,7 @@ public class RenderBat extends RenderLiving
         {
             return;
         }
-        int var10 = ((ModelBat)this.mainModel).getBatSize();
+        int var10 = ((ModelBat) this.mainModel).getBatSize();
 
         if (var10 != this.renderedBatSize)
         {
@@ -47,7 +47,7 @@ public class RenderBat extends RenderLiving
             this.mainModel = new ModelBat();
         }
 
-        super.doRender((EntityLiving)par1EntityBat, par2, par4, par6, par8, par9);
+        super.doRender(par1EntityBat, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -80,8 +80,7 @@ public class RenderBat extends RenderLiving
         if (!par1EntityBat.getIsBatHanging())
         {
             GL11.glTranslatef(0.0F, MathHelper.cos(par2 * 0.3F) * 0.1F, 0.0F);
-        }
-        else
+        } else
         {
             GL11.glTranslatef(0.0F, -0.1F, 0.0F);
         }
@@ -97,7 +96,7 @@ public class RenderBat extends RenderLiving
      */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityBat)par1EntityLiving, par2, par4, par6, par8, par9);
+        this.doRender((EntityBat) par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -106,12 +105,12 @@ public class RenderBat extends RenderLiving
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntityBat)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntityBat) par1EntityLivingBase, par2);
     }
 
     protected void rotateCorpse(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
-        this.rotateCorpse((EntityBat)par1EntityLivingBase, par2, par3, par4);
+        this.rotateCorpse((EntityBat) par1EntityLivingBase, par2, par3, par4);
     }
 
     /**
@@ -119,7 +118,7 @@ public class RenderBat extends RenderLiving
      */
     protected void renderLivingAt(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6)
     {
-        this.renderLivingAt((EntityBat)par1EntityLivingBase, par2, par4, par6);
+        this.renderLivingAt((EntityBat) par1EntityLivingBase, par2, par4, par6);
     }
 
     /**
@@ -130,7 +129,7 @@ public class RenderBat extends RenderLiving
      */
     public void doRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityBat)par1EntityLivingBase, par2, par4, par6, par8, par9);
+        this.doRender((EntityBat) par1EntityLivingBase, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -138,7 +137,7 @@ public class RenderBat extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityBat)par1Entity);
+        return this.getEntityTexture((EntityBat) par1Entity);
     }
 
     /**
@@ -149,6 +148,6 @@ public class RenderBat extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityBat)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityBat) par1Entity, par2, par4, par6, par8, par9);
     }
 }

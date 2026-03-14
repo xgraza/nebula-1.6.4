@@ -6,13 +6,19 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class MerchantRecipe
 {
-    /** Item the Villager buys. */
+    /**
+     * Item the Villager buys.
+     */
     private ItemStack itemToBuy;
 
-    /** Second Item the Villager buys. */
+    /**
+     * Second Item the Villager buys.
+     */
     private ItemStack secondItemToBuy;
 
-    /** Item the Villager sells. */
+    /**
+     * Item the Villager sells.
+     */
     private ItemStack itemToSell;
 
     /**
@@ -20,7 +26,9 @@ public class MerchantRecipe
      */
     private int toolUses;
 
-    /** Maximum times this trade can be used. */
+    /**
+     * Maximum times this trade can be used.
+     */
     private int maxTradeUses;
     private static final String __OBFID = "CL_00000126";
 
@@ -39,7 +47,7 @@ public class MerchantRecipe
 
     public MerchantRecipe(ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
-        this(par1ItemStack, (ItemStack)null, par2ItemStack);
+        this(par1ItemStack, null, par2ItemStack);
     }
 
     public MerchantRecipe(ItemStack par1ItemStack, Item par2Item)
@@ -84,7 +92,7 @@ public class MerchantRecipe
      */
     public boolean hasSameIDsAs(MerchantRecipe par1MerchantRecipe)
     {
-        return this.itemToBuy.getItem() == par1MerchantRecipe.itemToBuy.getItem() && this.itemToSell.getItem() == par1MerchantRecipe.itemToSell.getItem() ? this.secondItemToBuy == null && par1MerchantRecipe.secondItemToBuy == null || this.secondItemToBuy != null && par1MerchantRecipe.secondItemToBuy != null && this.secondItemToBuy.getItem() == par1MerchantRecipe.secondItemToBuy.getItem() : false;
+        return this.itemToBuy.getItem() == par1MerchantRecipe.itemToBuy.getItem() && this.itemToSell.getItem() == par1MerchantRecipe.itemToSell.getItem() && (this.secondItemToBuy == null && par1MerchantRecipe.secondItemToBuy == null || this.secondItemToBuy != null && par1MerchantRecipe.secondItemToBuy != null && this.secondItemToBuy.getItem() == par1MerchantRecipe.secondItemToBuy.getItem());
     }
 
     /**
@@ -135,8 +143,7 @@ public class MerchantRecipe
         if (par1NBTTagCompound.hasKey("maxUses", 99))
         {
             this.maxTradeUses = par1NBTTagCompound.getInteger("maxUses");
-        }
-        else
+        } else
         {
             this.maxTradeUses = 7;
         }

@@ -2,11 +2,15 @@ package net.minecraft.util;
 
 public class Tuple
 {
-    /** First Object in the Tuple */
-    private Object first;
+    /**
+     * First Object in the Tuple
+     */
+    private final Object first;
 
-    /** Second Object in the Tuple */
-    private Object second;
+    /**
+     * Second Object in the Tuple
+     */
+    private final Object second;
     private static final String __OBFID = "CL_00001502";
 
     public Tuple(Object par1Obj, Object par2Obj)

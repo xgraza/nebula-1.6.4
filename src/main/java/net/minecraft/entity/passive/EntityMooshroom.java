@@ -43,7 +43,7 @@ public class EntityMooshroom extends EntityCow
         if (var2 != null && var2.getItem() == Items.shears && this.getGrowingAge() >= 0)
         {
             this.setDead();
-            this.worldObj.spawnParticle("largeexplode", this.posX, this.posY + (double)(this.height / 2.0F), this.posZ, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle("largeexplode", this.posX, this.posY + (double) (this.height / 2.0F), this.posZ, 0.0D, 0.0D, 0.0D);
 
             if (!this.worldObj.isClient)
             {
@@ -55,7 +55,7 @@ public class EntityMooshroom extends EntityCow
 
                 for (int var4 = 0; var4 < 5; ++var4)
                 {
-                    this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + (double)this.height, this.posZ, new ItemStack(Blocks.red_mushroom)));
+                    this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + (double) this.height, this.posZ, new ItemStack(Blocks.red_mushroom)));
                 }
 
                 var2.damageItem(1, par1EntityPlayer);
@@ -63,8 +63,7 @@ public class EntityMooshroom extends EntityCow
             }
 
             return true;
-        }
-        else
+        } else
         {
             return super.interact(par1EntityPlayer);
         }

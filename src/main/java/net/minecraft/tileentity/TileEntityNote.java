@@ -35,7 +35,7 @@ public class TileEntityNote extends TileEntity
 
     public void func_145877_a()
     {
-        this.field_145879_a = (byte)((this.field_145879_a + 1) % 25);
+        this.field_145879_a = (byte) ((this.field_145879_a + 1) % 25);
         this.onInventoryChanged();
     }
 

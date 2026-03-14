@@ -1,16 +1,11 @@
 package net.minecraft.network;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 import com.mojang.authlib.GameProfile;
-import java.lang.reflect.Type;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.JsonUtils;
+
+import java.lang.reflect.Type;
 
 public class ServerStatusResponse
 {
@@ -102,7 +97,7 @@ public class ServerStatusResponse
 
             public JsonElement serialize(Object par1Obj, Type par2Type, JsonSerializationContext par3JsonSerializationContext)
             {
-                return this.serialize((ServerStatusResponse.MinecraftProtocolVersionIdentifier)par1Obj, par2Type, par3JsonSerializationContext);
+                return this.serialize((ServerStatusResponse.MinecraftProtocolVersionIdentifier) par1Obj, par2Type, par3JsonSerializationContext);
             }
         }
     }
@@ -118,17 +113,17 @@ public class ServerStatusResponse
 
             if (var4.has("description"))
             {
-                var5.func_151315_a((IChatComponent)p_151314_3_.deserialize(var4.get("description"), IChatComponent.class));
+                var5.func_151315_a(p_151314_3_.deserialize(var4.get("description"), IChatComponent.class));
             }
 
             if (var4.has("players"))
             {
-                var5.func_151319_a((ServerStatusResponse.PlayerCountData)p_151314_3_.deserialize(var4.get("players"), ServerStatusResponse.PlayerCountData.class));
+                var5.func_151319_a(p_151314_3_.deserialize(var4.get("players"), PlayerCountData.class));
             }
 
             if (var4.has("version"))
             {
-                var5.func_151321_a((ServerStatusResponse.MinecraftProtocolVersionIdentifier)p_151314_3_.deserialize(var4.get("version"), ServerStatusResponse.MinecraftProtocolVersionIdentifier.class));
+                var5.func_151321_a(p_151314_3_.deserialize(var4.get("version"), MinecraftProtocolVersionIdentifier.class));
             }
 
             if (var4.has("favicon"))
@@ -168,7 +163,7 @@ public class ServerStatusResponse
 
         public JsonElement serialize(Object par1Obj, Type par2Type, JsonSerializationContext par3JsonSerializationContext)
         {
-            return this.serialize((ServerStatusResponse)par1Obj, par2Type, par3JsonSerializationContext);
+            return this.serialize((ServerStatusResponse) par1Obj, par2Type, par3JsonSerializationContext);
         }
     }
 
@@ -261,7 +256,7 @@ public class ServerStatusResponse
 
             public JsonElement serialize(Object par1Obj, Type par2Type, JsonSerializationContext par3JsonSerializationContext)
             {
-                return this.serialize((ServerStatusResponse.PlayerCountData)par1Obj, par2Type, par3JsonSerializationContext);
+                return this.serialize((ServerStatusResponse.PlayerCountData) par1Obj, par2Type, par3JsonSerializationContext);
             }
         }
     }

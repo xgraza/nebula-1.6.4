@@ -1,14 +1,15 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenSpikes extends WorldGenerator
 {
-    private Block field_150520_a;
+    private final Block field_150520_a;
     private static final String __OBFID = "CL_00000433";
 
     public WorldGenSpikes(Block p_i45464_1_)
@@ -59,12 +60,11 @@ public class WorldGenSpikes extends WorldGenerator
             }
 
             EntityEnderCrystal var13 = new EntityEnderCrystal(par1World);
-            var13.setLocationAndAngles((double)((float)par3 + 0.5F), (double)(par4 + var6), (double)((float)par5 + 0.5F), par2Random.nextFloat() * 360.0F, 0.0F);
+            var13.setLocationAndAngles((float) par3 + 0.5F, par4 + var6, (float) par5 + 0.5F, par2Random.nextFloat() * 360.0F, 0.0F);
             par1World.spawnEntityInWorld(var13);
             par1World.setBlock(par3, par4 + var6, par5, Blocks.bedrock, 0, 2);
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

@@ -1,19 +1,22 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.List;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 
+import java.io.IOException;
+import java.util.List;
+
 public class S1CPacketEntityMetadata extends Packet
 {
     private int entityId;
     private List<DataWatcher.WatchableObject> changedProperties;
 
-    public S1CPacketEntityMetadata() {}
+    public S1CPacketEntityMetadata()
+    {
+    }
 
     public S1CPacketEntityMetadata(int entityId, DataWatcher dataWatcher, boolean p_i45217_3_)
     {
@@ -22,8 +25,7 @@ public class S1CPacketEntityMetadata extends Packet
         if (p_i45217_3_)
         {
             this.changedProperties = dataWatcher.getAllWatched();
-        }
-        else
+        } else
         {
             this.changedProperties = dataWatcher.getChanged();
         }
@@ -64,6 +66,6 @@ public class S1CPacketEntityMetadata extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

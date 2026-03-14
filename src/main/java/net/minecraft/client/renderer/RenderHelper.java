@@ -1,13 +1,16 @@
 package net.minecraft.client.renderer;
 
-import java.nio.FloatBuffer;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
 
+import java.nio.FloatBuffer;
+
 public class RenderHelper
 {
-    /** Float buffer used to set OpenGL material colors */
-    private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
+    /**
+     * Float buffer used to set OpenGL material colors
+     */
+    private static final FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
     private static final Vec3 field_82884_b = Vec3.createVectorHelper(0.20000000298023224D, 1.0D, -0.699999988079071D).normalize();
     private static final Vec3 field_82885_c = Vec3.createVectorHelper(-0.20000000298023224D, 1.0D, 0.699999988079071D).normalize();
     private static final String __OBFID = "CL_00000629";
@@ -53,7 +56,7 @@ public class RenderHelper
      */
     private static FloatBuffer setColorBuffer(double par0, double par2, double par4, double par6)
     {
-        return setColorBuffer((float)par0, (float)par2, (float)par4, (float)par6);
+        return setColorBuffer((float) par0, (float) par2, (float) par4, (float) par6);
     }
 
     /**

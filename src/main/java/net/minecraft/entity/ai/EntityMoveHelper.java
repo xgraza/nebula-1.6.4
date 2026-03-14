@@ -6,13 +6,17 @@ import net.minecraft.util.MathHelper;
 
 public class EntityMoveHelper
 {
-    /** The EntityLiving that is being moved */
-    private EntityLiving entity;
+    /**
+     * The EntityLiving that is being moved
+     */
+    private final EntityLiving entity;
     private double posX;
     private double posY;
     private double posZ;
 
-    /** The speed at which the entity should move */
+    /**
+     * The speed at which the entity should move
+     */
     private double speed;
     private boolean update;
     private static final String __OBFID = "CL_00001573";
@@ -57,14 +61,14 @@ public class EntityMoveHelper
             int var1 = MathHelper.floor_double(this.entity.boundingBox.minY + 0.5D);
             double var2 = this.posX - this.entity.posX;
             double var4 = this.posZ - this.entity.posZ;
-            double var6 = this.posY - (double)var1;
+            double var6 = this.posY - (double) var1;
             double var8 = var2 * var2 + var6 * var6 + var4 * var4;
 
             if (var8 >= 2.500000277905201E-7D)
             {
-                float var10 = (float)(Math.atan2(var4, var2) * 180.0D / Math.PI) - 90.0F;
+                float var10 = (float) (Math.atan2(var4, var2) * 180.0D / Math.PI) - 90.0F;
                 this.entity.rotationYaw = this.limitAngle(this.entity.rotationYaw, var10, 30.0F);
-                this.entity.setAIMoveSpeed((float)(this.speed * this.entity.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
+                this.entity.setAIMoveSpeed((float) (this.speed * this.entity.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
 
                 if (var6 > 0.0D && var2 * var2 + var4 * var4 < 1.0D)
                 {

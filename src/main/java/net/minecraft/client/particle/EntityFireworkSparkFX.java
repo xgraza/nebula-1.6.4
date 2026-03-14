@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 
 public class EntityFireworkSparkFX extends EntityFX
 {
-    private int baseTextureIndex = 160;
+    private final int baseTextureIndex = 160;
     private boolean field_92054_ax;
     private boolean field_92048_ay;
     private final EffectRenderer field_92047_az;
@@ -40,18 +40,18 @@ public class EntityFireworkSparkFX extends EntityFX
 
     public void setColour(int par1)
     {
-        float var2 = (float)((par1 & 16711680) >> 16) / 255.0F;
-        float var3 = (float)((par1 & 65280) >> 8) / 255.0F;
-        float var4 = (float)((par1 & 255) >> 0) / 255.0F;
+        float var2 = (float) ((par1 & 16711680) >> 16) / 255.0F;
+        float var3 = (float) ((par1 & 65280) >> 8) / 255.0F;
+        float var4 = (float) ((par1 & 255) >> 0) / 255.0F;
         float var5 = 1.0F;
         this.setRBGColorF(var2 * var5, var3 * var5, var4 * var5);
     }
 
     public void setFadeColour(int par1)
     {
-        this.fadeColourRed = (float)((par1 & 16711680) >> 16) / 255.0F;
-        this.fadeColourGreen = (float)((par1 & 65280) >> 8) / 255.0F;
-        this.fadeColourBlue = (float)((par1 & 255) >> 0) / 255.0F;
+        this.fadeColourRed = (float) ((par1 & 16711680) >> 16) / 255.0F;
+        this.fadeColourGreen = (float) ((par1 & 65280) >> 8) / 255.0F;
+        this.fadeColourBlue = (float) ((par1 & 255) >> 0) / 255.0F;
         this.hasFadeColour = true;
     }
 
@@ -95,7 +95,7 @@ public class EntityFireworkSparkFX extends EntityFX
 
         if (this.particleAge > this.particleMaxAge / 2)
         {
-            this.setAlphaF(1.0F - ((float)this.particleAge - (float)(this.particleMaxAge / 2)) / (float)this.particleMaxAge);
+            this.setAlphaF(1.0F - ((float) this.particleAge - (float) (this.particleMaxAge / 2)) / (float) this.particleMaxAge);
 
             if (this.hasFadeColour)
             {

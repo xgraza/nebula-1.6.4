@@ -1,10 +1,11 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WorldGenGlowStone1 extends WorldGenerator
 {
@@ -15,12 +16,10 @@ public class WorldGenGlowStone1 extends WorldGenerator
         if (!par1World.isAirBlock(par3, par4, par5))
         {
             return false;
-        }
-        else if (par1World.getBlock(par3, par4 + 1, par5) != Blocks.netherrack)
+        } else if (par1World.getBlock(par3, par4 + 1, par5) != Blocks.netherrack)
         {
             return false;
-        }
-        else
+        } else
         {
             par1World.setBlock(par3, par4, par5, Blocks.glowstone, 0, 2);
 

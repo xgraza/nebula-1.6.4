@@ -7,10 +7,6 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import java.math.BigInteger;
-import java.security.PublicKey;
-import java.util.UUID;
-import javax.crypto.SecretKey;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
@@ -26,6 +22,11 @@ import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.crypto.SecretKey;
+import java.math.BigInteger;
+import java.security.PublicKey;
+import java.util.UUID;
 
 public class NetHandlerLoginClient implements INetHandlerLoginClient
 {
@@ -52,30 +53,27 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient
         try
         {
             this.func_147391_c().joinServer(this.field_147394_b.getSession().func_148256_e(), this.field_147394_b.getSession().getToken(), var5);
-        }
-        catch (AuthenticationUnavailableException var7)
+        } catch (AuthenticationUnavailableException var7)
         {
-            this.field_147393_d.closeChannel(new ChatComponentTranslation("disconnect.loginFailedInfo", new Object[] {new ChatComponentTranslation("disconnect.loginFailedInfo.serversUnavailable", new Object[0])}));
+            this.field_147393_d.closeChannel(new ChatComponentTranslation("disconnect.loginFailedInfo", new ChatComponentTranslation("disconnect.loginFailedInfo.serversUnavailable")));
             return;
-        }
-        catch (InvalidCredentialsException var8)
+        } catch (InvalidCredentialsException var8)
         {
-            this.field_147393_d.closeChannel(new ChatComponentTranslation("disconnect.loginFailedInfo", new Object[] {new ChatComponentTranslation("disconnect.loginFailedInfo.invalidSession", new Object[0])}));
+            this.field_147393_d.closeChannel(new ChatComponentTranslation("disconnect.loginFailedInfo", new ChatComponentTranslation("disconnect.loginFailedInfo.invalidSession")));
             return;
-        }
-        catch (AuthenticationException var9)
+        } catch (AuthenticationException var9)
         {
-            this.field_147393_d.closeChannel(new ChatComponentTranslation("disconnect.loginFailedInfo", new Object[] {var9.getMessage()}));
+            this.field_147393_d.closeChannel(new ChatComponentTranslation("disconnect.loginFailedInfo", var9.getMessage()));
             return;
         }
 
-        this.field_147393_d.scheduleOutboundPacket(new C01PacketEncryptionResponse(var2, var4, p_147389_1_.func_149607_e()), new GenericFutureListener[] {new GenericFutureListener()
+        this.field_147393_d.scheduleOutboundPacket(new C01PacketEncryptionResponse(var2, var4, p_147389_1_.func_149607_e()), new GenericFutureListener()
+        {
+            private static final String __OBFID = "CL_00000877";
+
+            public void operationComplete(Future p_operationComplete_1_)
             {
-                private static final String __OBFID = "CL_00000877";
-                public void operationComplete(Future p_operationComplete_1_)
-                {
-                    NetHandlerLoginClient.this.field_147393_d.enableEncryption(var2);
-                }
+                NetHandlerLoginClient.this.field_147393_d.enableEncryption(var2);
             }
         });
     }
@@ -116,7 +114,9 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient
      * For scheduled network tasks. Used in NetHandlerPlayServer to send keep-alive packets and in NetHandlerLoginServer
      * for a login-timeout
      */
-    public void onNetworkTick() {}
+    public void onNetworkTick()
+    {
+    }
 
     public void handleDisconnect(S00PacketDisconnect p_147388_1_)
     {

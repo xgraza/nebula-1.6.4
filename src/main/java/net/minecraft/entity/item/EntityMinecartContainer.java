@@ -54,11 +54,11 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
                     }
 
                     var3.stackSize -= var7;
-                    EntityItem var8 = new EntityItem(this.worldObj, this.posX + (double)var4, this.posY + (double)var5, this.posZ + (double)var6, new ItemStack(var3.getItem(), var7, var3.getItemDamage()));
+                    EntityItem var8 = new EntityItem(this.worldObj, this.posX + (double) var4, this.posY + (double) var5, this.posZ + (double) var6, new ItemStack(var3.getItem(), var7, var3.getItemDamage()));
                     float var9 = 0.05F;
-                    var8.motionX = (double)((float)this.rand.nextGaussian() * var9);
-                    var8.motionY = (double)((float)this.rand.nextGaussian() * var9 + 0.2F);
-                    var8.motionZ = (double)((float)this.rand.nextGaussian() * var9);
+                    var8.motionX = (float) this.rand.nextGaussian() * var9;
+                    var8.motionY = (float) this.rand.nextGaussian() * var9 + 0.2F;
+                    var8.motionZ = (float) this.rand.nextGaussian() * var9;
                     this.worldObj.spawnEntityInWorld(var8);
                 }
             }
@@ -88,8 +88,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
                 var3 = this.minecartContainerItems[par1];
                 this.minecartContainerItems[par1] = null;
                 return var3;
-            }
-            else
+            } else
             {
                 var3 = this.minecartContainerItems[par1].splitStack(par2);
 
@@ -100,8 +99,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
                 return var3;
             }
-        }
-        else
+        } else
         {
             return null;
         }
@@ -118,8 +116,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
             ItemStack var2 = this.minecartContainerItems[par1];
             this.minecartContainerItems[par1] = null;
             return var2;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -141,19 +138,25 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     /**
      * Called when an the contents of an Inventory change, usually
      */
-    public void onInventoryChanged() {}
+    public void onInventoryChanged()
+    {
+    }
 
     /**
      * Do not make give this method the name canInteractWith because it clashes with Container
      */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.isDead ? false : par1EntityPlayer.getDistanceSqToEntity(this) <= 64.0D;
+        return !this.isDead && par1EntityPlayer.getDistanceSqToEntity(this) <= 64.0D;
     }
 
-    public void openInventory() {}
+    public void openInventory()
+    {
+    }
 
-    public void closeInventory() {}
+    public void closeInventory()
+    {
+    }
 
     /**
      * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
@@ -215,17 +218,17 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
                         }
 
                         var2.stackSize -= var6;
-                        EntityItem var7 = new EntityItem(this.worldObj, this.posX + (double)var3, this.posY + (double)var4, this.posZ + (double)var5, new ItemStack(var2.getItem(), var6, var2.getItemDamage()));
+                        EntityItem var7 = new EntityItem(this.worldObj, this.posX + (double) var3, this.posY + (double) var4, this.posZ + (double) var5, new ItemStack(var2.getItem(), var6, var2.getItemDamage()));
 
                         if (var2.hasTagCompound())
                         {
-                            var7.getEntityItem().setTagCompound((NBTTagCompound)var2.getTagCompound().copy());
+                            var7.getEntityItem().setTagCompound((NBTTagCompound) var2.getTagCompound().copy());
                         }
 
                         float var8 = 0.05F;
-                        var7.motionX = (double)((float)this.rand.nextGaussian() * var8);
-                        var7.motionY = (double)((float)this.rand.nextGaussian() * var8 + 0.2F);
-                        var7.motionZ = (double)((float)this.rand.nextGaussian() * var8);
+                        var7.motionX = (float) this.rand.nextGaussian() * var8;
+                        var7.motionY = (float) this.rand.nextGaussian() * var8 + 0.2F;
+                        var7.motionZ = (float) this.rand.nextGaussian() * var8;
                         this.worldObj.spawnEntityInWorld(var7);
                     }
                 }
@@ -248,7 +251,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
             if (this.minecartContainerItems[var3] != null)
             {
                 NBTTagCompound var4 = new NBTTagCompound();
-                var4.setByte("Slot", (byte)var3);
+                var4.setByte("Slot", (byte) var3);
                 this.minecartContainerItems[var3].writeToNBT(var4);
                 var2.appendTag(var4);
             }
@@ -294,9 +297,9 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     protected void applyDrag()
     {
         int var1 = 15 - Container.calcRedstoneFromInventory(this);
-        float var2 = 0.98F + (float)var1 * 0.001F;
-        this.motionX *= (double)var2;
+        float var2 = 0.98F + (float) var1 * 0.001F;
+        this.motionX *= var2;
         this.motionY *= 0.0D;
-        this.motionZ *= (double)var2;
+        this.motionZ *= var2;
     }
 }

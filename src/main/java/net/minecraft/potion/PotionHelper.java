@@ -1,10 +1,6 @@
 package net.minecraft.potion;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class PotionHelper
 {
@@ -23,11 +19,15 @@ public class PotionHelper
     public static final String field_151423_m;
     private static final HashMap potionRequirements = new HashMap();
 
-    /** Potion effect amplifier map */
+    /**
+     * Potion effect amplifier map
+     */
     private static final HashMap potionAmplifiers = new HashMap();
     private static final HashMap field_77925_n;
 
-    /** An array of possible potion prefix names, as translation IDs. */
+    /**
+     * An array of possible potion prefix names, as translation IDs.
+     */
     private static final String[] potionPrefixes;
     private static final String __OBFID = "CL_00000078";
 
@@ -77,14 +77,14 @@ public class PotionHelper
 
             while (var6.hasNext())
             {
-                PotionEffect var7 = (PotionEffect)var6.next();
+                PotionEffect var7 = (PotionEffect) var6.next();
                 int var8 = Potion.potionTypes[var7.getPotionID()].getLiquidColor();
 
                 for (int var9 = 0; var9 <= var7.getAmplifier(); ++var9)
                 {
-                    var2 += (float)(var8 >> 16 & 255) / 255.0F;
-                    var3 += (float)(var8 >> 8 & 255) / 255.0F;
-                    var4 += (float)(var8 >> 0 & 255) / 255.0F;
+                    var2 += (float) (var8 >> 16 & 255) / 255.0F;
+                    var3 += (float) (var8 >> 8 & 255) / 255.0F;
+                    var4 += (float) (var8 >> 0 & 255) / 255.0F;
                     ++var5;
                 }
             }
@@ -92,9 +92,8 @@ public class PotionHelper
             var2 = var2 / var5 * 255.0F;
             var3 = var3 / var5 * 255.0F;
             var4 = var4 / var5 * 255.0F;
-            return (int)var2 << 16 | (int)var3 << 8 | (int)var4;
-        }
-        else
+            return (int) var2 << 16 | (int) var3 << 8 | (int) var4;
+        } else
         {
             return var1;
         }
@@ -112,7 +111,7 @@ public class PotionHelper
                 return true;
             }
 
-            var2 = (PotionEffect)var1.next();
+            var2 = (PotionEffect) var1.next();
         }
         while (var2.getIsAmbient());
 
@@ -125,16 +124,14 @@ public class PotionHelper
         {
             if (field_77925_n.containsKey(Integer.valueOf(par0)))
             {
-                return ((Integer)field_77925_n.get(Integer.valueOf(par0))).intValue();
-            }
-            else
+                return ((Integer) field_77925_n.get(Integer.valueOf(par0))).intValue();
+            } else
             {
                 int var2 = calcPotionLiquidColor(getPotionEffects(par0, false));
                 field_77925_n.put(Integer.valueOf(par0), Integer.valueOf(var2));
                 return var2;
             }
-        }
-        else
+        } else
         {
             return calcPotionLiquidColor(getPotionEffects(par0, par1));
         }
@@ -153,23 +150,19 @@ public class PotionHelper
         if (par0)
         {
             var7 = isFlagUnset(par6, par4);
-        }
-        else if (par3 != -1)
+        } else if (par3 != -1)
         {
             if (par3 == 0 && countSetFlags(par6) == par4)
             {
                 var7 = 1;
-            }
-            else if (par3 == 1 && countSetFlags(par6) > par4)
+            } else if (par3 == 1 && countSetFlags(par6) > par4)
+            {
+                var7 = 1;
+            } else if (par3 == 2 && countSetFlags(par6) < par4)
             {
                 var7 = 1;
             }
-            else if (par3 == 2 && countSetFlags(par6) < par4)
-            {
-                var7 = 1;
-            }
-        }
-        else
+        } else
         {
             var7 = isFlagSet(par6, par4);
         }
@@ -217,14 +210,12 @@ public class PotionHelper
                 if (var5 > 0)
                 {
                     return var5;
-                }
-                else
+                } else
                 {
                     var17 = parsePotionEffects(par0Str, var4 + 1, par2, par3);
                     return var17 > 0 ? var17 : 0;
                 }
-            }
-            else
+            } else
             {
                 var5 = par0Str.indexOf(38, par1);
 
@@ -235,14 +226,12 @@ public class PotionHelper
                     if (var17 <= 0)
                     {
                         return 0;
-                    }
-                    else
+                    } else
                     {
                         int var18 = parsePotionEffects(par0Str, var5 + 1, par2, par3);
                         return var18 <= 0 ? 0 : (var17 > var18 ? var17 : var18);
                     }
-                }
-                else
+                } else
                 {
                     boolean var6 = false;
                     boolean var7 = false;
@@ -264,19 +253,16 @@ public class PotionHelper
                             {
                                 var13 = var16 - 48;
                                 var7 = true;
-                            }
-                            else
+                            } else
                             {
                                 var12 *= 10;
                                 var12 += var16 - 48;
                                 var8 = true;
                             }
-                        }
-                        else if (var16 == 42)
+                        } else if (var16 == 42)
                         {
                             var6 = true;
-                        }
-                        else if (var16 == 33)
+                        } else if (var16 == 33)
                         {
                             if (var8)
                             {
@@ -292,8 +278,7 @@ public class PotionHelper
                             }
 
                             var9 = true;
-                        }
-                        else if (var16 == 45)
+                        } else if (var16 == 45)
                         {
                             if (var8)
                             {
@@ -309,8 +294,7 @@ public class PotionHelper
                             }
 
                             var10 = true;
-                        }
-                        else if (var16 != 61 && var16 != 60 && var16 != 62)
+                        } else if (var16 != 61 && var16 != 60 && var16 != 62)
                         {
                             if (var16 == 43 && var8)
                             {
@@ -324,8 +308,7 @@ public class PotionHelper
                                 var12 = 0;
                                 var11 = -1;
                             }
-                        }
-                        else
+                        } else
                         {
                             if (var8)
                             {
@@ -343,12 +326,10 @@ public class PotionHelper
                             if (var16 == 61)
                             {
                                 var11 = 0;
-                            }
-                            else if (var16 == 60)
+                            } else if (var16 == 60)
                             {
                                 var11 = 2;
-                            }
-                            else if (var16 == 62)
+                            } else if (var16 == 62)
                             {
                                 var11 = 1;
                             }
@@ -363,8 +344,7 @@ public class PotionHelper
                     return var14;
                 }
             }
-        }
-        else
+        } else
         {
             return 0;
         }
@@ -385,7 +365,7 @@ public class PotionHelper
 
             if (var6 != null && (!var6.isUsable() || par1))
             {
-                String var7 = (String)potionRequirements.get(Integer.valueOf(var6.getId()));
+                String var7 = (String) potionRequirements.get(Integer.valueOf(var6.getId()));
 
                 if (var7 != null)
                 {
@@ -394,7 +374,7 @@ public class PotionHelper
                     if (var8 > 0)
                     {
                         int var9 = 0;
-                        String var10 = (String)potionAmplifiers.get(Integer.valueOf(var6.getId()));
+                        String var10 = (String) potionAmplifiers.get(Integer.valueOf(var6.getId()));
 
                         if (var10 != null)
                         {
@@ -409,16 +389,15 @@ public class PotionHelper
                         if (var6.isInstant())
                         {
                             var8 = 1;
-                        }
-                        else
+                        } else
                         {
                             var8 = 1200 * (var8 * 3 + (var8 - 1) * 2);
                             var8 >>= var9;
-                            var8 = (int)Math.round((double)var8 * var6.getEffectiveness());
+                            var8 = (int) Math.round((double) var8 * var6.getEffectiveness());
 
                             if ((par0 & 16384) != 0)
                             {
-                                var8 = (int)Math.round((double)var8 * 0.75D + 0.5D);
+                                var8 = (int) Math.round((double) var8 * 0.75D + 0.5D);
                             }
                         }
 
@@ -456,23 +435,19 @@ public class PotionHelper
             {
                 return 0;
             }
-        }
-        else if (par2)
+        } else if (par2)
         {
             par0 &= ~(1 << par1);
-        }
-        else if (par3)
+        } else if (par3)
         {
             if ((par0 & 1 << par1) == 0)
             {
                 par0 |= 1 << par1;
-            }
-            else
+            } else
             {
                 par0 &= ~(1 << par1);
             }
-        }
-        else
+        } else
         {
             par0 |= 1 << par1;
         }
@@ -503,8 +478,7 @@ public class PotionHelper
                 var8 *= 10;
                 var8 += var10 - 48;
                 var4 = true;
-            }
-            else if (var10 == 33)
+            } else if (var10 == 33)
             {
                 if (var4)
                 {
@@ -517,8 +491,7 @@ public class PotionHelper
                 }
 
                 var5 = true;
-            }
-            else if (var10 == 45)
+            } else if (var10 == 45)
             {
                 if (var4)
                 {
@@ -531,8 +504,7 @@ public class PotionHelper
                 }
 
                 var6 = true;
-            }
-            else if (var10 == 43)
+            } else if (var10 == 43)
             {
                 if (var4)
                 {
@@ -543,8 +515,7 @@ public class PotionHelper
                     var4 = false;
                     var8 = 0;
                 }
-            }
-            else if (var10 == 38)
+            } else if (var10 == 38)
             {
                 if (var4)
                 {
@@ -607,6 +578,6 @@ public class PotionHelper
         redstoneEffect = "-5+6-7";
         gunpowderEffect = "+14&13-13";
         field_77925_n = new HashMap();
-        potionPrefixes = new String[] {"potion.prefix.mundane", "potion.prefix.uninteresting", "potion.prefix.bland", "potion.prefix.clear", "potion.prefix.milky", "potion.prefix.diffuse", "potion.prefix.artless", "potion.prefix.thin", "potion.prefix.awkward", "potion.prefix.flat", "potion.prefix.bulky", "potion.prefix.bungling", "potion.prefix.buttered", "potion.prefix.smooth", "potion.prefix.suave", "potion.prefix.debonair", "potion.prefix.thick", "potion.prefix.elegant", "potion.prefix.fancy", "potion.prefix.charming", "potion.prefix.dashing", "potion.prefix.refined", "potion.prefix.cordial", "potion.prefix.sparkling", "potion.prefix.potent", "potion.prefix.foul", "potion.prefix.odorless", "potion.prefix.rank", "potion.prefix.harsh", "potion.prefix.acrid", "potion.prefix.gross", "potion.prefix.stinky"};
+        potionPrefixes = new String[]{ "potion.prefix.mundane", "potion.prefix.uninteresting", "potion.prefix.bland", "potion.prefix.clear", "potion.prefix.milky", "potion.prefix.diffuse", "potion.prefix.artless", "potion.prefix.thin", "potion.prefix.awkward", "potion.prefix.flat", "potion.prefix.bulky", "potion.prefix.bungling", "potion.prefix.buttered", "potion.prefix.smooth", "potion.prefix.suave", "potion.prefix.debonair", "potion.prefix.thick", "potion.prefix.elegant", "potion.prefix.fancy", "potion.prefix.charming", "potion.prefix.dashing", "potion.prefix.refined", "potion.prefix.cordial", "potion.prefix.sparkling", "potion.prefix.potent", "potion.prefix.foul", "potion.prefix.odorless", "potion.prefix.rank", "potion.prefix.harsh", "potion.prefix.acrid", "potion.prefix.gross", "potion.prefix.stinky" };
     }
 }

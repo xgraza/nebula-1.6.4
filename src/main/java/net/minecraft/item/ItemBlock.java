@@ -1,15 +1,14 @@
 package net.minecraft.item;
 
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemBlock extends Item
 {
@@ -58,8 +57,7 @@ public class ItemBlock extends Item
         if (var11 == Blocks.snow_layer && (par3World.getBlockMetadata(par4, par5, par6) & 7) < 1)
         {
             par7 = 1;
-        }
-        else if (var11 != Blocks.vine && var11 != Blocks.tallgrass && var11 != Blocks.deadbush)
+        } else if (var11 != Blocks.vine && var11 != Blocks.tallgrass && var11 != Blocks.deadbush)
         {
             if (par7 == 0)
             {
@@ -95,16 +93,13 @@ public class ItemBlock extends Item
         if (par1ItemStack.stackSize == 0)
         {
             return false;
-        }
-        else if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
+        } else if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
         {
             return false;
-        }
-        else if (par5 == 255 && this.block.getMaterial().isSolid())
+        } else if (par5 == 255 && this.block.getMaterial().isSolid())
         {
             return false;
-        }
-        else if (par3World.canPlaceEntityOnSide(this.block, par4, par5, par6, false, par7, par2EntityPlayer, par1ItemStack))
+        } else if (par3World.canPlaceEntityOnSide(this.block, par4, par5, par6, false, par7, par2EntityPlayer, par1ItemStack))
         {
             int var12 = this.getMetadata(par1ItemStack.getItemDamage());
             int var13 = this.block.onBlockPlaced(par3World, par4, par5, par6, par7, par8, par9, par10, var12);
@@ -117,13 +112,12 @@ public class ItemBlock extends Item
                     this.block.onPostBlockPlaced(par3World, par4, par5, par6, var13);
                 }
 
-                par3World.playSoundEffect((double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), this.block.stepSound.func_150496_b(), (this.block.stepSound.func_150497_c() + 1.0F) / 2.0F, this.block.stepSound.func_150494_d() * 0.8F);
+                par3World.playSoundEffect((float) par4 + 0.5F, (float) par5 + 0.5F, (float) par6 + 0.5F, this.block.stepSound.func_150496_b(), (this.block.stepSound.func_150497_c() + 1.0F) / 2.0F, this.block.stepSound.func_150494_d() * 0.8F);
                 --par1ItemStack.stackSize;
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -136,8 +130,7 @@ public class ItemBlock extends Item
         if (block == Blocks.snow_layer)
         {
             side = 1;
-        }
-        else if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush)
+        } else if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush)
         {
             if (side == 0)
             {
@@ -218,6 +211,6 @@ public class ItemBlock extends Item
 
     public Block getBlock()
     {
-      return block;
+        return block;
     }
 }

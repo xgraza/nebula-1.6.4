@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 
 public class ItemReed extends Item
 {
-    private Block field_150935_a;
+    private final Block field_150935_a;
     private static final String __OBFID = "CL_00001773";
 
     public ItemReed(Block p_i45329_1_)
@@ -27,8 +27,7 @@ public class ItemReed extends Item
         if (var11 == Blocks.snow_layer && (par3World.getBlockMetadata(par4, par5, par6) & 7) < 1)
         {
             par7 = 1;
-        }
-        else if (var11 != Blocks.vine && var11 != Blocks.tallgrass && var11 != Blocks.deadbush)
+        } else if (var11 != Blocks.vine && var11 != Blocks.tallgrass && var11 != Blocks.deadbush)
         {
             if (par7 == 0)
             {
@@ -64,14 +63,12 @@ public class ItemReed extends Item
         if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
         {
             return false;
-        }
-        else if (par1ItemStack.stackSize == 0)
+        } else if (par1ItemStack.stackSize == 0)
         {
             return false;
-        }
-        else
+        } else
         {
-            if (par3World.canPlaceEntityOnSide(this.field_150935_a, par4, par5, par6, false, par7, (Entity)null, par1ItemStack))
+            if (par3World.canPlaceEntityOnSide(this.field_150935_a, par4, par5, par6, false, par7, null, par1ItemStack))
             {
                 int var12 = this.field_150935_a.onBlockPlaced(par3World, par4, par5, par6, par7, par8, par9, par10, 0);
 
@@ -83,7 +80,7 @@ public class ItemReed extends Item
                         this.field_150935_a.onPostBlockPlaced(par3World, par4, par5, par6, var12);
                     }
 
-                    par3World.playSoundEffect((double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), this.field_150935_a.stepSound.func_150496_b(), (this.field_150935_a.stepSound.func_150497_c() + 1.0F) / 2.0F, this.field_150935_a.stepSound.func_150494_d() * 0.8F);
+                    par3World.playSoundEffect((float) par4 + 0.5F, (float) par5 + 0.5F, (float) par6 + 0.5F, this.field_150935_a.stepSound.func_150496_b(), (this.field_150935_a.stepSound.func_150497_c() + 1.0F) / 2.0F, this.field_150935_a.stepSound.func_150494_d() * 0.8F);
                     --par1ItemStack.stackSize;
                 }
             }

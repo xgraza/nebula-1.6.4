@@ -1,11 +1,12 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.List;
 
 public class CommandEnchant extends CommandBase
 {
@@ -33,9 +34,8 @@ public class CommandEnchant extends CommandBase
     {
         if (par2ArrayOfStr.length < 2)
         {
-            throw new WrongUsageException("commands.enchant.usage", new Object[0]);
-        }
-        else
+            throw new WrongUsageException("commands.enchant.usage");
+        } else
         {
             EntityPlayerMP var3 = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
             int var4 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[1], 0, Enchantment.enchantmentsList.length - 1);
@@ -44,21 +44,18 @@ public class CommandEnchant extends CommandBase
 
             if (var6 == null)
             {
-                throw new CommandException("commands.enchant.noItem", new Object[0]);
-            }
-            else
+                throw new CommandException("commands.enchant.noItem");
+            } else
             {
                 Enchantment var7 = Enchantment.enchantmentsList[var4];
 
                 if (var7 == null)
                 {
-                    throw new NumberInvalidException("commands.enchant.notFound", new Object[] {Integer.valueOf(var4)});
-                }
-                else if (!var7.canApply(var6))
+                    throw new NumberInvalidException("commands.enchant.notFound", Integer.valueOf(var4));
+                } else if (!var7.canApply(var6))
                 {
-                    throw new CommandException("commands.enchant.cantEnchant", new Object[0]);
-                }
-                else
+                    throw new CommandException("commands.enchant.cantEnchant");
+                } else
                 {
                     if (par2ArrayOfStr.length >= 3)
                     {
@@ -81,7 +78,7 @@ public class CommandEnchant extends CommandBase
 
                                     if (!var11.canApplyTogether(var7))
                                     {
-                                        throw new CommandException("commands.enchant.cantCombine", new Object[] {var7.getTranslatedName(var5), var11.getTranslatedName(var8.getCompoundTagAt(var9).getShort("lvl"))});
+                                        throw new CommandException("commands.enchant.cantCombine", var7.getTranslatedName(var5), var11.getTranslatedName(var8.getCompoundTagAt(var9).getShort("lvl")));
                                     }
                                 }
                             }
@@ -89,7 +86,7 @@ public class CommandEnchant extends CommandBase
                     }
 
                     var6.addEnchantment(var7, var5);
-                    notifyAdmins(par1ICommandSender, "commands.enchant.success", new Object[0]);
+                    notifyAdmins(par1ICommandSender, "commands.enchant.success");
                 }
             }
         }

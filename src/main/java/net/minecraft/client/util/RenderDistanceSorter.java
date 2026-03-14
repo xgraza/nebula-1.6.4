@@ -1,8 +1,9 @@
 package net.minecraft.client.util;
 
 import com.google.common.collect.ComparisonChain;
-import java.util.Comparator;
 import net.minecraft.client.renderer.RenderList;
+
+import java.util.Comparator;
 
 public class RenderDistanceSorter implements Comparator
 {
@@ -17,6 +18,6 @@ public class RenderDistanceSorter implements Comparator
 
     public int compare(Object par1Obj, Object par2Obj)
     {
-        return this.compare((RenderList)par1Obj, (RenderList)par2Obj);
+        return this.compare((RenderList) par1Obj, (RenderList) par2Obj);
     }
 }

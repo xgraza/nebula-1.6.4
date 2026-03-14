@@ -27,17 +27,17 @@ public class BlockSourceImpl implements IBlockSource
 
     public double getX()
     {
-        return (double)this.xPos + 0.5D;
+        return (double) this.xPos + 0.5D;
     }
 
     public double getY()
     {
-        return (double)this.yPos + 0.5D;
+        return (double) this.yPos + 0.5D;
     }
 
     public double getZ()
     {
-        return (double)this.zPos + 0.5D;
+        return (double) this.zPos + 0.5D;
     }
 
     public int getXInt()

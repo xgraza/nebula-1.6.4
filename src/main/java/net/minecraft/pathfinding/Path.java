@@ -2,10 +2,14 @@ package net.minecraft.pathfinding;
 
 public class Path
 {
-    /** Contains the points in this path */
+    /**
+     * Contains the points in this path
+     */
     private PathPoint[] pathPoints = new PathPoint[1024];
 
-    /** The number of points in this path */
+    /**
+     * The number of points in this path
+     */
     private int count;
     private static final String __OBFID = "CL_00000573";
 
@@ -17,8 +21,7 @@ public class Path
         if (par1PathPoint.index >= 0)
         {
             throw new IllegalStateException("OW KNOWS!");
-        }
-        else
+        } else
         {
             if (this.count == this.pathPoints.length)
             {
@@ -71,8 +74,7 @@ public class Path
         if (par2 < var3)
         {
             this.sortBack(par1PathPoint.index);
-        }
-        else
+        } else
         {
             this.sortForward(par1PathPoint.index);
         }
@@ -131,8 +133,7 @@ public class Path
             {
                 var8 = null;
                 var9 = Float.POSITIVE_INFINITY;
-            }
-            else
+            } else
             {
                 var8 = this.pathPoints[var5];
                 var9 = var8.distanceToTarget;
@@ -148,8 +149,7 @@ public class Path
                 this.pathPoints[par1] = var6;
                 var6.index = par1;
                 par1 = var4;
-            }
-            else
+            } else
             {
                 if (var9 >= var3)
                 {

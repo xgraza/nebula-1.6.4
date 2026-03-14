@@ -36,8 +36,7 @@ public class ItemSword extends Item
         if (p_150893_2_ == Blocks.web)
         {
             return 15.0F;
-        }
-        else
+        } else
         {
             Material var3 = p_150893_2_.getMaterial();
             return var3 != Material.plants && var3 != Material.vine && var3 != Material.coral && var3 != Material.leaves && var3 != Material.field_151572_C ? 1.0F : 1.5F;
@@ -56,7 +55,7 @@ public class ItemSword extends Item
 
     public boolean onBlockDestroyed(ItemStack p_150894_1_, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase p_150894_7_)
     {
-        if ((double)p_150894_3_.getBlockHardness(p_150894_2_, p_150894_4_, p_150894_5_, p_150894_6_) != 0.0D)
+        if ((double) p_150894_3_.getBlockHardness(p_150894_2_, p_150894_4_, p_150894_5_, p_150894_6_) != 0.0D)
         {
             p_150894_1_.damageItem(2, p_150894_7_);
         }
@@ -120,7 +119,7 @@ public class ItemSword extends Item
      */
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
-        return this.field_150933_b.func_150995_f() == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+        return this.field_150933_b.func_150995_f() == par2ItemStack.getItem() || super.getIsRepairable(par1ItemStack, par2ItemStack);
     }
 
     /**
@@ -129,7 +128,7 @@ public class ItemSword extends Item
     public Multimap getItemAttributeModifiers()
     {
         Multimap var1 = super.getItemAttributeModifiers();
-        var1.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.itemDamage, 0));
+        var1.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", this.itemDamage, 0));
         return var1;
     }
 }

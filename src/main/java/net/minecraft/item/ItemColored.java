@@ -57,8 +57,7 @@ public class ItemColored extends ItemBlock
         if (this.field_150945_c == null)
         {
             return super.getUnlocalizedName(par1ItemStack);
-        }
-        else
+        } else
         {
             int var2 = par1ItemStack.getItemDamage();
             return var2 >= 0 && var2 < this.field_150945_c.length ? super.getUnlocalizedName(par1ItemStack) + "." + this.field_150945_c[var2] : super.getUnlocalizedName(par1ItemStack);

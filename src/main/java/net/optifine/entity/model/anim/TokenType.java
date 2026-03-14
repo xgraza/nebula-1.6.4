@@ -8,16 +8,16 @@ public enum TokenType
     COMMA(","),
     BRACKET_OPEN("("),
     BRACKET_CLOSE(")");
-    private String charsFirst;
-    private String charsNext;
+    private final String charsFirst;
+    private final String charsNext;
     public static final TokenType[] VALUES = values();
 
-    private TokenType(String charsFirst)
+    TokenType(String charsFirst)
     {
         this(charsFirst, "");
     }
 
-    private TokenType(String charsFirst, String charsNext)
+    TokenType(String charsFirst, String charsNext)
     {
         this.charsFirst = charsFirst;
         this.charsNext = charsNext;
@@ -53,7 +53,8 @@ public enum TokenType
         return this.charsNext.indexOf(ch) >= 0;
     }
 
-    private static class Const {
+    private static class Const
+    {
         static final String ALPHAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         static final String DIGITS = "0123456789";
     }

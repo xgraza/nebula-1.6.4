@@ -1,17 +1,20 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S00PacketKeepAlive extends Packet
 {
     private int field_149136_a;
     private static final String __OBFID = "CL_00001303";
 
-    public S00PacketKeepAlive() {}
+    public S00PacketKeepAlive()
+    {
+    }
 
     public S00PacketKeepAlive(int p_i45195_1_)
     {
@@ -55,6 +58,6 @@ public class S00PacketKeepAlive extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

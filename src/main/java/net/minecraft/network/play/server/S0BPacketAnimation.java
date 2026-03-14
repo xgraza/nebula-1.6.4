@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S0BPacketAnimation extends Packet
 {
@@ -13,7 +14,9 @@ public class S0BPacketAnimation extends Packet
     private int field_148980_b;
     private static final String __OBFID = "CL_00001282";
 
-    public S0BPacketAnimation() {}
+    public S0BPacketAnimation()
+    {
+    }
 
     public S0BPacketAnimation(Entity p_i45172_1_, int p_i45172_2_)
     {
@@ -49,7 +52,7 @@ public class S0BPacketAnimation extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, type=%d", new Object[] {Integer.valueOf(this.field_148981_a), Integer.valueOf(this.field_148980_b)});
+        return String.format("id=%d, type=%d", Integer.valueOf(this.field_148981_a), Integer.valueOf(this.field_148980_b));
     }
 
     public int func_148978_c()
@@ -64,6 +67,6 @@ public class S0BPacketAnimation extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

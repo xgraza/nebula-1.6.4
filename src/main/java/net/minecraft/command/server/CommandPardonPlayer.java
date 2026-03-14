@@ -1,10 +1,11 @@
 package net.minecraft.command.server;
 
-import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.List;
 
 public class CommandPardonPlayer extends CommandBase
 {
@@ -41,11 +42,10 @@ public class CommandPardonPlayer extends CommandBase
         if (par2ArrayOfStr.length == 1 && par2ArrayOfStr[0].length() > 0)
         {
             MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().remove(par2ArrayOfStr[0]);
-            notifyAdmins(par1ICommandSender, "commands.unban.success", new Object[] {par2ArrayOfStr[0]});
-        }
-        else
+            notifyAdmins(par1ICommandSender, "commands.unban.success", par2ArrayOfStr[0]);
+        } else
         {
-            throw new WrongUsageException("commands.unban.usage", new Object[0]);
+            throw new WrongUsageException("commands.unban.usage");
         }
     }
 

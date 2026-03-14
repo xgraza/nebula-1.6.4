@@ -1,29 +1,31 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Map.Entry;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
+import java.util.*;
+import java.util.Map.Entry;
+
 public class MapGenScatteredFeature extends MapGenStructure
 {
-    private static List biomelist = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.jungle, BiomeGenBase.jungleHills, BiomeGenBase.swampland});
+    private static final List biomelist = Arrays.asList(BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.jungle, BiomeGenBase.jungleHills, BiomeGenBase.swampland);
 
-    /** contains possible spawns for scattered features */
-    private List scatteredFeatureSpawnList;
+    /**
+     * contains possible spawns for scattered features
+     */
+    private final List scatteredFeatureSpawnList;
 
-    /** the maximum distance between scattered features */
+    /**
+     * the maximum distance between scattered features
+     */
     private int maxDistanceBetweenScatteredFeatures;
 
-    /** the minimum distance between scattered features */
-    private int minDistanceBetweenScatteredFeatures;
+    /**
+     * the minimum distance between scattered features
+     */
+    private final int minDistanceBetweenScatteredFeatures;
     private static final String __OBFID = "CL_00000471";
 
     public MapGenScatteredFeature()
@@ -41,11 +43,11 @@ public class MapGenScatteredFeature extends MapGenStructure
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
+            Entry var3 = (Entry) var2.next();
 
-            if (((String)var3.getKey()).equals("distance"))
+            if (var3.getKey().equals("distance"))
             {
-                this.maxDistanceBetweenScatteredFeatures = MathHelper.parseIntWithDefaultAndMax((String)var3.getValue(), this.maxDistanceBetweenScatteredFeatures, this.minDistanceBetweenScatteredFeatures + 1);
+                this.maxDistanceBetweenScatteredFeatures = MathHelper.parseIntWithDefaultAndMax((String) var3.getValue(), this.maxDistanceBetweenScatteredFeatures, this.minDistanceBetweenScatteredFeatures + 1);
             }
         }
     }
@@ -85,7 +87,7 @@ public class MapGenScatteredFeature extends MapGenStructure
 
             while (var9.hasNext())
             {
-                BiomeGenBase var10 = (BiomeGenBase)var9.next();
+                BiomeGenBase var10 = (BiomeGenBase) var9.next();
 
                 if (var8 == var10)
                 {
@@ -108,10 +110,9 @@ public class MapGenScatteredFeature extends MapGenStructure
 
         if (var4 != null && var4 instanceof MapGenScatteredFeature.Start && !var4.components.isEmpty())
         {
-            StructureComponent var5 = (StructureComponent)var4.components.getFirst();
+            StructureComponent var5 = (StructureComponent) var4.components.getFirst();
             return var5 instanceof ComponentScatteredFeaturePieces.SwampHut;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -129,7 +130,9 @@ public class MapGenScatteredFeature extends MapGenStructure
     {
         private static final String __OBFID = "CL_00000472";
 
-        public Start() {}
+        public Start()
+        {
+        }
 
         public Start(World par1World, Random par2Random, int par3, int par4)
         {
@@ -142,14 +145,12 @@ public class MapGenScatteredFeature extends MapGenStructure
                 {
                     ComponentScatteredFeaturePieces.SwampHut var7 = new ComponentScatteredFeaturePieces.SwampHut(par2Random, par3 * 16, par4 * 16);
                     this.components.add(var7);
-                }
-                else
+                } else
                 {
                     ComponentScatteredFeaturePieces.DesertPyramid var8 = new ComponentScatteredFeaturePieces.DesertPyramid(par2Random, par3 * 16, par4 * 16);
                     this.components.add(var8);
                 }
-            }
-            else
+            } else
             {
                 ComponentScatteredFeaturePieces.JunglePyramid var6 = new ComponentScatteredFeaturePieces.JunglePyramid(par2Random, par3 * 16, par4 * 16);
                 this.components.add(var6);

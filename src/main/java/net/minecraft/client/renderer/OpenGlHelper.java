@@ -4,11 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.src.Config;
 import net.minecraft.src.GlStateManager;
-import org.lwjgl.opengl.ARBMultitexture;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL14;
-import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.*;
 
 public class OpenGlHelper
 {
@@ -52,8 +48,7 @@ public class OpenGlHelper
         {
             defaultTexUnit = 33984;
             lightmapTexUnit = 33985;
-        }
-        else
+        } else
         {
             defaultTexUnit = 33984;
             lightmapTexUnit = 33985;
@@ -62,8 +57,8 @@ public class OpenGlHelper
         openGL14 = GLContext.getCapabilities().OpenGL14;
         framebufferSupported = openGL14 && GLContext.getCapabilities().GL_ARB_framebuffer_object;
         anisotropicFilteringSupported = GLContext.getCapabilities().GL_EXT_texture_filter_anisotropic;
-        anisotropicFilteringMax = (int)(anisotropicFilteringSupported ? GL11.glGetFloat(34047) : 0.0F);
-        GameSettings.Options.ANISOTROPIC_FILTERING.setValueMax((float)anisotropicFilteringMax);
+        anisotropicFilteringMax = (int) (anisotropicFilteringSupported ? GL11.glGetFloat(34047) : 0.0F);
+        GameSettings.Options.ANISOTROPIC_FILTERING.setValueMax((float) anisotropicFilteringMax);
         openGL21 = GLContext.getCapabilities().OpenGL21;
         shadersSupported = framebufferSupported && openGL21;
     }
@@ -78,8 +73,7 @@ public class OpenGlHelper
         if (useMultitextureARB)
         {
             ARBMultitexture.glActiveTextureARB(par0);
-        }
-        else
+        } else
         {
             GL13.glActiveTexture(par0);
         }
@@ -93,8 +87,7 @@ public class OpenGlHelper
         if (useMultitextureARB)
         {
             ARBMultitexture.glClientActiveTextureARB(par0);
-        }
-        else
+        } else
         {
             GL13.glClientActiveTexture(par0);
         }
@@ -108,8 +101,7 @@ public class OpenGlHelper
         if (useMultitextureARB)
         {
             ARBMultitexture.glMultiTexCoord2fARB(par0, par1, par2);
-        }
-        else
+        } else
         {
             GL13.glMultiTexCoord2f(par0, par1, par2);
         }
@@ -128,8 +120,7 @@ public class OpenGlHelper
         if (openGL14)
         {
             GL14.glBlendFuncSeparate(p_148821_0_, p_148821_1_, p_148821_2_, p_148821_3_);
-        }
-        else
+        } else
         {
             GL11.glBlendFunc(p_148821_0_, p_148821_1_);
         }
@@ -137,6 +128,6 @@ public class OpenGlHelper
 
     public static boolean isFramebufferEnabled()
     {
-        return Config.isFastRender() ? false : (Config.isAntialiasing() ? false : framebufferSupported && Minecraft.getMinecraft().gameSettings.fboEnable);
+        return !Config.isFastRender() && (!Config.isAntialiasing() && framebufferSupported && Minecraft.getMinecraft().gameSettings.fboEnable);
     }
 }

@@ -41,15 +41,13 @@ public class RenderWolf extends RenderLiving
             this.bindTexture(wolfTextures);
             GL11.glColor3f(var5, var5, var5);
             return 1;
-        }
-        else if (par2 == 1 && par1EntityWolf.isTamed())
+        } else if (par2 == 1 && par1EntityWolf.isTamed())
         {
             this.bindTexture(wolfCollarTextures);
             int var4 = par1EntityWolf.getCollarColor();
             GL11.glColor3f(EntitySheep.fleeceColorTable[var4][0], EntitySheep.fleeceColorTable[var4][1], EntitySheep.fleeceColorTable[var4][2]);
             return 1;
-        }
-        else
+        } else
         {
             return -1;
         }
@@ -68,7 +66,7 @@ public class RenderWolf extends RenderLiving
      */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.shouldRenderPass((EntityWolf)par1EntityLivingBase, par2, par3);
+        return this.shouldRenderPass((EntityWolf) par1EntityLivingBase, par2, par3);
     }
 
     /**
@@ -76,7 +74,7 @@ public class RenderWolf extends RenderLiving
      */
     protected float handleRotationFloat(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        return this.handleRotationFloat((EntityWolf)par1EntityLivingBase, par2);
+        return this.handleRotationFloat((EntityWolf) par1EntityLivingBase, par2);
     }
 
     /**
@@ -84,6 +82,6 @@ public class RenderWolf extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityWolf)par1Entity);
+        return this.getEntityTexture((EntityWolf) par1Entity);
     }
 }

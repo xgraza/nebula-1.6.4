@@ -1,10 +1,11 @@
 package net.minecraft.client.gui;
 
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.ResourcePackListEntry;
 import net.minecraft.util.EnumChatFormatting;
+
+import java.util.List;
 
 public abstract class GuiResourcePackList extends GuiListExtended
 {
@@ -18,7 +19,7 @@ public abstract class GuiResourcePackList extends GuiListExtended
         this.field_148205_k = p_i45055_1_;
         this.field_148204_l = p_i45055_4_;
         this.field_148163_i = false;
-        this.func_148133_a(true, (int)((float)p_i45055_1_.fontRenderer.FONT_HEIGHT * 1.5F));
+        this.func_148133_a(true, (int) ((float) p_i45055_1_.fontRenderer.FONT_HEIGHT * 1.5F));
     }
 
     protected void func_148129_a(int p_148129_1_, int p_148129_2_, Tessellator p_148129_3_)
@@ -41,7 +42,7 @@ public abstract class GuiResourcePackList extends GuiListExtended
 
     public ResourcePackListEntry func_148180_b(int p_148203_1_)
     {
-        return (ResourcePackListEntry)this.func_148201_l().get(p_148203_1_);
+        return (ResourcePackListEntry) this.func_148201_l().get(p_148203_1_);
     }
 
     public int func_148139_c()

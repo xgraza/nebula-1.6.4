@@ -1,7 +1,8 @@
 package net.minecraft.client.renderer;
 
-import java.nio.IntBuffer;
 import org.lwjgl.opengl.GL11;
+
+import java.nio.IntBuffer;
 
 public class RenderList
 {
@@ -19,15 +20,19 @@ public class RenderList
     private double cameraY;
     private double cameraZ;
 
-    /** A list of OpenGL render list IDs rendered by this RenderList. */
-    private IntBuffer glLists = GLAllocation.createDirectIntBuffer(65536);
+    /**
+     * A list of OpenGL render list IDs rendered by this RenderList.
+     */
+    private final IntBuffer glLists = GLAllocation.createDirectIntBuffer(65536);
 
     /**
      * Does this RenderList contain properly-initialized and current data for rendering?
      */
     private boolean valid;
 
-    /** Has glLists been flipped to make it ready for reading yet? */
+    /**
+     * Has glLists been flipped to make it ready for reading yet?
+     */
     private boolean bufferFlipped;
     private static final String __OBFID = "CL_00000957";
 
@@ -45,7 +50,7 @@ public class RenderList
 
     public boolean rendersChunk(int par1, int par2, int par3)
     {
-        return !this.valid ? false : par1 == this.renderChunkX && par2 == this.renderChunkY && par3 == this.renderChunkZ;
+        return this.valid && par1 == this.renderChunkX && par2 == this.renderChunkY && par3 == this.renderChunkZ;
     }
 
     public void addGLRenderList(int par1)
@@ -71,7 +76,7 @@ public class RenderList
             if (this.glLists.remaining() > 0)
             {
                 GL11.glPushMatrix();
-                GL11.glTranslatef((float)((double)this.renderChunkX - this.cameraX), (float)((double)this.renderChunkY - this.cameraY), (float)((double)this.renderChunkZ - this.cameraZ));
+                GL11.glTranslatef((float) ((double) this.renderChunkX - this.cameraX), (float) ((double) this.renderChunkY - this.cameraY), (float) ((double) this.renderChunkZ - this.cameraZ));
                 GL11.glCallLists(this.glLists);
                 GL11.glPopMatrix();
             }

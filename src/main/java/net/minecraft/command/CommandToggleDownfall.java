@@ -28,7 +28,7 @@ public class CommandToggleDownfall extends CommandBase
     public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         this.toggleDownfall();
-        notifyAdmins(par1ICommandSender, "commands.downfall.success", new Object[0]);
+        notifyAdmins(par1ICommandSender, "commands.downfall.success");
     }
 
     /**

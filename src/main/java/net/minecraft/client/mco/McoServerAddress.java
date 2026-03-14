@@ -20,14 +20,10 @@ public class McoServerAddress extends ValueObject
         {
             JsonObject var3 = var1.parse(p_148769_0_).getAsJsonObject();
             var2.field_148770_a = var3.get("address").getAsString();
-        }
-        catch (JsonIOException var4)
+        } catch (JsonIOException var4)
         {
-            ;
-        }
-        catch (JsonSyntaxException var5)
+        } catch (JsonSyntaxException var5)
         {
-            ;
         }
 
         return var2;

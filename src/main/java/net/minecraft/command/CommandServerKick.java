@@ -1,8 +1,9 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.List;
 
 public class CommandServerKick extends CommandBase
 {
@@ -37,8 +38,7 @@ public class CommandServerKick extends CommandBase
             if (var3 == null)
             {
                 throw new PlayerNotFoundException();
-            }
-            else
+            } else
             {
                 if (par2ArrayOfStr.length >= 2)
                 {
@@ -50,17 +50,15 @@ public class CommandServerKick extends CommandBase
 
                 if (var5)
                 {
-                    notifyAdmins(par1ICommandSender, "commands.kick.success.reason", new Object[] {var3.getCommandSenderName(), var4});
-                }
-                else
+                    notifyAdmins(par1ICommandSender, "commands.kick.success.reason", var3.getCommandSenderName(), var4);
+                } else
                 {
-                    notifyAdmins(par1ICommandSender, "commands.kick.success", new Object[] {var3.getCommandSenderName()});
+                    notifyAdmins(par1ICommandSender, "commands.kick.success", var3.getCommandSenderName());
                 }
             }
-        }
-        else
+        } else
         {
-            throw new WrongUsageException("commands.kick.usage", new Object[0]);
+            throw new WrongUsageException("commands.kick.usage");
         }
     }
 

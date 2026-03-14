@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,6 +11,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockStem extends BlockBush implements IGrowable
 {
@@ -25,7 +26,7 @@ public class BlockStem extends BlockBush implements IGrowable
         this.setTickRandomly(true);
         float var2 = 0.125F;
         this.setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, 0.25F, 0.5F + var2);
-        this.setCreativeTab((CreativeTabs)null);
+        this.setCreativeTab(null);
     }
 
     protected boolean func_149854_a(Block p_149854_1_)
@@ -44,7 +45,7 @@ public class BlockStem extends BlockBush implements IGrowable
         {
             float var6 = this.func_149875_n(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
 
-            if (p_149674_5_.nextInt((int)(25.0F / var6) + 1) == 0)
+            if (p_149674_5_.nextInt((int) (25.0F / var6) + 1) == 0)
             {
                 int var7 = p_149674_1_.getBlockMetadata(p_149674_2_, p_149674_3_, p_149674_4_);
 
@@ -52,8 +53,7 @@ public class BlockStem extends BlockBush implements IGrowable
                 {
                     ++var7;
                     p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, var7, 2);
-                }
-                else
+                } else
                 {
                     if (p_149674_1_.getBlock(p_149674_2_ - 1, p_149674_3_, p_149674_4_) == this.field_149877_a)
                     {
@@ -202,9 +202,9 @@ public class BlockStem extends BlockBush implements IGrowable
 
     public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
     {
-        this.maxY = (double)((float)(p_149719_1_.getBlockMetadata(p_149719_2_, p_149719_3_, p_149719_4_) * 2 + 2) / 16.0F);
+        this.maxY = (float) (p_149719_1_.getBlockMetadata(p_149719_2_, p_149719_3_, p_149719_4_) * 2 + 2) / 16.0F;
         float var5 = 0.125F;
-        this.setBlockBounds(0.5F - var5, 0.0F, 0.5F - var5, 0.5F + var5, (float)this.maxY, 0.5F + var5);
+        this.setBlockBounds(0.5F - var5, 0.0F, 0.5F - var5, 0.5F + var5, (float) this.maxY, 0.5F + var5);
     }
 
     /**

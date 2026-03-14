@@ -1,10 +1,11 @@
 package net.minecraft.src;
 
-import java.util.ArrayList;
-import java.util.Properties;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
+
+import java.util.ArrayList;
+import java.util.Properties;
 
 public class RandomMobsProperties
 {
@@ -51,8 +52,7 @@ public class RandomMobsProperties
             randomId = el.randomMobsId;
             int var5 = randomId % this.resourceLocations.length;
             return this.resourceLocations[var5];
-        }
-        else
+        } else
         {
             return loc;
         }
@@ -91,7 +91,7 @@ public class RandomMobsProperties
             }
         }
 
-        RandomMobsRule[] var17 = (RandomMobsRule[])((RandomMobsRule[])list.toArray(new RandomMobsRule[list.size()]));
+        RandomMobsRule[] var17 = (RandomMobsRule[]) list.toArray(new RandomMobsRule[list.size()]);
         return var17;
     }
 
@@ -103,8 +103,7 @@ public class RandomMobsProperties
         if (minHeightStr == null && maxHeightStr == null)
         {
             return null;
-        }
-        else
+        } else
         {
             int minHeight = 0;
 
@@ -136,8 +135,7 @@ public class RandomMobsProperties
             {
                 Config.warn("Invalid minHeight, maxHeight: " + minHeightStr + ", " + maxHeightStr);
                 return null;
-            }
-            else
+            } else
             {
                 RangeListInt list = new RangeListInt();
                 list.addRange(new RangeInt(minHeight, maxHeight));
@@ -152,8 +150,7 @@ public class RandomMobsProperties
         {
             Config.warn("No skins specified: " + path);
             return false;
-        }
-        else
+        } else
         {
             int i;
 

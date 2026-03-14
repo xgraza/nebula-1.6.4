@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -11,6 +10,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public abstract class BlockLiquid extends Block
 {
@@ -45,8 +46,7 @@ public abstract class BlockLiquid extends Block
         if (this.blockMaterial != Material.water)
         {
             return 16777215;
-        }
-        else
+        } else
         {
             int var5 = 0;
             int var6 = 0;
@@ -74,7 +74,7 @@ public abstract class BlockLiquid extends Block
             p_149801_0_ = 0;
         }
 
-        return (float)(p_149801_0_ + 1) / 9.0F;
+        return (float) (p_149801_0_ + 1) / 9.0F;
     }
 
     /**
@@ -95,8 +95,7 @@ public abstract class BlockLiquid extends Block
         if (p_149798_1_.getBlock(p_149798_2_, p_149798_3_, p_149798_4_).getMaterial() != this.blockMaterial)
         {
             return -1;
-        }
-        else
+        } else
         {
             int var5 = p_149798_1_.getBlockMetadata(p_149798_2_, p_149798_3_, p_149798_4_);
 
@@ -131,13 +130,13 @@ public abstract class BlockLiquid extends Block
     public boolean isBlockSolid(IBlockAccess p_149747_1_, int p_149747_2_, int p_149747_3_, int p_149747_4_, int p_149747_5_)
     {
         Material var6 = p_149747_1_.getBlock(p_149747_2_, p_149747_3_, p_149747_4_).getMaterial();
-        return var6 == this.blockMaterial ? false : (p_149747_5_ == 1 ? true : (var6 == Material.ice ? false : super.isBlockSolid(p_149747_1_, p_149747_2_, p_149747_3_, p_149747_4_, p_149747_5_)));
+        return var6 != this.blockMaterial && (p_149747_5_ == 1 || (var6 != Material.ice && super.isBlockSolid(p_149747_1_, p_149747_2_, p_149747_3_, p_149747_4_, p_149747_5_)));
     }
 
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
         Material var6 = p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_).getMaterial();
-        return var6 == this.blockMaterial ? false : (p_149646_5_ == 1 ? true : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_));
+        return var6 != this.blockMaterial && (p_149646_5_ == 1 || super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_));
     }
 
     /**
@@ -212,14 +211,13 @@ public abstract class BlockLiquid extends Block
                     if (var11 >= 0)
                     {
                         var12 = var11 - (var6 - 8);
-                        var5 = var5.addVector((double)((var8 - p_149800_2_) * var12), (double)((p_149800_3_ - p_149800_3_) * var12), (double)((var10 - p_149800_4_) * var12));
+                        var5 = var5.addVector((var8 - p_149800_2_) * var12, (0) * var12, (var10 - p_149800_4_) * var12);
                     }
                 }
-            }
-            else if (var11 >= 0)
+            } else if (var11 >= 0)
             {
                 var12 = var11 - var6;
-                var5 = var5.addVector((double)((var8 - p_149800_2_) * var12), (double)((p_149800_3_ - p_149800_3_) * var12), (double)((var10 - p_149800_4_) * var12));
+                var5 = var5.addVector((var8 - p_149800_2_) * var12, (0) * var12, (var10 - p_149800_4_) * var12);
             }
         }
 
@@ -324,7 +322,7 @@ public abstract class BlockLiquid extends Block
 
                 if (var6 <= 0 || var6 >= 8)
                 {
-                    p_149734_1_.spawnParticle("suspended", (double)((float)p_149734_2_ + p_149734_5_.nextFloat()), (double)((float)p_149734_3_ + p_149734_5_.nextFloat()), (double)((float)p_149734_4_ + p_149734_5_.nextFloat()), 0.0D, 0.0D, 0.0D);
+                    p_149734_1_.spawnParticle("suspended", (float) p_149734_2_ + p_149734_5_.nextFloat(), (float) p_149734_3_ + p_149734_5_.nextFloat(), (float) p_149734_4_ + p_149734_5_.nextFloat(), 0.0D, 0.0D, 0.0D);
                 }
             }
 
@@ -357,28 +355,28 @@ public abstract class BlockLiquid extends Block
                 if (p_149734_1_.getBlock(var8, p_149734_3_, var9).getMaterial() == Material.air && (p_149734_1_.getBlock(var8, p_149734_3_ - 1, var9).getMaterial().blocksMovement() || p_149734_1_.getBlock(var8, p_149734_3_ - 1, var9).getMaterial().isLiquid()))
                 {
                     float var10 = 0.0625F;
-                    double var11 = (double)((float)p_149734_2_ + p_149734_5_.nextFloat());
-                    double var13 = (double)((float)p_149734_3_ + p_149734_5_.nextFloat());
-                    double var15 = (double)((float)p_149734_4_ + p_149734_5_.nextFloat());
+                    double var11 = (float) p_149734_2_ + p_149734_5_.nextFloat();
+                    double var13 = (float) p_149734_3_ + p_149734_5_.nextFloat();
+                    double var15 = (float) p_149734_4_ + p_149734_5_.nextFloat();
 
                     if (var7 == 0)
                     {
-                        var11 = (double)((float)p_149734_2_ - var10);
+                        var11 = (float) p_149734_2_ - var10;
                     }
 
                     if (var7 == 1)
                     {
-                        var11 = (double)((float)(p_149734_2_ + 1) + var10);
+                        var11 = (float) (p_149734_2_ + 1) + var10;
                     }
 
                     if (var7 == 2)
                     {
-                        var15 = (double)((float)p_149734_4_ - var10);
+                        var15 = (float) p_149734_4_ - var10;
                     }
 
                     if (var7 == 3)
                     {
-                        var15 = (double)((float)(p_149734_4_ + 1) + var10);
+                        var15 = (float) (p_149734_4_ + 1) + var10;
                     }
 
                     double var17 = 0.0D;
@@ -386,22 +384,22 @@ public abstract class BlockLiquid extends Block
 
                     if (var7 == 0)
                     {
-                        var17 = (double)(-var10);
+                        var17 = -var10;
                     }
 
                     if (var7 == 1)
                     {
-                        var17 = (double)var10;
+                        var17 = var10;
                     }
 
                     if (var7 == 2)
                     {
-                        var19 = (double)(-var10);
+                        var19 = -var10;
                     }
 
                     if (var7 == 3)
                     {
-                        var19 = (double)var10;
+                        var19 = var10;
                     }
 
                     p_149734_1_.spawnParticle("splash", var11, var13, var15, var17, 0.0D, var19);
@@ -415,7 +413,7 @@ public abstract class BlockLiquid extends Block
 
             if (var6 > 0 && var6 < 8)
             {
-                p_149734_1_.playSound((double)((float)p_149734_2_ + 0.5F), (double)((float)p_149734_3_ + 0.5F), (double)((float)p_149734_4_ + 0.5F), "liquid.water", p_149734_5_.nextFloat() * 0.25F + 0.75F, p_149734_5_.nextFloat() * 1.0F + 0.5F, false);
+                p_149734_1_.playSound((float) p_149734_2_ + 0.5F, (float) p_149734_3_ + 0.5F, (float) p_149734_4_ + 0.5F, "liquid.water", p_149734_5_.nextFloat() * 0.25F + 0.75F, p_149734_5_.nextFloat() + 0.5F, false);
             }
         }
 
@@ -427,30 +425,29 @@ public abstract class BlockLiquid extends Block
         {
             if (p_149734_5_.nextInt(100) == 0)
             {
-                var21 = (double)((float)p_149734_2_ + p_149734_5_.nextFloat());
-                var22 = (double)p_149734_3_ + this.maxY;
-                var23 = (double)((float)p_149734_4_ + p_149734_5_.nextFloat());
+                var21 = (float) p_149734_2_ + p_149734_5_.nextFloat();
+                var22 = (double) p_149734_3_ + this.maxY;
+                var23 = (float) p_149734_4_ + p_149734_5_.nextFloat();
                 p_149734_1_.spawnParticle("lava", var21, var22, var23, 0.0D, 0.0D, 0.0D);
                 p_149734_1_.playSound(var21, var22, var23, "liquid.lavapop", 0.2F + p_149734_5_.nextFloat() * 0.2F, 0.9F + p_149734_5_.nextFloat() * 0.15F, false);
             }
 
             if (p_149734_5_.nextInt(200) == 0)
             {
-                p_149734_1_.playSound((double)p_149734_2_, (double)p_149734_3_, (double)p_149734_4_, "liquid.lava", 0.2F + p_149734_5_.nextFloat() * 0.2F, 0.9F + p_149734_5_.nextFloat() * 0.15F, false);
+                p_149734_1_.playSound(p_149734_2_, p_149734_3_, p_149734_4_, "liquid.lava", 0.2F + p_149734_5_.nextFloat() * 0.2F, 0.9F + p_149734_5_.nextFloat() * 0.15F, false);
             }
         }
 
         if (p_149734_5_.nextInt(10) == 0 && World.doesBlockHaveSolidTopSurface(p_149734_1_, p_149734_2_, p_149734_3_ - 1, p_149734_4_) && !p_149734_1_.getBlock(p_149734_2_, p_149734_3_ - 2, p_149734_4_).getMaterial().blocksMovement())
         {
-            var21 = (double)((float)p_149734_2_ + p_149734_5_.nextFloat());
-            var22 = (double)p_149734_3_ - 1.05D;
-            var23 = (double)((float)p_149734_4_ + p_149734_5_.nextFloat());
+            var21 = (float) p_149734_2_ + p_149734_5_.nextFloat();
+            var22 = (double) p_149734_3_ - 1.05D;
+            var23 = (float) p_149734_4_ + p_149734_5_.nextFloat();
 
             if (this.blockMaterial == Material.water)
             {
                 p_149734_1_.spawnParticle("dripWater", var21, var22, var23, 0.0D, 0.0D, 0.0D);
-            }
-            else
+            } else
             {
                 p_149734_1_.spawnParticle("dripLava", var21, var22, var23, 0.0D, 0.0D, 0.0D);
             }
@@ -524,8 +521,7 @@ public abstract class BlockLiquid extends Block
                     if (var6 == 0)
                     {
                         p_149805_1_.setBlock(p_149805_2_, p_149805_3_, p_149805_4_, Blocks.obsidian);
-                    }
-                    else if (var6 <= 4)
+                    } else if (var6 <= 4)
                     {
                         p_149805_1_.setBlock(p_149805_2_, p_149805_3_, p_149805_4_, Blocks.cobblestone);
                     }
@@ -538,11 +534,11 @@ public abstract class BlockLiquid extends Block
 
     protected void func_149799_m(World p_149799_1_, int p_149799_2_, int p_149799_3_, int p_149799_4_)
     {
-        p_149799_1_.playSoundEffect((double)((float)p_149799_2_ + 0.5F), (double)((float)p_149799_3_ + 0.5F), (double)((float)p_149799_4_ + 0.5F), "random.fizz", 0.5F, 2.6F + (p_149799_1_.rand.nextFloat() - p_149799_1_.rand.nextFloat()) * 0.8F);
+        p_149799_1_.playSoundEffect((float) p_149799_2_ + 0.5F, (float) p_149799_3_ + 0.5F, (float) p_149799_4_ + 0.5F, "random.fizz", 0.5F, 2.6F + (p_149799_1_.rand.nextFloat() - p_149799_1_.rand.nextFloat()) * 0.8F);
 
         for (int var5 = 0; var5 < 8; ++var5)
         {
-            p_149799_1_.spawnParticle("largesmoke", (double)p_149799_2_ + Math.random(), (double)p_149799_3_ + 1.2D, (double)p_149799_4_ + Math.random(), 0.0D, 0.0D, 0.0D);
+            p_149799_1_.spawnParticle("largesmoke", (double) p_149799_2_ + Math.random(), (double) p_149799_3_ + 1.2D, (double) p_149799_4_ + Math.random(), 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -550,11 +546,10 @@ public abstract class BlockLiquid extends Block
     {
         if (this.blockMaterial == Material.lava)
         {
-            this.field_149806_a = new IIcon[] {p_149651_1_.registerIcon("lava_still"), p_149651_1_.registerIcon("lava_flow")};
-        }
-        else
+            this.field_149806_a = new IIcon[]{ p_149651_1_.registerIcon("lava_still"), p_149651_1_.registerIcon("lava_flow") };
+        } else
         {
-            this.field_149806_a = new IIcon[] {p_149651_1_.registerIcon("water_still"), p_149651_1_.registerIcon("water_flow")};
+            this.field_149806_a = new IIcon[]{ p_149651_1_.registerIcon("water_still"), p_149651_1_.registerIcon("water_flow") };
         }
     }
 

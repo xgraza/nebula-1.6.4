@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -17,6 +15,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockCauldron extends Block
 {
@@ -96,9 +97,9 @@ public class BlockCauldron extends Block
     public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity p_149670_5_)
     {
         int var6 = func_150027_b(p_149670_1_.getBlockMetadata(p_149670_2_, p_149670_3_, p_149670_4_));
-        float var7 = (float)p_149670_3_ + (6.0F + (float)(3 * var6)) / 16.0F;
+        float var7 = (float) p_149670_3_ + (6.0F + (float) (3 * var6)) / 16.0F;
 
-        if (!p_149670_1_.isClient && p_149670_5_.isBurning() && var6 > 0 && p_149670_5_.boundingBox.minY <= (double)var7)
+        if (!p_149670_1_.isClient && p_149670_5_.isBurning() && var6 > 0 && p_149670_5_.boundingBox.minY <= (double) var7)
         {
             p_149670_5_.extinguish();
             this.func_150024_a(p_149670_1_, p_149670_2_, p_149670_3_, p_149670_4_, var6 - 1);
@@ -113,16 +114,14 @@ public class BlockCauldron extends Block
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
             ItemStack var10 = p_149727_5_.inventory.getCurrentItem();
 
             if (var10 == null)
             {
                 return true;
-            }
-            else
+            } else
             {
                 int var11 = p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_);
                 int var12 = func_150027_b(var11);
@@ -140,8 +139,7 @@ public class BlockCauldron extends Block
                     }
 
                     return true;
-                }
-                else
+                } else
                 {
                     if (var10.getItem() == Items.glass_bottle)
                     {
@@ -153,27 +151,25 @@ public class BlockCauldron extends Block
 
                                 if (!p_149727_5_.inventory.addItemStackToInventory(var13))
                                 {
-                                    p_149727_1_.spawnEntityInWorld(new EntityItem(p_149727_1_, (double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 1.5D, (double)p_149727_4_ + 0.5D, var13));
-                                }
-                                else if (p_149727_5_ instanceof EntityPlayerMP)
+                                    p_149727_1_.spawnEntityInWorld(new EntityItem(p_149727_1_, (double) p_149727_2_ + 0.5D, (double) p_149727_3_ + 1.5D, (double) p_149727_4_ + 0.5D, var13));
+                                } else if (p_149727_5_ instanceof EntityPlayerMP)
                                 {
-                                    ((EntityPlayerMP)p_149727_5_).sendContainerToPlayer(p_149727_5_.inventoryContainer);
+                                    ((EntityPlayerMP) p_149727_5_).sendContainerToPlayer(p_149727_5_.inventoryContainer);
                                 }
 
                                 --var10.stackSize;
 
                                 if (var10.stackSize <= 0)
                                 {
-                                    p_149727_5_.inventory.setInventorySlotContents(p_149727_5_.inventory.currentItem, (ItemStack)null);
+                                    p_149727_5_.inventory.setInventorySlotContents(p_149727_5_.inventory.currentItem, null);
                                 }
                             }
 
                             this.func_150024_a(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_, var12 - 1);
                         }
-                    }
-                    else if (var12 > 0 && var10.getItem() instanceof ItemArmor && ((ItemArmor)var10.getItem()).getArmorMaterial() == ItemArmor.ArmorMaterial.CLOTH)
+                    } else if (var12 > 0 && var10.getItem() instanceof ItemArmor && ((ItemArmor) var10.getItem()).getArmorMaterial() == ItemArmor.ArmorMaterial.CLOTH)
                     {
-                        ItemArmor var14 = (ItemArmor)var10.getItem();
+                        ItemArmor var14 = (ItemArmor) var10.getItem();
                         var14.removeColor(var10);
                         this.func_150024_a(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_, var12 - 1);
                         return true;
@@ -239,6 +235,6 @@ public class BlockCauldron extends Block
     public static float getRenderFluidLevel(int p_150025_0_)
     {
         int var1 = MathHelper.clamp_int(p_150025_0_, 0, 3);
-        return (float)(6 + 3 * var1) / 16.0F;
+        return (float) (6 + 3 * var1) / 16.0F;
     }
 }

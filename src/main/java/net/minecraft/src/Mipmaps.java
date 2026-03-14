@@ -1,11 +1,12 @@
 package net.minecraft.src;
 
-import java.awt.Dimension;
-import java.nio.IntBuffer;
-import java.util.ArrayList;
 import net.minecraft.client.renderer.GLAllocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import java.awt.Dimension;
+import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 public class Mipmaps
 {
@@ -14,9 +15,9 @@ public class Mipmaps
     private final int height;
     private final int[] data;
     private final boolean direct;
-    private int[][] mipmapDatas;
+    private final int[][] mipmapDatas;
     private IntBuffer[] mipmapBuffers;
-    private Dimension[] mipmapDimensions;
+    private final Dimension[] mipmapDimensions;
 
     public Mipmaps(String iconName, int width, int height, int[] data, boolean direct)
     {
@@ -52,7 +53,7 @@ public class Mipmaps
 
                 if (mipWidth <= 0 && mipHeight <= 0)
                 {
-                    Dimension[] mipmapDimensions1 = (Dimension[])((Dimension[])listDims.toArray(new Dimension[listDims.size()]));
+                    Dimension[] mipmapDimensions1 = (Dimension[]) listDims.toArray(new Dimension[listDims.size()]);
                     return mipmapDimensions1;
                 }
 
@@ -70,8 +71,7 @@ public class Mipmaps
                 Dimension dim = new Dimension(mipWidth, mipHeight);
                 listDims.add(dim);
             }
-        }
-        else
+        } else
         {
             Config.warn("Mipmaps not possible (power of 2 dimensions needed), texture: " + iconName + ", dim: " + width + "x" + height);
             return new Dimension[0];
@@ -100,10 +100,10 @@ public class Mipmaps
                 {
                     for (int mipY = 0; mipY < mipHeight; ++mipY)
                     {
-                        int p1 = parMipData[mipX * 2 + 0 + (mipY * 2 + 0) * parWidth];
-                        int p2 = parMipData[mipX * 2 + 1 + (mipY * 2 + 0) * parWidth];
+                        int p1 = parMipData[mipX * 2 + (mipY * 2) * parWidth];
+                        int p2 = parMipData[mipX * 2 + 1 + (mipY * 2) * parWidth];
                         int p3 = parMipData[mipX * 2 + 1 + (mipY * 2 + 1) * parWidth];
-                        int p4 = parMipData[mipX * 2 + 0 + (mipY * 2 + 1) * parWidth];
+                        int p4 = parMipData[mipX * 2 + (mipY * 2 + 1) * parWidth];
                         int pixel = alphaBlend(p1, p2, p3, p4);
                         mipData[mipX + mipY * mipWidth] = pixel;
                     }
@@ -140,8 +140,7 @@ public class Mipmaps
         {
             a1 = 1;
             a2 = 1;
-        }
-        else
+        } else
         {
             if (a1 == 0)
             {
@@ -180,8 +179,7 @@ public class Mipmaps
         if (mipmapDimensions == null)
         {
             return null;
-        }
-        else
+        } else
         {
             IntBuffer[] mipmapBuffers = new IntBuffer[mipmapDimensions.length];
 
@@ -211,7 +209,7 @@ public class Mipmaps
             int mipWidth = dim.width;
             int mipHeight = dim.height;
             int level = i + 1;
-            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, level, GL11.GL_RGBA, mipWidth, mipHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)null);
+            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, level, GL11.GL_RGBA, mipWidth, mipHeight, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer) null);
         }
     }
 }

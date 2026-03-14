@@ -3,6 +3,10 @@ package net.minecraft.client.resources;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.IllegalFormatException;
@@ -10,13 +14,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 
 public class Locale
 {
-    /** Splits on "=" */
+    /**
+     * Splits on "="
+     */
     private static final Splitter splitter = Splitter.on('=').limit(2);
     private static final Pattern field_135031_c = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
     Map field_135032_a = Maps.newHashMap();
@@ -33,21 +36,19 @@ public class Locale
 
         while (var3.hasNext())
         {
-            String var4 = (String)var3.next();
-            String var5 = String.format("lang/%s.lang", new Object[] {var4});
+            String var4 = (String) var3.next();
+            String var5 = String.format("lang/%s.lang", var4);
             Iterator var6 = par1ResourceManager.getResourceDomains().iterator();
 
             while (var6.hasNext())
             {
-                String var7 = (String)var6.next();
+                String var7 = (String) var6.next();
 
                 try
                 {
                     this.loadLocaleData(par1ResourceManager.getAllResources(new ResourceLocation(var7, var5)));
-                }
-                catch (IOException var9)
+                } catch (IOException var9)
                 {
-                    ;
                 }
             }
         }
@@ -69,7 +70,7 @@ public class Locale
 
         while (var3.hasNext())
         {
-            String var4 = (String)var3.next();
+            String var4 = (String) var3.next();
             int var5 = var4.length();
             var2 += var5;
 
@@ -82,8 +83,8 @@ public class Locale
             }
         }
 
-        float var7 = (float)var1 / (float)var2;
-        this.field_135029_d = (double)var7 > 0.1D;
+        float var7 = (float) var1 / (float) var2;
+        this.field_135029_d = (double) var7 > 0.1D;
     }
 
     /**
@@ -95,7 +96,7 @@ public class Locale
 
         while (var2.hasNext())
         {
-            IResource var3 = (IResource)var2.next();
+            IResource var3 = (IResource) var2.next();
             this.loadLocaleData(var3.getInputStream());
         }
     }
@@ -106,11 +107,11 @@ public class Locale
 
         while (var2.hasNext())
         {
-            String var3 = (String)var2.next();
+            String var3 = (String) var2.next();
 
             if (!var3.isEmpty() && var3.charAt(0) != 35)
             {
-                String[] var4 = (String[])Iterables.toArray(splitter.split(var3), String.class);
+                String[] var4 = Iterables.toArray(splitter.split(var3), String.class);
 
                 if (var4 != null && var4.length == 2)
                 {
@@ -127,7 +128,7 @@ public class Locale
      */
     private String translateKeyPrivate(String par1Str)
     {
-        String var2 = (String)this.field_135032_a.get(par1Str);
+        String var2 = (String) this.field_135032_a.get(par1Str);
         return var2 == null ? par1Str : var2;
     }
 
@@ -141,8 +142,7 @@ public class Locale
         try
         {
             return String.format(var3, par2ArrayOfObj);
-        }
-        catch (IllegalFormatException var5)
+        } catch (IllegalFormatException var5)
         {
             return "Format error: " + var3;
         }

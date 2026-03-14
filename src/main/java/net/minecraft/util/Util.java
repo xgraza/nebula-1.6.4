@@ -34,12 +34,10 @@ public class Util
         if (p_147173_0_ == null)
         {
             return null;
-        }
-        else if (isUUIDString(p_147173_0_))
+        } else if (isUUIDString(p_147173_0_))
         {
             return UUID.fromString(p_147173_0_);
-        }
-        else
+        } else
         {
             if (p_147173_0_.length() == 32)
             {
@@ -55,7 +53,7 @@ public class Util
         }
     }
 
-    public static enum EnumOS
+    public enum EnumOS
     {
         LINUX("LINUX", 0),
         SOLARIS("SOLARIS", 1),
@@ -63,9 +61,11 @@ public class Util
         MACOS("MACOS", 3),
         UNKNOWN("UNKNOWN", 4);
 
-        private static final Util.EnumOS[] $VALUES = new Util.EnumOS[]{LINUX, SOLARIS, WINDOWS, MACOS, UNKNOWN};
+        private static final Util.EnumOS[] $VALUES = new Util.EnumOS[]{ LINUX, SOLARIS, WINDOWS, MACOS, UNKNOWN };
         private static final String __OBFID = "CL_00001660";
 
-        private EnumOS(String par1Str, int par2) {}
+        EnumOS(String par1Str, int par2)
+        {
+        }
     }
 }

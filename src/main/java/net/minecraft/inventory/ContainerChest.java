@@ -5,8 +5,8 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerChest extends Container
 {
-    private IInventory lowerChestInventory;
-    private int numRows;
+    private final IInventory lowerChestInventory;
+    private final int numRows;
     private static final String __OBFID = "CL_00001742";
 
     public ContainerChest(IInventory par1IInventory, IInventory par2IInventory)
@@ -51,7 +51,7 @@ public class ContainerChest extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -64,17 +64,15 @@ public class ContainerChest extends Container
                 {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 0, this.numRows * 9, false))
+            } else if (!this.mergeItemStack(var5, 0, this.numRows * 9, false))
             {
                 return null;
             }
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack(null);
+            } else
             {
                 var4.onSlotChanged();
             }

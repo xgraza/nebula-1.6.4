@@ -1,25 +1,25 @@
 package net.minecraft.scoreboard;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Scoreboard
 {
-    /** Map of objective names to ScoreObjective objects. */
+    /**
+     * Map of objective names to ScoreObjective objects.
+     */
     private final Map scoreObjectives = new HashMap();
     private final Map scoreObjectiveCriterias = new HashMap();
     private final Map field_96544_c = new HashMap();
     private final ScoreObjective[] field_96541_d = new ScoreObjective[3];
 
-    /** Map of teamnames to ScorePlayerTeam instances */
+    /**
+     * Map of teamnames to ScorePlayerTeam instances
+     */
     private final Map teams = new HashMap();
 
-    /** Map of usernames to ScorePlayerTeam objects. */
+    /**
+     * Map of usernames to ScorePlayerTeam objects.
+     */
     private final Map teamMemberships = new HashMap();
     private static final String __OBFID = "CL_00000619";
 
@@ -28,7 +28,7 @@ public class Scoreboard
      */
     public ScoreObjective getObjective(String par1Str)
     {
-        return (ScoreObjective)this.scoreObjectives.get(par1Str);
+        return (ScoreObjective) this.scoreObjectives.get(par1Str);
     }
 
     public ScoreObjective addScoreObjective(String par1Str, IScoreObjectiveCriteria par2ScoreObjectiveCriteria)
@@ -37,12 +37,11 @@ public class Scoreboard
 
         if (var3 != null)
         {
-            throw new IllegalArgumentException("An objective with the name \'" + par1Str + "\' already exists!");
-        }
-        else
+            throw new IllegalArgumentException("An objective with the name '" + par1Str + "' already exists!");
+        } else
         {
             var3 = new ScoreObjective(this, par1Str, par2ScoreObjectiveCriteria);
-            Object var4 = (List)this.scoreObjectiveCriterias.get(par2ScoreObjectiveCriteria);
+            Object var4 = this.scoreObjectiveCriterias.get(par2ScoreObjectiveCriteria);
 
             if (var4 == null)
             {
@@ -50,7 +49,7 @@ public class Scoreboard
                 this.scoreObjectiveCriterias.put(par2ScoreObjectiveCriteria, var4);
             }
 
-            ((List)var4).add(var3);
+            ((List) var4).add(var3);
             this.scoreObjectives.put(par1Str, var3);
             this.func_96522_a(var3);
             return var3;
@@ -59,13 +58,13 @@ public class Scoreboard
 
     public Collection func_96520_a(IScoreObjectiveCriteria par1ScoreObjectiveCriteria)
     {
-        Collection var2 = (Collection)this.scoreObjectiveCriterias.get(par1ScoreObjectiveCriteria);
+        Collection var2 = (Collection) this.scoreObjectiveCriterias.get(par1ScoreObjectiveCriteria);
         return var2 == null ? new ArrayList() : new ArrayList(var2);
     }
 
     public Score func_96529_a(String par1Str, ScoreObjective par2ScoreObjective)
     {
-        Object var3 = (Map)this.field_96544_c.get(par1Str);
+        Object var3 = this.field_96544_c.get(par1Str);
 
         if (var3 == null)
         {
@@ -73,12 +72,12 @@ public class Scoreboard
             this.field_96544_c.put(par1Str, var3);
         }
 
-        Score var4 = (Score)((Map)var3).get(par2ScoreObjective);
+        Score var4 = (Score) ((Map) var3).get(par2ScoreObjective);
 
         if (var4 == null)
         {
             var4 = new Score(this, par2ScoreObjective, par1Str);
-            ((Map)var3).put(par2ScoreObjective, var4);
+            ((Map) var3).put(par2ScoreObjective, var4);
         }
 
         return var4;
@@ -91,8 +90,8 @@ public class Scoreboard
 
         while (var3.hasNext())
         {
-            Map var4 = (Map)var3.next();
-            Score var5 = (Score)var4.get(par1ScoreObjective);
+            Map var4 = (Map) var3.next();
+            Score var5 = (Score) var4.get(par1ScoreObjective);
 
             if (var5 != null)
             {
@@ -116,7 +115,7 @@ public class Scoreboard
 
     public void func_96515_c(String par1Str)
     {
-        Map var2 = (Map)this.field_96544_c.remove(par1Str);
+        Map var2 = (Map) this.field_96544_c.remove(par1Str);
 
         if (var2 != null)
         {
@@ -132,7 +131,7 @@ public class Scoreboard
 
         while (var3.hasNext())
         {
-            Map var4 = (Map)var3.next();
+            Map var4 = (Map) var3.next();
             var2.addAll(var4.values());
         }
 
@@ -141,14 +140,14 @@ public class Scoreboard
 
     public Map func_96510_d(String par1Str)
     {
-        Object var2 = (Map)this.field_96544_c.get(par1Str);
+        Object var2 = this.field_96544_c.get(par1Str);
 
         if (var2 == null)
         {
             var2 = new HashMap();
         }
 
-        return (Map)var2;
+        return (Map) var2;
     }
 
     public void func_96519_k(ScoreObjective par1ScoreObjective)
@@ -159,11 +158,11 @@ public class Scoreboard
         {
             if (this.func_96539_a(var2) == par1ScoreObjective)
             {
-                this.func_96530_a(var2, (ScoreObjective)null);
+                this.func_96530_a(var2, null);
             }
         }
 
-        List var5 = (List)this.scoreObjectiveCriterias.get(par1ScoreObjective.getCriteria());
+        List var5 = (List) this.scoreObjectiveCriterias.get(par1ScoreObjective.getCriteria());
 
         if (var5 != null)
         {
@@ -174,7 +173,7 @@ public class Scoreboard
 
         while (var3.hasNext())
         {
-            Map var4 = (Map)var3.next();
+            Map var4 = (Map) var3.next();
             var4.remove(par1ScoreObjective);
         }
 
@@ -196,7 +195,7 @@ public class Scoreboard
      */
     public ScorePlayerTeam getTeam(String par1Str)
     {
-        return (ScorePlayerTeam)this.teams.get(par1Str);
+        return (ScorePlayerTeam) this.teams.get(par1Str);
     }
 
     /**
@@ -209,9 +208,8 @@ public class Scoreboard
 
         if (var2 != null)
         {
-            throw new IllegalArgumentException("A team with the name \'" + par1Str + "\' already exists!");
-        }
-        else
+            throw new IllegalArgumentException("A team with the name '" + par1Str + "' already exists!");
+        } else
         {
             var2 = new ScorePlayerTeam(this, par1Str);
             this.teams.put(par1Str, var2);
@@ -230,7 +228,7 @@ public class Scoreboard
 
         while (var2.hasNext())
         {
-            String var3 = (String)var2.next();
+            String var3 = (String) var2.next();
             this.teamMemberships.remove(var3);
         }
 
@@ -242,8 +240,7 @@ public class Scoreboard
         if (!this.teams.containsKey(p_151392_2_))
         {
             return false;
-        }
-        else
+        } else
         {
             ScorePlayerTeam var3 = this.getTeam(p_151392_2_);
 
@@ -266,8 +263,7 @@ public class Scoreboard
         {
             this.removePlayerFromTeam(par1Str, var2);
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -281,9 +277,8 @@ public class Scoreboard
     {
         if (this.getPlayersTeam(par1Str) != par2ScorePlayerTeam)
         {
-            throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team \'" + par2ScorePlayerTeam.getRegisteredName() + "\'.");
-        }
-        else
+            throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team '" + par2ScorePlayerTeam.getRegisteredName() + "'.");
+        } else
         {
             this.teamMemberships.remove(par1Str);
             par2ScorePlayerTeam.getMembershipCollection().remove(par1Str);
@@ -311,24 +306,40 @@ public class Scoreboard
      */
     public ScorePlayerTeam getPlayersTeam(String par1Str)
     {
-        return (ScorePlayerTeam)this.teamMemberships.get(par1Str);
+        return (ScorePlayerTeam) this.teamMemberships.get(par1Str);
     }
 
-    public void func_96522_a(ScoreObjective par1ScoreObjective) {}
+    public void func_96522_a(ScoreObjective par1ScoreObjective)
+    {
+    }
 
-    public void func_96532_b(ScoreObjective par1ScoreObjective) {}
+    public void func_96532_b(ScoreObjective par1ScoreObjective)
+    {
+    }
 
-    public void func_96533_c(ScoreObjective par1ScoreObjective) {}
+    public void func_96533_c(ScoreObjective par1ScoreObjective)
+    {
+    }
 
-    public void func_96536_a(Score par1Score) {}
+    public void func_96536_a(Score par1Score)
+    {
+    }
 
-    public void func_96516_a(String par1Str) {}
+    public void func_96516_a(String par1Str)
+    {
+    }
 
-    public void func_96523_a(ScorePlayerTeam par1ScorePlayerTeam) {}
+    public void func_96523_a(ScorePlayerTeam par1ScorePlayerTeam)
+    {
+    }
 
-    public void func_96538_b(ScorePlayerTeam par1ScorePlayerTeam) {}
+    public void func_96538_b(ScorePlayerTeam par1ScorePlayerTeam)
+    {
+    }
 
-    public void func_96513_c(ScorePlayerTeam par1ScorePlayerTeam) {}
+    public void func_96513_c(ScorePlayerTeam par1ScorePlayerTeam)
+    {
+    }
 
     /**
      * Returns 'list' for 0, 'sidebar' for 1, 'belowName for 2, otherwise null.

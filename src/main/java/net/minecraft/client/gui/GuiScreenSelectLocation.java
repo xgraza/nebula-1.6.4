@@ -24,7 +24,7 @@ public abstract class GuiScreenSelectLocation
     private float field_148370_o;
     private int field_148381_p = -1;
     private long field_148380_q;
-    private boolean field_148379_r = true;
+    private final boolean field_148379_r = true;
     private boolean field_148378_s;
     private int field_148377_t;
     private static final String __OBFID = "CL_00000785";
@@ -68,11 +68,17 @@ public abstract class GuiScreenSelectLocation
 
     protected abstract void func_148348_a(int var1, int var2, int var3, int var4, Tessellator var5);
 
-    protected void func_148354_a(int p_148354_1_, int p_148354_2_, Tessellator p_148354_3_) {}
+    protected void func_148354_a(int p_148354_1_, int p_148354_2_, Tessellator p_148354_3_)
+    {
+    }
 
-    protected void func_148359_a(int p_148359_1_, int p_148359_2_) {}
+    protected void func_148359_a(int p_148359_1_, int p_148359_2_)
+    {
+    }
 
-    protected void func_148353_b(int p_148353_1_, int p_148353_2_) {}
+    protected void func_148353_b(int p_148353_1_, int p_148353_2_)
+    {
+    }
 
     private void func_148361_h()
     {
@@ -88,9 +94,9 @@ public abstract class GuiScreenSelectLocation
             this.field_148370_o = 0.0F;
         }
 
-        if (this.field_148370_o > (float)var1)
+        if (this.field_148370_o > (float) var1)
         {
-            this.field_148370_o = (float)var1;
+            this.field_148370_o = (float) var1;
         }
     }
 
@@ -105,13 +111,12 @@ public abstract class GuiScreenSelectLocation
         {
             if (p_148357_1_.id == this.field_148374_k)
             {
-                this.field_148370_o -= (float)(this.field_148364_d * 2 / 3);
+                this.field_148370_o -= (float) (this.field_148364_d * 2 / 3);
                 this.field_148372_m = -2.0F;
                 this.func_148361_h();
-            }
-            else if (p_148357_1_.id == this.field_148371_l)
+            } else if (p_148357_1_.id == this.field_148371_l)
             {
-                this.field_148370_o += (float)(this.field_148364_d * 2 / 3);
+                this.field_148370_o += (float) (this.field_148364_d * 2 / 3);
                 this.field_148372_m = -2.0F;
                 this.func_148361_h();
             }
@@ -142,7 +147,7 @@ public abstract class GuiScreenSelectLocation
                 {
                     int var8 = this.field_148363_g / 2 - 110;
                     var9 = this.field_148363_g / 2 + 110;
-                    var10 = p_148350_2_ - this.field_148366_b - this.field_148377_t + (int)this.field_148370_o - 4;
+                    var10 = p_148350_2_ - this.field_148366_b - this.field_148377_t + (int) this.field_148370_o - 4;
                     var11 = var10 / this.field_148364_d;
 
                     if (p_148350_1_ >= var8 && p_148350_1_ <= var9 && var11 >= 0 && var10 >= 0 && var11 < var4)
@@ -151,10 +156,9 @@ public abstract class GuiScreenSelectLocation
                         this.func_148352_a(var11, var12);
                         this.field_148381_p = var11;
                         this.field_148380_q = Minecraft.getSystemTime();
-                    }
-                    else if (p_148350_1_ >= var8 && p_148350_1_ <= var9 && var10 < 0)
+                    } else if (p_148350_1_ >= var8 && p_148350_1_ <= var9 && var10 < 0)
                     {
-                        this.func_148359_a(p_148350_1_ - var8, p_148350_2_ - this.field_148366_b + (int)this.field_148370_o - 4);
+                        this.func_148359_a(p_148350_1_ - var8, p_148350_2_ - this.field_148366_b + (int) this.field_148370_o - 4);
                         var7 = false;
                     }
 
@@ -168,7 +172,7 @@ public abstract class GuiScreenSelectLocation
                             var20 = 1;
                         }
 
-                        var13 = (int)((float)((this.field_148367_c - this.field_148366_b) * (this.field_148367_c - this.field_148366_b)) / (float)this.func_148351_b());
+                        var13 = (int) ((float) ((this.field_148367_c - this.field_148366_b) * (this.field_148367_c - this.field_148366_b)) / (float) this.func_148351_b());
 
                         if (var13 < 32)
                         {
@@ -180,34 +184,29 @@ public abstract class GuiScreenSelectLocation
                             var13 = this.field_148367_c - this.field_148366_b - 8;
                         }
 
-                        this.field_148369_n /= (float)(this.field_148367_c - this.field_148366_b - var13) / (float)var20;
-                    }
-                    else
+                        this.field_148369_n /= (float) (this.field_148367_c - this.field_148366_b - var13) / (float) var20;
+                    } else
                     {
                         this.field_148369_n = 1.0F;
                     }
 
                     if (var7)
                     {
-                        this.field_148372_m = (float)p_148350_2_;
-                    }
-                    else
+                        this.field_148372_m = (float) p_148350_2_;
+                    } else
                     {
                         this.field_148372_m = -2.0F;
                     }
-                }
-                else
+                } else
                 {
                     this.field_148372_m = -2.0F;
                 }
-            }
-            else if (this.field_148372_m >= 0.0F)
+            } else if (this.field_148372_m >= 0.0F)
             {
-                this.field_148370_o -= ((float)p_148350_2_ - this.field_148372_m) * this.field_148369_n;
-                this.field_148372_m = (float)p_148350_2_;
+                this.field_148370_o -= ((float) p_148350_2_ - this.field_148372_m) * this.field_148369_n;
+                this.field_148372_m = (float) p_148350_2_;
             }
-        }
-        else
+        } else
         {
             while (!this.field_148368_a.gameSettings.touchscreen && Mouse.next())
             {
@@ -218,13 +217,12 @@ public abstract class GuiScreenSelectLocation
                     if (var16 > 0)
                     {
                         var16 = -1;
-                    }
-                    else if (var16 < 0)
+                    } else if (var16 < 0)
                     {
                         var16 = 1;
                     }
 
-                    this.field_148370_o += (float)(var16 * this.field_148364_d / 2);
+                    this.field_148370_o += (float) (var16 * this.field_148364_d / 2);
                 }
             }
 
@@ -240,13 +238,13 @@ public abstract class GuiScreenSelectLocation
         float var17 = 32.0F;
         var18.startDrawingQuads();
         var18.setColorOpaque_I(2105376);
-        var18.addVertexWithUV((double)this.field_148373_j, (double)this.field_148367_c, 0.0D, (double)((float)this.field_148373_j / var17), (double)((float)(this.field_148367_c + (int)this.field_148370_o) / var17));
-        var18.addVertexWithUV((double)this.field_148376_i, (double)this.field_148367_c, 0.0D, (double)((float)this.field_148376_i / var17), (double)((float)(this.field_148367_c + (int)this.field_148370_o) / var17));
-        var18.addVertexWithUV((double)this.field_148376_i, (double)this.field_148366_b, 0.0D, (double)((float)this.field_148376_i / var17), (double)((float)(this.field_148366_b + (int)this.field_148370_o) / var17));
-        var18.addVertexWithUV((double)this.field_148373_j, (double)this.field_148366_b, 0.0D, (double)((float)this.field_148373_j / var17), (double)((float)(this.field_148366_b + (int)this.field_148370_o) / var17));
+        var18.addVertexWithUV(this.field_148373_j, this.field_148367_c, 0.0D, (float) this.field_148373_j / var17, (float) (this.field_148367_c + (int) this.field_148370_o) / var17);
+        var18.addVertexWithUV(this.field_148376_i, this.field_148367_c, 0.0D, (float) this.field_148376_i / var17, (float) (this.field_148367_c + (int) this.field_148370_o) / var17);
+        var18.addVertexWithUV(this.field_148376_i, this.field_148366_b, 0.0D, (float) this.field_148376_i / var17, (float) (this.field_148366_b + (int) this.field_148370_o) / var17);
+        var18.addVertexWithUV(this.field_148373_j, this.field_148366_b, 0.0D, (float) this.field_148373_j / var17, (float) (this.field_148366_b + (int) this.field_148370_o) / var17);
         var18.draw();
         var9 = this.field_148363_g / 2 - 92 - 16;
-        var10 = this.field_148366_b + 4 - (int)this.field_148370_o;
+        var10 = this.field_148366_b + 4 - (int) this.field_148370_o;
 
         if (this.field_148378_s)
         {
@@ -272,10 +270,10 @@ public abstract class GuiScreenSelectLocation
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
                     var18.startDrawingQuads();
                     var18.setColorOpaque_I(0);
-                    var18.addVertexWithUV((double)var14, (double)(var20 + var13 + 2), 0.0D, 0.0D, 1.0D);
-                    var18.addVertexWithUV((double)var15, (double)(var20 + var13 + 2), 0.0D, 1.0D, 1.0D);
-                    var18.addVertexWithUV((double)var15, (double)(var20 - 2), 0.0D, 1.0D, 0.0D);
-                    var18.addVertexWithUV((double)var14, (double)(var20 - 2), 0.0D, 0.0D, 0.0D);
+                    var18.addVertexWithUV(var14, var20 + var13 + 2, 0.0D, 0.0D, 1.0D);
+                    var18.addVertexWithUV(var15, var20 + var13 + 2, 0.0D, 1.0D, 1.0D);
+                    var18.addVertexWithUV(var15, var20 - 2, 0.0D, 1.0D, 0.0D);
+                    var18.addVertexWithUV(var14, var20 - 2, 0.0D, 0.0D, 0.0D);
                     var18.draw();
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                 }
@@ -288,15 +286,15 @@ public abstract class GuiScreenSelectLocation
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
                     var18.startDrawingQuads();
                     var18.setColorOpaque_I(8421504);
-                    var18.addVertexWithUV((double)var14, (double)(var20 + var13 + 2), 0.0D, 0.0D, 1.0D);
-                    var18.addVertexWithUV((double)var15, (double)(var20 + var13 + 2), 0.0D, 1.0D, 1.0D);
-                    var18.addVertexWithUV((double)var15, (double)(var20 - 2), 0.0D, 1.0D, 0.0D);
-                    var18.addVertexWithUV((double)var14, (double)(var20 - 2), 0.0D, 0.0D, 0.0D);
+                    var18.addVertexWithUV(var14, var20 + var13 + 2, 0.0D, 0.0D, 1.0D);
+                    var18.addVertexWithUV(var15, var20 + var13 + 2, 0.0D, 1.0D, 1.0D);
+                    var18.addVertexWithUV(var15, var20 - 2, 0.0D, 1.0D, 0.0D);
+                    var18.addVertexWithUV(var14, var20 - 2, 0.0D, 0.0D, 0.0D);
                     var18.setColorOpaque_I(0);
-                    var18.addVertexWithUV((double)(var14 + 1), (double)(var20 + var13 + 1), 0.0D, 0.0D, 1.0D);
-                    var18.addVertexWithUV((double)(var15 - 1), (double)(var20 + var13 + 1), 0.0D, 1.0D, 1.0D);
-                    var18.addVertexWithUV((double)(var15 - 1), (double)(var20 - 1), 0.0D, 1.0D, 0.0D);
-                    var18.addVertexWithUV((double)(var14 + 1), (double)(var20 - 1), 0.0D, 0.0D, 0.0D);
+                    var18.addVertexWithUV(var14 + 1, var20 + var13 + 1, 0.0D, 0.0D, 1.0D);
+                    var18.addVertexWithUV(var15 - 1, var20 + var13 + 1, 0.0D, 1.0D, 1.0D);
+                    var18.addVertexWithUV(var15 - 1, var20 - 1, 0.0D, 1.0D, 0.0D);
+                    var18.addVertexWithUV(var14 + 1, var20 - 1, 0.0D, 0.0D, 0.0D);
                     var18.draw();
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                 }
@@ -316,19 +314,19 @@ public abstract class GuiScreenSelectLocation
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         var18.startDrawingQuads();
         var18.setColorRGBA_I(0, 0);
-        var18.addVertexWithUV((double)this.field_148373_j, (double)(this.field_148366_b + var19), 0.0D, 0.0D, 1.0D);
-        var18.addVertexWithUV((double)this.field_148376_i, (double)(this.field_148366_b + var19), 0.0D, 1.0D, 1.0D);
+        var18.addVertexWithUV(this.field_148373_j, this.field_148366_b + var19, 0.0D, 0.0D, 1.0D);
+        var18.addVertexWithUV(this.field_148376_i, this.field_148366_b + var19, 0.0D, 1.0D, 1.0D);
         var18.setColorRGBA_I(0, 255);
-        var18.addVertexWithUV((double)this.field_148376_i, (double)this.field_148366_b, 0.0D, 1.0D, 0.0D);
-        var18.addVertexWithUV((double)this.field_148373_j, (double)this.field_148366_b, 0.0D, 0.0D, 0.0D);
+        var18.addVertexWithUV(this.field_148376_i, this.field_148366_b, 0.0D, 1.0D, 0.0D);
+        var18.addVertexWithUV(this.field_148373_j, this.field_148366_b, 0.0D, 0.0D, 0.0D);
         var18.draw();
         var18.startDrawingQuads();
         var18.setColorRGBA_I(0, 255);
-        var18.addVertexWithUV((double)this.field_148373_j, (double)this.field_148367_c, 0.0D, 0.0D, 1.0D);
-        var18.addVertexWithUV((double)this.field_148376_i, (double)this.field_148367_c, 0.0D, 1.0D, 1.0D);
+        var18.addVertexWithUV(this.field_148373_j, this.field_148367_c, 0.0D, 0.0D, 1.0D);
+        var18.addVertexWithUV(this.field_148376_i, this.field_148367_c, 0.0D, 1.0D, 1.0D);
         var18.setColorRGBA_I(0, 0);
-        var18.addVertexWithUV((double)this.field_148376_i, (double)(this.field_148367_c - var19), 0.0D, 1.0D, 0.0D);
-        var18.addVertexWithUV((double)this.field_148373_j, (double)(this.field_148367_c - var19), 0.0D, 0.0D, 0.0D);
+        var18.addVertexWithUV(this.field_148376_i, this.field_148367_c - var19, 0.0D, 1.0D, 0.0D);
+        var18.addVertexWithUV(this.field_148373_j, this.field_148367_c - var19, 0.0D, 0.0D, 0.0D);
         var18.draw();
         var20 = this.func_148347_d();
 
@@ -346,7 +344,7 @@ public abstract class GuiScreenSelectLocation
                 var13 = this.field_148367_c - this.field_148366_b - 8;
             }
 
-            var14 = (int)this.field_148370_o * (this.field_148367_c - this.field_148366_b - var13) / var20 + this.field_148366_b;
+            var14 = (int) this.field_148370_o * (this.field_148367_c - this.field_148366_b - var13) / var20 + this.field_148366_b;
 
             if (var14 < this.field_148366_b)
             {
@@ -355,24 +353,24 @@ public abstract class GuiScreenSelectLocation
 
             var18.startDrawingQuads();
             var18.setColorRGBA_I(0, 255);
-            var18.addVertexWithUV((double)var5, (double)this.field_148367_c, 0.0D, 0.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)this.field_148367_c, 0.0D, 1.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)this.field_148366_b, 0.0D, 1.0D, 0.0D);
-            var18.addVertexWithUV((double)var5, (double)this.field_148366_b, 0.0D, 0.0D, 0.0D);
+            var18.addVertexWithUV(var5, this.field_148367_c, 0.0D, 0.0D, 1.0D);
+            var18.addVertexWithUV(var6, this.field_148367_c, 0.0D, 1.0D, 1.0D);
+            var18.addVertexWithUV(var6, this.field_148366_b, 0.0D, 1.0D, 0.0D);
+            var18.addVertexWithUV(var5, this.field_148366_b, 0.0D, 0.0D, 0.0D);
             var18.draw();
             var18.startDrawingQuads();
             var18.setColorRGBA_I(8421504, 255);
-            var18.addVertexWithUV((double)var5, (double)(var14 + var13), 0.0D, 0.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)(var14 + var13), 0.0D, 1.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)var14, 0.0D, 1.0D, 0.0D);
-            var18.addVertexWithUV((double)var5, (double)var14, 0.0D, 0.0D, 0.0D);
+            var18.addVertexWithUV(var5, var14 + var13, 0.0D, 0.0D, 1.0D);
+            var18.addVertexWithUV(var6, var14 + var13, 0.0D, 1.0D, 1.0D);
+            var18.addVertexWithUV(var6, var14, 0.0D, 1.0D, 0.0D);
+            var18.addVertexWithUV(var5, var14, 0.0D, 0.0D, 0.0D);
             var18.draw();
             var18.startDrawingQuads();
             var18.setColorRGBA_I(12632256, 255);
-            var18.addVertexWithUV((double)var5, (double)(var14 + var13 - 1), 0.0D, 0.0D, 1.0D);
-            var18.addVertexWithUV((double)(var6 - 1), (double)(var14 + var13 - 1), 0.0D, 1.0D, 1.0D);
-            var18.addVertexWithUV((double)(var6 - 1), (double)var14, 0.0D, 1.0D, 0.0D);
-            var18.addVertexWithUV((double)var5, (double)var14, 0.0D, 0.0D, 0.0D);
+            var18.addVertexWithUV(var5, var14 + var13 - 1, 0.0D, 0.0D, 1.0D);
+            var18.addVertexWithUV(var6 - 1, var14 + var13 - 1, 0.0D, 1.0D, 1.0D);
+            var18.addVertexWithUV(var6 - 1, var14, 0.0D, 1.0D, 0.0D);
+            var18.addVertexWithUV(var5, var14, 0.0D, 0.0D, 0.0D);
             var18.draw();
         }
 
@@ -396,11 +394,11 @@ public abstract class GuiScreenSelectLocation
         float var6 = 32.0F;
         var5.startDrawingQuads();
         var5.setColorRGBA_I(4210752, p_148345_4_);
-        var5.addVertexWithUV(0.0D, (double)p_148345_2_, 0.0D, 0.0D, (double)((float)p_148345_2_ / var6));
-        var5.addVertexWithUV((double)this.field_148363_g, (double)p_148345_2_, 0.0D, (double)((float)this.field_148363_g / var6), (double)((float)p_148345_2_ / var6));
+        var5.addVertexWithUV(0.0D, p_148345_2_, 0.0D, 0.0D, (float) p_148345_2_ / var6);
+        var5.addVertexWithUV(this.field_148363_g, p_148345_2_, 0.0D, (float) this.field_148363_g / var6, (float) p_148345_2_ / var6);
         var5.setColorRGBA_I(4210752, p_148345_3_);
-        var5.addVertexWithUV((double)this.field_148363_g, (double)p_148345_1_, 0.0D, (double)((float)this.field_148363_g / var6), (double)((float)p_148345_1_ / var6));
-        var5.addVertexWithUV(0.0D, (double)p_148345_1_, 0.0D, 0.0D, (double)((float)p_148345_1_ / var6));
+        var5.addVertexWithUV(this.field_148363_g, p_148345_1_, 0.0D, (float) this.field_148363_g / var6, (float) p_148345_1_ / var6);
+        var5.addVertexWithUV(0.0D, p_148345_1_, 0.0D, 0.0D, (float) p_148345_1_ / var6);
         var5.draw();
     }
 }

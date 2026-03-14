@@ -30,8 +30,8 @@ public class GuiScreenBook extends GuiScreen
     private boolean field_146481_r;
     private boolean signing;
     private int field_146479_t;
-    private int field_146478_u = 192;
-    private int field_146477_v = 192;
+    private final int field_146478_u = 192;
+    private final int field_146477_v = 192;
     private int field_146476_w = 1;
     private int pages;
     private NBTTagList tagList;
@@ -56,7 +56,7 @@ public class GuiScreenBook extends GuiScreen
 
             if (this.tagList != null)
             {
-                this.tagList = (NBTTagList)this.tagList.copy();
+                this.tagList = (NBTTagList) this.tagList.copy();
                 this.field_146476_w = this.tagList.tagCount();
 
                 if (this.field_146476_w < 1)
@@ -93,14 +93,13 @@ public class GuiScreenBook extends GuiScreen
 
         if (this.writeable)
         {
-            this.buttonList.add(this.buttonSign = new GuiButton(3, this.width / 2 - 100, 4 + this.field_146477_v, 98, 20, I18n.format("book.signButton", new Object[0])));
-            this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 + 2, 4 + this.field_146477_v, 98, 20, I18n.format("gui.done", new Object[0])));
-            this.buttonList.add(this.buttonFinalize = new GuiButton(5, this.width / 2 - 100, 4 + this.field_146477_v, 98, 20, I18n.format("book.finalizeButton", new Object[0])));
-            this.buttonList.add(this.buttonCancel = new GuiButton(4, this.width / 2 + 2, 4 + this.field_146477_v, 98, 20, I18n.format("gui.cancel", new Object[0])));
-        }
-        else
+            this.buttonList.add(this.buttonSign = new GuiButton(3, this.width / 2 - 100, 4 + this.field_146477_v, 98, 20, I18n.format("book.signButton")));
+            this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 + 2, 4 + this.field_146477_v, 98, 20, I18n.format("gui.done")));
+            this.buttonList.add(this.buttonFinalize = new GuiButton(5, this.width / 2 - 100, 4 + this.field_146477_v, 98, 20, I18n.format("book.finalizeButton")));
+            this.buttonList.add(this.buttonCancel = new GuiButton(4, this.width / 2 + 2, 4 + this.field_146477_v, 98, 20, I18n.format("gui.cancel")));
+        } else
         {
-            this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 - 100, 4 + this.field_146477_v, 200, 20, I18n.format("gui.done", new Object[0])));
+            this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 - 100, 4 + this.field_146477_v, 200, 20, I18n.format("gui.done")));
         }
 
         int var1 = (this.width - this.field_146478_u) / 2;
@@ -157,8 +156,7 @@ public class GuiScreenBook extends GuiScreen
                 {
                     NBTTagCompound var10 = this.field_146474_h.getTagCompound();
                     var10.setTag("pages", this.tagList);
-                }
-                else
+                } else
                 {
                     this.field_146474_h.setTagInfo("pages", this.tagList);
                 }
@@ -179,12 +177,10 @@ public class GuiScreenBook extends GuiScreen
                 {
                     (new PacketBuffer(var3)).writeItemStackToBuffer(this.field_146474_h);
                     this.mc.getNetHandler().addToSendQueue(new C17PacketCustomPayload(var2, var3));
-                }
-                catch (Exception var8)
+                } catch (Exception var8)
                 {
-                    logger.error("Couldn\'t send book info", var8);
-                }
-                finally
+                    logger.error("Couldn't send book info", var8);
+                } finally
                 {
                     var3.release();
                 }
@@ -198,20 +194,17 @@ public class GuiScreenBook extends GuiScreen
         {
             if (button.id == 0)
             {
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
                 this.writeToBook(false);
-            }
-            else if (button.id == 3 && this.writeable)
+            } else if (button.id == 3 && this.writeable)
             {
                 this.signing = true;
-            }
-            else if (button.id == 1)
+            } else if (button.id == 1)
             {
                 if (this.pages < this.field_146476_w - 1)
                 {
                     ++this.pages;
-                }
-                else if (this.writeable)
+                } else if (this.writeable)
                 {
                     this.func_146461_i();
 
@@ -220,20 +213,17 @@ public class GuiScreenBook extends GuiScreen
                         ++this.pages;
                     }
                 }
-            }
-            else if (button.id == 2)
+            } else if (button.id == 2)
             {
                 if (this.pages > 0)
                 {
                     --this.pages;
                 }
-            }
-            else if (button.id == 5 && this.signing)
+            } else if (button.id == 5 && this.signing)
             {
                 this.writeToBook(true);
-                this.mc.displayGuiScreen((GuiScreen)null);
-            }
-            else if (button.id == 4 && this.signing)
+                this.mc.displayGuiScreen(null);
+            } else if (button.id == 4 && this.signing)
             {
                 this.signing = false;
             }
@@ -264,8 +254,7 @@ public class GuiScreenBook extends GuiScreen
             if (this.signing)
             {
                 this.func_146460_c(typedChar, keyCode);
-            }
-            else
+            } else
             {
                 this.func_146463_b(typedChar, keyCode);
             }
@@ -325,7 +314,7 @@ public class GuiScreenBook extends GuiScreen
                 if (!this.field_146482_z.isEmpty())
                 {
                     this.writeToBook(true);
-                    this.mc.displayGuiScreen((GuiScreen)null);
+                    this.mc.displayGuiScreen(null);
                 }
 
                 return;
@@ -333,7 +322,7 @@ public class GuiScreenBook extends GuiScreen
             default:
                 if (this.field_146482_z.length() < 16 && ChatAllowedCharacters.isAllowedCharacter(p_146460_1_))
                 {
-                    this.field_146482_z = this.field_146482_z + Character.toString(p_146460_1_);
+                    this.field_146482_z = this.field_146482_z + p_146460_1_;
                     this.func_146464_h();
                     this.field_146481_r = true;
                 }
@@ -358,7 +347,7 @@ public class GuiScreenBook extends GuiScreen
     {
         String var2 = this.func_146456_p();
         String var3 = var2 + p_146459_1_;
-        int var4 = this.fontRenderer.splitStringWidth(var3 + "" + EnumChatFormatting.BLACK + "_", 118);
+        int var4 = this.fontRenderer.splitStringWidth(var3 + EnumChatFormatting.BLACK + "_", 118);
 
         if (var4 <= 118 && var3.length() < 256)
         {
@@ -388,28 +377,26 @@ public class GuiScreenBook extends GuiScreen
             {
                 if (this.field_146479_t / 6 % 2 == 0)
                 {
-                    var6 = var6 + "" + EnumChatFormatting.BLACK + "_";
-                }
-                else
+                    var6 = var6 + EnumChatFormatting.BLACK + "_";
+                } else
                 {
-                    var6 = var6 + "" + EnumChatFormatting.GRAY + "_";
+                    var6 = var6 + EnumChatFormatting.GRAY + "_";
                 }
             }
 
-            var7 = I18n.format("book.editTitle", new Object[0]);
+            var7 = I18n.format("book.editTitle");
             var8 = this.fontRenderer.getStringWidth(var7);
             this.fontRenderer.drawString(var7, var4 + 36 + (116 - var8) / 2, var5 + 16 + 16, 0);
             int var9 = this.fontRenderer.getStringWidth(var6);
             this.fontRenderer.drawString(var6, var4 + 36 + (116 - var9) / 2, var5 + 48, 0);
-            String var10 = I18n.format("book.byAuthor", new Object[] {this.field_146468_g.getCommandSenderName()});
+            String var10 = I18n.format("book.byAuthor", this.field_146468_g.getCommandSenderName());
             int var11 = this.fontRenderer.getStringWidth(var10);
             this.fontRenderer.drawString(EnumChatFormatting.DARK_GRAY + var10, var4 + 36 + (116 - var11) / 2, var5 + 48 + 10, 0);
-            String var12 = I18n.format("book.finalizeWarning", new Object[0]);
+            String var12 = I18n.format("book.finalizeWarning");
             this.fontRenderer.drawSplitString(var12, var4 + 36, var5 + 80, 116, 0);
-        }
-        else
+        } else
         {
-            var6 = I18n.format("book.pageIndicator", new Object[] {Integer.valueOf(this.pages + 1), Integer.valueOf(this.field_146476_w)});
+            var6 = I18n.format("book.pageIndicator", Integer.valueOf(this.pages + 1), Integer.valueOf(this.field_146476_w));
             var7 = "";
 
             if (this.tagList != null && this.pages >= 0 && this.pages < this.tagList.tagCount())
@@ -422,14 +409,12 @@ public class GuiScreenBook extends GuiScreen
                 if (this.fontRenderer.getBidiFlag())
                 {
                     var7 = var7 + "_";
-                }
-                else if (this.field_146479_t / 6 % 2 == 0)
+                } else if (this.field_146479_t / 6 % 2 == 0)
                 {
-                    var7 = var7 + "" + EnumChatFormatting.BLACK + "_";
-                }
-                else
+                    var7 = var7 + EnumChatFormatting.BLACK + "_";
+                } else
                 {
-                    var7 = var7 + "" + EnumChatFormatting.GRAY + "_";
+                    var7 = var7 + EnumChatFormatting.GRAY + "_";
                 }
             }
 
@@ -441,11 +426,14 @@ public class GuiScreenBook extends GuiScreen
         super.drawScreen(par1, par2, par3);
     }
 
-    private int sizeOfText() {
+    private int sizeOfText()
+    {
         int size = 0;
-        for (int i = 0; i < tagList.tagCount(); ++i) {
+        for (int i = 0; i < tagList.tagCount(); ++i)
+        {
             String string = tagList.getStringTagAt(i);
-            if (string != null && !string.isEmpty()) {
+            if (string != null && !string.isEmpty())
+            {
                 size += string.getBytes().length;
             }
         }

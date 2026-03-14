@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class ItemBow extends Item
 {
-    public static final String[] bowPullIconNameArray = new String[] {"pulling_0", "pulling_1", "pulling_2"};
+    public static final String[] bowPullIconNameArray = new String[]{ "pulling_0", "pulling_1", "pulling_2" };
     private IIcon[] iconArray;
     private static final String __OBFID = "CL_00001777";
 
@@ -33,10 +33,10 @@ public class ItemBow extends Item
         if (var5 || par3EntityPlayer.inventory.hasItem(Items.arrow))
         {
             int var6 = this.getMaxItemUseDuration(par1ItemStack) - par4;
-            float var7 = (float)var6 / 20.0F;
+            float var7 = (float) var6 / 20.0F;
             var7 = (var7 * var7 + var7 * 2.0F) / 3.0F;
 
-            if ((double)var7 < 0.1D)
+            if ((double) var7 < 0.1D)
             {
                 return;
             }
@@ -57,7 +57,7 @@ public class ItemBow extends Item
 
             if (var9 > 0)
             {
-                var8.setDamage(var8.getDamage() + (double)var9 * 0.5D + 0.5D);
+                var8.setDamage(var8.getDamage() + (double) var9 * 0.5D + 0.5D);
             }
 
             int var10 = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, par1ItemStack);
@@ -78,8 +78,7 @@ public class ItemBow extends Item
             if (var5)
             {
                 var8.canBePickedUp = 2;
-            }
-            else
+            } else
             {
                 par3EntityPlayer.inventory.consumeInventoryItem(Items.arrow);
             }

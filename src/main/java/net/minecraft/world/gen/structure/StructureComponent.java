@@ -1,8 +1,5 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
@@ -17,18 +14,28 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
 public abstract class StructureComponent
 {
     protected StructureBoundingBox boundingBox;
 
-    /** switches the Coordinate System base off the Bounding Box */
+    /**
+     * switches the Coordinate System base off the Bounding Box
+     */
     protected int coordBaseMode;
 
-    /** The type ID of this component. */
+    /**
+     * The type ID of this component.
+     */
     protected int componentType;
     private static final String __OBFID = "CL_00000511";
 
-    public StructureComponent() {}
+    public StructureComponent()
+    {
+    }
 
     protected StructureComponent(int par1)
     {
@@ -66,7 +73,9 @@ public abstract class StructureComponent
     /**
      * Initiates construction of the Structure Component picked, at the current Location of StructGen
      */
-    public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {}
+    public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
+    {
+    }
 
     /**
      * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
@@ -102,7 +111,7 @@ public abstract class StructureComponent
                 return null;
             }
 
-            var3 = (StructureComponent)var2.next();
+            var3 = (StructureComponent) var2.next();
         }
         while (var3.getBoundingBox() == null || !var3.getBoundingBox().intersectsWith(par1StructureBoundingBox));
 
@@ -235,8 +244,7 @@ public abstract class StructureComponent
 
                 return 1;
             }
-        }
-        else if (p_151555_1_ != Blocks.wooden_door && p_151555_1_ != Blocks.iron_door)
+        } else if (p_151555_1_ != Blocks.wooden_door && p_151555_1_ != Blocks.iron_door)
         {
             if (p_151555_1_ != Blocks.stone_stairs && p_151555_1_ != Blocks.oak_stairs && p_151555_1_ != Blocks.nether_brick_stairs && p_151555_1_ != Blocks.stone_brick_stairs && p_151555_1_ != Blocks.sandstone_stairs)
             {
@@ -253,8 +261,7 @@ public abstract class StructureComponent
                         {
                             return 2;
                         }
-                    }
-                    else if (this.coordBaseMode == 1)
+                    } else if (this.coordBaseMode == 1)
                     {
                         if (p_151555_2_ == 2)
                         {
@@ -275,8 +282,7 @@ public abstract class StructureComponent
                         {
                             return 3;
                         }
-                    }
-                    else if (this.coordBaseMode == 3)
+                    } else if (this.coordBaseMode == 3)
                     {
                         if (p_151555_2_ == 2)
                         {
@@ -298,8 +304,7 @@ public abstract class StructureComponent
                             return 3;
                         }
                     }
-                }
-                else if (p_151555_1_ == Blocks.stone_button)
+                } else if (p_151555_1_ == Blocks.stone_button)
                 {
                     if (this.coordBaseMode == 0)
                     {
@@ -312,8 +317,7 @@ public abstract class StructureComponent
                         {
                             return 3;
                         }
-                    }
-                    else if (this.coordBaseMode == 1)
+                    } else if (this.coordBaseMode == 1)
                     {
                         if (p_151555_2_ == 3)
                         {
@@ -334,8 +338,7 @@ public abstract class StructureComponent
                         {
                             return 4;
                         }
-                    }
-                    else if (this.coordBaseMode == 3)
+                    } else if (this.coordBaseMode == 3)
                     {
                         if (p_151555_2_ == 3)
                         {
@@ -357,8 +360,7 @@ public abstract class StructureComponent
                             return 4;
                         }
                     }
-                }
-                else if (p_151555_1_ != Blocks.tripwire_hook && !(p_151555_1_ instanceof BlockDirectional))
+                } else if (p_151555_1_ != Blocks.tripwire_hook && !(p_151555_1_ instanceof BlockDirectional))
                 {
                     if (p_151555_1_ == Blocks.piston || p_151555_1_ == Blocks.sticky_piston || p_151555_1_ == Blocks.lever || p_151555_1_ == Blocks.dispenser)
                     {
@@ -368,8 +370,7 @@ public abstract class StructureComponent
                             {
                                 return Facing.oppositeSide[p_151555_2_];
                             }
-                        }
-                        else if (this.coordBaseMode == 1)
+                        } else if (this.coordBaseMode == 1)
                         {
                             if (p_151555_2_ == 2)
                             {
@@ -390,8 +391,7 @@ public abstract class StructureComponent
                             {
                                 return 3;
                             }
-                        }
-                        else if (this.coordBaseMode == 3)
+                        } else if (this.coordBaseMode == 3)
                         {
                             if (p_151555_2_ == 2)
                             {
@@ -414,15 +414,13 @@ public abstract class StructureComponent
                             }
                         }
                     }
-                }
-                else if (this.coordBaseMode == 0)
+                } else if (this.coordBaseMode == 0)
                 {
                     if (p_151555_2_ == 0 || p_151555_2_ == 2)
                     {
                         return Direction.rotateOpposite[p_151555_2_];
                     }
-                }
-                else if (this.coordBaseMode == 1)
+                } else if (this.coordBaseMode == 1)
                 {
                     if (p_151555_2_ == 2)
                     {
@@ -443,8 +441,7 @@ public abstract class StructureComponent
                     {
                         return 0;
                     }
-                }
-                else if (this.coordBaseMode == 3)
+                } else if (this.coordBaseMode == 3)
                 {
                     if (p_151555_2_ == 2)
                     {
@@ -466,8 +463,7 @@ public abstract class StructureComponent
                         return 0;
                     }
                 }
-            }
-            else if (this.coordBaseMode == 0)
+            } else if (this.coordBaseMode == 0)
             {
                 if (p_151555_2_ == 2)
                 {
@@ -478,8 +474,7 @@ public abstract class StructureComponent
                 {
                     return 2;
                 }
-            }
-            else if (this.coordBaseMode == 1)
+            } else if (this.coordBaseMode == 1)
             {
                 if (p_151555_2_ == 0)
                 {
@@ -500,8 +495,7 @@ public abstract class StructureComponent
                 {
                     return 1;
                 }
-            }
-            else if (this.coordBaseMode == 3)
+            } else if (this.coordBaseMode == 3)
             {
                 if (p_151555_2_ == 0)
                 {
@@ -523,8 +517,7 @@ public abstract class StructureComponent
                     return 0;
                 }
             }
-        }
-        else if (this.coordBaseMode == 0)
+        } else if (this.coordBaseMode == 0)
         {
             if (p_151555_2_ == 0)
             {
@@ -535,8 +528,7 @@ public abstract class StructureComponent
             {
                 return 0;
             }
-        }
-        else
+        } else
         {
             if (this.coordBaseMode == 1)
             {
@@ -603,8 +595,7 @@ public abstract class StructureComponent
                         if (var12 != p_151549_4_ && var12 != p_151549_7_ && var13 != p_151549_3_ && var13 != p_151549_6_ && var14 != p_151549_5_ && var14 != p_151549_8_)
                         {
                             this.func_151550_a(p_151549_1_, p_151549_10_, 0, var13, var12, var14, p_151549_2_);
-                        }
-                        else
+                        } else
                         {
                             this.func_151550_a(p_151549_1_, p_151549_9_, 0, var13, var12, var14, p_151549_2_);
                         }
@@ -627,8 +618,7 @@ public abstract class StructureComponent
                         if (var14 != p_151556_4_ && var14 != p_151556_7_ && var15 != p_151556_3_ && var15 != p_151556_6_ && var16 != p_151556_5_ && var16 != p_151556_8_)
                         {
                             this.func_151550_a(p_151556_1_, p_151556_11_, p_151556_12_, var15, var14, var16, p_151556_2_);
-                        }
-                        else
+                        } else
                         {
                             this.func_151550_a(p_151556_1_, p_151556_9_, p_151556_10_, var15, var14, var16, p_151556_2_);
                         }
@@ -673,8 +663,7 @@ public abstract class StructureComponent
                         if (var14 != p_151551_6_ && var14 != p_151551_9_ && var15 != p_151551_5_ && var15 != p_151551_8_ && var16 != p_151551_7_ && var16 != p_151551_10_)
                         {
                             this.func_151550_a(p_151551_1_, p_151551_12_, 0, var15, var14, var16, p_151551_2_);
-                        }
-                        else
+                        } else
                         {
                             this.func_151550_a(p_151551_1_, p_151551_11_, 0, var15, var14, var16, p_151551_2_);
                         }
@@ -694,23 +683,23 @@ public abstract class StructureComponent
 
     protected void func_151547_a(World p_151547_1_, StructureBoundingBox p_151547_2_, int p_151547_3_, int p_151547_4_, int p_151547_5_, int p_151547_6_, int p_151547_7_, int p_151547_8_, Block p_151547_9_, boolean p_151547_10_)
     {
-        float var11 = (float)(p_151547_6_ - p_151547_3_ + 1);
-        float var12 = (float)(p_151547_7_ - p_151547_4_ + 1);
-        float var13 = (float)(p_151547_8_ - p_151547_5_ + 1);
-        float var14 = (float)p_151547_3_ + var11 / 2.0F;
-        float var15 = (float)p_151547_5_ + var13 / 2.0F;
+        float var11 = (float) (p_151547_6_ - p_151547_3_ + 1);
+        float var12 = (float) (p_151547_7_ - p_151547_4_ + 1);
+        float var13 = (float) (p_151547_8_ - p_151547_5_ + 1);
+        float var14 = (float) p_151547_3_ + var11 / 2.0F;
+        float var15 = (float) p_151547_5_ + var13 / 2.0F;
 
         for (int var16 = p_151547_4_; var16 <= p_151547_7_; ++var16)
         {
-            float var17 = (float)(var16 - p_151547_4_) / var12;
+            float var17 = (float) (var16 - p_151547_4_) / var12;
 
             for (int var18 = p_151547_3_; var18 <= p_151547_6_; ++var18)
             {
-                float var19 = ((float)var18 - var14) / (var11 * 0.5F);
+                float var19 = ((float) var18 - var14) / (var11 * 0.5F);
 
                 for (int var20 = p_151547_5_; var20 <= p_151547_8_; ++var20)
                 {
-                    float var21 = ((float)var20 - var15) / (var13 * 0.5F);
+                    float var21 = ((float) var20 - var15) / (var13 * 0.5F);
 
                     if (!p_151547_10_ || this.func_151548_a(p_151547_1_, var18, var16, var20, p_151547_2_).getMaterial() != Material.air)
                     {
@@ -773,7 +762,7 @@ public abstract class StructureComponent
         if (par2StructureBoundingBox.isVecInside(var9, var10, var11) && par1World.getBlock(var9, var10, var11) != Blocks.chest)
         {
             par1World.setBlock(var9, var10, var11, Blocks.chest, 0, 2);
-            TileEntityChest var12 = (TileEntityChest)par1World.getTileEntity(var9, var10, var11);
+            TileEntityChest var12 = (TileEntityChest) par1World.getTileEntity(var9, var10, var11);
 
             if (var12 != null)
             {
@@ -781,8 +770,7 @@ public abstract class StructureComponent
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -800,7 +788,7 @@ public abstract class StructureComponent
         if (par2StructureBoundingBox.isVecInside(var10, var11, var12) && par1World.getBlock(var10, var11, var12) != Blocks.dispenser)
         {
             par1World.setBlock(var10, var11, var12, Blocks.dispenser, this.func_151555_a(Blocks.dispenser, par7), 2);
-            TileEntityDispenser var13 = (TileEntityDispenser)par1World.getTileEntity(var10, var11, var12);
+            TileEntityDispenser var13 = (TileEntityDispenser) par1World.getTileEntity(var10, var11, var12);
 
             if (var13 != null)
             {
@@ -808,8 +796,7 @@ public abstract class StructureComponent
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

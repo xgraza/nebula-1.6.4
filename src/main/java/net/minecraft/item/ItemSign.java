@@ -26,12 +26,10 @@ public class ItemSign extends Item
         if (par7 == 0)
         {
             return false;
-        }
-        else if (!par3World.getBlock(par4, par5, par6).getMaterial().isSolid())
+        } else if (!par3World.getBlock(par4, par5, par6).getMaterial().isSolid())
         {
             return false;
-        }
-        else
+        } else
         {
             if (par7 == 1)
             {
@@ -61,29 +59,25 @@ public class ItemSign extends Item
             if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
             {
                 return false;
-            }
-            else if (!Blocks.standing_sign.canPlaceBlockAt(par3World, par4, par5, par6))
+            } else if (!Blocks.standing_sign.canPlaceBlockAt(par3World, par4, par5, par6))
             {
                 return false;
-            }
-            else if (par3World.isClient)
+            } else if (par3World.isClient)
             {
                 return true;
-            }
-            else
+            } else
             {
                 if (par7 == 1)
                 {
-                    int var11 = MathHelper.floor_double((double)((par2EntityPlayer.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
+                    int var11 = MathHelper.floor_double((double) ((par2EntityPlayer.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
                     par3World.setBlock(par4, par5, par6, Blocks.standing_sign, var11, 3);
-                }
-                else
+                } else
                 {
                     par3World.setBlock(par4, par5, par6, Blocks.wall_sign, par7, 3);
                 }
 
                 --par1ItemStack.stackSize;
-                TileEntitySign var12 = (TileEntitySign)par3World.getTileEntity(par4, par5, par6);
+                TileEntitySign var12 = (TileEntitySign) par3World.getTileEntity(par4, par5, par6);
 
                 if (var12 != null)
                 {

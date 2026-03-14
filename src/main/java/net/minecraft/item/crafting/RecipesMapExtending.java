@@ -13,7 +13,7 @@ public class RecipesMapExtending extends ShapedRecipes
 
     public RecipesMapExtending()
     {
-        super(3, 3, new ItemStack[] {new ItemStack(Items.paper), new ItemStack(Items.paper), new ItemStack(Items.paper), new ItemStack(Items.paper), new ItemStack(Items.filled_map, 0, 32767), new ItemStack(Items.paper), new ItemStack(Items.paper), new ItemStack(Items.paper), new ItemStack(Items.paper)}, new ItemStack(Items.map, 0, 0));
+        super(3, 3, new ItemStack[]{ new ItemStack(Items.paper), new ItemStack(Items.paper), new ItemStack(Items.paper), new ItemStack(Items.paper), new ItemStack(Items.filled_map, 0, 32767), new ItemStack(Items.paper), new ItemStack(Items.paper), new ItemStack(Items.paper), new ItemStack(Items.paper) }, new ItemStack(Items.map, 0, 0));
     }
 
     /**
@@ -24,8 +24,7 @@ public class RecipesMapExtending extends ShapedRecipes
         if (!super.matches(par1InventoryCrafting, par2World))
         {
             return false;
-        }
-        else
+        } else
         {
             ItemStack var3 = null;
 
@@ -42,11 +41,10 @@ public class RecipesMapExtending extends ShapedRecipes
             if (var3 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 MapData var6 = Items.filled_map.getMapData(var3, par2World);
-                return var6 == null ? false : var6.scale < 4;
+                return var6 != null && var6.scale < 4;
             }
         }
     }

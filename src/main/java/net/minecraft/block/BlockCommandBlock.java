@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityCommandBlock;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockCommandBlock extends BlockContainer
 {
@@ -39,8 +40,7 @@ public class BlockCommandBlock extends BlockContainer
             {
                 p_149695_1_.setBlockMetadataWithNotify(p_149695_2_, p_149695_3_, p_149695_4_, var7 | 1, 4);
                 p_149695_1_.scheduleBlockUpdate(p_149695_2_, p_149695_3_, p_149695_4_, this, this.tickRate(p_149695_1_));
-            }
-            else if (!var6 && var8)
+            } else if (!var6 && var8)
             {
                 p_149695_1_.setBlockMetadataWithNotify(p_149695_2_, p_149695_3_, p_149695_4_, var7 & -2, 4);
             }
@@ -56,7 +56,7 @@ public class BlockCommandBlock extends BlockContainer
 
         if (var6 != null && var6 instanceof TileEntityCommandBlock)
         {
-            CommandBlockLogic var7 = ((TileEntityCommandBlock)var6).func_145993_a();
+            CommandBlockLogic var7 = ((TileEntityCommandBlock) var6).func_145993_a();
             var7.func_145755_a(p_149674_1_);
             p_149674_1_.func_147453_f(p_149674_2_, p_149674_3_, p_149674_4_, this);
         }
@@ -72,7 +72,7 @@ public class BlockCommandBlock extends BlockContainer
      */
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
-        TileEntityCommandBlock var10 = (TileEntityCommandBlock)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+        TileEntityCommandBlock var10 = (TileEntityCommandBlock) p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
 
         if (var10 != null)
         {
@@ -90,7 +90,7 @@ public class BlockCommandBlock extends BlockContainer
     public int getComparatorInputOverride(World p_149736_1_, int p_149736_2_, int p_149736_3_, int p_149736_4_, int p_149736_5_)
     {
         TileEntity var6 = p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_);
-        return var6 != null && var6 instanceof TileEntityCommandBlock ? ((TileEntityCommandBlock)var6).func_145993_a().func_145760_g() : 0;
+        return var6 != null && var6 instanceof TileEntityCommandBlock ? ((TileEntityCommandBlock) var6).func_145993_a().func_145760_g() : 0;
     }
 
     /**
@@ -98,7 +98,7 @@ public class BlockCommandBlock extends BlockContainer
      */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
-        TileEntityCommandBlock var7 = (TileEntityCommandBlock)p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_);
+        TileEntityCommandBlock var7 = (TileEntityCommandBlock) p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_);
 
         if (p_149689_6_.hasDisplayName())
         {

@@ -46,8 +46,7 @@ public class ItemFishingRod extends Item
             int var4 = par3EntityPlayer.fishEntity.func_146034_e();
             par1ItemStack.damageItem(var4, par3EntityPlayer);
             par3EntityPlayer.swingItem();
-        }
-        else
+        } else
         {
             par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 

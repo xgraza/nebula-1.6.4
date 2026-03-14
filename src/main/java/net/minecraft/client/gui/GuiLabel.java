@@ -1,9 +1,10 @@
 package net.minecraft.client.gui;
 
-import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
 
 public class GuiLabel extends Gui
 {
@@ -37,11 +38,10 @@ public class GuiLabel extends Gui
             {
                 if (this.field_146170_l)
                 {
-                    this.drawCenteredString(this.field_146164_r, (String)this.field_146173_k.get(var6), this.field_146162_g + this.field_146167_a / 2, var5 + var6 * 10, this.field_146168_n);
-                }
-                else
+                    this.drawCenteredString(this.field_146164_r, (String) this.field_146173_k.get(var6), this.field_146162_g + this.field_146167_a / 2, var5 + var6 * 10, this.field_146168_n);
+                } else
                 {
-                    this.drawString(this.field_146164_r, (String)this.field_146173_k.get(var6), this.field_146162_g, var5 + var6 * 10, this.field_146168_n);
+                    this.drawString(this.field_146164_r, (String) this.field_146173_k.get(var6), this.field_146162_g, var5 + var6 * 10, this.field_146168_n);
                 }
             }
         }

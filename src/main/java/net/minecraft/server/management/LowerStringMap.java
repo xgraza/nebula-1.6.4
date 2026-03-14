@@ -1,11 +1,6 @@
 package net.minecraft.server.management;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
+import java.util.*;
 
 public class LowerStringMap implements Map
 {
@@ -53,8 +48,8 @@ public class LowerStringMap implements Map
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
-            this.put((String)var3.getKey(), var3.getValue());
+            Entry var3 = (Entry) var2.next();
+            this.put((String) var3.getKey(), var3.getValue());
         }
     }
 
@@ -80,6 +75,6 @@ public class LowerStringMap implements Map
 
     public Object put(Object par1Obj, Object par2Obj)
     {
-        return this.put((String)par1Obj, par2Obj);
+        return this.put((String) par1Obj, par2Obj);
     }
 }

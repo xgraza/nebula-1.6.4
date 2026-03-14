@@ -19,7 +19,7 @@ public class ItemDoublePlant extends ItemMultiTexture
      */
     public IIcon getIconFromDamage(int par1)
     {
-        return BlockDoublePlant.func_149890_d(par1) == 0 ? ((BlockDoublePlant)this.field_150941_b).sunflowerIcons[0] : ((BlockDoublePlant)this.field_150941_b).func_149888_a(true, par1);
+        return BlockDoublePlant.func_149890_d(par1) == 0 ? ((BlockDoublePlant) this.field_150941_b).sunflowerIcons[0] : ((BlockDoublePlant) this.field_150941_b).func_149888_a(true, par1);
     }
 
     public int getColorFromItemStack(ItemStack par1ItemStack, int par2)

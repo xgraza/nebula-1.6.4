@@ -5,7 +5,7 @@ import net.minecraft.util.MathHelper;
 
 public class ClippingHelperShadow extends ClippingHelper
 {
-    private static ClippingHelperShadow instance = new ClippingHelperShadow();
+    private static final ClippingHelperShadow instance = new ClippingHelperShadow();
     float[] frustumTest = new float[6];
     float[][] shadowClipPlanes = new float[10][4];
     int shadowClipPlaneCount;
@@ -32,12 +32,12 @@ public class ClippingHelperShadow extends ClippingHelper
 
     private double dot4(float[] plane, double x, double y, double z)
     {
-        return (double)plane[0] * x + (double)plane[1] * y + (double)plane[2] * z + (double)plane[3];
+        return (double) plane[0] * x + (double) plane[1] * y + (double) plane[2] * z + (double) plane[3];
     }
 
     private double dot3(float[] vecA, float[] vecB)
     {
-        return (double)vecA[0] * (double)vecB[0] + (double)vecA[1] * (double)vecB[1] + (double)vecA[2] * (double)vecB[2];
+        return (double) vecA[0] * (double) vecB[0] + (double) vecA[1] * (double) vecB[1] + (double) vecA[2] * (double) vecB[2];
     }
 
     public static ClippingHelper getInstance()
@@ -71,7 +71,7 @@ public class ClippingHelperShadow extends ClippingHelper
 
     private void assignPlane(float[] plane, float a, float b, float c, float d)
     {
-        float length = (float)Math.sqrt((double)(a * a + b * b + c * c));
+        float length = (float) Math.sqrt(a * a + b * b + c * c);
         plane[0] = a / length;
         plane[1] = b / length;
         plane[2] = c / length;
@@ -100,7 +100,7 @@ public class ClippingHelperShadow extends ClippingHelper
 
     private float length(float x, float y, float z)
     {
-        return (float)Math.sqrt((double)(x * x + y * y + z * z));
+        return (float) Math.sqrt(x * x + y * y + z * z);
     }
 
     private float distance(float x1, float y1, float z1, float x2, float y2, float z2)
@@ -113,12 +113,12 @@ public class ClippingHelperShadow extends ClippingHelper
         this.cross3(this.vecIntersection, positivePlane, negativePlane);
         this.cross3(shadowPlane, this.vecIntersection, vecSun);
         this.normalize3(shadowPlane);
-        float dotPN = (float)this.dot3(positivePlane, negativePlane);
-        float dotSN = (float)this.dot3(shadowPlane, negativePlane);
+        float dotPN = (float) this.dot3(positivePlane, negativePlane);
+        float dotSN = (float) this.dot3(shadowPlane, negativePlane);
         float disSN = this.distance(shadowPlane[0], shadowPlane[1], shadowPlane[2], negativePlane[0] * dotSN, negativePlane[1] * dotSN, negativePlane[2] * dotSN);
         float disPN = this.distance(positivePlane[0], positivePlane[1], positivePlane[2], negativePlane[0] * dotPN, negativePlane[1] * dotPN, negativePlane[2] * dotPN);
         float k1 = disSN / disPN;
-        float dotSP = (float)this.dot3(shadowPlane, positivePlane);
+        float dotSP = (float) this.dot3(shadowPlane, positivePlane);
         float disSP = this.distance(shadowPlane[0], shadowPlane[1], shadowPlane[2], positivePlane[0] * dotSP, positivePlane[1] * dotSP, positivePlane[2] * dotSP);
         float disNP = this.distance(negativePlane[0], negativePlane[1], negativePlane[2], positivePlane[0] * dotPN, positivePlane[1] * dotPN, positivePlane[2] * dotPN);
         float k2 = disSP / disNP;
@@ -140,12 +140,12 @@ public class ClippingHelperShadow extends ClippingHelper
         this.assignPlane(this.frustum[4], matMP[3] - matMP[2], matMP[7] - matMP[6], matMP[11] - matMP[10], matMP[15] - matMP[14]);
         this.assignPlane(this.frustum[5], matMP[3] + matMP[2], matMP[7] + matMP[6], matMP[11] + matMP[10], matMP[15] + matMP[14]);
         float[] vecSun = Shaders.shadowLightPositionVector;
-        float test0 = (float)this.dot3(this.frustum[0], vecSun);
-        float test1 = (float)this.dot3(this.frustum[1], vecSun);
-        float test2 = (float)this.dot3(this.frustum[2], vecSun);
-        float test3 = (float)this.dot3(this.frustum[3], vecSun);
-        float test4 = (float)this.dot3(this.frustum[4], vecSun);
-        float test5 = (float)this.dot3(this.frustum[5], vecSun);
+        float test0 = (float) this.dot3(this.frustum[0], vecSun);
+        float test1 = (float) this.dot3(this.frustum[1], vecSun);
+        float test2 = (float) this.dot3(this.frustum[2], vecSun);
+        float test3 = (float) this.dot3(this.frustum[3], vecSun);
+        float test4 = (float) this.dot3(this.frustum[4], vecSun);
+        float test5 = (float) this.dot3(this.frustum[5], vecSun);
         this.shadowClipPlaneCount = 0;
 
         if (test0 >= 0.0F)

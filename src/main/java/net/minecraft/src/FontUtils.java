@@ -1,12 +1,13 @@
 package net.minecraft.src;
 
+import net.minecraft.util.ResourceLocation;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
-import net.minecraft.util.ResourceLocation;
 
 public class FontUtils
 {
@@ -19,8 +20,7 @@ public class FontUtils
         if (!fontFileName.endsWith(suffix))
         {
             return props;
-        }
-        else
+        } else
         {
             String fileName = fontFileName.substring(0, fontFileName.length() - suffix.length()) + ".properties";
 
@@ -36,12 +36,9 @@ public class FontUtils
 
                 Config.log("Loading " + fileName);
                 props.load(in);
-            }
-            catch (FileNotFoundException var7)
+            } catch (FileNotFoundException var7)
             {
-                ;
-            }
-            catch (IOException var8)
+            } catch (IOException var8)
             {
                 var8.printStackTrace();
             }
@@ -57,7 +54,7 @@ public class FontUtils
 
         while (iter.hasNext())
         {
-            String key = (String)iter.next();
+            String key = (String) iter.next();
             String prefix = "width.";
 
             if (key.startsWith(prefix))
@@ -86,8 +83,7 @@ public class FontUtils
         if (str == null)
         {
             return defOffset;
-        }
-        else
+        } else
         {
             float offset = Config.parseFloat(str, Float.MIN_VALUE);
 
@@ -95,8 +91,7 @@ public class FontUtils
             {
                 Config.warn("Invalid value for " + key + ": " + str);
                 return defOffset;
-            }
-            else
+            } else
             {
                 return offset;
             }
@@ -110,8 +105,7 @@ public class FontUtils
         if (str == null)
         {
             return defVal;
-        }
-        else
+        } else
         {
             String strLow = str.toLowerCase().trim();
 
@@ -121,13 +115,11 @@ public class FontUtils
                 {
                     Config.warn("Invalid value for " + key + ": " + str);
                     return defVal;
-                }
-                else
+                } else
                 {
                     return false;
                 }
-            }
-            else
+            } else
             {
                 return true;
             }
@@ -139,16 +131,13 @@ public class FontUtils
         if (!Config.isCustomFonts())
         {
             return fontLoc;
-        }
-        else if (fontLoc == null)
+        } else if (fontLoc == null)
         {
             return fontLoc;
-        }
-        else if (!Config.isMinecraftThread())
+        } else if (!Config.isMinecraftThread())
         {
             return fontLoc;
-        }
-        else
+        } else
         {
             String fontName = fontLoc.getResourcePath();
             String texturesStr = "textures/";
@@ -157,8 +146,7 @@ public class FontUtils
             if (!fontName.startsWith(texturesStr))
             {
                 return fontLoc;
-            }
-            else
+            } else
             {
                 fontName = fontName.substring(texturesStr.length());
                 fontName = mcpatcherStr + fontName;

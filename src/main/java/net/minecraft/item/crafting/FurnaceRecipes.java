@@ -1,9 +1,5 @@
 package net.minecraft.item.crafting;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -11,13 +7,20 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 public class FurnaceRecipes
 {
     private static final FurnaceRecipes smeltingBase = new FurnaceRecipes();
 
-    /** The list of smelting results. */
-    private Map smeltingList = new HashMap();
-    private Map experienceList = new HashMap();
+    /**
+     * The list of smelting results.
+     */
+    private final Map smeltingList = new HashMap();
+    private final Map experienceList = new HashMap();
     private static final String __OBFID = "CL_00000085";
 
     /**
@@ -93,11 +96,11 @@ public class FurnaceRecipes
                 return null;
             }
 
-            var3 = (Entry)var2.next();
+            var3 = (Entry) var2.next();
         }
-        while (!this.func_151397_a(p_151395_1_, (ItemStack)var3.getKey()));
+        while (!this.func_151397_a(p_151395_1_, (ItemStack) var3.getKey()));
 
-        return (ItemStack)var3.getValue();
+        return (ItemStack) var3.getValue();
     }
 
     private boolean func_151397_a(ItemStack p_151397_1_, ItemStack p_151397_2_)
@@ -122,10 +125,10 @@ public class FurnaceRecipes
                 return 0.0F;
             }
 
-            var3 = (Entry)var2.next();
+            var3 = (Entry) var2.next();
         }
-        while (!this.func_151397_a(p_151398_1_, (ItemStack)var3.getKey()));
+        while (!this.func_151397_a(p_151398_1_, (ItemStack) var3.getKey()));
 
-        return ((Float)var3.getValue()).floatValue();
+        return ((Float) var3.getValue()).floatValue();
     }
 }

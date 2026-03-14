@@ -16,7 +16,7 @@ public class MatchBlock
 
         if (metadata >= 0 && metadata <= 15)
         {
-            this.metadatas = new int[] {metadata};
+            this.metadatas = new int[]{ metadata };
         }
     }
 
@@ -41,8 +41,7 @@ public class MatchBlock
         if (id != this.blockId)
         {
             return false;
-        }
-        else
+        } else
         {
             if (this.metadatas != null)
             {
@@ -59,10 +58,7 @@ public class MatchBlock
                     }
                 }
 
-                if (!matchMetadata)
-                {
-                    return false;
-                }
+                return matchMetadata;
             }
 
             return true;
@@ -90,6 +86,6 @@ public class MatchBlock
 
     public String toString()
     {
-        return "" + this.blockId + ":" + Config.arrayToString(this.metadatas);
+        return this.blockId + ":" + Config.arrayToString(this.metadatas);
     }
 }

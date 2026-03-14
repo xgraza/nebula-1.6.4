@@ -29,17 +29,16 @@ public class GenLayerRiver extends GenLayer
         {
             for (int var12 = 0; var12 < par3; ++var12)
             {
-                int var13 = this.func_151630_c(var9[var12 + 0 + (var11 + 1) * var7]);
+                int var13 = this.func_151630_c(var9[var12 + (var11 + 1) * var7]);
                 int var14 = this.func_151630_c(var9[var12 + 2 + (var11 + 1) * var7]);
-                int var15 = this.func_151630_c(var9[var12 + 1 + (var11 + 0) * var7]);
+                int var15 = this.func_151630_c(var9[var12 + 1 + (var11) * var7]);
                 int var16 = this.func_151630_c(var9[var12 + 1 + (var11 + 2) * var7]);
                 int var17 = this.func_151630_c(var9[var12 + 1 + (var11 + 1) * var7]);
 
                 if (var17 == var13 && var17 == var15 && var17 == var14 && var17 == var16)
                 {
                     var10[var12 + var11 * par3] = -1;
-                }
-                else
+                } else
                 {
                     var10[var12 + var11 * par3] = BiomeGenBase.river.biomeID;
                 }

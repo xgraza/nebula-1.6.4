@@ -1,12 +1,5 @@
 package net.minecraft.world;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEventData;
 import net.minecraft.block.material.Material;
@@ -24,25 +17,14 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.network.play.server.S19PacketEntityStatus;
-import net.minecraft.network.play.server.S24PacketBlockAction;
-import net.minecraft.network.play.server.S27PacketExplosion;
-import net.minecraft.network.play.server.S2APacketParticles;
-import net.minecraft.network.play.server.S2BPacketChangeGameState;
-import net.minecraft.network.play.server.S2CPacketSpawnGlobalEntity;
+import net.minecraft.network.play.server.*;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.scoreboard.ScoreboardSaveData;
 import net.minecraft.scoreboard.ServerScoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerManager;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.IProgressUpdate;
-import net.minecraft.util.IntHashMap;
-import net.minecraft.util.ReportedException;
-import net.minecraft.util.Vec3;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.util.*;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.chunk.Chunk;
@@ -55,6 +37,8 @@ import net.minecraft.world.storage.ISaveHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.*;
+
 public class WorldServer extends World
 {
     private static final Logger logger = LogManager.getLogger();
@@ -63,14 +47,20 @@ public class WorldServer extends World
     private final PlayerManager thePlayerManager;
     private Set pendingTickListEntriesHashSet;
 
-    /** All work to do in future ticks. */
+    /**
+     * All work to do in future ticks.
+     */
     private TreeSet pendingTickListEntriesTreeSet;
     public ChunkProviderServer theChunkProviderServer;
 
-    /** Whether or not level saving is enabled */
+    /**
+     * Whether or not level saving is enabled
+     */
     public boolean levelSaving;
 
-    /** is false if there are no players */
+    /**
+     * is false if there are no players
+     */
     private boolean allPlayersSleeping;
     private int updateEntityTick;
 
@@ -79,12 +69,14 @@ public class WorldServer extends World
      */
     private final Teleporter worldTeleporter;
     private final SpawnerAnimals animalSpawner = new SpawnerAnimals();
-    private WorldServer.ServerBlockEventList[] field_147490_S = new WorldServer.ServerBlockEventList[] {new WorldServer.ServerBlockEventList(null), new WorldServer.ServerBlockEventList(null)};
+    private final WorldServer.ServerBlockEventList[] field_147490_S = new WorldServer.ServerBlockEventList[]{ new WorldServer.ServerBlockEventList(null), new WorldServer.ServerBlockEventList(null) };
     private int field_147489_T;
-    private static final WeightedRandomChestContent[] bonusChestContent = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.stick, 0, 1, 3, 10), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.planks), 0, 1, 3, 10), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log), 0, 1, 3, 10), new WeightedRandomChestContent(Items.stone_axe, 0, 1, 1, 3), new WeightedRandomChestContent(Items.wooden_axe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.stone_pickaxe, 0, 1, 1, 3), new WeightedRandomChestContent(Items.wooden_pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.apple, 0, 2, 3, 5), new WeightedRandomChestContent(Items.bread, 0, 2, 3, 3), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log2), 0, 1, 3, 10)};
-    private List pendingTickListEntriesThisTick = new ArrayList();
+    private static final WeightedRandomChestContent[] bonusChestContent = new WeightedRandomChestContent[]{ new WeightedRandomChestContent(Items.stick, 0, 1, 3, 10), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.planks), 0, 1, 3, 10), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log), 0, 1, 3, 10), new WeightedRandomChestContent(Items.stone_axe, 0, 1, 1, 3), new WeightedRandomChestContent(Items.wooden_axe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.stone_pickaxe, 0, 1, 1, 3), new WeightedRandomChestContent(Items.wooden_pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.apple, 0, 2, 3, 5), new WeightedRandomChestContent(Items.bread, 0, 2, 3, 3), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log2), 0, 1, 3, 10) };
+    private final List pendingTickListEntriesThisTick = new ArrayList();
 
-    /** An IntHashMap of entity IDs (integers) to their Entity objects. */
+    /**
+     * An IntHashMap of entity IDs (integers) to their Entity objects.
+     */
     private IntHashMap entityIdMap;
     private static final String __OBFID = "CL_00001437";
 
@@ -112,7 +104,7 @@ public class WorldServer extends World
 
         this.worldTeleporter = new Teleporter(this);
         this.worldScoreboard = new ServerScoreboard(p_i45284_1_);
-        ScoreboardSaveData var7 = (ScoreboardSaveData)this.mapStorage.loadData(ScoreboardSaveData.class, "scoreboard");
+        ScoreboardSaveData var7 = (ScoreboardSaveData) this.mapStorage.loadData(ScoreboardSaveData.class, "scoreboard");
 
         if (var7 == null)
         {
@@ -121,7 +113,7 @@ public class WorldServer extends World
         }
 
         var7.func_96499_a(this.worldScoreboard);
-        ((ServerScoreboard)this.worldScoreboard).func_96547_a(var7);
+        ((ServerScoreboard) this.worldScoreboard).func_96547_a(var7);
     }
 
     /**
@@ -193,7 +185,7 @@ public class WorldServer extends World
     public BiomeGenBase.SpawnListEntry spawnRandomCreature(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
     {
         List var5 = this.getChunkProvider().getPossibleCreatures(par1EnumCreatureType, par2, par3, par4);
-        return var5 != null && !var5.isEmpty() ? (BiomeGenBase.SpawnListEntry)WeightedRandom.getRandomItem(this.rand, var5) : null;
+        return var5 != null && !var5.isEmpty() ? (BiomeGenBase.SpawnListEntry) WeightedRandom.getRandomItem(this.rand, var5) : null;
     }
 
     /**
@@ -206,7 +198,7 @@ public class WorldServer extends World
 
         while (var1.hasNext())
         {
-            EntityPlayer var2 = (EntityPlayer)var1.next();
+            EntityPlayer var2 = (EntityPlayer) var1.next();
 
             if (!var2.isPlayerSleeping())
             {
@@ -223,7 +215,7 @@ public class WorldServer extends World
 
         while (var1.hasNext())
         {
-            EntityPlayer var2 = (EntityPlayer)var1.next();
+            EntityPlayer var2 = (EntityPlayer) var1.next();
 
             if (var2.isPlayerSleeping())
             {
@@ -256,13 +248,12 @@ public class WorldServer extends World
                     return true;
                 }
 
-                var2 = (EntityPlayer)var1.next();
+                var2 = (EntityPlayer) var1.next();
             }
             while (var2.isPlayerFullyAsleep());
 
             return false;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -307,7 +298,7 @@ public class WorldServer extends World
 
         while (var3.hasNext())
         {
-            ChunkCoordIntPair var4 = (ChunkCoordIntPair)var3.next();
+            ChunkCoordIntPair var4 = (ChunkCoordIntPair) var3.next();
             int var5 = var4.chunkXPos * 16;
             int var6 = var4.chunkZPos * 16;
             this.theProfiler.startSection("getChunk");
@@ -331,7 +322,7 @@ public class WorldServer extends World
 
                 if (this.canLightningStrikeAt(var9, var11, var10))
                 {
-                    this.addWeatherEffect(new EntityLightningBolt(this, (double)var9, (double)var11, (double)var10));
+                    this.addWeatherEffect(new EntityLightningBolt(this, var9, var11, var10));
                 }
             }
 
@@ -444,7 +435,7 @@ public class WorldServer extends World
         {
             if (p_147454_4_.getMaterial() != Material.air)
             {
-                var7.setScheduledTime((long)p_147454_5_ + this.worldInfo.getWorldTotalTime());
+                var7.setScheduledTime((long) p_147454_5_ + this.worldInfo.getWorldTotalTime());
                 var7.setPriority(p_147454_6_);
             }
 
@@ -463,7 +454,7 @@ public class WorldServer extends World
 
         if (p_147446_4_.getMaterial() != Material.air)
         {
-            var7.setScheduledTime((long)p_147446_5_ + this.worldInfo.getWorldTotalTime());
+            var7.setScheduledTime((long) p_147446_5_ + this.worldInfo.getWorldTotalTime());
         }
 
         if (!this.pendingTickListEntriesHashSet.contains(var7))
@@ -484,8 +475,7 @@ public class WorldServer extends World
             {
                 return;
             }
-        }
-        else
+        } else
         {
             this.resetUpdateEntityTick();
         }
@@ -511,8 +501,7 @@ public class WorldServer extends World
         if (var2 != this.pendingTickListEntriesHashSet.size())
         {
             throw new IllegalStateException("TickNextTick list out of synch");
-        }
-        else
+        } else
         {
             if (var2 > 1000)
             {
@@ -524,7 +513,7 @@ public class WorldServer extends World
 
             for (int var3 = 0; var3 < var2; ++var3)
             {
-                var4 = (NextTickListEntry)this.pendingTickListEntriesTreeSet.first();
+                var4 = (NextTickListEntry) this.pendingTickListEntriesTreeSet.first();
 
                 if (!par1 && var4.scheduledTime > this.worldInfo.getWorldTotalTime())
                 {
@@ -542,7 +531,7 @@ public class WorldServer extends World
 
             while (var14.hasNext())
             {
-                var4 = (NextTickListEntry)var14.next();
+                var4 = (NextTickListEntry) var14.next();
                 var14.remove();
                 byte var5 = 0;
 
@@ -555,8 +544,7 @@ public class WorldServer extends World
                         try
                         {
                             var6.updateTick(this, var4.xCoord, var4.yCoord, var4.zCoord, this.rand);
-                        }
-                        catch (Throwable var13)
+                        } catch (Throwable var13)
                         {
                             CrashReport var8 = CrashReport.makeCrashReport(var13, "Exception while ticking a block");
                             CrashReportCategory var9 = var8.makeCategory("Block being ticked");
@@ -565,8 +553,7 @@ public class WorldServer extends World
                             try
                             {
                                 var10 = this.getBlockMetadata(var4.xCoord, var4.yCoord, var4.zCoord);
-                            }
-                            catch (Throwable var12)
+                            } catch (Throwable var12)
                             {
                                 var10 = -1;
                             }
@@ -575,8 +562,7 @@ public class WorldServer extends World
                             throw new ReportedException(var8);
                         }
                     }
-                }
-                else
+                } else
                 {
                     this.scheduleBlockUpdate(var4.xCoord, var4.yCoord, var4.zCoord, var4.func_151351_a(), 0);
                 }
@@ -604,8 +590,7 @@ public class WorldServer extends World
             if (var9 == 0)
             {
                 var10 = this.pendingTickListEntriesTreeSet.iterator();
-            }
-            else
+            } else
             {
                 var10 = this.pendingTickListEntriesThisTick.iterator();
 
@@ -617,7 +602,7 @@ public class WorldServer extends World
 
             while (var10.hasNext())
             {
-                NextTickListEntry var11 = (NextTickListEntry)var10.next();
+                NextTickListEntry var11 = (NextTickListEntry) var10.next();
 
                 if (var11.xCoord >= var5 && var11.xCoord < var6 && var11.zCoord >= var7 && var11.zCoord < var8)
                 {
@@ -675,7 +660,7 @@ public class WorldServer extends World
 
         for (int var8 = 0; var8 < this.loadedTileEntityList.size(); ++var8)
         {
-            TileEntity var9 = (TileEntity)this.loadedTileEntityList.get(var8);
+            TileEntity var9 = this.loadedTileEntityList.get(var8);
 
             if (var9.xCoord >= p_147486_1_ && var9.yCoord >= p_147486_2_ && var9.zCoord >= p_147486_3_ && var9.xCoord < p_147486_4_ && var9.yCoord < p_147486_5_ && var9.zCoord < p_147486_6_)
             {
@@ -723,8 +708,7 @@ public class WorldServer extends World
         if (!this.provider.canRespawnHere())
         {
             this.worldInfo.setSpawnPosition(0, this.provider.getAverageGroundLevel(), 0);
-        }
-        else
+        } else
         {
             this.findingSpawnPoint = true;
             WorldChunkManager var2 = this.provider.worldChunkMgr;
@@ -739,8 +723,7 @@ public class WorldServer extends World
             {
                 var6 = var5.xCoord;
                 var8 = var5.yCoord;
-            }
-            else
+            } else
             {
                 logger.warn("Unable to find spawn biome");
             }
@@ -876,7 +859,7 @@ public class WorldServer extends World
      */
     public Entity getEntityByID(int par1)
     {
-        return (Entity)this.entityIdMap.lookup(par1);
+        return (Entity) this.entityIdMap.lookup(par1);
     }
 
     /**
@@ -888,8 +871,7 @@ public class WorldServer extends World
         {
             this.mcServer.getConfigurationManager().sendToAllNear(par1Entity.posX, par1Entity.posY, par1Entity.posZ, 512.0D, this.provider.dimensionId, new S2CPacketSpawnGlobalEntity(par1Entity));
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -923,11 +905,11 @@ public class WorldServer extends World
 
         while (var12.hasNext())
         {
-            EntityPlayer var13 = (EntityPlayer)var12.next();
+            EntityPlayer var13 = (EntityPlayer) var12.next();
 
             if (var13.getDistanceSq(par2, par4, par6) < 4096.0D)
             {
-                ((EntityPlayerMP)var13).playerNetServerHandler.sendPacketToPlayer(new S27PacketExplosion(par2, par4, par6, par8, var11.affectedBlockPositions, (Vec3)var11.func_77277_b().get(var13)));
+                ((EntityPlayerMP) var13).playerNetServerHandler.sendPacketToPlayer(new S27PacketExplosion(par2, par4, par6, par8, var11.affectedBlockPositions, (Vec3) var11.func_77277_b().get(var13)));
             }
         }
 
@@ -948,7 +930,7 @@ public class WorldServer extends World
                 return;
             }
 
-            var9 = (BlockEventData)var8.next();
+            var9 = (BlockEventData) var8.next();
         }
         while (!var9.equals(var7));
     }
@@ -963,11 +945,11 @@ public class WorldServer extends World
 
             while (var2.hasNext())
             {
-                BlockEventData var3 = (BlockEventData)var2.next();
+                BlockEventData var3 = (BlockEventData) var2.next();
 
                 if (this.func_147485_a(var3))
                 {
-                    this.mcServer.getConfigurationManager().sendToAllNear((double)var3.func_151340_a(), (double)var3.func_151342_b(), (double)var3.func_151341_c(), 64.0D, this.provider.dimensionId, new S24PacketBlockAction(var3.func_151340_a(), var3.func_151342_b(), var3.func_151341_c(), var3.getBlock(), var3.getEventID(), var3.getEventParameter()));
+                    this.mcServer.getConfigurationManager().sendToAllNear(var3.func_151340_a(), var3.func_151342_b(), var3.func_151341_c(), 64.0D, this.provider.dimensionId, new S24PacketBlockAction(var3.func_151340_a(), var3.func_151342_b(), var3.func_151341_c(), var3.getBlock(), var3.getEventID(), var3.getEventParameter()));
                 }
             }
 
@@ -978,7 +960,7 @@ public class WorldServer extends World
     private boolean func_147485_a(BlockEventData p_147485_1_)
     {
         Block var2 = this.getBlock(p_147485_1_.func_151340_a(), p_147485_1_.func_151342_b(), p_147485_1_.func_151341_c());
-        return var2 == p_147485_1_.getBlock() ? var2.onBlockEventReceived(this, p_147485_1_.func_151340_a(), p_147485_1_.func_151342_b(), p_147485_1_.func_151341_c(), p_147485_1_.getEventID(), p_147485_1_.getEventParameter()) : false;
+        return var2 == p_147485_1_.getBlock() && var2.onBlockEventReceived(this, p_147485_1_.func_151340_a(), p_147485_1_.func_151342_b(), p_147485_1_.func_151341_c(), p_147485_1_.getEventID(), p_147485_1_.getEventParameter());
     }
 
     /**
@@ -1012,8 +994,7 @@ public class WorldServer extends World
             if (var1)
             {
                 this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(2, 0.0F));
-            }
-            else
+            } else
             {
                 this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(1, 0.0F));
             }
@@ -1048,15 +1029,15 @@ public class WorldServer extends World
 
     public void func_147487_a(String p_147487_1_, double p_147487_2_, double p_147487_4_, double p_147487_6_, int p_147487_8_, double p_147487_9_, double p_147487_11_, double p_147487_13_, double p_147487_15_)
     {
-        S2APacketParticles var17 = new S2APacketParticles(p_147487_1_, (float)p_147487_2_, (float)p_147487_4_, (float)p_147487_6_, (float)p_147487_9_, (float)p_147487_11_, (float)p_147487_13_, (float)p_147487_15_, p_147487_8_);
+        S2APacketParticles var17 = new S2APacketParticles(p_147487_1_, (float) p_147487_2_, (float) p_147487_4_, (float) p_147487_6_, (float) p_147487_9_, (float) p_147487_11_, (float) p_147487_13_, (float) p_147487_15_, p_147487_8_);
 
         for (int var18 = 0; var18 < this.playerEntities.size(); ++var18)
         {
-            EntityPlayerMP var19 = (EntityPlayerMP)this.playerEntities.get(var18);
+            EntityPlayerMP var19 = (EntityPlayerMP) this.playerEntities.get(var18);
             ChunkCoordinates var20 = var19.getPlayerCoordinates();
-            double var21 = p_147487_2_ - (double)var20.posX;
-            double var23 = p_147487_4_ - (double)var20.posY;
-            double var25 = p_147487_6_ - (double)var20.posZ;
+            double var21 = p_147487_2_ - (double) var20.posX;
+            double var23 = p_147487_4_ - (double) var20.posY;
+            double var25 = p_147487_6_ - (double) var20.posZ;
             double var27 = var21 * var21 + var23 * var23 + var25 * var25;
 
             if (var27 <= 256.0D)
@@ -1070,7 +1051,9 @@ public class WorldServer extends World
     {
         private static final String __OBFID = "CL_00001439";
 
-        private ServerBlockEventList() {}
+        private ServerBlockEventList()
+        {
+        }
 
         ServerBlockEventList(Object par1ServerBlockEvent)
         {

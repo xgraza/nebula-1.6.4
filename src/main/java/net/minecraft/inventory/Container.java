@@ -29,7 +29,7 @@ public abstract class Container
      * list of all people that need to be notified when this craftinventory changes
      */
     protected List<ICrafting> crafters = new ArrayList<>();
-    private Set playerList = new HashSet();
+    private final Set playerList = new HashSet();
     private static final String __OBFID = "CL_00001730";
 
     /**
@@ -39,7 +39,7 @@ public abstract class Container
     {
         par1Slot.slotNumber = this.inventorySlots.size();
         this.inventorySlots.add(par1Slot);
-        this.inventoryItemStacks.add((ItemStack) null);
+        this.inventoryItemStacks.add(null);
         return par1Slot;
     }
 
@@ -73,7 +73,7 @@ public abstract class Container
 
         for (int var2 = 0; var2 < this.inventorySlots.size(); ++var2)
         {
-            var1.add(((Slot) this.inventorySlots.get(var2)).getStack());
+            var1.add(this.inventorySlots.get(var2).getStack());
         }
 
         return var1;
@@ -86,8 +86,8 @@ public abstract class Container
     {
         for (int var1 = 0; var1 < this.inventorySlots.size(); ++var1)
         {
-            ItemStack var2 = ((Slot) this.inventorySlots.get(var1)).getStack();
-            ItemStack var3 = (ItemStack) this.inventoryItemStacks.get(var1);
+            ItemStack var2 = this.inventorySlots.get(var1).getStack();
+            ItemStack var3 = this.inventoryItemStacks.get(var1);
 
             if (!ItemStack.areItemStacksEqual(var3, var2))
             {
@@ -96,7 +96,7 @@ public abstract class Container
 
                 for (int var4 = 0; var4 < this.crafters.size(); ++var4)
                 {
-                    ((ICrafting) this.crafters.get(var4)).sendSlotContents(this, var1, var3);
+                    this.crafters.get(var4).sendSlotContents(this, var1, var3);
                 }
             }
         }
@@ -114,7 +114,7 @@ public abstract class Container
     {
         for (int var3 = 0; var3 < this.inventorySlots.size(); ++var3)
         {
-            Slot var4 = (Slot) this.inventorySlots.get(var3);
+            Slot var4 = this.inventorySlots.get(var3);
 
             if (var4.isSlotInInventory(par1IInventory, par2))
             {
@@ -127,7 +127,7 @@ public abstract class Container
 
     public Slot getSlot(int par1)
     {
-        return (Slot) this.inventorySlots.get(par1);
+        return this.inventorySlots.get(par1);
     }
 
     /**
@@ -135,7 +135,7 @@ public abstract class Container
      */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
-        Slot var3 = (Slot) this.inventorySlots.get(par2);
+        Slot var3 = this.inventorySlots.get(par2);
         return var3 != null ? var3.getStack() : null;
     }
 
@@ -171,7 +171,7 @@ public abstract class Container
                 }
             } else if (this.field_94536_g == 1)
             {
-                Slot var8 = (Slot) this.inventorySlots.get(par1);
+                Slot var8 = this.inventorySlots.get(par1);
 
                 if (var8 != null && func_94527_a(var8, var6.getItemStack(), true) && var8.isItemValid(var6.getItemStack()) && var6.getItemStack().stackSize > this.field_94537_h.size() && this.canDragIntoSlot(var8))
                 {
@@ -243,7 +243,7 @@ public abstract class Container
                         if (par2 == 0)
                         {
                             par4EntityPlayer.dropPlayerItemWithRandomChoice(var6.getItemStack(), true);
-                            var6.setItemStack((ItemStack) null);
+                            var6.setItemStack(null);
                         }
 
                         if (par2 == 1)
@@ -252,7 +252,7 @@ public abstract class Container
 
                             if (var6.getItemStack().stackSize == 0)
                             {
-                                var6.setItemStack((ItemStack) null);
+                                var6.setItemStack(null);
                             }
                         }
                     }
@@ -263,7 +263,7 @@ public abstract class Container
                         return null;
                     }
 
-                    var16 = (Slot) this.inventorySlots.get(par1);
+                    var16 = this.inventorySlots.get(par1);
 
                     if (var16 != null && var16.canTakeStack(par4EntityPlayer))
                     {
@@ -287,7 +287,7 @@ public abstract class Container
                         return null;
                     }
 
-                    var16 = (Slot) this.inventorySlots.get(par1);
+                    var16 = this.inventorySlots.get(par1);
 
                     if (var16 != null)
                     {
@@ -317,7 +317,7 @@ public abstract class Container
 
                                 if (var21.stackSize == 0)
                                 {
-                                    var6.setItemStack((ItemStack) null);
+                                    var6.setItemStack(null);
                                 }
                             }
                         } else if (var16.canTakeStack(par4EntityPlayer))
@@ -330,7 +330,7 @@ public abstract class Container
 
                                 if (var17.stackSize == 0)
                                 {
-                                    var16.putStack((ItemStack) null);
+                                    var16.putStack(null);
                                 }
 
                                 var16.onPickupFromSlot(par4EntityPlayer, var6.getItemStack());
@@ -354,7 +354,7 @@ public abstract class Container
 
                                     if (var21.stackSize == 0)
                                     {
-                                        var6.setItemStack((ItemStack) null);
+                                        var6.setItemStack(null);
                                     }
 
                                     var17.stackSize += var19;
@@ -374,7 +374,7 @@ public abstract class Container
 
                                     if (var17.stackSize == 0)
                                     {
-                                        var16.putStack((ItemStack) null);
+                                        var16.putStack(null);
                                     }
 
                                     var16.onPickupFromSlot(par4EntityPlayer, var6.getItemStack());
@@ -387,7 +387,7 @@ public abstract class Container
                 }
             } else if (par3 == 2 && par2 >= 0 && par2 < 9)
             {
-                var16 = (Slot) this.inventorySlots.get(par1);
+                var16 = this.inventorySlots.get(par1);
 
                 if (var16.canTakeStack(par4EntityPlayer))
                 {
@@ -412,7 +412,7 @@ public abstract class Container
                             {
                                 var6.addItemStackToInventory(var17);
                                 var16.decrStackSize(var23.stackSize);
-                                var16.putStack((ItemStack) null);
+                                var16.putStack(null);
                                 var16.onPickupFromSlot(par4EntityPlayer, var23);
                             }
                         } else
@@ -423,13 +423,13 @@ public abstract class Container
                         }
                     } else if (!var16.getHasStack() && var17 != null && var16.isItemValid(var17))
                     {
-                        var6.setInventorySlotContents(par2, (ItemStack) null);
+                        var6.setInventorySlotContents(par2, null);
                         var16.putStack(var17);
                     }
                 }
             } else if (par3 == 3 && par4EntityPlayer.capabilities.isCreativeMode && var6.getItemStack() == null && par1 >= 0)
             {
-                var16 = (Slot) this.inventorySlots.get(par1);
+                var16 = this.inventorySlots.get(par1);
 
                 if (var16 != null && var16.getHasStack())
                 {
@@ -439,7 +439,7 @@ public abstract class Container
                 }
             } else if (par3 == 4 && var6.getItemStack() == null && par1 >= 0)
             {
-                var16 = (Slot) this.inventorySlots.get(par1);
+                var16 = this.inventorySlots.get(par1);
 
                 if (var16 != null && var16.getHasStack() && var16.canTakeStack(par4EntityPlayer))
                 {
@@ -449,7 +449,7 @@ public abstract class Container
                 }
             } else if (par3 == 6 && par1 >= 0)
             {
-                var16 = (Slot) this.inventorySlots.get(par1);
+                var16 = this.inventorySlots.get(par1);
                 var17 = var6.getItemStack();
 
                 if (var17 != null && (var16 == null || !var16.getHasStack() || !var16.canTakeStack(par4EntityPlayer)))
@@ -461,7 +461,7 @@ public abstract class Container
                     {
                         for (int var24 = var9; var24 >= 0 && var24 < this.inventorySlots.size() && var17.stackSize < var17.getMaxStackSize(); var24 += var19)
                         {
-                            Slot var25 = (Slot) this.inventorySlots.get(var24);
+                            Slot var25 = this.inventorySlots.get(var24);
 
                             if (var25.getHasStack() && func_94527_a(var25, var17, true) && var25.canTakeStack(par4EntityPlayer) && this.func_94530_a(var17, var25) && (var22 != 0 || var25.getStack().stackSize != var25.getStack().getMaxStackSize()))
                             {
@@ -471,7 +471,7 @@ public abstract class Container
 
                                 if (var15.stackSize <= 0)
                                 {
-                                    var25.putStack((ItemStack) null);
+                                    var25.putStack(null);
                                 }
 
                                 var25.onPickupFromSlot(par4EntityPlayer, var15);
@@ -507,7 +507,7 @@ public abstract class Container
         if (var2.getItemStack() != null)
         {
             par1EntityPlayer.dropPlayerItemWithRandomChoice(var2.getItemStack(), false);
-            var2.setItemStack((ItemStack) null);
+            var2.setItemStack(null);
         }
     }
 
@@ -595,7 +595,7 @@ public abstract class Container
         {
             while (par1ItemStack.stackSize > 0 && (!par4 && var6 < par3 || par4 && var6 >= par2))
             {
-                var7 = (Slot) this.inventorySlots.get(var6);
+                var7 = this.inventorySlots.get(var6);
                 var8 = var7.getStack();
 
                 if (var8 != null && var8.getItem() == par1ItemStack.getItem() && (!par1ItemStack.getHasSubtypes() || par1ItemStack.getItemDamage() == var8.getItemDamage()) && ItemStack.areItemStackTagsEqual(par1ItemStack, var8))
@@ -639,7 +639,7 @@ public abstract class Container
 
             while (!par4 && var6 < par3 || par4 && var6 >= par2)
             {
-                var7 = (Slot) this.inventorySlots.get(var6);
+                var7 = this.inventorySlots.get(var6);
                 var8 = var7.getStack();
 
                 if (var8 == null)

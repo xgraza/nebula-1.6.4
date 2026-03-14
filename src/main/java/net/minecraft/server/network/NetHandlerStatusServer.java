@@ -26,7 +26,9 @@ public class NetHandlerStatusServer implements INetHandlerStatusServer
     /**
      * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
      */
-    public void onDisconnect(IChatComponent p_147231_1_) {}
+    public void onDisconnect(IChatComponent p_147231_1_)
+    {
+    }
 
     /**
      * Allows validation of the connection state transition. Parameters: from, to (connection state). Typically throws
@@ -44,15 +46,17 @@ public class NetHandlerStatusServer implements INetHandlerStatusServer
      * For scheduled network tasks. Used in NetHandlerPlayServer to send keep-alive packets and in NetHandlerLoginServer
      * for a login-timeout
      */
-    public void onNetworkTick() {}
+    public void onNetworkTick()
+    {
+    }
 
     public void processServerQuery(C00PacketServerQuery p_147312_1_)
     {
-        this.field_147313_b.scheduleOutboundPacket(new S00PacketServerInfo(this.field_147314_a.func_147134_at()), new GenericFutureListener[0]);
+        this.field_147313_b.scheduleOutboundPacket(new S00PacketServerInfo(this.field_147314_a.func_147134_at()));
     }
 
     public void processPing(C01PacketPing p_147311_1_)
     {
-        this.field_147313_b.scheduleOutboundPacket(new S01PacketPong(p_147311_1_.func_149289_c()), new GenericFutureListener[0]);
+        this.field_147313_b.scheduleOutboundPacket(new S01PacketPong(p_147311_1_.func_149289_c()));
     }
 }

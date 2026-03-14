@@ -1,13 +1,6 @@
 package net.minecraft.item;
 
 import com.google.common.collect.HashMultimap;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -25,13 +18,16 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import java.util.*;
+import java.util.Map.Entry;
+
 public class ItemPotion extends Item
 {
     /**
      * Contains a map from integers to the list of potion effects that potions with that damage value confer (to prevent
      * recalculating it).
      */
-    private HashMap effectCache = new HashMap();
+    private final HashMap effectCache = new HashMap();
     private static final Map field_77835_b = new LinkedHashMap();
     private IIcon field_94591_c;
     private IIcon field_94590_d;
@@ -68,10 +64,9 @@ public class ItemPotion extends Item
             }
 
             return var7;
-        }
-        else
+        } else
         {
-            List var2 = (List)this.effectCache.get(Integer.valueOf(par1ItemStack.getItemDamage()));
+            List var2 = (List) this.effectCache.get(Integer.valueOf(par1ItemStack.getItemDamage()));
 
             if (var2 == null)
             {
@@ -88,7 +83,7 @@ public class ItemPotion extends Item
      */
     public List getEffects(int par1)
     {
-        List var2 = (List)this.effectCache.get(Integer.valueOf(par1));
+        List var2 = (List) this.effectCache.get(Integer.valueOf(par1));
 
         if (var2 == null)
         {
@@ -116,7 +111,7 @@ public class ItemPotion extends Item
 
                 while (var5.hasNext())
                 {
-                    PotionEffect var6 = (PotionEffect)var5.next();
+                    PotionEffect var6 = (PotionEffect) var5.next();
                     par3EntityPlayer.addPotionEffect(new PotionEffect(var6));
                 }
             }
@@ -171,8 +166,7 @@ public class ItemPotion extends Item
             }
 
             return par1ItemStack;
-        }
-        else
+        } else
         {
             par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
             return par1ItemStack;
@@ -243,13 +237,12 @@ public class ItemPotion extends Item
                     return false;
                 }
 
-                var4 = (PotionEffect)var3.next();
+                var4 = (PotionEffect) var3.next();
             }
             while (!Potion.potionTypes[var4.getPotionID()].isInstant());
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -260,8 +253,7 @@ public class ItemPotion extends Item
         if (par1ItemStack.getItemDamage() == 0)
         {
             return StatCollector.translateToLocal("item.emptyPotion.name").trim();
-        }
-        else
+        } else
         {
             String var2 = "";
 
@@ -275,11 +267,10 @@ public class ItemPotion extends Item
 
             if (var3 != null && !var3.isEmpty())
             {
-                var4 = ((PotionEffect)var3.get(0)).getEffectName();
+                var4 = ((PotionEffect) var3.get(0)).getEffectName();
                 var4 = var4 + ".postfix";
                 return var2 + StatCollector.translateToLocal(var4).trim();
-            }
-            else
+            } else
             {
                 var4 = PotionHelper.func_77905_c(par1ItemStack.getItemDamage());
                 return StatCollector.translateToLocal(var4).trim() + " " + super.getItemStackDisplayName(par1ItemStack);
@@ -304,7 +295,7 @@ public class ItemPotion extends Item
 
                 while (var16.hasNext())
                 {
-                    PotionEffect var8 = (PotionEffect)var16.next();
+                    PotionEffect var8 = (PotionEffect) var16.next();
                     String var9 = StatCollector.translateToLocal(var8.getEffectName()).trim();
                     Potion var10 = Potion.potionTypes[var8.getPotionID()];
                     Map var11 = var10.func_111186_k();
@@ -315,10 +306,10 @@ public class ItemPotion extends Item
 
                         while (var12.hasNext())
                         {
-                            Entry var13 = (Entry)var12.next();
-                            AttributeModifier var14 = (AttributeModifier)var13.getValue();
+                            Entry var13 = (Entry) var12.next();
+                            AttributeModifier var14 = (AttributeModifier) var13.getValue();
                             AttributeModifier var15 = new AttributeModifier(var14.getName(), var10.func_111183_a(var8.getAmplifier(), var14), var14.getOperation());
-                            var6.put(((IAttribute)var13.getKey()).getAttributeUnlocalizedName(), var15);
+                            var6.put(((IAttribute) var13.getKey()).getAttributeUnlocalizedName(), var15);
                         }
                     }
 
@@ -335,14 +326,12 @@ public class ItemPotion extends Item
                     if (var10.isBadEffect())
                     {
                         par3List.add(EnumChatFormatting.RED + var9);
-                    }
-                    else
+                    } else
                     {
                         par3List.add(EnumChatFormatting.GRAY + var9);
                     }
                 }
-            }
-            else
+            } else
             {
                 String var7 = StatCollector.translateToLocal("potion.empty").trim();
                 par3List.add(EnumChatFormatting.GRAY + var7);
@@ -356,28 +345,26 @@ public class ItemPotion extends Item
 
                 while (var16.hasNext())
                 {
-                    Entry var17 = (Entry)var16.next();
-                    AttributeModifier var19 = (AttributeModifier)var17.getValue();
+                    Entry var17 = (Entry) var16.next();
+                    AttributeModifier var19 = (AttributeModifier) var17.getValue();
                     double var18 = var19.getAmount();
                     double var20;
 
                     if (var19.getOperation() != 1 && var19.getOperation() != 2)
                     {
                         var20 = var19.getAmount();
-                    }
-                    else
+                    } else
                     {
                         var20 = var19.getAmount() * 100.0D;
                     }
 
                     if (var18 > 0.0D)
                     {
-                        par3List.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus." + var19.getOperation(), new Object[] {ItemStack.field_111284_a.format(var20), StatCollector.translateToLocal("attribute.name." + (String)var17.getKey())}));
-                    }
-                    else if (var18 < 0.0D)
+                        par3List.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus." + var19.getOperation(), new Object[]{ ItemStack.field_111284_a.format(var20), StatCollector.translateToLocal("attribute.name." + var17.getKey()) }));
+                    } else if (var18 < 0.0D)
                     {
                         var20 *= -1.0D;
-                        par3List.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("attribute.modifier.take." + var19.getOperation(), new Object[] {ItemStack.field_111284_a.format(var20), StatCollector.translateToLocal("attribute.name." + (String)var17.getKey())}));
+                        par3List.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("attribute.modifier.take." + var19.getOperation(), new Object[]{ ItemStack.field_111284_a.format(var20), StatCollector.translateToLocal("attribute.name." + var17.getKey()) }));
                     }
                 }
             }
@@ -409,8 +396,7 @@ public class ItemPotion extends Item
                     if (var5 == 0)
                     {
                         var6 = var4 | 8192;
-                    }
-                    else
+                    } else
                     {
                         var6 = var4 | 16384;
                     }
@@ -424,8 +410,7 @@ public class ItemPotion extends Item
                             if (var7 == 1)
                             {
                                 var8 = var6 | 32;
-                            }
-                            else if (var7 == 2)
+                            } else if (var7 == 2)
                             {
                                 var8 = var6 | 64;
                             }
@@ -446,7 +431,7 @@ public class ItemPotion extends Item
 
         while (var10.hasNext())
         {
-            var5 = ((Integer)var10.next()).intValue();
+            var5 = ((Integer) var10.next()).intValue();
             p_150895_3_.add(new ItemStack(p_150895_1_, 1, var5));
         }
     }

@@ -33,7 +33,7 @@ public abstract class Render
      * Determines the darkness of the object's shadow. Higher value makes a darker shadow.
      */
     protected float shadowOpaque = 1.0F;
-    private boolean staticEntity = false;
+    private final boolean staticEntity = false;
     private static final String __OBFID = "CL_00000992";
 
     /**
@@ -73,16 +73,16 @@ public abstract class Render
         IIcon var9 = Blocks.fire.getFireIcon(0);
         IIcon var10 = Blocks.fire.getFireIcon(1);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+        GL11.glTranslatef((float) par2, (float) par4, (float) par6);
         float var11 = par1Entity.width * 1.4F;
         GL11.glScalef(var11, var11, var11);
         Tessellator var12 = Tessellator.instance;
         float var13 = 0.5F;
         float var14 = 0.0F;
         float var15 = par1Entity.height / var11;
-        float var16 = (float)(par1Entity.posY - par1Entity.boundingBox.minY);
+        float var16 = (float) (par1Entity.posY - par1Entity.boundingBox.minY);
         GL11.glRotatef(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GL11.glTranslatef(0.0F, 0.0F, -0.3F + (float)((int)var15) * 0.02F);
+        GL11.glTranslatef(0.0F, 0.0F, -0.3F + (float) ((int) var15) * 0.02F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         float var17 = 0.0F;
         int var18 = 0;
@@ -104,10 +104,10 @@ public abstract class Render
                 var20 = var24;
             }
 
-            var12.addVertexWithUV((double)(var13 - var14), (double)(0.0F - var16), (double)var17, (double)var22, (double)var23);
-            var12.addVertexWithUV((double)(-var13 - var14), (double)(0.0F - var16), (double)var17, (double)var20, (double)var23);
-            var12.addVertexWithUV((double)(-var13 - var14), (double)(1.4F - var16), (double)var17, (double)var20, (double)var21);
-            var12.addVertexWithUV((double)(var13 - var14), (double)(1.4F - var16), (double)var17, (double)var22, (double)var21);
+            var12.addVertexWithUV(var13 - var14, 0.0F - var16, var17, var22, var23);
+            var12.addVertexWithUV(-var13 - var14, 0.0F - var16, var17, var20, var23);
+            var12.addVertexWithUV(-var13 - var14, 1.4F - var16, var17, var20, var21);
+            var12.addVertexWithUV(var13 - var14, 1.4F - var16, var17, var22, var21);
             var15 -= 0.45F;
             var16 -= 0.45F;
             var13 *= 0.9F;
@@ -139,7 +139,7 @@ public abstract class Render
 
             if (par1Entity instanceof EntityLiving)
             {
-                EntityLiving var35 = (EntityLiving)par1Entity;
+                EntityLiving var35 = (EntityLiving) par1Entity;
                 var11 *= var35.getRenderSizeModifier();
 
                 if (var35.isChild())
@@ -148,15 +148,15 @@ public abstract class Render
                 }
             }
 
-            double var351 = par1Entity.lastTickPosX + (par1Entity.posX - par1Entity.lastTickPosX) * (double)par9;
-            double var14 = par1Entity.lastTickPosY + (par1Entity.posY - par1Entity.lastTickPosY) * (double)par9 + (double)par1Entity.getShadowSize();
-            double var16 = par1Entity.lastTickPosZ + (par1Entity.posZ - par1Entity.lastTickPosZ) * (double)par9;
-            int var18 = MathHelper.floor_double(var351 - (double)var11);
-            int var19 = MathHelper.floor_double(var351 + (double)var11);
-            int var20 = MathHelper.floor_double(var14 - (double)var11);
+            double var351 = par1Entity.lastTickPosX + (par1Entity.posX - par1Entity.lastTickPosX) * (double) par9;
+            double var14 = par1Entity.lastTickPosY + (par1Entity.posY - par1Entity.lastTickPosY) * (double) par9 + (double) par1Entity.getShadowSize();
+            double var16 = par1Entity.lastTickPosZ + (par1Entity.posZ - par1Entity.lastTickPosZ) * (double) par9;
+            int var18 = MathHelper.floor_double(var351 - (double) var11);
+            int var19 = MathHelper.floor_double(var351 + (double) var11);
+            int var20 = MathHelper.floor_double(var14 - (double) var11);
             int var21 = MathHelper.floor_double(var14);
-            int var22 = MathHelper.floor_double(var16 - (double)var11);
-            int var23 = MathHelper.floor_double(var16 + (double)var11);
+            int var22 = MathHelper.floor_double(var16 - (double) var11);
+            int var23 = MathHelper.floor_double(var16 + (double) var11);
             double var24 = par2 - var351;
             double var26 = par4 - var14;
             double var28 = par6 - var16;
@@ -173,7 +173,7 @@ public abstract class Render
 
                         if (var34.getMaterial() != Material.air && var10.getBlockLightValue(var31, var32, var33) > 3)
                         {
-                            this.func_147907_a(var34, par2, par4 + (double)par1Entity.getShadowSize(), par6, var31, var32, var33, par8, var11, var24, var26 + (double)par1Entity.getShadowSize(), var28);
+                            this.func_147907_a(var34, par2, par4 + (double) par1Entity.getShadowSize(), par6, var31, var32, var33, par8, var11, var24, var26 + (double) par1Entity.getShadowSize(), var28);
                         }
                     }
                 }
@@ -200,7 +200,7 @@ public abstract class Render
 
         if (p_147907_1_.renderAsNormalBlock())
         {
-            double var20 = ((double)p_147907_11_ - (p_147907_4_ - ((double)p_147907_9_ + p_147907_15_)) / 2.0D) * 0.5D * (double)this.getWorldFromRenderManager().getLightBrightness(p_147907_8_, p_147907_9_, p_147907_10_);
+            double var20 = ((double) p_147907_11_ - (p_147907_4_ - ((double) p_147907_9_ + p_147907_15_)) / 2.0D) * 0.5D * (double) this.getWorldFromRenderManager().getLightBrightness(p_147907_8_, p_147907_9_, p_147907_10_);
 
             if (var20 >= 0.0D)
             {
@@ -209,20 +209,20 @@ public abstract class Render
                     var20 = 1.0D;
                 }
 
-                var19.setColorRGBA_F(1.0F, 1.0F, 1.0F, (float)var20);
-                double var22 = (double)p_147907_8_ + p_147907_1_.getBlockBoundsMinX() + p_147907_13_;
-                double var24 = (double)p_147907_8_ + p_147907_1_.getBlockBoundsMaxX() + p_147907_13_;
-                double var26 = (double)p_147907_9_ + p_147907_1_.getBlockBoundsMinY() + p_147907_15_ + 0.015625D;
-                double var28 = (double)p_147907_10_ + p_147907_1_.getBlockBoundsMinZ() + p_147907_17_;
-                double var30 = (double)p_147907_10_ + p_147907_1_.getBlockBoundsMaxZ() + p_147907_17_;
-                float var32 = (float)((p_147907_2_ - var22) / 2.0D / (double)p_147907_12_ + 0.5D);
-                float var33 = (float)((p_147907_2_ - var24) / 2.0D / (double)p_147907_12_ + 0.5D);
-                float var34 = (float)((p_147907_6_ - var28) / 2.0D / (double)p_147907_12_ + 0.5D);
-                float var35 = (float)((p_147907_6_ - var30) / 2.0D / (double)p_147907_12_ + 0.5D);
-                var19.addVertexWithUV(var22, var26, var28, (double)var32, (double)var34);
-                var19.addVertexWithUV(var22, var26, var30, (double)var32, (double)var35);
-                var19.addVertexWithUV(var24, var26, var30, (double)var33, (double)var35);
-                var19.addVertexWithUV(var24, var26, var28, (double)var33, (double)var34);
+                var19.setColorRGBA_F(1.0F, 1.0F, 1.0F, (float) var20);
+                double var22 = (double) p_147907_8_ + p_147907_1_.getBlockBoundsMinX() + p_147907_13_;
+                double var24 = (double) p_147907_8_ + p_147907_1_.getBlockBoundsMaxX() + p_147907_13_;
+                double var26 = (double) p_147907_9_ + p_147907_1_.getBlockBoundsMinY() + p_147907_15_ + 0.015625D;
+                double var28 = (double) p_147907_10_ + p_147907_1_.getBlockBoundsMinZ() + p_147907_17_;
+                double var30 = (double) p_147907_10_ + p_147907_1_.getBlockBoundsMaxZ() + p_147907_17_;
+                float var32 = (float) ((p_147907_2_ - var22) / 2.0D / (double) p_147907_12_ + 0.5D);
+                float var33 = (float) ((p_147907_2_ - var24) / 2.0D / (double) p_147907_12_ + 0.5D);
+                float var34 = (float) ((p_147907_6_ - var28) / 2.0D / (double) p_147907_12_ + 0.5D);
+                float var35 = (float) ((p_147907_6_ - var30) / 2.0D / (double) p_147907_12_ + 0.5D);
+                var19.addVertexWithUV(var22, var26, var28, var32, var34);
+                var19.addVertexWithUV(var22, var26, var30, var32, var35);
+                var19.addVertexWithUV(var24, var26, var30, var33, var35);
+                var19.addVertexWithUV(var24, var26, var28, var33, var34);
             }
         }
     }
@@ -322,7 +322,7 @@ public abstract class Render
         if (this.renderManager.options.fancyGraphics && this.shadowSize > 0.0F && !par1Entity.isInvisible())
         {
             double var10 = this.renderManager.getDistanceToCamera(par1Entity.posX, par1Entity.posY, par1Entity.posZ);
-            float var12 = (float)((1.0D - var10 / 256.0D) * (double)this.shadowOpaque);
+            float var12 = (float) ((1.0D - var10 / 256.0D) * (double) this.shadowOpaque);
 
             if (var12 > 0.0F)
             {
@@ -344,7 +344,9 @@ public abstract class Render
         return this.renderManager.getFontRenderer();
     }
 
-    public void updateIcons(IIconRegister par1IconRegister) {}
+    public void updateIcons(IIconRegister par1IconRegister)
+    {
+    }
 
     protected void renderEntityNameplate(Entity entity, String name, double x, double y, double z, int maxDistance)
     {
@@ -354,7 +356,7 @@ public abstract class Render
         }
         double distance = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);
 
-        if (distance <= (double)(maxDistance * maxDistance))
+        if (distance <= (double) (maxDistance * maxDistance))
         {
             FontRenderer var12 = this.getFontRendererFromRenderManager();
             float size = 1.6F;
@@ -382,10 +384,10 @@ public abstract class Render
             var15.startDrawingQuads();
             int var17 = var12.getStringWidth(name) / 2;
             var15.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
-            var15.addVertex((double)(-var17 - 1), (double)(-1 + posY), 0.0D);
-            var15.addVertex((double)(-var17 - 1), (double)(8 + posY), 0.0D);
-            var15.addVertex((double)(var17 + 1), (double)(8 + posY), 0.0D);
-            var15.addVertex((double)(var17 + 1), (double)(-1 + posY), 0.0D);
+            var15.addVertex(-var17 - 1, -1 + posY, 0.0D);
+            var15.addVertex(-var17 - 1, 8 + posY, 0.0D);
+            var15.addVertex(var17 + 1, 8 + posY, 0.0D);
+            var15.addVertex(var17 + 1, -1 + posY, 0.0D);
             var15.draw();
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             var12.drawString(name, -var12.getStringWidth(name) / 2, posY, 553648127);

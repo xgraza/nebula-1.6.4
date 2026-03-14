@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,6 +10,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class BlockCarpet extends Block
 {
@@ -41,7 +42,7 @@ public class BlockCarpet extends Block
     {
         byte var5 = 0;
         float var6 = 0.0625F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)p_149668_2_ + this.minX, (double)p_149668_3_ + this.minY, (double)p_149668_4_ + this.minZ, (double)p_149668_2_ + this.maxX, (double)((float)p_149668_3_ + (float)var5 * var6), (double)p_149668_4_ + this.maxZ);
+        return AxisAlignedBB.getAABBPool().getAABB((double) p_149668_2_ + this.minX, (double) p_149668_3_ + this.minY, (double) p_149668_4_ + this.minZ, (double) p_149668_2_ + this.maxX, (float) p_149668_3_ + (float) var5 * var6, (double) p_149668_4_ + this.maxZ);
     }
 
     public boolean isOpaqueCube()
@@ -70,7 +71,7 @@ public class BlockCarpet extends Block
     protected void func_150089_b(int p_150089_1_)
     {
         byte var2 = 0;
-        float var3 = (float)(1 * (1 + var2)) / 16.0F;
+        float var3 = (float) ((1 + var2)) / 16.0F;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, var3, 1.0F);
     }
 
@@ -91,8 +92,7 @@ public class BlockCarpet extends Block
             this.dropBlockAsItem(p_150090_1_, p_150090_2_, p_150090_3_, p_150090_4_, p_150090_1_.getBlockMetadata(p_150090_2_, p_150090_3_, p_150090_4_), 0);
             p_150090_1_.setBlockToAir(p_150090_2_, p_150090_3_, p_150090_4_);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -108,7 +108,7 @@ public class BlockCarpet extends Block
 
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
-        return p_149646_5_ == 1 ? true : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
+        return p_149646_5_ == 1 || super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
     }
 
     /**
@@ -127,5 +127,7 @@ public class BlockCarpet extends Block
         }
     }
 
-    public void registerIcons(IIconRegister p_149651_1_) {}
+    public void registerIcons(IIconRegister p_149651_1_)
+    {
+    }
 }

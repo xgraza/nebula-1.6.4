@@ -1,11 +1,12 @@
 package net.minecraft.src;
 
-import java.nio.ByteBuffer;
-import java.util.Properties;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.nio.ByteBuffer;
+import java.util.Properties;
 
 public class TextureAnimation
 {
@@ -49,15 +50,15 @@ public class TextureAnimation
             }
         }
 
-        String var21 = (String)props.get("duration");
+        String var21 = (String) props.get("duration");
         int durationDef = Config.parseInt(var21, durDef);
         this.frames = new TextureAnimationFrame[numFrames];
 
         for (int i = 0; i < this.frames.length; ++i)
         {
-            String indexStr = (String)props.get("tile." + i);
+            String indexStr = (String) props.get("tile." + i);
             int index = Config.parseInt(indexStr, i);
-            String durationStr = (String)props.get("duration." + i);
+            String durationStr = (String) props.get("duration." + i);
             int duration = Config.parseInt(durationStr, durationDef);
             TextureAnimationFrame frm = new TextureAnimationFrame(index, duration);
             this.frames[i] = frm;
@@ -69,8 +70,7 @@ public class TextureAnimation
         if (this.frames.length <= 0)
         {
             return false;
-        }
-        else
+        } else
         {
             if (this.activeFrame >= this.frames.length)
             {
@@ -83,8 +83,7 @@ public class TextureAnimation
             if (frame.counter < frame.duration)
             {
                 return false;
-            }
-            else
+            } else
             {
                 frame.counter = 0;
                 ++this.activeFrame;
@@ -104,8 +103,7 @@ public class TextureAnimation
         if (this.frames.length <= 0)
         {
             return 0;
-        }
-        else
+        } else
         {
             if (this.activeFrame >= this.frames.length)
             {
@@ -146,8 +144,7 @@ public class TextureAnimation
         if (!this.nextFrame())
         {
             return false;
-        }
-        else
+        } else
         {
             int frameLen1 = this.frameWidth * this.frameHeight * 4;
             int imgNum = this.getActiveFrameIndex();
@@ -156,8 +153,7 @@ public class TextureAnimation
             if (offset + frameLen1 > this.imageData.capacity())
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.imageData.position(offset);
                 GlStateManager.bindTexture(this.dstTextId);

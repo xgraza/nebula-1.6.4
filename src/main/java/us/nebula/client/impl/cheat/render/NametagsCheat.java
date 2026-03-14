@@ -202,7 +202,7 @@ public final class NametagsCheat extends Cheat
     {
         if (entity instanceof EntityTameable)
         {
-            return ((EntityTameable)entity).getOwnerName();
+            return ((EntityTameable) entity).getOwnerName();
         }
         final EntityPlayer player = (EntityPlayer) entity;
         final StringBuilder builder = new StringBuilder();

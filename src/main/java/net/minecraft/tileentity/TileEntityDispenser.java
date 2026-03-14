@@ -1,16 +1,17 @@
 package net.minecraft.tileentity;
 
-import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
+import java.util.Random;
+
 public class TileEntityDispenser extends TileEntity implements IInventory
 {
     private ItemStack[] field_146022_i = new ItemStack[9];
-    private Random field_146021_j = new Random();
+    private final Random field_146021_j = new Random();
     protected String field_146020_a;
     private static final String __OBFID = "CL_00000352";
 
@@ -46,8 +47,7 @@ public class TileEntityDispenser extends TileEntity implements IInventory
                 this.field_146022_i[par1] = null;
                 this.onInventoryChanged();
                 return var3;
-            }
-            else
+            } else
             {
                 var3 = this.field_146022_i[par1].splitStack(par2);
 
@@ -59,8 +59,7 @@ public class TileEntityDispenser extends TileEntity implements IInventory
                 this.onInventoryChanged();
                 return var3;
             }
-        }
-        else
+        } else
         {
             return null;
         }
@@ -77,8 +76,7 @@ public class TileEntityDispenser extends TileEntity implements IInventory
             ItemStack var2 = this.field_146022_i[par1];
             this.field_146022_i[par1] = null;
             return var2;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -183,7 +181,7 @@ public class TileEntityDispenser extends TileEntity implements IInventory
             if (this.field_146022_i[var3] != null)
             {
                 NBTTagCompound var4 = new NBTTagCompound();
-                var4.setByte("Slot", (byte)var3);
+                var4.setByte("Slot", (byte) var3);
                 this.field_146022_i[var3].writeToNBT(var4);
                 var2.appendTag(var4);
             }
@@ -210,12 +208,16 @@ public class TileEntityDispenser extends TileEntity implements IInventory
      */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && par1EntityPlayer.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
     }
 
-    public void openInventory() {}
+    public void openInventory()
+    {
+    }
 
-    public void closeInventory() {}
+    public void closeInventory()
+    {
+    }
 
     /**
      * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.

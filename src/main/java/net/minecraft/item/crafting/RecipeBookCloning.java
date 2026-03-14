@@ -32,8 +32,7 @@ public class RecipeBookCloning implements IRecipe
                     }
 
                     var4 = var6;
-                }
-                else
+                } else
                 {
                     if (var6.getItem() != Items.writable_book)
                     {
@@ -70,8 +69,7 @@ public class RecipeBookCloning implements IRecipe
                     }
 
                     var3 = var5;
-                }
-                else
+                } else
                 {
                     if (var5.getItem() != Items.writable_book)
                     {
@@ -86,7 +84,7 @@ public class RecipeBookCloning implements IRecipe
         if (var3 != null && var2 >= 1)
         {
             ItemStack var6 = new ItemStack(Items.written_book, var2 + 1);
-            var6.setTagCompound((NBTTagCompound)var3.getTagCompound().copy());
+            var6.setTagCompound((NBTTagCompound) var3.getTagCompound().copy());
 
             if (var3.hasDisplayName())
             {
@@ -94,8 +92,7 @@ public class RecipeBookCloning implements IRecipe
             }
 
             return var6;
-        }
-        else
+        } else
         {
             return null;
         }

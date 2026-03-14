@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -9,9 +8,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public abstract class BlockBasePressurePlate extends Block
 {
-    private String field_150067_a;
+    private final String field_150067_a;
     private static final String __OBFID = "CL_00000194";
 
     protected BlockBasePressurePlate(String p_i45387_1_, Material p_i45387_2_)
@@ -36,8 +37,7 @@ public abstract class BlockBasePressurePlate extends Block
         if (var2)
         {
             this.setBlockBounds(var3, 0.0F, var3, 1.0F - var3, 0.03125F, 1.0F - var3);
-        }
-        else
+        } else
         {
             this.setBlockBounds(var3, 0.0F, var3, 1.0F - var3, 0.0625F, 1.0F - var3);
         }
@@ -79,12 +79,7 @@ public abstract class BlockBasePressurePlate extends Block
 
     public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
     {
-        boolean var6 = false;
-
-        if (!World.doesBlockHaveSolidTopSurface(p_149695_1_, p_149695_2_, p_149695_3_ - 1, p_149695_4_) && !BlockFence.func_149825_a(p_149695_1_.getBlock(p_149695_2_, p_149695_3_ - 1, p_149695_4_)))
-        {
-            var6 = true;
-        }
+        boolean var6 = !World.doesBlockHaveSolidTopSurface(p_149695_1_, p_149695_2_, p_149695_3_ - 1, p_149695_4_) && !BlockFence.func_149825_a(p_149695_1_.getBlock(p_149695_2_, p_149695_3_ - 1, p_149695_4_));
 
         if (var6)
         {
@@ -137,11 +132,10 @@ public abstract class BlockBasePressurePlate extends Block
 
         if (!var8 && var7)
         {
-            p_150062_1_.playSoundEffect((double)p_150062_2_ + 0.5D, (double)p_150062_3_ + 0.1D, (double)p_150062_4_ + 0.5D, "random.click", 0.3F, 0.5F);
-        }
-        else if (var8 && !var7)
+            p_150062_1_.playSoundEffect((double) p_150062_2_ + 0.5D, (double) p_150062_3_ + 0.1D, (double) p_150062_4_ + 0.5D, "random.click", 0.3F, 0.5F);
+        } else if (var8 && !var7)
         {
-            p_150062_1_.playSoundEffect((double)p_150062_2_ + 0.5D, (double)p_150062_3_ + 0.1D, (double)p_150062_4_ + 0.5D, "random.click", 0.3F, 0.6F);
+            p_150062_1_.playSoundEffect((double) p_150062_2_ + 0.5D, (double) p_150062_3_ + 0.1D, (double) p_150062_4_ + 0.5D, "random.click", 0.3F, 0.6F);
         }
 
         if (var8)
@@ -153,7 +147,7 @@ public abstract class BlockBasePressurePlate extends Block
     protected AxisAlignedBB func_150061_a(int p_150061_1_, int p_150061_2_, int p_150061_3_)
     {
         float var4 = 0.125F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)((float)p_150061_1_ + var4), (double)p_150061_2_, (double)((float)p_150061_3_ + var4), (double)((float)(p_150061_1_ + 1) - var4), (double)p_150061_2_ + 0.25D, (double)((float)(p_150061_3_ + 1) - var4));
+        return AxisAlignedBB.getAABBPool().getAABB((float) p_150061_1_ + var4, p_150061_2_, (float) p_150061_3_ + var4, (float) (p_150061_1_ + 1) - var4, (double) p_150061_2_ + 0.25D, (float) (p_150061_3_ + 1) - var4);
     }
 
     public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)

@@ -1,9 +1,10 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChunkCoordinates;
+
+import java.util.List;
 
 public class CommandSetSpawnpoint extends CommandBase
 {
@@ -42,19 +43,18 @@ public class CommandSetSpawnpoint extends CommandBase
                 int var7 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[var9++], 0, 256);
                 int var8 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[var9++], -var5, var5);
                 var3.setSpawnChunk(new ChunkCoordinates(var6, var7, var8), true);
-                notifyAdmins(par1ICommandSender, "commands.spawnpoint.success", new Object[] {var3.getCommandSenderName(), Integer.valueOf(var6), Integer.valueOf(var7), Integer.valueOf(var8)});
+                notifyAdmins(par1ICommandSender, "commands.spawnpoint.success", var3.getCommandSenderName(), Integer.valueOf(var6), Integer.valueOf(var7), Integer.valueOf(var8));
             }
-        }
-        else
+        } else
         {
             if (par2ArrayOfStr.length > 1)
             {
-                throw new WrongUsageException("commands.spawnpoint.usage", new Object[0]);
+                throw new WrongUsageException("commands.spawnpoint.usage");
             }
 
             ChunkCoordinates var10 = var3.getPlayerCoordinates();
             var3.setSpawnChunk(var10, true);
-            notifyAdmins(par1ICommandSender, "commands.spawnpoint.success", new Object[] {var3.getCommandSenderName(), Integer.valueOf(var10.posX), Integer.valueOf(var10.posY), Integer.valueOf(var10.posZ)});
+            notifyAdmins(par1ICommandSender, "commands.spawnpoint.success", var3.getCommandSenderName(), Integer.valueOf(var10.posX), Integer.valueOf(var10.posY), Integer.valueOf(var10.posZ));
         }
     }
 

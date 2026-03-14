@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S31PacketWindowProperty extends Packet
 {
@@ -13,7 +14,9 @@ public class S31PacketWindowProperty extends Packet
     private int field_149185_c;
     private static final String __OBFID = "CL_00001295";
 
-    public S31PacketWindowProperty() {}
+    public S31PacketWindowProperty()
+    {
+    }
 
     public S31PacketWindowProperty(int p_i45187_1_, int p_i45187_2_, int p_i45187_3_)
     {
@@ -64,6 +67,6 @@ public class S31PacketWindowProperty extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

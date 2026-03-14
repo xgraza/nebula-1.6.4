@@ -1,19 +1,7 @@
 package net.minecraft.src;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.IntBuffer;
-import javax.imageio.ImageIO;
 import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.texture.ITextureObject;
-import net.minecraft.client.renderer.texture.ITickableTextureObject;
-import net.minecraft.client.renderer.texture.SimpleTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
@@ -23,6 +11,15 @@ import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.MultiTexID;
 import shadersmod.client.Shaders;
+
+import javax.imageio.ImageIO;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.IntBuffer;
 
 public class TextureUtils
 {
@@ -99,7 +96,7 @@ public class TextureUtils
     public static IIcon iconGlassPaneTop;
     public static IIcon iconCompass;
     public static IIcon iconClock;
-    private static IntBuffer staticBuffer = GLAllocation.createDirectIntBuffer(256);
+    private static final IntBuffer staticBuffer = GLAllocation.createDirectIntBuffer(256);
 
     public static void update()
     {
@@ -145,7 +142,7 @@ public class TextureUtils
                 BufferedImage scaledImage = new BufferedImage(width, height * 2, 2);
                 Graphics2D gr = scaledImage.createGraphics();
                 gr.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                gr.drawImage(bi, 0, 0, width, height, (ImageObserver)null);
+                gr.drawImage(bi, 0, 0, width, height, null);
                 return scaledImage;
             }
         }
@@ -155,7 +152,7 @@ public class TextureUtils
 
     public static TextureAtlasSprite getTextureAtlasSprite(IIcon icon)
     {
-        return icon instanceof TextureAtlasSprite ? (TextureAtlasSprite)icon : null;
+        return icon instanceof TextureAtlasSprite ? (TextureAtlasSprite) icon : null;
     }
 
     public static int ceilPowerOfTwo(int val)
@@ -164,7 +161,6 @@ public class TextureUtils
 
         for (i = 1; i < val; i *= 2)
         {
-            ;
         }
 
         return i;
@@ -217,12 +213,10 @@ public class TextureUtils
         if (tex != null)
         {
             return tex;
-        }
-        else if (!Config.hasResource(loc))
+        } else if (!Config.hasResource(loc))
         {
             return null;
-        }
-        else
+        } else
         {
             SimpleTexture tex1 = new SimpleTexture(loc);
             Config.getTextureManager().loadTexture(loc, tex1);
@@ -265,7 +259,7 @@ public class TextureUtils
 
         if (rm instanceof IReloadableResourceManager)
         {
-            IReloadableResourceManager tto = (IReloadableResourceManager)rm;
+            IReloadableResourceManager tto = (IReloadableResourceManager) rm;
             IResourceManagerReloadListener ttol = new IResourceManagerReloadListener()
             {
                 public void onResourceManagerReload(IResourceManager var1)
@@ -282,11 +276,16 @@ public class TextureUtils
             {
                 TextureAnimations.updateCustomAnimations();
             }
-            public void loadTexture(IResourceManager var1) throws IOException {}
+
+            public void loadTexture(IResourceManager var1) throws IOException
+            {
+            }
+
             public int getGlTextureId()
             {
                 return 0;
             }
+
             public MultiTexID getMultiTexID()
             {
                 return null;
@@ -301,8 +300,7 @@ public class TextureUtils
         if (!loc.getResourceDomain().equals("minecraft"))
         {
             return loc;
-        }
-        else
+        } else
         {
             String path = loc.getResourcePath();
             String pathFixed = fixResourcePath(path, basePath);
@@ -324,8 +322,7 @@ public class TextureUtils
         {
             path = path.substring(strAssMc.length());
             return path;
-        }
-        else if (path.startsWith("./"))
+        } else if (path.startsWith("./"))
         {
             path = path.substring(2);
 
@@ -336,8 +333,7 @@ public class TextureUtils
 
             path = basePath + path;
             return path;
-        }
-        else
+        } else
         {
             if (path.startsWith("/~"))
             {
@@ -351,13 +347,11 @@ public class TextureUtils
                 path = path.substring(2);
                 path = strMcpatcher + path;
                 return path;
-            }
-            else if (path.startsWith("/"))
+            } else if (path.startsWith("/"))
             {
                 path = strMcpatcher + path.substring(1);
                 return path;
-            }
-            else
+            } else
             {
                 return path;
             }
@@ -377,8 +371,7 @@ public class TextureUtils
         try
         {
             var1 = ImageIO.read(is);
-        }
-        finally
+        } finally
         {
             IOUtils.closeQuietly(is);
         }
@@ -401,7 +394,7 @@ public class TextureUtils
         }
 
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, method);
-        g2.drawImage(bi, 0, 0, w2, h2, (ImageObserver)null);
+        g2.drawImage(bi, 0, 0, w2, h2, null);
         return bi2;
     }
 
@@ -409,7 +402,7 @@ public class TextureUtils
     {
         for (int i = 65536; i > 0; i >>= 1)
         {
-            GL11.glTexImage2D(GL11.GL_PROXY_TEXTURE_2D, 0, GL11.GL_RGBA, i, i, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (IntBuffer)null);
+            GL11.glTexImage2D(GL11.GL_PROXY_TEXTURE_2D, 0, GL11.GL_RGBA, i, i, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (IntBuffer) null);
             int err = GL11.glGetError();
             int width = GL11.glGetTexLevelParameteri(GL11.GL_PROXY_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
 

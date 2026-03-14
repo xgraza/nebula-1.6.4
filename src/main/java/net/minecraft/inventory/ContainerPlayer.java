@@ -55,7 +55,7 @@ public class ContainerPlayer extends Container
 
                 public boolean isItemValid(ItemStack par1ItemStack)
                 {
-                    return par1ItemStack == null ? false : (par1ItemStack.getItem() instanceof ItemArmor ? ((ItemArmor) par1ItemStack.getItem()).armorType == var44 : (par1ItemStack.getItem() != Item.getItemFromBlock(Blocks.pumpkin) && par1ItemStack.getItem() != Items.skull ? false : var44 == 0));
+                    return par1ItemStack != null && (par1ItemStack.getItem() instanceof ItemArmor ? ((ItemArmor) par1ItemStack.getItem()).armorType == var44 : ((par1ItemStack.getItem() == Item.getItemFromBlock(Blocks.pumpkin) || par1ItemStack.getItem() == Items.skull) && var44 == 0));
                 }
 
                 public IIcon getBackgroundIconIndex()
@@ -106,7 +106,7 @@ public class ContainerPlayer extends Container
             }
         }
 
-        this.craftResult.setInventorySlotContents(0, (ItemStack) null);
+        this.craftResult.setInventorySlotContents(0, null);
     }
 
     public boolean canInteractWith(EntityPlayer par1EntityPlayer)
@@ -120,7 +120,7 @@ public class ContainerPlayer extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot) this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -147,7 +147,7 @@ public class ContainerPlayer extends Container
                 {
                     return null;
                 }
-            } else if (var3.getItem() instanceof ItemArmor && !((Slot) this.inventorySlots.get(5 + ((ItemArmor) var3.getItem()).armorType)).getHasStack())
+            } else if (var3.getItem() instanceof ItemArmor && !this.inventorySlots.get(5 + ((ItemArmor) var3.getItem()).armorType).getHasStack())
             {
                 int var6 = 5 + ((ItemArmor) var3.getItem()).armorType;
 
@@ -174,7 +174,7 @@ public class ContainerPlayer extends Container
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack) null);
+                var4.putStack(null);
             } else
             {
                 var4.onSlotChanged();

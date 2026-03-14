@@ -1,6 +1,5 @@
 package net.minecraft.world.biome;
 
-import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
@@ -8,11 +7,13 @@ import net.minecraft.world.gen.feature.WorldGenIcePath;
 import net.minecraft.world.gen.feature.WorldGenIceSpike;
 import net.minecraft.world.gen.feature.WorldGenTaiga2;
 
+import java.util.Random;
+
 public class BiomeGenSnow extends BiomeGenBase
 {
-    private boolean field_150615_aC;
-    private WorldGenIceSpike field_150616_aD = new WorldGenIceSpike();
-    private WorldGenIcePath field_150617_aE = new WorldGenIcePath(4);
+    private final boolean field_150615_aC;
+    private final WorldGenIceSpike field_150616_aD = new WorldGenIceSpike();
+    private final WorldGenIcePath field_150617_aE = new WorldGenIcePath(4);
     private static final String __OBFID = "CL_00000174";
 
     public BiomeGenSnow(int p_i45378_1_, boolean p_i45378_2_)

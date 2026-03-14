@@ -13,7 +13,9 @@ public class RenderWitherSkull extends Render
     private static final ResourceLocation invulnerableWitherTextures = new ResourceLocation("textures/entity/wither/wither_invulnerable.png");
     private static final ResourceLocation witherTextures = new ResourceLocation("textures/entity/wither/wither.png");
 
-    /** The Skeleton's head model. */
+    /**
+     * The Skeleton's head model.
+     */
     private final ModelSkeletonHead skeletonHeadModel = new ModelSkeletonHead();
     private static final String __OBFID = "CL_00001035";
 
@@ -23,7 +25,6 @@ public class RenderWitherSkull extends Render
 
         for (var4 = par2 - par1; var4 < -180.0F; var4 += 360.0F)
         {
-            ;
         }
 
         while (var4 >= 180.0F)
@@ -46,7 +47,7 @@ public class RenderWitherSkull extends Render
         GL11.glDisable(GL11.GL_CULL_FACE);
         float var10 = this.func_82400_a(par1EntityWitherSkull.prevRotationYaw, par1EntityWitherSkull.rotationYaw, par9);
         float var11 = par1EntityWitherSkull.prevRotationPitch + (par1EntityWitherSkull.rotationPitch - par1EntityWitherSkull.prevRotationPitch) * par9;
-        GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+        GL11.glTranslatef((float) par2, (float) par4, (float) par6);
         float var12 = 0.0625F;
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glScalef(-1.0F, -1.0F, 1.0F);
@@ -69,7 +70,7 @@ public class RenderWitherSkull extends Render
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityWitherSkull)par1Entity);
+        return this.getEntityTexture((EntityWitherSkull) par1Entity);
     }
 
     /**
@@ -80,6 +81,6 @@ public class RenderWitherSkull extends Render
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityWitherSkull)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityWitherSkull) par1Entity, par2, par4, par6, par8, par9);
     }
 }

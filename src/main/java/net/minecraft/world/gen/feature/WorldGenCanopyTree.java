@@ -1,11 +1,12 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WorldGenCanopyTree extends WorldGenAbstractTree
 {
@@ -52,8 +53,7 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree
                             {
                                 var7 = false;
                             }
-                        }
-                        else
+                        } else
                         {
                             var7 = false;
                         }
@@ -64,8 +64,7 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree
             if (!var7)
             {
                 return false;
-            }
-            else
+            } else
             {
                 Block var20 = par1World.getBlock(par3, par4 - 1, par5);
 
@@ -167,7 +166,7 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree
                                 {
                                     for (var19 = -1; var19 <= 1; ++var19)
                                     {
-                                        this.func_150526_a(par1World, var22 + var15 + var18, var14 - 0, var13 + var16 + var19);
+                                        this.func_150526_a(par1World, var22 + var15 + var18, var14, var13 + var16 + var19);
                                     }
                                 }
 
@@ -186,14 +185,12 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree
                     }
 
                     return true;
-                }
-                else
+                } else
                 {
                     return false;
                 }
             }
-        }
-        else
+        } else
         {
             return false;
         }

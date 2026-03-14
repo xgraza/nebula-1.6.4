@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL12;
 
 public class RenderFireball extends Render
 {
-    private float field_77002_a;
+    private final float field_77002_a;
     private static final String __OBFID = "CL_00000995";
 
     public RenderFireball(float par1)
@@ -30,10 +30,10 @@ public class RenderFireball extends Render
     {
         GL11.glPushMatrix();
         this.bindEntityTexture(par1EntityFireball);
-        GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+        GL11.glTranslatef((float) par2, (float) par4, (float) par6);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         float var10 = this.field_77002_a;
-        GL11.glScalef(var10 / 1.0F, var10 / 1.0F, var10 / 1.0F);
+        GL11.glScalef(var10, var10, var10);
         IIcon var11 = Items.fire_charge.getIconFromDamage(0);
         Tessellator var12 = Tessellator.instance;
         float var13 = var11.getMinU();
@@ -47,10 +47,10 @@ public class RenderFireball extends Render
         GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
         var12.startDrawingQuads();
         var12.setNormal(0.0F, 1.0F, 0.0F);
-        var12.addVertexWithUV((double)(0.0F - var18), (double)(0.0F - var19), 0.0D, (double)var13, (double)var16);
-        var12.addVertexWithUV((double)(var17 - var18), (double)(0.0F - var19), 0.0D, (double)var14, (double)var16);
-        var12.addVertexWithUV((double)(var17 - var18), (double)(1.0F - var19), 0.0D, (double)var14, (double)var15);
-        var12.addVertexWithUV((double)(0.0F - var18), (double)(1.0F - var19), 0.0D, (double)var13, (double)var15);
+        var12.addVertexWithUV(0.0F - var18, 0.0F - var19, 0.0D, var13, var16);
+        var12.addVertexWithUV(var17 - var18, 0.0F - var19, 0.0D, var14, var16);
+        var12.addVertexWithUV(var17 - var18, 1.0F - var19, 0.0D, var14, var15);
+        var12.addVertexWithUV(0.0F - var18, 1.0F - var19, 0.0D, var13, var15);
         var12.draw();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();
@@ -69,7 +69,7 @@ public class RenderFireball extends Render
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityFireball)par1Entity);
+        return this.getEntityTexture((EntityFireball) par1Entity);
     }
 
     /**
@@ -80,6 +80,6 @@ public class RenderFireball extends Render
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityFireball)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityFireball) par1Entity, par2, par4, par6, par8, par9);
     }
 }

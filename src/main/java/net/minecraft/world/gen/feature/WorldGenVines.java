@@ -1,10 +1,11 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Facing;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WorldGenVines extends WorldGenerator
 {
@@ -26,8 +27,7 @@ public class WorldGenVines extends WorldGenerator
                         break;
                     }
                 }
-            }
-            else
+            } else
             {
                 par3 = var6 + par2Random.nextInt(4) - par2Random.nextInt(4);
                 par5 = var7 + par2Random.nextInt(4) - par2Random.nextInt(4);

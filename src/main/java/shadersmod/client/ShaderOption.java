@@ -1,9 +1,10 @@
 package shadersmod.client;
 
-import java.util.Arrays;
-import java.util.List;
 import net.minecraft.src.Config;
 import net.minecraft.src.StrUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class ShaderOption
 {
@@ -29,7 +30,7 @@ public abstract class ShaderOption
 
         if (path != null)
         {
-            this.paths = new String[] {path};
+            this.paths = new String[]{ path };
         }
     }
 
@@ -68,8 +69,7 @@ public abstract class ShaderOption
         if (index < 0)
         {
             return false;
-        }
-        else
+        } else
         {
             this.value = value;
             return true;
@@ -138,7 +138,7 @@ public abstract class ShaderOption
 
             if (!pathList.contains(newPath))
             {
-                this.paths = (String[])((String[])Config.addObjectToArray(this.paths, newPath));
+                this.paths = (String[]) Config.addObjectToArray(this.paths, newPath);
             }
         }
     }
@@ -210,7 +210,7 @@ public abstract class ShaderOption
 
     public String[] getValues()
     {
-        return (String[])this.values.clone();
+        return this.values.clone();
     }
 
     public float getIndexNormalized()
@@ -218,18 +218,16 @@ public abstract class ShaderOption
         if (this.values.length <= 1)
         {
             return 0.0F;
-        }
-        else
+        } else
         {
             int index = getIndex(this.value, this.values);
 
             if (index < 0)
             {
                 return 0.0F;
-            }
-            else
+            } else
             {
-                float f = 1.0F * (float)index / ((float)this.values.length - 1.0F);
+                float f = (float) index / ((float) this.values.length - 1.0F);
                 return f;
             }
         }
@@ -240,13 +238,13 @@ public abstract class ShaderOption
         if (this.values.length > 1)
         {
             f = Config.limit(f, 0.0F, 1.0F);
-            int index = Math.round(f * (float)(this.values.length - 1));
+            int index = Math.round(f * (float) (this.values.length - 1));
             this.value = this.values[index];
         }
     }
 
     public String toString()
     {
-        return "" + this.name + ", value: " + this.value + ", valueDefault: " + this.valueDefault + ", paths: " + Config.arrayToString((Object[])this.paths);
+        return this.name + ", value: " + this.value + ", valueDefault: " + this.valueDefault + ", paths: " + Config.arrayToString(this.paths);
     }
 }

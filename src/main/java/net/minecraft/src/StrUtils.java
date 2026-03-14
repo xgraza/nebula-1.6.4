@@ -12,8 +12,7 @@ public class StrUtils
             if (mask.indexOf(wildChar) < 0)
             {
                 return mask.indexOf(wildCharSingle) < 0 ? mask.equals(str) : equalsMaskSingle(str, mask, wildCharSingle);
-            }
-            else
+            } else
             {
                 ArrayList tokens = new ArrayList();
                 String wildCharStr = "" + wildChar;
@@ -35,27 +34,25 @@ public class StrUtils
                     tokens.add("");
                 }
 
-                String startTok = (String)tokens.get(0);
+                String startTok = (String) tokens.get(0);
 
                 if (!startsWithMaskSingle(str, startTok, wildCharSingle))
                 {
                     return false;
-                }
-                else
+                } else
                 {
-                    String endTok = (String)tokens.get(tokens.size() - 1);
+                    String endTok = (String) tokens.get(tokens.size() - 1);
 
                     if (!endsWithMaskSingle(str, endTok, wildCharSingle))
                     {
                         return false;
-                    }
-                    else
+                    } else
                     {
                         int currPos = 0;
 
                         for (int i = 0; i < tokens.size(); ++i)
                         {
-                            String token = (String)tokens.get(i);
+                            String token = (String) tokens.get(i);
 
                             if (token.length() > 0)
                             {
@@ -74,8 +71,7 @@ public class StrUtils
                     }
                 }
             }
-        }
-        else
+        } else
         {
             return mask == str;
         }
@@ -88,8 +84,7 @@ public class StrUtils
             if (str.length() != mask.length())
             {
                 return false;
-            }
-            else
+            } else
             {
                 for (int i = 0; i < mask.length(); ++i)
                 {
@@ -103,8 +98,7 @@ public class StrUtils
 
                 return true;
             }
-        }
-        else
+        } else
         {
             return str == mask;
         }
@@ -119,8 +113,7 @@ public class StrUtils
                 if (str.length() < startPos + mask.length())
                 {
                     return -1;
-                }
-                else
+                } else
                 {
                     for (int i = startPos; i + mask.length() <= str.length(); ++i)
                     {
@@ -134,13 +127,11 @@ public class StrUtils
 
                     return -1;
                 }
-            }
-            else
+            } else
             {
                 return -1;
             }
-        }
-        else
+        } else
         {
             return -1;
         }
@@ -153,14 +144,12 @@ public class StrUtils
             if (str.length() < mask.length())
             {
                 return false;
-            }
-            else
+            } else
             {
-                String subStr = str.substring(str.length() - mask.length(), str.length());
+                String subStr = str.substring(str.length() - mask.length());
                 return equalsMaskSingle(subStr, mask, wildCharSingle);
             }
-        }
-        else
+        } else
         {
             return str == mask;
         }
@@ -173,14 +162,12 @@ public class StrUtils
             if (str.length() < mask.length())
             {
                 return false;
-            }
-            else
+            } else
             {
                 String subStr = str.substring(0, mask.length());
                 return equalsMaskSingle(subStr, mask, wildCharSingle);
             }
-        }
-        else
+        } else
         {
             return str == mask;
         }
@@ -208,8 +195,7 @@ public class StrUtils
             if (mask.indexOf(wildChar) < 0)
             {
                 return mask.equals(str);
-            }
-            else
+            } else
             {
                 ArrayList tokens = new ArrayList();
                 String wildCharStr = "" + wildChar;
@@ -231,27 +217,25 @@ public class StrUtils
                     tokens.add("");
                 }
 
-                String startTok = (String)tokens.get(0);
+                String startTok = (String) tokens.get(0);
 
                 if (!str.startsWith(startTok))
                 {
                     return false;
-                }
-                else
+                } else
                 {
-                    String endTok = (String)tokens.get(tokens.size() - 1);
+                    String endTok = (String) tokens.get(tokens.size() - 1);
 
                     if (!str.endsWith(endTok))
                     {
                         return false;
-                    }
-                    else
+                    } else
                     {
                         int currPos = 0;
 
                         for (int i = 0; i < tokens.size(); ++i)
                         {
-                            String token = (String)tokens.get(i);
+                            String token = (String) tokens.get(i);
 
                             if (token.length() > 0)
                             {
@@ -270,8 +254,7 @@ public class StrUtils
                     }
                 }
             }
-        }
-        else
+        } else
         {
             return mask == str;
         }
@@ -283,9 +266,8 @@ public class StrUtils
         {
             if (separators == null)
             {
-                return new String[] {str};
-            }
-            else
+                return new String[]{ str };
+            } else
             {
                 ArrayList tokens = new ArrayList();
                 int startPos = 0;
@@ -301,11 +283,10 @@ public class StrUtils
                     }
                 }
 
-                tokens.add(str.substring(startPos, str.length()));
-                return (String[])((String[])tokens.toArray(new String[tokens.size()]));
+                tokens.add(str.substring(startPos));
+                return (String[]) tokens.toArray(new String[tokens.size()]);
             }
-        }
-        else
+        } else
         {
             return new String[0];
         }
@@ -341,7 +322,7 @@ public class StrUtils
 
     public static boolean isEmpty(String string)
     {
-        return string == null ? true : string.trim().length() <= 0;
+        return string == null || string.trim().length() <= 0;
     }
 
     public static String stringInc(String str)
@@ -351,8 +332,7 @@ public class StrUtils
         if (val == -1)
         {
             return "";
-        }
-        else
+        } else
         {
             ++val;
             String test = "" + val;
@@ -365,14 +345,12 @@ public class StrUtils
         if (s == null)
         {
             return defVal;
-        }
-        else
+        } else
         {
             try
             {
                 return Integer.parseInt(s);
-            }
-            catch (NumberFormatException var3)
+            } catch (NumberFormatException var3)
             {
                 return defVal;
             }
@@ -407,8 +385,7 @@ public class StrUtils
         if (s.length() >= len)
         {
             return s;
-        }
-        else
+        } else
         {
             StringBuffer buf = new StringBuffer();
             int bufLen = len - s.length();
@@ -418,7 +395,7 @@ public class StrUtils
                 buf.append(fillChar);
             }
 
-            return buf.toString() + s;
+            return buf + s;
         }
     }
 
@@ -432,8 +409,7 @@ public class StrUtils
         if (s.length() >= len)
         {
             return s;
-        }
-        else
+        } else
         {
             StringBuffer buf = new StringBuffer(s);
 
@@ -448,7 +424,7 @@ public class StrUtils
 
     public static boolean equals(Object a, Object b)
     {
-        return a == b ? true : (a != null && a.equals(b) ? true : b != null && b.equals(a));
+        return a == b || (a != null && a.equals(b) || b != null && b.equals(a));
     }
 
     public static boolean startsWith(String str, String[] prefixes)
@@ -456,12 +432,10 @@ public class StrUtils
         if (str == null)
         {
             return false;
-        }
-        else if (prefixes == null)
+        } else if (prefixes == null)
         {
             return false;
-        }
-        else
+        } else
         {
             for (int i = 0; i < prefixes.length; ++i)
             {
@@ -482,12 +456,10 @@ public class StrUtils
         if (str == null)
         {
             return false;
-        }
-        else if (suffixes == null)
+        } else if (suffixes == null)
         {
             return false;
-        }
-        else
+        } else
         {
             for (int i = 0; i < suffixes.length; ++i)
             {
@@ -513,8 +485,7 @@ public class StrUtils
             }
 
             return str;
-        }
-        else
+        } else
         {
             return str;
         }
@@ -530,8 +501,7 @@ public class StrUtils
             }
 
             return str;
-        }
-        else
+        } else
         {
             return str;
         }
@@ -544,8 +514,7 @@ public class StrUtils
             if (!str.endsWith(suffix))
             {
                 return str;
-            }
-            else
+            } else
             {
                 if (suffixNew == null)
                 {
@@ -555,8 +524,7 @@ public class StrUtils
                 str = str.substring(0, str.length() - suffix.length());
                 return str + suffixNew;
             }
-        }
-        else
+        } else
         {
             return str;
         }
@@ -569,8 +537,7 @@ public class StrUtils
             if (!str.startsWith(prefix))
             {
                 return str;
-            }
-            else
+            } else
             {
                 if (prefixNew == null)
                 {
@@ -580,8 +547,7 @@ public class StrUtils
                 str = str.substring(prefix.length());
                 return prefixNew + str;
             }
-        }
-        else
+        } else
         {
             return str;
         }
@@ -602,8 +568,7 @@ public class StrUtils
             }
 
             return -1;
-        }
-        else
+        } else
         {
             return -1;
         }
@@ -624,8 +589,7 @@ public class StrUtils
             }
 
             return -1;
-        }
-        else
+        } else
         {
             return -1;
         }
@@ -636,14 +600,12 @@ public class StrUtils
         if (strs == null)
         {
             return strs;
-        }
-        else if (end > 0 && start < strs.length)
+        } else if (end > 0 && start < strs.length)
         {
             if (start >= end)
             {
                 return strs;
-            }
-            else
+            } else
             {
                 ArrayList list = new ArrayList(strs.length);
 
@@ -657,11 +619,10 @@ public class StrUtils
                     }
                 }
 
-                String[] var6 = (String[])list.toArray(new String[list.size()]);
+                String[] var6 = (String[]) list.toArray(new String[list.size()]);
                 return var6;
             }
-        }
-        else
+        } else
         {
             return strs;
         }
@@ -685,8 +646,7 @@ public class StrUtils
             }
 
             return str;
-        }
-        else
+        } else
         {
             return str;
         }
@@ -710,8 +670,7 @@ public class StrUtils
             }
 
             return str;
-        }
-        else
+        } else
         {
             return str;
         }
@@ -726,7 +685,7 @@ public class StrUtils
 
     public static String removePrefixSuffix(String str, String prefix, String suffix)
     {
-        return removePrefixSuffix(str, new String[] {prefix}, new String[] {suffix});
+        return removePrefixSuffix(str, new String[]{ prefix }, new String[]{ suffix });
     }
 
     public static String getSegment(String str, String start, String end)
@@ -738,14 +697,12 @@ public class StrUtils
             if (posStart < 0)
             {
                 return null;
-            }
-            else
+            } else
             {
                 int posEnd = str.indexOf(end, posStart);
                 return posEnd < 0 ? null : str.substring(posStart, posEnd + end.length());
             }
-        }
-        else
+        } else
         {
             return null;
         }

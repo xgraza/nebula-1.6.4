@@ -315,10 +315,10 @@ public class GuiIngame extends Gui
 
             if (this.mc.theWorld.getTotalWorldTime() >= 120500L)
             {
-                var36 = I18n.format("demo.demoExpired", new Object[0]);
+                var36 = I18n.format("demo.demoExpired");
             } else
             {
-                var36 = I18n.format("demo.remainingTime", new Object[]{ StringUtils.ticksToElapsedTime((int) (120500L - this.mc.theWorld.getTotalWorldTime())) });
+                var36 = I18n.format("demo.remainingTime", StringUtils.ticksToElapsedTime((int) (120500L - this.mc.theWorld.getTotalWorldTime())));
             }
 
             var13 = var8.getStringWidth(var36);
@@ -423,9 +423,9 @@ public class GuiIngame extends Gui
         int var22 = MathHelper.floor_double(this.mc.thePlayer.posX);
         int var23 = MathHelper.floor_double(this.mc.thePlayer.posY);
         int var24 = MathHelper.floor_double(this.mc.thePlayer.posZ);
-        this.drawString(var8, String.format("x: %.5f (%d) // c: %d (%d)", new Object[]{ Double.valueOf(this.mc.thePlayer.posX), Integer.valueOf(var22), Integer.valueOf(var22 >> 4), Integer.valueOf(var22 & 15) }), 2, 64, 14737632);
-        this.drawString(var8, String.format("y: %.3f (feet pos, %.3f eyes pos)", new Object[]{ Double.valueOf(this.mc.thePlayer.boundingBox.minY), Double.valueOf(this.mc.thePlayer.posY) }), 2, 72, 14737632);
-        this.drawString(var8, String.format("z: %.5f (%d) // c: %d (%d)", new Object[]{ Double.valueOf(this.mc.thePlayer.posZ), Integer.valueOf(var24), Integer.valueOf(var24 >> 4), Integer.valueOf(var24 & 15) }), 2, 80, 14737632);
+        this.drawString(var8, String.format("x: %.5f (%d) // c: %d (%d)", Double.valueOf(this.mc.thePlayer.posX), Integer.valueOf(var22), Integer.valueOf(var22 >> 4), Integer.valueOf(var22 & 15)), 2, 64, 14737632);
+        this.drawString(var8, String.format("y: %.3f (feet pos, %.3f eyes pos)", Double.valueOf(this.mc.thePlayer.boundingBox.minY), Double.valueOf(this.mc.thePlayer.posY)), 2, 72, 14737632);
+        this.drawString(var8, String.format("z: %.5f (%d) // c: %d (%d)", Double.valueOf(this.mc.thePlayer.posZ), Integer.valueOf(var24), Integer.valueOf(var24 >> 4), Integer.valueOf(var24 & 15)), 2, 80, 14737632);
         int var25 = MathHelper.floor_double((double) (this.mc.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
         this.drawString(var8, "f: " + var25 + " (" + Direction.directions[var25] + ") / " + MathHelper.wrapAngleTo180_float(this.mc.thePlayer.rotationYaw), 2, 88, 14737632);
 
@@ -435,11 +435,11 @@ public class GuiIngame extends Gui
             this.drawString(var8, "lc: " + (var26.getTopFilledSegment() + 15) + " b: " + var26.getBiomeGenForWorldCoords(var22 & 15, var24 & 15, this.mc.theWorld.getWorldChunkManager()).biomeName + " bl: " + var26.getSavedLightValue(EnumSkyBlock.Block, var22 & 15, var23, var24 & 15) + " sl: " + var26.getSavedLightValue(EnumSkyBlock.Sky, var22 & 15, var23, var24 & 15) + " rl: " + var26.getBlockLightValue(var22 & 15, var23, var24 & 15, 0), 2, 96, 14737632);
         }
 
-        this.drawString(var8, String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", new Object[]{ Float.valueOf(this.mc.thePlayer.capabilities.getWalkSpeed()), Float.valueOf(this.mc.thePlayer.capabilities.getFlySpeed()), Boolean.valueOf(this.mc.thePlayer.onGround), Integer.valueOf(this.mc.theWorld.getHeightValue(var22, var24)) }), 2, 104, 14737632);
+        this.drawString(var8, String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", Float.valueOf(this.mc.thePlayer.capabilities.getWalkSpeed()), Float.valueOf(this.mc.thePlayer.capabilities.getFlySpeed()), Boolean.valueOf(this.mc.thePlayer.onGround), Integer.valueOf(this.mc.theWorld.getHeightValue(var22, var24))), 2, 104, 14737632);
 
         if (this.mc.entityRenderer != null && this.mc.entityRenderer.isShaderActive())
         {
-            this.drawString(var8, String.format("shader: %s", new Object[]{ this.mc.entityRenderer.getShaderGroup().getShaderGroupName() }), 2, 112, 14737632);
+            this.drawString(var8, String.format("shader: %s", this.mc.entityRenderer.getShaderGroup().getShaderGroupName()), 2, 112, 14737632);
         }
 
         GL11.glPopMatrix();
@@ -863,7 +863,7 @@ public class GuiIngame extends Gui
 
         int var4 = MathHelper.ceiling_float_int(this.mc.thePlayer.getHealth());
         int var5 = MathHelper.ceiling_float_int(this.mc.thePlayer.prevHealth);
-        this.rand.setSeed((long) (this.updateCounter * 312871));
+        this.rand.setSeed(this.updateCounter * 312871L);
         boolean var6 = false;
         FoodStats var7 = this.mc.thePlayer.getFoodStats();
         int var8 = var7.getFoodLevel();
@@ -1071,7 +1071,7 @@ public class GuiIngame extends Gui
         {
             this.mc.mcProfiler.endStartSection("mountHealth");
             EntityLivingBase var37 = (EntityLivingBase) var34;
-            var35 = (int) Math.ceil((double) var37.getHealth());
+            var35 = (int) Math.ceil(var37.getHealth());
             float var38 = var37.getMaxHealth();
             var26 = (int) (var38 + 0.5F) / 2;
 
@@ -1183,9 +1183,9 @@ public class GuiIngame extends Gui
         this.mc.getTextureManager().bindTexture(pumpkinBlurTexPath);
         Tessellator var3 = Tessellator.instance;
         var3.startDrawingQuads();
-        var3.addVertexWithUV(0.0D, (double) par2, -90.0D, 0.0D, 1.0D);
-        var3.addVertexWithUV((double) par1, (double) par2, -90.0D, 1.0D, 1.0D);
-        var3.addVertexWithUV((double) par1, 0.0D, -90.0D, 1.0D, 0.0D);
+        var3.addVertexWithUV(0.0D, par2, -90.0D, 0.0D, 1.0D);
+        var3.addVertexWithUV(par1, par2, -90.0D, 1.0D, 1.0D);
+        var3.addVertexWithUV(par1, 0.0D, -90.0D, 1.0D, 0.0D);
         var3.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
         var3.draw();
         GL11.glDepthMask(true);
@@ -1219,9 +1219,9 @@ public class GuiIngame extends Gui
         this.mc.getTextureManager().bindTexture(vignetteTexPath);
         Tessellator var4 = Tessellator.instance;
         var4.startDrawingQuads();
-        var4.addVertexWithUV(0.0D, (double) par3, -90.0D, 0.0D, 1.0D);
-        var4.addVertexWithUV((double) par2, (double) par3, -90.0D, 1.0D, 1.0D);
-        var4.addVertexWithUV((double) par2, 0.0D, -90.0D, 1.0D, 0.0D);
+        var4.addVertexWithUV(0.0D, par3, -90.0D, 0.0D, 1.0D);
+        var4.addVertexWithUV(par2, par3, -90.0D, 1.0D, 1.0D);
+        var4.addVertexWithUV(par2, 0.0D, -90.0D, 1.0D, 0.0D);
         var4.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
         var4.draw();
         GL11.glDepthMask(true);
@@ -1257,10 +1257,10 @@ public class GuiIngame extends Gui
         float var8 = var4.getMaxV();
         Tessellator var9 = Tessellator.instance;
         var9.startDrawingQuads();
-        var9.addVertexWithUV(0.0D, (double) par3, -90.0D, (double) var5, (double) var8);
-        var9.addVertexWithUV((double) par2, (double) par3, -90.0D, (double) var7, (double) var8);
-        var9.addVertexWithUV((double) par2, 0.0D, -90.0D, (double) var7, (double) var6);
-        var9.addVertexWithUV(0.0D, 0.0D, -90.0D, (double) var5, (double) var6);
+        var9.addVertexWithUV(0.0D, par3, -90.0D, var5, var8);
+        var9.addVertexWithUV(par2, par3, -90.0D, var7, var8);
+        var9.addVertexWithUV(par2, 0.0D, -90.0D, var7, var6);
+        var9.addVertexWithUV(0.0D, 0.0D, -90.0D, var5, var6);
         var9.draw();
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_DEPTH_TEST);

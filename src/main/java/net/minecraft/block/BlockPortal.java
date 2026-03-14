@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -12,9 +11,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BlockPortal extends BlockBreakable
 {
-    public static final int[][] field_150001_a = new int[][] {new int[0], {3, 1}, {2, 0}};
+    public static final int[][] field_150001_a = new int[][]{ new int[0], { 3, 1 }, { 2, 0 } };
     private static final String __OBFID = "CL_00000284";
 
     public BlockPortal()
@@ -36,12 +37,11 @@ public class BlockPortal extends BlockBreakable
 
             for (var6 = p_149674_3_; !World.doesBlockHaveSolidTopSurface(p_149674_1_, p_149674_2_, var6, p_149674_4_) && var6 > 0; --var6)
             {
-                ;
             }
 
             if (var6 > 0 && !p_149674_1_.getBlock(p_149674_2_, var6 + 1, p_149674_4_).isNormalCube())
             {
-                Entity var7 = ItemMonsterPlacer.spawnCreature(p_149674_1_, 57, (double)p_149674_2_ + 0.5D, (double)var6 + 1.1D, (double)p_149674_4_ + 0.5D);
+                Entity var7 = ItemMonsterPlacer.spawnCreature(p_149674_1_, 57, (double) p_149674_2_ + 0.5D, (double) var6 + 1.1D, (double) p_149674_4_ + 0.5D);
 
                 if (var7 != null)
                 {
@@ -69,15 +69,14 @@ public class BlockPortal extends BlockBreakable
             if (p_149719_1_.getBlock(p_149719_2_ - 1, p_149719_3_, p_149719_4_) != this && p_149719_1_.getBlock(p_149719_2_ + 1, p_149719_3_, p_149719_4_) != this)
             {
                 var5 = 2;
-            }
-            else
+            } else
             {
                 var5 = 1;
             }
 
-            if (p_149719_1_ instanceof World && !((World)p_149719_1_).isClient)
+            if (p_149719_1_ instanceof World && !((World) p_149719_1_).isClient)
             {
-                ((World)p_149719_1_).setBlockMetadataWithNotify(p_149719_2_, p_149719_3_, p_149719_4_, var5, 2);
+                ((World) p_149719_1_).setBlockMetadataWithNotify(p_149719_2_, p_149719_3_, p_149719_4_, var5, 2);
             }
         }
 
@@ -111,13 +110,11 @@ public class BlockPortal extends BlockBreakable
         {
             var5.func_150859_c();
             return true;
-        }
-        else if (var6.func_150860_b() && var6.field_150864_e == 0)
+        } else if (var6.func_150860_b() && var6.field_150864_e == 0)
         {
             var6.func_150859_c();
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -132,12 +129,10 @@ public class BlockPortal extends BlockBreakable
         if (var6 == 1 && (!var7.func_150860_b() || var7.field_150864_e < var7.field_150868_h * var7.field_150862_g))
         {
             p_149695_1_.setBlock(p_149695_2_, p_149695_3_, p_149695_4_, Blocks.air);
-        }
-        else if (var6 == 2 && (!var8.func_150860_b() || var8.field_150864_e < var8.field_150868_h * var8.field_150862_g))
+        } else if (var6 == 2 && (!var8.func_150860_b() || var8.field_150864_e < var8.field_150868_h * var8.field_150862_g))
         {
             p_149695_1_.setBlock(p_149695_2_, p_149695_3_, p_149695_4_, Blocks.air);
-        }
-        else if (var6 == 0 && !var7.func_150860_b() && !var8.func_150860_b())
+        } else if (var6 == 0 && !var7.func_150860_b() && !var8.func_150860_b())
         {
             p_149695_1_.setBlock(p_149695_2_, p_149695_3_, p_149695_4_, Blocks.air);
         }
@@ -173,7 +168,7 @@ public class BlockPortal extends BlockBreakable
         boolean var10 = p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_ + 1) == this && p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_ + 2) != this;
         boolean var11 = var7 || var8 || var6 == 1;
         boolean var12 = var9 || var10 || var6 == 2;
-        return var11 && p_149646_5_ == 4 ? true : (var11 && p_149646_5_ == 5 ? true : (var12 && p_149646_5_ == 2 ? true : var12 && p_149646_5_ == 3));
+        return var11 && p_149646_5_ == 4 || (var11 && p_149646_5_ == 5 || (var12 && p_149646_5_ == 2 || var12 && p_149646_5_ == 3));
     }
 
     /**
@@ -207,31 +202,30 @@ public class BlockPortal extends BlockBreakable
     {
         if (p_149734_5_.nextInt(100) == 0)
         {
-            p_149734_1_.playSound((double)p_149734_2_ + 0.5D, (double)p_149734_3_ + 0.5D, (double)p_149734_4_ + 0.5D, "portal.portal", 0.5F, p_149734_5_.nextFloat() * 0.4F + 0.8F, false);
+            p_149734_1_.playSound((double) p_149734_2_ + 0.5D, (double) p_149734_3_ + 0.5D, (double) p_149734_4_ + 0.5D, "portal.portal", 0.5F, p_149734_5_.nextFloat() * 0.4F + 0.8F, false);
         }
 
         for (int var6 = 0; var6 < 4; ++var6)
         {
-            double var7 = (double)((float)p_149734_2_ + p_149734_5_.nextFloat());
-            double var9 = (double)((float)p_149734_3_ + p_149734_5_.nextFloat());
-            double var11 = (double)((float)p_149734_4_ + p_149734_5_.nextFloat());
+            double var7 = (float) p_149734_2_ + p_149734_5_.nextFloat();
+            double var9 = (float) p_149734_3_ + p_149734_5_.nextFloat();
+            double var11 = (float) p_149734_4_ + p_149734_5_.nextFloat();
             double var13 = 0.0D;
             double var15 = 0.0D;
             double var17 = 0.0D;
             int var19 = p_149734_5_.nextInt(2) * 2 - 1;
-            var13 = ((double)p_149734_5_.nextFloat() - 0.5D) * 0.5D;
-            var15 = ((double)p_149734_5_.nextFloat() - 0.5D) * 0.5D;
-            var17 = ((double)p_149734_5_.nextFloat() - 0.5D) * 0.5D;
+            var13 = ((double) p_149734_5_.nextFloat() - 0.5D) * 0.5D;
+            var15 = ((double) p_149734_5_.nextFloat() - 0.5D) * 0.5D;
+            var17 = ((double) p_149734_5_.nextFloat() - 0.5D) * 0.5D;
 
             if (p_149734_1_.getBlock(p_149734_2_ - 1, p_149734_3_, p_149734_4_) != this && p_149734_1_.getBlock(p_149734_2_ + 1, p_149734_3_, p_149734_4_) != this)
             {
-                var7 = (double)p_149734_2_ + 0.5D + 0.25D * (double)var19;
-                var13 = (double)(p_149734_5_.nextFloat() * 2.0F * (float)var19);
-            }
-            else
+                var7 = (double) p_149734_2_ + 0.5D + 0.25D * (double) var19;
+                var13 = p_149734_5_.nextFloat() * 2.0F * (float) var19;
+            } else
             {
-                var11 = (double)p_149734_4_ + 0.5D + 0.25D * (double)var19;
-                var17 = (double)(p_149734_5_.nextFloat() * 2.0F * (float)var19);
+                var11 = (double) p_149734_4_ + 0.5D + 0.25D * (double) var19;
+                var17 = p_149734_5_.nextFloat() * 2.0F * (float) var19;
             }
 
             p_149734_1_.spawnParticle("portal", var7, var9, var11, var13, var15, var17);
@@ -272,7 +266,6 @@ public class BlockPortal extends BlockBreakable
 
             for (int var6 = p_i45415_3_; p_i45415_3_ > var6 - 21 && p_i45415_3_ > 0 && this.func_150857_a(p_i45415_1_.getBlock(p_i45415_2_, p_i45415_3_ - 1, p_i45415_4_)); --p_i45415_3_)
             {
-                ;
             }
 
             int var7 = this.func_150853_a(p_i45415_2_, p_i45415_3_, p_i45415_4_, this.field_150863_d) - 1;
@@ -359,8 +352,7 @@ public class BlockPortal extends BlockBreakable
                         {
                             break label56;
                         }
-                    }
-                    else if (var2 == this.field_150868_h - 1)
+                    } else if (var2 == this.field_150868_h - 1)
                     {
                         var5 = this.field_150867_a.getBlock(var3 + Direction.offsetX[BlockPortal.field_150001_a[this.field_150865_b][1]], var1, var4 + Direction.offsetZ[BlockPortal.field_150001_a[this.field_150865_b][1]]);
 
@@ -388,8 +380,7 @@ public class BlockPortal extends BlockBreakable
             if (this.field_150862_g <= 21 && this.field_150862_g >= 3)
             {
                 return this.field_150862_g;
-            }
-            else
+            } else
             {
                 this.field_150861_f = null;
                 this.field_150868_h = 0;

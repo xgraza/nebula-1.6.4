@@ -1,7 +1,6 @@
 package net.minecraft.item;
 
 import com.google.common.collect.Multimap;
-import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,15 +8,21 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.World;
 
+import java.util.Set;
+
 public class ItemTool extends Item
 {
-    private Set field_150914_c;
+    private final Set field_150914_c;
     protected float efficiencyOnProperMaterial = 4.0F;
 
-    /** Damage versus entities. */
-    private float damageVsEntity;
+    /**
+     * Damage versus entities.
+     */
+    private final float damageVsEntity;
 
-    /** The material this tool is made from. */
+    /**
+     * The material this tool is made from.
+     */
     protected Item.ToolMaterial toolMaterial;
     private static final String __OBFID = "CL_00000019";
 
@@ -49,7 +54,7 @@ public class ItemTool extends Item
 
     public boolean onBlockDestroyed(ItemStack p_150894_1_, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase p_150894_7_)
     {
-        if ((double)p_150894_3_.getBlockHardness(p_150894_2_, p_150894_4_, p_150894_5_, p_150894_6_) != 0.0D)
+        if ((double) p_150894_3_.getBlockHardness(p_150894_2_, p_150894_4_, p_150894_5_, p_150894_6_) != 0.0D)
         {
             p_150894_1_.damageItem(1, p_150894_7_);
         }
@@ -91,7 +96,7 @@ public class ItemTool extends Item
      */
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
-        return this.toolMaterial.func_150995_f() == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+        return this.toolMaterial.func_150995_f() == par2ItemStack.getItem() || super.getIsRepairable(par1ItemStack, par2ItemStack);
     }
 
     /**
@@ -100,7 +105,7 @@ public class ItemTool extends Item
     public Multimap getItemAttributeModifiers()
     {
         Multimap var1 = super.getItemAttributeModifiers();
-        var1.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", (double)this.damageVsEntity, 0));
+        var1.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", this.damageVsEntity, 0));
         return var1;
     }
 }

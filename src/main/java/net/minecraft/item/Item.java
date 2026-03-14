@@ -3,25 +3,7 @@ package net.minecraft.item;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirt;
-import net.minecraft.block.BlockDoublePlant;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.block.BlockNewLog;
-import net.minecraft.block.BlockOldLog;
-import net.minecraft.block.BlockQuartz;
-import net.minecraft.block.BlockSand;
-import net.minecraft.block.BlockSandStone;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.block.BlockSilverfish;
-import net.minecraft.block.BlockStoneBrick;
-import net.minecraft.block.BlockWall;
-import net.minecraft.block.BlockWood;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -34,13 +16,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionHelper;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.RegistryNamespaced;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+
+import java.util.*;
 
 public class Item
 {
@@ -48,16 +27,24 @@ public class Item
     protected static final UUID field_111210_e = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
     private CreativeTabs tabToDisplayOn;
 
-    /** The RNG used by the Item subclasses. */
+    /**
+     * The RNG used by the Item subclasses.
+     */
     protected static Random itemRand = new Random();
 
-    /** Maximum size of the stack. */
+    /**
+     * Maximum size of the stack.
+     */
     protected int maxStackSize = 64;
 
-    /** Maximum damage an item can handle. */
+    /**
+     * Maximum damage an item can handle.
+     */
     private int maxDamage;
 
-    /** If true, render the object in full 3D, like weapons and tools. */
+    /**
+     * If true, render the object in full 3D, like weapons and tools.
+     */
     protected boolean bFull3D;
 
     /**
@@ -67,13 +54,19 @@ public class Item
     private Item containerItem;
     private String potionEffect;
 
-    /** The unlocalized name of this item. */
+    /**
+     * The unlocalized name of this item.
+     */
     private String unlocalizedName;
 
-    /** Icon index in the icons table. */
+    /**
+     * Icon index in the icons table.
+     */
     protected IIcon itemIcon;
 
-    /** The string associated with this Item's Icon. */
+    /**
+     * The string associated with this Item's Icon.
+     */
     protected String iconString;
     private static final String __OBFID = "CL_00000041";
 
@@ -84,7 +77,7 @@ public class Item
 
     public static Item getItemById(int p_150899_0_)
     {
-        return (Item)itemRegistry.getObjectForID(p_150899_0_);
+        return (Item) itemRegistry.getObjectForID(p_150899_0_);
     }
 
     public static Item getItemFromBlock(Block p_150898_0_)
@@ -92,7 +85,8 @@ public class Item
         return getItemById(Block.getIdFromBlock(p_150898_0_));
     }
 
-    public static Item getItemFromNamespace(String namespace) {
+    public static Item getItemFromNamespace(String namespace)
+    {
         return (Item) itemRegistry.getObject(namespace);
     }
 
@@ -257,7 +251,7 @@ public class Item
         itemRegistry.addObject(419, "diamond_horse_armor", (new Item()).setUnlocalizedName("horsearmordiamond").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc).setTextureName("diamond_horse_armor"));
         itemRegistry.addObject(420, "lead", (new ItemLead()).setUnlocalizedName("leash").setTextureName("lead"));
         itemRegistry.addObject(421, "name_tag", (new ItemNameTag()).setUnlocalizedName("nameTag").setTextureName("name_tag"));
-        itemRegistry.addObject(422, "command_block_minecart", (new ItemMinecart(6)).setUnlocalizedName("minecartCommandBlock").setTextureName("minecart_command_block").setCreativeTab((CreativeTabs)null));
+        itemRegistry.addObject(422, "command_block_minecart", (new ItemMinecart(6)).setUnlocalizedName("minecartCommandBlock").setTextureName("minecart_command_block").setCreativeTab(null));
         itemRegistry.addObject(2256, "record_13", (new ItemRecord("13")).setUnlocalizedName("record").setTextureName("record_13"));
         itemRegistry.addObject(2257, "record_cat", (new ItemRecord("cat")).setUnlocalizedName("record").setTextureName("record_cat"));
         itemRegistry.addObject(2258, "record_blocks", (new ItemRecord("blocks")).setUnlocalizedName("record").setTextureName("record_blocks"));
@@ -270,144 +264,112 @@ public class Item
         itemRegistry.addObject(2265, "record_ward", (new ItemRecord("ward")).setUnlocalizedName("record").setTextureName("record_ward"));
         itemRegistry.addObject(2266, "record_11", (new ItemRecord("11")).setUnlocalizedName("record").setTextureName("record_11"));
         itemRegistry.addObject(2267, "record_wait", (new ItemRecord("wait")).setUnlocalizedName("record").setTextureName("record_wait"));
-        HashSet var1 = Sets.newHashSet(new Block[] {Blocks.air, Blocks.brewing_stand, Blocks.bed, Blocks.nether_wart, Blocks.cauldron, Blocks.flower_pot, Blocks.wheat, Blocks.reeds, Blocks.cake, Blocks.skull, Blocks.piston_head, Blocks.piston_extension, Blocks.lit_redstone_ore, Blocks.powered_repeater, Blocks.pumpkin_stem, Blocks.standing_sign, Blocks.powered_comparator, Blocks.tripwire, Blocks.lit_redstone_lamp, Blocks.melon_stem, Blocks.unlit_redstone_torch, Blocks.unpowered_comparator, Blocks.redstone_wire, Blocks.wall_sign, Blocks.unpowered_repeater, Blocks.iron_door, Blocks.wooden_door});
+        HashSet var1 = Sets.newHashSet(Blocks.air, Blocks.brewing_stand, Blocks.bed, Blocks.nether_wart, Blocks.cauldron, Blocks.flower_pot, Blocks.wheat, Blocks.reeds, Blocks.cake, Blocks.skull, Blocks.piston_head, Blocks.piston_extension, Blocks.lit_redstone_ore, Blocks.powered_repeater, Blocks.pumpkin_stem, Blocks.standing_sign, Blocks.powered_comparator, Blocks.tripwire, Blocks.lit_redstone_lamp, Blocks.melon_stem, Blocks.unlit_redstone_torch, Blocks.unpowered_comparator, Blocks.redstone_wire, Blocks.wall_sign, Blocks.unpowered_repeater, Blocks.iron_door, Blocks.wooden_door);
         Iterator var2 = Block.blockRegistry.getKeys().iterator();
 
         while (var2.hasNext())
         {
-            String var3 = (String)var2.next();
-            Block var4 = (Block)Block.blockRegistry.getObject(var3);
+            String var3 = (String) var2.next();
+            Block var4 = (Block) Block.blockRegistry.getObject(var3);
             Object var5;
 
             if (var4 == Blocks.wool)
             {
                 var5 = (new ItemCloth(Blocks.wool)).setUnlocalizedName("cloth");
-            }
-            else if (var4 == Blocks.stained_hardened_clay)
+            } else if (var4 == Blocks.stained_hardened_clay)
             {
                 var5 = (new ItemCloth(Blocks.stained_hardened_clay)).setUnlocalizedName("clayHardenedStained");
-            }
-            else if (var4 == Blocks.stained_glass)
+            } else if (var4 == Blocks.stained_glass)
             {
                 var5 = (new ItemCloth(Blocks.stained_glass)).setUnlocalizedName("stainedGlass");
-            }
-            else if (var4 == Blocks.stained_glass_pane)
+            } else if (var4 == Blocks.stained_glass_pane)
             {
                 var5 = (new ItemCloth(Blocks.stained_glass_pane)).setUnlocalizedName("stainedGlassPane");
-            }
-            else if (var4 == Blocks.carpet)
+            } else if (var4 == Blocks.carpet)
             {
                 var5 = (new ItemCloth(Blocks.carpet)).setUnlocalizedName("woolCarpet");
-            }
-            else if (var4 == Blocks.dirt)
+            } else if (var4 == Blocks.dirt)
             {
                 var5 = (new ItemMultiTexture(Blocks.dirt, Blocks.dirt, BlockDirt.field_150009_a)).setUnlocalizedName("dirt");
-            }
-            else if (var4 == Blocks.sand)
+            } else if (var4 == Blocks.sand)
             {
                 var5 = (new ItemMultiTexture(Blocks.sand, Blocks.sand, BlockSand.field_149838_a)).setUnlocalizedName("sand");
-            }
-            else if (var4 == Blocks.log)
+            } else if (var4 == Blocks.log)
             {
                 var5 = (new ItemMultiTexture(Blocks.log, Blocks.log, BlockOldLog.field_150168_M)).setUnlocalizedName("log");
-            }
-            else if (var4 == Blocks.log2)
+            } else if (var4 == Blocks.log2)
             {
                 var5 = (new ItemMultiTexture(Blocks.log2, Blocks.log2, BlockNewLog.field_150169_M)).setUnlocalizedName("log");
-            }
-            else if (var4 == Blocks.planks)
+            } else if (var4 == Blocks.planks)
             {
                 var5 = (new ItemMultiTexture(Blocks.planks, Blocks.planks, BlockWood.field_150096_a)).setUnlocalizedName("wood");
-            }
-            else if (var4 == Blocks.monster_egg)
+            } else if (var4 == Blocks.monster_egg)
             {
                 var5 = (new ItemMultiTexture(Blocks.monster_egg, Blocks.monster_egg, BlockSilverfish.field_150198_a)).setUnlocalizedName("monsterStoneEgg");
-            }
-            else if (var4 == Blocks.stonebrick)
+            } else if (var4 == Blocks.stonebrick)
             {
                 var5 = (new ItemMultiTexture(Blocks.stonebrick, Blocks.stonebrick, BlockStoneBrick.field_150142_a)).setUnlocalizedName("stonebricksmooth");
-            }
-            else if (var4 == Blocks.sandstone)
+            } else if (var4 == Blocks.sandstone)
             {
                 var5 = (new ItemMultiTexture(Blocks.sandstone, Blocks.sandstone, BlockSandStone.field_150157_a)).setUnlocalizedName("sandStone");
-            }
-            else if (var4 == Blocks.quartz_block)
+            } else if (var4 == Blocks.quartz_block)
             {
                 var5 = (new ItemMultiTexture(Blocks.quartz_block, Blocks.quartz_block, BlockQuartz.field_150191_a)).setUnlocalizedName("quartzBlock");
-            }
-            else if (var4 == Blocks.stone_slab)
+            } else if (var4 == Blocks.stone_slab)
             {
                 var5 = (new ItemSlab(Blocks.stone_slab, Blocks.stone_slab, Blocks.double_stone_slab, false)).setUnlocalizedName("stoneSlab");
-            }
-            else if (var4 == Blocks.double_stone_slab)
+            } else if (var4 == Blocks.double_stone_slab)
             {
                 var5 = (new ItemSlab(Blocks.double_stone_slab, Blocks.stone_slab, Blocks.double_stone_slab, true)).setUnlocalizedName("stoneSlab");
-            }
-            else if (var4 == Blocks.wooden_slab)
+            } else if (var4 == Blocks.wooden_slab)
             {
                 var5 = (new ItemSlab(Blocks.wooden_slab, Blocks.wooden_slab, Blocks.double_wooden_slab, false)).setUnlocalizedName("woodSlab");
-            }
-            else if (var4 == Blocks.double_wooden_slab)
+            } else if (var4 == Blocks.double_wooden_slab)
             {
                 var5 = (new ItemSlab(Blocks.double_wooden_slab, Blocks.wooden_slab, Blocks.double_wooden_slab, true)).setUnlocalizedName("woodSlab");
-            }
-            else if (var4 == Blocks.sapling)
+            } else if (var4 == Blocks.sapling)
             {
                 var5 = (new ItemMultiTexture(Blocks.sapling, Blocks.sapling, BlockSapling.field_149882_a)).setUnlocalizedName("sapling");
-            }
-            else if (var4 == Blocks.leaves)
+            } else if (var4 == Blocks.leaves)
             {
                 var5 = (new ItemLeaves(Blocks.leaves)).setUnlocalizedName("leaves");
-            }
-            else if (var4 == Blocks.leaves2)
+            } else if (var4 == Blocks.leaves2)
             {
                 var5 = (new ItemLeaves(Blocks.leaves2)).setUnlocalizedName("leaves");
-            }
-            else if (var4 == Blocks.vine)
+            } else if (var4 == Blocks.vine)
             {
                 var5 = new ItemColored(Blocks.vine, false);
-            }
-            else if (var4 == Blocks.tallgrass)
+            } else if (var4 == Blocks.tallgrass)
             {
-                var5 = (new ItemColored(Blocks.tallgrass, true)).func_150943_a(new String[] {"shrub", "grass", "fern"});
-            }
-            else if (var4 == Blocks.yellow_flower)
+                var5 = (new ItemColored(Blocks.tallgrass, true)).func_150943_a(new String[]{ "shrub", "grass", "fern" });
+            } else if (var4 == Blocks.yellow_flower)
             {
                 var5 = (new ItemMultiTexture(Blocks.yellow_flower, Blocks.yellow_flower, BlockFlower.field_149858_b)).setUnlocalizedName("flower");
-            }
-            else if (var4 == Blocks.red_flower)
+            } else if (var4 == Blocks.red_flower)
             {
                 var5 = (new ItemMultiTexture(Blocks.red_flower, Blocks.red_flower, BlockFlower.field_149859_a)).setUnlocalizedName("rose");
-            }
-            else if (var4 == Blocks.snow_layer)
+            } else if (var4 == Blocks.snow_layer)
             {
                 var5 = new ItemSnow(Blocks.snow_layer, Blocks.snow_layer);
-            }
-            else if (var4 == Blocks.waterlily)
+            } else if (var4 == Blocks.waterlily)
             {
                 var5 = new ItemLilyPad(Blocks.waterlily);
-            }
-            else if (var4 == Blocks.piston)
+            } else if (var4 == Blocks.piston)
             {
                 var5 = new ItemPiston(Blocks.piston);
-            }
-            else if (var4 == Blocks.sticky_piston)
+            } else if (var4 == Blocks.sticky_piston)
             {
                 var5 = new ItemPiston(Blocks.sticky_piston);
-            }
-            else if (var4 == Blocks.cobblestone_wall)
+            } else if (var4 == Blocks.cobblestone_wall)
             {
                 var5 = (new ItemMultiTexture(Blocks.cobblestone_wall, Blocks.cobblestone_wall, BlockWall.field_150092_a)).setUnlocalizedName("cobbleWall");
-            }
-            else if (var4 == Blocks.anvil)
+            } else if (var4 == Blocks.anvil)
             {
                 var5 = (new ItemAnvilBlock(Blocks.anvil)).setUnlocalizedName("anvil");
-            }
-            else if (var4 == Blocks.double_plant)
+            } else if (var4 == Blocks.double_plant)
             {
                 var5 = (new ItemDoublePlant(Blocks.double_plant, Blocks.double_plant, BlockDoublePlant.field_149892_a)).setUnlocalizedName("doublePlant");
-            }
-            else
+            } else
             {
                 if (var1.contains(var4))
                 {
@@ -661,12 +623,16 @@ public class Item
      * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
      * update it's contents.
      */
-    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {}
+    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+    {
+    }
 
     /**
      * Called when item is crafted/smelted. Used only by maps so far.
      */
-    public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {}
+    public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+    {
+    }
 
     /**
      * false for all Items except sub-classes of ItemMapBase
@@ -695,7 +661,9 @@ public class Item
     /**
      * called when the player releases the use item button. Args: itemstack, world, entityplayer, itemInUseCount
      */
-    public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4) {}
+    public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4)
+    {
+    }
 
     /**
      * Sets the string representing this item's effect on a potion when used as an ingredient.
@@ -719,11 +687,13 @@ public class Item
     /**
      * allows items to add custom lines of information to the mouseover description
      */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {}
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    {
+    }
 
     public String getItemStackDisplayName(ItemStack par1ItemStack)
     {
-        return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(par1ItemStack) + ".name")).trim();
+        return (StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(par1ItemStack) + ".name")).trim();
     }
 
     public boolean hasEffect(ItemStack par1ItemStack)
@@ -752,18 +722,18 @@ public class Item
         float var4 = 1.0F;
         float var5 = par2EntityPlayer.prevRotationPitch + (par2EntityPlayer.rotationPitch - par2EntityPlayer.prevRotationPitch) * var4;
         float var6 = par2EntityPlayer.prevRotationYaw + (par2EntityPlayer.rotationYaw - par2EntityPlayer.prevRotationYaw) * var4;
-        double var7 = par2EntityPlayer.prevPosX + (par2EntityPlayer.posX - par2EntityPlayer.prevPosX) * (double)var4;
-        double var9 = par2EntityPlayer.prevPosY + (par2EntityPlayer.posY - par2EntityPlayer.prevPosY) * (double)var4 + 1.62D - (double)par2EntityPlayer.yOffset;
-        double var11 = par2EntityPlayer.prevPosZ + (par2EntityPlayer.posZ - par2EntityPlayer.prevPosZ) * (double)var4;
+        double var7 = par2EntityPlayer.prevPosX + (par2EntityPlayer.posX - par2EntityPlayer.prevPosX) * (double) var4;
+        double var9 = par2EntityPlayer.prevPosY + (par2EntityPlayer.posY - par2EntityPlayer.prevPosY) * (double) var4 + 1.62D - (double) par2EntityPlayer.yOffset;
+        double var11 = par2EntityPlayer.prevPosZ + (par2EntityPlayer.posZ - par2EntityPlayer.prevPosZ) * (double) var4;
         Vec3 var13 = par1World.getWorldVec3Pool().getVecFromPool(var7, var9, var11);
-        float var14 = MathHelper.cos(-var6 * 0.017453292F - (float)Math.PI);
-        float var15 = MathHelper.sin(-var6 * 0.017453292F - (float)Math.PI);
+        float var14 = MathHelper.cos(-var6 * 0.017453292F - (float) Math.PI);
+        float var15 = MathHelper.sin(-var6 * 0.017453292F - (float) Math.PI);
         float var16 = -MathHelper.cos(-var5 * 0.017453292F);
         float var17 = MathHelper.sin(-var5 * 0.017453292F);
         float var18 = var15 * var16;
         float var20 = var14 * var16;
         double var21 = 5.0D;
-        Vec3 var23 = var13.addVector((double)var18 * var21, (double)var17 * var21, (double)var20 * var21);
+        Vec3 var23 = var13.addVector((double) var18 * var21, (double) var17 * var21, (double) var20 * var21);
         return par1World.func_147447_a(var13, var23, par3, !par3, false);
     }
 
@@ -857,7 +827,7 @@ public class Item
         return this.iconString == null ? "MISSING_ICON_ITEM_" + itemRegistry.getIDForObject(this) + "_" + this.unlocalizedName : this.iconString;
     }
 
-    public static enum ToolMaterial
+    public enum ToolMaterial
     {
         WOOD("WOOD", 0, 0, 59, 2.0F, 0.0F, 15),
         STONE("STONE", 1, 1, 131, 4.0F, 1.0F, 5),
@@ -870,10 +840,10 @@ public class Item
         private final float damageVsEntity;
         private final int enchantability;
 
-        private static final Item.ToolMaterial[] $VALUES = new Item.ToolMaterial[]{WOOD, STONE, IRON, EMERALD, GOLD};
+        private static final Item.ToolMaterial[] $VALUES = new Item.ToolMaterial[]{ WOOD, STONE, IRON, EMERALD, GOLD };
         private static final String __OBFID = "CL_00000042";
 
-        private ToolMaterial(String par1Str, int par2, int par3, int par4, float par5, float par6, int par7)
+        ToolMaterial(String par1Str, int par2, int par3, int par4, float par5, float par6, int par7)
         {
             this.harvestLevel = par3;
             this.maxUses = par4;

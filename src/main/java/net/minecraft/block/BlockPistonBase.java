@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,6 +16,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class BlockPistonBase extends Block
 {
@@ -133,8 +134,7 @@ public class BlockPistonBase extends Block
                 {
                     p_150078_1_.addBlockEvent(p_150078_2_, p_150078_3_, p_150078_4_, this, 0, var6);
                 }
-            }
-            else if (!var7 && isExtended(var5))
+            } else if (!var7 && isExtended(var5))
             {
                 p_150078_1_.setBlockMetadataWithNotify(p_150078_2_, p_150078_3_, p_150078_4_, var6, 2);
                 p_150078_1_.addBlockEvent(p_150078_2_, p_150078_3_, p_150078_4_, this, 1, var6);
@@ -144,7 +144,7 @@ public class BlockPistonBase extends Block
 
     private boolean isIndirectlyPowered(World p_150072_1_, int p_150072_2_, int p_150072_3_, int p_150072_4_, int p_150072_5_)
     {
-        return p_150072_5_ != 0 && p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_ - 1, p_150072_4_, 0) ? true : (p_150072_5_ != 1 && p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_ + 1, p_150072_4_, 1) ? true : (p_150072_5_ != 2 && p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_, p_150072_4_ - 1, 2) ? true : (p_150072_5_ != 3 && p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_, p_150072_4_ + 1, 3) ? true : (p_150072_5_ != 5 && p_150072_1_.getIndirectPowerOutput(p_150072_2_ + 1, p_150072_3_, p_150072_4_, 5) ? true : (p_150072_5_ != 4 && p_150072_1_.getIndirectPowerOutput(p_150072_2_ - 1, p_150072_3_, p_150072_4_, 4) ? true : (p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_, p_150072_4_, 0) ? true : (p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_ + 2, p_150072_4_, 1) ? true : (p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_ + 1, p_150072_4_ - 1, 2) ? true : (p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_ + 1, p_150072_4_ + 1, 3) ? true : (p_150072_1_.getIndirectPowerOutput(p_150072_2_ - 1, p_150072_3_ + 1, p_150072_4_, 4) ? true : p_150072_1_.getIndirectPowerOutput(p_150072_2_ + 1, p_150072_3_ + 1, p_150072_4_, 5)))))))))));
+        return p_150072_5_ != 0 && p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_ - 1, p_150072_4_, 0) || (p_150072_5_ != 1 && p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_ + 1, p_150072_4_, 1) || (p_150072_5_ != 2 && p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_, p_150072_4_ - 1, 2) || (p_150072_5_ != 3 && p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_, p_150072_4_ + 1, 3) || (p_150072_5_ != 5 && p_150072_1_.getIndirectPowerOutput(p_150072_2_ + 1, p_150072_3_, p_150072_4_, 5) || (p_150072_5_ != 4 && p_150072_1_.getIndirectPowerOutput(p_150072_2_ - 1, p_150072_3_, p_150072_4_, 4) || (p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_, p_150072_4_, 0) || (p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_ + 2, p_150072_4_, 1) || (p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_ + 1, p_150072_4_ - 1, 2) || (p_150072_1_.getIndirectPowerOutput(p_150072_2_, p_150072_3_ + 1, p_150072_4_ + 1, 3) || (p_150072_1_.getIndirectPowerOutput(p_150072_2_ - 1, p_150072_3_ + 1, p_150072_4_, 4) || p_150072_1_.getIndirectPowerOutput(p_150072_2_ + 1, p_150072_3_ + 1, p_150072_4_, 5)))))))))));
     }
 
     public boolean onBlockEventReceived(World p_149696_1_, int p_149696_2_, int p_149696_3_, int p_149696_4_, int p_149696_5_, int p_149696_6_)
@@ -173,15 +173,14 @@ public class BlockPistonBase extends Block
             }
 
             p_149696_1_.setBlockMetadataWithNotify(p_149696_2_, p_149696_3_, p_149696_4_, p_149696_6_ | 8, 2);
-            p_149696_1_.playSoundEffect((double)p_149696_2_ + 0.5D, (double)p_149696_3_ + 0.5D, (double)p_149696_4_ + 0.5D, "tile.piston.out", 0.5F, p_149696_1_.rand.nextFloat() * 0.25F + 0.6F);
-        }
-        else if (p_149696_5_ == 1)
+            p_149696_1_.playSoundEffect((double) p_149696_2_ + 0.5D, (double) p_149696_3_ + 0.5D, (double) p_149696_4_ + 0.5D, "tile.piston.out", 0.5F, p_149696_1_.rand.nextFloat() * 0.25F + 0.6F);
+        } else if (p_149696_5_ == 1)
         {
             TileEntity var16 = p_149696_1_.getTileEntity(p_149696_2_ + Facing.offsetsXForSide[p_149696_6_], p_149696_3_ + Facing.offsetsYForSide[p_149696_6_], p_149696_4_ + Facing.offsetsZForSide[p_149696_6_]);
 
             if (var16 instanceof TileEntityPiston)
             {
-                ((TileEntityPiston)var16).clearPistonTileEntity();
+                ((TileEntityPiston) var16).clearPistonTileEntity();
             }
 
             p_149696_1_.setBlock(p_149696_2_, p_149696_3_, p_149696_4_, Blocks.piston_extension, p_149696_6_, 3);
@@ -202,7 +201,7 @@ public class BlockPistonBase extends Block
 
                     if (var14 instanceof TileEntityPiston)
                     {
-                        TileEntityPiston var15 = (TileEntityPiston)var14;
+                        TileEntityPiston var15 = (TileEntityPiston) var14;
 
                         if (var15.getPistonOrientation() == p_149696_6_ && var15.isExtending())
                         {
@@ -222,18 +221,16 @@ public class BlockPistonBase extends Block
                     p_149696_1_.setBlock(p_149696_2_, p_149696_3_, p_149696_4_, Blocks.piston_extension, var12, 3);
                     p_149696_1_.setTileEntity(p_149696_2_, p_149696_3_, p_149696_4_, BlockPistonMoving.getTileEntity(var11, var12, p_149696_6_, false, false));
                     p_149696_1_.setBlockToAir(var8, var9, var10);
-                }
-                else if (!var13)
+                } else if (!var13)
                 {
                     p_149696_1_.setBlockToAir(p_149696_2_ + Facing.offsetsXForSide[p_149696_6_], p_149696_3_ + Facing.offsetsYForSide[p_149696_6_], p_149696_4_ + Facing.offsetsZForSide[p_149696_6_]);
                 }
-            }
-            else
+            } else
             {
                 p_149696_1_.setBlockToAir(p_149696_2_ + Facing.offsetsXForSide[p_149696_6_], p_149696_3_ + Facing.offsetsYForSide[p_149696_6_], p_149696_4_ + Facing.offsetsZForSide[p_149696_6_]);
             }
 
-            p_149696_1_.playSoundEffect((double)p_149696_2_ + 0.5D, (double)p_149696_3_ + 0.5D, (double)p_149696_4_ + 0.5D, "tile.piston.in", 0.5F, p_149696_1_.rand.nextFloat() * 0.15F + 0.6F);
+            p_149696_1_.playSoundEffect((double) p_149696_2_ + 0.5D, (double) p_149696_3_ + 0.5D, (double) p_149696_4_ + 0.5D, "tile.piston.in", 0.5F, p_149696_1_.rand.nextFloat() * 0.15F + 0.6F);
         }
 
         return true;
@@ -272,8 +269,7 @@ public class BlockPistonBase extends Block
                 case 5:
                     this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
             }
-        }
-        else
+        } else
         {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         }
@@ -320,22 +316,22 @@ public class BlockPistonBase extends Block
 
     public static int determineOrientation(World p_150071_0_, int p_150071_1_, int p_150071_2_, int p_150071_3_, EntityLivingBase p_150071_4_)
     {
-        if (MathHelper.abs((float)p_150071_4_.posX - (float)p_150071_1_) < 2.0F && MathHelper.abs((float)p_150071_4_.posZ - (float)p_150071_3_) < 2.0F)
+        if (MathHelper.abs((float) p_150071_4_.posX - (float) p_150071_1_) < 2.0F && MathHelper.abs((float) p_150071_4_.posZ - (float) p_150071_3_) < 2.0F)
         {
-            double var5 = p_150071_4_.posY + 1.82D - (double)p_150071_4_.yOffset;
+            double var5 = p_150071_4_.posY + 1.82D - (double) p_150071_4_.yOffset;
 
-            if (var5 - (double)p_150071_2_ > 2.0D)
+            if (var5 - (double) p_150071_2_ > 2.0D)
             {
                 return 1;
             }
 
-            if ((double)p_150071_2_ - var5 > 0.0D)
+            if ((double) p_150071_2_ - var5 > 0.0D)
             {
                 return 0;
             }
         }
 
-        int var7 = MathHelper.floor_double((double)(p_150071_4_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int var7 = MathHelper.floor_double((double) (p_150071_4_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
         return var7 == 0 ? 2 : (var7 == 1 ? 5 : (var7 == 2 ? 3 : (var7 == 3 ? 4 : 0)));
     }
 
@@ -344,8 +340,7 @@ public class BlockPistonBase extends Block
         if (p_150080_0_ == Blocks.obsidian)
         {
             return false;
-        }
-        else
+        } else
         {
             if (p_150080_0_ != Blocks.piston && p_150080_0_ != Blocks.sticky_piston)
             {
@@ -361,15 +356,9 @@ public class BlockPistonBase extends Block
 
                 if (p_150080_0_.getMobilityFlag() == 1)
                 {
-                    if (!p_150080_5_)
-                    {
-                        return false;
-                    }
-
-                    return true;
+                    return p_150080_5_;
                 }
-            }
-            else if (isExtended(p_150080_1_.getBlockMetadata(p_150080_2_, p_150080_3_, p_150080_4_)))
+            } else if (isExtended(p_150080_1_.getBlockMetadata(p_150080_2_, p_150080_3_, p_150080_4_)))
             {
                 return false;
             }
@@ -488,8 +477,7 @@ public class BlockPistonBase extends Block
                 {
                     p_150079_1_.setBlock(var6, var7, var8, Blocks.piston_extension, p_150079_5_ | (this.isSticky ? 8 : 0), 4);
                     p_150079_1_.setTileEntity(var6, var7, var8, BlockPistonMoving.getTileEntity(Blocks.piston_head, p_150079_5_ | (this.isSticky ? 8 : 0), p_150079_5_, true, false));
-                }
-                else
+                } else
                 {
                     p_150079_1_.setBlock(var6, var7, var8, Blocks.piston_extension, var18, 4);
                     p_150079_1_.setTileEntity(var6, var7, var8, BlockPistonMoving.getTileEntity(var17, var18, p_150079_5_, true, false));

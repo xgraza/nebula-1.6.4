@@ -1,7 +1,5 @@
 package net.minecraft.world.gen;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
@@ -15,18 +13,23 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 
+import java.util.List;
+import java.util.Random;
+
 public class ChunkProviderEnd implements IChunkProvider
 {
-    private Random endRNG;
-    private NoiseGeneratorOctaves noiseGen1;
-    private NoiseGeneratorOctaves noiseGen2;
-    private NoiseGeneratorOctaves noiseGen3;
+    private final Random endRNG;
+    private final NoiseGeneratorOctaves noiseGen1;
+    private final NoiseGeneratorOctaves noiseGen2;
+    private final NoiseGeneratorOctaves noiseGen3;
     public NoiseGeneratorOctaves noiseGen4;
     public NoiseGeneratorOctaves noiseGen5;
-    private World endWorld;
+    private final World endWorld;
     private double[] densities;
 
-    /** The biomes that are used to generate the chunk */
+    /**
+     * The biomes that are used to generate the chunk
+     */
     private BiomeGenBase[] biomesForGeneration;
     double[] noiseData1;
     double[] noiseData2;
@@ -62,13 +65,13 @@ public class ChunkProviderEnd implements IChunkProvider
                 for (int var11 = 0; var11 < 32; ++var11)
                 {
                     double var12 = 0.25D;
-                    double var14 = this.densities[((var9 + 0) * var8 + var10 + 0) * var7 + var11 + 0];
-                    double var16 = this.densities[((var9 + 0) * var8 + var10 + 1) * var7 + var11 + 0];
-                    double var18 = this.densities[((var9 + 1) * var8 + var10 + 0) * var7 + var11 + 0];
-                    double var20 = this.densities[((var9 + 1) * var8 + var10 + 1) * var7 + var11 + 0];
-                    double var22 = (this.densities[((var9 + 0) * var8 + var10 + 0) * var7 + var11 + 1] - var14) * var12;
-                    double var24 = (this.densities[((var9 + 0) * var8 + var10 + 1) * var7 + var11 + 1] - var16) * var12;
-                    double var26 = (this.densities[((var9 + 1) * var8 + var10 + 0) * var7 + var11 + 1] - var18) * var12;
+                    double var14 = this.densities[((var9) * var8 + var10) * var7 + var11];
+                    double var16 = this.densities[((var9) * var8 + var10 + 1) * var7 + var11];
+                    double var18 = this.densities[((var9 + 1) * var8 + var10) * var7 + var11];
+                    double var20 = this.densities[((var9 + 1) * var8 + var10 + 1) * var7 + var11];
+                    double var22 = (this.densities[((var9) * var8 + var10) * var7 + var11 + 1] - var14) * var12;
+                    double var24 = (this.densities[((var9) * var8 + var10 + 1) * var7 + var11 + 1] - var16) * var12;
+                    double var26 = (this.densities[((var9 + 1) * var8 + var10) * var7 + var11 + 1] - var18) * var12;
                     double var28 = (this.densities[((var9 + 1) * var8 + var10 + 1) * var7 + var11 + 1] - var20) * var12;
 
                     for (int var30 = 0; var30 < 4; ++var30)
@@ -81,7 +84,7 @@ public class ChunkProviderEnd implements IChunkProvider
 
                         for (int var41 = 0; var41 < 8; ++var41)
                         {
-                            int var42 = var41 + var9 * 8 << 11 | 0 + var10 * 8 << 7 | var11 * 4 + var30;
+                            int var42 = var41 + var9 * 8 << 11 | var10 * 8 << 7 | var11 * 4 + var30;
                             short var43 = 128;
                             double var44 = 0.125D;
                             double var46 = var33;
@@ -148,20 +151,17 @@ public class ChunkProviderEnd implements IChunkProvider
                                 if (var11 >= 0)
                                 {
                                     p_147421_3_[var12] = var9;
-                                }
-                                else
+                                } else
                                 {
                                     p_147421_3_[var12] = var10;
                                 }
-                            }
-                            else if (var8 > 0)
+                            } else if (var8 > 0)
                             {
                                 --var8;
                                 p_147421_3_[var12] = var10;
                             }
                         }
-                    }
-                    else
+                    } else
                     {
                         var8 = -1;
                     }
@@ -184,7 +184,7 @@ public class ChunkProviderEnd implements IChunkProvider
      */
     public Chunk provideChunk(int par1, int par2)
     {
-        this.endRNG.setSeed((long)par1 * 341873128712L + (long)par2 * 132897987541L);
+        this.endRNG.setSeed((long) par1 * 341873128712L + (long) par2 * 132897987541L);
         Block[] var3 = new Block[32768];
         this.biomesForGeneration = this.endWorld.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, par1 * 16, par2 * 16, 16, 16);
         this.func_147420_a(par1, par2, var3, this.biomesForGeneration);
@@ -194,7 +194,7 @@ public class ChunkProviderEnd implements IChunkProvider
 
         for (int var6 = 0; var6 < var5.length; ++var6)
         {
-            var5[var6] = (byte)this.biomesForGeneration[var6].biomeID;
+            var5[var6] = (byte) this.biomesForGeneration[var6].biomeID;
         }
 
         var4.generateSkylightMap();
@@ -242,8 +242,8 @@ public class ChunkProviderEnd implements IChunkProvider
                 }
 
                 var18 = var18 * 3.0D - 2.0D;
-                float var20 = (float)(var14 + par2 - 0) / 1.0F;
-                float var21 = (float)(var15 + par4 - 0) / 1.0F;
+                float var20 = (float) (var14 + par2);
+                float var21 = (float) (var15 + par4);
                 float var22 = 100.0F - MathHelper.sqrt_float(var20 * var20 + var21 * var21) * 8.0F;
 
                 if (var22 > 80.0F)
@@ -270,14 +270,14 @@ public class ChunkProviderEnd implements IChunkProvider
                 }
 
                 var16 += 0.5D;
-                var18 = var18 * (double)par6 / 16.0D;
+                var18 = var18 * (double) par6 / 16.0D;
                 ++var13;
-                double var23 = (double)par6 / 2.0D;
+                double var23 = (double) par6 / 2.0D;
 
                 for (int var25 = 0; var25 < par6; ++var25)
                 {
                     double var26 = 0.0D;
-                    double var28 = ((double)var25 - var23) * 8.0D / var16;
+                    double var28 = ((double) var25 - var23) * 8.0D / var16;
 
                     if (var28 < 0.0D)
                     {
@@ -291,24 +291,22 @@ public class ChunkProviderEnd implements IChunkProvider
                     if (var34 < 0.0D)
                     {
                         var26 = var30;
-                    }
-                    else if (var34 > 1.0D)
+                    } else if (var34 > 1.0D)
                     {
                         var26 = var32;
-                    }
-                    else
+                    } else
                     {
                         var26 = var30 + (var32 - var30) * var34;
                     }
 
                     var26 -= 8.0D;
-                    var26 += (double)var22;
+                    var26 += var22;
                     byte var36 = 2;
                     double var37;
 
                     if (var25 > par6 / 2 - var36)
                     {
-                        var37 = (double)((float)(var25 - (par6 / 2 - var36)) / 64.0F);
+                        var37 = (float) (var25 - (par6 / 2 - var36)) / 64.0F;
 
                         if (var37 < 0.0D)
                         {
@@ -327,7 +325,7 @@ public class ChunkProviderEnd implements IChunkProvider
 
                     if (var25 < var36)
                     {
-                        var37 = (double)((float)(var36 - var25) / ((float)var36 - 1.0F));
+                        var37 = (float) (var36 - var25) / ((float) var36 - 1.0F);
                         var26 = var26 * (1.0D - var37) + -30.0D * var37;
                     }
 
@@ -374,7 +372,9 @@ public class ChunkProviderEnd implements IChunkProvider
      * Save extra data not associated with any Chunk.  Not saved during autosave, only during world unload.  Currently
      * unimplemented.
      */
-    public void saveExtraData() {}
+    public void saveExtraData()
+    {
+    }
 
     /**
      * Unloads chunks that are marked to be unloaded. This is not guaranteed to unload every such chunk.
@@ -419,5 +419,7 @@ public class ChunkProviderEnd implements IChunkProvider
         return 0;
     }
 
-    public void recreateStructures(int par1, int par2) {}
+    public void recreateStructures(int par1, int par2)
+    {
+    }
 }

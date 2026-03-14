@@ -24,8 +24,7 @@ public class ItemFireball extends Item
         if (par3World.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
             if (par7 == 0)
             {
@@ -60,12 +59,11 @@ public class ItemFireball extends Item
             if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
             {
                 return false;
-            }
-            else
+            } else
             {
                 if (par3World.getBlock(par4, par5, par6).getMaterial() == Material.air)
                 {
-                    par3World.playSoundEffect((double)par4 + 0.5D, (double)par5 + 0.5D, (double)par6 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+                    par3World.playSoundEffect((double) par4 + 0.5D, (double) par5 + 0.5D, (double) par6 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
                     par3World.setBlock(par4, par5, par6, Blocks.fire);
                 }
 

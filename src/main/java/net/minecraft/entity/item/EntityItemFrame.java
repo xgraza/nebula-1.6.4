@@ -13,7 +13,9 @@ import net.minecraft.world.storage.MapData;
 
 public class EntityItemFrame extends EntityHanging
 {
-    /** Chance for this item frame's item to drop from the frame. */
+    /**
+     * Chance for this item frame's item to drop from the frame.
+     */
     private float itemDropChance = 1.0F;
     private static final String __OBFID = "CL_00001547";
 
@@ -31,7 +33,7 @@ public class EntityItemFrame extends EntityHanging
     protected void entityInit()
     {
         this.getDataWatcher().addObjectByDataType(2, 5);
-        this.getDataWatcher().addObject(3, Byte.valueOf((byte)0));
+        this.getDataWatcher().addObject(3, Byte.valueOf((byte) 0));
     }
 
     /**
@@ -42,18 +44,16 @@ public class EntityItemFrame extends EntityHanging
         if (this.isEntityInvulnerable())
         {
             return false;
-        }
-        else if (this.getDisplayedItem() != null)
+        } else if (this.getDisplayedItem() != null)
         {
             if (!this.worldObj.isClient)
             {
                 this.func_146065_b(par1DamageSource.getEntity(), false);
-                this.setDisplayedItem((ItemStack)null);
+                this.setDisplayedItem(null);
             }
 
             return true;
-        }
-        else
+        } else
         {
             return super.attackEntityFrom(par1DamageSource, par2);
         }
@@ -94,7 +94,7 @@ public class EntityItemFrame extends EntityHanging
 
         if (p_146065_1_ instanceof EntityPlayer)
         {
-            EntityPlayer var4 = (EntityPlayer)p_146065_1_;
+            EntityPlayer var4 = (EntityPlayer) p_146065_1_;
 
             if (var4.capabilities.isCreativeMode)
             {
@@ -125,11 +125,11 @@ public class EntityItemFrame extends EntityHanging
         {
             if (par1ItemStack.getItem() == Items.filled_map)
             {
-                MapData var2 = ((ItemMap)par1ItemStack.getItem()).getMapData(par1ItemStack, this.worldObj);
+                MapData var2 = ((ItemMap) par1ItemStack.getItem()).getMapData(par1ItemStack, this.worldObj);
                 var2.playersVisibleOnMap.remove("frame-" + this.getEntityId());
             }
 
-            par1ItemStack.setItemFrame((EntityItemFrame)null);
+            par1ItemStack.setItemFrame(null);
         }
     }
 
@@ -161,7 +161,7 @@ public class EntityItemFrame extends EntityHanging
 
     public void setItemRotation(int par1)
     {
-        this.getDataWatcher().updateObject(3, Byte.valueOf((byte)(par1 % 4)));
+        this.getDataWatcher().updateObject(3, Byte.valueOf((byte) (par1 % 4)));
     }
 
     /**
@@ -172,7 +172,7 @@ public class EntityItemFrame extends EntityHanging
         if (this.getDisplayedItem() != null)
         {
             par1NBTTagCompound.setTag("Item", this.getDisplayedItem().writeToNBT(new NBTTagCompound()));
-            par1NBTTagCompound.setByte("ItemRotation", (byte)this.getRotation());
+            par1NBTTagCompound.setByte("ItemRotation", (byte) this.getRotation());
             par1NBTTagCompound.setFloat("ItemDropChance", this.itemDropChance);
         }
 
@@ -215,11 +215,10 @@ public class EntityItemFrame extends EntityHanging
 
                 if (!par1EntityPlayer.capabilities.isCreativeMode && --var2.stackSize <= 0)
                 {
-                    par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
+                    par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, null);
                 }
             }
-        }
-        else if (!this.worldObj.isClient)
+        } else if (!this.worldObj.isClient)
         {
             this.setItemRotation(this.getRotation() + 1);
         }

@@ -1,17 +1,12 @@
 package net.minecraft.world.biome;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraft.world.gen.feature.WorldGenBlockBlob;
-import net.minecraft.world.gen.feature.WorldGenMegaPineTree;
-import net.minecraft.world.gen.feature.WorldGenTaiga1;
-import net.minecraft.world.gen.feature.WorldGenTaiga2;
-import net.minecraft.world.gen.feature.WorldGenTallGrass;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.feature.*;
+
+import java.util.Random;
 
 public class BiomeGenTaiga extends BiomeGenBase
 {
@@ -20,7 +15,7 @@ public class BiomeGenTaiga extends BiomeGenBase
     private static final WorldGenMegaPineTree field_150641_aE = new WorldGenMegaPineTree(false, false);
     private static final WorldGenMegaPineTree field_150642_aF = new WorldGenMegaPineTree(false, true);
     private static final WorldGenBlockBlob field_150643_aG = new WorldGenBlockBlob(Blocks.mossy_cobblestone, 0);
-    private int field_150644_aH;
+    private final int field_150644_aH;
     private static final String __OBFID = "CL_00000186";
 
     public BiomeGenTaiga(int p_i45385_1_, int p_i45385_2_)
@@ -34,8 +29,7 @@ public class BiomeGenTaiga extends BiomeGenBase
         {
             this.theBiomeDecorator.grassPerChunk = 1;
             this.theBiomeDecorator.mushroomsPerChunk = 1;
-        }
-        else
+        } else
         {
             this.theBiomeDecorator.grassPerChunk = 7;
             this.theBiomeDecorator.deadBushPerChunk = 1;
@@ -45,7 +39,7 @@ public class BiomeGenTaiga extends BiomeGenBase
 
     public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
     {
-        return (WorldGenAbstractTree)((this.field_150644_aH == 1 || this.field_150644_aH == 2) && p_150567_1_.nextInt(3) == 0 ? (this.field_150644_aH != 2 && p_150567_1_.nextInt(13) != 0 ? field_150641_aE : field_150642_aF) : (p_150567_1_.nextInt(3) == 0 ? field_150639_aC : field_150640_aD));
+        return (this.field_150644_aH == 1 || this.field_150644_aH == 2) && p_150567_1_.nextInt(3) == 0 ? (this.field_150644_aH != 2 && p_150567_1_.nextInt(13) != 0 ? field_150641_aE : field_150642_aF) : (p_150567_1_.nextInt(3) == 0 ? field_150639_aC : field_150640_aD);
     }
 
     /**
@@ -101,8 +95,7 @@ public class BiomeGenTaiga extends BiomeGenBase
             {
                 this.topBlock = Blocks.dirt;
                 this.field_150604_aj = 1;
-            }
-            else if (p_150573_7_ > -0.95D)
+            } else if (p_150573_7_ > -0.95D)
             {
                 this.topBlock = Blocks.dirt;
                 this.field_150604_aj = 2;

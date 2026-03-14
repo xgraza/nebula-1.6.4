@@ -1,6 +1,5 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -8,6 +7,8 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldType;
+
+import java.io.IOException;
 
 public class S07PacketRespawn extends Packet
 {
@@ -17,7 +18,9 @@ public class S07PacketRespawn extends Packet
     private WorldType field_149085_d;
     private static final String __OBFID = "CL_00001322";
 
-    public S07PacketRespawn() {}
+    public S07PacketRespawn()
+    {
+    }
 
     public S07PacketRespawn(int p_i45213_1_, EnumDifficulty p_i45213_2_, WorldType p_i45213_3_, WorldSettings.GameType p_i45213_4_)
     {
@@ -81,6 +84,6 @@ public class S07PacketRespawn extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

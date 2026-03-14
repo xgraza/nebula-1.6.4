@@ -1,19 +1,24 @@
 package net.minecraft.client.renderer.texture;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.src.Config;
 import shadersmod.client.ShadersTex;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class DynamicTexture extends AbstractTexture
 {
     protected int[] dynamicTextureData;
 
-    /** width of this icon in pixels */
+    /**
+     * width of this icon in pixels
+     */
     protected int width;
 
-    /** height of this icon in pixels */
+    /**
+     * height of this icon in pixels
+     */
     protected int height;
     private boolean shadersInitialized;
 
@@ -40,8 +45,7 @@ public class DynamicTexture extends AbstractTexture
         {
             ShadersTex.initDynamicTexture(this.getGlTextureId(), par1, par2, this);
             this.shadersInitialized = true;
-        }
-        else
+        } else
         {
             TextureUtil.allocateTexture(this.getGlTextureId(), par1, par2);
         }
@@ -57,8 +61,7 @@ public class DynamicTexture extends AbstractTexture
         {
             ShadersTex.initDynamicTexture(this.getGlTextureId(), width, height, this);
             this.shadersInitialized = true;
-        }
-        else
+        } else
         {
             TextureUtil.allocateTexture(this.getGlTextureId(), width, height);
         }
@@ -76,14 +79,15 @@ public class DynamicTexture extends AbstractTexture
         {
             ShadersTex.initDynamicTexture(this.getGlTextureId(), width, height, this);
             this.shadersInitialized = true;
-        }
-        else
+        } else
         {
             TextureUtil.allocateTexture(this.getGlTextureId(), width, height);
         }
     }
 
-    public void loadTexture(IResourceManager par1ResourceManager) throws IOException {}
+    public void loadTexture(IResourceManager par1ResourceManager) throws IOException
+    {
+    }
 
     public void updateDynamicTexture()
     {
@@ -96,8 +100,7 @@ public class DynamicTexture extends AbstractTexture
             }
 
             ShadersTex.updateDynamicTexture(this.getGlTextureId(), this.dynamicTextureData, this.width, this.height, this);
-        }
-        else
+        } else
         {
             TextureUtil.uploadTexture(this.getGlTextureId(), this.dynamicTextureData, this.width, this.height);
         }

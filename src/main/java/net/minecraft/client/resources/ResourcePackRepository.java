@@ -3,17 +3,6 @@ package net.minecraft.client.resources;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.awt.image.BufferedImage;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreenWorking;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -26,11 +15,19 @@ import net.minecraft.util.HttpUtil;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
 
+import java.awt.image.BufferedImage;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.*;
+
 public class ResourcePackRepository
 {
     protected static final FileFilter resourcePackFilter = new FileFilter()
     {
         private static final String __OBFID = "CL_00001088";
+
         public boolean accept(File par1File)
         {
             boolean var2 = par1File.isFile() && par1File.getName().endsWith(".zip");
@@ -45,7 +42,7 @@ public class ResourcePackRepository
     private IResourcePack field_148532_f;
     private boolean field_148533_g;
     private List repositoryEntriesAll = Lists.newArrayList();
-    private List repositoryEntries = Lists.newArrayList();
+    private final List repositoryEntries = Lists.newArrayList();
     private static final String __OBFID = "CL_00001087";
 
     public ResourcePackRepository(File p_i45101_1_, File p_i45101_2_, IResourcePack p_i45101_3_, IMetadataSerializer p_i45101_4_, GameSettings p_i45101_5_)
@@ -60,12 +57,12 @@ public class ResourcePackRepository
 
         while (var6.hasNext())
         {
-            String var7 = (String)var6.next();
+            String var7 = (String) var6.next();
             Iterator var8 = this.repositoryEntriesAll.iterator();
 
             while (var8.hasNext())
             {
-                ResourcePackRepository.Entry var9 = (ResourcePackRepository.Entry)var8.next();
+                ResourcePackRepository.Entry var9 = (ResourcePackRepository.Entry) var8.next();
 
                 if (var9.getResourcePackName().equals(var7))
                 {
@@ -97,7 +94,7 @@ public class ResourcePackRepository
 
         while (var2.hasNext())
         {
-            File var3 = (File)var2.next();
+            File var3 = (File) var2.next();
             ResourcePackRepository.Entry var4 = new ResourcePackRepository.Entry(var3, null);
 
             if (!this.repositoryEntriesAll.contains(var4))
@@ -106,13 +103,11 @@ public class ResourcePackRepository
                 {
                     var4.updateResourcePack();
                     var1.add(var4);
-                }
-                catch (Exception var6)
+                } catch (Exception var6)
                 {
                     var1.remove(var4);
                 }
-            }
-            else
+            } else
             {
                 int var5 = this.repositoryEntriesAll.indexOf(var4);
 
@@ -128,7 +123,7 @@ public class ResourcePackRepository
 
         while (var2.hasNext())
         {
-            ResourcePackRepository.Entry var7 = (ResourcePackRepository.Entry)var2.next();
+            ResourcePackRepository.Entry var7 = (ResourcePackRepository.Entry) var2.next();
             var7.closeResourcePack();
         }
 
@@ -185,6 +180,7 @@ public class ResourcePackRepository
         HttpUtil.func_151223_a(p_148528_2_, p_148528_1_, new HttpUtil.DownloadListener()
         {
             private static final String __OBFID = "CL_00001089";
+
             public void func_148522_a(File p_148522_1_)
             {
                 if (ResourcePackRepository.this.field_148533_g)
@@ -224,16 +220,14 @@ public class ResourcePackRepository
 
         public void updateResourcePack() throws IOException
         {
-            this.reResourcePack = (IResourcePack)(this.resourcePackFile.isDirectory() ? new FolderResourcePack(this.resourcePackFile) : new FileResourcePack(this.resourcePackFile));
-            this.rePackMetadataSection = (PackMetadataSection)this.reResourcePack.getPackMetadata(ResourcePackRepository.this.rprMetadataSerializer, "pack");
+            this.reResourcePack = this.resourcePackFile.isDirectory() ? new FolderResourcePack(this.resourcePackFile) : new FileResourcePack(this.resourcePackFile);
+            this.rePackMetadataSection = (PackMetadataSection) this.reResourcePack.getPackMetadata(ResourcePackRepository.this.rprMetadataSerializer, "pack");
 
             try
             {
                 this.texturePackIcon = this.reResourcePack.getPackImage();
-            }
-            catch (IOException var2)
+            } catch (IOException var2)
             {
-                ;
             }
 
             if (this.texturePackIcon == null)
@@ -258,7 +252,7 @@ public class ResourcePackRepository
         {
             if (this.reResourcePack instanceof Closeable)
             {
-                IOUtils.closeQuietly((Closeable)this.reResourcePack);
+                IOUtils.closeQuietly((Closeable) this.reResourcePack);
             }
         }
 
@@ -274,12 +268,12 @@ public class ResourcePackRepository
 
         public String getTexturePackDescription()
         {
-            return this.rePackMetadataSection == null ? EnumChatFormatting.RED + "Invalid pack.mcmeta (or missing \'pack\' section)" : this.rePackMetadataSection.getPackDescription();
+            return this.rePackMetadataSection == null ? EnumChatFormatting.RED + "Invalid pack.mcmeta (or missing 'pack' section)" : this.rePackMetadataSection.getPackDescription();
         }
 
         public boolean equals(Object par1Obj)
         {
-            return this == par1Obj ? true : (par1Obj instanceof ResourcePackRepository.Entry ? this.toString().equals(par1Obj.toString()) : false);
+            return this == par1Obj || (par1Obj instanceof Entry && this.toString().equals(par1Obj.toString()));
         }
 
         public int hashCode()
@@ -289,7 +283,7 @@ public class ResourcePackRepository
 
         public String toString()
         {
-            return String.format("%s:%s:%d", new Object[] {this.resourcePackFile.getName(), this.resourcePackFile.isDirectory() ? "folder" : "zip", Long.valueOf(this.resourcePackFile.lastModified())});
+            return String.format("%s:%s:%d", this.resourcePackFile.getName(), this.resourcePackFile.isDirectory() ? "folder" : "zip", Long.valueOf(this.resourcePackFile.lastModified()));
         }
 
         Entry(File par2File, Object par3ResourcePackRepositoryFilter)

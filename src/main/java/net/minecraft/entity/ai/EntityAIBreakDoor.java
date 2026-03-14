@@ -20,7 +20,7 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract
      */
     public boolean shouldExecute()
     {
-        return !super.shouldExecute() ? false : (!this.theEntity.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing") ? false : !this.field_151504_e.func_150015_f(this.theEntity.worldObj, this.entityPosX, this.entityPosY, this.entityPosZ));
+        return super.shouldExecute() && (this.theEntity.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing") && !this.field_151504_e.func_150015_f(this.theEntity.worldObj, this.entityPosX, this.entityPosY, this.entityPosZ));
     }
 
     /**
@@ -37,7 +37,7 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract
      */
     public boolean continueExecuting()
     {
-        double var1 = this.theEntity.getDistanceSq((double)this.entityPosX, (double)this.entityPosY, (double)this.entityPosZ);
+        double var1 = this.theEntity.getDistanceSq(this.entityPosX, this.entityPosY, this.entityPosZ);
         return this.breakingTime <= 240 && !this.field_151504_e.func_150015_f(this.theEntity.worldObj, this.entityPosX, this.entityPosY, this.entityPosZ) && var1 < 4.0D;
     }
 
@@ -63,7 +63,7 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract
         }
 
         ++this.breakingTime;
-        int var1 = (int)((float)this.breakingTime / 240.0F * 10.0F);
+        int var1 = (int) ((float) this.breakingTime / 240.0F * 10.0F);
 
         if (var1 != this.field_75358_j)
         {

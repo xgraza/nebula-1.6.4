@@ -1,6 +1,5 @@
 package net.minecraft.src;
 
-import java.util.List;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,6 +8,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.Drawable;
 import org.lwjgl.opengl.Pbuffer;
 import org.lwjgl.opengl.PixelFormat;
+
+import java.util.List;
 
 public class WrUpdaterThreaded implements IWrUpdater
 {
@@ -27,7 +28,9 @@ public class WrUpdaterThreaded implements IWrUpdater
         }
     }
 
-    public void initialize() {}
+    public void initialize()
+    {
+    }
 
     private void delayedInit()
     {
@@ -47,8 +50,7 @@ public class WrUpdaterThreaded implements IWrUpdater
         if (this.updateThread != null)
         {
             throw new IllegalStateException("UpdateThread is already existing");
-        }
-        else
+        } else
         {
             try
             {
@@ -58,8 +60,7 @@ public class WrUpdaterThreaded implements IWrUpdater
                 this.updateThread.start();
                 this.updateThread.pause();
                 return this.updateThread;
-            }
-            catch (Exception var3)
+            } catch (Exception var3)
             {
                 throw new RuntimeException(var3);
             }
@@ -115,12 +116,12 @@ public class WrUpdaterThreaded implements IWrUpdater
             if (this.updateTargetNum > 0)
             {
                 long deltaTime = System.nanoTime() - this.updateStartTimeNs;
-                float targetRunTime = this.timePerUpdateMs * (1.0F + (float)(this.updateTargetNum - 1) / 2.0F);
+                float targetRunTime = this.timePerUpdateMs * (1.0F + (float) (this.updateTargetNum - 1) / 2.0F);
 
                 if (targetRunTime > 0.0F)
                 {
-                    int sleepTimeMsInt = (int)targetRunTime;
-                    Config.sleep((long)sleepTimeMsInt);
+                    int sleepTimeMsInt = (int) targetRunTime;
+                    Config.sleep(sleepTimeMsInt);
                 }
 
                 this.updateThread.pause();
@@ -146,8 +147,7 @@ public class WrUpdaterThreaded implements IWrUpdater
                 {
                     this.timePerUpdateMs -= deltaTime1;
                 }
-            }
-            else
+            } else
             {
                 this.timePerUpdateMs -= deltaTime1 / 5.0F;
             }
@@ -168,8 +168,7 @@ public class WrUpdaterThreaded implements IWrUpdater
         if (rg.worldRenderersToUpdate.size() <= 0)
         {
             return true;
-        }
-        else
+        } else
         {
             int num = 0;
             byte NOT_IN_FRUSTRUM_MUL = 4;
@@ -182,7 +181,7 @@ public class WrUpdaterThreaded implements IWrUpdater
 
             for (maxUpdateNum = 0; maxUpdateNum < rg.worldRenderersToUpdate.size(); ++maxUpdateNum)
             {
-                WorldRenderer turboMode = (WorldRenderer)rg.worldRenderersToUpdate.get(maxUpdateNum);
+                WorldRenderer turboMode = (WorldRenderer) rg.worldRenderersToUpdate.get(maxUpdateNum);
 
                 if (turboMode != null)
                 {
@@ -192,9 +191,8 @@ public class WrUpdaterThreaded implements IWrUpdater
                     {
                         if (!turboMode.needsUpdate)
                         {
-                            rg.worldRenderersToUpdate.set(maxUpdateNum, (Object)null);
-                        }
-                        else
+                            rg.worldRenderersToUpdate.set(maxUpdateNum, null);
+                        } else
                         {
                             dstIndex = turboMode.distanceToEntitySquared(entityliving);
 
@@ -209,7 +207,7 @@ public class WrUpdaterThreaded implements IWrUpdater
 
                                     turboMode.updateRenderer(entityliving);
                                     turboMode.needsUpdate = false;
-                                    rg.worldRenderersToUpdate.set(maxUpdateNum, (Object)null);
+                                    rg.worldRenderersToUpdate.set(maxUpdateNum, null);
                                     ++num;
                                     continue;
                                 }
@@ -218,7 +216,7 @@ public class WrUpdaterThreaded implements IWrUpdater
                                 {
                                     this.updateThread.addRendererToUpdate(turboMode, true);
                                     turboMode.needsUpdate = false;
-                                    rg.worldRenderersToUpdate.set(maxUpdateNum, (Object)null);
+                                    rg.worldRenderersToUpdate.set(maxUpdateNum, null);
                                     ++num;
                                     continue;
                                 }
@@ -226,7 +224,7 @@ public class WrUpdaterThreaded implements IWrUpdater
 
                             if (!turboMode.isInFrustum)
                             {
-                                dstIndex *= (float)NOT_IN_FRUSTRUM_MUL;
+                                dstIndex *= NOT_IN_FRUSTRUM_MUL;
                             }
 
                             if (wrBest == null)
@@ -234,8 +232,7 @@ public class WrUpdaterThreaded implements IWrUpdater
                                 wrBest = turboMode;
                                 distSqBest = dstIndex;
                                 indexBest = maxUpdateNum;
-                            }
-                            else if (dstIndex < distSqBest)
+                            } else if (dstIndex < distSqBest)
                             {
                                 wrBest = turboMode;
                                 distSqBest = dstIndex;
@@ -270,13 +267,13 @@ public class WrUpdaterThreaded implements IWrUpdater
             if (wrBest != null)
             {
                 this.updateRenderer(wrBest, entityliving);
-                rg.worldRenderersToUpdate.set(indexBest, (Object)null);
+                rg.worldRenderersToUpdate.set(indexBest, null);
                 ++num;
                 dstIndex = distSqBest / 5.0F;
 
                 for (i = 0; i < rg.worldRenderersToUpdate.size() && num < maxUpdateNum; ++i)
                 {
-                    WorldRenderer wr = (WorldRenderer)rg.worldRenderersToUpdate.get(i);
+                    WorldRenderer wr = (WorldRenderer) rg.worldRenderersToUpdate.get(i);
 
                     if (wr != null && !wr.isUpdating)
                     {
@@ -284,7 +281,7 @@ public class WrUpdaterThreaded implements IWrUpdater
 
                         if (!wr.isInFrustum)
                         {
-                            distSq *= (float)NOT_IN_FRUSTRUM_MUL;
+                            distSq *= NOT_IN_FRUSTRUM_MUL;
                         }
 
                         float diffDistSq = Math.abs(distSq - distSqBest);
@@ -292,7 +289,7 @@ public class WrUpdaterThreaded implements IWrUpdater
                         if (diffDistSq < dstIndex)
                         {
                             this.updateRenderer(wr, entityliving);
-                            rg.worldRenderersToUpdate.set(i, (Object)null);
+                            rg.worldRenderersToUpdate.set(i, null);
                             ++num;
                         }
                     }
@@ -342,8 +339,7 @@ public class WrUpdaterThreaded implements IWrUpdater
         {
             ut.addRendererToUpdate(wr, false);
             wr.needsUpdate = false;
-        }
-        else
+        } else
         {
             wr.updateRenderer(entityLiving);
             wr.needsUpdate = false;

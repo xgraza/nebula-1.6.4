@@ -1,8 +1,9 @@
 package net.minecraft.enchantment;
 
-import java.util.Random;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+
+import java.util.Random;
 
 public class EnchantmentDurability extends Enchantment
 {
@@ -40,7 +41,7 @@ public class EnchantmentDurability extends Enchantment
 
     public boolean canApply(ItemStack par1ItemStack)
     {
-        return par1ItemStack.isItemStackDamageable() ? true : super.canApply(par1ItemStack);
+        return par1ItemStack.isItemStackDamageable() || super.canApply(par1ItemStack);
     }
 
     /**
@@ -50,6 +51,6 @@ public class EnchantmentDurability extends Enchantment
      */
     public static boolean negateDamage(ItemStack par0ItemStack, int par1, Random par2Random)
     {
-        return par0ItemStack.getItem() instanceof ItemArmor && par2Random.nextFloat() < 0.6F ? false : par2Random.nextInt(par1 + 1) > 0;
+        return (!(par0ItemStack.getItem() instanceof ItemArmor) || !(par2Random.nextFloat() < 0.6F)) && par2Random.nextInt(par1 + 1) > 0;
     }
 }

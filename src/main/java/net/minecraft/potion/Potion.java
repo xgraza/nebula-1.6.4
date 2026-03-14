@@ -233,15 +233,15 @@ public class Potion
         if (this.id == regeneration.id)
         {
             var3 = 50 >> par2;
-            return var3 > 0 ? par1 % var3 == 0 : true;
+            return var3 <= 0 || par1 % var3 == 0;
         } else if (this.id == poison.id)
         {
             var3 = 25 >> par2;
-            return var3 > 0 ? par1 % var3 == 0 : true;
+            return var3 <= 0 || par1 % var3 == 0;
         } else if (this.id == wither.id)
         {
             var3 = 40 >> par2;
-            return var3 > 0 ? par1 % var3 == 0 : true;
+            return var3 <= 0 || par1 % var3 == 0;
         } else
         {
             return this.id == hunger.id;

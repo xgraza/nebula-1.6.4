@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiScreen;
 
 public class GuiWDLMultiworld extends GuiScreen
 {
-    private GuiScreen parent;
+    private final GuiScreen parent;
     private GuiButton multiworldEnabledBtn;
     boolean newMultiworldState = false;
 
@@ -36,14 +36,12 @@ public class GuiWDLMultiworld extends GuiScreen
             if (var1.id == 1)
             {
                 this.updateMultiworldEnabled(true);
-            }
-            else if (var1.id == 100)
+            } else if (var1.id == 100)
             {
                 if (this.newMultiworldState)
                 {
                     this.mc.displayGuiScreen(new GuiWDLMultiworldSelect(this.parent));
-                }
-                else
+                } else
                 {
                     WDL.baseProps.setProperty("LinkedWorlds", "");
                     WDL.saveProps();
@@ -52,11 +50,10 @@ public class GuiWDLMultiworld extends GuiScreen
                     if (this.parent != null)
                     {
                         this.mc.displayGuiScreen(new GuiWDL(this.parent));
-                    }
-                    else
+                    } else
                     {
                         WDL.start();
-                        this.mc.displayGuiScreen((GuiScreen)null);
+                        this.mc.displayGuiScreen(null);
                         this.mc.setIngameFocus();
                     }
                 }
@@ -98,7 +95,7 @@ public class GuiWDLMultiworld extends GuiScreen
         this.drawCenteredString(this.fontRenderer, "Multiworld Support", this.width / 2, this.height / 4 - 40, 16711680);
         this.drawString(this.fontRenderer, "Multiworld support is required if at least one of the", this.width / 2 - 150, this.height / 4 - 15, 16777215);
         this.drawString(this.fontRenderer, " following conditions is met:", this.width / 2 - 150, this.height / 4 - 5, 16777215);
-        this.drawString(this.fontRenderer, "- \"Multiworld\" is mentioned on the server\'s website", this.width / 2 - 150, this.height / 4 + 15, 16777215);
+        this.drawString(this.fontRenderer, "- \"Multiworld\" is mentioned on the server's website", this.width / 2 - 150, this.height / 4 + 15, 16777215);
         this.drawString(this.fontRenderer, "- The server has more than 3 dimensions (or worlds)", this.width / 2 - 150, this.height / 4 + 35, 16777215);
         this.drawString(this.fontRenderer, "- The server has other dimensions than the official ones", this.width / 2 - 150, this.height / 4 + 55, 16777215);
         this.drawString(this.fontRenderer, "   (Earth, Nether, The End)", this.width / 2 - 150, this.height / 4 + 65, 16777215);
@@ -114,18 +111,15 @@ public class GuiWDLMultiworld extends GuiScreen
             {
                 this.newMultiworldState = true;
                 this.updateMultiworldEnabled(false);
-            }
-            else
+            } else
             {
                 this.multiworldEnabledBtn.displayString = "Multiworld support: Disabled";
             }
-        }
-        else if (var1)
+        } else if (var1)
         {
             this.newMultiworldState = false;
             this.updateMultiworldEnabled(false);
-        }
-        else
+        } else
         {
             this.multiworldEnabledBtn.displayString = "Multiworld support: Enabled";
         }

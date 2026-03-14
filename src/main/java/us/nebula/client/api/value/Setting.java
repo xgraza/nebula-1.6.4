@@ -13,9 +13,9 @@ import java.io.File;
 import java.util.function.Supplier;
 
 /**
+ * @param <T>
  * @author xgraza
  * @since 02/16/25
- * @param <T>
  */
 @SuppressWarnings("unchecked")
 public class Setting<T> implements IJSONSerializable
@@ -109,14 +109,14 @@ public class Setting<T> implements IJSONSerializable
     {
         if (value instanceof Enum<?>)
         {
-            final Enum<?> e = (Enum<?>)value;
+            final Enum<?> e = (Enum<?>) value;
             final Enum<?>[] constants = e.getDeclaringClass().getEnumConstants();
             int index = e.ordinal() + 1;
             if (index > constants.length - 1)
             {
                 index = 0;
             }
-            setValue((T)constants[index]);
+            setValue((T) constants[index]);
         }
     }
 
@@ -124,14 +124,14 @@ public class Setting<T> implements IJSONSerializable
     {
         if (value instanceof Enum<?>)
         {
-            final Enum<?> e = (Enum<?>)value;
+            final Enum<?> e = (Enum<?>) value;
             final Enum<?>[] constants = e.getDeclaringClass().getEnumConstants();
             int index = e.ordinal() - 1;
             if (index < 0)
             {
                 index = constants.length - 1;
             }
-            setValue((T)constants[index]);
+            setValue((T) constants[index]);
         }
     }
 
@@ -182,7 +182,7 @@ public class Setting<T> implements IJSONSerializable
                 final JsonObject object = element.getAsJsonObject();
                 if (value instanceof Key)
                 {
-                    ((Key)value).fromJSON(object);
+                    ((Key) value).fromJSON(object);
                 } else if (value instanceof Color)
                 {
                     // TODO
@@ -214,12 +214,11 @@ public class Setting<T> implements IJSONSerializable
             {
                 setValue((T) (Object) primitive.getAsDouble());
             }
-        }
-        else if (primitive.isString())
+        } else if (primitive.isString())
         {
             if (value instanceof Enum<?>)
             {
-                setValue((T) Enum.valueOf(((Enum<?>)value).getDeclaringClass(), primitive.getAsString()));
+                setValue((T) Enum.valueOf(((Enum<?>) value).getDeclaringClass(), primitive.getAsString()));
             } else if (value instanceof File || baseDirectory != null)
             {
                 final File file = new File(primitive.getAsString());
@@ -250,13 +249,13 @@ public class Setting<T> implements IJSONSerializable
 
         if (value instanceof File)
         {
-            return new JsonPrimitive(((File)value).getAbsolutePath());
+            return new JsonPrimitive(((File) value).getAbsolutePath());
         } else if (value instanceof Key)
         {
-            return ((Key)value).toJSON();
+            return ((Key) value).toJSON();
         } else if (value instanceof Color)
         {
-            final Color c = (Color)value;
+            final Color c = (Color) value;
             final JsonObject object = new JsonObject();
             object.addProperty("r", c.getRed());
             object.addProperty("g", c.getGreen());
@@ -271,7 +270,7 @@ public class Setting<T> implements IJSONSerializable
             return new JsonPrimitive((Number) value);
         } else if (value instanceof Enum<?>)
         {
-            return new JsonPrimitive(((Enum<?>)value).name());
+            return new JsonPrimitive(((Enum<?>) value).name());
         } else
         {
             return new JsonPrimitive(value.toString());

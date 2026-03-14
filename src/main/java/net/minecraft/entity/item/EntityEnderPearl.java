@@ -46,13 +46,13 @@ public class EntityEnderPearl extends EntityThrowable
         {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP)
             {
-                EntityPlayerMP var3 = (EntityPlayerMP)this.getThrower();
+                EntityPlayerMP var3 = (EntityPlayerMP) this.getThrower();
 
                 if (var3.playerNetServerHandler.func_147362_b().isChannelOpen() && var3.worldObj == this.worldObj)
                 {
                     if (this.getThrower().isRiding())
                     {
-                        this.getThrower().mountEntity((Entity)null);
+                        this.getThrower().mountEntity(null);
                     }
 
                     this.getThrower().setPositionAndUpdate(this.posX, this.posY, this.posZ);

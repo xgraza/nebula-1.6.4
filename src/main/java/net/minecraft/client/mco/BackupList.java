@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,17 +30,13 @@ public class BackupList
 
                 while (var4.hasNext())
                 {
-                    var2.theBackupList.add(Backup.func_148777_a((JsonElement)var4.next()));
+                    var2.theBackupList.add(Backup.func_148777_a((JsonElement) var4.next()));
                 }
             }
-        }
-        catch (JsonIOException var5)
+        } catch (JsonIOException var5)
         {
-            ;
-        }
-        catch (JsonSyntaxException var6)
+        } catch (JsonSyntaxException var6)
         {
-            ;
         }
 
         return var2;

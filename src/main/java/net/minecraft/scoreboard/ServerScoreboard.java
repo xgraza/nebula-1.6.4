@@ -1,11 +1,5 @@
 package net.minecraft.scoreboard;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S3BPacketScoreboardObjective;
@@ -13,6 +7,8 @@ import net.minecraft.network.play.server.S3CPacketUpdateScore;
 import net.minecraft.network.play.server.S3DPacketDisplayScoreboard;
 import net.minecraft.network.play.server.S3EPacketTeams;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.*;
 
 public class ServerScoreboard extends Scoreboard
 {
@@ -55,8 +51,7 @@ public class ServerScoreboard extends Scoreboard
             if (this.func_96552_h(var3) > 0)
             {
                 this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3DPacketDisplayScoreboard(par1, par2ScoreObjective));
-            }
-            else
+            } else
             {
                 this.func_96546_g(var3);
             }
@@ -67,8 +62,7 @@ public class ServerScoreboard extends Scoreboard
             if (this.field_96553_b.contains(par2ScoreObjective))
             {
                 this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3DPacketDisplayScoreboard(par1, par2ScoreObjective));
-            }
-            else
+            } else
             {
                 this.func_96549_e(par2ScoreObjective);
             }
@@ -82,11 +76,10 @@ public class ServerScoreboard extends Scoreboard
         if (super.func_151392_a(p_151392_1_, p_151392_2_))
         {
             ScorePlayerTeam var3 = this.getTeam(p_151392_2_);
-            this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3EPacketTeams(var3, Arrays.asList(new String[] {p_151392_1_}), 3));
+            this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3EPacketTeams(var3, Arrays.asList(p_151392_1_), 3));
             this.func_96551_b();
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -99,7 +92,7 @@ public class ServerScoreboard extends Scoreboard
     public void removePlayerFromTeam(String par1Str, ScorePlayerTeam par2ScorePlayerTeam)
     {
         super.removePlayerFromTeam(par1Str, par2ScorePlayerTeam);
-        this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3EPacketTeams(par2ScorePlayerTeam, Arrays.asList(new String[] {par1Str}), 4));
+        this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3EPacketTeams(par2ScorePlayerTeam, Arrays.asList(par1Str), 4));
         this.func_96551_b();
     }
 
@@ -184,7 +177,7 @@ public class ServerScoreboard extends Scoreboard
 
         while (var5.hasNext())
         {
-            Score var4 = (Score)var5.next();
+            Score var4 = (Score) var5.next();
             var2.add(new S3CPacketUpdateScore(var4, 0));
         }
 
@@ -198,12 +191,12 @@ public class ServerScoreboard extends Scoreboard
 
         while (var3.hasNext())
         {
-            EntityPlayerMP var4 = (EntityPlayerMP)var3.next();
+            EntityPlayerMP var4 = (EntityPlayerMP) var3.next();
             Iterator var5 = var2.iterator();
 
             while (var5.hasNext())
             {
-                Packet var6 = (Packet)var5.next();
+                Packet var6 = (Packet) var5.next();
                 var4.playerNetServerHandler.sendPacketToPlayer(var6);
             }
         }
@@ -234,12 +227,12 @@ public class ServerScoreboard extends Scoreboard
 
         while (var3.hasNext())
         {
-            EntityPlayerMP var4 = (EntityPlayerMP)var3.next();
+            EntityPlayerMP var4 = (EntityPlayerMP) var3.next();
             Iterator var5 = var2.iterator();
 
             while (var5.hasNext())
             {
-                Packet var6 = (Packet)var5.next();
+                Packet var6 = (Packet) var5.next();
                 var4.playerNetServerHandler.sendPacketToPlayer(var6);
             }
         }

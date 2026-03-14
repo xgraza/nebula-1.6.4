@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntityDispenser;
 
 public class ContainerDispenser extends Container
 {
-    private TileEntityDispenser tileEntityDispenser;
+    private final TileEntityDispenser tileEntityDispenser;
     private static final String __OBFID = "CL_00001763";
 
     public ContainerDispenser(IInventory par1IInventory, TileEntityDispenser par2TileEntityDispenser)
@@ -48,7 +48,7 @@ public class ContainerDispenser extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -61,17 +61,15 @@ public class ContainerDispenser extends Container
                 {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 0, 9, false))
+            } else if (!this.mergeItemStack(var5, 0, 9, false))
             {
                 return null;
             }
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack(null);
+            } else
             {
                 var4.onSlotChanged();
             }

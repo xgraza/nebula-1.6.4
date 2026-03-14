@@ -1,7 +1,8 @@
 package net.minecraft.entity.ai.attributes;
 
-import java.util.UUID;
 import org.apache.commons.lang3.Validate;
+
+import java.util.UUID;
 
 public class AttributeModifier
 {
@@ -28,8 +29,8 @@ public class AttributeModifier
         this.name = par2Str;
         this.amount = par3;
         this.operation = par5;
-        Validate.notEmpty(par2Str, "Modifier name cannot be empty", new Object[0]);
-        Validate.inclusiveBetween(Integer.valueOf(0), Integer.valueOf(2), Integer.valueOf(par5), "Invalid operation", new Object[0]);
+        Validate.notEmpty(par2Str, "Modifier name cannot be empty");
+        Validate.inclusiveBetween(Integer.valueOf(0), Integer.valueOf(2), Integer.valueOf(par5), "Invalid operation");
     }
 
     public UUID getID()
@@ -74,26 +75,15 @@ public class AttributeModifier
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (par1Obj != null && this.getClass() == par1Obj.getClass())
+        } else if (par1Obj != null && this.getClass() == par1Obj.getClass())
         {
-            AttributeModifier var2 = (AttributeModifier)par1Obj;
+            AttributeModifier var2 = (AttributeModifier) par1Obj;
 
             if (this.id != null)
             {
-                if (!this.id.equals(var2.id))
-                {
-                    return false;
-                }
-            }
-            else if (var2.id != null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-        else
+                return this.id.equals(var2.id);
+            } else return var2.id == null;
+        } else
         {
             return false;
         }
@@ -106,6 +96,6 @@ public class AttributeModifier
 
     public String toString()
     {
-        return "AttributeModifier{amount=" + this.amount + ", operation=" + this.operation + ", name=\'" + this.name + '\'' + ", id=" + this.id + ", serialize=" + this.isSaved + '}';
+        return "AttributeModifier{amount=" + this.amount + ", operation=" + this.operation + ", name='" + this.name + '\'' + ", id=" + this.id + ", serialize=" + this.isSaved + '}';
     }
 }

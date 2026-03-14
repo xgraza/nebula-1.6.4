@@ -61,9 +61,9 @@ public abstract class SelectionListBase
             this.field_148460_k = 0.0F;
         }
 
-        if (this.field_148460_k > (float)var1)
+        if (this.field_148460_k > (float) var1)
         {
-            this.field_148460_k = (float)var1;
+            this.field_148460_k = (float) var1;
         }
     }
 
@@ -96,7 +96,7 @@ public abstract class SelectionListBase
                 {
                     int var8 = this.field_148453_e + 2;
                     var9 = this.field_148451_g - 2;
-                    var10 = p_148446_2_ - this.field_148450_f + (int)this.field_148460_k - 4;
+                    var10 = p_148446_2_ - this.field_148450_f + (int) this.field_148460_k - 4;
                     var11 = var10 / this.field_148454_b;
 
                     if (p_148446_1_ >= var8 && p_148446_1_ <= var9 && var11 >= 0 && var10 >= 0 && var11 < var4)
@@ -105,8 +105,7 @@ public abstract class SelectionListBase
                         this.func_148449_a(var11, var12);
                         this.field_148457_l = var11;
                         this.field_148458_m = Minecraft.getSystemTime();
-                    }
-                    else if (p_148446_1_ >= var8 && p_148446_1_ <= var9 && var10 < 0)
+                    } else if (p_148446_1_ >= var8 && p_148446_1_ <= var9 && var10 < 0)
                     {
                         var7 = false;
                     }
@@ -121,7 +120,7 @@ public abstract class SelectionListBase
                             var20 = 1;
                         }
 
-                        var13 = (int)((float)((this.field_148461_h - this.field_148450_f) * (this.field_148461_h - this.field_148450_f)) / (float)this.func_148447_b());
+                        var13 = (int) ((float) ((this.field_148461_h - this.field_148450_f) * (this.field_148461_h - this.field_148450_f)) / (float) this.func_148447_b());
 
                         if (var13 < 32)
                         {
@@ -133,34 +132,29 @@ public abstract class SelectionListBase
                             var13 = this.field_148461_h - this.field_148450_f - 8;
                         }
 
-                        this.field_148459_j /= (float)(this.field_148461_h - this.field_148450_f - var13) / (float)var20;
-                    }
-                    else
+                        this.field_148459_j /= (float) (this.field_148461_h - this.field_148450_f - var13) / (float) var20;
+                    } else
                     {
                         this.field_148459_j = 1.0F;
                     }
 
                     if (var7)
                     {
-                        this.field_148462_i = (float)p_148446_2_;
-                    }
-                    else
+                        this.field_148462_i = (float) p_148446_2_;
+                    } else
                     {
                         this.field_148462_i = -2.0F;
                     }
-                }
-                else
+                } else
                 {
                     this.field_148462_i = -2.0F;
                 }
-            }
-            else if (this.field_148462_i >= 0.0F)
+            } else if (this.field_148462_i >= 0.0F)
             {
-                this.field_148460_k -= ((float)p_148446_2_ - this.field_148462_i) * this.field_148459_j;
-                this.field_148462_i = (float)p_148446_2_;
+                this.field_148460_k -= ((float) p_148446_2_ - this.field_148462_i) * this.field_148459_j;
+                this.field_148462_i = (float) p_148446_2_;
             }
-        }
-        else
+        } else
         {
             while (!this.field_148456_a.gameSettings.touchscreen && Mouse.next())
             {
@@ -171,13 +165,12 @@ public abstract class SelectionListBase
                     if (var16 > 0)
                     {
                         var16 = -1;
-                    }
-                    else if (var16 < 0)
+                    } else if (var16 < 0)
                     {
                         var16 = 1;
                     }
 
-                    this.field_148460_k += (float)(var16 * this.field_148454_b / 2);
+                    this.field_148460_k += (float) (var16 * this.field_148454_b / 2);
                 }
             }
 
@@ -193,13 +186,13 @@ public abstract class SelectionListBase
         float var17 = 32.0F;
         var18.startDrawingQuads();
         var18.setColorOpaque_I(2105376);
-        var18.addVertexWithUV((double)this.field_148453_e, (double)this.field_148461_h, 0.0D, (double)((float)this.field_148453_e / var17), (double)((float)(this.field_148461_h + (int)this.field_148460_k) / var17));
-        var18.addVertexWithUV((double)this.field_148451_g, (double)this.field_148461_h, 0.0D, (double)((float)this.field_148451_g / var17), (double)((float)(this.field_148461_h + (int)this.field_148460_k) / var17));
-        var18.addVertexWithUV((double)this.field_148451_g, (double)this.field_148450_f, 0.0D, (double)((float)this.field_148451_g / var17), (double)((float)(this.field_148450_f + (int)this.field_148460_k) / var17));
-        var18.addVertexWithUV((double)this.field_148453_e, (double)this.field_148450_f, 0.0D, (double)((float)this.field_148453_e / var17), (double)((float)(this.field_148450_f + (int)this.field_148460_k) / var17));
+        var18.addVertexWithUV(this.field_148453_e, this.field_148461_h, 0.0D, (float) this.field_148453_e / var17, (float) (this.field_148461_h + (int) this.field_148460_k) / var17);
+        var18.addVertexWithUV(this.field_148451_g, this.field_148461_h, 0.0D, (float) this.field_148451_g / var17, (float) (this.field_148461_h + (int) this.field_148460_k) / var17);
+        var18.addVertexWithUV(this.field_148451_g, this.field_148450_f, 0.0D, (float) this.field_148451_g / var17, (float) (this.field_148450_f + (int) this.field_148460_k) / var17);
+        var18.addVertexWithUV(this.field_148453_e, this.field_148450_f, 0.0D, (float) this.field_148453_e / var17, (float) (this.field_148450_f + (int) this.field_148460_k) / var17);
         var18.draw();
         var9 = this.field_148453_e + 2;
-        var10 = this.field_148450_f + 4 - (int)this.field_148460_k;
+        var10 = this.field_148450_f + 4 - (int) this.field_148460_k;
         int var14;
 
         for (var11 = 0; var11 < var4; ++var11)
@@ -217,15 +210,15 @@ public abstract class SelectionListBase
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
                     var18.startDrawingQuads();
                     var18.setColorOpaque_I(8421504);
-                    var18.addVertexWithUV((double)var14, (double)(var20 + var13 + 2), 0.0D, 0.0D, 1.0D);
-                    var18.addVertexWithUV((double)var15, (double)(var20 + var13 + 2), 0.0D, 1.0D, 1.0D);
-                    var18.addVertexWithUV((double)var15, (double)(var20 - 2), 0.0D, 1.0D, 0.0D);
-                    var18.addVertexWithUV((double)var14, (double)(var20 - 2), 0.0D, 0.0D, 0.0D);
+                    var18.addVertexWithUV(var14, var20 + var13 + 2, 0.0D, 0.0D, 1.0D);
+                    var18.addVertexWithUV(var15, var20 + var13 + 2, 0.0D, 1.0D, 1.0D);
+                    var18.addVertexWithUV(var15, var20 - 2, 0.0D, 1.0D, 0.0D);
+                    var18.addVertexWithUV(var14, var20 - 2, 0.0D, 0.0D, 0.0D);
                     var18.setColorOpaque_I(0);
-                    var18.addVertexWithUV((double)(var14 + 1), (double)(var20 + var13 + 1), 0.0D, 0.0D, 1.0D);
-                    var18.addVertexWithUV((double)(var15 - 1), (double)(var20 + var13 + 1), 0.0D, 1.0D, 1.0D);
-                    var18.addVertexWithUV((double)(var15 - 1), (double)(var20 - 1), 0.0D, 1.0D, 0.0D);
-                    var18.addVertexWithUV((double)(var14 + 1), (double)(var20 - 1), 0.0D, 0.0D, 0.0D);
+                    var18.addVertexWithUV(var14 + 1, var20 + var13 + 1, 0.0D, 0.0D, 1.0D);
+                    var18.addVertexWithUV(var15 - 1, var20 + var13 + 1, 0.0D, 1.0D, 1.0D);
+                    var18.addVertexWithUV(var15 - 1, var20 - 1, 0.0D, 1.0D, 0.0D);
+                    var18.addVertexWithUV(var14 + 1, var20 - 1, 0.0D, 0.0D, 0.0D);
                     var18.draw();
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                 }
@@ -243,19 +236,19 @@ public abstract class SelectionListBase
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         var18.startDrawingQuads();
         var18.setColorRGBA_I(0, 0);
-        var18.addVertexWithUV((double)this.field_148453_e, (double)(this.field_148450_f + var19), 0.0D, 0.0D, 1.0D);
-        var18.addVertexWithUV((double)this.field_148451_g, (double)(this.field_148450_f + var19), 0.0D, 1.0D, 1.0D);
+        var18.addVertexWithUV(this.field_148453_e, this.field_148450_f + var19, 0.0D, 0.0D, 1.0D);
+        var18.addVertexWithUV(this.field_148451_g, this.field_148450_f + var19, 0.0D, 1.0D, 1.0D);
         var18.setColorRGBA_I(0, 255);
-        var18.addVertexWithUV((double)this.field_148451_g, (double)this.field_148450_f, 0.0D, 1.0D, 0.0D);
-        var18.addVertexWithUV((double)this.field_148453_e, (double)this.field_148450_f, 0.0D, 0.0D, 0.0D);
+        var18.addVertexWithUV(this.field_148451_g, this.field_148450_f, 0.0D, 1.0D, 0.0D);
+        var18.addVertexWithUV(this.field_148453_e, this.field_148450_f, 0.0D, 0.0D, 0.0D);
         var18.draw();
         var18.startDrawingQuads();
         var18.setColorRGBA_I(0, 255);
-        var18.addVertexWithUV((double)this.field_148453_e, (double)this.field_148461_h, 0.0D, 0.0D, 1.0D);
-        var18.addVertexWithUV((double)this.field_148451_g, (double)this.field_148461_h, 0.0D, 1.0D, 1.0D);
+        var18.addVertexWithUV(this.field_148453_e, this.field_148461_h, 0.0D, 0.0D, 1.0D);
+        var18.addVertexWithUV(this.field_148451_g, this.field_148461_h, 0.0D, 1.0D, 1.0D);
         var18.setColorRGBA_I(0, 0);
-        var18.addVertexWithUV((double)this.field_148451_g, (double)(this.field_148461_h - var19), 0.0D, 1.0D, 0.0D);
-        var18.addVertexWithUV((double)this.field_148453_e, (double)(this.field_148461_h - var19), 0.0D, 0.0D, 0.0D);
+        var18.addVertexWithUV(this.field_148451_g, this.field_148461_h - var19, 0.0D, 1.0D, 0.0D);
+        var18.addVertexWithUV(this.field_148453_e, this.field_148461_h - var19, 0.0D, 0.0D, 0.0D);
         var18.draw();
         var20 = this.func_148441_d();
 
@@ -273,7 +266,7 @@ public abstract class SelectionListBase
                 var13 = this.field_148461_h - this.field_148450_f - 8;
             }
 
-            var14 = (int)this.field_148460_k * (this.field_148461_h - this.field_148450_f - var13) / var20 + this.field_148450_f;
+            var14 = (int) this.field_148460_k * (this.field_148461_h - this.field_148450_f - var13) / var20 + this.field_148450_f;
 
             if (var14 < this.field_148450_f)
             {
@@ -282,24 +275,24 @@ public abstract class SelectionListBase
 
             var18.startDrawingQuads();
             var18.setColorRGBA_I(0, 255);
-            var18.addVertexWithUV((double)var5, (double)this.field_148461_h, 0.0D, 0.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)this.field_148461_h, 0.0D, 1.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)this.field_148450_f, 0.0D, 1.0D, 0.0D);
-            var18.addVertexWithUV((double)var5, (double)this.field_148450_f, 0.0D, 0.0D, 0.0D);
+            var18.addVertexWithUV(var5, this.field_148461_h, 0.0D, 0.0D, 1.0D);
+            var18.addVertexWithUV(var6, this.field_148461_h, 0.0D, 1.0D, 1.0D);
+            var18.addVertexWithUV(var6, this.field_148450_f, 0.0D, 1.0D, 0.0D);
+            var18.addVertexWithUV(var5, this.field_148450_f, 0.0D, 0.0D, 0.0D);
             var18.draw();
             var18.startDrawingQuads();
             var18.setColorRGBA_I(8421504, 255);
-            var18.addVertexWithUV((double)var5, (double)(var14 + var13), 0.0D, 0.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)(var14 + var13), 0.0D, 1.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)var14, 0.0D, 1.0D, 0.0D);
-            var18.addVertexWithUV((double)var5, (double)var14, 0.0D, 0.0D, 0.0D);
+            var18.addVertexWithUV(var5, var14 + var13, 0.0D, 0.0D, 1.0D);
+            var18.addVertexWithUV(var6, var14 + var13, 0.0D, 1.0D, 1.0D);
+            var18.addVertexWithUV(var6, var14, 0.0D, 1.0D, 0.0D);
+            var18.addVertexWithUV(var5, var14, 0.0D, 0.0D, 0.0D);
             var18.draw();
             var18.startDrawingQuads();
             var18.setColorRGBA_I(12632256, 255);
-            var18.addVertexWithUV((double)var5, (double)(var14 + var13 - 1), 0.0D, 0.0D, 1.0D);
-            var18.addVertexWithUV((double)(var6 - 1), (double)(var14 + var13 - 1), 0.0D, 1.0D, 1.0D);
-            var18.addVertexWithUV((double)(var6 - 1), (double)var14, 0.0D, 1.0D, 0.0D);
-            var18.addVertexWithUV((double)var5, (double)var14, 0.0D, 0.0D, 0.0D);
+            var18.addVertexWithUV(var5, var14 + var13 - 1, 0.0D, 0.0D, 1.0D);
+            var18.addVertexWithUV(var6 - 1, var14 + var13 - 1, 0.0D, 1.0D, 1.0D);
+            var18.addVertexWithUV(var6 - 1, var14, 0.0D, 1.0D, 0.0D);
+            var18.addVertexWithUV(var5, var14, 0.0D, 0.0D, 0.0D);
             var18.draw();
         }
 

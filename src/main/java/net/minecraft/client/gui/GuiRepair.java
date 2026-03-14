@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
@@ -17,19 +16,21 @@ import org.apache.commons.io.Charsets;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import java.util.List;
+
 public class GuiRepair extends GuiContainer implements ICrafting
 {
     private static final ResourceLocation field_147093_u = new ResourceLocation("textures/gui/container/anvil.png");
-    private ContainerRepair field_147092_v;
+    private final ContainerRepair field_147092_v;
     private GuiTextField field_147091_w;
-    private InventoryPlayer field_147094_x;
+    private final InventoryPlayer field_147094_x;
     private static final String __OBFID = "CL_00000738";
 
     public GuiRepair(InventoryPlayer par1InventoryPlayer, World par2World, int par3, int par4, int par5)
     {
         super(new ContainerRepair(par1InventoryPlayer, par2World, par3, par4, par5, Minecraft.getMinecraft().thePlayer));
         this.field_147094_x = par1InventoryPlayer;
-        this.field_147092_v = (ContainerRepair)this.container;
+        this.field_147092_v = (ContainerRepair) this.container;
     }
 
     /**
@@ -64,24 +65,22 @@ public class GuiRepair extends GuiContainer implements ICrafting
     {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_BLEND);
-        this.fontRenderer.drawString(I18n.format("container.repair", new Object[0]), 60, 6, 4210752);
+        this.fontRenderer.drawString(I18n.format("container.repair"), 60, 6, 4210752);
 
         if (this.field_147092_v.maximumCost > 0)
         {
             int var3 = 8453920;
             boolean var4 = true;
-            String var5 = I18n.format("container.repair.cost", new Object[] {Integer.valueOf(this.field_147092_v.maximumCost)});
+            String var5 = I18n.format("container.repair.cost", Integer.valueOf(this.field_147092_v.maximumCost));
 
             if (this.field_147092_v.maximumCost >= 40 && !this.mc.thePlayer.capabilities.isCreativeMode)
             {
-                var5 = I18n.format("container.repair.expensive", new Object[0]);
+                var5 = I18n.format("container.repair.expensive");
                 var3 = 16736352;
-            }
-            else if (!this.field_147092_v.getSlot(2).getHasStack())
+            } else if (!this.field_147092_v.getSlot(2).getHasStack())
             {
                 var4 = false;
-            }
-            else if (!this.field_147092_v.getSlot(2).canTakeStack(this.field_147094_x.player))
+            } else if (!this.field_147092_v.getSlot(2).canTakeStack(this.field_147094_x.player))
             {
                 var3 = 16736352;
             }
@@ -96,8 +95,7 @@ public class GuiRepair extends GuiContainer implements ICrafting
                 {
                     drawRect(var7 - 3, var8 - 2, this.field_146999_f - 7, var8 + 10, -16777216);
                     drawRect(var7 - 2, var8 - 1, this.field_146999_f - 8, var8 + 9, -12895429);
-                }
-                else
+                } else
                 {
                     this.fontRenderer.drawString(var5, var7, var8 + 1, var6);
                     this.fontRenderer.drawString(var5, var7 + 1, var8, var6);
@@ -119,8 +117,7 @@ public class GuiRepair extends GuiContainer implements ICrafting
         if (this.field_147091_w.textboxKeyTyped(typedChar, keyCode))
         {
             this.func_147090_g();
-        }
-        else
+        } else
         {
             super.keyTyped(typedChar, keyCode);
         }
@@ -203,5 +200,7 @@ public class GuiRepair extends GuiContainer implements ICrafting
      * and enchanting level. Normally the first int identifies which variable to update, and the second contains the new
      * value. Both are truncated to shorts in non-local SMP.
      */
-    public void sendProgressBarUpdate(Container par1Container, int par2, int par3) {}
+    public void sendProgressBarUpdate(Container par1Container, int par2, int par3)
+    {
+    }
 }

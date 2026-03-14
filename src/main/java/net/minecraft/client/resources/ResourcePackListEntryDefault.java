@@ -1,6 +1,5 @@
 package net.minecraft.client.resources;
 
-import java.io.IOException;
 import net.minecraft.client.gui.GuiScreenResourcePacks;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -9,6 +8,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class ResourcePackListEntryDefault extends ResourcePackListEntry
 {
@@ -26,8 +27,7 @@ public class ResourcePackListEntryDefault extends ResourcePackListEntry
         try
         {
             var2 = new DynamicTexture(this.field_148320_d.getPackImage());
-        }
-        catch (IOException var4)
+        } catch (IOException var4)
         {
             var2 = TextureUtil.missingTexture;
         }
@@ -39,16 +39,15 @@ public class ResourcePackListEntryDefault extends ResourcePackListEntry
     {
         try
         {
-            PackMetadataSection var1 = (PackMetadataSection)this.field_148320_d.getPackMetadata(this.field_148317_a.getResourcePackRepository().rprMetadataSerializer, "pack");
+            PackMetadataSection var1 = (PackMetadataSection) this.field_148320_d.getPackMetadata(this.field_148317_a.getResourcePackRepository().rprMetadataSerializer, "pack");
 
             if (var1 != null)
             {
                 return var1.getPackDescription();
             }
-        }
-        catch (IOException var2)
+        } catch (IOException var2)
         {
-            logger.error("Couldn\'t load metadata info", var2);
+            logger.error("Couldn't load metadata info", var2);
         }
 
         return EnumChatFormatting.RED + "Missing " + "pack.mcmeta" + " :(";

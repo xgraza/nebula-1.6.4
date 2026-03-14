@@ -1,8 +1,6 @@
 package net.minecraft.network.play.server;
 
 import com.mojang.authlib.GameProfile;
-import java.io.IOException;
-import java.util.List;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,6 +10,9 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
+
+import java.io.IOException;
+import java.util.List;
 
 public class S0CPacketSpawnPlayer extends Packet
 {
@@ -27,7 +28,9 @@ public class S0CPacketSpawnPlayer extends Packet
     private List field_148958_j;
     private static final String __OBFID = "CL_00001281";
 
-    public S0CPacketSpawnPlayer() {}
+    public S0CPacketSpawnPlayer()
+    {
+    }
 
     public S0CPacketSpawnPlayer(EntityPlayer p_i45171_1_)
     {
@@ -36,8 +39,8 @@ public class S0CPacketSpawnPlayer extends Packet
         this.field_148956_c = MathHelper.floor_double(p_i45171_1_.posX * 32.0D);
         this.field_148953_d = MathHelper.floor_double(p_i45171_1_.posY * 32.0D);
         this.field_148954_e = MathHelper.floor_double(p_i45171_1_.posZ * 32.0D);
-        this.field_148951_f = (byte)((int)(p_i45171_1_.rotationYaw * 256.0F / 360.0F));
-        this.field_148952_g = (byte)((int)(p_i45171_1_.rotationPitch * 256.0F / 360.0F));
+        this.field_148951_f = (byte) ((int) (p_i45171_1_.rotationYaw * 256.0F / 360.0F));
+        this.field_148952_g = (byte) ((int) (p_i45171_1_.rotationPitch * 256.0F / 360.0F));
         ItemStack var2 = p_i45171_1_.inventory.getCurrentItem();
         this.field_148959_h = var2 == null ? 0 : Item.getIdFromItem(var2.getItem());
         this.field_148960_i = p_i45171_1_.getDataWatcher();
@@ -96,7 +99,7 @@ public class S0CPacketSpawnPlayer extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, gameProfile=\'%s\', x=%.2f, y=%.2f, z=%.2f, carried=%d", new Object[] {Integer.valueOf(this.field_148957_a), this.field_148955_b, Float.valueOf((float)this.field_148956_c / 32.0F), Float.valueOf((float)this.field_148953_d / 32.0F), Float.valueOf((float)this.field_148954_e / 32.0F), Integer.valueOf(this.field_148959_h)});
+        return String.format("id=%d, gameProfile='%s', x=%.2f, y=%.2f, z=%.2f, carried=%d", Integer.valueOf(this.field_148957_a), this.field_148955_b, Float.valueOf((float) this.field_148956_c / 32.0F), Float.valueOf((float) this.field_148953_d / 32.0F), Float.valueOf((float) this.field_148954_e / 32.0F), Integer.valueOf(this.field_148959_h));
     }
 
     public int func_148943_d()
@@ -141,6 +144,6 @@ public class S0CPacketSpawnPlayer extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

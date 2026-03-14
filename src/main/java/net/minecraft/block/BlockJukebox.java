@@ -40,8 +40,7 @@ public class BlockJukebox extends BlockContainer
         if (p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_) == 0)
         {
             return false;
-        }
-        else
+        } else
         {
             this.func_149925_e(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
             return true;
@@ -52,7 +51,7 @@ public class BlockJukebox extends BlockContainer
     {
         if (!p_149926_1_.isClient)
         {
-            BlockJukebox.TileEntityJukebox var6 = (BlockJukebox.TileEntityJukebox)p_149926_1_.getTileEntity(p_149926_2_, p_149926_3_, p_149926_4_);
+            BlockJukebox.TileEntityJukebox var6 = (BlockJukebox.TileEntityJukebox) p_149926_1_.getTileEntity(p_149926_2_, p_149926_3_, p_149926_4_);
 
             if (var6 != null)
             {
@@ -66,7 +65,7 @@ public class BlockJukebox extends BlockContainer
     {
         if (!p_149925_1_.isClient)
         {
-            BlockJukebox.TileEntityJukebox var5 = (BlockJukebox.TileEntityJukebox)p_149925_1_.getTileEntity(p_149925_2_, p_149925_3_, p_149925_4_);
+            BlockJukebox.TileEntityJukebox var5 = (BlockJukebox.TileEntityJukebox) p_149925_1_.getTileEntity(p_149925_2_, p_149925_3_, p_149925_4_);
 
             if (var5 != null)
             {
@@ -75,15 +74,15 @@ public class BlockJukebox extends BlockContainer
                 if (var6 != null)
                 {
                     p_149925_1_.playAuxSFX(1005, p_149925_2_, p_149925_3_, p_149925_4_, 0);
-                    p_149925_1_.playRecord((String)null, p_149925_2_, p_149925_3_, p_149925_4_);
-                    var5.func_145857_a((ItemStack)null);
+                    p_149925_1_.playRecord(null, p_149925_2_, p_149925_3_, p_149925_4_);
+                    var5.func_145857_a(null);
                     p_149925_1_.setBlockMetadataWithNotify(p_149925_2_, p_149925_3_, p_149925_4_, 0, 2);
                     float var7 = 0.7F;
-                    double var8 = (double)(p_149925_1_.rand.nextFloat() * var7) + (double)(1.0F - var7) * 0.5D;
-                    double var10 = (double)(p_149925_1_.rand.nextFloat() * var7) + (double)(1.0F - var7) * 0.2D + 0.6D;
-                    double var12 = (double)(p_149925_1_.rand.nextFloat() * var7) + (double)(1.0F - var7) * 0.5D;
+                    double var8 = (double) (p_149925_1_.rand.nextFloat() * var7) + (double) (1.0F - var7) * 0.5D;
+                    double var10 = (double) (p_149925_1_.rand.nextFloat() * var7) + (double) (1.0F - var7) * 0.2D + 0.6D;
+                    double var12 = (double) (p_149925_1_.rand.nextFloat() * var7) + (double) (1.0F - var7) * 0.5D;
                     ItemStack var14 = var6.copy();
-                    EntityItem var15 = new EntityItem(p_149925_1_, (double)p_149925_2_ + var8, (double)p_149925_3_ + var10, (double)p_149925_4_ + var12, var14);
+                    EntityItem var15 = new EntityItem(p_149925_1_, (double) p_149925_2_ + var8, (double) p_149925_3_ + var10, (double) p_149925_4_ + var12, var14);
                     var15.delayBeforeCanPickup = 10;
                     p_149925_1_.spawnEntityInWorld(var15);
                 }
@@ -129,7 +128,7 @@ public class BlockJukebox extends BlockContainer
 
     public int getComparatorInputOverride(World p_149736_1_, int p_149736_2_, int p_149736_3_, int p_149736_4_, int p_149736_5_)
     {
-        ItemStack var6 = ((BlockJukebox.TileEntityJukebox)p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_)).func_145856_a();
+        ItemStack var6 = ((BlockJukebox.TileEntityJukebox) p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_)).func_145856_a();
         return var6 == null ? 0 : Item.getIdFromItem(var6.getItem()) + 1 - Item.getIdFromItem(Items.record_13);
     }
 
@@ -145,8 +144,7 @@ public class BlockJukebox extends BlockContainer
             if (p_145839_1_.hasKey("RecordItem", 10))
             {
                 this.func_145857_a(ItemStack.loadItemStackFromNBT(p_145839_1_.getCompoundTag("RecordItem")));
-            }
-            else if (p_145839_1_.getInteger("Record") > 0)
+            } else if (p_145839_1_.getInteger("Record") > 0)
             {
                 this.func_145857_a(new ItemStack(Item.getItemById(p_145839_1_.getInteger("Record")), 1, 0));
             }

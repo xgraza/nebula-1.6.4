@@ -1,10 +1,11 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WorldGenSwamp extends WorldGenAbstractTree
 {
@@ -21,7 +22,6 @@ public class WorldGenSwamp extends WorldGenAbstractTree
 
         for (var6 = par2Random.nextInt(4) + 5; par1World.getBlock(par3, par4 - 1, par5).getMaterial() == Material.water; --par4)
         {
-            ;
         }
 
         boolean var7 = true;
@@ -58,14 +58,12 @@ public class WorldGenSwamp extends WorldGenAbstractTree
                                 if (var12 != Blocks.water && var12 != Blocks.flowing_water)
                                 {
                                     var7 = false;
-                                }
-                                else if (var8 > par4)
+                                } else if (var8 > par4)
                                 {
                                     var7 = false;
                                 }
                             }
-                        }
-                        else
+                        } else
                         {
                             var7 = false;
                         }
@@ -76,8 +74,7 @@ public class WorldGenSwamp extends WorldGenAbstractTree
             if (!var7)
             {
                 return false;
-            }
-            else
+            } else
             {
                 Block var16 = par1World.getBlock(par3, par4 - 1, par5);
 
@@ -155,14 +152,12 @@ public class WorldGenSwamp extends WorldGenAbstractTree
                     }
 
                     return true;
-                }
-                else
+                } else
                 {
                     return false;
                 }
             }
-        }
-        else
+        } else
         {
             return false;
         }

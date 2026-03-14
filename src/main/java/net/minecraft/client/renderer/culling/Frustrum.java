@@ -15,7 +15,9 @@ public class Frustrum implements ICamera
         this.clippingHelper = clippingHelper;
     }
 
-    public Frustrum() {}
+    public Frustrum()
+    {
+    }
 
     public void setPosition(double par1, double par3, double par5)
     {

@@ -1,15 +1,5 @@
 package net.minecraft.world.chunk.storage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.client.AnvilConverterException;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,6 +15,9 @@ import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraft.world.storage.WorldInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.*;
+import java.util.*;
 
 public class AnvilSaveConverter extends SaveFormatOld
 {
@@ -71,8 +64,7 @@ public class AnvilSaveConverter extends SaveFormatOld
             }
 
             return var1;
-        }
-        else
+        } else
         {
             throw new AnvilConverterException("Unable to read or access folder where game worlds are saved!");
         }
@@ -138,13 +130,12 @@ public class AnvilSaveConverter extends SaveFormatOld
         if (var10.getTerrainType() == WorldType.FLAT)
         {
             var11 = new WorldChunkManagerHell(BiomeGenBase.plains, 0.5F);
-        }
-        else
+        } else
         {
             var11 = new WorldChunkManager(var10.getSeed(), var10.getTerrainType());
         }
 
-        this.convertFile(new File(var6, "region"), var3, (WorldChunkManager)var11, 0, var9, par2IProgressUpdate);
+        this.convertFile(new File(var6, "region"), var3, (WorldChunkManager) var11, 0, var9, par2IProgressUpdate);
         this.convertFile(new File(var7, "region"), var4, new WorldChunkManagerHell(BiomeGenBase.hell, 0.0F), var3.size(), var9, par2IProgressUpdate);
         this.convertFile(new File(var8, "region"), var5, new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F), var3.size() + var4.size(), var9, par2IProgressUpdate);
         var10.setSaveVersion(19133);
@@ -170,16 +161,14 @@ public class AnvilSaveConverter extends SaveFormatOld
         if (!var2.exists())
         {
             logger.warn("Unable to create level.dat_mcr backup");
-        }
-        else
+        } else
         {
             File var3 = new File(var2, "level.dat");
 
             if (!var3.exists())
             {
                 logger.warn("Unable to create level.dat_mcr backup");
-            }
-            else
+            } else
             {
                 File var4 = new File(var2, "level.dat_mcr");
 
@@ -197,10 +186,10 @@ public class AnvilSaveConverter extends SaveFormatOld
 
         while (var7.hasNext())
         {
-            File var8 = (File)var7.next();
+            File var8 = (File) var7.next();
             this.convertChunks(par1File, var8, par3WorldChunkManager, par4, par5, par6IProgressUpdate);
             ++par4;
-            int var9 = (int)Math.round(100.0D * (double)par4 / (double)par5);
+            int var9 = (int) Math.round(100.0D * (double) par4 / (double) par5);
             par6IProgressUpdate.setLoadingProgress(var9);
         }
     }
@@ -229,8 +218,7 @@ public class AnvilSaveConverter extends SaveFormatOld
                         if (var12 == null)
                         {
                             logger.warn("Failed to fetch input stream");
-                        }
-                        else
+                        } else
                         {
                             NBTTagCompound var13 = CompressedStreamTools.read(var12);
                             var12.close();
@@ -247,8 +235,8 @@ public class AnvilSaveConverter extends SaveFormatOld
                     }
                 }
 
-                var11 = (int)Math.round(100.0D * (double)(par4 * 1024) / (double)(par5 * 1024));
-                int var20 = (int)Math.round(100.0D * (double)((var10 + 1) * 32 + par4 * 1024) / (double)(par5 * 1024));
+                var11 = (int) Math.round(100.0D * (double) (par4 * 1024) / (double) (par5 * 1024));
+                int var20 = (int) Math.round(100.0D * (double) ((var10 + 1) * 32 + par4 * 1024) / (double) (par5 * 1024));
 
                 if (var20 > var11)
                 {
@@ -258,8 +246,7 @@ public class AnvilSaveConverter extends SaveFormatOld
 
             var8.close();
             var9.close();
-        }
-        catch (IOException var19)
+        } catch (IOException var19)
         {
             var19.printStackTrace();
         }
@@ -274,6 +261,7 @@ public class AnvilSaveConverter extends SaveFormatOld
         File[] var4 = var3.listFiles(new FilenameFilter()
         {
             private static final String __OBFID = "CL_00000583";
+
             public boolean accept(File par1File, String par2Str)
             {
                 return par2Str.endsWith(".mcr");

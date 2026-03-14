@@ -1,9 +1,10 @@
 package net.minecraft.client.resources;
 
-import java.io.IOException;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ColorizerGrass;
+
+import java.io.IOException;
 
 public class GrassColorReloadListener implements IResourceManagerReloadListener
 {
@@ -15,10 +16,8 @@ public class GrassColorReloadListener implements IResourceManagerReloadListener
         try
         {
             ColorizerGrass.setGrassBiomeColorizer(TextureUtil.readImageData(par1ResourceManager, field_130078_a));
-        }
-        catch (IOException var3)
+        } catch (IOException var3)
         {
-            ;
         }
     }
 }

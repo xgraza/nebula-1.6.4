@@ -29,7 +29,7 @@ public class RenderOcelot extends RenderLiving
      */
     public void doRender(EntityOcelot par1EntityOcelot, double par2, double par4, double par6, float par8, float par9)
     {
-        super.doRender((EntityLiving)par1EntityOcelot, par2, par4, par6, par8, par9);
+        super.doRender(par1EntityOcelot, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -76,7 +76,7 @@ public class RenderOcelot extends RenderLiving
      */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityOcelot)par1EntityLiving, par2, par4, par6, par8, par9);
+        this.doRender((EntityOcelot) par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -85,7 +85,7 @@ public class RenderOcelot extends RenderLiving
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntityOcelot)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntityOcelot) par1EntityLivingBase, par2);
     }
 
     /**
@@ -96,7 +96,7 @@ public class RenderOcelot extends RenderLiving
      */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityOcelot)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityOcelot) par1Entity, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -104,7 +104,7 @@ public class RenderOcelot extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityOcelot)par1Entity);
+        return this.getEntityTexture((EntityOcelot) par1Entity);
     }
 
     /**
@@ -115,6 +115,6 @@ public class RenderOcelot extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityOcelot)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityOcelot) par1Entity, par2, par4, par6, par8, par9);
     }
 }

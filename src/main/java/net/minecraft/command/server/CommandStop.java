@@ -20,7 +20,7 @@ public class CommandStop extends CommandBase
 
     public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        notifyAdmins(par1ICommandSender, "commands.stop.start", new Object[0]);
+        notifyAdmins(par1ICommandSender, "commands.stop.start");
         MinecraftServer.getServer().initiateShutdown();
     }
 }

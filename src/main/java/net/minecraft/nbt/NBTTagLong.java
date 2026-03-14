@@ -6,11 +6,15 @@ import java.io.IOException;
 
 public class NBTTagLong extends NBTBase.NBTPrimitive
 {
-    /** The long value for the tag. */
+    /**
+     * The long value for the tag.
+     */
     private long data;
     private static final String __OBFID = "CL_00001225";
 
-    NBTTagLong() {}
+    NBTTagLong()
+    {
+    }
 
     public NBTTagLong(long p_i45134_1_)
     {
@@ -38,12 +42,12 @@ public class NBTTagLong extends NBTBase.NBTPrimitive
      */
     public byte getId()
     {
-        return (byte)4;
+        return (byte) 4;
     }
 
     public String toString()
     {
-        return "" + this.data + "L";
+        return this.data + "L";
     }
 
     /**
@@ -58,10 +62,9 @@ public class NBTTagLong extends NBTBase.NBTPrimitive
     {
         if (super.equals(par1Obj))
         {
-            NBTTagLong var2 = (NBTTagLong)par1Obj;
+            NBTTagLong var2 = (NBTTagLong) par1Obj;
             return this.data == var2.data;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -69,7 +72,7 @@ public class NBTTagLong extends NBTBase.NBTPrimitive
 
     public int hashCode()
     {
-        return super.hashCode() ^ (int)(this.data ^ this.data >>> 32);
+        return super.hashCode() ^ (int) (this.data ^ this.data >>> 32);
     }
 
     public long func_150291_c()
@@ -79,26 +82,26 @@ public class NBTTagLong extends NBTBase.NBTPrimitive
 
     public int func_150287_d()
     {
-        return (int)(this.data & -1L);
+        return (int) (this.data & -1L);
     }
 
     public short func_150289_e()
     {
-        return (short)((int)(this.data & 65535L));
+        return (short) ((int) (this.data & 65535L));
     }
 
     public byte func_150290_f()
     {
-        return (byte)((int)(this.data & 255L));
+        return (byte) ((int) (this.data & 255L));
     }
 
     public double func_150286_g()
     {
-        return (double)this.data;
+        return (double) this.data;
     }
 
     public float func_150288_h()
     {
-        return (float)this.data;
+        return (float) this.data;
     }
 }

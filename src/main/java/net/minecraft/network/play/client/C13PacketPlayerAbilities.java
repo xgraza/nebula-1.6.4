@@ -88,7 +88,7 @@ public class C13PacketPlayerAbilities extends Packet
      */
     public String serialize()
     {
-        return String.format("invuln=%b, flying=%b, canfly=%b, instabuild=%b, flyspeed=%.4f, walkspped=%.4f", new Object[]{ isInvulnerable(), isFlying(), isAllowedToFly(), isCreativeMode(), getFlySpeed(), getWalkSpeed() });
+        return String.format("invuln=%b, flying=%b, canfly=%b, instabuild=%b, flyspeed=%.4f, walkspped=%.4f", isInvulnerable(), isFlying(), isAllowedToFly(), isCreativeMode(), getFlySpeed(), getWalkSpeed());
     }
 
     public boolean isInvulnerable()

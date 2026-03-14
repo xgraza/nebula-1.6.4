@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S32PacketConfirmTransaction extends Packet
 {
@@ -12,7 +13,9 @@ public class S32PacketConfirmTransaction extends Packet
     private short uid;
     private boolean accepted;
 
-    public S32PacketConfirmTransaction() {}
+    public S32PacketConfirmTransaction()
+    {
+    }
 
     public S32PacketConfirmTransaction(int id, short uid, boolean accepted)
     {
@@ -51,7 +54,7 @@ public class S32PacketConfirmTransaction extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, uid=%d, accepted=%b", new Object[] {Integer.valueOf(this.id), Short.valueOf(this.uid), Boolean.valueOf(this.accepted)});
+        return String.format("id=%d, uid=%d, accepted=%b", Integer.valueOf(this.id), Short.valueOf(this.uid), Boolean.valueOf(this.accepted));
     }
 
     public int getID()
@@ -71,6 +74,6 @@ public class S32PacketConfirmTransaction extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

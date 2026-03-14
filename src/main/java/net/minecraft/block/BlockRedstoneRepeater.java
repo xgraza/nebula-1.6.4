@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -8,10 +7,12 @@ import net.minecraft.item.Item;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BlockRedstoneRepeater extends BlockRedstoneDiode
 {
-    public static final double[] repeaterTorchOffset = new double[] { -0.0625D, 0.0625D, 0.1875D, 0.3125D};
-    private static final int[] repeaterState = new int[] {1, 2, 3, 4};
+    public static final double[] repeaterTorchOffset = new double[]{ -0.0625D, 0.0625D, 0.1875D, 0.3125D };
+    private static final int[] repeaterState = new int[]{ 1, 2, 3, 4 };
     private static final String __OBFID = "CL_00000301";
 
     protected BlockRedstoneRepeater(boolean p_i45424_1_)
@@ -86,9 +87,9 @@ public class BlockRedstoneRepeater extends BlockRedstoneDiode
         {
             int var6 = p_149734_1_.getBlockMetadata(p_149734_2_, p_149734_3_, p_149734_4_);
             int var7 = getDirection(var6);
-            double var8 = (double)((float)p_149734_2_ + 0.5F) + (double)(p_149734_5_.nextFloat() - 0.5F) * 0.2D;
-            double var10 = (double)((float)p_149734_3_ + 0.4F) + (double)(p_149734_5_.nextFloat() - 0.5F) * 0.2D;
-            double var12 = (double)((float)p_149734_4_ + 0.5F) + (double)(p_149734_5_.nextFloat() - 0.5F) * 0.2D;
+            double var8 = (double) ((float) p_149734_2_ + 0.5F) + (double) (p_149734_5_.nextFloat() - 0.5F) * 0.2D;
+            double var10 = (double) ((float) p_149734_3_ + 0.4F) + (double) (p_149734_5_.nextFloat() - 0.5F) * 0.2D;
+            double var12 = (double) ((float) p_149734_4_ + 0.5F) + (double) (p_149734_5_.nextFloat() - 0.5F) * 0.2D;
             double var14 = 0.0D;
             double var16 = 0.0D;
 
@@ -111,8 +112,7 @@ public class BlockRedstoneRepeater extends BlockRedstoneDiode
                     case 3:
                         var14 = -0.3125D;
                 }
-            }
-            else
+            } else
             {
                 int var18 = (var6 & 12) >> 2;
 

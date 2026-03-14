@@ -2,18 +2,21 @@ package net.minecraft.util;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+
 import java.util.Iterator;
 import java.util.Map;
 
 public class RegistryNamespaced extends RegistrySimple implements IObjectIntIterable
 {
-    /** The backing store that maps Integers to objects. */
+    /**
+     * The backing store that maps Integers to objects.
+     */
     protected final ObjectIntIdentityMap underlyingIntegerMap = new ObjectIntIdentityMap();
     public final Map<Object, String> objectNameMap;
 
     public RegistryNamespaced()
     {
-        this.objectNameMap = ((BiMap)this.registryObjects).inverse();
+        this.objectNameMap = ((BiMap) this.registryObjects).inverse();
     }
 
     /**
@@ -43,7 +46,7 @@ public class RegistryNamespaced extends RegistrySimple implements IObjectIntIter
      */
     public String getNameForObject(Object p_148750_1_)
     {
-        return (String)this.objectNameMap.get(p_148750_1_);
+        return this.objectNameMap.get(p_148750_1_);
     }
 
     /**
@@ -98,11 +101,11 @@ public class RegistryNamespaced extends RegistrySimple implements IObjectIntIter
      */
     public boolean containsKey(Object p_148741_1_)
     {
-        return this.containsKey((String)p_148741_1_);
+        return this.containsKey((String) p_148741_1_);
     }
 
     public Object getObject(Object par1Obj)
     {
-        return this.getObject((String)par1Obj);
+        return this.getObject((String) par1Obj);
     }
 }

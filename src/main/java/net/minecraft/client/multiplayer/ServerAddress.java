@@ -1,8 +1,8 @@
 package net.minecraft.client.multiplayer;
 
-import java.util.Hashtable;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.InitialDirContext;
+import java.util.Hashtable;
 
 public class ServerAddress
 {
@@ -31,8 +31,7 @@ public class ServerAddress
         if (par0Str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             String[] var1 = par0Str.split(":");
 
@@ -48,18 +47,17 @@ public class ServerAddress
                     if (var4.startsWith(":") && var4.length() > 0)
                     {
                         var4 = var4.substring(1);
-                        var1 = new String[] {var3, var4};
-                    }
-                    else
+                        var1 = new String[]{ var3, var4 };
+                    } else
                     {
-                        var1 = new String[] {var3};
+                        var1 = new String[]{ var3 };
                     }
                 }
             }
 
             if (var1.length > 2)
             {
-                var1 = new String[] {par0Str};
+                var1 = new String[]{ par0Str };
             }
 
             String var5 = var1[0];
@@ -90,13 +88,12 @@ public class ServerAddress
             var2.put("java.naming.provider.url", "dns:");
             var2.put("com.sun.jndi.dns.timeout.retries", "1");
             InitialDirContext var3 = new InitialDirContext(var2);
-            Attributes var4 = var3.getAttributes("_minecraft._tcp." + par0Str, new String[] {"SRV"});
+            Attributes var4 = var3.getAttributes("_minecraft._tcp." + par0Str, new String[]{ "SRV" });
             String[] var5 = var4.get("srv").get().toString().split(" ", 4);
-            return new String[] {var5[3], var5[2]};
-        }
-        catch (Throwable var6)
+            return new String[]{ var5[3], var5[2] };
+        } catch (Throwable var6)
         {
-            return new String[] {par0Str, Integer.toString(25565)};
+            return new String[]{ par0Str, Integer.toString(25565) };
         }
     }
 
@@ -105,8 +102,7 @@ public class ServerAddress
         try
         {
             return Integer.parseInt(par0Str.trim());
-        }
-        catch (Exception var3)
+        } catch (Exception var3)
         {
             return par1;
         }

@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -10,6 +9,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public abstract class BlockRedstoneDiode extends BlockDirectional
 {
@@ -30,7 +31,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
 
     public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
     {
-        return !World.doesBlockHaveSolidTopSurface(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_) ? false : super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_);
+        return World.doesBlockHaveSolidTopSurface(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_) && super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_);
     }
 
     /**
@@ -38,7 +39,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
      */
     public boolean canBlockStay(World p_149718_1_, int p_149718_2_, int p_149718_3_, int p_149718_4_)
     {
-        return !World.doesBlockHaveSolidTopSurface(p_149718_1_, p_149718_2_, p_149718_3_ - 1, p_149718_4_) ? false : super.canBlockStay(p_149718_1_, p_149718_2_, p_149718_3_, p_149718_4_);
+        return World.doesBlockHaveSolidTopSurface(p_149718_1_, p_149718_2_, p_149718_3_ - 1, p_149718_4_) && super.canBlockStay(p_149718_1_, p_149718_2_, p_149718_3_, p_149718_4_);
     }
 
     /**
@@ -55,8 +56,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
             if (this.isRepeaterPowered && !var7)
             {
                 p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, this.getBlockUnpowered(), var6, 2);
-            }
-            else if (!this.isRepeaterPowered)
+            } else if (!this.isRepeaterPowered)
             {
                 p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, this.getBlockPowered(), var6, 2);
 
@@ -106,8 +106,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
         if (!this.func_149905_c(var6))
         {
             return 0;
-        }
-        else
+        } else
         {
             int var7 = getDirection(var6);
             return var7 == 0 && p_149709_5_ == 3 ? this.func_149904_f(p_149709_1_, p_149709_2_, p_149709_3_, p_149709_4_, var6) : (var7 == 1 && p_149709_5_ == 4 ? this.func_149904_f(p_149709_1_, p_149709_2_, p_149709_3_, p_149709_4_, var6) : (var7 == 2 && p_149709_5_ == 2 ? this.func_149904_f(p_149709_1_, p_149709_2_, p_149709_3_, p_149709_4_, var6) : (var7 == 3 && p_149709_5_ == 5 ? this.func_149904_f(p_149709_1_, p_149709_2_, p_149709_3_, p_149709_4_, var6) : 0)));
@@ -126,8 +125,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
             p_149695_1_.notifyBlocksOfNeighborChange(p_149695_2_, p_149695_3_, p_149695_4_ - 1, this);
             p_149695_1_.notifyBlocksOfNeighborChange(p_149695_2_, p_149695_3_ - 1, p_149695_4_, this);
             p_149695_1_.notifyBlocksOfNeighborChange(p_149695_2_, p_149695_3_ + 1, p_149695_4_, this);
-        }
-        else
+        } else
         {
             this.func_149897_b(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, p_149695_5_);
         }
@@ -148,8 +146,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
                 if (this.func_149912_i(p_149897_1_, p_149897_2_, p_149897_3_, p_149897_4_, var6))
                 {
                     var8 = -3;
-                }
-                else if (this.isRepeaterPowered)
+                } else if (this.isRepeaterPowered)
                 {
                     var8 = -2;
                 }
@@ -216,7 +213,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
      */
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
-        int var7 = ((MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 2) % 4;
+        int var7 = ((MathHelper.floor_double((double) (p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 2) % 4;
         p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, var7, 3);
         boolean var8 = this.isGettingInput(p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, var7);
 
@@ -309,8 +306,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
             int var7 = p_149912_1_.getBlockMetadata(p_149912_2_ - Direction.offsetX[var6], p_149912_3_, p_149912_4_ - Direction.offsetZ[var6]);
             int var8 = getDirection(var7);
             return var8 != var6;
-        }
-        else
+        } else
         {
             return false;
         }

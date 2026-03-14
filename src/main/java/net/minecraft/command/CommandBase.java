@@ -1,10 +1,6 @@
 package net.minecraft.command;
 
 import com.google.common.primitives.Doubles;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -13,6 +9,11 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public abstract class CommandBase implements ICommand
 {
@@ -56,10 +57,9 @@ public abstract class CommandBase implements ICommand
         try
         {
             return Integer.parseInt(par1Str);
-        }
-        catch (NumberFormatException var3)
+        } catch (NumberFormatException var3)
         {
-            throw new NumberInvalidException("commands.generic.num.invalid", new Object[] {par1Str});
+            throw new NumberInvalidException("commands.generic.num.invalid", par1Str);
         }
     }
 
@@ -80,13 +80,11 @@ public abstract class CommandBase implements ICommand
 
         if (var4 < par2)
         {
-            throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] {Integer.valueOf(var4), Integer.valueOf(par2)});
-        }
-        else if (var4 > par3)
+            throw new NumberInvalidException("commands.generic.num.tooSmall", Integer.valueOf(var4), Integer.valueOf(par2));
+        } else if (var4 > par3)
         {
-            throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] {Integer.valueOf(var4), Integer.valueOf(par3)});
-        }
-        else
+            throw new NumberInvalidException("commands.generic.num.tooBig", Integer.valueOf(var4), Integer.valueOf(par3));
+        } else
         {
             return var4;
         }
@@ -103,16 +101,14 @@ public abstract class CommandBase implements ICommand
 
             if (!Doubles.isFinite(var2))
             {
-                throw new NumberInvalidException("commands.generic.num.invalid", new Object[] {par1Str});
-            }
-            else
+                throw new NumberInvalidException("commands.generic.num.invalid", par1Str);
+            } else
             {
                 return var2;
             }
-        }
-        catch (NumberFormatException var4)
+        } catch (NumberFormatException var4)
         {
-            throw new NumberInvalidException("commands.generic.num.invalid", new Object[] {par1Str});
+            throw new NumberInvalidException("commands.generic.num.invalid", par1Str);
         }
     }
 
@@ -135,13 +131,11 @@ public abstract class CommandBase implements ICommand
 
         if (var6 < par2)
         {
-            throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(var6), Double.valueOf(par2)});
-        }
-        else if (var6 > par4)
+            throw new NumberInvalidException("commands.generic.double.tooSmall", Double.valueOf(var6), Double.valueOf(par2));
+        } else if (var6 > par4)
         {
-            throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(var6), Double.valueOf(par4)});
-        }
-        else
+            throw new NumberInvalidException("commands.generic.double.tooBig", Double.valueOf(var6), Double.valueOf(par4));
+        } else
         {
             return var6;
         }
@@ -157,14 +151,12 @@ public abstract class CommandBase implements ICommand
         {
             if (!par1Str.equals("false") && !par1Str.equals("0"))
             {
-                throw new CommandException("commands.generic.boolean.invalid", new Object[] {par1Str});
-            }
-            else
+                throw new CommandException("commands.generic.boolean.invalid", par1Str);
+            } else
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return true;
         }
@@ -177,11 +169,10 @@ public abstract class CommandBase implements ICommand
     {
         if (par0ICommandSender instanceof EntityPlayerMP)
         {
-            return (EntityPlayerMP)par0ICommandSender;
-        }
-        else
+            return (EntityPlayerMP) par0ICommandSender;
+        } else
         {
-            throw new PlayerNotFoundException("You must specify which player you wish to perform this action on.", new Object[0]);
+            throw new PlayerNotFoundException("You must specify which player you wish to perform this action on.");
         }
     }
 
@@ -192,16 +183,14 @@ public abstract class CommandBase implements ICommand
         if (var2 != null)
         {
             return var2;
-        }
-        else
+        } else
         {
             var2 = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par1Str);
 
             if (var2 == null)
             {
                 throw new PlayerNotFoundException();
-            }
-            else
+            } else
             {
                 return var2;
             }
@@ -215,12 +204,10 @@ public abstract class CommandBase implements ICommand
         if (var2 != null)
         {
             return var2.getCommandSenderName();
-        }
-        else if (PlayerSelector.hasArguments(par1Str))
+        } else if (PlayerSelector.hasArguments(par1Str))
         {
             throw new PlayerNotFoundException();
-        }
-        else
+        } else
         {
             return par1Str;
         }
@@ -251,14 +238,13 @@ public abstract class CommandBase implements ICommand
                 if (var7 != null)
                 {
                     var6 = var7;
-                }
-                else if (PlayerSelector.hasArguments(p_147176_1_[var5]))
+                } else if (PlayerSelector.hasArguments(p_147176_1_[var5]))
                 {
                     throw new PlayerNotFoundException();
                 }
             }
 
-            var4.appendSibling((IChatComponent)var6);
+            var4.appendSibling((IChatComponent) var6);
         }
 
         return var4;
@@ -293,9 +279,8 @@ public abstract class CommandBase implements ICommand
 
         if (var6 && Double.isNaN(par1))
         {
-            throw new NumberInvalidException("commands.generic.num.invalid", new Object[] {Double.valueOf(par1)});
-        }
-        else
+            throw new NumberInvalidException("commands.generic.num.invalid", Double.valueOf(par1));
+        } else
         {
             double var7 = var6 ? par1 : 0.0D;
 
@@ -318,14 +303,14 @@ public abstract class CommandBase implements ICommand
 
             if (par4 != 0 || par5 != 0)
             {
-                if (var7 < (double)par4)
+                if (var7 < (double) par4)
                 {
-                    throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(var7), Integer.valueOf(par4)});
+                    throw new NumberInvalidException("commands.generic.double.tooSmall", Double.valueOf(var7), Integer.valueOf(par4));
                 }
 
-                if (var7 > (double)par5)
+                if (var7 > (double) par5)
                 {
-                    throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(var7), Integer.valueOf(par5)});
+                    throw new NumberInvalidException("commands.generic.double.tooBig", Double.valueOf(var7), Integer.valueOf(par5));
                 }
             }
 
@@ -340,7 +325,7 @@ public abstract class CommandBase implements ICommand
      */
     public static Item getItemByText(ICommandSender p_147179_0_, String p_147179_1_)
     {
-        Item var2 = (Item)Item.itemRegistry.getObject(p_147179_1_);
+        Item var2 = (Item) Item.itemRegistry.getObject(p_147179_1_);
 
         if (var2 == null)
         {
@@ -350,24 +335,21 @@ public abstract class CommandBase implements ICommand
 
                 if (var3 != null)
                 {
-                    ChatComponentTranslation var4 = new ChatComponentTranslation("commands.generic.deprecatedId", new Object[] {Item.itemRegistry.getNameForObject(var3)});
+                    ChatComponentTranslation var4 = new ChatComponentTranslation("commands.generic.deprecatedId", Item.itemRegistry.getNameForObject(var3));
                     var4.getChatStyle().setColor(EnumChatFormatting.GRAY);
                     p_147179_0_.addChatMessage(var4);
                 }
 
                 var2 = var3;
-            }
-            catch (NumberFormatException var5)
+            } catch (NumberFormatException var5)
             {
-                ;
             }
         }
 
         if (var2 == null)
         {
-            throw new NumberInvalidException("commands.give.notFound", new Object[] {p_147179_1_});
-        }
-        else
+            throw new NumberInvalidException("commands.give.notFound", p_147179_1_);
+        } else
         {
             return var2;
         }
@@ -382,9 +364,8 @@ public abstract class CommandBase implements ICommand
     {
         if (Block.blockRegistry.containsKey(p_147180_1_))
         {
-            return (Block)Block.blockRegistry.getObject(p_147180_1_);
-        }
-        else
+            return (Block) Block.blockRegistry.getObject(p_147180_1_);
+        } else
         {
             try
             {
@@ -393,18 +374,16 @@ public abstract class CommandBase implements ICommand
                 if (Block.blockRegistry.containsID(var2))
                 {
                     Block var3 = Block.getBlockById(var2);
-                    ChatComponentTranslation var4 = new ChatComponentTranslation("commands.generic.deprecatedId", new Object[] {Block.blockRegistry.getNameForObject(var3)});
+                    ChatComponentTranslation var4 = new ChatComponentTranslation("commands.generic.deprecatedId", Block.blockRegistry.getNameForObject(var3));
                     var4.getChatStyle().setColor(EnumChatFormatting.GRAY);
                     p_147180_0_.addChatMessage(var4);
                     return var3;
                 }
-            }
-            catch (NumberFormatException var5)
+            } catch (NumberFormatException var5)
             {
-                ;
             }
 
-            throw new NumberInvalidException("commands.give.notFound", new Object[] {p_147180_1_});
+            throw new NumberInvalidException("commands.give.notFound", p_147180_1_);
         }
     }
 
@@ -425,8 +404,7 @@ public abstract class CommandBase implements ICommand
                 if (var2 == par0ArrayOfObj.length - 1)
                 {
                     var1.append(" and ");
-                }
-                else
+                } else
                 {
                     var1.append(", ");
                 }
@@ -453,8 +431,7 @@ public abstract class CommandBase implements ICommand
                 if (var2 == p_147177_0_.length - 1)
                 {
                     var1.appendText(" and ");
-                }
-                else if (var2 > 0)
+                } else if (var2 > 0)
                 {
                     var1.appendText(", ");
                 }
@@ -488,7 +465,7 @@ public abstract class CommandBase implements ICommand
      * Returns a List of strings (chosen from the given strings) which the last word in the given string array is a
      * beginning-match for. (Tab completion).
      */
-    public static List getListOfStringsMatchingLastWord(String[] par0ArrayOfStr, String ... par1ArrayOfStr)
+    public static List getListOfStringsMatchingLastWord(String[] par0ArrayOfStr, String... par1ArrayOfStr)
     {
         String var2 = par0ArrayOfStr[par0ArrayOfStr.length - 1];
         ArrayList var3 = new ArrayList();
@@ -520,7 +497,7 @@ public abstract class CommandBase implements ICommand
 
         while (var4.hasNext())
         {
-            String var5 = (String)var4.next();
+            String var5 = (String) var4.next();
 
             if (doesStringStartWith(var2, var5))
             {
@@ -539,12 +516,12 @@ public abstract class CommandBase implements ICommand
         return false;
     }
 
-    public static void notifyAdmins(ICommandSender par0ICommandSender, String par1Str, Object ... par2ArrayOfObj)
+    public static void notifyAdmins(ICommandSender par0ICommandSender, String par1Str, Object... par2ArrayOfObj)
     {
         notifyAdmins(par0ICommandSender, 0, par1Str, par2ArrayOfObj);
     }
 
-    public static void notifyAdmins(ICommandSender par0ICommandSender, int par1, String par2Str, Object ... par3ArrayOfObj)
+    public static void notifyAdmins(ICommandSender par0ICommandSender, int par1, String par2Str, Object... par3ArrayOfObj)
     {
         if (theAdmin != null)
         {
@@ -567,6 +544,6 @@ public abstract class CommandBase implements ICommand
 
     public int compareTo(Object par1Obj)
     {
-        return this.compareTo((ICommand)par1Obj);
+        return this.compareTo((ICommand) par1Obj);
     }
 }

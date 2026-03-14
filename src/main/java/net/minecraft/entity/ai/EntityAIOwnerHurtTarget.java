@@ -25,16 +25,14 @@ public class EntityAIOwnerHurtTarget extends EntityAITarget
         if (!this.theEntityTameable.isTamed())
         {
             return false;
-        }
-        else
+        } else
         {
             EntityLivingBase var1 = this.theEntityTameable.getOwner();
 
             if (var1 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.theTarget = var1.getLastAttacker();
                 int var2 = var1.getLastAttackerTime();

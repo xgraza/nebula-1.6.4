@@ -1,12 +1,13 @@
 package shadersmod.client;
 
-import java.util.Properties;
 import net.minecraft.src.Config;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.Properties;
+
 public class Property
 {
-    private int[] values = null;
+    private final int[] values = null;
     private int defaultValue = 0;
     private String propertyName = null;
     private String[] propertyValues = null;
@@ -25,12 +26,10 @@ public class Property
         if (propertyValues.length != userValues.length)
         {
             throw new IllegalArgumentException("Property and user values have different lengths: " + propertyValues.length + " != " + userValues.length);
-        }
-        else if (defaultValue >= 0 && defaultValue < propertyValues.length)
+        } else if (defaultValue >= 0 && defaultValue < propertyValues.length)
         {
             this.value = defaultValue;
-        }
-        else
+        } else
         {
             throw new IllegalArgumentException("Invalid default value: " + defaultValue);
         }
@@ -42,16 +41,14 @@ public class Property
         {
             this.value = this.defaultValue;
             return false;
-        }
-        else
+        } else
         {
             this.value = ArrayUtils.indexOf(this.propertyValues, propVal);
 
             if (this.value >= 0 && this.value < this.propertyValues.length)
             {
                 return true;
-            }
-            else
+            } else
             {
                 this.value = this.defaultValue;
                 return false;
@@ -116,11 +113,10 @@ public class Property
         if (props == null)
         {
             return false;
-        }
-        else
+        } else
         {
             String str = props.getProperty(this.propertyName);
-            return str == null ? false : this.setPropertyValue(str);
+            return str != null && this.setPropertyValue(str);
         }
     }
 
@@ -134,6 +130,6 @@ public class Property
 
     public String toString()
     {
-        return "" + this.propertyName + "=" + this.getPropertyValue() + " [" + Config.arrayToString((Object[])this.propertyValues) + "], value: " + this.value;
+        return this.propertyName + "=" + this.getPropertyValue() + " [" + Config.arrayToString(this.propertyValues) + "], value: " + this.value;
     }
 }

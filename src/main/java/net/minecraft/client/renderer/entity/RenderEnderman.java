@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.entity;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.model.ModelEnderman;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -15,20 +14,24 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import shadersmod.client.Shaders;
 
+import java.util.Random;
+
 public class RenderEnderman extends RenderLiving
 {
     private static final ResourceLocation endermanEyesTexture = new ResourceLocation("textures/entity/enderman/enderman_eyes.png");
     private static final ResourceLocation endermanTextures = new ResourceLocation("textures/entity/enderman/enderman.png");
 
-    /** The model of the enderman */
-    private ModelEnderman endermanModel;
-    private Random rnd = new Random();
+    /**
+     * The model of the enderman
+     */
+    private final ModelEnderman endermanModel;
+    private final Random rnd = new Random();
     private static final String __OBFID = "CL_00000989";
 
     public RenderEnderman()
     {
         super(new ModelEnderman(), 0.5F);
-        this.endermanModel = (ModelEnderman)super.mainModel;
+        this.endermanModel = (ModelEnderman) super.mainModel;
         this.setRenderPassModel(this.endermanModel);
     }
 
@@ -50,7 +53,7 @@ public class RenderEnderman extends RenderLiving
             par6 += this.rnd.nextGaussian() * var10;
         }
 
-        super.doRender((EntityLiving)par1EntityEnderman, par2, par4, par6, par8, par9);
+        super.doRender(par1EntityEnderman, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -78,7 +81,7 @@ public class RenderEnderman extends RenderLiving
             int var4 = par1EntityEnderman.getBrightnessForRender(par2);
             int var5 = var4 % 65536;
             int var6 = var4 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var5 / 1.0F, (float)var6 / 1.0F);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var5, (float) var6);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.bindTexture(TextureMap.locationBlocksTexture);
             this.field_147909_c.renderBlockAsItem(par1EntityEnderman.func_146080_bZ(), par1EntityEnderman.getCarryingData(), 1.0F);
@@ -95,8 +98,7 @@ public class RenderEnderman extends RenderLiving
         if (par2 != 0)
         {
             return -1;
-        }
-        else
+        } else
         {
             this.bindTexture(endermanEyesTexture);
             float var4 = 1.0F;
@@ -105,19 +107,12 @@ public class RenderEnderman extends RenderLiving
             GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
             GL11.glDisable(GL11.GL_LIGHTING);
 
-            if (par1EntityEnderman.isInvisible())
-            {
-                GL11.glDepthMask(false);
-            }
-            else
-            {
-                GL11.glDepthMask(true);
-            }
+            GL11.glDepthMask(!par1EntityEnderman.isInvisible());
 
             char var5 = 61680;
             int var6 = var5 % 65536;
             int var7 = var5 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var6 / 1.0F, (float)var7 / 1.0F);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var6, (float) var7);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, var4);
 
@@ -138,7 +133,7 @@ public class RenderEnderman extends RenderLiving
      */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityEnderman)par1EntityLiving, par2, par4, par6, par8, par9);
+        this.doRender((EntityEnderman) par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -146,12 +141,12 @@ public class RenderEnderman extends RenderLiving
      */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.shouldRenderPass((EntityEnderman)par1EntityLivingBase, par2, par3);
+        return this.shouldRenderPass((EntityEnderman) par1EntityLivingBase, par2, par3);
     }
 
     protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.renderEquippedItems((EntityEnderman)par1EntityLivingBase, par2);
+        this.renderEquippedItems((EntityEnderman) par1EntityLivingBase, par2);
     }
 
     /**
@@ -162,7 +157,7 @@ public class RenderEnderman extends RenderLiving
      */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityEnderman)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityEnderman) par1Entity, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -170,7 +165,7 @@ public class RenderEnderman extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityEnderman)par1Entity);
+        return this.getEntityTexture((EntityEnderman) par1Entity);
     }
 
     /**
@@ -181,6 +176,6 @@ public class RenderEnderman extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityEnderman)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityEnderman) par1Entity, par2, par4, par6, par8, par9);
     }
 }

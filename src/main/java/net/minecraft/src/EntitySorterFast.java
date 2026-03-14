@@ -1,12 +1,13 @@
 package net.minecraft.src;
 
-import java.util.Comparator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
 
+import java.util.Comparator;
+
 public class EntitySorterFast implements Comparator
 {
-    private Entity entity;
+    private final Entity entity;
 
     public EntitySorterFast(Entity par1Entity)
     {
@@ -31,6 +32,6 @@ public class EntitySorterFast implements Comparator
 
     public int compare(Object par1Obj, Object par2Obj)
     {
-        return this.compare((WorldRenderer)par1Obj, (WorldRenderer)par2Obj);
+        return this.compare((WorldRenderer) par1Obj, (WorldRenderer) par2Obj);
     }
 }

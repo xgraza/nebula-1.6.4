@@ -1,20 +1,27 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public abstract class WorldGenHugeTrees extends WorldGenAbstractTree
 {
-    /** The base height of the tree */
+    /**
+     * The base height of the tree
+     */
     protected final int baseHeight;
 
-    /** Sets the metadata for the wood blocks used */
+    /**
+     * Sets the metadata for the wood blocks used
+     */
     protected final int woodMetadata;
 
-    /** Sets the metadata for the leaves used in huge trees */
+    /**
+     * Sets the metadata for the leaves used in huge trees
+     */
     protected final int leavesMetadata;
     protected int field_150538_d;
     private static final String __OBFID = "CL_00000423";
@@ -72,8 +79,7 @@ public abstract class WorldGenHugeTrees extends WorldGenAbstractTree
                             {
                                 var7 = false;
                             }
-                        }
-                        else
+                        } else
                         {
                             var7 = false;
                         }
@@ -82,8 +88,7 @@ public abstract class WorldGenHugeTrees extends WorldGenAbstractTree
             }
 
             return var7;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -100,8 +105,7 @@ public abstract class WorldGenHugeTrees extends WorldGenAbstractTree
             p_150532_1_.setBlock(p_150532_3_, p_150532_4_ - 1, p_150532_5_ + 1, Blocks.dirt, 0, 2);
             p_150532_1_.setBlock(p_150532_3_ + 1, p_150532_4_ - 1, p_150532_5_ + 1, Blocks.dirt, 0, 2);
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

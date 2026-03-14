@@ -130,7 +130,7 @@ public final class LandscaperCheat extends Cheat
             }
         }
         breakPositionSet = breakPositionSet.stream().sorted(Comparator.comparingDouble((x) ->
-                MC.thePlayer.getDistance(x.getX(), x.getY(), x.getZ())))
+                        MC.thePlayer.getDistance(x.getX(), x.getY(), x.getZ())))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         breakQueue.addAll(breakPositionSet);
     }

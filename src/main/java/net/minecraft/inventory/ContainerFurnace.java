@@ -8,7 +8,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerFurnace extends Container
 {
-    private TileEntityFurnace furnace;
+    private final TileEntityFurnace furnace;
     private int lastCookTime;
     private int lastBurnTime;
     private int lastItemBurnTime;
@@ -53,7 +53,7 @@ public class ContainerFurnace extends Container
 
         for (int var1 = 0; var1 < this.crafters.size(); ++var1)
         {
-            ICrafting var2 = (ICrafting)this.crafters.get(var1);
+            ICrafting var2 = this.crafters.get(var1);
 
             if (this.lastCookTime != this.furnace.field_145961_j)
             {
@@ -105,7 +105,7 @@ public class ContainerFurnace extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -120,8 +120,7 @@ public class ContainerFurnace extends Container
                 }
 
                 var4.onSlotChange(var5, var3);
-            }
-            else if (par2 != 1 && par2 != 0)
+            } else if (par2 != 1 && par2 != 0)
             {
                 if (FurnaceRecipes.smelting().func_151395_a(var5) != null)
                 {
@@ -129,36 +128,31 @@ public class ContainerFurnace extends Container
                     {
                         return null;
                     }
-                }
-                else if (TileEntityFurnace.func_145954_b(var5))
+                } else if (TileEntityFurnace.func_145954_b(var5))
                 {
                     if (!this.mergeItemStack(var5, 1, 2, false))
                     {
                         return null;
                     }
-                }
-                else if (par2 >= 3 && par2 < 30)
+                } else if (par2 >= 3 && par2 < 30)
                 {
                     if (!this.mergeItemStack(var5, 30, 39, false))
                     {
                         return null;
                     }
-                }
-                else if (par2 >= 30 && par2 < 39 && !this.mergeItemStack(var5, 3, 30, false))
+                } else if (par2 >= 30 && par2 < 39 && !this.mergeItemStack(var5, 3, 30, false))
                 {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 3, 39, false))
+            } else if (!this.mergeItemStack(var5, 3, 39, false))
             {
                 return null;
             }
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack(null);
+            } else
             {
                 var4.onSlotChanged();
             }

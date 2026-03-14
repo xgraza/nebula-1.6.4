@@ -1,12 +1,9 @@
 package net.minecraft.entity.ai.attributes;
 
 import com.google.common.collect.Sets;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import net.minecraft.server.management.LowerStringMap;
+
+import java.util.*;
 
 public class ServersideAttributeMap extends BaseAttributeMap
 {
@@ -16,7 +13,7 @@ public class ServersideAttributeMap extends BaseAttributeMap
 
     public ModifiableAttributeInstance getAttributeInstance(IAttribute par1Attribute)
     {
-        return (ModifiableAttributeInstance)super.getAttributeInstance(par1Attribute);
+        return (ModifiableAttributeInstance) super.getAttributeInstance(par1Attribute);
     }
 
     public ModifiableAttributeInstance getAttributeInstanceByName(String par1Str)
@@ -25,10 +22,10 @@ public class ServersideAttributeMap extends BaseAttributeMap
 
         if (var2 == null)
         {
-            var2 = (IAttributeInstance)this.descriptionToAttributeInstanceMap.get(par1Str);
+            var2 = (IAttributeInstance) this.descriptionToAttributeInstanceMap.get(par1Str);
         }
 
-        return (ModifiableAttributeInstance)var2;
+        return (ModifiableAttributeInstance) var2;
     }
 
     /**
@@ -39,15 +36,14 @@ public class ServersideAttributeMap extends BaseAttributeMap
         if (this.attributesByName.containsKey(par1Attribute.getAttributeUnlocalizedName()))
         {
             throw new IllegalArgumentException("Attribute is already registered!");
-        }
-        else
+        } else
         {
             ModifiableAttributeInstance var2 = new ModifiableAttributeInstance(this, par1Attribute);
             this.attributesByName.put(par1Attribute.getAttributeUnlocalizedName(), var2);
 
-            if (par1Attribute instanceof RangedAttribute && ((RangedAttribute)par1Attribute).getDescription() != null)
+            if (par1Attribute instanceof RangedAttribute && ((RangedAttribute) par1Attribute).getDescription() != null)
             {
-                this.descriptionToAttributeInstanceMap.put(((RangedAttribute)par1Attribute).getDescription(), var2);
+                this.descriptionToAttributeInstanceMap.put(((RangedAttribute) par1Attribute).getDescription(), var2);
             }
 
             this.attributes.put(par1Attribute, var2);
@@ -75,7 +71,7 @@ public class ServersideAttributeMap extends BaseAttributeMap
 
         while (var2.hasNext())
         {
-            IAttributeInstance var3 = (IAttributeInstance)var2.next();
+            IAttributeInstance var3 = (IAttributeInstance) var2.next();
 
             if (var3.getAttribute().getShouldWatch())
             {

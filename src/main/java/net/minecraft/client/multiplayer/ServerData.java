@@ -19,18 +19,24 @@ public class ServerData
      */
     public String serverMOTD;
 
-    /** last server ping that showed up in the server browser */
+    /**
+     * last server ping that showed up in the server browser
+     */
     public long pingToServer;
     public int field_82821_f = 4;
 
-    /** Game version for this server. */
+    /**
+     * Game version for this server.
+     */
     public String gameVersion = "1.7.2";
     public boolean field_78841_f;
     public String field_147412_i;
     private boolean field_78842_g = true;
     private boolean acceptsTextures;
 
-    /** Whether to hide the IP address for this server. */
+    /**
+     * Whether to hide the IP address for this server.
+     */
     private boolean hideAddress;
     private String field_147411_m;
     private static final String __OBFID = "CL_00000890";

@@ -2,9 +2,10 @@ package net.minecraft.network;
 
 import com.google.common.collect.BiMap;
 import io.netty.buffer.ByteBuf;
-import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public abstract class Packet
 {
@@ -18,12 +19,11 @@ public abstract class Packet
     {
         try
         {
-            Class var2 = (Class)p_148839_0_.get(Integer.valueOf(p_148839_1_));
-            return var2 == null ? null : (Packet)var2.newInstance();
-        }
-        catch (Exception var3)
+            Class var2 = (Class) p_148839_0_.get(Integer.valueOf(p_148839_1_));
+            return var2 == null ? null : (Packet) var2.newInstance();
+        } catch (Exception var3)
         {
-            logger.error("Couldn\'t create packet " + p_148839_1_, var3);
+            logger.error("Couldn't create packet " + p_148839_1_, var3);
             return null;
         }
     }
@@ -49,8 +49,7 @@ public abstract class Packet
         if (var1 < 0)
         {
             throw new IOException("Key was smaller than nothing!  Weird key!");
-        }
-        else
+        } else
         {
             byte[] var2 = new byte[var1];
             p_148834_0_.readBytes(var2);

@@ -16,7 +16,10 @@ import us.nebula.client.util.player.InventoryUtil;
 import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.world.BlockUtil;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
@@ -137,7 +140,7 @@ public final class NukerCheat extends Cheat
         }
 
         breakPosSet = breakPosSet.stream().sorted(Comparator.comparingDouble(
-                (pos) -> MC.thePlayer.getDistance(pos.getX(), pos.getY(), pos.getZ())))
+                        (pos) -> MC.thePlayer.getDistance(pos.getX(), pos.getY(), pos.getZ())))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         breakPosQueue.addAll(breakPosSet);
     }

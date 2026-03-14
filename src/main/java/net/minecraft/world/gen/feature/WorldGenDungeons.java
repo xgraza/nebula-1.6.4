@@ -1,6 +1,5 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -9,9 +8,11 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenDungeons extends WorldGenerator
 {
-    private static final WeightedRandomChestContent[] field_111189_a = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 10), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 4, 10), new WeightedRandomChestContent(Items.bread, 0, 1, 1, 10), new WeightedRandomChestContent(Items.wheat, 0, 1, 4, 10), new WeightedRandomChestContent(Items.gunpowder, 0, 1, 4, 10), new WeightedRandomChestContent(Items.string, 0, 1, 4, 10), new WeightedRandomChestContent(Items.bucket, 0, 1, 1, 10), new WeightedRandomChestContent(Items.golden_apple, 0, 1, 1, 1), new WeightedRandomChestContent(Items.redstone, 0, 1, 4, 10), new WeightedRandomChestContent(Items.record_13, 0, 1, 1, 10), new WeightedRandomChestContent(Items.record_cat, 0, 1, 1, 10), new WeightedRandomChestContent(Items.name_tag, 0, 1, 1, 10), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 2), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 5), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)};
+    private static final WeightedRandomChestContent[] field_111189_a = new WeightedRandomChestContent[]{ new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 10), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 4, 10), new WeightedRandomChestContent(Items.bread, 0, 1, 1, 10), new WeightedRandomChestContent(Items.wheat, 0, 1, 4, 10), new WeightedRandomChestContent(Items.gunpowder, 0, 1, 4, 10), new WeightedRandomChestContent(Items.string, 0, 1, 4, 10), new WeightedRandomChestContent(Items.bucket, 0, 1, 1, 10), new WeightedRandomChestContent(Items.golden_apple, 0, 1, 1, 1), new WeightedRandomChestContent(Items.redstone, 0, 1, 4, 10), new WeightedRandomChestContent(Items.record_13, 0, 1, 1, 10), new WeightedRandomChestContent(Items.record_cat, 0, 1, 1, 10), new WeightedRandomChestContent(Items.name_tag, 0, 1, 1, 10), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 2), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 5), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1) };
     private static final String __OBFID = "CL_00000425";
 
     public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
@@ -61,18 +62,15 @@ public class WorldGenDungeons extends WorldGenerator
                         if (var10 != par3 - var7 - 1 && var11 != par4 - 1 && var12 != par5 - var8 - 1 && var10 != par3 + var7 + 1 && var11 != par4 + var6 + 1 && var12 != par5 + var8 + 1)
                         {
                             par1World.setBlockToAir(var10, var11, var12);
-                        }
-                        else if (var11 >= 0 && !par1World.getBlock(var10, var11 - 1, var12).getMaterial().isSolid())
+                        } else if (var11 >= 0 && !par1World.getBlock(var10, var11 - 1, var12).getMaterial().isSolid())
                         {
                             par1World.setBlockToAir(var10, var11, var12);
-                        }
-                        else if (par1World.getBlock(var10, var11, var12).getMaterial().isSolid())
+                        } else if (par1World.getBlock(var10, var11, var12).getMaterial().isSolid())
                         {
                             if (var11 == par4 - 1 && par2Random.nextInt(4) != 0)
                             {
                                 par1World.setBlock(var10, var11, var12, Blocks.mossy_cobblestone, 0, 2);
-                            }
-                            else
+                            } else
                             {
                                 par1World.setBlock(var10, var11, var12, Blocks.cobblestone, 0, 2);
                             }
@@ -123,8 +121,8 @@ public class WorldGenDungeons extends WorldGenerator
                                 if (var15 == 1)
                                 {
                                     par1World.setBlock(var12, par4, var14, Blocks.chest, 0, 2);
-                                    WeightedRandomChestContent[] var16 = WeightedRandomChestContent.func_92080_a(field_111189_a, new WeightedRandomChestContent[] {Items.enchanted_book.func_92114_b(par2Random)});
-                                    TileEntityChest var17 = (TileEntityChest)par1World.getTileEntity(var12, par4, var14);
+                                    WeightedRandomChestContent[] var16 = WeightedRandomChestContent.func_92080_a(field_111189_a, Items.enchanted_book.func_92114_b(par2Random));
+                                    TileEntityChest var17 = (TileEntityChest) par1World.getTileEntity(var12, par4, var14);
 
                                     if (var17 != null)
                                     {
@@ -146,20 +144,18 @@ public class WorldGenDungeons extends WorldGenerator
             }
 
             par1World.setBlock(par3, par4, par5, Blocks.mob_spawner, 0, 2);
-            TileEntityMobSpawner var18 = (TileEntityMobSpawner)par1World.getTileEntity(par3, par4, par5);
+            TileEntityMobSpawner var18 = (TileEntityMobSpawner) par1World.getTileEntity(par3, par4, par5);
 
             if (var18 != null)
             {
                 var18.func_145881_a().setMobID(this.pickMobSpawner(par2Random));
-            }
-            else
+            } else
             {
                 System.err.println("Failed to fetch mob spawner entity at (" + par3 + ", " + par4 + ", " + par5 + ")");
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

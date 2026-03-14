@@ -9,13 +9,15 @@ import net.minecraft.world.World;
 
 public class ContainerWorkbench extends Container
 {
-    /** The crafting matrix inventory (3x3). */
+    /**
+     * The crafting matrix inventory (3x3).
+     */
     public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
     public IInventory craftResult = new InventoryCraftResult();
-    private World worldObj;
-    private int posX;
-    private int posY;
-    private int posZ;
+    private final World worldObj;
+    private final int posX;
+    private final int posY;
+    private final int posZ;
     private static final String __OBFID = "CL_00001744";
 
     public ContainerWorkbench(InventoryPlayer par1InventoryPlayer, World par2World, int par3, int par4, int par5)
@@ -83,7 +85,7 @@ public class ContainerWorkbench extends Container
 
     public boolean canInteractWith(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getBlock(this.posX, this.posY, this.posZ) != Blocks.crafting_table ? false : par1EntityPlayer.getDistanceSq((double)this.posX + 0.5D, (double)this.posY + 0.5D, (double)this.posZ + 0.5D) <= 64.0D;
+        return this.worldObj.getBlock(this.posX, this.posY, this.posZ) == Blocks.crafting_table && par1EntityPlayer.getDistanceSq((double) this.posX + 0.5D, (double) this.posY + 0.5D, (double) this.posZ + 0.5D) <= 64.0D;
     }
 
     /**
@@ -92,7 +94,7 @@ public class ContainerWorkbench extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -107,31 +109,27 @@ public class ContainerWorkbench extends Container
                 }
 
                 var4.onSlotChange(var5, var3);
-            }
-            else if (par2 >= 10 && par2 < 37)
+            } else if (par2 >= 10 && par2 < 37)
             {
                 if (!this.mergeItemStack(var5, 37, 46, false))
                 {
                     return null;
                 }
-            }
-            else if (par2 >= 37 && par2 < 46)
+            } else if (par2 >= 37 && par2 < 46)
             {
                 if (!this.mergeItemStack(var5, 10, 37, false))
                 {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 10, 46, false))
+            } else if (!this.mergeItemStack(var5, 10, 46, false))
             {
                 return null;
             }
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack(null);
+            } else
             {
                 var4.onSlotChanged();
             }

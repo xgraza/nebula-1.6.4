@@ -45,7 +45,7 @@ public class GenLayerEdge extends GenLayer
         {
             for (int var12 = 0; var12 < p_151626_3_; ++var12)
             {
-                this.initChunkSeed((long)(var12 + p_151626_1_), (long)(var11 + p_151626_2_));
+                this.initChunkSeed(var12 + p_151626_1_, var11 + p_151626_2_);
                 int var13 = var9[var12 + 1 + (var11 + 1) * var7];
 
                 if (var13 == 1)
@@ -116,7 +116,7 @@ public class GenLayerEdge extends GenLayer
         {
             for (int var8 = 0; var8 < p_151625_3_; ++var8)
             {
-                this.initChunkSeed((long)(var8 + p_151625_1_), (long)(var7 + p_151625_2_));
+                this.initChunkSeed(var8 + p_151625_1_, var7 + p_151625_2_);
                 int var9 = var5[var8 + var7 * p_151625_3_];
 
                 if (var9 != 0 && this.nextInt(13) == 0)
@@ -131,16 +131,18 @@ public class GenLayerEdge extends GenLayer
         return var6;
     }
 
-    public static enum Mode
+    public enum Mode
     {
         COOL_WARM("COOL_WARM", 0),
         HEAT_ICE("HEAT_ICE", 1),
         SPECIAL("SPECIAL", 2);
 
-        private static final GenLayerEdge.Mode[] $VALUES = new GenLayerEdge.Mode[]{COOL_WARM, HEAT_ICE, SPECIAL};
+        private static final GenLayerEdge.Mode[] $VALUES = new GenLayerEdge.Mode[]{ COOL_WARM, HEAT_ICE, SPECIAL };
         private static final String __OBFID = "CL_00000549";
 
-        private Mode(String p_i45473_1_, int p_i45473_2_) {}
+        Mode(String p_i45473_1_, int p_i45473_2_)
+        {
+        }
     }
 
     static final class SwitchMode
@@ -153,28 +155,22 @@ public class GenLayerEdge extends GenLayer
             try
             {
                 field_151642_a[GenLayerEdge.Mode.COOL_WARM.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
                 field_151642_a[GenLayerEdge.Mode.HEAT_ICE.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
                 field_151642_a[GenLayerEdge.Mode.SPECIAL.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

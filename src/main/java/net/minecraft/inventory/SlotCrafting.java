@@ -3,20 +3,20 @@ package net.minecraft.inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.*;
 import net.minecraft.stats.AchievementList;
 
 public class SlotCrafting extends Slot
 {
-    /** The craft matrix inventory linked to this result slot. */
+    /**
+     * The craft matrix inventory linked to this result slot.
+     */
     private final IInventory craftMatrix;
 
-    /** The player that is using the GUI where this slot resides. */
-    private EntityPlayer thePlayer;
+    /**
+     * The player that is using the GUI where this slot resides.
+     */
+    private final EntityPlayer thePlayer;
 
     /**
      * The number of items that have been crafted so far. Gets passed to ItemStack.onCrafting before being reset.
@@ -101,7 +101,7 @@ public class SlotCrafting extends Slot
             this.thePlayer.addStat(AchievementList.bakeCake, 1);
         }
 
-        if (par1ItemStack.getItem() instanceof ItemPickaxe && ((ItemPickaxe)par1ItemStack.getItem()).func_150913_i() != Item.ToolMaterial.WOOD)
+        if (par1ItemStack.getItem() instanceof ItemPickaxe && ((ItemPickaxe) par1ItemStack.getItem()).func_150913_i() != Item.ToolMaterial.WOOD)
         {
             this.thePlayer.addStat(AchievementList.buildBetterPickaxe, 1);
         }
@@ -143,8 +143,7 @@ public class SlotCrafting extends Slot
                         if (this.craftMatrix.getStackInSlot(var3) == null)
                         {
                             this.craftMatrix.setInventorySlotContents(var3, var5);
-                        }
-                        else
+                        } else
                         {
                             this.thePlayer.dropPlayerItemWithRandomChoice(var5, false);
                         }

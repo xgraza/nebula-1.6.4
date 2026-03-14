@@ -26,7 +26,7 @@ public class RenderChicken extends RenderLiving
      */
     public void doRender(EntityChicken par1EntityChicken, double par2, double par4, double par6, float par8, float par9)
     {
-        super.doRender((EntityLiving)par1EntityChicken, par2, par4, par6, par8, par9);
+        super.doRender(par1EntityChicken, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -55,7 +55,7 @@ public class RenderChicken extends RenderLiving
      */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityChicken)par1EntityLiving, par2, par4, par6, par8, par9);
+        this.doRender((EntityChicken) par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -63,7 +63,7 @@ public class RenderChicken extends RenderLiving
      */
     protected float handleRotationFloat(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        return this.handleRotationFloat((EntityChicken)par1EntityLivingBase, par2);
+        return this.handleRotationFloat((EntityChicken) par1EntityLivingBase, par2);
     }
 
     /**
@@ -74,7 +74,7 @@ public class RenderChicken extends RenderLiving
      */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityChicken)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityChicken) par1Entity, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -82,7 +82,7 @@ public class RenderChicken extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityChicken)par1Entity);
+        return this.getEntityTexture((EntityChicken) par1Entity);
     }
 
     /**
@@ -93,6 +93,6 @@ public class RenderChicken extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityChicken)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityChicken) par1Entity, par2, par4, par6, par8, par9);
     }
 }

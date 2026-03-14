@@ -1,13 +1,14 @@
 package net.minecraft.world.biome;
 
-import java.util.Arrays;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+
+import java.util.Arrays;
+import java.util.Random;
 
 public class BiomeGenMesa extends BiomeGenBase
 {
@@ -16,8 +17,8 @@ public class BiomeGenMesa extends BiomeGenBase
     private NoiseGeneratorPerlin field_150623_aE;
     private NoiseGeneratorPerlin field_150624_aF;
     private NoiseGeneratorPerlin field_150625_aG;
-    private boolean field_150626_aH;
-    private boolean field_150620_aI;
+    private final boolean field_150626_aH;
+    private final boolean field_150620_aI;
     private static final String __OBFID = "CL_00000176";
 
     public BiomeGenMesa(int p_i45380_1_, boolean p_i45380_2_, boolean p_i45380_3_)
@@ -93,12 +94,12 @@ public class BiomeGenMesa extends BiomeGenBase
         {
             var11 = (p_150573_5_ & -16) + (p_150573_6_ & 15);
             var12 = (p_150573_6_ & -16) + (p_150573_5_ & 15);
-            double var13 = Math.min(Math.abs(p_150573_7_), this.field_150623_aE.func_151601_a((double)var11 * 0.25D, (double)var12 * 0.25D));
+            double var13 = Math.min(Math.abs(p_150573_7_), this.field_150623_aE.func_151601_a((double) var11 * 0.25D, (double) var12 * 0.25D));
 
             if (var13 > 0.0D)
             {
                 double var15 = 0.001953125D;
-                double var17 = Math.abs(this.field_150624_aF.func_151601_a((double)var11 * var15, (double)var12 * var15));
+                double var17 = Math.abs(this.field_150624_aF.func_151601_a((double) var11 * var15, (double) var12 * var15));
                 var25 = var13 * var13 * 2.5D;
                 double var19 = Math.ceil(var17 * 50.0D) + 14.0D;
 
@@ -116,7 +117,7 @@ public class BiomeGenMesa extends BiomeGenBase
         boolean var26 = true;
         Block var14 = Blocks.stained_hardened_clay;
         Block var27 = this.fillerBlock;
-        int var16 = (int)(p_150573_7_ / 3.0D + 3.0D + p_150573_2_.nextDouble() * 0.25D);
+        int var16 = (int) (p_150573_7_ / 3.0D + 3.0D + p_150573_2_.nextDouble() * 0.25D);
         boolean var28 = Math.cos(p_150573_7_ / 3.0D * Math.PI) > 0.0D;
         int var18 = -1;
         boolean var29 = false;
@@ -126,16 +127,15 @@ public class BiomeGenMesa extends BiomeGenBase
         {
             int var22 = (var12 * 16 + var11) * var20 + var21;
 
-            if ((p_150573_3_[var22] == null || p_150573_3_[var22].getMaterial() == Material.air) && var21 < (int)var25)
+            if ((p_150573_3_[var22] == null || p_150573_3_[var22].getMaterial() == Material.air) && var21 < (int) var25)
             {
                 p_150573_3_[var22] = Blocks.stone;
             }
 
-            if (var21 <= 0 + p_150573_2_.nextInt(5))
+            if (var21 <= p_150573_2_.nextInt(5))
             {
                 p_150573_3_[var22] = Blocks.bedrock;
-            }
-            else
+            } else
             {
                 Block var23 = p_150573_3_[var22];
 
@@ -153,8 +153,7 @@ public class BiomeGenMesa extends BiomeGenBase
                             {
                                 var14 = null;
                                 var27 = Blocks.stone;
-                            }
-                            else if (var21 >= 59 && var21 <= 64)
+                            } else if (var21 >= 59 && var21 <= 64)
                             {
                                 var14 = Blocks.stained_hardened_clay;
                                 var27 = this.fillerBlock;
@@ -175,13 +174,11 @@ public class BiomeGenMesa extends BiomeGenBase
                                     {
                                         p_150573_3_[var22] = Blocks.dirt;
                                         p_150573_4_[var22] = 1;
-                                    }
-                                    else
+                                    } else
                                     {
                                         p_150573_3_[var22] = Blocks.grass;
                                     }
-                                }
-                                else if (var21 > 66 + var16)
+                                } else if (var21 > 66 + var16)
                                 {
                                     var24 = 16;
 
@@ -191,8 +188,7 @@ public class BiomeGenMesa extends BiomeGenBase
                                         {
                                             var24 = this.func_150618_d(p_150573_5_, var21, p_150573_6_);
                                         }
-                                    }
-                                    else
+                                    } else
                                     {
                                         var24 = 1;
                                     }
@@ -200,21 +196,18 @@ public class BiomeGenMesa extends BiomeGenBase
                                     if (var24 < 16)
                                     {
                                         p_150573_3_[var22] = Blocks.stained_hardened_clay;
-                                        p_150573_4_[var22] = (byte)var24;
-                                    }
-                                    else
+                                        p_150573_4_[var22] = var24;
+                                    } else
                                     {
                                         p_150573_3_[var22] = Blocks.hardened_clay;
                                     }
-                                }
-                                else
+                                } else
                                 {
                                     p_150573_3_[var22] = this.topBlock;
-                                    p_150573_4_[var22] = (byte)this.field_150604_aj;
+                                    p_150573_4_[var22] = (byte) this.field_150604_aj;
                                     var29 = true;
                                 }
-                            }
-                            else
+                            } else
                             {
                                 p_150573_3_[var22] = var27;
 
@@ -223,8 +216,7 @@ public class BiomeGenMesa extends BiomeGenBase
                                     p_150573_4_[var22] = 1;
                                 }
                             }
-                        }
-                        else if (var18 > 0)
+                        } else if (var18 > 0)
                         {
                             --var18;
 
@@ -232,8 +224,7 @@ public class BiomeGenMesa extends BiomeGenBase
                             {
                                 p_150573_3_[var22] = Blocks.stained_hardened_clay;
                                 p_150573_4_[var22] = 1;
-                            }
-                            else
+                            } else
                             {
                                 var24 = this.func_150618_d(p_150573_5_, var21, p_150573_6_);
 
@@ -241,16 +232,14 @@ public class BiomeGenMesa extends BiomeGenBase
                                 {
                                     p_150573_3_[var22] = Blocks.stained_hardened_clay;
                                     p_150573_4_[var22] = var24;
-                                }
-                                else
+                                } else
                                 {
                                     p_150573_3_[var22] = Blocks.hardened_clay;
                                 }
                             }
                         }
                     }
-                }
-                else
+                } else
                 {
                     var18 = -1;
                 }
@@ -261,7 +250,7 @@ public class BiomeGenMesa extends BiomeGenBase
     private void func_150619_a(long p_150619_1_)
     {
         this.field_150621_aC = new byte[64];
-        Arrays.fill(this.field_150621_aC, (byte)16);
+        Arrays.fill(this.field_150621_aC, (byte) 16);
         Random var3 = new Random(p_150619_1_);
         this.field_150625_aG = new NoiseGeneratorPerlin(var3, 1);
         int var4;
@@ -347,7 +336,7 @@ public class BiomeGenMesa extends BiomeGenBase
 
     private byte func_150618_d(int p_150618_1_, int p_150618_2_, int p_150618_3_)
     {
-        int var4 = (int)Math.round(this.field_150625_aG.func_151601_a((double)p_150618_1_ * 1.0D / 512.0D, (double)p_150618_1_ * 1.0D / 512.0D) * 2.0D);
+        int var4 = (int) Math.round(this.field_150625_aG.func_151601_a((double) p_150618_1_ / 512.0D, (double) p_150618_1_ / 512.0D) * 2.0D);
         return this.field_150621_aC[(p_150618_2_ + var4 + 64) % 64];
     }
 
@@ -360,8 +349,7 @@ public class BiomeGenMesa extends BiomeGenBase
         {
             var2.func_150570_a(field_150591_g);
             var2.setBiomeName(this.biomeName + " M");
-        }
-        else
+        } else
         {
             var2.setBiomeName(this.biomeName + " (Bryce)");
         }

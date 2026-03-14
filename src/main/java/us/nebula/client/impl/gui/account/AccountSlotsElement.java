@@ -13,7 +13,6 @@ import us.nebula.client.util.render.HeadDownloader;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 /**
  * @author xgraza

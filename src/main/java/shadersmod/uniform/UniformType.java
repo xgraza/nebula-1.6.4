@@ -34,15 +34,15 @@ public enum UniformType
         switch (UniformType.NamelessClass534670990.$SwitchMap$shadersmod$uniform$UniformType[this.ordinal()])
         {
             case 1:
-                this.updateUniformBool((IExpressionBool)expression, (ShaderUniformInt)uniform);
+                this.updateUniformBool((IExpressionBool) expression, (ShaderUniformInt) uniform);
                 return;
 
             case 2:
-                this.updateUniformInt((IExpressionFloat)expression, (ShaderUniformInt)uniform);
+                this.updateUniformInt((IExpressionFloat) expression, (ShaderUniformInt) uniform);
                 return;
 
             case 3:
-                this.updateUniformFloat((IExpressionFloat)expression, (ShaderUniformFloat)uniform);
+                this.updateUniformFloat((IExpressionFloat) expression, (ShaderUniformFloat) uniform);
                 return;
 
             default:
@@ -59,7 +59,7 @@ public enum UniformType
 
     private void updateUniformInt(IExpressionFloat expression, ShaderUniformInt uniform)
     {
-        int val = (int)expression.eval();
+        int val = (int) expression.eval();
         uniform.setValue(val);
     }
 
@@ -104,32 +104,31 @@ public enum UniformType
         return null;
     }
 
-    static class NamelessClass534670990 {
+    static class NamelessClass534670990
+    {
         static final int[] $SwitchMap$shadersmod$uniform$UniformType = new int[UniformType.values().length];
 
-        static {
-            try {
+        static
+        {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$UniformType[UniformType.BOOL.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$UniformType[UniformType.INT.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
-            try {
-                $SwitchMap$shadersmod$uniform$UniformType[UniformType.FLOAT.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var1)
+            try
             {
-                ;
+                $SwitchMap$shadersmod$uniform$UniformType[UniformType.FLOAT.ordinal()] = 3;
+            } catch (NoSuchFieldError var1)
+            {
             }
         }
     }

@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,9 +10,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class BlockDirt extends Block
 {
-    public static final String[] field_150009_a = new String[] {"default", "default", "podzol"};
+    public static final String[] field_150009_a = new String[]{ "default", "default", "podzol" };
     private IIcon field_150008_b;
     private IIcon field_150010_M;
     private static final String __OBFID = "CL_00000228";

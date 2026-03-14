@@ -1,11 +1,17 @@
 package net.minecraft.util;
 
+import java.util.Objects;
+
 public class LongHashMap
 {
-    /** the array of all elements in the hash */
+    /**
+     * the array of all elements in the hash
+     */
     private transient LongHashMap.Entry[] hashArray = new LongHashMap.Entry[1024];
 
-    /** the number of elements in the hash array */
+    /**
+     * the number of elements in the hash array
+     */
     private transient int numHashElements;
 
     /**
@@ -18,13 +24,15 @@ public class LongHashMap
      */
     private final float percentUseable;
 
-    /** count of times elements have been added/removed */
+    /**
+     * count of times elements have been added/removed
+     */
     private transient volatile int modCount;
     private static final String __OBFID = "CL_00001492";
 
     public LongHashMap()
     {
-        this.capacity = (int)(0.75F * (float)this.hashArray.length);
+        this.capacity = (int) (0.75F * (float) this.hashArray.length);
         this.percentUseable = 0.75F;
     }
 
@@ -33,7 +41,7 @@ public class LongHashMap
      */
     private static int getHashedKey(long par0)
     {
-        return (int)(par0 ^ par0 >>> 27);
+        return (int) (par0 ^ par0 >>> 27);
     }
 
     /**
@@ -128,15 +136,14 @@ public class LongHashMap
         if (var3 == 1073741824)
         {
             this.capacity = Integer.MAX_VALUE;
-        }
-        else
+        } else
         {
             LongHashMap.Entry[] var4 = new LongHashMap.Entry[par1];
             this.copyHashTableTo(var4);
             this.hashArray = var4;
-            float var10001 = (float)par1;
+            float var10001 = (float) par1;
             this.getClass();
-            this.capacity = (int)(var10001 * 0.75F);
+            this.capacity = (int) (var10001 * 0.75F);
         }
     }
 
@@ -202,8 +209,7 @@ public class LongHashMap
                 if (var5 == var6)
                 {
                     this.hashArray[var4] = var7;
-                }
-                else
+                } else
                 {
                     var5.nextEntry = var7;
                 }
@@ -243,7 +249,7 @@ public class LongHashMap
             }
         }
 
-        return 1.0D * (double)countValid / (double)this.numHashElements;
+        return (double) countValid / (double) this.numHashElements;
     }
 
     static class Entry
@@ -277,22 +283,18 @@ public class LongHashMap
             if (!(par1Obj instanceof LongHashMap.Entry))
             {
                 return false;
-            }
-            else
+            } else
             {
-                LongHashMap.Entry var2 = (LongHashMap.Entry)par1Obj;
+                LongHashMap.Entry var2 = (LongHashMap.Entry) par1Obj;
                 Long var3 = Long.valueOf(this.getKey());
                 Long var4 = Long.valueOf(var2.getKey());
 
-                if (var3 == var4 || var3 != null && var3.equals(var4))
+                if (Objects.equals(var3, var4))
                 {
                     Object var5 = this.getValue();
                     Object var6 = var2.getValue();
 
-                    if (var5 == var6 || var5 != null && var5.equals(var6))
-                    {
-                        return true;
-                    }
+                    return Objects.equals(var5, var6);
                 }
 
                 return false;

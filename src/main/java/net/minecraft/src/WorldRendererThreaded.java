@@ -1,7 +1,5 @@
 package net.minecraft.src;
 
-import java.util.HashSet;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -20,13 +18,16 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 
+import java.util.HashSet;
+import java.util.List;
+
 public class WorldRendererThreaded extends WorldRenderer
 {
     private int glRenderListWork;
-    private int glRenderListBoundingBox;
+    private final int glRenderListBoundingBox;
     public boolean[] tempSkipRenderPass = new boolean[2];
     public TesselatorVertexState tempVertexState;
-    private Tessellator tessellatorWork = null;
+    private final Tessellator tessellatorWork = null;
 
     public WorldRendererThreaded(World par1World, List par2List, int par3, int par4, int par5, int par6)
     {
@@ -53,7 +54,7 @@ public class WorldRendererThreaded extends WorldRenderer
     {
         if (this.worldObj != null)
         {
-            this.updateRenderer((IWrUpdateListener)null);
+            this.updateRenderer((IWrUpdateListener) null);
             this.finishUpdate();
         }
     }
@@ -174,8 +175,7 @@ public class WorldRendererThreaded extends WorldRenderer
 
                         this.tessellator = Tessellator.instance;
                         this.postRenderBlocksThreaded(renderPass, this.renderGlobal.renderViewEntity);
-                    }
-                    else
+                    } else
                     {
                         hasRenderedBlocks = false;
                     }
@@ -208,9 +208,8 @@ public class WorldRendererThreaded extends WorldRenderer
         if (Config.isFastRender())
         {
             this.tessellator.startDrawingQuads();
-            this.tessellator.setTranslation((double)(-globalChunkOffsetX), 0.0D, (double)(-globalChunkOffsetZ));
-        }
-        else
+            this.tessellator.setTranslation(-globalChunkOffsetX, 0.0D, -globalChunkOffsetZ);
+        } else
         {
             GL11.glPushMatrix();
             this.setupGLTranslation();
@@ -219,7 +218,7 @@ public class WorldRendererThreaded extends WorldRenderer
             GL11.glScalef(var2, var2, var2);
             GL11.glTranslatef(8.0F, 8.0F, 8.0F);
             this.tessellator.startDrawingQuads();
-            this.tessellator.setTranslation((double)(-this.posX), (double)(-this.posY), (double)(-this.posZ));
+            this.tessellator.setTranslation(-this.posX, -this.posY, -this.posZ);
         }
     }
 
@@ -227,7 +226,7 @@ public class WorldRendererThreaded extends WorldRenderer
     {
         if (Config.isTranslucentBlocksFancy() && renderpass == 1 && !this.tempSkipRenderPass[renderpass])
         {
-            this.tempVertexState = this.tessellator.getVertexState((float)entityLiving.posX, (float)entityLiving.posY, (float)entityLiving.posZ);
+            this.tempVertexState = this.tessellator.getVertexState((float) entityLiving.posX, (float) entityLiving.posY, (float) entityLiving.posZ);
         }
 
         this.bytesDrawn += this.tessellator.draw();
@@ -268,7 +267,7 @@ public class WorldRendererThreaded extends WorldRenderer
         if (this.needsBoxUpdate && !this.skipAllRenderPasses())
         {
             GL11.glNewList(this.glRenderListBoundingBox, GL11.GL_COMPILE);
-            RenderItem.renderAABB(AxisAlignedBB.getAABBPool().getAABB((double)this.posXClip, (double)this.posYClip, (double)this.posZClip, (double)(this.posXClip + 16), (double)(this.posYClip + 16), (double)(this.posZClip + 16)));
+            RenderItem.renderAABB(AxisAlignedBB.getAABBPool().getAABB(this.posXClip, this.posYClip, this.posZClip, this.posXClip + 16, this.posYClip + 16, this.posZClip + 16));
             GL11.glEndList();
             this.needsBoxUpdate = false;
         }

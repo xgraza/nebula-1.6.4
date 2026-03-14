@@ -9,7 +9,7 @@ public class ExtendedBlockStorage
     /**
      * Contains the bottom-most Y block represented by this ExtendedBlockStorage. Typically a multiple of 16.
      */
-    private int yBase;
+    private final int yBase;
 
     /**
      * A total count of the number of non-air blocks in this block storage's Chunk.
@@ -37,10 +37,14 @@ public class ExtendedBlockStorage
      */
     private NibbleArray blockMetadataArray;
 
-    /** The NibbleArray containing a block of Block-light data. */
+    /**
+     * The NibbleArray containing a block of Block-light data.
+     */
     private NibbleArray blocklightArray;
 
-    /** The NibbleArray containing a block of Sky-light data. */
+    /**
+     * The NibbleArray containing a block of Sky-light data.
+     */
     private NibbleArray skylightArray;
     private static final String __OBFID = "CL_00000375";
 
@@ -101,7 +105,7 @@ public class ExtendedBlockStorage
         }
 
         int var7 = Block.getIdFromBlock(p_150818_4_);
-        this.blockLSBArray[p_150818_2_ << 8 | p_150818_3_ << 4 | p_150818_1_] = (byte)(var7 & 255);
+        this.blockLSBArray[p_150818_2_ << 8 | p_150818_3_ << 4 | p_150818_1_] = (byte) (var7 & 255);
 
         if (var7 > 255)
         {
@@ -111,8 +115,7 @@ public class ExtendedBlockStorage
             }
 
             this.blockMSBArray.set(p_150818_1_, p_150818_2_, p_150818_3_, (var7 & 3840) >> 8);
-        }
-        else if (this.blockMSBArray != null)
+        } else if (this.blockMSBArray != null)
         {
             this.blockMSBArray.set(p_150818_1_, p_150818_2_, p_150818_3_, 0);
         }

@@ -414,10 +414,10 @@ public class GuiScreen extends Gui
         float var3 = 32.0F;
         var2.startDrawingQuads();
         var2.setColorOpaque_I(4210752);
-        var2.addVertexWithUV(0.0D, (double) this.height, 0.0D, 0.0D, (double) ((float) this.height / var3 + (float) p_146278_1_));
-        var2.addVertexWithUV((double) this.width, (double) this.height, 0.0D, (double) ((float) this.width / var3), (double) ((float) this.height / var3 + (float) p_146278_1_));
-        var2.addVertexWithUV((double) this.width, 0.0D, 0.0D, (double) ((float) this.width / var3), (double) p_146278_1_);
-        var2.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, (double) p_146278_1_);
+        var2.addVertexWithUV(0.0D, this.height, 0.0D, 0.0D, (float) this.height / var3 + (float) p_146278_1_);
+        var2.addVertexWithUV(this.width, this.height, 0.0D, (float) this.width / var3, (float) this.height / var3 + (float) p_146278_1_);
+        var2.addVertexWithUV(this.width, 0.0D, 0.0D, (float) this.width / var3, p_146278_1_);
+        var2.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, p_146278_1_);
         var2.draw();
     }
 

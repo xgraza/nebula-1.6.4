@@ -32,7 +32,7 @@ public class RenderGhast extends RenderLiving
      */
     protected void preRenderCallback(EntityGhast par1EntityGhast, float par2)
     {
-        float var4 = ((float)par1EntityGhast.prevAttackCounter + (float)(par1EntityGhast.attackCounter - par1EntityGhast.prevAttackCounter) * par2) / 20.0F;
+        float var4 = ((float) par1EntityGhast.prevAttackCounter + (float) (par1EntityGhast.attackCounter - par1EntityGhast.prevAttackCounter) * par2) / 20.0F;
 
         if (var4 < 0.0F)
         {
@@ -52,7 +52,7 @@ public class RenderGhast extends RenderLiving
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntityGhast)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntityGhast) par1EntityLivingBase, par2);
     }
 
     /**
@@ -60,6 +60,6 @@ public class RenderGhast extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityGhast)par1Entity);
+        return this.getEntityTexture((EntityGhast) par1Entity);
     }
 }

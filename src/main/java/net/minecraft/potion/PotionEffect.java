@@ -6,22 +6,34 @@ import us.nebula.client.impl.cheat.exploit.PotionSaverCheat;
 
 public class PotionEffect
 {
-    /** ID value of the potion this effect matches. */
-    private int potionID;
+    /**
+     * ID value of the potion this effect matches.
+     */
+    private final int potionID;
 
-    /** The duration of the potion effect */
+    /**
+     * The duration of the potion effect
+     */
     private int duration;
 
-    /** The amplifier of the potion effect */
+    /**
+     * The amplifier of the potion effect
+     */
     private int amplifier;
 
-    /** Whether the potion is a splash potion */
+    /**
+     * Whether the potion is a splash potion
+     */
     private boolean isSplashPotion;
 
-    /** Whether the potion effect came from a beacon */
+    /**
+     * Whether the potion effect came from a beacon
+     */
     private boolean isAmbient;
 
-    /** True if potion effect duration is at maximum, false otherwise. */
+    /**
+     * True if potion effect duration is at maximum, false otherwise.
+     */
     private boolean isPotionDurationMax;
     private static final String __OBFID = "CL_00001529";
 
@@ -65,12 +77,10 @@ public class PotionEffect
         {
             this.amplifier = par1PotionEffect.amplifier;
             this.duration = par1PotionEffect.duration;
-        }
-        else if (par1PotionEffect.amplifier == this.amplifier && this.duration < par1PotionEffect.duration)
+        } else if (par1PotionEffect.amplifier == this.amplifier && this.duration < par1PotionEffect.duration)
         {
             this.duration = par1PotionEffect.duration;
-        }
-        else if (!par1PotionEffect.isAmbient && this.isAmbient)
+        } else if (!par1PotionEffect.isAmbient && this.isAmbient)
         {
             this.isAmbient = par1PotionEffect.isAmbient;
         }
@@ -161,8 +171,7 @@ public class PotionEffect
         if (this.getAmplifier() > 0)
         {
             var1 = this.getEffectName() + " x " + (this.getAmplifier() + 1) + ", Duration: " + this.getDuration();
-        }
-        else
+        } else
         {
             var1 = this.getEffectName() + ", Duration: " + this.getDuration();
         }
@@ -180,10 +189,9 @@ public class PotionEffect
         if (!(par1Obj instanceof PotionEffect))
         {
             return false;
-        }
-        else
+        } else
         {
-            PotionEffect var2 = (PotionEffect)par1Obj;
+            PotionEffect var2 = (PotionEffect) par1Obj;
             return this.potionID == var2.potionID && this.amplifier == var2.amplifier && this.duration == var2.duration && this.isSplashPotion == var2.isSplashPotion && this.isAmbient == var2.isAmbient;
         }
     }
@@ -193,8 +201,8 @@ public class PotionEffect
      */
     public NBTTagCompound writeCustomPotionEffectToNBT(NBTTagCompound par1NBTTagCompound)
     {
-        par1NBTTagCompound.setByte("Id", (byte)this.getPotionID());
-        par1NBTTagCompound.setByte("Amplifier", (byte)this.getAmplifier());
+        par1NBTTagCompound.setByte("Id", (byte) this.getPotionID());
+        par1NBTTagCompound.setByte("Amplifier", (byte) this.getAmplifier());
         par1NBTTagCompound.setInteger("Duration", this.getDuration());
         par1NBTTagCompound.setBoolean("Ambient", this.getIsAmbient());
         return par1NBTTagCompound;
@@ -213,8 +221,7 @@ public class PotionEffect
             int var3 = par0NBTTagCompound.getInteger("Duration");
             boolean var4 = par0NBTTagCompound.getBoolean("Ambient");
             return new PotionEffect(var1, var3, var2, var4);
-        }
-        else
+        } else
         {
             return null;
         }

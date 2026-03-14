@@ -1,12 +1,5 @@
 package net.minecraft.enchantment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,9 +11,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.WeightedRandom;
 
+import java.util.*;
+
 public class EnchantmentHelper
 {
-    /** Is the random seed of enchantment effects. */
+    /**
+     * Is the random seed of enchantment effects.
+     */
     private static final Random enchantmentRand = new Random();
 
     /**
@@ -44,16 +41,14 @@ public class EnchantmentHelper
         if (par1ItemStack == null)
         {
             return 0;
-        }
-        else
+        } else
         {
             NBTTagList var2 = par1ItemStack.getEnchantmentTagList();
 
             if (var2 == null)
             {
                 return 0;
-            }
-            else
+            } else
             {
                 for (int var3 = 0; var3 < var2.tagCount(); ++var3)
                 {
@@ -102,15 +97,15 @@ public class EnchantmentHelper
 
         while (var3.hasNext())
         {
-            int var4 = ((Integer)var3.next()).intValue();
+            int var4 = ((Integer) var3.next()).intValue();
             NBTTagCompound var5 = new NBTTagCompound();
-            var5.setShort("id", (short)var4);
-            var5.setShort("lvl", (short)((Integer)par0Map.get(Integer.valueOf(var4))).intValue());
+            var5.setShort("id", (short) var4);
+            var5.setShort("lvl", (short) ((Integer) par0Map.get(Integer.valueOf(var4))).intValue());
             var2.appendTag(var5);
 
             if (par1ItemStack.getItem() == Items.enchanted_book)
             {
-                Items.enchanted_book.addEnchantment(par1ItemStack, new EnchantmentData(var4, ((Integer)par0Map.get(Integer.valueOf(var4))).intValue()));
+                Items.enchanted_book.addEnchantment(par1ItemStack, new EnchantmentData(var4, ((Integer) par0Map.get(Integer.valueOf(var4))).intValue()));
             }
         }
 
@@ -120,8 +115,7 @@ public class EnchantmentHelper
             {
                 par1ItemStack.setTagInfo("ench", var2);
             }
-        }
-        else if (par1ItemStack.hasTagCompound())
+        } else if (par1ItemStack.hasTagCompound())
         {
             par1ItemStack.getTagCompound().removeTag("ench");
         }
@@ -135,8 +129,7 @@ public class EnchantmentHelper
         if (par1ArrayOfItemStack == null)
         {
             return 0;
-        }
-        else
+        } else
         {
             int var2 = 0;
             ItemStack[] var3 = par1ArrayOfItemStack;
@@ -350,8 +343,7 @@ public class EnchantmentHelper
         if (var5 <= 0)
         {
             return 0;
-        }
-        else
+        } else
         {
             if (par2 > 15)
             {
@@ -382,13 +374,12 @@ public class EnchantmentHelper
 
             while (var5.hasNext())
             {
-                EnchantmentData var6 = (EnchantmentData)var5.next();
+                EnchantmentData var6 = (EnchantmentData) var5.next();
 
                 if (var4)
                 {
                     Items.enchanted_book.addEnchantment(par1ItemStack, var6);
-                }
-                else
+                } else
                 {
                     par1ItemStack.addEnchantment(var6.enchantmentobj, var6.enchantmentLevel);
                 }
@@ -410,14 +401,13 @@ public class EnchantmentHelper
         if (var4 <= 0)
         {
             return null;
-        }
-        else
+        } else
         {
             var4 /= 2;
             var4 = 1 + par0Random.nextInt((var4 >> 1) + 1) + par0Random.nextInt((var4 >> 1) + 1);
             int var5 = var4 + par2;
             float var6 = (par0Random.nextFloat() + par0Random.nextFloat() - 1.0F) * 0.15F;
-            int var7 = (int)((float)var5 * (1.0F + var6) + 0.5F);
+            int var7 = (int) ((float) var5 * (1.0F + var6) + 0.5F);
 
             if (var7 < 1)
             {
@@ -429,7 +419,7 @@ public class EnchantmentHelper
 
             if (var9 != null && !var9.isEmpty())
             {
-                EnchantmentData var10 = (EnchantmentData)WeightedRandom.getRandomItem(par0Random, var9.values());
+                EnchantmentData var10 = (EnchantmentData) WeightedRandom.getRandomItem(par0Random, var9.values());
 
                 if (var10 != null)
                 {
@@ -442,7 +432,7 @@ public class EnchantmentHelper
 
                         while (var12.hasNext())
                         {
-                            Integer var13 = (Integer)var12.next();
+                            Integer var13 = (Integer) var12.next();
                             boolean var14 = true;
                             Iterator var15 = var8.iterator();
 
@@ -450,7 +440,7 @@ public class EnchantmentHelper
                             {
                                 if (var15.hasNext())
                                 {
-                                    EnchantmentData var16 = (EnchantmentData)var15.next();
+                                    EnchantmentData var16 = (EnchantmentData) var15.next();
 
                                     if (var16.enchantmentobj.canApplyTogether(Enchantment.enchantmentsList[var13.intValue()]))
                                     {
@@ -471,7 +461,7 @@ public class EnchantmentHelper
 
                         if (!var9.isEmpty())
                         {
-                            EnchantmentData var17 = (EnchantmentData)WeightedRandom.getRandomItem(par0Random, var9.values());
+                            EnchantmentData var17 = (EnchantmentData) WeightedRandom.getRandomItem(par0Random, var9.values());
                             var8.add(var17);
                         }
                     }
@@ -524,7 +514,9 @@ public class EnchantmentHelper
         public DamageSource source;
         private static final String __OBFID = "CL_00000114";
 
-        private ModifierDamage() {}
+        private ModifierDamage()
+        {
+        }
 
         public void calculateModifier(Enchantment par1Enchantment, int par2)
         {
@@ -543,7 +535,9 @@ public class EnchantmentHelper
         public EntityLivingBase entityLiving;
         private static final String __OBFID = "CL_00000112";
 
-        private ModifierLiving() {}
+        private ModifierLiving()
+        {
+        }
 
         public void calculateModifier(Enchantment par1Enchantment, int par2)
         {
@@ -567,7 +561,9 @@ public class EnchantmentHelper
         public Entity field_151365_b;
         private static final String __OBFID = "CL_00000109";
 
-        private DamageIterator() {}
+        private DamageIterator()
+        {
+        }
 
         public void calculateModifier(Enchantment par1Enchantment, int par2)
         {
@@ -586,7 +582,9 @@ public class EnchantmentHelper
         public Entity field_151363_b;
         private static final String __OBFID = "CL_00000110";
 
-        private HurtIterator() {}
+        private HurtIterator()
+        {
+        }
 
         public void calculateModifier(Enchantment par1Enchantment, int par2)
         {

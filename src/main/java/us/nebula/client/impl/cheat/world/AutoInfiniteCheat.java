@@ -188,7 +188,7 @@ public final class AutoInfiniteCheat extends Cheat
         }
         final int tntSlot = InventoryUtil.getHotbarSlot(
                 (stack) -> stack.getItem() instanceof ItemBlock
-                        && ((ItemBlock)stack.getItem()).getBlock() instanceof BlockTNT);
+                        && ((ItemBlock) stack.getItem()).getBlock() instanceof BlockTNT);
         if (tntSlot == -1)
         {
             Nebula.INSTANCE.getToastManager().error(
@@ -241,7 +241,7 @@ public final class AutoInfiniteCheat extends Cheat
         final Item item = itemStack.getItem();
         if (item instanceof ItemBlock)
         {
-            final Block block = ((ItemBlock)item).getBlock();
+            final Block block = ((ItemBlock) item).getBlock();
             return block instanceof BlockBed
                     || block instanceof BlockDoor
                     || block instanceof BlockTrapDoor

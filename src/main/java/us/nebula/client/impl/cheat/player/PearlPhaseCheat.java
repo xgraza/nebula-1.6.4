@@ -95,7 +95,7 @@ public final class PearlPhaseCheat extends Cheat implements RotationConfirmation
             final BlockPos neighbor = BlockUtil.offset(pos, facing);
             if (PlayerUtil.isPlayerCollided(neighbor))
             {
-                angles = new float[] {
+                angles = new float[]{
                         MathHelper.wrapAngleTo180_float(
                                 BlockUtil.getHorizontalFacing(facing) * 90.0f),
                         85.0f };

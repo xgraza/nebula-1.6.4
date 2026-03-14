@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,6 +13,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockEnderChest extends BlockContainer
 {
@@ -68,7 +69,7 @@ public class BlockEnderChest extends BlockContainer
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
         byte var7 = 0;
-        int var8 = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int var8 = MathHelper.floor_double((double) (p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
         if (var8 == 0)
         {
@@ -99,26 +100,23 @@ public class BlockEnderChest extends BlockContainer
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
         InventoryEnderChest var10 = p_149727_5_.getInventoryEnderChest();
-        TileEntityEnderChest var11 = (TileEntityEnderChest)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+        TileEntityEnderChest var11 = (TileEntityEnderChest) p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
 
         if (var10 != null && var11 != null)
         {
             if (p_149727_1_.getBlock(p_149727_2_, p_149727_3_ + 1, p_149727_4_).isNormalCube())
             {
                 return true;
-            }
-            else if (p_149727_1_.isClient)
+            } else if (p_149727_1_.isClient)
             {
                 return true;
-            }
-            else
+            } else
             {
                 var10.func_146031_a(var11);
                 p_149727_5_.displayGUIChest(var10);
                 return true;
             }
-        }
-        else
+        } else
         {
             return true;
         }
@@ -139,21 +137,21 @@ public class BlockEnderChest extends BlockContainer
     {
         for (int var6 = 0; var6 < 3; ++var6)
         {
-            double var10000 = (double)((float)p_149734_2_ + p_149734_5_.nextFloat());
-            double var9 = (double)((float)p_149734_3_ + p_149734_5_.nextFloat());
-            var10000 = (double)((float)p_149734_4_ + p_149734_5_.nextFloat());
+            double var10000 = (float) p_149734_2_ + p_149734_5_.nextFloat();
+            double var9 = (float) p_149734_3_ + p_149734_5_.nextFloat();
+            var10000 = (float) p_149734_4_ + p_149734_5_.nextFloat();
             double var13 = 0.0D;
             double var15 = 0.0D;
             double var17 = 0.0D;
             int var19 = p_149734_5_.nextInt(2) * 2 - 1;
             int var20 = p_149734_5_.nextInt(2) * 2 - 1;
-            var13 = ((double)p_149734_5_.nextFloat() - 0.5D) * 0.125D;
-            var15 = ((double)p_149734_5_.nextFloat() - 0.5D) * 0.125D;
-            var17 = ((double)p_149734_5_.nextFloat() - 0.5D) * 0.125D;
-            double var11 = (double)p_149734_4_ + 0.5D + 0.25D * (double)var20;
-            var17 = (double)(p_149734_5_.nextFloat() * 1.0F * (float)var20);
-            double var7 = (double)p_149734_2_ + 0.5D + 0.25D * (double)var19;
-            var13 = (double)(p_149734_5_.nextFloat() * 1.0F * (float)var19);
+            var13 = ((double) p_149734_5_.nextFloat() - 0.5D) * 0.125D;
+            var15 = ((double) p_149734_5_.nextFloat() - 0.5D) * 0.125D;
+            var17 = ((double) p_149734_5_.nextFloat() - 0.5D) * 0.125D;
+            double var11 = (double) p_149734_4_ + 0.5D + 0.25D * (double) var20;
+            var17 = p_149734_5_.nextFloat() * 1.0F * (float) var20;
+            double var7 = (double) p_149734_2_ + 0.5D + 0.25D * (double) var19;
+            var13 = p_149734_5_.nextFloat() * 1.0F * (float) var19;
             p_149734_1_.spawnParticle("portal", var7, var9, var11, var13, var15, var17);
         }
     }

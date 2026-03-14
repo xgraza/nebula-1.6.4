@@ -1,6 +1,5 @@
 package net.minecraft.item;
 
-import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
@@ -8,6 +7,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+
+import java.util.List;
 
 public class ItemFireworkCharge extends Item
 {
@@ -27,21 +28,19 @@ public class ItemFireworkCharge extends Item
         if (par2 != 1)
         {
             return super.getColorFromItemStack(par1ItemStack, par2);
-        }
-        else
+        } else
         {
             NBTBase var3 = func_150903_a(par1ItemStack, "Colors");
 
             if (var3 != null && var3 instanceof NBTTagIntArray)
             {
-                NBTTagIntArray var4 = (NBTTagIntArray)var3;
+                NBTTagIntArray var4 = (NBTTagIntArray) var3;
                 int[] var5 = var4.func_150302_c();
 
                 if (var5.length == 1)
                 {
                     return var5[0];
-                }
-                else
+                } else
                 {
                     int var6 = 0;
                     int var7 = 0;
@@ -62,8 +61,7 @@ public class ItemFireworkCharge extends Item
                     var8 /= var5.length;
                     return var6 << 16 | var7 << 8 | var8;
                 }
-            }
-            else
+            } else
             {
                 return 9079434;
             }
@@ -113,8 +111,7 @@ public class ItemFireworkCharge extends Item
         if (var2 >= 0 && var2 <= 4)
         {
             p_150902_1_.add(StatCollector.translateToLocal("item.fireworksCharge.type." + var2).trim());
-        }
-        else
+        } else
         {
             p_150902_1_.add(StatCollector.translateToLocal("item.fireworksCharge.type").trim());
         }

@@ -11,8 +11,10 @@ public class RenderGiantZombie extends RenderLiving
 {
     private static final ResourceLocation zombieTextures = new ResourceLocation("textures/entity/zombie/zombie.png");
 
-    /** Scale of the model to use */
-    private float scale;
+    /**
+     * Scale of the model to use
+     */
+    private final float scale;
     private static final String __OBFID = "CL_00000998";
 
     public RenderGiantZombie(ModelBase par1ModelBase, float par2, float par3)
@@ -44,7 +46,7 @@ public class RenderGiantZombie extends RenderLiving
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntityGiantZombie)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntityGiantZombie) par1EntityLivingBase, par2);
     }
 
     /**
@@ -52,6 +54,6 @@ public class RenderGiantZombie extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityGiantZombie)par1Entity);
+        return this.getEntityTexture((EntityGiantZombie) par1Entity);
     }
 }

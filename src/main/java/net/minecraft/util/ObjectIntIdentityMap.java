@@ -3,14 +3,15 @@ package net.minecraft.util;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterators;
 import gnu.trove.map.hash.TIntIntHashMap;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class ObjectIntIdentityMap implements IObjectIntIterable
 {
-    private TIntIntHashMap field_148749_a = new TIntIntHashMap(256, 0.5F, -1, -1);
-    private List field_148748_b = new ArrayList();
+    private final TIntIntHashMap field_148749_a = new TIntIntHashMap(256, 0.5F, -1, -1);
+    private final List field_148748_b = new ArrayList();
     private static final String __OBFID = "CL_00001203";
 
     public void func_148746_a(Object p_148746_1_, int p_148746_2_)
@@ -19,7 +20,7 @@ public class ObjectIntIdentityMap implements IObjectIntIterable
 
         while (this.field_148748_b.size() <= p_148746_2_)
         {
-            this.field_148748_b.add((Object)null);
+            this.field_148748_b.add(null);
         }
 
         this.field_148748_b.set(p_148746_2_, p_148746_1_);

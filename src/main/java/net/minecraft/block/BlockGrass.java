@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,6 +11,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Random;
 
 public class BlockGrass extends Block implements IGrowable
 {
@@ -41,12 +42,10 @@ public class BlockGrass extends Block implements IGrowable
         if (p_149673_5_ == 1)
         {
             return this.field_149991_b;
-        }
-        else if (p_149673_5_ == 0)
+        } else if (p_149673_5_ == 0)
         {
             return Blocks.dirt.getBlockTextureFromSide(p_149673_5_);
-        }
-        else
+        } else
         {
             Material var6 = p_149673_1_.getBlock(p_149673_2_, p_149673_3_ + 1, p_149673_4_).getMaterial();
             return var6 != Material.field_151597_y && var6 != Material.craftedSnow ? this.blockIcon : this.field_149993_M;
@@ -110,8 +109,7 @@ public class BlockGrass extends Block implements IGrowable
             if (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) < 4 && p_149674_1_.getBlock(p_149674_2_, p_149674_3_ + 1, p_149674_4_).getLightOpacity() > 2)
             {
                 p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, Blocks.dirt);
-            }
-            else if (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) >= 9)
+            } else if (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) >= 9)
             {
                 for (int var6 = 0; var6 < 4; ++var6)
                 {
@@ -173,8 +171,7 @@ public class BlockGrass extends Block implements IGrowable
                         ++var10;
                         continue;
                     }
-                }
-                else if (p_149853_1_.getBlock(var7, var8, var9).blockMaterial == Material.air)
+                } else if (p_149853_1_.getBlock(var7, var8, var9).blockMaterial == Material.air)
                 {
                     if (p_149853_2_.nextInt(8) != 0)
                     {
@@ -182,8 +179,7 @@ public class BlockGrass extends Block implements IGrowable
                         {
                             p_149853_1_.setBlock(var7, var8, var9, Blocks.tallgrass, 1, 3);
                         }
-                    }
-                    else
+                    } else
                     {
                         String var13 = p_149853_1_.getBiomeGenForCoords(var7, var9).func_150572_a(p_149853_2_, var7, var8, var9);
                         logger.debug("Flower in " + p_149853_1_.getBiomeGenForCoords(var7, var9).biomeName + ": " + var13);

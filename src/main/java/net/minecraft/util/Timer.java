@@ -4,7 +4,9 @@ import net.minecraft.client.Minecraft;
 
 public class Timer
 {
-    /** The number of timer ticks per second of real time */
+    /**
+     * The number of timer ticks per second of real time
+     */
     float ticksPerSecond;
 
     /**
@@ -65,7 +67,7 @@ public class Timer
         long var1 = Minecraft.getSystemTime();
         long var3 = var1 - this.lastSyncSysClock;
         long var5 = System.nanoTime() / 1000000L;
-        double var7 = (double)var5 / 1000.0D;
+        double var7 = (double) var5 / 1000.0D;
 
         if (var3 <= 1000L && var3 >= 0L)
         {
@@ -74,7 +76,7 @@ public class Timer
             if (this.field_74285_i > 1000L)
             {
                 long var9 = var5 - this.lastSyncHRClock;
-                double var11 = (double)this.field_74285_i / (double)var9;
+                double var11 = (double) this.field_74285_i / (double) var9;
                 this.timeSyncAdjustment += (var11 - this.timeSyncAdjustment) * 0.20000000298023224D;
                 this.lastSyncHRClock = var5;
                 this.field_74285_i = 0L;
@@ -84,8 +86,7 @@ public class Timer
             {
                 this.lastSyncHRClock = var5;
             }
-        }
-        else
+        } else
         {
             this.lastHRTime = var7;
         }
@@ -104,9 +105,9 @@ public class Timer
             var13 = 1.0D;
         }
 
-        this.elapsedPartialTicks = (float)((double)this.elapsedPartialTicks + var13 * (double)this.timerSpeed * (double)this.ticksPerSecond);
-        this.elapsedTicks = (int)this.elapsedPartialTicks;
-        this.elapsedPartialTicks -= (float)this.elapsedTicks;
+        this.elapsedPartialTicks = (float) ((double) this.elapsedPartialTicks + var13 * (double) this.timerSpeed * (double) this.ticksPerSecond);
+        this.elapsedTicks = (int) this.elapsedPartialTicks;
+        this.elapsedPartialTicks -= (float) this.elapsedTicks;
 
         if (this.elapsedTicks > 10)
         {

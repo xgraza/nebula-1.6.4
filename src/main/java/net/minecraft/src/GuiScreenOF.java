@@ -1,13 +1,16 @@
 package net.minecraft.src;
 
-import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiVideoSettings;
 
+import java.util.List;
+
 public class GuiScreenOF extends GuiScreen
 {
-    protected void actionPerformedRightClick(GuiButton button) {}
+    protected void actionPerformedRightClick(GuiButton button)
+    {
+    }
 
     /**
      * Called when the mouse is clicked.
@@ -32,7 +35,7 @@ public class GuiScreenOF extends GuiScreen
     {
         for (int i = 0; i < listButtons.size(); ++i)
         {
-            GuiButton btn = (GuiButton)listButtons.get(i);
+            GuiButton btn = listButtons.get(i);
 
             if (btn.drawButton)
             {

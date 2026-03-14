@@ -37,8 +37,8 @@ public class ClearWater
 
                 if (rve != null)
                 {
-                    int cViewX = (int)rve.posX / 16;
-                    int cViewZ = (int)rve.posZ / 16;
+                    int cViewX = (int) rve.posX / 16;
+                    int cViewZ = (int) rve.posZ / 16;
                     int cXMin = cViewX - 512;
                     int cXMax = cViewX + 512;
                     int cZMin = cViewZ - 512;

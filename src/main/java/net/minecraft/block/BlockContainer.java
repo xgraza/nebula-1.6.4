@@ -29,6 +29,6 @@ public abstract class BlockContainer extends Block implements ITileEntityProvide
     {
         super.onBlockEventReceived(p_149696_1_, p_149696_2_, p_149696_3_, p_149696_4_, p_149696_5_, p_149696_6_);
         TileEntity var7 = p_149696_1_.getTileEntity(p_149696_2_, p_149696_3_, p_149696_4_);
-        return var7 != null ? var7.receiveClientEvent(p_149696_5_, p_149696_6_) : false;
+        return var7 != null && var7.receiveClientEvent(p_149696_5_, p_149696_6_);
     }
 }

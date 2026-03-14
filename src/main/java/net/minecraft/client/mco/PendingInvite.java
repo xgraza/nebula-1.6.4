@@ -19,10 +19,8 @@ public class PendingInvite extends ValueObject
             var1.field_148776_a = p_148773_0_.get("invitationId").getAsString();
             var1.field_148774_b = p_148773_0_.get("worldName").getAsString();
             var1.field_148775_c = p_148773_0_.get("worldOwnerName").getAsString();
-        }
-        catch (Exception var3)
+        } catch (Exception var3)
         {
-            ;
         }
 
         return var1;

@@ -14,8 +14,8 @@ public class TileEntitySkull extends TileEntity
     public void writeToNBT(NBTTagCompound p_145841_1_)
     {
         super.writeToNBT(p_145841_1_);
-        p_145841_1_.setByte("SkullType", (byte)(this.field_145908_a & 255));
-        p_145841_1_.setByte("Rot", (byte)(this.field_145910_i & 255));
+        p_145841_1_.setByte("SkullType", (byte) (this.field_145908_a & 255));
+        p_145841_1_.setByte("Rot", (byte) (this.field_145910_i & 255));
         p_145841_1_.setString("ExtraType", this.field_145909_j);
     }
 

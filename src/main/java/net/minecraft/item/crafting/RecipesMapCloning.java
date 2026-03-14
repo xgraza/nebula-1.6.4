@@ -31,8 +31,7 @@ public class RecipesMapCloning implements IRecipe
                     }
 
                     var4 = var6;
-                }
-                else
+                } else
                 {
                     if (var6.getItem() != Items.map)
                     {
@@ -69,8 +68,7 @@ public class RecipesMapCloning implements IRecipe
                     }
 
                     var3 = var5;
-                }
-                else
+                } else
                 {
                     if (var5.getItem() != Items.map)
                     {
@@ -92,8 +90,7 @@ public class RecipesMapCloning implements IRecipe
             }
 
             return var6;
-        }
-        else
+        } else
         {
             return null;
         }

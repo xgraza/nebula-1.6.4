@@ -1,18 +1,19 @@
 package net.minecraft.src;
 
-import java.util.AbstractSet;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import net.minecraft.util.LongHashMap;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.NextTickListEntry;
 
+import java.util.AbstractSet;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 public class NextTickHashSet extends AbstractSet
 {
-    private LongHashMap longHashMap = new LongHashMap();
+    private final LongHashMap longHashMap = new LongHashMap();
     private int size = 0;
-    private HashSet emptySet = new HashSet();
+    private final HashSet emptySet = new HashSet();
 
     public NextTickHashSet(Set oldSet)
     {
@@ -29,20 +30,18 @@ public class NextTickHashSet extends AbstractSet
         if (!(obj instanceof NextTickListEntry))
         {
             return false;
-        }
-        else
+        } else
         {
-            NextTickListEntry entry = (NextTickListEntry)obj;
+            NextTickListEntry entry = (NextTickListEntry) obj;
 
             if (entry == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 long key = ChunkCoordIntPair.chunkXZ2Int(entry.xCoord >> 4, entry.zCoord >> 4);
-                HashSet set = (HashSet)this.longHashMap.getValueByKey(key);
-                return set == null ? false : set.contains(entry);
+                HashSet set = (HashSet) this.longHashMap.getValueByKey(key);
+                return set != null && set.contains(entry);
             }
         }
     }
@@ -52,19 +51,17 @@ public class NextTickHashSet extends AbstractSet
         if (!(obj instanceof NextTickListEntry))
         {
             return false;
-        }
-        else
+        } else
         {
-            NextTickListEntry entry = (NextTickListEntry)obj;
+            NextTickListEntry entry = (NextTickListEntry) obj;
 
             if (entry == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 long key = ChunkCoordIntPair.chunkXZ2Int(entry.xCoord >> 4, entry.zCoord >> 4);
-                HashSet set = (HashSet)this.longHashMap.getValueByKey(key);
+                HashSet set = (HashSet) this.longHashMap.getValueByKey(key);
 
                 if (set == null)
                 {
@@ -89,25 +86,22 @@ public class NextTickHashSet extends AbstractSet
         if (!(obj instanceof NextTickListEntry))
         {
             return false;
-        }
-        else
+        } else
         {
-            NextTickListEntry entry = (NextTickListEntry)obj;
+            NextTickListEntry entry = (NextTickListEntry) obj;
 
             if (entry == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 long key = ChunkCoordIntPair.chunkXZ2Int(entry.xCoord >> 4, entry.zCoord >> 4);
-                HashSet set = (HashSet)this.longHashMap.getValueByKey(key);
+                HashSet set = (HashSet) this.longHashMap.getValueByKey(key);
 
                 if (set == null)
                 {
                     return false;
-                }
-                else
+                } else
                 {
                     boolean removed = set.remove(entry);
 
@@ -131,7 +125,7 @@ public class NextTickHashSet extends AbstractSet
     public HashSet getNextTickEntriesSet(int chunkX, int chunkZ)
     {
         long key = ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ);
-        HashSet set = (HashSet)this.longHashMap.getValueByKey(key);
+        HashSet set = (HashSet) this.longHashMap.getValueByKey(key);
 
         if (set == null)
         {

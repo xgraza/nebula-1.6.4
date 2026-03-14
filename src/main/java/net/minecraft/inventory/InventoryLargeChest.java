@@ -5,14 +5,20 @@ import net.minecraft.item.ItemStack;
 
 public class InventoryLargeChest implements IInventory
 {
-    /** Name of the chest. */
-    private String name;
+    /**
+     * Name of the chest.
+     */
+    private final String name;
 
-    /** Inventory object corresponding to double chest upper part */
-    private IInventory upperChest;
+    /**
+     * Inventory object corresponding to double chest upper part
+     */
+    private final IInventory upperChest;
 
-    /** Inventory object corresponding to double chest lower part */
-    private IInventory lowerChest;
+    /**
+     * Inventory object corresponding to double chest lower part
+     */
+    private final IInventory lowerChest;
     private static final String __OBFID = "CL_00001507";
 
     public InventoryLargeChest(String par1Str, IInventory par2IInventory, IInventory par3IInventory)
@@ -99,8 +105,7 @@ public class InventoryLargeChest implements IInventory
         if (par1 >= this.upperChest.getSizeInventory())
         {
             this.lowerChest.setInventorySlotContents(par1 - this.upperChest.getSizeInventory(), par2ItemStack);
-        }
-        else
+        } else
         {
             this.upperChest.setInventorySlotContents(par1, par2ItemStack);
         }

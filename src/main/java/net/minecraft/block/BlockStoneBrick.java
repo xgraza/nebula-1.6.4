@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -8,10 +7,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
+import java.util.List;
+
 public class BlockStoneBrick extends Block
 {
-    public static final String[] field_150142_a = new String[] {"default", "mossy", "cracked", "chiseled"};
-    public static final String[] field_150141_b = new String[] {null, "mossy", "cracked", "carved"};
+    public static final String[] field_150142_a = new String[]{ "default", "mossy", "cracked", "chiseled" };
+    public static final String[] field_150141_b = new String[]{ null, "mossy", "cracked", "carved" };
     private IIcon[] field_150143_M;
     private static final String __OBFID = "CL_00000318";
 

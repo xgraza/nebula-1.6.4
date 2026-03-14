@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S06PacketUpdateHealth extends Packet
 {
@@ -13,7 +14,9 @@ public class S06PacketUpdateHealth extends Packet
     private float field_149335_c;
     private static final String __OBFID = "CL_00001332";
 
-    public S06PacketUpdateHealth() {}
+    public S06PacketUpdateHealth()
+    {
+    }
 
     public S06PacketUpdateHealth(float p_i45223_1_, int p_i45223_2_, float p_i45223_3_)
     {
@@ -64,6 +67,6 @@ public class S06PacketUpdateHealth extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

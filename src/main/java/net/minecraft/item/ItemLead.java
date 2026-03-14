@@ -1,7 +1,5 @@
 package net.minecraft.item;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLeashKnot;
@@ -9,6 +7,9 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class ItemLead extends Item
 {
@@ -32,14 +33,12 @@ public class ItemLead extends Item
             if (par3World.isClient)
             {
                 return true;
-            }
-            else
+            } else
             {
                 func_150909_a(par2EntityPlayer, par3World, par4, par5, par6);
                 return true;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -50,7 +49,7 @@ public class ItemLead extends Item
         EntityLeashKnot var5 = EntityLeashKnot.getKnotForBlock(p_150909_1_, p_150909_2_, p_150909_3_, p_150909_4_);
         boolean var6 = false;
         double var7 = 7.0D;
-        List var9 = p_150909_1_.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getAABBPool().getAABB((double)p_150909_2_ - var7, (double)p_150909_3_ - var7, (double)p_150909_4_ - var7, (double)p_150909_2_ + var7, (double)p_150909_3_ + var7, (double)p_150909_4_ + var7));
+        List var9 = p_150909_1_.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getAABBPool().getAABB((double) p_150909_2_ - var7, (double) p_150909_3_ - var7, (double) p_150909_4_ - var7, (double) p_150909_2_ + var7, (double) p_150909_3_ + var7, (double) p_150909_4_ + var7));
 
         if (var9 != null)
         {
@@ -58,7 +57,7 @@ public class ItemLead extends Item
 
             while (var10.hasNext())
             {
-                EntityLiving var11 = (EntityLiving)var10.next();
+                EntityLiving var11 = (EntityLiving) var10.next();
 
                 if (var11.getLeashed() && var11.getLeashedToEntity() == p_150909_0_)
                 {

@@ -7,7 +7,7 @@ public class TestExpressions
 {
     public static void main(String[] args) throws Exception
     {
-        ExpressionParser ep = new ExpressionParser((IExpressionResolver)null);
+        ExpressionParser ep = new ExpressionParser(null);
 
         while (true)
         {
@@ -28,20 +28,19 @@ public class TestExpressions
 
                     if (expr instanceof IExpressionFloat)
                     {
-                        IExpressionFloat eb = (IExpressionFloat)expr;
+                        IExpressionFloat eb = (IExpressionFloat) expr;
                         float val = eb.eval();
                         System.out.println("" + val);
                     }
 
                     if (expr instanceof IExpressionBool)
                     {
-                        IExpressionBool eb1 = (IExpressionBool)expr;
+                        IExpressionBool eb1 = (IExpressionBool) expr;
                         boolean val1 = eb1.eval();
                         System.out.println("" + val1);
                     }
                 }
-            }
-            catch (Exception var8)
+            } catch (Exception var8)
             {
                 var8.printStackTrace();
             }

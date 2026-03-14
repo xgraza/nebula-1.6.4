@@ -2,10 +2,10 @@ package shadersmod.client;
 
 public class ShaderLine
 {
-    private int type;
-    private String name;
-    private String value;
-    private String line;
+    private final int type;
+    private final String name;
+    private final String value;
+    private final String line;
     public static final int TYPE_UNIFORM = 1;
     public static final int TYPE_ATTRIBUTE = 2;
     public static final int TYPE_CONST_INT = 3;
@@ -146,8 +146,7 @@ public class ShaderLine
         try
         {
             return Integer.parseInt(this.value);
-        }
-        catch (NumberFormatException var2)
+        } catch (NumberFormatException var2)
         {
             throw new NumberFormatException("Invalid integer: " + this.value + ", line: " + this.line);
         }
@@ -158,8 +157,7 @@ public class ShaderLine
         try
         {
             return Float.parseFloat(this.value);
-        }
-        catch (NumberFormatException var2)
+        } catch (NumberFormatException var2)
         {
             throw new NumberFormatException("Invalid float: " + this.value + ", line: " + this.line);
         }
@@ -172,8 +170,7 @@ public class ShaderLine
         if (!valLow.equals("true") && !valLow.equals("false"))
         {
             throw new RuntimeException("Invalid boolean: " + this.value + ", line: " + this.line);
-        }
-        else
+        } else
         {
             return Boolean.valueOf(this.value).booleanValue();
         }

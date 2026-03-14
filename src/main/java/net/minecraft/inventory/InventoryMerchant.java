@@ -9,7 +9,7 @@ import net.minecraft.village.MerchantRecipeList;
 public class InventoryMerchant implements IInventory
 {
     private final IMerchant theMerchant;
-    private ItemStack[] theInventory = new ItemStack[3];
+    private final ItemStack[] theInventory = new ItemStack[3];
     private final EntityPlayer thePlayer;
     private MerchantRecipe currentRecipe;
     private int currentRecipeIndex;
@@ -52,8 +52,7 @@ public class InventoryMerchant implements IInventory
                 var3 = this.theInventory[par1];
                 this.theInventory[par1] = null;
                 return var3;
-            }
-            else if (this.theInventory[par1].stackSize <= par2)
+            } else if (this.theInventory[par1].stackSize <= par2)
             {
                 var3 = this.theInventory[par1];
                 this.theInventory[par1] = null;
@@ -64,8 +63,7 @@ public class InventoryMerchant implements IInventory
                 }
 
                 return var3;
-            }
-            else
+            } else
             {
                 var3 = this.theInventory[par1].splitStack(par2);
 
@@ -81,8 +79,7 @@ public class InventoryMerchant implements IInventory
 
                 return var3;
             }
-        }
-        else
+        } else
         {
             return null;
         }
@@ -107,8 +104,7 @@ public class InventoryMerchant implements IInventory
             ItemStack var2 = this.theInventory[par1];
             this.theInventory[par1] = null;
             return var2;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -164,9 +160,13 @@ public class InventoryMerchant implements IInventory
         return this.theMerchant.getCustomer() == par1EntityPlayer;
     }
 
-    public void openInventory() {}
+    public void openInventory()
+    {
+    }
 
-    public void closeInventory() {}
+    public void closeInventory()
+    {
+    }
 
     /**
      * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
@@ -198,9 +198,8 @@ public class InventoryMerchant implements IInventory
 
         if (var1 == null)
         {
-            this.setInventorySlotContents(2, (ItemStack)null);
-        }
-        else
+            this.setInventorySlotContents(2, null);
+        } else
         {
             MerchantRecipeList var3 = this.theMerchant.getRecipes(this.thePlayer);
 
@@ -212,8 +211,7 @@ public class InventoryMerchant implements IInventory
                 {
                     this.currentRecipe = var4;
                     this.setInventorySlotContents(2, var4.getItemToSell().copy());
-                }
-                else if (var2 != null)
+                } else if (var2 != null)
                 {
                     var4 = var3.canRecipeBeUsed(var2, var1, this.currentRecipeIndex);
 
@@ -221,15 +219,13 @@ public class InventoryMerchant implements IInventory
                     {
                         this.currentRecipe = var4;
                         this.setInventorySlotContents(2, var4.getItemToSell().copy());
-                    }
-                    else
+                    } else
                     {
-                        this.setInventorySlotContents(2, (ItemStack)null);
+                        this.setInventorySlotContents(2, null);
                     }
-                }
-                else
+                } else
                 {
-                    this.setInventorySlotContents(2, (ItemStack)null);
+                    this.setInventorySlotContents(2, null);
                 }
             }
         }

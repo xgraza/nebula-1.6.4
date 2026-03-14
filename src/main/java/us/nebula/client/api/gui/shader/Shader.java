@@ -27,7 +27,8 @@ public final class Shader
 
     /**
      * Compiles, attaches, and links a shader program
-     * @param vertex the location of the vertex shader
+     *
+     * @param vertex   the location of the vertex shader
      * @param fragment the location of the fragment shader
      * @param runnable a consumer with the local {@link Shader} object to create uniforms
      */
@@ -67,6 +68,7 @@ public final class Shader
 
     /**
      * Creates and caches uniforms supplied by the runnable
+     *
      * @param runnable a runnable containing the local {@link Shader} object
      */
     public void createUniforms(final Consumer<Shader> runnable)
@@ -78,6 +80,7 @@ public final class Shader
 
     /**
      * Uses this shader
+     *
      * @see org.lwjgl.opengl.GL20#glUseProgram(int)
      */
     public void use()
@@ -91,6 +94,7 @@ public final class Shader
 
     /**
      * Uses this shader
+     *
      * @param runnable the runnable
      * @see org.lwjgl.opengl.GL20#glUseProgram(int)
      * @see #use(Runnable)
@@ -103,6 +107,7 @@ public final class Shader
 
     /**
      * Stops using this shader
+     *
      * @see org.lwjgl.opengl.GL20#glUseProgram(int)
      */
     public void stop()
@@ -112,6 +117,7 @@ public final class Shader
 
     /**
      * Creates and caches a uniform
+     *
      * @param name the uniform name
      */
     public void createUniform(final String name)
@@ -125,7 +131,8 @@ public final class Shader
 
     /**
      * Sets a uniform value
-     * @param name the uniform name
+     *
+     * @param name   the uniform name
      * @param values the value(s) to pipe into the uniform
      */
     public void set(final String name, final int... values)
@@ -158,10 +165,12 @@ public final class Shader
 
     /**
      * Sets a uniform value
-     * @param name the uniform name
+     *
+     * @param name   the uniform name
      * @param values the value(s) to pipe into the uniform
      */
-    public void set(final String name, final float... values) {
+    public void set(final String name, final float... values)
+    {
         final int location = uniforms.getOrDefault(name, -1);
         if (location == -1)
         {
@@ -190,7 +199,8 @@ public final class Shader
 
     /**
      * Compiles a shader
-     * @param location the shader location
+     *
+     * @param location   the shader location
      * @param shaderType the shader type
      * @return the resulting shader ID or 0
      */
@@ -208,7 +218,7 @@ public final class Shader
             int b;
             while ((b = stream.read()) != -1)
             {
-                builder.append((char)b);
+                builder.append((char) b);
             }
         } catch (final IOException e)
         {

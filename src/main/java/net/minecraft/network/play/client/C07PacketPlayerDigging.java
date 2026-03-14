@@ -1,11 +1,12 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.src.BlockPos;
+
+import java.io.IOException;
 
 public class C07PacketPlayerDigging extends Packet
 {
@@ -15,7 +16,9 @@ public class C07PacketPlayerDigging extends Packet
     private int side;
     private int action;
 
-    public C07PacketPlayerDigging() {}
+    public C07PacketPlayerDigging()
+    {
+    }
 
     public C07PacketPlayerDigging(int action, BlockPos pos, int face)
     {
@@ -91,6 +94,6 @@ public class C07PacketPlayerDigging extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

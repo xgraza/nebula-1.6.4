@@ -54,7 +54,7 @@ public final class AutoTorchCheat extends Cheat
     {
         final int slot = InventoryUtil.getHotbarSlot((stack) ->
                 stack.getItem() instanceof ItemBlock
-                        && ((ItemBlock)stack.getItem()).getBlock() instanceof BlockTorch);
+                        && ((ItemBlock) stack.getItem()).getBlock() instanceof BlockTorch);
         if (slot == -1)
         {
             return;

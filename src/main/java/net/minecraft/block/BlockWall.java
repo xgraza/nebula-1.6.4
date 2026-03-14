@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,9 +11,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class BlockWall extends Block
 {
-    public static final String[] field_150092_a = new String[] {"normal", "mossy"};
+    public static final String[] field_150092_a = new String[]{ "normal", "mossy" };
     private static final String __OBFID = "CL_00000331";
 
     public BlockWall(Block p_i45435_1_)
@@ -94,8 +95,7 @@ public class BlockWall extends Block
             var13 = 0.8125F;
             var9 = 0.3125F;
             var10 = 0.6875F;
-        }
-        else if (!var5 && !var6 && var7 && var8)
+        } else if (!var5 && !var6 && var7 && var8)
         {
             var13 = 0.8125F;
             var11 = 0.3125F;
@@ -119,7 +119,7 @@ public class BlockWall extends Block
     public boolean canConnectWallTo(IBlockAccess p_150091_1_, int p_150091_2_, int p_150091_3_, int p_150091_4_)
     {
         Block var5 = p_150091_1_.getBlock(p_150091_2_, p_150091_3_, p_150091_4_);
-        return var5 != this && var5 != Blocks.fence_gate ? (var5.blockMaterial.isOpaque() && var5.renderAsNormalBlock() ? var5.blockMaterial != Material.field_151572_C : false) : true;
+        return var5 == this || var5 == Blocks.fence_gate || (var5.blockMaterial.isOpaque() && var5.renderAsNormalBlock() && var5.blockMaterial != Material.field_151572_C);
     }
 
     public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_)
@@ -138,8 +138,10 @@ public class BlockWall extends Block
 
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
-        return p_149646_5_ == 0 ? super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_) : true;
+        return p_149646_5_ != 0 || super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
     }
 
-    public void registerIcons(IIconRegister p_149651_1_) {}
+    public void registerIcons(IIconRegister p_149651_1_)
+    {
+    }
 }

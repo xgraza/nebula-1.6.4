@@ -333,11 +333,7 @@ public final class KillAuraCheat extends Cheat
         {
             return false;
         }
-        if (!attackTamedSetting.getValue() && entity instanceof EntityTameable && ((EntityTameable) entity).isTamed())
-        {
-            return false;
-        }
-        return true;
+        return attackTamedSetting.getValue() || !(entity instanceof EntityTameable) || !((EntityTameable) entity).isTamed();
     }
 
     public boolean isBlocking()

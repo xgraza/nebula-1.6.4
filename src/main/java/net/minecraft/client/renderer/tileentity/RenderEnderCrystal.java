@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 public class RenderEnderCrystal extends Render
 {
     private static final ResourceLocation enderCrystalTextures = new ResourceLocation("textures/entity/endercrystal/endercrystal.png");
-    private ModelBase field_76995_b;
+    private final ModelBase field_76995_b;
     private static final String __OBFID = "CL_00000987";
 
     public RenderEnderCrystal()
@@ -29,9 +29,9 @@ public class RenderEnderCrystal extends Render
      */
     public void doRender(EntityEnderCrystal par1EntityEnderCrystal, double par2, double par4, double par6, float par8, float par9)
     {
-        float var10 = (float)par1EntityEnderCrystal.innerRotation + par9;
+        float var10 = (float) par1EntityEnderCrystal.innerRotation + par9;
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+        GL11.glTranslatef((float) par2, (float) par4, (float) par6);
         this.bindTexture(enderCrystalTextures);
         float var11 = MathHelper.sin(var10 * 0.2F) / 2.0F + 0.5F;
         var11 += var11 * var11;
@@ -52,7 +52,7 @@ public class RenderEnderCrystal extends Render
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityEnderCrystal)par1Entity);
+        return this.getEntityTexture((EntityEnderCrystal) par1Entity);
     }
 
     /**
@@ -63,6 +63,6 @@ public class RenderEnderCrystal extends Render
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityEnderCrystal)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityEnderCrystal) par1Entity, par2, par4, par6, par8, par9);
     }
 }

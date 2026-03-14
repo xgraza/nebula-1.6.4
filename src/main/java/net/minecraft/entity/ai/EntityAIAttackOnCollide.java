@@ -16,7 +16,9 @@ public class EntityAIAttackOnCollide extends EntityAIBase
      */
     int attackTick;
 
-    /** The speed with which the mob will approach the target */
+    /**
+     * The speed with which the mob will approach the target
+     */
     double speedTowardsTarget;
 
     /**
@@ -24,7 +26,9 @@ public class EntityAIAttackOnCollide extends EntityAIBase
      */
     boolean longMemory;
 
-    /** The PathEntity of our entity. */
+    /**
+     * The PathEntity of our entity.
+     */
     PathEntity entityPathEntity;
     Class classTarget;
     private int field_75445_i;
@@ -58,16 +62,13 @@ public class EntityAIAttackOnCollide extends EntityAIBase
         if (var1 == null)
         {
             return false;
-        }
-        else if (!var1.isEntityAlive())
+        } else if (!var1.isEntityAlive())
         {
             return false;
-        }
-        else if (this.classTarget != null && !this.classTarget.isAssignableFrom(var1.getClass()))
+        } else if (this.classTarget != null && !this.classTarget.isAssignableFrom(var1.getClass()))
         {
             return false;
-        }
-        else
+        } else
         {
             this.entityPathEntity = this.attacker.getNavigator().getPathToEntityLiving(var1);
             return this.entityPathEntity != null;
@@ -80,7 +81,7 @@ public class EntityAIAttackOnCollide extends EntityAIBase
     public boolean continueExecuting()
     {
         EntityLivingBase var1 = this.attacker.getAttackTarget();
-        return var1 == null ? false : (!var1.isEntityAlive() ? false : (!this.longMemory ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistance(MathHelper.floor_double(var1.posX), MathHelper.floor_double(var1.posY), MathHelper.floor_double(var1.posZ))));
+        return var1 != null && (var1.isEntityAlive() && (!this.longMemory ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistance(MathHelper.floor_double(var1.posX), MathHelper.floor_double(var1.posY), MathHelper.floor_double(var1.posZ))));
     }
 
     /**
@@ -108,7 +109,7 @@ public class EntityAIAttackOnCollide extends EntityAIBase
         EntityLivingBase var1 = this.attacker.getAttackTarget();
         this.attacker.getLookHelper().setLookPositionWithEntity(var1, 30.0F, 30.0F);
         double var2 = this.attacker.getDistanceSq(var1.posX, var1.boundingBox.minY, var1.posZ);
-        double var4 = (double)(this.attacker.width * 2.0F * this.attacker.width * 2.0F + var1.width);
+        double var4 = this.attacker.width * 2.0F * this.attacker.width * 2.0F + var1.width;
         --this.field_75445_i;
 
         if ((this.longMemory || this.attacker.getEntitySenses().canSee(var1)) && this.field_75445_i <= 0 && (this.field_151497_i == 0.0D && this.field_151495_j == 0.0D && this.field_151496_k == 0.0D || var1.getDistanceSq(this.field_151497_i, this.field_151495_j, this.field_151496_k) >= 1.0D || this.attacker.getRNG().nextFloat() < 0.05F))
@@ -121,8 +122,7 @@ public class EntityAIAttackOnCollide extends EntityAIBase
             if (var2 > 1024.0D)
             {
                 this.field_75445_i += 10;
-            }
-            else if (var2 > 256.0D)
+            } else if (var2 > 256.0D)
             {
                 this.field_75445_i += 5;
             }

@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
 import io.netty.buffer.ByteBuf;
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S3FPacketCustomPayload extends Packet
 {
@@ -13,7 +14,9 @@ public class S3FPacketCustomPayload extends Packet
     private byte[] field_149171_b;
     private static final String __OBFID = "CL_00001297";
 
-    public S3FPacketCustomPayload() {}
+    public S3FPacketCustomPayload()
+    {
+    }
 
     public S3FPacketCustomPayload(String p_i45189_1_, ByteBuf p_i45189_2_)
     {
@@ -68,6 +71,6 @@ public class S3FPacketCustomPayload extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

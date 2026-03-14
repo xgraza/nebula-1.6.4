@@ -1,32 +1,45 @@
 package net.minecraft.enchantment;
 
-import java.util.ArrayList;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 
+import java.util.ArrayList;
+
 public abstract class Enchantment
 {
     public static final Enchantment[] enchantmentsList = new Enchantment[256];
 
-    /** The list of enchantments applicable by the anvil from a book */
+    /**
+     * The list of enchantments applicable by the anvil from a book
+     */
     public static final Enchantment[] enchantmentsBookList;
 
-    /** Converts environmental damage to armour damage */
+    /**
+     * Converts environmental damage to armour damage
+     */
     public static final Enchantment protection = new EnchantmentProtection(0, 10, 0);
 
-    /** Protection against fire */
+    /**
+     * Protection against fire
+     */
     public static final Enchantment fireProtection = new EnchantmentProtection(1, 5, 1);
 
-    /** Less fall damage */
+    /**
+     * Less fall damage
+     */
     public static final Enchantment featherFalling = new EnchantmentProtection(2, 5, 2);
 
-    /** Protection against explosions */
+    /**
+     * Protection against explosions
+     */
     public static final Enchantment blastProtection = new EnchantmentProtection(3, 2, 3);
 
-    /** Protection against projectile entities (e.g. arrows) */
+    /**
+     * Protection against projectile entities (e.g. arrows)
+     */
     public static final Enchantment projectileProtection = new EnchantmentProtection(4, 5, 4);
 
     /**
@@ -34,29 +47,45 @@ public abstract class Enchantment
      */
     public static final Enchantment respiration = new EnchantmentOxygen(5, 2);
 
-    /** Increases underwater mining rate */
+    /**
+     * Increases underwater mining rate
+     */
     public static final Enchantment aquaAffinity = new EnchantmentWaterWorker(6, 2);
     public static final Enchantment thorns = new EnchantmentThorns(7, 1);
 
-    /** Extra damage to mobs */
+    /**
+     * Extra damage to mobs
+     */
     public static final Enchantment sharpness = new EnchantmentDamage(16, 10, 0);
 
-    /** Extra damage to zombies, zombie pigmen and skeletons */
+    /**
+     * Extra damage to zombies, zombie pigmen and skeletons
+     */
     public static final Enchantment smite = new EnchantmentDamage(17, 5, 1);
 
-    /** Extra damage to spiders, cave spiders and silverfish */
+    /**
+     * Extra damage to spiders, cave spiders and silverfish
+     */
     public static final Enchantment baneOfArthropods = new EnchantmentDamage(18, 5, 2);
 
-    /** Knocks mob and players backwards upon hit */
+    /**
+     * Knocks mob and players backwards upon hit
+     */
     public static final Enchantment knockback = new EnchantmentKnockback(19, 5);
 
-    /** Lights mobs on fire */
+    /**
+     * Lights mobs on fire
+     */
     public static final Enchantment fireAspect = new EnchantmentFireAspect(20, 2);
 
-    /** Mobs have a chance to drop more loot */
+    /**
+     * Mobs have a chance to drop more loot
+     */
     public static final Enchantment looting = new EnchantmentLootBonus(21, 2, EnumEnchantmentType.weapon);
 
-    /** Faster resource gathering while in use */
+    /**
+     * Faster resource gathering while in use
+     */
     public static final Enchantment efficiency = new EnchantmentDigging(32, 10);
 
     /**
@@ -70,10 +99,14 @@ public abstract class Enchantment
      */
     public static final Enchantment unbreaking = new EnchantmentDurability(34, 5);
 
-    /** Can multiply the drop rate of items from blocks */
+    /**
+     * Can multiply the drop rate of items from blocks
+     */
     public static final Enchantment fortune = new EnchantmentLootBonus(35, 2, EnumEnchantmentType.digger);
 
-    /** Power enchantment for bows, add's extra damage to arrows. */
+    /**
+     * Power enchantment for bows, add's extra damage to arrows.
+     */
     public static final Enchantment power = new EnchantmentArrowDamage(48, 10);
 
     /**
@@ -96,10 +129,14 @@ public abstract class Enchantment
     public final int effectId;
     private final int weight;
 
-    /** The EnumEnchantmentType given to this Enchantment. */
+    /**
+     * The EnumEnchantmentType given to this Enchantment.
+     */
     public EnumEnchantmentType type;
 
-    /** Used in localisation and stats. */
+    /**
+     * Used in localisation and stats.
+     */
     protected String name;
     private static final String __OBFID = "CL_00000105";
 
@@ -112,8 +149,7 @@ public abstract class Enchantment
         if (enchantmentsList[par1] != null)
         {
             throw new IllegalArgumentException("Duplicate enchantment id!");
-        }
-        else
+        } else
         {
             enchantmentsList[par1] = this;
         }
@@ -211,9 +247,13 @@ public abstract class Enchantment
         return this.type.canEnchantItem(par1ItemStack.getItem());
     }
 
-    public void func_151368_a(EntityLivingBase p_151368_1_, Entity p_151368_2_, int p_151368_3_) {}
+    public void func_151368_a(EntityLivingBase p_151368_1_, Entity p_151368_2_, int p_151368_3_)
+    {
+    }
 
-    public void func_151367_b(EntityLivingBase p_151367_1_, Entity p_151367_2_, int p_151367_3_) {}
+    public void func_151367_b(EntityLivingBase p_151367_1_, Entity p_151367_2_, int p_151367_3_)
+    {
+    }
 
     static
     {
@@ -231,6 +271,6 @@ public abstract class Enchantment
             }
         }
 
-        enchantmentsBookList = (Enchantment[])var0.toArray(new Enchantment[0]);
+        enchantmentsBookList = (Enchantment[]) var0.toArray(new Enchantment[0]);
     }
 }

@@ -1,6 +1,5 @@
 package net.minecraft.item;
 
-import java.util.List;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,10 +12,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class ItemSkull extends Item
 {
-    private static final String[] skullTypes = new String[] {"skeleton", "wither", "zombie", "char", "creeper"};
-    public static final String[] field_94587_a = new String[] {"skeleton", "wither", "zombie", "steve", "creeper"};
+    private static final String[] skullTypes = new String[]{ "skeleton", "wither", "zombie", "char", "creeper" };
+    public static final String[] field_94587_a = new String[]{ "skeleton", "wither", "zombie", "steve", "creeper" };
     private IIcon[] field_94586_c;
     private static final String __OBFID = "CL_00000067";
 
@@ -36,12 +37,10 @@ public class ItemSkull extends Item
         if (par7 == 0)
         {
             return false;
-        }
-        else if (!par3World.getBlock(par4, par5, par6).getMaterial().isSolid())
+        } else if (!par3World.getBlock(par4, par5, par6).getMaterial().isSolid())
         {
             return false;
-        }
-        else
+        } else
         {
             if (par7 == 1)
             {
@@ -71,19 +70,17 @@ public class ItemSkull extends Item
             if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
             {
                 return false;
-            }
-            else if (!Blocks.skull.canPlaceBlockAt(par3World, par4, par5, par6))
+            } else if (!Blocks.skull.canPlaceBlockAt(par3World, par4, par5, par6))
             {
                 return false;
-            }
-            else
+            } else
             {
                 par3World.setBlock(par4, par5, par6, Blocks.skull, par7, 2);
                 int var11 = 0;
 
                 if (par7 == 1)
                 {
-                    var11 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15;
+                    var11 = MathHelper.floor_double((double) (par2EntityPlayer.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15;
                 }
 
                 TileEntity var12 = par3World.getTileEntity(par4, par5, par6);
@@ -97,9 +94,9 @@ public class ItemSkull extends Item
                         var13 = par1ItemStack.getTagCompound().getString("SkullOwner");
                     }
 
-                    ((TileEntitySkull)var12).func_145905_a(par1ItemStack.getItemDamage(), var13);
-                    ((TileEntitySkull)var12).func_145903_a(var11);
-                    ((BlockSkull)Blocks.skull).func_149965_a(par3World, par4, par5, par6, (TileEntitySkull)var12);
+                    ((TileEntitySkull) var12).func_145905_a(par1ItemStack.getItemDamage(), var13);
+                    ((TileEntitySkull) var12).func_145903_a(var11);
+                    ((BlockSkull) Blocks.skull).func_149965_a(par3World, par4, par5, par6, (TileEntitySkull) var12);
                 }
 
                 --par1ItemStack.stackSize;
@@ -158,7 +155,7 @@ public class ItemSkull extends Item
 
     public String getItemStackDisplayName(ItemStack par1ItemStack)
     {
-        return par1ItemStack.getItemDamage() == 3 && par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("SkullOwner", 8) ? StatCollector.translateToLocalFormatted("item.skull.player.name", new Object[] {par1ItemStack.getTagCompound().getString("SkullOwner")}): super.getItemStackDisplayName(par1ItemStack);
+        return par1ItemStack.getItemDamage() == 3 && par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("SkullOwner", 8) ? StatCollector.translateToLocalFormatted("item.skull.player.name", par1ItemStack.getTagCompound().getString("SkullOwner")) : super.getItemStackDisplayName(par1ItemStack);
     }
 
     public void registerIcons(IIconRegister par1IconRegister)

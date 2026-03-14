@@ -5,37 +5,59 @@ import net.minecraft.util.MathHelper;
 
 public class ModelSpider extends ModelBase
 {
-    /** The spider's head box */
+    /**
+     * The spider's head box
+     */
     public ModelRenderer spiderHead;
 
-    /** The spider's neck box */
+    /**
+     * The spider's neck box
+     */
     public ModelRenderer spiderNeck;
 
-    /** The spider's body box */
+    /**
+     * The spider's body box
+     */
     public ModelRenderer spiderBody;
 
-    /** Spider's first leg */
+    /**
+     * Spider's first leg
+     */
     public ModelRenderer spiderLeg1;
 
-    /** Spider's second leg */
+    /**
+     * Spider's second leg
+     */
     public ModelRenderer spiderLeg2;
 
-    /** Spider's third leg */
+    /**
+     * Spider's third leg
+     */
     public ModelRenderer spiderLeg3;
 
-    /** Spider's fourth leg */
+    /**
+     * Spider's fourth leg
+     */
     public ModelRenderer spiderLeg4;
 
-    /** Spider's fifth leg */
+    /**
+     * Spider's fifth leg
+     */
     public ModelRenderer spiderLeg5;
 
-    /** Spider's sixth leg */
+    /**
+     * Spider's sixth leg
+     */
     public ModelRenderer spiderLeg6;
 
-    /** Spider's seventh leg */
+    /**
+     * Spider's seventh leg
+     */
     public ModelRenderer spiderLeg7;
 
-    /** Spider's eight leg */
+    /**
+     * Spider's eight leg
+     */
     public ModelRenderer spiderLeg8;
     private static final String __OBFID = "CL_00000860";
 
@@ -45,37 +67,37 @@ public class ModelSpider extends ModelBase
         byte var2 = 15;
         this.spiderHead = new ModelRenderer(this, 32, 4);
         this.spiderHead.addBox(-4.0F, -4.0F, -8.0F, 8, 8, 8, var1);
-        this.spiderHead.setRotationPoint(0.0F, (float)var2, -3.0F);
+        this.spiderHead.setRotationPoint(0.0F, var2, -3.0F);
         this.spiderNeck = new ModelRenderer(this, 0, 0);
         this.spiderNeck.addBox(-3.0F, -3.0F, -3.0F, 6, 6, 6, var1);
-        this.spiderNeck.setRotationPoint(0.0F, (float)var2, 0.0F);
+        this.spiderNeck.setRotationPoint(0.0F, var2, 0.0F);
         this.spiderBody = new ModelRenderer(this, 0, 12);
         this.spiderBody.addBox(-5.0F, -4.0F, -6.0F, 10, 8, 12, var1);
-        this.spiderBody.setRotationPoint(0.0F, (float)var2, 9.0F);
+        this.spiderBody.setRotationPoint(0.0F, var2, 9.0F);
         this.spiderLeg1 = new ModelRenderer(this, 18, 0);
         this.spiderLeg1.addBox(-15.0F, -1.0F, -1.0F, 16, 2, 2, var1);
-        this.spiderLeg1.setRotationPoint(-4.0F, (float)var2, 2.0F);
+        this.spiderLeg1.setRotationPoint(-4.0F, var2, 2.0F);
         this.spiderLeg2 = new ModelRenderer(this, 18, 0);
         this.spiderLeg2.addBox(-1.0F, -1.0F, -1.0F, 16, 2, 2, var1);
-        this.spiderLeg2.setRotationPoint(4.0F, (float)var2, 2.0F);
+        this.spiderLeg2.setRotationPoint(4.0F, var2, 2.0F);
         this.spiderLeg3 = new ModelRenderer(this, 18, 0);
         this.spiderLeg3.addBox(-15.0F, -1.0F, -1.0F, 16, 2, 2, var1);
-        this.spiderLeg3.setRotationPoint(-4.0F, (float)var2, 1.0F);
+        this.spiderLeg3.setRotationPoint(-4.0F, var2, 1.0F);
         this.spiderLeg4 = new ModelRenderer(this, 18, 0);
         this.spiderLeg4.addBox(-1.0F, -1.0F, -1.0F, 16, 2, 2, var1);
-        this.spiderLeg4.setRotationPoint(4.0F, (float)var2, 1.0F);
+        this.spiderLeg4.setRotationPoint(4.0F, var2, 1.0F);
         this.spiderLeg5 = new ModelRenderer(this, 18, 0);
         this.spiderLeg5.addBox(-15.0F, -1.0F, -1.0F, 16, 2, 2, var1);
-        this.spiderLeg5.setRotationPoint(-4.0F, (float)var2, 0.0F);
+        this.spiderLeg5.setRotationPoint(-4.0F, var2, 0.0F);
         this.spiderLeg6 = new ModelRenderer(this, 18, 0);
         this.spiderLeg6.addBox(-1.0F, -1.0F, -1.0F, 16, 2, 2, var1);
-        this.spiderLeg6.setRotationPoint(4.0F, (float)var2, 0.0F);
+        this.spiderLeg6.setRotationPoint(4.0F, var2, 0.0F);
         this.spiderLeg7 = new ModelRenderer(this, 18, 0);
         this.spiderLeg7.addBox(-15.0F, -1.0F, -1.0F, 16, 2, 2, var1);
-        this.spiderLeg7.setRotationPoint(-4.0F, (float)var2, -1.0F);
+        this.spiderLeg7.setRotationPoint(-4.0F, var2, -1.0F);
         this.spiderLeg8 = new ModelRenderer(this, 18, 0);
         this.spiderLeg8.addBox(-1.0F, -1.0F, -1.0F, 16, 2, 2, var1);
-        this.spiderLeg8.setRotationPoint(4.0F, (float)var2, -1.0F);
+        this.spiderLeg8.setRotationPoint(4.0F, var2, -1.0F);
     }
 
     /**
@@ -104,9 +126,9 @@ public class ModelSpider extends ModelBase
      */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
-        this.spiderHead.rotateAngleY = par4 / (180F / (float)Math.PI);
-        this.spiderHead.rotateAngleX = par5 / (180F / (float)Math.PI);
-        float var8 = ((float)Math.PI / 4F);
+        this.spiderHead.rotateAngleY = par4 / (180F / (float) Math.PI);
+        this.spiderHead.rotateAngleX = par5 / (180F / (float) Math.PI);
+        float var8 = ((float) Math.PI / 4F);
         this.spiderLeg1.rotateAngleZ = -var8;
         this.spiderLeg2.rotateAngleZ = var8;
         this.spiderLeg3.rotateAngleZ = -var8 * 0.74F;
@@ -119,20 +141,20 @@ public class ModelSpider extends ModelBase
         float var10 = 0.3926991F;
         this.spiderLeg1.rotateAngleY = var10 * 2.0F + var9;
         this.spiderLeg2.rotateAngleY = -var10 * 2.0F - var9;
-        this.spiderLeg3.rotateAngleY = var10 * 1.0F + var9;
-        this.spiderLeg4.rotateAngleY = -var10 * 1.0F - var9;
-        this.spiderLeg5.rotateAngleY = -var10 * 1.0F + var9;
-        this.spiderLeg6.rotateAngleY = var10 * 1.0F - var9;
+        this.spiderLeg3.rotateAngleY = var10 + var9;
+        this.spiderLeg4.rotateAngleY = -var10 - var9;
+        this.spiderLeg5.rotateAngleY = -var10 + var9;
+        this.spiderLeg6.rotateAngleY = var10 - var9;
         this.spiderLeg7.rotateAngleY = -var10 * 2.0F + var9;
         this.spiderLeg8.rotateAngleY = var10 * 2.0F - var9;
         float var11 = -(MathHelper.cos(par1 * 0.6662F * 2.0F + 0.0F) * 0.4F) * par2;
-        float var12 = -(MathHelper.cos(par1 * 0.6662F * 2.0F + (float)Math.PI) * 0.4F) * par2;
-        float var13 = -(MathHelper.cos(par1 * 0.6662F * 2.0F + ((float)Math.PI / 2F)) * 0.4F) * par2;
-        float var14 = -(MathHelper.cos(par1 * 0.6662F * 2.0F + ((float)Math.PI * 3F / 2F)) * 0.4F) * par2;
+        float var12 = -(MathHelper.cos(par1 * 0.6662F * 2.0F + (float) Math.PI) * 0.4F) * par2;
+        float var13 = -(MathHelper.cos(par1 * 0.6662F * 2.0F + ((float) Math.PI / 2F)) * 0.4F) * par2;
+        float var14 = -(MathHelper.cos(par1 * 0.6662F * 2.0F + ((float) Math.PI * 3F / 2F)) * 0.4F) * par2;
         float var15 = Math.abs(MathHelper.sin(par1 * 0.6662F + 0.0F) * 0.4F) * par2;
-        float var16 = Math.abs(MathHelper.sin(par1 * 0.6662F + (float)Math.PI) * 0.4F) * par2;
-        float var17 = Math.abs(MathHelper.sin(par1 * 0.6662F + ((float)Math.PI / 2F)) * 0.4F) * par2;
-        float var18 = Math.abs(MathHelper.sin(par1 * 0.6662F + ((float)Math.PI * 3F / 2F)) * 0.4F) * par2;
+        float var16 = Math.abs(MathHelper.sin(par1 * 0.6662F + (float) Math.PI) * 0.4F) * par2;
+        float var17 = Math.abs(MathHelper.sin(par1 * 0.6662F + ((float) Math.PI / 2F)) * 0.4F) * par2;
+        float var18 = Math.abs(MathHelper.sin(par1 * 0.6662F + ((float) Math.PI * 3F / 2F)) * 0.4F) * par2;
         this.spiderLeg1.rotateAngleY += var11;
         this.spiderLeg2.rotateAngleY += -var11;
         this.spiderLeg3.rotateAngleY += var12;

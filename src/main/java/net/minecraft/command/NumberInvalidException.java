@@ -6,10 +6,10 @@ public class NumberInvalidException extends CommandException
 
     public NumberInvalidException()
     {
-        this("commands.generic.num.invalid", new Object[0]);
+        this("commands.generic.num.invalid");
     }
 
-    public NumberInvalidException(String par1Str, Object ... par2ArrayOfObj)
+    public NumberInvalidException(String par1Str, Object... par2ArrayOfObj)
     {
         super(par1Str, par2ArrayOfObj);
     }

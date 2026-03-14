@@ -2,14 +2,16 @@ package net.minecraft.block;
 
 public class BlockEventData
 {
-    private int coordX;
-    private int coordY;
-    private int coordZ;
-    private Block field_151344_d;
+    private final int coordX;
+    private final int coordY;
+    private final int coordZ;
+    private final Block field_151344_d;
 
-    /** Different for each blockID */
-    private int eventID;
-    private int eventParameter;
+    /**
+     * Different for each blockID
+     */
+    private final int eventID;
+    private final int eventParameter;
     private static final String __OBFID = "CL_00000131";
 
     public BlockEventData(int p_i45362_1_, int p_i45362_2_, int p_i45362_3_, Block p_i45362_4_, int p_i45362_5_, int p_i45362_6_)
@@ -60,10 +62,9 @@ public class BlockEventData
         if (!(par1Obj instanceof BlockEventData))
         {
             return false;
-        }
-        else
+        } else
         {
-            BlockEventData var2 = (BlockEventData)par1Obj;
+            BlockEventData var2 = (BlockEventData) par1Obj;
             return this.coordX == var2.coordX && this.coordY == var2.coordY && this.coordZ == var2.coordZ && this.eventID == var2.eventID && this.eventParameter == var2.eventParameter && this.field_151344_d == var2.field_151344_d;
         }
     }

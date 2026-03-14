@@ -29,8 +29,8 @@ public class GuiScreenOptionsSounds extends GuiScreen
     public void initGui()
     {
         byte var1 = 0;
-        this.field_146507_a = I18n.format("options.sounds.title", new Object[0]);
-        this.field_146508_h = I18n.format("options.off", new Object[0]);
+        this.field_146507_a = I18n.format("options.sounds.title");
+        this.field_146508_h = I18n.format("options.off");
         this.buttonList.add(new GuiScreenOptionsSounds.Button(SoundCategory.MASTER.getCategoryId(), this.width / 2 - 155 + var1 % 2 * 160, this.height / 6 - 12 + 24 * (var1 >> 1), SoundCategory.MASTER, true));
         int var6 = var1 + 2;
         SoundCategory[] var2 = SoundCategory.values();
@@ -47,7 +47,7 @@ public class GuiScreenOptionsSounds extends GuiScreen
             }
         }
 
-        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
+        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done")));
     }
 
     protected void actionPerformed(GuiButton p_146284_1_)
@@ -75,7 +75,7 @@ public class GuiScreenOptionsSounds extends GuiScreen
     protected String func_146504_a(SoundCategory p_146504_1_)
     {
         float var2 = this.field_146506_g.getSoundLevel(p_146504_1_);
-        return var2 == 0.0F ? this.field_146508_h : (int)(var2 * 100.0F) + "%";
+        return var2 == 0.0F ? this.field_146508_h : (int) (var2 * 100.0F) + "%";
     }
 
     class Button extends GuiButton
@@ -90,7 +90,7 @@ public class GuiScreenOptionsSounds extends GuiScreen
         {
             super(p_i45024_2_, p_i45024_3_, p_i45024_4_, p_i45024_6_ ? 310 : 150, 20, "");
             this.field_146153_r = p_i45024_5_;
-            this.field_146152_s = I18n.format("soundCategory." + p_i45024_5_.getCategoryName(), new Object[0]);
+            this.field_146152_s = I18n.format("soundCategory." + p_i45024_5_.getCategoryName());
             this.displayString = this.field_146152_s + ": " + GuiScreenOptionsSounds.this.func_146504_a(p_i45024_5_);
             this.field_146156_o = GuiScreenOptionsSounds.this.field_146506_g.getSoundLevel(p_i45024_5_);
         }
@@ -106,7 +106,7 @@ public class GuiScreenOptionsSounds extends GuiScreen
             {
                 if (this.field_146155_p)
                 {
-                    this.field_146156_o = (float)(p_146119_2_ - (this.xPosition + 4)) / (float)(this.width - 8);
+                    this.field_146156_o = (float) (p_146119_2_ - (this.xPosition + 4)) / (float) (this.width - 8);
 
                     if (this.field_146156_o < 0.0F)
                     {
@@ -124,8 +124,8 @@ public class GuiScreenOptionsSounds extends GuiScreen
                 }
 
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                this.drawTexturedModalRect(this.xPosition + (int)(this.field_146156_o * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
-                this.drawTexturedModalRect(this.xPosition + (int)(this.field_146156_o * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
+                this.drawTexturedModalRect(this.xPosition + (int) (this.field_146156_o * (float) (this.width - 8)), this.yPosition, 0, 66, 4, 20);
+                this.drawTexturedModalRect(this.xPosition + (int) (this.field_146156_o * (float) (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
             }
         }
 
@@ -133,7 +133,7 @@ public class GuiScreenOptionsSounds extends GuiScreen
         {
             if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_))
             {
-                this.field_146156_o = (float)(p_146116_2_ - (this.xPosition + 4)) / (float)(this.width - 8);
+                this.field_146156_o = (float) (p_146116_2_ - (this.xPosition + 4)) / (float) (this.width - 8);
 
                 if (this.field_146156_o < 0.0F)
                 {
@@ -150,14 +150,15 @@ public class GuiScreenOptionsSounds extends GuiScreen
                 this.displayString = this.field_146152_s + ": " + GuiScreenOptionsSounds.this.func_146504_a(this.field_146153_r);
                 this.field_146155_p = true;
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
         }
 
-        public void playClickSound(SoundHandler handler) {}
+        public void playClickSound(SoundHandler handler)
+        {
+        }
 
         public void mouseReleased(int p_146118_1_, int p_146118_2_)
         {
@@ -166,8 +167,7 @@ public class GuiScreenOptionsSounds extends GuiScreen
                 if (this.field_146153_r == SoundCategory.MASTER)
                 {
                     float var10000 = 1.0F;
-                }
-                else
+                } else
                 {
                     GuiScreenOptionsSounds.this.field_146506_g.getSoundLevel(this.field_146153_r);
                 }

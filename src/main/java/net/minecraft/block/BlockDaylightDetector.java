@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,9 +11,11 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BlockDaylightDetector extends BlockContainer
 {
-    private IIcon[] field_149958_a = new IIcon[2];
+    private final IIcon[] field_149958_a = new IIcon[2];
     private static final String __OBFID = "CL_00000223";
 
     public BlockDaylightDetector()
@@ -37,11 +38,17 @@ public class BlockDaylightDetector extends BlockContainer
     /**
      * Ticks the block if it's been scheduled
      */
-    public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_) {}
+    public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
+    {
+    }
 
-    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_) {}
+    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
+    {
+    }
 
-    public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_) {}
+    public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_)
+    {
+    }
 
     public void func_149957_e(World p_149957_1_, int p_149957_2_, int p_149957_3_, int p_149957_4_)
     {
@@ -51,16 +58,15 @@ public class BlockDaylightDetector extends BlockContainer
             int var6 = p_149957_1_.getSavedLightValue(EnumSkyBlock.Sky, p_149957_2_, p_149957_3_, p_149957_4_) - p_149957_1_.skylightSubtracted;
             float var7 = p_149957_1_.getCelestialAngleRadians(1.0F);
 
-            if (var7 < (float)Math.PI)
+            if (var7 < (float) Math.PI)
             {
                 var7 += (0.0F - var7) * 0.2F;
-            }
-            else
+            } else
             {
-                var7 += (((float)Math.PI * 2F) - var7) * 0.2F;
+                var7 += (((float) Math.PI * 2F) - var7) * 0.2F;
             }
 
-            var6 = Math.round((float)var6 * MathHelper.cos(var7));
+            var6 = Math.round((float) var6 * MathHelper.cos(var7));
 
             if (var6 < 0)
             {

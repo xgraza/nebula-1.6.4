@@ -1,24 +1,33 @@
 package net.minecraft.client.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.src.ModelSprite;
 import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ModelRenderer
 {
-    /** The size of the texture file's width in pixels. */
+    /**
+     * The size of the texture file's width in pixels.
+     */
     public float textureWidth;
 
-    /** The size of the texture file's height in pixels. */
+    /**
+     * The size of the texture file's height in pixels.
+     */
     public float textureHeight;
 
-    /** The X offset into the texture used for displaying this model */
+    /**
+     * The X offset into the texture used for displaying this model
+     */
     private int textureOffsetX;
 
-    /** The Y offset into the texture used for displaying this model */
+    /**
+     * The Y offset into the texture used for displaying this model
+     */
     private int textureOffsetY;
     public float rotationPointX;
     public float rotationPointY;
@@ -28,17 +37,21 @@ public class ModelRenderer
     public float rotateAngleZ;
     private boolean compiled;
 
-    /** The GL display list rendered by the Tessellator for this model */
+    /**
+     * The GL display list rendered by the Tessellator for this model
+     */
     private int displayList;
     public boolean mirror;
     public boolean showModel;
 
-    /** Hides the model. */
+    /**
+     * Hides the model.
+     */
     public boolean isHidden;
     public List cubeList;
     public List childModels;
     public final String boxName;
-    private ModelBase baseModel;
+    private final ModelBase baseModel;
     public float offsetX;
     public float offsetY;
     public float offsetZ;
@@ -63,7 +76,7 @@ public class ModelRenderer
 
     public ModelRenderer(ModelBase par1ModelBase)
     {
-        this(par1ModelBase, (String)null);
+        this(par1ModelBase, null);
     }
 
     public ModelRenderer(ModelBase par1ModelBase, int par2, int par3)
@@ -144,11 +157,10 @@ public class ModelRenderer
                     {
                         for (var2 = 0; var2 < this.childModels.size(); ++var2)
                         {
-                            ((ModelRenderer)this.childModels.get(var2)).render(par1);
+                            ((ModelRenderer) this.childModels.get(var2)).render(par1);
                         }
                     }
-                }
-                else
+                } else
                 {
                     GL11.glTranslatef(this.rotationPointX * par1, this.rotationPointY * par1, this.rotationPointZ * par1);
                     GL11.glCallList(this.displayList);
@@ -157,31 +169,30 @@ public class ModelRenderer
                     {
                         for (var2 = 0; var2 < this.childModels.size(); ++var2)
                         {
-                            ((ModelRenderer)this.childModels.get(var2)).render(par1);
+                            ((ModelRenderer) this.childModels.get(var2)).render(par1);
                         }
                     }
 
                     GL11.glTranslatef(-this.rotationPointX * par1, -this.rotationPointY * par1, -this.rotationPointZ * par1);
                 }
-            }
-            else
+            } else
             {
                 GL11.glPushMatrix();
                 GL11.glTranslatef(this.rotationPointX * par1, this.rotationPointY * par1, this.rotationPointZ * par1);
 
                 if (this.rotateAngleZ != 0.0F)
                 {
-                    GL11.glRotatef(this.rotateAngleZ * (180F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
+                    GL11.glRotatef(this.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
                 }
 
                 if (this.rotateAngleY != 0.0F)
                 {
-                    GL11.glRotatef(this.rotateAngleY * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(this.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
                 }
 
                 if (this.rotateAngleX != 0.0F)
                 {
-                    GL11.glRotatef(this.rotateAngleX * (180F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+                    GL11.glRotatef(this.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
                 }
 
                 GL11.glCallList(this.displayList);
@@ -190,7 +201,7 @@ public class ModelRenderer
                 {
                     for (var2 = 0; var2 < this.childModels.size(); ++var2)
                     {
-                        ((ModelRenderer)this.childModels.get(var2)).render(par1);
+                        ((ModelRenderer) this.childModels.get(var2)).render(par1);
                     }
                 }
 
@@ -215,17 +226,17 @@ public class ModelRenderer
 
             if (this.rotateAngleY != 0.0F)
             {
-                GL11.glRotatef(this.rotateAngleY * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(this.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
             }
 
             if (this.rotateAngleX != 0.0F)
             {
-                GL11.glRotatef(this.rotateAngleX * (180F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+                GL11.glRotatef(this.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
             }
 
             if (this.rotateAngleZ != 0.0F)
             {
-                GL11.glRotatef(this.rotateAngleZ * (180F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
+                GL11.glRotatef(this.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
             }
 
             GL11.glCallList(this.displayList);
@@ -251,24 +262,23 @@ public class ModelRenderer
                 {
                     GL11.glTranslatef(this.rotationPointX * par1, this.rotationPointY * par1, this.rotationPointZ * par1);
                 }
-            }
-            else
+            } else
             {
                 GL11.glTranslatef(this.rotationPointX * par1, this.rotationPointY * par1, this.rotationPointZ * par1);
 
                 if (this.rotateAngleZ != 0.0F)
                 {
-                    GL11.glRotatef(this.rotateAngleZ * (180F / (float)Math.PI), 0.0F, 0.0F, 1.0F);
+                    GL11.glRotatef(this.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
                 }
 
                 if (this.rotateAngleY != 0.0F)
                 {
-                    GL11.glRotatef(this.rotateAngleY * (180F / (float)Math.PI), 0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(this.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
                 }
 
                 if (this.rotateAngleX != 0.0F)
                 {
-                    GL11.glRotatef(this.rotateAngleX * (180F / (float)Math.PI), 1.0F, 0.0F, 0.0F);
+                    GL11.glRotatef(this.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
                 }
             }
         }
@@ -291,12 +301,12 @@ public class ModelRenderer
 
         for (i = 0; i < this.cubeList.size(); ++i)
         {
-            ((ModelBox)this.cubeList.get(i)).render(var2, par1);
+            ((ModelBox) this.cubeList.get(i)).render(var2, par1);
         }
 
         for (i = 0; i < this.spriteList.size(); ++i)
         {
-            ModelSprite sprite = (ModelSprite)this.spriteList.get(i);
+            ModelSprite sprite = (ModelSprite) this.spriteList.get(i);
             sprite.render(Tessellator.instance, par1);
         }
 
@@ -309,8 +319,8 @@ public class ModelRenderer
      */
     public ModelRenderer setTextureSize(int par1, int par2)
     {
-        this.textureWidth = (float)par1;
-        this.textureHeight = (float)par2;
+        this.textureWidth = (float) par1;
+        this.textureHeight = (float) par2;
         return this;
     }
 

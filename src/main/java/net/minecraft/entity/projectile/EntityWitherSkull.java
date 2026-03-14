@@ -76,8 +76,7 @@ public class EntityWitherSkull extends EntityFireball
                     {
                         this.shootingEntity.heal(5.0F);
                     }
-                }
-                else
+                } else
                 {
                     par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.magic, 5.0F);
                 }
@@ -89,15 +88,14 @@ public class EntityWitherSkull extends EntityFireball
                     if (this.worldObj.difficultySetting == EnumDifficulty.NORMAL)
                     {
                         var2 = 10;
-                    }
-                    else if (this.worldObj.difficultySetting == EnumDifficulty.HARD)
+                    } else if (this.worldObj.difficultySetting == EnumDifficulty.HARD)
                     {
                         var2 = 40;
                     }
 
                     if (var2 > 0)
                     {
-                        ((EntityLivingBase)par1MovingObjectPosition.entityHit).addPotionEffect(new PotionEffect(Potion.wither.id, 20 * var2, 1));
+                        ((EntityLivingBase) par1MovingObjectPosition.entityHit).addPotionEffect(new PotionEffect(Potion.wither.id, 20 * var2, 1));
                     }
                 }
             }
@@ -125,7 +123,7 @@ public class EntityWitherSkull extends EntityFireball
 
     protected void entityInit()
     {
-        this.dataWatcher.addObject(10, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(10, Byte.valueOf((byte) 0));
     }
 
     /**
@@ -141,6 +139,6 @@ public class EntityWitherSkull extends EntityFireball
      */
     public void setInvulnerable(boolean par1)
     {
-        this.dataWatcher.updateObject(10, Byte.valueOf((byte)(par1 ? 1 : 0)));
+        this.dataWatcher.updateObject(10, Byte.valueOf((byte) (par1 ? 1 : 0)));
     }
 }

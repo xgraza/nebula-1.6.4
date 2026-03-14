@@ -1,9 +1,5 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.zip.DataFormatException;
-import java.util.zip.Deflater;
-import java.util.zip.Inflater;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -11,6 +7,11 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.NibbleArray;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
+
+import java.io.IOException;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 public class S21PacketChunkData extends Packet
 {
@@ -24,7 +25,9 @@ public class S21PacketChunkData extends Packet
     private int size;
     private static byte[] field_149286_i = new byte[196864];
 
-    public S21PacketChunkData() {}
+    public S21PacketChunkData()
+    {
+    }
 
     public S21PacketChunkData(Chunk chunk, boolean full, int p_i45196_3_)
     {
@@ -43,8 +46,7 @@ public class S21PacketChunkData extends Packet
             deflator.finish();
             this.chunkData = new byte[extractedChunk.deflatedChunkData.length];
             this.size = deflator.deflate(this.chunkData);
-        }
-        finally
+        } finally
         {
             deflator.end();
         }
@@ -95,12 +97,10 @@ public class S21PacketChunkData extends Packet
         try
         {
             var4.inflate(this.deflatedChunkData);
-        }
-        catch (DataFormatException var9)
+        } catch (DataFormatException var9)
         {
             throw new IOException("Bad compressed data format");
-        }
-        finally
+        } finally
         {
             var4.end();
         }
@@ -114,8 +114,8 @@ public class S21PacketChunkData extends Packet
         p_148840_1_.writeInt(this.x);
         p_148840_1_.writeInt(this.z);
         p_148840_1_.writeBoolean(this.full);
-        p_148840_1_.writeShort((short)(this.sects & 65535));
-        p_148840_1_.writeShort((short)(this.add & 65535));
+        p_148840_1_.writeShort((short) (this.sects & 65535));
+        p_148840_1_.writeShort((short) (this.add & 65535));
         p_148840_1_.writeInt(this.size);
         p_148840_1_.writeBytes(this.chunkData, 0, this.size);
     }
@@ -130,7 +130,7 @@ public class S21PacketChunkData extends Packet
      */
     public String serialize()
     {
-        return String.format("x=%d, z=%d, full=%b, sects=%d, add=%d, size=%d", new Object[] {Integer.valueOf(this.x), Integer.valueOf(this.z), Boolean.valueOf(this.full), Integer.valueOf(this.sects), Integer.valueOf(this.add), Integer.valueOf(this.size)});
+        return String.format("x=%d, z=%d, full=%b, sects=%d, add=%d, size=%d", Integer.valueOf(this.x), Integer.valueOf(this.z), Boolean.valueOf(this.full), Integer.valueOf(this.sects), Integer.valueOf(this.add), Integer.valueOf(this.size));
     }
 
     public byte[] getDeflatedChunkData()
@@ -264,7 +264,7 @@ public class S21PacketChunkData extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 
     public static class Extracted

@@ -1,16 +1,12 @@
 package net.minecraft.client.mco;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class McoServer
 {
@@ -72,8 +68,7 @@ public class McoServer
             if (p_148802_0_.get("invited").isJsonArray())
             {
                 var1.field_148806_f = func_148798_a(p_148802_0_.get("invited").getAsJsonArray());
-            }
-            else
+            } else
             {
                 var1.field_148806_f = new ArrayList();
             }
@@ -83,10 +78,8 @@ public class McoServer
             var1.field_148819_h = !p_148802_0_.get("expired").isJsonNull() && p_148802_0_.get("expired").getAsBoolean();
             var1.field_148820_i = !p_148802_0_.get("difficulty").isJsonNull() ? p_148802_0_.get("difficulty").getAsInt() : 0;
             var1.field_148817_j = !p_148802_0_.get("gameMode").isJsonNull() ? p_148802_0_.get("gameMode").getAsInt() : 0;
-        }
-        catch (IllegalArgumentException var3)
+        } catch (IllegalArgumentException var3)
         {
-            ;
         }
 
         return var1;
@@ -99,7 +92,7 @@ public class McoServer
 
         while (var2.hasNext())
         {
-            var1.add(((JsonElement)var2.next()).getAsString());
+            var1.add(((JsonElement) var2.next()).getAsString());
         }
 
         return var1;
@@ -114,14 +107,10 @@ public class McoServer
             JsonParser var2 = new JsonParser();
             JsonObject var3 = var2.parse(p_148805_0_).getAsJsonObject();
             var1 = func_148802_a(var3);
-        }
-        catch (JsonIOException var4)
+        } catch (JsonIOException var4)
         {
-            ;
-        }
-        catch (JsonSyntaxException var5)
+        } catch (JsonSyntaxException var5)
         {
-            ;
         }
 
         return var1;
@@ -137,31 +126,30 @@ public class McoServer
         if (par1Obj == null)
         {
             return false;
-        }
-        else if (par1Obj == this)
+        } else if (par1Obj == this)
         {
             return true;
-        }
-        else if (par1Obj.getClass() != this.getClass())
+        } else if (par1Obj.getClass() != this.getClass())
         {
             return false;
-        }
-        else
+        } else
         {
-            McoServer var2 = (McoServer)par1Obj;
+            McoServer var2 = (McoServer) par1Obj;
             return (new EqualsBuilder()).append(this.field_148812_a, var2.field_148812_a).append(this.field_148810_b, var2.field_148810_b).append(this.field_148811_c, var2.field_148811_c).append(this.field_148808_d, var2.field_148808_d).append(this.field_148809_e, var2.field_148809_e).append(this.field_148819_h, var2.field_148819_h).isEquals();
         }
     }
 
-    public static enum State
+    public enum State
     {
         CLOSED("CLOSED", 0),
         OPEN("OPEN", 1),
         ADMIN_LOCK("ADMIN_LOCK", 2);
 
-        private static final McoServer.State[] $VALUES = new McoServer.State[]{CLOSED, OPEN, ADMIN_LOCK};
+        private static final McoServer.State[] $VALUES = new McoServer.State[]{ CLOSED, OPEN, ADMIN_LOCK };
         private static final String __OBFID = "CL_00001167";
 
-        private State(String p_i45485_1_, int p_i45485_2_) {}
+        State(String p_i45485_1_, int p_i45485_2_)
+        {
+        }
     }
 }

@@ -49,7 +49,7 @@ public class RenderSkeleton extends RenderBiped
      */
     protected ResourceLocation getEntityTexture(EntityLiving par1EntityLiving)
     {
-        return this.getEntityTexture((EntitySkeleton)par1EntityLiving);
+        return this.getEntityTexture((EntitySkeleton) par1EntityLiving);
     }
 
     /**
@@ -58,7 +58,7 @@ public class RenderSkeleton extends RenderBiped
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntitySkeleton)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntitySkeleton) par1EntityLivingBase, par2);
     }
 
     /**
@@ -66,6 +66,6 @@ public class RenderSkeleton extends RenderBiped
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntitySkeleton)par1Entity);
+        return this.getEntityTexture((EntitySkeleton) par1Entity);
     }
 }

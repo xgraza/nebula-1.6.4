@@ -21,9 +21,9 @@ import org.lwjgl.opengl.GL11;
 public class RenderPlayer extends RendererLivingEntity
 {
     private static final ResourceLocation steveTextures = new ResourceLocation("textures/entity/steve.png");
-    private ModelBiped modelBipedMain;
-    private ModelBiped modelArmorChestplate;
-    private ModelBiped modelArmor;
+    private final ModelBiped modelBipedMain;
+    private final ModelBiped modelArmorChestplate;
+    private final ModelBiped modelArmor;
     private static final String __OBFID = "CL_00001020";
 
     public RenderPlayer()
@@ -141,7 +141,7 @@ public class RenderPlayer extends RendererLivingEntity
             var13 -= 0.125D;
         }
 
-        super.doRender((EntityLivingBase) par1AbstractClientPlayer, par2, var13, par6, par8, par9);
+        super.doRender(par1AbstractClientPlayer, par2, var13, par6, par8, par9);
         this.modelArmorChestplate.aimedBow = this.modelArmor.aimedBow = this.modelBipedMain.aimedBow = false;
         this.modelArmorChestplate.isSneak = this.modelArmor.isSneak = this.modelBipedMain.isSneak = false;
         this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = 0;
@@ -232,8 +232,8 @@ public class RenderPlayer extends RendererLivingEntity
             double var26 = par1AbstractClientPlayer.field_71096_bN + (par1AbstractClientPlayer.field_71095_bQ - par1AbstractClientPlayer.field_71096_bN) * (double) par2 - (par1AbstractClientPlayer.prevPosY + (par1AbstractClientPlayer.posY - par1AbstractClientPlayer.prevPosY) * (double) par2);
             double var9 = par1AbstractClientPlayer.field_71097_bO + (par1AbstractClientPlayer.field_71085_bR - par1AbstractClientPlayer.field_71097_bO) * (double) par2 - (par1AbstractClientPlayer.prevPosZ + (par1AbstractClientPlayer.posZ - par1AbstractClientPlayer.prevPosZ) * (double) par2);
             var11 = par1AbstractClientPlayer.prevRenderYawOffset + (par1AbstractClientPlayer.renderYawOffset - par1AbstractClientPlayer.prevRenderYawOffset) * par2;
-            double var12 = (double) MathHelper.sin(var11 * (float) Math.PI / 180.0F);
-            double var14 = (double) (-MathHelper.cos(var11 * (float) Math.PI / 180.0F));
+            double var12 = MathHelper.sin(var11 * (float) Math.PI / 180.0F);
+            double var14 = -MathHelper.cos(var11 * (float) Math.PI / 180.0F);
             float var16 = (float) var26 * 10.0F;
 
             if (var16 < -6.0F)
@@ -396,7 +396,7 @@ public class RenderPlayer extends RendererLivingEntity
                     this.renderEntityNameplate(par1AbstractClientPlayer, var14.getScorePoints() + " " + var13.getDisplayName(), par2, par4, par6, 64);
                 }
 
-                par4 += (double) ((float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * par9);
+                par4 += (float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * par9;
             }
         }
 

@@ -1,11 +1,5 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.Callable;
 import net.minecraft.block.Block;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -16,6 +10,9 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.MapGenBase;
+
+import java.util.*;
+import java.util.concurrent.Callable;
 
 public abstract class MapGenStructure extends MapGenBase
 {
@@ -47,23 +44,24 @@ public abstract class MapGenStructure extends MapGenBase
                     this.structureMap.put(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(p_151538_2_, p_151538_3_)), var7);
                     this.func_143026_a(p_151538_2_, p_151538_3_, var7);
                 }
-            }
-            catch (Throwable var10)
+            } catch (Throwable var10)
             {
                 CrashReport var8 = CrashReport.makeCrashReport(var10, "Exception preparing structure feature");
                 CrashReportCategory var9 = var8.makeCategory("Feature being prepared");
                 var9.addCrashSectionCallable("Is feature chunk", new Callable()
                 {
                     private static final String __OBFID = "CL_00000506";
+
                     public String call()
                     {
                         return MapGenStructure.this.canSpawnStructureAtCoords(p_151538_2_, p_151538_3_) ? "True" : "False";
                     }
                 });
-                var9.addCrashSection("Chunk location", String.format("%d,%d", new Object[] {Integer.valueOf(p_151538_2_), Integer.valueOf(p_151538_3_)}));
+                var9.addCrashSection("Chunk location", String.format("%d,%d", Integer.valueOf(p_151538_2_), Integer.valueOf(p_151538_3_)));
                 var9.addCrashSectionCallable("Chunk pos hash", new Callable()
                 {
                     private static final String __OBFID = "CL_00000507";
+
                     public String call()
                     {
                         return String.valueOf(ChunkCoordIntPair.chunkXZ2Int(p_151538_2_, p_151538_3_));
@@ -72,6 +70,7 @@ public abstract class MapGenStructure extends MapGenBase
                 var9.addCrashSectionCallable("Structure type", new Callable()
                 {
                     private static final String __OBFID = "CL_00000508";
+
                     public String call()
                     {
                         return MapGenStructure.this.getClass().getCanonicalName();
@@ -95,7 +94,7 @@ public abstract class MapGenStructure extends MapGenBase
 
         while (var8.hasNext())
         {
-            StructureStart var9 = (StructureStart)var8.next();
+            StructureStart var9 = (StructureStart) var8.next();
 
             if (var9.isSizeableStructure() && var9.getBoundingBox().intersectsWith(var5, var6, var5 + 15, var6 + 15))
             {
@@ -123,7 +122,7 @@ public abstract class MapGenStructure extends MapGenBase
 
         while (var4.hasNext())
         {
-            StructureStart var5 = (StructureStart)var4.next();
+            StructureStart var5 = (StructureStart) var4.next();
 
             if (var5.isSizeableStructure() && var5.getBoundingBox().intersectsWith(par1, par3, par1, par3))
             {
@@ -131,7 +130,7 @@ public abstract class MapGenStructure extends MapGenBase
 
                 while (var6.hasNext())
                 {
-                    StructureComponent var7 = (StructureComponent)var6.next();
+                    StructureComponent var7 = (StructureComponent) var6.next();
 
                     if (var7.getBoundingBox().isVecInside(par1, par2, par3))
                     {
@@ -157,7 +156,7 @@ public abstract class MapGenStructure extends MapGenBase
                 return false;
             }
 
-            var5 = (StructureStart)var4.next();
+            var5 = (StructureStart) var4.next();
         }
         while (!var5.isSizeableStructure());
 
@@ -171,10 +170,10 @@ public abstract class MapGenStructure extends MapGenBase
         this.rand.setSeed(p_151545_1_.getSeed());
         long var5 = this.rand.nextLong();
         long var7 = this.rand.nextLong();
-        long var9 = (long)(p_151545_2_ >> 4) * var5;
-        long var11 = (long)(p_151545_4_ >> 4) * var7;
+        long var9 = (long) (p_151545_2_ >> 4) * var5;
+        long var11 = (long) (p_151545_4_ >> 4) * var7;
         this.rand.setSeed(var9 ^ var11 ^ p_151545_1_.getSeed());
-        this.func_151538_a(p_151545_1_, p_151545_2_ >> 4, p_151545_4_ >> 4, 0, 0, (Block[])null);
+        this.func_151538_a(p_151545_1_, p_151545_2_ >> 4, p_151545_4_ >> 4, 0, 0, null);
         double var13 = Double.MAX_VALUE;
         ChunkPosition var15 = null;
         Iterator var16 = this.structureMap.values().iterator();
@@ -186,16 +185,16 @@ public abstract class MapGenStructure extends MapGenBase
 
         while (var16.hasNext())
         {
-            StructureStart var17 = (StructureStart)var16.next();
+            StructureStart var17 = (StructureStart) var16.next();
 
             if (var17.isSizeableStructure())
             {
-                StructureComponent var18 = (StructureComponent)var17.getComponents().get(0);
+                StructureComponent var18 = (StructureComponent) var17.getComponents().get(0);
                 var19 = var18.func_151553_a();
                 var20 = var19.xCoord - p_151545_2_;
                 var21 = var19.field_151327_b - p_151545_3_;
                 var22 = var19.yCoord - p_151545_4_;
-                var23 = (double)(var20 * var20 + var21 * var21 + var22 * var22);
+                var23 = var20 * var20 + var21 * var21 + var22 * var22;
 
                 if (var23 < var13)
                 {
@@ -208,8 +207,7 @@ public abstract class MapGenStructure extends MapGenBase
         if (var15 != null)
         {
             return var15;
-        }
-        else
+        } else
         {
             List var25 = this.getCoordList();
 
@@ -220,11 +218,11 @@ public abstract class MapGenStructure extends MapGenBase
 
                 while (var27.hasNext())
                 {
-                    var19 = (ChunkPosition)var27.next();
+                    var19 = (ChunkPosition) var27.next();
                     var20 = var19.xCoord - p_151545_2_;
                     var21 = var19.field_151327_b - p_151545_3_;
                     var22 = var19.yCoord - p_151545_4_;
-                    var23 = (double)(var20 * var20 + var21 * var21 + var22 * var22);
+                    var23 = var20 * var20 + var21 * var21 + var22 * var22;
 
                     if (var23 < var13)
                     {
@@ -234,8 +232,7 @@ public abstract class MapGenStructure extends MapGenBase
                 }
 
                 return var26;
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -255,26 +252,25 @@ public abstract class MapGenStructure extends MapGenBase
     {
         if (this.field_143029_e == null)
         {
-            this.field_143029_e = (MapGenStructureData)par1World.loadItemData(MapGenStructureData.class, this.func_143025_a());
+            this.field_143029_e = (MapGenStructureData) par1World.loadItemData(MapGenStructureData.class, this.func_143025_a());
 
             if (this.field_143029_e == null)
             {
                 this.field_143029_e = new MapGenStructureData(this.func_143025_a());
                 par1World.setItemData(this.func_143025_a(), this.field_143029_e);
-            }
-            else
+            } else
             {
                 NBTTagCompound var2 = this.field_143029_e.func_143041_a();
                 Iterator var3 = var2.func_150296_c().iterator();
 
                 while (var3.hasNext())
                 {
-                    String var4 = (String)var3.next();
+                    String var4 = (String) var3.next();
                     NBTBase var5 = var2.getTag(var4);
 
                     if (var5.getId() == 10)
                     {
-                        NBTTagCompound var6 = (NBTTagCompound)var5;
+                        NBTTagCompound var6 = (NBTTagCompound) var5;
 
                         if (var6.hasKey("ChunkX") && var6.hasKey("ChunkZ"))
                         {

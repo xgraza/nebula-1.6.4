@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S25PacketBlockBreakAnim extends Packet
 {
@@ -15,7 +16,9 @@ public class S25PacketBlockBreakAnim extends Packet
     private int field_148849_e;
     private static final String __OBFID = "CL_00001284";
 
-    public S25PacketBlockBreakAnim() {}
+    public S25PacketBlockBreakAnim()
+    {
+    }
 
     public S25PacketBlockBreakAnim(int p_i45174_1_, int p_i45174_2_, int p_i45174_3_, int p_i45174_4_, int p_i45174_5_)
     {
@@ -82,6 +85,6 @@ public class S25PacketBlockBreakAnim extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

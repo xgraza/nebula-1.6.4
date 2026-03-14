@@ -4,16 +4,24 @@ import net.minecraft.entity.Entity;
 
 public class MovingObjectPosition
 {
-    /** What type of ray trace hit was this? 0 = block, 1 = entity */
+    /**
+     * What type of ray trace hit was this? 0 = block, 1 = entity
+     */
     public MovingObjectPosition.MovingObjectType typeOfHit;
 
-    /** x coordinate of the block ray traced against */
+    /**
+     * x coordinate of the block ray traced against
+     */
     public int blockX;
 
-    /** y coordinate of the block ray traced against */
+    /**
+     * y coordinate of the block ray traced against
+     */
     public int blockY;
 
-    /** z coordinate of the block ray traced against */
+    /**
+     * z coordinate of the block ray traced against
+     */
     public int blockZ;
 
     /**
@@ -22,10 +30,14 @@ public class MovingObjectPosition
      */
     public int sideHit;
 
-    /** The vector position of the hit */
+    /**
+     * The vector position of the hit
+     */
     public Vec3 hitVec;
 
-    /** The hit entity */
+    /**
+     * The hit entity
+     */
     public Entity entityHit;
     private static final String __OBFID = "CL_00000610";
 
@@ -61,15 +73,17 @@ public class MovingObjectPosition
         return "HitResult{type=" + this.typeOfHit + ", x=" + this.blockX + ", y=" + this.blockY + ", z=" + this.blockZ + ", f=" + this.sideHit + ", pos=" + this.hitVec + ", entity=" + this.entityHit + '}';
     }
 
-    public static enum MovingObjectType
+    public enum MovingObjectType
     {
         MISS("MISS", 0),
         BLOCK("BLOCK", 1),
         ENTITY("ENTITY", 2);
 
-        private static final MovingObjectPosition.MovingObjectType[] $VALUES = new MovingObjectPosition.MovingObjectType[]{MISS, BLOCK, ENTITY};
+        private static final MovingObjectPosition.MovingObjectType[] $VALUES = new MovingObjectPosition.MovingObjectType[]{ MISS, BLOCK, ENTITY };
         private static final String __OBFID = "CL_00000611";
 
-        private MovingObjectType(String par1Str, int par2) {}
+        MovingObjectType(String par1Str, int par2)
+        {
+        }
     }
 }

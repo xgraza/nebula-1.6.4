@@ -1,10 +1,6 @@
 package net.minecraft.network.play.server;
 
 import com.google.common.collect.Maps;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -12,12 +8,19 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
 
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 public class S37PacketStatistics extends Packet
 {
     private Map field_148976_a;
     private static final String __OBFID = "CL_00001283";
 
-    public S37PacketStatistics() {}
+    public S37PacketStatistics()
+    {
+    }
 
     public S37PacketStatistics(Map p_i45173_1_)
     {
@@ -59,9 +62,9 @@ public class S37PacketStatistics extends Packet
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
-            p_148840_1_.writeStringToBuffer(((StatBase)var3.getKey()).statId);
-            p_148840_1_.writeVarIntToBuffer(((Integer)var3.getValue()).intValue());
+            Entry var3 = (Entry) var2.next();
+            p_148840_1_.writeStringToBuffer(((StatBase) var3.getKey()).statId);
+            p_148840_1_.writeVarIntToBuffer(((Integer) var3.getValue()).intValue());
         }
     }
 
@@ -70,7 +73,7 @@ public class S37PacketStatistics extends Packet
      */
     public String serialize()
     {
-        return String.format("count=%d", new Object[] {Integer.valueOf(this.field_148976_a.size())});
+        return String.format("count=%d", Integer.valueOf(this.field_148976_a.size()));
     }
 
     public Map func_148974_c()
@@ -80,6 +83,6 @@ public class S37PacketStatistics extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

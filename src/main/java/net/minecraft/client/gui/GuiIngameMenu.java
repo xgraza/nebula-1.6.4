@@ -25,18 +25,18 @@ public class GuiIngameMenu extends GuiScreen
         this.buttonList.clear();
         byte var1 = -16;
         boolean var2 = true;
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + var1, I18n.format("menu.returnToMenu", new Object[0])));
+        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + var1, I18n.format("menu.returnToMenu")));
 
         if (!this.mc.isIntegratedServerRunning())
         {
-            ((GuiButton) this.buttonList.get(0)).displayString = I18n.format("menu.disconnect", new Object[0]);
+            this.buttonList.get(0).displayString = I18n.format("menu.disconnect");
         }
 
-        this.buttonList.add(new GuiButton(4, this.width / 2 - 100, this.height / 4 + 24 + var1, I18n.format("menu.returnToGame", new Object[0])));
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + var1, 98, 20, I18n.format("menu.options", new Object[0])));
+        this.buttonList.add(new GuiButton(4, this.width / 2 - 100, this.height / 4 + 24 + var1, I18n.format("menu.returnToGame")));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + var1, 98, 20, I18n.format("menu.options")));
         if (mc.isSingleplayer() && !mc.getIntegratedServer().getPublic())
         {
-            this.buttonList.add(new GuiButton(7, this.width / 2 + 2, this.height / 4 + 96 + var1, 98, 20, I18n.format("menu.shareToLan", new Object[0])));
+            this.buttonList.add(new GuiButton(7, this.width / 2 + 2, this.height / 4 + 96 + var1, 98, 20, I18n.format("menu.shareToLan")));
 
         } else
         {
@@ -44,8 +44,8 @@ public class GuiIngameMenu extends GuiScreen
             this.buttonList.add(var3 = new GuiButton(7, this.width / 2 + 2, this.height / 4 + 96 + var1, 98, 20, "Reconnect"));
             var3.enabled = AutoReconnectCheat.INSTANCE.getLastServer() != null;
         }
-        this.buttonList.add(new GuiButton(5, this.width / 2 - 100, this.height / 4 + 48 + var1, 98, 20, I18n.format("gui.achievements", new Object[0])));
-        this.buttonList.add(new GuiButton(6, this.width / 2 + 2, this.height / 4 + 48 + var1, 98, 20, I18n.format("gui.stats", new Object[0])));
+        this.buttonList.add(new GuiButton(5, this.width / 2 - 100, this.height / 4 + 48 + var1, 98, 20, I18n.format("gui.achievements")));
+        this.buttonList.add(new GuiButton(6, this.width / 2 + 2, this.height / 4 + 48 + var1, 98, 20, I18n.format("gui.stats")));
 
         if (!this.mc.isIntegratedServerRunning())
         {
@@ -56,9 +56,9 @@ public class GuiIngameMenu extends GuiScreen
             GuiButton wdlOptions = new GuiButton(51, this.width / 2 + 71, this.height / 4 + 72 + var1, 28, 20, "...");
             this.buttonList.add(wdlOptions);
             wdlOptions.enabled = !WDL.downloading || WDL.downloading && !WDL.saving;
-            ((GuiButton) this.buttonList.get(0)).yPosition = this.height / 4 + 144 + var1;
-            ((GuiButton) this.buttonList.get(2)).yPosition = this.height / 4 + 120 + var1;
-            ((GuiButton) this.buttonList.get(3)).yPosition = this.height / 4 + 120 + var1;
+            this.buttonList.get(0).yPosition = this.height / 4 + 144 + var1;
+            this.buttonList.get(2).yPosition = this.height / 4 + 120 + var1;
+            this.buttonList.get(3).yPosition = this.height / 4 + 120 + var1;
         }
     }
 
@@ -88,7 +88,7 @@ public class GuiIngameMenu extends GuiScreen
                 break;
 
             case 4:
-                this.mc.displayGuiScreen((GuiScreen) null);
+                this.mc.displayGuiScreen(null);
                 this.mc.setIngameFocus();
                 break;
 
@@ -123,7 +123,7 @@ public class GuiIngameMenu extends GuiScreen
                     WDL.start();
                 }
 
-                this.mc.displayGuiScreen((GuiScreen) null);
+                this.mc.displayGuiScreen(null);
                 this.mc.setIngameFocus();
                 break;
 
@@ -151,7 +151,7 @@ public class GuiIngameMenu extends GuiScreen
     {
         WDL.stop();
         this.mc.theWorld.sendQuittingDisconnectingPacket();
-        this.mc.loadWorld((WorldClient) null);
+        this.mc.loadWorld(null);
         this.mc.displayGuiScreen(new GuiMainMenu());
     }
 

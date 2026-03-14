@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 public class GuiBrewingStand extends GuiContainer
 {
     private static final ResourceLocation field_147014_u = new ResourceLocation("textures/gui/container/brewing_stand.png");
-    private TileEntityBrewingStand field_147013_v;
+    private final TileEntityBrewingStand field_147013_v;
     private static final String __OBFID = "CL_00000746";
 
     public GuiBrewingStand(InventoryPlayer par1InventoryPlayer, TileEntityBrewingStand par2TileEntityBrewingStand)
@@ -21,9 +21,9 @@ public class GuiBrewingStand extends GuiContainer
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
-        String var3 = this.field_147013_v.isInventoryNameLocalized() ? this.field_147013_v.getInventoryName() : I18n.format(this.field_147013_v.getInventoryName(), new Object[0]);
+        String var3 = this.field_147013_v.isInventoryNameLocalized() ? this.field_147013_v.getInventoryName() : I18n.format(this.field_147013_v.getInventoryName());
         this.fontRenderer.drawString(var3, this.field_146999_f / 2 - this.fontRenderer.getStringWidth(var3) / 2, 6, 4210752);
-        this.fontRenderer.drawString(I18n.format("container.inventory", new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
+        this.fontRenderer.drawString(I18n.format("container.inventory"), 8, this.field_147000_g - 96 + 2, 4210752);
     }
 
     protected void func_146976_a(float p_146976_1_, int p_146976_2_, int p_146976_3_)
@@ -37,7 +37,7 @@ public class GuiBrewingStand extends GuiContainer
 
         if (var6 > 0)
         {
-            int var7 = (int)(28.0F * (1.0F - (float)var6 / 400.0F));
+            int var7 = (int) (28.0F * (1.0F - (float) var6 / 400.0F));
 
             if (var7 > 0)
             {

@@ -1,7 +1,5 @@
 package net.minecraft.entity.item;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.ITileEntityProvider;
@@ -16,6 +14,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class EntityFallingBlock extends Entity
 {
@@ -72,7 +73,9 @@ public class EntityFallingBlock extends Entity
         return false;
     }
 
-    protected void entityInit() {}
+    protected void entityInit()
+    {
+    }
 
     /**
      * Returns true if other Entities should be prevented from moving through this Entity.
@@ -90,8 +93,7 @@ public class EntityFallingBlock extends Entity
         if (this.field_145811_e.getMaterial() == Material.air)
         {
             this.setDead();
-        }
-        else
+        } else
         {
             this.prevPosX = this.posX;
             this.prevPosY = this.posY;
@@ -130,11 +132,11 @@ public class EntityFallingBlock extends Entity
                     {
                         this.setDead();
 
-                        if (!this.field_145808_f && this.worldObj.canPlaceEntityOnSide(this.field_145811_e, var1, var2, var3, true, 1, (Entity)null, (ItemStack)null) && !BlockFalling.func_149831_e(this.worldObj, var1, var2 - 1, var3) && this.worldObj.setBlock(var1, var2, var3, this.field_145811_e, this.field_145814_a, 3))
+                        if (!this.field_145808_f && this.worldObj.canPlaceEntityOnSide(this.field_145811_e, var1, var2, var3, true, 1, null, null) && !BlockFalling.func_149831_e(this.worldObj, var1, var2 - 1, var3) && this.worldObj.setBlock(var1, var2, var3, this.field_145811_e, this.field_145814_a, 3))
                         {
                             if (this.field_145811_e instanceof BlockFalling)
                             {
-                                ((BlockFalling)this.field_145811_e).func_149828_a(this.worldObj, var1, var2, var3, this.field_145814_a);
+                                ((BlockFalling) this.field_145811_e).func_149828_a(this.worldObj, var1, var2, var3, this.field_145814_a);
                             }
 
                             if (this.field_145810_d != null && this.field_145811_e instanceof ITileEntityProvider)
@@ -149,7 +151,7 @@ public class EntityFallingBlock extends Entity
 
                                     while (var6.hasNext())
                                     {
-                                        String var7 = (String)var6.next();
+                                        String var7 = (String) var6.next();
                                         NBTBase var8 = this.field_145810_d.getTag(var7);
 
                                         if (!var7.equals("x") && !var7.equals("y") && !var7.equals("z"))
@@ -162,14 +164,12 @@ public class EntityFallingBlock extends Entity
                                     var4.onInventoryChanged();
                                 }
                             }
-                        }
-                        else if (this.field_145813_c && !this.field_145808_f)
+                        } else if (this.field_145813_c && !this.field_145808_f)
                         {
                             this.entityDropItem(new ItemStack(this.field_145811_e, 1, this.field_145811_e.damageDropped(this.field_145814_a)), 0.0F);
                         }
                     }
-                }
-                else if (this.field_145812_b > 100 && !this.worldObj.isClient && (var2 < 1 || var2 > 256) || this.field_145812_b > 600)
+                } else if (this.field_145812_b > 100 && !this.worldObj.isClient && (var2 < 1 || var2 > 256) || this.field_145812_b > 600)
                 {
                     if (this.field_145813_c)
                     {
@@ -200,11 +200,11 @@ public class EntityFallingBlock extends Entity
 
                 while (var6.hasNext())
                 {
-                    Entity var7 = (Entity)var6.next();
-                    var7.attackEntityFrom(var5, (float)Math.min(MathHelper.floor_float((float)var2 * this.field_145816_i), this.field_145815_h));
+                    Entity var7 = (Entity) var6.next();
+                    var7.attackEntityFrom(var5, (float) Math.min(MathHelper.floor_float((float) var2 * this.field_145816_i), this.field_145815_h));
                 }
 
-                if (var4 && (double)this.rand.nextFloat() < 0.05000000074505806D + (double)var2 * 0.05D)
+                if (var4 && (double) this.rand.nextFloat() < 0.05000000074505806D + (double) var2 * 0.05D)
                 {
                     int var8 = this.field_145814_a >> 2;
                     int var9 = this.field_145814_a & 3;
@@ -213,8 +213,7 @@ public class EntityFallingBlock extends Entity
                     if (var8 > 2)
                     {
                         this.field_145808_f = true;
-                    }
-                    else
+                    } else
                     {
                         this.field_145814_a = var9 | var8 << 2;
                     }
@@ -228,10 +227,10 @@ public class EntityFallingBlock extends Entity
      */
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
-        par1NBTTagCompound.setByte("Tile", (byte)Block.getIdFromBlock(this.field_145811_e));
+        par1NBTTagCompound.setByte("Tile", (byte) Block.getIdFromBlock(this.field_145811_e));
         par1NBTTagCompound.setInteger("TileID", Block.getIdFromBlock(this.field_145811_e));
-        par1NBTTagCompound.setByte("Data", (byte)this.field_145814_a);
-        par1NBTTagCompound.setByte("Time", (byte)this.field_145812_b);
+        par1NBTTagCompound.setByte("Data", (byte) this.field_145814_a);
+        par1NBTTagCompound.setByte("Time", (byte) this.field_145812_b);
         par1NBTTagCompound.setBoolean("DropItem", this.field_145813_c);
         par1NBTTagCompound.setBoolean("HurtEntities", this.field_145809_g);
         par1NBTTagCompound.setFloat("FallHurtAmount", this.field_145816_i);
@@ -251,8 +250,7 @@ public class EntityFallingBlock extends Entity
         if (par1NBTTagCompound.hasKey("TileID", 99))
         {
             this.field_145811_e = Block.getBlockById(par1NBTTagCompound.getInteger("TileID"));
-        }
-        else
+        } else
         {
             this.field_145811_e = Block.getBlockById(par1NBTTagCompound.getByte("Tile") & 255);
         }
@@ -265,8 +263,7 @@ public class EntityFallingBlock extends Entity
             this.field_145809_g = par1NBTTagCompound.getBoolean("HurtEntities");
             this.field_145816_i = par1NBTTagCompound.getFloat("FallHurtAmount");
             this.field_145815_h = par1NBTTagCompound.getInteger("FallHurtMax");
-        }
-        else if (this.field_145811_e == Blocks.anvil)
+        } else if (this.field_145811_e == Blocks.anvil)
         {
             this.field_145809_g = true;
         }

@@ -35,8 +35,7 @@ public class ShaderLinkHelper
         if (var1 <= 0)
         {
             throw new JsonException("Could not create shader program (returned program ID " + var1 + ")");
-        }
-        else
+        } else
         {
             return var1;
         }

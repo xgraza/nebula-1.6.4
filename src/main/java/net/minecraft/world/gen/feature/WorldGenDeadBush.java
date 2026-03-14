@@ -1,13 +1,14 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenDeadBush extends WorldGenerator
 {
-    private Block field_150547_a;
+    private final Block field_150547_a;
     private static final String __OBFID = "CL_00000406";
 
     public WorldGenDeadBush(Block p_i45451_1_)

@@ -1,13 +1,14 @@
 package net.minecraft.client.gui;
 
-import java.util.Iterator;
 import net.minecraft.client.resources.I18n;
+
+import java.util.Iterator;
 
 public class GuiYesNo extends GuiScreen
 {
     protected GuiScreen field_146355_a;
     protected String field_146351_f;
-    private String field_146354_r;
+    private final String field_146354_r;
     protected String field_146352_g;
     protected String field_146356_h;
     protected int field_146357_i;
@@ -20,8 +21,8 @@ public class GuiYesNo extends GuiScreen
         this.field_146351_f = par2Str;
         this.field_146354_r = par3Str;
         this.field_146357_i = par4;
-        this.field_146352_g = I18n.format("gui.yes", new Object[0]);
-        this.field_146356_h = I18n.format("gui.no", new Object[0]);
+        this.field_146352_g = I18n.format("gui.yes");
+        this.field_146356_h = I18n.format("gui.no");
     }
 
     public GuiYesNo(GuiScreen par1GuiScreen, String par2Str, String par3Str, String par4Str, String par5Str, int par6)
@@ -66,7 +67,7 @@ public class GuiYesNo extends GuiScreen
 
         for (Iterator var2 = this.buttonList.iterator(); var2.hasNext(); var3.enabled = false)
         {
-            var3 = (GuiButton)var2.next();
+            var3 = (GuiButton) var2.next();
         }
     }
 
@@ -82,7 +83,7 @@ public class GuiYesNo extends GuiScreen
         {
             for (Iterator var1 = this.buttonList.iterator(); var1.hasNext(); var2.enabled = true)
             {
-                var2 = (GuiButton)var1.next();
+                var2 = (GuiButton) var1.next();
             }
         }
     }

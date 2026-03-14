@@ -58,28 +58,28 @@ public final class GoogleTranslateService
     {
         final String URL = GOOGLE_TRANSLATE_API + "?"
                 + NetworkUtil.queryString(new String[][]{
-                    {"client", "gtx"},
-                    {"dt", "at"},
-                    {"dt", "bd"},
-                    {"dt", "ex"},
-                    {"dt", "ld"},
-                    {"dt", "md"},
-                    {"dt", "qca"},
-                    {"dt", "rw"},
-                    {"dt", "rm"},
-                    {"dt", "ss"},
-                    {"dt", "t"},
-                    {"ie", "UTF-8"},
-                    {"oe", "UTF-8"},
-                    {"otf", "1"},
-                    {"ssel", "0"},
-                    {"tsel", "0"},
-                    {"tk", "ilovebushbus"},
-                    {"sl", source.getLocale()},
-                    {"tl", target.getLocale()},
-                    {"hl", target.getLocale()},
-                    {"q", NetworkUtil.encodeUri(text)}
-                });
+                { "client", "gtx" },
+                { "dt", "at" },
+                { "dt", "bd" },
+                { "dt", "ex" },
+                { "dt", "ld" },
+                { "dt", "md" },
+                { "dt", "qca" },
+                { "dt", "rw" },
+                { "dt", "rm" },
+                { "dt", "ss" },
+                { "dt", "t" },
+                { "ie", "UTF-8" },
+                { "oe", "UTF-8" },
+                { "otf", "1" },
+                { "ssel", "0" },
+                { "tsel", "0" },
+                { "tk", "ilovebushbus" },
+                { "sl", source.getLocale() },
+                { "tl", target.getLocale() },
+                { "hl", target.getLocale() },
+                { "q", NetworkUtil.encodeUri(text) }
+        });
         final HttpURLConnection connection = (HttpURLConnection) new URL(URL).openConnection();
         connection.setConnectTimeout(5000);
         connection.setReadTimeout(5000);

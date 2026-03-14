@@ -176,16 +176,16 @@ public class EntitySquid extends EntityWaterMob
 
             if (!this.worldObj.isClient)
             {
-                this.motionX = (double) (this.randomMotionVecX * this.randomMotionSpeed);
-                this.motionY = (double) (this.randomMotionVecY * this.randomMotionSpeed);
-                this.motionZ = (double) (this.randomMotionVecZ * this.randomMotionSpeed);
+                this.motionX = this.randomMotionVecX * this.randomMotionSpeed;
+                this.motionY = this.randomMotionVecY * this.randomMotionSpeed;
+                this.motionZ = this.randomMotionVecZ * this.randomMotionSpeed;
             }
 
             var1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.renderYawOffset += (-((float) Math.atan2(this.motionX, this.motionZ)) * 180.0F / (float) Math.PI - this.renderYawOffset) * 0.1F;
             this.rotationYaw = this.renderYawOffset;
             this.squidYaw += (float) Math.PI * this.field_70871_bB * 1.5F;
-            this.squidPitch += (-((float) Math.atan2((double) var1, this.motionY)) * 180.0F / (float) Math.PI - this.squidPitch) * 0.1F;
+            this.squidPitch += (-((float) Math.atan2(var1, this.motionY)) * 180.0F / (float) Math.PI - this.squidPitch) * 0.1F;
         } else
         {
             this.tentacleAngle = MathHelper.abs(MathHelper.sin(this.squidRotation)) * (float) Math.PI * 0.25F;

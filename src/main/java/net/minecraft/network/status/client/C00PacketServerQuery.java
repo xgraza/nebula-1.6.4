@@ -1,10 +1,11 @@
 package net.minecraft.network.status.client;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.status.INetHandlerStatusServer;
+
+import java.io.IOException;
 
 public class C00PacketServerQuery extends Packet
 {
@@ -13,12 +14,16 @@ public class C00PacketServerQuery extends Packet
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException {}
+    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    {
+    }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException {}
+    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    {
+    }
 
     public void processPacket(INetHandlerStatusServer p_149287_1_)
     {
@@ -36,6 +41,6 @@ public class C00PacketServerQuery extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerStatusServer)p_148833_1_);
+        this.processPacket((INetHandlerStatusServer) p_148833_1_);
     }
 }

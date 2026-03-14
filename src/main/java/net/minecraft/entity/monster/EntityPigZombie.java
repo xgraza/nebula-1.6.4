@@ -1,7 +1,5 @@
 package net.minecraft.entity.monster;
 
-import java.util.List;
-import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -15,15 +13,22 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.UUID;
+
 public class EntityPigZombie extends EntityZombie
 {
     private static final UUID field_110189_bq = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
     private static final AttributeModifier field_110190_br = (new AttributeModifier(field_110189_bq, "Attacking speed boost", 0.45D, 0)).setSaved(false);
 
-    /** Above zero if this PigZombie is Angry. */
+    /**
+     * Above zero if this PigZombie is Angry.
+     */
     public int angerLevel;
 
-    /** A random delay until this PigZombie next makes a sound. */
+    /**
+     * A random delay until this PigZombie next makes a sound.
+     */
     private int randomSoundDelay;
     private Entity field_110191_bu;
     private static final String __OBFID = "CL_00001693";
@@ -90,7 +95,7 @@ public class EntityPigZombie extends EntityZombie
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
-        par1NBTTagCompound.setShort("Anger", (short)this.angerLevel);
+        par1NBTTagCompound.setShort("Anger", (short) this.angerLevel);
     }
 
     /**
@@ -119,8 +124,7 @@ public class EntityPigZombie extends EntityZombie
         if (this.isEntityInvulnerable())
         {
             return false;
-        }
-        else
+        } else
         {
             Entity var3 = par1DamageSource.getEntity();
 
@@ -130,11 +134,11 @@ public class EntityPigZombie extends EntityZombie
 
                 for (int var5 = 0; var5 < var4.size(); ++var5)
                 {
-                    Entity var6 = (Entity)var4.get(var5);
+                    Entity var6 = (Entity) var4.get(var5);
 
                     if (var6 instanceof EntityPigZombie)
                     {
-                        EntityPigZombie var7 = (EntityPigZombie)var6;
+                        EntityPigZombie var7 = (EntityPigZombie) var6;
                         var7.becomeAngryAt(var3);
                     }
                 }

@@ -1,11 +1,5 @@
 package net.minecraft.client.renderer;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-import java.util.PriorityQueue;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.shader.TesselatorVertexState;
 import net.minecraft.client.util.QuadComparator;
@@ -14,21 +8,34 @@ import net.minecraft.src.VertexData;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShadersTess;
 
+import java.nio.*;
+import java.util.PriorityQueue;
+
 public class Tessellator
 {
-    /** The byte buffer used for GL allocation. */
+    /**
+     * The byte buffer used for GL allocation.
+     */
     public ByteBuffer byteBuffer;
 
-    /** The same memory as byteBuffer, but referenced as an integer buffer. */
+    /**
+     * The same memory as byteBuffer, but referenced as an integer buffer.
+     */
     public IntBuffer intBuffer;
 
-    /** The same memory as byteBuffer, but referenced as an float buffer. */
+    /**
+     * The same memory as byteBuffer, but referenced as an float buffer.
+     */
     public FloatBuffer floatBuffer;
 
-    /** The same memory as byteBuffer, but referenced as an short buffer. */
+    /**
+     * The same memory as byteBuffer, but referenced as an short buffer.
+     */
     public ShortBuffer shortBuffer;
 
-    /** Raw integer array. */
+    /**
+     * Raw integer array.
+     */
     public int[] rawBuffer;
 
     /**
@@ -36,14 +43,20 @@ public class Tessellator
      */
     public int vertexCount;
 
-    /** The first coordinate to be used for the texture. */
+    /**
+     * The first coordinate to be used for the texture.
+     */
     public double textureU;
 
-    /** The second coordinate to be used for the texture. */
+    /**
+     * The second coordinate to be used for the texture.
+     */
     public double textureV;
     public int brightness;
 
-    /** The color (RGBA) value to be used for the following draw call. */
+    /**
+     * The color (RGBA) value to be used for the following draw call.
+     */
     public int color;
 
     /**
@@ -62,7 +75,9 @@ public class Tessellator
      */
     public boolean hasNormals;
 
-    /** The index into the raw buffer to be used for the next data. */
+    /**
+     * The index into the raw buffer to be used for the next data.
+     */
     public int rawBufferIndex;
 
     /**
@@ -71,10 +86,14 @@ public class Tessellator
      */
     public int addedVertices;
 
-    /** Disables all color information for the following draw call. */
+    /**
+     * Disables all color information for the following draw call.
+     */
     private boolean isColorDisabled;
 
-    /** The draw mode currently being used by the tessellator. */
+    /**
+     * The draw mode currently being used by the tessellator.
+     */
     public int drawMode;
 
     /**
@@ -92,26 +111,34 @@ public class Tessellator
      */
     public double zOffset;
 
-    /** The normal to be applied to the face being drawn. */
+    /**
+     * The normal to be applied to the face being drawn.
+     */
     private int normal;
 
-    /** The static instance of the Tessellator. */
+    /**
+     * The static instance of the Tessellator.
+     */
     public static Tessellator instance = new Tessellator(524288);
 
-    /** Whether this tessellator is currently in draw mode. */
+    /**
+     * Whether this tessellator is currently in draw mode.
+     */
     public boolean isDrawing;
 
-    /** The size of the buffers used (in integers). */
+    /**
+     * The size of the buffers used (in integers).
+     */
     public int bufferSize;
     private static final String __OBFID = "CL_00000960";
     private boolean renderingChunk;
-    private static boolean littleEndianByteOrder = ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN;
+    private static final boolean littleEndianByteOrder = ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN;
     public static boolean renderingWorldRenderer = false;
     public boolean defaultTexture;
     public int textureID;
     public boolean autoGrow;
     private VertexData[] vertexDatas;
-    private boolean[] drawnIcons;
+    private final boolean[] drawnIcons;
     private TextureAtlasSprite[] vertexQuadIcons;
     public ShadersTess shadersTess;
 
@@ -154,8 +181,7 @@ public class Tessellator
         if (Config.isShaders())
         {
             return ShadersTess.draw(this);
-        }
-        else
+        } else
         {
             if (Config.isFastRender() && OpenGlHelper.glBlendFuncZero && !this.hasTexture && !this.renderingChunk && this.hasColor && this.color == -1 && this.vertexCount == 4)
             {
@@ -165,8 +191,7 @@ public class Tessellator
             if (!this.isDrawing)
             {
                 throw new IllegalStateException("Not tesselating!");
-            }
-            else
+            } else
             {
                 this.isDrawing = false;
 
@@ -248,11 +273,10 @@ public class Tessellator
         if (this.rawBufferIndex < 1)
         {
             return null;
-        }
-        else
+        } else
         {
             int[] var4 = new int[this.rawBufferIndex];
-            PriorityQueue var5 = new PriorityQueue(this.rawBufferIndex, new QuadComparator(this.rawBuffer, p_147564_1_ + (float)this.xOffset, p_147564_2_ + (float)this.yOffset, p_147564_3_ + (float)this.zOffset));
+            PriorityQueue var5 = new PriorityQueue(this.rawBufferIndex, new QuadComparator(this.rawBuffer, p_147564_1_ + (float) this.xOffset, p_147564_2_ + (float) this.yOffset, p_147564_3_ + (float) this.zOffset));
             byte var6 = 32;
 
             if (Config.isShaders())
@@ -269,12 +293,9 @@ public class Tessellator
 
             for (var7 = 0; !var5.isEmpty(); var7 += var6)
             {
-                int var8 = ((Integer)var5.remove()).intValue();
+                int var8 = ((Integer) var5.remove()).intValue();
 
-                for (int var9 = 0; var9 < var6; ++var9)
-                {
-                    var4[var7 + var9] = this.rawBuffer[var8 + var9];
-                }
+                System.arraycopy(this.rawBuffer, var8 + 0, var4, var7 + 0, var6);
             }
 
             System.arraycopy(var4, 0, this.rawBuffer, 0, var4.length);
@@ -320,8 +341,7 @@ public class Tessellator
         if (this.isDrawing)
         {
             throw new IllegalStateException("Already tesselating!");
-        }
-        else
+        } else
         {
             this.isDrawing = true;
             this.reset();
@@ -355,7 +375,7 @@ public class Tessellator
      */
     public void setColorOpaque_F(float par1, float par2, float par3)
     {
-        this.setColorOpaque((int)(par1 * 255.0F), (int)(par2 * 255.0F), (int)(par3 * 255.0F));
+        this.setColorOpaque((int) (par1 * 255.0F), (int) (par2 * 255.0F), (int) (par3 * 255.0F));
     }
 
     /**
@@ -363,7 +383,7 @@ public class Tessellator
      */
     public void setColorRGBA_F(float par1, float par2, float par3, float par4)
     {
-        this.setColorRGBA((int)(par1 * 255.0F), (int)(par2 * 255.0F), (int)(par3 * 255.0F), (int)(par4 * 255.0F));
+        this.setColorRGBA((int) (par1 * 255.0F), (int) (par2 * 255.0F), (int) (par3 * 255.0F), (int) (par4 * 255.0F));
     }
 
     /**
@@ -426,8 +446,7 @@ public class Tessellator
             if (littleEndianByteOrder)
             {
                 this.color = par4 << 24 | par3 << 16 | par2 << 8 | par1;
-            }
-            else
+            } else
             {
                 this.color = par1 << 24 | par2 << 16 | par3 << 8 | par4;
             }
@@ -452,8 +471,7 @@ public class Tessellator
         if (Config.isShaders())
         {
             ShadersTess.addVertex(this, par1, par3, par5);
-        }
-        else
+        } else
         {
             if (this.autoGrow && this.rawBufferIndex >= this.bufferSize - 32)
             {
@@ -479,8 +497,8 @@ public class Tessellator
 
             if (this.hasTexture)
             {
-                this.rawBuffer[this.rawBufferIndex + 3] = Float.floatToRawIntBits((float)this.textureU);
-                this.rawBuffer[this.rawBufferIndex + 4] = Float.floatToRawIntBits((float)this.textureV);
+                this.rawBuffer[this.rawBufferIndex + 3] = Float.floatToRawIntBits((float) this.textureU);
+                this.rawBuffer[this.rawBufferIndex + 4] = Float.floatToRawIntBits((float) this.textureV);
             }
 
             if (this.hasBrightness)
@@ -498,9 +516,9 @@ public class Tessellator
                 this.rawBuffer[this.rawBufferIndex + 6] = this.normal;
             }
 
-            this.rawBuffer[this.rawBufferIndex + 0] = Float.floatToRawIntBits((float)(par1 + this.xOffset));
-            this.rawBuffer[this.rawBufferIndex + 1] = Float.floatToRawIntBits((float)(par3 + this.yOffset));
-            this.rawBuffer[this.rawBufferIndex + 2] = Float.floatToRawIntBits((float)(par5 + this.zOffset));
+            this.rawBuffer[this.rawBufferIndex] = Float.floatToRawIntBits((float) (par1 + this.xOffset));
+            this.rawBuffer[this.rawBufferIndex + 1] = Float.floatToRawIntBits((float) (par3 + this.yOffset));
+            this.rawBuffer[this.rawBufferIndex + 2] = Float.floatToRawIntBits((float) (par5 + this.zOffset));
             this.rawBufferIndex += 8;
             ++this.vertexCount;
 
@@ -556,9 +574,9 @@ public class Tessellator
         }
 
         this.hasNormals = true;
-        byte var41 = (byte)((int)(par1 * 127.0F));
-        byte var5 = (byte)((int)(par2 * 127.0F));
-        byte var6 = (byte)((int)(par3 * 127.0F));
+        byte var41 = (byte) ((int) (par1 * 127.0F));
+        byte var5 = (byte) ((int) (par2 * 127.0F));
+        byte var6 = (byte) ((int) (par3 * 127.0F));
         this.normal = var41 & 255 | (var5 & 255) << 8 | (var6 & 255) << 16;
     }
 
@@ -577,9 +595,9 @@ public class Tessellator
      */
     public void addTranslation(float par1, float par2, float par3)
     {
-        this.xOffset += (double)par1;
-        this.yOffset += (double)par2;
-        this.zOffset += (double)par3;
+        this.xOffset += par1;
+        this.yOffset += par2;
+        this.zOffset += par3;
     }
 
     public boolean isRenderingChunk()
@@ -632,8 +650,7 @@ public class Tessellator
                 {
                     lastPos = i;
                 }
-            }
-            else if (lastPos >= 0)
+            } else if (lastPos >= 0)
             {
                 this.draw(lastPos, i);
                 lastPos = -1;

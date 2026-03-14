@@ -1,9 +1,10 @@
 package net.minecraft.entity.ai;
 
-import java.util.Random;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+
+import java.util.Random;
 
 public class RandomPositionGenerator
 {
@@ -11,7 +12,7 @@ public class RandomPositionGenerator
      * used to store a driection when the user passes a point to move towards or away from. WARNING: NEVER THREAD SAFE.
      * MULTIPLE findTowards and findAway calls, will share this var
      */
-    private static Vec3 staticVector = Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
+    private static final Vec3 staticVector = Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
     private static final String __OBFID = "CL_00001629";
 
     /**
@@ -19,7 +20,7 @@ public class RandomPositionGenerator
      */
     public static Vec3 findRandomTarget(EntityCreature par0EntityCreature, int par1, int par2)
     {
-        return findRandomTargetBlock(par0EntityCreature, par1, par2, (Vec3)null);
+        return findRandomTargetBlock(par0EntityCreature, par1, par2, null);
     }
 
     /**
@@ -60,11 +61,10 @@ public class RandomPositionGenerator
 
         if (par0EntityCreature.hasHome())
         {
-            double var11 = (double)(par0EntityCreature.getHomePosition().getDistanceSquared(MathHelper.floor_double(par0EntityCreature.posX), MathHelper.floor_double(par0EntityCreature.posY), MathHelper.floor_double(par0EntityCreature.posZ)) + 4.0F);
-            double var13 = (double)(par0EntityCreature.func_110174_bM() + (float)par1);
+            double var11 = par0EntityCreature.getHomePosition().getDistanceSquared(MathHelper.floor_double(par0EntityCreature.posX), MathHelper.floor_double(par0EntityCreature.posY), MathHelper.floor_double(par0EntityCreature.posZ)) + 4.0F;
+            double var13 = par0EntityCreature.func_110174_bM() + (float) par1;
             var10 = var11 < var13 * var13;
-        }
-        else
+        } else
         {
             var10 = false;
         }
@@ -75,7 +75,7 @@ public class RandomPositionGenerator
             int var17 = var4.nextInt(2 * par2) - par2;
             int var14 = var4.nextInt(2 * par1) - par1;
 
-            if (par3Vec3 == null || (double)var12 * par3Vec3.xCoord + (double)var14 * par3Vec3.zCoord >= 0.0D)
+            if (par3Vec3 == null || (double) var12 * par3Vec3.xCoord + (double) var14 * par3Vec3.zCoord >= 0.0D)
             {
                 var12 += MathHelper.floor_double(par0EntityCreature.posX);
                 var17 += MathHelper.floor_double(par0EntityCreature.posY);
@@ -99,9 +99,8 @@ public class RandomPositionGenerator
 
         if (var5)
         {
-            return par0EntityCreature.worldObj.getWorldVec3Pool().getVecFromPool((double)var6, (double)var7, (double)var8);
-        }
-        else
+            return par0EntityCreature.worldObj.getWorldVec3Pool().getVecFromPool(var6, var7, var8);
+        } else
         {
             return null;
         }

@@ -1,18 +1,21 @@
 package net.minecraft.network.login.server;
 
 import com.mojang.authlib.GameProfile;
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.login.INetHandlerLoginClient;
+
+import java.io.IOException;
 
 public class S02PacketLoginSuccess extends Packet
 {
     private GameProfile field_149602_a;
     private static final String __OBFID = "CL_00001375";
 
-    public S02PacketLoginSuccess() {}
+    public S02PacketLoginSuccess()
+    {
+    }
 
     public S02PacketLoginSuccess(GameProfile p_i45267_1_)
     {
@@ -54,6 +57,6 @@ public class S02PacketLoginSuccess extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerLoginClient)p_148833_1_);
+        this.processPacket((INetHandlerLoginClient) p_148833_1_);
     }
 }

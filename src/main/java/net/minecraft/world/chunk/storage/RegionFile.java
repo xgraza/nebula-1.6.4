@@ -1,18 +1,12 @@
 package net.minecraft.world.chunk.storage;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import net.minecraft.server.MinecraftServer;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
-import net.minecraft.server.MinecraftServer;
 
 public class RegionFile
 {
@@ -23,7 +17,9 @@ public class RegionFile
     private final int[] chunkTimestamps = new int[1024];
     private ArrayList sectorFree;
 
-    /** McRegion sizeDelta */
+    /**
+     * McRegion sizeDelta
+     */
     private int sizeDelta;
     private long lastModified;
     private static final String __OBFID = "CL_00000381";
@@ -60,13 +56,13 @@ public class RegionFile
 
             if ((this.dataFile.length() & 4095L) != 0L)
             {
-                for (var2 = 0; (long)var2 < (this.dataFile.length() & 4095L); ++var2)
+                for (var2 = 0; (long) var2 < (this.dataFile.length() & 4095L); ++var2)
                 {
                     this.dataFile.write(0);
                 }
             }
 
-            var2 = (int)this.dataFile.length() / 4096;
+            var2 = (int) this.dataFile.length() / 4096;
             this.sectorFree = new ArrayList(var2);
             int var3;
 
@@ -99,8 +95,7 @@ public class RegionFile
                 var4 = this.dataFile.readInt();
                 this.chunkTimestamps[var3] = var4;
             }
-        }
-        catch (IOException var6)
+        } catch (IOException var6)
         {
             var6.printStackTrace();
         }
@@ -114,8 +109,7 @@ public class RegionFile
         if (this.outOfBounds(par1, par2))
         {
             return null;
-        }
-        else
+        } else
         {
             try
             {
@@ -124,8 +118,7 @@ public class RegionFile
                 if (var3 == 0)
                 {
                     return null;
-                }
-                else
+                } else
                 {
                     int var4 = var3 >> 8;
                     int var5 = var3 & 255;
@@ -133,21 +126,18 @@ public class RegionFile
                     if (var4 + var5 > this.sectorFree.size())
                     {
                         return null;
-                    }
-                    else
+                    } else
                     {
-                        this.dataFile.seek((long)(var4 * 4096));
+                        this.dataFile.seek((long) (var4 * 4096L));
                         int var6 = this.dataFile.readInt();
 
                         if (var6 > 4096 * var5)
                         {
                             return null;
-                        }
-                        else if (var6 <= 0)
+                        } else if (var6 <= 0)
                         {
                             return null;
-                        }
-                        else
+                        } else
                         {
                             byte var7 = this.dataFile.readByte();
                             byte[] var8;
@@ -157,22 +147,19 @@ public class RegionFile
                                 var8 = new byte[var6 - 1];
                                 this.dataFile.read(var8);
                                 return new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(var8))));
-                            }
-                            else if (var7 == 2)
+                            } else if (var7 == 2)
                             {
                                 var8 = new byte[var6 - 1];
                                 this.dataFile.read(var8);
                                 return new DataInputStream(new BufferedInputStream(new InflaterInputStream(new ByteArrayInputStream(var8))));
-                            }
-                            else
+                            } else
                             {
                                 return null;
                             }
                         }
                     }
                 }
-            }
-            catch (IOException var9)
+            } catch (IOException var9)
             {
                 return null;
             }
@@ -207,8 +194,7 @@ public class RegionFile
             if (var6 != 0 && var7 == var8)
             {
                 this.write(var6, par3ArrayOfByte, par4);
-            }
-            else
+            } else
             {
                 int var9;
 
@@ -227,16 +213,14 @@ public class RegionFile
                     {
                         if (var10 != 0)
                         {
-                            if (((Boolean)this.sectorFree.get(var11)).booleanValue())
+                            if (((Boolean) this.sectorFree.get(var11)).booleanValue())
                             {
                                 ++var10;
-                            }
-                            else
+                            } else
                             {
                                 var10 = 0;
                             }
-                        }
-                        else if (((Boolean)this.sectorFree.get(var11)).booleanValue())
+                        } else if (((Boolean) this.sectorFree.get(var11)).booleanValue())
                         {
                             var9 = var11;
                             var10 = 1;
@@ -260,8 +244,7 @@ public class RegionFile
                     }
 
                     this.write(var6, par3ArrayOfByte, par4);
-                }
-                else
+                } else
                 {
                     this.dataFile.seek(this.dataFile.length());
                     var6 = this.sectorFree.size();
@@ -278,9 +261,8 @@ public class RegionFile
                 }
             }
 
-            this.setChunkTimestamp(par1, par2, (int)(MinecraftServer.getSystemTimeMillis() / 1000L));
-        }
-        catch (IOException var12)
+            this.setChunkTimestamp(par1, par2, (int) (MinecraftServer.getSystemTimeMillis() / 1000L));
+        } catch (IOException var12)
         {
             var12.printStackTrace();
         }
@@ -291,7 +273,7 @@ public class RegionFile
      */
     private void write(int par1, byte[] par2ArrayOfByte, int par3) throws IOException
     {
-        this.dataFile.seek((long)(par1 * 4096));
+        this.dataFile.seek((long) (par1 * 4096L));
         this.dataFile.writeInt(par3 + 1);
         this.dataFile.writeByte(2);
         this.dataFile.write(par2ArrayOfByte, 0, par3);
@@ -327,7 +309,7 @@ public class RegionFile
     private void setOffset(int par1, int par2, int par3) throws IOException
     {
         this.offsets[par1 + par2 * 32] = par3;
-        this.dataFile.seek((long)((par1 + par2 * 32) * 4));
+        this.dataFile.seek((long) ((par1 + par2 * 32L) * 4));
         this.dataFile.writeInt(par3);
     }
 
@@ -337,7 +319,7 @@ public class RegionFile
     private void setChunkTimestamp(int par1, int par2, int par3) throws IOException
     {
         this.chunkTimestamps[par1 + par2 * 32] = par3;
-        this.dataFile.seek((long)(4096 + (par1 + par2 * 32) * 4));
+        this.dataFile.seek((long) (4096 + (par1 + par2 * 32L) * 4));
         this.dataFile.writeInt(par3);
     }
 
@@ -354,8 +336,8 @@ public class RegionFile
 
     class ChunkBuffer extends ByteArrayOutputStream
     {
-        private int chunkX;
-        private int chunkZ;
+        private final int chunkX;
+        private final int chunkZ;
         private static final String __OBFID = "CL_00000382";
 
         public ChunkBuffer(int par2, int par3)

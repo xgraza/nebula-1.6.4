@@ -1,16 +1,11 @@
 package net.minecraft.src;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.*;
 
 public class CustomItemProperties
 {
@@ -101,20 +96,16 @@ public class CustomItemProperties
         if (str == null)
         {
             return 1;
-        }
-        else if (str.equals("item"))
+        } else if (str.equals("item"))
         {
             return 1;
-        }
-        else if (str.equals("enchantment"))
+        } else if (str.equals("enchantment"))
         {
             return 2;
-        }
-        else if (str.equals("armor"))
+        } else if (str.equals("armor"))
         {
             return 3;
-        }
-        else
+        } else
         {
             Config.warn("Unknown method: " + str);
             return 0;
@@ -131,8 +122,7 @@ public class CustomItemProperties
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             str = str.trim();
             TreeSet setItemIds = new TreeSet();
@@ -148,8 +138,7 @@ public class CustomItemProperties
                 if (i >= 0)
                 {
                     setItemIds.add(new Integer(i));
-                }
-                else
+                } else
                 {
                     int id;
 
@@ -187,17 +176,15 @@ public class CustomItemProperties
                     if (!(var16 instanceof Item))
                     {
                         Config.dbg("Item not found: " + ints);
-                    }
-                    else
+                    } else
                     {
-                        Item var17 = (Item)var16;
+                        Item var17 = (Item) var16;
                         id = Item.getIdFromItem(var17);
 
                         if (id < 0)
                         {
                             Config.dbg("Item not found: " + ints);
-                        }
-                        else
+                        } else
                         {
                             setItemIds.add(new Integer(id));
                         }
@@ -205,7 +192,7 @@ public class CustomItemProperties
                 }
             }
 
-            Integer[] var14 = (Integer[])((Integer[])setItemIds.toArray(new Integer[setItemIds.size()]));
+            Integer[] var14 = (Integer[]) setItemIds.toArray(new Integer[setItemIds.size()]);
             int[] var15 = new int[var14.length];
 
             for (i = 0; i < var15.length; ++i)
@@ -242,8 +229,7 @@ public class CustomItemProperties
 
             texStr = fixTextureName(texStr, basePath);
             return texStr;
-        }
-        else
+        } else
         {
             str = path;
             int pos = path.lastIndexOf(47);
@@ -273,8 +259,7 @@ public class CustomItemProperties
         if (mapProps.size() <= 0)
         {
             return null;
-        }
-        else
+        } else
         {
             Set keySet = mapProps.keySet();
             LinkedHashMap mapTex = new LinkedHashMap();
@@ -283,8 +268,8 @@ public class CustomItemProperties
 
             for (Iterator it = keySet.iterator(); it.hasNext(); mapTex.put(key, val))
             {
-                key = (String)it.next();
-                val = (String)mapProps.get(key);
+                key = (String) it.next();
+                val = (String) mapProps.get(key);
                 val = fixTextureName(val, basePath);
 
                 if (key.startsWith(prefix))
@@ -331,8 +316,7 @@ public class CustomItemProperties
         if (str == null)
         {
             return defVal;
-        }
-        else
+        } else
         {
             str = str.trim();
             int val = Config.parseInt(str, Integer.MIN_VALUE);
@@ -341,8 +325,7 @@ public class CustomItemProperties
             {
                 Config.warn("Invalid integer: " + str);
                 return defVal;
-            }
-            else
+            } else
             {
                 return val;
             }
@@ -354,8 +337,7 @@ public class CustomItemProperties
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             String[] tokens = Config.tokenize(str, " ");
             RangeListInt rangeList = new RangeListInt();
@@ -383,8 +365,7 @@ public class CustomItemProperties
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             str = str.trim();
             int countMinus = str.length() - str.replace("-", "").length();
@@ -393,8 +374,7 @@ public class CustomItemProperties
             {
                 Config.warn("Invalid range: " + str);
                 return null;
-            }
-            else
+            } else
             {
                 String[] tokens = Config.tokenize(str, "- ");
                 int[] vals = new int[tokens.length];
@@ -421,23 +401,19 @@ public class CustomItemProperties
                     if (str.startsWith("-"))
                     {
                         return new RangeInt(-1, min);
-                    }
-                    else if (str.endsWith("-"))
+                    } else if (str.endsWith("-"))
                     {
                         return new RangeInt(min, -1);
-                    }
-                    else
+                    } else
                     {
                         return new RangeInt(min, min);
                     }
-                }
-                else if (vals.length == 2)
+                } else if (vals.length == 2)
                 {
                     min = Math.min(vals[0], vals[1]);
                     int var8 = Math.max(vals[0], vals[1]);
                     return new RangeInt(min, var8);
-                }
-                else
+                } else
                 {
                     Config.warn("Invalid range: " + str);
                     return null;
@@ -453,8 +429,7 @@ public class CustomItemProperties
         if (mapNbt.size() <= 0)
         {
             return null;
-        }
-        else
+        } else
         {
             ArrayList listNbts = new ArrayList();
             Set keySet = mapNbt.keySet();
@@ -462,13 +437,13 @@ public class CustomItemProperties
 
             while (nbts.hasNext())
             {
-                String key = (String)nbts.next();
-                String val = (String)mapNbt.get(key);
+                String key = (String) nbts.next();
+                String val = (String) mapNbt.get(key);
                 NbtTagValue nbt = new NbtTagValue(key, val);
                 listNbts.add(nbt);
             }
 
-            NbtTagValue[] nbts1 = (NbtTagValue[])((NbtTagValue[])listNbts.toArray(new NbtTagValue[listNbts.size()]));
+            NbtTagValue[] nbts1 = (NbtTagValue[]) listNbts.toArray(new NbtTagValue[listNbts.size()]);
             return nbts1;
         }
     }
@@ -481,7 +456,7 @@ public class CustomItemProperties
 
         while (it.hasNext())
         {
-            String key = (String)it.next();
+            String key = (String) it.next();
             String val = props.getProperty(key);
 
             if (key.startsWith(keyPrefix))
@@ -501,28 +476,23 @@ public class CustomItemProperties
             {
                 Config.warn("No base path found: " + path);
                 return false;
-            }
-            else if (this.type == 0)
+            } else if (this.type == 0)
             {
                 Config.warn("No type defined: " + path);
                 return false;
-            }
-            else if ((this.type == 1 || this.type == 3) && this.items == null)
+            } else if ((this.type == 1 || this.type == 3) && this.items == null)
             {
                 Config.warn("No items defined: " + path);
                 return false;
-            }
-            else if (this.texture == null && this.mapTextures == null)
+            } else if (this.texture == null && this.mapTextures == null)
             {
                 Config.warn("No texture specified: " + path);
                 return false;
-            }
-            else
+            } else
             {
                 return true;
             }
-        }
-        else
+        } else
         {
             Config.warn("No name found: " + path);
             return false;
@@ -544,8 +514,8 @@ public class CustomItemProperties
 
             while (it.hasNext())
             {
-                String key = (String)it.next();
-                String val = (String)this.mapTextures.get(key);
+                String key = (String) it.next();
+                String val = (String) this.mapTextures.get(key);
                 IIcon icon = registerIcon(val, textureMap);
                 this.mapTextureIcons.put(key, icon);
             }
@@ -557,8 +527,7 @@ public class CustomItemProperties
         if (tileName == null)
         {
             return null;
-        }
-        else
+        } else
         {
             String fullName = tileName;
 

@@ -249,7 +249,7 @@ public class GuiNewChat extends Gui
 
                 for (i = 0; i + this.scrollOffset < this.chatLineList.size() && i < var2; ++i)
                 {
-                    ChatLine chatLine = (ChatLine) this.chatLineList.get(i + this.scrollOffset);
+                    ChatLine chatLine = this.chatLineList.get(i + this.scrollOffset);
 
                     if (chatLine != null)
                     {
@@ -547,7 +547,7 @@ public class GuiNewChat extends Gui
 
     public void addToSentMessages(String p_146239_1_)
     {
-        if (this.sentMessages.isEmpty() || !((String) this.sentMessages.get(this.sentMessages.size() - 1)).equals(p_146239_1_))
+        if (this.sentMessages.isEmpty() || !this.sentMessages.get(this.sentMessages.size() - 1).equals(p_146239_1_))
         {
             this.sentMessages.add(p_146239_1_);
         }
@@ -601,7 +601,7 @@ public class GuiNewChat extends Gui
 
                     if (var9 >= 0 && var9 < this.chatLineList.size())
                     {
-                        ChatLine var10 = (ChatLine) this.chatLineList.get(var9);
+                        ChatLine var10 = this.chatLineList.get(var9);
                         int var11 = 0;
                         Iterator var12 = var10.getLineString().iterator();
 

@@ -18,7 +18,9 @@ public class EntityAIControlledByPlayer extends EntityAIBase
     private final float maxSpeed;
     private float currentSpeed;
 
-    /** Whether the entity's speed is boosted. */
+    /**
+     * Whether the entity's speed is boosted.
+     */
     private boolean speedBoosted;
 
     /**
@@ -26,7 +28,9 @@ public class EntityAIControlledByPlayer extends EntityAIBase
      */
     private int speedBoostTime;
 
-    /** Maximum time the entity's speed should be boosted for. */
+    /**
+     * Maximum time the entity's speed should be boosted for.
+     */
     private int maxSpeedBoostTime;
     private static final String __OBFID = "CL_00001580";
 
@@ -67,8 +71,8 @@ public class EntityAIControlledByPlayer extends EntityAIBase
      */
     public void updateTask()
     {
-        EntityPlayer var1 = (EntityPlayer)this.thisEntity.riddenByEntity;
-        EntityCreature var2 = (EntityCreature)this.thisEntity;
+        EntityPlayer var1 = (EntityPlayer) this.thisEntity.riddenByEntity;
+        EntityCreature var2 = (EntityCreature) this.thisEntity;
         float var3 = MathHelper.wrapAngleTo180_float(var1.rotationYaw - this.thisEntity.rotationYaw) * 0.5F;
 
         if (var3 > 5.0F)
@@ -105,19 +109,19 @@ public class EntityAIControlledByPlayer extends EntityAIBase
                 this.speedBoosted = false;
             }
 
-            var7 += var7 * 1.15F * MathHelper.sin((float)this.speedBoostTime / (float)this.maxSpeedBoostTime * (float)Math.PI);
+            var7 += var7 * 1.15F * MathHelper.sin((float) this.speedBoostTime / (float) this.maxSpeedBoostTime * (float) Math.PI);
         }
 
         float var8 = 0.91F;
 
         if (this.thisEntity.onGround)
         {
-            var8 = this.thisEntity.worldObj.getBlock(MathHelper.floor_float((float)var4), MathHelper.floor_float((float)var5) - 1, MathHelper.floor_float((float)var6)).slipperiness * 0.91F;
+            var8 = this.thisEntity.worldObj.getBlock(MathHelper.floor_float((float) var4), MathHelper.floor_float((float) var5) - 1, MathHelper.floor_float((float) var6)).slipperiness * 0.91F;
         }
 
         float var9 = 0.16277136F / (var8 * var8 * var8);
-        float var10 = MathHelper.sin(var2.rotationYaw * (float)Math.PI / 180.0F);
-        float var11 = MathHelper.cos(var2.rotationYaw * (float)Math.PI / 180.0F);
+        float var10 = MathHelper.sin(var2.rotationYaw * (float) Math.PI / 180.0F);
+        float var11 = MathHelper.cos(var2.rotationYaw * (float) Math.PI / 180.0F);
         float var12 = var2.getAIMoveSpeed() * var9;
         float var13 = Math.max(var7, 1.0F);
         var13 = var12 / var13;
@@ -138,8 +142,7 @@ public class EntityAIControlledByPlayer extends EntityAIBase
             }
 
             var16 = 0.0F;
-        }
-        else
+        } else
         {
             var15 = 0.0F;
 
@@ -154,8 +157,8 @@ public class EntityAIControlledByPlayer extends EntityAIBase
             }
         }
 
-        int var17 = MathHelper.floor_double(this.thisEntity.posX + (double)var15);
-        int var18 = MathHelper.floor_double(this.thisEntity.posZ + (double)var16);
+        int var17 = MathHelper.floor_double(this.thisEntity.posX + (double) var15);
+        int var18 = MathHelper.floor_double(this.thisEntity.posZ + (double) var16);
         PathPoint var19 = new PathPoint(MathHelper.floor_float(this.thisEntity.width + 1.0F), MathHelper.floor_float(this.thisEntity.height + var1.height + 1.0F), MathHelper.floor_float(this.thisEntity.width + 1.0F));
 
         if (var4 != var17 || var6 != var18)

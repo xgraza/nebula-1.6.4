@@ -1,10 +1,11 @@
 package net.minecraft.src;
 
-import java.util.List;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class WrUpdates
 {
@@ -24,8 +25,7 @@ public class WrUpdates
             try
             {
                 wrUpdater.initialize();
-            }
-            catch (Exception var2)
+            } catch (Exception var2)
             {
                 wrUpdater = null;
                 var2.printStackTrace();
@@ -53,11 +53,10 @@ public class WrUpdates
         try
         {
             return wrUpdater.updateRenderers(rg, entityliving, flag);
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
             var4.printStackTrace();
-            setWrUpdater((IWrUpdater)null);
+            setWrUpdater(null);
             return false;
         }
     }

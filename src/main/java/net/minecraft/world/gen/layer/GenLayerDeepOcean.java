@@ -59,8 +59,7 @@ public class GenLayerDeepOcean extends GenLayer
                 if (var17 == 0 && var18 > 3)
                 {
                     var10[var12 + var11 * par3] = BiomeGenBase.field_150575_M.biomeID;
-                }
-                else
+                } else
                 {
                     var10[var12 + var11 * par3] = var17;
                 }

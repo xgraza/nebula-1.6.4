@@ -1,14 +1,15 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenIcePath extends WorldGenerator
 {
-    private Block field_150555_a;
-    private int field_150554_b;
+    private final Block field_150555_a;
+    private final int field_150554_b;
     private static final String __OBFID = "CL_00000416";
 
     public WorldGenIcePath(int p_i45454_1_)
@@ -27,8 +28,7 @@ public class WorldGenIcePath extends WorldGenerator
         if (par1World.getBlock(par3, par4, par5) != Blocks.snow)
         {
             return false;
-        }
-        else
+        } else
         {
             int var6 = par2Random.nextInt(this.field_150554_b - 2) + 2;
             byte var7 = 1;

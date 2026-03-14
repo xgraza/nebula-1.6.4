@@ -7,8 +7,8 @@ import net.minecraft.util.Vec3;
 
 public class EntityAIRunAroundLikeCrazy extends EntityAIBase
 {
-    private EntityHorse horseHost;
-    private double field_111178_b;
+    private final EntityHorse horseHost;
+    private final double field_111178_b;
     private double field_111179_c;
     private double field_111176_d;
     private double field_111177_e;
@@ -33,16 +33,14 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase
             if (var1 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.field_111179_c = var1.xCoord;
                 this.field_111176_d = var1.yCoord;
                 this.field_111177_e = var1.zCoord;
                 return true;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -78,18 +76,18 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase
 
                 if (var2 > 0 && this.horseHost.getRNG().nextInt(var2) < var1)
                 {
-                    this.horseHost.setTamedBy((EntityPlayer)this.horseHost.riddenByEntity);
-                    this.horseHost.worldObj.setEntityState(this.horseHost, (byte)7);
+                    this.horseHost.setTamedBy((EntityPlayer) this.horseHost.riddenByEntity);
+                    this.horseHost.worldObj.setEntityState(this.horseHost, (byte) 7);
                     return;
                 }
 
                 this.horseHost.increaseTemper(5);
             }
 
-            this.horseHost.riddenByEntity.mountEntity((Entity)null);
+            this.horseHost.riddenByEntity.mountEntity(null);
             this.horseHost.riddenByEntity = null;
             this.horseHost.makeHorseRearWithSound();
-            this.horseHost.worldObj.setEntityState(this.horseHost, (byte)6);
+            this.horseHost.worldObj.setEntityState(this.horseHost, (byte) 6);
         }
     }
 }

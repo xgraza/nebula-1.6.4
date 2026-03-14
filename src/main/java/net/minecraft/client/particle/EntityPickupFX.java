@@ -11,13 +11,15 @@ import shadersmod.client.Shaders;
 
 public class EntityPickupFX extends EntityFX
 {
-    private Entity entityToPickUp;
-    private Entity entityPickingUp;
+    private final Entity entityToPickUp;
+    private final Entity entityPickingUp;
     private int age;
-    private int maxAge;
+    private final int maxAge;
 
-    /** renamed from yOffset to fix shadowing Entity.yOffset */
-    private float yOffs;
+    /**
+     * renamed from yOffset to fix shadowing Entity.yOffset
+     */
+    private final float yOffs;
     private static final String __OBFID = "CL_00000930";
 
     public EntityPickupFX(World par1World, Entity par2Entity, Entity par3Entity, float par4)
@@ -39,26 +41,26 @@ public class EntityPickupFX extends EntityFX
             Shaders.nextEntity(this.entityToPickUp);
         }
 
-        float var8 = ((float)this.age + par2) / (float)this.maxAge;
+        float var8 = ((float) this.age + par2) / (float) this.maxAge;
         var8 *= var8;
         double var9 = this.entityToPickUp.posX;
         double var11 = this.entityToPickUp.posY;
         double var13 = this.entityToPickUp.posZ;
-        double var15 = this.entityPickingUp.lastTickPosX + (this.entityPickingUp.posX - this.entityPickingUp.lastTickPosX) * (double)par2;
-        double var17 = this.entityPickingUp.lastTickPosY + (this.entityPickingUp.posY - this.entityPickingUp.lastTickPosY) * (double)par2 + (double)this.yOffs;
-        double var19 = this.entityPickingUp.lastTickPosZ + (this.entityPickingUp.posZ - this.entityPickingUp.lastTickPosZ) * (double)par2;
-        double var21 = var9 + (var15 - var9) * (double)var8;
-        double var23 = var11 + (var17 - var11) * (double)var8;
-        double var25 = var13 + (var19 - var13) * (double)var8;
+        double var15 = this.entityPickingUp.lastTickPosX + (this.entityPickingUp.posX - this.entityPickingUp.lastTickPosX) * (double) par2;
+        double var17 = this.entityPickingUp.lastTickPosY + (this.entityPickingUp.posY - this.entityPickingUp.lastTickPosY) * (double) par2 + (double) this.yOffs;
+        double var19 = this.entityPickingUp.lastTickPosZ + (this.entityPickingUp.posZ - this.entityPickingUp.lastTickPosZ) * (double) par2;
+        double var21 = var9 + (var15 - var9) * (double) var8;
+        double var23 = var11 + (var17 - var11) * (double) var8;
+        double var25 = var13 + (var19 - var13) * (double) var8;
         int var27 = this.getBrightnessForRender(par2);
         int var28 = var27 % 65536;
         int var29 = var27 / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var28 / 1.0F, (float)var29 / 1.0F);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var28, (float) var29);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         var21 -= interpPosX;
         var23 -= interpPosY;
         var25 -= interpPosZ;
-        RenderManager.instance.renderEntity(this.entityToPickUp, (double)((float)var21), (double)((float)var23), (double)((float)var25), this.entityToPickUp.rotationYaw, par2);
+        RenderManager.instance.renderEntity(this.entityToPickUp, (float) var21, (float) var23, (float) var25, this.entityToPickUp.rotationYaw, par2);
 
         if (Config.isShaders())
         {

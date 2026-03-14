@@ -3,19 +3,16 @@ package net.minecraft.client.resources;
 import com.google.common.base.Charsets;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import javax.imageio.ImageIO;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 public abstract class AbstractResourcePack implements IResourcePack
 {
@@ -30,7 +27,7 @@ public abstract class AbstractResourcePack implements IResourcePack
 
     private static String locationToName(ResourceLocation par0ResourceLocation)
     {
-        return String.format("%s/%s/%s", new Object[] {"assets", par0ResourceLocation.getResourceDomain(), par0ResourceLocation.getResourcePath()});
+        return String.format("%s/%s/%s", "assets", par0ResourceLocation.getResourceDomain(), par0ResourceLocation.getResourcePath());
     }
 
     protected static String getRelativeName(File par0File, File par1File)
@@ -54,7 +51,7 @@ public abstract class AbstractResourcePack implements IResourcePack
 
     protected void logNameNotLowercase(String par1Str)
     {
-        resourceLog.warn("ResourcePack: ignored non-lowercase namespace: %s in %s", new Object[] {par1Str, this.resourcePackFile});
+        resourceLog.warn("ResourcePack: ignored non-lowercase namespace: %s in %s", par1Str, this.resourcePackFile);
     }
 
     public IMetadataSection getPackMetadata(IMetadataSerializer par1MetadataSerializer, String par2Str) throws IOException
@@ -71,8 +68,7 @@ public abstract class AbstractResourcePack implements IResourcePack
         {
             var4 = new BufferedReader(new InputStreamReader(par1InputStream, Charsets.UTF_8));
             var3 = (new JsonParser()).parse(var4).getAsJsonObject();
-        }
-        finally
+        } finally
         {
             IOUtils.closeQuietly(var4);
         }

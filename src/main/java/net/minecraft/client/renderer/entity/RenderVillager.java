@@ -17,14 +17,16 @@ public class RenderVillager extends RenderLiving
     private static final ResourceLocation smithVillagerTextures = new ResourceLocation("textures/entity/villager/smith.png");
     private static final ResourceLocation butcherVillagerTextures = new ResourceLocation("textures/entity/villager/butcher.png");
 
-    /** Model of the villager. */
+    /**
+     * Model of the villager.
+     */
     protected ModelVillager villagerModel;
     private static final String __OBFID = "CL_00001032";
 
     public RenderVillager()
     {
         super(new ModelVillager(0.0F), 0.5F);
-        this.villagerModel = (ModelVillager)this.mainModel;
+        this.villagerModel = (ModelVillager) this.mainModel;
     }
 
     /**
@@ -43,7 +45,7 @@ public class RenderVillager extends RenderLiving
      */
     public void doRender(EntityVillager par1EntityVillager, double par2, double par4, double par6, float par8, float par9)
     {
-        super.doRender((EntityLiving)par1EntityVillager, par2, par4, par6, par8, par9);
+        super.doRender(par1EntityVillager, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -88,10 +90,9 @@ public class RenderVillager extends RenderLiving
 
         if (par1EntityVillager.getGrowingAge() < 0)
         {
-            var3 = (float)((double)var3 * 0.5D);
+            var3 = (float) ((double) var3 * 0.5D);
             this.shadowSize = 0.25F;
-        }
-        else
+        } else
         {
             this.shadowSize = 0.5F;
         }
@@ -107,7 +108,7 @@ public class RenderVillager extends RenderLiving
      */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityVillager)par1EntityLiving, par2, par4, par6, par8, par9);
+        this.doRender((EntityVillager) par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -116,7 +117,7 @@ public class RenderVillager extends RenderLiving
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntityVillager)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntityVillager) par1EntityLivingBase, par2);
     }
 
     /**
@@ -124,12 +125,12 @@ public class RenderVillager extends RenderLiving
      */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.shouldRenderPass((EntityVillager)par1EntityLivingBase, par2, par3);
+        return this.shouldRenderPass((EntityVillager) par1EntityLivingBase, par2, par3);
     }
 
     protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.renderEquippedItems((EntityVillager)par1EntityLivingBase, par2);
+        this.renderEquippedItems((EntityVillager) par1EntityLivingBase, par2);
     }
 
     /**
@@ -140,7 +141,7 @@ public class RenderVillager extends RenderLiving
      */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityVillager)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityVillager) par1Entity, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -148,7 +149,7 @@ public class RenderVillager extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityVillager)par1Entity);
+        return this.getEntityTexture((EntityVillager) par1Entity);
     }
 
     /**
@@ -159,6 +160,6 @@ public class RenderVillager extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityVillager)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityVillager) par1Entity, par2, par4, par6, par8, par9);
     }
 }

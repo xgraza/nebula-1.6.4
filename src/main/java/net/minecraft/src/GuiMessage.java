@@ -1,18 +1,19 @@
 package net.minecraft.src;
 
 import com.google.common.collect.Lists;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class GuiMessage extends GuiScreen
 {
-    private GuiScreen parentScreen;
-    private String messageLine1;
-    private String messageLine2;
+    private final GuiScreen parentScreen;
+    private final String messageLine1;
+    private final String messageLine2;
     private final List listLines2 = Lists.newArrayList();
     protected String confirmButtonText;
     private int ticksUntilEnable;
@@ -22,7 +23,7 @@ public class GuiMessage extends GuiScreen
         this.parentScreen = parentScreen;
         this.messageLine1 = line1;
         this.messageLine2 = line2;
-        this.confirmButtonText = I18n.format("gui.done", new Object[0]);
+        this.confirmButtonText = I18n.format("gui.done");
     }
 
     /**
@@ -51,7 +52,7 @@ public class GuiMessage extends GuiScreen
 
         for (Iterator var5 = this.listLines2.iterator(); var5.hasNext(); var4 += this.fontRenderer.FONT_HEIGHT)
         {
-            String var6 = (String)var5.next();
+            String var6 = (String) var5.next();
             this.drawCenteredString(this.fontRenderer, var6, this.width / 2, var4, 16777215);
         }
 
@@ -65,7 +66,7 @@ public class GuiMessage extends GuiScreen
 
         for (Iterator var2 = this.buttonList.iterator(); var2.hasNext(); var3.enabled = false)
         {
-            var3 = (GuiButton)var2.next();
+            var3 = (GuiButton) var2.next();
         }
     }
 
@@ -81,7 +82,7 @@ public class GuiMessage extends GuiScreen
         {
             for (Iterator var1 = this.buttonList.iterator(); var1.hasNext(); var2.enabled = true)
             {
-                var2 = (GuiButton)var1.next();
+                var2 = (GuiButton) var1.next();
             }
         }
     }

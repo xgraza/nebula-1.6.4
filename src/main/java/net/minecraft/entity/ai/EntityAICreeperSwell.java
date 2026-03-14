@@ -5,7 +5,9 @@ import net.minecraft.entity.monster.EntityCreeper;
 
 public class EntityAICreeperSwell extends EntityAIBase
 {
-    /** The creeper that is swelling. */
+    /**
+     * The creeper that is swelling.
+     */
     EntityCreeper swellingCreeper;
 
     /**
@@ -54,16 +56,13 @@ public class EntityAICreeperSwell extends EntityAIBase
         if (this.creeperAttackTarget == null)
         {
             this.swellingCreeper.setCreeperState(-1);
-        }
-        else if (this.swellingCreeper.getDistanceSqToEntity(this.creeperAttackTarget) > 49.0D)
+        } else if (this.swellingCreeper.getDistanceSqToEntity(this.creeperAttackTarget) > 49.0D)
         {
             this.swellingCreeper.setCreeperState(-1);
-        }
-        else if (!this.swellingCreeper.getEntitySenses().canSee(this.creeperAttackTarget))
+        } else if (!this.swellingCreeper.getEntitySenses().canSee(this.creeperAttackTarget))
         {
             this.swellingCreeper.setCreeperState(-1);
-        }
-        else
+        } else
         {
             this.swellingCreeper.setCreeperState(1);
         }

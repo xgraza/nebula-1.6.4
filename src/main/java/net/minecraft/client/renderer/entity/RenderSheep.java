@@ -30,8 +30,7 @@ public class RenderSheep extends RenderLiving
             int var4 = par1EntitySheep.getFleeceColor();
             GL11.glColor3f(EntitySheep.fleeceColorTable[var4][0], EntitySheep.fleeceColorTable[var4][1], EntitySheep.fleeceColorTable[var4][2]);
             return 1;
-        }
-        else
+        } else
         {
             return -1;
         }
@@ -50,7 +49,7 @@ public class RenderSheep extends RenderLiving
      */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.shouldRenderPass((EntitySheep)par1EntityLivingBase, par2, par3);
+        return this.shouldRenderPass((EntitySheep) par1EntityLivingBase, par2, par3);
     }
 
     /**
@@ -58,6 +57,6 @@ public class RenderSheep extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntitySheep)par1Entity);
+        return this.getEntityTexture((EntitySheep) par1Entity);
     }
 }

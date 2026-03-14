@@ -5,10 +5,14 @@ import net.minecraft.world.storage.WorldInfo;
 
 public final class WorldSettings
 {
-    /** The seed for the map. */
+    /**
+     * The seed for the map.
+     */
     private final long seed;
 
-    /** The EnumGameType. */
+    /**
+     * The EnumGameType.
+     */
     private final WorldSettings.GameType theGameType;
 
     /**
@@ -16,14 +20,20 @@ public final class WorldSettings
      */
     private final boolean mapFeaturesEnabled;
 
-    /** True if hardcore mode is enabled */
+    /**
+     * True if hardcore mode is enabled
+     */
     private final boolean hardcoreEnabled;
     private final WorldType terrainType;
 
-    /** True if Commands (cheats) are allowed. */
+    /**
+     * True if Commands (cheats) are allowed.
+     */
     private boolean commandsAllowed;
 
-    /** True if the Bonus Chest is enabled. */
+    /**
+     * True if the Bonus Chest is enabled.
+     */
     private boolean bonusChestEnabled;
     private String field_82751_h;
     private static final String __OBFID = "CL_00000147";
@@ -133,7 +143,7 @@ public final class WorldSettings
         return this.field_82751_h;
     }
 
-    public static enum GameType
+    public enum GameType
     {
         NOT_SET("NOT_SET", 0, -1, ""),
         SURVIVAL("SURVIVAL", 1, 0, "survival"),
@@ -142,10 +152,10 @@ public final class WorldSettings
         int id;
         String name;
 
-        private static final WorldSettings.GameType[] $VALUES = new WorldSettings.GameType[]{NOT_SET, SURVIVAL, CREATIVE, ADVENTURE};
+        private static final WorldSettings.GameType[] $VALUES = new WorldSettings.GameType[]{ NOT_SET, SURVIVAL, CREATIVE, ADVENTURE };
         private static final String __OBFID = "CL_00000148";
 
-        private GameType(String par1Str, int par2, int par3, String par4Str)
+        GameType(String par1Str, int par2, int par3, String par4Str)
         {
             this.id = par3;
             this.name = par4Str;
@@ -168,8 +178,7 @@ public final class WorldSettings
                 par1PlayerCapabilities.allowFlying = true;
                 par1PlayerCapabilities.isCreativeMode = true;
                 par1PlayerCapabilities.disableDamage = true;
-            }
-            else
+            } else
             {
                 par1PlayerCapabilities.allowFlying = false;
                 par1PlayerCapabilities.isCreativeMode = false;

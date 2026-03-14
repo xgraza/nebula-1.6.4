@@ -1,7 +1,5 @@
 package net.minecraft.world.gen;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
@@ -13,35 +11,39 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.feature.WorldGenFire;
-import net.minecraft.world.gen.feature.WorldGenFlowers;
-import net.minecraft.world.gen.feature.WorldGenGlowStone1;
-import net.minecraft.world.gen.feature.WorldGenGlowStone2;
-import net.minecraft.world.gen.feature.WorldGenHellLava;
-import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.structure.MapGenNetherBridge;
+
+import java.util.List;
+import java.util.Random;
 
 public class ChunkProviderHell implements IChunkProvider
 {
-    private Random hellRNG;
+    private final Random hellRNG;
 
-    /** A NoiseGeneratorOctaves used in generating nether terrain */
-    private NoiseGeneratorOctaves netherNoiseGen1;
-    private NoiseGeneratorOctaves netherNoiseGen2;
-    private NoiseGeneratorOctaves netherNoiseGen3;
+    /**
+     * A NoiseGeneratorOctaves used in generating nether terrain
+     */
+    private final NoiseGeneratorOctaves netherNoiseGen1;
+    private final NoiseGeneratorOctaves netherNoiseGen2;
+    private final NoiseGeneratorOctaves netherNoiseGen3;
 
-    /** Determines whether slowsand or gravel can be generated at a location */
-    private NoiseGeneratorOctaves slowsandGravelNoiseGen;
+    /**
+     * Determines whether slowsand or gravel can be generated at a location
+     */
+    private final NoiseGeneratorOctaves slowsandGravelNoiseGen;
 
     /**
      * Determines whether something other than nettherack can be generated at a location
      */
-    private NoiseGeneratorOctaves netherrackExculsivityNoiseGen;
+    private final NoiseGeneratorOctaves netherrackExculsivityNoiseGen;
     public NoiseGeneratorOctaves netherNoiseGen6;
     public NoiseGeneratorOctaves netherNoiseGen7;
 
-    /** Is the world that the nether is getting generated. */
-    private World worldObj;
+    /**
+     * Is the world that the nether is getting generated.
+     */
+    private final World worldObj;
     private double[] noiseField;
     public MapGenNetherBridge genNetherBridge = new MapGenNetherBridge();
 
@@ -55,7 +57,7 @@ public class ChunkProviderHell implements IChunkProvider
      * Holds the noise used to determine whether something other than netherrack can be generated at a location
      */
     private double[] netherrackExclusivityNoise = new double[256];
-    private MapGenBase netherCaveGenerator = new MapGenCavesHell();
+    private final MapGenBase netherCaveGenerator = new MapGenCavesHell();
     double[] noiseData1;
     double[] noiseData2;
     double[] noiseData3;
@@ -92,13 +94,13 @@ public class ChunkProviderHell implements IChunkProvider
                 for (int var11 = 0; var11 < 16; ++var11)
                 {
                     double var12 = 0.125D;
-                    double var14 = this.noiseField[((var9 + 0) * var8 + var10 + 0) * var7 + var11 + 0];
-                    double var16 = this.noiseField[((var9 + 0) * var8 + var10 + 1) * var7 + var11 + 0];
-                    double var18 = this.noiseField[((var9 + 1) * var8 + var10 + 0) * var7 + var11 + 0];
-                    double var20 = this.noiseField[((var9 + 1) * var8 + var10 + 1) * var7 + var11 + 0];
-                    double var22 = (this.noiseField[((var9 + 0) * var8 + var10 + 0) * var7 + var11 + 1] - var14) * var12;
-                    double var24 = (this.noiseField[((var9 + 0) * var8 + var10 + 1) * var7 + var11 + 1] - var16) * var12;
-                    double var26 = (this.noiseField[((var9 + 1) * var8 + var10 + 0) * var7 + var11 + 1] - var18) * var12;
+                    double var14 = this.noiseField[((var9) * var8 + var10) * var7 + var11];
+                    double var16 = this.noiseField[((var9) * var8 + var10 + 1) * var7 + var11];
+                    double var18 = this.noiseField[((var9 + 1) * var8 + var10) * var7 + var11];
+                    double var20 = this.noiseField[((var9 + 1) * var8 + var10 + 1) * var7 + var11];
+                    double var22 = (this.noiseField[((var9) * var8 + var10) * var7 + var11 + 1] - var14) * var12;
+                    double var24 = (this.noiseField[((var9) * var8 + var10 + 1) * var7 + var11 + 1] - var16) * var12;
+                    double var26 = (this.noiseField[((var9 + 1) * var8 + var10) * var7 + var11 + 1] - var18) * var12;
                     double var28 = (this.noiseField[((var9 + 1) * var8 + var10 + 1) * var7 + var11 + 1] - var20) * var12;
 
                     for (int var30 = 0; var30 < 8; ++var30)
@@ -111,7 +113,7 @@ public class ChunkProviderHell implements IChunkProvider
 
                         for (int var41 = 0; var41 < 4; ++var41)
                         {
-                            int var42 = var41 + var9 * 4 << 11 | 0 + var10 * 4 << 7 | var11 * 8 + var30;
+                            int var42 = var41 + var9 * 4 << 11 | var10 * 4 << 7 | var11 * 8 + var30;
                             short var43 = 128;
                             double var44 = 0.25D;
                             double var46 = var33;
@@ -164,7 +166,7 @@ public class ChunkProviderHell implements IChunkProvider
             {
                 boolean var9 = this.slowsandNoise[var7 + var8 * 16] + this.hellRNG.nextDouble() * 0.2D > 0.0D;
                 boolean var10 = this.gravelNoise[var7 + var8 * 16] + this.hellRNG.nextDouble() * 0.2D > 0.0D;
-                int var11 = (int)(this.netherrackExclusivityNoise[var7 + var8 * 16] / 3.0D + 3.0D + this.hellRNG.nextDouble() * 0.25D);
+                int var11 = (int) (this.netherrackExclusivityNoise[var7 + var8 * 16] / 3.0D + 3.0D + this.hellRNG.nextDouble() * 0.25D);
                 int var12 = -1;
                 Block var13 = Blocks.netherrack;
                 Block var14 = Blocks.netherrack;
@@ -173,7 +175,7 @@ public class ChunkProviderHell implements IChunkProvider
                 {
                     int var16 = (var8 * 16 + var7) * 128 + var15;
 
-                    if (var15 < 127 - this.hellRNG.nextInt(5) && var15 > 0 + this.hellRNG.nextInt(5))
+                    if (var15 < 127 - this.hellRNG.nextInt(5) && var15 > this.hellRNG.nextInt(5))
                     {
                         Block var17 = p_147418_3_[var16];
 
@@ -187,8 +189,7 @@ public class ChunkProviderHell implements IChunkProvider
                                     {
                                         var13 = null;
                                         var14 = Blocks.netherrack;
-                                    }
-                                    else if (var15 >= var4 - 4 && var15 <= var4 + 1)
+                                    } else if (var15 >= var4 - 4 && var15 <= var4 + 1)
                                     {
                                         var13 = Blocks.netherrack;
                                         var14 = Blocks.netherrack;
@@ -216,25 +217,21 @@ public class ChunkProviderHell implements IChunkProvider
                                     if (var15 >= var4 - 1)
                                     {
                                         p_147418_3_[var16] = var13;
-                                    }
-                                    else
+                                    } else
                                     {
                                         p_147418_3_[var16] = var14;
                                     }
-                                }
-                                else if (var12 > 0)
+                                } else if (var12 > 0)
                                 {
                                     --var12;
                                     p_147418_3_[var16] = var14;
                                 }
                             }
-                        }
-                        else
+                        } else
                         {
                             var12 = -1;
                         }
-                    }
-                    else
+                    } else
                     {
                         p_147418_3_[var16] = Blocks.bedrock;
                     }
@@ -257,19 +254,19 @@ public class ChunkProviderHell implements IChunkProvider
      */
     public Chunk provideChunk(int par1, int par2)
     {
-        this.hellRNG.setSeed((long)par1 * 341873128712L + (long)par2 * 132897987541L);
+        this.hellRNG.setSeed((long) par1 * 341873128712L + (long) par2 * 132897987541L);
         Block[] var3 = new Block[32768];
         this.func_147419_a(par1, par2, var3);
         this.func_147418_b(par1, par2, var3);
         this.netherCaveGenerator.func_151539_a(this, this.worldObj, par1, par2, var3);
         this.genNetherBridge.func_151539_a(this, this.worldObj, par1, par2, var3);
         Chunk var4 = new Chunk(this.worldObj, var3, par1, par2);
-        BiomeGenBase[] var5 = this.worldObj.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[])null, par1 * 16, par2 * 16, 16, 16);
+        BiomeGenBase[] var5 = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(null, par1 * 16, par2 * 16, 16, 16);
         byte[] var6 = var4.getBiomeArray();
 
         for (int var7 = 0; var7 < var6.length; ++var7)
         {
-            var6[var7] = (byte)var5[var7].biomeID;
+            var6[var7] = (byte) var5[var7].biomeID;
         }
 
         var4.resetRelightChecks();
@@ -301,12 +298,12 @@ public class ChunkProviderHell implements IChunkProvider
 
         for (var15 = 0; var15 < par6; ++var15)
         {
-            var14[var15] = Math.cos((double)var15 * Math.PI * 6.0D / (double)par6) * 2.0D;
-            double var16 = (double)var15;
+            var14[var15] = Math.cos((double) var15 * Math.PI * 6.0D / (double) par6) * 2.0D;
+            double var16 = var15;
 
             if (var15 > par6 / 2)
             {
-                var16 = (double)(par6 - 1 - var15);
+                var16 = par6 - 1 - var15;
             }
 
             if (var16 < 4.0D)
@@ -349,8 +346,7 @@ public class ChunkProviderHell implements IChunkProvider
                     var21 /= 1.4D;
                     var21 /= 2.0D;
                     var17 = 0.0D;
-                }
-                else
+                } else
                 {
                     if (var21 > 1.0D)
                     {
@@ -361,7 +357,7 @@ public class ChunkProviderHell implements IChunkProvider
                 }
 
                 var17 += 0.5D;
-                var21 = var21 * (double)par6 / 16.0D;
+                var21 = var21 * (double) par6 / 16.0D;
                 ++var13;
 
                 for (int var23 = 0; var23 < par6; ++var23)
@@ -375,12 +371,10 @@ public class ChunkProviderHell implements IChunkProvider
                     if (var32 < 0.0D)
                     {
                         var24 = var28;
-                    }
-                    else if (var32 > 1.0D)
+                    } else if (var32 > 1.0D)
                     {
                         var24 = var30;
-                    }
-                    else
+                    } else
                     {
                         var24 = var28 + (var30 - var28) * var32;
                     }
@@ -390,13 +384,13 @@ public class ChunkProviderHell implements IChunkProvider
 
                     if (var23 > par6 - 4)
                     {
-                        var34 = (double)((float)(var23 - (par6 - 4)) / 3.0F);
+                        var34 = (float) (var23 - (par6 - 4)) / 3.0F;
                         var24 = var24 * (1.0D - var34) + -10.0D * var34;
                     }
 
-                    if ((double)var23 < var19)
+                    if ((double) var23 < var19)
                     {
-                        var34 = (var19 - (double)var23) / 4.0D;
+                        var34 = (var19 - (double) var23) / 4.0D;
 
                         if (var34 < 0.0D)
                         {
@@ -530,7 +524,9 @@ public class ChunkProviderHell implements IChunkProvider
      * Save extra data not associated with any Chunk.  Not saved during autosave, only during world unload.  Currently
      * unimplemented.
      */
-    public void saveExtraData() {}
+    public void saveExtraData()
+    {
+    }
 
     /**
      * Unloads chunks that are marked to be unloaded. This is not guaranteed to unload every such chunk.
@@ -590,6 +586,6 @@ public class ChunkProviderHell implements IChunkProvider
 
     public void recreateStructures(int par1, int par2)
     {
-        this.genNetherBridge.func_151539_a(this, this.worldObj, par1, par2, (Block[])null);
+        this.genNetherBridge.func_151539_a(this, this.worldObj, par1, par2, null);
     }
 }

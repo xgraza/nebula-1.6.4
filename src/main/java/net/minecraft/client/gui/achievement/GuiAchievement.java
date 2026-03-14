@@ -15,14 +15,14 @@ import us.nebula.client.impl.cheat.render.NoRenderCheat;
 public class GuiAchievement extends Gui
 {
     private static final ResourceLocation field_146261_a = new ResourceLocation("textures/gui/achievement/achievement_background.png");
-    private Minecraft field_146259_f;
+    private final Minecraft field_146259_f;
     private int field_146260_g;
     private int field_146267_h;
     private String field_146268_i;
     private String field_146265_j;
     private Achievement field_146266_k;
     private long field_146263_l;
-    private RenderItem field_146264_m;
+    private final RenderItem field_146264_m;
     private boolean field_146262_n;
     private static final String __OBFID = "CL_00000721";
 
@@ -34,7 +34,7 @@ public class GuiAchievement extends Gui
 
     public void func_146256_a(Achievement p_146256_1_)
     {
-        this.field_146268_i = I18n.format("achievement.get", new Object[0]);
+        this.field_146268_i = I18n.format("achievement.get");
         this.field_146265_j = p_146256_1_.func_150951_e().getUnformattedText();
         this.field_146263_l = Minecraft.getSystemTime();
         this.field_146266_k = p_146256_1_;
@@ -65,7 +65,7 @@ public class GuiAchievement extends Gui
         GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0.0D, (double)this.field_146260_g, (double)this.field_146267_h, 0.0D, 1000.0D, 3000.0D);
+        GL11.glOrtho(0.0D, this.field_146260_g, this.field_146267_h, 0.0D, 1000.0D, 3000.0D);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glLoadIdentity();
         GL11.glTranslatef(0.0F, 0.0F, -2000.0F);
@@ -80,7 +80,7 @@ public class GuiAchievement extends Gui
         }
         if (this.field_146266_k != null && this.field_146263_l != 0L && Minecraft.getMinecraft().thePlayer != null)
         {
-            double var1 = (double)(Minecraft.getSystemTime() - this.field_146263_l) / 3000.0D;
+            double var1 = (double) (Minecraft.getSystemTime() - this.field_146263_l) / 3000.0D;
 
             if (!this.field_146262_n)
             {
@@ -89,8 +89,7 @@ public class GuiAchievement extends Gui
                     this.field_146263_l = 0L;
                     return;
                 }
-            }
-            else if (var1 > 0.5D)
+            } else if (var1 > 0.5D)
             {
                 var1 = 0.5D;
             }
@@ -116,7 +115,7 @@ public class GuiAchievement extends Gui
             var3 *= var3;
             var3 *= var3;
             int var5 = this.field_146260_g - 160;
-            int var6 = 0 - (int)(var3 * 36.0D);
+            int var6 = -(int) (var3 * 36.0D);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             this.field_146259_f.getTextureManager().bindTexture(field_146261_a);
@@ -126,8 +125,7 @@ public class GuiAchievement extends Gui
             if (this.field_146262_n)
             {
                 this.field_146259_f.fontRenderer.drawSplitString(this.field_146265_j, var5 + 30, var6 + 7, 120, -1);
-            }
-            else
+            } else
             {
                 this.field_146259_f.fontRenderer.drawString(this.field_146268_i, var5 + 30, var6 + 7, -256);
                 this.field_146259_f.fontRenderer.drawString(this.field_146265_j, var5 + 30, var6 + 18, -1);

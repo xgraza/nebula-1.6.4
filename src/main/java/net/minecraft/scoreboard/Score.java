@@ -8,13 +8,15 @@ public class Score
     public static final Comparator field_96658_a = new Comparator()
     {
         private static final String __OBFID = "CL_00000618";
+
         public int compare(Score par1Score, Score par2Score)
         {
             return par1Score.getScorePoints() > par2Score.getScorePoints() ? 1 : (par1Score.getScorePoints() < par2Score.getScorePoints() ? -1 : 0);
         }
+
         public int compare(Object par1Obj, Object par2Obj)
         {
-            return this.compare((Score)par1Obj, (Score)par2Obj);
+            return this.compare((Score) par1Obj, (Score) par2Obj);
         }
     };
     private final Scoreboard theScoreboard;
@@ -35,8 +37,7 @@ public class Score
         if (this.theScoreObjective.getCriteria().isReadOnly())
         {
             throw new IllegalStateException("Cannot modify read-only score");
-        }
-        else
+        } else
         {
             this.func_96647_c(this.getScorePoints() + par1);
         }
@@ -47,8 +48,7 @@ public class Score
         if (this.theScoreObjective.getCriteria().isReadOnly())
         {
             throw new IllegalStateException("Cannot modify read-only score");
-        }
-        else
+        } else
         {
             this.func_96647_c(this.getScorePoints() - par1);
         }
@@ -59,8 +59,7 @@ public class Score
         if (this.theScoreObjective.getCriteria().isReadOnly())
         {
             throw new IllegalStateException("Cannot modify read-only score");
-        }
-        else
+        } else
         {
             this.func_96649_a(1);
         }

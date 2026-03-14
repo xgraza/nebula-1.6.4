@@ -5,73 +5,80 @@ import com.github.lunatrius.schematica.world.SchematicWorld;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
-public abstract class SchematicFormat {
-	public static final Map<String, SchematicFormat> FORMATS = new HashMap<String, SchematicFormat>();
-	public static final String MATERIALS = "Materials";
-	public static final String FORMAT_ALPHA = "Alpha";
-	public static String FORMAT_DEFAULT;
+public abstract class SchematicFormat
+{
+    public static final Map<String, SchematicFormat> FORMATS = new HashMap<String, SchematicFormat>();
+    public static final String MATERIALS = "Materials";
+    public static final String FORMAT_ALPHA = "Alpha";
+    public static String FORMAT_DEFAULT;
 
-	public abstract SchematicWorld readFromNBT(NBTTagCompound tagCompound);
+    public abstract SchematicWorld readFromNBT(NBTTagCompound tagCompound);
 
-	public abstract boolean writeToNBT(NBTTagCompound tagCompound, SchematicWorld world);
+    public abstract boolean writeToNBT(NBTTagCompound tagCompound, SchematicWorld world);
 
-	public static SchematicWorld readFromFile(File file) {
-		try {
-			InputStream stream = new FileInputStream(file);
-			NBTTagCompound tagCompound = CompressedStreamTools.readCompressed(stream);
-			String format = tagCompound.getString(MATERIALS);
-			SchematicFormat schematicFormat = FORMATS.get(format);
+    public static SchematicWorld readFromFile(File file)
+    {
+        try
+        {
+            InputStream stream = new FileInputStream(file);
+            NBTTagCompound tagCompound = CompressedStreamTools.readCompressed(stream);
+            String format = tagCompound.getString(MATERIALS);
+            SchematicFormat schematicFormat = FORMATS.get(format);
 
-			if (schematicFormat == null) {
-				throw new RuntimeException("unsupported: " + format);
-			}
+            if (schematicFormat == null)
+            {
+                throw new RuntimeException("unsupported: " + format);
+            }
 
-			return schematicFormat.readFromNBT(tagCompound);
-		} catch (Exception ex) {
-			Reference.logger.error("Failed to read schematic!", ex);
-		}
+            return schematicFormat.readFromNBT(tagCompound);
+        } catch (Exception ex)
+        {
+            Reference.logger.error("Failed to read schematic!", ex);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	public static SchematicWorld readFromFile(String directory, String filename) {
-		return readFromFile(new File(directory, filename));
-	}
+    public static SchematicWorld readFromFile(String directory, String filename)
+    {
+        return readFromFile(new File(directory, filename));
+    }
 
-	public static boolean writeToFile(File file, SchematicWorld world) {
-		try {
-			NBTTagCompound tagCompound = new NBTTagCompound();
+    public static boolean writeToFile(File file, SchematicWorld world)
+    {
+        try
+        {
+            NBTTagCompound tagCompound = new NBTTagCompound();
 
-			FORMATS.get(FORMAT_DEFAULT).writeToNBT(tagCompound, world);
+            FORMATS.get(FORMAT_DEFAULT).writeToNBT(tagCompound, world);
 
-			DataOutputStream dataOutputStream = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
+            DataOutputStream dataOutputStream = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
             NBTTagCompound.func_150298_a("Schematic", tagCompound, dataOutputStream);
             dataOutputStream.close();
 
-			return true;
-		} catch (Exception ex) {
-			Reference.logger.error("Failed to write schematic!", ex);
-		}
+            return true;
+        } catch (Exception ex)
+        {
+            Reference.logger.error("Failed to write schematic!", ex);
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public static boolean writeToFile(File directory, String filename, SchematicWorld world) {
-		return writeToFile(new File(directory, filename), world);
-	}
+    public static boolean writeToFile(File directory, String filename, SchematicWorld world)
+    {
+        return writeToFile(new File(directory, filename), world);
+    }
 
-	static {
-		FORMATS.put(FORMAT_ALPHA, new SchematicAlpha());
+    static
+    {
+        FORMATS.put(FORMAT_ALPHA, new SchematicAlpha());
 
-		FORMAT_DEFAULT = FORMAT_ALPHA;
-	}
+        FORMAT_DEFAULT = FORMAT_ALPHA;
+    }
 }

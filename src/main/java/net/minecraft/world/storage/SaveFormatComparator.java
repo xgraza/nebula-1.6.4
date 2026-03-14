@@ -4,16 +4,22 @@ import net.minecraft.world.WorldSettings;
 
 public class SaveFormatComparator implements Comparable
 {
-    /** the file name of this save */
+    /**
+     * the file name of this save
+     */
     private final String fileName;
 
-    /** the displayed name of this save file */
+    /**
+     * the displayed name of this save file
+     */
     private final String displayName;
     private final long lastTimePlayed;
     private final long sizeOnDisk;
     private final boolean requiresConversion;
 
-    /** Instance of EnumGameType. */
+    /**
+     * Instance of EnumGameType.
+     */
     private final WorldSettings.GameType theEnumGameType;
     private final boolean hardcore;
     private final boolean cheatsEnabled;
@@ -85,6 +91,6 @@ public class SaveFormatComparator implements Comparable
 
     public int compareTo(Object par1Obj)
     {
-        return this.compareTo((SaveFormatComparator)par1Obj);
+        return this.compareTo((SaveFormatComparator) par1Obj);
     }
 }

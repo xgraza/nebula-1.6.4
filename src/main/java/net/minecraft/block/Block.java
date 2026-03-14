@@ -576,12 +576,12 @@ public class Block
 
     protected final void setBlockBounds(float p_149676_1_, float p_149676_2_, float p_149676_3_, float p_149676_4_, float p_149676_5_, float p_149676_6_)
     {
-        this.minX = (double) p_149676_1_;
-        this.minY = (double) p_149676_2_;
-        this.minZ = (double) p_149676_3_;
-        this.maxX = (double) p_149676_4_;
-        this.maxY = (double) p_149676_5_;
-        this.maxZ = (double) p_149676_6_;
+        this.minX = p_149676_1_;
+        this.minY = p_149676_2_;
+        this.minZ = p_149676_3_;
+        this.maxX = p_149676_4_;
+        this.maxY = p_149676_5_;
+        this.maxZ = p_149676_6_;
     }
 
     public int getBlockBrightness(IBlockAccess p_149677_1_, int p_149677_2_, int p_149677_3_, int p_149677_4_)
@@ -829,8 +829,8 @@ public class Block
     public MovingObjectPosition collisionRayTrace(World p_149731_1_, int p_149731_2_, int p_149731_3_, int p_149731_4_, Vec3 p_149731_5_, Vec3 p_149731_6_)
     {
         this.setBlockBoundsBasedOnState(p_149731_1_, p_149731_2_, p_149731_3_, p_149731_4_);
-        p_149731_5_ = p_149731_5_.addVector((double) (-p_149731_2_), (double) (-p_149731_3_), (double) (-p_149731_4_));
-        p_149731_6_ = p_149731_6_.addVector((double) (-p_149731_2_), (double) (-p_149731_3_), (double) (-p_149731_4_));
+        p_149731_5_ = p_149731_5_.addVector(-p_149731_2_, -p_149731_3_, -p_149731_4_);
+        p_149731_6_ = p_149731_6_.addVector(-p_149731_2_, -p_149731_3_, -p_149731_4_);
         Vec3 var7 = p_149731_5_.getIntermediateWithXValue(p_149731_6_, this.minX);
         Vec3 var8 = p_149731_5_.getIntermediateWithXValue(p_149731_6_, this.maxX);
         Vec3 var9 = p_149731_5_.getIntermediateWithYValue(p_149731_6_, this.minY);
@@ -937,7 +937,7 @@ public class Block
                 var14 = 3;
             }
 
-            return new MovingObjectPosition(p_149731_2_, p_149731_3_, p_149731_4_, var14, var13.addVector((double) p_149731_2_, (double) p_149731_3_, (double) p_149731_4_));
+            return new MovingObjectPosition(p_149731_2_, p_149731_3_, p_149731_4_, var14, var13.addVector(p_149731_2_, p_149731_3_, p_149731_4_));
         }
     }
 
@@ -946,7 +946,7 @@ public class Block
      */
     private boolean isVecInsideYZBounds(Vec3 p_149654_1_)
     {
-        return p_149654_1_ == null ? false : p_149654_1_.yCoord >= this.minY && p_149654_1_.yCoord <= this.maxY && p_149654_1_.zCoord >= this.minZ && p_149654_1_.zCoord <= this.maxZ;
+        return p_149654_1_ != null && p_149654_1_.yCoord >= this.minY && p_149654_1_.yCoord <= this.maxY && p_149654_1_.zCoord >= this.minZ && p_149654_1_.zCoord <= this.maxZ;
     }
 
     /**
@@ -954,7 +954,7 @@ public class Block
      */
     private boolean isVecInsideXZBounds(Vec3 p_149687_1_)
     {
-        return p_149687_1_ == null ? false : p_149687_1_.xCoord >= this.minX && p_149687_1_.xCoord <= this.maxX && p_149687_1_.zCoord >= this.minZ && p_149687_1_.zCoord <= this.maxZ;
+        return p_149687_1_ != null && p_149687_1_.xCoord >= this.minX && p_149687_1_.xCoord <= this.maxX && p_149687_1_.zCoord >= this.minZ && p_149687_1_.zCoord <= this.maxZ;
     }
 
     /**
@@ -962,7 +962,7 @@ public class Block
      */
     private boolean isVecInsideXYBounds(Vec3 p_149661_1_)
     {
-        return p_149661_1_ == null ? false : p_149661_1_.xCoord >= this.minX && p_149661_1_.xCoord <= this.maxX && p_149661_1_.yCoord >= this.minY && p_149661_1_.yCoord <= this.maxY;
+        return p_149661_1_ != null && p_149661_1_.xCoord >= this.minX && p_149661_1_.xCoord <= this.maxX && p_149661_1_.yCoord >= this.minY && p_149661_1_.yCoord <= this.maxY;
     }
 
     /**
@@ -1350,7 +1350,7 @@ public class Block
 
     public static boolean isEqualTo(Block p_149680_0_, Block p_149680_1_)
     {
-        return p_149680_0_ != null && p_149680_1_ != null ? (p_149680_0_ == p_149680_1_ ? true : p_149680_0_.isAssociatedBlock(p_149680_1_)) : false;
+        return p_149680_0_ != null && p_149680_1_ != null && (p_149680_0_ == p_149680_1_ || p_149680_0_.isAssociatedBlock(p_149680_1_));
     }
 
     public boolean hasComparatorInputOverride()

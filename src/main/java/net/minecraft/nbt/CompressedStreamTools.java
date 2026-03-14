@@ -1,23 +1,12 @@
 package net.minecraft.nbt;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
+
+import java.io.*;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class CompressedStreamTools
 {
@@ -34,8 +23,7 @@ public class CompressedStreamTools
         try
         {
             var2 = read(var1);
-        }
-        finally
+        } finally
         {
             var1.close();
         }
@@ -53,8 +41,7 @@ public class CompressedStreamTools
         try
         {
             write(par0NBTTagCompound, var2);
-        }
-        finally
+        } finally
         {
             var2.close();
         }
@@ -68,8 +55,7 @@ public class CompressedStreamTools
         try
         {
             var2 = read(var1);
-        }
-        finally
+        } finally
         {
             var1.close();
         }
@@ -85,8 +71,7 @@ public class CompressedStreamTools
         try
         {
             write(par0NBTTagCompound, var2);
-        }
-        finally
+        } finally
         {
             var2.close();
         }
@@ -113,8 +98,7 @@ public class CompressedStreamTools
         if (par1File.exists())
         {
             throw new IOException("Failed to delete " + par1File);
-        }
-        else
+        } else
         {
             var2.renameTo(par1File);
         }
@@ -127,8 +111,7 @@ public class CompressedStreamTools
         try
         {
             write(par0NBTTagCompound, var2);
-        }
-        finally
+        } finally
         {
             var2.close();
         }
@@ -139,8 +122,7 @@ public class CompressedStreamTools
         if (!par0File.exists())
         {
             return null;
-        }
-        else
+        } else
         {
             DataInputStream var1 = new DataInputStream(new FileInputStream(par0File));
             NBTTagCompound var2;
@@ -148,8 +130,7 @@ public class CompressedStreamTools
             try
             {
                 var2 = read(var1);
-            }
-            finally
+            } finally
             {
                 var1.close();
             }
@@ -167,9 +148,8 @@ public class CompressedStreamTools
 
         if (var1 instanceof NBTTagCompound)
         {
-            return (NBTTagCompound)var1;
-        }
-        else
+            return (NBTTagCompound) var1;
+        } else
         {
             throw new IOException("Root tag must be a named compound tag");
         }
@@ -198,8 +178,7 @@ public class CompressedStreamTools
         if (var2 == 0)
         {
             return new NBTTagEnd();
-        }
-        else
+        } else
         {
             p_150664_0_.readUTF();
             NBTBase var3 = NBTBase.func_150284_a(var2);
@@ -208,8 +187,7 @@ public class CompressedStreamTools
             {
                 var3.load(p_150664_0_, p_150664_1_);
                 return var3;
-            }
-            catch (IOException var7)
+            } catch (IOException var7)
             {
                 CrashReport var5 = CrashReport.makeCrashReport(var7, "Loading NBT data");
                 CrashReportCategory var6 = var5.makeCategory("NBT Tag");

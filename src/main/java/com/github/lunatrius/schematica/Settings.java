@@ -20,246 +20,283 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Settings {
-	public static final Settings instance = new Settings();
+public class Settings
+{
+    public static final Settings instance = new Settings();
 
-	private final Vector3f translationVector = new Vector3f();
-	public Minecraft minecraft = Minecraft.getMinecraft();
-	public Vector3f playerPosition = new Vector3f();
-	public final List<RendererSchematicChunk> sortedRendererSchematicChunk = new ArrayList<RendererSchematicChunk>();
-	public RenderBlocks renderBlocks = null;
-	public Vector3f pointA = new Vector3f();
-	public Vector3f pointB = new Vector3f();
-	public Vector3f pointMin = new Vector3f();
-	public Vector3f pointMax = new Vector3f();
-	public int rotationRender = 0;
-	public EnumFacing orientation = null;
-	public Vector3f offset = new Vector3f();
-	public boolean isRenderingGuide = false;
-	public int chatLines = 0;
-	public boolean isSaveEnabled = true;
-	public boolean isLoadEnabled = true;
-	public boolean isPendingReset = false;
-	public int[] increments = {
-			1, 5, 15, 50, 250
-	};
+    private final Vector3f translationVector = new Vector3f();
+    public Minecraft minecraft = Minecraft.getMinecraft();
+    public Vector3f playerPosition = new Vector3f();
+    public final List<RendererSchematicChunk> sortedRendererSchematicChunk = new ArrayList<RendererSchematicChunk>();
+    public RenderBlocks renderBlocks = null;
+    public Vector3f pointA = new Vector3f();
+    public Vector3f pointB = new Vector3f();
+    public Vector3f pointMin = new Vector3f();
+    public Vector3f pointMax = new Vector3f();
+    public int rotationRender = 0;
+    public EnumFacing orientation = null;
+    public Vector3f offset = new Vector3f();
+    public boolean isRenderingGuide = false;
+    public int chatLines = 0;
+    public boolean isSaveEnabled = true;
+    public boolean isLoadEnabled = true;
+    public boolean isPendingReset = false;
+    public int[] increments = {
+            1, 5, 15, 50, 250
+    };
 
-	private Settings() {
-	}
+    private Settings()
+    {
+    }
 
-	public void reset() {
-		this.chatLines = 0;
-		SchematicPrinter.INSTANCE.setEnabled(true);
-		this.isSaveEnabled = true;
-		this.isLoadEnabled = true;
-		this.isRenderingGuide = false;
-		Schematica.INSTANCE.setActiveSchematic(null);
-		this.renderBlocks = null;
-		while (this.sortedRendererSchematicChunk.size() > 0) {
-			this.sortedRendererSchematicChunk.remove(0).delete();
-		}
-		SchematicPrinter.INSTANCE.setSchematic(null);
-	}
+    public void reset()
+    {
+        this.chatLines = 0;
+        SchematicPrinter.INSTANCE.setEnabled(true);
+        this.isSaveEnabled = true;
+        this.isLoadEnabled = true;
+        this.isRenderingGuide = false;
+        Schematica.INSTANCE.setActiveSchematic(null);
+        this.renderBlocks = null;
+        while (this.sortedRendererSchematicChunk.size() > 0)
+        {
+            this.sortedRendererSchematicChunk.remove(0).delete();
+        }
+        SchematicPrinter.INSTANCE.setSchematic(null);
+    }
 
-	public void createRendererSchematicChunk() {
-		SchematicWorld schematic = Schematica.INSTANCE.getActiveSchematic();
-		int width = (schematic.getWidth() - 1) / RendererSchematicChunk.CHUNK_WIDTH + 1;
-		int height = (schematic.getHeight() - 1) / RendererSchematicChunk.CHUNK_HEIGHT + 1;
-		int length = (schematic.getLength() - 1) / RendererSchematicChunk.CHUNK_LENGTH + 1;
+    public void createRendererSchematicChunk()
+    {
+        SchematicWorld schematic = Schematica.INSTANCE.getActiveSchematic();
+        int width = (schematic.getWidth() - 1) / RendererSchematicChunk.CHUNK_WIDTH + 1;
+        int height = (schematic.getHeight() - 1) / RendererSchematicChunk.CHUNK_HEIGHT + 1;
+        int length = (schematic.getLength() - 1) / RendererSchematicChunk.CHUNK_LENGTH + 1;
 
-		while (this.sortedRendererSchematicChunk.size() > 0) {
-			this.sortedRendererSchematicChunk.remove(0).delete();
-		}
+        while (this.sortedRendererSchematicChunk.size() > 0)
+        {
+            this.sortedRendererSchematicChunk.remove(0).delete();
+        }
 
-		int x, y, z;
-		for (x = 0; x < width; x++) {
-			for (y = 0; y < height; y++) {
-				for (z = 0; z < length; z++) {
-					this.sortedRendererSchematicChunk.add(new RendererSchematicChunk(schematic, x, y, z));
-				}
-			}
-		}
-	}
+        int x, y, z;
+        for (x = 0; x < width; x++)
+        {
+            for (y = 0; y < height; y++)
+            {
+                for (z = 0; z < length; z++)
+                {
+                    this.sortedRendererSchematicChunk.add(new RendererSchematicChunk(schematic, x, y, z));
+                }
+            }
+        }
+    }
 
-	public boolean loadSchematic(String filename) {
-		try {
-			InputStream stream = new FileInputStream(filename);
-			NBTTagCompound tagCompound = CompressedStreamTools.readCompressed(stream);
+    public boolean loadSchematic(String filename)
+    {
+        try
+        {
+            InputStream stream = new FileInputStream(filename);
+            NBTTagCompound tagCompound = CompressedStreamTools.readCompressed(stream);
 
-			if (tagCompound != null) {
-				Reference.logger.info(tagCompound);
+            if (tagCompound != null)
+            {
+                Reference.logger.info(tagCompound);
 
-				SchematicWorld schematic = SchematicFormat.readFromFile(new File(filename));
-				Schematica.INSTANCE.setActiveSchematic(schematic);
+                SchematicWorld schematic = SchematicFormat.readFromFile(new File(filename));
+                Schematica.INSTANCE.setActiveSchematic(schematic);
 
-				Reference.logger.info(String.format("Loaded %s [w:%d,h:%d,l:%d]", filename, schematic.getWidth(), schematic.getHeight(), schematic.getLength()));
+                Reference.logger.info(String.format("Loaded %s [w:%d,h:%d,l:%d]", filename, schematic.getWidth(), schematic.getHeight(), schematic.getLength()));
 
-				this.renderBlocks = new RenderBlocks(schematic);
+                this.renderBlocks = new RenderBlocks(schematic);
 
-				createRendererSchematicChunk();
+                createRendererSchematicChunk();
 
-				schematic.setRendering(true);
+                schematic.setRendering(true);
 
-				SchematicPrinter.INSTANCE.setSchematic(schematic);
-			}
-		} catch (Exception e) {
-			Reference.logger.fatal("Failed to load schematic!", e);
-			reset();
-			return false;
-		}
+                SchematicPrinter.INSTANCE.setSchematic(schematic);
+            }
+        } catch (Exception e)
+        {
+            Reference.logger.fatal("Failed to load schematic!", e);
+            reset();
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	public boolean saveSchematic(File directory, String filename, Vector3f from, Vector3f to) {
-		try {
-			int minX = (int) Math.min(from.x, to.x);
-			int maxX = (int) Math.max(from.x, to.x);
-			int minY = (int) Math.min(from.y, to.y);
-			int maxY = (int) Math.max(from.y, to.y);
-			int minZ = (int) Math.min(from.z, to.z);
-			int maxZ = (int) Math.max(from.z, to.z);
-			short width = (short) (Math.abs(maxX - minX) + 1);
-			short height = (short) (Math.abs(maxY - minY) + 1);
-			short length = (short) (Math.abs(maxZ - minZ) + 1);
+    public boolean saveSchematic(File directory, String filename, Vector3f from, Vector3f to)
+    {
+        try
+        {
+            int minX = (int) Math.min(from.x, to.x);
+            int maxX = (int) Math.max(from.x, to.x);
+            int minY = (int) Math.min(from.y, to.y);
+            int maxY = (int) Math.max(from.y, to.y);
+            int minZ = (int) Math.min(from.z, to.z);
+            int maxZ = (int) Math.max(from.z, to.z);
+            short width = (short) (Math.abs(maxX - minX) + 1);
+            short height = (short) (Math.abs(maxY - minY) + 1);
+            short length = (short) (Math.abs(maxZ - minZ) + 1);
 
-			short[][][] blocks = new short[width][height][length];
-			byte[][][] metadata = new byte[width][height][length];
-			List<TileEntity> tileEntities = new ArrayList<TileEntity>();
-			TileEntity tileEntity = null;
-			NBTTagCompound tileEntityNBT = null;
+            short[][][] blocks = new short[width][height][length];
+            byte[][][] metadata = new byte[width][height][length];
+            List<TileEntity> tileEntities = new ArrayList<TileEntity>();
+            TileEntity tileEntity = null;
+            NBTTagCompound tileEntityNBT = null;
 
-			for (int x = minX; x <= maxX; x++) {
-				for (int y = minY; y <= maxY; y++) {
-					for (int z = minZ; z <= maxZ; z++) {
-						blocks[x - minX][y - minY][z - minZ] = (short) Block.getIdFromBlock(this.minecraft.theWorld.getBlock(x, y, z));
-						metadata[x - minX][y - minY][z - minZ] = (byte) this.minecraft.theWorld.getBlockMetadata(x, y, z);
-						tileEntity = this.minecraft.theWorld.getTileEntity(x, y, z);
-						if (tileEntity != null) {
-							try {
-								tileEntityNBT = new NBTTagCompound();
-								tileEntity.writeToNBT(tileEntityNBT);
+            for (int x = minX; x <= maxX; x++)
+            {
+                for (int y = minY; y <= maxY; y++)
+                {
+                    for (int z = minZ; z <= maxZ; z++)
+                    {
+                        blocks[x - minX][y - minY][z - minZ] = (short) Block.getIdFromBlock(this.minecraft.theWorld.getBlock(x, y, z));
+                        metadata[x - minX][y - minY][z - minZ] = (byte) this.minecraft.theWorld.getBlockMetadata(x, y, z);
+                        tileEntity = this.minecraft.theWorld.getTileEntity(x, y, z);
+                        if (tileEntity != null)
+                        {
+                            try
+                            {
+                                tileEntityNBT = new NBTTagCompound();
+                                tileEntity.writeToNBT(tileEntityNBT);
 
-								tileEntity = TileEntity.createAndLoadEntity(tileEntityNBT);
-								tileEntity.xCoord -= minX;
-								tileEntity.yCoord -= minY;
-								tileEntity.zCoord -= minZ;
-								tileEntities.add(tileEntity);
-							} catch (Exception e) {
-								Reference.logger.error("Error while trying to save tile entity " + tileEntity + "!", e);
-								blocks[x - minX][y - minY][z - minZ] = (short) Block.getIdFromBlock(Blocks.bedrock);
-								metadata[x - minX][y - minY][z - minZ] = 0;
-							}
-						}
-					}
-				}
-			}
+                                tileEntity = TileEntity.createAndLoadEntity(tileEntityNBT);
+                                tileEntity.xCoord -= minX;
+                                tileEntity.yCoord -= minY;
+                                tileEntity.zCoord -= minZ;
+                                tileEntities.add(tileEntity);
+                            } catch (Exception e)
+                            {
+                                Reference.logger.error("Error while trying to save tile entity " + tileEntity + "!", e);
+                                blocks[x - minX][y - minY][z - minZ] = (short) Block.getIdFromBlock(Blocks.bedrock);
+                                metadata[x - minX][y - minY][z - minZ] = 0;
+                            }
+                        }
+                    }
+                }
+            }
 
-			String iconName = "";
+            String iconName = "";
 
-			try {
-				String[] parts = filename.split(";");
-				if (parts.length == 2) {
-					iconName = parts[0];
-					filename = parts[1];
-				}
-			} catch (Exception e) {
-				Reference.logger.error("Failed to parse icon data!", e);
-			}
+            try
+            {
+                String[] parts = filename.split(";");
+                if (parts.length == 2)
+                {
+                    iconName = parts[0];
+                    filename = parts[1];
+                }
+            } catch (Exception e)
+            {
+                Reference.logger.error("Failed to parse icon data!", e);
+            }
 
-			SchematicWorld schematicOut = new SchematicWorld(iconName, blocks, metadata, tileEntities, width, height, length);
+            SchematicWorld schematicOut = new SchematicWorld(iconName, blocks, metadata, tileEntities, width, height, length);
 
-			SchematicFormat.writeToFile(directory, filename, schematicOut);
-		} catch (Exception e) {
-			Reference.logger.error("Failed to save schematic!", e);
-			return false;
-		}
-		return true;
-	}
+            SchematicFormat.writeToFile(directory, filename, schematicOut);
+        } catch (Exception e)
+        {
+            Reference.logger.error("Failed to save schematic!", e);
+            return false;
+        }
+        return true;
+    }
 
-	public Vector3f getTranslationVector() {
-		this.translationVector.set(this.playerPosition).sub(this.offset);
-		return this.translationVector;
-	}
+    public Vector3f getTranslationVector()
+    {
+        this.translationVector.set(this.playerPosition).sub(this.offset);
+        return this.translationVector;
+    }
 
-	public float getTranslationX() {
-		return this.playerPosition.x - this.offset.x;
-	}
+    public float getTranslationX()
+    {
+        return this.playerPosition.x - this.offset.x;
+    }
 
-	public float getTranslationY() {
-		return this.playerPosition.y - this.offset.y;
-	}
+    public float getTranslationY()
+    {
+        return this.playerPosition.y - this.offset.y;
+    }
 
-	public float getTranslationZ() {
-		return this.playerPosition.z - this.offset.z;
-	}
+    public float getTranslationZ()
+    {
+        return this.playerPosition.z - this.offset.z;
+    }
 
-	public void refreshSchematic() {
-		for (RendererSchematicChunk renderer : this.sortedRendererSchematicChunk) {
-			renderer.setDirty();
-		}
-	}
+    public void refreshSchematic()
+    {
+        for (RendererSchematicChunk renderer : this.sortedRendererSchematicChunk)
+        {
+            renderer.setDirty();
+        }
+    }
 
-	public void updatePoints() {
-		this.pointMin.x = Math.min(this.pointA.x, this.pointB.x);
-		this.pointMin.y = Math.min(this.pointA.y, this.pointB.y);
-		this.pointMin.z = Math.min(this.pointA.z, this.pointB.z);
+    public void updatePoints()
+    {
+        this.pointMin.x = Math.min(this.pointA.x, this.pointB.x);
+        this.pointMin.y = Math.min(this.pointA.y, this.pointB.y);
+        this.pointMin.z = Math.min(this.pointA.z, this.pointB.z);
 
-		this.pointMax.x = Math.max(this.pointA.x, this.pointB.x);
-		this.pointMax.y = Math.max(this.pointA.y, this.pointB.y);
-		this.pointMax.z = Math.max(this.pointA.z, this.pointB.z);
-	}
+        this.pointMax.x = Math.max(this.pointA.x, this.pointB.x);
+        this.pointMax.y = Math.max(this.pointA.y, this.pointB.y);
+        this.pointMax.z = Math.max(this.pointA.z, this.pointB.z);
+    }
 
-	public void moveHere(Vector3f point) {
-		point.x = (int) Math.floor(this.playerPosition.x);
-		point.y = (int) Math.floor(this.playerPosition.y - 1);
-		point.z = (int) Math.floor(this.playerPosition.z);
+    public void moveHere(Vector3f point)
+    {
+        point.x = (int) Math.floor(this.playerPosition.x);
+        point.y = (int) Math.floor(this.playerPosition.y - 1);
+        point.z = (int) Math.floor(this.playerPosition.z);
 
-		switch (this.rotationRender) {
-		case 0:
-			point.x -= 1;
-			point.z += 1;
-			break;
-		case 1:
-			point.x -= 1;
-			point.z -= 1;
-			break;
-		case 2:
-			point.x += 1;
-			point.z -= 1;
-			break;
-		case 3:
-			point.x += 1;
-			point.z += 1;
-			break;
-		}
-	}
+        switch (this.rotationRender)
+        {
+            case 0:
+                point.x -= 1;
+                point.z += 1;
+                break;
+            case 1:
+                point.x -= 1;
+                point.z -= 1;
+                break;
+            case 2:
+                point.x += 1;
+                point.z -= 1;
+                break;
+            case 3:
+                point.x += 1;
+                point.z += 1;
+                break;
+        }
+    }
 
-	public void moveHere() {
-		this.offset.x = (int) Math.floor(this.playerPosition.x);
-		this.offset.y = (int) Math.floor(this.playerPosition.y) - 1;
-		this.offset.z = (int) Math.floor(this.playerPosition.z);
+    public void moveHere()
+    {
+        this.offset.x = (int) Math.floor(this.playerPosition.x);
+        this.offset.y = (int) Math.floor(this.playerPosition.y) - 1;
+        this.offset.z = (int) Math.floor(this.playerPosition.z);
 
-		SchematicWorld schematic = Schematica.INSTANCE.getActiveSchematic();
-		if (schematic != null) {
-			switch (this.rotationRender) {
-			case 0:
-				this.offset.x -= schematic.getWidth();
-				this.offset.z += 1;
-				break;
-			case 1:
-				this.offset.x -= schematic.getWidth();
-				this.offset.z -= schematic.getLength();
-				break;
-			case 2:
-				this.offset.x += 1;
-				this.offset.z -= schematic.getLength();
-				break;
-			case 3:
-				this.offset.x += 1;
-				this.offset.z += 1;
-				break;
-			}
-		}
-	}
+        SchematicWorld schematic = Schematica.INSTANCE.getActiveSchematic();
+        if (schematic != null)
+        {
+            switch (this.rotationRender)
+            {
+                case 0:
+                    this.offset.x -= schematic.getWidth();
+                    this.offset.z += 1;
+                    break;
+                case 1:
+                    this.offset.x -= schematic.getWidth();
+                    this.offset.z -= schematic.getLength();
+                    break;
+                case 2:
+                    this.offset.x += 1;
+                    this.offset.z -= schematic.getLength();
+                    break;
+                case 3:
+                    this.offset.x += 1;
+                    this.offset.z += 1;
+                    break;
+            }
+        }
+    }
 }

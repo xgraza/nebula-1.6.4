@@ -64,7 +64,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
     private float prevMouthOpenness;
     private int field_110285_bP;
     private String texturePath;
-    private String[] field_110280_bR = new String[3];
+    private final String[] field_110280_bR = new String[3];
 
     public EntityHorse(World world)
     {
@@ -335,7 +335,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
         Entity var3 = par1DamageSource.getEntity();
-        return this.riddenByEntity != null && this.riddenByEntity.equals(var3) ? false : super.attackEntityFrom(par1DamageSource, par2);
+        return (this.riddenByEntity == null || !this.riddenByEntity.equals(var3)) && super.attackEntityFrom(par1DamageSource, par2);
     }
 
     /**
@@ -884,7 +884,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
                 {
                     if (!player.capabilities.isCreativeMode && --var2.stackSize == 0)
                     {
-                        player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
+                        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
                     }
 
                     return true;
@@ -937,7 +937,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
      */
     protected boolean isMovementBlocked()
     {
-        return this.riddenByEntity != null && this.isHorseSaddled() ? true : this.isEatingHaystack() || this.isRearing();
+        return this.riddenByEntity != null && this.isHorseSaddled() || this.isEatingHaystack() || this.isRearing();
     }
 
     public boolean func_110256_cu()
@@ -1240,7 +1240,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
                 if (this.isPotionActive(Potion.jump))
                 {
-                    this.motionY += (double) ((float) (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
+                    this.motionY += (float) (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F;
                 }
 
                 this.setHorseJumping(true);
@@ -1250,8 +1250,8 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
                 {
                     float var3 = MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F);
                     float var4 = MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F);
-                    this.motionX += (double) (-0.4F * var3 * this.jumpPower);
-                    this.motionZ += (double) (0.4F * var4 * this.jumpPower);
+                    this.motionX += -0.4F * var3 * this.jumpPower;
+                    this.motionZ += 0.4F * var4 * this.jumpPower;
                     this.playSound("mob.horse.jump", 0.4F, 1.0F);
                 }
 
@@ -1534,7 +1534,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
         if (var7 != 4 && var7 != 3)
         {
-            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue((double) this.func_110267_cL());
+            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.func_110267_cL());
 
             if (var7 == 0)
             {

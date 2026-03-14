@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -10,6 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockFarmland extends Block
 {
@@ -61,13 +62,11 @@ public class BlockFarmland extends Block
             if (meta > 0)
             {
                 theWorld.setBlockMetadataWithNotify(x, y, z, meta - 1, 2);
-            }
-            else if (!this.hasPlant(theWorld, x, y, z))
+            } else if (!this.hasPlant(theWorld, x, y, z))
             {
                 theWorld.setBlock(x, y, z, Blocks.dirt);
             }
-        }
-        else
+        } else
         {
             theWorld.setBlockMetadataWithNotify(x, y, z, 7, 2);
         }

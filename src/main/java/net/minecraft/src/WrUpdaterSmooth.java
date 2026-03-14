@@ -1,10 +1,11 @@
 package net.minecraft.src;
 
-import java.util.List;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class WrUpdaterSmooth implements IWrUpdater
 {
@@ -15,9 +16,13 @@ public class WrUpdaterSmooth implements IWrUpdater
     private int renderersUpdated = 0;
     private int renderersFound = 0;
 
-    public void initialize() {}
+    public void initialize()
+    {
+    }
 
-    public void terminate() {}
+    public void terminate()
+    {
+    }
 
     public WorldRenderer makeWorldRenderer(World worldObj, List tileEntities, int x, int y, int z, int glRenderListBase)
     {
@@ -59,8 +64,7 @@ public class WrUpdaterSmooth implements IWrUpdater
             {
                 this.updateTimeNs += diff;
             }
-        }
-        else
+        } else
         {
             this.updateTimeNs = 0L;
             this.updateTimeNs -= 200000L;
@@ -100,7 +104,7 @@ public class WrUpdaterSmooth implements IWrUpdater
 
             for (dstIndex = 0; dstIndex < rg.worldRenderersToUpdate.size(); ++dstIndex)
             {
-                WorldRendererSmooth i = (WorldRendererSmooth)rg.worldRenderersToUpdate.get(dstIndex);
+                WorldRendererSmooth i = (WorldRendererSmooth) rg.worldRenderersToUpdate.get(dstIndex);
 
                 if (i != null)
                 {
@@ -108,9 +112,8 @@ public class WrUpdaterSmooth implements IWrUpdater
 
                     if (!i.needsUpdate)
                     {
-                        rg.worldRenderersToUpdate.set(dstIndex, (Object)null);
-                    }
-                    else
+                        rg.worldRenderersToUpdate.set(dstIndex, null);
+                    } else
                     {
                         float wr = i.distanceToEntitySquared(entityliving);
 
@@ -118,14 +121,13 @@ public class WrUpdaterSmooth implements IWrUpdater
                         {
                             i.updateRenderer();
                             i.needsUpdate = false;
-                            rg.worldRenderersToUpdate.set(dstIndex, (Object)null);
+                            rg.worldRenderersToUpdate.set(dstIndex, null);
                             ++this.renderersUpdated;
-                        }
-                        else
+                        } else
                         {
                             if (!i.isInFrustum)
                             {
-                                wr *= (float)NOT_IN_FRUSTRUM_MUL;
+                                wr *= NOT_IN_FRUSTRUM_MUL;
                             }
 
                             if (wrBest == null)
@@ -133,8 +135,7 @@ public class WrUpdaterSmooth implements IWrUpdater
                                 wrBest = i;
                                 distSqBest = wr;
                                 indexBest = dstIndex;
-                            }
-                            else if (wr < distSqBest)
+                            } else if (wr < distSqBest)
                             {
                                 wrBest = i;
                                 distSqBest = wr;
@@ -151,7 +152,7 @@ public class WrUpdaterSmooth implements IWrUpdater
 
                 if (wrBest != null)
                 {
-                    rg.worldRenderersToUpdate.set(indexBest, (Object)null);
+                    rg.worldRenderersToUpdate.set(indexBest, null);
 
                     if (!this.updateRenderer(wrBest))
                     {
@@ -169,7 +170,7 @@ public class WrUpdaterSmooth implements IWrUpdater
 
                     for (var15 = 0; var15 < rg.worldRenderersToUpdate.size(); ++var15)
                     {
-                        WorldRendererSmooth var16 = (WorldRendererSmooth)rg.worldRenderersToUpdate.get(var15);
+                        WorldRendererSmooth var16 = (WorldRendererSmooth) rg.worldRenderersToUpdate.get(var15);
 
                         if (var16 != null)
                         {
@@ -177,14 +178,14 @@ public class WrUpdaterSmooth implements IWrUpdater
 
                             if (!var16.isInFrustum)
                             {
-                                distSq *= (float)NOT_IN_FRUSTRUM_MUL;
+                                distSq *= NOT_IN_FRUSTRUM_MUL;
                             }
 
                             float diffDistSq = Math.abs(distSq - distSqBest);
 
                             if (diffDistSq < var14)
                             {
-                                rg.worldRenderersToUpdate.set(var15, (Object)null);
+                                rg.worldRenderersToUpdate.set(var15, null);
 
                                 if (!this.updateRenderer(var16))
                                 {
@@ -245,8 +246,7 @@ public class WrUpdaterSmooth implements IWrUpdater
         {
             this.currentUpdateRenderer = wr;
             return false;
-        }
-        else
+        } else
         {
             wr.finishUpdate();
             this.currentUpdateRenderer = null;
@@ -263,13 +263,21 @@ public class WrUpdaterSmooth implements IWrUpdater
         }
     }
 
-    public void resumeBackgroundUpdates() {}
+    public void resumeBackgroundUpdates()
+    {
+    }
 
-    public void pauseBackgroundUpdates() {}
+    public void pauseBackgroundUpdates()
+    {
+    }
 
-    public void preRender(RenderGlobal rg, EntityLivingBase player) {}
+    public void preRender(RenderGlobal rg, EntityLivingBase player)
+    {
+    }
 
-    public void postRender() {}
+    public void postRender()
+    {
+    }
 
     public void clearAllUpdates()
     {

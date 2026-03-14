@@ -201,7 +201,7 @@ public class EntityZombie extends EntityMob
                         if (var3.getItemDamageForDisplay() >= var3.getMaxDamage())
                         {
                             this.renderBrokenItemStack(var3);
-                            this.setCurrentItemOrArmor(4, (ItemStack) null);
+                            this.setCurrentItemOrArmor(4, null);
                         }
                     }
 
@@ -255,13 +255,13 @@ public class EntityZombie extends EntityMob
 
                     if (World.doesBlockHaveSolidTopSurface(this.worldObj, var9, var10 - 1, var11) && this.worldObj.getBlockLightValue(var9, var10, var11) < 10)
                     {
-                        var7.setPosition((double) var9, (double) var10, (double) var11);
+                        var7.setPosition(var9, var10, var11);
 
                         if (this.worldObj.checkNoEntityCollision(var7.boundingBox) && this.worldObj.getCollidingBoundingBoxes(var7, var7.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(var7.boundingBox))
                         {
                             this.worldObj.spawnEntityInWorld(var7);
                             var7.setAttackTarget(var3);
-                            var7.onSpawnWithEgg((IEntityLivingData) null);
+                            var7.onSpawnWithEgg(null);
                             this.getEntityAttribute(field_110186_bp).applyModifier(new AttributeModifier("Zombie reinforcement caller charge", -0.05000000074505806D, 0));
                             var7.getEntityAttribute(field_110186_bp).applyModifier(new AttributeModifier("Zombie reinforcement callee charge", -0.05000000074505806D, 0));
                             break;
@@ -453,7 +453,7 @@ public class EntityZombie extends EntityMob
             EntityZombie var2 = new EntityZombie(this.worldObj);
             var2.copyLocationAndAnglesFrom(par1EntityLivingBase);
             this.worldObj.removeEntity(par1EntityLivingBase);
-            var2.onSpawnWithEgg((IEntityLivingData) null);
+            var2.onSpawnWithEgg(null);
             var2.setVillager(true);
 
             if (par1EntityLivingBase.isChild())
@@ -462,7 +462,7 @@ public class EntityZombie extends EntityMob
             }
 
             this.worldObj.spawnEntityInWorld(var2);
-            this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1016, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+            this.worldObj.playAuxSFXAtEntity(null, 1016, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
         }
     }
 
@@ -541,7 +541,7 @@ public class EntityZombie extends EntityMob
 
             if (var2.stackSize <= 0)
             {
-                par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack) null);
+                par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, null);
             }
 
             if (!this.worldObj.isClient)
@@ -603,7 +603,7 @@ public class EntityZombie extends EntityMob
     {
         EntityVillager var1 = new EntityVillager(this.worldObj);
         var1.copyLocationAndAnglesFrom(this);
-        var1.onSpawnWithEgg((IEntityLivingData) null);
+        var1.onSpawnWithEgg(null);
         var1.setLookingForHome();
 
         if (this.isChild())
@@ -614,7 +614,7 @@ public class EntityZombie extends EntityMob
         this.worldObj.removeEntity(this);
         this.worldObj.spawnEntityInWorld(var1);
         var1.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
-        this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1017, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+        this.worldObj.playAuxSFXAtEntity(null, 1017, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
     }
 
     /**

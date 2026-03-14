@@ -23,8 +23,7 @@ public class BlockCarrot extends BlockCrops
             }
 
             return this.field_149868_a[meta >> 1];
-        }
-        else
+        } else
         {
             return this.field_149868_a[3];
         }

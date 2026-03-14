@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S35PacketUpdateTileEntity extends Packet
 {
@@ -16,7 +17,9 @@ public class S35PacketUpdateTileEntity extends Packet
     private NBTTagCompound field_148860_e;
     private static final String __OBFID = "CL_00001285";
 
-    public S35PacketUpdateTileEntity() {}
+    public S35PacketUpdateTileEntity()
+    {
+    }
 
     public S35PacketUpdateTileEntity(int p_i45175_1_, int p_i45175_2_, int p_i45175_3_, int p_i45175_4_, NBTTagCompound p_i45175_5_)
     {
@@ -47,7 +50,7 @@ public class S35PacketUpdateTileEntity extends Packet
         p_148840_1_.writeInt(this.field_148863_a);
         p_148840_1_.writeShort(this.field_148861_b);
         p_148840_1_.writeInt(this.field_148862_c);
-        p_148840_1_.writeByte((byte)this.field_148859_d);
+        p_148840_1_.writeByte((byte) this.field_148859_d);
         p_148840_1_.writeNBTTagCompoundToBuffer(this.field_148860_e);
     }
 
@@ -83,6 +86,6 @@ public class S35PacketUpdateTileEntity extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

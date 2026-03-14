@@ -1,7 +1,8 @@
 package net.minecraft.src;
 
-import java.util.HashSet;
 import net.minecraft.client.renderer.RenderBlocks;
+
+import java.util.HashSet;
 
 public class WrUpdateState
 {

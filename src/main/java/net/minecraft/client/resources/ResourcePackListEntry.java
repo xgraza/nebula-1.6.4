@@ -1,6 +1,5 @@
 package net.minecraft.client.resources;
 
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiListExtended;
@@ -8,6 +7,8 @@ import net.minecraft.client.gui.GuiScreenResourcePacks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.util.List;
 
 public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListEntry
 {
@@ -42,21 +43,18 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
                 if (var10 < 32)
                 {
                     Gui.func_146110_a(p_148279_2_, p_148279_3_, 0.0F, 32.0F, 32, 32, 256.0F, 256.0F);
-                }
-                else
+                } else
                 {
                     Gui.func_146110_a(p_148279_2_, p_148279_3_, 0.0F, 0.0F, 32, 32, 256.0F, 256.0F);
                 }
-            }
-            else
+            } else
             {
                 if (this.func_148308_f())
                 {
                     if (var10 < 16)
                     {
                         Gui.func_146110_a(p_148279_2_, p_148279_3_, 32.0F, 32.0F, 32, 32, 256.0F, 256.0F);
-                    }
-                    else
+                    } else
                     {
                         Gui.func_146110_a(p_148279_2_, p_148279_3_, 32.0F, 0.0F, 32, 32, 256.0F, 256.0F);
                     }
@@ -67,8 +65,7 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
                     if (var10 < 32 && var10 > 16 && var11 < 16)
                     {
                         Gui.func_146110_a(p_148279_2_, p_148279_3_, 96.0F, 32.0F, 32, 32, 256.0F, 256.0F);
-                    }
-                    else
+                    } else
                     {
                         Gui.func_146110_a(p_148279_2_, p_148279_3_, 96.0F, 0.0F, 32, 32, 256.0F, 256.0F);
                     }
@@ -79,8 +76,7 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
                     if (var10 < 32 && var10 > 16 && var11 > 16)
                     {
                         Gui.func_146110_a(p_148279_2_, p_148279_3_, 64.0F, 32.0F, 32, 32, 256.0F, 256.0F);
-                    }
-                    else
+                    } else
                     {
                         Gui.func_146110_a(p_148279_2_, p_148279_3_, 64.0F, 0.0F, 32, 32, 256.0F, 256.0F);
                     }
@@ -101,7 +97,7 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
 
         for (int var13 = 0; var13 < 2 && var13 < var12.size(); ++var13)
         {
-            this.field_148317_a.fontRenderer.drawStringWithShadow((String)var12.get(var13), p_148279_2_ + 32 + 2, p_148279_3_ + 12 + 10 * var13, 8421504);
+            this.field_148317_a.fontRenderer.drawStringWithShadow((String) var12.get(var13), p_148279_2_ + 32 + 2, p_148279_3_ + 12 + 10 * var13, 8421504);
         }
     }
 
@@ -130,14 +126,14 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
     {
         List var1 = this.field_148315_b.func_146962_b(this);
         int var2 = var1.indexOf(this);
-        return var2 > 0 && ((ResourcePackListEntry)var1.get(var2 - 1)).func_148310_d();
+        return var2 > 0 && ((ResourcePackListEntry) var1.get(var2 - 1)).func_148310_d();
     }
 
     protected boolean func_148307_h()
     {
         List var1 = this.field_148315_b.func_146962_b(this);
         int var2 = var1.indexOf(this);
-        return var2 >= 0 && var2 < var1.size() - 1 && ((ResourcePackListEntry)var1.get(var2 + 1)).func_148310_d();
+        return var2 >= 0 && var2 < var1.size() - 1 && ((ResourcePackListEntry) var1.get(var2 + 1)).func_148310_d();
     }
 
     public boolean func_148278_a(int p_148278_1_, int p_148278_2_, int p_148278_3_, int p_148278_4_, int p_148278_5_, int p_148278_6_)
@@ -183,5 +179,7 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
         return false;
     }
 
-    public void func_148277_b(int p_148277_1_, int p_148277_2_, int p_148277_3_, int p_148277_4_, int p_148277_5_, int p_148277_6_) {}
+    public void func_148277_b(int p_148277_1_, int p_148277_2_, int p_148277_3_, int p_148277_4_, int p_148277_5_, int p_148277_6_)
+    {
+    }
 }

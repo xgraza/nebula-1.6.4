@@ -29,8 +29,8 @@ public class GuiScreenClientOutdated extends GuiScreen
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        String var4 = I18n.format("mco.client.outdated.title", new Object[0]);
-        String var5 = I18n.format("mco.client.outdated.msg", new Object[0]);
+        String var4 = I18n.format("mco.client.outdated.title");
+        String var5 = I18n.format("mco.client.outdated.msg");
         this.drawCenteredString(this.fontRenderer, var4, this.width / 2, this.height / 2 - 50, 16711680);
         this.drawCenteredString(this.fontRenderer, var5, this.width / 2, this.height / 2 - 30, 16777215);
         super.drawScreen(par1, par2, par3);

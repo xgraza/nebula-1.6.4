@@ -1,10 +1,11 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C11PacketEnchantItem extends Packet
 {
@@ -12,7 +13,9 @@ public class C11PacketEnchantItem extends Packet
     private int field_149540_b;
     private static final String __OBFID = "CL_00001352";
 
-    public C11PacketEnchantItem() {}
+    public C11PacketEnchantItem()
+    {
+    }
 
     public C11PacketEnchantItem(int p_i45245_1_, int p_i45245_2_)
     {
@@ -48,7 +51,7 @@ public class C11PacketEnchantItem extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, button=%d", new Object[] {Integer.valueOf(this.field_149541_a), Integer.valueOf(this.field_149540_b)});
+        return String.format("id=%d, button=%d", Integer.valueOf(this.field_149541_a), Integer.valueOf(this.field_149540_b));
     }
 
     public int func_149539_c()
@@ -63,6 +66,6 @@ public class C11PacketEnchantItem extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

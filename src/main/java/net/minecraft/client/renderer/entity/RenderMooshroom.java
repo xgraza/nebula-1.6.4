@@ -29,7 +29,7 @@ public class RenderMooshroom extends RenderLiving
      */
     public void doRender(EntityMooshroom par1EntityMooshroom, double par2, double par4, double par6, float par8, float par9)
     {
-        super.doRender((EntityLiving)par1EntityMooshroom, par2, par4, par6, par8, par9);
+        super.doRender(par1EntityMooshroom, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -58,7 +58,7 @@ public class RenderMooshroom extends RenderLiving
             this.field_147909_c.renderBlockAsItem(Blocks.red_mushroom, 0, 1.0F);
             GL11.glPopMatrix();
             GL11.glPushMatrix();
-            ((ModelQuadruped)this.mainModel).head.postRender(0.0625F);
+            ((ModelQuadruped) this.mainModel).head.postRender(0.0625F);
             GL11.glScalef(1.0F, -1.0F, 1.0F);
             GL11.glTranslatef(0.0F, 0.75F, -0.2F);
             GL11.glRotatef(12.0F, 0.0F, 1.0F, 0.0F);
@@ -76,12 +76,12 @@ public class RenderMooshroom extends RenderLiving
      */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityMooshroom)par1EntityLiving, par2, par4, par6, par8, par9);
+        this.doRender((EntityMooshroom) par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.renderEquippedItems((EntityMooshroom)par1EntityLivingBase, par2);
+        this.renderEquippedItems((EntityMooshroom) par1EntityLivingBase, par2);
     }
 
     /**
@@ -92,7 +92,7 @@ public class RenderMooshroom extends RenderLiving
      */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityMooshroom)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityMooshroom) par1Entity, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -100,7 +100,7 @@ public class RenderMooshroom extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityMooshroom)par1Entity);
+        return this.getEntityTexture((EntityMooshroom) par1Entity);
     }
 
     /**
@@ -111,6 +111,6 @@ public class RenderMooshroom extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityMooshroom)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityMooshroom) par1Entity, par2, par4, par6, par8, par9);
     }
 }

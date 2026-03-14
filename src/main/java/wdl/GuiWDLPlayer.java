@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiTextField;
 public class GuiWDLPlayer extends GuiScreen
 {
     private String title = "";
-    private GuiScreen parent;
+    private final GuiScreen parent;
     private GuiButton healthBtn;
     private GuiButton hungerBtn;
     private GuiButton playerPosBtn;
@@ -52,7 +52,7 @@ public class GuiWDLPlayer extends GuiScreen
         this.posY.setMaxTextLength(7);
         this.posZ.setMaxTextLength(7);
         var3 += 18;
-        this.pickPosBtn = new GuiButton(4, var1 - 0, var3, 100, 20, "Current position");
+        this.pickPosBtn = new GuiButton(4, var1, var3, 100, 20, "Current position");
         this.buttonList.add(this.pickPosBtn);
         this.updatePlayerPos(false);
         this.updatePosXYZ(false);
@@ -66,20 +66,16 @@ public class GuiWDLPlayer extends GuiScreen
             if (var1.id == 1)
             {
                 this.updateHealth(true);
-            }
-            else if (var1.id == 2)
+            } else if (var1.id == 2)
             {
                 this.updateHunger(true);
-            }
-            else if (var1.id == 3)
+            } else if (var1.id == 3)
             {
                 this.updatePlayerPos(true);
-            }
-            else if (var1.id == 4)
+            } else if (var1.id == 4)
             {
                 this.pickPlayerPos();
-            }
-            else if (var1.id == 100)
+            } else if (var1.id == 100)
             {
                 if (this.showPosFields)
                 {
@@ -160,20 +156,17 @@ public class GuiWDLPlayer extends GuiScreen
             {
                 WDL.baseProps.setProperty("PlayerHealth", "20");
                 this.updateHealth(false);
-            }
-            else
+            } else
             {
-                this.healthBtn.displayString = "Health: Don\'t change";
+                this.healthBtn.displayString = "Health: Don't change";
             }
-        }
-        else if (var2.equals("20"))
+        } else if (var2.equals("20"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("PlayerHealth", "keep");
                 this.updateHealth(false);
-            }
-            else
+            } else
             {
                 this.healthBtn.displayString = "Health: Full";
             }
@@ -190,20 +183,17 @@ public class GuiWDLPlayer extends GuiScreen
             {
                 WDL.baseProps.setProperty("PlayerFood", "20");
                 this.updateHunger(false);
-            }
-            else
+            } else
             {
-                this.hungerBtn.displayString = "Hunger: Don\'t change";
+                this.hungerBtn.displayString = "Hunger: Don't change";
             }
-        }
-        else if (var2.equals("20"))
+        } else if (var2.equals("20"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("PlayerFood", "keep");
                 this.updateHunger(false);
-            }
-            else
+            } else
             {
                 this.hungerBtn.displayString = "Hunger: Full";
             }
@@ -222,20 +212,17 @@ public class GuiWDLPlayer extends GuiScreen
             {
                 WDL.worldProps.setProperty("PlayerPos", "xyz");
                 this.updatePlayerPos(false);
-            }
-            else
+            } else
             {
-                this.playerPosBtn.displayString = "Player Position: Don\'t change";
+                this.playerPosBtn.displayString = "Player Position: Don't change";
             }
-        }
-        else if (var2.equals("xyz"))
+        } else if (var2.equals("xyz"))
         {
             if (var1)
             {
                 WDL.worldProps.setProperty("PlayerPos", "keep");
                 this.updatePlayerPos(false);
-            }
-            else
+            } else
             {
                 this.playerPosBtn.displayString = "Player Position:";
                 this.showPosFields = true;
@@ -256,13 +243,11 @@ public class GuiWDLPlayer extends GuiScreen
                 WDL.worldProps.setProperty("PlayerX", String.valueOf(var5));
                 WDL.worldProps.setProperty("PlayerY", String.valueOf(var3));
                 WDL.worldProps.setProperty("PlayerZ", String.valueOf(var4));
-            }
-            catch (NumberFormatException var51)
+            } catch (NumberFormatException var51)
             {
                 this.updatePlayerPos(true);
             }
-        }
-        else
+        } else
         {
             this.posX.setText(WDL.worldProps.getProperty("PlayerX"));
             this.posY.setText(WDL.worldProps.getProperty("PlayerY"));
@@ -272,9 +257,9 @@ public class GuiWDLPlayer extends GuiScreen
 
     private void pickPlayerPos()
     {
-        int var1 = (int)Math.floor(WDL.tp.posX);
-        int var2 = (int)Math.floor(WDL.tp.posY);
-        int var3 = (int)Math.floor(WDL.tp.posZ);
+        int var1 = (int) Math.floor(WDL.tp.posX);
+        int var2 = (int) Math.floor(WDL.tp.posY);
+        int var3 = (int) Math.floor(WDL.tp.posZ);
         this.posX.setText(String.valueOf(var1));
         this.posY.setText(String.valueOf(var2));
         this.posZ.setText(String.valueOf(var3));

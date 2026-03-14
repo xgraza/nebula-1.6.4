@@ -41,7 +41,7 @@ public class ItemCarrotOnAStick extends Item
     {
         if (par3EntityPlayer.isRiding() && par3EntityPlayer.ridingEntity instanceof EntityPig)
         {
-            EntityPig var4 = (EntityPig)par3EntityPlayer.ridingEntity;
+            EntityPig var4 = (EntityPig) par3EntityPlayer.ridingEntity;
 
             if (var4.getAIControlledByPlayer().isControlledByPlayer() && par1ItemStack.getMaxDamage() - par1ItemStack.getItemDamage() >= 7)
             {

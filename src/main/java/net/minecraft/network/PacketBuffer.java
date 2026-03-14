@@ -4,7 +4,11 @@ import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.ByteBufProcessor;
-import io.netty.util.ReferenceCounted;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -13,10 +17,6 @@ import java.nio.ByteOrder;
 import java.nio.channels.GatheringByteChannel;
 import java.nio.channels.ScatteringByteChannel;
 import java.nio.charset.Charset;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class PacketBuffer extends ByteBuf
 {
@@ -87,11 +87,10 @@ public class PacketBuffer extends ByteBuf
         if (p_150786_1_ == null)
         {
             this.writeShort(-1);
-        }
-        else
+        } else
         {
             byte[] var2 = CompressedStreamTools.compress(p_150786_1_);
-            this.writeShort((short)var2.length);
+            this.writeShort((short) var2.length);
             this.writeBytes(var2);
         }
     }
@@ -106,8 +105,7 @@ public class PacketBuffer extends ByteBuf
         if (var1 < 0)
         {
             return null;
-        }
-        else
+        } else
         {
             byte[] var2 = new byte[var1];
             this.readBytes(var2);
@@ -123,8 +121,7 @@ public class PacketBuffer extends ByteBuf
         if (p_150788_1_ == null)
         {
             this.writeShort(-1);
-        }
-        else
+        } else
         {
             this.writeShort(Item.getIdFromItem(p_150788_1_.getItem()));
             this.writeByte(p_150788_1_.stackSize);
@@ -170,20 +167,17 @@ public class PacketBuffer extends ByteBuf
         if (var2 > p_150789_1_ * 4)
         {
             throw new IOException("The received encoded string buffer length is longer than maximum allowed (" + var2 + " > " + p_150789_1_ * 4 + ")");
-        }
-        else if (var2 < 0)
+        } else if (var2 < 0)
         {
             throw new IOException("The received encoded string buffer length is less than zero! Weird string!");
-        }
-        else
+        } else
         {
             String var3 = new String(this.readBytes(var2).array(), Charsets.UTF_8);
 
             if (var3.length() > p_150789_1_)
             {
                 throw new IOException("The received string length is longer than maximum allowed (" + var2 + " > " + p_150789_1_ + ")");
-            }
-            else
+            } else
             {
                 return var3;
             }
@@ -200,8 +194,7 @@ public class PacketBuffer extends ByteBuf
         if (var2.length > 32767)
         {
             throw new IOException("String too big (was " + p_150785_1_.length() + " bytes encoded, max " + 32767 + ")");
-        }
-        else
+        } else
         {
             this.writeVarIntToBuffer(var2.length);
             this.writeBytes(var2);

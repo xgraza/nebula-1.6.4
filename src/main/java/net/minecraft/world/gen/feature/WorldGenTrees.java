@@ -1,24 +1,33 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenTrees extends WorldGenAbstractTree
 {
-    /** The minimum height of a generated tree. */
+    /**
+     * The minimum height of a generated tree.
+     */
     private final int minTreeHeight;
 
-    /** True if this tree should grow Vines. */
+    /**
+     * True if this tree should grow Vines.
+     */
     private final boolean vinesGrow;
 
-    /** The metadata value of the wood to use in tree generation. */
+    /**
+     * The metadata value of the wood to use in tree generation.
+     */
     private final int metaWood;
 
-    /** The metadata value of the leaves to use in tree generation. */
+    /**
+     * The metadata value of the leaves to use in tree generation.
+     */
     private final int metaLeaves;
     private static final String __OBFID = "CL_00000438";
 
@@ -73,8 +82,7 @@ public class WorldGenTrees extends WorldGenAbstractTree
                             {
                                 var7 = false;
                             }
-                        }
-                        else
+                        } else
                         {
                             var7 = false;
                         }
@@ -85,8 +93,7 @@ public class WorldGenTrees extends WorldGenAbstractTree
             if (!var7)
             {
                 return false;
-            }
-            else
+            } else
             {
                 Block var19 = par1World.getBlock(par3, par4 - 1, par5);
 
@@ -213,14 +220,12 @@ public class WorldGenTrees extends WorldGenAbstractTree
                     }
 
                     return true;
-                }
-                else
+                } else
                 {
                     return false;
                 }
             }
-        }
-        else
+        } else
         {
             return false;
         }

@@ -25,16 +25,14 @@ public class EntityAIOwnerHurtByTarget extends EntityAITarget
         if (!this.theDefendingTameable.isTamed())
         {
             return false;
-        }
-        else
+        } else
         {
             EntityLivingBase var1 = this.theDefendingTameable.getOwner();
 
             if (var1 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.theOwnerAttacker = var1.getAITarget();
                 int var2 = var1.func_142015_aE();

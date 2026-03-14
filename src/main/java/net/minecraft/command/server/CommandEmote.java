@@ -1,12 +1,13 @@
 package net.minecraft.command.server;
 
-import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+
+import java.util.List;
 
 public class CommandEmote extends CommandBase
 {
@@ -35,11 +36,10 @@ public class CommandEmote extends CommandBase
         if (par2ArrayOfStr.length > 0)
         {
             IChatComponent var3 = func_147176_a(par1ICommandSender, par2ArrayOfStr, 0, par1ICommandSender.canCommandSenderUseCommand(1, "me"));
-            MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.emote", new Object[] {par1ICommandSender.func_145748_c_(), var3}));
-        }
-        else
+            MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.emote", par1ICommandSender.func_145748_c_(), var3));
+        } else
         {
-            throw new WrongUsageException("commands.me.usage", new Object[0]);
+            throw new WrongUsageException("commands.me.usage");
         }
     }
 

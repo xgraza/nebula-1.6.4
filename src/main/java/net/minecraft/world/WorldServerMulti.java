@@ -20,5 +20,7 @@ public class WorldServerMulti extends WorldServer
     /**
      * Saves the chunks to disk.
      */
-    protected void saveLevel() throws MinecraftException {}
+    protected void saveLevel() throws MinecraftException
+    {
+    }
 }

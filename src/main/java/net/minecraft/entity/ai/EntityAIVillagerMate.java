@@ -8,9 +8,9 @@ import net.minecraft.world.World;
 
 public class EntityAIVillagerMate extends EntityAIBase
 {
-    private EntityVillager villagerObj;
+    private final EntityVillager villagerObj;
     private EntityVillager mate;
-    private World worldObj;
+    private final World worldObj;
     private int matingTimeout;
     Village villageObj;
     private static final String __OBFID = "CL_00001594";
@@ -30,34 +30,29 @@ public class EntityAIVillagerMate extends EntityAIBase
         if (this.villagerObj.getGrowingAge() != 0)
         {
             return false;
-        }
-        else if (this.villagerObj.getRNG().nextInt(500) != 0)
+        } else if (this.villagerObj.getRNG().nextInt(500) != 0)
         {
             return false;
-        }
-        else
+        } else
         {
             this.villageObj = this.worldObj.villageCollectionObj.findNearestVillage(MathHelper.floor_double(this.villagerObj.posX), MathHelper.floor_double(this.villagerObj.posY), MathHelper.floor_double(this.villagerObj.posZ), 0);
 
             if (this.villageObj == null)
             {
                 return false;
-            }
-            else if (!this.checkSufficientDoorsPresentForNewVillager())
+            } else if (!this.checkSufficientDoorsPresentForNewVillager())
             {
                 return false;
-            }
-            else
+            } else
             {
                 Entity var1 = this.worldObj.findNearestEntityWithinAABB(EntityVillager.class, this.villagerObj.boundingBox.expand(8.0D, 3.0D, 8.0D), this.villagerObj);
 
                 if (var1 == null)
                 {
                     return false;
-                }
-                else
+                } else
                 {
-                    this.mate = (EntityVillager)var1;
+                    this.mate = (EntityVillager) var1;
                     return this.mate.getGrowingAge() == 0;
                 }
             }
@@ -102,15 +97,14 @@ public class EntityAIVillagerMate extends EntityAIBase
         if (this.villagerObj.getDistanceSqToEntity(this.mate) > 2.25D)
         {
             this.villagerObj.getNavigator().tryMoveToEntityLiving(this.mate, 0.25D);
-        }
-        else if (this.matingTimeout == 0 && this.mate.isMating())
+        } else if (this.matingTimeout == 0 && this.mate.isMating())
         {
             this.giveBirth();
         }
 
         if (this.villagerObj.getRNG().nextInt(35) == 0)
         {
-            this.worldObj.setEntityState(this.villagerObj, (byte)12);
+            this.worldObj.setEntityState(this.villagerObj, (byte) 12);
         }
     }
 
@@ -119,10 +113,9 @@ public class EntityAIVillagerMate extends EntityAIBase
         if (!this.villageObj.isMatingSeason())
         {
             return false;
-        }
-        else
+        } else
         {
-            int var1 = (int)((double)((float)this.villageObj.getNumVillageDoors()) * 0.35D);
+            int var1 = (int) ((double) ((float) this.villageObj.getNumVillageDoors()) * 0.35D);
             return this.villageObj.getNumVillagers() < var1;
         }
     }
@@ -135,6 +128,6 @@ public class EntityAIVillagerMate extends EntityAIBase
         var1.setGrowingAge(-24000);
         var1.setLocationAndAngles(this.villagerObj.posX, this.villagerObj.posY, this.villagerObj.posZ, 0.0F, 0.0F);
         this.worldObj.spawnEntityInWorld(var1);
-        this.worldObj.setEntityState(var1, (byte)12);
+        this.worldObj.setEntityState(var1, (byte) 12);
     }
 }

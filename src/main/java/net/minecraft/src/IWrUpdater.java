@@ -1,10 +1,11 @@
 package net.minecraft.src;
 
-import java.util.List;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public interface IWrUpdater
 {

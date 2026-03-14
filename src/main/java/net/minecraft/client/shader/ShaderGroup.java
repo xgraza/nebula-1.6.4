@@ -7,17 +7,18 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import javax.vecmath.Matrix4f;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.util.JsonException;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
+
+import javax.vecmath.Matrix4f;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class ShaderGroup
 {
@@ -70,13 +71,12 @@ public class ShaderGroup
 
                 for (var8 = var6.iterator(); var8.hasNext(); ++var7)
                 {
-                    var9 = (JsonElement)var8.next();
+                    var9 = (JsonElement) var8.next();
 
                     try
                     {
                         this.initTarget(var9);
-                    }
-                    catch (Exception var18)
+                    } catch (Exception var18)
                     {
                         var11 = JsonException.func_151379_a(var18);
                         var11.func_151380_a("targets[" + var7 + "]");
@@ -92,13 +92,12 @@ public class ShaderGroup
 
                 for (var8 = var6.iterator(); var8.hasNext(); ++var7)
                 {
-                    var9 = (JsonElement)var8.next();
+                    var9 = (JsonElement) var8.next();
 
                     try
                     {
                         this.initPass(var9);
-                    }
-                    catch (Exception var17)
+                    } catch (Exception var17)
                     {
                         var11 = JsonException.func_151379_a(var17);
                         var11.func_151380_a("passes[" + var7 + "]");
@@ -106,14 +105,12 @@ public class ShaderGroup
                     }
                 }
             }
-        }
-        catch (Exception var19)
+        } catch (Exception var19)
         {
             JsonException var5 = JsonException.func_151379_a(var19);
             var5.func_151381_b(p_148025_1_.getResourcePath());
             throw var5;
-        }
-        finally
+        } finally
         {
             IOUtils.closeQuietly(var3);
         }
@@ -124,8 +121,7 @@ public class ShaderGroup
         if (JsonUtils.jsonElementTypeIsString(p_148027_1_))
         {
             this.addFramebuffer(p_148027_1_.getAsString(), this.mainFramebufferWidth, this.mainFramebufferHeight);
-        }
-        else
+        } else
         {
             JsonObject var2 = JsonUtils.getJsonElementAsJsonObject(p_148027_1_, "target");
             String var3 = JsonUtils.getJsonObjectStringFieldValue(var2, "name");
@@ -152,16 +148,14 @@ public class ShaderGroup
 
         if (var6 == null)
         {
-            throw new JsonException("Input target \'" + var4 + "\' does not exist");
-        }
-        else if (var7 == null)
+            throw new JsonException("Input target '" + var4 + "' does not exist");
+        } else if (var7 == null)
         {
-            throw new JsonException("Output target \'" + var5 + "\' does not exist");
-        }
-        else
+            throw new JsonException("Output target '" + var5 + "' does not exist");
+        } else
         {
             Shader var8 = this.addShader(var3, var6, var7);
-            JsonArray var9 = JsonUtils.getJsonObjectJsonArrayFieldOrDefault(var2, "auxtargets", (JsonArray)null);
+            JsonArray var9 = JsonUtils.getJsonObjectJsonArrayFieldOrDefault(var2, "auxtargets", null);
 
             if (var9 != null)
             {
@@ -169,7 +163,7 @@ public class ShaderGroup
 
                 for (Iterator var11 = var9.iterator(); var11.hasNext(); ++var10)
                 {
-                    JsonElement var12 = (JsonElement)var11.next();
+                    JsonElement var12 = (JsonElement) var11.next();
 
                     try
                     {
@@ -180,12 +174,11 @@ public class ShaderGroup
 
                         if (var16 == null)
                         {
-                            throw new JsonException("Render target \'" + var15 + "\' does not exist");
+                            throw new JsonException("Render target '" + var15 + "' does not exist");
                         }
 
                         var8.addAuxFramebuffer(var23, var16, var16.framebufferTextureWidth, var16.framebufferTextureHeight);
-                    }
-                    catch (Exception var18)
+                    } catch (Exception var18)
                     {
                         JsonException var14 = JsonException.func_151379_a(var18);
                         var14.func_151380_a("auxtargets[" + var10 + "]");
@@ -194,7 +187,7 @@ public class ShaderGroup
                 }
             }
 
-            JsonArray var19 = JsonUtils.getJsonObjectJsonArrayFieldOrDefault(var2, "uniforms", (JsonArray)null);
+            JsonArray var19 = JsonUtils.getJsonObjectJsonArrayFieldOrDefault(var2, "uniforms", null);
 
             if (var19 != null)
             {
@@ -202,13 +195,12 @@ public class ShaderGroup
 
                 for (Iterator var21 = var19.iterator(); var21.hasNext(); ++var20)
                 {
-                    JsonElement var22 = (JsonElement)var21.next();
+                    JsonElement var22 = (JsonElement) var21.next();
 
                     try
                     {
                         this.initUniform(var22);
-                    }
-                    catch (Exception var17)
+                    } catch (Exception var17)
                     {
                         JsonException var24 = JsonException.func_151379_a(var17);
                         var24.func_151380_a("uniforms[" + var20 + "]");
@@ -223,13 +215,12 @@ public class ShaderGroup
     {
         JsonObject var2 = JsonUtils.getJsonElementAsJsonObject(p_148028_1_, "uniform");
         String var3 = JsonUtils.getJsonObjectStringFieldValue(var2, "name");
-        ShaderUniform var4 = ((Shader)this.listShaders.get(this.listShaders.size() - 1)).getShaderManager().func_147991_a(var3);
+        ShaderUniform var4 = ((Shader) this.listShaders.get(this.listShaders.size() - 1)).getShaderManager().func_147991_a(var3);
 
         if (var4 == null)
         {
-            throw new JsonException("Uniform \'" + var3 + "\' does not exist");
-        }
-        else
+            throw new JsonException("Uniform '" + var3 + "' does not exist");
+        } else
         {
             float[] var5 = new float[4];
             int var6 = 0;
@@ -237,13 +228,12 @@ public class ShaderGroup
 
             for (Iterator var8 = var7.iterator(); var8.hasNext(); ++var6)
             {
-                JsonElement var9 = (JsonElement)var8.next();
+                JsonElement var9 = (JsonElement) var8.next();
 
                 try
                 {
                     var5[var6] = JsonUtils.getJsonElementFloatValue(var9, "value");
-                }
-                catch (Exception var12)
+                } catch (Exception var12)
                 {
                     JsonException var11 = JsonException.func_151379_a(var12);
                     var11.func_151380_a("values[" + var6 + "]");
@@ -293,7 +283,7 @@ public class ShaderGroup
 
         while (var1.hasNext())
         {
-            Framebuffer var2 = (Framebuffer)var1.next();
+            Framebuffer var2 = (Framebuffer) var1.next();
             var2.deleteFramebuffer();
         }
 
@@ -301,7 +291,7 @@ public class ShaderGroup
 
         while (var1.hasNext())
         {
-            Shader var3 = (Shader)var1.next();
+            Shader var3 = (Shader) var1.next();
             var3.deleteShader();
         }
 
@@ -319,8 +309,8 @@ public class ShaderGroup
     {
         this.projectionMatrix = new Matrix4f();
         this.projectionMatrix.setIdentity();
-        this.projectionMatrix.m00 = 2.0F / (float)this.mainFramebuffer.framebufferTextureWidth;
-        this.projectionMatrix.m11 = 2.0F / (float)(-this.mainFramebuffer.framebufferTextureHeight);
+        this.projectionMatrix.m00 = 2.0F / (float) this.mainFramebuffer.framebufferTextureWidth;
+        this.projectionMatrix.m11 = 2.0F / (float) (-this.mainFramebuffer.framebufferTextureHeight);
         this.projectionMatrix.m22 = -0.0020001999F;
         this.projectionMatrix.m33 = 1.0F;
         this.projectionMatrix.m03 = -1.0F;
@@ -337,7 +327,7 @@ public class ShaderGroup
 
         while (var3.hasNext())
         {
-            Shader var4 = (Shader)var3.next();
+            Shader var4 = (Shader) var3.next();
             var4.setProjectionMatrix(this.projectionMatrix);
         }
 
@@ -345,7 +335,7 @@ public class ShaderGroup
 
         while (var3.hasNext())
         {
-            Framebuffer var5 = (Framebuffer)var3.next();
+            Framebuffer var5 = (Framebuffer) var3.next();
             var5.createBindFramebuffer(p_148026_1_, p_148026_2_);
         }
     }
@@ -356,22 +346,20 @@ public class ShaderGroup
         {
             this.field_148036_j += 1.0F - this.field_148037_k;
             this.field_148036_j += p_148018_1_;
-        }
-        else
+        } else
         {
             this.field_148036_j += p_148018_1_ - this.field_148037_k;
         }
 
         for (this.field_148037_k = p_148018_1_; this.field_148036_j > 20.0F; this.field_148036_j -= 20.0F)
         {
-            ;
         }
 
         Iterator var2 = this.listShaders.iterator();
 
         while (var2.hasNext())
         {
-            Shader var3 = (Shader)var2.next();
+            Shader var3 = (Shader) var2.next();
             var3.loadShader(this.field_148036_j / 20.0F);
         }
     }
@@ -383,6 +371,6 @@ public class ShaderGroup
 
     private Framebuffer getFramebuffer(String p_148017_1_)
     {
-        return p_148017_1_ == null ? null : (p_148017_1_.equals("minecraft:main") ? this.mainFramebuffer : (Framebuffer)this.mapFramebuffers.get(p_148017_1_));
+        return p_148017_1_ == null ? null : (p_148017_1_.equals("minecraft:main") ? this.mainFramebuffer : (Framebuffer) this.mapFramebuffers.get(p_148017_1_));
     }
 }

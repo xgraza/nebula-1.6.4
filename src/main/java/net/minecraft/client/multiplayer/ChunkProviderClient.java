@@ -1,8 +1,5 @@
 package net.minecraft.client.multiplayer;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.LongHashMap;
@@ -15,6 +12,10 @@ import net.minecraft.world.chunk.IChunkProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class ChunkProviderClient implements IChunkProvider
 {
     private static final Logger logger = LogManager.getLogger();
@@ -23,21 +24,23 @@ public class ChunkProviderClient implements IChunkProvider
      * The completely empty chunk used by ChunkProviderClient when chunkMapping doesn't contain the requested
      * coordinates.
      */
-    private Chunk blankChunk;
+    private final Chunk blankChunk;
 
     /**
      * The mapping between ChunkCoordinates and Chunks that ChunkProviderClient maintains.
      */
-    private LongHashMap chunkMapping = new LongHashMap();
+    private final LongHashMap chunkMapping = new LongHashMap();
 
     /**
      * This may have been intended to be an iterable version of all currently loaded chunks (MultiplayerChunkCache),
      * with identical contents to chunkMapping's values. However it is never actually added to.
      */
-    private List chunkListing = new ArrayList();
+    private final List chunkListing = new ArrayList();
 
-    /** Reference to the World object. */
-    private World worldObj;
+    /**
+     * Reference to the World object.
+     */
+    private final World worldObj;
     private static final String __OBFID = "CL_00000880";
 
     public ChunkProviderClient(World par1World)
@@ -89,7 +92,7 @@ public class ChunkProviderClient implements IChunkProvider
      */
     public Chunk provideChunk(int par1, int par2)
     {
-        Chunk var3 = (Chunk)this.chunkMapping.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(par1, par2));
+        Chunk var3 = (Chunk) this.chunkMapping.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(par1, par2));
         return var3 == null ? this.blankChunk : var3;
     }
 
@@ -106,7 +109,9 @@ public class ChunkProviderClient implements IChunkProvider
      * Save extra data not associated with any Chunk.  Not saved during autosave, only during world unload.  Currently
      * unimplemented.
      */
-    public void saveExtraData() {}
+    public void saveExtraData()
+    {
+    }
 
     /**
      * Unloads chunks that are marked to be unloaded. This is not guaranteed to unload every such chunk.
@@ -118,13 +123,13 @@ public class ChunkProviderClient implements IChunkProvider
 
         while (var3.hasNext())
         {
-            Chunk var4 = (Chunk)var3.next();
+            Chunk var4 = (Chunk) var3.next();
             var4.func_150804_b(System.currentTimeMillis() - var1 > 5L);
         }
 
         if (System.currentTimeMillis() - var1 > 100L)
         {
-            logger.info("Warning: Clientside chunk ticking took {} ms", new Object[] {Long.valueOf(System.currentTimeMillis() - var1)});
+            logger.info("Warning: Clientside chunk ticking took {} ms", Long.valueOf(System.currentTimeMillis() - var1));
         }
 
         return false;
@@ -141,7 +146,9 @@ public class ChunkProviderClient implements IChunkProvider
     /**
      * Populates chunk with ores etc etc
      */
-    public void populate(IChunkProvider par1IChunkProvider, int par2, int par3) {}
+    public void populate(IChunkProvider par1IChunkProvider, int par2, int par3)
+    {
+    }
 
     /**
      * Converts the instance data to a readable string.
@@ -169,5 +176,7 @@ public class ChunkProviderClient implements IChunkProvider
         return this.chunkListing.size();
     }
 
-    public void recreateStructures(int par1, int par2) {}
+    public void recreateStructures(int par1, int par2)
+    {
+    }
 }

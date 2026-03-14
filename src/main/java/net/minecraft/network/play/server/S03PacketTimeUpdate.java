@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S03PacketTimeUpdate extends Packet
 {
@@ -12,7 +13,9 @@ public class S03PacketTimeUpdate extends Packet
     private long field_149368_b;
     private static final String __OBFID = "CL_00001337";
 
-    public S03PacketTimeUpdate() {}
+    public S03PacketTimeUpdate()
+    {
+    }
 
     public S03PacketTimeUpdate(long p_i45230_1_, long p_i45230_3_, boolean p_i45230_5_)
     {
@@ -58,7 +61,7 @@ public class S03PacketTimeUpdate extends Packet
      */
     public String serialize()
     {
-        return String.format("time=%d,dtime=%d", new Object[] {Long.valueOf(this.field_149369_a), Long.valueOf(this.field_149368_b)});
+        return String.format("time=%d,dtime=%d", Long.valueOf(this.field_149369_a), Long.valueOf(this.field_149368_b));
     }
 
     public long func_149366_c()
@@ -73,6 +76,6 @@ public class S03PacketTimeUpdate extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

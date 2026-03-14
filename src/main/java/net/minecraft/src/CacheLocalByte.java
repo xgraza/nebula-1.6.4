@@ -8,7 +8,7 @@ public class CacheLocalByte
     private int offsetX = 0;
     private int offsetY = 0;
     private int offsetZ = 0;
-    private byte[][][] cache = (byte[][][])null;
+    private byte[][][] cache = null;
     private byte[] lastZs = null;
     private int lastDz = 0;
 
@@ -54,11 +54,10 @@ public class CacheLocalByte
             this.lastZs = this.cache[x - this.offsetX][y - this.offsetY];
             this.lastDz = z - this.offsetZ;
             return this.lastZs[this.lastDz];
-        }
-        catch (ArrayIndexOutOfBoundsException var5)
+        } catch (ArrayIndexOutOfBoundsException var5)
         {
             var5.printStackTrace();
-            return (byte) - 1;
+            return (byte) -1;
         }
     }
 
@@ -67,8 +66,7 @@ public class CacheLocalByte
         try
         {
             this.lastZs[this.lastDz] = val;
-        }
-        catch (Exception var3)
+        } catch (Exception var3)
         {
             var3.printStackTrace();
         }

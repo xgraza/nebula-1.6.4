@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.potion.PotionEffect;
+
+import java.io.IOException;
 
 public class S1DPacketEntityEffect extends Packet
 {
@@ -15,19 +16,20 @@ public class S1DPacketEntityEffect extends Packet
     private short duration;
     private static final String __OBFID = "CL_00001343";
 
-    public S1DPacketEntityEffect() {}
+    public S1DPacketEntityEffect()
+    {
+    }
 
     public S1DPacketEntityEffect(int entityId, PotionEffect effect)
     {
         this.entityId = entityId;
-        this.potionId = (byte)(effect.getPotionID() & 255);
-        this.amplifier = (byte)(effect.getAmplifier() & 255);
+        this.potionId = (byte) (effect.getPotionID() & 255);
+        this.amplifier = (byte) (effect.getAmplifier() & 255);
 
         if (effect.getDuration() > 32767)
         {
             this.duration = 32767;
-        }
-        else
+        } else
         {
             this.duration = (short) effect.getDuration();
         }
@@ -87,6 +89,6 @@ public class S1DPacketEntityEffect extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

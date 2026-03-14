@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S04PacketEntityEquipment extends Packet
 {
@@ -14,7 +15,9 @@ public class S04PacketEntityEquipment extends Packet
     private ItemStack field_149393_c;
     private static final String __OBFID = "CL_00001330";
 
-    public S04PacketEntityEquipment() {}
+    public S04PacketEntityEquipment()
+    {
+    }
 
     public S04PacketEntityEquipment(int p_i45221_1_, int p_i45221_2_, ItemStack p_i45221_3_)
     {
@@ -58,7 +61,7 @@ public class S04PacketEntityEquipment extends Packet
      */
     public String serialize()
     {
-        return String.format("entity=%d, slot=%d, item=%s", new Object[] {Integer.valueOf(this.field_149394_a), Integer.valueOf(this.field_149392_b), this.field_149393_c});
+        return String.format("entity=%d, slot=%d, item=%s", Integer.valueOf(this.field_149394_a), Integer.valueOf(this.field_149392_b), this.field_149393_c);
     }
 
     public int func_149389_d()
@@ -73,6 +76,6 @@ public class S04PacketEntityEquipment extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

@@ -1,6 +1,7 @@
 package net.minecraft.client.resources.data;
 
 import com.google.common.collect.Sets;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -44,7 +45,7 @@ public class AnimationMetadataSection implements IMetadataSection
 
     private AnimationFrame getAnimationFrame(int par1)
     {
-        return (AnimationFrame)this.animationFrames.get(par1);
+        return (AnimationFrame) this.animationFrames.get(par1);
     }
 
     public int getFrameTimeSingle(int par1)
@@ -55,12 +56,12 @@ public class AnimationMetadataSection implements IMetadataSection
 
     public boolean frameHasTime(int par1)
     {
-        return !((AnimationFrame)this.animationFrames.get(par1)).hasNoTime();
+        return !((AnimationFrame) this.animationFrames.get(par1)).hasNoTime();
     }
 
     public int getFrameIndex(int par1)
     {
-        return ((AnimationFrame)this.animationFrames.get(par1)).getFrameIndex();
+        return ((AnimationFrame) this.animationFrames.get(par1)).getFrameIndex();
     }
 
     public Set getFrameIndexSet()
@@ -70,7 +71,7 @@ public class AnimationMetadataSection implements IMetadataSection
 
         while (var2.hasNext())
         {
-            AnimationFrame var3 = (AnimationFrame)var2.next();
+            AnimationFrame var3 = (AnimationFrame) var2.next();
             var1.add(Integer.valueOf(var3.getFrameIndex()));
         }
 

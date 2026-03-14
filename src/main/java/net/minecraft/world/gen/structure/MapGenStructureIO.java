@@ -1,19 +1,20 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MapGenStructureIO
 {
     private static final Logger logger = LogManager.getLogger();
-    private static Map field_143040_a = new HashMap();
-    private static Map field_143038_b = new HashMap();
-    private static Map field_143039_c = new HashMap();
-    private static Map field_143037_d = new HashMap();
+    private static final Map field_143040_a = new HashMap();
+    private static final Map field_143038_b = new HashMap();
+    private static final Map field_143039_c = new HashMap();
+    private static final Map field_143037_d = new HashMap();
     private static final String __OBFID = "CL_00000509";
 
     private static void func_143034_b(Class par0Class, String par1Str)
@@ -30,12 +31,12 @@ public class MapGenStructureIO
 
     public static String func_143033_a(StructureStart par0StructureStart)
     {
-        return (String)field_143038_b.get(par0StructureStart.getClass());
+        return (String) field_143038_b.get(par0StructureStart.getClass());
     }
 
     public static String func_143036_a(StructureComponent par0StructureComponent)
     {
-        return (String)field_143037_d.get(par0StructureComponent.getClass());
+        return (String) field_143037_d.get(par0StructureComponent.getClass());
     }
 
     public static StructureStart func_143035_a(NBTTagCompound par0NBTTagCompound, World par1World)
@@ -44,14 +45,13 @@ public class MapGenStructureIO
 
         try
         {
-            Class var3 = (Class)field_143040_a.get(par0NBTTagCompound.getString("id"));
+            Class var3 = (Class) field_143040_a.get(par0NBTTagCompound.getString("id"));
 
             if (var3 != null)
             {
-                var2 = (StructureStart)var3.newInstance();
+                var2 = (StructureStart) var3.newInstance();
             }
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
             logger.warn("Failed Start with id " + par0NBTTagCompound.getString("id"));
             var4.printStackTrace();
@@ -60,8 +60,7 @@ public class MapGenStructureIO
         if (var2 != null)
         {
             var2.func_143020_a(par1World, par0NBTTagCompound);
-        }
-        else
+        } else
         {
             logger.warn("Skipping Structure with id " + par0NBTTagCompound.getString("id"));
         }
@@ -75,14 +74,13 @@ public class MapGenStructureIO
 
         try
         {
-            Class var3 = (Class)field_143039_c.get(par0NBTTagCompound.getString("id"));
+            Class var3 = (Class) field_143039_c.get(par0NBTTagCompound.getString("id"));
 
             if (var3 != null)
             {
-                var2 = (StructureComponent)var3.newInstance();
+                var2 = (StructureComponent) var3.newInstance();
             }
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
             logger.warn("Failed Piece with id " + par0NBTTagCompound.getString("id"));
             var4.printStackTrace();
@@ -91,8 +89,7 @@ public class MapGenStructureIO
         if (var2 != null)
         {
             var2.func_143009_a(par1World, par0NBTTagCompound);
-        }
-        else
+        } else
         {
             logger.warn("Skipping Piece with id " + par0NBTTagCompound.getString("id"));
         }

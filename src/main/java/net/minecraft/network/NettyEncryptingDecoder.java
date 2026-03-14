@@ -3,9 +3,10 @@ package net.minecraft.network;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
-import java.util.List;
+
 import javax.crypto.Cipher;
 import javax.crypto.ShortBufferException;
+import java.util.List;
 
 public class NettyEncryptingDecoder extends MessageToMessageDecoder
 {
@@ -24,6 +25,6 @@ public class NettyEncryptingDecoder extends MessageToMessageDecoder
 
     protected void decode(ChannelHandlerContext p_decode_1_, Object p_decode_2_, List p_decode_3_) throws ShortBufferException
     {
-        this.decode(p_decode_1_, (ByteBuf)p_decode_2_, p_decode_3_);
+        this.decode(p_decode_1_, (ByteBuf) p_decode_2_, p_decode_3_);
     }
 }

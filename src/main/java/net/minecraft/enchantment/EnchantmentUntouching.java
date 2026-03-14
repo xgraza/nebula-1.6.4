@@ -47,6 +47,6 @@ public class EnchantmentUntouching extends Enchantment
 
     public boolean canApply(ItemStack par1ItemStack)
     {
-        return par1ItemStack.getItem() == Items.shears ? true : super.canApply(par1ItemStack);
+        return par1ItemStack.getItem() == Items.shears || super.canApply(par1ItemStack);
     }
 }

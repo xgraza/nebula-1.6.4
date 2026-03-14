@@ -22,7 +22,7 @@ public final class AWTFontRenderer
 
     public AWTFontRenderer(Font font, final int size)
     {
-        font = font.deriveFont((float)size);
+        font = font.deriveFont((float) size);
         normal = new AWTFont(font.deriveFont(Font.PLAIN));
         bold = new AWTFont(font.deriveFont(Font.BOLD));
         italic = new AWTFont(font.deriveFont(Font.ITALIC));

@@ -23,8 +23,7 @@ public class ItemEnderPearl extends Item
         if (par3EntityPlayer.capabilities.isCreativeMode)
         {
             return par1ItemStack;
-        }
-        else
+        } else
         {
             --par1ItemStack.stackSize;
             par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));

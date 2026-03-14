@@ -1,8 +1,6 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Maps;
-import java.util.Iterator;
-import java.util.Map;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -11,6 +9,9 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL11;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class MapItemRenderer
 {
@@ -36,7 +37,7 @@ public class MapItemRenderer
 
     private MapItemRenderer.Instance func_148248_b(MapData p_148248_1_)
     {
-        MapItemRenderer.Instance var2 = (MapItemRenderer.Instance)this.field_148252_c.get(p_148248_1_.mapName);
+        MapItemRenderer.Instance var2 = (MapItemRenderer.Instance) this.field_148252_c.get(p_148248_1_.mapName);
 
         if (var2 == null)
         {
@@ -53,7 +54,7 @@ public class MapItemRenderer
 
         while (var1.hasNext())
         {
-            MapItemRenderer.Instance var2 = (MapItemRenderer.Instance)var1.next();
+            MapItemRenderer.Instance var2 = (MapItemRenderer.Instance) var1.next();
             this.field_148251_b.deleteTexture(var2.field_148240_d);
         }
 
@@ -90,8 +91,7 @@ public class MapItemRenderer
                 if (var2 / 4 == 0)
                 {
                     this.field_148241_e[var1] = (var1 + var1 / 128 & 1) * 8 + 16 << 24;
-                }
-                else
+                } else
                 {
                     this.field_148241_e[var1] = MapColor.mapColorArray[var2 / 4].func_151643_b(var2 & 3);
                 }
@@ -111,10 +111,10 @@ public class MapItemRenderer
             OpenGlHelper.glBlendFunc(1, 771, 0, 1);
             GL11.glDisable(GL11.GL_ALPHA_TEST);
             var4.startDrawingQuads();
-            var4.addVertexWithUV((double)((float)(var2 + 0) + var5), (double)((float)(var3 + 128) - var5), -0.009999999776482582D, 0.0D, 1.0D);
-            var4.addVertexWithUV((double)((float)(var2 + 128) - var5), (double)((float)(var3 + 128) - var5), -0.009999999776482582D, 1.0D, 1.0D);
-            var4.addVertexWithUV((double)((float)(var2 + 128) - var5), (double)((float)(var3 + 0) + var5), -0.009999999776482582D, 1.0D, 0.0D);
-            var4.addVertexWithUV((double)((float)(var2 + 0) + var5), (double)((float)(var3 + 0) + var5), -0.009999999776482582D, 0.0D, 0.0D);
+            var4.addVertexWithUV((float) (var2) + var5, (float) (var3 + 128) - var5, -0.009999999776482582D, 0.0D, 1.0D);
+            var4.addVertexWithUV((float) (var2 + 128) - var5, (float) (var3 + 128) - var5, -0.009999999776482582D, 1.0D, 1.0D);
+            var4.addVertexWithUV((float) (var2 + 128) - var5, (float) (var3) + var5, -0.009999999776482582D, 1.0D, 0.0D);
+            var4.addVertexWithUV((float) (var2) + var5, (float) (var3) + var5, -0.009999999776482582D, 0.0D, 0.0D);
             var4.draw();
             GL11.glEnable(GL11.GL_ALPHA_TEST);
             GL11.glDisable(GL11.GL_BLEND);
@@ -124,24 +124,24 @@ public class MapItemRenderer
 
             while (var7.hasNext())
             {
-                MapData.MapCoord var8 = (MapData.MapCoord)var7.next();
+                MapData.MapCoord var8 = (MapData.MapCoord) var7.next();
 
                 if (!p_148237_1_ || var8.iconSize == 1)
                 {
                     GL11.glPushMatrix();
-                    GL11.glTranslatef((float)var2 + (float)var8.centerX / 2.0F + 64.0F, (float)var3 + (float)var8.centerZ / 2.0F + 64.0F, -0.02F);
-                    GL11.glRotatef((float)(var8.iconRotation * 360) / 16.0F, 0.0F, 0.0F, 1.0F);
+                    GL11.glTranslatef((float) var2 + (float) var8.centerX / 2.0F + 64.0F, (float) var3 + (float) var8.centerZ / 2.0F + 64.0F, -0.02F);
+                    GL11.glRotatef((float) (var8.iconRotation * 360) / 16.0F, 0.0F, 0.0F, 1.0F);
                     GL11.glScalef(4.0F, 4.0F, 3.0F);
                     GL11.glTranslatef(-0.125F, 0.125F, 0.0F);
-                    float var9 = (float)(var8.iconSize % 4 + 0) / 4.0F;
-                    float var10 = (float)(var8.iconSize / 4 + 0) / 4.0F;
-                    float var11 = (float)(var8.iconSize % 4 + 1) / 4.0F;
-                    float var12 = (float)(var8.iconSize / 4 + 1) / 4.0F;
+                    float var9 = (float) (var8.iconSize % 4) / 4.0F;
+                    float var10 = (float) (var8.iconSize / 4) / 4.0F;
+                    float var11 = (float) (var8.iconSize % 4 + 1) / 4.0F;
+                    float var12 = (float) (var8.iconSize / 4 + 1) / 4.0F;
                     var4.startDrawingQuads();
-                    var4.addVertexWithUV(-1.0D, 1.0D, (double)((float)var6 * 0.001F), (double)var9, (double)var10);
-                    var4.addVertexWithUV(1.0D, 1.0D, (double)((float)var6 * 0.001F), (double)var11, (double)var10);
-                    var4.addVertexWithUV(1.0D, -1.0D, (double)((float)var6 * 0.001F), (double)var11, (double)var12);
-                    var4.addVertexWithUV(-1.0D, -1.0D, (double)((float)var6 * 0.001F), (double)var9, (double)var12);
+                    var4.addVertexWithUV(-1.0D, 1.0D, (float) var6 * 0.001F, var9, var10);
+                    var4.addVertexWithUV(1.0D, 1.0D, (float) var6 * 0.001F, var11, var10);
+                    var4.addVertexWithUV(1.0D, -1.0D, (float) var6 * 0.001F, var11, var12);
+                    var4.addVertexWithUV(-1.0D, -1.0D, (float) var6 * 0.001F, var9, var12);
                     var4.draw();
                     GL11.glPopMatrix();
                     ++var6;

@@ -1,10 +1,11 @@
 package net.minecraft.command;
 
-import java.util.Iterator;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.WorldSettings;
+
+import java.util.Iterator;
 
 public class CommandDefaultGameMode extends CommandGameMode
 {
@@ -26,11 +27,10 @@ public class CommandDefaultGameMode extends CommandGameMode
         {
             WorldSettings.GameType var3 = this.getGameModeFromCommand(par1ICommandSender, par2ArrayOfStr[0]);
             this.setGameType(var3);
-            notifyAdmins(par1ICommandSender, "commands.defaultgamemode.success", new Object[] {new ChatComponentTranslation("gameMode." + var3.getName(), new Object[0])});
-        }
-        else
+            notifyAdmins(par1ICommandSender, "commands.defaultgamemode.success", new ChatComponentTranslation("gameMode." + var3.getName()));
+        } else
         {
-            throw new WrongUsageException("commands.defaultgamemode.usage", new Object[0]);
+            throw new WrongUsageException("commands.defaultgamemode.usage");
         }
     }
 
@@ -44,7 +44,7 @@ public class CommandDefaultGameMode extends CommandGameMode
         {
             for (Iterator var3 = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator(); var3.hasNext(); var4.fallDistance = 0.0F)
             {
-                var4 = (EntityPlayerMP)var3.next();
+                var4 = (EntityPlayerMP) var3.next();
                 var4.setGameType(par1EnumGameType);
             }
         }

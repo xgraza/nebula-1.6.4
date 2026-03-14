@@ -23,40 +23,35 @@ public class ShaderParser
         if (mu.matches())
         {
             return new ShaderLine(1, mu.group(1), "", line);
-        }
-        else
+        } else
         {
             Matcher ma = PATTERN_ATTRIBUTE.matcher(line);
 
             if (ma.matches())
             {
                 return new ShaderLine(2, ma.group(1), "", line);
-            }
-            else
+            } else
             {
                 Matcher mc = PATTERN_PROPERTY.matcher(line);
 
                 if (mc.matches())
                 {
                     return new ShaderLine(6, mc.group(2), mc.group(3), line);
-                }
-                else
+                } else
                 {
                     Matcher mci = PATTERN_CONST_INT.matcher(line);
 
                     if (mci.matches())
                     {
                         return new ShaderLine(3, mci.group(1), mci.group(2), line);
-                    }
-                    else
+                    } else
                     {
                         Matcher mcf = PATTERN_CONST_FLOAT.matcher(line);
 
                         if (mcf.matches())
                         {
                             return new ShaderLine(4, mcf.group(1), mcf.group(2), line);
-                        }
-                        else
+                        } else
                         {
                             Matcher mcb = PATTERN_CONST_BOOL.matcher(line);
                             return mcb.matches() ? new ShaderLine(5, mcb.group(1), mcb.group(2), line) : null;
@@ -72,12 +67,10 @@ public class ShaderParser
         if (uniform.length() != prefix.length() + 1)
         {
             return -1;
-        }
-        else if (!uniform.startsWith(prefix))
+        } else if (!uniform.startsWith(prefix))
         {
             return -1;
-        }
-        else
+        } else
         {
             int index = uniform.charAt(prefix.length()) - 48;
             return index >= minIndex && index <= maxIndex ? index : -1;

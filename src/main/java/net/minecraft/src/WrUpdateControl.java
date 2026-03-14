@@ -5,7 +5,9 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class WrUpdateControl implements IWrUpdateControl
 {
-    public void resume() {}
+    public void resume()
+    {
+    }
 
     public void pause()
     {

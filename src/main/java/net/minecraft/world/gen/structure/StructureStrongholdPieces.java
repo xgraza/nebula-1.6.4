@@ -1,9 +1,5 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,23 +8,30 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
 public class StructureStrongholdPieces
 {
-    private static final StructureStrongholdPieces.PieceWeight[] pieceWeightArray = new StructureStrongholdPieces.PieceWeight[] {new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Straight.class, 40, 0), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Prison.class, 5, 5), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.LeftTurn.class, 20, 0), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.RightTurn.class, 20, 0), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.RoomCrossing.class, 10, 6), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.StairsStraight.class, 5, 5), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Stairs.class, 5, 5), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Crossing.class, 5, 4), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.ChestCorridor.class, 5, 4), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Library.class, 10, 2)
+    private static final StructureStrongholdPieces.PieceWeight[] pieceWeightArray = new StructureStrongholdPieces.PieceWeight[]{ new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Straight.class, 40, 0), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Prison.class, 5, 5), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.LeftTurn.class, 20, 0), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.RightTurn.class, 20, 0), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.RoomCrossing.class, 10, 6), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.StairsStraight.class, 5, 5), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Stairs.class, 5, 5), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Crossing.class, 5, 4), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.ChestCorridor.class, 5, 4), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Library.class, 10, 2)
+    {
+        private static final String __OBFID = "CL_00000484";
+
+        public boolean canSpawnMoreStructuresOfType(int par1)
         {
-            private static final String __OBFID = "CL_00000484";
-            public boolean canSpawnMoreStructuresOfType(int par1)
-            {
-                return super.canSpawnMoreStructuresOfType(par1) && par1 > 4;
-            }
-        }, new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.PortalRoom.class, 20, 1)
-        {
-            private static final String __OBFID = "CL_00000485";
-            public boolean canSpawnMoreStructuresOfType(int par1)
-            {
-                return super.canSpawnMoreStructuresOfType(par1) && par1 > 5;
-            }
+            return super.canSpawnMoreStructuresOfType(par1) && par1 > 4;
         }
+    }, new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.PortalRoom.class, 20, 1)
+    {
+        private static final String __OBFID = "CL_00000485";
+
+        public boolean canSpawnMoreStructuresOfType(int par1)
+        {
+            return super.canSpawnMoreStructuresOfType(par1) && par1 > 5;
+        }
+    }
     };
     private static List structurePieceList;
     private static Class strongComponentType;
@@ -80,7 +83,7 @@ public class StructureStrongholdPieces
 
         for (Iterator var1 = structurePieceList.iterator(); var1.hasNext(); totalWeight += var2.pieceWeight)
         {
-            var2 = (StructureStrongholdPieces.PieceWeight)var1.next();
+            var2 = (StructureStrongholdPieces.PieceWeight) var1.next();
 
             if (var2.instancesLimit > 0 && var2.instancesSpawned < var2.instancesLimit)
             {
@@ -101,49 +104,39 @@ public class StructureStrongholdPieces
         if (par0Class == StructureStrongholdPieces.Straight.class)
         {
             var8 = StructureStrongholdPieces.Straight.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (par0Class == StructureStrongholdPieces.Prison.class)
+        } else if (par0Class == StructureStrongholdPieces.Prison.class)
         {
             var8 = StructureStrongholdPieces.Prison.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (par0Class == StructureStrongholdPieces.LeftTurn.class)
+        } else if (par0Class == StructureStrongholdPieces.LeftTurn.class)
         {
             var8 = StructureStrongholdPieces.LeftTurn.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (par0Class == StructureStrongholdPieces.RightTurn.class)
+        } else if (par0Class == StructureStrongholdPieces.RightTurn.class)
         {
             var8 = StructureStrongholdPieces.RightTurn.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (par0Class == StructureStrongholdPieces.RoomCrossing.class)
+        } else if (par0Class == StructureStrongholdPieces.RoomCrossing.class)
         {
             var8 = StructureStrongholdPieces.RoomCrossing.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (par0Class == StructureStrongholdPieces.StairsStraight.class)
+        } else if (par0Class == StructureStrongholdPieces.StairsStraight.class)
         {
             var8 = StructureStrongholdPieces.StairsStraight.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (par0Class == StructureStrongholdPieces.Stairs.class)
+        } else if (par0Class == StructureStrongholdPieces.Stairs.class)
         {
             var8 = StructureStrongholdPieces.Stairs.getStrongholdStairsComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (par0Class == StructureStrongholdPieces.Crossing.class)
+        } else if (par0Class == StructureStrongholdPieces.Crossing.class)
         {
             var8 = StructureStrongholdPieces.Crossing.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (par0Class == StructureStrongholdPieces.ChestCorridor.class)
+        } else if (par0Class == StructureStrongholdPieces.ChestCorridor.class)
         {
             var8 = StructureStrongholdPieces.ChestCorridor.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (par0Class == StructureStrongholdPieces.Library.class)
+        } else if (par0Class == StructureStrongholdPieces.Library.class)
         {
             var8 = StructureStrongholdPieces.Library.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (par0Class == StructureStrongholdPieces.PortalRoom.class)
+        } else if (par0Class == StructureStrongholdPieces.PortalRoom.class)
         {
             var8 = StructureStrongholdPieces.PortalRoom.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
         }
 
-        return (StructureStrongholdPieces.Stronghold)var8;
+        return (StructureStrongholdPieces.Stronghold) var8;
     }
 
     private static StructureStrongholdPieces.Stronghold getNextComponent(StructureStrongholdPieces.Stairs2 par0ComponentStrongholdStairs2, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
@@ -151,8 +144,7 @@ public class StructureStrongholdPieces
         if (!canAddStructurePieces())
         {
             return null;
-        }
-        else
+        } else
         {
             if (strongComponentType != null)
             {
@@ -175,7 +167,7 @@ public class StructureStrongholdPieces
 
                 while (var10.hasNext())
                 {
-                    StructureStrongholdPieces.PieceWeight var11 = (StructureStrongholdPieces.PieceWeight)var10.next();
+                    StructureStrongholdPieces.PieceWeight var11 = (StructureStrongholdPieces.PieceWeight) var10.next();
                     var9 -= var11.pieceWeight;
 
                     if (var9 < 0)
@@ -208,8 +200,7 @@ public class StructureStrongholdPieces
             if (var14 != null && var14.minY > 1)
             {
                 return new StructureStrongholdPieces.Corridor(par7, par2Random, var14, par6);
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -221,8 +212,7 @@ public class StructureStrongholdPieces
         if (par7 > 50)
         {
             return null;
-        }
-        else if (Math.abs(par3 - par0ComponentStrongholdStairs2.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentStrongholdStairs2.getBoundingBox().minZ) <= 112)
+        } else if (Math.abs(par3 - par0ComponentStrongholdStairs2.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentStrongholdStairs2.getBoundingBox().minZ) <= 112)
         {
             StructureStrongholdPieces.Stronghold var8 = getNextComponent(par0ComponentStrongholdStairs2, par1List, par2Random, par3, par4, par5, par6, par7 + 1);
 
@@ -233,8 +223,7 @@ public class StructureStrongholdPieces
             }
 
             return var8;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -248,11 +237,10 @@ public class StructureStrongholdPieces
         {
             if (this.coordBaseMode != 2 && this.coordBaseMode != 3)
             {
-                this.getNextComponentX((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
-            }
-            else
+                this.getNextComponentX((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
+            } else
             {
-                this.getNextComponentZ((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+                this.getNextComponentZ((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
             }
         }
 
@@ -261,8 +249,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 4, 4, true, par2Random, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(par1World, par2Random, par3StructureBoundingBox, this.field_143013_d, 1, 1, 0);
@@ -270,8 +257,7 @@ public class StructureStrongholdPieces
                 if (this.coordBaseMode != 2 && this.coordBaseMode != 3)
                 {
                     this.func_151549_a(par1World, par3StructureBoundingBox, 0, 1, 1, 0, 3, 3, Blocks.air, Blocks.air, false);
-                }
-                else
+                } else
                 {
                     this.func_151549_a(par1World, par3StructureBoundingBox, 4, 1, 1, 4, 3, 3, Blocks.air, Blocks.air, false);
                 }
@@ -287,7 +273,9 @@ public class StructureStrongholdPieces
         private boolean expandsZ;
         private static final String __OBFID = "CL_00000500";
 
-        public Straight() {}
+        public Straight()
+        {
+        }
 
         public Straight(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -315,16 +303,16 @@ public class StructureStrongholdPieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
 
             if (this.expandsX)
             {
-                this.getNextComponentX((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 2);
+                this.getNextComponentX((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 2);
             }
 
             if (this.expandsZ)
             {
-                this.getNextComponentZ((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 2);
+                this.getNextComponentZ((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 2);
             }
         }
 
@@ -339,8 +327,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 4, 6, true, par2Random, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(par1World, par2Random, par3StructureBoundingBox, this.field_143013_d, 1, 1, 0);
@@ -396,7 +383,9 @@ public class StructureStrongholdPieces
         private boolean hasSpawner;
         private static final String __OBFID = "CL_00000493";
 
-        public PortalRoom() {}
+        public PortalRoom()
+        {
+        }
 
         public PortalRoom(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -421,7 +410,7 @@ public class StructureStrongholdPieces
         {
             if (par1StructureComponent != null)
             {
-                ((StructureStrongholdPieces.Stairs2)par1StructureComponent).strongholdPortalRoom = this;
+                ((StructureStrongholdPieces.Stairs2) par1StructureComponent).strongholdPortalRoom = this;
             }
         }
 
@@ -523,7 +512,7 @@ public class StructureStrongholdPieces
                 {
                     this.hasSpawner = true;
                     par1World.setBlock(var10, var13, var11, Blocks.mob_spawner, 0, 2);
-                    TileEntityMobSpawner var12 = (TileEntityMobSpawner)par1World.getTileEntity(var10, var13, var11);
+                    TileEntityMobSpawner var12 = (TileEntityMobSpawner) par1World.getTileEntity(var10, var13, var11);
 
                     if (var12 != null)
                     {
@@ -544,7 +533,9 @@ public class StructureStrongholdPieces
         private boolean field_74999_h;
         private static final String __OBFID = "CL_00000489";
 
-        public Crossing() {}
+        public Crossing()
+        {
+        }
 
         public Crossing(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -587,26 +578,26 @@ public class StructureStrongholdPieces
                 var5 = 8 - var5;
             }
 
-            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 5, 1);
+            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 5, 1);
 
             if (this.field_74996_b)
             {
-                this.getNextComponentX((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, var4, 1);
+                this.getNextComponentX((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, var4, 1);
             }
 
             if (this.field_74997_c)
             {
-                this.getNextComponentX((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, var5, 7);
+                this.getNextComponentX((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, var5, 7);
             }
 
             if (this.field_74995_d)
             {
-                this.getNextComponentZ((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, var4, 1);
+                this.getNextComponentZ((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, var4, 1);
             }
 
             if (this.field_74999_h)
             {
-                this.getNextComponentZ((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, var5, 7);
+                this.getNextComponentZ((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, var5, 7);
             }
         }
 
@@ -621,8 +612,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 9, 8, 10, true, par2Random, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(par1World, par2Random, par3StructureBoundingBox, this.field_143013_d, 4, 3, 0);
@@ -671,7 +661,9 @@ public class StructureStrongholdPieces
     {
         private static final String __OBFID = "CL_00000490";
 
-        public LeftTurn() {}
+        public LeftTurn()
+        {
+        }
 
         public LeftTurn(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -685,11 +677,10 @@ public class StructureStrongholdPieces
         {
             if (this.coordBaseMode != 2 && this.coordBaseMode != 3)
             {
-                this.getNextComponentZ((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
-            }
-            else
+                this.getNextComponentZ((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
+            } else
             {
-                this.getNextComponentX((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+                this.getNextComponentX((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
             }
         }
 
@@ -704,8 +695,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 4, 4, true, par2Random, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(par1World, par2Random, par3StructureBoundingBox, this.field_143013_d, 1, 1, 0);
@@ -713,8 +703,7 @@ public class StructureStrongholdPieces
                 if (this.coordBaseMode != 2 && this.coordBaseMode != 3)
                 {
                     this.func_151549_a(par1World, par3StructureBoundingBox, 4, 1, 1, 4, 3, 3, Blocks.air, Blocks.air, false);
-                }
-                else
+                } else
                 {
                     this.func_151549_a(par1World, par3StructureBoundingBox, 0, 1, 1, 0, 3, 3, Blocks.air, Blocks.air, false);
                 }
@@ -728,7 +717,9 @@ public class StructureStrongholdPieces
     {
         private static final String __OBFID = "CL_00000497";
 
-        private Stones() {}
+        private Stones()
+        {
+        }
 
         public void selectBlocks(Random par1Random, int par2, int par3, int par4, boolean par5)
         {
@@ -740,22 +731,18 @@ public class StructureStrongholdPieces
                 if (var6 < 0.2F)
                 {
                     this.selectedBlockMetaData = 2;
-                }
-                else if (var6 < 0.5F)
+                } else if (var6 < 0.5F)
                 {
                     this.selectedBlockMetaData = 1;
-                }
-                else if (var6 < 0.55F)
+                } else if (var6 < 0.55F)
                 {
                     this.field_151562_a = Blocks.monster_egg;
                     this.selectedBlockMetaData = 2;
-                }
-                else
+                } else
                 {
                     this.selectedBlockMetaData = 0;
                 }
-            }
-            else
+            } else
             {
                 this.field_151562_a = Blocks.air;
                 this.selectedBlockMetaData = 0;
@@ -778,37 +765,29 @@ public class StructureStrongholdPieces
             try
             {
                 doorEnum[StructureStrongholdPieces.Stronghold.Door.OPENING.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var4)
+            } catch (NoSuchFieldError var4)
             {
-                ;
             }
 
             try
             {
                 doorEnum[StructureStrongholdPieces.Stronghold.Door.WOOD_DOOR.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
                 doorEnum[StructureStrongholdPieces.Stronghold.Door.GRATES.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
                 doorEnum[StructureStrongholdPieces.Stronghold.Door.IRON_DOOR.ordinal()] = 4;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }
@@ -977,17 +956,19 @@ public class StructureStrongholdPieces
             return par0StructureBoundingBox != null && par0StructureBoundingBox.minY > 10;
         }
 
-        public static enum Door
+        public enum Door
         {
             OPENING("OPENING", 0),
             WOOD_DOOR("WOOD_DOOR", 1),
             GRATES("GRATES", 2),
             IRON_DOOR("IRON_DOOR", 3);
 
-            private static final StructureStrongholdPieces.Stronghold.Door[] $VALUES = new StructureStrongholdPieces.Stronghold.Door[]{OPENING, WOOD_DOOR, GRATES, IRON_DOOR};
+            private static final StructureStrongholdPieces.Stronghold.Door[] $VALUES = new StructureStrongholdPieces.Stronghold.Door[]{ OPENING, WOOD_DOOR, GRATES, IRON_DOOR };
             private static final String __OBFID = "CL_00000504";
 
-            private Door(String par1Str, int par2) {}
+            Door(String par1Str, int par2)
+            {
+            }
         }
     }
 
@@ -998,7 +979,9 @@ public class StructureStrongholdPieces
         public List field_75026_c = new ArrayList();
         private static final String __OBFID = "CL_00000499";
 
-        public Stairs2() {}
+        public Stairs2()
+        {
+        }
 
         public Stairs2(int par1, Random par2Random, int par3, int par4)
         {
@@ -1013,11 +996,13 @@ public class StructureStrongholdPieces
 
     public static class Library extends StructureStrongholdPieces.Stronghold
     {
-        private static final WeightedRandomChestContent[] strongholdLibraryChestContents = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.book, 0, 1, 3, 20), new WeightedRandomChestContent(Items.paper, 0, 2, 7, 20), new WeightedRandomChestContent(Items.map, 0, 1, 1, 1), new WeightedRandomChestContent(Items.compass, 0, 1, 1, 1)};
+        private static final WeightedRandomChestContent[] strongholdLibraryChestContents = new WeightedRandomChestContent[]{ new WeightedRandomChestContent(Items.book, 0, 1, 3, 20), new WeightedRandomChestContent(Items.paper, 0, 2, 7, 20), new WeightedRandomChestContent(Items.map, 0, 1, 1, 1), new WeightedRandomChestContent(Items.compass, 0, 1, 1, 1) };
         private boolean isLargeRoom;
         private static final String __OBFID = "CL_00000491";
 
-        public Library() {}
+        public Library()
+        {
+        }
 
         public Library(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1062,8 +1047,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 byte var4 = 11;
 
@@ -1093,8 +1077,7 @@ public class StructureStrongholdPieces
                             this.func_151549_a(par1World, par3StructureBoundingBox, 1, 6, var7, 1, 9, var7, Blocks.planks, Blocks.planks, false);
                             this.func_151549_a(par1World, par3StructureBoundingBox, 12, 6, var7, 12, 9, var7, Blocks.planks, Blocks.planks, false);
                         }
-                    }
-                    else
+                    } else
                     {
                         this.func_151549_a(par1World, par3StructureBoundingBox, 1, 1, var7, 1, 4, var7, Blocks.bookshelf, Blocks.bookshelf, false);
                         this.func_151549_a(par1World, par3StructureBoundingBox, 12, 1, var7, 12, 4, var7, Blocks.bookshelf, Blocks.bookshelf, false);
@@ -1160,12 +1143,12 @@ public class StructureStrongholdPieces
                     this.func_151550_a(par1World, Blocks.torch, 0, var8, 8, var9 + 1, par3StructureBoundingBox);
                 }
 
-                this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 3, 5, WeightedRandomChestContent.func_92080_a(strongholdLibraryChestContents, new WeightedRandomChestContent[] {Items.enchanted_book.func_92112_a(par2Random, 1, 5, 2)}), 1 + par2Random.nextInt(4));
+                this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 3, 5, WeightedRandomChestContent.func_92080_a(strongholdLibraryChestContents, Items.enchanted_book.func_92112_a(par2Random, 1, 5, 2)), 1 + par2Random.nextInt(4));
 
                 if (this.isLargeRoom)
                 {
                     this.func_151550_a(par1World, Blocks.air, 0, 12, 9, 1, par3StructureBoundingBox);
-                    this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 12, 8, 1, WeightedRandomChestContent.func_92080_a(strongholdLibraryChestContents, new WeightedRandomChestContent[] {Items.enchanted_book.func_92112_a(par2Random, 1, 5, 2)}), 1 + par2Random.nextInt(4));
+                    this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 12, 8, 1, WeightedRandomChestContent.func_92080_a(strongholdLibraryChestContents, Items.enchanted_book.func_92112_a(par2Random, 1, 5, 2)), 1 + par2Random.nextInt(4));
                 }
 
                 return true;
@@ -1177,7 +1160,9 @@ public class StructureStrongholdPieces
     {
         private static final String __OBFID = "CL_00000501";
 
-        public StairsStraight() {}
+        public StairsStraight()
+        {
+        }
 
         public StairsStraight(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1189,7 +1174,7 @@ public class StructureStrongholdPieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
         }
 
         public static StructureStrongholdPieces.StairsStraight findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -1203,8 +1188,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 10, 7, true, par2Random, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(par1World, par2Random, par3StructureBoundingBox, this.field_143013_d, 1, 7, 0);
@@ -1234,7 +1218,9 @@ public class StructureStrongholdPieces
     {
         private static final String __OBFID = "CL_00000494";
 
-        public Prison() {}
+        public Prison()
+        {
+        }
 
         public Prison(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1246,7 +1232,7 @@ public class StructureStrongholdPieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
         }
 
         public static StructureStrongholdPieces.Prison findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -1260,8 +1246,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 8, 4, 10, true, par2Random, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(par1World, par2Random, par3StructureBoundingBox, this.field_143013_d, 1, 1, 0);
@@ -1288,7 +1273,9 @@ public class StructureStrongholdPieces
         private int field_74993_a;
         private static final String __OBFID = "CL_00000488";
 
-        public Corridor() {}
+        public Corridor()
+        {
+        }
 
         public Corridor(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1319,8 +1306,7 @@ public class StructureStrongholdPieces
             if (var8 == null)
             {
                 return null;
-            }
-            else
+            } else
             {
                 if (var8.getBoundingBox().minY == var7.minY)
                 {
@@ -1344,8 +1330,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 for (int var4 = 0; var4 < this.field_74993_a; ++var4)
                 {
@@ -1378,11 +1363,13 @@ public class StructureStrongholdPieces
 
     public static class ChestCorridor extends StructureStrongholdPieces.Stronghold
     {
-        private static final WeightedRandomChestContent[] strongholdChestContents = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.ender_pearl, 0, 1, 1, 10), new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 3), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5), new WeightedRandomChestContent(Items.redstone, 0, 4, 9, 5), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.apple, 0, 1, 3, 15), new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_sword, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_chestplate, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_helmet, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_leggings, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_boots, 0, 1, 1, 5), new WeightedRandomChestContent(Items.golden_apple, 0, 1, 1, 1), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 1), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)};
+        private static final WeightedRandomChestContent[] strongholdChestContents = new WeightedRandomChestContent[]{ new WeightedRandomChestContent(Items.ender_pearl, 0, 1, 1, 10), new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 3), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5), new WeightedRandomChestContent(Items.redstone, 0, 4, 9, 5), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.apple, 0, 1, 3, 15), new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_sword, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_chestplate, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_helmet, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_leggings, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_boots, 0, 1, 1, 5), new WeightedRandomChestContent(Items.golden_apple, 0, 1, 1, 1), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 1), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1) };
         private boolean hasMadeChest;
         private static final String __OBFID = "CL_00000487";
 
-        public ChestCorridor() {}
+        public ChestCorridor()
+        {
+        }
 
         public ChestCorridor(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1406,7 +1393,7 @@ public class StructureStrongholdPieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
         }
 
         public static StructureStrongholdPieces.ChestCorridor findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -1420,8 +1407,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 4, 6, true, par2Random, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(par1World, par2Random, par3StructureBoundingBox, this.field_143013_d, 1, 1, 0);
@@ -1447,7 +1433,7 @@ public class StructureStrongholdPieces
                     if (par3StructureBoundingBox.isVecInside(var5, var4, var6))
                     {
                         this.hasMadeChest = true;
-                        this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 2, 3, WeightedRandomChestContent.func_92080_a(strongholdChestContents, new WeightedRandomChestContent[] {Items.enchanted_book.func_92114_b(par2Random)}), 2 + par2Random.nextInt(2));
+                        this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 2, 3, WeightedRandomChestContent.func_92080_a(strongholdChestContents, Items.enchanted_book.func_92114_b(par2Random)), 2 + par2Random.nextInt(2));
                     }
                 }
 
@@ -1461,7 +1447,9 @@ public class StructureStrongholdPieces
         private boolean field_75024_a;
         private static final String __OBFID = "CL_00000498";
 
-        public Stairs() {}
+        public Stairs()
+        {
+        }
 
         public Stairs(int par1, Random par2Random, int par3, int par4)
         {
@@ -1510,7 +1498,7 @@ public class StructureStrongholdPieces
                 StructureStrongholdPieces.strongComponentType = StructureStrongholdPieces.Crossing.class;
             }
 
-            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
         }
 
         public static StructureStrongholdPieces.Stairs getStrongholdStairsComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -1524,8 +1512,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 10, 4, true, par2Random, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(par1World, par2Random, par3StructureBoundingBox, this.field_143013_d, 1, 7, 0);
@@ -1554,11 +1541,13 @@ public class StructureStrongholdPieces
 
     public static class RoomCrossing extends StructureStrongholdPieces.Stronghold
     {
-        private static final WeightedRandomChestContent[] strongholdRoomCrossingChestContents = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5), new WeightedRandomChestContent(Items.redstone, 0, 4, 9, 5), new WeightedRandomChestContent(Items.coal, 0, 3, 8, 10), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.apple, 0, 1, 3, 15), new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 1)};
+        private static final WeightedRandomChestContent[] strongholdRoomCrossingChestContents = new WeightedRandomChestContent[]{ new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5), new WeightedRandomChestContent(Items.redstone, 0, 4, 9, 5), new WeightedRandomChestContent(Items.coal, 0, 3, 8, 10), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.apple, 0, 1, 3, 15), new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 1) };
         protected int roomType;
         private static final String __OBFID = "CL_00000496";
 
-        public RoomCrossing() {}
+        public RoomCrossing()
+        {
+        }
 
         public RoomCrossing(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1583,9 +1572,9 @@ public class StructureStrongholdPieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 4, 1);
-            this.getNextComponentX((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 4);
-            this.getNextComponentZ((StructureStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 4);
+            this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 4, 1);
+            this.getNextComponentX((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 4);
+            this.getNextComponentZ((StructureStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 4);
         }
 
         public static StructureStrongholdPieces.RoomCrossing findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -1599,8 +1588,7 @@ public class StructureStrongholdPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 10, 6, 10, true, par2Random, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(par1World, par2Random, par3StructureBoundingBox, this.field_143013_d, 4, 1, 0);
@@ -1695,7 +1683,7 @@ public class StructureStrongholdPieces
                         this.func_151550_a(par1World, Blocks.ladder, this.func_151555_a(Blocks.ladder, 4), 9, 1, 3, par3StructureBoundingBox);
                         this.func_151550_a(par1World, Blocks.ladder, this.func_151555_a(Blocks.ladder, 4), 9, 2, 3, par3StructureBoundingBox);
                         this.func_151550_a(par1World, Blocks.ladder, this.func_151555_a(Blocks.ladder, 4), 9, 3, 3, par3StructureBoundingBox);
-                        this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 4, 8, WeightedRandomChestContent.func_92080_a(strongholdRoomCrossingChestContents, new WeightedRandomChestContent[] {Items.enchanted_book.func_92114_b(par2Random)}), 1 + par2Random.nextInt(4));
+                        this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 4, 8, WeightedRandomChestContent.func_92080_a(strongholdRoomCrossingChestContents, Items.enchanted_book.func_92114_b(par2Random)), 1 + par2Random.nextInt(4));
                 }
 
                 return true;

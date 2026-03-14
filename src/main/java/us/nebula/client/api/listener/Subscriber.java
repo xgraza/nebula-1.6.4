@@ -4,7 +4,7 @@ package us.nebula.client.api.listener;
  * @author xgraza
  * @since 02/14/25
  */
-@SuppressWarnings({"unchecked", "raw"})
+@SuppressWarnings({ "unchecked", "raw" })
 public final class Subscriber
 {
     private final EventListener eventListener;

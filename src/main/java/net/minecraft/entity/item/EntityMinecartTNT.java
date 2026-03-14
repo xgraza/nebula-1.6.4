@@ -45,8 +45,7 @@ public class EntityMinecartTNT extends EntityMinecart
         {
             --this.minecartTNTFuse;
             this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
-        }
-        else if (this.minecartTNTFuse == 0)
+        } else if (this.minecartTNTFuse == 0)
         {
             this.explodeCart(this.motionX * this.motionX + this.motionZ * this.motionZ);
         }
@@ -92,7 +91,7 @@ public class EntityMinecartTNT extends EntityMinecart
                 var3 = 5.0D;
             }
 
-            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(4.0D + this.rand.nextDouble() * 1.5D * var3), true);
+            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float) (4.0D + this.rand.nextDouble() * 1.5D * var3), true);
             this.setDead();
         }
     }
@@ -105,7 +104,7 @@ public class EntityMinecartTNT extends EntityMinecart
         if (par1 >= 3.0F)
         {
             float var2 = par1 / 10.0F;
-            this.explodeCart((double)(var2 * var2));
+            this.explodeCart(var2 * var2);
         }
 
         super.fall(par1);
@@ -127,8 +126,7 @@ public class EntityMinecartTNT extends EntityMinecart
         if (par1 == 10)
         {
             this.ignite();
-        }
-        else
+        } else
         {
             super.handleHealthUpdate(par1);
         }
@@ -143,7 +141,7 @@ public class EntityMinecartTNT extends EntityMinecart
 
         if (!this.worldObj.isClient)
         {
-            this.worldObj.setEntityState(this, (byte)10);
+            this.worldObj.setEntityState(this, (byte) 10);
             this.worldObj.playSoundAtEntity(this, "game.tnt.primed", 1.0F, 1.0F);
         }
     }
@@ -168,7 +166,7 @@ public class EntityMinecartTNT extends EntityMinecart
 
     public boolean func_145774_a(Explosion p_145774_1_, World p_145774_2_, int p_145774_3_, int p_145774_4_, int p_145774_5_, Block p_145774_6_, float p_145774_7_)
     {
-        return this.isIgnited() && (BlockRailBase.func_150051_a(p_145774_6_) || BlockRailBase.func_150049_b_(p_145774_2_, p_145774_3_, p_145774_4_ + 1, p_145774_5_)) ? false : super.func_145774_a(p_145774_1_, p_145774_2_, p_145774_3_, p_145774_4_, p_145774_5_, p_145774_6_, p_145774_7_);
+        return (!this.isIgnited() || (!BlockRailBase.func_150051_a(p_145774_6_) && !BlockRailBase.func_150049_b_(p_145774_2_, p_145774_3_, p_145774_4_ + 1, p_145774_5_))) && super.func_145774_a(p_145774_1_, p_145774_2_, p_145774_3_, p_145774_4_, p_145774_5_, p_145774_6_, p_145774_7_);
     }
 
     /**

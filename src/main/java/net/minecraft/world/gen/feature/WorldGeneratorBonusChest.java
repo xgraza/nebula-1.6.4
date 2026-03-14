@@ -1,12 +1,13 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WorldGeneratorBonusChest extends WorldGenerator
 {
@@ -39,8 +40,7 @@ public class WorldGeneratorBonusChest extends WorldGenerator
         if (par4 < 1)
         {
             return false;
-        }
-        else
+        } else
         {
             ++par4;
 
@@ -53,7 +53,7 @@ public class WorldGeneratorBonusChest extends WorldGenerator
                 if (par1World.isAirBlock(var8, var9, var10) && World.doesBlockHaveSolidTopSurface(par1World, var8, var9 - 1, var10))
                 {
                     par1World.setBlock(var8, var9, var10, Blocks.chest, 0, 2);
-                    TileEntityChest var11 = (TileEntityChest)par1World.getTileEntity(var8, var9, var10);
+                    TileEntityChest var11 = (TileEntityChest) par1World.getTileEntity(var8, var9, var10);
 
                     if (var11 != null && var11 != null)
                     {

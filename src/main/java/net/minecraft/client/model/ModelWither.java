@@ -7,8 +7,8 @@ import net.minecraft.util.MathHelper;
 
 public class ModelWither extends ModelBase
 {
-    private ModelRenderer[] field_82905_a;
-    private ModelRenderer[] field_82904_b;
+    private final ModelRenderer[] field_82905_a;
+    private final ModelRenderer[] field_82904_b;
     private static final String __OBFID = "CL_00000867";
 
     public ModelWither()
@@ -79,11 +79,11 @@ public class ModelWither extends ModelBase
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
         float var8 = MathHelper.cos(par3 * 0.1F);
-        this.field_82905_a[1].rotateAngleX = (0.065F + 0.05F * var8) * (float)Math.PI;
+        this.field_82905_a[1].rotateAngleX = (0.065F + 0.05F * var8) * (float) Math.PI;
         this.field_82905_a[2].setRotationPoint(-2.0F, 6.9F + MathHelper.cos(this.field_82905_a[1].rotateAngleX) * 10.0F, -0.5F + MathHelper.sin(this.field_82905_a[1].rotateAngleX) * 10.0F);
-        this.field_82905_a[2].rotateAngleX = (0.265F + 0.1F * var8) * (float)Math.PI;
-        this.field_82904_b[0].rotateAngleY = par4 / (180F / (float)Math.PI);
-        this.field_82904_b[0].rotateAngleX = par5 / (180F / (float)Math.PI);
+        this.field_82905_a[2].rotateAngleX = (0.265F + 0.1F * var8) * (float) Math.PI;
+        this.field_82904_b[0].rotateAngleY = par4 / (180F / (float) Math.PI);
+        this.field_82904_b[0].rotateAngleX = par5 / (180F / (float) Math.PI);
     }
 
     /**
@@ -92,12 +92,12 @@ public class ModelWither extends ModelBase
      */
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
-        EntityWither var5 = (EntityWither)par1EntityLivingBase;
+        EntityWither var5 = (EntityWither) par1EntityLivingBase;
 
         for (int var6 = 1; var6 < 3; ++var6)
         {
-            this.field_82904_b[var6].rotateAngleY = (var5.func_82207_a(var6 - 1) - par1EntityLivingBase.renderYawOffset) / (180F / (float)Math.PI);
-            this.field_82904_b[var6].rotateAngleX = var5.func_82210_r(var6 - 1) / (180F / (float)Math.PI);
+            this.field_82904_b[var6].rotateAngleY = (var5.func_82207_a(var6 - 1) - par1EntityLivingBase.renderYawOffset) / (180F / (float) Math.PI);
+            this.field_82904_b[var6].rotateAngleX = var5.func_82210_r(var6 - 1) / (180F / (float) Math.PI);
         }
     }
 }

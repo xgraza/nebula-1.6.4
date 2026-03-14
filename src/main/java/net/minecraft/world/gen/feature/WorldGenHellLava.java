@@ -1,15 +1,16 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenHellLava extends WorldGenerator
 {
-    private Block field_150553_a;
-    private boolean field_94524_b;
+    private final Block field_150553_a;
+    private final boolean field_94524_b;
     private static final String __OBFID = "CL_00000414";
 
     public WorldGenHellLava(Block p_i45453_1_, boolean p_i45453_2_)
@@ -23,12 +24,10 @@ public class WorldGenHellLava extends WorldGenerator
         if (par1World.getBlock(par3, par4 + 1, par5) != Blocks.netherrack)
         {
             return false;
-        }
-        else if (par1World.getBlock(par3, par4, par5).getMaterial() != Material.air && par1World.getBlock(par3, par4, par5) != Blocks.netherrack)
+        } else if (par1World.getBlock(par3, par4, par5).getMaterial() != Material.air && par1World.getBlock(par3, par4, par5) != Blocks.netherrack)
         {
             return false;
-        }
-        else
+        } else
         {
             int var6 = 0;
 

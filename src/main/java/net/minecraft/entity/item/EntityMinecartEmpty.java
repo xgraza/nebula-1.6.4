@@ -25,12 +25,10 @@ public class EntityMinecartEmpty extends EntityMinecart
         if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != par1EntityPlayer)
         {
             return true;
-        }
-        else if (this.riddenByEntity != null && this.riddenByEntity != par1EntityPlayer)
+        } else if (this.riddenByEntity != null && this.riddenByEntity != par1EntityPlayer)
         {
             return false;
-        }
-        else
+        } else
         {
             if (!this.worldObj.isClient)
             {

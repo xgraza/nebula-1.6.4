@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import java.util.Arrays;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
@@ -8,6 +7,8 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumChatFormatting;
 import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
 
 public class GuiKeyBindingList extends GuiListExtended
 {
@@ -22,7 +23,7 @@ public class GuiKeyBindingList extends GuiListExtended
         super(p_i45031_2_, p_i45031_1_.width, p_i45031_1_.height, 63, p_i45031_1_.height - 32, 20);
         this.field_148191_k = p_i45031_1_;
         this.field_148189_l = p_i45031_2_;
-        KeyBinding[] var3 = (KeyBinding[])ArrayUtils.clone(p_i45031_2_.gameSettings.keyBindings);
+        KeyBinding[] var3 = ArrayUtils.clone(p_i45031_2_.gameSettings.keyBindings);
         this.field_148190_m = new GuiListExtended.IGuiListEntry[var3.length + KeyBinding.func_151467_c().size()];
         Arrays.sort(var3);
         int var4 = 0;
@@ -41,7 +42,7 @@ public class GuiKeyBindingList extends GuiListExtended
                 this.field_148190_m[var4++] = new GuiKeyBindingList.CategoryEntry(var10);
             }
 
-            int var11 = p_i45031_2_.fontRenderer.getStringWidth(I18n.format(var9.getKeyDescription(), new Object[0]));
+            int var11 = p_i45031_2_.fontRenderer.getStringWidth(I18n.format(var9.getKeyDescription()));
 
             if (var11 > this.field_148188_n)
             {
@@ -80,7 +81,7 @@ public class GuiKeyBindingList extends GuiListExtended
 
         public CategoryEntry(String p_i45028_2_)
         {
-            this.field_148285_b = I18n.format(p_i45028_2_, new Object[0]);
+            this.field_148285_b = I18n.format(p_i45028_2_);
             this.field_148286_c = GuiKeyBindingList.this.field_148189_l.fontRenderer.getStringWidth(this.field_148285_b);
         }
 
@@ -94,7 +95,9 @@ public class GuiKeyBindingList extends GuiListExtended
             return false;
         }
 
-        public void func_148277_b(int p_148277_1_, int p_148277_2_, int p_148277_3_, int p_148277_4_, int p_148277_5_, int p_148277_6_) {}
+        public void func_148277_b(int p_148277_1_, int p_148277_2_, int p_148277_3_, int p_148277_4_, int p_148277_5_, int p_148277_6_)
+        {
+        }
     }
 
     public class KeyEntry implements GuiListExtended.IGuiListEntry
@@ -108,9 +111,9 @@ public class GuiKeyBindingList extends GuiListExtended
         private KeyEntry(KeyBinding p_i45029_2_)
         {
             this.field_148282_b = p_i45029_2_;
-            this.field_148283_c = I18n.format(p_i45029_2_.getKeyDescription(), new Object[0]);
-            this.field_148280_d = new GuiButton(0, 0, 0, 75, 18, I18n.format(p_i45029_2_.getKeyDescription(), new Object[0]));
-            this.field_148281_e = new GuiButton(0, 0, 0, 50, 18, I18n.format("controls.reset", new Object[0]));
+            this.field_148283_c = I18n.format(p_i45029_2_.getKeyDescription());
+            this.field_148280_d = new GuiButton(0, 0, 0, 75, 18, I18n.format(p_i45029_2_.getKeyDescription()));
+            this.field_148281_e = new GuiButton(0, 0, 0, 50, 18, I18n.format("controls.reset"));
         }
 
         public void func_148279_a(int p_148279_1_, int p_148279_2_, int p_148279_3_, int p_148279_4_, int p_148279_5_, Tessellator p_148279_6_, int p_148279_7_, int p_148279_8_, boolean p_148279_9_)
@@ -146,8 +149,7 @@ public class GuiKeyBindingList extends GuiListExtended
             if (var10)
             {
                 this.field_148280_d.displayString = EnumChatFormatting.WHITE + "> " + EnumChatFormatting.YELLOW + this.field_148280_d.displayString + EnumChatFormatting.WHITE + " <";
-            }
-            else if (var11)
+            } else if (var11)
             {
                 this.field_148280_d.displayString = EnumChatFormatting.RED + this.field_148280_d.displayString;
             }
@@ -161,14 +163,12 @@ public class GuiKeyBindingList extends GuiListExtended
             {
                 GuiKeyBindingList.this.field_148191_k.field_146491_f = this.field_148282_b;
                 return true;
-            }
-            else if (this.field_148281_e.mousePressed(GuiKeyBindingList.this.field_148189_l, p_148278_2_, p_148278_3_))
+            } else if (this.field_148281_e.mousePressed(GuiKeyBindingList.this.field_148189_l, p_148278_2_, p_148278_3_))
             {
                 GuiKeyBindingList.this.field_148189_l.gameSettings.setKeyCodeSave(this.field_148282_b, this.field_148282_b.getKeyCodeDefault());
                 KeyBinding.resetKeyBindingArrayAndHash();
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }

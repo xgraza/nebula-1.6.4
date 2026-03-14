@@ -1,16 +1,12 @@
 package shadersmod.client;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ShaderProfile
 {
     private String name = null;
-    private Map<String, String> mapOptionValues = new LinkedHashMap();
-    private Set<String> disabledPrograms = new LinkedHashSet();
+    private final Map<String, String> mapOptionValues = new LinkedHashMap();
+    private final Set<String> disabledPrograms = new LinkedHashSet();
 
     public ShaderProfile(String name)
     {
@@ -41,7 +37,7 @@ public class ShaderProfile
         {
             ShaderOption so = options[i];
             String key = so.getName();
-            String val = (String)this.mapOptionValues.get(key);
+            String val = this.mapOptionValues.get(key);
 
             if (val != null)
             {
@@ -53,13 +49,13 @@ public class ShaderProfile
     public String[] getOptions()
     {
         Set keys = this.mapOptionValues.keySet();
-        String[] opts = (String[])((String[])keys.toArray(new String[keys.size()]));
+        String[] opts = (String[]) keys.toArray(new String[keys.size()]);
         return opts;
     }
 
     public String getValue(String key)
     {
-        return (String)this.mapOptionValues.get(key);
+        return this.mapOptionValues.get(key);
     }
 
     public void addDisabledProgram(String program)

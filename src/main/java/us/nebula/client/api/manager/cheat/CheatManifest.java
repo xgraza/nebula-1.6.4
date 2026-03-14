@@ -11,6 +11,8 @@ import java.lang.annotation.RetentionPolicy;
 public @interface CheatManifest
 {
     String name();
+
     String description() default Cheat.DEFAULT_DESCRIPTION;
+
     CheatCategory category();
 }

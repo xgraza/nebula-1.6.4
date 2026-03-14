@@ -1,8 +1,5 @@
 package net.minecraft.src;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -10,6 +7,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class DynamicLight
 {
@@ -26,7 +27,7 @@ public class DynamicLight
     public DynamicLight(Entity entity)
     {
         this.entity = entity;
-        this.offsetY = (double)entity.getEyeHeight();
+        this.offsetY = entity.getEyeHeight();
     }
 
     public void update(RenderGlobal renderGlobal)
@@ -155,8 +156,8 @@ public class DynamicLight
 
         while (it.hasNext())
         {
-            BlockPos posOld = (BlockPos)it.next();
-            this.updateChunkLight(renderGlobal, posOld, (Set)null, (Set)null);
+            BlockPos posOld = (BlockPos) it.next();
+            this.updateChunkLight(renderGlobal, posOld, null, null);
         }
     }
 
@@ -209,55 +210,43 @@ public class DynamicLight
             try
             {
                 $SwitchMap$net$minecraft$util$EnumFacing[EnumFacing.DOWN.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var6)
+            } catch (NoSuchFieldError var6)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$net$minecraft$util$EnumFacing[EnumFacing.UP.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var5)
+            } catch (NoSuchFieldError var5)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$net$minecraft$util$EnumFacing[EnumFacing.NORTH.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var4)
+            } catch (NoSuchFieldError var4)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$net$minecraft$util$EnumFacing[EnumFacing.SOUTH.ordinal()] = 4;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$net$minecraft$util$EnumFacing[EnumFacing.EAST.ordinal()] = 5;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$net$minecraft$util$EnumFacing[EnumFacing.WEST.ordinal()] = 6;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

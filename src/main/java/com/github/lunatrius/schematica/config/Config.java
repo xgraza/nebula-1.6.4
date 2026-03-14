@@ -15,22 +15,23 @@ import java.util.List;
 
 public class Config implements IJSONSerializable, IConfiguration
 {
-	public final Setting<Boolean> propEnableAlpha;
-	public final Setting<Float> propAlpha;
-	public final Setting<Boolean> propHighlight;
-	public final Setting<Boolean> propHighlightAir;
-	public final Setting<Float> propBlockDelta;
-	public final Setting<Integer> propPlaceDelay;
-	public final Setting<Integer> propTimeout;
-	public final Setting<Boolean> propPlaceInstantly;
-	public final Setting<Boolean> propPlaceAdjacent;
-	public final Setting<Boolean> propDrawQuads;
-	public final Setting<Boolean> propDrawLines;
+    public final Setting<Boolean> propEnableAlpha;
+    public final Setting<Float> propAlpha;
+    public final Setting<Boolean> propHighlight;
+    public final Setting<Boolean> propHighlightAir;
+    public final Setting<Float> propBlockDelta;
+    public final Setting<Integer> propPlaceDelay;
+    public final Setting<Integer> propTimeout;
+    public final Setting<Boolean> propPlaceInstantly;
+    public final Setting<Boolean> propPlaceAdjacent;
+    public final Setting<Boolean> propDrawQuads;
+    public final Setting<Boolean> propDrawLines;
 
     private final List<Setting<?>> settings = new LinkedList<>();
     private final File file;
 
-	public Config(File file) {
+    public Config(File file)
+    {
         this.file = file;
 
         this.propEnableAlpha = new Setting<>("alphaEnabled", false);
@@ -38,9 +39,9 @@ public class Config implements IJSONSerializable, IConfiguration
         this.propHighlight = new Setting<>("highlight", true);
         this.propHighlightAir = new Setting<>("highlightAir", true);
         this.propBlockDelta = new Setting<>("blockDelta", 0.005f, 0.0f, 0.5f, 0.001f);
-		this.propPlaceDelay = new Setting<>("placeDelay", 1, 0, 20, 1);
+        this.propPlaceDelay = new Setting<>("placeDelay", 1, 0, 20, 1);
         this.propTimeout = new Setting<>("timeout", 10, 0, 100, 1);
-		this.propPlaceInstantly = new Setting<>("placeInstantly", false);
+        this.propPlaceInstantly = new Setting<>("placeInstantly", false);
         this.propPlaceAdjacent = new Setting<>("placeAdjacent", true);
         this.propDrawQuads = new Setting<>("drawQuads", true);
         this.propDrawLines = new Setting<>("drawLines", true);
@@ -59,7 +60,7 @@ public class Config implements IJSONSerializable, IConfiguration
                 propDrawLines);
 
         Nebula.INSTANCE.getConfigurationManager().addConfiguration(this);
-	}
+    }
 
     @Override
     public void load(final String data)

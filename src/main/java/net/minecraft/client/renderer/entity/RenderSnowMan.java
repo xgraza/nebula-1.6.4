@@ -16,14 +16,16 @@ public class RenderSnowMan extends RenderLiving
 {
     private static final ResourceLocation snowManTextures = new ResourceLocation("textures/entity/snowman.png");
 
-    /** A reference to the Snowman model in RenderSnowMan. */
-    private ModelSnowMan snowmanModel;
+    /**
+     * A reference to the Snowman model in RenderSnowMan.
+     */
+    private final ModelSnowMan snowmanModel;
     private static final String __OBFID = "CL_00001025";
 
     public RenderSnowMan()
     {
         super(new ModelSnowMan(), 0.5F);
-        this.snowmanModel = (ModelSnowMan)super.mainModel;
+        this.snowmanModel = (ModelSnowMan) super.mainModel;
         this.setRenderPassModel(this.snowmanModel);
     }
 
@@ -60,7 +62,7 @@ public class RenderSnowMan extends RenderLiving
 
     protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.renderEquippedItems((EntitySnowman)par1EntityLivingBase, par2);
+        this.renderEquippedItems((EntitySnowman) par1EntityLivingBase, par2);
     }
 
     /**
@@ -68,6 +70,6 @@ public class RenderSnowMan extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntitySnowman)par1Entity);
+        return this.getEntityTexture((EntitySnowman) par1Entity);
     }
 }

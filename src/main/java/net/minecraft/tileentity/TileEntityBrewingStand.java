@@ -1,6 +1,5 @@
 package net.minecraft.tileentity;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -11,10 +10,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionHelper;
 
+import java.util.List;
+
 public class TileEntityBrewingStand extends TileEntity implements ISidedInventory
 {
-    private static final int[] field_145941_a = new int[] {3};
-    private static final int[] field_145947_i = new int[] {0, 1, 2};
+    private static final int[] field_145941_a = new int[]{ 3 };
+    private static final int[] field_145947_i = new int[]{ 0, 1, 2 };
     private ItemStack[] field_145945_j = new ItemStack[4];
     private int field_145946_k;
     private int field_145943_l;
@@ -61,19 +62,16 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
             {
                 this.func_145940_l();
                 this.onInventoryChanged();
-            }
-            else if (!this.func_145934_k())
+            } else if (!this.func_145934_k())
+            {
+                this.field_145946_k = 0;
+                this.onInventoryChanged();
+            } else if (this.field_145944_m != this.field_145945_j[3].getItem())
             {
                 this.field_145946_k = 0;
                 this.onInventoryChanged();
             }
-            else if (this.field_145944_m != this.field_145945_j[3].getItem())
-            {
-                this.field_145946_k = 0;
-                this.onInventoryChanged();
-            }
-        }
-        else if (this.func_145934_k())
+        } else if (this.func_145934_k())
         {
             this.field_145946_k = 400;
             this.field_145944_m = this.field_145945_j[3].getItem();
@@ -104,8 +102,7 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
             if (!var1.getItem().isPotionIngredient(var1))
             {
                 return false;
-            }
-            else
+            } else
             {
                 boolean var2 = false;
 
@@ -135,8 +132,7 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
 
                 return var2;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -163,8 +159,7 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
                         {
                             this.field_145945_j[var2].setItemDamage(var4);
                         }
-                    }
-                    else if (!ItemPotion.isSplash(var3) && ItemPotion.isSplash(var4))
+                    } else if (!ItemPotion.isSplash(var3) && ItemPotion.isSplash(var4))
                     {
                         this.field_145945_j[var2].setItemDamage(var4);
                     }
@@ -174,8 +169,7 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
             if (var1.getItem().hasContainerItem())
             {
                 this.field_145945_j[3] = new ItemStack(var1.getItem().getContainerItem());
-            }
-            else
+            } else
             {
                 --this.field_145945_j[3].stackSize;
 
@@ -220,7 +214,7 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
     public void writeToNBT(NBTTagCompound p_145841_1_)
     {
         super.writeToNBT(p_145841_1_);
-        p_145841_1_.setShort("BrewTime", (short)this.field_145946_k);
+        p_145841_1_.setShort("BrewTime", (short) this.field_145946_k);
         NBTTagList var2 = new NBTTagList();
 
         for (int var3 = 0; var3 < this.field_145945_j.length; ++var3)
@@ -228,7 +222,7 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
             if (this.field_145945_j[var3] != null)
             {
                 NBTTagCompound var4 = new NBTTagCompound();
-                var4.setByte("Slot", (byte)var3);
+                var4.setByte("Slot", (byte) var3);
                 this.field_145945_j[var3].writeToNBT(var4);
                 var2.appendTag(var4);
             }
@@ -261,8 +255,7 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
             ItemStack var3 = this.field_145945_j[par1];
             this.field_145945_j[par1] = null;
             return var3;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -279,8 +272,7 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
             ItemStack var2 = this.field_145945_j[par1];
             this.field_145945_j[par1] = null;
             return var2;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -310,12 +302,16 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
      */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && par1EntityPlayer.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
     }
 
-    public void openInventory() {}
+    public void openInventory()
+    {
+    }
 
-    public void closeInventory() {}
+    public void closeInventory()
+    {
+    }
 
     /**
      * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.

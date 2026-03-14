@@ -23,8 +23,7 @@ public class ItemShears extends Item
         if (p_150894_3_.getMaterial() != Material.leaves && p_150894_3_ != Blocks.web && p_150894_3_ != Blocks.tallgrass && p_150894_3_ != Blocks.vine && p_150894_3_ != Blocks.tripwire)
         {
             return super.onBlockDestroyed(p_150894_1_, p_150894_2_, p_150894_3_, p_150894_4_, p_150894_5_, p_150894_6_, p_150894_7_);
-        }
-        else
+        } else
         {
             p_150894_1_.damageItem(1, p_150894_7_);
             return true;

@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -16,9 +14,12 @@ import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 public class BlockTallGrass extends BlockBush implements IGrowable
 {
-    private static final String[] field_149871_a = new String[] {"deadbush", "tallgrass", "fern"};
+    private static final String[] field_149871_a = new String[]{ "deadbush", "tallgrass", "fern" };
     private IIcon[] field_149870_b;
     private static final String __OBFID = "CL_00000321";
 
@@ -94,8 +95,7 @@ public class BlockTallGrass extends BlockBush implements IGrowable
         {
             p_149636_2_.addStat(StatList.mineBlockStatArray[Block.getIdFromBlock(this)], 1);
             this.dropBlockAsItem_do(p_149636_1_, p_149636_3_, p_149636_4_, p_149636_5_, new ItemStack(Blocks.tallgrass, 1, p_149636_6_));
-        }
-        else
+        } else
         {
             super.harvestBlock(p_149636_1_, p_149636_2_, p_149636_3_, p_149636_4_, p_149636_5_, p_149636_6_);
         }

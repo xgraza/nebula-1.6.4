@@ -6,62 +6,74 @@ import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 
-public class GuiSchematicLoadSlot extends GuiSlot {
-	private final Settings settings = Settings.instance;
-	private final FontRenderer fontRenderer = this.settings.minecraft.fontRenderer;
-	private final TextureManager renderEngine = this.settings.minecraft.getTextureManager();
+public class GuiSchematicLoadSlot extends GuiSlot
+{
+    private final Settings settings = Settings.instance;
+    private final FontRenderer fontRenderer = this.settings.minecraft.fontRenderer;
+    private final TextureManager renderEngine = this.settings.minecraft.getTextureManager();
 
-	private final GuiSchematicLoad guiSchematicLoad;
+    private final GuiSchematicLoad guiSchematicLoad;
 
-	protected int selectedIndex = -1;
+    protected int selectedIndex = -1;
 
-	public GuiSchematicLoadSlot(GuiSchematicLoad guiSchematicLoad) {
-		super(Settings.instance.minecraft, guiSchematicLoad.width, guiSchematicLoad.height, 16, guiSchematicLoad.height - 40, 24);
-		this.guiSchematicLoad = guiSchematicLoad;
-	}
+    public GuiSchematicLoadSlot(GuiSchematicLoad guiSchematicLoad)
+    {
+        super(Settings.instance.minecraft, guiSchematicLoad.width, guiSchematicLoad.height, 16, guiSchematicLoad.height - 40, 24);
+        this.guiSchematicLoad = guiSchematicLoad;
+    }
 
-	@Override
-	protected int getSize() {
-		return this.guiSchematicLoad.schematicFiles.size();
-	}
+    @Override
+    protected int getSize()
+    {
+        return this.guiSchematicLoad.schematicFiles.size();
+    }
 
-	@Override
-	protected void elementClicked(int index, boolean par2, int par3, int par4) {
-		GuiSchematicEntry schematic = this.guiSchematicLoad.schematicFiles.get(index);
-		if (schematic.isDirectory()) {
-			this.guiSchematicLoad.changeDirectory(schematic.getName());
-			this.selectedIndex = -1;
-		} else {
-			this.selectedIndex = index;
-		}
-	}
+    @Override
+    protected void elementClicked(int index, boolean par2, int par3, int par4)
+    {
+        GuiSchematicEntry schematic = this.guiSchematicLoad.schematicFiles.get(index);
+        if (schematic.isDirectory())
+        {
+            this.guiSchematicLoad.changeDirectory(schematic.getName());
+            this.selectedIndex = -1;
+        } else
+        {
+            this.selectedIndex = index;
+        }
+    }
 
-	@Override
-	protected boolean isSelected(int index) {
-		return index == this.selectedIndex;
-	}
+    @Override
+    protected boolean isSelected(int index)
+    {
+        return index == this.selectedIndex;
+    }
 
-	@Override
-	protected void drawBackground() {
-	}
+    @Override
+    protected void drawBackground()
+    {
+    }
 
-	@Override
-	protected void drawSlot(int index, int x, int y, int par4, Tessellator tessellator, int par6, int par7) {
-		if (index < 0 || index >= this.guiSchematicLoad.schematicFiles.size()) {
-			return;
-		}
+    @Override
+    protected void drawSlot(int index, int x, int y, int par4, Tessellator tessellator, int par6, int par7)
+    {
+        if (index < 0 || index >= this.guiSchematicLoad.schematicFiles.size())
+        {
+            return;
+        }
 
-		GuiSchematicEntry schematic = this.guiSchematicLoad.schematicFiles.get(index);
-		String schematicName = schematic.getName();
+        GuiSchematicEntry schematic = this.guiSchematicLoad.schematicFiles.get(index);
+        String schematicName = schematic.getName();
 
-		if (schematic.isDirectory()) {
-			schematicName += "/";
-		} else {
-			schematicName = schematicName.replaceAll("(?i)\\.schematic$", "");
-		}
+        if (schematic.isDirectory())
+        {
+            schematicName += "/";
+        } else
+        {
+            schematicName = schematicName.replaceAll("(?i)\\.schematic$", "");
+        }
 
-		GuiHelper.drawItemStack(this.renderEngine, this.fontRenderer, x, y, schematic.getItemStack());
+        GuiHelper.drawItemStack(this.renderEngine, this.fontRenderer, x, y, schematic.getItemStack());
 
-		this.guiSchematicLoad.drawString(this.settings.minecraft.fontRenderer, schematicName, x + 24, y + 6, 0x00FFFFFF);
-	}
+        this.guiSchematicLoad.drawString(this.settings.minecraft.fontRenderer, schematicName, x + 24, y + 6, 0x00FFFFFF);
+    }
 }

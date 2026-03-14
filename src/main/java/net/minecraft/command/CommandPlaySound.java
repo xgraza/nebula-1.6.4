@@ -29,17 +29,16 @@ public class CommandPlaySound extends CommandBase
     {
         if (par2ArrayOfStr.length < 2)
         {
-            throw new WrongUsageException(this.getCommandUsage(par1ICommandSender), new Object[0]);
-        }
-        else
+            throw new WrongUsageException(this.getCommandUsage(par1ICommandSender));
+        } else
         {
             byte var3 = 0;
             int var36 = var3 + 1;
             String var4 = par2ArrayOfStr[var3];
             EntityPlayerMP var5 = getPlayer(par1ICommandSender, par2ArrayOfStr[var36++]);
-            double var6 = (double)var5.getPlayerCoordinates().posX;
-            double var8 = (double)var5.getPlayerCoordinates().posY;
-            double var10 = (double)var5.getPlayerCoordinates().posZ;
+            double var6 = var5.getPlayerCoordinates().posX;
+            double var8 = var5.getPlayerCoordinates().posY;
+            double var10 = var5.getPlayerCoordinates().posZ;
             double var12 = 1.0D;
             double var14 = 1.0D;
             double var16 = 0.0D;
@@ -81,7 +80,7 @@ public class CommandPlaySound extends CommandBase
             {
                 if (var16 <= 0.0D)
                 {
-                    throw new CommandException("commands.playsound.playerTooFar", new Object[] {var5.getCommandSenderName()});
+                    throw new CommandException("commands.playsound.playerTooFar", var5.getCommandSenderName());
                 }
 
                 double var22 = var6 - var5.posX;
@@ -99,14 +98,13 @@ public class CommandPlaySound extends CommandBase
                     var34 += var26 / var28 * 2.0D;
                 }
 
-                var5.playerNetServerHandler.sendPacketToPlayer(new S29PacketSoundEffect(var4, var30, var32, var34, (float)var16, (float)var14));
-            }
-            else
+                var5.playerNetServerHandler.sendPacketToPlayer(new S29PacketSoundEffect(var4, var30, var32, var34, (float) var16, (float) var14));
+            } else
             {
-                var5.playerNetServerHandler.sendPacketToPlayer(new S29PacketSoundEffect(var4, var6, var8, var10, (float)var12, (float)var14));
+                var5.playerNetServerHandler.sendPacketToPlayer(new S29PacketSoundEffect(var4, var6, var8, var10, (float) var12, (float) var14));
             }
 
-            notifyAdmins(par1ICommandSender, "commands.playsound.success", new Object[] {var4, var5.getCommandSenderName()});
+            notifyAdmins(par1ICommandSender, "commands.playsound.success", var4, var5.getCommandSenderName());
         }
     }
 

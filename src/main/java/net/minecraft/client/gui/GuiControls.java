@@ -6,10 +6,10 @@ import net.minecraft.client.settings.KeyBinding;
 
 public class GuiControls extends GuiScreen
 {
-    private static final GameSettings.Options[] field_146492_g = new GameSettings.Options[] {GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN};
-    private GuiScreen field_146496_h;
+    private static final GameSettings.Options[] field_146492_g = new GameSettings.Options[]{ GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN };
+    private final GuiScreen field_146496_h;
     protected String field_146495_a = "Controls";
-    private GameSettings field_146497_i;
+    private final GameSettings field_146497_i;
     public KeyBinding field_146491_f = null;
     private GuiKeyBindingList field_146494_r;
     private GuiButton field_146493_s;
@@ -27,9 +27,9 @@ public class GuiControls extends GuiScreen
     public void initGui()
     {
         this.field_146494_r = new GuiKeyBindingList(this, this.mc);
-        this.buttonList.add(new GuiButton(200, this.width / 2 - 155, this.height - 29, 150, 20, I18n.format("gui.done", new Object[0])));
-        this.buttonList.add(this.field_146493_s = new GuiButton(201, this.width / 2 - 155 + 160, this.height - 29, 150, 20, I18n.format("controls.resetAll", new Object[0])));
-        this.field_146495_a = I18n.format("controls.title", new Object[0]);
+        this.buttonList.add(new GuiButton(200, this.width / 2 - 155, this.height - 29, 150, 20, I18n.format("gui.done")));
+        this.buttonList.add(this.field_146493_s = new GuiButton(201, this.width / 2 - 155 + 160, this.height - 29, 150, 20, I18n.format("controls.resetAll")));
+        this.field_146495_a = I18n.format("controls.title");
         int var1 = 0;
         GameSettings.Options[] var2 = field_146492_g;
         int var3 = var2.length;
@@ -41,8 +41,7 @@ public class GuiControls extends GuiScreen
             if (var5.getEnumFloat())
             {
                 this.buttonList.add(new GuiOptionSlider(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, 18 + 24 * (var1 >> 1), var5));
-            }
-            else
+            } else
             {
                 this.buttonList.add(new GuiOptionButton(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, 18 + 24 * (var1 >> 1), var5, this.field_146497_i.getKeyBinding(var5)));
             }
@@ -56,8 +55,7 @@ public class GuiControls extends GuiScreen
         if (p_146284_1_.id == 200)
         {
             this.mc.displayGuiScreen(this.field_146496_h);
-        }
-        else if (p_146284_1_.id == 201)
+        } else if (p_146284_1_.id == 201)
         {
             KeyBinding[] var2 = this.mc.gameSettings.keyBindings;
             int var3 = var2.length;
@@ -69,10 +67,9 @@ public class GuiControls extends GuiScreen
             }
 
             KeyBinding.resetKeyBindingArrayAndHash();
-        }
-        else if (p_146284_1_.id < 100 && p_146284_1_ instanceof GuiOptionButton)
+        } else if (p_146284_1_.id < 100 && p_146284_1_ instanceof GuiOptionButton)
         {
-            this.field_146497_i.setOptionValue(((GuiOptionButton)p_146284_1_).returnEnumOptions(), 1);
+            this.field_146497_i.setOptionValue(((GuiOptionButton) p_146284_1_).returnEnumOptions(), 1);
             p_146284_1_.displayString = this.field_146497_i.getKeyBinding(GameSettings.Options.getEnumOptions(p_146284_1_.id));
         }
     }
@@ -87,8 +84,7 @@ public class GuiControls extends GuiScreen
             this.field_146497_i.setKeyCodeSave(this.field_146491_f, -100 + mouseButton);
             this.field_146491_f = null;
             KeyBinding.resetKeyBindingArrayAndHash();
-        }
-        else if (mouseButton != 0 || !this.field_146494_r.func_148179_a(mouseX, mouseY, mouseButton))
+        } else if (mouseButton != 0 || !this.field_146494_r.func_148179_a(mouseX, mouseY, mouseButton))
         {
             super.mouseClicked(mouseX, mouseY, mouseButton);
         }
@@ -112,16 +108,14 @@ public class GuiControls extends GuiScreen
             if (keyCode == 1)
             {
                 this.field_146497_i.setKeyCodeSave(this.field_146491_f, 0);
-            }
-            else
+            } else
             {
                 this.field_146497_i.setKeyCodeSave(this.field_146491_f, keyCode);
             }
 
             this.field_146491_f = null;
             KeyBinding.resetKeyBindingArrayAndHash();
-        }
-        else
+        } else
         {
             super.keyTyped(typedChar, keyCode);
         }

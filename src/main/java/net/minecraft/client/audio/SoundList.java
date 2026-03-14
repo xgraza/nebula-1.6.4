@@ -1,6 +1,7 @@
 package net.minecraft.client.audio;
 
 import com.google.common.collect.Lists;
+
 import java.util.List;
 
 public class SoundList
@@ -111,16 +112,16 @@ public class SoundList
             this.field_148564_f = p_148557_1_;
         }
 
-        public static enum Type
+        public enum Type
         {
             FILE("FILE", 0, "file"),
             SOUND_EVENT("SOUND_EVENT", 1, "event");
             private final String field_148583_c;
 
-            private static final SoundList.SoundEntry.Type[] $VALUES = new SoundList.SoundEntry.Type[]{FILE, SOUND_EVENT};
+            private static final SoundList.SoundEntry.Type[] $VALUES = new SoundList.SoundEntry.Type[]{ FILE, SOUND_EVENT };
             private static final String __OBFID = "CL_00001123";
 
-            private Type(String p_i45109_1_, int p_i45109_2_, String p_i45109_3_)
+            Type(String p_i45109_1_, int p_i45109_2_, String p_i45109_3_)
             {
                 this.field_148583_c = p_i45109_3_;
             }

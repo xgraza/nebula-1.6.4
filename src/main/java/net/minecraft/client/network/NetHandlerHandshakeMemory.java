@@ -34,7 +34,9 @@ public class NetHandlerHandshakeMemory implements INetHandlerHandshakeServer
     /**
      * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
      */
-    public void onDisconnect(IChatComponent p_147231_1_) {}
+    public void onDisconnect(IChatComponent p_147231_1_)
+    {
+    }
 
     /**
      * Allows validation of the connection state transition. Parameters: from, to (connection state). Typically throws
@@ -42,7 +44,7 @@ public class NetHandlerHandshakeMemory implements INetHandlerHandshakeServer
      */
     public void onConnectionStateTransition(EnumConnectionState p_147232_1_, EnumConnectionState p_147232_2_)
     {
-        Validate.validState(p_147232_2_ == EnumConnectionState.LOGIN || p_147232_2_ == EnumConnectionState.STATUS, "Unexpected protocol " + p_147232_2_, new Object[0]);
+        Validate.validState(p_147232_2_ == EnumConnectionState.LOGIN || p_147232_2_ == EnumConnectionState.STATUS, "Unexpected protocol " + p_147232_2_);
 
         switch (NetHandlerHandshakeMemory.SwitchEnumConnectionState.field_151263_a[p_147232_2_.ordinal()])
         {
@@ -61,7 +63,9 @@ public class NetHandlerHandshakeMemory implements INetHandlerHandshakeServer
      * For scheduled network tasks. Used in NetHandlerPlayServer to send keep-alive packets and in NetHandlerLoginServer
      * for a login-timeout
      */
-    public void onNetworkTick() {}
+    public void onNetworkTick()
+    {
+    }
 
     static final class SwitchEnumConnectionState
     {
@@ -73,19 +77,15 @@ public class NetHandlerHandshakeMemory implements INetHandlerHandshakeServer
             try
             {
                 field_151263_a[EnumConnectionState.LOGIN.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
                 field_151263_a[EnumConnectionState.STATUS.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

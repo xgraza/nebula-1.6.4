@@ -7,14 +7,20 @@ import net.minecraft.village.MerchantRecipe;
 
 public class SlotMerchantResult extends Slot
 {
-    /** Merchant's inventory. */
+    /**
+     * Merchant's inventory.
+     */
     private final InventoryMerchant theMerchantInventory;
 
-    /** The Player whos trying to buy/sell stuff. */
-    private EntityPlayer thePlayer;
+    /**
+     * The Player whos trying to buy/sell stuff.
+     */
+    private final EntityPlayer thePlayer;
     private int field_75231_g;
 
-    /** "Instance" of the Merchant. */
+    /**
+     * "Instance" of the Merchant.
+     */
     private final IMerchant theMerchant;
     private static final String __OBFID = "CL_00001758";
 

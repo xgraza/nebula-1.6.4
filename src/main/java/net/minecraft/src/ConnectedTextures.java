@@ -24,8 +24,8 @@ import java.util.zip.ZipFile;
 
 public class ConnectedTextures
 {
-    private static ConnectedProperties[][] blockProperties = (ConnectedProperties[][]) null;
-    private static ConnectedProperties[][] tileProperties = (ConnectedProperties[][]) null;
+    private static ConnectedProperties[][] blockProperties = null;
+    private static ConnectedProperties[][] tileProperties = null;
     private static boolean multipass = false;
     private static final int BOTTOM = 0;
     private static final int TOP = 1;
@@ -192,10 +192,7 @@ public class ConnectedTextures
 
                         ConnectedProperties cp = getConnectedProperties(cps1, blockAccess, block, x, y, z, side, ts, metadata);
 
-                        if (cp != null)
-                        {
-                            return cp;
-                        }
+                        return cp;
                     }
                 }
             }
@@ -827,7 +824,7 @@ public class ConnectedTextures
             }
         } else
         {
-            return cp.connect == 3 ? (neighbourBlock == null ? false : neighbourBlock.getMaterial() == block.getMaterial()) : neighbourBlock == block && iblockaccess.getBlockMetadata(x, y, z) == metadata;
+            return cp.connect == 3 ? (neighbourBlock != null && neighbourBlock.getMaterial() == block.getMaterial()) : neighbourBlock == block && iblockaccess.getBlockMetadata(x, y, z) == metadata;
         }
     }
 
@@ -1081,8 +1078,8 @@ public class ConnectedTextures
 
     public static void updateIcons(TextureMap textureMap)
     {
-        blockProperties = (ConnectedProperties[][]) null;
-        tileProperties = (ConnectedProperties[][]) null;
+        blockProperties = null;
+        tileProperties = null;
         IResourcePack[] rps = Config.getResourcePacks();
 
         for (int i = rps.length - 1; i >= 0; --i)
@@ -1191,7 +1188,7 @@ public class ConnectedTextures
             }
         }
 
-        ConnectedProperties[] var6 = (ConnectedProperties[]) ((ConnectedProperties[]) propList.toArray(new ConnectedProperties[propList.size()]));
+        ConnectedProperties[] var6 = (ConnectedProperties[]) propList.toArray(new ConnectedProperties[propList.size()]);
         HashSet var7 = new HashSet();
         HashSet tileIconSet = new HashSet();
 
@@ -1224,7 +1221,7 @@ public class ConnectedTextures
 
             if (subList != null)
             {
-                ConnectedProperties[] subArr = (ConnectedProperties[]) ((ConnectedProperties[]) subList.toArray(new ConnectedProperties[subList.size()]));
+                ConnectedProperties[] subArr = (ConnectedProperties[]) subList.toArray(new ConnectedProperties[subList.size()]);
                 propArr[i] = subArr;
             }
         }
@@ -1283,10 +1280,10 @@ public class ConnectedTextures
     {
         while (id >= list.size())
         {
-            list.add((Object) null);
+            list.add(null);
         }
 
-        Object subList = (List) list.get(id);
+        Object subList = list.get(id);
 
         if (subList == null)
         {
@@ -1329,7 +1326,7 @@ public class ConnectedTextures
             }
         }
 
-        String[] var6 = (String[]) ((String[]) list.toArray(new String[list.size()]));
+        String[] var6 = (String[]) list.toArray(new String[list.size()]);
         return var6;
     }
 
@@ -1367,7 +1364,7 @@ public class ConnectedTextures
             }
         }
 
-        String[] var5 = (String[]) ((String[]) list.toArray(new String[list.size()]));
+        String[] var5 = (String[]) list.toArray(new String[list.size()]);
         return var5;
     }
 
@@ -1405,15 +1402,11 @@ public class ConnectedTextures
                     dirPath = basePath + file.getName() + "/";
                     String[] names1 = collectFilesFolder(file, dirPath, prefix, suffix);
 
-                    for (int n = 0; n < names1.length; ++n)
-                    {
-                        String name = names1[n];
-                        list.add(name);
-                    }
+                    Collections.addAll(list, names1);
                 }
             }
 
-            String[] var13 = (String[]) ((String[]) list.toArray(new String[list.size()]));
+            String[] var13 = (String[]) list.toArray(new String[list.size()]);
             return var13;
         }
     }
@@ -1445,7 +1438,7 @@ public class ConnectedTextures
             }
 
             e.close();
-            String[] names1 = (String[]) ((String[]) list.toArray(new String[list.size()]));
+            String[] names1 = (String[]) list.toArray(new String[list.size()]);
             return names1;
         } catch (IOException var9)
         {

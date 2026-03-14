@@ -1,10 +1,11 @@
 package net.minecraft.client.audio;
 
-import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.Random;
 
 public class MusicTicker implements IUpdatePlayerListBox
 {
@@ -49,7 +50,7 @@ public class MusicTicker implements IUpdatePlayerListBox
         }
     }
 
-    public static enum MusicType
+    public enum MusicType
     {
         MENU("MENU", 0, new ResourceLocation("minecraft:music.menu"), 20, 600),
         GAME("GAME", 1, new ResourceLocation("minecraft:music.game"), 12000, 24000),
@@ -62,10 +63,10 @@ public class MusicTicker implements IUpdatePlayerListBox
         private final int field_148646_i;
         private final int field_148643_j;
 
-        private static final MusicTicker.MusicType[] $VALUES = new MusicTicker.MusicType[]{MENU, GAME, CREATIVE, CREDITS, NETHER, END_BOSS, END};
+        private static final MusicTicker.MusicType[] $VALUES = new MusicTicker.MusicType[]{ MENU, GAME, CREATIVE, CREDITS, NETHER, END_BOSS, END };
         private static final String __OBFID = "CL_00001139";
 
-        private MusicType(String p_i45111_1_, int p_i45111_2_, ResourceLocation p_i45111_3_, int p_i45111_4_, int p_i45111_5_)
+        MusicType(String p_i45111_1_, int p_i45111_2_, ResourceLocation p_i45111_3_, int p_i45111_4_, int p_i45111_5_)
         {
             this.field_148645_h = p_i45111_3_;
             this.field_148646_i = p_i45111_4_;

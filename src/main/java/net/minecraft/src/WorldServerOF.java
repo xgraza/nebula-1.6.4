@@ -1,12 +1,5 @@
 package net.minecraft.src;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,6 +18,9 @@ import net.minecraft.world.storage.ISaveHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.Field;
+import java.util.*;
+
 public class WorldServerOF extends WorldServer
 {
     private NextTickHashSet pendingTickListEntriesHashSet;
@@ -33,7 +29,7 @@ public class WorldServerOF extends WorldServer
     private int lastViewDistance = 0;
     private boolean allChunksTicked = false;
     public Set setChunkCoordsToTickOnce = new HashSet();
-    private Set limitedChunkSet = new HashSet();
+    private final Set limitedChunkSet = new HashSet();
     private static final Logger logger = LogManager.getLogger();
 
     public WorldServerOF(MinecraftServer par1MinecraftServer, ISaveHandler par2iSaveHandler, String par3Str, int par4, WorldSettings par5WorldSettings, Profiler par6Profiler)
@@ -65,9 +61,9 @@ public class WorldServerOF extends WorldServer
                 fieldSet.setAccessible(true);
                 fieldTreeSet.setAccessible(true);
                 fieldList.setAccessible(true);
-                this.pendingTickListEntriesTreeSet = (TreeSet)fieldTreeSet.get(this);
-                this.pendingTickListEntriesThisTick = (List)fieldList.get(this);
-                Set oldSet = (Set)fieldSet.get(this);
+                this.pendingTickListEntriesTreeSet = (TreeSet) fieldTreeSet.get(this);
+                this.pendingTickListEntriesThisTick = (List) fieldList.get(this);
+                Set oldSet = (Set) fieldSet.get(this);
 
                 if (oldSet instanceof NextTickHashSet)
                 {
@@ -81,8 +77,7 @@ public class WorldServerOF extends WorldServer
             }
 
             Config.warn("Error updating WorldServer.nextTickSet");
-        }
-        catch (Exception var9)
+        } catch (Exception var9)
         {
             Config.warn("Error setting WorldServer.nextTickSet: " + var9.getMessage());
         }
@@ -93,8 +88,7 @@ public class WorldServerOF extends WorldServer
         if (startPos < 0)
         {
             return -1;
-        }
-        else
+        } else
         {
             for (int i = startPos; i < fields.length; ++i)
             {
@@ -139,8 +133,7 @@ public class WorldServerOF extends WorldServer
                     }
 
                     var10 = var11.iterator();
-                }
-                else
+                } else
                 {
                     var10 = this.pendingTickListEntriesThisTick.iterator();
 
@@ -152,7 +145,7 @@ public class WorldServerOF extends WorldServer
 
                 while (var10.hasNext())
                 {
-                    NextTickListEntry var15 = (NextTickListEntry)var10.next();
+                    NextTickListEntry var15 = (NextTickListEntry) var10.next();
 
                     if (var15.xCoord >= var5 && var15.xCoord < var6 && var15.zCoord >= var7 && var15.zCoord < var8)
                     {
@@ -174,8 +167,7 @@ public class WorldServerOF extends WorldServer
             }
 
             return var3;
-        }
-        else
+        } else
         {
             return super.getPendingBlockUpdates(par1Chunk, par2);
         }
@@ -271,7 +263,7 @@ public class WorldServerOF extends WorldServer
     {
         if (this.canSkipEntityUpdate(par1Entity) && par1Entity instanceof EntityLivingBase)
         {
-            EntityLivingBase elb = (EntityLivingBase)par1Entity;
+            EntityLivingBase elb = (EntityLivingBase) par1Entity;
             int entityAge = elb.entityAge;
             ++entityAge;
 
@@ -289,10 +281,9 @@ public class WorldServerOF extends WorldServer
 
             if (elb instanceof EntityLiving)
             {
-                ((EntityLiving)elb).despawnEntity();
+                ((EntityLiving) elb).despawnEntity();
             }
-        }
-        else
+        } else
         {
             super.updateEntity(par1Entity);
 
@@ -309,30 +300,25 @@ public class WorldServerOF extends WorldServer
         if (!(entity instanceof EntityLivingBase))
         {
             return false;
-        }
-        else
+        } else
         {
-            EntityLivingBase entityLiving = (EntityLivingBase)entity;
+            EntityLivingBase entityLiving = (EntityLivingBase) entity;
 
             if (entityLiving.isChild())
             {
                 return false;
-            }
-            else if (entityLiving.hurtTime > 0)
+            } else if (entityLiving.hurtTime > 0)
             {
                 return false;
-            }
-            else if (entity.ticksExisted < 20)
+            } else if (entity.ticksExisted < 20)
             {
                 return false;
-            }
-            else if (this.playerEntities.size() != 1)
+            } else if (this.playerEntities.size() != 1)
             {
                 return false;
-            }
-            else
+            } else
             {
-                Entity player = (Entity)this.playerEntities.get(0);
+                Entity player = this.playerEntities.get(0);
                 double dx = Math.max(Math.abs(entity.posX - player.posX) - 16.0D, 0.0D);
                 double dz = Math.max(Math.abs(entity.posZ - player.posZ) - 16.0D, 0.0D);
                 double distSq = dx * dx + dz * dz;
@@ -353,16 +339,14 @@ public class WorldServerOF extends WorldServer
             {
                 this.lastViewDistance = viewDistance;
                 this.allChunksTicked = false;
-            }
-            else if (!this.allChunksTicked)
+            } else if (!this.allChunksTicked)
             {
                 this.allChunksTicked = true;
-            }
-            else
+            } else
             {
                 for (int i = 0; i < this.playerEntities.size(); ++i)
                 {
-                    EntityPlayer player = (EntityPlayer)this.playerEntities.get(i);
+                    EntityPlayer player = this.playerEntities.get(i);
                     int pcx = MathHelper.floor_double(player.posX / 16.0D);
                     int pcz = MathHelper.floor_double(player.posZ / 16.0D);
                     byte dist = 10;

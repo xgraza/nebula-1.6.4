@@ -1,6 +1,5 @@
 package net.minecraft.command.server;
 
-import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
@@ -14,6 +13,8 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class CommandSummon extends CommandBase
 {
@@ -42,9 +43,9 @@ public class CommandSummon extends CommandBase
         if (par2ArrayOfStr.length >= 1)
         {
             String var3 = par2ArrayOfStr[0];
-            double var4 = (double)par1ICommandSender.getPlayerCoordinates().posX + 0.5D;
-            double var6 = (double)par1ICommandSender.getPlayerCoordinates().posY;
-            double var8 = (double)par1ICommandSender.getPlayerCoordinates().posZ + 0.5D;
+            double var4 = (double) par1ICommandSender.getPlayerCoordinates().posX + 0.5D;
+            double var6 = par1ICommandSender.getPlayerCoordinates().posY;
+            double var8 = (double) par1ICommandSender.getPlayerCoordinates().posZ + 0.5D;
 
             if (par2ArrayOfStr.length >= 4)
             {
@@ -55,11 +56,10 @@ public class CommandSummon extends CommandBase
 
             World var10 = par1ICommandSender.getEntityWorld();
 
-            if (!var10.blockExists((int)var4, (int)var6, (int)var8))
+            if (!var10.blockExists((int) var4, (int) var6, (int) var8))
             {
-                notifyAdmins(par1ICommandSender, "commands.summon.outOfWorld", new Object[0]);
-            }
-            else
+                notifyAdmins(par1ICommandSender, "commands.summon.outOfWorld");
+            } else
             {
                 NBTTagCompound var11 = new NBTTagCompound();
                 boolean var12 = false;
@@ -74,16 +74,15 @@ public class CommandSummon extends CommandBase
 
                         if (!(var14 instanceof NBTTagCompound))
                         {
-                            notifyAdmins(par1ICommandSender, "commands.summon.tagError", new Object[] {"Not a valid tag"});
+                            notifyAdmins(par1ICommandSender, "commands.summon.tagError", "Not a valid tag");
                             return;
                         }
 
-                        var11 = (NBTTagCompound)var14;
+                        var11 = (NBTTagCompound) var14;
                         var12 = true;
-                    }
-                    catch (NBTException var17)
+                    } catch (NBTException var17)
                     {
-                        notifyAdmins(par1ICommandSender, "commands.summon.tagError", new Object[] {var17.getMessage()});
+                        notifyAdmins(par1ICommandSender, "commands.summon.tagError", var17.getMessage());
                         return;
                     }
                 }
@@ -97,7 +96,7 @@ public class CommandSummon extends CommandBase
 
                     if (!var12 && var18 instanceof EntityLiving)
                     {
-                        ((EntityLiving)var18).onSpawnWithEgg((IEntityLivingData)null);
+                        ((EntityLiving) var18).onSpawnWithEgg(null);
                     }
 
                     var10.spawnEntityInWorld(var18);
@@ -117,17 +116,15 @@ public class CommandSummon extends CommandBase
                         var19 = var16;
                     }
 
-                    notifyAdmins(par1ICommandSender, "commands.summon.success", new Object[0]);
-                }
-                else
+                    notifyAdmins(par1ICommandSender, "commands.summon.success");
+                } else
                 {
-                    notifyAdmins(par1ICommandSender, "commands.summon.failed", new Object[0]);
+                    notifyAdmins(par1ICommandSender, "commands.summon.failed");
                 }
             }
-        }
-        else
+        } else
         {
-            throw new WrongUsageException("commands.summon.usage", new Object[0]);
+            throw new WrongUsageException("commands.summon.usage");
         }
     }
 
@@ -141,6 +138,6 @@ public class CommandSummon extends CommandBase
 
     protected String[] func_147182_d()
     {
-        return (String[])EntityList.func_151515_b().toArray(new String[0]);
+        return (String[]) EntityList.func_151515_b().toArray(new String[0]);
     }
 }

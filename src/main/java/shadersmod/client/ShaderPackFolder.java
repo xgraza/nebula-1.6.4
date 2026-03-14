@@ -1,10 +1,11 @@
 package shadersmod.client;
 
+import net.minecraft.src.StrUtils;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import net.minecraft.src.StrUtils;
 
 public class ShaderPackFolder implements IShaderPack
 {
@@ -15,7 +16,9 @@ public class ShaderPackFolder implements IShaderPack
         this.packFile = file;
     }
 
-    public void close() {}
+    public void close()
+    {
+    }
 
     public InputStream getResourceAsStream(String resName)
     {
@@ -24,8 +27,7 @@ public class ShaderPackFolder implements IShaderPack
             String excp = StrUtils.removePrefixSuffix(resName, "/", "/");
             File resFile = new File(this.packFile, excp);
             return !resFile.exists() ? null : new BufferedInputStream(new FileInputStream(resFile));
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
             return null;
         }
@@ -34,7 +36,7 @@ public class ShaderPackFolder implements IShaderPack
     public boolean hasDirectory(String name)
     {
         File resFile = new File(this.packFile, name.substring(1));
-        return !resFile.exists() ? false : resFile.isDirectory();
+        return resFile.exists() && resFile.isDirectory();
     }
 
     public String getName()

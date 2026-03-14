@@ -1,14 +1,10 @@
 package net.minecraft.util;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import java.lang.reflect.Type;
+import com.google.gson.*;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
+
+import java.lang.reflect.Type;
 
 public class ChatStyle
 {
@@ -31,86 +27,107 @@ public class ChatStyle
     private static final ChatStyle rootStyle = new ChatStyle()
     {
         private static final String __OBFID = "CL_00001267";
+
         public EnumChatFormatting getColor()
         {
             return null;
         }
+
         public boolean getBold()
         {
             return false;
         }
+
         public boolean getItalic()
         {
             return false;
         }
+
         public boolean getStrikethrough()
         {
             return false;
         }
+
         public boolean getUnderlined()
         {
             return false;
         }
+
         public boolean getObfuscated()
         {
             return false;
         }
+
         public ClickEvent getChatClickEvent()
         {
             return null;
         }
+
         public HoverEvent getChatHoverEvent()
         {
             return null;
         }
+
         public ChatStyle setColor(EnumChatFormatting p_150238_1_)
         {
             throw new UnsupportedOperationException();
         }
+
         public ChatStyle setBold(Boolean p_150227_1_)
         {
             throw new UnsupportedOperationException();
         }
+
         public ChatStyle setItalic(Boolean p_150217_1_)
         {
             throw new UnsupportedOperationException();
         }
+
         public ChatStyle setStrikethrough(Boolean p_150225_1_)
         {
             throw new UnsupportedOperationException();
         }
+
         public ChatStyle setUnderlined(Boolean p_150228_1_)
         {
             throw new UnsupportedOperationException();
         }
+
         public ChatStyle setObfuscated(Boolean p_150237_1_)
         {
             throw new UnsupportedOperationException();
         }
+
         public ChatStyle setChatClickEvent(ClickEvent p_150241_1_)
         {
             throw new UnsupportedOperationException();
         }
+
         public ChatStyle setChatHoverEvent(HoverEvent p_150209_1_)
         {
             throw new UnsupportedOperationException();
         }
+
         public ChatStyle setParentStyle(ChatStyle p_150221_1_)
         {
             throw new UnsupportedOperationException();
         }
+
         public String toString()
         {
             return "Style.ROOT";
         }
+
         public ChatStyle createShallowCopy()
         {
             return this;
         }
+
         public ChatStyle createDeepCopy()
         {
             return this;
         }
+
         public String getFormattingCode()
         {
             return "";
@@ -286,8 +303,7 @@ public class ChatStyle
         if (this.isEmpty())
         {
             return this.parentStyle != null ? this.parentStyle.getFormattingCode() : "";
-        }
-        else
+        } else
         {
             StringBuilder var1 = new StringBuilder();
 
@@ -343,14 +359,12 @@ public class ChatStyle
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (!(par1Obj instanceof ChatStyle))
+        } else if (!(par1Obj instanceof ChatStyle))
         {
             return false;
-        }
-        else
+        } else
         {
-            ChatStyle var2 = (ChatStyle)par1Obj;
+            ChatStyle var2 = (ChatStyle) par1Obj;
             boolean var10000;
 
             if (this.getBold() == var2.getBold() && this.getColor() == var2.getColor() && this.getItalic() == var2.getItalic() && this.getObfuscated() == var2.getObfuscated() && this.getStrikethrough() == var2.getStrikethrough() && this.getUnderlined() == var2.getUnderlined())
@@ -363,8 +377,7 @@ public class ChatStyle
                         {
                             break label56;
                         }
-                    }
-                    else if (var2.getChatClickEvent() != null)
+                    } else if (var2.getChatClickEvent() != null)
                     {
                         break label56;
                     }
@@ -375,8 +388,7 @@ public class ChatStyle
                         {
                             break label56;
                         }
-                    }
-                    else if (var2.getChatHoverEvent() != null)
+                    } else if (var2.getChatHoverEvent() != null)
                     {
                         break label56;
                     }
@@ -480,7 +492,7 @@ public class ChatStyle
 
                 if (var5.has("color"))
                 {
-                    var4.color = (EnumChatFormatting)p_150204_3_.deserialize(var5.get("color"), EnumChatFormatting.class);
+                    var4.color = p_150204_3_.deserialize(var5.get("color"), EnumChatFormatting.class);
                 }
 
                 JsonObject var6;
@@ -501,7 +513,7 @@ public class ChatStyle
                 {
                     var6 = var5.getAsJsonObject("hoverEvent");
                     HoverEvent.Action var9 = HoverEvent.Action.getValueByCanonicalName(var6.getAsJsonPrimitive("action").getAsString());
-                    IChatComponent var10 = (IChatComponent)p_150204_3_.deserialize(var6.get("value"), IChatComponent.class);
+                    IChatComponent var10 = p_150204_3_.deserialize(var6.get("value"), IChatComponent.class);
 
                     if (var9 != null && var10 != null && var9.shouldAllowInChat())
                     {
@@ -510,8 +522,7 @@ public class ChatStyle
                 }
 
                 return var4;
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -522,8 +533,7 @@ public class ChatStyle
             if (p_150203_1_.isEmpty())
             {
                 return null;
-            }
-            else
+            } else
             {
                 JsonObject var4 = new JsonObject();
 
@@ -581,7 +591,7 @@ public class ChatStyle
 
         public JsonElement serialize(Object par1Obj, Type par2Type, JsonSerializationContext par3JsonSerializationContext)
         {
-            return this.serialize((ChatStyle)par1Obj, par2Type, par3JsonSerializationContext);
+            return this.serialize((ChatStyle) par1Obj, par2Type, par3JsonSerializationContext);
         }
     }
 }

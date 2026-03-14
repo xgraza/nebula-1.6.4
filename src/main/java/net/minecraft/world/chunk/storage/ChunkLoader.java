@@ -27,10 +27,9 @@ public class ChunkLoader
         try
         {
             var3.lastUpdated = par0NBTTagCompound.getLong("LastUpdate");
-        }
-        catch (ClassCastException var5)
+        } catch (ClassCastException var5)
         {
-            var3.lastUpdated = (long)par0NBTTagCompound.getInteger("LastUpdate");
+            var3.lastUpdated = par0NBTTagCompound.getInteger("LastUpdate");
         }
 
         return var3;
@@ -102,7 +101,7 @@ public class ChunkLoader
                         {
                             int var14 = var23 << 11 | var13 << 7 | var12 + (var5 << 4);
                             byte var15 = par0AnvilConverterData.blocks[var14];
-                            var19[var12 << 8 | var13 << 4 | var23] = (byte)(var15 & 255);
+                            var19[var12 << 8 | var13 << 4 | var23] = (byte) (var15 & 255);
                             var20.set(var23, var12, var13, par0AnvilConverterData.data.get(var23, var12 + (var5 << 4), var13));
                             var21.set(var23, var12, var13, par0AnvilConverterData.skyLight.get(var23, var12 + (var5 << 4), var13));
                             var22.set(var23, var12, var13, par0AnvilConverterData.blockLight.get(var23, var12 + (var5 << 4), var13));
@@ -111,7 +110,7 @@ public class ChunkLoader
                 }
 
                 NBTTagCompound var24 = new NBTTagCompound();
-                var24.setByte("Y", (byte)(var5 & 255));
+                var24.setByte("Y", (byte) (var5 & 255));
                 var24.setByteArray("Blocks", var19);
                 var24.setByteArray("Data", var20.data);
                 var24.setByteArray("SkyLight", var21.data);
@@ -127,7 +126,7 @@ public class ChunkLoader
         {
             for (var7 = 0; var7 < 16; ++var7)
             {
-                var17[var7 << 4 | var18] = (byte)(par2WorldChunkManager.getBiomeGenAt(par0AnvilConverterData.x << 4 | var18, par0AnvilConverterData.z << 4 | var7).biomeID & 255);
+                var17[var7 << 4 | var18] = (byte) (par2WorldChunkManager.getBiomeGenAt(par0AnvilConverterData.x << 4 | var18, par0AnvilConverterData.z << 4 | var7).biomeID & 255);
             }
         }
 

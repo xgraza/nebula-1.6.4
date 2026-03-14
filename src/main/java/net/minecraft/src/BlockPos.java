@@ -67,15 +67,13 @@ public class BlockPos
         if (this == obj)
         {
             return true;
-        }
-        else if (!(obj instanceof BlockPos))
+        } else if (!(obj instanceof BlockPos))
         {
             return false;
-        }
-        else
+        } else
         {
-            BlockPos blockPos = (BlockPos)obj;
-            return this.getX() != blockPos.getX() ? false : (this.getY() != blockPos.getY() ? false : this.getZ() == blockPos.getZ());
+            BlockPos blockPos = (BlockPos) obj;
+            return this.getX() == blockPos.getX() && (this.getY() == blockPos.getY() && this.getZ() == blockPos.getZ());
         }
     }
 
@@ -86,6 +84,6 @@ public class BlockPos
 
     public String toString()
     {
-        return "" + this.x + ", " + this.y + ", " + this.z;
+        return this.x + ", " + this.y + ", " + this.z;
     }
 }

@@ -4,12 +4,16 @@ import net.minecraft.block.Block;
 
 public class FlatLayerInfo
 {
-    private Block field_151537_a;
+    private final Block field_151537_a;
 
-    /** Amount of layers for this set of layers. */
+    /**
+     * Amount of layers for this set of layers.
+     */
     private int layerCount;
 
-    /** Block metadata used on this set of laeyrs. */
+    /**
+     * Block metadata used on this set of laeyrs.
+     */
     private int layerFillBlockMeta;
     private int layerMinimumY;
     private static final String __OBFID = "CL_00000441";

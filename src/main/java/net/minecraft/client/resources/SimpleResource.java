@@ -3,14 +3,16 @@ package net.minecraft.client.resources;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Map;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.Objects;
 
 public class SimpleResource implements IResource
 {
@@ -46,8 +48,7 @@ public class SimpleResource implements IResource
         if (!this.hasMetadata())
         {
             return null;
-        }
-        else
+        } else
         {
             if (this.mcmetaJson == null && !this.mcmetaJsonChecked)
             {
@@ -58,14 +59,13 @@ public class SimpleResource implements IResource
                 {
                     var2 = new BufferedReader(new InputStreamReader(this.mcmetaInputStream));
                     this.mcmetaJson = (new JsonParser()).parse(var2).getAsJsonObject();
-                }
-                finally
+                } finally
                 {
                     IOUtils.closeQuietly(var2);
                 }
             }
 
-            IMetadataSection var6 = (IMetadataSection)this.mapMetadataSections.get(par1Str);
+            IMetadataSection var6 = (IMetadataSection) this.mapMetadataSections.get(par1Str);
 
             if (var6 == null)
             {
@@ -81,13 +81,11 @@ public class SimpleResource implements IResource
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (par1Obj instanceof SimpleResource)
+        } else if (par1Obj instanceof SimpleResource)
         {
-            SimpleResource var2 = (SimpleResource)par1Obj;
-            return this.srResourceLocation != null ? this.srResourceLocation.equals(var2.srResourceLocation) : var2.srResourceLocation == null;
-        }
-        else
+            SimpleResource var2 = (SimpleResource) par1Obj;
+            return Objects.equals(this.srResourceLocation, var2.srResourceLocation);
+        } else
         {
             return false;
         }

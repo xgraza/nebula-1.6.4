@@ -1,7 +1,5 @@
 package net.minecraft.tileentity;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -16,9 +14,12 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.AxisAlignedBB;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class TileEntityBeacon extends TileEntity implements IInventory
 {
-    public static final Potion[][] POTION_LEVELS = new Potion[][] {{Potion.moveSpeed, Potion.digSpeed}, {Potion.resistance, Potion.jump}, {Potion.damageBoost}, {Potion.regeneration}};
+    public static final Potion[][] POTION_LEVELS = new Potion[][]{ { Potion.moveSpeed, Potion.digSpeed }, { Potion.resistance, Potion.jump }, { Potion.damageBoost }, { Potion.regeneration } };
     private long field_146016_i;
     private float field_146014_j;
     private boolean field_146015_k;
@@ -42,7 +43,7 @@ public class TileEntityBeacon extends TileEntity implements IInventory
     {
         if (this.field_146015_k && this.field_146012_l > 0 && !this.worldObj.isClient && this.field_146013_m > 0)
         {
-            double var1 = (double)(this.field_146012_l * 10 + 10);
+            double var1 = this.field_146012_l * 10 + 10;
             byte var3 = 0;
 
             if (this.field_146012_l >= 4 && this.field_146013_m == this.field_146010_n)
@@ -50,15 +51,15 @@ public class TileEntityBeacon extends TileEntity implements IInventory
                 var3 = 1;
             }
 
-            AxisAlignedBB var4 = AxisAlignedBB.getAABBPool().getAABB((double)this.xCoord, (double)this.yCoord, (double)this.zCoord, (double)(this.xCoord + 1), (double)(this.yCoord + 1), (double)(this.zCoord + 1)).expand(var1, var1, var1);
-            var4.maxY = (double)this.worldObj.getHeight();
+            AxisAlignedBB var4 = AxisAlignedBB.getAABBPool().getAABB(this.xCoord, this.yCoord, this.zCoord, this.xCoord + 1, this.yCoord + 1, this.zCoord + 1).expand(var1, var1, var1);
+            var4.maxY = this.worldObj.getHeight();
             List var5 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, var4);
             Iterator var6 = var5.iterator();
             EntityPlayer var7;
 
             while (var6.hasNext())
             {
-                var7 = (EntityPlayer)var6.next();
+                var7 = (EntityPlayer) var6.next();
                 var7.addPotionEffect(new PotionEffect(this.field_146013_m, 180, var3, true));
             }
 
@@ -68,7 +69,7 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 
                 while (var6.hasNext())
                 {
-                    var7 = (EntityPlayer)var6.next();
+                    var7 = (EntityPlayer) var6.next();
                     var7.addPotionEffect(new PotionEffect(this.field_146010_n, 180, 0, true));
                 }
             }
@@ -83,8 +84,7 @@ public class TileEntityBeacon extends TileEntity implements IInventory
         {
             this.field_146015_k = false;
             this.field_146012_l = 0;
-        }
-        else
+        } else
         {
             this.field_146015_k = true;
             this.field_146012_l = 0;
@@ -128,11 +128,11 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 
         if (!this.worldObj.isClient && this.field_146012_l == 4 && var1 < this.field_146012_l)
         {
-            Iterator var8 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB((double)this.xCoord, (double)this.yCoord, (double)this.zCoord, (double)this.xCoord, (double)(this.yCoord - 4), (double)this.zCoord).expand(10.0D, 5.0D, 10.0D)).iterator();
+            Iterator var8 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB(this.xCoord, this.yCoord, this.zCoord, this.xCoord, this.yCoord - 4, this.zCoord).expand(10.0D, 5.0D, 10.0D)).iterator();
 
             while (var8.hasNext())
             {
-                EntityPlayer var9 = (EntityPlayer)var8.next();
+                EntityPlayer var9 = (EntityPlayer) var8.next();
                 var9.triggerAchievement(AchievementList.field_150965_K);
             }
         }
@@ -143,15 +143,14 @@ public class TileEntityBeacon extends TileEntity implements IInventory
         if (!this.field_146015_k)
         {
             return 0.0F;
-        }
-        else
+        } else
         {
-            int var1 = (int)(this.worldObj.getTotalWorldTime() - this.field_146016_i);
+            int var1 = (int) (this.worldObj.getTotalWorldTime() - this.field_146016_i);
             this.field_146016_i = this.worldObj.getTotalWorldTime();
 
             if (var1 > 1)
             {
-                this.field_146014_j -= (float)var1 / 40.0F;
+                this.field_146014_j -= (float) var1 / 40.0F;
 
                 if (this.field_146014_j < 0.0F)
                 {
@@ -297,14 +296,12 @@ public class TileEntityBeacon extends TileEntity implements IInventory
                 ItemStack var3 = this.field_146011_o;
                 this.field_146011_o = null;
                 return var3;
-            }
-            else
+            } else
             {
                 this.field_146011_o.stackSize -= par2;
                 return new ItemStack(this.field_146011_o.getItem(), par2, this.field_146011_o.getItemDamage());
             }
-        }
-        else
+        } else
         {
             return null;
         }
@@ -321,8 +318,7 @@ public class TileEntityBeacon extends TileEntity implements IInventory
             ItemStack var2 = this.field_146011_o;
             this.field_146011_o = null;
             return var2;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -373,12 +369,16 @@ public class TileEntityBeacon extends TileEntity implements IInventory
      */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && par1EntityPlayer.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
     }
 
-    public void openInventory() {}
+    public void openInventory()
+    {
+    }
 
-    public void closeInventory() {}
+    public void closeInventory()
+    {
+    }
 
     /**
      * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.

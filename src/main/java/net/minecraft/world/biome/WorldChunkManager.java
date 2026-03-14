@@ -1,8 +1,5 @@
 package net.minecraft.world.biome;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
@@ -12,18 +9,28 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class WorldChunkManager
 {
     private GenLayer genBiomes;
 
-    /** A GenLayer containing the indices into BiomeGenBase.biomeList[] */
+    /**
+     * A GenLayer containing the indices into BiomeGenBase.biomeList[]
+     */
     private GenLayer biomeIndexLayer;
 
-    /** The BiomeCache object for this world. */
-    private BiomeCache biomeCache;
+    /**
+     * The BiomeCache object for this world.
+     */
+    private final BiomeCache biomeCache;
 
-    /** A list of biomes that the player can spawn in. */
-    private List biomesToSpawnIn;
+    /**
+     * A list of biomes that the player can spawn in.
+     */
+    private final List biomesToSpawnIn;
     private static final String __OBFID = "CL_00000166";
 
     protected WorldChunkManager()
@@ -86,7 +93,7 @@ public class WorldChunkManager
         {
             try
             {
-                float var8 = (float)BiomeGenBase.func_150568_d(var6[var7]).getIntRainfall() / 65536.0F;
+                float var8 = (float) BiomeGenBase.func_150568_d(var6[var7]).getIntRainfall() / 65536.0F;
 
                 if (var8 > 1.0F)
                 {
@@ -94,8 +101,7 @@ public class WorldChunkManager
                 }
 
                 par1ArrayOfFloat[var7] = var8;
-            }
-            catch (Throwable var11)
+            } catch (Throwable var11)
             {
                 CrashReport var9 = CrashReport.makeCrashReport(var11, "Invalid Biome id");
                 CrashReportCategory var10 = var9.makeCategory("DownfallBlock");
@@ -142,8 +148,7 @@ public class WorldChunkManager
             }
 
             return par1ArrayOfBiomeGenBase;
-        }
-        catch (Throwable var10)
+        } catch (Throwable var10)
         {
             CrashReport var8 = CrashReport.makeCrashReport(var10, "Invalid Biome id");
             CrashReportCategory var9 = var8.makeCategory("RawBiomeBlock");
@@ -183,8 +188,7 @@ public class WorldChunkManager
             BiomeGenBase[] var9 = this.biomeCache.getCachedBiomes(par2, par3);
             System.arraycopy(var9, 0, par1ArrayOfBiomeGenBase, 0, par4 * par5);
             return par1ArrayOfBiomeGenBase;
-        }
-        else
+        } else
         {
             int[] var7 = this.biomeIndexLayer.getInts(par2, par3, par4, par5);
 
@@ -224,8 +228,7 @@ public class WorldChunkManager
             }
 
             return true;
-        }
-        catch (Throwable var15)
+        } catch (Throwable var15)
         {
             CrashReport var13 = CrashReport.makeCrashReport(var15, "Invalid Biome id");
             CrashReportCategory var14 = var13.makeCategory("Layer");

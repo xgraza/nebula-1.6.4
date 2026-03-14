@@ -1,6 +1,5 @@
 package net.minecraft.world.biome;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
@@ -8,6 +7,8 @@ import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+
+import java.util.Random;
 
 public class BiomeGenSwamp extends BiomeGenBase
 {
@@ -40,7 +41,7 @@ public class BiomeGenSwamp extends BiomeGenBase
      */
     public int getBiomeGrassColor(int p_150558_1_, int p_150558_2_, int p_150558_3_)
     {
-        double var4 = field_150606_ad.func_151601_a((double)p_150558_1_ * 0.0225D, (double)p_150558_3_ * 0.0225D);
+        double var4 = field_150606_ad.func_151601_a((double) p_150558_1_ * 0.0225D, (double) p_150558_3_ * 0.0225D);
         return var4 < -0.1D ? 5011004 : 6975545;
     }
 
@@ -59,7 +60,7 @@ public class BiomeGenSwamp extends BiomeGenBase
 
     public void func_150573_a(World p_150573_1_, Random p_150573_2_, Block[] p_150573_3_, byte[] p_150573_4_, int p_150573_5_, int p_150573_6_, double p_150573_7_)
     {
-        double var9 = field_150606_ad.func_151601_a((double)p_150573_5_ * 0.25D, (double)p_150573_6_ * 0.25D);
+        double var9 = field_150606_ad.func_151601_a((double) p_150573_5_ * 0.25D, (double) p_150573_6_ * 0.25D);
 
         if (var9 > 0.0D)
         {

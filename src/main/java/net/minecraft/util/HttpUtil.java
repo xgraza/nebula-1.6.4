@@ -1,30 +1,21 @@
 package net.minecraft.util;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.ServerSocket;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.*;
+import java.net.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class HttpUtil
 {
-    /** The number of download threads that we have started so far. */
+    /**
+     * The number of download threads that we have started so far.
+     */
     private static final AtomicInteger downloadThreadsStarted = new AtomicInteger(0);
     private static final Logger logger = LogManager.getLogger();
     private static final String __OBFID = "CL_00001485";
@@ -39,7 +30,7 @@ public class HttpUtil
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
+            Entry var3 = (Entry) var2.next();
 
             if (var1.length() > 0)
             {
@@ -48,9 +39,8 @@ public class HttpUtil
 
             try
             {
-                var1.append(URLEncoder.encode((String)var3.getKey(), "UTF-8"));
-            }
-            catch (UnsupportedEncodingException var6)
+                var1.append(URLEncoder.encode((String) var3.getKey(), "UTF-8"));
+            } catch (UnsupportedEncodingException var6)
             {
                 var6.printStackTrace();
             }
@@ -62,8 +52,7 @@ public class HttpUtil
                 try
                 {
                     var1.append(URLEncoder.encode(var3.getValue().toString(), "UTF-8"));
-                }
-                catch (UnsupportedEncodingException var5)
+                } catch (UnsupportedEncodingException var5)
                 {
                     var5.printStackTrace();
                 }
@@ -89,7 +78,7 @@ public class HttpUtil
                 var3 = Proxy.NO_PROXY;
             }
 
-            HttpURLConnection var4 = (HttpURLConnection)p_151225_0_.openConnection(var3);
+            HttpURLConnection var4 = (HttpURLConnection) p_151225_0_.openConnection(var3);
             var4.setRequestMethod("POST");
             var4.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             var4.setRequestProperty("Content-Length", "" + p_151225_1_.getBytes().length);
@@ -113,8 +102,7 @@ public class HttpUtil
 
             var6.close();
             return var8.toString();
-        }
-        catch (Exception var9)
+        } catch (Exception var9)
         {
             if (!p_151225_2_)
             {
@@ -130,6 +118,7 @@ public class HttpUtil
         Thread var7 = new Thread(new Runnable()
         {
             private static final String __OBFID = "CL_00001486";
+
             public void run()
             {
                 URLConnection var1 = null;
@@ -150,34 +139,34 @@ public class HttpUtil
                         URL var5 = new URL(p_151223_1_);
                         var1 = var5.openConnection(p_151223_6_);
                         float var6 = 0.0F;
-                        float var7 = (float)p_151223_3_.entrySet().size();
+                        float var7 = (float) p_151223_3_.size();
                         Iterator var8 = p_151223_3_.entrySet().iterator();
 
                         while (var8.hasNext())
                         {
-                            Entry var9 = (Entry)var8.next();
-                            var1.setRequestProperty((String)var9.getKey(), (String)var9.getValue());
+                            Entry var9 = (Entry) var8.next();
+                            var1.setRequestProperty((String) var9.getKey(), (String) var9.getValue());
 
                             if (p_151223_5_ != null)
                             {
-                                p_151223_5_.setLoadingProgress((int)(++var6 / var7 * 100.0F));
+                                p_151223_5_.setLoadingProgress((int) (++var6 / var7 * 100.0F));
                             }
                         }
 
                         var2 = var1.getInputStream();
-                        var7 = (float)var1.getContentLength();
+                        var7 = (float) var1.getContentLength();
                         int var28 = var1.getContentLength();
 
                         if (p_151223_5_ != null)
                         {
-                            p_151223_5_.resetProgresAndWorkingMessage(String.format("Downloading file (%.2f MB)...", new Object[] {Float.valueOf(var7 / 1000.0F / 1000.0F)}));
+                            p_151223_5_.resetProgresAndWorkingMessage(String.format("Downloading file (%.2f MB)...", Float.valueOf(var7 / 1000.0F / 1000.0F)));
                         }
 
                         if (p_151223_0_.exists())
                         {
                             long var29 = p_151223_0_.length();
 
-                            if (var29 == (long)var28)
+                            if (var29 == (long) var28)
                             {
                                 p_151223_2_.func_148522_a(p_151223_0_);
 
@@ -191,15 +180,14 @@ public class HttpUtil
 
                             HttpUtil.logger.warn("Deleting " + p_151223_0_ + " as it does not match what we currently have (" + var28 + " vs our " + var29 + ").");
                             p_151223_0_.delete();
-                        }
-                        else if (p_151223_0_.getParentFile() != null)
+                        } else if (p_151223_0_.getParentFile() != null)
                         {
                             p_151223_0_.getParentFile().mkdirs();
                         }
 
                         var3 = new DataOutputStream(new FileOutputStream(p_151223_0_));
 
-                        if (p_151223_4_ > 0 && var7 > (float)p_151223_4_)
+                        if (p_151223_4_ > 0 && var7 > (float) p_151223_4_)
                         {
                             if (p_151223_5_ != null)
                             {
@@ -214,14 +202,14 @@ public class HttpUtil
 
                         while ((var31 = var2.read(var4)) >= 0)
                         {
-                            var6 += (float)var31;
+                            var6 += (float) var31;
 
                             if (p_151223_5_ != null)
                             {
-                                p_151223_5_.setLoadingProgress((int)(var6 / var7 * 100.0F));
+                                p_151223_5_.setLoadingProgress((int) (var6 / var7 * 100.0F));
                             }
 
-                            if (p_151223_4_ > 0 && var6 > (float)p_151223_4_)
+                            if (p_151223_4_ > 0 && var6 > (float) p_151223_4_)
                             {
                                 if (p_151223_5_ != null)
                                 {
@@ -239,15 +227,12 @@ public class HttpUtil
                         if (p_151223_5_ != null)
                         {
                             p_151223_5_.func_146586_a();
-                            return;
                         }
-                    }
-                    catch (Throwable var26)
+                    } catch (Throwable var26)
                     {
                         var26.printStackTrace();
                     }
-                }
-                finally
+                } finally
                 {
                     try
                     {
@@ -255,10 +240,8 @@ public class HttpUtil
                         {
                             var2.close();
                         }
-                    }
-                    catch (IOException var25)
+                    } catch (IOException var25)
                     {
-                        ;
                     }
 
                     try
@@ -267,10 +250,8 @@ public class HttpUtil
                         {
                             var3.close();
                         }
-                    }
-                    catch (IOException var24)
+                    } catch (IOException var24)
                     {
-                        ;
                     }
                 }
             }
@@ -289,8 +270,7 @@ public class HttpUtil
         {
             var0 = new ServerSocket(0);
             var10 = var0.getLocalPort();
-        }
-        finally
+        } finally
         {
             try
             {
@@ -298,10 +278,8 @@ public class HttpUtil
                 {
                     var0.close();
                 }
-            }
-            catch (IOException var8)
+            } catch (IOException var8)
             {
-                ;
             }
         }
 

@@ -1,6 +1,5 @@
 package net.minecraft.item;
 
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockLog;
@@ -16,11 +15,13 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class ItemDye extends Item
 {
-    public static final String[] field_150923_a = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white"};
-    public static final String[] field_150921_b = new String[] {"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white"};
-    public static final int[] field_150922_c = new int[] {1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 11250603, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 15790320};
+    public static final String[] field_150923_a = new String[]{ "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white" };
+    public static final String[] field_150921_b = new String[]{ "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white" };
+    public static final int[] field_150922_c = new int[]{ 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 11250603, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 15790320 };
     private IIcon[] field_150920_d;
     private static final String __OBFID = "CL_00000022";
 
@@ -59,8 +60,7 @@ public class ItemDye extends Item
         if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
         {
             return false;
-        }
-        else
+        } else
         {
             if (par1ItemStack.getItemDamage() == 15)
             {
@@ -73,8 +73,7 @@ public class ItemDye extends Item
 
                     return true;
                 }
-            }
-            else if (par1ItemStack.getItemDamage() == 3)
+            } else if (par1ItemStack.getItemDamage() == 3)
             {
                 Block var11 = par3World.getBlock(par4, par5, par6);
                 int var12 = par3World.getBlockMetadata(par4, par5, par6);
@@ -136,7 +135,7 @@ public class ItemDye extends Item
 
         if (var5 instanceof IGrowable)
         {
-            IGrowable var6 = (IGrowable)var5;
+            IGrowable var6 = (IGrowable) var5;
 
             if (var6.func_149851_a(p_150919_1_, p_150919_2_, p_150919_3_, p_150919_4_, p_150919_1_.isClient))
             {
@@ -175,7 +174,7 @@ public class ItemDye extends Item
                 double var7 = itemRand.nextGaussian() * 0.02D;
                 double var9 = itemRand.nextGaussian() * 0.02D;
                 double var11 = itemRand.nextGaussian() * 0.02D;
-                p_150918_0_.spawnParticle("happyVillager", (double)((float)p_150918_1_ + itemRand.nextFloat()), (double)p_150918_2_ + (double)itemRand.nextFloat() * var5.getBlockBoundsMaxY(), (double)((float)p_150918_3_ + itemRand.nextFloat()), var7, var9, var11);
+                p_150918_0_.spawnParticle("happyVillager", (float) p_150918_1_ + itemRand.nextFloat(), (double) p_150918_2_ + (double) itemRand.nextFloat() * var5.getBlockBoundsMaxY(), (float) p_150918_3_ + itemRand.nextFloat(), var7, var9, var11);
             }
         }
     }
@@ -187,7 +186,7 @@ public class ItemDye extends Item
     {
         if (par3EntityLivingBase instanceof EntitySheep)
         {
-            EntitySheep var4 = (EntitySheep)par3EntityLivingBase;
+            EntitySheep var4 = (EntitySheep) par3EntityLivingBase;
             int var5 = BlockColored.func_150032_b(par1ItemStack.getItemDamage());
 
             if (!var4.getSheared() && var4.getFleeceColor() != var5)
@@ -197,8 +196,7 @@ public class ItemDye extends Item
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,6 +10,8 @@ import net.minecraft.item.ItemLead;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class BlockFence extends Block
 {
@@ -143,7 +144,7 @@ public class BlockFence extends Block
     public boolean canConnectFenceTo(IBlockAccess p_149826_1_, int p_149826_2_, int p_149826_3_, int p_149826_4_)
     {
         Block var5 = p_149826_1_.getBlock(p_149826_2_, p_149826_3_, p_149826_4_);
-        return var5 != this && var5 != Blocks.fence_gate ? (var5.blockMaterial.isOpaque() && var5.renderAsNormalBlock() ? var5.blockMaterial != Material.field_151572_C : false) : true;
+        return var5 == this || var5 == Blocks.fence_gate || (var5.blockMaterial.isOpaque() && var5.renderAsNormalBlock() && var5.blockMaterial != Material.field_151572_C);
     }
 
     public static boolean func_149825_a(Block p_149825_0_)
@@ -166,6 +167,6 @@ public class BlockFence extends Block
      */
     public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
-        return p_149727_1_.isClient ? true : ItemLead.func_150909_a(p_149727_5_, p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
+        return p_149727_1_.isClient || ItemLead.func_150909_a(p_149727_5_, p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
     }
 }

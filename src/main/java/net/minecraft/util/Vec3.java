@@ -8,13 +8,19 @@ public class Vec3
     public static final Vec3Pool fakePool = new Vec3Pool(-1, -1);
     public final Vec3Pool myVec3LocalPool;
 
-    /** X coordinate of Vec3D */
+    /**
+     * X coordinate of Vec3D
+     */
     public double xCoord;
 
-    /** Y coordinate of Vec3D */
+    /**
+     * Y coordinate of Vec3D
+     */
     public double yCoord;
 
-    /** Z coordinate of Vec3D */
+    /**
+     * Z coordinate of Vec3D
+     */
     public double zCoord;
     private static final String __OBFID = "CL_00000612";
 
@@ -74,7 +80,7 @@ public class Vec3
      */
     public Vec3 normalize()
     {
-        double var1 = (double)MathHelper.sqrt_double(this.xCoord * this.xCoord + this.yCoord * this.yCoord + this.zCoord * this.zCoord);
+        double var1 = MathHelper.sqrt_double(this.xCoord * this.xCoord + this.yCoord * this.yCoord + this.zCoord * this.zCoord);
         return var1 < 1.0E-4D ? this.myVec3LocalPool.getVecFromPool(0.0D, 0.0D, 0.0D) : this.myVec3LocalPool.getVecFromPool(this.xCoord / var1, this.yCoord / var1, this.zCoord / var1);
     }
 
@@ -108,7 +114,7 @@ public class Vec3
         double var2 = par1Vec3.xCoord - this.xCoord;
         double var4 = par1Vec3.yCoord - this.yCoord;
         double var6 = par1Vec3.zCoord - this.zCoord;
-        return (double)MathHelper.sqrt_double(var2 * var2 + var4 * var4 + var6 * var6);
+        return MathHelper.sqrt_double(var2 * var2 + var4 * var4 + var6 * var6);
     }
 
     /**
@@ -138,7 +144,7 @@ public class Vec3
      */
     public double lengthVector()
     {
-        return (double)MathHelper.sqrt_double(this.xCoord * this.xCoord + this.yCoord * this.yCoord + this.zCoord * this.zCoord);
+        return MathHelper.sqrt_double(this.xCoord * this.xCoord + this.yCoord * this.yCoord + this.zCoord * this.zCoord);
     }
 
     /**
@@ -154,8 +160,7 @@ public class Vec3
         if (var4 * var4 < 1.0000000116860974E-7D)
         {
             return null;
-        }
-        else
+        } else
         {
             double var10 = (par2 - this.xCoord) / var4;
             return var10 >= 0.0D && var10 <= 1.0D ? this.myVec3LocalPool.getVecFromPool(this.xCoord + var4 * var10, this.yCoord + var6 * var10, this.zCoord + var8 * var10) : null;
@@ -175,8 +180,7 @@ public class Vec3
         if (var6 * var6 < 1.0000000116860974E-7D)
         {
             return null;
-        }
-        else
+        } else
         {
             double var10 = (par2 - this.yCoord) / var6;
             return var10 >= 0.0D && var10 <= 1.0D ? this.myVec3LocalPool.getVecFromPool(this.xCoord + var4 * var10, this.yCoord + var6 * var10, this.zCoord + var8 * var10) : null;
@@ -196,8 +200,7 @@ public class Vec3
         if (var8 * var8 < 1.0000000116860974E-7D)
         {
             return null;
-        }
-        else
+        } else
         {
             double var10 = (par2 - this.zCoord) / var8;
             return var10 >= 0.0D && var10 <= 1.0D ? this.myVec3LocalPool.getVecFromPool(this.xCoord + var4 * var10, this.yCoord + var6 * var10, this.zCoord + var8 * var10) : null;
@@ -217,8 +220,8 @@ public class Vec3
         float var2 = MathHelper.cos(par1);
         float var3 = MathHelper.sin(par1);
         double var4 = this.xCoord;
-        double var6 = this.yCoord * (double)var2 + this.zCoord * (double)var3;
-        double var8 = this.zCoord * (double)var2 - this.yCoord * (double)var3;
+        double var6 = this.yCoord * (double) var2 + this.zCoord * (double) var3;
+        double var8 = this.zCoord * (double) var2 - this.yCoord * (double) var3;
         this.xCoord = var4;
         this.yCoord = var6;
         this.zCoord = var8;
@@ -231,9 +234,9 @@ public class Vec3
     {
         float var2 = MathHelper.cos(par1);
         float var3 = MathHelper.sin(par1);
-        double var4 = this.xCoord * (double)var2 + this.zCoord * (double)var3;
+        double var4 = this.xCoord * (double) var2 + this.zCoord * (double) var3;
         double var6 = this.yCoord;
-        double var8 = this.zCoord * (double)var2 - this.xCoord * (double)var3;
+        double var8 = this.zCoord * (double) var2 - this.xCoord * (double) var3;
         this.xCoord = var4;
         this.yCoord = var6;
         this.zCoord = var8;
@@ -246,8 +249,8 @@ public class Vec3
     {
         float var2 = MathHelper.cos(par1);
         float var3 = MathHelper.sin(par1);
-        double var4 = this.xCoord * (double)var2 + this.yCoord * (double)var3;
-        double var6 = this.yCoord * (double)var2 - this.xCoord * (double)var3;
+        double var4 = this.xCoord * (double) var2 + this.yCoord * (double) var3;
+        double var6 = this.yCoord * (double) var2 - this.xCoord * (double) var3;
         double var8 = this.zCoord;
         this.xCoord = var4;
         this.yCoord = var6;

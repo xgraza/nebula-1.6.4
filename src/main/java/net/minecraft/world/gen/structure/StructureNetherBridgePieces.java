@@ -1,9 +1,5 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,10 +7,15 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
 public class StructureNetherBridgePieces
 {
-    private static final StructureNetherBridgePieces.PieceWeight[] primaryComponents = new StructureNetherBridgePieces.PieceWeight[] {new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Straight.class, 30, 0, true), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Crossing3.class, 10, 4), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Crossing.class, 10, 4), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Stairs.class, 10, 3), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Throne.class, 5, 2), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Entrance.class, 5, 1)};
-    private static final StructureNetherBridgePieces.PieceWeight[] secondaryComponents = new StructureNetherBridgePieces.PieceWeight[] {new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor5.class, 25, 0, true), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Crossing2.class, 15, 5), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor2.class, 5, 10), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor.class, 5, 10), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor3.class, 10, 3, true), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor4.class, 7, 2), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.NetherStalkRoom.class, 5, 2)};
+    private static final StructureNetherBridgePieces.PieceWeight[] primaryComponents = new StructureNetherBridgePieces.PieceWeight[]{ new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Straight.class, 30, 0, true), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Crossing3.class, 10, 4), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Crossing.class, 10, 4), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Stairs.class, 10, 3), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Throne.class, 5, 2), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Entrance.class, 5, 1) };
+    private static final StructureNetherBridgePieces.PieceWeight[] secondaryComponents = new StructureNetherBridgePieces.PieceWeight[]{ new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor5.class, 25, 0, true), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Crossing2.class, 15, 5), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor2.class, 5, 10), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor.class, 5, 10), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor3.class, 10, 3, true), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.Corridor4.class, 7, 2), new StructureNetherBridgePieces.PieceWeight(StructureNetherBridgePieces.NetherStalkRoom.class, 5, 2) };
     private static final String __OBFID = "CL_00000453";
 
     public static void func_143049_a()
@@ -44,57 +45,45 @@ public class StructureNetherBridgePieces
         if (var8 == StructureNetherBridgePieces.Straight.class)
         {
             var9 = StructureNetherBridgePieces.Straight.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Crossing3.class)
+        } else if (var8 == StructureNetherBridgePieces.Crossing3.class)
         {
             var9 = StructureNetherBridgePieces.Crossing3.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Crossing.class)
+        } else if (var8 == StructureNetherBridgePieces.Crossing.class)
         {
             var9 = StructureNetherBridgePieces.Crossing.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Stairs.class)
+        } else if (var8 == StructureNetherBridgePieces.Stairs.class)
         {
             var9 = StructureNetherBridgePieces.Stairs.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Throne.class)
+        } else if (var8 == StructureNetherBridgePieces.Throne.class)
         {
             var9 = StructureNetherBridgePieces.Throne.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Entrance.class)
+        } else if (var8 == StructureNetherBridgePieces.Entrance.class)
         {
             var9 = StructureNetherBridgePieces.Entrance.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Corridor5.class)
+        } else if (var8 == StructureNetherBridgePieces.Corridor5.class)
         {
             var9 = StructureNetherBridgePieces.Corridor5.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Corridor2.class)
+        } else if (var8 == StructureNetherBridgePieces.Corridor2.class)
         {
             var9 = StructureNetherBridgePieces.Corridor2.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Corridor.class)
+        } else if (var8 == StructureNetherBridgePieces.Corridor.class)
         {
             var9 = StructureNetherBridgePieces.Corridor.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Corridor3.class)
+        } else if (var8 == StructureNetherBridgePieces.Corridor3.class)
         {
             var9 = StructureNetherBridgePieces.Corridor3.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Corridor4.class)
+        } else if (var8 == StructureNetherBridgePieces.Corridor4.class)
         {
             var9 = StructureNetherBridgePieces.Corridor4.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.Crossing2.class)
+        } else if (var8 == StructureNetherBridgePieces.Crossing2.class)
         {
             var9 = StructureNetherBridgePieces.Crossing2.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-        }
-        else if (var8 == StructureNetherBridgePieces.NetherStalkRoom.class)
+        } else if (var8 == StructureNetherBridgePieces.NetherStalkRoom.class)
         {
             var9 = StructureNetherBridgePieces.NetherStalkRoom.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
 
-        return (StructureNetherBridgePieces.Piece)var9;
+        return (StructureNetherBridgePieces.Piece) var9;
     }
 
     public static class Start extends StructureNetherBridgePieces.Crossing3
@@ -105,7 +94,9 @@ public class StructureNetherBridgePieces
         public ArrayList field_74967_d = new ArrayList();
         private static final String __OBFID = "CL_00000470";
 
-        public Start() {}
+        public Start()
+        {
+        }
 
         public Start(Random par1Random, int par2, int par3)
         {
@@ -150,7 +141,9 @@ public class StructureNetherBridgePieces
     {
         private static final String __OBFID = "CL_00000468";
 
-        public Crossing() {}
+        public Crossing()
+        {
+        }
 
         public Crossing(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -161,9 +154,9 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 2, 0, false);
-            this.getNextComponentX((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 0, 2, false);
-            this.getNextComponentZ((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 0, 2, false);
+            this.getNextComponentNormal((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 2, 0, false);
+            this.getNextComponentX((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 0, 2, false);
+            this.getNextComponentZ((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 0, 2, false);
         }
 
         public static StructureNetherBridgePieces.Crossing createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -209,7 +202,9 @@ public class StructureNetherBridgePieces
     {
         private static final String __OBFID = "CL_00000456";
 
-        public Straight() {}
+        public Straight()
+        {
+        }
 
         public Straight(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -220,7 +215,7 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 1, 3, false);
+            this.getNextComponentNormal((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 1, 3, false);
         }
 
         public static StructureNetherBridgePieces.Straight createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -265,7 +260,9 @@ public class StructureNetherBridgePieces
     {
         private static final String __OBFID = "CL_00000460";
 
-        public Crossing2() {}
+        public Crossing2()
+        {
+        }
 
         public Crossing2(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -276,9 +273,9 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 1, 0, true);
-            this.getNextComponentX((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 0, 1, true);
-            this.getNextComponentZ((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 0, 1, true);
+            this.getNextComponentNormal((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 1, 0, true);
+            this.getNextComponentX((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 0, 1, true);
+            this.getNextComponentZ((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 0, 1, true);
         }
 
         public static StructureNetherBridgePieces.Crossing2 createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -313,7 +310,9 @@ public class StructureNetherBridgePieces
     {
         private static final String __OBFID = "CL_00000454";
 
-        public Crossing3() {}
+        public Crossing3()
+        {
+        }
 
         public Crossing3(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -341,9 +340,9 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 8, 3, false);
-            this.getNextComponentX((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 3, 8, false);
-            this.getNextComponentZ((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 3, 8, false);
+            this.getNextComponentNormal((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 8, 3, false);
+            this.getNextComponentX((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 3, 8, false);
+            this.getNextComponentZ((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 3, 8, false);
         }
 
         public static StructureNetherBridgePieces.Crossing3 createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -404,7 +403,9 @@ public class StructureNetherBridgePieces
     {
         private static final String __OBFID = "CL_00000464";
 
-        public NetherStalkRoom() {}
+        public NetherStalkRoom()
+        {
+        }
 
         public NetherStalkRoom(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -415,8 +416,8 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 5, 3, true);
-            this.getNextComponentNormal((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 5, 11, true);
+            this.getNextComponentNormal((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 5, 3, true);
+            this.getNextComponentNormal((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 5, 11, true);
         }
 
         public static StructureNetherBridgePieces.NetherStalkRoom createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -484,8 +485,7 @@ public class StructureNetherBridgePieces
                 if (var6 >= 5 && var6 <= 8)
                 {
                     this.func_151549_a(par1World, par3StructureBoundingBox, 5, 5, var6, 7, var5 + 4, var6, Blocks.nether_brick, Blocks.nether_brick, false);
-                }
-                else if (var6 >= 9 && var6 <= 10)
+                } else if (var6 >= 9 && var6 <= 10)
                 {
                     this.func_151549_a(par1World, par3StructureBoundingBox, 5, 8, var6, 7, var5 + 4, var6, Blocks.nether_brick, Blocks.nether_brick, false);
                 }
@@ -556,19 +556,25 @@ public class StructureNetherBridgePieces
 
     abstract static class Piece extends StructureComponent
     {
-        protected static final WeightedRandomChestContent[] field_111019_a = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 5), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 5), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 15), new WeightedRandomChestContent(Items.golden_sword, 0, 1, 1, 5), new WeightedRandomChestContent(Items.golden_chestplate, 0, 1, 1, 5), new WeightedRandomChestContent(Items.flint_and_steel, 0, 1, 1, 5), new WeightedRandomChestContent(Items.nether_wart, 0, 3, 7, 5), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 10), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 8), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 5), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 3)};
+        protected static final WeightedRandomChestContent[] field_111019_a = new WeightedRandomChestContent[]{ new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 5), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 5), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 15), new WeightedRandomChestContent(Items.golden_sword, 0, 1, 1, 5), new WeightedRandomChestContent(Items.golden_chestplate, 0, 1, 1, 5), new WeightedRandomChestContent(Items.flint_and_steel, 0, 1, 1, 5), new WeightedRandomChestContent(Items.nether_wart, 0, 3, 7, 5), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 10), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 8), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 5), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 3) };
         private static final String __OBFID = "CL_00000466";
 
-        public Piece() {}
+        public Piece()
+        {
+        }
 
         protected Piece(int par1)
         {
             super(par1);
         }
 
-        protected void func_143011_b(NBTTagCompound par1NBTTagCompound) {}
+        protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
+        {
+        }
 
-        protected void func_143012_a(NBTTagCompound par1NBTTagCompound) {}
+        protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
+        {
+        }
 
         private int getTotalWeight(List par1List)
         {
@@ -578,7 +584,7 @@ public class StructureNetherBridgePieces
 
             for (Iterator var4 = par1List.iterator(); var4.hasNext(); var3 += var5.field_78826_b)
             {
-                var5 = (StructureNetherBridgePieces.PieceWeight)var4.next();
+                var5 = (StructureNetherBridgePieces.PieceWeight) var4.next();
 
                 if (var5.field_78824_d > 0 && var5.field_78827_c < var5.field_78824_d)
                 {
@@ -603,7 +609,7 @@ public class StructureNetherBridgePieces
 
                 while (var14.hasNext())
                 {
-                    StructureNetherBridgePieces.PieceWeight var15 = (StructureNetherBridgePieces.PieceWeight)var14.next();
+                    StructureNetherBridgePieces.PieceWeight var15 = (StructureNetherBridgePieces.PieceWeight) var14.next();
                     var13 -= var15.field_78826_b;
 
                     if (var13 < 0)
@@ -654,8 +660,7 @@ public class StructureNetherBridgePieces
                 }
 
                 return var11;
-            }
-            else
+            } else
             {
                 return StructureNetherBridgePieces.End.func_74971_a(par2List, par3Random, par4, par5, par6, par7, par8);
             }
@@ -735,7 +740,9 @@ public class StructureNetherBridgePieces
         private int fillSeed;
         private static final String __OBFID = "CL_00000455";
 
-        public End() {}
+        public End()
+        {
+        }
 
         public End(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -765,7 +772,7 @@ public class StructureNetherBridgePieces
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
         {
-            Random var4 = new Random((long)this.fillSeed);
+            Random var4 = new Random(this.fillSeed);
             int var5;
             int var6;
             int var7;
@@ -841,7 +848,9 @@ public class StructureNetherBridgePieces
         private boolean field_111021_b;
         private static final String __OBFID = "CL_00000461";
 
-        public Corridor() {}
+        public Corridor()
+        {
+        }
 
         public Corridor(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -865,7 +874,7 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentX((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 0, 1, true);
+            this.getNextComponentX((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 0, 1, true);
         }
 
         public static StructureNetherBridgePieces.Corridor createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -920,7 +929,9 @@ public class StructureNetherBridgePieces
         private boolean hasSpawner;
         private static final String __OBFID = "CL_00000465";
 
-        public Throne() {}
+        public Throne()
+        {
+        }
 
         public Throne(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -980,7 +991,7 @@ public class StructureNetherBridgePieces
                 {
                     this.hasSpawner = true;
                     par1World.setBlock(var5, var4, var6, Blocks.mob_spawner, 0, 2);
-                    TileEntityMobSpawner var7 = (TileEntityMobSpawner)par1World.getTileEntity(var5, var4, var6);
+                    TileEntityMobSpawner var7 = (TileEntityMobSpawner) par1World.getTileEntity(var5, var4, var6);
 
                     if (var7 != null)
                     {
@@ -1005,7 +1016,9 @@ public class StructureNetherBridgePieces
     {
         private static final String __OBFID = "CL_00000459";
 
-        public Entrance() {}
+        public Entrance()
+        {
+        }
 
         public Entrance(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1016,7 +1029,7 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 5, 3, true);
+            this.getNextComponentNormal((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 5, 3, true);
         }
 
         public static StructureNetherBridgePieces.Entrance createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -1117,7 +1130,9 @@ public class StructureNetherBridgePieces
     {
         private static final String __OBFID = "CL_00000469";
 
-        public Stairs() {}
+        public Stairs()
+        {
+        }
 
         public Stairs(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1128,7 +1143,7 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentZ((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 6, 2, false);
+            this.getNextComponentZ((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 6, 2, false);
         }
 
         public static StructureNetherBridgePieces.Stairs createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -1176,7 +1191,9 @@ public class StructureNetherBridgePieces
         private boolean field_111020_b;
         private static final String __OBFID = "CL_00000463";
 
-        public Corridor2() {}
+        public Corridor2()
+        {
+        }
 
         public Corridor2(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1200,7 +1217,7 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentZ((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 0, 1, true);
+            this.getNextComponentZ((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 0, 1, true);
         }
 
         public static StructureNetherBridgePieces.Corridor2 createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -1254,7 +1271,9 @@ public class StructureNetherBridgePieces
     {
         private static final String __OBFID = "CL_00000457";
 
-        public Corridor3() {}
+        public Corridor3()
+        {
+        }
 
         public Corridor3(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1265,7 +1284,7 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 1, 0, true);
+            this.getNextComponentNormal((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 1, 0, true);
         }
 
         public static StructureNetherBridgePieces.Corridor3 createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -1317,7 +1336,9 @@ public class StructureNetherBridgePieces
     {
         private static final String __OBFID = "CL_00000458";
 
-        public Corridor4() {}
+        public Corridor4()
+        {
+        }
 
         public Corridor4(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1335,8 +1356,8 @@ public class StructureNetherBridgePieces
                 var4 = 5;
             }
 
-            this.getNextComponentX((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 0, var4, par3Random.nextInt(8) > 0);
-            this.getNextComponentZ((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 0, var4, par3Random.nextInt(8) > 0);
+            this.getNextComponentX((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 0, var4, par3Random.nextInt(8) > 0);
+            this.getNextComponentZ((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 0, var4, par3Random.nextInt(8) > 0);
         }
 
         public static StructureNetherBridgePieces.Corridor4 createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
@@ -1383,7 +1404,9 @@ public class StructureNetherBridgePieces
     {
         private static final String __OBFID = "CL_00000462";
 
-        public Corridor5() {}
+        public Corridor5()
+        {
+        }
 
         public Corridor5(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -1394,7 +1417,7 @@ public class StructureNetherBridgePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            this.getNextComponentNormal((StructureNetherBridgePieces.Start)par1StructureComponent, par2List, par3Random, 1, 0, true);
+            this.getNextComponentNormal((StructureNetherBridgePieces.Start) par1StructureComponent, par2List, par3Random, 1, 0, true);
         }
 
         public static StructureNetherBridgePieces.Corridor5 createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)

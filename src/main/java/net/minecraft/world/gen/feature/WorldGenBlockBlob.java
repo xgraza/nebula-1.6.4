@@ -1,14 +1,15 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenBlockBlob extends WorldGenerator
 {
-    private Block field_150545_a;
-    private int field_150544_b;
+    private final Block field_150545_a;
+    private final int field_150544_b;
     private static final String __OBFID = "CL_00000402";
 
     public WorldGenBlockBlob(Block p_i45450_1_, int p_i45450_2_)
@@ -53,7 +54,7 @@ public class WorldGenBlockBlob extends WorldGenerator
                 int var8 = var18 + par2Random.nextInt(2);
                 int var9 = var18 + par2Random.nextInt(2);
                 int var10 = var18 + par2Random.nextInt(2);
-                float var11 = (float)(var8 + var9 + var10) * 0.333F + 0.5F;
+                float var11 = (float) (var8 + var9 + var10) * 0.333F + 0.5F;
 
                 for (int var12 = par3 - var8; var12 <= par3 + var8; ++var12)
                 {
@@ -61,9 +62,9 @@ public class WorldGenBlockBlob extends WorldGenerator
                     {
                         for (int var14 = par4 - var9; var14 <= par4 + var9; ++var14)
                         {
-                            float var15 = (float)(var12 - par3);
-                            float var16 = (float)(var13 - par5);
-                            float var17 = (float)(var14 - par4);
+                            float var15 = (float) (var12 - par3);
+                            float var16 = (float) (var13 - par5);
+                            float var17 = (float) (var14 - par4);
 
                             if (var15 * var15 + var16 * var16 + var17 * var17 <= var11 * var11)
                             {
@@ -75,7 +76,7 @@ public class WorldGenBlockBlob extends WorldGenerator
 
                 par3 += -(var18 + 1) + par2Random.nextInt(2 + var18 * 2);
                 par5 += -(var18 + 1) + par2Random.nextInt(2 + var18 * 2);
-                par4 += 0 - par2Random.nextInt(2);
+                par4 += -par2Random.nextInt(2);
             }
 
             return true;

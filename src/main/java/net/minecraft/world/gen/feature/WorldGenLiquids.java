@@ -1,14 +1,15 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenLiquids extends WorldGenerator
 {
-    private Block field_150521_a;
+    private final Block field_150521_a;
     private static final String __OBFID = "CL_00000434";
 
     public WorldGenLiquids(Block p_i45465_1_)
@@ -21,16 +22,13 @@ public class WorldGenLiquids extends WorldGenerator
         if (par1World.getBlock(par3, par4 + 1, par5) != Blocks.stone)
         {
             return false;
-        }
-        else if (par1World.getBlock(par3, par4 - 1, par5) != Blocks.stone)
+        } else if (par1World.getBlock(par3, par4 - 1, par5) != Blocks.stone)
         {
             return false;
-        }
-        else if (par1World.getBlock(par3, par4, par5).getMaterial() != Material.air && par1World.getBlock(par3, par4, par5) != Blocks.stone)
+        } else if (par1World.getBlock(par3, par4, par5).getMaterial() != Material.air && par1World.getBlock(par3, par4, par5) != Blocks.stone)
         {
             return false;
-        }
-        else
+        } else
         {
             int var6 = 0;
 

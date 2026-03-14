@@ -1,15 +1,16 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenMegaPineTree extends WorldGenHugeTrees
 {
-    private boolean field_150542_e;
+    private final boolean field_150542_e;
     private static final String __OBFID = "CL_00000421";
 
     public WorldGenMegaPineTree(boolean p_i45457_1_, boolean p_i45457_2_)
@@ -25,8 +26,7 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees
         if (!this.func_150537_a(par1World, par2Random, par3, par4, par5, var6))
         {
             return false;
-        }
-        else
+        } else
         {
             this.func_150541_c(par1World, par3, par5, par4 + var6, 0, par2Random);
 
@@ -75,8 +75,7 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees
         if (this.field_150542_e)
         {
             var7 += this.baseHeight;
-        }
-        else
+        } else
         {
             var7 += 3;
         }
@@ -86,7 +85,7 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees
         for (int var9 = p_150541_4_ - var7; var9 <= p_150541_4_; ++var9)
         {
             int var10 = p_150541_4_ - var9;
-            int var11 = p_150541_5_ + MathHelper.floor_float((float)var10 / (float)var7 * 3.5F);
+            int var11 = p_150541_5_ + MathHelper.floor_float((float) var10 / (float) var7 * 3.5F);
             this.func_150535_a(p_150541_1_, p_150541_2_, var9, p_150541_3_, var11 + (var10 > 0 && var11 == var8 && (var9 & 1) == 0 ? 1 : 0), p_150541_6_);
             var8 = var11;
         }

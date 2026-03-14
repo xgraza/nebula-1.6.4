@@ -4,13 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelException;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.channel.local.LocalChannel;
 import io.netty.channel.local.LocalServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -18,18 +12,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GenericFutureListener;
-import java.net.InetAddress;
-import java.net.SocketAddress;
-import java.util.Queue;
-import javax.crypto.SecretKey;
-
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.CryptManager;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MessageDeserializer;
-import net.minecraft.util.MessageDeserializer2;
-import net.minecraft.util.MessageSerializer;
-import net.minecraft.util.MessageSerializer2;
+import net.minecraft.util.*;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,6 +20,11 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import us.nebula.client.api.listener.EventBus;
 import us.nebula.client.impl.event.network.EventPacket;
+
+import javax.crypto.SecretKey;
+import java.net.InetAddress;
+import java.net.SocketAddress;
+import java.util.Queue;
 
 public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 {
@@ -60,16 +48,24 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
      */
     private final Queue<Packet> receivedPacketsQueue = Queues.newConcurrentLinkedQueue();
 
-    /** The queue for packets that require transmission */
+    /**
+     * The queue for packets that require transmission
+     */
     private final Queue<InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues.newConcurrentLinkedQueue();
 
-    /** The active channel */
+    /**
+     * The active channel
+     */
     private Channel channel;
 
-    /** The address of the remote party */
+    /**
+     * The address of the remote party
+     */
     private SocketAddress socketAddress;
 
-    /** The INetHandler instance responsible for processing received packets */
+    /**
+     * The INetHandler instance responsible for processing received packets
+     */
     private INetHandler netHandler;
 
     /**
@@ -77,7 +73,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
      */
     private EnumConnectionState connectionState;
 
-    /** A String indicating why the network has shutdown. */
+    /**
+     * A String indicating why the network has shutdown.
+     */
     private IChatComponent terminationReason;
 
     public NetworkManager(boolean clientSide)
@@ -129,8 +127,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
             if (packet.hasPriority())
             {
                 packet.processPacket(this.netHandler);
-            }
-            else
+            } else
             {
                 this.receivedPacketsQueue.add(packet);
             }
@@ -152,14 +149,13 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
      * Will flush the outbound queue and dispatch the supplied Packet if the channel is ready, otherwise it adds the
      * packet to the outbound queue and registers the GenericFutureListener to fire after transmission
      */
-    public void scheduleOutboundPacket(Packet packet, GenericFutureListener ... futureListeners)
+    public void scheduleOutboundPacket(Packet packet, GenericFutureListener... futureListeners)
     {
         if (this.channel != null && this.channel.isOpen())
         {
             this.flushOutboundQueue();
             this.dispatchPacket(packet, futureListeners);
-        }
-        else
+        } else
         {
             this.outboundPacketsQueue.add(new NetworkManager.InboundHandlerTuplePacketListener(packet, futureListeners));
         }
@@ -199,8 +195,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
             this.channel.writeAndFlush(packet)
                     .addListeners(futureListeners)
                     .addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
-        }
-        else
+        } else
         {
             this.channel.eventLoop().execute(() ->
             {
@@ -308,35 +303,33 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
     {
         final NetworkManager networkManager = new NetworkManager(true);
         (new Bootstrap()).group(eventLoops).handler(new ChannelInitializer()
-        {
-            @Override
-            protected void initChannel(final Channel channel)
-            {
-                try
                 {
-                    channel.config().setOption(ChannelOption.IP_TOS, 24);
-                }
-                catch (ChannelException ignored)
-                {
-                }
+                    @Override
+                    protected void initChannel(final Channel channel)
+                    {
+                        try
+                        {
+                            channel.config().setOption(ChannelOption.IP_TOS, 24);
+                        } catch (ChannelException ignored)
+                        {
+                        }
 
-                try
-                {
-                    channel.config().setOption(ChannelOption.TCP_NODELAY, true);
-                }
-                catch (ChannelException ignored)
-                {
-                }
+                        try
+                        {
+                            channel.config().setOption(ChannelOption.TCP_NODELAY, true);
+                        } catch (ChannelException ignored)
+                        {
+                        }
 
-                channel.pipeline()
-                        .addLast("timeout", new ReadTimeoutHandler(20))
-                        .addLast("splitter", new MessageDeserializer2())
-                        .addLast("decoder", new MessageDeserializer())
-                        .addLast("prepender", new MessageSerializer2())
-                        .addLast("encoder", new MessageSerializer())
-                        .addLast("packet_handler", networkManager);
-            }
-        }).channel(NioSocketChannel.class)
+                        channel.pipeline()
+                                .addLast("timeout", new ReadTimeoutHandler(20))
+                                .addLast("splitter", new MessageDeserializer2())
+                                .addLast("decoder", new MessageDeserializer())
+                                .addLast("prepender", new MessageSerializer2())
+                                .addLast("encoder", new MessageSerializer())
+                                .addLast("packet_handler", networkManager);
+                    }
+                }).channel(NioSocketChannel.class)
                 .connect(address, port)
                 .syncUninterruptibly();
         return networkManager;
@@ -350,20 +343,19 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
     {
         final NetworkManager networkManager = new NetworkManager(true);
         (new Bootstrap()).group(eventLoops).handler(new ChannelInitializer()
-        {
-            @Override
-            protected void initChannel(final Channel channel)
-            {
-                try
                 {
-                    channel.config().setOption(ChannelOption.TCP_NODELAY, true);
-                }
-                catch (ChannelException ignored)
-                {
-                }
-                channel.pipeline().addLast("packet_handler", networkManager);
-            }
-        }).channel(LocalChannel.class)
+                    @Override
+                    protected void initChannel(final Channel channel)
+                    {
+                        try
+                        {
+                            channel.config().setOption(ChannelOption.TCP_NODELAY, true);
+                        } catch (ChannelException ignored)
+                        {
+                        }
+                        channel.pipeline().addLast("packet_handler", networkManager);
+                    }
+                }).channel(LocalChannel.class)
                 .connect(address)
                 .syncUninterruptibly();
         return networkManager;
@@ -415,7 +407,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         private final Packet packet;
         private final GenericFutureListener[] futureListeners;
 
-        public InboundHandlerTuplePacketListener(Packet packet, GenericFutureListener ... futureListeners)
+        public InboundHandlerTuplePacketListener(Packet packet, GenericFutureListener... futureListeners)
         {
             this.packet = packet;
             this.futureListeners = futureListeners;

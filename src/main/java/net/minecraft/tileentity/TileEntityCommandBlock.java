@@ -13,27 +13,33 @@ public class TileEntityCommandBlock extends TileEntity
     private final CommandBlockLogic field_145994_a = new CommandBlockLogic()
     {
         private static final String __OBFID = "CL_00000348";
+
         public ChunkCoordinates getPlayerCoordinates()
         {
             return new ChunkCoordinates(TileEntityCommandBlock.this.xCoord, TileEntityCommandBlock.this.yCoord, TileEntityCommandBlock.this.zCoord);
         }
+
         public World getEntityWorld()
         {
             return TileEntityCommandBlock.this.getWorldObj();
         }
+
         public void func_145752_a(String p_145752_1_)
         {
             super.func_145752_a(p_145752_1_);
             TileEntityCommandBlock.this.onInventoryChanged();
         }
+
         public void func_145756_e()
         {
             TileEntityCommandBlock.this.getWorldObj().func_147471_g(TileEntityCommandBlock.this.xCoord, TileEntityCommandBlock.this.yCoord, TileEntityCommandBlock.this.zCoord);
         }
+
         public int func_145751_f()
         {
             return 0;
         }
+
         public void func_145757_a(ByteBuf p_145757_1_)
         {
             p_145757_1_.writeInt(TileEntityCommandBlock.this.xCoord);

@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -19,9 +17,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 public class BlockBrewingStand extends BlockContainer
 {
-    private Random field_149961_a = new Random();
+    private final Random field_149961_a = new Random();
     private IIcon iconBrewingStandBase;
     private static final String __OBFID = "CL_00000207";
 
@@ -80,10 +81,9 @@ public class BlockBrewingStand extends BlockContainer
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
-            TileEntityBrewingStand var10 = (TileEntityBrewingStand)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+            TileEntityBrewingStand var10 = (TileEntityBrewingStand) p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
 
             if (var10 != null)
             {
@@ -101,7 +101,7 @@ public class BlockBrewingStand extends BlockContainer
     {
         if (p_149689_6_.hasDisplayName())
         {
-            ((TileEntityBrewingStand)p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145937_a(p_149689_6_.getDisplayName());
+            ((TileEntityBrewingStand) p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145937_a(p_149689_6_.getDisplayName());
         }
     }
 
@@ -110,9 +110,9 @@ public class BlockBrewingStand extends BlockContainer
      */
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
-        double var6 = (double)((float)p_149734_2_ + 0.4F + p_149734_5_.nextFloat() * 0.2F);
-        double var8 = (double)((float)p_149734_3_ + 0.7F + p_149734_5_.nextFloat() * 0.3F);
-        double var10 = (double)((float)p_149734_4_ + 0.4F + p_149734_5_.nextFloat() * 0.2F);
+        double var6 = (float) p_149734_2_ + 0.4F + p_149734_5_.nextFloat() * 0.2F;
+        double var8 = (float) p_149734_3_ + 0.7F + p_149734_5_.nextFloat() * 0.3F;
+        double var10 = (float) p_149734_4_ + 0.4F + p_149734_5_.nextFloat() * 0.2F;
         p_149734_1_.spawnParticle("smoke", var6, var8, var10, 0.0D, 0.0D, 0.0D);
     }
 
@@ -122,7 +122,7 @@ public class BlockBrewingStand extends BlockContainer
 
         if (var7 instanceof TileEntityBrewingStand)
         {
-            TileEntityBrewingStand var8 = (TileEntityBrewingStand)var7;
+            TileEntityBrewingStand var8 = (TileEntityBrewingStand) var7;
 
             for (int var9 = 0; var9 < var8.getSizeInventory(); ++var9)
             {
@@ -144,11 +144,11 @@ public class BlockBrewingStand extends BlockContainer
                         }
 
                         var10.stackSize -= var14;
-                        EntityItem var15 = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + var11), (double)((float)p_149749_3_ + var12), (double)((float)p_149749_4_ + var13), new ItemStack(var10.getItem(), var14, var10.getItemDamage()));
+                        EntityItem var15 = new EntityItem(p_149749_1_, (float) p_149749_2_ + var11, (float) p_149749_3_ + var12, (float) p_149749_4_ + var13, new ItemStack(var10.getItem(), var14, var10.getItemDamage()));
                         float var16 = 0.05F;
-                        var15.motionX = (double)((float)this.field_149961_a.nextGaussian() * var16);
-                        var15.motionY = (double)((float)this.field_149961_a.nextGaussian() * var16 + 0.2F);
-                        var15.motionZ = (double)((float)this.field_149961_a.nextGaussian() * var16);
+                        var15.motionX = (float) this.field_149961_a.nextGaussian() * var16;
+                        var15.motionY = (float) this.field_149961_a.nextGaussian() * var16 + 0.2F;
+                        var15.motionZ = (float) this.field_149961_a.nextGaussian() * var16;
                         p_149749_1_.spawnEntityInWorld(var15);
                     }
                 }
@@ -178,7 +178,7 @@ public class BlockBrewingStand extends BlockContainer
 
     public int getComparatorInputOverride(World p_149736_1_, int p_149736_2_, int p_149736_3_, int p_149736_4_, int p_149736_5_)
     {
-        return Container.calcRedstoneFromInventory((IInventory)p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_));
+        return Container.calcRedstoneFromInventory((IInventory) p_149736_1_.getTileEntity(p_149736_2_, p_149736_3_, p_149736_4_));
     }
 
     public void registerIcons(IIconRegister p_149651_1_)

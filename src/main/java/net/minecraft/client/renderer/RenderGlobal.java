@@ -92,7 +92,7 @@ public class RenderGlobal implements IWorldAccess
     /**
      * Is occlusion testing enabled
      */
-    private boolean occlusionEnabled;
+    private final boolean occlusionEnabled;
 
     /**
      * counts the cloud render updates. Used with mod to stagger some updates
@@ -102,17 +102,17 @@ public class RenderGlobal implements IWorldAccess
     /**
      * The star GL Call list
      */
-    private int starGLCallList;
+    private final int starGLCallList;
 
     /**
      * OpenGL sky list
      */
-    private int glSkyList;
+    private final int glSkyList;
 
     /**
      * OpenGL sky list 2
      */
-    private int glSkyList2;
+    private final int glSkyList2;
 
     /**
      * Minimum block X
@@ -152,7 +152,7 @@ public class RenderGlobal implements IWorldAccess
     private final Map mapSoundPositions = Maps.newHashMap();
     private IIcon[] destroyBlockIcons;
     private boolean displayListEntitiesDirty;
-    private int displayListEntities;
+    private final int displayListEntities;
     private int renderDistanceChunks = -1;
 
     /**
@@ -218,12 +218,12 @@ public class RenderGlobal implements IWorldAccess
     /**
      * List of OpenGL lists for the current render pass
      */
-    private List glRenderLists = new ArrayList();
+    private final List glRenderLists = new ArrayList();
 
     /**
      * All render lists (fixed length 4)
      */
-    private RenderList[] allRenderLists = new RenderList[]{ new RenderList(), new RenderList(), new RenderList(), new RenderList() };
+    private final RenderList[] allRenderLists = new RenderList[]{ new RenderList(), new RenderList(), new RenderList(), new RenderList() };
 
     /**
      * Previous x position when the renderers were sorted. (Once the distance moves more than 4 units they will be
@@ -254,7 +254,7 @@ public class RenderGlobal implements IWorldAccess
      */
     int frustumCheckOffset;
     private static final String __OBFID = "CL_00000954";
-    private IntBuffer glListBuffer = BufferUtils.createIntBuffer(65536);
+    private final IntBuffer glListBuffer = BufferUtils.createIntBuffer(65536);
     double prevReposX;
     double prevReposY;
     double prevReposZ;
@@ -273,7 +273,7 @@ public class RenderGlobal implements IWorldAccess
     private int countTileEntitiesRendered;
     private long lastMovedTime = System.currentTimeMillis();
     private long lastActionTime = System.currentTimeMillis();
-    private static AxisAlignedBB AABB_INFINITE = AxisAlignedBB.getBoundingBox(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+    private static final AxisAlignedBB AABB_INFINITE = AxisAlignedBB.getBoundingBox(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 
     public RenderGlobal(Minecraft par1Minecraft)
     {
@@ -319,10 +319,10 @@ public class RenderGlobal implements IWorldAccess
             for (var9 = -var6 * var7; var9 <= var6 * var7; var9 += var6)
             {
                 var4.startDrawingQuads();
-                var4.addVertex((double) (var8 + 0), (double) var5, (double) (var9 + 0));
-                var4.addVertex((double) (var8 + var6), (double) var5, (double) (var9 + 0));
-                var4.addVertex((double) (var8 + var6), (double) var5, (double) (var9 + var6));
-                var4.addVertex((double) (var8 + 0), (double) var5, (double) (var9 + var6));
+                var4.addVertex(var8, var5, var9);
+                var4.addVertex(var8 + var6, var5, var9);
+                var4.addVertex(var8 + var6, var5, var9 + var6);
+                var4.addVertex(var8, var5, var9 + var6);
                 var4.draw();
             }
         }
@@ -337,10 +337,10 @@ public class RenderGlobal implements IWorldAccess
         {
             for (var9 = -var6 * var7; var9 <= var6 * var7; var9 += var6)
             {
-                var4.addVertex((double) (var8 + var6), (double) var5, (double) (var9 + 0));
-                var4.addVertex((double) (var8 + 0), (double) var5, (double) (var9 + 0));
-                var4.addVertex((double) (var8 + 0), (double) var5, (double) (var9 + var6));
-                var4.addVertex((double) (var8 + var6), (double) var5, (double) (var9 + var6));
+                var4.addVertex(var8 + var6, var5, var9);
+                var4.addVertex(var8, var5, var9);
+                var4.addVertex(var8, var5, var9 + var6);
+                var4.addVertex(var8 + var6, var5, var9 + var6);
             }
         }
 
@@ -356,10 +356,10 @@ public class RenderGlobal implements IWorldAccess
 
         for (int var3 = 0; var3 < 1500; ++var3)
         {
-            double var4 = (double) (var1.nextFloat() * 2.0F - 1.0F);
-            double var6 = (double) (var1.nextFloat() * 2.0F - 1.0F);
-            double var8 = (double) (var1.nextFloat() * 2.0F - 1.0F);
-            double var10 = (double) (0.15F + var1.nextFloat() * 0.1F);
+            double var4 = var1.nextFloat() * 2.0F - 1.0F;
+            double var6 = var1.nextFloat() * 2.0F - 1.0F;
+            double var8 = var1.nextFloat() * 2.0F - 1.0F;
+            double var10 = 0.15F + var1.nextFloat() * 0.1F;
             double var12 = var4 * var4 + var6 * var6 + var8 * var8;
 
             if (var12 < 1.0D && var12 > 0.01D)
@@ -621,7 +621,7 @@ public class RenderGlobal implements IWorldAccess
             RenderManager.renderPosY = isShaders;
             RenderManager.renderPosZ = te;
 
-            this.mc.entityRenderer.enableLightmap((double) p_147589_3_);
+            this.mc.entityRenderer.enableLightmap(p_147589_3_);
             this.theWorld.theProfiler.endStartSection("global");
             List var25 = this.theWorld.getLoadedEntityList();
 
@@ -768,7 +768,7 @@ public class RenderGlobal implements IWorldAccess
                 }
             }
 
-            this.mc.entityRenderer.disableLightmap((double) p_147589_3_);
+            this.mc.entityRenderer.disableLightmap(p_147589_3_);
 
             if (var27)
             {
@@ -1714,7 +1714,7 @@ public class RenderGlobal implements IWorldAccess
                     var20 = (float) var29 * (float) Math.PI * 2.0F / (float) var25;
                     var16 = MathHelper.sin(var20);
                     var17 = MathHelper.cos(var20);
-                    var241.addVertex((double) (var16 * 120.0F), (double) (var17 * 120.0F), (double) (-var17 * 40.0F * var251[3]));
+                    var241.addVertex(var16 * 120.0F, var17 * 120.0F, -var17 * 40.0F * var251[3]);
                 }
 
                 var241.draw();
@@ -1758,10 +1758,10 @@ public class RenderGlobal implements IWorldAccess
             {
                 this.renderEngine.bindTexture(locationSunPng);
                 var241.startDrawingQuads();
-                var241.addVertexWithUV((double) (-var12), 100.0D, (double) (-var12), 0.0D, 0.0D);
-                var241.addVertexWithUV((double) var12, 100.0D, (double) (-var12), 1.0D, 0.0D);
-                var241.addVertexWithUV((double) var12, 100.0D, (double) var12, 1.0D, 1.0D);
-                var241.addVertexWithUV((double) (-var12), 100.0D, (double) var12, 0.0D, 1.0D);
+                var241.addVertexWithUV(-var12, 100.0D, -var12, 0.0D, 0.0D);
+                var241.addVertexWithUV(var12, 100.0D, -var12, 1.0D, 0.0D);
+                var241.addVertexWithUV(var12, 100.0D, var12, 1.0D, 1.0D);
+                var241.addVertexWithUV(-var12, 100.0D, var12, 0.0D, 1.0D);
                 var241.draw();
             }
 
@@ -1773,15 +1773,15 @@ public class RenderGlobal implements IWorldAccess
                 int var26 = this.theWorld.getMoonPhase();
                 int var27 = var26 % 4;
                 var29 = var26 / 4 % 2;
-                var16 = (float) (var27 + 0) / 4.0F;
-                var17 = (float) (var29 + 0) / 2.0F;
+                var16 = (float) (var27) / 4.0F;
+                var17 = (float) (var29) / 2.0F;
                 float var18 = (float) (var27 + 1) / 4.0F;
                 float var19 = (float) (var29 + 1) / 2.0F;
                 var241.startDrawingQuads();
-                var241.addVertexWithUV((double) (-var12), -100.0D, (double) var12, (double) var18, (double) var19);
-                var241.addVertexWithUV((double) var12, -100.0D, (double) var12, (double) var16, (double) var19);
-                var241.addVertexWithUV((double) var12, -100.0D, (double) (-var12), (double) var16, (double) var17);
-                var241.addVertexWithUV((double) (-var12), -100.0D, (double) (-var12), (double) var18, (double) var17);
+                var241.addVertexWithUV(-var12, -100.0D, var12, var18, var19);
+                var241.addVertexWithUV(var12, -100.0D, var12, var16, var19);
+                var241.addVertexWithUV(var12, -100.0D, -var12, var16, var17);
+                var241.addVertexWithUV(-var12, -100.0D, -var12, var18, var17);
                 var241.draw();
             }
 
@@ -1832,26 +1832,26 @@ public class RenderGlobal implements IWorldAccess
                 var12 = -var10;
                 var241.startDrawingQuads();
                 var241.setColorRGBA_I(0, 255);
-                var241.addVertex((double) (-var10), (double) var11, (double) var10);
-                var241.addVertex((double) var10, (double) var11, (double) var10);
-                var241.addVertex((double) var10, (double) var12, (double) var10);
-                var241.addVertex((double) (-var10), (double) var12, (double) var10);
-                var241.addVertex((double) (-var10), (double) var12, (double) (-var10));
-                var241.addVertex((double) var10, (double) var12, (double) (-var10));
-                var241.addVertex((double) var10, (double) var11, (double) (-var10));
-                var241.addVertex((double) (-var10), (double) var11, (double) (-var10));
-                var241.addVertex((double) var10, (double) var12, (double) (-var10));
-                var241.addVertex((double) var10, (double) var12, (double) var10);
-                var241.addVertex((double) var10, (double) var11, (double) var10);
-                var241.addVertex((double) var10, (double) var11, (double) (-var10));
-                var241.addVertex((double) (-var10), (double) var11, (double) (-var10));
-                var241.addVertex((double) (-var10), (double) var11, (double) var10);
-                var241.addVertex((double) (-var10), (double) var12, (double) var10);
-                var241.addVertex((double) (-var10), (double) var12, (double) (-var10));
-                var241.addVertex((double) (-var10), (double) var12, (double) (-var10));
-                var241.addVertex((double) (-var10), (double) var12, (double) var10);
-                var241.addVertex((double) var10, (double) var12, (double) var10);
-                var241.addVertex((double) var10, (double) var12, (double) (-var10));
+                var241.addVertex(-var10, var11, var10);
+                var241.addVertex(var10, var11, var10);
+                var241.addVertex(var10, var12, var10);
+                var241.addVertex(-var10, var12, var10);
+                var241.addVertex(-var10, var12, -var10);
+                var241.addVertex(var10, var12, -var10);
+                var241.addVertex(var10, var11, -var10);
+                var241.addVertex(-var10, var11, -var10);
+                var241.addVertex(var10, var12, -var10);
+                var241.addVertex(var10, var12, var10);
+                var241.addVertex(var10, var11, var10);
+                var241.addVertex(var10, var11, -var10);
+                var241.addVertex(-var10, var11, -var10);
+                var241.addVertex(-var10, var11, var10);
+                var241.addVertex(-var10, var12, var10);
+                var241.addVertex(-var10, var12, -var10);
+                var241.addVertex(-var10, var12, -var10);
+                var241.addVertex(-var10, var12, var10);
+                var241.addVertex(var10, var12, var10);
+                var241.addVertex(var10, var12, -var10);
                 var241.draw();
             }
 
@@ -1932,13 +1932,13 @@ public class RenderGlobal implements IWorldAccess
                         }
 
                         var10 = 4.8828125E-4F;
-                        exactPlayerZ1 = (double) ((float) this.cloudTickCounter + par1);
+                        exactPlayerZ1 = (float) this.cloudTickCounter + par1;
                         dc = this.mc.renderViewEntity.prevPosX + (this.mc.renderViewEntity.posX - this.mc.renderViewEntity.prevPosX) * (double) par1 + exactPlayerZ1 * 0.029999999329447746D;
                         double cdx = this.mc.renderViewEntity.prevPosZ + (this.mc.renderViewEntity.posZ - this.mc.renderViewEntity.prevPosZ) * (double) par1;
                         int cdz = MathHelper.floor_double(dc / 2048.0D);
                         int var18 = MathHelper.floor_double(cdx / 2048.0D);
-                        dc -= (double) (cdz * 2048);
-                        cdx -= (double) (var18 * 2048);
+                        dc -= cdz * 2048;
+                        cdx -= var18 * 2048;
                         float var19 = this.theWorld.provider.getCloudHeight() - var21 + 0.33F;
                         var19 += this.mc.gameSettings.ofCloudsHeight * 128.0F;
                         float var20 = (float) (dc * (double) var10);
@@ -1950,10 +1950,10 @@ public class RenderGlobal implements IWorldAccess
                         {
                             for (int var23 = -var3 * var4; var23 < var3 * var4; var23 += var3)
                             {
-                                var5.addVertexWithUV((double) (var22 + 0), (double) var19, (double) (var23 + var3), (double) ((float) (var22 + 0) * var10 + var20), (double) ((float) (var23 + var3) * var10 + var21));
-                                var5.addVertexWithUV((double) (var22 + var3), (double) var19, (double) (var23 + var3), (double) ((float) (var22 + var3) * var10 + var20), (double) ((float) (var23 + var3) * var10 + var21));
-                                var5.addVertexWithUV((double) (var22 + var3), (double) var19, (double) (var23 + 0), (double) ((float) (var22 + var3) * var10 + var20), (double) ((float) (var23 + 0) * var10 + var21));
-                                var5.addVertexWithUV((double) (var22 + 0), (double) var19, (double) (var23 + 0), (double) ((float) (var22 + 0) * var10 + var20), (double) ((float) (var23 + 0) * var10 + var21));
+                                var5.addVertexWithUV(var22, var19, var23 + var3, (float) (var22) * var10 + var20, (float) (var23 + var3) * var10 + var21);
+                                var5.addVertexWithUV(var22 + var3, var19, var23 + var3, (float) (var22 + var3) * var10 + var20, (float) (var23 + var3) * var10 + var21);
+                                var5.addVertexWithUV(var22 + var3, var19, var23, (float) (var22 + var3) * var10 + var20, (float) (var23) * var10 + var21);
+                                var5.addVertexWithUV(var22, var19, var23, (float) (var22) * var10 + var20, (float) (var23) * var10 + var21);
                             }
                         }
 
@@ -1970,7 +1970,7 @@ public class RenderGlobal implements IWorldAccess
                     double exactPlayerX1 = entityliving1.prevPosX + (entityliving1.posX - entityliving1.prevPosX) * (double) partialTicks1;
                     double exactPlayerY1 = entityliving1.prevPosY + (entityliving1.posY - entityliving1.prevPosY) * (double) partialTicks1;
                     exactPlayerZ1 = entityliving1.prevPosZ + (entityliving1.posZ - entityliving1.prevPosZ) * (double) partialTicks1;
-                    dc = (double) ((float) (this.cloudTickCounter - this.cloudTickCounterGlList) + partialTicks1);
+                    dc = (float) (this.cloudTickCounter - this.cloudTickCounterGlList) + partialTicks1;
                     float cdx1 = (float) (exactPlayerX1 - this.cloudPlayerX + dc * 0.03D);
                     float cdy = (float) (exactPlayerY1 - this.cloudPlayerY);
                     float cdz1 = (float) (exactPlayerZ1 - this.cloudPlayerZ);
@@ -2005,15 +2005,15 @@ public class RenderGlobal implements IWorldAccess
         Tessellator var3 = Tessellator.instance;
         float var4 = 12.0F;
         float var5 = 4.0F;
-        double var6 = (double) ((float) this.cloudTickCounter + par1);
+        double var6 = (float) this.cloudTickCounter + par1;
         double var8 = (this.mc.renderViewEntity.prevPosX + (this.mc.renderViewEntity.posX - this.mc.renderViewEntity.prevPosX) * (double) par1 + var6 * 0.029999999329447746D) / (double) var4;
         double var10 = (this.mc.renderViewEntity.prevPosZ + (this.mc.renderViewEntity.posZ - this.mc.renderViewEntity.prevPosZ) * (double) par1) / (double) var4 + 0.33000001311302185D;
         float var12 = this.theWorld.provider.getCloudHeight() - var2 + 0.33F;
         var12 += this.mc.gameSettings.ofCloudsHeight * 128.0F;
         int var13 = MathHelper.floor_double(var8 / 2048.0D);
         int var14 = MathHelper.floor_double(var10 / 2048.0D);
-        var8 -= (double) (var13 * 2048);
-        var10 -= (double) (var14 * 2048);
+        var8 -= var13 * 2048;
+        var10 -= var14 * 2048;
         this.renderEngine.bindTexture(locationCloudsPng);
         GL11.glEnable(GL11.GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -2085,20 +2085,20 @@ public class RenderGlobal implements IWorldAccess
                         {
                             var3.setColorRGBA_F(exactPlayerX * 0.7F, var17 * 0.7F, exactPlayerY * 0.7F, 0.8F);
                             var3.setNormal(0.0F, -1.0F, 0.0F);
-                            var3.addVertexWithUV((double) (var32 + 0.0F), (double) (var12 + 0.0F), (double) (var33 + (float) cdx), (double) ((var30 + 0.0F) * exactPlayerZ + var19), (double) ((var31 + (float) cdx) * exactPlayerZ + var20));
-                            var3.addVertexWithUV((double) (var32 + (float) cdx), (double) (var12 + 0.0F), (double) (var33 + (float) cdx), (double) ((var30 + (float) cdx) * exactPlayerZ + var19), (double) ((var31 + (float) cdx) * exactPlayerZ + var20));
-                            var3.addVertexWithUV((double) (var32 + (float) cdx), (double) (var12 + 0.0F), (double) (var33 + 0.0F), (double) ((var30 + (float) cdx) * exactPlayerZ + var19), (double) ((var31 + 0.0F) * exactPlayerZ + var20));
-                            var3.addVertexWithUV((double) (var32 + 0.0F), (double) (var12 + 0.0F), (double) (var33 + 0.0F), (double) ((var30 + 0.0F) * exactPlayerZ + var19), (double) ((var31 + 0.0F) * exactPlayerZ + var20));
+                            var3.addVertexWithUV(var32 + 0.0F, var12 + 0.0F, var33 + (float) cdx, (var30 + 0.0F) * exactPlayerZ + var19, (var31 + (float) cdx) * exactPlayerZ + var20);
+                            var3.addVertexWithUV(var32 + (float) cdx, var12 + 0.0F, var33 + (float) cdx, (var30 + (float) cdx) * exactPlayerZ + var19, (var31 + (float) cdx) * exactPlayerZ + var20);
+                            var3.addVertexWithUV(var32 + (float) cdx, var12 + 0.0F, var33 + 0.0F, (var30 + (float) cdx) * exactPlayerZ + var19, (var31 + 0.0F) * exactPlayerZ + var20);
+                            var3.addVertexWithUV(var32 + 0.0F, var12 + 0.0F, var33 + 0.0F, (var30 + 0.0F) * exactPlayerZ + var19, (var31 + 0.0F) * exactPlayerZ + var20);
                         }
 
                         if (var12 <= var5 + 1.0F)
                         {
                             var3.setColorRGBA_F(exactPlayerX, var17, exactPlayerY, 0.8F);
                             var3.setNormal(0.0F, 1.0F, 0.0F);
-                            var3.addVertexWithUV((double) (var32 + 0.0F), (double) (var12 + var5 - cdz), (double) (var33 + (float) cdx), (double) ((var30 + 0.0F) * exactPlayerZ + var19), (double) ((var31 + (float) cdx) * exactPlayerZ + var20));
-                            var3.addVertexWithUV((double) (var32 + (float) cdx), (double) (var12 + var5 - cdz), (double) (var33 + (float) cdx), (double) ((var30 + (float) cdx) * exactPlayerZ + var19), (double) ((var31 + (float) cdx) * exactPlayerZ + var20));
-                            var3.addVertexWithUV((double) (var32 + (float) cdx), (double) (var12 + var5 - cdz), (double) (var33 + 0.0F), (double) ((var30 + (float) cdx) * exactPlayerZ + var19), (double) ((var31 + 0.0F) * exactPlayerZ + var20));
-                            var3.addVertexWithUV((double) (var32 + 0.0F), (double) (var12 + var5 - cdz), (double) (var33 + 0.0F), (double) ((var30 + 0.0F) * exactPlayerZ + var19), (double) ((var31 + 0.0F) * exactPlayerZ + var20));
+                            var3.addVertexWithUV(var32 + 0.0F, var12 + var5 - cdz, var33 + (float) cdx, (var30 + 0.0F) * exactPlayerZ + var19, (var31 + (float) cdx) * exactPlayerZ + var20);
+                            var3.addVertexWithUV(var32 + (float) cdx, var12 + var5 - cdz, var33 + (float) cdx, (var30 + (float) cdx) * exactPlayerZ + var19, (var31 + (float) cdx) * exactPlayerZ + var20);
+                            var3.addVertexWithUV(var32 + (float) cdx, var12 + var5 - cdz, var33 + 0.0F, (var30 + (float) cdx) * exactPlayerZ + var19, (var31 + 0.0F) * exactPlayerZ + var20);
+                            var3.addVertexWithUV(var32 + 0.0F, var12 + var5 - cdz, var33 + 0.0F, (var30 + 0.0F) * exactPlayerZ + var19, (var31 + 0.0F) * exactPlayerZ + var20);
                         }
 
                         var3.setColorRGBA_F(exactPlayerX * 0.9F, var17 * 0.9F, exactPlayerY * 0.9F, 0.8F);
@@ -2110,10 +2110,10 @@ public class RenderGlobal implements IWorldAccess
 
                             for (var34 = 0; var34 < cdx; ++var34)
                             {
-                                var3.addVertexWithUV((double) (var32 + (float) var34 + 0.0F), (double) (var12 + 0.0F), (double) (var33 + (float) cdx), (double) ((var30 + (float) var34 + 0.5F) * exactPlayerZ + var19), (double) ((var31 + (float) cdx) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + (float) var34 + 0.0F), (double) (var12 + var5), (double) (var33 + (float) cdx), (double) ((var30 + (float) var34 + 0.5F) * exactPlayerZ + var19), (double) ((var31 + (float) cdx) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + (float) var34 + 0.0F), (double) (var12 + var5), (double) (var33 + 0.0F), (double) ((var30 + (float) var34 + 0.5F) * exactPlayerZ + var19), (double) ((var31 + 0.0F) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + (float) var34 + 0.0F), (double) (var12 + 0.0F), (double) (var33 + 0.0F), (double) ((var30 + (float) var34 + 0.5F) * exactPlayerZ + var19), (double) ((var31 + 0.0F) * exactPlayerZ + var20));
+                                var3.addVertexWithUV(var32 + (float) var34 + 0.0F, var12 + 0.0F, var33 + (float) cdx, (var30 + (float) var34 + 0.5F) * exactPlayerZ + var19, (var31 + (float) cdx) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + (float) var34 + 0.0F, var12 + var5, var33 + (float) cdx, (var30 + (float) var34 + 0.5F) * exactPlayerZ + var19, (var31 + (float) cdx) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + (float) var34 + 0.0F, var12 + var5, var33 + 0.0F, (var30 + (float) var34 + 0.5F) * exactPlayerZ + var19, (var31 + 0.0F) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + (float) var34 + 0.0F, var12 + 0.0F, var33 + 0.0F, (var30 + (float) var34 + 0.5F) * exactPlayerZ + var19, (var31 + 0.0F) * exactPlayerZ + var20);
                             }
                         }
 
@@ -2123,10 +2123,10 @@ public class RenderGlobal implements IWorldAccess
 
                             for (var34 = 0; var34 < cdx; ++var34)
                             {
-                                var3.addVertexWithUV((double) (var32 + (float) var34 + 1.0F - cdz), (double) (var12 + 0.0F), (double) (var33 + (float) cdx), (double) ((var30 + (float) var34 + 0.5F) * exactPlayerZ + var19), (double) ((var31 + (float) cdx) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + (float) var34 + 1.0F - cdz), (double) (var12 + var5), (double) (var33 + (float) cdx), (double) ((var30 + (float) var34 + 0.5F) * exactPlayerZ + var19), (double) ((var31 + (float) cdx) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + (float) var34 + 1.0F - cdz), (double) (var12 + var5), (double) (var33 + 0.0F), (double) ((var30 + (float) var34 + 0.5F) * exactPlayerZ + var19), (double) ((var31 + 0.0F) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + (float) var34 + 1.0F - cdz), (double) (var12 + 0.0F), (double) (var33 + 0.0F), (double) ((var30 + (float) var34 + 0.5F) * exactPlayerZ + var19), (double) ((var31 + 0.0F) * exactPlayerZ + var20));
+                                var3.addVertexWithUV(var32 + (float) var34 + 1.0F - cdz, var12 + 0.0F, var33 + (float) cdx, (var30 + (float) var34 + 0.5F) * exactPlayerZ + var19, (var31 + (float) cdx) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + (float) var34 + 1.0F - cdz, var12 + var5, var33 + (float) cdx, (var30 + (float) var34 + 0.5F) * exactPlayerZ + var19, (var31 + (float) cdx) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + (float) var34 + 1.0F - cdz, var12 + var5, var33 + 0.0F, (var30 + (float) var34 + 0.5F) * exactPlayerZ + var19, (var31 + 0.0F) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + (float) var34 + 1.0F - cdz, var12 + 0.0F, var33 + 0.0F, (var30 + (float) var34 + 0.5F) * exactPlayerZ + var19, (var31 + 0.0F) * exactPlayerZ + var20);
                             }
                         }
 
@@ -2138,10 +2138,10 @@ public class RenderGlobal implements IWorldAccess
 
                             for (var34 = 0; var34 < cdx; ++var34)
                             {
-                                var3.addVertexWithUV((double) (var32 + 0.0F), (double) (var12 + var5), (double) (var33 + (float) var34 + 0.0F), (double) ((var30 + 0.0F) * exactPlayerZ + var19), (double) ((var31 + (float) var34 + 0.5F) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + (float) cdx), (double) (var12 + var5), (double) (var33 + (float) var34 + 0.0F), (double) ((var30 + (float) cdx) * exactPlayerZ + var19), (double) ((var31 + (float) var34 + 0.5F) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + (float) cdx), (double) (var12 + 0.0F), (double) (var33 + (float) var34 + 0.0F), (double) ((var30 + (float) cdx) * exactPlayerZ + var19), (double) ((var31 + (float) var34 + 0.5F) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + 0.0F), (double) (var12 + 0.0F), (double) (var33 + (float) var34 + 0.0F), (double) ((var30 + 0.0F) * exactPlayerZ + var19), (double) ((var31 + (float) var34 + 0.5F) * exactPlayerZ + var20));
+                                var3.addVertexWithUV(var32 + 0.0F, var12 + var5, var33 + (float) var34 + 0.0F, (var30 + 0.0F) * exactPlayerZ + var19, (var31 + (float) var34 + 0.5F) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + (float) cdx, var12 + var5, var33 + (float) var34 + 0.0F, (var30 + (float) cdx) * exactPlayerZ + var19, (var31 + (float) var34 + 0.5F) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + (float) cdx, var12 + 0.0F, var33 + (float) var34 + 0.0F, (var30 + (float) cdx) * exactPlayerZ + var19, (var31 + (float) var34 + 0.5F) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + 0.0F, var12 + 0.0F, var33 + (float) var34 + 0.0F, (var30 + 0.0F) * exactPlayerZ + var19, (var31 + (float) var34 + 0.5F) * exactPlayerZ + var20);
                             }
                         }
 
@@ -2151,10 +2151,10 @@ public class RenderGlobal implements IWorldAccess
 
                             for (var34 = 0; var34 < cdx; ++var34)
                             {
-                                var3.addVertexWithUV((double) (var32 + 0.0F), (double) (var12 + var5), (double) (var33 + (float) var34 + 1.0F - cdz), (double) ((var30 + 0.0F) * exactPlayerZ + var19), (double) ((var31 + (float) var34 + 0.5F) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + (float) cdx), (double) (var12 + var5), (double) (var33 + (float) var34 + 1.0F - cdz), (double) ((var30 + (float) cdx) * exactPlayerZ + var19), (double) ((var31 + (float) var34 + 0.5F) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + (float) cdx), (double) (var12 + 0.0F), (double) (var33 + (float) var34 + 1.0F - cdz), (double) ((var30 + (float) cdx) * exactPlayerZ + var19), (double) ((var31 + (float) var34 + 0.5F) * exactPlayerZ + var20));
-                                var3.addVertexWithUV((double) (var32 + 0.0F), (double) (var12 + 0.0F), (double) (var33 + (float) var34 + 1.0F - cdz), (double) ((var30 + 0.0F) * exactPlayerZ + var19), (double) ((var31 + (float) var34 + 0.5F) * exactPlayerZ + var20));
+                                var3.addVertexWithUV(var32 + 0.0F, var12 + var5, var33 + (float) var34 + 1.0F - cdz, (var30 + 0.0F) * exactPlayerZ + var19, (var31 + (float) var34 + 0.5F) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + (float) cdx, var12 + var5, var33 + (float) var34 + 1.0F - cdz, (var30 + (float) cdx) * exactPlayerZ + var19, (var31 + (float) var34 + 0.5F) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + (float) cdx, var12 + 0.0F, var33 + (float) var34 + 1.0F - cdz, (var30 + (float) cdx) * exactPlayerZ + var19, (var31 + (float) var34 + 0.5F) * exactPlayerZ + var20);
+                                var3.addVertexWithUV(var32 + 0.0F, var12 + 0.0F, var33 + (float) var34 + 1.0F - cdz, (var30 + 0.0F) * exactPlayerZ + var19, (var31 + (float) var34 + 0.5F) * exactPlayerZ + var20);
                             }
                         }
 
@@ -2175,7 +2175,7 @@ public class RenderGlobal implements IWorldAccess
         double var37 = var36.prevPosX + (var36.posX - var36.prevPosX) * (double) partialTicks;
         double var38 = var36.prevPosY + (var36.posY - var36.prevPosY) * (double) partialTicks;
         double var39 = var36.prevPosZ + (var36.posZ - var36.prevPosZ) * (double) partialTicks;
-        double var40 = (double) ((float) (this.cloudTickCounter - this.cloudTickCounterGlList) + partialTicks);
+        double var40 = (float) (this.cloudTickCounter - this.cloudTickCounterGlList) + partialTicks;
         float var41 = (float) (var37 - this.cloudPlayerX + var40 * 0.03D);
         float var42 = (float) (var38 - this.cloudPlayerY);
         cdz = (float) (var39 - this.cloudPlayerZ);
@@ -2226,7 +2226,7 @@ public class RenderGlobal implements IWorldAccess
 
                     if (!i.needsUpdate)
                     {
-                        this.worldRenderersToUpdate.set(maxDiffDistSq, (Object) null);
+                        this.worldRenderersToUpdate.set(maxDiffDistSq, null);
                     } else
                     {
                         float wr = i.distanceToEntitySquared(entityliving);
@@ -2235,7 +2235,7 @@ public class RenderGlobal implements IWorldAccess
                         {
                             i.updateRenderer(entityliving);
                             i.needsUpdate = false;
-                            this.worldRenderersToUpdate.set(maxDiffDistSq, (Object) null);
+                            this.worldRenderersToUpdate.set(maxDiffDistSq, null);
                             ++num;
                         } else
                         {
@@ -2246,7 +2246,7 @@ public class RenderGlobal implements IWorldAccess
 
                             if (!i.isInFrustum)
                             {
-                                wr *= (float) NOT_IN_FRUSTRUM_MUL;
+                                wr *= NOT_IN_FRUSTRUM_MUL;
                             }
 
                             if (wrBest == null)
@@ -2269,7 +2269,7 @@ public class RenderGlobal implements IWorldAccess
             {
                 wrBest.updateRenderer(entityliving);
                 wrBest.needsUpdate = false;
-                this.worldRenderersToUpdate.set(indexBest, (Object) null);
+                this.worldRenderersToUpdate.set(indexBest, null);
                 ++num;
                 float var15 = distSqBest / 5.0F;
 
@@ -2283,7 +2283,7 @@ public class RenderGlobal implements IWorldAccess
 
                         if (!var17.isInFrustum)
                         {
-                            distSq *= (float) NOT_IN_FRUSTRUM_MUL;
+                            distSq *= NOT_IN_FRUSTRUM_MUL;
                         }
 
                         float diffDistSq = Math.abs(distSq - distSqBest);
@@ -2292,7 +2292,7 @@ public class RenderGlobal implements IWorldAccess
                         {
                             var17.updateRenderer(entityliving);
                             var17.needsUpdate = false;
-                            this.worldRenderersToUpdate.set(var16, (Object) null);
+                            this.worldRenderersToUpdate.set(var16, null);
                             ++num;
                         }
                     }
@@ -2406,7 +2406,7 @@ public class RenderGlobal implements IWorldAccess
                 double var7 = par1EntityPlayer.lastTickPosX + (par1EntityPlayer.posX - par1EntityPlayer.lastTickPosX) * (double) par4;
                 double var9 = par1EntityPlayer.lastTickPosY + (par1EntityPlayer.posY - par1EntityPlayer.lastTickPosY) * (double) par4;
                 double var11 = par1EntityPlayer.lastTickPosZ + (par1EntityPlayer.posZ - par1EntityPlayer.lastTickPosZ) * (double) par4;
-                drawOutlinedBoundingBox(var6.getSelectedBoundingBoxFromPool(this.theWorld, par2MovingObjectPosition.blockX, par2MovingObjectPosition.blockY, par2MovingObjectPosition.blockZ).expand((double) var5, (double) var5, (double) var5).getOffsetBoundingBox(-var7, -var9, -var11), -1);
+                drawOutlinedBoundingBox(var6.getSelectedBoundingBoxFromPool(this.theWorld, par2MovingObjectPosition.blockX, par2MovingObjectPosition.blockY, par2MovingObjectPosition.blockZ).expand(var5, var5, var5).getOffsetBoundingBox(-var7, -var9, -var11), -1);
             }
 
             GL11.glDepthMask(true);
@@ -2556,7 +2556,7 @@ public class RenderGlobal implements IWorldAccess
     public void clipRenderersByFrustum(ICamera par1ICamera, float par2)
     {
         boolean checkDistanceXz = !Config.isFogOff();
-        double renderDistSq = (double) (this.renderDistanceChunks * 16 * this.renderDistanceChunks * 16);
+        double renderDistSq = this.renderDistanceChunks * 16 * this.renderDistanceChunks * 16;
 
         for (int var3 = 0; var3 < this.countSortedWorldRenderers; ++var3)
         {
@@ -2684,7 +2684,7 @@ public class RenderGlobal implements IWorldAccess
 
             if (var21 != null)
             {
-                return (EntityFX) var21;
+                return var21;
             } else
             {
                 double var22 = 16.0D;
@@ -2706,7 +2706,7 @@ public class RenderGlobal implements IWorldAccess
                     if (par1Str.equals("bubble"))
                     {
                         var21 = new EntityBubbleFX(this.theWorld, par2, par4, par6, par8, par10, par12);
-                        CustomColorizer.updateWaterFX((EntityFX) var21, this.theWorld);
+                        CustomColorizer.updateWaterFX(var21, this.theWorld);
                     } else if (par1Str.equals("suspended"))
                     {
                         if (Config.isWaterParticles())
@@ -2722,15 +2722,15 @@ public class RenderGlobal implements IWorldAccess
                     } else if (par1Str.equals("townaura"))
                     {
                         var21 = new EntityAuraFX(this.theWorld, par2, par4, par6, par8, par10, par12);
-                        CustomColorizer.updateMyceliumFX((EntityFX) var21);
+                        CustomColorizer.updateMyceliumFX(var21);
                     } else if (par1Str.equals("crit"))
                     {
                         var21 = new EntityCritFX(this.theWorld, par2, par4, par6, par8, par10, par12);
                     } else if (par1Str.equals("magicCrit"))
                     {
                         var21 = new EntityCritFX(this.theWorld, par2, par4, par6, par8, par10, par12);
-                        ((EntityFX) var21).setRBGColorF(((EntityFX) var21).getRedColorF() * 0.3F, ((EntityFX) var21).getGreenColorF() * 0.8F, ((EntityFX) var21).getBlueColorF());
-                        ((EntityFX) var21).nextTextureIndexX();
+                        var21.setRBGColorF(var21.getRedColorF() * 0.3F, var21.getGreenColorF() * 0.8F, var21.getBlueColorF());
+                        var21.nextTextureIndexX();
                     } else if (par1Str.equals("smoke"))
                     {
                         if (Config.isAnimatedSmoke())
@@ -2742,15 +2742,15 @@ public class RenderGlobal implements IWorldAccess
                         if (Config.isPotionParticles())
                         {
                             var21 = new EntitySpellParticleFX(this.theWorld, par2, par4, par6, 0.0D, 0.0D, 0.0D);
-                            ((EntityFX) var21).setRBGColorF((float) par8, (float) par10, (float) par12);
+                            var21.setRBGColorF((float) par8, (float) par10, (float) par12);
                         }
                     } else if (par1Str.equals("mobSpellAmbient"))
                     {
                         if (Config.isPotionParticles())
                         {
                             var21 = new EntitySpellParticleFX(this.theWorld, par2, par4, par6, 0.0D, 0.0D, 0.0D);
-                            ((EntityFX) var21).setAlphaF(0.15F);
-                            ((EntityFX) var21).setRBGColorF((float) par8, (float) par10, (float) par12);
+                            var21.setAlphaF(0.15F);
+                            var21.setRBGColorF((float) par8, (float) par10, (float) par12);
                         }
                     } else if (par1Str.equals("spell"))
                     {
@@ -2772,7 +2772,7 @@ public class RenderGlobal implements IWorldAccess
                             var21 = new EntitySpellParticleFX(this.theWorld, par2, par4, par6, par8, par10, par12);
                             ((EntitySpellParticleFX) var21).setBaseSpellTextureIndex(144);
                             float var26 = this.theWorld.rand.nextFloat() * 0.5F + 0.35F;
-                            ((EntityFX) var21).setRBGColorF(1.0F * var26, 0.0F * var26, 1.0F * var26);
+                            var21.setRBGColorF(var26, 0.0F * var26, var26);
                         }
                     } else if (par1Str.equals("note"))
                     {
@@ -2782,7 +2782,7 @@ public class RenderGlobal implements IWorldAccess
                         if (Config.isPortalParticles())
                         {
                             var21 = new EntityPortalFX(this.theWorld, par2, par4, par6, par8, par10, par12);
-                            CustomColorizer.updatePortalFX((EntityFX) var21);
+                            CustomColorizer.updatePortalFX(var21);
                         }
                     } else if (par1Str.equals("enchantmenttable"))
                     {
@@ -2808,7 +2808,7 @@ public class RenderGlobal implements IWorldAccess
                     } else if (par1Str.equals("splash"))
                     {
                         var21 = new EntitySplashFX(this.theWorld, par2, par4, par6, par8, par10, par12);
-                        CustomColorizer.updateWaterFX((EntityFX) var21, this.theWorld);
+                        CustomColorizer.updateWaterFX(var21, this.theWorld);
                     } else if (par1Str.equals("wake"))
                     {
                         var21 = new EntityFishWakeFX(this.theWorld, par2, par4, par6, par8, par10, par12);
@@ -2826,7 +2826,7 @@ public class RenderGlobal implements IWorldAccess
                         if (Config.isAnimatedRedstone())
                         {
                             var21 = new EntityReddustFX(this.theWorld, par2, par4, par6, (float) par8, (float) par10, (float) par12);
-                            CustomColorizer.updateReddustFX((EntityFX) var21, this.theWorld, var15, var17, var19);
+                            CustomColorizer.updateReddustFX(var21, this.theWorld, var15, var17, var19);
                         }
                     } else if (par1Str.equals("snowballpoof"))
                     {
@@ -2855,13 +2855,13 @@ public class RenderGlobal implements IWorldAccess
                     } else if (par1Str.equals("angryVillager"))
                     {
                         var21 = new EntityHeartFX(this.theWorld, par2, par4 + 0.5D, par6, par8, par10, par12);
-                        ((EntityFX) var21).setParticleTextureIndex(81);
-                        ((EntityFX) var21).setRBGColorF(1.0F, 1.0F, 1.0F);
+                        var21.setParticleTextureIndex(81);
+                        var21.setRBGColorF(1.0F, 1.0F, 1.0F);
                     } else if (par1Str.equals("happyVillager"))
                     {
                         var21 = new EntityAuraFX(this.theWorld, par2, par4, par6, par8, par10, par12);
-                        ((EntityFX) var21).setParticleTextureIndex(82);
-                        ((EntityFX) var21).setRBGColorF(1.0F, 1.0F, 1.0F);
+                        var21.setParticleTextureIndex(82);
+                        var21.setRBGColorF(1.0F, 1.0F, 1.0F);
                     } else
                     {
                         String[] var28;
@@ -2902,10 +2902,10 @@ public class RenderGlobal implements IWorldAccess
 
                     if (var21 != null)
                     {
-                        this.mc.effectRenderer.addEffect((EntityFX) var21);
+                        this.mc.effectRenderer.addEffect(var21);
                     }
 
-                    return (EntityFX) var21;
+                    return var21;
                 }
             }
         } else
@@ -3010,15 +3010,15 @@ public class RenderGlobal implements IWorldAccess
         switch (par2)
         {
             case 1000:
-                this.theWorld.playSound((double) par3, (double) par4, (double) par5, "random.click", 1.0F, 1.0F, false);
+                this.theWorld.playSound(par3, par4, par5, "random.click", 1.0F, 1.0F, false);
                 break;
 
             case 1001:
-                this.theWorld.playSound((double) par3, (double) par4, (double) par5, "random.click", 1.0F, 1.2F, false);
+                this.theWorld.playSound(par3, par4, par5, "random.click", 1.0F, 1.2F, false);
                 break;
 
             case 1002:
-                this.theWorld.playSound((double) par3, (double) par4, (double) par5, "random.bow", 1.0F, 1.2F, false);
+                this.theWorld.playSound(par3, par4, par5, "random.bow", 1.0F, 1.2F, false);
                 break;
 
             case 1003:
@@ -3033,7 +3033,7 @@ public class RenderGlobal implements IWorldAccess
                 break;
 
             case 1004:
-                this.theWorld.playSound((double) ((float) par3 + 0.5F), (double) ((float) par4 + 0.5F), (double) ((float) par5 + 0.5F), "random.fizz", 0.5F, 2.6F + (var7.nextFloat() - var7.nextFloat()) * 0.8F, false);
+                this.theWorld.playSound((float) par3 + 0.5F, (float) par4 + 0.5F, (float) par5 + 0.5F, "random.fizz", 0.5F, 2.6F + (var7.nextFloat() - var7.nextFloat()) * 0.8F, false);
                 break;
 
             case 1005:
@@ -3042,7 +3042,7 @@ public class RenderGlobal implements IWorldAccess
                     this.theWorld.playRecord("records." + ((ItemRecord) Item.getItemById(par6)).recordName, par3, par4, par5);
                 } else
                 {
-                    this.theWorld.playRecord((String) null, par3, par4, par5);
+                    this.theWorld.playRecord(null, par3, par4, par5);
                 }
 
                 break;
@@ -3088,15 +3088,15 @@ public class RenderGlobal implements IWorldAccess
                 break;
 
             case 1020:
-                this.theWorld.playSound((double) ((float) par3 + 0.5F), (double) ((float) par4 + 0.5F), (double) ((float) par5 + 0.5F), "random.anvil_break", 1.0F, this.theWorld.rand.nextFloat() * 0.1F + 0.9F, false);
+                this.theWorld.playSound((float) par3 + 0.5F, (float) par4 + 0.5F, (float) par5 + 0.5F, "random.anvil_break", 1.0F, this.theWorld.rand.nextFloat() * 0.1F + 0.9F, false);
                 break;
 
             case 1021:
-                this.theWorld.playSound((double) ((float) par3 + 0.5F), (double) ((float) par4 + 0.5F), (double) ((float) par5 + 0.5F), "random.anvil_use", 1.0F, this.theWorld.rand.nextFloat() * 0.1F + 0.9F, false);
+                this.theWorld.playSound((float) par3 + 0.5F, (float) par4 + 0.5F, (float) par5 + 0.5F, "random.anvil_use", 1.0F, this.theWorld.rand.nextFloat() * 0.1F + 0.9F, false);
                 break;
 
             case 1022:
-                this.theWorld.playSound((double) ((float) par3 + 0.5F), (double) ((float) par4 + 0.5F), (double) ((float) par5 + 0.5F), "random.anvil_land", 0.3F, this.theWorld.rand.nextFloat() * 0.1F + 0.9F, false);
+                this.theWorld.playSound((float) par3 + 0.5F, (float) par4 + 0.5F, (float) par5 + 0.5F, "random.anvil_land", 0.3F, this.theWorld.rand.nextFloat() * 0.1F + 0.9F, false);
                 break;
 
             case 2000:
@@ -3132,9 +3132,9 @@ public class RenderGlobal implements IWorldAccess
                 break;
 
             case 2002:
-                var9 = (double) par3;
-                var11 = (double) par4;
-                var13 = (double) par5;
+                var9 = par3;
+                var11 = par4;
+                var13 = par5;
                 var15 = "iconcrack_" + Item.getIdFromItem(Items.potionitem) + "_" + par6;
 
                 for (var16 = 0; var16 < 8; ++var16)
@@ -3175,7 +3175,7 @@ public class RenderGlobal implements IWorldAccess
 
             case 2003:
                 var9 = (double) par3 + 0.5D;
-                var11 = (double) par4;
+                var11 = par4;
                 var13 = (double) par5 + 0.5D;
                 var15 = "iconcrack_" + Item.getIdFromItem(Items.ender_eye);
 
@@ -3213,7 +3213,7 @@ public class RenderGlobal implements IWorldAccess
 
                 if (var8.getMaterial() != Material.air)
                 {
-                    var21 = (double) Math.min(0.2F + (float) par6 / 15.0F, 10.0F);
+                    var21 = Math.min(0.2F + (float) par6 / 15.0F, 10.0F);
 
                     if (var21 > 2.5D)
                     {
@@ -3225,11 +3225,11 @@ public class RenderGlobal implements IWorldAccess
                     for (int var24 = 0; var24 < var23; ++var24)
                     {
                         float var25 = MathHelper.randomFloatClamp(var7, 0.0F, ((float) Math.PI * 2F));
-                        var26 = (double) MathHelper.randomFloatClamp(var7, 0.75F, 1.0F);
+                        var26 = MathHelper.randomFloatClamp(var7, 0.75F, 1.0F);
                         var28 = 0.20000000298023224D + var21 / 100.0D;
                         var30 = (double) (MathHelper.cos(var25) * 0.2F) * var26 * var26 * (var21 + 0.2D);
                         double var32 = (double) (MathHelper.sin(var25) * 0.2F) * var26 * var26 * (var21 + 0.2D);
-                        this.theWorld.spawnParticle("blockdust_" + Block.getIdFromBlock(var8) + "_" + this.theWorld.getBlockMetadata(par3, par4, par5), (double) ((float) par3 + 0.5F), (double) ((float) par4 + 1.0F), (double) ((float) par5 + 0.5F), var30, var28, var32);
+                        this.theWorld.spawnParticle("blockdust_" + Block.getIdFromBlock(var8) + "_" + this.theWorld.getBlockMetadata(par3, par4, par5), (float) par3 + 0.5F, (float) par4 + 1.0F, (float) par5 + 0.5F, var30, var28, var32);
                     }
                 }
         }
@@ -3297,7 +3297,7 @@ public class RenderGlobal implements IWorldAccess
     private boolean isMovingNow(EntityLivingBase entityliving)
     {
         double maxDiff = 0.001D;
-        return entityliving.isSneaking() ? true : ((double) entityliving.prevSwingProgress > maxDiff ? true : (this.mc.mouseHelper.deltaX != 0 ? true : (this.mc.mouseHelper.deltaY != 0 ? true : (Math.abs(entityliving.posX - entityliving.prevPosX) > maxDiff ? true : (Math.abs(entityliving.posY - entityliving.prevPosY) > maxDiff ? true : Math.abs(entityliving.posZ - entityliving.prevPosZ) > maxDiff)))));
+        return entityliving.isSneaking() || ((double) entityliving.prevSwingProgress > maxDiff || (this.mc.mouseHelper.deltaX != 0 || (this.mc.mouseHelper.deltaY != 0 || (Math.abs(entityliving.posX - entityliving.prevPosX) > maxDiff || (Math.abs(entityliving.posY - entityliving.prevPosY) > maxDiff || Math.abs(entityliving.posZ - entityliving.prevPosZ) > maxDiff)))));
     }
 
     public boolean isActing()
@@ -3316,7 +3316,7 @@ public class RenderGlobal implements IWorldAccess
 
     public boolean isActingNow()
     {
-        return Mouse.isButtonDown(0) ? true : Mouse.isButtonDown(1);
+        return Mouse.isButtonDown(0) || Mouse.isButtonDown(1);
     }
 
     public int renderAllSortedRenderers(int renderPass, double partialTicks)
@@ -3355,7 +3355,7 @@ public class RenderGlobal implements IWorldAccess
 
             if (blockType == Blocks.enchanting_table)
             {
-                return AxisAlignedBB.getAABBPool().getAABB((double) te.xCoord, (double) te.yCoord, (double) te.zCoord, (double) (te.xCoord + 1), (double) (te.yCoord + 1), (double) (te.zCoord + 1));
+                return AxisAlignedBB.getAABBPool().getAABB(te.xCoord, te.yCoord, te.zCoord, te.xCoord + 1, te.yCoord + 1, te.zCoord + 1);
             } else if (blockType != Blocks.chest && blockType != Blocks.trapped_chest)
             {
                 AxisAlignedBB blockAabb;
@@ -3373,7 +3373,7 @@ public class RenderGlobal implements IWorldAccess
                 return AABB_INFINITE;
             } else
             {
-                return AxisAlignedBB.getAABBPool().getAABB((double) (te.xCoord - 1), (double) te.yCoord, (double) (te.zCoord - 1), (double) (te.xCoord + 2), (double) (te.yCoord + 2), (double) (te.zCoord + 2));
+                return AxisAlignedBB.getAABBPool().getAABB(te.xCoord - 1, te.yCoord, te.zCoord - 1, te.xCoord + 2, te.yCoord + 2, te.zCoord + 2);
             }
         }
     }

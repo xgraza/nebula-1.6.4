@@ -4,30 +4,42 @@ import net.minecraft.block.Block;
 
 public class NextTickListEntry implements Comparable
 {
-    /** The id number for the next tick entry */
+    /**
+     * The id number for the next tick entry
+     */
     private static long nextTickEntryID;
     private final Block field_151352_g;
 
-    /** X position this tick is occuring at */
+    /**
+     * X position this tick is occuring at
+     */
     public int xCoord;
 
-    /** Y position this tick is occuring at */
+    /**
+     * Y position this tick is occuring at
+     */
     public int yCoord;
 
-    /** Z position this tick is occuring at */
+    /**
+     * Z position this tick is occuring at
+     */
     public int zCoord;
 
-    /** Time this tick is scheduled to occur at */
+    /**
+     * Time this tick is scheduled to occur at
+     */
     public long scheduledTime;
     public int priority;
 
-    /** The id of the tick entry */
-    private long tickEntryID;
+    /**
+     * The id of the tick entry
+     */
+    private final long tickEntryID;
     private static final String __OBFID = "CL_00000156";
 
     public NextTickListEntry(int p_i45370_1_, int p_i45370_2_, int p_i45370_3_, Block p_i45370_4_)
     {
-        this.tickEntryID = (long)(nextTickEntryID++);
+        this.tickEntryID = nextTickEntryID++;
         this.xCoord = p_i45370_1_;
         this.yCoord = p_i45370_2_;
         this.zCoord = p_i45370_3_;
@@ -39,10 +51,9 @@ public class NextTickListEntry implements Comparable
         if (!(par1Obj instanceof NextTickListEntry))
         {
             return false;
-        }
-        else
+        } else
         {
-            NextTickListEntry var2 = (NextTickListEntry)par1Obj;
+            NextTickListEntry var2 = (NextTickListEntry) par1Obj;
             return this.xCoord == var2.xCoord && this.yCoord == var2.yCoord && this.zCoord == var2.zCoord && Block.isEqualTo(this.field_151352_g, var2.field_151352_g);
         }
     }
@@ -83,6 +94,6 @@ public class NextTickListEntry implements Comparable
 
     public int compareTo(Object par1Obj)
     {
-        return this.compareTo((NextTickListEntry)par1Obj);
+        return this.compareTo((NextTickListEntry) par1Obj);
     }
 }

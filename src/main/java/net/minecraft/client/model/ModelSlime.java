@@ -4,16 +4,24 @@ import net.minecraft.entity.Entity;
 
 public class ModelSlime extends ModelBase
 {
-    /** The slime's bodies, both the inside box and the outside box */
+    /**
+     * The slime's bodies, both the inside box and the outside box
+     */
     ModelRenderer slimeBodies;
 
-    /** The slime's right eye */
+    /**
+     * The slime's right eye
+     */
     ModelRenderer slimeRightEye;
 
-    /** The slime's left eye */
+    /**
+     * The slime's left eye
+     */
     ModelRenderer slimeLeftEye;
 
-    /** The slime's mouth */
+    /**
+     * The slime's mouth
+     */
     ModelRenderer slimeMouth;
     private static final String __OBFID = "CL_00000858";
 

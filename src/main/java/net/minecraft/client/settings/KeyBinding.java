@@ -1,12 +1,9 @@
 package net.minecraft.client.settings;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IntHashMap;
+
+import java.util.*;
 
 public class KeyBinding implements Comparable
 {
@@ -18,7 +15,9 @@ public class KeyBinding implements Comparable
     private final String keyCategory;
     private int keyCode;
 
-    /** because _303 wanted me to call it that(Caironater) */
+    /**
+     * because _303 wanted me to call it that(Caironater)
+     */
     public boolean pressed;
     private int presses;
     private static final String __OBFID = "CL_00000628";
@@ -27,7 +26,7 @@ public class KeyBinding implements Comparable
     {
         if (par0 != 0)
         {
-            KeyBinding var1 = (KeyBinding)hash.lookup(par0);
+            KeyBinding var1 = (KeyBinding) hash.lookup(par0);
 
             if (var1 != null)
             {
@@ -40,7 +39,7 @@ public class KeyBinding implements Comparable
     {
         if (par0 != 0)
         {
-            KeyBinding var2 = (KeyBinding)hash.lookup(par0);
+            KeyBinding var2 = (KeyBinding) hash.lookup(par0);
 
             if (var2 != null)
             {
@@ -55,7 +54,7 @@ public class KeyBinding implements Comparable
 
         while (var0.hasNext())
         {
-            KeyBinding var1 = (KeyBinding)var0.next();
+            KeyBinding var1 = (KeyBinding) var0.next();
             var1.unpressKey();
         }
     }
@@ -67,7 +66,7 @@ public class KeyBinding implements Comparable
 
         while (var0.hasNext())
         {
-            KeyBinding var1 = (KeyBinding)var0.next();
+            KeyBinding var1 = (KeyBinding) var0.next();
             hash.addKey(var1.keyCode, var1);
         }
     }
@@ -108,8 +107,7 @@ public class KeyBinding implements Comparable
         if (this.presses == 0)
         {
             return false;
-        }
-        else
+        } else
         {
             --this.presses;
             return true;
@@ -144,11 +142,11 @@ public class KeyBinding implements Comparable
 
     public int compareTo(KeyBinding p_151465_1_)
     {
-        int var2 = I18n.format(this.keyCategory, new Object[0]).compareTo(I18n.format(p_151465_1_.keyCategory, new Object[0]));
+        int var2 = I18n.format(this.keyCategory).compareTo(I18n.format(p_151465_1_.keyCategory));
 
         if (var2 == 0)
         {
-            var2 = I18n.format(this.keyDescription, new Object[0]).compareTo(I18n.format(p_151465_1_.keyDescription, new Object[0]));
+            var2 = I18n.format(this.keyDescription).compareTo(I18n.format(p_151465_1_.keyDescription));
         }
 
         return var2;
@@ -156,6 +154,6 @@ public class KeyBinding implements Comparable
 
     public int compareTo(Object par1Obj)
     {
-        return this.compareTo((KeyBinding)par1Obj);
+        return this.compareTo((KeyBinding) par1Obj);
     }
 }

@@ -20,7 +20,7 @@ public class EntitySuspendFX extends EntityFX
         this.motionX = par8 * 0.0D;
         this.motionY = par10 * 0.0D;
         this.motionZ = par12 * 0.0D;
-        this.particleMaxAge = (int)(16.0D / (Math.random() * 0.8D + 0.2D));
+        this.particleMaxAge = (int) (16.0D / (Math.random() * 0.8D + 0.2D));
     }
 
     /**

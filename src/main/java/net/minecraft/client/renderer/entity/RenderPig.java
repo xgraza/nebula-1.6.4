@@ -27,8 +27,7 @@ public class RenderPig extends RenderLiving
         {
             this.bindTexture(saddledPigTextures);
             return 1;
-        }
-        else
+        } else
         {
             return -1;
         }
@@ -47,7 +46,7 @@ public class RenderPig extends RenderLiving
      */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.shouldRenderPass((EntityPig)par1EntityLivingBase, par2, par3);
+        return this.shouldRenderPass((EntityPig) par1EntityLivingBase, par2, par3);
     }
 
     /**
@@ -55,6 +54,6 @@ public class RenderPig extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityPig)par1Entity);
+        return this.getEntityTexture((EntityPig) par1Entity);
     }
 }

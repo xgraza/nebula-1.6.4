@@ -3,7 +3,6 @@ package net.minecraft.item;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multisets;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.entity.Entity;
@@ -17,6 +16,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.MapData;
 
+import java.util.List;
+
 public class ItemMap extends ItemMapBase
 {
     private static final String __OBFID = "CL_00000047";
@@ -29,7 +30,7 @@ public class ItemMap extends ItemMapBase
     public static MapData func_150912_a(int p_150912_0_, World p_150912_1_)
     {
         String var2 = "map_" + p_150912_0_;
-        MapData var3 = (MapData)p_150912_1_.loadItemData(MapData.class, var2);
+        MapData var3 = (MapData) p_150912_1_.loadItemData(MapData.class, var2);
 
         if (var3 == null)
         {
@@ -43,7 +44,7 @@ public class ItemMap extends ItemMapBase
     public MapData getMapData(ItemStack par1ItemStack, World par2World)
     {
         String var3 = "map_" + par1ItemStack.getItemDamage();
-        MapData var4 = (MapData)par2World.loadItemData(MapData.class, var3);
+        MapData var4 = (MapData) par2World.loadItemData(MapData.class, var3);
 
         if (var4 == null && !par2World.isClient)
         {
@@ -52,9 +53,9 @@ public class ItemMap extends ItemMapBase
             var4 = new MapData(var3);
             var4.scale = 3;
             int var5 = 128 * (1 << var4.scale);
-            var4.xCenter = Math.round((float)par2World.getWorldInfo().getSpawnX() / (float)var5) * var5;
-            var4.zCenter = Math.round((float)(par2World.getWorldInfo().getSpawnZ() / var5)) * var5;
-            var4.dimension = (byte)par2World.provider.dimensionId;
+            var4.xCenter = Math.round((float) par2World.getWorldInfo().getSpawnX() / (float) var5) * var5;
+            var4.zCenter = Math.round((float) (par2World.getWorldInfo().getSpawnZ() / var5)) * var5;
+            var4.dimension = (byte) par2World.provider.dimensionId;
             var4.markDirty();
             par2World.setItemData(var3, var4);
         }
@@ -69,8 +70,8 @@ public class ItemMap extends ItemMapBase
             int var4 = 1 << par3MapData.scale;
             int var5 = par3MapData.xCenter;
             int var6 = par3MapData.zCenter;
-            int var7 = MathHelper.floor_double(par2Entity.posX - (double)var5) / var4 + 64;
-            int var8 = MathHelper.floor_double(par2Entity.posZ - (double)var6) / var4 + 64;
+            int var7 = MathHelper.floor_double(par2Entity.posX - (double) var5) / var4 + 64;
+            int var8 = MathHelper.floor_double(par2Entity.posZ - (double) var6) / var4 + 64;
             int var9 = 128 / var4;
 
             if (par1World.provider.hasNoSky)
@@ -78,7 +79,7 @@ public class ItemMap extends ItemMapBase
                 var9 /= 2;
             }
 
-            MapData.MapInfo var10 = par3MapData.func_82568_a((EntityPlayer)par2Entity);
+            MapData.MapInfo var10 = par3MapData.func_82568_a((EntityPlayer) par2Entity);
             ++var10.field_82569_d;
 
             for (int var11 = var7 - var9 + 1; var11 < var7 + var9; ++var11)
@@ -117,15 +118,13 @@ public class ItemMap extends ItemMapBase
                                     if ((var29 >> 20 & 1) == 0)
                                     {
                                         var22.add(Blocks.dirt.getMapColor(0), 10);
-                                    }
-                                    else
+                                    } else
                                     {
                                         var22.add(Blocks.stone.getMapColor(0), 100);
                                     }
 
                                     var27 = 100.0D;
-                                }
-                                else
+                                } else
                                 {
                                     for (var29 = 0; var29 < var4; ++var29)
                                     {
@@ -159,14 +158,14 @@ public class ItemMap extends ItemMapBase
                                                 }
                                             }
 
-                                            var27 += (double)var31 / (double)(var4 * var4);
+                                            var27 += (double) var31 / (double) (var4 * var4);
                                             var22.add(var32.getMapColor(var33));
                                         }
                                     }
                                 }
 
                                 var26 /= var4 * var4;
-                                double var36 = (var27 - var14) * 4.0D / (double)(var4 + 4) + ((double)(var11 + var16 & 1) - 0.5D) * 0.4D;
+                                double var36 = (var27 - var14) * 4.0D / (double) (var4 + 4) + ((double) (var11 + var16 & 1) - 0.5D) * 0.4D;
                                 byte var37 = 1;
 
                                 if (var36 > 0.6D)
@@ -179,11 +178,11 @@ public class ItemMap extends ItemMapBase
                                     var37 = 0;
                                 }
 
-                                MapColor var38 = (MapColor)Iterables.getFirst(Multisets.copyHighestCountFirst(var22), MapColor.field_151660_b);
+                                MapColor var38 = Iterables.getFirst(Multisets.copyHighestCountFirst(var22), MapColor.field_151660_b);
 
                                 if (var38 == MapColor.field_151662_n)
                                 {
-                                    var36 = (double)var26 * 0.1D + (double)(var11 + var16 & 1) * 0.2D;
+                                    var36 = (double) var26 * 0.1D + (double) (var11 + var16 & 1) * 0.2D;
                                     var37 = 1;
 
                                     if (var36 < 0.5D)
@@ -202,7 +201,7 @@ public class ItemMap extends ItemMapBase
                                 if (var16 >= 0 && var17 * var17 + var18 * var18 < var9 * var9 && (!var19 || (var11 + var16 & 1) != 0))
                                 {
                                     byte var39 = par3MapData.colors[var11 + var16 * 128];
-                                    byte var40 = (byte)(var38.colorIndex * 4 + var37);
+                                    byte var40 = (byte) (var38.colorIndex * 4 + var37);
 
                                     if (var39 != var40)
                                     {
@@ -244,7 +243,7 @@ public class ItemMap extends ItemMapBase
 
             if (par3Entity instanceof EntityPlayer)
             {
-                EntityPlayer var7 = (EntityPlayer)par3Entity;
+                EntityPlayer var7 = (EntityPlayer) par3Entity;
                 var6.updateVisiblePlayers(var7, par1ItemStack);
             }
 
@@ -271,7 +270,7 @@ public class ItemMap extends ItemMapBase
             MapData var4 = Items.filled_map.getMapData(par1ItemStack, par2World);
             par1ItemStack.setItemDamage(par2World.getUniqueDataId("map"));
             MapData var5 = new MapData("map_" + par1ItemStack.getItemDamage());
-            var5.scale = (byte)(var4.scale + 1);
+            var5.scale = (byte) (var4.scale + 1);
 
             if (var5.scale > 4)
             {
@@ -298,8 +297,7 @@ public class ItemMap extends ItemMapBase
             if (var5 == null)
             {
                 par3List.add("Unknown map");
-            }
-            else
+            } else
             {
                 par3List.add("Scaling at 1:" + (1 << var5.scale));
                 par3List.add("(Level " + var5.scale + "/" + 4 + ")");

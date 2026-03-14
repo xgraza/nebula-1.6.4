@@ -2,6 +2,7 @@ package net.minecraft.util;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+
 import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.Iterator;
@@ -25,7 +26,7 @@ public class ChatComponentTranslation extends ChatComponentStyle
     public static final Pattern stringVariablePattern = Pattern.compile("%(?:(\\d+)\\$)?([A-Za-z%]|$)");
     private static final String __OBFID = "CL_00001270";
 
-    public ChatComponentTranslation(String p_i45160_1_, Object ... p_i45160_2_)
+    public ChatComponentTranslation(String p_i45160_1_, Object... p_i45160_2_)
     {
         this.key = p_i45160_1_;
         this.formatArgs = p_i45160_2_;
@@ -38,7 +39,7 @@ public class ChatComponentTranslation extends ChatComponentStyle
 
             if (var6 instanceof IChatComponent)
             {
-                ((IChatComponent)var6).getChatStyle().setParentStyle(this.getChatStyle());
+                ((IChatComponent) var6).getChatStyle().setParentStyle(this.getChatStyle());
             }
         }
     }
@@ -66,16 +67,14 @@ public class ChatComponentTranslation extends ChatComponentStyle
         try
         {
             this.initializeFromFormat(StatCollector.translateToLocal(this.key));
-        }
-        catch (ChatComponentTranslationFormatException var6)
+        } catch (ChatComponentTranslationFormatException var6)
         {
             this.children.clear();
 
             try
             {
                 this.initializeFromFormat(StatCollector.translateToFallback(this.key));
-            }
-            catch (ChatComponentTranslationFormatException var5)
+            } catch (ChatComponentTranslationFormatException var5)
             {
                 throw var6;
             }
@@ -103,7 +102,7 @@ public class ChatComponentTranslation extends ChatComponentStyle
 
                 if (var6 > var5)
                 {
-                    ChatComponentText var8 = new ChatComponentText(String.format(p_150269_1_.substring(var5, var6), new Object[0]));
+                    ChatComponentText var8 = new ChatComponentText(String.format(p_150269_1_.substring(var5, var6)));
                     var8.getChatStyle().setParentStyle(this.getChatStyle());
                     this.children.add(var8);
                 }
@@ -116,12 +115,11 @@ public class ChatComponentTranslation extends ChatComponentStyle
                     ChatComponentText var15 = new ChatComponentText("%");
                     var15.getChatStyle().setParentStyle(this.getChatStyle());
                     this.children.add(var15);
-                }
-                else
+                } else
                 {
                     if (!"s".equals(var14))
                     {
-                        throw new ChatComponentTranslationFormatException(this, "Unsupported format: \'" + var9 + "\'");
+                        throw new ChatComponentTranslationFormatException(this, "Unsupported format: '" + var9 + "'");
                     }
 
                     String var10 = var3.group(1);
@@ -132,12 +130,11 @@ public class ChatComponentTranslation extends ChatComponentStyle
 
             if (var5 < p_150269_1_.length())
             {
-                ChatComponentText var13 = new ChatComponentText(String.format(p_150269_1_.substring(var5), new Object[0]));
+                ChatComponentText var13 = new ChatComponentText(String.format(p_150269_1_.substring(var5)));
                 var13.getChatStyle().setParentStyle(this.getChatStyle());
                 this.children.add(var13);
             }
-        }
-        catch (IllegalFormatException var12)
+        } catch (IllegalFormatException var12)
         {
             throw new ChatComponentTranslationFormatException(this, var12);
         }
@@ -148,23 +145,21 @@ public class ChatComponentTranslation extends ChatComponentStyle
         if (p_150272_1_ >= this.formatArgs.length)
         {
             throw new ChatComponentTranslationFormatException(this, p_150272_1_);
-        }
-        else
+        } else
         {
             Object var2 = this.formatArgs[p_150272_1_];
             Object var3;
 
             if (var2 instanceof IChatComponent)
             {
-                var3 = (IChatComponent)var2;
-            }
-            else
+                var3 = var2;
+            } else
             {
                 var3 = new ChatComponentText(var2.toString());
-                ((IChatComponent)var3).getChatStyle().setParentStyle(this.getChatStyle());
+                ((IChatComponent) var3).getChatStyle().setParentStyle(this.getChatStyle());
             }
 
-            return (IChatComponent)var3;
+            return (IChatComponent) var3;
         }
     }
 
@@ -180,7 +175,7 @@ public class ChatComponentTranslation extends ChatComponentStyle
 
             if (var5 instanceof IChatComponent)
             {
-                ((IChatComponent)var5).getChatStyle().setParentStyle(this.getChatStyle());
+                ((IChatComponent) var5).getChatStyle().setParentStyle(this.getChatStyle());
             }
         }
 
@@ -190,7 +185,7 @@ public class ChatComponentTranslation extends ChatComponentStyle
 
             while (var6.hasNext())
             {
-                IChatComponent var7 = (IChatComponent)var6.next();
+                IChatComponent var7 = (IChatComponent) var6.next();
                 var7.getChatStyle().setParentStyle(p_150255_1_);
             }
         }
@@ -216,7 +211,7 @@ public class ChatComponentTranslation extends ChatComponentStyle
 
         while (var2.hasNext())
         {
-            IChatComponent var3 = (IChatComponent)var2.next();
+            IChatComponent var3 = (IChatComponent) var2.next();
             var1.append(var3.getUnformattedTextForChat());
         }
 
@@ -234,9 +229,8 @@ public class ChatComponentTranslation extends ChatComponentStyle
         {
             if (this.formatArgs[var2] instanceof IChatComponent)
             {
-                var1[var2] = ((IChatComponent)this.formatArgs[var2]).createCopy();
-            }
-            else
+                var1[var2] = ((IChatComponent) this.formatArgs[var2]).createCopy();
+            } else
             {
                 var1[var2] = this.formatArgs[var2];
             }
@@ -248,7 +242,7 @@ public class ChatComponentTranslation extends ChatComponentStyle
 
         while (var3.hasNext())
         {
-            IChatComponent var4 = (IChatComponent)var3.next();
+            IChatComponent var4 = (IChatComponent) var3.next();
             var5.appendSibling(var4.createCopy());
         }
 
@@ -260,14 +254,12 @@ public class ChatComponentTranslation extends ChatComponentStyle
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (!(par1Obj instanceof ChatComponentTranslation))
+        } else if (!(par1Obj instanceof ChatComponentTranslation))
         {
             return false;
-        }
-        else
+        } else
         {
-            ChatComponentTranslation var2 = (ChatComponentTranslation)par1Obj;
+            ChatComponentTranslation var2 = (ChatComponentTranslation) par1Obj;
             return Arrays.equals(this.formatArgs, var2.formatArgs) && this.key.equals(var2.key) && super.equals(par1Obj);
         }
     }
@@ -282,7 +274,7 @@ public class ChatComponentTranslation extends ChatComponentStyle
 
     public String toString()
     {
-        return "TranslatableComponent{key=\'" + this.key + '\'' + ", args=" + Arrays.toString(this.formatArgs) + ", siblings=" + this.siblings + ", style=" + this.getChatStyle() + '}';
+        return "TranslatableComponent{key='" + this.key + '\'' + ", args=" + Arrays.toString(this.formatArgs) + ", siblings=" + this.siblings + ", style=" + this.getChatStyle() + '}';
     }
 
     public String getKey()

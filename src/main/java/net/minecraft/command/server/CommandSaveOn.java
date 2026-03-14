@@ -41,11 +41,10 @@ public class CommandSaveOn extends CommandBase
 
         if (var4)
         {
-            notifyAdmins(par1ICommandSender, "commands.save.enabled", new Object[0]);
-        }
-        else
+            notifyAdmins(par1ICommandSender, "commands.save.enabled");
+        } else
         {
-            throw new CommandException("commands.save-on.alreadyOn", new Object[0]);
+            throw new CommandException("commands.save-on.alreadyOn");
         }
     }
 }

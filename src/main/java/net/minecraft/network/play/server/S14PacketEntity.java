@@ -1,12 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.world.World;
+
+import java.io.IOException;
 
 public class S14PacketEntity extends Packet
 {
@@ -19,7 +20,9 @@ public class S14PacketEntity extends Packet
     protected boolean field_149069_g;
     private static final String __OBFID = "CL_00001312";
 
-    public S14PacketEntity() {}
+    public S14PacketEntity()
+    {
+    }
 
     public S14PacketEntity(int p_i45206_1_)
     {
@@ -52,7 +55,7 @@ public class S14PacketEntity extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d", new Object[] {Integer.valueOf(this.field_149074_a)});
+        return String.format("id=%d", Integer.valueOf(this.field_149074_a));
     }
 
     public String toString()
@@ -97,7 +100,7 @@ public class S14PacketEntity extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 
     public static class S17PacketEntityLookMove extends S14PacketEntity
@@ -142,12 +145,12 @@ public class S14PacketEntity extends Packet
 
         public String serialize()
         {
-            return super.serialize() + String.format(", xa=%d, ya=%d, za=%d, yRot=%d, xRot=%d", new Object[] {Byte.valueOf(this.field_149072_b), Byte.valueOf(this.field_149073_c), Byte.valueOf(this.field_149070_d), Byte.valueOf(this.field_149071_e), Byte.valueOf(this.field_149068_f)});
+            return super.serialize() + String.format(", xa=%d, ya=%d, za=%d, yRot=%d, xRot=%d", Byte.valueOf(this.field_149072_b), Byte.valueOf(this.field_149073_c), Byte.valueOf(this.field_149070_d), Byte.valueOf(this.field_149071_e), Byte.valueOf(this.field_149068_f));
         }
 
         public void processPacket(INetHandler p_148833_1_)
         {
-            super.processPacket((INetHandlerPlayClient)p_148833_1_);
+            super.processPacket((INetHandlerPlayClient) p_148833_1_);
         }
     }
 
@@ -184,12 +187,12 @@ public class S14PacketEntity extends Packet
 
         public String serialize()
         {
-            return super.serialize() + String.format(", yRot=%d, xRot=%d", new Object[] {Byte.valueOf(this.field_149071_e), Byte.valueOf(this.field_149068_f)});
+            return super.serialize() + String.format(", yRot=%d, xRot=%d", Byte.valueOf(this.field_149071_e), Byte.valueOf(this.field_149068_f));
         }
 
         public void processPacket(INetHandler p_148833_1_)
         {
-            super.processPacket((INetHandlerPlayClient)p_148833_1_);
+            super.processPacket((INetHandlerPlayClient) p_148833_1_);
         }
     }
 
@@ -197,7 +200,9 @@ public class S14PacketEntity extends Packet
     {
         private static final String __OBFID = "CL_00001313";
 
-        public S15PacketEntityRelMove() {}
+        public S15PacketEntityRelMove()
+        {
+        }
 
         public S15PacketEntityRelMove(int p_i45203_1_, byte p_i45203_2_, byte p_i45203_3_, byte p_i45203_4_)
         {
@@ -225,12 +230,12 @@ public class S14PacketEntity extends Packet
 
         public String serialize()
         {
-            return super.serialize() + String.format(", xa=%d, ya=%d, za=%d", new Object[] {Byte.valueOf(this.field_149072_b), Byte.valueOf(this.field_149073_c), Byte.valueOf(this.field_149070_d)});
+            return super.serialize() + String.format(", xa=%d, ya=%d, za=%d", Byte.valueOf(this.field_149072_b), Byte.valueOf(this.field_149073_c), Byte.valueOf(this.field_149070_d));
         }
 
         public void processPacket(INetHandler p_148833_1_)
         {
-            super.processPacket((INetHandlerPlayClient)p_148833_1_);
+            super.processPacket((INetHandlerPlayClient) p_148833_1_);
         }
     }
 }

@@ -12,10 +12,10 @@ public class ServerListEntryLanScan implements GuiListExtended.IGuiListEntry
     public void func_148279_a(int p_148279_1_, int p_148279_2_, int p_148279_3_, int p_148279_4_, int p_148279_5_, Tessellator p_148279_6_, int p_148279_7_, int p_148279_8_, boolean p_148279_9_)
     {
         int var10 = p_148279_3_ + p_148279_5_ / 2 - this.field_148288_a.fontRenderer.FONT_HEIGHT / 2;
-        this.field_148288_a.fontRenderer.drawString(I18n.format("lanServer.scanning", new Object[0]), this.field_148288_a.currentScreen.width / 2 - this.field_148288_a.fontRenderer.getStringWidth(I18n.format("lanServer.scanning", new Object[0])) / 2, var10, 16777215);
+        this.field_148288_a.fontRenderer.drawString(I18n.format("lanServer.scanning"), this.field_148288_a.currentScreen.width / 2 - this.field_148288_a.fontRenderer.getStringWidth(I18n.format("lanServer.scanning")) / 2, var10, 16777215);
         String var11;
 
-        switch ((int)(Minecraft.getSystemTime() / 300L % 4L))
+        switch ((int) (Minecraft.getSystemTime() / 300L % 4L))
         {
             case 0:
             default:
@@ -39,5 +39,7 @@ public class ServerListEntryLanScan implements GuiListExtended.IGuiListEntry
         return false;
     }
 
-    public void func_148277_b(int p_148277_1_, int p_148277_2_, int p_148277_3_, int p_148277_4_, int p_148277_5_, int p_148277_6_) {}
+    public void func_148277_b(int p_148277_1_, int p_148277_2_, int p_148277_3_, int p_148277_4_, int p_148277_5_, int p_148277_6_)
+    {
+    }
 }

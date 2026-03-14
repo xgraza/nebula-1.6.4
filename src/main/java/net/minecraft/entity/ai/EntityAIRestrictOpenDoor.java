@@ -7,7 +7,7 @@ import net.minecraft.village.VillageDoorInfo;
 
 public class EntityAIRestrictOpenDoor extends EntityAIBase
 {
-    private EntityCreature entityObj;
+    private final EntityCreature entityObj;
     private VillageDoorInfo frontDoor;
     private static final String __OBFID = "CL_00001610";
 
@@ -24,19 +24,17 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase
         if (this.entityObj.worldObj.isDaytime())
         {
             return false;
-        }
-        else
+        } else
         {
             Village var1 = this.entityObj.worldObj.villageCollectionObj.findNearestVillage(MathHelper.floor_double(this.entityObj.posX), MathHelper.floor_double(this.entityObj.posY), MathHelper.floor_double(this.entityObj.posZ), 16);
 
             if (var1 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.frontDoor = var1.findNearestDoor(MathHelper.floor_double(this.entityObj.posX), MathHelper.floor_double(this.entityObj.posY), MathHelper.floor_double(this.entityObj.posZ));
-                return this.frontDoor == null ? false : (double)this.frontDoor.getInsideDistanceSquare(MathHelper.floor_double(this.entityObj.posX), MathHelper.floor_double(this.entityObj.posY), MathHelper.floor_double(this.entityObj.posZ)) < 2.25D;
+                return this.frontDoor != null && (double) this.frontDoor.getInsideDistanceSquare(MathHelper.floor_double(this.entityObj.posX), MathHelper.floor_double(this.entityObj.posY), MathHelper.floor_double(this.entityObj.posZ)) < 2.25D;
             }
         }
     }
@@ -46,7 +44,7 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return this.entityObj.worldObj.isDaytime() ? false : !this.frontDoor.isDetachedFromVillageFlag && this.frontDoor.isInside(MathHelper.floor_double(this.entityObj.posX), MathHelper.floor_double(this.entityObj.posZ));
+        return !this.entityObj.worldObj.isDaytime() && !this.frontDoor.isDetachedFromVillageFlag && this.frontDoor.isInside(MathHelper.floor_double(this.entityObj.posX), MathHelper.floor_double(this.entityObj.posZ));
     }
 
     /**

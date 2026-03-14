@@ -1,21 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.model.ModelChicken;
-import net.minecraft.client.model.ModelCow;
-import net.minecraft.client.model.ModelHorse;
-import net.minecraft.client.model.ModelOcelot;
-import net.minecraft.client.model.ModelPig;
-import net.minecraft.client.model.ModelSheep1;
-import net.minecraft.client.model.ModelSheep2;
-import net.minecraft.client.model.ModelSlime;
-import net.minecraft.client.model.ModelSquid;
-import net.minecraft.client.model.ModelWolf;
-import net.minecraft.client.model.ModelZombie;
+import net.minecraft.client.model.*;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -34,55 +21,11 @@ import net.minecraft.entity.ai.EntityMinecartMobSpawner;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.entity.item.EntityEnderEye;
-import net.minecraft.entity.item.EntityEnderPearl;
-import net.minecraft.entity.item.EntityExpBottle;
-import net.minecraft.entity.item.EntityFallingBlock;
-import net.minecraft.entity.item.EntityFireworkRocket;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityMinecartTNT;
-import net.minecraft.entity.item.EntityPainting;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.monster.EntityCaveSpider;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityGiantZombie;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntityMagmaCube;
-import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.monster.EntitySnowman;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.monster.EntityWitch;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityBat;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.passive.EntityMooshroom;
-import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.item.*;
+import net.minecraft.entity.monster.*;
+import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntityEgg;
-import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.entity.projectile.EntityLargeFireball;
-import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.entity.projectile.EntitySmallFireball;
-import net.minecraft.entity.projectile.EntitySnowball;
-import net.minecraft.entity.projectile.EntityWitherSkull;
+import net.minecraft.entity.projectile.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.util.AxisAlignedBB;
@@ -92,15 +35,25 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import us.nebula.client.api.render.EntityCulling;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 public class RenderManager
 {
-    /** A map of entity classes and the associated renderer. */
+    /**
+     * A map of entity classes and the associated renderer.
+     */
     private Map<Class<? extends Entity>, Render> entityRenderMap = new HashMap<>();
 
-    /** The static instance of RenderManager. */
+    /**
+     * The static instance of RenderManager.
+     */
     public static RenderManager instance = new RenderManager();
 
-    /** Renders fonts */
+    /**
+     * Renders fonts
+     */
     private FontRenderer fontRenderer;
     public static double renderPosX;
     public static double renderPosY;
@@ -108,16 +61,22 @@ public class RenderManager
     public TextureManager renderEngine;
     public ItemRenderer itemRenderer;
 
-    /** Reference to the World object. */
+    /**
+     * Reference to the World object.
+     */
     public World worldObj;
 
-    /** Rendermanager's variable for the player */
+    /**
+     * Rendermanager's variable for the player
+     */
     public EntityLivingBase livingPlayer;
     public Entity field_147941_i;
     public float playerViewY;
     public float playerViewX;
 
-    /** Reference to the GameSettings object. */
+    /**
+     * Reference to the GameSettings object.
+     */
     public GameSettings options;
     public double viewerPosX;
     public double viewerPosY;
@@ -186,14 +145,14 @@ public class RenderManager
 
         while (var1.hasNext())
         {
-            Render var2 = (Render)var1.next();
+            Render var2 = (Render) var1.next();
             var2.setRenderManager(this);
         }
     }
 
     public Render getEntityClassRenderObject(Class par1Class)
     {
-        Render var2 = (Render)this.entityRenderMap.get(par1Class);
+        Render var2 = this.entityRenderMap.get(par1Class);
 
         if (var2 == null && par1Class != Entity.class)
         {
@@ -227,11 +186,10 @@ public class RenderManager
             {
                 var9 = p_147938_1_.getBlockMetadata(MathHelper.floor_double(p_147938_4_.posX), MathHelper.floor_double(p_147938_4_.posY), MathHelper.floor_double(p_147938_4_.posZ));
                 int var10 = var9 & 3;
-                this.playerViewY = (float)(var10 * 90 + 180);
+                this.playerViewY = (float) (var10 * 90 + 180);
                 this.playerViewX = 0.0F;
             }
-        }
-        else
+        } else
         {
             this.playerViewY = p_147938_4_.prevRotationYaw + (p_147938_4_.rotationYaw - p_147938_4_.prevRotationYaw) * p_147938_7_;
             this.playerViewX = p_147938_4_.prevRotationPitch + (p_147938_4_.rotationPitch - p_147938_4_.prevRotationPitch) * p_147938_7_;
@@ -242,9 +200,9 @@ public class RenderManager
             this.playerViewY += 180.0F;
         }
 
-        this.viewerPosX = p_147938_4_.lastTickPosX + (p_147938_4_.posX - p_147938_4_.lastTickPosX) * (double)p_147938_7_;
-        this.viewerPosY = p_147938_4_.lastTickPosY + (p_147938_4_.posY - p_147938_4_.lastTickPosY) * (double)p_147938_7_;
-        this.viewerPosZ = p_147938_4_.lastTickPosZ + (p_147938_4_.posZ - p_147938_4_.lastTickPosZ) * (double)p_147938_7_;
+        this.viewerPosX = p_147938_4_.lastTickPosX + (p_147938_4_.posX - p_147938_4_.lastTickPosX) * (double) p_147938_7_;
+        this.viewerPosY = p_147938_4_.lastTickPosY + (p_147938_4_.posY - p_147938_4_.lastTickPosY) * (double) p_147938_7_;
+        this.viewerPosZ = p_147938_4_.lastTickPosZ + (p_147938_4_.posZ - p_147938_4_.lastTickPosZ) * (double) p_147938_7_;
     }
 
     public boolean renderEntity(Entity p_147937_1_, float p_147937_2_)
@@ -261,9 +219,9 @@ public class RenderManager
             p_147936_1_.lastTickPosZ = p_147936_1_.posZ;
         }
 
-        double var4 = p_147936_1_.lastTickPosX + (p_147936_1_.posX - p_147936_1_.lastTickPosX) * (double)p_147936_2_;
-        double var6 = p_147936_1_.lastTickPosY + (p_147936_1_.posY - p_147936_1_.lastTickPosY) * (double)p_147936_2_;
-        double var8 = p_147936_1_.lastTickPosZ + (p_147936_1_.posZ - p_147936_1_.lastTickPosZ) * (double)p_147936_2_;
+        double var4 = p_147936_1_.lastTickPosX + (p_147936_1_.posX - p_147936_1_.lastTickPosX) * (double) p_147936_2_;
+        double var6 = p_147936_1_.lastTickPosY + (p_147936_1_.posY - p_147936_1_.lastTickPosY) * (double) p_147936_2_;
+        double var8 = p_147936_1_.lastTickPosZ + (p_147936_1_.posZ - p_147936_1_.lastTickPosZ) * (double) p_147936_2_;
         float var10 = p_147936_1_.prevRotationYaw + (p_147936_1_.rotationYaw - p_147936_1_.prevRotationYaw) * p_147936_2_;
         int var11 = p_147936_1_.getBrightnessForRender(p_147936_2_);
 
@@ -274,7 +232,7 @@ public class RenderManager
 
         int var12 = var11 % 65536;
         int var13 = var11 / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var12 / 1.0F, (float)var13 / 1.0F);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var12, (float) var13);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         return this.renderEntity(p_147936_1_, var4 - renderPosX, var6 - renderPosY, var8 - renderPosZ, var10, p_147936_2_, p_147936_3_);
     }
@@ -306,8 +264,7 @@ public class RenderManager
                     try
                     {
                         var11.doRender(p_147939_1_, p_147939_2_, p_147939_4_, p_147939_6_, p_147939_8_, p_147939_9_);
-                    }
-                    catch (Throwable var18)
+                    } catch (Throwable var18)
                     {
                         throw new ReportedException(CrashReport.makeCrashReport(var18, "Rendering entity in world"));
                     }
@@ -315,8 +272,7 @@ public class RenderManager
                     try
                     {
                         var11.doRenderShadowAndFire(p_147939_1_, p_147939_2_, p_147939_4_, p_147939_6_, p_147939_8_, p_147939_9_);
-                    }
-                    catch (Throwable var17)
+                    } catch (Throwable var17)
                     {
                         throw new ReportedException(CrashReport.makeCrashReport(var17, "Post-rendering entity in world"));
                     }
@@ -326,22 +282,16 @@ public class RenderManager
                         try
                         {
                             this.func_85094_b(p_147939_1_, p_147939_2_, p_147939_4_, p_147939_6_, p_147939_8_, p_147939_9_);
-                        }
-                        catch (Throwable var16)
+                        } catch (Throwable var16)
                         {
                             throw new ReportedException(CrashReport.makeCrashReport(var16, "Rendering entity hitbox in world"));
                         }
                     }
                 }
-            }
-            else if (this.renderEngine != null)
-            {
-                return false;
-            }
+            } else return this.renderEngine == null;
 
             return true;
-        }
-        catch (Throwable var19)
+        } catch (Throwable var19)
         {
             CrashReport var13 = CrashReport.makeCrashReport(var19, "Rendering entity in world");
             CrashReportCategory var14 = var13.makeCategory("Entity being rendered");
@@ -363,7 +313,7 @@ public class RenderManager
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glDisable(GL11.GL_BLEND);
         float var10 = par1Entity.width / 2.0F;
-        AxisAlignedBB var11 = AxisAlignedBB.getAABBPool().getAABB(par2 - (double)var10, par4, par6 - (double)var10, par2 + (double)var10, par4 + (double)par1Entity.height, par6 + (double)var10);
+        AxisAlignedBB var11 = AxisAlignedBB.getAABBPool().getAABB(par2 - (double) var10, par4, par6 - (double) var10, par2 + (double) var10, par4 + (double) par1Entity.height, par6 + (double) var10);
         RenderGlobal.drawOutlinedBoundingBox(var11, 16777215);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_LIGHTING);
@@ -402,7 +352,7 @@ public class RenderManager
 
         while (var2.hasNext())
         {
-            Render var3 = (Render)var2.next();
+            Render var3 = (Render) var2.next();
             var3.updateIcons(par1IconRegister);
         }
     }

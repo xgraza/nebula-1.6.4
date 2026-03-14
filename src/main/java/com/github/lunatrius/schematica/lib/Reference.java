@@ -7,10 +7,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
-public class Reference {
-	public static final String NAME = "Schematica";
+public class Reference
+{
+    public static final String NAME = "Schematica";
 
-	public static final Logger logger = LogManager.getLogger("Schematica");
-	public static Config config = null;
-	public static File schematicDirectory = new File(Schematica.getDataDirectory(), "schematics");
+    public static final Logger logger = LogManager.getLogger("Schematica");
+    public static Config config = null;
+    public static File schematicDirectory = new File(Schematica.getDataDirectory(), "schematics");
 }

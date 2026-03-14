@@ -74,7 +74,7 @@ public final class RotationManager implements IManager
     {
         if (!queuedRotationQueue.isEmpty()
                 && (queuedRotation != null
-                    && !queuedRotation.equals(yaw, pitch, priority)))
+                && !queuedRotation.equals(yaw, pitch, priority)))
         {
             for (final QueuedRotation queuedRotation : queuedRotationQueue)
             {

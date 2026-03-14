@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S34PacketMaps extends Packet
 {
@@ -12,7 +13,9 @@ public class S34PacketMaps extends Packet
     private byte[] field_149190_b;
     private static final String __OBFID = "CL_00001311";
 
-    public S34PacketMaps() {}
+    public S34PacketMaps()
+    {
+    }
 
     public S34PacketMaps(int p_i45202_1_, byte[] p_i45202_2_)
     {
@@ -50,7 +53,7 @@ public class S34PacketMaps extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, length=%d", new Object[] {Integer.valueOf(this.field_149191_a), Integer.valueOf(this.field_149190_b.length)});
+        return String.format("id=%d, length=%d", Integer.valueOf(this.field_149191_a), Integer.valueOf(this.field_149190_b.length));
     }
 
     public int func_149188_c()
@@ -65,6 +68,6 @@ public class S34PacketMaps extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

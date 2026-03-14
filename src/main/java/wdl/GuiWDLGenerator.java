@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiTextField;
 public class GuiWDLGenerator extends GuiScreen
 {
     private String title = "";
-    private GuiScreen parent;
+    private final GuiScreen parent;
     private GuiTextField seedField;
     private GuiButton generatorBtn;
     private GuiButton generateStructuresBtn;
@@ -48,12 +48,10 @@ public class GuiWDLGenerator extends GuiScreen
             if (var1.id == 1)
             {
                 this.updateGenerator(true);
-            }
-            else if (var1.id == 2)
+            } else if (var1.id == 2)
             {
                 this.updateGenerateStructures(true);
-            }
-            else if (var1.id == 100)
+            } else if (var1.id == 100)
             {
                 this.updateSeed(true);
                 WDL.saveProps();
@@ -112,19 +110,16 @@ public class GuiWDLGenerator extends GuiScreen
                 WDL.worldProps.setProperty("GeneratorName", "flat");
                 WDL.worldProps.setProperty("GeneratorVersion", "0");
                 this.updateGenerator(false);
-            }
-            else
+            } else
             {
                 this.generatorBtn.displayString = "World Generator: Default";
             }
-        }
-        else if (var1)
+        } else if (var1)
         {
             WDL.worldProps.setProperty("GeneratorName", "default");
             WDL.worldProps.setProperty("GeneratorVersion", "1");
             this.updateGenerator(false);
-        }
-        else
+        } else
         {
             this.generatorBtn.displayString = "World Generator: Flat";
         }
@@ -140,18 +135,15 @@ public class GuiWDLGenerator extends GuiScreen
             {
                 WDL.worldProps.setProperty("MapFeatures", "false");
                 this.updateGenerateStructures(false);
-            }
-            else
+            } else
             {
                 this.generateStructuresBtn.displayString = "Generate Structures: ON";
             }
-        }
-        else if (var1)
+        } else if (var1)
         {
             WDL.worldProps.setProperty("MapFeatures", "true");
             this.updateGenerateStructures(false);
-        }
-        else
+        } else
         {
             this.generateStructuresBtn.displayString = "Generate Structures: OFF";
         }
@@ -162,8 +154,7 @@ public class GuiWDLGenerator extends GuiScreen
         if (var1)
         {
             WDL.worldProps.setProperty("RandomSeed", this.seedField.getText());
-        }
-        else
+        } else
         {
             this.seedField.setText(WDL.worldProps.getProperty("RandomSeed"));
         }

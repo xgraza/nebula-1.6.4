@@ -8,7 +8,10 @@ import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.api.manager.ITypedManager;
 import us.nebula.client.impl.event.network.EventPacket;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author xgraza

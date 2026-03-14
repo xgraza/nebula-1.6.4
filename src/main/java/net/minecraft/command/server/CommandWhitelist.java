@@ -1,14 +1,15 @@
 package net.minecraft.command.server;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class CommandWhitelist extends CommandBase
 {
@@ -39,20 +40,20 @@ public class CommandWhitelist extends CommandBase
             if (par2ArrayOfStr[0].equals("on"))
             {
                 MinecraftServer.getServer().getConfigurationManager().setWhiteListEnabled(true);
-                notifyAdmins(par1ICommandSender, "commands.whitelist.enabled", new Object[0]);
+                notifyAdmins(par1ICommandSender, "commands.whitelist.enabled");
                 return;
             }
 
             if (par2ArrayOfStr[0].equals("off"))
             {
                 MinecraftServer.getServer().getConfigurationManager().setWhiteListEnabled(false);
-                notifyAdmins(par1ICommandSender, "commands.whitelist.disabled", new Object[0]);
+                notifyAdmins(par1ICommandSender, "commands.whitelist.disabled");
                 return;
             }
 
             if (par2ArrayOfStr[0].equals("list"))
             {
-                par1ICommandSender.addChatMessage(new ChatComponentTranslation("commands.whitelist.list", new Object[] {Integer.valueOf(MinecraftServer.getServer().getConfigurationManager().getWhiteListedPlayers().size()), Integer.valueOf(MinecraftServer.getServer().getConfigurationManager().getAvailablePlayerDat().length)}));
+                par1ICommandSender.addChatMessage(new ChatComponentTranslation("commands.whitelist.list", Integer.valueOf(MinecraftServer.getServer().getConfigurationManager().getWhiteListedPlayers().size()), Integer.valueOf(MinecraftServer.getServer().getConfigurationManager().getAvailablePlayerDat().length)));
                 Set var3 = MinecraftServer.getServer().getConfigurationManager().getWhiteListedPlayers();
                 par1ICommandSender.addChatMessage(new ChatComponentText(joinNiceString(var3.toArray(new String[var3.size()]))));
                 return;
@@ -62,11 +63,11 @@ public class CommandWhitelist extends CommandBase
             {
                 if (par2ArrayOfStr.length < 2)
                 {
-                    throw new WrongUsageException("commands.whitelist.add.usage", new Object[0]);
+                    throw new WrongUsageException("commands.whitelist.add.usage");
                 }
 
                 MinecraftServer.getServer().getConfigurationManager().addToWhiteList(par2ArrayOfStr[1]);
-                notifyAdmins(par1ICommandSender, "commands.whitelist.add.success", new Object[] {par2ArrayOfStr[1]});
+                notifyAdmins(par1ICommandSender, "commands.whitelist.add.success", par2ArrayOfStr[1]);
                 return;
             }
 
@@ -74,23 +75,23 @@ public class CommandWhitelist extends CommandBase
             {
                 if (par2ArrayOfStr.length < 2)
                 {
-                    throw new WrongUsageException("commands.whitelist.remove.usage", new Object[0]);
+                    throw new WrongUsageException("commands.whitelist.remove.usage");
                 }
 
                 MinecraftServer.getServer().getConfigurationManager().removeFromWhitelist(par2ArrayOfStr[1]);
-                notifyAdmins(par1ICommandSender, "commands.whitelist.remove.success", new Object[] {par2ArrayOfStr[1]});
+                notifyAdmins(par1ICommandSender, "commands.whitelist.remove.success", par2ArrayOfStr[1]);
                 return;
             }
 
             if (par2ArrayOfStr[0].equals("reload"))
             {
                 MinecraftServer.getServer().getConfigurationManager().loadWhiteList();
-                notifyAdmins(par1ICommandSender, "commands.whitelist.reloaded", new Object[0]);
+                notifyAdmins(par1ICommandSender, "commands.whitelist.reloaded");
                 return;
             }
         }
 
-        throw new WrongUsageException("commands.whitelist.usage", new Object[0]);
+        throw new WrongUsageException("commands.whitelist.usage");
     }
 
     /**
@@ -100,9 +101,8 @@ public class CommandWhitelist extends CommandBase
     {
         if (par2ArrayOfStr.length == 1)
         {
-            return getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] {"on", "off", "list", "add", "remove", "reload"});
-        }
-        else
+            return getListOfStringsMatchingLastWord(par2ArrayOfStr, "on", "off", "list", "add", "remove", "reload");
+        } else
         {
             if (par2ArrayOfStr.length == 2)
             {

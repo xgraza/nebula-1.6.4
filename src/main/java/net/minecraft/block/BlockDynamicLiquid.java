@@ -1,9 +1,10 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockDynamicLiquid extends BlockLiquid
 {
@@ -62,8 +63,7 @@ public class BlockDynamicLiquid extends BlockLiquid
                 if (var12 >= 8)
                 {
                     var11 = var12;
-                }
-                else
+                } else
                 {
                     var11 = var12 + 8;
                 }
@@ -74,8 +74,7 @@ public class BlockDynamicLiquid extends BlockLiquid
                 if (p_149674_1_.getBlock(p_149674_2_, p_149674_3_ - 1, p_149674_4_).getMaterial().isSolid())
                 {
                     var11 = 0;
-                }
-                else if (p_149674_1_.getBlock(p_149674_2_, p_149674_3_ - 1, p_149674_4_).getMaterial() == this.blockMaterial && p_149674_1_.getBlockMetadata(p_149674_2_, p_149674_3_ - 1, p_149674_4_) == 0)
+                } else if (p_149674_1_.getBlock(p_149674_2_, p_149674_3_ - 1, p_149674_4_).getMaterial() == this.blockMaterial && p_149674_1_.getBlockMetadata(p_149674_2_, p_149674_3_ - 1, p_149674_4_) == 0)
                 {
                     var11 = 0;
                 }
@@ -92,24 +91,21 @@ public class BlockDynamicLiquid extends BlockLiquid
                 {
                     this.func_149811_n(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
                 }
-            }
-            else
+            } else
             {
                 var6 = var11;
 
                 if (var11 < 0)
                 {
                     p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
-                }
-                else
+                } else
                 {
                     p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, var11, 2);
                     p_149674_1_.scheduleBlockUpdate(p_149674_2_, p_149674_3_, p_149674_4_, this, var9);
                     p_149674_1_.notifyBlocksOfNeighborChange(p_149674_2_, p_149674_3_, p_149674_4_, this);
                 }
             }
-        }
-        else
+        } else
         {
             this.func_149811_n(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
         }
@@ -126,13 +122,11 @@ public class BlockDynamicLiquid extends BlockLiquid
             if (var6 >= 8)
             {
                 this.func_149813_h(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_, var6);
-            }
-            else
+            } else
             {
                 this.func_149813_h(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_, var6 + 8);
             }
-        }
-        else if (var6 >= 0 && (var6 == 0 || this.func_149807_p(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_)))
+        } else if (var6 >= 0 && (var6 == 0 || this.func_149807_p(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_)))
         {
             boolean[] var14 = this.func_149808_o(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
             var11 = var6 + var7;
@@ -178,8 +172,7 @@ public class BlockDynamicLiquid extends BlockLiquid
             if (this.blockMaterial == Material.lava)
             {
                 this.func_149799_m(p_149813_1_, p_149813_2_, p_149813_3_, p_149813_4_);
-            }
-            else
+            } else
             {
                 var6.dropBlockAsItem(p_149813_1_, p_149813_2_, p_149813_3_, p_149813_4_, p_149813_1_.getBlockMetadata(p_149813_2_, p_149813_3_, p_149813_4_), 0);
             }
@@ -278,8 +271,7 @@ public class BlockDynamicLiquid extends BlockLiquid
                 if (this.func_149807_p(p_149808_1_, var6, p_149808_3_ - 1, var8))
                 {
                     this.field_149816_M[var5] = this.func_149812_c(p_149808_1_, var6, p_149808_3_, var8, 1, var5);
-                }
-                else
+                } else
                 {
                     this.field_149816_M[var5] = 0;
                 }
@@ -307,7 +299,7 @@ public class BlockDynamicLiquid extends BlockLiquid
     private boolean func_149807_p(World p_149807_1_, int p_149807_2_, int p_149807_3_, int p_149807_4_)
     {
         Block var5 = p_149807_1_.getBlock(p_149807_2_, p_149807_3_, p_149807_4_);
-        return var5 != Blocks.wooden_door && var5 != Blocks.iron_door && var5 != Blocks.standing_sign && var5 != Blocks.ladder && var5 != Blocks.reeds ? (var5.blockMaterial == Material.Portal ? true : var5.blockMaterial.blocksMovement()) : true;
+        return var5 == Blocks.wooden_door || var5 == Blocks.iron_door || var5 == Blocks.standing_sign || var5 == Blocks.ladder || var5 == Blocks.reeds || (var5.blockMaterial == Material.Portal || var5.blockMaterial.blocksMovement());
     }
 
     protected int func_149810_a(World p_149810_1_, int p_149810_2_, int p_149810_3_, int p_149810_4_, int p_149810_5_)
@@ -317,8 +309,7 @@ public class BlockDynamicLiquid extends BlockLiquid
         if (var6 < 0)
         {
             return p_149810_5_;
-        }
-        else
+        } else
         {
             if (var6 == 0)
             {
@@ -337,7 +328,7 @@ public class BlockDynamicLiquid extends BlockLiquid
     private boolean func_149809_q(World p_149809_1_, int p_149809_2_, int p_149809_3_, int p_149809_4_)
     {
         Material var5 = p_149809_1_.getBlock(p_149809_2_, p_149809_3_, p_149809_4_).getMaterial();
-        return var5 == this.blockMaterial ? false : (var5 == Material.lava ? false : !this.func_149807_p(p_149809_1_, p_149809_2_, p_149809_3_, p_149809_4_));
+        return var5 != this.blockMaterial && (var5 != Material.lava && !this.func_149807_p(p_149809_1_, p_149809_2_, p_149809_3_, p_149809_4_));
     }
 
     public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_)

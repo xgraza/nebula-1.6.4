@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -8,9 +7,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
+import java.util.List;
+
 public class BlockSand extends BlockFalling
 {
-    public static final String[] field_149838_a = new String[] {"default", "red"};
+    public static final String[] field_149838_a = new String[]{ "default", "red" };
     private static IIcon field_149837_b;
     private static IIcon field_149839_N;
     private static final String __OBFID = "CL_00000303";

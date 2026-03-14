@@ -22,10 +22,8 @@ public abstract class ValueObject
                 try
                 {
                     var1.append(var5.getName()).append("=").append(var5.get(this)).append(" ");
-                }
-                catch (IllegalAccessException var7)
+                } catch (IllegalAccessException var7)
                 {
-                    ;
                 }
             }
         }

@@ -1,12 +1,13 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.world.EnumDifficulty;
+
+import java.io.IOException;
 
 public class C15PacketClientSettings extends Packet
 {
@@ -18,7 +19,9 @@ public class C15PacketClientSettings extends Packet
     private boolean field_149525_f;
     private static final String __OBFID = "CL_00001350";
 
-    public C15PacketClientSettings() {}
+    public C15PacketClientSettings()
+    {
+    }
 
     public C15PacketClientSettings(String p_i45243_1_, int p_i45243_2_, EntityPlayer.EnumChatVisibility p_i45243_3_, boolean p_i45243_4_, EnumDifficulty p_i45243_5_, boolean p_i45243_6_)
     {
@@ -96,11 +99,11 @@ public class C15PacketClientSettings extends Packet
      */
     public String serialize()
     {
-        return String.format("lang=\'%s\', view=%d, chat=%s, col=%b, difficulty=%s, cape=%b", new Object[] {this.field_149530_a, Integer.valueOf(this.field_149528_b), this.field_149529_c, Boolean.valueOf(this.field_149526_d), this.field_149527_e, Boolean.valueOf(this.field_149525_f)});
+        return String.format("lang='%s', view=%d, chat=%s, col=%b, difficulty=%s, cape=%b", this.field_149530_a, Integer.valueOf(this.field_149528_b), this.field_149529_c, Boolean.valueOf(this.field_149526_d), this.field_149527_e, Boolean.valueOf(this.field_149525_f));
     }
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

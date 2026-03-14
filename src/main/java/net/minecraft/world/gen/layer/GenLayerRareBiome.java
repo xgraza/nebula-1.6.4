@@ -25,7 +25,7 @@ public class GenLayerRareBiome extends GenLayer
         {
             for (int var8 = 0; var8 < par3; ++var8)
             {
-                this.initChunkSeed((long)(var8 + par1), (long)(var7 + par2));
+                this.initChunkSeed(var8 + par1, var7 + par2);
                 int var9 = var5[var8 + 1 + (var7 + 1) * (par3 + 2)];
 
                 if (this.nextInt(57) == 0)
@@ -33,13 +33,11 @@ public class GenLayerRareBiome extends GenLayer
                     if (var9 == BiomeGenBase.plains.biomeID)
                     {
                         var6[var8 + var7 * par3] = BiomeGenBase.plains.biomeID + 128;
-                    }
-                    else
+                    } else
                     {
                         var6[var8 + var7 * par3] = var9;
                     }
-                }
-                else
+                } else
                 {
                     var6[var8 + var7 * par3] = var9;
                 }

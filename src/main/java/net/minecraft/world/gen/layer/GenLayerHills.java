@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 public class GenLayerHills extends GenLayer
 {
     private static final Logger logger = LogManager.getLogger();
-    private GenLayer field_151628_d;
+    private final GenLayer field_151628_d;
     private static final String __OBFID = "CL_00000563";
 
     public GenLayerHills(long p_i45479_1_, GenLayer p_i45479_3_, GenLayer p_i45479_4_)
@@ -31,7 +31,7 @@ public class GenLayerHills extends GenLayer
         {
             for (int var9 = 0; var9 < par3; ++var9)
             {
-                this.initChunkSeed((long)(var9 + par1), (long)(var8 + par2));
+                this.initChunkSeed(var9 + par1, var8 + par2);
                 int var10 = var5[var9 + 1 + (var8 + 1) * (par3 + 2)];
                 int var11 = var6[var9 + 1 + (var8 + 1) * (par3 + 2)];
                 boolean var12 = (var11 - 2) % 29 == 0;
@@ -46,17 +46,14 @@ public class GenLayerHills extends GenLayer
                     if (BiomeGenBase.func_150568_d(var10 + 128) != null)
                     {
                         var7[var9 + var8 * par3] = var10 + 128;
-                    }
-                    else
+                    } else
                     {
                         var7[var9 + var8 * par3] = var10;
                     }
-                }
-                else if (this.nextInt(3) != 0 && !var12)
+                } else if (this.nextInt(3) != 0 && !var12)
                 {
                     var7[var9 + var8 * par3] = var10;
-                }
-                else
+                } else
                 {
                     int var13 = var10;
                     int var14;
@@ -64,75 +61,59 @@ public class GenLayerHills extends GenLayer
                     if (var10 == BiomeGenBase.desert.biomeID)
                     {
                         var13 = BiomeGenBase.desertHills.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.forest.biomeID)
+                    } else if (var10 == BiomeGenBase.forest.biomeID)
                     {
                         var13 = BiomeGenBase.forestHills.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.field_150583_P.biomeID)
+                    } else if (var10 == BiomeGenBase.field_150583_P.biomeID)
                     {
                         var13 = BiomeGenBase.field_150582_Q.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.field_150585_R.biomeID)
+                    } else if (var10 == BiomeGenBase.field_150585_R.biomeID)
                     {
                         var13 = BiomeGenBase.plains.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.taiga.biomeID)
+                    } else if (var10 == BiomeGenBase.taiga.biomeID)
                     {
                         var13 = BiomeGenBase.taigaHills.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.field_150578_U.biomeID)
+                    } else if (var10 == BiomeGenBase.field_150578_U.biomeID)
                     {
                         var13 = BiomeGenBase.field_150581_V.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.field_150584_S.biomeID)
+                    } else if (var10 == BiomeGenBase.field_150584_S.biomeID)
                     {
                         var13 = BiomeGenBase.field_150579_T.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.plains.biomeID)
+                    } else if (var10 == BiomeGenBase.plains.biomeID)
                     {
                         if (this.nextInt(3) == 0)
                         {
                             var13 = BiomeGenBase.forestHills.biomeID;
-                        }
-                        else
+                        } else
                         {
                             var13 = BiomeGenBase.forest.biomeID;
                         }
-                    }
-                    else if (var10 == BiomeGenBase.icePlains.biomeID)
+                    } else if (var10 == BiomeGenBase.icePlains.biomeID)
                     {
                         var13 = BiomeGenBase.iceMountains.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.jungle.biomeID)
+                    } else if (var10 == BiomeGenBase.jungle.biomeID)
                     {
                         var13 = BiomeGenBase.jungleHills.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.ocean.biomeID)
+                    } else if (var10 == BiomeGenBase.ocean.biomeID)
                     {
                         var13 = BiomeGenBase.field_150575_M.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.extremeHills.biomeID)
+                    } else if (var10 == BiomeGenBase.extremeHills.biomeID)
                     {
                         var13 = BiomeGenBase.field_150580_W.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.field_150588_X.biomeID)
+                    } else if (var10 == BiomeGenBase.field_150588_X.biomeID)
                     {
                         var13 = BiomeGenBase.field_150587_Y.biomeID;
-                    }
-                    else if (func_151616_a(var10, BiomeGenBase.field_150607_aa.biomeID))
+                    } else if (func_151616_a(var10, BiomeGenBase.field_150607_aa.biomeID))
                     {
                         var13 = BiomeGenBase.field_150589_Z.biomeID;
-                    }
-                    else if (var10 == BiomeGenBase.field_150575_M.biomeID && this.nextInt(3) == 0)
+                    } else if (var10 == BiomeGenBase.field_150575_M.biomeID && this.nextInt(3) == 0)
                     {
                         var14 = this.nextInt(2);
 
                         if (var14 == 0)
                         {
                             var13 = BiomeGenBase.plains.biomeID;
-                        }
-                        else
+                        } else
                         {
                             var13 = BiomeGenBase.forest.biomeID;
                         }
@@ -143,8 +124,7 @@ public class GenLayerHills extends GenLayer
                         if (BiomeGenBase.func_150568_d(var13 + 128) != null)
                         {
                             var13 += 128;
-                        }
-                        else
+                        } else
                         {
                             var13 = var10;
                         }
@@ -153,8 +133,7 @@ public class GenLayerHills extends GenLayer
                     if (var13 == var10)
                     {
                         var7[var9 + var8 * par3] = var10;
-                    }
-                    else
+                    } else
                     {
                         var14 = var5[var9 + 1 + (var8 + 1 - 1) * (par3 + 2)];
                         int var15 = var5[var9 + 1 + 1 + (var8 + 1) * (par3 + 2)];
@@ -185,8 +164,7 @@ public class GenLayerHills extends GenLayer
                         if (var18 >= 3)
                         {
                             var7[var9 + var8 * par3] = var13;
-                        }
-                        else
+                        } else
                         {
                             var7[var9 + var8 * par3] = var10;
                         }

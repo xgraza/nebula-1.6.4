@@ -2,7 +2,7 @@ package net.optifine.entity.model.anim;
 
 public class Parameters implements IParameters
 {
-    private ExpressionType[] parameterTypes;
+    private final ExpressionType[] parameterTypes;
 
     public Parameters(ExpressionType[] parameterTypes)
     {

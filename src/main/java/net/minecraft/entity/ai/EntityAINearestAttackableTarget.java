@@ -1,19 +1,22 @@
 package net.minecraft.entity.ai;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class EntityAINearestAttackableTarget extends EntityAITarget
 {
     private final Class targetClass;
     private final int targetChance;
 
-    /** Instance of EntityAINearestAttackableTargetSorter. */
+    /**
+     * Instance of EntityAINearestAttackableTargetSorter.
+     */
     private final EntityAINearestAttackableTarget.Sorter theNearestAttackableTargetSorter;
 
     /**
@@ -31,7 +34,7 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
 
     public EntityAINearestAttackableTarget(EntityCreature par1EntityCreature, Class par2Class, int par3, boolean par4, boolean par5)
     {
-        this(par1EntityCreature, par2Class, par3, par4, par5, (IEntitySelector)null);
+        this(par1EntityCreature, par2Class, par3, par4, par5, null);
     }
 
     public EntityAINearestAttackableTarget(EntityCreature par1EntityCreature, Class par2Class, int par3, boolean par4, boolean par5, final IEntitySelector par6IEntitySelector)
@@ -44,9 +47,10 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
         this.targetEntitySelector = new IEntitySelector()
         {
             private static final String __OBFID = "CL_00001621";
+
             public boolean isEntityApplicable(Entity par1Entity)
             {
-                return !(par1Entity instanceof EntityLivingBase) ? false : (par6IEntitySelector != null && !par6IEntitySelector.isEntityApplicable(par1Entity) ? false : EntityAINearestAttackableTarget.this.isSuitableTarget((EntityLivingBase)par1Entity, false));
+                return par1Entity instanceof EntityLivingBase && ((par6IEntitySelector == null || par6IEntitySelector.isEntityApplicable(par1Entity)) && EntityAINearestAttackableTarget.this.isSuitableTarget((EntityLivingBase) par1Entity, false));
             }
         };
     }
@@ -59,8 +63,7 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
         if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0)
         {
             return false;
-        }
-        else
+        } else
         {
             double var1 = this.getTargetDistance();
             List var3 = this.taskOwner.worldObj.selectEntitiesWithinAABB(this.targetClass, this.taskOwner.boundingBox.expand(var1, 4.0D, var1), this.targetEntitySelector);
@@ -69,10 +72,9 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
             if (var3.isEmpty())
             {
                 return false;
-            }
-            else
+            } else
             {
-                this.targetEntity = (EntityLivingBase)var3.get(0);
+                this.targetEntity = (EntityLivingBase) var3.get(0);
                 return true;
             }
         }
@@ -106,7 +108,7 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
 
         public int compare(Object par1Obj, Object par2Obj)
         {
-            return this.compare((Entity)par1Obj, (Entity)par2Obj);
+            return this.compare((Entity) par1Obj, (Entity) par2Obj);
         }
     }
 }

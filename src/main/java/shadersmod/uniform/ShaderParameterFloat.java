@@ -67,9 +67,9 @@ public enum ShaderParameterFloat implements IExpressionFloat
     SKY_COLOR_R("skyColor.r"),
     SKY_COLOR_G("skyColor.g"),
     SKY_COLOR_B("skyColor.b");
-    private String name;
+    private final String name;
 
-    private ShaderParameterFloat(String name)
+    ShaderParameterFloat(String name)
     {
         this.name = name;
     }
@@ -90,8 +90,8 @@ public enum ShaderParameterFloat implements IExpressionFloat
         {
             case 1:
                 Vec3 valLegacy = Shaders.getCameraPosition();
-                BiomeGenBase biome = Shaders.getCurrentWorld().getBiomeGenForCoords((int)valLegacy.xCoord, (int)valLegacy.zCoord);
-                return (float)biome.biomeID;
+                BiomeGenBase biome = Shaders.getCurrentWorld().getBiomeGenForCoords((int) valLegacy.xCoord, (int) valLegacy.zCoord);
+                return (float) biome.biomeID;
 
             default:
                 Number valLegacy1 = LegacyUniforms.getNumber(this.name);
@@ -99,16 +99,17 @@ public enum ShaderParameterFloat implements IExpressionFloat
         }
     }
 
-    static class NamelessClass1293093397 {
+    static class NamelessClass1293093397
+    {
         static final int[] $SwitchMap$shadersmod$uniform$ShaderParameterFloat = new int[ShaderParameterFloat.values().length];
 
-        static {
-            try {
-                $SwitchMap$shadersmod$uniform$ShaderParameterFloat[ShaderParameterFloat.BIOME.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var1)
+        static
+        {
+            try
             {
-                ;
+                $SwitchMap$shadersmod$uniform$ShaderParameterFloat[ShaderParameterFloat.BIOME.ordinal()] = 1;
+            } catch (NoSuchFieldError var1)
+            {
             }
         }
     }

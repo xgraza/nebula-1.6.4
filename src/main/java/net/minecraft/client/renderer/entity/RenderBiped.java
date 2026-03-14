@@ -1,7 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
 import com.google.common.collect.Maps;
-import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -17,6 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Map;
+
 public class RenderBiped extends RenderLiving
 {
     protected ModelBiped modelBipedMain;
@@ -25,8 +26,10 @@ public class RenderBiped extends RenderLiving
     protected ModelBiped field_82425_h;
     private static final Map field_110859_k = Maps.newHashMap();
 
-    /** List of armor texture filenames. */
-    private static final String[] bipedArmorFilenamePrefix = new String[] {"leather", "chainmail", "iron", "diamond", "gold"};
+    /**
+     * List of armor texture filenames.
+     */
+    private static final String[] bipedArmorFilenamePrefix = new String[]{ "leather", "chainmail", "iron", "diamond", "gold" };
     private static final String __OBFID = "CL_00001001";
 
     public RenderBiped(ModelBiped par1ModelBiped, float par2)
@@ -50,13 +53,13 @@ public class RenderBiped extends RenderLiving
 
     public static ResourceLocation func_110857_a(ItemArmor par0ItemArmor, int par1)
     {
-        return func_110858_a(par0ItemArmor, par1, (String)null);
+        return func_110858_a(par0ItemArmor, par1, null);
     }
 
     public static ResourceLocation func_110858_a(ItemArmor par0ItemArmor, int par1, String par2Str)
     {
-        String var3 = String.format("textures/models/armor/%s_layer_%d%s.png", new Object[] {bipedArmorFilenamePrefix[par0ItemArmor.renderIndex], Integer.valueOf(par1 == 2 ? 2 : 1), par2Str == null ? "" : String.format("_%s", new Object[]{par2Str})});
-        ResourceLocation var4 = (ResourceLocation)field_110859_k.get(var3);
+        String var3 = String.format("textures/models/armor/%s_layer_%d%s.png", bipedArmorFilenamePrefix[par0ItemArmor.renderIndex], Integer.valueOf(par1 == 2 ? 2 : 1), par2Str == null ? "" : String.format("_%s", par2Str));
+        ResourceLocation var4 = (ResourceLocation) field_110859_k.get(var3);
 
         if (var4 == null)
         {
@@ -80,7 +83,7 @@ public class RenderBiped extends RenderLiving
 
             if (var5 instanceof ItemArmor)
             {
-                ItemArmor var6 = (ItemArmor)var5;
+                ItemArmor var6 = (ItemArmor) var5;
                 this.bindTexture(func_110857_a(var6, par2));
                 ModelBiped var7 = par2 == 2 ? this.field_82425_h : this.field_82423_g;
                 var7.bipedHead.showModel = par2 == 0;
@@ -98,9 +101,9 @@ public class RenderBiped extends RenderLiving
                 if (var6.getArmorMaterial() == ItemArmor.ArmorMaterial.CLOTH)
                 {
                     int var8 = var6.getColor(var4);
-                    float var9 = (float)(var8 >> 16 & 255) / 255.0F;
-                    float var10 = (float)(var8 >> 8 & 255) / 255.0F;
-                    float var11 = (float)(var8 & 255) / 255.0F;
+                    float var9 = (float) (var8 >> 16 & 255) / 255.0F;
+                    float var10 = (float) (var8 >> 8 & 255) / 255.0F;
+                    float var11 = (float) (var8 & 255) / 255.0F;
                     GL11.glColor3f(var9, var10, var11);
 
                     if (var4.isItemEnchanted())
@@ -135,7 +138,7 @@ public class RenderBiped extends RenderLiving
 
             if (var5 instanceof ItemArmor)
             {
-                this.bindTexture(func_110858_a((ItemArmor)var5, par2, "overlay"));
+                this.bindTexture(func_110858_a((ItemArmor) var5, par2, "overlay"));
                 float var6 = 1.0F;
                 GL11.glColor3f(1.0F, 1.0F, 1.0F);
             }
@@ -153,7 +156,7 @@ public class RenderBiped extends RenderLiving
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         ItemStack var10 = par1EntityLiving.getHeldItem();
         this.func_82420_a(par1EntityLiving, var10);
-        double var11 = par4 - (double)par1EntityLiving.yOffset;
+        double var11 = par4 - (double) par1EntityLiving.yOffset;
 
         if (par1EntityLiving.isSneaking())
         {
@@ -206,8 +209,7 @@ public class RenderBiped extends RenderLiving
                 }
 
                 this.renderManager.itemRenderer.renderItem(par1EntityLiving, var4, 0);
-            }
-            else if (var5 == Items.skull)
+            } else if (var5 == Items.skull)
             {
                 var6 = 1.0625F;
                 GL11.glScalef(var6, -var6, -var6);
@@ -248,8 +250,7 @@ public class RenderBiped extends RenderLiving
                 GL11.glRotatef(20.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
                 GL11.glScalef(-var6, -var6, var6);
-            }
-            else if (var5 == Items.bow)
+            } else if (var5 == Items.bow)
             {
                 var6 = 0.625F;
                 GL11.glTranslatef(0.0F, 0.125F, 0.3125F);
@@ -257,8 +258,7 @@ public class RenderBiped extends RenderLiving
                 GL11.glScalef(var6, -var6, var6);
                 GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            }
-            else if (var5.isFull3D())
+            } else if (var5.isFull3D())
             {
                 var6 = 0.625F;
 
@@ -272,8 +272,7 @@ public class RenderBiped extends RenderLiving
                 GL11.glScalef(var6, -var6, var6);
                 GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            }
-            else
+            } else
             {
                 var6 = 0.375F;
                 GL11.glTranslatef(0.25F, 0.1875F, -0.1875F);
@@ -292,19 +291,18 @@ public class RenderBiped extends RenderLiving
                 for (var13 = 0; var13 <= 1; ++var13)
                 {
                     int var11 = var3.getItem().getColorFromItemStack(var3, var13);
-                    var8 = (float)(var11 >> 16 & 255) / 255.0F;
-                    var9 = (float)(var11 >> 8 & 255) / 255.0F;
-                    float var10 = (float)(var11 & 255) / 255.0F;
+                    var8 = (float) (var11 >> 16 & 255) / 255.0F;
+                    var9 = (float) (var11 >> 8 & 255) / 255.0F;
+                    float var10 = (float) (var11 & 255) / 255.0F;
                     GL11.glColor4f(var8, var9, var10, 1.0F);
                     this.renderManager.itemRenderer.renderItem(par1EntityLiving, var3, var13);
                 }
-            }
-            else
+            } else
             {
                 var13 = var3.getItem().getColorFromItemStack(var3, 0);
-                float var12 = (float)(var13 >> 16 & 255) / 255.0F;
-                var8 = (float)(var13 >> 8 & 255) / 255.0F;
-                var9 = (float)(var13 & 255) / 255.0F;
+                float var12 = (float) (var13 >> 16 & 255) / 255.0F;
+                var8 = (float) (var13 >> 8 & 255) / 255.0F;
+                var9 = (float) (var13 & 255) / 255.0F;
                 GL11.glColor4f(var12, var8, var9, 1.0F);
                 this.renderManager.itemRenderer.renderItem(par1EntityLiving, var3, 0);
             }
@@ -320,7 +318,7 @@ public class RenderBiped extends RenderLiving
 
     protected void func_82408_c(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        this.func_82408_c((EntityLiving)par1EntityLivingBase, par2, par3);
+        this.func_82408_c((EntityLiving) par1EntityLivingBase, par2, par3);
     }
 
     /**
@@ -328,12 +326,12 @@ public class RenderBiped extends RenderLiving
      */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.shouldRenderPass((EntityLiving)par1EntityLivingBase, par2, par3);
+        return this.shouldRenderPass((EntityLiving) par1EntityLivingBase, par2, par3);
     }
 
     protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.renderEquippedItems((EntityLiving)par1EntityLivingBase, par2);
+        this.renderEquippedItems((EntityLiving) par1EntityLivingBase, par2);
     }
 
     /**
@@ -344,7 +342,7 @@ public class RenderBiped extends RenderLiving
      */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityLiving)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityLiving) par1Entity, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -352,7 +350,7 @@ public class RenderBiped extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityLiving)par1Entity);
+        return this.getEntityTexture((EntityLiving) par1Entity);
     }
 
     /**
@@ -363,6 +361,6 @@ public class RenderBiped extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityLiving)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityLiving) par1Entity, par2, par4, par6, par8, par9);
     }
 }

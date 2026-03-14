@@ -15,13 +15,17 @@ public abstract class EntityFlying extends EntityLiving
     /**
      * Called when the mob is falling. Calculates and applies fall damage.
      */
-    protected void fall(float par1) {}
+    protected void fall(float par1)
+    {
+    }
 
     /**
      * Takes in the distance the entity has fallen this tick and whether its on the ground to update the fall distance
      * and deal fall damage if landing on the ground.  Args: distanceFallenThisTick, onGround
      */
-    protected void updateFallState(double par1, boolean par3) {}
+    protected void updateFallState(double par1, boolean par3)
+    {
+    }
 
     /**
      * Moves the entity based on the specified heading.  Args: strafe, forward
@@ -35,16 +39,14 @@ public abstract class EntityFlying extends EntityLiving
             this.motionX *= 0.800000011920929D;
             this.motionY *= 0.800000011920929D;
             this.motionZ *= 0.800000011920929D;
-        }
-        else if (this.handleLavaMovement())
+        } else if (this.handleLavaMovement())
         {
             this.moveFlying(par1, par2, 0.02F);
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
             this.motionX *= 0.5D;
             this.motionY *= 0.5D;
             this.motionZ *= 0.5D;
-        }
-        else
+        } else
         {
             float var3 = 0.91F;
 
@@ -63,9 +65,9 @@ public abstract class EntityFlying extends EntityLiving
             }
 
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
-            this.motionX *= (double)var3;
-            this.motionY *= (double)var3;
-            this.motionZ *= (double)var3;
+            this.motionX *= var3;
+            this.motionY *= var3;
+            this.motionZ *= var3;
         }
 
         this.prevLimbSwingAmount = this.limbSwingAmount;

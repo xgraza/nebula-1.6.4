@@ -3,17 +3,6 @@ package net.minecraft.client.audio;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Map.Entry;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
@@ -25,6 +14,14 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.Map.Entry;
+
 public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlayerListBox
 {
     private static final Logger logger = LogManager.getLogger();
@@ -32,14 +29,17 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
     private static final ParameterizedType field_147696_d = new ParameterizedType()
     {
         private static final String __OBFID = "CL_00001148";
+
         public Type[] getActualTypeArguments()
         {
-            return new Type[] {String.class, SoundList.class};
+            return new Type[]{ String.class, SoundList.class };
         }
+
         public Type getRawType()
         {
             return Map.class;
         }
+
         public Type getOwnerType()
         {
             return null;
@@ -65,7 +65,7 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
 
         while (var2.hasNext())
         {
-            String var3 = (String)var2.next();
+            String var3 = (String) var2.next();
 
             try
             {
@@ -73,28 +73,25 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
 
                 for (int var5 = var4.size() - 1; var5 >= 0; --var5)
                 {
-                    IResource var6 = (IResource)var4.get(var5);
+                    IResource var6 = (IResource) var4.get(var5);
 
                     try
                     {
-                        Map var7 = (Map)field_147699_c.fromJson(new InputStreamReader(var6.getInputStream()), field_147696_d);
+                        Map var7 = field_147699_c.fromJson(new InputStreamReader(var6.getInputStream()), field_147696_d);
                         Iterator var8 = var7.entrySet().iterator();
 
                         while (var8.hasNext())
                         {
-                            Entry var9 = (Entry)var8.next();
-                            this.func_147693_a(new ResourceLocation(var3, (String)var9.getKey()), (SoundList)var9.getValue());
+                            Entry var9 = (Entry) var8.next();
+                            this.func_147693_a(new ResourceLocation(var3, (String) var9.getKey()), (SoundList) var9.getValue());
                         }
-                    }
-                    catch (RuntimeException var10)
+                    } catch (RuntimeException var10)
                     {
                         logger.warn("Invalid sounds.json", var10);
                     }
                 }
-            }
-            catch (IOException var11)
+            } catch (IOException var11)
             {
-                ;
             }
         }
     }
@@ -105,9 +102,8 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
 
         if (this.field_147697_e.containsKey(p_147693_1_) && !p_147693_2_.func_148574_b())
         {
-            var3 = (SoundEventAccessorComposite)this.field_147697_e.getObject(p_147693_1_);
-        }
-        else
+            var3 = (SoundEventAccessorComposite) this.field_147697_e.getObject(p_147693_1_);
+        } else
         {
             var3 = new SoundEventAccessorComposite(p_147693_1_, 1.0D, 1.0D, p_147693_2_.func_148573_c());
             this.field_147697_e.func_148762_a(var3);
@@ -117,7 +113,7 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
 
         while (var4.hasNext())
         {
-            final SoundList.SoundEntry var5 = (SoundList.SoundEntry)var4.next();
+            final SoundList.SoundEntry var5 = (SoundList.SoundEntry) var4.next();
             String var6 = var5.func_148556_a();
             ResourceLocation var7 = new ResourceLocation(var6);
             final String var8 = var6.contains(":") ? var7.getResourceDomain() : p_147693_1_.getResourceDomain();
@@ -131,19 +127,17 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
                     try
                     {
                         this.field_147695_g.getResource(var10);
-                    }
-                    catch (FileNotFoundException var12)
+                    } catch (FileNotFoundException var12)
                     {
-                        logger.warn("File {} does not exist, cannot add it to event {}", new Object[] {var10, p_147693_1_});
+                        logger.warn("File {} does not exist, cannot add it to event {}", var10, p_147693_1_);
                         continue;
-                    }
-                    catch (IOException var13)
+                    } catch (IOException var13)
                     {
                         logger.warn("Could not load sound file " + var10 + ", cannot add it to event " + p_147693_1_, var13);
                         continue;
                     }
 
-                    var9 = new SoundEventAccessor(new SoundPoolEntry(var10, (double)var5.func_148560_c(), (double)var5.func_148558_b(), var5.func_148552_f()), var5.func_148555_d());
+                    var9 = new SoundEventAccessor(new SoundPoolEntry(var10, var5.func_148560_c(), var5.func_148558_b(), var5.func_148552_f()), var5.func_148555_d());
                     break;
 
                 case 2:
@@ -151,14 +145,16 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
                     {
                         final ResourceLocation field_148726_a = new ResourceLocation(var8, var5.func_148556_a());
                         private static final String __OBFID = "CL_00001149";
+
                         public int func_148721_a()
                         {
-                            SoundEventAccessorComposite var1 = (SoundEventAccessorComposite)SoundHandler.this.field_147697_e.getObject(this.field_148726_a);
+                            SoundEventAccessorComposite var1 = (SoundEventAccessorComposite) SoundHandler.this.field_147697_e.getObject(this.field_148726_a);
                             return var1 == null ? 0 : var1.func_148721_a();
                         }
+
                         public SoundPoolEntry func_148720_g()
                         {
-                            SoundEventAccessorComposite var1 = (SoundEventAccessorComposite)SoundHandler.this.field_147697_e.getObject(this.field_148726_a);
+                            SoundEventAccessorComposite var1 = (SoundEventAccessorComposite) SoundHandler.this.field_147697_e.getObject(this.field_148726_a);
                             return var1 == null ? SoundHandler.field_147700_a : var1.func_148720_g();
                         }
                     };
@@ -168,13 +164,13 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
                     throw new IllegalStateException("IN YOU FACE");
             }
 
-            var3.func_148727_a((ISoundEventAccessor)var9);
+            var3.func_148727_a((ISoundEventAccessor) var9);
         }
     }
 
     public SoundEventAccessorComposite func_147680_a(ResourceLocation p_147680_1_)
     {
-        return (SoundEventAccessorComposite)this.field_147697_e.getObject(p_147680_1_);
+        return (SoundEventAccessorComposite) this.field_147697_e.getObject(p_147680_1_);
     }
 
     /**
@@ -241,15 +237,15 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
         this.soundManager.func_148602_b(p_147683_1_);
     }
 
-    public SoundEventAccessorComposite func_147686_a(SoundCategory ... p_147686_1_)
+    public SoundEventAccessorComposite func_147686_a(SoundCategory... p_147686_1_)
     {
         ArrayList var2 = Lists.newArrayList();
         Iterator var3 = this.field_147697_e.getKeys().iterator();
 
         while (var3.hasNext())
         {
-            ResourceLocation var4 = (ResourceLocation)var3.next();
-            SoundEventAccessorComposite var5 = (SoundEventAccessorComposite)this.field_147697_e.getObject(var4);
+            ResourceLocation var4 = (ResourceLocation) var3.next();
+            SoundEventAccessorComposite var5 = (SoundEventAccessorComposite) this.field_147697_e.getObject(var4);
 
             if (ArrayUtils.contains(p_147686_1_, var5.func_148728_d()))
             {
@@ -260,10 +256,9 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
         if (var2.isEmpty())
         {
             return null;
-        }
-        else
+        } else
         {
-            return (SoundEventAccessorComposite)var2.get((new Random()).nextInt(var2.size()));
+            return (SoundEventAccessorComposite) var2.get((new Random()).nextInt(var2.size()));
         }
     }
 
@@ -282,19 +277,15 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
             try
             {
                 field_148765_a[SoundList.SoundEntry.Type.FILE.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
                 field_148765_a[SoundList.SoundEntry.Type.SOUND_EVENT.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

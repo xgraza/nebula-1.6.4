@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiTextField;
 public class GuiWDL extends GuiScreen
 {
     private String title = "";
-    private GuiScreen parent;
+    private final GuiScreen parent;
     private GuiTextField worldName;
     private GuiButton autoStartBtn;
     private GuiButton backupBtn;
@@ -33,8 +33,7 @@ public class GuiWDL extends GuiScreen
         if (!WDL.propsFound)
         {
             this.mc.displayGuiScreen(new GuiWDLMultiworld(this.parent));
-        }
-        else
+        } else
         {
             this.buttonList.clear();
             this.title = "Options for " + WDL.baseFolderName.replace('@', ':');
@@ -80,24 +79,19 @@ public class GuiWDL extends GuiScreen
             if (guibutton.id == 1)
             {
                 this.updateAutoStart(true);
-            }
-            else if (guibutton.id == 2)
+            } else if (guibutton.id == 2)
             {
                 this.mc.displayGuiScreen(new GuiWDLBackup(this));
-            }
-            else if (guibutton.id == 4)
+            } else if (guibutton.id == 4)
             {
                 this.mc.displayGuiScreen(new GuiWDLWorld(this));
-            }
-            else if (guibutton.id == 5)
+            } else if (guibutton.id == 5)
             {
                 this.mc.displayGuiScreen(new GuiWDLGenerator(this));
-            }
-            else if (guibutton.id == 6)
+            } else if (guibutton.id == 6)
             {
                 this.mc.displayGuiScreen(new GuiWDLPlayer(this));
-            }
-            else if (guibutton.id == 100)
+            } else if (guibutton.id == 100)
             {
                 WDL.saveProps();
                 this.mc.displayGuiScreen(this.parent);
@@ -154,18 +148,15 @@ public class GuiWDL extends GuiScreen
             {
                 WDL.baseProps.setProperty("AutoStart", "false");
                 this.updateAutoStart(false);
-            }
-            else
+            } else
             {
                 this.autoStartBtn.displayString = "Start Download: Automatically";
             }
-        }
-        else if (btnClicked)
+        } else if (btnClicked)
         {
             WDL.baseProps.setProperty("AutoStart", "true");
             this.updateAutoStart(false);
-        }
-        else
+        } else
         {
             this.autoStartBtn.displayString = "Start Download: Only in menu";
         }
@@ -176,8 +167,7 @@ public class GuiWDL extends GuiScreen
         if (var1)
         {
             WDL.baseProps.setProperty("ServerName", this.worldName.getText());
-        }
-        else
+        } else
         {
             this.worldName.setText(WDL.baseProps.getProperty("ServerName"));
         }

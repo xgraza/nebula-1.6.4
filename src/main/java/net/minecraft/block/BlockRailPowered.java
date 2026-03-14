@@ -33,8 +33,7 @@ public class BlockRailPowered extends BlockRailBase
         if (p_150058_7_ >= 8)
         {
             return false;
-        }
-        else
+        } else
         {
             int var8 = p_150058_5_ & 7;
             boolean var9 = true;
@@ -45,8 +44,7 @@ public class BlockRailPowered extends BlockRailBase
                     if (p_150058_6_)
                     {
                         ++p_150058_4_;
-                    }
-                    else
+                    } else
                     {
                         --p_150058_4_;
                     }
@@ -57,8 +55,7 @@ public class BlockRailPowered extends BlockRailBase
                     if (p_150058_6_)
                     {
                         --p_150058_2_;
-                    }
-                    else
+                    } else
                     {
                         ++p_150058_2_;
                     }
@@ -69,8 +66,7 @@ public class BlockRailPowered extends BlockRailBase
                     if (p_150058_6_)
                     {
                         --p_150058_2_;
-                    }
-                    else
+                    } else
                     {
                         ++p_150058_2_;
                         ++p_150058_3_;
@@ -86,8 +82,7 @@ public class BlockRailPowered extends BlockRailBase
                         --p_150058_2_;
                         ++p_150058_3_;
                         var9 = false;
-                    }
-                    else
+                    } else
                     {
                         ++p_150058_2_;
                     }
@@ -99,8 +94,7 @@ public class BlockRailPowered extends BlockRailBase
                     if (p_150058_6_)
                     {
                         ++p_150058_4_;
-                    }
-                    else
+                    } else
                     {
                         --p_150058_4_;
                         ++p_150058_3_;
@@ -116,8 +110,7 @@ public class BlockRailPowered extends BlockRailBase
                         ++p_150058_4_;
                         ++p_150058_3_;
                         var9 = false;
-                    }
-                    else
+                    } else
                     {
                         --p_150058_4_;
                     }
@@ -125,7 +118,7 @@ public class BlockRailPowered extends BlockRailBase
                     var8 = 0;
             }
 
-            return this.func_150057_a(p_150058_1_, p_150058_2_, p_150058_3_, p_150058_4_, p_150058_6_, p_150058_7_, var8) ? true : var9 && this.func_150057_a(p_150058_1_, p_150058_2_, p_150058_3_ - 1, p_150058_4_, p_150058_6_, p_150058_7_, var8);
+            return this.func_150057_a(p_150058_1_, p_150058_2_, p_150058_3_, p_150058_4_, p_150058_6_, p_150058_7_, var8) || var9 && this.func_150057_a(p_150058_1_, p_150058_2_, p_150058_3_ - 1, p_150058_4_, p_150058_6_, p_150058_7_, var8);
         }
     }
 
@@ -172,8 +165,7 @@ public class BlockRailPowered extends BlockRailBase
         {
             p_150048_1_.setBlockMetadataWithNotify(p_150048_2_, p_150048_3_, p_150048_4_, p_150048_6_ | 8, 3);
             var9 = true;
-        }
-        else if (!var8 && (p_150048_5_ & 8) != 0)
+        } else if (!var8 && (p_150048_5_ & 8) != 0)
         {
             p_150048_1_.setBlockMetadataWithNotify(p_150048_2_, p_150048_3_, p_150048_4_, p_150048_6_, 3);
             var9 = true;

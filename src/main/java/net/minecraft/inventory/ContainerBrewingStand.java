@@ -9,9 +9,11 @@ import net.minecraft.tileentity.TileEntityBrewingStand;
 
 public class ContainerBrewingStand extends Container
 {
-    private TileEntityBrewingStand tileBrewingStand;
+    private final TileEntityBrewingStand tileBrewingStand;
 
-    /** Instance of Slot. */
+    /**
+     * Instance of Slot.
+     */
     private final Slot theSlot;
     private int brewTime;
     private static final String __OBFID = "CL_00001737";
@@ -54,7 +56,7 @@ public class ContainerBrewingStand extends Container
 
         for (int var1 = 0; var1 < this.crafters.size(); ++var1)
         {
-            ICrafting var2 = (ICrafting)this.crafters.get(var1);
+            ICrafting var2 = this.crafters.get(var1);
 
             if (this.brewTime != this.tileBrewingStand.func_145935_i())
             {
@@ -84,7 +86,7 @@ public class ContainerBrewingStand extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -99,34 +101,29 @@ public class ContainerBrewingStand extends Container
                     {
                         return null;
                     }
-                }
-                else if (ContainerBrewingStand.Potion.canHoldPotion(var3))
+                } else if (ContainerBrewingStand.Potion.canHoldPotion(var3))
                 {
                     if (!this.mergeItemStack(var5, 0, 3, false))
                     {
                         return null;
                     }
-                }
-                else if (par2 >= 4 && par2 < 31)
+                } else if (par2 >= 4 && par2 < 31)
                 {
                     if (!this.mergeItemStack(var5, 31, 40, false))
                     {
                         return null;
                     }
-                }
-                else if (par2 >= 31 && par2 < 40)
+                } else if (par2 >= 31 && par2 < 40)
                 {
                     if (!this.mergeItemStack(var5, 4, 31, false))
                     {
                         return null;
                     }
-                }
-                else if (!this.mergeItemStack(var5, 4, 40, false))
+                } else if (!this.mergeItemStack(var5, 4, 40, false))
                 {
                     return null;
                 }
-            }
-            else
+            } else
             {
                 if (!this.mergeItemStack(var5, 4, 40, true))
                 {
@@ -138,9 +135,8 @@ public class ContainerBrewingStand extends Container
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack(null);
+            } else
             {
                 var4.onSlotChanged();
             }
@@ -158,7 +154,7 @@ public class ContainerBrewingStand extends Container
 
     static class Potion extends Slot
     {
-        private EntityPlayer player;
+        private final EntityPlayer player;
         private static final String __OBFID = "CL_00001740";
 
         public Potion(EntityPlayer par1EntityPlayer, IInventory par2IInventory, int par3, int par4, int par5)
@@ -204,7 +200,7 @@ public class ContainerBrewingStand extends Container
 
         public boolean isItemValid(ItemStack par1ItemStack)
         {
-            return par1ItemStack != null ? par1ItemStack.getItem().isPotionIngredient(par1ItemStack) : false;
+            return par1ItemStack != null && par1ItemStack.getItem().isPotionIngredient(par1ItemStack);
         }
 
         public int getSlotStackLimit()

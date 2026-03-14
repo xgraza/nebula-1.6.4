@@ -89,7 +89,6 @@ public class ItemRendererOF extends ItemRenderer
             GL11.glTranslatef(-0.9375F, -0.0625F, 0.0F);
             renderItemIn2D(var8, var10, var11, var9, var12, var7.getIconWidth(), var7.getIconHeight(), 0.0625F);
             boolean renderEffect = itemStack.hasEffect() && par3 == 0;
-            ;
 
             if (renderEffect)
             {

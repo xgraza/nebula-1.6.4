@@ -14,8 +14,8 @@ import org.lwjgl.opengl.GL12;
 
 public class RenderSnowball extends Render
 {
-    private Item field_94151_a;
-    private int field_94150_f;
+    private final Item field_94151_a;
+    private final int field_94150_f;
     private static final String __OBFID = "CL_00001008";
 
     public RenderSnowball(Item par1Item, int par2)
@@ -42,7 +42,7 @@ public class RenderSnowball extends Render
         if (var10 != null)
         {
             GL11.glPushMatrix();
-            GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+            GL11.glTranslatef((float) par2, (float) par4, (float) par6);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glScalef(0.5F, 0.5F, 0.5F);
             this.bindEntityTexture(par1Entity);
@@ -50,10 +50,10 @@ public class RenderSnowball extends Render
 
             if (var10 == ItemPotion.func_94589_d("bottle_splash"))
             {
-                int var12 = PotionHelper.func_77915_a(((EntityPotion)par1Entity).getPotionDamage(), false);
-                float var13 = (float)(var12 >> 16 & 255) / 255.0F;
-                float var14 = (float)(var12 >> 8 & 255) / 255.0F;
-                float var15 = (float)(var12 & 255) / 255.0F;
+                int var12 = PotionHelper.func_77915_a(((EntityPotion) par1Entity).getPotionDamage(), false);
+                float var13 = (float) (var12 >> 16 & 255) / 255.0F;
+                float var14 = (float) (var12 >> 8 & 255) / 255.0F;
+                float var15 = (float) (var12 & 255) / 255.0F;
                 GL11.glColor3f(var13, var14, var15);
                 GL11.glPushMatrix();
                 this.func_77026_a(var11, ItemPotion.func_94589_d("overlay"));
@@ -88,10 +88,10 @@ public class RenderSnowball extends Render
         GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
         par1Tessellator.startDrawingQuads();
         par1Tessellator.setNormal(0.0F, 1.0F, 0.0F);
-        par1Tessellator.addVertexWithUV((double)(0.0F - var8), (double)(0.0F - var9), 0.0D, (double)var3, (double)var6);
-        par1Tessellator.addVertexWithUV((double)(var7 - var8), (double)(0.0F - var9), 0.0D, (double)var4, (double)var6);
-        par1Tessellator.addVertexWithUV((double)(var7 - var8), (double)(var7 - var9), 0.0D, (double)var4, (double)var5);
-        par1Tessellator.addVertexWithUV((double)(0.0F - var8), (double)(var7 - var9), 0.0D, (double)var3, (double)var5);
+        par1Tessellator.addVertexWithUV(0.0F - var8, 0.0F - var9, 0.0D, var3, var6);
+        par1Tessellator.addVertexWithUV(var7 - var8, 0.0F - var9, 0.0D, var4, var6);
+        par1Tessellator.addVertexWithUV(var7 - var8, var7 - var9, 0.0D, var4, var5);
+        par1Tessellator.addVertexWithUV(0.0F - var8, var7 - var9, 0.0D, var3, var5);
         par1Tessellator.draw();
     }
 }

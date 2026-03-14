@@ -1,13 +1,14 @@
 package net.minecraft.entity.ai;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.passive.EntityVillager;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class EntityAIFollowGolem extends EntityAIBase
 {
-    private EntityVillager theVillager;
+    private final EntityVillager theVillager;
     private EntityIronGolem theGolem;
     private int takeGolemRoseTick;
     private boolean tookGolemRose;
@@ -27,26 +28,23 @@ public class EntityAIFollowGolem extends EntityAIBase
         if (this.theVillager.getGrowingAge() >= 0)
         {
             return false;
-        }
-        else if (!this.theVillager.worldObj.isDaytime())
+        } else if (!this.theVillager.worldObj.isDaytime())
         {
             return false;
-        }
-        else
+        } else
         {
             List var1 = this.theVillager.worldObj.getEntitiesWithinAABB(EntityIronGolem.class, this.theVillager.boundingBox.expand(6.0D, 2.0D, 6.0D));
 
             if (var1.isEmpty())
             {
                 return false;
-            }
-            else
+            } else
             {
                 Iterator var2 = var1.iterator();
 
                 while (var2.hasNext())
                 {
-                    EntityIronGolem var3 = (EntityIronGolem)var2.next();
+                    EntityIronGolem var3 = (EntityIronGolem) var2.next();
 
                     if (var3.getHoldRoseTick() > 0)
                     {

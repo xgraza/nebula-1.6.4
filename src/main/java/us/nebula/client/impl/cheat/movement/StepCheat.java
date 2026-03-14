@@ -57,7 +57,7 @@ public final class StepCheat extends Cheat
         }
 
         final float offset = (float) (MC.thePlayer.boundingBox.minY
-                        - (MC.thePlayer.posY - MC.thePlayer.yOffset));
+                - (MC.thePlayer.posY - MC.thePlayer.yOffset));
         if (offset < 0.6 || offset > 1.0)
         {
             return;

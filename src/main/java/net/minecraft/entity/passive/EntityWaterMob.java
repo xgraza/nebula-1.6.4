@@ -69,8 +69,7 @@ public abstract class EntityWaterMob extends EntityCreature implements IAnimals
                 this.setAir(0);
                 this.attackEntityFrom(DamageSource.drown, 2.0F);
             }
-        }
-        else
+        } else
         {
             this.setAir(300);
         }

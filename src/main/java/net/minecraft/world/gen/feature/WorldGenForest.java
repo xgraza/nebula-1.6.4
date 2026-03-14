@@ -1,14 +1,15 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenForest extends WorldGenAbstractTree
 {
-    private boolean field_150531_a;
+    private final boolean field_150531_a;
     private static final String __OBFID = "CL_00000401";
 
     public WorldGenForest(boolean p_i45449_1_, boolean p_i45449_2_)
@@ -59,8 +60,7 @@ public class WorldGenForest extends WorldGenAbstractTree
                             {
                                 var7 = false;
                             }
-                        }
-                        else
+                        } else
                         {
                             var7 = false;
                         }
@@ -71,8 +71,7 @@ public class WorldGenForest extends WorldGenAbstractTree
             if (!var7)
             {
                 return false;
-            }
-            else
+            } else
             {
                 Block var17 = par1World.getBlock(par3, par4 - 1, par5);
 
@@ -118,14 +117,12 @@ public class WorldGenForest extends WorldGenAbstractTree
                     }
 
                     return true;
-                }
-                else
+                } else
                 {
                     return false;
                 }
             }
-        }
-        else
+        } else
         {
             return false;
         }

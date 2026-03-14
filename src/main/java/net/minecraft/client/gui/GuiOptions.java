@@ -9,7 +9,7 @@ import net.minecraft.client.settings.GameSettings;
 
 public class GuiOptions extends GuiScreen
 {
-    private static final GameSettings.Options[] field_146440_f = new GameSettings.Options[] {GameSettings.Options.FOV, GameSettings.Options.DIFFICULTY};
+    private static final GameSettings.Options[] field_146440_f = new GameSettings.Options[]{ GameSettings.Options.FOV, GameSettings.Options.DIFFICULTY };
     private final GuiScreen field_146441_g;
     private final GameSettings field_146443_h;
     protected String field_146442_a = "Options";
@@ -27,7 +27,7 @@ public class GuiOptions extends GuiScreen
     public void initGui()
     {
         int var1 = 0;
-        this.field_146442_a = I18n.format("options.title", new Object[0]);
+        this.field_146442_a = I18n.format("options.title");
         GameSettings.Options[] var2 = field_146440_f;
         int var3 = var2.length;
 
@@ -38,15 +38,14 @@ public class GuiOptions extends GuiScreen
             if (var5.getEnumFloat())
             {
                 this.buttonList.add(new GuiOptionSlider(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, this.height / 6 - 12 + 24 * (var1 >> 1), var5));
-            }
-            else
+            } else
             {
                 GuiOptionButton var6 = new GuiOptionButton(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, this.height / 6 - 12 + 24 * (var1 >> 1), var5, this.field_146443_h.getKeyBinding(var5));
 
                 if (var5 == GameSettings.Options.DIFFICULTY && this.mc.theWorld != null && this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
                 {
                     var6.enabled = false;
-                    var6.displayString = I18n.format("options.difficulty", new Object[0]) + ": " + I18n.format("options.difficulty.hardcore", new Object[0]);
+                    var6.displayString = I18n.format("options.difficulty") + ": " + I18n.format("options.difficulty.hardcore");
                 }
 
                 this.buttonList.add(var6);
@@ -55,13 +54,14 @@ public class GuiOptions extends GuiScreen
             ++var1;
         }
 
-        this.buttonList.add(new GuiButton(106, this.width / 2 - 152, this.height / 6 + 72 - 6, 150, 20, I18n.format("options.sounds", new Object[0])));
+        this.buttonList.add(new GuiButton(106, this.width / 2 - 152, this.height / 6 + 72 - 6, 150, 20, I18n.format("options.sounds")));
         this.buttonList.add(new GuiButton(8675309, this.width / 2 + 2, this.height / 6 + 72 - 6, 150, 20, "Super Secret Settings...")
         {
             private static final String __OBFID = "CL_00000701";
+
             public void playClickSound(SoundHandler handler)
             {
-                SoundEventAccessorComposite var2 = handler.func_147686_a(new SoundCategory[] {SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS, SoundCategory.WEATHER});
+                SoundEventAccessorComposite var2 = handler.func_147686_a(SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS, SoundCategory.WEATHER);
 
                 if (var2 != null)
                 {
@@ -69,13 +69,13 @@ public class GuiOptions extends GuiScreen
                 }
             }
         });
-        this.buttonList.add(new GuiButton(101, this.width / 2 - 152, this.height / 6 + 96 - 6, 150, 20, I18n.format("options.video", new Object[0])));
-        this.buttonList.add(new GuiButton(100, this.width / 2 + 2, this.height / 6 + 96 - 6, 150, 20, I18n.format("options.controls", new Object[0])));
-        this.buttonList.add(new GuiButton(102, this.width / 2 - 152, this.height / 6 + 120 - 6, 150, 20, I18n.format("options.language", new Object[0])));
-        this.buttonList.add(new GuiButton(103, this.width / 2 + 2, this.height / 6 + 120 - 6, 150, 20, I18n.format("options.multiplayer.title", new Object[0])));
-        this.buttonList.add(new GuiButton(105, this.width / 2 - 152, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.resourcepack", new Object[0])));
+        this.buttonList.add(new GuiButton(101, this.width / 2 - 152, this.height / 6 + 96 - 6, 150, 20, I18n.format("options.video")));
+        this.buttonList.add(new GuiButton(100, this.width / 2 + 2, this.height / 6 + 96 - 6, 150, 20, I18n.format("options.controls")));
+        this.buttonList.add(new GuiButton(102, this.width / 2 - 152, this.height / 6 + 120 - 6, 150, 20, I18n.format("options.language")));
+        this.buttonList.add(new GuiButton(103, this.width / 2 + 2, this.height / 6 + 120 - 6, 150, 20, I18n.format("options.multiplayer.title")));
+        this.buttonList.add(new GuiButton(105, this.width / 2 - 152, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.resourcepack")));
         //this.buttonList.add(new GuiButton(104, this.width / 2 + 2, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.snooper.view", new Object[0])));
-        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
+        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done")));
     }
 
     protected void actionPerformed(GuiButton p_146284_1_)
@@ -84,7 +84,7 @@ public class GuiOptions extends GuiScreen
         {
             if (p_146284_1_.id < 100 && p_146284_1_ instanceof GuiOptionButton)
             {
-                this.field_146443_h.setOptionValue(((GuiOptionButton)p_146284_1_).returnEnumOptions(), 1);
+                this.field_146443_h.setOptionValue(((GuiOptionButton) p_146284_1_).returnEnumOptions(), 1);
                 p_146284_1_.displayString = this.field_146443_h.getKeyBinding(GameSettings.Options.getEnumOptions(p_146284_1_.id));
             }
 

@@ -3,6 +3,7 @@ package net.minecraft.network;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+
 import javax.crypto.Cipher;
 import javax.crypto.ShortBufferException;
 
@@ -23,6 +24,6 @@ public class NettyEncryptingEncoder extends MessageToByteEncoder
 
     protected void encode(ChannelHandlerContext p_encode_1_, Object p_encode_2_, ByteBuf p_encode_3_) throws ShortBufferException
     {
-        this.encode(p_encode_1_, (ByteBuf)p_encode_2_, p_encode_3_);
+        this.encode(p_encode_1_, (ByteBuf) p_encode_2_, p_encode_3_);
     }
 }

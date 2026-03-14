@@ -5,8 +5,8 @@ import net.minecraft.util.Vec3;
 
 public class EntityAIPanic extends EntityAIBase
 {
-    private EntityCreature theEntityCreature;
-    private double speed;
+    private final EntityCreature theEntityCreature;
+    private final double speed;
     private double randPosX;
     private double randPosY;
     private double randPosZ;
@@ -27,16 +27,14 @@ public class EntityAIPanic extends EntityAIBase
         if (this.theEntityCreature.getAITarget() == null && !this.theEntityCreature.isBurning())
         {
             return false;
-        }
-        else
+        } else
         {
             Vec3 var1 = RandomPositionGenerator.findRandomTarget(this.theEntityCreature, 5, 4);
 
             if (var1 == null)
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.randPosX = var1.xCoord;
                 this.randPosY = var1.yCoord;

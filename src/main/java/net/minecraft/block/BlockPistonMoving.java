@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +10,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Facing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockPistonMoving extends BlockContainer
 {
@@ -30,7 +31,9 @@ public class BlockPistonMoving extends BlockContainer
         return null;
     }
 
-    public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_) {}
+    public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_)
+    {
+    }
 
     public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
@@ -38,9 +41,8 @@ public class BlockPistonMoving extends BlockContainer
 
         if (var7 instanceof TileEntityPiston)
         {
-            ((TileEntityPiston)var7).clearPistonTileEntity();
-        }
-        else
+            ((TileEntityPiston) var7).clearPistonTileEntity();
+        } else
         {
             super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
         }
@@ -86,8 +88,7 @@ public class BlockPistonMoving extends BlockContainer
         {
             p_149727_1_.setBlockToAir(p_149727_2_, p_149727_3_, p_149727_4_);
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -138,8 +139,7 @@ public class BlockPistonMoving extends BlockContainer
         if (var5 == null)
         {
             return null;
-        }
-        else
+        } else
         {
             float var6 = var5.func_145860_a(0.0F);
 
@@ -174,12 +174,12 @@ public class BlockPistonMoving extends BlockContainer
             }
 
             int var8 = var5.getPistonOrientation();
-            this.minX = var6.getBlockBoundsMinX() - (double)((float)Facing.offsetsXForSide[var8] * var7);
-            this.minY = var6.getBlockBoundsMinY() - (double)((float)Facing.offsetsYForSide[var8] * var7);
-            this.minZ = var6.getBlockBoundsMinZ() - (double)((float)Facing.offsetsZForSide[var8] * var7);
-            this.maxX = var6.getBlockBoundsMaxX() - (double)((float)Facing.offsetsXForSide[var8] * var7);
-            this.maxY = var6.getBlockBoundsMaxY() - (double)((float)Facing.offsetsYForSide[var8] * var7);
-            this.maxZ = var6.getBlockBoundsMaxZ() - (double)((float)Facing.offsetsZForSide[var8] * var7);
+            this.minX = var6.getBlockBoundsMinX() - (double) ((float) Facing.offsetsXForSide[var8] * var7);
+            this.minY = var6.getBlockBoundsMinY() - (double) ((float) Facing.offsetsYForSide[var8] * var7);
+            this.minZ = var6.getBlockBoundsMinZ() - (double) ((float) Facing.offsetsZForSide[var8] * var7);
+            this.maxX = var6.getBlockBoundsMaxX() - (double) ((float) Facing.offsetsXForSide[var8] * var7);
+            this.maxY = var6.getBlockBoundsMaxY() - (double) ((float) Facing.offsetsYForSide[var8] * var7);
+            this.maxZ = var6.getBlockBoundsMaxZ() - (double) ((float) Facing.offsetsZForSide[var8] * var7);
         }
     }
 
@@ -192,40 +192,35 @@ public class BlockPistonMoving extends BlockContainer
             if (var8 == null)
             {
                 return null;
-            }
-            else
+            } else
             {
                 if (Facing.offsetsXForSide[p_149964_7_] < 0)
                 {
-                    var8.minX -= (double)((float)Facing.offsetsXForSide[p_149964_7_] * p_149964_6_);
-                }
-                else
+                    var8.minX -= (float) Facing.offsetsXForSide[p_149964_7_] * p_149964_6_;
+                } else
                 {
-                    var8.maxX -= (double)((float)Facing.offsetsXForSide[p_149964_7_] * p_149964_6_);
+                    var8.maxX -= (float) Facing.offsetsXForSide[p_149964_7_] * p_149964_6_;
                 }
 
                 if (Facing.offsetsYForSide[p_149964_7_] < 0)
                 {
-                    var8.minY -= (double)((float)Facing.offsetsYForSide[p_149964_7_] * p_149964_6_);
-                }
-                else
+                    var8.minY -= (float) Facing.offsetsYForSide[p_149964_7_] * p_149964_6_;
+                } else
                 {
-                    var8.maxY -= (double)((float)Facing.offsetsYForSide[p_149964_7_] * p_149964_6_);
+                    var8.maxY -= (float) Facing.offsetsYForSide[p_149964_7_] * p_149964_6_;
                 }
 
                 if (Facing.offsetsZForSide[p_149964_7_] < 0)
                 {
-                    var8.minZ -= (double)((float)Facing.offsetsZForSide[p_149964_7_] * p_149964_6_);
-                }
-                else
+                    var8.minZ -= (float) Facing.offsetsZForSide[p_149964_7_] * p_149964_6_;
+                } else
                 {
-                    var8.maxZ -= (double)((float)Facing.offsetsZForSide[p_149964_7_] * p_149964_6_);
+                    var8.maxZ -= (float) Facing.offsetsZForSide[p_149964_7_] * p_149964_6_;
                 }
 
                 return var8;
             }
-        }
-        else
+        } else
         {
             return null;
         }
@@ -234,7 +229,7 @@ public class BlockPistonMoving extends BlockContainer
     private TileEntityPiston func_149963_e(IBlockAccess p_149963_1_, int p_149963_2_, int p_149963_3_, int p_149963_4_)
     {
         TileEntity var5 = p_149963_1_.getTileEntity(p_149963_2_, p_149963_3_, p_149963_4_);
-        return var5 instanceof TileEntityPiston ? (TileEntityPiston)var5 : null;
+        return var5 instanceof TileEntityPiston ? (TileEntityPiston) var5 : null;
     }
 
     /**

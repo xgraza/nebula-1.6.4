@@ -1,12 +1,5 @@
 package net.minecraft.client.main;
 
-import java.io.File;
-import java.net.Authenticator;
-import java.net.InetSocketAddress;
-import java.net.PasswordAuthentication;
-import java.net.Proxy;
-import java.net.Proxy.Type;
-import java.util.List;
 import joptsimple.ArgumentAcceptingOptionSpec;
 import joptsimple.NonOptionArgumentSpec;
 import joptsimple.OptionParser;
@@ -14,6 +7,14 @@ import joptsimple.OptionSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 import us.nebula.client.ClientSettings;
+
+import java.io.File;
+import java.net.Authenticator;
+import java.net.InetSocketAddress;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
+import java.net.Proxy.Type;
+import java.util.List;
 
 public class Main
 {
@@ -52,8 +53,7 @@ public class Main
             {
                 proxy = new Proxy(Type.SOCKS, new InetSocketAddress(
                         parsedOpts.valueOf(proxyHostOpt), parsedOpts.valueOf(proxyPortOpt)));
-            }
-            catch (final Exception ignored)
+            } catch (final Exception ignored)
             {
             }
 

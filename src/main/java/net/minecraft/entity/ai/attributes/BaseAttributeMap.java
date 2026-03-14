@@ -1,12 +1,13 @@
 package net.minecraft.entity.ai.attributes;
 
 import com.google.common.collect.Multimap;
+import net.minecraft.server.management.LowerStringMap;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.minecraft.server.management.LowerStringMap;
 
 public abstract class BaseAttributeMap
 {
@@ -16,12 +17,12 @@ public abstract class BaseAttributeMap
 
     public IAttributeInstance getAttributeInstance(IAttribute par1Attribute)
     {
-        return (IAttributeInstance)this.attributes.get(par1Attribute);
+        return (IAttributeInstance) this.attributes.get(par1Attribute);
     }
 
     public IAttributeInstance getAttributeInstanceByName(String par1Str)
     {
-        return (IAttributeInstance)this.attributesByName.get(par1Str);
+        return (IAttributeInstance) this.attributesByName.get(par1Str);
     }
 
     /**
@@ -34,7 +35,9 @@ public abstract class BaseAttributeMap
         return this.attributesByName.values();
     }
 
-    public void addAttributeInstance(ModifiableAttributeInstance par1ModifiableAttributeInstance) {}
+    public void addAttributeInstance(ModifiableAttributeInstance par1ModifiableAttributeInstance)
+    {
+    }
 
     public void removeAttributeModifiers(Multimap par1Multimap)
     {
@@ -42,12 +45,12 @@ public abstract class BaseAttributeMap
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
-            IAttributeInstance var4 = this.getAttributeInstanceByName((String)var3.getKey());
+            Entry var3 = (Entry) var2.next();
+            IAttributeInstance var4 = this.getAttributeInstanceByName((String) var3.getKey());
 
             if (var4 != null)
             {
-                var4.removeModifier((AttributeModifier)var3.getValue());
+                var4.removeModifier((AttributeModifier) var3.getValue());
             }
         }
     }
@@ -58,13 +61,13 @@ public abstract class BaseAttributeMap
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
-            IAttributeInstance var4 = this.getAttributeInstanceByName((String)var3.getKey());
+            Entry var3 = (Entry) var2.next();
+            IAttributeInstance var4 = this.getAttributeInstanceByName((String) var3.getKey());
 
             if (var4 != null)
             {
-                var4.removeModifier((AttributeModifier)var3.getValue());
-                var4.applyModifier((AttributeModifier)var3.getValue());
+                var4.removeModifier((AttributeModifier) var3.getValue());
+                var4.applyModifier((AttributeModifier) var3.getValue());
             }
         }
     }

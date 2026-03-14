@@ -1,8 +1,9 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WorldGenDesertWells extends WorldGenerator
 {
@@ -18,8 +19,7 @@ public class WorldGenDesertWells extends WorldGenerator
         if (par1World.getBlock(par3, par4, par5) != Blocks.sand)
         {
             return false;
-        }
-        else
+        } else
         {
             int var6;
             int var7;
@@ -75,8 +75,7 @@ public class WorldGenDesertWells extends WorldGenerator
                     if (var6 == 0 && var7 == 0)
                     {
                         par1World.setBlock(par3 + var6, par4 + 4, par5 + var7, Blocks.sandstone, 0, 2);
-                    }
-                    else
+                    } else
                     {
                         par1World.setBlock(par3 + var6, par4 + 4, par5 + var7, Blocks.stone_slab, 1, 2);
                     }

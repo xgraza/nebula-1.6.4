@@ -14,12 +14,13 @@ import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.impl.event.input.EventKey;
 
-public class KeyInputHandler {
+public class KeyInputHandler
+{
     public static final KeyBinding KEY_BINDING_LOAD = new KeyBinding(Strings.KEY_LOAD, Keyboard.KEY_DIVIDE, Strings.KEY_CATEGORY);
     public static final KeyBinding KEY_BINDING_SAVE = new KeyBinding(Strings.KEY_SAVE, Keyboard.KEY_MULTIPLY, Strings.KEY_CATEGORY);
     public static final KeyBinding KEY_BINDING_CONTROL = new KeyBinding(Strings.KEY_CONTROL, Keyboard.KEY_SUBTRACT, Strings.KEY_CATEGORY);
 
-    public static final KeyBinding[] KEY_BINDINGS = new KeyBinding[] {
+    public static final KeyBinding[] KEY_BINDINGS = new KeyBinding[]{
             KEY_BINDING_LOAD, KEY_BINDING_SAVE, KEY_BINDING_CONTROL
     };
 
@@ -33,7 +34,7 @@ public class KeyInputHandler {
                 KEY_BINDING_LOAD, KEY_BINDING_SAVE, KEY_BINDING_CONTROL);
     }
 
-	private final Minecraft minecraft = Minecraft.getMinecraft();
+    private final Minecraft minecraft = Minecraft.getMinecraft();
 
     @Subscribe
     private final EventListener<EventKey> keyEventListener = event ->
@@ -42,18 +43,24 @@ public class KeyInputHandler {
         {
             return;
         }
-        for (KeyBinding keyBinding : KEY_BINDINGS) {
-            if (keyBinding.getIsKeyPressed()) {
+        for (KeyBinding keyBinding : KEY_BINDINGS)
+        {
+            if (keyBinding.getIsKeyPressed())
+            {
                 GuiScreen guiScreen = null;
-                if (keyBinding == KEY_BINDING_LOAD) {
+                if (keyBinding == KEY_BINDING_LOAD)
+                {
                     guiScreen = new GuiSchematicLoad(null);
-                } else if (keyBinding == KEY_BINDING_SAVE) {
+                } else if (keyBinding == KEY_BINDING_SAVE)
+                {
                     guiScreen = new GuiSchematicSave(null);
-                } else if (keyBinding == KEY_BINDING_CONTROL) {
+                } else if (keyBinding == KEY_BINDING_CONTROL)
+                {
                     guiScreen = new GuiSchematicControl(null);
                 }
 
-                if (guiScreen != null) {
+                if (guiScreen != null)
+                {
                     this.minecraft.displayGuiScreen(guiScreen);
                 }
             }

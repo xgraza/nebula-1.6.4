@@ -1,8 +1,9 @@
 package net.minecraft.event;
 
 import com.google.common.collect.Maps;
-import java.util.Map;
 import net.minecraft.util.IChatComponent;
+
+import java.util.Map;
 
 public class HoverEvent
 {
@@ -38,33 +39,21 @@ public class HoverEvent
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (par1Obj != null && this.getClass() == par1Obj.getClass())
+        } else if (par1Obj != null && this.getClass() == par1Obj.getClass())
         {
-            HoverEvent var2 = (HoverEvent)par1Obj;
+            HoverEvent var2 = (HoverEvent) par1Obj;
 
             if (this.action != var2.action)
             {
                 return false;
-            }
-            else
+            } else
             {
                 if (this.value != null)
                 {
-                    if (!this.value.equals(var2.value))
-                    {
-                        return false;
-                    }
-                }
-                else if (var2.value != null)
-                {
-                    return false;
-                }
-
-                return true;
+                    return this.value.equals(var2.value);
+                } else return var2.value == null;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -72,7 +61,7 @@ public class HoverEvent
 
     public String toString()
     {
-        return "HoverEvent{action=" + this.action + ", value=\'" + this.value + '\'' + '}';
+        return "HoverEvent{action=" + this.action + ", value='" + this.value + '\'' + '}';
     }
 
     public int hashCode()
@@ -82,7 +71,7 @@ public class HoverEvent
         return var1;
     }
 
-    public static enum Action
+    public enum Action
     {
         SHOW_TEXT("SHOW_TEXT", 0, "show_text", true),
         SHOW_ACHIEVEMENT("SHOW_ACHIEVEMENT", 1, "show_achievement", true),
@@ -91,10 +80,10 @@ public class HoverEvent
         private final boolean allowedInChat;
         private final String canonicalName;
 
-        private static final HoverEvent.Action[] $VALUES = new HoverEvent.Action[]{SHOW_TEXT, SHOW_ACHIEVEMENT, SHOW_ITEM};
+        private static final HoverEvent.Action[] $VALUES = new HoverEvent.Action[]{ SHOW_TEXT, SHOW_ACHIEVEMENT, SHOW_ITEM };
         private static final String __OBFID = "CL_00001265";
 
-        private Action(String p_i45157_1_, int p_i45157_2_, String p_i45157_3_, boolean p_i45157_4_)
+        Action(String p_i45157_1_, int p_i45157_2_, String p_i45157_3_, boolean p_i45157_4_)
         {
             this.canonicalName = p_i45157_3_;
             this.allowedInChat = p_i45157_4_;
@@ -112,10 +101,11 @@ public class HoverEvent
 
         public static HoverEvent.Action getValueByCanonicalName(String p_150684_0_)
         {
-            return (HoverEvent.Action)nameMapping.get(p_150684_0_);
+            return (HoverEvent.Action) nameMapping.get(p_150684_0_);
         }
 
-        static {
+        static
+        {
             HoverEvent.Action[] var0 = values();
             int var1 = var0.length;
 

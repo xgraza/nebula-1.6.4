@@ -1,11 +1,12 @@
 package net.minecraft.command.server;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandOp extends CommandBase
 {
@@ -34,11 +35,10 @@ public class CommandOp extends CommandBase
         if (par2ArrayOfStr.length == 1 && par2ArrayOfStr[0].length() > 0)
         {
             MinecraftServer.getServer().getConfigurationManager().addOp(par2ArrayOfStr[0]);
-            notifyAdmins(par1ICommandSender, "commands.op.success", new Object[] {par2ArrayOfStr[0]});
-        }
-        else
+            notifyAdmins(par1ICommandSender, "commands.op.success", par2ArrayOfStr[0]);
+        } else
         {
-            throw new WrongUsageException("commands.op.usage", new Object[0]);
+            throw new WrongUsageException("commands.op.usage");
         }
     }
 
@@ -65,8 +65,7 @@ public class CommandOp extends CommandBase
             }
 
             return var4;
-        }
-        else
+        } else
         {
             return null;
         }

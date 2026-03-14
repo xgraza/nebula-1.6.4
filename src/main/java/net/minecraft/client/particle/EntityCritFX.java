@@ -22,12 +22,12 @@ public class EntityCritFX extends EntityFX
         this.motionX += par8 * 0.4D;
         this.motionY += par10 * 0.4D;
         this.motionZ += par12 * 0.4D;
-        this.particleRed = this.particleGreen = this.particleBlue = (float)(Math.random() * 0.30000001192092896D + 0.6000000238418579D);
+        this.particleRed = this.particleGreen = this.particleBlue = (float) (Math.random() * 0.30000001192092896D + 0.6000000238418579D);
         this.particleScale *= 0.75F;
         this.particleScale *= par14;
         this.initialParticleScale = this.particleScale;
-        this.particleMaxAge = (int)(6.0D / (Math.random() * 0.8D + 0.6D));
-        this.particleMaxAge = (int)((float)this.particleMaxAge * par14);
+        this.particleMaxAge = (int) (6.0D / (Math.random() * 0.8D + 0.6D));
+        this.particleMaxAge = (int) ((float) this.particleMaxAge * par14);
         this.noClip = false;
         this.setParticleTextureIndex(65);
         this.onUpdate();
@@ -35,7 +35,7 @@ public class EntityCritFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        float var8 = ((float)this.particleAge + par2) / (float)this.particleMaxAge * 32.0F;
+        float var8 = ((float) this.particleAge + par2) / (float) this.particleMaxAge * 32.0F;
 
         if (var8 < 0.0F)
         {
@@ -66,8 +66,8 @@ public class EntityCritFX extends EntityFX
         }
 
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.particleGreen = (float)((double)this.particleGreen * 0.96D);
-        this.particleBlue = (float)((double)this.particleBlue * 0.9D);
+        this.particleGreen = (float) ((double) this.particleGreen * 0.96D);
+        this.particleBlue = (float) ((double) this.particleBlue * 0.9D);
         this.motionX *= 0.699999988079071D;
         this.motionY *= 0.699999988079071D;
         this.motionZ *= 0.699999988079071D;

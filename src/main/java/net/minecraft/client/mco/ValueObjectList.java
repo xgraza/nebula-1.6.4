@@ -1,15 +1,11 @@
 package net.minecraft.client.mco;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
+import net.minecraft.util.ValueObject;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import net.minecraft.util.ValueObject;
 
 public class ValueObjectList extends ValueObject
 {
@@ -33,17 +29,13 @@ public class ValueObjectList extends ValueObject
 
                 while (var5.hasNext())
                 {
-                    var1.field_148772_a.add(McoServer.func_148802_a(((JsonElement)var5.next()).getAsJsonObject()));
+                    var1.field_148772_a.add(McoServer.func_148802_a(((JsonElement) var5.next()).getAsJsonObject()));
                 }
             }
-        }
-        catch (JsonIOException var6)
+        } catch (JsonIOException var6)
         {
-            ;
-        }
-        catch (JsonSyntaxException var7)
+        } catch (JsonSyntaxException var7)
         {
-            ;
         }
 
         return var1;

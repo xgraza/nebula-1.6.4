@@ -17,8 +17,7 @@ public class ImageBufferDownload implements IImageBuffer
         if (par1BufferedImage == null)
         {
             return null;
-        }
-        else
+        } else
         {
             this.imageWidth = 64;
             this.imageHeight = 32;
@@ -36,9 +35,9 @@ public class ImageBufferDownload implements IImageBuffer
 
             BufferedImage bufferedimage = new BufferedImage(this.imageWidth, this.imageHeight, 2);
             Graphics g = bufferedimage.getGraphics();
-            g.drawImage(par1BufferedImage, 0, 0, (ImageObserver)null);
+            g.drawImage(par1BufferedImage, 0, 0, null);
             g.dispose();
-            this.imageData = ((DataBufferInt)bufferedimage.getRaster().getDataBuffer()).getData();
+            this.imageData = ((DataBufferInt) bufferedimage.getRaster().getDataBuffer()).getData();
             int w = this.imageWidth;
             int h = this.imageHeight;
             this.setAreaOpaque(0, 0, w / 2, h / 2);

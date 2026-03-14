@@ -9,16 +9,22 @@ public enum EnumFacing
     EAST(4, 5, -1, 0, 0),
     WEST(5, 4, 1, 0, 0);
 
-    /** Face order for D-U-N-S-E-W. */
+    /**
+     * Face order for D-U-N-S-E-W.
+     */
     public final int order_a;
 
-    /** Face order for U-D-S-N-W-E. */
+    /**
+     * Face order for U-D-S-N-W-E.
+     */
     public final int order_b;
     private final int frontOffsetX;
     private final int frontOffsetY;
     private final int frontOffsetZ;
 
-    /** List of all values in EnumFacing. Order is D-U-N-S-E-W. */
+    /**
+     * List of all values in EnumFacing. Order is D-U-N-S-E-W.
+     */
     public static final EnumFacing[] faceList = new EnumFacing[6];
 
     EnumFacing(int par3, int par4, int frontOffsetX, int frontOffsetY, int frontOffsetZ)
@@ -59,7 +65,8 @@ public enum EnumFacing
         return faceList[par0 % faceList.length];
     }
 
-    static {
+    static
+    {
         EnumFacing[] var0 = values();
         int var1 = var0.length;
 

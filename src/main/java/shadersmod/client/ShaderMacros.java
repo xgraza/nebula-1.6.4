@@ -5,7 +5,7 @@ import net.minecraft.util.Util;
 
 public class ShaderMacros
 {
-    private static String PREFIX_MACRO = "MC_";
+    private static final String PREFIX_MACRO = "MC_";
     public static final String MC_VERSION = "MC_VERSION";
     public static final String MC_GL_VERSION = "MC_GL_VERSION";
     public static final String MC_GLSL_VERSION = "MC_GLSL_VERSION";
@@ -62,8 +62,7 @@ public class ShaderMacros
         if (vendor == null)
         {
             return "MC_GL_VENDOR_OTHER";
-        }
-        else
+        } else
         {
             vendor = vendor.toLowerCase();
             return vendor.startsWith("ati") ? "MC_GL_VENDOR_ATI" : (vendor.startsWith("intel") ? "MC_GL_VENDOR_INTEL" : (vendor.startsWith("nvidia") ? "MC_GL_VENDOR_NVIDIA" : (vendor.startsWith("x.org") ? "MC_GL_VENDOR_XORG" : "MC_GL_VENDOR_OTHER")));
@@ -77,8 +76,7 @@ public class ShaderMacros
         if (renderer == null)
         {
             return "MC_GL_RENDERER_OTHER";
-        }
-        else
+        } else
         {
             renderer = renderer.toLowerCase();
             return renderer.startsWith("amd") ? "MC_GL_RENDERER_RADEON" : (renderer.startsWith("ati") ? "MC_GL_RENDERER_RADEON" : (renderer.startsWith("radeon") ? "MC_GL_RENDERER_RADEON" : (renderer.startsWith("gallium") ? "MC_GL_RENDERER_GALLIUM" : (renderer.startsWith("intel") ? "MC_GL_RENDERER_INTEL" : (renderer.startsWith("geforce") ? "MC_GL_RENDERER_GEFORCE" : (renderer.startsWith("nvidia") ? "MC_GL_RENDERER_GEFORCE" : (renderer.startsWith("quadro") ? "MC_GL_RENDERER_QUADRO" : (renderer.startsWith("nvs") ? "MC_GL_RENDERER_QUADRO" : (renderer.startsWith("mesa") ? "MC_GL_RENDERER_MESA" : "MC_GL_RENDERER_OTHER")))))))));
@@ -184,28 +182,22 @@ public class ShaderMacros
             try
             {
                 $SwitchMap$net$minecraft$util$Util$EnumOS[Util.EnumOS.WINDOWS.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$net$minecraft$util$Util$EnumOS[Util.EnumOS.MACOS.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$net$minecraft$util$Util$EnumOS[Util.EnumOS.LINUX.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S2APacketParticles extends Packet
 {
@@ -19,7 +20,9 @@ public class S2APacketParticles extends Packet
     private int field_149238_i;
     private static final String __OBFID = "CL_00001308";
 
-    public S2APacketParticles() {}
+    public S2APacketParticles()
+    {
+    }
 
     public S2APacketParticles(String p_i45199_1_, float p_i45199_2_, float p_i45199_3_, float p_i45199_4_, float p_i45199_5_, float p_i45199_6_, float p_i45199_7_, float p_i45199_8_, int p_i45199_9_)
     {
@@ -73,17 +76,17 @@ public class S2APacketParticles extends Packet
 
     public double func_149220_d()
     {
-        return (double)this.field_149234_b;
+        return this.field_149234_b;
     }
 
     public double func_149226_e()
     {
-        return (double)this.field_149235_c;
+        return this.field_149235_c;
     }
 
     public double func_149225_f()
     {
-        return (double)this.field_149232_d;
+        return this.field_149232_d;
     }
 
     public float func_149221_g()
@@ -118,6 +121,6 @@ public class S2APacketParticles extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

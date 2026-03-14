@@ -1,18 +1,19 @@
 package shadersmod.uniform;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.optifine.entity.model.anim.ConstantFloat;
 import net.optifine.entity.model.anim.IExpression;
 import net.optifine.entity.model.anim.IExpressionResolver;
 import shadersmod.common.SMCLog;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 public class ShaderExpressionResolver implements IExpressionResolver
 {
-    private Map<String, IExpression> mapExpressions = new HashMap();
+    private final Map<String, IExpression> mapExpressions = new HashMap();
 
     public ShaderExpressionResolver(Map<String, IExpression> map)
     {
@@ -22,8 +23,8 @@ public class ShaderExpressionResolver implements IExpressionResolver
 
         while (it.hasNext())
         {
-            String name = (String)it.next();
-            IExpression expr = (IExpression)map.get(name);
+            String name = (String) it.next();
+            IExpression expr = map.get(name);
             this.registerExpression(name, expr);
         }
     }
@@ -57,7 +58,7 @@ public class ShaderExpressionResolver implements IExpressionResolver
                 String name = biome.biomeName.trim();
                 name = "BIOME_" + name.toUpperCase().replace(' ', '_');
                 int id = biome.biomeID;
-                ConstantFloat expr = new ConstantFloat((float)id);
+                ConstantFloat expr = new ConstantFloat((float) id);
                 this.registerExpression(name, expr);
             }
         }
@@ -69,8 +70,7 @@ public class ShaderExpressionResolver implements IExpressionResolver
         {
             SMCLog.warning("Expression already defined: " + name);
             return false;
-        }
-        else
+        } else
         {
             this.mapExpressions.put(name, expr);
             return true;
@@ -79,7 +79,7 @@ public class ShaderExpressionResolver implements IExpressionResolver
 
     public IExpression getExpression(String name)
     {
-        return (IExpression)this.mapExpressions.get(name);
+        return this.mapExpressions.get(name);
     }
 
     public boolean hasExpression(String name)

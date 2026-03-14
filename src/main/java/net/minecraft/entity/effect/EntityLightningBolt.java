@@ -1,6 +1,5 @@
 package net.minecraft.entity.effect;
 
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -9,6 +8,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class EntityLightningBolt extends EntityWeatherEffect
 {
@@ -81,8 +82,7 @@ public class EntityLightningBolt extends EntityWeatherEffect
             if (this.boltLivingTime == 0)
             {
                 this.setDead();
-            }
-            else if (this.lightningState < -this.rand.nextInt(10))
+            } else if (this.lightningState < -this.rand.nextInt(10))
             {
                 --this.boltLivingTime;
                 this.lightningState = 1;
@@ -107,30 +107,35 @@ public class EntityLightningBolt extends EntityWeatherEffect
             if (this.worldObj.isClient)
             {
                 this.worldObj.lastLightningBolt = 2;
-            }
-            else
+            } else
             {
                 double var6 = 3.0D;
                 List var7 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getAABBPool().getAABB(this.posX - var6, this.posY - var6, this.posZ - var6, this.posX + var6, this.posY + 6.0D + var6, this.posZ + var6));
 
                 for (int var4 = 0; var4 < var7.size(); ++var4)
                 {
-                    Entity var5 = (Entity)var7.get(var4);
+                    Entity var5 = (Entity) var7.get(var4);
                     var5.onStruckByLightning(this);
                 }
             }
         }
     }
 
-    protected void entityInit() {}
+    protected void entityInit()
+    {
+    }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {}
+    protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {}
+    protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 }

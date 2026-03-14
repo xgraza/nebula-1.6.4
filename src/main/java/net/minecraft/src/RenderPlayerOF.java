@@ -23,11 +23,11 @@ public class RenderPlayerOF extends RenderPlayer
         {
             if (entityLiving instanceof AbstractClientPlayer)
             {
-                AbstractClientPlayer player = (AbstractClientPlayer)entityLiving;
+                AbstractClientPlayer player = (AbstractClientPlayer) entityLiving;
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GL11.glDisable(GL12.GL_RESCALE_NORMAL);
                 GlStateManager.enableCull();
-                ModelBiped modelBipedMain = (ModelBiped)this.mainModel;
+                ModelBiped modelBipedMain = (ModelBiped) this.mainModel;
                 PlayerConfigurations.renderPlayerItems(modelBipedMain, player, scale, partialTicks);
                 GlStateManager.disableCull();
             }

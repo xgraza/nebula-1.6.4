@@ -13,10 +13,11 @@ import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.impl.event.game.EventUpdate;
 
-public class TickHandler {
-	private final Minecraft minecraft = Minecraft.getMinecraft();
+public class TickHandler
+{
+    private final Minecraft minecraft = Minecraft.getMinecraft();
 
-	private int ticks = -1;
+    private int ticks = -1;
 
 //	@SubscribeEvent
 //	public void clientConnect(FMLNetworkEvent.ClientConnectedToServerEvent event) {
@@ -35,10 +36,12 @@ public class TickHandler {
     {
         this.minecraft.mcProfiler.startSection("schematica");
         SchematicWorld schematic = Schematica.INSTANCE.getActiveSchematic();
-        if (this.minecraft.thePlayer != null && schematic != null && schematic.isRendering()) {
+        if (this.minecraft.thePlayer != null && schematic != null && schematic.isRendering())
+        {
             this.minecraft.mcProfiler.startSection("printer");
             SchematicPrinter printer = SchematicPrinter.INSTANCE;
-            if (printer.isEnabled() && printer.isPrinting() && this.ticks-- < 0) {
+            if (printer.isEnabled() && printer.isPrinting() && this.ticks-- < 0)
+            {
                 this.ticks = Reference.config.propPlaceDelay.getValue();
 
                 printer.print();
@@ -53,7 +56,8 @@ public class TickHandler {
             this.minecraft.mcProfiler.endSection();
         }
 
-        if (Settings.instance.isPendingReset) {
+        if (Settings.instance.isPendingReset)
+        {
             Settings.instance.reset();
             Settings.instance.isPendingReset = false;
         }
@@ -62,21 +66,27 @@ public class TickHandler {
     };
 
 
-	private void checkDirty() {
-		if (this.minecraft.renderGlobal.sortedWorldRenderers != null) {
+    private void checkDirty()
+    {
+        if (this.minecraft.renderGlobal.sortedWorldRenderers != null)
+        {
             int count = 0;
-            for (WorldRenderer worldRenderer : minecraft.renderGlobal.sortedWorldRenderers) {
-                if (worldRenderer != null && worldRenderer.needsUpdate && count++ < 125) {
+            for (WorldRenderer worldRenderer : minecraft.renderGlobal.sortedWorldRenderers)
+            {
+                if (worldRenderer != null && worldRenderer.needsUpdate && count++ < 125)
+                {
                     AxisAlignedBB worldRendererBoundingBox = worldRenderer.rendererBoundingBox.getOffsetBoundingBox(-Settings.instance.offset.x, -Settings.instance.offset.y, -Settings.instance.offset.z);
-                    for (RendererSchematicChunk renderer : Settings.instance.sortedRendererSchematicChunk) {
-                        if (!renderer.getDirty() && renderer.getBoundingBox().intersectsWith(worldRendererBoundingBox)) {
+                    for (RendererSchematicChunk renderer : Settings.instance.sortedRendererSchematicChunk)
+                    {
+                        if (!renderer.getDirty() && renderer.getBoundingBox().intersectsWith(worldRendererBoundingBox))
+                        {
                             renderer.setDirty();
                         }
                     }
                 }
             }
-		}
-	}
+        }
+    }
 
 //    @SubscribeEvent
 //	public void clientTick(TickEvent.ClientTickEvent event) {

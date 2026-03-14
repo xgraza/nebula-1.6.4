@@ -1,7 +1,5 @@
 package net.minecraft.world.chunk;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
@@ -10,6 +8,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class EmptyChunk extends Chunk
 {
@@ -39,12 +40,16 @@ public class EmptyChunk extends Chunk
     /**
      * Generates the height map for a chunk from scratch
      */
-    public void generateHeightMap() {}
+    public void generateHeightMap()
+    {
+    }
 
     /**
      * Generates the initial skylight map for the chunk upon generation or load.
      */
-    public void generateSkylightMap() {}
+    public void generateSkylightMap()
+    {
+    }
 
     public Block getBlock(int p_150810_1_, int p_150810_2_, int p_150810_3_)
     {
@@ -89,7 +94,9 @@ public class EmptyChunk extends Chunk
      * Sets the light value at the coordinate. If enumskyblock is set to sky it sets it in the skylightmap and if its a
      * block then into the blocklightmap. Args enumSkyBlock, x, y, z, lightValue
      */
-    public void setLightValue(EnumSkyBlock par1EnumSkyBlock, int par2, int par3, int par4, int par5) {}
+    public void setLightValue(EnumSkyBlock par1EnumSkyBlock, int par2, int par3, int par4, int par5)
+    {
+    }
 
     /**
      * Gets the amount of light on a block taking into account sunlight
@@ -102,17 +109,23 @@ public class EmptyChunk extends Chunk
     /**
      * Adds an entity to the chunk. Args: entity
      */
-    public void addEntity(Entity par1Entity) {}
+    public void addEntity(Entity par1Entity)
+    {
+    }
 
     /**
      * removes entity using its y chunk coordinate as its index
      */
-    public void removeEntity(Entity par1Entity) {}
+    public void removeEntity(Entity par1Entity)
+    {
+    }
 
     /**
      * Removes entity at the specified index from the entity array.
      */
-    public void removeEntityAtIndex(Entity par1Entity, int par2) {}
+    public void removeEntityAtIndex(Entity par1Entity, int par2)
+    {
+    }
 
     /**
      * Returns whether is not a block above this one blocking sight to the sky (done via checking against the heightmap)
@@ -127,37 +140,53 @@ public class EmptyChunk extends Chunk
         return null;
     }
 
-    public void addTileEntity(TileEntity p_150813_1_) {}
+    public void addTileEntity(TileEntity p_150813_1_)
+    {
+    }
 
-    public void func_150812_a(int p_150812_1_, int p_150812_2_, int p_150812_3_, TileEntity p_150812_4_) {}
+    public void func_150812_a(int p_150812_1_, int p_150812_2_, int p_150812_3_, TileEntity p_150812_4_)
+    {
+    }
 
-    public void removeTileEntity(int p_150805_1_, int p_150805_2_, int p_150805_3_) {}
+    public void removeTileEntity(int p_150805_1_, int p_150805_2_, int p_150805_3_)
+    {
+    }
 
     /**
      * Called when this Chunk is loaded by the ChunkProvider
      */
-    public void onChunkLoad() {}
+    public void onChunkLoad()
+    {
+    }
 
     /**
      * Called when this Chunk is unloaded by the ChunkProvider
      */
-    public void onChunkUnload() {}
+    public void onChunkUnload()
+    {
+    }
 
     /**
      * Sets the isModified flag for this Chunk
      */
-    public void setChunkModified() {}
+    public void setChunkModified()
+    {
+    }
 
     /**
      * Fills the given list of all entities that intersect within the given bounding box that aren't the passed entity
      * Args: entity, aabb, listToFill
      */
-    public void getEntitiesWithinAABBForEntity(Entity par1Entity, AxisAlignedBB par2AxisAlignedBB, List par3List, IEntitySelector par4IEntitySelector) {}
+    public void getEntitiesWithinAABBForEntity(Entity par1Entity, AxisAlignedBB par2AxisAlignedBB, List par3List, IEntitySelector par4IEntitySelector)
+    {
+    }
 
     /**
      * Gets all entities that can be assigned to the specified class. Args: entityClass, aabb, listToFill
      */
-    public void getEntitiesOfTypeWithinAAAB(Class par1Class, AxisAlignedBB par2AxisAlignedBB, List par3List, IEntitySelector par4IEntitySelector) {}
+    public void getEntitiesOfTypeWithinAAAB(Class par1Class, AxisAlignedBB par2AxisAlignedBB, List par3List, IEntitySelector par4IEntitySelector)
+    {
+    }
 
     /**
      * Returns true if this Chunk needs to be saved
@@ -169,7 +198,7 @@ public class EmptyChunk extends Chunk
 
     public Random getRandomWithSeed(long par1)
     {
-        return new Random(this.worldObj.getSeed() + (long)(this.xPosition * this.xPosition * 4987142) + (long)(this.xPosition * 5947611) + (long)(this.zPosition * this.zPosition) * 4392871L + (long)(this.zPosition * 389711) ^ par1);
+        return new Random(this.worldObj.getSeed() + (long) ((long) this.xPosition * this.xPosition * 4987142) + (long) (this.xPosition * 5947611L) + (long) ((long) this.zPosition * this.zPosition) * 4392871L + (long) (this.zPosition * 389711L) ^ par1);
     }
 
     public boolean isEmpty()

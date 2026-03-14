@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,6 +12,8 @@ import net.minecraft.init.Items;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockTNT extends Block
 {
@@ -69,7 +70,7 @@ public class BlockTNT extends Block
     {
         if (!p_149723_1_.isClient)
         {
-            EntityTNTPrimed var6 = new EntityTNTPrimed(p_149723_1_, (double)((float)p_149723_2_ + 0.5F), (double)((float)p_149723_3_ + 0.5F), (double)((float)p_149723_4_ + 0.5F), p_149723_5_.getExplosivePlacedBy());
+            EntityTNTPrimed var6 = new EntityTNTPrimed(p_149723_1_, (float) p_149723_2_ + 0.5F, (float) p_149723_3_ + 0.5F, (float) p_149723_4_ + 0.5F, p_149723_5_.getExplosivePlacedBy());
             var6.fuse = p_149723_1_.rand.nextInt(var6.fuse / 4) + var6.fuse / 8;
             p_149723_1_.spawnEntityInWorld(var6);
         }
@@ -77,7 +78,7 @@ public class BlockTNT extends Block
 
     public void onBlockDestroyedByPlayer(World p_149664_1_, int p_149664_2_, int p_149664_3_, int p_149664_4_, int p_149664_5_)
     {
-        this.func_150114_a(p_149664_1_, p_149664_2_, p_149664_3_, p_149664_4_, p_149664_5_, (EntityLivingBase)null);
+        this.func_150114_a(p_149664_1_, p_149664_2_, p_149664_3_, p_149664_4_, p_149664_5_, null);
     }
 
     public void func_150114_a(World p_150114_1_, int p_150114_2_, int p_150114_3_, int p_150114_4_, int p_150114_5_, EntityLivingBase p_150114_6_)
@@ -86,7 +87,7 @@ public class BlockTNT extends Block
         {
             if ((p_150114_5_ & 1) == 1)
             {
-                EntityTNTPrimed var7 = new EntityTNTPrimed(p_150114_1_, (double)((float)p_150114_2_ + 0.5F), (double)((float)p_150114_3_ + 0.5F), (double)((float)p_150114_4_ + 0.5F), p_150114_6_);
+                EntityTNTPrimed var7 = new EntityTNTPrimed(p_150114_1_, (float) p_150114_2_ + 0.5F, (float) p_150114_3_ + 0.5F, (float) p_150114_4_ + 0.5F, p_150114_6_);
                 p_150114_1_.spawnEntityInWorld(var7);
                 p_150114_1_.playSoundAtEntity(var7, "game.tnt.primed", 1.0F, 1.0F);
             }
@@ -104,8 +105,7 @@ public class BlockTNT extends Block
             p_149727_1_.setBlockToAir(p_149727_2_, p_149727_3_, p_149727_4_);
             p_149727_5_.getCurrentEquippedItem().damageItem(1, p_149727_5_);
             return true;
-        }
-        else
+        } else
         {
             return super.onBlockActivated(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_, p_149727_5_, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
         }
@@ -115,11 +115,11 @@ public class BlockTNT extends Block
     {
         if (p_149670_5_ instanceof EntityArrow && !p_149670_1_.isClient)
         {
-            EntityArrow var6 = (EntityArrow)p_149670_5_;
+            EntityArrow var6 = (EntityArrow) p_149670_5_;
 
             if (var6.isBurning())
             {
-                this.func_150114_a(p_149670_1_, p_149670_2_, p_149670_3_, p_149670_4_, 1, var6.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)var6.shootingEntity : null);
+                this.func_150114_a(p_149670_1_, p_149670_2_, p_149670_3_, p_149670_4_, 1, var6.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase) var6.shootingEntity : null);
                 p_149670_1_.setBlockToAir(p_149670_2_, p_149670_3_, p_149670_4_);
             }
         }

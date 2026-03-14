@@ -1,13 +1,14 @@
 package net.minecraft.scoreboard;
 
-import java.util.Collection;
-import java.util.Iterator;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.WorldSavedData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 public class ScoreboardSaveData extends WorldSavedData
 {
@@ -44,8 +45,7 @@ public class ScoreboardSaveData extends WorldSavedData
         if (this.theScoreboard == null)
         {
             this.field_96506_b = par1NBTTagCompound;
-        }
-        else
+        } else
         {
             this.func_96501_b(par1NBTTagCompound.getTagList("Objectives", 10));
             this.func_96500_c(par1NBTTagCompound.getTagList("PlayerScores", 10));
@@ -112,7 +112,7 @@ public class ScoreboardSaveData extends WorldSavedData
         for (int var2 = 0; var2 < par1NBTTagList.tagCount(); ++var2)
         {
             NBTTagCompound var3 = par1NBTTagList.getCompoundTagAt(var2);
-            IScoreObjectiveCriteria var4 = (IScoreObjectiveCriteria)IScoreObjectiveCriteria.field_96643_a.get(var3.getString("CriteriaName"));
+            IScoreObjectiveCriteria var4 = (IScoreObjectiveCriteria) IScoreObjectiveCriteria.field_96643_a.get(var3.getString("CriteriaName"));
             ScoreObjective var5 = this.theScoreboard.addScoreObjective(var3.getString("Name"), var4);
             var5.setDisplayName(var3.getString("DisplayName"));
         }
@@ -137,8 +137,7 @@ public class ScoreboardSaveData extends WorldSavedData
         if (this.theScoreboard == null)
         {
             logger.warn("Tried to save scoreboard without having a scoreboard...");
-        }
-        else
+        } else
         {
             par1NBTTagCompound.setTag("Objectives", this.func_96505_b());
             par1NBTTagCompound.setTag("PlayerScores", this.func_96503_e());
@@ -155,7 +154,7 @@ public class ScoreboardSaveData extends WorldSavedData
 
         while (var3.hasNext())
         {
-            ScorePlayerTeam var4 = (ScorePlayerTeam)var3.next();
+            ScorePlayerTeam var4 = (ScorePlayerTeam) var3.next();
             NBTTagCompound var5 = new NBTTagCompound();
             var5.setString("Name", var4.getRegisteredName());
             var5.setString("DisplayName", var4.func_96669_c());
@@ -168,7 +167,7 @@ public class ScoreboardSaveData extends WorldSavedData
 
             while (var7.hasNext())
             {
-                String var8 = (String)var7.next();
+                String var8 = (String) var7.next();
                 var6.appendTag(new NBTTagString(var8));
             }
 
@@ -209,7 +208,7 @@ public class ScoreboardSaveData extends WorldSavedData
 
         while (var3.hasNext())
         {
-            ScoreObjective var4 = (ScoreObjective)var3.next();
+            ScoreObjective var4 = (ScoreObjective) var3.next();
             NBTTagCompound var5 = new NBTTagCompound();
             var5.setString("Name", var4.getName());
             var5.setString("CriteriaName", var4.getCriteria().func_96636_a());
@@ -228,7 +227,7 @@ public class ScoreboardSaveData extends WorldSavedData
 
         while (var3.hasNext())
         {
-            Score var4 = (Score)var3.next();
+            Score var4 = (Score) var3.next();
             NBTTagCompound var5 = new NBTTagCompound();
             var5.setString("Name", var4.getPlayerName());
             var5.setString("Objective", var4.func_96645_d().getName());

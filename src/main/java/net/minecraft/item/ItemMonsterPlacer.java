@@ -1,23 +1,16 @@
 package net.minecraft.item;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Facing;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class ItemMonsterPlacer extends Item
 {
@@ -32,7 +25,7 @@ public class ItemMonsterPlacer extends Item
 
     public String getItemStackDisplayName(ItemStack par1ItemStack)
     {
-        String var2 = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+        String var2 = (StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
         String var3 = EntityList.getStringFromID(par1ItemStack.getItemDamage());
 
         if (var3 != null)
@@ -45,7 +38,7 @@ public class ItemMonsterPlacer extends Item
 
     public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
     {
-        EntityList.EntityEggInfo var3 = (EntityList.EntityEggInfo)EntityList.entityEggs.get(Integer.valueOf(par1ItemStack.getItemDamage()));
+        EntityList.EntityEggInfo var3 = (EntityList.EntityEggInfo) EntityList.entityEggs.get(Integer.valueOf(par1ItemStack.getItemDamage()));
         return var3 != null ? (par2 == 0 ? var3.primaryColor : var3.secondaryColor) : 16777215;
     }
 
@@ -71,8 +64,7 @@ public class ItemMonsterPlacer extends Item
         if (par3World.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
             Block var11 = par3World.getBlock(par4, par5, par6);
             par4 += Facing.offsetsXForSide[par7];
@@ -85,13 +77,13 @@ public class ItemMonsterPlacer extends Item
                 var12 = 0.5D;
             }
 
-            Entity var14 = spawnCreature(par3World, par1ItemStack.getItemDamage(), (double)par4 + 0.5D, (double)par5 + var12, (double)par6 + 0.5D);
+            Entity var14 = spawnCreature(par3World, par1ItemStack.getItemDamage(), (double) par4 + 0.5D, (double) par5 + var12, (double) par6 + 0.5D);
 
             if (var14 != null)
             {
                 if (var14 instanceof EntityLivingBase && par1ItemStack.hasDisplayName())
                 {
-                    ((EntityLiving)var14).setCustomNameTag(par1ItemStack.getDisplayName());
+                    ((EntityLiving) var14).setCustomNameTag(par1ItemStack.getDisplayName());
                 }
 
                 if (!par2EntityPlayer.capabilities.isCreativeMode)
@@ -112,16 +104,14 @@ public class ItemMonsterPlacer extends Item
         if (par2World.isClient)
         {
             return par1ItemStack;
-        }
-        else
+        } else
         {
             MovingObjectPosition var4 = this.getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, true);
 
             if (var4 == null)
             {
                 return par1ItemStack;
-            }
-            else
+            } else
             {
                 if (var4.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
                 {
@@ -141,13 +131,13 @@ public class ItemMonsterPlacer extends Item
 
                     if (par2World.getBlock(var5, var6, var7) instanceof BlockLiquid)
                     {
-                        Entity var8 = spawnCreature(par2World, par1ItemStack.getItemDamage(), (double)var5, (double)var6, (double)var7);
+                        Entity var8 = spawnCreature(par2World, par1ItemStack.getItemDamage(), var5, var6, var7);
 
                         if (var8 != null)
                         {
                             if (var8 instanceof EntityLivingBase && par1ItemStack.hasDisplayName())
                             {
-                                ((EntityLiving)var8).setCustomNameTag(par1ItemStack.getDisplayName());
+                                ((EntityLiving) var8).setCustomNameTag(par1ItemStack.getDisplayName());
                             }
 
                             if (!par3EntityPlayer.capabilities.isCreativeMode)
@@ -172,8 +162,7 @@ public class ItemMonsterPlacer extends Item
         if (!EntityList.entityEggs.containsKey(Integer.valueOf(par1)))
         {
             return null;
-        }
-        else
+        } else
         {
             Entity var8 = null;
 
@@ -183,11 +172,11 @@ public class ItemMonsterPlacer extends Item
 
                 if (var8 != null && var8 instanceof EntityLivingBase)
                 {
-                    EntityLiving var10 = (EntityLiving)var8;
+                    EntityLiving var10 = (EntityLiving) var8;
                     var8.setLocationAndAngles(par2, par4, par6, MathHelper.wrapAngleTo180_float(par0World.rand.nextFloat() * 360.0F), 0.0F);
                     var10.rotationYawHead = var10.rotationYaw;
                     var10.renderYawOffset = var10.rotationYaw;
-                    var10.onSpawnWithEgg((IEntityLivingData)null);
+                    var10.onSpawnWithEgg(null);
                     par0World.spawnEntityInWorld(var8);
                     var10.playLivingSound();
                 }
@@ -206,7 +195,7 @@ public class ItemMonsterPlacer extends Item
 
         while (var4.hasNext())
         {
-            EntityList.EntityEggInfo var5 = (EntityList.EntityEggInfo)var4.next();
+            EntityList.EntityEggInfo var5 = (EntityList.EntityEggInfo) var4.next();
             p_150895_3_.add(new ItemStack(p_150895_1_, 1, var5.spawnedID));
         }
     }

@@ -26,8 +26,7 @@ public class WrDisplayListBlock
         if (!this.canAllocate(len))
         {
             return -1;
-        }
-        else
+        } else
         {
             int allocated = this.used;
             this.used += len;

@@ -4,10 +4,14 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class WorldSavedData
 {
-    /** The name of the map data nbt */
+    /**
+     * The name of the map data nbt
+     */
     public final String mapName;
 
-    /** Whether this MapDataBase needs saving to disk. */
+    /**
+     * Whether this MapDataBase needs saving to disk.
+     */
     private boolean dirty;
     private static final String __OBFID = "CL_00000580";
 

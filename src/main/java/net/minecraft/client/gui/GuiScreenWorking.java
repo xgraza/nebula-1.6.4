@@ -57,9 +57,8 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate
     {
         if (this.field_146592_h)
         {
-            this.mc.displayGuiScreen((GuiScreen)null);
-        }
-        else
+            this.mc.displayGuiScreen(null);
+        } else
         {
             this.drawDefaultBackground();
             this.drawCenteredString(this.fontRenderer, this.field_146591_a, this.width / 2, 70, 16777215);

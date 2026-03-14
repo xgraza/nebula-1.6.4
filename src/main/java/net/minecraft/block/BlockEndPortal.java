@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -12,6 +10,9 @@ import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockEndPortal extends BlockContainer
 {
@@ -40,7 +41,7 @@ public class BlockEndPortal extends BlockContainer
 
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
-        return p_149646_5_ != 0 ? false : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
+        return p_149646_5_ == 0 && super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
     }
 
     public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_)
@@ -79,9 +80,9 @@ public class BlockEndPortal extends BlockContainer
      */
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
-        double var6 = (double)((float)p_149734_2_ + p_149734_5_.nextFloat());
-        double var8 = (double)((float)p_149734_3_ + 0.8F);
-        double var10 = (double)((float)p_149734_4_ + p_149734_5_.nextFloat());
+        double var6 = (float) p_149734_2_ + p_149734_5_.nextFloat();
+        double var8 = (float) p_149734_3_ + 0.8F;
+        double var10 = (float) p_149734_4_ + p_149734_5_.nextFloat();
         double var12 = 0.0D;
         double var14 = 0.0D;
         double var16 = 0.0D;

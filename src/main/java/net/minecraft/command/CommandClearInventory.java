@@ -1,9 +1,10 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.List;
 
 public class CommandClearInventory extends CommandBase
 {
@@ -35,9 +36,8 @@ public class CommandClearInventory extends CommandBase
 
         if (par2ArrayOfStr.length >= 2 && var4 == null)
         {
-            throw new CommandException("commands.clear.failure", new Object[] {var3.getCommandSenderName()});
-        }
-        else
+            throw new CommandException("commands.clear.failure", var3.getCommandSenderName());
+        } else
         {
             int var6 = var3.inventory.clearInventory(var4, var5);
             var3.inventoryContainer.detectAndSendChanges();
@@ -49,11 +49,10 @@ public class CommandClearInventory extends CommandBase
 
             if (var6 == 0)
             {
-                throw new CommandException("commands.clear.failure", new Object[] {var3.getCommandSenderName()});
-            }
-            else
+                throw new CommandException("commands.clear.failure", var3.getCommandSenderName());
+            } else
             {
-                notifyAdmins(par1ICommandSender, "commands.clear.success", new Object[] {var3.getCommandSenderName(), Integer.valueOf(var6)});
+                notifyAdmins(par1ICommandSender, "commands.clear.success", var3.getCommandSenderName(), Integer.valueOf(var6));
             }
         }
     }

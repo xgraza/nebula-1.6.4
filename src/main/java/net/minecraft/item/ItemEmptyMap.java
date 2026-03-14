@@ -26,17 +26,16 @@ public class ItemEmptyMap extends ItemMapBase
         par2World.setItemData(var5, var6);
         var6.scale = 0;
         int var7 = 128 * (1 << var6.scale);
-        var6.xCenter = (int)(Math.round(par3EntityPlayer.posX / (double)var7) * (long)var7);
-        var6.zCenter = (int)(Math.round(par3EntityPlayer.posZ / (double)var7) * (long)var7);
-        var6.dimension = (byte)par2World.provider.dimensionId;
+        var6.xCenter = (int) (Math.round(par3EntityPlayer.posX / (double) var7) * (long) var7);
+        var6.zCenter = (int) (Math.round(par3EntityPlayer.posZ / (double) var7) * (long) var7);
+        var6.dimension = (byte) par2World.provider.dimensionId;
         var6.markDirty();
         --par1ItemStack.stackSize;
 
         if (par1ItemStack.stackSize <= 0)
         {
             return var4;
-        }
-        else
+        } else
         {
             if (!par3EntityPlayer.inventory.addItemStackToInventory(var4.copy()))
             {

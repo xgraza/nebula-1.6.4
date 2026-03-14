@@ -1,8 +1,9 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+
+import java.util.List;
 
 public class CommandXP extends CommandBase
 {
@@ -30,9 +31,8 @@ public class CommandXP extends CommandBase
     {
         if (par2ArrayOfStr.length <= 0)
         {
-            throw new WrongUsageException("commands.xp.usage", new Object[0]);
-        }
-        else
+            throw new WrongUsageException("commands.xp.usage");
+        } else
         {
             String var4 = par2ArrayOfStr[0];
             boolean var5 = var4.endsWith("l") || var4.endsWith("L");
@@ -55,8 +55,7 @@ public class CommandXP extends CommandBase
             if (par2ArrayOfStr.length > 1)
             {
                 var3 = getPlayer(par1ICommandSender, par2ArrayOfStr[1]);
-            }
-            else
+            } else
             {
                 var3 = getCommandSenderAsPlayer(par1ICommandSender);
             }
@@ -66,23 +65,21 @@ public class CommandXP extends CommandBase
                 if (var7)
                 {
                     var3.addExperienceLevel(-var6);
-                    notifyAdmins(par1ICommandSender, "commands.xp.success.negative.levels", new Object[] {Integer.valueOf(var6), var3.getCommandSenderName()});
-                }
-                else
+                    notifyAdmins(par1ICommandSender, "commands.xp.success.negative.levels", Integer.valueOf(var6), var3.getCommandSenderName());
+                } else
                 {
                     var3.addExperienceLevel(var6);
-                    notifyAdmins(par1ICommandSender, "commands.xp.success.levels", new Object[] {Integer.valueOf(var6), var3.getCommandSenderName()});
+                    notifyAdmins(par1ICommandSender, "commands.xp.success.levels", Integer.valueOf(var6), var3.getCommandSenderName());
                 }
-            }
-            else
+            } else
             {
                 if (var7)
                 {
-                    throw new WrongUsageException("commands.xp.failure.widthdrawXp", new Object[0]);
+                    throw new WrongUsageException("commands.xp.failure.widthdrawXp");
                 }
 
                 var3.addExperience(var6);
-                notifyAdmins(par1ICommandSender, "commands.xp.success", new Object[] {Integer.valueOf(var6), var3.getCommandSenderName()});
+                notifyAdmins(par1ICommandSender, "commands.xp.success", Integer.valueOf(var6), var3.getCommandSenderName());
             }
         }
     }

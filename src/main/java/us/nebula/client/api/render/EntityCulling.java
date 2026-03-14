@@ -133,8 +133,8 @@ public final class EntityCulling
         result.id = getQuery();
         glBeginQuery(GL_ANY_SAMPLES_PASSED, result.id);
         final AxisAlignedBB renderBox = entity.boundingBox.copy()
-                        .expand(0.2, 0.2, 0.2)
-                        .offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
+                .expand(0.2, 0.2, 0.2)
+                .offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
         drawOutlinedBoundingBox(renderBox);
         glEndQuery(GL_ANY_SAMPLES_PASSED);
         result.reQueryAt = System.currentTimeMillis() + 50L;

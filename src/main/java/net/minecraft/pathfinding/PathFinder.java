@@ -10,29 +10,41 @@ import net.minecraft.world.IBlockAccess;
 
 public class PathFinder
 {
-    /** Used to find obstacles */
-    private IBlockAccess worldMap;
+    /**
+     * Used to find obstacles
+     */
+    private final IBlockAccess worldMap;
 
-    /** The path being generated */
-    private Path path = new Path();
+    /**
+     * The path being generated
+     */
+    private final Path path = new Path();
 
-    /** The points in the path */
-    private IntHashMap pointMap = new IntHashMap();
+    /**
+     * The points in the path
+     */
+    private final IntHashMap pointMap = new IntHashMap();
 
-    /** Selection of path points to add to the path */
-    private PathPoint[] pathOptions = new PathPoint[32];
+    /**
+     * Selection of path points to add to the path
+     */
+    private final PathPoint[] pathOptions = new PathPoint[32];
 
-    /** should the PathFinder go through wodden door blocks */
-    private boolean isWoddenDoorAllowed;
+    /**
+     * should the PathFinder go through wodden door blocks
+     */
+    private final boolean isWoddenDoorAllowed;
 
     /**
      * should the PathFinder disregard BlockMovement type materials in its path
      */
-    private boolean isMovementBlockAllowed;
+    private final boolean isMovementBlockAllowed;
     private boolean isPathingInWater;
 
-    /** tells the FathFinder to not stop pathing underwater */
-    private boolean canEntityDrown;
+    /**
+     * tells the FathFinder to not stop pathing underwater
+     */
+    private final boolean canEntityDrown;
     private static final String __OBFID = "CL_00000576";
 
     public PathFinder(IBlockAccess par1IBlockAccess, boolean par2, boolean par3, boolean par4, boolean par5)
@@ -57,7 +69,7 @@ public class PathFinder
      */
     public PathEntity createEntityPathTo(Entity par1Entity, int par2, int par3, int par4, float par5)
     {
-        return this.createEntityPathTo(par1Entity, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), par5);
+        return this.createEntityPathTo(par1Entity, (float) par2 + 0.5F, (float) par3 + 0.5F, (float) par4 + 0.5F, par5);
     }
 
     /**
@@ -72,7 +84,7 @@ public class PathFinder
 
         if (this.canEntityDrown && par1Entity.isInWater())
         {
-            var10 = (int)par1Entity.boundingBox.minY;
+            var10 = (int) par1Entity.boundingBox.minY;
 
             for (Block var11 = this.worldMap.getBlock(MathHelper.floor_double(par1Entity.posX), var10, MathHelper.floor_double(par1Entity.posZ)); var11 == Blocks.flowing_water || var11 == Blocks.water; var11 = this.worldMap.getBlock(MathHelper.floor_double(par1Entity.posX), var10, MathHelper.floor_double(par1Entity.posZ)))
             {
@@ -81,14 +93,13 @@ public class PathFinder
 
             var9 = this.isPathingInWater;
             this.isPathingInWater = false;
-        }
-        else
+        } else
         {
             var10 = MathHelper.floor_double(par1Entity.boundingBox.minY + 0.5D);
         }
 
         PathPoint var15 = this.openPoint(MathHelper.floor_double(par1Entity.boundingBox.minX), var10, MathHelper.floor_double(par1Entity.boundingBox.minZ));
-        PathPoint var12 = this.openPoint(MathHelper.floor_double(par2 - (double)(par1Entity.width / 2.0F)), MathHelper.floor_double(par4), MathHelper.floor_double(par6 - (double)(par1Entity.width / 2.0F)));
+        PathPoint var12 = this.openPoint(MathHelper.floor_double(par2 - (double) (par1Entity.width / 2.0F)), MathHelper.floor_double(par4), MathHelper.floor_double(par6 - (double) (par1Entity.width / 2.0F)));
         PathPoint var13 = new PathPoint(MathHelper.floor_float(par1Entity.width + 1.0F), MathHelper.floor_float(par1Entity.height + 1.0F), MathHelper.floor_float(par1Entity.width + 1.0F));
         PathEntity var14 = this.addToPath(par1Entity, var15, var12, var13, par8);
         this.isPathingInWater = var9;
@@ -138,8 +149,7 @@ public class PathFinder
                     if (var10.isAssigned())
                     {
                         this.path.changeDistance(var10, var10.totalPathDistance + var10.distanceToNext);
-                    }
-                    else
+                    } else
                     {
                         var10.distanceToTarget = var10.totalPathDistance + var10.distanceToNext;
                         this.path.addPoint(var10);
@@ -151,8 +161,7 @@ public class PathFinder
         if (var6 == par2PathPoint)
         {
             return null;
-        }
-        else
+        } else
         {
             return this.createEntityPath(par2PathPoint, var6);
         }
@@ -211,8 +220,7 @@ public class PathFinder
         if (var8 == 2)
         {
             return this.openPoint(par2, par3, par4);
-        }
-        else
+        } else
         {
             if (var8 == 1)
             {
@@ -273,7 +281,7 @@ public class PathFinder
     private final PathPoint openPoint(int par1, int par2, int par3)
     {
         int var4 = PathPoint.makeHash(par1, par2, par3);
-        PathPoint var5 = (PathPoint)this.pointMap.lookup(var4);
+        PathPoint var5 = (PathPoint) this.pointMap.lookup(var4);
 
         if (var5 == null)
         {
@@ -311,15 +319,13 @@ public class PathFinder
                         if (var12 == Blocks.trapdoor)
                         {
                             var8 = true;
-                        }
-                        else if (var12 != Blocks.flowing_water && var12 != Blocks.water)
+                        } else if (var12 != Blocks.flowing_water && var12 != Blocks.water)
                         {
                             if (!par7 && var12 == Blocks.wooden_door)
                             {
                                 return 0;
                             }
-                        }
-                        else
+                        } else
                         {
                             if (par5)
                             {
@@ -341,8 +347,7 @@ public class PathFinder
                             {
                                 return -3;
                             }
-                        }
-                        else if (!var12.getBlocksMovement(par0Entity.worldObj, var9, var10, var11) && (!par6 || var12 != Blocks.wooden_door))
+                        } else if (!var12.getBlocksMovement(par0Entity.worldObj, var9, var10, var11) && (!par6 || var12 != Blocks.wooden_door))
                         {
                             if (var13 == 11 || var12 == Blocks.fence_gate || var13 == 32)
                             {

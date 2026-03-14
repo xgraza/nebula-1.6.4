@@ -1,11 +1,11 @@
 package net.minecraft.server.integrated;
 
 import com.mojang.authlib.GameProfile;
-import java.net.SocketAddress;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
+
+import java.net.SocketAddress;
 
 public class IntegratedPlayerList extends ServerConfigurationManager
 {
@@ -42,7 +42,7 @@ public class IntegratedPlayerList extends ServerConfigurationManager
 
     public IntegratedServer getServerInstance()
     {
-        return (IntegratedServer)super.getServerInstance();
+        return (IntegratedServer) super.getServerInstance();
     }
 
     /**

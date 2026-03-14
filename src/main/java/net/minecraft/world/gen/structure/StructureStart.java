@@ -1,22 +1,27 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Random;
+
 public abstract class StructureStart
 {
-    /** List of all StructureComponents that are part of this structure */
+    /**
+     * List of all StructureComponents that are part of this structure
+     */
     protected LinkedList components = new LinkedList();
     protected StructureBoundingBox boundingBox;
     private int field_143024_c;
     private int field_143023_d;
     private static final String __OBFID = "CL_00000513";
 
-    public StructureStart() {}
+    public StructureStart()
+    {
+    }
 
     public StructureStart(int par1, int par2)
     {
@@ -43,7 +48,7 @@ public abstract class StructureStart
 
         while (var4.hasNext())
         {
-            StructureComponent var5 = (StructureComponent)var4.next();
+            StructureComponent var5 = (StructureComponent) var4.next();
 
             if (var5.getBoundingBox().intersectsWith(par3StructureBoundingBox) && !var5.addComponentParts(par1World, par2Random, par3StructureBoundingBox))
             {
@@ -62,7 +67,7 @@ public abstract class StructureStart
 
         while (var1.hasNext())
         {
-            StructureComponent var2 = (StructureComponent)var1.next();
+            StructureComponent var2 = (StructureComponent) var1.next();
             this.boundingBox.expandTo(var2.getBoundingBox());
         }
     }
@@ -79,7 +84,7 @@ public abstract class StructureStart
 
         while (var5.hasNext())
         {
-            StructureComponent var6 = (StructureComponent)var5.next();
+            StructureComponent var6 = (StructureComponent) var5.next();
             var4.appendTag(var6.func_143010_b());
         }
 
@@ -88,7 +93,9 @@ public abstract class StructureStart
         return var3;
     }
 
-    public void func_143022_a(NBTTagCompound par1NBTTagCompound) {}
+    public void func_143022_a(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     public void func_143020_a(World par1World, NBTTagCompound par2NBTTagCompound)
     {
@@ -110,7 +117,9 @@ public abstract class StructureStart
         this.func_143017_b(par2NBTTagCompound);
     }
 
-    public void func_143017_b(NBTTagCompound par1NBTTagCompound) {}
+    public void func_143017_b(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     /**
      * offsets the structure Bounding Boxes up to a certain height, typically 63 - 10
@@ -131,7 +140,7 @@ public abstract class StructureStart
 
         while (var7.hasNext())
         {
-            StructureComponent var8 = (StructureComponent)var7.next();
+            StructureComponent var8 = (StructureComponent) var7.next();
             var8.getBoundingBox().offset(0, var6, 0);
         }
     }
@@ -145,8 +154,7 @@ public abstract class StructureStart
         if (var5 > 1)
         {
             var10 = par3 + par2Random.nextInt(var5);
-        }
-        else
+        } else
         {
             var10 = par3;
         }
@@ -157,7 +165,7 @@ public abstract class StructureStart
 
         while (var8.hasNext())
         {
-            StructureComponent var9 = (StructureComponent)var8.next();
+            StructureComponent var9 = (StructureComponent) var8.next();
             var9.getBoundingBox().offset(0, var7, 0);
         }
     }

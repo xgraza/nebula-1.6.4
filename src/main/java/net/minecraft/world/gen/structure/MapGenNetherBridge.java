@@ -1,8 +1,5 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.monster.EntityMagmaCube;
 import net.minecraft.entity.monster.EntityPigZombie;
@@ -10,9 +7,13 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class MapGenNetherBridge extends MapGenStructure
 {
-    private List spawnList = new ArrayList();
+    private final List spawnList = new ArrayList();
     private static final String __OBFID = "CL_00000451";
 
     public MapGenNetherBridge()
@@ -37,9 +38,9 @@ public class MapGenNetherBridge extends MapGenStructure
     {
         int var3 = par1 >> 4;
         int var4 = par2 >> 4;
-        this.rand.setSeed((long)(var3 ^ var4 << 4) ^ this.worldObj.getSeed());
+        this.rand.setSeed((long) (var3 ^ var4 << 4) ^ this.worldObj.getSeed());
         this.rand.nextInt();
-        return this.rand.nextInt(3) != 0 ? false : (par1 != (var3 << 4) + 4 + this.rand.nextInt(8) ? false : par2 == (var4 << 4) + 4 + this.rand.nextInt(8));
+        return this.rand.nextInt(3) == 0 && (par1 == (var3 << 4) + 4 + this.rand.nextInt(8) && par2 == (var4 << 4) + 4 + this.rand.nextInt(8));
     }
 
     protected StructureStart getStructureStart(int par1, int par2)
@@ -51,7 +52,9 @@ public class MapGenNetherBridge extends MapGenStructure
     {
         private static final String __OBFID = "CL_00000452";
 
-        public Start() {}
+        public Start()
+        {
+        }
 
         public Start(World par1World, Random par2Random, int par3, int par4)
         {
@@ -64,7 +67,7 @@ public class MapGenNetherBridge extends MapGenStructure
             while (!var6.isEmpty())
             {
                 int var7 = par2Random.nextInt(var6.size());
-                StructureComponent var8 = (StructureComponent)var6.remove(var7);
+                StructureComponent var8 = (StructureComponent) var6.remove(var7);
                 var8.buildComponent(var5, this.components, par2Random);
             }
 

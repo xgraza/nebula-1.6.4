@@ -30,7 +30,7 @@ public class EntityHeartFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        float var8 = ((float)this.particleAge + par2) / (float)this.particleMaxAge * 32.0F;
+        float var8 = ((float) this.particleAge + par2) / (float) this.particleMaxAge * 32.0F;
 
         if (var8 < 0.0F)
         {

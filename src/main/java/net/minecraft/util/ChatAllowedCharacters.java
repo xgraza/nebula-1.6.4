@@ -5,7 +5,7 @@ public class ChatAllowedCharacters
     /**
      * Array of the special characters that are allowed in any text drawing of Minecraft.
      */
-    public static final char[] allowedCharacters = new char[] {'/', '\n', '\r', '\t', '\u0000', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':'};
+    public static final char[] allowedCharacters = new char[]{ '/', '\n', '\r', '\t', '\u0000', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':' };
     private static final String __OBFID = "CL_00001606";
 
     public static boolean isAllowedCharacter(char par0)

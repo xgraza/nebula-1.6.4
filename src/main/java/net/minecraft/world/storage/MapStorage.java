@@ -1,35 +1,32 @@
 package net.minecraft.world.storage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.world.WorldSavedData;
 
+import java.io.*;
+import java.util.*;
+
 public class MapStorage
 {
-    private ISaveHandler saveHandler;
+    private final ISaveHandler saveHandler;
 
-    /** Map of item data String id to loaded MapDataBases */
-    private Map loadedDataMap = new HashMap();
+    /**
+     * Map of item data String id to loaded MapDataBases
+     */
+    private final Map loadedDataMap = new HashMap();
 
-    /** List of loaded MapDataBases. */
-    private List loadedDataList = new ArrayList();
+    /**
+     * List of loaded MapDataBases.
+     */
+    private final List loadedDataList = new ArrayList();
 
     /**
      * Map of MapDataBase id String prefixes ('map' etc) to max known unique Short id (the 0 part etc) for that prefix
      */
-    private Map idCounts = new HashMap();
+    private final Map idCounts = new HashMap();
     private static final String __OBFID = "CL_00000604";
 
     public MapStorage(ISaveHandler par1ISaveHandler)
@@ -44,13 +41,12 @@ public class MapStorage
      */
     public WorldSavedData loadData(Class par1Class, String par2Str)
     {
-        WorldSavedData var3 = (WorldSavedData)this.loadedDataMap.get(par2Str);
+        WorldSavedData var3 = (WorldSavedData) this.loadedDataMap.get(par2Str);
 
         if (var3 != null)
         {
             return var3;
-        }
-        else
+        } else
         {
             if (this.saveHandler != null)
             {
@@ -62,9 +58,8 @@ public class MapStorage
                     {
                         try
                         {
-                            var3 = (WorldSavedData)par1Class.getConstructor(new Class[] {String.class}).newInstance(new Object[] {par2Str});
-                        }
-                        catch (Exception var7)
+                            var3 = (WorldSavedData) par1Class.getConstructor(new Class[]{ String.class }).newInstance(new Object[]{ par2Str });
+                        } catch (Exception var7)
                         {
                             throw new RuntimeException("Failed to instantiate " + par1Class.toString(), var7);
                         }
@@ -74,8 +69,7 @@ public class MapStorage
                         var5.close();
                         var3.readFromNBT(var6.getCompoundTag("data"));
                     }
-                }
-                catch (Exception var8)
+                } catch (Exception var8)
                 {
                     var8.printStackTrace();
                 }
@@ -98,9 +92,8 @@ public class MapStorage
     {
         if (par2WorldSavedData == null)
         {
-            throw new RuntimeException("Can\'t set null data");
-        }
-        else
+            throw new RuntimeException("Can't set null data");
+        } else
         {
             if (this.loadedDataMap.containsKey(par1Str))
             {
@@ -119,7 +112,7 @@ public class MapStorage
     {
         for (int var1 = 0; var1 < this.loadedDataList.size(); ++var1)
         {
-            WorldSavedData var2 = (WorldSavedData)this.loadedDataList.get(var1);
+            WorldSavedData var2 = (WorldSavedData) this.loadedDataList.get(var1);
 
             if (var2.isDirty())
             {
@@ -150,8 +143,7 @@ public class MapStorage
                     CompressedStreamTools.writeCompressed(var4, var5);
                     var5.close();
                 }
-            }
-            catch (Exception var6)
+            } catch (Exception var6)
             {
                 var6.printStackTrace();
             }
@@ -183,19 +175,18 @@ public class MapStorage
 
                 while (var4.hasNext())
                 {
-                    String var5 = (String)var4.next();
+                    String var5 = (String) var4.next();
                     NBTBase var6 = var3.getTag(var5);
 
                     if (var6 instanceof NBTTagShort)
                     {
-                        NBTTagShort var7 = (NBTTagShort)var6;
+                        NBTTagShort var7 = (NBTTagShort) var6;
                         short var9 = var7.func_150289_e();
                         this.idCounts.put(var5, Short.valueOf(var9));
                     }
                 }
             }
-        }
-        catch (Exception var10)
+        } catch (Exception var10)
         {
             var10.printStackTrace();
         }
@@ -206,15 +197,14 @@ public class MapStorage
      */
     public int getUniqueDataId(String par1Str)
     {
-        Short var2 = (Short)this.idCounts.get(par1Str);
+        Short var2 = (Short) this.idCounts.get(par1Str);
 
         if (var2 == null)
         {
-            var2 = Short.valueOf((short)0);
-        }
-        else
+            var2 = Short.valueOf((short) 0);
+        } else
         {
-            var2 = Short.valueOf((short)(var2.shortValue() + 1));
+            var2 = Short.valueOf((short) (var2.shortValue() + 1));
         }
 
         this.idCounts.put(par1Str, var2);
@@ -222,8 +212,7 @@ public class MapStorage
         if (this.saveHandler == null)
         {
             return var2.shortValue();
-        }
-        else
+        } else
         {
             try
             {
@@ -236,8 +225,8 @@ public class MapStorage
 
                     while (var5.hasNext())
                     {
-                        String var6 = (String)var5.next();
-                        short var7 = ((Short)this.idCounts.get(var6)).shortValue();
+                        String var6 = (String) var5.next();
+                        short var7 = ((Short) this.idCounts.get(var6)).shortValue();
                         var4.setShort(var6, var7);
                     }
 
@@ -245,8 +234,7 @@ public class MapStorage
                     CompressedStreamTools.write(var4, var9);
                     var9.close();
                 }
-            }
-            catch (Exception var8)
+            } catch (Exception var8)
             {
                 var8.printStackTrace();
             }

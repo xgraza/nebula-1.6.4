@@ -4,7 +4,7 @@ import net.minecraft.entity.passive.EntityTameable;
 
 public class EntityAITargetNonTamed extends EntityAINearestAttackableTarget
 {
-    private EntityTameable theTameable;
+    private final EntityTameable theTameable;
     private static final String __OBFID = "CL_00001623";
 
     public EntityAITargetNonTamed(EntityTameable par1EntityTameable, Class par2Class, int par3, boolean par4)

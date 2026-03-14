@@ -1,25 +1,26 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Map.Entry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
+import java.util.*;
+import java.util.Map.Entry;
+
 public class MapGenVillage extends MapGenStructure
 {
-    /** A list of all the biomes villages can spawn in. */
-    public static final List villageSpawnBiomes = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.plains, BiomeGenBase.desert, BiomeGenBase.field_150588_X});
+    /**
+     * A list of all the biomes villages can spawn in.
+     */
+    public static final List villageSpawnBiomes = Arrays.asList(BiomeGenBase.plains, BiomeGenBase.desert, BiomeGenBase.field_150588_X);
 
-    /** World terrain type, 0 for normal, 1 for flat map */
+    /**
+     * World terrain type, 0 for normal, 1 for flat map
+     */
     private int terrainType;
     private int field_82665_g;
-    private int field_82666_h;
+    private final int field_82666_h;
     private static final String __OBFID = "CL_00000514";
 
     public MapGenVillage()
@@ -35,15 +36,14 @@ public class MapGenVillage extends MapGenStructure
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
+            Entry var3 = (Entry) var2.next();
 
-            if (((String)var3.getKey()).equals("size"))
+            if (var3.getKey().equals("size"))
             {
-                this.terrainType = MathHelper.parseIntWithDefaultAndMax((String)var3.getValue(), this.terrainType, 0);
-            }
-            else if (((String)var3.getKey()).equals("distance"))
+                this.terrainType = MathHelper.parseIntWithDefaultAndMax((String) var3.getValue(), this.terrainType, 0);
+            } else if (var3.getKey().equals("distance"))
             {
-                this.field_82665_g = MathHelper.parseIntWithDefaultAndMax((String)var3.getValue(), this.field_82665_g, this.field_82666_h + 1);
+                this.field_82665_g = MathHelper.parseIntWithDefaultAndMax((String) var3.getValue(), this.field_82665_g, this.field_82666_h + 1);
             }
         }
     }
@@ -80,10 +80,7 @@ public class MapGenVillage extends MapGenStructure
         {
             boolean var8 = this.worldObj.getWorldChunkManager().areBiomesViable(var3 * 16 + 8, var4 * 16 + 8, 0, villageSpawnBiomes);
 
-            if (var8)
-            {
-                return true;
-            }
+            return var8;
         }
 
         return false;
@@ -99,7 +96,9 @@ public class MapGenVillage extends MapGenStructure
         private boolean hasMoreThanTwoComponents;
         private static final String __OBFID = "CL_00000515";
 
-        public Start() {}
+        public Start()
+        {
+        }
 
         public Start(World par1World, Random par2Random, int par3, int par4, int par5)
         {
@@ -119,13 +118,12 @@ public class MapGenVillage extends MapGenStructure
                 if (var8.isEmpty())
                 {
                     var10 = par2Random.nextInt(var9.size());
-                    var11 = (StructureComponent)var9.remove(var10);
+                    var11 = (StructureComponent) var9.remove(var10);
                     var11.buildComponent(var7, this.components, par2Random);
-                }
-                else
+                } else
                 {
                     var10 = par2Random.nextInt(var8.size());
-                    var11 = (StructureComponent)var8.remove(var10);
+                    var11 = (StructureComponent) var8.remove(var10);
                     var11.buildComponent(var7, this.components, par2Random);
                 }
             }
@@ -136,7 +134,7 @@ public class MapGenVillage extends MapGenStructure
 
             while (var13.hasNext())
             {
-                StructureComponent var12 = (StructureComponent)var13.next();
+                StructureComponent var12 = (StructureComponent) var13.next();
 
                 if (!(var12 instanceof StructureVillagePieces.Road))
                 {

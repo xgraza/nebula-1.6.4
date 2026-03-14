@@ -1,8 +1,9 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public abstract class WorldGenerator
 {
@@ -28,7 +29,9 @@ public abstract class WorldGenerator
     /**
      * Rescales the generator settings, only used in WorldGenBigTree
      */
-    public void setScale(double par1, double par3, double par5) {}
+    public void setScale(double par1, double par3, double par5)
+    {
+    }
 
     protected void func_150515_a(World p_150515_1_, int p_150515_2_, int p_150515_3_, int p_150515_4_, Block p_150515_5_)
     {
@@ -40,8 +43,7 @@ public abstract class WorldGenerator
         if (this.doBlockNotify)
         {
             p_150516_1_.setBlock(p_150516_2_, p_150516_3_, p_150516_4_, p_150516_5_, p_150516_6_, 3);
-        }
-        else
+        } else
         {
             p_150516_1_.setBlock(p_150516_2_, p_150516_3_, p_150516_4_, p_150516_5_, p_150516_6_, 2);
         }

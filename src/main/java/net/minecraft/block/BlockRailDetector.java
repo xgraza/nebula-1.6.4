@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
@@ -13,6 +11,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockRailDetector extends BlockRailBase
 {
@@ -82,7 +83,7 @@ public class BlockRailDetector extends BlockRailBase
         boolean var6 = (p_150054_5_ & 8) != 0;
         boolean var7 = false;
         float var8 = 0.125F;
-        List var9 = p_150054_1_.getEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB((double)((float)p_150054_2_ + var8), (double)p_150054_3_, (double)((float)p_150054_4_ + var8), (double)((float)(p_150054_2_ + 1) - var8), (double)((float)(p_150054_3_ + 1) - var8), (double)((float)(p_150054_4_ + 1) - var8)));
+        List var9 = p_150054_1_.getEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB((float) p_150054_2_ + var8, p_150054_3_, (float) p_150054_4_ + var8, (float) (p_150054_2_ + 1) - var8, (float) (p_150054_3_ + 1) - var8, (float) (p_150054_4_ + 1) - var8));
 
         if (!var9.isEmpty())
         {
@@ -129,18 +130,18 @@ public class BlockRailDetector extends BlockRailBase
         if ((p_149736_1_.getBlockMetadata(p_149736_2_, p_149736_3_, p_149736_4_) & 8) > 0)
         {
             float var6 = 0.125F;
-            List var7 = p_149736_1_.getEntitiesWithinAABB(EntityMinecartCommandBlock.class, AxisAlignedBB.getAABBPool().getAABB((double)((float)p_149736_2_ + var6), (double)p_149736_3_, (double)((float)p_149736_4_ + var6), (double)((float)(p_149736_2_ + 1) - var6), (double)((float)(p_149736_3_ + 1) - var6), (double)((float)(p_149736_4_ + 1) - var6)));
+            List var7 = p_149736_1_.getEntitiesWithinAABB(EntityMinecartCommandBlock.class, AxisAlignedBB.getAABBPool().getAABB((float) p_149736_2_ + var6, p_149736_3_, (float) p_149736_4_ + var6, (float) (p_149736_2_ + 1) - var6, (float) (p_149736_3_ + 1) - var6, (float) (p_149736_4_ + 1) - var6));
 
             if (var7.size() > 0)
             {
-                return ((EntityMinecartCommandBlock)var7.get(0)).func_145822_e().func_145760_g();
+                return ((EntityMinecartCommandBlock) var7.get(0)).func_145822_e().func_145760_g();
             }
 
-            List var8 = p_149736_1_.selectEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB((double)((float)p_149736_2_ + var6), (double)p_149736_3_, (double)((float)p_149736_4_ + var6), (double)((float)(p_149736_2_ + 1) - var6), (double)((float)(p_149736_3_ + 1) - var6), (double)((float)(p_149736_4_ + 1) - var6)), IEntitySelector.selectInventories);
+            List var8 = p_149736_1_.selectEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB((float) p_149736_2_ + var6, p_149736_3_, (float) p_149736_4_ + var6, (float) (p_149736_2_ + 1) - var6, (float) (p_149736_3_ + 1) - var6, (float) (p_149736_4_ + 1) - var6), IEntitySelector.selectInventories);
 
             if (var8.size() > 0)
             {
-                return Container.calcRedstoneFromInventory((IInventory)var8.get(0));
+                return Container.calcRedstoneFromInventory((IInventory) var8.get(0));
             }
         }
 

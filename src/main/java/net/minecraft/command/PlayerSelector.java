@@ -1,12 +1,5 @@
 package net.minecraft.command;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChunkCoordinates;
@@ -14,6 +7,10 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PlayerSelector
 {
@@ -56,8 +53,7 @@ public class PlayerSelector
             }
 
             return CommandBase.joinNiceString(var3);
-        }
-        else
+        } else
         {
             return null;
         }
@@ -73,8 +69,7 @@ public class PlayerSelector
         if (!var2.matches())
         {
             return null;
-        }
-        else
+        } else
         {
             Map var3 = getArgumentMap(var2.group(2));
             String var4 = var2.group(1);
@@ -92,62 +87,62 @@ public class PlayerSelector
 
             if (var3.containsKey("rm"))
             {
-                var5 = MathHelper.parseIntWithDefault((String)var3.get("rm"), var5);
+                var5 = MathHelper.parseIntWithDefault((String) var3.get("rm"), var5);
                 var15 = true;
             }
 
             if (var3.containsKey("r"))
             {
-                var6 = MathHelper.parseIntWithDefault((String)var3.get("r"), var6);
+                var6 = MathHelper.parseIntWithDefault((String) var3.get("r"), var6);
                 var15 = true;
             }
 
             if (var3.containsKey("lm"))
             {
-                var7 = MathHelper.parseIntWithDefault((String)var3.get("lm"), var7);
+                var7 = MathHelper.parseIntWithDefault((String) var3.get("lm"), var7);
             }
 
             if (var3.containsKey("l"))
             {
-                var8 = MathHelper.parseIntWithDefault((String)var3.get("l"), var8);
+                var8 = MathHelper.parseIntWithDefault((String) var3.get("l"), var8);
             }
 
             if (var3.containsKey("x"))
             {
-                var11.posX = MathHelper.parseIntWithDefault((String)var3.get("x"), var11.posX);
+                var11.posX = MathHelper.parseIntWithDefault((String) var3.get("x"), var11.posX);
                 var15 = true;
             }
 
             if (var3.containsKey("y"))
             {
-                var11.posY = MathHelper.parseIntWithDefault((String)var3.get("y"), var11.posY);
+                var11.posY = MathHelper.parseIntWithDefault((String) var3.get("y"), var11.posY);
                 var15 = true;
             }
 
             if (var3.containsKey("z"))
             {
-                var11.posZ = MathHelper.parseIntWithDefault((String)var3.get("z"), var11.posZ);
+                var11.posZ = MathHelper.parseIntWithDefault((String) var3.get("z"), var11.posZ);
                 var15 = true;
             }
 
             if (var3.containsKey("m"))
             {
-                var10 = MathHelper.parseIntWithDefault((String)var3.get("m"), var10);
+                var10 = MathHelper.parseIntWithDefault((String) var3.get("m"), var10);
             }
 
             if (var3.containsKey("c"))
             {
-                var9 = MathHelper.parseIntWithDefault((String)var3.get("c"), var9);
+                var9 = MathHelper.parseIntWithDefault((String) var3.get("c"), var9);
             }
 
             if (var3.containsKey("team"))
             {
-                var14 = (String)var3.get("team");
+                var14 = (String) var3.get("team");
             }
 
             if (var3.containsKey("name"))
             {
-                var13 = (String)var3.get("name");
+                var13 = (String) var3.get("name");
             }
 
             World var16 = var15 ? par0ICommandSender.getEntityWorld() : null;
@@ -158,19 +153,17 @@ public class PlayerSelector
                 if (!var4.equals("r"))
                 {
                     return null;
-                }
-                else
+                } else
                 {
                     var17 = MinecraftServer.getServer().getConfigurationManager().findPlayers(var11, var5, var6, 0, var10, var7, var8, var12, var13, var14, var16);
                     Collections.shuffle(var17);
                     var17 = var17.subList(0, Math.min(var9, var17.size()));
-                    return var17 != null && !var17.isEmpty() ? (EntityPlayerMP[])var17.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
+                    return var17 != null && !var17.isEmpty() ? (EntityPlayerMP[]) var17.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
                 }
-            }
-            else
+            } else
             {
                 var17 = MinecraftServer.getServer().getConfigurationManager().findPlayers(var11, var5, var6, var9, var10, var7, var8, var12, var13, var14, var16);
-                return var17 != null && !var17.isEmpty() ? (EntityPlayerMP[])var17.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
+                return var17 != null && !var17.isEmpty() ? (EntityPlayerMP[]) var17.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
             }
         }
     }
@@ -182,12 +175,12 @@ public class PlayerSelector
 
         while (var2.hasNext())
         {
-            String var3 = (String)var2.next();
+            String var3 = (String) var2.next();
 
             if (var3.startsWith("score_") && var3.length() > "score_".length())
             {
                 String var4 = var3.substring("score_".length());
-                var1.put(var4, Integer.valueOf(MathHelper.parseIntWithDefault((String)par0Map.get(var3), 1)));
+                var1.put(var4, Integer.valueOf(MathHelper.parseIntWithDefault((String) par0Map.get(var3), 1)));
             }
         }
 
@@ -209,12 +202,11 @@ public class PlayerSelector
 
             if (var2.containsKey("c"))
             {
-                var4 = MathHelper.parseIntWithDefault((String)var2.get("c"), var4);
+                var4 = MathHelper.parseIntWithDefault((String) var2.get("c"), var4);
             }
 
             return var4 != 1;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -231,8 +223,7 @@ public class PlayerSelector
         {
             String var3 = var2.group(1);
             return par1Str == null || par1Str.equals(var3);
-        }
-        else
+        } else
         {
             return false;
         }
@@ -243,7 +234,7 @@ public class PlayerSelector
      */
     public static boolean hasArguments(String par0Str)
     {
-        return hasTheseArguments(par0Str, (String)null);
+        return hasTheseArguments(par0Str, null);
     }
 
     /**
@@ -296,8 +287,7 @@ public class PlayerSelector
         if (par0Str == null)
         {
             return var1;
-        }
-        else
+        } else
         {
             Matcher var2 = intListPattern.matcher(par0Str);
             int var3 = 0;

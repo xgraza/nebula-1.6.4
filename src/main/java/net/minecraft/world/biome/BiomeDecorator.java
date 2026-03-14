@@ -1,85 +1,112 @@
 package net.minecraft.world.biome;
 
-import java.util.Random;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraft.world.gen.feature.WorldGenBigMushroom;
-import net.minecraft.world.gen.feature.WorldGenCactus;
-import net.minecraft.world.gen.feature.WorldGenClay;
-import net.minecraft.world.gen.feature.WorldGenDeadBush;
-import net.minecraft.world.gen.feature.WorldGenFlowers;
-import net.minecraft.world.gen.feature.WorldGenLiquids;
-import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraft.world.gen.feature.WorldGenPumpkin;
-import net.minecraft.world.gen.feature.WorldGenReed;
-import net.minecraft.world.gen.feature.WorldGenSand;
-import net.minecraft.world.gen.feature.WorldGenWaterlily;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.feature.*;
+
+import java.util.Random;
 
 public class BiomeDecorator
 {
-    /** The world the BiomeDecorator is currently decorating */
+    /**
+     * The world the BiomeDecorator is currently decorating
+     */
     protected World currentWorld;
 
-    /** The Biome Decorator's random number generator. */
+    /**
+     * The Biome Decorator's random number generator.
+     */
     protected Random randomGenerator;
 
-    /** The X-coordinate of the chunk currently being decorated */
+    /**
+     * The X-coordinate of the chunk currently being decorated
+     */
     protected int chunk_X;
 
-    /** The Z-coordinate of the chunk currently being decorated */
+    /**
+     * The Z-coordinate of the chunk currently being decorated
+     */
     protected int chunk_Z;
 
-    /** The clay generator. */
+    /**
+     * The clay generator.
+     */
     protected WorldGenerator clayGen = new WorldGenClay(4);
 
-    /** The sand generator. */
+    /**
+     * The sand generator.
+     */
     protected WorldGenerator sandGen;
 
-    /** The gravel generator. */
+    /**
+     * The gravel generator.
+     */
     protected WorldGenerator gravelAsSandGen;
 
-    /** The dirt generator. */
+    /**
+     * The dirt generator.
+     */
     protected WorldGenerator dirtGen;
     protected WorldGenerator gravelGen;
     protected WorldGenerator coalGen;
     protected WorldGenerator ironGen;
 
-    /** Field that holds gold WorldGenMinable */
+    /**
+     * Field that holds gold WorldGenMinable
+     */
     protected WorldGenerator goldGen;
 
-    /** Field that holds redstone WorldGenMinable */
+    /**
+     * Field that holds redstone WorldGenMinable
+     */
     protected WorldGenerator redstoneGen;
 
-    /** Field that holds diamond WorldGenMinable */
+    /**
+     * Field that holds diamond WorldGenMinable
+     */
     protected WorldGenerator diamondGen;
 
-    /** Field that holds Lapis WorldGenMinable */
+    /**
+     * Field that holds Lapis WorldGenMinable
+     */
     protected WorldGenerator lapisGen;
     protected WorldGenFlowers field_150514_p;
 
-    /** Field that holds mushroomBrown WorldGenFlowers */
+    /**
+     * Field that holds mushroomBrown WorldGenFlowers
+     */
     protected WorldGenerator mushroomBrownGen;
 
-    /** Field that holds mushroomRed WorldGenFlowers */
+    /**
+     * Field that holds mushroomRed WorldGenFlowers
+     */
     protected WorldGenerator mushroomRedGen;
 
-    /** Field that holds big mushroom generator */
+    /**
+     * Field that holds big mushroom generator
+     */
     protected WorldGenerator bigMushroomGen;
 
-    /** Field that holds WorldGenReed */
+    /**
+     * Field that holds WorldGenReed
+     */
     protected WorldGenerator reedGen;
 
-    /** Field that holds WorldGenCactus */
+    /**
+     * Field that holds WorldGenCactus
+     */
     protected WorldGenerator cactusGen;
 
-    /** The water lily generation! */
+    /**
+     * The water lily generation!
+     */
     protected WorldGenerator waterlilyGen;
 
-    /** Amount of waterlilys per chunk. */
+    /**
+     * Amount of waterlilys per chunk.
+     */
     protected int waterlilyPerChunk;
 
     /**
@@ -93,7 +120,9 @@ public class BiomeDecorator
      */
     protected int flowersPerChunk;
 
-    /** The amount of tall grass to generate per chunk. */
+    /**
+     * The amount of tall grass to generate per chunk.
+     */
     protected int grassPerChunk;
 
     /**
@@ -133,10 +162,14 @@ public class BiomeDecorator
      */
     protected int clayPerChunk;
 
-    /** Amount of big mushrooms per chunk */
+    /**
+     * Amount of big mushrooms per chunk
+     */
     protected int bigMushroomsPerChunk;
 
-    /** True if decorator should generate surface lava & water */
+    /**
+     * True if decorator should generate surface lava & water
+     */
     public boolean generateLakes;
     private static final String __OBFID = "CL_00000164";
 
@@ -172,8 +205,7 @@ public class BiomeDecorator
         if (this.currentWorld != null)
         {
             throw new RuntimeException("Already decorating!!");
-        }
-        else
+        } else
         {
             this.currentWorld = p_150512_1_;
             this.randomGenerator = p_150512_2_;
@@ -283,7 +315,6 @@ public class BiomeDecorator
 
             for (var6 = this.randomGenerator.nextInt(this.currentWorld.getHeightValue(var4, var5) * 2); var6 > 0 && this.currentWorld.isAirBlock(var4, var6 - 1, var5); --var6)
             {
-                ;
             }
 
             this.waterlilyGen.generate(this.currentWorld, this.randomGenerator, var4, var6, var5);

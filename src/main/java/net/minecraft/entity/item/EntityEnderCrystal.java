@@ -10,7 +10,9 @@ import net.minecraft.world.WorldProviderEnd;
 
 public class EntityEnderCrystal extends Entity
 {
-    /** Used to create the rotation animation when rendering the crystal. */
+    /**
+     * Used to create the rotation animation when rendering the crystal.
+     */
     public int innerRotation;
     public int health;
     private static final String __OBFID = "CL_00001658";
@@ -68,12 +70,16 @@ public class EntityEnderCrystal extends Entity
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {}
+    protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {}
+    protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     public float getShadowSize()
     {
@@ -96,8 +102,7 @@ public class EntityEnderCrystal extends Entity
         if (this.isEntityInvulnerable())
         {
             return false;
-        }
-        else
+        } else
         {
             if (!this.isDead && !this.worldObj.isClient)
             {
@@ -109,7 +114,7 @@ public class EntityEnderCrystal extends Entity
 
                     if (!this.worldObj.isClient)
                     {
-                        this.worldObj.createExplosion((Entity)null, this.posX, this.posY, this.posZ, 6.0F, true);
+                        this.worldObj.createExplosion(null, this.posX, this.posY, this.posZ, 6.0F, true);
                     }
                 }
             }

@@ -1,6 +1,5 @@
 package net.minecraft.entity.ai;
 
-import java.util.List;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -10,32 +9,43 @@ import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.Vec3;
 
+import java.util.List;
+
 public class EntityAIAvoidEntity extends EntityAIBase
 {
     public final IEntitySelector field_98218_a = new IEntitySelector()
     {
         private static final String __OBFID = "CL_00001575";
+
         public boolean isEntityApplicable(Entity par1Entity)
         {
             return par1Entity.isEntityAlive() && EntityAIAvoidEntity.this.theEntity.getEntitySenses().canSee(par1Entity);
         }
     };
 
-    /** The entity we are attached to */
-    private EntityCreature theEntity;
-    private double farSpeed;
-    private double nearSpeed;
+    /**
+     * The entity we are attached to
+     */
+    private final EntityCreature theEntity;
+    private final double farSpeed;
+    private final double nearSpeed;
     private Entity closestLivingEntity;
-    private float distanceFromEntity;
+    private final float distanceFromEntity;
 
-    /** The PathEntity of our entity */
+    /**
+     * The PathEntity of our entity
+     */
     private PathEntity entityPathEntity;
 
-    /** The PathNavigate of our entity */
-    private PathNavigate entityPathNavigate;
+    /**
+     * The PathNavigate of our entity
+     */
+    private final PathNavigate entityPathNavigate;
 
-    /** The class of the entity we should avoid */
-    private Class targetEntityClass;
+    /**
+     * The class of the entity we should avoid
+     */
+    private final Class targetEntityClass;
     private static final String __OBFID = "CL_00001574";
 
     public EntityAIAvoidEntity(EntityCreature par1EntityCreature, Class par2Class, float par3, double par4, double par6)
@@ -56,28 +66,27 @@ public class EntityAIAvoidEntity extends EntityAIBase
     {
         if (this.targetEntityClass == EntityPlayer.class)
         {
-            if (this.theEntity instanceof EntityTameable && ((EntityTameable)this.theEntity).isTamed())
+            if (this.theEntity instanceof EntityTameable && ((EntityTameable) this.theEntity).isTamed())
             {
                 return false;
             }
 
-            this.closestLivingEntity = this.theEntity.worldObj.getClosestPlayerToEntity(this.theEntity, (double)this.distanceFromEntity);
+            this.closestLivingEntity = this.theEntity.worldObj.getClosestPlayerToEntity(this.theEntity, this.distanceFromEntity);
 
             if (this.closestLivingEntity == null)
             {
                 return false;
             }
-        }
-        else
+        } else
         {
-            List var1 = this.theEntity.worldObj.selectEntitiesWithinAABB(this.targetEntityClass, this.theEntity.boundingBox.expand((double)this.distanceFromEntity, 3.0D, (double)this.distanceFromEntity), this.field_98218_a);
+            List var1 = this.theEntity.worldObj.selectEntitiesWithinAABB(this.targetEntityClass, this.theEntity.boundingBox.expand(this.distanceFromEntity, 3.0D, this.distanceFromEntity), this.field_98218_a);
 
             if (var1.isEmpty())
             {
                 return false;
             }
 
-            this.closestLivingEntity = (Entity)var1.get(0);
+            this.closestLivingEntity = (Entity) var1.get(0);
         }
 
         Vec3 var2 = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.theEntity, 16, 7, this.theEntity.worldObj.getWorldVec3Pool().getVecFromPool(this.closestLivingEntity.posX, this.closestLivingEntity.posY, this.closestLivingEntity.posZ));
@@ -85,15 +94,13 @@ public class EntityAIAvoidEntity extends EntityAIBase
         if (var2 == null)
         {
             return false;
-        }
-        else if (this.closestLivingEntity.getDistanceSq(var2.xCoord, var2.yCoord, var2.zCoord) < this.closestLivingEntity.getDistanceSqToEntity(this.theEntity))
+        } else if (this.closestLivingEntity.getDistanceSq(var2.xCoord, var2.yCoord, var2.zCoord) < this.closestLivingEntity.getDistanceSqToEntity(this.theEntity))
         {
             return false;
-        }
-        else
+        } else
         {
             this.entityPathEntity = this.entityPathNavigate.getPathToXYZ(var2.xCoord, var2.yCoord, var2.zCoord);
-            return this.entityPathEntity == null ? false : this.entityPathEntity.isDestinationSame(var2);
+            return this.entityPathEntity != null && this.entityPathEntity.isDestinationSame(var2);
         }
     }
 
@@ -129,8 +136,7 @@ public class EntityAIAvoidEntity extends EntityAIBase
         if (this.theEntity.getDistanceSqToEntity(this.closestLivingEntity) < 49.0D)
         {
             this.theEntity.getNavigator().setSpeed(this.nearSpeed);
-        }
-        else
+        } else
         {
             this.theEntity.getNavigator().setSpeed(this.farSpeed);
         }

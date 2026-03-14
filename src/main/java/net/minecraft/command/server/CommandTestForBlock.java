@@ -1,13 +1,7 @@
 package net.minecraft.command.server;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.NumberInvalidException;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
@@ -16,6 +10,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class CommandTestForBlock extends CommandBase
 {
@@ -46,16 +43,15 @@ public class CommandTestForBlock extends CommandBase
             int var3 = par1ICommandSender.getPlayerCoordinates().posX;
             int var4 = par1ICommandSender.getPlayerCoordinates().posY;
             int var5 = par1ICommandSender.getPlayerCoordinates().posZ;
-            var3 = MathHelper.floor_double(func_110666_a(par1ICommandSender, (double)var3, par2ArrayOfStr[0]));
-            var4 = MathHelper.floor_double(func_110666_a(par1ICommandSender, (double)var4, par2ArrayOfStr[1]));
-            var5 = MathHelper.floor_double(func_110666_a(par1ICommandSender, (double)var5, par2ArrayOfStr[2]));
+            var3 = MathHelper.floor_double(func_110666_a(par1ICommandSender, var3, par2ArrayOfStr[0]));
+            var4 = MathHelper.floor_double(func_110666_a(par1ICommandSender, var4, par2ArrayOfStr[1]));
+            var5 = MathHelper.floor_double(func_110666_a(par1ICommandSender, var5, par2ArrayOfStr[2]));
             Block var6 = Block.getBlockFromName(par2ArrayOfStr[3]);
 
             if (var6 == null)
             {
-                throw new NumberInvalidException("commands.setblock.notFound", new Object[] {par2ArrayOfStr[3]});
-            }
-            else
+                throw new NumberInvalidException("commands.setblock.notFound", par2ArrayOfStr[3]);
+            } else
             {
                 int var7 = -1;
 
@@ -68,9 +64,8 @@ public class CommandTestForBlock extends CommandBase
 
                 if (!var8.blockExists(var3, var4, var5))
                 {
-                    throw new CommandException("commands.testforblock.outOfWorld", new Object[0]);
-                }
-                else
+                    throw new CommandException("commands.testforblock.outOfWorld");
+                } else
                 {
                     NBTTagCompound var9 = new NBTTagCompound();
                     boolean var10 = false;
@@ -85,15 +80,14 @@ public class CommandTestForBlock extends CommandBase
 
                             if (!(var12 instanceof NBTTagCompound))
                             {
-                                throw new CommandException("commands.setblock.tagError", new Object[] {"Not a valid tag"});
+                                throw new CommandException("commands.setblock.tagError", "Not a valid tag");
                             }
 
-                            var9 = (NBTTagCompound)var12;
+                            var9 = (NBTTagCompound) var12;
                             var10 = true;
-                        }
-                        catch (NBTException var14)
+                        } catch (NBTException var14)
                         {
-                            throw new CommandException("commands.setblock.tagError", new Object[] {var14.getMessage()});
+                            throw new CommandException("commands.setblock.tagError", var14.getMessage());
                         }
                     }
 
@@ -101,9 +95,8 @@ public class CommandTestForBlock extends CommandBase
 
                     if (var15 != var6)
                     {
-                        throw new CommandException("commands.testforblock.failed.tile", new Object[] {Integer.valueOf(var3), Integer.valueOf(var4), Integer.valueOf(var5), var15.getLocalizedName(), var6.getLocalizedName()});
-                    }
-                    else
+                        throw new CommandException("commands.testforblock.failed.tile", Integer.valueOf(var3), Integer.valueOf(var4), Integer.valueOf(var5), var15.getLocalizedName(), var6.getLocalizedName());
+                    } else
                     {
                         if (var7 > -1)
                         {
@@ -111,7 +104,7 @@ public class CommandTestForBlock extends CommandBase
 
                             if (var16 != var7)
                             {
-                                throw new CommandException("commands.testforblock.failed.data", new Object[] {Integer.valueOf(var3), Integer.valueOf(var4), Integer.valueOf(var5), Integer.valueOf(var16), Integer.valueOf(var7)});
+                                throw new CommandException("commands.testforblock.failed.data", Integer.valueOf(var3), Integer.valueOf(var4), Integer.valueOf(var5), Integer.valueOf(var16), Integer.valueOf(var7));
                             }
                         }
 
@@ -121,7 +114,7 @@ public class CommandTestForBlock extends CommandBase
 
                             if (var17 == null)
                             {
-                                throw new CommandException("commands.testforblock.failed.tileEntity", new Object[] {Integer.valueOf(var3), Integer.valueOf(var4), Integer.valueOf(var5)});
+                                throw new CommandException("commands.testforblock.failed.tileEntity", Integer.valueOf(var3), Integer.valueOf(var4), Integer.valueOf(var5));
                             }
 
                             NBTTagCompound var13 = new NBTTagCompound();
@@ -129,18 +122,17 @@ public class CommandTestForBlock extends CommandBase
 
                             if (!this.func_147181_a(var9, var13))
                             {
-                                throw new CommandException("commands.testforblock.failed.nbt", new Object[] {Integer.valueOf(var3), Integer.valueOf(var4), Integer.valueOf(var5)});
+                                throw new CommandException("commands.testforblock.failed.nbt", Integer.valueOf(var3), Integer.valueOf(var4), Integer.valueOf(var5));
                             }
                         }
 
-                        par1ICommandSender.addChatMessage(new ChatComponentTranslation("commands.testforblock.success", new Object[] {Integer.valueOf(var3), Integer.valueOf(var4), Integer.valueOf(var5)}));
+                        par1ICommandSender.addChatMessage(new ChatComponentTranslation("commands.testforblock.success", Integer.valueOf(var3), Integer.valueOf(var4), Integer.valueOf(var5)));
                     }
                 }
             }
-        }
-        else
+        } else
         {
-            throw new WrongUsageException("commands.testforblock.usage", new Object[0]);
+            throw new WrongUsageException("commands.testforblock.usage");
         }
     }
 
@@ -149,23 +141,19 @@ public class CommandTestForBlock extends CommandBase
         if (p_147181_1_ == p_147181_2_)
         {
             return true;
-        }
-        else if (p_147181_1_ == null)
+        } else if (p_147181_1_ == null)
         {
             return true;
-        }
-        else if (p_147181_2_ == null)
+        } else if (p_147181_2_ == null)
         {
             return false;
-        }
-        else if (!p_147181_1_.getClass().equals(p_147181_2_.getClass()))
+        } else if (!p_147181_1_.getClass().equals(p_147181_2_.getClass()))
         {
             return false;
-        }
-        else if (p_147181_1_ instanceof NBTTagCompound)
+        } else if (p_147181_1_ instanceof NBTTagCompound)
         {
-            NBTTagCompound var3 = (NBTTagCompound)p_147181_1_;
-            NBTTagCompound var4 = (NBTTagCompound)p_147181_2_;
+            NBTTagCompound var3 = (NBTTagCompound) p_147181_1_;
+            NBTTagCompound var4 = (NBTTagCompound) p_147181_2_;
             Iterator var5 = var3.func_150296_c().iterator();
             String var6;
             NBTBase var7;
@@ -177,14 +165,13 @@ public class CommandTestForBlock extends CommandBase
                     return true;
                 }
 
-                var6 = (String)var5.next();
+                var6 = (String) var5.next();
                 var7 = var3.getTag(var6);
             }
             while (this.func_147181_a(var7, var4.getTag(var6)));
 
             return false;
-        }
-        else
+        } else
         {
             return p_147181_1_.equals(p_147181_2_);
         }

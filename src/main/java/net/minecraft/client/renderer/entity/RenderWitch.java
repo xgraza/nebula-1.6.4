@@ -22,7 +22,7 @@ public class RenderWitch extends RenderLiving
     public RenderWitch()
     {
         super(new ModelWitch(0.0F), 0.5F);
-        this.witchModel = (ModelWitch)this.mainModel;
+        this.witchModel = (ModelWitch) this.mainModel;
     }
 
     /**
@@ -35,7 +35,7 @@ public class RenderWitch extends RenderLiving
     {
         ItemStack var10 = par1EntityWitch.getHeldItem();
         this.witchModel.field_82900_g = var10 != null;
-        super.doRender((EntityLiving)par1EntityWitch, par2, par4, par6, par8, par9);
+        super.doRender(par1EntityWitch, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -76,8 +76,7 @@ public class RenderWitch extends RenderLiving
                 GL11.glRotatef(20.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
                 GL11.glScalef(var4, -var4, var4);
-            }
-            else if (var3.getItem() == Items.bow)
+            } else if (var3.getItem() == Items.bow)
             {
                 var4 = 0.625F;
                 GL11.glTranslatef(0.0F, 0.125F, 0.3125F);
@@ -85,8 +84,7 @@ public class RenderWitch extends RenderLiving
                 GL11.glScalef(var4, -var4, var4);
                 GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            }
-            else if (var3.getItem().isFull3D())
+            } else if (var3.getItem().isFull3D())
             {
                 var4 = 0.625F;
 
@@ -100,8 +98,7 @@ public class RenderWitch extends RenderLiving
                 GL11.glScalef(var4, -var4, var4);
                 GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            }
-            else
+            } else
             {
                 var4 = 0.375F;
                 GL11.glTranslatef(0.25F, 0.1875F, -0.1875F);
@@ -147,7 +144,7 @@ public class RenderWitch extends RenderLiving
      */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityWitch)par1EntityLiving, par2, par4, par6, par8, par9);
+        this.doRender((EntityWitch) par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -156,12 +153,12 @@ public class RenderWitch extends RenderLiving
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntityWitch)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntityWitch) par1EntityLivingBase, par2);
     }
 
     protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.renderEquippedItems((EntityWitch)par1EntityLivingBase, par2);
+        this.renderEquippedItems((EntityWitch) par1EntityLivingBase, par2);
     }
 
     /**
@@ -172,7 +169,7 @@ public class RenderWitch extends RenderLiving
      */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityWitch)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityWitch) par1Entity, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -180,7 +177,7 @@ public class RenderWitch extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityWitch)par1Entity);
+        return this.getEntityTexture((EntityWitch) par1Entity);
     }
 
     /**
@@ -191,6 +188,6 @@ public class RenderWitch extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityWitch)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityWitch) par1Entity, par2, par4, par6, par8, par9);
     }
 }

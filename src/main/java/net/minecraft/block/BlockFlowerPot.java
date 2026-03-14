@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -11,6 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockFlowerPot extends BlockContainer
 {
@@ -62,8 +63,7 @@ public class BlockFlowerPot extends BlockContainer
             if (p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_) != 0)
             {
                 return false;
-            }
-            else
+            } else
             {
                 TileEntityFlowerPot var11 = this.func_149929_e(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
 
@@ -74,8 +74,7 @@ public class BlockFlowerPot extends BlockContainer
                     if (!this.func_149928_a(var12, var10.getItemDamage()))
                     {
                         return false;
-                    }
-                    else
+                    } else
                     {
                         var11.func_145964_a(var10.getItem(), var10.getItemDamage());
                         var11.onInventoryChanged();
@@ -87,19 +86,17 @@ public class BlockFlowerPot extends BlockContainer
 
                         if (!p_149727_5_.capabilities.isCreativeMode && --var10.stackSize <= 0)
                         {
-                            p_149727_5_.inventory.setInventorySlotContents(p_149727_5_.inventory.currentItem, (ItemStack)null);
+                            p_149727_5_.inventory.setInventorySlotContents(p_149727_5_.inventory.currentItem, null);
                         }
 
                         return true;
                     }
-                }
-                else
+                } else
                 {
                     return false;
                 }
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -107,7 +104,7 @@ public class BlockFlowerPot extends BlockContainer
 
     private boolean func_149928_a(Block p_149928_1_, int p_149928_2_)
     {
-        return p_149928_1_ != Blocks.yellow_flower && p_149928_1_ != Blocks.red_flower && p_149928_1_ != Blocks.cactus && p_149928_1_ != Blocks.brown_mushroom && p_149928_1_ != Blocks.red_mushroom && p_149928_1_ != Blocks.sapling && p_149928_1_ != Blocks.deadbush ? p_149928_1_ == Blocks.tallgrass && p_149928_2_ == 2 : true;
+        return p_149928_1_ == Blocks.yellow_flower || p_149928_1_ == Blocks.red_flower || p_149928_1_ == Blocks.cactus || p_149928_1_ == Blocks.brown_mushroom || p_149928_1_ == Blocks.red_mushroom || p_149928_1_ == Blocks.sapling || p_149928_1_ == Blocks.deadbush || p_149928_1_ == Blocks.tallgrass && p_149928_2_ == 2;
     }
 
     /**
@@ -202,7 +199,7 @@ public class BlockFlowerPot extends BlockContainer
     private TileEntityFlowerPot func_149929_e(World p_149929_1_, int p_149929_2_, int p_149929_3_, int p_149929_4_)
     {
         TileEntity var5 = p_149929_1_.getTileEntity(p_149929_2_, p_149929_3_, p_149929_4_);
-        return var5 != null && var5 instanceof TileEntityFlowerPot ? (TileEntityFlowerPot)var5 : null;
+        return var5 != null && var5 instanceof TileEntityFlowerPot ? (TileEntityFlowerPot) var5 : null;
     }
 
     /**
@@ -275,6 +272,6 @@ public class BlockFlowerPot extends BlockContainer
                 var4 = 5;
         }
 
-        return new TileEntityFlowerPot(Item.getItemFromBlock((Block)var3), var4);
+        return new TileEntityFlowerPot(Item.getItemFromBlock((Block) var3), var4);
     }
 }

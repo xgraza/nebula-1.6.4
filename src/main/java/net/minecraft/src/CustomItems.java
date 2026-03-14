@@ -1,22 +1,5 @@
 package net.minecraft.src;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.AbstractResourcePack;
 import net.minecraft.client.resources.DefaultResourcePack;
@@ -30,14 +13,22 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 public class CustomItems
 {
-    private static CustomItemProperties[][] itemProperties = (CustomItemProperties[][])null;
+    private static CustomItemProperties[][] itemProperties = null;
     private static Map mapPotionIds = null;
 
     public static void updateIcons(TextureMap textureMap)
     {
-        itemProperties = (CustomItemProperties[][])null;
+        itemProperties = null;
 
         if (Config.isCustomItems())
         {
@@ -61,8 +52,8 @@ public class CustomItems
         if (mapAutoProperties.size() > 0)
         {
             Set itemList = mapAutoProperties.keySet();
-            String[] i = (String[])((String[])itemList.toArray(new String[itemList.size()]));
-            names = (String[])((String[])Config.addObjectsToArray(names, i));
+            String[] i = (String[]) itemList.toArray(new String[itemList.size()]);
+            names = (String[]) Config.addObjectsToArray(names, i);
         }
 
         Arrays.sort(names);
@@ -79,7 +70,7 @@ public class CustomItems
 
                 if (mapAutoProperties.containsKey(name))
                 {
-                    e = (CustomItemProperties)mapAutoProperties.get(name);
+                    e = (CustomItemProperties) mapAutoProperties.get(name);
                 }
 
                 if (e == null)
@@ -103,12 +94,10 @@ public class CustomItems
                     e.updateIcons(textureMap);
                     addToItemList(e, var13);
                 }
-            }
-            catch (FileNotFoundException var11)
+            } catch (FileNotFoundException var11)
             {
                 Config.warn("CustomItems file not found: " + name);
-            }
-            catch (IOException var12)
+            } catch (IOException var12)
             {
                 var12.printStackTrace();
             }
@@ -133,8 +122,7 @@ public class CustomItems
         if (splash)
         {
             prefix = prefix + "splash/";
-        }
-        else
+        } else
         {
             prefix = prefix + "normal/";
         }
@@ -157,8 +145,7 @@ public class CustomItems
                     CustomItemProperties cip = new CustomItemProperties(props, pathProp);
                     map.put(pathProp, cip);
                 }
-            }
-            else
+            } else
             {
                 Config.warn("Invalid potion name: " + path);
             }
@@ -178,18 +165,16 @@ public class CustomItems
             var8.put("type", "item");
             var8.put("items", "" + potionItemId);
             return var8;
-        }
-        else
+        } else
         {
             potionItemId = Item.getIdFromItem(Items.potionitem);
-            int[] damages = (int[])((int[])getMapPotionIds().get(name));
+            int[] damages = (int[]) getMapPotionIds().get(name);
 
             if (damages == null)
             {
                 Config.warn("Potion not found for image: " + path);
                 return null;
-            }
-            else
+            } else
             {
                 StringBuffer bufDamage = new StringBuffer();
 
@@ -214,7 +199,7 @@ public class CustomItems
                 Properties var10 = new Properties();
                 var10.put("type", "item");
                 var10.put("items", "" + potionItemId);
-                var10.put("damage", "" + bufDamage.toString());
+                var10.put("damage", String.valueOf(bufDamage));
                 var10.put("damageMask", "" + var9);
                 return var10;
             }
@@ -226,10 +211,10 @@ public class CustomItems
         if (mapPotionIds == null)
         {
             mapPotionIds = new LinkedHashMap();
-            mapPotionIds.put("water", new int[] {0});
-            mapPotionIds.put("awkward", new int[] {16});
-            mapPotionIds.put("thick", new int[] {32});
-            mapPotionIds.put("potent", new int[] {48});
+            mapPotionIds.put("water", new int[]{ 0 });
+            mapPotionIds.put("awkward", new int[]{ 16 });
+            mapPotionIds.put("thick", new int[]{ 32 });
+            mapPotionIds.put("potent", new int[]{ 48 });
             mapPotionIds.put("regeneration", getPotionIds(1));
             mapPotionIds.put("moveSpeed", getPotionIds(2));
             mapPotionIds.put("fireResistance", getPotionIds(3));
@@ -261,7 +246,7 @@ public class CustomItems
 
     private static int[] getPotionIds(int baseId)
     {
-        return new int[] {baseId, baseId + 16, baseId + 32, baseId + 48};
+        return new int[]{ baseId, baseId + 16, baseId + 32, baseId + 48 };
     }
 
     private static int getPotionNameDamage(String name)
@@ -315,14 +300,12 @@ public class CustomItems
         if (rp instanceof DefaultResourcePack)
         {
             return collectFilesDefault(rp);
-        }
-        else if (!(rp instanceof AbstractResourcePack))
+        } else if (!(rp instanceof AbstractResourcePack))
         {
             return new String[0];
-        }
-        else
+        } else
         {
-            AbstractResourcePack arp = (AbstractResourcePack)rp;
+            AbstractResourcePack arp = (AbstractResourcePack) rp;
             File tpFile = arp.resourcePackFile;
             return tpFile == null ? new String[0] : (tpFile.isDirectory() ? collectFilesFolder(tpFile, "", prefix, suffix) : (tpFile.isFile() ? collectFilesZIP(tpFile, prefix, suffix) : new String[0]));
         }
@@ -342,8 +325,7 @@ public class CustomItems
         if (files == null)
         {
             return new String[0];
-        }
-        else
+        } else
         {
             for (int names = 0; names < files.length; ++names)
             {
@@ -363,21 +345,16 @@ public class CustomItems
                             list.add(dirPath);
                         }
                     }
-                }
-                else if (file.isDirectory())
+                } else if (file.isDirectory())
                 {
                     dirPath = basePath + file.getName() + "/";
                     String[] names1 = collectFilesFolder(file, dirPath, prefix, suffix);
 
-                    for (int n = 0; n < names1.length; ++n)
-                    {
-                        String name = names1[n];
-                        list.add(name);
-                    }
+                    Collections.addAll(list, names1);
                 }
             }
 
-            String[] var13 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] var13 = (String[]) list.toArray(new String[list.size()]);
             return var13;
         }
     }
@@ -394,7 +371,7 @@ public class CustomItems
 
             while (en.hasMoreElements())
             {
-                ZipEntry names = (ZipEntry)en.nextElement();
+                ZipEntry names = (ZipEntry) en.nextElement();
                 String name = names.getName();
 
                 if (name.startsWith(prefixAssets))
@@ -409,10 +386,9 @@ public class CustomItems
             }
 
             e.close();
-            String[] names1 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] names1 = (String[]) list.toArray(new String[list.size()]);
             return names1;
-        }
-        catch (IOException var9)
+        } catch (IOException var9)
         {
             var9.printStackTrace();
             return new String[0];
@@ -425,11 +401,11 @@ public class CustomItems
 
         for (int i = 0; i < list.size(); ++i)
         {
-            List subList = (List)list.get(i);
+            List subList = (List) list.get(i);
 
             if (subList != null)
             {
-                CustomItemProperties[] subArr = (CustomItemProperties[])((CustomItemProperties[])subList.toArray(new CustomItemProperties[subList.size()]));
+                CustomItemProperties[] subArr = (CustomItemProperties[]) subList.toArray(new CustomItemProperties[subList.size()]);
                 Arrays.sort(subArr, new CustomItemsComparator());
                 propArr[i] = subArr;
             }
@@ -449,8 +425,7 @@ public class CustomItems
                 if (itemId <= 0)
                 {
                     Config.warn("Invalid item ID: " + itemId);
-                }
-                else
+                } else
                 {
                     addToList(cp, itemList, itemId);
                 }
@@ -462,10 +437,10 @@ public class CustomItems
     {
         while (id >= list.size())
         {
-            list.add((Object)null);
+            list.add(null);
         }
 
-        Object subList = (List)list.get(id);
+        Object subList = list.get(id);
 
         if (subList == null)
         {
@@ -473,7 +448,7 @@ public class CustomItems
             list.set(id, subList);
         }
 
-        ((List)subList).add(cp);
+        ((List) subList).add(cp);
     }
 
     public static IIcon getCustomItemTexture(ItemStack itemStack, IIcon icon)
@@ -481,12 +456,10 @@ public class CustomItems
         if (itemProperties == null)
         {
             return icon;
-        }
-        else if (itemStack == null)
+        } else if (itemStack == null)
         {
             return icon;
-        }
-        else
+        } else
         {
             Item item = itemStack.getItem();
             int itemId = Item.getIdFromItem(item);
@@ -519,8 +492,7 @@ public class CustomItems
         if (itemProperties == null)
         {
             return null;
-        }
-        else
+        } else
         {
             int itemId = Item.getIdFromItem(item);
 
@@ -582,7 +554,7 @@ public class CustomItems
 
             if (cip.damagePercent)
             {
-                levels = (int)((double)(levels * 100) / (double)levelMatch);
+                levels = (int) ((double) (levels * 100) / (double) levelMatch);
             }
 
             if (!cip.damage.isInRange(levels))
@@ -594,8 +566,7 @@ public class CustomItems
         if (cip.stackSize != null && !cip.stackSize.isInRange(itemStack.stackSize))
         {
             return null;
-        }
-        else
+        } else
         {
             int i;
             int level;
@@ -648,7 +619,6 @@ public class CustomItems
 
             if (cip.nbtTagValues != null)
             {
-                ;
             }
 
             return cip.textureIcon;
@@ -664,7 +634,7 @@ public class CustomItems
 
         for (Iterator it = keySet.iterator(); it.hasNext(); ++index)
         {
-            Integer id = (Integer)it.next();
+            Integer id = (Integer) it.next();
             ids[index] = id.intValue();
         }
 
@@ -680,7 +650,7 @@ public class CustomItems
 
         for (Iterator it = values.iterator(); it.hasNext(); ++index)
         {
-            Integer level = (Integer)it.next();
+            Integer level = (Integer) it.next();
             levels[index] = level.intValue();
         }
 

@@ -27,26 +27,24 @@ public class GenLayerSmooth extends GenLayer
         {
             for (int var12 = 0; var12 < par3; ++var12)
             {
-                int var13 = var9[var12 + 0 + (var11 + 1) * var7];
+                int var13 = var9[var12 + (var11 + 1) * var7];
                 int var14 = var9[var12 + 2 + (var11 + 1) * var7];
-                int var15 = var9[var12 + 1 + (var11 + 0) * var7];
+                int var15 = var9[var12 + 1 + (var11) * var7];
                 int var16 = var9[var12 + 1 + (var11 + 2) * var7];
                 int var17 = var9[var12 + 1 + (var11 + 1) * var7];
 
                 if (var13 == var14 && var15 == var16)
                 {
-                    this.initChunkSeed((long)(var12 + par1), (long)(var11 + par2));
+                    this.initChunkSeed(var12 + par1, var11 + par2);
 
                     if (this.nextInt(2) == 0)
                     {
                         var17 = var13;
-                    }
-                    else
+                    } else
                     {
                         var17 = var15;
                     }
-                }
-                else
+                } else
                 {
                     if (var13 == var14)
                     {

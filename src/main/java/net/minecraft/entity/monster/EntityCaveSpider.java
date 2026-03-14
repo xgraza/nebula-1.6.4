@@ -36,21 +36,19 @@ public class EntityCaveSpider extends EntitySpider
                 if (this.worldObj.difficultySetting == EnumDifficulty.NORMAL)
                 {
                     var2 = 7;
-                }
-                else if (this.worldObj.difficultySetting == EnumDifficulty.HARD)
+                } else if (this.worldObj.difficultySetting == EnumDifficulty.HARD)
                 {
                     var2 = 15;
                 }
 
                 if (var2 > 0)
                 {
-                    ((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.poison.id, var2 * 20, 0));
+                    ((EntityLivingBase) par1Entity).addPotionEffect(new PotionEffect(Potion.poison.id, var2 * 20, 0));
                 }
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

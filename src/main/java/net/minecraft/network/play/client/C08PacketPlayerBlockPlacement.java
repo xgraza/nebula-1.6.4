@@ -1,11 +1,12 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C08PacketPlayerBlockPlacement extends Packet
 {
@@ -19,9 +20,12 @@ public class C08PacketPlayerBlockPlacement extends Packet
     private float faceZ;
     private static final String __OBFID = "CL_00001371";
 
-    public C08PacketPlayerBlockPlacement() {}
+    public C08PacketPlayerBlockPlacement()
+    {
+    }
 
-    public C08PacketPlayerBlockPlacement(final ItemStack itemStack) {
+    public C08PacketPlayerBlockPlacement(final ItemStack itemStack)
+    {
         this(-1, -1, -1, 255, itemStack, 0.0f, 0.0f, 0.0f);
     }
 
@@ -47,9 +51,9 @@ public class C08PacketPlayerBlockPlacement extends Packet
         this.posZ = p_148837_1_.readInt();
         this.side = p_148837_1_.readUnsignedByte();
         this.stack = p_148837_1_.readItemStackFromBuffer();
-        this.faceX = (float)p_148837_1_.readUnsignedByte() / 16.0F;
-        this.faceY = (float)p_148837_1_.readUnsignedByte() / 16.0F;
-        this.faceZ = (float)p_148837_1_.readUnsignedByte() / 16.0F;
+        this.faceX = (float) p_148837_1_.readUnsignedByte() / 16.0F;
+        this.faceY = (float) p_148837_1_.readUnsignedByte() / 16.0F;
+        this.faceZ = (float) p_148837_1_.readUnsignedByte() / 16.0F;
     }
 
     /**
@@ -62,9 +66,9 @@ public class C08PacketPlayerBlockPlacement extends Packet
         p_148840_1_.writeInt(this.posZ);
         p_148840_1_.writeByte(this.side);
         p_148840_1_.writeItemStackToBuffer(this.stack);
-        p_148840_1_.writeByte((int)(this.faceX * 16.0F));
-        p_148840_1_.writeByte((int)(this.faceY * 16.0F));
-        p_148840_1_.writeByte((int)(this.faceZ * 16.0F));
+        p_148840_1_.writeByte((int) (this.faceX * 16.0F));
+        p_148840_1_.writeByte((int) (this.faceY * 16.0F));
+        p_148840_1_.writeByte((int) (this.faceZ * 16.0F));
     }
 
     public void processPacket(INetHandlerPlayServer p_149572_1_)
@@ -114,6 +118,6 @@ public class C08PacketPlayerBlockPlacement extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

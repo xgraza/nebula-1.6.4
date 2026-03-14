@@ -1,9 +1,5 @@
 package net.minecraft.world;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -12,14 +8,23 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.LongHashMap;
 import net.minecraft.util.MathHelper;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
 public class Teleporter
 {
     private final WorldServer worldServerInstance;
 
-    /** A private Random() function in Teleporter */
+    /**
+     * A private Random() function in Teleporter
+     */
     private final Random random;
 
-    /** Stores successful portal placement locations for rapid lookup. */
+    /**
+     * Stores successful portal placement locations for rapid lookup.
+     */
     private final LongHashMap destinationCoordinateCache = new LongHashMap();
 
     /**
@@ -47,8 +52,7 @@ public class Teleporter
                 this.makePortal(par1Entity);
                 this.placeInExistingPortal(par1Entity, par2, par4, par6, par8);
             }
-        }
-        else
+        } else
         {
             int var9 = MathHelper.floor_double(par1Entity.posX);
             int var10 = MathHelper.floor_double(par1Entity.posY) - 1;
@@ -71,7 +75,7 @@ public class Teleporter
                 }
             }
 
-            par1Entity.setLocationAndAngles((double)var9, (double)var10, (double)var11, par1Entity.rotationYaw, 0.0F);
+            par1Entity.setLocationAndAngles(var9, var10, var11, par1Entity.rotationYaw, 0.0F);
             par1Entity.motionX = par1Entity.motionY = par1Entity.motionZ = 0.0D;
         }
     }
@@ -95,23 +99,22 @@ public class Teleporter
 
         if (this.destinationCoordinateCache.containsItem(var17))
         {
-            Teleporter.PortalPosition var20 = (Teleporter.PortalPosition)this.destinationCoordinateCache.getValueByKey(var17);
+            Teleporter.PortalPosition var20 = (Teleporter.PortalPosition) this.destinationCoordinateCache.getValueByKey(var17);
             var10 = 0.0D;
             var12 = var20.posX;
             var13 = var20.posY;
             var14 = var20.posZ;
             var20.lastUpdateTime = this.worldServerInstance.getTotalWorldTime();
             var19 = false;
-        }
-        else
+        } else
         {
             for (var48 = var15 - var9; var48 <= var15 + var9; ++var48)
             {
-                double var21 = (double)var48 + 0.5D - par1Entity.posX;
+                double var21 = (double) var48 + 0.5D - par1Entity.posX;
 
                 for (int var23 = var16 - var9; var23 <= var16 + var9; ++var23)
                 {
-                    double var24 = (double)var23 + 0.5D - par1Entity.posZ;
+                    double var24 = (double) var23 + 0.5D - par1Entity.posZ;
 
                     for (int var26 = this.worldServerInstance.getActualHeight() - 1; var26 >= 0; --var26)
                     {
@@ -122,7 +125,7 @@ public class Teleporter
                                 --var26;
                             }
 
-                            var27 = (double)var26 + 0.5D - par1Entity.posY;
+                            var27 = (double) var26 + 0.5D - par1Entity.posY;
                             double var29 = var21 * var21 + var27 * var27 + var24 * var24;
 
                             if (var10 < 0.0D || var29 < var10)
@@ -146,9 +149,9 @@ public class Teleporter
                 this.destinationCoordinateKeys.add(Long.valueOf(var17));
             }
 
-            double var49 = (double)var12 + 0.5D;
-            double var25 = (double)var13 + 0.5D;
-            var27 = (double)var14 + 0.5D;
+            double var49 = (double) var12 + 0.5D;
+            double var25 = (double) var13 + 0.5D;
+            var27 = (double) var14 + 0.5D;
             int var50 = -1;
 
             if (this.worldServerInstance.getBlock(var12 - 1, var13, var14) == Blocks.portal)
@@ -192,9 +195,9 @@ public class Teleporter
                     var34 = Direction.offsetX[var31];
                     var35 = Direction.offsetZ[var31];
                     var48 = var12 - var34;
-                    var49 -= (double)var34;
+                    var49 -= var34;
                     int var22 = var14 - var35;
-                    var27 -= (double)var35;
+                    var27 -= var35;
                     var36 = !this.worldServerInstance.isAirBlock(var48 + var32 + var34, var13, var22 + var33 + var35) || !this.worldServerInstance.isAirBlock(var48 + var32 + var34, var13 + 1, var22 + var33 + var35);
                     var37 = !this.worldServerInstance.isAirBlock(var48 + var32, var13, var22 + var33) || !this.worldServerInstance.isAirBlock(var48 + var32, var13 + 1, var22 + var33);
                 }
@@ -205,18 +208,16 @@ public class Teleporter
                 if (!var36 && var37)
                 {
                     var38 = 1.0F;
-                }
-                else if (var36 && !var37)
+                } else if (var36 && !var37)
                 {
                     var38 = 0.0F;
-                }
-                else if (var36 && var37)
+                } else if (var36 && var37)
                 {
                     var39 = 0.0F;
                 }
 
-                var49 += (double)((float)var34 * var38 + var39 * (float)var32);
-                var27 += (double)((float)var35 * var38 + var39 * (float)var33);
+                var49 += (float) var34 * var38 + var39 * (float) var32;
+                var27 += (float) var35 * var38 + var39 * (float) var33;
                 float var40 = 0.0F;
                 float var41 = 0.0F;
                 float var42 = 0.0F;
@@ -226,18 +227,15 @@ public class Teleporter
                 {
                     var40 = 1.0F;
                     var41 = 1.0F;
-                }
-                else if (var50 == Direction.rotateOpposite[var30])
+                } else if (var50 == Direction.rotateOpposite[var30])
                 {
                     var40 = -1.0F;
                     var41 = -1.0F;
-                }
-                else if (var50 == Direction.rotateRight[var30])
+                } else if (var50 == Direction.rotateRight[var30])
                 {
                     var42 = 1.0F;
                     var43 = -1.0F;
-                }
-                else
+                } else
                 {
                     var42 = -1.0F;
                     var43 = 1.0F;
@@ -245,19 +243,17 @@ public class Teleporter
 
                 double var44 = par1Entity.motionX;
                 double var46 = par1Entity.motionZ;
-                par1Entity.motionX = var44 * (double)var40 + var46 * (double)var43;
-                par1Entity.motionZ = var44 * (double)var42 + var46 * (double)var41;
-                par1Entity.rotationYaw = par8 - (float)(var30 * 90) + (float)(var50 * 90);
-            }
-            else
+                par1Entity.motionX = var44 * (double) var40 + var46 * (double) var43;
+                par1Entity.motionZ = var44 * (double) var42 + var46 * (double) var41;
+                par1Entity.rotationYaw = par8 - (float) (var30 * 90) + (float) (var50 * 90);
+            } else
             {
                 par1Entity.motionX = par1Entity.motionY = par1Entity.motionZ = 0.0D;
             }
 
             par1Entity.setLocationAndAngles(var49, var25, var27, par1Entity.rotationYaw, par1Entity.rotationPitch);
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -293,11 +289,11 @@ public class Teleporter
 
         for (var13 = var5 - var2; var13 <= var5 + var2; ++var13)
         {
-            var14 = (double)var13 + 0.5D - par1Entity.posX;
+            var14 = (double) var13 + 0.5D - par1Entity.posX;
 
             for (var16 = var7 - var2; var16 <= var7 + var2; ++var16)
             {
-                var17 = (double)var16 + 0.5D - par1Entity.posZ;
+                var17 = (double) var16 + 0.5D - par1Entity.posZ;
                 label274:
 
                 for (var19 = this.worldServerInstance.getActualHeight() - 1; var19 >= 0; --var19)
@@ -338,7 +334,7 @@ public class Teleporter
                                 }
                             }
 
-                            var31 = (double)var19 + 0.5D - par1Entity.posY;
+                            var31 = (double) var19 + 0.5D - par1Entity.posY;
                             var32 = var14 * var14 + var31 * var31 + var17 * var17;
 
                             if (var3 < 0.0D || var32 < var3)
@@ -359,11 +355,11 @@ public class Teleporter
         {
             for (var13 = var5 - var2; var13 <= var5 + var2; ++var13)
             {
-                var14 = (double)var13 + 0.5D - par1Entity.posX;
+                var14 = (double) var13 + 0.5D - par1Entity.posX;
 
                 for (var16 = var7 - var2; var16 <= var7 + var2; ++var16)
                 {
-                    var17 = (double)var16 + 0.5D - par1Entity.posZ;
+                    var17 = (double) var16 + 0.5D - par1Entity.posZ;
                     label222:
 
                     for (var19 = this.worldServerInstance.getActualHeight() - 1; var19 >= 0; --var19)
@@ -395,7 +391,7 @@ public class Teleporter
                                     }
                                 }
 
-                                var31 = (double)var19 + 0.5D - par1Entity.posY;
+                                var31 = (double) var19 + 0.5D - par1Entity.posY;
                                 var32 = var14 * var14 + var31 * var31 + var17 * var17;
 
                                 if (var3 < 0.0D || var32 < var3)
@@ -467,7 +463,7 @@ public class Teleporter
                     var23 = var15 + var21;
                     var24 = var16 + (var20 - 1) * var18;
                     var33 = var20 == 0 || var20 == 3 || var21 == -1 || var21 == 3;
-                    this.worldServerInstance.setBlock(var22, var23, var24, (Block)(var33 ? Blocks.obsidian : Blocks.portal), 0, 2);
+                    this.worldServerInstance.setBlock(var22, var23, var24, var33 ? Blocks.obsidian : Blocks.portal, 0, 2);
                 }
             }
 
@@ -499,8 +495,8 @@ public class Teleporter
 
             while (var3.hasNext())
             {
-                Long var6 = (Long)var3.next();
-                Teleporter.PortalPosition var7 = (Teleporter.PortalPosition)this.destinationCoordinateCache.getValueByKey(var6.longValue());
+                Long var6 = (Long) var3.next();
+                Teleporter.PortalPosition var7 = (Teleporter.PortalPosition) this.destinationCoordinateCache.getValueByKey(var6.longValue());
 
                 if (var7 == null || var7.lastUpdateTime < var4)
                 {

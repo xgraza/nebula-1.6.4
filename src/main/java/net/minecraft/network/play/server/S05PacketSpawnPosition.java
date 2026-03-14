@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S05PacketSpawnPosition extends Packet
 {
@@ -13,7 +14,9 @@ public class S05PacketSpawnPosition extends Packet
     private int field_149363_c;
     private static final String __OBFID = "CL_00001336";
 
-    public S05PacketSpawnPosition() {}
+    public S05PacketSpawnPosition()
+    {
+    }
 
     public S05PacketSpawnPosition(int p_i45229_1_, int p_i45229_2_, int p_i45229_3_)
     {
@@ -61,7 +64,7 @@ public class S05PacketSpawnPosition extends Packet
      */
     public String serialize()
     {
-        return String.format("x=%d, y=%d, z=%d", new Object[] {Integer.valueOf(this.field_149364_a), Integer.valueOf(this.field_149362_b), Integer.valueOf(this.field_149363_c)});
+        return String.format("x=%d, y=%d, z=%d", Integer.valueOf(this.field_149364_a), Integer.valueOf(this.field_149362_b), Integer.valueOf(this.field_149363_c));
     }
 
     public int func_149360_c()
@@ -81,6 +84,6 @@ public class S05PacketSpawnPosition extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

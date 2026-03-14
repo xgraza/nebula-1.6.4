@@ -36,15 +36,15 @@ public class CustomColorizer
     private static int[] foliageBirchColors = null;
     private static int[] swampFoliageColors = null;
     private static int[] swampGrassColors = null;
-    private static int[][] blockPalettes = (int[][]) null;
-    private static int[][] paletteColors = (int[][]) null;
+    private static int[][] blockPalettes = null;
+    private static int[][] paletteColors = null;
     private static int[] skyColors = null;
     private static int[] fogColors = null;
     private static int[] underwaterColors = null;
-    private static float[][][] lightMapsColorsRgb = (float[][][]) null;
+    private static float[][][] lightMapsColorsRgb = null;
     private static int[] lightMapsHeight = null;
-    private static float[][] sunRgbs = new float[16][3];
-    private static float[][] torchRgbs = new float[16][3];
+    private static final float[][] sunRgbs = new float[16][3];
+    private static final float[][] torchRgbs = new float[16][3];
     private static int[] redstoneColors = null;
     private static int[] stemColors = null;
     private static int[] myceliumParticleColors = null;
@@ -59,7 +59,7 @@ public class CustomColorizer
     private static final int TYPE_NONE = 0;
     private static final int TYPE_GRASS = 1;
     private static final int TYPE_FOLIAGE = 2;
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static void update()
     {
@@ -76,7 +76,7 @@ public class CustomColorizer
         redstoneColors = null;
         stemColors = null;
         myceliumParticleColors = null;
-        lightMapsColorsRgb = (float[][][]) null;
+        lightMapsColorsRgb = null;
         lightMapsHeight = null;
         lilyPadColor = -1;
         particleWaterColor = -1;
@@ -85,8 +85,8 @@ public class CustomColorizer
         fogColorEnd = null;
         skyColorEnd = null;
         textColors = null;
-        blockPalettes = (int[][]) null;
-        paletteColors = (int[][]) null;
+        blockPalettes = null;
+        paletteColors = null;
         useDefaultColorMultiplier = true;
         String mcpColormap = "mcpatcher/colormap/";
         grassColors = getCustomColors("textures/colormap/grass.png", 65536);
@@ -202,7 +202,6 @@ public class CustomColorizer
             readCustomPalettes(props, fileName);
         } catch (FileNotFoundException var4)
         {
-            return;
         } catch (IOException var5)
         {
             var5.printStackTrace();
@@ -235,7 +234,7 @@ public class CustomColorizer
             }
         }
 
-        String[] var19 = (String[]) ((String[]) map.keySet().toArray(new String[map.size()]));
+        String[] var19 = (String[]) map.keySet().toArray(new String[map.size()]);
         paletteColors = new int[var19.length][];
 
         for (int var20 = 0; var20 < var19.length; ++var20)
@@ -350,7 +349,7 @@ public class CustomColorizer
             float redF = (float) red / 255.0F;
             float greenF = (float) green / 255.0F;
             float blueF = (float) blue / 255.0F;
-            return Vec3.createVectorHelper((double) redF, (double) greenF, (double) blueF);
+            return Vec3.createVectorHelper(redF, greenF, blueF);
         }
     }
 
@@ -601,14 +600,14 @@ public class CustomColorizer
 
     public static int getFluidColor(Block block, IBlockAccess blockAccess, int x, int y, int z)
     {
-        return block.getMaterial() != Material.water ? block.colorMultiplier(blockAccess, x, y, z) : (waterColors != null ? (Config.isSmoothBiomes() ? getSmoothColor(waterColors, blockAccess, (double) x, (double) y, (double) z, 3, 1) : getCustomColor(waterColors, blockAccess, x, y, z)) : (!Config.isSwampColors() ? 16777215 : block.colorMultiplier(blockAccess, x, y, z)));
+        return block.getMaterial() != Material.water ? block.colorMultiplier(blockAccess, x, y, z) : (waterColors != null ? (Config.isSmoothBiomes() ? getSmoothColor(waterColors, blockAccess, x, y, z, 3, 1) : getCustomColor(waterColors, blockAccess, x, y, z)) : (!Config.isSwampColors() ? 16777215 : block.colorMultiplier(blockAccess, x, y, z)));
     }
 
     private static int getCustomColor(int[] colors, IBlockAccess blockAccess, int x, int y, int z)
     {
         BiomeGenBase bgb = blockAccess.getBiomeGenForCoords(x, z);
-        double temperature = (double) MathHelper.clamp_float(bgb.getFloatTemperature(x, y, z), 0.0F, 1.0F);
-        double rainfall = (double) MathHelper.clamp_float(bgb.getFloatRainfall(), 0.0F, 1.0F);
+        double temperature = MathHelper.clamp_float(bgb.getFloatTemperature(x, y, z), 0.0F, 1.0F);
+        double rainfall = MathHelper.clamp_float(bgb.getFloatRainfall(), 0.0F, 1.0F);
         rainfall *= temperature;
         int cx = (int) ((1.0D - temperature) * 255.0D);
         int cy = (int) ((1.0D - rainfall) * 255.0D);
@@ -739,7 +738,7 @@ public class CustomColorizer
             redF *= cRed;
             greenF *= cGreen;
             blueF *= cBlue;
-            return Vec3.createVectorHelper((double) redF, (double) greenF, (double) blueF);
+            return Vec3.createVectorHelper(redF, greenF, blueF);
         }
     }
 
@@ -763,7 +762,7 @@ public class CustomColorizer
             redF *= cRed;
             greenF *= cGreen;
             blueF *= cBlue;
-            return Vec3.createVectorHelper((double) redF, (double) greenF, (double) blueF);
+            return Vec3.createVectorHelper(redF, greenF, blueF);
         }
     }
 
@@ -856,7 +855,7 @@ public class CustomColorizer
             float redF = (float) red / 255.0F;
             float greenF = (float) green / 255.0F;
             float blueF = (float) blue / 255.0F;
-            return Vec3.createVectorHelper((double) redF, (double) greenF, (double) blueF);
+            return Vec3.createVectorHelper(redF, greenF, blueF);
         }
     }
 
@@ -1002,7 +1001,7 @@ public class CustomColorizer
                         if (width < 16)
                         {
                             Config.warn("Invalid lightmap width: " + width + " for: /environment/lightmap" + worldType + ".png");
-                            lightMapsColorsRgb[lightMapIndex] = (float[][]) null;
+                            lightMapsColorsRgb[lightMapIndex] = null;
                             return false;
                         } else
                         {
@@ -1074,8 +1073,8 @@ public class CustomColorizer
 
     private static void getLightMapColumn(float[][] origMap, float x, int offset, int width, float[][] colRgb)
     {
-        int xLow = (int) Math.floor((double) x);
-        int xHigh = (int) Math.ceil((double) x);
+        int xLow = (int) Math.floor(x);
+        int xHigh = (int) Math.ceil(x);
 
         if (xLow == xHigh)
         {
@@ -1084,10 +1083,7 @@ public class CustomColorizer
                 float[] var15 = origMap[offset + var14 * width + xLow];
                 float[] var16 = colRgb[var14];
 
-                for (int var17 = 0; var17 < 3; ++var17)
-                {
-                    var16[var17] = var15[var17];
-                }
+                System.arraycopy(var15, 0, var16, 0, 3);
             }
         } else
         {

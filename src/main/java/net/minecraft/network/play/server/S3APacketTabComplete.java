@@ -1,18 +1,21 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.IOException;
+
 public class S3APacketTabComplete extends Packet
 {
     private String[] candidates;
     private static final String __OBFID = "CL_00001288";
 
-    public S3APacketTabComplete() {}
+    public S3APacketTabComplete()
+    {
+    }
 
     public S3APacketTabComplete(String[] p_i45178_1_)
     {
@@ -63,11 +66,11 @@ public class S3APacketTabComplete extends Packet
      */
     public String serialize()
     {
-        return String.format("candidates=\'%s\'", new Object[] {ArrayUtils.toString(this.candidates)});
+        return String.format("candidates='%s'", ArrayUtils.toString(this.candidates));
     }
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

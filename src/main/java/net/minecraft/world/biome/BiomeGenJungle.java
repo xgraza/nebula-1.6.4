@@ -1,22 +1,16 @@
 package net.minecraft.world.biome;
 
-import java.util.Random;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraft.world.gen.feature.WorldGenMegaJungle;
-import net.minecraft.world.gen.feature.WorldGenMelon;
-import net.minecraft.world.gen.feature.WorldGenShrub;
-import net.minecraft.world.gen.feature.WorldGenTallGrass;
-import net.minecraft.world.gen.feature.WorldGenTrees;
-import net.minecraft.world.gen.feature.WorldGenVines;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.feature.*;
+
+import java.util.Random;
 
 public class BiomeGenJungle extends BiomeGenBase
 {
-    private boolean field_150614_aC;
+    private final boolean field_150614_aC;
     private static final String __OBFID = "CL_00000175";
 
     public BiomeGenJungle(int p_i45379_1_, boolean p_i45379_2_)
@@ -27,8 +21,7 @@ public class BiomeGenJungle extends BiomeGenBase
         if (p_i45379_2_)
         {
             this.theBiomeDecorator.treesPerChunk = 2;
-        }
-        else
+        } else
         {
             this.theBiomeDecorator.treesPerChunk = 50;
         }
@@ -46,7 +39,7 @@ public class BiomeGenJungle extends BiomeGenBase
 
     public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
     {
-        return (WorldGenAbstractTree)(p_150567_1_.nextInt(10) == 0 ? this.worldGeneratorBigTree : (p_150567_1_.nextInt(2) == 0 ? new WorldGenShrub(3, 0) : (!this.field_150614_aC && p_150567_1_.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, 3, 3) : new WorldGenTrees(false, 4 + p_150567_1_.nextInt(7), 3, 3, true))));
+        return p_150567_1_.nextInt(10) == 0 ? this.worldGeneratorBigTree : (p_150567_1_.nextInt(2) == 0 ? new WorldGenShrub(3, 0) : (!this.field_150614_aC && p_150567_1_.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, 3, 3) : new WorldGenTrees(false, 4 + p_150567_1_.nextInt(7), 3, 3, true)));
     }
 
     /**

@@ -1,9 +1,10 @@
 package net.minecraft.world.biome;
 
-import java.util.Random;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BiomeGenPlains extends BiomeGenBase
 {
@@ -23,20 +24,18 @@ public class BiomeGenPlains extends BiomeGenBase
 
     public String func_150572_a(Random p_150572_1_, int p_150572_2_, int p_150572_3_, int p_150572_4_)
     {
-        double var5 = field_150606_ad.func_151601_a((double)p_150572_2_ / 200.0D, (double)p_150572_4_ / 200.0D);
+        double var5 = field_150606_ad.func_151601_a((double) p_150572_2_ / 200.0D, (double) p_150572_4_ / 200.0D);
         int var7;
 
         if (var5 < -0.8D)
         {
             var7 = p_150572_1_.nextInt(4);
             return BlockFlower.field_149859_a[4 + var7];
-        }
-        else if (p_150572_1_.nextInt(3) > 0)
+        } else if (p_150572_1_.nextInt(3) > 0)
         {
             var7 = p_150572_1_.nextInt(3);
             return var7 == 0 ? BlockFlower.field_149859_a[0] : (var7 == 1 ? BlockFlower.field_149859_a[3] : BlockFlower.field_149859_a[8]);
-        }
-        else
+        } else
         {
             return BlockFlower.field_149858_b[0];
         }
@@ -44,7 +43,7 @@ public class BiomeGenPlains extends BiomeGenBase
 
     public void decorate(World par1World, Random par2Random, int par3, int par4)
     {
-        double var5 = field_150606_ad.func_151601_a((double)(par3 + 8) / 200.0D, (double)(par4 + 8) / 200.0D);
+        double var5 = field_150606_ad.func_151601_a((double) (par3 + 8) / 200.0D, (double) (par4 + 8) / 200.0D);
         int var7;
         int var8;
         int var9;
@@ -54,8 +53,7 @@ public class BiomeGenPlains extends BiomeGenBase
         {
             this.theBiomeDecorator.flowersPerChunk = 15;
             this.theBiomeDecorator.grassPerChunk = 5;
-        }
-        else
+        } else
         {
             this.theBiomeDecorator.flowersPerChunk = 4;
             this.theBiomeDecorator.grassPerChunk = 10;

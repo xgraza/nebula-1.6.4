@@ -1,11 +1,12 @@
 package net.minecraft.client.shader;
 
-import java.nio.ByteBuffer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
+
+import java.nio.ByteBuffer;
 
 public class Framebuffer
 {
@@ -41,8 +42,7 @@ public class Framebuffer
         {
             this.framebufferWidth = p_147613_1_;
             this.framebufferHeight = p_147613_2_;
-        }
-        else
+        } else
         {
             GL11.glEnable(GL11.GL_DEPTH_TEST);
 
@@ -95,8 +95,7 @@ public class Framebuffer
         if (!OpenGlHelper.isFramebufferEnabled())
         {
             this.framebufferClear();
-        }
-        else
+        } else
         {
             this.framebufferObject = EXTFramebufferObject.glGenFramebuffersEXT();
             this.framebufferTexture = TextureUtil.glGenTextures();
@@ -108,7 +107,7 @@ public class Framebuffer
 
             this.setFramebufferFilter(9729);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.framebufferTexture);
-            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, this.framebufferTextureWidth, this.framebufferTextureHeight, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer)null);
+            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, this.framebufferTextureWidth, this.framebufferTextureHeight, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
             EXTFramebufferObject.glBindFramebufferEXT(36160, this.framebufferObject);
             EXTFramebufferObject.glFramebufferTexture2DEXT(36160, 36064, 3553, this.framebufferTexture, 0);
 
@@ -130,8 +129,8 @@ public class Framebuffer
         {
             this.framebufferFilter = p_147607_1_;
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.framebufferTexture);
-            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, (float)p_147607_1_);
-            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, (float)p_147607_1_);
+            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, (float) p_147607_1_);
+            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, (float) p_147607_1_);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10496.0F);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10496.0F);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
@@ -225,7 +224,7 @@ public class Framebuffer
             GL11.glDepthMask(false);
             GL11.glMatrixMode(GL11.GL_PROJECTION);
             GL11.glLoadIdentity();
-            GL11.glOrtho(0.0D, (double)p_147615_1_, (double)p_147615_2_, 0.0D, 1000.0D, 3000.0D);
+            GL11.glOrtho(0.0D, p_147615_1_, p_147615_2_, 0.0D, 1000.0D, 3000.0D);
             GL11.glMatrixMode(GL11.GL_MODELVIEW);
             GL11.glLoadIdentity();
             GL11.glTranslatef(0.0F, 0.0F, -2000.0F);
@@ -237,17 +236,17 @@ public class Framebuffer
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glEnable(GL11.GL_COLOR_MATERIAL);
             this.bindFramebufferTexture();
-            float var3 = (float)p_147615_1_;
-            float var4 = (float)p_147615_2_;
-            float var5 = (float)this.framebufferWidth / (float)this.framebufferTextureWidth;
-            float var6 = (float)this.framebufferHeight / (float)this.framebufferTextureHeight;
+            float var3 = (float) p_147615_1_;
+            float var4 = (float) p_147615_2_;
+            float var5 = (float) this.framebufferWidth / (float) this.framebufferTextureWidth;
+            float var6 = (float) this.framebufferHeight / (float) this.framebufferTextureHeight;
             Tessellator var7 = Tessellator.instance;
             var7.startDrawingQuads();
             var7.setColorOpaque_I(-1);
-            var7.addVertexWithUV(0.0D, (double)var4, 0.0D, 0.0D, 0.0D);
-            var7.addVertexWithUV((double)var3, (double)var4, 0.0D, (double)var5, 0.0D);
-            var7.addVertexWithUV((double)var3, 0.0D, 0.0D, (double)var5, (double)var6);
-            var7.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, (double)var6);
+            var7.addVertexWithUV(0.0D, var4, 0.0D, 0.0D, 0.0D);
+            var7.addVertexWithUV(var3, var4, 0.0D, var5, 0.0D);
+            var7.addVertexWithUV(var3, 0.0D, 0.0D, var5, var6);
+            var7.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, var6);
             var7.draw();
             this.unbindFramebufferTexture();
             GL11.glDepthMask(true);

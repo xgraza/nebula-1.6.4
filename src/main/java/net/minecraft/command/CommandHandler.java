@@ -1,27 +1,26 @@
 package net.minecraft.command;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.*;
+import java.util.Map.Entry;
+
 public class CommandHandler implements ICommandManager
 {
     private static final Logger logger = LogManager.getLogger();
 
-    /** Map of Strings to the ICommand objects they represent */
+    /**
+     * Map of Strings to the ICommand objects they represent
+     */
     private final Map commandMap = new HashMap();
 
-    /** The set of ICommand objects currently loaded. */
+    /**
+     * The set of ICommand objects currently loaded.
+     */
     private final Set commandSet = new HashSet();
     private static final String __OBFID = "CL_00001765";
 
@@ -37,7 +36,7 @@ public class CommandHandler implements ICommandManager
         String[] var3 = par2Str.split(" ");
         String var4 = var3[0];
         var3 = dropFirstString(var3);
-        ICommand var5 = (ICommand)this.commandMap.get(var4);
+        ICommand var5 = (ICommand) this.commandMap.get(var4);
         int var6 = this.getUsernameIndex(var5, var3);
         int var7 = 0;
         ChatComponentTranslation var9;
@@ -67,8 +66,7 @@ public class CommandHandler implements ICommandManager
                         {
                             var5.processCommand(par1ICommandSender, var3);
                             ++var7;
-                        }
-                        catch (CommandException var16)
+                        } catch (CommandException var16)
                         {
                             ChatComponentTranslation var15 = new ChatComponentTranslation(var16.getMessage(), var16.getErrorOjbects());
                             var15.getChatStyle().setColor(EnumChatFormatting.RED);
@@ -77,38 +75,33 @@ public class CommandHandler implements ICommandManager
                     }
 
                     var3[var6] = var21;
-                }
-                else
+                } else
                 {
                     var5.processCommand(par1ICommandSender, var3);
                     ++var7;
                 }
-            }
-            else
+            } else
             {
-                ChatComponentTranslation var20 = new ChatComponentTranslation("commands.generic.permission", new Object[0]);
+                ChatComponentTranslation var20 = new ChatComponentTranslation("commands.generic.permission");
                 var20.getChatStyle().setColor(EnumChatFormatting.RED);
                 par1ICommandSender.addChatMessage(var20);
             }
-        }
-        catch (WrongUsageException var17)
+        } catch (WrongUsageException var17)
         {
-            var9 = new ChatComponentTranslation("commands.generic.usage", new Object[] {new ChatComponentTranslation(var17.getMessage(), var17.getErrorOjbects())});
+            var9 = new ChatComponentTranslation("commands.generic.usage", new ChatComponentTranslation(var17.getMessage(), var17.getErrorOjbects()));
             var9.getChatStyle().setColor(EnumChatFormatting.RED);
             par1ICommandSender.addChatMessage(var9);
-        }
-        catch (CommandException var18)
+        } catch (CommandException var18)
         {
             var9 = new ChatComponentTranslation(var18.getMessage(), var18.getErrorOjbects());
             var9.getChatStyle().setColor(EnumChatFormatting.RED);
             par1ICommandSender.addChatMessage(var9);
-        }
-        catch (Throwable var19)
+        } catch (Throwable var19)
         {
-            var9 = new ChatComponentTranslation("commands.generic.exception", new Object[0]);
+            var9 = new ChatComponentTranslation("commands.generic.exception");
             var9.getChatStyle().setColor(EnumChatFormatting.RED);
             par1ICommandSender.addChatMessage(var9);
-            logger.error("Couldn\'t process command", var19);
+            logger.error("Couldn't process command", var19);
         }
 
         return var7;
@@ -129,8 +122,8 @@ public class CommandHandler implements ICommandManager
 
             while (var3.hasNext())
             {
-                String var4 = (String)var3.next();
-                ICommand var5 = (ICommand)this.commandMap.get(var4);
+                String var4 = (String) var3.next();
+                ICommand var5 = (ICommand) this.commandMap.get(var4);
 
                 if (var5 == null || !var5.getCommandName().equals(var4))
                 {
@@ -149,10 +142,7 @@ public class CommandHandler implements ICommandManager
     {
         String[] var1 = new String[par0ArrayOfStr.length - 1];
 
-        for (int var2 = 1; var2 < par0ArrayOfStr.length; ++var2)
-        {
-            var1[var2 - 1] = par0ArrayOfStr[var2];
-        }
+        System.arraycopy(par0ArrayOfStr, 1, var1, 0, par0ArrayOfStr.length - 1);
 
         return var1;
     }
@@ -172,21 +162,20 @@ public class CommandHandler implements ICommandManager
 
             while (var6.hasNext())
             {
-                Entry var7 = (Entry)var6.next();
+                Entry var7 = (Entry) var6.next();
 
-                if (CommandBase.doesStringStartWith(var4, (String)var7.getKey()) && ((ICommand)var7.getValue()).canCommandSenderUseCommand(par1ICommandSender))
+                if (CommandBase.doesStringStartWith(var4, (String) var7.getKey()) && ((ICommand) var7.getValue()).canCommandSenderUseCommand(par1ICommandSender))
                 {
                     var8.add(var7.getKey());
                 }
             }
 
             return var8;
-        }
-        else
+        } else
         {
             if (var3.length > 1)
             {
-                ICommand var5 = (ICommand)this.commandMap.get(var4);
+                ICommand var5 = (ICommand) this.commandMap.get(var4);
 
                 if (var5 != null)
                 {
@@ -208,7 +197,7 @@ public class CommandHandler implements ICommandManager
 
         while (var3.hasNext())
         {
-            ICommand var4 = (ICommand)var3.next();
+            ICommand var4 = (ICommand) var3.next();
 
             if (var4.canCommandSenderUseCommand(par1ICommandSender))
             {
@@ -235,8 +224,7 @@ public class CommandHandler implements ICommandManager
         if (par1ICommand == null)
         {
             return -1;
-        }
-        else
+        } else
         {
             for (int var3 = 0; var3 < par2ArrayOfStr.length; ++var3)
             {

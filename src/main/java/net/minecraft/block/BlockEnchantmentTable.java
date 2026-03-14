@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,6 +11,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEnchantmentTable;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockEnchantmentTable extends BlockContainer
 {
@@ -59,7 +60,7 @@ public class BlockEnchantmentTable extends BlockContainer
                                 break;
                             }
 
-                            p_149734_1_.spawnParticle("enchantmenttable", (double)p_149734_2_ + 0.5D, (double)p_149734_3_ + 2.0D, (double)p_149734_4_ + 0.5D, (double)((float)(var6 - p_149734_2_) + p_149734_5_.nextFloat()) - 0.5D, (double)((float)(var8 - p_149734_3_) - p_149734_5_.nextFloat() - 1.0F), (double)((float)(var7 - p_149734_4_) + p_149734_5_.nextFloat()) - 0.5D);
+                            p_149734_1_.spawnParticle("enchantmenttable", (double) p_149734_2_ + 0.5D, (double) p_149734_3_ + 2.0D, (double) p_149734_4_ + 0.5D, (double) ((float) (var6 - p_149734_2_) + p_149734_5_.nextFloat()) - 0.5D, (float) (var8 - p_149734_3_) - p_149734_5_.nextFloat() - 1.0F, (double) ((float) (var7 - p_149734_4_) + p_149734_5_.nextFloat()) - 0.5D);
                         }
                     }
                 }
@@ -96,10 +97,9 @@ public class BlockEnchantmentTable extends BlockContainer
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
-            TileEntityEnchantmentTable var10 = (TileEntityEnchantmentTable)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+            TileEntityEnchantmentTable var10 = (TileEntityEnchantmentTable) p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
             p_149727_5_.displayGUIEnchantment(p_149727_2_, p_149727_3_, p_149727_4_, var10.func_145921_b() ? var10.func_145919_a() : null);
             return true;
         }
@@ -114,7 +114,7 @@ public class BlockEnchantmentTable extends BlockContainer
 
         if (p_149689_6_.hasDisplayName())
         {
-            ((TileEntityEnchantmentTable)p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145920_a(p_149689_6_.getDisplayName());
+            ((TileEntityEnchantmentTable) p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145920_a(p_149689_6_.getDisplayName());
         }
     }
 

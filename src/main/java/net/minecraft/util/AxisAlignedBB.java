@@ -4,10 +4,13 @@ import net.minecraft.src.BlockPos;
 
 public class AxisAlignedBB
 {
-    /** ThreadLocal AABBPool */
+    /**
+     * ThreadLocal AABBPool
+     */
     private static final ThreadLocal theAABBLocalPool = new ThreadLocal()
     {
         private static final String __OBFID = "CL_00000608";
+
         protected AABBPool initialValue()
         {
             return new AABBPool(300, 2000);
@@ -34,7 +37,7 @@ public class AxisAlignedBB
      */
     public static AABBPool getAABBPool()
     {
-        return (AABBPool)theAABBLocalPool.get();
+        return (AABBPool) theAABBLocalPool.get();
     }
 
     public AxisAlignedBB(double par1, double par3, double par5, double par7, double par9, double par11)
@@ -52,7 +55,8 @@ public class AxisAlignedBB
         this(Vec3.createVectorHelper(pos.getX(), pos.getY(), pos.getZ()), 1);
     }
 
-    public AxisAlignedBB(Vec3 center, double par3) {
+    public AxisAlignedBB(Vec3 center, double par3)
+    {
         this(center.xCoord, center.yCoord, center.zCoord, center.xCoord + par3, center.yCoord + par3, center.zCoord + par3);
     }
 
@@ -184,13 +188,11 @@ public class AxisAlignedBB
                 }
 
                 return par2;
-            }
-            else
+            } else
             {
                 return par2;
             }
-        }
-        else
+        } else
         {
             return par2;
         }
@@ -230,13 +232,11 @@ public class AxisAlignedBB
                 }
 
                 return par2;
-            }
-            else
+            } else
             {
                 return par2;
             }
-        }
-        else
+        } else
         {
             return par2;
         }
@@ -276,13 +276,11 @@ public class AxisAlignedBB
                 }
 
                 return par2;
-            }
-            else
+            } else
             {
                 return par2;
             }
-        }
-        else
+        } else
         {
             return par2;
         }
@@ -293,7 +291,7 @@ public class AxisAlignedBB
      */
     public boolean intersectsWith(AxisAlignedBB par1AxisAlignedBB)
     {
-        return par1AxisAlignedBB.maxX > this.minX && par1AxisAlignedBB.minX < this.maxX ? (par1AxisAlignedBB.maxY > this.minY && par1AxisAlignedBB.minY < this.maxY ? par1AxisAlignedBB.maxZ > this.minZ && par1AxisAlignedBB.minZ < this.maxZ : false) : false;
+        return par1AxisAlignedBB.maxX > this.minX && par1AxisAlignedBB.minX < this.maxX && (par1AxisAlignedBB.maxY > this.minY && par1AxisAlignedBB.minY < this.maxY && par1AxisAlignedBB.maxZ > this.minZ && par1AxisAlignedBB.minZ < this.maxZ);
     }
 
     /**
@@ -315,7 +313,7 @@ public class AxisAlignedBB
      */
     public boolean isVecInside(Vec3 par1Vec3)
     {
-        return par1Vec3.xCoord > this.minX && par1Vec3.xCoord < this.maxX ? (par1Vec3.yCoord > this.minY && par1Vec3.yCoord < this.maxY ? par1Vec3.zCoord > this.minZ && par1Vec3.zCoord < this.maxZ : false) : false;
+        return par1Vec3.xCoord > this.minX && par1Vec3.xCoord < this.maxX && (par1Vec3.yCoord > this.minY && par1Vec3.yCoord < this.maxY && par1Vec3.zCoord > this.minZ && par1Vec3.zCoord < this.maxZ);
     }
 
     /**
@@ -425,8 +423,7 @@ public class AxisAlignedBB
         if (var9 == null)
         {
             return null;
-        }
-        else
+        } else
         {
             byte var10 = -1;
 
@@ -469,7 +466,7 @@ public class AxisAlignedBB
      */
     private boolean isVecInYZ(Vec3 par1Vec3)
     {
-        return par1Vec3 == null ? false : par1Vec3.yCoord >= this.minY && par1Vec3.yCoord <= this.maxY && par1Vec3.zCoord >= this.minZ && par1Vec3.zCoord <= this.maxZ;
+        return par1Vec3 != null && par1Vec3.yCoord >= this.minY && par1Vec3.yCoord <= this.maxY && par1Vec3.zCoord >= this.minZ && par1Vec3.zCoord <= this.maxZ;
     }
 
     /**
@@ -477,7 +474,7 @@ public class AxisAlignedBB
      */
     private boolean isVecInXZ(Vec3 par1Vec3)
     {
-        return par1Vec3 == null ? false : par1Vec3.xCoord >= this.minX && par1Vec3.xCoord <= this.maxX && par1Vec3.zCoord >= this.minZ && par1Vec3.zCoord <= this.maxZ;
+        return par1Vec3 != null && par1Vec3.xCoord >= this.minX && par1Vec3.xCoord <= this.maxX && par1Vec3.zCoord >= this.minZ && par1Vec3.zCoord <= this.maxZ;
     }
 
     /**
@@ -485,7 +482,7 @@ public class AxisAlignedBB
      */
     private boolean isVecInXY(Vec3 par1Vec3)
     {
-        return par1Vec3 == null ? false : par1Vec3.xCoord >= this.minX && par1Vec3.xCoord <= this.maxX && par1Vec3.yCoord >= this.minY && par1Vec3.yCoord <= this.maxY;
+        return par1Vec3 != null && par1Vec3.xCoord >= this.minX && par1Vec3.xCoord <= this.maxX && par1Vec3.yCoord >= this.minY && par1Vec3.yCoord <= this.maxY;
     }
 
     /**
@@ -501,7 +498,8 @@ public class AxisAlignedBB
         this.maxZ = par1AxisAlignedBB.maxZ;
     }
 
-    public Vec3 getCenter() {
+    public Vec3 getCenter()
+    {
         // from another MCP build from a newer version of mc
         return new Vec3(Vec3.fakePool, this.minX + (this.maxX - this.minX) * 0.5D, this.minY + (this.maxY - this.minY) * 0.5D, this.minZ + (this.maxZ - this.minZ) * 0.5D);
     }

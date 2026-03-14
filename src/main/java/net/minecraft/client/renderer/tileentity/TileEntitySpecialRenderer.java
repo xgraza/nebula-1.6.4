@@ -28,7 +28,9 @@ public abstract class TileEntitySpecialRenderer
         this.field_147501_a = p_147497_1_;
     }
 
-    public void func_147496_a(World p_147496_1_) {}
+    public void func_147496_a(World p_147496_1_)
+    {
+    }
 
     public FontRenderer func_147498_b()
     {

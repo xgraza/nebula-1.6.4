@@ -1,11 +1,12 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockFalling extends Block
 {
@@ -54,12 +55,11 @@ public class BlockFalling extends Block
             {
                 if (!p_149830_1_.isClient)
                 {
-                    EntityFallingBlock var9 = new EntityFallingBlock(p_149830_1_, (double)((float)p_149830_2_ + 0.5F), (double)((float)p_149830_3_ + 0.5F), (double)((float)p_149830_4_ + 0.5F), this, p_149830_1_.getBlockMetadata(p_149830_2_, p_149830_3_, p_149830_4_));
+                    EntityFallingBlock var9 = new EntityFallingBlock(p_149830_1_, (float) p_149830_2_ + 0.5F, (float) p_149830_3_ + 0.5F, (float) p_149830_4_ + 0.5F, this, p_149830_1_.getBlockMetadata(p_149830_2_, p_149830_3_, p_149830_4_));
                     this.func_149829_a(var9);
                     p_149830_1_.spawnEntityInWorld(var9);
                 }
-            }
-            else
+            } else
             {
                 p_149830_1_.setBlockToAir(p_149830_2_, p_149830_3_, p_149830_4_);
 
@@ -76,7 +76,9 @@ public class BlockFalling extends Block
         }
     }
 
-    protected void func_149829_a(EntityFallingBlock p_149829_1_) {}
+    protected void func_149829_a(EntityFallingBlock p_149829_1_)
+    {
+    }
 
     public int tickRate(World p_149738_1_)
     {
@@ -90,17 +92,17 @@ public class BlockFalling extends Block
         if (var4.blockMaterial == Material.air)
         {
             return true;
-        }
-        else if (var4 == Blocks.fire)
+        } else if (var4 == Blocks.fire)
         {
             return true;
-        }
-        else
+        } else
         {
             Material var5 = var4.blockMaterial;
-            return var5 == Material.water ? true : var5 == Material.lava;
+            return var5 == Material.water || var5 == Material.lava;
         }
     }
 
-    public void func_149828_a(World p_149828_1_, int p_149828_2_, int p_149828_3_, int p_149828_4_, int p_149828_5_) {}
+    public void func_149828_a(World p_149828_1_, int p_149828_2_, int p_149828_3_, int p_149828_4_, int p_149828_5_)
+    {
+    }
 }

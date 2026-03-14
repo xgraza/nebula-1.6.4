@@ -14,8 +14,10 @@ public class RenderCreeper extends RenderLiving
     private static final ResourceLocation armoredCreeperTextures = new ResourceLocation("textures/entity/creeper/creeper_armor.png");
     private static final ResourceLocation creeperTextures = new ResourceLocation("textures/entity/creeper/creeper.png");
 
-    /** The creeper model. */
-    private ModelBase creeperModel = new ModelCreeper(2.0F);
+    /**
+     * The creeper model.
+     */
+    private final ModelBase creeperModel = new ModelCreeper(2.0F);
     private static final String __OBFID = "CL_00000985";
 
     public RenderCreeper()
@@ -56,13 +58,12 @@ public class RenderCreeper extends RenderLiving
     {
         float var4 = par1EntityCreeper.getCreeperFlashIntensity(par3);
 
-        if ((int)(var4 * 10.0F) % 2 == 0)
+        if ((int) (var4 * 10.0F) % 2 == 0)
         {
             return 0;
-        }
-        else
+        } else
         {
-            int var5 = (int)(var4 * 0.2F * 255.0F);
+            int var5 = (int) (var4 * 0.2F * 255.0F);
 
             if (var5 < 0)
             {
@@ -88,18 +89,11 @@ public class RenderCreeper extends RenderLiving
     {
         if (par1EntityCreeper.getPowered())
         {
-            if (par1EntityCreeper.isInvisible())
-            {
-                GL11.glDepthMask(false);
-            }
-            else
-            {
-                GL11.glDepthMask(true);
-            }
+            GL11.glDepthMask(!par1EntityCreeper.isInvisible());
 
             if (par2 == 1)
             {
-                float var4 = (float)par1EntityCreeper.ticksExisted + par3;
+                float var4 = (float) par1EntityCreeper.ticksExisted + par3;
                 this.bindTexture(armoredCreeperTextures);
                 GL11.glMatrixMode(GL11.GL_TEXTURE);
                 GL11.glLoadIdentity();
@@ -148,7 +142,7 @@ public class RenderCreeper extends RenderLiving
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntityCreeper)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntityCreeper) par1EntityLivingBase, par2);
     }
 
     /**
@@ -156,7 +150,7 @@ public class RenderCreeper extends RenderLiving
      */
     protected int getColorMultiplier(EntityLivingBase par1EntityLivingBase, float par2, float par3)
     {
-        return this.getColorMultiplier((EntityCreeper)par1EntityLivingBase, par2, par3);
+        return this.getColorMultiplier((EntityCreeper) par1EntityLivingBase, par2, par3);
     }
 
     /**
@@ -164,12 +158,12 @@ public class RenderCreeper extends RenderLiving
      */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.shouldRenderPass((EntityCreeper)par1EntityLivingBase, par2, par3);
+        return this.shouldRenderPass((EntityCreeper) par1EntityLivingBase, par2, par3);
     }
 
     protected int inheritRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.inheritRenderPass((EntityCreeper)par1EntityLivingBase, par2, par3);
+        return this.inheritRenderPass((EntityCreeper) par1EntityLivingBase, par2, par3);
     }
 
     /**
@@ -177,6 +171,6 @@ public class RenderCreeper extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityCreeper)par1Entity);
+        return this.getEntityTexture((EntityCreeper) par1Entity);
     }
 }

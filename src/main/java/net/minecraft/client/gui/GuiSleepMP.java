@@ -14,7 +14,7 @@ public class GuiSleepMP extends GuiChat
     public void initGui()
     {
         super.initGui();
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height - 40, I18n.format("multiplayer.stopSleeping", new Object[0])));
+        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height - 40, I18n.format("multiplayer.stopSleeping")));
     }
 
     /**
@@ -25,12 +25,10 @@ public class GuiSleepMP extends GuiChat
         if (keyCode == 1)
         {
             this.func_146418_g();
-        }
-        else if (keyCode != 28 && keyCode != 156)
+        } else if (keyCode != 28 && keyCode != 156)
         {
             super.keyTyped(typedChar, keyCode);
-        }
-        else
+        } else
         {
             String var3 = this.chatTextField.getText().trim();
 
@@ -49,8 +47,7 @@ public class GuiSleepMP extends GuiChat
         if (p_146284_1_.id == 1)
         {
             this.func_146418_g();
-        }
-        else
+        } else
         {
             super.actionPerformed(p_146284_1_);
         }

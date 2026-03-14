@@ -41,8 +41,7 @@ public class EntitySmallFireball extends EntityFireball
                 {
                     par1MovingObjectPosition.entityHit.setFire(5);
                 }
-            }
-            else
+            } else
             {
                 int var2 = par1MovingObjectPosition.blockX;
                 int var3 = par1MovingObjectPosition.blockY;

@@ -1,9 +1,9 @@
 package us.nebula.client.api.listener;
 
 /**
+ * @param <T>
  * @author xgraza
  * @since 02/14/25
- * @param <T>
  */
 @FunctionalInterface
 public interface EventListener<T extends Event>

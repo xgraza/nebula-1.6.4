@@ -1,15 +1,16 @@
 package net.minecraft.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InventoryBasic implements IInventory
 {
     private String inventoryTitle;
-    private int slotsCount;
-    private ItemStack[] inventoryContents;
+    private final int slotsCount;
+    private final ItemStack[] inventoryContents;
     private List field_70480_d;
     private boolean field_94051_e;
     private static final String __OBFID = "CL_00001514";
@@ -61,8 +62,7 @@ public class InventoryBasic implements IInventory
                 this.inventoryContents[par1] = null;
                 this.onInventoryChanged();
                 return var3;
-            }
-            else
+            } else
             {
                 var3 = this.inventoryContents[par1].splitStack(par2);
 
@@ -74,8 +74,7 @@ public class InventoryBasic implements IInventory
                 this.onInventoryChanged();
                 return var3;
             }
-        }
-        else
+        } else
         {
             return null;
         }
@@ -92,8 +91,7 @@ public class InventoryBasic implements IInventory
             ItemStack var2 = this.inventoryContents[par1];
             this.inventoryContents[par1] = null;
             return var2;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -161,7 +159,7 @@ public class InventoryBasic implements IInventory
         {
             for (int var1 = 0; var1 < this.field_70480_d.size(); ++var1)
             {
-                ((IInvBasic)this.field_70480_d.get(var1)).onInventoryChanged(this);
+                ((IInvBasic) this.field_70480_d.get(var1)).onInventoryChanged(this);
             }
         }
     }
@@ -174,9 +172,13 @@ public class InventoryBasic implements IInventory
         return true;
     }
 
-    public void openInventory() {}
+    public void openInventory()
+    {
+    }
 
-    public void closeInventory() {}
+    public void closeInventory()
+    {
+    }
 
     /**
      * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.

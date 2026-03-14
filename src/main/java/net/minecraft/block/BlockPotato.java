@@ -25,8 +25,7 @@ public class BlockPotato extends BlockCrops
             }
 
             return this.field_149869_a[meta >> 1];
-        }
-        else
+        } else
         {
             return this.field_149869_a[3];
         }

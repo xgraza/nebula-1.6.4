@@ -1,17 +1,18 @@
 package net.minecraft.src;
 
-import java.awt.Rectangle;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
+import java.awt.Rectangle;
+import java.util.List;
+
 public class TooltipManager
 {
-    private GuiScreen guiScreen;
-    private TooltipProvider tooltipProvider;
+    private final GuiScreen guiScreen;
+    private final TooltipProvider tooltipProvider;
     private int lastMouseX = 0;
     private int lastMouseY = 0;
     private long mouseStillTime = 0L;
@@ -28,7 +29,7 @@ public class TooltipManager
         {
             short activateDelay = 700;
 
-            if (System.currentTimeMillis() >= this.mouseStillTime + (long)activateDelay)
+            if (System.currentTimeMillis() >= this.mouseStillTime + (long) activateDelay)
             {
                 GuiButton btn = GuiScreenOF.getSelectedButton(x, y, buttonList);
 
@@ -65,8 +66,7 @@ public class TooltipManager
                     }
                 }
             }
-        }
-        else
+        } else
         {
             this.lastMouseX = x;
             this.lastMouseY = y;

@@ -1,8 +1,9 @@
 package net.minecraft.client.renderer.texture;
 
-import java.io.IOException;
 import net.minecraft.client.resources.IResourceManager;
 import shadersmod.client.MultiTexID;
+
+import java.io.IOException;
 
 public interface ITextureObject
 {

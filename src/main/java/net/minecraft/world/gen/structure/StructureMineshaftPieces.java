@@ -1,9 +1,5 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityMinecartChest;
@@ -16,10 +12,17 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 public class StructureMineshaftPieces
 {
-    /** List of contents that can generate in Mineshafts. */
-    private static final WeightedRandomChestContent[] mineshaftChestContents = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5), new WeightedRandomChestContent(Items.redstone, 0, 4, 9, 5), new WeightedRandomChestContent(Items.dye, 4, 4, 9, 5), new WeightedRandomChestContent(Items.diamond, 0, 1, 2, 3), new WeightedRandomChestContent(Items.coal, 0, 3, 8, 10), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 1), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.rail), 0, 4, 8, 1), new WeightedRandomChestContent(Items.melon_seeds, 0, 2, 4, 10), new WeightedRandomChestContent(Items.pumpkin_seeds, 0, 2, 4, 10), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1)};
+    /**
+     * List of contents that can generate in Mineshafts.
+     */
+    private static final WeightedRandomChestContent[] mineshaftChestContents = new WeightedRandomChestContent[]{ new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5), new WeightedRandomChestContent(Items.redstone, 0, 4, 9, 5), new WeightedRandomChestContent(Items.dye, 4, 4, 9, 5), new WeightedRandomChestContent(Items.diamond, 0, 1, 2, 3), new WeightedRandomChestContent(Items.coal, 0, 3, 8, 10), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 1), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.rail), 0, 4, 8, 1), new WeightedRandomChestContent(Items.melon_seeds, 0, 2, 4, 10), new WeightedRandomChestContent(Items.pumpkin_seeds, 0, 2, 4, 10), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1) };
     private static final String __OBFID = "CL_00000444";
 
     public static void func_143048_a()
@@ -43,8 +46,7 @@ public class StructureMineshaftPieces
             {
                 return new StructureMineshaftPieces.Cross(par6, par1Random, var8, par5);
             }
-        }
-        else if (var7 >= 70)
+        } else if (var7 >= 70)
         {
             var8 = StructureMineshaftPieces.Stairs.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
 
@@ -52,8 +54,7 @@ public class StructureMineshaftPieces
             {
                 return new StructureMineshaftPieces.Stairs(par6, par1Random, var8, par5);
             }
-        }
-        else
+        } else
         {
             var8 = StructureMineshaftPieces.Corridor.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
 
@@ -71,8 +72,7 @@ public class StructureMineshaftPieces
         if (par7 > 8)
         {
             return null;
-        }
-        else if (Math.abs(par3 - par0StructureComponent.getBoundingBox().minX) <= 80 && Math.abs(par5 - par0StructureComponent.getBoundingBox().minZ) <= 80)
+        } else if (Math.abs(par3 - par0StructureComponent.getBoundingBox().minX) <= 80 && Math.abs(par5 - par0StructureComponent.getBoundingBox().minZ) <= 80)
         {
             StructureComponent var8 = getRandomComponent(par1List, par2Random, par3, par4, par5, par6, par7 + 1);
 
@@ -83,8 +83,7 @@ public class StructureMineshaftPieces
             }
 
             return var8;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -96,7 +95,9 @@ public class StructureMineshaftPieces
         private boolean isMultipleFloors;
         private static final String __OBFID = "CL_00000446";
 
-        public Cross() {}
+        public Cross()
+        {
+        }
 
         protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
         {
@@ -215,8 +216,7 @@ public class StructureMineshaftPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 if (this.isMultipleFloors)
                 {
@@ -225,8 +225,7 @@ public class StructureMineshaftPieces
                     this.func_151549_a(par1World, par3StructureBoundingBox, this.boundingBox.minX + 1, this.boundingBox.maxY - 2, this.boundingBox.minZ, this.boundingBox.maxX - 1, this.boundingBox.maxY, this.boundingBox.maxZ, Blocks.air, Blocks.air, false);
                     this.func_151549_a(par1World, par3StructureBoundingBox, this.boundingBox.minX, this.boundingBox.maxY - 2, this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.maxY, this.boundingBox.maxZ - 1, Blocks.air, Blocks.air, false);
                     this.func_151549_a(par1World, par3StructureBoundingBox, this.boundingBox.minX + 1, this.boundingBox.minY + 3, this.boundingBox.minZ + 1, this.boundingBox.maxX - 1, this.boundingBox.minY + 3, this.boundingBox.maxZ - 1, Blocks.air, Blocks.air, false);
-                }
-                else
+                } else
                 {
                     this.func_151549_a(par1World, par3StructureBoundingBox, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX - 1, this.boundingBox.maxY, this.boundingBox.maxZ, Blocks.air, Blocks.air, false);
                     this.func_151549_a(par1World, par3StructureBoundingBox, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.maxY, this.boundingBox.maxZ - 1, Blocks.air, Blocks.air, false);
@@ -255,10 +254,12 @@ public class StructureMineshaftPieces
 
     public static class Room extends StructureComponent
     {
-        private List roomsLinkedToTheRoom = new LinkedList();
+        private final List roomsLinkedToTheRoom = new LinkedList();
         private static final String __OBFID = "CL_00000447";
 
-        public Room() {}
+        public Room()
+        {
+        }
 
         public Room(int par1, Random par2Random, int par3, int par4)
         {
@@ -358,8 +359,7 @@ public class StructureMineshaftPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.func_151549_a(par1World, par3StructureBoundingBox, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX, this.boundingBox.minY, this.boundingBox.maxZ, Blocks.dirt, Blocks.air, true);
                 this.func_151549_a(par1World, par3StructureBoundingBox, this.boundingBox.minX, this.boundingBox.minY + 1, this.boundingBox.minZ, this.boundingBox.maxX, Math.min(this.boundingBox.minY + 3, this.boundingBox.maxY), this.boundingBox.maxZ, Blocks.air, Blocks.air, false);
@@ -367,7 +367,7 @@ public class StructureMineshaftPieces
 
                 while (var4.hasNext())
                 {
-                    StructureBoundingBox var5 = (StructureBoundingBox)var4.next();
+                    StructureBoundingBox var5 = (StructureBoundingBox) var4.next();
                     this.func_151549_a(par1World, par3StructureBoundingBox, var5.minX, var5.maxY - 2, var5.minZ, var5.maxX, var5.maxY, var5.maxZ, Blocks.air, Blocks.air, false);
                 }
 
@@ -383,7 +383,7 @@ public class StructureMineshaftPieces
 
             while (var3.hasNext())
             {
-                StructureBoundingBox var4 = (StructureBoundingBox)var3.next();
+                StructureBoundingBox var4 = (StructureBoundingBox) var3.next();
                 var2.appendTag(var4.func_151535_h());
             }
 
@@ -405,7 +405,9 @@ public class StructureMineshaftPieces
     {
         private static final String __OBFID = "CL_00000449";
 
-        public Stairs() {}
+        public Stairs()
+        {
+        }
 
         public Stairs(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
         {
@@ -414,9 +416,13 @@ public class StructureMineshaftPieces
             this.boundingBox = par3StructureBoundingBox;
         }
 
-        protected void func_143012_a(NBTTagCompound par1NBTTagCompound) {}
+        protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
+        {
+        }
 
-        protected void func_143011_b(NBTTagCompound par1NBTTagCompound) {}
+        protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
+        {
+        }
 
         public static StructureBoundingBox findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5)
         {
@@ -475,8 +481,7 @@ public class StructureMineshaftPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 this.func_151549_a(par1World, par3StructureBoundingBox, 0, 5, 0, 2, 7, 1, Blocks.air, Blocks.air, false);
                 this.func_151549_a(par1World, par3StructureBoundingBox, 0, 0, 7, 2, 2, 8, Blocks.air, Blocks.air, false);
@@ -499,7 +504,9 @@ public class StructureMineshaftPieces
         private int sectionCount;
         private static final String __OBFID = "CL_00000445";
 
-        public Corridor() {}
+        public Corridor()
+        {
+        }
 
         protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
         {
@@ -528,8 +535,7 @@ public class StructureMineshaftPieces
             if (this.coordBaseMode != 2 && this.coordBaseMode != 0)
             {
                 this.sectionCount = par3StructureBoundingBox.getXSize() / 5;
-            }
-            else
+            } else
             {
                 this.sectionCount = par3StructureBoundingBox.getZSize() / 5;
             }
@@ -586,12 +592,10 @@ public class StructureMineshaftPieces
                     if (var5 <= 1)
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ + 1, this.coordBaseMode, var4);
-                    }
-                    else if (var5 == 2)
+                    } else if (var5 == 2)
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ - 3, 1, var4);
-                    }
-                    else
+                    } else
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ - 3, 3, var4);
                     }
@@ -602,12 +606,10 @@ public class StructureMineshaftPieces
                     if (var5 <= 1)
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, this.coordBaseMode, var4);
-                    }
-                    else if (var5 == 2)
+                    } else if (var5 == 2)
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ - 1, 2, var4);
-                    }
-                    else
+                    } else
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ + 1, 0, var4);
                     }
@@ -618,12 +620,10 @@ public class StructureMineshaftPieces
                     if (var5 <= 1)
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ - 1, this.coordBaseMode, var4);
-                    }
-                    else if (var5 == 2)
+                    } else if (var5 == 2)
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, 1, var4);
-                    }
-                    else
+                    } else
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, 3, var4);
                     }
@@ -634,12 +634,10 @@ public class StructureMineshaftPieces
                     if (var5 <= 1)
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, this.coordBaseMode, var4);
-                    }
-                    else if (var5 == 2)
+                    } else if (var5 == 2)
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 3, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ - 1, 2, var4);
-                    }
-                    else
+                    } else
                     {
                         StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 3, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ + 1, 0, var4);
                     }
@@ -659,14 +657,12 @@ public class StructureMineshaftPieces
                         if (var7 == 0)
                         {
                             StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, var6, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, var4 + 1);
-                        }
-                        else if (var7 == 1)
+                        } else if (var7 == 1)
                         {
                             StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, var6, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, var4 + 1);
                         }
                     }
-                }
-                else
+                } else
                 {
                     for (var6 = this.boundingBox.minZ + 3; var6 + 3 <= this.boundingBox.maxZ; var6 += 5)
                     {
@@ -675,8 +671,7 @@ public class StructureMineshaftPieces
                         if (var7 == 0)
                         {
                             StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, var6, 1, var4 + 1);
-                        }
-                        else if (var7 == 1)
+                        } else if (var7 == 1)
                         {
                             StructureMineshaftPieces.getNextMineShaftComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, var6, 3, var4 + 1);
                         }
@@ -695,12 +690,11 @@ public class StructureMineshaftPieces
             {
                 int var12 = par3Random.nextBoolean() ? 1 : 0;
                 par1World.setBlock(var9, var10, var11, Blocks.rail, this.func_151555_a(Blocks.rail, var12), 2);
-                EntityMinecartChest var13 = new EntityMinecartChest(par1World, (double)((float)var9 + 0.5F), (double)((float)var10 + 0.5F), (double)((float)var11 + 0.5F));
+                EntityMinecartChest var13 = new EntityMinecartChest(par1World, (float) var9 + 0.5F, (float) var10 + 0.5F, (float) var11 + 0.5F);
                 WeightedRandomChestContent.generateChestContents(par3Random, par7ArrayOfWeightedRandomChestContent, var13, par8);
                 par1World.spawnEntityInWorld(var13);
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
@@ -711,8 +705,7 @@ public class StructureMineshaftPieces
             if (this.isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
             {
                 return false;
-            }
-            else
+            } else
             {
                 boolean var4 = false;
                 boolean var5 = true;
@@ -740,8 +733,7 @@ public class StructureMineshaftPieces
                     {
                         this.func_151549_a(par1World, par3StructureBoundingBox, 0, 2, var10, 0, 2, var10, Blocks.planks, Blocks.air, false);
                         this.func_151549_a(par1World, par3StructureBoundingBox, 2, 2, var10, 2, 2, var10, Blocks.planks, Blocks.air, false);
-                    }
-                    else
+                    } else
                     {
                         this.func_151549_a(par1World, par3StructureBoundingBox, 0, 2, var10, 2, 2, var10, Blocks.planks, Blocks.air, false);
                     }
@@ -759,12 +751,12 @@ public class StructureMineshaftPieces
 
                     if (par2Random.nextInt(100) == 0)
                     {
-                        this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 2, 0, var10 - 1, WeightedRandomChestContent.func_92080_a(StructureMineshaftPieces.mineshaftChestContents, new WeightedRandomChestContent[] {Items.enchanted_book.func_92114_b(par2Random)}), 3 + par2Random.nextInt(4));
+                        this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 2, 0, var10 - 1, WeightedRandomChestContent.func_92080_a(StructureMineshaftPieces.mineshaftChestContents, Items.enchanted_book.func_92114_b(par2Random)), 3 + par2Random.nextInt(4));
                     }
 
                     if (par2Random.nextInt(100) == 0)
                     {
-                        this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 0, 0, var10 + 1, WeightedRandomChestContent.func_92080_a(StructureMineshaftPieces.mineshaftChestContents, new WeightedRandomChestContent[] {Items.enchanted_book.func_92114_b(par2Random)}), 3 + par2Random.nextInt(4));
+                        this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 0, 0, var10 + 1, WeightedRandomChestContent.func_92080_a(StructureMineshaftPieces.mineshaftChestContents, Items.enchanted_book.func_92114_b(par2Random)), 3 + par2Random.nextInt(4));
                     }
 
                     if (this.hasSpiders && !this.spawnerPlaced)
@@ -778,7 +770,7 @@ public class StructureMineshaftPieces
                         {
                             this.spawnerPlaced = true;
                             par1World.setBlock(var13, var11, var12, Blocks.mob_spawner, 0, 2);
-                            TileEntityMobSpawner var14 = (TileEntityMobSpawner)par1World.getTileEntity(var13, var11, var12);
+                            TileEntityMobSpawner var14 = (TileEntityMobSpawner) par1World.getTileEntity(var13, var11, var12);
 
                             if (var14 != null)
                             {

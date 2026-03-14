@@ -1,9 +1,5 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.passive.EntityVillager;
@@ -16,6 +12,11 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManager;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 public class StructureVillagePieces
 {
@@ -42,19 +43,19 @@ public class StructureVillagePieces
     {
         ArrayList var2 = new ArrayList();
         var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House4Garden.class, 4, MathHelper.getRandomIntegerInRange(par0Random, 2 + par1, 4 + par1 * 2)));
-        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Church.class, 20, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 1 + par1)));
-        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House1.class, 20, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 2 + par1)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Church.class, 20, MathHelper.getRandomIntegerInRange(par0Random, par1, 1 + par1)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House1.class, 20, MathHelper.getRandomIntegerInRange(par0Random, par1, 2 + par1)));
         var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.WoodHut.class, 3, MathHelper.getRandomIntegerInRange(par0Random, 2 + par1, 5 + par1 * 3)));
-        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Hall.class, 15, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 2 + par1)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Hall.class, 15, MathHelper.getRandomIntegerInRange(par0Random, par1, 2 + par1)));
         var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Field1.class, 3, MathHelper.getRandomIntegerInRange(par0Random, 1 + par1, 4 + par1)));
         var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Field2.class, 3, MathHelper.getRandomIntegerInRange(par0Random, 2 + par1, 4 + par1 * 2)));
         var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House2.class, 15, MathHelper.getRandomIntegerInRange(par0Random, 0, 1 + par1)));
-        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House3.class, 8, MathHelper.getRandomIntegerInRange(par0Random, 0 + par1, 3 + par1 * 2)));
+        var2.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House3.class, 8, MathHelper.getRandomIntegerInRange(par0Random, par1, 3 + par1 * 2)));
         Iterator var3 = var2.iterator();
 
         while (var3.hasNext())
         {
-            if (((StructureVillagePieces.PieceWeight)var3.next()).villagePiecesLimit == 0)
+            if (((StructureVillagePieces.PieceWeight) var3.next()).villagePiecesLimit == 0)
             {
                 var3.remove();
             }
@@ -71,7 +72,7 @@ public class StructureVillagePieces
 
         for (Iterator var3 = par0List.iterator(); var3.hasNext(); var2 += var4.villagePieceWeight)
         {
-            var4 = (StructureVillagePieces.PieceWeight)var3.next();
+            var4 = (StructureVillagePieces.PieceWeight) var3.next();
 
             if (var4.villagePiecesLimit > 0 && var4.villagePiecesSpawned < var4.villagePiecesLimit)
             {
@@ -90,41 +91,33 @@ public class StructureVillagePieces
         if (var9 == StructureVillagePieces.House4Garden.class)
         {
             var10 = StructureVillagePieces.House4Garden.func_74912_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
-        }
-        else if (var9 == StructureVillagePieces.Church.class)
+        } else if (var9 == StructureVillagePieces.Church.class)
         {
             var10 = StructureVillagePieces.Church.func_74919_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
-        }
-        else if (var9 == StructureVillagePieces.House1.class)
+        } else if (var9 == StructureVillagePieces.House1.class)
         {
             var10 = StructureVillagePieces.House1.func_74898_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
-        }
-        else if (var9 == StructureVillagePieces.WoodHut.class)
+        } else if (var9 == StructureVillagePieces.WoodHut.class)
         {
             var10 = StructureVillagePieces.WoodHut.func_74908_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
-        }
-        else if (var9 == StructureVillagePieces.Hall.class)
+        } else if (var9 == StructureVillagePieces.Hall.class)
         {
             var10 = StructureVillagePieces.Hall.func_74906_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
-        }
-        else if (var9 == StructureVillagePieces.Field1.class)
+        } else if (var9 == StructureVillagePieces.Field1.class)
         {
             var10 = StructureVillagePieces.Field1.func_74900_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
-        }
-        else if (var9 == StructureVillagePieces.Field2.class)
+        } else if (var9 == StructureVillagePieces.Field2.class)
         {
             var10 = StructureVillagePieces.Field2.func_74902_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
-        }
-        else if (var9 == StructureVillagePieces.House2.class)
+        } else if (var9 == StructureVillagePieces.House2.class)
         {
             var10 = StructureVillagePieces.House2.func_74915_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
-        }
-        else if (var9 == StructureVillagePieces.House3.class)
+        } else if (var9 == StructureVillagePieces.House3.class)
         {
             var10 = StructureVillagePieces.House3.func_74921_a(par0ComponentVillageStartPiece, par2List, par3Random, par4, par5, par6, par7, par8);
         }
 
-        return (StructureVillagePieces.Village)var10;
+        return (StructureVillagePieces.Village) var10;
     }
 
     /**
@@ -137,8 +130,7 @@ public class StructureVillagePieces
         if (var8 <= 0)
         {
             return null;
-        }
-        else
+        } else
         {
             int var9 = 0;
 
@@ -150,7 +142,7 @@ public class StructureVillagePieces
 
                 while (var11.hasNext())
                 {
-                    StructureVillagePieces.PieceWeight var12 = (StructureVillagePieces.PieceWeight)var11.next();
+                    StructureVillagePieces.PieceWeight var12 = (StructureVillagePieces.PieceWeight) var11.next();
                     var10 -= var12.villagePieceWeight;
 
                     if (var10 < 0)
@@ -183,8 +175,7 @@ public class StructureVillagePieces
             if (var14 != null)
             {
                 return new StructureVillagePieces.Torch(par0ComponentVillageStartPiece, par7, par2Random, var14, par6);
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -199,8 +190,7 @@ public class StructureVillagePieces
         if (par7 > 50)
         {
             return null;
-        }
-        else if (Math.abs(par3 - par0ComponentVillageStartPiece.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentVillageStartPiece.getBoundingBox().minZ) <= 112)
+        } else if (Math.abs(par3 - par0ComponentVillageStartPiece.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentVillageStartPiece.getBoundingBox().minZ) <= 112)
         {
             StructureVillagePieces.Village var8 = getNextVillageComponent(par0ComponentVillageStartPiece, par1List, par2Random, par3, par4, par5, par6, par7 + 1);
 
@@ -221,8 +211,7 @@ public class StructureVillagePieces
             }
 
             return null;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -233,8 +222,7 @@ public class StructureVillagePieces
         if (par7 > 3 + par0ComponentVillageStartPiece.terrainType)
         {
             return null;
-        }
-        else if (Math.abs(par3 - par0ComponentVillageStartPiece.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentVillageStartPiece.getBoundingBox().minZ) <= 112)
+        } else if (Math.abs(par3 - par0ComponentVillageStartPiece.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentVillageStartPiece.getBoundingBox().minZ) <= 112)
         {
             StructureBoundingBox var8 = StructureVillagePieces.Path.func_74933_a(par0ComponentVillageStartPiece, par1List, par2Random, par3, par4, par5, par6);
 
@@ -256,8 +244,7 @@ public class StructureVillagePieces
             }
 
             return null;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -267,7 +254,9 @@ public class StructureVillagePieces
     {
         private static final String __OBFID = "CL_00000533";
 
-        public Well() {}
+        public Well()
+        {
+        }
 
         public Well(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, int par4, int par5)
         {
@@ -288,10 +277,10 @@ public class StructureVillagePieces
 
         public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
         {
-            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, 1, this.getComponentType());
-            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, 3, this.getComponentType());
-            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ - 1, 2, this.getComponentType());
-            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.maxZ + 1, 0, this.getComponentType());
+            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, 1, this.getComponentType());
+            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, 3, this.getComponentType());
+            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ - 1, 2, this.getComponentType());
+            StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.maxZ + 1, 0, this.getComponentType());
         }
 
         public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
@@ -350,11 +339,13 @@ public class StructureVillagePieces
         public List field_74930_j = new ArrayList();
         private static final String __OBFID = "CL_00000527";
 
-        public Start() {}
+        public Start()
+        {
+        }
 
         public Start(WorldChunkManager par1WorldChunkManager, int par2, Random par3Random, int par4, int par5, List par6List, int par7)
         {
-            super((StructureVillagePieces.Start)null, 0, par3Random, par4, par5);
+            super(null, 0, par3Random, par4, par5);
             this.worldChunkMngr = par1WorldChunkManager;
             this.structureVillageWeightedPieceList = par6List;
             this.terrainType = par7;
@@ -376,7 +367,9 @@ public class StructureVillagePieces
         private Block cropTypeD;
         private static final String __OBFID = "CL_00000518";
 
-        public Field1() {}
+        public Field1()
+        {
+        }
 
         public Field1(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -513,7 +506,9 @@ public class StructureVillagePieces
         private Block cropTypeB;
         private static final String __OBFID = "CL_00000519";
 
-        public Field2() {}
+        public Field2()
+        {
+        }
 
         public Field2(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -609,7 +604,9 @@ public class StructureVillagePieces
         private boolean isRoofAccessible;
         private static final String __OBFID = "CL_00000523";
 
-        public House4Garden() {}
+        public House4Garden()
+        {
+        }
 
         public House4Garden(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -738,7 +735,9 @@ public class StructureVillagePieces
     {
         private static final String __OBFID = "CL_00000525";
 
-        public Church() {}
+        public Church()
+        {
+        }
 
         public Church(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -853,7 +852,9 @@ public class StructureVillagePieces
     {
         private static final String __OBFID = "CL_00000522";
 
-        public Hall() {}
+        public Hall()
+        {
+        }
 
         public Hall(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -973,11 +974,13 @@ public class StructureVillagePieces
 
     public static class House2 extends StructureVillagePieces.Village
     {
-        private static final WeightedRandomChestContent[] villageBlacksmithChestContents = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 3), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.apple, 0, 1, 3, 15), new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_sword, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_chestplate, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_helmet, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_leggings, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_boots, 0, 1, 1, 5), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.obsidian), 0, 3, 7, 5), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.sapling), 0, 3, 7, 5), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1)};
+        private static final WeightedRandomChestContent[] villageBlacksmithChestContents = new WeightedRandomChestContent[]{ new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 3), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.apple, 0, 1, 3, 15), new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_sword, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_chestplate, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_helmet, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_leggings, 0, 1, 1, 5), new WeightedRandomChestContent(Items.iron_boots, 0, 1, 1, 5), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.obsidian), 0, 3, 7, 5), new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.sapling), 0, 3, 7, 5), new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3), new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1), new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1) };
         private boolean hasMadeChest;
         private static final String __OBFID = "CL_00000526";
 
-        public House2() {}
+        public House2()
+        {
+        }
 
         public House2(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -1100,7 +1103,9 @@ public class StructureVillagePieces
     {
         private static final String __OBFID = "CL_00000530";
 
-        public House3() {}
+        public House3()
+        {
+        }
 
         public House3(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -1261,7 +1266,9 @@ public class StructureVillagePieces
     {
         private static final String __OBFID = "CL_00000517";
 
-        public House1() {}
+        public House1()
+        {
+        }
 
         public House1(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -1388,7 +1395,9 @@ public class StructureVillagePieces
         private int tablePosition;
         private static final String __OBFID = "CL_00000524";
 
-        public WoodHut() {}
+        public WoodHut()
+        {
+        }
 
         public WoodHut(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -1440,8 +1449,7 @@ public class StructureVillagePieces
             if (this.isTallHouse)
             {
                 this.func_151549_a(par1World, par3StructureBoundingBox, 1, 4, 1, 2, 4, 3, Blocks.log, Blocks.log, false);
-            }
-            else
+            } else
             {
                 this.func_151549_a(par1World, par3StructureBoundingBox, 1, 5, 1, 2, 5, 3, Blocks.log, Blocks.log, false);
             }
@@ -1500,7 +1508,9 @@ public class StructureVillagePieces
     {
         private static final String __OBFID = "CL_00000520";
 
-        public Torch() {}
+        public Torch()
+        {
+        }
 
         public Torch(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -1547,7 +1557,9 @@ public class StructureVillagePieces
         private int averageGroundLevel;
         private static final String __OBFID = "CL_00000528";
 
-        public Path() {}
+        public Path()
+        {
+        }
 
         public Path(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
         {
@@ -1577,7 +1589,7 @@ public class StructureVillagePieces
 
             for (var5 = par3Random.nextInt(5); var5 < this.averageGroundLevel - 8; var5 += 2 + par3Random.nextInt(5))
             {
-                var6 = this.getNextComponentNN((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, 0, var5);
+                var6 = this.getNextComponentNN((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, 0, var5);
 
                 if (var6 != null)
                 {
@@ -1588,7 +1600,7 @@ public class StructureVillagePieces
 
             for (var5 = par3Random.nextInt(5); var5 < this.averageGroundLevel - 8; var5 += 2 + par3Random.nextInt(5))
             {
-                var6 = this.getNextComponentPP((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, 0, var5);
+                var6 = this.getNextComponentPP((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, 0, var5);
 
                 if (var6 != null)
                 {
@@ -1602,19 +1614,19 @@ public class StructureVillagePieces
                 switch (this.coordBaseMode)
                 {
                     case 0:
-                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, 1, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, 1, this.getComponentType());
                         break;
 
                     case 1:
-                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, this.getComponentType());
                         break;
 
                     case 2:
-                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ, 1, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ, 1, this.getComponentType());
                         break;
 
                     case 3:
-                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, this.getComponentType());
                 }
             }
 
@@ -1623,19 +1635,19 @@ public class StructureVillagePieces
                 switch (this.coordBaseMode)
                 {
                     case 0:
-                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, 3, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.maxZ - 2, 3, this.getComponentType());
                         break;
 
                     case 1:
-                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
                         break;
 
                     case 2:
-                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ, 3, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ, 3, this.getComponentType());
                         break;
 
                     case 3:
-                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start)par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
+                        StructureVillagePieces.getNextComponentVillagePath((StructureVillagePieces.Start) par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 2, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
                 }
             }
         }
@@ -1679,7 +1691,9 @@ public class StructureVillagePieces
     {
         private static final String __OBFID = "CL_00000532";
 
-        public Road() {}
+        public Road()
+        {
+        }
 
         protected Road(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2)
         {
@@ -1694,7 +1708,9 @@ public class StructureVillagePieces
         private boolean field_143014_b;
         private static final String __OBFID = "CL_00000531";
 
-        public Village() {}
+        public Village()
+        {
+        }
 
         protected Village(StructureVillagePieces.Start par1ComponentVillageStartPiece, int par2)
         {
@@ -1782,8 +1798,7 @@ public class StructureVillagePieces
             if (var4 == 0)
             {
                 return -1;
-            }
-            else
+            } else
             {
                 return var3 / var4;
             }
@@ -1811,7 +1826,7 @@ public class StructureVillagePieces
 
                     ++this.villagersSpawned;
                     EntityVillager var11 = new EntityVillager(par1World, this.getVillagerType(var7));
-                    var11.setLocationAndAngles((double)var8 + 0.5D, (double)var9, (double)var10 + 0.5D, 0.0F, 0.0F);
+                    var11.setLocationAndAngles((double) var8 + 0.5D, var9, (double) var10 + 0.5D, 0.0F, 0.0F);
                     par1World.spawnEntityInWorld(var11);
                 }
             }

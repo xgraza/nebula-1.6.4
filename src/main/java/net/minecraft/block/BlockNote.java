@@ -20,7 +20,7 @@ public class BlockNote extends BlockContainer
     public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
     {
         boolean var6 = p_149695_1_.isBlockIndirectlyGettingPowered(p_149695_2_, p_149695_3_, p_149695_4_);
-        TileEntityNote var7 = (TileEntityNote)p_149695_1_.getTileEntity(p_149695_2_, p_149695_3_, p_149695_4_);
+        TileEntityNote var7 = (TileEntityNote) p_149695_1_.getTileEntity(p_149695_2_, p_149695_3_, p_149695_4_);
 
         if (var7 != null && var7.field_145880_i != var6)
         {
@@ -41,10 +41,9 @@ public class BlockNote extends BlockContainer
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
-            TileEntityNote var10 = (TileEntityNote)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+            TileEntityNote var10 = (TileEntityNote) p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
 
             if (var10 != null)
             {
@@ -63,7 +62,7 @@ public class BlockNote extends BlockContainer
     {
         if (!p_149699_1_.isClient)
         {
-            TileEntityNote var6 = (TileEntityNote)p_149699_1_.getTileEntity(p_149699_2_, p_149699_3_, p_149699_4_);
+            TileEntityNote var6 = (TileEntityNote) p_149699_1_.getTileEntity(p_149699_2_, p_149699_3_, p_149699_4_);
 
             if (var6 != null)
             {
@@ -82,7 +81,7 @@ public class BlockNote extends BlockContainer
 
     public boolean onBlockEventReceived(World p_149696_1_, int p_149696_2_, int p_149696_3_, int p_149696_4_, int p_149696_5_, int p_149696_6_)
     {
-        float var7 = (float)Math.pow(2.0D, (double)(p_149696_6_ - 12) / 12.0D);
+        float var7 = (float) Math.pow(2.0D, (double) (p_149696_6_ - 12) / 12.0D);
         String var8 = "harp";
 
         if (p_149696_5_ == 1)
@@ -105,8 +104,8 @@ public class BlockNote extends BlockContainer
             var8 = "bassattack";
         }
 
-        p_149696_1_.playSoundEffect((double)p_149696_2_ + 0.5D, (double)p_149696_3_ + 0.5D, (double)p_149696_4_ + 0.5D, "note." + var8, 3.0F, var7);
-        p_149696_1_.spawnParticle("note", (double)p_149696_2_ + 0.5D, (double)p_149696_3_ + 1.2D, (double)p_149696_4_ + 0.5D, (double)p_149696_6_ / 24.0D, 0.0D, 0.0D);
+        p_149696_1_.playSoundEffect((double) p_149696_2_ + 0.5D, (double) p_149696_3_ + 0.5D, (double) p_149696_4_ + 0.5D, "note." + var8, 3.0F, var7);
+        p_149696_1_.spawnParticle("note", (double) p_149696_2_ + 0.5D, (double) p_149696_3_ + 1.2D, (double) p_149696_4_ + 0.5D, (double) p_149696_6_ / 24.0D, 0.0D, 0.0D);
         return true;
     }
 }

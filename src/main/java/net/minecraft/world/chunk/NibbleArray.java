@@ -55,11 +55,10 @@ public class NibbleArray
 
         if (var7 == 0)
         {
-            this.data[var6] = (byte)(this.data[var6] & 240 | par4 & 15);
-        }
-        else
+            this.data[var6] = (byte) (this.data[var6] & 240 | par4 & 15);
+        } else
         {
-            this.data[var6] = (byte)(this.data[var6] & 15 | (par4 & 15) << 4);
+            this.data[var6] = (byte) (this.data[var6] & 15 | (par4 & 15) << 4);
         }
     }
 }

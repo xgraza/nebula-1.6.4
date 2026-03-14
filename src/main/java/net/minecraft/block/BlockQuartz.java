@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -10,10 +9,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class BlockQuartz extends Block
 {
-    public static final String[] field_150191_a = new String[] {"default", "chiseled", "lines"};
-    private static final String[] field_150189_b = new String[] {"side", "chiseled", "lines", null, null};
+    public static final String[] field_150191_a = new String[]{ "default", "chiseled", "lines" };
+    private static final String[] field_150189_b = new String[]{ "side", "chiseled", "lines", null, null };
     private IIcon[] field_150192_M;
     private IIcon field_150193_N;
     private IIcon field_150194_O;
@@ -39,8 +40,7 @@ public class BlockQuartz extends Block
                 if (p_149691_1_ == 0)
                 {
                     return this.field_150188_Q;
-                }
-                else
+                } else
                 {
                     if (p_149691_2_ < 0 || p_149691_2_ >= this.field_150192_M.length)
                     {
@@ -49,13 +49,11 @@ public class BlockQuartz extends Block
 
                     return this.field_150192_M[p_149691_2_];
                 }
-            }
-            else
+            } else
             {
                 return p_149691_2_ == 1 ? this.field_150193_N : this.field_150190_P;
             }
-        }
-        else
+        } else
         {
             return p_149691_2_ == 2 && (p_149691_1_ == 1 || p_149691_1_ == 0) ? this.field_150194_O : (p_149691_2_ == 3 && (p_149691_1_ == 5 || p_149691_1_ == 4) ? this.field_150194_O : (p_149691_2_ == 4 && (p_149691_1_ == 2 || p_149691_1_ == 3) ? this.field_150194_O : this.field_150192_M[p_149691_2_]));
         }
@@ -127,8 +125,7 @@ public class BlockQuartz extends Block
             if (field_150189_b[var2] == null)
             {
                 this.field_150192_M[var2] = this.field_150192_M[var2 - 1];
-            }
-            else
+            } else
             {
                 this.field_150192_M[var2] = p_149651_1_.registerIcon(this.getTextureName() + "_" + field_150189_b[var2]);
             }

@@ -21,9 +21,9 @@ public class EntityNoteFX extends EntityFX
         this.motionY *= 0.009999999776482582D;
         this.motionZ *= 0.009999999776482582D;
         this.motionY += 0.2D;
-        this.particleRed = MathHelper.sin(((float)par8 + 0.0F) * (float)Math.PI * 2.0F) * 0.65F + 0.35F;
-        this.particleGreen = MathHelper.sin(((float)par8 + 0.33333334F) * (float)Math.PI * 2.0F) * 0.65F + 0.35F;
-        this.particleBlue = MathHelper.sin(((float)par8 + 0.6666667F) * (float)Math.PI * 2.0F) * 0.65F + 0.35F;
+        this.particleRed = MathHelper.sin(((float) par8 + 0.0F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
+        this.particleGreen = MathHelper.sin(((float) par8 + 0.33333334F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
+        this.particleBlue = MathHelper.sin(((float) par8 + 0.6666667F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
         this.particleScale *= 0.75F;
         this.particleScale *= par14;
         this.noteParticleScale = this.particleScale;
@@ -34,7 +34,7 @@ public class EntityNoteFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        float var8 = ((float)this.particleAge + par2) / (float)this.particleMaxAge * 32.0F;
+        float var8 = ((float) this.particleAge + par2) / (float) this.particleMaxAge * 32.0F;
 
         if (var8 < 0.0F)
         {

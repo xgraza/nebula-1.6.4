@@ -2,17 +2,17 @@ package net.minecraft.src;
 
 public class VillagerProfession
 {
-    private int profession;
+    private final int profession;
     private int[] careers;
 
     public VillagerProfession(int profession)
     {
-        this(profession, (int[])null);
+        this(profession, null);
     }
 
     public VillagerProfession(int profession, int career)
     {
-        this(profession, new int[] {career});
+        this(profession, new int[]{ career });
     }
 
     public VillagerProfession(int profession, int[] careers)
@@ -23,26 +23,24 @@ public class VillagerProfession
 
     public boolean matches(int prof, int car)
     {
-        return this.profession != prof ? false : this.careers == null || Config.equalsOne(car, this.careers);
+        return this.profession == prof && (this.careers == null || Config.equalsOne(car, this.careers));
     }
 
     private boolean hasCareer(int car)
     {
-        return this.careers == null ? false : Config.equalsOne(car, this.careers);
+        return this.careers != null && Config.equalsOne(car, this.careers);
     }
 
     public boolean addCareer(int car)
     {
         if (this.careers == null)
         {
-            this.careers = new int[] {car};
+            this.careers = new int[]{ car };
             return true;
-        }
-        else if (this.hasCareer(car))
+        } else if (this.hasCareer(car))
         {
             return false;
-        }
-        else
+        } else
         {
             this.careers = Config.addIntToArray(this.careers, car);
             return true;
@@ -61,6 +59,6 @@ public class VillagerProfession
 
     public String toString()
     {
-        return this.careers == null ? "" + this.profession : "" + this.profession + ":" + Config.arrayToString(this.careers);
+        return this.careers == null ? "" + this.profession : this.profession + ":" + Config.arrayToString(this.careers);
     }
 }

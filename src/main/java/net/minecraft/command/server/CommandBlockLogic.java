@@ -1,8 +1,6 @@
 package net.minecraft.command.server;
 
 import io.netty.buffer.ByteBuf;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,6 +8,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public abstract class CommandBlockLogic implements ICommandSender
 {
@@ -97,8 +98,7 @@ public abstract class CommandBlockLogic implements ICommandSender
         {
             ICommandManager var3 = var2.getCommandManager();
             this.field_145764_b = var3.executeCommand(this, this.field_145763_e);
-        }
-        else
+        } else
         {
             this.field_145764_b = 0;
         }

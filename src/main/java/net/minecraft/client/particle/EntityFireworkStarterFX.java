@@ -31,8 +31,7 @@ public class EntityFireworkStarterFX extends EntityFX
             if (this.fireworkExplosions.tagCount() == 0)
             {
                 this.fireworkExplosions = null;
-            }
-            else
+            } else
             {
                 this.particleMaxAge = this.fireworkExplosions.tagCount() * 2 - 1;
 
@@ -51,7 +50,9 @@ public class EntityFireworkStarterFX extends EntityFX
         }
     }
 
-    public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7) {}
+    public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
+    {
+    }
 
     /**
      * Called to update the entity's position/logic.
@@ -68,8 +69,7 @@ public class EntityFireworkStarterFX extends EntityFX
             if (this.fireworkExplosions.tagCount() >= 3)
             {
                 var2 = true;
-            }
-            else
+            } else
             {
                 for (int var3 = 0; var3 < this.fireworkExplosions.tagCount(); ++var3)
                 {
@@ -100,28 +100,24 @@ public class EntityFireworkStarterFX extends EntityFX
             if (var17 == 1)
             {
                 this.createBall(0.5D, 4, var6, var7, var18, var5);
-            }
-            else if (var17 == 2)
+            } else if (var17 == 2)
             {
-                this.createShaped(0.5D, new double[][] {{0.0D, 1.0D}, {0.3455D, 0.309D}, {0.9511D, 0.309D}, {0.3795918367346939D, -0.12653061224489795D}, {0.6122448979591837D, -0.8040816326530612D}, {0.0D, -0.35918367346938773D}}, var6, var7, var18, var5, false);
-            }
-            else if (var17 == 3)
+                this.createShaped(0.5D, new double[][]{ { 0.0D, 1.0D }, { 0.3455D, 0.309D }, { 0.9511D, 0.309D }, { 0.3795918367346939D, -0.12653061224489795D }, { 0.6122448979591837D, -0.8040816326530612D }, { 0.0D, -0.35918367346938773D } }, var6, var7, var18, var5, false);
+            } else if (var17 == 3)
             {
-                this.createShaped(0.5D, new double[][] {{0.0D, 0.2D}, {0.2D, 0.2D}, {0.2D, 0.6D}, {0.6D, 0.6D}, {0.6D, 0.2D}, {0.2D, 0.2D}, {0.2D, 0.0D}, {0.4D, 0.0D}, {0.4D, -0.6D}, {0.2D, -0.6D}, {0.2D, -0.4D}, {0.0D, -0.4D}}, var6, var7, var18, var5, true);
-            }
-            else if (var17 == 4)
+                this.createShaped(0.5D, new double[][]{ { 0.0D, 0.2D }, { 0.2D, 0.2D }, { 0.2D, 0.6D }, { 0.6D, 0.6D }, { 0.6D, 0.2D }, { 0.2D, 0.2D }, { 0.2D, 0.0D }, { 0.4D, 0.0D }, { 0.4D, -0.6D }, { 0.2D, -0.6D }, { 0.2D, -0.4D }, { 0.0D, -0.4D } }, var6, var7, var18, var5, true);
+            } else if (var17 == 4)
             {
                 this.createBurst(var6, var7, var18, var5);
-            }
-            else
+            } else
             {
                 this.createBall(0.25D, 2, var6, var7, var18, var5);
             }
 
             int var8 = var6[0];
-            float var9 = (float)((var8 & 16711680) >> 16) / 255.0F;
-            float var10 = (float)((var8 & 65280) >> 8) / 255.0F;
-            float var11 = (float)((var8 & 255) >> 0) / 255.0F;
+            float var9 = (float) ((var8 & 16711680) >> 16) / 255.0F;
+            float var10 = (float) ((var8 & 65280) >> 8) / 255.0F;
+            float var11 = (float) ((var8 & 255) >> 0) / 255.0F;
             EntityFireworkOverlayFX var12 = new EntityFireworkOverlayFX(this.worldObj, this.posX, this.posY, this.posZ);
             var12.setRBGColorF(var9, var10, var11);
             this.theEffectRenderer.addEffect(var12);
@@ -184,10 +180,10 @@ public class EntityFireworkStarterFX extends EntityFX
             {
                 for (int var16 = -par3; var16 <= par3; ++var16)
                 {
-                    double var17 = (double)var15 + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
-                    double var19 = (double)var14 + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
-                    double var21 = (double)var16 + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
-                    double var23 = (double)MathHelper.sqrt_double(var17 * var17 + var19 * var19 + var21 * var21) / par1 + this.rand.nextGaussian() * 0.05D;
+                    double var17 = (double) var15 + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
+                    double var19 = (double) var14 + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
+                    double var21 = (double) var16 + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
+                    double var23 = (double) MathHelper.sqrt_double(var17 * var17 + var19 * var19 + var21 * var21) / par1 + this.rand.nextGaussian() * 0.05D;
                     this.createParticle(var8, var10, var12, var17 / var23, var19 / var23, var21 / var23, par4ArrayOfInteger, par5ArrayOfInteger, par6, par7);
 
                     if (var14 != -par3 && var14 != par3 && var15 != -par3 && var15 != par3)
@@ -208,12 +204,12 @@ public class EntityFireworkStarterFX extends EntityFX
         double var9 = par3ArrayOfDouble[0][0];
         double var11 = par3ArrayOfDouble[0][1];
         this.createParticle(this.posX, this.posY, this.posZ, var9 * par1, var11 * par1, 0.0D, par4ArrayOfInteger, par5ArrayOfInteger, par6, par7);
-        float var13 = this.rand.nextFloat() * (float)Math.PI;
+        float var13 = this.rand.nextFloat() * (float) Math.PI;
         double var14 = par8 ? 0.034D : 0.34D;
 
         for (int var16 = 0; var16 < 3; ++var16)
         {
-            double var17 = (double)var13 + (double)((float)var16 * (float)Math.PI) * var14;
+            double var17 = (double) var13 + (double) ((float) var16 * (float) Math.PI) * var14;
             double var19 = var9;
             double var21 = var11;
 

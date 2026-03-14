@@ -46,8 +46,7 @@ public class GuiInventory extends InventoryEffectRenderer
         if (this.mc.playerController.isInCreativeMode())
         {
             this.mc.displayGuiScreen(new GuiContainerCreative(this.mc.thePlayer));
-        }
-        else
+        } else
         {
             super.initGui();
         }
@@ -55,7 +54,7 @@ public class GuiInventory extends InventoryEffectRenderer
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
-        this.fontRenderer.drawString(I18n.format("container.crafting", new Object[0]), 86, 16, 4210752);
+        this.fontRenderer.drawString(I18n.format("container.crafting"), 86, 16, 4210752);
     }
 
     /**
@@ -64,8 +63,8 @@ public class GuiInventory extends InventoryEffectRenderer
     public void drawScreen(int par1, int par2, float par3)
     {
         super.drawScreen(par1, par2, par3);
-        this.field_147048_u = (float)par1;
-        this.field_147047_v = (float)par2;
+        this.field_147048_u = (float) par1;
+        this.field_147047_v = (float) par2;
     }
 
     protected void func_146976_a(float p_146976_1_, int p_146976_2_, int p_146976_3_)
@@ -75,15 +74,15 @@ public class GuiInventory extends InventoryEffectRenderer
         int var4 = this.field_147003_i;
         int var5 = this.field_147009_r;
         this.drawTexturedModalRect(var4, var5, 0, 0, this.field_146999_f, this.field_147000_g);
-        func_147046_a(var4 + 51, var5 + 75, 30, (float)(var4 + 51) - this.field_147048_u, (float)(var5 + 75 - 50) - this.field_147047_v, this.mc.thePlayer);
+        func_147046_a(var4 + 51, var5 + 75, 30, (float) (var4 + 51) - this.field_147048_u, (float) (var5 + 75 - 50) - this.field_147047_v, this.mc.thePlayer);
     }
 
     public static void func_147046_a(int p_147046_0_, int p_147046_1_, int p_147046_2_, float p_147046_3_, float p_147046_4_, EntityLivingBase p_147046_5_)
     {
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)p_147046_0_, (float)p_147046_1_, 50.0F);
-        GL11.glScalef((float)(-p_147046_2_), (float)p_147046_2_, (float)p_147046_2_);
+        GL11.glTranslatef((float) p_147046_0_, (float) p_147046_1_, 50.0F);
+        GL11.glScalef((float) (-p_147046_2_), (float) p_147046_2_, (float) p_147046_2_);
         GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
         float var6 = p_147046_5_.renderYawOffset;
         float var7 = p_147046_5_.rotationYaw;
@@ -93,10 +92,10 @@ public class GuiInventory extends InventoryEffectRenderer
         GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
         RenderHelper.enableStandardItemLighting();
         GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-((float)Math.atan((double)(p_147046_4_ / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
-        p_147046_5_.renderYawOffset = (float)Math.atan((double)(p_147046_3_ / 40.0F)) * 20.0F;
-        p_147046_5_.rotationYaw = (float)Math.atan((double)(p_147046_3_ / 40.0F)) * 40.0F;
-        p_147046_5_.rotationPitch = -((float)Math.atan((double)(p_147046_4_ / 40.0F))) * 20.0F;
+        GL11.glRotatef(-((float) Math.atan(p_147046_4_ / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
+        p_147046_5_.renderYawOffset = (float) Math.atan(p_147046_3_ / 40.0F) * 20.0F;
+        p_147046_5_.rotationYaw = (float) Math.atan(p_147046_3_ / 40.0F) * 40.0F;
+        p_147046_5_.rotationPitch = -((float) Math.atan(p_147046_4_ / 40.0F)) * 20.0F;
         p_147046_5_.rotationYawHead = p_147046_5_.rotationYaw;
         p_147046_5_.prevRotationYawHead = p_147046_5_.rotationYaw;
         GL11.glTranslatef(0.0F, p_147046_5_.yOffset, 0.0F);

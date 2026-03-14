@@ -1,12 +1,13 @@
 package net.minecraft.src;
 
-import java.util.ArrayList;
-import java.util.Properties;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
+
+import java.util.ArrayList;
+import java.util.Properties;
 
 public class ConnectedProperties
 {
@@ -100,8 +101,7 @@ public class ConnectedProperties
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             String[] names = Config.tokenize(str, " ");
 
@@ -153,8 +153,7 @@ public class ConnectedProperties
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             String[] biomeNames = Config.tokenize(str, " ");
             ArrayList list = new ArrayList();
@@ -167,14 +166,13 @@ public class ConnectedProperties
                 if (biome == null)
                 {
                     Config.warn("Biome not found: " + biomeName);
-                }
-                else
+                } else
                 {
                     list.add(biome);
                 }
             }
 
-            BiomeGenBase[] var6 = (BiomeGenBase[])((BiomeGenBase[])list.toArray(new BiomeGenBase[list.size()]));
+            BiomeGenBase[] var6 = (BiomeGenBase[]) list.toArray(new BiomeGenBase[list.size()]);
             return var6;
         }
     }
@@ -207,8 +205,7 @@ public class ConnectedProperties
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             ArrayList list = new ArrayList();
             String[] iconStrs = Config.tokenize(str, " ,");
@@ -254,7 +251,7 @@ public class ConnectedProperties
                 list.add(i);
             }
 
-            String[] var10 = (String[])((String[])list.toArray(new String[list.size()]));
+            String[] var10 = (String[]) list.toArray(new String[list.size()]);
 
             for (int var11 = 0; var11 < var10.length; ++var11)
             {
@@ -295,8 +292,7 @@ public class ConnectedProperties
         if (str == null)
         {
             return -1;
-        }
-        else
+        } else
         {
             int num = Config.parseInt(str, -1);
 
@@ -314,8 +310,7 @@ public class ConnectedProperties
         if (str == null)
         {
             return defVal;
-        }
-        else
+        } else
         {
             int num = Config.parseInt(str, -1);
 
@@ -323,8 +318,7 @@ public class ConnectedProperties
             {
                 Config.warn("Invalid number: " + str);
                 return defVal;
-            }
-            else
+            } else
             {
                 return num;
             }
@@ -333,7 +327,7 @@ public class ConnectedProperties
 
     private static boolean parseBoolean(String str)
     {
-        return str == null ? false : str.toLowerCase().equals("true");
+        return str != null && str.equalsIgnoreCase("true");
     }
 
     private static int parseSymmetry(String str)
@@ -341,20 +335,17 @@ public class ConnectedProperties
         if (str == null)
         {
             return 1;
-        }
-        else
+        } else
         {
             str = str.trim();
 
             if (str.equals("opposite"))
             {
                 return 2;
-            }
-            else if (str.equals("all"))
+            } else if (str.equals("all"))
             {
                 return 6;
-            }
-            else
+            } else
             {
                 Config.warn("Unknown symmetry: " + str);
                 return 1;
@@ -367,8 +358,7 @@ public class ConnectedProperties
         if (str == null)
         {
             return 63;
-        }
-        else
+        } else
         {
             String[] faceStrs = Config.tokenize(str, " ,");
             int facesMask = 0;
@@ -391,36 +381,28 @@ public class ConnectedProperties
         if (str.equals("bottom"))
         {
             return 1;
-        }
-        else if (str.equals("top"))
+        } else if (str.equals("top"))
         {
             return 2;
-        }
-        else if (str.equals("north"))
+        } else if (str.equals("north"))
         {
             return 4;
-        }
-        else if (str.equals("south"))
+        } else if (str.equals("south"))
         {
             return 8;
-        }
-        else if (str.equals("east"))
+        } else if (str.equals("east"))
         {
             return 32;
-        }
-        else if (str.equals("west"))
+        } else if (str.equals("west"))
         {
             return 16;
-        }
-        else if (str.equals("sides"))
+        } else if (str.equals("sides"))
         {
             return 60;
-        }
-        else if (str.equals("all"))
+        } else if (str.equals("all"))
         {
             return 63;
-        }
-        else
+        } else
         {
             Config.warn("Unknown face: " + str);
             return 128;
@@ -432,24 +414,20 @@ public class ConnectedProperties
         if (str == null)
         {
             return 0;
-        }
-        else
+        } else
         {
             str = str.trim();
 
             if (str.equals("block"))
             {
                 return 1;
-            }
-            else if (str.equals("tile"))
+            } else if (str.equals("tile"))
             {
                 return 2;
-            }
-            else if (str.equals("material"))
+            } else if (str.equals("material"))
             {
                 return 3;
-            }
-            else
+            } else
             {
                 Config.warn("Unknown connect: " + str);
                 return 128;
@@ -462,8 +440,7 @@ public class ConnectedProperties
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             ArrayList list = new ArrayList();
             String[] intStrs = Config.tokenize(str, " ,");
@@ -479,8 +456,7 @@ public class ConnectedProperties
                     if (val.length != 2)
                     {
                         Config.warn("Invalid interval: " + i + ", when parsing: " + str);
-                    }
-                    else
+                    } else
                     {
                         int min = Config.parseInt(val[0], -1);
                         int max = Config.parseInt(val[1], -1);
@@ -491,22 +467,19 @@ public class ConnectedProperties
                             {
                                 list.add(Integer.valueOf(n));
                             }
-                        }
-                        else
+                        } else
                         {
                             Config.warn("Invalid interval: " + i + ", when parsing: " + str);
                         }
                     }
-                }
-                else
+                } else
                 {
                     int var11 = Config.parseInt(i, -1);
 
                     if (var11 < 0)
                     {
                         Config.warn("Invalid number: " + i + ", when parsing: " + str);
-                    }
-                    else
+                    } else
                     {
                         list.add(Integer.valueOf(var11));
                     }
@@ -517,7 +490,7 @@ public class ConnectedProperties
 
             for (int var10 = 0; var10 < var9.length; ++var10)
             {
-                var9[var10] = ((Integer)list.get(var10)).intValue();
+                var9[var10] = ((Integer) list.get(var10)).intValue();
             }
 
             return var9;
@@ -529,8 +502,7 @@ public class ConnectedProperties
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             ArrayList list = new ArrayList();
             String[] intStrs = Config.tokenize(str, " ,");
@@ -546,8 +518,7 @@ public class ConnectedProperties
                     if (val.length != 2)
                     {
                         Config.warn("Invalid interval: " + i + ", when parsing: " + str);
-                    }
-                    else
+                    } else
                     {
                         int min = parseBlockId(val[0]);
                         int max = parseBlockId(val[1]);
@@ -558,22 +529,19 @@ public class ConnectedProperties
                             {
                                 list.add(Integer.valueOf(n));
                             }
-                        }
-                        else
+                        } else
                         {
                             Config.warn("Invalid interval: " + i + ", when parsing: " + str);
                         }
                     }
-                }
-                else
+                } else
                 {
                     int var11 = parseBlockId(i);
 
                     if (var11 < 0)
                     {
                         Config.warn("Invalid block ID: " + i + ", when parsing: " + str);
-                    }
-                    else
+                    } else
                     {
                         list.add(Integer.valueOf(var11));
                     }
@@ -584,7 +552,7 @@ public class ConnectedProperties
 
             for (int var10 = 0; var10 < var9.length; ++var10)
             {
-                var9[var10] = ((Integer)list.get(var10)).intValue();
+                var9[var10] = ((Integer) list.get(var10)).intValue();
             }
 
             return var9;
@@ -598,8 +566,7 @@ public class ConnectedProperties
         if (val >= 0)
         {
             return val;
-        }
-        else
+        } else
         {
             Block block = Block.getBlockFromName(blockStr);
             return block != null ? Block.getIdFromBlock(block) : -1;
@@ -611,8 +578,7 @@ public class ConnectedProperties
         if (str == null)
         {
             return 1;
-        }
-        else
+        } else
         {
             str = str.trim();
 
@@ -623,46 +589,37 @@ public class ConnectedProperties
                     if (str.equals("vertical"))
                     {
                         return 6;
-                    }
-                    else if (str.equals("top"))
+                    } else if (str.equals("top"))
                     {
                         return 3;
-                    }
-                    else if (str.equals("random"))
+                    } else if (str.equals("random"))
                     {
                         return 4;
-                    }
-                    else if (str.equals("repeat"))
+                    } else if (str.equals("repeat"))
                     {
                         return 5;
-                    }
-                    else if (str.equals("fixed"))
+                    } else if (str.equals("fixed"))
                     {
                         return 7;
-                    }
-                    else if (!str.equals("horizontal+vertical") && !str.equals("h+v"))
+                    } else if (!str.equals("horizontal+vertical") && !str.equals("h+v"))
                     {
                         if (!str.equals("vertical+horizontal") && !str.equals("v+h"))
                         {
                             Config.warn("Unknown method: " + str);
                             return 0;
-                        }
-                        else
+                        } else
                         {
                             return 9;
                         }
-                    }
-                    else
+                    } else
                     {
                         return 8;
                     }
-                }
-                else
+                } else
                 {
                     return 2;
                 }
-            }
-            else
+            } else
             {
                 return 1;
             }
@@ -677,8 +634,7 @@ public class ConnectedProperties
             {
                 Config.warn("No base path found: " + path);
                 return false;
-            }
-            else
+            } else
             {
                 if (this.matchBlocks == null)
                 {
@@ -694,13 +650,11 @@ public class ConnectedProperties
                 {
                     Config.warn("No matchBlocks or matchTiles specified: " + path);
                     return false;
-                }
-                else if (this.method == 0)
+                } else if (this.method == 0)
                 {
                     Config.warn("No method: " + path);
                     return false;
-                }
-                else if (this.tiles != null && this.tiles.length > 0)
+                } else if (this.tiles != null && this.tiles.length > 0)
                 {
                     if (this.connect == 0)
                     {
@@ -711,23 +665,19 @@ public class ConnectedProperties
                     {
                         Config.warn("Invalid connect in: " + path);
                         return false;
-                    }
-                    else if (this.renderPass > 0)
+                    } else if (this.renderPass > 0)
                     {
                         Config.warn("Render pass not supported: " + this.renderPass);
                         return false;
-                    }
-                    else if ((this.faces & 128) != 0)
+                    } else if ((this.faces & 128) != 0)
                     {
                         Config.warn("Invalid faces in: " + path);
                         return false;
-                    }
-                    else if ((this.symmetry & 128) != 0)
+                    } else if ((this.symmetry & 128) != 0)
                     {
                         Config.warn("Invalid symmetry in: " + path);
                         return false;
-                    }
-                    else
+                    } else
                     {
                         switch (this.method)
                         {
@@ -763,15 +713,13 @@ public class ConnectedProperties
                                 return false;
                         }
                     }
-                }
-                else
+                } else
                 {
                     Config.warn("No tiles specified: " + path);
                     return false;
                 }
             }
-        }
-        else
+        } else
         {
             Config.warn("No name found: " + path);
             return false;
@@ -788,8 +736,7 @@ public class ConnectedProperties
         if (!this.name.startsWith("block"))
         {
             return null;
-        }
-        else
+        } else
         {
             int startPos = "block".length();
             int pos;
@@ -807,12 +754,11 @@ public class ConnectedProperties
             if (pos == startPos)
             {
                 return null;
-            }
-            else
+            } else
             {
                 String var5 = this.name.substring(startPos, pos);
                 int id = Config.parseInt(var5, -1);
-                return id < 0 ? null : new int[] {id};
+                return id < 0 ? null : new int[]{ id };
             }
         }
     }
@@ -820,7 +766,7 @@ public class ConnectedProperties
     private String[] detectMatchTiles()
     {
         IIcon icon = getIcon(this.name);
-        return icon == null ? null : new String[] {this.name};
+        return icon == null ? null : new String[]{ this.name };
     }
 
     private static IIcon getIcon(String iconName)
@@ -839,8 +785,7 @@ public class ConnectedProperties
         {
             Config.warn("Invalid tiles, must be at least 47: " + path);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -857,8 +802,7 @@ public class ConnectedProperties
         {
             Config.warn("Invalid tiles, must be exactly 4: " + path);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -870,13 +814,11 @@ public class ConnectedProperties
         {
             Config.warn("No tiles defined for vertical: " + path);
             return false;
-        }
-        else if (this.tiles.length != 4)
+        } else if (this.tiles.length != 4)
         {
             Config.warn("Invalid tiles, must be exactly 4: " + path);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -888,13 +830,11 @@ public class ConnectedProperties
         {
             Config.warn("No tiles defined for horizontal+vertical: " + path);
             return false;
-        }
-        else if (this.tiles.length != 7)
+        } else if (this.tiles.length != 7)
         {
             Config.warn("Invalid tiles, must be exactly 7: " + path);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -906,13 +846,11 @@ public class ConnectedProperties
         {
             Config.warn("No tiles defined for vertical+horizontal: " + path);
             return false;
-        }
-        else if (this.tiles.length != 7)
+        } else if (this.tiles.length != 7)
         {
             Config.warn("Invalid tiles, must be exactly 7: " + path);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -970,8 +908,7 @@ public class ConnectedProperties
             }
 
             return true;
-        }
-        else
+        } else
         {
             Config.warn("Tiles not defined: " + path);
             return false;
@@ -983,8 +920,7 @@ public class ConnectedProperties
         if (vals.length <= 0)
         {
             return 0;
-        }
-        else
+        } else
         {
             int sum = 0;
             int avg;
@@ -1006,8 +942,7 @@ public class ConnectedProperties
         {
             Config.warn("Tiles not defined: " + path);
             return false;
-        }
-        else if (this.width > 0 && this.width <= 16)
+        } else if (this.width > 0 && this.width <= 16)
         {
             if (this.height > 0 && this.height <= 16)
             {
@@ -1015,19 +950,16 @@ public class ConnectedProperties
                 {
                     Config.warn("Number of tiles does not equal width x height: " + path);
                     return false;
-                }
-                else
+                } else
                 {
                     return true;
                 }
-            }
-            else
+            } else
             {
                 Config.warn("Invalid height: " + path);
                 return false;
             }
-        }
-        else
+        } else
         {
             Config.warn("Invalid width: " + path);
             return false;
@@ -1040,13 +972,11 @@ public class ConnectedProperties
         {
             Config.warn("Tiles not defined: " + path);
             return false;
-        }
-        else if (this.tiles.length != 1)
+        } else if (this.tiles.length != 1)
         {
             Config.warn("Number of tiles should be 1 for method: fixed.");
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -1063,8 +993,7 @@ public class ConnectedProperties
         {
             Config.warn("Invalid tiles, must be exactly 1: " + path);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -1088,8 +1017,7 @@ public class ConnectedProperties
         if (tileNames == null)
         {
             return null;
-        }
-        else
+        } else
         {
             ArrayList iconList = new ArrayList();
 
@@ -1116,13 +1044,13 @@ public class ConnectedProperties
                 iconList.add(icon);
             }
 
-            IIcon[] var10 = (IIcon[])((IIcon[])iconList.toArray(new IIcon[iconList.size()]));
+            IIcon[] var10 = (IIcon[]) iconList.toArray(new IIcon[iconList.size()]);
             return var10;
         }
     }
 
     public String toString()
     {
-        return "CTM name: " + this.name + ", basePath: " + this.basePath + ", matchBlocks: " + Config.arrayToString(this.matchBlocks) + ", matchTiles: " + Config.arrayToString((Object[])this.matchTiles);
+        return "CTM name: " + this.name + ", basePath: " + this.basePath + ", matchBlocks: " + Config.arrayToString(this.matchBlocks) + ", matchTiles: " + Config.arrayToString(this.matchTiles);
     }
 }

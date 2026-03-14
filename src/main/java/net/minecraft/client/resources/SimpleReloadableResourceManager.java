@@ -6,16 +6,17 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import net.minecraft.client.resources.data.IMetadataSerializer;
+import net.minecraft.util.ResourceLocation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import net.minecraft.client.resources.data.IMetadataSerializer;
-import net.minecraft.util.ResourceLocation;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class SimpleReloadableResourceManager implements IReloadableResourceManager
 {
@@ -38,9 +39,9 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
 
         for (Iterator var2 = par1ResourcePack.getResourceDomains().iterator(); var2.hasNext(); var4.addResourcePack(par1ResourcePack))
         {
-            String var3 = (String)var2.next();
+            String var3 = (String) var2.next();
             this.setResourceDomains.add(var3);
-            var4 = (FallbackResourceManager)this.domainResourceManagers.get(var3);
+            var4 = (FallbackResourceManager) this.domainResourceManagers.get(var3);
 
             if (var4 == null)
             {
@@ -57,13 +58,12 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
 
     public IResource getResource(ResourceLocation par1ResourceLocation) throws IOException
     {
-        IResourceManager var2 = (IResourceManager)this.domainResourceManagers.get(par1ResourceLocation.getResourceDomain());
+        IResourceManager var2 = (IResourceManager) this.domainResourceManagers.get(par1ResourceLocation.getResourceDomain());
 
         if (var2 != null)
         {
             return var2.getResource(par1ResourceLocation);
-        }
-        else
+        } else
         {
             throw new FileNotFoundException(par1ResourceLocation.toString());
         }
@@ -71,13 +71,12 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
 
     public List getAllResources(ResourceLocation par1ResourceLocation) throws IOException
     {
-        IResourceManager var2 = (IResourceManager)this.domainResourceManagers.get(par1ResourceLocation.getResourceDomain());
+        IResourceManager var2 = (IResourceManager) this.domainResourceManagers.get(par1ResourceLocation.getResourceDomain());
 
         if (var2 != null)
         {
             return var2.getAllResources(par1ResourceLocation);
-        }
-        else
+        } else
         {
             throw new FileNotFoundException(par1ResourceLocation.toString());
         }
@@ -95,20 +94,22 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
         logger.info("Reloading ResourceManager: " + joinerResourcePacks.join(Iterables.transform(par1List, new Function()
         {
             private static final String __OBFID = "CL_00001092";
+
             public String apply(IResourcePack par1ResourcePack)
             {
                 return par1ResourcePack.getPackName();
             }
+
             public Object apply(Object par1Obj)
             {
-                return this.apply((IResourcePack)par1Obj);
+                return this.apply((IResourcePack) par1Obj);
             }
         })));
         Iterator var2 = par1List.iterator();
 
         while (var2.hasNext())
         {
-            IResourcePack var3 = (IResourcePack)var2.next();
+            IResourcePack var3 = (IResourcePack) var2.next();
             this.reloadResourcePack(var3);
         }
 
@@ -127,7 +128,7 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
 
         while (var1.hasNext())
         {
-            IResourceManagerReloadListener var2 = (IResourceManagerReloadListener)var1.next();
+            IResourceManagerReloadListener var2 = (IResourceManagerReloadListener) var1.next();
             var2.onResourceManagerReload(this);
         }
     }

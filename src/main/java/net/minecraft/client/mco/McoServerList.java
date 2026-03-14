@@ -2,17 +2,13 @@ package net.minecraft.client.mco;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.*;
 
 public class McoServerList
 {
@@ -20,7 +16,7 @@ public class McoServerList
     private volatile boolean field_148488_b;
     private McoServerList.UpdateTask field_148489_c = new McoServerList.UpdateTask(null);
     private Timer field_148486_d = new Timer();
-    private Set field_148487_e = Sets.newHashSet();
+    private final Set field_148487_e = Sets.newHashSet();
     private List field_148484_f = Lists.newArrayList();
     private int field_148485_g;
     private boolean field_148492_h;
@@ -86,7 +82,7 @@ public class McoServerList
 
         while (var3.hasNext())
         {
-            McoServer var4 = (McoServer)var3.next();
+            McoServer var4 = (McoServer) var3.next();
 
             if (p_148474_1_.remove(var4))
             {
@@ -119,7 +115,9 @@ public class McoServerList
         private McoClient field_148498_b;
         private static final String __OBFID = "CL_00000805";
 
-        private UpdateTask() {}
+        private UpdateTask()
+        {
+        }
 
         public void run()
         {
@@ -146,14 +144,12 @@ public class McoServerList
                         McoServerList.this.func_148474_a(var1);
                     }
                 }
-            }
-            catch (ExceptionMcoService var2)
+            } catch (ExceptionMcoService var2)
             {
-                McoServerList.logger.error("Couldn\'t get server list", var2);
-            }
-            catch (IOException var3)
+                McoServerList.logger.error("Couldn't get server list", var2);
+            } catch (IOException var3)
             {
-                McoServerList.logger.error("Couldn\'t parse response from server getting list");
+                McoServerList.logger.error("Couldn't parse response from server getting list");
             }
         }
 
@@ -166,10 +162,9 @@ public class McoServerList
                     int var1 = this.field_148498_b.func_148701_f();
                     McoServerList.this.func_148471_a(var1);
                 }
-            }
-            catch (ExceptionMcoService var2)
+            } catch (ExceptionMcoService var2)
             {
-                McoServerList.logger.error("Couldn\'t get pending invite count", var2);
+                McoServerList.logger.error("Couldn't get pending invite count", var2);
             }
         }
 
@@ -182,10 +177,9 @@ public class McoServerList
                     McoClient var1 = new McoClient(McoServerList.this.field_148493_i.getSessionID(), McoServerList.this.field_148493_i.getUsername(), "1.7.2", Minecraft.getMinecraft().getProxy());
                     McoServerList.this.field_148491_j = var1.func_148702_d();
                 }
-            }
-            catch (ExceptionMcoService var2)
+            } catch (ExceptionMcoService var2)
             {
-                McoServerList.logger.error("Couldn\'t get token count", var2);
+                McoServerList.logger.error("Couldn't get token count", var2);
                 McoServerList.this.field_148491_j = 0;
             }
         }
@@ -215,16 +209,13 @@ public class McoServerList
                 if (p_148503_1_.field_148809_e.equals(p_148503_2_.field_148809_e))
                 {
                     return p_148503_1_.field_148812_a < p_148503_2_.field_148812_a ? 1 : (p_148503_1_.field_148812_a > p_148503_2_.field_148812_a ? -1 : 0);
-                }
-                else if (p_148503_1_.field_148809_e.equals(this.field_148504_b))
+                } else if (p_148503_1_.field_148809_e.equals(this.field_148504_b))
                 {
                     return -1;
-                }
-                else if (p_148503_2_.field_148809_e.equals(this.field_148504_b))
+                } else if (p_148503_2_.field_148809_e.equals(this.field_148504_b))
                 {
                     return 1;
-                }
-                else
+                } else
                 {
                     if (p_148503_1_.field_148808_d.equals("CLOSED") || p_148503_2_.field_148808_d.equals("CLOSED"))
                     {
@@ -245,7 +236,7 @@ public class McoServerList
 
             public int compare(Object par1Obj, Object par2Obj)
             {
-                return this.compare((McoServer)par1Obj, (McoServer)par2Obj);
+                return this.compare((McoServer) par1Obj, (McoServer) par2Obj);
             }
 
             Comparator(String par2Str, Object par3McoServerListEmptyAnon)

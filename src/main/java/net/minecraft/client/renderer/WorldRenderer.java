@@ -1,8 +1,5 @@
 package net.minecraft.client.renderer;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -22,11 +19,17 @@ import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 import us.nebula.client.impl.cheat.render.XRayCheat;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 public class WorldRenderer
 {
     protected TesselatorVertexState vertexState;
 
-    /** Reference to the World object. */
+    /**
+     * Reference to the World object.
+     */
     public World worldObj;
     protected int glRenderList;
     protected Tessellator tessellator;
@@ -35,62 +38,98 @@ public class WorldRenderer
     public int posY;
     public int posZ;
 
-    /** Pos X minus */
+    /**
+     * Pos X minus
+     */
     public int posXMinus;
 
-    /** Pos Y minus */
+    /**
+     * Pos Y minus
+     */
     public int posYMinus;
 
-    /** Pos Z minus */
+    /**
+     * Pos Z minus
+     */
     public int posZMinus;
 
-    /** Pos X clipped */
+    /**
+     * Pos X clipped
+     */
     public int posXClip;
 
-    /** Pos Y clipped */
+    /**
+     * Pos Y clipped
+     */
     public int posYClip;
 
-    /** Pos Z clipped */
+    /**
+     * Pos Z clipped
+     */
     public int posZClip;
     public boolean isInFrustum;
 
-    /** Should this renderer skip this render pass */
+    /**
+     * Should this renderer skip this render pass
+     */
     public boolean[] skipRenderPass;
 
-    /** Pos X plus */
+    /**
+     * Pos X plus
+     */
     public int posXPlus;
 
-    /** Pos Y plus */
+    /**
+     * Pos Y plus
+     */
     public int posYPlus;
 
-    /** Pos Z plus */
+    /**
+     * Pos Z plus
+     */
     public int posZPlus;
 
-    /** Boolean for whether this renderer needs to be updated or not */
+    /**
+     * Boolean for whether this renderer needs to be updated or not
+     */
     public volatile boolean needsUpdate;
 
-    /** Axis aligned bounding box */
+    /**
+     * Axis aligned bounding box
+     */
     public AxisAlignedBB rendererBoundingBox;
 
-    /** Chunk index */
+    /**
+     * Chunk index
+     */
     public int chunkIndex;
 
-    /** Is this renderer visible according to the occlusion query */
+    /**
+     * Is this renderer visible according to the occlusion query
+     */
     public boolean isVisible;
 
-    /** Is this renderer waiting on the result of the occlusion query */
+    /**
+     * Is this renderer waiting on the result of the occlusion query
+     */
     public boolean isWaitingOnOcclusionQuery;
 
-    /** OpenGL occlusion query */
+    /**
+     * OpenGL occlusion query
+     */
     public int glOcclusionQuery;
 
-    /** Is the chunk lit */
+    /**
+     * Is the chunk lit
+     */
     public boolean isChunkLit;
     protected boolean isInitialized;
     public List tileEntityRenderers;
     protected List tileEntities;
 
-    /** Bytes sent to the GPU */
+    /**
+     * Bytes sent to the GPU
+     */
     protected int bytesDrawn;
     private static final String __OBFID = "CL_00000942";
     public boolean isVisibleFromPosition;
@@ -112,7 +151,7 @@ public class WorldRenderer
     public WorldRenderer(World par1World, List par2List, int par3, int par4, int par5, int par6)
     {
         this.tessellator = Tessellator.instance;
-        this.skipRenderPass = new boolean[] {true, true};
+        this.skipRenderPass = new boolean[]{ true, true };
         this.tileEntityRenderers = new ArrayList();
         this.isVisibleFromPosition = false;
         this.isInFrustrumFully = false;
@@ -153,7 +192,7 @@ public class WorldRenderer
             this.posXMinus = par1 - this.posXClip;
             this.posYMinus = par2 - this.posYClip;
             this.posZMinus = par3 - this.posZClip;
-            this.rendererBoundingBox = AxisAlignedBB.getBoundingBox((double)par1, (double)par2, (double)par3, (double)(par1 + 16), (double)(par2 + 16), (double)(par3 + 16));
+            this.rendererBoundingBox = AxisAlignedBB.getBoundingBox(par1, par2, par3, par1 + 16, par2 + 16, par3 + 16);
             this.needsBoxUpdate = true;
             this.markDirty();
             this.isVisibleFromPosition = false;
@@ -162,7 +201,7 @@ public class WorldRenderer
 
     protected void setupGLTranslation()
     {
-        GL11.glTranslatef((float)this.posXClip, (float)this.posYClip, (float)this.posZClip);
+        GL11.glTranslatef((float) this.posXClip, (float) this.posYClip, (float) this.posZClip);
     }
 
     /**
@@ -175,7 +214,7 @@ public class WorldRenderer
             if (this.needsBoxUpdate)
             {
                 GL11.glNewList(this.glRenderList + 2, GL11.GL_COMPILE);
-                RenderItem.renderAABB(AxisAlignedBB.getAABBPool().getAABB((double)this.posXClip, (double)this.posYClip, (double)this.posZClip, (double)(this.posXClip + 16), (double)(this.posYClip + 16), (double)(this.posZClip + 16)));
+                RenderItem.renderAABB(AxisAlignedBB.getAABBPool().getAABB(this.posXClip, this.posYClip, this.posZClip, this.posXClip + 16, this.posYClip + 16, this.posZClip + 16));
                 GL11.glEndList();
                 this.needsBoxUpdate = false;
             }
@@ -288,8 +327,7 @@ public class WorldRenderer
                         if (hasGlList)
                         {
                             this.postRenderBlocks(renderPass, p_147892_1_);
-                        }
-                        else
+                        } else
                         {
                             hasRenderedBlocks = false;
                         }
@@ -331,9 +369,8 @@ public class WorldRenderer
         if (Config.isFastRender())
         {
             this.tessellator.startDrawingQuads();
-            this.tessellator.setTranslation((double)(-globalChunkOffsetX), 0.0D, (double)(-globalChunkOffsetZ));
-        }
-        else
+            this.tessellator.setTranslation(-globalChunkOffsetX, 0.0D, -globalChunkOffsetZ);
+        } else
         {
             GL11.glPushMatrix();
             this.setupGLTranslation();
@@ -342,7 +379,7 @@ public class WorldRenderer
             GL11.glScalef(var2, var2, var2);
             GL11.glTranslatef(8.0F, 8.0F, 8.0F);
             this.tessellator.startDrawingQuads();
-            this.tessellator.setTranslation((double)(-this.posX), (double)(-this.posY), (double)(-this.posZ));
+            this.tessellator.setTranslation(-this.posX, -this.posY, -this.posZ);
         }
     }
 
@@ -350,7 +387,7 @@ public class WorldRenderer
     {
         if (Config.isTranslucentBlocksFancy() && renderpass == 1 && !this.skipRenderPass[renderpass])
         {
-            this.vertexState = this.tessellator.getVertexState((float)entityLiving.posX, (float)entityLiving.posY, (float)entityLiving.posZ);
+            this.vertexState = this.tessellator.getVertexState((float) entityLiving.posX, (float) entityLiving.posY, (float) entityLiving.posZ);
         }
 
         this.bytesDrawn += this.tessellator.draw();
@@ -387,9 +424,9 @@ public class WorldRenderer
      */
     public float distanceToEntitySquared(Entity par1Entity)
     {
-        float var2 = (float)(par1Entity.posX - (double)this.posXPlus);
-        float var3 = (float)(par1Entity.posY - (double)this.posYPlus);
-        float var4 = (float)(par1Entity.posZ - (double)this.posZPlus);
+        float var2 = (float) (par1Entity.posX - (double) this.posXPlus);
+        float var3 = (float) (par1Entity.posY - (double) this.posYPlus);
+        float var4 = (float) (par1Entity.posZ - (double) this.posZPlus);
         return var2 * var2 + var3 * var3 + var4 * var4;
     }
 
@@ -430,8 +467,7 @@ public class WorldRenderer
         if (this.isInFrustum && Config.isOcclusionFancy())
         {
             this.isInFrustrumFully = par1ICamera.isBoundingBoxInFrustumFully(this.rendererBoundingBox);
-        }
-        else
+        } else
         {
             this.isInFrustrumFully = false;
         }
@@ -471,11 +507,11 @@ public class WorldRenderer
 
     public void updateDistanceToEntitySquared(Entity entity)
     {
-        double dx = entity.posX - (double)this.posXPlus;
-        double dy = entity.posY - (double)this.posYPlus;
-        double dz = entity.posZ - (double)this.posZPlus;
+        double dx = entity.posX - (double) this.posXPlus;
+        double dy = entity.posY - (double) this.posYPlus;
+        double dz = entity.posZ - (double) this.posZPlus;
         double dXzSq = dx * dx + dz * dz;
         this.distanceToEntityXzSq = dXzSq;
-        this.sortDistanceToEntitySquared = (float)(dXzSq + dy * dy);
+        this.sortDistanceToEntitySquared = (float) (dXzSq + dy * dy);
     }
 }

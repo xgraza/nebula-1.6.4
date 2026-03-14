@@ -9,6 +9,7 @@ import java.io.File;
 public interface IConfiguration
 {
     String save();
+
     void load(final String data);
 
     File getFile();

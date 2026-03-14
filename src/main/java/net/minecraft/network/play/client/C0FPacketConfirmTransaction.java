@@ -1,10 +1,11 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C0FPacketConfirmTransaction extends Packet
 {
@@ -13,7 +14,9 @@ public class C0FPacketConfirmTransaction extends Packet
     private boolean field_149535_c;
     private static final String __OBFID = "CL_00001351";
 
-    public C0FPacketConfirmTransaction() {}
+    public C0FPacketConfirmTransaction()
+    {
+    }
 
     public C0FPacketConfirmTransaction(int p_i45244_1_, short p_i45244_2_, boolean p_i45244_3_)
     {
@@ -52,7 +55,7 @@ public class C0FPacketConfirmTransaction extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, uid=%d, accepted=%b", new Object[] {Integer.valueOf(this.field_149536_a), Short.valueOf(this.field_149534_b), Boolean.valueOf(this.field_149535_c)});
+        return String.format("id=%d, uid=%d, accepted=%b", Integer.valueOf(this.field_149536_a), Short.valueOf(this.field_149534_b), Boolean.valueOf(this.field_149535_c));
     }
 
     public int func_149532_c()
@@ -67,6 +70,6 @@ public class C0FPacketConfirmTransaction extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

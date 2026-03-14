@@ -1,12 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
+import java.util.List;
 
 public class S30PacketWindowItems extends Packet
 {
@@ -14,7 +15,9 @@ public class S30PacketWindowItems extends Packet
     private ItemStack[] field_148913_b;
     private static final String __OBFID = "CL_00001294";
 
-    public S30PacketWindowItems() {}
+    public S30PacketWindowItems()
+    {
+    }
 
     public S30PacketWindowItems(int p_i45186_1_, List p_i45186_2_)
     {
@@ -23,7 +26,7 @@ public class S30PacketWindowItems extends Packet
 
         for (int var3 = 0; var3 < this.field_148913_b.length; ++var3)
         {
-            ItemStack var4 = (ItemStack)p_i45186_2_.get(var3);
+            ItemStack var4 = (ItemStack) p_i45186_2_.get(var3);
             this.field_148913_b[var3] = var4 == null ? null : var4.copy();
         }
     }
@@ -77,6 +80,6 @@ public class S30PacketWindowItems extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

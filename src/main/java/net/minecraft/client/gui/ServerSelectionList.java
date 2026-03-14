@@ -1,11 +1,12 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class ServerSelectionList extends GuiListExtended
 {
@@ -26,20 +27,18 @@ public class ServerSelectionList extends GuiListExtended
     {
         if (p_148180_1_ < this.field_148198_l.size())
         {
-            return (GuiListExtended.IGuiListEntry)this.field_148198_l.get(p_148180_1_);
-        }
-        else
+            return (GuiListExtended.IGuiListEntry) this.field_148198_l.get(p_148180_1_);
+        } else
         {
             p_148180_1_ -= this.field_148198_l.size();
 
             if (p_148180_1_ == 0)
             {
                 return this.field_148196_n;
-            }
-            else
+            } else
             {
                 --p_148180_1_;
-                return (GuiListExtended.IGuiListEntry)this.field_148199_m.get(p_148180_1_);
+                return (GuiListExtended.IGuiListEntry) this.field_148199_m.get(p_148180_1_);
             }
         }
     }
@@ -81,7 +80,7 @@ public class ServerSelectionList extends GuiListExtended
 
         while (var2.hasNext())
         {
-            LanServerDetector.LanServer var3 = (LanServerDetector.LanServer)var2.next();
+            LanServerDetector.LanServer var3 = (LanServerDetector.LanServer) var2.next();
             this.field_148199_m.add(new ServerListEntryLanDetected(this.field_148200_k, var3));
         }
     }

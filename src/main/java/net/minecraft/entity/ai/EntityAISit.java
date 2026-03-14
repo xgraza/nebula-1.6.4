@@ -5,9 +5,11 @@ import net.minecraft.entity.passive.EntityTameable;
 
 public class EntityAISit extends EntityAIBase
 {
-    private EntityTameable theEntity;
+    private final EntityTameable theEntity;
 
-    /** If the EntityTameable is sitting. */
+    /**
+     * If the EntityTameable is sitting.
+     */
     private boolean isSitting;
     private static final String __OBFID = "CL_00001613";
 
@@ -25,19 +27,16 @@ public class EntityAISit extends EntityAIBase
         if (!this.theEntity.isTamed())
         {
             return false;
-        }
-        else if (this.theEntity.isInWater())
+        } else if (this.theEntity.isInWater())
         {
             return false;
-        }
-        else if (!this.theEntity.onGround)
+        } else if (!this.theEntity.onGround)
         {
             return false;
-        }
-        else
+        } else
         {
             EntityLivingBase var1 = this.theEntity.getOwner();
-            return var1 == null ? true : (this.theEntity.getDistanceSqToEntity(var1) < 144.0D && var1.getAITarget() != null ? false : this.isSitting);
+            return var1 == null || ((!(this.theEntity.getDistanceSqToEntity(var1) < 144.0D) || var1.getAITarget() == null) && this.isSitting);
         }
     }
 

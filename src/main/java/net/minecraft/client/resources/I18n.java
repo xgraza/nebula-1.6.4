@@ -15,7 +15,7 @@ public class I18n
     /**
      * format(a, b) is equivalent to String.format(translate(a), b). Args: translationKey, params...
      */
-    public static String format(String par0Str, Object ... par1ArrayOfObj)
+    public static String format(String par0Str, Object... par1ArrayOfObj)
     {
         return i18nLocale.formatMessage(par0Str, par1ArrayOfObj);
     }

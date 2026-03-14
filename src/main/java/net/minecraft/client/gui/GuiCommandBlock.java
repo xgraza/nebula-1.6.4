@@ -39,8 +39,8 @@ public class GuiCommandBlock extends GuiScreen
     {
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
-        this.buttonList.add(this.field_146490_i = new GuiButton(0, this.width / 2 - 4 - 150, this.height / 4 + 120 + 12, 150, 20, I18n.format("gui.done", new Object[0])));
-        this.buttonList.add(this.field_146487_r = new GuiButton(1, this.width / 2 + 4, this.height / 4 + 120 + 12, 150, 20, I18n.format("gui.cancel", new Object[0])));
+        this.buttonList.add(this.field_146490_i = new GuiButton(0, this.width / 2 - 4 - 150, this.height / 4 + 120 + 12, 150, 20, I18n.format("gui.done")));
+        this.buttonList.add(this.field_146487_r = new GuiButton(1, this.width / 2 + 4, this.height / 4 + 120 + 12, 150, 20, I18n.format("gui.cancel")));
         this.field_146485_f = new GuiTextField(this.fontRenderer, this.width / 2 - 150, 50, 300, 20);
         this.field_146485_f.setMaxTextLength(32767);
         this.field_146485_f.setFocused(true);
@@ -72,9 +72,8 @@ public class GuiCommandBlock extends GuiScreen
         {
             if (p_146284_1_.id == 1)
             {
-                this.mc.displayGuiScreen((GuiScreen)null);
-            }
-            else if (p_146284_1_.id == 0)
+                this.mc.displayGuiScreen(null);
+            } else if (p_146284_1_.id == 0)
             {
                 PacketBuffer var2 = new PacketBuffer(Unpooled.buffer());
 
@@ -84,17 +83,15 @@ public class GuiCommandBlock extends GuiScreen
                     this.field_146489_h.func_145757_a(var2);
                     var2.writeStringToBuffer(this.field_146485_f.getText());
                     this.mc.getNetHandler().addToSendQueue(new C17PacketCustomPayload("MC|AdvCdm", var2));
-                }
-                catch (Exception var7)
+                } catch (Exception var7)
                 {
-                    field_146488_a.error("Couldn\'t send command block info", var7);
-                }
-                finally
+                    field_146488_a.error("Couldn't send command block info", var7);
+                } finally
                 {
                     var2.release();
                 }
 
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
             }
         }
     }
@@ -114,8 +111,7 @@ public class GuiCommandBlock extends GuiScreen
             {
                 this.actionPerformed(this.field_146487_r);
             }
-        }
-        else
+        } else
         {
             this.actionPerformed(this.field_146490_i);
         }
@@ -137,23 +133,23 @@ public class GuiCommandBlock extends GuiScreen
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, I18n.format("advMode.setCommand", new Object[0]), this.width / 2, 20, 16777215);
-        this.drawString(this.fontRenderer, I18n.format("advMode.command", new Object[0]), this.width / 2 - 150, 37, 10526880);
+        this.drawCenteredString(this.fontRenderer, I18n.format("advMode.setCommand"), this.width / 2, 20, 16777215);
+        this.drawString(this.fontRenderer, I18n.format("advMode.command"), this.width / 2 - 150, 37, 10526880);
         this.field_146485_f.drawTextBox();
         byte var4 = 75;
         byte var5 = 0;
         FontRenderer var10001 = this.fontRenderer;
-        String var10002 = I18n.format("advMode.nearestPlayer", new Object[0]);
+        String var10002 = I18n.format("advMode.nearestPlayer");
         int var10003 = this.width / 2 - 150;
         int var8 = var5 + 1;
         this.drawString(var10001, var10002, var10003, var4 + var5 * this.fontRenderer.FONT_HEIGHT, 10526880);
-        this.drawString(this.fontRenderer, I18n.format("advMode.randomPlayer", new Object[0]), this.width / 2 - 150, var4 + var8++ * this.fontRenderer.FONT_HEIGHT, 10526880);
-        this.drawString(this.fontRenderer, I18n.format("advMode.allPlayers", new Object[0]), this.width / 2 - 150, var4 + var8++ * this.fontRenderer.FONT_HEIGHT, 10526880);
+        this.drawString(this.fontRenderer, I18n.format("advMode.randomPlayer"), this.width / 2 - 150, var4 + var8++ * this.fontRenderer.FONT_HEIGHT, 10526880);
+        this.drawString(this.fontRenderer, I18n.format("advMode.allPlayers"), this.width / 2 - 150, var4 + var8++ * this.fontRenderer.FONT_HEIGHT, 10526880);
 
         if (this.field_146486_g.getText().length() > 0)
         {
             int var7 = var4 + var8 * this.fontRenderer.FONT_HEIGHT + 20;
-            this.drawString(this.fontRenderer, I18n.format("advMode.previousOutput", new Object[0]), this.width / 2 - 150, var7, 10526880);
+            this.drawString(this.fontRenderer, I18n.format("advMode.previousOutput"), this.width / 2 - 150, var7, 10526880);
             this.field_146486_g.drawTextBox();
         }
 

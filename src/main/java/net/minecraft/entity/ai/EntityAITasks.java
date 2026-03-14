@@ -1,26 +1,33 @@
 package net.minecraft.entity.ai;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.profiler.Profiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class EntityAITasks
 {
     private static final Logger logger = LogManager.getLogger();
 
-    /** A list of EntityAITaskEntrys in EntityAITasks. */
-    private List taskEntries = new ArrayList();
+    /**
+     * A list of EntityAITaskEntrys in EntityAITasks.
+     */
+    private final List taskEntries = new ArrayList();
 
-    /** A list of EntityAITaskEntrys that are currently being executed. */
-    private List executingTaskEntries = new ArrayList();
+    /**
+     * A list of EntityAITaskEntrys that are currently being executed.
+     */
+    private final List executingTaskEntries = new ArrayList();
 
-    /** Instance of Profiler. */
+    /**
+     * Instance of Profiler.
+     */
     private final Profiler theProfiler;
     private int tickCount;
-    private int tickRate = 3;
+    private final int tickRate = 3;
     private static final String __OBFID = "CL_00001588";
 
     public EntityAITasks(Profiler par1Profiler)
@@ -42,7 +49,7 @@ public class EntityAITasks
 
         while (var2.hasNext())
         {
-            EntityAITasks.EntityAITaskEntry var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
+            EntityAITasks.EntityAITaskEntry var3 = (EntityAITasks.EntityAITaskEntry) var2.next();
             EntityAIBase var4 = var3.action;
 
             if (var4 == par1EntityAIBase)
@@ -70,7 +77,7 @@ public class EntityAITasks
 
             while (var2.hasNext())
             {
-                var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
+                var3 = (EntityAITasks.EntityAITaskEntry) var2.next();
                 boolean var4 = this.executingTaskEntries.contains(var3);
 
                 if (var4)
@@ -90,14 +97,13 @@ public class EntityAITasks
                     this.executingTaskEntries.add(var3);
                 }
             }
-        }
-        else
+        } else
         {
             var2 = this.executingTaskEntries.iterator();
 
             while (var2.hasNext())
             {
-                var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
+                var3 = (EntityAITasks.EntityAITaskEntry) var2.next();
 
                 if (!var3.action.continueExecuting())
                 {
@@ -112,7 +118,7 @@ public class EntityAITasks
 
         while (var2.hasNext())
         {
-            var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
+            var3 = (EntityAITasks.EntityAITaskEntry) var2.next();
             this.theProfiler.startSection(var3.action.getClass().getSimpleName());
             var3.action.startExecuting();
             this.theProfiler.endSection();
@@ -124,7 +130,7 @@ public class EntityAITasks
 
         while (var2.hasNext())
         {
-            var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
+            var3 = (EntityAITasks.EntityAITaskEntry) var2.next();
             var3.action.updateTask();
         }
 
@@ -153,7 +159,7 @@ public class EntityAITasks
 
         while (var2.hasNext())
         {
-            EntityAITasks.EntityAITaskEntry var3 = (EntityAITasks.EntityAITaskEntry)var2.next();
+            EntityAITasks.EntityAITaskEntry var3 = (EntityAITasks.EntityAITaskEntry) var2.next();
 
             if (var3 != par1EntityAITaskEntry)
             {
@@ -164,8 +170,7 @@ public class EntityAITasks
                         this.theProfiler.endSection();
                         return false;
                     }
-                }
-                else if (this.executingTaskEntries.contains(var3) && !var3.action.isInterruptible())
+                } else if (this.executingTaskEntries.contains(var3) && !var3.action.isInterruptible())
                 {
                     this.theProfiler.endSection();
                     return false;

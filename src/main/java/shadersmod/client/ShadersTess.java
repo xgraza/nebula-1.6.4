@@ -1,14 +1,15 @@
 package shadersmod.client;
 
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
-import java.util.Arrays;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.ARBVertexShader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import shadersmod.common.SMCLog;
+
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
+import java.util.Arrays;
 
 public class ShadersTess
 {
@@ -44,14 +45,13 @@ public class ShadersTess
         if (!tess.isDrawing)
         {
             throw new IllegalStateException("Not tesselating!");
-        }
-        else
+        } else
         {
             tess.isDrawing = false;
 
             if (tess.drawMode == 7 && tess.vertexCount % 4 != 0)
             {
-                SMCLog.warning("%s", new Object[] {"bad vertexCount"});
+                SMCLog.warning("%s", "bad vertexCount");
             }
 
             int voffset = 0;
@@ -148,26 +148,26 @@ public class ShadersTess
         if (Shaders.useMultiTexCoord3Attrib && tess.hasTexture)
         {
             GL13.glClientActiveTexture(GL13.GL_TEXTURE3);
-            GL11.glTexCoordPointer(2, 72, (FloatBuffer)tess.floatBuffer.position(16));
+            GL11.glTexCoordPointer(2, 72, (FloatBuffer) tess.floatBuffer.position(16));
             GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
             GL13.glClientActiveTexture(GL13.GL_TEXTURE0);
         }
 
         if (Shaders.useMidTexCoordAttrib && tess.hasTexture)
         {
-            ARBVertexShader.glVertexAttribPointerARB(Shaders.midTexCoordAttrib, 2, false, 72, (FloatBuffer)tess.floatBuffer.position(16));
+            ARBVertexShader.glVertexAttribPointerARB(Shaders.midTexCoordAttrib, 2, false, 72, (FloatBuffer) tess.floatBuffer.position(16));
             ARBVertexShader.glEnableVertexAttribArrayARB(Shaders.midTexCoordAttrib);
         }
 
         if (Shaders.useTangentAttrib && tess.hasTexture)
         {
-            ARBVertexShader.glVertexAttribPointerARB(Shaders.tangentAttrib, 4, false, 72, (FloatBuffer)tess.floatBuffer.position(12));
+            ARBVertexShader.glVertexAttribPointerARB(Shaders.tangentAttrib, 4, false, 72, (FloatBuffer) tess.floatBuffer.position(12));
             ARBVertexShader.glEnableVertexAttribArrayARB(Shaders.tangentAttrib);
         }
 
         if (Shaders.useEntityAttrib)
         {
-            ARBVertexShader.glVertexAttribPointerARB(Shaders.entityAttrib, 3, false, false, 72, (ShortBuffer)tess.shortBuffer.position(14));
+            ARBVertexShader.glVertexAttribPointerARB(Shaders.entityAttrib, 3, false, false, 72, (ShortBuffer) tess.shortBuffer.position(14));
             ARBVertexShader.glEnableVertexAttribArrayARB(Shaders.entityAttrib);
         }
     }
@@ -231,9 +231,9 @@ public class ShadersTess
         ShadersTess stess = tess.shadersTess;
         int[] rawBuffer = tess.rawBuffer;
         int rbi = tess.rawBufferIndex;
-        float fx = (float)(parx + tess.xOffset);
-        float fy = (float)(pary + tess.yOffset);
-        float fz = (float)(parz + tess.zOffset);
+        float fx = (float) (parx + tess.xOffset);
+        float fy = (float) (pary + tess.yOffset);
+        float fz = (float) (parz + tess.zOffset);
 
         if (rbi >= tess.bufferSize - 72)
         {
@@ -244,14 +244,12 @@ public class ShadersTess
                     tess.draw();
                     tess.isDrawing = true;
                 }
-            }
-            else if (tess.bufferSize > 0)
+            } else if (tess.bufferSize > 0)
             {
                 tess.bufferSize *= 2;
                 tess.rawBuffer = rawBuffer = Arrays.copyOf(tess.rawBuffer, tess.bufferSize);
-                SMCLog.info("Expand tesselator buffer %d", new Object[] {Integer.valueOf(tess.bufferSize)});
-            }
-            else
+                SMCLog.info("Expand tesselator buffer %d", Integer.valueOf(tess.bufferSize));
+            } else
             {
                 tess.bufferSize = 65536;
                 tess.rawBuffer = rawBuffer = new int[tess.bufferSize];
@@ -297,32 +295,32 @@ public class ShadersTess
                     stess.v0x = fx;
                     stess.v0y = fy;
                     stess.v0z = fz;
-                    stess.v0u = (float)tess.textureU;
-                    stess.v0v = (float)tess.textureV;
+                    stess.v0u = (float) tess.textureU;
+                    stess.v0v = (float) tess.textureV;
                     break;
 
                 case 1:
                     stess.v1x = fx;
                     stess.v1y = fy;
                     stess.v1z = fz;
-                    stess.v1u = (float)tess.textureU;
-                    stess.v1v = (float)tess.textureV;
+                    stess.v1u = (float) tess.textureU;
+                    stess.v1v = (float) tess.textureV;
                     break;
 
                 case 2:
                     stess.v2x = fx;
                     stess.v2y = fy;
                     stess.v2z = fz;
-                    stess.v2u = (float)tess.textureU;
-                    stess.v2v = (float)tess.textureV;
+                    stess.v2u = (float) tess.textureU;
+                    stess.v2v = (float) tess.textureV;
                     break;
 
                 case 3:
                     stess.v3x = fx;
                     stess.v3y = fy;
                     stess.v3z = fz;
-                    stess.v3u = (float)tess.textureU;
-                    stess.v3v = (float)tess.textureV;
+                    stess.v3u = (float) tess.textureU;
+                    stess.v3v = (float) tess.textureV;
                     x1 = stess.v2x - stess.v0x;
                     y1 = stess.v2y - stess.v0y;
                     z1 = stess.v2z - stess.v0z;
@@ -333,7 +331,7 @@ public class ShadersTess
                     vny = z1 * x2 - z2 * x1;
                     vnz = x1 * y2 - x2 * y1;
                     lensq = vnx * vnx + vny * vny + vnz * vnz;
-                    mult = (double)lensq != 0.0D ? (float)(1.0D / Math.sqrt((double)lensq)) : 1.0F;
+                    mult = (double) lensq != 0.0D ? (float) (1.0D / Math.sqrt(lensq)) : 1.0F;
                     vnx *= mult;
                     vny *= mult;
                     vnz *= mult;
@@ -357,12 +355,12 @@ public class ShadersTess
                     tan2y = (u1 * y2 - u2 * y1) * r;
                     tan2z = (u1 * z2 - u2 * z1) * r;
                     lensq = tan1x * tan1x + tan1y * tan1y + tan1z * tan1z;
-                    mult = (double)lensq != 0.0D ? (float)(1.0D / Math.sqrt((double)lensq)) : 1.0F;
+                    mult = (double) lensq != 0.0D ? (float) (1.0D / Math.sqrt(lensq)) : 1.0F;
                     tan1x *= mult;
                     tan1y *= mult;
                     tan1z *= mult;
                     lensq = tan2x * tan2x + tan2y * tan2y + tan2z * tan2z;
-                    mult = (double)lensq != 0.0D ? (float)(1.0D / Math.sqrt((double)lensq)) : 1.0F;
+                    mult = (double) lensq != 0.0D ? (float) (1.0D / Math.sqrt(lensq)) : 1.0F;
                     tan2x *= mult;
                     tan2y *= mult;
                     tan2z *= mult;
@@ -377,13 +375,12 @@ public class ShadersTess
                     rawBuffer[rbi + -41] = rawBuffer[rbi + -23] = rawBuffer[rbi + -5] = rawBuffer[rbi + 13] = Float.floatToRawIntBits(tan1y);
                     rawBuffer[rbi + -40] = rawBuffer[rbi + -22] = rawBuffer[rbi + -4] = rawBuffer[rbi + 14] = Float.floatToRawIntBits(tan1z);
                     rawBuffer[rbi + -39] = rawBuffer[rbi + -21] = rawBuffer[rbi + -3] = rawBuffer[rbi + 15] = Float.floatToRawIntBits(tan1w);
-                    stess.midTextureU = (Float.intBitsToFloat(rawBuffer[rbi + -51]) + Float.intBitsToFloat(rawBuffer[rbi + -33]) + Float.intBitsToFloat(rawBuffer[rbi + -15]) + (float)tess.textureU) / 4.0F;
-                    stess.midTextureV = (Float.intBitsToFloat(rawBuffer[rbi + -50]) + Float.intBitsToFloat(rawBuffer[rbi + -32]) + Float.intBitsToFloat(rawBuffer[rbi + -14]) + (float)tess.textureV) / 4.0F;
+                    stess.midTextureU = (Float.intBitsToFloat(rawBuffer[rbi + -51]) + Float.intBitsToFloat(rawBuffer[rbi + -33]) + Float.intBitsToFloat(rawBuffer[rbi + -15]) + (float) tess.textureU) / 4.0F;
+                    stess.midTextureV = (Float.intBitsToFloat(rawBuffer[rbi + -50]) + Float.intBitsToFloat(rawBuffer[rbi + -32]) + Float.intBitsToFloat(rawBuffer[rbi + -14]) + (float) tess.textureV) / 4.0F;
                     rawBuffer[rbi + -38] = rawBuffer[rbi + -20] = rawBuffer[rbi + -2] = rawBuffer[rbi + 16] = Float.floatToRawIntBits(stess.midTextureU);
                     rawBuffer[rbi + -37] = rawBuffer[rbi + -19] = rawBuffer[rbi + -1] = rawBuffer[rbi + 17] = Float.floatToRawIntBits(stess.midTextureV);
             }
-        }
-        else if (tess.drawMode == 4)
+        } else if (tess.drawMode == 4)
         {
             i = tess.addedVertices % 3;
 
@@ -393,24 +390,24 @@ public class ShadersTess
                     stess.v0x = fx;
                     stess.v0y = fy;
                     stess.v0z = fz;
-                    stess.v0u = (float)tess.textureU;
-                    stess.v0v = (float)tess.textureV;
+                    stess.v0u = (float) tess.textureU;
+                    stess.v0v = (float) tess.textureV;
                     break;
 
                 case 1:
                     stess.v1x = fx;
                     stess.v1y = fy;
                     stess.v1z = fz;
-                    stess.v1u = (float)tess.textureU;
-                    stess.v1v = (float)tess.textureV;
+                    stess.v1u = (float) tess.textureU;
+                    stess.v1v = (float) tess.textureV;
                     break;
 
                 case 2:
                     stess.v2x = fx;
                     stess.v2y = fy;
                     stess.v2z = fz;
-                    stess.v2u = (float)tess.textureU;
-                    stess.v2v = (float)tess.textureV;
+                    stess.v2u = (float) tess.textureU;
+                    stess.v2v = (float) tess.textureV;
                     x1 = stess.v1x - stess.v0x;
                     y1 = stess.v1y - stess.v0y;
                     z1 = stess.v1z - stess.v0z;
@@ -421,7 +418,7 @@ public class ShadersTess
                     vny = z1 * x2 - z2 * x1;
                     vnz = x1 * y2 - x2 * y1;
                     lensq = vnx * vnx + vny * vny + vnz * vnz;
-                    mult = (double)lensq != 0.0D ? (float)(1.0D / Math.sqrt((double)lensq)) : 1.0F;
+                    mult = (double) lensq != 0.0D ? (float) (1.0D / Math.sqrt(lensq)) : 1.0F;
                     vnx *= mult;
                     vny *= mult;
                     vnz *= mult;
@@ -445,12 +442,12 @@ public class ShadersTess
                     tan2y = (u1 * y2 - u2 * y1) * r;
                     tan2z = (u1 * z2 - u2 * z1) * r;
                     lensq = tan1x * tan1x + tan1y * tan1y + tan1z * tan1z;
-                    mult = (double)lensq != 0.0D ? (float)(1.0D / Math.sqrt((double)lensq)) : 1.0F;
+                    mult = (double) lensq != 0.0D ? (float) (1.0D / Math.sqrt(lensq)) : 1.0F;
                     tan1x *= mult;
                     tan1y *= mult;
                     tan1z *= mult;
                     lensq = tan2x * tan2x + tan2y * tan2y + tan2z * tan2z;
-                    mult = (double)lensq != 0.0D ? (float)(1.0D / Math.sqrt((double)lensq)) : 1.0F;
+                    mult = (double) lensq != 0.0D ? (float) (1.0D / Math.sqrt(lensq)) : 1.0F;
                     tan2x *= mult;
                     tan2y *= mult;
                     tan2z *= mult;
@@ -465,19 +462,19 @@ public class ShadersTess
                     rawBuffer[rbi + -23] = rawBuffer[rbi + -5] = rawBuffer[rbi + 13] = Float.floatToRawIntBits(tan1y);
                     rawBuffer[rbi + -22] = rawBuffer[rbi + -4] = rawBuffer[rbi + 14] = Float.floatToRawIntBits(tan1z);
                     rawBuffer[rbi + -21] = rawBuffer[rbi + -3] = rawBuffer[rbi + 15] = Float.floatToRawIntBits(tan1w);
-                    stess.midTextureU = (Float.intBitsToFloat(rawBuffer[rbi + -33]) + Float.intBitsToFloat(rawBuffer[rbi + -15]) + (float)tess.textureU) / 3.0F;
-                    stess.midTextureV = (Float.intBitsToFloat(rawBuffer[rbi + -32]) + Float.intBitsToFloat(rawBuffer[rbi + -14]) + (float)tess.textureV) / 3.0F;
+                    stess.midTextureU = (Float.intBitsToFloat(rawBuffer[rbi + -33]) + Float.intBitsToFloat(rawBuffer[rbi + -15]) + (float) tess.textureU) / 3.0F;
+                    stess.midTextureV = (Float.intBitsToFloat(rawBuffer[rbi + -32]) + Float.intBitsToFloat(rawBuffer[rbi + -14]) + (float) tess.textureV) / 3.0F;
                     rawBuffer[rbi + -20] = rawBuffer[rbi + -2] = rawBuffer[rbi + 16] = Float.floatToRawIntBits(stess.midTextureU);
                     rawBuffer[rbi + -19] = rawBuffer[rbi + -1] = rawBuffer[rbi + 17] = Float.floatToRawIntBits(stess.midTextureV);
             }
         }
 
         ++tess.addedVertices;
-        rawBuffer[rbi + 0] = Float.floatToRawIntBits(fx);
+        rawBuffer[rbi] = Float.floatToRawIntBits(fx);
         rawBuffer[rbi + 1] = Float.floatToRawIntBits(fy);
         rawBuffer[rbi + 2] = Float.floatToRawIntBits(fz);
-        rawBuffer[rbi + 3] = Float.floatToRawIntBits((float)tess.textureU);
-        rawBuffer[rbi + 4] = Float.floatToRawIntBits((float)tess.textureV);
+        rawBuffer[rbi + 3] = Float.floatToRawIntBits((float) tess.textureU);
+        rawBuffer[rbi + 4] = Float.floatToRawIntBits((float) tess.textureV);
         rawBuffer[rbi + 5] = tess.color;
         rawBuffer[rbi + 6] = tess.brightness;
         rawBuffer[rbi + 7] = Shaders.getEntityData();

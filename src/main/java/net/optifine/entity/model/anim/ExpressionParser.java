@@ -1,18 +1,13 @@
 package net.optifine.entity.model.anim;
 
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import net.minecraft.src.Config;
+
+import java.io.IOException;
+import java.util.*;
 
 public class ExpressionParser
 {
-    private IExpressionResolver expressionResolver;
+    private final IExpressionResolver expressionResolver;
 
     public ExpressionParser(IExpressionResolver expressionResolver)
     {
@@ -26,10 +21,9 @@ public class ExpressionParser
         if (!(expr instanceof IExpressionFloat))
         {
             throw new ParseException("Not a float expression: " + expr.getExpressionType());
-        }
-        else
+        } else
         {
-            return (IExpressionFloat)expr;
+            return (IExpressionFloat) expr;
         }
     }
 
@@ -40,10 +34,9 @@ public class ExpressionParser
         if (!(expr instanceof IExpressionBool))
         {
             throw new ParseException("Not a boolean expression: " + expr.getExpressionType());
-        }
-        else
+        } else
         {
-            return (IExpressionBool)expr;
+            return (IExpressionBool) expr;
         }
     }
 
@@ -56,14 +49,12 @@ public class ExpressionParser
             if (e == null)
             {
                 return null;
-            }
-            else
+            } else
             {
                 ArrayDeque deque = new ArrayDeque(Arrays.asList(e));
                 return this.parseInfix(deque);
             }
-        }
-        catch (IOException var4)
+        } catch (IOException var4)
         {
             throw new ParseException(var4.getMessage(), var4);
         }
@@ -74,8 +65,7 @@ public class ExpressionParser
         if (deque.isEmpty())
         {
             return null;
-        }
-        else
+        } else
         {
             LinkedList listExpr = new LinkedList();
             LinkedList listOperTokens = new LinkedList();
@@ -85,7 +75,7 @@ public class ExpressionParser
 
             while (true)
             {
-                Token tokenOper = (Token)deque.poll();
+                Token tokenOper = deque.poll();
 
                 if (tokenOper == null)
                 {
@@ -112,7 +102,7 @@ public class ExpressionParser
 
         while (it.hasNext())
         {
-            Token token = (Token)it.next();
+            Token token = (Token) it.next();
             FunctionType type = FunctionType.parse(token.getText());
             checkNull(type, "Invalid operator: " + token);
             listFunc.add(type);
@@ -126,12 +116,10 @@ public class ExpressionParser
         if (listExpr.size() != listFunc.size() + 1)
         {
             throw new ParseException("Invalid infix expression, expressions: " + listExpr.size() + ", operators: " + listFunc.size());
-        }
-        else if (listExpr.size() == 1)
+        } else if (listExpr.size() == 1)
         {
-            return (IExpression)listExpr.get(0);
-        }
-        else
+            return listExpr.get(0);
+        } else
         {
             int minPrecedence = Integer.MAX_VALUE;
             int maxPrecedence = Integer.MIN_VALUE;
@@ -139,7 +127,7 @@ public class ExpressionParser
 
             for (Iterator i = listFunc.iterator(); i.hasNext(); maxPrecedence = Math.max(type.getPrecedence(), maxPrecedence))
             {
-                type = (FunctionType)i.next();
+                type = (FunctionType) i.next();
                 minPrecedence = Math.min(type.getPrecedence(), minPrecedence);
             }
 
@@ -152,14 +140,12 @@ public class ExpressionParser
 
                 if (listExpr.size() == 1 && listFunc.size() == 0)
                 {
-                    return (IExpression)listExpr.get(0);
-                }
-                else
+                    return listExpr.get(0);
+                } else
                 {
                     throw new ParseException("Error merging operators, expressions: " + listExpr.size() + ", operators: " + listFunc.size());
                 }
-            }
-            else
+            } else
             {
                 throw new ParseException("Invalid infix precedence, min: " + minPrecedence + ", max: " + maxPrecedence);
             }
@@ -170,14 +156,14 @@ public class ExpressionParser
     {
         for (int i = 0; i < listFuncs.size(); ++i)
         {
-            FunctionType type = (FunctionType)listFuncs.get(i);
+            FunctionType type = listFuncs.get(i);
 
             if (type.getPrecedence() == precedence)
             {
                 listFuncs.remove(i);
-                IExpression expr1 = (IExpression)listExpr.remove(i);
-                IExpression expr2 = (IExpression)listExpr.remove(i);
-                IExpression exprOper = makeFunction(type, new IExpression[] {expr1, expr2});
+                IExpression expr1 = listExpr.remove(i);
+                IExpression expr2 = listExpr.remove(i);
+                IExpression exprOper = makeFunction(type, new IExpression[]{ expr1, expr2 });
                 listExpr.add(i, exprOper);
                 --i;
             }
@@ -186,7 +172,7 @@ public class ExpressionParser
 
     private IExpression parseExpression(Deque<Token> deque) throws ParseException
     {
-        Token token = (Token)deque.poll();
+        Token token = deque.poll();
         checkNull(token, "Missing expression");
 
         switch (ExpressionParser.NamelessClass1021586234.$SwitchMap$net$optifine$entity$model$anim$TokenType[token.getType().ordinal()])
@@ -214,20 +200,18 @@ public class ExpressionParser
                 if (operType == FunctionType.PLUS)
                 {
                     return this.parseExpression(deque);
-                }
-                else
+                } else
                 {
                     IExpression exprNot;
 
                     if (operType == FunctionType.MINUS)
                     {
                         exprNot = this.parseExpression(deque);
-                        return makeFunction(FunctionType.NEG, new IExpression[] {exprNot});
-                    }
-                    else if (operType == FunctionType.NOT)
+                        return makeFunction(FunctionType.NEG, new IExpression[]{ exprNot });
+                    } else if (operType == FunctionType.NOT)
                     {
                         exprNot = this.parseExpression(deque);
-                        return makeFunction(FunctionType.NOT, new IExpression[] {exprNot});
+                        return makeFunction(FunctionType.NOT, new IExpression[]{ exprNot });
                     }
                 }
 
@@ -243,8 +227,7 @@ public class ExpressionParser
         if (val == Float.NaN)
         {
             throw new ParseException("Invalid float value: " + token);
-        }
-        else
+        } else
         {
             return new ConstantFloat(val);
         }
@@ -252,7 +235,7 @@ public class ExpressionParser
 
     private FunctionType getFunctionType(Token token, Deque<Token> deque) throws ParseException
     {
-        Token tokenNext = (Token)deque.peek();
+        Token tokenNext = deque.peek();
         FunctionType type;
 
         if (tokenNext != null && tokenNext.getType() == TokenType.BRACKET_OPEN)
@@ -260,20 +243,17 @@ public class ExpressionParser
             type = FunctionType.parse(token.getText());
             checkNull(type, "Unknown function: " + token);
             return type;
-        }
-        else
+        } else
         {
             type = FunctionType.parse(token.getText());
 
             if (type == null)
             {
                 return null;
-            }
-            else if (type.getParameterCount(new IExpression[0]) > 0)
+            } else if (type.getParameterCount(new IExpression[0]) > 0)
             {
                 throw new ParseException("Missing arguments: " + type);
-            }
-            else
+            } else
             {
                 return type;
             }
@@ -285,10 +265,9 @@ public class ExpressionParser
         if (type.getParameterCount(new IExpression[0]) == 0)
         {
             return makeFunction(type, new IExpression[0]);
-        }
-        else
+        } else
         {
-            Token tokenOpen = (Token)deque.poll();
+            Token tokenOpen = deque.poll();
             Deque dequeBracketed = getGroup(deque, TokenType.BRACKET_CLOSE, true);
             IExpression[] exprs = this.parseExpressions(dequeBracketed);
             return makeFunction(type, exprs);
@@ -306,7 +285,7 @@ public class ExpressionParser
 
             if (expr == null)
             {
-                IExpression[] exprs1 = (IExpression[])((IExpression[])list.toArray(new IExpression[list.size()]));
+                IExpression[] exprs1 = (IExpression[]) list.toArray(new IExpression[list.size()]);
                 return exprs1;
             }
 
@@ -321,8 +300,7 @@ public class ExpressionParser
         if (args.length != funcParamTypes.length)
         {
             throw new ParseException("Invalid number of arguments, function: \"" + type.getName() + "\", count arguments: " + args.length + ", should be: " + funcParamTypes.length);
-        }
-        else
+        } else
         {
             for (int i = 0; i < args.length; ++i)
             {
@@ -339,12 +317,10 @@ public class ExpressionParser
             if (type.getExpressionType() == ExpressionType.FLOAT)
             {
                 return new FunctionFloat(type, args);
-            }
-            else if (type.getExpressionType() == ExpressionType.BOOL)
+            } else if (type.getExpressionType() == ExpressionType.BOOL)
             {
                 return new FunctionBool(type, args);
-            }
-            else
+            } else
             {
                 throw new ParseException("Unknown function type: " + type.getExpressionType() + ", function: " + type.getName());
             }
@@ -356,16 +332,14 @@ public class ExpressionParser
         if (this.expressionResolver == null)
         {
             throw new ParseException("Model variable not found: " + token);
-        }
-        else
+        } else
         {
             IExpression expr = this.expressionResolver.getExpression(token.getText());
 
             if (expr == null)
             {
                 throw new ParseException("Model variable not found: " + token);
-            }
-            else
+            } else
             {
                 return expr;
             }
@@ -386,7 +360,7 @@ public class ExpressionParser
 
         while (it.hasNext())
         {
-            Token token = (Token)it.next();
+            Token token = (Token) it.next();
             it.remove();
 
             if (level == 0 && token.getType() == tokenTypeEnd)
@@ -410,8 +384,7 @@ public class ExpressionParser
         if (tokenEndRequired)
         {
             throw new ParseException("Missing end token: " + tokenTypeEnd);
-        }
-        else
+        } else
         {
             return dequeGroup;
         }
@@ -434,37 +407,29 @@ public class ExpressionParser
             try
             {
                 $SwitchMap$net$optifine$entity$model$anim$TokenType[TokenType.NUMBER.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var4)
+            } catch (NoSuchFieldError var4)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$net$optifine$entity$model$anim$TokenType[TokenType.IDENTIFIER.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$net$optifine$entity$model$anim$TokenType[TokenType.BRACKET_OPEN.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
                 $SwitchMap$net$optifine$entity$model$anim$TokenType[TokenType.OPERATOR.ordinal()] = 4;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

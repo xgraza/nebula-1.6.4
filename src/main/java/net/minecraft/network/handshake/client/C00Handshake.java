@@ -1,11 +1,12 @@
 package net.minecraft.network.handshake.client;
 
-import java.io.IOException;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.handshake.INetHandlerHandshakeServer;
+
+import java.io.IOException;
 
 public class C00Handshake extends Packet
 {
@@ -15,7 +16,9 @@ public class C00Handshake extends Packet
     private EnumConnectionState field_149597_d;
     private static final String __OBFID = "CL_00001372";
 
-    public C00Handshake() {}
+    public C00Handshake()
+    {
+    }
 
     public C00Handshake(int p_i45266_1_, String p_i45266_2_, int p_i45266_3_, EnumConnectionState p_i45266_4_)
     {
@@ -73,6 +76,6 @@ public class C00Handshake extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerHandshakeServer)p_148833_1_);
+        this.processPacket((INetHandlerHandshakeServer) p_148833_1_);
     }
 }

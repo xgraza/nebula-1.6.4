@@ -1,6 +1,5 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.network.INetHandler;
@@ -8,6 +7,8 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
+
+import java.io.IOException;
 
 public class S2CPacketSpawnGlobalEntity extends Packet
 {
@@ -18,7 +19,9 @@ public class S2CPacketSpawnGlobalEntity extends Packet
     private int field_149056_e;
     private static final String __OBFID = "CL_00001278";
 
-    public S2CPacketSpawnGlobalEntity() {}
+    public S2CPacketSpawnGlobalEntity()
+    {
+    }
 
     public S2CPacketSpawnGlobalEntity(Entity p_i45191_1_)
     {
@@ -67,7 +70,7 @@ public class S2CPacketSpawnGlobalEntity extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", new Object[] {Integer.valueOf(this.field_149059_a), Integer.valueOf(this.field_149056_e), Float.valueOf((float)this.field_149057_b / 32.0F), Float.valueOf((float)this.field_149058_c / 32.0F), Float.valueOf((float)this.field_149055_d / 32.0F)});
+        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", Integer.valueOf(this.field_149059_a), Integer.valueOf(this.field_149056_e), Float.valueOf((float) this.field_149057_b / 32.0F), Float.valueOf((float) this.field_149058_c / 32.0F), Float.valueOf((float) this.field_149055_d / 32.0F));
     }
 
     public int func_149052_c()
@@ -97,6 +100,6 @@ public class S2CPacketSpawnGlobalEntity extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

@@ -25,7 +25,6 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.Nebula;
 import us.nebula.client.impl.cheat.player.TranslateCheat;
 
 import java.io.File;
@@ -136,7 +135,7 @@ public class GuiChat extends GuiScreen
                 this.sendMessage(var3);
             }
 
-            this.mc.displayGuiScreen((GuiScreen) null);
+            this.mc.displayGuiScreen(null);
         }
     }
 
@@ -213,7 +212,7 @@ public class GuiChat extends GuiScreen
                                 }
                             } catch (URISyntaxException var7)
                             {
-                                LOGGER.error("Can\'t open url for " + var5, var7);
+                                LOGGER.error("Can't open url for " + var5, var7);
                             }
                         } else if (var5.getAction() == ClickEvent.Action.OPEN_FILE)
                         {
@@ -232,7 +231,7 @@ public class GuiChat extends GuiScreen
                                 TranslateCheat.INSTANCE.handleTranslate(var4);
                             } else
                             {
-                                LOGGER.error("Don\'t know how to handle " + var5);
+                                LOGGER.error("Don't know how to handle " + var5);
                             }
                         }
                     }

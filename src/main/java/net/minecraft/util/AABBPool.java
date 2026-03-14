@@ -15,10 +15,14 @@ public class AABBPool
      */
     private final int numEntriesToRemove;
 
-    /** List of AABB stored in this Pool */
+    /**
+     * List of AABB stored in this Pool
+     */
     private final List listAABB = new ArrayList();
 
-    /** Next index to use when adding a Pool Entry. */
+    /**
+     * Next index to use when adding a Pool Entry.
+     */
     private int nextPoolIndex;
 
     /**
@@ -26,7 +30,9 @@ public class AABBPool
      */
     private int maxPoolIndex;
 
-    /** Number of times this Pool has been cleaned */
+    /**
+     * Number of times this Pool has been cleaned
+     */
     private int numCleans;
     private static final String __OBFID = "CL_00000609";
 
@@ -48,10 +54,9 @@ public class AABBPool
         {
             var13 = new AxisAlignedBB(par1, par3, par5, par7, par9, par11);
             this.listAABB.add(var13);
-        }
-        else
+        } else
         {
-            var13 = (AxisAlignedBB)this.listAABB.get(this.nextPoolIndex);
+            var13 = (AxisAlignedBB) this.listAABB.get(this.nextPoolIndex);
             var13.setBounds(par1, par3, par5, par7, par9, par11);
         }
 

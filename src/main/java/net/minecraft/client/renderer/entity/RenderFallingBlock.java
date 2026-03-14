@@ -47,7 +47,7 @@ public class RenderFallingBlock extends Render
         if (var11 != null && var11 != var10.getBlock(var12, var13, var14))
         {
             GL11.glPushMatrix();
-            GL11.glTranslatef((float)p_147918_2_, (float)p_147918_4_, (float)p_147918_6_);
+            GL11.glTranslatef((float) p_147918_2_, (float) p_147918_4_, (float) p_147918_6_);
             this.bindEntityTexture(p_147918_1_);
             GL11.glDisable(GL11.GL_LIGHTING);
             Tessellator var15;
@@ -57,22 +57,20 @@ public class RenderFallingBlock extends Render
                 this.field_147920_a.blockAccess = var10;
                 var15 = Tessellator.instance;
                 var15.startDrawingQuads();
-                var15.setTranslation((double)((float)(-var12) - 0.5F), (double)((float)(-var13) - 0.5F), (double)((float)(-var14) - 0.5F));
-                this.field_147920_a.renderBlockAnvilMetadata((BlockAnvil)var11, var12, var13, var14, p_147918_1_.field_145814_a);
+                var15.setTranslation((float) (-var12) - 0.5F, (float) (-var13) - 0.5F, (float) (-var14) - 0.5F);
+                this.field_147920_a.renderBlockAnvilMetadata((BlockAnvil) var11, var12, var13, var14, p_147918_1_.field_145814_a);
                 var15.setTranslation(0.0D, 0.0D, 0.0D);
                 var15.draw();
-            }
-            else if (var11 instanceof BlockDragonEgg)
+            } else if (var11 instanceof BlockDragonEgg)
             {
                 this.field_147920_a.blockAccess = var10;
                 var15 = Tessellator.instance;
                 var15.startDrawingQuads();
-                var15.setTranslation((double)((float)(-var12) - 0.5F), (double)((float)(-var13) - 0.5F), (double)((float)(-var14) - 0.5F));
-                this.field_147920_a.renderBlockDragonEgg((BlockDragonEgg)var11, var12, var13, var14);
+                var15.setTranslation((float) (-var12) - 0.5F, (float) (-var13) - 0.5F, (float) (-var14) - 0.5F);
+                this.field_147920_a.renderBlockDragonEgg((BlockDragonEgg) var11, var12, var13, var14);
                 var15.setTranslation(0.0D, 0.0D, 0.0D);
                 var15.draw();
-            }
-            else
+            } else
             {
                 this.field_147920_a.setRenderBoundsFromBlock(var11);
                 this.field_147920_a.renderBlockSandFalling(var11, var10, var12, var13, var14, p_147918_1_.field_145814_a);
@@ -96,7 +94,7 @@ public class RenderFallingBlock extends Render
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityFallingBlock)par1Entity);
+        return this.getEntityTexture((EntityFallingBlock) par1Entity);
     }
 
     /**
@@ -107,6 +105,6 @@ public class RenderFallingBlock extends Render
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityFallingBlock)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityFallingBlock) par1Entity, par2, par4, par6, par8, par9);
     }
 }

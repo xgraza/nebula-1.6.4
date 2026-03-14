@@ -26,8 +26,7 @@ public class ItemLilyPad extends ItemColored
         if (var4 == null)
         {
             return par1ItemStack;
-        }
-        else
+        } else
         {
             if (var4.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
             {

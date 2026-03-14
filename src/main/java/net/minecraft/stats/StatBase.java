@@ -1,41 +1,48 @@
 package net.minecraft.stats;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class StatBase
 {
-    /** The Stat ID */
+    /**
+     * The Stat ID
+     */
     public final String statId;
 
-    /** The Stat name */
+    /**
+     * The Stat name
+     */
     private final IChatComponent statName;
     public boolean isIndependent;
     private final IStatType type;
     private final IScoreObjectiveCriteria field_150957_c;
     private Class field_150956_d;
-    private static NumberFormat numberFormat = NumberFormat.getIntegerInstance(Locale.US);
+    private static final NumberFormat numberFormat = NumberFormat.getIntegerInstance(Locale.US);
     public static IStatType simpleStatType = new IStatType()
     {
         private static final String __OBFID = "CL_00001473";
+
         public String format(int par1)
         {
-            return StatBase.numberFormat.format((long)par1);
+            return StatBase.numberFormat.format(par1);
         }
     };
-    private static DecimalFormat decimalFormat = new DecimalFormat("########0.00");
+    private static final DecimalFormat decimalFormat = new DecimalFormat("########0.00");
     public static IStatType timeStatType = new IStatType()
     {
         private static final String __OBFID = "CL_00001474";
+
         public String format(int par1)
         {
-            double var2 = (double)par1 / 20.0D;
+            double var2 = (double) par1 / 20.0D;
             double var4 = var2 / 60.0D;
             double var6 = var4 / 60.0D;
             double var8 = var6 / 24.0D;
@@ -46,9 +53,10 @@ public class StatBase
     public static IStatType distanceStatType = new IStatType()
     {
         private static final String __OBFID = "CL_00001475";
+
         public String format(int par1)
         {
-            double var2 = (double)par1 / 100.0D;
+            double var2 = (double) par1 / 100.0D;
             double var4 = var2 / 1000.0D;
             return var4 > 0.5D ? StatBase.decimalFormat.format(var4) + " km" : (var2 > 0.5D ? StatBase.decimalFormat.format(var2) + " m" : par1 + " cm");
         }
@@ -56,9 +64,10 @@ public class StatBase
     public static IStatType field_111202_k = new IStatType()
     {
         private static final String __OBFID = "CL_00001476";
+
         public String format(int par1)
         {
-            return StatBase.decimalFormat.format((double)par1 * 0.1D);
+            return StatBase.decimalFormat.format((double) par1 * 0.1D);
         }
     };
     private static final String __OBFID = "CL_00001472";
@@ -94,9 +103,8 @@ public class StatBase
     {
         if (StatList.oneShotStats.containsKey(this.statId))
         {
-            throw new RuntimeException("Duplicate stat id: \"" + ((StatBase)StatList.oneShotStats.get(this.statId)).statName + "\" and \"" + this.statName + "\" at id " + this.statId);
-        }
-        else
+            throw new RuntimeException("Duplicate stat id: \"" + ((StatBase) StatList.oneShotStats.get(this.statId)).statName + "\" and \"" + this.statName + "\" at id " + this.statId);
+        } else
         {
             StatList.allStats.add(this);
             StatList.oneShotStats.put(this.statId, this);
@@ -138,13 +146,11 @@ public class StatBase
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (par1Obj != null && this.getClass() == par1Obj.getClass())
+        } else if (par1Obj != null && this.getClass() == par1Obj.getClass())
         {
-            StatBase var2 = (StatBase)par1Obj;
+            StatBase var2 = (StatBase) par1Obj;
             return this.statId.equals(var2.statId);
-        }
-        else
+        } else
         {
             return false;
         }

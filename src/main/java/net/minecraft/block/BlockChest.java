@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Iterator;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,6 +18,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
+import java.util.Random;
 
 public class BlockChest extends BlockContainer
 {
@@ -58,20 +59,16 @@ public class BlockChest extends BlockContainer
         if (p_149719_1_.getBlock(p_149719_2_, p_149719_3_, p_149719_4_ - 1) == this)
         {
             this.setBlockBounds(0.0625F, 0.0F, 0.0F, 0.9375F, 0.875F, 0.9375F);
-        }
-        else if (p_149719_1_.getBlock(p_149719_2_, p_149719_3_, p_149719_4_ + 1) == this)
+        } else if (p_149719_1_.getBlock(p_149719_2_, p_149719_3_, p_149719_4_ + 1) == this)
         {
             this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 1.0F);
-        }
-        else if (p_149719_1_.getBlock(p_149719_2_ - 1, p_149719_3_, p_149719_4_) == this)
+        } else if (p_149719_1_.getBlock(p_149719_2_ - 1, p_149719_3_, p_149719_4_) == this)
         {
             this.setBlockBounds(0.0F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
-        }
-        else if (p_149719_1_.getBlock(p_149719_2_ + 1, p_149719_3_, p_149719_4_) == this)
+        } else if (p_149719_1_.getBlock(p_149719_2_ + 1, p_149719_3_, p_149719_4_) == this)
         {
             this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 1.0F, 0.875F, 0.9375F);
-        }
-        else
+        } else
         {
             this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
         }
@@ -117,7 +114,7 @@ public class BlockChest extends BlockContainer
         Block var9 = p_149689_1_.getBlock(p_149689_2_ - 1, p_149689_3_, p_149689_4_);
         Block var10 = p_149689_1_.getBlock(p_149689_2_ + 1, p_149689_3_, p_149689_4_);
         byte var11 = 0;
-        int var12 = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int var12 = MathHelper.floor_double((double) (p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
         if (var12 == 0)
         {
@@ -142,16 +139,14 @@ public class BlockChest extends BlockContainer
         if (var7 != this && var8 != this && var9 != this && var10 != this)
         {
             p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, var11, 3);
-        }
-        else
+        } else
         {
             if ((var7 == this || var8 == this) && (var11 == 4 || var11 == 5))
             {
                 if (var7 == this)
                 {
                     p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_ - 1, var11, 3);
-                }
-                else
+                } else
                 {
                     p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_ + 1, var11, 3);
                 }
@@ -164,8 +159,7 @@ public class BlockChest extends BlockContainer
                 if (var9 == this)
                 {
                     p_149689_1_.setBlockMetadataWithNotify(p_149689_2_ - 1, p_149689_3_, p_149689_4_, var11, 3);
-                }
-                else
+                } else
                 {
                     p_149689_1_.setBlockMetadataWithNotify(p_149689_2_ + 1, p_149689_3_, p_149689_4_, var11, 3);
                 }
@@ -176,7 +170,7 @@ public class BlockChest extends BlockContainer
 
         if (p_149689_6_.hasDisplayName())
         {
-            ((TileEntityChest)p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145976_a(p_149689_6_.getDisplayName());
+            ((TileEntityChest) p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145976_a(p_149689_6_.getDisplayName());
         }
     }
 
@@ -222,8 +216,7 @@ public class BlockChest extends BlockContainer
                     {
                         var15 = 4;
                     }
-                }
-                else
+                } else
                 {
                     var10 = var7 == this ? p_149954_2_ - 1 : p_149954_2_ + 1;
                     var11 = p_149954_1_.getBlock(var10, p_149954_3_, p_149954_4_ - 1);
@@ -235,8 +228,7 @@ public class BlockChest extends BlockContainer
                     if (var7 == this)
                     {
                         var16 = p_149954_1_.getBlockMetadata(p_149954_2_ - 1, p_149954_3_, p_149954_4_);
-                    }
-                    else
+                    } else
                     {
                         var16 = p_149954_1_.getBlockMetadata(p_149954_2_ + 1, p_149954_3_, p_149954_4_);
                     }
@@ -256,8 +248,7 @@ public class BlockChest extends BlockContainer
                         var15 = 2;
                     }
                 }
-            }
-            else
+            } else
             {
                 var10 = var5 == this ? p_149954_4_ - 1 : p_149954_4_ + 1;
                 var11 = p_149954_1_.getBlock(p_149954_2_ - 1, p_149954_3_, var10);
@@ -269,8 +260,7 @@ public class BlockChest extends BlockContainer
                 if (var5 == this)
                 {
                     var16 = p_149954_1_.getBlockMetadata(p_149954_2_, p_149954_3_, p_149954_4_ - 1);
-                }
-                else
+                } else
                 {
                     var16 = p_149954_1_.getBlockMetadata(p_149954_2_, p_149954_3_, p_149954_4_ + 1);
                 }
@@ -319,18 +309,18 @@ public class BlockChest extends BlockContainer
             ++var5;
         }
 
-        return var5 > 1 ? false : (this.func_149952_n(p_149742_1_, p_149742_2_ - 1, p_149742_3_, p_149742_4_) ? false : (this.func_149952_n(p_149742_1_, p_149742_2_ + 1, p_149742_3_, p_149742_4_) ? false : (this.func_149952_n(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_ - 1) ? false : !this.func_149952_n(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_ + 1))));
+        return var5 <= 1 && (!this.func_149952_n(p_149742_1_, p_149742_2_ - 1, p_149742_3_, p_149742_4_) && (!this.func_149952_n(p_149742_1_, p_149742_2_ + 1, p_149742_3_, p_149742_4_) && (!this.func_149952_n(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_ - 1) && !this.func_149952_n(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_ + 1))));
     }
 
     private boolean func_149952_n(World p_149952_1_, int p_149952_2_, int p_149952_3_, int p_149952_4_)
     {
-        return p_149952_1_.getBlock(p_149952_2_, p_149952_3_, p_149952_4_) != this ? false : (p_149952_1_.getBlock(p_149952_2_ - 1, p_149952_3_, p_149952_4_) == this ? true : (p_149952_1_.getBlock(p_149952_2_ + 1, p_149952_3_, p_149952_4_) == this ? true : (p_149952_1_.getBlock(p_149952_2_, p_149952_3_, p_149952_4_ - 1) == this ? true : p_149952_1_.getBlock(p_149952_2_, p_149952_3_, p_149952_4_ + 1) == this)));
+        return p_149952_1_.getBlock(p_149952_2_, p_149952_3_, p_149952_4_) == this && (p_149952_1_.getBlock(p_149952_2_ - 1, p_149952_3_, p_149952_4_) == this || (p_149952_1_.getBlock(p_149952_2_ + 1, p_149952_3_, p_149952_4_) == this || (p_149952_1_.getBlock(p_149952_2_, p_149952_3_, p_149952_4_ - 1) == this || p_149952_1_.getBlock(p_149952_2_, p_149952_3_, p_149952_4_ + 1) == this)));
     }
 
     public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
     {
         super.onNeighborBlockChange(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, p_149695_5_);
-        TileEntityChest var6 = (TileEntityChest)p_149695_1_.getTileEntity(p_149695_2_, p_149695_3_, p_149695_4_);
+        TileEntityChest var6 = (TileEntityChest) p_149695_1_.getTileEntity(p_149695_2_, p_149695_3_, p_149695_4_);
 
         if (var6 != null)
         {
@@ -340,7 +330,7 @@ public class BlockChest extends BlockContainer
 
     public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
-        TileEntityChest var7 = (TileEntityChest)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        TileEntityChest var7 = (TileEntityChest) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
         if (var7 != null)
         {
@@ -364,15 +354,15 @@ public class BlockChest extends BlockContainer
                         }
 
                         var9.stackSize -= var13;
-                        var14 = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + var10), (double)((float)p_149749_3_ + var11), (double)((float)p_149749_4_ + var12), new ItemStack(var9.getItem(), var13, var9.getItemDamage()));
+                        var14 = new EntityItem(p_149749_1_, (float) p_149749_2_ + var10, (float) p_149749_3_ + var11, (float) p_149749_4_ + var12, new ItemStack(var9.getItem(), var13, var9.getItemDamage()));
                         float var15 = 0.05F;
-                        var14.motionX = (double)((float)this.field_149955_b.nextGaussian() * var15);
-                        var14.motionY = (double)((float)this.field_149955_b.nextGaussian() * var15 + 0.2F);
-                        var14.motionZ = (double)((float)this.field_149955_b.nextGaussian() * var15);
+                        var14.motionX = (float) this.field_149955_b.nextGaussian() * var15;
+                        var14.motionY = (float) this.field_149955_b.nextGaussian() * var15 + 0.2F;
+                        var14.motionZ = (float) this.field_149955_b.nextGaussian() * var15;
 
                         if (var9.hasTagCompound())
                         {
-                            var14.getEntityItem().setTagCompound((NBTTagCompound)var9.getTagCompound().copy());
+                            var14.getEntityItem().setTagCompound((NBTTagCompound) var9.getTagCompound().copy());
                         }
                     }
                 }
@@ -392,8 +382,7 @@ public class BlockChest extends BlockContainer
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
             IInventory var10 = this.func_149951_m(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_);
 
@@ -408,59 +397,52 @@ public class BlockChest extends BlockContainer
 
     public IInventory func_149951_m(World p_149951_1_, int p_149951_2_, int p_149951_3_, int p_149951_4_)
     {
-        Object var5 = (TileEntityChest)p_149951_1_.getTileEntity(p_149951_2_, p_149951_3_, p_149951_4_);
+        Object var5 = p_149951_1_.getTileEntity(p_149951_2_, p_149951_3_, p_149951_4_);
 
         if (var5 == null)
         {
             return null;
-        }
-        else if (p_149951_1_.getBlock(p_149951_2_, p_149951_3_ + 1, p_149951_4_).isNormalCube())
+        } else if (p_149951_1_.getBlock(p_149951_2_, p_149951_3_ + 1, p_149951_4_).isNormalCube())
         {
             return null;
-        }
-        else if (func_149953_o(p_149951_1_, p_149951_2_, p_149951_3_, p_149951_4_))
+        } else if (func_149953_o(p_149951_1_, p_149951_2_, p_149951_3_, p_149951_4_))
         {
             return null;
-        }
-        else if (p_149951_1_.getBlock(p_149951_2_ - 1, p_149951_3_, p_149951_4_) == this && (p_149951_1_.getBlock(p_149951_2_ - 1, p_149951_3_ + 1, p_149951_4_).isNormalCube() || func_149953_o(p_149951_1_, p_149951_2_ - 1, p_149951_3_, p_149951_4_)))
+        } else if (p_149951_1_.getBlock(p_149951_2_ - 1, p_149951_3_, p_149951_4_) == this && (p_149951_1_.getBlock(p_149951_2_ - 1, p_149951_3_ + 1, p_149951_4_).isNormalCube() || func_149953_o(p_149951_1_, p_149951_2_ - 1, p_149951_3_, p_149951_4_)))
         {
             return null;
-        }
-        else if (p_149951_1_.getBlock(p_149951_2_ + 1, p_149951_3_, p_149951_4_) == this && (p_149951_1_.getBlock(p_149951_2_ + 1, p_149951_3_ + 1, p_149951_4_).isNormalCube() || func_149953_o(p_149951_1_, p_149951_2_ + 1, p_149951_3_, p_149951_4_)))
+        } else if (p_149951_1_.getBlock(p_149951_2_ + 1, p_149951_3_, p_149951_4_) == this && (p_149951_1_.getBlock(p_149951_2_ + 1, p_149951_3_ + 1, p_149951_4_).isNormalCube() || func_149953_o(p_149951_1_, p_149951_2_ + 1, p_149951_3_, p_149951_4_)))
         {
             return null;
-        }
-        else if (p_149951_1_.getBlock(p_149951_2_, p_149951_3_, p_149951_4_ - 1) == this && (p_149951_1_.getBlock(p_149951_2_, p_149951_3_ + 1, p_149951_4_ - 1).isNormalCube() || func_149953_o(p_149951_1_, p_149951_2_, p_149951_3_, p_149951_4_ - 1)))
+        } else if (p_149951_1_.getBlock(p_149951_2_, p_149951_3_, p_149951_4_ - 1) == this && (p_149951_1_.getBlock(p_149951_2_, p_149951_3_ + 1, p_149951_4_ - 1).isNormalCube() || func_149953_o(p_149951_1_, p_149951_2_, p_149951_3_, p_149951_4_ - 1)))
         {
             return null;
-        }
-        else if (p_149951_1_.getBlock(p_149951_2_, p_149951_3_, p_149951_4_ + 1) == this && (p_149951_1_.getBlock(p_149951_2_, p_149951_3_ + 1, p_149951_4_ + 1).isNormalCube() || func_149953_o(p_149951_1_, p_149951_2_, p_149951_3_, p_149951_4_ + 1)))
+        } else if (p_149951_1_.getBlock(p_149951_2_, p_149951_3_, p_149951_4_ + 1) == this && (p_149951_1_.getBlock(p_149951_2_, p_149951_3_ + 1, p_149951_4_ + 1).isNormalCube() || func_149953_o(p_149951_1_, p_149951_2_, p_149951_3_, p_149951_4_ + 1)))
         {
             return null;
-        }
-        else
+        } else
         {
             if (p_149951_1_.getBlock(p_149951_2_ - 1, p_149951_3_, p_149951_4_) == this)
             {
-                var5 = new InventoryLargeChest("container.chestDouble", (TileEntityChest)p_149951_1_.getTileEntity(p_149951_2_ - 1, p_149951_3_, p_149951_4_), (IInventory)var5);
+                var5 = new InventoryLargeChest("container.chestDouble", (TileEntityChest) p_149951_1_.getTileEntity(p_149951_2_ - 1, p_149951_3_, p_149951_4_), (IInventory) var5);
             }
 
             if (p_149951_1_.getBlock(p_149951_2_ + 1, p_149951_3_, p_149951_4_) == this)
             {
-                var5 = new InventoryLargeChest("container.chestDouble", (IInventory)var5, (TileEntityChest)p_149951_1_.getTileEntity(p_149951_2_ + 1, p_149951_3_, p_149951_4_));
+                var5 = new InventoryLargeChest("container.chestDouble", (IInventory) var5, (TileEntityChest) p_149951_1_.getTileEntity(p_149951_2_ + 1, p_149951_3_, p_149951_4_));
             }
 
             if (p_149951_1_.getBlock(p_149951_2_, p_149951_3_, p_149951_4_ - 1) == this)
             {
-                var5 = new InventoryLargeChest("container.chestDouble", (TileEntityChest)p_149951_1_.getTileEntity(p_149951_2_, p_149951_3_, p_149951_4_ - 1), (IInventory)var5);
+                var5 = new InventoryLargeChest("container.chestDouble", (TileEntityChest) p_149951_1_.getTileEntity(p_149951_2_, p_149951_3_, p_149951_4_ - 1), (IInventory) var5);
             }
 
             if (p_149951_1_.getBlock(p_149951_2_, p_149951_3_, p_149951_4_ + 1) == this)
             {
-                var5 = new InventoryLargeChest("container.chestDouble", (IInventory)var5, (TileEntityChest)p_149951_1_.getTileEntity(p_149951_2_, p_149951_3_, p_149951_4_ + 1));
+                var5 = new InventoryLargeChest("container.chestDouble", (IInventory) var5, (TileEntityChest) p_149951_1_.getTileEntity(p_149951_2_, p_149951_3_, p_149951_4_ + 1));
             }
 
-            return (IInventory)var5;
+            return (IInventory) var5;
         }
     }
 
@@ -486,10 +468,9 @@ public class BlockChest extends BlockContainer
         if (!this.canProvidePower())
         {
             return 0;
-        }
-        else
+        } else
         {
-            int var6 = ((TileEntityChest)p_149709_1_.getTileEntity(p_149709_2_, p_149709_3_, p_149709_4_)).field_145987_o;
+            int var6 = ((TileEntityChest) p_149709_1_.getTileEntity(p_149709_2_, p_149709_3_, p_149709_4_)).field_145987_o;
             return MathHelper.clamp_int(var6, 0, 15);
         }
     }
@@ -501,7 +482,7 @@ public class BlockChest extends BlockContainer
 
     private static boolean func_149953_o(World p_149953_0_, int p_149953_1_, int p_149953_2_, int p_149953_3_)
     {
-        Iterator var4 = p_149953_0_.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().getAABB((double)p_149953_1_, (double)(p_149953_2_ + 1), (double)p_149953_3_, (double)(p_149953_1_ + 1), (double)(p_149953_2_ + 2), (double)(p_149953_3_ + 1))).iterator();
+        Iterator var4 = p_149953_0_.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().getAABB(p_149953_1_, p_149953_2_ + 1, p_149953_3_, p_149953_1_ + 1, p_149953_2_ + 2, p_149953_3_ + 1)).iterator();
         EntityOcelot var6;
 
         do
@@ -511,8 +492,8 @@ public class BlockChest extends BlockContainer
                 return false;
             }
 
-            EntityOcelot var5 = (EntityOcelot)var4.next();
-            var6 = (EntityOcelot)var5;
+            EntityOcelot var5 = (EntityOcelot) var4.next();
+            var6 = var5;
         }
         while (!var6.isSitting());
 

@@ -11,7 +11,7 @@ public class PositionTextureVertex
 
     public PositionTextureVertex(float par1, float par2, float par3, float par4, float par5)
     {
-        this(Vec3.createVectorHelper((double)par1, (double)par2, (double)par3), par4, par5);
+        this(Vec3.createVectorHelper(par1, par2, par3), par4, par5);
     }
 
     public PositionTextureVertex setTexturePosition(float par1, float par2)

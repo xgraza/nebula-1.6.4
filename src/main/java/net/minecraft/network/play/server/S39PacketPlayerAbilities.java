@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S39PacketPlayerAbilities extends Packet
 {
@@ -17,7 +18,9 @@ public class S39PacketPlayerAbilities extends Packet
     private float field_149114_f;
     private static final String __OBFID = "CL_00001317";
 
-    public S39PacketPlayerAbilities() {}
+    public S39PacketPlayerAbilities()
+    {
+    }
 
     public S39PacketPlayerAbilities(PlayerCapabilities p_i45208_1_)
     {
@@ -52,22 +55,22 @@ public class S39PacketPlayerAbilities extends Packet
 
         if (this.func_149112_c())
         {
-            var2 = (byte)(var2 | 1);
+            var2 = (byte) (var2 | 1);
         }
 
         if (this.func_149106_d())
         {
-            var2 = (byte)(var2 | 2);
+            var2 = (byte) (var2 | 2);
         }
 
         if (this.func_149105_e())
         {
-            var2 = (byte)(var2 | 4);
+            var2 = (byte) (var2 | 4);
         }
 
         if (this.func_149103_f())
         {
-            var2 = (byte)(var2 | 8);
+            var2 = (byte) (var2 | 8);
         }
 
         p_148840_1_.writeByte(var2);
@@ -85,7 +88,7 @@ public class S39PacketPlayerAbilities extends Packet
      */
     public String serialize()
     {
-        return String.format("invuln=%b, flying=%b, canfly=%b, instabuild=%b, flyspeed=%.4f, walkspped=%.4f", new Object[] {Boolean.valueOf(this.func_149112_c()), Boolean.valueOf(this.func_149106_d()), Boolean.valueOf(this.func_149105_e()), Boolean.valueOf(this.func_149103_f()), Float.valueOf(this.func_149101_g()), Float.valueOf(this.func_149107_h())});
+        return String.format("invuln=%b, flying=%b, canfly=%b, instabuild=%b, flyspeed=%.4f, walkspped=%.4f", Boolean.valueOf(this.func_149112_c()), Boolean.valueOf(this.func_149106_d()), Boolean.valueOf(this.func_149105_e()), Boolean.valueOf(this.func_149103_f()), Float.valueOf(this.func_149101_g()), Float.valueOf(this.func_149107_h()));
     }
 
     public boolean func_149112_c()
@@ -150,6 +153,6 @@ public class S39PacketPlayerAbilities extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

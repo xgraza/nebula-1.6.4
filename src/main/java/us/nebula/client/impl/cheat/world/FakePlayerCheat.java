@@ -104,7 +104,7 @@ public final class FakePlayerCheat extends Cheat
         }
 
         fakePlayerMovement.add(movement);
-        
+
         fakePlayerEntity.setPositionAndRotation(movement.position.xCoord, movement.position.yCoord, movement.position.zCoord, movement.yaw, movement.pitch);
     };
 
@@ -253,8 +253,9 @@ public final class FakePlayerCheat extends Cheat
 
     public static final class Movement
     {
-        private Vec3 position;
-        private float yaw, pitch;
+        private final Vec3 position;
+        private final float yaw;
+        private final float pitch;
 
         public Movement(Vec3 position, float yaw, float pitch)
         {

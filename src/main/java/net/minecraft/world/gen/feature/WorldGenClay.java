@@ -1,17 +1,20 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class WorldGenClay extends WorldGenerator
 {
-    private Block field_150546_a;
+    private final Block field_150546_a;
 
-    /** The number of blocks to generate. */
-    private int numberOfBlocks;
+    /**
+     * The number of blocks to generate.
+     */
+    private final int numberOfBlocks;
     private static final String __OBFID = "CL_00000405";
 
     public WorldGenClay(int par1)
@@ -25,8 +28,7 @@ public class WorldGenClay extends WorldGenerator
         if (par1World.getBlock(par3, par4, par5).getMaterial() != Material.water)
         {
             return false;
-        }
-        else
+        } else
         {
             int var6 = par2Random.nextInt(this.numberOfBlocks - 2) + 2;
             byte var7 = 1;

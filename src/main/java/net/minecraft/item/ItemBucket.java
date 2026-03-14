@@ -11,8 +11,10 @@ import net.minecraft.world.World;
 
 public class ItemBucket extends Item
 {
-    /** field for checking if the bucket has been filled. */
-    private Block isFull;
+    /**
+     * field for checking if the bucket has been filled.
+     */
+    private final Block isFull;
     private static final String __OBFID = "CL_00000000";
 
     public ItemBucket(Block p_i45331_1_)
@@ -33,8 +35,7 @@ public class ItemBucket extends Item
         if (var5 == null)
         {
             return par1ItemStack;
-        }
-        else
+        } else
         {
             if (var5.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
             {
@@ -68,8 +69,7 @@ public class ItemBucket extends Item
                         par2World.setBlockToAir(var6, var7, var8);
                         return this.func_150910_a(par1ItemStack, par3EntityPlayer, Items.lava_bucket);
                     }
-                }
-                else
+                } else
                 {
                     if (this.isFull == Blocks.air)
                     {
@@ -127,12 +127,10 @@ public class ItemBucket extends Item
         if (p_150910_2_.capabilities.isCreativeMode)
         {
             return p_150910_1_;
-        }
-        else if (--p_150910_1_.stackSize <= 0)
+        } else if (--p_150910_1_.stackSize <= 0)
         {
             return new ItemStack(p_150910_3_);
-        }
-        else
+        } else
         {
             if (!p_150910_2_.inventory.addItemStackToInventory(new ItemStack(p_150910_3_)))
             {
@@ -151,8 +149,7 @@ public class ItemBucket extends Item
         if (this.isFull == Blocks.air)
         {
             return false;
-        }
-        else
+        } else
         {
             Material var5 = par1World.getBlock(par2, par3, par4).getMaterial();
             boolean var6 = !var5.isSolid();
@@ -160,19 +157,17 @@ public class ItemBucket extends Item
             if (!par1World.isAirBlock(par2, par3, par4) && !var6)
             {
                 return false;
-            }
-            else
+            } else
             {
                 if (par1World.provider.isHellWorld && this.isFull == Blocks.flowing_water)
                 {
-                    par1World.playSoundEffect((double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), "random.fizz", 0.5F, 2.6F + (par1World.rand.nextFloat() - par1World.rand.nextFloat()) * 0.8F);
+                    par1World.playSoundEffect((float) par2 + 0.5F, (float) par3 + 0.5F, (float) par4 + 0.5F, "random.fizz", 0.5F, 2.6F + (par1World.rand.nextFloat() - par1World.rand.nextFloat()) * 0.8F);
 
                     for (int var7 = 0; var7 < 8; ++var7)
                     {
-                        par1World.spawnParticle("largesmoke", (double)par2 + Math.random(), (double)par3 + Math.random(), (double)par4 + Math.random(), 0.0D, 0.0D, 0.0D);
+                        par1World.spawnParticle("largesmoke", (double) par2 + Math.random(), (double) par3 + Math.random(), (double) par4 + Math.random(), 0.0D, 0.0D, 0.0D);
                     }
-                }
-                else
+                } else
                 {
                     if (!par1World.isClient && var6 && !var5.isLiquid())
                     {

@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -8,6 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockReed extends Block
 {
@@ -34,7 +35,6 @@ public class BlockReed extends Block
 
                 for (var6 = 1; p_149674_1_.getBlock(p_149674_2_, p_149674_3_ - var6, p_149674_4_) == this; ++var6)
                 {
-                    ;
                 }
 
                 if (var6 < 3)
@@ -45,8 +45,7 @@ public class BlockReed extends Block
                     {
                         p_149674_1_.setBlock(p_149674_2_, p_149674_3_ + 1, p_149674_4_, this);
                         p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, 0, 4);
-                    }
-                    else
+                    } else
                     {
                         p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, var7 + 1, 4);
                     }
@@ -58,7 +57,7 @@ public class BlockReed extends Block
     public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
     {
         Block var5 = p_149742_1_.getBlock(p_149742_2_, p_149742_3_ - 1, p_149742_4_);
-        return var5 == this ? true : (var5 != Blocks.grass && var5 != Blocks.dirt && var5 != Blocks.sand ? false : (p_149742_1_.getBlock(p_149742_2_ - 1, p_149742_3_ - 1, p_149742_4_).getMaterial() == Material.water ? true : (p_149742_1_.getBlock(p_149742_2_ + 1, p_149742_3_ - 1, p_149742_4_).getMaterial() == Material.water ? true : (p_149742_1_.getBlock(p_149742_2_, p_149742_3_ - 1, p_149742_4_ - 1).getMaterial() == Material.water ? true : p_149742_1_.getBlock(p_149742_2_, p_149742_3_ - 1, p_149742_4_ + 1).getMaterial() == Material.water))));
+        return var5 == this || ((var5 == Blocks.grass || var5 == Blocks.dirt || var5 == Blocks.sand) && (p_149742_1_.getBlock(p_149742_2_ - 1, p_149742_3_ - 1, p_149742_4_).getMaterial() == Material.water || (p_149742_1_.getBlock(p_149742_2_ + 1, p_149742_3_ - 1, p_149742_4_).getMaterial() == Material.water || (p_149742_1_.getBlock(p_149742_2_, p_149742_3_ - 1, p_149742_4_ - 1).getMaterial() == Material.water || p_149742_1_.getBlock(p_149742_2_, p_149742_3_ - 1, p_149742_4_ + 1).getMaterial() == Material.water))));
     }
 
     public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
@@ -73,8 +72,7 @@ public class BlockReed extends Block
             this.dropBlockAsItem(p_150170_1_, p_150170_2_, p_150170_3_, p_150170_4_, p_150170_1_.getBlockMetadata(p_150170_2_, p_150170_3_, p_150170_4_), 0);
             p_150170_1_.setBlockToAir(p_150170_2_, p_150170_3_, p_150170_4_);
             return false;
-        }
-        else
+        } else
         {
             return true;
         }

@@ -2,8 +2,8 @@ package net.optifine.entity.model.anim;
 
 public class FunctionFloat implements IExpressionFloat
 {
-    private FunctionType type;
-    private IExpression[] arguments;
+    private final FunctionType type;
+    private final IExpression[] arguments;
 
     public FunctionFloat(FunctionType type, IExpression[] arguments)
     {
@@ -23,6 +23,6 @@ public class FunctionFloat implements IExpressionFloat
 
     public String toString()
     {
-        return "" + this.type + "()";
+        return this.type + "()";
     }
 }

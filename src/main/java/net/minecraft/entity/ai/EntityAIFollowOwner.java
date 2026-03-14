@@ -8,11 +8,11 @@ import net.minecraft.world.World;
 
 public class EntityAIFollowOwner extends EntityAIBase
 {
-    private EntityTameable thePet;
+    private final EntityTameable thePet;
     private EntityLivingBase theOwner;
     World theWorld;
-    private double field_75336_f;
-    private PathNavigate petPathfinder;
+    private final double field_75336_f;
+    private final PathNavigate petPathfinder;
     private int field_75343_h;
     float maxDist;
     float minDist;
@@ -40,16 +40,13 @@ public class EntityAIFollowOwner extends EntityAIBase
         if (var1 == null)
         {
             return false;
-        }
-        else if (this.thePet.isSitting())
+        } else if (this.thePet.isSitting())
         {
             return false;
-        }
-        else if (this.thePet.getDistanceSqToEntity(var1) < (double)(this.minDist * this.minDist))
+        } else if (this.thePet.getDistanceSqToEntity(var1) < (double) (this.minDist * this.minDist))
         {
             return false;
-        }
-        else
+        } else
         {
             this.theOwner = var1;
             return true;
@@ -61,7 +58,7 @@ public class EntityAIFollowOwner extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return !this.petPathfinder.noPath() && this.thePet.getDistanceSqToEntity(this.theOwner) > (double)(this.maxDist * this.maxDist) && !this.thePet.isSitting();
+        return !this.petPathfinder.noPath() && this.thePet.getDistanceSqToEntity(this.theOwner) > (double) (this.maxDist * this.maxDist) && !this.thePet.isSitting();
     }
 
     /**
@@ -89,7 +86,7 @@ public class EntityAIFollowOwner extends EntityAIBase
      */
     public void updateTask()
     {
-        this.thePet.getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F, (float)this.thePet.getVerticalFaceSpeed());
+        this.thePet.getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F, (float) this.thePet.getVerticalFaceSpeed());
 
         if (!this.thePet.isSitting())
         {
@@ -113,7 +110,7 @@ public class EntityAIFollowOwner extends EntityAIBase
                                 {
                                     if ((var4 < 1 || var5 < 1 || var4 > 3 || var5 > 3) && World.doesBlockHaveSolidTopSurface(this.theWorld, var1 + var4, var3 - 1, var2 + var5) && !this.theWorld.getBlock(var1 + var4, var3, var2 + var5).isNormalCube() && !this.theWorld.getBlock(var1 + var4, var3 + 1, var2 + var5).isNormalCube())
                                     {
-                                        this.thePet.setLocationAndAngles((double)((float)(var1 + var4) + 0.5F), (double)var3, (double)((float)(var2 + var5) + 0.5F), this.thePet.rotationYaw, this.thePet.rotationPitch);
+                                        this.thePet.setLocationAndAngles((float) (var1 + var4) + 0.5F, var3, (float) (var2 + var5) + 0.5F, this.thePet.rotationYaw, this.thePet.rotationPitch);
                                         this.petPathfinder.clearPathEntity();
                                         return;
                                     }

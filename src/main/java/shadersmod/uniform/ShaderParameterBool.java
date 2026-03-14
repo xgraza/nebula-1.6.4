@@ -22,11 +22,11 @@ public enum ShaderParameterBool implements IExpressionBool
     IS_SNEAKING("is_sneaking"),
     IS_SPRINTING("is_sprinting"),
     IS_WET("is_wet");
-    private String name;
-    private RenderManager renderManager;
+    private final String name;
+    private final RenderManager renderManager;
     private static final ShaderParameterBool[] VALUES = values();
 
-    private ShaderParameterBool(String name)
+    ShaderParameterBool(String name)
     {
         this.name = name;
         this.renderManager = RenderManager.instance;
@@ -48,7 +48,7 @@ public enum ShaderParameterBool implements IExpressionBool
 
         if (entityGeneral instanceof EntityLivingBase)
         {
-            EntityLivingBase entity = (EntityLivingBase)entityGeneral;
+            EntityLivingBase entity = entityGeneral;
 
             switch (ShaderParameterBool.NamelessClass185748887.$SwitchMap$shadersmod$uniform$ShaderParameterBool[this.ordinal()])
             {
@@ -104,8 +104,7 @@ public enum ShaderParameterBool implements IExpressionBool
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             for (int i = 0; i < VALUES.length; ++i)
             {
@@ -121,120 +120,108 @@ public enum ShaderParameterBool implements IExpressionBool
         }
     }
 
-    static class NamelessClass185748887 {
+    static class NamelessClass185748887
+    {
         static final int[] $SwitchMap$shadersmod$uniform$ShaderParameterBool = new int[ShaderParameterBool.values().length];
 
-        static {
-            try {
+        static
+        {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_ALIVE.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var14)
+            } catch (NoSuchFieldError var14)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_BURNING.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var13)
+            } catch (NoSuchFieldError var13)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_CHILD.ordinal()] = 3;
-            }
-            catch (NoSuchFieldError var12)
+            } catch (NoSuchFieldError var12)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_GLOWING.ordinal()] = 4;
-            }
-            catch (NoSuchFieldError var11)
+            } catch (NoSuchFieldError var11)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_HURT.ordinal()] = 5;
-            }
-            catch (NoSuchFieldError var10)
+            } catch (NoSuchFieldError var10)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_IN_LAVA.ordinal()] = 6;
-            }
-            catch (NoSuchFieldError var9)
+            } catch (NoSuchFieldError var9)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_IN_WATER.ordinal()] = 7;
-            }
-            catch (NoSuchFieldError var8)
+            } catch (NoSuchFieldError var8)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_INVISIBLE.ordinal()] = 8;
-            }
-            catch (NoSuchFieldError var7)
+            } catch (NoSuchFieldError var7)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_ON_GROUND.ordinal()] = 9;
-            }
-            catch (NoSuchFieldError var6)
+            } catch (NoSuchFieldError var6)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_RIDDEN.ordinal()] = 10;
-            }
-            catch (NoSuchFieldError var5)
+            } catch (NoSuchFieldError var5)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_RIDING.ordinal()] = 11;
-            }
-            catch (NoSuchFieldError var4)
+            } catch (NoSuchFieldError var4)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_SNEAKING.ordinal()] = 12;
-            }
-            catch (NoSuchFieldError var3)
+            } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
-            try {
+            try
+            {
                 $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_SPRINTING.ordinal()] = 13;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
-            try {
-                $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_WET.ordinal()] = 14;
-            }
-            catch (NoSuchFieldError var1)
+            try
             {
-                ;
+                $SwitchMap$shadersmod$uniform$ShaderParameterBool[ShaderParameterBool.IS_WET.ordinal()] = 14;
+            } catch (NoSuchFieldError var1)
+            {
             }
         }
     }

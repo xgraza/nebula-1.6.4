@@ -6,22 +6,34 @@ import net.minecraft.entity.monster.EntityIronGolem;
 
 public class ModelIronGolem extends ModelBase
 {
-    /** The head model for the iron golem. */
+    /**
+     * The head model for the iron golem.
+     */
     public ModelRenderer ironGolemHead;
 
-    /** The body model for the iron golem. */
+    /**
+     * The body model for the iron golem.
+     */
     public ModelRenderer ironGolemBody;
 
-    /** The right arm model for the iron golem. */
+    /**
+     * The right arm model for the iron golem.
+     */
     public ModelRenderer ironGolemRightArm;
 
-    /** The left arm model for the iron golem. */
+    /**
+     * The left arm model for the iron golem.
+     */
     public ModelRenderer ironGolemLeftArm;
 
-    /** The left leg model for the Iron Golem. */
+    /**
+     * The left leg model for the Iron Golem.
+     */
     public ModelRenderer ironGolemLeftLeg;
 
-    /** The right leg model for the Iron Golem. */
+    /**
+     * The right leg model for the Iron Golem.
+     */
     public ModelRenderer ironGolemRightLeg;
     private static final String __OBFID = "CL_00000863";
 
@@ -83,8 +95,8 @@ public class ModelIronGolem extends ModelBase
      */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
-        this.ironGolemHead.rotateAngleY = par4 / (180F / (float)Math.PI);
-        this.ironGolemHead.rotateAngleX = par5 / (180F / (float)Math.PI);
+        this.ironGolemHead.rotateAngleY = par4 / (180F / (float) Math.PI);
+        this.ironGolemHead.rotateAngleX = par5 / (180F / (float) Math.PI);
         this.ironGolemLeftLeg.rotateAngleX = -1.5F * this.func_78172_a(par1, 13.0F) * par2;
         this.ironGolemRightLeg.rotateAngleX = 1.5F * this.func_78172_a(par1, 13.0F) * par2;
         this.ironGolemLeftLeg.rotateAngleY = 0.0F;
@@ -97,24 +109,22 @@ public class ModelIronGolem extends ModelBase
      */
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
-        EntityIronGolem var5 = (EntityIronGolem)par1EntityLivingBase;
+        EntityIronGolem var5 = (EntityIronGolem) par1EntityLivingBase;
         int var6 = var5.getAttackTimer();
 
         if (var6 > 0)
         {
-            this.ironGolemRightArm.rotateAngleX = -2.0F + 1.5F * this.func_78172_a((float)var6 - par4, 10.0F);
-            this.ironGolemLeftArm.rotateAngleX = -2.0F + 1.5F * this.func_78172_a((float)var6 - par4, 10.0F);
-        }
-        else
+            this.ironGolemRightArm.rotateAngleX = -2.0F + 1.5F * this.func_78172_a((float) var6 - par4, 10.0F);
+            this.ironGolemLeftArm.rotateAngleX = -2.0F + 1.5F * this.func_78172_a((float) var6 - par4, 10.0F);
+        } else
         {
             int var7 = var5.getHoldRoseTick();
 
             if (var7 > 0)
             {
-                this.ironGolemRightArm.rotateAngleX = -0.8F + 0.025F * this.func_78172_a((float)var7, 70.0F);
+                this.ironGolemRightArm.rotateAngleX = -0.8F + 0.025F * this.func_78172_a((float) var7, 70.0F);
                 this.ironGolemLeftArm.rotateAngleX = 0.0F;
-            }
-            else
+            } else
             {
                 this.ironGolemRightArm.rotateAngleX = (-0.2F + 1.5F * this.func_78172_a(par2, 13.0F)) * par3;
                 this.ironGolemLeftArm.rotateAngleX = (-0.2F - 1.5F * this.func_78172_a(par2, 13.0F)) * par3;

@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S12PacketEntityVelocity extends Packet
 {
@@ -15,7 +16,9 @@ public class S12PacketEntityVelocity extends Packet
     private int z;
     private static final String __OBFID = "CL_00001328";
 
-    public S12PacketEntityVelocity() {}
+    public S12PacketEntityVelocity()
+    {
+    }
 
     public S12PacketEntityVelocity(Entity p_i45219_1_)
     {
@@ -57,9 +60,9 @@ public class S12PacketEntityVelocity extends Packet
             p_i45220_6_ = var8;
         }
 
-        this.x = (int)(p_i45220_2_ * 8000.0D);
-        this.y = (int)(p_i45220_4_ * 8000.0D);
-        this.z = (int)(p_i45220_6_ * 8000.0D);
+        this.x = (int) (p_i45220_2_ * 8000.0D);
+        this.y = (int) (p_i45220_4_ * 8000.0D);
+        this.z = (int) (p_i45220_6_ * 8000.0D);
     }
 
     /**
@@ -94,7 +97,7 @@ public class S12PacketEntityVelocity extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, x=%.2f, y=%.2f, z=%.2f", new Object[] {Integer.valueOf(this.id), Float.valueOf((float)this.x / 8000.0F), Float.valueOf((float)this.y / 8000.0F), Float.valueOf((float)this.z / 8000.0F)});
+        return String.format("id=%d, x=%.2f, y=%.2f, z=%.2f", Integer.valueOf(this.id), Float.valueOf((float) this.x / 8000.0F), Float.valueOf((float) this.y / 8000.0F), Float.valueOf((float) this.z / 8000.0F));
     }
 
     public int getEntityId()
@@ -107,7 +110,8 @@ public class S12PacketEntityVelocity extends Packet
         return this.x;
     }
 
-    public void setX(int x) {
+    public void setX(int x)
+    {
         this.x = x;
     }
 
@@ -116,7 +120,8 @@ public class S12PacketEntityVelocity extends Packet
         return this.y;
     }
 
-    public void setY(int y) {
+    public void setY(int y)
+    {
         this.y = y;
     }
 
@@ -125,12 +130,13 @@ public class S12PacketEntityVelocity extends Packet
         return this.z;
     }
 
-    public void setZ(int z) {
+    public void setZ(int z)
+    {
         this.z = z;
     }
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

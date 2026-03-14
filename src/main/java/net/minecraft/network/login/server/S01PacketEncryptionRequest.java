@@ -1,12 +1,13 @@
 package net.minecraft.network.login.server;
 
-import java.io.IOException;
-import java.security.PublicKey;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.login.INetHandlerLoginClient;
 import net.minecraft.util.CryptManager;
+
+import java.io.IOException;
+import java.security.PublicKey;
 
 public class S01PacketEncryptionRequest extends Packet
 {
@@ -15,7 +16,9 @@ public class S01PacketEncryptionRequest extends Packet
     private byte[] field_149611_c;
     private static final String __OBFID = "CL_00001376";
 
-    public S01PacketEncryptionRequest() {}
+    public S01PacketEncryptionRequest()
+    {
+    }
 
     public S01PacketEncryptionRequest(String p_i45268_1_, PublicKey p_i45268_2_, byte[] p_i45268_3_)
     {
@@ -66,6 +69,6 @@ public class S01PacketEncryptionRequest extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerLoginClient)p_148833_1_);
+        this.processPacket((INetHandlerLoginClient) p_148833_1_);
     }
 }

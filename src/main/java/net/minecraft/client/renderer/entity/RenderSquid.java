@@ -26,7 +26,7 @@ public class RenderSquid extends RenderLiving
      */
     public void doRender(EntitySquid par1EntitySquid, double par2, double par4, double par6, float par8, float par9)
     {
-        super.doRender((EntityLiving)par1EntitySquid, par2, par4, par6, par8, par9);
+        super.doRender(par1EntitySquid, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -64,7 +64,7 @@ public class RenderSquid extends RenderLiving
      */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntitySquid)par1EntityLiving, par2, par4, par6, par8, par9);
+        this.doRender((EntitySquid) par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -72,12 +72,12 @@ public class RenderSquid extends RenderLiving
      */
     protected float handleRotationFloat(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        return this.handleRotationFloat((EntitySquid)par1EntityLivingBase, par2);
+        return this.handleRotationFloat((EntitySquid) par1EntityLivingBase, par2);
     }
 
     protected void rotateCorpse(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
-        this.rotateCorpse((EntitySquid)par1EntityLivingBase, par2, par3, par4);
+        this.rotateCorpse((EntitySquid) par1EntityLivingBase, par2, par3, par4);
     }
 
     /**
@@ -88,7 +88,7 @@ public class RenderSquid extends RenderLiving
      */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntitySquid)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntitySquid) par1Entity, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -96,7 +96,7 @@ public class RenderSquid extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntitySquid)par1Entity);
+        return this.getEntityTexture((EntitySquid) par1Entity);
     }
 
     /**
@@ -107,6 +107,6 @@ public class RenderSquid extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntitySquid)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntitySquid) par1Entity, par2, par4, par6, par8, par9);
     }
 }

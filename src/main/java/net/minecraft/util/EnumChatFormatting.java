@@ -45,9 +45,11 @@ public enum EnumChatFormatting
      * Matches formatting codes that indicate that the client should treat the following text as bold, recolored,
      * obfuscated, etc.
      */
-    private static final Pattern formattingCodePattern = Pattern.compile("(?i)" + String.valueOf('\u00a7') + "[0-9A-FK-OR]");
+    private static final Pattern formattingCodePattern = Pattern.compile("(?i)" + '\u00a7' + "[0-9A-FK-OR]");
 
-    /** The formatting code that produces this format. */
+    /**
+     * The formatting code that produces this format.
+     */
     private final char formattingCode;
     private final boolean fancyStyling;
 
@@ -58,12 +60,12 @@ public enum EnumChatFormatting
     private final String controlString;
     private static final String __OBFID = "CL_00000342";
 
-    private EnumChatFormatting(char par3)
+    EnumChatFormatting(char par3)
     {
         this(par3, false);
     }
 
-    private EnumChatFormatting(char par3, boolean par4)
+    EnumChatFormatting(char par3, boolean par4)
     {
         this.formattingCode = par3;
         this.fancyStyling = par4;
@@ -120,7 +122,7 @@ public enum EnumChatFormatting
      */
     public static EnumChatFormatting getValueByName(String par0Str)
     {
-        return par0Str == null ? null : (EnumChatFormatting)nameMapping.get(par0Str.toLowerCase());
+        return par0Str == null ? null : (EnumChatFormatting) nameMapping.get(par0Str.toLowerCase());
     }
 
     /**
@@ -146,7 +148,8 @@ public enum EnumChatFormatting
         return var2;
     }
 
-    static {
+    static
+    {
         EnumChatFormatting[] var0 = values();
         int var1 = var0.length;
 

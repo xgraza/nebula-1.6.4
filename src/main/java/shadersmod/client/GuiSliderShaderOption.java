@@ -32,7 +32,7 @@ public class GuiSliderShaderOption extends GuiButtonShaderOption
         {
             if (this.dragging)
             {
-                this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
+                this.sliderValue = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
                 this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
                 this.shaderOption.setIndexNormalized(this.sliderValue);
                 this.sliderValue = this.shaderOption.getIndexNormalized();
@@ -41,8 +41,8 @@ public class GuiSliderShaderOption extends GuiButtonShaderOption
 
             mc.getTextureManager().bindTexture(buttonTextures);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
-            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
+            this.drawTexturedModalRect(this.xPosition + (int) (this.sliderValue * (float) (this.width - 8)), this.yPosition, 0, 66, 4, 20);
+            this.drawTexturedModalRect(this.xPosition + (int) (this.sliderValue * (float) (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
         }
     }
 
@@ -54,14 +54,13 @@ public class GuiSliderShaderOption extends GuiButtonShaderOption
     {
         if (super.mousePressed(mc, mouseX, mouseY))
         {
-            this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
+            this.sliderValue = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
             this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
             this.shaderOption.setIndexNormalized(this.sliderValue);
             this.displayString = GuiShaderOptions.getButtonText(this.shaderOption, this.width);
             this.dragging = true;
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

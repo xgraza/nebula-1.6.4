@@ -50,7 +50,7 @@ public final class MoveUtil
         {
             return NULL_VELOCITY;
         }
-        return new double[] { -Math.sin(angle) * moveSpeed, Math.cos(angle) * moveSpeed };
+        return new double[]{ -Math.sin(angle) * moveSpeed, Math.cos(angle) * moveSpeed };
     }
 
     public static double[] getStrafeMotion(final double moveSpeed)

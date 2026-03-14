@@ -1,12 +1,13 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockDragonEgg extends Block
 {
@@ -44,10 +45,9 @@ public class BlockDragonEgg extends Block
 
             if (!BlockFalling.field_149832_M && p_150018_1_.checkChunksExist(p_150018_2_ - var5, p_150018_3_ - var5, p_150018_4_ - var5, p_150018_2_ + var5, p_150018_3_ + var5, p_150018_4_ + var5))
             {
-                EntityFallingBlock var6 = new EntityFallingBlock(p_150018_1_, (double)((float)p_150018_2_ + 0.5F), (double)((float)p_150018_3_ + 0.5F), (double)((float)p_150018_4_ + 0.5F), this);
+                EntityFallingBlock var6 = new EntityFallingBlock(p_150018_1_, (float) p_150018_2_ + 0.5F, (float) p_150018_3_ + 0.5F, (float) p_150018_4_ + 0.5F, this);
                 p_150018_1_.spawnEntityInWorld(var6);
-            }
-            else
+            } else
             {
                 p_150018_1_.setBlockToAir(p_150018_2_, p_150018_3_, p_150018_4_);
 
@@ -97,8 +97,7 @@ public class BlockDragonEgg extends Block
                     {
                         p_150019_1_.setBlock(var6, var7, var8, this, p_150019_1_.getBlockMetadata(p_150019_2_, p_150019_3_, p_150019_4_), 2);
                         p_150019_1_.setBlockToAir(p_150019_2_, p_150019_3_, p_150019_4_);
-                    }
-                    else
+                    } else
                     {
                         short var9 = 128;
 
@@ -108,10 +107,10 @@ public class BlockDragonEgg extends Block
                             float var13 = (p_150019_1_.rand.nextFloat() - 0.5F) * 0.2F;
                             float var14 = (p_150019_1_.rand.nextFloat() - 0.5F) * 0.2F;
                             float var15 = (p_150019_1_.rand.nextFloat() - 0.5F) * 0.2F;
-                            double var16 = (double)var6 + (double)(p_150019_2_ - var6) * var11 + (p_150019_1_.rand.nextDouble() - 0.5D) * 1.0D + 0.5D;
-                            double var18 = (double)var7 + (double)(p_150019_3_ - var7) * var11 + p_150019_1_.rand.nextDouble() * 1.0D - 0.5D;
-                            double var20 = (double)var8 + (double)(p_150019_4_ - var8) * var11 + (p_150019_1_.rand.nextDouble() - 0.5D) * 1.0D + 0.5D;
-                            p_150019_1_.spawnParticle("portal", var16, var18, var20, (double)var13, (double)var14, (double)var15);
+                            double var16 = (double) var6 + (double) (p_150019_2_ - var6) * var11 + (p_150019_1_.rand.nextDouble() - 0.5D) + 0.5D;
+                            double var18 = (double) var7 + (double) (p_150019_3_ - var7) * var11 + p_150019_1_.rand.nextDouble() - 0.5D;
+                            double var20 = (double) var8 + (double) (p_150019_4_ - var8) * var11 + (p_150019_1_.rand.nextDouble() - 0.5D) + 0.5D;
+                            p_150019_1_.spawnParticle("portal", var16, var18, var20, var13, var14, var15);
                         }
                     }
 

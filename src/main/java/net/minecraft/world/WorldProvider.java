@@ -15,14 +15,18 @@ import us.nebula.client.impl.cheat.render.NoRenderCheat;
 
 public abstract class WorldProvider
 {
-    public static final float[] moonPhaseFactors = new float[] {1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F};
+    public static final float[] moonPhaseFactors = new float[]{ 1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F };
 
-    /** world object being used */
+    /**
+     * world object being used
+     */
     public World worldObj;
     public WorldType terrainType;
     public String field_82913_c;
 
-    /** World chunk manager being used to generate chunks */
+    /**
+     * World chunk manager being used to generate chunks
+     */
     public WorldChunkManager worldChunkMgr;
 
     /**
@@ -35,14 +39,20 @@ public abstract class WorldProvider
      */
     public boolean hasNoSky;
 
-    /** Light to brightness conversion table */
+    /**
+     * Light to brightness conversion table
+     */
     public float[] lightBrightnessTable = new float[16];
 
-    /** The id for the dimension (ex. -1: Nether, 0: Overworld, 1: The End) */
+    /**
+     * The id for the dimension (ex. -1: Nether, 0: Overworld, 1: The End)
+     */
     public int dimensionId;
 
-    /** Array for sunrise/sunset colors (RGBA) */
-    private float[] colorsSunriseSunset = new float[4];
+    /**
+     * Array for sunrise/sunset colors (RGBA)
+     */
+    private final float[] colorsSunriseSunset = new float[4];
     private static final String __OBFID = "CL_00000386";
 
     /**
@@ -66,7 +76,7 @@ public abstract class WorldProvider
 
         for (int var2 = 0; var2 <= 15; ++var2)
         {
-            float var3 = 1.0F - (float)var2 / 15.0F;
+            float var3 = 1.0F - (float) var2 / 15.0F;
             this.lightBrightnessTable[var2] = (1.0F - var3) / (var3 * 3.0F + 1.0F) * (1.0F - var1) + var1;
         }
     }
@@ -80,8 +90,7 @@ public abstract class WorldProvider
         {
             FlatGeneratorInfo var1 = FlatGeneratorInfo.createFlatGeneratorFromString(this.worldObj.getWorldInfo().getGeneratorOptions());
             this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.func_150568_d(var1.getBiome()), 0.5F);
-        }
-        else
+        } else
         {
             this.worldChunkMgr = new WorldChunkManager(this.worldObj);
         }
@@ -92,7 +101,7 @@ public abstract class WorldProvider
      */
     public IChunkProvider createChunkGenerator()
     {
-        return (IChunkProvider)(this.terrainType == WorldType.FLAT ? new ChunkProviderFlat(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.field_82913_c) : new ChunkProviderGenerate(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled()));
+        return this.terrainType == WorldType.FLAT ? new ChunkProviderFlat(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.field_82913_c) : new ChunkProviderGenerate(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled());
     }
 
     /**
@@ -108,8 +117,8 @@ public abstract class WorldProvider
      */
     public float calculateCelestialAngle(long par1, float par3)
     {
-        int var4 = (int)(par1 % 24000L);
-        float var5 = ((float)var4 + par3) / 24000.0F - 0.25F;
+        int var4 = (int) (par1 % 24000L);
+        float var5 = ((float) var4 + par3) / 24000.0F - 0.25F;
 
         if (var5 < 0.0F)
         {
@@ -122,14 +131,14 @@ public abstract class WorldProvider
         }
 
         float var6 = var5;
-        var5 = 1.0F - (float)((Math.cos((double)var5 * Math.PI) + 1.0D) / 2.0D);
+        var5 = 1.0F - (float) ((Math.cos((double) var5 * Math.PI) + 1.0D) / 2.0D);
         var5 = var6 + (var5 - var6) / 3.0F;
         return var5;
     }
 
     public int getMoonPhase(long par1)
     {
-        return (int)(par1 / 24000L % 8L + 8L) % 8;
+        return (int) (par1 / 24000L % 8L + 8L) % 8;
     }
 
     /**
@@ -146,21 +155,20 @@ public abstract class WorldProvider
     public float[] calcSunriseSunsetColors(float par1, float par2)
     {
         float var3 = 0.4F;
-        float var4 = MathHelper.cos(par1 * (float)Math.PI * 2.0F) - 0.0F;
+        float var4 = MathHelper.cos(par1 * (float) Math.PI * 2.0F) - 0.0F;
         float var5 = -0.0F;
 
         if (var4 >= var5 - var3 && var4 <= var5 + var3)
         {
             float var6 = (var4 - var5) / var3 * 0.5F + 0.5F;
-            float var7 = 1.0F - (1.0F - MathHelper.sin(var6 * (float)Math.PI)) * 0.99F;
+            float var7 = 1.0F - (1.0F - MathHelper.sin(var6 * (float) Math.PI)) * 0.99F;
             var7 *= var7;
             this.colorsSunriseSunset[0] = var6 * 0.3F + 0.7F;
             this.colorsSunriseSunset[1] = var6 * var6 * 0.7F + 0.2F;
             this.colorsSunriseSunset[2] = var6 * var6 * 0.0F + 0.2F;
             this.colorsSunriseSunset[3] = var7;
             return this.colorsSunriseSunset;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -171,7 +179,7 @@ public abstract class WorldProvider
      */
     public Vec3 getFogColor(float par1, float par2)
     {
-        float var3 = MathHelper.cos(par1 * (float)Math.PI * 2.0F) * 2.0F + 0.5F;
+        float var3 = MathHelper.cos(par1 * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
 
         if (var3 < 0.0F)
         {
@@ -189,7 +197,7 @@ public abstract class WorldProvider
         var4 *= var3 * 0.94F + 0.06F;
         var5 *= var3 * 0.94F + 0.06F;
         var6 *= var3 * 0.91F + 0.09F;
-        return this.worldObj.getWorldVec3Pool().getVecFromPool((double)var4, (double)var5, (double)var6);
+        return this.worldObj.getWorldVec3Pool().getVecFromPool(var4, var5, var6);
     }
 
     /**
@@ -202,7 +210,7 @@ public abstract class WorldProvider
 
     public static WorldProvider getProviderForDimension(int par0)
     {
-        return (WorldProvider)(par0 == -1 ? new WorldProviderHell() : (par0 == 0 ? new WorldProviderSurface() : (par0 == 1 ? new WorldProviderEnd() : null)));
+        return par0 == -1 ? new WorldProviderHell() : (par0 == 0 ? new WorldProviderSurface() : (par0 == 1 ? new WorldProviderEnd() : null));
     }
 
     /**

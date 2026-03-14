@@ -160,7 +160,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         this.field_147103_bO = p_i45285_1_.getConfigurationManager().func_148538_i(this.getCommandSenderName());
         this.stepHeight = 0.0F;
         this.yOffset = 0.0F;
-        this.setLocationAndAngles((double) var6 + 0.5D, (double) var8, (double) var7 + 0.5D, 0.0F, 0.0F);
+        this.setLocationAndAngles((double) var6 + 0.5D, var8, (double) var7 + 0.5D, 0.0F, 0.0F);
 
         while (!p_i45285_2_.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty())
         {
@@ -311,7 +311,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
             }
         }
 
-        if (this.lastActionTime > 0L && this.mcServer.func_143007_ar() > 0 && MinecraftServer.getSystemTimeMillis() - this.lastActionTime > (long) (this.mcServer.func_143007_ar() * 1000 * 60))
+        if (this.lastActionTime > 0L && this.mcServer.func_143007_ar() > 0 && MinecraftServer.getSystemTimeMillis() - this.lastActionTime > (long) ((long) this.mcServer.func_143007_ar() * 1000 * 60))
         {
             this.playerNetServerHandler.kickPlayerFromServer("You have been idle for too long!");
         }
@@ -355,7 +355,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
                 while (var7.hasNext())
                 {
                     ScoreObjective var9 = (ScoreObjective) var7.next();
-                    this.getWorldScoreboard().func_96529_a(this.getCommandSenderName(), var9).func_96651_a(Arrays.asList(new EntityPlayer[]{ this }));
+                    this.getWorldScoreboard().func_96529_a(this.getCommandSenderName(), var9).func_96651_a(Arrays.asList(this));
                 }
             }
 
@@ -512,7 +512,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
     public boolean canAttackPlayer(EntityPlayer par1EntityPlayer)
     {
-        return !this.mcServer.isPVPEnabled() ? false : super.canAttackPlayer(par1EntityPlayer);
+        return this.mcServer.isPVPEnabled() && super.canAttackPlayer(par1EntityPlayer);
     }
 
     /**
@@ -535,7 +535,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
                 if (var2 != null)
                 {
-                    this.playerNetServerHandler.setPlayerLocation((double) var2.posX, (double) var2.posY, (double) var2.posZ, 0.0F, 0.0F);
+                    this.playerNetServerHandler.setPlayerLocation(var2.posX, var2.posY, var2.posZ, 0.0F, 0.0F);
                 }
 
                 par1 = 1;
@@ -776,7 +776,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
                 this.playerNetServerHandler.sendPacketToPlayer(new S3FPacketCustomPayload("MC|TrList", var5));
             } catch (IOException var6)
             {
-                logger.error("Couldn\'t send trade list", var6);
+                logger.error("Couldn't send trade list", var6);
             }
         }
     }
@@ -1044,7 +1044,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
      */
     public boolean canCommandSenderUseCommand(int par1, String par2Str)
     {
-        return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (this.mcServer.getConfigurationManager().isPlayerOpped(this.getCommandSenderName()) ? this.mcServer.func_110455_j() >= par1 : false) : true);
+        return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() || ("tell".equals(par2Str) || "help".equals(par2Str) || "me".equals(par2Str) || (this.mcServer.getConfigurationManager().isPlayerOpped(this.getCommandSenderName()) && this.mcServer.func_110455_j() >= par1));
     }
 
     /**

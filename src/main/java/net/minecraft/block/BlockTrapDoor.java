@@ -86,8 +86,7 @@ public class BlockTrapDoor extends Block
         if ((p_150117_1_ & 8) != 0)
         {
             this.setBlockBounds(0.0F, 1.0F - var2, 0.0F, 1.0F, 1.0F, 1.0F);
-        }
-        else
+        } else
         {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, var2, 1.0F);
         }
@@ -119,7 +118,9 @@ public class BlockTrapDoor extends Block
     /**
      * Called when a player hits the block. Args: world, x, y, z, player
      */
-    public void onBlockClicked(World p_149699_1_, int p_149699_2_, int p_149699_3_, int p_149699_4_, EntityPlayer p_149699_5_) {}
+    public void onBlockClicked(World p_149699_1_, int p_149699_2_, int p_149699_3_, int p_149699_4_, EntityPlayer p_149699_5_)
+    {
+    }
 
     /**
      * Called upon block activation (right click on the block.)
@@ -129,8 +130,7 @@ public class BlockTrapDoor extends Block
         if (this.blockMaterial == Material.iron)
         {
             return true;
-        }
-        else
+        } else
         {
             int var10 = p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_);
             p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, var10 ^ 4, 2);
@@ -147,7 +147,7 @@ public class BlockTrapDoor extends Block
         if (var7 != p_150120_5_)
         {
             p_150120_1_.setBlockMetadataWithNotify(p_150120_2_, p_150120_3_, p_150120_4_, var6 ^ 4, 2);
-            p_150120_1_.playAuxSFXAtEntity((EntityPlayer)null, 1003, p_150120_2_, p_150120_3_, p_150120_4_, 0);
+            p_150120_1_.playAuxSFXAtEntity(null, 1003, p_150120_2_, p_150120_3_, p_150120_4_, 0);
         }
     }
 
@@ -240,12 +240,10 @@ public class BlockTrapDoor extends Block
         if (p_149707_5_ == 0)
         {
             return false;
-        }
-        else if (p_149707_5_ == 1)
+        } else if (p_149707_5_ == 1)
         {
             return false;
-        }
-        else
+        } else
         {
             if (p_149707_5_ == 2)
             {

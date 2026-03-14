@@ -1,9 +1,5 @@
 package net.minecraft.tileentity;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.Callable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.crash.CrashReportCategory;
@@ -14,6 +10,11 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.Callable;
+
 public class TileEntity
 {
     private static final Logger logger = LogManager.getLogger();
@@ -21,14 +22,16 @@ public class TileEntity
     /**
      * A HashMap storing string names of classes mapping to the actual java.lang.Class type.
      */
-    private static Map nameToClassMap = new HashMap();
+    private static final Map nameToClassMap = new HashMap();
 
     /**
      * A HashMap storing the classes and mapping to the string names (reverse of nameToClassMap).
      */
-    private static Map classToNameMap = new HashMap();
+    private static final Map classToNameMap = new HashMap();
 
-    /** the instance of the world the tile entity is in. */
+    /**
+     * the instance of the world the tile entity is in.
+     */
     protected World worldObj;
     public int xCoord;
     public int yCoord;
@@ -36,7 +39,9 @@ public class TileEntity
     protected boolean tileEntityInvalid;
     public int blockMetadata = -1;
 
-    /** the Block type that this TileEntity is contained within */
+    /**
+     * the Block type that this TileEntity is contained within
+     */
     public Block blockType;
 
     private final UUID randomUUID;
@@ -51,8 +56,7 @@ public class TileEntity
         if (nameToClassMap.containsKey(p_145826_1_))
         {
             throw new IllegalArgumentException("Duplicate id: " + p_145826_1_);
-        }
-        else
+        } else
         {
             nameToClassMap.put(p_145826_1_, p_145826_0_);
             classToNameMap.put(p_145826_0_, p_145826_1_);
@@ -92,13 +96,12 @@ public class TileEntity
 
     public void writeToNBT(NBTTagCompound p_145841_1_)
     {
-        String var2 = (String)classToNameMap.get(this.getClass());
+        String var2 = (String) classToNameMap.get(this.getClass());
 
         if (var2 == null)
         {
             throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
-        }
-        else
+        } else
         {
             p_145841_1_.setString("id", var2);
             p_145841_1_.setInteger("x", this.xCoord);
@@ -107,7 +110,9 @@ public class TileEntity
         }
     }
 
-    public void updateEntity() {}
+    public void updateEntity()
+    {
+    }
 
     /**
      * Creates a new entity and loads its data from the specified NBT.
@@ -118,14 +123,13 @@ public class TileEntity
 
         try
         {
-            Class var2 = (Class)nameToClassMap.get(p_145827_0_.getString("id"));
+            Class var2 = (Class) nameToClassMap.get(p_145827_0_.getString("id"));
 
             if (var2 != null)
             {
-                var1 = (TileEntity)var2.newInstance();
+                var1 = (TileEntity) var2.newInstance();
             }
-        }
-        catch (Exception var3)
+        } catch (Exception var3)
         {
             var3.printStackTrace();
         }
@@ -133,8 +137,7 @@ public class TileEntity
         if (var1 != null)
         {
             var1.readFromNBT(p_145827_0_);
-        }
-        else
+        } else
         {
             logger.warn("Skipping BlockEntity with id " + p_145827_0_.getString("id"));
         }
@@ -174,9 +177,9 @@ public class TileEntity
      */
     public double getDistanceFrom(double p_145835_1_, double p_145835_3_, double p_145835_5_)
     {
-        double var7 = (double)this.xCoord + 0.5D - p_145835_1_;
-        double var9 = (double)this.yCoord + 0.5D - p_145835_3_;
-        double var11 = (double)this.zCoord + 0.5D - p_145835_5_;
+        double var7 = (double) this.xCoord + 0.5D - p_145835_1_;
+        double var9 = (double) this.yCoord + 0.5D - p_145835_3_;
+        double var11 = (double) this.zCoord + 0.5D - p_145835_5_;
         return var7 * var7 + var9 * var9 + var11 * var11;
     }
 
@@ -248,24 +251,25 @@ public class TileEntity
         p_145828_1_.addCrashSectionCallable("Name", new Callable()
         {
             private static final String __OBFID = "CL_00000341";
+
             public String call()
             {
-                return (String)TileEntity.classToNameMap.get(TileEntity.this.getClass()) + " // " + TileEntity.this.getClass().getCanonicalName();
+                return TileEntity.classToNameMap.get(TileEntity.this.getClass()) + " // " + TileEntity.this.getClass().getCanonicalName();
             }
         });
         CrashReportCategory.func_147153_a(p_145828_1_, this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), this.getBlockMetadata());
         p_145828_1_.addCrashSectionCallable("Actual block type", new Callable()
         {
             private static final String __OBFID = "CL_00000343";
+
             public String call()
             {
                 int var1 = Block.getIdFromBlock(TileEntity.this.worldObj.getBlock(TileEntity.this.xCoord, TileEntity.this.yCoord, TileEntity.this.zCoord));
 
                 try
                 {
-                    return String.format("ID #%d (%s // %s)", new Object[] {Integer.valueOf(var1), Block.getBlockById(var1).getUnlocalizedName(), Block.getBlockById(var1).getClass().getCanonicalName()});
-                }
-                catch (Throwable var3)
+                    return String.format("ID #%d (%s // %s)", Integer.valueOf(var1), Block.getBlockById(var1).getUnlocalizedName(), Block.getBlockById(var1).getClass().getCanonicalName());
+                } catch (Throwable var3)
                 {
                     return "ID #" + var1;
                 }
@@ -274,6 +278,7 @@ public class TileEntity
         p_145828_1_.addCrashSectionCallable("Actual block data value", new Callable()
         {
             private static final String __OBFID = "CL_00000344";
+
             public String call()
             {
                 int var1 = TileEntity.this.worldObj.getBlockMetadata(TileEntity.this.xCoord, TileEntity.this.yCoord, TileEntity.this.zCoord);
@@ -281,11 +286,10 @@ public class TileEntity
                 if (var1 < 0)
                 {
                     return "Unknown? (Got " + var1 + ")";
-                }
-                else
+                } else
                 {
-                    String var2 = String.format("%4s", new Object[] {Integer.toBinaryString(var1)}).replace(" ", "0");
-                    return String.format("%1$d / 0x%1$X / 0b%2$s", new Object[] {Integer.valueOf(var1), var2});
+                    String var2 = String.format("%4s", Integer.toBinaryString(var1)).replace(" ", "0");
+                    return String.format("%1$d / 0x%1$X / 0b%2$s", Integer.valueOf(var1), var2);
                 }
             }
         });

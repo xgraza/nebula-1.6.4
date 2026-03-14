@@ -27,7 +27,7 @@ public class GenLayerShore extends GenLayer
         {
             for (int var8 = 0; var8 < par3; ++var8)
             {
-                this.initChunkSeed((long)(var8 + par1), (long)(var7 + par2));
+                this.initChunkSeed(var8 + par1, var7 + par2);
                 int var9 = var5[var8 + 1 + (var7 + 1) * (par3 + 2)];
                 BiomeGenBase var10 = BiomeGenBase.func_150568_d(var9);
                 int var11;
@@ -45,13 +45,11 @@ public class GenLayerShore extends GenLayer
                     if (var11 != BiomeGenBase.ocean.biomeID && var12 != BiomeGenBase.ocean.biomeID && var13 != BiomeGenBase.ocean.biomeID && var14 != BiomeGenBase.ocean.biomeID)
                     {
                         var6[var8 + var7 * par3] = var9;
-                    }
-                    else
+                    } else
                     {
                         var6[var8 + var7 * par3] = BiomeGenBase.mushroomIslandShore.biomeID;
                     }
-                }
-                else if (var10 != null && var10.func_150562_l() == BiomeGenJungle.class)
+                } else if (var10 != null && var10.func_150562_l() == BiomeGenJungle.class)
                 {
                     var11 = var5[var8 + 1 + (var7 + 1 - 1) * (par3 + 2)];
                     var12 = var5[var8 + 1 + 1 + (var7 + 1) * (par3 + 2)];
@@ -63,24 +61,20 @@ public class GenLayerShore extends GenLayer
                         if (!func_151618_b(var11) && !func_151618_b(var12) && !func_151618_b(var13) && !func_151618_b(var14))
                         {
                             var6[var8 + var7 * par3] = var9;
-                        }
-                        else
+                        } else
                         {
                             var6[var8 + var7 * par3] = BiomeGenBase.beach.biomeID;
                         }
-                    }
-                    else
+                    } else
                     {
                         var6[var8 + var7 * par3] = BiomeGenBase.field_150574_L.biomeID;
                     }
-                }
-                else if (var9 != BiomeGenBase.extremeHills.biomeID && var9 != BiomeGenBase.field_150580_W.biomeID && var9 != BiomeGenBase.extremeHillsEdge.biomeID)
+                } else if (var9 != BiomeGenBase.extremeHills.biomeID && var9 != BiomeGenBase.field_150580_W.biomeID && var9 != BiomeGenBase.extremeHillsEdge.biomeID)
                 {
                     if (var10 != null && var10.func_150559_j())
                     {
                         this.func_151632_a(var5, var6, var8, var7, par3, var9, BiomeGenBase.field_150577_O.biomeID);
-                    }
-                    else if (var9 != BiomeGenBase.field_150589_Z.biomeID && var9 != BiomeGenBase.field_150607_aa.biomeID)
+                    } else if (var9 != BiomeGenBase.field_150589_Z.biomeID && var9 != BiomeGenBase.field_150607_aa.biomeID)
                     {
                         if (var9 != BiomeGenBase.ocean.biomeID && var9 != BiomeGenBase.field_150575_M.biomeID && var9 != BiomeGenBase.river.biomeID && var9 != BiomeGenBase.swampland.biomeID)
                         {
@@ -92,18 +86,15 @@ public class GenLayerShore extends GenLayer
                             if (!func_151618_b(var11) && !func_151618_b(var12) && !func_151618_b(var13) && !func_151618_b(var14))
                             {
                                 var6[var8 + var7 * par3] = var9;
-                            }
-                            else
+                            } else
                             {
                                 var6[var8 + var7 * par3] = BiomeGenBase.beach.biomeID;
                             }
-                        }
-                        else
+                        } else
                         {
                             var6[var8 + var7 * par3] = var9;
                         }
-                    }
-                    else
+                    } else
                     {
                         var11 = var5[var8 + 1 + (var7 + 1 - 1) * (par3 + 2)];
                         var12 = var5[var8 + 1 + 1 + (var7 + 1) * (par3 + 2)];
@@ -115,19 +106,16 @@ public class GenLayerShore extends GenLayer
                             if (this.func_151633_d(var11) && this.func_151633_d(var12) && this.func_151633_d(var13) && this.func_151633_d(var14))
                             {
                                 var6[var8 + var7 * par3] = var9;
-                            }
-                            else
+                            } else
                             {
                                 var6[var8 + var7 * par3] = BiomeGenBase.desert.biomeID;
                             }
-                        }
-                        else
+                        } else
                         {
                             var6[var8 + var7 * par3] = var9;
                         }
                     }
-                }
-                else
+                } else
                 {
                     this.func_151632_a(var5, var6, var8, var7, par3, var9, BiomeGenBase.field_150576_N.biomeID);
                 }
@@ -142,8 +130,7 @@ public class GenLayerShore extends GenLayer
         if (func_151618_b(p_151632_6_))
         {
             p_151632_2_[p_151632_3_ + p_151632_4_ * p_151632_5_] = p_151632_6_;
-        }
-        else
+        } else
         {
             int var8 = p_151632_1_[p_151632_3_ + 1 + (p_151632_4_ + 1 - 1) * (p_151632_5_ + 2)];
             int var9 = p_151632_1_[p_151632_3_ + 1 + 1 + (p_151632_4_ + 1) * (p_151632_5_ + 2)];
@@ -153,8 +140,7 @@ public class GenLayerShore extends GenLayer
             if (!func_151618_b(var8) && !func_151618_b(var9) && !func_151618_b(var10) && !func_151618_b(var11))
             {
                 p_151632_2_[p_151632_3_ + p_151632_4_ * p_151632_5_] = p_151632_6_;
-            }
-            else
+            } else
             {
                 p_151632_2_[p_151632_3_ + p_151632_4_ * p_151632_5_] = p_151632_7_;
             }
@@ -163,7 +149,7 @@ public class GenLayerShore extends GenLayer
 
     private boolean func_151631_c(int p_151631_1_)
     {
-        return BiomeGenBase.func_150568_d(p_151631_1_) != null && BiomeGenBase.func_150568_d(p_151631_1_).func_150562_l() == BiomeGenJungle.class ? true : p_151631_1_ == BiomeGenBase.field_150574_L.biomeID || p_151631_1_ == BiomeGenBase.jungle.biomeID || p_151631_1_ == BiomeGenBase.jungleHills.biomeID || p_151631_1_ == BiomeGenBase.forest.biomeID || p_151631_1_ == BiomeGenBase.taiga.biomeID || func_151618_b(p_151631_1_);
+        return BiomeGenBase.func_150568_d(p_151631_1_) != null && BiomeGenBase.func_150568_d(p_151631_1_).func_150562_l() == BiomeGenJungle.class || p_151631_1_ == BiomeGenBase.field_150574_L.biomeID || p_151631_1_ == BiomeGenBase.jungle.biomeID || p_151631_1_ == BiomeGenBase.jungleHills.biomeID || p_151631_1_ == BiomeGenBase.forest.biomeID || p_151631_1_ == BiomeGenBase.taiga.biomeID || func_151618_b(p_151631_1_);
     }
 
     private boolean func_151633_d(int p_151633_1_)

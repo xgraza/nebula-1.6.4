@@ -2,22 +2,13 @@ package net.minecraft.entity.player;
 
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityMultiPart;
-import net.minecraft.entity.IMerchant;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityBoat;
@@ -43,31 +34,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
-import net.minecraft.scoreboard.IScoreObjectiveCriteria;
-import net.minecraft.scoreboard.Score;
-import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.scoreboard.ScorePlayerTeam;
-import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.scoreboard.Team;
+import net.minecraft.scoreboard.*;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBeacon;
-import net.minecraft.tileentity.TileEntityBrewingStand;
-import net.minecraft.tileentity.TileEntityDispenser;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.tileentity.TileEntityHopper;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.FoodStats;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Util;
-import net.minecraft.util.Vec3;
+import net.minecraft.tileentity.*;
+import net.minecraft.util.*;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
@@ -76,9 +48,16 @@ import us.nebula.client.Nebula;
 import us.nebula.client.impl.cheat.exploit.AntiRevertCheat;
 import us.nebula.client.util.player.ItemUtil;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
+
 public abstract class EntityPlayer extends EntityLivingBase implements ICommandSender
 {
-    /** Inventory of the player */
+    /**
+     * Inventory of the player
+     */
     public InventoryPlayer inventory = new InventoryPlayer(this);
     private InventoryEnderChest theInventoryEnderChest = new InventoryEnderChest();
 
@@ -87,10 +66,14 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
      */
     public Container inventoryContainer;
 
-    /** The Container the player has open. */
+    /**
+     * The Container the player has open.
+     */
     public Container openContainer;
 
-    /** The food object of the player, the general hunger logic. */
+    /**
+     * The food object of the player, the general hunger logic.
+     */
     protected FoodStats foodStats = new FoodStats();
 
     /**
@@ -112,17 +95,23 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     public double field_71095_bQ;
     public double field_71085_bR;
 
-    /** Boolean value indicating weather a player is sleeping or not */
+    /**
+     * Boolean value indicating weather a player is sleeping or not
+     */
     protected boolean sleeping;
 
-    /** the current location of the player */
+    /**
+     * the current location of the player
+     */
     public ChunkCoordinates playerLocation;
     private int sleepTimer;
     public float field_71079_bU;
     public float field_71082_cx;
     public float field_71089_bV;
 
-    /** holds the spawn chunk of the player */
+    /**
+     * holds the spawn chunk of the player
+     */
     private ChunkCoordinates spawnChunk;
 
     /**
@@ -130,13 +119,19 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
      */
     private boolean spawnForced;
 
-    /** Holds the coordinate of the player when enter a minecraft to ride. */
+    /**
+     * Holds the coordinate of the player when enter a minecraft to ride.
+     */
     private ChunkCoordinates startMinecartRidingCoordinate;
 
-    /** The player's capabilities. (See class PlayerCapabilities) */
+    /**
+     * The player's capabilities. (See class PlayerCapabilities)
+     */
     public PlayerCapabilities capabilities = new PlayerCapabilities();
 
-    /** The current experience level the player is on. */
+    /**
+     * The current experience level the player is on.
+     */
     public int experienceLevel;
 
     /**
@@ -179,7 +174,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         this.openContainer = this.inventoryContainer;
         this.yOffset = 1.62F;
         ChunkCoordinates var3 = p_i45324_1_.getSpawnPoint();
-        this.setLocationAndAngles((double)var3.posX + 0.5D, (double)(var3.posY + 1), (double)var3.posZ + 0.5D, 0.0F, 0.0F);
+        this.setLocationAndAngles((double) var3.posX + 0.5D, var3.posY + 1, (double) var3.posZ + 0.5D, 0.0F, 0.0F);
         this.field_70741_aB = 180.0F;
         this.fireResistance = 20;
     }
@@ -193,7 +188,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
         this.dataWatcher.addObject(17, Float.valueOf(0.0F));
         this.dataWatcher.addObject(18, Integer.valueOf(0));
     }
@@ -276,8 +271,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                 {
                     this.onItemUseFinish();
                 }
-            }
-            else
+            } else
             {
                 this.clearItemInUse();
             }
@@ -302,14 +296,12 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                 if (!this.isInBed())
                 {
                     this.wakeUpPlayer(true, true, false);
-                }
-                else if (this.worldObj.isDaytime())
+                } else if (this.worldObj.isDaytime())
                 {
                     this.wakeUpPlayer(false, true, true);
                 }
             }
-        }
-        else if (this.sleepTimer > 0)
+        } else if (this.sleepTimer > 0)
         {
             ++this.sleepTimer;
 
@@ -431,13 +423,13 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         {
             for (int var3 = 0; var3 < par2; ++var3)
             {
-                Vec3 var4 = this.worldObj.getWorldVec3Pool().getVecFromPool(((double)this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
-                var4.rotateAroundX(-this.rotationPitch * (float)Math.PI / 180.0F);
-                var4.rotateAroundY(-this.rotationYaw * (float)Math.PI / 180.0F);
-                Vec3 var5 = this.worldObj.getWorldVec3Pool().getVecFromPool(((double)this.rand.nextFloat() - 0.5D) * 0.3D, (double)(-this.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
-                var5.rotateAroundX(-this.rotationPitch * (float)Math.PI / 180.0F);
-                var5.rotateAroundY(-this.rotationYaw * (float)Math.PI / 180.0F);
-                var5 = var5.addVector(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ);
+                Vec3 var4 = this.worldObj.getWorldVec3Pool().getVecFromPool(((double) this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+                var4.rotateAroundX(-this.rotationPitch * (float) Math.PI / 180.0F);
+                var4.rotateAroundY(-this.rotationYaw * (float) Math.PI / 180.0F);
+                Vec3 var5 = this.worldObj.getWorldVec3Pool().getVecFromPool(((double) this.rand.nextFloat() - 0.5D) * 0.3D, (double) (-this.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
+                var5.rotateAroundX(-this.rotationPitch * (float) Math.PI / 180.0F);
+                var5.rotateAroundY(-this.rotationYaw * (float) Math.PI / 180.0F);
+                var5 = var5.addVector(this.posX, this.posY + (double) this.getEyeHeight(), this.posZ);
                 String var6 = "iconcrack_" + Item.getIdFromItem(par1ItemStack.getItem());
 
                 if (par1ItemStack.getHasSubtypes())
@@ -448,7 +440,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                 this.worldObj.spawnParticle(var6, var5.xCoord, var5.yCoord, var5.zCoord, var4.xCoord, var4.yCoord + 0.05D, var4.zCoord);
             }
 
-            this.playSound("random.eat", 0.5F + 0.5F * (float)this.rand.nextInt(2), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+            this.playSound("random.eat", 0.5F + 0.5F * (float) this.rand.nextInt(2), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
         }
     }
 
@@ -482,8 +474,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (par1 == 9)
         {
             this.onItemUseFinish();
-        }
-        else
+        } else
         {
             super.handleHealthUpdate(par1);
         }
@@ -523,8 +514,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             }
 
             this.ridingEntity = null;
-        }
-        else
+        } else
         {
             super.mountEntity(par1Entity);
         }
@@ -537,10 +527,9 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     {
         if (!this.worldObj.isClient && this.isSneaking())
         {
-            this.mountEntity((Entity)null);
+            this.mountEntity(null);
             this.setSneaking(false);
-        }
-        else
+        } else
         {
             double var1 = this.posX;
             double var3 = this.posY;
@@ -556,7 +545,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             {
                 this.rotationPitch = var8;
                 this.rotationYaw = var7;
-                this.renderYawOffset = ((EntityPig)this.ridingEntity).renderYawOffset;
+                this.renderYawOffset = ((EntityPig) this.ridingEntity).renderYawOffset;
             }
         }
     }
@@ -603,19 +592,19 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
         if (!this.worldObj.isClient)
         {
-            var1.setBaseValue((double)this.capabilities.getWalkSpeed());
+            var1.setBaseValue(this.capabilities.getWalkSpeed());
         }
 
         this.jumpMovementFactor = this.speedInAir;
 
         if (this.isSprinting())
         {
-            this.jumpMovementFactor = (float)((double)this.jumpMovementFactor + (double)this.speedInAir * 0.3D);
+            this.jumpMovementFactor = (float) ((double) this.jumpMovementFactor + (double) this.speedInAir * 0.3D);
         }
 
-        this.setAIMoveSpeed((float)var1.getAttributeValue());
+        this.setAIMoveSpeed((float) var1.getAttributeValue());
         float var2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        float var3 = (float)Math.atan(-this.motionY * 0.20000000298023224D) * 15.0F;
+        float var3 = (float) Math.atan(-this.motionY * 0.20000000298023224D) * 15.0F;
 
         if (var2 > 0.1F)
         {
@@ -642,8 +631,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             if (this.ridingEntity != null && !this.ridingEntity.isDead)
             {
                 var4 = this.boundingBox.func_111270_a(this.ridingEntity.boundingBox).expand(1.0D, 0.0D, 1.0D);
-            }
-            else
+            } else
             {
                 var4 = this.boundingBox.expand(1.0D, 0.5D, 1.0D);
             }
@@ -654,7 +642,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             {
                 for (int var6 = 0; var6 < var5.size(); ++var6)
                 {
-                    Entity var7 = (Entity)var5.get(var6);
+                    Entity var7 = (Entity) var5.get(var6);
 
                     if (!var7.isDead)
                     {
@@ -714,10 +702,9 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
         if (par1DamageSource != null)
         {
-            this.motionX = (double)(-MathHelper.cos((this.attackedAtYaw + this.rotationYaw) * (float)Math.PI / 180.0F) * 0.1F);
-            this.motionZ = (double)(-MathHelper.sin((this.attackedAtYaw + this.rotationYaw) * (float)Math.PI / 180.0F) * 0.1F);
-        }
-        else
+            this.motionX = -MathHelper.cos((this.attackedAtYaw + this.rotationYaw) * (float) Math.PI / 180.0F) * 0.1F;
+            this.motionZ = -MathHelper.sin((this.attackedAtYaw + this.rotationYaw) * (float) Math.PI / 180.0F) * 0.1F;
+        } else
         {
             this.motionX = this.motionZ = 0.0D;
         }
@@ -755,8 +742,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         {
             this.addStat(StatList.playerKillsStat, 1);
             var3.addAll(this.getWorldScoreboard().func_96520_a(IScoreObjectiveCriteria.playerKillCount));
-        }
-        else
+        } else
         {
             this.addStat(StatList.mobKillsStat, 1);
         }
@@ -765,7 +751,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
         while (var4.hasNext())
         {
-            ScoreObjective var5 = (ScoreObjective)var4.next();
+            ScoreObjective var5 = (ScoreObjective) var4.next();
             Score var6 = this.getWorldScoreboard().func_96529_a(this.getCommandSenderName(), var5);
             var6.func_96648_a();
         }
@@ -792,14 +778,12 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (p_146097_1_ == null)
         {
             return null;
-        }
-        else if (p_146097_1_.stackSize == 0)
+        } else if (p_146097_1_.stackSize == 0)
         {
             return null;
-        }
-        else
+        } else
         {
-            EntityItem var4 = new EntityItem(this.worldObj, this.posX, this.posY - 0.30000001192092896D + (double)this.getEyeHeight(), this.posZ, p_146097_1_);
+            EntityItem var4 = new EntityItem(this.worldObj, this.posX, this.posY - 0.30000001192092896D + (double) this.getEyeHeight(), this.posZ, p_146097_1_);
             var4.delayBeforeCanPickup = 40;
 
             if (p_146097_3_)
@@ -813,23 +797,22 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             if (p_146097_2_)
             {
                 var6 = this.rand.nextFloat() * 0.5F;
-                float var7 = this.rand.nextFloat() * (float)Math.PI * 2.0F;
-                var4.motionX = (double)(-MathHelper.sin(var7) * var6);
-                var4.motionZ = (double)(MathHelper.cos(var7) * var6);
+                float var7 = this.rand.nextFloat() * (float) Math.PI * 2.0F;
+                var4.motionX = -MathHelper.sin(var7) * var6;
+                var4.motionZ = MathHelper.cos(var7) * var6;
                 var4.motionY = 0.20000000298023224D;
-            }
-            else
+            } else
             {
                 var5 = 0.3F;
-                var4.motionX = (double)(-MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * var5);
-                var4.motionZ = (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * var5);
-                var4.motionY = (double)(-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI) * var5 + 0.1F);
+                var4.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * var5;
+                var4.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * var5;
+                var4.motionY = -MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI) * var5 + 0.1F;
                 var5 = 0.02F;
-                var6 = this.rand.nextFloat() * (float)Math.PI * 2.0F;
+                var6 = this.rand.nextFloat() * (float) Math.PI * 2.0F;
                 var5 *= this.rand.nextFloat();
-                var4.motionX += Math.cos((double)var6) * (double)var5;
-                var4.motionY += (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
-                var4.motionZ += Math.sin((double)var6) * (double)var5;
+                var4.motionX += Math.cos(var6) * (double) var5;
+                var4.motionY += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F;
+                var4.motionZ += Math.sin(var6) * (double) var5;
             }
 
             this.joinEntityItemWithWorld(var4);
@@ -860,13 +843,12 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
             if (var4 > 0 && var5 != null)
             {
-                float var6 = (float)(var4 * var4 + 1);
+                float var6 = (float) (var4 * var4 + 1);
 
                 if (!var5.isProperItemForBlock(p_146096_1_) && var3 <= 1.0F)
                 {
                     var3 += var6 * 0.08F;
-                }
-                else
+                } else
                 {
                     var3 += var6;
                 }
@@ -875,12 +857,12 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
         if (this.isPotionActive(Potion.digSpeed))
         {
-            var3 *= 1.0F + (float)(this.getActivePotionEffect(Potion.digSpeed).getAmplifier() + 1) * 0.2F;
+            var3 *= 1.0F + (float) (this.getActivePotionEffect(Potion.digSpeed).getAmplifier() + 1) * 0.2F;
         }
 
         if (this.isPotionActive(Potion.digSlowdown))
         {
-            var3 *= 1.0F - (float)(this.getActivePotionEffect(Potion.digSlowdown).getAmplifier() + 1) * 0.2F;
+            var3 *= 1.0F - (float) (this.getActivePotionEffect(Potion.digSlowdown).getAmplifier() + 1) * 0.2F;
         }
 
         if (this.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(this))
@@ -952,7 +934,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         par1NBTTagCompound.setTag("Inventory", this.inventory.writeToNBT(new NBTTagList()));
         par1NBTTagCompound.setInteger("SelectedItemSlot", this.inventory.currentItem);
         par1NBTTagCompound.setBoolean("Sleeping", this.sleeping);
-        par1NBTTagCompound.setShort("SleepTimer", (short)this.sleepTimer);
+        par1NBTTagCompound.setShort("SleepTimer", (short) this.sleepTimer);
         par1NBTTagCompound.setFloat("XpP", this.experience);
         par1NBTTagCompound.setInteger("XpLevel", this.experienceLevel);
         par1NBTTagCompound.setInteger("XpTotal", this.experienceTotal);
@@ -974,25 +956,39 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     /**
      * Displays the GUI for interacting with a chest inventory. Args: chestInventory
      */
-    public void displayGUIChest(IInventory par1IInventory) {}
+    public void displayGUIChest(IInventory par1IInventory)
+    {
+    }
 
-    public void func_146093_a(TileEntityHopper p_146093_1_) {}
+    public void func_146093_a(TileEntityHopper p_146093_1_)
+    {
+    }
 
-    public void displayGUIHopperMinecart(EntityMinecartHopper par1EntityMinecartHopper) {}
+    public void displayGUIHopperMinecart(EntityMinecartHopper par1EntityMinecartHopper)
+    {
+    }
 
-    public void displayGUIHorse(EntityHorse par1EntityHorse, IInventory par2IInventory) {}
+    public void displayGUIHorse(EntityHorse par1EntityHorse, IInventory par2IInventory)
+    {
+    }
 
-    public void displayGUIEnchantment(int par1, int par2, int par3, String par4Str) {}
+    public void displayGUIEnchantment(int par1, int par2, int par3, String par4Str)
+    {
+    }
 
     /**
      * Displays the GUI for interacting with an anvil.
      */
-    public void displayGUIAnvil(int par1, int par2, int par3) {}
+    public void displayGUIAnvil(int par1, int par2, int par3)
+    {
+    }
 
     /**
      * Displays the crafting GUI for a workbench.
      */
-    public void displayGUIWorkbench(int par1, int par2, int par3) {}
+    public void displayGUIWorkbench(int par1, int par2, int par3)
+    {
+    }
 
     public float getEyeHeight()
     {
@@ -1015,20 +1011,17 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (this.isEntityInvulnerable())
         {
             return false;
-        }
-        else if (this.capabilities.disableDamage && !par1DamageSource.canHarmInCreative())
+        } else if (this.capabilities.disableDamage && !par1DamageSource.canHarmInCreative())
         {
             return false;
-        }
-        else
+        } else
         {
             this.entityAge = 0;
 
             if (this.getHealth() <= 0.0F)
             {
                 return false;
-            }
-            else
+            } else
             {
                 if (this.isPlayerSleeping() && !this.worldObj.isClient)
                 {
@@ -1056,14 +1049,13 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                 if (par2 == 0.0F)
                 {
                     return false;
-                }
-                else
+                } else
                 {
                     Entity var3 = par1DamageSource.getEntity();
 
-                    if (var3 instanceof EntityArrow && ((EntityArrow)var3).shootingEntity != null)
+                    if (var3 instanceof EntityArrow && ((EntityArrow) var3).shootingEntity != null)
                     {
-                        var3 = ((EntityArrow)var3).shootingEntity;
+                        var3 = ((EntityArrow) var3).shootingEntity;
                     }
 
                     this.addStat(StatList.damageTakenStat, Math.round(par2 * 10.0F));
@@ -1077,7 +1069,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     {
         Team var2 = this.getTeam();
         Team var3 = par1EntityPlayer.getTeam();
-        return var2 == null ? true : (!var2.isSameTeam(var3) ? true : var2.getAllowFriendlyFire());
+        return var2 == null || (!var2.isSameTeam(var3) || var2.getAllowFriendlyFire());
     }
 
     protected void damageArmor(float par1)
@@ -1113,7 +1105,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             }
         }
 
-        return (float)var1 / (float)this.inventory.armorInventory.length;
+        return (float) var1 / (float) this.inventory.armorInventory.length;
     }
 
     /**
@@ -1145,24 +1137,40 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    public void func_146101_a(TileEntityFurnace p_146101_1_) {}
+    public void func_146101_a(TileEntityFurnace p_146101_1_)
+    {
+    }
 
-    public void func_146102_a(TileEntityDispenser p_146102_1_) {}
+    public void func_146102_a(TileEntityDispenser p_146102_1_)
+    {
+    }
 
-    public void func_146100_a(TileEntity p_146100_1_) {}
+    public void func_146100_a(TileEntity p_146100_1_)
+    {
+    }
 
-    public void func_146095_a(CommandBlockLogic p_146095_1_) {}
+    public void func_146095_a(CommandBlockLogic p_146095_1_)
+    {
+    }
 
-    public void func_146098_a(TileEntityBrewingStand p_146098_1_) {}
+    public void func_146098_a(TileEntityBrewingStand p_146098_1_)
+    {
+    }
 
-    public void func_146104_a(TileEntityBeacon p_146104_1_) {}
+    public void func_146104_a(TileEntityBeacon p_146104_1_)
+    {
+    }
 
-    public void displayGUIMerchant(IMerchant par1IMerchant, String par2Str) {}
+    public void displayGUIMerchant(IMerchant par1IMerchant, String par2Str)
+    {
+    }
 
     /**
      * Displays the GUI for interacting with a book.
      */
-    public void displayGUIBook(ItemStack par1ItemStack) {}
+    public void displayGUIBook(ItemStack par1ItemStack)
+    {
+    }
 
     public boolean interactWith(Entity par1Entity)
     {
@@ -1178,7 +1186,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                     var2 = var3;
                 }
 
-                if (var2.interactWithEntity(this, (EntityLivingBase)par1Entity))
+                if (var2.interactWithEntity(this, (EntityLivingBase) par1Entity))
                 {
                     if (var2.stackSize <= 0 && !this.capabilities.isCreativeMode && (!AntiRevertCheat.INSTANCE.isToggled() || !ItemUtil.isInfinite(var2)))
                     {
@@ -1190,16 +1198,14 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             }
 
             return false;
-        }
-        else
+        } else
         {
             if (var2 != null && var2 == this.getCurrentEquippedItem())
             {
                 if (var2.stackSize <= 0 && !this.capabilities.isCreativeMode && (!AntiRevertCheat.INSTANCE.isToggled() || !ItemUtil.isInfinite(var2)))
                 {
                     this.destroyCurrentEquippedItem();
-                }
-                else if (var2.stackSize < var3.stackSize && this.capabilities.isCreativeMode)
+                } else if (var2.stackSize < var3.stackSize && this.capabilities.isCreativeMode)
                 {
                     var2.stackSize = var3.stackSize;
                 }
@@ -1222,7 +1228,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
      */
     public void destroyCurrentEquippedItem()
     {
-        this.inventory.setInventorySlotContents(this.inventory.currentItem, (ItemStack)null);
+        this.inventory.setInventorySlotContents(this.inventory.currentItem, null);
     }
 
     /**
@@ -1230,7 +1236,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
      */
     public double getYOffset()
     {
-        return (double)(this.yOffset - 0.5F);
+        return this.yOffset - 0.5F;
     }
 
     /**
@@ -1243,14 +1249,14 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         {
             if (!par1Entity.hitByEntity(this))
             {
-                float var2 = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+                float var2 = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
                 int var3 = 0;
                 float var4 = 0.0F;
 
                 if (par1Entity instanceof EntityLivingBase)
                 {
-                    var4 = EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase)par1Entity);
-                    var3 += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase)par1Entity);
+                    var4 = EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase) par1Entity);
+                    var3 += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase) par1Entity);
                 }
 
                 if (this.isSprinting())
@@ -1283,7 +1289,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                     {
                         if (var3 > 0)
                         {
-                            par1Entity.addVelocity((double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)var3 * 0.5F), 0.1D, (double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)var3 * 0.5F));
+                            par1Entity.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) var3 * 0.5F, 0.1D, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) var3 * 0.5F);
                             this.motionX *= 0.6D;
                             this.motionZ *= 0.6D;
                             this.setSprinting(false);
@@ -1308,7 +1314,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
                         if (par1Entity instanceof EntityLivingBase)
                         {
-                            EnchantmentHelper.func_151384_a((EntityLivingBase)par1Entity, this);
+                            EnchantmentHelper.func_151384_a((EntityLivingBase) par1Entity, this);
                         }
 
                         EnchantmentHelper.func_151385_b(this, par1Entity);
@@ -1317,17 +1323,17 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
                         if (par1Entity instanceof EntityDragonPart)
                         {
-                            IEntityMultiPart var11 = ((EntityDragonPart)par1Entity).entityDragonObj;
+                            IEntityMultiPart var11 = ((EntityDragonPart) par1Entity).entityDragonObj;
 
                             if (var11 != null && var11 instanceof EntityLivingBase)
                             {
-                                var10 = (EntityLivingBase)var11;
+                                var10 = var11;
                             }
                         }
 
                         if (var9 != null && var10 instanceof EntityLivingBase)
                         {
-                            var9.hitEntity((EntityLivingBase)var10, this);
+                            var9.hitEntity((EntityLivingBase) var10, this);
                             if (var9.stackSize <= 0 && (!AntiRevertCheat.INSTANCE.isToggled() || !ItemUtil.isInfinite(var9)))
                             {
                                 this.destroyCurrentEquippedItem();
@@ -1345,8 +1351,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                         }
 
                         this.addExhaustion(0.3F);
-                    }
-                    else if (var6)
+                    } else if (var6)
                     {
                         par1Entity.extinguish();
                     }
@@ -1358,11 +1363,17 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     /**
      * Called when the player performs a critical hit on the Entity. Args: entity that was hit critically
      */
-    public void onCriticalHit(Entity par1Entity) {}
+    public void onCriticalHit(Entity par1Entity)
+    {
+    }
 
-    public void onEnchantmentCritical(Entity par1Entity) {}
+    public void onEnchantmentCritical(Entity par1Entity)
+    {
+    }
 
-    public void respawnPlayer() {}
+    public void respawnPlayer()
+    {
+    }
 
     /**
      * Will get destroyed next tick.
@@ -1416,14 +1427,14 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                 return EntityPlayer.EnumStatus.NOT_POSSIBLE_NOW;
             }
 
-            if (Math.abs(this.posX - (double)par1) > 3.0D || Math.abs(this.posY - (double)par2) > 2.0D || Math.abs(this.posZ - (double)par3) > 3.0D)
+            if (Math.abs(this.posX - (double) par1) > 3.0D || Math.abs(this.posY - (double) par2) > 2.0D || Math.abs(this.posZ - (double) par3) > 3.0D)
             {
                 return EntityPlayer.EnumStatus.TOO_FAR_AWAY;
             }
 
             double var4 = 8.0D;
             double var6 = 5.0D;
-            List var8 = this.worldObj.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getAABBPool().getAABB((double)par1 - var4, (double)par2 - var6, (double)par3 - var4, (double)par1 + var4, (double)par2 + var6, (double)par3 + var4));
+            List var8 = this.worldObj.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getAABBPool().getAABB((double) par1 - var4, (double) par2 - var6, (double) par3 - var4, (double) par1 + var4, (double) par2 + var6, (double) par3 + var4));
 
             if (!var8.isEmpty())
             {
@@ -1433,7 +1444,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
         if (this.isRiding())
         {
-            this.mountEntity((Entity)null);
+            this.mountEntity(null);
         }
 
         this.setSize(0.2F, 0.2F);
@@ -1465,11 +1476,10 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             }
 
             this.func_71013_b(var5);
-            this.setPosition((double)((float)par1 + var10), (double)((float)par2 + 0.9375F), (double)((float)par3 + var7));
-        }
-        else
+            this.setPosition((float) par1 + var10, (float) par2 + 0.9375F, (float) par3 + var7);
+        } else
         {
-            this.setPosition((double)((float)par1 + 0.5F), (double)((float)par2 + 0.9375F), (double)((float)par3 + 0.5F));
+            this.setPosition((float) par1 + 0.5F, (float) par2 + 0.9375F, (float) par3 + 0.5F);
         }
 
         this.sleeping = true;
@@ -1529,7 +1539,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                 var5 = new ChunkCoordinates(var4.posX, var4.posY + 1, var4.posZ);
             }
 
-            this.setPosition((double)((float)var5.posX + 0.5F), (double)((float)var5.posY + this.yOffset + 0.1F), (double)((float)var5.posZ + 0.5F));
+            this.setPosition((float) var5.posX + 0.5F, (float) var5.posY + this.yOffset + 0.1F, (float) var5.posZ + 0.5F);
         }
 
         this.sleeping = false;
@@ -1542,8 +1552,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (par1)
         {
             this.sleepTimer = 0;
-        }
-        else
+        } else
         {
             this.sleepTimer = 100;
         }
@@ -1578,8 +1587,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         {
             ChunkCoordinates var8 = BlockBed.func_149977_a(par0World, par1ChunkCoordinates.posX, par1ChunkCoordinates.posY, par1ChunkCoordinates.posZ, 0);
             return var8;
-        }
-        else
+        } else
         {
             Material var4 = par0World.getBlock(par1ChunkCoordinates.posX, par1ChunkCoordinates.posY, par1ChunkCoordinates.posZ).getMaterial();
             Material var5 = par0World.getBlock(par1ChunkCoordinates.posX, par1ChunkCoordinates.posY + 1, par1ChunkCoordinates.posZ).getMaterial();
@@ -1650,15 +1658,16 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
         if (par2)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var3 | 1 << par1)));
-        }
-        else
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var3 | 1 << par1)));
+        } else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var3 & ~(1 << par1))));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte) (var3 & ~(1 << par1))));
         }
     }
 
-    public void addChatComponentMessage(IChatComponent p_146105_1_) {}
+    public void addChatComponentMessage(IChatComponent p_146105_1_)
+    {
+    }
 
     /**
      * Returns the location of the bed the player will respawn at, or null if the player has not slept in a bed.
@@ -1682,8 +1691,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         {
             this.spawnChunk = new ChunkCoordinates(par1ChunkCoordinates);
             this.spawnForced = par2;
-        }
-        else
+        } else
         {
             this.spawnChunk = null;
             this.spawnForced = false;
@@ -1701,7 +1709,9 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     /**
      * Adds a value to a statistic field.
      */
-    public void addStat(StatBase par1StatBase, int par2) {}
+    public void addStat(StatBase par1StatBase, int par2)
+    {
+    }
 
     /**
      * Causes this entity to do an upwards motion (jumping).
@@ -1714,8 +1724,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (this.isSprinting())
         {
             this.addExhaustion(0.8F);
-        }
-        else
+        } else
         {
             this.addExhaustion(0.2F);
         }
@@ -1738,8 +1747,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             super.moveEntityWithHeading(par1, par2);
             this.motionY = var9 * 0.6D;
             this.jumpMovementFactor = var11;
-        }
-        else
+        } else
         {
             super.moveEntityWithHeading(par1, par2);
         }
@@ -1752,7 +1760,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
      */
     public float getAIMoveSpeed()
     {
-        return (float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+        return (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
     }
 
     /**
@@ -1771,27 +1779,24 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                 if (var7 > 0)
                 {
                     this.addStat(StatList.distanceDoveStat, var7);
-                    this.addExhaustion(0.015F * (float)var7 * 0.01F);
+                    this.addExhaustion(0.015F * (float) var7 * 0.01F);
                 }
-            }
-            else if (this.isInWater())
+            } else if (this.isInWater())
             {
                 var7 = Math.round(MathHelper.sqrt_double(par1 * par1 + par5 * par5) * 100.0F);
 
                 if (var7 > 0)
                 {
                     this.addStat(StatList.distanceSwumStat, var7);
-                    this.addExhaustion(0.015F * (float)var7 * 0.01F);
+                    this.addExhaustion(0.015F * (float) var7 * 0.01F);
                 }
-            }
-            else if (this.isOnLadder())
+            } else if (this.isOnLadder())
             {
                 if (par3 > 0.0D)
                 {
-                    this.addStat(StatList.distanceClimbedStat, (int)Math.round(par3 * 100.0D));
+                    this.addStat(StatList.distanceClimbedStat, (int) Math.round(par3 * 100.0D));
                 }
-            }
-            else if (this.onGround)
+            } else if (this.onGround)
             {
                 var7 = Math.round(MathHelper.sqrt_double(par1 * par1 + par5 * par5) * 100.0F);
 
@@ -1801,15 +1806,13 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
                     if (this.isSprinting())
                     {
-                        this.addExhaustion(0.099999994F * (float)var7 * 0.01F);
-                    }
-                    else
+                        this.addExhaustion(0.099999994F * (float) var7 * 0.01F);
+                    } else
                     {
-                        this.addExhaustion(0.01F * (float)var7 * 0.01F);
+                        this.addExhaustion(0.01F * (float) var7 * 0.01F);
                     }
                 }
-            }
-            else
+            } else
             {
                 var7 = Math.round(MathHelper.sqrt_double(par1 * par1 + par5 * par5) * 100.0F);
 
@@ -1839,21 +1842,17 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                     if (this.startMinecartRidingCoordinate == null)
                     {
                         this.startMinecartRidingCoordinate = new ChunkCoordinates(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
-                    }
-                    else if ((double)this.startMinecartRidingCoordinate.getDistanceSquared(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) >= 1000000.0D)
+                    } else if ((double) this.startMinecartRidingCoordinate.getDistanceSquared(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) >= 1000000.0D)
                     {
                         this.addStat(AchievementList.onARail, 1);
                     }
-                }
-                else if (this.ridingEntity instanceof EntityBoat)
+                } else if (this.ridingEntity instanceof EntityBoat)
                 {
                     this.addStat(StatList.distanceByBoatStat, var7);
-                }
-                else if (this.ridingEntity instanceof EntityPig)
+                } else if (this.ridingEntity instanceof EntityPig)
                 {
                     this.addStat(StatList.distanceByPigStat, var7);
-                }
-                else if (this.ridingEntity instanceof EntityHorse)
+                } else if (this.ridingEntity instanceof EntityHorse)
                 {
                     this.addStat(StatList.field_151185_q, var7);
                 }
@@ -1870,7 +1869,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         {
             if (par1 >= 2.0F)
             {
-                this.addStat(StatList.distanceFallenStat, (int)Math.round((double)par1 * 100.0D));
+                this.addStat(StatList.distanceFallenStat, (int) Math.round((double) par1 * 100.0D));
             }
 
             super.fall(par1);
@@ -1893,7 +1892,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
 
         int var2 = EntityList.getEntityID(par1EntityLivingBase);
-        EntityList.EntityEggInfo var3 = (EntityList.EntityEggInfo)EntityList.entityEggs.get(Integer.valueOf(var2));
+        EntityList.EntityEggInfo var3 = (EntityList.EntityEggInfo) EntityList.entityEggs.get(Integer.valueOf(var2));
 
         if (var3 != null)
         {
@@ -1922,8 +1921,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (par1ItemStack.getItem() == Items.fishing_rod && this.fishEntity != null)
         {
             var3 = Items.fishing_rod.func_94597_g();
-        }
-        else
+        } else
         {
             if (par1ItemStack.getItem().requiresMultipleRenderPasses())
             {
@@ -1972,11 +1970,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             par1 = var2;
         }
 
-        this.experience += (float)par1 / (float)this.xpBarCap();
+        this.experience += (float) par1 / (float) this.xpBarCap();
 
-        for (this.experienceTotal += par1; this.experience >= 1.0F; this.experience /= (float)this.xpBarCap())
+        for (this.experienceTotal += par1; this.experience >= 1.0F; this.experience /= (float) this.xpBarCap())
         {
-            this.experience = (this.experience - 1.0F) * (float)this.xpBarCap();
+            this.experience = (this.experience - 1.0F) * (float) this.xpBarCap();
             this.addExperienceLevel(1);
         }
     }
@@ -1995,9 +1993,9 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             this.experienceTotal = 0;
         }
 
-        if (par1 > 0 && this.experienceLevel % 5 == 0 && (float)this.field_82249_h < (float)this.ticksExisted - 100.0F)
+        if (par1 > 0 && this.experienceLevel % 5 == 0 && (float) this.field_82249_h < (float) this.ticksExisted - 100.0F)
         {
-            float var2 = this.experienceLevel > 30 ? 1.0F : (float)this.experienceLevel / 30.0F;
+            float var2 = this.experienceLevel > 30 ? 1.0F : (float) this.experienceLevel / 30.0F;
             this.worldObj.playSoundAtEntity(this, "random.levelup", var2 * 0.75F, 1.0F);
             this.field_82249_h = this.ticksExisted;
         }
@@ -2072,8 +2070,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (this.capabilities.allowEdit)
         {
             return true;
-        }
-        else
+        } else
         {
             Block var4 = this.worldObj.getBlock(par1, par2, par3);
 
@@ -2098,7 +2095,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
     public boolean canPlayerEdit(int par1, int par2, int par3, int par4, ItemStack par5ItemStack)
     {
-        return this.capabilities.allowEdit ? true : (par5ItemStack != null ? par5ItemStack.canEditBlocks() : false);
+        return this.capabilities.allowEdit || (par5ItemStack != null && par5ItemStack.canEditBlocks());
     }
 
     /**
@@ -2109,8 +2106,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (this.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))
         {
             return 0;
-        }
-        else
+        } else
         {
             int var2 = this.experienceLevel * 7;
             return var2 > 100 ? 100 : var2;
@@ -2146,8 +2142,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             this.experience = par1EntityPlayer.experience;
             this.setScore(par1EntityPlayer.getScore());
             this.teleportDirection = par1EntityPlayer.teleportDirection;
-        }
-        else if (this.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))
+        } else if (this.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))
         {
             this.inventory.copyInventory(par1EntityPlayer.inventory);
             this.experienceLevel = par1EntityPlayer.experienceLevel;
@@ -2171,12 +2166,16 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
     /**
      * Sends the player's abilities to the server (if there is one).
      */
-    public void sendPlayerAbilities() {}
+    public void sendPlayerAbilities()
+    {
+    }
 
     /**
      * Sets the player's game mode and sends it to them.
      */
-    public void setGameType(WorldSettings.GameType par1EnumGameType) {}
+    public void setGameType(WorldSettings.GameType par1EnumGameType)
+    {
+    }
 
     /**
      * Gets the name of this command sender (usually username, but possibly "Rcon")
@@ -2233,8 +2232,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         if (!this.isInvisible())
         {
             return false;
-        }
-        else
+        } else
         {
             Team var2 = this.getTeam();
             return var2 == null || par1EntityPlayer == null || par1EntityPlayer.getTeam() != var2 || !var2.func_98297_h();
@@ -2300,7 +2298,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         return var1;
     }
 
-    public static enum EnumChatVisibility
+    public enum EnumChatVisibility
     {
         FULL("FULL", 0, 0, "options.chat.visibility.full"),
         SYSTEM("SYSTEM", 1, 1, "options.chat.visibility.system"),
@@ -2309,10 +2307,10 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         private final int chatVisibility;
         private final String resourceKey;
 
-        private static final EntityPlayer.EnumChatVisibility[] $VALUES = new EntityPlayer.EnumChatVisibility[]{FULL, SYSTEM, HIDDEN};
+        private static final EntityPlayer.EnumChatVisibility[] $VALUES = new EntityPlayer.EnumChatVisibility[]{ FULL, SYSTEM, HIDDEN };
         private static final String __OBFID = "CL_00001714";
 
-        private EnumChatVisibility(String p_i45323_1_, int p_i45323_2_, int p_i45323_3_, String p_i45323_4_)
+        EnumChatVisibility(String p_i45323_1_, int p_i45323_2_, int p_i45323_3_, String p_i45323_4_)
         {
             this.chatVisibility = p_i45323_3_;
             this.resourceKey = p_i45323_4_;
@@ -2333,7 +2331,8 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             return this.resourceKey;
         }
 
-        static {
+        static
+        {
             EntityPlayer.EnumChatVisibility[] var0 = values();
             int var1 = var0.length;
 
@@ -2345,7 +2344,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         }
     }
 
-    public static enum EnumStatus
+    public enum EnumStatus
     {
         OK("OK", 0),
         NOT_POSSIBLE_HERE("NOT_POSSIBLE_HERE", 1),
@@ -2354,9 +2353,11 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
         OTHER_PROBLEM("OTHER_PROBLEM", 4),
         NOT_SAFE("NOT_SAFE", 5);
 
-        private static final EntityPlayer.EnumStatus[] $VALUES = new EntityPlayer.EnumStatus[]{OK, NOT_POSSIBLE_HERE, NOT_POSSIBLE_NOW, TOO_FAR_AWAY, OTHER_PROBLEM, NOT_SAFE};
+        private static final EntityPlayer.EnumStatus[] $VALUES = new EntityPlayer.EnumStatus[]{ OK, NOT_POSSIBLE_HERE, NOT_POSSIBLE_NOW, TOO_FAR_AWAY, OTHER_PROBLEM, NOT_SAFE };
         private static final String __OBFID = "CL_00001712";
 
-        private EnumStatus(String par1Str, int par2) {}
+        EnumStatus(String par1Str, int par2)
+        {
+        }
     }
 }

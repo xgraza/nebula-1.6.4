@@ -1,12 +1,13 @@
 package net.minecraft.command.server;
 
-import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+
+import java.util.List;
 
 public class CommandBroadcast extends CommandBase
 {
@@ -35,11 +36,10 @@ public class CommandBroadcast extends CommandBase
         if (par2ArrayOfStr.length > 0 && par2ArrayOfStr[0].length() > 0)
         {
             IChatComponent var3 = func_147176_a(par1ICommandSender, par2ArrayOfStr, 0, true);
-            MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.announcement", new Object[] {par1ICommandSender.getCommandSenderName(), var3}));
-        }
-        else
+            MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("chat.type.announcement", par1ICommandSender.getCommandSenderName(), var3));
+        } else
         {
-            throw new WrongUsageException("commands.say.usage", new Object[0]);
+            throw new WrongUsageException("commands.say.usage");
         }
     }
 

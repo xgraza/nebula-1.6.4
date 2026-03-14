@@ -41,6 +41,6 @@ public class RegistryNamespacedDefaultedByKey extends RegistryNamespaced
 
     public Object getObject(Object par1Obj)
     {
-        return this.getObject((String)par1Obj);
+        return this.getObject((String) par1Obj);
     }
 }

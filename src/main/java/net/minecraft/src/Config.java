@@ -1,28 +1,5 @@
 package net.minecraft.src;
 
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.imageio.ImageIO;
 import net.minecraft.block.Block;
 import net.minecraft.client.LoadingScreenRenderer;
 import net.minecraft.client.Minecraft;
@@ -32,11 +9,7 @@ import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.resources.DefaultResourcePack;
-import net.minecraft.client.resources.IResource;
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.client.resources.ResourcePackRepository;
+import net.minecraft.client.resources.*;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -50,16 +23,20 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GLContext;
-import org.lwjgl.opengl.PixelFormat;
+import org.lwjgl.opengl.*;
 import org.lwjgl.util.glu.GLU;
 import shadersmod.client.Shaders;
+
+import javax.imageio.ImageIO;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.lang.reflect.Array;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Config
 {
@@ -68,7 +45,7 @@ public class Config
     public static final String OF_EDITION = "HD_U";
     public static final String OF_RELEASE = "F7";
     public static final String VERSION = "OptiFine_1.7.2_HD_U_F7";
-    private static String newRelease = null;
+    private static final String newRelease = null;
     private static boolean notify64BitJava = false;
     public static String openGlVersion = null;
     public static String openGlRenderer = null;
@@ -80,7 +57,7 @@ public class Config
     public static boolean fancyFogAvailable = false;
     public static boolean occlusionAvailable = false;
     private static GameSettings gameSettings = null;
-    private static Minecraft minecraft = Minecraft.getMinecraft();
+    private static final Minecraft minecraft = Minecraft.getMinecraft();
     private static boolean initialized = false;
     private static Thread minecraftThread = null;
     private static DisplayMode desktopDisplayMode = null;
@@ -92,7 +69,7 @@ public class Config
     public static boolean waterOpacityChanged = false;
     private static boolean fullscreenModeChecked = false;
     private static boolean desktopModeChecked = false;
-    private static DefaultResourcePack defaultResourcePackLazy = null;
+    private static final DefaultResourcePack defaultResourcePackLazy = null;
     public static final Float DEF_ALPHA_FUNC_LEVEL = Float.valueOf(0.1F);
     private static final Logger LOGGER = LogManager.getLogger();
     public static float renderPartialTicks;
@@ -109,7 +86,7 @@ public class Config
         if (isDynamicLights())
         {
             sb.append("DL: ");
-            sb.append(String.valueOf(DynamicLights.getCount()));
+            sb.append(DynamicLights.getCount());
             sb.append(", ");
         }
 
@@ -205,16 +182,14 @@ public class Config
             if (e == null)
             {
                 return null;
-            }
-            else
+            } else
             {
                 String build = readLines(e)[0];
                 return build;
             }
-        }
-        catch (Exception var2)
+        } catch (Exception var2)
         {
-            warn("" + var2.getClass().getName() + ": " + var2.getMessage());
+            warn(var2.getClass().getName() + ": " + var2.getMessage());
             return null;
         }
     }
@@ -248,7 +223,7 @@ public class Config
 
             if (verStrs.length > 2)
             {
-                ver += 1 * parseInt(verStrs[2], 0);
+                ver += parseInt(verStrs[2], 0);
             }
 
             minecraftVersionInt = ver;
@@ -260,7 +235,7 @@ public class Config
     public static String getOpenGlVersionString()
     {
         GlVersion ver = getGlVersion();
-        String verStr = "" + ver.getMajor() + "." + ver.getMinor() + "." + ver.getRelease();
+        String verStr = ver.getMajor() + "." + ver.getMinor() + "." + ver.getRelease();
         return verStr;
     }
 
@@ -274,7 +249,7 @@ public class Config
         if (glVersion == null)
         {
             String verStr = GL11.glGetString(GL11.GL_VERSION);
-            glVersion = parseGlVersion(verStr, (GlVersion)null);
+            glVersion = parseGlVersion(verStr, null);
 
             if (glVersion == null)
             {
@@ -295,7 +270,7 @@ public class Config
         if (glslVersion == null)
         {
             String verStr = GL11.glGetString(GL20.GL_SHADING_LANGUAGE_VERSION);
-            glslVersion = parseGlVersion(verStr, (GlVersion)null);
+            glslVersion = parseGlVersion(verStr, null);
 
             if (glslVersion == null)
             {
@@ -313,8 +288,7 @@ public class Config
             if (versionString == null)
             {
                 return def;
-            }
-            else
+            } else
             {
                 Pattern e = Pattern.compile("([0-9]+)\\.([0-9]+)(\\.([0-9]+))?(.+)?");
                 Matcher matcher = e.matcher(versionString);
@@ -322,8 +296,7 @@ public class Config
                 if (!matcher.matches())
                 {
                     return def;
-                }
-                else
+                } else
                 {
                     int major = Integer.parseInt(matcher.group(1));
                     int minor = Integer.parseInt(matcher.group(2));
@@ -332,8 +305,7 @@ public class Config
                     return new GlVersion(major, minor, release, suffix);
                 }
             }
-        }
-        catch (Exception var8)
+        } catch (Exception var8)
         {
             var8.printStackTrace();
             return def;
@@ -372,8 +344,7 @@ public class Config
                     return exts1;
                 }
             }
-        }
-        catch (Exception var5)
+        } catch (Exception var5)
         {
             var5.printStackTrace();
         }
@@ -383,8 +354,7 @@ public class Config
             String var6 = GL11.glGetString(GL11.GL_EXTENSIONS);
             String[] var7 = var6.split(" ");
             return var7;
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
             var4.printStackTrace();
             return new String[0];
@@ -402,14 +372,12 @@ public class Config
             {
                 minecraftThread.setPriority(10);
                 setThreadPriority("Server thread", 1);
-            }
-            else
+            } else
             {
                 minecraftThread.setPriority(5);
                 setThreadPriority("Server thread", 5);
             }
-        }
-        else
+        } else
         {
             minecraftThread.setPriority(10);
             setThreadPriority("Server thread", 5);
@@ -440,8 +408,7 @@ public class Config
                     t.setPriority(priority);
                 }
             }
-        }
-        catch (Throwable var7)
+        } catch (Throwable var7)
         {
             warn(var7.getClass().getName() + ": " + var7.getMessage());
         }
@@ -506,7 +473,7 @@ public class Config
 
     public static boolean isFogFancy()
     {
-        return !isFancyFogAvailable() ? false : gameSettings.ofFogType == 2;
+        return isFancyFogAvailable() && gameSettings.ofFogType == 2;
     }
 
     public static boolean isFogFast()
@@ -531,7 +498,7 @@ public class Config
 
     public static boolean isOcclusionFancy()
     {
-        return !isOcclusionEnabled() ? false : gameSettings.ofOcclusionFancy;
+        return isOcclusionEnabled() && gameSettings.ofOcclusionFancy;
     }
 
     public static boolean isLoadChunksFar()
@@ -596,7 +563,7 @@ public class Config
 
     public static boolean isCloudsOff()
     {
-        return gameSettings.ofClouds != 0 ? gameSettings.ofClouds == 3 : (isShaders() && !Shaders.shaderPackClouds.isDefault() ? Shaders.shaderPackClouds.isOff() : (texturePackClouds != 0 ? texturePackClouds == 3 : false));
+        return gameSettings.ofClouds != 0 ? gameSettings.ofClouds == 3 : (isShaders() && !Shaders.shaderPackClouds.isDefault() ? Shaders.shaderPackClouds.isOff() : (texturePackClouds != 0 && texturePackClouds == 3));
     }
 
     public static void updateTexturePackClouds()
@@ -642,10 +609,8 @@ public class Config
                 {
                     texturePackClouds = 3;
                 }
-            }
-            catch (Exception var4)
+            } catch (Exception var4)
             {
-                ;
             }
         }
     }
@@ -780,8 +745,7 @@ public class Config
         if (list == null)
         {
             return "";
-        }
-        else
+        } else
         {
             StringBuffer buf = new StringBuffer(list.size() * 5);
 
@@ -794,7 +758,7 @@ public class Config
                     buf.append(separator);
                 }
 
-                buf.append(String.valueOf(obj));
+                buf.append(obj);
             }
 
             return buf.toString();
@@ -811,8 +775,7 @@ public class Config
         if (arr == null)
         {
             return "";
-        }
-        else
+        } else
         {
             StringBuffer buf = new StringBuffer(arr.length * 5);
 
@@ -825,7 +788,7 @@ public class Config
                     buf.append(separator);
                 }
 
-                buf.append(String.valueOf(obj));
+                buf.append(obj);
             }
 
             return buf.toString();
@@ -842,8 +805,7 @@ public class Config
         if (arr == null)
         {
             return "";
-        }
-        else
+        } else
         {
             StringBuffer buf = new StringBuffer(arr.length * 5);
 
@@ -856,7 +818,7 @@ public class Config
                     buf.append(separator);
                 }
 
-                buf.append(String.valueOf(x));
+                buf.append(x);
             }
 
             return buf.toString();
@@ -900,8 +862,7 @@ public class Config
         {
             IResource e = getResource(location);
             return e != null;
-        }
-        catch (IOException var2)
+        } catch (IOException var2)
         {
             return false;
         }
@@ -913,8 +874,7 @@ public class Config
         {
             IResource e = resourceManager.getResource(location);
             return e != null;
-        }
-        catch (IOException var3)
+        } catch (IOException var3)
         {
             return false;
         }
@@ -929,7 +889,7 @@ public class Config
 
         while (rps.hasNext())
         {
-            ResourcePackRepository.Entry entry = (ResourcePackRepository.Entry)rps.next();
+            ResourcePackRepository.Entry entry = (ResourcePackRepository.Entry) rps.next();
             list.add(entry.getResourcePack());
         }
 
@@ -938,7 +898,7 @@ public class Config
             list.add(rep.func_148530_e());
         }
 
-        IResourcePack[] rps1 = (IResourcePack[])((IResourcePack[])list.toArray(new IResourcePack[list.size()]));
+        IResourcePack[] rps1 = (IResourcePack[]) list.toArray(new IResourcePack[list.size()]);
         return rps1;
     }
 
@@ -947,16 +907,14 @@ public class Config
         if (minecraft.getResourcePackRepository() == null)
         {
             return "";
-        }
-        else
+        } else
         {
             IResourcePack[] rps = getResourcePacks();
 
             if (rps.length <= 0)
             {
                 return getDefaultResourcePack().getPackName();
-            }
-            else
+            } else
             {
                 String[] names = new String[rps.length];
 
@@ -965,7 +923,7 @@ public class Config
                     names[nameStr] = rps[nameStr].getPackName();
                 }
 
-                String var3 = arrayToString((Object[])names);
+                String var3 = arrayToString(names);
                 return var3;
             }
         }
@@ -999,8 +957,7 @@ public class Config
         if (getDefaultResourcePack().resourceExists(loc))
         {
             return getDefaultResourcePack();
-        }
-        else
+        } else
         {
             return null;
         }
@@ -1021,8 +978,7 @@ public class Config
         if (!isBetterGrass())
         {
             return icon;
-        }
-        else
+        } else
         {
             IIcon fullIcon = TextureUtils.iconGrassTop;
             Object destBlock = Blocks.grass;
@@ -1072,8 +1028,7 @@ public class Config
         if (!isBetterGrass())
         {
             return TextureUtils.iconGrassSideSnowed;
-        }
-        else
+        } else
         {
             if (isBetterGrassFancy())
             {
@@ -1134,17 +1089,17 @@ public class Config
 
     public static boolean isSunTexture()
     {
-        return !isSunMoonEnabled() ? false : !isShaders() || Shaders.isSun();
+        return isSunMoonEnabled() && (!isShaders() || Shaders.isSun());
     }
 
     public static boolean isMoonTexture()
     {
-        return !isSunMoonEnabled() ? false : !isShaders() || Shaders.isMoon();
+        return isSunMoonEnabled() && (!isShaders() || Shaders.isMoon());
     }
 
     public static boolean isVignetteEnabled()
     {
-        return isShaders() && !Shaders.isVignette() ? false : (gameSettings.ofVignette == 0 ? gameSettings.fancyGraphics : gameSettings.ofVignette == 2);
+        return (!isShaders() || Shaders.isVignette()) && (gameSettings.ofVignette == 0 ? gameSettings.fancyGraphics : gameSettings.ofVignette == 2);
     }
 
     public static boolean isStarsEnabled()
@@ -1157,8 +1112,7 @@ public class Config
         try
         {
             Thread.sleep(ms);
-        }
-        catch (InterruptedException var3)
+        } catch (InterruptedException var3)
         {
             var3.printStackTrace();
         }
@@ -1234,20 +1188,17 @@ public class Config
         if (desktopDisplayMode == null)
         {
             return null;
-        }
-        else if (gameSettings == null)
+        } else if (gameSettings == null)
         {
             return new Dimension(desktopDisplayMode.getWidth(), desktopDisplayMode.getHeight());
-        }
-        else
+        } else
         {
             String dimStr = gameSettings.ofFullscreenMode;
 
             if (dimStr.equals("Default"))
             {
                 return new Dimension(desktopDisplayMode.getWidth(), desktopDisplayMode.getHeight());
-            }
-            else
+            } else
             {
                 String[] dimStrs = tokenize(dimStr, " x");
                 return dimStrs.length < 2 ? new Dimension(desktopDisplayMode.getWidth(), desktopDisplayMode.getHeight()) : new Dimension(parseInt(dimStrs[0], -1), parseInt(dimStrs[1], -1));
@@ -1262,14 +1213,12 @@ public class Config
             if (str == null)
             {
                 return defVal;
-            }
-            else
+            } else
             {
                 str = str.trim();
                 return Integer.parseInt(str);
             }
-        }
-        catch (NumberFormatException var3)
+        } catch (NumberFormatException var3)
         {
             return defVal;
         }
@@ -1282,14 +1231,12 @@ public class Config
             if (str == null)
             {
                 return defVal;
-            }
-            else
+            } else
             {
                 str = str.trim();
                 return Float.parseFloat(str);
             }
-        }
-        catch (NumberFormatException var3)
+        } catch (NumberFormatException var3)
         {
             return defVal;
         }
@@ -1302,14 +1249,12 @@ public class Config
             if (str == null)
             {
                 return defVal;
-            }
-            else
+            } else
             {
                 str = str.trim();
                 return Boolean.parseBoolean(str);
             }
-        }
-        catch (NumberFormatException var3)
+        } catch (NumberFormatException var3)
         {
             return defVal;
         }
@@ -1326,7 +1271,7 @@ public class Config
             list.add(strs);
         }
 
-        String[] strs1 = (String[])((String[])list.toArray(new String[list.size()]));
+        String[] strs1 = (String[]) list.toArray(new String[list.size()]);
         return strs1;
     }
 
@@ -1348,7 +1293,7 @@ public class Config
 
                 while (fsModes.hasNext())
                 {
-                    Dimension dim = (Dimension)fsModes.next();
+                    Dimension dim = (Dimension) fsModes.next();
                     DisplayMode[] dimModes = getDisplayModes(e, dim);
                     DisplayMode dm = getDisplayMode(dimModes, desktopDisplayMode);
 
@@ -1358,14 +1303,13 @@ public class Config
                     }
                 }
 
-                DisplayMode[] fsModes1 = (DisplayMode[])((DisplayMode[])list.toArray(new DisplayMode[list.size()]));
+                DisplayMode[] fsModes1 = (DisplayMode[]) list.toArray(new DisplayMode[list.size()]);
                 Arrays.sort(fsModes1, new DisplayModeComparator());
                 return fsModes1;
-            }
-            catch (Exception var7)
+            } catch (Exception var7)
             {
                 var7.printStackTrace();
-                displayModes = new DisplayMode[] {desktopDisplayMode};
+                displayModes = new DisplayMode[]{ desktopDisplayMode };
             }
         }
 
@@ -1380,8 +1324,7 @@ public class Config
         {
             DisplayMode mode = modes[modes.length - 1];
             return desktopDisplayMode.getWidth() > mode.getWidth() ? desktopDisplayMode : (desktopDisplayMode.getWidth() == mode.getWidth() && desktopDisplayMode.getHeight() > mode.getHeight() ? desktopDisplayMode : mode);
-        }
-        else
+        } else
         {
             return desktopDisplayMode;
         }
@@ -1409,13 +1352,13 @@ public class Config
         {
             DisplayMode mode = modes[dimModes];
 
-            if ((double)mode.getWidth() == dim.getWidth() && (double)mode.getHeight() == dim.getHeight())
+            if ((double) mode.getWidth() == dim.getWidth() && (double) mode.getHeight() == dim.getHeight())
             {
                 list.add(mode);
             }
         }
 
-        DisplayMode[] var5 = (DisplayMode[])((DisplayMode[])list.toArray(new DisplayMode[list.size()]));
+        DisplayMode[] var5 = (DisplayMode[]) list.toArray(new DisplayMode[list.size()]);
         return var5;
     }
 
@@ -1437,8 +1380,7 @@ public class Config
         if (modes.length <= 0)
         {
             return null;
-        }
-        else
+        } else
         {
             Arrays.sort(modes, new DisplayModeComparator());
             return modes[modes.length - 1];
@@ -1453,7 +1395,7 @@ public class Config
         for (int i = 0; i < modes.length; ++i)
         {
             DisplayMode mode = modes[i];
-            String name = "" + mode.getWidth() + "x" + mode.getHeight();
+            String name = mode.getWidth() + "x" + mode.getHeight();
             names[i] = name;
         }
 
@@ -1571,13 +1513,13 @@ public class Config
     public static String[] readLines(File file) throws IOException
     {
         FileInputStream fis = new FileInputStream(file);
-        return readLines((InputStream)fis);
+        return readLines(fis);
     }
 
     public static String[] readLines(InputStream is) throws IOException
     {
         ArrayList list = new ArrayList();
-        InputStreamReader isr = new InputStreamReader(is, "ASCII");
+        InputStreamReader isr = new InputStreamReader(is, StandardCharsets.US_ASCII);
         BufferedReader br = new BufferedReader(isr);
 
         while (true)
@@ -1586,7 +1528,7 @@ public class Config
 
             if (lines == null)
             {
-                String[] lines1 = (String[])((String[])list.toArray(new String[list.size()]));
+                String[] lines1 = (String[]) list.toArray(new String[list.size()]);
                 return lines1;
             }
 
@@ -1670,8 +1612,7 @@ public class Config
         if (!branch1.equals(branch2))
         {
             return branch1.compareTo(branch2);
-        }
-        else
+        } else
         {
             int rev1 = parseInt(rels1[1], -1);
             int rev2 = parseInt(rels2[1], -1);
@@ -1679,8 +1620,7 @@ public class Config
             if (rev1 != rev2)
             {
                 return rev1 - rev2;
-            }
-            else
+            } else
             {
                 String suf1 = rels1[2];
                 String suf2 = rels2[2];
@@ -1712,19 +1652,17 @@ public class Config
 
             if (!m.matches())
             {
-                return new String[] {"", "", ""};
-            }
-            else
+                return new String[]{ "", "", "" };
+            } else
             {
                 String branch = normalize(m.group(1));
                 String revision = normalize(m.group(2));
                 String suffix = normalize(m.group(3));
-                return new String[] {branch, revision, suffix};
+                return new String[]{ branch, revision, suffix };
             }
-        }
-        else
+        } else
         {
-            return new String[] {"", "", ""};
+            return new String[]{ "", "", "" };
         }
     }
 
@@ -1754,28 +1692,24 @@ public class Config
         if (world == null)
         {
             return null;
-        }
-        else if (!minecraft.isIntegratedServerRunning())
+        } else if (!minecraft.isIntegratedServerRunning())
         {
             return null;
-        }
-        else
+        } else
         {
             IntegratedServer is = minecraft.getIntegratedServer();
 
             if (is == null)
             {
                 return null;
-            }
-            else
+            } else
             {
                 WorldProvider wp = world.provider;
 
                 if (wp == null)
                 {
                     return null;
-                }
-                else
+                } else
                 {
                     int wd = wp.dimensionId;
 
@@ -1783,8 +1717,7 @@ public class Config
                     {
                         WorldServer e = is.worldServerForDimension(wd);
                         return e;
-                    }
-                    catch (NullPointerException var5)
+                    } catch (NullPointerException var5)
                     {
                         return null;
                     }
@@ -1810,7 +1743,7 @@ public class Config
 
     public static boolean isSmoothWorld()
     {
-        return !isSingleProcessor() ? false : gameSettings.ofSmoothWorld;
+        return isSingleProcessor() && gameSettings.ofSmoothWorld;
     }
 
     public static boolean isLazyChunkLoading()
@@ -1823,8 +1756,7 @@ public class Config
         if (gameSettings == null)
         {
             return 10;
-        }
-        else
+        } else
         {
             int chunkDistance = gameSettings.renderDistanceChunks;
             return chunkDistance <= 16 ? 10 : chunkDistance;
@@ -1833,7 +1765,7 @@ public class Config
 
     public static boolean equals(Object o1, Object o2)
     {
-        return o1 == o2 ? true : (o1 == null ? false : o1.equals(o2));
+        return o1 == o2 || (o1 != null && o1.equals(o2));
     }
 
     public static boolean equalsOne(Object a, Object[] bs)
@@ -1841,8 +1773,7 @@ public class Config
         if (bs == null)
         {
             return false;
-        }
-        else
+        } else
         {
             for (int i = 0; i < bs.length; ++i)
             {
@@ -1876,8 +1807,7 @@ public class Config
         if (bs == null)
         {
             return false;
-        }
-        else
+        } else
         {
             for (int i = 0; i < bs.length; ++i)
             {
@@ -1914,8 +1844,7 @@ public class Config
                 Display.create((new PixelFormat()).withDepthBits(24).withSamples(samples));
                 Display.setResizable(false);
                 Display.setResizable(true);
-            }
-            catch (LWJGLException var9)
+            } catch (LWJGLException var9)
             {
                 warn("Error setting FSAA: " + samples + "x");
                 var9.printStackTrace();
@@ -1926,8 +1855,7 @@ public class Config
                     Display.create((new PixelFormat()).withDepthBits(24));
                     Display.setResizable(false);
                     Display.setResizable(true);
-                }
-                catch (LWJGLException var8)
+                } catch (LWJGLException var8)
                 {
                     var8.printStackTrace();
 
@@ -1937,8 +1865,7 @@ public class Config
                         Display.create();
                         Display.setResizable(false);
                         Display.setResizable(true);
-                    }
-                    catch (LWJGLException var7)
+                    } catch (LWJGLException var7)
                     {
                         var7.printStackTrace();
                     }
@@ -1952,10 +1879,9 @@ public class Config
                     File e = new File(minecraft.mcDataDir, "assets");
                     ByteBuffer bufIcon16 = readIconImage(new File(e, "/icons/icon_16x16.png"));
                     ByteBuffer bufIcon32 = readIconImage(new File(e, "/icons/icon_32x32.png"));
-                    ByteBuffer[] buf = new ByteBuffer[] {bufIcon16, bufIcon32};
+                    ByteBuffer[] buf = new ByteBuffer[]{ bufIcon16, bufIcon32 };
                     Display.setIcon(buf);
-                }
-                catch (IOException var6)
+                } catch (IOException var6)
                 {
                     warn(var6.getClass().getName() + ": " + var6.getMessage());
                 }
@@ -1966,7 +1892,7 @@ public class Config
     private static ByteBuffer readIconImage(File par1File) throws IOException
     {
         BufferedImage var2 = ImageIO.read(par1File);
-        int[] var3 = var2.getRGB(0, 0, var2.getWidth(), var2.getHeight(), (int[])null, 0, var2.getWidth());
+        int[] var3 = var2.getRGB(0, 0, var2.getWidth(), var2.getHeight(), null, 0, var2.getWidth());
         ByteBuffer var4 = ByteBuffer.allocate(4 * var3.length);
         int[] var5 = var3;
         int var6 = var3.length;
@@ -2041,8 +1967,7 @@ public class Config
                 Display.setFullscreen(true);
                 minecraft.gameSettings.updateVSync();
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
-            }
-            else
+            } else
             {
                 if (desktopModeChecked)
                 {
@@ -2057,8 +1982,7 @@ public class Config
                 Display.setResizable(false);
                 Display.setResizable(true);
             }
-        }
-        catch (Exception var6)
+        } catch (Exception var6)
         {
             var6.printStackTrace();
             gameSettings.ofFullscreenMode = "Default";
@@ -2081,12 +2005,11 @@ public class Config
         if (arr == null)
         {
             throw new NullPointerException("The given array is NULL");
-        }
-        else
+        } else
         {
             int arrLen = arr.length;
             int newLen = arrLen + 1;
-            Object[] newArr = (Object[])((Object[])Array.newInstance(arr.getClass().getComponentType(), newLen));
+            Object[] newArr = (Object[]) Array.newInstance(arr.getClass().getComponentType(), newLen);
             System.arraycopy(arr, 0, newArr, 0, arrLen);
             newArr[arrLen] = obj;
             return newArr;
@@ -2097,7 +2020,7 @@ public class Config
     {
         ArrayList list = new ArrayList(Arrays.asList(arr));
         list.add(index, obj);
-        Object[] newArr = (Object[])((Object[])Array.newInstance(arr.getClass().getComponentType(), list.size()));
+        Object[] newArr = (Object[]) Array.newInstance(arr.getClass().getComponentType(), list.size());
         return list.toArray(newArr);
     }
 
@@ -2106,16 +2029,14 @@ public class Config
         if (arr == null)
         {
             throw new NullPointerException("The given array is NULL");
-        }
-        else if (objs.length == 0)
+        } else if (objs.length == 0)
         {
             return arr;
-        }
-        else
+        } else
         {
             int arrLen = arr.length;
             int newLen = arrLen + objs.length;
-            Object[] newArr = (Object[])((Object[])Array.newInstance(arr.getClass().getComponentType(), newLen));
+            Object[] newArr = (Object[]) Array.newInstance(arr.getClass().getComponentType(), newLen);
             System.arraycopy(arr, 0, newArr, 0, arrLen);
             System.arraycopy(objs, 0, newArr, arrLen, objs.length);
             return newArr;
@@ -2153,8 +2074,7 @@ public class Config
         if (pos1 < 0)
         {
             return "";
-        }
-        else
+        } else
         {
             pos1 += 2;
             int pos2 = str.indexOf(32, pos1);
@@ -2170,7 +2090,7 @@ public class Config
 
     public static int getBitsJre()
     {
-        String[] propNames = new String[] {"sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch"};
+        String[] propNames = new String[]{ "sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch" };
 
         for (int i = 0; i < propNames.length; ++i)
         {
@@ -2209,7 +2129,7 @@ public class Config
 
     public static int[] addIntToArray(int[] intArray, int intValue)
     {
-        return addIntsToArray(intArray, new int[] {intValue});
+        return addIntsToArray(intArray, new int[]{ intValue });
     }
 
     public static int[] addIntsToArray(int[] intArray, int[] copyFrom)
@@ -2221,14 +2141,10 @@ public class Config
             int[] newArray = new int[newLen];
             System.arraycopy(intArray, 0, newArray, 0, arrLen);
 
-            for (int index = 0; index < copyFrom.length; ++index)
-            {
-                newArray[index + arrLen] = copyFrom[index];
-            }
+            System.arraycopy(copyFrom, 0, newArray, 0 + arrLen, copyFrom.length);
 
             return newArray;
-        }
-        else
+        } else
         {
             throw new NullPointerException("The given array is NULL");
         }
@@ -2244,23 +2160,20 @@ public class Config
             if (in == null)
             {
                 return texDefault;
-            }
-            else
+            } else
             {
                 BufferedImage bi = ImageIO.read(in);
 
                 if (bi == null)
                 {
                     return texDefault;
-                }
-                else
+                } else
                 {
                     DynamicTexture dt = new DynamicTexture(bi);
                     return dt;
                 }
             }
-        }
-        catch (Exception var5)
+        } catch (Exception var5)
         {
             warn(var5.getClass().getName() + ": " + var5.getMessage());
             return texDefault;
@@ -2270,7 +2183,7 @@ public class Config
     public static void writeFile(File file, String str) throws IOException
     {
         FileOutputStream fos = new FileOutputStream(file);
-        byte[] bytes = str.getBytes("ASCII");
+        byte[] bytes = str.getBytes(StandardCharsets.US_ASCII);
         fos.write(bytes);
         fos.close();
     }
@@ -2297,7 +2210,7 @@ public class Config
 
     public static boolean isDynamicHandLight()
     {
-        return !isDynamicLights() ? false : (isShaders() ? Shaders.isDynamicHandLight() : true);
+        return isDynamicLights() && (!isShaders() || Shaders.isDynamicHandLight());
     }
 
     public static int[] toPrimitive(Integer[] arr)
@@ -2305,12 +2218,10 @@ public class Config
         if (arr == null)
         {
             return null;
-        }
-        else if (arr.length == 0)
+        } else if (arr.length == 0)
         {
             return new int[0];
-        }
-        else
+        } else
         {
             int[] intArr = new int[arr.length];
 

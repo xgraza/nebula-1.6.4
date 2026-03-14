@@ -28,6 +28,6 @@ public class RenderCow extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityCow)par1Entity);
+        return this.getEntityTexture((EntityCow) par1Entity);
     }
 }

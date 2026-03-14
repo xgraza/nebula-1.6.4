@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Iterator;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -17,9 +15,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
+import java.util.Iterator;
+import java.util.Random;
+
 public class BlockBed extends BlockDirectional
 {
-    public static final int[][] field_149981_a = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
+    public static final int[][] field_149981_a = new int[][]{ { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 0 } };
     private IIcon[] field_149980_b;
     private IIcon[] field_149982_M;
     private IIcon[] field_149983_N;
@@ -39,8 +40,7 @@ public class BlockBed extends BlockDirectional
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
             int var10 = p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_);
 
@@ -67,7 +67,7 @@ public class BlockBed extends BlockDirectional
 
                     while (var12.hasNext())
                     {
-                        EntityPlayer var21 = (EntityPlayer)var12.next();
+                        EntityPlayer var21 = (EntityPlayer) var12.next();
 
                         if (var21.isPlayerSleeping())
                         {
@@ -82,7 +82,7 @@ public class BlockBed extends BlockDirectional
 
                     if (var19 != null)
                     {
-                        p_149727_5_.addChatComponentMessage(new ChatComponentTranslation("tile.bed.occupied", new Object[0]));
+                        p_149727_5_.addChatComponentMessage(new ChatComponentTranslation("tile.bed.occupied"));
                         return true;
                     }
 
@@ -95,26 +95,23 @@ public class BlockBed extends BlockDirectional
                 {
                     func_149979_a(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_, true);
                     return true;
-                }
-                else
+                } else
                 {
                     if (var20 == EntityPlayer.EnumStatus.NOT_POSSIBLE_NOW)
                     {
-                        p_149727_5_.addChatComponentMessage(new ChatComponentTranslation("tile.bed.noSleep", new Object[0]));
-                    }
-                    else if (var20 == EntityPlayer.EnumStatus.NOT_SAFE)
+                        p_149727_5_.addChatComponentMessage(new ChatComponentTranslation("tile.bed.noSleep"));
+                    } else if (var20 == EntityPlayer.EnumStatus.NOT_SAFE)
                     {
-                        p_149727_5_.addChatComponentMessage(new ChatComponentTranslation("tile.bed.notSafe", new Object[0]));
+                        p_149727_5_.addChatComponentMessage(new ChatComponentTranslation("tile.bed.notSafe"));
                     }
 
                     return true;
                 }
-            }
-            else
+            } else
             {
-                double var18 = (double)p_149727_2_ + 0.5D;
-                double var13 = (double)p_149727_3_ + 0.5D;
-                double var15 = (double)p_149727_4_ + 0.5D;
+                double var18 = (double) p_149727_2_ + 0.5D;
+                double var13 = (double) p_149727_3_ + 0.5D;
+                double var15 = (double) p_149727_4_ + 0.5D;
                 p_149727_1_.setBlockToAir(p_149727_2_, p_149727_3_, p_149727_4_);
                 int var17 = getDirection(var10);
                 p_149727_2_ += field_149981_a[var17][0];
@@ -123,12 +120,12 @@ public class BlockBed extends BlockDirectional
                 if (p_149727_1_.getBlock(p_149727_2_, p_149727_3_, p_149727_4_) == this)
                 {
                     p_149727_1_.setBlockToAir(p_149727_2_, p_149727_3_, p_149727_4_);
-                    var18 = (var18 + (double)p_149727_2_ + 0.5D) / 2.0D;
-                    var13 = (var13 + (double)p_149727_3_ + 0.5D) / 2.0D;
-                    var15 = (var15 + (double)p_149727_4_ + 0.5D) / 2.0D;
+                    var18 = (var18 + (double) p_149727_2_ + 0.5D) / 2.0D;
+                    var13 = (var13 + (double) p_149727_3_ + 0.5D) / 2.0D;
+                    var15 = (var15 + (double) p_149727_4_ + 0.5D) / 2.0D;
                 }
 
-                p_149727_1_.newExplosion((Entity)null, (double)((float)p_149727_2_ + 0.5F), (double)((float)p_149727_3_ + 0.5F), (double)((float)p_149727_4_ + 0.5F), 5.0F, true, true);
+                p_149727_1_.newExplosion(null, (float) p_149727_2_ + 0.5F, (float) p_149727_3_ + 0.5F, (float) p_149727_4_ + 0.5F, 5.0F, true, true);
                 return true;
             }
         }
@@ -142,8 +139,7 @@ public class BlockBed extends BlockDirectional
         if (p_149691_1_ == 0)
         {
             return Blocks.planks.getBlockTextureFromSide(p_149691_1_);
-        }
-        else
+        } else
         {
             int var3 = getDirection(p_149691_2_);
             int var4 = Direction.bedDirection[var3][p_149691_1_];
@@ -154,9 +150,9 @@ public class BlockBed extends BlockDirectional
 
     public void registerIcons(IIconRegister p_149651_1_)
     {
-        this.field_149983_N = new IIcon[] {p_149651_1_.registerIcon(this.getTextureName() + "_feet_top"), p_149651_1_.registerIcon(this.getTextureName() + "_head_top")};
-        this.field_149980_b = new IIcon[] {p_149651_1_.registerIcon(this.getTextureName() + "_feet_end"), p_149651_1_.registerIcon(this.getTextureName() + "_head_end")};
-        this.field_149982_M = new IIcon[] {p_149651_1_.registerIcon(this.getTextureName() + "_feet_side"), p_149651_1_.registerIcon(this.getTextureName() + "_head_side")};
+        this.field_149983_N = new IIcon[]{ p_149651_1_.registerIcon(this.getTextureName() + "_feet_top"), p_149651_1_.registerIcon(this.getTextureName() + "_head_top") };
+        this.field_149980_b = new IIcon[]{ p_149651_1_.registerIcon(this.getTextureName() + "_feet_end"), p_149651_1_.registerIcon(this.getTextureName() + "_head_end") };
+        this.field_149982_M = new IIcon[]{ p_149651_1_.registerIcon(this.getTextureName() + "_feet_side"), p_149651_1_.registerIcon(this.getTextureName() + "_head_side") };
     }
 
     /**
@@ -193,8 +189,7 @@ public class BlockBed extends BlockDirectional
             {
                 p_149695_1_.setBlockToAir(p_149695_2_, p_149695_3_, p_149695_4_);
             }
-        }
-        else if (p_149695_1_.getBlock(p_149695_2_ + field_149981_a[var7][0], p_149695_3_, p_149695_4_ + field_149981_a[var7][1]) != this)
+        } else if (p_149695_1_.getBlock(p_149695_2_ + field_149981_a[var7][0], p_149695_3_, p_149695_4_ + field_149981_a[var7][1]) != this)
         {
             p_149695_1_.setBlockToAir(p_149695_2_, p_149695_3_, p_149695_4_);
 
@@ -232,8 +227,7 @@ public class BlockBed extends BlockDirectional
         if (p_149979_4_)
         {
             var5 |= 4;
-        }
-        else
+        } else
         {
             var5 &= -5;
         }

@@ -1,12 +1,13 @@
 package net.minecraft.world.biome;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenSavannaTree;
+
+import java.util.Random;
 
 public class BiomeGenSavanna extends BiomeGenBase
 {
@@ -24,7 +25,7 @@ public class BiomeGenSavanna extends BiomeGenBase
 
     public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
     {
-        return (WorldGenAbstractTree)(p_150567_1_.nextInt(5) > 0 ? field_150627_aC : this.worldGeneratorTrees);
+        return p_150567_1_.nextInt(5) > 0 ? field_150627_aC : this.worldGeneratorTrees;
     }
 
     protected BiomeGenBase func_150566_k()
@@ -73,8 +74,7 @@ public class BiomeGenSavanna extends BiomeGenBase
             {
                 this.topBlock = Blocks.stone;
                 this.fillerBlock = Blocks.stone;
-            }
-            else if (p_150573_7_ > -0.5D)
+            } else if (p_150573_7_ > -0.5D)
             {
                 this.topBlock = Blocks.dirt;
                 this.field_150604_aj = 1;

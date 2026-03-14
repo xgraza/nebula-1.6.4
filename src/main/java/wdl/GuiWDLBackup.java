@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiTextField;
 public class GuiWDLBackup extends GuiScreen
 {
     private String title = "";
-    private GuiScreen parent;
+    private final GuiScreen parent;
     private GuiTextField commandField;
     private GuiButton backupBtn;
     boolean cmdBox = false;
@@ -40,8 +40,7 @@ public class GuiWDLBackup extends GuiScreen
             if (var1.id == 10)
             {
                 this.updateBackup(true);
-            }
-            else if (var1.id == 100)
+            } else if (var1.id == 100)
             {
                 this.mc.displayGuiScreen(this.parent);
             }
@@ -107,50 +106,42 @@ public class GuiWDLBackup extends GuiScreen
             {
                 WDL.baseProps.setProperty("Backup", "folder");
                 this.updateBackup(false);
-            }
-            else
+            } else
             {
                 this.backupBtn.displayString = "Backup: Disabled";
             }
-        }
-        else if (var2 == "folder")
+        } else if (var2 == "folder")
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Backup", "zip");
                 this.updateBackup(false);
-            }
-            else
+            } else
             {
                 this.backupBtn.displayString = "Backup: Copy World Folder";
             }
-        }
-        else if (var2 == "zip")
+        } else if (var2 == "zip")
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Backup", "command");
                 this.updateBackup(false);
-            }
-            else
+            } else
             {
                 this.backupBtn.displayString = "Backup: Zip World Folder";
             }
-        }
-        else if (var2 == "command")
+        } else if (var2 == "command")
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Backup", "off");
                 this.updateBackup(false);
-            }
-            else
+            } else
             {
                 this.backupBtn.displayString = "Backup: Run the following command";
                 this.cmdBox = true;
             }
-        }
-        else
+        } else
         {
             WDL.baseProps.setProperty("Backup", "off");
             this.updateBackup(false);

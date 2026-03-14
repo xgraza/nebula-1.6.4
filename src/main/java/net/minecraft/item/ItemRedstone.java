@@ -61,8 +61,7 @@ public class ItemRedstone extends Item
         if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
         {
             return false;
-        }
-        else
+        } else
         {
             if (Blocks.redstone_wire.canPlaceBlockAt(par3World, par4, par5, par6))
             {

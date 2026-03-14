@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
@@ -8,9 +7,11 @@ import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class BlockHugeMushroom extends Block
 {
-    private static final String[] field_149793_a = new String[] {"skin_brown", "skin_red"};
+    private static final String[] field_149793_a = new String[]{ "skin_brown", "skin_red" };
     private final int field_149792_b;
     private IIcon[] field_149794_M;
     private IIcon field_149795_N;

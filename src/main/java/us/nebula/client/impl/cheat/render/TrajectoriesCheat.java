@@ -120,7 +120,8 @@ public final class TrajectoriesCheat extends Cheat
         float pitchOffset = 0.0f;
         if (stack.getItem() instanceof ItemEnderPearl
                 || stack.getItem() instanceof ItemEgg
-                || stack.getItem() instanceof ItemSnowball) {
+                || stack.getItem() instanceof ItemSnowball)
+        {
             velocity = 1.5f;
         } else if (stack.getItem() instanceof ItemExpBottle)
         {
@@ -174,10 +175,10 @@ public final class TrajectoriesCheat extends Cheat
 
             final List<Entity> entitiesColliding = MC.theWorld.getEntitiesWithinAABB(Entity.class,
                     new AxisAlignedBB(
-                        x - size, y - size, z - size,
-                        x + size, y + size, z + size)
-                        .addCoord(motionX, motionY, motionZ)
-                        .expand(1.0, 1.0, 1.0));
+                            x - size, y - size, z - size,
+                            x + size, y + size, z + size)
+                            .addCoord(motionX, motionY, motionZ)
+                            .expand(1.0, 1.0, 1.0));
             if (!entitiesColliding.isEmpty())
             {
                 for (final Entity entity : entitiesColliding)
@@ -230,10 +231,12 @@ public final class TrajectoriesCheat extends Cheat
         return trajectoryResult;
     }
 
-    private float getArrowVelocity(final int charge) {
+    private float getArrowVelocity(final int charge)
+    {
         float f = (float) charge / 20.0f;
         f = (f * f + f * 2.0f) / 3.0f;
-        if (f > 1.0f) {
+        if (f > 1.0f)
+        {
             f = 1.0f;
         }
         return f;

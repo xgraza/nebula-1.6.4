@@ -1,14 +1,11 @@
 package net.minecraft.client.resources;
 
 import com.google.common.collect.Sets;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
+
+import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 public class FolderResourcePack extends AbstractResourcePack
 {
@@ -36,7 +33,7 @@ public class FolderResourcePack extends AbstractResourcePack
 
         if (var2.isDirectory())
         {
-            File[] var3 = var2.listFiles((java.io.FileFilter)DirectoryFileFilter.DIRECTORY);
+            File[] var3 = var2.listFiles((java.io.FileFilter) DirectoryFileFilter.DIRECTORY);
             int var4 = var3.length;
 
             for (int var5 = 0; var5 < var4; ++var5)
@@ -47,8 +44,7 @@ public class FolderResourcePack extends AbstractResourcePack
                 if (!var7.equals(var7.toLowerCase()))
                 {
                     this.logNameNotLowercase(var7);
-                }
-                else
+                } else
                 {
                     var1.add(var7.substring(0, var7.length() - 1));
                 }

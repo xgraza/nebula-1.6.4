@@ -1,12 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.block.Block;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.world.World;
+
+import java.io.IOException;
 
 public class S23PacketBlockChange extends Packet
 {
@@ -16,7 +17,9 @@ public class S23PacketBlockChange extends Packet
     private Block type;
     private int data;
 
-    public S23PacketBlockChange() {}
+    public S23PacketBlockChange()
+    {
+    }
 
     public S23PacketBlockChange(int x, int y, int z, World world)
     {
@@ -61,7 +64,7 @@ public class S23PacketBlockChange extends Packet
      */
     public String serialize()
     {
-        return String.format("type=%d, data=%d, x=%d, y=%d, z=%d", new Object[] {Integer.valueOf(Block.getIdFromBlock(this.type)), Integer.valueOf(this.data), Integer.valueOf(this.x), Integer.valueOf(this.y), Integer.valueOf(this.z)});
+        return String.format("type=%d, data=%d, x=%d, y=%d, z=%d", Integer.valueOf(Block.getIdFromBlock(this.type)), Integer.valueOf(this.data), Integer.valueOf(this.x), Integer.valueOf(this.y), Integer.valueOf(this.z));
     }
 
     public Block getType()
@@ -91,6 +94,6 @@ public class S23PacketBlockChange extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

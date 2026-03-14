@@ -1,14 +1,15 @@
 package net.minecraft.client.shader;
 
 import com.google.common.collect.Lists;
-import java.util.Iterator;
-import java.util.List;
-import javax.vecmath.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.util.JsonException;
 import org.lwjgl.opengl.GL11;
+
+import javax.vecmath.Matrix4f;
+import java.util.Iterator;
+import java.util.List;
 
 public class Shader
 {
@@ -64,23 +65,23 @@ public class Shader
     {
         this.preLoadShader();
         this.framebufferIn.unbindFramebuffer();
-        float var2 = (float)this.framebufferOut.framebufferTextureWidth;
-        float var3 = (float)this.framebufferOut.framebufferTextureHeight;
-        GL11.glViewport(0, 0, (int)var2, (int)var3);
+        float var2 = (float) this.framebufferOut.framebufferTextureWidth;
+        float var3 = (float) this.framebufferOut.framebufferTextureHeight;
+        GL11.glViewport(0, 0, (int) var2, (int) var3);
         this.manager.func_147992_a("DiffuseSampler", this.framebufferIn);
 
         for (int var4 = 0; var4 < this.listAuxFramebuffers.size(); ++var4)
         {
-            this.manager.func_147992_a((String)this.listAuxNames.get(var4), this.listAuxFramebuffers.get(var4));
-            this.manager.func_147984_b("AuxSize" + var4).func_148087_a((float)((Integer)this.listAuxWidths.get(var4)).intValue(), (float)((Integer)this.listAuxHeights.get(var4)).intValue());
+            this.manager.func_147992_a((String) this.listAuxNames.get(var4), this.listAuxFramebuffers.get(var4));
+            this.manager.func_147984_b("AuxSize" + var4).func_148087_a((float) ((Integer) this.listAuxWidths.get(var4)).intValue(), (float) ((Integer) this.listAuxHeights.get(var4)).intValue());
         }
 
         this.manager.func_147984_b("ProjMat").func_148088_a(this.projectionMatrix);
-        this.manager.func_147984_b("InSize").func_148087_a((float)this.framebufferIn.framebufferTextureWidth, (float)this.framebufferIn.framebufferTextureHeight);
+        this.manager.func_147984_b("InSize").func_148087_a((float) this.framebufferIn.framebufferTextureWidth, (float) this.framebufferIn.framebufferTextureHeight);
         this.manager.func_147984_b("OutSize").func_148087_a(var2, var3);
         this.manager.func_147984_b("Time").func_148090_a(p_148042_1_);
         Minecraft var8 = Minecraft.getMinecraft();
-        this.manager.func_147984_b("ScreenSize").func_148087_a((float)var8.displayWidth, (float)var8.displayHeight);
+        this.manager.func_147984_b("ScreenSize").func_148087_a((float) var8.displayWidth, (float) var8.displayHeight);
         this.manager.func_147995_c();
         this.framebufferOut.framebufferClear();
         this.framebufferOut.bindFramebuffer(false);
@@ -89,9 +90,9 @@ public class Shader
         Tessellator var5 = Tessellator.instance;
         var5.startDrawingQuads();
         var5.setColorOpaque_I(-1);
-        var5.addVertex(0.0D, (double)var3, 500.0D);
-        var5.addVertex((double)var2, (double)var3, 500.0D);
-        var5.addVertex((double)var2, 0.0D, 500.0D);
+        var5.addVertex(0.0D, var3, 500.0D);
+        var5.addVertex(var2, var3, 500.0D);
+        var5.addVertex(var2, 0.0D, 500.0D);
         var5.addVertex(0.0D, 0.0D, 500.0D);
         var5.draw();
         GL11.glDepthMask(true);
@@ -107,7 +108,7 @@ public class Shader
 
             if (var7 instanceof Framebuffer)
             {
-                ((Framebuffer)var7).unbindFramebufferTexture();
+                ((Framebuffer) var7).unbindFramebufferTexture();
             }
         }
     }

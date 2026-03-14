@@ -32,9 +32,9 @@ public class RenderMagmaCube extends RenderLiving
     protected void preRenderCallback(EntityMagmaCube par1EntityMagmaCube, float par2)
     {
         int var3 = par1EntityMagmaCube.getSlimeSize();
-        float var4 = (par1EntityMagmaCube.prevSquishFactor + (par1EntityMagmaCube.squishFactor - par1EntityMagmaCube.prevSquishFactor) * par2) / ((float)var3 * 0.5F + 1.0F);
+        float var4 = (par1EntityMagmaCube.prevSquishFactor + (par1EntityMagmaCube.squishFactor - par1EntityMagmaCube.prevSquishFactor) * par2) / ((float) var3 * 0.5F + 1.0F);
         float var5 = 1.0F / (var4 + 1.0F);
-        float var6 = (float)var3;
+        float var6 = (float) var3;
         GL11.glScalef(var5 * var6, 1.0F / var5 * var6, var5 * var6);
     }
 
@@ -44,7 +44,7 @@ public class RenderMagmaCube extends RenderLiving
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntityMagmaCube)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntityMagmaCube) par1EntityLivingBase, par2);
     }
 
     /**
@@ -52,6 +52,6 @@ public class RenderMagmaCube extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityMagmaCube)par1Entity);
+        return this.getEntityTexture((EntityMagmaCube) par1Entity);
     }
 }

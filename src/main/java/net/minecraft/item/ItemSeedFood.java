@@ -6,10 +6,12 @@ import net.minecraft.world.World;
 
 public class ItemSeedFood extends ItemFood
 {
-    private Block field_150908_b;
+    private final Block field_150908_b;
 
-    /** Block ID of the soil this seed food should be planted on. */
-    private Block soilId;
+    /**
+     * Block ID of the soil this seed food should be planted on.
+     */
+    private final Block soilId;
     private static final String __OBFID = "CL_00000060";
 
     public ItemSeedFood(int p_i45351_1_, float p_i45351_2_, Block p_i45351_3_, Block p_i45351_4_)
@@ -28,21 +30,18 @@ public class ItemSeedFood extends ItemFood
         if (par7 != 1)
         {
             return false;
-        }
-        else if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
+        } else if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
         {
             if (par3World.getBlock(par4, par5, par6) == this.soilId && par3World.isAirBlock(par4, par5 + 1, par6))
             {
                 par3World.setBlock(par4, par5 + 1, par6, this.field_150908_b);
                 --par1ItemStack.stackSize;
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return false;
         }

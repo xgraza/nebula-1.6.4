@@ -8,7 +8,7 @@ public class GuiOptionSlider extends GuiButton
 {
     private float field_146134_p;
     public boolean field_146135_o;
-    private GameSettings.Options field_146133_q;
+    private final GameSettings.Options field_146133_q;
     private final float field_146132_r;
     private final float field_146131_s;
     private static final String __OBFID = "CL_00000680";
@@ -44,7 +44,7 @@ public class GuiOptionSlider extends GuiButton
         {
             if (this.field_146135_o)
             {
-                this.field_146134_p = (float)(p_146119_2_ - (this.xPosition + 4)) / (float)(this.width - 8);
+                this.field_146134_p = (float) (p_146119_2_ - (this.xPosition + 4)) / (float) (this.width - 8);
 
                 if (this.field_146134_p < 0.0F)
                 {
@@ -63,8 +63,8 @@ public class GuiOptionSlider extends GuiButton
             }
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.drawTexturedModalRect(this.xPosition + (int)(this.field_146134_p * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
-            this.drawTexturedModalRect(this.xPosition + (int)(this.field_146134_p * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
+            this.drawTexturedModalRect(this.xPosition + (int) (this.field_146134_p * (float) (this.width - 8)), this.yPosition, 0, 66, 4, 20);
+            this.drawTexturedModalRect(this.xPosition + (int) (this.field_146134_p * (float) (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
         }
     }
 
@@ -76,7 +76,7 @@ public class GuiOptionSlider extends GuiButton
     {
         if (super.mousePressed(p_146116_1_, p_146116_2_, p_146116_3_))
         {
-            this.field_146134_p = (float)(p_146116_2_ - (this.xPosition + 4)) / (float)(this.width - 8);
+            this.field_146134_p = (float) (p_146116_2_ - (this.xPosition + 4)) / (float) (this.width - 8);
 
             if (this.field_146134_p < 0.0F)
             {
@@ -92,8 +92,7 @@ public class GuiOptionSlider extends GuiButton
             this.displayString = p_146116_1_.gameSettings.getKeyBinding(this.field_146133_q);
             this.field_146135_o = true;
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

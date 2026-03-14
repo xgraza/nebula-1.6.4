@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S28PacketEffect extends Packet
 {
@@ -16,7 +17,9 @@ public class S28PacketEffect extends Packet
     private boolean field_149246_f;
     private static final String __OBFID = "CL_00001307";
 
-    public S28PacketEffect() {}
+    public S28PacketEffect()
+    {
+    }
 
     public S28PacketEffect(int p_i45198_1_, int p_i45198_2_, int p_i45198_3_, int p_i45198_4_, int p_i45198_5_, boolean p_i45198_6_)
     {
@@ -91,6 +94,6 @@ public class S28PacketEffect extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

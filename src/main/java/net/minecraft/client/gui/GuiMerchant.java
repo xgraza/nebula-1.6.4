@@ -24,18 +24,18 @@ public class GuiMerchant extends GuiContainer
 {
     private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation field_147038_v = new ResourceLocation("textures/gui/container/villager.png");
-    private IMerchant field_147037_w;
+    private final IMerchant field_147037_w;
     private GuiMerchant.MerchantButton field_147043_x;
     private GuiMerchant.MerchantButton field_147042_y;
     private int field_147041_z;
-    private String field_147040_A;
+    private final String field_147040_A;
     private static final String __OBFID = "CL_00000762";
 
     public GuiMerchant(InventoryPlayer par1InventoryPlayer, IMerchant par2IMerchant, World par3World, String par4Str)
     {
         super(new ContainerMerchant(par1InventoryPlayer, par2IMerchant, par3World));
         this.field_147037_w = par2IMerchant;
-        this.field_147040_A = par4Str != null && par4Str.length() >= 1 ? par4Str : I18n.format("entity.Villager.name", new Object[0]);
+        this.field_147040_A = par4Str != null && par4Str.length() >= 1 ? par4Str : I18n.format("entity.Villager.name");
     }
 
     /**
@@ -55,7 +55,7 @@ public class GuiMerchant extends GuiContainer
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
         this.fontRenderer.drawString(this.field_147040_A, this.field_146999_f / 2 - this.fontRenderer.getStringWidth(this.field_147040_A) / 2, 6, 4210752);
-        this.fontRenderer.drawString(I18n.format("container.inventory", new Object[0]), 8, this.field_147000_g - 96 + 2, 4210752);
+        this.fontRenderer.drawString(I18n.format("container.inventory"), 8, this.field_147000_g - 96 + 2, 4210752);
     }
 
     /**
@@ -81,8 +81,7 @@ public class GuiMerchant extends GuiContainer
         {
             ++this.field_147041_z;
             var2 = true;
-        }
-        else if (p_146284_1_ == this.field_147042_y)
+        } else if (p_146284_1_ == this.field_147042_y)
         {
             --this.field_147041_z;
             var2 = true;
@@ -90,19 +89,17 @@ public class GuiMerchant extends GuiContainer
 
         if (var2)
         {
-            ((ContainerMerchant)this.container).setCurrentRecipeIndex(this.field_147041_z);
+            ((ContainerMerchant) this.container).setCurrentRecipeIndex(this.field_147041_z);
             ByteBuf var3 = Unpooled.buffer();
 
             try
             {
                 var3.writeInt(this.field_147041_z);
                 this.mc.getNetHandler().addToSendQueue(new C17PacketCustomPayload("MC|TrSel", var3));
-            }
-            catch (Exception var8)
+            } catch (Exception var8)
             {
-                logger.error("Couldn\'t send trade info", var8);
-            }
-            finally
+                logger.error("Couldn't send trade info", var8);
+            } finally
             {
                 var3.release();
             }
@@ -121,7 +118,7 @@ public class GuiMerchant extends GuiContainer
         if (var6 != null && !var6.isEmpty())
         {
             int var7 = this.field_147041_z;
-            MerchantRecipe var8 = (MerchantRecipe)var6.get(var7);
+            MerchantRecipe var8 = (MerchantRecipe) var6.get(var7);
 
             if (var8.isRecipeDisabled())
             {
@@ -147,7 +144,7 @@ public class GuiMerchant extends GuiContainer
             int var5 = (this.width - this.field_146999_f) / 2;
             int var6 = (this.height - this.field_147000_g) / 2;
             int var7 = this.field_147041_z;
-            MerchantRecipe var8 = (MerchantRecipe)var4.get(var7);
+            MerchantRecipe var8 = (MerchantRecipe) var4.get(var7);
             GL11.glPushMatrix();
             ItemStack var9 = var8.getItemToBuy();
             ItemStack var10 = var8.getSecondItemToBuy();
@@ -175,12 +172,10 @@ public class GuiMerchant extends GuiContainer
             if (this.func_146978_c(36, 24, 16, 16, par1, par2))
             {
                 this.renderItem(var9, par1, par2);
-            }
-            else if (var10 != null && this.func_146978_c(62, 24, 16, 16, par1, par2))
+            } else if (var10 != null && this.func_146978_c(62, 24, 16, 16, par1, par2))
             {
                 this.renderItem(var10, par1, par2);
-            }
-            else if (this.func_146978_c(120, 24, 16, 16, par1, par2))
+            } else if (this.func_146978_c(120, 24, 16, 16, par1, par2))
             {
                 this.renderItem(var11, par1, par2);
             }
@@ -221,8 +216,7 @@ public class GuiMerchant extends GuiContainer
                 if (!this.enabled)
                 {
                     var6 += this.width * 2;
-                }
-                else if (var4)
+                } else if (var4)
                 {
                     var6 += this.width;
                 }

@@ -64,7 +64,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     private boolean field_147366_g;
     private int field_147378_h;
     private long field_147379_i;
-    private static Random field_147376_j = new Random();
+    private static final Random field_147376_j = new Random();
     private long field_147377_k;
 
     /**
@@ -73,7 +73,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
      */
     private int chatSpamThresholdCount;
     private int field_147375_m;
-    private IntHashMap field_147372_n = new IntHashMap();
+    private final IntHashMap field_147372_n = new IntHashMap();
     private double lastPosX;
     private double lastPosY;
     private double lastPosZ;
@@ -101,7 +101,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
         if ((long) this.networkTickCount - this.field_147377_k > 40L)
         {
-            this.field_147377_k = (long) this.networkTickCount;
+            this.field_147377_k = this.networkTickCount;
             this.field_147379_i = this.func_147363_d();
             this.field_147378_h = (int) this.field_147379_i;
             this.sendPacketToPlayer(new S00PacketKeepAlive(this.field_147378_h));
@@ -132,7 +132,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     public void kickPlayerFromServer(String p_147360_1_)
     {
         final ChatComponentText var2 = new ChatComponentText(p_147360_1_);
-        this.netManager.scheduleOutboundPacket(new S40PacketDisconnect(var2), new GenericFutureListener[]{ new GenericFutureListener()
+        this.netManager.scheduleOutboundPacket(new S40PacketDisconnect(var2), new GenericFutureListener()
         {
             private static final String __OBFID = "CL_00001453";
 
@@ -140,7 +140,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             {
                 NetHandlerPlayServer.this.netManager.closeChannel(var2);
             }
-        }
         });
         this.netManager.disableAutoRead();
     }
@@ -297,7 +296,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 }
 
                 float var27 = 0.0625F;
-                boolean var28 = var2.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().contract((double) var27, (double) var27, (double) var27)).isEmpty();
+                boolean var28 = var2.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().contract(var27, var27, var27)).isEmpty();
 
                 if (this.playerEntity.onGround && !p_147347_1_.isOnGround() && var15 > 0.0D)
                 {
@@ -327,7 +326,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 }
 
                 this.playerEntity.setPositionAndRotation(var5, var7, var9, var11, var12);
-                boolean var32 = var2.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().contract((double) var27, (double) var27, (double) var27)).isEmpty();
+                boolean var32 = var2.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().contract(var27, var27, var27)).isEmpty();
 
                 if (var28 && (var31 || !var32) && !this.playerEntity.isPlayerSleeping())
                 {
@@ -335,7 +334,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     return;
                 }
 
-                AxisAlignedBB var33 = this.playerEntity.boundingBox.copy().expand((double) var27, (double) var27, (double) var27).addCoord(0.0D, -0.55D, 0.0D);
+                AxisAlignedBB var33 = this.playerEntity.boundingBox.copy().expand(var27, var27, var27).addCoord(0.0D, -0.55D, 0.0D);
 
                 if (!this.serverController.isFlightAllowed() && !this.playerEntity.theItemInWorldManager.isCreative() && !var2.checkBlockCollision(var33))
                 {
@@ -396,12 +395,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             this.playerEntity.stopUsingItem();
         } else
         {
-            boolean var3 = false;
-
-            if (p_147345_1_.getAction() == 0)
-            {
-                var3 = true;
-            }
+            boolean var3 = p_147345_1_.getAction() == 0;
 
             if (p_147345_1_.getAction() == 1)
             {
@@ -488,7 +482,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             this.playerEntity.theItemInWorldManager.tryUseItem(this.playerEntity, var2, var3);
         } else if (p_147346_1_.getPosY() >= this.serverController.getBuildLimit() - 1 && (p_147346_1_.getSide() == 1 || p_147346_1_.getPosY() >= this.serverController.getBuildLimit()))
         {
-            ChatComponentTranslation var9 = new ChatComponentTranslation("build.tooHigh", new Object[]{ Integer.valueOf(this.serverController.getBuildLimit()) });
+            ChatComponentTranslation var9 = new ChatComponentTranslation("build.tooHigh", Integer.valueOf(this.serverController.getBuildLimit()));
             var9.getChatStyle().setColor(EnumChatFormatting.RED);
             this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new S02PacketChat(var9));
             var4 = true;
@@ -569,7 +563,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     {
         logger.info(this.playerEntity.getCommandSenderName() + " lost connection: " + p_147231_1_);
         this.serverController.func_147132_au();
-        ChatComponentTranslation var2 = new ChatComponentTranslation("multiplayer.player.left", new Object[]{ this.playerEntity.func_145748_c_() });
+        ChatComponentTranslation var2 = new ChatComponentTranslation("multiplayer.player.left", this.playerEntity.func_145748_c_());
         var2.getChatStyle().setColor(EnumChatFormatting.YELLOW);
         this.serverController.getConfigurationManager().sendChatMsg(var2);
         this.playerEntity.mountEntityAndWakeUp();
@@ -602,7 +596,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
         try
         {
-            this.netManager.scheduleOutboundPacket(p_147359_1_, new GenericFutureListener[0]);
+            this.netManager.scheduleOutboundPacket(p_147359_1_);
         } catch (Throwable var5)
         {
             CrashReport var6 = CrashReport.makeCrashReport(var5, "Sending packet");
@@ -642,7 +636,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     {
         if (this.playerEntity.func_147096_v() == EntityPlayer.EnumChatVisibility.HIDDEN)
         {
-            ChatComponentTranslation var4 = new ChatComponentTranslation("chat.cannotSend", new Object[0]);
+            ChatComponentTranslation var4 = new ChatComponentTranslation("chat.cannotSend");
             var4.getChatStyle().setColor(EnumChatFormatting.RED);
             this.sendPacketToPlayer(new S02PacketChat(var4));
         } else
@@ -665,7 +659,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 this.handleSlashCommand(var2);
             } else
             {
-                ChatComponentTranslation var5 = new ChatComponentTranslation("chat.type.text", new Object[]{ this.playerEntity.func_145748_c_(), var2 });
+                ChatComponentTranslation var5 = new ChatComponentTranslation("chat.type.text", this.playerEntity.func_145748_c_(), var2);
                 this.serverController.getConfigurationManager().sendChatMsgImpl(var5, false);
             }
 
@@ -794,14 +788,14 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 {
                     if (this.serverController.isSinglePlayer() && this.playerEntity.getCommandSenderName().equals(this.serverController.getServerOwner()))
                     {
-                        this.playerEntity.playerNetServerHandler.kickPlayerFromServer("You have died. Game over, man, it\'s game over!");
+                        this.playerEntity.playerNetServerHandler.kickPlayerFromServer("You have died. Game over, man, it's game over!");
                         this.serverController.deleteWorldAndStopServer();
                     } else
                     {
                         BanEntry var3 = new BanEntry(this.playerEntity.getCommandSenderName());
                         var3.setBanReason("Death in Hardcore");
                         this.serverController.getConfigurationManager().getBannedPlayers().put(var3);
-                        this.playerEntity.playerNetServerHandler.kickPlayerFromServer("You have died. Game over, man, it\'s game over!");
+                        this.playerEntity.playerNetServerHandler.kickPlayerFromServer("You have died. Game over, man, it's game over!");
                     }
                 } else
                 {
@@ -861,7 +855,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
                 for (int var4 = 0; var4 < this.playerEntity.openContainer.inventorySlots.size(); ++var4)
                 {
-                    var3.add(((Slot) this.playerEntity.openContainer.inventorySlots.get(var4)).getStack());
+                    var3.add(this.playerEntity.openContainer.inventorySlots.get(var4).getStack());
                 }
 
                 this.playerEntity.sendContainerAndContentsToPlayer(this.playerEntity.openContainer, var3);
@@ -902,7 +896,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
             {
                 if (var3 == null)
                 {
-                    this.playerEntity.inventoryContainer.putStackInSlot(p_147344_1_.func_149627_c(), (ItemStack) null);
+                    this.playerEntity.inventoryContainer.putStackInSlot(p_147344_1_.func_149627_c(), null);
                 } else
                 {
                     this.playerEntity.inventoryContainer.putStackInSlot(p_147344_1_.func_149627_c(), var3);
@@ -1075,7 +1069,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 }
             } catch (Exception var12)
             {
-                logger.error("Couldn\'t handle book info", var12);
+                logger.error("Couldn't handle book info", var12);
             }
         } else if ("MC|BSign".equals(p_147349_1_.func_149559_c()))
         {
@@ -1099,7 +1093,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 }
             } catch (Exception var11)
             {
-                logger.error("Couldn\'t sign book", var11);
+                logger.error("Couldn't sign book", var11);
             }
         } else
         {
@@ -1120,13 +1114,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     }
                 } catch (Exception var10)
                 {
-                    logger.error("Couldn\'t select trade", var10);
+                    logger.error("Couldn't select trade", var10);
                 }
             } else if ("MC|AdvCdm".equals(p_147349_1_.func_149559_c()))
             {
                 if (!this.serverController.isCommandBlockEnabled())
                 {
-                    this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notEnabled", new Object[0]));
+                    this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notEnabled"));
                 } else if (this.playerEntity.canCommandSenderUseCommand(2, "") && this.playerEntity.capabilities.isCreativeMode)
                 {
                     try
@@ -1159,15 +1153,15 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                         {
                             var18.func_145752_a(var22);
                             var18.func_145756_e();
-                            this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.setCommand.success", new Object[]{ var22 }));
+                            this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.setCommand.success", var22));
                         }
                     } catch (Exception var9)
                     {
-                        logger.error("Couldn\'t set command block", var9);
+                        logger.error("Couldn't set command block", var9);
                     }
                 } else
                 {
-                    this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notAllowed", new Object[0]));
+                    this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.notAllowed"));
                 }
             } else if ("MC|Beacon".equals(p_147349_1_.func_149559_c()))
             {
@@ -1191,7 +1185,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                         }
                     } catch (Exception var8)
                     {
-                        logger.error("Couldn\'t set beacon", var8);
+                        logger.error("Couldn't set beacon", var8);
                     }
                 }
             } else if ("MC|ItemName".equals(p_147349_1_.func_149559_c()) && this.playerEntity.openContainer instanceof ContainerRepair)
@@ -1238,7 +1232,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 field_151290_a[C16PacketClientStatus.EnumState.PERFORM_RESPAWN.ordinal()] = 1;
             } catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
@@ -1246,7 +1239,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 field_151290_a[C16PacketClientStatus.EnumState.REQUEST_STATS.ordinal()] = 2;
             } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
@@ -1254,7 +1246,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 field_151290_a[C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT.ordinal()] = 3;
             } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

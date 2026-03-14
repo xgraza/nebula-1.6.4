@@ -50,9 +50,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public float prevRenderArmPitch;
     public int horseJumpPowerCounter;
     public float horseJumpPower;
-    private MouseFilter field_71162_ch = new MouseFilter();
-    private MouseFilter field_71160_ci = new MouseFilter();
-    private MouseFilter field_71161_cj = new MouseFilter();
+    private final MouseFilter field_71162_ch = new MouseFilter();
+    private final MouseFilter field_71160_ci = new MouseFilter();
+    private final MouseFilter field_71161_cj = new MouseFilter();
 
     /**
      * The amount of time an entity has been in a Portal
@@ -122,7 +122,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
             {
                 if (this.mc.currentScreen != null && !NoPortalGUICheat.INSTANCE.isToggled())
                 {
-                    this.mc.displayGuiScreen((GuiScreen) null);
+                    this.mc.displayGuiScreen(null);
                 }
 
                 if (this.timeInPortal == 0.0F)
@@ -338,7 +338,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public void closeScreen()
     {
         super.closeScreen();
-        this.mc.displayGuiScreen((GuiScreen) null);
+        this.mc.displayGuiScreen(null);
     }
 
     public void func_146100_a(TileEntity p_146100_1_)
@@ -555,22 +555,22 @@ public class EntityPlayerSP extends AbstractClientPlayer
             {
                 if (var18 == 0)
                 {
-                    this.motionX = (double) (-var21);
+                    this.motionX = -var21;
                 }
 
                 if (var18 == 1)
                 {
-                    this.motionX = (double) var21;
+                    this.motionX = var21;
                 }
 
                 if (var18 == 4)
                 {
-                    this.motionZ = (double) (-var21);
+                    this.motionZ = -var21;
                 }
 
                 if (var18 == 5)
                 {
-                    this.motionZ = (double) var21;
+                    this.motionZ = var21;
                 }
             }
             return movedPlayer;

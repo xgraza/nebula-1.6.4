@@ -1,14 +1,15 @@
 package net.minecraft.world;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class GameRules
 {
-    private TreeMap theGameRules = new TreeMap();
+    private final TreeMap theGameRules = new TreeMap();
     private static final String __OBFID = "CL_00000136";
 
     public GameRules()
@@ -34,13 +35,12 @@ public class GameRules
 
     public void setOrCreateGameRule(String par1Str, String par2Str)
     {
-        GameRules.Value var3 = (GameRules.Value)this.theGameRules.get(par1Str);
+        GameRules.Value var3 = (GameRules.Value) this.theGameRules.get(par1Str);
 
         if (var3 != null)
         {
             var3.setValue(par2Str);
-        }
-        else
+        } else
         {
             this.addGameRule(par1Str, par2Str);
         }
@@ -51,7 +51,7 @@ public class GameRules
      */
     public String getGameRuleStringValue(String par1Str)
     {
-        GameRules.Value var2 = (GameRules.Value)this.theGameRules.get(par1Str);
+        GameRules.Value var2 = (GameRules.Value) this.theGameRules.get(par1Str);
         return var2 != null ? var2.getGameRuleStringValue() : "";
     }
 
@@ -60,8 +60,8 @@ public class GameRules
      */
     public boolean getGameRuleBooleanValue(String par1Str)
     {
-        GameRules.Value var2 = (GameRules.Value)this.theGameRules.get(par1Str);
-        return var2 != null ? var2.getGameRuleBooleanValue() : false;
+        GameRules.Value var2 = (GameRules.Value) this.theGameRules.get(par1Str);
+        return var2 != null && var2.getGameRuleBooleanValue();
     }
 
     /**
@@ -74,8 +74,8 @@ public class GameRules
 
         while (var2.hasNext())
         {
-            String var3 = (String)var2.next();
-            GameRules.Value var4 = (GameRules.Value)this.theGameRules.get(var3);
+            String var3 = (String) var2.next();
+            GameRules.Value var4 = (GameRules.Value) this.theGameRules.get(var3);
             var1.setString(var3, var4.getGameRuleStringValue());
         }
 
@@ -92,7 +92,7 @@ public class GameRules
 
         while (var3.hasNext())
         {
-            String var4 = (String)var3.next();
+            String var4 = (String) var3.next();
             String var6 = par1NBTTagCompound.getString(var4);
             this.setOrCreateGameRule(var4, var6);
         }
@@ -103,7 +103,7 @@ public class GameRules
      */
     public String[] getRules()
     {
-        return (String[])((String[])this.theGameRules.keySet().toArray(new String[0]));
+        return (String[]) this.theGameRules.keySet().toArray(new String[0]);
     }
 
     /**
@@ -155,19 +155,15 @@ public class GameRules
             try
             {
                 this.valueInteger = Integer.parseInt(par1Str);
-            }
-            catch (NumberFormatException var4)
+            } catch (NumberFormatException var4)
             {
-                ;
             }
 
             try
             {
                 this.valueDouble = Double.parseDouble(par1Str);
-            }
-            catch (NumberFormatException var3)
+            } catch (NumberFormatException var3)
             {
-                ;
             }
         }
 

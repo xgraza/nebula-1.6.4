@@ -1,7 +1,5 @@
 package net.minecraft.client.renderer;
 
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,36 +11,59 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+
 public class ActiveRenderInfo
 {
-    /** The calculated view object X coordinate */
+    /**
+     * The calculated view object X coordinate
+     */
     public static float objectX;
 
-    /** The calculated view object Y coordinate */
+    /**
+     * The calculated view object Y coordinate
+     */
     public static float objectY;
 
-    /** The calculated view object Z coordinate */
+    /**
+     * The calculated view object Z coordinate
+     */
     public static float objectZ;
 
-    /** The current GL viewport */
-    private static IntBuffer viewport = GLAllocation.createDirectIntBuffer(16);
+    /**
+     * The current GL viewport
+     */
+    private static final IntBuffer viewport = GLAllocation.createDirectIntBuffer(16);
 
-    /** The current GL modelview matrix */
-    private static FloatBuffer modelview = GLAllocation.createDirectFloatBuffer(16);
+    /**
+     * The current GL modelview matrix
+     */
+    private static final FloatBuffer modelview = GLAllocation.createDirectFloatBuffer(16);
 
-    /** The current GL projection matrix */
-    private static FloatBuffer projection = GLAllocation.createDirectFloatBuffer(16);
+    /**
+     * The current GL projection matrix
+     */
+    private static final FloatBuffer projection = GLAllocation.createDirectFloatBuffer(16);
 
-    /** The computed view object coordinates */
-    private static FloatBuffer objectCoords = GLAllocation.createDirectFloatBuffer(3);
+    /**
+     * The computed view object coordinates
+     */
+    private static final FloatBuffer objectCoords = GLAllocation.createDirectFloatBuffer(3);
 
-    /** The X component of the entity's yaw rotation */
+    /**
+     * The X component of the entity's yaw rotation
+     */
     public static float rotationX;
 
-    /** The combined X and Z components of the entity's pitch rotation */
+    /**
+     * The combined X and Z components of the entity's pitch rotation
+     */
     public static float rotationXZ;
 
-    /** The Z component of the entity's yaw rotation */
+    /**
+     * The Z component of the entity's yaw rotation
+     */
     public static float rotationZ;
 
     /**
@@ -64,8 +85,8 @@ public class ActiveRenderInfo
         GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelview);
         GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
         GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
-        float var2 = (float)((viewport.get(0) + viewport.get(2)) / 2);
-        float var3 = (float)((viewport.get(1) + viewport.get(3)) / 2);
+        float var2 = (float) ((viewport.get(0) + viewport.get(2)) / 2);
+        float var3 = (float) ((viewport.get(1) + viewport.get(3)) / 2);
         GLU.gluUnProject(var2, var3, 0.0F, modelview, projection, viewport, objectCoords);
         objectX = objectCoords.get(0);
         objectY = objectCoords.get(1);
@@ -73,11 +94,11 @@ public class ActiveRenderInfo
         int var4 = par1 ? 1 : 0;
         float var5 = par0EntityPlayer.rotationPitch;
         float var6 = par0EntityPlayer.rotationYaw;
-        rotationX = MathHelper.cos(var6 * (float)Math.PI / 180.0F) * (float)(1 - var4 * 2);
-        rotationZ = MathHelper.sin(var6 * (float)Math.PI / 180.0F) * (float)(1 - var4 * 2);
-        rotationYZ = -rotationZ * MathHelper.sin(var5 * (float)Math.PI / 180.0F) * (float)(1 - var4 * 2);
-        rotationXY = rotationX * MathHelper.sin(var5 * (float)Math.PI / 180.0F) * (float)(1 - var4 * 2);
-        rotationXZ = MathHelper.cos(var5 * (float)Math.PI / 180.0F);
+        rotationX = MathHelper.cos(var6 * (float) Math.PI / 180.0F) * (float) (1 - var4 * 2);
+        rotationZ = MathHelper.sin(var6 * (float) Math.PI / 180.0F) * (float) (1 - var4 * 2);
+        rotationYZ = -rotationZ * MathHelper.sin(var5 * (float) Math.PI / 180.0F) * (float) (1 - var4 * 2);
+        rotationXY = rotationX * MathHelper.sin(var5 * (float) Math.PI / 180.0F) * (float) (1 - var4 * 2);
+        rotationXZ = MathHelper.cos(var5 * (float) Math.PI / 180.0F);
     }
 
     /**
@@ -86,26 +107,26 @@ public class ActiveRenderInfo
     public static Vec3 projectViewFromEntity(EntityLivingBase par0EntityLivingBase, double par1)
     {
         double var3 = par0EntityLivingBase.prevPosX + (par0EntityLivingBase.posX - par0EntityLivingBase.prevPosX) * par1;
-        double var5 = par0EntityLivingBase.prevPosY + (par0EntityLivingBase.posY - par0EntityLivingBase.prevPosY) * par1 + (double)par0EntityLivingBase.getEyeHeight();
+        double var5 = par0EntityLivingBase.prevPosY + (par0EntityLivingBase.posY - par0EntityLivingBase.prevPosY) * par1 + (double) par0EntityLivingBase.getEyeHeight();
         double var7 = par0EntityLivingBase.prevPosZ + (par0EntityLivingBase.posZ - par0EntityLivingBase.prevPosZ) * par1;
-        double var9 = var3 + (double)(objectX * 1.0F);
-        double var11 = var5 + (double)(objectY * 1.0F);
-        double var13 = var7 + (double)(objectZ * 1.0F);
+        double var9 = var3 + (double) (objectX);
+        double var11 = var5 + (double) (objectY);
+        double var13 = var7 + (double) (objectZ);
         return par0EntityLivingBase.worldObj.getWorldVec3Pool().getVecFromPool(var9, var11, var13);
     }
 
     public static Block getBlockAtEntityViewpoint(World p_151460_0_, EntityLivingBase p_151460_1_, float p_151460_2_)
     {
-        Vec3 var3 = projectViewFromEntity(p_151460_1_, (double)p_151460_2_);
+        Vec3 var3 = projectViewFromEntity(p_151460_1_, p_151460_2_);
         ChunkPosition var4 = new ChunkPosition(var3);
         Block var5 = p_151460_0_.getBlock(var4.xCoord, var4.field_151327_b, var4.yCoord);
 
         if (var5.getMaterial().isLiquid())
         {
             float var6 = BlockLiquid.getFluidHeightPercent(p_151460_0_.getBlockMetadata(var4.xCoord, var4.field_151327_b, var4.yCoord)) - 0.11111111F;
-            float var7 = (float)(var4.field_151327_b + 1) - var6;
+            float var7 = (float) (var4.field_151327_b + 1) - var6;
 
-            if (var3.yCoord >= (double)var7)
+            if (var3.yCoord >= (double) var7)
             {
                 var5 = p_151460_0_.getBlock(var4.xCoord, var4.field_151327_b + 1, var4.yCoord);
             }

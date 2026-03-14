@@ -39,7 +39,7 @@ public class RenderCaveSpider extends RenderSpider
      */
     protected ResourceLocation getEntityTexture(EntitySpider par1EntitySpider)
     {
-        return this.getEntityTexture((EntityCaveSpider)par1EntitySpider);
+        return this.getEntityTexture((EntityCaveSpider) par1EntitySpider);
     }
 
     /**
@@ -48,7 +48,7 @@ public class RenderCaveSpider extends RenderSpider
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntityCaveSpider)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntityCaveSpider) par1EntityLivingBase, par2);
     }
 
     /**
@@ -56,6 +56,6 @@ public class RenderCaveSpider extends RenderSpider
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityCaveSpider)par1Entity);
+        return this.getEntityTexture((EntityCaveSpider) par1Entity);
     }
 }

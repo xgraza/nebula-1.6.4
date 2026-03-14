@@ -21,10 +21,8 @@ public class WorldTemplate extends ValueObject
             var1.field_148785_b = p_148783_0_.get("name").getAsString();
             var1.field_148786_c = p_148783_0_.get("version").getAsString();
             var1.field_148784_d = p_148783_0_.get("author").getAsString();
-        }
-        catch (IllegalArgumentException var3)
+        } catch (IllegalArgumentException var3)
         {
-            ;
         }
 
         return var1;

@@ -1,12 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
+
+import java.io.IOException;
 
 public class S0EPacketSpawnObject extends Packet
 {
@@ -23,7 +24,9 @@ public class S0EPacketSpawnObject extends Packet
     private int field_149020_k;
     private static final String __OBFID = "CL_00001276";
 
-    public S0EPacketSpawnObject() {}
+    public S0EPacketSpawnObject()
+    {
+    }
 
     public S0EPacketSpawnObject(Entity p_i45165_1_, int p_i45165_2_)
     {
@@ -78,9 +81,9 @@ public class S0EPacketSpawnObject extends Packet
                 var8 = var10;
             }
 
-            this.field_149015_e = (int)(var4 * 8000.0D);
-            this.field_149012_f = (int)(var6 * 8000.0D);
-            this.field_149013_g = (int)(var8 * 8000.0D);
+            this.field_149015_e = (int) (var4 * 8000.0D);
+            this.field_149012_f = (int) (var6 * 8000.0D);
+            this.field_149013_g = (int) (var8 * 8000.0D);
         }
     }
 
@@ -138,7 +141,7 @@ public class S0EPacketSpawnObject extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", new Object[] {Integer.valueOf(this.field_149018_a), Integer.valueOf(this.field_149019_j), Float.valueOf((float)this.field_149016_b / 32.0F), Float.valueOf((float)this.field_149017_c / 32.0F), Float.valueOf((float)this.field_149014_d / 32.0F)});
+        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", Integer.valueOf(this.field_149018_a), Integer.valueOf(this.field_149019_j), Float.valueOf((float) this.field_149016_b / 32.0F), Float.valueOf((float) this.field_149017_c / 32.0F), Float.valueOf((float) this.field_149014_d / 32.0F));
     }
 
     public int func_149001_c()
@@ -233,6 +236,6 @@ public class S0EPacketSpawnObject extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

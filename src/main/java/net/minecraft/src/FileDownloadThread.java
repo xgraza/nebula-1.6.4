@@ -18,11 +18,10 @@ public class FileDownloadThread extends Thread
         try
         {
             byte[] e = HttpPipeline.get(this.urlString, Minecraft.getMinecraft().getProxy());
-            this.listener.fileDownloadFinished(this.urlString, e, (Throwable)null);
-        }
-        catch (Exception var2)
+            this.listener.fileDownloadFinished(this.urlString, e, null);
+        } catch (Exception var2)
         {
-            this.listener.fileDownloadFinished(this.urlString, (byte[])null, var2);
+            this.listener.fileDownloadFinished(this.urlString, null, var2);
         }
     }
 

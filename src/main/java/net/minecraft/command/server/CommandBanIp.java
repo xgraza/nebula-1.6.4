@@ -1,9 +1,5 @@
 package net.minecraft.command.server;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
@@ -12,6 +8,11 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.BanEntry;
 import net.minecraft.util.IChatComponent;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommandBanIp extends CommandBase
 {
@@ -59,22 +60,20 @@ public class CommandBanIp extends CommandBase
             if (var3.matches())
             {
                 this.func_147210_a(par1ICommandSender, par2ArrayOfStr[0], var4 == null ? null : var4.getUnformattedText());
-            }
-            else
+            } else
             {
                 EntityPlayerMP var5 = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par2ArrayOfStr[0]);
 
                 if (var5 == null)
                 {
-                    throw new PlayerNotFoundException("commands.banip.invalid", new Object[0]);
+                    throw new PlayerNotFoundException("commands.banip.invalid");
                 }
 
                 this.func_147210_a(par1ICommandSender, var5.getPlayerIP(), var4 == null ? null : var4.getUnformattedText());
             }
-        }
-        else
+        } else
         {
-            throw new WrongUsageException("commands.banip.usage", new Object[0]);
+            throw new WrongUsageException("commands.banip.usage");
         }
     }
 
@@ -104,17 +103,16 @@ public class CommandBanIp extends CommandBase
 
         for (Iterator var8 = var5.iterator(); var8.hasNext(); var6[var7++] = var9.getCommandSenderName())
         {
-            var9 = (EntityPlayerMP)var8.next();
+            var9 = (EntityPlayerMP) var8.next();
             var9.playerNetServerHandler.kickPlayerFromServer("You have been IP banned.");
         }
 
         if (var5.isEmpty())
         {
-            notifyAdmins(p_147210_1_, "commands.banip.success", new Object[] {p_147210_2_});
-        }
-        else
+            notifyAdmins(p_147210_1_, "commands.banip.success", p_147210_2_);
+        } else
         {
-            notifyAdmins(p_147210_1_, "commands.banip.success.players", new Object[] {p_147210_2_, joinNiceString(var6)});
+            notifyAdmins(p_147210_1_, "commands.banip.success.players", p_147210_2_, joinNiceString(var6));
         }
     }
 }

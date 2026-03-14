@@ -12,6 +12,7 @@ public interface IEntitySelector
     IEntitySelector selectAnything = new IEntitySelector()
     {
         private static final String __OBFID = "CL_00001541";
+
         public boolean isEntityApplicable(Entity par1Entity)
         {
             return par1Entity.isEntityAlive();
@@ -20,6 +21,7 @@ public interface IEntitySelector
     IEntitySelector selectInventories = new IEntitySelector()
     {
         private static final String __OBFID = "CL_00001542";
+
         public boolean isEntityApplicable(Entity par1Entity)
         {
             return par1Entity instanceof IInventory && par1Entity.isEntityAlive();
@@ -31,7 +33,7 @@ public interface IEntitySelector
      */
     boolean isEntityApplicable(Entity var1);
 
-    public static class ArmoredMob implements IEntitySelector
+    class ArmoredMob implements IEntitySelector
     {
         private final ItemStack field_96567_c;
         private static final String __OBFID = "CL_00001543";
@@ -46,15 +48,13 @@ public interface IEntitySelector
             if (!par1Entity.isEntityAlive())
             {
                 return false;
-            }
-            else if (!(par1Entity instanceof EntityLivingBase))
+            } else if (!(par1Entity instanceof EntityLivingBase))
             {
                 return false;
-            }
-            else
+            } else
             {
-                EntityLivingBase var2 = (EntityLivingBase)par1Entity;
-                return var2.getEquipmentInSlot(EntityLiving.getArmorPosition(this.field_96567_c)) != null ? false : (var2 instanceof EntityLiving ? ((EntityLiving)var2).canPickUpLoot() : var2 instanceof EntityPlayer);
+                EntityLivingBase var2 = (EntityLivingBase) par1Entity;
+                return var2.getEquipmentInSlot(EntityLiving.getArmorPosition(this.field_96567_c)) == null && (var2 instanceof EntityLiving ? ((EntityLiving) var2).canPickUpLoot() : var2 instanceof EntityPlayer);
             }
         }
     }

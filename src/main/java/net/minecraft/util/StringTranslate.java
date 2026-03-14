@@ -3,14 +3,15 @@ package net.minecraft.util;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.IllegalFormatException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Pattern;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 
 public class StringTranslate
 {
@@ -24,8 +25,10 @@ public class StringTranslate
      */
     private static final Splitter equalSignSplitter = Splitter.on('=').limit(2);
 
-    /** Is the private singleton instance of StringTranslate. */
-    private static StringTranslate instance = new StringTranslate();
+    /**
+     * Is the private singleton instance of StringTranslate.
+     */
+    private static final StringTranslate instance = new StringTranslate();
     private final Map languageList = Maps.newHashMap();
 
     /**
@@ -43,11 +46,11 @@ public class StringTranslate
 
             while (var2.hasNext())
             {
-                String var3 = (String)var2.next();
+                String var3 = (String) var2.next();
 
                 if (!var3.isEmpty() && var3.charAt(0) != 35)
                 {
-                    String[] var4 = (String[])Iterables.toArray(equalSignSplitter.split(var3), String.class);
+                    String[] var4 = Iterables.toArray(equalSignSplitter.split(var3), String.class);
 
                     if (var4 != null && var4.length == 2)
                     {
@@ -59,10 +62,8 @@ public class StringTranslate
             }
 
             this.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
-        }
-        catch (IOException var7)
+        } catch (IOException var7)
         {
-            ;
         }
     }
 
@@ -95,15 +96,14 @@ public class StringTranslate
     /**
      * Translate a key to current language applying String.format()
      */
-    public synchronized String translateKeyFormat(String par1Str, Object ... par2ArrayOfObj)
+    public synchronized String translateKeyFormat(String par1Str, Object... par2ArrayOfObj)
     {
         String var3 = this.tryTranslateKey(par1Str);
 
         try
         {
             return String.format(var3, par2ArrayOfObj);
-        }
-        catch (IllegalFormatException var5)
+        } catch (IllegalFormatException var5)
         {
             return "Format error: " + var3;
         }
@@ -114,7 +114,7 @@ public class StringTranslate
      */
     private String tryTranslateKey(String par1Str)
     {
-        String var2 = (String)this.languageList.get(par1Str);
+        String var2 = (String) this.languageList.get(par1Str);
         return var2 == null ? par1Str : var2;
     }
 

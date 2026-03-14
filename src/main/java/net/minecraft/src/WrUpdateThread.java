@@ -1,20 +1,21 @@
 package net.minecraft.src;
 
-import java.util.LinkedList;
-import java.util.List;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import org.lwjgl.opengl.Pbuffer;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class WrUpdateThread extends Thread
 {
     private Pbuffer pbuffer = null;
-    private Object lock = new Object();
-    private List updateList = new LinkedList();
-    private List updatedList = new LinkedList();
+    private final Object lock = new Object();
+    private final List updateList = new LinkedList();
+    private final List updatedList = new LinkedList();
     private int updateCount = 0;
-    private Tessellator mainTessellator;
-    private Tessellator threadTessellator;
+    private final Tessellator mainTessellator;
+    private final Tessellator threadTessellator;
     private boolean working;
     private WorldRendererThreaded currentRenderer;
     private boolean canWork;
@@ -40,13 +41,12 @@ public class WrUpdateThread extends Thread
         try
         {
             this.pbuffer.makeCurrent();
-        }
-        catch (Exception var8)
+        } catch (Exception var8)
         {
             var8.printStackTrace();
         }
 
-        WrUpdateThread.ThreadUpdateListener updateListener = new WrUpdateThread.ThreadUpdateListener((WrUpdateThread.NamelessClass1174128635)null);
+        WrUpdateThread.ThreadUpdateListener updateListener = new WrUpdateThread.ThreadUpdateListener(null);
 
         while (!Thread.interrupted() && !this.terminated)
         {
@@ -59,22 +59,20 @@ public class WrUpdateThread extends Thread
                     return;
                 }
 
-                this.checkCanWork((IWrUpdateControl)null);
+                this.checkCanWork(null);
 
                 try
                 {
                     this.currentRenderer = e;
                     Tessellator.instance = this.threadTessellator;
                     e.updateRenderer(updateListener);
-                }
-                finally
+                } finally
                 {
                     Tessellator.instance = this.mainTessellator;
                 }
 
                 this.rendererUpdated(e);
-            }
-            catch (Exception var9)
+            } catch (Exception var9)
             {
                 var9.printStackTrace();
 
@@ -99,14 +97,12 @@ public class WrUpdateThread extends Thread
             if (wr.isUpdating)
             {
                 throw new IllegalArgumentException("Renderer already updating");
-            }
-            else
+            } else
             {
                 if (first)
                 {
                     this.updateList.add(0, wr);
-                }
-                else
+                } else
                 {
                     this.updateList.add(wr);
                 }
@@ -132,16 +128,14 @@ public class WrUpdateThread extends Thread
                     if (this.terminated)
                     {
                         Object var10000 = null;
-                        return (WorldRendererThreaded)var10000;
+                        return (WorldRendererThreaded) var10000;
                     }
-                }
-                catch (InterruptedException var4)
+                } catch (InterruptedException var4)
                 {
-                    ;
                 }
             }
 
-            WorldRendererThreaded wrt = (WorldRendererThreaded)this.updateList.remove(0);
+            WorldRendererThreaded wrt = (WorldRendererThreaded) this.updateList.remove(0);
             this.lock.notifyAll();
             return wrt;
         }
@@ -153,7 +147,7 @@ public class WrUpdateThread extends Thread
 
         synchronized (this.lock)
         {
-            return this.updateList.size() > 0 ? true : (this.currentRenderer != null ? true : this.working);
+            return this.updateList.size() > 0 || (this.currentRenderer != null || this.working);
         }
     }
 
@@ -189,7 +183,7 @@ public class WrUpdateThread extends Thread
         {
             for (int i = 0; i < this.updatedList.size(); ++i)
             {
-                WorldRendererThreaded wr = (WorldRendererThreaded)this.updatedList.get(i);
+                WorldRendererThreaded wr = (WorldRendererThreaded) this.updatedList.get(i);
                 wr.finishUpdate();
                 wr.isUpdating = false;
             }
@@ -213,10 +207,8 @@ public class WrUpdateThread extends Thread
                 try
                 {
                     this.lock.wait();
-                }
-                catch (InterruptedException var4)
+                } catch (InterruptedException var4)
                 {
-                    ;
                 }
             }
 
@@ -263,10 +255,8 @@ public class WrUpdateThread extends Thread
                     try
                     {
                         this.lock.wait();
-                    }
-                    catch (InterruptedException var4)
+                    } catch (InterruptedException var4)
                     {
-                        ;
                     }
                 }
 
@@ -295,10 +285,8 @@ public class WrUpdateThread extends Thread
                 try
                 {
                     this.lock.wait();
-                }
-                catch (InterruptedException var5)
+                } catch (InterruptedException var5)
                 {
-                    ;
                 }
             }
 
@@ -323,7 +311,7 @@ public class WrUpdateThread extends Thread
 
             for (int i = 0; i < this.updateList.size(); ++i)
             {
-                WorldRenderer wr = (WorldRenderer)this.updateList.get(i);
+                WorldRenderer wr = (WorldRenderer) this.updateList.get(i);
                 wr.needsUpdate = true;
                 wr.isUpdating = false;
             }
@@ -373,11 +361,11 @@ public class WrUpdateThread extends Thread
 
     private class ThreadUpdateListener implements IWrUpdateListener
     {
-        private WrUpdateThread.ThreadUpdateControl tuc;
+        private final WrUpdateThread.ThreadUpdateControl tuc;
 
         private ThreadUpdateListener()
         {
-            this.tuc = WrUpdateThread.this.new ThreadUpdateControl((WrUpdateThread.NamelessClass1174128635)null);
+            this.tuc = WrUpdateThread.this.new ThreadUpdateControl(null);
         }
 
         public void updating(IWrUpdateControl uc)

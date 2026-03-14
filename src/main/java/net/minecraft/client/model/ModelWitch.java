@@ -6,8 +6,8 @@ import net.minecraft.util.MathHelper;
 public class ModelWitch extends ModelVillager
 {
     public boolean field_82900_g;
-    private ModelRenderer field_82901_h = (new ModelRenderer(this)).setTextureSize(64, 128);
-    private ModelRenderer witchHat;
+    private final ModelRenderer field_82901_h = (new ModelRenderer(this)).setTextureSize(64, 128);
+    private final ModelRenderer witchHat;
     private static final String __OBFID = "CL_00000866";
 
     public ModelWitch(float par1)
@@ -49,10 +49,10 @@ public class ModelWitch extends ModelVillager
     {
         super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
         this.villagerNose.offsetX = this.villagerNose.offsetY = this.villagerNose.offsetZ = 0.0F;
-        float var8 = 0.01F * (float)(par7Entity.getEntityId() % 10);
-        this.villagerNose.rotateAngleX = MathHelper.sin((float)par7Entity.ticksExisted * var8) * 4.5F * (float)Math.PI / 180.0F;
+        float var8 = 0.01F * (float) (par7Entity.getEntityId() % 10);
+        this.villagerNose.rotateAngleX = MathHelper.sin((float) par7Entity.ticksExisted * var8) * 4.5F * (float) Math.PI / 180.0F;
         this.villagerNose.rotateAngleY = 0.0F;
-        this.villagerNose.rotateAngleZ = MathHelper.cos((float)par7Entity.ticksExisted * var8) * 2.5F * (float)Math.PI / 180.0F;
+        this.villagerNose.rotateAngleZ = MathHelper.cos((float) par7Entity.ticksExisted * var8) * 2.5F * (float) Math.PI / 180.0F;
 
         if (this.field_82900_g)
         {

@@ -10,7 +10,8 @@ import us.nebula.client.api.listener.Event;
 public final class EventRotateCamera extends Event
 {
     private final Entity entity;
-    private float diffYaw, diffPitch;
+    private final float diffYaw;
+    private final float diffPitch;
     private float yaw, pitch;
 
     public EventRotateCamera(Entity entity, float yaw, float pitch, float diffYaw, float diffPitch)

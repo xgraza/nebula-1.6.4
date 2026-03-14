@@ -1,6 +1,5 @@
 package net.minecraft.entity.item;
 
-import java.util.Iterator;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +16,8 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Iterator;
+
 public class EntityItem extends Entity
 {
     private static final Logger logger = LogManager.getLogger();
@@ -27,12 +28,16 @@ public class EntityItem extends Entity
     public int age;
     public int delayBeforeCanPickup;
 
-    /** The health of this EntityItem. (For example, damage for tools) */
+    /**
+     * The health of this EntityItem. (For example, damage for tools)
+     */
     private int health;
     private String field_145801_f;
     private String field_145802_g;
 
-    /** The EntityItem's random initial float height. */
+    /**
+     * The EntityItem's random initial float height.
+     */
     public float hoverStart;
     private static final String __OBFID = "CL_00001669";
 
@@ -40,14 +45,14 @@ public class EntityItem extends Entity
     {
         super(par1World);
         this.health = 5;
-        this.hoverStart = (float)(Math.random() * Math.PI * 2.0D);
+        this.hoverStart = (float) (Math.random() * Math.PI * 2.0D);
         this.setSize(0.25F, 0.25F);
         this.yOffset = this.height / 2.0F;
         this.setPosition(par2, par4, par6);
-        this.rotationYaw = (float)(Math.random() * 360.0D);
-        this.motionX = (double)((float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D));
+        this.rotationYaw = (float) (Math.random() * 360.0D);
+        this.motionX = (float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D);
         this.motionY = 0.20000000298023224D;
-        this.motionZ = (double)((float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D));
+        this.motionZ = (float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D);
     }
 
     public EntityItem(World par1World, double par2, double par4, double par6, ItemStack par8ItemStack)
@@ -69,7 +74,7 @@ public class EntityItem extends Entity
     {
         super(par1World);
         this.health = 5;
-        this.hoverStart = (float)(Math.random() * Math.PI * 2.0D);
+        this.hoverStart = (float) (Math.random() * Math.PI * 2.0D);
         this.setSize(0.25F, 0.25F);
         this.yOffset = this.height / 2.0F;
     }
@@ -87,8 +92,7 @@ public class EntityItem extends Entity
         if (this.getEntityItem() == null)
         {
             this.setDead();
-        }
-        else
+        } else
         {
             super.onUpdate();
 
@@ -103,15 +107,15 @@ public class EntityItem extends Entity
             this.motionY -= 0.03999999910593033D;
             this.noClip = this.pushEntityFromBounds(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
-            boolean var1 = (int)this.prevPosX != (int)this.posX || (int)this.prevPosY != (int)this.posY || (int)this.prevPosZ != (int)this.posZ;
+            boolean var1 = (int) this.prevPosX != (int) this.posX || (int) this.prevPosY != (int) this.posY || (int) this.prevPosZ != (int) this.posZ;
 
             if (var1 || this.ticksExisted % 25 == 0)
             {
                 if (this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)).getMaterial() == Material.lava)
                 {
                     this.motionY = 0.20000000298023224D;
-                    this.motionX = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-                    this.motionZ = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+                    this.motionX = (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F;
+                    this.motionZ = (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F;
                     this.playSound("random.fizz", 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
                 }
 
@@ -128,9 +132,9 @@ public class EntityItem extends Entity
                 var2 = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ)).slipperiness * 0.98F;
             }
 
-            this.motionX *= (double)var2;
+            this.motionX *= var2;
             this.motionY *= 0.9800000190734863D;
-            this.motionZ *= (double)var2;
+            this.motionZ *= var2;
 
             if (this.onGround)
             {
@@ -160,7 +164,7 @@ public class EntityItem extends Entity
 
         while (var1.hasNext())
         {
-            EntityItem var2 = (EntityItem)var1.next();
+            EntityItem var2 = (EntityItem) var1.next();
             this.combineItems(var2);
         }
     }
@@ -174,8 +178,7 @@ public class EntityItem extends Entity
         if (par1EntityItem == this)
         {
             return false;
-        }
-        else if (par1EntityItem.isEntityAlive() && this.isEntityAlive())
+        } else if (par1EntityItem.isEntityAlive() && this.isEntityAlive())
         {
             ItemStack var2 = this.getEntityItem();
             ItemStack var3 = par1EntityItem.getEntityItem();
@@ -183,32 +186,25 @@ public class EntityItem extends Entity
             if (var3.getItem() != var2.getItem())
             {
                 return false;
-            }
-            else if (var3.hasTagCompound() ^ var2.hasTagCompound())
+            } else if (var3.hasTagCompound() ^ var2.hasTagCompound())
             {
                 return false;
-            }
-            else if (var3.hasTagCompound() && !var3.getTagCompound().equals(var2.getTagCompound()))
+            } else if (var3.hasTagCompound() && !var3.getTagCompound().equals(var2.getTagCompound()))
             {
                 return false;
-            }
-            else if (var3.getItem() == null)
+            } else if (var3.getItem() == null)
             {
                 return false;
-            }
-            else if (var3.getItem().getHasSubtypes() && var3.getItemDamage() != var2.getItemDamage())
+            } else if (var3.getItem().getHasSubtypes() && var3.getItemDamage() != var2.getItemDamage())
             {
                 return false;
-            }
-            else if (var3.stackSize < var2.stackSize)
+            } else if (var3.stackSize < var2.stackSize)
             {
                 return par1EntityItem.combineItems(this);
-            }
-            else if (var3.stackSize + var2.stackSize > var3.getMaxStackSize())
+            } else if (var3.stackSize + var2.stackSize > var3.getMaxStackSize())
             {
                 return false;
-            }
-            else
+            } else
             {
                 var3.stackSize += var2.stackSize;
                 par1EntityItem.delayBeforeCanPickup = Math.max(par1EntityItem.delayBeforeCanPickup, this.delayBeforeCanPickup);
@@ -217,8 +213,7 @@ public class EntityItem extends Entity
                 this.setDead();
                 return true;
             }
-        }
-        else
+        } else
         {
             return false;
         }
@@ -247,7 +242,7 @@ public class EntityItem extends Entity
      */
     protected void dealFireDamage(int par1)
     {
-        this.attackEntityFrom(DamageSource.inFire, (float)par1);
+        this.attackEntityFrom(DamageSource.inFire, (float) par1);
     }
 
     /**
@@ -258,15 +253,13 @@ public class EntityItem extends Entity
         if (this.isEntityInvulnerable())
         {
             return false;
-        }
-        else if (this.getEntityItem() != null && this.getEntityItem().getItem() == Items.nether_star && par1DamageSource.isExplosion())
+        } else if (this.getEntityItem() != null && this.getEntityItem().getItem() == Items.nether_star && par1DamageSource.isExplosion())
         {
             return false;
-        }
-        else
+        } else
         {
             this.setBeenAttacked();
-            this.health = (int)((float)this.health - par2);
+            this.health = (int) ((float) this.health - par2);
 
             if (this.health <= 0)
             {
@@ -282,8 +275,8 @@ public class EntityItem extends Entity
      */
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
-        par1NBTTagCompound.setShort("Health", (short)((byte)this.health));
-        par1NBTTagCompound.setShort("Age", (short)this.age);
+        par1NBTTagCompound.setShort("Health", (byte) this.health);
+        par1NBTTagCompound.setShort("Age", (short) this.age);
 
         if (this.func_145800_j() != null)
         {
@@ -431,8 +424,7 @@ public class EntityItem extends Entity
             }
 
             return new ItemStack(Blocks.stone);
-        }
-        else
+        } else
         {
             return var1;
         }

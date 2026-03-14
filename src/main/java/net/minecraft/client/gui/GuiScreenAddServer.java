@@ -6,10 +6,10 @@ import org.lwjgl.input.Keyboard;
 
 public class GuiScreenAddServer extends GuiScreen
 {
-    private GuiScreen field_146310_a;
+    private final GuiScreen field_146310_a;
     private GuiTextField field_146308_f;
     private GuiTextField field_146309_g;
-    private ServerData field_146311_h;
+    private final ServerData field_146311_h;
     private static final String __OBFID = "CL_00000695";
 
     public GuiScreenAddServer(GuiScreen par1GuiScreen, ServerData par2ServerData)
@@ -34,15 +34,15 @@ public class GuiScreenAddServer extends GuiScreen
     {
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 12, I18n.format("addServer.add", new Object[0])));
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.cancel", new Object[0])));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 12, I18n.format("addServer.add")));
+        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.cancel")));
         this.field_146309_g = new GuiTextField(this.fontRenderer, this.width / 2 - 100, 66, 200, 20);
         this.field_146309_g.setFocused(true);
         this.field_146309_g.setText(this.field_146311_h.serverName);
         this.field_146308_f = new GuiTextField(this.fontRenderer, this.width / 2 - 100, 106, 200, 20);
         this.field_146308_f.setMaxTextLength(128);
         this.field_146308_f.setText(this.field_146311_h.serverIP);
-        ((GuiButton)this.buttonList.get(0)).enabled = this.field_146308_f.getText().length() > 0 && this.field_146308_f.getText().split(":").length > 0 && this.field_146309_g.getText().length() > 0;
+        this.buttonList.get(0).enabled = this.field_146308_f.getText().length() > 0 && this.field_146308_f.getText().split(":").length > 0 && this.field_146309_g.getText().length() > 0;
     }
 
     /**
@@ -60,8 +60,7 @@ public class GuiScreenAddServer extends GuiScreen
             if (p_146284_1_.id == 1)
             {
                 this.field_146310_a.confirmClicked(false, 0);
-            }
-            else if (p_146284_1_.id == 0)
+            } else if (p_146284_1_.id == 0)
             {
                 this.field_146311_h.serverName = this.field_146309_g.getText();
                 this.field_146311_h.serverIP = this.field_146308_f.getText();
@@ -86,10 +85,10 @@ public class GuiScreenAddServer extends GuiScreen
 
         if (keyCode == 28 || keyCode == 156)
         {
-            this.actionPerformed((GuiButton)this.buttonList.get(0));
+            this.actionPerformed(this.buttonList.get(0));
         }
 
-        ((GuiButton)this.buttonList.get(0)).enabled = this.field_146308_f.getText().length() > 0 && this.field_146308_f.getText().split(":").length > 0 && this.field_146309_g.getText().length() > 0;
+        this.buttonList.get(0).enabled = this.field_146308_f.getText().length() > 0 && this.field_146308_f.getText().split(":").length > 0 && this.field_146309_g.getText().length() > 0;
     }
 
     /**
@@ -108,9 +107,9 @@ public class GuiScreenAddServer extends GuiScreen
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, I18n.format("addServer.title", new Object[0]), this.width / 2, 17, 16777215);
-        this.drawString(this.fontRenderer, I18n.format("addServer.enterName", new Object[0]), this.width / 2 - 100, 53, 10526880);
-        this.drawString(this.fontRenderer, I18n.format("addServer.enterIp", new Object[0]), this.width / 2 - 100, 94, 10526880);
+        this.drawCenteredString(this.fontRenderer, I18n.format("addServer.title"), this.width / 2, 17, 16777215);
+        this.drawString(this.fontRenderer, I18n.format("addServer.enterName"), this.width / 2 - 100, 53, 10526880);
+        this.drawString(this.fontRenderer, I18n.format("addServer.enterIp"), this.width / 2 - 100, 94, 10526880);
         this.field_146309_g.drawTextBox();
         this.field_146308_f.drawTextBox();
         super.drawScreen(par1, par2, par3);

@@ -55,8 +55,8 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
         this.otherPlayerMPX = par1;
         this.otherPlayerMPY = par3;
         this.otherPlayerMPZ = par5;
-        this.otherPlayerMPYaw = (double)par7;
-        this.otherPlayerMPPitch = (double)par8;
+        this.otherPlayerMPYaw = par7;
+        this.otherPlayerMPPitch = par8;
         this.otherPlayerMPPosRotationIncrements = par9;
     }
 
@@ -85,8 +85,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
             ItemStack var6 = this.inventory.mainInventory[this.inventory.currentItem];
             this.setItemInUse(this.inventory.mainInventory[this.inventory.currentItem], var6.getItem().getMaxItemUseDuration(var6));
             this.isItemInUse = true;
-        }
-        else if (this.isItemInUse && !this.isEating())
+        } else if (this.isItemInUse && !this.isEating())
         {
             this.clearItemInUse();
             this.isItemInUse = false;
@@ -108,14 +107,13 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
 
         if (this.otherPlayerMPPosRotationIncrements > 0)
         {
-            double var1 = this.posX + (this.otherPlayerMPX - this.posX) / (double)this.otherPlayerMPPosRotationIncrements;
-            double var3 = this.posY + (this.otherPlayerMPY - this.posY) / (double)this.otherPlayerMPPosRotationIncrements;
-            double var5 = this.posZ + (this.otherPlayerMPZ - this.posZ) / (double)this.otherPlayerMPPosRotationIncrements;
+            double var1 = this.posX + (this.otherPlayerMPX - this.posX) / (double) this.otherPlayerMPPosRotationIncrements;
+            double var3 = this.posY + (this.otherPlayerMPY - this.posY) / (double) this.otherPlayerMPPosRotationIncrements;
+            double var5 = this.posZ + (this.otherPlayerMPZ - this.posZ) / (double) this.otherPlayerMPPosRotationIncrements;
             double var7;
 
-            for (var7 = this.otherPlayerMPYaw - (double)this.rotationYaw; var7 < -180.0D; var7 += 360.0D)
+            for (var7 = this.otherPlayerMPYaw - (double) this.rotationYaw; var7 < -180.0D; var7 += 360.0D)
             {
-                ;
             }
 
             while (var7 >= 180.0D)
@@ -123,8 +121,8 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
                 var7 -= 360.0D;
             }
 
-            this.rotationYaw = (float)((double)this.rotationYaw + var7 / (double)this.otherPlayerMPPosRotationIncrements);
-            this.rotationPitch = (float)((double)this.rotationPitch + (this.otherPlayerMPPitch - (double)this.rotationPitch) / (double)this.otherPlayerMPPosRotationIncrements);
+            this.rotationYaw = (float) ((double) this.rotationYaw + var7 / (double) this.otherPlayerMPPosRotationIncrements);
+            this.rotationPitch = (float) ((double) this.rotationPitch + (this.otherPlayerMPPitch - (double) this.rotationPitch) / (double) this.otherPlayerMPPosRotationIncrements);
             --this.otherPlayerMPPosRotationIncrements;
             this.setPosition(var1, var3, var5);
             this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -132,7 +130,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
 
         this.prevCameraYaw = this.cameraYaw;
         float var9 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        float var2 = (float)Math.atan(-this.motionY * 0.20000000298023224D) * 15.0F;
+        float var2 = (float) Math.atan(-this.motionY * 0.20000000298023224D) * 15.0F;
 
         if (var9 > 0.1F)
         {
@@ -161,8 +159,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
         if (par1 == 0)
         {
             this.inventory.mainInventory[this.inventory.currentItem] = par2ItemStack;
-        }
-        else
+        } else
         {
             this.inventory.armorInventory[par1 - 1] = par2ItemStack;
         }

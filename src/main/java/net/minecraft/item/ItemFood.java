@@ -7,14 +7,20 @@ import net.minecraft.world.World;
 
 public class ItemFood extends Item
 {
-    /** Number of ticks to run while 'EnumAction'ing until result. */
+    /**
+     * Number of ticks to run while 'EnumAction'ing until result.
+     */
     public final int itemUseDuration;
 
-    /** The amount this food item heals the player. */
+    /**
+     * The amount this food item heals the player.
+     */
     private final int healAmount;
     private final float saturationModifier;
 
-    /** Whether wolves like this food (true for raw and cooked porkchop). */
+    /**
+     * Whether wolves like this food (true for raw and cooked porkchop).
+     */
     private final boolean isWolfsFavoriteMeat;
 
     /**
@@ -27,13 +33,19 @@ public class ItemFood extends Item
      */
     private int potionId;
 
-    /** set by setPotionEffect */
+    /**
+     * set by setPotionEffect
+     */
     private int potionDuration;
 
-    /** set by setPotionEffect */
+    /**
+     * set by setPotionEffect
+     */
     private int potionAmplifier;
 
-    /** probably of the set potion effect occurring */
+    /**
+     * probably of the set potion effect occurring
+     */
     private float potionEffectProbability;
     private static final String __OBFID = "CL_00000036";
 

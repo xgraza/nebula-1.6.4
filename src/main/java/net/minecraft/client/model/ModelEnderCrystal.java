@@ -5,13 +5,19 @@ import org.lwjgl.opengl.GL11;
 
 public class ModelEnderCrystal extends ModelBase
 {
-    /** The cube model for the Ender Crystal. */
-    private ModelRenderer cube;
+    /**
+     * The cube model for the Ender Crystal.
+     */
+    private final ModelRenderer cube;
 
-    /** The glass model for the Ender Crystal. */
-    private ModelRenderer glass = new ModelRenderer(this, "glass");
+    /**
+     * The glass model for the Ender Crystal.
+     */
+    private final ModelRenderer glass = new ModelRenderer(this, "glass");
 
-    /** The base model for the Ender Crystal. */
+    /**
+     * The base model for the Ender Crystal.
+     */
     private ModelRenderer base;
     private static final String __OBFID = "CL_00000871";
 

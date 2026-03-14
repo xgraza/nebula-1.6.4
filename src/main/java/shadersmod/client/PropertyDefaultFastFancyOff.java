@@ -4,8 +4,8 @@ import net.minecraft.src.Config;
 
 public class PropertyDefaultFastFancyOff extends Property
 {
-    public static final String[] PROPERTY_VALUES = new String[] {"default", "fast", "fancy", "off"};
-    public static final String[] USER_VALUES = new String[] {"Default", "Fast", "Fancy", "OFF"};
+    public static final String[] PROPERTY_VALUES = new String[]{ "default", "fast", "fancy", "off" };
+    public static final String[] USER_VALUES = new String[]{ "Default", "Fast", "Fancy", "OFF" };
 
     public PropertyDefaultFastFancyOff(String propertyName, String userName, int defaultValue)
     {

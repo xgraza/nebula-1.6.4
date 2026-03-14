@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class ItemDoor extends Item
 {
-    private Material doorMaterial;
+    private final Material doorMaterial;
     private static final String __OBFID = "CL_00000020";
 
     public ItemDoor(Material p_i45334_1_)
@@ -29,8 +29,7 @@ public class ItemDoor extends Item
         if (par7 != 1)
         {
             return false;
-        }
-        else
+        } else
         {
             ++par5;
             Block var11;
@@ -38,8 +37,7 @@ public class ItemDoor extends Item
             if (this.doorMaterial == Material.wood)
             {
                 var11 = Blocks.wooden_door;
-            }
-            else
+            } else
             {
                 var11 = Blocks.iron_door;
             }
@@ -49,16 +47,14 @@ public class ItemDoor extends Item
                 if (!var11.canPlaceBlockAt(par3World, par4, par5, par6))
                 {
                     return false;
-                }
-                else
+                } else
                 {
-                    int var12 = MathHelper.floor_double((double)((par2EntityPlayer.rotationYaw + 180.0F) * 4.0F / 360.0F) - 0.5D) & 3;
+                    int var12 = MathHelper.floor_double((double) ((par2EntityPlayer.rotationYaw + 180.0F) * 4.0F / 360.0F) - 0.5D) & 3;
                     func_150924_a(par3World, par4, par5, par6, var12, var11);
                     --par1ItemStack.stackSize;
                     return true;
                 }
-            }
-            else
+            } else
             {
                 return false;
             }
@@ -99,8 +95,7 @@ public class ItemDoor extends Item
         if (var10 && !var11)
         {
             var12 = true;
-        }
-        else if (var9 > var8)
+        } else if (var9 > var8)
         {
             var12 = true;
         }

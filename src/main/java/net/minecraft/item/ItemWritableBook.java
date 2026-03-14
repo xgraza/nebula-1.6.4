@@ -36,12 +36,10 @@ public class ItemWritableBook extends Item
         if (p_150930_0_ == null)
         {
             return false;
-        }
-        else if (!p_150930_0_.hasKey("pages", 9))
+        } else if (!p_150930_0_.hasKey("pages", 9))
         {
             return false;
-        }
-        else
+        } else
         {
             NBTTagList var1 = p_150930_0_.getTagList("pages", 8);
 

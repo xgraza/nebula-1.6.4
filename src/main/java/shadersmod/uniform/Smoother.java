@@ -1,12 +1,13 @@
 package shadersmod.uniform;
 
+import net.minecraft.src.SmoothFloat;
+
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.src.SmoothFloat;
 
 public class Smoother
 {
-    private static Map<Integer, SmoothFloat> mapSmoothValues = new HashMap();
+    private static final Map<Integer, SmoothFloat> mapSmoothValues = new HashMap();
 
     public static float getSmoothValue(int id, float value, float timeFadeUpSec, float timeFadeDownSec)
     {
@@ -15,7 +16,7 @@ public class Smoother
         synchronized (mapSmoothValues)
         {
             Integer key = Integer.valueOf(id);
-            SmoothFloat sf = (SmoothFloat)mapSmoothValues.get(key);
+            SmoothFloat sf = mapSmoothValues.get(key);
 
             if (sf == null)
             {

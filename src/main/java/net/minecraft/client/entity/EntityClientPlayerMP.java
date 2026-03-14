@@ -7,15 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C01PacketChatMessage;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.client.C0APacketAnimation;
-import net.minecraft.network.play.client.C0BPacketEntityAction;
-import net.minecraft.network.play.client.C0CPacketInput;
-import net.minecraft.network.play.client.C0DPacketCloseWindow;
-import net.minecraft.network.play.client.C13PacketPlayerAbilities;
-import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.network.play.client.*;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.DamageSource;
@@ -36,16 +28,22 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     private final StatFileWriter field_146108_bO;
     private double oldPosX;
 
-    /** Old Minimum Y of the bounding box */
+    /**
+     * Old Minimum Y of the bounding box
+     */
     private double oldMinY;
     private double oldPosZ;
     private float oldRotationYaw;
     private float oldRotationPitch;
 
-    /** Check if was on ground last update */
+    /**
+     * Check if was on ground last update
+     */
     private boolean wasOnGround;
 
-    /** should the player stop sneaking? */
+    /**
+     * should the player stop sneaking?
+     */
     private boolean serverSneaking;
     public boolean serverSprinting;
 
@@ -57,7 +55,9 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     public int ticksAirborne;
 
-    /** has the client player's health been set? */
+    /**
+     * has the client player's health been set?
+     */
     private boolean hasSetHealth;
     private String field_142022_ce;
 
@@ -87,7 +87,9 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     /**
      * Heal living entity (param: amount of half-hearts)
      */
-    public void heal(float par1) {}
+    public void heal(float par1)
+    {
+    }
 
     /**
      * Called when a player mounts an entity. e.g. mounts a pig, mounts a boat.
@@ -98,7 +100,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
         if (par1Entity instanceof EntityMinecart)
         {
-            this.mc.getSoundHandler().playSound(new MovingSoundMinecartRiding(this, (EntityMinecart)par1Entity));
+            this.mc.getSoundHandler().playSound(new MovingSoundMinecartRiding(this, (EntityMinecart) par1Entity));
         }
     }
 
@@ -127,8 +129,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
                     this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
                 }
-            }
-            else
+            } else
             {
                 this.sendMotionUpdates();
 
@@ -205,15 +206,17 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             return;
         }
 
-        if (isSprinting() != serverSprinting) {
+        if (isSprinting() != serverSprinting)
+        {
             sendQueue.addToSendQueue(new C0BPacketEntityAction(
-              this, isSprinting() ? 4 : 5));
+                    this, isSprinting() ? 4 : 5));
             serverSprinting = isSprinting();
         }
 
-        if (isSneaking() != serverSneaking) {
+        if (isSneaking() != serverSneaking)
+        {
             sendQueue.addToSendQueue(new C0BPacketEntityAction(
-              this, isSneaking() ? 1 : 2));
+                    this, isSneaking() ? 1 : 2));
             serverSneaking = isSneaking();
         }
 
@@ -226,35 +229,42 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         float diffPitch = event.getPitch() - oldRotationPitch;
         boolean rotated = diffYaw != 0.0f || diffPitch != 0.0f;
 
-        if (ridingEntity != null) {
+        if (ridingEntity != null)
+        {
             sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(
-              motionX, -999.0, -999.0, motionZ,
+                    motionX, -999.0, -999.0, motionZ,
                     event.getYaw(), event.getPitch(), event.isOnGround()));
             moved = false;
-        } else if (moved && rotated) {
+        } else if (moved && rotated)
+        {
             sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(
-              event.getX(), event.getY(), event.getStance(), event.getZ(), event.getYaw(), event.getPitch(), event.isOnGround()));
-        } else if (moved) {
+                    event.getX(), event.getY(), event.getStance(), event.getZ(), event.getYaw(), event.getPitch(), event.isOnGround()));
+        } else if (moved)
+        {
             sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
                     event.getX(), event.getY(), event.getStance(), event.getZ(), event.isOnGround()));
-        } else if (rotated) {
+        } else if (rotated)
+        {
             sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(
                     event.getYaw(), event.getPitch(), event.isOnGround()));
-        } else {
+        } else
+        {
             sendQueue.addToSendQueue(new C03PacketPlayer(event.isOnGround()));
         }
 
         ++ticksSinceMovePacket;
         wasOnGround = onGround;
 
-        if (moved) {
+        if (moved)
+        {
             oldPosX = event.getX();
             oldMinY = event.getY();
             oldPosZ = event.getZ();
             ticksSinceMovePacket = 0;
         }
 
-        if (rotated) {
+        if (rotated)
+        {
             oldRotationYaw = event.getYaw();
             oldRotationPitch = event.getPitch();
         }
@@ -273,7 +283,9 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     /**
      * Joins the passed in entity item with the world. Args: entityItem
      */
-    protected void joinEntityItemWithWorld(EntityItem par1EntityItem) {}
+    protected void joinEntityItemWithWorld(EntityItem par1EntityItem)
+    {
+    }
 
     /**
      * Sends a chat message from the player. Args: chatMessage
@@ -292,7 +304,8 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
     }
 
-    public void swingItemSilent() {
+    public void swingItemSilent()
+    {
         this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
     }
 
@@ -327,7 +340,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
      */
     public void closeScreenNoPacket()
     {
-        this.inventory.setItemStack((ItemStack)null);
+        this.inventory.setItemStack(null);
         super.closeScreen();
     }
 
@@ -339,8 +352,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         if (this.hasSetHealth)
         {
             super.setPlayerSPHealth(par1);
-        }
-        else
+        } else
         {
             this.setHealth(par1);
             this.hasSetHealth = true;
@@ -371,7 +383,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 
     protected void func_110318_g()
     {
-        this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, 6, (int)(this.getHorseJumpPower() * 100.0F)));
+        this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, 6, (int) (this.getHorseJumpPower() * 100.0F)));
     }
 
     public void func_110322_i()

@@ -18,7 +18,7 @@ public class WeightedRandom
 
         for (Iterator var2 = par0Collection.iterator(); var2.hasNext(); var1 += var3.itemWeight)
         {
-            var3 = (WeightedRandom.Item)var2.next();
+            var3 = (WeightedRandom.Item) var2.next();
         }
 
         return var1;
@@ -32,8 +32,7 @@ public class WeightedRandom
         if (par2 <= 0)
         {
             throw new IllegalArgumentException();
-        }
-        else
+        } else
         {
             int var3 = par0Random.nextInt(par2);
             Iterator var4 = par1Collection.iterator();
@@ -46,7 +45,7 @@ public class WeightedRandom
                     return null;
                 }
 
-                var5 = (WeightedRandom.Item)var4.next();
+                var5 = (WeightedRandom.Item) var4.next();
                 var3 -= var5.itemWeight;
             }
             while (var3 >= 0);
@@ -89,8 +88,7 @@ public class WeightedRandom
         if (par2 <= 0)
         {
             throw new IllegalArgumentException();
-        }
-        else
+        } else
         {
             int var3 = par0Random.nextInt(par2);
             WeightedRandom.Item[] var4 = par1ArrayOfWeightedRandomItem;

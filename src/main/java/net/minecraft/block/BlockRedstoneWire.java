@@ -1,9 +1,5 @@
 package net.minecraft.block;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
@@ -16,10 +12,15 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
 public class BlockRedstoneWire extends Block
 {
     private boolean field_150181_a = true;
-    private Set field_150179_b = new HashSet();
+    private final Set field_150179_b = new HashSet();
     private IIcon field_150182_M;
     private IIcon field_150183_N;
     private IIcon field_150184_O;
@@ -81,7 +82,7 @@ public class BlockRedstoneWire extends Block
 
         for (int var6 = 0; var6 < var5.size(); ++var6)
         {
-            ChunkPosition var7 = (ChunkPosition)var5.get(var6);
+            ChunkPosition var7 = (ChunkPosition) var5.get(var6);
             p_150177_1_.notifyBlocksOfNeighborChange(var7.xCoord, var7.field_151327_b, var7.yCoord, this);
         }
     }
@@ -138,8 +139,7 @@ public class BlockRedstoneWire extends Block
                 {
                     var11 = this.func_150178_a(p_150175_1_, var13, p_150175_3_ + 1, var14, var11);
                 }
-            }
-            else if (!p_150175_1_.getBlock(var13, p_150175_3_, var14).isNormalCube() && (var13 != p_150175_5_ || var14 != p_150175_7_) && p_150175_3_ <= p_150175_6_)
+            } else if (!p_150175_1_.getBlock(var13, p_150175_3_, var14).isNormalCube() && (var13 != p_150175_5_ || var14 != p_150175_7_) && p_150175_3_ <= p_150175_6_)
             {
                 var11 = this.func_150178_a(p_150175_1_, var13, p_150175_3_ - 1, var14, var11);
             }
@@ -148,12 +148,10 @@ public class BlockRedstoneWire extends Block
         if (var11 > var15)
         {
             var15 = var11 - 1;
-        }
-        else if (var15 > 0)
+        } else if (var15 > 0)
         {
             --var15;
-        }
-        else
+        } else
         {
             var15 = 0;
         }
@@ -207,8 +205,7 @@ public class BlockRedstoneWire extends Block
             if (p_149726_1_.getBlock(p_149726_2_ - 1, p_149726_3_, p_149726_4_).isNormalCube())
             {
                 this.func_150172_m(p_149726_1_, p_149726_2_ - 1, p_149726_3_ + 1, p_149726_4_);
-            }
-            else
+            } else
             {
                 this.func_150172_m(p_149726_1_, p_149726_2_ - 1, p_149726_3_ - 1, p_149726_4_);
             }
@@ -216,8 +213,7 @@ public class BlockRedstoneWire extends Block
             if (p_149726_1_.getBlock(p_149726_2_ + 1, p_149726_3_, p_149726_4_).isNormalCube())
             {
                 this.func_150172_m(p_149726_1_, p_149726_2_ + 1, p_149726_3_ + 1, p_149726_4_);
-            }
-            else
+            } else
             {
                 this.func_150172_m(p_149726_1_, p_149726_2_ + 1, p_149726_3_ - 1, p_149726_4_);
             }
@@ -225,8 +221,7 @@ public class BlockRedstoneWire extends Block
             if (p_149726_1_.getBlock(p_149726_2_, p_149726_3_, p_149726_4_ - 1).isNormalCube())
             {
                 this.func_150172_m(p_149726_1_, p_149726_2_, p_149726_3_ + 1, p_149726_4_ - 1);
-            }
-            else
+            } else
             {
                 this.func_150172_m(p_149726_1_, p_149726_2_, p_149726_3_ - 1, p_149726_4_ - 1);
             }
@@ -234,8 +229,7 @@ public class BlockRedstoneWire extends Block
             if (p_149726_1_.getBlock(p_149726_2_, p_149726_3_, p_149726_4_ + 1).isNormalCube())
             {
                 this.func_150172_m(p_149726_1_, p_149726_2_, p_149726_3_ + 1, p_149726_4_ + 1);
-            }
-            else
+            } else
             {
                 this.func_150172_m(p_149726_1_, p_149726_2_, p_149726_3_ - 1, p_149726_4_ + 1);
             }
@@ -263,8 +257,7 @@ public class BlockRedstoneWire extends Block
             if (p_149749_1_.getBlock(p_149749_2_ - 1, p_149749_3_, p_149749_4_).isNormalCube())
             {
                 this.func_150172_m(p_149749_1_, p_149749_2_ - 1, p_149749_3_ + 1, p_149749_4_);
-            }
-            else
+            } else
             {
                 this.func_150172_m(p_149749_1_, p_149749_2_ - 1, p_149749_3_ - 1, p_149749_4_);
             }
@@ -272,8 +265,7 @@ public class BlockRedstoneWire extends Block
             if (p_149749_1_.getBlock(p_149749_2_ + 1, p_149749_3_, p_149749_4_).isNormalCube())
             {
                 this.func_150172_m(p_149749_1_, p_149749_2_ + 1, p_149749_3_ + 1, p_149749_4_);
-            }
-            else
+            } else
             {
                 this.func_150172_m(p_149749_1_, p_149749_2_ + 1, p_149749_3_ - 1, p_149749_4_);
             }
@@ -281,8 +273,7 @@ public class BlockRedstoneWire extends Block
             if (p_149749_1_.getBlock(p_149749_2_, p_149749_3_, p_149749_4_ - 1).isNormalCube())
             {
                 this.func_150172_m(p_149749_1_, p_149749_2_, p_149749_3_ + 1, p_149749_4_ - 1);
-            }
-            else
+            } else
             {
                 this.func_150172_m(p_149749_1_, p_149749_2_, p_149749_3_ - 1, p_149749_4_ - 1);
             }
@@ -290,8 +281,7 @@ public class BlockRedstoneWire extends Block
             if (p_149749_1_.getBlock(p_149749_2_, p_149749_3_, p_149749_4_ + 1).isNormalCube())
             {
                 this.func_150172_m(p_149749_1_, p_149749_2_, p_149749_3_ + 1, p_149749_4_ + 1);
-            }
-            else
+            } else
             {
                 this.func_150172_m(p_149749_1_, p_149749_2_, p_149749_3_ - 1, p_149749_4_ + 1);
             }
@@ -303,8 +293,7 @@ public class BlockRedstoneWire extends Block
         if (p_150178_1_.getBlock(p_150178_2_, p_150178_3_, p_150178_4_) != this)
         {
             return p_150178_5_;
-        }
-        else
+        } else
         {
             int var6 = p_150178_1_.getBlockMetadata(p_150178_2_, p_150178_3_, p_150178_4_);
             return var6 > p_150178_5_ ? var6 : p_150178_5_;
@@ -320,8 +309,7 @@ public class BlockRedstoneWire extends Block
             if (var6)
             {
                 this.func_150177_e(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_);
-            }
-            else
+            } else
             {
                 this.dropBlockAsItem(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, 0, 0);
                 p_149695_1_.setBlockToAir(p_149695_2_, p_149695_3_, p_149695_4_);
@@ -346,20 +334,17 @@ public class BlockRedstoneWire extends Block
         if (!this.field_150181_a)
         {
             return 0;
-        }
-        else
+        } else
         {
             int var6 = p_149709_1_.getBlockMetadata(p_149709_2_, p_149709_3_, p_149709_4_);
 
             if (var6 == 0)
             {
                 return 0;
-            }
-            else if (p_149709_5_ == 1)
+            } else if (p_149709_5_ == 1)
             {
                 return var6;
-            }
-            else
+            } else
             {
                 boolean var7 = func_150176_g(p_149709_1_, p_149709_2_ - 1, p_149709_3_, p_149709_4_, 1) || !p_149709_1_.getBlock(p_149709_2_ - 1, p_149709_3_, p_149709_4_).isNormalCube() && func_150176_g(p_149709_1_, p_149709_2_ - 1, p_149709_3_ - 1, p_149709_4_, -1);
                 boolean var8 = func_150176_g(p_149709_1_, p_149709_2_ + 1, p_149709_3_, p_149709_4_, 3) || !p_149709_1_.getBlock(p_149709_2_ + 1, p_149709_3_, p_149709_4_).isNormalCube() && func_150176_g(p_149709_1_, p_149709_2_ + 1, p_149709_3_ - 1, p_149709_4_, -1);
@@ -411,10 +396,10 @@ public class BlockRedstoneWire extends Block
 
         if (var6 > 0)
         {
-            double var7 = (double)p_149734_2_ + 0.5D + ((double)p_149734_5_.nextFloat() - 0.5D) * 0.2D;
-            double var9 = (double)((float)p_149734_3_ + 0.0625F);
-            double var11 = (double)p_149734_4_ + 0.5D + ((double)p_149734_5_.nextFloat() - 0.5D) * 0.2D;
-            float var13 = (float)var6 / 15.0F;
+            double var7 = (double) p_149734_2_ + 0.5D + ((double) p_149734_5_.nextFloat() - 0.5D) * 0.2D;
+            double var9 = (float) p_149734_3_ + 0.0625F;
+            double var11 = (double) p_149734_4_ + 0.5D + ((double) p_149734_5_.nextFloat() - 0.5D) * 0.2D;
+            float var13 = (float) var6 / 15.0F;
             float var14 = var13 * 0.6F + 0.4F;
 
             if (var6 == 0)
@@ -435,7 +420,7 @@ public class BlockRedstoneWire extends Block
                 var16 = 0.0F;
             }
 
-            p_149734_1_.spawnParticle("reddust", var7, var9, var11, (double)var14, (double)var15, (double)var16);
+            p_149734_1_.spawnParticle("reddust", var7, var9, var11, var14, var15, var16);
         }
     }
 
@@ -446,12 +431,10 @@ public class BlockRedstoneWire extends Block
         if (var5 == Blocks.redstone_wire)
         {
             return true;
-        }
-        else if (!Blocks.unpowered_repeater.func_149907_e(var5))
+        } else if (!Blocks.unpowered_repeater.func_149907_e(var5))
         {
             return var5.canProvidePower() && p_150174_4_ != -1;
-        }
-        else
+        } else
         {
             int var6 = p_150174_0_.getBlockMetadata(p_150174_1_, p_150174_2_, p_150174_3_);
             return p_150174_4_ == (var6 & 3) || p_150174_4_ == Direction.rotateOpposite[var6 & 3];
@@ -463,13 +446,11 @@ public class BlockRedstoneWire extends Block
         if (isPowerProviderOrWire(p_150176_0_, p_150176_1_, p_150176_2_, p_150176_3_, p_150176_4_))
         {
             return true;
-        }
-        else if (p_150176_0_.getBlock(p_150176_1_, p_150176_2_, p_150176_3_) == Blocks.powered_repeater)
+        } else if (p_150176_0_.getBlock(p_150176_1_, p_150176_2_, p_150176_3_) == Blocks.powered_repeater)
         {
             int var5 = p_150176_0_.getBlockMetadata(p_150176_1_, p_150176_2_, p_150176_3_);
             return p_150176_4_ == (var5 & 3);
-        }
-        else
+        } else
         {
             return false;
         }

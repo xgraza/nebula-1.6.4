@@ -1,10 +1,11 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WorldGenTaiga2 extends WorldGenAbstractTree
 {
@@ -35,8 +36,7 @@ public class WorldGenTaiga2 extends WorldGenAbstractTree
                 if (var11 - par4 < var7)
                 {
                     var22 = 0;
-                }
-                else
+                } else
                 {
                     var22 = var9;
                 }
@@ -53,8 +53,7 @@ public class WorldGenTaiga2 extends WorldGenAbstractTree
                             {
                                 var10 = false;
                             }
-                        }
-                        else
+                        } else
                         {
                             var10 = false;
                         }
@@ -65,8 +64,7 @@ public class WorldGenTaiga2 extends WorldGenAbstractTree
             if (!var10)
             {
                 return false;
-            }
-            else
+            } else
             {
                 Block var21 = par1World.getBlock(par3, par4 - 1, par5);
 
@@ -108,8 +106,7 @@ public class WorldGenTaiga2 extends WorldGenAbstractTree
                             {
                                 var13 = var9;
                             }
-                        }
-                        else
+                        } else
                         {
                             ++var22;
                         }
@@ -128,14 +125,12 @@ public class WorldGenTaiga2 extends WorldGenAbstractTree
                     }
 
                     return true;
-                }
-                else
+                } else
                 {
                     return false;
                 }
             }
-        }
-        else
+        } else
         {
             return false;
         }

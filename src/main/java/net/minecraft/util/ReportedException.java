@@ -4,7 +4,9 @@ import net.minecraft.crash.CrashReport;
 
 public class ReportedException extends RuntimeException
 {
-    /** Instance of CrashReport. */
+    /**
+     * Instance of CrashReport.
+     */
     private final CrashReport theReportedExceptionCrashReport;
     private static final String __OBFID = "CL_00001579";
 

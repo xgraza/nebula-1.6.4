@@ -11,7 +11,7 @@ public class McoClient
     private final String field_148717_b;
     private final String field_148718_c;
     private final Proxy field_148715_d;
-    private static String field_148716_e = "https://mcoapi.minecraft.net/";
+    private static final String field_148716_e = "https://mcoapi.minecraft.net/";
     private static final String __OBFID = "CL_00001156";
 
     public McoClient(String p_i45484_1_, String p_i45484_2_, String p_i45484_3_, Proxy p_i45484_4_)
@@ -43,11 +43,10 @@ public class McoClient
 
     public void func_148707_a(String p_148707_1_, String p_148707_2_) throws ExceptionMcoService, UnsupportedEncodingException
     {
-        StringBuilder var3 = new StringBuilder();
-        var3.append(field_148716_e).append("worlds");
-        var3.append("?name=").append(this.func_148711_c(p_148707_1_));
-        var3.append("&template=").append(p_148707_2_);
-        this.func_148713_a(Request.func_148661_a(var3.toString(), "", 5000, 30000));
+        String var3 = field_148716_e + "worlds" +
+                "?name=" + this.func_148711_c(p_148707_1_) +
+                "&template=" + p_148707_2_;
+        this.func_148713_a(Request.func_148661_a(var3, "", 5000, 30000));
     }
 
     public Boolean func_148687_b() throws ExceptionMcoService, IOException
@@ -106,8 +105,7 @@ public class McoClient
         if (p_148689_4_ != null && !p_148689_4_.trim().equals(""))
         {
             var7.append("&motd=").append(this.func_148711_c(p_148689_4_));
-        }
-        else
+        } else
         {
             var7.append("&motd=");
         }
@@ -234,17 +232,14 @@ public class McoClient
             {
                 int var3 = p_148713_1_.func_148664_b();
                 throw new ExceptionRetryCall(var3);
-            }
-            else if (var2 >= 200 && var2 < 300)
+            } else if (var2 >= 200 && var2 < 300)
             {
                 return p_148713_1_.func_148659_d();
-            }
-            else
+            } else
             {
                 throw new ExceptionMcoService(p_148713_1_.func_148671_a(), p_148713_1_.func_148659_d(), p_148713_1_.func_148673_g());
             }
-        }
-        catch (ExceptionMcoHttp var4)
+        } catch (ExceptionMcoHttp var4)
         {
             throw new ExceptionMcoService(500, "Server not available!", -1);
         }

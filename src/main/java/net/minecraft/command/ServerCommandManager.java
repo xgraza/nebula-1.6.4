@@ -1,37 +1,12 @@
 package net.minecraft.command;
 
-import java.util.Iterator;
-import net.minecraft.command.server.CommandAchievement;
-import net.minecraft.command.server.CommandBanIp;
-import net.minecraft.command.server.CommandBanPlayer;
-import net.minecraft.command.server.CommandBlockLogic;
-import net.minecraft.command.server.CommandBroadcast;
-import net.minecraft.command.server.CommandDeOp;
-import net.minecraft.command.server.CommandEmote;
-import net.minecraft.command.server.CommandListBans;
-import net.minecraft.command.server.CommandListPlayers;
-import net.minecraft.command.server.CommandMessage;
-import net.minecraft.command.server.CommandMessageRaw;
-import net.minecraft.command.server.CommandOp;
-import net.minecraft.command.server.CommandPardonIp;
-import net.minecraft.command.server.CommandPardonPlayer;
-import net.minecraft.command.server.CommandPublishLocalServer;
-import net.minecraft.command.server.CommandSaveAll;
-import net.minecraft.command.server.CommandSaveOff;
-import net.minecraft.command.server.CommandSaveOn;
-import net.minecraft.command.server.CommandScoreboard;
-import net.minecraft.command.server.CommandSetBlock;
-import net.minecraft.command.server.CommandSetDefaultSpawnpoint;
-import net.minecraft.command.server.CommandStop;
-import net.minecraft.command.server.CommandSummon;
-import net.minecraft.command.server.CommandTeleport;
-import net.minecraft.command.server.CommandTestFor;
-import net.minecraft.command.server.CommandTestForBlock;
-import net.minecraft.command.server.CommandWhitelist;
+import net.minecraft.command.server.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
+
+import java.util.Iterator;
 
 public class ServerCommandManager extends CommandHandler implements IAdminCommand
 {
@@ -88,8 +63,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
             this.registerCommand(new CommandListPlayers());
             this.registerCommand(new CommandWhitelist());
             this.registerCommand(new CommandSetPlayerTimeout());
-        }
-        else
+        } else
         {
             this.registerCommand(new CommandPublishLocalServer());
         }
@@ -101,16 +75,11 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
      * Sends a message to the admins of the server from a given CommandSender with the given resource string and given
      * extra srings. If the int par2 is even or zero, the original sender is also notified.
      */
-    public void notifyAdmins(ICommandSender par1ICommandSender, int par2, String par3Str, Object ... par4ArrayOfObj)
+    public void notifyAdmins(ICommandSender par1ICommandSender, int par2, String par3Str, Object... par4ArrayOfObj)
     {
-        boolean var5 = true;
+        boolean var5 = !(par1ICommandSender instanceof CommandBlockLogic) || MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput");
 
-        if (par1ICommandSender instanceof CommandBlockLogic && !MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput"))
-        {
-            var5 = false;
-        }
-
-        ChatComponentTranslation var6 = new ChatComponentTranslation("chat.type.admin", new Object[] {par1ICommandSender.getCommandSenderName(), new ChatComponentTranslation(par3Str, par4ArrayOfObj)});
+        ChatComponentTranslation var6 = new ChatComponentTranslation("chat.type.admin", par1ICommandSender.getCommandSenderName(), new ChatComponentTranslation(par3Str, par4ArrayOfObj));
         var6.getChatStyle().setColor(EnumChatFormatting.GRAY);
         var6.getChatStyle().setItalic(Boolean.valueOf(true));
 
@@ -120,7 +89,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 
             while (var7.hasNext())
             {
-                EntityPlayerMP var8 = (EntityPlayerMP)var7.next();
+                EntityPlayerMP var8 = (EntityPlayerMP) var7.next();
 
                 if (var8 != par1ICommandSender && MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(var8.getCommandSenderName()))
                 {

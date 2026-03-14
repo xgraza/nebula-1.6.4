@@ -10,26 +10,21 @@ public class NaturalProperties
         if (type.equals("4"))
         {
             this.rotation = 4;
-        }
-        else if (type.equals("2"))
+        } else if (type.equals("2"))
         {
             this.rotation = 2;
-        }
-        else if (type.equals("F"))
+        } else if (type.equals("F"))
         {
             this.flip = true;
-        }
-        else if (type.equals("4F"))
+        } else if (type.equals("4F"))
         {
             this.rotation = 4;
             this.flip = true;
-        }
-        else if (type.equals("2F"))
+        } else if (type.equals("2F"))
         {
             this.rotation = 2;
             this.flip = true;
-        }
-        else
+        } else
         {
             Config.warn("NaturalTextures: Unknown type: " + type);
         }
@@ -37,6 +32,6 @@ public class NaturalProperties
 
     public boolean isValid()
     {
-        return this.rotation != 2 && this.rotation != 4 ? this.flip : true;
+        return this.rotation == 2 || this.rotation == 4 || this.flip;
     }
 }

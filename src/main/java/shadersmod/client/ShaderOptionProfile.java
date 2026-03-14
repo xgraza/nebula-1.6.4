@@ -1,7 +1,8 @@
 package shadersmod.client;
 
-import java.util.ArrayList;
 import net.minecraft.src.Lang;
+
+import java.util.ArrayList;
 
 public class ShaderOptionProfile extends ShaderOption
 {
@@ -12,7 +13,7 @@ public class ShaderOptionProfile extends ShaderOption
 
     public ShaderOptionProfile(ShaderProfile[] profiles, ShaderOption[] options)
     {
-        super("<profile>", "", detectProfileName(profiles, options), getProfileNames(profiles), detectProfileName(profiles, options, true), (String)null);
+        super("<profile>", "", detectProfileName(profiles, options), getProfileNames(profiles), detectProfileName(profiles, options, true), null);
         this.profiles = profiles;
         this.options = options;
     }
@@ -33,7 +34,7 @@ public class ShaderOptionProfile extends ShaderOption
     {
         ShaderProfile prof = this.getProfile(this.getValue());
 
-        if (prof == null || !ShaderUtils.matchProfile(prof, this.options, false))
+        if (!ShaderUtils.matchProfile(prof, this.options, false))
         {
             String val = detectProfileName(this.profiles, this.options);
             this.setValue(val);
@@ -129,7 +130,7 @@ public class ShaderOptionProfile extends ShaderOption
         }
 
         list.add("<custom>");
-        String[] var4 = (String[])((String[])list.toArray(new String[list.size()]));
+        String[] var4 = (String[]) list.toArray(new String[list.size()]);
         return var4;
     }
 }

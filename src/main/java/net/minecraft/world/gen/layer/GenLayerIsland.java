@@ -21,7 +21,7 @@ public class GenLayerIsland extends GenLayer
         {
             for (int var7 = 0; var7 < par3; ++var7)
             {
-                this.initChunkSeed((long)(par1 + var7), (long)(par2 + var6));
+                this.initChunkSeed(par1 + var7, par2 + var6);
                 var5[var7 + var6 * par3] = this.nextInt(10) == 0 ? 1 : 0;
             }
         }

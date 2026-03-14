@@ -1,7 +1,5 @@
 package net.minecraft.client.renderer.tileentity;
 
-import java.nio.FloatBuffer;
-import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.GLAllocation;
@@ -12,6 +10,9 @@ import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.ShadersRender;
+
+import java.nio.FloatBuffer;
+import java.util.Random;
 
 public class RenderEndPortal extends TileEntitySpecialRenderer
 {
@@ -25,9 +26,9 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
     {
         if (!Config.isShaders() || !ShadersRender.renderEndPortal(p_147524_1_, p_147524_2_, p_147524_4_, p_147524_6_, p_147524_8_, 0, 0.75F))
         {
-            float var9 = (float)this.field_147501_a.field_147560_j;
-            float var10 = (float)this.field_147501_a.field_147561_k;
-            float var11 = (float)this.field_147501_a.field_147558_l;
+            float var9 = (float) this.field_147501_a.field_147560_j;
+            float var10 = (float) this.field_147501_a.field_147561_k;
+            float var11 = (float) this.field_147501_a.field_147558_l;
             GL11.glDisable(GL11.GL_LIGHTING);
             field_147527_e.setSeed(31100L);
             float var12 = 0.75F;
@@ -35,7 +36,7 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
             for (int var13 = 0; var13 < 16; ++var13)
             {
                 GL11.glPushMatrix();
-                float var14 = (float)(16 - var13);
+                float var14 = (float) (16 - var13);
                 float var15 = 0.0625F;
                 float var16 = 1.0F / (var14 + 1.0F);
 
@@ -57,11 +58,11 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
                     var15 = 0.5F;
                 }
 
-                float var17 = (float)(-(p_147524_4_ + (double)var12));
+                float var17 = (float) (-(p_147524_4_ + (double) var12));
                 float var18 = var17 + ActiveRenderInfo.objectY;
                 float var19 = var17 + var14 + ActiveRenderInfo.objectY;
                 float var20 = var18 / var19;
-                var20 += (float)(p_147524_4_ + (double)var12);
+                var20 += (float) (p_147524_4_ + (double) var12);
                 GL11.glTranslatef(var9, var20, var11);
                 GL11.glTexGeni(GL11.GL_S, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
                 GL11.glTexGeni(GL11.GL_T, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
@@ -79,10 +80,10 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
                 GL11.glMatrixMode(GL11.GL_TEXTURE);
                 GL11.glPushMatrix();
                 GL11.glLoadIdentity();
-                GL11.glTranslatef(0.0F, (float)(Minecraft.getSystemTime() % 700000L) / 700000.0F, 0.0F);
+                GL11.glTranslatef(0.0F, (float) (Minecraft.getSystemTime() % 700000L) / 700000.0F, 0.0F);
                 GL11.glScalef(var15, var15, var15);
                 GL11.glTranslatef(0.5F, 0.5F, 0.0F);
-                GL11.glRotatef((float)(var13 * var13 * 4321 + var13 * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
+                GL11.glRotatef((float) (var13 * var13 * 4321 + var13 * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
                 GL11.glTranslatef(-0.5F, -0.5F, 0.0F);
                 GL11.glTranslatef(-var9, -var11, -var10);
                 var18 = var17 + ActiveRenderInfo.objectY;
@@ -101,10 +102,10 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
                 }
 
                 var23.setColorRGBA_F(var20 * var16, var21 * var16, var22 * var16, 1.0F);
-                var23.addVertex(p_147524_2_, p_147524_4_ + (double)var12, p_147524_6_);
-                var23.addVertex(p_147524_2_, p_147524_4_ + (double)var12, p_147524_6_ + 1.0D);
-                var23.addVertex(p_147524_2_ + 1.0D, p_147524_4_ + (double)var12, p_147524_6_ + 1.0D);
-                var23.addVertex(p_147524_2_ + 1.0D, p_147524_4_ + (double)var12, p_147524_6_);
+                var23.addVertex(p_147524_2_, p_147524_4_ + (double) var12, p_147524_6_);
+                var23.addVertex(p_147524_2_, p_147524_4_ + (double) var12, p_147524_6_ + 1.0D);
+                var23.addVertex(p_147524_2_ + 1.0D, p_147524_4_ + (double) var12, p_147524_6_ + 1.0D);
+                var23.addVertex(p_147524_2_ + 1.0D, p_147524_4_ + (double) var12, p_147524_6_);
                 var23.draw();
                 GL11.glPopMatrix();
                 GL11.glMatrixMode(GL11.GL_MODELVIEW);
@@ -129,6 +130,6 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
 
     public void renderTileEntityAt(TileEntity p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_)
     {
-        this.renderTileEntityAt((TileEntityEndPortal)p_147500_1_, p_147500_2_, p_147500_4_, p_147500_6_, p_147500_8_);
+        this.renderTileEntityAt((TileEntityEndPortal) p_147500_1_, p_147500_2_, p_147500_4_, p_147500_6_, p_147500_8_);
     }
 }

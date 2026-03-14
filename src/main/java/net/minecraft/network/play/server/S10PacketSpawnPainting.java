@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.item.EntityPainting;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S10PacketSpawnPainting extends Packet
 {
@@ -17,7 +18,9 @@ public class S10PacketSpawnPainting extends Packet
     private String field_148968_f;
     private static final String __OBFID = "CL_00001280";
 
-    public S10PacketSpawnPainting() {}
+    public S10PacketSpawnPainting()
+    {
+    }
 
     public S10PacketSpawnPainting(EntityPainting p_i45170_1_)
     {
@@ -65,7 +68,7 @@ public class S10PacketSpawnPainting extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, type=%s, x=%d, y=%d, z=%d", new Object[] {Integer.valueOf(this.field_148973_a), this.field_148968_f, Integer.valueOf(this.field_148971_b), Integer.valueOf(this.field_148972_c), Integer.valueOf(this.field_148969_d)});
+        return String.format("id=%d, type=%s, x=%d, y=%d, z=%d", Integer.valueOf(this.field_148973_a), this.field_148968_f, Integer.valueOf(this.field_148971_b), Integer.valueOf(this.field_148972_c), Integer.valueOf(this.field_148969_d));
     }
 
     public int func_148965_c()
@@ -100,6 +103,6 @@ public class S10PacketSpawnPainting extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

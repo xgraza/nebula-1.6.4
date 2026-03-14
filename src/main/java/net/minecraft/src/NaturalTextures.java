@@ -1,13 +1,14 @@
 package net.minecraft.src;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NaturalTextures
 {
@@ -50,8 +51,7 @@ public class NaturalTextures
                         if (strs.length != 2)
                         {
                             Config.warn("Natural Textures: Invalid \"" + fileName + "\" line: " + line);
-                        }
-                        else
+                        } else
                         {
                             String key = strs[0].trim();
                             String type = strs[1].trim();
@@ -60,16 +60,14 @@ public class NaturalTextures
                             if (ts == null)
                             {
                                 Config.warn("Natural Textures: Texture not found: \"" + fileName + "\" line: " + line);
-                            }
-                            else
+                            } else
                             {
                                 int tileNum = ts.getIndexInMap();
 
                                 if (tileNum < 0)
                                 {
                                     Config.warn("Natural Textures: Invalid \"" + fileName + "\" line: " + line);
-                                }
-                                else
+                                } else
                                 {
                                     NaturalProperties props = new NaturalProperties(type);
 
@@ -77,7 +75,7 @@ public class NaturalTextures
                                     {
                                         while (list.size() <= tileNum)
                                         {
-                                            list.add((Object)null);
+                                            list.add(null);
                                         }
 
                                         list.set(tileNum, props);
@@ -89,15 +87,12 @@ public class NaturalTextures
                     }
                 }
 
-                propertiesByIndex = (NaturalProperties[])((NaturalProperties[])list.toArray(new NaturalProperties[list.size()]));
-            }
-            catch (FileNotFoundException var15)
+                propertiesByIndex = (NaturalProperties[]) list.toArray(new NaturalProperties[list.size()]);
+            } catch (FileNotFoundException var15)
             {
                 Config.warn("NaturalTextures: configuration \"" + fileName + "\" not found");
                 propertiesByIndex = makeDefaultProperties();
-                return;
-            }
-            catch (Exception var16)
+            } catch (Exception var16)
             {
                 var16.printStackTrace();
             }
@@ -109,18 +104,16 @@ public class NaturalTextures
         if (!(icon instanceof TextureAtlasSprite))
         {
             return null;
-        }
-        else
+        } else
         {
-            TextureAtlasSprite ts = (TextureAtlasSprite)icon;
+            TextureAtlasSprite ts = (TextureAtlasSprite) icon;
             int tileNum = ts.getIndexInMap();
 
             if (tileNum >= 0 && tileNum < propertiesByIndex.length)
             {
                 NaturalProperties props = propertiesByIndex[tileNum];
                 return props;
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -173,7 +166,7 @@ public class NaturalTextures
         setIconProperties(propsList, "sandstone_top", "4");
         setIconProperties(propsList, "sandstone_bottom", "4F");
         setIconProperties(propsList, "redstone_lamp_on", "4F");
-        NaturalProperties[] terrainProps = (NaturalProperties[])((NaturalProperties[])propsList.toArray(new NaturalProperties[propsList.size()]));
+        NaturalProperties[] terrainProps = (NaturalProperties[]) propsList.toArray(new NaturalProperties[propsList.size()]);
         return terrainProps;
     }
 
@@ -185,25 +178,22 @@ public class NaturalTextures
         if (icon == null)
         {
             Config.warn("*** NaturalProperties: Icon not found: " + iconName + " ***");
-        }
-        else if (!(icon instanceof TextureAtlasSprite))
+        } else if (!(icon instanceof TextureAtlasSprite))
         {
             Config.warn("*** NaturalProperties: Icon is not IconStitched: " + iconName + ": " + icon.getClass().getName() + " ***");
-        }
-        else
+        } else
         {
-            TextureAtlasSprite ts = (TextureAtlasSprite)icon;
+            TextureAtlasSprite ts = icon;
             int index = ts.getIndexInMap();
 
             if (index < 0)
             {
                 Config.warn("*** NaturalProperties: Invalid index for icon: " + iconName + ": " + index + " ***");
-            }
-            else if (Config.isFromDefaultResourcePack(new ResourceLocation("textures/blocks/" + iconName + ".png")))
+            } else if (Config.isFromDefaultResourcePack(new ResourceLocation("textures/blocks/" + iconName + ".png")))
             {
                 while (index >= propsList.size())
                 {
-                    propsList.add((Object)null);
+                    propsList.add(null);
                 }
 
                 NaturalProperties props = new NaturalProperties(propStr);

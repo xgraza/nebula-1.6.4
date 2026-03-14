@@ -2,7 +2,6 @@ package net.minecraft.client.gui.inventory;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import java.util.Iterator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -20,11 +19,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Iterator;
+
 public class GuiBeacon extends GuiContainer
 {
     private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation field_147025_v = new ResourceLocation("textures/gui/container/beacon.png");
-    private TileEntityBeacon tileEntity;
+    private final TileEntityBeacon tileEntity;
     private GuiBeacon.ConfirmButton confirmButton;
     private boolean initialized;
     private static final String __OBFID = "CL_00000739";
@@ -79,8 +80,7 @@ public class GuiBeacon extends GuiContainer
                     if (i >= this.tileEntity.func_145998_l())
                     {
                         var6.enabled = false;
-                    }
-                    else if (var5 == this.tileEntity.func_146007_j())
+                    } else if (var5 == this.tileEntity.func_146007_j())
                     {
                         var6.func_146140_b(true);
                     }
@@ -100,8 +100,7 @@ public class GuiBeacon extends GuiContainer
                 if (var7 >= this.tileEntity.func_145998_l())
                 {
                     var6.enabled = false;
-                }
-                else if (var5 == this.tileEntity.func_146006_k())
+                } else if (var5 == this.tileEntity.func_146006_k())
                 {
                     var6.func_146140_b(true);
                 }
@@ -115,8 +114,7 @@ public class GuiBeacon extends GuiContainer
                 if (var7 >= this.tileEntity.func_145998_l())
                 {
                     var8.enabled = false;
-                }
-                else if (this.tileEntity.func_146007_j() == this.tileEntity.func_146006_k())
+                } else if (this.tileEntity.func_146007_j() == this.tileEntity.func_146006_k())
                 {
                     var8.func_146140_b(true);
                 }
@@ -130,9 +128,8 @@ public class GuiBeacon extends GuiContainer
     {
         if (p_146284_1_.id == -2)
         {
-            this.mc.displayGuiScreen((GuiScreen)null);
-        }
-        else if (p_146284_1_.id == -1)
+            this.mc.displayGuiScreen(null);
+        } else if (p_146284_1_.id == -1)
         {
             String var2 = "MC|Beacon";
             ByteBuf var3 = Unpooled.buffer();
@@ -142,21 +139,18 @@ public class GuiBeacon extends GuiContainer
                 var3.writeInt(this.tileEntity.func_146007_j());
                 var3.writeInt(this.tileEntity.func_146006_k());
                 this.mc.getNetHandler().addToSendQueue(new C17PacketCustomPayload(var2, var3));
-            }
-            catch (Exception var8)
+            } catch (Exception var8)
             {
-                logger.error("Couldn\'t send beacon info", var8);
-            }
-            finally
+                logger.error("Couldn't send beacon info", var8);
+            } finally
             {
                 var3.release();
             }
 
-            this.mc.displayGuiScreen((GuiScreen)null);
-        }
-        else if (p_146284_1_ instanceof GuiBeacon.PowerButton)
+            this.mc.displayGuiScreen(null);
+        } else if (p_146284_1_ instanceof GuiBeacon.PowerButton)
         {
-            if (((GuiBeacon.PowerButton)p_146284_1_).func_146141_c())
+            if (((GuiBeacon.PowerButton) p_146284_1_).func_146141_c())
             {
                 return;
             }
@@ -168,8 +162,7 @@ public class GuiBeacon extends GuiContainer
             if (var4 < 3)
             {
                 this.tileEntity.func_146001_d(var11);
-            }
-            else
+            } else
             {
                 this.tileEntity.func_146004_e(var11);
             }
@@ -183,13 +176,13 @@ public class GuiBeacon extends GuiContainer
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
         RenderHelper.disableStandardItemLighting();
-        this.drawCenteredString(this.fontRenderer, I18n.format("tile.beacon.primary", new Object[0]), 62, 10, 14737632);
-        this.drawCenteredString(this.fontRenderer, I18n.format("tile.beacon.secondary", new Object[0]), 169, 10, 14737632);
+        this.drawCenteredString(this.fontRenderer, I18n.format("tile.beacon.primary"), 62, 10, 14737632);
+        this.drawCenteredString(this.fontRenderer, I18n.format("tile.beacon.secondary"), 169, 10, 14737632);
         Iterator var3 = this.buttonList.iterator();
 
         while (var3.hasNext())
         {
-            GuiButton var4 = (GuiButton)var3.next();
+            GuiButton var4 = (GuiButton) var3.next();
 
             if (var4.func_146115_a())
             {
@@ -227,7 +220,7 @@ public class GuiBeacon extends GuiContainer
 
         public void func_146111_b(int p_146111_1_, int p_146111_2_)
         {
-            GuiBeacon.this.renderText(I18n.format("gui.cancel", new Object[0]), p_146111_1_, p_146111_2_);
+            GuiBeacon.this.renderText(I18n.format("gui.cancel"), p_146111_1_, p_146111_2_);
         }
     }
 
@@ -260,12 +253,10 @@ public class GuiBeacon extends GuiContainer
                 if (!this.enabled)
                 {
                     var5 += this.width * 2;
-                }
-                else if (this.field_146142_r)
+                } else if (this.field_146142_r)
                 {
-                    var5 += this.width * 1;
-                }
-                else if (this.field_146123_n)
+                    var5 += this.width;
+                } else if (this.field_146123_n)
                 {
                     var5 += this.width * 3;
                 }
@@ -300,14 +291,14 @@ public class GuiBeacon extends GuiContainer
 
         public PowerButton(int par2, int par3, int par4, int par5, int par6)
         {
-            super(par2, par3, par4, GuiContainer.INVENTORY_TEXTURE_LOCATION, 0 + Potion.potionTypes[par5].getStatusIconIndex() % 8 * 18, 198 + Potion.potionTypes[par5].getStatusIconIndex() / 8 * 18);
+            super(par2, par3, par4, GuiContainer.INVENTORY_TEXTURE_LOCATION, Potion.potionTypes[par5].getStatusIconIndex() % 8 * 18, 198 + Potion.potionTypes[par5].getStatusIconIndex() / 8 * 18);
             this.field_146149_p = par5;
             this.field_146148_q = par6;
         }
 
         public void func_146111_b(int p_146111_1_, int p_146111_2_)
         {
-            String var3 = I18n.format(Potion.potionTypes[this.field_146149_p].getName(), new Object[0]);
+            String var3 = I18n.format(Potion.potionTypes[this.field_146149_p].getName());
 
             if (this.field_146148_q >= 3 && this.field_146149_p != Potion.regeneration.id)
             {
@@ -329,7 +320,7 @@ public class GuiBeacon extends GuiContainer
 
         public void func_146111_b(int p_146111_1_, int p_146111_2_)
         {
-            GuiBeacon.this.renderText(I18n.format("gui.done", new Object[0]), p_146111_1_, p_146111_2_);
+            GuiBeacon.this.renderText(I18n.format("gui.done"), p_146111_1_, p_146111_2_);
         }
     }
 }

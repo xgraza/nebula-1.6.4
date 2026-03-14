@@ -1,15 +1,5 @@
 package net.minecraft.src;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Random;
-import java.util.UUID;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -18,18 +8,23 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+
 public class RandomMobs
 {
-    private static Map locationProperties = new HashMap();
+    private static final Map locationProperties = new HashMap();
     private static RenderGlobal renderGlobal = null;
     private static boolean initialized = false;
-    private static Random random = new Random();
+    private static final Random random = new Random();
     private static boolean working = false;
     public static final String SUFFIX_PNG = ".png";
     public static final String SUFFIX_PROPERTIES = ".properties";
     public static final String PREFIX_TEXTURES_ENTITY = "textures/entity/";
     public static final String PREFIX_MCPATCHER_MOB = "mcpatcher/mob/";
-    private static final String[] DEPENDANT_SUFFIXES = new String[] {"_armor", "_eyes", "_exploding", "_shooting", "_fur", "_eyes", "_invulnerable", "_angry", "_tame", "_collar"};
+    private static final String[] DEPENDANT_SUFFIXES = new String[]{ "_armor", "_eyes", "_exploding", "_shooting", "_fur", "_eyes", "_invulnerable", "_angry", "_tame", "_collar" };
 
     public static void entityLoaded(Entity entity, World world)
     {
@@ -37,9 +32,9 @@ public class RandomMobs
         {
             if (world != null)
             {
-                EntityLiving el = (EntityLiving)entity;
-                el.spawnPosition = new BlockPos((int)el.posX, (int)el.posY, (int)el.posZ);
-                el.spawnBiome = world.getBiomeGenForCoords((int)el.posX, (int)el.posZ);
+                EntityLiving el = (EntityLiving) entity;
+                el.spawnPosition = new BlockPos((int) el.posX, (int) el.posY, (int) el.posZ);
+                el.spawnBiome = world.getBiomeGenForCoords((int) el.posX, (int) el.posZ);
                 WorldServer ws = Config.getWorldServer();
 
                 if (ws != null)
@@ -48,16 +43,16 @@ public class RandomMobs
 
                     if (es instanceof EntityLiving)
                     {
-                        EntityLiving els = (EntityLiving)es;
+                        EntityLiving els = (EntityLiving) es;
                         UUID uuid = els.getUniqueID();
 
                         if (el instanceof EntityVillager && es instanceof EntityVillager)
                         {
-                            updateEntityVillager((EntityVillager)el, (EntityVillager)els);
+                            updateEntityVillager((EntityVillager) el, (EntityVillager) els);
                         }
 
                         long uuidLow = uuid.getLeastSignificantBits();
-                        int id = (int)(uuidLow & 2147483647L);
+                        int id = (int) (uuidLow & 2147483647L);
                         el.randomMobsId = id;
                     }
                 }
@@ -79,7 +74,7 @@ public class RandomMobs
 
             for (int e = 0; e < entityList.size(); ++e)
             {
-                Entity entity = (Entity)entityList.get(e);
+                Entity entity = (Entity) entityList.get(e);
                 entityLoaded(entity, newWorld);
             }
         }
@@ -90,8 +85,7 @@ public class RandomMobs
         if (working)
         {
             return loc;
-        }
-        else
+        } else
         {
             ResourceLocation props;
 
@@ -118,7 +112,7 @@ public class RandomMobs
                     return entityLiving1;
                 }
 
-                EntityLiving entityLiving = (EntityLiving)entity;
+                EntityLiving entityLiving = (EntityLiving) entity;
                 String name = loc.getResourcePath();
 
                 if (name.startsWith("textures/entity/"))
@@ -137,8 +131,7 @@ public class RandomMobs
                 }
 
                 props = loc;
-            }
-            finally
+            } finally
             {
                 working = false;
             }
@@ -150,7 +143,7 @@ public class RandomMobs
     private static RandomMobsProperties getProperties(ResourceLocation loc)
     {
         String name = loc.getResourcePath();
-        RandomMobsProperties props = (RandomMobsProperties)locationProperties.get(name);
+        RandomMobsProperties props = (RandomMobsProperties) locationProperties.get(name);
 
         if (props == null)
         {
@@ -192,8 +185,7 @@ public class RandomMobs
             {
                 Config.warn("RandomMobs properties not found: " + e);
                 return null;
-            }
-            else
+            } else
             {
                 Properties props = new Properties();
                 props.load(in);
@@ -201,13 +193,11 @@ public class RandomMobs
                 RandomMobsProperties rmp = new RandomMobsProperties(props, e, resLoc);
                 return !rmp.isValid(e) ? null : rmp;
             }
-        }
-        catch (FileNotFoundException var6)
+        } catch (FileNotFoundException var6)
         {
             Config.warn("RandomMobs file not found: " + resLoc.getResourcePath());
             return null;
-        }
-        catch (IOException var7)
+        } catch (IOException var7)
         {
             var7.printStackTrace();
             return null;
@@ -221,8 +211,7 @@ public class RandomMobs
         if (locMcp == null)
         {
             return null;
-        }
-        else
+        } else
         {
             String domain = locMcp.getResourceDomain();
             String path = locMcp.getResourcePath();
@@ -239,16 +228,14 @@ public class RandomMobs
             if (Config.hasResource(locProps))
             {
                 return locProps;
-            }
-            else
+            } else
             {
                 String pathParent = getParentPath(pathBase);
 
                 if (pathParent == null)
                 {
                     return null;
-                }
-                else
+                } else
                 {
                     ResourceLocation locParentProps = new ResourceLocation(domain, pathParent + ".properties");
                     return Config.hasResource(locParentProps) ? locParentProps : null;
@@ -264,8 +251,7 @@ public class RandomMobs
         if (!path.startsWith("textures/entity/"))
         {
             return null;
-        }
-        else
+        } else
         {
             String pathMcp = "mcpatcher/mob/" + path.substring("textures/entity/".length());
             return new ResourceLocation(loc.getResourceDomain(), pathMcp);
@@ -277,8 +263,7 @@ public class RandomMobs
         if (loc == null)
         {
             return null;
-        }
-        else
+        } else
         {
             String path = loc.getResourcePath();
             int pos = path.lastIndexOf(46);
@@ -286,8 +271,7 @@ public class RandomMobs
             if (pos < 0)
             {
                 return null;
-            }
-            else
+            } else
             {
                 String prefix = path.substring(0, pos);
                 String suffix = path.substring(pos);
@@ -323,8 +307,7 @@ public class RandomMobs
         if (locMcp == null)
         {
             return null;
-        }
-        else
+        } else
         {
             for (int locs = 1; locs < list.size() + 10; ++locs)
             {
@@ -340,10 +323,9 @@ public class RandomMobs
             if (list.size() <= 1)
             {
                 return null;
-            }
-            else
+            } else
             {
-                ResourceLocation[] var6 = (ResourceLocation[])((ResourceLocation[])list.toArray(new ResourceLocation[list.size()]));
+                ResourceLocation[] var6 = (ResourceLocation[]) list.toArray(new ResourceLocation[list.size()]);
                 Config.dbg("RandomMobs: " + loc.getResourcePath() + ", variants: " + var6.length);
                 return var6;
             }
@@ -415,7 +397,7 @@ public class RandomMobs
 
             for (int i = 0; i < list.size(); ++i)
             {
-                String name = (String)list.get(i);
+                String name = (String) list.get(i);
                 String tex = "textures/entity/" + name + ".png";
                 ResourceLocation texLoc = new ResourceLocation(tex);
 

@@ -10,15 +10,19 @@ import net.minecraft.world.chunk.Chunk;
 
 public class ChunkCache implements IBlockAccess
 {
-    private int chunkX;
-    private int chunkZ;
-    private Chunk[][] chunkArray;
+    private final int chunkX;
+    private final int chunkZ;
+    private final Chunk[][] chunkArray;
 
-    /** True if the chunk cache is empty. */
+    /**
+     * True if the chunk cache is empty.
+     */
     private boolean isEmpty;
 
-    /** Reference to the World object. */
-    private World worldObj;
+    /**
+     * Reference to the World object.
+     */
+    private final World worldObj;
     private static final String __OBFID = "CL_00000155";
 
     public ChunkCache(World par1World, int par2, int par3, int par4, int par5, int par6, int par7, int par8)
@@ -123,12 +127,10 @@ public class ChunkCache implements IBlockAccess
         if (par2 < 0)
         {
             return 0;
-        }
-        else if (par2 >= 256)
+        } else if (par2 >= 256)
         {
             return 0;
-        }
-        else
+        } else
         {
             int var4 = (par1 >> 4) - this.chunkX;
             int var5 = (par3 >> 4) - this.chunkZ;
@@ -181,8 +183,7 @@ public class ChunkCache implements IBlockAccess
             if (par1EnumSkyBlock == EnumSkyBlock.Sky && this.worldObj.provider.hasNoSky)
             {
                 return 0;
-            }
-            else
+            } else
             {
                 int var5;
                 int var6;
@@ -216,16 +217,14 @@ public class ChunkCache implements IBlockAccess
                     }
 
                     return var5;
-                }
-                else
+                } else
                 {
                     var5 = (par2 >> 4) - this.chunkX;
                     var6 = (par4 >> 4) - this.chunkZ;
                     return this.chunkArray[var5][var6].getSavedLightValue(par1EnumSkyBlock, par2 & 15, par3, par4 & 15);
                 }
             }
-        }
-        else
+        } else
         {
             return par1EnumSkyBlock.defaultLightValue;
         }
@@ -251,8 +250,7 @@ public class ChunkCache implements IBlockAccess
             int var5 = (par2 >> 4) - this.chunkX;
             int var6 = (par4 >> 4) - this.chunkZ;
             return this.chunkArray[var5][var6].getSavedLightValue(par1EnumSkyBlock, par2 & 15, par3, par4 & 15);
-        }
-        else
+        } else
         {
             return par1EnumSkyBlock.defaultLightValue;
         }

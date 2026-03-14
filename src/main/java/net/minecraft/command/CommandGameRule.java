@@ -1,9 +1,10 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.GameRules;
+
+import java.util.List;
 
 public class CommandGameRule extends CommandBase
 {
@@ -40,14 +41,12 @@ public class CommandGameRule extends CommandBase
             if (var8.hasRule(var6))
             {
                 var8.setOrCreateGameRule(var6, var7);
-                notifyAdmins(par1ICommandSender, "commands.gamerule.success", new Object[0]);
-            }
-            else
+                notifyAdmins(par1ICommandSender, "commands.gamerule.success");
+            } else
             {
-                notifyAdmins(par1ICommandSender, "commands.gamerule.norule", new Object[] {var6});
+                notifyAdmins(par1ICommandSender, "commands.gamerule.norule", var6);
             }
-        }
-        else if (par2ArrayOfStr.length == 1)
+        } else if (par2ArrayOfStr.length == 1)
         {
             var6 = par2ArrayOfStr[0];
             GameRules var4 = this.getGameRules();
@@ -56,20 +55,17 @@ public class CommandGameRule extends CommandBase
             {
                 String var5 = var4.getGameRuleStringValue(var6);
                 par1ICommandSender.addChatMessage((new ChatComponentText(var6)).appendText(" = ").appendText(var5));
-            }
-            else
+            } else
             {
-                notifyAdmins(par1ICommandSender, "commands.gamerule.norule", new Object[] {var6});
+                notifyAdmins(par1ICommandSender, "commands.gamerule.norule", var6);
             }
-        }
-        else if (par2ArrayOfStr.length == 0)
+        } else if (par2ArrayOfStr.length == 0)
         {
             GameRules var3 = this.getGameRules();
             par1ICommandSender.addChatMessage(new ChatComponentText(joinNiceString(var3.getRules())));
-        }
-        else
+        } else
         {
-            throw new WrongUsageException("commands.gamerule.usage", new Object[0]);
+            throw new WrongUsageException("commands.gamerule.usage");
         }
     }
 
@@ -78,7 +74,7 @@ public class CommandGameRule extends CommandBase
      */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, this.getGameRules().getRules()) : (par2ArrayOfStr.length == 2 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] {"true", "false"}): null);
+        return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, this.getGameRules().getRules()) : (par2ArrayOfStr.length == 2 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, "true", "false") : null);
     }
 
     /**

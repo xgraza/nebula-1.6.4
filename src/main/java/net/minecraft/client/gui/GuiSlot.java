@@ -85,17 +85,23 @@ public abstract class GuiSlot
 
     protected abstract void drawSlot(int var1, int var2, int var3, int var4, Tessellator var5, int var6, int var7);
 
-    protected void func_148129_a(int p_148129_1_, int p_148129_2_, Tessellator p_148129_3_) {}
+    protected void func_148129_a(int p_148129_1_, int p_148129_2_, Tessellator p_148129_3_)
+    {
+    }
 
-    protected void func_148132_a(int p_148132_1_, int p_148132_2_) {}
+    protected void func_148132_a(int p_148132_1_, int p_148132_2_)
+    {
+    }
 
-    protected void func_148142_b(int p_148142_1_, int p_148142_2_) {}
+    protected void func_148142_b(int p_148142_1_, int p_148142_2_)
+    {
+    }
 
     public int func_148124_c(int p_148124_1_, int p_148124_2_)
     {
         int var3 = this.left + this.width / 2 - this.func_148139_c() / 2;
         int var4 = this.left + this.width / 2 + this.func_148139_c() / 2;
-        int var5 = p_148124_2_ - this.top - this.field_148160_j + (int)this.amountScrolled - 4;
+        int var5 = p_148124_2_ - this.top - this.field_148160_j + (int) this.amountScrolled - 4;
         int var6 = var5 / this.slotHeight;
         return p_148124_1_ < this.getScrollBarX() && p_148124_1_ >= var3 && p_148124_1_ <= var4 && var6 >= 0 && var5 >= 0 && var6 < this.getSize() ? var6 : -1;
     }
@@ -125,9 +131,9 @@ public abstract class GuiSlot
             this.amountScrolled = 0.0F;
         }
 
-        if (this.amountScrolled > (float)var1)
+        if (this.amountScrolled > (float) var1)
         {
-            this.amountScrolled = (float)var1;
+            this.amountScrolled = (float) var1;
         }
     }
 
@@ -138,7 +144,7 @@ public abstract class GuiSlot
 
     public int func_148148_g()
     {
-        return (int)this.amountScrolled;
+        return (int) this.amountScrolled;
     }
 
     public boolean func_148141_e(int p_148141_1_)
@@ -148,7 +154,7 @@ public abstract class GuiSlot
 
     public void func_148145_f(int p_148145_1_)
     {
-        this.amountScrolled += (float)p_148145_1_;
+        this.amountScrolled += (float) p_148145_1_;
         this.bindAmountScrolled();
         this.initialClickY = -2.0F;
     }
@@ -159,13 +165,12 @@ public abstract class GuiSlot
         {
             if (p_148147_1_.id == this.scrollUpButtonID)
             {
-                this.amountScrolled -= (float)(this.slotHeight * 2 / 3);
+                this.amountScrolled -= (float) (this.slotHeight * 2 / 3);
                 this.initialClickY = -2.0F;
                 this.bindAmountScrolled();
-            }
-            else if (p_148147_1_.id == this.scrollDownButtonID)
+            } else if (p_148147_1_.id == this.scrollDownButtonID)
             {
-                this.amountScrolled += (float)(this.slotHeight * 2 / 3);
+                this.amountScrolled += (float) (this.slotHeight * 2 / 3);
                 this.initialClickY = -2.0F;
                 this.bindAmountScrolled();
             }
@@ -197,7 +202,7 @@ public abstract class GuiSlot
                     {
                         int var8 = this.width / 2 - this.func_148139_c() / 2;
                         var9 = this.width / 2 + this.func_148139_c() / 2;
-                        var10 = p_148128_2_ - this.top - this.field_148160_j + (int)this.amountScrolled - 4;
+                        var10 = p_148128_2_ - this.top - this.field_148160_j + (int) this.amountScrolled - 4;
                         int var11 = var10 / this.slotHeight;
 
                         if (p_148128_1_ >= var8 && p_148128_1_ <= var9 && var11 >= 0 && var10 >= 0 && var11 < var4)
@@ -206,10 +211,9 @@ public abstract class GuiSlot
                             this.elementClicked(var11, var12, p_148128_1_, p_148128_2_);
                             this.selectedElement = var11;
                             this.lastClicked = Minecraft.getSystemTime();
-                        }
-                        else if (p_148128_1_ >= var8 && p_148128_1_ <= var9 && var10 < 0)
+                        } else if (p_148128_1_ >= var8 && p_148128_1_ <= var9 && var10 < 0)
                         {
-                            this.func_148132_a(p_148128_1_ - var8, p_148128_2_ - this.top + (int)this.amountScrolled - 4);
+                            this.func_148132_a(p_148128_1_ - var8, p_148128_2_ - this.top + (int) this.amountScrolled - 4);
                             var16 = false;
                         }
 
@@ -223,7 +227,7 @@ public abstract class GuiSlot
                                 var19 = 1;
                             }
 
-                            var13 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getContentHeight());
+                            var13 = (int) ((float) ((this.bottom - this.top) * (this.bottom - this.top)) / (float) this.getContentHeight());
 
                             if (var13 < 32)
                             {
@@ -235,34 +239,29 @@ public abstract class GuiSlot
                                 var13 = this.bottom - this.top - 8;
                             }
 
-                            this.scrollMultiplier /= (float)(this.bottom - this.top - var13) / (float)var19;
-                        }
-                        else
+                            this.scrollMultiplier /= (float) (this.bottom - this.top - var13) / (float) var19;
+                        } else
                         {
                             this.scrollMultiplier = 1.0F;
                         }
 
                         if (var16)
                         {
-                            this.initialClickY = (float)p_148128_2_;
-                        }
-                        else
+                            this.initialClickY = (float) p_148128_2_;
+                        } else
                         {
                             this.initialClickY = -2.0F;
                         }
-                    }
-                    else
+                    } else
                     {
                         this.initialClickY = -2.0F;
                     }
-                }
-                else if (this.initialClickY >= 0.0F)
+                } else if (this.initialClickY >= 0.0F)
                 {
-                    this.amountScrolled -= ((float)p_148128_2_ - this.initialClickY) * this.scrollMultiplier;
-                    this.initialClickY = (float)p_148128_2_;
+                    this.amountScrolled -= ((float) p_148128_2_ - this.initialClickY) * this.scrollMultiplier;
+                    this.initialClickY = (float) p_148128_2_;
                 }
-            }
-            else
+            } else
             {
                 for (; !this.mc.gameSettings.touchscreen && Mouse.next(); this.mc.currentScreen.handleMouseInput())
                 {
@@ -273,13 +272,12 @@ public abstract class GuiSlot
                         if (var7 > 0)
                         {
                             var7 = -1;
-                        }
-                        else if (var7 < 0)
+                        } else if (var7 < 0)
                         {
                             var7 = 1;
                         }
 
-                        this.amountScrolled += (float)(var7 * this.slotHeight / 2);
+                        this.amountScrolled += (float) (var7 * this.slotHeight / 2);
                     }
                 }
 
@@ -296,13 +294,13 @@ public abstract class GuiSlot
         float var15 = 32.0F;
         var17.startDrawingQuads();
         var17.setColorOpaque_I(2105376);
-        var17.addVertexWithUV((double)this.left, (double)this.bottom, 0.0D, (double)((float)this.left / var15), (double)((float)(this.bottom + (int)this.amountScrolled) / var15));
-        var17.addVertexWithUV((double)this.right, (double)this.bottom, 0.0D, (double)((float)this.right / var15), (double)((float)(this.bottom + (int)this.amountScrolled) / var15));
-        var17.addVertexWithUV((double)this.right, (double)this.top, 0.0D, (double)((float)this.right / var15), (double)((float)(this.top + (int)this.amountScrolled) / var15));
-        var17.addVertexWithUV((double)this.left, (double)this.top, 0.0D, (double)((float)this.left / var15), (double)((float)(this.top + (int)this.amountScrolled) / var15));
+        var17.addVertexWithUV(this.left, this.bottom, 0.0D, (float) this.left / var15, (float) (this.bottom + (int) this.amountScrolled) / var15);
+        var17.addVertexWithUV(this.right, this.bottom, 0.0D, (float) this.right / var15, (float) (this.bottom + (int) this.amountScrolled) / var15);
+        var17.addVertexWithUV(this.right, this.top, 0.0D, (float) this.right / var15, (float) (this.top + (int) this.amountScrolled) / var15);
+        var17.addVertexWithUV(this.left, this.top, 0.0D, (float) this.left / var15, (float) (this.top + (int) this.amountScrolled) / var15);
         var17.draw();
         var9 = this.left + this.width / 2 - this.func_148139_c() / 2 + 2;
-        var10 = this.top + 4 - (int)this.amountScrolled;
+        var10 = this.top + 4 - (int) this.amountScrolled;
 
         if (this.field_148165_u)
         {
@@ -321,19 +319,19 @@ public abstract class GuiSlot
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         var17.startDrawingQuads();
         var17.setColorRGBA_I(0, 0);
-        var17.addVertexWithUV((double)this.left, (double)(this.top + var18), 0.0D, 0.0D, 1.0D);
-        var17.addVertexWithUV((double)this.right, (double)(this.top + var18), 0.0D, 1.0D, 1.0D);
+        var17.addVertexWithUV(this.left, this.top + var18, 0.0D, 0.0D, 1.0D);
+        var17.addVertexWithUV(this.right, this.top + var18, 0.0D, 1.0D, 1.0D);
         var17.setColorRGBA_I(0, 255);
-        var17.addVertexWithUV((double)this.right, (double)this.top, 0.0D, 1.0D, 0.0D);
-        var17.addVertexWithUV((double)this.left, (double)this.top, 0.0D, 0.0D, 0.0D);
+        var17.addVertexWithUV(this.right, this.top, 0.0D, 1.0D, 0.0D);
+        var17.addVertexWithUV(this.left, this.top, 0.0D, 0.0D, 0.0D);
         var17.draw();
         var17.startDrawingQuads();
         var17.setColorRGBA_I(0, 255);
-        var17.addVertexWithUV((double)this.left, (double)this.bottom, 0.0D, 0.0D, 1.0D);
-        var17.addVertexWithUV((double)this.right, (double)this.bottom, 0.0D, 1.0D, 1.0D);
+        var17.addVertexWithUV(this.left, this.bottom, 0.0D, 0.0D, 1.0D);
+        var17.addVertexWithUV(this.right, this.bottom, 0.0D, 1.0D, 1.0D);
         var17.setColorRGBA_I(0, 0);
-        var17.addVertexWithUV((double)this.right, (double)(this.bottom - var18), 0.0D, 1.0D, 0.0D);
-        var17.addVertexWithUV((double)this.left, (double)(this.bottom - var18), 0.0D, 0.0D, 0.0D);
+        var17.addVertexWithUV(this.right, this.bottom - var18, 0.0D, 1.0D, 0.0D);
+        var17.addVertexWithUV(this.left, this.bottom - var18, 0.0D, 0.0D, 0.0D);
         var17.draw();
         var19 = this.func_148135_f();
 
@@ -351,7 +349,7 @@ public abstract class GuiSlot
                 var13 = this.bottom - this.top - 8;
             }
 
-            int var14 = (int)this.amountScrolled * (this.bottom - this.top - var13) / var19 + this.top;
+            int var14 = (int) this.amountScrolled * (this.bottom - this.top - var13) / var19 + this.top;
 
             if (var14 < this.top)
             {
@@ -360,24 +358,24 @@ public abstract class GuiSlot
 
             var17.startDrawingQuads();
             var17.setColorRGBA_I(0, 255);
-            var17.addVertexWithUV((double)var5, (double)this.bottom, 0.0D, 0.0D, 1.0D);
-            var17.addVertexWithUV((double)var6, (double)this.bottom, 0.0D, 1.0D, 1.0D);
-            var17.addVertexWithUV((double)var6, (double)this.top, 0.0D, 1.0D, 0.0D);
-            var17.addVertexWithUV((double)var5, (double)this.top, 0.0D, 0.0D, 0.0D);
+            var17.addVertexWithUV(var5, this.bottom, 0.0D, 0.0D, 1.0D);
+            var17.addVertexWithUV(var6, this.bottom, 0.0D, 1.0D, 1.0D);
+            var17.addVertexWithUV(var6, this.top, 0.0D, 1.0D, 0.0D);
+            var17.addVertexWithUV(var5, this.top, 0.0D, 0.0D, 0.0D);
             var17.draw();
             var17.startDrawingQuads();
             var17.setColorRGBA_I(8421504, 255);
-            var17.addVertexWithUV((double)var5, (double)(var14 + var13), 0.0D, 0.0D, 1.0D);
-            var17.addVertexWithUV((double)var6, (double)(var14 + var13), 0.0D, 1.0D, 1.0D);
-            var17.addVertexWithUV((double)var6, (double)var14, 0.0D, 1.0D, 0.0D);
-            var17.addVertexWithUV((double)var5, (double)var14, 0.0D, 0.0D, 0.0D);
+            var17.addVertexWithUV(var5, var14 + var13, 0.0D, 0.0D, 1.0D);
+            var17.addVertexWithUV(var6, var14 + var13, 0.0D, 1.0D, 1.0D);
+            var17.addVertexWithUV(var6, var14, 0.0D, 1.0D, 0.0D);
+            var17.addVertexWithUV(var5, var14, 0.0D, 0.0D, 0.0D);
             var17.draw();
             var17.startDrawingQuads();
             var17.setColorRGBA_I(12632256, 255);
-            var17.addVertexWithUV((double)var5, (double)(var14 + var13 - 1), 0.0D, 0.0D, 1.0D);
-            var17.addVertexWithUV((double)(var6 - 1), (double)(var14 + var13 - 1), 0.0D, 1.0D, 1.0D);
-            var17.addVertexWithUV((double)(var6 - 1), (double)var14, 0.0D, 1.0D, 0.0D);
-            var17.addVertexWithUV((double)var5, (double)var14, 0.0D, 0.0D, 0.0D);
+            var17.addVertexWithUV(var5, var14 + var13 - 1, 0.0D, 0.0D, 1.0D);
+            var17.addVertexWithUV(var6 - 1, var14 + var13 - 1, 0.0D, 1.0D, 1.0D);
+            var17.addVertexWithUV(var6 - 1, var14, 0.0D, 1.0D, 0.0D);
+            var17.addVertexWithUV(var5, var14, 0.0D, 0.0D, 0.0D);
             var17.draw();
         }
 
@@ -423,15 +421,15 @@ public abstract class GuiSlot
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
                     var6.startDrawingQuads();
                     var6.setColorOpaque_I(8421504);
-                    var6.addVertexWithUV((double)var10, (double)(var8 + var9 + 2), 0.0D, 0.0D, 1.0D);
-                    var6.addVertexWithUV((double)var11, (double)(var8 + var9 + 2), 0.0D, 1.0D, 1.0D);
-                    var6.addVertexWithUV((double)var11, (double)(var8 - 2), 0.0D, 1.0D, 0.0D);
-                    var6.addVertexWithUV((double)var10, (double)(var8 - 2), 0.0D, 0.0D, 0.0D);
+                    var6.addVertexWithUV(var10, var8 + var9 + 2, 0.0D, 0.0D, 1.0D);
+                    var6.addVertexWithUV(var11, var8 + var9 + 2, 0.0D, 1.0D, 1.0D);
+                    var6.addVertexWithUV(var11, var8 - 2, 0.0D, 1.0D, 0.0D);
+                    var6.addVertexWithUV(var10, var8 - 2, 0.0D, 0.0D, 0.0D);
                     var6.setColorOpaque_I(0);
-                    var6.addVertexWithUV((double)(var10 + 1), (double)(var8 + var9 + 1), 0.0D, 0.0D, 1.0D);
-                    var6.addVertexWithUV((double)(var11 - 1), (double)(var8 + var9 + 1), 0.0D, 1.0D, 1.0D);
-                    var6.addVertexWithUV((double)(var11 - 1), (double)(var8 - 1), 0.0D, 1.0D, 0.0D);
-                    var6.addVertexWithUV((double)(var10 + 1), (double)(var8 - 1), 0.0D, 0.0D, 0.0D);
+                    var6.addVertexWithUV(var10 + 1, var8 + var9 + 1, 0.0D, 0.0D, 1.0D);
+                    var6.addVertexWithUV(var11 - 1, var8 + var9 + 1, 0.0D, 1.0D, 1.0D);
+                    var6.addVertexWithUV(var11 - 1, var8 - 1, 0.0D, 1.0D, 0.0D);
+                    var6.addVertexWithUV(var10 + 1, var8 - 1, 0.0D, 0.0D, 0.0D);
                     var6.draw();
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                 }
@@ -454,11 +452,11 @@ public abstract class GuiSlot
         float var6 = 32.0F;
         var5.startDrawingQuads();
         var5.setColorRGBA_I(4210752, p_148136_4_);
-        var5.addVertexWithUV((double)this.left, (double)p_148136_2_, 0.0D, 0.0D, (double)((float)p_148136_2_ / var6));
-        var5.addVertexWithUV((double)(this.left + this.width), (double)p_148136_2_, 0.0D, (double)((float)this.width / var6), (double)((float)p_148136_2_ / var6));
+        var5.addVertexWithUV(this.left, p_148136_2_, 0.0D, 0.0D, (float) p_148136_2_ / var6);
+        var5.addVertexWithUV(this.left + this.width, p_148136_2_, 0.0D, (float) this.width / var6, (float) p_148136_2_ / var6);
         var5.setColorRGBA_I(4210752, p_148136_3_);
-        var5.addVertexWithUV((double)(this.left + this.width), (double)p_148136_1_, 0.0D, (double)((float)this.width / var6), (double)((float)p_148136_1_ / var6));
-        var5.addVertexWithUV((double)this.left, (double)p_148136_1_, 0.0D, 0.0D, (double)((float)p_148136_1_ / var6));
+        var5.addVertexWithUV(this.left + this.width, p_148136_1_, 0.0D, (float) this.width / var6, (float) p_148136_1_ / var6);
+        var5.addVertexWithUV(this.left, p_148136_1_, 0.0D, 0.0D, (float) p_148136_1_ / var6);
         var5.draw();
     }
 

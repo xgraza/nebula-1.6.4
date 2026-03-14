@@ -1,7 +1,5 @@
 package net.minecraft.village;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.monster.EntityZombie;
@@ -12,15 +10,20 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.World;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class VillageSiege
 {
-    private World worldObj;
+    private final World worldObj;
     private boolean field_75535_b;
     private int field_75536_c = -1;
     private int field_75533_d;
     private int field_75534_e;
 
-    /** Instance of Village. */
+    /**
+     * Instance of Village.
+     */
     private Village theVillage;
     private int field_75532_g;
     private int field_75538_h;
@@ -46,8 +49,7 @@ public class VillageSiege
                 this.field_75533_d = 100;
                 return;
             }
-        }
-        else
+        } else
         {
             if (this.worldObj.isDaytime())
             {
@@ -64,7 +66,7 @@ public class VillageSiege
             {
                 float var2 = this.worldObj.getCelestialAngle(0.0F);
 
-                if ((double)var2 < 0.5D || (double)var2 > 0.501D)
+                if ((double) var2 < 0.5D || (double) var2 > 0.501D)
                 {
                     return;
                 }
@@ -92,8 +94,7 @@ public class VillageSiege
         if (this.field_75534_e > 0)
         {
             --this.field_75534_e;
-        }
-        else
+        } else
         {
             this.field_75534_e = 2;
 
@@ -101,8 +102,7 @@ public class VillageSiege
             {
                 this.spawnZombie();
                 --this.field_75533_d;
-            }
-            else
+            } else
             {
                 this.field_75536_c = 2;
             }
@@ -116,13 +116,13 @@ public class VillageSiege
 
         while (var2.hasNext())
         {
-            EntityPlayer var3 = (EntityPlayer)var2.next();
-            this.theVillage = this.worldObj.villageCollectionObj.findNearestVillage((int)var3.posX, (int)var3.posY, (int)var3.posZ, 1);
+            EntityPlayer var3 = (EntityPlayer) var2.next();
+            this.theVillage = this.worldObj.villageCollectionObj.findNearestVillage((int) var3.posX, (int) var3.posY, (int) var3.posZ, 1);
 
             if (this.theVillage != null && this.theVillage.getNumVillageDoors() >= 10 && this.theVillage.getTicksSinceLastDoorAdding() >= 20 && this.theVillage.getNumVillagers() >= 20)
             {
                 ChunkCoordinates var4 = this.theVillage.getCenter();
-                float var5 = (float)this.theVillage.getVillageRadius();
+                float var5 = (float) this.theVillage.getVillageRadius();
                 boolean var6 = false;
                 int var7 = 0;
 
@@ -130,15 +130,15 @@ public class VillageSiege
                 {
                     if (var7 < 10)
                     {
-                        this.field_75532_g = var4.posX + (int)((double)(MathHelper.cos(this.worldObj.rand.nextFloat() * (float)Math.PI * 2.0F) * var5) * 0.9D);
+                        this.field_75532_g = var4.posX + (int) ((double) (MathHelper.cos(this.worldObj.rand.nextFloat() * (float) Math.PI * 2.0F) * var5) * 0.9D);
                         this.field_75538_h = var4.posY;
-                        this.field_75539_i = var4.posZ + (int)((double)(MathHelper.sin(this.worldObj.rand.nextFloat() * (float)Math.PI * 2.0F) * var5) * 0.9D);
+                        this.field_75539_i = var4.posZ + (int) ((double) (MathHelper.sin(this.worldObj.rand.nextFloat() * (float) Math.PI * 2.0F) * var5) * 0.9D);
                         var6 = false;
                         Iterator var8 = this.worldObj.villageCollectionObj.getVillageList().iterator();
 
                         while (var8.hasNext())
                         {
-                            Village var9 = (Village)var8.next();
+                            Village var9 = (Village) var8.next();
 
                             if (var9 != this.theVillage && var9.isInRange(this.field_75532_g, this.field_75538_h, this.field_75539_i))
                             {
@@ -183,18 +183,16 @@ public class VillageSiege
         if (var1 == null)
         {
             return false;
-        }
-        else
+        } else
         {
             EntityZombie var2;
 
             try
             {
                 var2 = new EntityZombie(this.worldObj);
-                var2.onSpawnWithEgg((IEntityLivingData)null);
+                var2.onSpawnWithEgg(null);
                 var2.setVillager(false);
-            }
-            catch (Exception var4)
+            } catch (Exception var4)
             {
                 var4.printStackTrace();
                 return false;
@@ -218,7 +216,7 @@ public class VillageSiege
 
             if (this.theVillage.isInRange(var5, var6, var7) && SpawnerAnimals.canCreatureTypeSpawnAtLocation(EnumCreatureType.monster, this.worldObj, var5, var6, var7))
             {
-                this.worldObj.getWorldVec3Pool().getVecFromPool((double)var5, (double)var6, (double)var7);
+                this.worldObj.getWorldVec3Pool().getVecFromPool(var5, var6, var7);
             }
         }
 

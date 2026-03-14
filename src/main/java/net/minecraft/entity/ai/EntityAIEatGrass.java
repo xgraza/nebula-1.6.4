@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 
 public class EntityAIEatGrass extends EntityAIBase
 {
-    private EntityLiving field_151500_b;
-    private World field_151501_c;
+    private final EntityLiving field_151500_b;
+    private final World field_151501_c;
     int field_151502_a;
     private static final String __OBFID = "CL_00001582";
 
@@ -28,13 +28,12 @@ public class EntityAIEatGrass extends EntityAIBase
         if (this.field_151500_b.getRNG().nextInt(this.field_151500_b.isChild() ? 50 : 1000) != 0)
         {
             return false;
-        }
-        else
+        } else
         {
             int var1 = MathHelper.floor_double(this.field_151500_b.posX);
             int var2 = MathHelper.floor_double(this.field_151500_b.posY);
             int var3 = MathHelper.floor_double(this.field_151500_b.posZ);
-            return this.field_151501_c.getBlock(var1, var2, var3) == Blocks.tallgrass && this.field_151501_c.getBlockMetadata(var1, var2, var3) == 1 ? true : this.field_151501_c.getBlock(var1, var2 - 1, var3) == Blocks.grass;
+            return this.field_151501_c.getBlock(var1, var2, var3) == Blocks.tallgrass && this.field_151501_c.getBlockMetadata(var1, var2, var3) == 1 || this.field_151501_c.getBlock(var1, var2 - 1, var3) == Blocks.grass;
         }
     }
 
@@ -44,7 +43,7 @@ public class EntityAIEatGrass extends EntityAIBase
     public void startExecuting()
     {
         this.field_151502_a = 40;
-        this.field_151501_c.setEntityState(this.field_151500_b, (byte)10);
+        this.field_151501_c.setEntityState(this.field_151500_b, (byte) 10);
         this.field_151500_b.getNavigator().clearPathEntity();
     }
 
@@ -90,8 +89,7 @@ public class EntityAIEatGrass extends EntityAIBase
                 }
 
                 this.field_151500_b.eatGrassBonus();
-            }
-            else if (this.field_151501_c.getBlock(var1, var2 - 1, var3) == Blocks.grass)
+            } else if (this.field_151501_c.getBlock(var1, var2 - 1, var3) == Blocks.grass)
             {
                 if (this.field_151501_c.getGameRules().getGameRuleBooleanValue("mobGriefing"))
                 {

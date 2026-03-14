@@ -5,8 +5,10 @@ import net.minecraft.item.ItemStack;
 
 public class InventoryCraftResult implements IInventory
 {
-    /** A list of one item containing the result of the crafting formula */
-    private ItemStack[] stackResult = new ItemStack[1];
+    /**
+     * A list of one item containing the result of the crafting formula
+     */
+    private final ItemStack[] stackResult = new ItemStack[1];
     private static final String __OBFID = "CL_00001760";
 
     /**
@@ -52,8 +54,7 @@ public class InventoryCraftResult implements IInventory
             ItemStack var3 = this.stackResult[0];
             this.stackResult[0] = null;
             return var3;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -70,8 +71,7 @@ public class InventoryCraftResult implements IInventory
             ItemStack var2 = this.stackResult[0];
             this.stackResult[0] = null;
             return var2;
-        }
-        else
+        } else
         {
             return null;
         }
@@ -96,7 +96,9 @@ public class InventoryCraftResult implements IInventory
     /**
      * Called when an the contents of an Inventory change, usually
      */
-    public void onInventoryChanged() {}
+    public void onInventoryChanged()
+    {
+    }
 
     /**
      * Do not make give this method the name canInteractWith because it clashes with Container
@@ -106,9 +108,13 @@ public class InventoryCraftResult implements IInventory
         return true;
     }
 
-    public void openInventory() {}
+    public void openInventory()
+    {
+    }
 
-    public void closeInventory() {}
+    public void closeInventory()
+    {
+    }
 
     /**
      * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.

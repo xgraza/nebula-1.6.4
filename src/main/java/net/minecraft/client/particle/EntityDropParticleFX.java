@@ -7,10 +7,14 @@ import net.minecraft.world.World;
 
 public class EntityDropParticleFX extends EntityFX
 {
-    /** the material type for dropped items/blocks */
-    private Material materialType;
+    /**
+     * the material type for dropped items/blocks
+     */
+    private final Material materialType;
 
-    /** The height of the current bob */
+    /**
+     * The height of the current bob
+     */
     private int bobTimer;
     private static final String __OBFID = "CL_00000901";
 
@@ -24,8 +28,7 @@ public class EntityDropParticleFX extends EntityFX
             this.particleRed = 0.0F;
             this.particleGreen = 0.0F;
             this.particleBlue = 1.0F;
-        }
-        else
+        } else
         {
             this.particleRed = 1.0F;
             this.particleGreen = 0.0F;
@@ -37,7 +40,7 @@ public class EntityDropParticleFX extends EntityFX
         this.particleGravity = 0.06F;
         this.materialType = par8Material;
         this.bobTimer = 40;
-        this.particleMaxAge = (int)(64.0D / (Math.random() * 0.8D + 0.2D));
+        this.particleMaxAge = (int) (64.0D / (Math.random() * 0.8D + 0.2D));
         this.motionX = this.motionY = this.motionZ = 0.0D;
     }
 
@@ -68,15 +71,14 @@ public class EntityDropParticleFX extends EntityFX
             this.particleRed = 0.2F;
             this.particleGreen = 0.3F;
             this.particleBlue = 1.0F;
-        }
-        else
+        } else
         {
             this.particleRed = 1.0F;
-            this.particleGreen = 16.0F / (float)(40 - this.bobTimer + 16);
-            this.particleBlue = 4.0F / (float)(40 - this.bobTimer + 8);
+            this.particleGreen = 16.0F / (float) (40 - this.bobTimer + 16);
+            this.particleBlue = 4.0F / (float) (40 - this.bobTimer + 8);
         }
 
-        this.motionY -= (double)this.particleGravity;
+        this.motionY -= this.particleGravity;
 
         if (this.bobTimer-- > 0)
         {
@@ -84,8 +86,7 @@ public class EntityDropParticleFX extends EntityFX
             this.motionY *= 0.02D;
             this.motionZ *= 0.02D;
             this.setParticleTextureIndex(113);
-        }
-        else
+        } else
         {
             this.setParticleTextureIndex(112);
         }
@@ -106,8 +107,7 @@ public class EntityDropParticleFX extends EntityFX
             {
                 this.setDead();
                 this.worldObj.spawnParticle("splash", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-            }
-            else
+            } else
             {
                 this.setParticleTextureIndex(114);
             }
@@ -120,7 +120,7 @@ public class EntityDropParticleFX extends EntityFX
 
         if (var1.isLiquid() || var1.isSolid())
         {
-            double var2 = (double)((float)(MathHelper.floor_double(this.posY) + 1) - BlockLiquid.getFluidHeightPercent(this.worldObj.getBlockMetadata(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))));
+            double var2 = (float) (MathHelper.floor_double(this.posY) + 1) - BlockLiquid.getFluidHeightPercent(this.worldObj.getBlockMetadata(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)));
 
             if (this.posY < var2)
             {

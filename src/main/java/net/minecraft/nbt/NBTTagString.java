@@ -6,7 +6,9 @@ import java.io.IOException;
 
 public class NBTTagString extends NBTBase
 {
-    /** The string value for the tag (cannot be empty). */
+    /**
+     * The string value for the tag (cannot be empty).
+     */
     private String data;
     private static final String __OBFID = "CL_00001228";
 
@@ -46,7 +48,7 @@ public class NBTTagString extends NBTBase
      */
     public byte getId()
     {
-        return (byte)8;
+        return (byte) 8;
     }
 
     public String toString()
@@ -67,10 +69,9 @@ public class NBTTagString extends NBTBase
         if (!super.equals(par1Obj))
         {
             return false;
-        }
-        else
+        } else
         {
-            NBTTagString var2 = (NBTTagString)par1Obj;
+            NBTTagString var2 = (NBTTagString) par1Obj;
             return this.data == null && var2.data == null || this.data != null && this.data.equals(var2.data);
         }
     }

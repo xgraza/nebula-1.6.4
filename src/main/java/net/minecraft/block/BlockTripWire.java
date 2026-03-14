@@ -1,8 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +10,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Direction;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 public class BlockTripWire extends Block
 {
@@ -100,12 +101,10 @@ public class BlockTripWire extends Block
         if (!var7)
         {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.09375F, 1.0F);
-        }
-        else if (!var6)
+        } else if (!var6)
         {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-        }
-        else
+        } else
         {
             this.setBlockBounds(0.0F, 0.0625F, 0.0F, 1.0F, 0.15625F, 1.0F);
         }
@@ -161,8 +160,7 @@ public class BlockTripWire extends Block
                         {
                             Blocks.tripwire_hook.func_150136_a(p_150138_1_, var8, p_150138_3_, var9, false, p_150138_1_.getBlockMetadata(var8, p_150138_3_, var9), true, var7, p_150138_5_);
                         }
-                    }
-                    else if (var10 == Blocks.tripwire)
+                    } else if (var10 == Blocks.tripwire)
                     {
                         ++var7;
                         continue;
@@ -205,7 +203,7 @@ public class BlockTripWire extends Block
         int var5 = p_150140_1_.getBlockMetadata(p_150140_2_, p_150140_3_, p_150140_4_);
         boolean var6 = (var5 & 1) == 1;
         boolean var7 = false;
-        List var8 = p_150140_1_.getEntitiesWithinAABBExcludingEntity((Entity)null, AxisAlignedBB.getAABBPool().getAABB((double)p_150140_2_ + this.minX, (double)p_150140_3_ + this.minY, (double)p_150140_4_ + this.minZ, (double)p_150140_2_ + this.maxX, (double)p_150140_3_ + this.maxY, (double)p_150140_4_ + this.maxZ));
+        List var8 = p_150140_1_.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getAABBPool().getAABB((double) p_150140_2_ + this.minX, (double) p_150140_3_ + this.minY, (double) p_150140_4_ + this.minZ, (double) p_150140_2_ + this.maxX, (double) p_150140_3_ + this.maxY, (double) p_150140_4_ + this.maxZ));
 
         if (!var8.isEmpty())
         {
@@ -213,7 +211,7 @@ public class BlockTripWire extends Block
 
             while (var9.hasNext())
             {
-                Entity var10 = (Entity)var9.next();
+                Entity var10 = (Entity) var9.next();
 
                 if (!var10.doesEntityNotTriggerPressurePlate())
                 {
@@ -258,14 +256,12 @@ public class BlockTripWire extends Block
             var11 = p_150139_0_.getBlockMetadata(var6, p_150139_2_, var8);
             int var13 = var11 & 3;
             return var13 == Direction.rotateOpposite[p_150139_5_];
-        }
-        else if (var9 == Blocks.tripwire)
+        } else if (var9 == Blocks.tripwire)
         {
             var11 = p_150139_0_.getBlockMetadata(var6, p_150139_2_, var8);
             boolean var12 = (var11 & 2) == 2;
             return var10 == var12;
-        }
-        else
+        } else
         {
             return false;
         }

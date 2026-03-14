@@ -1,7 +1,6 @@
 package net.minecraft.command.server;
 
 import com.google.gson.JsonParseException;
-import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.SyntaxErrorException;
@@ -10,6 +9,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IChatComponent;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+
+import java.util.List;
 
 public class CommandMessageRaw extends CommandBase
 {
@@ -37,9 +38,8 @@ public class CommandMessageRaw extends CommandBase
     {
         if (par2ArrayOfStr.length < 2)
         {
-            throw new WrongUsageException("commands.tellraw.usage", new Object[0]);
-        }
-        else
+            throw new WrongUsageException("commands.tellraw.usage");
+        } else
         {
             EntityPlayerMP var3 = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
             String var4 = func_82360_a(par1ICommandSender, par2ArrayOfStr, 1);
@@ -48,10 +48,9 @@ public class CommandMessageRaw extends CommandBase
             {
                 IChatComponent var5 = IChatComponent.Serializer.func_150699_a(var4);
                 var3.addChatMessage(var5);
-            }
-            catch (JsonParseException var6)
+            } catch (JsonParseException var6)
             {
-                throw new SyntaxErrorException("commands.tellraw.jsonException", new Object[] {ExceptionUtils.getRootCause(var6).getMessage()});
+                throw new SyntaxErrorException("commands.tellraw.jsonException", ExceptionUtils.getRootCause(var6).getMessage());
             }
         }
     }

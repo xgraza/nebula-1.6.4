@@ -4,26 +4,40 @@ import net.minecraft.nbt.NBTTagIntArray;
 
 public class StructureBoundingBox
 {
-    /** The first x coordinate of a bounding box. */
+    /**
+     * The first x coordinate of a bounding box.
+     */
     public int minX;
 
-    /** The first y coordinate of a bounding box. */
+    /**
+     * The first y coordinate of a bounding box.
+     */
     public int minY;
 
-    /** The first z coordinate of a bounding box. */
+    /**
+     * The first z coordinate of a bounding box.
+     */
     public int minZ;
 
-    /** The second x coordinate of a bounding box. */
+    /**
+     * The second x coordinate of a bounding box.
+     */
     public int maxX;
 
-    /** The second y coordinate of a bounding box. */
+    /**
+     * The second y coordinate of a bounding box.
+     */
     public int maxY;
 
-    /** The second z coordinate of a bounding box. */
+    /**
+     * The second z coordinate of a bounding box.
+     */
     public int maxZ;
     private static final String __OBFID = "CL_00000442";
 
-    public StructureBoundingBox() {}
+    public StructureBoundingBox()
+    {
+    }
 
     public StructureBoundingBox(int[] par1ArrayOfInteger)
     {
@@ -196,6 +210,6 @@ public class StructureBoundingBox
 
     public NBTTagIntArray func_151535_h()
     {
-        return new NBTTagIntArray(new int[] {this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ});
+        return new NBTTagIntArray(new int[]{ this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ });
     }
 }

@@ -1,11 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import org.apache.commons.lang3.Validate;
+
+import java.io.IOException;
 
 public class S29PacketSoundEffect extends Packet
 {
@@ -16,17 +17,19 @@ public class S29PacketSoundEffect extends Packet
     private float loudness;
     private int field_149214_f;
 
-    public S29PacketSoundEffect() {}
+    public S29PacketSoundEffect()
+    {
+    }
 
     public S29PacketSoundEffect(String name, double x, double y, double z, float loudness, float p_i45200_9_)
     {
         Validate.notNull(name, "name");
         this.name = name;
-        this.x = (int)(x * 8.0D);
-        this.y = (int)(y * 8.0D);
-        this.z = (int)(z * 8.0D);
+        this.x = (int) (x * 8.0D);
+        this.y = (int) (y * 8.0D);
+        this.z = (int) (z * 8.0D);
         this.loudness = loudness;
-        this.field_149214_f = (int)(p_i45200_9_ * 63.0F);
+        this.field_149214_f = (int) (p_i45200_9_ * 63.0F);
 
         if (this.field_149214_f < 0)
         {
@@ -72,17 +75,17 @@ public class S29PacketSoundEffect extends Packet
 
     public double getX()
     {
-        return (float)this.x / 8.0F;
+        return (float) this.x / 8.0F;
     }
 
     public double getY()
     {
-        return (float)this.y / 8.0F;
+        return (float) this.y / 8.0F;
     }
 
     public double getZ()
     {
-        return (float)this.z / 8.0F;
+        return (float) this.z / 8.0F;
     }
 
     public float getLoudness()
@@ -92,7 +95,7 @@ public class S29PacketSoundEffect extends Packet
 
     public float func_149209_h()
     {
-        return (float)this.field_149214_f / 63.0F;
+        return (float) this.field_149214_f / 63.0F;
     }
 
     public void processPacket(INetHandlerPlayClient p_149213_1_)
@@ -102,6 +105,6 @@ public class S29PacketSoundEffect extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

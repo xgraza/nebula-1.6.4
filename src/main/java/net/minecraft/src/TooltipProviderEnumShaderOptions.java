@@ -1,10 +1,11 @@
 package net.minecraft.src;
 
-import java.awt.Rectangle;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import shadersmod.client.EnumShaderOption;
 import shadersmod.client.GuiButtonEnumShaderOption;
+
+import java.awt.Rectangle;
 
 public class TooltipProviderEnumShaderOptions implements TooltipProvider
 {
@@ -38,10 +39,9 @@ public class TooltipProviderEnumShaderOptions implements TooltipProvider
         if (!(btn instanceof GuiButtonEnumShaderOption))
         {
             return null;
-        }
-        else
+        } else
         {
-            GuiButtonEnumShaderOption gbeso = (GuiButtonEnumShaderOption)btn;
+            GuiButtonEnumShaderOption gbeso = (GuiButtonEnumShaderOption) btn;
             EnumShaderOption option = gbeso.getEnumShaderOption();
             String[] lines = this.getTooltipLines(option);
             return lines;

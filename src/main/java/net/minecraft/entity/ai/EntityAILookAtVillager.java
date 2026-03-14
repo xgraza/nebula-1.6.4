@@ -5,7 +5,7 @@ import net.minecraft.entity.passive.EntityVillager;
 
 public class EntityAILookAtVillager extends EntityAIBase
 {
-    private EntityIronGolem theGolem;
+    private final EntityIronGolem theGolem;
     private EntityVillager theVillager;
     private int lookTime;
     private static final String __OBFID = "CL_00001602";
@@ -24,14 +24,12 @@ public class EntityAILookAtVillager extends EntityAIBase
         if (!this.theGolem.worldObj.isDaytime())
         {
             return false;
-        }
-        else if (this.theGolem.getRNG().nextInt(8000) != 0)
+        } else if (this.theGolem.getRNG().nextInt(8000) != 0)
         {
             return false;
-        }
-        else
+        } else
         {
-            this.theVillager = (EntityVillager)this.theGolem.worldObj.findNearestEntityWithinAABB(EntityVillager.class, this.theGolem.boundingBox.expand(6.0D, 2.0D, 6.0D), this.theGolem);
+            this.theVillager = (EntityVillager) this.theGolem.worldObj.findNearestEntityWithinAABB(EntityVillager.class, this.theGolem.boundingBox.expand(6.0D, 2.0D, 6.0D), this.theGolem);
             return this.theVillager != null;
         }
     }

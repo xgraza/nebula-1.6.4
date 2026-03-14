@@ -1,16 +1,17 @@
 package net.minecraft.block;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class BlockPressurePlate extends BlockBasePressurePlate
 {
-    private BlockPressurePlate.Sensitivity field_150069_a;
+    private final BlockPressurePlate.Sensitivity field_150069_a;
     private static final String __OBFID = "CL_00000289";
 
     protected BlockPressurePlate(String p_i45418_1_, Material p_i45418_2_, BlockPressurePlate.Sensitivity p_i45418_3_)
@@ -35,7 +36,7 @@ public class BlockPressurePlate extends BlockBasePressurePlate
 
         if (this.field_150069_a == BlockPressurePlate.Sensitivity.everything)
         {
-            var5 = p_150065_1_.getEntitiesWithinAABBExcludingEntity((Entity)null, this.func_150061_a(p_150065_2_, p_150065_3_, p_150065_4_));
+            var5 = p_150065_1_.getEntitiesWithinAABBExcludingEntity(null, this.func_150061_a(p_150065_2_, p_150065_3_, p_150065_4_));
         }
 
         if (this.field_150069_a == BlockPressurePlate.Sensitivity.mobs)
@@ -54,7 +55,7 @@ public class BlockPressurePlate extends BlockBasePressurePlate
 
             while (var6.hasNext())
             {
-                Entity var7 = (Entity)var6.next();
+                Entity var7 = (Entity) var6.next();
 
                 if (!var7.doesEntityNotTriggerPressurePlate())
                 {
@@ -66,15 +67,17 @@ public class BlockPressurePlate extends BlockBasePressurePlate
         return 0;
     }
 
-    public static enum Sensitivity
+    public enum Sensitivity
     {
         everything("everything", 0),
         mobs("mobs", 1),
         players("players", 2);
 
-        private static final BlockPressurePlate.Sensitivity[] $VALUES = new BlockPressurePlate.Sensitivity[]{everything, mobs, players};
+        private static final BlockPressurePlate.Sensitivity[] $VALUES = new BlockPressurePlate.Sensitivity[]{ everything, mobs, players };
         private static final String __OBFID = "CL_00000290";
 
-        private Sensitivity(String p_i45417_1_, int p_i45417_2_) {}
+        Sensitivity(String p_i45417_1_, int p_i45417_2_)
+        {
+        }
     }
 }

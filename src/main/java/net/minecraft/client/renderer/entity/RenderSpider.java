@@ -35,27 +35,19 @@ public class RenderSpider extends RenderLiving
         if (par2 != 0)
         {
             return -1;
-        }
-        else
+        } else
         {
             this.bindTexture(spiderEyesTextures);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_ALPHA_TEST);
             GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
 
-            if (par1EntitySpider.isInvisible())
-            {
-                GL11.glDepthMask(false);
-            }
-            else
-            {
-                GL11.glDepthMask(true);
-            }
+            GL11.glDepthMask(!par1EntitySpider.isInvisible());
 
             char var4 = 61680;
             int var5 = var4 % 65536;
             int var6 = var4 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var5 / 1.0F, (float)var6 / 1.0F);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var5, (float) var6);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
             if (Config.isShaders())
@@ -77,7 +69,7 @@ public class RenderSpider extends RenderLiving
 
     protected float getDeathMaxRotation(EntityLivingBase par1EntityLivingBase)
     {
-        return this.getDeathMaxRotation((EntitySpider)par1EntityLivingBase);
+        return this.getDeathMaxRotation((EntitySpider) par1EntityLivingBase);
     }
 
     /**
@@ -85,7 +77,7 @@ public class RenderSpider extends RenderLiving
      */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.shouldRenderPass((EntitySpider)par1EntityLivingBase, par2, par3);
+        return this.shouldRenderPass((EntitySpider) par1EntityLivingBase, par2, par3);
     }
 
     /**
@@ -93,6 +85,6 @@ public class RenderSpider extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntitySpider)par1Entity);
+        return this.getEntityTexture((EntitySpider) par1Entity);
     }
 }

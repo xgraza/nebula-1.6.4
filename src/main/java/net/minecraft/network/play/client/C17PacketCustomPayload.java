@@ -1,11 +1,12 @@
 package net.minecraft.network.play.client;
 
 import io.netty.buffer.ByteBuf;
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C17PacketCustomPayload extends Packet
 {
@@ -14,7 +15,9 @@ public class C17PacketCustomPayload extends Packet
     private byte[] field_149561_c;
     private static final String __OBFID = "CL_00001356";
 
-    public C17PacketCustomPayload() {}
+    public C17PacketCustomPayload()
+    {
+    }
 
     public C17PacketCustomPayload(String p_i45248_1_, ByteBuf p_i45248_2_)
     {
@@ -58,7 +61,7 @@ public class C17PacketCustomPayload extends Packet
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
         p_148840_1_.writeStringToBuffer(this.field_149562_a);
-        p_148840_1_.writeShort((short)this.field_149560_b);
+        p_148840_1_.writeShort((short) this.field_149560_b);
 
         if (this.field_149561_c != null)
         {
@@ -83,6 +86,6 @@ public class C17PacketCustomPayload extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

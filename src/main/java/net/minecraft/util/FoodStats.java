@@ -8,16 +8,24 @@ import net.minecraft.world.EnumDifficulty;
 
 public class FoodStats
 {
-    /** The player's food level. */
+    /**
+     * The player's food level.
+     */
     private int foodLevel = 20;
 
-    /** The player's food saturation. */
+    /**
+     * The player's food saturation.
+     */
     private float foodSaturationLevel = 5.0F;
 
-    /** The player's food exhaustion. */
+    /**
+     * The player's food exhaustion.
+     */
     private float foodExhaustionLevel;
 
-    /** The player's food timer value. */
+    /**
+     * The player's food timer value.
+     */
     private int foodTimer;
     private int prevFoodLevel = 20;
     private static final String __OBFID = "CL_00001729";
@@ -28,7 +36,7 @@ public class FoodStats
     public void addStats(int par1, float par2)
     {
         this.foodLevel = Math.min(par1 + this.foodLevel, 20);
-        this.foodSaturationLevel = Math.min(this.foodSaturationLevel + (float)par1 * par2 * 2.0F, (float)this.foodLevel);
+        this.foodSaturationLevel = Math.min(this.foodSaturationLevel + (float) par1 * par2 * 2.0F, (float) this.foodLevel);
     }
 
     public void func_151686_a(ItemFood p_151686_1_, ItemStack p_151686_2_)
@@ -51,8 +59,7 @@ public class FoodStats
             if (this.foodSaturationLevel > 0.0F)
             {
                 this.foodSaturationLevel = Math.max(this.foodSaturationLevel - 1.0F, 0.0F);
-            }
-            else if (var2 != EnumDifficulty.PEACEFUL)
+            } else if (var2 != EnumDifficulty.PEACEFUL)
             {
                 this.foodLevel = Math.max(this.foodLevel - 1, 0);
             }
@@ -68,8 +75,7 @@ public class FoodStats
                 this.addExhaustion(3.0F);
                 this.foodTimer = 0;
             }
-        }
-        else if (this.foodLevel <= 0)
+        } else if (this.foodLevel <= 0)
         {
             ++this.foodTimer;
 
@@ -82,8 +88,7 @@ public class FoodStats
 
                 this.foodTimer = 0;
             }
-        }
-        else
+        } else
         {
             this.foodTimer = 0;
         }

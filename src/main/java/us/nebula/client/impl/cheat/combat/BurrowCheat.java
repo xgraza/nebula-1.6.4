@@ -154,7 +154,7 @@ public final class BurrowCheat extends Cheat
             {
                 continue;
             }
-            final Block block = ((ItemBlock)itemStack.getItem()).getBlock();
+            final Block block = ((ItemBlock) itemStack.getItem()).getBlock();
             if (block instanceof BlockObsidian
                     || block instanceof BlockEnderChest
                     || block instanceof BlockAnvil)

@@ -2,10 +2,14 @@ package net.minecraft.world;
 
 public class ChunkCoordIntPair
 {
-    /** The X position of this Chunk Coordinate Pair */
+    /**
+     * The X position of this Chunk Coordinate Pair
+     */
     public final int chunkXPos;
 
-    /** The Z position of this Chunk Coordinate Pair */
+    /**
+     * The Z position of this Chunk Coordinate Pair
+     */
     public final int chunkZPos;
     private static final String __OBFID = "CL_00000133";
     private int cachedHashCode = 0;
@@ -21,7 +25,7 @@ public class ChunkCoordIntPair
      */
     public static long chunkXZ2Int(int par0, int par1)
     {
-        return (long)par0 & 4294967295L | ((long)par1 & 4294967295L) << 32;
+        return (long) par0 & 4294967295L | ((long) par1 & 4294967295L) << 32;
     }
 
     public int hashCode()
@@ -41,14 +45,12 @@ public class ChunkCoordIntPair
         if (this == par1Obj)
         {
             return true;
-        }
-        else if (!(par1Obj instanceof ChunkCoordIntPair))
+        } else if (!(par1Obj instanceof ChunkCoordIntPair))
         {
             return false;
-        }
-        else
+        } else
         {
-            ChunkCoordIntPair var2 = (ChunkCoordIntPair)par1Obj;
+            ChunkCoordIntPair var2 = (ChunkCoordIntPair) par1Obj;
             return this.chunkXPos == var2.chunkXPos && this.chunkZPos == var2.chunkZPos;
         }
     }

@@ -1,14 +1,15 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.scoreboard.ScorePlayerTeam;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class S3EPacketTeams extends Packet
 {
@@ -16,12 +17,14 @@ public class S3EPacketTeams extends Packet
     private String field_149318_b = "";
     private String field_149319_c = "";
     private String field_149316_d = "";
-    private Collection field_149317_e = new ArrayList();
+    private final Collection field_149317_e = new ArrayList();
     private int field_149314_f;
     private int field_149315_g;
     private static final String __OBFID = "CL_00001334";
 
-    public S3EPacketTeams() {}
+    public S3EPacketTeams()
+    {
+    }
 
     public S3EPacketTeams(ScorePlayerTeam p_i45225_1_, int p_i45225_2_)
     {
@@ -47,14 +50,12 @@ public class S3EPacketTeams extends Packet
         if (p_i45226_3_ != 3 && p_i45226_3_ != 4)
         {
             throw new IllegalArgumentException("Method must be join or leave for player constructor");
-        }
-        else if (p_i45226_2_ != null && !p_i45226_2_.isEmpty())
+        } else if (p_i45226_2_ != null && !p_i45226_2_.isEmpty())
         {
             this.field_149314_f = p_i45226_3_;
             this.field_149320_a = p_i45226_1_.getRegisteredName();
             this.field_149317_e.addAll(p_i45226_2_);
-        }
-        else
+        } else
         {
             throw new IllegalArgumentException("Players cannot be null/empty");
         }
@@ -110,7 +111,7 @@ public class S3EPacketTeams extends Packet
 
             while (var2.hasNext())
             {
-                String var3 = (String)var2.next();
+                String var3 = (String) var2.next();
                 p_148840_1_.writeStringToBuffer(var3);
             }
         }
@@ -158,6 +159,6 @@ public class S3EPacketTeams extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

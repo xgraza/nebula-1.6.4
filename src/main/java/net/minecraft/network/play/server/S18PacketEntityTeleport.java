@@ -1,12 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
+
+import java.io.IOException;
 
 public class S18PacketEntityTeleport extends Packet
 {
@@ -18,7 +19,9 @@ public class S18PacketEntityTeleport extends Packet
     private byte field_149453_f;
     private static final String __OBFID = "CL_00001340";
 
-    public S18PacketEntityTeleport() {}
+    public S18PacketEntityTeleport()
+    {
+    }
 
     public S18PacketEntityTeleport(Entity p_i45233_1_)
     {
@@ -26,8 +29,8 @@ public class S18PacketEntityTeleport extends Packet
         this.field_149456_b = MathHelper.floor_double(p_i45233_1_.posX * 32.0D);
         this.field_149457_c = MathHelper.floor_double(p_i45233_1_.posY * 32.0D);
         this.field_149454_d = MathHelper.floor_double(p_i45233_1_.posZ * 32.0D);
-        this.field_149455_e = (byte)((int)(p_i45233_1_.rotationYaw * 256.0F / 360.0F));
-        this.field_149453_f = (byte)((int)(p_i45233_1_.rotationPitch * 256.0F / 360.0F));
+        this.field_149455_e = (byte) ((int) (p_i45233_1_.rotationYaw * 256.0F / 360.0F));
+        this.field_149453_f = (byte) ((int) (p_i45233_1_.rotationPitch * 256.0F / 360.0F));
     }
 
     public S18PacketEntityTeleport(int p_i45234_1_, int p_i45234_2_, int p_i45234_3_, int p_i45234_4_, byte p_i45234_5_, byte p_i45234_6_)
@@ -103,6 +106,6 @@ public class S18PacketEntityTeleport extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

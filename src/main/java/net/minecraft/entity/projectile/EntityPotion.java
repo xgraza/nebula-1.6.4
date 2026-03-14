@@ -1,7 +1,5 @@
 package net.minecraft.entity.projectile;
 
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -11,6 +9,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class EntityPotion extends EntityThrowable
 {
@@ -108,7 +109,7 @@ public class EntityPotion extends EntityThrowable
 
                     while (var5.hasNext())
                     {
-                        EntityLivingBase var6 = (EntityLivingBase)var5.next();
+                        EntityLivingBase var6 = (EntityLivingBase) var5.next();
                         double var7 = this.getDistanceSqToEntity(var6);
 
                         if (var7 < 16.0D)
@@ -124,16 +125,15 @@ public class EntityPotion extends EntityThrowable
 
                             while (var11.hasNext())
                             {
-                                PotionEffect var12 = (PotionEffect)var11.next();
+                                PotionEffect var12 = (PotionEffect) var11.next();
                                 int var13 = var12.getPotionID();
 
                                 if (Potion.potionTypes[var13].isInstant())
                                 {
                                     Potion.potionTypes[var13].affectEntity(this.getThrower(), var6, var12.getAmplifier(), var9);
-                                }
-                                else
+                                } else
                                 {
-                                    int var14 = (int)(var9 * (double)var12.getDuration() + 0.5D);
+                                    int var14 = (int) (var9 * (double) var12.getDuration() + 0.5D);
 
                                     if (var14 > 20)
                                     {
@@ -146,7 +146,7 @@ public class EntityPotion extends EntityThrowable
                 }
             }
 
-            this.worldObj.playAuxSFX(2002, (int)Math.round(this.posX), (int)Math.round(this.posY), (int)Math.round(this.posZ), this.getPotionDamage());
+            this.worldObj.playAuxSFX(2002, (int) Math.round(this.posX), (int) Math.round(this.posY), (int) Math.round(this.posZ), this.getPotionDamage());
             this.setDead();
         }
     }
@@ -161,8 +161,7 @@ public class EntityPotion extends EntityThrowable
         if (par1NBTTagCompound.hasKey("Potion", 10))
         {
             this.potionDamage = ItemStack.loadItemStackFromNBT(par1NBTTagCompound.getCompoundTag("Potion"));
-        }
-        else
+        } else
         {
             this.setPotionDamage(par1NBTTagCompound.getInteger("potionValue"));
         }

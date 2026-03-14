@@ -5,10 +5,14 @@ import org.lwjgl.opengl.Display;
 
 public class MouseHelper
 {
-    /** Mouse delta X this frame */
+    /**
+     * Mouse delta X this frame
+     */
     public int deltaX;
 
-    /** Mouse delta Y this frame */
+    /**
+     * Mouse delta Y this frame
+     */
     public int deltaY;
     private static final String __OBFID = "CL_00000648";
 

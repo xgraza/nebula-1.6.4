@@ -1,10 +1,11 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C0CPacketInput extends Packet
 {
@@ -13,7 +14,9 @@ public class C0CPacketInput extends Packet
     private boolean jump;
     private boolean sneak;
 
-    public C0CPacketInput() {}
+    public C0CPacketInput()
+    {
+    }
 
     public C0CPacketInput(float moveStrafing, float moveForward, boolean jump, boolean sneak)
     {
@@ -72,6 +75,6 @@ public class C0CPacketInput extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

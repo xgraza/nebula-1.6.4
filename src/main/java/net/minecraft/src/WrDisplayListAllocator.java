@@ -5,7 +5,7 @@ import java.util.List;
 
 public class WrDisplayListAllocator
 {
-    private List<WrDisplayListBlock> listBlocks = new ArrayList();
+    private final List<WrDisplayListBlock> listBlocks = new ArrayList();
     private WrDisplayListBlock currentBlock = null;
     private int blockIndex = -1;
 
@@ -18,9 +18,8 @@ public class WrDisplayListAllocator
                 if (this.blockIndex + 1 < this.listBlocks.size())
                 {
                     ++this.blockIndex;
-                    this.currentBlock = (WrDisplayListBlock)this.listBlocks.get(this.blockIndex);
-                }
-                else
+                    this.currentBlock = this.listBlocks.get(this.blockIndex);
+                } else
                 {
                     this.currentBlock = new WrDisplayListBlock();
                     this.blockIndex = this.listBlocks.size();
@@ -34,8 +33,7 @@ public class WrDisplayListAllocator
             }
 
             return this.currentBlock.allocate(len);
-        }
-        else
+        } else
         {
             throw new IllegalArgumentException("Invalid display list length: " + len);
         }
@@ -48,7 +46,7 @@ public class WrDisplayListAllocator
 
         for (int i = 0; i < this.listBlocks.size(); ++i)
         {
-            WrDisplayListBlock block = (WrDisplayListBlock)this.listBlocks.get(i);
+            WrDisplayListBlock block = this.listBlocks.get(i);
             block.reset();
         }
     }
@@ -57,7 +55,7 @@ public class WrDisplayListAllocator
     {
         for (int i = 0; i < this.listBlocks.size(); ++i)
         {
-            WrDisplayListBlock block = (WrDisplayListBlock)this.listBlocks.get(i);
+            WrDisplayListBlock block = this.listBlocks.get(i);
             block.deleteDisplayLists();
         }
 

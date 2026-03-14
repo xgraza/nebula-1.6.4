@@ -1,10 +1,11 @@
 package net.minecraft.client.audio;
 
 import com.google.common.collect.Lists;
+import net.minecraft.util.ResourceLocation;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.util.ResourceLocation;
 
 public class SoundEventAccessorComposite implements ISoundEventAccessor
 {
@@ -12,8 +13,8 @@ public class SoundEventAccessorComposite implements ISoundEventAccessor
     private final Random field_148734_b = new Random();
     private final ResourceLocation field_148735_c;
     private final SoundCategory field_148732_d;
-    private double field_148733_e;
-    private double field_148731_f;
+    private final double field_148733_e;
+    private final double field_148731_f;
     private static final String __OBFID = "CL_00001146";
 
     public SoundEventAccessorComposite(ResourceLocation p_i45120_1_, double p_i45120_2_, double p_i45120_4_, SoundCategory p_i45120_6_)
@@ -31,7 +32,7 @@ public class SoundEventAccessorComposite implements ISoundEventAccessor
 
         for (Iterator var2 = this.field_148736_a.iterator(); var2.hasNext(); var1 += var3.func_148721_a())
         {
-            var3 = (ISoundEventAccessor)var2.next();
+            var3 = (ISoundEventAccessor) var2.next();
         }
 
         return var1;
@@ -54,17 +55,16 @@ public class SoundEventAccessorComposite implements ISoundEventAccessor
                     return SoundHandler.field_147700_a;
                 }
 
-                var4 = (ISoundEventAccessor)var3.next();
+                var4 = (ISoundEventAccessor) var3.next();
                 var2 -= var4.func_148721_a();
             }
             while (var2 >= 0);
 
-            SoundPoolEntry var5 = (SoundPoolEntry)var4.func_148720_g();
+            SoundPoolEntry var5 = (SoundPoolEntry) var4.func_148720_g();
             var5.func_148651_a(var5.func_148650_b() * this.field_148733_e);
             var5.func_148647_b(var5.func_148649_c() * this.field_148731_f);
             return var5;
-        }
-        else
+        } else
         {
             return SoundHandler.field_147700_a;
         }

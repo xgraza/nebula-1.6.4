@@ -1,7 +1,5 @@
 package net.minecraft.inventory;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,16 +9,23 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 public class ContainerEnchantment extends Container
 {
-    /** SlotEnchantmentTable object with ItemStack to be enchanted */
+    /**
+     * SlotEnchantmentTable object with ItemStack to be enchanted
+     */
     public IInventory tableInventory = new InventoryBasic("Enchant", true, 1)
     {
         private static final String __OBFID = "CL_00001746";
+
         public int getInventoryStackLimit()
         {
             return 1;
         }
+
         public void onInventoryChanged()
         {
             super.onInventoryChanged();
@@ -28,17 +33,23 @@ public class ContainerEnchantment extends Container
         }
     };
 
-    /** current world (for bookshelf counting) */
-    private World worldPointer;
-    private int posX;
-    private int posY;
-    private int posZ;
-    private Random rand = new Random();
+    /**
+     * current world (for bookshelf counting)
+     */
+    private final World worldPointer;
+    private final int posX;
+    private final int posY;
+    private final int posZ;
+    private final Random rand = new Random();
 
-    /** used as seed for EnchantmentNameParts (see GuiEnchantment) */
+    /**
+     * used as seed for EnchantmentNameParts (see GuiEnchantment)
+     */
     public long nameSeed;
 
-    /** 3-member array storing the enchantment levels of each slot */
+    /**
+     * 3-member array storing the enchantment levels of each slot
+     */
     public int[] enchantLevels = new int[3];
     private static final String __OBFID = "CL_00001745";
 
@@ -51,6 +62,7 @@ public class ContainerEnchantment extends Container
         this.addSlotToContainer(new Slot(this.tableInventory, 0, 25, 47)
         {
             private static final String __OBFID = "CL_00001747";
+
             public boolean isItemValid(ItemStack par1ItemStack)
             {
                 return true;
@@ -89,7 +101,7 @@ public class ContainerEnchantment extends Container
 
         for (int var1 = 0; var1 < this.crafters.size(); ++var1)
         {
-            ICrafting var2 = (ICrafting)this.crafters.get(var1);
+            ICrafting var2 = this.crafters.get(var1);
             var2.sendProgressBarUpdate(this, 0, this.enchantLevels[0]);
             var2.sendProgressBarUpdate(this, 1, this.enchantLevels[1]);
             var2.sendProgressBarUpdate(this, 2, this.enchantLevels[2]);
@@ -101,8 +113,7 @@ public class ContainerEnchantment extends Container
         if (par1 >= 0 && par1 <= 2)
         {
             this.enchantLevels[par1] = par2;
-        }
-        else
+        } else
         {
             super.updateProgressBar(par1, par2);
         }
@@ -176,8 +187,7 @@ public class ContainerEnchantment extends Container
 
                     this.detectAndSendChanges();
                 }
-            }
-            else
+            } else
             {
                 for (var3 = 0; var3 < 3; ++var3)
                 {
@@ -214,15 +224,14 @@ public class ContainerEnchantment extends Container
 
                     for (int var7 = 0; var7 < var4.size(); ++var7)
                     {
-                        EnchantmentData var8 = (EnchantmentData)var4.get(var7);
+                        EnchantmentData var8 = (EnchantmentData) var4.get(var7);
 
                         if (!var5 || var7 != var6)
                         {
                             if (var5)
                             {
                                 Items.enchanted_book.addEnchantment(var3, var8);
-                            }
-                            else
+                            } else
                             {
                                 var3.addEnchantment(var8.enchantmentobj, var8.enchantmentLevel);
                             }
@@ -234,8 +243,7 @@ public class ContainerEnchantment extends Container
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -261,7 +269,7 @@ public class ContainerEnchantment extends Container
 
     public boolean canInteractWith(EntityPlayer par1EntityPlayer)
     {
-        return this.worldPointer.getBlock(this.posX, this.posY, this.posZ) != Blocks.enchanting_table ? false : par1EntityPlayer.getDistanceSq((double)this.posX + 0.5D, (double)this.posY + 0.5D, (double)this.posZ + 0.5D) <= 64.0D;
+        return this.worldPointer.getBlock(this.posX, this.posY, this.posZ) == Blocks.enchanting_table && par1EntityPlayer.getDistanceSq((double) this.posX + 0.5D, (double) this.posY + 0.5D, (double) this.posZ + 0.5D) <= 64.0D;
     }
 
     /**
@@ -270,7 +278,7 @@ public class ContainerEnchantment extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -283,31 +291,28 @@ public class ContainerEnchantment extends Container
                 {
                     return null;
                 }
-            }
-            else
+            } else
             {
-                if (((Slot)this.inventorySlots.get(0)).getHasStack() || !((Slot)this.inventorySlots.get(0)).isItemValid(var5))
+                if (this.inventorySlots.get(0).getHasStack() || !this.inventorySlots.get(0).isItemValid(var5))
                 {
                     return null;
                 }
 
                 if (var5.hasTagCompound() && var5.stackSize == 1)
                 {
-                    ((Slot)this.inventorySlots.get(0)).putStack(var5.copy());
+                    this.inventorySlots.get(0).putStack(var5.copy());
                     var5.stackSize = 0;
-                }
-                else if (var5.stackSize >= 1)
+                } else if (var5.stackSize >= 1)
                 {
-                    ((Slot)this.inventorySlots.get(0)).putStack(new ItemStack(var5.getItem(), 1, var5.getItemDamage()));
+                    this.inventorySlots.get(0).putStack(new ItemStack(var5.getItem(), 1, var5.getItemDamage()));
                     --var5.stackSize;
                 }
             }
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack(null);
+            } else
             {
                 var4.onSlotChanged();
             }

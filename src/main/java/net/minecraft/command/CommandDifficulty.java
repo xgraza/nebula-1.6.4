@@ -1,9 +1,10 @@
 package net.minecraft.command;
 
-import java.util.List;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.EnumDifficulty;
+
+import java.util.List;
 
 public class CommandDifficulty extends CommandBase
 {
@@ -33,11 +34,10 @@ public class CommandDifficulty extends CommandBase
         {
             EnumDifficulty var3 = this.func_147201_h(par1ICommandSender, par2ArrayOfStr[0]);
             MinecraftServer.getServer().func_147139_a(var3);
-            notifyAdmins(par1ICommandSender, "commands.difficulty.success", new Object[] {new ChatComponentTranslation(var3.getDifficultyResourceKey(), new Object[0])});
-        }
-        else
+            notifyAdmins(par1ICommandSender, "commands.difficulty.success", new ChatComponentTranslation(var3.getDifficultyResourceKey()));
+        } else
         {
-            throw new WrongUsageException("commands.difficulty.usage", new Object[0]);
+            throw new WrongUsageException("commands.difficulty.usage");
         }
     }
 
@@ -51,6 +51,6 @@ public class CommandDifficulty extends CommandBase
      */
     public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] {"peaceful", "easy", "normal", "hard"}): null;
+        return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, "peaceful", "easy", "normal", "hard") : null;
     }
 }

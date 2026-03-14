@@ -1,8 +1,5 @@
 package net.minecraft.village;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,6 +7,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class VillageCollection extends WorldSavedData
 {
@@ -44,7 +45,7 @@ public class VillageCollection extends WorldSavedData
 
         while (var2.hasNext())
         {
-            Village var3 = (Village)var2.next();
+            Village var3 = (Village) var2.next();
             var3.func_82691_a(par1World);
         }
     }
@@ -74,7 +75,7 @@ public class VillageCollection extends WorldSavedData
 
         while (var1.hasNext())
         {
-            Village var2 = (Village)var1.next();
+            Village var2 = (Village) var1.next();
             var2.tick(this.tickCounter);
         }
 
@@ -94,7 +95,7 @@ public class VillageCollection extends WorldSavedData
 
         while (var1.hasNext())
         {
-            Village var2 = (Village)var1.next();
+            Village var2 = (Village) var1.next();
 
             if (var2.isAnnihilated())
             {
@@ -124,12 +125,12 @@ public class VillageCollection extends WorldSavedData
 
         while (var7.hasNext())
         {
-            Village var8 = (Village)var7.next();
+            Village var8 = (Village) var7.next();
             float var9 = var8.getCenter().getDistanceSquared(par1, par2, par3);
 
             if (var9 < var6)
             {
-                float var10 = (float)(par4 + var8.getVillageRadius());
+                float var10 = (float) (par4 + var8.getVillageRadius());
 
                 if (var9 <= var10 * var10)
                 {
@@ -146,7 +147,7 @@ public class VillageCollection extends WorldSavedData
     {
         if (!this.villagerPositionsList.isEmpty())
         {
-            this.addUnassignedWoodenDoorsAroundToNewDoorsList((ChunkCoordinates)this.villagerPositionsList.remove(0));
+            this.addUnassignedWoodenDoorsAroundToNewDoorsList((ChunkCoordinates) this.villagerPositionsList.remove(0));
         }
     }
 
@@ -156,7 +157,7 @@ public class VillageCollection extends WorldSavedData
 
         while (var1 < this.newDoors.size())
         {
-            VillageDoorInfo var2 = (VillageDoorInfo)this.newDoors.get(var1);
+            VillageDoorInfo var2 = (VillageDoorInfo) this.newDoors.get(var1);
             boolean var3 = false;
             Iterator var4 = this.villageList.iterator();
 
@@ -164,8 +165,8 @@ public class VillageCollection extends WorldSavedData
             {
                 if (var4.hasNext())
                 {
-                    Village var5 = (Village)var4.next();
-                    int var6 = (int)var5.getCenter().getDistanceSquared(var2.posX, var2.posY, var2.posZ);
+                    Village var5 = (Village) var4.next();
+                    int var6 = (int) var5.getCenter().getDistanceSquared(var2.posX, var2.posY, var2.posZ);
                     int var7 = 32 + var5.getVillageRadius();
 
                     if (var6 > var7 * var7)
@@ -212,8 +213,7 @@ public class VillageCollection extends WorldSavedData
                         if (var8 == null)
                         {
                             this.addDoorToNewListIfAppropriate(var5, var6, var7);
-                        }
-                        else
+                        } else
                         {
                             var8.lastActivityTimestamp = this.tickCounter;
                         }
@@ -242,7 +242,7 @@ public class VillageCollection extends WorldSavedData
                         return null;
                     }
 
-                    Village var7 = (Village)var4.next();
+                    Village var7 = (Village) var4.next();
                     var6 = var7.getVillageDoorAt(par1, par2, par3);
                 }
                 while (var6 == null);
@@ -250,7 +250,7 @@ public class VillageCollection extends WorldSavedData
                 return var6;
             }
 
-            var5 = (VillageDoorInfo)var4.next();
+            var5 = (VillageDoorInfo) var4.next();
         }
         while (var5.posX != par1 || var5.posZ != par3 || Math.abs(var5.posY - par2) > 1);
 
@@ -259,7 +259,7 @@ public class VillageCollection extends WorldSavedData
 
     private void addDoorToNewListIfAppropriate(int par1, int par2, int par3)
     {
-        int var4 = ((BlockDoor)Blocks.wooden_door).func_150013_e(this.worldObj, par1, par2, par3);
+        int var4 = ((BlockDoor) Blocks.wooden_door).func_150013_e(this.worldObj, par1, par2, par3);
         int var5;
         int var6;
 
@@ -287,8 +287,7 @@ public class VillageCollection extends WorldSavedData
             {
                 this.newDoors.add(new VillageDoorInfo(par1, par2, par3, 0, var5 > 0 ? -2 : 2, this.tickCounter));
             }
-        }
-        else
+        } else
         {
             var5 = 0;
 
@@ -327,7 +326,7 @@ public class VillageCollection extends WorldSavedData
                 return false;
             }
 
-            var5 = (ChunkCoordinates)var4.next();
+            var5 = (ChunkCoordinates) var4.next();
         }
         while (var5.posX != par1 || var5.posY != par2 || var5.posZ != par3);
 
@@ -367,7 +366,7 @@ public class VillageCollection extends WorldSavedData
 
         while (var3.hasNext())
         {
-            Village var4 = (Village)var3.next();
+            Village var4 = (Village) var3.next();
             NBTTagCompound var5 = new NBTTagCompound();
             var4.writeVillageDataToNBT(var5);
             var2.appendTag(var5);

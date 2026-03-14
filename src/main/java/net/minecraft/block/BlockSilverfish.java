@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,9 +11,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import java.util.List;
+import java.util.Random;
+
 public class BlockSilverfish extends Block
 {
-    public static final String[] field_150198_a = new String[] {"stone", "cobble", "brick", "mossybrick", "crackedbrick", "chiseledbrick"};
+    public static final String[] field_150198_a = new String[]{ "stone", "cobble", "brick", "mossybrick", "crackedbrick", "chiseledbrick" };
     private static final String __OBFID = "CL_00000271";
 
     public BlockSilverfish()
@@ -52,14 +53,16 @@ public class BlockSilverfish extends Block
         }
     }
 
-    public void registerIcons(IIconRegister p_149651_1_) {}
+    public void registerIcons(IIconRegister p_149651_1_)
+    {
+    }
 
     public void onBlockDestroyedByPlayer(World p_149664_1_, int p_149664_2_, int p_149664_3_, int p_149664_4_, int p_149664_5_)
     {
         if (!p_149664_1_.isClient)
         {
             EntitySilverfish var6 = new EntitySilverfish(p_149664_1_);
-            var6.setLocationAndAngles((double)p_149664_2_ + 0.5D, (double)p_149664_3_, (double)p_149664_4_ + 0.5D, 0.0F, 0.0F);
+            var6.setLocationAndAngles((double) p_149664_2_ + 0.5D, p_149664_3_, (double) p_149664_4_ + 0.5D, 0.0F, 0.0F);
             p_149664_1_.spawnEntityInWorld(var6);
             var6.spawnExplosionParticle();
         }
@@ -93,8 +96,7 @@ public class BlockSilverfish extends Block
             {
                 return 2;
             }
-        }
-        else if (p_150195_0_ == Blocks.stonebrick)
+        } else if (p_150195_0_ == Blocks.stonebrick)
         {
             switch (p_150195_1_)
             {
@@ -172,7 +174,7 @@ public class BlockSilverfish extends Block
         if (!p_149690_1_.isClient)
         {
             EntitySilverfish var8 = new EntitySilverfish(p_149690_1_);
-            var8.setLocationAndAngles((double)p_149690_2_ + 0.5D, (double)p_149690_3_, (double)p_149690_4_ + 0.5D, 0.0F, 0.0F);
+            var8.setLocationAndAngles((double) p_149690_2_ + 0.5D, p_149690_3_, (double) p_149690_4_ + 0.5D, 0.0F, 0.0F);
             p_149690_1_.spawnEntityInWorld(var8);
             var8.spawnExplosionParticle();
         }

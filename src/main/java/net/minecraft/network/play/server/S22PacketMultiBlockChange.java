@@ -1,8 +1,5 @@
 package net.minecraft.network.play.server;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import net.minecraft.block.Block;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
@@ -13,6 +10,10 @@ import net.minecraft.world.chunk.Chunk;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 public class S22PacketMultiBlockChange extends Packet
 {
     private static final Logger logger = LogManager.getLogger();
@@ -20,7 +21,9 @@ public class S22PacketMultiBlockChange extends Packet
     private byte[] blockUpdates;
     private int count;
 
-    public S22PacketMultiBlockChange() {}
+    public S22PacketMultiBlockChange()
+    {
+    }
 
     public S22PacketMultiBlockChange(int count, short[] location, Chunk chunk)
     {
@@ -39,19 +42,18 @@ public class S22PacketMultiBlockChange extends Packet
                 int var9 = location[i] >> 8 & 15;
                 int var10 = location[i] & 255;
                 dataOutputStream.writeShort(location[i]);
-                dataOutputStream.writeShort((short)((Block.getIdFromBlock(chunk.getBlock(var8, var10, var9)) & 4095) << 4 | chunk.getBlockMetadata(var8, var10, var9) & 15));
+                dataOutputStream.writeShort((short) ((Block.getIdFromBlock(chunk.getBlock(var8, var10, var9)) & 4095) << 4 | chunk.getBlockMetadata(var8, var10, var9) & 15));
             }
 
             this.blockUpdates = arrOutputStream.toByteArray();
 
             if (this.blockUpdates.length != size)
             {
-                throw new RuntimeException("Expected length " + size + " doesn\'t match received length " + this.blockUpdates.length);
+                throw new RuntimeException("Expected length " + size + " doesn't match received length " + this.blockUpdates.length);
             }
-        }
-        catch (IOException var11)
+        } catch (IOException var11)
         {
-            logger.error("Couldn\'t create bulk block update packet", var11);
+            logger.error("Couldn't create bulk block update packet", var11);
             this.blockUpdates = null;
         }
     }
@@ -79,14 +81,13 @@ public class S22PacketMultiBlockChange extends Packet
     {
         p_148840_1_.writeInt(this.chunkCoords.chunkXPos);
         p_148840_1_.writeInt(this.chunkCoords.chunkZPos);
-        p_148840_1_.writeShort((short)this.count);
+        p_148840_1_.writeShort((short) this.count);
 
         if (this.blockUpdates != null)
         {
             p_148840_1_.writeInt(this.blockUpdates.length);
             p_148840_1_.writeBytes(this.blockUpdates);
-        }
-        else
+        } else
         {
             p_148840_1_.writeInt(0);
         }
@@ -102,7 +103,7 @@ public class S22PacketMultiBlockChange extends Packet
      */
     public String serialize()
     {
-        return String.format("xc=%d, zc=%d, count=%d", new Object[] {Integer.valueOf(this.chunkCoords.chunkXPos), Integer.valueOf(this.chunkCoords.chunkZPos), Integer.valueOf(this.count)});
+        return String.format("xc=%d, zc=%d, count=%d", Integer.valueOf(this.chunkCoords.chunkXPos), Integer.valueOf(this.chunkCoords.chunkZPos), Integer.valueOf(this.count));
     }
 
     public ChunkCoordIntPair getChunkCoords()
@@ -122,6 +123,6 @@ public class S22PacketMultiBlockChange extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

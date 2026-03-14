@@ -40,10 +40,10 @@ public class GuiDisconnected extends GuiScreen
         if (AutoReconnectCheat.INSTANCE.getLastServer() != null)
         {
             buttonList.add(new GuiButton(1, width / 2 - 100, this.height / 4 + 120 + 12, "Reconnect"));
-            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 142 + 12, I18n.format("gui.toMenu", new Object[0])));
+            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 142 + 12, I18n.format("gui.toMenu")));
         } else
         {
-            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.toMenu", new Object[0])));
+            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.toMenu")));
         }
         if (AutoReconnectCheat.INSTANCE.isToggled())
         {

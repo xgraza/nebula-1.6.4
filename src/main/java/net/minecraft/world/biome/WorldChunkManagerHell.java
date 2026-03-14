@@ -1,17 +1,22 @@
 package net.minecraft.world.biome;
 
+import net.minecraft.world.ChunkPosition;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.world.ChunkPosition;
 
 public class WorldChunkManagerHell extends WorldChunkManager
 {
-    /** The biome generator object. */
-    private BiomeGenBase biomeGenerator;
+    /**
+     * The biome generator object.
+     */
+    private final BiomeGenBase biomeGenerator;
 
-    /** The rainfall in the world */
-    private float rainfall;
+    /**
+     * The rainfall in the world
+     */
+    private final float rainfall;
     private static final String __OBFID = "CL_00000169";
 
     public WorldChunkManagerHell(BiomeGenBase p_i45374_1_, float p_i45374_2_)

@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -8,6 +7,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockTorch extends Block
 {
@@ -52,8 +53,7 @@ public class BlockTorch extends Block
         if (World.doesBlockHaveSolidTopSurface(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_))
         {
             return true;
-        }
-        else
+        } else
         {
             Block var5 = p_150107_1_.getBlock(p_150107_2_, p_150107_3_, p_150107_4_);
             return var5 == Blocks.fence || var5 == Blocks.nether_brick_fence || var5 == Blocks.glass || var5 == Blocks.cobblestone_wall;
@@ -62,7 +62,7 @@ public class BlockTorch extends Block
 
     public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
     {
-        return p_149742_1_.isBlockNormalCubeDefault(p_149742_2_ - 1, p_149742_3_, p_149742_4_, true) ? true : (p_149742_1_.isBlockNormalCubeDefault(p_149742_2_ + 1, p_149742_3_, p_149742_4_, true) ? true : (p_149742_1_.isBlockNormalCubeDefault(p_149742_2_, p_149742_3_, p_149742_4_ - 1, true) ? true : (p_149742_1_.isBlockNormalCubeDefault(p_149742_2_, p_149742_3_, p_149742_4_ + 1, true) ? true : this.func_150107_m(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_))));
+        return p_149742_1_.isBlockNormalCubeDefault(p_149742_2_ - 1, p_149742_3_, p_149742_4_, true) || (p_149742_1_.isBlockNormalCubeDefault(p_149742_2_ + 1, p_149742_3_, p_149742_4_, true) || (p_149742_1_.isBlockNormalCubeDefault(p_149742_2_, p_149742_3_, p_149742_4_ - 1, true) || (p_149742_1_.isBlockNormalCubeDefault(p_149742_2_, p_149742_3_, p_149742_4_ + 1, true) || this.func_150107_m(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_))));
     }
 
     public int onBlockPlaced(World p_149660_1_, int p_149660_2_, int p_149660_3_, int p_149660_4_, int p_149660_5_, float p_149660_6_, float p_149660_7_, float p_149660_8_, int p_149660_9_)
@@ -117,20 +117,16 @@ public class BlockTorch extends Block
             if (p_149726_1_.isBlockNormalCubeDefault(p_149726_2_ - 1, p_149726_3_, p_149726_4_, true))
             {
                 p_149726_1_.setBlockMetadataWithNotify(p_149726_2_, p_149726_3_, p_149726_4_, 1, 2);
-            }
-            else if (p_149726_1_.isBlockNormalCubeDefault(p_149726_2_ + 1, p_149726_3_, p_149726_4_, true))
+            } else if (p_149726_1_.isBlockNormalCubeDefault(p_149726_2_ + 1, p_149726_3_, p_149726_4_, true))
             {
                 p_149726_1_.setBlockMetadataWithNotify(p_149726_2_, p_149726_3_, p_149726_4_, 2, 2);
-            }
-            else if (p_149726_1_.isBlockNormalCubeDefault(p_149726_2_, p_149726_3_, p_149726_4_ - 1, true))
+            } else if (p_149726_1_.isBlockNormalCubeDefault(p_149726_2_, p_149726_3_, p_149726_4_ - 1, true))
             {
                 p_149726_1_.setBlockMetadataWithNotify(p_149726_2_, p_149726_3_, p_149726_4_, 3, 2);
-            }
-            else if (p_149726_1_.isBlockNormalCubeDefault(p_149726_2_, p_149726_3_, p_149726_4_ + 1, true))
+            } else if (p_149726_1_.isBlockNormalCubeDefault(p_149726_2_, p_149726_3_, p_149726_4_ + 1, true))
             {
                 p_149726_1_.setBlockMetadataWithNotify(p_149726_2_, p_149726_3_, p_149726_4_, 4, 2);
-            }
-            else if (this.func_150107_m(p_149726_1_, p_149726_2_, p_149726_3_ - 1, p_149726_4_))
+            } else if (this.func_150107_m(p_149726_1_, p_149726_2_, p_149726_3_ - 1, p_149726_4_))
             {
                 p_149726_1_.setBlockMetadataWithNotify(p_149726_2_, p_149726_3_, p_149726_4_, 5, 2);
             }
@@ -149,12 +145,7 @@ public class BlockTorch extends Block
         if (this.func_150109_e(p_150108_1_, p_150108_2_, p_150108_3_, p_150108_4_))
         {
             int var6 = p_150108_1_.getBlockMetadata(p_150108_2_, p_150108_3_, p_150108_4_);
-            boolean var7 = false;
-
-            if (!p_150108_1_.isBlockNormalCubeDefault(p_150108_2_ - 1, p_150108_3_, p_150108_4_, true) && var6 == 1)
-            {
-                var7 = true;
-            }
+            boolean var7 = !p_150108_1_.isBlockNormalCubeDefault(p_150108_2_ - 1, p_150108_3_, p_150108_4_, true) && var6 == 1;
 
             if (!p_150108_1_.isBlockNormalCubeDefault(p_150108_2_ + 1, p_150108_3_, p_150108_4_, true) && var6 == 2)
             {
@@ -181,13 +172,11 @@ public class BlockTorch extends Block
                 this.dropBlockAsItem(p_150108_1_, p_150108_2_, p_150108_3_, p_150108_4_, p_150108_1_.getBlockMetadata(p_150108_2_, p_150108_3_, p_150108_4_), 0);
                 p_150108_1_.setBlockToAir(p_150108_2_, p_150108_3_, p_150108_4_);
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return true;
         }
@@ -204,8 +193,7 @@ public class BlockTorch extends Block
             }
 
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -219,20 +207,16 @@ public class BlockTorch extends Block
         if (var7 == 1)
         {
             this.setBlockBounds(0.0F, 0.2F, 0.5F - var8, var8 * 2.0F, 0.8F, 0.5F + var8);
-        }
-        else if (var7 == 2)
+        } else if (var7 == 2)
         {
             this.setBlockBounds(1.0F - var8 * 2.0F, 0.2F, 0.5F - var8, 1.0F, 0.8F, 0.5F + var8);
-        }
-        else if (var7 == 3)
+        } else if (var7 == 3)
         {
             this.setBlockBounds(0.5F - var8, 0.2F, 0.0F, 0.5F + var8, 0.8F, var8 * 2.0F);
-        }
-        else if (var7 == 4)
+        } else if (var7 == 4)
         {
             this.setBlockBounds(0.5F - var8, 0.2F, 1.0F - var8 * 2.0F, 0.5F + var8, 0.8F, 1.0F);
-        }
-        else
+        } else
         {
             var8 = 0.1F;
             this.setBlockBounds(0.5F - var8, 0.0F, 0.5F - var8, 0.5F + var8, 0.6F, 0.5F + var8);
@@ -247,9 +231,9 @@ public class BlockTorch extends Block
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
         int var6 = p_149734_1_.getBlockMetadata(p_149734_2_, p_149734_3_, p_149734_4_);
-        double var7 = (double)((float)p_149734_2_ + 0.5F);
-        double var9 = (double)((float)p_149734_3_ + 0.7F);
-        double var11 = (double)((float)p_149734_4_ + 0.5F);
+        double var7 = (float) p_149734_2_ + 0.5F;
+        double var9 = (float) p_149734_3_ + 0.7F;
+        double var11 = (float) p_149734_4_ + 0.5F;
         double var13 = 0.2199999988079071D;
         double var15 = 0.27000001072883606D;
 
@@ -257,23 +241,19 @@ public class BlockTorch extends Block
         {
             p_149734_1_.spawnParticle("smoke", var7 - var15, var9 + var13, var11, 0.0D, 0.0D, 0.0D);
             p_149734_1_.spawnParticle("flame", var7 - var15, var9 + var13, var11, 0.0D, 0.0D, 0.0D);
-        }
-        else if (var6 == 2)
+        } else if (var6 == 2)
         {
             p_149734_1_.spawnParticle("smoke", var7 + var15, var9 + var13, var11, 0.0D, 0.0D, 0.0D);
             p_149734_1_.spawnParticle("flame", var7 + var15, var9 + var13, var11, 0.0D, 0.0D, 0.0D);
-        }
-        else if (var6 == 3)
+        } else if (var6 == 3)
         {
             p_149734_1_.spawnParticle("smoke", var7, var9 + var13, var11 - var15, 0.0D, 0.0D, 0.0D);
             p_149734_1_.spawnParticle("flame", var7, var9 + var13, var11 - var15, 0.0D, 0.0D, 0.0D);
-        }
-        else if (var6 == 4)
+        } else if (var6 == 4)
         {
             p_149734_1_.spawnParticle("smoke", var7, var9 + var13, var11 + var15, 0.0D, 0.0D, 0.0D);
             p_149734_1_.spawnParticle("flame", var7, var9 + var13, var11 + var15, 0.0D, 0.0D, 0.0D);
-        }
-        else
+        } else
         {
             p_149734_1_.spawnParticle("smoke", var7, var9, var11, 0.0D, 0.0D, 0.0D);
             p_149734_1_.spawnParticle("flame", var7, var9, var11, 0.0D, 0.0D, 0.0D);

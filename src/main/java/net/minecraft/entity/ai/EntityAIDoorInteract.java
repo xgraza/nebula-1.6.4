@@ -38,8 +38,7 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
         if (!this.theEntity.isCollidedHorizontally)
         {
             return false;
-        }
-        else
+        } else
         {
             PathNavigate var1 = this.theEntity.getNavigator();
             PathEntity var2 = var1.getPath();
@@ -53,7 +52,7 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
                     this.entityPosY = var4.yCoord + 1;
                     this.entityPosZ = var4.zCoord;
 
-                    if (this.theEntity.getDistanceSq((double)this.entityPosX, this.theEntity.posY, (double)this.entityPosZ) <= 2.25D)
+                    if (this.theEntity.getDistanceSq(this.entityPosX, this.theEntity.posY, this.entityPosZ) <= 2.25D)
                     {
                         this.field_151504_e = this.func_151503_a(this.entityPosX, this.entityPosY, this.entityPosZ);
 
@@ -69,8 +68,7 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
                 this.entityPosZ = MathHelper.floor_double(this.theEntity.posZ);
                 this.field_151504_e = this.func_151503_a(this.entityPosX, this.entityPosY, this.entityPosZ);
                 return this.field_151504_e != null;
-            }
-            else
+            } else
             {
                 return false;
             }
@@ -91,8 +89,8 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
     public void startExecuting()
     {
         this.hasStoppedDoorInteraction = false;
-        this.entityPositionX = (float)((double)((float)this.entityPosX + 0.5F) - this.theEntity.posX);
-        this.entityPositionZ = (float)((double)((float)this.entityPosZ + 0.5F) - this.theEntity.posZ);
+        this.entityPositionX = (float) ((double) ((float) this.entityPosX + 0.5F) - this.theEntity.posX);
+        this.entityPositionZ = (float) ((double) ((float) this.entityPosZ + 0.5F) - this.theEntity.posZ);
     }
 
     /**
@@ -100,8 +98,8 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
      */
     public void updateTask()
     {
-        float var1 = (float)((double)((float)this.entityPosX + 0.5F) - this.theEntity.posX);
-        float var2 = (float)((double)((float)this.entityPosZ + 0.5F) - this.theEntity.posZ);
+        float var1 = (float) ((double) ((float) this.entityPosX + 0.5F) - this.theEntity.posX);
+        float var2 = (float) ((double) ((float) this.entityPosZ + 0.5F) - this.theEntity.posZ);
         float var3 = this.entityPositionX * var1 + this.entityPositionZ * var2;
 
         if (var3 < 0.0F)
@@ -113,6 +111,6 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
     private BlockDoor func_151503_a(int p_151503_1_, int p_151503_2_, int p_151503_3_)
     {
         Block var4 = this.theEntity.worldObj.getBlock(p_151503_1_, p_151503_2_, p_151503_3_);
-        return var4 != Blocks.wooden_door ? null : (BlockDoor)var4;
+        return var4 != Blocks.wooden_door ? null : (BlockDoor) var4;
     }
 }

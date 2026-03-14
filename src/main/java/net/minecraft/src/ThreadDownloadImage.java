@@ -11,9 +11,9 @@ import java.net.URL;
 
 public class ThreadDownloadImage extends Thread
 {
-    private ThreadDownloadImageData parent;
-    private String urlStr;
-    private IImageBuffer imageBuffer;
+    private final ThreadDownloadImageData parent;
+    private final String urlStr;
+    private final IImageBuffer imageBuffer;
 
     public ThreadDownloadImage(ThreadDownloadImageData parent, String urlStr, IImageBuffer imageBuffer)
     {
@@ -52,7 +52,6 @@ public class ThreadDownloadImage extends Thread
             }
 
             this.parent.setBufferedImage(var2);
-            return;
         } catch (Exception var7)
         {
             System.out.println(var7.getClass().getName() + ": " + var7.getMessage());

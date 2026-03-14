@@ -4,7 +4,9 @@ public class RangeListInt
 {
     private RangeInt[] ranges = new RangeInt[0];
 
-    public RangeListInt() {}
+    public RangeListInt()
+    {
+    }
 
     public RangeListInt(RangeInt ri)
     {
@@ -13,7 +15,7 @@ public class RangeListInt
 
     public void addRange(RangeInt ri)
     {
-        this.ranges = (RangeInt[])((RangeInt[])Config.addObjectToArray(this.ranges, ri));
+        this.ranges = (RangeInt[]) Config.addObjectToArray(this.ranges, ri);
     }
 
     public boolean isInRange(int val)

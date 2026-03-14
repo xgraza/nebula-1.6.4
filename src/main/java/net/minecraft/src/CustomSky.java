@@ -1,22 +1,23 @@
 package net.minecraft.src;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Properties;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Properties;
+
 public class CustomSky
 {
-    private static CustomSkyLayer[][] worldSkyLayers = (CustomSkyLayer[][])null;
+    private static CustomSkyLayer[][] worldSkyLayers = null;
 
     public static void reset()
     {
-        worldSkyLayers = (CustomSkyLayer[][])null;
+        worldSkyLayers = null;
     }
 
     public static void update()
@@ -75,20 +76,17 @@ public class CustomSky
                                 if (tex == null)
                                 {
                                     Config.log("CustomSky: Texture not found: " + locSource);
-                                }
-                                else
+                                } else
                                 {
                                     sl.textureId = tex.getGlTextureId();
                                     i.add(sl);
                                     in.close();
                                 }
                             }
-                        }
-                        catch (FileNotFoundException var15)
+                        } catch (FileNotFoundException var15)
                         {
                             break label69;
-                        }
-                        catch (IOException var16)
+                        } catch (IOException var16)
                         {
                             var16.printStackTrace();
                         }
@@ -100,7 +98,7 @@ public class CustomSky
 
                 if (i.size() > 0)
                 {
-                    CustomSkyLayer[] var19 = (CustomSkyLayer[])((CustomSkyLayer[])i.toArray(new CustomSkyLayer[i.size()]));
+                    CustomSkyLayer[] var19 = (CustomSkyLayer[]) i.toArray(new CustomSkyLayer[i.size()]);
                     wsls[worldCount] = var19;
                     lastWorldId = worldCount;
                 }
@@ -112,17 +110,13 @@ public class CustomSky
 
         if (lastWorldId < 0)
         {
-            return (CustomSkyLayer[][])null;
-        }
-        else
+            return null;
+        } else
         {
             worldCount = lastWorldId + 1;
             CustomSkyLayer[][] var17 = new CustomSkyLayer[worldCount][0];
 
-            for (int var18 = 0; var18 < var17.length; ++var18)
-            {
-                var17[var18] = wsls[var18];
-            }
+            System.arraycopy(wsls, 0, var17, 0, var17.length);
 
             return var17;
         }
@@ -141,7 +135,7 @@ public class CustomSky
                 if (sls != null)
                 {
                     long time = world.getWorldTime();
-                    int timeOfDay = (int)(time % 24000L);
+                    int timeOfDay = (int) (time % 24000L);
                     float celestialAngle = world.getCelestialAngle(partialTicks);
                     float rainStrength = world.getRainStrength(partialTicks);
                     float thunderStrength = world.getWeightedThunderStrength(partialTicks);
@@ -173,17 +167,15 @@ public class CustomSky
         if (worldSkyLayers == null)
         {
             return false;
-        }
-        else
+        } else
         {
             int dimId = world.provider.dimensionId;
 
             if (dimId >= 0 && dimId < worldSkyLayers.length)
             {
                 CustomSkyLayer[] sls = worldSkyLayers[dimId];
-                return sls == null ? false : sls.length > 0;
-            }
-            else
+                return sls != null && sls.length > 0;
+            } else
             {
                 return false;
             }

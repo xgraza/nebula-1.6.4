@@ -7,7 +7,7 @@ public class ArrayCache
 {
     private Class elementClass = null;
     private int maxCacheSize = 0;
-    private ArrayDeque cache = new ArrayDeque();
+    private final ArrayDeque cache = new ArrayDeque();
 
     public ArrayCache(Class elementClass, int maxCacheSize)
     {
@@ -36,8 +36,7 @@ public class ArrayCache
             if (cls.getComponentType() != this.elementClass)
             {
                 throw new IllegalArgumentException("Wrong component type");
-            }
-            else if (this.cache.size() < this.maxCacheSize)
+            } else if (this.cache.size() < this.maxCacheSize)
             {
                 this.cache.add(arr);
             }

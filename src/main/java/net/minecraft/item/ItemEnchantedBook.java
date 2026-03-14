@@ -1,7 +1,5 @@
 package net.minecraft.item;
 
-import java.util.List;
-import java.util.Random;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -10,6 +8,9 @@ import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.WeightedRandomChestContent;
+
+import java.util.List;
+import java.util.Random;
 
 public class ItemEnchantedBook extends Item
 {
@@ -38,7 +39,7 @@ public class ItemEnchantedBook extends Item
 
     public NBTTagList func_92110_g(ItemStack par1ItemStack)
     {
-        return par1ItemStack.stackTagCompound != null && par1ItemStack.stackTagCompound.hasKey("StoredEnchantments", 9) ? (NBTTagList)par1ItemStack.stackTagCompound.getTag("StoredEnchantments") : new NBTTagList();
+        return par1ItemStack.stackTagCompound != null && par1ItemStack.stackTagCompound.hasKey("StoredEnchantments", 9) ? (NBTTagList) par1ItemStack.stackTagCompound.getTag("StoredEnchantments") : new NBTTagList();
     }
 
     /**
@@ -80,7 +81,7 @@ public class ItemEnchantedBook extends Item
             {
                 if (var6.getShort("lvl") < par2EnchantmentData.enchantmentLevel)
                 {
-                    var6.setShort("lvl", (short)par2EnchantmentData.enchantmentLevel);
+                    var6.setShort("lvl", (short) par2EnchantmentData.enchantmentLevel);
                 }
 
                 var4 = false;
@@ -91,8 +92,8 @@ public class ItemEnchantedBook extends Item
         if (var4)
         {
             NBTTagCompound var7 = new NBTTagCompound();
-            var7.setShort("id", (short)par2EnchantmentData.enchantmentobj.effectId);
-            var7.setShort("lvl", (short)par2EnchantmentData.enchantmentLevel);
+            var7.setShort("id", (short) par2EnchantmentData.enchantmentobj.effectId);
+            var7.setShort("lvl", (short) par2EnchantmentData.enchantmentLevel);
             var3.appendTag(var7);
         }
 

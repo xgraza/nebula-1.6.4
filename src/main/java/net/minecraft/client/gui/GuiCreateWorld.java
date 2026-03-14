@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import java.util.Random;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.MathHelper;
@@ -10,9 +9,11 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.input.Keyboard;
 
+import java.util.Random;
+
 public class GuiCreateWorld extends GuiScreen
 {
-    private GuiScreen field_146332_f;
+    private final GuiScreen field_146332_f;
     private GuiTextField field_146333_g;
     private GuiTextField field_146335_h;
     private String field_146336_i;
@@ -37,14 +38,14 @@ public class GuiCreateWorld extends GuiScreen
     private String field_146330_J;
     private int field_146331_K;
     public String field_146334_a = "";
-    private static final String[] field_146327_L = new String[] {"CON", "COM", "PRN", "AUX", "CLOCK$", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"};
+    private static final String[] field_146327_L = new String[]{ "CON", "COM", "PRN", "AUX", "CLOCK$", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
     private static final String __OBFID = "CL_00000689";
 
     public GuiCreateWorld(GuiScreen par1GuiScreen)
     {
         this.field_146332_f = par1GuiScreen;
         this.field_146329_I = "";
-        this.field_146330_J = I18n.format("selectWorld.newWorld", new Object[0]);
+        this.field_146330_J = I18n.format("selectWorld.newWorld");
     }
 
     /**
@@ -63,19 +64,19 @@ public class GuiCreateWorld extends GuiScreen
     {
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("selectWorld.create", new Object[0])));
-        this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel", new Object[0])));
-        this.buttonList.add(this.field_146343_z = new GuiButton(2, this.width / 2 - 75, 115, 150, 20, I18n.format("selectWorld.gameMode", new Object[0])));
-        this.buttonList.add(this.field_146324_A = new GuiButton(3, this.width / 2 - 75, 187, 150, 20, I18n.format("selectWorld.moreWorldOptions", new Object[0])));
-        this.buttonList.add(this.field_146325_B = new GuiButton(4, this.width / 2 - 155, 100, 150, 20, I18n.format("selectWorld.mapFeatures", new Object[0])));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("selectWorld.create")));
+        this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel")));
+        this.buttonList.add(this.field_146343_z = new GuiButton(2, this.width / 2 - 75, 115, 150, 20, I18n.format("selectWorld.gameMode")));
+        this.buttonList.add(this.field_146324_A = new GuiButton(3, this.width / 2 - 75, 187, 150, 20, I18n.format("selectWorld.moreWorldOptions")));
+        this.buttonList.add(this.field_146325_B = new GuiButton(4, this.width / 2 - 155, 100, 150, 20, I18n.format("selectWorld.mapFeatures")));
         this.field_146325_B.drawButton = false;
-        this.buttonList.add(this.field_146326_C = new GuiButton(7, this.width / 2 + 5, 151, 150, 20, I18n.format("selectWorld.bonusItems", new Object[0])));
+        this.buttonList.add(this.field_146326_C = new GuiButton(7, this.width / 2 + 5, 151, 150, 20, I18n.format("selectWorld.bonusItems")));
         this.field_146326_C.drawButton = false;
-        this.buttonList.add(this.field_146320_D = new GuiButton(5, this.width / 2 + 5, 100, 150, 20, I18n.format("selectWorld.mapType", new Object[0])));
+        this.buttonList.add(this.field_146320_D = new GuiButton(5, this.width / 2 + 5, 100, 150, 20, I18n.format("selectWorld.mapType")));
         this.field_146320_D.drawButton = false;
-        this.buttonList.add(this.field_146321_E = new GuiButton(6, this.width / 2 - 155, 151, 150, 20, I18n.format("selectWorld.allowCommands", new Object[0])));
+        this.buttonList.add(this.field_146321_E = new GuiButton(6, this.width / 2 - 155, 151, 150, 20, I18n.format("selectWorld.allowCommands")));
         this.field_146321_E.drawButton = false;
-        this.buttonList.add(this.field_146322_F = new GuiButton(8, this.width / 2 + 5, 120, 150, 20, I18n.format("selectWorld.customizeType", new Object[0])));
+        this.buttonList.add(this.field_146322_F = new GuiButton(8, this.width / 2 + 5, 120, 150, 20, I18n.format("selectWorld.customizeType")));
         this.field_146322_F.drawButton = false;
         this.field_146333_g = new GuiTextField(this.fontRenderer, this.width / 2 - 100, 60, 200, 20);
         this.field_146333_g.setFocused(true);
@@ -109,41 +110,38 @@ public class GuiCreateWorld extends GuiScreen
 
     private void func_146319_h()
     {
-        this.field_146343_z.displayString = I18n.format("selectWorld.gameMode", new Object[0]) + " " + I18n.format("selectWorld.gameMode." + this.field_146342_r, new Object[0]);
-        this.field_146323_G = I18n.format("selectWorld.gameMode." + this.field_146342_r + ".line1", new Object[0]);
-        this.field_146328_H = I18n.format("selectWorld.gameMode." + this.field_146342_r + ".line2", new Object[0]);
-        this.field_146325_B.displayString = I18n.format("selectWorld.mapFeatures", new Object[0]) + " ";
+        this.field_146343_z.displayString = I18n.format("selectWorld.gameMode") + " " + I18n.format("selectWorld.gameMode." + this.field_146342_r);
+        this.field_146323_G = I18n.format("selectWorld.gameMode." + this.field_146342_r + ".line1");
+        this.field_146328_H = I18n.format("selectWorld.gameMode." + this.field_146342_r + ".line2");
+        this.field_146325_B.displayString = I18n.format("selectWorld.mapFeatures") + " ";
 
         if (this.field_146341_s)
         {
-            this.field_146325_B.displayString = this.field_146325_B.displayString + I18n.format("options.on", new Object[0]);
-        }
-        else
+            this.field_146325_B.displayString = this.field_146325_B.displayString + I18n.format("options.on");
+        } else
         {
-            this.field_146325_B.displayString = this.field_146325_B.displayString + I18n.format("options.off", new Object[0]);
+            this.field_146325_B.displayString = this.field_146325_B.displayString + I18n.format("options.off");
         }
 
-        this.field_146326_C.displayString = I18n.format("selectWorld.bonusItems", new Object[0]) + " ";
+        this.field_146326_C.displayString = I18n.format("selectWorld.bonusItems") + " ";
 
         if (this.field_146338_v && !this.field_146337_w)
         {
-            this.field_146326_C.displayString = this.field_146326_C.displayString + I18n.format("options.on", new Object[0]);
-        }
-        else
+            this.field_146326_C.displayString = this.field_146326_C.displayString + I18n.format("options.on");
+        } else
         {
-            this.field_146326_C.displayString = this.field_146326_C.displayString + I18n.format("options.off", new Object[0]);
+            this.field_146326_C.displayString = this.field_146326_C.displayString + I18n.format("options.off");
         }
 
-        this.field_146320_D.displayString = I18n.format("selectWorld.mapType", new Object[0]) + " " + I18n.format(WorldType.worldTypes[this.field_146331_K].getTranslateName(), new Object[0]);
-        this.field_146321_E.displayString = I18n.format("selectWorld.allowCommands", new Object[0]) + " ";
+        this.field_146320_D.displayString = I18n.format("selectWorld.mapType") + " " + I18n.format(WorldType.worldTypes[this.field_146331_K].getTranslateName());
+        this.field_146321_E.displayString = I18n.format("selectWorld.allowCommands") + " ";
 
         if (this.field_146340_t && !this.field_146337_w)
         {
-            this.field_146321_E.displayString = this.field_146321_E.displayString + I18n.format("options.on", new Object[0]);
-        }
-        else
+            this.field_146321_E.displayString = this.field_146321_E.displayString + I18n.format("options.on");
+        } else
         {
-            this.field_146321_E.displayString = this.field_146321_E.displayString + I18n.format("options.off", new Object[0]);
+            this.field_146321_E.displayString = this.field_146321_E.displayString + I18n.format("options.off");
         }
     }
 
@@ -186,10 +184,9 @@ public class GuiCreateWorld extends GuiScreen
             if (p_146284_1_.id == 1)
             {
                 this.mc.displayGuiScreen(this.field_146332_f);
-            }
-            else if (p_146284_1_.id == 0)
+            } else if (p_146284_1_.id == 0)
             {
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
 
                 if (this.field_146345_x)
                 {
@@ -210,10 +207,9 @@ public class GuiCreateWorld extends GuiScreen
                         {
                             var2 = var5;
                         }
-                    }
-                    catch (NumberFormatException var7)
+                    } catch (NumberFormatException var7)
                     {
-                        var2 = (long)var4.hashCode();
+                        var2 = var4.hashCode();
                     }
                 }
 
@@ -232,12 +228,10 @@ public class GuiCreateWorld extends GuiScreen
                 }
 
                 this.mc.launchIntegratedServer(this.field_146336_i, this.field_146333_g.getText().trim(), var6);
-            }
-            else if (p_146284_1_.id == 3)
+            } else if (p_146284_1_.id == 3)
             {
                 this.func_146315_i();
-            }
-            else if (p_146284_1_.id == 2)
+            } else if (p_146284_1_.id == 2)
             {
                 if (this.field_146342_r.equals("survival"))
                 {
@@ -252,8 +246,7 @@ public class GuiCreateWorld extends GuiScreen
                     this.field_146321_E.enabled = false;
                     this.field_146326_C.enabled = false;
                     this.func_146319_h();
-                }
-                else if (this.field_146342_r.equals("hardcore"))
+                } else if (this.field_146342_r.equals("hardcore"))
                 {
                     if (!this.field_146339_u)
                     {
@@ -266,8 +259,7 @@ public class GuiCreateWorld extends GuiScreen
                     this.field_146337_w = false;
                     this.field_146321_E.enabled = true;
                     this.field_146326_C.enabled = true;
-                }
-                else
+                } else
                 {
                     if (!this.field_146339_u)
                     {
@@ -282,18 +274,15 @@ public class GuiCreateWorld extends GuiScreen
                 }
 
                 this.func_146319_h();
-            }
-            else if (p_146284_1_.id == 4)
+            } else if (p_146284_1_.id == 4)
             {
                 this.field_146341_s = !this.field_146341_s;
                 this.func_146319_h();
-            }
-            else if (p_146284_1_.id == 7)
+            } else if (p_146284_1_.id == 7)
             {
                 this.field_146338_v = !this.field_146338_v;
                 this.func_146319_h();
-            }
-            else if (p_146284_1_.id == 5)
+            } else if (p_146284_1_.id == 5)
             {
                 ++this.field_146331_K;
 
@@ -315,14 +304,12 @@ public class GuiCreateWorld extends GuiScreen
                 this.field_146334_a = "";
                 this.func_146319_h();
                 this.func_146316_a(this.field_146344_y);
-            }
-            else if (p_146284_1_.id == 6)
+            } else if (p_146284_1_.id == 6)
             {
                 this.field_146339_u = true;
                 this.field_146340_t = !this.field_146340_t;
                 this.func_146319_h();
-            }
-            else if (p_146284_1_.id == 8)
+            } else if (p_146284_1_.id == 8)
             {
                 this.mc.displayGuiScreen(new GuiCreateFlatWorld(this, this.field_146334_a));
             }
@@ -346,11 +333,10 @@ public class GuiCreateWorld extends GuiScreen
 
         if (this.field_146344_y)
         {
-            this.field_146324_A.displayString = I18n.format("gui.done", new Object[0]);
-        }
-        else
+            this.field_146324_A.displayString = I18n.format("gui.done");
+        } else
         {
-            this.field_146324_A.displayString = I18n.format("selectWorld.moreWorldOptions", new Object[0]);
+            this.field_146324_A.displayString = I18n.format("selectWorld.moreWorldOptions");
         }
     }
 
@@ -363,8 +349,7 @@ public class GuiCreateWorld extends GuiScreen
         {
             this.field_146333_g.textboxKeyTyped(typedChar, keyCode);
             this.field_146330_J = this.field_146333_g.getText();
-        }
-        else if (this.field_146335_h.isFocused() && this.field_146344_y)
+        } else if (this.field_146335_h.isFocused() && this.field_146344_y)
         {
             this.field_146335_h.textboxKeyTyped(typedChar, keyCode);
             this.field_146329_I = this.field_146335_h.getText();
@@ -372,10 +357,10 @@ public class GuiCreateWorld extends GuiScreen
 
         if (keyCode == 28 || keyCode == 156)
         {
-            this.actionPerformed((GuiButton)this.buttonList.get(0));
+            this.actionPerformed(this.buttonList.get(0));
         }
 
-        ((GuiButton)this.buttonList.get(0)).enabled = this.field_146333_g.getText().length() > 0;
+        this.buttonList.get(0).enabled = this.field_146333_g.getText().length() > 0;
         this.func_146314_g();
     }
 
@@ -389,8 +374,7 @@ public class GuiCreateWorld extends GuiScreen
         if (this.field_146344_y)
         {
             this.field_146335_h.mouseClicked(mouseX, mouseY, mouseButton);
-        }
-        else
+        } else
         {
             this.field_146333_g.mouseClicked(mouseX, mouseY, mouseButton);
         }
@@ -402,25 +386,24 @@ public class GuiCreateWorld extends GuiScreen
     public void drawScreen(int par1, int par2, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, I18n.format("selectWorld.create", new Object[0]), this.width / 2, 20, -1);
+        this.drawCenteredString(this.fontRenderer, I18n.format("selectWorld.create"), this.width / 2, 20, -1);
 
         if (this.field_146344_y)
         {
-            this.drawString(this.fontRenderer, I18n.format("selectWorld.enterSeed", new Object[0]), this.width / 2 - 100, 47, -6250336);
-            this.drawString(this.fontRenderer, I18n.format("selectWorld.seedInfo", new Object[0]), this.width / 2 - 100, 85, -6250336);
-            this.drawString(this.fontRenderer, I18n.format("selectWorld.mapFeatures.info", new Object[0]), this.width / 2 - 150, 122, -6250336);
-            this.drawString(this.fontRenderer, I18n.format("selectWorld.allowCommands.info", new Object[0]), this.width / 2 - 150, 172, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.enterSeed"), this.width / 2 - 100, 47, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.seedInfo"), this.width / 2 - 100, 85, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.mapFeatures.info"), this.width / 2 - 150, 122, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.allowCommands.info"), this.width / 2 - 150, 172, -6250336);
             this.field_146335_h.drawTextBox();
 
             if (WorldType.worldTypes[this.field_146331_K].func_151357_h())
             {
-                this.fontRenderer.drawSplitString(I18n.format(WorldType.worldTypes[this.field_146331_K].func_151359_c(), new Object[0]), this.field_146320_D.xPosition + 2, this.field_146320_D.yPosition + 22, this.field_146320_D.getButtonWidth(), 10526880);
+                this.fontRenderer.drawSplitString(I18n.format(WorldType.worldTypes[this.field_146331_K].func_151359_c()), this.field_146320_D.xPosition + 2, this.field_146320_D.yPosition + 22, this.field_146320_D.getButtonWidth(), 10526880);
             }
-        }
-        else
+        } else
         {
-            this.drawString(this.fontRenderer, I18n.format("selectWorld.enterName", new Object[0]), this.width / 2 - 100, 47, -6250336);
-            this.drawString(this.fontRenderer, I18n.format("selectWorld.resultFolder", new Object[0]) + " " + this.field_146336_i, this.width / 2 - 100, 85, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.enterName"), this.width / 2 - 100, 47, -6250336);
+            this.drawString(this.fontRenderer, I18n.format("selectWorld.resultFolder") + " " + this.field_146336_i, this.width / 2 - 100, 85, -6250336);
             this.field_146333_g.drawTextBox();
             this.drawString(this.fontRenderer, this.field_146323_G, this.width / 2 - 100, 137, -6250336);
             this.drawString(this.fontRenderer, this.field_146328_H, this.width / 2 - 100, 149, -6250336);
@@ -431,7 +414,7 @@ public class GuiCreateWorld extends GuiScreen
 
     public void func_146318_a(WorldInfo p_146318_1_)
     {
-        this.field_146330_J = I18n.format("selectWorld.newWorld.copyOf", new Object[] {p_146318_1_.getWorldName()});
+        this.field_146330_J = I18n.format("selectWorld.newWorld.copyOf", p_146318_1_.getWorldName());
         this.field_146329_I = p_146318_1_.getSeed() + "";
         this.field_146331_K = p_146318_1_.getTerrainType().getWorldTypeID();
         this.field_146334_a = p_146318_1_.getGeneratorOptions();
@@ -441,12 +424,10 @@ public class GuiCreateWorld extends GuiScreen
         if (p_146318_1_.isHardcoreModeEnabled())
         {
             this.field_146342_r = "hardcore";
-        }
-        else if (p_146318_1_.getGameType().isSurvivalOrAdventure())
+        } else if (p_146318_1_.getGameType().isSurvivalOrAdventure())
         {
             this.field_146342_r = "survival";
-        }
-        else if (p_146318_1_.getGameType().isCreative())
+        } else if (p_146318_1_.getGameType().isCreative())
         {
             this.field_146342_r = "creative";
         }

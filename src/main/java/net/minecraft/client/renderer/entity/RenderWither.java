@@ -20,7 +20,7 @@ public class RenderWither extends RenderLiving
     public RenderWither()
     {
         super(new ModelWither(), 1.0F);
-        this.field_82419_a = ((ModelWither)this.mainModel).func_82903_a();
+        this.field_82419_a = ((ModelWither) this.mainModel).func_82903_a();
     }
 
     /**
@@ -32,7 +32,7 @@ public class RenderWither extends RenderLiving
     public void doRender(EntityWither par1EntityWither, double par2, double par4, double par6, float par8, float par9)
     {
         BossStatus.setBossStatus(par1EntityWither, true);
-        int var10 = ((ModelWither)this.mainModel).func_82903_a();
+        int var10 = ((ModelWither) this.mainModel).func_82903_a();
 
         if (var10 != this.field_82419_a)
         {
@@ -40,7 +40,7 @@ public class RenderWither extends RenderLiving
             this.mainModel = new ModelWither();
         }
 
-        super.doRender((EntityLiving)par1EntityWither, par2, par4, par6, par8, par9);
+        super.doRender(par1EntityWither, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -62,10 +62,9 @@ public class RenderWither extends RenderLiving
 
         if (var3 > 0)
         {
-            float var4 = 2.0F - ((float)var3 - par2) / 220.0F * 0.5F;
+            float var4 = 2.0F - ((float) var3 - par2) / 220.0F * 0.5F;
             GL11.glScalef(var4, var4, var4);
-        }
-        else
+        } else
         {
             GL11.glScalef(2.0F, 2.0F, 2.0F);
         }
@@ -78,18 +77,11 @@ public class RenderWither extends RenderLiving
     {
         if (par1EntityWither.isArmored())
         {
-            if (par1EntityWither.isInvisible())
-            {
-                GL11.glDepthMask(false);
-            }
-            else
-            {
-                GL11.glDepthMask(true);
-            }
+            GL11.glDepthMask(!par1EntityWither.isInvisible());
 
             if (par2 == 1)
             {
-                float var4 = (float)par1EntityWither.ticksExisted + par3;
+                float var4 = (float) par1EntityWither.ticksExisted + par3;
                 this.bindTexture(invulnerableWitherTextures);
                 GL11.glMatrixMode(GL11.GL_TEXTURE);
                 GL11.glLoadIdentity();
@@ -134,7 +126,7 @@ public class RenderWither extends RenderLiving
      */
     public void doRender(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityWither)par1EntityLiving, par2, par4, par6, par8, par9);
+        this.doRender((EntityWither) par1EntityLiving, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -143,7 +135,7 @@ public class RenderWither extends RenderLiving
      */
     protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
     {
-        this.preRenderCallback((EntityWither)par1EntityLivingBase, par2);
+        this.preRenderCallback((EntityWither) par1EntityLivingBase, par2);
     }
 
     /**
@@ -151,12 +143,12 @@ public class RenderWither extends RenderLiving
      */
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.shouldRenderPass((EntityWither)par1EntityLivingBase, par2, par3);
+        return this.shouldRenderPass((EntityWither) par1EntityLivingBase, par2, par3);
     }
 
     protected int inheritRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
-        return this.inheritRenderPass((EntityWither)par1EntityLivingBase, par2, par3);
+        return this.inheritRenderPass((EntityWither) par1EntityLivingBase, par2, par3);
     }
 
     /**
@@ -167,7 +159,7 @@ public class RenderWither extends RenderLiving
      */
     public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityWither)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityWither) par1Entity, par2, par4, par6, par8, par9);
     }
 
     /**
@@ -175,7 +167,7 @@ public class RenderWither extends RenderLiving
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityWither)par1Entity);
+        return this.getEntityTexture((EntityWither) par1Entity);
     }
 
     /**
@@ -186,6 +178,6 @@ public class RenderWither extends RenderLiving
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityWither)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityWither) par1Entity, par2, par4, par6, par8, par9);
     }
 }

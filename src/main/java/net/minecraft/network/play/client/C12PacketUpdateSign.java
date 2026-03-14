@@ -1,10 +1,11 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C12PacketUpdateSign extends Packet
 {
@@ -13,14 +14,16 @@ public class C12PacketUpdateSign extends Packet
     private int field_149592_c;
     private String[] field_149590_d;
 
-    public C12PacketUpdateSign() {}
+    public C12PacketUpdateSign()
+    {
+    }
 
     public C12PacketUpdateSign(int p_i45264_1_, int p_i45264_2_, int p_i45264_3_, String[] p_i45264_4_)
     {
         this.field_149593_a = p_i45264_1_;
         this.field_149591_b = p_i45264_2_;
         this.field_149592_c = p_i45264_3_;
-        this.field_149590_d = new String[] {p_i45264_4_[0], p_i45264_4_[1], p_i45264_4_[2], p_i45264_4_[3]};
+        this.field_149590_d = new String[]{ p_i45264_4_[0], p_i45264_4_[1], p_i45264_4_[2], p_i45264_4_[3] };
     }
 
     /**
@@ -81,6 +84,6 @@ public class C12PacketUpdateSign extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

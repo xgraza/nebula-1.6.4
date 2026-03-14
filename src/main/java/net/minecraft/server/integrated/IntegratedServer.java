@@ -1,9 +1,5 @@
 package net.minecraft.server.integrated;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.concurrent.Callable;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ThreadLanServerPing;
@@ -13,21 +9,24 @@ import net.minecraft.src.WorldServerMultiOF;
 import net.minecraft.src.WorldServerOF;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.HttpUtil;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.WorldManager;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.WorldSettings;
-import net.minecraft.world.WorldType;
+import net.minecraft.world.*;
 import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.concurrent.Callable;
+
 public class IntegratedServer extends MinecraftServer
 {
     private static final Logger logger = LogManager.getLogger();
 
-    /** The Minecraft instance. */
+    /**
+     * The Minecraft instance.
+     */
     private final Minecraft mc;
     private final WorldSettings theWorldSettings;
     private boolean isGamePaused;
@@ -76,13 +75,11 @@ public class IntegratedServer extends MinecraftServer
                 if (this.isDemo())
                 {
                     this.worldServers[var15] = new DemoWorldServer(this, var7, par2Str, var16, this.theProfiler);
-                }
-                else
+                } else
                 {
                     this.worldServers[var15] = new WorldServerOF(this, var7, par2Str, var16, this.theWorldSettings, this.theProfiler);
                 }
-            }
-            else
+            } else
             {
                 this.worldServers[var15] = new WorldServerMultiOF(this, var7, par2Str, var16, this.theWorldSettings, this.worldServers[0], this.theProfiler);
             }
@@ -186,6 +183,7 @@ public class IntegratedServer extends MinecraftServer
         par1CrashReport.getCategory().addCrashSectionCallable("Type", new Callable()
         {
             private static final String __OBFID = "CL_00001130";
+
             public String call()
             {
                 return "Integrated Server (map_client.txt)";
@@ -194,18 +192,18 @@ public class IntegratedServer extends MinecraftServer
         par1CrashReport.getCategory().addCrashSectionCallable("Is Modded", new Callable()
         {
             private static final String __OBFID = "CL_00001131";
+
             public String call()
             {
                 String var1 = ClientBrandRetriever.getClientModName();
 
                 if (!var1.equals("vanilla"))
                 {
-                    return "Definitely; Client brand changed to \'" + var1 + "\'";
-                }
-                else
+                    return "Definitely; Client brand changed to '" + var1 + "'";
+                } else
                 {
                     var1 = IntegratedServer.this.getServerModName();
-                    return !var1.equals("vanilla") ? "Definitely; Server brand changed to \'" + var1 + "\'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and both client + server brands are untouched.");
+                    return !var1.equals("vanilla") ? "Definitely; Server brand changed to '" + var1 + "'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and both client + server brands are untouched.");
                 }
             }
         });
@@ -224,10 +222,8 @@ public class IntegratedServer extends MinecraftServer
             try
             {
                 var6 = HttpUtil.func_76181_a();
-            }
-            catch (IOException var5)
+            } catch (IOException var5)
             {
-                ;
             }
 
             if (var6 <= 0)
@@ -235,7 +231,7 @@ public class IntegratedServer extends MinecraftServer
                 var6 = 25564;
             }
 
-            this.func_147137_ag().addLanEndpoint((InetAddress)null, var6);
+            this.func_147137_ag().addLanEndpoint((InetAddress) null, var6);
             logger.info("Started on " + var6);
             this.isPublic = true;
             this.lanServerPing = new ThreadLanServerPing(this.getMOTD(), var6 + "");
@@ -243,8 +239,7 @@ public class IntegratedServer extends MinecraftServer
             this.getConfigurationManager().setGameType(par1EnumGameType);
             this.getConfigurationManager().setCommandsAllowedForAll(par2);
             return var6 + "";
-        }
-        catch (IOException var61)
+        } catch (IOException var61)
         {
             return null;
         }

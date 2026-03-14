@@ -33,7 +33,7 @@ public class CommandSetDefaultSpawnpoint extends CommandBase
         {
             if (par1ICommandSender.getEntityWorld() == null)
             {
-                throw new WrongUsageException("commands.setworldspawn.usage", new Object[0]);
+                throw new WrongUsageException("commands.setworldspawn.usage");
             }
 
             byte var3 = 0;
@@ -42,18 +42,17 @@ public class CommandSetDefaultSpawnpoint extends CommandBase
             int var5 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[var7++], 0, 256);
             int var6 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[var7++], -30000000, 30000000);
             par1ICommandSender.getEntityWorld().setSpawnLocation(var4, var5, var6);
-            notifyAdmins(par1ICommandSender, "commands.setworldspawn.success", new Object[] {Integer.valueOf(var4), Integer.valueOf(var5), Integer.valueOf(var6)});
-        }
-        else
+            notifyAdmins(par1ICommandSender, "commands.setworldspawn.success", Integer.valueOf(var4), Integer.valueOf(var5), Integer.valueOf(var6));
+        } else
         {
             if (par2ArrayOfStr.length != 0)
             {
-                throw new WrongUsageException("commands.setworldspawn.usage", new Object[0]);
+                throw new WrongUsageException("commands.setworldspawn.usage");
             }
 
             ChunkCoordinates var8 = getCommandSenderAsPlayer(par1ICommandSender).getPlayerCoordinates();
             par1ICommandSender.getEntityWorld().setSpawnLocation(var8.posX, var8.posY, var8.posZ);
-            notifyAdmins(par1ICommandSender, "commands.setworldspawn.success", new Object[] {Integer.valueOf(var8.posX), Integer.valueOf(var8.posY), Integer.valueOf(var8.posZ)});
+            notifyAdmins(par1ICommandSender, "commands.setworldspawn.success", Integer.valueOf(var8.posX), Integer.valueOf(var8.posY), Integer.valueOf(var8.posZ));
         }
     }
 }

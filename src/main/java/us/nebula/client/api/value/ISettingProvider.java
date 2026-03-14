@@ -9,6 +9,8 @@ import java.util.List;
 public interface ISettingProvider
 {
     List<Setting<?>> getSettings();
+
     <T> Setting<T> getSetting(final String name);
+
     void reflectSettings();
 }

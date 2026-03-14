@@ -1,10 +1,5 @@
 package net.minecraft.client.gui;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.util.EnumChatFormatting;
@@ -14,6 +9,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class GuiWinGame extends GuiScreen
 {
     private static final Logger logger = LogManager.getLogger();
@@ -22,7 +23,7 @@ public class GuiWinGame extends GuiScreen
     private int field_146581_h;
     private List field_146582_i;
     private int field_146579_r;
-    private float field_146578_s = 0.5F;
+    private final float field_146578_s = 0.5F;
     private static final String __OBFID = "CL_00000719";
 
     /**
@@ -31,9 +32,9 @@ public class GuiWinGame extends GuiScreen
     public void updateScreen()
     {
         ++this.field_146581_h;
-        float var1 = (float)(this.field_146579_r + this.height + this.height + 24) / this.field_146578_s;
+        float var1 = (float) (this.field_146579_r + this.height + this.height + 24) / this.field_146578_s;
 
-        if ((float)this.field_146581_h > var1)
+        if ((float) this.field_146581_h > var1)
         {
             this.func_146574_g();
         }
@@ -53,7 +54,7 @@ public class GuiWinGame extends GuiScreen
     private void func_146574_g()
     {
         this.mc.thePlayer.sendQueue.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.PERFORM_RESPAWN));
-        this.mc.displayGuiScreen((GuiScreen)null);
+        this.mc.displayGuiScreen(null);
     }
 
     /**
@@ -114,10 +115,9 @@ public class GuiWinGame extends GuiScreen
                 }
 
                 this.field_146579_r = this.field_146582_i.size() * 12;
-            }
-            catch (Exception var9)
+            } catch (Exception var9)
             {
-                logger.error("Couldn\'t load credits", var9);
+                logger.error("Couldn't load credits", var9);
             }
         }
     }
@@ -129,12 +129,12 @@ public class GuiWinGame extends GuiScreen
         var4.startDrawingQuads();
         var4.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1.0F);
         int var5 = this.width;
-        float var6 = 0.0F - ((float)this.field_146581_h + p_146575_3_) * 0.5F * this.field_146578_s;
-        float var7 = (float)this.height - ((float)this.field_146581_h + p_146575_3_) * 0.5F * this.field_146578_s;
+        float var6 = 0.0F - ((float) this.field_146581_h + p_146575_3_) * 0.5F * this.field_146578_s;
+        float var7 = (float) this.height - ((float) this.field_146581_h + p_146575_3_) * 0.5F * this.field_146578_s;
         float var8 = 0.015625F;
-        float var9 = ((float)this.field_146581_h + p_146575_3_ - 0.0F) * 0.02F;
-        float var10 = (float)(this.field_146579_r + this.height + this.height + 24) / this.field_146578_s;
-        float var11 = (var10 - 20.0F - ((float)this.field_146581_h + p_146575_3_)) * 0.005F;
+        float var9 = ((float) this.field_146581_h + p_146575_3_ - 0.0F) * 0.02F;
+        float var10 = (float) (this.field_146579_r + this.height + this.height + 24) / this.field_146578_s;
+        float var11 = (var10 - 20.0F - ((float) this.field_146581_h + p_146575_3_)) * 0.005F;
 
         if (var11 < var9)
         {
@@ -149,10 +149,10 @@ public class GuiWinGame extends GuiScreen
         var9 *= var9;
         var9 = var9 * 96.0F / 255.0F;
         var4.setColorOpaque_F(var9, var9, var9);
-        var4.addVertexWithUV(0.0D, (double)this.height, (double)this.zLevel, 0.0D, (double)(var6 * var8));
-        var4.addVertexWithUV((double)var5, (double)this.height, (double)this.zLevel, (double)((float)var5 * var8), (double)(var6 * var8));
-        var4.addVertexWithUV((double)var5, 0.0D, (double)this.zLevel, (double)((float)var5 * var8), (double)(var7 * var8));
-        var4.addVertexWithUV(0.0D, 0.0D, (double)this.zLevel, 0.0D, (double)(var7 * var8));
+        var4.addVertexWithUV(0.0D, this.height, this.zLevel, 0.0D, var6 * var8);
+        var4.addVertexWithUV(var5, this.height, this.zLevel, (float) var5 * var8, var6 * var8);
+        var4.addVertexWithUV(var5, 0.0D, this.zLevel, (float) var5 * var8, var7 * var8);
+        var4.addVertexWithUV(0.0D, 0.0D, this.zLevel, 0.0D, var7 * var8);
         var4.draw();
     }
 
@@ -166,7 +166,7 @@ public class GuiWinGame extends GuiScreen
         short var5 = 274;
         int var6 = this.width / 2 - var5 / 2;
         int var7 = this.height + 50;
-        float var8 = -((float)this.field_146581_h + par3) * this.field_146578_s;
+        float var8 = -((float) this.field_146581_h + par3) * this.field_146578_s;
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, var8, 0.0F);
         this.mc.getTextureManager().bindTexture(field_146576_f);
@@ -181,7 +181,7 @@ public class GuiWinGame extends GuiScreen
         {
             if (var10 == this.field_146582_i.size() - 1)
             {
-                float var11 = (float)var9 + var8 - (float)(this.height / 2 - 6);
+                float var11 = (float) var9 + var8 - (float) (this.height / 2 - 6);
 
                 if (var11 < 0.0F)
                 {
@@ -189,17 +189,16 @@ public class GuiWinGame extends GuiScreen
                 }
             }
 
-            if ((float)var9 + var8 + 12.0F + 8.0F > 0.0F && (float)var9 + var8 < (float)this.height)
+            if ((float) var9 + var8 + 12.0F + 8.0F > 0.0F && (float) var9 + var8 < (float) this.height)
             {
-                String var12 = (String)this.field_146582_i.get(var10);
+                String var12 = (String) this.field_146582_i.get(var10);
 
                 if (var12.startsWith("[C]"))
                 {
                     this.fontRenderer.drawStringWithShadow(var12.substring(3), var6 + (var5 - this.fontRenderer.getStringWidth(var12.substring(3))) / 2, var9, 16777215);
-                }
-                else
+                } else
                 {
-                    this.fontRenderer.fontRandom.setSeed((long)var10 * 4238972211L + (long)(this.field_146581_h / 4));
+                    this.fontRenderer.fontRandom.setSeed((long) var10 * 4238972211L + (long) (this.field_146581_h / 4));
                     this.fontRenderer.drawStringWithShadow(var12, var6, var9, 16777215);
                 }
             }
@@ -215,10 +214,10 @@ public class GuiWinGame extends GuiScreen
         var4.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1.0F);
         var10 = this.width;
         int var13 = this.height;
-        var4.addVertexWithUV(0.0D, (double)var13, (double)this.zLevel, 0.0D, 1.0D);
-        var4.addVertexWithUV((double)var10, (double)var13, (double)this.zLevel, 1.0D, 1.0D);
-        var4.addVertexWithUV((double)var10, 0.0D, (double)this.zLevel, 1.0D, 0.0D);
-        var4.addVertexWithUV(0.0D, 0.0D, (double)this.zLevel, 0.0D, 0.0D);
+        var4.addVertexWithUV(0.0D, var13, this.zLevel, 0.0D, 1.0D);
+        var4.addVertexWithUV(var10, var13, this.zLevel, 1.0D, 1.0D);
+        var4.addVertexWithUV(var10, 0.0D, this.zLevel, 1.0D, 0.0D);
+        var4.addVertexWithUV(0.0D, 0.0D, this.zLevel, 0.0D, 0.0D);
         var4.draw();
         GL11.glDisable(GL11.GL_BLEND);
         super.drawScreen(par1, par2, par3);

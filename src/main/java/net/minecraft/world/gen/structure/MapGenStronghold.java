@@ -1,20 +1,17 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Map.Entry;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
+import java.util.*;
+import java.util.Map.Entry;
+
 public class MapGenStronghold extends MapGenStructure
 {
-    private List field_151546_e;
+    private final List field_151546_e;
 
     /**
      * is spawned false and set true once the defined BiomeGenBases were compared with the present ones
@@ -52,19 +49,17 @@ public class MapGenStronghold extends MapGenStructure
 
         while (var2.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
+            Entry var3 = (Entry) var2.next();
 
-            if (((String)var3.getKey()).equals("distance"))
+            if (var3.getKey().equals("distance"))
             {
-                this.field_82671_h = MathHelper.parseDoubleWithDefaultAndMax((String)var3.getValue(), this.field_82671_h, 1.0D);
-            }
-            else if (((String)var3.getKey()).equals("count"))
+                this.field_82671_h = MathHelper.parseDoubleWithDefaultAndMax((String) var3.getValue(), this.field_82671_h, 1.0D);
+            } else if (var3.getKey().equals("count"))
             {
-                this.structureCoords = new ChunkCoordIntPair[MathHelper.parseIntWithDefaultAndMax((String)var3.getValue(), this.structureCoords.length, 1)];
-            }
-            else if (((String)var3.getKey()).equals("spread"))
+                this.structureCoords = new ChunkCoordIntPair[MathHelper.parseIntWithDefaultAndMax((String) var3.getValue(), this.structureCoords.length, 1)];
+            } else if (var3.getKey().equals("spread"))
             {
-                this.field_82672_i = MathHelper.parseIntWithDefaultAndMax((String)var3.getValue(), this.field_82672_i, 1);
+                this.field_82672_i = MathHelper.parseIntWithDefaultAndMax((String) var3.getValue(), this.field_82672_i, 1);
             }
         }
     }
@@ -85,9 +80,9 @@ public class MapGenStronghold extends MapGenStructure
 
             for (int var7 = 0; var7 < this.structureCoords.length; ++var7)
             {
-                double var8 = (1.25D * (double)var6 + var3.nextDouble()) * this.field_82671_h * (double)var6;
-                int var10 = (int)Math.round(Math.cos(var4) * var8);
-                int var11 = (int)Math.round(Math.sin(var4) * var8);
+                double var8 = (1.25D * (double) var6 + var3.nextDouble()) * this.field_82671_h * (double) var6;
+                int var10 = (int) Math.round(Math.cos(var4) * var8);
+                int var11 = (int) Math.round(Math.sin(var4) * var8);
                 ChunkPosition var12 = this.worldObj.getWorldChunkManager().func_150795_a((var10 << 4) + 8, (var11 << 4) + 8, 112, this.field_151546_e, var3);
 
                 if (var12 != null)
@@ -97,7 +92,7 @@ public class MapGenStronghold extends MapGenStructure
                 }
 
                 this.structureCoords[var7] = new ChunkCoordIntPair(var10, var11);
-                var4 += (Math.PI * 2D) * (double)var6 / (double)this.field_82672_i;
+                var4 += (Math.PI * 2D) * (double) var6 / (double) this.field_82672_i;
 
                 if (var7 == this.field_82672_i)
                 {
@@ -152,9 +147,8 @@ public class MapGenStronghold extends MapGenStructure
     {
         MapGenStronghold.Start var3;
 
-        for (var3 = new MapGenStronghold.Start(this.worldObj, this.rand, par1, par2); var3.getComponents().isEmpty() || ((StructureStrongholdPieces.Stairs2)var3.getComponents().get(0)).strongholdPortalRoom == null; var3 = new MapGenStronghold.Start(this.worldObj, this.rand, par1, par2))
+        for (var3 = new MapGenStronghold.Start(this.worldObj, this.rand, par1, par2); var3.getComponents().isEmpty() || ((StructureStrongholdPieces.Stairs2) var3.getComponents().get(0)).strongholdPortalRoom == null; var3 = new MapGenStronghold.Start(this.worldObj, this.rand, par1, par2))
         {
-            ;
         }
 
         return var3;
@@ -164,7 +158,9 @@ public class MapGenStronghold extends MapGenStructure
     {
         private static final String __OBFID = "CL_00000482";
 
-        public Start() {}
+        public Start()
+        {
+        }
 
         public Start(World par1World, Random par2Random, int par3, int par4)
         {
@@ -178,7 +174,7 @@ public class MapGenStronghold extends MapGenStructure
             while (!var6.isEmpty())
             {
                 int var7 = par2Random.nextInt(var6.size());
-                StructureComponent var8 = (StructureComponent)var6.remove(var7);
+                StructureComponent var8 = (StructureComponent) var6.remove(var7);
                 var8.buildComponent(var5, this.components, par2Random);
             }
 

@@ -1,16 +1,19 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 
+import java.io.IOException;
+
 public class S09PacketHeldItemChange extends Packet
 {
     private int slotIndex;
 
-    public S09PacketHeldItemChange() {}
+    public S09PacketHeldItemChange()
+    {
+    }
 
     public S09PacketHeldItemChange(int slotIndex)
     {
@@ -45,6 +48,6 @@ public class S09PacketHeldItemChange extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

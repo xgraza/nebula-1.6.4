@@ -42,7 +42,7 @@ public class EntitySheep extends EntityAnimal
      * tick.
      */
     private int sheepTimer;
-    private EntityAIEatGrass field_146087_bs = new EntityAIEatGrass(this);
+    private final EntityAIEatGrass field_146087_bs = new EntityAIEatGrass(this);
     private static final String __OBFID = "CL_00001648";
 
     public EntitySheep(World par1World)
@@ -165,9 +165,9 @@ public class EntitySheep extends EntityAnimal
                 for (int var4 = 0; var4 < var3; ++var4)
                 {
                     EntityItem var5 = this.entityDropItem(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, this.getFleeceColor()), 1.0F);
-                    var5.motionY += (double) (this.rand.nextFloat() * 0.05F);
-                    var5.motionX += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
-                    var5.motionZ += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
+                    var5.motionY += this.rand.nextFloat() * 0.05F;
+                    var5.motionX += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F;
+                    var5.motionZ += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F;
                 }
             }
 
@@ -307,7 +307,7 @@ public class EntitySheep extends EntityAnimal
         int var4 = this.func_90013_b(par2EntityAnimal);
         this.field_90016_e.getStackInSlot(0).setItemDamage(var3);
         this.field_90016_e.getStackInSlot(1).setItemDamage(var4);
-        ItemStack var5 = CraftingManager.getInstance().findMatchingRecipe(this.field_90016_e, ((EntitySheep) par1EntityAnimal).worldObj);
+        ItemStack var5 = CraftingManager.getInstance().findMatchingRecipe(this.field_90016_e, par1EntityAnimal.worldObj);
         int var6;
 
         if (var5 != null && var5.getItem() == Items.dye)

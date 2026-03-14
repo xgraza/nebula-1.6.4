@@ -9,13 +9,19 @@ import net.minecraft.world.World;
 
 public class EntityEnderEye extends Entity
 {
-    /** 'x' location the eye should float towards. */
+    /**
+     * 'x' location the eye should float towards.
+     */
     private double targetX;
 
-    /** 'y' location the eye should float towards. */
+    /**
+     * 'y' location the eye should float towards.
+     */
     private double targetY;
 
-    /** 'z' location the eye should float towards. */
+    /**
+     * 'z' location the eye should float towards.
+     */
     private double targetZ;
     private int despawnTimer;
     private boolean shatterOrDrop;
@@ -27,7 +33,9 @@ public class EntityEnderEye extends Entity
         this.setSize(0.25F, 0.25F);
     }
 
-    protected void entityInit() {}
+    protected void entityInit()
+    {
+    }
 
     /**
      * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
@@ -61,14 +69,13 @@ public class EntityEnderEye extends Entity
 
         if (var10 > 12.0F)
         {
-            this.targetX = this.posX + var6 / (double)var10 * 12.0D;
-            this.targetZ = this.posZ + var8 / (double)var10 * 12.0D;
+            this.targetX = this.posX + var6 / (double) var10 * 12.0D;
+            this.targetZ = this.posZ + var8 / (double) var10 * 12.0D;
             this.targetY = this.posY + 8.0D;
-        }
-        else
+        } else
         {
             this.targetX = par1;
-            this.targetY = (double)par3;
+            this.targetY = par3;
             this.targetZ = par4;
         }
 
@@ -88,8 +95,8 @@ public class EntityEnderEye extends Entity
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
         {
             float var7 = MathHelper.sqrt_double(par1 * par1 + par5 * par5);
-            this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(par1, par5) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(par3, (double)var7) * 180.0D / Math.PI);
+            this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(par1, par5) * 180.0D / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(par3, var7) * 180.0D / Math.PI);
         }
     }
 
@@ -106,11 +113,10 @@ public class EntityEnderEye extends Entity
         this.posY += this.motionY;
         this.posZ += this.motionZ;
         float var1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+        this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-        for (this.rotationPitch = (float)(Math.atan2(this.motionY, (double)var1) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+        for (this.rotationPitch = (float) (Math.atan2(this.motionY, var1) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
         {
-            ;
         }
 
         while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
@@ -135,9 +141,9 @@ public class EntityEnderEye extends Entity
         {
             double var2 = this.targetX - this.posX;
             double var4 = this.targetZ - this.posZ;
-            float var6 = (float)Math.sqrt(var2 * var2 + var4 * var4);
-            float var7 = (float)Math.atan2(var4, var2);
-            double var8 = (double)var1 + (double)(var6 - var1) * 0.0025D;
+            float var6 = (float) Math.sqrt(var2 * var2 + var4 * var4);
+            float var7 = (float) Math.atan2(var4, var2);
+            double var8 = (double) var1 + (double) (var6 - var1) * 0.0025D;
 
             if (var6 < 1.0F)
             {
@@ -145,14 +151,13 @@ public class EntityEnderEye extends Entity
                 this.motionY *= 0.8D;
             }
 
-            this.motionX = Math.cos((double)var7) * var8;
-            this.motionZ = Math.sin((double)var7) * var8;
+            this.motionX = Math.cos(var7) * var8;
+            this.motionZ = Math.sin(var7) * var8;
 
             if (this.posY < this.targetY)
             {
                 this.motionY += (1.0D - this.motionY) * 0.014999999664723873D;
-            }
-            else
+            } else
             {
                 this.motionY += (-1.0D - this.motionY) * 0.014999999664723873D;
             }
@@ -164,12 +169,11 @@ public class EntityEnderEye extends Entity
         {
             for (int var3 = 0; var3 < 4; ++var3)
             {
-                this.worldObj.spawnParticle("bubble", this.posX - this.motionX * (double)var10, this.posY - this.motionY * (double)var10, this.posZ - this.motionZ * (double)var10, this.motionX, this.motionY, this.motionZ);
+                this.worldObj.spawnParticle("bubble", this.posX - this.motionX * (double) var10, this.posY - this.motionY * (double) var10, this.posZ - this.motionZ * (double) var10, this.motionX, this.motionY, this.motionZ);
             }
-        }
-        else
+        } else
         {
-            this.worldObj.spawnParticle("portal", this.posX - this.motionX * (double)var10 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double)var10 - 0.5D, this.posZ - this.motionZ * (double)var10 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ);
+            this.worldObj.spawnParticle("portal", this.posX - this.motionX * (double) var10 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double) var10 - 0.5D, this.posZ - this.motionZ * (double) var10 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ);
         }
 
         if (!this.worldObj.isClient)
@@ -184,10 +188,9 @@ public class EntityEnderEye extends Entity
                 if (this.shatterOrDrop)
                 {
                     this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Items.ender_eye)));
-                }
-                else
+                } else
                 {
-                    this.worldObj.playAuxSFX(2003, (int)Math.round(this.posX), (int)Math.round(this.posY), (int)Math.round(this.posZ), 0);
+                    this.worldObj.playAuxSFX(2003, (int) Math.round(this.posX), (int) Math.round(this.posY), (int) Math.round(this.posZ), 0);
                 }
             }
         }
@@ -196,12 +199,16 @@ public class EntityEnderEye extends Entity
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {}
+    public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {}
+    public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+    {
+    }
 
     public float getShadowSize()
     {

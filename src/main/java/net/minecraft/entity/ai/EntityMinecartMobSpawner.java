@@ -10,26 +10,33 @@ import net.minecraft.world.World;
 
 public class EntityMinecartMobSpawner extends EntityMinecart
 {
-    /** Mob spawner logic for this spawner minecart. */
+    /**
+     * Mob spawner logic for this spawner minecart.
+     */
     private final MobSpawnerBaseLogic mobSpawnerLogic = new MobSpawnerBaseLogic()
     {
         private static final String __OBFID = "CL_00001679";
+
         public void func_98267_a(int par1)
         {
-            EntityMinecartMobSpawner.this.worldObj.setEntityState(EntityMinecartMobSpawner.this, (byte)par1);
+            EntityMinecartMobSpawner.this.worldObj.setEntityState(EntityMinecartMobSpawner.this, (byte) par1);
         }
+
         public World getSpawnerWorld()
         {
             return EntityMinecartMobSpawner.this.worldObj;
         }
+
         public int getSpawnerX()
         {
             return MathHelper.floor_double(EntityMinecartMobSpawner.this.posX);
         }
+
         public int getSpawnerY()
         {
             return MathHelper.floor_double(EntityMinecartMobSpawner.this.posY);
         }
+
         public int getSpawnerZ()
         {
             return MathHelper.floor_double(EntityMinecartMobSpawner.this.posZ);

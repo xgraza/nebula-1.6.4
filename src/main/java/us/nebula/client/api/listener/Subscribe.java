@@ -14,5 +14,6 @@ import java.lang.annotation.Target;
 public @interface Subscribe
 {
     int priority() default IEventPriorities.DEFAULT;
+
     boolean receiveCanceled() default false;
 }

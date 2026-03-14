@@ -23,8 +23,7 @@ public class EntityAILookAtTradePlayer extends EntityAIWatchClosest
         {
             this.closestEntity = this.theMerchant.getCustomer();
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

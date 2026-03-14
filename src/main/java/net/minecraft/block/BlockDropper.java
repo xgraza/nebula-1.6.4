@@ -41,7 +41,7 @@ public class BlockDropper extends BlockDispenser
     protected void func_149941_e(World p_149941_1_, int p_149941_2_, int p_149941_3_, int p_149941_4_)
     {
         BlockSourceImpl var5 = new BlockSourceImpl(p_149941_1_, p_149941_2_, p_149941_3_, p_149941_4_);
-        TileEntityDispenser var6 = (TileEntityDispenser)var5.getBlockTileEntity();
+        TileEntityDispenser var6 = (TileEntityDispenser) var5.getBlockTileEntity();
 
         if (var6 != null)
         {
@@ -50,12 +50,11 @@ public class BlockDropper extends BlockDispenser
             if (var7 < 0)
             {
                 p_149941_1_.playAuxSFX(1001, p_149941_2_, p_149941_3_, p_149941_4_, 0);
-            }
-            else
+            } else
             {
                 ItemStack var8 = var6.getStackInSlot(var7);
                 int var9 = p_149941_1_.getBlockMetadata(p_149941_2_, p_149941_3_, p_149941_4_) & 7;
-                IInventory var10 = TileEntityHopper.func_145893_b(p_149941_1_, (double)(p_149941_2_ + Facing.offsetsXForSide[var9]), (double)(p_149941_3_ + Facing.offsetsYForSide[var9]), (double)(p_149941_4_ + Facing.offsetsZForSide[var9]));
+                IInventory var10 = TileEntityHopper.func_145893_b(p_149941_1_, p_149941_2_ + Facing.offsetsXForSide[var9], p_149941_3_ + Facing.offsetsYForSide[var9], p_149941_4_ + Facing.offsetsZForSide[var9]);
                 ItemStack var11;
 
                 if (var10 != null)
@@ -70,13 +69,11 @@ public class BlockDropper extends BlockDispenser
                         {
                             var11 = null;
                         }
-                    }
-                    else
+                    } else
                     {
                         var11 = var8.copy();
                     }
-                }
-                else
+                } else
                 {
                     var11 = this.field_149947_P.dispense(var5, var8);
 

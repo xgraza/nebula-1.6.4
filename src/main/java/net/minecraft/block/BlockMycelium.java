@@ -1,6 +1,5 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -9,6 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockMycelium extends Block
 {
@@ -36,12 +37,10 @@ public class BlockMycelium extends Block
         if (p_149673_5_ == 1)
         {
             return this.field_150200_a;
-        }
-        else if (p_149673_5_ == 0)
+        } else if (p_149673_5_ == 0)
         {
             return Blocks.dirt.getBlockTextureFromSide(p_149673_5_);
-        }
-        else
+        } else
         {
             Material var6 = p_149673_1_.getBlock(p_149673_2_, p_149673_3_ + 1, p_149673_4_).getMaterial();
             return var6 != Material.field_151597_y && var6 != Material.craftedSnow ? this.blockIcon : this.field_150199_b;
@@ -65,8 +64,7 @@ public class BlockMycelium extends Block
             if (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) < 4 && p_149674_1_.getBlock(p_149674_2_, p_149674_3_ + 1, p_149674_4_).getLightOpacity() > 2)
             {
                 p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, Blocks.dirt);
-            }
-            else if (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) >= 9)
+            } else if (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) >= 9)
             {
                 for (int var6 = 0; var6 < 4; ++var6)
                 {
@@ -93,7 +91,7 @@ public class BlockMycelium extends Block
 
         if (p_149734_5_.nextInt(10) == 0)
         {
-            p_149734_1_.spawnParticle("townaura", (double)((float)p_149734_2_ + p_149734_5_.nextFloat()), (double)((float)p_149734_3_ + 1.1F), (double)((float)p_149734_4_ + p_149734_5_.nextFloat()), 0.0D, 0.0D, 0.0D);
+            p_149734_1_.spawnParticle("townaura", (float) p_149734_2_ + p_149734_5_.nextFloat(), (float) p_149734_3_ + 1.1F, (float) p_149734_4_ + p_149734_5_.nextFloat(), 0.0D, 0.0D, 0.0D);
         }
     }
 

@@ -1,12 +1,13 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C0EPacketClickWindow extends Packet
 {
@@ -18,7 +19,9 @@ public class C0EPacketClickWindow extends Packet
     private int type;
     private static final String __OBFID = "CL_00001353";
 
-    public C0EPacketClickWindow() {}
+    public C0EPacketClickWindow()
+    {
+    }
 
     public C0EPacketClickWindow(int windowId, int slot, int button, int type, ItemStack itemStack, short p_i45246_6_)
     {
@@ -66,7 +69,7 @@ public class C0EPacketClickWindow extends Packet
      */
     public String serialize()
     {
-        return this.itemStack != null ? String.format("id=%d, slot=%d, button=%d, type=%d, itemid=%d, itemcount=%d, itemaux=%d", new Object[] {Integer.valueOf(this.windowId), Integer.valueOf(this.slot), Integer.valueOf(this.button), Integer.valueOf(this.type), Integer.valueOf(Item.getIdFromItem(this.itemStack.getItem())), Integer.valueOf(this.itemStack.stackSize), Integer.valueOf(this.itemStack.getItemDamage())}): String.format("id=%d, slot=%d, button=%d, type=%d, itemid=-1", new Object[] {Integer.valueOf(this.windowId), Integer.valueOf(this.slot), Integer.valueOf(this.button), Integer.valueOf(this.type)});
+        return this.itemStack != null ? String.format("id=%d, slot=%d, button=%d, type=%d, itemid=%d, itemcount=%d, itemaux=%d", Integer.valueOf(this.windowId), Integer.valueOf(this.slot), Integer.valueOf(this.button), Integer.valueOf(this.type), Integer.valueOf(Item.getIdFromItem(this.itemStack.getItem())), Integer.valueOf(this.itemStack.stackSize), Integer.valueOf(this.itemStack.getItemDamage())) : String.format("id=%d, slot=%d, button=%d, type=%d, itemid=-1", Integer.valueOf(this.windowId), Integer.valueOf(this.slot), Integer.valueOf(this.button), Integer.valueOf(this.type));
     }
 
     public int getWindowId()
@@ -101,6 +104,6 @@ public class C0EPacketClickWindow extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

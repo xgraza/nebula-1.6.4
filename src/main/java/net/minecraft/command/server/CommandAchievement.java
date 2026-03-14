@@ -1,9 +1,6 @@
 package net.minecraft.command.server;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -14,6 +11,10 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class CommandAchievement extends CommandBase
 {
@@ -45,7 +46,7 @@ public class CommandAchievement extends CommandBase
 
             if (var3 == null && !par2ArrayOfStr[1].equals("*"))
             {
-                throw new CommandException("commands.achievement.unknownAchievement", new Object[] {par2ArrayOfStr[1]});
+                throw new CommandException("commands.achievement.unknownAchievement", par2ArrayOfStr[1]);
             }
 
             EntityPlayerMP var4;
@@ -53,8 +54,7 @@ public class CommandAchievement extends CommandBase
             if (par2ArrayOfStr.length >= 3)
             {
                 var4 = getPlayer(par1ICommandSender, par2ArrayOfStr[2]);
-            }
-            else
+            } else
             {
                 var4 = getCommandSenderAsPlayer(par1ICommandSender);
             }
@@ -67,17 +67,16 @@ public class CommandAchievement extends CommandBase
 
                     while (var5.hasNext())
                     {
-                        Achievement var6 = (Achievement)var5.next();
+                        Achievement var6 = (Achievement) var5.next();
                         var4.triggerAchievement(var6);
                     }
 
-                    notifyAdmins(par1ICommandSender, "commands.achievement.give.success.all", new Object[] {var4.getCommandSenderName()});
-                }
-                else
+                    notifyAdmins(par1ICommandSender, "commands.achievement.give.success.all", var4.getCommandSenderName());
+                } else
                 {
                     if (var3 instanceof Achievement)
                     {
-                        Achievement var9 = (Achievement)var3;
+                        Achievement var9 = (Achievement) var3;
                         ArrayList var10;
 
                         for (var10 = Lists.newArrayList(); var9.parentAchievement != null && !var4.func_147099_x().hasAchievementUnlocked(var9.parentAchievement); var9 = var9.parentAchievement)
@@ -89,20 +88,20 @@ public class CommandAchievement extends CommandBase
 
                         while (var7.hasNext())
                         {
-                            Achievement var8 = (Achievement)var7.next();
+                            Achievement var8 = (Achievement) var7.next();
                             var4.triggerAchievement(var8);
                         }
                     }
 
                     var4.triggerAchievement(var3);
-                    notifyAdmins(par1ICommandSender, "commands.achievement.give.success.one", new Object[] {var4.getCommandSenderName(), var3.func_150955_j()});
+                    notifyAdmins(par1ICommandSender, "commands.achievement.give.success.one", var4.getCommandSenderName(), var3.func_150955_j());
                 }
 
                 return;
             }
         }
 
-        throw new WrongUsageException("commands.achievement.usage", new Object[0]);
+        throw new WrongUsageException("commands.achievement.usage");
     }
 
     /**
@@ -112,20 +111,18 @@ public class CommandAchievement extends CommandBase
     {
         if (par2ArrayOfStr.length == 1)
         {
-            return getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] {"give"});
-        }
-        else if (par2ArrayOfStr.length != 2)
+            return getListOfStringsMatchingLastWord(par2ArrayOfStr, "give");
+        } else if (par2ArrayOfStr.length != 2)
         {
             return par2ArrayOfStr.length == 3 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, MinecraftServer.getServer().getAllUsernames()) : null;
-        }
-        else
+        } else
         {
             ArrayList var3 = Lists.newArrayList();
             Iterator var4 = StatList.allStats.iterator();
 
             while (var4.hasNext())
             {
-                StatBase var5 = (StatBase)var4.next();
+                StatBase var5 = (StatBase) var4.next();
                 var3.add(var5.statId);
             }
 

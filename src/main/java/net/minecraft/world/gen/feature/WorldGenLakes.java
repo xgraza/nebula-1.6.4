@@ -1,6 +1,5 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -8,9 +7,11 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
+import java.util.Random;
+
 public class WorldGenLakes extends WorldGenerator
 {
-    private Block field_150556_a;
+    private final Block field_150556_a;
     private static final String __OBFID = "CL_00000418";
 
     public WorldGenLakes(Block p_i45455_1_)
@@ -24,14 +25,12 @@ public class WorldGenLakes extends WorldGenerator
 
         for (par5 -= 8; par4 > 5 && par1World.isAirBlock(par3, par4, par5); --par4)
         {
-            ;
         }
 
         if (par4 <= 4)
         {
             return false;
-        }
-        else
+        } else
         {
             par4 -= 4;
             boolean[] var6 = new boolean[2048];
@@ -53,9 +52,9 @@ public class WorldGenLakes extends WorldGenerator
                     {
                         for (int var23 = 1; var23 < 7; ++var23)
                         {
-                            double var24 = ((double)var21 - var15) / (var9 / 2.0D);
-                            double var26 = ((double)var23 - var17) / (var11 / 2.0D);
-                            double var28 = ((double)var22 - var19) / (var13 / 2.0D);
+                            double var24 = ((double) var21 - var15) / (var9 / 2.0D);
+                            double var26 = ((double) var23 - var17) / (var11 / 2.0D);
+                            double var28 = ((double) var22 - var19) / (var13 / 2.0D);
                             double var30 = var24 * var24 + var26 * var26 + var28 * var28;
 
                             if (var30 < 1.0D)
@@ -124,8 +123,7 @@ public class WorldGenLakes extends WorldGenerator
                             if (var34.topBlock == Blocks.mycelium)
                             {
                                 par1World.setBlock(par3 + var8, par4 + var10 - 1, par5 + var32, Blocks.mycelium, 0, 2);
-                            }
-                            else
+                            } else
                             {
                                 par1World.setBlock(par3 + var8, par4 + var10 - 1, par5 + var32, Blocks.grass, 0, 2);
                             }

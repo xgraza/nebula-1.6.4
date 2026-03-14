@@ -1,9 +1,10 @@
 package net.minecraft.block;
 
-import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockStaticLiquid extends BlockLiquid
 {
@@ -61,8 +62,7 @@ public class BlockStaticLiquid extends BlockLiquid
                         p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, Blocks.fire);
                         return;
                     }
-                }
-                else if (var8.blockMaterial.blocksMovement())
+                } else if (var8.blockMaterial.blocksMovement())
                 {
                     return;
                 }

@@ -1,11 +1,12 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C10PacketCreativeInventoryAction extends Packet
 {
@@ -13,7 +14,9 @@ public class C10PacketCreativeInventoryAction extends Packet
     private ItemStack field_149628_b;
     private static final String __OBFID = "CL_00001369";
 
-    public C10PacketCreativeInventoryAction() {}
+    public C10PacketCreativeInventoryAction()
+    {
+    }
 
     public C10PacketCreativeInventoryAction(int p_i45263_1_, ItemStack p_i45263_2_)
     {
@@ -56,6 +59,6 @@ public class C10PacketCreativeInventoryAction extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

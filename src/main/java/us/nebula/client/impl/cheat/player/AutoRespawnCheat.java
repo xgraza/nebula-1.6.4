@@ -11,7 +11,9 @@ import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.player.EventPlayerDeath;
 import us.nebula.client.util.player.ChatUtil;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.DateFormat;
@@ -30,7 +32,7 @@ public final class AutoRespawnCheat extends Cheat
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("kk:mm:ss");
     private static final File COORDINATE_SAVE_FILE;
-    private static OutputStream OPEN_FILE_STREAM;
+    private static final OutputStream OPEN_FILE_STREAM;
 
     static
     {

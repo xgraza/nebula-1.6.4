@@ -25,11 +25,10 @@ public class CommandPublishLocalServer extends CommandBase
 
         if (var3 != null)
         {
-            notifyAdmins(par1ICommandSender, "commands.publish.started", new Object[] {var3});
-        }
-        else
+            notifyAdmins(par1ICommandSender, "commands.publish.started", var3);
+        } else
         {
-            notifyAdmins(par1ICommandSender, "commands.publish.failed", new Object[0]);
+            notifyAdmins(par1ICommandSender, "commands.publish.failed");
         }
     }
 }

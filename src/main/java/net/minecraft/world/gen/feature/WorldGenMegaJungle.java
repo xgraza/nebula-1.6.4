@@ -1,11 +1,12 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class WorldGenMegaJungle extends WorldGenHugeTrees
 {
@@ -23,22 +24,21 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees
         if (!this.func_150537_a(par1World, par2Random, par3, par4, par5, var6))
         {
             return false;
-        }
-        else
+        } else
         {
             this.func_150543_c(par1World, par3, par5, par4 + var6, 2, par2Random);
 
             for (int var7 = par4 + var6 - 2 - par2Random.nextInt(4); var7 > par4 + var6 / 2; var7 -= 2 + par2Random.nextInt(4))
             {
-                float var8 = par2Random.nextFloat() * (float)Math.PI * 2.0F;
-                int var9 = par3 + (int)(0.5F + MathHelper.cos(var8) * 4.0F);
-                int var10 = par5 + (int)(0.5F + MathHelper.sin(var8) * 4.0F);
+                float var8 = par2Random.nextFloat() * (float) Math.PI * 2.0F;
+                int var9 = par3 + (int) (0.5F + MathHelper.cos(var8) * 4.0F);
+                int var10 = par5 + (int) (0.5F + MathHelper.sin(var8) * 4.0F);
                 int var11;
 
                 for (var11 = 0; var11 < 5; ++var11)
                 {
-                    var9 = par3 + (int)(1.5F + MathHelper.cos(var8) * (float)var11);
-                    var10 = par5 + (int)(1.5F + MathHelper.sin(var8) * (float)var11);
+                    var9 = par3 + (int) (1.5F + MathHelper.cos(var8) * (float) var11);
+                    var10 = par5 + (int) (1.5F + MathHelper.sin(var8) * (float) var11);
                     this.func_150516_a(par1World, var9, var7 - 3 + var11 / 2, var10, Blocks.log, this.woodMetadata);
                 }
 

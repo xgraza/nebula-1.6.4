@@ -1,12 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.world.World;
+
+import java.io.IOException;
 
 public class S0APacketUseBed extends Packet
 {
@@ -16,7 +17,9 @@ public class S0APacketUseBed extends Packet
     private int field_149094_d;
     private static final String __OBFID = "CL_00001319";
 
-    public S0APacketUseBed() {}
+    public S0APacketUseBed()
+    {
+    }
 
     public S0APacketUseBed(EntityPlayer p_i45210_1_, int p_i45210_2_, int p_i45210_3_, int p_i45210_4_)
     {
@@ -55,7 +58,7 @@ public class S0APacketUseBed extends Packet
 
     public EntityPlayer func_149091_a(World p_149091_1_)
     {
-        return (EntityPlayer)p_149091_1_.getEntityByID(this.field_149097_a);
+        return (EntityPlayer) p_149091_1_.getEntityByID(this.field_149097_a);
     }
 
     public int func_149092_c()
@@ -75,6 +78,6 @@ public class S0APacketUseBed extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

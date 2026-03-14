@@ -2,17 +2,18 @@ package net.minecraft.src;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.IResourcePack;
+import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Pattern;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 
 public class Lang
 {
@@ -33,7 +34,7 @@ public class Lang
             listFiles.add(PREFIX + Config.getGameSettings().language + SUFFIX);
         }
 
-        String[] files = (String[])((String[])listFiles.toArray(new String[listFiles.size()]));
+        String[] files = (String[]) listFiles.toArray(new String[listFiles.size()]);
         loadResources(Config.getDefaultResourcePack(), files, localeProperties);
         IResourcePack[] resourcePacks = Config.getResourcePacks();
 
@@ -63,8 +64,7 @@ public class Lang
                     }
                 }
             }
-        }
-        catch (IOException var7)
+        } catch (IOException var7)
         {
             var7.printStackTrace();
         }
@@ -76,11 +76,11 @@ public class Lang
 
         while (it.hasNext())
         {
-            String line = (String)it.next();
+            String line = (String) it.next();
 
             if (!line.isEmpty() && line.charAt(0) != 35)
             {
-                String[] parts = (String[])((String[])Iterables.toArray(splitter.split(line), String.class));
+                String[] parts = Iterables.toArray(splitter.split(line), String.class);
 
                 if (parts != null && parts.length == 2)
                 {
@@ -94,37 +94,37 @@ public class Lang
 
     public static String get(String key)
     {
-        return I18n.format(key, new Object[0]);
+        return I18n.format(key);
     }
 
     public static String get(String key, String def)
     {
-        String str = I18n.format(key, new Object[0]);
+        String str = I18n.format(key);
         return str != null && !str.equals(key) ? str : def;
     }
 
     public static String getOn()
     {
-        return I18n.format("options.on", new Object[0]);
+        return I18n.format("options.on");
     }
 
     public static String getOff()
     {
-        return I18n.format("options.off", new Object[0]);
+        return I18n.format("options.off");
     }
 
     public static String getFast()
     {
-        return I18n.format("options.graphics.fast", new Object[0]);
+        return I18n.format("options.graphics.fast");
     }
 
     public static String getFancy()
     {
-        return I18n.format("options.graphics.fancy", new Object[0]);
+        return I18n.format("options.graphics.fancy");
     }
 
     public static String getDefault()
     {
-        return I18n.format("generator.default", new Object[0]);
+        return I18n.format("generator.default");
     }
 }

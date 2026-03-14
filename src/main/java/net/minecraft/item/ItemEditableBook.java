@@ -1,12 +1,13 @@
 package net.minecraft.item;
 
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.StringUtils;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemEditableBook extends Item
 {
@@ -22,15 +23,13 @@ public class ItemEditableBook extends Item
         if (!ItemWritableBook.func_150930_a(par0NBTTagCompound))
         {
             return false;
-        }
-        else if (!par0NBTTagCompound.hasKey("title", 8))
+        } else if (!par0NBTTagCompound.hasKey("title", 8))
         {
             return false;
-        }
-        else
+        } else
         {
             String var1 = par0NBTTagCompound.getString("title");
-            return var1 != null && var1.length() <= 16 ? par0NBTTagCompound.hasKey("author", 8) : false;
+            return var1 != null && var1.length() <= 16 && par0NBTTagCompound.hasKey("author", 8);
         }
     }
 
@@ -62,7 +61,7 @@ public class ItemEditableBook extends Item
 
             if (!StringUtils.isNullOrEmpty(var6))
             {
-                par3List.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("book.byAuthor", new Object[] {var6}));
+                par3List.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("book.byAuthor", new Object[]{ var6 }));
             }
         }
     }

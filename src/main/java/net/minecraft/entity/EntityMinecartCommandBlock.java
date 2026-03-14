@@ -17,23 +17,28 @@ public class EntityMinecartCommandBlock extends EntityMinecart
     private final CommandBlockLogic field_145824_a = new CommandBlockLogic()
     {
         private static final String __OBFID = "CL_00001673";
+
         public void func_145756_e()
         {
             EntityMinecartCommandBlock.this.getDataWatcher().updateObject(23, this.func_145753_i());
             EntityMinecartCommandBlock.this.getDataWatcher().updateObject(24, IChatComponent.Serializer.func_150696_a(this.func_145749_h()));
         }
+
         public int func_145751_f()
         {
             return 1;
         }
+
         public void func_145757_a(ByteBuf p_145757_1_)
         {
             p_145757_1_.writeInt(EntityMinecartCommandBlock.this.getEntityId());
         }
+
         public ChunkCoordinates getPlayerCoordinates()
         {
             return new ChunkCoordinates(MathHelper.floor_double(EntityMinecartCommandBlock.this.posX), MathHelper.floor_double(EntityMinecartCommandBlock.this.posY + 0.5D), MathHelper.floor_double(EntityMinecartCommandBlock.this.posZ));
         }
+
         public World getEntityWorld()
         {
             return EntityMinecartCommandBlock.this.worldObj;
@@ -128,13 +133,10 @@ public class EntityMinecartCommandBlock extends EntityMinecart
             try
             {
                 this.field_145824_a.func_145750_b(IChatComponent.Serializer.func_150699_a(this.getDataWatcher().getWatchableObjectString(24)));
-            }
-            catch (Throwable var3)
+            } catch (Throwable var3)
             {
-                ;
             }
-        }
-        else if (p_145781_1_ == 23)
+        } else if (p_145781_1_ == 23)
         {
             this.field_145824_a.func_145752_a(this.getDataWatcher().getWatchableObjectString(23));
         }

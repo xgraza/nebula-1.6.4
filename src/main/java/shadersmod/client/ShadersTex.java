@@ -1,26 +1,7 @@
 package shadersmod.client;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.ITextureObject;
-import net.minecraft.client.renderer.texture.LayeredTexture;
-import net.minecraft.client.renderer.texture.Stitcher;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.src.Config;
@@ -30,6 +11,14 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import shadersmod.common.SMCLog;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.util.*;
 
 public class ShadersTex
 {
@@ -159,7 +148,7 @@ public class ShadersTex
         if (multiTex == null)
         {
             int baseTex = tex.getGlTextureId();
-            multiTex = (MultiTexID)multiTexMap.get(Integer.valueOf(baseTex));
+            multiTex = multiTexMap.get(Integer.valueOf(baseTex));
 
             if (multiTex == null)
             {
@@ -253,11 +242,10 @@ public class ShadersTex
 
         if (tex instanceof TextureMap)
         {
-            Shaders.atlasSizeX = ((TextureMap)tex).atlasWidth;
-            Shaders.atlasSizeY = ((TextureMap)tex).atlasHeight;
+            Shaders.atlasSizeX = ((TextureMap) tex).atlasWidth;
+            Shaders.atlasSizeY = ((TextureMap) tex).atlasHeight;
             bindTextures(tex.getMultiTexID());
-        }
-        else
+        } else
         {
             Shaders.atlasSizeX = 0;
             Shaders.atlasSizeY = 0;
@@ -267,7 +255,7 @@ public class ShadersTex
 
     public static void bindTextureMapForUpdateAndRender(TextureManager tm, ResourceLocation resLoc)
     {
-        TextureMap tex = (TextureMap)tm.getTexture(resLoc);
+        TextureMap tex = (TextureMap) tm.getTexture(resLoc);
         Shaders.atlasSizeX = tex.atlasWidth;
         Shaders.atlasSizeY = tex.atlasHeight;
         bindTextures(updatingTex = tex.getMultiTexID());
@@ -275,7 +263,7 @@ public class ShadersTex
 
     public static void bindTextures(int baseTex)
     {
-        MultiTexID multiTex = (MultiTexID)multiTexMap.get(Integer.valueOf(baseTex));
+        MultiTexID multiTex = multiTexMap.get(Integer.valueOf(baseTex));
         bindTextures(multiTex);
     }
 
@@ -428,24 +416,21 @@ public class ShadersTex
             if (!Config.hasResource(resLoc))
             {
                 return null;
-            }
-            else
+            } else
             {
                 InputStream e = Config.getResourceStream(resLoc);
 
                 if (e == null)
                 {
                     return null;
-                }
-                else
+                } else
                 {
                     BufferedImage image = ImageIO.read(e);
                     e.close();
                     return image;
                 }
             }
-        }
-        catch (IOException var3)
+        } catch (IOException var3)
         {
             return null;
         }
@@ -542,8 +527,7 @@ public class ShadersTex
         if (as != 0)
         {
             dv = as;
-        }
-        else
+        } else
         {
             dv = 4;
             a0 = 1;
@@ -694,8 +678,7 @@ public class ShadersTex
         if (aint[0] >>> 24 == 255 && aint[size - 1] == 0)
         {
             return true;
-        }
-        else
+        } else
         {
             for (int i = 0; i < size; ++i)
             {
@@ -838,10 +821,8 @@ public class ShadersTex
                 bufferedimage.getRGB(0, 0, width, height, aint, offset, width);
                 good = true;
             }
-        }
-        catch (IOException var10)
+        } catch (IOException var10)
         {
-            ;
         }
 
         if (!good)
@@ -862,7 +843,9 @@ public class ShadersTex
         return textureID;
     }
 
-    public static void mergeImage(int[] aint, int dstoff, int srcoff, int size) {}
+    public static void mergeImage(int[] aint, int dstoff, int srcoff, int size)
+    {
+    }
 
     public static int blendColor(int color1, int color2, int factor1)
     {
@@ -880,7 +863,7 @@ public class ShadersTex
 
         while (iterator.hasNext())
         {
-            String s = (String)iterator.next();
+            String s = (String) iterator.next();
 
             if (s != null)
             {
@@ -905,12 +888,11 @@ public class ShadersTex
                     for (int i = 0; i < size; ++i)
                     {
                         int alpha = aint[i] >>> 24 & 255;
-                        image[size * 0 + i] = blendColor(aint[size * 0 + i], image[size * 0 + i], alpha);
-                        image[size * 1 + i] = blendColor(aint[size * 1 + i], image[size * 1 + i], alpha);
+                        image[0 + i] = blendColor(aint[0 + i], image[0 + i], alpha);
+                        image[size + i] = blendColor(aint[size + i], image[size + i], alpha);
                         image[size * 2 + i] = blendColor(aint[size * 2 + i], image[size * 2 + i], alpha);
                     }
-                }
-                catch (IOException var15)
+                } catch (IOException var15)
                 {
                     var15.printStackTrace();
                 }
@@ -992,5 +974,7 @@ public class ShadersTex
         return src;
     }
 
-    public static void fixTransparentColor(TextureAtlasSprite tas, int[] aint) {}
+    public static void fixTransparentColor(TextureAtlasSprite tas, int[] aint)
+    {
+    }
 }

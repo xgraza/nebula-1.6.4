@@ -1,24 +1,21 @@
 package shadersmod.client;
 
-import java.util.Iterator;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.src.Config;
-import net.minecraft.src.GuiScreenOF;
-import net.minecraft.src.Lang;
-import net.minecraft.src.TooltipManager;
-import net.minecraft.src.TooltipProviderShaderOptions;
+import net.minecraft.src.*;
 import net.minecraft.util.MathHelper;
+
+import java.util.Iterator;
 
 public class GuiShaderOptions extends GuiScreenOF
 {
-    private GuiScreen prevScreen;
+    private final GuiScreen prevScreen;
     protected String title;
-    private GameSettings settings;
-    private TooltipManager tooltipManager;
+    private final GameSettings settings;
+    private final TooltipManager tooltipManager;
     private String screenName;
     private String screenText;
     private boolean changed;
@@ -55,7 +52,7 @@ public class GuiShaderOptions extends GuiScreenOF
     public void initGui()
     {
         this.fontRendererObj = this.fontRenderer;
-        this.title = I18n.format("of.options.shaderOptionsTitle", new Object[0]);
+        this.title = I18n.format("of.options.shaderOptionsTitle");
         byte baseId = 100;
         boolean baseX = false;
         byte baseY = 30;
@@ -67,7 +64,7 @@ public class GuiShaderOptions extends GuiScreenOF
 
         if (ops != null)
         {
-            int colsMin = MathHelper.ceiling_double_int((double)ops.length / 9.0D);
+            int colsMin = MathHelper.ceiling_double_int((double) ops.length / 9.0D);
 
             if (columns < colsMin)
             {
@@ -93,8 +90,7 @@ public class GuiShaderOptions extends GuiScreenOF
                     if (Shaders.isShaderPackOptionSlider(so.getName()))
                     {
                         btn = new GuiSliderShaderOption(baseId + i, x, y, w, btnHeight, so, text);
-                    }
-                    else
+                    } else
                     {
                         btn = new GuiButtonShaderOption(baseId + i, x, y, w, btnHeight, so, text);
                     }
@@ -105,8 +101,8 @@ public class GuiShaderOptions extends GuiScreenOF
             }
         }
 
-        this.buttonList.add(new GuiButton(201, this.width / 2 - btnWidth - 20, this.height / 6 + 168 + 11, btnWidth, btnHeight, I18n.format("controls.reset", new Object[0])));
-        this.buttonList.add(new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, btnWidth, btnHeight, I18n.format("gui.done", new Object[0])));
+        this.buttonList.add(new GuiButton(201, this.width / 2 - btnWidth - 20, this.height / 6 + 168 + 11, btnWidth, btnHeight, I18n.format("controls.reset")));
+        this.buttonList.add(new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, btnWidth, btnHeight, I18n.format("gui.done")));
     }
 
     public static String getButtonText(ShaderOption so, int btnWidth)
@@ -115,16 +111,14 @@ public class GuiShaderOptions extends GuiScreenOF
 
         if (so instanceof ShaderOptionScreen)
         {
-            ShaderOptionScreen fr1 = (ShaderOptionScreen)so;
+            ShaderOptionScreen fr1 = (ShaderOptionScreen) so;
             return labelName + "...";
-        }
-        else
+        } else
         {
             FontRenderer fr = Config.getMinecraft().fontRenderer;
 
             for (int lenSuffix = fr.getStringWidth(": " + Lang.getOff()) + 5; fr.getStringWidth(labelName) + lenSuffix >= btnWidth && labelName.length() > 0; labelName = labelName.substring(0, labelName.length() - 1))
             {
-                ;
             }
 
             String col = so.isChanged() ? so.getValueColor(so.getValue()) : "";
@@ -139,7 +133,7 @@ public class GuiShaderOptions extends GuiScreenOF
         {
             if (guibutton.id < 200 && guibutton instanceof GuiButtonShaderOption)
             {
-                GuiButtonShaderOption opts = (GuiButtonShaderOption)guibutton;
+                GuiButtonShaderOption opts = (GuiButtonShaderOption) guibutton;
                 ShaderOption i = opts.getShaderOption();
 
                 if (i instanceof ShaderOptionScreen)
@@ -153,8 +147,7 @@ public class GuiShaderOptions extends GuiScreenOF
                 if (isShiftKeyDown())
                 {
                     i.resetValue();
-                }
-                else
+                } else
                 {
                     i.nextValue();
                 }
@@ -195,14 +188,13 @@ public class GuiShaderOptions extends GuiScreenOF
     {
         if (btn instanceof GuiButtonShaderOption)
         {
-            GuiButtonShaderOption btnSo = (GuiButtonShaderOption)btn;
+            GuiButtonShaderOption btnSo = (GuiButtonShaderOption) btn;
             ShaderOption so = btnSo.getShaderOption();
 
             if (isShiftKeyDown())
             {
                 so.resetValue();
-            }
-            else
+            } else
             {
                 so.prevValue();
             }
@@ -233,16 +225,16 @@ public class GuiShaderOptions extends GuiScreenOF
 
         while (it.hasNext())
         {
-            GuiButton btn = (GuiButton)it.next();
+            GuiButton btn = (GuiButton) it.next();
 
             if (btn instanceof GuiButtonShaderOption)
             {
-                GuiButtonShaderOption gbso = (GuiButtonShaderOption)btn;
+                GuiButtonShaderOption gbso = (GuiButtonShaderOption) btn;
                 ShaderOption opt = gbso.getShaderOption();
 
                 if (opt instanceof ShaderOptionProfile)
                 {
-                    ShaderOptionProfile optProf = (ShaderOptionProfile)opt;
+                    ShaderOptionProfile optProf = (ShaderOptionProfile) opt;
                     optProf.updateProfile();
                 }
 
@@ -262,8 +254,7 @@ public class GuiShaderOptions extends GuiScreenOF
         if (this.screenText != null)
         {
             this.drawCenteredString(this.fontRendererObj, this.screenText, this.width / 2, 15, 16777215);
-        }
-        else
+        } else
         {
             this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
         }

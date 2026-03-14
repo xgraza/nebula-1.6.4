@@ -6,7 +6,7 @@ import net.minecraft.inventory.Container;
 
 public class EntityAITradePlayer extends EntityAIBase
 {
-    private EntityVillager villager;
+    private final EntityVillager villager;
     private static final String __OBFID = "CL_00001617";
 
     public EntityAITradePlayer(EntityVillager par1EntityVillager)
@@ -23,23 +23,19 @@ public class EntityAITradePlayer extends EntityAIBase
         if (!this.villager.isEntityAlive())
         {
             return false;
-        }
-        else if (this.villager.isInWater())
+        } else if (this.villager.isInWater())
         {
             return false;
-        }
-        else if (!this.villager.onGround)
+        } else if (!this.villager.onGround)
         {
             return false;
-        }
-        else if (this.villager.velocityChanged)
+        } else if (this.villager.velocityChanged)
         {
             return false;
-        }
-        else
+        } else
         {
             EntityPlayer var1 = this.villager.getCustomer();
-            return var1 == null ? false : (this.villager.getDistanceSqToEntity(var1) > 16.0D ? false : var1.openContainer instanceof Container);
+            return var1 != null && (!(this.villager.getDistanceSqToEntity(var1) > 16.0D) && var1.openContainer instanceof Container);
         }
     }
 
@@ -56,6 +52,6 @@ public class EntityAITradePlayer extends EntityAIBase
      */
     public void resetTask()
     {
-        this.villager.setCustomer((EntityPlayer)null);
+        this.villager.setCustomer(null);
     }
 }

@@ -45,7 +45,7 @@ public class SmoothFloat
         long timeNowMs = System.currentTimeMillis();
         float valPrev = this.valueLast;
         long timePrevMs = this.timeLastMs;
-        float timeDeltaSec = (float)(timeNowMs - timePrevMs) / 1000.0F;
+        float timeDeltaSec = (float) (timeNowMs - timePrevMs) / 1000.0F;
         float timeFadeSec = value >= valPrev ? this.timeFadeUpSec : this.timeFadeDownSec;
         float valSmooth = getSmoothValue(valPrev, value, timeDeltaSec, timeFadeSec);
         this.valueLast = valSmooth;
@@ -58,8 +58,7 @@ public class SmoothFloat
         if (timeDeltaSec <= 0.0F)
         {
             return valPrev;
-        }
-        else
+        } else
         {
             float valDelta = value - valPrev;
             float valSmooth;
@@ -74,8 +73,7 @@ public class SmoothFloat
                 float kTime = timeDeltaSec / timeFadeSec * kCorr;
                 kTime = NumUtils.limit(kTime, 0.0F, 1.0F);
                 valSmooth = valPrev + valDelta * kTime;
-            }
-            else
+            } else
             {
                 valSmooth = value;
             }

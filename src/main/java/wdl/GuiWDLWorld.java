@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiTextField;
 public class GuiWDLWorld extends GuiScreen
 {
     private String title = "";
-    private GuiScreen parent;
+    private final GuiScreen parent;
     private GuiButton gameModeBtn;
     private GuiButton timeBtn;
     private GuiButton weatherBtn;
@@ -57,7 +57,7 @@ public class GuiWDLWorld extends GuiScreen
         this.spawnY.setMaxTextLength(7);
         this.spawnZ.setMaxTextLength(7);
         var3 += 18;
-        this.pickSpawnBtn = new GuiButton(5, var1 - 0, var3, 100, 20, "Current position");
+        this.pickSpawnBtn = new GuiButton(5, var1, var3, 100, 20, "Current position");
         this.buttonList.add(this.pickSpawnBtn);
         this.updateSpawn(false);
         this.updateSpawnXYZ(false);
@@ -71,24 +71,19 @@ public class GuiWDLWorld extends GuiScreen
             if (var1.id == 1)
             {
                 this.updateGameMode(true);
-            }
-            else if (var1.id == 2)
+            } else if (var1.id == 2)
             {
                 this.updateTime(true);
-            }
-            else if (var1.id == 3)
+            } else if (var1.id == 3)
             {
                 this.updateWeather(true);
-            }
-            else if (var1.id == 4)
+            } else if (var1.id == 4)
             {
                 this.updateSpawn(true);
-            }
-            else if (var1.id == 5)
+            } else if (var1.id == 5)
             {
                 this.pickSpawn();
-            }
-            else if (var1.id == 100)
+            } else if (var1.id == 100)
             {
                 if (this.showSpawnFields)
                 {
@@ -169,44 +164,37 @@ public class GuiWDLWorld extends GuiScreen
             {
                 WDL.baseProps.setProperty("GameType", "creative");
                 this.updateGameMode(false);
-            }
-            else
+            } else
             {
-                this.gameModeBtn.displayString = "Game Mode: Don\'t change";
+                this.gameModeBtn.displayString = "Game Mode: Don't change";
             }
-        }
-        else if (var2.equals("creative"))
+        } else if (var2.equals("creative"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("GameType", "survival");
                 this.updateGameMode(false);
-            }
-            else
+            } else
             {
                 this.gameModeBtn.displayString = "Game Mode: Creative";
             }
-        }
-        else if (var2.equals("survival"))
+        } else if (var2.equals("survival"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("GameType", "hardcore");
                 this.updateGameMode(false);
-            }
-            else
+            } else
             {
                 this.gameModeBtn.displayString = "Game Mode: Survival";
             }
-        }
-        else if (var2.equals("hardcore"))
+        } else if (var2.equals("hardcore"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("GameType", "keep");
                 this.updateGameMode(false);
-            }
-            else
+            } else
             {
                 this.gameModeBtn.displayString = "Game Mode: Survival Hardcore";
             }
@@ -223,80 +211,67 @@ public class GuiWDLWorld extends GuiScreen
             {
                 WDL.baseProps.setProperty("Time", "23000");
                 this.updateTime(false);
-            }
-            else
+            } else
             {
-                this.timeBtn.displayString = "Time: Don\'t change";
+                this.timeBtn.displayString = "Time: Don't change";
             }
-        }
-        else if (var2.equals("23000"))
+        } else if (var2.equals("23000"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Time", "0");
                 this.updateTime(false);
-            }
-            else
+            } else
             {
                 this.timeBtn.displayString = "Time: Sunrise";
             }
-        }
-        else if (var2.equals("0"))
+        } else if (var2.equals("0"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Time", "6000");
                 this.updateTime(false);
-            }
-            else
+            } else
             {
                 this.timeBtn.displayString = "Time: Morning";
             }
-        }
-        else if (var2.equals("6000"))
+        } else if (var2.equals("6000"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Time", "11500");
                 this.updateTime(false);
-            }
-            else
+            } else
             {
                 this.timeBtn.displayString = "Time: Noon";
             }
-        }
-        else if (var2.equals("11500"))
+        } else if (var2.equals("11500"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Time", "12500");
                 this.updateTime(false);
-            }
-            else
+            } else
             {
                 this.timeBtn.displayString = "Time: Evening";
             }
-        }
-        else if (var2.equals("12500"))
+        } else if (var2.equals("12500"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Time", "18000");
                 this.updateTime(false);
-            }
-            else
+            } else
             {
                 this.timeBtn.displayString = "Time: Sunset";
             }
-        }
-        else if (var2.equals("18000"))
+        } else if (var2.equals("18000"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Time", "keep");
                 this.updateTime(false);
-            }
-            else
+            } else
             {
                 this.timeBtn.displayString = "Time: Midnight";
             }
@@ -313,44 +288,37 @@ public class GuiWDLWorld extends GuiScreen
             {
                 WDL.baseProps.setProperty("Weather", "sunny");
                 this.updateWeather(false);
-            }
-            else
+            } else
             {
-                this.weatherBtn.displayString = "Weather: Don\'t change";
+                this.weatherBtn.displayString = "Weather: Don't change";
             }
-        }
-        else if (var2.equals("sunny"))
+        } else if (var2.equals("sunny"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Weather", "rain");
                 this.updateWeather(false);
-            }
-            else
+            } else
             {
                 this.weatherBtn.displayString = "Weather: Sunny";
             }
-        }
-        else if (var2.equals("rain"))
+        } else if (var2.equals("rain"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Weather", "thunderstorm");
                 this.updateWeather(false);
-            }
-            else
+            } else
             {
                 this.weatherBtn.displayString = "Weather: Rain";
             }
-        }
-        else if (var2.equals("thunderstorm"))
+        } else if (var2.equals("thunderstorm"))
         {
             if (var1)
             {
                 WDL.baseProps.setProperty("Weather", "keep");
                 this.updateWeather(false);
-            }
-            else
+            } else
             {
                 this.weatherBtn.displayString = "Weather: Thunderstorm";
             }
@@ -369,32 +337,27 @@ public class GuiWDLWorld extends GuiScreen
             {
                 WDL.worldProps.setProperty("Spawn", "player");
                 this.updateSpawn(false);
-            }
-            else
+            } else
             {
                 this.spawnBtn.displayString = "Spawn Position: Automatic";
             }
-        }
-        else if (var2.equals("player"))
+        } else if (var2.equals("player"))
         {
             if (var1)
             {
                 WDL.worldProps.setProperty("Spawn", "xyz");
                 this.updateSpawn(false);
-            }
-            else
+            } else
             {
                 this.spawnBtn.displayString = "Spawn Position: Player position";
             }
-        }
-        else if (var2.equals("xyz"))
+        } else if (var2.equals("xyz"))
         {
             if (var1)
             {
                 WDL.worldProps.setProperty("Spawn", "auto");
                 this.updateSpawn(false);
-            }
-            else
+            } else
             {
                 this.spawnBtn.displayString = "Spawn Position:";
                 this.showSpawnFields = true;
@@ -415,13 +378,11 @@ public class GuiWDLWorld extends GuiScreen
                 WDL.worldProps.setProperty("SpawnX", String.valueOf(var5));
                 WDL.worldProps.setProperty("SpawnY", String.valueOf(var3));
                 WDL.worldProps.setProperty("SpawnZ", String.valueOf(var4));
-            }
-            catch (NumberFormatException var51)
+            } catch (NumberFormatException var51)
             {
                 this.updateSpawn(true);
             }
-        }
-        else
+        } else
         {
             this.spawnX.setText(WDL.worldProps.getProperty("SpawnX"));
             this.spawnY.setText(WDL.worldProps.getProperty("SpawnY"));
@@ -431,9 +392,9 @@ public class GuiWDLWorld extends GuiScreen
 
     private void pickSpawn()
     {
-        int var1 = (int)Math.floor(WDL.tp.posX);
-        int var2 = (int)Math.floor(WDL.tp.posY);
-        int var3 = (int)Math.floor(WDL.tp.posZ);
+        int var1 = (int) Math.floor(WDL.tp.posX);
+        int var2 = (int) Math.floor(WDL.tp.posY);
+        int var3 = (int) Math.floor(WDL.tp.posZ);
         this.spawnX.setText(String.valueOf(var1));
         this.spawnY.setText(String.valueOf(var2));
         this.spawnZ.setText(String.valueOf(var3));

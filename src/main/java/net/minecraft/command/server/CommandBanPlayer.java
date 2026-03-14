@@ -1,12 +1,13 @@
 package net.minecraft.command.server;
 
-import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.BanEntry;
+
+import java.util.List;
 
 public class CommandBanPlayer extends CommandBase
 {
@@ -58,11 +59,10 @@ public class CommandBanPlayer extends CommandBase
                 var3.playerNetServerHandler.kickPlayerFromServer("You are banned from this server.");
             }
 
-            notifyAdmins(par1ICommandSender, "commands.ban.success", new Object[] {par2ArrayOfStr[0]});
-        }
-        else
+            notifyAdmins(par1ICommandSender, "commands.ban.success", par2ArrayOfStr[0]);
+        } else
         {
-            throw new WrongUsageException("commands.ban.usage", new Object[0]);
+            throw new WrongUsageException("commands.ban.usage");
         }
     }
 

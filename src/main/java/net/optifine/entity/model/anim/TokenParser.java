@@ -19,11 +19,11 @@ public class TokenParser
 
             if (tokens < 0)
             {
-                Token[] tokens1 = (Token[])((Token[])list.toArray(new Token[list.size()]));
+                Token[] tokens1 = (Token[]) list.toArray(new Token[list.size()]);
                 return tokens1;
             }
 
-            char ch = (char)tokens;
+            char ch = (char) tokens;
 
             if (!Character.isWhitespace(ch))
             {
@@ -31,7 +31,7 @@ public class TokenParser
 
                 if (type == null)
                 {
-                    throw new ParseException("Invalid character: \'" + ch + "\', in: " + str);
+                    throw new ParseException("Invalid character: '" + ch + "', in: " + str);
                 }
 
                 Token token = readToken(ch, type, pr);
@@ -54,7 +54,7 @@ public class TokenParser
                 break;
             }
 
-            char ch = (char)i;
+            char ch = (char) i;
 
             if (!type.hasCharNext(ch))
             {

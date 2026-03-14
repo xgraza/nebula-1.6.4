@@ -33,7 +33,7 @@ public class GenLayerRemoveTooMuchOcean extends GenLayer
                 int var16 = var9[var12 + 1 + (var11 + 1 + 1) * (par3 + 2)];
                 int var17 = var9[var12 + 1 + (var11 + 1) * var7];
                 var10[var12 + var11 * par3] = var17;
-                this.initChunkSeed((long)(var12 + par1), (long)(var11 + par2));
+                this.initChunkSeed(var12 + par1, var11 + par2);
 
                 if (var17 == 0 && var13 == 0 && var14 == 0 && var15 == 0 && var16 == 0 && this.nextInt(2) == 0)
                 {

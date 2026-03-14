@@ -1,10 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S36PacketSignEditorOpen extends Packet
 {
@@ -13,7 +14,9 @@ public class S36PacketSignEditorOpen extends Packet
     private int field_149132_c;
     private static final String __OBFID = "CL_00001316";
 
-    public S36PacketSignEditorOpen() {}
+    public S36PacketSignEditorOpen()
+    {
+    }
 
     public S36PacketSignEditorOpen(int p_i45207_1_, int p_i45207_2_, int p_i45207_3_)
     {
@@ -64,6 +67,6 @@ public class S36PacketSignEditorOpen extends Packet
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayClient)p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) p_148833_1_);
     }
 }

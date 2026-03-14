@@ -28,25 +28,25 @@ public abstract class SMCLog
         LOGGER.debug("[Shaders] " + message);
     }
 
-    public static void severe(String format, Object ... args)
+    public static void severe(String format, Object... args)
     {
         String message = String.format(format, args);
         LOGGER.error("[Shaders] " + message);
     }
 
-    public static void warning(String format, Object ... args)
+    public static void warning(String format, Object... args)
     {
         String message = String.format(format, args);
         LOGGER.warn("[Shaders] " + message);
     }
 
-    public static void info(String format, Object ... args)
+    public static void info(String format, Object... args)
     {
         String message = String.format(format, args);
         LOGGER.info("[Shaders] " + message);
     }
 
-    public static void fine(String format, Object ... args)
+    public static void fine(String format, Object... args)
     {
         String message = String.format(format, args);
         LOGGER.debug("[Shaders] " + message);

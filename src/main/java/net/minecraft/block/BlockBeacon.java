@@ -37,10 +37,9 @@ public class BlockBeacon extends BlockContainer
         if (p_149727_1_.isClient)
         {
             return true;
-        }
-        else
+        } else
         {
-            TileEntityBeacon var10 = (TileEntityBeacon)p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
+            TileEntityBeacon var10 = (TileEntityBeacon) p_149727_1_.getTileEntity(p_149727_2_, p_149727_3_, p_149727_4_);
 
             if (var10 != null)
             {
@@ -83,7 +82,7 @@ public class BlockBeacon extends BlockContainer
 
         if (p_149689_6_.hasDisplayName())
         {
-            ((TileEntityBeacon)p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145999_a(p_149689_6_.getDisplayName());
+            ((TileEntityBeacon) p_149689_1_.getTileEntity(p_149689_2_, p_149689_3_, p_149689_4_)).func_145999_a(p_149689_6_.getDisplayName());
         }
     }
 }

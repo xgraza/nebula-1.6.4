@@ -1,14 +1,15 @@
 package shadersmod.client;
 
-import java.nio.ByteBuffer;
 import net.minecraft.src.GlStateManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
+import java.nio.ByteBuffer;
+
 public class HFNoiseTexture implements ICustomTexture
 {
     private int texID = GL11.glGenTextures();
-    private int textureUnit = 15;
+    private final int textureUnit = 15;
 
     public HFNoiseTexture(int width, int height)
     {
@@ -47,7 +48,7 @@ public class HFNoiseTexture implements ICustomTexture
     private byte random(int x, int y, int z)
     {
         int seed = (this.random(x) + this.random(y * 19)) * this.random(z * 23) - z;
-        return (byte)(this.random(seed) % 128);
+        return (byte) (this.random(seed) % 128);
     }
 
     private byte[] genHFNoiseImage(int width, int height)

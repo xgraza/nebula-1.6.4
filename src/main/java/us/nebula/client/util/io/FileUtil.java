@@ -32,7 +32,7 @@ public final class FileUtil
             int b;
             while ((b = fis.read()) != -1)
             {
-                buffer.append((char)b);
+                buffer.append((char) b);
             }
         }
         return buffer.toString();

@@ -2,9 +2,9 @@ package shadersmod.client;
 
 public class ScreenShaderOptions
 {
-    private String name;
-    private ShaderOption[] shaderOptions;
-    private int columns;
+    private final String name;
+    private final ShaderOption[] shaderOptions;
+    private final int columns;
 
     public ScreenShaderOptions(String name, ShaderOption[] shaderOptions, int columns)
     {

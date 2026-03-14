@@ -2,8 +2,8 @@ package us.nebula.client.api.gui.animation;
 
 /**
  * @author xgraza, Easings.net
- * @since 03/01/25
  * @link {<a href="https://easings.net/">Easings.net</a>}
+ * @since 03/01/25
  */
 public interface AnimationEasing
 {

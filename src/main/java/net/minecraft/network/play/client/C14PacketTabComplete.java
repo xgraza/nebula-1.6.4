@@ -1,18 +1,21 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
+
 public class C14PacketTabComplete extends Packet
 {
     private String field_149420_a;
     private static final String __OBFID = "CL_00001346";
 
-    public C14PacketTabComplete() {}
+    public C14PacketTabComplete()
+    {
+    }
 
     public C14PacketTabComplete(String p_i45239_1_)
     {
@@ -50,11 +53,11 @@ public class C14PacketTabComplete extends Packet
      */
     public String serialize()
     {
-        return String.format("message=\'%s\'", new Object[] {this.field_149420_a});
+        return String.format("message='%s'", this.field_149420_a);
     }
 
     public void processPacket(INetHandler p_148833_1_)
     {
-        this.processPacket((INetHandlerPlayServer)p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) p_148833_1_);
     }
 }

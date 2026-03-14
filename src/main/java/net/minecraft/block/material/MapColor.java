@@ -45,10 +45,14 @@ public class MapColor
     public static final MapColor field_151654_J = new MapColor(34, 1381407);
     public static final MapColor field_151655_K = new MapColor(35, 7340544);
 
-    /** Holds the color in RGB value that will be rendered on maps. */
+    /**
+     * Holds the color in RGB value that will be rendered on maps.
+     */
     public final int colorValue;
 
-    /** Holds the index of the color used on map. */
+    /**
+     * Holds the index of the color used on map.
+     */
     public final int colorIndex;
     private static final String __OBFID = "CL_00000544";
 
@@ -59,8 +63,7 @@ public class MapColor
             this.colorIndex = par1;
             this.colorValue = par2;
             mapColorArray[par1] = this;
-        }
-        else
+        } else
         {
             throw new IndexOutOfBoundsException("Map colour ID must be between 0 and 63 (inclusive)");
         }

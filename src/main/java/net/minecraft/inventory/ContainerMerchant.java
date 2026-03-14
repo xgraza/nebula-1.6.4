@@ -8,11 +8,15 @@ import net.minecraft.world.World;
 
 public class ContainerMerchant extends Container
 {
-    /** Instance of Merchant. */
-    private IMerchant theMerchant;
-    private InventoryMerchant merchantInventory;
+    /**
+     * Instance of Merchant.
+     */
+    private final IMerchant theMerchant;
+    private final InventoryMerchant merchantInventory;
 
-    /** Instance of World. */
+    /**
+     * Instance of World.
+     */
     private final World theWorld;
     private static final String __OBFID = "CL_00001757";
 
@@ -72,7 +76,9 @@ public class ContainerMerchant extends Container
         this.merchantInventory.setCurrentRecipeIndex(par1);
     }
 
-    public void updateProgressBar(int par1, int par2) {}
+    public void updateProgressBar(int par1, int par2)
+    {
+    }
 
     public boolean canInteractWith(EntityPlayer par1EntityPlayer)
     {
@@ -85,7 +91,7 @@ public class ContainerMerchant extends Container
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        Slot var4 = this.inventorySlots.get(par2);
 
         if (var4 != null && var4.getHasStack())
         {
@@ -100,8 +106,7 @@ public class ContainerMerchant extends Container
                 }
 
                 var4.onSlotChange(var5, var3);
-            }
-            else if (par2 != 0 && par2 != 1)
+            } else if (par2 != 0 && par2 != 1)
             {
                 if (par2 >= 3 && par2 < 30)
                 {
@@ -109,22 +114,19 @@ public class ContainerMerchant extends Container
                     {
                         return null;
                     }
-                }
-                else if (par2 >= 30 && par2 < 39 && !this.mergeItemStack(var5, 3, 30, false))
+                } else if (par2 >= 30 && par2 < 39 && !this.mergeItemStack(var5, 3, 30, false))
                 {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(var5, 3, 39, false))
+            } else if (!this.mergeItemStack(var5, 3, 39, false))
             {
                 return null;
             }
 
             if (var5.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
-            }
-            else
+                var4.putStack(null);
+            } else
             {
                 var4.onSlotChanged();
             }
@@ -146,7 +148,7 @@ public class ContainerMerchant extends Container
     public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
         super.onContainerClosed(par1EntityPlayer);
-        this.theMerchant.setCustomer((EntityPlayer)null);
+        this.theMerchant.setCustomer(null);
         super.onContainerClosed(par1EntityPlayer);
 
         if (!this.theWorld.isClient)

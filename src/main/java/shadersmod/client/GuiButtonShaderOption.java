@@ -17,5 +17,7 @@ public class GuiButtonShaderOption extends GuiButton
         return this.shaderOption;
     }
 
-    public void valueChanged() {}
+    public void valueChanged()
+    {
+    }
 }

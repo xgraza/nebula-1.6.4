@@ -29,26 +29,26 @@ public class RenderXPOrb extends Render
     public void doRender(EntityXPOrb par1EntityXPOrb, double par2, double par4, double par6, float par8, float par9)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+        GL11.glTranslatef((float) par2, (float) par4, (float) par6);
         this.bindEntityTexture(par1EntityXPOrb);
         int var10 = par1EntityXPOrb.getTextureByXP();
-        float var11 = (float)(var10 % 4 * 16 + 0) / 64.0F;
-        float var12 = (float)(var10 % 4 * 16 + 16) / 64.0F;
-        float var13 = (float)(var10 / 4 * 16 + 0) / 64.0F;
-        float var14 = (float)(var10 / 4 * 16 + 16) / 64.0F;
+        float var11 = (float) (var10 % 4 * 16) / 64.0F;
+        float var12 = (float) (var10 % 4 * 16 + 16) / 64.0F;
+        float var13 = (float) (var10 / 4 * 16) / 64.0F;
+        float var14 = (float) (var10 / 4 * 16 + 16) / 64.0F;
         float var15 = 1.0F;
         float var16 = 0.5F;
         float var17 = 0.25F;
         int var18 = par1EntityXPOrb.getBrightnessForRender(par9);
         int var19 = var18 % 65536;
         int var20 = var18 / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var19 / 1.0F, (float)var20 / 1.0F);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var19, (float) var20);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         float var26 = 255.0F;
-        float var27 = ((float)par1EntityXPOrb.xpColor + par9) / 2.0F;
-        var20 = (int)((MathHelper.sin(var27 + 0.0F) + 1.0F) * 0.5F * var26);
-        int var21 = (int)var26;
-        int var22 = (int)((MathHelper.sin(var27 + 4.1887903F) + 1.0F) * 0.1F * var26);
+        float var27 = ((float) par1EntityXPOrb.xpColor + par9) / 2.0F;
+        var20 = (int) ((MathHelper.sin(var27 + 0.0F) + 1.0F) * 0.5F * var26);
+        int var21 = (int) var26;
+        int var22 = (int) ((MathHelper.sin(var27 + 4.1887903F) + 1.0F) * 0.1F * var26);
         int var23 = var20 << 16 | var21 << 8 | var22;
         GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -58,10 +58,10 @@ public class RenderXPOrb extends Render
         var25.startDrawingQuads();
         var25.setColorRGBA_I(var23, 128);
         var25.setNormal(0.0F, 1.0F, 0.0F);
-        var25.addVertexWithUV((double)(0.0F - var16), (double)(0.0F - var17), 0.0D, (double)var11, (double)var14);
-        var25.addVertexWithUV((double)(var15 - var16), (double)(0.0F - var17), 0.0D, (double)var12, (double)var14);
-        var25.addVertexWithUV((double)(var15 - var16), (double)(1.0F - var17), 0.0D, (double)var12, (double)var13);
-        var25.addVertexWithUV((double)(0.0F - var16), (double)(1.0F - var17), 0.0D, (double)var11, (double)var13);
+        var25.addVertexWithUV(0.0F - var16, 0.0F - var17, 0.0D, var11, var14);
+        var25.addVertexWithUV(var15 - var16, 0.0F - var17, 0.0D, var12, var14);
+        var25.addVertexWithUV(var15 - var16, 1.0F - var17, 0.0D, var12, var13);
+        var25.addVertexWithUV(0.0F - var16, 1.0F - var17, 0.0D, var11, var13);
         var25.draw();
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
@@ -81,7 +81,7 @@ public class RenderXPOrb extends Render
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityXPOrb)par1Entity);
+        return this.getEntityTexture((EntityXPOrb) par1Entity);
     }
 
     /**
@@ -92,6 +92,6 @@ public class RenderXPOrb extends Render
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityXPOrb)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityXPOrb) par1Entity, par2, par4, par6, par8, par9);
     }
 }

@@ -9,8 +9,7 @@ public class ShaderUtils
         if (opts == null)
         {
             return null;
-        }
-        else
+        } else
         {
             for (int i = 0; i < opts.length; ++i)
             {
@@ -31,8 +30,7 @@ public class ShaderUtils
         if (profs == null)
         {
             return null;
-        }
-        else
+        } else
         {
             for (int i = 0; i < profs.length; ++i)
             {
@@ -53,12 +51,10 @@ public class ShaderUtils
         if (prof == null)
         {
             return false;
-        }
-        else if (opts == null)
+        } else if (opts == null)
         {
             return false;
-        }
-        else
+        } else
         {
             String[] optsProf = prof.getOptions();
 

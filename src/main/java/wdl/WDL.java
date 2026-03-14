@@ -1,22 +1,6 @@
 package wdl;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.net.URLDecoder;
-import java.util.HashSet;
-import java.util.Properties;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBrewingStand;
-import net.minecraft.block.BlockChest;
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.block.BlockFurnace;
-import net.minecraft.block.BlockNote;
+import net.minecraft.block.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiScreen;
@@ -29,28 +13,11 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.item.EntityMinecartChest;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerBrewingStand;
-import net.minecraft.inventory.ContainerChest;
-import net.minecraft.inventory.ContainerDispenser;
-import net.minecraft.inventory.ContainerFurnace;
-import net.minecraft.inventory.ContainerMerchant;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryEnderChest;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagDouble;
-import net.minecraft.nbt.NBTTagFloat;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.*;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBrewingStand;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityDispenser;
-import net.minecraft.tileentity.TileEntityEnderChest;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.tileentity.TileEntityNote;
+import net.minecraft.tileentity.*;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.LongHashMap;
 import net.minecraft.util.MovingObjectPosition;
@@ -64,10 +31,17 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraft.world.storage.ThreadedFileIOBase;
 
+import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.net.URLDecoder;
+import java.util.HashSet;
+import java.util.Properties;
+
 public class WDL
 {
     public static boolean DEBUG = false;
-    public static Minecraft mc = (Minecraft)stealAndGetField(Minecraft.class, Minecraft.class);
+    public static Minecraft mc = (Minecraft) stealAndGetField(Minecraft.class, Minecraft.class);
     public static WorldClient wc;
     public static NetworkManager nm = null;
     public static EntityClientPlayerMP tp;
@@ -99,16 +73,14 @@ public class WDL
 
         if (isMultiworld && worldName.isEmpty())
         {
-            guiToShowAsync = new GuiWDLMultiworldSelect((GuiScreen)null);
-        }
-        else if (!propsFound)
+            guiToShowAsync = new GuiWDLMultiworldSelect(null);
+        } else if (!propsFound)
         {
-            guiToShowAsync = new GuiWDLMultiworld((GuiScreen)null);
-        }
-        else
+            guiToShowAsync = new GuiWDLMultiworld(null);
+        } else
         {
             worldProps = loadWorldProps(worldName);
-            saveHandler = (SaveHandler)mc.getSaveLoader().getSaveLoader(getWorldFolderName(worldName), true);
+            saveHandler = (SaveHandler) mc.getSaveLoader().getSaveLoader(getWorldFolderName(worldName), true);
             chunkLoader = saveHandler.getChunkLoader(wc.provider);
             newTileEntities = new HashSet();
 
@@ -154,8 +126,7 @@ public class WDL
                     chatMsg("World change detected. Download will start once current save completes.");
                     startSaveThread();
                 }
-            }
-            else
+            } else
             {
                 loadWorld();
             }
@@ -179,13 +150,11 @@ public class WDL
             if (baseProps.getProperty("AutoStart").equals("true"))
             {
                 start();
-            }
-            else
+            } else
             {
                 startOnChange = false;
             }
-        }
-        else
+        } else
         {
             chatDebug("onWorldLoad: same server!");
 
@@ -196,7 +165,9 @@ public class WDL
         }
     }
 
-    public static void onWorldUnload() {}
+    public static void onWorldUnload()
+    {
+    }
 
     public static void onSaveComplete()
     {
@@ -208,8 +179,7 @@ public class WDL
         {
             chatMsg("Save complete. Starting download again.");
             loadWorld();
-        }
-        else
+        } else
         {
             chatMsg("Save complete. Your single player file is ready to play!");
         }
@@ -231,8 +201,7 @@ public class WDL
             if (mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)
             {
                 lastEntity = mc.objectMouseOver.entityHit;
-            }
-            else
+            } else
             {
                 lastEntity = null;
                 lastX = mc.objectMouseOver.blockX;
@@ -251,11 +220,11 @@ public class WDL
         {
             if (lastEntity instanceof EntityMinecart && windowContainer instanceof ContainerChest)
             {
-                EntityMinecart var8 = (EntityMinecart)lastEntity;
+                EntityMinecart var8 = (EntityMinecart) lastEntity;
 
                 if (var8 instanceof EntityMinecartChest)
                 {
-                    EntityMinecartChest var11 = (EntityMinecartChest)var8;
+                    EntityMinecartChest var11 = (EntityMinecartChest) var8;
 
                     for (inventorySize = 0; inventorySize < var11.getSizeInventory(); ++inventorySize)
                     {
@@ -263,12 +232,11 @@ public class WDL
                         saveName = "Storage Minecart contents";
                     }
                 }
-            }
-            else
+            } else
             {
                 if (lastEntity instanceof EntityVillager && windowContainer instanceof ContainerMerchant)
                 {
-                    EntityVillager var7 = (EntityVillager)lastEntity;
+                    EntityVillager var7 = (EntityVillager) lastEntity;
                     chatDebug("Saving villager offers is not yet supported.");
                     saveName = "Villager offers";
                     return;
@@ -278,16 +246,14 @@ public class WDL
             }
 
             chatDebug("Saved " + saveName + ".");
-        }
-        else
+        } else
         {
             TileEntity te = wc.getTileEntity(lastX, lastY, lastZ);
 
             if (te == null)
             {
                 chatDebug("onItemGuiClosed could not get TE at " + lastX + " " + lastY + " " + lastZ);
-            }
-            else
+            } else
             {
                 if (windowContainer instanceof ContainerChest && te instanceof TileEntityChest)
                 {
@@ -299,34 +265,31 @@ public class WDL
                         ChunkPosition var12;
                         TileEntityChest var13;
 
-                        if ((var9 = wc.getTileEntity(lastX, lastY, lastZ + 1)) instanceof TileEntityChest && ((TileEntityChest)var9).func_145980_j() == ((TileEntityChest)te).func_145980_j())
+                        if ((var9 = wc.getTileEntity(lastX, lastY, lastZ + 1)) instanceof TileEntityChest && ((TileEntityChest) var9).func_145980_j() == ((TileEntityChest) te).func_145980_j())
                         {
-                            var13 = (TileEntityChest)te;
-                            tec2 = (TileEntityChest)var9;
+                            var13 = (TileEntityChest) te;
+                            tec2 = (TileEntityChest) var9;
                             var12 = new ChunkPosition(lastX, lastY, lastZ + 1);
-                        }
-                        else if ((var9 = wc.getTileEntity(lastX, lastY, lastZ - 1)) instanceof TileEntityChest && ((TileEntityChest)var9).func_145980_j() == ((TileEntityChest)te).func_145980_j())
+                        } else if ((var9 = wc.getTileEntity(lastX, lastY, lastZ - 1)) instanceof TileEntityChest && ((TileEntityChest) var9).func_145980_j() == ((TileEntityChest) te).func_145980_j())
                         {
-                            var13 = (TileEntityChest)var9;
-                            tec2 = (TileEntityChest)te;
+                            var13 = (TileEntityChest) var9;
+                            tec2 = (TileEntityChest) te;
                             var12 = new ChunkPosition(lastX, lastY, lastZ - 1);
-                        }
-                        else if ((var9 = wc.getTileEntity(lastX + 1, lastY, lastZ)) instanceof TileEntityChest && ((TileEntityChest)var9).func_145980_j() == ((TileEntityChest)te).func_145980_j())
+                        } else if ((var9 = wc.getTileEntity(lastX + 1, lastY, lastZ)) instanceof TileEntityChest && ((TileEntityChest) var9).func_145980_j() == ((TileEntityChest) te).func_145980_j())
                         {
-                            var13 = (TileEntityChest)te;
-                            tec2 = (TileEntityChest)var9;
+                            var13 = (TileEntityChest) te;
+                            tec2 = (TileEntityChest) var9;
                             var12 = new ChunkPosition(lastX + 1, lastY, lastZ);
-                        }
-                        else
+                        } else
                         {
-                            if (!((var9 = wc.getTileEntity(lastX - 1, lastY, lastZ)) instanceof TileEntityChest) || ((TileEntityChest)var9).func_145980_j() != ((TileEntityChest)te).func_145980_j())
+                            if (!((var9 = wc.getTileEntity(lastX - 1, lastY, lastZ)) instanceof TileEntityChest) || ((TileEntityChest) var9).func_145980_j() != ((TileEntityChest) te).func_145980_j())
                             {
                                 chatMsg("Could not save this chest!");
                                 return;
                             }
 
-                            var13 = (TileEntityChest)var9;
-                            tec2 = (TileEntityChest)te;
+                            var13 = (TileEntityChest) var9;
+                            tec2 = (TileEntityChest) te;
                             var12 = new ChunkPosition(lastX - 1, lastY, lastZ);
                         }
 
@@ -335,15 +298,13 @@ public class WDL
                         newTileEntities.add(var10);
                         newTileEntities.add(var12);
                         saveName = "Double Chest contents";
-                    }
-                    else
+                    } else
                     {
-                        copyItemStacks(windowContainer, (TileEntityChest)te, 0);
+                        copyItemStacks(windowContainer, (TileEntityChest) te, 0);
                         newTileEntities.add(new ChunkPosition(lastX, lastY, lastZ));
                         saveName = "Chest contents";
                     }
-                }
-                else if (windowContainer instanceof ContainerChest && te instanceof TileEntityEnderChest)
+                } else if (windowContainer instanceof ContainerChest && te instanceof TileEntityEnderChest)
                 {
                     InventoryEnderChest inventoryEnderChest = tp.getInventoryEnderChest();
                     inventorySize = inventoryEnderChest.getSizeInventory();
@@ -355,20 +316,17 @@ public class WDL
                     }
 
                     saveName = "Ender Chest contents";
-                }
-                else if (windowContainer instanceof ContainerBrewingStand)
+                } else if (windowContainer instanceof ContainerBrewingStand)
                 {
-                    copyItemStacks(windowContainer, (TileEntityBrewingStand)te, 0);
+                    copyItemStacks(windowContainer, (TileEntityBrewingStand) te, 0);
                     newTileEntities.add(new ChunkPosition(lastX, lastY, lastZ));
                     saveName = "Brewing Stand contents";
-                }
-                else if (windowContainer instanceof ContainerDispenser)
+                } else if (windowContainer instanceof ContainerDispenser)
                 {
-                    copyItemStacks(windowContainer, (TileEntityDispenser)te, 0);
+                    copyItemStacks(windowContainer, (TileEntityDispenser) te, 0);
                     newTileEntities.add(new ChunkPosition(lastX, lastY, lastZ));
                     saveName = "Dispenser contents";
-                }
-                else
+                } else
                 {
                     if (!(windowContainer instanceof ContainerFurnace))
                     {
@@ -376,7 +334,7 @@ public class WDL
                         return;
                     }
 
-                    copyItemStacks(windowContainer, (TileEntityFurnace)te, 0);
+                    copyItemStacks(windowContainer, (TileEntityFurnace) te, 0);
                     newTileEntities.add(new ChunkPosition(lastX, lastY, lastZ));
                     saveName = "Furnace contents";
                 }
@@ -391,7 +349,7 @@ public class WDL
         if (block == Blocks.noteblock)
         {
             TileEntityNote newTE = new TileEntityNote();
-            newTE.field_145879_a = (byte)(param % 25);
+            newTE.field_145879_a = (byte) (param % 25);
             wc.setTileEntity(x, y, z, newTE);
             newTileEntities.add(new ChunkPosition(x, y, z));
             chatDebug("onBlockEvent: Note Block: " + x + " " + y + " " + z + " pitch: " + param + " - " + newTE);
@@ -400,7 +358,7 @@ public class WDL
 
     public static void importTileEntities(Chunk chunk)
     {
-        File chunkSaveLocation = (File)stealAndGetField(chunkLoader, File.class);
+        File chunkSaveLocation = (File) stealAndGetField(chunkLoader, File.class);
         DataInputStream dis = RegionFileCache.getChunkInputStream(chunkSaveLocation, chunk.xPosition, chunk.zPosition);
 
         try
@@ -423,22 +381,18 @@ public class WDL
                         {
                             wc.setTileEntity(te.xCoord, te.yCoord, te.zCoord, te);
                             chatDebug("Loaded TE: " + entityType + " at " + te.xCoord + " " + te.yCoord + " " + te.zCoord);
-                        }
-                        else
+                        } else
                         {
                             chatDebug("Dropping old TE: " + entityType + " at " + te.xCoord + " " + te.yCoord + " " + te.zCoord);
                         }
-                    }
-                    else
+                    } else
                     {
                         chatDebug("Old TE is not importable: " + entityType + " at " + te.xCoord + " " + te.yCoord + " " + te.zCoord);
                     }
                 }
             }
-        }
-        catch (Exception var10)
+        } catch (Exception var10)
         {
-            ;
         }
     }
 
@@ -455,17 +409,16 @@ public class WDL
         try
         {
             saveHandler.checkSessionLock();
-        }
-        catch (MinecraftException var7)
+        } catch (MinecraftException var7)
         {
-            throw new RuntimeException("WorldDownloader: Couldn\'t get session lock for saving the world!");
+            throw new RuntimeException("WorldDownloader: Couldn't get session lock for saving the world!");
         }
 
         NBTTagCompound playerNBT = new NBTTagCompound();
         tp.writeToNBT(playerNBT);
         applyOverridesToPlayer(playerNBT);
         ISaveHandler saveHAndler = wc.getSaveHandler();
-        AnvilSaveConverter saveConverter = (AnvilSaveConverter)mc.getSaveLoader();
+        AnvilSaveConverter saveConverter = (AnvilSaveConverter) mc.getSaveLoader();
         wc.getWorldInfo().setSaveVersion(getSaveVersion(saveConverter));
         NBTTagCompound worldInfoNBT = wc.getWorldInfo().cloneNBTCompound(playerNBT);
         applyOverridesToWorldInfo(worldInfoNBT);
@@ -475,12 +428,10 @@ public class WDL
         try
         {
             saveChunks();
-        }
-        catch (IllegalArgumentException var5)
+        } catch (IllegalArgumentException var5)
         {
             var5.printStackTrace();
-        }
-        catch (IllegalAccessException var6)
+        } catch (IllegalAccessException var6)
         {
             var6.printStackTrace();
         }
@@ -503,10 +454,9 @@ public class WDL
             }
 
             playerFile.renameTo(playerFileOld);
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
-            throw new RuntimeException("Couldn\'t save the player!");
+            throw new RuntimeException("Couldn't save the player!");
         }
 
         chatDebug("Player data saved.");
@@ -544,10 +494,9 @@ public class WDL
             {
                 e.delete();
             }
-        }
-        catch (Exception var6)
+        } catch (Exception var6)
         {
-            throw new RuntimeException("Couldn\'t save the world metadata!");
+            throw new RuntimeException("Couldn't save the world metadata!");
         }
 
         chatDebug("World data saved.");
@@ -556,7 +505,7 @@ public class WDL
     public static void saveChunks() throws IllegalArgumentException, IllegalAccessException
     {
         chatDebug("Saving chunks...");
-        ChunkProviderClient chunkProvider = (ChunkProviderClient)wc.getChunkProvider();
+        ChunkProviderClient chunkProvider = (ChunkProviderClient) wc.getChunkProvider();
         Field hashArrayField = null;
         Field[] lhmFields = LongHashMap.class.getDeclaredFields();
         System.out.println("Looking for hashArray field...");
@@ -579,28 +528,26 @@ public class WDL
         if (hashArrayField == null)
         {
             chatMsg("Could not save chunks. Reflection error.");
-        }
-        else
+        } else
         {
             System.out.println("Setting hashArrayField of type " + hashArrayField.getType().getName() + " accessible.");
             hashArrayField.setAccessible(true);
             System.out.println("Stealing field from chunkProvider (type=" + chunkProvider.getClass().getName() + ") of type " + LongHashMap.class.getName());
-            LongHashMap var14 = (LongHashMap)stealAndGetField(chunkProvider, LongHashMap.class);
+            LongHashMap var14 = (LongHashMap) stealAndGetField(chunkProvider, LongHashMap.class);
 
             if (var14 != null)
             {
                 System.out.println("Successfully got lhm of type" + var14.getClass().getName());
             }
 
-            Object[] var15 = (Object[])((Object[])hashArrayField.get(var14));
+            Object[] var15 = (Object[]) hashArrayField.get(var14);
             System.out.println("hashArray is of type " + var15.getClass().getName());
             System.out.println("hashArray.length = " + var15.length);
 
             if (var15.length == 0)
             {
                 chatError("ChunkProviderClient has no chunk data!");
-            }
-            else
+            } else
             {
                 Class var16 = null;
                 Object[] var17 = var15;
@@ -620,8 +567,7 @@ public class WDL
                 if (var16 == null)
                 {
                     chatError("Could not get class for LongHashMap.Entry.");
-                }
-                else
+                } else
                 {
                     valueField = var16.getDeclaredFields()[1];
                     valueField.setAccessible(true);
@@ -634,7 +580,7 @@ public class WDL
                     {
                         for (Object lhme = var15[var20]; lhme != null; lhme = var18.get(lhme))
                         {
-                            Chunk c = (Chunk)valueField.get(lhme);
+                            Chunk c = (Chunk) valueField.get(lhme);
 
                             if (c != null && c.isModified)
                             {
@@ -643,15 +589,13 @@ public class WDL
                                 try
                                 {
                                     ThreadedFileIOBase.threadedIOInstance.waitForFinish();
-                                }
-                                catch (Exception var13)
+                                } catch (Exception var13)
                                 {
                                     chatMsg("Threw exception waiting for asynchronous IO to finish. Hmmm.");
                                 }
-                            }
-                            else
+                            } else
                             {
-                                chatMsg("Didn\'t save chunk " + c.xPosition + " " + c.zPosition + " because isModified is false!");
+                                chatMsg("Didn't save chunk " + c.xPosition + " " + c.zPosition + " because isModified is false!");
                             }
                         }
                     }
@@ -670,10 +614,9 @@ public class WDL
         try
         {
             chunkLoader.saveChunk(wc, c);
-        }
-        catch (Exception var2)
+        } catch (Exception var2)
         {
-            chatMsg("Chunk at chunk position " + c.xPosition + "," + c.zPosition + " can\'t be saved!");
+            chatMsg("Chunk at chunk position " + c.xPosition + "," + c.zPosition + " can't be saved!");
         }
     }
 
@@ -686,22 +629,18 @@ public class WDL
         {
             baseProps.load(new FileReader(new File(mc.mcDataDir, "saves/" + baseFolderName + "/WorldDownloader.txt")));
             propsFound = true;
-        }
-        catch (FileNotFoundException var1)
+        } catch (FileNotFoundException var1)
         {
             propsFound = false;
-        }
-        catch (Exception var2)
+        } catch (Exception var2)
         {
-            ;
         }
 
         if (baseProps.getProperty("LinkedWorlds").isEmpty())
         {
             isMultiworld = false;
             worldProps = new Properties(baseProps);
-        }
-        else
+        } else
         {
             isMultiworld = true;
         }
@@ -718,8 +657,7 @@ public class WDL
             try
             {
                 ret.load(new FileReader(new File(mc.mcDataDir, "saves/" + folder + "/WorldDownloader.txt")));
-            }
-            catch (Exception var4)
+            } catch (Exception var4)
             {
                 return null;
             }
@@ -742,13 +680,10 @@ public class WDL
             try
             {
                 theWorldProps.store(new FileWriter(new File(mc.mcDataDir, "saves/" + baseFolder + "/WorldDownloader.txt")), "");
-            }
-            catch (Exception var5)
+            } catch (Exception var5)
             {
-                ;
             }
-        }
-        else if (!isMultiworld)
+        } else if (!isMultiworld)
         {
             baseProps.putAll(theWorldProps);
         }
@@ -759,10 +694,8 @@ public class WDL
         try
         {
             baseProps.store(new FileWriter(new File(baseFolder1, "WorldDownloader.txt")), "");
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
-            ;
         }
     }
 
@@ -787,8 +720,7 @@ public class WDL
             if (playerPos == 20)
             {
                 playerNBT.setFloat("foodSaturationLevel", 5.0F);
-            }
-            else
+            } else
             {
                 playerNBT.setFloat("foodSaturationLevel", 0.0F);
             }
@@ -807,9 +739,9 @@ public class WDL
             pos.removeTag(0);
             pos.removeTag(0);
             pos.removeTag(0);
-            pos.appendTag(new NBTTagDouble((double)x + 0.5D));
-            pos.appendTag(new NBTTagDouble((double)y + 0.621D));
-            pos.appendTag(new NBTTagDouble((double)x + 0.5D));
+            pos.appendTag(new NBTTagDouble((double) x + 0.5D));
+            pos.appendTag(new NBTTagDouble((double) y + 0.621D));
+            pos.appendTag(new NBTTagDouble((double) x + 0.5D));
             NBTTagList motion = playerNBT.getTagList("Motion", 6);
             motion.removeTag(0);
             motion.removeTag(0);
@@ -833,8 +765,7 @@ public class WDL
         if (worldName.isEmpty())
         {
             worldInfoNBT.setString("LevelName", baseName);
-        }
-        else
+        } else
         {
             worldInfoNBT.setString("LevelName", baseName + " - " + worldName);
         }
@@ -846,21 +777,17 @@ public class WDL
             if (tp.capabilities.isCreativeMode)
             {
                 worldInfoNBT.setInteger("GameType", 1);
-            }
-            else
+            } else
             {
                 worldInfoNBT.setInteger("GameType", 0);
             }
-        }
-        else if (gametypeOption.equals("survival"))
+        } else if (gametypeOption.equals("survival"))
         {
             worldInfoNBT.setInteger("GameType", 0);
-        }
-        else if (gametypeOption.equals("creative"))
+        } else if (gametypeOption.equals("creative"))
         {
             worldInfoNBT.setInteger("GameType", 1);
-        }
-        else if (gametypeOption.equals("hardcore"))
+        } else if (gametypeOption.equals("hardcore"))
         {
             worldInfoNBT.setInteger("GameType", 0);
             worldInfoNBT.setBoolean("hardcore", true);
@@ -870,7 +797,7 @@ public class WDL
 
         if (!timeOption.equals("keep"))
         {
-            long randomSeed = (long)Integer.parseInt(timeOption);
+            long randomSeed = Integer.parseInt(timeOption);
             worldInfoNBT.setLong("Time", randomSeed);
         }
 
@@ -882,10 +809,9 @@ public class WDL
             try
             {
                 seed = Long.parseLong(randomSeed1);
-            }
-            catch (NumberFormatException var16)
+            } catch (NumberFormatException var16)
             {
-                seed = (long)randomSeed1.hashCode();
+                seed = randomSeed1.hashCode();
             }
         }
 
@@ -929,15 +855,14 @@ public class WDL
 
         if (spawn.equals("player"))
         {
-            x = (int)Math.floor(tp.posX);
-            y = (int)Math.floor(tp.posY);
-            z = (int)Math.floor(tp.posZ);
+            x = (int) Math.floor(tp.posX);
+            y = (int) Math.floor(tp.posY);
+            z = (int) Math.floor(tp.posZ);
             worldInfoNBT.setInteger("SpawnX", x);
             worldInfoNBT.setInteger("SpawnY", y);
             worldInfoNBT.setInteger("SpawnZ", z);
             worldInfoNBT.setBoolean("initialized", true);
-        }
-        else if (spawn.equals("xyz"))
+        } else if (spawn.equals("xyz"))
         {
             x = Integer.parseInt(worldProps.getProperty("SpawnX"));
             y = Integer.parseInt(worldProps.getProperty("SpawnY"));
@@ -962,10 +887,8 @@ public class WDL
             {
                 return "MCRealm: " + URLDecoder.decode(mcos.field_148810_b, "UTF-8");
             }
-        }
-        catch (Exception var1)
+        } catch (Exception var1)
         {
-            ;
         }
 
         return "Unidentified Server";
@@ -1030,12 +953,11 @@ public class WDL
                 if (m.getParameterTypes().length == 0 && m.getReturnType().equals(Integer.TYPE))
                 {
                     m.setAccessible(true);
-                    saveVersion = ((Integer)m.invoke(asc, new Object[0])).intValue();
+                    saveVersion = ((Integer) m.invoke(asc, new Object[0])).intValue();
                     break;
                 }
             }
-        }
-        catch (Throwable var7)
+        } catch (Throwable var7)
         {
             var7.printStackTrace();
         }
@@ -1071,14 +993,12 @@ public class WDL
                 {
                     f.setAccessible(true);
                     return f;
-                }
-                catch (Exception var8)
+                } catch (Exception var8)
                 {
-                    ;
                 }
             }
 
-            throw new RuntimeException("WorldDownloader: Couldn\'t steal Field of type \"" + typeOfField + "\" from class \"" + typeOfClass + "\" !");
+            throw new RuntimeException("WorldDownloader: Couldn't steal Field of type \"" + typeOfField + "\" from class \"" + typeOfClass + "\" !");
         }
     }
 
@@ -1088,10 +1008,9 @@ public class WDL
 
         if (object instanceof Class)
         {
-            typeOfObject = (Class)object;
+            typeOfObject = (Class) object;
             object = null;
-        }
-        else
+        } else
         {
             typeOfObject = object.getClass();
         }
@@ -1100,10 +1019,9 @@ public class WDL
         {
             Field e = stealField(typeOfObject, typeOfField);
             return e.get(object);
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
-            throw new RuntimeException("WorldDownloader: Couldn\'t get Field of type \"" + typeOfField + "\" from object \"" + object + "\" !");
+            throw new RuntimeException("WorldDownloader: Couldn't get Field of type \"" + typeOfField + "\" from object \"" + object + "\" !");
         }
     }
 

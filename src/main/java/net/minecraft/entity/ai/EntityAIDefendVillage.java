@@ -31,8 +31,7 @@ public class EntityAIDefendVillage extends EntityAITarget
         if (var1 == null)
         {
             return false;
-        }
-        else
+        } else
         {
             this.villageAgressorTarget = var1.findNearestVillageAggressor(this.irongolem);
 
@@ -42,13 +41,11 @@ public class EntityAIDefendVillage extends EntityAITarget
                 {
                     this.villageAgressorTarget = var1.func_82685_c(this.irongolem);
                     return this.isSuitableTarget(this.villageAgressorTarget, false);
-                }
-                else
+                } else
                 {
                     return false;
                 }
-            }
-            else
+            } else
             {
                 return true;
             }

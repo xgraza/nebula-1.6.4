@@ -37,17 +37,15 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer
 
                 if (p_147383_1_.func_149595_d() > 4)
                 {
-                    var2 = new ChatComponentText("Outdated server! I\'m still on 1.7.2");
-                    this.field_147386_b.scheduleOutboundPacket(new S00PacketDisconnect(var2), new GenericFutureListener[0]);
+                    var2 = new ChatComponentText("Outdated server! I'm still on 1.7.2");
+                    this.field_147386_b.scheduleOutboundPacket(new S00PacketDisconnect(var2));
                     this.field_147386_b.closeChannel(var2);
-                }
-                else if (p_147383_1_.func_149595_d() < 4)
+                } else if (p_147383_1_.func_149595_d() < 4)
                 {
                     var2 = new ChatComponentText("Outdated client! Please use 1.7.2");
-                    this.field_147386_b.scheduleOutboundPacket(new S00PacketDisconnect(var2), new GenericFutureListener[0]);
+                    this.field_147386_b.scheduleOutboundPacket(new S00PacketDisconnect(var2));
                     this.field_147386_b.closeChannel(var2);
-                }
-                else
+                } else
                 {
                     this.field_147386_b.setNetHandler(new NetHandlerLoginServer(this.field_147387_a, this.field_147386_b));
                 }
@@ -67,7 +65,9 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer
     /**
      * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
      */
-    public void onDisconnect(IChatComponent p_147231_1_) {}
+    public void onDisconnect(IChatComponent p_147231_1_)
+    {
+    }
 
     /**
      * Allows validation of the connection state transition. Parameters: from, to (connection state). Typically throws
@@ -85,7 +85,9 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer
      * For scheduled network tasks. Used in NetHandlerPlayServer to send keep-alive packets and in NetHandlerLoginServer
      * for a login-timeout
      */
-    public void onNetworkTick() {}
+    public void onNetworkTick()
+    {
+    }
 
     static final class SwitchEnumConnectionState
     {
@@ -97,19 +99,15 @@ public class NetHandlerHandshakeTCP implements INetHandlerHandshakeServer
             try
             {
                 field_151291_a[EnumConnectionState.LOGIN.ordinal()] = 1;
-            }
-            catch (NoSuchFieldError var2)
+            } catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
                 field_151291_a[EnumConnectionState.STATUS.ordinal()] = 2;
-            }
-            catch (NoSuchFieldError var1)
+            } catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

@@ -2,7 +2,7 @@ package shadersmod.uniform;
 
 public class CustomUniforms
 {
-    private CustomUniform[] uniforms;
+    private final CustomUniform[] uniforms;
 
     public CustomUniforms(CustomUniform[] uniforms)
     {

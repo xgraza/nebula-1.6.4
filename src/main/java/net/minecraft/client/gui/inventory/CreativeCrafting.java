@@ -1,10 +1,11 @@
 package net.minecraft.client.gui.inventory;
 
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 public class CreativeCrafting implements ICrafting
 {
@@ -16,7 +17,9 @@ public class CreativeCrafting implements ICrafting
         this.field_146109_a = par1Minecraft;
     }
 
-    public void sendContainerAndContentsToPlayer(Container par1Container, List par2List) {}
+    public void sendContainerAndContentsToPlayer(Container par1Container, List par2List)
+    {
+    }
 
     /**
      * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual
@@ -32,5 +35,7 @@ public class CreativeCrafting implements ICrafting
      * and enchanting level. Normally the first int identifies which variable to update, and the second contains the new
      * value. Both are truncated to shorts in non-local SMP.
      */
-    public void sendProgressBarUpdate(Container par1Container, int par2, int par3) {}
+    public void sendProgressBarUpdate(Container par1Container, int par2, int par3)
+    {
+    }
 }

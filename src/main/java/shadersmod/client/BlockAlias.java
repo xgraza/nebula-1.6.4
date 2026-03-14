@@ -1,14 +1,15 @@
 package shadersmod.client;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import net.minecraft.src.Config;
 import net.minecraft.src.MatchBlock;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class BlockAlias
 {
-    private int blockId;
-    private MatchBlock[] matchBlocks;
+    private final int blockId;
+    private final MatchBlock[] matchBlocks;
 
     public BlockAlias(int blockId, MatchBlock[] matchBlocks)
     {
@@ -47,7 +48,7 @@ public class BlockAlias
             blockIdSet.add(Integer.valueOf(blockId));
         }
 
-        Integer[] var5 = (Integer[])blockIdSet.toArray(new Integer[blockIdSet.size()]);
+        Integer[] var5 = (Integer[]) blockIdSet.toArray(new Integer[blockIdSet.size()]);
         int[] var6 = Config.toPrimitive(var5);
         return var6;
     }
@@ -66,12 +67,12 @@ public class BlockAlias
             }
         }
 
-        MatchBlock[] var5 = (MatchBlock[])((MatchBlock[])listMatchBlock.toArray(new MatchBlock[listMatchBlock.size()]));
+        MatchBlock[] var5 = (MatchBlock[]) listMatchBlock.toArray(new MatchBlock[listMatchBlock.size()]);
         return var5;
     }
 
     public String toString()
     {
-        return "block." + this.blockId + "=" + Config.arrayToString((Object[])this.matchBlocks);
+        return "block." + this.blockId + "=" + Config.arrayToString(this.matchBlocks);
     }
 }

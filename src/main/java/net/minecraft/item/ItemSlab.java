@@ -57,16 +57,13 @@ public class ItemSlab extends ItemBlock
         if (this.field_150948_b)
         {
             return super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
-        }
-        else if (par1ItemStack.stackSize == 0)
+        } else if (par1ItemStack.stackSize == 0)
         {
             return false;
-        }
-        else if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
+        } else if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
         {
             return false;
-        }
-        else
+        } else
         {
             Block var11 = par3World.getBlock(par4, par5, par6);
             int var12 = par3World.getBlockMetadata(par4, par5, par6);
@@ -77,15 +74,14 @@ public class ItemSlab extends ItemBlock
             {
                 if (par3World.checkNoEntityCollision(this.field_150947_d.getCollisionBoundingBoxFromPool(par3World, par4, par5, par6)) && par3World.setBlock(par4, par5, par6, this.field_150947_d, var13, 3))
                 {
-                    par3World.playSoundEffect((double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), this.field_150947_d.stepSound.func_150496_b(), (this.field_150947_d.stepSound.func_150497_c() + 1.0F) / 2.0F, this.field_150947_d.stepSound.func_150494_d() * 0.8F);
+                    par3World.playSoundEffect((float) par4 + 0.5F, (float) par5 + 0.5F, (float) par6 + 0.5F, this.field_150947_d.stepSound.func_150496_b(), (this.field_150947_d.stepSound.func_150497_c() + 1.0F) / 2.0F, this.field_150947_d.stepSound.func_150494_d() * 0.8F);
                     --par1ItemStack.stackSize;
                 }
 
                 return true;
-            }
-            else
+            } else
             {
-                return this.func_150946_a(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7) ? true : super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
+                return this.func_150946_a(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7) || super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
             }
         }
     }
@@ -103,8 +99,7 @@ public class ItemSlab extends ItemBlock
         if ((side == 1 && !var14 || side == 0 && var14) && var11 == this.field_150949_c && var13 == stack.getItemDamage())
         {
             return true;
-        }
-        else
+        } else
         {
             if (side == 0)
             {
@@ -139,7 +134,7 @@ public class ItemSlab extends ItemBlock
             Block var15 = world.getBlock(x, y, z);
             int var16 = world.getBlockMetadata(x, y, z);
             var13 = var16 & 7;
-            return var15 == this.field_150949_c && var13 == stack.getItemDamage() ? true : super.canPlaceBlock(world, var8, var9, var10, side, player, stack);
+            return var15 == this.field_150949_c && var13 == stack.getItemDamage() || super.canPlaceBlock(world, var8, var9, var10, side, player, stack);
         }
     }
 
@@ -183,13 +178,12 @@ public class ItemSlab extends ItemBlock
         {
             if (p_150946_3_.checkNoEntityCollision(this.field_150947_d.getCollisionBoundingBoxFromPool(p_150946_3_, p_150946_4_, p_150946_5_, p_150946_6_)) && p_150946_3_.setBlock(p_150946_4_, p_150946_5_, p_150946_6_, this.field_150947_d, var10, 3))
             {
-                p_150946_3_.playSoundEffect((double)((float)p_150946_4_ + 0.5F), (double)((float)p_150946_5_ + 0.5F), (double)((float)p_150946_6_ + 0.5F), this.field_150947_d.stepSound.func_150496_b(), (this.field_150947_d.stepSound.func_150497_c() + 1.0F) / 2.0F, this.field_150947_d.stepSound.func_150494_d() * 0.8F);
+                p_150946_3_.playSoundEffect((float) p_150946_4_ + 0.5F, (float) p_150946_5_ + 0.5F, (float) p_150946_6_ + 0.5F, this.field_150947_d.stepSound.func_150496_b(), (this.field_150947_d.stepSound.func_150497_c() + 1.0F) / 2.0F, this.field_150947_d.stepSound.func_150494_d() * 0.8F);
                 --p_150946_1_.stackSize;
             }
 
             return true;
-        }
-        else
+        } else
         {
             return false;
         }

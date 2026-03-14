@@ -8,10 +8,14 @@ import shadersmod.client.ShadersTex;
 
 public class TextureCompass extends TextureAtlasSprite
 {
-    /** Current compass heading in radians */
+    /**
+     * Current compass heading in radians
+     */
     public double currentAngle;
 
-    /** Speed and direction of compass rotation */
+    /**
+     * Speed and direction of compass rotation
+     */
     public double angleDelta;
     private static final String __OBFID = "CL_00001071";
 
@@ -26,11 +30,10 @@ public class TextureCompass extends TextureAtlasSprite
 
         if (var1.theWorld != null && var1.thePlayer != null)
         {
-            this.updateCompass(var1.theWorld, var1.thePlayer.posX, var1.thePlayer.posZ, (double)var1.thePlayer.rotationYaw, false, false);
-        }
-        else
+            this.updateCompass(var1.theWorld, var1.thePlayer.posX, var1.thePlayer.posZ, var1.thePlayer.rotationYaw, false, false);
+        } else
         {
-            this.updateCompass((World)null, 0.0D, 0.0D, 0.0D, true, false);
+            this.updateCompass(null, 0.0D, 0.0D, 0.0D, true, false);
         }
     }
 
@@ -46,8 +49,8 @@ public class TextureCompass extends TextureAtlasSprite
             if (par1World != null && !par8)
             {
                 ChunkCoordinates var18 = par1World.getSpawnPoint();
-                double var13 = (double)var18.posX - par2;
-                double var15 = (double)var18.posZ - par4;
+                double var13 = (double) var18.posX - par2;
+                double var15 = (double) var18.posZ - par4;
                 par6 %= 360.0D;
                 var10 = -((par6 - 90.0D) * Math.PI / 180.0D - Math.atan2(var15, var13));
 
@@ -60,14 +63,12 @@ public class TextureCompass extends TextureAtlasSprite
             if (par9)
             {
                 this.currentAngle = var10;
-            }
-            else
+            } else
             {
                 double var181;
 
                 for (var181 = var10 - this.currentAngle; var181 < -Math.PI; var181 += (Math.PI * 2D))
                 {
-                    ;
                 }
 
                 while (var181 >= Math.PI)
@@ -92,9 +93,8 @@ public class TextureCompass extends TextureAtlasSprite
 
             int var182;
 
-            for (var182 = (int)((this.currentAngle / (Math.PI * 2D) + 1.0D) * (double)this.framesTextureData.size()) % this.framesTextureData.size(); var182 < 0; var182 = (var182 + this.framesTextureData.size()) % this.framesTextureData.size())
+            for (var182 = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * (double) this.framesTextureData.size()) % this.framesTextureData.size(); var182 < 0; var182 = (var182 + this.framesTextureData.size()) % this.framesTextureData.size())
             {
-                ;
             }
 
             if (var182 != this.frameCounter)
@@ -103,11 +103,10 @@ public class TextureCompass extends TextureAtlasSprite
 
                 if (Config.isShaders())
                 {
-                    ShadersTex.uploadTexSub((int[][])((int[][])this.framesTextureData.get(this.frameCounter)), this.width, this.height, this.originX, this.originY, false, false);
-                }
-                else
+                    ShadersTex.uploadTexSub((int[][]) this.framesTextureData.get(this.frameCounter), this.width, this.height, this.originX, this.originY, false, false);
+                } else
                 {
-                    TextureUtil.uploadTextureMipmap((int[][])((int[][])this.framesTextureData.get(this.frameCounter)), this.width, this.height, this.originX, this.originY, false, false);
+                    TextureUtil.uploadTextureMipmap((int[][]) this.framesTextureData.get(this.frameCounter), this.width, this.height, this.originX, this.originY, false, false);
                 }
             }
         }

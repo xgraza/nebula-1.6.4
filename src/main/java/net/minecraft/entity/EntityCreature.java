@@ -1,6 +1,5 @@
 package net.minecraft.entity;
 
-import java.util.UUID;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -13,13 +12,17 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+import java.util.UUID;
+
 public abstract class EntityCreature extends EntityLiving
 {
     public static final UUID field_110179_h = UUID.fromString("E199AD21-BA8A-4C53-8D13-6182D5C69D3A");
     public static final AttributeModifier field_110181_i = (new AttributeModifier(field_110179_h, "Fleeing speed bonus", 2.0D, 2)).setSaved(false);
     private PathEntity pathToEntity;
 
-    /** The Entity this EntityCreature is set to attack. */
+    /**
+     * The Entity this EntityCreature is set to attack.
+     */
     protected Entity entityToAttack;
 
     /**
@@ -27,13 +30,17 @@ public abstract class EntityCreature extends EntityLiving
      */
     protected boolean hasAttacked;
 
-    /** Used to make a creature speed up and wander away when hit. */
+    /**
+     * Used to make a creature speed up and wander away when hit.
+     */
     protected int fleeingTick;
-    private ChunkCoordinates homePosition = new ChunkCoordinates(0, 0, 0);
+    private final ChunkCoordinates homePosition = new ChunkCoordinates(0, 0, 0);
 
-    /** If -1 there is no maximum distance */
+    /**
+     * If -1 there is no maximum distance
+     */
     private float maximumHomeDistance = -1.0F;
-    private EntityAIBase field_110178_bs = new EntityAIMoveTowardsRestriction(this, 1.0D);
+    private final EntityAIBase field_110178_bs = new EntityAIMoveTowardsRestriction(this, 1.0D);
     private boolean field_110180_bt;
     private static final String __OBFID = "CL_00001558";
 
@@ -71,8 +78,7 @@ public abstract class EntityCreature extends EntityLiving
             {
                 this.pathToEntity = this.worldObj.getPathEntityToEntity(this, this.entityToAttack, var21, true, false, false, true);
             }
-        }
-        else if (this.entityToAttack.isEntityAlive())
+        } else if (this.entityToAttack.isEntityAlive())
         {
             float var2 = this.entityToAttack.getDistanceToEntity(this);
 
@@ -80,13 +86,12 @@ public abstract class EntityCreature extends EntityLiving
             {
                 this.attackEntity(this.entityToAttack, var2);
             }
-        }
-        else
+        } else
         {
             this.entityToAttack = null;
         }
 
-        if (this.entityToAttack instanceof EntityPlayerMP && ((EntityPlayerMP)this.entityToAttack).theItemInWorldManager.isCreative())
+        if (this.entityToAttack instanceof EntityPlayerMP && ((EntityPlayerMP) this.entityToAttack).theItemInWorldManager.isCreative())
         {
             this.entityToAttack = null;
         }
@@ -96,8 +101,7 @@ public abstract class EntityCreature extends EntityLiving
         if (!this.hasAttacked && this.entityToAttack != null && (this.pathToEntity == null || this.rand.nextInt(20) == 0))
         {
             this.pathToEntity = this.worldObj.getPathEntityToEntity(this, this.entityToAttack, var21, true, false, false, true);
-        }
-        else if (!this.hasAttacked && (this.pathToEntity == null && this.rand.nextInt(180) == 0 || this.rand.nextInt(120) == 0 || this.fleeingTick > 0) && this.entityAge < 100)
+        } else if (!this.hasAttacked && (this.pathToEntity == null && this.rand.nextInt(180) == 0 || this.rand.nextInt(120) == 0 || this.fleeingTick > 0) && this.entityAge < 100)
         {
             this.updateWanderPath();
         }
@@ -111,7 +115,7 @@ public abstract class EntityCreature extends EntityLiving
         {
             this.worldObj.theProfiler.startSection("followpath");
             Vec3 var5 = this.pathToEntity.getPosition(this);
-            double var6 = (double)(this.width * 2.0F);
+            double var6 = this.width * 2.0F;
 
             while (var5 != null && var5.squareDistanceTo(this.posX, var5.yCoord, this.posZ) < var6 * var6)
             {
@@ -121,8 +125,7 @@ public abstract class EntityCreature extends EntityLiving
                 {
                     var5 = null;
                     this.pathToEntity = null;
-                }
-                else
+                } else
                 {
                     var5 = this.pathToEntity.getPosition(this);
                 }
@@ -134,10 +137,10 @@ public abstract class EntityCreature extends EntityLiving
             {
                 double var8 = var5.xCoord - this.posX;
                 double var10 = var5.zCoord - this.posZ;
-                double var12 = var5.yCoord - (double)var22;
-                float var14 = (float)(Math.atan2(var10, var8) * 180.0D / Math.PI) - 90.0F;
+                double var12 = var5.yCoord - (double) var22;
+                float var14 = (float) (Math.atan2(var10, var8) * 180.0D / Math.PI) - 90.0F;
                 float var15 = MathHelper.wrapAngleTo180_float(var14 - this.rotationYaw);
-                this.moveForward = (float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+                this.moveForward = (float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
 
                 if (var15 > 30.0F)
                 {
@@ -156,8 +159,8 @@ public abstract class EntityCreature extends EntityLiving
                     double var16 = this.entityToAttack.posX - this.posX;
                     double var18 = this.entityToAttack.posZ - this.posZ;
                     float var20 = this.rotationYaw;
-                    this.rotationYaw = (float)(Math.atan2(var18, var16) * 180.0D / Math.PI) - 90.0F;
-                    var15 = (var20 - this.rotationYaw + 90.0F) * (float)Math.PI / 180.0F;
+                    this.rotationYaw = (float) (Math.atan2(var18, var16) * 180.0D / Math.PI) - 90.0F;
+                    var15 = (var20 - this.rotationYaw + 90.0F) * (float) Math.PI / 180.0F;
                     this.moveStrafing = -MathHelper.sin(var15) * this.moveForward * 1.0F;
                     this.moveForward = MathHelper.cos(var15) * this.moveForward * 1.0F;
                 }
@@ -184,8 +187,7 @@ public abstract class EntityCreature extends EntityLiving
             }
 
             this.worldObj.theProfiler.endSection();
-        }
-        else
+        } else
         {
             super.updateEntityActionState();
             this.pathToEntity = null;
@@ -206,9 +208,9 @@ public abstract class EntityCreature extends EntityLiving
 
         for (int var6 = 0; var6 < 10; ++var6)
         {
-            int var7 = MathHelper.floor_double(this.posX + (double)this.rand.nextInt(13) - 6.0D);
-            int var8 = MathHelper.floor_double(this.posY + (double)this.rand.nextInt(7) - 3.0D);
-            int var9 = MathHelper.floor_double(this.posZ + (double)this.rand.nextInt(13) - 6.0D);
+            int var7 = MathHelper.floor_double(this.posX + (double) this.rand.nextInt(13) - 6.0D);
+            int var8 = MathHelper.floor_double(this.posY + (double) this.rand.nextInt(7) - 3.0D);
+            int var9 = MathHelper.floor_double(this.posZ + (double) this.rand.nextInt(13) - 6.0D);
             float var10 = this.getBlockPathWeight(var7, var8, var9);
 
             if (var10 > var5)
@@ -232,7 +234,9 @@ public abstract class EntityCreature extends EntityLiving
     /**
      * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
      */
-    protected void attackEntity(Entity par1Entity, float par2) {}
+    protected void attackEntity(Entity par1Entity, float par2)
+    {
+    }
 
     /**
      * Takes a coordinate in and returns a weight to determine how likely this creature will try to path to the block.
@@ -302,13 +306,13 @@ public abstract class EntityCreature extends EntityLiving
 
     public boolean isWithinHomeDistance(int par1, int par2, int par3)
     {
-        return this.maximumHomeDistance == -1.0F ? true : this.homePosition.getDistanceSquared(par1, par2, par3) < this.maximumHomeDistance * this.maximumHomeDistance;
+        return this.maximumHomeDistance == -1.0F || this.homePosition.getDistanceSquared(par1, par2, par3) < this.maximumHomeDistance * this.maximumHomeDistance;
     }
 
     public void setHomeArea(int par1, int par2, int par3, int par4)
     {
         this.homePosition.set(par1, par2, par3);
-        this.maximumHomeDistance = (float)par4;
+        this.maximumHomeDistance = (float) par4;
     }
 
     /**
@@ -347,10 +351,10 @@ public abstract class EntityCreature extends EntityLiving
         if (this.getLeashed() && this.getLeashedToEntity() != null && this.getLeashedToEntity().worldObj == this.worldObj)
         {
             Entity var1 = this.getLeashedToEntity();
-            this.setHomeArea((int)var1.posX, (int)var1.posY, (int)var1.posZ, 5);
+            this.setHomeArea((int) var1.posX, (int) var1.posY, (int) var1.posZ, 5);
             float var2 = this.getDistanceToEntity(var1);
 
-            if (this instanceof EntityTameable && ((EntityTameable)this).isSitting())
+            if (this instanceof EntityTameable && ((EntityTameable) this).isSitting())
             {
                 if (var2 > 10.0F)
                 {
@@ -376,9 +380,9 @@ public abstract class EntityCreature extends EntityLiving
 
             if (var2 > 6.0F)
             {
-                double var3 = (var1.posX - this.posX) / (double)var2;
-                double var5 = (var1.posY - this.posY) / (double)var2;
-                double var7 = (var1.posZ - this.posZ) / (double)var2;
+                double var3 = (var1.posX - this.posX) / (double) var2;
+                double var5 = (var1.posY - this.posY) / (double) var2;
+                double var7 = (var1.posZ - this.posZ) / (double) var2;
                 this.motionX += var3 * Math.abs(var3) * 0.4D;
                 this.motionY += var5 * Math.abs(var5) * 0.4D;
                 this.motionZ += var7 * Math.abs(var7) * 0.4D;
@@ -388,8 +392,7 @@ public abstract class EntityCreature extends EntityLiving
             {
                 this.clearLeashed(true, true);
             }
-        }
-        else if (!this.getLeashed() && this.field_110180_bt)
+        } else if (!this.getLeashed() && this.field_110180_bt)
         {
             this.field_110180_bt = false;
             this.tasks.removeTask(this.field_110178_bs);
@@ -398,5 +401,7 @@ public abstract class EntityCreature extends EntityLiving
         }
     }
 
-    protected void func_142017_o(float par1) {}
+    protected void func_142017_o(float par1)
+    {
+    }
 }

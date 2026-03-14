@@ -21,15 +21,14 @@ public class ModelMagmaCube extends ModelBase
             {
                 var2 = 24;
                 var3 = 10;
-            }
-            else if (var1 == 3)
+            } else if (var1 == 3)
             {
                 var2 = 24;
                 var3 = 19;
             }
 
             this.field_78109_a[var1] = new ModelRenderer(this, var2, var3);
-            this.field_78109_a[var1].addBox(-4.0F, (float)(16 + var1), -4.0F, 8, 1, 8);
+            this.field_78109_a[var1].addBox(-4.0F, (float) (16 + var1), -4.0F, 8, 1, 8);
         }
 
         this.field_78108_b = new ModelRenderer(this, 0, 16);
@@ -42,7 +41,7 @@ public class ModelMagmaCube extends ModelBase
      */
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
-        EntityMagmaCube var5 = (EntityMagmaCube)par1EntityLivingBase;
+        EntityMagmaCube var5 = (EntityMagmaCube) par1EntityLivingBase;
         float var6 = var5.prevSquishFactor + (var5.squishFactor - var5.prevSquishFactor) * par4;
 
         if (var6 < 0.0F)
@@ -52,7 +51,7 @@ public class ModelMagmaCube extends ModelBase
 
         for (int var7 = 0; var7 < this.field_78109_a.length; ++var7)
         {
-            this.field_78109_a[var7].rotationPointY = (float)(-(4 - var7)) * var6 * 1.7F;
+            this.field_78109_a[var7].rotationPointY = (float) (-(4 - var7)) * var6 * 1.7F;
         }
     }
 

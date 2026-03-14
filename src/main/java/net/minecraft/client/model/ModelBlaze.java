@@ -5,9 +5,11 @@ import net.minecraft.util.MathHelper;
 
 public class ModelBlaze extends ModelBase
 {
-    /** The sticks that fly around the Blaze. */
-    private ModelRenderer[] blazeSticks = new ModelRenderer[12];
-    private ModelRenderer blazeHead;
+    /**
+     * The sticks that fly around the Blaze.
+     */
+    private final ModelRenderer[] blazeSticks = new ModelRenderer[12];
+    private final ModelRenderer blazeHead;
     private static final String __OBFID = "CL_00000831";
 
     public ModelBlaze()
@@ -48,38 +50,38 @@ public class ModelBlaze extends ModelBase
      */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
-        float var8 = par3 * (float)Math.PI * -0.1F;
+        float var8 = par3 * (float) Math.PI * -0.1F;
         int var9;
 
         for (var9 = 0; var9 < 4; ++var9)
         {
-            this.blazeSticks[var9].rotationPointY = -2.0F + MathHelper.cos(((float)(var9 * 2) + par3) * 0.25F);
+            this.blazeSticks[var9].rotationPointY = -2.0F + MathHelper.cos(((float) (var9 * 2) + par3) * 0.25F);
             this.blazeSticks[var9].rotationPointX = MathHelper.cos(var8) * 9.0F;
             this.blazeSticks[var9].rotationPointZ = MathHelper.sin(var8) * 9.0F;
             ++var8;
         }
 
-        var8 = ((float)Math.PI / 4F) + par3 * (float)Math.PI * 0.03F;
+        var8 = ((float) Math.PI / 4F) + par3 * (float) Math.PI * 0.03F;
 
         for (var9 = 4; var9 < 8; ++var9)
         {
-            this.blazeSticks[var9].rotationPointY = 2.0F + MathHelper.cos(((float)(var9 * 2) + par3) * 0.25F);
+            this.blazeSticks[var9].rotationPointY = 2.0F + MathHelper.cos(((float) (var9 * 2) + par3) * 0.25F);
             this.blazeSticks[var9].rotationPointX = MathHelper.cos(var8) * 7.0F;
             this.blazeSticks[var9].rotationPointZ = MathHelper.sin(var8) * 7.0F;
             ++var8;
         }
 
-        var8 = 0.47123894F + par3 * (float)Math.PI * -0.05F;
+        var8 = 0.47123894F + par3 * (float) Math.PI * -0.05F;
 
         for (var9 = 8; var9 < 12; ++var9)
         {
-            this.blazeSticks[var9].rotationPointY = 11.0F + MathHelper.cos(((float)var9 * 1.5F + par3) * 0.5F);
+            this.blazeSticks[var9].rotationPointY = 11.0F + MathHelper.cos(((float) var9 * 1.5F + par3) * 0.5F);
             this.blazeSticks[var9].rotationPointX = MathHelper.cos(var8) * 5.0F;
             this.blazeSticks[var9].rotationPointZ = MathHelper.sin(var8) * 5.0F;
             ++var8;
         }
 
-        this.blazeHead.rotateAngleY = par4 / (180F / (float)Math.PI);
-        this.blazeHead.rotateAngleX = par5 / (180F / (float)Math.PI);
+        this.blazeHead.rotateAngleY = par4 / (180F / (float) Math.PI);
+        this.blazeHead.rotateAngleX = par5 / (180F / (float) Math.PI);
     }
 }

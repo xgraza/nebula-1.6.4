@@ -16,7 +16,9 @@ public class RenderMinecart extends Render
 {
     private static final ResourceLocation minecartTextures = new ResourceLocation("textures/entity/minecart.png");
 
-    /** instance of ModelMinecart for rendering */
+    /**
+     * instance of ModelMinecart for rendering
+     */
     protected ModelBase modelMinecart = new ModelMinecart();
     protected final RenderBlocks field_94145_f;
     private static final String __OBFID = "CL_00001013";
@@ -37,15 +39,15 @@ public class RenderMinecart extends Render
     {
         GL11.glPushMatrix();
         this.bindEntityTexture(par1EntityMinecart);
-        long var10 = (long)par1EntityMinecart.getEntityId() * 493286711L;
+        long var10 = (long) par1EntityMinecart.getEntityId() * 493286711L;
         var10 = var10 * var10 * 4392167121L + var10 * 98761L;
-        float var12 = (((float)(var10 >> 16 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
-        float var13 = (((float)(var10 >> 20 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
-        float var14 = (((float)(var10 >> 24 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+        float var12 = (((float) (var10 >> 16 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+        float var13 = (((float) (var10 >> 20 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+        float var14 = (((float) (var10 >> 24 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
         GL11.glTranslatef(var12, var13, var14);
-        double var15 = par1EntityMinecart.lastTickPosX + (par1EntityMinecart.posX - par1EntityMinecart.lastTickPosX) * (double)par9;
-        double var17 = par1EntityMinecart.lastTickPosY + (par1EntityMinecart.posY - par1EntityMinecart.lastTickPosY) * (double)par9;
-        double var19 = par1EntityMinecart.lastTickPosZ + (par1EntityMinecart.posZ - par1EntityMinecart.lastTickPosZ) * (double)par9;
+        double var15 = par1EntityMinecart.lastTickPosX + (par1EntityMinecart.posX - par1EntityMinecart.lastTickPosX) * (double) par9;
+        double var17 = par1EntityMinecart.lastTickPosY + (par1EntityMinecart.posY - par1EntityMinecart.lastTickPosY) * (double) par9;
+        double var19 = par1EntityMinecart.lastTickPosZ + (par1EntityMinecart.posZ - par1EntityMinecart.lastTickPosZ) * (double) par9;
         double var21 = 0.30000001192092896D;
         Vec3 var23 = par1EntityMinecart.func_70489_a(var15, var17, var19);
         float var24 = par1EntityMinecart.prevRotationPitch + (par1EntityMinecart.rotationPitch - par1EntityMinecart.prevRotationPitch) * par9;
@@ -73,15 +75,15 @@ public class RenderMinecart extends Render
             if (var27.lengthVector() != 0.0D)
             {
                 var27 = var27.normalize();
-                par8 = (float)(Math.atan2(var27.zCoord, var27.xCoord) * 180.0D / Math.PI);
-                var24 = (float)(Math.atan(var27.yCoord) * 73.0D);
+                par8 = (float) (Math.atan2(var27.zCoord, var27.xCoord) * 180.0D / Math.PI);
+                var24 = (float) (Math.atan(var27.yCoord) * 73.0D);
             }
         }
 
-        GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+        GL11.glTranslatef((float) par2, (float) par4, (float) par6);
         GL11.glRotatef(180.0F - par8, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-var24, 0.0F, 0.0F, 1.0F);
-        float var31 = (float)par1EntityMinecart.getRollingAmplitude() - par9;
+        float var31 = (float) par1EntityMinecart.getRollingAmplitude() - par9;
         float var32 = par1EntityMinecart.getDamage() - par9;
 
         if (var32 < 0.0F)
@@ -91,7 +93,7 @@ public class RenderMinecart extends Render
 
         if (var31 > 0.0F)
         {
-            GL11.glRotatef(MathHelper.sin(var31) * var31 * var32 / 10.0F * (float)par1EntityMinecart.getRollingDirection(), 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(MathHelper.sin(var31) * var31 * var32 / 10.0F * (float) par1EntityMinecart.getRollingDirection(), 1.0F, 0.0F, 0.0F);
         }
 
         int var33 = par1EntityMinecart.getDisplayTileOffset();
@@ -104,7 +106,7 @@ public class RenderMinecart extends Render
             this.bindTexture(TextureMap.locationBlocksTexture);
             float var30 = 0.75F;
             GL11.glScalef(var30, var30, var30);
-            GL11.glTranslatef(0.0F, (float)var33 / 16.0F, 0.0F);
+            GL11.glTranslatef(0.0F, (float) var33 / 16.0F, 0.0F);
             this.func_147910_a(par1EntityMinecart, par9, var28, var29);
             GL11.glPopMatrix();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -137,7 +139,7 @@ public class RenderMinecart extends Render
      */
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-        return this.getEntityTexture((EntityMinecart)par1Entity);
+        return this.getEntityTexture((EntityMinecart) par1Entity);
     }
 
     /**
@@ -148,6 +150,6 @@ public class RenderMinecart extends Render
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRender((EntityMinecart)par1Entity, par2, par4, par6, par8, par9);
+        this.doRender((EntityMinecart) par1Entity, par2, par4, par6, par8, par9);
     }
 }

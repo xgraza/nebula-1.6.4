@@ -1,10 +1,11 @@
 package net.minecraft.src;
 
+import net.minecraft.block.Block;
+import net.minecraft.world.biome.BiomeGenBase;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import net.minecraft.block.Block;
-import net.minecraft.world.biome.BiomeGenBase;
 
 public class ConnectedParser
 {
@@ -47,8 +48,7 @@ public class ConnectedParser
         if (propMatchBlocks == null)
         {
             return null;
-        }
-        else
+        } else
         {
             ArrayList list = new ArrayList();
             String[] blockStrs = Config.tokenize(propMatchBlocks, " ");
@@ -64,7 +64,7 @@ public class ConnectedParser
                 }
             }
 
-            MatchBlock[] var7 = (MatchBlock[])((MatchBlock[])list.toArray(new MatchBlock[list.size()]));
+            MatchBlock[] var7 = (MatchBlock[]) list.toArray(new MatchBlock[list.size()]);
             return var7;
         }
     }
@@ -74,16 +74,14 @@ public class ConnectedParser
         if (blockStr == null)
         {
             return null;
-        }
-        else
+        } else
         {
             blockStr = blockStr.trim();
 
             if (blockStr.length() <= 0)
             {
                 return null;
-            }
-            else
+            } else
             {
                 String[] parts = Config.tokenize(blockStr, ":");
                 String domain = "minecraft";
@@ -94,22 +92,20 @@ public class ConnectedParser
                 {
                     domain = parts[0];
                     var14 = 1;
-                }
-                else
+                } else
                 {
                     domain = "minecraft";
                     var14 = 0;
                 }
 
                 String blockPart = parts[var14];
-                String[] params = (String[])Arrays.copyOfRange(parts, var14 + 1, parts.length);
+                String[] params = Arrays.copyOfRange(parts, var14 + 1, parts.length);
                 Block[] blocks = this.parseBlockPart(domain, blockPart);
 
                 if (blocks == null)
                 {
                     return null;
-                }
-                else
+                } else
                 {
                     MatchBlock[] datas = new MatchBlock[blocks.length];
 
@@ -144,11 +140,10 @@ public class ConnectedParser
         if (parts.length < 2)
         {
             return false;
-        }
-        else
+        } else
         {
             String part1 = parts[1];
-            return part1.length() < 1 ? false : (this.startsWithDigit(part1) ? false : !part1.contains("="));
+            return part1.length() >= 1 && (!this.startsWithDigit(part1) && !part1.contains("="));
         }
     }
 
@@ -157,12 +152,10 @@ public class ConnectedParser
         if (str == null)
         {
             return false;
-        }
-        else if (str.length() < 1)
+        } else if (str.length() < 1)
         {
             return false;
-        }
-        else
+        } else
         {
             char ch = str.charAt(0);
             return Character.isDigit(ch);
@@ -178,8 +171,7 @@ public class ConnectedParser
             if (var8 == null)
             {
                 return null;
-            }
-            else
+            } else
             {
                 Block[] var9 = new Block[var8.length];
 
@@ -199,8 +191,7 @@ public class ConnectedParser
 
                 return var9;
             }
-        }
-        else
+        } else
         {
             String fullName = domain + ":" + blockPart;
             Block block = Block.getBlockFromName(fullName);
@@ -209,10 +200,9 @@ public class ConnectedParser
             {
                 this.warn("Block not found for name: " + fullName);
                 return null;
-            }
-            else
+            } else
             {
-                Block[] blocks = new Block[] {block};
+                Block[] blocks = new Block[]{ block };
                 return blocks;
             }
         }
@@ -223,8 +213,7 @@ public class ConnectedParser
         if (params.length <= 0)
         {
             return null;
-        }
-        else
+        } else
         {
             String param0 = params[0];
 
@@ -232,8 +221,7 @@ public class ConnectedParser
             {
                 int[] mds = this.parseIntList(param0);
                 return mds;
-            }
-            else
+            } else
             {
                 this.warn("Invalid block metadata: " + param0);
                 return null;
@@ -246,8 +234,7 @@ public class ConnectedParser
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             str = str.trim();
             boolean negative = false;
@@ -269,8 +256,7 @@ public class ConnectedParser
                 if (biome == null)
                 {
                     this.warn("Biome not found: " + biomeName);
-                }
-                else
+                } else
                 {
                     list.add(biome);
                 }
@@ -283,7 +269,7 @@ public class ConnectedParser
                 list = var8;
             }
 
-            BiomeGenBase[] var9 = (BiomeGenBase[])((BiomeGenBase[])list.toArray(new BiomeGenBase[list.size()]));
+            BiomeGenBase[] var9 = (BiomeGenBase[]) list.toArray(new BiomeGenBase[list.size()]);
             return var9;
         }
     }
@@ -295,8 +281,7 @@ public class ConnectedParser
         if (biomeName.equals("nether"))
         {
             return BiomeGenBase.hell;
-        }
-        else
+        } else
         {
             BiomeGenBase[] biomeList = BiomeGenBase.getBiomeGenArray();
 
@@ -324,8 +309,7 @@ public class ConnectedParser
         if (str == null)
         {
             return -1;
-        }
-        else
+        } else
         {
             str = str.trim();
             int num = Config.parseInt(str, -1);
@@ -344,8 +328,7 @@ public class ConnectedParser
         if (str == null)
         {
             return defVal;
-        }
-        else
+        } else
         {
             str = str.trim();
             int num = Config.parseInt(str, -1);
@@ -354,8 +337,7 @@ public class ConnectedParser
             {
                 this.warn("Invalid number: " + str);
                 return defVal;
-            }
-            else
+            } else
             {
                 return num;
             }
@@ -367,8 +349,7 @@ public class ConnectedParser
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             ArrayList list = new ArrayList();
             String[] intStrs = Config.tokenize(str, " ,");
@@ -384,8 +365,7 @@ public class ConnectedParser
                     if (val.length != 2)
                     {
                         this.warn("Invalid interval: " + i + ", when parsing: " + str);
-                    }
-                    else
+                    } else
                     {
                         int min = Config.parseInt(val[0], -1);
                         int max = Config.parseInt(val[1], -1);
@@ -396,22 +376,19 @@ public class ConnectedParser
                             {
                                 list.add(Integer.valueOf(n));
                             }
-                        }
-                        else
+                        } else
                         {
                             this.warn("Invalid interval: " + i + ", when parsing: " + str);
                         }
                     }
-                }
-                else
+                } else
                 {
                     int var12 = Config.parseInt(i, -1);
 
                     if (var12 < 0)
                     {
                         this.warn("Invalid number: " + i + ", when parsing: " + str);
-                    }
-                    else
+                    } else
                     {
                         list.add(Integer.valueOf(var12));
                     }
@@ -422,7 +399,7 @@ public class ConnectedParser
 
             for (int var11 = 0; var11 < var10.length; ++var11)
             {
-                var10[var11] = ((Integer)list.get(var11)).intValue();
+                var10[var11] = ((Integer) list.get(var11)).intValue();
             }
 
             return var10;
@@ -431,12 +408,12 @@ public class ConnectedParser
 
     public void dbg(String str)
     {
-        Config.dbg("" + this.context + ": " + str);
+        Config.dbg(this.context + ": " + str);
     }
 
     public void warn(String str)
     {
-        Config.warn("" + this.context + ": " + str);
+        Config.warn(this.context + ": " + str);
     }
 
     public RangeListInt parseRangeListInt(String str)
@@ -444,8 +421,7 @@ public class ConnectedParser
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             RangeListInt list = new RangeListInt();
             String[] parts = Config.tokenize(str, " ,");
@@ -472,8 +448,7 @@ public class ConnectedParser
         if (str == null)
         {
             return null;
-        }
-        else if (str.indexOf(45) >= 0)
+        } else if (str.indexOf(45) >= 0)
         {
             String[] val1 = Config.tokenize(str, "-");
 
@@ -481,8 +456,7 @@ public class ConnectedParser
             {
                 this.warn("Invalid range: " + str);
                 return null;
-            }
-            else
+            } else
             {
                 int min = Config.parseInt(val1[0], -1);
                 int max = Config.parseInt(val1[1], -1);
@@ -490,15 +464,13 @@ public class ConnectedParser
                 if (min >= 0 && max >= 0)
                 {
                     return new RangeInt(min, max);
-                }
-                else
+                } else
                 {
                     this.warn("Invalid range: " + str);
                     return null;
                 }
             }
-        }
-        else
+        } else
         {
             int val = Config.parseInt(str, -1);
 
@@ -506,8 +478,7 @@ public class ConnectedParser
             {
                 this.warn("Invalid integer: " + str);
                 return null;
-            }
-            else
+            } else
             {
                 return new RangeInt(val, val);
             }
@@ -519,8 +490,7 @@ public class ConnectedParser
         if (str == null)
         {
             return false;
-        }
-        else
+        } else
         {
             String strLower = str.toLowerCase().trim();
             return strLower.equals("true");
@@ -532,20 +502,17 @@ public class ConnectedParser
         if (str == null)
         {
             return null;
-        }
-        else
+        } else
         {
             String strLower = str.toLowerCase().trim();
 
             if (strLower.equals("true"))
             {
                 return Boolean.TRUE;
-            }
-            else if (strLower.equals("false"))
+            } else if (strLower.equals("false"))
             {
                 return Boolean.FALSE;
-            }
-            else
+            } else
             {
                 this.warn("Invalid boolean: " + str);
                 return null;
@@ -558,8 +525,7 @@ public class ConnectedParser
         if (str == null)
         {
             return defVal;
-        }
-        else
+        } else
         {
             str = str.trim();
 
@@ -567,8 +533,7 @@ public class ConnectedParser
             {
                 int e = Integer.parseInt(str, 16) & 16777215;
                 return e;
-            }
-            catch (NumberFormatException var3)
+            } catch (NumberFormatException var3)
             {
                 return defVal;
             }
@@ -585,8 +550,7 @@ public class ConnectedParser
         if (profStr == null)
         {
             return null;
-        }
-        else
+        } else
         {
             ArrayList list = new ArrayList();
             String[] tokens = Config.tokenize(profStr, " ");
@@ -608,10 +572,9 @@ public class ConnectedParser
             if (list.isEmpty())
             {
                 return null;
-            }
-            else
+            } else
             {
-                VillagerProfession[] var7 = (VillagerProfession[])((VillagerProfession[])list.toArray(new VillagerProfession[list.size()]));
+                VillagerProfession[] var7 = (VillagerProfession[]) list.toArray(new VillagerProfession[list.size()]);
                 return var7;
             }
         }
@@ -625,8 +588,7 @@ public class ConnectedParser
         if (parts.length > 2)
         {
             return null;
-        }
-        else
+        } else
         {
             String profStr = parts[0];
             String carStr = null;
@@ -641,8 +603,7 @@ public class ConnectedParser
             if (prof < 0)
             {
                 return null;
-            }
-            else
+            } else
             {
                 int[] cars = null;
 
@@ -686,7 +647,7 @@ public class ConnectedParser
             set.add(Integer.valueOf(i));
         }
 
-        Integer[] var7 = (Integer[])((Integer[])set.toArray(new Integer[set.size()]));
+        Integer[] var7 = (Integer[]) set.toArray(new Integer[set.size()]);
         int[] var8 = new int[var7.length];
 
         for (i = 0; i < var8.length; ++i)
@@ -704,8 +665,7 @@ public class ConnectedParser
         if (id >= 0)
         {
             return id;
-        }
-        else
+        } else
         {
             if (prof == 0)
             {
@@ -746,8 +706,7 @@ public class ConnectedParser
             if (prof == 2 && str.equals("cleric"))
             {
                 return 1;
-            }
-            else
+            } else
             {
                 if (prof == 3)
                 {

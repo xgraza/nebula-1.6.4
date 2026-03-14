@@ -1,27 +1,40 @@
 package net.minecraft.util;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class IntHashMap
 {
-    /** An array of HashEntries representing the heads of hash slot lists */
+    /**
+     * An array of HashEntries representing the heads of hash slot lists
+     */
     private transient IntHashMap.Entry[] slots = new IntHashMap.Entry[16];
 
-    /** The number of items stored in this map */
+    /**
+     * The number of items stored in this map
+     */
     private transient int count;
 
-    /** The grow threshold */
+    /**
+     * The grow threshold
+     */
     private int threshold = 12;
 
-    /** The scale factor used to determine when to grow the table */
+    /**
+     * The scale factor used to determine when to grow the table
+     */
     private final float growFactor = 0.75F;
 
-    /** A serial stamp used to mark changes */
+    /**
+     * A serial stamp used to mark changes
+     */
     private transient volatile int versionStamp;
 
-    /** The set of all the keys stored in this MCHash object */
-    private Set keySet = new HashSet();
+    /**
+     * The set of all the keys stored in this MCHash object
+     */
+    private final Set keySet = new HashSet();
     private static final String __OBFID = "CL_00001490";
 
     /**
@@ -118,13 +131,12 @@ public class IntHashMap
         if (var3 == 1073741824)
         {
             this.threshold = Integer.MAX_VALUE;
-        }
-        else
+        } else
         {
             IntHashMap.Entry[] var4 = new IntHashMap.Entry[par1];
             this.copyTo(var4);
             this.slots = var4;
-            this.threshold = (int)((float)par1 * this.growFactor);
+            this.threshold = (int) ((float) par1 * this.growFactor);
         }
     }
 
@@ -191,8 +203,7 @@ public class IntHashMap
                 if (var4 == var5)
                 {
                     this.slots[var3] = var6;
-                }
-                else
+                } else
                 {
                     var4.nextEntry = var6;
                 }
@@ -267,22 +278,18 @@ public class IntHashMap
             if (!(par1Obj instanceof IntHashMap.Entry))
             {
                 return false;
-            }
-            else
+            } else
             {
-                IntHashMap.Entry var2 = (IntHashMap.Entry)par1Obj;
+                IntHashMap.Entry var2 = (IntHashMap.Entry) par1Obj;
                 Integer var3 = Integer.valueOf(this.getHash());
                 Integer var4 = Integer.valueOf(var2.getHash());
 
-                if (var3 == var4 || var3 != null && var3.equals(var4))
+                if (Objects.equals(var3, var4))
                 {
                     Object var5 = this.getValue();
                     Object var6 = var2.getValue();
 
-                    if (var5 == var6 || var5 != null && var5.equals(var6))
-                    {
-                        return true;
-                    }
+                    return Objects.equals(var5, var6);
                 }
 
                 return false;

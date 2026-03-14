@@ -1,11 +1,12 @@
 package shadersmod.client;
 
+import net.minecraft.src.StrUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import net.minecraft.src.StrUtils;
 
 public class ShaderPackZip implements IShaderPack
 {
@@ -25,10 +26,8 @@ public class ShaderPackZip implements IShaderPack
             try
             {
                 this.packZipFile.close();
-            }
-            catch (Exception var2)
+            } catch (Exception var2)
             {
-                ;
             }
 
             this.packZipFile = null;
@@ -47,8 +46,7 @@ public class ShaderPackZip implements IShaderPack
             String excp = StrUtils.removePrefix(resName, "/");
             ZipEntry entry = this.packZipFile.getEntry(excp);
             return entry == null ? null : this.packZipFile.getInputStream(entry);
-        }
-        catch (Exception var4)
+        } catch (Exception var4)
         {
             return null;
         }
@@ -66,8 +64,7 @@ public class ShaderPackZip implements IShaderPack
             String e = StrUtils.removePrefix(resName, "/");
             ZipEntry entry = this.packZipFile.getEntry(e);
             return entry != null;
-        }
-        catch (IOException var4)
+        } catch (IOException var4)
         {
             return false;
         }

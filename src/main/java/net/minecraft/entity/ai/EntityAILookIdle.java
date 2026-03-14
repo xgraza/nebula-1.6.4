@@ -4,13 +4,19 @@ import net.minecraft.entity.EntityLiving;
 
 public class EntityAILookIdle extends EntityAIBase
 {
-    /** The entity that is looking idle. */
-    private EntityLiving idleEntity;
+    /**
+     * The entity that is looking idle.
+     */
+    private final EntityLiving idleEntity;
 
-    /** X offset to look at */
+    /**
+     * X offset to look at
+     */
     private double lookX;
 
-    /** Z offset to look at */
+    /**
+     * Z offset to look at
+     */
     private double lookZ;
 
     /**
@@ -58,6 +64,6 @@ public class EntityAILookIdle extends EntityAIBase
     public void updateTask()
     {
         --this.idleTime;
-        this.idleEntity.getLookHelper().setLookPosition(this.idleEntity.posX + this.lookX, this.idleEntity.posY + (double)this.idleEntity.getEyeHeight(), this.idleEntity.posZ + this.lookZ, 10.0F, (float)this.idleEntity.getVerticalFaceSpeed());
+        this.idleEntity.getLookHelper().setLookPosition(this.idleEntity.posX + this.lookX, this.idleEntity.posY + (double) this.idleEntity.getEyeHeight(), this.idleEntity.posZ + this.lookZ, 10.0F, (float) this.idleEntity.getVerticalFaceSpeed());
     }
 }

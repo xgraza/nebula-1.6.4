@@ -15,7 +15,9 @@ public class GuiButton extends Gui
     public int xPosition;
     public int yPosition;
 
-    /** The string displayed on this control. */
+    /**
+     * The string displayed on this control.
+     */
     public String displayString;
     public int id;
     public boolean enabled;
@@ -49,8 +51,7 @@ public class GuiButton extends Gui
         if (!this.enabled)
         {
             var2 = 0;
-        }
-        else if (p_146114_1_)
+        } else if (p_146114_1_)
         {
             var2 = 2;
         }
@@ -81,8 +82,7 @@ public class GuiButton extends Gui
             if (!this.enabled)
             {
                 var6 = 10526880;
-            }
-            else if (this.field_146123_n)
+            } else if (this.field_146123_n)
             {
                 var6 = 16777120;
             }
@@ -94,12 +94,16 @@ public class GuiButton extends Gui
     /**
      * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
      */
-    protected void mouseDragged(Minecraft p_146119_1_, int p_146119_2_, int p_146119_3_) {}
+    protected void mouseDragged(Minecraft p_146119_1_, int p_146119_2_, int p_146119_3_)
+    {
+    }
 
     /**
      * Fired when the mouse button is released. Equivalent of MouseListener.mouseReleased(MouseEvent e).
      */
-    public void mouseReleased(int p_146118_1_, int p_146118_2_) {}
+    public void mouseReleased(int p_146118_1_, int p_146118_2_)
+    {
+    }
 
     /**
      * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
@@ -115,7 +119,9 @@ public class GuiButton extends Gui
         return this.field_146123_n;
     }
 
-    public void func_146111_b(int p_146111_1_, int p_146111_2_) {}
+    public void func_146111_b(int p_146111_1_, int p_146111_2_)
+    {
+    }
 
     public void playClickSound(SoundHandler handler)
     {

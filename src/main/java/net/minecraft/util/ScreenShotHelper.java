@@ -93,7 +93,7 @@ public class ScreenShotHelper
      */
     private static File getTimestampedPNGFileForDirectory(File par0File)
     {
-        String var2 = dateFormat.format(new Date()).toString();
+        String var2 = dateFormat.format(new Date());
         int var3 = 1;
 
         while (true)
@@ -114,7 +114,8 @@ public class ScreenShotHelper
         private final Consumer<IChatComponent> callback;
         private final File dataDirectory;
         private final Framebuffer fb;
-        private int width, height;
+        private final int width;
+        private final int height;
 
         private ScreenshotThread(final Consumer<IChatComponent> callback, final File dataDirectory, final Framebuffer framebuffer, final int width, final int height)
         {
@@ -153,13 +154,13 @@ public class ScreenShotHelper
                 ImageIO.write(var7, "png", var12);
             } catch (IOException e)
             {
-                callback.accept(new ChatComponentTranslation("screenshot.failure", new Object[]{ e.getMessage() }));
+                callback.accept(new ChatComponentTranslation("screenshot.failure", e.getMessage()));
                 return;
             }
             ChatComponentText var13 = new ChatComponentText(var12.getName());
             var13.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, var12.getAbsolutePath()));
             var13.getChatStyle().setUnderlined(Boolean.TRUE);
-            callback.accept(new ChatComponentTranslation("screenshot.success", new Object[]{ var13 }));
+            callback.accept(new ChatComponentTranslation("screenshot.success", var13));
         }
     }
 }

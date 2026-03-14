@@ -118,7 +118,7 @@ public class EntityMagmaCube extends EntitySlime
      */
     protected void jump()
     {
-        this.motionY = (double) (0.42F + (float) this.getSlimeSize() * 0.1F);
+        this.motionY = 0.42F + (float) this.getSlimeSize() * 0.1F;
         this.isAirBorne = true;
     }
 
