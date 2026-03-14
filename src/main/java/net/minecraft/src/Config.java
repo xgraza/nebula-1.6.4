@@ -1765,7 +1765,7 @@ public class Config
 
     public static boolean equals(Object o1, Object o2)
     {
-        return o1 == o2 || (o1 != null && o1.equals(o2));
+        return Objects.equals(o1, o2);
     }
 
     public static boolean equalsOne(Object a, Object[] bs)
@@ -2141,7 +2141,7 @@ public class Config
             int[] newArray = new int[newLen];
             System.arraycopy(intArray, 0, newArray, 0, arrLen);
 
-            System.arraycopy(copyFrom, 0, newArray, 0 + arrLen, copyFrom.length);
+            System.arraycopy(copyFrom, 0, newArray, arrLen, copyFrom.length);
 
             return newArray;
         } else

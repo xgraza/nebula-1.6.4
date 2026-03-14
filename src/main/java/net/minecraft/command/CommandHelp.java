@@ -7,7 +7,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,7 @@ public class CommandHelp extends CommandBase
 
     public List getCommandAliases()
     {
-        return Arrays.asList("?");
+        return Collections.singletonList("?");
     }
 
     public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)

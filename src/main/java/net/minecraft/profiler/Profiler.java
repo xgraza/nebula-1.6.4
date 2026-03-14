@@ -149,7 +149,7 @@ public class Profiler
 
         if (!this.profilerLocalEnabled)
         {
-            return new ArrayList(Arrays.asList(new Result("root", 0.0D, 0.0D)));
+            return new ArrayList(Collections.singletonList(new Result("root", 0.0D, 0.0D)));
         } else if (!this.profilingEnabled)
         {
             return null;

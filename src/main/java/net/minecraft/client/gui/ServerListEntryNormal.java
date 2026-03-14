@@ -133,7 +133,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
         } else
         {
             var16 = 1;
-            var17 = (int) (Minecraft.getSystemTime() / 100L + (long) (p_148279_1_ * 2L) & 7L);
+            var17 = (int) (Minecraft.getSystemTime() / 100L + (p_148279_1_ * 2L) & 7L);
 
             if (var17 > 4)
             {

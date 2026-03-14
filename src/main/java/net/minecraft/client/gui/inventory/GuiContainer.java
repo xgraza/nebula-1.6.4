@@ -95,7 +95,7 @@ public abstract class GuiContainer extends GuiScreen
         this.theSlot = null;
         short var6 = 240;
         short var7 = 240;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var6, (float) var7);
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, var6, var7);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         int var11;
 

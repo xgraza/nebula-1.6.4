@@ -76,7 +76,7 @@ public class ServerScoreboard extends Scoreboard
         if (super.func_151392_a(p_151392_1_, p_151392_2_))
         {
             ScorePlayerTeam var3 = this.getTeam(p_151392_2_);
-            this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3EPacketTeams(var3, Arrays.asList(p_151392_1_), 3));
+            this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3EPacketTeams(var3, Collections.singletonList(p_151392_1_), 3));
             this.func_96551_b();
             return true;
         } else
@@ -92,7 +92,7 @@ public class ServerScoreboard extends Scoreboard
     public void removePlayerFromTeam(String par1Str, ScorePlayerTeam par2ScorePlayerTeam)
     {
         super.removePlayerFromTeam(par1Str, par2ScorePlayerTeam);
-        this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3EPacketTeams(par2ScorePlayerTeam, Arrays.asList(par1Str), 4));
+        this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3EPacketTeams(par2ScorePlayerTeam, Collections.singletonList(par1Str), 4));
         this.func_96551_b();
     }
 

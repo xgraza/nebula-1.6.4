@@ -3914,14 +3914,14 @@ public class RenderBlocks
 
         if (p_147746_1_ == Blocks.tallgrass)
         {
-            var16 = (long) (p_147746_2_ * 3129871L) ^ (long) p_147746_4_ * 116129781L ^ (long) p_147746_3_;
+            var16 = (p_147746_2_ * 3129871L) ^ (long) p_147746_4_ * 116129781L ^ (long) p_147746_3_;
             var16 = var16 * var16 * 42317861L + var16 * 11L;
             var181 += ((double) ((float) (var16 >> 16 & 15L) / 15.0F) - 0.5D) * 0.5D;
             var191 += ((double) ((float) (var16 >> 20 & 15L) / 15.0F) - 1.0D) * 0.2D;
             var14 += ((double) ((float) (var16 >> 24 & 15L) / 15.0F) - 0.5D) * 0.5D;
         } else if (p_147746_1_ == Blocks.red_flower || p_147746_1_ == Blocks.yellow_flower)
         {
-            var16 = (long) (p_147746_2_ * 3129871L) ^ (long) p_147746_4_ * 116129781L ^ (long) p_147746_3_;
+            var16 = (p_147746_2_ * 3129871L) ^ (long) p_147746_4_ * 116129781L ^ (long) p_147746_3_;
             var16 = var16 * var16 * 42317861L + var16 * 11L;
             var181 += ((double) ((float) (var16 >> 16 & 15L) / 15.0F) - 0.5D) * 0.3D;
             var14 += ((double) ((float) (var16 >> 24 & 15L) / 15.0F) - 0.5D) * 0.3D;
@@ -3964,7 +3964,7 @@ public class RenderBlocks
         }
 
         var5.setColorOpaque_F(var7, var8, var9);
-        long var581 = (long) (p_147774_2_ * 3129871L) ^ (long) p_147774_4_ * 116129781L;
+        long var581 = (p_147774_2_ * 3129871L) ^ (long) p_147774_4_ * 116129781L;
         var581 = var581 * var581 * 42317861L + var581 * 11L;
         double var591 = p_147774_2_;
         double var14 = p_147774_3_;
@@ -4228,7 +4228,7 @@ public class RenderBlocks
         double var10 = var6.getMinV();
         double var12 = var6.getMaxU();
         double var14 = var6.getMaxV();
-        long var16 = (long) (p_147783_2_ * 3129871L) ^ (long) p_147783_4_ * 116129781L ^ (long) p_147783_3_;
+        long var16 = (p_147783_2_ * 3129871L) ^ (long) p_147783_4_ * 116129781L ^ (long) p_147783_3_;
         var16 = var16 * var16 * 42317861L + var16 * 11L;
         int var18 = (int) (var16 >> 16 & 3L);
         var5.setBrightness(p_147783_1_.getBlockBrightness(this.blockAccess, p_147783_2_, p_147783_3_, p_147783_4_));
