@@ -1019,7 +1019,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
      */
     public void processPlayerAbilities(C13PacketPlayerAbilities p_147348_1_)
     {
-        this.playerEntity.capabilities.isFlying = p_147348_1_.func_149488_d() && this.playerEntity.capabilities.allowFlying;
+        this.playerEntity.capabilities.isFlying = p_147348_1_.isFlying() && this.playerEntity.capabilities.allowFlying;
     }
 
     /**

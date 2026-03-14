@@ -56,6 +56,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new XCarryCheat());
         addCheat(new AutoWalkCheat());
         addCheat(new BlinkCheat());
+        addCheat(new FlyCheat());
         addCheat(new InvWalkCheat());
         addCheat(new JesusCheat());
         addCheat(new LongJumpCheat());
