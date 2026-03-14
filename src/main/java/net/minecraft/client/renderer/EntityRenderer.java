@@ -1129,7 +1129,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
     {
         if (compiledLightmap)
         {
-            return;
+            //return;
         }
         WorldClient var2 = this.mc.theWorld;
 
@@ -1222,15 +1222,17 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 EventBus.dispatch(event);
                 var16 = event.getGamma();
 
+                float gammaFixed = Math.min(1.0f, var16);
+
                 var17 = 1.0F - var13;
                 float var18 = 1.0F - var14;
                 float var19 = 1.0F - var15;
                 var17 = 1.0F - var17 * var17 * var17 * var17;
                 var18 = 1.0F - var18 * var18 * var18 * var18;
                 var19 = 1.0F - var19 * var19 * var19 * var19;
-                var13 = var13 * (1.0F - var16) + var17 * var16;
-                var14 = var14 * (1.0F - var16) + var18 * var16;
-                var15 = var15 * (1.0F - var16) + var19 * var16;
+                var13 = var13 * (1.0F - gammaFixed) + var17 * var16;
+                var14 = var14 * (1.0F - gammaFixed) + var18 * var16;
+                var15 = var15 * (1.0F - gammaFixed) + var19 * var16;
                 var13 = var13 * 0.96F + 0.03F;
                 var14 = var14 * 0.96F + 0.03F;
                 var15 = var15 * 0.96F + 0.03F;

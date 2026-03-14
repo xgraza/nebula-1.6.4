@@ -1,17 +1,5 @@
 package net.minecraft.src;
 
-import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Random;
-import java.util.Set;
-import javax.imageio.ImageIO;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStem;
 import net.minecraft.block.material.Material;
@@ -29,7 +17,15 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import us.nebula.client.api.listener.EventBus;
+import us.nebula.client.impl.cheat.render.FullbrightCheat;
 import us.nebula.client.impl.event.render.EventGamma;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 public class CustomColorizer
 {
@@ -40,12 +36,12 @@ public class CustomColorizer
     private static int[] foliageBirchColors = null;
     private static int[] swampFoliageColors = null;
     private static int[] swampGrassColors = null;
-    private static int[][] blockPalettes = (int[][])null;
-    private static int[][] paletteColors = (int[][])null;
+    private static int[][] blockPalettes = (int[][]) null;
+    private static int[][] paletteColors = (int[][]) null;
     private static int[] skyColors = null;
     private static int[] fogColors = null;
     private static int[] underwaterColors = null;
-    private static float[][][] lightMapsColorsRgb = (float[][][])null;
+    private static float[][][] lightMapsColorsRgb = (float[][][]) null;
     private static int[] lightMapsHeight = null;
     private static float[][] sunRgbs = new float[16][3];
     private static float[][] torchRgbs = new float[16][3];
@@ -80,7 +76,7 @@ public class CustomColorizer
         redstoneColors = null;
         stemColors = null;
         myceliumParticleColors = null;
-        lightMapsColorsRgb = (float[][][])null;
+        lightMapsColorsRgb = (float[][][]) null;
         lightMapsHeight = null;
         lilyPadColor = -1;
         particleWaterColor = -1;
@@ -89,36 +85,36 @@ public class CustomColorizer
         fogColorEnd = null;
         skyColorEnd = null;
         textColors = null;
-        blockPalettes = (int[][])null;
-        paletteColors = (int[][])null;
+        blockPalettes = (int[][]) null;
+        paletteColors = (int[][]) null;
         useDefaultColorMultiplier = true;
         String mcpColormap = "mcpatcher/colormap/";
         grassColors = getCustomColors("textures/colormap/grass.png", 65536);
         foliageColors = getCustomColors("textures/colormap/foliage.png", 65536);
-        String[] waterPaths = new String[] {"water.png", "watercolorX.png"};
+        String[] waterPaths = new String[]{ "water.png", "watercolorX.png" };
         waterColors = getCustomColors(mcpColormap, waterPaths, 65536);
 
         if (Config.isCustomColors())
         {
-            String[] pinePaths = new String[] {"pine.png", "pinecolor.png"};
+            String[] pinePaths = new String[]{ "pine.png", "pinecolor.png" };
             foliagePineColors = getCustomColors(mcpColormap, pinePaths, 65536);
-            String[] birchPaths = new String[] {"birch.png", "birchcolor.png"};
+            String[] birchPaths = new String[]{ "birch.png", "birchcolor.png" };
             foliageBirchColors = getCustomColors(mcpColormap, birchPaths, 65536);
-            String[] swampGrassPaths = new String[] {"swampgrass.png", "swampgrasscolor.png"};
+            String[] swampGrassPaths = new String[]{ "swampgrass.png", "swampgrasscolor.png" };
             swampGrassColors = getCustomColors(mcpColormap, swampGrassPaths, 65536);
-            String[] swampFoliagePaths = new String[] {"swampfoliage.png", "swampfoliagecolor.png"};
+            String[] swampFoliagePaths = new String[]{ "swampfoliage.png", "swampfoliagecolor.png" };
             swampFoliageColors = getCustomColors(mcpColormap, swampFoliagePaths, 65536);
-            String[] sky0Paths = new String[] {"sky0.png", "skycolor0.png"};
+            String[] sky0Paths = new String[]{ "sky0.png", "skycolor0.png" };
             skyColors = getCustomColors(mcpColormap, sky0Paths, 65536);
-            String[] fog0Paths = new String[] {"fog0.png", "fogcolor0.png"};
+            String[] fog0Paths = new String[]{ "fog0.png", "fogcolor0.png" };
             fogColors = getCustomColors(mcpColormap, fog0Paths, 65536);
-            String[] underwaterPaths = new String[] {"underwater.png", "underwatercolor.png"};
+            String[] underwaterPaths = new String[]{ "underwater.png", "underwatercolor.png" };
             underwaterColors = getCustomColors(mcpColormap, underwaterPaths, 65536);
-            String[] redstonePaths = new String[] {"redstone.png", "redstonecolor.png"};
+            String[] redstonePaths = new String[]{ "redstone.png", "redstonecolor.png" };
             redstoneColors = getCustomColors(mcpColormap, redstonePaths, 16);
-            String[] stemPaths = new String[] {"stem.png", "stemcolor.png"};
+            String[] stemPaths = new String[]{ "stem.png", "stemcolor.png" };
             stemColors = getCustomColors(mcpColormap, stemPaths, 8);
-            String[] myceliumPaths = new String[] {"myceliumparticle.png", "myceliumparticlecolor.png"};
+            String[] myceliumPaths = new String[]{ "myceliumparticle.png", "myceliumparticlecolor.png" };
             myceliumParticleColors = getCustomColors(mcpColormap, myceliumPaths, -1);
             int[][] lightMapsColors = new int[3][];
             lightMapsColorsRgb = new float[3][][];
@@ -151,14 +147,12 @@ public class CustomColorizer
             if (e == null)
             {
                 return defHeight;
-            }
-            else
+            } else
             {
                 BufferedImage bi = ImageIO.read(e);
                 return bi == null ? defHeight : bi.getHeight();
             }
-        }
-        catch (IOException var4)
+        } catch (IOException var4)
         {
             return defHeight;
         }
@@ -171,9 +165,9 @@ public class CustomColorizer
         for (int i = 0; i < cols.length; ++i)
         {
             int col = cols[i];
-            float rf = (float)(col >> 16 & 255) / 255.0F;
-            float gf = (float)(col >> 8 & 255) / 255.0F;
-            float bf = (float)(col & 255) / 255.0F;
+            float rf = (float) (col >> 16 & 255) / 255.0F;
+            float gf = (float) (col >> 8 & 255) / 255.0F;
+            float bf = (float) (col & 255) / 255.0F;
             float[] colRgb = colsRgb[i];
             colRgb[0] = rf;
             colRgb[1] = gf;
@@ -199,19 +193,17 @@ public class CustomColorizer
             Properties props = new Properties();
             props.load(in);
             lilyPadColor = readColor(props, "lilypad");
-            particleWaterColor = readColor(props, new String[] {"particle.water", "drop.water"});
+            particleWaterColor = readColor(props, new String[]{ "particle.water", "drop.water" });
             particlePortalColor = readColor(props, "particle.portal");
             fogColorNether = readColorVec3(props, "fog.nether");
             fogColorEnd = readColorVec3(props, "fog.end");
             skyColorEnd = readColorVec3(props, "sky.end");
             textColors = readTextColors(props, fileName, "text.code.", "Text");
             readCustomPalettes(props, fileName);
-        }
-        catch (FileNotFoundException var4)
+        } catch (FileNotFoundException var4)
         {
             return;
-        }
-        catch (IOException var5)
+        } catch (IOException var5)
         {
             var5.printStackTrace();
         }
@@ -234,7 +226,7 @@ public class CustomColorizer
 
         while (propNames.hasNext())
         {
-            String i = (String)propNames.next();
+            String i = (String) propNames.next();
             name = props.getProperty(i);
 
             if (i.startsWith(var18))
@@ -243,7 +235,7 @@ public class CustomColorizer
             }
         }
 
-        String[] var19 = (String[])((String[])map.keySet().toArray(new String[map.size()]));
+        String[] var19 = (String[]) ((String[]) map.keySet().toArray(new String[map.size()]));
         paletteColors = new int[var19.length][];
 
         for (int var20 = 0; var20 < var19.length; ++var20)
@@ -286,8 +278,7 @@ public class CustomColorizer
                         if (metadata == -1)
                         {
                             blockPalettes[var21][0] = var20;
-                        }
-                        else
+                        } else
                         {
                             if (blockPalettes[var21].length < 16)
                             {
@@ -298,8 +289,7 @@ public class CustomColorizer
                             blockPalettes[var21][metadata] = var20;
                         }
                     }
-                }
-                else
+                } else
                 {
                     Config.log("Invalid block index: " + var21 + " in palette: " + name);
                 }
@@ -330,16 +320,14 @@ public class CustomColorizer
         if (str == null)
         {
             return -1;
-        }
-        else
+        } else
         {
             try
             {
                 int e = Integer.parseInt(str, 16) & 16777215;
                 Config.log("Custom color: " + name + " = " + str);
                 return e;
-            }
-            catch (NumberFormatException var4)
+            } catch (NumberFormatException var4)
             {
                 Config.log("Invalid custom color: " + name + " = " + str);
                 return -1;
@@ -354,16 +342,15 @@ public class CustomColorizer
         if (col < 0)
         {
             return null;
-        }
-        else
+        } else
         {
             int red = col >> 16 & 255;
             int green = col >> 8 & 255;
             int blue = col & 255;
-            float redF = (float)red / 255.0F;
-            float greenF = (float)green / 255.0F;
-            float blueF = (float)blue / 255.0F;
-            return Vec3.createVectorHelper((double)redF, (double)greenF, (double)blueF);
+            float redF = (float) red / 255.0F;
+            float greenF = (float) green / 255.0F;
+            float blueF = (float) blue / 255.0F;
+            return Vec3.createVectorHelper((double) redF, (double) greenF, (double) blueF);
         }
     }
 
@@ -394,32 +381,27 @@ public class CustomColorizer
             if (in == null)
             {
                 return null;
-            }
-            else
+            } else
             {
                 int[] colors = TextureUtil.readImageData(Config.getResourceManager(), e);
 
                 if (colors == null)
                 {
                     return null;
-                }
-                else if (length > 0 && colors.length != length)
+                } else if (length > 0 && colors.length != length)
                 {
                     Config.log("Invalid custom colors length: " + colors.length + ", path: " + path);
                     return null;
-                }
-                else
+                } else
                 {
                     Config.log("Loading custom colors: " + path);
                     return colors;
                 }
             }
-        }
-        catch (FileNotFoundException var5)
+        } catch (FileNotFoundException var5)
         {
             return null;
-        }
-        catch (IOException var6)
+        } catch (IOException var6)
         {
             var6.printStackTrace();
             return null;
@@ -436,8 +418,7 @@ public class CustomColorizer
         if (useDefaultColorMultiplier)
         {
             return block.colorMultiplier(blockAccess, x, y, z);
-        }
-        else
+        } else
         {
             int[] colors = null;
             int[] swampColors = null;
@@ -457,8 +438,7 @@ public class CustomColorizer
                     {
                         metadata = blockAccess.getBlockMetadata(x, y, z);
                         type1 = smoothColors[metadata];
-                    }
-                    else
+                    } else
                     {
                         type1 = smoothColors[0];
                     }
@@ -496,26 +476,22 @@ public class CustomColorizer
                     if ((metadata & 3) == 1)
                     {
                         colors = foliagePineColors;
-                    }
-                    else if ((metadata & 3) == 2)
+                    } else if ((metadata & 3) == 2)
                     {
                         colors = foliageBirchColors;
-                    }
-                    else
+                    } else
                     {
                         colors = foliageColors;
 
                         if (useSwampColors1)
                         {
                             swampColors = swampFoliageColors;
-                        }
-                        else
+                        } else
                         {
                             swampColors = colors;
                         }
                     }
-                }
-                else if (block == Blocks.vine)
+                } else if (block == Blocks.vine)
                 {
                     type2 = 2;
                     smoothColors1 = Config.isSmoothBiomes();
@@ -524,14 +500,12 @@ public class CustomColorizer
                     if (useSwampColors1)
                     {
                         swampColors = swampFoliageColors;
-                    }
-                    else
+                    } else
                     {
                         swampColors = colors;
                     }
                 }
-            }
-            else
+            } else
             {
                 type2 = 1;
                 smoothColors1 = Config.isSmoothBiomes();
@@ -540,8 +514,7 @@ public class CustomColorizer
                 if (useSwampColors1)
                 {
                     swampColors = swampGrassColors;
-                }
-                else
+                } else
                 {
                     swampColors = colors;
                 }
@@ -550,8 +523,7 @@ public class CustomColorizer
             if (smoothColors1)
             {
                 return getSmoothColorMultiplier(block, blockAccess, x, y, z, colors, swampColors, type2, metadata);
-            }
-            else
+            } else
             {
                 if (swampColors != colors && blockAccess.getBiomeGenForCoords(x, z) == BiomeGenBase.swampland)
                 {
@@ -597,12 +569,10 @@ public class CustomColorizer
                             if ((metadata & 3) == 1)
                             {
                                 var17 = ColorizerFoliage.getFoliageColorPine();
-                            }
-                            else if ((metadata & 3) == 2)
+                            } else if ((metadata & 3) == 2)
                             {
                                 var17 = ColorizerFoliage.getFoliageColorBirch();
-                            }
-                            else
+                            } else
                             {
                                 var17 = blockAccess.getBiomeGenForCoords(r, g).getBiomeFoliageColor(x, y, z);
                             }
@@ -612,8 +582,7 @@ public class CustomColorizer
                         default:
                             var17 = block.colorMultiplier(blockAccess, r, y, g);
                     }
-                }
-                else
+                } else
                 {
                     var17 = getCustomColor(b, blockAccess, r, y, g);
                 }
@@ -632,17 +601,17 @@ public class CustomColorizer
 
     public static int getFluidColor(Block block, IBlockAccess blockAccess, int x, int y, int z)
     {
-        return block.getMaterial() != Material.water ? block.colorMultiplier(blockAccess, x, y, z) : (waterColors != null ? (Config.isSmoothBiomes() ? getSmoothColor(waterColors, blockAccess, (double)x, (double)y, (double)z, 3, 1) : getCustomColor(waterColors, blockAccess, x, y, z)) : (!Config.isSwampColors() ? 16777215 : block.colorMultiplier(blockAccess, x, y, z)));
+        return block.getMaterial() != Material.water ? block.colorMultiplier(blockAccess, x, y, z) : (waterColors != null ? (Config.isSmoothBiomes() ? getSmoothColor(waterColors, blockAccess, (double) x, (double) y, (double) z, 3, 1) : getCustomColor(waterColors, blockAccess, x, y, z)) : (!Config.isSwampColors() ? 16777215 : block.colorMultiplier(blockAccess, x, y, z)));
     }
 
     private static int getCustomColor(int[] colors, IBlockAccess blockAccess, int x, int y, int z)
     {
         BiomeGenBase bgb = blockAccess.getBiomeGenForCoords(x, z);
-        double temperature = (double)MathHelper.clamp_float(bgb.getFloatTemperature(x, y, z), 0.0F, 1.0F);
-        double rainfall = (double)MathHelper.clamp_float(bgb.getFloatRainfall(), 0.0F, 1.0F);
+        double temperature = (double) MathHelper.clamp_float(bgb.getFloatTemperature(x, y, z), 0.0F, 1.0F);
+        double rainfall = (double) MathHelper.clamp_float(bgb.getFloatRainfall(), 0.0F, 1.0F);
         rainfall *= temperature;
-        int cx = (int)((1.0D - temperature) * 255.0D);
-        int cy = (int)((1.0D - rainfall) * 255.0D);
+        int cx = (int) ((1.0D - temperature) * 255.0D);
+        int cy = (int) ((1.0D - rainfall) * 255.0D);
         return colors[cy << 8 | cx] & 16777215;
     }
 
@@ -654,9 +623,9 @@ public class CustomColorizer
             int red = col >> 16 & 255;
             int green = col >> 8 & 255;
             int blue = col & 255;
-            float redF = (float)red / 255.0F;
-            float greenF = (float)green / 255.0F;
-            float blueF = (float)blue / 255.0F;
+            float redF = (float) red / 255.0F;
+            float greenF = (float) green / 255.0F;
+            float blueF = (float) blue / 255.0F;
             fx.setRBGColorF(redF, greenF, blueF);
         }
     }
@@ -669,9 +638,9 @@ public class CustomColorizer
             int red = col >> 16 & 255;
             int green = col >> 8 & 255;
             int blue = col & 255;
-            float redF = (float)red / 255.0F;
-            float greenF = (float)green / 255.0F;
-            float blueF = (float)blue / 255.0F;
+            float redF = (float) red / 255.0F;
+            float greenF = (float) green / 255.0F;
+            float blueF = (float) blue / 255.0F;
             fx.setRBGColorF(redF, greenF, blueF);
         }
     }
@@ -680,7 +649,7 @@ public class CustomColorizer
     {
         if (redstoneColors != null)
         {
-            int level = blockAccess.getBlockMetadata((int)x, (int)y, (int)z);
+            int level = blockAccess.getBlockMetadata((int) x, (int) y, (int) z);
             int col = getRedstoneColor(level);
 
             if (col != -1)
@@ -688,9 +657,9 @@ public class CustomColorizer
                 int red = col >> 16 & 255;
                 int green = col >> 8 & 255;
                 int blue = col & 255;
-                float redF = (float)red / 255.0F;
-                float greenF = (float)green / 255.0F;
-                float blueF = (float)blue / 255.0F;
+                float redF = (float) red / 255.0F;
+                float greenF = (float) green / 255.0F;
+                float blueF = (float) blue / 255.0F;
                 fx.setRBGColorF(redF, greenF, blueF);
             }
         }
@@ -705,25 +674,25 @@ public class CustomColorizer
     {
         if (waterColors != null)
         {
-            int x = (int)fx.posX;
-            int y = (int)fx.posY;
-            int z = (int)fx.posZ;
+            int x = (int) fx.posX;
+            int y = (int) fx.posY;
+            int z = (int) fx.posZ;
             int col = getFluidColor(Blocks.water, blockAccess, x, y, z);
             int red = col >> 16 & 255;
             int green = col >> 8 & 255;
             int blue = col & 255;
-            float redF = (float)red / 255.0F;
-            float greenF = (float)green / 255.0F;
-            float blueF = (float)blue / 255.0F;
+            float redF = (float) red / 255.0F;
+            float greenF = (float) green / 255.0F;
+            float blueF = (float) blue / 255.0F;
 
             if (particleWaterColor >= 0)
             {
                 int redDrop = particleWaterColor >> 16 & 255;
                 int greenDrop = particleWaterColor >> 8 & 255;
                 int blueDrop = particleWaterColor & 255;
-                redF *= (float)redDrop / 255.0F;
-                greenF *= (float)greenDrop / 255.0F;
-                blueF *= (float)blueDrop / 255.0F;
+                redF *= (float) redDrop / 255.0F;
+                greenF *= (float) greenDrop / 255.0F;
+                blueF *= (float) blueDrop / 255.0F;
             }
 
             fx.setRBGColorF(redF, greenF, blueF);
@@ -755,23 +724,22 @@ public class CustomColorizer
         if (skyColors == null)
         {
             return skyColor3d;
-        }
-        else
+        } else
         {
             int col = getSmoothColor(skyColors, blockAccess, x, y, z, 10, 1);
             int red = col >> 16 & 255;
             int green = col >> 8 & 255;
             int blue = col & 255;
-            float redF = (float)red / 255.0F;
-            float greenF = (float)green / 255.0F;
-            float blueF = (float)blue / 255.0F;
-            float cRed = (float)skyColor3d.xCoord / 0.5F;
-            float cGreen = (float)skyColor3d.yCoord / 0.66275F;
-            float cBlue = (float)skyColor3d.zCoord;
+            float redF = (float) red / 255.0F;
+            float greenF = (float) green / 255.0F;
+            float blueF = (float) blue / 255.0F;
+            float cRed = (float) skyColor3d.xCoord / 0.5F;
+            float cGreen = (float) skyColor3d.yCoord / 0.66275F;
+            float cBlue = (float) skyColor3d.zCoord;
             redF *= cRed;
             greenF *= cGreen;
             blueF *= cBlue;
-            return Vec3.createVectorHelper((double)redF, (double)greenF, (double)blueF);
+            return Vec3.createVectorHelper((double) redF, (double) greenF, (double) blueF);
         }
     }
 
@@ -780,23 +748,22 @@ public class CustomColorizer
         if (fogColors == null)
         {
             return fogColor3d;
-        }
-        else
+        } else
         {
             int col = getSmoothColor(fogColors, blockAccess, x, y, z, 10, 1);
             int red = col >> 16 & 255;
             int green = col >> 8 & 255;
             int blue = col & 255;
-            float redF = (float)red / 255.0F;
-            float greenF = (float)green / 255.0F;
-            float blueF = (float)blue / 255.0F;
-            float cRed = (float)fogColor3d.xCoord / 0.753F;
-            float cGreen = (float)fogColor3d.yCoord / 0.8471F;
-            float cBlue = (float)fogColor3d.zCoord;
+            float redF = (float) red / 255.0F;
+            float greenF = (float) green / 255.0F;
+            float blueF = (float) blue / 255.0F;
+            float cRed = (float) fogColor3d.xCoord / 0.753F;
+            float cGreen = (float) fogColor3d.yCoord / 0.8471F;
+            float cBlue = (float) fogColor3d.zCoord;
             redF *= cRed;
             greenF *= cGreen;
             blueF *= cBlue;
-            return Vec3.createVectorHelper((double)redF, (double)greenF, (double)blueF);
+            return Vec3.createVectorHelper((double) redF, (double) greenF, (double) blueF);
         }
     }
 
@@ -810,7 +777,7 @@ public class CustomColorizer
 
         while (iter.hasNext())
         {
-            String key = (String)iter.next();
+            String key = (String) iter.next();
             String value = props.getProperty(key);
 
             if (key.startsWith(prefix))
@@ -823,8 +790,7 @@ public class CustomColorizer
                 {
                     colors[code] = color;
                     ++countColors;
-                }
-                else
+                } else
                 {
                     warn("Invalid color: " + key + " = " + value);
                 }
@@ -834,8 +800,7 @@ public class CustomColorizer
         if (countColors <= 0)
         {
             return null;
-        }
-        else
+        } else
         {
             dbg(logName + " colors: " + countColors);
             return colors;
@@ -847,13 +812,11 @@ public class CustomColorizer
         if (textColors == null)
         {
             return color;
-        }
-        else if (index >= 0 && index < textColors.length)
+        } else if (index >= 0 && index < textColors.length)
         {
             int customColor = textColors[index];
             return customColor < 0 ? color : customColor;
-        }
-        else
+        } else
         {
             return color;
         }
@@ -864,8 +827,7 @@ public class CustomColorizer
         if (str == null)
         {
             return -1;
-        }
-        else
+        } else
         {
             str = str.trim();
 
@@ -873,8 +835,7 @@ public class CustomColorizer
             {
                 int e = Integer.parseInt(str, 16) & 16777215;
                 return e;
-            }
-            catch (NumberFormatException var2)
+            } catch (NumberFormatException var2)
             {
                 return -1;
             }
@@ -886,17 +847,16 @@ public class CustomColorizer
         if (underwaterColors == null)
         {
             return null;
-        }
-        else
+        } else
         {
             int col = getSmoothColor(underwaterColors, blockAccess, x, y, z, 10, 1);
             int red = col >> 16 & 255;
             int green = col >> 8 & 255;
             int blue = col & 255;
-            float redF = (float)red / 255.0F;
-            float greenF = (float)green / 255.0F;
-            float blueF = (float)blue / 255.0F;
-            return Vec3.createVectorHelper((double)redF, (double)greenF, (double)blueF);
+            float redF = (float) red / 255.0F;
+            float greenF = (float) green / 255.0F;
+            float blueF = (float) blue / 255.0F;
+            return Vec3.createVectorHelper((double) redF, (double) greenF, (double) blueF);
         }
     }
 
@@ -905,12 +865,11 @@ public class CustomColorizer
         if (colors == null)
         {
             return -1;
-        }
-        else
+        } else
         {
-            int x0 = (int)Math.floor(x);
-            int y0 = (int)Math.floor(y);
-            int z0 = (int)Math.floor(z);
+            int x0 = (int) Math.floor(x);
+            int y0 = (int) Math.floor(y);
+            int z0 = (int) Math.floor(z);
             int n = samples * step / 2;
             int sumRed = 0;
             int sumGreen = 0;
@@ -944,12 +903,10 @@ public class CustomColorizer
         if (w1 <= 0.0F)
         {
             return c2;
-        }
-        else if (w1 >= 1.0F)
+        } else if (w1 >= 1.0F)
         {
             return c1;
-        }
-        else
+        } else
         {
             float w2 = 1.0F - w1;
             int r1 = c1 >> 16 & 255;
@@ -958,9 +915,9 @@ public class CustomColorizer
             int r2 = c2 >> 16 & 255;
             int g2 = c2 >> 8 & 255;
             int b2 = c2 & 255;
-            int r = (int)((float)r1 * w1 + (float)r2 * w2);
-            int g = (int)((float)g1 * w1 + (float)g2 * w2);
-            int b = (int)((float)b1 * w1 + (float)b2 * w2);
+            int r = (int) ((float) r1 * w1 + (float) r2 * w2);
+            int g = (int) ((float) g1 * w1 + (float) g2 * w2);
+            int b = (int) ((float) b1 * w1 + (float) b2 * w2);
             return r << 16 | g << 8 | b;
         }
     }
@@ -984,8 +941,7 @@ public class CustomColorizer
         if (stemColors == null)
         {
             return blockStem.colorMultiplier(blockAccess, x, y, z);
-        }
-        else
+        } else
         {
             int level = blockAccess.getBlockMetadata(x, y, z);
 
@@ -1005,19 +961,22 @@ public class CustomColorizer
 
     public static boolean updateLightmap(World world, float torchFlickerX, int[] lmColors, boolean nightvision)
     {
+        if (FullbrightCheat.INSTANCE.isToggled()
+                && FullbrightCheat.INSTANCE.modeSetting.getValue().equals(FullbrightCheat.Mode.GAMMA))
+        {
+            return false;
+        }
+
         if (world == null)
         {
             return false;
-        }
-        else if (lightMapsColorsRgb == null)
+        } else if (lightMapsColorsRgb == null)
         {
             return false;
-        }
-        else if (!Config.isCustomColors())
+        } else if (!Config.isCustomColors())
         {
             return false;
-        }
-        else
+        } else
         {
             int worldType = world.provider.dimensionId;
 
@@ -1029,26 +988,23 @@ public class CustomColorizer
                 if (lightMapRgb == null)
                 {
                     return false;
-                }
-                else
+                } else
                 {
                     int height = lightMapsHeight[lightMapIndex];
 
                     if (nightvision && height < 64)
                     {
                         return false;
-                    }
-                    else
+                    } else
                     {
                         int width = lightMapRgb.length / height;
 
                         if (width < 16)
                         {
                             Config.warn("Invalid lightmap width: " + width + " for: /environment/lightmap" + worldType + ".png");
-                            lightMapsColorsRgb[lightMapIndex] = (float[][])null;
+                            lightMapsColorsRgb[lightMapIndex] = (float[][]) null;
                             return false;
-                        }
-                        else
+                        } else
                         {
                             int startIndex = 0;
 
@@ -1065,8 +1021,8 @@ public class CustomColorizer
                             }
 
                             sun = Config.limitTo1(sun);
-                            float sunX = sun * (float)(width - 1);
-                            float torchX = Config.limitTo1(torchFlickerX + 0.5F) * (float)(width - 1);
+                            float sunX = sun * (float) (width - 1);
+                            float torchX = Config.limitTo1(torchFlickerX + 0.5F) * (float) (width - 1);
                             float gamma = Config.limitTo1(Config.getGameSettings().gammaSetting);
 
                             final EventGamma event = new EventGamma(gamma);
@@ -1098,9 +1054,9 @@ public class CustomColorizer
                                         rgb[r] = g;
                                     }
 
-                                    r = (int)(rgb[0] * 255.0F);
-                                    int var21 = (int)(rgb[1] * 255.0F);
-                                    int var22 = (int)(rgb[2] * 255.0F);
+                                    r = (int) (rgb[0] * 255.0F);
+                                    int var21 = (int) (rgb[1] * 255.0F);
+                                    int var22 = (int) (rgb[2] * 255.0F);
                                     lmColors[is * 16 + it] = -16777216 | r << 16 | var21 << 8 | var22;
                                 }
                             }
@@ -1109,8 +1065,7 @@ public class CustomColorizer
                         }
                     }
                 }
-            }
-            else
+            } else
             {
                 return false;
             }
@@ -1119,8 +1074,8 @@ public class CustomColorizer
 
     private static void getLightMapColumn(float[][] origMap, float x, int offset, int width, float[][] colRgb)
     {
-        int xLow = (int)Math.floor((double)x);
-        int xHigh = (int)Math.ceil((double)x);
+        int xLow = (int) Math.floor((double) x);
+        int xHigh = (int) Math.ceil((double) x);
 
         if (xLow == xHigh)
         {
@@ -1134,11 +1089,10 @@ public class CustomColorizer
                     var16[var17] = var15[var17];
                 }
             }
-        }
-        else
+        } else
         {
-            float dLow = 1.0F - (x - (float)xLow);
-            float dHigh = 1.0F - ((float)xHigh - x);
+            float dLow = 1.0F - (x - (float) xLow);
+            float dHigh = 1.0F - ((float) xHigh - x);
 
             for (int y = 0; y < 16; ++y)
             {

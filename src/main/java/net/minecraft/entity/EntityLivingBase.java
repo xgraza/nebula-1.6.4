@@ -39,7 +39,7 @@ public abstract class EntityLivingBase extends Entity
     private static final AttributeModifier sprintingSpeedBoostModifier = (new AttributeModifier(sprintingSpeedBoostModifierUUID, "Sprinting speed boost", 0.30000001192092896D, 2)).setSaved(false);
     private BaseAttributeMap attributeMap;
     private final CombatTracker _combatTracker = new CombatTracker(this);
-    private final HashMap activePotionsMap = new HashMap();
+    private final HashMap<Integer, PotionEffect> activePotionsMap = new HashMap<>();
 
     /**
      * The equipment this mob was previously wearing, used for syncing.
@@ -599,7 +599,7 @@ public abstract class EntityLivingBase extends Entity
 
                 if (var5 != null)
                 {
-                    this.activePotionsMap.put(Integer.valueOf(var5.getPotionID()), var5);
+                    this.activePotionsMap.put(var5.getPotionID(), var5);
                 }
             }
         }
@@ -720,19 +720,19 @@ public abstract class EntityLivingBase extends Entity
         }
     }
 
-    public Collection getActivePotionEffects()
+    public Collection<PotionEffect> getActivePotionEffects()
     {
         return this.activePotionsMap.values();
     }
 
     public boolean isPotionActive(int par1)
     {
-        return this.activePotionsMap.containsKey(Integer.valueOf(par1));
+        return this.activePotionsMap.containsKey(par1);
     }
 
     public boolean isPotionActive(Potion par1Potion)
     {
-        return this.activePotionsMap.containsKey(Integer.valueOf(par1Potion.id));
+        return this.activePotionsMap.containsKey(par1Potion.id);
     }
 
     /**
@@ -740,7 +740,7 @@ public abstract class EntityLivingBase extends Entity
      */
     public PotionEffect getActivePotionEffect(Potion par1Potion)
     {
-        return (PotionEffect) this.activePotionsMap.get(Integer.valueOf(par1Potion.id));
+        return this.activePotionsMap.get(par1Potion.id);
     }
 
     /**
