@@ -37,7 +37,6 @@ import static org.lwjgl.opengl.GL11.*;
  * @author xgraza
  * @since 03/02/25
  */
-@SuppressWarnings("unchecked")
 @CheatManifest(name = "KillAura",
         description = "Attacks entities in your range",
         category = CheatCategory.COMBAT)

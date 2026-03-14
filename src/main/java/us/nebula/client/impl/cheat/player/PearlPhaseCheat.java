@@ -68,9 +68,7 @@ public final class PearlPhaseCheat extends Cheat implements RotationConfirmation
 
     @Subscribe
     private final EventListener<EventPushFromBlocks> pushFromBlocksEventListener = event ->
-    {
-        event.setCanceled(true);
-    };
+            event.setCanceled(true);
 
     @Override
     public void onServerRotateConfirm(final float yaw, final float pitch)

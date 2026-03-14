@@ -27,7 +27,7 @@ public class ItemPotion extends Item
      * Contains a map from integers to the list of potion effects that potions with that damage value confer (to prevent
      * recalculating it).
      */
-    private final HashMap effectCache = new HashMap();
+    private final HashMap<Integer, List<PotionEffect>> effectCache = new HashMap();
     private static final Map field_77835_b = new LinkedHashMap();
     private IIcon field_94591_c;
     private IIcon field_94590_d;
@@ -45,11 +45,11 @@ public class ItemPotion extends Item
     /**
      * Returns a list of potion effects for the specified itemstack.
      */
-    public List getEffects(ItemStack par1ItemStack)
+    public List<PotionEffect> getEffects(ItemStack par1ItemStack)
     {
         if (par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("CustomPotionEffects", 9))
         {
-            ArrayList var7 = new ArrayList();
+            List<PotionEffect> var7 = new ArrayList<>();
             NBTTagList var3 = par1ItemStack.getTagCompound().getTagList("CustomPotionEffects", 10);
 
             for (int var4 = 0; var4 < var3.tagCount(); ++var4)
@@ -66,12 +66,12 @@ public class ItemPotion extends Item
             return var7;
         } else
         {
-            List var2 = (List) this.effectCache.get(Integer.valueOf(par1ItemStack.getItemDamage()));
+            List<PotionEffect> var2 = this.effectCache.get(par1ItemStack.getItemDamage());
 
             if (var2 == null)
             {
                 var2 = PotionHelper.getPotionEffects(par1ItemStack.getItemDamage(), false);
-                this.effectCache.put(Integer.valueOf(par1ItemStack.getItemDamage()), var2);
+                this.effectCache.put(par1ItemStack.getItemDamage(), var2);
             }
 
             return var2;
@@ -81,14 +81,14 @@ public class ItemPotion extends Item
     /**
      * Returns a list of effects for the specified potion damage value.
      */
-    public List getEffects(int par1)
+    public List<PotionEffect> getEffects(int par1)
     {
-        List var2 = (List) this.effectCache.get(Integer.valueOf(par1));
+        List<PotionEffect> var2 = this.effectCache.get(par1);
 
         if (var2 == null)
         {
             var2 = PotionHelper.getPotionEffects(par1, false);
-            this.effectCache.put(Integer.valueOf(par1), var2);
+            this.effectCache.put(par1, var2);
         }
 
         return var2;

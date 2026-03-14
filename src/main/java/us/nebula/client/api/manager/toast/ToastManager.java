@@ -46,11 +46,10 @@ public final class ToastManager implements ITypedManager<Toast>
         EventBus.subscribe(this);
     }
 
-    public int info(final String title, final String details, final long lifetimeMS)
+    public void info(final String title, final String details, final long lifetimeMS)
     {
         final int id = TOAST_ID.getAndIncrement();
         addToast(id, new Toast(id, ToastType.INFO, title, details, lifetimeMS));
-        return id;
     }
 
     public void info(final int id, final String title, final String details, final long lifetimeMS)
@@ -58,11 +57,10 @@ public final class ToastManager implements ITypedManager<Toast>
         addToast(id, new Toast(id, ToastType.INFO, title, details, lifetimeMS));
     }
 
-    public int error(final String title, final String details, final long lifetimeMS)
+    public void error(final String title, final String details, final long lifetimeMS)
     {
         final int id = TOAST_ID.getAndIncrement();
         addToast(id, new Toast(id, ToastType.ERROR, title, details, lifetimeMS));
-        return id;
     }
 
     public void error(final int id, final String title, final String details, final long lifetimeMS)
@@ -70,11 +68,10 @@ public final class ToastManager implements ITypedManager<Toast>
         addToast(id, new Toast(id, ToastType.ERROR, title, details, lifetimeMS));
     }
 
-    public int warn(final String title, final String details, final long lifetimeMS)
+    public void warn(final String title, final String details, final long lifetimeMS)
     {
         final int id = TOAST_ID.getAndIncrement();
         addToast(id, new Toast(id, ToastType.WARNING, title, details, lifetimeMS));
-        return id;
     }
 
     public void warn(final int id, final String title, final String details, final long lifetimeMS)

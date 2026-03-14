@@ -25,7 +25,5 @@ public final class AutoWalkCheat extends Cheat
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
-    {
-        MC.gameSettings.keyBindForward.pressed = true;
-    };
+            MC.gameSettings.keyBindForward.pressed = true;
 }

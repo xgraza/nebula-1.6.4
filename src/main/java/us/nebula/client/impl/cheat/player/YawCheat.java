@@ -18,7 +18,5 @@ public final class YawCheat extends Cheat
 {
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
-    {
-        MC.thePlayer.rotationYaw = Math.round((MC.thePlayer.rotationYaw + 1.0f) / 45.0f) * 45.0f;
-    };
+            MC.thePlayer.rotationYaw = Math.round((MC.thePlayer.rotationYaw + 1.0f) / 45.0f) * 45.0f;
 }

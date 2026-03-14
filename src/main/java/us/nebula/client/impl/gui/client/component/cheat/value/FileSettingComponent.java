@@ -38,7 +38,7 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
 
     private void drawFile(final double middlePoint)
     {
-        String name = "";
+        String name;
         if (setting.getValue() == null)
         {
             name = "Pick file...";

@@ -37,7 +37,6 @@ import static org.lwjgl.opengl.GL11.*;
 public final class NametagsCheat extends Cheat
 {
     private static final ItemStack FAKE_BONE_STACK = new ItemStack(Items.bone, 1);
-    private static final String HEART_UNICODE_CHARACTER = "\u2665";
     private static final int ITEM_RENDER_SIZE = 16;
 
     private final Setting<Float> sizeSetting = new Setting<>(

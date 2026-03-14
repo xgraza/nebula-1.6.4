@@ -9,7 +9,6 @@ import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatCategory;
-import us.nebula.client.api.manager.cheat.CheatInstance;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.world.EventModifyBoundBox;
@@ -23,9 +22,6 @@ import us.nebula.client.impl.event.world.EventModifyBoundBox;
         category = CheatCategory.PLAYER)
 public final class AntiBlockCheat extends Cheat
 {
-    @CheatInstance
-    public static AntiBlockCheat INSTANCE;
-
     private static final AxisAlignedBB FULL_BLOCK_AABB = new AxisAlignedBB(
             0, 0, 0, 1, 1, 1);
 

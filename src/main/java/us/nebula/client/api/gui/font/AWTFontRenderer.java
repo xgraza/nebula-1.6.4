@@ -14,11 +14,10 @@ import static org.lwjgl.opengl.GL12.GL_RESCALE_NORMAL;
  */
 public final class AWTFontRenderer
 {
-    private static final char COLOR_CONTROL_CHAR = '\u00a7';
+    private static final char COLOR_CONTROL_CHAR = '§';
 
     private final AWTFont normal, bold, italic, boldItalic;
     private final int[] colorCodes = new int[32];
-    private final int[] customColorCodes = new int[8];
 
     public AWTFontRenderer(Font font, final int size)
     {
@@ -28,7 +27,6 @@ public final class AWTFontRenderer
         italic = new AWTFont(font.deriveFont(Font.ITALIC));
         boldItalic = new AWTFont(font.deriveFont(Font.BOLD + Font.ITALIC));
         generateColorCodes();
-        generateCustomColorCodes();
     }
 
     public void drawStringShadow(final String input, final double x, final double y, final int color)
@@ -273,7 +271,7 @@ public final class AWTFontRenderer
             int var6 = (i >> 3 & 1) * 85;
             int var7 = (i >> 2 & 1) * 170 + var6;
             int var8 = (i >> 1 & 1) * 170 + var6;
-            int var9 = (i >> 0 & 1) * 170 + var6;
+            int var9 = (i & 1) * 170 + var6;
 
             if (i == 6)
             {
@@ -289,10 +287,5 @@ public final class AWTFontRenderer
 
             colorCodes[i] = (var7 & 255) << 16 | (var8 & 255) << 8 | var9 & 255;
         }
-    }
-
-    private void generateCustomColorCodes()
-    {
-
     }
 }

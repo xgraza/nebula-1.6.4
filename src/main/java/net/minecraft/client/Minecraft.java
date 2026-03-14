@@ -498,13 +498,7 @@ public class Minecraft
         this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
         this.fontRenderer = new FontRenderer(this.gameSettings, new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
 
-        try
-        {
-            Nebula.INSTANCE.init(mcDataDir);
-        } catch (final IOException e)
-        {
-            throw new RuntimeException(e);
-        }
+        Nebula.INSTANCE.init(mcDataDir);
 
         if (this.gameSettings.language != null)
         {

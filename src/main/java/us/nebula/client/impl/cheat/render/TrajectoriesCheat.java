@@ -131,11 +131,12 @@ public final class TrajectoriesCheat extends Cheat
         {
             velocity = 0.5f;
             pitchOffset = -20.0f;
-        } else if (stack.getItem() instanceof ItemBow)
-        {
-            int charge = stack.getMaxItemUseDuration() - player.getItemInUseCount();
-            velocity = getArrowVelocity(charge) * 3.0f;
-        }
+        } else //noinspection ConstantValue
+            if (stack.getItem() instanceof ItemBow)
+            {
+                int charge = stack.getMaxItemUseDuration() - player.getItemInUseCount();
+                velocity = getArrowVelocity(charge) * 3.0f;
+            }
 
         double motionX = -MathHelper.sin(yaw * PI_180) * MathHelper.cos(pitch * PI_180);
         double motionY = -MathHelper.sin((pitch + pitchOffset) * PI_180);

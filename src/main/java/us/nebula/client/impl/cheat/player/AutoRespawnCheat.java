@@ -66,7 +66,10 @@ public final class AutoRespawnCheat extends Cheat
         COORDINATE_SAVE_FILE = file;
         try
         {
-            COORDINATE_SAVE_FILE.createNewFile();
+            if (!COORDINATE_SAVE_FILE.createNewFile())
+            {
+                throw new RuntimeException("Failed to create coord file");
+            }
             OPEN_FILE_STREAM = Files.newOutputStream(COORDINATE_SAVE_FILE.toPath());
 
             Runtime.getRuntime().addShutdownHook(new Thread(() ->

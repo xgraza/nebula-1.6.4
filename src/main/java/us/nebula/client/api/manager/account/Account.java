@@ -28,11 +28,6 @@ public final class Account implements IJSONSerializable
         this.password = password;
     }
 
-    public String getPassword()
-    {
-        return password;
-    }
-
     @Override
     public JsonElement toJSON()
     {

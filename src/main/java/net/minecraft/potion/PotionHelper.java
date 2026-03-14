@@ -1,5 +1,7 @@
 package net.minecraft.potion;
 
+import net.minecraft.item.ItemPotion;
+
 import java.util.*;
 
 public class PotionHelper
@@ -353,47 +355,42 @@ public class PotionHelper
     /**
      * Returns a list of effects for the specified potion damage value.
      */
-    public static List getPotionEffects(int par0, boolean par1)
+    public static List<PotionEffect> getPotionEffects(int par0, boolean par1)
     {
-        ArrayList var2 = null;
-        Potion[] var3 = Potion.potionTypes;
-        int var4 = var3.length;
-
-        for (int var5 = 0; var5 < var4; ++var5)
+        final List<PotionEffect> effectList = new ArrayList<>();
+        for (Potion potion : Potion.potionTypes)
         {
-            Potion var6 = var3[var5];
-
-            if (var6 != null && (!var6.isUsable() || par1))
+            if (potion != null && (!potion.isUsable() || par1))
             {
-                String var7 = (String) potionRequirements.get(Integer.valueOf(var6.getId()));
+                String requirement = (String) potionRequirements.get(potion.getId());
 
-                if (var7 != null)
+                if (requirement != null)
                 {
-                    int var8 = parsePotionEffects(var7, 0, var7.length(), par0);
+                    int var8 = parsePotionEffects(requirement, 0, requirement.length(), par0);
 
                     if (var8 > 0)
                     {
-                        int var9 = 0;
-                        String var10 = (String) potionAmplifiers.get(Integer.valueOf(var6.getId()));
+                        int amplifier = 0;
+                        String var10 = (String) potionAmplifiers.get(potion.getId());
 
                         if (var10 != null)
                         {
-                            var9 = parsePotionEffects(var10, 0, var10.length(), par0);
+                            amplifier = parsePotionEffects(var10, 0, var10.length(), par0);
 
-                            if (var9 < 0)
+                            if (amplifier < 0)
                             {
-                                var9 = 0;
+                                amplifier = 0;
                             }
                         }
 
-                        if (var6.isInstant())
+                        if (potion.isInstant())
                         {
                             var8 = 1;
                         } else
                         {
                             var8 = 1200 * (var8 * 3 + (var8 - 1) * 2);
-                            var8 >>= var9;
-                            var8 = (int) Math.round((double) var8 * var6.getEffectiveness());
+                            var8 >>= amplifier;
+                            var8 = (int) Math.round((double) var8 * potion.getEffectiveness());
 
                             if ((par0 & 16384) != 0)
                             {
@@ -401,25 +398,19 @@ public class PotionHelper
                             }
                         }
 
-                        if (var2 == null)
+                        PotionEffect effect = new PotionEffect(potion.getId(), var8, amplifier);
+                        if (ItemPotion.isSplash(par0))
                         {
-                            var2 = new ArrayList();
+                            effect.setSplashPotion(true);
                         }
 
-                        PotionEffect var11 = new PotionEffect(var6.getId(), var8, var9);
-
-                        if ((par0 & 16384) != 0)
-                        {
-                            var11.setSplashPotion(true);
-                        }
-
-                        var2.add(var11);
+                        effectList.add(effect);
                     }
                 }
             }
         }
 
-        return var2;
+        return effectList;
     }
 
     /**

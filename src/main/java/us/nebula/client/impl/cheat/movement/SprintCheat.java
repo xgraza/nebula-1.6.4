@@ -33,9 +33,7 @@ public final class SprintCheat extends Cheat
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
-    {
-        MC.gameSettings.keyBindSprint.setPressed(true);
-    };
+            MC.gameSettings.keyBindSprint.setPressed(true);
 
     @Subscribe
     private final EventListener<EventSprint> sprintEventListener = event ->

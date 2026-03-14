@@ -4,14 +4,14 @@ package us.nebula.client.api.listener;
  * @author xgraza
  * @since 02/14/25
  */
-@SuppressWarnings({ "unchecked", "raw" })
+@SuppressWarnings({ "raw" })
 public final class Subscriber
 {
-    private final EventListener eventListener;
+    private final EventListener<Event> eventListener;
     private final Subscribe properties;
     private final Object parent;
 
-    public Subscriber(final EventListener<?> eventListener, final Subscribe properties, final Object parent)
+    public Subscriber(final EventListener<Event> eventListener, final Subscribe properties, final Object parent)
     {
         this.eventListener = eventListener;
         this.properties = properties;
