@@ -2,6 +2,8 @@ package us.nebula.client;
 
 import com.github.lunatrius.schematica.Schematica;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.SplashTextProvider;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,6 +58,8 @@ public enum Nebula
 
     public void init(final File gameDir) throws IOException
     {
+        SplashTextProvider.addSplashTextProvider(
+                new ResourceLocation("nebula", "splashs.txt"));
         LoadingScreen.setTotalLoadingStages(12);
         LoadingScreen.setStage(1, "Setting up Nebula");
 

@@ -22,4 +22,9 @@ public final class ClientSettings
      * If features should use heavier debugging
      */
     public static boolean DEBUG;
+
+    /**
+     * If to use Nebula splash text on the main menu screen
+     */
+    public static boolean USE_CUSTOM_SPLASH_TEXT;
 }

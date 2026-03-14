@@ -1,5 +1,6 @@
 package us.nebula.client.api.rpc;
 
+import net.minecraft.client.SplashTextProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import us.nebula.client.ClientSettings;
@@ -20,37 +21,6 @@ public final class DiscordRPCHandler
 
     private static final String APPLICATION_ID = "1038604916073185380";
     private static final long REFRESH_INTERVAL = 750L;
-    private static final String[] SPLASH_TEXTS =
-            {
-                    "Backdooring alfheim.pw",
-                    "Cracking Nebula Beta",
-                    "Begging for Yeezus private",
-                    "Begging for Round Table client",
-                    "Griefing MedMex's stash",
-                    "Running AutoCartDupe",
-                    "Unstacking 32k armor",
-                    "3v1ing commie",
-                    "Placing End Crystal spawn eggs",
-                    "Server predict AutoBed",
-                    "Pissing off iWoodz",
-                    "Begging hometea for infinites",
-                    "Can anyone give me a kit?",
-                    "How to /spawn",
-                    "Wheres the /sethome command?",
-                    "Eradicating obesity",
-                    "Injecting estrogen",
-                    "CFontRenderer extends ClassLoader",
-                    "Carb loading on alfheim larp",
-                    "Throwing a brick at Sjnez's window",
-                    "Crashing epearls Dell Optiplex dedicated server",
-                    "Double the packets to do double the damage",
-                    "Dumping Future client...",
-                    "Alfheim Wedding: 06/29/2022 10:30 PST X:0, Z:350",
-                    "\"you item ilegal pls\"",
-                    "Running with PhysicsCalc",
-                    "Strength potting Giants",
-                    "Epearl please unpatch step :pray:"
-            };
 
     private static boolean running;
 
@@ -100,13 +70,7 @@ public final class DiscordRPCHandler
         RICH_PRESENCE.largeImageKey = "logo";
         RICH_PRESENCE.largeImageText = ClientSettings.VERSION;
         RICH_PRESENCE.details = "Running game";
-        RICH_PRESENCE.state = getRandomSplash();
+        RICH_PRESENCE.state = SplashTextProvider.getRandomSplashText("nebula");
         DiscordRPC.updatePresence(RICH_PRESENCE);
-    }
-
-    private static String getRandomSplash()
-    {
-        final int size = SPLASH_TEXTS.length;
-        return SPLASH_TEXTS[Math.min(size - 1, (int) (Math.random() * (size + 1)))];
     }
 }

@@ -2,6 +2,7 @@ package us.nebula.client.api.config;
 
 import us.nebula.client.Nebula;
 import us.nebula.client.api.manager.IManager;
+import us.nebula.client.impl.config.ClientSettingConfig;
 import us.nebula.client.util.io.FileUtil;
 
 import java.io.File;
@@ -22,6 +23,7 @@ public final class ConfigurationManager implements IManager
     {
         Runtime.getRuntime().addShutdownHook(
                 new ConfigurationSaveThread(this));
+        addConfiguration(new ClientSettingConfig());
         try
         {
             loadConfigs();
