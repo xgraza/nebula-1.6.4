@@ -139,21 +139,18 @@ public enum Nebula
 
     void setIcon()
     {
-        if (Util.getOSType() == Util.EnumOS.MACOS)
-        {
-            return;
-        }
         try
         {
             ByteBuffer buffer16x = readImage("/assets/nebula/texture/icon/16x.png");
             ByteBuffer buffer32x = readImage("/assets/nebula/texture/icon/32x.png");
-            if (buffer16x == null || buffer32x == null)
+            ByteBuffer buffer128x = readImage("/assets/nebula/texture/icon/128x.png");
+            if (buffer16x == null || buffer32x == null || buffer128x == null)
             {
                 logger.error("Failed to read Nebula icon buffer(s).");
                 return;
             }
 
-            Display.setIcon(new ByteBuffer[]{ buffer16x, buffer32x });
+            Display.setIcon(new ByteBuffer[]{ buffer16x, buffer32x, buffer128x });
         } catch (Exception exception)
         {
             logger.error("Couldn't set icon", exception);
