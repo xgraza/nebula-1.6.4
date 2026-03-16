@@ -1,8 +1,6 @@
-# nebula-1.7.2
+![logo.png](images/bitmap.png)
 
 cool kid on the block
-
-![gui.png](screenshots/gui.png)
 
 join up:
 https://discord.gg/nrsg2u4GtP
@@ -74,5 +72,12 @@ Or if you're lazy like me (or do not know how to do the above), check the action
 - [bush](https://github.com/therealbush/) - Google translate private API params (i love bushbus & bushtranslator!)
 
 ---
+
+### GUI Screenshot
+
+![gui.png](images/gui.png)
+
+---
+
 
 ##### xgraza - 2026
