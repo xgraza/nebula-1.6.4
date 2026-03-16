@@ -346,6 +346,11 @@ public final class KillAuraCheat extends Cheat
         return target != null;
     }
 
+    public EntityLivingBase getTarget()
+    {
+        return target;
+    }
+
     @Override
     public String getMetadata()
     {

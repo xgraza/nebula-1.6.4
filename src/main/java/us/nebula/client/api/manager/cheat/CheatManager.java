@@ -66,6 +66,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new SprintCheat());
         addCheat(new StaticCheat());
         addCheat(new StepCheat());
+        addCheat(new TargetStrafeCheat());
         addCheat(new TerrainCheat());
         addCheat(new AntiBlockCheat());
         addCheat(new AntiDisconnectCheat());
