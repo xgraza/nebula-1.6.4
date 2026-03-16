@@ -56,6 +56,11 @@ public final class DiscordRPCHandler
         running = false;
     }
 
+    public static boolean isRunning()
+    {
+        return running;
+    }
+
     private static void updatePresence()
     {
         if (!running)

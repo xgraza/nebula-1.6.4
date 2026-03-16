@@ -3,6 +3,7 @@ package us.nebula.client.impl.cheat.player;
 import us.nebula.client.ClientSettings;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatCategory;
+import us.nebula.client.api.manager.cheat.CheatInstance;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.rpc.DiscordRPCHandler;
 import us.nebula.client.util.player.ChatUtil;
@@ -16,6 +17,9 @@ import us.nebula.client.util.player.ChatUtil;
         category = CheatCategory.PLAYER)
 public final class DiscordRPCCheat extends Cheat
 {
+    @CheatInstance
+    public static DiscordRPCCheat INSTANCE;
+
     @Override
     protected void onEnable()
     {

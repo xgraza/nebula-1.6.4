@@ -13,6 +13,9 @@ public final class ClientSettings
             BuildConfig.BRANCH,
             BuildConfig.HASH);
 
+    public static final String GITHUB_REPO = "https://github.com/xgraza/nebula-1.7.2/tree/"
+            + BuildConfig.BRANCH;
+
     /**
      * If features should use verbose logging
      */
