@@ -36,6 +36,7 @@ public final class BooleanSettingComponent extends GUIComponent implements IGUII
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
+        animation.setState(setting.getValue());
         final double middle = Fonts.getMiddlePoint(height, Fonts.POPPINS.getFontHeight());
         Fonts.POPPINS.drawStringShadow(setting.getName(), x + (PADDING * 2), y + middle, -1);
         drawCheckbox();

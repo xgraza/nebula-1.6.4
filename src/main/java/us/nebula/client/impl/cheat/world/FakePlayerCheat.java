@@ -5,11 +5,12 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Vec3;
 import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.IEventPriorities;
 import us.nebula.client.api.listener.Subscribe;
@@ -21,8 +22,10 @@ import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.game.EventUpdate;
 import us.nebula.client.impl.event.network.EventPacket;
 import us.nebula.client.util.math.MathUtil;
+import us.nebula.client.util.player.ChatUtil;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -40,7 +43,6 @@ public final class FakePlayerCheat extends Cheat
 
     private static final List<String> FAKE_USERNAMES = Lists.newArrayList(
             "Aestheticall", "epearl", "hometea", "iWoodz", "EstrogenInjector");
-
     private static final int FAKE_ENTITY_ID = -1337420;
 
     private final Setting<Boolean> takeDamageSetting = new Setting<>(
@@ -49,27 +51,99 @@ public final class FakePlayerCheat extends Cheat
             "Gap Chug", false, takeDamageSetting::getValue);
     private final Setting<Boolean> moveSetting = new Setting<>(
             "Move", false);
+    private final Setting<Boolean> recordSetting = new Setting<>(
+            "Start Recording", false)
+            .setVisibility(moveSetting::getValue);
 
-    public final Queue<Movement> fakePlayerMovement = new ConcurrentLinkedQueue<>();
+    private final Queue<Movement> fakePlayerMovement = new ConcurrentLinkedQueue<>();
+    private Movement lastRecordedMovement;
+    private boolean shownRecordScreen;
+
     private EntityOtherPlayerMP fakePlayerEntity;
+
+    @Override
+    protected void onEnable()
+    {
+        super.onEnable();
+        if (MC.thePlayer == null || MC.theWorld == null)
+        {
+            setToggled(false);
+        }
+    }
 
     @Override
     protected void onDisable()
     {
         super.onDisable();
-        if (MC.theWorld != null && fakePlayerEntity != null)
+        if (MC.theWorld != null)
         {
-            MC.theWorld.removeEntityFromWorld(FAKE_ENTITY_ID);
-            MC.theWorld.removePlayerEntityDangerously(fakePlayerEntity);
+            despawnFP();
         }
-        fakePlayerEntity = null;
 
-        //fakePlayerMovement.clear();
+        fakePlayerMovement.clear();
+        lastRecordedMovement = null;
+        shownRecordScreen = false;
+        recordSetting.setValue(false);
+    }
+
+    @Override
+    public String getMetadata()
+    {
+        if (recordSetting.getValue())
+        {
+            return "Recording";
+        }
+        if (!fakePlayerMovement.isEmpty() && moveSetting.getValue())
+        {
+            return "Moving (" + fakePlayerMovement.size() + ")";
+        }
+        return super.getMetadata();
     }
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
+        if (MC.thePlayer.ticksExisted < 20)
+        {
+            return;
+        }
+
+        if (recordSetting.getValue())
+        {
+            if (!shownRecordScreen)
+            {
+                if (MC.currentScreen != null)
+                {
+                    MC.displayGuiScreen(null);
+                }
+
+                lastRecordedMovement = null;
+                shownRecordScreen = true;
+                fakePlayerMovement.clear();
+
+                ChatUtil.send("Begin moving now! Sneak to end recording");
+            }
+
+            if (MC.gameSettings.keyBindSneak.pressed)
+            {
+                ChatUtil.send("Finished recording(%s)!", fakePlayerMovement.size());
+                lastRecordedMovement = null;
+                recordSetting.setValue(false);
+                return;
+            }
+
+            final Movement movement = new Movement(MC.thePlayer.posX, MC.thePlayer.boundingBox.minY, MC.thePlayer.posZ,
+                    MC.thePlayer.rotationYaw, MC.thePlayer.rotationPitch);
+            if (Objects.equals(movement, lastRecordedMovement))
+            {
+                return;
+            }
+            lastRecordedMovement = movement;
+            fakePlayerMovement.add(movement);
+
+            return;
+        }
+
         if (isFakePlayerInvalidated())
         {
             fakePlayerMovement.clear();
@@ -84,28 +158,23 @@ public final class FakePlayerCheat extends Cheat
             }
             fakePlayerEntity = createFakePlayer();
             MC.theWorld.addEntityToWorld(FAKE_ENTITY_ID, fakePlayerEntity);
-            return;
         }
 
-        if (!moveSetting.getValue())
+        if (moveSetting.getValue() && fakePlayerEntity != null && !fakePlayerMovement.isEmpty())
         {
-            return;
+            final Movement movement = fakePlayerMovement.poll();
+            if (movement == null)
+            {
+                // should never be null, as we add this one to the end of the stack but...
+                return;
+            }
+
+            fakePlayerEntity.setPositionAndRotation(movement.x, movement.y, movement.z, movement.yaw, movement.pitch);
+            fakePlayerEntity.rotationYawHead = movement.yaw;
+            fakePlayerEntity.renderPitch = movement.pitch;
+
+            fakePlayerMovement.add(movement);
         }
-
-        if (fakePlayerMovement.isEmpty())
-        {
-            return;
-        }
-
-        final Movement movement = fakePlayerMovement.poll();
-        if (movement == null)
-        {
-            return;
-        }
-
-        fakePlayerMovement.add(movement);
-
-        fakePlayerEntity.setPositionAndRotation(movement.position.xCoord, movement.position.yCoord, movement.position.zCoord, movement.yaw, movement.pitch);
     };
 
     @Subscribe(priority = IEventPriorities.LOW)
@@ -121,6 +190,17 @@ public final class FakePlayerCheat extends Cheat
             }
         }
     };
+
+    private void despawnFP()
+    {
+        if (fakePlayerEntity == null)
+        {
+            return;
+        }
+        MC.theWorld.removeEntityFromWorld(FAKE_ENTITY_ID);
+        MC.theWorld.removePlayerEntityDangerously(fakePlayerEntity);
+        fakePlayerEntity = null;
+    }
 
     public void critFake()
     {
@@ -156,8 +236,10 @@ public final class FakePlayerCheat extends Cheat
                     setHealth(20.0f);
                 }
 
-                if (gapChugSetting.getValue() && local.ticksExisted % 40 == 0)
+                if (gapChugSetting.getValue() && local.ticksExisted % 120 == 0)
                 {
+                    inventory.mainInventory[0] = new ItemStack(Items.golden_apple);
+
                     setHealth(20.0f);
                     setAbsorptionAmount(4.0f);
                     addPotionEffect(new PotionEffect(Potion.absorption.id, 2400, 0));
@@ -167,6 +249,11 @@ public final class FakePlayerCheat extends Cheat
             @Override
             public boolean attackEntityFrom(final DamageSource src, float damage)
             {
+                if (!takeDamageSetting.getValue())
+                {
+                    return false;
+                }
+
                 entityAge = 0;
 
                 if (getHealth() <= 0.0f)
@@ -245,38 +332,27 @@ public final class FakePlayerCheat extends Cheat
 
     private boolean isFakePlayerInvalidated()
     {
-        return fakePlayerEntity == null
-                //|| MC.theWorld.getEntityByID(FAKE_ENTITY_ID) == null
-                || fakePlayerEntity.isDead
-                || fakePlayerEntity.dimension != MC.thePlayer.dimension;
+        return fakePlayerEntity == null || fakePlayerEntity.isDead || fakePlayerEntity.dimension != MC.thePlayer.dimension;
     }
 
-    public static final class Movement
+    private static final class Movement
     {
-        private final Vec3 position;
-        private final float yaw;
-        private final float pitch;
+        private final double x, y, z;
+        private final float yaw, pitch;
 
-        public Movement(Vec3 position, float yaw, float pitch)
+        public Movement(double x, double y, double z, float yaw, float pitch)
         {
-            this.position = position;
+            this.x = x;
+            this.y = y;
+            this.z = z;
             this.yaw = yaw;
             this.pitch = pitch;
         }
 
-        public Vec3 getPosition()
+        @Override
+        public int hashCode()
         {
-            return position;
-        }
-
-        public float getYaw()
-        {
-            return yaw;
-        }
-
-        public float getPitch()
-        {
-            return pitch;
+            return (int) ((y + z * 31) * 31 + x + (yaw + pitch * 31));
         }
     }
 }

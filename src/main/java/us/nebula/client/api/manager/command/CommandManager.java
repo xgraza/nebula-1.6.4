@@ -49,7 +49,6 @@ public final class CommandManager extends CommandRegistry implements IManager
         register(new GCCommand());
         register(new HelpCommand(this));
         register(new HideCommand(Nebula.INSTANCE.getCheatManager()));
-        register(new RecordMovementCommand());
         register(new SpawnTPCommand());
     }
 
