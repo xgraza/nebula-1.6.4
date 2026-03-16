@@ -5,11 +5,11 @@ import net.minecraft.util.IntHashMap;
 
 import java.util.*;
 
-public class KeyBinding implements Comparable
+public class KeyBinding implements Comparable<KeyBinding>
 {
-    private static final List keybindArray = new ArrayList();
+    private static final List<KeyBinding> keybindArray = new ArrayList<>();
     private static final IntHashMap hash = new IntHashMap();
-    private static final Set keybindSet = new HashSet();
+    private static final Set<String> keybindSet = new HashSet<>();
     private final String keyDescription;
     private final int keyCodeDefault;
     private final String keyCategory;
@@ -19,14 +19,13 @@ public class KeyBinding implements Comparable
      * because _303 wanted me to call it that(Caironater)
      */
     public boolean pressed;
-    private int presses;
-    private static final String __OBFID = "CL_00000628";
+    public int presses;
 
-    public static void onTick(int par0)
+    public static void onTick(int keyCode)
     {
-        if (par0 != 0)
+        if (keyCode != 0)
         {
-            KeyBinding var1 = (KeyBinding) hash.lookup(par0);
+            KeyBinding var1 = (KeyBinding) hash.lookup(keyCode);
 
             if (var1 != null)
             {
@@ -50,11 +49,8 @@ public class KeyBinding implements Comparable
 
     public static void unPressAllKeys()
     {
-        Iterator var0 = keybindArray.iterator();
-
-        while (var0.hasNext())
+        for (KeyBinding var1 : keybindArray)
         {
-            KeyBinding var1 = (KeyBinding) var0.next();
             var1.unpressKey();
         }
     }
@@ -62,16 +58,13 @@ public class KeyBinding implements Comparable
     public static void resetKeyBindingArrayAndHash()
     {
         hash.clearMap();
-        Iterator var0 = keybindArray.iterator();
-
-        while (var0.hasNext())
+        for (KeyBinding var1 : keybindArray)
         {
-            KeyBinding var1 = (KeyBinding) var0.next();
             hash.addKey(var1.keyCode, var1);
         }
     }
 
-    public static Set func_151467_c()
+    public static Set<String> func_151467_c()
     {
         return keybindSet;
     }
@@ -150,10 +143,5 @@ public class KeyBinding implements Comparable
         }
 
         return var2;
-    }
-
-    public int compareTo(Object par1Obj)
-    {
-        return this.compareTo((KeyBinding) par1Obj);
     }
 }

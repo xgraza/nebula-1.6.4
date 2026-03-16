@@ -38,7 +38,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
      * sprint, aka enough food on the ground etc) it sets this to 7. If it's pressed and it's greater than 0 enable
      * sprinting.
      */
-    protected int sprintToggleTimer;
+    public int sprintToggleTimer;
 
     /**
      * Ticks left before sprinting is disabled.

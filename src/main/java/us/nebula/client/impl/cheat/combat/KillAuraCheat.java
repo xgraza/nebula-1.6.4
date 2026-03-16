@@ -50,7 +50,7 @@ public final class KillAuraCheat extends Cheat
             "Mode", Mode.SINGLE);
     private final Setting<Priority> prioritySetting = new Setting<>(
             "Priority", Priority.DISTANCE);
-    private final Setting<Float> rangeSetting = new Setting<>(
+    public final Setting<Float> rangeSetting = new Setting<>(
             "Range", 4.2f, 1.0f, 6.0f, 0.1f);
     private final Setting<Boolean> wallsSetting = new Setting<>(
             "Walls", true);
