@@ -159,4 +159,9 @@ public final class NebulaSystemTray implements ActionListener
             icon = null;
         }
     }
+
+    public boolean isActive()
+    {
+        return icon != null;
+    }
 }
