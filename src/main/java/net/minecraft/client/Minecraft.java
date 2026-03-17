@@ -267,7 +267,7 @@ public class Minecraft
     private long field_83002_am = -1L;
     private IReloadableResourceManager mcResourceManager;
     private final IMetadataSerializer metadataSerializer_ = new IMetadataSerializer();
-    private final List defaultResourcePacks = Lists.newArrayList();
+    private final List<IResourcePack> defaultResourcePacks = Lists.newArrayList();
     private final DefaultResourcePack mcDefaultResourcePack;
     private ResourcePackRepository mcResourcePackRepository;
     private LanguageManager mcLanguageManager;
@@ -586,13 +586,11 @@ public class Minecraft
             LoadingScreen.setStage(1, "Reading repository");
         }
 
-        ArrayList var1 = Lists.newArrayList(this.defaultResourcePacks);
-        Iterator var2 = this.mcResourcePackRepository.getRepositoryEntries().iterator();
+        ArrayList<IResourcePack> var1 = Lists.newArrayList(this.defaultResourcePacks);
 
-        while (var2.hasNext())
+        for (ResourcePackRepository.Entry entry : this.mcResourcePackRepository.getRepositoryEntries())
         {
-            ResourcePackRepository.Entry var3 = (ResourcePackRepository.Entry) var2.next();
-            var1.add(var3.getResourcePack());
+            var1.add(entry.getResourcePack());
         }
 
         if (this.mcResourcePackRepository.func_148530_e() != null)
@@ -2177,7 +2175,7 @@ public class Minecraft
                 this.scheduleResourcesRefresh();
             }
 
-            this.mcResourcePackRepository.func_148529_f();
+            this.mcResourcePackRepository.resetDownloadedPack();
             this.setServerData(null);
             this.integratedServerIsRunning = false;
         }

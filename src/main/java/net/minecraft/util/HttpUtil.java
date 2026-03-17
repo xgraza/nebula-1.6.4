@@ -113,146 +113,141 @@ public class HttpUtil
         }
     }
 
-    public static void func_151223_a(final File p_151223_0_, final String p_151223_1_, final HttpUtil.DownloadListener p_151223_2_, final Map p_151223_3_, final int p_151223_4_, final IProgressUpdate p_151223_5_, final Proxy p_151223_6_)
+    public static void downloadTexturePack(final File outputFile, final String downloadURL, final HttpUtil.DownloadListener listener, final Map<String, String> headerMap, final int p_151223_4_, final IProgressUpdate progressScreenGui, final Proxy proxy)
     {
-        Thread var7 = new Thread(new Runnable()
+        Thread var7 = new Thread(() ->
         {
-            private static final String __OBFID = "CL_00001486";
+            URLConnection var1 = null;
+            InputStream var2 = null;
+            DataOutputStream var3 = null;
 
-            public void run()
+            if (progressScreenGui != null)
             {
-                URLConnection var1 = null;
-                InputStream var2 = null;
-                DataOutputStream var3 = null;
+                progressScreenGui.resetProgressAndMessage("Downloading Texture Pack");
+                progressScreenGui.resetProgresAndWorkingMessage("Making Request...");
+            }
 
-                if (p_151223_5_ != null)
+            try
+            {
+                try
                 {
-                    p_151223_5_.resetProgressAndMessage("Downloading Texture Pack");
-                    p_151223_5_.resetProgresAndWorkingMessage("Making Request...");
+                    byte[] var4 = new byte[4096];
+                    URL var5 = new URL(downloadURL);
+                    var1 = var5.openConnection(proxy);
+                    float var6 = 0.0F;
+                    float var10 = (float) headerMap.size();
+                    Iterator var8 = headerMap.entrySet().iterator();
+
+                    while (var8.hasNext())
+                    {
+                        Entry var9 = (Entry) var8.next();
+                        var1.setRequestProperty((String) var9.getKey(), (String) var9.getValue());
+
+                        if (progressScreenGui != null)
+                        {
+                            progressScreenGui.setLoadingProgress((int) (++var6 / var10 * 100.0F));
+                        }
+                    }
+
+                    var2 = var1.getInputStream();
+                    var10 = (float) var1.getContentLength();
+                    int var28 = var1.getContentLength();
+
+                    if (progressScreenGui != null)
+                    {
+                        progressScreenGui.resetProgresAndWorkingMessage(String.format("Downloading file (%.2f MB)...", Float.valueOf(var10 / 1000.0F / 1000.0F)));
+                    }
+
+                    if (outputFile.exists())
+                    {
+                        long var29 = outputFile.length();
+
+                        if (var29 == (long) var28)
+                        {
+                            listener.func_148522_a(outputFile);
+
+                            if (progressScreenGui != null)
+                            {
+                                progressScreenGui.func_146586_a();
+                            }
+
+                            return;
+                        }
+
+                        HttpUtil.logger.warn("Deleting " + outputFile + " as it does not match what we currently have (" + var28 + " vs our " + var29 + ").");
+                        outputFile.delete();
+                    } else if (outputFile.getParentFile() != null)
+                    {
+                        outputFile.getParentFile().mkdirs();
+                    }
+
+                    var3 = new DataOutputStream(new FileOutputStream(outputFile));
+
+                    if (p_151223_4_ > 0 && var10 > (float) p_151223_4_)
+                    {
+                        if (progressScreenGui != null)
+                        {
+                            progressScreenGui.func_146586_a();
+                        }
+
+                        throw new IOException("Filesize is bigger than maximum allowed (file is " + var6 + ", limit is " + p_151223_4_ + ")");
+                    }
+
+                    boolean var30 = false;
+                    int var31;
+
+                    while ((var31 = var2.read(var4)) >= 0)
+                    {
+                        var6 += (float) var31;
+
+                        if (progressScreenGui != null)
+                        {
+                            progressScreenGui.setLoadingProgress((int) (var6 / var10 * 100.0F));
+                        }
+
+                        if (p_151223_4_ > 0 && var6 > (float) p_151223_4_)
+                        {
+                            if (progressScreenGui != null)
+                            {
+                                progressScreenGui.func_146586_a();
+                            }
+
+                            throw new IOException("Filesize was bigger than maximum allowed (got >= " + var6 + ", limit was " + p_151223_4_ + ")");
+                        }
+
+                        var3.write(var4, 0, var31);
+                    }
+
+                    listener.func_148522_a(outputFile);
+
+                    if (progressScreenGui != null)
+                    {
+                        progressScreenGui.func_146586_a();
+                    }
+                } catch (Throwable var26)
+                {
+                    var26.printStackTrace();
+                }
+            } finally
+            {
+                try
+                {
+                    if (var2 != null)
+                    {
+                        var2.close();
+                    }
+                } catch (IOException var25)
+                {
                 }
 
                 try
                 {
-                    try
+                    if (var3 != null)
                     {
-                        byte[] var4 = new byte[4096];
-                        URL var5 = new URL(p_151223_1_);
-                        var1 = var5.openConnection(p_151223_6_);
-                        float var6 = 0.0F;
-                        float var7 = (float) p_151223_3_.size();
-                        Iterator var8 = p_151223_3_.entrySet().iterator();
-
-                        while (var8.hasNext())
-                        {
-                            Entry var9 = (Entry) var8.next();
-                            var1.setRequestProperty((String) var9.getKey(), (String) var9.getValue());
-
-                            if (p_151223_5_ != null)
-                            {
-                                p_151223_5_.setLoadingProgress((int) (++var6 / var7 * 100.0F));
-                            }
-                        }
-
-                        var2 = var1.getInputStream();
-                        var7 = (float) var1.getContentLength();
-                        int var28 = var1.getContentLength();
-
-                        if (p_151223_5_ != null)
-                        {
-                            p_151223_5_.resetProgresAndWorkingMessage(String.format("Downloading file (%.2f MB)...", Float.valueOf(var7 / 1000.0F / 1000.0F)));
-                        }
-
-                        if (p_151223_0_.exists())
-                        {
-                            long var29 = p_151223_0_.length();
-
-                            if (var29 == (long) var28)
-                            {
-                                p_151223_2_.func_148522_a(p_151223_0_);
-
-                                if (p_151223_5_ != null)
-                                {
-                                    p_151223_5_.func_146586_a();
-                                }
-
-                                return;
-                            }
-
-                            HttpUtil.logger.warn("Deleting " + p_151223_0_ + " as it does not match what we currently have (" + var28 + " vs our " + var29 + ").");
-                            p_151223_0_.delete();
-                        } else if (p_151223_0_.getParentFile() != null)
-                        {
-                            p_151223_0_.getParentFile().mkdirs();
-                        }
-
-                        var3 = new DataOutputStream(new FileOutputStream(p_151223_0_));
-
-                        if (p_151223_4_ > 0 && var7 > (float) p_151223_4_)
-                        {
-                            if (p_151223_5_ != null)
-                            {
-                                p_151223_5_.func_146586_a();
-                            }
-
-                            throw new IOException("Filesize is bigger than maximum allowed (file is " + var6 + ", limit is " + p_151223_4_ + ")");
-                        }
-
-                        boolean var30 = false;
-                        int var31;
-
-                        while ((var31 = var2.read(var4)) >= 0)
-                        {
-                            var6 += (float) var31;
-
-                            if (p_151223_5_ != null)
-                            {
-                                p_151223_5_.setLoadingProgress((int) (var6 / var7 * 100.0F));
-                            }
-
-                            if (p_151223_4_ > 0 && var6 > (float) p_151223_4_)
-                            {
-                                if (p_151223_5_ != null)
-                                {
-                                    p_151223_5_.func_146586_a();
-                                }
-
-                                throw new IOException("Filesize was bigger than maximum allowed (got >= " + var6 + ", limit was " + p_151223_4_ + ")");
-                            }
-
-                            var3.write(var4, 0, var31);
-                        }
-
-                        p_151223_2_.func_148522_a(p_151223_0_);
-
-                        if (p_151223_5_ != null)
-                        {
-                            p_151223_5_.func_146586_a();
-                        }
-                    } catch (Throwable var26)
-                    {
-                        var26.printStackTrace();
+                        var3.close();
                     }
-                } finally
+                } catch (IOException var24)
                 {
-                    try
-                    {
-                        if (var2 != null)
-                        {
-                            var2.close();
-                        }
-                    } catch (IOException var25)
-                    {
-                    }
-
-                    try
-                    {
-                        if (var3 != null)
-                        {
-                            var3.close();
-                        }
-                    } catch (IOException var24)
-                    {
-                    }
                 }
             }
         }, "File Downloader #" + downloadThreadsStarted.incrementAndGet());
