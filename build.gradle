@@ -56,14 +56,17 @@ repositories {
     }
 }
 
-var dependenciesPath = "dependencies$Util.SEPARATOR"
+var dependenciesPath = "dependencies${Util.SEPARATOR}libraries${Util.SEPARATOR}"
 dependencies {
-    implementation fileTree("${dependenciesPath}libraries")
-    jarLib fileTree("${dependenciesPath}nebula_libraries")
+    implementation fileTree("${dependenciesPath}shared")
+    jarLib fileTree("${dependenciesPath}include")
 
-    var lwjglVersion = Util.getOSType().is(Util.OS.OSX) ? mac_lwjgl_version : lwjgl_version
-    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: lwjglVersion
-    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: lwjglVersion
+    if (Util.getOSType().is(Util.OS.OSX)) {
+        implementation fileTree("${dependenciesPath}osx")
+    } else {
+        implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: project.lwjgl_version
+        implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: project.lwjgl_version
+    }
 }
 
 tasks.withType(Jar).configureEach {
