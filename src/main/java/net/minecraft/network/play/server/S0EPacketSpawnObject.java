@@ -11,16 +11,16 @@ import java.io.IOException;
 
 public class S0EPacketSpawnObject extends Packet
 {
-    private int field_149018_a;
-    private int field_149016_b;
-    private int field_149017_c;
-    private int field_149014_d;
+    private int id;
+    private int x;
+    private int y;
+    private int z;
     private int field_149015_e;
     private int field_149012_f;
     private int field_149013_g;
     private int field_149021_h;
     private int field_149022_i;
-    private int field_149019_j;
+    private int type;
     private int field_149020_k;
     private static final String __OBFID = "CL_00001276";
 
@@ -35,13 +35,13 @@ public class S0EPacketSpawnObject extends Packet
 
     public S0EPacketSpawnObject(Entity p_i45166_1_, int p_i45166_2_, int p_i45166_3_)
     {
-        this.field_149018_a = p_i45166_1_.getEntityId();
-        this.field_149016_b = MathHelper.floor_double(p_i45166_1_.posX * 32.0D);
-        this.field_149017_c = MathHelper.floor_double(p_i45166_1_.posY * 32.0D);
-        this.field_149014_d = MathHelper.floor_double(p_i45166_1_.posZ * 32.0D);
+        this.id = p_i45166_1_.getEntityId();
+        this.x = MathHelper.floor_double(p_i45166_1_.posX * 32.0D);
+        this.y = MathHelper.floor_double(p_i45166_1_.posY * 32.0D);
+        this.z = MathHelper.floor_double(p_i45166_1_.posZ * 32.0D);
         this.field_149021_h = MathHelper.floor_float(p_i45166_1_.rotationPitch * 256.0F / 360.0F);
         this.field_149022_i = MathHelper.floor_float(p_i45166_1_.rotationYaw * 256.0F / 360.0F);
-        this.field_149019_j = p_i45166_2_;
+        this.type = p_i45166_2_;
         this.field_149020_k = p_i45166_3_;
 
         if (p_i45166_3_ > 0)
@@ -92,11 +92,11 @@ public class S0EPacketSpawnObject extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149018_a = p_148837_1_.readVarIntFromBuffer();
-        this.field_149019_j = p_148837_1_.readByte();
-        this.field_149016_b = p_148837_1_.readInt();
-        this.field_149017_c = p_148837_1_.readInt();
-        this.field_149014_d = p_148837_1_.readInt();
+        this.id = p_148837_1_.readVarIntFromBuffer();
+        this.type = p_148837_1_.readByte();
+        this.x = p_148837_1_.readInt();
+        this.y = p_148837_1_.readInt();
+        this.z = p_148837_1_.readInt();
         this.field_149021_h = p_148837_1_.readByte();
         this.field_149022_i = p_148837_1_.readByte();
         this.field_149020_k = p_148837_1_.readInt();
@@ -114,11 +114,11 @@ public class S0EPacketSpawnObject extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeVarIntToBuffer(this.field_149018_a);
-        p_148840_1_.writeByte(this.field_149019_j);
-        p_148840_1_.writeInt(this.field_149016_b);
-        p_148840_1_.writeInt(this.field_149017_c);
-        p_148840_1_.writeInt(this.field_149014_d);
+        p_148840_1_.writeVarIntToBuffer(this.id);
+        p_148840_1_.writeByte(this.type);
+        p_148840_1_.writeInt(this.x);
+        p_148840_1_.writeInt(this.y);
+        p_148840_1_.writeInt(this.z);
         p_148840_1_.writeByte(this.field_149021_h);
         p_148840_1_.writeByte(this.field_149022_i);
         p_148840_1_.writeInt(this.field_149020_k);
@@ -141,27 +141,27 @@ public class S0EPacketSpawnObject extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", Integer.valueOf(this.field_149018_a), Integer.valueOf(this.field_149019_j), Float.valueOf((float) this.field_149016_b / 32.0F), Float.valueOf((float) this.field_149017_c / 32.0F), Float.valueOf((float) this.field_149014_d / 32.0F));
+        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", this.id, this.type, (float) this.x / 32.0F, (float) this.y / 32.0F, (float) this.z / 32.0F);
     }
 
-    public int func_149001_c()
+    public int getID()
     {
-        return this.field_149018_a;
+        return this.id;
     }
 
-    public int func_148997_d()
+    public int getX()
     {
-        return this.field_149016_b;
+        return this.x;
     }
 
-    public int func_148998_e()
+    public int getY()
     {
-        return this.field_149017_c;
+        return this.y;
     }
 
-    public int func_148994_f()
+    public int getZ()
     {
-        return this.field_149014_d;
+        return this.z;
     }
 
     public int func_149010_g()
@@ -189,9 +189,9 @@ public class S0EPacketSpawnObject extends Packet
         return this.field_149022_i;
     }
 
-    public int func_148993_l()
+    public int getType()
     {
-        return this.field_149019_j;
+        return this.type;
     }
 
     public int func_149009_m()
@@ -199,19 +199,19 @@ public class S0EPacketSpawnObject extends Packet
         return this.field_149020_k;
     }
 
-    public void func_148996_a(int p_148996_1_)
+    public void setX(int p_148996_1_)
     {
-        this.field_149016_b = p_148996_1_;
+        this.x = p_148996_1_;
     }
 
-    public void func_148995_b(int p_148995_1_)
+    public void setY(int p_148995_1_)
     {
-        this.field_149017_c = p_148995_1_;
+        this.y = p_148995_1_;
     }
 
-    public void func_149005_c(int p_149005_1_)
+    public void setZ(int p_149005_1_)
     {
-        this.field_149014_d = p_149005_1_;
+        this.z = p_149005_1_;
     }
 
     public void func_149003_d(int p_149003_1_)

@@ -3,7 +3,6 @@ package net.minecraft.client.network;
 import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -58,7 +57,6 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapData;
 import net.minecraft.world.storage.MapStorage;
 import org.apache.logging.log4j.LogManager;
@@ -173,102 +171,102 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     /**
      * Spawns an instance of the objecttype indicated by the packet and sets its position and momentum
      */
-    public void handleSpawnObject(S0EPacketSpawnObject p_147235_1_)
+    public void handleSpawnObject(S0EPacketSpawnObject packet)
     {
-        double var2 = (double) p_147235_1_.func_148997_d() / 32.0D;
-        double var4 = (double) p_147235_1_.func_148998_e() / 32.0D;
-        double var6 = (double) p_147235_1_.func_148994_f() / 32.0D;
-        Object var8 = null;
+        double x = (double) packet.getX() / 32.0D;
+        double y = (double) packet.getY() / 32.0D;
+        double z = (double) packet.getZ() / 32.0D;
+        Object entity = null;
 
-        if (p_147235_1_.func_148993_l() == 10)
+        if (packet.getType() == 10)
         {
-            var8 = EntityMinecart.createMinecart(this.clientWorldController, var2, var4, var6, p_147235_1_.func_149009_m());
-        } else if (p_147235_1_.func_148993_l() == 90)
+            entity = EntityMinecart.createMinecart(this.clientWorldController, x, y, z, packet.func_149009_m());
+        } else if (packet.getType() == 90)
         {
-            Entity var9 = this.clientWorldController.getEntityByID(p_147235_1_.func_149009_m());
+            Entity var9 = this.clientWorldController.getEntityByID(packet.func_149009_m());
 
             if (var9 instanceof EntityPlayer)
             {
-                var8 = new EntityFishHook(this.clientWorldController, var2, var4, var6, (EntityPlayer) var9);
+                entity = new EntityFishHook(this.clientWorldController, x, y, z, (EntityPlayer) var9);
             }
 
-            p_147235_1_.func_149002_g(0);
-        } else if (p_147235_1_.func_148993_l() == 60)
+            packet.func_149002_g(0);
+        } else if (packet.getType() == 60)
         {
-            var8 = new EntityArrow(this.clientWorldController, var2, var4, var6);
-        } else if (p_147235_1_.func_148993_l() == 61)
+            entity = new EntityArrow(this.clientWorldController, x, y, z);
+        } else if (packet.getType() == 61)
         {
-            var8 = new EntitySnowball(this.clientWorldController, var2, var4, var6);
-        } else if (p_147235_1_.func_148993_l() == 71)
+            entity = new EntitySnowball(this.clientWorldController, x, y, z);
+        } else if (packet.getType() == 71)
         {
-            var8 = new EntityItemFrame(this.clientWorldController, (int) var2, (int) var4, (int) var6, p_147235_1_.func_149009_m());
-            p_147235_1_.func_149002_g(0);
-        } else if (p_147235_1_.func_148993_l() == 77)
+            entity = new EntityItemFrame(this.clientWorldController, (int) x, (int) y, (int) z, packet.func_149009_m());
+            packet.func_149002_g(0);
+        } else if (packet.getType() == 77)
         {
-            var8 = new EntityLeashKnot(this.clientWorldController, (int) var2, (int) var4, (int) var6);
-            p_147235_1_.func_149002_g(0);
-        } else if (p_147235_1_.func_148993_l() == 65)
+            entity = new EntityLeashKnot(this.clientWorldController, (int) x, (int) y, (int) z);
+            packet.func_149002_g(0);
+        } else if (packet.getType() == 65)
         {
-            var8 = new EntityEnderPearl(this.clientWorldController, var2, var4, var6);
-        } else if (p_147235_1_.func_148993_l() == 72)
+            entity = new EntityEnderPearl(this.clientWorldController, x, y, z);
+        } else if (packet.getType() == 72)
         {
-            var8 = new EntityEnderEye(this.clientWorldController, var2, var4, var6);
-        } else if (p_147235_1_.func_148993_l() == 76)
+            entity = new EntityEnderEye(this.clientWorldController, x, y, z);
+        } else if (packet.getType() == 76)
         {
-            var8 = new EntityFireworkRocket(this.clientWorldController, var2, var4, var6, null);
-        } else if (p_147235_1_.func_148993_l() == 63)
+            entity = new EntityFireworkRocket(this.clientWorldController, x, y, z, null);
+        } else if (packet.getType() == 63)
         {
-            var8 = new EntityLargeFireball(this.clientWorldController, var2, var4, var6, (double) p_147235_1_.func_149010_g() / 8000.0D, (double) p_147235_1_.func_149004_h() / 8000.0D, (double) p_147235_1_.func_148999_i() / 8000.0D);
-            p_147235_1_.func_149002_g(0);
-        } else if (p_147235_1_.func_148993_l() == 64)
+            entity = new EntityLargeFireball(this.clientWorldController, x, y, z, (double) packet.func_149010_g() / 8000.0D, (double) packet.func_149004_h() / 8000.0D, (double) packet.func_148999_i() / 8000.0D);
+            packet.func_149002_g(0);
+        } else if (packet.getType() == 64)
         {
-            var8 = new EntitySmallFireball(this.clientWorldController, var2, var4, var6, (double) p_147235_1_.func_149010_g() / 8000.0D, (double) p_147235_1_.func_149004_h() / 8000.0D, (double) p_147235_1_.func_148999_i() / 8000.0D);
-            p_147235_1_.func_149002_g(0);
-        } else if (p_147235_1_.func_148993_l() == 66)
+            entity = new EntitySmallFireball(this.clientWorldController, x, y, z, (double) packet.func_149010_g() / 8000.0D, (double) packet.func_149004_h() / 8000.0D, (double) packet.func_148999_i() / 8000.0D);
+            packet.func_149002_g(0);
+        } else if (packet.getType() == 66)
         {
-            var8 = new EntityWitherSkull(this.clientWorldController, var2, var4, var6, (double) p_147235_1_.func_149010_g() / 8000.0D, (double) p_147235_1_.func_149004_h() / 8000.0D, (double) p_147235_1_.func_148999_i() / 8000.0D);
-            p_147235_1_.func_149002_g(0);
-        } else if (p_147235_1_.func_148993_l() == 62)
+            entity = new EntityWitherSkull(this.clientWorldController, x, y, z, (double) packet.func_149010_g() / 8000.0D, (double) packet.func_149004_h() / 8000.0D, (double) packet.func_148999_i() / 8000.0D);
+            packet.func_149002_g(0);
+        } else if (packet.getType() == 62)
         {
-            var8 = new EntityEgg(this.clientWorldController, var2, var4, var6);
-        } else if (p_147235_1_.func_148993_l() == 73)
+            entity = new EntityEgg(this.clientWorldController, x, y, z);
+        } else if (packet.getType() == 73)
         {
-            var8 = new EntityPotion(this.clientWorldController, var2, var4, var6, p_147235_1_.func_149009_m());
-            p_147235_1_.func_149002_g(0);
-        } else if (p_147235_1_.func_148993_l() == 75)
+            entity = new EntityPotion(this.clientWorldController, x, y, z, packet.func_149009_m());
+            packet.func_149002_g(0);
+        } else if (packet.getType() == 75)
         {
-            var8 = new EntityExpBottle(this.clientWorldController, var2, var4, var6);
-            p_147235_1_.func_149002_g(0);
-        } else if (p_147235_1_.func_148993_l() == 1)
+            entity = new EntityExpBottle(this.clientWorldController, x, y, z);
+            packet.func_149002_g(0);
+        } else if (packet.getType() == 1)
         {
-            var8 = new EntityBoat(this.clientWorldController, var2, var4, var6);
-        } else if (p_147235_1_.func_148993_l() == 50)
+            entity = new EntityBoat(this.clientWorldController, x, y, z);
+        } else if (packet.getType() == 50)
         {
-            var8 = new EntityTNTPrimed(this.clientWorldController, var2, var4, var6, null);
-        } else if (p_147235_1_.func_148993_l() == 51)
+            entity = new EntityTNTPrimed(this.clientWorldController, x, y, z, null);
+        } else if (packet.getType() == 51)
         {
-            var8 = new EntityEnderCrystal(this.clientWorldController, var2, var4, var6);
-        } else if (p_147235_1_.func_148993_l() == 2)
+            entity = new EntityEnderCrystal(this.clientWorldController, x, y, z);
+        } else if (packet.getType() == 2)
         {
-            var8 = new EntityItem(this.clientWorldController, var2, var4, var6);
-        } else if (p_147235_1_.func_148993_l() == 70)
+            entity = new EntityItem(this.clientWorldController, x, y, z);
+        } else if (packet.getType() == 70)
         {
-            var8 = new EntityFallingBlock(this.clientWorldController, var2, var4, var6, Block.getBlockById(p_147235_1_.func_149009_m() & 65535), p_147235_1_.func_149009_m() >> 16);
-            p_147235_1_.func_149002_g(0);
+            entity = new EntityFallingBlock(this.clientWorldController, x, y, z, Block.getBlockById(packet.func_149009_m() & 65535), packet.func_149009_m() >> 16);
+            packet.func_149002_g(0);
         }
 
-        if (var8 != null)
+        if (entity != null)
         {
-            ((Entity) var8).serverPosX = p_147235_1_.func_148997_d();
-            ((Entity) var8).serverPosY = p_147235_1_.func_148998_e();
-            ((Entity) var8).serverPosZ = p_147235_1_.func_148994_f();
-            ((Entity) var8).rotationPitch = (float) (p_147235_1_.func_149008_j() * 360) / 256.0F;
-            ((Entity) var8).rotationYaw = (float) (p_147235_1_.func_149006_k() * 360) / 256.0F;
-            Entity[] var12 = ((Entity) var8).getParts();
+            ((Entity) entity).serverPosX = packet.getX();
+            ((Entity) entity).serverPosY = packet.getY();
+            ((Entity) entity).serverPosZ = packet.getZ();
+            ((Entity) entity).rotationPitch = (float) (packet.func_149008_j() * 360) / 256.0F;
+            ((Entity) entity).rotationYaw = (float) (packet.func_149006_k() * 360) / 256.0F;
+            Entity[] var12 = ((Entity) entity).getParts();
 
             if (var12 != null)
             {
-                int var10 = p_147235_1_.func_149001_c() - ((Entity) var8).getEntityId();
+                int var10 = packet.getID() - ((Entity) entity).getEntityId();
 
                 for (int var11 = 0; var11 < var12.length; ++var11)
                 {
@@ -276,23 +274,23 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
                 }
             }
 
-            ((Entity) var8).setEntityId(p_147235_1_.func_149001_c());
-            this.clientWorldController.addEntityToWorld(p_147235_1_.func_149001_c(), (Entity) var8);
+            ((Entity) entity).setEntityId(packet.getID());
+            this.clientWorldController.addEntityToWorld(packet.getID(), (Entity) entity);
 
-            if (p_147235_1_.func_149009_m() > 0)
+            if (packet.func_149009_m() > 0)
             {
-                if (p_147235_1_.func_148993_l() == 60)
+                if (packet.getType() == 60)
                 {
-                    Entity var13 = this.clientWorldController.getEntityByID(p_147235_1_.func_149009_m());
+                    Entity var13 = this.clientWorldController.getEntityByID(packet.func_149009_m());
 
                     if (var13 instanceof EntityLivingBase)
                     {
-                        EntityArrow var14 = (EntityArrow) var8;
+                        EntityArrow var14 = (EntityArrow) entity;
                         var14.shootingEntity = var13;
                     }
                 }
 
-                ((Entity) var8).setVelocity((double) p_147235_1_.func_149010_g() / 8000.0D, (double) p_147235_1_.func_149004_h() / 8000.0D, (double) p_147235_1_.func_148999_i() / 8000.0D);
+                ((Entity) entity).setVelocity((double) packet.func_149010_g() / 8000.0D, (double) packet.func_149004_h() / 8000.0D, (double) packet.func_148999_i() / 8000.0D);
             }
         }
     }

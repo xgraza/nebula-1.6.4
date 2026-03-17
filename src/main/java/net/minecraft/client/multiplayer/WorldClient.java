@@ -31,7 +31,9 @@ import net.minecraft.world.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.SaveHandlerMP;
+import us.nebula.client.api.listener.EventBus;
 import us.nebula.client.impl.cheat.render.NoRenderCheat;
+import us.nebula.client.impl.event.world.EventAddEntity;
 import wdl.WDL;
 
 import java.util.HashSet;
@@ -279,6 +281,7 @@ public class WorldClient extends World
     public void addEntityToWorld(int par1, Entity par2Entity)
     {
         Entity var3 = this.getEntityByID(par1);
+        EventBus.dispatch(new EventAddEntity(par1, par2Entity, var3 != null));
 
         if (var3 != null)
         {

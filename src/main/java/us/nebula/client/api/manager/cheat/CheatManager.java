@@ -80,6 +80,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new InventorySyncCheat());
         addCheat(new KeyPearlCheat());
         addCheat(new NoFallCheat());
+        addCheat(new NotifierCheat());
         addCheat(new PearlPhaseCheat());
         addCheat(new SpammerCheat());
         addCheat(new TranslateCheat());

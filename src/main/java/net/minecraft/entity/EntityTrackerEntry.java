@@ -528,17 +528,17 @@ public class EntityTrackerEntry
                 {
                     EntityItemFrame var4 = (EntityItemFrame) this.myEntity;
                     var2 = new S0EPacketSpawnObject(this.myEntity, 71, var4.hangingDirection);
-                    var2.func_148996_a(MathHelper.floor_float((float) (var4.field_146063_b * 32)));
-                    var2.func_148995_b(MathHelper.floor_float((float) (var4.field_146064_c * 32)));
-                    var2.func_149005_c(MathHelper.floor_float((float) (var4.field_146062_d * 32)));
+                    var2.setX(MathHelper.floor_float((float) (var4.field_146063_b * 32)));
+                    var2.setY(MathHelper.floor_float((float) (var4.field_146064_c * 32)));
+                    var2.setZ(MathHelper.floor_float((float) (var4.field_146062_d * 32)));
                     return var2;
                 } else if (this.myEntity instanceof EntityLeashKnot)
                 {
                     EntityLeashKnot var1 = (EntityLeashKnot) this.myEntity;
                     var2 = new S0EPacketSpawnObject(this.myEntity, 77);
-                    var2.func_148996_a(MathHelper.floor_float((float) (var1.field_146063_b * 32)));
-                    var2.func_148995_b(MathHelper.floor_float((float) (var1.field_146064_c * 32)));
-                    var2.func_149005_c(MathHelper.floor_float((float) (var1.field_146062_d * 32)));
+                    var2.setX(MathHelper.floor_float((float) (var1.field_146063_b * 32)));
+                    var2.setY(MathHelper.floor_float((float) (var1.field_146064_c * 32)));
+                    var2.setZ(MathHelper.floor_float((float) (var1.field_146062_d * 32)));
                     return var2;
                 } else if (this.myEntity instanceof EntityXPOrb)
                 {
