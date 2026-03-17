@@ -27,9 +27,9 @@ public final class EntityCulling
 {
     private static final Map<UUID, Result> QUERY_RESULTS = new ConcurrentHashMap<>();
 
-    public static boolean isActive()
+    public static boolean isInactive()
     {
-        return EntityCullingCheat.INSTANCE.isToggled();
+        return !EntityCullingCheat.INSTANCE.isToggled();
     }
 
     public static int getQuery()
@@ -53,7 +53,7 @@ public final class EntityCulling
 
     public static void removeEntity(final Entity entity)
     {
-        if (!isActive())
+        if (isInactive())
         {
             return;
         }
@@ -71,7 +71,7 @@ public final class EntityCulling
 
     public static void checkCulling()
     {
-        if (!isActive())
+        if (isInactive())
         {
             return;
         }
@@ -93,7 +93,7 @@ public final class EntityCulling
 
     public static void queryTileEntity(final TileEntity entity)
     {
-        if (!isActive())
+        if (isInactive())
         {
             return;
         }
@@ -118,7 +118,7 @@ public final class EntityCulling
 
     public static void queryEntity(final Entity entity)
     {
-        if (!isActive())
+        if (isInactive())
         {
             return;
         }
@@ -142,7 +142,7 @@ public final class EntityCulling
 
     public static boolean shouldRenderEntity(final Entity entity)
     {
-        if (!isActive())
+        if (isInactive())
         {
             return true;
         }
@@ -155,7 +155,7 @@ public final class EntityCulling
 
     public static boolean shouldRenderTileEntity(final TileEntity entity)
     {
-        if (!isActive())
+        if (isInactive())
         {
             return true;
         }

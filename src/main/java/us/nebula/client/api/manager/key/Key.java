@@ -13,7 +13,7 @@ import static org.lwjgl.input.Keyboard.KEY_NONE;
  */
 public final class Key implements IJSONSerializable
 {
-    public static int DEFAULT_UNBOUND_KEY = -1;
+    public static final int DEFAULT_UNBOUND_KEY = -1;
 
     private int keyCode;
     private boolean mouseBind, state;

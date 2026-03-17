@@ -82,7 +82,7 @@ public final class AutoTorchCheat extends Cheat
             for (int z = -r; z <= r; ++z)
             {
                 final BlockPos pos = origin.add(x, 0, z);
-                if (!BlockUtil.isAir(pos))
+                if (BlockUtil.isNotAir(pos))
                 {
                     continue;
                 }

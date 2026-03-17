@@ -3,7 +3,6 @@ package us.nebula.client.api.manager.command.argument;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatManager;
 import us.xgraza.xcmd.parser.argument.Argument;
-import us.xgraza.xcmd.parser.argument.exception.ArgumentParseException;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public final class ArgumentCheat extends Argument<Cheat>
     }
 
     @Override
-    public Cheat parse(final String raw, final String type) throws ArgumentParseException
+    public Cheat parse(final String raw, final String type)
     {
         final List<Cheat> cheatList = cheatManager.getAll();
         for (final Cheat cheat : cheatList)

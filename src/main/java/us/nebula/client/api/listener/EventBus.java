@@ -71,7 +71,7 @@ public final class EventBus
                     .getActualTypeArguments()[0];
             final List<Subscriber> subscribers = eventSubscribers.computeIfAbsent(
                     (Class<? extends Event>) eventClass, (x) -> new CopyOnWriteArrayList<>());
-            subscribers.add(new Subscriber(listener, properties, object));
+            subscribers.add(new Subscriber((EventListener<Event>) listener, properties, object));
             modifiedEvents.add((Class<? extends Event>) eventClass);
         }
 

@@ -18,7 +18,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @author xgraza
  * @since 04/03/25
  */
-public final class AccountSlotsElement extends GuiSlot
+final class AccountSlotsElement extends GuiSlot
 {
     private final GuiScreen parent;
     private int selected;

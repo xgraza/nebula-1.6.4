@@ -24,49 +24,38 @@ import java.util.*;
 
 public class ResourcePackRepository
 {
-    protected static final FileFilter resourcePackFilter = new FileFilter()
+    protected static final FileFilter resourcePackFilter = (file) ->
     {
-        private static final String __OBFID = "CL_00001088";
-
-        public boolean accept(File par1File)
-        {
-            boolean var2 = par1File.isFile() && par1File.getName().endsWith(".zip");
-            boolean var3 = par1File.isDirectory() && (new File(par1File, "pack.mcmeta")).isFile();
-            return var2 || var3;
-        }
+        boolean isZipFile = file.isFile() && file.getName().endsWith(".zip");
+        boolean isDirAndHasMeta = file.isDirectory() && (new File(file, "pack.mcmeta")).isFile();
+        return isZipFile || isDirAndHasMeta;
     };
+
     private final File dirResourcepacks;
     public final IResourcePack rprDefaultResourcePack;
     private final File field_148534_e;
     public final IMetadataSerializer rprMetadataSerializer;
-    private IResourcePack field_148532_f;
-    private boolean field_148533_g;
-    private List repositoryEntriesAll = Lists.newArrayList();
-    private final List repositoryEntries = Lists.newArrayList();
-    private static final String __OBFID = "CL_00001087";
+    private IResourcePack downloadedResourcePack;
+    private boolean downloading;
+    private List<Entry> repositoryEntriesAll = Lists.newArrayList();
+    private final List<Entry> repositoryEntries = Lists.newArrayList();
 
-    public ResourcePackRepository(File p_i45101_1_, File p_i45101_2_, IResourcePack p_i45101_3_, IMetadataSerializer p_i45101_4_, GameSettings p_i45101_5_)
+    public ResourcePackRepository(File resourcePackDir, File p_i45101_2_, IResourcePack p_i45101_3_, IMetadataSerializer metaSerializer, GameSettings settings)
     {
-        this.dirResourcepacks = p_i45101_1_;
+        this.dirResourcepacks = resourcePackDir;
         this.field_148534_e = p_i45101_2_;
         this.rprDefaultResourcePack = p_i45101_3_;
-        this.rprMetadataSerializer = p_i45101_4_;
+        this.rprMetadataSerializer = metaSerializer;
         this.fixDirResourcepacks();
         this.updateRepositoryEntriesAll();
-        Iterator var6 = p_i45101_5_.resourcePacks.iterator();
 
-        while (var6.hasNext())
+        for (String resourcePack : settings.resourcePacks)
         {
-            String var7 = (String) var6.next();
-            Iterator var8 = this.repositoryEntriesAll.iterator();
-
-            while (var8.hasNext())
+            for (Entry entry : this.repositoryEntriesAll)
             {
-                ResourcePackRepository.Entry var9 = (ResourcePackRepository.Entry) var8.next();
-
-                if (var9.getResourcePackName().equals(var7))
+                if (entry.getResourcePackName().equals(resourcePack))
                 {
-                    this.repositoryEntries.add(var9);
+                    this.repositoryEntries.add(entry);
                     break;
                 }
             }
@@ -82,20 +71,20 @@ public class ResourcePackRepository
         }
     }
 
-    private List getResourcePackFiles()
+    private List<File> getResourcePackFiles()
     {
         return this.dirResourcepacks.isDirectory() ? Arrays.asList(this.dirResourcepacks.listFiles(resourcePackFilter)) : Collections.emptyList();
     }
 
     public void updateRepositoryEntriesAll()
     {
-        ArrayList var1 = Lists.newArrayList();
-        Iterator var2 = this.getResourcePackFiles().iterator();
+        List<Entry> var1 = new ArrayList<>();
+        Iterator<File> var2 = this.getResourcePackFiles().iterator();
 
         while (var2.hasNext())
         {
-            File var3 = (File) var2.next();
-            ResourcePackRepository.Entry var4 = new ResourcePackRepository.Entry(var3, null);
+            File file = var2.next();
+            ResourcePackRepository.Entry var4 = new ResourcePackRepository.Entry(file, null);
 
             if (!this.repositoryEntriesAll.contains(var4))
             {
@@ -119,31 +108,29 @@ public class ResourcePackRepository
         }
 
         this.repositoryEntriesAll.removeAll(var1);
-        var2 = this.repositoryEntriesAll.iterator();
 
-        while (var2.hasNext())
+        for (Entry entry : this.repositoryEntriesAll)
         {
-            ResourcePackRepository.Entry var7 = (ResourcePackRepository.Entry) var2.next();
-            var7.closeResourcePack();
+            entry.closeResourcePack();
         }
 
         this.repositoryEntriesAll = var1;
     }
 
-    public List getRepositoryEntriesAll()
+    public List<Entry> getRepositoryEntriesAll()
     {
         return ImmutableList.copyOf(this.repositoryEntriesAll);
     }
 
-    public List getRepositoryEntries()
+    public List<Entry> getRepositoryEntries()
     {
         return ImmutableList.copyOf(this.repositoryEntries);
     }
 
-    public void func_148527_a(List p_148527_1_)
+    public void addEntries(List<Entry> entries)
     {
         this.repositoryEntries.clear();
-        this.repositoryEntries.addAll(p_148527_1_);
+        this.repositoryEntries.addAll(entries);
     }
 
     public File getDirResourcepacks()
@@ -163,45 +150,43 @@ public class ResourcePackRepository
         if (var2.endsWith(".zip"))
         {
             File var3 = new File(this.field_148534_e, var2.replaceAll("\\W", ""));
-            this.func_148529_f();
+            this.resetDownloadedPack();
             this.func_148528_a(p_148526_1_, var3);
         }
     }
 
-    private void func_148528_a(String p_148528_1_, File p_148528_2_)
+    private void func_148528_a(String downloadURL, File outputFile)
     {
-        HashMap var3 = Maps.newHashMap();
-        GuiScreenWorking var4 = new GuiScreenWorking();
-        var3.put("X-Minecraft-Username", Minecraft.getMinecraft().getSession().getUsername());
-        var3.put("X-Minecraft-UUID", Minecraft.getMinecraft().getSession().getPlayerID());
-        var3.put("X-Minecraft-Version", "1.7.2");
-        this.field_148533_g = true;
-        Minecraft.getMinecraft().displayGuiScreen(var4);
-        HttpUtil.func_151223_a(p_148528_2_, p_148528_1_, new HttpUtil.DownloadListener()
-        {
-            private static final String __OBFID = "CL_00001089";
+        Minecraft mc = Minecraft.getMinecraft();
+        GuiScreenWorking workingGui = new GuiScreenWorking();
 
-            public void func_148522_a(File p_148522_1_)
+        final HashMap<String, String> headerMap = Maps.newHashMap();
+        headerMap.put("X-Minecraft-Username", mc.getSession().getUsername());
+        headerMap.put("X-Minecraft-UUID", mc.getSession().getPlayerID());
+        headerMap.put("X-Minecraft-Version", "1.7.2");
+
+        downloading = true;
+        mc.displayGuiScreen(workingGui);
+        HttpUtil.downloadTexturePack(outputFile, downloadURL, (file) ->
+        {
+            if (downloading)
             {
-                if (ResourcePackRepository.this.field_148533_g)
-                {
-                    ResourcePackRepository.this.field_148533_g = false;
-                    ResourcePackRepository.this.field_148532_f = new FileResourcePack(p_148522_1_);
-                    Minecraft.getMinecraft().scheduleResourcesRefresh();
-                }
+                downloading = false;
+                downloadedResourcePack = new FileResourcePack(file);
+                mc.scheduleResourcesRefresh();
             }
-        }, var3, 52428800, var4, Minecraft.getMinecraft().getProxy());
+        }, headerMap, 52428800, workingGui, mc.getProxy());
     }
 
     public IResourcePack func_148530_e()
     {
-        return this.field_148532_f;
+        return this.downloadedResourcePack;
     }
 
-    public void func_148529_f()
+    public void resetDownloadedPack()
     {
-        this.field_148532_f = null;
-        this.field_148533_g = false;
+        this.downloadedResourcePack = null;
+        this.downloading = false;
     }
 
     public class Entry
@@ -211,7 +196,6 @@ public class ResourcePackRepository
         private PackMetadataSection rePackMetadataSection;
         private BufferedImage texturePackIcon;
         private ResourceLocation locationTexturePackIcon;
-        private static final String __OBFID = "CL_00001090";
 
         private Entry(File par2File)
         {

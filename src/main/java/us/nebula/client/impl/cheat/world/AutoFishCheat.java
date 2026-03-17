@@ -43,7 +43,7 @@ public final class AutoFishCheat extends Cheat
             }
         }
 
-        if (!isHoldingFishingRod())
+        if (isNotHoldingRod())
         {
             return;
         }
@@ -61,7 +61,7 @@ public final class AutoFishCheat extends Cheat
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
     {
-        if (MC.thePlayer == null || MC.thePlayer.fishEntity == null || !isHoldingFishingRod())
+        if (MC.thePlayer == null || MC.thePlayer.fishEntity == null || isNotHoldingRod())
         {
             return;
         }
@@ -86,10 +86,10 @@ public final class AutoFishCheat extends Cheat
         MC.thePlayer.swingItem();
     }
 
-    private boolean isHoldingFishingRod()
+    private boolean isNotHoldingRod()
     {
-        return MC.thePlayer.getHeldItem() != null
-                && MC.thePlayer.getHeldItem().getItem() instanceof ItemFishingRod;
+        return MC.thePlayer.getHeldItem() == null
+                || !(MC.thePlayer.getHeldItem().getItem() instanceof ItemFishingRod);
     }
 
     private int getFishingHookItem()

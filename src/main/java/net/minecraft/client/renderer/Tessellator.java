@@ -295,7 +295,7 @@ public class Tessellator
             {
                 int var8 = ((Integer) var5.remove()).intValue();
 
-                System.arraycopy(this.rawBuffer, var8 + 0, var4, var7 + 0, var6);
+                System.arraycopy(this.rawBuffer, var8, var4, var7, var6);
             }
 
             System.arraycopy(var4, 0, this.rawBuffer, 0, var4.length);

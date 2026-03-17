@@ -114,14 +114,6 @@ public final class BurrowCheat extends Cheat
                 (float) (hitVec.yCoord - blockData.pos.getY()),
                 (float) (hitVec.zCoord - blockData.pos.getZ())
         ));
-//        MC.playerController.onPlayerRightClick(MC.thePlayer,
-//                MC.theWorld,
-//                MC.thePlayer.getHeldItem(),
-//                blockData.facing.order_a,
-//                blockData.pos.getX(),
-//                blockData.pos.getY(),
-//                blockData.pos.getZ(),
-//                Vec3.createVectorHelper(blockData.pos.getX() + 0.5, blockData.pos.getY() + 0.5, blockData.pos.getZ() + 0.5));
         MC.thePlayer.swingItem();
         Nebula.INSTANCE.getInventoryManager().syncSlot();
 

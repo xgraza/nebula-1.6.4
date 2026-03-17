@@ -894,13 +894,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
             if (var4 && var5 && var6)
             {
-                if (var3 == null)
-                {
-                    this.playerEntity.inventoryContainer.putStackInSlot(p_147344_1_.func_149627_c(), null);
-                } else
-                {
-                    this.playerEntity.inventoryContainer.putStackInSlot(p_147344_1_.func_149627_c(), var3);
-                }
+                this.playerEntity.inventoryContainer.putStackInSlot(p_147344_1_.func_149627_c(), var3);
 
                 this.playerEntity.inventoryContainer.setPlayerIsPresent(this.playerEntity, true);
             } else if (var2 && var5 && var6 && this.field_147375_m < 200)

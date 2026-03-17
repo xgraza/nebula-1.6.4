@@ -40,11 +40,13 @@ public abstract class Overlay
         stateSetting.setValue(manifest.defaultState());
     }
 
+    @SuppressWarnings("EmptyMethod")
     protected void onEnable()
     {
 
     }
 
+    @SuppressWarnings("EmptyMethod")
     protected void onDisable()
     {
 

@@ -21,7 +21,7 @@ public final class GoogleTranslateService
     private static final String GOOGLE_TRANSLATE_API
             = "https://translate.googleapis.com/translate_a/single";
 
-    public static GoogleTranslateService INSTANCE = new GoogleTranslateService();
+    public static final GoogleTranslateService INSTANCE = new GoogleTranslateService();
 
     private GoogleTranslateService()
     {

@@ -31,9 +31,9 @@ import java.util.Map;
 
 public class GameSettings
 {
-    private static final Logger logger = LogManager.getLogger();
-    private static final Gson gson = new Gson();
-    private static final ParameterizedType typeListString = new ParameterizedType()
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Gson GSON = new Gson();
+    private static final ParameterizedType LIST_STRING_TYPE = new ParameterizedType()
     {
         public Type[] getActualTypeArguments()
         {
@@ -162,7 +162,7 @@ public class GameSettings
      * Clouds flag
      */
     public boolean clouds = true;
-    public List resourcePacks = new ArrayList();
+    public List<String> resourcePacks = new ArrayList<>();
     public EntityPlayer.EnumChatVisibility chatVisibility;
     public boolean chatColours;
     public boolean chatLinks;
@@ -1859,7 +1859,7 @@ public class GameSettings
 
                     if (var8[0].equals("resourcePacks"))
                     {
-                        this.resourcePacks = gson.fromJson(var2.substring(var2.indexOf(58) + 1), typeListString);
+                        this.resourcePacks = GSON.fromJson(var2.substring(var2.indexOf(58) + 1), LIST_STRING_TYPE);
 
                         if (this.resourcePacks == null)
                         {
@@ -2026,7 +2026,7 @@ public class GameSettings
                     }
                 } catch (Exception var91)
                 {
-                    logger.warn("Skipping bad option: " + var2);
+                    LOGGER.warn("Skipping bad option: " + var2);
                     var91.printStackTrace();
                 }
             }
@@ -2035,7 +2035,7 @@ public class GameSettings
             var9.close();
         } catch (Exception var101)
         {
-            logger.error("Failed to load options", var101);
+            LOGGER.error("Failed to load options", var101);
         }
 
         this.loadOfOptions();
@@ -2074,7 +2074,7 @@ public class GameSettings
             var81.println("fancyGraphics:" + this.fancyGraphics);
             var81.println("ao:" + this.ambientOcclusion);
             var81.println("clouds:" + this.clouds);
-            var81.println("resourcePacks:" + gson.toJson(this.resourcePacks));
+            var81.println("resourcePacks:" + GSON.toJson(this.resourcePacks));
             var81.println("lastServer:" + this.lastServer);
             var81.println("lang:" + this.language);
             var81.println("chatVisibility:" + this.chatVisibility.getChatVisibility());
@@ -2123,7 +2123,7 @@ public class GameSettings
             var81.close();
         } catch (Exception var71)
         {
-            logger.error("Failed to save options", var71);
+            LOGGER.error("Failed to save options", var71);
         }
 
         this.saveOfOptions();

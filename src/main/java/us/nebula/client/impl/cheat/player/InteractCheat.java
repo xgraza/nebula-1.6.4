@@ -34,7 +34,5 @@ public final class InteractCheat extends Cheat
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
-    {
-        MC.rightClickDelayTimer = placeDelaySetting.getValue();
-    };
+            MC.rightClickDelayTimer = placeDelaySetting.getValue();
 }

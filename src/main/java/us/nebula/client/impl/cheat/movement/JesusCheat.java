@@ -63,7 +63,7 @@ public final class JesusCheat extends Cheat
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (!isAboveWater() || MC.thePlayer.isInWater())
+        if (isNotAboveWater() || MC.thePlayer.isInWater())
         {
             lastTickSpoof = false;
             return;
@@ -88,7 +88,7 @@ public final class JesusCheat extends Cheat
         if (MC.thePlayer == null
                 || MC.thePlayer.fallDistance > 3.0f
                 || MC.thePlayer.isInWater()
-                || !isAboveWater()
+                || isNotAboveWater()
                 || attemptExit)
         {
             return;
@@ -100,11 +100,11 @@ public final class JesusCheat extends Cheat
         }
     };
 
-    private boolean isAboveWater()
+    private boolean isNotAboveWater()
     {
         if (MC.thePlayer.isInWater())
         {
-            return false;
+            return true;
         }
         for (double y = 0.0; y <= 1.0; y += 0.1)
         {
@@ -114,9 +114,9 @@ public final class JesusCheat extends Cheat
                     (int) Math.floor(MC.thePlayer.posZ));
             if (block instanceof BlockLiquid)
             {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }

@@ -211,13 +211,13 @@ public abstract class BlockLiquid extends Block
                     if (var11 >= 0)
                     {
                         var12 = var11 - (var6 - 8);
-                        var5 = var5.addVector((var8 - p_149800_2_) * var12, (0) * var12, (var10 - p_149800_4_) * var12);
+                        var5 = var5.addVector((var8 - p_149800_2_) * var12, 0, (var10 - p_149800_4_) * var12);
                     }
                 }
             } else if (var11 >= 0)
             {
                 var12 = var11 - var6;
-                var5 = var5.addVector((var8 - p_149800_2_) * var12, (0) * var12, (var10 - p_149800_4_) * var12);
+                var5 = var5.addVector((var8 - p_149800_2_) * var12, 0, (var10 - p_149800_4_) * var12);
             }
         }
 

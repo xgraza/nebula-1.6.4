@@ -185,7 +185,24 @@ public class Setting<T> implements IJSONSerializable
                     ((Key) value).fromJSON(object);
                 } else if (value instanceof Color)
                 {
-                    // TODO
+                    int r = 255, g = 255, b = 255, a = 255;
+                    if (object.has("r"))
+                    {
+                        r = object.get("r").getAsInt();
+                    }
+                    if (object.has("g"))
+                    {
+                        g = object.get("g").getAsInt();
+                    }
+                    if (object.has("b"))
+                    {
+                        b = object.get("b").getAsInt();
+                    }
+                    if (object.has("a"))
+                    {
+                        a = object.get("a").getAsInt();
+                    }
+                    setValue((T) new Color(r, g, b, a));
                 }
             }
             return;

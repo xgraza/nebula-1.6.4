@@ -56,7 +56,7 @@ public enum Nebula
     private InventoryManager inventoryManager;
     private RotationManager rotationManager;
 
-    public void init(final File gameDir) throws IOException
+    public void init(final File gameDir)
     {
         SplashTextProvider.addSplashTextProvider(
                 new ResourceLocation("nebula", "splashs.txt"));

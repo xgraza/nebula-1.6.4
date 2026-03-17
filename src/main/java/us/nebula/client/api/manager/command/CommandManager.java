@@ -1,6 +1,8 @@
 package us.nebula.client.api.manager.command;
 
 import net.minecraft.network.play.client.C01PacketChatMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import us.nebula.client.Nebula;
 import us.nebula.client.api.listener.EventBus;
 import us.nebula.client.api.listener.EventListener;
@@ -19,6 +21,7 @@ import us.xgraza.xcmd.registry.CommandRegistry;
  */
 public final class CommandManager extends CommandRegistry implements IManager
 {
+    private static final Logger LOGGER = LogManager.getLogger("Commands");
     private static final String COMMAND_PREFIX = ".";
 
     @Subscribe
@@ -62,6 +65,6 @@ public final class CommandManager extends CommandRegistry implements IManager
     public void handleDispatchException(final Exception e)
     {
         ChatUtil.send("&cException Occurred -> {}", e.getMessage());
-        e.printStackTrace();
+        LOGGER.error("Failed to dispatch", e);
     }
 }

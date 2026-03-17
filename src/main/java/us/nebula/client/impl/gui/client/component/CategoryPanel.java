@@ -155,11 +155,6 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
         return height;
     }
 
-    public int getScrollOffset()
-    {
-        return scrollOffset;
-    }
-
     public void setAllowScrolling(boolean allowScrolling)
     {
         this.allowScrolling = allowScrolling;

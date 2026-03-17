@@ -12,7 +12,7 @@ import us.nebula.client.api.manager.account.Account;
  * @author xgraza
  * @since 04/03/25
  */
-public final class AccountCreateScreen extends GuiScreen
+final class AccountCreateScreen extends GuiScreen
 {
     private GuiTextField usernameTextField, passwordTextField;
 

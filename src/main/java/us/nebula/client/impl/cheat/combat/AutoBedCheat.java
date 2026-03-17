@@ -103,7 +103,7 @@ public final class AutoBedCheat extends Cheat
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (!isInEndOrNether())
+        if (isInOverworld())
         {
             target = null;
             blockInfo.invalidate();
@@ -156,7 +156,7 @@ public final class AutoBedCheat extends Cheat
 
     private void calculatePlacePosition()
     {
-        if (!isInEndOrNether())
+        if (isInOverworld())
         {
             blockInfo.invalidate();
             return;
@@ -254,14 +254,14 @@ public final class AutoBedCheat extends Cheat
 
     private EnumFacing getBedPlaceDirection(final BlockPos pos)
     {
-        if (!BlockUtil.isAir(pos) || BlockUtil.isReplaceable(pos.down()))
+        if (BlockUtil.isNotAir(pos) || BlockUtil.isReplaceable(pos.down()))
         {
             return null;
         }
         for (final EnumFacing facing : EnumFacing.values())
         {
             final BlockPos n = pos.offset(facing);
-            if (!BlockUtil.isAir(n) || BlockUtil.isReplaceable(n.down()))
+            if (BlockUtil.isNotAir(n) || BlockUtil.isReplaceable(n.down()))
             {
                 continue;
             }
@@ -378,9 +378,9 @@ public final class AutoBedCheat extends Cheat
         }
     }
 
-    private boolean isInEndOrNether()
+    private boolean isInOverworld()
     {
-        return MC.thePlayer.dimension != 0;
+        return MC.thePlayer.dimension == 0;
     }
 
     @Override

@@ -311,7 +311,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
             }
         }
 
-        if (this.lastActionTime > 0L && this.mcServer.func_143007_ar() > 0 && MinecraftServer.getSystemTimeMillis() - this.lastActionTime > (long) ((long) this.mcServer.func_143007_ar() * 1000 * 60))
+        if (this.lastActionTime > 0L && this.mcServer.func_143007_ar() > 0 && MinecraftServer.getSystemTimeMillis() - this.lastActionTime > ((long) this.mcServer.func_143007_ar() * 1000 * 60))
         {
             this.playerNetServerHandler.kickPlayerFromServer("You have been idle for too long!");
         }
@@ -355,7 +355,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
                 while (var7.hasNext())
                 {
                     ScoreObjective var9 = (ScoreObjective) var7.next();
-                    this.getWorldScoreboard().func_96529_a(this.getCommandSenderName(), var9).func_96651_a(Arrays.asList(this));
+                    this.getWorldScoreboard().func_96529_a(this.getCommandSenderName(), var9).func_96651_a(Collections.singletonList(this));
                 }
             }
 

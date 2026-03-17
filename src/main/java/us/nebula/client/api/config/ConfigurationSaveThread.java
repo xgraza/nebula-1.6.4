@@ -37,13 +37,21 @@ public final class ConfigurationSaveThread extends Thread
             final File file = configuration.getFile();
             if (!file.getParentFile().exists())
             {
-                file.getParentFile().mkdir();
+                if (!file.getParentFile().mkdir())
+                {
+                    Nebula.INSTANCE.getLogger().error("Failed to create parent directory {}", file);
+                    return;
+                }
+                Nebula.INSTANCE.getLogger().info("Created parent directory {}", file);
             }
             if (!file.exists())
             {
                 try
                 {
-                    file.createNewFile();
+                    if (!file.createNewFile())
+                    {
+                        Nebula.INSTANCE.getLogger().error("Failed to create file {}", file);
+                    }
                 } catch (final IOException e)
                 {
                     Nebula.INSTANCE.getLogger().error(e);

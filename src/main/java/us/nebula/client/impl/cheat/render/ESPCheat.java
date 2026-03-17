@@ -265,7 +265,7 @@ public final class ESPCheat extends Cheat
                 if (gEntity instanceof EntityLivingBase)
                 {
                     final EntityLivingBase e = (EntityLivingBase) gEntity;
-                    text = e.getCommandSenderName() + EnumChatFormatting.RED + " " + e.getHealth() + "\u2764";
+                    text = e.getCommandSenderName() + EnumChatFormatting.RED + " " + e.getHealth() + "❤";
                 } else if (gEntity instanceof TileEntity)
                 {
                     final TileEntity e = (TileEntity) gEntity;
