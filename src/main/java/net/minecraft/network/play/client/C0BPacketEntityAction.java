@@ -14,6 +14,11 @@ public class C0BPacketEntityAction extends Packet
     private int action;
     private int aux;
 
+    public C0BPacketEntityAction()
+    {
+
+    }
+
     public C0BPacketEntityAction(Entity entity, int action)
     {
         this(entity, action, 0);

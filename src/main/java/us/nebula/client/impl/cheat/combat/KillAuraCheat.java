@@ -122,6 +122,10 @@ public final class KillAuraCheat extends Cheat
                 blockSword(false);
             }
             attackTarget();
+//            if (autoBlockSetting.getValue())
+//            {
+//                blockSword(true);
+//            }
         }
     };
 
