@@ -46,7 +46,7 @@ public final class ItemStack
     /**
      * A NBTTagMap containing data about an ItemStack. Can only be used for non stackable items
      */
-    public NBTTagCompound stackTagCompound, originalNBTData;
+    public NBTTagCompound stackTagCompound, originalNBTData, wroteNBT;
 
     /**
      * Damage dealt to the item or number of use. Raise when using items.
@@ -189,7 +189,7 @@ public final class ItemStack
             par1NBTTagCompound.setTag("tag", this.stackTagCompound);
         }
 
-        return par1NBTTagCompound;
+        return (wroteNBT = par1NBTTagCompound);
     }
 
     /**
@@ -212,6 +212,15 @@ public final class ItemStack
         {
             this.stackTagCompound = par1NBTTagCompound.getCompoundTag("tag");
         }
+    }
+
+    public int getNBTSize()
+    {
+        if (wroteNBT == null)
+        {
+            writeToNBT(new NBTTagCompound());
+        }
+        return wroteNBT.getSize(false);
     }
 
     /**

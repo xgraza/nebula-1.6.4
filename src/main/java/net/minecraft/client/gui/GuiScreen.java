@@ -139,6 +139,7 @@ public class GuiScreen extends Gui
     protected void renderItem(ItemStack itemStack, int x, int y)
     {
         final List<String> tooltipList = itemStack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+        tooltipList.add("Size: " + itemStack.getNBTSize());
 
         for (int i = 0; i < tooltipList.size(); ++i)
         {

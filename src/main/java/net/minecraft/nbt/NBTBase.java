@@ -1,13 +1,13 @@
 package net.minecraft.nbt;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
+import java.io.*;
 
 public abstract class NBTBase
 {
     public static final String[] NBTTypes = new String[]{ "END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]" };
-    private static final String __OBFID = "CL_00001229";
+
+    private boolean calculatingSize;
+    private int size = -1;
 
     /**
      * Write the actual data contents of the tag, implemented in NBT extension classes
@@ -25,6 +25,32 @@ public abstract class NBTBase
      * Gets the type byte for the tag.
      */
     public abstract byte getId();
+
+    public int getSize(final boolean recalculate)
+    {
+        if (size == -1 || recalculate)
+        {
+            if (!calculatingSize)
+            {
+                calculatingSize = true;
+                try
+                {
+                    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    final DataOutputStream dos = new DataOutputStream(baos);
+                    write(dos);
+                    size = baos.size();
+                    dos.close();
+                    baos.close();
+                    return size;
+                } catch (IOException e)
+                {
+                    size = 0;
+                }
+            }
+            return 0;
+        }
+        return size;
+    }
 
     protected static NBTBase func_150284_a(byte p_150284_0_)
     {
