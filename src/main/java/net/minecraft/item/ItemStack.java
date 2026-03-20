@@ -20,6 +20,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
+import us.nebula.client.impl.cheat.render.ItemTweaksCheat;
+import us.nebula.client.util.FormattingUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -608,43 +610,43 @@ public final class ItemStack
     /**
      * Return a list of strings containing information about the item
      */
-    public List<String> getTooltip(EntityPlayer par1EntityPlayer, boolean par2)
+    public List<String> getTooltip(EntityPlayer player, boolean hasDurability)
     {
-        ArrayList<String> var3 = new ArrayList<>();
-        String var4 = this.getDisplayName();
+        final List<String> tooltipList = new ArrayList<>();
 
-        if (this.hasDisplayName())
+        String displayName = getDisplayName();
+        if (hasDisplayName())
         {
-            var4 = EnumChatFormatting.ITALIC + var4 + EnumChatFormatting.RESET;
+            displayName = EnumChatFormatting.ITALIC + displayName + EnumChatFormatting.RESET;
         }
 
-        int var6;
+        int i;
 
-        if (par2)
+        if (hasDurability)
         {
             String var5 = "";
-            if (!var4.isEmpty())
+            if (!displayName.isEmpty())
             {
-                var4 = var4 + " (";
+                displayName = displayName + " (";
                 var5 = ")";
             }
 
-            var6 = Item.getIdFromItem(this.item);
+            i = Item.getIdFromItem(this.item);
 
             if (this.getHasSubtypes())
             {
-                var4 = var4 + String.format("#%04d/%d%s", Integer.valueOf(var6), Integer.valueOf(this.itemDamage), var5);
+                displayName = displayName + String.format("#%04d/%d%s", Integer.valueOf(i), Integer.valueOf(this.itemDamage), var5);
             } else
             {
-                var4 = var4 + String.format("#%04d%s", Integer.valueOf(var6), var5);
+                displayName = displayName + String.format("#%04d%s", Integer.valueOf(i), var5);
             }
         } else if (!this.hasDisplayName() && this.item == Items.filled_map)
         {
-            var4 = var4 + " #" + this.itemDamage;
+            displayName = displayName + " #" + this.itemDamage;
         }
 
-        var3.add(var4);
-        this.item.addInformation(this, par1EntityPlayer, var3, par2);
+        tooltipList.add(displayName);
+        this.item.addInformation(this, player, tooltipList, hasDurability);
 
         if (this.hasTagCompound())
         {
@@ -652,14 +654,21 @@ public final class ItemStack
 
             if (var13 != null)
             {
-                for (var6 = 0; var6 < var13.tagCount(); ++var6)
+                for (i = 0; i < var13.tagCount(); ++i)
                 {
-                    short var7 = var13.getCompoundTagAt(var6).getShort("id");
-                    short var8 = var13.getCompoundTagAt(var6).getShort("lvl");
+                    short id = var13.getCompoundTagAt(i).getShort("id");
+                    short level = var13.getCompoundTagAt(i).getShort("lvl");
 
-                    if (Enchantment.enchantmentsList[var7] != null)
+                    final Enchantment enchantment = Enchantment.enchantmentsList[id];
+                    if (enchantment != null)
                     {
-                        var3.add(Enchantment.enchantmentsList[var7].getTranslatedName(var8));
+                        if (ItemTweaksCheat.INSTANCE.formatEnchantLevels())
+                        {
+                            tooltipList.add(ItemTweaksCheat.INSTANCE.formatEnchantment(enchantment, level));
+                        } else
+                        {
+                            tooltipList.add(enchantment.getTranslatedName(level));
+                        }
                     }
                 }
             }
@@ -670,12 +679,12 @@ public final class ItemStack
 
                 if (var15.hasKey("color", 3))
                 {
-                    if (par2)
+                    if (hasDurability)
                     {
-                        var3.add("Color: #" + Integer.toHexString(var15.getInteger("color")).toUpperCase());
+                        tooltipList.add("Color: #" + Integer.toHexString(var15.getInteger("color")).toUpperCase());
                     } else
                     {
-                        var3.add(EnumChatFormatting.ITALIC + StatCollector.translateToLocal("item.dyed"));
+                        tooltipList.add(EnumChatFormatting.ITALIC + StatCollector.translateToLocal("item.dyed"));
                     }
                 }
 
@@ -687,7 +696,7 @@ public final class ItemStack
                     {
                         for (int var19 = 0; var19 < var17.tagCount(); ++var19)
                         {
-                            var3.add(EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.ITALIC + var17.getStringTagAt(var19));
+                            tooltipList.add(EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.ITALIC + var17.getStringTagAt(var19));
                         }
                     }
                 }
@@ -698,7 +707,7 @@ public final class ItemStack
 
         if (!var14.isEmpty())
         {
-            var3.add("");
+            tooltipList.add("");
             Iterator var16 = var14.entries().iterator();
 
             while (var16.hasNext())
@@ -718,26 +727,31 @@ public final class ItemStack
 
                 if (var9 > 0.0D)
                 {
-                    var3.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus." + var20.getOperation(), new Object[]{ field_111284_a.format(var11), StatCollector.translateToLocal("attribute.name." + var18.getKey()) }));
+                    tooltipList.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus." + var20.getOperation(), new Object[]{ field_111284_a.format(var11), StatCollector.translateToLocal("attribute.name." + var18.getKey()) }));
                 } else if (var9 < 0.0D)
                 {
                     var11 *= -1.0D;
-                    var3.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("attribute.modifier.take." + var20.getOperation(), new Object[]{ field_111284_a.format(var11), StatCollector.translateToLocal("attribute.name." + var18.getKey()) }));
+                    tooltipList.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("attribute.modifier.take." + var20.getOperation(), new Object[]{ field_111284_a.format(var11), StatCollector.translateToLocal("attribute.name." + var18.getKey()) }));
                 }
             }
         }
 
         if (this.hasTagCompound() && this.getTagCompound().getBoolean("Unbreakable"))
         {
-            var3.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("item.unbreakable"));
+            tooltipList.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("item.unbreakable"));
         }
 
-        if (par2 && this.isItemDamaged())
+        if (hasDurability && this.isItemDamaged())
         {
-            var3.add("Durability: " + (this.getMaxDamage() - this.getItemDamageForDisplay()) + " / " + this.getMaxDamage());
+            tooltipList.add("Durability: " + (this.getMaxDamage() - this.getItemDamageForDisplay()) + " / " + this.getMaxDamage());
         }
 
-        return var3;
+        if (ItemTweaksCheat.INSTANCE.showItemSize() && getNBTSize() != -1)
+        {
+            tooltipList.add("Size: " + FormattingUtil.formatSize(getNBTSize()));
+        }
+
+        return tooltipList;
     }
 
     public boolean hasEffect()

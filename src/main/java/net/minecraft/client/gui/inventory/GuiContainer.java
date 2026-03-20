@@ -16,9 +16,13 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.client.api.gui.font.Fonts;
 import us.nebula.client.api.listener.EventBus;
+import us.nebula.client.impl.cheat.render.ItemTweaksCheat;
 import us.nebula.client.impl.event.player.EventContainerAction;
+import us.nebula.client.util.FormattingUtil;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -170,6 +174,21 @@ public abstract class GuiContainer extends GuiScreen
         {
             ItemStack var19 = this.theSlot.getStack();
             this.renderItem(var19, par1, par2);
+        }
+
+        if (ItemTweaksCheat.INSTANCE.showContainerSize())
+        {
+            int size = 0;
+            for (Slot slot : container.inventorySlots)
+            {
+                if (slot.getHasStack())
+                {
+                    size += slot.getStack().getNBTSize();
+                }
+            }
+
+            Fonts.POPPINS.drawStringShadow("Container Size: " + FormattingUtil.formatSize(size),
+                    110, 180, size > 1E+6 * 2 ? Color.red.getRGB() : -1);
         }
 
         GL11.glEnable(GL11.GL_LIGHTING);

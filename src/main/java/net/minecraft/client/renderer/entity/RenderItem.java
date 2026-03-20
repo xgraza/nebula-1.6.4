@@ -22,8 +22,8 @@ import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import us.nebula.client.impl.cheat.player.AntiLagCheat;
-import us.nebula.client.impl.cheat.render.InfiniteViewerCheat;
 import us.nebula.client.impl.cheat.render.ItemPhysicsCheat;
+import us.nebula.client.impl.cheat.render.ItemTweaksCheat;
 import us.nebula.client.util.player.ItemUtil;
 
 import java.util.Random;
@@ -639,7 +639,7 @@ public class RenderItem extends Render
     {
         if (par3ItemStack != null)
         {
-            if (par3ItemStack.stackSize > 1 || (par3ItemStack.stackSize != 1 && InfiniteViewerCheat.INSTANCE.isToggled()))
+            if (par3ItemStack.stackSize > 1 || (par3ItemStack.stackSize != 1 && ItemTweaksCheat.INSTANCE.showInfinites()))
             {
                 String var7 = String.valueOf(par3ItemStack.stackSize);
                 if (ItemUtil.isInfinite(par3ItemStack))
