@@ -145,6 +145,12 @@ public final class SpeedCheat extends Cheat
         return EnumSettingComponent.formatEnum(modeSetting.getValue());
     }
 
+    @Override
+    public boolean isActive()
+    {
+        return isToggled() && MoveUtil.isMoving();
+    }
+
     public enum Mode
     {
         STRAFE, TICK_ADVANCE

@@ -133,6 +133,11 @@ public class Cheat implements ISettingProvider, IJSONSerializable
         return key.isToggled();
     }
 
+    public boolean isActive()
+    {
+        return isToggled();
+    }
+
     public void setHidden(boolean hidden)
     {
         this.hidden = hidden;

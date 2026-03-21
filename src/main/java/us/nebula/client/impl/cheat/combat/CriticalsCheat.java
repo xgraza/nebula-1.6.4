@@ -15,6 +15,7 @@ import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatCategory;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
+import us.nebula.client.impl.cheat.movement.SpeedCheat;
 import us.nebula.client.impl.cheat.world.FakePlayerCheat;
 import us.nebula.client.impl.event.network.EventPacket;
 import us.nebula.client.impl.event.player.EventMoveUpdate;
@@ -48,7 +49,10 @@ public final class CriticalsCheat extends Cheat
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (modifyStage == -1 || !MC.thePlayer.onGround)
+        if (modifyStage == -1
+                || !MC.thePlayer.onGround
+                || MC.gameSettings.keyBindJump.pressed
+                || SpeedCheat.INSTANCE.isActive())
         {
             modifyStage = -1;
             return;
