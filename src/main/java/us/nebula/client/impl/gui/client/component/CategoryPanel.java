@@ -45,7 +45,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     {
         final double panelHeight = Math.min(getHeight(), ClickGUIScreen.MAX_PANEL_HEIGHT);
 
-        if (isMouseInDynamic(mouseX, mouseY)
+        if (isMouseIn(mouseX, mouseY, getX(), getY(), getWidth(), panelHeight)
                 && allowScrolling
                 && panelHeight >= ClickGUIScreen.MAX_PANEL_HEIGHT)
         {

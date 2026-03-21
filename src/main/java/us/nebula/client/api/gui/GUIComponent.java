@@ -22,12 +22,17 @@ public abstract class GUIComponent
 
     public boolean isMouseIn(final int mouseX, final int mouseY)
     {
-        return x <= mouseX && x + width >= mouseX && y <= mouseY && y + height >= mouseY;
+        return isMouseIn(mouseX, mouseY, x, y, width, height);
     }
 
     public boolean isMouseInDynamic(final int mouseX, final int mouseY)
     {
-        return getX() <= mouseX && getX() + getWidth() >= mouseX && getY() <= mouseY && getY() + getHeight() >= mouseY;
+        return isMouseIn(mouseX, mouseY, getX(), getY(), getWidth(), getHeight());
+    }
+
+    public boolean isMouseIn(final int mouseX, final int mouseY, final double x, final double y, final double w, final double h)
+    {
+        return x <= mouseX && x + w >= mouseX && y <= mouseY && y + h >= mouseY;
     }
 
     public double getX()
