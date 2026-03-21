@@ -6,6 +6,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -18,8 +19,10 @@ import us.nebula.client.api.manager.cheat.CheatInstance;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.game.EventUpdate;
+import us.nebula.client.impl.event.network.EventPacket;
 import us.nebula.client.impl.event.player.EventAttackBlock;
 import us.nebula.client.impl.event.render.EventRender3D;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.player.InventoryUtil;
 import us.nebula.client.util.player.ItemUtil;
 import us.nebula.client.util.render.RenderUtil;
@@ -44,6 +47,8 @@ public final class PacketMineCheat extends Cheat
             "Percent", 0.95, 0.01, 1.0, 0.01);
     private final Setting<Boolean> instantSetting = new Setting<>(
             "Instant", false);
+    private final Setting<Boolean> serverConfirmSetting = new Setting<>(
+            "Server Confirm", false);
     private final Setting<Boolean> ignoreGroundSetting = new Setting<>(
             "Ignore Ground", false);
     private final Setting<Boolean> renderSetting = new Setting<>(
@@ -125,6 +130,8 @@ public final class PacketMineCheat extends Cheat
             return;
         }
 
+        final double str = getStrength(currentPosition);
+
         // begin to break, then wait a tick before calculating progress
         if (!currentPosition.sentBreak)
         {
@@ -135,16 +142,45 @@ public final class PacketMineCheat extends Cheat
                     currentPosition.x, currentPosition.y, currentPosition.z,
                     currentPosition.side));
             Nebula.INSTANCE.getInventoryManager().syncSlot();
-            if (instantSetting.getValue() && getStrength(currentPosition) >= 1.0)
+            if (instantSetting.getValue() && str >= percentSetting.getValue())
             {
                 breakBlock();
+                currentPosition = null;
             }
             return;
         }
-        currentPosition.progress += getStrength(currentPosition);
+        currentPosition.progress += str;
         if (currentPosition.progress >= percentSetting.getValue() && !currentPosition.sentStop)
         {
             breakBlock();
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
+    {
+        if (event.getPacket() instanceof S23PacketBlockChange && currentPosition != null)
+        {
+            final S23PacketBlockChange packet = event.getPacket();
+            if (packet.getX() == currentPosition.x
+                    && packet.getY() == currentPosition.y
+                    && packet.getZ() == currentPosition.z
+                    && packet.getType().getMaterial().isReplaceable())
+            {
+                if (packet.getData() == currentPosition.originalData
+                        && packet.getType().equals(currentPosition.originalBlock)
+                        && serverConfirmSetting.getValue())
+                {
+                    // stop breaking block, re-attempt
+                    abortBreakingBlock(currentPosition);
+                    currentPosition.progress = 0.0;
+                    currentPosition.sentStop = false;
+                    currentPosition.sentBreak = false;
+                    return;
+                }
+                MC.theWorld.setBlockToAir(packet.getX(), packet.getY(), packet.getZ());
+                currentPosition = null;
+            }
         }
     };
 
@@ -169,7 +205,9 @@ public final class PacketMineCheat extends Cheat
         minePositionQueue.add(new MinePosition(
                 event.getX(), event.getY(), event.getZ(),
                 event.getSide(),
-                slot));
+                slot,
+                block,
+                MC.theWorld.getBlockMetadata(event.getX(), event.getY(), event.getZ())));
     };
 
     private void breakBlock()
@@ -203,7 +241,7 @@ public final class PacketMineCheat extends Cheat
         }
 
         final double speed = getDestroySpeed(block, itemStack);
-        final double factor = (itemStack != null && itemStack.isProperItemForBlock(block))
+        final double factor = ((itemStack != null && itemStack.isProperItemForBlock(block)) || block.getMaterial().isToolNotRequired())
                 ? 30.0f
                 : 100.0f;
         return speed / block.blockHardness / factor;
@@ -277,17 +315,20 @@ public final class PacketMineCheat extends Cheat
 
     private static final class MinePosition
     {
-        public final int x, y, z, side, slot;
+        public final Block originalBlock;
+        public final int x, y, z, side, slot, originalData;
         public double progress;
         public boolean sentBreak, sentStop;
 
-        public MinePosition(int x, int y, int z, int side, int slot)
+        public MinePosition(int x, int y, int z, int side, int slot, Block originalBlock, int originalData)
         {
+            this.originalBlock = originalBlock;
             this.x = x;
             this.y = y;
             this.z = z;
             this.side = side;
             this.slot = slot;
+            this.originalData = originalData;
         }
 
         @Override

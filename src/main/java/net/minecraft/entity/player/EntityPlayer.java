@@ -845,7 +845,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             {
                 float var6 = (float) (var4 * var4 + 1);
 
-                if (!var5.isProperItemForBlock(p_146096_1_) && var3 <= 1.0F)
+                if (!var5.isProperItemForBlock(p_146096_1_))
                 {
                     var3 += var6 * 0.08F;
                 } else
