@@ -31,7 +31,7 @@ public final class TargetStrafeCheat extends Cheat
     private final Setting<Float> rangeSetting = new Setting<>(
             "Range", 4.2f, 1.0f, 6.0f, 0.1f);
     private final Setting<Double> reductionSetting = new Setting<>(
-            "Speed Reduction", 0.0, 0.0, 1.0, 0.05);
+            "Speed Reduction", 0.0, 0.0, 1.0, 0.01);
     private final Setting<Boolean> jumpBackoutSetting = new Setting<>(
             "Jump to Backout", true);
     private final Setting<Boolean> renderSetting = new Setting<>(

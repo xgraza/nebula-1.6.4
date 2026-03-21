@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.potion.Potion;
 import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
@@ -20,6 +21,7 @@ import us.nebula.client.impl.cheat.world.FakePlayerCheat;
 import us.nebula.client.impl.event.network.EventPacket;
 import us.nebula.client.impl.event.player.EventMoveUpdate;
 import us.nebula.client.impl.gui.client.component.cheat.value.EnumSettingComponent;
+import us.nebula.client.util.math.Timer;
 
 /**
  * @author xgraza
@@ -34,27 +36,34 @@ public final class CriticalsCheat extends Cheat
             "Mode", Mode.MOTION);
     private final Setting<Boolean> efficentSetting = new Setting<>(
             "Efficient", false);
+    private final Setting<Double> delaySetting = new Setting<>(
+            "Delay", 0.5, 0.0, 5.0, 0.5)
+            .setVisibility(() -> !efficentSetting.getValue());
+    private final Setting<Boolean> pauseWithLagbackSetting = new Setting<>(
+            "Pause with Lagback", true);
 
-    private boolean crit;
+    private final Timer lagbackTimer = new Timer();
+    private final Timer timer = new Timer();
     private int modifyStage = -1;
 
     @Override
     protected void onDisable()
     {
         super.onDisable();
-        crit = false;
         modifyStage = -1;
     }
 
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (modifyStage == -1
-                || !MC.thePlayer.onGround
-                || MC.gameSettings.keyBindJump.pressed
-                || SpeedCheat.INSTANCE.isActive())
+        if (!MC.thePlayer.onGround || SpeedCheat.INSTANCE.isActive())
         {
+            event.setY(MC.thePlayer.boundingBox.minY);
+            event.setStance(MC.thePlayer.posY);
+            event.setOnGround(MC.thePlayer.onGround);
+
             modifyStage = -1;
+            timer.resetTime();
             return;
         }
         event.setOnGround(false);
@@ -75,11 +84,21 @@ public final class CriticalsCheat extends Cheat
             {
                 event.setOnGround(true);
                 modifyStage = -1;
-                FakePlayerCheat.INSTANCE.critFake();
+                timer.resetTime();
+                //FakePlayerCheat.INSTANCE.critFake();
                 return;
             }
         }
         ++modifyStage;
+    };
+
+    @Subscribe
+    private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
+    {
+        if (event.getPacket() instanceof S08PacketPlayerPosLook)
+        {
+            lagbackTimer.resetTime();
+        }
     };
 
     @Subscribe
@@ -98,6 +117,15 @@ public final class CriticalsCheat extends Cheat
                 return;
             }
 
+            if (!MC.thePlayer.onGround
+                    || MC.thePlayer.isOnLadder()
+                    || MC.thePlayer.isInWater()
+                    || MC.thePlayer.isInWeb
+                    || MC.thePlayer.isPotionActive(Potion.blindness))
+            {
+                return;
+            }
+
             if (efficentSetting.getValue())
             {
                 final EntityLivingBase living = (EntityLivingBase) entity;
@@ -105,13 +133,16 @@ public final class CriticalsCheat extends Cheat
                 {
                     return;
                 }
+            } else
+            {
+                if (!timer.hasElapsed((long) (delaySetting.getValue() * 1000.0)))
+                {
+                    return;
+                }
+                timer.resetTime();
             }
 
-            if (!MC.thePlayer.onGround
-                    || MC.thePlayer.isOnLadder()
-                    || MC.thePlayer.isInWater()
-                    || MC.thePlayer.isInWeb
-                    || MC.thePlayer.isPotionActive(Potion.blindness))
+            if (!lagbackTimer.hasElapsed(20) && pauseWithLagbackSetting.getValue())
             {
                 return;
             }
@@ -127,11 +158,6 @@ public final class CriticalsCheat extends Cheat
                 }
                 case PACKET:
                 {
-                    if (crit)
-                    {
-                        return;
-                    }
-                    crit = true;
                     MC.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
                             MC.thePlayer.posX,
                             MC.thePlayer.boundingBox.minY + 0.1,
@@ -145,7 +171,6 @@ public final class CriticalsCheat extends Cheat
                             MC.thePlayer.posZ,
                             false));
                     FakePlayerCheat.INSTANCE.critFake();
-                    crit = false;
                     break;
                 }
                 case PACKET_2:
