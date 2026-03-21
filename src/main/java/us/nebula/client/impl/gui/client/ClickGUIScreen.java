@@ -34,8 +34,11 @@ public final class ClickGUIScreen extends GuiScreen
     private final List<CategoryPanel> categoryPanels = new LinkedList<>();
     private final Timer descriptionHoverTimer = new Timer();
 
-    public ClickGUIScreen()
+    @Override
+    public void initGui()
     {
+        categoryPanels.clear();
+
         double posX = 8.0;
         for (final CheatCategory category : CheatCategory.values())
         {
@@ -46,20 +49,7 @@ public final class ClickGUIScreen extends GuiScreen
             categoryPanels.add(panel);
         }
         addConfigPanel(posX);
-    }
 
-    private void addConfigPanel(final double posX)
-    {
-        final ConfigCategoryPanel panel = new ConfigCategoryPanel();
-        panel.setX(posX);
-        panel.setY(26.0);
-        categoryPanels.add(panel);
-    }
-
-    @Override
-    public void initGui()
-    {
-        super.initGui();
         for (final CategoryPanel panel : categoryPanels)
         {
             panel.init();
@@ -119,6 +109,14 @@ public final class ClickGUIScreen extends GuiScreen
     public boolean doesGuiPauseGame()
     {
         return false;
+    }
+
+    private void addConfigPanel(final double posX)
+    {
+        final ConfigCategoryPanel panel = new ConfigCategoryPanel();
+        panel.setX(posX);
+        panel.setY(26.0);
+        categoryPanels.add(panel);
     }
 
     private void findAndDrawHoveredCheatDescription(final int mouseX, final int mouseY)
