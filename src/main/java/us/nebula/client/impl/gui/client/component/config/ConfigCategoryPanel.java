@@ -20,14 +20,7 @@ public final class ConfigCategoryPanel extends CategoryPanel
     public ConfigCategoryPanel()
     {
         super("Configs");
-        button = new ConfigTextButton("New Config")
-        {
-            @Override
-            public void onButtonPress()
-            {
-                onCreateConfig();
-            }
-        };
+        button = new ConfigTextButton("New Config", this::onCreateConfig);
     }
 
     @Override
