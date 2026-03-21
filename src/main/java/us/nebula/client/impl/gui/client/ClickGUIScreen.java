@@ -36,13 +36,13 @@ public final class ClickGUIScreen extends GuiScreen
 
     public ClickGUIScreen()
     {
-        double posX = 16.0;
+        double posX = 8.0;
         for (final CheatCategory category : CheatCategory.values())
         {
             final CheatCategoryPanel panel = new CheatCategoryPanel(category);
             panel.setX(posX);
             panel.setY(26.0);
-            posX += panel.getWidth() + 5;
+            posX += panel.getWidth() + 3;
             categoryPanels.add(panel);
         }
         addConfigPanel(posX);
