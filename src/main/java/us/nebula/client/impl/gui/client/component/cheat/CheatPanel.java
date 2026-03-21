@@ -106,6 +106,10 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
             double posY = y + height + PADDING;
             for (final GUIComponent component : getChildrenComponentList())
             {
+                if (!component.isVisible())
+                {
+                    continue;
+                }
                 component.setX(x + (PADDING * 2));
                 component.setY(posY);
                 component.setWidth(width - (PADDING * 4));
@@ -190,7 +194,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
         }
         for (final GUIComponent component : getChildrenComponentList())
         {
-            if (component instanceof IGUIInputListener)
+            if (component instanceof IGUIInputListener && component.isVisible())
             {
                 ((IGUIInputListener) component).mouseClicked(mouseX, mouseY, mouseButton);
             }
@@ -213,7 +217,7 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
         }
         for (final GUIComponent component : getChildrenComponentList())
         {
-            if (component instanceof IGUIInputListener)
+            if (component instanceof IGUIInputListener && component.isVisible())
             {
                 ((IGUIInputListener) component).keyTyped(typedChar, keyCode);
             }
@@ -228,6 +232,10 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
         {
             for (final GUIComponent component : getChildrenComponentList())
             {
+                if (!component.isVisible())
+                {
+                    continue;
+                }
                 h += component.getHeight();
             }
         }

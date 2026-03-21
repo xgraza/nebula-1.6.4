@@ -87,4 +87,10 @@ public final class KeySettingComponent extends GUIComponent implements IGUIInput
             setting.getValue().setKeyCode(keyCode);
         }
     }
+
+    @Override
+    public boolean isVisible()
+    {
+        return setting.isVisible();
+    }
 }

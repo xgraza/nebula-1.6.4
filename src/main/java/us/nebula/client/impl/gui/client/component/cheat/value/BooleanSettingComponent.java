@@ -73,4 +73,10 @@ public final class BooleanSettingComponent extends GUIComponent implements IGUII
     {
 
     }
+
+    @Override
+    public boolean isVisible()
+    {
+        return setting.isVisible();
+    }
 }

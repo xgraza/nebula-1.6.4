@@ -88,6 +88,12 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
 
     }
 
+    @Override
+    public boolean isVisible()
+    {
+        return setting.isVisible();
+    }
+
     protected void setValue(final int mouseX)
     {
         if (mouseX > x + width || mouseX < x)

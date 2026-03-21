@@ -114,4 +114,10 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
         }
         return h;
     }
+
+    @Override
+    public boolean isVisible()
+    {
+        return setting.isVisible();
+    }
 }

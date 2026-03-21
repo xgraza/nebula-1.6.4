@@ -158,7 +158,7 @@ public class Setting<T> implements IJSONSerializable
 
     public boolean isVisible()
     {
-        return visibility.get();
+        return visibility == null || visibility.get();
     }
 
     public Setting<T> onValueChange(final ValueChanged<T> valueChanged)

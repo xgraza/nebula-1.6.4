@@ -35,6 +35,11 @@ public abstract class GUIComponent
         return x <= mouseX && x + w >= mouseX && y <= mouseY && y + h >= mouseY;
     }
 
+    public boolean isVisible()
+    {
+        return true;
+    }
+
     public double getX()
     {
         return x;

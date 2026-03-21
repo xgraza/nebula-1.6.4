@@ -76,6 +76,12 @@ public final class EnumSettingComponent extends GUIComponent implements IGUIInpu
 
     }
 
+    @Override
+    public boolean isVisible()
+    {
+        return setting.isVisible();
+    }
+
     public static String formatEnum(final Enum<?> e)
     {
         if (!e.toString().equals(e.name()))

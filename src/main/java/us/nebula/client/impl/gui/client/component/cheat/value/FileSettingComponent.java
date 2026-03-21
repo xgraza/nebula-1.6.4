@@ -82,6 +82,12 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
 
     }
 
+    @Override
+    public boolean isVisible()
+    {
+        return setting.isVisible();
+    }
+
     private File openFileChooser()
     {
         final JFrame frame = new JFrame("Choose file...");
