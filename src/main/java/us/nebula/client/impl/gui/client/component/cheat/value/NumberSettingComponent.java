@@ -1,6 +1,7 @@
 package us.nebula.client.impl.gui.client.component.cheat.value;
 
 import net.minecraft.util.MathHelper;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import us.nebula.client.api.gui.GUIComponent;
 import us.nebula.client.api.gui.IGUIInputListener;
@@ -9,7 +10,11 @@ import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.cheat.render.HUDCheat;
 import us.nebula.client.util.io.SoundUtil;
 import us.nebula.client.util.math.MathUtil;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.render.RenderUtil;
+
+import static org.lwjgl.input.Keyboard.KEY_LEFT;
+import static org.lwjgl.input.Keyboard.KEY_RIGHT;
 
 /**
  * @author xgraza
@@ -22,6 +27,8 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
     protected final Setting<Number> setting;
     private final double diff;
     private boolean dragging;
+
+    private int heldDownTicks;
 
     public NumberSettingComponent(final Setting<Number> setting)
     {
@@ -38,6 +45,22 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
+        if (isMouseInDynamic(mouseX, mouseY))
+        {
+            if (Keyboard.isKeyDown(KEY_RIGHT))
+            {
+                ++heldDownTicks;
+                increaseByScale(true);
+            } else if (Keyboard.isKeyDown(KEY_LEFT))
+            {
+                ++heldDownTicks;
+                increaseByScale(false);
+            } else
+            {
+                heldDownTicks = 0;
+            }
+        }
+
         if (dragging && !Mouse.isButtonDown(0))
         {
             SoundUtil.playClickSound();
@@ -92,6 +115,38 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
     public boolean isVisible()
     {
         return setting.isVisible();
+    }
+
+    protected void increaseByScale(boolean direction)
+    {
+        if (heldDownTicks <= 60 && heldDownTicks != 1)
+        {
+            return;
+        }
+
+        final double scale = setting.getScale().doubleValue();
+
+        if ((direction && setting.getValue().doubleValue() + scale >= setting.getMax().doubleValue())
+                || (!direction && setting.getValue().doubleValue() - scale <= setting.getMin().doubleValue()))
+        {
+            return;
+        }
+
+        final double value = setting.getValue().doubleValue() + (direction ? scale : -scale);
+
+        if (setting.getValue() instanceof Integer)
+        {
+            setting.setValue((int) value);
+        } else if (setting.getValue() instanceof Long)
+        {
+            setting.setValue((long) value);
+        } else if (setting.getValue() instanceof Double)
+        {
+            setting.setValue(value);
+        } else if (setting.getValue() instanceof Float)
+        {
+            setting.setValue((float) value);
+        }
     }
 
     protected void setValue(final int mouseX)
