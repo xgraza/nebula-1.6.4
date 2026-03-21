@@ -35,30 +35,9 @@ public final class ConfigPanel extends GUIComponent implements IGUIInputListener
             configName = configFile.getName().replace(".cfg", "");
         }
 
-        childrenComponentList.add(new ConfigTextButton("Load")
-        {
-            @Override
-            public void onButtonPress()
-            {
-                onLoadConfig();
-            }
-        });
-        childrenComponentList.add(new ConfigTextButton("Save")
-        {
-            @Override
-            public void onButtonPress()
-            {
-                onSaveConfig();
-            }
-        });
-        childrenComponentList.add(new ConfigTextButton("Delete")
-        {
-            @Override
-            public void onButtonPress()
-            {
-                onDeleteConfig();
-            }
-        });
+        childrenComponentList.add(new ConfigTextButton("Load", this::onLoadConfig));
+        childrenComponentList.add(new ConfigTextButton("Save", this::onSaveConfig));
+        childrenComponentList.add(new ConfigTextButton("Delete", this::onDeleteConfig));
     }
 
     @Override

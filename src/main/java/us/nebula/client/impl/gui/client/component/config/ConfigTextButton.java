@@ -18,18 +18,15 @@ public class ConfigTextButton extends GUIComponent implements IGUIInputListener
     private static final double PADDING = 1.0;
 
     private final String text;
+    private final Runnable runnable;
 
-    public ConfigTextButton(final String text)
+    public ConfigTextButton(final String text, final Runnable runnable)
     {
         this.text = text;
+        this.runnable = runnable;
 
         setWidth(Fonts.POPPINS_SMALL.getStringWidth(text) + (PADDING * 4));
         setHeight(Fonts.POPPINS_SMALL.getFontHeight() + (PADDING * 2));
-    }
-
-    public void onButtonPress()
-    {
-
     }
 
     @Override
@@ -45,7 +42,7 @@ public class ConfigTextButton extends GUIComponent implements IGUIInputListener
         if (isMouseIn(mouseX, mouseY) && mouseButton == 0)
         {
             SoundUtil.playClickSound();
-            onButtonPress();
+            runnable.run();
         }
     }
 
