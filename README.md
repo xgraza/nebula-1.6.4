@@ -36,6 +36,8 @@ or implement it yourself via a PR.
 
 > Note: If you are on MacOS and on an M chip series Mac, be sure to install the x86-64 version of your JDK and run via
 > Rosetta. You also need to run an older version of java (I'm on 242-b20) so it doesn't tweak when trying to run
+> 
+> Additionally, if you are having some issues with window resizing on mac, run `export LD_BIND_NOW=1`
 
 1. Clone this repository with git (do NOT download the .zip, it will not build correctly)
 2. Extract the content from the .zip downloaded into a folder
