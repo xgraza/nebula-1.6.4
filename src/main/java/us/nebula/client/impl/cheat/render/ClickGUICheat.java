@@ -34,7 +34,7 @@ public final class ClickGUICheat extends Cheat
     }
 
     @Override
-    protected void onEnable()
+    public void onEnable()
     {
         if (MC.thePlayer == null || MC.theWorld == null)
         {
@@ -50,7 +50,7 @@ public final class ClickGUICheat extends Cheat
     }
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         // overriden because i dont want eventbus stuff
     }

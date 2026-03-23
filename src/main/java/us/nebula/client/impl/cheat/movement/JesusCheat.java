@@ -31,7 +31,7 @@ public final class JesusCheat extends Cheat
     private boolean attemptExit, lastTickSpoof;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         attemptExit = false;

@@ -34,7 +34,7 @@ public final class PearlPhaseCheat extends Cheat implements RotationConfirmation
     private int slot = -1;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         slot = -1;

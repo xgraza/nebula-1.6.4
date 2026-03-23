@@ -41,7 +41,7 @@ public final class AutoPotCheat extends Cheat implements RotationConfirmation
     private boolean await;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (potSlot != -1 && MC.thePlayer != null)

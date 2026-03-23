@@ -40,7 +40,7 @@ public final class SpeedCheat extends Cheat
     private int lagTicks, stage;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         lastDistance = 0.0;

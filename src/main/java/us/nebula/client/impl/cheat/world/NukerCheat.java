@@ -46,7 +46,7 @@ public final class NukerCheat extends Cheat
     private int oldSlot = -1;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;

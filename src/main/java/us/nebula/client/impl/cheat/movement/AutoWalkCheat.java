@@ -17,7 +17,7 @@ import us.nebula.client.impl.event.game.EventUpdate;
 public final class AutoWalkCheat extends Cheat
 {
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         MC.gameSettings.keyBindForward.pressed = false;

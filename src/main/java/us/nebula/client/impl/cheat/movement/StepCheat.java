@@ -23,7 +23,7 @@ public final class StepCheat extends Cheat
     private boolean timer;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (MC.thePlayer != null)

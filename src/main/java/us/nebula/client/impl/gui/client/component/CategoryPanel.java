@@ -32,6 +32,9 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     private boolean allowScrolling;
     protected int scrollOffset;
 
+    private boolean dragging, allowDragging;
+    private double dragX, dragY;
+
     public CategoryPanel(final String name)
     {
         this.name = name;
@@ -63,6 +66,18 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
                 {
                     scrollOffset -= 10;
                 }
+            }
+        }
+
+        if (dragging && allowDragging)
+        {
+            if (!Mouse.isButtonDown(0))
+            {
+                dragging = false;
+            } else
+            {
+                x = mouseX - dragX;
+                y = mouseY - dragY;
             }
         }
 
@@ -110,7 +125,13 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
         {
             if (mouseButton == 0)
             {
-
+                if (!allowDragging)
+                {
+                    return;
+                }
+                dragging = true;
+                dragX = mouseX - x;
+                dragY = mouseY - y;
             } else if (mouseButton == 1)
             {
                 SoundUtil.playClickSound();
@@ -158,5 +179,15 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     public void setAllowScrolling(boolean allowScrolling)
     {
         this.allowScrolling = allowScrolling;
+    }
+
+    public void setAllowDragging(boolean allowDragging)
+    {
+        this.allowDragging = allowDragging;
+    }
+
+    public boolean isDragging()
+    {
+        return dragging;
     }
 }

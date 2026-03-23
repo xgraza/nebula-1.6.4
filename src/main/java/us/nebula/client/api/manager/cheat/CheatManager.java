@@ -2,7 +2,7 @@ package us.nebula.client.api.manager.cheat;
 
 import us.nebula.client.ClientSettings;
 import us.nebula.client.Nebula;
-import us.nebula.client.api.DebugFeature;
+import us.nebula.client.api.trait.DebugFeature;
 import us.nebula.client.api.manager.ITypedManager;
 import us.nebula.client.impl.cheat.combat.*;
 import us.nebula.client.impl.cheat.exploit.*;

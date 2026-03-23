@@ -19,7 +19,7 @@ public final class EntityCullingCheat extends Cheat
     public static EntityCullingCheat INSTANCE;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         EntityCulling.reset();

@@ -22,7 +22,7 @@ public final class SprintCheat extends Cheat
     final Setting<Boolean> omniSprintSetting = new Setting<>("Omni-Sprint", false);
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (!Keyboard.isKeyDown(MC.gameSettings.keyBindSprint.getKeyCode()))

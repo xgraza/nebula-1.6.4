@@ -22,6 +22,7 @@ public final class CheatCategoryPanel extends CategoryPanel
                 .forEach((cheat) -> childrenComponentList.add(new CheatPanel(cheat)));
         categoryIcon = category.getIcon();
         setAllowScrolling(true);
+        setAllowDragging(true);
     }
 
     @Override

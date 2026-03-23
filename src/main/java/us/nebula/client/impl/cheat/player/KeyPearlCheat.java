@@ -20,7 +20,7 @@ import us.nebula.client.util.player.InventoryUtil;
 public final class KeyPearlCheat extends Cheat
 {
     @Override
-    protected void onEnable()
+    public void onEnable()
     {
         super.onEnable();
 

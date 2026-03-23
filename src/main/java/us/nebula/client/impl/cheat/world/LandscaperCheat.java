@@ -41,7 +41,7 @@ public final class LandscaperCheat extends Cheat
     private BlockPos breakingBlockPos;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         breakQueue.clear();

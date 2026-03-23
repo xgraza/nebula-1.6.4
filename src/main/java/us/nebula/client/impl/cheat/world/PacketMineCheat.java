@@ -22,7 +22,6 @@ import us.nebula.client.impl.event.game.EventUpdate;
 import us.nebula.client.impl.event.network.EventPacket;
 import us.nebula.client.impl.event.player.EventAttackBlock;
 import us.nebula.client.impl.event.render.EventRender3D;
-import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.player.InventoryUtil;
 import us.nebula.client.util.player.ItemUtil;
 import us.nebula.client.util.render.RenderUtil;
@@ -58,7 +57,7 @@ public final class PacketMineCheat extends Cheat
     private MinePosition currentPosition;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (currentPosition != null && currentPosition.sentBreak && MC.thePlayer != null)

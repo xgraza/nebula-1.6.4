@@ -36,7 +36,7 @@ public final class BlinkCheat extends Cheat
     private final Timer timer = new Timer();
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (MC.thePlayer != null)

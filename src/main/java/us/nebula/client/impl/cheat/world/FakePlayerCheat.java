@@ -62,7 +62,7 @@ public final class FakePlayerCheat extends Cheat
     private EntityOtherPlayerMP fakePlayerEntity;
 
     @Override
-    protected void onEnable()
+    public void onEnable()
     {
         super.onEnable();
         if (MC.thePlayer == null || MC.theWorld == null)
@@ -72,7 +72,7 @@ public final class FakePlayerCheat extends Cheat
     }
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (MC.theWorld != null)

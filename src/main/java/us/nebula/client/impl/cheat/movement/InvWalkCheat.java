@@ -42,7 +42,7 @@ public final class InvWalkCheat extends Cheat
             "Allow Blacklisted GUIs", false);
 
     @Override
-    protected void onEnable()
+    public void onEnable()
     {
         super.onEnable();
         moveKeyBindings[0] = MC.gameSettings.keyBindForward;

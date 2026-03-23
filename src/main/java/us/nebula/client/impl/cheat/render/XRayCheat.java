@@ -83,7 +83,7 @@ public final class XRayCheat extends Cheat
             });
 
     @Override
-    protected void onEnable()
+    public void onEnable()
     {
         super.onEnable();
         if (MC.theWorld == null)
@@ -94,7 +94,7 @@ public final class XRayCheat extends Cheat
     }
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (MC.theWorld == null)

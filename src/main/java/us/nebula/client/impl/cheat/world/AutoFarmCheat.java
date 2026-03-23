@@ -56,7 +56,7 @@ public final class AutoFarmCheat extends Cheat
     private BlockPos melonBreakPos;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (oldSlot != -1 && MC.thePlayer != null)

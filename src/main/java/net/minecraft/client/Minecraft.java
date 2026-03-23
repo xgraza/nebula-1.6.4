@@ -85,6 +85,7 @@ import us.nebula.client.impl.cheat.render.UnfocusedCPUCheat;
 import us.nebula.client.impl.event.game.EventTick;
 import us.nebula.client.impl.event.input.EventKey;
 import us.nebula.client.impl.event.input.EventMouse;
+import us.nebula.client.impl.gui.hud.HUDEditorScreen;
 import us.nebula.client.impl.gui.loading.LoadingScreen;
 
 import javax.imageio.ImageIO;
@@ -1895,12 +1896,12 @@ public class Minecraft
 
             while (this.gameSettings.keyBindChat.isPressed() && var8)
             {
-                this.displayGuiScreen(new GuiChat());
+                this.displayGuiScreen(new HUDEditorScreen());
             }
 
             if (this.currentScreen == null && this.gameSettings.keyBindCommand.isPressed() && var8)
             {
-                this.displayGuiScreen(new GuiChat("/"));
+                this.displayGuiScreen(new HUDEditorScreen("/"));
             }
 
             if (this.thePlayer.isUsingItem())

@@ -53,7 +53,7 @@ public final class AntiGhostBlockCheat extends Cheat
     private final Map<BlockPos, OriginalBlockData> breakConfirmBlockPosMap = new ConcurrentHashMap<>();
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         placeConfirmBlockPosMap.clear();

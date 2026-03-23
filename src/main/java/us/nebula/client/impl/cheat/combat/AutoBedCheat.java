@@ -75,7 +75,7 @@ public final class AutoBedCheat extends Cheat
     private EntityPlayer target;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         target = null;

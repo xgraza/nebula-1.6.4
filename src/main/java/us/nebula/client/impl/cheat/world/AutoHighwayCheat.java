@@ -53,7 +53,7 @@ public final class AutoHighwayCheat extends Cheat
     private BlockInfo breakInfo;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         positionQueue.clear();

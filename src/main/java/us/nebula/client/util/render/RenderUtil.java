@@ -28,7 +28,7 @@ public final class RenderUtil
             "nebula",
             "textures/misc/enchanted_item_glint.png");
 
-    private static ScaledResolution GAME_RESOLUTION;
+    public static ScaledResolution GAME_RESOLUTION;
     private static Shader ROUNDED_RECTANGLE_SHADER,
             BLUR_SHADER,
             ESP_SHADER;

@@ -34,7 +34,7 @@ public final class LongJumpCheat extends Cheat
     private int stage;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         moveSpeed = 0.0;

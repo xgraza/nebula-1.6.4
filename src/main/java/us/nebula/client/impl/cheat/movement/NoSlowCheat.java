@@ -34,7 +34,7 @@ public final class NoSlowCheat extends Cheat
     private boolean bypass, inWeb;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         bypass = false;

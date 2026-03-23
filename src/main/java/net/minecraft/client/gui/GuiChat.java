@@ -113,10 +113,10 @@ public class GuiChat extends GuiScreen
         {
             if (keyCode == KEY_UP)
             {
-                this.func_146402_a(-1);
+                this.getChatHistory(-1);
             } else if (keyCode == KEY_DOWN)
             {
-                this.func_146402_a(1);
+                this.getChatHistory(1);
             } else if (keyCode == KEY_PRIOR)
             {
                 this.mc.ingameGUI.getChatGui().scroll(this.mc.ingameGUI.getChatGui().getHeightPerElement() - 1);
@@ -181,7 +181,7 @@ public class GuiChat extends GuiScreen
     {
         if (mouseButton == 0 && this.mc.gameSettings.chatLinks)
         {
-            IChatComponent var4 = this.mc.ingameGUI.getChatGui().func_146236_a(Mouse.getX(), Mouse.getY());
+            IChatComponent var4 = this.mc.ingameGUI.getChatGui().getComponentAt(Mouse.getX(), Mouse.getY());
 
             if (var4 != null)
             {
@@ -330,36 +330,36 @@ public class GuiChat extends GuiScreen
         }
     }
 
-    public void func_146402_a(int p_146402_1_)
+    public void getChatHistory(int position)
     {
-        int var2 = this.chatSize + p_146402_1_;
-        int var3 = this.mc.ingameGUI.getChatGui().getSentMessages().size();
+        int index = this.chatSize + position;
+        int size = this.mc.ingameGUI.getChatGui().getSentMessages().size();
 
-        if (var2 < 0)
+        if (index < 0)
         {
-            var2 = 0;
+            index = 0;
         }
 
-        if (var2 > var3)
+        if (index > size)
         {
-            var2 = var3;
+            index = size;
         }
 
-        if (var2 != this.chatSize)
+        if (index != this.chatSize)
         {
-            if (var2 == var3)
+            if (index == size)
             {
-                this.chatSize = var3;
+                this.chatSize = size;
                 this.chatTextField.setText(this.field_146410_g);
             } else
             {
-                if (this.chatSize == var3)
+                if (this.chatSize == size)
                 {
                     this.field_146410_g = this.chatTextField.getText();
                 }
 
-                this.chatTextField.setText((String) this.mc.ingameGUI.getChatGui().getSentMessages().get(var2));
-                this.chatSize = var2;
+                this.chatTextField.setText((String) this.mc.ingameGUI.getChatGui().getSentMessages().get(index));
+                this.chatSize = index;
             }
         }
     }
@@ -372,7 +372,7 @@ public class GuiChat extends GuiScreen
         drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
         this.chatTextField.drawTextBox();
 
-        IChatComponent componentAt = this.mc.ingameGUI.getChatGui().func_146236_a(Mouse.getX(), Mouse.getY());
+        IChatComponent componentAt = this.mc.ingameGUI.getChatGui().getComponentAt(Mouse.getX(), Mouse.getY());
         if (componentAt != null && componentAt.getChatStyle().getChatHoverEvent() != null)
         {
             final HoverEvent hoverEvent = componentAt.getChatStyle().getChatHoverEvent();

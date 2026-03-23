@@ -34,7 +34,7 @@ public final class FlyCheat extends Cheat
             .setVisibility(() -> modeSetting.getValue() == Mode.CREATIVE);
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (MC.thePlayer != null && MC.thePlayer.capabilities != null)

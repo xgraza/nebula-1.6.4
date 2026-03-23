@@ -28,17 +28,16 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class GuiNewChat extends Gui
 {
-    private static final Logger loggerGnc = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final Pattern PLAYER_TAG_REGEX = Pattern.compile("<(.+)>\\s");
     private static final int ELEMENT_HEIGHT = 9;
 
     private final Minecraft mc;
-    private final List sentMessages = new ArrayList();
-    private final List chatLines = new ArrayList();
+    private final List<String> sentMessages = new ArrayList<>();
+    private final List<ChatLine> chatLines = new ArrayList<>();
     private final List<ChatLine> chatLineList = new ArrayList<>();
     private int scrollOffset;
     private boolean field_146251_k;
-    private static final String __OBFID = "CL_00000669";
 
     public GuiNewChat(Minecraft par1Minecraft)
     {
@@ -400,8 +399,8 @@ public class GuiNewChat extends Gui
 
     public void printChatMessageWithOptionalDeletion(IChatComponent component, int id)
     {
-        this.fuckMojang_addChatLine(component, id, this.mc.ingameGUI.getUpdateCounter(), false);
-        loggerGnc.info("[CHAT] " + component.getUnformattedText());
+        fuckMojang_addChatLine(component, id, mc.ingameGUI.getUpdateCounter(), false);
+        LOGGER.info("[CHAT] {}", component.getUnformattedText());
     }
 
     private String getTextWithSettingsChatColors(String text)
@@ -576,20 +575,20 @@ public class GuiNewChat extends Gui
         }
     }
 
-    public IChatComponent func_146236_a(int p_146236_1_, int p_146236_2_)
+    public IChatComponent getComponentAt(int x, int y)
     {
         if (!this.isChatOpen())
         {
             return null;
         } else
         {
-            ScaledResolution var3 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
-            int var4 = var3.getScaleFactor();
-            float var5 = this.getChatScale();
-            int var6 = p_146236_1_ / var4 - 3;
-            int var7 = p_146236_2_ / var4 - 27;
-            var6 = MathHelper.floor_float((float) var6 / var5);
-            var7 = MathHelper.floor_float((float) var7 / var5);
+            ScaledResolution res = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+            int factor = res.getScaleFactor();
+            float scale = this.getChatScale();
+            int var6 = x / factor - 3;
+            int var7 = y / factor - 27;
+            var6 = MathHelper.floor_float((float) var6 / scale);
+            var7 = MathHelper.floor_float((float) var7 / scale);
 
             if (var6 >= 0 && var7 >= 0)
             {
@@ -603,18 +602,12 @@ public class GuiNewChat extends Gui
                     {
                         ChatLine var10 = this.chatLineList.get(var9);
                         int var11 = 0;
-                        Iterator var12 = var10.getLineString().iterator();
 
-                        while (var12.hasNext())
-                        {
-                            IChatComponent var13 = (IChatComponent) var12.next();
-
-                            if (var13 instanceof ChatComponentText)
-                            {
+                        for (IChatComponent var13 : (Iterable<IChatComponent>) var10.getLineString()) {
+                            if (var13 instanceof ChatComponentText) {
                                 var11 += this.mc.fontRenderer.getStringWidth(this.getTextWithSettingsChatColors(((ChatComponentText) var13).getChatComponentText_TextValue()));
 
-                                if (var11 > var6)
-                                {
+                                if (var11 > var6) {
                                     return var13;
                                 }
                             }

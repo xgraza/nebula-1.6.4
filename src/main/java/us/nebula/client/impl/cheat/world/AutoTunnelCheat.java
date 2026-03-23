@@ -66,7 +66,7 @@ public final class AutoTunnelCheat extends Cheat
     private boolean moveForward;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         blockBreakQueue.clear();

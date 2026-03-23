@@ -1,13 +1,16 @@
 package us.nebula.client.impl.cheat.render;
 
+import us.nebula.client.Nebula;
 import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatCategory;
 import us.nebula.client.api.manager.cheat.CheatInstance;
 import us.nebula.client.api.manager.cheat.CheatManifest;
+import us.nebula.client.api.manager.hud.HUDElement;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.render.EventRender2D;
+import us.nebula.client.impl.gui.hud.HUDEditorScreen;
 import us.nebula.client.util.render.ColorUtil;
 
 import java.awt.Color;
@@ -38,17 +41,30 @@ public final class HUDCheat extends Cheat
     public HUDCheat()
     {
         toggle();
+        for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
+        {
+            final Setting<Boolean> setting = new Setting<>(element.getManifest().name(), false)
+                .onValueChange((old, value) -> element.setToggled(value));
+            addSetting(setting);
+            element.setToggledSetting(setting);
+        }
     }
 
     @Subscribe
     private final EventListener<EventRender2D> render2DEventListener = event ->
     {
-        if (MC.gameSettings.showDebugInfo)
+        if (MC.gameSettings.showDebugInfo || MC.currentScreen instanceof HUDEditorScreen)
         {
             return;
         }
         MC.mcProfiler.startSection("nebulaRenderHUD");
-
+        for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
+        {
+            if (element.isToggled())
+            {
+                element.render(event.getResolution());
+            }
+        }
         MC.mcProfiler.endSection();
     };
 

@@ -53,7 +53,7 @@ public final class ScaffoldCheat extends Cheat
     private int towerTicks;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         blockData = null;

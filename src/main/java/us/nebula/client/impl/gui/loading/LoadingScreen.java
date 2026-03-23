@@ -37,16 +37,18 @@ public final class LoadingScreen
             text = "Almost there...";
         }
         textWidth = (int) Fonts.POPPINS_LARGE.getStringWidth(text);
-        Fonts.POPPINS_LARGE.drawStringShadow(text, width / 2.0 - (textWidth / 2.0), 100, -1);
+        Fonts.POPPINS_LARGE.drawStringShadow(text, width / 2.0 - (textWidth / 2.0), res.getScaledHeight_double() - 60, -1);
+
+        double posY = res.getScaledHeight_double() - 30;
 
         int progressBarTotalWidth = width - 150;
-        RenderUtil.rectangle2D(75, 135, progressBarTotalWidth, 20, Color.lightGray.getRGB());
+        RenderUtil.rectangle2D(75, posY, progressBarTotalWidth, 20, Color.lightGray.getRGB());
         double progressPercent = loadingStage / (double) totalLoadingStages;
         if (waiting)
         {
             progressPercent = 1;
         }
-        RenderUtil.rectangle2D(77, 137, (progressBarTotalWidth - 4) * progressPercent, 16, Color.green.getRGB());
+        RenderUtil.rectangle2D(77, posY + 2, (progressBarTotalWidth - 4) * progressPercent, 16, Color.green.getRGB());
     }
 
     public static void setTotalLoadingStages(int totalStages)

@@ -39,7 +39,7 @@ public final class AutoInfiniteCheat extends Cheat
     private boolean swapItems;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         swapItems = false;

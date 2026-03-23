@@ -40,7 +40,7 @@ public final class FreecamCheat extends Cheat
     private CameraPlayerEntity playerEntity;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (playerEntity != null)

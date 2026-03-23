@@ -5,10 +5,11 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import us.nebula.client.ClientSettings;
 import us.nebula.client.Nebula;
-import us.nebula.client.api.DebugFeature;
+import us.nebula.client.api.trait.DebugFeature;
 import us.nebula.client.api.config.IJSONSerializable;
 import us.nebula.client.api.listener.EventBus;
 import us.nebula.client.api.manager.key.Key;
+import us.nebula.client.api.trait.Togglable;
 import us.nebula.client.api.value.ISettingProvider;
 import us.nebula.client.api.value.Setting;
 
@@ -25,7 +26,7 @@ import static us.nebula.client.api.manager.key.Key.DEFAULT_UNBOUND_KEY;
  * @since 02/14/25
  */
 @SuppressWarnings("unchecked")
-public class Cheat implements ISettingProvider, IJSONSerializable
+public class Cheat implements ISettingProvider, IJSONSerializable, Togglable
 {
     protected static final Minecraft MC = Minecraft.getMinecraft();
     static final String DEFAULT_DESCRIPTION = "No description provided for this cheat";
@@ -63,42 +64,12 @@ public class Cheat implements ISettingProvider, IJSONSerializable
                 }, false, DEFAULT_UNBOUND_KEY));
     }
 
-    @Override
-    public void reflectSettings()
-    {
-        for (final Field field : getClass().getDeclaredFields())
-        {
-            if (!Setting.class.isAssignableFrom(field.getType()))
-            {
-                continue;
-            }
-
-            if (field.isAnnotationPresent(DebugFeature.class) && !ClientSettings.DEBUG)
-            {
-                continue;
-            }
-
-            field.setAccessible(true);
-            try
-            {
-                addSetting((Setting<?>) field.get(this));
-            } catch (final IllegalAccessException e)
-            {
-                Nebula.INSTANCE.getLogger().error(
-                        "Failed to reflect setting from {}", this);
-                Nebula.INSTANCE.getLogger().error(e);
-            }
-        }
-        Nebula.INSTANCE.getLogger().debug("Reflected {} settings from {}",
-                settingList.size(), this);
-    }
-
-    protected void onEnable()
+    public void onEnable()
     {
         EventBus.subscribe(this);
     }
 
-    protected void onDisable()
+    public void onDisable()
     {
         EventBus.unsubscribe(this);
     }
@@ -118,16 +89,19 @@ public class Cheat implements ISettingProvider, IJSONSerializable
         return key;
     }
 
+    @Override
     public void toggle()
     {
         key.toggle();
     }
 
+    @Override
     public void setToggled(final boolean toggled)
     {
         key.setState(toggled);
     }
 
+    @Override
     public boolean isToggled()
     {
         return key.isToggled();
@@ -160,6 +134,7 @@ public class Cheat implements ISettingProvider, IJSONSerializable
         return (Setting<T>) settingNameMap.get(name);
     }
 
+    @Override
     public void addSetting(final Setting<?> setting)
     {
         settingNameMap.put(setting.getName(), setting);

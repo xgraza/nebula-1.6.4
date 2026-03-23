@@ -21,7 +21,7 @@ public final class DiscordRPCCheat extends Cheat
     public static DiscordRPCCheat INSTANCE;
 
     @Override
-    protected void onEnable()
+    public void onEnable()
     {
         super.onEnable();
         if (ClientSettings.VERBOSE_LOGGING)
@@ -32,7 +32,7 @@ public final class DiscordRPCCheat extends Cheat
     }
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (ClientSettings.VERBOSE_LOGGING)

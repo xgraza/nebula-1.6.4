@@ -43,7 +43,7 @@ public final class NotifierCheat extends Cheat
     private float previousHealth;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         previousHealth = 0.0f;

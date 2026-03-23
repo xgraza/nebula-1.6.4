@@ -13,6 +13,7 @@ import us.nebula.client.api.manager.account.AccountManager;
 import us.nebula.client.api.manager.cheat.CheatManager;
 import us.nebula.client.api.manager.command.CommandManager;
 import us.nebula.client.api.manager.friend.FriendManager;
+import us.nebula.client.api.manager.hud.HUDManager;
 import us.nebula.client.api.manager.inventory.InventoryManager;
 import us.nebula.client.api.manager.key.KeyManager;
 import us.nebula.client.api.manager.rotate.RotationManager;
@@ -47,6 +48,7 @@ public enum Nebula
     private ConfigurationManager configurationManager;
     private KeyManager keyManager;
     private CommandManager commandManager;
+    private HUDManager hudManager;
     private CheatManager cheatManager;
     private AccountManager accountManager;
     private FriendManager friendManager;
@@ -83,6 +85,7 @@ public enum Nebula
         configurationManager = new ConfigurationManager();
         keyManager = new KeyManager();
         commandManager = new CommandManager();
+        hudManager = new HUDManager();
         cheatManager = new CheatManager();
         accountManager = new AccountManager();
         friendManager = new FriendManager();
@@ -94,6 +97,7 @@ public enum Nebula
 
         keyManager.init();
         commandManager.init();
+        hudManager.init();
         cheatManager.init();
         accountManager.init();
         configurationManager.init();
@@ -212,6 +216,10 @@ public enum Nebula
     public CommandManager getCommandManager()
     {
         return commandManager;
+    }
+
+    public HUDManager getHUDManager() {
+        return hudManager;
     }
 
     public CheatManager getCheatManager()

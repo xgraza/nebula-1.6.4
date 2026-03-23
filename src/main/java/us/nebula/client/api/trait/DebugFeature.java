@@ -1,4 +1,4 @@
-package us.nebula.client.api;
+package us.nebula.client.api.trait;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

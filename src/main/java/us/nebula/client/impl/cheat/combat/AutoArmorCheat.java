@@ -45,7 +45,7 @@ public final class AutoArmorCheat extends Cheat
     private final float[] equippedArmorScores = new float[4];
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         Arrays.fill(armorPieces, -1);

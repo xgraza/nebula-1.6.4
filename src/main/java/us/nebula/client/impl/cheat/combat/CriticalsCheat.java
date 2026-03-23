@@ -47,7 +47,7 @@ public final class CriticalsCheat extends Cheat
     private int modifyStage = -1;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         modifyStage = -1;

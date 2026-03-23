@@ -1,0 +1,131 @@
+package us.nebula.client.impl.hud;
+
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
+import us.nebula.client.api.gui.font.Fonts;
+import us.nebula.client.api.manager.hud.HUDElement;
+import us.nebula.client.api.manager.hud.HUDManifest;
+import us.nebula.client.api.value.Setting;
+import us.nebula.client.util.player.ChatUtil;
+import us.nebula.client.util.render.RenderUtil;
+
+import java.util.TreeMap;
+
+/**
+ * @author xgraza
+ * @since 3/23/26
+ */
+@HUDManifest(name = "Coordinates",
+        description = "Displays overworld and nether coordinates, with your direction")
+public final class CoordinatesHUDElement extends HUDElement
+{
+    private static final TreeMap<Integer, String> DIRECTION_MAP = new TreeMap<>();
+
+    static
+    {
+        DIRECTION_MAP.put(0, "South");
+        DIRECTION_MAP.put(45, "South West");
+        DIRECTION_MAP.put(90, "West");
+        DIRECTION_MAP.put(135, "North West");
+        DIRECTION_MAP.put(180, "North");
+        DIRECTION_MAP.put(225, "North East");
+        DIRECTION_MAP.put(270, "East");
+        DIRECTION_MAP.put(315, "South East");
+    }
+
+    private final Setting<Boolean> netherCoordinatesSetting = new Setting<>(
+            "Nether Coordinates", true);
+    private final Setting<Boolean> directionSetting = new Setting<>(
+            "Direction", true);
+    private final Setting<Boolean> shortenedSetting = new Setting<>(
+            "Shortened", false)
+            .setVisibility(directionSetting::getValue);
+    private final Setting<Boolean> axisSetting = new Setting<>(
+            "Axis", true);
+    private final Setting<Boolean> rotationSetting = new Setting<>(
+            "Rotations", false);
+
+    @Override
+    public void init()
+    {
+        setX(2);
+        setY(RenderUtil.GAME_RESOLUTION.getScaledHeight_double() - Fonts.POPPINS.getFontHeight() - getPadding());
+    }
+
+    @Override
+    public void render(final ScaledResolution res)
+    {
+        final String text = getString();
+        setWidth(Fonts.POPPINS.getStringWidth(text) + (getPadding() * 2.0));
+        setHeight(Fonts.POPPINS.getFontHeight() + (getPadding() * 2.0));
+        Fonts.POPPINS.drawStringShadow(text, x, y, -1);
+    }
+
+    private String getString()
+    {
+        final StringBuilder builder = new StringBuilder();
+
+        if (directionSetting.getValue())
+        {
+            final Integer key = DIRECTION_MAP.floorKey(Math.abs((int) (MC.thePlayer.rotationYaw % 360.0f)));
+            if (key != null)
+            {
+                final String dir = DIRECTION_MAP.get(key);
+
+                builder.append(EnumChatFormatting.DARK_GRAY);
+                builder.append("(");
+                if (shortenedSetting.getValue())
+                {
+                    final String[] parts = dir.split(" ");
+                    builder.append(parts[0].charAt(0));
+                    if (parts.length == 2)
+                    {
+                        builder.append(parts[1].charAt(0));
+                    }
+                } else
+                {
+                    builder.append(dir);
+                }
+                builder.append(")");
+                builder.append(EnumChatFormatting.RESET);
+            }
+            builder.append(" ");
+        }
+
+        Vec3 pos = Vec3.createVectorHelper(MC.thePlayer.posX, MC.thePlayer.boundingBox.minY, MC.thePlayer.posZ);
+        builder.append(EnumChatFormatting.GRAY);
+        builder.append(String.format("%.1f, %.1f, %.1f", pos.xCoord, pos.yCoord, pos.zCoord));
+        builder.append(EnumChatFormatting.RESET);
+
+        if (netherCoordinatesSetting.getValue())
+        {
+            builder.append(" ");
+            if (MC.thePlayer.dimension != -1)
+            {
+                builder.append(EnumChatFormatting.RED);
+                builder.append(String.format("(N: %.1f, %.1f)", pos.xCoord / 8.0, pos.zCoord / 8.0));
+                builder.append(EnumChatFormatting.RESET);
+            } else
+            {
+                builder.append(EnumChatFormatting.BLUE);
+                builder.append(String.format("(OV: %.1f, %.1f)", pos.xCoord * 8.0, pos.zCoord * 8.0));
+                builder.append(EnumChatFormatting.RESET);
+            }
+        }
+
+        if (rotationSetting.getValue())
+        {
+            builder.append(EnumChatFormatting.GRAY);
+            builder.append(" [");
+            builder.append(String.format("%.1f", MC.thePlayer.rotationYaw));
+            builder.append(", ");
+            builder.append(String.format("%.1f", MC.thePlayer.rotationPitch));
+            builder.append("]");
+            builder.append(EnumChatFormatting.RESET);
+        }
+
+        return builder.toString();
+    }
+}

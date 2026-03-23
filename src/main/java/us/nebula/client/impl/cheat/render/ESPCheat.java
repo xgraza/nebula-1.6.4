@@ -62,7 +62,7 @@ public final class ESPCheat extends Cheat
     private final List<Object> renderTargetList = new CopyOnWriteArrayList<>();
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         projected.clear();

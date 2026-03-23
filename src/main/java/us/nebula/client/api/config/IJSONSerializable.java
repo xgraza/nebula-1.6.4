@@ -8,10 +8,10 @@ import com.google.gson.JsonElement;
  */
 public interface IJSONSerializable
 {
-    JsonElement toJSON();
-
     default void fromJSON(final JsonElement element)
     {
 
     }
+
+    JsonElement toJSON();
 }

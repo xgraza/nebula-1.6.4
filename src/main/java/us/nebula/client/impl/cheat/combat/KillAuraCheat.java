@@ -83,7 +83,7 @@ public final class KillAuraCheat extends Cheat
     private boolean blocking;
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
 

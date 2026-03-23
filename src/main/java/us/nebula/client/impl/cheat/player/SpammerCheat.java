@@ -44,7 +44,7 @@ public final class SpammerCheat extends Cheat
     private final Timer timer = new Timer();
 
     @Override
-    protected void onEnable()
+    public void onEnable()
     {
         super.onEnable();
 

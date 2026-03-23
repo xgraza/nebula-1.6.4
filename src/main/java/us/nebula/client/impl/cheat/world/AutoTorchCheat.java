@@ -40,7 +40,7 @@ public final class AutoTorchCheat extends Cheat
             "Spawn Check", true);
 
     @Override
-    protected void onDisable()
+    public void onDisable()
     {
         super.onDisable();
         if (MC.thePlayer != null)

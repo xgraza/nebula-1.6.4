@@ -98,11 +98,12 @@ public class Setting<T> implements IJSONSerializable
 
     public void setValue(T value)
     {
+        T oldValue = this.value;
+        this.value = value;
         if (valueChanged != null)
         {
-            valueChanged.change(this.value, value);
+            valueChanged.change(oldValue, value);
         }
-        this.value = value;
     }
 
     public void nextEnum()
