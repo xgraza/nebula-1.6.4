@@ -15,7 +15,6 @@ import us.nebula.client.api.manager.command.CommandManager;
 import us.nebula.client.api.manager.friend.FriendManager;
 import us.nebula.client.api.manager.inventory.InventoryManager;
 import us.nebula.client.api.manager.key.KeyManager;
-import us.nebula.client.api.manager.overlay.OverlayManager;
 import us.nebula.client.api.manager.rotate.RotationManager;
 import us.nebula.client.api.manager.toast.ToastManager;
 import us.nebula.client.api.systemtray.NebulaSystemTray;
@@ -48,7 +47,6 @@ public enum Nebula
     private ConfigurationManager configurationManager;
     private KeyManager keyManager;
     private CommandManager commandManager;
-    private OverlayManager overlayManager;
     private CheatManager cheatManager;
     private AccountManager accountManager;
     private FriendManager friendManager;
@@ -85,7 +83,6 @@ public enum Nebula
         configurationManager = new ConfigurationManager();
         keyManager = new KeyManager();
         commandManager = new CommandManager();
-        overlayManager = new OverlayManager();
         cheatManager = new CheatManager();
         accountManager = new AccountManager();
         friendManager = new FriendManager();
@@ -97,7 +94,6 @@ public enum Nebula
 
         keyManager.init();
         commandManager.init();
-        overlayManager.init();
         cheatManager.init();
         accountManager.init();
         configurationManager.init();
@@ -216,11 +212,6 @@ public enum Nebula
     public CommandManager getCommandManager()
     {
         return commandManager;
-    }
-
-    public OverlayManager getOverlayManager()
-    {
-        return overlayManager;
     }
 
     public CheatManager getCheatManager()

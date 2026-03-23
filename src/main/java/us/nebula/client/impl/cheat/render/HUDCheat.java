@@ -1,13 +1,11 @@
 package us.nebula.client.impl.cheat.render;
 
-import us.nebula.client.Nebula;
 import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatCategory;
 import us.nebula.client.api.manager.cheat.CheatInstance;
 import us.nebula.client.api.manager.cheat.CheatManifest;
-import us.nebula.client.api.manager.overlay.Overlay;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.render.EventRender2D;
 import us.nebula.client.util.render.ColorUtil;
@@ -40,10 +38,6 @@ public final class HUDCheat extends Cheat
     public HUDCheat()
     {
         toggle();
-        for (final Overlay overlay : Nebula.INSTANCE.getOverlayManager().getAll())
-        {
-            addSetting(overlay.getStateSetting());
-        }
     }
 
     @Subscribe
@@ -54,16 +48,7 @@ public final class HUDCheat extends Cheat
             return;
         }
         MC.mcProfiler.startSection("nebulaRenderHUD");
-        for (final Overlay overlay : Nebula.INSTANCE.getOverlayManager().getAll())
-        {
-            if (!overlay.getStateSetting().getValue())
-            {
-                continue;
-            }
-            MC.mcProfiler.startSection(overlay.getManifest().value());
-            overlay.render(event.getResolution(), event.getPartialTicks());
-            MC.mcProfiler.endSection();
-        }
+
         MC.mcProfiler.endSection();
     };
 
