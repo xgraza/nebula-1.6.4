@@ -61,12 +61,8 @@ dependencies {
     implementation fileTree("${dependenciesPath}shared")
     jarLib fileTree("${dependenciesPath}include")
 
-    if (Util.getOSType().is(Util.OS.OSX)) {
-        implementation fileTree("${dependenciesPath}osx")
-    } else {
-        implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: project.lwjgl_version
-        implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: project.lwjgl_version
-    }
+    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: project.lwjgl_version
+    implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: project.lwjgl_version
 }
 
 tasks.withType(Jar).configureEach {
