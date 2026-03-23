@@ -5,6 +5,8 @@
 <h1 align="center">Nebula 1.7.2</h1>
 <h3 align="center">Nebula is a utility/hack client modification for Minecraft Vanilla 1.7.2</h3>
 
+<h2 align="center">Check out the new rewrite <a href="https://github.com/xgraza/nebula-1.7.2/tree/rewrite">here</a></h2>
+
 ### Features
 
 - OptiFine HD U F7
