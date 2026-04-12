@@ -56,6 +56,11 @@ public final class CriticalsCheat extends Cheat
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
+        if (modifyStage == -1)
+        {
+            return;
+        }
+
         if (!MC.thePlayer.onGround || SpeedCheat.INSTANCE.isActive())
         {
             event.setY(MC.thePlayer.boundingBox.minY);
