@@ -71,7 +71,7 @@ public final class LoadingScreen
         {
             stage = 0;
         }
-        System.out.println(stage + "/" + totalLoadingStages + " -> " + text);
+        //System.out.println(stage + "/" + totalLoadingStages + " -> " + text);
         loadingStage = stage;
         loadingStageText = text;
         try
