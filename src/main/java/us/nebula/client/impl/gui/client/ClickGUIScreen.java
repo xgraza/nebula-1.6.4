@@ -34,9 +34,16 @@ public final class ClickGUIScreen extends GuiScreen
     private final List<CategoryPanel> categoryPanels = new LinkedList<>();
     private final Timer descriptionHoverTimer = new Timer();
 
+    private int oldWidth, oldHeight;
+
     @Override
     public void initGui()
     {
+        if (oldWidth == width && oldHeight == height && !categoryPanels.isEmpty())
+        {
+            return;
+        }
+
         categoryPanels.clear();
 
         double posX = 8.0;
@@ -55,6 +62,9 @@ public final class ClickGUIScreen extends GuiScreen
             panel.init();
         }
         MAX_PANEL_HEIGHT = height - 70 - 26.0;
+
+        oldWidth = width;
+        oldHeight = height;
     }
 
     @Override
