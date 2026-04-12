@@ -18,6 +18,7 @@ import us.nebula.client.api.manager.inventory.InventoryManager;
 import us.nebula.client.api.manager.key.KeyManager;
 import us.nebula.client.api.manager.rotate.RotationManager;
 import us.nebula.client.api.manager.toast.ToastManager;
+import us.nebula.client.api.plugin.PluginManager;
 import us.nebula.client.api.systemtray.NebulaSystemTray;
 import us.nebula.client.impl.gui.loading.LoadingScreen;
 import us.nebula.client.util.render.RenderUtil;
@@ -55,6 +56,7 @@ public enum Nebula
     private ToastManager toastManager;
     private InventoryManager inventoryManager;
     private RotationManager rotationManager;
+    private PluginManager pluginManager;
 
     public void init(final File gameDir)
     {
@@ -92,6 +94,7 @@ public enum Nebula
         toastManager = new ToastManager();
         inventoryManager = new InventoryManager();
         rotationManager = new RotationManager();
+        //pluginManager = new PluginManager();
 
         LoadingScreen.setStage(4, "Initializing Nebula core");
 
@@ -106,6 +109,7 @@ public enum Nebula
         inventoryManager.init();
         rotationManager.init();
         friendManager.init();
+        //pluginManager.init();
 
         LoadingScreen.setStage(5, "Initializing Nebula shaders");
         try
