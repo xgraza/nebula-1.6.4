@@ -42,7 +42,7 @@ public class GuiScreenResourcePacks extends GuiScreen
         final ResourcePackRepository packRepo = mc.getResourcePackRepository();
         packRepo.updateRepositoryEntriesAll();
 
-        List<ResourcePackRepository.Entry> entryList = packRepo.getRepositoryEntriesAll();
+        List<ResourcePackRepository.Entry> entryList = new ArrayList<>(packRepo.getRepositoryEntriesAll());
         entryList.removeAll(packRepo.getRepositoryEntries());
         for (ResourcePackRepository.Entry entry : entryList)
         {
