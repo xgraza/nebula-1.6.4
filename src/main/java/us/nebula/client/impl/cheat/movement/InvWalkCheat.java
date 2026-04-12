@@ -14,6 +14,7 @@ import us.nebula.client.api.manager.cheat.CheatCategory;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.game.EventUpdate;
+import us.nebula.client.impl.gui.hud.HUDEditorScreen;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public final class InvWalkCheat extends Cheat
     // preset GUI screens that require keyboard input that may be annoying to use with inv walk
     private static final List<Class<? extends GuiScreen>> SCREEN_BLACKLIST = Lists.newArrayList(
             GuiChat.class,
+            HUDEditorScreen.class,
             GuiContainerCreative.class,
             GuiCommandBlock.class,
             GuiEditSign.class,
