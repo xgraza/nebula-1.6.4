@@ -21,6 +21,7 @@ import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.cheat.player.FreecamCheat;
 import us.nebula.client.impl.event.render.EventRender3D;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.render.RenderUtil;
 
 import java.util.Map;
@@ -136,7 +137,7 @@ public final class NametagsCheat extends Cheat
                     itemX += ITEM_RENDER_SIZE;
                 }
             }
-        } else if (entity instanceof EntityTameable)
+        } else if (entity instanceof EntityTameable && !text.isEmpty())
         {
             renderItemStack(FAKE_BONE_STACK, (int) -(width + 16), -9);
         }
