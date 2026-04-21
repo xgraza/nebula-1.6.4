@@ -19,6 +19,7 @@ jobs:
   build:
     name: "Build Nebula Rewrite"
     runs-on: ubuntu-latest
+    needs: validation
     steps:
       - name: "Setup gradle"
         uses: gradle/actions/setup-gradle@v6
@@ -29,6 +30,7 @@ jobs:
   upload:
     name: "Upload artifact to GitHub actions"
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - uses: actions/upload-artifact@v7
         with:
