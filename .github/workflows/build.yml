@@ -23,9 +23,10 @@ jobs:
     name: "Build Nebula Rewrite"
     runs-on: ubuntu-latest
     steps:
-      - uses: gradle/actions/setup-gradle@v6
-        with:
-          arguments: build --no-daemon
+      - name: "Setup gradle"
+        uses: gradle/actions/setup-gradle@v6
+      - name: "Build with gradle"
+        run: ./gradlew build --no-daemon
   upload:
     name: "Upload artifact to GitHub actions"
     runs-on: ubuntu-latest
