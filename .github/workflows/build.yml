@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          path: "nebula-rewrite"
       - uses: gradle/actions/wrapper-validation@v6
         with:
           min-wrapper-count: 1
