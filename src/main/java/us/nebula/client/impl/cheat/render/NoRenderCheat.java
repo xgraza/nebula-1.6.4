@@ -1,10 +1,13 @@
 package us.nebula.client.impl.cheat.render;
 
+import us.nebula.client.api.listener.EventListener;
+import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatCategory;
 import us.nebula.client.api.manager.cheat.CheatInstance;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
+import us.nebula.client.impl.event.render.EventRenderWaterEffects;
 
 /**
  * @author xgraza
@@ -42,4 +45,8 @@ public final class NoRenderCheat extends Cheat
             "Bats", false);
     public final Setting<Boolean> weatherSetting = new Setting<>(
             "Weather", false);
+
+    @Subscribe
+    private final EventListener<EventRenderWaterEffects> renderWaterEffectsEventListener = event ->
+            event.setCanceled(waterSetting.getValue());
 }

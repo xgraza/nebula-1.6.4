@@ -43,6 +43,7 @@ import us.nebula.client.impl.cheat.render.BetterF3Cheat;
 import us.nebula.client.impl.cheat.render.ExtraTabCheat;
 import us.nebula.client.impl.cheat.render.NoRenderCheat;
 import us.nebula.client.impl.event.render.EventRender2D;
+import us.nebula.client.impl.event.render.EventRenderWaterEffects;
 import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.render.HeadDownloader;
 import us.nebula.client.util.render.RenderUtil;
@@ -1117,7 +1118,9 @@ public class GuiIngame extends Gui
 
         this.mc.mcProfiler.endStartSection("air");
 
-        if (this.mc.thePlayer.isInsideOfMaterial(Material.water))
+
+
+        if (this.mc.thePlayer.isInsideOfMaterial(Material.water) && !EventBus.dispatch(new EventRenderWaterEffects()))
         {
             var23 = this.mc.thePlayer.getAir();
             var35 = MathHelper.ceiling_double_int((double) (var23 - 2) * 10.0D / 300.0D);

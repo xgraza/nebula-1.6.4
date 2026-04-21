@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.world.World;
+import us.nebula.client.api.listener.Event;
 import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.api.manager.cheat.Cheat;
@@ -19,6 +20,7 @@ import us.nebula.client.impl.event.input.EventUpdateInput;
 import us.nebula.client.impl.event.network.EventPacket;
 import us.nebula.client.impl.event.player.EventRaytrace;
 import us.nebula.client.impl.event.player.EventSneakSlowdown;
+import us.nebula.client.impl.event.render.EventRenderWaterEffects;
 import us.nebula.client.util.player.MoveUtil;
 
 /**
@@ -137,6 +139,9 @@ public final class FreecamCheat extends Cheat
             }
         }
     };
+
+    @Subscribe
+    private final EventListener<EventRenderWaterEffects> renderWaterEffectsEventListener = Event::cancel;
 
     private static GameProfile getPlayerProfile()
     {

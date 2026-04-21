@@ -57,6 +57,7 @@ import us.nebula.client.impl.event.player.EventRaytrace;
 import us.nebula.client.impl.event.render.EventCameraDistance;
 import us.nebula.client.impl.event.render.EventGamma;
 import us.nebula.client.impl.event.render.EventRender3D;
+import us.nebula.client.impl.event.render.EventRenderWaterEffects;
 import us.nebula.client.util.render.ProjectionUtil;
 
 import java.io.IOException;
@@ -686,7 +687,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
             Block var61 = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, var3, par1);
 
-            if (var61.getMaterial() == Material.water)
+            if (var61.getMaterial() == Material.water && !EventBus.dispatch(new EventRenderWaterEffects()))
             {
                 var4 = var4 * 60.0F / 70.0F;
             }
