@@ -1,105 +1,36 @@
 package us.nebula.client.api.manager.command;
 
+import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.minecraft.client.Minecraft;
-import us.xgraza.xcmd.executor.ICommandExecutor;
-import us.xgraza.xcmd.parser.argument.Argument;
-import us.xgraza.xcmd.parser.flag.Flag;
 
-import java.util.LinkedList;
-import java.util.List;
-
-/**
- * @author xgraza
- * @since 08/12/25
- */
-public abstract class Command implements ICommandExecutor
+public abstract class Command
 {
-    static final String DEFAULT_DESCRIPTION = "No description provided for this command";
+    static final String DEFAULT_DESCRIPTION = "No description provided for this cheat";
     protected static final Minecraft MC = Minecraft.getMinecraft();
 
     private final CommandManifest manifest;
-    private final List<Argument<?>> arguments = new LinkedList<>();
-    private final List<Flag<?>> flags = new LinkedList<>();
-    private String syntax;
 
     public Command()
     {
-        if (!getClass().isAnnotationPresent(CommandManifest.class))
-        {
-            throw new RuntimeException("@CommandManifest must be present on top of a command");
-        }
         manifest = getClass().getDeclaredAnnotation(CommandManifest.class);
-    }
-
-    private void generateSyntax()
-    {
-        final StringBuilder builder = new StringBuilder();
-        if (!arguments.isEmpty())
+        if (manifest == null)
         {
-            for (final Argument<?> argument : arguments)
-            {
-                final boolean required = argument.isRequired();
-                builder.append(required ? "[" : "<");
-                builder.append(argument.getName());
-                builder.append(":");
-                builder.append(argument.getTokenType());
-                builder.append(required ? "]" : ">");
-                builder.append(" ");
-            }
+            throw new RuntimeException(
+                    "@CommandManifest needs to be annotated on top of a Command class");
         }
-        if (!flags.isEmpty())
-        {
-            for (final Flag<?> flag : flags)
-            {
-                builder.append("-");
-                builder.append(flag.getName());
-                builder.append(":");
-                builder.append(flag.getArgument().getTokenType());
-                builder.append(" ");
-            }
-        }
-        syntax = builder.toString();
     }
 
-    protected void registerArgument(final Argument<?> argument)
+    public abstract void createBuilder(final LiteralArgumentBuilder<CommandSource> literal);
+
+    protected <T> RequiredArgumentBuilder<CommandSource, T> argument(final String name, final ArgumentType<T> argumentType)
     {
-        arguments.add(argument);
+        return RequiredArgumentBuilder.argument(name, argumentType);
     }
 
-    protected void registerFlag(final Flag<?> flag)
+    public CommandManifest getManifest()
     {
-        flags.add(flag);
-    }
-
-    @Override
-    public List<Argument<?>> getArguments()
-    {
-        return arguments;
-    }
-
-    @Override
-    public List<Flag<?>> getFlags()
-    {
-        return flags;
-    }
-
-    @Override
-    public String[] getAliases()
-    {
-        return manifest.aliases();
-    }
-
-    public String getDescription()
-    {
-        return manifest.description();
-    }
-
-    public String getSyntax()
-    {
-        if (syntax == null)
-        {
-            generateSyntax();
-        }
-        return syntax;
+        return manifest;
     }
 }

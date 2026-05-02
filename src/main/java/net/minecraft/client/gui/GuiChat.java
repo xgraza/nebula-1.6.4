@@ -4,7 +4,13 @@
 
 package net.minecraft.client.gui;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.mojang.brigadier.ParseResults;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestion;
+import com.mojang.brigadier.tree.CommandNode;
+import com.mojang.brigadier.tree.RootCommandNode;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.item.ItemStack;
@@ -25,6 +31,9 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import us.nebula.client.Nebula;
+import us.nebula.client.api.manager.command.CommandManager;
+import us.nebula.client.api.manager.command.CommandSource;
 import us.nebula.client.impl.cheat.player.TranslateCheat;
 
 import java.io.File;
@@ -49,14 +58,20 @@ public class GuiChat extends GuiScreen
     protected GuiTextField chatTextField;
     private String text = "";
 
+    private final List<String> suggestionList = new ArrayList<>();
+    private int suggestionIndex;
+    private final CommandManager commandManager;
+    private ParseResults<CommandSource> parseResults;
+
     public GuiChat()
     {
-
+        this("");
     }
 
     public GuiChat(String text)
     {
         this.text = text;
+        commandManager = Nebula.INSTANCE.getCommandManager();
     }
 
     /**
@@ -72,6 +87,10 @@ public class GuiChat extends GuiScreen
         this.chatTextField.setFocused(true);
         this.chatTextField.setText(this.text);
         this.chatTextField.func_146205_d(false);
+
+        suggestionIndex = 0;
+        suggestionList.clear();
+        parseResults = null;
     }
 
     /**
@@ -92,11 +111,178 @@ public class GuiChat extends GuiScreen
     }
 
     /**
+     * Draws the screen and all the components in it.
+     */
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    {
+        drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
+        chatTextField.drawTextBox();
+
+        drawCommandInfo();
+        handleHoverEvent(mouseX, mouseY);
+
+        super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+
+    private void drawCommandInfo()
+    {
+        String input = chatTextField.getText();
+        if (!input.startsWith(CommandManager.COMMAND_PREFIX))
+        {
+            return;
+        }
+        int x = chatTextField.posX;
+        int y = chatTextField.posY - fontRenderer.FONT_HEIGHT - 2;
+
+        if (parseResults == null)
+        {
+            drawString(fontRenderer, EnumChatFormatting.ITALIC
+                    + "No command found with that name", x, y, -1);
+            return;
+        }
+
+        if (!suggestionList.isEmpty())
+        {
+            final int lengthPerPage = 10;
+            final int page = suggestionIndex / lengthPerPage;
+
+            final List<String> paginatedSuggestions = suggestionList.subList(page * lengthPerPage, Math.min(suggestionList.size(), (page + 1) * lengthPerPage));
+
+            for (int i = 0; i < paginatedSuggestions.size(); ++i)
+            {
+                final String suggestion = paginatedSuggestions.get(i);
+                int indexOnPage =  ((page + 1) * lengthPerPage) - suggestionIndex - 1;
+                drawString(fontRenderer, suggestion, x, y - (i * (fontRenderer.FONT_HEIGHT + 2)), indexOnPage == i ? 0x00CCCC : -1);
+            }
+        }
+//
+//        if (!parseResults.getExceptions().isEmpty())
+//        {
+//            int offset = 0;
+//            for (final CommandNode<CommandSource> node : parseResults.getExceptions().keySet())
+//            {
+//                final CommandSyntaxException syntaxException = parseResults.getExceptions().get(node);
+//                drawString(fontRenderer, EnumChatFormatting.RED.toString()
+//                                + EnumChatFormatting.ITALIC
+//                                + syntaxException.getMessage(), x,
+//                        y - (offset * (fontRenderer.FONT_HEIGHT + 2)), -1);
+//                ++offset;
+//            }
+//            return;
+//        }
+
+//        if (!suggestionList.isEmpty())
+//        {
+//            final int pages = (int) Math.ceil(suggestionList.size() / 10.0);
+//            final int page = suggestionIndex / 10;
+//            System.out.println(page + " index: " + suggestionIndex);
+//            final List<String> paginatedSuggestions = suggestionList.subList(page * 10, Math.min(suggestionList.size(), (page + 1) * 10));
+//
+//            for (int i = paginatedSuggestions.size() - 1; i >= 0; --i)
+//            {
+//                final String suggestion = paginatedSuggestions.get(i);
+//                drawString(fontRenderer, suggestion, x, y - (i * (fontRenderer.FONT_HEIGHT + 2)), ((page * 5) + suggestionIndex) == i ? 0x00CCCC : -1);
+//            }
+//        } else
+//        {
+//            final String usage = commandManager.getSmartUsage(parseResults);
+//            if (usage != null && !usage.isEmpty())
+//            {
+//                int yOffset = fontRenderer.getStringWidth(input.trim() + " ");
+//                drawString(fontRenderer, EnumChatFormatting.GRAY.toString()
+//                        + EnumChatFormatting.ITALIC
+//                        + usage, x + yOffset, y, -1);
+//            }
+//        }
+
+    }
+
+    private void handleHoverEvent(int mouseX, int mouseY)
+    {
+        IChatComponent componentAt = this.mc.ingameGUI.getChatGui().getComponentAt(Mouse.getX(), Mouse.getY());
+        if (componentAt != null && componentAt.getChatStyle().getChatHoverEvent() != null)
+        {
+            final HoverEvent hoverEvent = componentAt.getChatStyle().getChatHoverEvent();
+            switch (hoverEvent.getAction())
+            {
+                case SHOW_ITEM:
+                {
+                    ItemStack itemStack = null;
+                    try
+                    {
+                        final NBTBase nbtBase = JsonToNBT.func_150315_a(hoverEvent.getValue().getUnformattedText());
+                        if (nbtBase instanceof NBTTagCompound)
+                        {
+                            itemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtBase);
+                        }
+                    } catch (final NBTException ignored)
+                    {
+
+                    }
+
+                    if (itemStack != null)
+                    {
+                        this.renderItem(itemStack, mouseX, mouseY);
+                    } else
+                    {
+                        this.renderText(EnumChatFormatting.RED + "Invalid Item!", mouseX, mouseY);
+                    }
+                    break;
+                }
+                case SHOW_TEXT:
+                {
+                    this.renderText(hoverEvent.getValue().getFormattedText(), mouseX, mouseY);
+                    break;
+                }
+                case SHOW_ACHIEVEMENT:
+                {
+                    StatBase statBase = StatList.func_151177_a(hoverEvent.getValue().getUnformattedText());
+                    if (statBase == null)
+                    {
+                        this.renderText(EnumChatFormatting.RED + "Invalid statistic/achievement!", mouseX, mouseY);
+                        break;
+                    }
+
+                    final IChatComponent chatComponent = statBase.func_150951_e();
+                    final ChatComponentTranslation translationComponent = new ChatComponentTranslation(
+                            "stats.tooltip.type."
+                                    + (statBase.isAchievement() ? "achievement" : "statistic"));
+                    translationComponent.getChatStyle().setItalic(true);
+                    final String description = statBase instanceof Achievement
+                            ? ((Achievement) statBase).getDescription()
+                            : null;
+                    ArrayList<String> textList = Lists.newArrayList(chatComponent.getFormattedText(), translationComponent.getFormattedText());
+
+                    if (description != null)
+                    {
+                        textList.addAll(this.fontRenderer.listFormattedStringToWidth(description, 150));
+                    }
+
+                    this.renderTextList(textList, mouseX, mouseY);
+                    break;
+                }
+            }
+
+            GL11.glDisable(GL11.GL_LIGHTING);
+        }
+    }
+
+    /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
     protected void keyTyped(char typedChar, int keyCode)
     {
         this.waitForTabComplete = false;
+
+        if (chatTextField.getText().startsWith(CommandManager.COMMAND_PREFIX))
+        {
+            handleNebulaKeyPress(typedChar, keyCode);
+            return;
+        }
+
+        suggestionList.clear();
+        suggestionIndex = 0;
+        parseResults = null;
 
         if (keyCode == KEY_TAB)
         {
@@ -136,6 +322,106 @@ public class GuiChat extends GuiScreen
             }
 
             this.mc.displayGuiScreen(null);
+        }
+    }
+
+    private void handleNebulaKeyPress(char typedChar, int keyCode)
+    {
+        if (parseResults == null || suggestionList == null)
+        {
+            parseCommandResults();
+        }
+
+        switch (keyCode)
+        {
+            case KEY_ESCAPE:
+            {
+                mc.displayGuiScreen(null);
+                break;
+            }
+            case KEY_UP:
+            {
+                suggestionIndex++;
+                if (suggestionIndex > suggestionList.size() - 1)
+                {
+                    suggestionIndex = 0;
+                }
+                break;
+            }
+            case KEY_DOWN:
+            {
+                suggestionIndex--;
+                if (suggestionIndex < 0)
+                {
+                    suggestionIndex = suggestionList.size() - 1;
+                }
+
+                break;
+            }
+            case KEY_TAB:
+            {
+                if (suggestionList.isEmpty() || parseResults == null)
+                {
+                    break;
+                }
+                final String suggestion = suggestionList.get(suggestionIndex);
+                final CommandNode<CommandSource> lastNode = commandManager.getLastCommandNode(parseResults);
+
+                if (lastNode instanceof RootCommandNode)
+                {
+                    chatTextField.setText(CommandManager.COMMAND_PREFIX + suggestion + " ");
+                    suggestionIndex = 0;
+                    suggestionList.clear();
+                } else
+                {
+                    System.out.println(lastNode);
+                }
+                break;
+            }
+            case KEY_RETURN:
+            case KEY_NUMPADENTER:
+            {
+                if (parseResults == null || !parseResults.getExceptions().isEmpty())
+                {
+                    break;
+                }
+                commandManager.execute(parseResults);
+                mc.displayGuiScreen(null);
+                break;
+            }
+            default:
+            {
+                chatTextField.textboxKeyTyped(typedChar, keyCode);
+                parseCommandResults();
+                break;
+            }
+        }
+    }
+
+    private void parseCommandResults()
+    {
+        String input = chatTextField.getText();
+        if (input != null && !input.isEmpty())
+        {
+            parseResults = commandManager.parse(input);
+            if (parseResults != null)
+            {
+                commandManager.getDispatcher().getCompletionSuggestions(parseResults)
+                        .thenAccept((suggestions) ->
+                        {
+                            final List<Suggestion> list = suggestions.getList();
+                            suggestionList.clear();
+                            for (final Suggestion suggestion : list)
+                            {
+                                System.out.println(suggestion.getText());
+                                suggestionList.add(suggestion.getText());
+                            }
+                            suggestionIndex = 0;
+                        });
+
+                //suggestionList = commandManager.getSuggestions(parseResults);
+                suggestionIndex = 0;
+            }
         }
     }
 
@@ -362,84 +648,6 @@ public class GuiChat extends GuiScreen
                 this.chatSize = index;
             }
         }
-    }
-
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
-        drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
-        this.chatTextField.drawTextBox();
-
-        IChatComponent componentAt = this.mc.ingameGUI.getChatGui().getComponentAt(Mouse.getX(), Mouse.getY());
-        if (componentAt != null && componentAt.getChatStyle().getChatHoverEvent() != null)
-        {
-            final HoverEvent hoverEvent = componentAt.getChatStyle().getChatHoverEvent();
-            switch (hoverEvent.getAction())
-            {
-                case SHOW_ITEM:
-                {
-                    ItemStack itemStack = null;
-                    try
-                    {
-                        final NBTBase nbtBase = JsonToNBT.func_150315_a(hoverEvent.getValue().getUnformattedText());
-                        if (nbtBase instanceof NBTTagCompound)
-                        {
-                            itemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtBase);
-                        }
-                    } catch (final NBTException ignored)
-                    {
-
-                    }
-
-                    if (itemStack != null)
-                    {
-                        this.renderItem(itemStack, mouseX, mouseY);
-                    } else
-                    {
-                        this.renderText(EnumChatFormatting.RED + "Invalid Item!", mouseX, mouseY);
-                    }
-                    break;
-                }
-                case SHOW_TEXT:
-                {
-                    this.renderText(hoverEvent.getValue().getFormattedText(), mouseX, mouseY);
-                    break;
-                }
-                case SHOW_ACHIEVEMENT:
-                {
-                    StatBase statBase = StatList.func_151177_a(hoverEvent.getValue().getUnformattedText());
-                    if (statBase == null)
-                    {
-                        this.renderText(EnumChatFormatting.RED + "Invalid statistic/achievement!", mouseX, mouseY);
-                        break;
-                    }
-
-                    final IChatComponent chatComponent = statBase.func_150951_e();
-                    final ChatComponentTranslation translationComponent = new ChatComponentTranslation(
-                            "stats.tooltip.type."
-                                    + (statBase.isAchievement() ? "achievement" : "statistic"));
-                    translationComponent.getChatStyle().setItalic(true);
-                    final String description = statBase instanceof Achievement
-                            ? ((Achievement) statBase).getDescription()
-                            : null;
-                    ArrayList<String> textList = Lists.newArrayList(chatComponent.getFormattedText(), translationComponent.getFormattedText());
-
-                    if (description != null)
-                    {
-                        textList.addAll(this.fontRenderer.listFormattedStringToWidth(description, 150));
-                    }
-
-                    this.renderTextList(textList, mouseX, mouseY);
-                    break;
-                }
-            }
-
-            GL11.glDisable(GL11.GL_LIGHTING);
-        }
-
-        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     public void handleServerTabComplete(final String[] candidates)

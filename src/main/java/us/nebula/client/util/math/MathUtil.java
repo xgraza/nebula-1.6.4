@@ -14,6 +14,14 @@ public final class MathUtil
 {
     public static final Random RNG = new Random();
 
+    public static double getDistanceSq(final BlockPos p, final BlockPos p2)
+    {
+        double dX = p.getX() - p2.getX();
+        double dY = p.getY() - p2.getY();
+        double dZ = p.getZ() - p2.getZ();
+        return dX * dX + dY * dY + dZ * dZ;
+    }
+
     public static double getDistance(final BlockPos p, final BlockPos p2)
     {
         double dX = p.getX() - p2.getX();

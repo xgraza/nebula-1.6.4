@@ -18,6 +18,7 @@ import us.nebula.client.api.manager.inventory.InventoryManager;
 import us.nebula.client.api.manager.key.KeyManager;
 import us.nebula.client.api.manager.rotate.RotationManager;
 import us.nebula.client.api.manager.toast.ToastManager;
+import us.nebula.client.api.movement.MovementController;
 import us.nebula.client.api.plugin.PluginManager;
 import us.nebula.client.api.systemtray.NebulaSystemTray;
 import us.nebula.client.impl.gui.loading.LoadingScreen;
@@ -58,6 +59,8 @@ public enum Nebula
     private RotationManager rotationManager;
     private PluginManager pluginManager;
 
+    private MovementController movementController;
+
     public void init(final File gameDir)
     {
         SplashTextProvider.addSplashTextProvider(
@@ -95,6 +98,7 @@ public enum Nebula
         inventoryManager = new InventoryManager();
         rotationManager = new RotationManager();
         //pluginManager = new PluginManager();
+        movementController = new MovementController();
 
         LoadingScreen.setStage(4, "Initializing Nebula core");
 
@@ -259,5 +263,10 @@ public enum Nebula
     public NebulaSystemTray getSystemTray()
     {
         return systemTray;
+    }
+
+    public MovementController getMovementController()
+    {
+        return movementController;
     }
 }
