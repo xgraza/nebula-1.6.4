@@ -37,6 +37,7 @@ import us.nebula.client.api.render.EntityCulling;
 import us.nebula.client.impl.cheat.exploit.GhostHandCheat;
 import us.nebula.client.impl.cheat.player.AntiLagCheat;
 import us.nebula.client.impl.cheat.render.NoRenderCheat;
+import us.nebula.client.impl.cheat.world.AutoTorchCheat;
 import us.nebula.client.impl.event.player.EventPushWater;
 
 import java.util.*;
@@ -3173,7 +3174,8 @@ public abstract class World implements IBlockAccess
             this.theProfiler.startSection("checkedPosition < toCheckCount");
 
             final boolean noRecompile = AntiLagCheat.INSTANCE.isToggled()
-                    && AntiLagCheat.INSTANCE.noLightRecompile.getValue();
+                    && AntiLagCheat.INSTANCE.noLightRecompile.getValue()
+                    && !AutoTorchCheat.INSTANCE.isToggled();
 
             while (var5 < var6)
             {

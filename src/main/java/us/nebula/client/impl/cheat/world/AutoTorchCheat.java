@@ -15,6 +15,7 @@ import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatCategory;
+import us.nebula.client.api.manager.cheat.CheatInstance;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.game.EventUpdate;
@@ -32,6 +33,9 @@ import us.nebula.client.util.world.BlockUtil;
         category = CheatCategory.WORLD)
 public final class AutoTorchCheat extends Cheat
 {
+    @CheatInstance
+    public static AutoTorchCheat INSTANCE;
+
     private final Setting<Integer> rangeSetting = new Setting<>(
             "Range", 4, 1, 6, 1);
     private final Setting<Integer> minLightLevelSetting = new Setting<>(
