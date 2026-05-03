@@ -20,6 +20,7 @@ import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.game.EventUpdate;
 import us.nebula.client.util.math.MathUtil;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.player.InventoryUtil;
 import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.world.BlockUtil;
@@ -61,15 +62,18 @@ public final class AutoTorchCheat extends Cheat
                         && ((ItemBlock) stack.getItem()).getBlock() instanceof BlockTorch);
         if (slot == -1)
         {
+            ChatUtil.send("No slot");
             return;
         }
         final BlockPos pos = getPlacePos();
         if (pos == null)
         {
+            ChatUtil.send("No position");
             return;
         }
+        ChatUtil.send("Place @ %s", pos);
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        InteractionManager.INSTANCE.rightClickBlock(pos.down(), EnumFacing.UP, true);
+        InteractionManager.INSTANCE.rightClickBlock(pos.up(), EnumFacing.DOWN, true);
         Nebula.INSTANCE.getInventoryManager().syncSlot();
     };
 
