@@ -31,16 +31,23 @@ public final class FlattenCheat extends Cheat
             "Range", 4, 1, 6, 1);
     private final Setting<Boolean> radialSetting = new Setting<>(
             "Radial", true);
+    private final Setting<Boolean> stopOnSneakSetting = new Setting<>(
+            "Stop on Sneak", false);
     private final Setting<Integer> blocksSetting = new Setting<>(
             "Blocks", 4, 1, 20, 1);
-    private final Setting<Boolean> breakAboveSetting = new Setting<>(
-            "Break Above", false);
+    private final Setting<Integer> yOffsetSetting = new Setting<>(
+            "Y-Offset", 0, 0, 2, 1);
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
         final ItemStack heldStack = MC.thePlayer.getHeldItem();
         if (heldStack == null || !(heldStack.getItem() instanceof ItemBlock))
+        {
+            return;
+        }
+
+        if (stopOnSneakSetting.getValue() && MC.thePlayer.isSneaking())
         {
             return;
         }
@@ -62,7 +69,7 @@ public final class FlattenCheat extends Cheat
         {
             for (int z = -range; z <= range; ++z)
             {
-                final BlockPos pos = origin.add(x, -1, z);
+                final BlockPos pos = origin.add(x, -(1 + yOffsetSetting.getValue()), z);
                 if (radialSetting.getValue() && MC.thePlayer.getDistance(
                         pos.getX() + 0.5,
                         pos.getY(),
