@@ -86,13 +86,17 @@ public final class ScaffoldCheat extends Cheat
             if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
             {
                 ++towerTicks;
-                if (MC.thePlayer.onGround || (MC.thePlayer.motionY == 0.16477328182606651))
+                if (towerTicks == 8)
                 {
-                    MC.thePlayer.motionY = 0.42f;
-                }
-                if (MC.thePlayer.motionY == 0.33319999363422365 || towerTicks % 18 == 0)
-                {
+                    // ChatUtil.send("Tower ticks");
+                    towerTicks = 0;
                     MC.thePlayer.motionY = -0.078f;
+                } else
+                {
+                    if (MC.thePlayer.onGround || MC.thePlayer.motionY == 0.16477328182606651)
+                    {
+                        MC.thePlayer.jump();
+                    }
                 }
             } else
             {
