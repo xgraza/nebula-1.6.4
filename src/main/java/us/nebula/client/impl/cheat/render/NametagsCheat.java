@@ -21,6 +21,7 @@ import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.cheat.player.FreecamCheat;
 import us.nebula.client.impl.event.render.EventRender3D;
+import us.nebula.client.util.io.NetworkUtil;
 import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.render.RenderUtil;
 
@@ -209,15 +210,10 @@ public final class NametagsCheat extends Cheat
 
         if (pingSetting.getValue())
         {
-            final GuiPlayerInfo info = (GuiPlayerInfo) MC.thePlayer.sendQueue.playerInfoMap
-                    .get(player.getCommandSenderName());
-            if (info != null)
-            {
-                builder.append(EnumChatFormatting.GRAY);
-                builder.append(info.responseTime);
-                builder.append("ms ");
-                builder.append(EnumChatFormatting.RESET);
-            }
+            builder.append(EnumChatFormatting.GRAY);
+            builder.append(NetworkUtil.getLatency(player));
+            builder.append("ms ");
+            builder.append(EnumChatFormatting.RESET);
         }
 
         if (Nebula.INSTANCE.getFriendManager().isFriend(player)

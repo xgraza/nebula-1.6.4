@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class S38PacketPlayerListItem extends Packet
 {
-    private String field_149126_a;
+    private String name;
     private boolean field_149124_b;
     private int field_149125_c;
     private static final String __OBFID = "CL_00001318";
@@ -20,7 +20,7 @@ public class S38PacketPlayerListItem extends Packet
 
     public S38PacketPlayerListItem(String p_i45209_1_, boolean p_i45209_2_, int p_i45209_3_)
     {
-        this.field_149126_a = p_i45209_1_;
+        this.name = p_i45209_1_;
         this.field_149124_b = p_i45209_2_;
         this.field_149125_c = p_i45209_3_;
     }
@@ -30,7 +30,7 @@ public class S38PacketPlayerListItem extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149126_a = p_148837_1_.readStringFromBuffer(16);
+        this.name = p_148837_1_.readStringFromBuffer(16);
         this.field_149124_b = p_148837_1_.readBoolean();
         this.field_149125_c = p_148837_1_.readShort();
     }
@@ -40,7 +40,7 @@ public class S38PacketPlayerListItem extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeStringToBuffer(this.field_149126_a);
+        p_148840_1_.writeStringToBuffer(this.name);
         p_148840_1_.writeBoolean(this.field_149124_b);
         p_148840_1_.writeShort(this.field_149125_c);
     }
@@ -50,9 +50,9 @@ public class S38PacketPlayerListItem extends Packet
         p_149123_1_.handlePlayerListItem(this);
     }
 
-    public String func_149122_c()
+    public String getName()
     {
-        return this.field_149126_a;
+        return this.name;
     }
 
     public boolean func_149121_d()

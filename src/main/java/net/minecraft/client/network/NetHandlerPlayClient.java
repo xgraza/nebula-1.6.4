@@ -105,12 +105,12 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     /**
      * A mapping from player names to their respective GuiPlayerInfo (specifies the clients response time to the server)
      */
-    public Map playerInfoMap = new HashMap();
+    public Map<String, GuiPlayerInfo> playerInfoMap = new HashMap<>();
 
     /**
      * An ArrayList of GuiPlayerInfo (includes all the players' GuiPlayerInfo on the current server)
      */
-    public List playerInfoList = new ArrayList();
+    public List<GuiPlayerInfo> playerInfoList = new ArrayList<>();
     public int currentServerMaxPlayers = 20;
 
     /**
@@ -1365,26 +1365,26 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         }
     }
 
-    public void handlePlayerListItem(S38PacketPlayerListItem p_147256_1_)
+    public void handlePlayerListItem(S38PacketPlayerListItem packet)
     {
-        GuiPlayerInfo var2 = (GuiPlayerInfo) this.playerInfoMap.get(p_147256_1_.func_149122_c());
+        GuiPlayerInfo info = this.playerInfoMap.get(packet.getName());
 
-        if (var2 == null && p_147256_1_.func_149121_d())
+        if (info == null && packet.func_149121_d())
         {
-            var2 = new GuiPlayerInfo(p_147256_1_.func_149122_c());
-            this.playerInfoMap.put(p_147256_1_.func_149122_c(), var2);
-            this.playerInfoList.add(var2);
+            info = new GuiPlayerInfo(packet.getName());
+            this.playerInfoMap.put(packet.getName(), info);
+            this.playerInfoList.add(info);
         }
 
-        if (var2 != null && !p_147256_1_.func_149121_d())
+        if (info != null && !packet.func_149121_d())
         {
-            this.playerInfoMap.remove(p_147256_1_.func_149122_c());
-            this.playerInfoList.remove(var2);
+            this.playerInfoMap.remove(packet.getName());
+            this.playerInfoList.remove(info);
         }
 
-        if (var2 != null && p_147256_1_.func_149121_d())
+        if (info != null && packet.func_149121_d())
         {
-            var2.responseTime = p_147256_1_.func_149120_e();
+            info.responseTime = packet.func_149120_e();
         }
     }
 
