@@ -32,6 +32,11 @@ public final class MovementController
         input.sneak = sneaking;
     }
 
+    public boolean isSneaking()
+    {
+        return input.sneak;
+    }
+
     public void jump(final boolean jumping)
     {
         if (input == null)
@@ -39,6 +44,11 @@ public final class MovementController
             return;
         }
         input.jump = jumping;
+    }
+
+    public boolean isJumping()
+    {
+        return input.jump;
     }
 
     public void setMovement(final float[] movement)

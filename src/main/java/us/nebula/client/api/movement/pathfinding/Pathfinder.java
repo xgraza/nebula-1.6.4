@@ -85,7 +85,7 @@ public final class Pathfinder
             for (final int[] offset : BLOCK_POSITION_OFFSETS)
             {
                 final BlockPos neighborPos = pos.add(offset[0], offset[1], offset[2]);
-                float gCost = getGCost(neighborPos, isOffsetDiagonal(offset));
+                float gCost = getGCost(neighborPos, pos);
                 if (gCost >= NO_WAY)
                 {
                     continue;
@@ -124,13 +124,9 @@ public final class Pathfinder
         return pathList;
     }
 
-    private boolean isOffsetDiagonal(final int[] offset)
+    private boolean isOffsetDiagonal(int deltaX, int deltaZ)
     {
-        if (offset.length != 3)
-        {
-            return false;
-        }
-        return Math.abs(offset[0]) == 1 && Math.abs(offset[2]) == 1;
+        return Math.abs(deltaX) == 1 && Math.abs(deltaZ) == 1;
     }
 
     private float getHeuristic(final BlockPos pos, final BlockPos goal)
@@ -138,13 +134,11 @@ public final class Pathfinder
         return (float) MathUtil.getDistance(pos, goal) * 0.5f;
     }
 
-    private float getGCost(final BlockPos pos, final boolean diagonal)
+    private float getGCost(final BlockPos pos, final BlockPos prevPos)
     {
         final Block block = MC.theWorld.getBlock(pos);
         final Block blockUnder = MC.theWorld.getBlock(pos.down());
         final Block blockAbove = MC.theWorld.getBlock(pos.up());
-
-        float g = 1.0f;
 
         // if the block in front is a solid block, we can't walk through it
         if (block.getMaterial().blocksMovement() || blockAbove.getMaterial().blocksMovement())
@@ -152,32 +146,71 @@ public final class Pathfinder
             return NO_WAY;
         }
 
+        float g = 1.0f;
+
+        final int deltaX = pos.getX() - prevPos.getX();
+        final int deltaY = pos.getY() - prevPos.getY();
+        final int deltaZ = pos.getZ() - prevPos.getZ();
+
+        final boolean isDiagonal = isOffsetDiagonal(deltaX, deltaZ);
         // check if we are going to clip into a block, and avoid if possible
-        if (diagonal)
+        if (isDiagonal)
         {
-            g = 1.4f;
+            g = 1.5f;
+
+            // we need to make sure we have clearance on both sides
+
         }
 
-        // calculate fall distance, if deadly or stupid don't do it
-        if (blockUnder == Blocks.air)
+        if (deltaY != 0)
         {
-            float fallCost = 0.5f;
-            for (int y = pos.getY() - 1; y >= 0; --y)
+            int maxStepHeight = 1;
+            if (MC.thePlayer.isPotionActive(Potion.jump))
             {
-                final BlockPos belowPos = new BlockPos(pos.getX(), y, pos.getZ());
-                if (MC.theWorld.getBlock(belowPos) != Blocks.air)
-                {
-                    break;
-                }
-                fallCost += 0.5f; // 0.5 because every block you fall after three blocks is half a heart
+                maxStepHeight = MC.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier() + 1;
             }
 
-            // deadly, we will die
-            if (fallCost >= 3.0f + MC.thePlayer.getHealth() + MC.thePlayer.getAbsorptionAmount())
+            // can't jump higher than one block
+            if (deltaY > maxStepHeight)
             {
                 return NO_WAY;
             }
+
+            // one block jump, only what's supported by step anyway
+            if (deltaY == 1)
+            {
+                if (!blockUnder.getMaterial().blocksMovement())
+                {
+                    return NO_WAY;
+                }
+
+                if (block.getMaterial().blocksMovement() || blockAbove.getMaterial().blocksMovement())
+                {
+                    return NO_WAY;
+                }
+
+                g += isDiagonal ? 1.8f : 1.2f;
+            }
         }
+
+        int fallDistance = 0;
+        for (int y = 1; y < 256; ++y)
+        {
+            final BlockPos fallPos = pos.add(0, -y, 0);
+            if (MC.theWorld.getBlock(fallPos).getMaterial().blocksMovement())
+            {
+                break;
+            }
+            ++fallDistance;
+        }
+
+        int maxFallDistance = (int) ((MC.thePlayer.getHealth() + MC.thePlayer.getAbsorptionAmount()) / 2.0f);
+        if (fallDistance >= maxFallDistance + 0.5)
+        {
+            return NO_WAY;
+        }
+        // for every block fallen, add to the cost as a more "risky" move
+        g += fallDistance * 2.0f;
 
         // check to see if it could be a trap, we don't want to accidentally set off redstone
         if (block == Blocks.tripwire || block == Blocks.tripwire_hook || block instanceof BlockBasePressurePlate)

@@ -140,7 +140,7 @@ public final class AutoArmorCheat extends Cheat
         float score = armor.damageReduceAmount;
         for (final Enchantment enchantment : RELEVANT_ENCHANTMENTS)
         {
-            float enchantmentLevel = ItemUtil.getEnchantLevelNoLimit(enchantment, itemStack);
+            float enchantmentLevel = ItemUtil.getEnchantLevel(enchantment, itemStack);
             if (enchantmentLevel == 0.0f)
             {
                 continue;

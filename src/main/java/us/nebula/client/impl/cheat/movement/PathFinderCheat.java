@@ -26,7 +26,7 @@ import static org.lwjgl.opengl.GL11.*;
 public final class PathFinderCheat extends Cheat
 {
     private final Queue<BlockPos> pathQueue = new LinkedBlockingQueue<>();
-    private BlockPos currentPosition;
+    private BlockPos currentPosition, nextPosition;
 
     @Override
     public void onEnable()
@@ -41,7 +41,7 @@ public final class PathFinderCheat extends Cheat
         currentPosition = null;
 
         final BlockPos originPos = PlayerUtil.getOrigin();
-        final BlockPos goalPos = new BlockPos(528, 70, -974);
+        final BlockPos goalPos = new BlockPos(384, 115, -1291);
         ChatUtil.send("Pathing to %s", goalPos);
         final List<BlockPos> pathList = Nebula.INSTANCE.getMovementController().getPathTo(originPos, goalPos);
         if (pathList.isEmpty())
@@ -80,8 +80,23 @@ public final class PathFinderCheat extends Cheat
 
         glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
-        glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
         glBegin(GL_LINE_STRIP);
+
+        glVertex3d(MC.thePlayer.posX, MC.thePlayer.boundingBox.minY + 0.2, MC.thePlayer.posZ);
+
+        if (currentPosition != null)
+        {
+            glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+            glVertex3d(currentPosition.getX() + 0.5, currentPosition.getY() + 0.2, currentPosition.getZ() + 0.5);
+        }
+
+        if (nextPosition != null)
+        {
+            glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+            glVertex3d(nextPosition.getX() + 0.5, nextPosition.getY() + 0.2, nextPosition.getZ() + 0.5);
+        }
+
+        glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
         for (final BlockPos pathPos : pathQueue)
         {
             glVertex3d(pathPos.getX() + 0.5, pathPos.getY() + 0.2, pathPos.getZ() + 0.5);
@@ -99,16 +114,17 @@ public final class PathFinderCheat extends Cheat
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (pathQueue.isEmpty())
-        {
-            ChatUtil.send("Done!");
-            Nebula.INSTANCE.getMovementController().setMovement(0.0f, 0.0f);
-            setToggled(false);
-            return;
-        }
         if (currentPosition == null)
         {
             currentPosition = pathQueue.poll();
+            if (pathQueue.isEmpty())
+            {
+                ChatUtil.send("Done!");
+                Nebula.INSTANCE.getMovementController().setMovement(0.0f, 0.0f);
+                setToggled(false);
+                return;
+            }
+            nextPosition = pathQueue.poll();
             return;
         }
         final float[] movement = Nebula.INSTANCE.getMovementController().getMovementFor(
@@ -118,15 +134,26 @@ public final class PathFinderCheat extends Cheat
                         currentPosition.getZ() + 0.5));
         Nebula.INSTANCE.getMovementController().setMovement(movement);
 
-        if (currentPosition.getY() > MC.thePlayer.boundingBox.minY)
+        if (Nebula.INSTANCE.getMovementController().isJumping() && MC.thePlayer.onGround)
         {
-            //Nebula.INSTANCE.getMovementController().jump(true);
+            Nebula.INSTANCE.getMovementController().jump(false);
+        }
+
+        if (currentPosition.getY() - MC.thePlayer.boundingBox.minY >= 1)
+        {
+            Nebula.INSTANCE.getMovementController().jump(true);
         }
 
         final AxisAlignedBB bb = new AxisAlignedBB(currentPosition);
         if (MC.thePlayer.boundingBox.copy().intersectsWith(bb))
         {
-            currentPosition = null;
+            if (nextPosition != null && nextPosition.getY() - MC.thePlayer.boundingBox.minY >= 1)
+            {
+                Nebula.INSTANCE.getMovementController().jump(true);
+            }
+
+            currentPosition = nextPosition;
+            nextPosition = pathQueue.poll();
         }
     };
 }
