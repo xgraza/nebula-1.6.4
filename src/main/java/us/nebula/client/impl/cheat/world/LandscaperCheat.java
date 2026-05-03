@@ -104,7 +104,6 @@ public final class LandscaperCheat extends Cheat
         }
         return block instanceof BlockFlower
                 || block instanceof BlockDoublePlant
-                || block instanceof BlockGrass
                 || block instanceof BlockTallGrass
                 || block instanceof BlockMushroom
                 || block instanceof BlockDeadBush
