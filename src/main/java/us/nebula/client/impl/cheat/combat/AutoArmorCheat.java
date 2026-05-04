@@ -40,6 +40,8 @@ public final class AutoArmorCheat extends Cheat
             "Prefer No Thorns", false);
     private final Setting<Boolean> tickSetting = new Setting<>(
             "Tick", false);
+    private final Setting<Boolean> guiCheckSetting = new Setting<>(
+            "Gui Check", true);
 
     private final int[] armorPieces = new int[4];
     private final float[] equippedArmorScores = new float[4];
@@ -55,6 +57,11 @@ public final class AutoArmorCheat extends Cheat
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
+        if (MC.thePlayer.openContainer.windowId != INVENTORY_WINDOW_ID && guiCheckSetting.getValue())
+        {
+            return;
+        }
+
         final boolean replace = cacheBestArmor();
         if (!replace)
         {
