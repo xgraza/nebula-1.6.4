@@ -526,6 +526,8 @@ public class GuiIngame extends Gui
             font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
             text = String.format("Slipperiness: %s", block.slipperiness);
             font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("Metadata: %s", mc.theWorld.getBlockMetadata(mc.objectMouseOver.blockX, mc.objectMouseOver.blockY, mc.objectMouseOver.blockZ));
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
         }
 
         if (mc.pointedEntity != null)

@@ -1,11 +1,12 @@
 package us.nebula.client.impl.cheat.world;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockFarmland;
+import com.google.common.collect.Lists;
+import net.minecraft.block.*;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
 import us.nebula.client.Nebula;
@@ -17,24 +18,27 @@ import us.nebula.client.api.manager.cheat.CheatCategory;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.game.EventUpdate;
+import us.nebula.client.impl.event.network.EventPacket;
 import us.nebula.client.util.player.InventoryUtil;
 import us.nebula.client.util.player.PlayerUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author xgraza
  * @since 06/24/25
  */
-// TODO: sugar cane & nether warts
 @CheatManifest(name = "AutoFarm",
         description = "Automatically harvests and replants seeds",
         category = CheatCategory.WORLD)
 public final class AutoFarmCheat extends Cheat
 {
     private static final Map<Block, Item> CROP_BLOCK_TO_SEED = new HashMap<>();
+    private static final Map<Class<? extends Block>, List<Block>> BASE_TO_CROP_BLOCK = new HashMap<>();
+
+    private static final int FULL_GROWN_CROP_META = 7;
+    private static final int FULL_GROWN_NETHERWART_META = 3;
 
     static
     {
@@ -43,12 +47,34 @@ public final class AutoFarmCheat extends Cheat
         CROP_BLOCK_TO_SEED.put(Blocks.pumpkin_stem, Items.pumpkin_seeds);
         CROP_BLOCK_TO_SEED.put(Blocks.potatoes, Items.potato);
         CROP_BLOCK_TO_SEED.put(Blocks.carrots, Items.carrot);
+        BASE_TO_CROP_BLOCK.computeIfAbsent(BlockFarmland.class, (x) -> new ArrayList<>())
+                .addAll(CROP_BLOCK_TO_SEED.keySet());
+
+        CROP_BLOCK_TO_SEED.put(Blocks.reeds, Items.reeds);
+        BASE_TO_CROP_BLOCK.put(BlockDirt.class, Lists.newArrayList(Blocks.reeds));
+        BASE_TO_CROP_BLOCK.put(BlockGrass.class, Lists.newArrayList(Blocks.reeds));
+        BASE_TO_CROP_BLOCK.put(BlockSand.class, Lists.newArrayList(Blocks.reeds));
+
+        CROP_BLOCK_TO_SEED.put(Blocks.nether_wart, Items.nether_wart);
+        BASE_TO_CROP_BLOCK.put(BlockSoulSand.class, Lists.newArrayList(Blocks.nether_wart));
     }
 
     private final Setting<Double> rangeSetting = new Setting<>(
             "Range", 4.5, 1.0, 6.0, 0.5);
     private final Setting<Boolean> noPosionousSetting = new Setting<>(
             "Throw Out Poisonous", true);
+    private final Setting<Boolean> autoHarvestSetting = new Setting<>(
+            "Auto Harvest", true);
+//    private final Setting<Boolean> pathToSetting = new Setting<>(
+//            "Path To", false).setVisibility(autoHarvestSetting::getValue);
+    private final Setting<Boolean> sugarCaneSetting = new Setting<>(
+            "Sugar Canes", true);
+    private final Setting<Integer> sugarCaneLengthSetting = new Setting<>(
+            "Sugar Cane Length", 1, 1, 3, 1);
+    private final Setting<Boolean> netherwartsSetting = new Setting<>(
+            "Nether Warts", true);
+    private final Setting<Boolean> packetScanSetting = new Setting<>(
+            "Packet Scan", false);
 
     private final Map<BlockPos, Block> plantTypeAtBlockMap = new ConcurrentHashMap<>();
 
@@ -59,9 +85,13 @@ public final class AutoFarmCheat extends Cheat
     public void onDisable()
     {
         super.onDisable();
-        if (oldSlot != -1 && MC.thePlayer != null)
+        if (MC.thePlayer != null)
         {
-            MC.thePlayer.inventory.currentItem = oldSlot;
+            if (oldSlot != -1)
+            {
+                MC.thePlayer.inventory.currentItem = oldSlot;
+            }
+
         }
 
         oldSlot = -1;
@@ -75,14 +105,18 @@ public final class AutoFarmCheat extends Cheat
     {
         if (melonBreakPos != null)
         {
-            if (InteractionManager.INSTANCE.breakBlock(melonBreakPos, EnumFacing.UP))
+            final Block block = MC.theWorld.getBlock(melonBreakPos);
+            if ((block == Blocks.melon_block || block == Blocks.pumpkin)
+                    && !InteractionManager.INSTANCE.breakBlock(melonBreakPos, EnumFacing.DOWN))
             {
-                MC.thePlayer.inventory.currentItem = oldSlot;
-                oldSlot = -1;
                 return;
             }
-            melonBreakPos = null;
+            if (oldSlot != -1)
+            {
+                MC.thePlayer.inventory.currentItem = oldSlot;
+            }
             oldSlot = -1;
+            melonBreakPos = null;
         }
 
         cacheSurroundingFarmland();
@@ -90,6 +124,12 @@ public final class AutoFarmCheat extends Cheat
         if (noPosionousSetting.getValue())
         {
             throwOutPoisonous();
+        }
+
+        if (plantTypeAtBlockMap.isEmpty())
+        {
+            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+            return;
         }
 
         for (final BlockPos pos : plantTypeAtBlockMap.keySet())
@@ -100,39 +140,49 @@ public final class AutoFarmCheat extends Cheat
                 continue;
             }
 
-            if (!(MC.theWorld.getBlock(pos) instanceof BlockFarmland))
+            final Block cropBlockType = plantTypeAtBlockMap.get(pos);
+            if (cropBlockType == null
+                    || isNotAllowedToPlaceCrop(pos, cropBlockType)
+                    || !allowCrop(cropBlockType))
             {
                 plantTypeAtBlockMap.remove(pos);
-                continue;
-            }
-            final Block cropBlockType = plantTypeAtBlockMap.get(pos);
-            if (cropBlockType == null)
-            {
                 continue;
             }
 
             final BlockPos cropBlockPos = pos.up();
             final Block block = MC.theWorld.getBlock(cropBlockPos);
+
             if (block == Blocks.air)
             {
-                plantSeed(pos, cropBlockType);
-                return;
-            }
-
-            final int meta = MC.theWorld.getBlockMetadata(cropBlockPos.getX(),
-                    cropBlockPos.getY(), cropBlockPos.getZ());
-            if (meta < 7)
-            {
-                continue;
-            }
-
-            if (InteractionManager.INSTANCE.breakBlock(cropBlockPos, EnumFacing.UP))
-            {
-                plantSeed(pos, cropBlockType);
-                if (cropBlockType != Blocks.melon_stem && cropBlockType != Blocks.pumpkin_stem)
+                if (plantSeed(pos, cropBlockType))
                 {
                     return;
                 }
+                continue;
+            }
+
+            if (block == Blocks.reeds)
+            {
+                if (!isSugarCaneGrown(cropBlockPos))
+                {
+                    continue;
+                }
+            } else
+            {
+                final int meta = MC.theWorld.getBlockMetadata(cropBlockPos.getX(),
+                        cropBlockPos.getY(), cropBlockPos.getZ());
+                final int grownMeta = cropBlockType == Blocks.nether_wart
+                        ? FULL_GROWN_NETHERWART_META
+                        : FULL_GROWN_CROP_META;
+                if (meta < grownMeta)
+                {
+                    continue;
+                }
+            }
+
+            if (!autoHarvestSetting.getValue())
+            {
+                return;
             }
 
             if (cropBlockType == Blocks.melon_stem || cropBlockType == Blocks.pumpkin_stem)
@@ -140,7 +190,7 @@ public final class AutoFarmCheat extends Cheat
                 final BlockPos melonPos = findGrownMelonCrop(cropBlockPos);
                 if (melonPos == null)
                 {
-                    return;
+                    continue;
                 }
                 // melon & pumpkins both can be harvested with the same type of tool, just search for the best
                 final int slot = InventoryUtil.getBestToolSlotFor(Blocks.pumpkin);
@@ -150,7 +200,7 @@ public final class AutoFarmCheat extends Cheat
                     MC.thePlayer.inventory.currentItem = slot;
                 }
                 // if we can instant remove it, dont bother bringing to the next tick...
-                if (InteractionManager.INSTANCE.breakBlock(melonPos, EnumFacing.UP))
+                if (InteractionManager.INSTANCE.breakBlock(melonPos, EnumFacing.DOWN))
                 {
                     MC.thePlayer.inventory.currentItem = oldSlot;
                     oldSlot = -1;
@@ -159,20 +209,95 @@ public final class AutoFarmCheat extends Cheat
                 melonBreakPos = melonPos;
                 return;
             }
+
+            if (InteractionManager.INSTANCE.breakBlock(cropBlockPos, EnumFacing.UP))
+            {
+                plantSeed(pos, cropBlockType);
+                return;
+            }
         }
 
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
     };
 
+    @Subscribe
+    private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
+    {
+        if (event.getPacket() instanceof S23PacketBlockChange && packetScanSetting.getValue())
+        {
+            final S23PacketBlockChange packet = event.getPacket();
+            final Block packetBlock = packet.getType();
+            BlockPos pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
+            final Block block = MC.theWorld.getBlock(pos);
+
+            if (block instanceof BlockFarmland && !(packetBlock instanceof BlockFarmland))
+            {
+                // ChatUtil.send("Farmland dried up :(");
+                plantTypeAtBlockMap.remove(pos);
+                return;
+            }
+
+            pos = pos.down();
+            if (CROP_BLOCK_TO_SEED.containsKey(packetBlock)
+                    && !plantTypeAtBlockMap.containsKey(pos)
+                    && !(packetBlock instanceof BlockReed))
+            {
+                // ChatUtil.send("Caching new crop @ %s", pos);
+                plantTypeAtBlockMap.put(pos, packet.getType());
+            }
+        }
+    };
+
+    private boolean isNotAllowedToPlaceCrop(final BlockPos pos, final Block cropBlock)
+    {
+        final boolean invalidBase = !BASE_TO_CROP_BLOCK.getOrDefault(
+                MC.theWorld.getBlock(pos).getClass(),
+                Collections.emptyList()).contains(cropBlock);
+        if (invalidBase)
+        {
+            return true;
+        }
+        if (cropBlock != Blocks.reeds)
+        {
+            return invalidBase;
+        }
+        for (final EnumFacing facing : EnumFacing.values())
+        {
+            if (facing == EnumFacing.UP)
+            {
+                continue;
+            }
+            final BlockPos neighbor = pos.offset(facing);
+            final Block block = MC.theWorld.getBlock(neighbor);
+            if (block == Blocks.water || block == Blocks.flowing_water)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isSugarCaneGrown(final BlockPos origin)
+    {
+        int height = 0;
+        BlockPos pos = origin;
+        while (MC.theWorld.getBlock(pos) == Blocks.reeds)
+        {
+            ++height;
+            pos = pos.up();
+        }
+        return height >= sugarCaneLengthSetting.getValue();
+    }
+
     private BlockPos findGrownMelonCrop(final BlockPos pos)
     {
         for (final EnumFacing facing : EnumFacing.values())
         {
-            final BlockPos n = pos.offset(facing);
-            final Block block = MC.theWorld.getBlock(n);
+            final BlockPos neighbor = pos.offset(facing);
+            final Block block = MC.theWorld.getBlock(neighbor);
             if (block == Blocks.melon_block || block == Blocks.pumpkin)
             {
-                return n;
+                return neighbor;
             }
         }
         return null;
@@ -182,23 +307,25 @@ public final class AutoFarmCheat extends Cheat
     {
         final int slot = InventoryUtil.getSlot(0, 36,
                 (stack) -> stack.getItem() == Items.poisonous_potato);
-        if (slot != -1)
+        if (slot == -1)
         {
-            MC.playerController.windowClick(0, slot < 9 ? slot + 36 : slot, 1, 4, MC.thePlayer);
+            return;
         }
+        MC.playerController.windowClick(0, slot < 9 ? slot + 36 : slot, 1, 4, MC.thePlayer);
     }
 
-    private void plantSeed(final BlockPos pos, final Block type)
+    private boolean plantSeed(final BlockPos pos, final Block type)
     {
         final int slot = InventoryUtil.getHotbarSlot(
                 (stack) -> stack.getItem() == CROP_BLOCK_TO_SEED.get(type));
         if (slot == -1)
         {
-            return;
+            return false;
         }
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        InteractionManager.INSTANCE.rightClickBlock(pos, EnumFacing.UP);
+        final boolean result = InteractionManager.INSTANCE.rightClickBlock(pos, EnumFacing.UP);
         Nebula.INSTANCE.getInventoryManager().syncSlot();
+        return result;
     }
 
     private void cacheSurroundingFarmland()
@@ -212,21 +339,32 @@ public final class AutoFarmCheat extends Cheat
                 for (int z = -r; z <= r; ++z)
                 {
                     final BlockPos pos = origin.add(x, y, z);
-                    if (!plantTypeAtBlockMap.containsKey(pos)
-                            && MC.theWorld.getBlock(pos) instanceof BlockFarmland)
+                    if (!plantTypeAtBlockMap.containsKey(pos))
                     {
                         final Block cropBlock = MC.theWorld.getBlock(pos.up());
-                        if (cropBlock == Blocks.wheat
-                                || cropBlock == Blocks.melon_stem
-                                || cropBlock == Blocks.pumpkin_stem
-                                || cropBlock == Blocks.potatoes
-                                || cropBlock == Blocks.carrots)
+                        if (!allowCrop(cropBlock) || isNotAllowedToPlaceCrop(pos, cropBlock))
                         {
-                            plantTypeAtBlockMap.put(pos, cropBlock);
+                            continue;
                         }
+
+                        // ChatUtil.send("Cached %s at %s", cropBlock, pos);
+                        plantTypeAtBlockMap.put(pos, cropBlock);
                     }
                 }
             }
         }
+    }
+
+    private boolean allowCrop(final Block cropBlock)
+    {
+        if (cropBlock == Blocks.reeds && !sugarCaneSetting.getValue())
+        {
+            return false;
+        }
+        if (cropBlock == Blocks.nether_wart && !netherwartsSetting.getValue())
+        {
+            return false;
+        }
+        return true;
     }
 }

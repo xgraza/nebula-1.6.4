@@ -592,9 +592,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     /**
      * Updates the block and metadata and generates a blockupdate (and notify the clients)
      */
-    public void handleBlockChange(S23PacketBlockChange p_147234_1_)
+    public void handleBlockChange(S23PacketBlockChange packet)
     {
-        this.clientWorldController.func_147492_c(p_147234_1_.getX(), p_147234_1_.getY(), p_147234_1_.getZ(), p_147234_1_.getType(), p_147234_1_.getData());
+        this.clientWorldController.func_147492_c(packet.getX(), packet.getY(), packet.getZ(), packet.getType(), packet.getData());
     }
 
     /**
