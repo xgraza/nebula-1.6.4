@@ -3,12 +3,14 @@ package us.nebula.client.impl.cheat.combat;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import us.nebula.client.Nebula;
 import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatCategory;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
+import us.nebula.client.impl.cheat.exploit.EnderchestBPCheat;
 import us.nebula.client.impl.event.game.EventUpdate;
 import us.nebula.client.util.player.ItemUtil;
 
@@ -57,13 +59,22 @@ public final class AutoArmorCheat extends Cheat
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (MC.thePlayer.openContainer.windowId != INVENTORY_WINDOW_ID && guiCheckSetting.getValue())
+        final boolean replace = cacheBestArmor();
+        if (!replace)
         {
             return;
         }
 
-        final boolean replace = cacheBestArmor();
-        if (!replace)
+        if (EnderchestBPCheat.INSTANCE.isActive())
+        {
+            Nebula.INSTANCE.getToastManager().info("AutoArmor",
+                    "EnderCheatBP interfered with AutoArmor, so it was turned off.",
+                    7500L);
+            EnderchestBPCheat.INSTANCE.reset();
+            EnderchestBPCheat.INSTANCE.setToggled(false);
+        }
+
+        if (MC.thePlayer.openContainer.windowId != INVENTORY_WINDOW_ID && guiCheckSetting.getValue())
         {
             return;
         }
