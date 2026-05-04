@@ -15,6 +15,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
 import us.nebula.client.api.listener.EventBus;
+import us.nebula.client.impl.cheat.exploit.NoMoveDelayCheat;
 import us.nebula.client.impl.cheat.movement.SpeedCheat;
 import us.nebula.client.impl.event.game.EventPostUpdate;
 import us.nebula.client.impl.event.game.EventUpdate;
@@ -223,7 +224,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         double diffX = event.getX() - oldPosX;
         double diffY = event.getY() - oldMinY;
         double diffZ = event.getZ() - oldPosZ;
-        boolean moved = diffX * diffX + diffY * diffY + diffZ * diffZ > 9.0E-4D || ticksSinceMovePacket >= 20;
+        boolean moved = diffX * diffX + diffY * diffY + diffZ * diffZ > event.getMinMove() || ticksSinceMovePacket >= 20;
 
         float diffYaw = event.getYaw() - oldRotationYaw;
         float diffPitch = event.getPitch() - oldRotationPitch;

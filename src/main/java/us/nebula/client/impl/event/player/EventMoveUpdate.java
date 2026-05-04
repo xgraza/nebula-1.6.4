@@ -11,6 +11,7 @@ public final class EventMoveUpdate extends Event
     private double x, y, stance, z;
     private float yaw, pitch;
     private boolean onGround;
+    private double minMove = 9.0E-4D;
 
     public EventMoveUpdate(double x, double y, double stance, double z, float yaw, float pitch, boolean onGround)
     {
@@ -91,5 +92,15 @@ public final class EventMoveUpdate extends Event
     public void setOnGround(boolean onGround)
     {
         this.onGround = onGround;
+    }
+
+    public void setMinMove(double minMove)
+    {
+        this.minMove = minMove;
+    }
+
+    public double getMinMove()
+    {
+        return minMove;
     }
 }
