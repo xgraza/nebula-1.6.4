@@ -74,6 +74,21 @@ public class Cheat implements ISettingProvider, IJSONSerializable, Togglable
         EventBus.unsubscribe(this);
     }
 
+    public void notifyInfo(final String message, final long duration)
+    {
+        Nebula.INSTANCE.getToastManager().info(manifest.name(), message, duration);
+    }
+
+    public void notifyWarn(final String message, final long duration)
+    {
+        Nebula.INSTANCE.getToastManager().warn(manifest.name(), message, duration);
+    }
+
+    public void notifyError(final String message, final long duration)
+    {
+        Nebula.INSTANCE.getToastManager().error(manifest.name(), message, duration);
+    }
+
     public CheatManifest getManifest()
     {
         return manifest;

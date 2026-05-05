@@ -67,9 +67,7 @@ public final class AutoArmorCheat extends Cheat
 
         if (EnderchestBPCheat.INSTANCE.isActive())
         {
-            Nebula.INSTANCE.getToastManager().info("AutoArmor",
-                    "EnderCheatBP interfered with AutoArmor, so it was turned off.",
-                    7500L);
+            notifyInfo("EnderCheatBP interfered with AutoArmor, so it was turned off.", 7500L);
             EnderchestBPCheat.INSTANCE.reset();
             EnderchestBPCheat.INSTANCE.setToggled(false);
         }

@@ -53,6 +53,7 @@ public final class PearlPhaseCheat extends Cheat implements RotationConfirmation
         slot = InventoryUtil.getHotbarItem(ItemEnderPearl.class);
         if (slot == -1)
         {
+            notifyError("You need an enderpearl in your hotbar to phase.", 5000L);
             toggle();
             return;
         }

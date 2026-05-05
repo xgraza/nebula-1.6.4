@@ -22,7 +22,6 @@ import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.game.EventUpdate;
 import us.nebula.client.impl.event.network.EventPacket;
-import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.world.BlockUtil;
 
@@ -80,13 +79,14 @@ public final class BurrowCheat extends Cheat
         final int slot = getBlockSlot();
         if (slot == -1)
         {
+            notifyError("Obsidian/EnderChest/Anvil required in hotbar for burrow.", 7500L);
             toggle();
             return;
         }
         final BlockData blockData = getBlockData();
         if (blockData == null)
         {
-            ChatUtil.send("no block data");
+            notifyError("No position found to place at!", 7500L);
             toggle();
             return;
         }

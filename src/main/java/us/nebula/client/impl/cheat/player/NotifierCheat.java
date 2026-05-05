@@ -129,7 +129,7 @@ public final class NotifierCheat extends Cheat
                     EnumChatFormatting.getTextWithoutFormattingCodes(text));
         } else
         {
-            Nebula.INSTANCE.getToastManager().warn("Notifier", text, 5000L);
+            notifyWarn(text, 7500L);
         }
     }
 }

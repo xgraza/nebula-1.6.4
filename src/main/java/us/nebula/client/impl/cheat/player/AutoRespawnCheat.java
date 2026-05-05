@@ -9,7 +9,6 @@ import us.nebula.client.api.manager.cheat.CheatCategory;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.player.EventPlayerDeath;
-import us.nebula.client.util.player.ChatUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -101,8 +100,9 @@ public final class AutoRespawnCheat extends Cheat
         {
             if (logCoordsSetting.getValue())
             {
-                writeCoordsToFile(String.format("%.2f, %.2f, %.2f", MC.thePlayer.posX, MC.thePlayer.boundingBox.minY, MC.thePlayer.posZ));
-                ChatUtil.send("Writing coordinates to file...");
+                final String format = String.format("%.2f, %.2f, %.2f", MC.thePlayer.posX, MC.thePlayer.boundingBox.minY, MC.thePlayer.posZ);
+                writeCoordsToFile(format);
+                notifyInfo("You died at XYZ: " + format, 10000L);
             }
             MC.thePlayer.sendQueue.addToSendQueue(new C16PacketClientStatus(
                     C16PacketClientStatus.EnumState.PERFORM_RESPAWN));

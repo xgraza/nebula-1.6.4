@@ -105,10 +105,7 @@ public final class LongJumpCheat extends Cheat
     {
         if (event.getPacket() instanceof S08PacketPlayerPosLook && autoDisableSetting.getValue())
         {
-            Nebula.INSTANCE.getToastManager().warn(
-                    "LongJump",
-                    "Disabled LongJump due to a server/anti-cheat lagback.",
-                    7500L);
+            notifyWarn("Disabled LongJump due to a server/anti-cheat lagback.", 5000L);
             setToggled(false);
         }
     };

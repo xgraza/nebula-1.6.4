@@ -22,7 +22,6 @@ import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.event.game.EventUpdate;
 import us.nebula.client.impl.event.network.EventPacket;
 import us.nebula.client.util.math.MathUtil;
-import us.nebula.client.util.player.ChatUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -121,12 +120,12 @@ public final class FakePlayerCheat extends Cheat
                 shownRecordScreen = true;
                 fakePlayerMovement.clear();
 
-                ChatUtil.send("Begin moving now! Sneak to end recording");
+                notifyInfo("Begin moving now, sneak to end the recording", 7500L);
             }
 
             if (MC.gameSettings.keyBindSneak.pressed)
             {
-                ChatUtil.send("Finished recording(%s)!", fakePlayerMovement.size());
+                notifyInfo("Finished recording! Recorded " + fakePlayerMovement.size() + " movements", 7500L);
                 lastRecordedMovement = null;
                 recordSetting.setValue(false);
                 return;

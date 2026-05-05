@@ -57,10 +57,7 @@ public final class SpammerCheat extends Cheat
         final File file = spammerFileSetting.getValue();
         if (file == null || !file.exists() || !file.isFile())
         {
-            Nebula.INSTANCE.getToastManager().error(
-                    "Spammer",
-                    "Spammer file either does not exist, or was not set",
-                    5000L);
+            notifyError("Spammer file either does not exist, or was not set", 5000L);
             toggle();
             return;
         }
