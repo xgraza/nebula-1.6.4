@@ -743,6 +743,11 @@ public abstract class EntityLivingBase extends Entity
         return this.activePotionsMap.get(par1Potion.id);
     }
 
+    public PotionEffect getActivePotionEffect(int id)
+    {
+        return activePotionsMap.get(id);
+    }
+
     /**
      * adds a PotionEffect to the entity
      */
@@ -2214,6 +2219,13 @@ public abstract class EntityLivingBase extends Entity
         Vec3 var4 = this.getPosition(par3);
         Vec3 var5 = this.getLook(par3);
         Vec3 var6 = var4.addVector(var5.xCoord * par1, var5.yCoord * par1, var5.zCoord * par1);
+        return this.worldObj.func_147447_a(var4, var6, false, false, true);
+    }
+
+    public MovingObjectPosition rayTrace(Vec3 var5, double distance, float partialTickTime)
+    {
+        Vec3 var4 = this.getPosition(partialTickTime);
+        Vec3 var6 = var4.addVector(var5.xCoord * distance, var5.yCoord * distance, var5.zCoord * distance);
         return this.worldObj.func_147447_a(var4, var6, false, false, true);
     }
 

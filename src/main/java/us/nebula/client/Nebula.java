@@ -17,6 +17,7 @@ import us.nebula.client.api.manager.hud.HUDManager;
 import us.nebula.client.api.manager.inventory.InventoryManager;
 import us.nebula.client.api.manager.key.KeyManager;
 import us.nebula.client.api.manager.rotate.RotationManager;
+import us.nebula.client.api.manager.server.ServerManager;
 import us.nebula.client.api.manager.toast.ToastManager;
 import us.nebula.client.api.movement.MovementController;
 import us.nebula.client.api.plugin.PluginManager;
@@ -57,6 +58,7 @@ public enum Nebula
     private ToastManager toastManager;
     private InventoryManager inventoryManager;
     private RotationManager rotationManager;
+    private ServerManager serverManager;
     private PluginManager pluginManager;
 
     private MovementController movementController;
@@ -97,6 +99,7 @@ public enum Nebula
         toastManager = new ToastManager();
         inventoryManager = new InventoryManager();
         rotationManager = new RotationManager();
+        serverManager = new ServerManager();
         //pluginManager = new PluginManager();
         movementController = new MovementController();
 
@@ -112,6 +115,7 @@ public enum Nebula
         toastManager.init();
         inventoryManager.init();
         rotationManager.init();
+        serverManager.init();
         friendManager.init();
         //pluginManager.init();
 
@@ -258,6 +262,11 @@ public enum Nebula
     public RotationManager getRotationManager()
     {
         return rotationManager;
+    }
+
+    public ServerManager getServerManager()
+    {
+        return serverManager;
     }
 
     public NebulaSystemTray getSystemTray()

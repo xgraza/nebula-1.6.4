@@ -16,6 +16,7 @@ import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
 import us.nebula.client.api.manager.cheat.Cheat;
 import us.nebula.client.api.manager.cheat.CheatCategory;
+import us.nebula.client.api.manager.cheat.CheatInstance;
 import us.nebula.client.api.manager.cheat.CheatManifest;
 import us.nebula.client.api.value.Setting;
 import us.nebula.client.impl.cheat.player.FreecamCheat;
@@ -42,6 +43,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         category = CheatCategory.COMBAT)
 public final class AutoBedCheat extends Cheat
 {
+    @CheatInstance
+    public static AutoBedCheat INSTANCE;
+
     private static final int AUTO_BED_ROTATION_PRIORITY = 100;
     private static final double BED_EXPLOSION_SIZE = 5.0;
     private static final float BED_EXPLOSION_STRENGTH = 10.0f;
@@ -381,6 +385,12 @@ public final class AutoBedCheat extends Cheat
     private boolean isInOverworld()
     {
         return MC.thePlayer.dimension == 0;
+    }
+
+    @Override
+    public boolean isActive()
+    {
+        return super.isActive() && target != null && blockInfo.getPos() != null && blockInfo.getFacing() != null;
     }
 
     @Override

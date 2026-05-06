@@ -1,6 +1,8 @@
 package us.nebula.client.api.manager.rotate;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import us.nebula.client.api.listener.EventBus;
 import us.nebula.client.api.listener.EventListener;
 import us.nebula.client.api.listener.Subscribe;
@@ -87,15 +89,16 @@ public final class RotationManager implements IManager
         queuedRotationQueue.add(new QueuedRotation(yaw, pitch, priority, callback));
     }
 
-    public void spoof(final float yaw, final float pitch, final int priority)
+    public boolean spoof(final float yaw, final float pitch, final int priority)
     {
         if (spoofPrority > priority)
         {
-            return;
+            return false;
         }
         spoofPrority = priority;
         spoofedAngles[0] = yaw;
         spoofedAngles[1] = pitch;
+        return true;
     }
 
     private void setInvalid(final float[] angles)
@@ -108,6 +111,20 @@ public final class RotationManager implements IManager
     private boolean isRotationValid(final float[] angles)
     {
         return !Float.isNaN(angles[0]) && !Float.isNaN(angles[1]);
+    }
+
+    public Vec3 getLook(float rotationYaw, float rotationPitch)
+    {
+        float var2 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float var3 = MathHelper.sin(-rotationYaw * 0.017453292F - (float) Math.PI);
+        float var4 = -MathHelper.cos(-rotationPitch * 0.017453292F);
+        float var5 = MathHelper.sin(-rotationPitch * 0.017453292F);
+        return MC.theWorld.getWorldVec3Pool().getVecFromPool(var3 * var4, var5, var2 * var4);
+    }
+
+    public Vec3 getLook()
+    {
+        return getLook(serverAngles[0], serverAngles[1]);
     }
 
     private static class QueuedRotation

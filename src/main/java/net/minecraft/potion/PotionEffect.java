@@ -11,6 +11,8 @@ public class PotionEffect
      */
     private final int potionID;
 
+    private final int originalDuration;
+
     /**
      * The duration of the potion effect
      */
@@ -51,6 +53,7 @@ public class PotionEffect
     {
         this.potionID = par1;
         this.duration = par2;
+        originalDuration = par2;
         this.amplifier = par3;
         this.isAmbient = par4;
     }
@@ -59,6 +62,7 @@ public class PotionEffect
     {
         this.potionID = par1PotionEffect.potionID;
         this.duration = par1PotionEffect.duration;
+        originalDuration = duration;
         this.amplifier = par1PotionEffect.amplifier;
     }
 
@@ -92,6 +96,11 @@ public class PotionEffect
     public int getPotionID()
     {
         return this.potionID;
+    }
+
+    public int getOriginalDuration()
+    {
+        return originalDuration;
     }
 
     public int getDuration()

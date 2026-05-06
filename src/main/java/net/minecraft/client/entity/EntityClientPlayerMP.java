@@ -269,6 +269,9 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             oldRotationYaw = event.getYaw();
             oldRotationPitch = event.getPitch();
         }
+
+        // dispatch the end result
+        EventBus.dispatch(new EventMoveUpdate.Post(oldPosX, oldMinY, event.getStance(), oldPosZ, oldRotationYaw, oldRotationPitch, wasOnGround));
     }
 
     /**

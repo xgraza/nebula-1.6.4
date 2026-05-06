@@ -462,7 +462,7 @@ public class GuiIngame extends Gui
         font.drawStringWithShadow("Nebula " + ClientSettings.VERSION, 2, y += 10, color);
 
         font.drawStringWithShadow("FPS: " + Minecraft.debugFPS, 2, y += 18, color);
-        font.drawStringWithShadow("TPS: 20.00", 2, y += 10, color); // TODO
+        font.drawStringWithShadow("TPS: " + Nebula.INSTANCE.getServerManager().getAverageTPS() + " [" + Nebula.INSTANCE.getServerManager().getCurrentTPS() + "]", 2, y += 10, color);
         font.drawStringWithShadow("Chunk Updates: " + WorldRenderer.chunksUpdated, 2, y += 10, color);
 
         font.drawStringWithShadow(String.format("X: %.5f", mc.thePlayer.posX), 2, y += 18, color);

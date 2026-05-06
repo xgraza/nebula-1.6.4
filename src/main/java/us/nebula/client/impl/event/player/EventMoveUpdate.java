@@ -6,7 +6,7 @@ import us.nebula.client.api.listener.Event;
  * @author xgraza
  * @since 03/01/25
  */
-public final class EventMoveUpdate extends Event
+public class EventMoveUpdate extends Event
 {
     private double x, y, stance, z;
     private float yaw, pitch;
@@ -102,5 +102,13 @@ public final class EventMoveUpdate extends Event
     public double getMinMove()
     {
         return minMove;
+    }
+
+    public static final class Post extends EventMoveUpdate
+    {
+        public Post(double x, double y, double stance, double z, float yaw, float pitch, boolean onGround)
+        {
+            super(x, y, stance, z, yaw, pitch, onGround);
+        }
     }
 }

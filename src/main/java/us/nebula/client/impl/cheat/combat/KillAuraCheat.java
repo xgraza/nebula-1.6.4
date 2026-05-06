@@ -106,7 +106,7 @@ public final class KillAuraCheat extends Cheat
         {
             target = getNextTarget();
         }
-        if (target == null)
+        if (target == null || AutoPotCheat.INSTANCE.isActive())
         {
             if (blocking)
             {
