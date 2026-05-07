@@ -23,14 +23,12 @@ import us.nebula.client.util.render.RenderUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class GuiNewChat extends Gui
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Pattern PLAYER_TAG_REGEX = Pattern.compile("<(.+)>\\s");
     private static final int ELEMENT_HEIGHT = 9;
 
     private final Minecraft mc;
@@ -43,151 +41,6 @@ public class GuiNewChat extends Gui
     public GuiNewChat(Minecraft par1Minecraft)
     {
         this.mc = par1Minecraft;
-    }
-
-    public void fuckMojang_drawChat(final int updateCounter)
-    {
-        final int size = chatLineList.size();
-        if (mc.gameSettings.chatVisibility.equals(EntityPlayer.EnumChatVisibility.HIDDEN)
-                || size == 0)
-        {
-            return;
-        }
-
-        final ChatModifierCheat cheat = ChatModifierCheat.INSTANCE;
-        final boolean chatOpen = isChatOpen();
-        float chatAlpha = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
-
-        int var4 = 0;
-        int var11 = 0;
-        int var14 = 0;
-
-        glPushMatrix();
-
-        glTranslatef(2.0f, 20.0f, 0.0f);
-        final float chatScale = getChatScale();
-        glScalef(chatScale, chatScale, 1.0f);
-
-        int var8 = MathHelper.ceiling_float_int((float) this.getChatWidth() / chatScale);
-
-        for (int i = 0; i + scrollOffset < chatLineList.size() && i < getHeightPerElement(); ++i)
-        {
-            final ChatLine chatLine = chatLineList.get(i + scrollOffset);
-            if (chatLine == null)
-            {
-                continue;
-            }
-            var11 = updateCounter - chatLine.getUpdatedCounter();
-            if (var11 >= 200 && !chatOpen)
-            {
-                continue;
-            }
-
-            double var12 = (double) var11 / 200.0D;
-            var12 = 1.0D - var12;
-            var12 *= 10.0D;
-
-            if (var12 < 0.0D)
-            {
-                var12 = 0.0D;
-            }
-
-            if (var12 > 1.0D)
-            {
-                var12 = 1.0D;
-            }
-
-            var12 *= var12;
-            var14 = (int) (255.0D * var12);
-
-            if (chatOpen)
-            {
-                var14 = 255;
-            }
-
-            var14 = (int) ((float) var14 * chatAlpha);
-            ++var4;
-            if (var14 <= 3)
-            {
-                continue;
-            }
-
-            double x = 0;
-            int xOffset = 0;
-
-            if (cheat.isToggled() && cheat.animateSpeed.getValue() > 0.0)
-            {
-                if (!chatLine.getAnimation().getState())
-                {
-                    chatLine.getAnimation().setState(true);
-                }
-                x = -(var8 + 4) * (1.0 - chatLine.getAnimation().getEasedFactor());
-            }
-            int y = -i * ELEMENT_HEIGHT;
-
-            if (!cheat.isToggled() || !cheat.transparentSetting.getValue())
-            {
-                drawRect((int) x, y - ELEMENT_HEIGHT, (int) (x + var8 + 4), y, var14 / 2 << 24);
-            }
-            String formatted = chatLine.getLineString().getFormattedText();
-
-            if (cheat.isToggled())
-            {
-                final String username = chatLine.getParsedUsername();
-
-                if (cheat.playerHeadsSetting.getValue() && username != null && !username.isEmpty())
-                {
-                    xOffset += drawPlayerHead(username, x, y);
-                }
-
-                if (username != null && !username.isEmpty())
-                {
-                    EnumChatFormatting usernameHighlightColor = null;
-                    if (cheat.highlightFriendsSetting.getValue()
-                            && Nebula.INSTANCE.getFriendManager().isFriend(username))
-                    {
-                        usernameHighlightColor = EnumChatFormatting.AQUA;
-                    }
-                    if (cheat.highlightSelfSetting.getValue()
-                            && username.equals(mc.thePlayer.getCommandSenderName()))
-                    {
-                        usernameHighlightColor = EnumChatFormatting.GOLD;
-                    }
-
-                    if (usernameHighlightColor != null)
-                    {
-                        formatted = formatted.replaceFirst(ChatLine.PLAYER_TAG_REGEX.pattern(),
-                                String.format("<%s%s%s> ",
-                                        usernameHighlightColor,
-                                        username,
-                                        EnumChatFormatting.RESET));
-                    }
-                }
-            }
-
-            mc.fontRenderer.drawStringWithShadow(formatted, (int) x + xOffset, y - 8, 16777215 + (var14 << 24));
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
-        }
-
-        if (chatOpen)
-        {
-            final int i = this.mc.fontRenderer.FONT_HEIGHT;
-            GL11.glTranslatef(-3.0F, 0.0F, 0.0F);
-            int var18 = size * i + size;
-            var11 = var4 * i + var4;
-            int var19 = this.scrollOffset * var11 / size;
-            int var13 = var11 * var11 / var18;
-
-            if (var18 != var11)
-            {
-                var14 = var19 > 0 ? 170 : 96;
-                int var20 = this.field_146251_k ? 13382451 : 3355562;
-                drawRect(0, -var19, 2, -var19 - var13, var20 + (var14 << 24));
-                drawRect(2, -var19, 1, -var19 - var13, 13421772 + (var14 << 24));
-            }
-        }
-
-        glPopMatrix();
     }
 
     public void drawChat(int updateCounter)
@@ -231,29 +84,7 @@ public class GuiNewChat extends Gui
 
                         if (var11 < 200 || chatOpen)
                         {
-                            double var12 = (double) var11 / 200.0D;
-                            var12 = 1.0D - var12;
-                            var12 *= 10.0D;
-
-                            if (var12 < 0.0D)
-                            {
-                                var12 = 0.0D;
-                            }
-
-                            if (var12 > 1.0D)
-                            {
-                                var12 = 1.0D;
-                            }
-
-                            var12 *= var12;
-                            var14 = (int) (255.0D * var12);
-
-                            if (chatOpen)
-                            {
-                                var14 = 255;
-                            }
-
-                            var14 = (int) ((float) var14 * chatAlpha);
+                            var14 = getOpacity(var11, chatAlpha);
                             ++var4;
 
                             if (var14 > 3)
