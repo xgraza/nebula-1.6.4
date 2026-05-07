@@ -64,7 +64,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new LongJumpCheat());
         addCheat(new NoJumpDelayCheat());
         addCheat(new NoSlowCheat());
-        addCheat(new PathFinderCheat());
+        // addCheat(new PathFinderCheat());
         addCheat(new SpeedCheat());
         addCheat(new SprintCheat());
         addCheat(new StaticCheat());
@@ -86,7 +86,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new NotifierCheat());
         addCheat(new PearlPhaseCheat());
         addCheat(new SpammerCheat());
-        addCheat(new TestCheat());
+        // addCheat(new TestCheat());
         addCheat(new TranslateCheat());
         addCheat(new YawCheat());
         addCheat(new BetterF3Cheat());
@@ -100,7 +100,6 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new ExtraTabCheat());
         addCheat(new FullbrightCheat());
         addCheat(new HUDCheat());
-        //addCheat(new InfiniteViewerCheat());
         addCheat(new ItemPhysicsCheat());
         addCheat(new ItemTweaksCheat());
         addCheat(new NametagsCheat());
