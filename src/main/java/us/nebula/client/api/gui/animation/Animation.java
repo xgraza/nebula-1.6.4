@@ -7,7 +7,7 @@ package us.nebula.client.api.gui.animation;
 public final class Animation
 {
     private final AnimationEasing easing;
-    private final double animationTimeMS;
+    private double animationTimeMS;
 
     private boolean state;
     private long lastTimeMS;
@@ -18,6 +18,7 @@ public final class Animation
     {
         this.easing = easing;
         this.animationTimeMS = animationTimeMS;
+        reset(true);
     }
 
     public double getValue()
@@ -42,6 +43,11 @@ public final class Animation
     public void setState(boolean state)
     {
         this.state = state;
+    }
+
+    public void setAnimationTimeMS(double animationTimeMS)
+    {
+        this.animationTimeMS = animationTimeMS;
     }
 
     public void reset(boolean force)

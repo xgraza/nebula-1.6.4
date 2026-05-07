@@ -381,7 +381,7 @@ public class GuiIngame extends Gui
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, (float) (height - 48), 0.0F);
         this.mc.mcProfiler.startSection("chat");
-        this.persistantChatGUI.fuckMojang_drawChat(this.updateCounter);
+        this.persistantChatGUI.drawChat(this.updateCounter);
         this.mc.mcProfiler.endSection();
         GL11.glPopMatrix();
         var40 = this.mc.theWorld.getScoreboard().func_96539_a(0);

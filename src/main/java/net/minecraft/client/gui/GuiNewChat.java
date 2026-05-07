@@ -18,6 +18,7 @@ import org.lwjgl.opengl.GL11;
 import us.nebula.client.Nebula;
 import us.nebula.client.impl.cheat.render.ChatModifierCheat;
 import us.nebula.client.util.render.HeadDownloader;
+import us.nebula.client.util.render.RenderUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -189,39 +190,13 @@ public class GuiNewChat extends Gui
         glPopMatrix();
     }
 
-    private int drawPlayerHead(final String username, final double x, final double y)
-    {
-        final int headSize = ELEMENT_HEIGHT - 2;
-        final DynamicTexture texture = HeadDownloader.getOrDownloadTexture(username, headSize);
-        if (texture == null)
-        {
-            return 0;
-        }
-
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        glBindTexture(GL_TEXTURE_2D, texture.getGlTextureId());
-        glPushMatrix();
-        glBegin(GL_QUADS);
-        {
-            glTexCoord2d(0, 0);
-            glVertex2d(x + 1, y - ELEMENT_HEIGHT + 0.5);
-
-            glTexCoord2d(0, 1);
-            glVertex2d(x + 1, y - ELEMENT_HEIGHT + headSize + 0.5);
-
-            glTexCoord2d(1, 1);
-            glVertex2d(x + headSize + 1, y - ELEMENT_HEIGHT + headSize + 0.5);
-
-            glTexCoord2d(1, 0);
-            glVertex2d(x + headSize + 1, y - ELEMENT_HEIGHT + 0.5);
-        }
-        glEnd();
-        glPopMatrix();
-        return headSize + 3;
-    }
-
     public void drawChat(int updateCounter)
     {
+        if (ChatModifierCheat.INSTANCE.isToggled())
+        {
+            drawNebulaChat(updateCounter);
+            return;
+        }
         if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN)
         {
             int var2 = this.getHeightPerElement();
@@ -283,74 +258,10 @@ public class GuiNewChat extends Gui
 
                             if (var14 > 3)
                             {
-                                final int elementHeight = 9;
-                                double x = 0;
-                                int y = -i * elementHeight;
-
-                                if (ChatModifierCheat.INSTANCE.isToggled())
-                                {
-                                    if (ChatModifierCheat.INSTANCE.animateSpeed.getValue() > 0.0)
-                                    {
-                                        x = -(var8 + 4) * chatLine.getAnimation().getEasedFactor();
-                                    }
-                                }
-
-                                if (!ChatModifierCheat.INSTANCE.isToggled() || !ChatModifierCheat.INSTANCE.transparentSetting.getValue())
-                                {
-                                    drawRect((int) x, y - elementHeight, (int) (x + var8 + 4), y, var14 / 2 << 24);
-                                }
-
-                                int offset = 0;
+                                int y = -i * mc.fontRenderer.FONT_HEIGHT;
+                                drawRect(0, y - mc.fontRenderer.FONT_HEIGHT, var8 + 4, y, var14 / 2 << 24);
                                 String var17 = chatLine.getLineString().getFormattedText();
-                                if (ChatModifierCheat.INSTANCE.isToggled())
-                                {
-                                    String username = chatLine.getParsedUsername();
-
-                                    if (ChatModifierCheat.INSTANCE.playerHeadsSetting.getValue() && username != null)
-                                    {
-                                        final int texSize = elementHeight - 2;
-                                        final DynamicTexture texture = HeadDownloader.getOrDownloadTexture(username, texSize);
-                                        if (texture != null)
-                                        {
-                                            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-                                            glBindTexture(GL_TEXTURE_2D, texture.getGlTextureId());
-                                            glPushMatrix();
-                                            glBegin(GL_QUADS);
-                                            {
-                                                glTexCoord2d(0, 0);
-                                                glVertex2d(x + 1, y - elementHeight + 0.5);
-
-                                                glTexCoord2d(0, 1);
-                                                glVertex2d(x + 1, y - elementHeight + texSize + 0.5);
-
-                                                glTexCoord2d(1, 1);
-                                                glVertex2d(x + texSize + 1, y - elementHeight + texSize + 0.5);
-
-                                                glTexCoord2d(1, 0);
-                                                glVertex2d(x + texSize + 1, y - elementHeight + 0.5);
-                                            }
-                                            glEnd();
-                                            glPopMatrix();
-                                            offset = texSize + 3;
-                                        }
-                                    }
-
-                                    if (ChatModifierCheat.INSTANCE.highlightFriendsSetting.getValue()
-                                            && username != null
-                                            && (username.equals(mc.thePlayer.getCommandSenderName())
-                                            || Nebula.INSTANCE.getFriendManager().isFriend(username)))
-                                    {
-                                        var17 = var17.replaceFirst(PLAYER_TAG_REGEX.pattern(),
-                                                EnumChatFormatting.DARK_GRAY
-                                                        + "<"
-                                                        + EnumChatFormatting.AQUA
-                                                        + username
-                                                        + EnumChatFormatting.DARK_GRAY
-                                                        + "> "
-                                                        + EnumChatFormatting.RESET);
-                                    }
-                                }
-                                this.mc.fontRenderer.drawStringWithShadow(var17, (int) x + offset, y - 8, 16777215 + (var14 << 24));
+                                this.mc.fontRenderer.drawStringWithShadow(var17, 0, y - 8, 16777215 + (var14 << 24));
                                 GL11.glDisable(GL11.GL_ALPHA_TEST);
                             }
                         }
@@ -378,6 +289,151 @@ public class GuiNewChat extends Gui
                 GL11.glPopMatrix();
             }
         }
+    }
+
+    private void drawNebulaChat(int updateCounter)
+    {
+        if (mc.gameSettings.chatVisibility == EntityPlayer.EnumChatVisibility.HIDDEN || chatLineList.isEmpty())
+        {
+            return;
+        }
+
+        final ChatModifierCheat cm = ChatModifierCheat.INSTANCE;
+
+        glPushMatrix();
+
+        glTranslated(2, 20, 0);
+
+        final float chatAlpha = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
+        final int lineWidth = MathHelper.ceiling_float_int((float) this.getChatWidth() / getChatScale());
+
+        double posY = 0.0;
+        for (int i = 0; i + scrollOffset < chatLineList.size() && i < getHeightPerElement(); ++i)
+        {
+            final ChatLine chatLine = chatLineList.get(i + scrollOffset);
+            if (chatLine == null)
+            {
+                continue;
+            }
+
+            int var11 = updateCounter - chatLine.getUpdatedCounter();
+            chatLine.getAnimation().setAnimationTimeMS(cm.animateSpeed.getValue());
+            chatLine.getAnimation().setState(var11 < 200);
+            double factor = chatLine.getAnimation().getEasedFactor();
+            if (!isChatOpen() && factor <= 0.0)
+            {
+                continue;
+            }
+
+            final boolean usesAnimation = cm.animateSpeed.getValue() > 0.0;
+            final int opacity = getOpacity(var11, chatAlpha);
+
+            String text = chatLine.getLineString().getFormattedText();
+
+            if (cm.highlightSelfSetting.getValue())
+            {
+                text = text.replaceAll(mc.thePlayer.getCommandSenderName(),
+                        EnumChatFormatting.GOLD
+                                + mc.thePlayer.getCommandSenderName()
+                                + EnumChatFormatting.RESET);
+            }
+
+            final String username = chatLine.getParsedUsername();
+            if (cm.highlightFriendsSetting.getValue() && Nebula.INSTANCE.getFriendManager().isFriend(username))
+            {
+                text = text.replaceAll(username,
+                        EnumChatFormatting.AQUA
+                                + username
+                                + EnumChatFormatting.RESET);
+            }
+
+            final List<String> textLines = mc.fontRenderer.listFormattedStringToWidth(text, lineWidth + 6);
+
+            double posX = 0.0;
+            if (usesAnimation && factor != 0.0)
+            {
+                posX = -(lineWidth + 4) * (1 - factor);
+            }
+
+            if (!cm.transparentSetting.getValue())
+            {
+                RenderUtil.rectangle2D(posX,
+                        posY - (mc.fontRenderer.FONT_HEIGHT * textLines.size()) - 1,
+                        lineWidth + 6,
+                        mc.fontRenderer.FONT_HEIGHT * textLines.size(),
+                        usesAnimation ? ((int) (255 * chatAlpha) / 2 << 24) : opacity / 2 << 24);
+            }
+
+            for (int j = textLines.size() - 1; j >= 0; --j)
+            {
+                if (j == 0 && cm.playerHeadsSetting.getValue() && username != null)
+                {
+                    posX += drawPlayerHead(username, posX, posY);
+                }
+                posY -= mc.fontRenderer.FONT_HEIGHT;
+                mc.fontRenderer.drawStringWithShadow(textLines.get(j), (int) posX, (int) posY, 16777215);
+            }
+        }
+
+        glPopMatrix();
+    }
+
+    private int getOpacity(int updates, float chatAlpha)
+    {
+        double var12 = (double) updates / 200.0D;
+        var12 = 1.0D - var12;
+        var12 *= 10.0D;
+
+        if (var12 < 0.0D)
+        {
+            var12 = 0.0D;
+        }
+
+        if (var12 > 1.0D)
+        {
+            var12 = 1.0D;
+        }
+
+        var12 *= var12;
+        int var14 = (int) (255.0D * var12);
+
+        if (isChatOpen())
+        {
+            var14 = 255;
+        }
+
+        return (int) ((float) var14 * chatAlpha);
+    }
+
+    private int drawPlayerHead(final String username, final double x, final double y)
+    {
+        final int headSize = ELEMENT_HEIGHT - 2;
+        final DynamicTexture texture = HeadDownloader.getOrDownloadTexture(username, headSize);
+        if (texture == null)
+        {
+            return 0;
+        }
+
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glBindTexture(GL_TEXTURE_2D, texture.getGlTextureId());
+        glPushMatrix();
+        glBegin(GL_QUADS);
+        {
+            glTexCoord2d(0, 0);
+            glVertex2d(x + 1, y - ELEMENT_HEIGHT + 0.5);
+
+            glTexCoord2d(0, 1);
+            glVertex2d(x + 1, y - ELEMENT_HEIGHT + headSize + 0.5);
+
+            glTexCoord2d(1, 1);
+            glVertex2d(x + headSize + 1, y - ELEMENT_HEIGHT + headSize + 0.5);
+
+            glTexCoord2d(1, 0);
+            glVertex2d(x + headSize + 1, y - ELEMENT_HEIGHT + 0.5);
+        }
+        glEnd();
+        glPopMatrix();
+        return headSize + 3;
     }
 
     public void clearChatMessages()

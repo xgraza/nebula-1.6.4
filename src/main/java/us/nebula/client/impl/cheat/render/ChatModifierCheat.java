@@ -24,8 +24,8 @@ public final class ChatModifierCheat extends Cheat
 
     public final Setting<Boolean> transparentSetting = new Setting<>(
             "Transparent", false);
-    public final Setting<Double> animateSpeed = new Setting<>(
-            "Animation Speed", 0.8, 0.0, 1.0, 0.05);
+    public final Setting<Integer> animateSpeed = new Setting<>(
+            "Animation Time", 200, 0, 1000, 50);
     public final Setting<Boolean> timestampSetting = new Setting<>(
             "Timestamp", false);
     public final Setting<Boolean> playerHeadsSetting = new Setting<>(

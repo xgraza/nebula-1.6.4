@@ -34,8 +34,7 @@ public class ChatLine
     private final int chatLineID;
 
     private String parsedUsername;
-    private final Animation animation = new Animation(AnimationEasing.CUBIC_IN_OUT,
-            200 * ChatModifierCheat.INSTANCE.animateSpeed.getValue());
+    private final Animation animation = new Animation(AnimationEasing.CUBIC_IN_OUT, 0);;
 
     public ChatLine(int counter, IChatComponent component, int id)
     {
