@@ -3,6 +3,7 @@ package us.nebula.client.api.manager.hud;
 import us.nebula.client.Nebula;
 import us.nebula.client.api.listener.EventBus;
 import us.nebula.client.api.manager.ITypedManager;
+import us.nebula.client.impl.hud.ArmorStatusHUDElement;
 import us.nebula.client.impl.hud.CoordinatesHUDElement;
 import us.nebula.client.impl.hud.WatermarkHUDElement;
 
@@ -24,6 +25,7 @@ public final class HUDManager implements ITypedManager<HUDElement>
         Nebula.INSTANCE.getConfigurationManager()
                 .addConfiguration(new HUDConfig(this));
 
+        hudElementList.add(new ArmorStatusHUDElement());
         hudElementList.add(new WatermarkHUDElement());
         hudElementList.add(new CoordinatesHUDElement());
 
