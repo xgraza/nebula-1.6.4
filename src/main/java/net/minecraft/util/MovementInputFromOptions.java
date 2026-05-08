@@ -1,8 +1,8 @@
 package net.minecraft.util;
 
 import net.minecraft.client.settings.GameSettings;
-import us.nebula.client.api.listener.EventBus;
-import us.nebula.client.impl.event.player.EventSneakSlowdown;
+import us.nebula.client.listener.EventBus;
+import us.nebula.client.listener.event.player.EventSneakSlowdown;
 
 public class MovementInputFromOptions extends MovementInput
 {

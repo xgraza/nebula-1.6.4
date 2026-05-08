@@ -8,7 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.impl.cheat.render.NoRenderCheat;
+import us.nebula.client.cheat.impl.render.NoRenderCheat;
 
 public class TileEntitySignRenderer extends TileEntitySpecialRenderer
 {

@@ -21,9 +21,9 @@ import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import us.nebula.client.api.listener.EventBus;
-import us.nebula.client.impl.event.input.EventRotateCamera;
-import us.nebula.client.impl.event.player.EventStep;
+import us.nebula.client.listener.EventBus;
+import us.nebula.client.listener.event.input.EventRotateCamera;
+import us.nebula.client.listener.event.player.EventStep;
 
 import java.util.List;
 import java.util.Random;

@@ -16,10 +16,10 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import us.nebula.client.api.gui.font.Fonts;
-import us.nebula.client.api.listener.EventBus;
-import us.nebula.client.impl.cheat.render.ItemTweaksCheat;
-import us.nebula.client.impl.event.player.EventContainerAction;
+import us.nebula.client.util.render.gui.font.Fonts;
+import us.nebula.client.listener.EventBus;
+import us.nebula.client.cheat.impl.render.ItemTweaksCheat;
+import us.nebula.client.listener.event.player.EventContainerAction;
 import us.nebula.client.util.FormattingUtil;
 
 import java.awt.*;

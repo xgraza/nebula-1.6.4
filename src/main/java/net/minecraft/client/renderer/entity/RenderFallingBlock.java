@@ -12,7 +12,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.impl.cheat.player.AntiLagCheat;
+import us.nebula.client.cheat.impl.player.AntiLagCheat;
 
 public class RenderFallingBlock extends Render
 {

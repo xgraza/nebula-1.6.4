@@ -11,7 +11,7 @@ import net.minecraft.tileentity.*;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.impl.cheat.render.ChamsCheat;
+import us.nebula.client.cheat.impl.render.ChamsCheat;
 
 import java.util.HashMap;
 import java.util.Iterator;

@@ -4,10 +4,8 @@
 
 package net.minecraft.client.gui;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.ParseResults;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
@@ -32,9 +30,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import us.nebula.client.Nebula;
-import us.nebula.client.api.manager.command.CommandManager;
-import us.nebula.client.api.manager.command.CommandSource;
-import us.nebula.client.impl.cheat.player.TranslateCheat;
+import us.nebula.client.command.CommandManager;
+import us.nebula.client.command.trait.CommandSource;
+import us.nebula.client.cheat.impl.player.TranslateCheat;
 
 import java.io.File;
 import java.net.URI;

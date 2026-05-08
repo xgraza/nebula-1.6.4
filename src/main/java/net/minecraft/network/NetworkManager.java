@@ -18,8 +18,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import us.nebula.client.api.listener.EventBus;
-import us.nebula.client.impl.event.network.EventPacket;
+import us.nebula.client.listener.EventBus;
+import us.nebula.client.listener.event.network.EventPacket;
 
 import javax.crypto.SecretKey;
 import java.net.InetAddress;

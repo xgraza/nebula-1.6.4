@@ -31,9 +31,9 @@ import net.minecraft.world.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.SaveHandlerMP;
-import us.nebula.client.api.listener.EventBus;
-import us.nebula.client.impl.cheat.render.NoRenderCheat;
-import us.nebula.client.impl.event.world.EventAddEntity;
+import us.nebula.client.listener.EventBus;
+import us.nebula.client.cheat.impl.render.NoRenderCheat;
+import us.nebula.client.listener.event.world.EventAddEntity;
 import wdl.WDL;
 
 import java.util.HashSet;

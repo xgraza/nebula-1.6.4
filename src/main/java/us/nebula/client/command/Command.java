@@ -1,0 +1,38 @@
+package us.nebula.client.command;
+
+import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import net.minecraft.client.Minecraft;
+import us.nebula.client.command.trait.CommandManifest;
+import us.nebula.client.command.trait.CommandSource;
+
+public abstract class Command
+{
+    public static final String DEFAULT_DESCRIPTION = "No description provided for this cheat";
+    protected static final Minecraft MC = Minecraft.getMinecraft();
+
+    private final CommandManifest manifest;
+
+    public Command()
+    {
+        manifest = getClass().getDeclaredAnnotation(CommandManifest.class);
+        if (manifest == null)
+        {
+            throw new RuntimeException(
+                    "@CommandManifest needs to be annotated on top of a Command class");
+        }
+    }
+
+    public abstract void createBuilder(final LiteralArgumentBuilder<CommandSource> literal);
+
+    protected <T> RequiredArgumentBuilder<CommandSource, T> argument(final String name, final ArgumentType<T> argumentType)
+    {
+        return RequiredArgumentBuilder.argument(name, argumentType);
+    }
+
+    public CommandManifest getManifest()
+    {
+        return manifest;
+    }
+}

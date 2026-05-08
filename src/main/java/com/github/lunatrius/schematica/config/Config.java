@@ -3,9 +3,9 @@ package com.github.lunatrius.schematica.config;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import us.nebula.client.Nebula;
-import us.nebula.client.api.config.IConfiguration;
-import us.nebula.client.api.config.IJSONSerializable;
-import us.nebula.client.api.value.Setting;
+import us.nebula.client.config.IConfiguration;
+import us.nebula.client.config.IJSONSerializable;
+import us.nebula.client.util.value.Setting;
 import us.nebula.client.util.io.FileUtil;
 
 import java.io.File;

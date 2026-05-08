@@ -11,7 +11,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.ChunkProviderGenerate;
 import net.minecraft.world.gen.FlatGeneratorInfo;
-import us.nebula.client.impl.cheat.render.NoRenderCheat;
+import us.nebula.client.cheat.impl.render.NoRenderCheat;
 
 public abstract class WorldProvider
 {

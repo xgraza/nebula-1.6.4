@@ -17,11 +17,6 @@ public final class ClientSettings
             + BuildConfig.BRANCH;
 
     /**
-     * If features should use verbose logging
-     */
-    public static boolean VERBOSE_LOGGING;
-
-    /**
      * If features should use heavier debugging
      */
     public static boolean DEBUG;

@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import shadersmod.client.Shaders;
-import us.nebula.client.impl.cheat.render.ChamsCheat;
+import us.nebula.client.cheat.impl.render.ChamsCheat;
 
 import java.util.Random;
 

@@ -8,21 +8,20 @@ import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
-import us.nebula.client.api.config.ConfigurationManager;
-import us.nebula.client.api.manager.account.AccountManager;
-import us.nebula.client.api.manager.cheat.CheatManager;
-import us.nebula.client.api.manager.command.CommandManager;
-import us.nebula.client.api.manager.friend.FriendManager;
-import us.nebula.client.api.manager.hud.HUDManager;
-import us.nebula.client.api.manager.inventory.InventoryManager;
-import us.nebula.client.api.manager.key.KeyManager;
-import us.nebula.client.api.manager.rotate.RotationManager;
-import us.nebula.client.api.manager.server.ServerManager;
-import us.nebula.client.api.manager.toast.ToastManager;
-import us.nebula.client.api.movement.MovementController;
-import us.nebula.client.api.plugin.PluginManager;
-import us.nebula.client.api.systemtray.NebulaSystemTray;
-import us.nebula.client.impl.gui.loading.LoadingScreen;
+import us.nebula.client.config.ConfigurationManager;
+import us.nebula.client.account.AccountManager;
+import us.nebula.client.cheat.CheatManager;
+import us.nebula.client.command.CommandManager;
+import us.nebula.client.friend.FriendManager;
+import us.nebula.client.hud.HUDManager;
+import us.nebula.client.server.inventory.InventoryManager;
+import us.nebula.client.key.KeyManager;
+import us.nebula.client.server.rotate.RotationManager;
+import us.nebula.client.server.ServerManager;
+import us.nebula.client.toast.ToastManager;
+import us.nebula.client.movement.MovementController;
+import us.nebula.client.systemtray.NebulaSystemTray;
+import us.nebula.client.util.LoadingScreen;
 import us.nebula.client.util.render.RenderUtil;
 
 import javax.imageio.ImageIO;
@@ -59,7 +58,6 @@ public enum Nebula
     private InventoryManager inventoryManager;
     private RotationManager rotationManager;
     private ServerManager serverManager;
-    private PluginManager pluginManager;
 
     private MovementController movementController;
 
@@ -100,7 +98,6 @@ public enum Nebula
         inventoryManager = new InventoryManager();
         rotationManager = new RotationManager();
         serverManager = new ServerManager();
-        //pluginManager = new PluginManager();
         movementController = new MovementController();
 
         LoadingScreen.setStage(4, "Initializing Nebula core");
@@ -117,7 +114,6 @@ public enum Nebula
         rotationManager.init();
         serverManager.init();
         friendManager.init();
-        //pluginManager.init();
 
         LoadingScreen.setStage(5, "Initializing Nebula shaders");
         try
@@ -230,7 +226,8 @@ public enum Nebula
         return commandManager;
     }
 
-    public HUDManager getHUDManager() {
+    public HUDManager getHUDManager()
+    {
         return hudManager;
     }
 

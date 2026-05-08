@@ -18,11 +18,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL12;
-import us.nebula.client.api.listener.EventBus;
-import us.nebula.client.impl.cheat.combat.KillAuraCheat;
-import us.nebula.client.impl.cheat.render.NoRenderCheat;
-import us.nebula.client.impl.cheat.render.ViewModelCheat;
-import us.nebula.client.impl.event.render.EventRenderWaterEffects;
+import us.nebula.client.listener.EventBus;
+import us.nebula.client.cheat.impl.combat.KillAuraCheat;
+import us.nebula.client.cheat.impl.render.NoRenderCheat;
+import us.nebula.client.cheat.impl.render.ViewModelCheat;
+import us.nebula.client.listener.event.render.EventRenderWaterEffects;
 
 import static org.lwjgl.opengl.GL11.*;
 

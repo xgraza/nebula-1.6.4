@@ -1,6 +1,5 @@
 package net.minecraft.client.multiplayer;
 
-import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -15,7 +14,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import us.nebula.client.impl.cheat.player.AutoReconnectCheat;
+import us.nebula.client.cheat.impl.player.AutoReconnectCheat;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

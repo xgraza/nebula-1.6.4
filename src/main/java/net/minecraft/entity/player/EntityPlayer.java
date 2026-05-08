@@ -45,7 +45,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.IChunkProvider;
 import us.nebula.client.Nebula;
-import us.nebula.client.impl.cheat.exploit.AntiRevertCheat;
+import us.nebula.client.cheat.impl.exploit.AntiRevertCheat;
 import us.nebula.client.util.player.ItemUtil;
 
 import java.util.Collection;

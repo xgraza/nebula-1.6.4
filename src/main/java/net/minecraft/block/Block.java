@@ -18,9 +18,9 @@ import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import us.nebula.client.api.listener.EventBus;
-import us.nebula.client.impl.cheat.render.XRayCheat;
-import us.nebula.client.impl.event.world.EventModifyBoundBox;
+import us.nebula.client.listener.EventBus;
+import us.nebula.client.cheat.impl.render.XRayCheat;
+import us.nebula.client.listener.event.world.EventModifyBoundBox;
 
 import java.util.Iterator;
 import java.util.List;

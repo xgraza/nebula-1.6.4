@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
-import us.nebula.client.api.gui.shader.Shader;
+import us.nebula.client.util.render.gui.shader.Shader;
 
 import static org.lwjgl.opengl.GL11.*;
 

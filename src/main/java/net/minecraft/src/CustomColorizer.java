@@ -16,9 +16,9 @@ import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import us.nebula.client.api.listener.EventBus;
-import us.nebula.client.impl.cheat.render.FullbrightCheat;
-import us.nebula.client.impl.event.render.EventGamma;
+import us.nebula.client.listener.EventBus;
+import us.nebula.client.cheat.impl.render.FullbrightCheat;
+import us.nebula.client.listener.event.render.EventGamma;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

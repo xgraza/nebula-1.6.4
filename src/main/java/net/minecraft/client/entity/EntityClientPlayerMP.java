@@ -6,7 +6,6 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.*;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatFileWriter;
@@ -14,14 +13,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
-import us.nebula.client.api.listener.EventBus;
-import us.nebula.client.impl.cheat.exploit.NoMoveDelayCheat;
-import us.nebula.client.impl.cheat.movement.SpeedCheat;
-import us.nebula.client.impl.event.game.EventPostUpdate;
-import us.nebula.client.impl.event.game.EventUpdate;
-import us.nebula.client.impl.event.input.EventUpdateRiding;
-import us.nebula.client.impl.event.player.EventMove;
-import us.nebula.client.impl.event.player.EventMoveUpdate;
+import us.nebula.client.listener.EventBus;
+import us.nebula.client.cheat.impl.movement.SpeedCheat;
+import us.nebula.client.listener.event.game.EventPostUpdate;
+import us.nebula.client.listener.event.game.EventUpdate;
+import us.nebula.client.listener.event.input.EventUpdateRiding;
+import us.nebula.client.listener.event.player.EventMove;
+import us.nebula.client.listener.event.player.EventMoveUpdate;
 
 public class EntityClientPlayerMP extends EntityPlayerSP
 {

@@ -3,7 +3,7 @@ package net.minecraft.client.gui;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IChatComponent;
-import us.nebula.client.impl.cheat.player.AutoReconnectCheat;
+import us.nebula.client.cheat.impl.player.AutoReconnectCheat;
 import us.nebula.client.util.math.Timer;
 
 import java.util.List;

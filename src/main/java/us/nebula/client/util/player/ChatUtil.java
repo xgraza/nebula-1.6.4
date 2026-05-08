@@ -19,7 +19,15 @@ public final class ChatUtil
             EnumChatFormatting.LIGHT_PURPLE,
             EnumChatFormatting.RESET);
 
-    public static void send(String content, final Object... format)
+    public static final String DEBUG_PREFIX = String.format(
+            "%s(DEBUG):%s",
+            EnumChatFormatting.YELLOW,
+            EnumChatFormatting.RESET);
+    public static final String VERBOSE_PREFIX = EnumChatFormatting.BLUE
+            + "(%s):"
+            + EnumChatFormatting.RESET;
+
+    public static void sendFormatted(final String chatPrefix, String content, final Object... format)
     {
         content = content.replaceAll("(?i)&([0-9A-FK-OR])", "§$1");
         content = String.format(content, format);
@@ -27,7 +35,7 @@ public final class ChatUtil
         final String[] lines = content.split("\n");
         for (final String line : lines)
         {
-            final IChatComponent component = createBaseChatComponent();
+            final IChatComponent component = createBaseChatComponent(chatPrefix);
             component.appendText(line);
             if (MC.ingameGUI == null || MC.thePlayer == null)
             {
@@ -39,9 +47,14 @@ public final class ChatUtil
         }
     }
 
-    private static IChatComponent createBaseChatComponent()
+    public static void sendNebula(final String content, final Object... format)
     {
-        return new ChatComponentText(CHAT_PREFIX)
+        sendFormatted(CHAT_PREFIX, content, format);
+    }
+
+    private static IChatComponent createBaseChatComponent(final String chatPrefix)
+    {
+        return new ChatComponentText(chatPrefix)
                 .setChatStyle(new ChatStyle()
                         .setColor(EnumChatFormatting.GRAY));
     }

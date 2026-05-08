@@ -8,7 +8,7 @@ import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.impl.cheat.render.NoRenderCheat;
+import us.nebula.client.cheat.impl.render.NoRenderCheat;
 
 public class RenderBat extends RenderLiving
 {

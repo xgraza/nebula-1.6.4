@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import us.nebula.client.Nebula;
-import us.nebula.client.impl.cheat.render.ChatModifierCheat;
+import us.nebula.client.cheat.impl.render.ChatModifierCheat;
 import us.nebula.client.util.render.HeadDownloader;
 import us.nebula.client.util.render.RenderUtil;
 

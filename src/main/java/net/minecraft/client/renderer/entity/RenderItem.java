@@ -21,9 +21,9 @@ import net.minecraft.src.Config;
 import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import us.nebula.client.impl.cheat.player.AntiLagCheat;
-import us.nebula.client.impl.cheat.render.ItemPhysicsCheat;
-import us.nebula.client.impl.cheat.render.ItemTweaksCheat;
+import us.nebula.client.cheat.impl.player.AntiLagCheat;
+import us.nebula.client.cheat.impl.render.ItemPhysicsCheat;
+import us.nebula.client.cheat.impl.render.ItemTweaksCheat;
 import us.nebula.client.util.player.ItemUtil;
 
 import java.util.Random;

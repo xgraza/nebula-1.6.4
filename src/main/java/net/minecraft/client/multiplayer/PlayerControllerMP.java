@@ -20,9 +20,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import us.nebula.client.Nebula;
-import us.nebula.client.api.listener.EventBus;
-import us.nebula.client.impl.cheat.player.InteractCheat;
-import us.nebula.client.impl.event.player.EventAttackBlock;
+import us.nebula.client.listener.EventBus;
+import us.nebula.client.cheat.impl.player.InteractCheat;
+import us.nebula.client.listener.event.player.EventAttackBlock;
 
 public class PlayerControllerMP
 {

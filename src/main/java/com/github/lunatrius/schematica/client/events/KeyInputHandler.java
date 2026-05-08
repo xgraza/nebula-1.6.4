@@ -10,9 +10,9 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
-import us.nebula.client.api.listener.EventListener;
-import us.nebula.client.api.listener.Subscribe;
-import us.nebula.client.impl.event.input.EventKey;
+import us.nebula.client.listener.EventListener;
+import us.nebula.client.listener.Subscribe;
+import us.nebula.client.listener.event.input.EventKey;
 
 public class KeyInputHandler
 {

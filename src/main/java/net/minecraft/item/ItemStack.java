@@ -20,7 +20,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
-import us.nebula.client.impl.cheat.render.ItemTweaksCheat;
+import us.nebula.client.cheat.impl.render.ItemTweaksCheat;
 import us.nebula.client.util.FormattingUtil;
 
 import java.text.DecimalFormat;

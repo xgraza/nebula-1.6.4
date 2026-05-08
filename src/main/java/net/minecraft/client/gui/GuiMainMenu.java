@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 import us.nebula.client.ClientSettings;
-import us.nebula.client.impl.gui.account.AccountSelectorScreen;
+import us.nebula.client.account.gui.AccountSelectorScreen;
 
 import java.awt.Desktop;
 import java.net.URI;

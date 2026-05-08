@@ -28,8 +28,8 @@ import net.minecraft.scoreboard.Team;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import us.nebula.client.impl.cheat.movement.TerrainCheat;
-import us.nebula.client.impl.cheat.render.ViewModelCheat;
+import us.nebula.client.cheat.impl.movement.TerrainCheat;
+import us.nebula.client.cheat.impl.render.ViewModelCheat;
 
 import java.util.*;
 
