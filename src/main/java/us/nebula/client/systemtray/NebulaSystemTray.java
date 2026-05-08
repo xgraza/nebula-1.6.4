@@ -5,7 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import us.nebula.client.BuildConfig;
 import us.nebula.client.ClientSettings;
-import us.nebula.client.cheat.impl.player.DiscordRPCCheat;
 import us.nebula.client.util.io.FileUtil;
 
 import javax.imageio.ImageIO;
@@ -56,12 +55,6 @@ public final class NebulaSystemTray implements ActionListener
     {
         switch (e.getActionCommand())
         {
-            case "discordrpc":
-            {
-                LOGGER.info("Toggling DiscordRPCCHeat");
-                DiscordRPCCheat.INSTANCE.toggle();
-                break;
-            }
             case "copy":
             {
                 if (MC.thePlayer == null || MC.theWorld == null)
@@ -127,11 +120,7 @@ public final class NebulaSystemTray implements ActionListener
     private PopupMenu createPopupMenu()
     {
         final PopupMenu menu = new PopupMenu("Nebula");
-        MenuItem menuItem = new MenuItem("Toggle DiscordRPC");
-        menuItem.addActionListener(this);
-        menuItem.setActionCommand("discordrpc");
-        menu.add(menuItem);
-        menuItem = new MenuItem("Copy Coordinates");
+        MenuItem menuItem = new MenuItem("Copy Coordinates");
         menuItem.addActionListener(this);
         menuItem.setActionCommand("copy");
         menu.add(menuItem);

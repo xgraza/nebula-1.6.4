@@ -77,7 +77,6 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AntiLagCheat());
         addCheat(new AutoReconnectCheat());
         addCheat(new AutoRespawnCheat());
-        addCheat(new DiscordRPCCheat());
         addCheat(new FreecamCheat());
         addCheat(new InfiniteMoverCheat());
         addCheat(new InteractCheat());
