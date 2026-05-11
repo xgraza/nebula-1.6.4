@@ -75,6 +75,7 @@ public class HUDElement extends GUIComponent implements ISettingProvider, IJSONS
     {
         if (!initialized)
         {
+            initialized = true;
             init();
         }
     }

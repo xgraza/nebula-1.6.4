@@ -55,6 +55,7 @@ public final class CoordinatesHUDElement extends HUDElement
     @Override
     public void render(final ScaledResolution res)
     {
+        super.render(res);
         final String text = getString();
         setWidth(Fonts.POPPINS.getStringWidth(text) + (getPadding() * 2.0));
         setHeight(Fonts.POPPINS.getFontHeight() + (getPadding() * 2.0));

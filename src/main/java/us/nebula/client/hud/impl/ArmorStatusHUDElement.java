@@ -33,7 +33,7 @@ public final class ArmorStatusHUDElement extends HUDElement
     @Override
     public void render(final ScaledResolution res)
     {
-        //init();
+        super.render(res);
         final ItemStack[] armorStacks = MC.thePlayer.inventory.armorInventory;
         for (int i = armorStacks.length - 1; i >= 0; --i)
         {
