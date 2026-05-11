@@ -1441,7 +1441,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         } else if ("MC|Brand".equals(packet.getChannel()))
         {
             this.gameController.thePlayer.setServerBrand(new String(packet.getPayload(), Charsets.UTF_8));
-            System.out.println(gameController.thePlayer.getServerBrand());
+            //System.out.println(gameController.thePlayer.getServerBrand());
         } else if ("MC|RPack".equals(packet.getChannel()))
         {
             final String var8 = new String(packet.getPayload(), Charsets.UTF_8);

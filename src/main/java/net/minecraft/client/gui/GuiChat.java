@@ -372,7 +372,7 @@ public class GuiChat extends GuiScreen
                     suggestionList.clear();
                 } else
                 {
-                    System.out.println(lastNode);
+                    // System.out.println(lastNode);
                 }
                 break;
             }
@@ -411,7 +411,7 @@ public class GuiChat extends GuiScreen
                             suggestionList.clear();
                             for (final Suggestion suggestion : list)
                             {
-                                System.out.println(suggestion.getText());
+                                //System.out.println(suggestion.getText());
                                 suggestionList.add(suggestion.getText());
                             }
                             suggestionIndex = 0;
