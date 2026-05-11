@@ -147,9 +147,9 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
         this.field_148300_d.getTextureManager().bindTexture(Gui.icons);
         Gui.func_146110_a(p_148279_2_ + p_148279_4_ - 15, p_148279_3_, (float) (var16 * 10), (float) (176 + var17 * 8), 10, 8, 256.0F, 256.0F);
 
-        if (this.field_148301_e.func_147409_e() != null && !this.field_148301_e.func_147409_e().equals(this.field_148299_g))
+        if (this.field_148301_e.getIcon() != null && !this.field_148301_e.getIcon().equals(this.field_148299_g))
         {
-            this.field_148299_g = this.field_148301_e.func_147409_e();
+            this.field_148299_g = this.field_148301_e.getIcon();
             this.func_148297_b();
             this.field_148303_c.func_146795_p().saveServerList();
         }
@@ -174,13 +174,13 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
 
     private void func_148297_b()
     {
-        if (this.field_148301_e.func_147409_e() == null)
+        if (this.field_148301_e.getIcon() == null)
         {
             this.field_148300_d.getTextureManager().deleteTexture(this.field_148306_i);
             this.field_148305_h = null;
         } else
         {
-            ByteBuf var2 = Unpooled.copiedBuffer(this.field_148301_e.func_147409_e(), Charsets.UTF_8);
+            ByteBuf var2 = Unpooled.copiedBuffer(this.field_148301_e.getIcon(), Charsets.UTF_8);
             ByteBuf var3 = Base64.decode(var2);
             BufferedImage var1;
             label74:
@@ -194,7 +194,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
                 } catch (Exception var8)
                 {
                     logger.error("Invalid icon for server " + this.field_148301_e.serverName + " (" + this.field_148301_e.serverIP + ")", var8);
-                    this.field_148301_e.func_147407_a(null);
+                    this.field_148301_e.setIcon(null);
                 } finally
                 {
                     var2.release();

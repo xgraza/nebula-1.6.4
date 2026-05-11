@@ -38,8 +38,7 @@ public class ServerData
      * Whether to hide the IP address for this server.
      */
     private boolean hideAddress;
-    private String field_147411_m;
-    private static final String __OBFID = "CL_00000890";
+    private String icon;
 
     public ServerData(String par1Str, String par2Str)
     {
@@ -57,9 +56,9 @@ public class ServerData
         var1.setString("ip", this.serverIP);
         var1.setBoolean("hideAddress", this.hideAddress);
 
-        if (this.field_147411_m != null)
+        if (this.icon != null)
         {
-            var1.setString("icon", this.field_147411_m);
+            var1.setString("icon", this.icon);
         }
 
         if (!this.field_78842_g)
@@ -70,7 +69,7 @@ public class ServerData
         return var1;
     }
 
-    public boolean func_147408_b()
+    public boolean acceptsTextures()
     {
         return this.acceptsTextures;
     }
@@ -99,31 +98,36 @@ public class ServerData
     /**
      * Takes an NBTTagCompound with 'name' and 'ip' keys, returns a ServerData instance.
      */
-    public static ServerData getServerDataFromNBTCompound(NBTTagCompound par0NBTTagCompound)
+    public static ServerData getServerDataFromNBTCompound(NBTTagCompound compound)
     {
-        ServerData var1 = new ServerData(par0NBTTagCompound.getString("name"), par0NBTTagCompound.getString("ip"));
-        var1.hideAddress = par0NBTTagCompound.getBoolean("hideAddress");
+        ServerData data = new ServerData(compound.getString("name"), compound.getString("ip"));
+        data.hideAddress = compound.getBoolean("hideAddress");
 
-        if (par0NBTTagCompound.hasKey("icon", 8))
+        if (compound.hasKey("icon", 8))
         {
-            var1.func_147407_a(par0NBTTagCompound.getString("icon"));
+            data.setIcon(compound.getString("icon"));
         }
 
-        if (par0NBTTagCompound.hasKey("acceptTextures", 99))
+        if (compound.hasKey("acceptTextures", 99))
         {
-            var1.setAcceptsTextures(par0NBTTagCompound.getBoolean("acceptTextures"));
+            data.setAcceptsTextures(compound.getBoolean("acceptTextures"));
         }
 
-        return var1;
+        return data;
     }
 
-    public String func_147409_e()
+    public String getIcon()
     {
-        return this.field_147411_m;
+        return this.icon;
     }
 
-    public void func_147407_a(String p_147407_1_)
+    public void setIcon(String p_147407_1_)
     {
-        this.field_147411_m = p_147407_1_;
+        this.icon = p_147407_1_;
+    }
+
+    public static ServerData of(final String address)
+    {
+        return new ServerData("", address);
     }
 }

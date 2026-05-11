@@ -9,6 +9,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.tree.CommandNode;
+import us.nebula.client.command.impl.SelfKickCommand;
 import us.nebula.client.util.IManager;
 import us.nebula.client.command.impl.PingCommand;
 import us.nebula.client.command.impl.SpawnTPCommand;
@@ -33,6 +34,7 @@ public final class CommandManager implements IManager
     public void init()
     {
         register(new PingCommand());
+        register(new SelfKickCommand());
         register(new SpawnTPCommand());
         register(new ToggleCommand());
     }

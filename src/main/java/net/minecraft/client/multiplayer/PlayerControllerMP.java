@@ -545,7 +545,7 @@ public class PlayerControllerMP
         return this.currentGameType.isCreative();
     }
 
-    public boolean func_110738_j()
+    public boolean isRidingHorse()
     {
         return this.mc.thePlayer.isRiding() && this.mc.thePlayer.ridingEntity instanceof EntityHorse;
     }

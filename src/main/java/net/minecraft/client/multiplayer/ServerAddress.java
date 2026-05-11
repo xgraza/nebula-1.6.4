@@ -90,6 +90,7 @@ public class ServerAddress
             InitialDirContext var3 = new InitialDirContext(var2);
             Attributes var4 = var3.getAttributes("_minecraft._tcp." + par0Str, new String[]{ "SRV" });
             String[] var5 = var4.get("srv").get().toString().split(" ", 4);
+            System.out.println(String.join("\n", var5));
             return new String[]{ var5[3], var5[2] };
         } catch (Throwable var6)
         {

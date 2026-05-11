@@ -1879,9 +1879,9 @@ public class Minecraft
 
             while (this.gameSettings.keyBindInventory.isPressed())
             {
-                if (this.playerController.func_110738_j())
+                if (this.playerController.isRidingHorse())
                 {
-                    this.thePlayer.func_110322_i();
+                    this.thePlayer.openHorseInventory();
                 } else
                 {
                     this.getNetHandler().addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
@@ -2117,7 +2117,7 @@ public class Minecraft
         NetworkManager var12 = NetworkManager.provideLocalClient(var11);
         var12.setNetHandler(new NetHandlerLoginClient(var12, this, null));
         var12.scheduleOutboundPacket(new C00Handshake(4, var11.toString(), 0, EnumConnectionState.LOGIN));
-        var12.scheduleOutboundPacket(new C00PacketLoginStart(this.getSession().func_148256_e()));
+        var12.scheduleOutboundPacket(new C00PacketLoginStart(this.getSession().getGameProfile()));
         this.myNetworkManager = var12;
     }
 
@@ -2259,7 +2259,7 @@ public class Minecraft
         {
             var2 = this.thePlayer.getEntityId();
             this.theWorld.removeEntity(this.thePlayer);
-            var3 = this.thePlayer.func_142021_k();
+            var3 = this.thePlayer.getServerBrand();
         }
 
         this.renderViewEntity = null;
@@ -2267,7 +2267,7 @@ public class Minecraft
         this.thePlayer.dimension = par1;
         this.renderViewEntity = this.thePlayer;
         this.thePlayer.preparePlayerToSpawn();
-        this.thePlayer.func_142020_c(var3);
+        this.thePlayer.setServerBrand(var3);
         this.theWorld.spawnEntityInWorld(this.thePlayer);
         this.playerController.flipPlayer(this.thePlayer);
         this.thePlayer.movementInput = new MovementInputFromOptions(this.gameSettings);
@@ -2546,16 +2546,16 @@ public class Minecraft
     /**
      * Set the current ServerData instance.
      */
-    public void setServerData(ServerData par1ServerData)
+    public void setServerData(ServerData serverData)
     {
-        if (par1ServerData != null)
+        if (serverData != null)
         {
-            AutoReconnectCheat.INSTANCE.setLastServer(par1ServerData);
+            AutoReconnectCheat.INSTANCE.setLastServer(serverData);
         }
-        this.currentServerData = par1ServerData;
+        this.currentServerData = serverData;
     }
 
-    public ServerData func_147104_D()
+    public ServerData getCurrentServerData()
     {
         return this.currentServerData;
     }

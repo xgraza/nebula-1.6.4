@@ -52,7 +52,7 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient
 
         try
         {
-            this.func_147391_c().joinServer(this.field_147394_b.getSession().func_148256_e(), this.field_147394_b.getSession().getToken(), var5);
+            this.func_147391_c().joinServer(this.field_147394_b.getSession().getGameProfile(), this.field_147394_b.getSession().getToken(), var5);
         } catch (AuthenticationUnavailableException var7)
         {
             this.field_147393_d.closeChannel(new ChatComponentTranslation("disconnect.loginFailedInfo", new ChatComponentTranslation("disconnect.loginFailedInfo.serversUnavailable")));

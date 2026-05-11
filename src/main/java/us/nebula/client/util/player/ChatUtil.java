@@ -20,12 +20,16 @@ public final class ChatUtil
             EnumChatFormatting.RESET);
 
     public static final String DEBUG_PREFIX = String.format(
-            "%s(DEBUG):%s",
+            "%s(DEBUG):%s ",
             EnumChatFormatting.YELLOW,
             EnumChatFormatting.RESET);
     public static final String VERBOSE_PREFIX = EnumChatFormatting.BLUE
-            + "(%s):"
+            + "(%s): "
             + EnumChatFormatting.RESET;
+    public static final String WORLD_DOWNLOADER_PREFIX = String.format(
+            "%s(WDL):%s ",
+            EnumChatFormatting.DARK_GREEN,
+            EnumChatFormatting.RESET);
 
     public static void sendFormatted(final String chatPrefix, String content, final Object... format)
     {

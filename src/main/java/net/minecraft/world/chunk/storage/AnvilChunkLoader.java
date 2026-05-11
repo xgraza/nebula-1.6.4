@@ -443,6 +443,11 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         return var5;
     }
 
+    public File getChunkSaveLocation()
+    {
+        return chunkSaveLocation;
+    }
+
     static class PendingChunk
     {
         public final ChunkCoordIntPair chunkCoordinate;

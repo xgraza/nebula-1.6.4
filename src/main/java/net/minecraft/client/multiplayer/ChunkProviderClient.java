@@ -176,6 +176,11 @@ public class ChunkProviderClient implements IChunkProvider
         return this.chunkListing.size();
     }
 
+    public LongHashMap getChunkMapping()
+    {
+        return chunkMapping;
+    }
+
     public void recreateStructures(int par1, int par2)
     {
     }

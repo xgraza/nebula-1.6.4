@@ -63,7 +63,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.listener.event.player.EventPlayerDeath;
-import wdl.WDL;
+import us.nebula.client.wdl.WorldDownloader;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -602,17 +602,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleDisconnect(S40PacketDisconnect p_147253_1_)
     {
-        if (WDL.downloading)
-        {
-            WDL.stop();
-
-            try
-            {
-                Thread.sleep(2000L);
-            } catch (Exception var3)
-            {
-            }
-        }
+        WorldDownloader.INSTANCE.stop();
         this.netManager.closeChannel(p_147253_1_.func_149165_c());
     }
 
@@ -621,17 +611,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void onDisconnect(IChatComponent p_147231_1_)
     {
-        if (WDL.downloading)
-        {
-            WDL.stop();
-
-            try
-            {
-                Thread.sleep(2000L);
-            } catch (Exception var3)
-            {
-            }
-        }
+        WorldDownloader.INSTANCE.stop();
         this.gameController.loadWorld(null);
         this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", p_147231_1_));
     }
@@ -672,7 +652,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     public void handleChat(S02PacketChat p_147251_1_)
     {
         String var2 = p_147251_1_.getMessage().getFormattedText();
-        WDL.handleServerSeedMessage(var2);
+        //WDL.handleServerSeedMessage(var2);
         this.gameController.ingameGUI.getChatGui().printChatMessage(p_147251_1_.getMessage());
     }
 
@@ -1437,18 +1417,18 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      * player instance and finally "MC|RPack" which the server uses to communicate the identifier of the default server
      * resourcepack for the client to load.
      */
-    public void handleCustomPayload(S3FPacketCustomPayload p_147240_1_)
+    public void handleCustomPayload(S3FPacketCustomPayload packet)
     {
-        if ("MC|TrList".equals(p_147240_1_.func_149169_c()))
+        if ("MC|TrList".equals(packet.getChannel()))
         {
-            ByteBuf var2 = Unpooled.wrappedBuffer(p_147240_1_.func_149168_d());
+            ByteBuf var2 = Unpooled.wrappedBuffer(packet.getPayload());
 
             try
             {
                 int var3 = var2.readInt();
                 GuiScreen var4 = this.gameController.currentScreen;
 
-                if (var4 != null && var4 instanceof GuiMerchant && var3 == this.gameController.thePlayer.openContainer.windowId)
+                if (var4 instanceof GuiMerchant && var3 == this.gameController.thePlayer.openContainer.windowId)
                 {
                     IMerchant var5 = ((GuiMerchant) var4).func_147035_g();
                     MerchantRecipeList var6 = MerchantRecipeList.func_151390_b(new PacketBuffer(var2));
@@ -1458,32 +1438,31 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             {
                 logger.error("Couldn't load trade info", var7);
             }
-        } else if ("MC|Brand".equals(p_147240_1_.func_149169_c()))
+        } else if ("MC|Brand".equals(packet.getChannel()))
         {
-            this.gameController.thePlayer.func_142020_c(new String(p_147240_1_.func_149168_d(), Charsets.UTF_8));
-        } else if ("MC|RPack".equals(p_147240_1_.func_149169_c()))
+            this.gameController.thePlayer.setServerBrand(new String(packet.getPayload(), Charsets.UTF_8));
+            System.out.println(gameController.thePlayer.getServerBrand());
+        } else if ("MC|RPack".equals(packet.getChannel()))
         {
-            final String var8 = new String(p_147240_1_.func_149168_d(), Charsets.UTF_8);
+            final String var8 = new String(packet.getPayload(), Charsets.UTF_8);
 
             if (this.gameController.gameSettings.serverTextures)
             {
-                if (this.gameController.func_147104_D() != null && this.gameController.func_147104_D().func_147408_b())
+                if (this.gameController.getCurrentServerData() != null && this.gameController.getCurrentServerData().acceptsTextures())
                 {
                     this.gameController.getResourcePackRepository().func_148526_a(var8);
-                } else if (this.gameController.func_147104_D() == null || this.gameController.func_147104_D().func_147410_c())
+                } else if (this.gameController.getCurrentServerData() == null || this.gameController.getCurrentServerData().func_147410_c())
                 {
                     this.gameController.displayGuiScreen(new GuiYesNo(new GuiScreen()
                     {
-                        private static final String __OBFID = "CL_00000879";
-
                         public void confirmClicked(boolean par1, int par2)
                         {
                             this.mc = Minecraft.getMinecraft();
 
-                            if (this.mc.func_147104_D() != null)
+                            if (this.mc.getCurrentServerData() != null)
                             {
-                                this.mc.func_147104_D().setAcceptsTextures(par1);
-                                ServerList.func_147414_b(this.mc.func_147104_D());
+                                this.mc.getCurrentServerData().setAcceptsTextures(par1);
+                                ServerList.func_147414_b(this.mc.getCurrentServerData());
                             }
 
                             if (par1)

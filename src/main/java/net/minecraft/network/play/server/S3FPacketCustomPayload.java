@@ -10,25 +10,24 @@ import java.io.IOException;
 
 public class S3FPacketCustomPayload extends Packet
 {
-    private String field_149172_a;
-    private byte[] field_149171_b;
-    private static final String __OBFID = "CL_00001297";
+    private String channel;
+    private byte[] payload;
 
     public S3FPacketCustomPayload()
     {
     }
 
-    public S3FPacketCustomPayload(String p_i45189_1_, ByteBuf p_i45189_2_)
+    public S3FPacketCustomPayload(String channel, ByteBuf payload)
     {
-        this(p_i45189_1_, p_i45189_2_.array());
+        this(channel, payload.array());
     }
 
-    public S3FPacketCustomPayload(String p_i45190_1_, byte[] p_i45190_2_)
+    public S3FPacketCustomPayload(String channel, byte[] payload)
     {
-        this.field_149172_a = p_i45190_1_;
-        this.field_149171_b = p_i45190_2_;
+        this.channel = channel;
+        this.payload = payload;
 
-        if (p_i45190_2_.length >= 32767)
+        if (payload.length >= Short.MAX_VALUE)
         {
             throw new IllegalArgumentException("Payload may not be larger than 32767 bytes");
         }
@@ -37,40 +36,40 @@ public class S3FPacketCustomPayload extends Packet
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer buffer) throws IOException
     {
-        this.field_149172_a = p_148837_1_.readStringFromBuffer(20);
-        this.field_149171_b = new byte[p_148837_1_.readUnsignedShort()];
-        p_148837_1_.readBytes(this.field_149171_b);
+        this.channel = buffer.readStringFromBuffer(20);
+        this.payload = new byte[buffer.readUnsignedShort()];
+        buffer.readBytes(this.payload);
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    public void writePacketData(PacketBuffer buffer) throws IOException
     {
-        p_148840_1_.writeStringToBuffer(this.field_149172_a);
-        p_148840_1_.writeShort(this.field_149171_b.length);
-        p_148840_1_.writeBytes(this.field_149171_b);
+        buffer.writeStringToBuffer(this.channel);
+        buffer.writeShort(this.payload.length);
+        buffer.writeBytes(this.payload);
     }
 
-    public void processPacket(INetHandlerPlayClient p_149170_1_)
+    public void processPacket(INetHandlerPlayClient netHandlerClient)
     {
-        p_149170_1_.handleCustomPayload(this);
+        netHandlerClient.handleCustomPayload(this);
     }
 
-    public String func_149169_c()
+    public void processPacket(INetHandler netHandler)
     {
-        return this.field_149172_a;
+        this.processPacket((INetHandlerPlayClient) netHandler);
     }
 
-    public byte[] func_149168_d()
+    public String getChannel()
     {
-        return this.field_149171_b;
+        return this.channel;
     }
 
-    public void processPacket(INetHandler p_148833_1_)
+    public byte[] getPayload()
     {
-        this.processPacket((INetHandlerPlayClient) p_148833_1_);
+        return this.payload;
     }
 }

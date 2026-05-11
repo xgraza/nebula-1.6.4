@@ -28,7 +28,6 @@ public class LongHashMap
      * count of times elements have been added/removed
      */
     private transient volatile int modCount;
-    private static final String __OBFID = "CL_00001492";
 
     public LongHashMap()
     {
@@ -252,7 +251,12 @@ public class LongHashMap
         return (double) countValid / (double) this.numHashElements;
     }
 
-    static class Entry
+    public Entry[] getHashArray()
+    {
+        return hashArray;
+    }
+
+    public static class Entry
     {
         final long key;
         Object value;
@@ -271,6 +275,11 @@ public class LongHashMap
         public final long getKey()
         {
             return this.key;
+        }
+
+        public Entry getNextEntry()
+        {
+            return nextEntry;
         }
 
         public final Object getValue()

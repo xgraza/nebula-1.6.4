@@ -6,21 +6,16 @@ import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
 import us.nebula.client.cheat.impl.player.AntiDisconnectCheat;
 import us.nebula.client.cheat.impl.player.AutoReconnectCheat;
-import wdl.GuiWDL;
-import wdl.WDL;
+import us.nebula.client.wdl.WorldDownloader;
+import us.nebula.client.wdl.WorldDownloaderGUIScreen;
 
 public class GuiIngameMenu extends GuiScreen
 {
-    private int field_146445_a;
-    private int field_146444_f;
-    private static final String __OBFID = "CL_00000703";
-
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
     public void initGui()
     {
-        this.field_146445_a = 0;
         this.buttonList.clear();
         byte var1 = -16;
         boolean var2 = true;
@@ -48,13 +43,9 @@ public class GuiIngameMenu extends GuiScreen
 
         if (!this.mc.isIntegratedServerRunning())
         {
-            GuiButton wdlDownload = new GuiButton(50, this.width / 2 - 100, this.height / 4 + 72 + var1, 170, 20, "WDL bug!");
-            wdlDownload.displayString = WDL.downloading ? (WDL.saving ? "Still saving..." : "Stop download") : "Download this world";
+            GuiButton wdlDownload = new GuiButton(50, this.width / 2 - 100, this.height / 4 + 72 + var1, "WDL bug!");
+            wdlDownload.displayString = WorldDownloader.INSTANCE.isDownloading() ? "Stop downloading" : "Download this world...";
             this.buttonList.add(wdlDownload);
-            wdlDownload.enabled = !WDL.downloading || WDL.downloading && !WDL.saving;
-            GuiButton wdlOptions = new GuiButton(51, this.width / 2 + 71, this.height / 4 + 72 + var1, 28, 20, "...");
-            this.buttonList.add(wdlOptions);
-            wdlOptions.enabled = !WDL.downloading || WDL.downloading && !WDL.saving;
             this.buttonList.get(0).yPosition = this.height / 4 + 144 + var1;
             this.buttonList.get(2).yPosition = this.height / 4 + 120 + var1;
             this.buttonList.get(3).yPosition = this.height / 4 + 120 + var1;
@@ -114,20 +105,15 @@ public class GuiIngameMenu extends GuiScreen
                 break;
 
             case 50:
-                if (WDL.downloading)
+                if (WorldDownloader.INSTANCE.isDownloading())
                 {
-                    WDL.stop();
-                } else
-                {
-                    WDL.start();
+                    WorldDownloader.INSTANCE.stop();
+                    this.mc.displayGuiScreen(null);
+                    this.mc.setIngameFocus();
+                    return;
                 }
-
-                this.mc.displayGuiScreen(null);
-                this.mc.setIngameFocus();
+                this.mc.displayGuiScreen(new WorldDownloaderGUIScreen(this));
                 break;
-
-            case 51:
-                this.mc.displayGuiScreen(new GuiWDL(this));
         }
     }
 
@@ -148,7 +134,7 @@ public class GuiIngameMenu extends GuiScreen
 
     private void disconnectFromServer()
     {
-        WDL.stop();
+        WorldDownloader.INSTANCE.stop();
         this.mc.theWorld.sendQuittingDisconnectingPacket();
         this.mc.loadWorld(null);
         this.mc.displayGuiScreen(new GuiMainMenu());
@@ -160,7 +146,6 @@ public class GuiIngameMenu extends GuiScreen
     public void updateScreen()
     {
         super.updateScreen();
-        ++this.field_146444_f;
     }
 
     /**

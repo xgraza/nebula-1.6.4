@@ -68,7 +68,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public EntityPlayerSP(Minecraft par1Minecraft, World par2World, Session par3Session, int par4)
     {
-        super(par2World, par3Session.func_148256_e());
+        super(par2World, par3Session.getGameProfile());
         this.mc = par1Minecraft;
         this.dimension = par4;
     }
@@ -261,7 +261,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 if (var1 && !this.movementInput.jump)
                 {
                     this.horseJumpPowerCounter = -10;
-                    this.func_110318_g();
+                    this.sendHorseJump();
                 } else if (!var1 && this.movementInput.jump)
                 {
                     this.horseJumpPowerCounter = 0;
@@ -648,7 +648,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         return this.horseJumpPower;
     }
 
-    protected void func_110318_g()
+    protected void sendHorseJump()
     {
     }
 }

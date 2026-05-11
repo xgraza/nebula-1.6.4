@@ -34,7 +34,7 @@ import net.minecraft.world.storage.SaveHandlerMP;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.cheat.impl.render.NoRenderCheat;
 import us.nebula.client.listener.event.world.EventAddEntity;
-import wdl.WDL;
+import us.nebula.client.wdl.WorldDownloader;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -116,25 +116,6 @@ public class WorldClient extends World
         this.theProfiler.endStartSection("blocks");
         this.func_147456_g();
         this.theProfiler.endSection();
-
-        if (WDL.guiToShowAsync != null)
-        {
-            WDL.mc.displayGuiScreen(WDL.guiToShowAsync);
-            WDL.guiToShowAsync = null;
-        }
-
-        if (WDL.downloading && WDL.tp.openContainer != WDL.windowContainer)
-        {
-            if (WDL.tp.openContainer == WDL.tp.inventoryContainer)
-            {
-                WDL.onItemGuiClosed();
-            } else
-            {
-                WDL.onItemGuiOpened();
-            }
-
-            WDL.windowContainer = WDL.tp.openContainer;
-        }
     }
 
     /**
@@ -192,22 +173,15 @@ public class WorldClient extends World
 
     public void doPreChunk(int par1, int par2, boolean par3)
     {
-
         if (par3)
         {
-            if (this != WDL.wc)
+            final Chunk chunk = this.clientChunkProvider.loadChunk(par1, par2);
+            if (chunk != null)
             {
-                WDL.onWorldLoad();
+                WorldDownloader.INSTANCE.addChunk(chunk);
             }
-
-            this.clientChunkProvider.loadChunk(par1, par2);
         } else
         {
-            if (WDL.downloading)
-            {
-                WDL.onChunkNoLongerNeeded(this.chunkProvider.provideChunk(par1, par2));
-            }
-
             this.clientChunkProvider.unloadChunk(par1, par2);
         }
 
@@ -314,46 +288,7 @@ public class WorldClient extends World
 
     public Entity removeEntityFromWorld(int par1)
     {
-        Entity var2 = null;
-
-        if (WDL.downloading)
-        {
-            var2 = this.getEntityByID(par1);
-
-            if (var2 != null)
-            {
-                short threshold = 0;
-
-                if (!(var2 instanceof EntityFishHook) && !(var2 instanceof EntityEnderPearl) && !(var2 instanceof EntityEnderEye) && !(var2 instanceof EntityEgg) && !(var2 instanceof EntityPotion) && !(var2 instanceof EntityExpBottle) && !(var2 instanceof EntityItem) && !(var2 instanceof EntitySquid))
-                {
-                    if (!(var2 instanceof EntityMinecart) && !(var2 instanceof EntityBoat) && !(var2 instanceof IAnimals))
-                    {
-                        if (var2 instanceof EntityDragon || var2 instanceof EntityTNTPrimed || var2 instanceof EntityFallingBlock || var2 instanceof EntityPainting || var2 instanceof EntityXPOrb)
-                        {
-                            threshold = 160;
-                        }
-                    } else
-                    {
-                        threshold = 80;
-                    }
-                } else
-                {
-                    threshold = 64;
-                }
-
-                double distance = var2.getDistance(WDL.tp.posX, var2.posY, WDL.tp.posZ);
-
-                if (distance > (double) threshold)
-                {
-                    WDL.chatDebug("removeEntityFromWorld: Refusing to remove " + EntityList.getEntityString(var2) + " at distance " + distance);
-                    return null;
-                }
-
-                WDL.chatDebug("removeEntityFromWorld: Removing " + EntityList.getEntityString(var2) + " at distance " + distance);
-            }
-        }
-
-        var2 = (Entity) this.entityHashSet.removeObject(par1);
+        Entity var2 = (Entity) this.entityHashSet.removeObject(par1);
 
         if (var2 != null)
         {
@@ -514,7 +449,7 @@ public class WorldClient extends World
 
             public String call()
             {
-                return WorldClient.this.mc.thePlayer.func_142021_k();
+                return WorldClient.this.mc.thePlayer.getServerBrand();
             }
         });
         var2.addCrashSectionCallable("Server type", new Callable()
@@ -578,11 +513,6 @@ public class WorldClient extends World
     public void addBlockEvent(int par1, int par2, int par3, Block par4, int par5, int par6)
     {
         super.addBlockEvent(par1, par2, par3, par4, par5, par6);
-
-        if (WDL.downloading)
-        {
-            WDL.onBlockEvent(par1, par2, par3, par4, par5, par6);
-        }
     }
 
     /**

@@ -8,11 +8,11 @@ public class Session
     private final String playerID;
     private final String token;
 
-    public Session(String p_i45006_1_, String p_i45006_2_, String p_i45006_3_)
+    public Session(String username, String playerID, String token)
     {
-        this.username = p_i45006_1_;
-        this.playerID = p_i45006_2_;
-        this.token = p_i45006_3_;
+        this.username = username;
+        this.playerID = playerID;
+        this.token = token;
     }
 
     public String getSessionID()
@@ -35,7 +35,7 @@ public class Session
         return this.token;
     }
 
-    public GameProfile func_148256_e()
+    public GameProfile getGameProfile()
     {
         return new GameProfile(this.getPlayerID(), this.getUsername());
     }

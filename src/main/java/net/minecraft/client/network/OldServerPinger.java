@@ -9,7 +9,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
@@ -124,14 +123,14 @@ public class OldServerPinger
 
                     if (var8.startsWith("data:image/png;base64,"))
                     {
-                        p_147224_1_.func_147407_a(var8.substring("data:image/png;base64,".length()));
+                        p_147224_1_.setIcon(var8.substring("data:image/png;base64,".length()));
                     } else
                     {
                         OldServerPinger.logger.error("Invalid server icon (unknown format)");
                     }
                 } else
                 {
-                    p_147224_1_.func_147407_a(null);
+                    p_147224_1_.setIcon(null);
                 }
 
                 var3.scheduleOutboundPacket(new C01PacketPing(Minecraft.getSystemTime()));
