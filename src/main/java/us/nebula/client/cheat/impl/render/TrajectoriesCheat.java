@@ -15,6 +15,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.listener.event.render.EventRender3D;
+import us.nebula.client.util.render.RenderUtil;
+import us.nebula.client.util.value.Setting;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +33,12 @@ import static org.lwjgl.opengl.GL11.*;
         category = CheatCategory.RENDER)
 public final class TrajectoriesCheat extends Cheat
 {
-    private static final float PI_180 = (float) Math.PI / 180.0f;
+    private final Setting<Float> lineWidthSetting = new Setting<>(
+            "Line Width", 1.5f, 0.5f, 5.0f, 0.1f);
+    private final Setting<Boolean> renderTailSetting = new Setting<>(
+            "Render Trail", true);
+    private final Setting<Double> landingRadiusSetting = new Setting<>(
+            "Landing Radius", 0.5, 0.1, 1.5, 0.1);
 
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
@@ -50,39 +57,51 @@ public final class TrajectoriesCheat extends Cheat
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_LINE_SMOOTH);
         glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-        glLineWidth(2.5f);
+        glLineWidth(lineWidthSetting.getValue());
 
         glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
-        glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-        glBegin(GL_LINE_STRIP);
+        RenderUtil.setColor(HUDCheat.INSTANCE.getBaseColor(0));
+
+        if (renderTailSetting.getValue())
         {
-            for (final Vec3 vec3 : result.getTrail())
+            glBegin(GL_LINE_STRIP);
             {
-                glVertex3d(vec3.xCoord, vec3.yCoord, vec3.zCoord);
+                for (final Vec3 vec3 : result.getTrail())
+                {
+                    glVertex3d(vec3.xCoord, vec3.yCoord, vec3.zCoord);
+                }
+            }
+            glEnd();
+        }
+
+        final Vec3 hitVec = result.getLanding() == null || result.getLanding().hitVec == null
+                ? result.getTrail().get(result.getTrail().size() - 1)
+                : result.getLanding().hitVec;
+
+        glTranslated(hitVec.xCoord, hitVec.yCoord, hitVec.zCoord);
+        if (result.getLanding() != null)
+        {
+            final int hitSide = result.getLanding().sideHit;
+            if (hitSide == 2 || hitSide == 3) {
+                glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+            } else if (hitSide == 4 || hitSide == 5) {
+                glRotatef(-90.0f, 0.0f, 0.0f, -1.0f);
             }
         }
-        glEnd();
-
-        final Vec3 hitVec = result.getTrail().get(result.getTrail().size() - 1);
 
         glBegin(GL_LINE_STRIP);
         {
+            final double r = landingRadiusSetting.getValue();
             for (double angle = 0.0; angle <= 360.0; angle += 0.5)
             {
                 double rad = Math.toRadians(angle);
-                glVertex3d(hitVec.xCoord + (Math.sin(rad) * 0.5),
-                        hitVec.yCoord,
-                        hitVec.zCoord - (Math.cos(rad) * 0.5));
+                glVertex3d((Math.sin(rad) * r),
+                        0.0,
+                        -(Math.cos(rad) * r));
             }
         }
         glEnd();
-
-        final MovingObjectPosition landing = result.getLanding();
-        if (landing != null)
-        {
-
-        }
 
         glDisable(GL_LINE_SMOOTH);
         glEnable(GL_DEPTH_TEST);
@@ -107,12 +126,23 @@ public final class TrajectoriesCheat extends Cheat
             return null;
         }
 
+        final TrajectoryResult trajectoryResult = new TrajectoryResult();
+
         double x = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
-        double y = player.prevPosY + (player.posY - player.prevPosY) * partialTicks - 0.10000000149011612;
+        double y = player.prevPosY + (player.posY - player.prevPosY) * partialTicks;
         double z = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
 
         final float yaw = MC.thePlayer.rotationYaw;
         final float pitch = MC.thePlayer.rotationPitch;
+
+        x -= Math.cos(yaw / 180.0f * Math.PI) * 0.16f;
+        y += player.getEyeHeight() - 0.10000000149011612D;
+        z -= Math.sin(yaw / 180.0f * Math.PI) * 0.16f;
+
+        if (MC.gameSettings.thirdPersonView != 0)
+        {
+            trajectoryResult.addTrail(Vec3.createVectorHelper(x, y, z));
+        }
 
         final double size = stack.getItem() instanceof ItemBow ? 0.3 : 0.25;
 
@@ -131,21 +161,16 @@ public final class TrajectoriesCheat extends Cheat
         {
             velocity = 0.5f;
             pitchOffset = -20.0f;
-        } else //noinspection ConstantValue
-            if (stack.getItem() instanceof ItemBow)
-            {
-                int charge = stack.getMaxItemUseDuration() - player.getItemInUseCount();
-                velocity = getArrowVelocity(charge) * 3.0f;
-            }
+        } else if (stack.getItem() instanceof ItemBow)
+        {
+            velocity = getArrowVelocity(stack.getMaxItemUseDuration() - player.getItemInUseCount()) * 3.0f;
+        }
 
-        double motionX = -MathHelper.sin(yaw * PI_180) * MathHelper.cos(pitch * PI_180);
-        double motionY = -MathHelper.sin((pitch + pitchOffset) * PI_180);
-        double motionZ = MathHelper.cos(yaw * PI_180) * MathHelper.cos(pitch * PI_180);
+        double motionX = -Math.sin(yaw / 180.0f * Math.PI) * Math.cos(pitch / 180.0f * Math.PI) * 0.4f;
+        double motionZ = Math.cos(yaw / 180.0f * Math.PI) * Math.cos(pitch / 180.0f * Math.PI) * 0.4f;
+        double motionY = -Math.sin((pitch + pitchOffset) / 180.0f * Math.PI) * 0.4f;
 
-        final double distance = MathHelper.sqrt_double(
-                motionX * motionX
-                        + motionY * motionY
-                        + motionZ * motionZ);
+        final double distance = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
 
         motionX /= distance;
         motionY /= distance;
@@ -155,23 +180,20 @@ public final class TrajectoriesCheat extends Cheat
         motionY *= velocity;
         motionZ *= velocity;
 
-        boolean landed = false;
         double lastDist = 0.0;
 
         MovingObjectPosition finalResult = null;
-        final TrajectoryResult trajectoryResult = new TrajectoryResult();
 
-        while (!landed && y > 0.0)
+        while (y > 0.0)
         {
             final Vec3 pos = Vec3.createVectorHelper(x, y, z);
             final Vec3 motion = pos.addVector(motionX, motionY, motionZ);
-            //Vec3.createVectorHelper(x + motionX, y + motionY, z + motionZ);
 
             final MovingObjectPosition result = MC.theWorld.rayTraceBlocks(pos, motion);
             if (result != null && !result.typeOfHit.equals(MovingObjectPosition.MovingObjectType.MISS))
             {
-                landed = true;
                 finalResult = result;
+                break;
             }
 
             final List<Entity> entitiesColliding = MC.theWorld.getEntitiesWithinAABB(Entity.class,
@@ -184,22 +206,20 @@ public final class TrajectoriesCheat extends Cheat
             {
                 for (final Entity entity : entitiesColliding)
                 {
-                    AxisAlignedBB aabb = entity.boundingBox;
-                    if (!entity.canBeCollidedWith() || entity.equals(MC.thePlayer))
+                    if (!entity.canBeCollidedWith() || entity.equals(MC.thePlayer) || entity.equals(MC.renderViewEntity))
                     {
                         continue;
                     }
-                    aabb = aabb.copy().expand(0.3, 0.3, 0.3);
+                    final AxisAlignedBB aabb = entity.boundingBox.copy().expand(0.3, 0.3, 0.3);
                     final MovingObjectPosition interceptedRaytrace = aabb.calculateIntercept(pos, motion);
                     if (interceptedRaytrace != null)
                     {
-                        // TODO: exempt foliage blocks as they don't hit with a projectile 
                         final double hitVecDistance = pos.distanceTo(interceptedRaytrace.hitVec);
                         if (hitVecDistance < lastDist || lastDist == 0.0)
                         {
                             lastDist = hitVecDistance;
-                            landed = true;
                             finalResult = interceptedRaytrace;
+                            break;
                         }
                     }
                 }
@@ -226,6 +246,11 @@ public final class TrajectoriesCheat extends Cheat
             {
                 motionY -= 0.03;
             }
+        }
+
+        if (finalResult != null)
+        {
+            trajectoryResult.addTrail(finalResult.hitVec);
         }
 
         trajectoryResult.setLanding(finalResult);

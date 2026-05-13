@@ -25,7 +25,6 @@ public final class RenderUtil
 
     private static final RenderItem RENDER_ITEM = new RenderItem();
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation(
-            "nebula",
             "textures/misc/enchanted_item_glint.png");
 
     public static ScaledResolution GAME_RESOLUTION;
