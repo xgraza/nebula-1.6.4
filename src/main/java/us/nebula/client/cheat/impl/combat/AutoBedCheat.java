@@ -387,6 +387,11 @@ public final class AutoBedCheat extends Cheat
         return MC.thePlayer.dimension == 0;
     }
 
+    public EntityPlayer getTarget()
+    {
+        return target;
+    }
+
     @Override
     public boolean isActive()
     {

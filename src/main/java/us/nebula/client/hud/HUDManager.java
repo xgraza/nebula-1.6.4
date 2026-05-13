@@ -1,6 +1,7 @@
 package us.nebula.client.hud;
 
 import us.nebula.client.Nebula;
+import us.nebula.client.hud.impl.TargetDisplayHUDElement;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.util.ITypedManager;
 import us.nebula.client.hud.impl.ArmorStatusHUDElement;
@@ -27,6 +28,7 @@ public final class HUDManager implements ITypedManager<HUDElement>
 
         hudElementList.add(new ArmorStatusHUDElement());
         hudElementList.add(new WatermarkHUDElement());
+        hudElementList.add(new TargetDisplayHUDElement());
         hudElementList.add(new CoordinatesHUDElement());
 
         hudElementList.forEach(HUDElement::reflectSettings);
