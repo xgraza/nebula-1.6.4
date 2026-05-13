@@ -46,10 +46,10 @@ public final class PacketMineCheat extends Cheat
             "Percent", 0.95, 0.01, 1.0, 0.01);
     private final Setting<Boolean> instantSetting = new Setting<>(
             "Instant", false);
-    private final Setting<Boolean> serverConfirmSetting = new Setting<>(
-            "Server Confirm", false);
     private final Setting<Boolean> ignoreGroundSetting = new Setting<>(
             "Ignore Ground", false);
+    private final Setting<Boolean> rebreakSetting = new Setting<>(
+            "Rebreak", false);
     private final Setting<Boolean> renderSetting = new Setting<>(
             "Render", true);
 
@@ -62,10 +62,7 @@ public final class PacketMineCheat extends Cheat
         super.onDisable();
         if (currentPosition != null && currentPosition.sentBreak && MC.thePlayer != null)
         {
-            MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
-                    0,
-                    currentPosition.x, currentPosition.y, currentPosition.z,
-                    currentPosition.side));
+            abortBreakingBlock(currentPosition);
         }
         if (MC.thePlayer != null)
         {
@@ -83,24 +80,25 @@ public final class PacketMineCheat extends Cheat
             return;
         }
 
-        int x = currentPosition.x;
-        int y = currentPosition.y;
-        int z = currentPosition.z;
+        final int x = currentPosition.x;
+        final int y = currentPosition.y;
+        final int z = currentPosition.z;
+        if (MC.theWorld.isAirBlock(x, y, z))
+        {
+            return;
+        }
 
         AxisAlignedBB bb = MC.theWorld.getBlock(x, y, z).getSelectedBoundingBoxFromPool(MC.theWorld, x, y, z);
         if (bb == null)
         {
             bb = new AxisAlignedBB(x, y, z, x + 1, y + 1, z + 1);
         }
-
         bb = new AxisAlignedBB(bb.getCenter(), 0.0).copy();
 
-        double factor = MathHelper.clamp_double(currentPosition.progress, 0.0, 1.0);
-
+        final double factor = MathHelper.clamp_double(currentPosition.progress, 0.0, 1.0);
         bb = bb.expand(factor * 0.5, factor * 0.5, factor * 0.5);
 
-        int color = factor >= percentSetting.getValue() ? 0x8000FF00 : 0x80FF0000;
-
+        final int color = factor >= percentSetting.getValue() ? 0x8000FF00 : 0x80FF0000;
         RenderUtil.filledBox3D(bb, 0, color);
         RenderUtil.outlinedBox3D(bb, 1.5f, color);
     };
@@ -113,43 +111,38 @@ public final class PacketMineCheat extends Cheat
                         position.x, position.y, position.z) > getReachDistanceSq());
         if (currentPosition == null)
         {
-            if (!minePositionQueue.isEmpty())
+            currentPosition = minePositionQueue.poll();
+            if (currentPosition == null)
             {
-                currentPosition = minePositionQueue.poll();
+                return;
             }
-            return;
-        }
-        if (BlockUtil.isReplaceable(currentPosition.x, currentPosition.y, currentPosition.z)
-                || MC.thePlayer.getDistanceSq(
-                currentPosition.x, currentPosition.y, currentPosition.z) > getReachDistanceSq())
-        {
-            abortBreakingBlock(currentPosition);
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
-            currentPosition = null;
-            return;
         }
 
-        final double str = getStrength(currentPosition);
-
-        // begin to break, then wait a tick before calculating progress
-        if (!currentPosition.sentBreak)
+        final boolean distanceCheck = MC.thePlayer.getDistanceSq(currentPosition.x + 0.5,
+                currentPosition.y + 0.5,
+                currentPosition.z + 0.5) > getReachDistanceSq();
+        if (BlockUtil.isReplaceable(currentPosition.x, currentPosition.y, currentPosition.z) || distanceCheck)
         {
-            currentPosition.progress = 0.0f;
-            currentPosition.sentBreak = true;
-            MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
-                    0,
-                    currentPosition.x, currentPosition.y, currentPosition.z,
-                    currentPosition.side));
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
-            if (instantSetting.getValue() && str >= percentSetting.getValue())
+            if (currentPosition.sentBreak)
             {
-                breakBlock();
+                abortBreakingBlock(currentPosition);
+            }
+
+            if (!distanceCheck && rebreakSetting.getValue() && minePositionQueue.isEmpty())
+            {
+                currentPosition.sentBreak = false;
+                currentPosition.sentStop = false;
+                currentPosition.progress = 0.0f;
+            } else
+            {
                 currentPosition = null;
             }
+
             return;
         }
-        currentPosition.progress += str;
-        if (currentPosition.progress >= percentSetting.getValue() && !currentPosition.sentStop)
+
+        startBreak();
+        if ((currentPosition.progress += getStrength(currentPosition)) >= percentSetting.getValue())
         {
             breakBlock();
         }
@@ -158,27 +151,28 @@ public final class PacketMineCheat extends Cheat
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
     {
-        if (event.getPacket() instanceof S23PacketBlockChange && currentPosition != null)
+        if (event.getPacket() instanceof S23PacketBlockChange && currentPosition != null && rebreakSetting.getValue())
         {
             final S23PacketBlockChange packet = event.getPacket();
-            if (packet.getX() == currentPosition.x
-                    && packet.getY() == currentPosition.y
-                    && packet.getZ() == currentPosition.z
-                    && packet.getType().getMaterial().isReplaceable())
+            if (packet.getX() == currentPosition.x && packet.getY() == currentPosition.y && packet.getZ() == currentPosition.z)
             {
-                if (packet.getData() == currentPosition.originalData
-                        && packet.getType().equals(currentPosition.originalBlock)
-                        && serverConfirmSetting.getValue())
+                final Block currentBlock = MC.theWorld.getBlock(packet.getX(), packet.getY(), packet.getZ());
+                final Block newBlock = packet.getType();
+                if (currentBlock.getMaterial().isReplaceable() && !newBlock.getMaterial().isReplaceable())
                 {
-                    // stop breaking block, re-attempt
-                    abortBreakingBlock(currentPosition);
-                    currentPosition.progress = 0.0;
+                    startBreak();
+                } else
+                {
+                    // queue must go through before rebreak happens
+                    if (!minePositionQueue.isEmpty())
+                    {
+                        currentPosition = null;
+                        return;
+                    }
+                    currentPosition.progress = 0.0f;
                     currentPosition.sentStop = false;
                     currentPosition.sentBreak = false;
-                    return;
                 }
-                MC.theWorld.setBlockToAir(packet.getX(), packet.getY(), packet.getZ());
-                currentPosition = null;
             }
         }
     };
@@ -195,50 +189,79 @@ public final class PacketMineCheat extends Cheat
         {
             return;
         }
-        int slot = InventoryUtil.getBestToolSlotFor(block);
-        if (slot == -1)
-        {
-            slot = MC.thePlayer.inventory.currentItem;
-        }
+
         event.cancel();
-        minePositionQueue.add(new MinePosition(
-                event.getX(), event.getY(), event.getZ(),
-                event.getSide(),
-                slot,
-                block,
-                MC.theWorld.getBlockMetadata(event.getX(), event.getY(), event.getZ())));
+        // do not allow duplicates
+        if (minePositionQueue.stream().anyMatch((pos) ->
+                pos.x == event.getX() && pos.y == event.getY() && pos.z == event.getZ())
+                || (currentPosition != null
+                    && currentPosition.x == event.getX()
+                    && currentPosition.y == event.getY()
+                    && currentPosition.z == event.getZ()))
+        {
+            return;
+        }
+
+        minePositionQueue.add(new MinePosition(event.getX(), event.getY(), event.getZ(), event.getSide(), block));
     };
+
+    private void startBreak()
+    {
+        if (currentPosition.sentBreak)
+        {
+            return;
+        }
+        currentPosition.progress = 0.0f;
+        currentPosition.sentBreak = true;
+        MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+                0,
+                currentPosition.x, currentPosition.y, currentPosition.z,
+                currentPosition.side));
+    }
 
     private void breakBlock()
     {
-        Nebula.INSTANCE.getInventoryManager().setSlot(currentPosition.slot);
+        if (currentPosition.sentStop)
+        {
+            return;
+        }
         currentPosition.sentStop = true;
+        Nebula.INSTANCE.getInventoryManager().setSlot(getSlot(MC.theWorld.getBlock(currentPosition.x, currentPosition.y, currentPosition.z)));
         MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
                 2,
                 currentPosition.x, currentPosition.y, currentPosition.z,
                 currentPosition.side));
+        Nebula.INSTANCE.getInventoryManager().syncSlot();
         if (instantSetting.getValue())
         {
             MC.theWorld.setBlockToAir(currentPosition.x, currentPosition.y, currentPosition.z);
         }
     }
 
+    private int getSlot(final Block block)
+    {
+        int slot = InventoryUtil.getBestToolSlotFor(block);
+        if (slot == -1)
+        {
+            slot = MC.thePlayer.inventory.currentItem;
+        }
+        return slot;
+    }
+
     private void abortBreakingBlock(final MinePosition minePosition)
     {
         MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
-                1, minePosition.x, minePosition.y, minePosition.z, -1));
+                1, minePosition.x, minePosition.y, minePosition.z, minePosition.side));
     }
 
     private double getStrength(final MinePosition position)
     {
         final Block block = MC.theWorld.getBlock(position.x, position.y, position.z);
-        final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(position.slot);
-
         if (block.blockHardness < 0.0f)
         {
             return 0.0f;
         }
-
+        final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(getSlot(block));
         final double speed = getDestroySpeed(block, itemStack);
         final double factor = ((itemStack != null && itemStack.isProperItemForBlock(block)) || block.getMaterial().isToolNotRequired())
                 ? 30.0f
@@ -282,8 +305,7 @@ public final class PacketMineCheat extends Cheat
             }
         }
 
-        if (MC.thePlayer.isInsideOfMaterial(Material.water)
-                && !EnchantmentHelper.getAquaAffinityModifier(MC.thePlayer))
+        if (MC.thePlayer.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(MC.thePlayer))
         {
             breakSpeed /= 5.0f;
         }
@@ -298,8 +320,7 @@ public final class PacketMineCheat extends Cheat
 
     private float getReachDistanceSq()
     {
-        return MC.playerController.getBlockReachDistance()
-                * MC.playerController.getBlockReachDistance();
+        return MC.playerController.getBlockReachDistance() * MC.playerController.getBlockReachDistance();
     }
 
     @Override
@@ -315,35 +336,17 @@ public final class PacketMineCheat extends Cheat
     private static final class MinePosition
     {
         public final Block originalBlock;
-        public final int x, y, z, side, slot, originalData;
+        public final int x, y, z, side;
         public double progress;
         public boolean sentBreak, sentStop;
 
-        public MinePosition(int x, int y, int z, int side, int slot, Block originalBlock, int originalData)
+        public MinePosition(int x, int y, int z, int side, Block originalBlock)
         {
             this.originalBlock = originalBlock;
             this.x = x;
             this.y = y;
             this.z = z;
             this.side = side;
-            this.slot = slot;
-            this.originalData = originalData;
-        }
-
-        @Override
-        public boolean equals(Object obj)
-        {
-            if (!(obj instanceof MinePosition))
-            {
-                return false;
-            }
-            return obj.hashCode() == hashCode();
-        }
-
-        @Override
-        public int hashCode()
-        {
-            return (x * 31) + (y * 31) + (z * 31) + (side * 6);
         }
     }
 }
