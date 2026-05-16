@@ -7,11 +7,10 @@ package us.nebula.client;
  */
 public final class ClientSettings
 {
-    public static final String VERSION = String.format("%s+%s/%s-%s",
-            BuildConfig.VERSION,
-            BuildConfig.BUILD,
-            BuildConfig.BRANCH,
-            BuildConfig.HASH);
+    public static final String SHORT_VERSION = String.format("%s+%s",
+            BuildConfig.VERSION, BuildConfig.BUILD);
+    public static final String VERSION = String.format("%s/%s-%s",
+            SHORT_VERSION, BuildConfig.BRANCH, BuildConfig.HASH);
 
     public static final String GITHUB_REPO = "https://github.com/xgraza/nebula-1.7.2/tree/"
             + BuildConfig.BRANCH;

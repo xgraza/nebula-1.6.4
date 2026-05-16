@@ -31,7 +31,6 @@ public class HUDElement extends GUIComponent implements ISettingProvider, IJSONS
     private final HUDManifest manifest;
     private final double padding;
     private Setting<Boolean> toggledSetting;
-    private boolean initialized;
 
     public HUDElement()
     {
@@ -42,26 +41,10 @@ public class HUDElement extends GUIComponent implements ISettingProvider, IJSONS
                     "@HUDManifest needs to be annotated on top of a HUDElement class");
         }
 
-        if (manifest.x() != -1)
-        {
-            setX(manifest.x());
-        }
-
-        if (manifest.y() != -1)
-        {
-            setY(manifest.y());
-        }
-
-        if (manifest.height() != -1)
-        {
-            setHeight(manifest.height());
-        }
-
-        if (manifest.width() != -1)
-        {
-            setWidth(manifest.width());
-        }
-
+        setX(manifest.x());
+        setY(manifest.y());
+        setHeight(manifest.height());
+        setWidth(manifest.width());
         padding = manifest.padding();
     }
 
@@ -73,11 +56,7 @@ public class HUDElement extends GUIComponent implements ISettingProvider, IJSONS
 
     public void render(final ScaledResolution res)
     {
-        if (!initialized)
-        {
-            initialized = true;
-            init();
-        }
+
     }
 
     @Override

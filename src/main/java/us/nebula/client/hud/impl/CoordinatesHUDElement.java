@@ -16,7 +16,8 @@ import java.util.TreeMap;
  * @since 3/23/26
  */
 @HUDManifest(name = "Coordinates",
-        description = "Displays overworld and nether coordinates, with your direction")
+        description = "Displays overworld and nether coordinates, with your direction",
+        x = 2, y = 2)
 public final class CoordinatesHUDElement extends HUDElement
 {
     private static final TreeMap<Integer, String> DIRECTION_MAP = new TreeMap<>();
@@ -46,16 +47,8 @@ public final class CoordinatesHUDElement extends HUDElement
             "Rotations", false);
 
     @Override
-    public void init()
-    {
-        setX(2);
-        setY(RenderUtil.GAME_RESOLUTION.getScaledHeight_double() - Fonts.POPPINS.getFontHeight() - getPadding());
-    }
-
-    @Override
     public void render(final ScaledResolution res)
     {
-        super.render(res);
         final String text = getString();
         setWidth(Fonts.POPPINS.getStringWidth(text) + (getPadding() * 2.0));
         setHeight(Fonts.POPPINS.getFontHeight() + (getPadding() * 2.0));

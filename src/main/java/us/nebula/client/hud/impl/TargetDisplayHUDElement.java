@@ -40,10 +40,7 @@ import static org.lwjgl.opengl.GL11.glVertex2d;
 @HUDManifest(name = "TargetDisplay",
         description = "Displays information about the target you're attacking",
         padding = 5.0,
-        x = 200,
-        y = 200,
-        width = 200,
-        height = 80)
+        x = 200, y = 200, width = 200, height = 80)
 public final class TargetDisplayHUDElement extends HUDElement
 {
     private static final RenderItem RENDER_ITEM = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
@@ -56,7 +53,6 @@ public final class TargetDisplayHUDElement extends HUDElement
     @Override
     public void render(ScaledResolution res)
     {
-        super.render(res);
         final EntityPlayer target = getTargetedEntity();
         if (target == null)
         {

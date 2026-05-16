@@ -14,13 +14,13 @@ public @interface HUDManifest
 
     String description() default HUDElement.DEFAULT_DESCRIPTION;
 
-    double x() default -1;
+    double x() default 0;
 
-    double y() default -1;
+    double y() default 0;
 
-    double height() default -1;
+    double height() default 0;
 
-    double width() default -1;
+    double width() default 0;
 
     double padding() default 1;
 }
