@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import us.nebula.client.listener.EventBus;
+import us.nebula.client.listener.event.network.EventDisconnect;
 import us.nebula.client.listener.event.network.EventPacket;
 
 import javax.crypto.SecretKey;
@@ -281,6 +282,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
     {
         if (this.channel.isOpen())
         {
+            EventBus.dispatch(new EventDisconnect(false, chatComponent));
             this.channel.close();
             this.terminationReason = chatComponent;
         }

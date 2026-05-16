@@ -1,6 +1,7 @@
 package us.nebula.client.server;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.listener.EventListener;
@@ -46,6 +47,20 @@ public final class ServerManager implements IManager
     {
         EventBus.subscribe(this);
         Arrays.fill(packetResponseTimes, 0);
+    }
+
+    public String getServerIP()
+    {
+        final ServerData serverData = MC.getCurrentServerData();
+        if (serverData == null || serverData.serverIP == null)
+        {
+            if (MC.isSingleplayer())
+            {
+                return "SP";
+            }
+            return "Unknown";
+        }
+        return serverData.serverIP.replace(":", "_");
     }
 
     public double getAverageTPS()
