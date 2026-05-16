@@ -89,6 +89,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         // addCheat(new TestCheat());
         addCheat(new TranslateCheat());
         addCheat(new YawCheat());
+        addCheat(new AmbienceCheat());
         addCheat(new BetterF3Cheat());
         addCheat(new CameraClipCheat());
         addCheat(new ChamsCheat());

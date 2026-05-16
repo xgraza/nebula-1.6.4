@@ -48,6 +48,8 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
+import us.nebula.client.cheat.impl.render.AmbienceCheat;
+import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.util.render.EntityCulling;
 import us.nebula.client.cheat.impl.player.InteractCheat;
@@ -60,6 +62,7 @@ import us.nebula.client.listener.event.render.EventRender3D;
 import us.nebula.client.listener.event.render.EventRenderWaterEffects;
 import us.nebula.client.util.render.ProjectionUtil;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.FloatBuffer;
@@ -1136,143 +1139,169 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         if (var2 != null)
         {
-            if (CustomColorizer.updateLightmap(var2, this.torchFlickerX, this.lightmapColors, this.mc.thePlayer.isPotionActive(Potion.nightVision)))
+            if (AmbienceCheat.INSTANCE.isToggled())
             {
-                this.lightmapTexture.updateDynamicTexture();
-                this.lightmapUpdateNeeded = false;
-                return;
-            }
+                for (int i = 0; i < 256; ++i)
+                {
+                    int color = lightmapColors[i];
 
-            for (int var3 = 0; var3 < 256; ++var3)
+                    float r = (color >> 24 & 0xff) / 255.0f;
+                    float g = (color >> 16 & 0xff) / 255.0f;
+                    float b = (color >> 8 & 0xff) / 255.0f;
+                    float a = AmbienceCheat.INSTANCE.intensitySetting.getValue().floatValue();
+
+                    Color c = HUDCheat.INSTANCE.primaryColorSetting.getValue();
+                    float ar = c.getRed() / 255.0f;
+                    float ag = c.getGreen() / 255.0f;
+                    float ab = c.getBlue() / 255.0f;
+
+                    float mixedR = r * (1.0f - a) + ar * a;
+                    float mixedG = g * (1.0f - a) + ag * a;
+                    float mixedB = b * (1.0f - a) + ab * a;
+
+                    lightmapColors[i] = -16777216 | (int) (mixedR * 255.0f) << 16 | (int) (mixedG * 255.0f) << 8 | (int) (mixedB * 255.0f);
+                }
+            } else
             {
-                float var4 = var2.getSunBrightness(1.0F) * 0.95F + 0.05F;
-                float var5 = var2.provider.lightBrightnessTable[var3 / 16] * var4;
-                float var6 = var2.provider.lightBrightnessTable[var3 % 16] * (this.torchFlickerX * 0.1F + 1.5F);
 
-                if (var2.lastLightningBolt > 0)
+                if (CustomColorizer.updateLightmap(var2, this.torchFlickerX, this.lightmapColors, this.mc.thePlayer.isPotionActive(Potion.nightVision)))
                 {
-                    var5 = var2.provider.lightBrightnessTable[var3 / 16];
+                    this.lightmapTexture.updateDynamicTexture();
+                    this.lightmapUpdateNeeded = false;
+                    return;
                 }
 
-                float var7 = var5 * (var2.getSunBrightness(1.0F) * 0.65F + 0.35F);
-                float var8 = var5 * (var2.getSunBrightness(1.0F) * 0.65F + 0.35F);
-                float var11 = var6 * ((var6 * 0.6F + 0.4F) * 0.6F + 0.4F);
-                float var12 = var6 * (var6 * var6 * 0.6F + 0.4F);
-                float var13 = var7 + var6;
-                float var14 = var8 + var11;
-                float var15 = var5 + var12;
-                var13 = var13 * 0.96F + 0.03F;
-                var14 = var14 * 0.96F + 0.03F;
-                var15 = var15 * 0.96F + 0.03F;
-                float var16;
-
-                if (this.bossColorModifier > 0.0F)
+                for (int var3 = 0; var3 < 256; ++var3)
                 {
-                    var16 = this.bossColorModifierPrev + (this.bossColorModifier - this.bossColorModifierPrev) * par1;
-                    var13 = var13 * (1.0F - var16) + var13 * 0.7F * var16;
-                    var14 = var14 * (1.0F - var16) + var14 * 0.6F * var16;
-                    var15 = var15 * (1.0F - var16) + var15 * 0.6F * var16;
-                }
+                    float var4 = var2.getSunBrightness(1.0F) * 0.95F + 0.05F;
+                    float var5 = var2.provider.lightBrightnessTable[var3 / 16] * var4;
+                    float var6 = var2.provider.lightBrightnessTable[var3 % 16] * (this.torchFlickerX * 0.1F + 1.5F);
 
-                if (var2.provider.dimensionId == 1)
-                {
-                    var13 = 0.22F + var6 * 0.75F;
-                    var14 = 0.28F + var11 * 0.75F;
-                    var15 = 0.25F + var12 * 0.75F;
-                }
-
-                float var17;
-
-                if (this.mc.thePlayer.isPotionActive(Potion.nightVision))
-                {
-                    var16 = this.getNightVisionBrightness(this.mc.thePlayer, par1);
-                    var17 = 1.0F / var13;
-
-                    if (var17 > 1.0F / var14)
+                    if (var2.lastLightningBolt > 0)
                     {
-                        var17 = 1.0F / var14;
+                        var5 = var2.provider.lightBrightnessTable[var3 / 16];
                     }
 
-                    if (var17 > 1.0F / var15)
+                    float var7 = var5 * (var2.getSunBrightness(1.0F) * 0.65F + 0.35F);
+                    float var8 = var5 * (var2.getSunBrightness(1.0F) * 0.65F + 0.35F);
+                    float var11 = var6 * ((var6 * 0.6F + 0.4F) * 0.6F + 0.4F);
+                    float var12 = var6 * (var6 * var6 * 0.6F + 0.4F);
+                    float var13 = var7 + var6;
+                    float var14 = var8 + var11;
+                    float var15 = var5 + var12;
+                    var13 = var13 * 0.96F + 0.03F;
+                    var14 = var14 * 0.96F + 0.03F;
+                    var15 = var15 * 0.96F + 0.03F;
+                    float var16;
+
+                    if (this.bossColorModifier > 0.0F)
                     {
-                        var17 = 1.0F / var15;
+                        var16 = this.bossColorModifierPrev + (this.bossColorModifier - this.bossColorModifierPrev) * par1;
+                        var13 = var13 * (1.0F - var16) + var13 * 0.7F * var16;
+                        var14 = var14 * (1.0F - var16) + var14 * 0.6F * var16;
+                        var15 = var15 * (1.0F - var16) + var15 * 0.6F * var16;
                     }
 
-                    var13 = var13 * (1.0F - var16) + var13 * var17 * var16;
-                    var14 = var14 * (1.0F - var16) + var14 * var17 * var16;
-                    var15 = var15 * (1.0F - var16) + var15 * var17 * var16;
+                    if (var2.provider.dimensionId == 1)
+                    {
+                        var13 = 0.22F + var6 * 0.75F;
+                        var14 = 0.28F + var11 * 0.75F;
+                        var15 = 0.25F + var12 * 0.75F;
+                    }
+
+                    float var17;
+
+                    if (this.mc.thePlayer.isPotionActive(Potion.nightVision))
+                    {
+                        var16 = this.getNightVisionBrightness(this.mc.thePlayer, par1);
+                        var17 = 1.0F / var13;
+
+                        if (var17 > 1.0F / var14)
+                        {
+                            var17 = 1.0F / var14;
+                        }
+
+                        if (var17 > 1.0F / var15)
+                        {
+                            var17 = 1.0F / var15;
+                        }
+
+                        var13 = var13 * (1.0F - var16) + var13 * var17 * var16;
+                        var14 = var14 * (1.0F - var16) + var14 * var17 * var16;
+                        var15 = var15 * (1.0F - var16) + var15 * var17 * var16;
+                    }
+
+                    if (var13 > 1.0F)
+                    {
+                        var13 = 1.0F;
+                    }
+
+                    if (var14 > 1.0F)
+                    {
+                        var14 = 1.0F;
+                    }
+
+                    if (var15 > 1.0F)
+                    {
+                        var15 = 1.0F;
+                    }
+
+                    var16 = this.mc.gameSettings.gammaSetting;
+                    final EventGamma event = new EventGamma(var16);
+                    EventBus.dispatch(event);
+                    var16 = event.getGamma();
+
+                    float gammaFixed = Math.min(1.0f, var16);
+
+                    var17 = 1.0F - var13;
+                    float var18 = 1.0F - var14;
+                    float var19 = 1.0F - var15;
+                    var17 = 1.0F - var17 * var17 * var17 * var17;
+                    var18 = 1.0F - var18 * var18 * var18 * var18;
+                    var19 = 1.0F - var19 * var19 * var19 * var19;
+                    var13 = var13 * (1.0F - gammaFixed) + var17 * var16;
+                    var14 = var14 * (1.0F - gammaFixed) + var18 * var16;
+                    var15 = var15 * (1.0F - gammaFixed) + var19 * var16;
+                    var13 = var13 * 0.96F + 0.03F;
+                    var14 = var14 * 0.96F + 0.03F;
+                    var15 = var15 * 0.96F + 0.03F;
+
+                    if (var13 > 1.0F)
+                    {
+                        var13 = 1.0F;
+                    }
+
+                    if (var14 > 1.0F)
+                    {
+                        var14 = 1.0F;
+                    }
+
+                    if (var15 > 1.0F)
+                    {
+                        var15 = 1.0F;
+                    }
+
+                    if (var13 < 0.0F)
+                    {
+                        var13 = 0.0F;
+                    }
+
+                    if (var14 < 0.0F)
+                    {
+                        var14 = 0.0F;
+                    }
+
+                    if (var15 < 0.0F)
+                    {
+                        var15 = 0.0F;
+                    }
+
+                    short var20 = 255;
+                    int var21 = (int) (var13 * 255.0F);
+                    int var22 = (int) (var14 * 255.0F);
+                    int var23 = (int) (var15 * 255.0F);
+                    this.lightmapColors[var3] = var20 << 24 | var21 << 16 | var22 << 8 | var23;
                 }
-
-                if (var13 > 1.0F)
-                {
-                    var13 = 1.0F;
-                }
-
-                if (var14 > 1.0F)
-                {
-                    var14 = 1.0F;
-                }
-
-                if (var15 > 1.0F)
-                {
-                    var15 = 1.0F;
-                }
-
-                var16 = this.mc.gameSettings.gammaSetting;
-                final EventGamma event = new EventGamma(var16);
-                EventBus.dispatch(event);
-                var16 = event.getGamma();
-
-                float gammaFixed = Math.min(1.0f, var16);
-
-                var17 = 1.0F - var13;
-                float var18 = 1.0F - var14;
-                float var19 = 1.0F - var15;
-                var17 = 1.0F - var17 * var17 * var17 * var17;
-                var18 = 1.0F - var18 * var18 * var18 * var18;
-                var19 = 1.0F - var19 * var19 * var19 * var19;
-                var13 = var13 * (1.0F - gammaFixed) + var17 * var16;
-                var14 = var14 * (1.0F - gammaFixed) + var18 * var16;
-                var15 = var15 * (1.0F - gammaFixed) + var19 * var16;
-                var13 = var13 * 0.96F + 0.03F;
-                var14 = var14 * 0.96F + 0.03F;
-                var15 = var15 * 0.96F + 0.03F;
-
-                if (var13 > 1.0F)
-                {
-                    var13 = 1.0F;
-                }
-
-                if (var14 > 1.0F)
-                {
-                    var14 = 1.0F;
-                }
-
-                if (var15 > 1.0F)
-                {
-                    var15 = 1.0F;
-                }
-
-                if (var13 < 0.0F)
-                {
-                    var13 = 0.0F;
-                }
-
-                if (var14 < 0.0F)
-                {
-                    var14 = 0.0F;
-                }
-
-                if (var15 < 0.0F)
-                {
-                    var15 = 0.0F;
-                }
-
-                short var20 = 255;
-                int var21 = (int) (var13 * 255.0F);
-                int var22 = (int) (var14 * 255.0F);
-                int var23 = (int) (var15 * 255.0F);
-                this.lightmapColors[var3] = var20 << 24 | var21 << 16 | var22 << 8 | var23;
             }
 
             this.lightmapTexture.updateDynamicTexture();
