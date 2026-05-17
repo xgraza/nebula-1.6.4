@@ -8,7 +8,7 @@ import us.nebula.client.util.value.Setting;
 import us.nebula.client.util.render.RenderUtil;
 
 import javax.swing.*;
-import java.awt.Color;
+import java.awt.*;
 import java.io.File;
 
 /**
@@ -17,11 +17,12 @@ import java.io.File;
  */
 public final class FileSettingComponent extends GUIComponent implements IGUIInputListener
 {
+    private static final int BACKGROUND_COLOR = new Color(52, 52, 52).getRGB();
     private static final double PADDING = 1.0;
 
-    private static final int BACKGROUND_COLOR = new Color(52, 52, 52).getRGB();
-
     private final Setting<File> setting;
+    private boolean pickingFile;
+    private File selectedFile;
 
     public FileSettingComponent(final Setting<File> setting)
     {
@@ -38,10 +39,23 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
 
     private void drawFile(final double middlePoint)
     {
+        if (!pickingFile && selectedFile != null)
+        {
+            setting.setValue(selectedFile);
+            pickingFile = false;
+            selectedFile = null;
+        }
+
         String name;
         if (setting.getValue() == null)
         {
-            name = "Pick file...";
+            if (pickingFile)
+            {
+                name = "Selecting file...";
+            } else
+            {
+                name = "Pick file...";
+            }
         } else
         {
             name = setting.getValue().getName();
@@ -63,12 +77,49 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
         {
             if (mouseButton == 0)
             {
-                final File file = openFileChooser();
-                if (file == null)
+                if (GraphicsEnvironment.isHeadless())
+                {
+                    Nebula.INSTANCE.getToastManager().error("File Chooser",
+                            "Your graphics environment is headless. Please report to the developer",
+                            7500L);
+                    return;
+                }
+                if (pickingFile)
                 {
                     return;
                 }
-                setting.setValue(file);
+                pickingFile = true;
+                SwingUtilities.invokeLater(() ->
+                {
+                    final Frame frame = new Frame();
+                    frame.setLocationRelativeTo(null);
+                    frame.setAlwaysOnTop(true);
+                    final FileDialog dialog = new FileDialog(frame, "Choose spammer file..", FileDialog.LOAD);
+                    dialog.setDirectory(setting.getBaseDirectory().getAbsolutePath());
+                    dialog.setFile("*.txt");
+                    dialog.setVisible(true);
+
+                    final String dir = dialog.getDirectory();
+                    final String name = dialog.getFile();
+                    if (dir != null && name != null)
+                    {
+                        selectedFile = new File(dir, name);
+                        if (!selectedFile.exists())
+                        {
+                            Nebula.INSTANCE.getLogger().error("Selected file {} does not exist?", selectedFile);
+                            selectedFile = null;
+                        } else
+                        {
+                            Nebula.INSTANCE.getLogger().info("Selected file {}", selectedFile);
+                        }
+                    } else
+                    {
+                        Nebula.INSTANCE.getLogger().warn("Failed to select file");
+                    }
+
+                    pickingFile = false;
+                    frame.dispose();
+                });
             } else if (mouseButton == 2)
             {
                 setting.setValue(null);
@@ -86,26 +137,5 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
     public boolean isVisible()
     {
         return setting.isVisible();
-    }
-
-    private File openFileChooser()
-    {
-        final JFrame frame = new JFrame("Choose file...");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
-        frame.setLocationRelativeTo(null);
-
-        final JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(setting.getBaseDirectory());
-
-        final int result = fileChooser.showOpenDialog(frame);
-        if (result == JFileChooser.APPROVE_OPTION)
-        {
-            return fileChooser.getSelectedFile();
-        } else
-        {
-            Nebula.INSTANCE.getLogger().warn("Unexpected JFileChooser result: {}", result);
-        }
-        return null;
     }
 }

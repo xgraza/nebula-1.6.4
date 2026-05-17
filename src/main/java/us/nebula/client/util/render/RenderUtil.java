@@ -64,7 +64,7 @@ public final class RenderUtil
         glDisable(GL_SCISSOR_TEST);
     }
 
-    public static void filledBox3D(final AxisAlignedBB aabb,
+    public static void filledBox3D(AxisAlignedBB aabb,
                                    final int renderMask,
                                    final int color)
     {
@@ -78,7 +78,7 @@ public final class RenderUtil
         glDepthMask(false);
         glDisable(GL_DEPTH_TEST);
 
-        glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
+        aabb = aabb.copy().offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
         TESSELLATOR.startDrawingQuads();
         setTessellatorColor(color);
@@ -138,7 +138,7 @@ public final class RenderUtil
         glPopMatrix();
     }
 
-    public static void outlinedBox3D(final AxisAlignedBB aabb,
+    public static void outlinedBox3D(AxisAlignedBB aabb,
                                      final float lineWidth,
                                      final int color)
     {
@@ -156,7 +156,7 @@ public final class RenderUtil
         glDepthMask(false);
         glDisable(GL_DEPTH_TEST);
 
-        glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
+        aabb = aabb.copy().offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
         TESSELLATOR.startDrawing(GL_LINE_STRIP);
         setTessellatorColor(color);
