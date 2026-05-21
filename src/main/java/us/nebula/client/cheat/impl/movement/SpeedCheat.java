@@ -1,5 +1,6 @@
 package us.nebula.client.cheat.impl.movement;
 
+import net.minecraft.block.BlockIce;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import us.nebula.client.listener.EventListener;
 import us.nebula.client.listener.Subscribe;
@@ -7,6 +8,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.world.ScaffoldCheat;
 import us.nebula.client.listener.event.network.EventPacket;
@@ -38,6 +40,7 @@ public final class SpeedCheat extends Cheat
 
     private double lastDistance, speed;
     private int lagTicks, stage;
+    private boolean boostTick;
 
     @Override
     public void onDisable()
@@ -47,6 +50,7 @@ public final class SpeedCheat extends Cheat
         speed = 0.0;
         lagTicks = 0;
         MC.timer.timerSpeed = 1.0f;
+        boostTick = false;
     }
 
     @Subscribe
@@ -62,54 +66,59 @@ public final class SpeedCheat extends Cheat
         {
             final boolean useTimer = timerSetting.getValue() && !ScaffoldCheat.INSTANCE.isToggled();
 
-            if (MoveUtil.isMoving() && MC.thePlayer.onGround)
+            if (!MoveUtil.isMoving())
             {
+                MC.timer.timerSpeed = 1.0f;
+                speed = 1.22 * MoveUtil.getBaseNcpSpeed(20) - 0.01;
                 stage = 0;
             }
 
-            switch (stage)
+            double friction = 0.99;
+            if (MC.theWorld.getBlock(PlayerUtil.getOrigin().down()) instanceof BlockIce)
             {
-                case 0:
-                case 1:
+                friction = 1.55;
+            }
+
+            if (MoveUtil.isMoving() && MC.thePlayer.onGround)
+            {
+                stage = 1;
+                MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.3995f);
+                event.setY(MC.thePlayer.motionY);
+                speed *= boostTick ? 1.64 : 1.59;
+                speed *= friction;
+            } else
+            {
+                if (stage == 1)
                 {
-                    if (stage == 0)
+                    double deboost = boostTick ? 0.8 : 0.7;
+                    if (friction > 0.99)
                     {
-                        MC.timer.timerSpeed = 1.0f;
-                        speed = 1.22 * MoveUtil.getBaseNcpSpeed(20);
-                        stage = 1;
+                        deboost -= 0.02;
                     }
-                    if (MoveUtil.isMoving() && MC.thePlayer.onGround)
-                    {
-                        MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.3995f);
-                        event.setY(MC.thePlayer.motionY);
-                        speed *= 1.59;
-                        stage = 2;
-                    }
-                    if (useTimer)
-                    {
-                        MC.timer.timerSpeed = 1.088f;
-                    }
-                    break;
-                }
-                case 2:
-                {
-                    final double diff = 0.7 * (speed - MoveUtil.getBaseNcpSpeed(20));
+                    final double diff = deboost * (speed - MoveUtil.getBaseNcpSpeed(4));
                     speed = lastDistance - diff;
-                    stage = 3;
-                    break;
-                }
-                case 3:
+                    stage = 2;
+                } else if (stage == 2)
                 {
-                    if (!MoveUtil.isMoving() && MC.thePlayer.onGround)
+                    double slowdown = boostTick ? 159 : 139;
+                    if (friction > 0.99)
                     {
-                        stage = 0;
+                        slowdown += 30;
                     }
-                    speed = speed - speed / 139.0;
-                    break;
+                    speed -= speed / slowdown;
+                    boostTick = !boostTick;
+                }
+
+                if (boostTick && useTimer)
+                {
+                    MC.timer.timerSpeed = 1.088f;
+                } else
+                {
+                    MC.timer.timerSpeed = 1.0f;
                 }
             }
 
-            speed = Math.max(speed, MoveUtil.getBaseNcpSpeed(20));
+            speed = Math.max(speed, MoveUtil.getBaseNcpSpeed(4));
 
             if (MoveUtil.isMoving())
             {

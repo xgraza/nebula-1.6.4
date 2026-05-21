@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.world.World;
+import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.listener.Event;
 import us.nebula.client.listener.EventListener;
 import us.nebula.client.listener.Subscribe;
@@ -32,6 +33,8 @@ import us.nebula.client.util.player.MoveUtil;
         category = CheatCategory.PLAYER)
 public final class FreecamCheat extends Cheat
 {
+    @CheatInstance
+    public static FreecamCheat INSTANCE;
     public static final int CAMERA_ENTITY_ID = 1337420;
 
     private static final Setting<Double> SPEED_SETTING = new Setting<>(
@@ -156,7 +159,7 @@ public final class FreecamCheat extends Cheat
         {
             super(world, getPlayerProfile());
             yOffset = 1.62f;
-            setSize(0.6F, 1.8F);
+            //setSize(0.6F, 1.8F);
             setEntityId(CAMERA_ENTITY_ID);
             setInvisible(true);
             setLocationAndAngles(player.posX, player.boundingBox.minY, player.posZ, player.rotationYaw, player.rotationPitch);
@@ -165,10 +168,12 @@ public final class FreecamCheat extends Cheat
         }
 
         @Override
-        public void onUpdate()
+        public void onLivingUpdate()
         {
-            super.onUpdate();
+            super.onLivingUpdate();
             input.updatePlayerMoveState();
+            updateEntityActionState();
+            noClip = true;
             moveForward = input.moveForward;
             moveStrafing = input.moveStrafe;
 

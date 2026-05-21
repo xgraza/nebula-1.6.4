@@ -7,6 +7,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.value.Setting;
 
 import java.util.List;

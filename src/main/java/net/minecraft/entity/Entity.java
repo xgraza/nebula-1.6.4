@@ -21,6 +21,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.listener.event.input.EventRotateCamera;
 import us.nebula.client.listener.event.player.EventStep;
@@ -1741,6 +1742,10 @@ public abstract class Entity
      */
     public boolean isEntityInsideOpaqueBlock()
     {
+        if (FreecamCheat.INSTANCE.isToggled())
+        {
+            return false;
+        }
         for (int var1 = 0; var1 < 8; ++var1)
         {
             float var2 = ((float) ((var1 >> 0) % 2) - 0.5F) * this.width * 0.8F;

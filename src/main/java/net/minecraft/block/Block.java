@@ -212,9 +212,9 @@ public class Block
 
     public int getLightValue()
     {
-        if (XRayCheat.INSTANCE.isToggled())
+        if (XRayCheat.INSTANCE.isToggled() && XRayCheat.XRAY_WHITELIST.contains(this))
         {
-            return 100000;
+            return 10000;
         }
         return this.lightValue;
     }

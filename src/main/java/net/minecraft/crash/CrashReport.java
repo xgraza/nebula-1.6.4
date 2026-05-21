@@ -7,6 +7,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import us.nebula.client.ClientSettings;
+import us.nebula.client.Nebula;
+import us.nebula.client.cheat.Cheat;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,10 +18,7 @@ import java.io.StringWriter;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 public class CrashReport
@@ -73,6 +73,21 @@ public class CrashReport
             {
                 return "1.7.2";
             }
+        });
+        this.theReportCategory.addCrashSectionCallable("Nebula Version", () ->
+                ClientSettings.VERSION);
+        this.theReportCategory.addCrashSectionCallable("Nebula Debug Enabled", () -> ClientSettings.DEBUG);
+        this.theReportCategory.addCrashSectionCallable("Nebula Enabled Cheats", () ->
+        {
+            final StringJoiner joiner = new StringJoiner("\n\t");
+            for (final Cheat cheat : Nebula.INSTANCE.getCheatManager().getAll())
+            {
+                if (cheat.isToggled())
+                {
+                    joiner.add(cheat.getManifest().name());
+                }
+            }
+            return joiner.toString();
         });
         this.theReportCategory.addCrashSectionCallable("Operating System", new Callable()
         {

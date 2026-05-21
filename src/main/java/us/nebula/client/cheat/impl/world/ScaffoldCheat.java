@@ -17,6 +17,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.math.Timer;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
@@ -48,6 +49,7 @@ public final class ScaffoldCheat extends Cheat
     private final Setting<Boolean> renderSetting = new Setting<>(
             "Render", false);
 
+    private final Timer towerTimer = new Timer();
     private double basePosY;
     private BlockData blockData;
     private int towerTicks;
@@ -78,33 +80,38 @@ public final class ScaffoldCheat extends Cheat
         }
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-
         final boolean result = InteractionManager.INSTANCE.rightClickBlock(
                 blockData.pos, blockData.facing, true);
-        if (result)
+        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        if (!result)
         {
-            if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
-            {
-                ++towerTicks;
-                if (towerTicks == 8)
-                {
-                    // ChatUtil.send("Tower ticks");
-                    towerTicks = 0;
-                    MC.thePlayer.motionY = -0.078f;
-                } else
-                {
-                    if (MC.thePlayer.onGround || MC.thePlayer.motionY == 0.16477328182606651)
-                    {
-                        MC.thePlayer.jump();
-                    }
-                }
-            } else
-            {
-                towerTicks = 0;
-            }
+            return;
         }
 
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
+        {
+
+            if (towerTimer.hasElapsed(800L))
+            {
+                towerTicks = 0;
+                towerTimer.resetTime();
+                MC.thePlayer.motionY = -0.7f;
+                return;
+            }
+
+            ++towerTicks;
+            if (/*MC.thePlayer.onGround ||*/ MC.thePlayer.motionY == 0.16477328182606651)
+            {
+                double factor = 1-Math.min(1, towerTimer.getTimeElapsedMS() / 850L);
+                //ChatUtil.sendNebula("f: " + factor);
+                MC.thePlayer.motionX *= 0.88;
+                MC.thePlayer.motionZ *= 0.88;
+                MC.thePlayer.motionY = 0.42f;
+            }
+        } else
+        {
+            towerTicks = 0;
+        }
     };
 
     @Subscribe
@@ -147,6 +154,11 @@ public final class ScaffoldCheat extends Cheat
             basePosY = minY - 1.0;
         }
 
+        if (basePosY > 256)
+        {
+            basePosY = 256;
+        }
+
         BlockPos pos = PlayerUtil.getOrigin(basePosY);
         if (extend.getValue() > 0.0 && !MC.gameSettings.keyBindJump.pressed)
         {
@@ -170,7 +182,7 @@ public final class ScaffoldCheat extends Cheat
         for (final EnumFacing facing : EnumFacing.values())
         {
             final BlockPos neighbor = BlockUtil.offset(pos, facing);
-            if (!BlockUtil.isReplaceable(neighbor))
+            if (!BlockUtil.isReplaceable(neighbor) && canPlace(neighbor))
             {
                 return new BlockData(neighbor, BlockUtil.getOpposite(facing));
             }
@@ -184,7 +196,7 @@ public final class ScaffoldCheat extends Cheat
                 for (final EnumFacing side : EnumFacing.values())
                 {
                     final BlockPos n = BlockUtil.offset(neighbor, side);
-                    if (!BlockUtil.isReplaceable(n))
+                    if (!BlockUtil.isReplaceable(n) && canPlace(n))
                     {
                         return new BlockData(n, BlockUtil.getOpposite(side));
                     }
@@ -192,6 +204,11 @@ public final class ScaffoldCheat extends Cheat
             }
         }
         return null;
+    }
+
+    private boolean canPlace(final BlockPos pos)
+    {
+        return pos.getY() <= 256;
     }
 
     private static final class BlockData
