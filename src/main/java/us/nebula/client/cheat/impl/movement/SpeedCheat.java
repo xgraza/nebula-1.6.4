@@ -8,6 +8,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.world.ScaffoldCheat;
@@ -69,7 +70,7 @@ public final class SpeedCheat extends Cheat
             if (!MoveUtil.isMoving())
             {
                 MC.timer.timerSpeed = 1.0f;
-                speed = 1.22 * MoveUtil.getBaseNcpSpeed(20) - 0.01;
+                speed = 1.18 * MoveUtil.getBaseNcpSpeed(20) - 0.01;
                 stage = 0;
             }
 
@@ -84,13 +85,13 @@ public final class SpeedCheat extends Cheat
                 stage = 1;
                 MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.3995f);
                 event.setY(MC.thePlayer.motionY);
-                speed *= boostTick ? 1.64 : 1.59;
+                speed *= boostTick ? 1.59 : 1.64;
                 speed *= friction;
             } else
             {
                 if (stage == 1)
                 {
-                    double deboost = boostTick ? 0.8 : 0.7;
+                    double deboost = boostTick ? 0.82 : 0.7;
                     if (friction > 0.99)
                     {
                         deboost -= 0.02;
@@ -100,7 +101,7 @@ public final class SpeedCheat extends Cheat
                     stage = 2;
                 } else if (stage == 2)
                 {
-                    double slowdown = boostTick ? 159 : 139;
+                    double slowdown = boostTick ? 169 : 139;
                     if (friction > 0.99)
                     {
                         slowdown += 30;
