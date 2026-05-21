@@ -30,24 +30,48 @@ or implement it yourself via a PR.
 
 ---
 
+## Running Nebula
+
+To run Nebula, I recommend using a third-party launcher such as Prism or MultiMC (or your preferred one). Running with the default Minecraft launcher is possible, but it sucks every time you want to update.
+
+For video instructions, refer to [this video for MultiMC/one of its forks](https://www.youtube.com/watch?v=-Y9J_ghZqfk) or [this video for the official Minecraft Launcher](https://youtube.com/watch?v=kA2sg2YUDyI)
+
+---
+
 ## Building (IntelliJ)
 
-*requires basic knowledge of how to use the IDE & gradle*
+> [!NOTE]
+> If you are on macOS, you are only able to build with modern Apple Silicon hardware, as the natives for Intel Macs are not included in this repository.
 
-> Note: If you are on MacOS and on an M chip series Mac, be sure to install the x86-64 version of your JDK and run via
-> Rosetta. You also need to run an older version of java (I'm on 242-b20) so it doesn't tweak when trying to run
-> 
-> Additionally, if you are having some issues with window resizing on mac, run `export LD_BIND_NOW=1`
+> [!NOTE]
+> If you are on Linux, you also will not be able to build, as the natives for Linux are not included in this repository. I will work on getting those natives, so it is possible on Linux in the future. :)
 
-1. Clone this repository with git (do NOT download the .zip, it will not build correctly)
-2. Extract the content from the .zip downloaded into a folder
-3. Open up that extracted folder in IntelliJ
-4. Click "Trust Project" if that popup shows up
-5. Wait for gradle to sync (you additionally can click the gradle tab and refresh the project to force it to sync)
-6. Click into the gradle tab, then go to the build folder and click the build task
-7. Compiled archives are available in build/libs/...
+If you do not want to build Nebula, but want to run the latest commit build, [go here](https://github.com/xgraza/nebula-1.7.2/actions) and scroll to download the latest artifact. (requires logging in with a github account)
 
-Or if you're lazy like me (or do not know how to do the above), check the actions tab or releases tab
+If you still want to build from source (and or make changes), the instructions are below. 
+
+1. Install a version of Java 8, preferably a modern version. Older versions may break/be unstable/be vulnerable.
+2. Download the [client source](https://github.com/xgraza/nebula-1.7.2/archive/refs/heads/rewrite.zip)
+3. Unpack `rewrite.zip` with your favorite .zip extractor (WinRaR, 7zip, ArchiveUtility, Windows...)
+4. Install & Setup IntelliJ
+   1. Once inside the IntelliJ program, open the unpacked folder you downloaded from GitHub
+5. Once the folder opens in IntelliJ, there will be a prompt to "Sync Gradle Project" in the bottom right corner, allow it to do so and wait for Gradle to finish.
+6. Once the Gradle project is synced, on the right hand side is a toolbar. Click on the elephant looking icon
+7. If not already, expand the folders `nebula-rewrite` > `Tasks` > `build`
+8. Under the `build` Task folder, double-click on the `build` task to run it
+9. Once it runs and completes, the built jar will be in `build/libs/nebula-rewrite.jar`
+
+### Building (No IDE)
+
+If you'd like to build the client without installing an IDE, follow these instructions:
+
+1. Install a version of Java 8, preferably a modern version. Older versions may break/be unstable/be vulnerable.
+2. Download the [client source](https://github.com/xgraza/nebula-1.7.2/archive/refs/heads/rewrite.zip)
+3. Unpack `rewrite.zip` with your favorite .zip extractor (WinRaR, 7zip, ArchiveUtility, Windows...)
+4. Open the unpacked folder with whatever terminal you'd like
+5. Inside the terminal, run `./gradlew build`
+   1. If there are errors, it probably has to do with missing dependencies in your environment.
+6. This built jar is located in `build/libs/nebula-rewrite-4.0.0.jar`
 
 ---
 
