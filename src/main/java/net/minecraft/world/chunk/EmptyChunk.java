@@ -144,7 +144,7 @@ public class EmptyChunk extends Chunk
     {
     }
 
-    public void func_150812_a(int p_150812_1_, int p_150812_2_, int p_150812_3_, TileEntity p_150812_4_)
+    public void addTileEntity(int p_150812_1_, int p_150812_2_, int p_150812_3_, TileEntity p_150812_4_)
     {
     }
 

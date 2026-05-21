@@ -80,7 +80,7 @@ public class Chunk
     /**
      * A Map of ChunkPositions to TileEntities in this chunk
      */
-    public Map chunkTileEntityMap;
+    public Map<ChunkPosition, TileEntity> chunkTileEntityMap;
 
     /**
      * Array of Lists containing the entities in this Chunk. Each List represents a 16 block subchunk.
@@ -969,7 +969,7 @@ public class Chunk
         int var2 = p_150813_1_.xCoord - this.xPosition * 16;
         int var3 = p_150813_1_.yCoord;
         int var4 = p_150813_1_.zCoord - this.zPosition * 16;
-        this.func_150812_a(var2, var3, var4, p_150813_1_);
+        this.addTileEntity(var2, var3, var4, p_150813_1_);
 
         if (this.isChunkLoaded)
         {
@@ -977,9 +977,9 @@ public class Chunk
         }
     }
 
-    public void func_150812_a(int p_150812_1_, int p_150812_2_, int p_150812_3_, TileEntity p_150812_4_)
+    public void addTileEntity(int p_150812_1_, int p_150812_2_, int p_150812_3_, TileEntity p_150812_4_)
     {
-        ChunkPosition var5 = new ChunkPosition(p_150812_1_, p_150812_2_, p_150812_3_);
+        ChunkPosition chunkPosition = new ChunkPosition(p_150812_1_, p_150812_2_, p_150812_3_);
         p_150812_4_.setWorldObj(this.worldObj);
         p_150812_4_.xCoord = this.xPosition * 16 + p_150812_1_;
         p_150812_4_.yCoord = p_150812_2_;
@@ -987,13 +987,13 @@ public class Chunk
 
         if (this.getBlock(p_150812_1_, p_150812_2_, p_150812_3_) instanceof ITileEntityProvider)
         {
-            if (this.chunkTileEntityMap.containsKey(var5))
+            if (this.chunkTileEntityMap.containsKey(chunkPosition))
             {
-                ((TileEntity) this.chunkTileEntityMap.get(var5)).invalidate();
+                this.chunkTileEntityMap.get(chunkPosition).invalidate();
             }
 
             p_150812_4_.validate();
-            this.chunkTileEntityMap.put(var5, p_150812_4_);
+            this.chunkTileEntityMap.put(chunkPosition, p_150812_4_);
         }
     }
 

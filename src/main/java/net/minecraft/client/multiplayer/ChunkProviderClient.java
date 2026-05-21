@@ -35,7 +35,7 @@ public class ChunkProviderClient implements IChunkProvider
      * This may have been intended to be an iterable version of all currently loaded chunks (MultiplayerChunkCache),
      * with identical contents to chunkMapping's values. However it is never actually added to.
      */
-    private final List chunkListing = new ArrayList();
+    private final List<Chunk> chunkListing = new ArrayList<>();
 
     /**
      * Reference to the World object.
@@ -179,6 +179,11 @@ public class ChunkProviderClient implements IChunkProvider
     public LongHashMap getChunkMapping()
     {
         return chunkMapping;
+    }
+
+    public List<Chunk> getChunkListing()
+    {
+        return chunkListing;
     }
 
     public void recreateStructures(int par1, int par2)

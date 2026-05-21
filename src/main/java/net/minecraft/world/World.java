@@ -33,6 +33,7 @@ import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
 import us.nebula.client.listener.EventBus;
+import us.nebula.client.listener.event.world.EventRemoveTileEntity;
 import us.nebula.client.util.render.EntityCulling;
 import us.nebula.client.cheat.impl.exploit.GhostHandCheat;
 import us.nebula.client.cheat.impl.player.AntiLagCheat;
@@ -2047,7 +2048,7 @@ public abstract class World implements IBlockAccess
 
                         if (var15 != null)
                         {
-                            var15.func_150812_a(var12.xCoord & 15, var12.yCoord, var12.zCoord & 15, var12);
+                            var15.addTileEntity(var12.xCoord & 15, var12.yCoord, var12.zCoord & 15, var12);
                         }
                     }
 
@@ -2655,7 +2656,7 @@ public abstract class World implements IBlockAccess
 
                 if (var7 != null)
                 {
-                    var7.func_150812_a(p_147455_1_ & 15, p_147455_2_, p_147455_3_ & 15, p_147455_4_);
+                    var7.addTileEntity(p_147455_1_ & 15, p_147455_2_, p_147455_3_ & 15, p_147455_4_);
                 }
             }
         }
@@ -2664,6 +2665,10 @@ public abstract class World implements IBlockAccess
     public void removeTileEntity(int p_147475_1_, int p_147475_2_, int p_147475_3_)
     {
         TileEntity var4 = this.getTileEntity(p_147475_1_, p_147475_2_, p_147475_3_);
+        if (var4 != null)
+        {
+            EventBus.dispatch(new EventRemoveTileEntity(var4, p_147475_1_, p_147475_2_, p_147475_3_));
+        }
 
         if (var4 != null && this.field_147481_N)
         {

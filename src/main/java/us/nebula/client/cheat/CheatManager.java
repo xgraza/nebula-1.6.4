@@ -125,6 +125,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new NukerCheat());
         addCheat(new PacketMineCheat());
         addCheat(new ScaffoldCheat());
+        addCheat(new StashHunterCheat());
 
         try
         {
