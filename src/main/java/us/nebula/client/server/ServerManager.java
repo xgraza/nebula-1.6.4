@@ -63,6 +63,11 @@ public final class ServerManager implements IManager
         return serverData.serverIP.replace(":", "_");
     }
 
+    public long getLastPacketMS()
+    {
+        return lastPacketMS;
+    }
+
     public double getAverageTPS()
     {
         double sum = 0.0;

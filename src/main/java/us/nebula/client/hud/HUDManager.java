@@ -25,9 +25,13 @@ public final class HUDManager implements ITypedManager<HUDElement>
 
         hudElementList.add(new ArmorStatusHUDElement());
         hudElementList.add(new ArraylistHUDElement());
-        hudElementList.add(new WatermarkHUDElement());
-        hudElementList.add(new TargetDisplayHUDElement());
         hudElementList.add(new CoordinatesHUDElement());
+        hudElementList.add(new PotionStatusHUDElement());
+        hudElementList.add(new ServerStatusHUDElement());
+        hudElementList.add(new SpeedHUDElement());
+        hudElementList.add(new TargetDisplayHUDElement());
+        hudElementList.add(new TPSHUDElement());
+        hudElementList.add(new WatermarkHUDElement());
 
         hudElementList.forEach(HUDElement::reflectSettings);
         hudElementList.forEach(HUDElement::init);

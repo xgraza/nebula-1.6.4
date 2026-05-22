@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import us.nebula.client.config.IJSONSerializable;
+import us.nebula.client.listener.Event;
+import us.nebula.client.listener.EventBus;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.trait.Togglable;
 import us.nebula.client.util.value.ISettingProvider;
@@ -46,6 +48,18 @@ public class HUDElement extends GUIComponent implements ISettingProvider, IJSONS
         setHeight(manifest.height());
         setWidth(manifest.width());
         padding = manifest.padding();
+    }
+
+    @Override
+    public void onEnable()
+    {
+        EventBus.subscribe(this);
+    }
+
+    @Override
+    public void onDisable()
+    {
+        EventBus.unsubscribe(this);
     }
 
     @Override
