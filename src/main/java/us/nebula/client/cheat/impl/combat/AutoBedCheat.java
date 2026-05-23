@@ -1,11 +1,15 @@
 package us.nebula.client.cheat.impl.combat;
 
+import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockBed;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBed;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.potion.Potion;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.*;
@@ -18,6 +22,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.event.game.EventUpdate;
@@ -56,6 +62,8 @@ public final class AutoBedCheat extends Cheat
             "Y-Range", 1, 1, 5, 1);
     private final Setting<Boolean> extinguishFireSetting = new Setting<>(
             "Extinguish Fire", true);
+    private final Setting<Boolean> packetSetting = new Setting<>(
+            "Observe Packet", false);
 
     private final Setting<Float> minDamageSetting = new Setting<>(
             "Min Damage", 6.0f, 1.0f, 19.5f, 0.1f);
@@ -76,6 +84,7 @@ public final class AutoBedCheat extends Cheat
             "Render", true);
 
     private final BedBlockInfo blockInfo = new BedBlockInfo(null, null);
+    private int bedSlot = -1;
     private EntityPlayer target;
 
     @Override
@@ -84,6 +93,7 @@ public final class AutoBedCheat extends Cheat
         super.onDisable();
         target = null;
         blockInfo.invalidate();
+        bedSlot = -1;
         if (MC.thePlayer != null)
         {
             Nebula.INSTANCE.getInventoryManager().syncSlot();
@@ -118,7 +128,7 @@ public final class AutoBedCheat extends Cheat
             target = getPlayerInRange();
             return;
         }
-        final int bedSlot = InventoryUtil.getHotbarItem(ItemBed.class);
+        bedSlot = InventoryUtil.getHotbarItem(ItemBed.class);
         if (bedSlot == -1)
         {
             return;
@@ -147,16 +157,61 @@ public final class AutoBedCheat extends Cheat
             }
         }
 
-        Nebula.INSTANCE.getInventoryManager().setSlot(bedSlot);
-        Nebula.INSTANCE.getRotationManager().spoof(
-                BlockUtil.getHorizontalFacing(blockInfo.getFacing()) * 90.0f,
-                0.0f, AUTO_BED_ROTATION_PRIORITY);
-        if (InteractionManager.INSTANCE.rightClickBlock(blockInfo.getPos().down(), EnumFacing.UP))
+        tryPlaceBreakBed();
+    };
+
+    @Subscribe
+    private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
+    {
+        if (event.getPacket() instanceof S23PacketBlockChange && packetSetting.getValue() && blockInfo.getPos() != null)
         {
-            InteractionManager.INSTANCE.rightClickBlock(blockInfo.getPos(), EnumFacing.UP);
+            final S23PacketBlockChange packet = event.getPacket();
+            final BlockPos placePos = blockInfo.getPos();
+            final BlockPos pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
+            if (!placePos.equals(pos))
+            {
+                return;
+            }
+
+            final float damage = calcDamage(MC.thePlayer, pos) * lethalMultiplierSetting.getValue();
+            if (!suicideSetting.getValue() && damage > lethalHealthSetting.getValue())
+            {
+                return;
+            }
+
+            if (packet.getType() instanceof BlockBed)
+            {
+                MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+                        packet.getX(), packet.getY(), packet.getZ(),
+                        EnumFacing.UP.order_a,
+                        null,
+                        0.5f, 0.5f, 0.5f));
+            } else if (packet.getType() instanceof BlockAir)
+            {
+                MC.theWorld.setBlockToAir(packet.getX(), packet.getY(), packet.getZ());
+                tryPlaceBreakBed();
+            }
+        }
+    };
+
+    private void tryPlaceBreakBed()
+    {
+        if (bedSlot == -1 || blockInfo.getPos() == null || blockInfo.getFacing() == null)
+        {
+            return;
+        }
+        Nebula.INSTANCE.getInventoryManager().setSlot(bedSlot);
+        if (Nebula.INSTANCE.getRotationManager().spoof(
+                BlockUtil.getHorizontalFacing(blockInfo.getFacing()) * 90.0f,
+                0.0f, AUTO_BED_ROTATION_PRIORITY))
+        {
+            if (InteractionManager.INSTANCE.rightClickBlock(blockInfo.getPos().down(), EnumFacing.UP))
+            {
+                InteractionManager.INSTANCE.rightClickBlock(blockInfo.getPos(), EnumFacing.UP);
+            }
         }
         Nebula.INSTANCE.getInventoryManager().syncSlot();
-    };
+    }
 
     private void calculatePlacePosition()
     {
