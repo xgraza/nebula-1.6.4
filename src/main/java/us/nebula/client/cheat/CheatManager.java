@@ -38,6 +38,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new BurrowCheat());
         addCheat(new CriticalsCheat());
         addCheat(new KillAuraCheat());
+        addCheat(new NoFriendsCheat());
         addCheat(new RegenCheat());
         addCheat(new VehicleBreakerCheat());
         addCheat(new VelocityCheat());

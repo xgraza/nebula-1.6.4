@@ -300,7 +300,7 @@ public final class AutoBedCheat extends Cheat
         {
             return false;
         }
-        return !Nebula.INSTANCE.getFriendManager().isFriend((EntityPlayer) entity);
+        return NoFriendsCheat.INSTANCE.isToggled() || !Nebula.INSTANCE.getFriendManager().isFriend((EntityPlayer) entity);
     }
 
     private float calcDamage(final EntityPlayer entity, final BlockPos pos)

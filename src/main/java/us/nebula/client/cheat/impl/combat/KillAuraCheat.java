@@ -316,7 +316,7 @@ public final class KillAuraCheat extends Cheat
         {
             return false;
         }
-        if (entity instanceof EntityPlayer && Nebula.INSTANCE.getFriendManager().isFriend((EntityPlayer) entity))
+        if (entity instanceof EntityPlayer && Nebula.INSTANCE.getFriendManager().isFriend((EntityPlayer) entity) && !NoFriendsCheat.INSTANCE.isToggled())
         {
             return false;
         }
