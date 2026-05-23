@@ -1,20 +1,27 @@
 package us.nebula.client.cheat.impl.render;
 
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityEnderChest;
+import net.minecraft.tileentity.*;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import us.nebula.client.Nebula;
 import us.nebula.client.listener.EventListener;
+import us.nebula.client.listener.IEventPriorities;
 import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.render.ColorUtil;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.event.game.EventUpdate;
@@ -39,11 +46,17 @@ import static org.lwjgl.opengl.GL11.*;
 @CheatManifest(name = "ESP", category = CheatCategory.RENDER)
 public final class ESPCheat extends Cheat
 {
-    private final Setting<Mode> modeSetting = new Setting<>("Mode", Mode.SIMPLE);
+    private final Setting<Mode> modeSetting = new Setting<>("Mode", Mode.BOX);
 
     private final Setting<Boolean> labelsSetting = new Setting<>(
             "Labels", true)
             .setVisibility(() -> modeSetting.getValue() == Mode.CS_GO);
+
+    private final Setting<Float> lineWidthSetting = new Setting<>(
+            "Line Width", 1.5f, 0.5f, 5.0f, 0.5f);
+    private final Setting<Float> opacitySetting = new Setting<>(
+            "Opacity", 0.0f, 0.0f, 1.0f, 0.05f)
+            .setVisibility(() -> modeSetting.getValue() != Mode.CS_GO);
 
     // entities
     private final Setting<Boolean> playersSetting = new Setting<>(
@@ -52,14 +65,37 @@ public final class ESPCheat extends Cheat
             "Hostile", true);
     private final Setting<Boolean> passiveSetting = new Setting<>(
             "Passive", true);
+
+    // static entities
+    private final Setting<Boolean> itemFramesSetting = new Setting<>(
+            "Item Frames", false);
+    private final Setting<Boolean> droppedItemsSetting = new Setting<>(
+            "Dropped Items", false);
+
+    // tile entities
     private final Setting<Boolean> chestsSetting = new Setting<>(
             "Chests", true);
-    private final Setting<Boolean> tileEntitiesSetting = new Setting<>(
-            "Other Tile Entities", true)
-            .setVisibility(() -> modeSetting.getValue() != Mode.CS_GO);
+    private final Setting<Boolean> endPortalsSetting = new Setting<>(
+            "End Portals", false)
+            .setVisibility(() -> modeSetting.getValue() == Mode.SHADER);
+    private final Setting<Boolean> skullsSetting = new Setting<>(
+            "Skulls", false)
+            .setVisibility(() -> modeSetting.getValue() == Mode.SHADER);
+    private final Setting<Boolean> redstoneSetting = new Setting<>(
+            "Redstone Materials", false)
+            .setVisibility(() -> modeSetting.getValue() == Mode.SHADER);
+    private final Setting<Boolean> brewingStandsSetting = new Setting<>(
+            "Brewing Stands", false)
+            .setVisibility(() -> modeSetting.getValue() == Mode.SHADER);
+    private final Setting<Boolean> signsSetting = new Setting<>(
+            "Signs", false)
+            .setVisibility(() -> modeSetting.getValue() == Mode.SHADER);
 
     private final Map<Integer, float[][]> projected = new ConcurrentHashMap<>();
     private final List<Object> renderTargetList = new CopyOnWriteArrayList<>();
+
+    private Framebuffer fb;
+    private int fbHeight, fbWidth, fbScale;
 
     @Override
     public void onDisable()
@@ -67,16 +103,17 @@ public final class ESPCheat extends Cheat
         super.onDisable();
         projected.clear();
         renderTargetList.clear();
+
+        if (fb != null)
+        {
+            fb.framebufferClear();
+        }
+        fb = null;
     }
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (MC.thePlayer.ticksExisted % 20 != 0)
-        {
-            return;
-        }
-
         for (int entityId : projected.keySet())
         {
             projected.remove(entityId);
@@ -93,20 +130,14 @@ public final class ESPCheat extends Cheat
                 continue;
             }
 
-            if (!playersSetting.getValue() && bEntity instanceof EntityPlayer)
+            if ((playersSetting.getValue() && bEntity instanceof EntityPlayer)
+                    || (hostileSetting.getValue() && EntityUtil.isEntityHostile(bEntity))
+                    || (passiveSetting.getValue() && EntityUtil.isEntityPassive(bEntity))
+                    || (bEntity instanceof EntityItemFrame && itemFramesSetting.getValue())
+                    || (bEntity instanceof EntityItem && droppedItemsSetting.getValue()))
             {
-                continue;
+                renderTargetList.add(bEntity);
             }
-            if (!hostileSetting.getValue() && EntityUtil.isEntityHostile(bEntity))
-            {
-                continue;
-            }
-            if (!passiveSetting.getValue() && EntityUtil.isEntityPassive(bEntity))
-            {
-                continue;
-            }
-
-            renderTargetList.add(bEntity);
         }
 
         for (final TileEntity entity : MC.theWorld.loadedTileEntityList)
@@ -120,54 +151,176 @@ public final class ESPCheat extends Cheat
                 continue;
             }
 
-            if (!chestsSetting.getValue() && entity instanceof TileEntityChest)
+            if (modeSetting.getValue() == Mode.SHADER)
             {
-                continue;
-            }
-
-            if (!tileEntitiesSetting.getValue())
+                if (((entity instanceof TileEntityChest
+                            || entity instanceof TileEntityEnderChest)
+                            && chestsSetting.getValue())
+                        || (entity instanceof TileEntityEndPortal && endPortalsSetting.getValue())
+                        || (entity instanceof TileEntitySkull && skullsSetting.getValue())
+                        || (redstoneSetting.getValue()
+                            && (entity instanceof TileEntityDispenser
+                            || entity instanceof TileEntityComparator
+                            || entity instanceof TileEntityDaylightDetector
+                            || entity instanceof TileEntityPiston
+                            || entity instanceof TileEntityHopper))
+                        || (entity instanceof TileEntityBrewingStand && brewingStandsSetting.getValue())
+                        || (entity instanceof TileEntitySign && signsSetting.getValue()))
+                {
+                    renderTargetList.add(entity);
+                }
+            } else
             {
-                continue;
+                if ((entity instanceof TileEntityChest || entity instanceof TileEntityEnderChest)
+                        && chestsSetting.getValue())
+                {
+                    renderTargetList.add(entity);
+                }
             }
-
-            renderTargetList.add(entity);
         }
     };
 
     @Subscribe
     private final EventListener<EventRender2D> render2DEventListener = event ->
     {
-        if (!modeSetting.getValue().equals(Mode.CS_GO))
+        if (modeSetting.getValue().equals(Mode.CS_GO))
         {
-            return;
+            renderCSGOESP();
         }
-        renderCSGOESP();
     };
 
-    @Subscribe
+    @Subscribe(priority = IEventPriorities.LOW)
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
+        if (modeSetting.getValue() == Mode.SHADER)
+        {
+            renderShaderESP(event.getPartialTicks());
+            return;
+        }
+
         for (final Object entity : renderTargetList)
         {
-            switch (modeSetting.getValue())
+            if (modeSetting.getValue() == Mode.CS_GO)
             {
-                case CS_GO:
-                {
-                    projectEntity(entity, event.getPartialTicks());
-                    break;
-                }
-                case SHADER:
-                {
-                    break;
-                }
-                case SIMPLE:
-                {
-                    renderBoxESP(entity, event.getPartialTicks());
-                    break;
-                }
+                projectEntity(entity, event.getPartialTicks());
+            } else if (modeSetting.getValue() == Mode.BOX)
+            {
+                renderBoxESP(entity, event.getPartialTicks());
             }
         }
     };
+
+    private void renderShaderESP(float tickDelta)
+    {
+        final ScaledResolution r = RenderUtil.GAME_RESOLUTION;
+        if (r == null)
+        {
+            return;
+        }
+        glPushMatrix();
+        glPushAttrib(GL_ALPHA_BITS);
+
+        final boolean renderShadows = Render.renderShadow;
+        Render.renderShadow = false;
+
+        if (fb != null)
+        {
+            fb.framebufferClear();
+
+            if (r.getScaledHeight() != fbHeight || r.getScaledWidth() != fbWidth || r.getScaleFactor() != fbScale)
+            {
+                fbHeight = r.getScaledHeight();
+                fbWidth = r.getScaledWidth();
+                fbScale = r.getScaleFactor();
+
+                fb.deleteFramebuffer();
+                fb = new Framebuffer(MC.displayWidth, MC.displayWidth, true);
+            }
+        } else
+        {
+            fb = new Framebuffer(MC.displayWidth, MC.displayWidth, true);
+        }
+        fb.bindFramebuffer(false);
+
+        for (final Object renderTarget : renderTargetList)
+        {
+            if (renderTarget instanceof Entity)
+            {
+                RenderManager.instance.renderEntityStatic((Entity) renderTarget, tickDelta, true);
+            } else if (renderTarget instanceof TileEntity)
+            {
+                TileEntityRendererDispatcher.instance.renderTileEntity((TileEntity) renderTarget, tickDelta);
+            }
+        }
+
+        glEnable(GL_ALPHA_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        fb.unbindFramebuffer();
+        MC.getFramebuffer().bindFramebuffer(true);
+
+        RenderUtil.ESP_SHADER.use();
+        RenderUtil.ESP_SHADER.set("texture", 0);
+        RenderUtil.ESP_SHADER.set("texelSize", 1.0f / r.getScaledWidth(), 1.0f / r.getScaledHeight());
+        Color c = HUDCheat.INSTANCE.primaryColorSetting.getValue();
+        RenderUtil.ESP_SHADER.set("color", c.getRed() / 255.0f, c.getGreen() / 255.0f, c.getBlue() / 255.0f, 1);
+        RenderUtil.ESP_SHADER.set("radius", lineWidthSetting.getValue());
+        RenderUtil.ESP_SHADER.set("opacity", opacitySetting.getValue());
+
+        MC.entityRenderer.disableLightmap(0.0);
+        RenderHelper.disableStandardItemLighting();
+
+        MC.entityRenderer.setupOverlayRendering();
+        glEnable(GL_TEXTURE_2D);
+
+        glBindTexture(GL_TEXTURE_2D, fb.framebufferTexture);
+        glBegin(GL_QUADS);
+        {
+            glTexCoord2d(0, 1);
+            glVertex2d(0, 0);
+            glTexCoord2d(0, 0);
+            glVertex2d(0, r.getScaledHeight());
+            glTexCoord2d(1, 0);
+            glVertex2d(r.getScaledWidth(), r.getScaledHeight());
+            glTexCoord2d(1, 1);
+            glVertex2d(r.getScaledWidth(), 0);
+        }
+        glEnd();
+
+        RenderUtil.ESP_SHADER.stop();
+
+        MC.entityRenderer.enableLightmap(0);
+
+        Render.renderShadow = renderShadows;
+
+        glPopAttrib();
+        glPopMatrix();
+
+        MC.entityRenderer.setupOverlayRendering();
+    }
+
+    private Framebuffer setupFB(final ScaledResolution res)
+    {
+        if (fb != null)
+        {
+            fb.framebufferClear();
+
+            if (res.getScaledHeight() != fbHeight || res.getScaledWidth() != fbWidth || res.getScaleFactor() != fbScale)
+            {
+                fbHeight = res.getScaledHeight();
+                fbWidth = res.getScaledWidth();
+                fbScale = res.getScaleFactor();
+
+                fb.deleteFramebuffer();
+                return new Framebuffer(MC.displayWidth, MC.displayWidth, true);
+            }
+            return fb;
+        } else
+        {
+            return (fb = new Framebuffer(MC.displayWidth, MC.displayWidth, true));
+        }
+    }
 
     private void renderCSGOESP()
     {
@@ -197,6 +350,12 @@ public final class ESPCheat extends Cheat
                 }
             }
 
+            if (gEntity instanceof EntityItemFrame
+                    && ((EntityItemFrame) gEntity).getDisplayedItem() == null)
+            {
+                continue;
+            }
+
             final float[][] projection = projected.get(entityID);
             final float[] top = projection[0], bottom = projection[1];
 
@@ -205,7 +364,7 @@ public final class ESPCheat extends Cheat
 
             glPushMatrix();
 
-            glLineWidth(2.0f);
+            glLineWidth(lineWidthSetting.getValue());
             glDisable(GL_DEPTH_TEST);
             glDisable(GL_TEXTURE_2D);
 
@@ -270,6 +429,17 @@ public final class ESPCheat extends Cheat
                 {
                     final TileEntity e = (TileEntity) gEntity;
                     text = e.getBlockType().getLocalizedName();
+                } else if (gEntity instanceof EntityItem)
+                {
+                    final EntityItem e = (EntityItem) gEntity;
+                    text = e.getEntityItem().getDisplayName() + " x" + e.getEntityItem().stackSize;
+                } else if (gEntity instanceof EntityItemFrame)
+                {
+                    final EntityItemFrame e = (EntityItemFrame) gEntity;
+                    if (e.getDisplayedItem() != null)
+                    {
+                        text = e.getDisplayedItem().getDisplayName();
+                    }
                 }
 
                 if (text != null)
@@ -315,7 +485,46 @@ public final class ESPCheat extends Cheat
         }
 
         final int color = getColor(entity);
-        RenderUtil.outlinedBox3D(aabb, 2.5f, color);
+        RenderUtil.filledBox3D(aabb, 0, ColorUtil.withAlpha(color, (int) (255.0f * opacitySetting.getValue())));
+        RenderUtil.outlinedBox3D(aabb, lineWidthSetting.getValue(), color);
+    }
+
+    private void projectEntity(final Object entity, final float partialTicks)
+    {
+        float[] top, bottom;
+        int id;
+
+        if (entity instanceof Entity)
+        {
+            final Entity e = (Entity) entity;
+            double x = (e.lastTickPosX + (e.posX - e.lastTickPosX) * partialTicks) - RenderManager.renderPosX;
+            double y = (e.lastTickPosY + (e.posY - e.lastTickPosY) * partialTicks) - RenderManager.renderPosY;
+            double z = (e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * partialTicks) - RenderManager.renderPosZ;
+
+            top = ProjectionUtil.project(x, y + e.height + 0.2, z);
+            bottom = ProjectionUtil.project(x, y - 0.2, z);
+            id = e.getEntityId();
+        } else if (entity instanceof TileEntity)
+        {
+            final TileEntity e = (TileEntity) entity;
+            double x = e.xCoord - RenderManager.renderPosX;
+            double y = e.yCoord - RenderManager.renderPosY;
+            double z = e.zCoord - RenderManager.renderPosZ;
+            top = ProjectionUtil.project(x, y + 1.2, z);
+            bottom = ProjectionUtil.project(x, y - 0.2, z);
+            id = e.hashCode();
+        } else
+        {
+            return;
+        }
+
+        if (top[2] > 1 || bottom[2] > 1)
+        {
+            projected.remove(id);
+            return;
+        }
+
+        projected.put(id, new float[][]{ top, bottom });
     }
 
     // amazing gavcode 3000
@@ -330,7 +539,7 @@ public final class ESPCheat extends Cheat
                 {
                     return Color.cyan.getRGB();
                 }
-                return Color.gray.getRGB();
+                return HUDCheat.INSTANCE.getBaseColor(10);
             } else if (EntityUtil.isEntityPassive((Entity) entity))
             {
                 return Color.green.getRGB();
@@ -348,50 +557,11 @@ public final class ESPCheat extends Cheat
                 return Color.orange.getRGB();
             }
         }
-        return Color.gray.getRGB();
-    }
-
-    private void projectEntity(final Object entity, final float partialTicks)
-    {
-        float[] top, bottom;
-        int id;
-
-        if (entity instanceof EntityLivingBase)
-        {
-            final EntityLivingBase e = (EntityLivingBase) entity;
-            double x = (e.lastTickPosX + (e.posX - e.lastTickPosX) * partialTicks) - RenderManager.renderPosX;
-            double y = (e.lastTickPosY + (e.posY - e.lastTickPosY) * partialTicks) - RenderManager.renderPosY;
-            double z = (e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * partialTicks) - RenderManager.renderPosZ;
-
-            top = ProjectionUtil.project(x, y + e.height + 0.2, z);
-            bottom = ProjectionUtil.project(x, y - 0.2, z);
-            id = e.getEntityId();
-        } else if (entity instanceof TileEntity)
-        {
-            final TileEntity e = (TileEntity) entity;
-            double x = e.xCoord;
-            double y = e.yCoord;
-            double z = e.zCoord;
-            top = ProjectionUtil.project(x, y + 1.2, z);
-            bottom = ProjectionUtil.project(x, y - 0.2, z);
-            id = e.hashCode();
-        } else
-        {
-            return;
-        }
-
-        if (top[2] > 1 || bottom[2] > 1)
-        {
-            projected.remove(id);
-            return;
-        }
-
-        projected.put(id, new float[][]{ top, bottom });
-
+        return HUDCheat.INSTANCE.getBaseColor(10);
     }
 
     private enum Mode
     {
-        SIMPLE, CS_GO, SHADER
+        BOX, CS_GO, SHADER
     }
 }

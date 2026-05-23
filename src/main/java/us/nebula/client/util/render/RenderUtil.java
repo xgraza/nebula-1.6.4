@@ -28,7 +28,7 @@ public final class RenderUtil
             "textures/misc/enchanted_item_glint.png");
 
     public static ScaledResolution GAME_RESOLUTION;
-    private static Shader ROUNDED_RECTANGLE_SHADER,
+    public static Shader ROUNDED_RECTANGLE_SHADER,
             BLUR_SHADER,
             ESP_SHADER;
 
@@ -43,6 +43,17 @@ public final class RenderUtil
                     shader.createUniform("color");
                     shader.createUniform("radius");
                     shader.createUniform("edgeSoftness");
+                });
+        ESP_SHADER = new Shader(
+                "/assets/nebula/shader/vertex.vsh",
+                "/assets/nebula/shader/esp.fsh",
+                (s) ->
+                {
+                    s.createUniform("texture");
+                    s.createUniform("texelSize");
+                    s.createUniform("color");
+                    s.createUniform("radius");
+                    s.createUniform("opacity");
                 });
     }
 
