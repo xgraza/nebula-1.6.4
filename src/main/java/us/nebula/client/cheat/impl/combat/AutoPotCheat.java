@@ -93,6 +93,12 @@ public final class AutoPotCheat extends Cheat
             return;
         }
 
+        // we cannot override AutoBed, as we need to spoof rotations to properly place the bed in the direction we want
+        if (AutoBedCheat.INSTANCE.isActive())
+        {
+            return;
+        }
+
         if ((prioritizeAttackingSetting.getValue() && (KillAuraCheat.INSTANCE.isAttacking() || AutoBedCheat.INSTANCE.isActive()))
                 // allow us to finish the action we're doing
                 || MC.thePlayer.getItemInUse() != null)
