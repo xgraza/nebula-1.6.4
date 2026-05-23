@@ -19,6 +19,7 @@ import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventDisconnect;
 import us.nebula.client.listener.event.render.EventRender3D;
 import us.nebula.client.listener.event.world.EventRemoveTileEntity;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.render.RenderUtil;
 import us.nebula.client.util.value.Setting;
 
@@ -152,14 +153,10 @@ public final class StashHunterCheat extends Cheat
         final List<Chunk> chunkList = chunkProviderClient.getChunkListing();
         for (final Chunk chunk : chunkList)
         {
-            if (!observedObjects.add(chunk))
-            {
-                continue;
-            }
             final List<BlockPos> chestTileEntityList = new ArrayList<>();
             for (final TileEntity tileEntity : chunk.chunkTileEntityMap.values())
             {
-                if (!(tileEntity instanceof TileEntityChest))
+                if (!(tileEntity instanceof TileEntityChest) || !observedObjects.add(tileEntity))
                 {
                     continue;
                 }
