@@ -169,29 +169,6 @@ public final class NametagsCheat extends Cheat
         glScaled(0.5, 0.5, 0.5);
 
         double textPosY = y;
-//        final boolean is32kStack = enchantmentList.values().stream().anyMatch((level) -> level >= Short.MAX_VALUE);
-//        if (is32kStack)
-//        {
-//            textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
-//            MC.fontRenderer.drawStringWithShadow("32k", (int) (x * 2.0), (int) textPosY, 0xFFFF0000);
-//        } else
-//        {
-//            for (final int id : enchantmentList.keySet())
-//            {
-//                final Enchantment enchantment = Enchantment.enchantmentsList[id];
-//                if (enchantment == null)
-//                {
-//                    continue;
-//                }
-//
-//                final int level = enchantmentList.get(id);
-//                String text = enchantment.getTranslatedName(level).substring(0, 3) + " " + level;
-//
-//                textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
-//                MC.fontRenderer.drawStringWithShadow(text, (int) (x * 2.0), (int) textPosY, -1);
-//            }
-//        }
-
         for (final int id : enchantmentList.keySet())
         {
             final Enchantment enchantment = Enchantment.enchantmentsList[id];
