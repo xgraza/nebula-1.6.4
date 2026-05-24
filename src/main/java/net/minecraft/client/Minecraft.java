@@ -1470,7 +1470,7 @@ public class Minecraft
             ItemStack var7 = this.thePlayer.inventory.getCurrentItem();
             if (var7 != null && this.playerController.sendUseItem(this.thePlayer, this.theWorld, var7))
             {
-                this.entityRenderer.itemRenderer.resetEquippedProgress2();
+                this.entityRenderer.itemRenderer.resetEquippedProgress();
             }
         }
     }
@@ -2424,103 +2424,33 @@ public class Minecraft
      */
     public CrashReport addGraphicsAndWorldToCrashReport(CrashReport par1CrashReport)
     {
-        par1CrashReport.getCategory().addCrashSectionCallable("Launched Version", new Callable()
+        par1CrashReport.getCategory().addCrashSectionCallable("Launched Version", () -> launchedVersion);
+        par1CrashReport.getCategory().addCrashSectionCallable("LWJGL", Sys::getVersion);
+        par1CrashReport.getCategory().addCrashSectionCallable("OpenGL", () ->
+                glGetString(GL11.GL_RENDERER) + " GL version " + glGetString(GL11.GL_VERSION) + ", " + glGetString(GL11.GL_VENDOR));
+        par1CrashReport.getCategory().addCrashSectionCallable("Is Modded", () -> "No shit??");
+        par1CrashReport.getCategory().addCrashSectionCallable("Type",
+                () -> "Client (map_client.txt)");
+        par1CrashReport.getCategory().addCrashSectionCallable("Resource Packs",
+                () -> gameSettings.resourcePacks.toString());
+        par1CrashReport.getCategory().addCrashSectionCallable("Current Language", () ->
+                mcLanguageManager.getCurrentLanguage().toString());
+        par1CrashReport.getCategory().addCrashSectionCallable("Profiler Position", () ->
+                mcProfiler.profilingEnabled ? mcProfiler.getNameOfLastSection() : "N/A (disabled)");
+        par1CrashReport.getCategory().addCrashSectionCallable("Vec3 Pool Size", () ->
         {
-            private static final String __OBFID = "CL_00000643";
-
-            public String call()
-            {
-                return Minecraft.this.launchedVersion;
-            }
+            int var1 = theWorld.getWorldVec3Pool().getPoolSize();
+            int var2 = 56 * var1;
+            int var3 = var2 / 1024 / 1024;
+            int var4 = theWorld.getWorldVec3Pool().getNextFreeSpace();
+            int var5 = 56 * var4;
+            int var6 = var5 / 1024 / 1024;
+            return var1 + " (" + var2 + " bytes; " + var3 + " MB) allocated, " + var4 + " (" + var5 + " bytes; " + var6 + " MB) used";
         });
-        par1CrashReport.getCategory().addCrashSectionCallable("LWJGL", new Callable()
-        {
-            private static final String __OBFID = "CL_00000644";
-
-            public String call()
-            {
-                return Sys.getVersion();
-            }
-        });
-        par1CrashReport.getCategory().addCrashSectionCallable("OpenGL", new Callable()
-        {
-            private static final String __OBFID = "CL_00000645";
-
-            public String call()
-            {
-                return glGetString(GL11.GL_RENDERER) + " GL version " + glGetString(GL11.GL_VERSION) + ", " + glGetString(GL11.GL_VENDOR);
-            }
-        });
-        par1CrashReport.getCategory().addCrashSectionCallable("Is Modded", new Callable()
-        {
-            private static final String __OBFID = "CL_00000646";
-
-            public String call()
-            {
-                String var1 = ClientBrandRetriever.getClientModName();
-                return !var1.equals("vanilla") ? "Definitely; Client brand changed to '" + var1 + "'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and client brand is untouched.");
-            }
-        });
-        par1CrashReport.getCategory().addCrashSectionCallable("Type", new Callable()
-        {
-            private static final String __OBFID = "CL_00000647";
-
-            public String call()
-            {
-                return "Client (map_client.txt)";
-            }
-        });
-        par1CrashReport.getCategory().addCrashSectionCallable("Resource Packs", new Callable()
-        {
-            private static final String __OBFID = "CL_00000633";
-
-            public String call()
-            {
-                return Minecraft.this.gameSettings.resourcePacks.toString();
-            }
-        });
-        par1CrashReport.getCategory().addCrashSectionCallable("Current Language", new Callable()
-        {
-            private static final String __OBFID = "CL_00000634";
-
-            public String call()
-            {
-                return Minecraft.this.mcLanguageManager.getCurrentLanguage().toString();
-            }
-        });
-        par1CrashReport.getCategory().addCrashSectionCallable("Profiler Position", new Callable()
-        {
-            private static final String __OBFID = "CL_00000635";
-
-            public String call()
-            {
-                return Minecraft.this.mcProfiler.profilingEnabled ? Minecraft.this.mcProfiler.getNameOfLastSection() : "N/A (disabled)";
-            }
-        });
-        par1CrashReport.getCategory().addCrashSectionCallable("Vec3 Pool Size", new Callable()
-        {
-            private static final String __OBFID = "CL_00000636";
-
-            public String call()
-            {
-                int var1 = Minecraft.this.theWorld.getWorldVec3Pool().getPoolSize();
-                int var2 = 56 * var1;
-                int var3 = var2 / 1024 / 1024;
-                int var4 = Minecraft.this.theWorld.getWorldVec3Pool().getNextFreeSpace();
-                int var5 = 56 * var4;
-                int var6 = var5 / 1024 / 1024;
-                return var1 + " (" + var2 + " bytes; " + var3 + " MB) allocated, " + var4 + " (" + var5 + " bytes; " + var6 + " MB) used";
-            }
-        });
-        par1CrashReport.getCategory().addCrashSectionCallable("Anisotropic Filtering", new Callable()
-        {
-            private static final String __OBFID = "CL_00000637";
-
-            public String call()
-            {
-                return Minecraft.this.gameSettings.anisotropicFiltering == 1 ? "Off (1)" : "On (" + Minecraft.this.gameSettings.anisotropicFiltering + ")";
-            }
-        });
+        par1CrashReport.getCategory().addCrashSectionCallable("Anisotropic Filtering",
+                () -> gameSettings.anisotropicFiltering == 1
+                        ? "Off (1)"
+                        : "On (" + gameSettings.anisotropicFiltering + ")");
 
         if (this.theWorld != null)
         {

@@ -1,10 +1,9 @@
 package us.nebula.client.cheat.impl.render;
 
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -39,118 +38,120 @@ public final class NametagsCheat extends Cheat
     private static final ItemStack FAKE_BONE_STACK = new ItemStack(Items.bone, 1);
     private static final int ITEM_RENDER_SIZE = 16;
 
+    private final Setting<Boolean> backgroundSetting = new Setting<>(
+            "Background", false);
+    private final Setting<Boolean> customFontSetting = new Setting<>(
+            "Custom Font", true);
     private final Setting<Float> sizeSetting = new Setting<>(
             "Size", 0.25f, 0.05f, 3.0f, 0.05f);
     private final Setting<Boolean> pingSetting = new Setting<>(
             "Ping", true);
+    private final Setting<Boolean> playersSetting = new Setting<>(
+            "Players", true);
+    private final Setting<Boolean> tamedMobsSetting = new Setting<>(
+            "Tamed", true);
+    private final Setting<Boolean> droppedItemsSetting = new Setting<>(
+            "Dropped Items", false);
 
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
         for (final Entity entity : MC.theWorld.loadedEntityList)
         {
-            if (!(entity instanceof EntityPlayer || entity instanceof EntityTameable)
-                    || entity.getEntityId() == FreecamCheat.CAMERA_ENTITY_ID
+            if (entity.getEntityId() == FreecamCheat.CAMERA_ENTITY_ID
                     || (entity == MC.renderViewEntity && MC.gameSettings.thirdPersonView == 0))
             {
                 continue;
             }
+            if ((!playersSetting.getValue() && entity instanceof EntityPlayer)
+                    || (!tamedMobsSetting.getValue() && entity instanceof EntityTameable)
+                    || (!droppedItemsSetting.getValue() && entity instanceof EntityItem))
+            {
+                continue;
+            }
+
+            // only three entities we want
+            if (!(entity instanceof EntityPlayer || entity instanceof EntityTameable || entity instanceof EntityItem))
+            {
+                continue;
+            }
+
+            if (entity instanceof EntityTameable && ((EntityTameable) entity).getOwnerName() == null)
+            {
+                continue;
+            }
+
             final double x = entity.prevPosX + (entity.posX - entity.prevPosX) * event.getPartialTicks();
             double y = entity.prevPosY + (entity.posY - entity.prevPosY) * event.getPartialTicks();
-            if (entity == MC.thePlayer)
+            if (entity != MC.thePlayer && !(entity instanceof EntityItem))
             {
-                y -= MC.thePlayer.height;
+                y += entity.height;
             }
             final double z = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * event.getPartialTicks();
-            renderPlayerTag(entity,
-                    x - RenderManager.renderPosX,
-                    y - RenderManager.renderPosY,
-                    z - RenderManager.renderPosZ);
+            RenderUtil.billBoard(x, y + 0.5, z, sizeSetting.getValue(), () ->
+            {
+
+
+                final String text = getDisplayInfo(entity);
+                double textWidth = 0;
+                int textHeight = 0;
+                if (!text.isEmpty())
+                {
+                    if (customFontSetting.getValue())
+                    {
+                        textWidth = Fonts.POPPINS.getStringWidth(text) / 2.0;
+                        textHeight = (int) Fonts.POPPINS.getFontHeight();
+                    } else
+                    {
+                        textWidth = MC.fontRenderer.getStringWidth(text) / 2.0;
+                        textHeight = MC.fontRenderer.FONT_HEIGHT;
+                    }
+                }
+
+                if (backgroundSetting.getValue())
+                {
+                    RenderUtil.rectangle2D(-(textWidth + 2), -(textHeight + 1), (textWidth + 2) * 2, textHeight + 4, 0x95000000);
+                }
+
+                if (customFontSetting.getValue())
+                {
+                    Fonts.POPPINS.drawStringShadow(text, (int) -textWidth, -textHeight + 1, -1);
+                } else
+                {
+                    MC.fontRenderer.drawStringWithShadow(text, (int) -textWidth, -textHeight + 2, -1);
+                }
+
+                glEnable(GL_DEPTH_TEST);
+
+                if (entity instanceof EntityPlayer)
+                {
+                    final EntityPlayer player = (EntityPlayer) entity;
+                    final ItemStack heldStack = player.getHeldItem();
+                    int itemX = (-24 / 2 * player.inventory.armorInventory.length)
+                            + (heldStack == null ? ITEM_RENDER_SIZE : 8);
+
+                    if (heldStack != null)
+                    {
+                        renderItemStack(heldStack, itemX, -26);
+                        itemX += ITEM_RENDER_SIZE;
+                    }
+
+                    for (int i = 3; i >= 0; --i)
+                    {
+                        final ItemStack stack = player.inventory.armorInventory[i];
+                        if (stack != null)
+                        {
+                            renderItemStack(stack, itemX, -26);
+                            itemX += ITEM_RENDER_SIZE;
+                        }
+                    }
+                } else if (entity instanceof EntityTameable && !text.isEmpty())
+                {
+                    renderItemStack(FAKE_BONE_STACK, (int) -(textWidth + ITEM_RENDER_SIZE), -9);
+                }
+            });
         }
     };
-
-    private void renderPlayerTag(final Entity entity, final double x, final double y, final double z)
-    {
-        glPushMatrix();
-
-        glEnable(GL_POLYGON_OFFSET_FILL);
-        glPolygonOffset(1.0f, -1100000.0f);
-
-        RenderHelper.disableStandardItemLighting();
-        glDisable(GL_LIGHTING);
-
-        double offset = entity.height;
-        if (entity instanceof EntityPlayer)
-        {
-            offset += 0.5;
-        }
-
-        glTranslated(x, y + offset, z);
-        glRotatef(-RenderManager.instance.playerViewY, 0.0f, 1.0f, 0.0f);
-        glRotatef(RenderManager.instance.playerViewX,
-                MC.gameSettings.thirdPersonView == 2
-                        ? -1.0f
-                        : 1.0f,
-                0.0f, 0.0f);
-
-        final double distance = MC.renderViewEntity.getDistance(x + RenderManager.renderPosX,
-                y + RenderManager.renderPosY,
-                z + RenderManager.renderPosZ);
-        final double scale = (sizeSetting.getValue() * Math.max(distance, 4.0)) / 50.0;
-        glScaled(-scale, -scale, scale);
-
-        glDisable(GL_DEPTH_TEST);
-
-        final String text = getDisplayInfo(entity);
-        final double width = Fonts.POPPINS.getStringWidth(text) / 2.0;
-        if (!text.isEmpty())
-        {
-            final int height = MC.fontRenderer.FONT_HEIGHT;
-            Fonts.POPPINS.drawStringShadow(text,
-                    (int) -width,
-                    (int) (-height + (((height + 3) / 2.0) - (height / 2.0))),
-                    -1);
-        }
-
-        glEnable(GL_DEPTH_TEST);
-
-        if (entity instanceof EntityPlayer)
-        {
-            final EntityPlayer player = (EntityPlayer) entity;
-            final ItemStack heldStack = player.getHeldItem();
-            int itemX = (-24 / 2 * player.inventory.armorInventory.length)
-                    + (heldStack == null ? ITEM_RENDER_SIZE : 8);
-
-            if (heldStack != null)
-            {
-                renderItemStack(heldStack, itemX, -26);
-                itemX += ITEM_RENDER_SIZE;
-            }
-
-            for (int i = 3; i >= 0; --i)
-            {
-                final ItemStack stack = player.inventory.armorInventory[i];
-                if (stack != null)
-                {
-                    renderItemStack(stack, itemX, -26);
-                    itemX += ITEM_RENDER_SIZE;
-                }
-            }
-        } else if (entity instanceof EntityTameable && !text.isEmpty())
-        {
-            renderItemStack(FAKE_BONE_STACK, (int) -(width + 16), -9);
-        }
-
-        glEnable(GL_DEPTH_TEST);
-        glDepthMask(true);
-
-        glPolygonOffset(1.0f, 1100000.0f);
-        glDisable(GL_POLYGON_OFFSET_FILL);
-
-        glEnable(GL_ALPHA_TEST);
-
-        glPopMatrix();
-    }
 
     private void renderItemStack(final ItemStack stack, final int x, final int y)
     {
@@ -202,6 +203,17 @@ public final class NametagsCheat extends Cheat
         if (entity instanceof EntityTameable)
         {
             return ((EntityTameable) entity).getOwnerName();
+        } else if (entity instanceof EntityItem)
+        {
+            final EntityItem entityItem = (EntityItem) entity;
+            final ItemStack itemStack = entityItem.getEntityItem();
+            return itemStack == null
+                    ? "Null Item?"
+                    : EnumChatFormatting.GRAY
+                      + itemStack.getDisplayName()
+                      + EnumChatFormatting.RED
+                      + " x"
+                      + itemStack.stackSize;
         }
         final EntityPlayer player = (EntityPlayer) entity;
         final StringBuilder builder = new StringBuilder();

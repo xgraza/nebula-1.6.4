@@ -23,7 +23,6 @@ import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.listener.event.network.EventPacket;
-import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.event.game.EventUpdate;
@@ -107,11 +106,19 @@ public final class AutoBedCheat extends Cheat
         {
             return;
         }
-        RenderUtil.filledBox3D(new AxisAlignedBB(blockInfo.getPos())
-                        .addCoord(blockInfo.getFacing().getFrontOffsetX(),
-                                blockInfo.getFacing().getFrontOffsetY(),
-                                blockInfo.getFacing().getFrontOffsetZ()),
-                0, 0x80FF0000);
+        final AxisAlignedBB bb = new AxisAlignedBB(blockInfo.getPos())
+                .addCoord(blockInfo.getFacing().getFrontOffsetX(),
+                        blockInfo.getFacing().getFrontOffsetY(),
+                        blockInfo.getFacing().getFrontOffsetZ());
+        bb.maxY = blockInfo.getPos().getY() + 0.5;
+        RenderUtil.outlinedBox3D(bb, 1.5f, 0xFFFF0000);
+        RenderUtil.filledBox3D(bb, 0, 0x80FF0000);
+        final Vec3 center = bb.getCenter();
+        RenderUtil.billBoard(center.xCoord, center.yCoord, center.zCoord, 0.2, () ->
+        {
+            final String text = String.format("%.2f", blockInfo.getTargetDamage());
+            MC.fontRenderer.drawStringWithShadow(text, -MC.fontRenderer.getStringWidth(text) / 2, 2, -1);
+        });
     };
 
     @Subscribe
@@ -252,8 +259,9 @@ public final class AutoBedCheat extends Cheat
             if (!suicideSetting.getValue() && !MC.thePlayer.capabilities.isCreativeMode)
             {
                 final float lethal = lethalHealthSetting.getValue();
-                final float localDmg1 = calcDamage(MC.thePlayer, bedOrigin);
-                final float localDmg2 = calcDamage(MC.thePlayer, bedNeighbor);
+                final float lethalMulti = lethalMultiplierSetting.getValue();
+                final float localDmg1 = calcDamage(MC.thePlayer, bedOrigin) * lethalMulti;
+                final float localDmg2 = calcDamage(MC.thePlayer, bedNeighbor) * lethalMulti;
                 if (localDmg1 >= lethal || localDmg2 >= lethal)
                 {
                     continue;
@@ -265,7 +273,7 @@ public final class AutoBedCheat extends Cheat
                 {
                     localDamage = localDmg1;
                 }
-                if (localDamage * lethalMultiplierSetting.getValue() >= lethal)
+                if (localDamage >= lethal)
                 {
                     continue;
                 }

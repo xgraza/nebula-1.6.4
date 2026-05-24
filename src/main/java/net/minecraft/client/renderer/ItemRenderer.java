@@ -843,12 +843,4 @@ public class ItemRenderer
     {
         equippedProgress = 0.0F;
     }
-
-    /**
-     * Resets equippedProgress
-     */
-    public void resetEquippedProgress2()
-    {
-        equippedProgress = 0.0F;
-    }
 }

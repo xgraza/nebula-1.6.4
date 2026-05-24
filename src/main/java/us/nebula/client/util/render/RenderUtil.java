@@ -211,6 +211,45 @@ public final class RenderUtil
         glPopMatrix();
     }
 
+    public static void billBoard(final double x, final double y, final double z, final double size, final Runnable runnable)
+    {
+        glPushMatrix();
+
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(1.0f, -1100000.0f);
+
+        RenderHelper.disableStandardItemLighting();
+        glDisable(GL_LIGHTING);
+
+        glTranslated(x - RenderManager.renderPosX, y - RenderManager.renderPosY, z - RenderManager.renderPosZ);
+        glRotatef(-RenderManager.instance.playerViewY, 0.0f, 1.0f, 0.0f);
+        glRotatef(RenderManager.instance.playerViewX,
+                MC.gameSettings.thirdPersonView == 2
+                        ? -1.0f
+                        : 1.0f,
+                0.0f, 0.0f);
+
+        final double distance = MC.renderViewEntity.getDistance(x,
+                y,
+                z);
+        final double scale = (size * Math.max(distance, 4.0)) / 50.0;
+        glScaled(-scale, -scale, scale);
+
+        glDisable(GL_DEPTH_TEST);
+
+        runnable.run();
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthMask(true);
+
+        glPolygonOffset(1.0f, 1100000.0f);
+        glDisable(GL_POLYGON_OFFSET_FILL);
+
+        glEnable(GL_ALPHA_TEST);
+
+        glPopMatrix();
+    }
+
     public static void rectangle2D(final double x,
                                    final double y,
                                    final double width,
@@ -218,6 +257,8 @@ public final class RenderUtil
                                    final int color)
     {
         glDisable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         setColor(color);
         TESSELLATOR.startDrawingQuads();
         TESSELLATOR.addVertex(x, y, 0.0);
