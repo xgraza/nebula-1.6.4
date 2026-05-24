@@ -127,13 +127,13 @@ public final class NametagsCheat extends Cheat
                 {
                     final EntityPlayer player = (EntityPlayer) entity;
                     final ItemStack heldStack = player.getHeldItem();
-                    int itemX = (-24 / 2 * player.inventory.armorInventory.length)
-                            + (heldStack == null ? ITEM_RENDER_SIZE : 8);
+                    int itemX = (-12 * player.inventory.armorInventory.length)
+                            + (heldStack == null ? 8 : 0);
 
                     if (heldStack != null)
                     {
                         renderItemStack(heldStack, itemX, -26);
-                        itemX += ITEM_RENDER_SIZE;
+                        itemX += (ITEM_RENDER_SIZE + 4);
                     }
 
                     for (int i = 3; i >= 0; --i)
@@ -142,7 +142,7 @@ public final class NametagsCheat extends Cheat
                         if (stack != null)
                         {
                             renderItemStack(stack, itemX, -26);
-                            itemX += ITEM_RENDER_SIZE;
+                            itemX += (ITEM_RENDER_SIZE + 4);
                         }
                     }
                 } else if (entity instanceof EntityTameable && !text.isEmpty())
@@ -169,27 +169,49 @@ public final class NametagsCheat extends Cheat
         glScaled(0.5, 0.5, 0.5);
 
         double textPosY = y;
-        final boolean is32kStack = enchantmentList.values().stream().anyMatch((level) -> level >= Short.MAX_VALUE);
-        if (is32kStack)
+//        final boolean is32kStack = enchantmentList.values().stream().anyMatch((level) -> level >= Short.MAX_VALUE);
+//        if (is32kStack)
+//        {
+//            textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
+//            MC.fontRenderer.drawStringWithShadow("32k", (int) (x * 2.0), (int) textPosY, 0xFFFF0000);
+//        } else
+//        {
+//            for (final int id : enchantmentList.keySet())
+//            {
+//                final Enchantment enchantment = Enchantment.enchantmentsList[id];
+//                if (enchantment == null)
+//                {
+//                    continue;
+//                }
+//
+//                final int level = enchantmentList.get(id);
+//                String text = enchantment.getTranslatedName(level).substring(0, 3) + " " + level;
+//
+//                textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
+//                MC.fontRenderer.drawStringWithShadow(text, (int) (x * 2.0), (int) textPosY, -1);
+//            }
+//        }
+
+        for (final int id : enchantmentList.keySet())
         {
-            textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
-            MC.fontRenderer.drawStringWithShadow("32k", (int) (x * 2.0), (int) textPosY, 0xFFFF0000);
-        } else
-        {
-            for (final int id : enchantmentList.keySet())
+            final Enchantment enchantment = Enchantment.enchantmentsList[id];
+            if (enchantment == null)
             {
-                final Enchantment enchantment = Enchantment.enchantmentsList[id];
-                if (enchantment == null)
-                {
-                    continue;
-                }
-
-                final int level = enchantmentList.get(id);
-                String text = enchantment.getTranslatedName(level).substring(0, 3) + " " + level;
-
-                textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
-                MC.fontRenderer.drawStringWithShadow(text, (int) (x * 2.0), (int) textPosY, -1);
+                continue;
             }
+
+            final int level = enchantmentList.get(id);
+            String text = enchantment.getTranslatedName(level).substring(0, 3) + " ";
+            if (level >= Short.MAX_VALUE)
+            {
+                text += EnumChatFormatting.RED + "32k";
+            } else
+            {
+                text += level;
+            }
+
+            textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
+            MC.fontRenderer.drawStringWithShadow(text, (int) (x * 2.0), (int) textPosY, -1);
         }
 
         glScaled(2.0, 2.0, 0.0);
