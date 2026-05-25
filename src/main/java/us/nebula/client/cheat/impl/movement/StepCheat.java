@@ -14,7 +14,7 @@ import us.nebula.client.listener.event.player.EventStep;
  * @since 04/04/25
  */
 @CheatManifest(name = "Step",
-        description = "Send extra packets to step up blocks without jumping",
+        description = "Send extra packets to step up blocks without having to jump",
         category = CheatCategory.MOVEMENT)
 public final class StepCheat extends Cheat
 {

@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @since 04/29/25
  */
 @CheatManifest(name = "AutoHighway",
-        description = "Automatically builds a highway",
+        description = "Automatically builds a walkable highway with the block in your hand",
         category = CheatCategory.WORLD)
 public final class AutoHighwayCheat extends Cheat
 {

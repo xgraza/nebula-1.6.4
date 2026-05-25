@@ -16,7 +16,7 @@ import us.nebula.client.listener.event.network.EventPacket;
  * @since 03/26/25
  */
 @CheatManifest(name = "InventorySync",
-        description = "Syncs the transactionId in containers",
+        description = "Syncs inventory transactions with the server to prevent de-sync",
         category = CheatCategory.PLAYER)
 public final class InventorySyncCheat extends Cheat
 {

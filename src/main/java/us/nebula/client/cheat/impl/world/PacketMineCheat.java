@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @since 04/02/25
  */
 @CheatManifest(name = "PacketMine",
-        description = "Mines blocks with packets",
+        description = "Mines blocks faster and automatically with packets",
         category = CheatCategory.WORLD)
 public final class PacketMineCheat extends Cheat
 {

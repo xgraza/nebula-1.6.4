@@ -18,7 +18,7 @@ import us.nebula.client.listener.event.world.EventModifyBoundBox;
  * @since 03/01/25
  */
 @CheatManifest(name = "Jesus",
-        description = "Walks on water or lava",
+        description = "Allows you to walk on top of water and lava, as Jesus did",
         category = CheatCategory.MOVEMENT)
 public final class JesusCheat extends Cheat
 {

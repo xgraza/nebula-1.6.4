@@ -11,7 +11,7 @@ import us.nebula.client.util.value.Setting;
  * @since 03/13/25
  */
 @CheatManifest(name = "AntiLag",
-        description = "Prevents things in game from lagging you client-side",
+        description = "Prevents client-sided lag",
         category = CheatCategory.PLAYER)
 public final class AntiLagCheat extends Cheat
 {

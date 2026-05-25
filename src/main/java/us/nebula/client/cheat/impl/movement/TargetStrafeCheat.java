@@ -24,7 +24,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @since 3/16/26
  */
 @CheatManifest(name = "TargetStrafe",
-        description = "Strafes around your KillAura target",
+        description = "Moves in a circle around your KillAura target to make it harder for them to attack you back",
         category = CheatCategory.MOVEMENT)
 public final class TargetStrafeCheat extends Cheat
 {

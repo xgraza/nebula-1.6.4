@@ -33,7 +33,7 @@ import us.nebula.client.util.world.BlockUtil;
  * @since 02/16/25
  */
 @CheatManifest(name = "Scaffold",
-        description = "Rapidly places blocks under you",
+        description = "Automatically places blocks under you to give the appearance of flying",
         category = CheatCategory.WORLD)
 public final class ScaffoldCheat extends Cheat
 {

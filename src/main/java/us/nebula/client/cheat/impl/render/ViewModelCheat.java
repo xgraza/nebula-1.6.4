@@ -11,7 +11,7 @@ import us.nebula.client.util.value.Setting;
  * @since 05/27/25
  */
 @CheatManifest(name = "ViewModel",
-        description = "Tweaks how the held item is rendered",
+        description = "Tweaks how the currently held item is rendered",
         category = CheatCategory.RENDER)
 public final class ViewModelCheat extends Cheat
 {

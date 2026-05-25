@@ -29,7 +29,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 @SuppressWarnings("unchecked")
 @CheatManifest(name = "Trajectories",
-        description = "Renders the projected path of a projectile",
+        description = "Renders the predicted path of a projectile (may be slightly inaccurate due to Minecraft randomness)",
         category = CheatCategory.RENDER)
 public final class TrajectoriesCheat extends Cheat
 {

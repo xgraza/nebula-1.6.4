@@ -18,7 +18,7 @@ import us.nebula.client.util.player.MoveUtil;
  * @since 06/27/25
  */
 @CheatManifest(name = "LongJump",
-        description = "Jumps long... what else?",
+        description = "Allows you to jump a much further distance forward than normal",
         category = CheatCategory.MOVEMENT)
 public final class LongJumpCheat extends Cheat
 {

@@ -27,7 +27,7 @@ import us.nebula.client.util.world.BlockUtil;
  * @since 04/04/25
  */
 @CheatManifest(name = "AutoInfinite",
-        description = "Automatically creates infinite items",
+        description = "Automatically creates infinite items with TNT and a chest",
         category = CheatCategory.WORLD)
 public final class AutoInfiniteCheat extends Cheat
 {

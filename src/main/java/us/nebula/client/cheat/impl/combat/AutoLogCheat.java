@@ -16,7 +16,7 @@ import us.nebula.client.listener.event.game.EventUpdate;
  * @since 03/30/25
  */
 @CheatManifest(name = "AutoLog",
-        description = "Automatically logs out for you",
+        description = "Automatically logs you off a server on specific conditions",
         category = CheatCategory.COMBAT)
 public final class AutoLogCheat extends Cheat
 {

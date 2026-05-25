@@ -12,7 +12,7 @@ import us.nebula.client.cheat.trait.CheatManifest;
  * @since 06/24/25
  */
 @CheatManifest(name = "AntiDisconnect",
-        description = "Are you sure you want to disconnect?",
+        description = "Shows a yes/no screen before trying to disconnect asking \"Are you sure you want to disconnect?\"",
         category = CheatCategory.PLAYER)
 public final class AntiDisconnectCheat extends Cheat
 {

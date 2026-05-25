@@ -20,7 +20,7 @@ import java.awt.Color;
  * @since 02/26/25
  */
 @CheatManifest(name = "HUD",
-        description = "Renders information over the game GUI",
+        description = "Displays important information in the game GUI",
         category = CheatCategory.RENDER)
 public final class HUDCheat extends Cheat
 {

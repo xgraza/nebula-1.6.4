@@ -17,7 +17,7 @@ import us.nebula.client.listener.event.render.EventGamma;
  * @since 02/16/25
  */
 @CheatManifest(name = "Fullbright",
-        description = "Forces gamma all the way up to see in the dark",
+        description = "Forces your gamma setting all the way up to aid seeing in the dark",
         category = CheatCategory.RENDER)
 public final class FullbrightCheat extends Cheat
 {

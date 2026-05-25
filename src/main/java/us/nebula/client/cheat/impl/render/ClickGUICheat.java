@@ -14,7 +14,7 @@ import static org.lwjgl.input.Keyboard.KEY_RSHIFT;
  * @since 02/16/25
  */
 @CheatManifest(name = "ClickGUI",
-        description = "Overview of cheats & their settings",
+        description = "Displays a GUI with an Overview of all cheats & their settings",
         category = CheatCategory.RENDER)
 public final class ClickGUICheat extends Cheat
 {

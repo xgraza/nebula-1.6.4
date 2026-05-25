@@ -43,7 +43,9 @@ import static org.lwjgl.opengl.GL11.*;
  * @author xgraza
  * @since 09/04/2025
  */
-@CheatManifest(name = "ESP", category = CheatCategory.RENDER)
+@CheatManifest(name = "ESP",
+        description = "Renders an overlay on entities/objects in the world to give you a \"6th sense\"",
+        category = CheatCategory.RENDER)
 public final class ESPCheat extends Cheat
 {
     private final Setting<Mode> modeSetting = new Setting<>("Mode", Mode.BOX);

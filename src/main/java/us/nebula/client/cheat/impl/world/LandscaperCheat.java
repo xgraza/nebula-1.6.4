@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * @since 05/03/25
  */
 @CheatManifest(name = "Landscaper",
-        description = "Breaks all foliage blocks at your Y level",
+        description = "Automatically breaks all foliage (i.e. grass, flowers, snow) blocks at your Y level",
         category = CheatCategory.WORLD)
 public final class LandscaperCheat extends Cheat
 {

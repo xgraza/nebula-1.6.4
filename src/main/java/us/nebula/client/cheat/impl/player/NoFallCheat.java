@@ -14,7 +14,7 @@ import us.nebula.client.cheat.gui.component.cheat.value.EnumSettingComponent;
  * @since 03/13/25
  */
 @CheatManifest(name = "NoFall",
-        description = "Negates/prevents fall damage",
+        description = "Attempts to negate or entirely prevent fall damage",
         category = CheatCategory.PLAYER)
 public final class NoFallCheat extends Cheat
 {

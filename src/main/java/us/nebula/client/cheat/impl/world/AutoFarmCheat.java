@@ -30,7 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 06/24/25
  */
 @CheatManifest(name = "AutoFarm",
-        description = "Automatically harvests and replants seeds",
+        description = "Automatically harvests and replants crops (+ nether wart & sugar cane)",
         category = CheatCategory.WORLD)
 public final class AutoFarmCheat extends Cheat
 {

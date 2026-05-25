@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @since 06/24/25
  */
 @CheatManifest(name = "Blink",
-        description = "Suspends packets to look like lag",
+        description = "Suspends packets for a period of time, and the burst sends it all at once to make it appear as a laggy connection",
         category = CheatCategory.MOVEMENT)
 public final class BlinkCheat extends Cheat
 {

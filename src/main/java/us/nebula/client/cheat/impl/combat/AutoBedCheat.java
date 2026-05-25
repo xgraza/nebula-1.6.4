@@ -44,7 +44,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @since 06/06/25
  */
 @CheatManifest(name = "AutoBed",
-        description = "Automatically places and breaks beds around an enemy",
+        description = "Automatically places and breaks beds to damage another player",
         category = CheatCategory.COMBAT)
 public final class AutoBedCheat extends Cheat
 {

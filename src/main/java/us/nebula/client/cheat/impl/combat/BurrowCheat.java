@@ -30,7 +30,7 @@ import us.nebula.client.util.world.BlockUtil;
  * @since 03/25/25
  */
 @CheatManifest(name = "Burrow",
-        description = "Burrows yourself into an explosion resistant block",
+        description = "Places a blast resistant block at your feet to prevent explosion damage",
         category = CheatCategory.COMBAT)
 public final class BurrowCheat extends Cheat
 {

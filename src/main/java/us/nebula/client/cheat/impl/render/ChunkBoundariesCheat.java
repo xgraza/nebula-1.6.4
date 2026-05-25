@@ -15,7 +15,7 @@ import us.nebula.client.util.render.RenderUtil;
  * @since 03/07/25
  */
 @CheatManifest(name = "ChunkBoundaries",
-        description = "Renders a chunk boundary",
+        description = "Renders a chunk boundary in the chunk you're currently standing in",
         category = CheatCategory.RENDER)
 public final class ChunkBoundariesCheat extends Cheat
 {

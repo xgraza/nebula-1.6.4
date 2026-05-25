@@ -14,7 +14,7 @@ import us.nebula.client.listener.event.render.EventCameraDistance;
  * @since 03/06/25
  */
 @CheatManifest(name = "CameraClip",
-        description = "Clips your camera through blocks and extends the distance",
+        description = "Clips your camera through blocks and extends the distance you can see in third person",
         category = CheatCategory.RENDER)
 public final class CameraClipCheat extends Cheat
 {

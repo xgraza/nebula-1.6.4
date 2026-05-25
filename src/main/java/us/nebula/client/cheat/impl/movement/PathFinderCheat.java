@@ -22,7 +22,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.lwjgl.opengl.GL11.*;
 
-@CheatManifest(name = "PathFinder", category = CheatCategory.MOVEMENT)
+@CheatManifest(name = "PathFinder",
+        description = "Allows you to pathfind to a specific location",
+        category = CheatCategory.MOVEMENT)
 public final class PathFinderCheat extends Cheat
 {
     private final Queue<BlockPos> pathQueue = new LinkedBlockingQueue<>();

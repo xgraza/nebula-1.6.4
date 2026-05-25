@@ -18,7 +18,7 @@ import us.nebula.client.util.player.ChatUtil;
  * @since 05/23/26
  */
 @CheatManifest(name = "MCF",
-        description = "Adds a friend on middle click",
+        description = "Adds or removes a player from your friend list when you middle click on them",
         category = CheatCategory.PLAYER)
 public final class MCFCheat extends Cheat
 {

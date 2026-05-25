@@ -16,7 +16,7 @@ import us.nebula.client.util.player.PlayerUtil;
  * @since 12/30/25
  */
 @CheatManifest(name = "Terrain",
-        description = "Changes movement based on the blocks you're on",
+        description = "Changes how your player behaves on specific terrain (i.e. ice, stairs)",
         category = CheatCategory.MOVEMENT)
 public final class TerrainCheat extends Cheat
 {

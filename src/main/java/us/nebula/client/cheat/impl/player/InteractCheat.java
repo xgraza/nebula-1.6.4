@@ -14,7 +14,7 @@ import us.nebula.client.listener.event.game.EventUpdate;
  * @since 06/16/25
  */
 @CheatManifest(name = "Interact",
-        description = "Changes how you interact with things",
+        description = "Changes how you interact with blocks or entities",
         category = CheatCategory.PLAYER)
 public final class InteractCheat extends Cheat
 {

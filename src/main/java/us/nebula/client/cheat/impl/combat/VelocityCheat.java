@@ -15,7 +15,7 @@ import us.nebula.client.listener.event.network.EventPacket;
  * @since 03/02/25
  */
 @CheatManifest(name = "Velocity",
-        description = "Negates knockback & explosion velocity",
+        description = "Negates/cancels knockback & explosion velocity",
         category = CheatCategory.COMBAT)
 public final class VelocityCheat extends Cheat
 {

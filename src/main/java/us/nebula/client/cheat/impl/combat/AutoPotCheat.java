@@ -32,7 +32,9 @@ import java.util.List;
  * @author xgraza
  * @since 03/22/25
  */
-@CheatManifest(name = "AutoPot", category = CheatCategory.COMBAT)
+@CheatManifest(name = "AutoPot",
+        description = "Automatically throws down splash potions",
+        category = CheatCategory.COMBAT)
 public final class AutoPotCheat extends Cheat
 {
     @CheatInstance

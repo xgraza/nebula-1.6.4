@@ -38,7 +38,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @since 03/02/25
  */
 @CheatManifest(name = "KillAura",
-        description = "Attacks entities in your range",
+        description = "Automatically attacks entities around you",
         category = CheatCategory.COMBAT)
 public final class KillAuraCheat extends Cheat
 {

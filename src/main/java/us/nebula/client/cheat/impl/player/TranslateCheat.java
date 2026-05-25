@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  * @since 03/24/25
  */
 @CheatManifest(name = "Translate",
-        description = "Translates things in chat",
+        description = "Gives you the option to translate text in the game chat",
         category = CheatCategory.PLAYER)
 public final class TranslateCheat extends Cheat
 {

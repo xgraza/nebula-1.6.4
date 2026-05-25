@@ -12,7 +12,7 @@ import us.nebula.client.util.value.Setting;
  * @since 03/30/25
  */
 @CheatManifest(name = "AutoReconnect",
-        description = "Automatically reconnects you to the last server",
+        description = "Automatically reconnects you to the last server you were connected to",
         category = CheatCategory.PLAYER)
 public final class AutoReconnectCheat extends Cheat
 {

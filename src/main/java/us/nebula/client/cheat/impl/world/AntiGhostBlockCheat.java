@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 04/02/25
  */
 @CheatManifest(name = "AntiGhostBlock",
-        description = "Prevents ghost blocks from spawning",
+        description = "Prevents ghost blocks from spawning from placing or breaking",
         category = CheatCategory.WORLD)
 public final class AntiGhostBlockCheat extends Cheat
 {

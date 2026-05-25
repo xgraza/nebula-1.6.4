@@ -31,7 +31,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @since 03/29/25
  */
 @CheatManifest(name = "Nametags",
-        description = "Shows entity information above their head",
+        description = "Displays entity information above their head",
         category = CheatCategory.RENDER)
 public final class NametagsCheat extends Cheat
 {

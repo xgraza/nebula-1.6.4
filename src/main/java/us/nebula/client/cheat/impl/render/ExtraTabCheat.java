@@ -11,7 +11,7 @@ import us.nebula.client.util.value.Setting;
  * @since 03/26/25
  */
 @CheatManifest(name = "ExtraTab",
-        description = "Modifies how the tab looks",
+        description = "Modifies how the server tab list appears",
         category = CheatCategory.RENDER)
 public final class ExtraTabCheat extends Cheat
 {

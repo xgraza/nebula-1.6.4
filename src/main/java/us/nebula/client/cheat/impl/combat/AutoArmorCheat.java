@@ -20,7 +20,7 @@ import java.util.Arrays;
  * @since 03/20/25
  */
 @CheatManifest(name = "AutoArmor",
-        description = "Automatically equips the best armor",
+        description = "Automatically equips the best armor from your inventory",
         category = CheatCategory.COMBAT)
 public final class AutoArmorCheat extends Cheat
 {

@@ -14,7 +14,7 @@ import us.nebula.client.util.player.InventoryUtil;
  * @since 03/05/25
  */
 @CheatManifest(name = "KeyPearl",
-        description = "Throws an ender pearl on a key press",
+        description = "Throws an ender pearl from your hotbar on a key press",
         category = CheatCategory.PLAYER)
 public final class KeyPearlCheat extends Cheat
 {

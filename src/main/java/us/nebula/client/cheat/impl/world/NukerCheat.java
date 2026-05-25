@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * @since 06/24/25
  */
 @CheatManifest(name = "Nuker",
-        description = "Breaks blocks in the surrounding area",
+        description = "Automatically breaks blocks around you to clear an area",
         category = CheatCategory.WORLD)
 public final class NukerCheat extends Cheat
 {

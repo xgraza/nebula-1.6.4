@@ -23,7 +23,7 @@ import java.util.*;
  * @since 06/24/25
  */
 @CheatManifest(name = "Flatten",
-        description = "Flattens the area around you",
+        description = "Places the currently held block in a radial pattern to flatten the area around you",
         category = CheatCategory.WORLD)
 public final class FlattenCheat extends Cheat
 {

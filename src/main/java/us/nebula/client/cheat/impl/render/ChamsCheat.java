@@ -18,7 +18,7 @@ import us.nebula.client.util.player.EntityUtil;
  * @since 03/17/25
  */
 @CheatManifest(name = "Chams",
-        description = "Allows you to render entities through walls",
+        description = "Allows you to render entity models through walls",
         category = CheatCategory.RENDER)
 public final class ChamsCheat extends Cheat
 {

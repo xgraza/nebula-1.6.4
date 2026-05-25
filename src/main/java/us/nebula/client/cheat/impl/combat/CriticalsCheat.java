@@ -28,7 +28,7 @@ import us.nebula.client.util.math.Timer;
  * @since 03/06/25
  */
 @CheatManifest(name = "Criticals",
-        description = "Automatically applies critical hits",
+        description = "Automatically makes attacks critical hits",
         category = CheatCategory.COMBAT)
 public final class CriticalsCheat extends Cheat
 {

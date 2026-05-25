@@ -27,7 +27,7 @@ import us.nebula.client.util.world.BlockUtil;
  * @since 05/24/26
  */
 @CheatManifest(name = "PortalBreaker",
-        description = "Breaks placed end portal blocks when you click them",
+        description = "Attempts to breaks placed end portal blocks (not frames) when you try to break them",
         category = CheatCategory.WORLD)
 public final class PortalBreakerCheat extends Cheat
 {

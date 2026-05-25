@@ -18,7 +18,7 @@ import us.nebula.client.listener.event.world.EventModifyBoundBox;
  * @since 03/07/25
  */
 @CheatManifest(name = "AntiBlock",
-        description = "Prevents you from walking into blocks",
+        description = "Prevents you from walking into certain blocks accidentally",
         category = CheatCategory.PLAYER)
 public final class AntiBlockCheat extends Cheat
 {

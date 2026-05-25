@@ -11,7 +11,7 @@ import us.nebula.client.util.render.EntityCulling;
  * @since 03/25/25
  */
 @CheatManifest(name = "EntityCulling",
-        description = "Prevents rendering entities you cannot see",
+        description = "Prevents rendering entities you cannot see to give a performance boost",
         category = CheatCategory.RENDER)
 public final class EntityCullingCheat extends Cheat
 {

@@ -12,7 +12,7 @@ import us.nebula.client.listener.event.game.EventUpdate;
  * @since 06/24/25
  */
 @CheatManifest(name = "Yaw",
-        description = "Locks your yaw to the nearest direction",
+        description = "Locks your yaw to the nearest cardinal direction",
         category = CheatCategory.PLAYER)
 public final class YawCheat extends Cheat
 {

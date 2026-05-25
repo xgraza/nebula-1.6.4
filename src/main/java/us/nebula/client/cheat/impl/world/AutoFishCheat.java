@@ -20,7 +20,7 @@ import us.nebula.client.util.player.ItemUtil;
  * @since 06/24/25
  */
 @CheatManifest(name = "AutoFish",
-        description = "Automatically casts and catches with a fishing pole",
+        description = "Automatically uses a rod to catch items from a body of water",
         category = CheatCategory.WORLD)
 public final class AutoFishCheat extends Cheat
 {

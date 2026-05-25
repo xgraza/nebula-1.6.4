@@ -31,7 +31,7 @@ import java.util.*;
  * @since 05/21/26
  */
 @CheatManifest(name = "StashHunter",
-        description = "Aids in finding stashes",
+        description = "Attempts to aid in finding large chest/minecart stashes when actively hunting",
         category = CheatCategory.WORLD)
 public final class StashHunterCheat extends Cheat
 {
