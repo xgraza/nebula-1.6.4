@@ -133,7 +133,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
             }
             if (packet.hasPriority())
             {
-                packet.processPacket(this.netHandler);
+                // Sometimes, a S00PacketKeepAlive will go through on the Login net handler
+                try
+                {
+                    packet.processPacket(this.netHandler);
+                } catch (Exception e)
+                {
+                    receivedPacketsQueue.add(packet);
+                }
             } else
             {
                 this.receivedPacketsQueue.add(packet);
