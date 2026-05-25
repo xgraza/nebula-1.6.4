@@ -49,7 +49,7 @@ public final class AutoPotCheat extends Cheat
             Potion.healthBoost.getId(),
             Potion.saturation.getId(),
             Potion.regeneration.getId());
-    private static final int AUTOPOT_ROTATION_PRIORITY = 100;
+    private static final int AUTOPOT_ROTATION_PRIORITY = 90;
 
     private final Setting<Float> healthSetting = new Setting<>(
             "Health", 10.0f, 1.0f, 19.5f, 0.5f);

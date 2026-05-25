@@ -3,12 +3,10 @@ package us.nebula.client.cheat.impl.world;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.init.Items;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import us.nebula.client.Nebula;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
@@ -16,11 +14,11 @@ import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.interaction.InteractionManager;
 import us.nebula.client.listener.EventListener;
 import us.nebula.client.listener.Subscribe;
-import us.nebula.client.listener.event.game.EventUpdate;
+import us.nebula.client.listener.event.game.EventPostUpdate;
 import us.nebula.client.listener.event.player.EventAttackBlock;
-import us.nebula.client.listener.event.world.EventModifyBoundBox;
+import us.nebula.client.listener.event.player.EventMoveUpdate;
 import us.nebula.client.listener.event.world.EventModifySelectedBoundBox;
-import us.nebula.client.util.player.ChatUtil;
+import us.nebula.client.util.math.AngleUtil;
 import us.nebula.client.util.player.InventoryUtil;
 import us.nebula.client.util.world.BlockUtil;
 
@@ -33,9 +31,12 @@ import us.nebula.client.util.world.BlockUtil;
         category = CheatCategory.WORLD)
 public final class PortalBreakerCheat extends Cheat
 {
+    private static final int PORTAL_BREAKER_ROTATION_PRIORITY = 80;
+
+    private MovingObjectPosition result;
     private int slot = -1;
     private BlockPos pos;
-    private boolean trying;
+    private boolean tryAfterRotate;
 
     @Override
     public void onDisable()
@@ -47,20 +48,19 @@ public final class PortalBreakerCheat extends Cheat
         }
         slot = -1;
         pos = null;
-        trying = false;
+        tryAfterRotate = false;
     }
 
     @Subscribe
-    private final EventListener<EventUpdate> updateEventListener = event ->
+    private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (slot == -1 || pos == null)
+        if (slot == -1 || pos == null || tryAfterRotate)
         {
             return;
         }
 
-        BlockPos placePos = null;
-        EnumFacing placeFace = null;
-
+        result = null;
+        float[] angles = null;
         for (final EnumFacing facing : EnumFacing.values())
         {
             if (facing == EnumFacing.UP || facing == EnumFacing.DOWN)
@@ -70,39 +70,50 @@ public final class PortalBreakerCheat extends Cheat
             final BlockPos neighborPos = pos.offset(facing);
             if (!BlockUtil.isReplaceable(neighborPos))
             {
-                placePos = neighborPos;
-                placeFace = BlockUtil.getOpposite(facing);
+                angles = AngleUtil.anglesToBlock(neighborPos, BlockUtil.getOpposite(facing));
+                result = AngleUtil.raytrace(5, angles[0], angles[1]);
+                if (result == null
+                        || (result.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK
+                            || MC.theWorld.getBlock(result.blockX, result.blockY, result.blockZ) instanceof BlockEndPortal)
+                            || result.sideHit < 2) // if sideHit is UP/DOWN
+                {
+                    result = null;
+                }
                 break;
             }
         }
-        if (placePos == null || placeFace == null)
+        if (result == null || angles == null)
         {
+            notifyError("Could not find stable supporting block to place water on", 7500L);
             pos = null;
             slot = -1;
             return;
         }
 
-        if (trying)
+        if (tryAfterRotate)
         {
             return;
         }
-        trying = true;
+        tryAfterRotate = Nebula.INSTANCE.getRotationManager().spoof(
+                angles[0], angles[1], PORTAL_BREAKER_ROTATION_PRIORITY);
+    };
 
-        ChatUtil.sendNebula("%s, (%s)", placePos, placeFace);
+    @Subscribe
+    private final EventListener<EventPostUpdate> postUpdateEventListener = event ->
+    {
+        if (!tryAfterRotate)
+        {
+            return;
+        }
 
-        ChatUtil.sendNebula("Swapping to %s", slot);
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        ChatUtil.sendNebula("Placing water bucket");
-
-        InteractionManager.INSTANCE.rightClickBlock(placePos, placeFace); // click w/ water bucket
-        ChatUtil.sendNebula("Collecting water bucket");
-        //InteractionManager.INSTANCE.rightClickBlock(placePos, placeFace); // collect water
-        ChatUtil.sendNebula("Synced");
+        InteractionManager.INSTANCE.rightClickBlock(result); // click w/ water bucket
+        InteractionManager.INSTANCE.rightClickBlock(result); // collect water
         Nebula.INSTANCE.getInventoryManager().syncSlot();
 
         slot = -1;
         pos = null;
-        trying = false;
+        tryAfterRotate = false;
     };
 
     @Subscribe

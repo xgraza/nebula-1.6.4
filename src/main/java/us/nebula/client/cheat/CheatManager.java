@@ -127,7 +127,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new LandscaperCheat());
         addCheat(new NukerCheat());
         addCheat(new PacketMineCheat());
-        // addCheat(new PortalBreakerCheat());
+        addCheat(new PortalBreakerCheat());
         addCheat(new ScaffoldCheat());
         addCheat(new StashHunterCheat());
 
