@@ -14,8 +14,10 @@ import net.minecraft.src.CustomColorizer;
 import net.minecraft.src.FontUtils;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import us.nebula.client.cheat.impl.render.HUDCheat;
 
 import javax.imageio.ImageIO;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -458,7 +460,7 @@ public class FontRenderer implements IResourceManagerReloadListener
 
             if (var4 == 167 && var3 + 1 < par1Str.length())
             {
-                var5 = "0123456789abcdefklmnor".indexOf(par1Str.toLowerCase().charAt(var3 + 1));
+                var5 = "0123456789abcdefklmnorz".indexOf(par1Str.toLowerCase().charAt(var3 + 1));
 
                 if (var5 < 16)
                 {
@@ -510,6 +512,18 @@ public class FontRenderer implements IResourceManagerReloadListener
                     this.underlineStyle = false;
                     this.italicStyle = false;
                     this.setColor(this.red, this.blue, this.green, this.alpha);
+                } else if (var5 == 22)
+                {
+                    Color color = new Color(HUDCheat.INSTANCE.getBaseColor(10));
+                    if (par2)
+                    {
+                        color = color.darker().darker().darker();
+                    }
+                    var6 = color.getRGB();
+                    final float red = (float) (var6 >> 16 & 255) / 255.0F;
+                    final float blue = (float) (var6 & 255) / 255.0F;
+                    final float green = (float) (var6 >> 8 & 255) / 255.0F;
+                    setColor(red, green, blue, this.alpha);
                 }
 
                 ++var3;

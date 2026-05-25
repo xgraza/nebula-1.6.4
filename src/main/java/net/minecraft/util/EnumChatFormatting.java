@@ -29,7 +29,9 @@ public enum EnumChatFormatting
     STRIKETHROUGH('m', true),
     UNDERLINE('n', true),
     ITALIC('o', true),
-    RESET('r');
+    RESET('r'),
+
+    NEBULA_CLIENT_COLOR('z');
 
     /**
      * Maps a formatting code (e.g., 'f') to its corresponding enum value (e.g., WHITE).

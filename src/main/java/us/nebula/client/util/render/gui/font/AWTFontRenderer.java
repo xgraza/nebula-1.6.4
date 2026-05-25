@@ -1,8 +1,10 @@
 package us.nebula.client.util.render.gui.font;
 
 import net.minecraft.client.renderer.OpenGlHelper;
+import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.util.render.RenderUtil;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -187,6 +189,16 @@ public final class AWTFontRenderer
                         textColor = color;
                         font = normal;
                         glBindTexture(GL_TEXTURE_2D, font.getGlyphTexture().getGlTextureId());
+                        break;
+                    }
+                    case 'z':
+                    {
+                        Color c = new Color(HUDCheat.INSTANCE.getBaseColor(10));
+                        if (shadow)
+                        {
+                            c = c.darker().darker();
+                        }
+                        textColor = c.getRGB();
                         break;
                     }
                     default:

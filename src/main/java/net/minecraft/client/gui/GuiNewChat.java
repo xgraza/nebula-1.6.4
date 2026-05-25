@@ -164,7 +164,7 @@ public class GuiNewChat extends Gui
             if (cm.highlightSelfSetting.getValue())
             {
                 text = text.replaceAll(mc.thePlayer.getCommandSenderName(),
-                        EnumChatFormatting.GOLD
+                        EnumChatFormatting.NEBULA_CLIENT_COLOR
                                 + mc.thePlayer.getCommandSenderName()
                                 + EnumChatFormatting.RESET);
             }
