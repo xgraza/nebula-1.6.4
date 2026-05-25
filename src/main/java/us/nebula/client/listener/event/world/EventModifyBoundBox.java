@@ -9,7 +9,7 @@ import us.nebula.client.listener.Event;
  * @author xgraza
  * @since 03/01/25
  */
-public final class EventModifyBoundBox extends Event
+public class EventModifyBoundBox extends Event
 {
     private final int x, y, z;
     private final Entity entity;

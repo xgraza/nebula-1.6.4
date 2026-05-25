@@ -21,6 +21,7 @@ import net.minecraft.world.World;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.cheat.impl.render.XRayCheat;
 import us.nebula.client.listener.event.world.EventModifyBoundBox;
+import us.nebula.client.listener.event.world.EventModifySelectedBoundBox;
 
 import java.util.Iterator;
 import java.util.List;
@@ -649,7 +650,10 @@ public class Block
      */
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World p_149633_1_, int p_149633_2_, int p_149633_3_, int p_149633_4_)
     {
-        return AxisAlignedBB.getAABBPool().getAABB((double) p_149633_2_ + this.minX, (double) p_149633_3_ + this.minY, (double) p_149633_4_ + this.minZ, (double) p_149633_2_ + this.maxX, (double) p_149633_3_ + this.maxY, (double) p_149633_4_ + this.maxZ);
+        AxisAlignedBB bb = AxisAlignedBB.getAABBPool().getAABB((double) p_149633_2_ + this.minX, (double) p_149633_3_ + this.minY, (double) p_149633_4_ + this.minZ, (double) p_149633_2_ + this.maxX, (double) p_149633_3_ + this.maxY, (double) p_149633_4_ + this.maxZ);
+        final EventModifySelectedBoundBox event = new EventModifySelectedBoundBox(p_149633_2_, p_149633_3_, p_149633_4_, p_149633_1_, bb);
+        EventBus.dispatch(event);
+        return event.getAabb();
     }
 
     public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_)

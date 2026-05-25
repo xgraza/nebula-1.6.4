@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
+import us.nebula.client.cheat.impl.exploit.NoPacketKickCheat;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.listener.event.network.EventDisconnect;
 import us.nebula.client.listener.event.network.EventPacket;
@@ -113,6 +114,11 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable)
     {
+        if (NoPacketKickCheat.INSTANCE.isToggled())
+        {
+            LOGGER.error("Internal exception:", throwable);
+            return;
+        }
         this.closeChannel(new ChatComponentTranslation("disconnect.genericReason", "Internal Exception: " + throwable));
     }
 

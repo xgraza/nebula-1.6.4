@@ -9,6 +9,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import us.nebula.client.Nebula;
 import us.nebula.client.cheat.impl.world.PacketMineCheat;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.world.BlockUtil;
 
 /**

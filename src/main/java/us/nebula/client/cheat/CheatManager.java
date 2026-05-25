@@ -53,6 +53,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new NoC03Cheat());
         addCheat(new NoHungerCheat());
         addCheat(new NoMoveDelayCheat());
+        addCheat(new NoPacketKickCheat());
         addCheat(new NoPortalGUICheat());
         addCheat(new NoRotateSetCheat());
         addCheat(new PotionSaverCheat());
@@ -126,6 +127,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new LandscaperCheat());
         addCheat(new NukerCheat());
         addCheat(new PacketMineCheat());
+        // addCheat(new PortalBreakerCheat());
         addCheat(new ScaffoldCheat());
         addCheat(new StashHunterCheat());
 

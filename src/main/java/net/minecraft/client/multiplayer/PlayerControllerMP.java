@@ -23,6 +23,7 @@ import us.nebula.client.Nebula;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.cheat.impl.player.InteractCheat;
 import us.nebula.client.listener.event.player.EventAttackBlock;
+import us.nebula.client.util.player.ChatUtil;
 
 public class PlayerControllerMP
 {
@@ -379,6 +380,7 @@ public class PlayerControllerMP
      */
     public boolean onPlayerRightClick(EntityPlayer player, World world, ItemStack stack, int x, int y, int z, int side, Vec3 hitVec)
     {
+        //ChatUtil.sendNebula("XYZ: (%s, %s, %s), Side: %s, Vec: %s", x, y, z, side, hitVec);
         syncCurrentPlayItem();
         final float facingX = (float) hitVec.xCoord - (float) x;
         final float facingY = (float) hitVec.yCoord - (float) y;
