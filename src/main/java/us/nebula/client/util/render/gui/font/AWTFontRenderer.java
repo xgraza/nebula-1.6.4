@@ -4,6 +4,9 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import us.nebula.client.util.render.RenderUtil;
 
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.GL_RESCALE_NORMAL;
@@ -27,6 +30,41 @@ public final class AWTFontRenderer
         italic = new AWTFont(font.deriveFont(Font.ITALIC));
         boldItalic = new AWTFont(font.deriveFont(Font.BOLD + Font.ITALIC));
         generateColorCodes();
+    }
+
+    public List<String> wrapText(final String text, final double maxWidth, final boolean byWord)
+    {
+        final List<String> textList = new ArrayList<>();
+        Collections.addAll(textList, text.split(byWord ? " " : ""));
+        final List<String> wrappedTextList = new ArrayList<>();
+
+        String line = "";
+        for (int i = 0; i < textList.size(); ++i)
+        {
+            final String item = textList.get(i);
+            if ("\n".equals(item))
+            {
+                wrappedTextList.add(line);
+                wrappedTextList.add("");
+                line = "";
+                continue;
+            }
+            line += item;
+            if (byWord)
+            {
+                line += " ";
+            }
+            if (getStringWidth(line) > maxWidth
+                    // look ahead one word/char to ensure we don't go past our limit
+                    || (i + 1 <= textList.size() - 1
+                    && getStringWidth(line + textList.get(i + 1)) > maxWidth))
+            {
+                wrappedTextList.add(line);
+                line = "";
+            }
+        }
+        wrappedTextList.add(line);
+        return wrappedTextList;
     }
 
     public void drawStringShadow(final String input, final double x, final double y, final int color)
