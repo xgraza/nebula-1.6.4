@@ -10,6 +10,7 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
@@ -48,7 +49,7 @@ public final class AutoFishCheat extends Cheat
             return;
         }
 
-        if (MC.thePlayer.fishEntity == null)
+        if (MC.thePlayer.fishEntity == null && MC.thePlayer.ticksExisted % 10 == 0)
         {
             if (!autoCastSetting.getValue())
             {
