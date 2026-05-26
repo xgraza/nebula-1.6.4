@@ -20,14 +20,14 @@ public final class AutoWalkCheat extends Cheat
     public void onDisable()
     {
         super.onDisable();
-        if (MC.thePlayer == null)
+        if (MC.gameSettings == null)
         {
             return;
         }
-        MC.thePlayer.movementInput.moveForward = 0.0f;
+        MC.gameSettings.keyBindForward.pressed = false;
     }
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
-            MC.thePlayer.movementInput.moveForward = 1.0f;
+            MC.gameSettings.keyBindForward.pressed = true;
 }
