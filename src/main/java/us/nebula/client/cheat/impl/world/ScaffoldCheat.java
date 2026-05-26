@@ -17,6 +17,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.listener.event.player.EventSafeWalk;
 import us.nebula.client.util.math.Timer;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
@@ -46,6 +47,8 @@ public final class ScaffoldCheat extends Cheat
             "Tower", true);
     private final Setting<Boolean> keeepYSetting = new Setting<>(
             "Keep Y", false);
+    private final Setting<Boolean> safeWalkSetting = new Setting<>(
+            "SafeWalk", false);
     private final Setting<Boolean> renderSetting = new Setting<>(
             "Render", false);
 
@@ -111,6 +114,15 @@ public final class ScaffoldCheat extends Cheat
         } else
         {
             towerTicks = 0;
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventSafeWalk> eventSafeWalkEventListener = event ->
+    {
+        if (MC.thePlayer.onGround && !MC.gameSettings.keyBindJump.pressed)
+        {
+            event.cancel();
         }
     };
 

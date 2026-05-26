@@ -24,6 +24,7 @@ import net.minecraft.world.WorldServer;
 import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.listener.event.input.EventRotateCamera;
+import us.nebula.client.listener.event.player.EventSafeWalk;
 import us.nebula.client.listener.event.player.EventStep;
 
 import java.util.List;
@@ -676,6 +677,11 @@ public abstract class Entity
             double var17 = par5;
             AxisAlignedBB var19 = this.boundingBox.copy();
             boolean var20 = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
+
+            if (this instanceof EntityPlayer && EventBus.dispatch(new EventSafeWalk()))
+            {
+                var20 = true;
+            }
 
             if (var20)
             {
