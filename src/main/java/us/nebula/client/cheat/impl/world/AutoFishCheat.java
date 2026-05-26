@@ -49,12 +49,10 @@ public final class AutoFishCheat extends Cheat
             return;
         }
 
-        if (MC.thePlayer.fishEntity == null && MC.thePlayer.ticksExisted % 10 == 0)
+        if (autoCastSetting.getValue()
+                && MC.thePlayer.fishEntity == null
+                && MC.thePlayer.ticksExisted % 10 == 0)
         {
-            if (!autoCastSetting.getValue())
-            {
-                return;
-            }
             cast();
         }
     };
