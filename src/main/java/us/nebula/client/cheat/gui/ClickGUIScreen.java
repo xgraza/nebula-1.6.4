@@ -46,6 +46,7 @@ public final class ClickGUIScreen extends GuiScreen
             return;
         }
 
+        guiResetTimer.resetTime();
         categoryPanels.clear();
 
         double posX = 8.0;
