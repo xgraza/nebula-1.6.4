@@ -110,6 +110,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new NametagsCheat());
         addCheat(new NoRenderCheat());
         addCheat(new TimeChangerCheat());
+        addCheat(new TracersCheat());
         addCheat(new TrajectoriesCheat());
         addCheat(new UnfocusedCPUCheat());
         addCheat(new ViewModelCheat());

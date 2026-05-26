@@ -749,7 +749,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
     /**
      * sets up player's eye (or camera in third person mode)
      */
-    private void orientCamera(float par1)
+    public void orientCamera(float par1)
     {
         EntityLivingBase var2 = this.mc.renderViewEntity;
         float var3 = var2.yOffset - 1.62F;
