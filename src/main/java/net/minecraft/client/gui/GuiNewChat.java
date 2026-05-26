@@ -156,7 +156,7 @@ public class GuiNewChat extends Gui
                 continue;
             }
 
-            final boolean usesAnimation = cm.animateSpeed.getValue() > 0.0;
+            final boolean usesAnimation = cm.animateSpeed.getValue() > 0.0 && !(mc.currentScreen instanceof GuiChat);
             final int opacity = getOpacity(var11, chatAlpha);
 
             String text = chatLine.getLineString().getFormattedText();
