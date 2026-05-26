@@ -4,9 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.src.BlockPos;
 import net.minecraft.src.GlStateManager;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import org.lwjgl.opengl.GL15;
 import us.nebula.client.cheat.impl.render.EntityCullingCheat;
@@ -17,8 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static org.lwjgl.opengl.GL11.GL_QUAD_STRIP;
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL33.GL_ANY_SAMPLES_PASSED;
-import static org.lwjgl.opengl.GL43.GL_ANY_SAMPLES_PASSED_CONSERVATIVE;
 
 /**
  * @author xgraza
@@ -28,6 +24,7 @@ import static org.lwjgl.opengl.GL43.GL_ANY_SAMPLES_PASSED_CONSERVATIVE;
 public final class EntityCulling
 {
     private static final Map<UUID, Result> QUERY_RESULTS = new ConcurrentHashMap<>();
+    private static final Minecraft MC = Minecraft.getMinecraft();
 
     public static boolean isInactive()
     {
@@ -53,24 +50,6 @@ public final class EntityCulling
         }
     }
 
-    public static void removeEntity(final Entity entity)
-    {
-        if (isInactive())
-        {
-            return;
-        }
-        if (!QUERY_RESULTS.containsKey(entity.getUniqueID()))
-        {
-            return;
-        }
-        final Result result = QUERY_RESULTS.get(entity.getUniqueID());
-        if (result.id != 0)
-        {
-            glDeleteQueries(result.id);
-        }
-        QUERY_RESULTS.remove(entity.getUniqueID());
-    }
-
     public static void checkCulling()
     {
         if (isInactive())
@@ -94,6 +73,17 @@ public final class EntityCulling
         {
             return;
         }
+
+        if (entity.isDead || MC.theWorld.getEntityByID(entity.getEntityId()) == null)
+        {
+            final Result result = QUERY_RESULTS.remove(entity.getUniqueID());
+            if (result != null && glIsQuery(result.id))
+            {
+                glDeleteQueries(result.id);
+            }
+            return;
+        }
+
         final Result result = QUERY_RESULTS.computeIfAbsent(
                 entity.getUniqueID(), (x) -> new Result());
 
