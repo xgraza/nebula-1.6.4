@@ -244,13 +244,6 @@ public class RenderManager
 
     public boolean renderEntity(Entity p_147939_1_, double p_147939_2_, double p_147939_4_, double p_147939_6_, float p_147939_8_, float p_147939_9_, boolean p_147939_10_)
     {
-        EntityCulling.queryEntity(p_147939_1_);
-
-        if (!EntityCulling.shouldRenderEntity(p_147939_1_))
-        {
-            return true;
-        }
-
         Render var11 = null;
 
         try

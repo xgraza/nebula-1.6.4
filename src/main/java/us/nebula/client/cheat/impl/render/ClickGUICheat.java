@@ -54,4 +54,12 @@ public final class ClickGUICheat extends Cheat
     {
         // overriden because i dont want eventbus stuff
     }
+
+    public void resetClickGUI()
+    {
+        MC.displayGuiScreen(null);
+        guiScreen = null;
+        MC.displayGuiScreen(guiScreen = new ClickGUIScreen());
+        notifyInfo("Successfully reset ClickGUI", 5000L);
+    }
 }

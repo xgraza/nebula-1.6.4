@@ -1,6 +1,7 @@
 package us.nebula.client.cheat.gui;
 
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Keyboard;
 import us.nebula.client.Nebula;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.font.Fonts;
@@ -33,6 +34,7 @@ public final class ClickGUIScreen extends GuiScreen
 
     private final List<CategoryPanel> categoryPanels = new LinkedList<>();
     private final Timer descriptionHoverTimer = new Timer();
+    private final Timer guiResetTimer = new Timer();
 
     private int oldWidth, oldHeight;
 
@@ -61,15 +63,36 @@ public final class ClickGUIScreen extends GuiScreen
         {
             panel.init();
         }
-        MAX_PANEL_HEIGHT = height - 70 - 26.0;
+        MAX_PANEL_HEIGHT = height - 30 - 26.0;
 
         oldWidth = width;
         oldHeight = height;
     }
 
     @Override
+    public void updateScreen()
+    {
+        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && Keyboard.isKeyDown(Keyboard.KEY_R))
+        {
+            if (guiResetTimer.hasElapsed(3500L))
+            {
+                ClickGUICheat.INSTANCE.resetClickGUI();
+            }
+            return;
+        }
+        guiResetTimer.resetTime();
+    }
+
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
+        if (guiResetTimer.getTimeElapsedMS() > 500.0)
+        {
+            final double time = Math.max(3500.0 - guiResetTimer.getTimeElapsedMS(), 0.0) / 1000.0;
+            final String text = String.format("Resetting ClickGUI screen in %.2f second(s).", time);
+            Fonts.POPPINS.drawStringShadow(text, width / 2.0 - (Fonts.POPPINS.getStringWidth(text) / 2.0), 10.0, 0xFFFF0000);
+        }
+
         for (final CategoryPanel panel : categoryPanels)
         {
             panel.render(mouseX, mouseY, partialTicks);

@@ -1,5 +1,6 @@
 package us.nebula.client.util.render;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -17,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.lwjgl.opengl.GL11.GL_QUAD_STRIP;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL33.GL_ANY_SAMPLES_PASSED;
+import static org.lwjgl.opengl.GL43.GL_ANY_SAMPLES_PASSED_CONSERVATIVE;
 
 /**
  * @author xgraza
@@ -77,43 +79,13 @@ public final class EntityCulling
         }
         for (final Result result : QUERY_RESULTS.values())
         {
-            if (result.id == 0)
+            if (result.id == 0 || glGetQueryObjecti(result.id, GL_QUERY_RESULT_AVAILABLE) == 0)
             {
                 continue;
             }
-            if (glGetQueryObjecti(result.id, GL_QUERY_RESULT_AVAILABLE) == 0)
-            {
-                continue;
-            }
-            result.value = glGetQueryObjecti(result.id, GL_QUERY_RESULT) != 0;
-            glDeleteQueries(result.id);
-            result.id = 0;
-        }
-    }
 
-    public static void queryTileEntity(final TileEntity entity)
-    {
-        if (isInactive())
-        {
-            return;
+            result.value = glGetQueryObjecti(result.id, GL_QUERY_RESULT) > 0;
         }
-        final Result result = QUERY_RESULTS.computeIfAbsent(
-                entity.getRandomUUID(), (x) -> new Result());
-
-        if (System.currentTimeMillis() - result.reQueryAt < 50L)
-        {
-            return;
-        }
-
-        result.id = getQuery();
-        glBeginQuery(GL_ANY_SAMPLES_PASSED, result.id);
-        final AxisAlignedBB box = new AxisAlignedBB(new BlockPos(entity.xCoord, entity.yCoord, entity.zCoord));
-        final AxisAlignedBB renderBox = box.copy()
-                .expand(0.2, 0.2, 0.2)
-                .offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
-        drawOutlinedBoundingBox(renderBox);
-        glEndQuery(GL_ANY_SAMPLES_PASSED);
-        result.reQueryAt = System.currentTimeMillis() + 50L;
     }
 
     public static void queryEntity(final Entity entity)
@@ -130,13 +102,16 @@ public final class EntityCulling
             return;
         }
 
-        result.id = getQuery();
-        glBeginQuery(GL_ANY_SAMPLES_PASSED, result.id);
+        if (result.id == 0)
+        {
+            result.id = getQuery();
+        }
+        glBeginQuery(GL_SAMPLES_PASSED, result.id);
         final AxisAlignedBB renderBox = entity.boundingBox.copy()
                 .expand(0.2, 0.2, 0.2)
                 .offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
         drawOutlinedBoundingBox(renderBox);
-        glEndQuery(GL_ANY_SAMPLES_PASSED);
+        glEndQuery(GL_SAMPLES_PASSED);
         result.reQueryAt = System.currentTimeMillis() + 50L;
     }
 
@@ -151,19 +126,6 @@ public final class EntityCulling
             return true;
         }
         return QUERY_RESULTS.get(entity.getUniqueID()).value;
-    }
-
-    public static boolean shouldRenderTileEntity(final TileEntity entity)
-    {
-        if (isInactive())
-        {
-            return true;
-        }
-        if (!QUERY_RESULTS.containsKey(entity.getRandomUUID()))
-        {
-            return false;
-        }
-        return QUERY_RESULTS.get(entity.getRandomUUID()).value;
     }
 
     public static void drawOutlinedBoundingBox(AxisAlignedBB bb)
@@ -201,7 +163,7 @@ public final class EntityCulling
     private static final class Result
     {
         private long reQueryAt;
-        private int id;
+        private int id = 0;
         private boolean value;
     }
 }

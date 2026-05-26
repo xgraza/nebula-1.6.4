@@ -647,6 +647,8 @@ public class RenderGlobal implements IWorldAccess
                 }
             }
 
+            //theWorld.theProfiler.endStartSection("entityCulling_check");
+
             this.theWorld.theProfiler.endStartSection("entities");
             boolean var27 = Config.isShaders();
 
@@ -661,7 +663,7 @@ public class RenderGlobal implements IWorldAccess
             for (var18 = 0; var18 < var25.size(); ++var18)
             {
                 var26 = (Entity) var25.get(var18);
-
+                EntityCulling.queryEntity(var26);
                 if (!EntityCulling.shouldRenderEntity(var26))
                 {
                     continue;
