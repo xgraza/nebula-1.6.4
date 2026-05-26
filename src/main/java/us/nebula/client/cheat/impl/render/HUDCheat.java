@@ -37,6 +37,8 @@ public final class HUDCheat extends Cheat
     public final Setting<Double> speedSetting = new Setting<>(
             "Speed", 2.5, 1.0, 10.0, 0.5)
             .setVisibility(() -> colorModeSetting.getValue() == ColorMode.RAINBOW);
+    public final Setting<Boolean> forceInBoundsSetting = new Setting<>(
+            "Force in bounds", true);
 
     public HUDCheat()
     {

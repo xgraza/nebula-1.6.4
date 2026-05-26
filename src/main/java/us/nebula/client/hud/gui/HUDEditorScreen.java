@@ -3,6 +3,7 @@ package us.nebula.client.hud.gui;
 import net.minecraft.client.gui.GuiChat;
 import org.lwjgl.input.Mouse;
 import us.nebula.client.Nebula;
+import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.hud.HUDElement;
 import us.nebula.client.hud.gui.component.HUDElementCategoryPanel;
 import us.nebula.client.util.io.SoundUtil;
@@ -64,25 +65,28 @@ public final class HUDEditorScreen extends GuiChat
 
         for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
         {
-            // bounds checks
-            if (element.getX() < 0)
+            if (HUDCheat.INSTANCE.forceInBoundsSetting.getValue())
             {
-                element.setX(0);
-            }
+                // bounds checks
+                if (element.getX() < 0)
+                {
+                    element.setX(0);
+                }
 
-            if (element.getY() < 0)
-            {
-                element.setY(0);
-            }
+                if (element.getY() < 0)
+                {
+                    element.setY(0);
+                }
 
-            if (element.getX() + element.getWidth() > width)
-            {
-                element.setX(width - element.getWidth());
-            }
+                if (element.getX() + element.getWidth() > width)
+                {
+                    element.setX(width - element.getWidth());
+                }
 
-            if (element.getY() + element.getHeight() > height)
-            {
-                element.setY(height - element.getHeight());
+                if (element.getY() + element.getHeight() > height)
+                {
+                    element.setY(height - element.getHeight());
+                }
             }
 
             if (!element.isToggled())
