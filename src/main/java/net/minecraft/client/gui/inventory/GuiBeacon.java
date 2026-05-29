@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -34,8 +33,8 @@ public class GuiBeacon extends GuiContainer
     {
         super(new ContainerBeacon(par1InventoryPlayer, par2TileEntityBeacon));
         this.tileEntity = par2TileEntityBeacon;
-        this.field_146999_f = 230;
-        this.field_147000_g = 219;
+        this.containerWidth = 230;
+        this.containerHeight = 219;
     }
 
     /**
@@ -198,9 +197,9 @@ public class GuiBeacon extends GuiContainer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(field_147025_v);
-        int var4 = (this.width - this.field_146999_f) / 2;
-        int var5 = (this.height - this.field_147000_g) / 2;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.field_146999_f, this.field_147000_g);
+        int var4 = (this.width - this.containerWidth) / 2;
+        int var5 = (this.height - this.containerHeight) / 2;
+        this.drawTexturedModalRect(var4, var5, 0, 0, this.containerWidth, this.containerHeight);
         RENDER_ITEM.zLevel = 100.0F;
         RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.emerald), var4 + 42, var5 + 109);
         RENDER_ITEM.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), new ItemStack(Items.diamond), var4 + 42 + 22, var5 + 109);

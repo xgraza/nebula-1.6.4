@@ -36,8 +36,8 @@ public final class AutoTorchCheat extends Cheat
     @CheatInstance
     public static AutoTorchCheat INSTANCE;
 
-    private final Setting<Integer> rangeSetting = new Setting<>(
-            "Range", 4, 1, 6, 1);
+    private final Setting<Double> rangeSetting = new Setting<>(
+            "Range", 4.2, 1.0, 6.0, 0.1);
     private final Setting<Integer> minLightLevelSetting = new Setting<>(
             "Min Light Level", 7, 0, 12, 1);
     private final Setting<Boolean> spawnCheckSetting = new Setting<>(
@@ -69,14 +69,14 @@ public final class AutoTorchCheat extends Cheat
             return;
         }
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        InteractionManager.INSTANCE.rightClickBlock(pos.up(), EnumFacing.DOWN, true);
+        InteractionManager.INSTANCE.rightClickBlock(pos.down(), EnumFacing.UP, true);
         Nebula.INSTANCE.getInventoryManager().syncSlot();
     };
 
     private BlockPos getPlacePos()
     {
         final BlockPos origin = PlayerUtil.getOrigin();
-        final int r = rangeSetting.getValue();
+        final int r = rangeSetting.getValue().intValue();
 
         BlockPos placeBlockPos = null;
         double distance = 0.0;
@@ -86,7 +86,7 @@ public final class AutoTorchCheat extends Cheat
             for (int z = -r; z <= r; ++z)
             {
                 final BlockPos pos = origin.add(x, 0, z);
-                if (BlockUtil.isNotAir(pos))
+                if (BlockUtil.isNotAir(pos) || MC.thePlayer.getDistance(pos.getX(), pos.getY(), pos.getZ()) > rangeSetting.getValue())
                 {
                     continue;
                 }

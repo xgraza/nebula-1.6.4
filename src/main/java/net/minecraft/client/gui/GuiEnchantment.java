@@ -4,7 +4,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.item.ItemStack;
@@ -46,7 +45,7 @@ public class GuiEnchantment extends GuiContainer
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
         this.fontRenderer.drawString(this.field_147079_H == null ? I18n.format("container.enchant") : this.field_147079_H, 12, 5, 4210752);
-        this.fontRenderer.drawString(I18n.format("container.inventory"), 8, this.field_147000_g - 96 + 2, 4210752);
+        this.fontRenderer.drawString(I18n.format("container.inventory"), 8, this.containerHeight - 96 + 2, 4210752);
     }
 
     /**
@@ -64,8 +63,8 @@ public class GuiEnchantment extends GuiContainer
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        int var4 = (this.width - this.field_146999_f) / 2;
-        int var5 = (this.height - this.field_147000_g) / 2;
+        int var4 = (this.width - this.containerWidth) / 2;
+        int var5 = (this.height - this.containerHeight) / 2;
 
         for (int var6 = 0; var6 < 3; ++var6)
         {
@@ -83,9 +82,9 @@ public class GuiEnchantment extends GuiContainer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(field_147078_C);
-        int var4 = (this.width - this.field_146999_f) / 2;
-        int var5 = (this.height - this.field_147000_g) / 2;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.field_146999_f, this.field_147000_g);
+        int var4 = (this.width - this.containerWidth) / 2;
+        int var5 = (this.height - this.containerHeight) / 2;
+        this.drawTexturedModalRect(var4, var5, 0, 0, this.containerWidth, this.containerHeight);
         GL11.glPushMatrix();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPushMatrix();

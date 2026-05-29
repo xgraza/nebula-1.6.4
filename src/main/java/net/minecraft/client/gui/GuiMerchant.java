@@ -44,8 +44,8 @@ public class GuiMerchant extends GuiContainer
     public void initGui()
     {
         super.initGui();
-        int var1 = (this.width - this.field_146999_f) / 2;
-        int var2 = (this.height - this.field_147000_g) / 2;
+        int var1 = (this.width - this.containerWidth) / 2;
+        int var2 = (this.height - this.containerHeight) / 2;
         this.buttonList.add(this.field_147043_x = new GuiMerchant.MerchantButton(1, var1 + 120 + 27, var2 + 24 - 1, true));
         this.buttonList.add(this.field_147042_y = new GuiMerchant.MerchantButton(2, var1 + 36 - 19, var2 + 24 - 1, false));
         this.field_147043_x.enabled = false;
@@ -54,8 +54,8 @@ public class GuiMerchant extends GuiContainer
 
     protected void func_146979_b(int p_146979_1_, int p_146979_2_)
     {
-        this.fontRenderer.drawString(this.field_147040_A, this.field_146999_f / 2 - this.fontRenderer.getStringWidth(this.field_147040_A) / 2, 6, 4210752);
-        this.fontRenderer.drawString(I18n.format("container.inventory"), 8, this.field_147000_g - 96 + 2, 4210752);
+        this.fontRenderer.drawString(this.field_147040_A, this.containerWidth / 2 - this.fontRenderer.getStringWidth(this.field_147040_A) / 2, 6, 4210752);
+        this.fontRenderer.drawString(I18n.format("container.inventory"), 8, this.containerHeight - 96 + 2, 4210752);
     }
 
     /**
@@ -110,9 +110,9 @@ public class GuiMerchant extends GuiContainer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(field_147038_v);
-        int var4 = (this.width - this.field_146999_f) / 2;
-        int var5 = (this.height - this.field_147000_g) / 2;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.field_146999_f, this.field_147000_g);
+        int var4 = (this.width - this.containerWidth) / 2;
+        int var5 = (this.height - this.containerHeight) / 2;
+        this.drawTexturedModalRect(var4, var5, 0, 0, this.containerWidth, this.containerHeight);
         MerchantRecipeList var6 = this.field_147037_w.getRecipes(this.mc.thePlayer);
 
         if (var6 != null && !var6.isEmpty())
@@ -141,8 +141,8 @@ public class GuiMerchant extends GuiContainer
 
         if (var4 != null && !var4.isEmpty())
         {
-            int var5 = (this.width - this.field_146999_f) / 2;
-            int var6 = (this.height - this.field_147000_g) / 2;
+            int var5 = (this.width - this.containerWidth) / 2;
+            int var6 = (this.height - this.containerHeight) / 2;
             int var7 = this.field_147041_z;
             MerchantRecipe var8 = (MerchantRecipe) var4.get(var7);
             GL11.glPushMatrix();

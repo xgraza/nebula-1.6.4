@@ -474,6 +474,7 @@ public class PlayerControllerMP
 
     public ItemStack windowClick(int windowId, int slot, int mouseButton, int action, EntityPlayer par5EntityPlayer)
     {
+        //ChatUtil.sendNebula("Slot: %s, MB: %s, Action: %s", slot, mouseButton, action);
         short transactionId = par5EntityPlayer.openContainer.getNextTransactionID(par5EntityPlayer.inventory);
         ItemStack stack = par5EntityPlayer.openContainer.slotClick(slot, mouseButton, action, par5EntityPlayer);
         this.netClientHandler.addToSendQueue(new C0EPacketClickWindow(windowId, slot, mouseButton, action, stack, transactionId));

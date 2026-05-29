@@ -40,8 +40,8 @@ public class GuiRepair extends GuiContainer implements ICrafting
     {
         super.initGui();
         Keyboard.enableRepeatEvents(true);
-        int var1 = (this.width - this.field_146999_f) / 2;
-        int var2 = (this.height - this.field_147000_g) / 2;
+        int var1 = (this.width - this.containerWidth) / 2;
+        int var2 = (this.height - this.containerHeight) / 2;
         this.field_147091_w = new GuiTextField(this.fontRenderer, var1 + 62, var2 + 24, 103, 12);
         this.field_147091_w.setEnabledColor(-1);
         this.field_147091_w.setDisabledColor(-1);
@@ -88,13 +88,13 @@ public class GuiRepair extends GuiContainer implements ICrafting
             if (var4)
             {
                 int var6 = -16777216 | (var3 & 16579836) >> 2 | var3 & -16777216;
-                int var7 = this.field_146999_f - 8 - this.fontRenderer.getStringWidth(var5);
+                int var7 = this.containerWidth - 8 - this.fontRenderer.getStringWidth(var5);
                 byte var8 = 67;
 
                 if (this.fontRenderer.getUnicodeFlag())
                 {
-                    drawRect(var7 - 3, var8 - 2, this.field_146999_f - 7, var8 + 10, -16777216);
-                    drawRect(var7 - 2, var8 - 1, this.field_146999_f - 8, var8 + 9, -12895429);
+                    drawRect(var7 - 3, var8 - 2, this.containerWidth - 7, var8 + 10, -16777216);
+                    drawRect(var7 - 2, var8 - 1, this.containerWidth - 8, var8 + 9, -12895429);
                 } else
                 {
                     this.fontRenderer.drawString(var5, var7, var8 + 1, var6);
@@ -161,14 +161,14 @@ public class GuiRepair extends GuiContainer implements ICrafting
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(field_147093_u);
-        int var4 = (this.width - this.field_146999_f) / 2;
-        int var5 = (this.height - this.field_147000_g) / 2;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.field_146999_f, this.field_147000_g);
-        this.drawTexturedModalRect(var4 + 59, var5 + 20, 0, this.field_147000_g + (this.field_147092_v.getSlot(0).getHasStack() ? 0 : 16), 110, 16);
+        int var4 = (this.width - this.containerWidth) / 2;
+        int var5 = (this.height - this.containerHeight) / 2;
+        this.drawTexturedModalRect(var4, var5, 0, 0, this.containerWidth, this.containerHeight);
+        this.drawTexturedModalRect(var4 + 59, var5 + 20, 0, this.containerHeight + (this.field_147092_v.getSlot(0).getHasStack() ? 0 : 16), 110, 16);
 
         if ((this.field_147092_v.getSlot(0).getHasStack() || this.field_147092_v.getSlot(1).getHasStack()) && !this.field_147092_v.getSlot(2).getHasStack())
         {
-            this.drawTexturedModalRect(var4 + 99, var5 + 45, this.field_146999_f, 0, 28, 21);
+            this.drawTexturedModalRect(var4 + 99, var5 + 45, this.containerWidth, 0, 28, 21);
         }
     }
 

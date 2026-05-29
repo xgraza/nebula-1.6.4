@@ -1,12 +1,14 @@
 package net.minecraft.client.gui.inventory;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -16,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import us.nebula.client.cheat.impl.world.ChestStealerCheat;
 import us.nebula.client.util.render.gui.font.Fonts;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.cheat.impl.render.ItemTweaksCheat;
@@ -31,8 +34,8 @@ public abstract class GuiContainer extends GuiScreen
 {
     protected static final ResourceLocation INVENTORY_TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/inventory.png");
 
-    protected int field_146999_f = 176;
-    protected int field_147000_g = 166;
+    protected int containerWidth = 176;
+    protected int containerHeight = 166;
     public Container container;
     protected int field_147003_i;
     protected int field_147009_r;
@@ -58,7 +61,9 @@ public abstract class GuiContainer extends GuiScreen
     private int field_146992_L;
     private boolean field_146993_M;
     private ItemStack field_146994_N;
-    private static final String __OBFID = "CL_00000737";
+
+    // 0 = idle, 1 = steal, 2 = store
+    private int state;
 
     public GuiContainer(Container container)
     {
@@ -73,8 +78,16 @@ public abstract class GuiContainer extends GuiScreen
     {
         super.initGui();
         this.mc.thePlayer.openContainer = this.container;
-        this.field_147003_i = (this.width - this.field_146999_f) / 2;
-        this.field_147009_r = (this.height - this.field_147000_g) / 2;
+        this.field_147003_i = (this.width - this.containerWidth) / 2;
+        this.field_147009_r = (this.height - this.containerHeight) / 2;
+
+        if (ChestStealerCheat.INSTANCE.isToggled()
+                && !ChestStealerCheat.INSTANCE.automaticSetting.getValue()
+                && container instanceof ContainerChest)
+        {
+            buttonList.add(new GuiButton(0, field_147003_i, field_147009_r - 22, 35, 20, "Steal"));
+            //buttonList.add(new GuiButton(1, field_147003_i + 37, field_147009_r - 22, 35, 20, "Store"));
+        }
     }
 
     /**
@@ -82,6 +95,11 @@ public abstract class GuiContainer extends GuiScreen
      */
     public void drawScreen(int par1, int par2, float par3)
     {
+        if (state != 0)
+        {
+            ChestStealerCheat.INSTANCE.moveItemsFromInventory(state == 2);
+        }
+
         this.drawDefaultBackground();
         int var4 = this.field_147003_i;
         int var5 = this.field_147009_r;
@@ -194,6 +212,23 @@ public abstract class GuiContainer extends GuiScreen
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         RenderHelper.enableStandardItemLighting();
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton p_146284_1_)
+    {
+        if (!ChestStealerCheat.INSTANCE.isToggled())
+        {
+            return;
+        }
+
+        if (p_146284_1_.id == 0)
+        {
+            state = state == 1 ? 0 : 1;
+        } else if (p_146284_1_.id == 1)
+        {
+            state = state == 2 ? 0 : 2;
+        }
     }
 
     private void drawItemStack(ItemStack p_146982_1_, int p_146982_2_, int p_146982_3_, String p_146982_4_)
@@ -352,7 +387,7 @@ public abstract class GuiContainer extends GuiScreen
         {
             int var8 = this.field_147003_i;
             int var9 = this.field_147009_r;
-            boolean var10 = mouseX < var8 || mouseY < var9 || mouseX >= var8 + this.field_146999_f || mouseY >= var9 + this.field_147000_g;
+            boolean var10 = mouseX < var8 || mouseY < var9 || mouseX >= var8 + this.containerWidth || mouseY >= var9 + this.containerHeight;
             int var11 = -1;
 
             if (var5 != null)
@@ -480,7 +515,7 @@ public abstract class GuiContainer extends GuiScreen
         Slot var4 = this.getSlotAtPosition(p_146286_1_, p_146286_2_);
         int var5 = this.field_147003_i;
         int var6 = this.field_147009_r;
-        boolean var7 = p_146286_1_ < var5 || p_146286_2_ < var6 || p_146286_1_ >= var5 + this.field_146999_f || p_146286_2_ >= var6 + this.field_147000_g;
+        boolean var7 = p_146286_1_ < var5 || p_146286_2_ < var6 || p_146286_1_ >= var5 + this.containerWidth || p_146286_2_ >= var6 + this.containerHeight;
         int var8 = -1;
 
         if (var4 != null)
@@ -632,7 +667,7 @@ public abstract class GuiContainer extends GuiScreen
         return p_146978_5_ >= p_146978_1_ - 1 && p_146978_5_ < p_146978_1_ + p_146978_3_ + 1 && p_146978_6_ >= p_146978_2_ - 1 && p_146978_6_ < p_146978_2_ + p_146978_4_ + 1;
     }
 
-    protected void func_146984_a(Slot p_146984_1_, int slot, int mouseButton, int action)
+    public void func_146984_a(Slot p_146984_1_, int slot, int mouseButton, int action)
     {
         if (p_146984_1_ != null)
         {

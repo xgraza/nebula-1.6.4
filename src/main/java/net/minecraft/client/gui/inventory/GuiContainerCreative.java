@@ -53,8 +53,8 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         super(new GuiContainerCreative.ContainerCreative(par1EntityPlayer));
         par1EntityPlayer.openContainer = this.container;
         this.allowUserInput = true;
-        this.field_147000_g = 136;
-        this.field_146999_f = 195;
+        this.containerHeight = 136;
+        this.containerWidth = 195;
     }
 
     /**
@@ -68,7 +68,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         }
     }
 
-    protected void func_146984_a(Slot p_146984_1_, int p_146984_2_, int mouseButton, int action)
+    public void func_146984_a(Slot p_146984_1_, int p_146984_2_, int mouseButton, int action)
     {
         this.field_147057_D = true;
         boolean var5 = action == 1;
@@ -700,7 +700,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         }
 
         this.mc.getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/creative_inventory/tab_" + var4.getBackgroundImageName()));
-        this.drawTexturedModalRect(this.field_147003_i, this.field_147009_r, 0, 0, this.field_146999_f, this.field_147000_g);
+        this.drawTexturedModalRect(this.field_147003_i, this.field_147009_r, 0, 0, this.containerWidth, this.containerHeight);
         this.field_147062_A.drawTextBox();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         int var9 = this.field_147003_i + 175;
@@ -729,7 +729,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
         if (var4 == 5)
         {
-            var5 = this.field_146999_f - 28 + 2;
+            var5 = this.containerWidth - 28 + 2;
         } else if (var4 > 0)
         {
             var5 += var4;
@@ -742,7 +742,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
             var7 = var6 - 32;
         } else
         {
-            var7 = var6 + this.field_147000_g;
+            var7 = var6 + this.containerHeight;
         }
 
         return p_147049_2_ >= var5 && p_147049_2_ <= var5 + 28 && p_147049_3_ >= var7 && p_147049_3_ <= var7 + 32;
@@ -756,7 +756,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
         if (var4 == 5)
         {
-            var5 = this.field_146999_f - 28 + 2;
+            var5 = this.containerWidth - 28 + 2;
         } else if (var4 > 0)
         {
             var5 += var4;
@@ -769,7 +769,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
             var7 = var6 - 32;
         } else
         {
-            var7 = var6 + this.field_147000_g;
+            var7 = var6 + this.containerHeight;
         }
 
         if (this.func_146978_c(var5 + 3, var7 + 3, 23, 27, p_147052_2_, p_147052_3_))
@@ -800,7 +800,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
 
         if (var4 == 5)
         {
-            var7 = this.field_147003_i + this.field_146999_f - 28;
+            var7 = this.field_147003_i + this.containerWidth - 28;
         } else if (var4 > 0)
         {
             var7 += var4;
@@ -812,7 +812,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         } else
         {
             var6 += 64;
-            var8 += this.field_147000_g - 4;
+            var8 += this.containerHeight - 4;
         }
 
         GL11.glDisable(GL11.GL_LIGHTING);

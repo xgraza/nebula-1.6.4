@@ -73,7 +73,7 @@ public class GuiInventory extends InventoryEffectRenderer
         this.mc.getTextureManager().bindTexture(INVENTORY_TEXTURE_LOCATION);
         int var4 = this.field_147003_i;
         int var5 = this.field_147009_r;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.field_146999_f, this.field_147000_g);
+        this.drawTexturedModalRect(var4, var5, 0, 0, this.containerWidth, this.containerHeight);
         func_147046_a(var4 + 51, var5 + 75, 30, (float) (var4 + 51) - this.field_147048_u, (float) (var5 + 75 - 50) - this.field_147047_v, this.mc.thePlayer);
     }
 
