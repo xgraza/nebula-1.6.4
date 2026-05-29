@@ -124,7 +124,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AutoToolCheat());
         addCheat(new AutoTorchCheat());
         addCheat(new AutoTunnelCheat());
-        // addCheat(new ChestStealerCheat());
+        addCheat(new ChestStealerCheat());
         addCheat(new FakePlayerCheat());
         addCheat(new FlattenCheat());
         addCheat(new LandscaperCheat());
