@@ -105,6 +105,7 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new ESPCheat());
         addCheat(new ExtraTabCheat());
         addCheat(new FullbrightCheat());
+        addCheat(new GlintCheat());
         addCheat(new HUDCheat());
         addCheat(new ItemPhysicsCheat());
         addCheat(new ItemTweaksCheat());

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import us.nebula.client.cheat.impl.render.GlintCheat;
 import us.nebula.client.util.render.gui.shader.Shader;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -529,7 +530,13 @@ public final class RenderUtil
             glDepthMask(false);
             MC.getTextureManager().bindTexture(RES_ITEM_GLINT);
             glEnable(GL_ALPHA_TEST);
-            glColor4f(0.5f, 0.25f, 0.8f, 1.0f);
+            if (GlintCheat.INSTANCE.isToggled())
+            {
+                RenderUtil.setGLColorOpaque(GlintCheat.INSTANCE.colorSetting.getValue().getRGB());
+            } else
+            {
+                glColor4f(0.5F, 0.25F, 0.8F, 1.0F);
+            }
             RENDER_ITEM.renderGlint(posX * 431278612 + -26 * 32178161, posX - 2, -26 - 2, 20, 20);
             glDepthMask(true);
             glDisable(GL_ALPHA_TEST);

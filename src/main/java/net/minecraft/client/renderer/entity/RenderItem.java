@@ -19,12 +19,15 @@ import net.minecraft.item.ItemCloth;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.Config;
 import net.minecraft.util.*;
+import org.lwjgl.opencl.CL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import us.nebula.client.cheat.impl.player.AntiLagCheat;
+import us.nebula.client.cheat.impl.render.GlintCheat;
 import us.nebula.client.cheat.impl.render.ItemPhysicsCheat;
 import us.nebula.client.cheat.impl.render.ItemTweaksCheat;
 import us.nebula.client.util.player.ItemUtil;
+import us.nebula.client.util.render.RenderUtil;
 
 import java.util.Random;
 import java.util.concurrent.Callable;
@@ -581,7 +584,13 @@ public class RenderItem extends Render
                 par2TextureManager.bindTexture(RES_ITEM_GLINT);
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
                 GL11.glEnable(GL11.GL_BLEND);
-                GL11.glColor4f(0.5F, 0.25F, 0.8F, 1.0F);
+                if (GlintCheat.INSTANCE.isToggled())
+                {
+                    RenderUtil.setGLColorOpaque(GlintCheat.INSTANCE.colorSetting.getValue().getRGB());
+                } else
+                {
+                    GL11.glColor4f(0.5F, 0.25F, 0.8F, 1.0F);
+                }
                 this.renderGlint(par4 * 431278612 + par5 * 32178161, par4 - 2, par5 - 2, 20, 20);
                 GL11.glDepthMask(true);
                 GL11.glDisable(GL11.GL_ALPHA_TEST);

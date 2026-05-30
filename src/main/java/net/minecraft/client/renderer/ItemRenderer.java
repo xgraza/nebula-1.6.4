@@ -18,11 +18,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL12;
+import us.nebula.client.cheat.impl.render.GlintCheat;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.cheat.impl.combat.KillAuraCheat;
 import us.nebula.client.cheat.impl.render.NoRenderCheat;
 import us.nebula.client.cheat.impl.render.ViewModelCheat;
 import us.nebula.client.listener.event.render.EventRenderWaterEffects;
+import us.nebula.client.util.render.RenderUtil;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -117,7 +119,13 @@ public class ItemRenderer
                 glEnable(GL_BLEND);
                 OpenGlHelper.glBlendFunc(768, 1, 1, 0);
                 float var16 = 0.76F;
-                glColor4f(0.5F * var16, 0.25F * var16, 0.8F * var16, 1.0F);
+                if (GlintCheat.INSTANCE.isToggled())
+                {
+                    RenderUtil.setGLColorOpaque(GlintCheat.INSTANCE.colorSetting.getValue().getRGB());
+                } else
+                {
+                    glColor4f(0.5F * var16, 0.25F * var16, 0.8F * var16, 1.0F);
+                }
                 glMatrixMode(GL_TEXTURE);
                 glPushMatrix();
                 float var17 = 0.125F;
