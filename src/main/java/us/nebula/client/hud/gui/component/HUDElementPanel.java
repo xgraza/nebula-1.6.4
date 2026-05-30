@@ -67,7 +67,7 @@ public final class HUDElementPanel extends GUIComponent implements IGUIInputList
 
         if (element.isToggled())
         {
-            RenderUtil.roundedRectangle2D(x, y, width, getHeight(), 1.5f, HUDCheat.INSTANCE.getPrimary());
+            RenderUtil.renderRoundedRectangle(x, y, width, getHeight(), 1.5f, HUDCheat.INSTANCE.getPrimary());
         }
         final double middle = Fonts.getMiddlePoint(height, Fonts.POPPINS.getFontHeight());
         Fonts.POPPINS.drawStringShadow(element.getManifest().name(),
@@ -79,7 +79,7 @@ public final class HUDElementPanel extends GUIComponent implements IGUIInputList
 
         if (offset > 0.0 && panelAnimation.getFactor() > 0.0)
         {
-            RenderUtil.roundedRectangle2D(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 4f, BACKGROUND_COLOR);
+            RenderUtil.renderRoundedRectangle(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 4f, BACKGROUND_COLOR);
 
             double posY = y + height + PADDING;
             for (final GUIComponent component : getChildrenComponentList())

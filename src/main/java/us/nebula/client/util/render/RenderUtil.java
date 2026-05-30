@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import us.nebula.client.util.render.gui.shader.Shader;
 
@@ -75,9 +76,24 @@ public final class RenderUtil
         glDisable(GL_SCISSOR_TEST);
     }
 
-    public static void filledBox3D(AxisAlignedBB aabb,
-                                   final int renderMask,
-                                   final int color)
+    public static int calculateFaceMask(final EnumFacing... facings)
+    {
+        int mask = 0;
+        for (final EnumFacing facing : facings)
+        {
+            mask |= QuadMask.getMask(facing);
+        }
+        return mask;
+    }
+
+    public static boolean hasQuadMask(final int renderMask, final int face)
+    {
+        return (renderMask & face) != 0;
+    }
+
+    public static void renderFilledAABB(AxisAlignedBB aabb,
+                                        final int renderMask,
+                                        final int color)
     {
         glPushMatrix();
 
@@ -89,57 +105,78 @@ public final class RenderUtil
         glDepthMask(false);
         glDisable(GL_DEPTH_TEST);
 
+        glDisable(GL_CULL_FACE);
+
         aabb = aabb.copy().offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
-        TESSELLATOR.startDrawingQuads();
-        setTessellatorColor(color);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
-        TESSELLATOR.draw();
+        if (hasQuadMask(renderMask, QuadMask.UP))
+        {
+            TESSELLATOR.startDrawingQuads();
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.draw();
+        }
 
-        // sides
-        TESSELLATOR.startDrawingQuads();
-        setTessellatorColor(color);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.draw();
+        if (hasQuadMask(renderMask, QuadMask.SOUTH))
+        {
+            TESSELLATOR.startDrawingQuads();
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.draw();
+        }
 
-        TESSELLATOR.startDrawingQuads();
-        setTessellatorColor(color);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
-        TESSELLATOR.draw();
+        if (hasQuadMask(renderMask, QuadMask.NORTH))
+        {
+            TESSELLATOR.startDrawingQuads();
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.draw();
+        }
 
-        TESSELLATOR.startDrawingQuads();
-        setTessellatorColor(color);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.draw();
+        if (hasQuadMask(renderMask, QuadMask.WEST))
+        {
+            TESSELLATOR.startDrawingQuads();
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.draw();
+        }
 
-        TESSELLATOR.startDrawingQuads();
-        setTessellatorColor(color);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
-        TESSELLATOR.draw();
+        if (hasQuadMask(renderMask, QuadMask.EAST))
+        {
+            TESSELLATOR.startDrawingQuads();
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.draw();
+        }
 
-        // top
-        TESSELLATOR.startDrawingQuads();
-        setTessellatorColor(color);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.draw();
+        if (hasQuadMask(renderMask, QuadMask.DOWN))
+        {
+            // top
+            TESSELLATOR.startDrawingQuads();
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.draw();
+        }
+
+        glEnable(GL_CULL_FACE);
 
         glEnable(GL_TEXTURE_2D);
 
@@ -149,9 +186,10 @@ public final class RenderUtil
         glPopMatrix();
     }
 
-    public static void outlinedBox3D(AxisAlignedBB aabb,
-                                     final float lineWidth,
-                                     final int color)
+    public static void renderOutlinedAABB(AxisAlignedBB aabb,
+                                          final float lineWidth,
+                                          final int renderMask,
+                                          final int color)
     {
         glPushMatrix();
 
@@ -167,37 +205,78 @@ public final class RenderUtil
         glDepthMask(false);
         glDisable(GL_DEPTH_TEST);
 
+        glDisable(GL_CULL_FACE);
+
         aabb = aabb.copy().offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
-        TESSELLATOR.startDrawing(GL_LINE_STRIP);
-        setTessellatorColor(color);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
-        TESSELLATOR.draw();
+        if (hasQuadMask(renderMask, QuadMask.UP))
+        {
+            TESSELLATOR.startDrawing(GL_LINE_LOOP);
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.draw();
+        }
 
-        TESSELLATOR.startDrawing(GL_LINE_STRIP);
-        setTessellatorColor(color);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.draw();
+        if (hasQuadMask(renderMask, QuadMask.SOUTH))
+        {
+            TESSELLATOR.startDrawing(GL_LINE_LOOP);
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.draw();
+        }
 
-        TESSELLATOR.startDrawing(GL_LINES);
-        setTessellatorColor(color);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
-        TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
-        TESSELLATOR.draw();
+        if (hasQuadMask(renderMask, QuadMask.NORTH))
+        {
+            TESSELLATOR.startDrawing(GL_LINE_LOOP);
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.draw();
+        }
+
+        if (hasQuadMask(renderMask, QuadMask.WEST))
+        {
+            TESSELLATOR.startDrawing(GL_LINE_LOOP);
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.draw();
+        }
+
+        if (hasQuadMask(renderMask, QuadMask.EAST))
+        {
+            TESSELLATOR.startDrawing(GL_LINE_LOOP);
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.draw();
+        }
+
+        if (hasQuadMask(renderMask, QuadMask.DOWN))
+        {
+            // top
+            TESSELLATOR.startDrawing(GL_LINE_LOOP);
+            setTessellatorColor(color);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.draw();
+        }
+
+        glEnable(GL_CULL_FACE);
 
         glEnable(GL_TEXTURE_2D);
 
@@ -211,7 +290,7 @@ public final class RenderUtil
         glPopMatrix();
     }
 
-    public static void billBoard(final double x, final double y, final double z, final double size, final Runnable runnable)
+    public static void renderGLBillboard(final double x, final double y, final double z, final double size, final Runnable runnable)
     {
         glPushMatrix();
 
@@ -250,16 +329,16 @@ public final class RenderUtil
         glPopMatrix();
     }
 
-    public static void rectangle2D(final double x,
-                                   final double y,
-                                   final double width,
-                                   final double height,
-                                   final int color)
+    public static void renderRectangle(final double x,
+                                       final double y,
+                                       final double width,
+                                       final double height,
+                                       final int color)
     {
         glDisable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        setColor(color);
+        setGLColor(color);
         TESSELLATOR.startDrawingQuads();
         TESSELLATOR.addVertex(x, y, 0.0);
         TESSELLATOR.addVertex(x, y + height, 0.0);
@@ -269,7 +348,7 @@ public final class RenderUtil
         glEnable(GL_TEXTURE_2D);
     }
 
-    public static void renderOutline2D(final double x,
+    public static void render2DOutline(final double x,
                                        final double y,
                                        final double width,
                                        final double height,
@@ -277,7 +356,7 @@ public final class RenderUtil
                                        final int color)
     {
         glDisable(GL_TEXTURE_2D);
-        setColor(color);
+        setGLColor(color);
 
         glLineWidth(lineWidth);
         glEnable(GL_LINE_SMOOTH);
@@ -310,7 +389,7 @@ public final class RenderUtil
         glEnable(GL_TEXTURE_2D);
     }
 
-    public static void gradientRectangle2D(
+    public static void renderGradientRectangle(
             final double x,
             final double y,
             final double width,
@@ -330,13 +409,13 @@ public final class RenderUtil
 
         glBegin(GL_QUADS);
         {
-            setColor(tr);
+            setGLColor(tr);
             glVertex2d(x + width, y);
-            setColor(tl);
+            setGLColor(tl);
             glVertex2d(x, y);
-            setColor(bl);
+            setGLColor(bl);
             glVertex2d(x, y + height);
-            setColor(br);
+            setGLColor(br);
             glVertex2d(x + width, y + height);
         }
         glEnd();
@@ -349,12 +428,12 @@ public final class RenderUtil
         glPopMatrix();
     }
 
-    public static void roundedRectangle2D(final double x,
-                                          final double y,
-                                          final double width,
-                                          final double height,
-                                          final float radius,
-                                          final int color)
+    public static void renderRoundedRectangle(final double x,
+                                              final double y,
+                                              final double width,
+                                              final double height,
+                                              final float radius,
+                                              final int color)
     {
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
@@ -393,7 +472,7 @@ public final class RenderUtil
         glDisable(GL_BLEND);
     }
 
-    public static void texture(ResourceLocation loc, double x, double y, int w, int h)
+    public static void renderTexture(ResourceLocation loc, double x, double y, int w, int h)
     {
         glPushMatrix();
         glEnable(GL_TEXTURE_2D);
@@ -425,9 +504,9 @@ public final class RenderUtil
         glPopMatrix();
     }
 
-    public static void renderItemWithEffects(final ItemStack itemStack,
-                                             final int posX,
-                                             final int posY)
+    public static void renderItemWithGlint(final ItemStack itemStack,
+                                           final int posX,
+                                           final int posY)
     {
         if (itemStack == null)
         {
@@ -481,7 +560,7 @@ public final class RenderUtil
         TESSELLATOR.setColorRGBA_F(red, green, blue, alpha);
     }
 
-    public static void setColor(final int color)
+    public static void setGLColor(final int color)
     {
         final float red = (float) (color >> 16 & 255) / 255.0F;
         final float green = (float) (color >> 8 & 255) / 255.0F;
@@ -490,7 +569,7 @@ public final class RenderUtil
         glColor4f(red, green, blue, alpha);
     }
 
-    public static void setColorOpaque(final int color)
+    public static void setGLColorOpaque(final int color)
     {
         final float red = (float) (color >> 16 & 255) / 255.0F;
         final float blue = (float) (color & 255) / 255.0F;

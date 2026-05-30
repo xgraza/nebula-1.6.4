@@ -1,48 +1,52 @@
 package us.nebula.client.cheat.impl.player;
 
-import net.minecraft.init.Items;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
 import org.lwjgl.input.Keyboard;
-import us.nebula.client.Nebula;
-import us.nebula.client.interaction.InteractionManager;
 import us.nebula.client.listener.EventListener;
 import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.input.EventKey;
-import us.nebula.client.listener.event.player.EventAttackBlock;
 import us.nebula.client.listener.event.render.EventRender3D;
 import us.nebula.client.util.player.ChatUtil;
-import us.nebula.client.util.player.InventoryUtil;
+import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.render.RenderUtil;
-
-import java.awt.Color;
-import java.util.LinkedList;
-import java.util.List;
 
 @CheatManifest(name = "Test", category = CheatCategory.PLAYER)
 public final class TestCheat extends Cheat
 {
-    @Subscribe
-    private final EventListener<EventAttackBlock> eventAttackBlockEventListener = event ->
+    private int facing;
+
+    @Override public void onDisable()
     {
-        final int slot = InventoryUtil.getSlot(0, 9, (stack) -> stack.getItem() == Items.water_bucket);
-        if (slot == -1)
+        super.onDisable();
+        facing = 0;
+    }
+
+    @Subscribe
+    private final EventListener<EventKey> keyEventListener = event ->
+    {
+        if (event.getKeyCode() == Keyboard.KEY_Y)
         {
-            return;
+            facing++;
+            if (facing >= EnumFacing.values().length)
+            {
+                facing = 0;
+            }
+            ChatUtil.sendNebula("Facing: %s", EnumFacing.faceList[facing]);
         }
+    };
 
-        event.cancel();
-
-        final BlockPos pos = new BlockPos(event.getX(), event.getY(), event.getZ());
-        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        InteractionManager.INSTANCE.rightClickBlock(pos, EnumFacing.faceList[event.getSide()], false);
-        InteractionManager.INSTANCE.rightClickBlock(pos, EnumFacing.faceList[event.getSide()], false);
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+    @Subscribe
+    private final EventListener<EventRender3D> render3DEventListener = event ->
+    {
+        final BlockPos pos = PlayerUtil.getOrigin().offset(PlayerUtil.getFacing());
+        final AxisAlignedBB bb = new AxisAlignedBB(pos);
+        final int mask = RenderUtil.calculateFaceMask(EnumFacing.faceList[facing]);
+        //RenderUtil.filledBox3D(bb, mask, 0x80FF0000);
+        RenderUtil.renderOutlinedAABB(bb, 1.5f, mask, 0x80FF0000);
     };
 }

@@ -94,7 +94,7 @@ public final class AWTFontRenderer
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 0, 1);
 
-        RenderUtil.setColorOpaque(textColor);
+        RenderUtil.setGLColorOpaque(textColor);
 
         boolean bld = false;
         boolean ital = false;
@@ -234,7 +234,7 @@ public final class AWTFontRenderer
             {
                 continue;
             }
-            RenderUtil.setColorOpaque(textColor);
+            RenderUtil.setGLColorOpaque(textColor);
             font.drawChar(glyph, offsetX, offsetY);
             if (strikethrough)
             {

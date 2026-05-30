@@ -61,7 +61,7 @@ public final class TrajectoriesCheat extends Cheat
 
         glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
-        RenderUtil.setColor(HUDCheat.INSTANCE.getBaseColor(0));
+        RenderUtil.setGLColor(HUDCheat.INSTANCE.getBaseColor(0));
 
         if (renderTailSetting.getValue())
         {

@@ -217,7 +217,7 @@ public final class ClickGUIScreen extends GuiScreen
         }
 
         double y = mouseY - 10;
-        RenderUtil.roundedRectangle2D(x, y, boxWidth + 8, 2 + (Fonts.POPPINS.getFontHeight() + 1) * wrappedTextList.size(), 5.5f, PANEL_HEADER_COLOR);
+        RenderUtil.renderRoundedRectangle(x, y, boxWidth + 8, 2 + (Fonts.POPPINS.getFontHeight() + 1) * wrappedTextList.size(), 5.5f, PANEL_HEADER_COLOR);
 
         for (final String line : wrappedTextList)
         {

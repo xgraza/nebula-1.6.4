@@ -28,9 +28,9 @@ public final class HueSliderColorComponent extends NumberSettingComponent
     @Override
     protected void drawSlider()
     {
-        RenderUtil.texture(RGB_GRADIENT_LOCATION, getX(), y, (int) width, (int) getHeight());
+        RenderUtil.renderTexture(RGB_GRADIENT_LOCATION, getX(), y, (int) width, (int) getHeight());
         final double position = parent.gradientColorComponent.getHue() * getWidth();
-        RenderUtil.rectangle2D(getX() + position - 2.5, y, 5, getHeight(), Color.white.getRGB());
+        RenderUtil.renderRectangle(getX() + position - 2.5, y, 5, getHeight(), Color.white.getRGB());
     }
 
     @Override

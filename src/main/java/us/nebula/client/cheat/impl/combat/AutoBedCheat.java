@@ -23,6 +23,7 @@ import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.util.render.QuadMask;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.event.game.EventUpdate;
@@ -111,10 +112,10 @@ public final class AutoBedCheat extends Cheat
                         blockInfo.getFacing().getFrontOffsetY(),
                         blockInfo.getFacing().getFrontOffsetZ());
         bb.maxY = blockInfo.getPos().getY() + 0.5;
-        RenderUtil.outlinedBox3D(bb, 1.5f, 0xFFFF0000);
-        RenderUtil.filledBox3D(bb, 0, 0x80FF0000);
+        RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, 0xFFFF0000);
+        RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, 0x80FF0000);
         final Vec3 center = bb.getCenter();
-        RenderUtil.billBoard(center.xCoord, center.yCoord, center.zCoord, 0.2, () ->
+        RenderUtil.renderGLBillboard(center.xCoord, center.yCoord, center.zCoord, 0.2, () ->
         {
             final String text = String.format("%.2f", blockInfo.getTargetDamage());
             MC.fontRenderer.drawStringWithShadow(text, -MC.fontRenderer.getStringWidth(text) / 2, 2, -1);

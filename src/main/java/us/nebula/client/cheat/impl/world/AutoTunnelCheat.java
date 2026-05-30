@@ -19,6 +19,7 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.render.QuadMask;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.combat.KillAuraCheat;
 import us.nebula.client.listener.event.game.EventUpdate;
@@ -100,7 +101,7 @@ public final class AutoTunnelCheat extends Cheat
             return;
         }
 
-        RenderUtil.filledBox3D(new AxisAlignedBB(currentBlock.getPos()), 0, 0x8000FF00);
+        RenderUtil.renderFilledAABB(new AxisAlignedBB(currentBlock.getPos()), QuadMask.ALL_FACES, 0x8000FF00);
     };
 
     @Subscribe

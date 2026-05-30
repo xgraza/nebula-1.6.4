@@ -17,6 +17,7 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.render.QuadMask;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
@@ -68,14 +69,14 @@ public final class AntiGhostBlockCheat extends Cheat
         for (final BlockPos pos : placeConfirmBlockPosMap.keySet())
         {
             final AxisAlignedBB aabb = new AxisAlignedBB(pos);
-            RenderUtil.filledBox3D(aabb, 0, 0xAB00FF00);
-            RenderUtil.outlinedBox3D(aabb, 1.5f, 0xAB00FF00);
+            RenderUtil.renderFilledAABB(aabb, QuadMask.ALL_FACES, 0xAB00FF00);
+            RenderUtil.renderOutlinedAABB(aabb, 1.5f, QuadMask.ALL_FACES, 0xAB00FF00);
         }
         for (final BlockPos pos : breakConfirmBlockPosMap.keySet())
         {
             final AxisAlignedBB aabb = new AxisAlignedBB(pos);
-            RenderUtil.filledBox3D(aabb, 0, 0xAB00FF00);
-            RenderUtil.outlinedBox3D(aabb, 1.5f, 0xAB00FF00);
+            RenderUtil.renderFilledAABB(aabb, QuadMask.ALL_FACES, 0xAB00FF00);
+            RenderUtil.renderOutlinedAABB(aabb, 1.5f, QuadMask.ALL_FACES, 0xAB00FF00);
         }
     };
 

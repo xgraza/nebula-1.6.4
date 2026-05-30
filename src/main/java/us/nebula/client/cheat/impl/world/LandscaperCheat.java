@@ -12,6 +12,7 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.render.QuadMask;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.render.EventRender3D;
@@ -60,7 +61,7 @@ public final class LandscaperCheat extends Cheat
         {
             return;
         }
-        RenderUtil.filledBox3D(new AxisAlignedBB(breakingBlockPos), 0, 0x8000FF00);
+        RenderUtil.renderFilledAABB(new AxisAlignedBB(breakingBlockPos), QuadMask.ALL_FACES, 0x8000FF00);
     };
 
     @Subscribe

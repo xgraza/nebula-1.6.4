@@ -32,7 +32,7 @@ public class ConfigTextButton extends GUIComponent implements IGUIInputListener
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        RenderUtil.roundedRectangle2D(x, y, getWidth(), getHeight(), 3.5f, BACKGROUND_COLOR);
+        RenderUtil.renderRoundedRectangle(x, y, getWidth(), getHeight(), 3.5f, BACKGROUND_COLOR);
         Fonts.POPPINS_SMALL.drawStringShadow(text, x + (PADDING * 2), y + Fonts.getMiddlePoint(getHeight(), Fonts.POPPINS_SMALL.getFontHeight()), -1);
     }
 

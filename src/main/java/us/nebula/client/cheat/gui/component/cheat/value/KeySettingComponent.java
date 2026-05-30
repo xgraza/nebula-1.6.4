@@ -48,7 +48,7 @@ public final class KeySettingComponent extends GUIComponent implements IGUIInput
         final double boxPosX = (x + width) - boxWidth;
         final double boxPosY = y - (middlePoint - ((boxHeight - (PADDING * 2)) / 2.0));
 
-        RenderUtil.roundedRectangle2D(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, KEY_BACKGROUND_COLOR);
+        RenderUtil.renderRoundedRectangle(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, KEY_BACKGROUND_COLOR);
         Fonts.POPPINS_SMALL.drawStringShadow(text, boxPosX + (PADDING * 2), boxPosY + PADDING, -1);
     }
 

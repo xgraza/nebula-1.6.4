@@ -88,7 +88,7 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
 
         final double barWidth = width * ((value - min) / diff);
 
-        RenderUtil.roundedRectangle2D(x, y, barWidth, height, 3.5f, HUDCheat.INSTANCE.getPrimary());
+        RenderUtil.renderRoundedRectangle(x, y, barWidth, height, 3.5f, HUDCheat.INSTANCE.getPrimary());
     }
 
     @Override

@@ -221,7 +221,7 @@ public final class TracersCheat extends Cheat
             }
             case CLIENT:
             {
-                RenderUtil.setColor(HUDCheat.INSTANCE.getBaseColor(10));
+                RenderUtil.setGLColor(HUDCheat.INSTANCE.getBaseColor(10));
                 break;
             }
         }

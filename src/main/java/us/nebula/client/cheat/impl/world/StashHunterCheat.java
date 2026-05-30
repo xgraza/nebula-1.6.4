@@ -19,7 +19,7 @@ import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventDisconnect;
 import us.nebula.client.listener.event.render.EventRender3D;
 import us.nebula.client.listener.event.world.EventRemoveTileEntity;
-import us.nebula.client.util.player.ChatUtil;
+import us.nebula.client.util.render.QuadMask;
 import us.nebula.client.util.render.RenderUtil;
 import us.nebula.client.util.value.Setting;
 
@@ -80,8 +80,8 @@ public final class StashHunterCheat extends Cheat
             for (final Vec3 pos : stackedMinecartPositionSet)
             {
                 final AxisAlignedBB bb = new AxisAlignedBB(pos, 1);
-                RenderUtil.filledBox3D(bb, 0, color);
-                RenderUtil.outlinedBox3D(bb, 1.5f, color);
+                RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, color);
+                RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
             }
         }
         if (chestsSetting.getValue())
@@ -90,8 +90,8 @@ public final class StashHunterCheat extends Cheat
             for (final BlockPos pos : chestsRenderList)
             {
                 final AxisAlignedBB bb = new AxisAlignedBB(pos);
-                RenderUtil.filledBox3D(bb, 0, color);
-                RenderUtil.outlinedBox3D(bb, 1.5f, color);
+                RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, color);
+                RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
             }
         }
     };

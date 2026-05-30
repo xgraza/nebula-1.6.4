@@ -17,6 +17,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.render.QuadMask;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
@@ -99,8 +100,8 @@ public final class PacketMineCheat extends Cheat
         bb = bb.expand(factor * 0.5, factor * 0.5, factor * 0.5);
 
         final int color = factor >= percentSetting.getValue() ? 0x8000FF00 : 0x80FF0000;
-        RenderUtil.filledBox3D(bb, 0, color);
-        RenderUtil.outlinedBox3D(bb, 1.5f, color);
+        RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, color);
+        RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
     };
 
     @Subscribe

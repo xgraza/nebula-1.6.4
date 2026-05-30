@@ -88,7 +88,7 @@ public final class NametagsCheat extends Cheat
                 y += entity.height;
             }
             final double z = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * event.getPartialTicks();
-            RenderUtil.billBoard(x, y + 0.5, z, sizeSetting.getValue(), () ->
+            RenderUtil.renderGLBillboard(x, y + 0.5, z, sizeSetting.getValue(), () ->
             {
 
 
@@ -110,7 +110,7 @@ public final class NametagsCheat extends Cheat
 
                 if (backgroundSetting.getValue())
                 {
-                    RenderUtil.rectangle2D(-(textWidth + 2), -(textHeight + 1), (textWidth + 2) * 2, textHeight + 4, 0x95000000);
+                    RenderUtil.renderRectangle(-(textWidth + 2), -(textHeight + 1), (textWidth + 2) * 2, textHeight + 4, 0x95000000);
                 }
 
                 if (customFontSetting.getValue())
@@ -155,7 +155,7 @@ public final class NametagsCheat extends Cheat
 
     private void renderItemStack(final ItemStack stack, final int x, final int y)
     {
-        RenderUtil.renderItemWithEffects(stack, x, y);
+        RenderUtil.renderItemWithGlint(stack, x, y);
 
         final Map<Integer, Integer> enchantmentList = EnchantmentHelper.getEnchantments(stack);
         if (enchantmentList.isEmpty())

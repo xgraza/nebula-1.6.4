@@ -98,7 +98,7 @@ public final class HUDEditorScreen extends GuiChat
             {
                 continue;
             }
-            RenderUtil.roundedRectangle2D(element.getX() - 1,
+            RenderUtil.renderRoundedRectangle(element.getX() - 1,
                     element.getY() - 1,
                     element.getWidth() + 2,
                     element.getHeight() + 2,
@@ -109,7 +109,7 @@ public final class HUDEditorScreen extends GuiChat
 
         if (draggingElement != null)
         {
-            RenderUtil.roundedRectangle2D(draggingElement.getX() - 1,
+            RenderUtil.renderRoundedRectangle(draggingElement.getX() - 1,
                     draggingElement.getY() - 1,
                     draggingElement.getWidth() + 2,
                     draggingElement.getHeight() + 2,

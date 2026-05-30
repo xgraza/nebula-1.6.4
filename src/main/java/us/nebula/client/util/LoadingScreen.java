@@ -24,7 +24,7 @@ public final class LoadingScreen
         LoadingScreen.mc = mc;
         int width = res.getScaledWidth();
         int height = res.getScaledHeight();
-        RenderUtil.rectangle2D(0, 0, width, height, Color.black.getRGB());
+        RenderUtil.renderRectangle(0, 0, width, height, Color.black.getRGB());
 
         String text = "Loading Nebula " + ClientSettings.VERSION;
         int textWidth = (int) Fonts.POPPINS_LARGE.getStringWidth(text);
@@ -42,13 +42,13 @@ public final class LoadingScreen
         double posY = res.getScaledHeight_double() - 30;
 
         int progressBarTotalWidth = width - 150;
-        RenderUtil.rectangle2D(75, posY, progressBarTotalWidth, 20, Color.lightGray.getRGB());
+        RenderUtil.renderRectangle(75, posY, progressBarTotalWidth, 20, Color.lightGray.getRGB());
         double progressPercent = loadingStage / (double) totalLoadingStages;
         if (waiting)
         {
             progressPercent = 1;
         }
-        RenderUtil.rectangle2D(77, posY + 2, (progressBarTotalWidth - 4) * progressPercent, 16, Color.green.getRGB());
+        RenderUtil.renderRectangle(77, posY + 2, (progressBarTotalWidth - 4) * progressPercent, 16, Color.green.getRGB());
     }
 
     public static void setTotalLoadingStages(int totalStages)

@@ -15,6 +15,7 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.util.render.QuadMask;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.render.EventRender3D;
@@ -74,11 +75,11 @@ public final class AutoHighwayCheat extends Cheat
     {
         if (currentBlockPos != null)
         {
-            RenderUtil.filledBox3D(new AxisAlignedBB(currentBlockPos), 0, 0x80FF0000);
+            RenderUtil.renderFilledAABB(new AxisAlignedBB(currentBlockPos), QuadMask.ALL_FACES, 0x80FF0000);
         }
         if (breakInfo != null)
         {
-            RenderUtil.filledBox3D(new AxisAlignedBB(breakInfo.getPos()), 0, 0x800000FF);
+            RenderUtil.renderFilledAABB(new AxisAlignedBB(breakInfo.getPos()), QuadMask.ALL_FACES, 0x800000FF);
         }
     };
 

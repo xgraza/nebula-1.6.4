@@ -22,6 +22,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.util.render.ColorUtil;
+import us.nebula.client.util.render.QuadMask;
 import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.event.game.EventUpdate;
@@ -487,8 +488,8 @@ public final class ESPCheat extends Cheat
         }
 
         final int color = getColor(entity);
-        RenderUtil.filledBox3D(aabb, 0, ColorUtil.withAlpha(color, (int) (255.0f * opacitySetting.getValue())));
-        RenderUtil.outlinedBox3D(aabb, lineWidthSetting.getValue(), color);
+        RenderUtil.renderFilledAABB(aabb, QuadMask.ALL_FACES, ColorUtil.withAlpha(color, (int) (255.0f * opacitySetting.getValue())));
+        RenderUtil.renderOutlinedAABB(aabb, lineWidthSetting.getValue(), QuadMask.ALL_FACES, color);
     }
 
     private void projectEntity(final Object entity, final float partialTicks)

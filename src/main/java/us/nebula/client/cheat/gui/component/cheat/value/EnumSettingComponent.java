@@ -49,7 +49,7 @@ public final class EnumSettingComponent extends GUIComponent implements IGUIInpu
         final double boxPosX = (x + width) - boxWidth - (PADDING * 2);
         final double boxPosY = y - (middlePoint - ((boxHeight - (PADDING * 2)) / 2.0));
 
-        RenderUtil.roundedRectangle2D(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, BACKGROUND_COLOR);
+        RenderUtil.renderRoundedRectangle(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, BACKGROUND_COLOR);
         Fonts.POPPINS_SMALL.drawStringShadow(name, boxPosX + (PADDING * 2), boxPosY + PADDING, -1);
     }
 

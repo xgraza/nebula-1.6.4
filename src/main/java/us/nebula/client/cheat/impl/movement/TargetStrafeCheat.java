@@ -58,7 +58,7 @@ public final class TargetStrafeCheat extends Cheat
         glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
         glLineWidth(2.5f);
 
-        RenderUtil.setColor(HUDCheat.INSTANCE.getBaseColor(10));
+        RenderUtil.setGLColor(HUDCheat.INSTANCE.getBaseColor(10));
         glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
         final double x = target.prevPosX + (target.posX - target.prevPosX) * event.getPartialTicks();

@@ -188,7 +188,7 @@ public class GuiNewChat extends Gui
 
             if (!cm.transparentSetting.getValue())
             {
-                RenderUtil.rectangle2D(posX,
+                RenderUtil.renderRectangle(posX,
                         posY - (mc.fontRenderer.FONT_HEIGHT * textLines.size()) - 1,
                         lineWidth + 6,
                         mc.fontRenderer.FONT_HEIGHT * textLines.size(),

@@ -52,11 +52,11 @@ public final class Toast
         animation.setState(deathTimeMS - 300 > System.currentTimeMillis());
 
         final double headerHeight = Fonts.POPPINS.getFontHeight() + PADDING;
-        RenderUtil.roundedRectangle2D(posX, posY, toastWidth, headerHeight, 5.5f, TOAST_HEADER_COLOR);
-        RenderUtil.rectangle2D(posX, posY + headerHeight - PADDING, toastWidth, toastHeight, TOAST_BACKGROUND_COLOR);
+        RenderUtil.renderRoundedRectangle(posX, posY, toastWidth, headerHeight, 5.5f, TOAST_HEADER_COLOR);
+        RenderUtil.renderRectangle(posX, posY + headerHeight - PADDING, toastWidth, toastHeight, TOAST_BACKGROUND_COLOR);
 
         final double progressBar = toastWidth * (((deathTimeMS - System.currentTimeMillis()) / (double) lifeMS));
-        RenderUtil.rectangle2D(posX, posY + toastHeight + headerHeight - 4.5, progressBar, 1.5, Color.white.getRGB());
+        RenderUtil.renderRectangle(posX, posY + toastHeight + headerHeight - 4.5, progressBar, 1.5, Color.white.getRGB());
 
         Fonts.ICONFACE.drawString(toastType.getIconChar(), posX + 1, posY + 2.5, 0xAAAAAA, false);
         Fonts.POPPINS.drawStringShadow(title, posX + 11, posY, -1);

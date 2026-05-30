@@ -59,7 +59,7 @@ public final class TargetDisplayHUDElement extends HUDElement
             return;
         }
 
-        RenderUtil.roundedRectangle2D(getX(), getY(), getWidth(), getHeight(), 5f, BACKGROUND_COLOR);
+        RenderUtil.renderRoundedRectangle(getX(), getY(), getWidth(), getHeight(), 5f, BACKGROUND_COLOR);
         final boolean drewPlayerHead = drawPlayerHead(target);
 
         final double startX = drewPlayerHead ? x + (getPadding() * 2) + getTextureSize() : x + getPadding();
@@ -110,8 +110,8 @@ public final class TargetDisplayHUDElement extends HUDElement
     {
         final float health = target.getHealth() + target.getAbsorptionAmount();
         final double percent = health / Math.min(24.0, (target.getMaxHealth() + 4.0));
-        RenderUtil.roundedRectangle2D(x, getY() + getTextureSize() - HEALTH_BAR_HEIGHT, remainingWidth, HEALTH_BAR_HEIGHT, 2.5f, HEALTH_BAR_BACKGROUND_COLOR);
-        RenderUtil.roundedRectangle2D(x, getY() + getTextureSize() - HEALTH_BAR_HEIGHT, remainingWidth * percent, HEALTH_BAR_HEIGHT, 2.5f, HUDCheat.INSTANCE.getBaseColor(0));
+        RenderUtil.renderRoundedRectangle(x, getY() + getTextureSize() - HEALTH_BAR_HEIGHT, remainingWidth, HEALTH_BAR_HEIGHT, 2.5f, HEALTH_BAR_BACKGROUND_COLOR);
+        RenderUtil.renderRoundedRectangle(x, getY() + getTextureSize() - HEALTH_BAR_HEIGHT, remainingWidth * percent, HEALTH_BAR_HEIGHT, 2.5f, HUDCheat.INSTANCE.getBaseColor(0));
     }
 
     private void drawArmor(final double x, final double remainingWidth, final EntityPlayer target)
@@ -121,7 +121,7 @@ public final class TargetDisplayHUDElement extends HUDElement
 
         final double y = getY() + getPadding() + Fonts.POPPINS.getFontHeight() + getPadding() * 2;
 
-        RenderUtil.roundedRectangle2D(x, y - 2.0, remainingWidth, 20 + Fonts.POPPINS_SMALL.getFontHeight() - 2, 3.0f, BACKGROUND_COLOR);
+        RenderUtil.renderRoundedRectangle(x, y - 2.0, remainingWidth, 20 + Fonts.POPPINS_SMALL.getFontHeight() - 2, 3.0f, BACKGROUND_COLOR);
 
         final List<ItemStack> stacks = new ArrayList<>(Arrays.asList(target.inventory.armorInventory));
         stacks.add(target.getHeldItem());

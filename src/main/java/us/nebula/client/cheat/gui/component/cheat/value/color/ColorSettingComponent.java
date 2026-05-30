@@ -56,7 +56,7 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
 
         final Color color = setting.getValue();
         final double dimensions = height - (PADDING * 4);
-        RenderUtil.roundedRectangle2D(getX() + getWidth() - (PADDING * 2) - dimensions,
+        RenderUtil.renderRoundedRectangle(getX() + getWidth() - (PADDING * 2) - dimensions,
                 getY() + (PADDING * 2),
                 dimensions, dimensions,
                 2.5f,
@@ -70,7 +70,7 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
         final double boxPosX = (x + width) - boxWidth - dimensions - (PADDING * 4);
         final double boxPosY = y - (middle - ((boxHeight - (PADDING * 2)) / 2.0));
 
-        RenderUtil.roundedRectangle2D(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, new Color(52, 52, 52).getRGB());
+        RenderUtil.renderRoundedRectangle(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, new Color(52, 52, 52).getRGB());
         Fonts.POPPINS_SMALL.drawStringShadow(name, boxPosX + (PADDING * 2), boxPosY + PADDING, -1);
     }
 

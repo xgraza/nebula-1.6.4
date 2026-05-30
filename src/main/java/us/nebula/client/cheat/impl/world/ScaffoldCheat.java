@@ -137,8 +137,8 @@ public final class ScaffoldCheat extends Cheat
         final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
                 blockData.pos.getX(), blockData.pos.getY(), blockData.pos.getZ()), 1);
 
-        RenderUtil.filledBox3D(aabb, 0, 0x80FF0000);
-        RenderUtil.outlinedBox3D(aabb, 1.5f, 0xFFFF0000);
+        RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(blockData.facing), 0x80FF0000);
+        RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(blockData.facing), 0xFFFF0000);
     };
 
     // @Subscribe

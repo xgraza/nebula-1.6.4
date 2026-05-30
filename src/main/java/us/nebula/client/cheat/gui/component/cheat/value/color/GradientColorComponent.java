@@ -46,14 +46,14 @@ public final class GradientColorComponent extends GUIComponent implements IGUIIn
             updatePointerPos();
         }
 
-        RenderUtil.gradientRectangle2D(x, y, getWidth(), getHeight(),
+        RenderUtil.renderGradientRectangle(x, y, getWidth(), getHeight(),
                 Color.black.hashCode(),
                 Color.black.hashCode(),
                 Color.HSBtoRGB(hsb[0], 1, 1),
                 Color.white.hashCode());
 
-        RenderUtil.rectangle2D(pointerX - 2.5, pointerY - 2.5, 5, 5, Color.black.getRGB());
-        RenderUtil.renderOutline2D(pointerX - 2.5, pointerY - 2.5, 5, 5, 1.5f, Color.white.getRGB());
+        RenderUtil.renderRectangle(pointerX - 2.5, pointerY - 2.5, 5, 5, Color.black.getRGB());
+        RenderUtil.render2DOutline(pointerX - 2.5, pointerY - 2.5, 5, 5, 1.5f, Color.white.getRGB());
     }
 
     @Override

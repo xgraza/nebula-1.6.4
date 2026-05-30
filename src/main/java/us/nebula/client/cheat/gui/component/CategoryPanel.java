@@ -88,8 +88,8 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
 
         RenderUtil.startScissor(x, y - 0.1, width, panelHeight + 0.5);
 
-        RenderUtil.roundedRectangle2D(x, y, width, panelHeight, 6, PANEL_HEADER_COLOR);
-        RenderUtil.roundedRectangle2D(x + PADDING, y + height, width - (PADDING * 2), panelHeight - height - PADDING, 2.8f, PANEL_BACKGROUND_COLOR);
+        RenderUtil.renderRoundedRectangle(x, y, width, panelHeight, 6, PANEL_HEADER_COLOR);
+        RenderUtil.renderRoundedRectangle(x + PADDING, y + height, width - (PADDING * 2), panelHeight - height - PADDING, 2.8f, PANEL_BACKGROUND_COLOR);
 
         if (animation.getFactor() > 0.0)
         {
@@ -107,7 +107,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
             }
         }
 
-        RenderUtil.roundedRectangle2D(x, y, width, PANEL_HEADER_HEIGHT, 6, PANEL_HEADER_COLOR);
+        RenderUtil.renderRoundedRectangle(x, y, width, PANEL_HEADER_HEIGHT, 6, PANEL_HEADER_COLOR);
         drawHeaderText();
 
         RenderUtil.endScissor();
