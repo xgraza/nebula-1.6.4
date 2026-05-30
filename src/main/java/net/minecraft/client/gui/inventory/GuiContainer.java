@@ -86,7 +86,7 @@ public abstract class GuiContainer extends GuiScreen
                 && container instanceof ContainerChest)
         {
             buttonList.add(new GuiButton(0, field_147003_i, field_147009_r - 22, 35, 20, "Steal"));
-            //buttonList.add(new GuiButton(1, field_147003_i + 37, field_147009_r - 22, 35, 20, "Store"));
+            buttonList.add(new GuiButton(1, field_147003_i + 37, field_147009_r - 22, 35, 20, "Store"));
         }
     }
 
@@ -97,7 +97,10 @@ public abstract class GuiContainer extends GuiScreen
     {
         if (state != 0)
         {
-            ChestStealerCheat.INSTANCE.moveItemsFromInventory(state == 2);
+            if (!ChestStealerCheat.INSTANCE.moveItemsFromInventory(state == 2))
+            {
+                state = 0;
+            }
         }
 
         this.drawDefaultBackground();

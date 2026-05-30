@@ -55,32 +55,40 @@ public final class ChestStealerCheat extends Cheat
         moveItemsFromInventory(false);
     };
 
-    public void moveItemsFromInventory(boolean store)
+    public boolean moveItemsFromInventory(boolean store)
     {
         final Container container = MC.thePlayer.openContainer;
         if (!canStealFromOpenContainer(container))
         {
-            return;
+            return false;
         }
         final IInventory inventory = getInventory(container);
         if (!timer.hasElapsed((long)delaySetting.getValue()))
         {
-            return;
+            return true;
         }
-        int nextSlot = getNextStealSlot(store ? 36 : getSize(inventory), store ? MC.thePlayer.inventory : inventory);
-        if (nextSlot == -1)
+
+        int slot = getNextStealSlot(store ? MC.thePlayer.inventory : inventory);
+        if (slot == -1)
         {
-            return;
+            return false;
         }
         timer.resetTime();
         if (store)
         {
-            final int totalSize = getSize(getInventory(container)) + 36;
-            nextSlot = totalSize - nextSlot - 1;
+            if (slot >= 9)
+            {
+                slot -= 9;
+            } else
+            {
+                slot += 27;
+            }
+            slot += getSize(inventory);
         }
 
         // use this instead of PlayerControllerMP#windowClick for compat with inf items
-        ((GuiContainer) MC.currentScreen).func_146984_a(container.getSlot(nextSlot), 0, 0, 1);
+        ((GuiContainer) MC.currentScreen).func_146984_a(null, slot, 0, 1);
+        return true;
     }
 
     public int getSize(final IInventory inventory)
@@ -119,24 +127,25 @@ public final class ChestStealerCheat extends Cheat
         return false;
     }
 
-    public int getNextStealSlot(final int maxSlots, final IInventory inventory)
+    public int getNextStealSlot(final IInventory inventory)
     {
+        final int size = getSize(inventory) - 1;
         int slot = -1;
         while (true)
         {
-            final int nextSlot = randomOrderSetting.getValue()
-                    ? MathUtil.random(0, maxSlots - 1)
-                    : (slot += 1);
-            if (nextSlot >= maxSlots)
+            slot = randomOrderSetting.getValue()
+                    ? MathUtil.random(0, size)
+                    : slot + 1;
+            if (slot > size)
             {
                 return -1;
             }
-            final ItemStack itemStack = inventory.getStackInSlot(nextSlot);
-            if (itemStack != null)
+            final ItemStack itemStack = inventory.getStackInSlot(slot);
+            if (itemStack == null)
             {
-                // ChatUtil.sendNebula("%s, -> %s", nextSlot, itemStack);
-                return nextSlot;
+                continue;
             }
+            return slot;
         }
     }
 
