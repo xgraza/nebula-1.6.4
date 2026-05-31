@@ -96,21 +96,21 @@ public final class ColorSetting extends Setting<Color>
         }
 
         int red = 255, green = 255, blue = 255, alpha = 255;
-        if (object.has("red"))
+        if (object.has("r"))
         {
-            red = object.get("red").getAsInt();
+            red = object.get("r").getAsInt();
         }
-        if (object.has("green"))
+        if (object.has("g"))
         {
-            green = object.get("green").getAsInt();
+            green = object.get("g").getAsInt();
         }
-        if (object.has("blue"))
+        if (object.has("b"))
         {
-            blue = object.get("blue").getAsInt();
+            blue = object.get("b").getAsInt();
         }
-        if (object.has("alpha"))
+        if (object.has("a"))
         {
-            alpha = object.get("alpha").getAsInt();
+            alpha = object.get("a").getAsInt();
         }
         setValue(new Color(red, green, blue, alpha));
     }
@@ -121,10 +121,10 @@ public final class ColorSetting extends Setting<Color>
         final Color color = getValue();
         final JsonObject object = new JsonObject();
         object.addProperty("clientSync", clientSync);
-        object.addProperty("red", color.getRed());
-        object.addProperty("green", color.getGreen());
-        object.addProperty("blue", color.getBlue());
-        object.addProperty("alpha", color.getAlpha());
+        object.addProperty("r", color.getRed());
+        object.addProperty("g", color.getGreen());
+        object.addProperty("b", color.getBlue());
+        object.addProperty("a", color.getAlpha());
         return object;
     }
 
