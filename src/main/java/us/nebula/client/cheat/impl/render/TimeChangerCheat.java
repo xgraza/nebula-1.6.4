@@ -4,7 +4,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -18,6 +18,10 @@ public final class TimeChangerCheat extends Cheat
     @CheatInstance
     public static TimeChangerCheat INSTANCE;
 
-    public final Setting<Float> timeSetting = new Setting<>(
-            "Time", 0.0f, 0.0f, 24.0f, 0.25f);
+    public final Setting<Float> timeSetting = numberBuilder("Time", 0.0f)
+            .setMin(0.0f)
+            .setMax(24.0f)
+            .setScale(0.25f)
+            .setDescription("The time the world should be")
+            .build();
 }

@@ -1,9 +1,9 @@
 package us.nebula.client.cheat.gui.component.cheat.value.color;
 
+import us.nebula.client.setting.ColorSetting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
 import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
@@ -18,9 +18,9 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
 
     private boolean opened;
     final GradientColorComponent gradientColorComponent;
-    final Setting<Color> setting;
+    final ColorSetting setting;
 
-    public ColorSettingComponent(final Setting<Color> setting)
+    public ColorSettingComponent(final ColorSetting setting)
     {
         this.setting = setting;
 

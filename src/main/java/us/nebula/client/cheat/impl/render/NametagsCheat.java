@@ -10,13 +10,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import us.nebula.client.Nebula;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.font.Fonts;
 import us.nebula.client.listener.EventListener;
 import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.event.render.EventRender3D;
 import us.nebula.client.util.io.NetworkUtil;
@@ -38,20 +38,31 @@ public final class NametagsCheat extends Cheat
     private static final ItemStack FAKE_BONE_STACK = new ItemStack(Items.bone, 1);
     private static final int ITEM_RENDER_SIZE = 16;
 
-    private final Setting<Boolean> backgroundSetting = new Setting<>(
-            "Background", false);
-    private final Setting<Boolean> customFontSetting = new Setting<>(
-            "Custom Font", true);
-    private final Setting<Float> sizeSetting = new Setting<>(
-            "Size", 0.25f, 0.05f, 3.0f, 0.05f);
-    private final Setting<Boolean> pingSetting = new Setting<>(
-            "Ping", true);
-    private final Setting<Boolean> playersSetting = new Setting<>(
-            "Players", true);
-    private final Setting<Boolean> tamedMobsSetting = new Setting<>(
-            "Tamed", true);
-    private final Setting<Boolean> droppedItemsSetting = new Setting<>(
-            "Dropped Items", false);
+    private final Setting<Boolean> backgroundSetting = builder("Background", false)
+            .setDescription("If to render a rectangular backplate to the entity name")
+            .build();
+    private final Setting<Boolean> customFontSetting = builder("Custom Font", true)
+            .setDescription("If to use the client's custom font to render the entity name")
+            .build();
+    private final Setting<Float> sizeSetting = numberBuilder("Size", 0.25f)
+            .setMin(0.05f)
+            .setMax(3.0f)
+            .setScale(0.05f)
+            .setDescription("The scale at which the nametags render at")
+            .build();
+    private final Setting<Boolean> playersSetting = builder("Players", true)
+            .setDescription("If to render nametags over player entities heads")
+            .build();
+    private final Setting<Boolean> pingSetting = builder("Ping", true)
+            .setDescription("If to display the player's latency in the nametag")
+            .setVisibility((value) -> playersSetting.getValue())
+            .build();
+    private final Setting<Boolean> tamedMobsSetting = builder("Tamed", true)
+            .setDescription("If to display the player who tamed an animal")
+            .build();
+    private final Setting<Boolean> droppedItemsSetting = builder("Dropped Items", false)
+            .setDescription("If to display what dropped items are")
+            .build();
 
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->

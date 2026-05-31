@@ -18,9 +18,9 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.math.MathUtil;
 
 import java.util.List;
@@ -44,15 +44,20 @@ public final class FakePlayerCheat extends Cheat
             "Aestheticall", "epearl", "hometea", "iWoodz", "EstrogenInjector");
     private static final int FAKE_ENTITY_ID = -1337420;
 
-    private final Setting<Boolean> takeDamageSetting = new Setting<>(
-            "Take Damage", false);
-    private final Setting<Boolean> gapChugSetting = new Setting<>(
-            "Gap Chug", false, takeDamageSetting::getValue);
-    private final Setting<Boolean> moveSetting = new Setting<>(
-            "Move", false);
-    private final Setting<Boolean> recordSetting = new Setting<>(
-            "Start Recording", false)
-            .setVisibility(moveSetting::getValue);
+    private final Setting<Boolean> takeDamageSetting = builder("Take Damage", false)
+            .setDescription("If to allow the fake player to take damage like a real player")
+            .build();
+    private final Setting<Boolean> gapChugSetting = builder("Gap Chug", false)
+            .setDescription("If to continuously eat golden apples to regenerate health")
+            .setVisibility((value) -> takeDamageSetting.getValue())
+            .build();
+    private final Setting<Boolean> moveSetting = builder("Move", false)
+            .setDescription("If to allow the fake player to move")
+            .build();
+    private final Setting<Boolean> recordSetting = builder("Start Recording", false)
+            .setDescription("If to start recording movement")
+            .setVisibility((value) -> moveSetting.getValue())
+            .build();
 
     private final Queue<Movement> fakePlayerMovement = new ConcurrentLinkedQueue<>();
     private Movement lastRecordedMovement;

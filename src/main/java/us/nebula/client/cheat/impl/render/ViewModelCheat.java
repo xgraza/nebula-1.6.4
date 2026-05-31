@@ -4,7 +4,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -18,24 +18,53 @@ public final class ViewModelCheat extends Cheat
     @CheatInstance
     public static ViewModelCheat INSTANCE;
 
-    public final Setting<SwordAnimation> swordAnimationSetting = new Setting<>(
-            "Sword Animation", SwordAnimation.VANILLA);
-    public final Setting<Integer> swingSpeedSetting = new Setting<>(
-            "Swing Speed", 14, 1, 20, 1);
+    public final Setting<SwordAnimation> swordAnimationSetting = enumBuilder("Sword Animation", SwordAnimation.VANILLA)
+            .setDescription("The animation to use when blocking and swinging a sword")
+            .build();
+    public final Setting<Integer> swingSpeedSetting = numberBuilder("Swing Speed", 14)
+            .setMin(1)
+            .setMax(20)
+            .setScale(1)
+            .setDescription("The speed to swing your held item at")
+            .build();
 
-    public final Setting<Double> translateXSetting = new Setting<>(
-            "Translate X", 0.0, -3.0, 3.0, 0.1);
-    public final Setting<Double> translateYSetting = new Setting<>(
-            "Translate Y", 0.0, -3.0, 3.0, 0.1);
-    public final Setting<Double> translateZSetting = new Setting<>(
-            "Translate Z", 0.0, -3.0, 3.0, 0.1);
+    public final Setting<Double> translateXSetting = numberBuilder("Translate X", 0.0)
+            .setMin(-3.0)
+            .setMax(3.0)
+            .setScale(0.1)
+            .setDescription("The offset X position to render your held item at")
+            .build();
+    public final Setting<Double> translateYSetting = numberBuilder("Translate Y", 0.0)
+            .setMin(-3.0)
+            .setMax(3.0)
+            .setScale(0.1)
+            .setDescription("The offset Y position to render your held item at")
+            .build();
+    public final Setting<Double> translateZSetting = numberBuilder("Translate Z", 0.0)
+            .setMin(-3.0)
+            .setMax(3.0)
+            .setScale(0.1)
+            .setDescription("The offset Z position to render your held item at")
+            .build();
 
-    public final Setting<Double> scaleXSetting = new Setting<>(
-            "Scale X", 1.0, -3.0, 3.0, 0.1);
-    public final Setting<Double> scaleYSetting = new Setting<>(
-            "Scale Y", 1.0, -3.0, 3.0, 0.1);
-    public final Setting<Double> scaleZSetting = new Setting<>(
-            "Scale Z", 1.0, -3.0, 3.0, 0.1);
+    public final Setting<Double> scaleXSetting = numberBuilder("Scale X", 1.0)
+            .setMin(-3.0)
+            .setMax(3.0)
+            .setScale(0.1)
+            .setDescription("The X offset scale to render your held item at")
+            .build();
+    public final Setting<Double> scaleYSetting = numberBuilder("Scale Y", 1.0)
+            .setMin(-3.0)
+            .setMax(3.0)
+            .setScale(0.1)
+            .setDescription("The Y offset scale to render your held item at")
+            .build();
+    public final Setting<Double> scaleZSetting = numberBuilder("Scale Z", 1.0)
+            .setMin(-3.0)
+            .setMax(3.0)
+            .setScale(0.1)
+            .setDescription("The Z offset scale to render your held item at")
+            .build();
 
     public enum SwordAnimation
     {

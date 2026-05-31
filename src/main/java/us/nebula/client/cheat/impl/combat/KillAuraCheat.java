@@ -10,6 +10,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import us.nebula.client.Nebula;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.animation.Animation;
 import us.nebula.client.util.render.gui.animation.AnimationEasing;
 import us.nebula.client.listener.EventListener;
@@ -18,7 +19,6 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.event.game.EventPostUpdate;
 import us.nebula.client.listener.event.game.EventUpdate;
@@ -45,35 +45,52 @@ public final class KillAuraCheat extends Cheat
     @CheatInstance
     public static KillAuraCheat INSTANCE;
 
-    private final Setting<Mode> modeSetting = new Setting<>(
-            "Mode", Mode.SINGLE);
-    private final Setting<Priority> prioritySetting = new Setting<>(
-            "Priority", Priority.DISTANCE);
-    public final Setting<Float> rangeSetting = new Setting<>(
-            "Range", 4.2f, 1.0f, 6.0f, 0.1f);
-    private final Setting<Boolean> wallsSetting = new Setting<>(
-            "Walls", true);
-    private final Setting<Weapon> weaponSetting = new Setting<>(
-            "Weapon", Weapon.NONE);
-    private final Setting<Boolean> prefer32KSetting = new Setting<>(
-            "Prefer 32k Sword", false)
-            .setVisibility(() -> weaponSetting.getValue() == Weapon.SWAP);
-    private final Setting<Boolean> autoBlockSetting = new Setting<>(
-            "Auto Block", true);
-    private final Setting<Boolean> tickSetting = new Setting<>(
-            "Tick", false);
-    private final Setting<Boolean> keepSprint = new Setting<>(
-            "Keep Sprint", false);
-    private final Setting<Boolean> attackPlayersSetting = new Setting<>(
-            "Attack Players", true);
-    private final Setting<Boolean> attackHostileSetting = new Setting<>(
-            "Attack Hostile", true);
-    private final Setting<Boolean> attackPassiveSetting = new Setting<>(
-            "Attack Passive", true);
-    private final Setting<Boolean> attackTamedSetting = new Setting<>(
-            "Attack Tamed", false);
-    private final Setting<Boolean> renderSetting = new Setting<>(
-            "Render", false);
+    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.SINGLE)
+            .setDescription("How kill aura should select its targets")
+            .build();
+    private final Setting<Priority> prioritySetting = enumBuilder("Priority", Priority.DISTANCE)
+            .setDescription("How kill aura should prioritize its targets")
+            .build();
+    public final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
+            .setMin(1.0f)
+            .setMax(6.0f)
+            .setScale(0.1f)
+            .setDescription("The range should the target be attacked from")
+            .build();
+    private final Setting<Boolean> wallsSetting = builder("Walls", true)
+            .setDescription("If attacking the target through solid walls is allowed")
+            .build();
+    private final Setting<Weapon> weaponSetting = enumBuilder("Weapon", Weapon.NONE)
+            .setDescription("What kind of weapon is required to attack the target")
+            .build();
+    private final Setting<Boolean> prefer32KSetting = builder("Prefer 32k Sword", false)
+            .setDescription("If weapon swaps should prioritize 32k swords")
+            .setVisibility((value) -> weaponSetting.getValue() == Weapon.SWAP)
+            .build();
+    private final Setting<Boolean> autoBlockSetting = builder("Auto Block", true)
+            .setDescription("If to automatically block and unblock your sword for you")
+            .build();
+    private final Setting<Boolean> tickSetting = builder("Tick", false)
+            .setDescription("If attack delay should be removed")
+            .build();
+    private final Setting<Boolean> keepSprint = builder("Keep Sprint", false)
+            .setDescription("If attacking the target should reset your sprint state")
+            .build();
+    private final Setting<Boolean> attackPlayersSetting = builder("Attack Players", true)
+            .setDescription("If to target players")
+            .build();
+    private final Setting<Boolean> attackHostileSetting = builder("Attack Hostile", true)
+            .setDescription("If to target hostile mobs")
+            .build();
+    private final Setting<Boolean> attackPassiveSetting = builder("Attack Passive", true)
+            .setDescription("If to attack passive mobs")
+            .build();
+    private final Setting<Boolean> attackTamedSetting = builder("Attack Tamed", false)
+            .setDescription("If to attack tamed animals")
+            .build();
+    private final Setting<Boolean> renderSetting = builder("Render", false)
+            .setDescription("If to render over the target")
+            .build();
 
     private final Animation renderAnimation = new Animation(
             AnimationEasing.CUBIC_IN_OUT, 750.0);

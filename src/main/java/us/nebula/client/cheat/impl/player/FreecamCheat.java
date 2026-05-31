@@ -14,7 +14,7 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.input.EventRotateCamera;
 import us.nebula.client.listener.event.input.EventUpdateInput;
@@ -37,10 +37,15 @@ public final class FreecamCheat extends Cheat
     public static FreecamCheat INSTANCE;
     public static final int CAMERA_ENTITY_ID = 1337420;
 
-    private static final Setting<Double> SPEED_SETTING = new Setting<>(
-            "Speed", 1.0, 0.1, 7.0, 0.05);
-    private final Setting<Boolean> interactSetting = new Setting<>(
-            "Interact", true);
+    private final Setting<Double> speedSetting = numberBuilder("Speed", 1.0)
+            .setMin(0.1)
+            .setMax(7.0)
+            .setScale(0.05)
+            .setDescription("The speed to travel the camera guy at")
+            .build();
+    private final Setting<Boolean> interactSetting = builder("Interact", true)
+            .setDescription("If to allow world interactions (i.e. block place, block break)")
+            .build();
 
     private CameraPlayerEntity playerEntity;
 
@@ -179,10 +184,10 @@ public final class FreecamCheat extends Cheat
 
             if (input.jump)
             {
-                motionY = SPEED_SETTING.getValue();
+                motionY = INSTANCE.speedSetting.getValue();
             } else if (input.sneak)
             {
-                motionY = -SPEED_SETTING.getValue();
+                motionY = -INSTANCE.speedSetting.getValue();
             } else
             {
                 motionY = 0.0;
@@ -192,7 +197,7 @@ public final class FreecamCheat extends Cheat
             {
                 final double[] motion = MoveUtil.getStrafeMotion(
                         MoveUtil.getDirectionRadians(this, rotationYaw),
-                        SPEED_SETTING.getValue());
+                        INSTANCE.speedSetting.getValue());
                 motionX = motion[0];
                 motionZ = motion[1];
             } else

@@ -6,8 +6,8 @@ import us.nebula.client.Nebula;
 import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.hud.HUDElement;
 import us.nebula.client.hud.HUDManifest;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.util.value.Setting;
 
 /**
  * @author xgraza
@@ -18,8 +18,9 @@ import us.nebula.client.util.value.Setting;
         x = 2, y = 2)
 public final class TPSHUDElement extends HUDElement
 {
-    private final Setting<Boolean> currentSetting = new Setting<>(
-            "Show Current", true);
+    private final Setting<Boolean> currentSetting = builder("Show Current", true)
+            .setDescription("If to show the current TPS")
+            .build();
 
     @Override
     public void init()

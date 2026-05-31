@@ -10,8 +10,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.world.EventModifyBoundBox;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -25,14 +25,18 @@ public final class AntiBlockCheat extends Cheat
     private static final AxisAlignedBB FULL_BLOCK_AABB = new AxisAlignedBB(
             0, 0, 0, 1, 1, 1);
 
-    private final Setting<Boolean> exemptSneaking = new Setting<>(
-            "Exempt Sneak", false);
-    private final Setting<Boolean> cactusSetting = new Setting<>(
-            "Cactus", false);
-    private final Setting<Boolean> endPortalSetting = new Setting<>(
-            "End Portals", false);
-    private final Setting<Boolean> fireSetting = new Setting<>(
-            "Fire", false);
+    private final Setting<Boolean> exemptSneaking = builder("Exempt Sneak", false)
+            .setDescription("If to allow interaction with blacklisted blocks when sneaking")
+            .build();
+    private final Setting<Boolean> cactusSetting = builder("Cactus", false)
+            .setDescription("If to prevent damage from a cactus")
+            .build();
+    private final Setting<Boolean> endPortalSetting = builder("End Portals", false)
+            .setDescription("If to prevent entering an end portal")
+            .build();
+    private final Setting<Boolean> fireSetting = builder("Fire", false)
+            .setDescription("If to prevent walking into fire")
+            .build();
 
     @Subscribe
     private final EventListener<EventModifyBoundBox> modifyBoundBoxEventListener = event ->

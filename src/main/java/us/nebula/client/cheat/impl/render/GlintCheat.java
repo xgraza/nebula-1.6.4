@@ -4,7 +4,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 
 import java.awt.Color;
 
@@ -20,6 +20,7 @@ public final class GlintCheat extends Cheat
     @CheatInstance
     public static GlintCheat INSTANCE;
 
-    public final Setting<Color> colorSetting = new Setting<>(
-            "Color", Color.white);
+    public final Setting<Color> colorSetting = colorBuilder("Color", Color.white)
+            .setDescription("What color to render the enchantment glisten with")
+            .build();
 }

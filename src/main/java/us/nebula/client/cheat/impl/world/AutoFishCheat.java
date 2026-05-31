@@ -10,10 +10,9 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.player.ChatUtil;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.ItemUtil;
 
 /**
@@ -27,10 +26,12 @@ public final class AutoFishCheat extends Cheat
 {
     private static final String RANDOM_SPLASH = "random.splash";
 
-    private final Setting<Boolean> autoCastSetting = new Setting<>(
-            "Auto Cast", true);
-    private final Setting<Boolean> autoSwapSetting = new Setting<>(
-            "Auto Swap", true);
+    private final Setting<Boolean> autoCastSetting = builder("Auto Cast", true)
+            .setDescription("If to automatically cast your fishing rod")
+            .build();
+    private final Setting<Boolean> autoSwapSetting = builder("Auto Swap", true)
+            .setDescription("If to automatically swap to the best fishing rod")
+            .build();
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->

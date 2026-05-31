@@ -9,9 +9,9 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.math.Timer;
 
 import java.util.Queue;
@@ -26,11 +26,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         category = CheatCategory.MOVEMENT)
 public final class BlinkCheat extends Cheat
 {
-    private final Setting<Boolean> manualSetting = new Setting<>(
-            "Manual", false);
-    private final Setting<Double> delaySetting = new Setting<>(
-            "Delay", 1.0, 0.1, 20.0, 0.1)
-            .setVisibility(() -> !manualSetting.getValue());
+    private final Setting<Boolean> manualSetting = builder("Manual", false)
+            .setDescription("If to manually hold packets until Blink is disabled")
+            .build();
+    private final Setting<Double> delaySetting = numberBuilder("Delay", 1.0)
+            .setMin(0.1)
+            .setMax(20.0)
+            .setScale(0.1)
+            .setDescription("The delay in milliseconds to release packets at")
+            .setVisibility((value) -> !manualSetting.getValue())
+            .build();
 
     private final Queue<Packet> packetQueue = new ConcurrentLinkedQueue<>();
     private final Timer timer = new Timer();

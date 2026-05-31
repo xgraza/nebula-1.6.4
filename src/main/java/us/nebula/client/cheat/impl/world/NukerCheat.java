@@ -10,8 +10,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.InventoryUtil;
 import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.world.BlockUtil;
@@ -32,14 +32,24 @@ import java.util.stream.Collectors;
         category = CheatCategory.WORLD)
 public final class NukerCheat extends Cheat
 {
-    private final Setting<Double> rangeSetting = new Setting<>(
-            "Range", 4.5, 1.0, 6.0, 0.5);
-    private final Setting<Integer> yRangeSetting = new Setting<>(
-            "Y-Range", 3, 1, 6, 1);
-    private final Setting<Boolean> swapToToolSetting = new Setting<>(
-            "Swap To Tool", true);
-    private final Setting<Boolean> instantSetting = new Setting<>(
-            "Instant", false);
+    private final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
+            .setMin(1.0f)
+            .setMax(6.0f)
+            .setScale(0.1f)
+            .setDescription("The range to nuke blocks in")
+            .build();
+    private final Setting<Integer> yRangeSetting = numberBuilder("Y-Range", 3)
+            .setMin(1)
+            .setMax(6)
+            .setScale(1)
+            .setDescription("The y range to look for nuker blocks")
+            .build();
+    private final Setting<Boolean> swapToToolSetting = builder("Swap To Tool", true)
+            .setDescription("If to automatically swap to the best tool")
+            .build();
+    private final Setting<Boolean> instantSetting = builder("Instant", false)
+            .setDescription("If to instantly set a block to air if it can break quickly")
+            .build();
 
     private final Queue<BlockPos> breakPosQueue = new ConcurrentLinkedQueue<>();
     private BlockPos currentBlock;

@@ -7,11 +7,11 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.combat.KillAuraCheat;
 import us.nebula.client.listener.event.game.EventPostUpdate;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.player.*;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -22,14 +22,18 @@ import us.nebula.client.listener.event.player.*;
         category = CheatCategory.MOVEMENT)
 public final class NoSlowCheat extends Cheat
 {
-    private final Setting<Mode> modeSetting = new Setting<>(
-            "Mode", Mode.VANILLA);
-    private final Setting<Boolean> websSetting = new Setting<>(
-            "Webs", false);
-    private final Setting<Boolean> blocksSetting = new Setting<>(
-            "Blocks", false);
-    private final Setting<Boolean> waterSetting = new Setting<>(
-            "Water", false);
+    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.VANILLA)
+            .setDescription("The mode for preventing slowdowns")
+            .build();
+    private final Setting<Boolean> websSetting = builder("Webs", false)
+            .setDescription("If to prevent slowdowns through webs")
+            .build();
+    private final Setting<Boolean> blocksSetting = builder("Blocks", false)
+            .setDescription("If to prevent blocks from slowing you down")
+            .build();
+    private final Setting<Boolean> waterSetting = builder("Water", false)
+            .setDescription("If to prevent water slowdowns")
+            .build();
 
     private boolean bypass, inWeb;
 

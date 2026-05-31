@@ -17,8 +17,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.QuadMask;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
 import us.nebula.client.listener.event.player.EventAttackBlock;
@@ -43,16 +43,24 @@ public final class PacketMineCheat extends Cheat
     @CheatInstance
     public static PacketMineCheat INSTANCE;
 
-    private final Setting<Double> percentSetting = new Setting<>(
-            "Percent", 0.95, 0.01, 1.0, 0.01);
-    private final Setting<Boolean> instantSetting = new Setting<>(
-            "Instant", false);
-    private final Setting<Boolean> ignoreGroundSetting = new Setting<>(
-            "Ignore Ground", false);
-    private final Setting<Boolean> rebreakSetting = new Setting<>(
-            "Rebreak", false);
-    private final Setting<Boolean> renderSetting = new Setting<>(
-            "Render", true);
+    private final Setting<Double> percentSetting = numberBuilder("Percent", 0.95)
+            .setMin(0.01)
+            .setMax(1.0)
+            .setScale(0.01)
+            .setDescription("How far long to try to break a block before trying to break it")
+            .build();
+    private final Setting<Boolean> instantSetting = builder("Instant", false)
+            .setDescription("If to instantly set a block to air if it can break quickly")
+            .build();
+    private final Setting<Boolean> ignoreGroundSetting = builder("Ignore Ground", false)
+            .setDescription("If to ignore ground checks in the vanilla game")
+            .build();
+    private final Setting<Boolean> rebreakSetting = builder("Rebreak", false)
+            .setDescription("If to save the previous block break and rebreak it after it reappears")
+            .build();
+    private final Setting<Boolean> renderSetting = builder("Render", true)
+            .setDescription("If to render the break animation")
+            .build();
 
     private final Queue<MinePosition> minePositionQueue = new ConcurrentLinkedQueue<>();
     private MinePosition currentPosition;

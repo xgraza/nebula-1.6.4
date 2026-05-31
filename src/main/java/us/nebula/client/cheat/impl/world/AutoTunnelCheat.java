@@ -19,8 +19,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.QuadMask;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.combat.KillAuraCheat;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.input.EventUpdateInput;
@@ -46,18 +46,27 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         category = CheatCategory.WORLD)
 public final class AutoTunnelCheat extends Cheat
 {
-    private final Setting<Integer> blocksSetting = new Setting<>(
-            "Blocks", 2, 1, 4, 1);
-    private final Setting<Boolean> keepYSetting = new Setting<>(
-            "Keep Y", true);
-    private final Setting<Boolean> replaceLavaSetting = new Setting<>(
-            "Replace Lava", true);
-    private final Setting<Boolean> backPlaceSetting = new Setting<>(
-            "Back Fill", false);
-    private final Setting<Boolean> autoWalkSetting = new Setting<>(
-            "Auto Walk", false);
-    private final Setting<Boolean> renderSetting = new Setting<>(
-            "Render", true);
+    private final Setting<Integer> blocksSetting = numberBuilder("Blocks", 2)
+            .setMin(1)
+            .setMax(4)
+            .setScale(1)
+            .setDescription("How many blocks ahead to break")
+            .build();
+    private final Setting<Boolean> keepYSetting = builder("Keep Y", true)
+            .setDescription("If to keep your original y-level when tunneling")
+            .build();
+    private final Setting<Boolean> replaceLavaSetting = builder("Replace Lava", true)
+            .setDescription("If to automatically place blocks in random lava holes in the nether")
+            .build();
+    private final Setting<Boolean> backPlaceSetting = builder("Back Fill", false)
+            .setDescription("If to automatically fill the broken tunnel behind you")
+            .build();
+    private final Setting<Boolean> autoWalkSetting = builder("Auto Walk", false)
+            .setDescription("If to automatically move forward")
+            .build();
+    private final Setting<Boolean> renderSetting = builder("Render", true)
+            .setDescription("If to render break and placements")
+            .build();
 
     private final Queue<BlockInfo> blockBreakQueue = new ConcurrentLinkedQueue<>();
     private final Queue<BlockInfo> backPlaceQueue = new ConcurrentLinkedQueue<>();

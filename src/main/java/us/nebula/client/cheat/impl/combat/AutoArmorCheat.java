@@ -8,9 +8,9 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.exploit.EnderchestBPCheat;
 import us.nebula.client.listener.event.game.EventUpdate;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.ItemUtil;
 
 import java.util.Arrays;
@@ -35,14 +35,18 @@ public final class AutoArmorCheat extends Cheat
             Enchantment.unbreaking
     };
 
-    private final Setting<Boolean> destackSetting = new Setting<>(
-            "Destack", true);
-    private final Setting<Boolean> noThornsSetting = new Setting<>(
-            "Prefer No Thorns", false);
-    private final Setting<Boolean> tickSetting = new Setting<>(
-            "Tick", false);
-    private final Setting<Boolean> guiCheckSetting = new Setting<>(
-            "Gui Check", true);
+    private final Setting<Boolean> destackSetting = builder("Destack", true)
+            .setDescription("If to only use one armor piece instead of the whole stacked armor stack")
+            .build();
+    private final Setting<Boolean> noThornsSetting = builder("Prefer No Thorns", false)
+            .setDescription("If when possible to avoid equipping armor pieces with the Thorns enchantment")
+            .build();
+    private final Setting<Boolean> tickSetting = builder("Tick", false)
+            .setDescription("If to wait a player tick before equipping the next piece of armor")
+            .build();
+    private final Setting<Boolean> guiCheckSetting = builder("Gui Check", true)
+            .setDescription("If to make sure you are not in another container GUI when equipping armor")
+            .build();
 
     private final int[] armorPieces = new int[4];
     private final float[] equippedArmorScores = new float[4];

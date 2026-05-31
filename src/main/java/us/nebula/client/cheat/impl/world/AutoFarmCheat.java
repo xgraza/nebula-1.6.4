@@ -16,9 +16,9 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.InventoryUtil;
 import us.nebula.client.util.player.PlayerUtil;
 
@@ -58,23 +58,38 @@ public final class AutoFarmCheat extends Cheat
         CROP_BLOCK_TO_SEED.put(Blocks.nether_wart, Items.nether_wart);
         BASE_TO_CROP_BLOCK.put(BlockSoulSand.class, Lists.newArrayList(Blocks.nether_wart));
     }
-
-    private final Setting<Double> rangeSetting = new Setting<>(
-            "Range", 4.5, 1.0, 6.0, 0.5);
-    private final Setting<Boolean> noPosionousSetting = new Setting<>(
-            "Throw Out Poisonous", true);
-    private final Setting<Boolean> autoHarvestSetting = new Setting<>(
-            "Auto Harvest", true);
-    //    private final Setting<Boolean> pathToSetting = new Setting<>(
+    
+    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+            .setMin(1.0)
+            .setMax(6.0)
+            .setScale(0.5)
+            .setDescription("How far our to interact with crops")
+            .build();
+    
+    private final Setting<Boolean> noPosionousSetting = builder("Throw Out Poisonous", true)
+            .setDescription("If to automatically throw out poisonous potatoes when harvesting")
+            .build();
+    private final Setting<Boolean> autoHarvestSetting = builder("Auto Harvest", true)
+            .setDescription("If to automatically harvest crops")
+            .build();
+    //    private final Setting<Boolean> pathToSetting = builder(
 //            "Path To", false).setVisibility(autoHarvestSetting::getValue);
-    private final Setting<Boolean> sugarCaneSetting = new Setting<>(
-            "Sugar Canes", true);
-    private final Setting<Integer> sugarCaneLengthSetting = new Setting<>(
-            "Sugar Cane Length", 1, 1, 3, 1);
-    private final Setting<Boolean> netherwartsSetting = new Setting<>(
-            "Nether Warts", true);
-    private final Setting<Boolean> packetScanSetting = new Setting<>(
-            "Packet Scan", false);
+    private final Setting<Boolean> sugarCaneSetting = builder("Sugar Canes", true)
+            .setDescription("If to harvest sugar cane")
+            .build();
+    private final Setting<Integer> sugarCaneLengthSetting = numberBuilder("Sugar Cane Length", 1)
+            .setMin(1)
+            .setMax(3)
+            .setScale(1)
+            .setDescription("How tall a sugar cane should be before harvesting it")
+            .setVisibility((value) -> sugarCaneSetting.getValue() && autoHarvestSetting.getValue())
+            .build();
+    private final Setting<Boolean> netherwartsSetting = builder("Nether Warts", true)
+            .setDescription("If to harvest nether warts")
+            .build();
+    private final Setting<Boolean> packetScanSetting = builder("Packet Scan", false)
+            .setDescription("If to scan packets for dried up or new crops")
+            .build();
 
     private final Map<BlockPos, Block> plantTypeAtBlockMap = new ConcurrentHashMap<>();
 

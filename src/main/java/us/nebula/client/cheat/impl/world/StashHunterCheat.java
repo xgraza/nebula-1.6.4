@@ -19,9 +19,9 @@ import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventDisconnect;
 import us.nebula.client.listener.event.render.EventRender3D;
 import us.nebula.client.listener.event.world.EventRemoveTileEntity;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.QuadMask;
 import us.nebula.client.util.render.RenderUtil;
-import us.nebula.client.util.value.Setting;
 
 import java.awt.Color;
 import java.util.*;
@@ -35,20 +35,28 @@ import java.util.*;
         category = CheatCategory.WORLD)
 public final class StashHunterCheat extends Cheat
 {
-    private final Setting<Boolean> stackedMinecartsSetting = new Setting<>(
-            "Stacked Minecarts", true);
-    private final Setting<Color> minecartColorSetting = new Setting<>(
-            "Minecart Color", new Color(195, 122, 50, 120))
-            .setVisibility(stackedMinecartsSetting::getValue);
+    private final Setting<Boolean> stackedMinecartsSetting = builder("Stacked Minecarts", true)
+            .setDescription("If to search for stacked minecarts")
+            .build();
+    private final Setting<Color> minecartColorSetting = colorBuilder("Minecart Color", new Color(195, 122, 50, 120))
+            .setDescription("The color to render stacked minecarts with")
+            .setVisibility((value) -> stackedMinecartsSetting.getValue())
+            .build();
 
-    private final Setting<Boolean> chestsSetting = new Setting<>(
-            "Chests", true);
-    private final Setting<Integer> minChestsPerChunkSetting = new Setting<>(
-            "Chests per chunk", 3, 1, 10, 1)
-            .setVisibility(chestsSetting::getValue);
-    private final Setting<Color> chestsColorSetting = new Setting<>(
-            "Chests Color", new Color(3, 195, 244, 120))
-            .setVisibility(chestsSetting::getValue);
+    private final Setting<Boolean> chestsSetting = builder("Chests", true)
+            .setDescription("If to search for bulk chests")
+            .build();
+    private final Setting<Integer> minChestsPerChunkSetting = numberBuilder("Chests per chunk", 3)
+            .setMin(1)
+            .setMax(10)
+            .setScale(1)
+            .setDescription("How many chests must be in a chunk before flagging it as a stash")
+            .setVisibility((value) -> chestsSetting.getValue())
+            .build();
+    private final Setting<Color> chestsColorSetting = colorBuilder("Chests Color", new Color(3, 195, 244, 120))
+            .setDescription("The color to render flagged chests with")
+            .setVisibility((value) -> chestsSetting.getValue())
+            .build();
 
     private final Set<Object> observedObjects = new ConcurrentSet<>();
     private final Set<Vec3> stackedMinecartPositionSet = new ConcurrentSet<>();

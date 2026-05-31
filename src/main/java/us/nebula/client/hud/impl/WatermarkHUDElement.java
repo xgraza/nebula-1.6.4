@@ -2,11 +2,11 @@ package us.nebula.client.hud.impl;
 
 import net.minecraft.client.gui.ScaledResolution;
 import us.nebula.client.ClientSettings;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.font.Fonts;
 import us.nebula.client.hud.HUDElement;
 import us.nebula.client.hud.HUDManifest;
 import us.nebula.client.cheat.impl.render.HUDCheat;
-import us.nebula.client.util.value.Setting;
 
 /**
  * @author xgraza
@@ -17,8 +17,9 @@ import us.nebula.client.util.value.Setting;
         x = 2.0, y = 2.0)
 public final class WatermarkHUDElement extends HUDElement
 {
-    private final Setting<Boolean> fullVersionSetting = new Setting<>(
-            "Full Version", false);
+    private final Setting<Boolean> fullVersionSetting = builder("Full Version", false)
+            .setDescription("If to show the full version with the git branch and hash, plus the build id")
+            .build();
 
     @Override
     public void render(final ScaledResolution res)

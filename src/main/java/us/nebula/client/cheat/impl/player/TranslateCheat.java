@@ -13,9 +13,9 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.translation.GoogleTranslateService;
 import us.nebula.client.util.translation.Language;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.network.EventPacket;
 
 import java.util.regex.Matcher;
@@ -34,8 +34,9 @@ public final class TranslateCheat extends Cheat
     public static TranslateCheat INSTANCE;
     private static final Pattern PLAYER_TAG_REGEX = Pattern.compile("<(.+)>\\s");
 
-    private final Setting<Language> targetSetting = new Setting<>(
-            "Target", Language.ENGLISH);
+    private final Setting<Language> targetSetting = enumBuilder("Target", Language.ENGLISH)
+            .setDescription("The language to translate to")
+            .build();
 
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->

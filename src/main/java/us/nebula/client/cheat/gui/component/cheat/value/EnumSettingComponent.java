@@ -1,11 +1,11 @@
 package us.nebula.client.cheat.gui.component.cheat.value;
 
+import us.nebula.client.setting.EnumSetting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
 import us.nebula.client.util.render.gui.animation.Animation;
 import us.nebula.client.util.render.gui.animation.AnimationEasing;
 import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.util.io.SoundUtil;
 import us.nebula.client.util.render.RenderUtil;
 
@@ -25,9 +25,9 @@ public final class EnumSettingComponent extends GUIComponent implements IGUIInpu
     private final Animation animation = new Animation(
             AnimationEasing.EXPO_IN_OUT, 250);
 
-    private final Setting<Enum<?>> setting;
+    private final EnumSetting<?> setting;
 
-    public EnumSettingComponent(final Setting<Enum<?>> setting)
+    public EnumSettingComponent(final EnumSetting<?> setting)
     {
         this.setting = setting;
     }
@@ -61,11 +61,11 @@ public final class EnumSettingComponent extends GUIComponent implements IGUIInpu
             if (mouseButton == 0)
             {
                 SoundUtil.playClickSound();
-                setting.nextEnum();
+                setting.nextValue();
             } else if (mouseButton == 1)
             {
                 SoundUtil.playClickSound();
-                setting.previousEnum();
+                setting.previousValue();
             }
         }
     }

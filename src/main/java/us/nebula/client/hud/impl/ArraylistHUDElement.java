@@ -7,10 +7,10 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.hud.HUDElement;
 import us.nebula.client.hud.HUDManifest;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.animation.Animation;
 import us.nebula.client.util.render.gui.animation.AnimationEasing;
 import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.util.value.Setting;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -28,8 +28,9 @@ import java.util.stream.Collectors;
         width = 50, height = 50)
 public final class ArraylistHUDElement extends HUDElement
 {
-    private final Setting<Boolean> showMetadataSetting = new Setting<>(
-            "Show Metadata", true);
+    private final Setting<Boolean> showMetadataSetting = builder("Show Metadata", true)
+            .setDescription("If to show cheat metadata")
+            .build();
 
     private final Map<Cheat, Animation> cheatAnimationMap = new HashMap<>();
 

@@ -14,9 +14,9 @@ import us.nebula.client.listener.EventListener;
 import us.nebula.client.listener.Subscribe;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.render.EventRender3D;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.EntityUtil;
 import us.nebula.client.util.render.RenderUtil;
-import us.nebula.client.util.value.Setting;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -33,23 +33,33 @@ import static org.lwjgl.opengl.GL11.*;
         category = CheatCategory.RENDER)
 public final class TracersCheat extends Cheat
 {
-    private final Setting<ColorMode> colorModeSetting = new Setting<>(
-            "Color Mode", ColorMode.DISTANCE);
-    private final Setting<StemMode> stemSetting = new Setting<>(
-            "Stem", StemMode.TORSO);
+    private final Setting<ColorMode> colorModeSetting = enumBuilder("Color Mode", ColorMode.DISTANCE)
+            .setDescription("How to render the tracer color")
+            .build();
+    private final Setting<StemMode> stemSetting = enumBuilder("Stem", StemMode.TORSO)
+            .setDescription("Where to render the stem on a traced entity")
+            .build();
 
-    private final Setting<Boolean> playersSetting = new Setting<>(
-            "Players", true);
-    private final Setting<Boolean> friendsSetting = new Setting<>(
-            "Friends", false)
-            .setVisibility(playersSetting::getValue);
-    private final Setting<Boolean> passiveSetting = new Setting<>(
-            "Passive", false);
-    private final Setting<Boolean> hostileSetting = new Setting<>(
-            "Hostile Setting", false);
+    private final Setting<Boolean> playersSetting = builder("Players", true)
+            .setDescription("If to render a tracer to a player")
+            .build();
+    private final Setting<Boolean> friendsSetting = builder("Friends", false)
+            .setDescription("If to render a tracer to your friends")
+            .setVisibility((value) -> playersSetting.getValue())
+            .build();
+    private final Setting<Boolean> passiveSetting = builder("Passive", false)
+            .setDescription("If to render a tracer to passive mobs")
+            .build();
+    private final Setting<Boolean> hostileSetting = builder("Hostile", false)
+            .setDescription("If to render a tracer to hostile mob")
+            .build();
 
-    private final Setting<Float> lineWidthSetting = new Setting<>(
-            "Line Width", 1.5f, 0.5f, 5.0f, 0.5f);
+    private final Setting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
+            .setMin(0.5f)
+            .setMax(5.0f)
+            .setScale(0.1f)
+            .setDescription("The width of the tracer")
+            .build();
 
     private final List<Entity> renderEntityList = new CopyOnWriteArrayList<>();
 

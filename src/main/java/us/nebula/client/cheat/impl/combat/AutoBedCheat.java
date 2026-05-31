@@ -23,8 +23,8 @@ import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.QuadMask;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.render.EventRender3D;
@@ -56,32 +56,62 @@ public final class AutoBedCheat extends Cheat
     private static final double BED_EXPLOSION_SIZE = 5.0;
     private static final float BED_EXPLOSION_STRENGTH = 10.0f;
 
-    private final Setting<Float> rangeSetting = new Setting<>(
-            "Range", 4.2f, 1.0f, 6.0f, 0.1f);
-    private final Setting<Integer> yRangeSetting = new Setting<>(
-            "Y-Range", 1, 1, 5, 1);
-    private final Setting<Boolean> extinguishFireSetting = new Setting<>(
-            "Extinguish Fire", true);
-    private final Setting<Boolean> packetSetting = new Setting<>(
-            "Observe Packet", false);
+    private final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
+            .setMin(1.0f)
+            .setMax(6.0f)
+            .setScale(0.1f)
+            .setDescription("The range should the target be attacked from")
+            .build();
+    private final Setting<Integer> yRangeSetting = numberBuilder("Y-Range", 1)
+            .setMin(1)
+            .setMax(5)
+            .setScale(1)
+            .setDescription("How many y-levels to explore for place positions")
+            .build();
+    private final Setting<Boolean> extinguishFireSetting = builder("Extinguish Fire", true)
+            .setDescription("If to extinguish fire before placing a bed")
+            .build();
+    private final Setting<Boolean> packetSetting = builder("Observe Packet", false)
+            .setDescription("If to observe incoming packets for block changes")
+            .build();
 
-    private final Setting<Float> minDamageSetting = new Setting<>(
-            "Min Damage", 6.0f, 1.0f, 19.5f, 0.1f);
-    private final Setting<Boolean> averageDamageSetting = new Setting<>(
-            "Average Damage", true);
+    private final Setting<Float> minDamageSetting = numberBuilder("Min Damage", 6.0f)
+            .setMin(1.0f)
+            .setMax(19.5f)
+            .setScale(0.1f)
+            .setDescription("The absolute minimum damage a position needs to be considered")
+            .build();
+    private final Setting<Boolean> averageDamageSetting = builder("Average Damage", true)
+            .setDescription("If to average the blast damage between the head and feet block of the bed")
+            .build();
 
-    private final Setting<Boolean> suicideSetting = new Setting<>(
-            "Suicide", false);
-    private final Setting<Float> lethalHealthSetting = new Setting<>(
-            "Lethal Health", 12.0f, 2.0f, 19.5f, 0.1f,
-            () -> !suicideSetting.getValue());
-    private final Setting<Float> lethalMultiplierSetting = new Setting<>(
-            "Lethal Multiplier", 1.2f, 1.0f, 2.0f, 0.1f);
-    private final Setting<Float> swapPenaltySetting = new Setting<>(
-            "Swap Penalty", 2.0f, 0.5f, 12.0f, 0.5f);
+    private final Setting<Boolean> suicideSetting = builder("Suicide", false)
+            .setDescription("If to ignore local player damage when finding a bed place position")
+            .build();
+    private final Setting<Float> lethalHealthSetting = numberBuilder("Lethal Health", 12.0f)
+            .setMin(2.0f)
+            .setMax(19.5f)
+            .setScale(0.1f)
+            .setDescription("The maximum amount of damage allowed to the local player")
+            .setVisibility((value) -> !suicideSetting.getValue())
+            .build();
+    private final Setting<Float> lethalMultiplierSetting = numberBuilder("Lethal Multiplier", 1.2f)
+            .setMin(1.0f)
+            .setMax(2.0f)
+            .setScale(0.1f)
+            .setDescription("The multiplier to the local damage")
+            .setVisibility((value) -> !suicideSetting.getValue())
+            .build();
+    private final Setting<Float> swapPenaltySetting = numberBuilder("Swap Penalty", 2.0f)
+            .setMin(0.5f)
+            .setMax(12.0f)
+            .setScale(0.1f)
+            .setDescription("The minimum damage difference between the current position and a new position to be considered")
+            .build();
 
-    private final Setting<Boolean> renderSetting = new Setting<>(
-            "Render", true);
+    private final Setting<Boolean> renderSetting = builder("Render", true)
+            .setDescription("If to render the bed placement position")
+            .build();
 
     private final BedBlockInfo blockInfo = new BedBlockInfo(null, null);
     private int bedSlot = -1;

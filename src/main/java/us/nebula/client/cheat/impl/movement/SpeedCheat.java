@@ -8,9 +8,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.player.ChatUtil;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.PlayerUtil;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.world.ScaffoldCheat;
 import us.nebula.client.listener.event.network.EventPacket;
 import us.nebula.client.listener.event.player.EventMove;
@@ -30,15 +29,20 @@ public final class SpeedCheat extends Cheat
     @CheatInstance
     public static SpeedCheat INSTANCE;
 
-    public final Setting<Mode> modeSetting = new Setting<>(
-            "Mode", Mode.STRAFE);
-    public final Setting<Boolean> timerSetting = new Setting<>(
-            "Use Timer", false)
-            .setVisibility(() -> modeSetting.getValue() == Mode.STRAFE);
-    public final Setting<Integer> advanceSetting = new Setting<>(
-            "Advance", 1, 1, 10, 1)
-            .setVisibility(() -> modeSetting.getValue() == Mode.TICK_ADVANCE);
-
+    public final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.STRAFE)
+            .setDescription("The mode to speedy speed with")
+            .build();
+    public final Setting<Boolean> timerSetting = builder("Use Timer", false)
+            .setDescription("If to use timer to further speed you up")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.STRAFE)
+            .build();
+    public final Setting<Integer> advanceSetting = numberBuilder("Advance", 1)
+            .setMin(1)
+            .setMax(10)
+            .setScale(1)
+            .setDescription("How many tick iterations to make in a single tick")
+            .build();
+    
     private double lastDistance, speed;
     private int lagTicks, stage;
     private boolean boostTick;

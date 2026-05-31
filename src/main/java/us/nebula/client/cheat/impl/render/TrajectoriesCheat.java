@@ -15,8 +15,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.listener.event.render.EventRender3D;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.RenderUtil;
-import us.nebula.client.util.value.Setting;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,12 +33,21 @@ import static org.lwjgl.opengl.GL11.*;
         category = CheatCategory.RENDER)
 public final class TrajectoriesCheat extends Cheat
 {
-    private final Setting<Float> lineWidthSetting = new Setting<>(
-            "Line Width", 1.5f, 0.5f, 5.0f, 0.1f);
-    private final Setting<Boolean> renderTailSetting = new Setting<>(
-            "Render Trail", true);
-    private final Setting<Double> landingRadiusSetting = new Setting<>(
-            "Landing Radius", 0.5, 0.1, 1.5, 0.1);
+    private final Setting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
+            .setMin(0.5f)
+            .setMax(5.0f)
+            .setScale(0.1f)
+            .setDescription("What width the boundary should be rendered with")
+            .build();
+    private final Setting<Boolean> renderTailSetting = builder("Render Trail", true)
+            .setDescription("If to render the trajectory path")
+            .build();
+    private final Setting<Double> landingRadiusSetting = numberBuilder("Landing Radius", 0.5)
+            .setMin(0.1)
+            .setMax(1.5)
+            .setScale(0.1)
+            .setDescription("The radius to render around the landing position of the trajectory")
+            .build();
 
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->

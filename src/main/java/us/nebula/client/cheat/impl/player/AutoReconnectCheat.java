@@ -5,7 +5,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -19,8 +19,12 @@ public final class AutoReconnectCheat extends Cheat
     @CheatInstance
     public static AutoReconnectCheat INSTANCE;
 
-    public final Setting<Integer> delaySetting = new Setting<>(
-            "Delay", 5, 1, 20, 1);
+    public final Setting<Integer> delaySetting = numberBuilder("Delay", 5)
+            .setMin(1)
+            .setMax(100)
+            .setScale(1)
+            .setDescription("The delay in seconds until reconnecting to the previous server")
+            .build();
 
     private ServerData lastServer;
 

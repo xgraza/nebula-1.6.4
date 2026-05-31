@@ -7,10 +7,10 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.network.EventPacket;
 import us.nebula.client.listener.event.player.EventMove;
 import us.nebula.client.listener.event.player.EventMoveUpdate;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.MoveUtil;
 
 /**
@@ -22,12 +22,18 @@ import us.nebula.client.util.player.MoveUtil;
         category = CheatCategory.MOVEMENT)
 public final class LongJumpCheat extends Cheat
 {
-    private final Setting<Double> boostSetting = new Setting<>(
-            "Boost", 4.5, 1.0, 6.0, 0.1);
-    private final Setting<Boolean> glideSetting = new Setting<>(
-            "NCP Glide", false);
-    private final Setting<Boolean> autoDisableSetting = new Setting<>(
-            "Auto Disable", true);
+    private final Setting<Double> boostSetting = numberBuilder("Boost", 4.5)
+            .setMin(1.0)
+            .setMax(6.0)
+            .setScale(0.1)
+            .setDescription("The base speed to use for the long jump")
+            .build();
+    private final Setting<Boolean> glideSetting = builder("NCP Glide", false)
+            .setDescription("If to use a glide that is compatible with the NCP AntiCheat")
+            .build();
+    private final Setting<Boolean> autoDisableSetting = builder("Auto Disable", true)
+            .setDescription("If to automatically disable once an AntiCheat lagback occurs")
+            .build();
 
     private double moveSpeed, distance;
     private int stage;

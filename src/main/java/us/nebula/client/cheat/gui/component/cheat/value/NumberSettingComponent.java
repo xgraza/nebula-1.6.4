@@ -3,10 +3,10 @@ package us.nebula.client.cheat.gui.component.cheat.value;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import us.nebula.client.setting.NumberSetting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
 import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.util.io.SoundUtil;
 import us.nebula.client.util.math.MathUtil;
@@ -23,13 +23,13 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
 {
     private static final double PADDING = 1.0;
 
-    protected final Setting<Number> setting;
+    protected final NumberSetting<?> setting;
     private final double diff;
     private boolean dragging;
 
     private int heldDownTicks;
 
-    public NumberSettingComponent(final Setting<Number> setting)
+    public NumberSettingComponent(final NumberSetting<?> setting)
     {
         this.setting = setting;
         if (setting != null)
@@ -116,6 +116,7 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
         return setting.isVisible();
     }
 
+    @SuppressWarnings("unchecked")
     protected void increaseByScale(boolean direction)
     {
         if (heldDownTicks <= 60 && heldDownTicks != 1)
@@ -135,19 +136,20 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
 
         if (setting.getValue() instanceof Integer)
         {
-            setting.setValue((int) value);
+            ((NumberSetting<Integer>) setting).setValue((int) value);
         } else if (setting.getValue() instanceof Long)
         {
-            setting.setValue((long) value);
+            ((NumberSetting<Long>) setting).setValue((long) value);
         } else if (setting.getValue() instanceof Double)
         {
-            setting.setValue(value);
+            ((NumberSetting<Double>) setting).setValue(value);
         } else if (setting.getValue() instanceof Float)
         {
-            setting.setValue((float) value);
+            ((NumberSetting<Float>) setting).setValue((float) value);
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected void setValue(final int mouseX)
     {
         if (mouseX > x + width || mouseX < x)
@@ -166,16 +168,16 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
 
         if (setting.getValue() instanceof Integer)
         {
-            setting.setValue((int) value);
+            ((NumberSetting<Integer>) setting).setValue((int) value);
         } else if (setting.getValue() instanceof Long)
         {
-            setting.setValue((long) value);
+            ((NumberSetting<Long>) setting).setValue((long) value);
         } else if (setting.getValue() instanceof Double)
         {
-            setting.setValue(value);
+            ((NumberSetting<Double>) setting).setValue(value);
         } else if (setting.getValue() instanceof Float)
         {
-            setting.setValue((float) value);
+            ((NumberSetting<Float>) setting).setValue((float) value);
         }
     }
 }

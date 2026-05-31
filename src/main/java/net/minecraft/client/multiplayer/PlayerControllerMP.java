@@ -327,7 +327,7 @@ public class PlayerControllerMP
     {
         if (InteractCheat.INSTANCE.isToggled())
         {
-            return InteractCheat.INSTANCE.placeReachSetting.getValue();
+            return InteractCheat.INSTANCE.placeReachSetting.getValue().floatValue();
         }
         return this.currentGameType.isCreative() ? 5.0F : 4.5F;
     }

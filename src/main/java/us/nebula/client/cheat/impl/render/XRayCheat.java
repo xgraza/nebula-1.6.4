@@ -7,8 +7,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.player.ChatUtil;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 
 import java.util.List;
 
@@ -69,19 +68,16 @@ public final class XRayCheat extends Cheat
             Blocks.flowing_lava
     );
 
-    private final Setting<Mode> modeSetting = new Setting<>(
-            "Mode", Mode.BASIC)
-            .onValueChange((o, v) ->
+    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.BASIC)
+            .setDescription("How to show hidden blocks")
+            .onValueChanged((value) ->
             {
-                if (!isToggled())
-                {
-                    return;
-                }
-                if (MC.theWorld != null)
+                if (isToggled() && MC.theWorld != null)
                 {
                     MC.renderGlobal.loadRenderers();
                 }
-            });
+            })
+            .build();
 
     @Override
     public void onEnable()

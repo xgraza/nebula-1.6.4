@@ -12,8 +12,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.QuadMask;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.render.EventRender3D;
 import us.nebula.client.util.player.InventoryUtil;
@@ -33,10 +33,15 @@ import java.util.stream.Collectors;
         category = CheatCategory.WORLD)
 public final class LandscaperCheat extends Cheat
 {
-    private final Setting<Double> rangeSetting = new Setting<>(
-            "Range", 4.2, 1.0, 6.0, 0.5);
-    private final Setting<Boolean> snowSetting = new Setting<>(
-            "Shovel Snow", true);
+    private final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
+            .setMin(1.0f)
+            .setMax(6.0f)
+            .setScale(0.1f)
+            .setDescription("The range to break foliage blocks in")
+            .build();
+    private final Setting<Boolean> snowSetting = builder("Shovel Snow", true)
+            .setDescription("If to clear snow")
+            .build();
 
     private final Queue<BlockPos> breakQueue = new ConcurrentLinkedQueue<>();
     private BlockPos breakingBlockPos;

@@ -4,7 +4,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -18,8 +18,13 @@ public final class UnfocusedCPUCheat extends Cheat
     @CheatInstance
     public static UnfocusedCPUCheat INSTANCE;
 
-    public final Setting<Boolean> stopRenderSetting = new Setting<>(
-            "Stop Render", true);
-    public final Setting<Integer> fpsSetting = new Setting<>(
-            "FPS", 15, 1, 60, 1);
+    public final Setting<Boolean> stopRenderSetting = builder("Stop Render", true)
+            .setDescription("If to stop rendering the game entirely when unfocused")
+            .build();
+    public final Setting<Integer> fpsSetting = numberBuilder("FPS", 15)
+            .setMin(1)
+            .setMax(60)
+            .setScale(1)
+            .setDescription("The maximum FPS cap when unfocused on the game")
+            .build();
 }

@@ -15,8 +15,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.QuadMask;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.render.EventRender3D;
 import us.nebula.client.util.player.InventoryUtil;
@@ -39,14 +39,25 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         category = CheatCategory.WORLD)
 public final class AutoHighwayCheat extends Cheat
 {
-    private final Setting<Integer> blocksSetting = new Setting<>(
-            "Blocks", 2, 1, 4, 1);
-    private final Setting<Integer> blockPlacesSetting = new Setting<>(
-            "Blocks/Tick", 5, 1, 10, 1);
-    private final Setting<Boolean> supportingBlocksSetting = new Setting<>(
-            "Support Blocks", false);
-    private final Setting<Boolean> breakSetting = new Setting<>(
-            "Break Blocks", true);
+    private final Setting<Integer> blocksSetting = numberBuilder("Blocks", 2)
+            .setMin(1)
+            .setMax(4)
+            .setScale(1)
+            .setDescription("How many blocks ahead to search and place")
+            .build();
+
+    private final Setting<Integer> blockPlacesSetting = numberBuilder("Blocks/Tick", 5)
+            .setMin(1)
+            .setMax(10)
+            .setScale(1)
+            .setDescription("How many blocks to place per tick")
+            .build();
+    private final Setting<Boolean> supportingBlocksSetting = builder("Support Blocks", false)
+            .setDescription("If to place blocks to support highway blocks")
+            .build();
+    private final Setting<Boolean> breakSetting = builder("Break Blocks", true)
+            .setDescription("If to break blocks in the path of the highway to be replaced with the highway block")
+            .build();
 
     private final Queue<BlockPos> positionQueue = new ConcurrentLinkedQueue<>();
     private final Queue<BlockInfo> breakPositionQueue = new ConcurrentLinkedQueue<>();

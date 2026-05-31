@@ -1,11 +1,11 @@
 package us.nebula.client.cheat.gui.component.cheat.value;
 
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
 import us.nebula.client.util.render.gui.animation.Animation;
 import us.nebula.client.util.render.gui.animation.AnimationEasing;
 import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.util.io.SoundUtil;
 import us.nebula.client.util.render.RenderUtil;

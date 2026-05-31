@@ -21,9 +21,9 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.ColorUtil;
 import us.nebula.client.util.render.QuadMask;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.player.FreecamCheat;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.render.EventRender2D;
@@ -49,50 +49,72 @@ import static org.lwjgl.opengl.GL11.*;
         category = CheatCategory.RENDER)
 public final class ESPCheat extends Cheat
 {
-    private final Setting<Mode> modeSetting = new Setting<>("Mode", Mode.BOX);
+    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.BOX)
+            .setDescription("How to render the sixth sense")
+            .build();
 
-    private final Setting<Boolean> labelsSetting = new Setting<>(
-            "Labels", true)
-            .setVisibility(() -> modeSetting.getValue() == Mode.CS_GO);
+    private final Setting<Boolean> labelsSetting = builder("Labels", true)
+            .setVisibility((value) -> modeSetting.getValue() == Mode.CS_GO)
+            .build();
 
-    private final Setting<Float> lineWidthSetting = new Setting<>(
-            "Line Width", 1.5f, 0.5f, 5.0f, 0.5f);
-    private final Setting<Float> opacitySetting = new Setting<>(
-            "Opacity", 0.0f, 0.0f, 1.0f, 0.05f)
-            .setVisibility(() -> modeSetting.getValue() != Mode.CS_GO);
+    private final Setting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
+            .setMin(0.5f)
+            .setMax(5.0f)
+            .setScale(0.1f)
+            .setDescription("The width of the render line")
+            .build();
+    private final Setting<Float> opacitySetting = numberBuilder("Opacity", 0.0f)
+            .setMin(0.0f)
+            .setMax(1.0f)
+            .setScale(0.05f)
+            .setDescription("The transparency of the render")
+            .setVisibility((value) -> modeSetting.getValue() != Mode.CS_GO)
+            .build();
 
     // entities
-    private final Setting<Boolean> playersSetting = new Setting<>(
-            "Players", true);
-    private final Setting<Boolean> hostileSetting = new Setting<>(
-            "Hostile", true);
-    private final Setting<Boolean> passiveSetting = new Setting<>(
-            "Passive", true);
+    private final Setting<Boolean> playersSetting = builder("Players", true)
+            .setDescription("If to render player entities")
+            .build();
+    private final Setting<Boolean> hostileSetting = builder("Hostile", true)
+            .setDescription("If to render hostile mobs")
+            .build();
+    private final Setting<Boolean> passiveSetting = builder("Passive", true)
+            .setDescription("If to render passive mobs")
+            .build();
 
     // static entities
-    private final Setting<Boolean> itemFramesSetting = new Setting<>(
-            "Item Frames", false);
-    private final Setting<Boolean> droppedItemsSetting = new Setting<>(
-            "Dropped Items", false);
+    private final Setting<Boolean> itemFramesSetting = builder("Item Frames", false)
+            .setDescription("If to render item frames")
+            .build();
+    private final Setting<Boolean> droppedItemsSetting = builder("Dropped Items", false)
+            .setDescription("If to render dropped items")
+            .build();
 
     // tile entities
-    private final Setting<Boolean> chestsSetting = new Setting<>(
-            "Chests", true);
-    private final Setting<Boolean> endPortalsSetting = new Setting<>(
-            "End Portals", false)
-            .setVisibility(() -> modeSetting.getValue() == Mode.SHADER);
-    private final Setting<Boolean> skullsSetting = new Setting<>(
-            "Skulls", false)
-            .setVisibility(() -> modeSetting.getValue() == Mode.SHADER);
-    private final Setting<Boolean> redstoneSetting = new Setting<>(
+    private final Setting<Boolean> chestsSetting = builder("Chests", true)
+            .setDescription("If to render chests")
+            .build();
+    private final Setting<Boolean> endPortalsSetting = builder("End Portals", false)
+            .setDescription("If to render end portal blocks")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.SHADER)
+            .build();
+    private final Setting<Boolean> skullsSetting = builder("Skulls", false)
+            .setDescription("If to render heads")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.SHADER)
+            .build();
+    private final Setting<Boolean> redstoneSetting = builder(
             "Redstone Materials", false)
-            .setVisibility(() -> modeSetting.getValue() == Mode.SHADER);
-    private final Setting<Boolean> brewingStandsSetting = new Setting<>(
-            "Brewing Stands", false)
-            .setVisibility(() -> modeSetting.getValue() == Mode.SHADER);
-    private final Setting<Boolean> signsSetting = new Setting<>(
-            "Signs", false)
-            .setVisibility(() -> modeSetting.getValue() == Mode.SHADER);
+            .setDescription("If to render redstone materials (i.e. comparators, repeaters)")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.SHADER)
+            .build();
+    private final Setting<Boolean> brewingStandsSetting = builder("Brewing Stands", false)
+            .setDescription("If to render brewing stands")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.SHADER)
+            .build();
+    private final Setting<Boolean> signsSetting = builder("Signs", false)
+            .setDescription("If to render signs")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.SHADER)
+            .build();
 
     private final Map<Integer, float[][]> projected = new ConcurrentHashMap<>();
     private final List<Object> renderTargetList = new CopyOnWriteArrayList<>();

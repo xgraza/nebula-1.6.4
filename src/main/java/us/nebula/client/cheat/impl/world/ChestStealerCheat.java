@@ -14,9 +14,9 @@ import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.listener.EventListener;
 import us.nebula.client.listener.Subscribe;
 import us.nebula.client.listener.event.game.EventUpdate;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.math.MathUtil;
 import us.nebula.client.util.math.Timer;
-import us.nebula.client.util.value.Setting;
 
 /**
  * @author xgraza
@@ -32,14 +32,21 @@ public final class ChestStealerCheat extends Cheat
 
     private static final String ENDER_CHEST_TRANSLATION_KEY = "container.enderchest";
 
-    private final Setting<Integer> delaySetting = new Setting<>(
-            "Delay", 100, 0, 1500, 1);
-    public final Setting<Boolean> automaticSetting = new Setting<>(
-            "Automatic", true);
-    private final Setting<Boolean> randomOrderSetting = new Setting<>(
-            "Random Order", false);
-    private final Setting<Boolean> enderChestSetting = new Setting<>(
-            "Ender Chest", false);
+    private final Setting<Integer> delaySetting = numberBuilder("Delay", 100)
+            .setMin(0)
+            .setMax(1500)
+            .setScale(1)
+            .setDescription("How long in milliseconds to wait before clicking another item")
+            .build();
+    public final Setting<Boolean> automaticSetting = builder("Automatic", true)
+            .setDescription("If to automatically steal from a container")
+            .build();
+    private final Setting<Boolean> randomOrderSetting = builder("Random Order", false)
+            .setDescription("If to grab items in a random order")
+            .build();
+    private final Setting<Boolean> enderChestSetting = builder("Ender Chest", false)
+            .setDescription("If to allow stealing/storing in an Ender Chest")
+            .build();
 
     public final Timer timer = new Timer();
 

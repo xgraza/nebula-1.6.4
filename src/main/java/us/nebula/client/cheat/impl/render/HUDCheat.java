@@ -8,9 +8,9 @@ import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.hud.HUDElement;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.render.EventRender2D;
 import us.nebula.client.hud.gui.HUDEditorScreen;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.ColorUtil;
 
 import java.awt.Color;
@@ -27,27 +27,44 @@ public final class HUDCheat extends Cheat
     @CheatInstance
     public static HUDCheat INSTANCE;
 
-    public final Setting<Color> primaryColorSetting = new Setting<>(
-            "Primary Color", new Color(112, 82, 143));
-    public final Setting<ColorMode> colorModeSetting = new Setting<>(
-            "Color Mode", ColorMode.STATIC);
-    public final Setting<Float> minBrightnessSetting = new Setting<>(
-            "Minimum Brightness", 0.65f, 0.05f, 0.95f, 0.05f)
-            .setVisibility(() -> colorModeSetting.getValue() == ColorMode.GRADIENT_RAINBOW);
-    public final Setting<Double> speedSetting = new Setting<>(
-            "Speed", 2.5, 1.0, 10.0, 0.5)
-            .setVisibility(() -> colorModeSetting.getValue() == ColorMode.RAINBOW);
-    public final Setting<Boolean> forceInBoundsSetting = new Setting<>(
-            "Force in bounds", true);
+    public final Setting<Color> primaryColorSetting = colorBuilder("Primary Color", new Color(112, 82, 143))
+            .setDescription("The primary client color")
+            .build();
+    public final Setting<ColorMode> colorModeSetting = enumBuilder("Color Mode", ColorMode.STATIC)
+            .setDescription("The client color mode")
+            .build();
+    public final Setting<Float> minBrightnessSetting = numberBuilder("Minimum Brightness", 0.65f)
+            .setMin(0.05f)
+            .setMax(0.95f)
+            .setScale(0.05f)
+            .setDescription("The minimum brightness for the gradient rainbow")
+            .setVisibility((value) -> colorModeSetting.getValue() == ColorMode.GRADIENT_RAINBOW)
+            .build();
+    public final Setting<Double> speedSetting = numberBuilder("Speed", 2.5)
+            .setMin(1.0)
+            .setMax(10.0)
+            .setScale(0.5)
+            .setDescription("The speed at which the rainbow should go")
+            .setVisibility((value) -> colorModeSetting.getValue() == ColorMode.RAINBOW)
+            .build();
+    public final Setting<Boolean> forceInBoundsSetting = builder("Force in bounds", true)
+            .setDescription("Force in bounds")
+            .build();
 
     public HUDCheat()
     {
         toggle();
+    }
+
+    @Override
+    public void discoverSettings()
+    {
+        super.discoverSettings();
         for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
         {
-            final Setting<Boolean> setting = new Setting<>(element.getManifest().name(), false)
-                    .onValueChange((old, value) -> element.setToggled(value));
-            addSetting(setting);
+            final Setting<Boolean> setting = new Setting.Builder<>(element.getManifest().name(), false)
+                    .build();
+            registerSetting(setting);
             element.setToggledSetting(setting);
         }
     }

@@ -33,7 +33,7 @@ public final class HUDManager implements ITypedManager<HUDElement>
         hudElementList.add(new TPSHUDElement());
         hudElementList.add(new WatermarkHUDElement());
 
-        hudElementList.forEach(HUDElement::reflectSettings);
+        hudElementList.forEach(HUDElement::discoverSettings);
         hudElementList.forEach(HUDElement::init);
     }
 

@@ -8,8 +8,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.io.FileUtil;
 import us.nebula.client.util.math.MathUtil;
 import us.nebula.client.util.math.Timer;
@@ -31,13 +31,19 @@ public final class SpammerCheat extends Cheat
     public static final File SPAMMER_DIRECTORY = new File(
             Nebula.INSTANCE.getNebulaRootDir(), "spammer");
 
-    private final Setting<File> spammerFileSetting = new Setting<>(
-            "File", SPAMMER_DIRECTORY)
-            .onValueChange((o, n) -> readSpammerFile());
-    private final Setting<Mode> modeSetting = new Setting<>(
-            "Mode", Mode.LOOP);
-    private final Setting<Double> delaySetting = new Setting<>(
-            "Delay", 1.5, 0.0, 20.0, 0.25);
+    private final Setting<File> spammerFileSetting = builder("File", SPAMMER_DIRECTORY)
+            .setDescription("The file to read the spam text from")
+            .onValueChanged((value) -> readSpammerFile())
+            .build();
+    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.LOOP)
+            .setDescription("The mode to spam the chat with")
+            .build();
+    private final Setting<Double> delaySetting = numberBuilder("Delay", 1.5)
+            .setMin(0.0)
+            .setMax(20.0)
+            .setScale(0.1)
+            .setDescription("The delay in seconds before sending the next message")
+            .build();
 
     private final List<String> spammerLines = new LinkedList<>();
     private int spammerIndex = 0;

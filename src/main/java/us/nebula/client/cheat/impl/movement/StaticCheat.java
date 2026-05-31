@@ -5,8 +5,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.player.EventMove;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.MoveUtil;
 
 /**
@@ -18,8 +18,9 @@ import us.nebula.client.util.player.MoveUtil;
         category = CheatCategory.MOVEMENT)
 public final class StaticCheat extends Cheat
 {
-    private final Setting<Boolean> movingSetting = new Setting<>(
-            "Moving", false);
+    private final Setting<Boolean> movingSetting = builder("Moving", false)
+            .setDescription("If to force a static speed when moving")
+            .build();
 
     @Subscribe
     private final EventListener<EventMove> moveEventListener = event ->

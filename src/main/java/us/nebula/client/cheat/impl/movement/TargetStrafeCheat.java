@@ -9,11 +9,11 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.combat.KillAuraCheat;
 import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.listener.event.player.EventMove;
 import us.nebula.client.listener.event.render.EventRender3D;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.MoveUtil;
 import us.nebula.client.util.render.RenderUtil;
 
@@ -28,14 +28,24 @@ import static org.lwjgl.opengl.GL11.*;
         category = CheatCategory.MOVEMENT)
 public final class TargetStrafeCheat extends Cheat
 {
-    private final Setting<Float> rangeSetting = new Setting<>(
-            "Range", 4.2f, 1.0f, 6.0f, 0.1f);
-    private final Setting<Double> reductionSetting = new Setting<>(
-            "Speed Reduction", 0.0, 0.0, 1.0, 0.01);
-    private final Setting<Boolean> jumpBackoutSetting = new Setting<>(
-            "Jump to Backout", true);
-    private final Setting<Boolean> renderSetting = new Setting<>(
-            "Render", true);
+    private final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
+            .setMin(1.0f)
+            .setMax(6.0f)
+            .setScale(0.1f)
+            .setDescription("The range to strafe around your target")
+            .build();
+    private final Setting<Double> reductionSetting = numberBuilder("Speed Reduction", 0.0)
+            .setMin(0.0)
+            .setMax(1.0)
+            .setScale(0.01)
+            .setDescription("What percentage to reduce strafe speed to prevent lagbacks")
+            .build();
+    private final Setting<Boolean> jumpBackoutSetting = builder("Jump to Backout", true)
+            .setDescription("If to allow holding space as a way to exit the strafe lock")
+            .build();
+    private final Setting<Boolean> renderSetting = builder("Render", true)
+            .setDescription("If to render the strafe circle around the target")
+            .build();
 
     private boolean directional = true;
 

@@ -6,9 +6,9 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.player.EventSprint;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -19,7 +19,9 @@ import us.nebula.client.listener.event.player.EventSprint;
         category = CheatCategory.MOVEMENT)
 public final class SprintCheat extends Cheat
 {
-    final Setting<Boolean> omniSprintSetting = new Setting<>("Omni-Sprint", false);
+    private final Setting<Boolean> omniSprintSetting = builder("Omni-Sprint", false)
+            .setDescription("If to allow full-speed sprint in all directions")
+            .build();
 
     @Override
     public void onDisable()

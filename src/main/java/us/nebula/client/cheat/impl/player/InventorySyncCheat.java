@@ -8,8 +8,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -20,8 +20,9 @@ import us.nebula.client.listener.event.network.EventPacket;
         category = CheatCategory.PLAYER)
 public final class InventorySyncCheat extends Cheat
 {
-    private final Setting<Boolean> packetSetting = new Setting<>(
-            "Packet", false);
+    private final Setting<Boolean> packetSetting = builder("Packet", false)
+            .setDescription("If to send a packet to try to further sync your inventory")
+            .build();
 
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->

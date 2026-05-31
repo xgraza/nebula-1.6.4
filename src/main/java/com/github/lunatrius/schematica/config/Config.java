@@ -5,7 +5,8 @@ import com.google.gson.JsonObject;
 import us.nebula.client.Nebula;
 import us.nebula.client.config.IConfiguration;
 import us.nebula.client.config.IJSONSerializable;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.NumberSetting;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.io.FileUtil;
 
 import java.io.File;
@@ -34,17 +35,40 @@ public class Config implements IJSONSerializable, IConfiguration
     {
         this.file = file;
 
-        this.propEnableAlpha = new Setting<>("alphaEnabled", false);
-        this.propAlpha = new Setting<>("alpha", 1.0f, 0.0f, 1.0f, 0.1f);
-        this.propHighlight = new Setting<>("highlight", true);
-        this.propHighlightAir = new Setting<>("highlightAir", true);
-        this.propBlockDelta = new Setting<>("blockDelta", 0.005f, 0.0f, 0.5f, 0.001f);
-        this.propPlaceDelay = new Setting<>("placeDelay", 1, 0, 20, 1);
-        this.propTimeout = new Setting<>("timeout", 10, 0, 100, 1);
-        this.propPlaceInstantly = new Setting<>("placeInstantly", false);
-        this.propPlaceAdjacent = new Setting<>("placeAdjacent", true);
-        this.propDrawQuads = new Setting<>("drawQuads", true);
-        this.propDrawLines = new Setting<>("drawLines", true);
+        this.propEnableAlpha = new Setting.Builder<>("alphaEnabled", false)
+                .build();
+        this.propAlpha = new NumberSetting.Builder<>("alpha", 1.0f)
+                .setMin(0.0f)
+                .setMax(1.0f)
+                .setScale(0.1f)
+                .build();
+        this.propHighlight = new Setting.Builder<>("highlight", true)
+                .build();
+        this.propHighlightAir = new Setting.Builder<>("highlightAir", true)
+                .build();
+        this.propBlockDelta = new NumberSetting.Builder<>("blockDelta", 0.005f)
+                .setMin(0.0f)
+                .setMax(0.5f)
+                .setScale(0.001f)
+                .build();
+        this.propPlaceDelay = new NumberSetting.Builder<>("placeDelay", 1)
+                .setMin(0)
+                .setMax(20)
+                .setScale(1)
+                .build();
+        this.propTimeout = new NumberSetting.Builder<>("timeout", 10)
+                .setMin(0)
+                .setMax(100)
+                .setScale(1)
+                .build();
+        this.propPlaceInstantly = new Setting.Builder<>("placeInstantly", false)
+                .build();
+        this.propPlaceAdjacent = new Setting.Builder<>("placeAdjacent", true)
+                .build();
+        this.propDrawQuads = new Setting.Builder<>("drawQuads", true)
+                .build();
+        this.propDrawLines = new Setting.Builder<>("drawLines", true)
+                .build();
 
         Collections.addAll(settings,
                 propEnableAlpha,

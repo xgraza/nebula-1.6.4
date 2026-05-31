@@ -6,8 +6,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.render.EventCameraDistance;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -21,10 +21,15 @@ public final class CameraClipCheat extends Cheat
     @CheatInstance
     public static CameraClipCheat INSTANCE;
 
-    private final Setting<Double> distanceSetting = new Setting<>(
-            "Distance", 4.0, 0.5, 50.0, 0.5);
-    public final Setting<Boolean> phasePerspective = new Setting<>(
-            "Phase Perspective", true);
+    private final Setting<Double> distanceSetting = numberBuilder("Distance", 4.0)
+            .setMin(0.5)
+            .setMax(50.0)
+            .setScale(0.1)
+            .setDescription("How many blocks to clip your camera")
+            .build();
+    public final Setting<Boolean> phasePerspective = builder("Phase Perspective", true)
+            .setDescription("If to disable the forced third person perspective when phased in a block")
+            .build();
 
     @Subscribe
     private final EventListener<EventCameraDistance> cameraDistanceEventListener = event ->

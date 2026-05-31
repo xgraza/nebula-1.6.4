@@ -3,11 +3,10 @@ package us.nebula.client.hud.impl;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.font.Fonts;
 import us.nebula.client.hud.HUDElement;
 import us.nebula.client.hud.HUDManifest;
-import us.nebula.client.util.value.Setting;
-import us.nebula.client.util.render.RenderUtil;
 
 import java.util.TreeMap;
 
@@ -34,17 +33,22 @@ public final class CoordinatesHUDElement extends HUDElement
         DIRECTION_MAP.put(315, "South East");
     }
 
-    private final Setting<Boolean> netherCoordinatesSetting = new Setting<>(
-            "Nether Coordinates", true);
-    private final Setting<Boolean> directionSetting = new Setting<>(
-            "Direction", true);
-    private final Setting<Boolean> shortenedSetting = new Setting<>(
-            "Shortened", false)
-            .setVisibility(directionSetting::getValue);
-    private final Setting<Boolean> axisSetting = new Setting<>(
-            "Axis", true);
-    private final Setting<Boolean> rotationSetting = new Setting<>(
-            "Rotations", false);
+    private final Setting<Boolean> netherCoordinatesSetting = builder("Nether Coordinates", true)
+            .setDescription("If to show the nether/overworld equivalent coordinates")
+            .build();
+    private final Setting<Boolean> directionSetting = builder("Direction", true)
+            .setDescription("If to show the direction you're facing")
+            .build();
+    private final Setting<Boolean> shortenedSetting = builder("Shortened", false)
+            .setDescription("If to give a shortened version of that cardinal direction")
+            .setVisibility((value) -> directionSetting.getValue())
+            .build();
+    private final Setting<Boolean> axisSetting = builder("Axis", true)
+            .setDescription("If to show which axis you are travelling along")
+            .build();
+    private final Setting<Boolean> rotationSetting = builder("Rotations", false)
+            .setDescription("If to show your yaw and pitch rotations")
+            .build();
 
     @Override
     public void render(final ScaledResolution res)
@@ -119,5 +123,10 @@ public final class CoordinatesHUDElement extends HUDElement
         }
 
         return builder.toString();
+    }
+
+    public Setting<Boolean> getShortenedSetting()
+    {
+        return shortenedSetting;
     }
 }

@@ -8,8 +8,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.listener.event.network.EventDisconnect;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.player.EventPlayerDeath;
+import us.nebula.client.setting.Setting;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +32,9 @@ public final class AutoRespawnCheat extends Cheat
 {
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 
-    private final Setting<Boolean> logCoordsSetting = new Setting<>("Log Coordinates", false);
+    private final Setting<Boolean> logCoordsSetting = builder("Log Coordinates", false)
+            .setDescription("If to log death coordinates to a file")
+            .build();
 
     private OutputStream fileStream;
 

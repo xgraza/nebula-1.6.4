@@ -15,12 +15,12 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.movement.SpeedCheat;
 import us.nebula.client.cheat.impl.world.FakePlayerCheat;
 import us.nebula.client.listener.event.network.EventPacket;
 import us.nebula.client.listener.event.player.EventMoveUpdate;
 import us.nebula.client.cheat.gui.component.cheat.value.EnumSettingComponent;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.math.Timer;
 
 /**
@@ -32,15 +32,22 @@ import us.nebula.client.util.math.Timer;
         category = CheatCategory.COMBAT)
 public final class CriticalsCheat extends Cheat
 {
-    private final Setting<Mode> modeSetting = new Setting<>(
-            "Mode", Mode.MOTION);
-    private final Setting<Boolean> efficentSetting = new Setting<>(
-            "Efficient", false);
-    private final Setting<Double> delaySetting = new Setting<>(
-            "Delay", 0.5, 0.0, 5.0, 0.5)
-            .setVisibility(() -> !efficentSetting.getValue());
-    private final Setting<Boolean> pauseWithLagbackSetting = new Setting<>(
-            "Pause with Lagback", true);
+    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.MOTION)
+            .setDescription("How critical hits should be handled")
+            .build();
+    private final Setting<Boolean> efficentSetting = builder("Efficient", false)
+            .setDescription("If to only try to critical hit when it will do the most damage")
+            .build();
+    private final Setting<Double> delaySetting = numberBuilder("Delay", 0.5)
+            .setMin(0.0)
+            .setMax(5.0)
+            .setScale(0.5)
+            .setDescription("How long to wait before attacking")
+            .setVisibility((value) -> !efficentSetting.getValue())
+            .build();
+    private final Setting<Boolean> pauseWithLagbackSetting = builder("Pause with Lagback", true)
+            .setDescription("If to prevent trying to make critical hits after the AntiCheat lags you back")
+            .build();
 
     private final Timer lagbackTimer = new Timer();
     private final Timer timer = new Timer();

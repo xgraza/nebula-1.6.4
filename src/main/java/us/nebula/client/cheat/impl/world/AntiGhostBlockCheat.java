@@ -17,8 +17,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.QuadMask;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
 import us.nebula.client.listener.event.render.EventRender3D;
@@ -36,17 +36,24 @@ import java.util.concurrent.ConcurrentHashMap;
         category = CheatCategory.WORLD)
 public final class AntiGhostBlockCheat extends Cheat
 {
-    private final Setting<Boolean> placeSetting = new Setting<>(
-            "Place", true);
-    private final Setting<Boolean> breakSetting = new Setting<>(
-            "Break", true);
-
-    private final Setting<Boolean> packetSetting = new Setting<>(
-            "Packet", true);
-    private final Setting<Double> confirmTimeSetting = new Setting<>(
-            "Confirm Time", 0.5, 0.1, 5.0, 0.1);
-    private final Setting<Boolean> debugRenderSetting = new Setting<>(
-            "Debug Render", false);
+    private final Setting<Boolean> placeSetting = builder("Place", true)
+            .setDescription("If to handle checking for ghost blocks on place")
+            .build();
+    private final Setting<Boolean> breakSetting = builder("Break", true)
+            .setDescription("If to handle checking for ghost blocks on break")
+            .build();
+    private final Setting<Boolean> packetSetting = builder("Packet", true)
+            .setDescription("If to send a packet when placing/breaking a block to server confirm")
+            .build();
+    private final Setting<Double> confirmTimeSetting = numberBuilder("Confirm Time", 0.5)
+            .setMin(0.1)
+            .setMax(5.0)
+            .setScale(0.1)
+            .setDescription("How much time in seconds to wait before flagging a block as a ghost block")
+            .build();
+    private final Setting<Boolean> debugRenderSetting = builder("Debug Render", false)
+            .setDescription("If to render all queued blocks")
+            .build();
 
     private final Map<BlockPos, Long> placeConfirmBlockPosMap = new ConcurrentHashMap<>();
     private final Map<BlockPos, OriginalBlockData> breakConfirmBlockPosMap = new ConcurrentHashMap<>();

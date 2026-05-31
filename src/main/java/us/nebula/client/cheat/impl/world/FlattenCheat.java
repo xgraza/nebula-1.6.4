@@ -10,8 +10,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.world.BlockInfo;
 import us.nebula.client.util.world.BlockUtil;
@@ -27,16 +27,30 @@ import java.util.*;
         category = CheatCategory.WORLD)
 public final class FlattenCheat extends Cheat
 {
-    private final Setting<Integer> rangeSetting = new Setting<>(
-            "Range", 4, 1, 6, 1);
-    private final Setting<Boolean> radialSetting = new Setting<>(
-            "Radial", true);
-    private final Setting<Boolean> stopOnSneakSetting = new Setting<>(
-            "Stop on Sneak", false);
-    private final Setting<Integer> blocksSetting = new Setting<>(
-            "Blocks", 4, 1, 20, 1);
-    private final Setting<Integer> yOffsetSetting = new Setting<>(
-            "Y-Offset", 0, 0, 2, 1);
+    private final Setting<Integer> rangeSetting = numberBuilder("Range", 4)
+            .setMin(1)
+            .setMax(6)
+            .setScale(1)
+            .setDescription("The range to place blocks at")
+            .build();
+    private final Setting<Boolean> radialSetting = builder("Radial", true)
+            .setDescription("If to place the blocks in a radial pattern")
+            .build();
+    private final Setting<Boolean> stopOnSneakSetting = builder("Stop on Sneak", false)
+            .setDescription("If to stop placing blocks when sneaking")
+            .build();
+    private final Setting<Integer> blocksSetting = numberBuilder("Blocks", 4)
+            .setMin(1)
+            .setMax(20)
+            .setScale(1)
+            .setDescription("How many blocks to place per tick")
+            .build();
+    private final Setting<Integer> yOffsetSetting = numberBuilder("Y-Offset", 0)
+            .setMin(0)
+            .setMax(2)
+            .setScale(1)
+            .setDescription("The y-offset to place blocks at")
+            .build();
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->

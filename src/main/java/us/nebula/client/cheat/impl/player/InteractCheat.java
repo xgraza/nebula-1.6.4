@@ -6,8 +6,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -21,16 +21,29 @@ public final class InteractCheat extends Cheat
     @CheatInstance
     public static InteractCheat INSTANCE;
 
-    private final Setting<Integer> placeDelaySetting = new Setting<>(
-            "Place Delay", 0, 0, 4, 1);
+    public final Setting<Integer> placeDelaySetting = numberBuilder("Place Delay", 0)
+            .setMin(0)
+            .setMax(4)
+            .setScale(1)
+            .setDescription("How many ticks it should take before allowing you to place another block")
+            .build();
 
-    public final Setting<Double> attackReachSetting = new Setting<>(
-            "Attack Reach", 3.0, 1.0, 6.0, 0.1);
-    public final Setting<Float> placeReachSetting = new Setting<>(
-            "Place Reach", 4.5f, 1.0f, 6.0f, 0.1f);
+    public final Setting<Double> attackReachSetting = numberBuilder("Attach Reach", 3.0)
+            .setMin(1.0)
+            .setMax(6.0)
+            .setScale(0.1)
+            .setDescription("The distance in blocks you are able to interact with entities")
+            .build();
+    public final Setting<Double> placeReachSetting = numberBuilder("Place Reach", 3.0)
+            .setMin(1.0)
+            .setMax(6.0)
+            .setScale(0.1)
+            .setDescription("The distance in blocks you are able to interact with blocks")
+            .build();
 
-    public final Setting<Boolean> waterPlaceSetting = new Setting<>(
-            "Water Place", false);
+    public final Setting<Boolean> waterPlaceSetting = builder("Water Place", false)
+            .setDescription("If to allow placing in water")
+            .build();
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->

@@ -6,8 +6,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.QuadMask;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.render.EventRender3D;
 import us.nebula.client.util.render.RenderUtil;
 
@@ -20,10 +20,15 @@ import us.nebula.client.util.render.RenderUtil;
         category = CheatCategory.RENDER)
 public final class ChunkBoundariesCheat extends Cheat
 {
-    private final Setting<Mode> modeSetting = new Setting<>(
-            "Mode", Mode.BORDERS);
-    private final Setting<Float> lineWidthSetting = new Setting<>(
-            "Line Width", 2.5f, 0.5f, 5.0f, 0.1f);
+    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.BORDERS)
+            .setDescription("How to render a chunk boundary")
+            .build();
+    private final Setting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
+            .setMin(0.5f)
+            .setMax(5.0f)
+            .setScale(0.1f)
+            .setDescription("What width the boundary should be rendered with")
+            .build();
 
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->

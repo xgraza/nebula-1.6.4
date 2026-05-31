@@ -7,8 +7,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -19,10 +19,12 @@ import us.nebula.client.listener.event.network.EventPacket;
         category = CheatCategory.COMBAT)
 public final class VelocityCheat extends Cheat
 {
-    private final Setting<Boolean> knockbackSetting = new Setting<>(
-            "Knockback", true);
-    private final Setting<Boolean> explosionSetting = new Setting<>(
-            "Explosions", true);
+    private final Setting<Boolean> knockbackSetting = builder("Knockback", true)
+            .setDescription("If to ignore knockback (i.e. player attacks)")
+            .build();
+    private final Setting<Boolean> explosionSetting = builder("Explosions", true)
+            .setDescription("If to ignore explosion knockback (i.e. creeper explosions)")
+            .build();
 
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->

@@ -3,15 +3,18 @@ package us.nebula.client.cheat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
+import us.nebula.client.ClientSettings;
 import us.nebula.client.Nebula;
 import us.nebula.client.config.IJSONSerializable;
 import us.nebula.client.listener.EventBus;
 import us.nebula.client.key.Key;
+import us.nebula.client.setting.Setting;
+import us.nebula.client.setting.SettingProvider;
+import us.nebula.client.util.trait.DebugFeature;
 import us.nebula.client.util.trait.Togglable;
-import us.nebula.client.util.value.ISettingProvider;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.trait.CheatManifest;
 
+import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +27,7 @@ import static us.nebula.client.key.Key.DEFAULT_UNBOUND_KEY;
  * @since 02/14/25
  */
 @SuppressWarnings("unchecked")
-public class Cheat implements ISettingProvider, IJSONSerializable, Togglable
+public class Cheat implements SettingProvider, IJSONSerializable, Togglable
 {
     protected static final Minecraft MC = Minecraft.getMinecraft();
     public static final String DEFAULT_DESCRIPTION = "No description provided for this cheat";
@@ -38,7 +41,9 @@ public class Cheat implements ISettingProvider, IJSONSerializable, Togglable
     /**
      * If this cheat should be hidden from the Arraylist render
      */
-    private boolean hidden;
+    private final Setting<Boolean> hiddenSetting = builder("Hidden", false)
+            .setDescription("If to hide this cheat from the arraylist")
+            .build();
 
     public Cheat()
     {
@@ -127,12 +132,41 @@ public class Cheat implements ISettingProvider, IJSONSerializable, Togglable
 
     public void setHidden(boolean hidden)
     {
-        this.hidden = hidden;
+        hiddenSetting.setValue(hidden);
     }
 
     public boolean isHidden()
     {
-        return hidden;
+        return hiddenSetting.getValue();
+    }
+
+    @Override
+    public void discoverSettings()
+    {
+        registerSetting(hiddenSetting);
+        for (final Field field : getClass().getDeclaredFields())
+        {
+            if (!Setting.class.isAssignableFrom(field.getType()))
+            {
+                continue;
+            }
+
+            if (field.isAnnotationPresent(DebugFeature.class) && !ClientSettings.DEBUG)
+            {
+                continue;
+            }
+
+            field.setAccessible(true);
+            try
+            {
+                registerSetting((Setting<?>) field.get(this));
+            } catch (final IllegalAccessException e)
+            {
+                Nebula.INSTANCE.getLogger().error(
+                        "Failed to reflect setting from {}", this);
+                Nebula.INSTANCE.getLogger().error(e);
+            }
+        }
     }
 
     @Override
@@ -148,7 +182,7 @@ public class Cheat implements ISettingProvider, IJSONSerializable, Togglable
     }
 
     @Override
-    public void addSetting(final Setting<?> setting)
+    public void registerSetting(final Setting<?> setting)
     {
         settingNameMap.put(setting.getName(), setting);
         settingList.add(setting);

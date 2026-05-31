@@ -18,8 +18,8 @@ import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.listener.event.player.EventSafeWalk;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.math.Timer;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
 import us.nebula.client.listener.event.render.EventRender3D;
@@ -41,16 +41,24 @@ public final class ScaffoldCheat extends Cheat
     @CheatInstance
     public static ScaffoldCheat INSTANCE;
 
-    private final Setting<Double> extend = new Setting<>(
-            "Extend", 0.0, 0.0, 6.0, 0.5);
-    private final Setting<Boolean> towerSetting = new Setting<>(
-            "Tower", true);
-    private final Setting<Boolean> keeepYSetting = new Setting<>(
-            "Keep Y", false);
-    private final Setting<Boolean> safeWalkSetting = new Setting<>(
-            "SafeWalk", false);
-    private final Setting<Boolean> renderSetting = new Setting<>(
-            "Render", false);
+    private final Setting<Double> extend = numberBuilder("Extend", 0.0)
+            .setMin(0.0)
+            .setMax(6.0)
+            .setScale(0.5)
+            .setDescription("How far to extend forward")
+            .build();
+    private final Setting<Boolean> towerSetting = builder("Tower", true)
+            .setDescription("If to allow quicker upwards movement")
+            .build();
+    private final Setting<Boolean> keeepYSetting = builder("Keep Y", false)
+            .setDescription("If to keep your original y-level when scaffolding")
+            .build();
+    private final Setting<Boolean> safeWalkSetting = builder("SafeWalk", false)
+            .setDescription("If to use safe walk")
+            .build();
+    private final Setting<Boolean> renderSetting = builder("Render", false)
+            .setDescription("If to render where the block is being placed")
+            .build();
 
     private final Timer towerTimer = new Timer();
     private double basePosY;
@@ -179,7 +187,7 @@ public final class ScaffoldCheat extends Cheat
             double distance = 0.0;
             while (distance <= extend.getValue())
             {
-                distance += extend.getScale().doubleValue();
+                distance += 0.5;
                 final BlockPos extendedPos = pos.add(new BlockPos(
                         (int) (-Math.sin(yaw) * distance),
                         0, (int) (Math.cos(yaw) * distance)));

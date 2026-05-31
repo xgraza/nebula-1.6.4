@@ -7,11 +7,11 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
 import us.nebula.client.listener.event.player.EventMove;
 import us.nebula.client.cheat.gui.component.cheat.value.EnumSettingComponent;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.MoveUtil;
 
 /**
@@ -23,15 +23,22 @@ import us.nebula.client.util.player.MoveUtil;
         category = CheatCategory.MOVEMENT)
 public final class FlyCheat extends Cheat
 {
-    private final Setting<Mode> modeSetting = new Setting<>(
-            "Mode", Mode.VANILLA);
-    private final Setting<Double> speedSetting = new Setting<>(
-            "Speed", 1.0, 0.1, 7.0, 0.05);
-    private final Setting<Boolean> antiKickSetting = new Setting<>(
-            "Anti-Kick", false);
-    private final Setting<Boolean> doubleTapSpaceSetting = new Setting<>(
-            "Double Tap Space", false)
-            .setVisibility(() -> modeSetting.getValue() == Mode.CREATIVE);
+    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.VANILLA)
+            .setDescription("How to fly")
+            .build();
+    private final Setting<Double> speedSetting = numberBuilder("Speed", 1.0)
+            .setMin(0.1)
+            .setMax(7.0)
+            .setScale(0.05)
+            .setDescription("How fast to fly")
+            .build();
+    private final Setting<Boolean> antiKickSetting = builder("Anti-Kick", false)
+            .setDescription("If to gradually fall to prevent vanilla Minecraft floating kicks")
+            .build();
+    private final Setting<Boolean> doubleTapSpaceSetting = builder("Double Tap Space", false)
+            .setDescription("If to allow vanilla double-tap-space to fly")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.CREATIVE)
+            .build();
 
     @Override
     public void onDisable()

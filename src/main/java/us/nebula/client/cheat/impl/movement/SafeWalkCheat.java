@@ -6,7 +6,7 @@ import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.listener.EventListener;
 import us.nebula.client.listener.Subscribe;
 import us.nebula.client.listener.event.player.EventSafeWalk;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -17,8 +17,9 @@ import us.nebula.client.util.value.Setting;
         category = CheatCategory.MOVEMENT)
 public final class SafeWalkCheat extends Cheat
 {
-    private final Setting<Boolean> onlyOnGroundSetting = new Setting<>(
-            "Only On Ground", true);
+    private final Setting<Boolean> onlyOnGroundSetting = builder("Only On Ground", true)
+            .setDescription("If to only safe walk when on ground")
+            .build();
 
     @Subscribe
     private final EventListener<EventSafeWalk> safeWalkEventListener = event ->

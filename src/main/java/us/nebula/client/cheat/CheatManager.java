@@ -121,7 +121,6 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new AutoFarmCheat());
         addCheat(new AutoFishCheat());
         addCheat(new AutoHighwayCheat());
-        addCheat(new AutoInfiniteCheat());
         addCheat(new AutoToolCheat());
         addCheat(new AutoTorchCheat());
         addCheat(new AutoTunnelCheat());
@@ -152,7 +151,7 @@ public final class CheatManager implements ITypedManager<Cheat>
             return;
         }
 
-        cheat.reflectSettings();
+        cheat.discoverSettings();
 
         cheatInstanceMap.put(cheat.getClass(), cheat);
         cheatInstanceList.add(cheat);

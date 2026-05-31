@@ -8,9 +8,9 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.render.EventGamma;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -32,7 +32,9 @@ public final class FullbrightCheat extends Cheat
         FAKE_NIGHT_VISION_EFFECT.setPotionDurationMax(true);
     }
 
-    public final Setting<Mode> modeSetting = new Setting<>("Mode", Mode.GAMMA);
+    public final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.GAMMA)
+            .setDescription("How to brighten the world")
+            .build();
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->

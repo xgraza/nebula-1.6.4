@@ -7,8 +7,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.player.EventMove;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.PlayerUtil;
 
 /**
@@ -25,10 +25,15 @@ public final class TerrainCheat extends Cheat
 
     public static final float NCP_ICE_MAX = 0.391f;
 
-    private final Setting<Boolean> iceSetting = new Setting<>(
-            "Ice", false);
-    private final Setting<Double> stairSpeedMultiplierSetting = new Setting<>(
-            "Stair Speed Multi", 1.0, 1.0, 5.0, 0.1);
+    private final Setting<Boolean> iceSetting = builder("Ice", false)
+            .setDescription("If to reduce friction on ice")
+            .build();
+    private final Setting<Double> stairSpeedMultiplierSetting = numberBuilder("Stair Speed Multi", 1.0)
+            .setMin(1.0)
+            .setMax(5.0)
+            .setScale(0.1)
+            .setDescription("The multiplier speed to go on stairs")
+            .build();
 
     @Subscribe
     private final EventListener<EventMove> moveEventListener = event ->

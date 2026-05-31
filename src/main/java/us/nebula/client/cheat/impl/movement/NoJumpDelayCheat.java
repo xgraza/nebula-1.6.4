@@ -5,8 +5,8 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -17,8 +17,9 @@ import us.nebula.client.listener.event.game.EventUpdate;
         category = CheatCategory.MOVEMENT)
 public final class NoJumpDelayCheat extends Cheat
 {
-    private final Setting<Boolean> horsesSetting = new Setting<>(
-            "Horses", false);
+    private final Setting<Boolean> horsesSetting = builder("Horses", false)
+            .setDescription("If to remove the jump delay on horses")
+            .build();
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->

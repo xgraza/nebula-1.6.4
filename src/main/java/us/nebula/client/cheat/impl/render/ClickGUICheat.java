@@ -4,8 +4,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.gui.ClickGUIScreen;
+import us.nebula.client.setting.Setting;
 
 import static org.lwjgl.input.Keyboard.KEY_RSHIFT;
 
@@ -21,10 +21,12 @@ public final class ClickGUICheat extends Cheat
     @CheatInstance
     public static ClickGUICheat INSTANCE;
 
-    public final Setting<Boolean> saveOnCloseSetting = new Setting<>(
-            "Save on Close", true);
-    public final Setting<Boolean> hoverDescriptionSetting = new Setting<>(
-            "Hover Description", true);
+    public final Setting<Boolean> saveOnCloseSetting = builder("Save on Close", true)
+            .setDescription("If to save your cheat config every time the ClickGUi is closed")
+            .build();
+    public final Setting<Boolean> hoverDescriptionSetting = builder("Hover Description", true)
+            .setDescription("If to show descriptions when hovering over an item")
+            .build();
 
     private ClickGUIScreen guiScreen;
 

@@ -12,9 +12,9 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.hud.gui.HUDEditorScreen;
+import us.nebula.client.setting.Setting;
 
 import java.util.List;
 
@@ -40,8 +40,9 @@ public final class InvWalkCheat extends Cheat
 
     private final KeyBinding[] moveKeyBindings = new KeyBinding[6];
 
-    private final Setting<Boolean> allowBlacklistedGUIsSetting = new Setting<>(
-            "Allow Blacklisted GUIs", false);
+    private final Setting<Boolean> allowBlacklistedGUIsSetting = builder("Allow Blacklisted GUIs", false)
+            .setDescription("If to allow movement in all GUIs regardless of their issues")
+            .build();
 
     @Override
     public void onEnable()

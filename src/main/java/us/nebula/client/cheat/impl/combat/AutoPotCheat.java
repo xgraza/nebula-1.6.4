@@ -17,10 +17,10 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
 import us.nebula.client.listener.event.player.EventMoveUpdate;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.math.Timer;
 import us.nebula.client.util.player.InventoryUtil;
 import us.nebula.client.util.player.PlayerUtil;
@@ -53,16 +53,24 @@ public final class AutoPotCheat extends Cheat
             Potion.regeneration.getId());
     private static final int AUTOPOT_ROTATION_PRIORITY = 90;
 
-    private final Setting<Float> healthSetting = new Setting<>(
-            "Health", 10.0f, 1.0f, 19.5f, 0.5f);
-    private final Setting<Boolean> raytraceCheckSetting = new Setting<>(
-            "Raytrace Check", true);
-    private final Setting<Boolean> ignoreIllegalSetting = new Setting<>(
-            "Ignore Illegals", true);
-    private final Setting<Boolean> neverRunOutSetting = new Setting<>(
-            "Never Run Out", false);
-    private final Setting<Boolean> prioritizeAttackingSetting = new Setting<>(
-            "Prioritize Combat", false);
+    private final Setting<Float> healthSetting = numberBuilder("Health", 6.0f)
+            .setMin(1.0f)
+            .setMax(19.5f)
+            .setScale(0.5f)
+            .setDescription("At what health should you automatically be logged off")
+            .build();
+    private final Setting<Boolean> raytraceCheckSetting = builder("Raytrace Check", true)
+            .setDescription("If to check that the potion thrown will actually hit the ground to give the effect")
+            .build();
+    private final Setting<Boolean> ignoreIllegalSetting = builder("Ignore Illegals", true)
+            .setDescription("If to ignore illegal throw potions (i.e. over max level, over max duration)")
+            .build();
+    private final Setting<Boolean> neverRunOutSetting = builder("Never Run Out", false)
+            .setDescription("If to throw a potion before the effect runs out")
+            .build();
+    private final Setting<Boolean> prioritizeAttackingSetting = builder("Prioritize Combat", false)
+            .setDescription("If to prioritize attacking (i.e. KillAura, AutoBed) over throwing potions")
+            .build();
 
     private final List<Integer> expectedPotionEffects = new ArrayList<>();
     private final Timer potTimer = new Timer();

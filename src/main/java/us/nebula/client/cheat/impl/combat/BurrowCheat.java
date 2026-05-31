@@ -19,9 +19,9 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.world.BlockUtil;
 
@@ -34,8 +34,9 @@ import us.nebula.client.util.world.BlockUtil;
         category = CheatCategory.COMBAT)
 public final class BurrowCheat extends Cheat
 {
-    private final Setting<Boolean> instantSetting = new Setting<>(
-            "Instant", false);
+    private final Setting<Boolean> instantSetting = builder("Instant", false)
+            .setDescription("If to use packets to observe when the burrow block is replaced to instantly replace it")
+            .build();
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->

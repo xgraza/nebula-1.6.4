@@ -4,7 +4,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 
 /**
  * @author xgraza
@@ -18,10 +18,13 @@ public final class AntiLagCheat extends Cheat
     @CheatInstance
     public static AntiLagCheat INSTANCE;
 
-    public final Setting<Boolean> groupItemsSetting = new Setting<>(
-            "Group Items", false);
-    public final Setting<Boolean> fallingBlocksSetting = new Setting<>(
-            "Render Falling Blocks", false);
-    public final Setting<Boolean> noLightRecompile = new Setting<>(
-            "No Light Recompile", false);
+    public final Setting<Boolean> groupItemsSetting = builder("Group Items", false)
+            .setDescription("If to group dropped items together to prevent too many items from rendering at once")
+            .build();
+    public final Setting<Boolean> fallingBlocksSetting = builder("Render Falling Blocks", false)
+            .setDescription("If to stop rendering falling blocks")
+            .build();
+    public final Setting<Boolean> noLightRecompile = builder("No Light Recompile", false)
+            .setDescription("If to prevent light map recompilation every render tick")
+            .build();
 }

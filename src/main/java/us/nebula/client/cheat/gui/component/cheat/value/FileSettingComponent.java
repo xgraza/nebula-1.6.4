@@ -1,10 +1,10 @@
 package us.nebula.client.cheat.gui.component.cheat.value;
 
 import us.nebula.client.Nebula;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
 import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.util.render.RenderUtil;
 
 import javax.swing.*;
@@ -20,12 +20,14 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
     private static final int BACKGROUND_COLOR = new Color(52, 52, 52).getRGB();
     private static final double PADDING = 1.0;
 
+    private final File baseDirectory;
     private final Setting<File> setting;
     private boolean pickingFile;
     private File selectedFile;
 
-    public FileSettingComponent(final Setting<File> setting)
+    public FileSettingComponent(final File baseDirectory, final Setting<File> setting)
     {
+        this.baseDirectory = baseDirectory;
         this.setting = setting;
     }
 
@@ -95,7 +97,7 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
                     frame.setLocationRelativeTo(null);
                     frame.setAlwaysOnTop(true);
                     final FileDialog dialog = new FileDialog(frame, "Choose spammer file..", FileDialog.LOAD);
-                    dialog.setDirectory(setting.getBaseDirectory().getAbsolutePath());
+                    dialog.setDirectory(baseDirectory.getAbsolutePath());
                     dialog.setFile("*.txt");
                     dialog.setVisible(true);
 

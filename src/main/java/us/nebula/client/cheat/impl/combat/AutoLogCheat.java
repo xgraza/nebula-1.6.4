@@ -8,7 +8,7 @@ import us.nebula.client.listener.Subscribe;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
 
 /**
@@ -20,8 +20,12 @@ import us.nebula.client.listener.event.game.EventUpdate;
         category = CheatCategory.COMBAT)
 public final class AutoLogCheat extends Cheat
 {
-    private final Setting<Float> healthSetting = new Setting<>(
-            "Health", 6.0f, 1.0f, 19.5f, 0.5f);
+    private final Setting<Float> healthSetting = numberBuilder("Health", 6.0f)
+            .setMin(1.0f)
+            .setMax(19.5f)
+            .setScale(0.5f)
+            .setDescription("At what health should you automatically be logged off")
+            .build();
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->

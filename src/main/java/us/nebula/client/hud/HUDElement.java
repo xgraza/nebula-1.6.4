@@ -4,15 +4,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import us.nebula.client.ClientSettings;
+import us.nebula.client.Nebula;
 import us.nebula.client.config.IJSONSerializable;
-import us.nebula.client.listener.Event;
 import us.nebula.client.listener.EventBus;
+import us.nebula.client.setting.Setting;
+import us.nebula.client.setting.SettingProvider;
 import us.nebula.client.util.render.gui.GUIComponent;
+import us.nebula.client.util.trait.DebugFeature;
 import us.nebula.client.util.trait.Togglable;
-import us.nebula.client.util.value.ISettingProvider;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.util.render.RenderUtil;
 
+import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +25,7 @@ import java.util.Map;
  * @author xgraza
  * @since 3/23/26
  */
-public class HUDElement extends GUIComponent implements ISettingProvider, IJSONSerializable, Togglable
+public class HUDElement extends GUIComponent implements SettingProvider, IJSONSerializable, Togglable
 {
     protected static final Minecraft MC = Minecraft.getMinecraft();
     static final String DEFAULT_DESCRIPTION = "No description provided for this element";
@@ -74,6 +77,34 @@ public class HUDElement extends GUIComponent implements ISettingProvider, IJSONS
     }
 
     @Override
+    public void discoverSettings()
+    {
+        for (final Field field : getClass().getDeclaredFields())
+        {
+            if (!Setting.class.isAssignableFrom(field.getType()))
+            {
+                continue;
+            }
+
+            if (field.isAnnotationPresent(DebugFeature.class) && !ClientSettings.DEBUG)
+            {
+                continue;
+            }
+
+            field.setAccessible(true);
+            try
+            {
+                registerSetting((Setting<?>) field.get(this));
+            } catch (final IllegalAccessException e)
+            {
+                Nebula.INSTANCE.getLogger().error(
+                        "Failed to reflect setting from {}", this);
+                Nebula.INSTANCE.getLogger().error(e);
+            }
+        }
+    }
+
+    @Override
     public List<Setting<?>> getSettings()
     {
         return settingList;
@@ -87,7 +118,7 @@ public class HUDElement extends GUIComponent implements ISettingProvider, IJSONS
     }
 
     @Override
-    public void addSetting(final Setting<?> setting)
+    public void registerSetting(final Setting<?> setting)
     {
         settingNameMap.put(setting.getName(), setting);
         settingList.add(setting);

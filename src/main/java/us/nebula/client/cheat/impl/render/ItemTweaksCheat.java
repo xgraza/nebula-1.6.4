@@ -6,7 +6,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.FormattingUtil;
 
 /**
@@ -21,14 +21,18 @@ public final class ItemTweaksCheat extends Cheat
     @CheatInstance
     public static ItemTweaksCheat INSTANCE;
 
-    private final Setting<Boolean> infiniteSetting = new Setting<>(
-            "Show Infinite Items", true);
-    private final Setting<Boolean> showItemSizeSetting = new Setting<>(
-            "Show Item Size", true);
-    private final Setting<Boolean> showContainerSizeSetting = new Setting<>(
-            "Show Container Size", false);
-    private final Setting<Boolean> formatEnchantmentsSetting = new Setting<>(
-            "Format Enchants", true);
+    private final Setting<Boolean> infiniteSetting = builder("Show Infinite Items", true)
+            .setDescription("If to show the true item size on items")
+            .build();
+    private final Setting<Boolean> showItemSizeSetting = builder("Show Item Size", true)
+            .setDescription("If to show the size in bytes of an item when hovering over it")
+            .build();
+    private final Setting<Boolean> showContainerSizeSetting = builder("Show Container Size", false)
+            .setDescription("If to show the size of a container")
+            .build();
+    private final Setting<Boolean> formatEnchantmentsSetting = builder("Format Enchants", true)
+            .setDescription("If to format all enchantments")
+            .build();
 
     public String formatEnchantment(final Enchantment enchantment, int level)
     {

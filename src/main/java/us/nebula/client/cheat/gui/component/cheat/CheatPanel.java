@@ -1,5 +1,9 @@
 package us.nebula.client.cheat.gui.component.cheat;
 
+import us.nebula.client.setting.ColorSetting;
+import us.nebula.client.setting.EnumSetting;
+import us.nebula.client.setting.NumberSetting;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
 import us.nebula.client.util.render.gui.animation.Animation;
@@ -7,7 +11,6 @@ import us.nebula.client.util.render.gui.animation.AnimationEasing;
 import us.nebula.client.util.render.gui.font.Fonts;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.key.Key;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.cheat.gui.component.cheat.value.*;
 import us.nebula.client.cheat.gui.component.cheat.value.color.ColorSettingComponent;
@@ -42,21 +45,6 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
     public CheatPanel(final Cheat cheat)
     {
         this.cheat = cheat;
-        getChildrenComponentList().add(new BooleanSettingComponent(
-                new Setting<Boolean>("Hidden", cheat.isHidden())
-                {
-                    @Override
-                    public void setValue(final Boolean value)
-                    {
-                        cheat.setHidden(value);
-                    }
-
-                    @Override
-                    public Boolean getValue()
-                    {
-                        return cheat.isHidden();
-                    }
-                }));
         for (final Setting<?> setting : cheat.getSettings())
         {
             if (setting.getValue() instanceof Boolean)
@@ -64,19 +52,23 @@ public final class CheatPanel extends GUIComponent implements IGUIInputListener
                 getChildrenComponentList().add(new BooleanSettingComponent((Setting<Boolean>) setting));
             } else if (setting.getValue() instanceof Enum<?>)
             {
-                getChildrenComponentList().add(new EnumSettingComponent((Setting<Enum<?>>) setting));
+                getChildrenComponentList().add(new EnumSettingComponent((EnumSetting<?>) setting));
             } else if (setting.getValue() instanceof Number)
             {
-                getChildrenComponentList().add(new NumberSettingComponent((Setting<Number>) setting));
+                getChildrenComponentList().add(new NumberSettingComponent((NumberSetting<?>) setting));
             } else if (setting.getValue() instanceof Key)
             {
                 getChildrenComponentList().add(new KeySettingComponent((Setting<Key>) setting));
             } else if (setting.getValue() instanceof Color)
             {
-                getChildrenComponentList().add(new ColorSettingComponent((Setting<Color>) setting));
-            } else if (setting.getValue() instanceof File || setting.getBaseDirectory() != null)
+                getChildrenComponentList().add(new ColorSettingComponent((ColorSetting) setting));
+            } else if (setting.getValue() instanceof File)
             {
-                getChildrenComponentList().add(new FileSettingComponent((Setting<File>) setting));
+                final File baseDirectory = ((File) setting.getValue()).getParentFile();
+                if (baseDirectory.exists() && baseDirectory.isDirectory())
+                {
+                    getChildrenComponentList().add(new FileSettingComponent(baseDirectory, (Setting<File>) setting));
+                }
             }
         }
     }

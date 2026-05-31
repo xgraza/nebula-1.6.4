@@ -10,7 +10,7 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.EntityUtil;
 
 /**
@@ -25,22 +25,29 @@ public final class ChamsCheat extends Cheat
     @CheatInstance
     public static ChamsCheat INSTANCE;
 
-    public final Setting<Mode> modeSetting = new Setting<>(
-            "Mode", Mode.TEXTURE);
+    public final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.TEXTURE)
+            .setDescription("How to render entities through walls")
+            .build();
 
-    private final Setting<Boolean> playersSetting = new Setting<>(
-            "Players", true);
-    private final Setting<Boolean> hostileSetting = new Setting<>(
-            "Hostile Mobs", true);
-    private final Setting<Boolean> passiveSetting = new Setting<>(
-            "Passive Mobs", true);
+    private final Setting<Boolean> playersSetting = builder("Players", true)
+            .setDescription("If to render players through walls")
+            .build();
+    private final Setting<Boolean> hostileSetting = builder("Hostile Mobs", true)
+            .setDescription("If to render hostile mobs through walls")
+            .build();
+    private final Setting<Boolean> passiveSetting = builder("Passive Mobs", true)
+            .setDescription("If to render passive mobs through walls")
+            .build();
 
-    private final Setting<Boolean> chestsSetting = new Setting<>(
-            "Chests", true);
-    private final Setting<Boolean> enderChestsSetting = new Setting<>(
-            "Ender Chests", true);
-    private final Setting<Boolean> otherTileSetting = new Setting<>(
-            "Other Tile Entities", false);
+    private final Setting<Boolean> chestsSetting = builder("Chests", true)
+            .setDescription("If to render chests through walls")
+            .build();
+    private final Setting<Boolean> enderChestsSetting = builder("Ender Chests", true)
+            .setDescription("If to render ender chests through walls")
+            .build();
+    private final Setting<Boolean> otherTileSetting = builder("Other Tile Entities", false)
+            .setDescription("If to render all other tile entities through walls")
+            .build();
 
     public void preEntityRender()
     {

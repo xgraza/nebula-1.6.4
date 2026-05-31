@@ -17,8 +17,8 @@ import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.util.value.Setting;
 import us.nebula.client.listener.event.game.EventUpdate;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.math.MathUtil;
 import us.nebula.client.util.player.InventoryUtil;
 import us.nebula.client.util.player.PlayerUtil;
@@ -36,12 +36,21 @@ public final class AutoTorchCheat extends Cheat
     @CheatInstance
     public static AutoTorchCheat INSTANCE;
 
-    private final Setting<Double> rangeSetting = new Setting<>(
-            "Range", 4.2, 1.0, 6.0, 0.1);
-    private final Setting<Integer> minLightLevelSetting = new Setting<>(
-            "Min Light Level", 7, 0, 12, 1);
-    private final Setting<Boolean> spawnCheckSetting = new Setting<>(
-            "Spawn Check", true);
+    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+            .setMin(1.0)
+            .setMax(6.0)
+            .setScale(0.1)
+            .setDescription("How far to place torches")
+            .build();
+    private final Setting<Integer> minLightLevelSetting = numberBuilder("Min Light Level", 7)
+            .setMin(0)
+            .setMax(12)
+            .setScale(1)
+            .setDescription("The minimum light level needed to place a torch")
+            .build();
+    private final Setting<Boolean> spawnCheckSetting = builder("Spawn Check", true)
+            .setDescription("If to check if a mob can spawn on a block to place a torch")
+            .build();
 
     @Override
     public void onDisable()
