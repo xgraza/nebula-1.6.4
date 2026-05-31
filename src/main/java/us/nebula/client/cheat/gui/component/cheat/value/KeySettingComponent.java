@@ -1,5 +1,6 @@
 package us.nebula.client.cheat.gui.component.cheat.value;
 
+import us.nebula.client.cheat.gui.component.cheat.ComponentWithSetting;
 import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
@@ -16,7 +17,7 @@ import static us.nebula.client.key.Key.DEFAULT_UNBOUND_KEY;
  * @author xgraza
  * @since 03/20/25
  */
-public final class KeySettingComponent extends GUIComponent implements IGUIInputListener
+public final class KeySettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
 {
     private static final double PADDING = 1.0;
 
@@ -92,5 +93,11 @@ public final class KeySettingComponent extends GUIComponent implements IGUIInput
     public boolean isVisible()
     {
         return setting.isVisible();
+    }
+
+    @Override
+    public Setting<Key> getSetting()
+    {
+        return setting;
     }
 }

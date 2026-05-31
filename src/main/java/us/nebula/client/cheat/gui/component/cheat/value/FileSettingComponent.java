@@ -1,6 +1,7 @@
 package us.nebula.client.cheat.gui.component.cheat.value;
 
 import us.nebula.client.Nebula;
+import us.nebula.client.cheat.gui.component.cheat.ComponentWithSetting;
 import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
@@ -15,7 +16,7 @@ import java.io.File;
  * @author xgraza
  * @since 03/25/25
  */
-public final class FileSettingComponent extends GUIComponent implements IGUIInputListener
+public final class FileSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
 {
     private static final int BACKGROUND_COLOR = new Color(52, 52, 52).getRGB();
     private static final double PADDING = 1.0;
@@ -139,5 +140,11 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
     public boolean isVisible()
     {
         return setting.isVisible();
+    }
+
+    @Override
+    public Setting<File> getSetting()
+    {
+        return setting;
     }
 }

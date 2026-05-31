@@ -25,7 +25,7 @@ public final class AlphaSliderColorComponent extends NumberSettingComponent
     protected void drawSlider()
     {
         RenderUtil.renderTexture(RGB_GRADIENT_LOCATION, getX(), y, (int) width, (int) getHeight());
-        final double position = (parent.setting.getValue().getAlpha() / 255.0f) * getWidth();
+        final double position = (parent.getSetting().getValue().getAlpha() / 255.0f) * getWidth();
         RenderUtil.renderRectangle(getX() + position - 2.5, y, 5, getHeight(), Color.white.getRGB());
     }
 

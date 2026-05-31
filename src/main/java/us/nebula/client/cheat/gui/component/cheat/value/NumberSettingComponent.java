@@ -3,6 +3,7 @@ package us.nebula.client.cheat.gui.component.cheat.value;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import us.nebula.client.cheat.gui.component.cheat.ComponentWithSetting;
 import us.nebula.client.setting.NumberSetting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
@@ -19,7 +20,7 @@ import static org.lwjgl.input.Keyboard.KEY_RIGHT;
  * @author xgraza
  * @since 03/02/25
  */
-public class NumberSettingComponent extends GUIComponent implements IGUIInputListener
+public class NumberSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
 {
     private static final double PADDING = 1.0;
 
@@ -179,5 +180,11 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
         {
             ((NumberSetting<Float>) setting).setValue((float) value);
         }
+    }
+
+    @Override
+    public NumberSetting<?> getSetting()
+    {
+        return setting;
     }
 }

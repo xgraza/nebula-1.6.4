@@ -3,9 +3,9 @@ package us.nebula.client.cheat.gui;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 import us.nebula.client.Nebula;
+import us.nebula.client.cheat.gui.component.cheat.ComponentWithSetting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.CheatConfig;
 import us.nebula.client.cheat.impl.render.ClickGUICheat;
@@ -173,8 +173,23 @@ public final class ClickGUIScreen extends GuiScreen
                     final CheatPanel cheatPanel = (CheatPanel) c;
                     if (cheatPanel.isMouseIn(mouseX, mouseY))
                     {
-                        drawCheatDescription(cheatPanel.getCheat(), mouseX, mouseY);
+                        drawCheatDescription(cheatPanel.getCheat().getManifest().description(), mouseX, mouseY);
                         return;
+                    }
+                    if (cheatPanel.isOpen() && cheatPanel.isMouseInDynamic(mouseX, mouseY))
+                    {
+                        for (final GUIComponent component : cheatPanel.getChildrenComponentList())
+                        {
+                            if (component instanceof ComponentWithSetting)
+                            {
+                                final ComponentWithSetting cws = (ComponentWithSetting) component;
+                                if (cws.getSetting() != null && cws.getSetting().getDescription() != null && component.isMouseIn(mouseX, mouseY))
+                                {
+                                    drawCheatDescription(cws.getSetting().getDescription(), mouseX, mouseY);
+                                    return;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -182,15 +197,9 @@ public final class ClickGUIScreen extends GuiScreen
         descriptionHoverTimer.resetTime();
     }
 
-    private void drawCheatDescription(final Cheat cheat, final int mouseX, final int mouseY)
+    private void drawCheatDescription(final String description, final int mouseX, final int mouseY)
     {
-        if (!descriptionHoverTimer.hasElapsed(600L))
-        {
-            return;
-        }
-
-        final String description = cheat.getManifest().description().trim();
-        if (description.isEmpty())
+        if (!descriptionHoverTimer.hasElapsed(600L) || description.isEmpty())
         {
             return;
         }

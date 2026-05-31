@@ -23,7 +23,7 @@ public final class GradientColorComponent extends GUIComponent implements IGUIIn
     public GradientColorComponent(final ColorSettingComponent parent)
     {
         this.parent = parent;
-        final Color color = parent.setting.getValue();
+        final Color color = parent.getSetting().getValue();
         Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), hsb);
     }
 
@@ -97,14 +97,14 @@ public final class GradientColorComponent extends GUIComponent implements IGUIIn
 
     public void updateTransparency(float alpha)
     {
-        parent.setting.setTransparency((int) (255 * alpha));
+        parent.getSetting().setTransparency((int) (255 * alpha));
         updateColor();
     }
 
     private void updateColor()
     {
-        final int transparency = parent.setting.getValue().getAlpha();
-        parent.setting.setHSB(hsb[0], hsb[1], hsb[2]);
-        parent.setting.setTransparency(transparency);
+        final int transparency = parent.getSetting().getValue().getAlpha();
+        parent.getSetting().setHSB(hsb[0], hsb[1], hsb[2]);
+        parent.getSetting().setTransparency(transparency);
     }
 }

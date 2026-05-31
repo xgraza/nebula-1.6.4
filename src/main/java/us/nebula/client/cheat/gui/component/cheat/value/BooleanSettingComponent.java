@@ -1,5 +1,6 @@
 package us.nebula.client.cheat.gui.component.cheat.value;
 
+import us.nebula.client.cheat.gui.component.cheat.ComponentWithSetting;
 import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
@@ -16,7 +17,7 @@ import java.awt.Color;
  * @author xgraza
  * @since 03/02/25
  */
-public final class BooleanSettingComponent extends GUIComponent implements IGUIInputListener
+public final class BooleanSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
 {
     private static final double PADDING = 1.0;
 
@@ -78,5 +79,11 @@ public final class BooleanSettingComponent extends GUIComponent implements IGUII
     public boolean isVisible()
     {
         return setting.isVisible();
+    }
+
+    @Override
+    public Setting<Boolean> getSetting()
+    {
+        return setting;
     }
 }

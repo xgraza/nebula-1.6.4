@@ -1,5 +1,6 @@
 package us.nebula.client.cheat.gui.component.cheat.value;
 
+import us.nebula.client.cheat.gui.component.cheat.ComponentWithSetting;
 import us.nebula.client.setting.EnumSetting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
@@ -16,7 +17,7 @@ import java.util.StringJoiner;
  * @author xgraza
  * @since 03/02/25
  */
-public final class EnumSettingComponent extends GUIComponent implements IGUIInputListener
+public final class EnumSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
 {
     private static final double PADDING = 1.0;
 
@@ -94,5 +95,11 @@ public final class EnumSettingComponent extends GUIComponent implements IGUIInpu
             joiner.add(Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase());
         }
         return joiner.toString();
+    }
+
+    @Override
+    public EnumSetting<?> getSetting()
+    {
+        return setting;
     }
 }
