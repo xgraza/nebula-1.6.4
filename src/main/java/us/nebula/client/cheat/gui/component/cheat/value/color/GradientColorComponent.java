@@ -95,6 +95,12 @@ public final class GradientColorComponent extends GUIComponent implements IGUIIn
         updateColor();
     }
 
+    public void updateTransparency(float alpha)
+    {
+        parent.setting.setTransparency((int) (255 * alpha));
+        updateColor();
+    }
+
     private void updateColor()
     {
         final int transparency = parent.setting.getValue().getAlpha();

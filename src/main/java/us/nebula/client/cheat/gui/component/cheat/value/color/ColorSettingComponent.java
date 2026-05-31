@@ -28,6 +28,10 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
 
         getChildrenComponentList().add(gradientColorComponent = new GradientColorComponent(this));
         getChildrenComponentList().add(new HueSliderColorComponent(this));
+        if (setting.isAllowTransparency())
+        {
+            getChildrenComponentList().add(new AlphaSliderColorComponent(this));
+        }
         if (!setting.isExemptClientSync())
         {
             getChildrenComponentList().add(new BooleanSettingComponent(new Setting.Builder<>("Client Sync", setting.isClientSync())

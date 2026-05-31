@@ -15,12 +15,14 @@ import java.util.function.Predicate;
 public final class ColorSetting extends Setting<Color>
 {
     private boolean clientSync, exemptClientSync;
+    private boolean allowTransparency;
 
-    public ColorSetting(String name, String description, Predicate<Color> visibility, Consumer<Color> valueChanged, Color value, boolean clientSync, boolean exemptClientSync)
+    public ColorSetting(String name, String description, Predicate<Color> visibility, Consumer<Color> valueChanged, Color value, boolean clientSync, boolean exemptClientSync, boolean allowTransparency)
     {
         super(name, description, visibility, valueChanged, value);
         this.clientSync = clientSync;
         this.exemptClientSync = exemptClientSync;
+        this.allowTransparency = allowTransparency;
     }
 
     @Override
@@ -51,8 +53,17 @@ public final class ColorSetting extends Setting<Color>
 
     public void setTransparency(int alpha)
     {
+        if (!allowTransparency)
+        {
+            return;
+        }
         final Color color = getValue();
         setValue(new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha));
+    }
+
+    public boolean isAllowTransparency()
+    {
+        return allowTransparency;
     }
 
     public void setClientSync(boolean clientSync)
@@ -120,7 +131,7 @@ public final class ColorSetting extends Setting<Color>
     public static final class Builder extends Setting.Builder<Color>
     {
         private int red, green, blue, alpha;
-        private boolean clientSync, exemptClientSync;
+        private boolean clientSync, exemptClientSync, allowTransparency;
 
         public Builder(String name, Color value)
         {
@@ -129,6 +140,13 @@ public final class ColorSetting extends Setting<Color>
             green = value.getGreen();
             blue = value.getBlue();
             alpha = value.getAlpha();
+            allowTransparency = true;
+        }
+
+        public Builder setAllowTransparency(boolean allowTransparency)
+        {
+            this.allowTransparency = allowTransparency;
+            return this;
         }
 
         public Builder setExemptClientSync(final boolean exemptClientSync)
@@ -182,7 +200,11 @@ public final class ColorSetting extends Setting<Color>
         @Override
         public ColorSetting build()
         {
-            return new ColorSetting(name, description, visibility, valueChanged, new Color(red, green, blue, alpha), clientSync, exemptClientSync);
+            if (!allowTransparency)
+            {
+                alpha = 255;
+            }
+            return new ColorSetting(name, description, visibility, valueChanged, new Color(red, green, blue, alpha), clientSync, exemptClientSync, allowTransparency);
         }
     }
 }

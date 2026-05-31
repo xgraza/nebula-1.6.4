@@ -29,6 +29,7 @@ public final class HUDCheat extends Cheat
 
     public final Setting<Color> primaryColorSetting = colorBuilder("Primary Color", new Color(112, 82, 143))
             .setExemptClientSync(true)
+            .setAllowTransparency(false)
             .setDescription("The primary client color")
             .build();
     public final Setting<ColorMode> colorModeSetting = enumBuilder("Color Mode", ColorMode.STATIC)
