@@ -26,6 +26,7 @@ import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.glu.GLU;
 import shadersmod.client.Shaders;
+import us.nebula.client.cheat.impl.render.NoRenderCheat;
 
 import javax.imageio.ImageIO;
 import java.awt.Dimension;
@@ -483,7 +484,7 @@ public class Config
 
     public static boolean isFogOff()
     {
-        return gameSettings.ofFogType == 3;
+        return gameSettings.ofFogType == 3 || (NoRenderCheat.INSTANCE.isToggled() && NoRenderCheat.INSTANCE.fogSetting.getValue());
     }
 
     public static float getFogStart()
