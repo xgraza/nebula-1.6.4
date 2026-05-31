@@ -86,7 +86,8 @@ public final class AWTFontRenderer
             color = (color & 16579836) >> 2 | color & -16777216;
         }
 
-        int textColor = color;
+        final int defaultColor = color;
+        int textColor = defaultColor;
 
         glPushMatrix();
 
@@ -111,8 +112,8 @@ public final class AWTFontRenderer
 
         if (shadow)
         {
-            posX += 1;
-            posY += 1;
+            posX += 0.5;
+            posY += 0.5;
         }
 
         glTranslated(posX, posY, 0);
@@ -186,7 +187,7 @@ public final class AWTFontRenderer
                         strikethrough = false;
                         underline = false;
 
-                        textColor = color;
+                        textColor = defaultColor;
                         font = normal;
                         glBindTexture(GL_TEXTURE_2D, font.getGlyphTexture().getGlTextureId());
                         break;
@@ -204,17 +205,7 @@ public final class AWTFontRenderer
                     default:
                     {
                         int colorCode = "0123456789abcdefklmnor".indexOf(colorControlChar);
-                        if (colorCode == -1)
-                        {
-                            colorCode = "stuvwxyz".indexOf(colorControlChar);
-                            if (colorCode == -1)
-                            {
-                                break;
-                            } else
-                            {
-                                // TODO: custom color handling
-                            }
-                        } else if (colorCode < 16)
+                        if (colorCode < 16)
                         {
                             if (shadow)
                             {
@@ -244,7 +235,7 @@ public final class AWTFontRenderer
             {
 
             }
-            offsetX += glyph.getWidth();
+            offsetX += glyph.getAdvance() - 0.5;
         }
 
         //glEnable(GL_LIGHTING);
@@ -308,7 +299,7 @@ public final class AWTFontRenderer
             final Glyph glyph = font.getGlyph(ch);
             if (glyph != null)
             {
-                width += glyph.getWidth();
+                width += glyph.getAdvance() - 0.5;
             }
         }
         return width / 2.0;

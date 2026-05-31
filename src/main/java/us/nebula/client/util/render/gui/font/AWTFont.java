@@ -6,6 +6,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphMetrics;
+import java.awt.font.GlyphVector;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -74,6 +77,7 @@ public final class AWTFont
             graphics.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
         }
         final FontMetrics metrics = graphics.getFontMetrics();
+        final FontRenderContext frc = graphics.getFontRenderContext();
 
         spaceWidth = metrics.charWidth(' ');
         fontHeight = font.getSize() + metrics.getAscent();
@@ -86,7 +90,8 @@ public final class AWTFont
             {
                 continue;
             }
-            final Rectangle2D rect = metrics.getStringBounds(String.valueOf(c), graphics);
+            final String str = String.valueOf(c);
+            final Rectangle2D rect = metrics.getStringBounds(str, graphics);
             int charWidth = metrics.charWidth(c);
             if (x + rect.getWidth() >= 1000)
             {
@@ -94,7 +99,10 @@ public final class AWTFont
                 x = 0;
             }
 
-            final Glyph glyph = new Glyph(c, x, y, charWidth, rect.getHeight());
+            final GlyphVector gv = font.createGlyphVector(frc, str);
+            final GlyphMetrics gm = gv.getGlyphMetrics(0);
+
+            final Glyph glyph = new Glyph(c, x, y, charWidth, rect.getHeight(), gm.getAdvanceX());
             glyphBin[c] = glyph;
 
             graphics.drawString(String.valueOf(c), x, y + metrics.getAscent());
