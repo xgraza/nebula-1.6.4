@@ -208,10 +208,6 @@ public class Cheat implements SettingProvider, IJSONSerializable, Togglable
         {
             setToggled(object.get("toggled").getAsBoolean());
         }
-        if (object.has("hidden"))
-        {
-            setHidden(object.get("hidden").getAsBoolean());
-        }
         if (!object.has("settings"))
         {
             return;
