@@ -2,6 +2,7 @@ package us.nebula.client.setting;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import us.nebula.client.cheat.impl.render.HUDCheat;
 
 import java.awt.Color;
 import java.util.function.Consumer;
@@ -13,9 +14,23 @@ import java.util.function.Predicate;
  */
 public final class ColorSetting extends Setting<Color>
 {
-    public ColorSetting(String name, String description, Predicate<Color> visibility, Consumer<Color> valueChanged, Color value)
+    private boolean clientSync, exemptClientSync;
+
+    public ColorSetting(String name, String description, Predicate<Color> visibility, Consumer<Color> valueChanged, Color value, boolean clientSync, boolean exemptClientSync)
     {
         super(name, description, visibility, valueChanged, value);
+        this.clientSync = clientSync;
+        this.exemptClientSync = exemptClientSync;
+    }
+
+    @Override
+    public Color getValue()
+    {
+        if (clientSync && !exemptClientSync)
+        {
+            return HUDCheat.INSTANCE.primaryColorSetting.getValue();
+        }
+        return super.getValue();
     }
 
     public int getValueInt()
@@ -40,6 +55,21 @@ public final class ColorSetting extends Setting<Color>
         setValue(new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha));
     }
 
+    public void setClientSync(boolean clientSync)
+    {
+        this.clientSync = clientSync;
+    }
+
+    public boolean isClientSync()
+    {
+        return clientSync;
+    }
+
+    public boolean isExemptClientSync()
+    {
+        return exemptClientSync;
+    }
+
     @Override
     public void fromJSON(final JsonElement element)
     {
@@ -48,6 +78,11 @@ public final class ColorSetting extends Setting<Color>
             return;
         }
         final JsonObject object = element.getAsJsonObject();
+
+        if (object.has("clientSync"))
+        {
+            clientSync = object.get("clientSync").getAsBoolean();
+        }
 
         int red = 255, green = 255, blue = 255, alpha = 255;
         if (object.has("red"))
@@ -74,6 +109,7 @@ public final class ColorSetting extends Setting<Color>
     {
         final Color color = getValue();
         final JsonObject object = new JsonObject();
+        object.addProperty("clientSync", clientSync);
         object.addProperty("red", color.getRed());
         object.addProperty("green", color.getGreen());
         object.addProperty("blue", color.getBlue());
@@ -84,6 +120,7 @@ public final class ColorSetting extends Setting<Color>
     public static final class Builder extends Setting.Builder<Color>
     {
         private int red, green, blue, alpha;
+        private boolean clientSync, exemptClientSync;
 
         public Builder(String name, Color value)
         {
@@ -92,6 +129,18 @@ public final class ColorSetting extends Setting<Color>
             green = value.getGreen();
             blue = value.getBlue();
             alpha = value.getAlpha();
+        }
+
+        public Builder setExemptClientSync(final boolean exemptClientSync)
+        {
+            this.exemptClientSync = exemptClientSync;
+            return this;
+        }
+
+        public Builder setClientSync(boolean clientSync)
+        {
+            this.clientSync = clientSync;
+            return this;
         }
 
         public Builder setRed(int red)
@@ -133,7 +182,7 @@ public final class ColorSetting extends Setting<Color>
         @Override
         public ColorSetting build()
         {
-            return new ColorSetting(name, description, visibility, valueChanged, new Color(red, green, blue, alpha));
+            return new ColorSetting(name, description, visibility, valueChanged, new Color(red, green, blue, alpha), clientSync, exemptClientSync);
         }
     }
 }

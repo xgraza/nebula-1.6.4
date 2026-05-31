@@ -1,6 +1,8 @@
 package us.nebula.client.cheat.gui.component.cheat.value.color;
 
+import us.nebula.client.cheat.gui.component.cheat.value.BooleanSettingComponent;
 import us.nebula.client.setting.ColorSetting;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.render.gui.GUIComponent;
 import us.nebula.client.util.render.gui.IGUIInputListener;
 import us.nebula.client.util.render.gui.font.Fonts;
@@ -26,6 +28,12 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
 
         getChildrenComponentList().add(gradientColorComponent = new GradientColorComponent(this));
         getChildrenComponentList().add(new HueSliderColorComponent(this));
+        if (!setting.isExemptClientSync())
+        {
+            getChildrenComponentList().add(new BooleanSettingComponent(new Setting.Builder<>("Client Sync", setting.isClientSync())
+                    .onValueChanged(setting::setClientSync)
+                    .build()));
+        }
     }
 
     @Override
@@ -42,6 +50,7 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
             component.setX(getX() + PADDING);
             component.setY(posY);
             component.setWidth(getWidth() - (PADDING * 2));
+            component.setHeight(14.5);
 
             component.render(mouseX, mouseY, partialTicks);
 
