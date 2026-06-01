@@ -135,7 +135,7 @@ public final class NebulaSystemTray implements ActionListener
     {
         if (icon != null)
         {
-            icon.displayMessage("", content, TrayIcon.MessageType.NONE);
+            icon.displayMessage("Nebula", content, TrayIcon.MessageType.INFO);
         }
     }
 
