@@ -66,7 +66,12 @@ public final class EnumSetting<T extends Enum<T>> extends Setting<T>
         final JsonPrimitive primitive = element.getAsJsonPrimitive();
         if (primitive.isNumber())
         {
-            setValue(getForOrdinal(primitive.getAsInt()));
+            final T value = getForOrdinal(primitive.getAsInt());
+            if (value == null)
+            {
+                return;
+            }
+            setValue(value);
         }
     }
 
