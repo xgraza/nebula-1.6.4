@@ -18,6 +18,7 @@ import us.nebula.client.cheat.impl.movement.SpeedCheat;
 import us.nebula.client.listener.event.game.EventPostUpdate;
 import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.input.EventUpdateRiding;
+import us.nebula.client.listener.event.player.EventFastUpdate;
 import us.nebula.client.listener.event.player.EventMove;
 import us.nebula.client.listener.event.player.EventMoveUpdate;
 
@@ -132,11 +133,10 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             {
                 this.sendMotionUpdates();
 
-                if (SpeedCheat.INSTANCE.isToggled()
-                        && SpeedCheat.INSTANCE.modeSetting.getValue() == SpeedCheat.Mode.TICK_ADVANCE)
+                final EventFastUpdate event = new EventFastUpdate();
+                if (EventBus.dispatch(event) && event.getUpdates() > 0)
                 {
-                    final int advance = SpeedCheat.INSTANCE.advanceSetting.getValue();
-                    for (int tick = 0; tick < advance; ++tick)
+                    for (int tick = 0; tick < event.getUpdates(); ++tick)
                     {
                         int oldItemInUse = itemInUseCount;
                         int oldHurtTime = hurtTime;
@@ -161,6 +161,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
                         float oldLimbSwingAmount = limbSwingAmount;
                         float oldPLimbSwingAmount = prevLimbSwingAmount;
                         float oldLimbSwing = limbSwing;
+                        EventBus.dispatch(new EventUpdate());
                         super.onUpdate();
                         itemInUseCount = oldItemInUse;
                         hurtTime = oldHurtTime;

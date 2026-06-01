@@ -1,21 +1,25 @@
 package us.nebula.client.cheat.impl.movement;
 
-import net.minecraft.block.BlockIce;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
-import us.nebula.client.listener.EventListener;
-import us.nebula.client.listener.Subscribe;
+import net.minecraft.src.BlockPos;
 import us.nebula.client.cheat.Cheat;
 import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
-import us.nebula.client.setting.Setting;
-import us.nebula.client.util.player.PlayerUtil;
-import us.nebula.client.cheat.impl.world.ScaffoldCheat;
+import us.nebula.client.listener.EventListener;
+import us.nebula.client.listener.Subscribe;
+import us.nebula.client.listener.event.game.EventUpdate;
 import us.nebula.client.listener.event.network.EventPacket;
+import us.nebula.client.listener.event.player.EventFastUpdate;
 import us.nebula.client.listener.event.player.EventMove;
 import us.nebula.client.listener.event.player.EventMoveUpdate;
-import us.nebula.client.cheat.gui.component.cheat.value.EnumSettingComponent;
+import us.nebula.client.setting.Setting;
 import us.nebula.client.util.player.MoveUtil;
+import us.nebula.client.util.player.PlayerUtil;
+
+import java.util.List;
 
 /**
  * @author xgraza
@@ -29,118 +33,178 @@ public final class SpeedCheat extends Cheat
     @CheatInstance
     public static SpeedCheat INSTANCE;
 
-    public final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.STRAFE)
-            .setDescription("The mode to speedy speed with")
+    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.STRAFE)
+            .setDescription("The method to use when speeding up")
             .build();
-    public final Setting<Boolean> timerSetting = builder("Use Timer", false)
-            .setDescription("If to use timer to further speed you up")
-            .setVisibility((value) -> modeSetting.getValue() == Mode.STRAFE)
+
+    // strafe
+    private final Setting<Boolean> timerSetting = builder("Timer", false)
+            .setDescription("If to use timer to speed up the cheat even more")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.STRAFE || modeSetting.getValue() == Mode.Y_PORT)
             .build();
-    public final Setting<Integer> advanceSetting = numberBuilder("Advance", 1)
+
+    // physics calc
+    private final Setting<Integer> iterationsSetting = numberBuilder("Iterations", 1)
             .setMin(1)
             .setMax(10)
             .setScale(1)
-            .setDescription("How many tick iterations to make in a single tick")
+            .setDescription("How many times to re-update the local player")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.PHYSICS_CALC)
             .build();
-    
-    private double lastDistance, speed;
-    private int lagTicks, stage;
-    private boolean boostTick;
+
+    private int ticksSinceSetback, strafeStage;
+    private double tickMoveSpeed, speed;
+    private boolean boost;
 
     @Override
     public void onDisable()
     {
         super.onDisable();
-        lastDistance = 0.0;
-        speed = 0.0;
-        lagTicks = 0;
         MC.timer.timerSpeed = 1.0f;
-        boostTick = false;
+        boost = false;
+        ticksSinceSetback = 0;
+        strafeStage = 0;
+        tickMoveSpeed = 0.0;
+        speed = 0.0;
     }
+
+    @Subscribe
+    private final EventListener<EventUpdate> updateEventListener = event ->
+    {
+        if ((modeSetting.getValue() != Mode.STRAFE && modeSetting.getValue() != Mode.Y_PORT)
+                || --ticksSinceSetback > 0
+                || !timerSetting.getValue())
+        {
+            MC.timer.timerSpeed = 1.0f;
+        }
+
+        if (modeSetting.getValue() == Mode.Y_PORT && MoveUtil.isMoving())
+        {
+            MC.thePlayer.setSprinting(true);
+            double moveSpeed = getBaseGroundSpeed();
+
+            if (MC.thePlayer.onGround)
+            {
+                MC.thePlayer.jump();
+
+                if (timerSetting.getValue())
+                {
+                    if (MC.thePlayer.ticksExisted % 10 == 0)
+                    {
+                        MC.timer.timerSpeed = 1.35f;
+                    } else
+                    {
+                        MC.timer.timerSpeed = boost ? 1.088f : 1.077f;
+                    }
+
+                    moveSpeed *= boost ? 1.62 : 1.526;
+                } else
+                {
+                    MC.timer.timerSpeed = 1.0f;
+                    moveSpeed *= boost ? 1.622 : 1.545;
+                }
+            } else
+            {
+                boost = !boost;
+                MC.thePlayer.motionY = -4.0;
+                MC.timer.timerSpeed = 1.0f;
+            }
+
+            MoveUtil.setSpeed(null, moveSpeed);
+        }
+    };
 
     @Subscribe
     private final EventListener<EventMove> moveEventListener = event ->
     {
-        if (--lagTicks > 0)
-        {
-            MC.timer.timerSpeed = 1.0f;
-            return;
-        }
-
         if (modeSetting.getValue() == Mode.STRAFE)
         {
-            final boolean useTimer = timerSetting.getValue() && !ScaffoldCheat.INSTANCE.isToggled();
-
-            if (!MoveUtil.isMoving())
+            if (MC.thePlayer.onGround)
             {
-                MC.timer.timerSpeed = 1.0f;
-                speed = 1.18 * MoveUtil.getBaseNcpSpeed(20) - 0.01;
-                stage = 0;
+                speed = getBaseGroundSpeed();
+                strafeStage = 1;
             }
 
-            double friction = 0.99;
-            if (MC.theWorld.getBlock(PlayerUtil.getOrigin().down()) instanceof BlockIce)
+            if (ticksSinceSetback > 0)
             {
-                friction = 1.55;
+                strafeStage = 0;
             }
 
-            if (MoveUtil.isMoving() && MC.thePlayer.onGround)
+            if (timerSetting.getValue())
             {
-                stage = 1;
-                MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.3995f);
-                event.setY(MC.thePlayer.motionY);
-                speed *= boostTick ? 1.59 : 1.64;
-                speed *= friction;
-            } else
-            {
-                if (stage == 1)
+                if (MoveUtil.isMoving())
                 {
-                    double deboost = boostTick ? 0.82 : 0.7;
-                    if (friction > 0.99)
-                    {
-                        deboost -= 0.02;
-                    }
-                    final double diff = deboost * (speed - MoveUtil.getBaseNcpSpeed(4));
-                    speed = lastDistance - diff;
-                    stage = 2;
-                } else if (stage == 2)
-                {
-                    double slowdown = boostTick ? 169 : 139;
-                    if (friction > 0.99)
-                    {
-                        slowdown += 30;
-                    }
-                    speed -= speed / slowdown;
-                    boostTick = !boostTick;
-                }
-
-                if (boostTick && useTimer)
-                {
-                    MC.timer.timerSpeed = 1.088f;
+                    MC.timer.timerSpeed = boost ? 1.06f : 1.079f;
                 } else
                 {
                     MC.timer.timerSpeed = 1.0f;
                 }
             }
 
-            speed = Math.max(speed, MoveUtil.getBaseNcpSpeed(4));
-
-            if (MoveUtil.isMoving())
+            switch (strafeStage)
             {
-                MoveUtil.setSpeed(event, speed);
-            } else
-            {
-                MC.timer.timerSpeed = 1.0f;
+                case 0:
+                {
+                    speed = getBaseGroundSpeed();
+                    strafeStage = 1;
+                    break;
+                }
+                case 1: // jump/accel
+                {
+                    if (MC.thePlayer.onGround && MoveUtil.isMoving())
+                    {
+                        final double motionY = MoveUtil.getJumpHeight(0.3995f);
+                        MC.thePlayer.motionY = motionY;
+                        event.setY(motionY);
+                        final double jumpBoost = boost ? 1.459 : 1.426;
+                        speed = (1.45 * getBaseGroundSpeed() - 0.01) * jumpBoost;
+                        strafeStage = 2;
+                    }
+                    break;
+                }
+                case 2: // decelerate from big speed boost when jumping
+                {
+                    final double decel = boost ? 0.715 : 0.65;
+                    final double playerSpeed = decel * (tickMoveSpeed - getBaseGroundSpeed());
+                    speed = tickMoveSpeed - playerSpeed;
+                    strafeStage = 3;
+                    boost = !boost;
+                    break;
+                }
+                case 3: // air friction (reduce speed while in air)
+                {
+                    final double airFriction = boost ? 159.077f : 149.077f;
+                    speed = tickMoveSpeed - (tickMoveSpeed / airFriction);
+                    final List collisionBoxes = MC.theWorld.getCollidingBoundingBoxes(MC.thePlayer,
+                            MC.thePlayer.boundingBox.copy().offset(0, 0.2, 0));
+                    if (!collisionBoxes.isEmpty())
+                    {
+                        strafeStage = 0;
+                    }
+                    break;
+                }
             }
+
+            MoveUtil.setSpeed(event, MoveUtil.isMoving() ? Math.max(speed, getBaseGroundSpeed()) : 0.0);
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventFastUpdate> fastUpdateEventListener = event ->
+    {
+        if (modeSetting.getValue() == Mode.PHYSICS_CALC)
+        {
+            event.setUpdates(iterationsSetting.getValue());
+            event.cancel();
         }
     };
 
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        final double diffX = MC.thePlayer.posX - MC.thePlayer.lastTickPosX;
-        final double diffZ = MC.thePlayer.posZ - MC.thePlayer.lastTickPosZ;
-        lastDistance = Math.sqrt(diffX * diffX + diffZ * diffZ);
+        final double diffX = MC.thePlayer.posX - MC.thePlayer.prevPosX;
+        final double diffZ = MC.thePlayer.posZ - MC.thePlayer.prevPosZ;
+        tickMoveSpeed = Math.sqrt(diffX * diffX + diffZ * diffZ);
     };
 
     @Subscribe
@@ -148,16 +212,9 @@ public final class SpeedCheat extends Cheat
     {
         if (event.getPacket() instanceof S08PacketPlayerPosLook)
         {
-            MC.timer.timerSpeed = 1.0f;
-            lagTicks = 8;
+            ticksSinceSetback = 10;
         }
     };
-
-    @Override
-    public String getMetadata()
-    {
-        return EnumSettingComponent.formatEnum(modeSetting.getValue());
-    }
 
     @Override
     public boolean isActive()
@@ -165,8 +222,24 @@ public final class SpeedCheat extends Cheat
         return isToggled() && MoveUtil.isMoving();
     }
 
+    private double getBaseGroundSpeed()
+    {
+        return getGroundFriction() * MoveUtil.getBaseNcpSpeed(2) - 0.01;
+    }
+
+    private double getGroundFriction()
+    {
+        final BlockPos pos = PlayerUtil.getOrigin().down();
+        final Block block = MC.theWorld.getBlock(pos);
+        if (block == Blocks.ice || block == Blocks.packed_ice)
+        {
+            return 1.8;
+        }
+        return 0.99;
+    }
+
     public enum Mode
     {
-        STRAFE, TICK_ADVANCE
+        STRAFE, Y_PORT, /*ON_GROUND,*/ PHYSICS_CALC
     }
 }

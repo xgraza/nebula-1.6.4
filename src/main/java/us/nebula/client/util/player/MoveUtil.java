@@ -97,7 +97,7 @@ public final class MoveUtil
         if (MC.thePlayer.isPotionActive(Potion.moveSpeed.id))
         {
             final PotionEffect effect = MC.thePlayer.getActivePotionEffect(Potion.moveSpeed);
-            if (effect.getDuration() > minPotionTime * 50)
+            if (effect.getDuration() > minPotionTime * 20)
             {
                 speed *= 1.0 + (0.2 * (effect.getAmplifier() + 1));
             }
@@ -105,7 +105,7 @@ public final class MoveUtil
         if (MC.thePlayer.isPotionActive(Potion.moveSlowdown.id))
         {
             final PotionEffect effect = MC.thePlayer.getActivePotionEffect(Potion.moveSlowdown);
-            if (effect.getDuration() > minPotionTime * 50)
+            if (effect.getDuration() > minPotionTime * 20)
             {
                 speed /= 1.0 + (0.2 * (effect.getAmplifier() + 1));
             }
