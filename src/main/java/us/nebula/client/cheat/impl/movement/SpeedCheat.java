@@ -37,7 +37,14 @@ public final class SpeedCheat extends Cheat
             .setDescription("The method to use when speeding up")
             .build();
 
-    // strafe
+    private final Setting<Integer> setbackTicksSetting = numberBuilder("Setback Ticks", 10)
+            .setMin(0)
+            .setMax(50)
+            .setScale(1)
+            .setDescription("How long in ticks to handle AntiCheat set backs for")
+            .build();
+
+    // strafe/yport
     private final Setting<Boolean> timerSetting = builder("Timer", false)
             .setDescription("If to use timer to speed up the cheat even more")
             .setVisibility((value) -> modeSetting.getValue() == Mode.STRAFE || modeSetting.getValue() == Mode.Y_PORT)
@@ -49,6 +56,10 @@ public final class SpeedCheat extends Cheat
             .setMax(10)
             .setScale(1)
             .setDescription("How many times to re-update the local player")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.PHYSICS_CALC)
+            .build();
+    private final Setting<Boolean> handleSetbackSetting = builder("Handle Setbacks", false)
+            .setDescription("If to stop using Physics Calc when an AntiCheat setback is received")
             .setVisibility((value) -> modeSetting.getValue() == Mode.PHYSICS_CALC)
             .build();
 
@@ -194,6 +205,10 @@ public final class SpeedCheat extends Cheat
     {
         if (modeSetting.getValue() == Mode.PHYSICS_CALC)
         {
+            if (ticksSinceSetback > 0 && handleSetbackSetting.getValue())
+            {
+                return;
+            }
             event.setUpdates(iterationsSetting.getValue());
             event.cancel();
         }
@@ -212,7 +227,7 @@ public final class SpeedCheat extends Cheat
     {
         if (event.getPacket() instanceof S08PacketPlayerPosLook)
         {
-            ticksSinceSetback = 10;
+            ticksSinceSetback = setbackTicksSetting.getValue();
         }
     };
 
