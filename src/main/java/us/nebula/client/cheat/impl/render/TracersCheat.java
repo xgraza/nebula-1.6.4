@@ -130,8 +130,6 @@ public final class TracersCheat extends Cheat
         glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
         glLineWidth(lineWidthSetting.getValue());
 
-        glDisable(GL_LIGHTING);
-
         glLoadIdentity();
         MC.entityRenderer.orientCamera(event.getPartialTicks());
 
@@ -162,9 +160,8 @@ public final class TracersCheat extends Cheat
             glEnd();
         }
 
-        glEnable(GL_LIGHTING);
-
         glLineWidth(1.0f);
+        glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
         glDisable(GL_LINE_SMOOTH);
 
         glEnable(GL_TEXTURE_2D);
