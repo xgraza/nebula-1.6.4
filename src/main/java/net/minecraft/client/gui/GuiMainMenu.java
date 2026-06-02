@@ -19,8 +19,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
+import us.nebula.client.BuildConfig;
 import us.nebula.client.ClientSettings;
+import us.nebula.client.Environment;
 import us.nebula.client.account.gui.AccountSelectorScreen;
+import us.nebula.client.cheat.impl.render.HUDCheat;
+import us.nebula.client.util.render.gui.font.Fonts;
 
 import java.awt.Desktop;
 import java.net.URI;
@@ -488,6 +492,12 @@ public class GuiMainMenu extends GuiScreen
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        if (BuildConfig.ENV == Environment.PRIVATE)
+        {
+            final String text = "Nebula A.S.S version - please don't distribute!";
+            Fonts.POPPINS.drawStringShadow(text, width - Fonts.POPPINS.getStringWidth(text) - 2, 0, HUDCheat.INSTANCE.getBaseColor(10));
+        }
     }
 
     /**

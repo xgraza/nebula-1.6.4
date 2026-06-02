@@ -4,8 +4,12 @@ import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
+import us.nebula.client.BuildConfig;
+import us.nebula.client.Environment;
 import us.nebula.client.cheat.impl.player.AntiDisconnectCheat;
 import us.nebula.client.cheat.impl.player.AutoReconnectCheat;
+import us.nebula.client.cheat.impl.render.HUDCheat;
+import us.nebula.client.util.render.gui.font.Fonts;
 import us.nebula.client.wdl.WorldDownloader;
 import us.nebula.client.wdl.WorldDownloaderGUIScreen;
 
@@ -156,5 +160,11 @@ public class GuiIngameMenu extends GuiScreen
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRenderer, "Game menu", this.width / 2, 40, 16777215);
         super.drawScreen(par1, par2, par3);
+
+        if (BuildConfig.ENV == Environment.PRIVATE)
+        {
+            final String text = "Nebula A.S.S version - please don't distribute!";
+            Fonts.POPPINS.drawStringShadow(text, width - Fonts.POPPINS.getStringWidth(text) - 2, height - Fonts.POPPINS.getFontHeight() - 2, HUDCheat.INSTANCE.getBaseColor(10));
+        }
     }
 }
