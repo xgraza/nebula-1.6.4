@@ -66,13 +66,13 @@ public final class CheatManager implements ITypedManager<Cheat>
         addCheat(new InvWalkCheat());
         addCheat(new JesusCheat());
         addCheat(new LongJumpCheat());
+        addCheat(new NoAccelCheat());
         addCheat(new NoJumpDelayCheat());
         addCheat(new NoSlowCheat());
         // addCheat(new PathFinderCheat());
         addCheat(new SafeWalkCheat());
         addCheat(new SpeedCheat());
         addCheat(new SprintCheat());
-        addCheat(new StaticCheat());
         addCheat(new StepCheat());
         addCheat(new TargetStrafeCheat());
         addCheat(new TerrainCheat());

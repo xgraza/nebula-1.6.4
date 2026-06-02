@@ -13,10 +13,10 @@ import us.nebula.client.util.player.MoveUtil;
  * @author xgraza
  * @since 07/04/25
  */
-@CheatManifest(name = "Static",
+@CheatManifest(name = "NoAccel",
         description = "Makes movement more instantaneous",
         category = CheatCategory.MOVEMENT)
-public final class StaticCheat extends Cheat
+public final class NoAccelCheat extends Cheat
 {
     private final Setting<Boolean> movingSetting = builder("Moving", false)
             .setDescription("If to force a static speed when moving")
