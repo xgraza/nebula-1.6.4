@@ -9,11 +9,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.tree.CommandNode;
-import ez.nebula.client.impl.command.SelfKickCommand;
+import ez.nebula.client.impl.command.*;
 import ez.nebula.client.api.manager.IManager;
-import ez.nebula.client.impl.command.PingCommand;
-import ez.nebula.client.impl.command.SpawnTPCommand;
-import ez.nebula.client.impl.command.ToggleCommand;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
 
 import java.util.ArrayList;
@@ -33,6 +30,7 @@ public final class CommandManager implements IManager
     @Override
     public void init()
     {
+        register(new FriendCommand());
         register(new PingCommand());
         register(new SelfKickCommand());
         register(new SpawnTPCommand());
