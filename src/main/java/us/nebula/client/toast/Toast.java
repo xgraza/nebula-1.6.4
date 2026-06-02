@@ -1,6 +1,7 @@
 package us.nebula.client.toast;
 
 import net.minecraft.client.gui.ScaledResolution;
+import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.util.render.gui.animation.Animation;
 import us.nebula.client.util.render.gui.animation.AnimationEasing;
 import us.nebula.client.util.render.gui.font.Fonts;
@@ -16,7 +17,6 @@ public final class Toast
 {
     private static final double PADDING = 3.0;
 
-    private static final int TOAST_HEADER_COLOR = new Color(112, 82, 143).getRGB();
     private static final int TOAST_BACKGROUND_COLOR = new Color(33, 33, 33).getRGB();
 
     private final ToastType toastType;
@@ -52,7 +52,7 @@ public final class Toast
         animation.setState(deathTimeMS - 300 > System.currentTimeMillis());
 
         final double headerHeight = Fonts.POPPINS.getFontHeight() + PADDING;
-        RenderUtil.renderRoundedRectangle(posX, posY, toastWidth, headerHeight, 5.5f, TOAST_HEADER_COLOR);
+        RenderUtil.renderRoundedRectangle(posX, posY, toastWidth, headerHeight, 5.5f, HUDCheat.INSTANCE.getBaseColor(10));
         RenderUtil.renderRectangle(posX, posY + headerHeight - PADDING, toastWidth, toastHeight, TOAST_BACKGROUND_COLOR);
 
         final double progressBar = toastWidth * (((deathTimeMS - System.currentTimeMillis()) / (double) lifeMS));
