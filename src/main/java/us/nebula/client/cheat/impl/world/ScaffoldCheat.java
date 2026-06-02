@@ -130,7 +130,7 @@ public final class ScaffoldCheat extends Cheat
     @Subscribe
     private final EventListener<EventSafeWalk> eventSafeWalkEventListener = event ->
     {
-        if (MC.thePlayer.onGround && !MC.gameSettings.keyBindJump.pressed)
+        if (MC.thePlayer.onGround && !MC.gameSettings.keyBindJump.pressed && safeWalkSetting.getValue())
         {
             event.cancel();
         }
