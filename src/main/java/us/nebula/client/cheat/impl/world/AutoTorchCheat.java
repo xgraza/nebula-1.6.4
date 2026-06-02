@@ -69,7 +69,7 @@ public final class AutoTorchCheat extends Cheat
     {
         // do not interfere with KillAura or AutoBed
         // if we try to place with killaura, it'll delay our attacks and possibly get us killed
-        if (KillAuraCheat.INSTANCE.isActive() || AutoBedCheat.INSTANCE.isActive())
+        if (KillAuraCheat.INSTANCE.getTarget() != null || AutoBedCheat.INSTANCE.isActive())
         {
             return;
         }
