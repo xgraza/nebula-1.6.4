@@ -16,6 +16,7 @@ import us.nebula.client.listener.event.player.EventFastUpdate;
 import us.nebula.client.listener.event.player.EventMove;
 import us.nebula.client.listener.event.player.EventMoveUpdate;
 import us.nebula.client.setting.Setting;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.player.MoveUtil;
 import us.nebula.client.util.player.PlayerUtil;
 
@@ -205,7 +206,7 @@ public final class SpeedCheat extends Cheat
     {
         if (modeSetting.getValue() == Mode.PHYSICS_CALC)
         {
-            if (ticksSinceSetback > 0 && handleSetbackSetting.getValue())
+            if (--ticksSinceSetback > 0 && handleSetbackSetting.getValue())
             {
                 return;
             }
