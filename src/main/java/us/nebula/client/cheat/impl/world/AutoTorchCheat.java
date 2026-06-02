@@ -10,6 +10,8 @@ import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import us.nebula.client.Nebula;
+import us.nebula.client.cheat.impl.combat.AutoBedCheat;
+import us.nebula.client.cheat.impl.combat.KillAuraCheat;
 import us.nebula.client.interaction.InteractionManager;
 import us.nebula.client.listener.EventListener;
 import us.nebula.client.listener.Subscribe;
@@ -65,6 +67,13 @@ public final class AutoTorchCheat extends Cheat
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
+        // do not interfere with KillAura or AutoBed
+        // if we try to place with killaura, it'll delay our attacks and possibly get us killed
+        if (KillAuraCheat.INSTANCE.isActive() || AutoBedCheat.INSTANCE.isActive())
+        {
+            return;
+        }
+
         final int slot = InventoryUtil.getHotbarSlot((stack) ->
                 stack.getItem() instanceof ItemBlock
                         && ((ItemBlock) stack.getItem()).getBlock() instanceof BlockTorch);
