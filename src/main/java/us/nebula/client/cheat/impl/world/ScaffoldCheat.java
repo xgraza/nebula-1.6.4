@@ -5,9 +5,11 @@
 package us.nebula.client.cheat.impl.world;
 
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import us.nebula.client.Nebula;
@@ -19,6 +21,7 @@ import us.nebula.client.cheat.trait.CheatCategory;
 import us.nebula.client.cheat.trait.CheatInstance;
 import us.nebula.client.cheat.trait.CheatManifest;
 import us.nebula.client.listener.event.player.EventSafeWalk;
+import us.nebula.client.listener.event.render.EventRender2D;
 import us.nebula.client.setting.Setting;
 import us.nebula.client.util.math.Timer;
 import us.nebula.client.listener.event.game.EventUpdate;
@@ -26,8 +29,10 @@ import us.nebula.client.listener.event.network.EventPacket;
 import us.nebula.client.listener.event.render.EventRender3D;
 import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.player.InventoryUtil;
+import us.nebula.client.util.player.ItemUtil;
 import us.nebula.client.util.player.PlayerUtil;
 import us.nebula.client.util.render.RenderUtil;
+import us.nebula.client.util.render.gui.font.Fonts;
 import us.nebula.client.util.world.BlockUtil;
 
 /**
@@ -64,7 +69,7 @@ public final class ScaffoldCheat extends Cheat
     private final Timer towerTimer = new Timer();
     private double basePosY;
     private BlockData blockData;
-    private int towerTicks;
+    private int towerTicks, slot;
 
     @Override
     public void onDisable()
@@ -73,12 +78,13 @@ public final class ScaffoldCheat extends Cheat
         blockData = null;
         basePosY = -1.0;
         towerTicks = 0;
+        slot = -1;
     }
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        final int slot = InventoryUtil.getHotbarSlot(
+        slot = InventoryUtil.getHotbarSlot(
                 (stack) -> stack.getItem() instanceof ItemBlock
                         && ((ItemBlock) stack.getItem()).getBlock().getMaterial().isSolid());
         if (slot == -1)
@@ -134,6 +140,47 @@ public final class ScaffoldCheat extends Cheat
         {
             event.cancel();
         }
+    };
+
+    @Subscribe
+    private final EventListener<EventRender2D> render2DEventListener = event ->
+    {
+        if (slot == -1 || !renderSetting.getValue())
+        {
+            return;
+        }
+        final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(slot);
+        if (itemStack == null || !(itemStack.getItem() instanceof ItemBlock))
+        {
+            return;
+        }
+
+        int blocksLeft = 0;
+        if (ItemUtil.isInfinite(itemStack))
+        {
+            blocksLeft = -1;
+        } else
+        {
+            final int stackSize = itemStack.stackSize;
+            if (stackSize != 0)
+            {
+                blocksLeft = stackSize;
+            }
+        }
+
+        final String text = String.format("%sBlocks left:%s %s",
+                EnumChatFormatting.GRAY,
+                EnumChatFormatting.RESET,
+                blocksLeft == -1 ?
+                        EnumChatFormatting.RED + "Infinite"
+                        : blocksLeft);
+        final double totalWidth = 16 + 2 + Fonts.POPPINS.getStringWidth(text);
+        final double posX = event.getResolution().getScaledWidth_double() / 2.0 - totalWidth / 2.0;
+        final double posY = event.getResolution().getScaledHeight_double() / 2.0 + 100;
+
+        RenderUtil.renderRectangle(posX - 2, posY - 2, totalWidth + 4, 16 + 4, 0x80000000);
+        RenderUtil.renderItemWithoutEffects(itemStack, (int) posX, (int) posY);
+        Fonts.POPPINS.drawStringShadow(text, posX + 18, posY + 2, -1);
     };
 
     @Subscribe

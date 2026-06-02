@@ -505,6 +505,25 @@ public final class RenderUtil
         glPopMatrix();
     }
 
+    public static void renderItemWithoutEffects(final ItemStack itemStack,
+                                                final int posX,
+                                                final int posY)
+    {
+        if (itemStack == null)
+        {
+            return;
+        }
+
+        glPushMatrix();
+        RenderHelper.enableGUIStandardItemLighting();
+
+        RENDER_ITEM.renderItemIntoGUI(
+                MC.fontRenderer, MC.getTextureManager(), itemStack, posX, posY);
+
+        RenderHelper.disableStandardItemLighting();
+        glPopMatrix();
+    }
+
     public static void renderItemWithGlint(final ItemStack itemStack,
                                            final int posX,
                                            final int posY)
