@@ -95,7 +95,7 @@ public final class AutoTorchCheat extends Cheat
             for (int z = -r; z <= r; ++z)
             {
                 final BlockPos pos = origin.add(x, 0, z);
-                if (BlockUtil.isNotAir(pos) || MC.thePlayer.getDistance(pos.getX(), pos.getY(), pos.getZ()) > rangeSetting.getValue())
+                if (!BlockUtil.isReplaceable(pos) || MC.thePlayer.getDistance(pos.getX(), pos.getY(), pos.getZ()) > rangeSetting.getValue())
                 {
                     continue;
                 }
