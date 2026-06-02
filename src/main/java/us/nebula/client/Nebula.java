@@ -41,7 +41,7 @@ public enum Nebula
 {
     INSTANCE;
 
-    private final Logger logger = LogManager.getLogger("Nebula");
+    private final Logger logger = LogManager.getLogger(ClientSettings.NAME);
     private File nebulaRootDir;
 
     private final Executor executor = Executors.newFixedThreadPool(1);

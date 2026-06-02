@@ -21,11 +21,13 @@ group = project.group
 version = project.version
 
 buildConfig {
-    buildConfigField(String, "HASH", gitHash)
-    buildConfigField(String, "BRANCH", gitBranch)
-    buildConfigField(String, "VERSION", project.version)
+    buildConfigField(String,  "HASH", gitHash)
+    buildConfigField(String,  "BRANCH", gitBranch)
+    buildConfigField(String,  "VERSION", project.version)
     buildConfigField(Integer, "BUILD", buildNumber)
-    buildConfigField(String, "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
+    buildConfigField(String,  "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
+    buildConfigField(String,  "NAME", project.name)
+    buildConfigField("us.nebula.client.Environment", "ENV", "us.nebula.client.Environment.${project.env.toUpperCase()}")
 
     packageName project.group.toString()
     useJavaOutput()

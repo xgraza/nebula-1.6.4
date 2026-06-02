@@ -7,6 +7,8 @@ package us.nebula.client;
  */
 public final class ClientSettings
 {
+    public static final String NAME = String.format("%s%s", BuildConfig.NAME,
+            BuildConfig.ENV == Environment.STABLE ? "" : " " + BuildConfig.ENV);
     public static final String SHORT_VERSION = String.format("%s+%s",
             BuildConfig.VERSION, BuildConfig.BUILD);
     public static final String VERSION = String.format("%s/%s-%s",

@@ -24,7 +24,7 @@ public final class WatermarkHUDElement extends HUDElement
     @Override
     public void render(final ScaledResolution res)
     {
-        final String text = "Nebula " + (fullVersionSetting.getValue()
+        final String text = ClientSettings.NAME + " " + (fullVersionSetting.getValue()
                 ? ClientSettings.VERSION
                 : ClientSettings.SHORT_VERSION);
         setWidth(Fonts.POPPINS.getStringWidth(text) + (getPadding() * 2.0));
