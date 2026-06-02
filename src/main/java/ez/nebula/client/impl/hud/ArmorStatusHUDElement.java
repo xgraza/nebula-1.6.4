@@ -1,16 +1,10 @@
 package ez.nebula.client.impl.hud;
 
+import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
-
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 /**
  * @author xgraza
@@ -21,7 +15,6 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
         x = 20, y = 20, height = 18)
 public final class ArmorStatusHUDElement extends HUDElement
 {
-    private static final RenderItem RENDER_ITEM = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
     private static final int WIDTH_PER_COMPONENT = 16;
 
     @Override
@@ -41,18 +34,9 @@ public final class ArmorStatusHUDElement extends HUDElement
             {
                 continue;
             }
-            glPushMatrix();
-            RenderHelper.enableGUIStandardItemLighting();
-
-            final double posX = x + 1 + (i * 16);
+            final double posX = x + 1 + (i * WIDTH_PER_COMPONENT);
             final double posY = y + 1;
-
-            RENDER_ITEM.renderItemAndEffectIntoGUI(MC.fontRenderer, MC.getTextureManager(), stack, (int) posX, (int) posY);
-            RENDER_ITEM.renderItemOverlayIntoGUI(MC.fontRenderer, MC.getTextureManager(), stack, (int) posX, (int) posY);
-
-            RenderHelper.disableStandardItemLighting();
-
-            glPopMatrix();
+            RenderUtil.renderItemWithGlint(stack, (int) posX, (int) posY);
         }
     }
 }

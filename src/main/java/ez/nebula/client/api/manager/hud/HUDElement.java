@@ -29,7 +29,7 @@ import java.util.Map;
 public class HUDElement extends GUIComponent implements SettingProvider, IJSONSerializable, Togglable
 {
     protected static final Minecraft MC = Minecraft.getMinecraft();
-    static final String DEFAULT_DESCRIPTION = "No description provided for this element";
+    public static final String DEFAULT_DESCRIPTION = "No description provided for this element";
 
     private final Map<String, Setting<?>> settingNameMap = new LinkedHashMap<>();
     private final List<Setting<?>> settingList = new LinkedList<>();
