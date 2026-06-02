@@ -19,8 +19,8 @@ public final class MoveUtil
 
     public static double getPlayerMoveDistance()
     {
-        final double deltaX = MC.thePlayer.posX - MC.thePlayer.prevPosX;
-        final double deltaZ = MC.thePlayer.posZ - MC.thePlayer.prevPosZ;
+        final double deltaX = MC.thePlayer.posX - MC.thePlayer.lastTickPosX;
+        final double deltaZ = MC.thePlayer.posZ - MC.thePlayer.lastTickPosZ;
         return Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
     }
 

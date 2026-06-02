@@ -5,6 +5,7 @@ import net.minecraft.util.EnumChatFormatting;
 import us.nebula.client.cheat.impl.render.HUDCheat;
 import us.nebula.client.hud.HUDElement;
 import us.nebula.client.hud.HUDManifest;
+import us.nebula.client.util.player.MoveUtil;
 import us.nebula.client.util.render.gui.font.Fonts;
 
 /**
@@ -26,9 +27,7 @@ public final class SpeedHUDElement extends HUDElement
     @Override
     public void render(final ScaledResolution res)
     {
-        final double deltaX = MC.thePlayer.posX - MC.thePlayer.lastTickPosX;
-        final double deltaZ = MC.thePlayer.posZ - MC.thePlayer.lastTickPosZ;
-        final double moveDelta = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+        final double moveDelta = MoveUtil.getPlayerMoveDistance();
         double speed = (moveDelta / 1000) / (0.05 / 3600);
         speed *= MC.timer.timerSpeed;
         speed /= 3.6;

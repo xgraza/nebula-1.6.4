@@ -216,11 +216,7 @@ public final class SpeedCheat extends Cheat
 
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
-    {
-        final double diffX = MC.thePlayer.posX - MC.thePlayer.prevPosX;
-        final double diffZ = MC.thePlayer.posZ - MC.thePlayer.prevPosZ;
-        tickMoveSpeed = Math.sqrt(diffX * diffX + diffZ * diffZ);
-    };
+            tickMoveSpeed = MoveUtil.getPlayerMoveDistance();
 
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
