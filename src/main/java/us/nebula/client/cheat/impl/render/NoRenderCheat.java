@@ -57,6 +57,9 @@ public final class NoRenderCheat extends Cheat
     public final Setting<Boolean> weatherSetting = builder("Weather", false)
             .setDescription("If to disable rendering weather effects (i.e. rain, snow, lightning)")
             .build();
+    public final Setting<Boolean> nauseaSetting = builder("Nausea", false)
+            .setDescription("If to remove the warp camera effect when in a portal or the nausea effect is active")
+            .build();
 
     @Subscribe
     private final EventListener<EventRenderWaterEffects> renderWaterEffectsEventListener = event ->

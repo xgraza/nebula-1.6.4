@@ -926,22 +926,25 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.setupViewBobbing(par1);
         }
 
-        var4 = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * par1;
-
-        if (var4 > 0.0F)
+        if (!NoRenderCheat.INSTANCE.isToggled() || !NoRenderCheat.INSTANCE.nauseaSetting.getValue())
         {
-            byte var7 = 20;
+            var4 = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * par1;
 
-            if (this.mc.thePlayer.isPotionActive(Potion.confusion))
+            if (var4 > 0.0F)
             {
-                var7 = 7;
-            }
+                byte var7 = 20;
 
-            float var6 = 5.0F / (var4 * var4 + 5.0F) - var4 * 0.04F;
-            var6 *= var6;
-            GL11.glRotatef(((float) this.rendererUpdateCount + par1) * (float) var7, 0.0F, 1.0F, 1.0F);
-            GL11.glScalef(1.0F / var6, 1.0F, 1.0F);
-            GL11.glRotatef(-((float) this.rendererUpdateCount + par1) * (float) var7, 0.0F, 1.0F, 1.0F);
+                if (this.mc.thePlayer.isPotionActive(Potion.confusion))
+                {
+                    var7 = 7;
+                }
+
+                float var6 = 5.0F / (var4 * var4 + 5.0F) - var4 * 0.04F;
+                var6 *= var6;
+                GL11.glRotatef(((float) this.rendererUpdateCount + par1) * (float) var7, 0.0F, 1.0F, 1.0F);
+                GL11.glScalef(1.0F / var6, 1.0F, 1.0F);
+                GL11.glRotatef(-((float) this.rendererUpdateCount + par1) * (float) var7, 0.0F, 1.0F, 1.0F);
+            }
         }
 
         this.orientCamera(par1);
