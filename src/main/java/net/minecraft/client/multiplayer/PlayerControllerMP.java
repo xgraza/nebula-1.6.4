@@ -19,11 +19,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
-import us.nebula.client.Nebula;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.cheat.impl.player.InteractCheat;
-import us.nebula.client.listener.event.player.EventAttackBlock;
-import us.nebula.client.util.player.ChatUtil;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.impl.module.player.InteractModule;
+import ez.nebula.client.api.listener.event.player.EventAttackBlock;
 
 public class PlayerControllerMP
 {
@@ -325,9 +324,9 @@ public class PlayerControllerMP
      */
     public float getBlockReachDistance()
     {
-        if (InteractCheat.INSTANCE.isToggled())
+        if (InteractModule.INSTANCE.isToggled())
         {
-            return InteractCheat.INSTANCE.placeReachSetting.getValue().floatValue();
+            return InteractModule.INSTANCE.placeReachSetting.getValue().floatValue();
         }
         return this.currentGameType.isCreative() ? 5.0F : 4.5F;
     }

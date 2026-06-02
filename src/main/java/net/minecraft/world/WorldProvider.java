@@ -1,5 +1,6 @@
 package net.minecraft.world;
 
+import ez.nebula.client.impl.module.render.NoRenderModule;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
@@ -11,7 +12,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.ChunkProviderGenerate;
 import net.minecraft.world.gen.FlatGeneratorInfo;
-import us.nebula.client.cheat.impl.render.NoRenderCheat;
 
 public abstract class WorldProvider
 {
@@ -245,8 +245,8 @@ public abstract class WorldProvider
      */
     public boolean getWorldHasVoidParticles()
     {
-        if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.voidParticlesSetting.getValue())
+        if (NoRenderModule.INSTANCE.isToggled()
+                && NoRenderModule.INSTANCE.voidParticlesSetting.getValue())
         {
             return false;
         }

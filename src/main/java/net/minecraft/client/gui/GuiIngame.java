@@ -4,6 +4,7 @@
 
 package net.minecraft.client.gui;
 
+import ez.nebula.client.impl.module.render.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -35,18 +36,15 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import us.nebula.client.ClientSettings;
-import us.nebula.client.Nebula;
-import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.cheat.impl.render.BetterF3Cheat;
-import us.nebula.client.cheat.impl.render.ExtraTabCheat;
-import us.nebula.client.cheat.impl.render.NoRenderCheat;
-import us.nebula.client.listener.event.render.EventRender2D;
-import us.nebula.client.listener.event.render.EventRenderWaterEffects;
-import us.nebula.client.util.player.PlayerUtil;
-import us.nebula.client.util.render.HeadDownloader;
-import us.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.core.ClientConfig;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.render.EventRender2D;
+import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
+import ez.nebula.client.util.minecraft.player.PlayerUtil;
+import ez.nebula.client.util.render.HeadDownloader;
+import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 import java.util.Collection;
@@ -399,7 +397,7 @@ public class GuiIngame extends Gui
 
     private void renderDebug(int var6)
     {
-        if (BetterF3Cheat.INSTANCE.isToggled())
+        if (BetterF3Module.INSTANCE.isToggled())
         {
             renderCustomDebug(var6);
             return;
@@ -459,7 +457,7 @@ public class GuiIngame extends Gui
         int y = 2;
 
         font.drawStringWithShadow("Minecraft 1.7.2", 2, y, color);
-        font.drawStringWithShadow("Nebula " + ClientSettings.VERSION, 2, y += 10, color);
+        font.drawStringWithShadow("Nebula " + ClientConfig.VERSION, 2, y += 10, color);
 
         font.drawStringWithShadow("FPS: " + Minecraft.debugFPS, 2, y += 18, color);
         font.drawStringWithShadow("TPS: " + Nebula.INSTANCE.getServerManager().getAverageTPS() + " [" + Nebula.INSTANCE.getServerManager().getCurrentTPS() + "]", 2, y += 10, color);
@@ -564,7 +562,7 @@ public class GuiIngame extends Gui
 
     private void renderPlayerList(final int screenWidth, final ScoreObjective objective)
     {
-        if (ExtraTabCheat.INSTANCE.isToggled() && ExtraTabCheat.INSTANCE.customSetting.getValue())
+        if (ExtraTabModule.INSTANCE.isToggled() && ExtraTabModule.INSTANCE.customSetting.getValue())
         {
             renderCustomTabList(screenWidth);
             return;
@@ -606,8 +604,8 @@ public class GuiIngame extends Gui
                 GuiPlayerInfo info = playerInfo.get(i);
 
                 int offset = 0;
-                if (ExtraTabCheat.INSTANCE.isToggled()
-                        && ExtraTabCheat.INSTANCE.showPlayerHeadSetting.getValue())
+                if (ExtraTabModule.INSTANCE.isToggled()
+                        && ExtraTabModule.INSTANCE.showPlayerHeadSetting.getValue())
                 {
                     final int texSize = 7;
                     final DynamicTexture texture = HeadDownloader.getOrDownloadTexture(info.name, texSize);
@@ -637,8 +635,8 @@ public class GuiIngame extends Gui
                 }
 
                 String name;
-                if (ExtraTabCheat.INSTANCE.isToggled()
-                        && ExtraTabCheat.INSTANCE.highlightFriendsSetting.getValue()
+                if (ExtraTabModule.INSTANCE.isToggled()
+                        && ExtraTabModule.INSTANCE.highlightFriendsSetting.getValue()
                         && (Nebula.INSTANCE.getFriendManager().isFriend(info.name)
                         || info.name.equals(mc.thePlayer.getCommandSenderName())))
                 {
@@ -665,8 +663,8 @@ public class GuiIngame extends Gui
 
                 glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-                if (ExtraTabCheat.INSTANCE.isToggled()
-                        && ExtraTabCheat.INSTANCE.showBarsSetting.getValue())
+                if (ExtraTabModule.INSTANCE.isToggled()
+                        && ExtraTabModule.INSTANCE.showBarsSetting.getValue())
                 {
                     this.mc.getTextureManager().bindTexture(icons);
 
@@ -729,7 +727,7 @@ public class GuiIngame extends Gui
 
             drawRect(x, y, x + sizePerItem - 1, y + fontHeight - 1, 553648127);
 
-            if (ExtraTabCheat.INSTANCE.showPlayerHeadSetting.getValue())
+            if (ExtraTabModule.INSTANCE.showPlayerHeadSetting.getValue())
             {
                 final int texSize = fontHeight - 2;
                 final DynamicTexture texture = HeadDownloader.getOrDownloadTexture(info.name, texSize);
@@ -759,7 +757,7 @@ public class GuiIngame extends Gui
             }
 
             String name;
-            if (ExtraTabCheat.INSTANCE.highlightFriendsSetting.getValue()
+            if (ExtraTabModule.INSTANCE.highlightFriendsSetting.getValue()
                     && (Nebula.INSTANCE.getFriendManager().isFriend(info.name)
                     || info.name.equals(mc.thePlayer.getCommandSenderName())))
             {
@@ -774,7 +772,7 @@ public class GuiIngame extends Gui
 
             glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-            if (ExtraTabCheat.INSTANCE.showBarsSetting.getValue())
+            if (ExtraTabModule.INSTANCE.showBarsSetting.getValue())
             {
                 this.mc.getTextureManager().bindTexture(icons);
                 byte barIndex;
@@ -1175,8 +1173,8 @@ public class GuiIngame extends Gui
 
     private void renderPumpkinBlur(int par1, int par2)
     {
-        if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.pumpkinSetting.getValue())
+        if (NoRenderModule.INSTANCE.isToggled()
+                && NoRenderModule.INSTANCE.pumpkinSetting.getValue())
         {
             return;
         }
@@ -1237,8 +1235,8 @@ public class GuiIngame extends Gui
 
     private void renderPortalOverlay(float par1, int par2, int par3)
     {
-        if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.portalSetting.getValue())
+        if (NoRenderModule.INSTANCE.isToggled()
+                && NoRenderModule.INSTANCE.portalSetting.getValue())
         {
             return;
         }

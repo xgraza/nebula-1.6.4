@@ -1,5 +1,6 @@
 package net.minecraft.entity;
 
+import ez.nebula.client.impl.module.movement.TerrainModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockIce;
 import net.minecraft.block.material.Material;
@@ -28,8 +29,7 @@ import net.minecraft.scoreboard.Team;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import us.nebula.client.cheat.impl.movement.TerrainCheat;
-import us.nebula.client.cheat.impl.render.ViewModelCheat;
+import ez.nebula.client.impl.module.render.ViewModelModule;
 
 import java.util.*;
 
@@ -1336,9 +1336,9 @@ public abstract class EntityLivingBase extends Entity
      */
     private int getArmSwingAnimationEnd()
     {
-        if (ViewModelCheat.INSTANCE.isToggled() && this.equals(Minecraft.getMinecraft().thePlayer))
+        if (ViewModelModule.INSTANCE.isToggled() && this.equals(Minecraft.getMinecraft().thePlayer))
         {
-            return 20 - ViewModelCheat.INSTANCE.swingSpeedSetting.getValue();
+            return 20 - ViewModelModule.INSTANCE.swingSpeedSetting.getValue();
         }
 
         return this.isPotionActive(Potion.digSpeed) ? 6 - (1 + this.getActivePotionEffect(Potion.digSpeed).getAmplifier()) : (this.isPotionActive(Potion.digSlowdown) ? 6 + (1 + this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 : 6);
@@ -1626,9 +1626,9 @@ public abstract class EntityLivingBase extends Entity
                 Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
                 var3 = block.slipperiness * 0.91f;
 
-                if (TerrainCheat.iceSpeed() && block instanceof BlockIce)
+                if (TerrainModule.iceSpeed() && block instanceof BlockIce)
                 {
-                    var3 = TerrainCheat.NCP_ICE_MAX;
+                    var3 = TerrainModule.NCP_ICE_MAX;
                 }
             }
 
@@ -1651,9 +1651,9 @@ public abstract class EntityLivingBase extends Entity
                 Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
                 var3 = block.slipperiness * 0.91f;
 
-                if (TerrainCheat.iceSpeed() && block instanceof BlockIce)
+                if (TerrainModule.iceSpeed() && block instanceof BlockIce)
                 {
-                    var3 = TerrainCheat.NCP_ICE_MAX;
+                    var3 = TerrainModule.NCP_ICE_MAX;
                 }
             }
 

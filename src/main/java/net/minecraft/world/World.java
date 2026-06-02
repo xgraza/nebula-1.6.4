@@ -1,5 +1,8 @@
 package net.minecraft.world;
 
+import ez.nebula.client.impl.module.exploit.GhostHandModule;
+import ez.nebula.client.impl.module.player.AntiLagModule;
+import ez.nebula.client.impl.module.render.NoRenderModule;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EntityFX;
@@ -32,14 +35,10 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.listener.event.world.EventRemoveTileEntity;
-import us.nebula.client.util.render.EntityCulling;
-import us.nebula.client.cheat.impl.exploit.GhostHandCheat;
-import us.nebula.client.cheat.impl.player.AntiLagCheat;
-import us.nebula.client.cheat.impl.render.NoRenderCheat;
-import us.nebula.client.cheat.impl.world.AutoTorchCheat;
-import us.nebula.client.listener.event.player.EventPushWater;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.world.EventRemoveTileEntity;
+import ez.nebula.client.impl.module.world.AutoTorchModule;
+import ez.nebula.client.api.listener.event.player.EventPushWater;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -1259,10 +1258,10 @@ public abstract class World implements IBlockAccess
                     }
 
                     Block var37 = this.getBlock(var9, var10, var11);
-                    if (GhostHandCheat.INSTANCE != null
-                            && GhostHandCheat.INSTANCE.isToggled()
-                            && GhostHandCheat.BLOCK_WHITELIST.contains(var37)
-                            && !GhostHandCheat.INSTANCE.isAllowedToInteract())
+                    if (GhostHandModule.INSTANCE != null
+                            && GhostHandModule.INSTANCE.isToggled()
+                            && GhostHandModule.BLOCK_WHITELIST.contains(var37)
+                            && !GhostHandModule.INSTANCE.isAllowedToInteract())
                     {
                         continue;
                     }
@@ -3176,9 +3175,9 @@ public abstract class World implements IBlockAccess
             this.theProfiler.endSection();
             this.theProfiler.startSection("checkedPosition < toCheckCount");
 
-            final boolean noRecompile = AntiLagCheat.INSTANCE.isToggled()
-                    && AntiLagCheat.INSTANCE.noLightRecompile.getValue()
-                    && !AutoTorchCheat.INSTANCE.isToggled();
+            final boolean noRecompile = AntiLagModule.INSTANCE.isToggled()
+                    && AntiLagModule.INSTANCE.noLightRecompile.getValue()
+                    && !AutoTorchModule.INSTANCE.isToggled();
 
             while (var5 < var6)
             {
@@ -3806,8 +3805,8 @@ public abstract class World implements IBlockAccess
 
     public float getWeightedThunderStrength(float par1)
     {
-        if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.weatherSetting.getValue())
+        if (NoRenderModule.INSTANCE.isToggled()
+                && NoRenderModule.INSTANCE.weatherSetting.getValue())
         {
             return 0.0f;
         }
@@ -3828,8 +3827,8 @@ public abstract class World implements IBlockAccess
      */
     public float getRainStrength(float par1)
     {
-        if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.weatherSetting.getValue())
+        if (NoRenderModule.INSTANCE.isToggled()
+                && NoRenderModule.INSTANCE.weatherSetting.getValue())
         {
             return 0.0f;
         }

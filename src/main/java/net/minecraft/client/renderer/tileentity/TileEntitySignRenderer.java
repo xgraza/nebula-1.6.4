@@ -8,7 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.cheat.impl.render.NoRenderCheat;
+import ez.nebula.client.impl.module.render.NoRenderModule;
 
 public class TileEntitySignRenderer extends TileEntitySpecialRenderer
 {
@@ -68,7 +68,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
         GL11.glDepthMask(false);
         byte var13 = 0;
 
-        if (!NoRenderCheat.INSTANCE.isToggled() || !NoRenderCheat.INSTANCE.signTextSetting.getValue())
+        if (!NoRenderModule.INSTANCE.isToggled() || !NoRenderModule.INSTANCE.signTextSetting.getValue())
         {
             for (int var14 = 0; var14 < p_147512_1_.lines.length; ++var14)
             {

@@ -61,10 +61,10 @@ import net.minecraft.world.storage.MapData;
 import net.minecraft.world.storage.MapStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.listener.event.network.EventDisconnect;
-import us.nebula.client.listener.event.player.EventPlayerDeath;
-import us.nebula.client.wdl.WorldDownloader;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.network.EventDisconnect;
+import ez.nebula.client.api.listener.event.player.EventPlayerDeath;
+import ez.nebula.client.worlddownloader.WorldDownloader;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

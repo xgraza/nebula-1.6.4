@@ -5,6 +5,7 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.impl.module.render.ChatModifierModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,10 +16,9 @@ import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.Nebula;
-import us.nebula.client.cheat.impl.render.ChatModifierCheat;
-import us.nebula.client.util.render.HeadDownloader;
-import us.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.util.render.HeadDownloader;
+import ez.nebula.client.util.render.RenderUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,7 +45,7 @@ public class GuiNewChat extends Gui
 
     public void drawChat(int updateCounter)
     {
-        if (ChatModifierCheat.INSTANCE.isToggled())
+        if (ChatModifierModule.INSTANCE.isToggled())
         {
             drawNebulaChat(updateCounter);
             return;
@@ -129,7 +129,7 @@ public class GuiNewChat extends Gui
             return;
         }
 
-        final ChatModifierCheat cm = ChatModifierCheat.INSTANCE;
+        final ChatModifierModule cm = ChatModifierModule.INSTANCE;
 
         glPushMatrix();
 
@@ -269,8 +269,8 @@ public class GuiNewChat extends Gui
 
     public void clearChatMessages()
     {
-        if (ChatModifierCheat.INSTANCE.isToggled()
-                && ChatModifierCheat.INSTANCE.infiniteChatSetting.getValue())
+        if (ChatModifierModule.INSTANCE.isToggled()
+                && ChatModifierModule.INSTANCE.infiniteChatSetting.getValue())
         {
             return;
         }

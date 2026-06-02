@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.tileentity;
 
+import ez.nebula.client.impl.module.render.ChamsModule;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderEnchantmentTable;
@@ -11,7 +12,6 @@ import net.minecraft.tileentity.*;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.cheat.impl.render.ChamsCheat;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -118,17 +118,17 @@ public class TileEntityRendererDispatcher
             {
                 // EntityCulling.queryTileEntity(p_147549_1_);
 
-                final boolean renderingChams = ChamsCheat.INSTANCE != null
-                        && ChamsCheat.INSTANCE.isToggled()
-                        && ChamsCheat.INSTANCE.isTileEntityValid(p_147549_1_);
+                final boolean renderingChams = ChamsModule.INSTANCE != null
+                        && ChamsModule.INSTANCE.isToggled()
+                        && ChamsModule.INSTANCE.isTileEntityValid(p_147549_1_);
 
                 if (renderingChams)
                 {
-                    ChamsCheat.INSTANCE.preEntityRender();
+                    ChamsModule.INSTANCE.preEntityRender();
                 }
                 var9.renderTileEntityAt(p_147549_1_, p_147549_2_, p_147549_4_, p_147549_6_, p_147549_8_);
 
-                if (renderingChams && ChamsCheat.INSTANCE.postEntityRender())
+                if (renderingChams && ChamsModule.INSTANCE.postEntityRender())
                 {
                     var9.renderTileEntityAt(p_147549_1_, p_147549_2_, p_147549_4_, p_147549_6_, p_147549_8_);
                 }

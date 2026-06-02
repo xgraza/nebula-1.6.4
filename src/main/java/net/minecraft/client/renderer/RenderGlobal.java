@@ -46,7 +46,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.ARBOcclusionQuery;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
-import us.nebula.client.util.render.EntityCulling;
+import ez.nebula.client.util.render.EntityCulling;
 
 import java.nio.IntBuffer;
 import java.util.*;

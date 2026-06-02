@@ -11,14 +11,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.item.*;
-import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.entity.passive.IAnimals;
-import net.minecraft.entity.projectile.EntityEgg;
-import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.scoreboard.Scoreboard;
@@ -31,10 +24,10 @@ import net.minecraft.world.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.SaveHandlerMP;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.cheat.impl.render.NoRenderCheat;
-import us.nebula.client.listener.event.world.EventAddEntity;
-import us.nebula.client.wdl.WorldDownloader;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.impl.module.render.NoRenderModule;
+import ez.nebula.client.api.listener.event.world.EventAddEntity;
+import ez.nebula.client.worlddownloader.WorldDownloader;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -330,8 +323,8 @@ public class WorldClient extends World
 
     public void doVoidFogParticles(int par1, int par2, int par3)
     {
-        if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.voidParticlesSetting.getValue())
+        if (NoRenderModule.INSTANCE.isToggled()
+                && NoRenderModule.INSTANCE.voidParticlesSetting.getValue())
         {
             return;
         }

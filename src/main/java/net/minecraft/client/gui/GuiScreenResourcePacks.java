@@ -6,7 +6,7 @@ import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.Sys;
-import us.nebula.client.util.LoadingScreen;
+import ez.nebula.client.impl.gui.startup.LoadingScreen;
 
 import java.awt.Desktop;
 import java.io.File;

@@ -3,8 +3,8 @@ package net.minecraft.client.gui;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IChatComponent;
-import us.nebula.client.cheat.impl.player.AutoReconnectCheat;
-import us.nebula.client.util.math.Timer;
+import ez.nebula.client.impl.module.player.AutoReconnectModule;
+import ez.nebula.client.util.math.Timer;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class GuiDisconnected extends GuiScreen
     public void initGui()
     {
         this.buttonList.clear();
-        if (AutoReconnectCheat.INSTANCE.getLastServer() != null)
+        if (AutoReconnectModule.INSTANCE.getLastServer() != null)
         {
             buttonList.add(new GuiButton(1, width / 2 - 100, this.height / 4 + 120 + 12, "Reconnect"));
             this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 142 + 12, I18n.format("gui.toMenu")));
@@ -45,7 +45,7 @@ public class GuiDisconnected extends GuiScreen
         {
             this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.toMenu")));
         }
-        if (AutoReconnectCheat.INSTANCE.isToggled())
+        if (AutoReconnectModule.INSTANCE.isToggled())
         {
             reconnectTimer.resetTime();
         }
@@ -59,7 +59,7 @@ public class GuiDisconnected extends GuiScreen
             this.mc.displayGuiScreen(this.parent);
         } else if (guiButton.id == 1)
         {
-            mc.displayGuiScreen(new GuiConnecting(this, mc, AutoReconnectCheat.INSTANCE.getLastServer()));
+            mc.displayGuiScreen(new GuiConnecting(this, mc, AutoReconnectModule.INSTANCE.getLastServer()));
         }
     }
 
@@ -81,10 +81,10 @@ public class GuiDisconnected extends GuiScreen
             }
         }
 
-        if (AutoReconnectCheat.INSTANCE.isToggled()
-                && AutoReconnectCheat.INSTANCE.getLastServer() != null)
+        if (AutoReconnectModule.INSTANCE.isToggled()
+                && AutoReconnectModule.INSTANCE.getLastServer() != null)
         {
-            final long reconnectDelay = AutoReconnectCheat.INSTANCE.delaySetting.getValue() * 1000L;
+            final long reconnectDelay = AutoReconnectModule.INSTANCE.delaySetting.getValue() * 1000L;
             final double elapsedTime = reconnectTimer.getTimeElapsedMS();
             String timeFormatted = "";
             if (elapsedTime > reconnectDelay)
@@ -101,7 +101,7 @@ public class GuiDisconnected extends GuiScreen
             if (reconnectTimer.hasElapsed(reconnectDelay + 50L))
             {
                 reconnectTimer.resetTime();
-                mc.displayGuiScreen(new GuiConnecting(this, mc, AutoReconnectCheat.INSTANCE.getLastServer()));
+                mc.displayGuiScreen(new GuiConnecting(this, mc, AutoReconnectModule.INSTANCE.getLastServer()));
             }
         }
 

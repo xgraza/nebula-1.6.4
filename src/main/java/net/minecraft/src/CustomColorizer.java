@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import ez.nebula.client.impl.module.render.FullbrightModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStem;
 import net.minecraft.block.material.Material;
@@ -16,9 +17,8 @@ import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.cheat.impl.render.FullbrightCheat;
-import us.nebula.client.listener.event.render.EventGamma;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.render.EventGamma;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -960,8 +960,8 @@ public class CustomColorizer
 
     public static boolean updateLightmap(World world, float torchFlickerX, int[] lmColors, boolean nightvision)
     {
-        if (FullbrightCheat.INSTANCE.isToggled()
-                && FullbrightCheat.INSTANCE.modeSetting.getValue().equals(FullbrightCheat.Mode.GAMMA))
+        if (FullbrightModule.INSTANCE.isToggled()
+                && FullbrightModule.INSTANCE.modeSetting.getValue().equals(FullbrightModule.Mode.GAMMA))
         {
             return false;
         }

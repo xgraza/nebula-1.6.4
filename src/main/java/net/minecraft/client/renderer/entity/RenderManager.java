@@ -33,7 +33,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.util.render.EntityCulling;
 
 import java.util.HashMap;
 import java.util.Iterator;

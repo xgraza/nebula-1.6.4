@@ -17,7 +17,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.cheat.impl.render.XRayCheat;
+import ez.nebula.client.impl.module.render.XRayModule;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -360,7 +360,7 @@ public class WorldRenderer
         GL11.glNewList(this.glRenderList + renderpass, GL11.GL_COMPILE);
         this.tessellator.setRenderingChunk(true);
 
-        if (XRayCheat.INSTANCE.isToggled() && XRayCheat.INSTANCE.isWireframe())
+        if (XRayModule.INSTANCE.isToggled() && XRayModule.INSTANCE.isWireframe())
         {
             GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
             GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
@@ -393,7 +393,7 @@ public class WorldRenderer
         this.bytesDrawn += this.tessellator.draw();
         this.tessellator.setRenderingChunk(false);
 
-        if (XRayCheat.INSTANCE.isToggled() && XRayCheat.INSTANCE.isWireframe())
+        if (XRayModule.INSTANCE.isToggled() && XRayModule.INSTANCE.isWireframe())
         {
             GL11.glPopAttrib();
         }

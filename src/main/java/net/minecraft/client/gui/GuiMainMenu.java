@@ -1,10 +1,10 @@
 package net.minecraft.client.gui;
 
+import ez.nebula.client.impl.module.render.HUDModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.SplashTextProvider;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerAddress;
-import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -19,12 +19,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
-import us.nebula.client.BuildConfig;
-import us.nebula.client.ClientSettings;
-import us.nebula.client.Environment;
-import us.nebula.client.account.gui.AccountSelectorScreen;
-import us.nebula.client.cheat.impl.render.HUDCheat;
-import us.nebula.client.util.render.gui.font.Fonts;
+import ez.nebula.client.BuildConfig;
+import ez.nebula.client.core.ClientConfig;
+import ez.nebula.client.core.Environment;
+import ez.nebula.client.impl.gui.account.AccountSelectorScreen;
+import ez.nebula.client.api.render.font.Fonts;
 
 import java.awt.Desktop;
 import java.net.URI;
@@ -164,7 +163,7 @@ public class GuiMainMenu extends GuiScreen
 
     private void setSplashText()
     {
-        splashText = SplashTextProvider.getRandomSplashText(ClientSettings.USE_CUSTOM_SPLASH_TEXT ? "nebula" : "minecraft");
+        splashText = SplashTextProvider.getRandomSplashText(ClientConfig.USE_CUSTOM_SPLASH_TEXT ? "nebula" : "minecraft");
         final Calendar calender = Calendar.getInstance();
         calender.setTime(new Date());
 
@@ -496,7 +495,7 @@ public class GuiMainMenu extends GuiScreen
         if (BuildConfig.ENV == Environment.PRIVATE)
         {
             final String text = "Nebula A.S.S version - please don't distribute!";
-            Fonts.POPPINS.drawStringShadow(text, width - Fonts.POPPINS.getStringWidth(text) - 2, 0, HUDCheat.INSTANCE.getBaseColor(10));
+            Fonts.POPPINS.drawStringShadow(text, width - Fonts.POPPINS.getStringWidth(text) - 2, 0, HUDModule.INSTANCE.getBaseColor(10));
         }
     }
 

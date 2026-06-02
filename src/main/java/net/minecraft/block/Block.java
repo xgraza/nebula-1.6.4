@@ -1,5 +1,6 @@
 package net.minecraft.block;
 
+import ez.nebula.client.impl.module.render.XRayModule;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,10 +19,9 @@ import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.cheat.impl.render.XRayCheat;
-import us.nebula.client.listener.event.world.EventModifyBoundBox;
-import us.nebula.client.listener.event.world.EventModifySelectedBoundBox;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.world.EventModifyBoundBox;
+import ez.nebula.client.api.listener.event.world.EventModifySelectedBoundBox;
 
 import java.util.Iterator;
 import java.util.List;
@@ -213,7 +213,7 @@ public class Block
 
     public int getLightValue()
     {
-        if (XRayCheat.INSTANCE.isToggled() && XRayCheat.XRAY_WHITELIST.contains(this))
+        if (XRayModule.INSTANCE.isToggled() && XRayModule.XRAY_WHITELIST.contains(this))
         {
             return 10000;
         }
@@ -603,17 +603,17 @@ public class Block
 
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
-        if (XRayCheat.INSTANCE.isToggled())
+        if (XRayModule.INSTANCE.isToggled())
         {
-            if (XRayCheat.INSTANCE.isTransparent() || XRayCheat.INSTANCE.isWireframe())
+            if (XRayModule.INSTANCE.isTransparent() || XRayModule.INSTANCE.isWireframe())
             {
-                if (XRayCheat.XRAY_WHITELIST.contains(this))
+                if (XRayModule.XRAY_WHITELIST.contains(this))
                 {
                     return true;
                 }
             } else
             {
-                return XRayCheat.XRAY_WHITELIST.contains(this);
+                return XRayModule.XRAY_WHITELIST.contains(this);
             }
         }
         return p_149646_5_ == 0 && this.minY > 0.0D || (p_149646_5_ == 1 && this.maxY < 1.0D || (p_149646_5_ == 2 && this.minZ > 0.0D || (p_149646_5_ == 3 && this.maxZ < 1.0D || (p_149646_5_ == 4 && this.minX > 0.0D || (p_149646_5_ == 5 && this.maxX < 1.0D || !p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_).isOpaqueCube())))));
@@ -981,9 +981,9 @@ public class Block
      */
     public int getRenderBlockPass()
     {
-        if (XRayCheat.INSTANCE.isToggled() && XRayCheat.INSTANCE.isTransparent())
+        if (XRayModule.INSTANCE.isToggled() && XRayModule.INSTANCE.isTransparent())
         {
-            return XRayCheat.XRAY_WHITELIST.contains(this) ? 0 : 1;
+            return XRayModule.XRAY_WHITELIST.contains(this) ? 0 : 1;
         }
         return 0;
     }

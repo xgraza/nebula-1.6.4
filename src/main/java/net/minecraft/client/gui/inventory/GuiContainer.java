@@ -1,5 +1,7 @@
 package net.minecraft.client.gui.inventory;
 
+import ez.nebula.client.impl.module.render.ItemTweaksModule;
+import ez.nebula.client.impl.module.world.ChestStealerModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,12 +20,10 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import us.nebula.client.cheat.impl.world.ChestStealerCheat;
-import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.cheat.impl.render.ItemTweaksCheat;
-import us.nebula.client.listener.event.player.EventContainerAction;
-import us.nebula.client.util.FormattingUtil;
+import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.player.EventContainerAction;
+import ez.nebula.client.util.text.FormattingUtil;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -81,8 +81,8 @@ public abstract class GuiContainer extends GuiScreen
         this.field_147003_i = (this.width - this.containerWidth) / 2;
         this.field_147009_r = (this.height - this.containerHeight) / 2;
 
-        if (ChestStealerCheat.INSTANCE.isToggled()
-                && !ChestStealerCheat.INSTANCE.automaticSetting.getValue()
+        if (ChestStealerModule.INSTANCE.isToggled()
+                && !ChestStealerModule.INSTANCE.automaticSetting.getValue()
                 && container instanceof ContainerChest)
         {
             buttonList.add(new GuiButton(0, field_147003_i, field_147009_r - 22, 35, 20, "Steal"));
@@ -97,7 +97,7 @@ public abstract class GuiContainer extends GuiScreen
     {
         if (state != 0)
         {
-            if (!ChestStealerCheat.INSTANCE.moveItemsFromInventory(state == 2))
+            if (!ChestStealerModule.INSTANCE.moveItemsFromInventory(state == 2))
             {
                 state = 0;
             }
@@ -197,7 +197,7 @@ public abstract class GuiContainer extends GuiScreen
             this.renderItem(var19, par1, par2);
         }
 
-        if (ItemTweaksCheat.INSTANCE.showContainerSize())
+        if (ItemTweaksModule.INSTANCE.showContainerSize())
         {
             int size = 0;
             for (Slot slot : container.inventorySlots)
@@ -220,7 +220,7 @@ public abstract class GuiContainer extends GuiScreen
     @Override
     protected void actionPerformed(GuiButton p_146284_1_)
     {
-        if (!ChestStealerCheat.INSTANCE.isToggled())
+        if (!ChestStealerModule.INSTANCE.isToggled())
         {
             return;
         }

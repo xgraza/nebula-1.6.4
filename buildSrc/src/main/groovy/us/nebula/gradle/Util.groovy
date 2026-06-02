@@ -83,12 +83,12 @@ class Util {
         return joiner.toString()
     }
 
-    static execute(String command) {
+    static execute(String command, String defaultValue) {
         try {
             return command.execute().text.trim()
         } catch (exception) {
             exception.printStackTrace()
-            return null
+            return defaultValue
         }
     }
 

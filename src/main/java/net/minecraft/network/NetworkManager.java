@@ -18,10 +18,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import us.nebula.client.cheat.impl.exploit.NoPacketKickCheat;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.listener.event.network.EventDisconnect;
-import us.nebula.client.listener.event.network.EventPacket;
+import ez.nebula.client.impl.module.exploit.NoPacketKickModule;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.network.EventDisconnect;
+import ez.nebula.client.api.listener.event.network.EventPacket;
 
 import javax.crypto.SecretKey;
 import java.net.InetAddress;
@@ -114,7 +114,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable)
     {
-        if (NoPacketKickCheat.INSTANCE.isToggled())
+        if (NoPacketKickModule.INSTANCE.isToggled())
         {
             LOGGER.error("Internal exception:", throwable);
             return;

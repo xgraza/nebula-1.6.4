@@ -5,6 +5,8 @@
 package net.minecraft.client;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.impl.module.player.AutoReconnectModule;
+import ez.nebula.client.impl.module.render.UnfocusedCPUModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -76,17 +78,15 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
-import us.nebula.client.Nebula;
-import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.cheat.impl.player.AutoReconnectCheat;
-import us.nebula.client.cheat.impl.render.CameraClipCheat;
-import us.nebula.client.cheat.impl.render.UnfocusedCPUCheat;
-import us.nebula.client.listener.event.game.EventTick;
-import us.nebula.client.listener.event.input.EventKey;
-import us.nebula.client.listener.event.input.EventMouse;
-import us.nebula.client.hud.gui.HUDEditorScreen;
-import us.nebula.client.util.LoadingScreen;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.impl.module.render.CameraClipModule;
+import ez.nebula.client.api.listener.event.game.EventTick;
+import ez.nebula.client.api.listener.event.input.EventKey;
+import ez.nebula.client.api.listener.event.input.EventMouse;
+import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
+import ez.nebula.client.impl.gui.startup.LoadingScreen;
 
 import javax.imageio.ImageIO;
 import java.awt.Toolkit;
@@ -970,7 +970,7 @@ public class Minecraft
 
         if (this.thePlayer != null && this.thePlayer.isEntityInsideOpaqueBlock())
         {
-            if (!CameraClipCheat.INSTANCE.isToggled() || CameraClipCheat.INSTANCE.phasePerspective.getValue())
+            if (!CameraClipModule.INSTANCE.isToggled() || CameraClipModule.INSTANCE.phasePerspective.getValue())
             {
                 this.gameSettings.thirdPersonView = 0;
             }
@@ -1069,9 +1069,9 @@ public class Minecraft
 
     public int getLimitFramerate()
     {
-        if (!Display.isActive() && UnfocusedCPUCheat.INSTANCE.isToggled())
+        if (!Display.isActive() && UnfocusedCPUModule.INSTANCE.isToggled())
         {
-            return UnfocusedCPUCheat.INSTANCE.fpsSetting.getValue();
+            return UnfocusedCPUModule.INSTANCE.fpsSetting.getValue();
         }
         return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
     }
@@ -2059,7 +2059,7 @@ public class Minecraft
     public void launchIntegratedServer(String par1Str, String par2Str, WorldSettings par3WorldSettings)
     {
         // do not reconnect to singleplayer
-        AutoReconnectCheat.INSTANCE.setLastServer(null);
+        AutoReconnectModule.INSTANCE.setLastServer(null);
 
         this.loadWorld(null);
         ISaveHandler var4 = this.saveLoader.getSaveLoader(par1Str, false);
@@ -2480,7 +2480,7 @@ public class Minecraft
     {
         if (serverData != null)
         {
-            AutoReconnectCheat.INSTANCE.setLastServer(serverData);
+            AutoReconnectModule.INSTANCE.setLastServer(serverData);
         }
         this.currentServerData = serverData;
     }

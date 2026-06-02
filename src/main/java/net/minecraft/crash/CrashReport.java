@@ -7,9 +7,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import us.nebula.client.ClientSettings;
-import us.nebula.client.Nebula;
-import us.nebula.client.cheat.Cheat;
+import ez.nebula.client.core.ClientConfig;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.api.manager.module.Module;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -75,16 +75,16 @@ public class CrashReport
             }
         });
         this.theReportCategory.addCrashSectionCallable("Nebula Version", () ->
-                ClientSettings.VERSION);
-        this.theReportCategory.addCrashSectionCallable("Nebula Debug Enabled", () -> ClientSettings.DEBUG);
+                ClientConfig.VERSION);
+        this.theReportCategory.addCrashSectionCallable("Nebula Debug Enabled", () -> ClientConfig.DEBUG);
         this.theReportCategory.addCrashSectionCallable("Nebula Enabled Cheats", () ->
         {
             final StringJoiner joiner = new StringJoiner("\n\t");
-            for (final Cheat cheat : Nebula.INSTANCE.getCheatManager().getAll())
+            for (final Module module : Nebula.INSTANCE.getModuleManager().getAll())
             {
-                if (cheat.isToggled())
+                if (module.isToggled())
                 {
-                    joiner.add(cheat.getManifest().name());
+                    joiner.add(module.getManifest().name());
                 }
             }
             return joiner.toString();

@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
+import ez.nebula.client.impl.module.player.AntiLagModule;
+import ez.nebula.client.impl.module.render.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -19,15 +21,10 @@ import net.minecraft.item.ItemCloth;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.Config;
 import net.minecraft.util.*;
-import org.lwjgl.opencl.CL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import us.nebula.client.cheat.impl.player.AntiLagCheat;
-import us.nebula.client.cheat.impl.render.GlintCheat;
-import us.nebula.client.cheat.impl.render.ItemPhysicsCheat;
-import us.nebula.client.cheat.impl.render.ItemTweaksCheat;
-import us.nebula.client.util.player.ItemUtil;
-import us.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.minecraft.player.ItemUtil;
+import ez.nebula.client.util.render.RenderUtil;
 
 import java.util.Random;
 import java.util.concurrent.Callable;
@@ -95,13 +92,13 @@ public class RenderItem extends Render
                 var13 = 5;
             }
 
-            if (AntiLagCheat.INSTANCE.isToggled()
-                    && AntiLagCheat.INSTANCE.groupItemsSetting.getValue())
+            if (AntiLagModule.INSTANCE.isToggled()
+                    && AntiLagModule.INSTANCE.groupItemsSetting.getValue())
             {
                 var13 = 1;
             }
 
-            if (ItemPhysicsCheat.INSTANCE != null && ItemPhysicsCheat.INSTANCE.isToggled() && !renderInFrame)
+            if (ItemPhysicsModule.INSTANCE != null && ItemPhysicsModule.INSTANCE.isToggled() && !renderInFrame)
             {
                 float offset = 0.0f;
                 if (!(item instanceof ItemBlock))
@@ -119,7 +116,7 @@ public class RenderItem extends Render
             float var19;
             int var25;
 
-            if (ItemPhysicsCheat.INSTANCE.isToggled() && !renderInFrame)
+            if (ItemPhysicsModule.INSTANCE.isToggled() && !renderInFrame)
             {
                 if (par1EntityItem.onGround)
                 {
@@ -137,7 +134,7 @@ public class RenderItem extends Render
             {
                 Block var22 = Block.getBlockFromItem(item);
 
-                if (ItemPhysicsCheat.INSTANCE == null || !ItemPhysicsCheat.INSTANCE.isToggled())
+                if (ItemPhysicsModule.INSTANCE == null || !ItemPhysicsModule.INSTANCE.isToggled())
                 {
                     GL11.glRotatef(var12, 0.0F, 1.0F, 0.0F);
                 }
@@ -303,7 +300,7 @@ public class RenderItem extends Render
                 GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
             } else
             {
-                if (ItemPhysicsCheat.INSTANCE == null || !ItemPhysicsCheat.INSTANCE.isToggled())
+                if (ItemPhysicsModule.INSTANCE == null || !ItemPhysicsModule.INSTANCE.isToggled())
                 {
                     GL11.glRotatef((((float) par1EntityItem.age + par4) / 20.0F + par1EntityItem.hoverStart) * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
                 }
@@ -584,9 +581,9 @@ public class RenderItem extends Render
                 par2TextureManager.bindTexture(RES_ITEM_GLINT);
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
                 GL11.glEnable(GL11.GL_BLEND);
-                if (GlintCheat.INSTANCE.isToggled())
+                if (GlintModule.INSTANCE.isToggled())
                 {
-                    RenderUtil.setGLColorOpaque(GlintCheat.INSTANCE.colorSetting.getValue().getRGB());
+                    RenderUtil.setGLColorOpaque(GlintModule.INSTANCE.colorSetting.getValue().getRGB());
                 } else
                 {
                     GL11.glColor4f(0.5F, 0.25F, 0.8F, 1.0F);
@@ -648,7 +645,7 @@ public class RenderItem extends Render
     {
         if (par3ItemStack != null)
         {
-            if (par3ItemStack.stackSize > 1 || (par3ItemStack.stackSize != 1 && ItemTweaksCheat.INSTANCE.showInfinites()))
+            if (par3ItemStack.stackSize > 1 || (par3ItemStack.stackSize != 1 && ItemTweaksModule.INSTANCE.showInfinites()))
             {
                 String var7 = String.valueOf(par3ItemStack.stackSize);
                 if (ItemUtil.isInfinite(par3ItemStack))

@@ -1,0 +1,50 @@
+package ez.nebula.client.api.manager.command.trait;
+
+import ez.nebula.client.api.manager.command.Command;
+import ez.nebula.client.api.manager.command.CommandManager;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
+
+public final class CommandSource
+{
+    public static final int SUCCESS = 1;
+
+    private final Command command;
+    private final String rawInput;
+    private final CommandManager manager;
+
+    public CommandSource(final Command command, final String rawInput, final CommandManager manager)
+    {
+        this.command = command;
+        this.rawInput = rawInput;
+        this.manager = manager;
+    }
+
+    public int respond()
+    {
+        return respond(null);
+    }
+
+    public int respond(final String message, final Object... format)
+    {
+        if (message != null && !message.isEmpty())
+        {
+            ChatUtil.sendNebula(message, format);
+        }
+        return SUCCESS;
+    }
+
+    public Command getCommand()
+    {
+        return command;
+    }
+
+    public String getRawInput()
+    {
+        return rawInput;
+    }
+
+    public CommandManager getManager()
+    {
+        return manager;
+    }
+}

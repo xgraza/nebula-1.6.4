@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
+import ez.nebula.client.impl.module.render.ChamsModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBase;
@@ -21,7 +22,6 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import shadersmod.client.Shaders;
-import us.nebula.client.cheat.impl.render.ChamsCheat;
 
 import java.util.Random;
 
@@ -190,13 +190,13 @@ public abstract class RendererLivingEntity extends Render
             }
 
 
-            final boolean renderingChams = ChamsCheat.INSTANCE != null
-                    && ChamsCheat.INSTANCE.isToggled()
-                    && ChamsCheat.INSTANCE.isEntityValid(par1EntityLivingBase);
+            final boolean renderingChams = ChamsModule.INSTANCE != null
+                    && ChamsModule.INSTANCE.isToggled()
+                    && ChamsModule.INSTANCE.isEntityValid(par1EntityLivingBase);
 
             if (renderingChams)
             {
-                ChamsCheat.INSTANCE.preEntityRender();
+                ChamsModule.INSTANCE.preEntityRender();
             }
 
             GL11.glEnable(GL11.GL_ALPHA_TEST);
@@ -210,7 +210,7 @@ public abstract class RendererLivingEntity extends Render
 
             if (renderingChams)
             {
-                if (ChamsCheat.INSTANCE.postEntityRender())
+                if (ChamsModule.INSTANCE.postEntityRender())
                 {
                     this.renderModel(par1EntityLivingBase, var16, var15, var291, var28 - var25, var26, var14);
                 }

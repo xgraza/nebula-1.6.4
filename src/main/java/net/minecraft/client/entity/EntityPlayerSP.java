@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import ez.nebula.client.impl.module.exploit.NoPortalGUIModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.*;
@@ -21,12 +22,11 @@ import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.cheat.impl.exploit.NoPortalGUICheat;
-import us.nebula.client.listener.event.input.EventUpdateInput;
-import us.nebula.client.listener.event.player.EventItemSlowdown;
-import us.nebula.client.listener.event.player.EventPushFromBlocks;
-import us.nebula.client.listener.event.player.EventSprint;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.input.EventUpdateInput;
+import ez.nebula.client.api.listener.event.player.EventItemSlowdown;
+import ez.nebula.client.api.listener.event.player.EventPushFromBlocks;
+import ez.nebula.client.api.listener.event.player.EventSprint;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -120,7 +120,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
             if (this.inPortal)
             {
-                if (this.mc.currentScreen != null && !NoPortalGUICheat.INSTANCE.isToggled())
+                if (this.mc.currentScreen != null && !NoPortalGUIModule.INSTANCE.isToggled())
                 {
                     this.mc.displayGuiScreen(null);
                 }

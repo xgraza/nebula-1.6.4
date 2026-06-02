@@ -29,10 +29,10 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.Nebula;
-import us.nebula.client.command.CommandManager;
-import us.nebula.client.command.trait.CommandSource;
-import us.nebula.client.cheat.impl.player.TranslateCheat;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.api.manager.command.CommandManager;
+import ez.nebula.client.api.manager.command.trait.CommandSource;
+import ez.nebula.client.impl.module.player.TranslateModule;
 
 import java.io.File;
 import java.net.URI;
@@ -510,9 +510,9 @@ public class GuiChat extends GuiScreen
                             this.sendMessage(var5.getValue());
                         } else
                         {
-                            if (TranslateCheat.INSTANCE.isToggled() && var5.getValue().equals("NEBULA_TRANSLATE"))
+                            if (TranslateModule.INSTANCE.isToggled() && var5.getValue().equals("NEBULA_TRANSLATE"))
                             {
-                                TranslateCheat.INSTANCE.handleTranslate(var4);
+                                TranslateModule.INSTANCE.handleTranslate(var4);
                             } else
                             {
                                 LOGGER.error("Don't know how to handle " + var5);

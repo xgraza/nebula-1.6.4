@@ -1,5 +1,6 @@
 package net.minecraft.entity;
 
+import ez.nebula.client.impl.module.player.FreecamModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -21,11 +22,10 @@ import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import us.nebula.client.cheat.impl.player.FreecamCheat;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.listener.event.input.EventRotateCamera;
-import us.nebula.client.listener.event.player.EventSafeWalk;
-import us.nebula.client.listener.event.player.EventStep;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.input.EventRotateCamera;
+import ez.nebula.client.api.listener.event.player.EventSafeWalk;
+import ez.nebula.client.api.listener.event.player.EventStep;
 
 import java.util.List;
 import java.util.Random;
@@ -1748,7 +1748,7 @@ public abstract class Entity
      */
     public boolean isEntityInsideOpaqueBlock()
     {
-        if (FreecamCheat.INSTANCE.isToggled())
+        if (FreecamModule.INSTANCE.isToggled())
         {
             return false;
         }

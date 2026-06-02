@@ -3,6 +3,7 @@ package net.minecraft.client.gui;
 import com.ibm.icu.text.ArabicShaping;
 import com.ibm.icu.text.ArabicShapingException;
 import com.ibm.icu.text.Bidi;
+import ez.nebula.client.impl.module.render.HUDModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -14,7 +15,6 @@ import net.minecraft.src.CustomColorizer;
 import net.minecraft.src.FontUtils;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import us.nebula.client.cheat.impl.render.HUDCheat;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
@@ -514,7 +514,7 @@ public class FontRenderer implements IResourceManagerReloadListener
                     this.setColor(this.red, this.blue, this.green, this.alpha);
                 } else if (var5 == 22)
                 {
-                    Color color = new Color(HUDCheat.INSTANCE.getBaseColor(10));
+                    Color color = new Color(HUDModule.INSTANCE.getBaseColor(10));
                     if (par2)
                     {
                         color = color.darker().darker().darker();

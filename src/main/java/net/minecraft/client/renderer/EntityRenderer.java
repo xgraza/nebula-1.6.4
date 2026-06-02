@@ -1,6 +1,8 @@
 package net.minecraft.client.renderer;
 
 import com.google.gson.JsonSyntaxException;
+import ez.nebula.client.impl.module.player.InteractModule;
+import ez.nebula.client.impl.module.render.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -48,19 +50,14 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
-import us.nebula.client.cheat.impl.render.AmbienceCheat;
-import us.nebula.client.cheat.impl.render.HUDCheat;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.util.render.EntityCulling;
-import us.nebula.client.cheat.impl.player.InteractCheat;
-import us.nebula.client.cheat.impl.render.NoRenderCheat;
-import us.nebula.client.cheat.impl.render.UnfocusedCPUCheat;
-import us.nebula.client.listener.event.player.EventRaytrace;
-import us.nebula.client.listener.event.render.EventCameraDistance;
-import us.nebula.client.listener.event.render.EventGamma;
-import us.nebula.client.listener.event.render.EventRender3D;
-import us.nebula.client.listener.event.render.EventRenderWaterEffects;
-import us.nebula.client.util.render.ProjectionUtil;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.util.render.EntityCulling;
+import ez.nebula.client.api.listener.event.player.EventRaytrace;
+import ez.nebula.client.api.listener.event.render.EventCameraDistance;
+import ez.nebula.client.api.listener.event.render.EventGamma;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
+import ez.nebula.client.util.render.ProjectionUtil;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -582,8 +579,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 }
             }
 
-            final double reach = InteractCheat.INSTANCE.isToggled() ?
-                    InteractCheat.INSTANCE.attackReachSetting.getValue() :
+            final double reach = InteractModule.INSTANCE.isToggled() ?
+                    InteractModule.INSTANCE.attackReachSetting.getValue() :
                     var4;
 
             if (this.pointedEntity != null && (var12 < reach || this.mc.objectMouseOver == null))
@@ -701,8 +698,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float par1)
     {
-        if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.hurtCameraSetting.getValue())
+        if (NoRenderModule.INSTANCE.isToggled()
+                && NoRenderModule.INSTANCE.hurtCameraSetting.getValue())
         {
             return;
         }
@@ -926,7 +923,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.setupViewBobbing(par1);
         }
 
-        if (!NoRenderCheat.INSTANCE.isToggled() || !NoRenderCheat.INSTANCE.nauseaSetting.getValue())
+        if (!NoRenderModule.INSTANCE.isToggled() || !NoRenderModule.INSTANCE.nauseaSetting.getValue())
         {
             var4 = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * par1;
 
@@ -1142,7 +1139,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         if (var2 != null)
         {
-            if (AmbienceCheat.INSTANCE.isToggled())
+            if (AmbienceModule.INSTANCE.isToggled())
             {
                 for (int i = 0; i < 256; ++i)
                 {
@@ -1151,9 +1148,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     float r = (color >> 24 & 0xff) / 255.0f;
                     float g = (color >> 16 & 0xff) / 255.0f;
                     float b = (color >> 8 & 0xff) / 255.0f;
-                    float a = AmbienceCheat.INSTANCE.intensitySetting.getValue().floatValue();
+                    float a = AmbienceModule.INSTANCE.intensitySetting.getValue().floatValue();
 
-                    Color c = HUDCheat.INSTANCE.primaryColorSetting.getValue();
+                    Color c = HUDModule.INSTANCE.primaryColorSetting.getValue();
                     float ar = c.getRed() / 255.0f;
                     float ag = c.getGreen() / 255.0f;
                     float ab = c.getBlue() / 255.0f;
@@ -1578,8 +1575,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
     public void renderWorld(float par1, long par2)
     {
         if (!Display.isActive()
-                && UnfocusedCPUCheat.INSTANCE.isToggled()
-                && UnfocusedCPUCheat.INSTANCE.stopRenderSetting.getValue())
+                && UnfocusedCPUModule.INSTANCE.isToggled()
+                && UnfocusedCPUModule.INSTANCE.stopRenderSetting.getValue())
         {
             return;
         }

@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer;
 
+import ez.nebula.client.impl.module.combat.KillAuraModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -18,13 +19,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL12;
-import us.nebula.client.cheat.impl.render.GlintCheat;
-import us.nebula.client.listener.EventBus;
-import us.nebula.client.cheat.impl.combat.KillAuraCheat;
-import us.nebula.client.cheat.impl.render.NoRenderCheat;
-import us.nebula.client.cheat.impl.render.ViewModelCheat;
-import us.nebula.client.listener.event.render.EventRenderWaterEffects;
-import us.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.impl.module.render.GlintModule;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.impl.module.render.NoRenderModule;
+import ez.nebula.client.impl.module.render.ViewModelModule;
+import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
+import ez.nebula.client.util.render.RenderUtil;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -119,9 +119,9 @@ public class ItemRenderer
                 glEnable(GL_BLEND);
                 OpenGlHelper.glBlendFunc(768, 1, 1, 0);
                 float var16 = 0.76F;
-                if (GlintCheat.INSTANCE.isToggled())
+                if (GlintModule.INSTANCE.isToggled())
                 {
-                    RenderUtil.setGLColorOpaque(GlintCheat.INSTANCE.colorSetting.getValue().getRGB());
+                    RenderUtil.setGLColorOpaque(GlintModule.INSTANCE.colorSetting.getValue().getRGB());
                 } else
                 {
                     glColor4f(0.5F * var16, 0.25F * var16, 0.8F * var16, 1.0F);
@@ -297,7 +297,7 @@ public class ItemRenderer
         float var22;
         RenderPlayer renderPlayer;
 
-        final ViewModelCheat vm = ViewModelCheat.INSTANCE;
+        final ViewModelModule vm = ViewModelModule.INSTANCE;
 
         if (renderItemStack != null && vm.isToggled())
         {
@@ -434,10 +434,10 @@ public class ItemRenderer
             float var19;
             float var20;
 
-            if (player.getItemInUseCount() > 0 || KillAuraCheat.INSTANCE.isBlocking())
+            if (player.getItemInUseCount() > 0 || KillAuraModule.INSTANCE.isBlocking())
             {
                 EnumAction var26 = renderItemStack.getItemUseAction();
-                if (KillAuraCheat.INSTANCE.isBlocking())
+                if (KillAuraModule.INSTANCE.isBlocking())
                 {
                     var26 = EnumAction.block;
                 }
@@ -691,8 +691,8 @@ public class ItemRenderer
      */
     private void renderInsideOfBlock(float par1, IIcon par2Icon)
     {
-        if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.blockSetting.getValue())
+        if (NoRenderModule.INSTANCE.isToggled()
+                && NoRenderModule.INSTANCE.blockSetting.getValue())
         {
             return;
         }
@@ -762,8 +762,8 @@ public class ItemRenderer
      */
     private void renderFireInFirstPerson(float par1)
     {
-        if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.fireSetting.getValue())
+        if (NoRenderModule.INSTANCE.isToggled()
+                && NoRenderModule.INSTANCE.fireSetting.getValue())
         {
             return;
         }

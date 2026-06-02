@@ -14,8 +14,8 @@ if (BUILD_LOCAL) {
 }
 
 var buildNumber = project.build_id.toInteger()
-var gitHash = Util.execute("git rev-parse --short HEAD")
-var gitBranch = Util.execute("git branch --show-current")
+var gitHash = Util.execute("git rev-parse --short HEAD", "error")
+var gitBranch = Util.execute("git branch --show-current", "main")
 
 group = project.group
 version = project.version
@@ -27,7 +27,7 @@ buildConfig {
     buildConfigField(Integer, "BUILD", buildNumber)
     buildConfigField(String,  "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
     buildConfigField(String,  "NAME", project.name)
-    buildConfigField("us.nebula.client.Environment", "ENV", "us.nebula.client.Environment.${project.env.toUpperCase()}")
+    buildConfigField("${project.group}.core.Environment", "ENV", "${project.group}.core.Environment.${project.env.toUpperCase()}")
 
     packageName project.group.toString()
     useJavaOutput()

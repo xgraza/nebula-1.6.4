@@ -2,6 +2,7 @@ package net.minecraft.item;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import ez.nebula.client.impl.module.render.ItemTweaksModule;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDurability;
@@ -20,8 +21,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
-import us.nebula.client.cheat.impl.render.ItemTweaksCheat;
-import us.nebula.client.util.FormattingUtil;
+import ez.nebula.client.util.text.FormattingUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -662,9 +662,9 @@ public final class ItemStack
                     final Enchantment enchantment = Enchantment.enchantmentsList[id];
                     if (enchantment != null)
                     {
-                        if (ItemTweaksCheat.INSTANCE.formatEnchantLevels())
+                        if (ItemTweaksModule.INSTANCE.formatEnchantLevels())
                         {
-                            tooltipList.add(ItemTweaksCheat.INSTANCE.formatEnchantment(enchantment, level));
+                            tooltipList.add(ItemTweaksModule.INSTANCE.formatEnchantment(enchantment, level));
                         } else
                         {
                             tooltipList.add(enchantment.getTranslatedName(level));
@@ -746,7 +746,7 @@ public final class ItemStack
             tooltipList.add("Durability: " + (this.getMaxDamage() - this.getItemDamageForDisplay()) + " / " + this.getMaxDamage());
         }
 
-        if (ItemTweaksCheat.INSTANCE.showItemSize() && getNBTSize() != -1)
+        if (ItemTweaksModule.INSTANCE.showItemSize() && getNBTSize() != -1)
         {
             tooltipList.add("Size: " + FormattingUtil.formatSize(getNBTSize()));
         }

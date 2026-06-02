@@ -1,8 +1,8 @@
 package net.minecraft.potion;
 
+import ez.nebula.client.impl.module.exploit.PotionSaverModule;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
-import us.nebula.client.cheat.impl.exploit.PotionSaverCheat;
 
 public class PotionEffect
 {
@@ -146,9 +146,9 @@ public class PotionEffect
 
     private int deincrementDuration()
     {
-        if (PotionSaverCheat.INSTANCE != null
-                && PotionSaverCheat.INSTANCE.isToggled()
-                && !PotionSaverCheat.INSTANCE.isAllowDeIncrement())
+        if (PotionSaverModule.INSTANCE != null
+                && PotionSaverModule.INSTANCE.isToggled()
+                && !PotionSaverModule.INSTANCE.isAllowDeIncrement())
         {
             return duration;
         }

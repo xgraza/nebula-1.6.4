@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import ez.nebula.client.impl.module.render.NoRenderModule;
 import net.minecraft.block.Block;
 import net.minecraft.client.LoadingScreenRenderer;
 import net.minecraft.client.Minecraft;
@@ -26,7 +27,6 @@ import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.glu.GLU;
 import shadersmod.client.Shaders;
-import us.nebula.client.cheat.impl.render.NoRenderCheat;
 
 import javax.imageio.ImageIO;
 import java.awt.Dimension;
@@ -484,7 +484,7 @@ public class Config
 
     public static boolean isFogOff()
     {
-        return gameSettings.ofFogType == 3 || (NoRenderCheat.INSTANCE.isToggled() && NoRenderCheat.INSTANCE.fogSetting.getValue());
+        return gameSettings.ofFogType == 3 || (NoRenderModule.INSTANCE.isToggled() && NoRenderModule.INSTANCE.fogSetting.getValue());
     }
 
     public static float getFogStart()

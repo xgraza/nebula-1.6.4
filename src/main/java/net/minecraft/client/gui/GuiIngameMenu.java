@@ -1,17 +1,17 @@
 package net.minecraft.client.gui;
 
+import ez.nebula.client.impl.module.player.AntiDisconnectModule;
+import ez.nebula.client.impl.module.player.AutoReconnectModule;
+import ez.nebula.client.impl.module.render.HUDModule;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
-import us.nebula.client.BuildConfig;
-import us.nebula.client.Environment;
-import us.nebula.client.cheat.impl.player.AntiDisconnectCheat;
-import us.nebula.client.cheat.impl.player.AutoReconnectCheat;
-import us.nebula.client.cheat.impl.render.HUDCheat;
-import us.nebula.client.util.render.gui.font.Fonts;
-import us.nebula.client.wdl.WorldDownloader;
-import us.nebula.client.wdl.WorldDownloaderGUIScreen;
+import ez.nebula.client.BuildConfig;
+import ez.nebula.client.core.Environment;
+import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.worlddownloader.WorldDownloader;
+import ez.nebula.client.worlddownloader.WorldDownloaderGUIScreen;
 
 public class GuiIngameMenu extends GuiScreen
 {
@@ -40,7 +40,7 @@ public class GuiIngameMenu extends GuiScreen
         {
             GuiButton var3;
             this.buttonList.add(var3 = new GuiButton(7, this.width / 2 + 2, this.height / 4 + 96 + var1, 98, 20, "Reconnect"));
-            var3.enabled = AutoReconnectCheat.INSTANCE.getLastServer() != null;
+            var3.enabled = AutoReconnectModule.INSTANCE.getLastServer() != null;
         }
         this.buttonList.add(new GuiButton(5, this.width / 2 - 100, this.height / 4 + 48 + var1, 98, 20, I18n.format("gui.achievements")));
         this.buttonList.add(new GuiButton(6, this.width / 2 + 2, this.height / 4 + 48 + var1, 98, 20, I18n.format("gui.stats")));
@@ -66,9 +66,9 @@ public class GuiIngameMenu extends GuiScreen
 
             case 1:
             {
-                if (AntiDisconnectCheat.INSTANCE.isToggled())
+                if (AntiDisconnectModule.INSTANCE.isToggled())
                 {
-                    mc.displayGuiScreen(new AntiDisconnectCheat.ConfirmDisconnectScreen(this));
+                    mc.displayGuiScreen(new AntiDisconnectModule.ConfirmDisconnectScreen(this));
                 } else
                 {
                     p_146284_1_.enabled = false;
@@ -103,7 +103,7 @@ public class GuiIngameMenu extends GuiScreen
                     if (p_146284_1_.enabled)
                     {
                         mc.theWorld.sendQuittingDisconnectingPacket();
-                        mc.displayGuiScreen(new GuiConnecting(new GuiMultiplayer(null), mc, AutoReconnectCheat.INSTANCE.getLastServer()));
+                        mc.displayGuiScreen(new GuiConnecting(new GuiMultiplayer(null), mc, AutoReconnectModule.INSTANCE.getLastServer()));
                     }
                 }
                 break;
@@ -164,7 +164,7 @@ public class GuiIngameMenu extends GuiScreen
         if (BuildConfig.ENV == Environment.PRIVATE)
         {
             final String text = "Nebula A.S.S version - please don't distribute!";
-            Fonts.POPPINS.drawStringShadow(text, width - Fonts.POPPINS.getStringWidth(text) - 2, height - Fonts.POPPINS.getFontHeight() - 2, HUDCheat.INSTANCE.getBaseColor(10));
+            Fonts.POPPINS.drawStringShadow(text, width - Fonts.POPPINS.getStringWidth(text) - 2, height - Fonts.POPPINS.getFontHeight() - 2, HUDModule.INSTANCE.getBaseColor(10));
         }
     }
 }

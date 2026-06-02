@@ -1,5 +1,6 @@
 package net.minecraft.client.gui.achievement;
 
+import ez.nebula.client.impl.module.render.NoRenderModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -10,7 +11,6 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import us.nebula.client.cheat.impl.render.NoRenderCheat;
 
 public class GuiAchievement extends Gui
 {
@@ -73,8 +73,8 @@ public class GuiAchievement extends Gui
 
     public void func_146254_a()
     {
-        if (NoRenderCheat.INSTANCE.isToggled()
-                && NoRenderCheat.INSTANCE.toastsSetting.getValue())
+        if (NoRenderModule.INSTANCE.isToggled()
+                && NoRenderModule.INSTANCE.toastsSetting.getValue())
         {
             return;
         }

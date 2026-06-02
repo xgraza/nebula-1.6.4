@@ -4,13 +4,13 @@
 
 package net.minecraft.client.gui;
 
+import ez.nebula.client.impl.module.render.ChatModifierModule;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StringUtils;
-import us.nebula.client.util.render.gui.animation.Animation;
-import us.nebula.client.util.render.gui.animation.AnimationEasing;
-import us.nebula.client.cheat.impl.render.ChatModifierCheat;
+import ez.nebula.client.api.render.animation.Animation;
+import ez.nebula.client.api.render.animation.AnimationEasing;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,9 +40,9 @@ public class ChatLine
     {
         parseUsername(component);
         final long creationTimeMS = System.currentTimeMillis();
-        if (ChatModifierCheat.INSTANCE.isToggled())
+        if (ChatModifierModule.INSTANCE.isToggled())
         {
-            if (ChatModifierCheat.INSTANCE.timestampSetting.getValue())
+            if (ChatModifierModule.INSTANCE.timestampSetting.getValue())
             {
                 component = new ChatComponentText(EnumChatFormatting.GRAY
                         + "[" + FORMAT.format(creationTimeMS) + "] "
