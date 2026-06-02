@@ -168,7 +168,7 @@ public final class SpeedCheat extends Cheat
                         MC.thePlayer.motionY = motionY;
                         event.setY(motionY);
                         final double jumpBoost = boost ? 1.459 : 1.426;
-                        speed = (1.45 * getBaseGroundSpeed() - 0.01) * jumpBoost;
+                        speed = (1.41 * getBaseGroundSpeed() - 0.01) * jumpBoost;
                         strafeStage = 2;
                     }
                     break;
