@@ -8,7 +8,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import ez.nebula.client.api.manager.hud.HUDElement;
-import ez.nebula.client.api.manager.hud.HUDManifest;
+import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import ez.nebula.client.util.text.FormattingUtil;
 import ez.nebula.client.api.render.font.Fonts;
 

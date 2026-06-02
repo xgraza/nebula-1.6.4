@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.api.manager.hud.HUDElement;
-import ez.nebula.client.api.manager.hud.HUDManifest;
+import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
 import ez.nebula.client.util.render.HeadDownloader;
 import ez.nebula.client.util.render.RenderUtil;

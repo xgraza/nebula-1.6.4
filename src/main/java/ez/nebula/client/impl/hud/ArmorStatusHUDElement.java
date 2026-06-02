@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import ez.nebula.client.api.manager.hud.HUDElement;
-import ez.nebula.client.api.manager.hud.HUDManifest;
+import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;

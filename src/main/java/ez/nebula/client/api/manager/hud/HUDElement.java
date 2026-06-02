@@ -2,6 +2,7 @@ package ez.nebula.client.api.manager.hud;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import ez.nebula.client.core.ClientConfig;

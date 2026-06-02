@@ -6,7 +6,7 @@ import net.minecraft.util.Vec3;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.render.font.Fonts;
 import ez.nebula.client.api.manager.hud.HUDElement;
-import ez.nebula.client.api.manager.hud.HUDManifest;
+import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 
 import java.util.TreeMap;
 

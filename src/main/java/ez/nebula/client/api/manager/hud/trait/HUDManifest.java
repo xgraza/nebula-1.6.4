@@ -1,4 +1,6 @@
-package ez.nebula.client.api.manager.hud;
+package ez.nebula.client.api.manager.hud.trait;
+
+import ez.nebula.client.api.manager.hud.HUDElement;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

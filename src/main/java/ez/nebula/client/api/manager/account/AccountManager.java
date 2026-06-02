@@ -18,7 +18,6 @@ public final class AccountManager implements ITypedManager<Account>
     @Override
     public void init()
     {
-        //EventBus.subscribe(this);
         Nebula.INSTANCE.getConfigurationManager().addConfiguration(
                 new AccountConfig(this));
     }
