@@ -6,11 +6,11 @@ package us.nebula.client;
  */
 public enum Environment
 {
-    STABLE("Stable"),
-    PUBLIC_BETA("Public Beta"),
-    PRIVATE("Private"),
-    RELEASE_CANDIDATE("Release Candidate"),
-    DEV("Dev");
+    STABLE(""),
+    PUBLIC_BETA("pb"),
+    PRIVATE("p"),
+    RELEASE_CANDIDATE("rc"),
+    DEV("d");
 
     private final String str;
 
