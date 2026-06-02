@@ -235,8 +235,7 @@ public final class AutoHighwayCheat extends Cheat
         {
             return MC.thePlayer.inventory.currentItem;
         }
-        return InventoryUtil.getHotbarSlot(
-                (stack) -> stack.getItem() instanceof ItemBlock);
+        return InventoryUtil.getHotbarSlot(InventoryUtil.BLOCK_FILTER);
     }
 
     private void queuePositions()

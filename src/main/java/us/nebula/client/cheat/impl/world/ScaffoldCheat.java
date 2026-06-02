@@ -4,6 +4,7 @@
 
 package us.nebula.client.cheat.impl.world;
 
+import net.minecraft.item.ItemBlock;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
@@ -78,7 +79,8 @@ public final class ScaffoldCheat extends Cheat
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
         final int slot = InventoryUtil.getHotbarSlot(
-                InventoryUtil.BLOCK_FILTER);
+                (stack) -> stack.getItem() instanceof ItemBlock
+                        && ((ItemBlock) stack.getItem()).getBlock().getMaterial().isSolid());
         if (slot == -1)
         {
             return;
