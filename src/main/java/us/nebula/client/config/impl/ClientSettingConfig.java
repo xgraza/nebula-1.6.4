@@ -20,6 +20,7 @@ public final class ClientSettingConfig implements IConfiguration
     {
         final JsonObject object = new JsonObject();
         object.addProperty("useCustomSplashText", ClientSettings.USE_CUSTOM_SPLASH_TEXT);
+        object.addProperty("openedGuiBefore", ClientSettings.OPENED_GUI_BEFORE);
         object.addProperty("debug", ClientSettings.DEBUG);
         return FileUtil.GSON.toJson(object);
     }
@@ -42,6 +43,8 @@ public final class ClientSettingConfig implements IConfiguration
                 && object.get("debug").getAsBoolean();
         ClientSettings.USE_CUSTOM_SPLASH_TEXT = object.has("useCustomSplashText")
                 && object.get("useCustomSplashText").getAsBoolean();
+        ClientSettings.OPENED_GUI_BEFORE = object.has("openedGuiBefore")
+                && object.get("openedGuiBefore").getAsBoolean();
     }
 
     @Override public File getFile()

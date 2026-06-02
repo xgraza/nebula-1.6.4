@@ -2,6 +2,7 @@ package us.nebula.client.cheat.gui;
 
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
+import us.nebula.client.ClientSettings;
 import us.nebula.client.Nebula;
 import us.nebula.client.cheat.gui.component.cheat.ComponentWithSetting;
 import us.nebula.client.util.render.gui.GUIComponent;
@@ -68,6 +69,14 @@ public final class ClickGUIScreen extends GuiScreen
 
         oldWidth = width;
         oldHeight = height;
+
+        if (!ClientSettings.OPENED_GUI_BEFORE)
+        {
+            ClientSettings.OPENED_GUI_BEFORE = true;
+            Nebula.INSTANCE.getToastManager().info("ClickGUI",
+                    "To bind modules, use the middle mouse button to bind, and then double click the mouse button to unbind a module",
+                    15_000L);
+        }
     }
 
     @Override

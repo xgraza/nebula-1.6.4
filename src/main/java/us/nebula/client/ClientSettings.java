@@ -24,4 +24,9 @@ public final class ClientSettings
      * If to use Nebula splash text on the main menu screen
      */
     public static boolean USE_CUSTOM_SPLASH_TEXT;
+
+    /**
+     * If the user has opened the ClickGUI for the first time
+     */
+    public static boolean OPENED_GUI_BEFORE;
 }
