@@ -16,7 +16,6 @@ import us.nebula.client.listener.event.player.EventFastUpdate;
 import us.nebula.client.listener.event.player.EventMove;
 import us.nebula.client.listener.event.player.EventMoveUpdate;
 import us.nebula.client.setting.Setting;
-import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.player.MoveUtil;
 import us.nebula.client.util.player.PlayerUtil;
 
@@ -219,7 +218,7 @@ public final class SpeedCheat extends Cheat
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
             tickMoveSpeed = MoveUtil.getPlayerMoveDistance();
 
-    @Subscribe
+    @Subscribe(receiveCanceled = true)
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
     {
         if (event.getPacket() instanceof S08PacketPlayerPosLook)
