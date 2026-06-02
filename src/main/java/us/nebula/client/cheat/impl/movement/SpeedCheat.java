@@ -16,6 +16,7 @@ import us.nebula.client.listener.event.player.EventFastUpdate;
 import us.nebula.client.listener.event.player.EventMove;
 import us.nebula.client.listener.event.player.EventMoveUpdate;
 import us.nebula.client.setting.Setting;
+import us.nebula.client.util.player.ChatUtil;
 import us.nebula.client.util.player.MoveUtil;
 import us.nebula.client.util.player.PlayerUtil;
 
@@ -63,7 +64,7 @@ public final class SpeedCheat extends Cheat
             .setVisibility((value) -> modeSetting.getValue() == Mode.PHYSICS_CALC)
             .build();
 
-    private int ticksSinceSetback, strafeStage;
+    private int ticksSinceSetback, strafeStage, ticksOnIce;
     private double tickMoveSpeed, speed;
     private boolean boost;
 
@@ -74,6 +75,7 @@ public final class SpeedCheat extends Cheat
         MC.timer.timerSpeed = 1.0f;
         boost = false;
         ticksSinceSetback = 0;
+        ticksOnIce = 0;
         strafeStage = 0;
         tickMoveSpeed = 0.0;
         speed = 0.0;
@@ -130,7 +132,7 @@ public final class SpeedCheat extends Cheat
     {
         if (modeSetting.getValue() == Mode.STRAFE)
         {
-            if (MC.thePlayer.onGround)
+            if (MC.thePlayer.onGround || !MoveUtil.isMoving())
             {
                 speed = getBaseGroundSpeed();
                 strafeStage = 1;
@@ -244,9 +246,9 @@ public final class SpeedCheat extends Cheat
         final Block block = MC.theWorld.getBlock(pos);
         if (block == Blocks.ice || block == Blocks.packed_ice)
         {
-            return 1.8;
+            return 1.7;
         }
-        return 0.99;
+        return 0.99f;
     }
 
     public enum Mode
