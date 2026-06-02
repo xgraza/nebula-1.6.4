@@ -24,7 +24,7 @@ public class Setting<T> implements IJSONSerializable
         this.description = description;
         this.visibility = visibility;
         this.valueChanged = valueChanged;
-        this.value = value;
+        setValue(value);
         this.defaultValue = value;
         this.type = (Class<T>) value.getClass();
     }

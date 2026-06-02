@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import ez.nebula.client.impl.module.render.ItemTweaksModule;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.settings.GameSettings;
@@ -41,21 +42,21 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
             GameSettings settings = Config.getGameSettings();
             String id = null;
 
-            if (!name.equals(so.getName()) && settings.advancedItemTooltips)
+            if (!name.equals(so.getName()) && ItemTweaksModule.INSTANCE.showBlockIDs())
             {
                 id = "\u00a78" + Lang.get("of.general.id") + ": " + so.getName();
             }
 
             String source = null;
 
-            if (so.getPaths() != null && settings.advancedItemTooltips)
+            if (so.getPaths() != null && ItemTweaksModule.INSTANCE.showBlockIDs())
             {
                 source = "\u00a78" + Lang.get("of.general.from") + ": " + Config.arrayToString(so.getPaths());
             }
 
             String def = null;
 
-            if (so.getValueDefault() != null && settings.advancedItemTooltips)
+            if (so.getValueDefault() != null && ItemTweaksModule.INSTANCE.showBlockIDs())
             {
                 String list = so.isEnabled() ? so.getValueText(so.getValueDefault()) : Lang.get("of.general.ambiguous");
                 def = "\u00a78" + Lang.getDefault() + ": " + list;

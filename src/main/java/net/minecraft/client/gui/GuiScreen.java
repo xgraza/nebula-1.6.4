@@ -4,6 +4,7 @@
 
 package net.minecraft.client.gui;
 
+import ez.nebula.client.impl.module.render.ItemTweaksModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -138,7 +139,7 @@ public class GuiScreen extends Gui
 
     protected void renderItem(ItemStack itemStack, int x, int y)
     {
-        final List<String> tooltipList = itemStack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+        final List<String> tooltipList = itemStack.getTooltip(this.mc.thePlayer, ItemTweaksModule.INSTANCE.showBlockIDs());
 
         for (int i = 0; i < tooltipList.size(); ++i)
         {

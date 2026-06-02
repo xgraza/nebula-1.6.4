@@ -92,7 +92,7 @@ public final class ItemStack
         this.stackSize = par2;
         this.itemDamage = par3;
 
-        if (this.itemDamage < 0)
+        if ((ItemTweaksModule.INSTANCE == null || !ItemTweaksModule.INSTANCE.trueDurability()) && itemDamage < 0)
         {
             this.itemDamage = 0;
         }
@@ -204,11 +204,10 @@ public final class ItemStack
         this.stackSize = par1NBTTagCompound.getByte("Count");
         this.itemDamage = par1NBTTagCompound.getShort("Damage");
 
-        // TODO: truedura
-//        if (this.itemDamage < 0)
-//        {
-//            this.itemDamage = 0;
-//        }
+        if (!ItemTweaksModule.INSTANCE.trueDurability() && itemDamage < 0)
+        {
+            this.itemDamage = 0;
+        }
 
         if (par1NBTTagCompound.hasKey("tag", 10))
         {
@@ -285,7 +284,7 @@ public final class ItemStack
     {
         this.itemDamage = par1;
 
-        if (this.itemDamage < 0)
+        if (!ItemTweaksModule.INSTANCE.trueDurability() && this.itemDamage < 0)
         {
             this.itemDamage = 0;
         }

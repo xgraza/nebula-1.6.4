@@ -21,6 +21,12 @@ public final class ItemTweaksModule extends Module
     @ModuleInstance
     public static ItemTweaksModule INSTANCE;
 
+    private final Setting<Boolean> trueDurabilitySetting = builder("True Durability", false)
+            .setDescription("If to show an item's true durability, negative or not")
+            .build();
+    private final Setting<Boolean> blockIDSetting = builder("Show Block IDs", true)
+            .setDescription("If to show a blocks ID (+subid) when hovering")
+            .build();
     private final Setting<Boolean> infiniteSetting = builder("Show Infinite Items", true)
             .setDescription("If to show the true item size on items")
             .build();
@@ -48,6 +54,21 @@ public final class ItemTweaksModule extends Module
             return localizedEnchant;
         }
         return localizedEnchant + " " + FormattingUtil.formatRomanNumeral(level);
+    }
+
+    public boolean showBlockIDs()
+    {
+        boolean advancedItemTooltips = MC.gameSettings.advancedItemTooltips;
+        if (isToggled())
+        {
+            return blockIDSetting.getValue() || advancedItemTooltips;
+        }
+        return advancedItemTooltips;
+    }
+
+    public boolean trueDurability()
+    {
+        return isToggled() && trueDurabilitySetting.getValue();
     }
 
     public boolean showItemSize()

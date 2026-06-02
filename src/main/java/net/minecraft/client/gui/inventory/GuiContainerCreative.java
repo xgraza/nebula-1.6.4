@@ -1,5 +1,6 @@
 package net.minecraft.client.gui.inventory;
 
+import ez.nebula.client.impl.module.render.ItemTweaksModule;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.achievement.GuiAchievements;
@@ -343,7 +344,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         {
             ItemStack var11 = (ItemStack) var2.next();
             boolean var12 = false;
-            Iterator var6 = var11.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips).iterator();
+            Iterator var6 = var11.getTooltip(this.mc.thePlayer, ItemTweaksModule.INSTANCE.showBlockIDs()).iterator();
 
             while (true)
             {
@@ -630,7 +631,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
     {
         if (field_147058_w == CreativeTabs.tabAllSearch.getTabIndex())
         {
-            List var4 = itemStack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+            List var4 = itemStack.getTooltip(this.mc.thePlayer, ItemTweaksModule.INSTANCE.showBlockIDs());
             CreativeTabs var5 = itemStack.getItem().getCreativeTab();
 
             if (var5 == null && itemStack.getItem() == Items.enchanted_book)

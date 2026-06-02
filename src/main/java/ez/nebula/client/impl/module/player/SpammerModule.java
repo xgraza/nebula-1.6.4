@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.player;
 
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.util.ChatAllowedCharacters;
 import ez.nebula.client.core.Nebula;
@@ -31,9 +32,13 @@ public final class SpammerModule extends Module
     public static final File SPAMMER_DIRECTORY = new File(
             Nebula.INSTANCE.getNebulaRootDir(), "spammer");
 
+    private final List<String> spammerLines = new LinkedList<>();
+    private int spammerIndex = 0;
+    private final Timer timer = new Timer();
+
     private final Setting<File> spammerFileSetting = builder("File", SPAMMER_DIRECTORY)
             .setDescription("The file to read the spam text from")
-            .onValueChanged((value) -> readSpammerFile())
+            .onValueChanged(this::readSpammerFile)
             .build();
     private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.LOOP)
             .setDescription("The mode to spam the chat with")
@@ -44,10 +49,6 @@ public final class SpammerModule extends Module
             .setScale(0.1)
             .setDescription("The delay in seconds before sending the next message")
             .build();
-
-    private final List<String> spammerLines = new LinkedList<>();
-    private int spammerIndex = 0;
-    private final Timer timer = new Timer();
 
     @Override
     public void onEnable()
@@ -68,7 +69,10 @@ public final class SpammerModule extends Module
             return;
         }
 
-        readSpammerFile();
+        if (spammerLines.isEmpty())
+        {
+            readSpammerFile(spammerFileSetting.getValue());
+        }
     }
 
     @Subscribe
@@ -111,12 +115,10 @@ public final class SpammerModule extends Module
         }
     };
 
-    private void readSpammerFile()
+    private void readSpammerFile(final File file)
     {
         spammerLines.clear();
         spammerIndex = 0;
-
-        final File file = spammerFileSetting.getValue();
         if (file == null || !file.exists() || !file.isFile())
         {
             setToggled(false);
