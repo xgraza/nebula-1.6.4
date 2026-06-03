@@ -42,6 +42,9 @@ public final class LandscaperModule extends Module
     private final Setting<Boolean> snowSetting = builder("Shovel Snow", true)
             .setDescription("If to clear snow")
             .build();
+    private final Setting<Boolean> saplingsSetting = builder("Saplings", false)
+            .setDescription("If to destroy saplings")
+            .build();
 
     private final Queue<BlockPos> breakQueue = new ConcurrentLinkedQueue<>();
     private BlockPos breakingBlockPos;
@@ -108,13 +111,18 @@ public final class LandscaperModule extends Module
         {
             return false;
         }
+        if (!saplingsSetting.getValue() && block instanceof BlockSapling)
+        {
+            return false;
+        }
         return block instanceof BlockFlower
                 || block instanceof BlockDoublePlant
                 || block instanceof BlockTallGrass
                 || block instanceof BlockMushroom
                 || block instanceof BlockDeadBush
                 || block instanceof BlockSnow
-                || block instanceof BlockSnowBlock;
+                || block instanceof BlockSnowBlock
+                || block instanceof BlockSapling;
     }
 
     private void populateBreakQueue()
