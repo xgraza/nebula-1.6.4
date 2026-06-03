@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
 
@@ -135,6 +136,12 @@ public final class BlockUtil
     public static EnumFacing getOpposite(final EnumFacing facing)
     {
         return EnumFacing.values()[facing.order_b];
+    }
+
+    public static boolean blockHasSubType(final Block block)
+    {
+        final Item item = Item.getItemFromBlock(block);
+        return item != null && item.getHasSubtypes();
     }
 
     public static BlockPos getClosestToPos(final BlockPos origin, final List<BlockPos> list)
