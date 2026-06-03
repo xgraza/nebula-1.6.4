@@ -147,10 +147,6 @@ public final class AutoTreeModule extends Module
         final List<BlockPos> surroundingList = BlockUtil.RADIAL_BLOCK_MAP.get(range);
         for (final BlockPos offset : surroundingList)
         {
-            if (offset.getY() != 0)
-            {
-                continue;
-            }
             final BlockPos pos = origin.add(offset);
             final Block block = MC.theWorld.getBlock(pos);
             if (block instanceof BlockSapling || (includeWood && (block instanceof BlockWood || block instanceof BlockLeaves)))
