@@ -124,6 +124,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new AutoHighwayModule());
         registerModule(new AutoToolModule());
         registerModule(new AutoTorchModule());
+        registerModule(new AutoTreeModule());
         registerModule(new AutoTunnelModule());
         registerModule(new ChestStealerModule());
         registerModule(new FakePlayerModule());

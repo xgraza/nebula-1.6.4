@@ -1,6 +1,7 @@
 package ez.nebula.client.util.minecraft.world;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.util.math.MathUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.client.Minecraft;
@@ -8,7 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author xgraza
@@ -22,7 +23,6 @@ public final class BlockUtil
             EnumFacing.SOUTH,
             EnumFacing.EAST,
             EnumFacing.WEST };
-
     public static final List<Block> INTERACTABLE_BLOCK_LIST = Lists.newArrayList(
             Blocks.chest,
             Blocks.ender_chest,
@@ -44,6 +44,28 @@ public final class BlockUtil
             Blocks.unpowered_repeater,
             Blocks.powered_repeater,
             Blocks.lever);
+    public static final Map<Integer, List<BlockPos>> RADIAL_BLOCK_MAP = new HashMap<>();
+
+    static
+    {
+        for (int i = 1; i <= 21; ++i)
+        {
+            final List<BlockPos> posList = new ArrayList<>();
+
+            for (int y = -i; y <= i; ++y)
+            {
+                for (int x = -i; x <= i; ++x)
+                {
+                    for (int z = -i; z <= i; ++z)
+                    {
+                        posList.add(new BlockPos(x, y, z));
+                    }
+                }
+            }
+
+            RADIAL_BLOCK_MAP.put(i, posList);
+        }
+    }
 
     public static int getHorizontalFacing(final EnumFacing facing)
     {
@@ -113,6 +135,16 @@ public final class BlockUtil
     public static EnumFacing getOpposite(final EnumFacing facing)
     {
         return EnumFacing.values()[facing.order_b];
+    }
+
+    public static BlockPos getClosestToPos(final BlockPos origin, final List<BlockPos> list)
+    {
+        final TreeMap<Double, BlockPos> posTreeMap = new TreeMap<>();
+        for (final BlockPos pos : list)
+        {
+            posTreeMap.put(MathUtil.getDistance(origin, pos), pos);
+        }
+        return posTreeMap.firstEntry().getValue();
     }
 
     public static BlockPos offset(final BlockPos pos, final EnumFacing facing)
