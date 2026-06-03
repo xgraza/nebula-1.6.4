@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.block.*;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.src.BlockPos;
@@ -130,16 +131,12 @@ public final class LandscaperModule extends Module
         breakQueue.clear();
         Set<BlockPos> breakPositionSet = new HashSet<>();
         final BlockPos origin = PlayerUtil.getOrigin();
-        final int range = rangeSetting.getValue().intValue();
-        for (int x = -range; x <= range; ++x)
+        for (final BlockPos offset : BlockUtil.RADIAL_BLOCK_MAP.get(rangeSetting.getValue().intValue()))
         {
-            for (int z = -range; z <= range; ++z)
+            final BlockPos pos = origin.add(offset);
+            if (isBlockValid(pos) && !breakQueue.contains(pos))
             {
-                final BlockPos pos = origin.add(x, 0, z);
-                if (isBlockValid(pos) && !breakQueue.contains(pos))
-                {
-                    breakPositionSet.add(pos);
-                }
+                breakPositionSet.add(pos);
             }
         }
         breakPositionSet = breakPositionSet.stream().sorted(Comparator.comparingDouble((x) ->
