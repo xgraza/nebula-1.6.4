@@ -25,6 +25,7 @@ import net.minecraft.util.EnumFacing;
 
 import java.util.List;
 import java.util.TreeMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author xgraza
@@ -88,16 +89,27 @@ public final class AutoTreeModule extends Module
             .setVisibility((value) -> bonemealSetting.getValue())
             .build();
 
+    private final List<BlockPos> placedSaplingsList = new CopyOnWriteArrayList<>();
+
+    @Override
+    public void onDisable()
+    {
+        super.onDisable();
+        placedSaplingsList.clear();
+    }
+
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (bonemealSetting.getValue())
-        {
-            handleBonemeal();
-        }
         if (plantSetting.getValue())
         {
             handlePlanting();
+        }
+        placedSaplingsList.removeIf((pos) ->
+                MC.thePlayer.getDistance(pos.getX(), pos.getY(), pos.getZ()) >= spacingSetting.getValue());
+        if (bonemealSetting.getValue())
+        {
+            handleBonemeal();
         }
     };
 
@@ -115,7 +127,10 @@ public final class AutoTreeModule extends Module
         }
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        InteractionManager.INSTANCE.rightClickBlock(placePos.down(), EnumFacing.UP, false);
+        if (InteractionManager.INSTANCE.rightClickBlock(placePos.down(), EnumFacing.UP, false))
+        {
+            placedSaplingsList.add(placePos);
+        }
         Nebula.INSTANCE.getInventoryManager().syncSlot();
     }
 
@@ -148,8 +163,14 @@ public final class AutoTreeModule extends Module
         for (final BlockPos offset : surroundingList)
         {
             final BlockPos pos = origin.add(offset);
-            final Block block = MC.theWorld.getBlock(pos);
-            if (block instanceof BlockSapling || (includeWood && (block instanceof BlockWood || block instanceof BlockLeaves)))
+            if (isPosTree(pos, includeWood))
+            {
+                blockDistances.put(MathUtil.getDistanceSq(pos, origin), pos);
+            }
+        }
+        for (final BlockPos pos : placedSaplingsList)
+        {
+            if (isPosTree(pos, includeWood) && !blockDistances.containsValue(pos))
             {
                 blockDistances.put(MathUtil.getDistanceSq(pos, origin), pos);
             }
@@ -159,6 +180,12 @@ public final class AutoTreeModule extends Module
             return null;
         }
         return blockDistances.firstEntry().getValue();
+    }
+
+    private boolean isPosTree(final BlockPos pos, final boolean includeWood)
+    {
+        final Block block = MC.theWorld.getBlock(pos);
+        return block instanceof BlockSapling || (includeWood && (block instanceof BlockWood || block instanceof BlockLeaves));
     }
 
     private BlockPos getSaplingPlacePos()
