@@ -1,5 +1,8 @@
 package ez.nebula.client.api.setting;
 
+import ez.nebula.client.api.setting.block.BlockSetting;
+import net.minecraft.block.Block;
+
 import java.awt.Color;
 import java.util.List;
 
@@ -35,5 +38,10 @@ public interface SettingProvider
     default ColorSetting.Builder colorBuilder(final String name, final Color value)
     {
         return new ColorSetting.Builder(name, value);
+    }
+
+    default BlockSetting.Builder blockBuilder(final String name, final Block block)
+    {
+        return new BlockSetting.Builder(name, block);
     }
 }
