@@ -11,11 +11,14 @@ import ez.nebula.client.api.render.animation.Animation;
 import ez.nebula.client.api.render.animation.AnimationEasing;
 import ez.nebula.client.api.render.font.Fonts;
 import ez.nebula.client.api.manager.key.Key;
+import ez.nebula.client.api.setting.block.BlockSetting;
+import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.impl.gui.module.component.module.value.*;
 import ez.nebula.client.impl.gui.module.component.module.value.color.ColorSettingComponent;
 import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.render.RenderUtil;
+import net.minecraft.block.Block;
 
 import java.awt.Color;
 import java.io.File;
@@ -69,6 +72,9 @@ public final class ModulePanel extends GUIComponent implements IGUIInputListener
                 {
                     getChildrenComponentList().add(new FileSettingComponent(baseDirectory, (Setting<File>) setting));
                 }
+            } else if (setting.getValue() instanceof BlockValue)
+            {
+                getChildrenComponentList().add(new BlockSettingComponent((BlockSetting) setting));
             }
         }
     }

@@ -1,8 +1,12 @@
 package ez.nebula.client.api.setting.block;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -38,15 +42,66 @@ public final class BlockSetting extends Setting<BlockValue>
         return getValue().getSubType();
     }
 
+    public boolean isBlock(final ItemStack itemStack)
+    {
+        if (itemStack == null || !(itemStack.getItem() instanceof ItemBlock))
+        {
+            return false;
+        }
+        return ((ItemBlock) itemStack.getItem()).getBlock() == getBlock()
+                && itemStack.getItemDamage() == getSubType();
+    }
+
+    @Override
+    public JsonElement toJSON()
+    {
+        final JsonObject object = new JsonObject();
+        object.addProperty("id", Block.getIdFromBlock(getBlock()));
+        object.addProperty("type", getSubType());
+        return super.toJSON();
+    }
+
+    @Override
+    public void fromJSON(JsonElement element)
+    {
+        if (!element.isJsonObject())
+        {
+            return;
+        }
+        final JsonObject object = element.getAsJsonObject();
+
+        int subType = 0;
+        if (object.has("type"))
+        {
+            subType = object.get("type").getAsInt();
+        }
+
+        Block block = null;
+        if (object.has("id"))
+        {
+            final int id = object.get("id").getAsInt();
+            block = Block.getBlockById(id);
+            if (block == null)
+            {
+                throw new RuntimeException("invalid block ID " + id + "!");
+            }
+        }
+        if (block == null)
+        {
+            block = getDefaultValue().getBlock();
+        }
+
+        setValue(new BlockValue(block, subType));
+    }
+
     public static final class Builder extends Setting.Builder<BlockValue>
     {
         private Block block;
         private int subType;
 
-        public Builder(String name, Block block)
+        public Builder(String name)
         {
             super(name, null);
-            this.block = block;
         }
 
         public Builder setBlock(Block block)

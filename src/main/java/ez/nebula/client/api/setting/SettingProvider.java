@@ -40,8 +40,8 @@ public interface SettingProvider
         return new ColorSetting.Builder(name, value);
     }
 
-    default BlockSetting.Builder blockBuilder(final String name, final Block block)
+    default BlockSetting.Builder blockBuilder(final String name)
     {
-        return new BlockSetting.Builder(name, block);
+        return new BlockSetting.Builder(name);
     }
 }

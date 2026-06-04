@@ -1,5 +1,10 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.setting.block.BlockSetting;
+import ez.nebula.client.api.setting.block.BlockValue;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.BlockPos;
@@ -33,6 +38,10 @@ public final class FlattenModule extends Module
             .setScale(1)
             .setDescription("The range to place blocks at")
             .build();
+    private final Setting<BlockValue> blockSetting = blockBuilder("Block")
+            .setBlock(Blocks.obsidian)
+            .setDescription("The type of block to use with flatten")
+            .build();
     private final Setting<Boolean> radialSetting = builder("Radial", true)
             .setDescription("If to place the blocks in a radial pattern")
             .build();
@@ -52,9 +61,27 @@ public final class FlattenModule extends Module
             .setDescription("The y-offset to place blocks at")
             .build();
 
+    @Override
+    public void onDisable()
+    {
+        super.onDisable();
+        if (MC.thePlayer != null)
+        {
+           // Nebula.INSTANCE.getInventoryManager().syncSlot();
+        }
+    }
+
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
+//        final int slot = InventoryUtil.getSlot(0, 9, (stack) -> ((BlockSetting)blockSetting).isBlock(stack));
+//        if (slot == -1)
+//        {
+//            return;
+//        }
+//
+//        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+
         final ItemStack heldStack = MC.thePlayer.getHeldItem();
         if (heldStack == null || !(heldStack.getItem() instanceof ItemBlock))
         {
