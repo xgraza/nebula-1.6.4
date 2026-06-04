@@ -37,6 +37,7 @@ public class Module implements SettingProvider, IJSONSerializable, Togglable
 
     private final ModuleManifest manifest;
     private final Key key;
+    private final boolean debug;
 
     /**
      * If this module should be hidden from the Arraylist render
@@ -53,6 +54,7 @@ public class Module implements SettingProvider, IJSONSerializable, Togglable
             throw new RuntimeException(
                     "@ModuleManifest needs to be annotated on top of a Module class");
         }
+        debug = getClass().isAnnotationPresent(DebugFeature.class);
 
         Nebula.INSTANCE.getKeyManager().addKey(manifest.name(),
                 key = new Key((state) ->
@@ -138,6 +140,11 @@ public class Module implements SettingProvider, IJSONSerializable, Togglable
     public boolean isHidden()
     {
         return hiddenSetting.getValue();
+    }
+
+    public boolean isDebug()
+    {
+        return debug;
     }
 
     @Override

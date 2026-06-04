@@ -106,6 +106,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new EntityCullingModule());
         registerModule(new ESPModule());
         registerModule(new ExtraTabModule());
+        registerModule(new FinderModule());
         registerModule(new FullbrightModule());
         registerModule(new GlintModule());
         registerModule(new HUDModule());
