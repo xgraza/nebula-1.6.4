@@ -189,7 +189,7 @@ public final class ClickGUIScreen extends GuiScreen
                     {
                         for (final GUIComponent component : cheatPanel.getChildrenComponentList())
                         {
-                            if (component instanceof ComponentWithSetting)
+                            if (component instanceof ComponentWithSetting && component.isVisible())
                             {
                                 final ComponentWithSetting cws = (ComponentWithSetting) component;
                                 if (cws.getSetting() != null && cws.getSetting().getDescription() != null && component.isMouseIn(mouseX, mouseY))
