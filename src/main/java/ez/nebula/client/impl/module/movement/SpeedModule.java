@@ -63,6 +63,14 @@ public final class SpeedModule extends Module
             .setVisibility((value) -> modeSetting.getValue() == Mode.PHYSICS_CALC)
             .build();
 
+    private final Setting<Double> vanillaSpeedSetting = numberBuilder("Speed", 0.3)
+            .setMin(0.1)
+            .setMax(5.0)
+            .setScale(0.05)
+            .setDescription("How fast the vanilla speed cheat should go")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.VANILLA)
+            .build();
+
     private int ticksSinceSetback, strafeStage, ticksOnIce;
     private double tickMoveSpeed, speed;
     private boolean boost;
@@ -198,6 +206,9 @@ public final class SpeedModule extends Module
             }
 
             MoveUtil.setSpeed(event, MoveUtil.isMoving() ? Math.max(speed, getBaseGroundSpeed()) : 0.0);
+        } else if (modeSetting.getValue() == Mode.VANILLA)
+        {
+            MoveUtil.setSpeed(event, MoveUtil.isMoving() ? vanillaSpeedSetting.getValue() : 0.0);
         }
     };
 
@@ -252,6 +263,6 @@ public final class SpeedModule extends Module
 
     public enum Mode
     {
-        STRAFE, Y_PORT, /*ON_GROUND,*/ PHYSICS_CALC
+        STRAFE, Y_PORT, /*ON_GROUND,*/ PHYSICS_CALC, VANILLA
     }
 }
