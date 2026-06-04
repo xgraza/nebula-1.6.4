@@ -1,9 +1,9 @@
 package ez.nebula.client.impl.gui.hud;
 
+import ez.nebula.client.impl.module.render.HUDModule;
 import net.minecraft.client.gui.GuiChat;
 import org.lwjgl.input.Mouse;
 import ez.nebula.client.core.Nebula;
-import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.impl.gui.hud.component.HUDElementCategoryPanel;
 import ez.nebula.client.util.io.SoundUtil;
@@ -22,14 +22,14 @@ public final class HUDEditorScreen extends GuiChat
     private static final int DRAGGING_BACKGROUND_COLOR = new Color(241, 223, 109, 120).getRGB();
 
     private static double SAVED_X = -1, SAVED_Y = -1;
-
-    private HUDElementCategoryPanel panel;
+    public static int PREV_WIDTH = -1, PREV_HEIGHT = -1;
+    private static HUDElementCategoryPanel PANEL;
     private HUDElement draggingElement;
     private double dragX = -1.0, dragY = -1.0;
+    private boolean scalingElements = true;
 
     public HUDEditorScreen()
     {
-
     }
 
     public HUDEditorScreen(String text)
@@ -40,17 +40,34 @@ public final class HUDEditorScreen extends GuiChat
     @Override
     public void initGui()
     {
-        panel = new HUDElementCategoryPanel();
+        if (PANEL == null)
+        {
+            PANEL = new HUDElementCategoryPanel();
+        }
 
         if (SAVED_X != -1 && SAVED_Y != -1)
         {
-            panel.setX(SAVED_X);
-            panel.setY(SAVED_Y);
+            PANEL.setX(SAVED_X);
+            PANEL.setY(SAVED_Y);
         } else
         {
-            panel.setX(2);
-            panel.setY(2);
+            PANEL.setX(2);
+            PANEL.setY(2);
         }
+
+        if (PREV_HEIGHT != -1 && PREV_WIDTH != -1 && (PREV_WIDTH != width || PREV_HEIGHT != height))
+        {
+            final double scaleX = width / (double) PREV_WIDTH;
+            final double scaleY = height / (double) PREV_HEIGHT;
+            for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
+            {
+                element.setX(element.getX() * scaleX);
+                element.setY(element.getY() * scaleY);
+            }
+        }
+        PREV_HEIGHT = height;
+        PREV_WIDTH = width;
+        scalingElements = false;
 
         super.initGui();
     }
@@ -65,30 +82,6 @@ public final class HUDEditorScreen extends GuiChat
 
         for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
         {
-            if (HUDModule.INSTANCE.forceInBoundsSetting.getValue())
-            {
-                // bounds checks
-                if (element.getX() < 0)
-                {
-                    element.setX(0);
-                }
-
-                if (element.getY() < 0)
-                {
-                    element.setY(0);
-                }
-
-                if (element.getX() + element.getWidth() > width)
-                {
-                    element.setX(width - element.getWidth());
-                }
-
-                if (element.getY() + element.getHeight() > height)
-                {
-                    element.setY(height - element.getHeight());
-                }
-            }
-
             if (!element.isToggled())
             {
                 continue;
@@ -125,9 +118,33 @@ public final class HUDEditorScreen extends GuiChat
             }
             draggingElement.setX(mouseX - dragX);
             draggingElement.setY(mouseY - dragY);
+
+            if (HUDModule.INSTANCE.forceInBoundsSetting.getValue() && !scalingElements)
+            {
+                // bounds checks
+                if (draggingElement.getX() < 0)
+                {
+                    draggingElement.setX(0);
+                }
+
+                if (draggingElement.getY() < 0)
+                {
+                    draggingElement.setY(0);
+                }
+
+                if (draggingElement.getX() + draggingElement.getWidth() > width)
+                {
+                    draggingElement.setX(width - draggingElement.getWidth());
+                }
+
+                if (draggingElement.getY() + draggingElement.getHeight() > height)
+                {
+                    draggingElement.setY(height - draggingElement.getHeight());
+                }
+            }
         } else
         {
-            panel.render(mouseX, mouseY, partialTicks);
+            PANEL.render(mouseX, mouseY, partialTicks);
         }
     }
 
@@ -136,8 +153,8 @@ public final class HUDEditorScreen extends GuiChat
     {
         super.mouseClicked(mouseX, mouseY, mouseButton);
 
-        panel.mouseClicked(mouseX, mouseY, mouseButton);
-        if (panel.isDragging())
+        PANEL.mouseClicked(mouseX, mouseY, mouseButton);
+        if (PANEL.isDragging())
         {
             return;
         }
@@ -163,7 +180,7 @@ public final class HUDEditorScreen extends GuiChat
     protected void keyTyped(char typedChar, int keyCode)
     {
         super.keyTyped(typedChar, keyCode);
-        panel.keyTyped(typedChar, keyCode);
+        PANEL.keyTyped(typedChar, keyCode);
     }
 
     @Override
@@ -171,7 +188,7 @@ public final class HUDEditorScreen extends GuiChat
     {
         super.onGuiClosed();
 
-        SAVED_X = panel.getX();
-        SAVED_Y = panel.getY();
+        SAVED_X = PANEL.getX();
+        SAVED_Y = PANEL.getY();
     }
 }

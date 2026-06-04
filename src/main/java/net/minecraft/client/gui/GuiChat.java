@@ -9,6 +9,7 @@ import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.item.ItemStack;
@@ -118,6 +119,14 @@ public class GuiChat extends GuiScreen
 
         drawCommandInfo();
         handleHoverEvent(mouseX, mouseY);
+
+        if (chatTextField.getText().startsWith(CommandManager.COMMAND_PREFIX))
+        {
+            chatTextField.setMaxTextLength(Integer.MAX_VALUE);
+        } else
+        {
+            chatTextField.setMaxTextLength(32);
+        }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
@@ -390,6 +399,7 @@ public class GuiChat extends GuiScreen
             default:
             {
                 chatTextField.textboxKeyTyped(typedChar, keyCode);
+                System.out.println("Typed: " + typedChar);
                 parseCommandResults();
                 break;
             }
@@ -399,27 +409,29 @@ public class GuiChat extends GuiScreen
     private void parseCommandResults()
     {
         String input = chatTextField.getText();
-        if (input != null && !input.isEmpty())
+        if (input == null || input.isEmpty())
         {
-            parseResults = commandManager.parse(input);
-            if (parseResults != null)
-            {
-                commandManager.getDispatcher().getCompletionSuggestions(parseResults)
-                        .thenAccept((suggestions) ->
+            input = CommandManager.COMMAND_PREFIX;
+        }
+        //System.out.println(input);
+        parseResults = commandManager.parse(input);
+        if (parseResults != null)
+        {
+            commandManager.getDispatcher().getCompletionSuggestions(parseResults)
+                    .thenAccept((suggestions) ->
+                    {
+                        final List<Suggestion> list = suggestions.getList();
+                        suggestionList.clear();
+                        for (final Suggestion suggestion : list)
                         {
-                            final List<Suggestion> list = suggestions.getList();
-                            suggestionList.clear();
-                            for (final Suggestion suggestion : list)
-                            {
-                                //System.out.println(suggestion.getText());
-                                suggestionList.add(suggestion.getText());
-                            }
-                            suggestionIndex = 0;
-                        });
+                            //System.out.println(suggestion.getText());
+                            suggestionList.add(suggestion.getText());
+                        }
+                        suggestionIndex = 0;
+                    });
 
-                //suggestionList = commandManager.getSuggestions(parseResults);
-                suggestionIndex = 0;
-            }
+            //suggestionList = commandManager.getSuggestions(parseResults);
+            suggestionIndex = 0;
         }
     }
 
