@@ -6,6 +6,7 @@ import ez.nebula.client.impl.config.ModuleConfig;
 import ez.nebula.client.impl.module.combat.*;
 import ez.nebula.client.impl.module.exploit.*;
 import ez.nebula.client.impl.module.movement.*;
+import ez.nebula.client.impl.module.movement.SpeedModule;
 import ez.nebula.client.impl.module.player.*;
 import ez.nebula.client.impl.module.render.*;
 import ez.nebula.client.impl.module.world.*;
