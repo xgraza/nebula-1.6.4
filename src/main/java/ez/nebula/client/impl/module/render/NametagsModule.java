@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -35,6 +36,9 @@ import static org.lwjgl.opengl.GL11.*;
         category = ModuleCategory.RENDER)
 public final class NametagsModule extends Module
 {
+    @ModuleInstance
+    public static NametagsModule INSTANCE;
+
     private static final ItemStack FAKE_BONE_STACK = new ItemStack(Items.bone, 1);
     private static final int ITEM_RENDER_SIZE = 16;
 

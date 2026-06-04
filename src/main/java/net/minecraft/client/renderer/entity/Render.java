@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
+import ez.nebula.client.impl.module.render.NametagsModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.FontRenderer;
@@ -350,7 +351,7 @@ public abstract class Render
 
     protected void renderEntityNameplate(Entity entity, String name, double x, double y, double z, int maxDistance)
     {
-        if (true)
+        if (NametagsModule.INSTANCE.isToggled())
         {
             return;
         }
