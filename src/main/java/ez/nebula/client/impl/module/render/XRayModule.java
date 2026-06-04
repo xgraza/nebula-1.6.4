@@ -70,35 +70,41 @@ public final class XRayModule extends Module
 
     private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.BASIC)
             .setDescription("How to show hidden blocks")
-            .onValueChanged((value) ->
-            {
-                if (isToggled() && MC.theWorld != null)
-                {
-                    MC.renderGlobal.loadRenderers();
-                }
-            })
+            .onValueChanged((value) -> reloadRenders())
+            .build();
+
+    public Setting<Integer> transparencySetting = numberBuilder("Transparency", 120)
+            .setMin(30)
+            .setMax(255)
+            .setScale(1)
+            .setDescription("How transparent blocks should be")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.TRANSPARENT)
+            .onValueChanged((value) -> reloadRenders())
             .build();
 
     @Override
     public void onEnable()
     {
         super.onEnable();
-        if (MC.theWorld == null)
-        {
-            return;
-        }
-        MC.renderGlobal.loadRenderers();
+        reloadRenders();
     }
 
     @Override
     public void onDisable()
     {
         super.onDisable();
-        if (MC.theWorld == null)
+        if (MC.theWorld != null)
         {
-            return;
+            MC.renderGlobal.loadRenderers();
         }
-        MC.renderGlobal.loadRenderers();
+    }
+
+    public void reloadRenders()
+    {
+        if (MC.theWorld != null && isToggled())
+        {
+            MC.renderGlobal.loadRenderers();;
+        }
     }
 
     public boolean isWireframe()

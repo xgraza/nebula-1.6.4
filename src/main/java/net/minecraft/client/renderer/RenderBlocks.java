@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import ez.nebula.client.impl.module.player.FreecamModule;
+import ez.nebula.client.impl.module.render.XRayModule;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -185,6 +187,11 @@ public class RenderBlocks
 
     public void setRenderFromInside(boolean p_147786_1_)
     {
+        if (FreecamModule.INSTANCE.isToggled())
+        {
+            this.renderFromInside = false;
+            return;
+        }
         this.renderFromInside = p_147786_1_;
     }
 
@@ -4628,6 +4635,14 @@ public class RenderBlocks
      */
     public boolean renderStandardBlock(Block p_147784_1_, int p_147784_2_, int p_147784_3_, int p_147784_4_)
     {
+        boolean renderAllFacesO = renderAllFaces;
+        boolean renderPart = partialRenderBounds;
+        if (FreecamModule.INSTANCE.isToggled() || XRayModule.INSTANCE.isToggled())
+        {
+            renderAllFaces = false;
+            partialRenderBounds = false;
+        }
+
         int var5 = CustomColorizer.getColorMultiplier(p_147784_1_, this.blockAccess, p_147784_2_, p_147784_3_, p_147784_4_);
         float var6 = (float) (var5 >> 16 & 255) / 255.0F;
         float var7 = (float) (var5 >> 8 & 255) / 255.0F;
@@ -4643,7 +4658,10 @@ public class RenderBlocks
             var8 = var11;
         }
 
-        return Minecraft.isAmbientOcclusionEnabled() && p_147784_1_.getLightValue() == 0 ? (this.partialRenderBounds ? this.renderStandardBlockWithAmbientOcclusionPartial(p_147784_1_, p_147784_2_, p_147784_3_, p_147784_4_, var6, var7, var8) : this.renderStandardBlockWithAmbientOcclusion(p_147784_1_, p_147784_2_, p_147784_3_, p_147784_4_, var6, var7, var8)) : this.renderStandardBlockWithColorMultiplier(p_147784_1_, p_147784_2_, p_147784_3_, p_147784_4_, var6, var7, var8);
+        boolean result = Minecraft.isAmbientOcclusionEnabled() && p_147784_1_.getLightValue() == 0 ? (this.partialRenderBounds ? this.renderStandardBlockWithAmbientOcclusionPartial(p_147784_1_, p_147784_2_, p_147784_3_, p_147784_4_, var6, var7, var8) : this.renderStandardBlockWithAmbientOcclusion(p_147784_1_, p_147784_2_, p_147784_3_, p_147784_4_, var6, var7, var8)) : this.renderStandardBlockWithColorMultiplier(p_147784_1_, p_147784_2_, p_147784_3_, p_147784_4_, var6, var7, var8);
+        renderAllFaces = renderAllFacesO;
+        partialRenderBounds = renderPart;
+        return result;
     }
 
     public boolean renderBlockLog(Block p_147742_1_, int p_147742_2_, int p_147742_3_, int p_147742_4_)

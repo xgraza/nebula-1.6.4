@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import ez.nebula.client.impl.module.render.XRayModule;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.shader.TesselatorVertexState;
 import net.minecraft.client.util.QuadComparator;
@@ -441,6 +443,13 @@ public class Tessellator
                 par4 = 0;
             }
 
+            if (XRayModule.INSTANCE != null
+                    && XRayModule.INSTANCE.isToggled()
+                    && XRayModule.INSTANCE.isTransparent()
+                    && Minecraft.getMinecraft().theWorld != null)
+            {
+                par4 = XRayModule.INSTANCE.transparencySetting.getValue();
+            }
             this.hasColor = true;
 
             if (littleEndianByteOrder)
