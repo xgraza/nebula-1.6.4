@@ -10,6 +10,7 @@ import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.math.MathUtil;
+import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
@@ -46,6 +47,13 @@ public final class AutoTreeModule extends Module
     private final Setting<Boolean> plantSetting = builder("Plant", true)
             .setDescription("If to automatically plant saplings")
             .build();
+    private final Setting<Double> plantDelaySetting = numberBuilder("Plant Delay", 1.0)
+            .setMin(0.0)
+            .setMax(10.0)
+            .setScale(0.1)
+            .setDescription("How much time in seconds before trying to plant another sapling")
+            .setVisibility((value) -> plantSetting.getValue())
+            .build();
     private final Setting<Integer> spacingSetting = numberBuilder("Space", 3)
             .setMin(1)
             .setMax(20)
@@ -81,6 +89,13 @@ public final class AutoTreeModule extends Module
     private final Setting<Boolean> bonemealSetting = builder("Bonemeal", false)
             .setDescription("If to automatically bonemeal saplings")
             .build();
+    private final Setting<Double> bonemealDelaySetting = numberBuilder("Bonemeal Delay", 1.0)
+            .setMin(0.0)
+            .setMax(10.0)
+            .setScale(0.1)
+            .setDescription("How much time in seconds before trying to bonemeal another sapling")
+            .setVisibility((value) -> bonemealSetting.getValue())
+            .build();
     private final Setting<Integer> packetsSetting = numberBuilder("Packets", 5)
             .setMin(1)
             .setMax(20)
@@ -90,6 +105,8 @@ public final class AutoTreeModule extends Module
             .build();
 
     private final List<BlockPos> placedSaplingsList = new CopyOnWriteArrayList<>();
+    private final Timer plantTimer = new Timer();
+    private final Timer bonemealTimer = new Timer();
 
     @Override
     public void onDisable()
@@ -115,6 +132,10 @@ public final class AutoTreeModule extends Module
 
     private void handlePlanting()
     {
+        if (!plantTimer.hasElapsed((long) (plantDelaySetting.getValue() * 1000.0)))
+        {
+            return;
+        }
         final BlockPos placePos = getSaplingPlacePos();
         if (placePos == null)
         {
@@ -125,6 +146,7 @@ public final class AutoTreeModule extends Module
         {
             return;
         }
+        plantTimer.resetTime();
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
         if (InteractionManager.INSTANCE.rightClickBlock(placePos.down(), EnumFacing.UP, false))
@@ -136,6 +158,10 @@ public final class AutoTreeModule extends Module
 
     private void handleBonemeal()
     {
+        if (!bonemealTimer.hasElapsed((long) (bonemealDelaySetting.getValue() * 1000.0)))
+        {
+            return;
+        }
         final BlockPos saplingPos = getNearestTree(
                 rangeSetting.getValue().intValue(), false, PlayerUtil.getOrigin());
         if (saplingPos == null)
@@ -147,6 +173,7 @@ public final class AutoTreeModule extends Module
         {
             return;
         }
+        bonemealTimer.resetTime();
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
         for (int i = 0; i < packetsSetting.getValue(); ++i)

@@ -137,13 +137,13 @@ public class ItemDye extends Item
         {
             IGrowable var6 = (IGrowable) var5;
 
-            if (var6.func_149851_a(p_150919_1_, p_150919_2_, p_150919_3_, p_150919_4_, p_150919_1_.isClient))
+            if (var6.canGrow(p_150919_1_, p_150919_2_, p_150919_3_, p_150919_4_, p_150919_1_.isClient))
             {
                 if (!p_150919_1_.isClient)
                 {
-                    if (var6.func_149852_a(p_150919_1_, p_150919_1_.rand, p_150919_2_, p_150919_3_, p_150919_4_))
+                    if (var6.canGrowRandom(p_150919_1_, p_150919_1_.rand, p_150919_2_, p_150919_3_, p_150919_4_))
                     {
-                        var6.func_149853_b(p_150919_1_, p_150919_1_.rand, p_150919_2_, p_150919_3_, p_150919_4_);
+                        var6.grow(p_150919_1_, p_150919_1_.rand, p_150919_2_, p_150919_3_, p_150919_4_);
                     }
 
                     --p_150919_0_.stackSize;

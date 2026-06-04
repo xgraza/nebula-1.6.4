@@ -37,7 +37,7 @@ public class BlockSapling extends BlockBush implements IGrowable
 
             if (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) >= 9 && p_149674_5_.nextInt(7) == 0)
             {
-                this.func_149879_c(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, p_149674_5_);
+                this.growTree(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, p_149674_5_);
             }
         }
     }
@@ -51,13 +51,13 @@ public class BlockSapling extends BlockBush implements IGrowable
         return field_149881_b[MathHelper.clamp_int(p_149691_2_, 0, 5)];
     }
 
-    public void func_149879_c(World p_149879_1_, int p_149879_2_, int p_149879_3_, int p_149879_4_, Random p_149879_5_)
+    public void growTree(World p_149879_1_, int p_149879_2_, int p_149879_3_, int p_149879_4_, Random p_149879_5_)
     {
-        int var6 = p_149879_1_.getBlockMetadata(p_149879_2_, p_149879_3_, p_149879_4_);
+        int meta = p_149879_1_.getBlockMetadata(p_149879_2_, p_149879_3_, p_149879_4_);
 
-        if ((var6 & 8) == 0)
+        if ((meta & 8) == 0)
         {
-            p_149879_1_.setBlockMetadataWithNotify(p_149879_2_, p_149879_3_, p_149879_4_, var6 | 8, 4);
+            p_149879_1_.setBlockMetadataWithNotify(p_149879_2_, p_149879_3_, p_149879_4_, meta | 8, 4);
         } else
         {
             this.func_149878_d(p_149879_1_, p_149879_2_, p_149879_3_, p_149879_4_, p_149879_5_);
@@ -214,18 +214,18 @@ public class BlockSapling extends BlockBush implements IGrowable
         }
     }
 
-    public boolean func_149851_a(World p_149851_1_, int p_149851_2_, int p_149851_3_, int p_149851_4_, boolean p_149851_5_)
+    public boolean canGrow(World p_149851_1_, int p_149851_2_, int p_149851_3_, int p_149851_4_, boolean p_149851_5_)
     {
         return true;
     }
 
-    public boolean func_149852_a(World p_149852_1_, Random p_149852_2_, int p_149852_3_, int p_149852_4_, int p_149852_5_)
+    public boolean canGrowRandom(World p_149852_1_, Random p_149852_2_, int p_149852_3_, int p_149852_4_, int p_149852_5_)
     {
         return (double) p_149852_1_.rand.nextFloat() < 0.45D;
     }
 
-    public void func_149853_b(World p_149853_1_, Random p_149853_2_, int p_149853_3_, int p_149853_4_, int p_149853_5_)
+    public void grow(World p_149853_1_, Random p_149853_2_, int p_149853_3_, int p_149853_4_, int p_149853_5_)
     {
-        this.func_149879_c(p_149853_1_, p_149853_3_, p_149853_4_, p_149853_5_, p_149853_2_);
+        this.growTree(p_149853_1_, p_149853_3_, p_149853_4_, p_149853_5_, p_149853_2_);
     }
 }
