@@ -6,7 +6,6 @@ import ez.nebula.client.impl.config.ModuleConfig;
 import ez.nebula.client.impl.module.combat.*;
 import ez.nebula.client.impl.module.exploit.*;
 import ez.nebula.client.impl.module.movement.*;
-import ez.nebula.client.impl.module.movement.SpeedModule;
 import ez.nebula.client.impl.module.player.*;
 import ez.nebula.client.impl.module.render.*;
 import ez.nebula.client.impl.module.world.*;
@@ -44,7 +43,9 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new RegenModule());
         registerModule(new VehicleBreakerModule());
         registerModule(new VelocityModule());
+        registerModule(new AntiAFKModule());
         registerModule(new AntiRevertModule());
+        registerModule(new ColorSignsModule());
         registerModule(new EnderchestBPModule());
         registerModule(new FastLatencyModule());
         registerModule(new FastPortalModule());
@@ -64,6 +65,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new ZootModule());
         registerModule(new AutoWalkModule());
         registerModule(new BlinkModule());
+        registerModule(new FastSwimModule());
         registerModule(new FlyModule());
         registerModule(new InvWalkModule());
         registerModule(new JesusModule());

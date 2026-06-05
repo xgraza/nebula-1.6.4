@@ -1,7 +1,9 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.DebugFeature;
+import ez.nebula.client.api.listener.event.player.EventMove;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.util.minecraft.player.MoveUtil;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
@@ -20,35 +22,46 @@ import ez.nebula.client.util.render.RenderUtil;
 @ModuleManifest(name = "Test", category = ModuleCategory.PLAYER)
 public final class TestModule extends Module
 {
-    private int facing;
-
-    @Override public void onDisable()
-    {
-        super.onDisable();
-        facing = 0;
-    }
+    private boolean attemptExit, doJump;
+    private int inWaterTicks = 0;
 
     @Subscribe
-    private final EventListener<EventKey> keyEventListener = event ->
+    private final EventListener<EventMove> moveEventListener = event ->
     {
-        if (event.getKeyCode() == Keyboard.KEY_Y)
+        if (MC.thePlayer.isInWater())
         {
-            facing++;
-            if (facing >= EnumFacing.values().length)
+            if (++inWaterTicks < 3)
             {
-                facing = 0;
+                ChatUtil.sendNebula("Water ticks: %s", inWaterTicks);
+                return;
             }
-            ChatUtil.sendNebula("Facing: %s", EnumFacing.faceList[facing]);
+            attemptExit = true;
+            MC.thePlayer.motionY = 0.11f;
+            event.setY(MC.thePlayer.motionY);
+            doJump = false;
+        } else
+        {
+            inWaterTicks = 0;
+            if (attemptExit)
+            {
+                MC.thePlayer.motionY = 0.3;
+                event.setY(MC.thePlayer.motionY);
+                attemptExit = false;
+            } else
+            {
+                MC.thePlayer.onGround = true;
+                if (!doJump)
+                {
+                    doJump = true;
+                    //MC.thePlayer.motionY = 0.3f;
+                } else
+                {
+                    if (MoveUtil.isMoving())
+                    {
+                        //MoveUtil.setSpeed(event, 0.2);
+                    }
+                }
+            }
         }
-    };
-
-    @Subscribe
-    private final EventListener<EventRender3D> render3DEventListener = event ->
-    {
-        final BlockPos pos = PlayerUtil.getOrigin().offset(PlayerUtil.getFacing());
-        final AxisAlignedBB bb = new AxisAlignedBB(pos);
-        final int mask = RenderUtil.calculateFaceMask(EnumFacing.faceList[facing]);
-        //RenderUtil.filledBox3D(bb, mask, 0x80FF0000);
-        RenderUtil.renderOutlinedAABB(bb, 1.5f, mask, 0x80FF0000);
     };
 }
