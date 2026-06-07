@@ -1,6 +1,5 @@
 package ez.nebula.client.impl.module.combat;
 
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
@@ -134,7 +133,6 @@ public final class KillAuraModule extends Module
         }
         if (canAttack())
         {
-            ChatUtil.sendNebula("attacking");
             timer.resetTime();
             if (autoBlockSetting.getValue())
             {
