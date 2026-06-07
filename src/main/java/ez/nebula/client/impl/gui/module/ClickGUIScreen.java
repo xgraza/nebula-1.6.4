@@ -96,6 +96,11 @@ public final class ClickGUIScreen extends GuiScreen
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
+        if (mc.thePlayer == null || mc.theWorld == null)
+        {
+            drawDefaultBackground();
+        }
+
         if (guiResetTimer.getTimeElapsedMS() > 500.0)
         {
             final double time = Math.max(3500.0 - guiResetTimer.getTimeElapsedMS(), 0.0) / 1000.0;

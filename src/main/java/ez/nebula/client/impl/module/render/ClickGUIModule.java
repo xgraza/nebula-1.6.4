@@ -1,11 +1,13 @@
 package ez.nebula.client.impl.module.render;
 
+import com.google.gson.JsonElement;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.impl.gui.module.ClickGUIScreen;
 import ez.nebula.client.api.setting.Setting;
+import net.minecraft.client.gui.GuiMainMenu;
 
 import static org.lwjgl.input.Keyboard.KEY_RSHIFT;
 
@@ -14,7 +16,7 @@ import static org.lwjgl.input.Keyboard.KEY_RSHIFT;
  * @since 02/16/25
  */
 @ModuleManifest(name = "ClickGUI",
-        description = "Displays a GUI with an Overview of all cheats & their settings",
+        description = "Displays a panel-styled GUI that displays all available modules and their configurations",
         category = ModuleCategory.RENDER)
 public final class ClickGUIModule extends Module
 {
@@ -38,7 +40,7 @@ public final class ClickGUIModule extends Module
     @Override
     public void onEnable()
     {
-        if (MC.thePlayer == null || MC.theWorld == null)
+        if (!canShowClickGUI())
         {
             toggle();
             return;
@@ -57,11 +59,30 @@ public final class ClickGUIModule extends Module
         // overriden because i dont want eventbus stuff
     }
 
+    private boolean canShowClickGUI()
+    {
+        if (MC.currentScreen instanceof GuiMainMenu)
+        {
+            return isToggled();
+        }
+        return MC.thePlayer != null && MC.theWorld != null;
+    }
+
     public void resetClickGUI()
     {
         MC.displayGuiScreen(null);
         guiScreen = null;
         MC.displayGuiScreen(guiScreen = new ClickGUIScreen());
         notifyInfo("Successfully reset ClickGUI", 5000L);
+    }
+
+    @Override
+    public void fromJSON(JsonElement element)
+    {
+        super.fromJSON(element);
+        if (isToggled() && MC.theWorld == null && MC.thePlayer == null)
+        {
+            setToggled(false);
+        }
     }
 }

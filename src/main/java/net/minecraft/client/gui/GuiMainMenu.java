@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import ez.nebula.client.impl.module.render.ClickGUIModule;
 import ez.nebula.client.impl.module.render.HUDModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.SplashTextProvider;
@@ -17,6 +18,7 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.opencl.CL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 import ez.nebula.client.BuildConfig;
@@ -124,6 +126,12 @@ public class GuiMainMenu extends GuiScreen
      */
     protected void keyTyped(char typedChar, int keyCode)
     {
+        final ClickGUIModule module = ClickGUIModule.INSTANCE;
+        if (module == null || module.getKey().isMouseBind() || module.getKey().getKeyCode() != keyCode)
+        {
+            return;
+        }
+        module.toggle();
     }
 
     /**
@@ -131,6 +139,7 @@ public class GuiMainMenu extends GuiScreen
      */
     public void initGui()
     {
+        allowUserInput = true;
         setSplashText();
         backgroundResource = mc.getTextureManager().getDynamicTextureLocation(
                 "background", new DynamicTexture(256, 256));

@@ -5,8 +5,10 @@
 package net.minecraft.client;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.impl.gui.module.ClickGUIScreen;
 import ez.nebula.client.impl.module.player.AutoReconnectModule;
 import ez.nebula.client.impl.module.render.UnfocusedCPUModule;
+import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -1073,6 +1075,10 @@ public class Minecraft
         {
             return UnfocusedCPUModule.INSTANCE.fpsSetting.getValue();
         }
+        if (currentScreen instanceof ClickGUIScreen)
+        {
+            return gameSettings.limitFramerate;
+        }
         return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
     }
 
@@ -1331,9 +1337,9 @@ public class Minecraft
         }
     }
 
-    private void func_147115_a(boolean p_147115_1_)
+    private void handleBlockBreak(boolean p_147115_1_)
     {
-        if (PlayerControllerMP.ALLOW_BREAK_OVERRIDE)
+        if (thePlayer == null || PlayerControllerMP.ALLOW_BREAK_OVERRIDE)
         {
             return;
         }
@@ -1368,9 +1374,9 @@ public class Minecraft
         }
     }
 
-    private void func_147116_af()
+    private void handleLeftClick()
     {
-        if (this.leftClickCounter <= 0)
+        if (this.leftClickCounter <= 0 && thePlayer != null)
         {
             this.thePlayer.swingItem();
 
@@ -1410,8 +1416,12 @@ public class Minecraft
         }
     }
 
-    private void func_147121_ag()
+    private void handleRightClick()
     {
+        if (thePlayer == null)
+        {
+            return;
+        }
         rightClickDelayTimer = 4;
         boolean var1 = true;
         ItemStack stack = thePlayer.inventory.getCurrentItem();
@@ -1548,6 +1558,7 @@ public class Minecraft
             int var4 = var3.getScaledWidth();
             int var5 = var3.getScaledHeight();
             this.currentScreen.setWorldAndResolution(this, var4, var5);
+            RenderUtil.GAME_RESOLUTION = var3;
         }
 
         this.loadingScreen = new LoadingScreenRenderer(this);
@@ -1692,7 +1703,7 @@ public class Minecraft
                 {
                     int var4 = Mouse.getEventDWheel();
 
-                    if (var4 != 0)
+                    if (var4 != 0 && thePlayer != null)
                     {
                         this.thePlayer.inventory.changeCurrentItem(var4);
 
@@ -1799,7 +1810,7 @@ public class Minecraft
                                 this.gameSettings.setOptionValue(GameSettings.Options.RENDER_DISTANCE, var8 ? -1 : 1);
                             }
 
-                            if (k == 30 && Keyboard.isKeyDown(61))
+                            if (k == 30 && Keyboard.isKeyDown(61) && renderGlobal != null)
                             {
                                 this.renderGlobal.loadRenderers();
                             }
@@ -1875,9 +1886,9 @@ public class Minecraft
                 }
             }
 
-            var8 = this.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN;
+            var8 = this.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN && thePlayer != null;
 
-            while (this.gameSettings.keyBindInventory.isPressed())
+            while (thePlayer != null && this.gameSettings.keyBindInventory.isPressed())
             {
                 if (this.playerController.isRidingHorse())
                 {
@@ -1889,7 +1900,7 @@ public class Minecraft
                 }
             }
 
-            while (this.gameSettings.keyBindDrop.isPressed())
+            while (this.gameSettings.keyBindDrop.isPressed() && thePlayer != null)
             {
                 this.thePlayer.dropOneItem(GuiScreen.isCtrlKeyDown());
             }
@@ -1899,12 +1910,12 @@ public class Minecraft
                 this.displayGuiScreen(new HUDEditorScreen());
             }
 
-            if (this.currentScreen == null && this.gameSettings.keyBindCommand.isPressed() && var8)
+            if (this.currentScreen == null && thePlayer != null && this.gameSettings.keyBindCommand.isPressed() && var8)
             {
                 this.displayGuiScreen(new HUDEditorScreen("/"));
             }
 
-            if (this.thePlayer.isUsingItem())
+            if (thePlayer != null && this.thePlayer.isUsingItem())
             {
                 if (!this.gameSettings.keyBindUseItem.getIsKeyPressed())
                 {
@@ -1936,12 +1947,12 @@ public class Minecraft
             {
                 while (this.gameSettings.keyBindAttack.isPressed())
                 {
-                    this.func_147116_af();
+                    this.handleLeftClick();
                 }
 
                 while (this.gameSettings.keyBindUseItem.isPressed())
                 {
-                    this.func_147121_ag();
+                    this.handleRightClick();
                 }
 
                 while (this.gameSettings.keyBindPickBlock.isPressed())
@@ -1952,10 +1963,10 @@ public class Minecraft
 
             if (this.gameSettings.keyBindUseItem.getIsKeyPressed() && this.rightClickDelayTimer == 0 && !this.thePlayer.isUsingItem())
             {
-                this.func_147121_ag();
+                this.handleRightClick();
             }
 
-            this.func_147115_a(this.currentScreen == null && this.gameSettings.keyBindAttack.getIsKeyPressed() && this.inGameHasFocus);
+            this.handleBlockBreak(this.currentScreen == null && this.gameSettings.keyBindAttack.getIsKeyPressed() && this.inGameHasFocus);
         }
 
         if (this.theWorld != null)
@@ -2313,7 +2324,7 @@ public class Minecraft
 
     private void func_147112_ai()
     {
-        if (this.objectMouseOver != null)
+        if (thePlayer != null && this.objectMouseOver != null)
         {
             boolean var1 = this.thePlayer.capabilities.isCreativeMode;
             int var3 = 0;
