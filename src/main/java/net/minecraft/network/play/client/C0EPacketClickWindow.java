@@ -77,6 +77,11 @@ public class C0EPacketClickWindow extends Packet
         return this.windowId;
     }
 
+    public void setWindowId(int windowId)
+    {
+        this.windowId = windowId;
+    }
+
     public int getSlot()
     {
         return this.slot;

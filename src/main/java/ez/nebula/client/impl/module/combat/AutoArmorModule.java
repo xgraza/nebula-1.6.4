@@ -71,7 +71,7 @@ public final class AutoArmorModule extends Module
         if (EnderchestBPModule.INSTANCE.isActive())
         {
             notifyInfo("EnderCheatBP interfered with AutoArmor, so it was turned off.", 7500L);
-            EnderchestBPModule.INSTANCE.reset();
+            EnderchestBPModule.INSTANCE.closeEnderChestGUI();
             EnderchestBPModule.INSTANCE.setToggled(false);
         }
 
