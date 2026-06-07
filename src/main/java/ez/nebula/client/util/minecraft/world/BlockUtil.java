@@ -154,6 +154,42 @@ public final class BlockUtil
         return posTreeMap.firstEntry().getValue();
     }
 
+    public static BlockInfo getPlacement(final BlockPos pos)
+    {
+        for (final EnumFacing side : EnumFacing.values())
+        {
+            final BlockPos neighbor = pos.offset(side);
+            if (!isReplaceable(neighbor) && canPlace(neighbor))
+            {
+                return new BlockInfo(neighbor, getOpposite(side));
+            }
+        }
+
+        for (final EnumFacing side : EnumFacing.values())
+        {
+            final BlockPos neighbor = pos.offset(side);
+            if (isReplaceable(neighbor) || !canPlace(neighbor))
+            {
+                for (final EnumFacing side2 : EnumFacing.values())
+                {
+                    final BlockPos neighbor2 = neighbor.offset(side2);
+                    if (!isReplaceable(neighbor2) && canPlace(neighbor))
+                    {
+                        return new BlockInfo(neighbor2, getOpposite(side2));
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static boolean canPlace(final BlockPos pos)
+    {
+        final int worldHeight = MC.theWorld.getHeight();
+        return pos.getY() > 0 && pos.getY() <= worldHeight;
+    }
+
     public static BlockPos offset(final BlockPos pos, final EnumFacing facing)
     {
         return new BlockPos(pos.getX() + facing.getFrontOffsetX(),

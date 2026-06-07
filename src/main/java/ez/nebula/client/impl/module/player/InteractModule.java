@@ -2,12 +2,15 @@ package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.world.EventLiquidCollide;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.setting.Setting;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 
 /**
  * @author xgraza
@@ -48,4 +51,15 @@ public final class InteractModule extends Module
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
             MC.rightClickDelayTimer = placeDelaySetting.getValue();
+
+    @Subscribe
+    private final EventListener<EventLiquidCollide> liquidCollideEventListener = event ->
+    {
+        final ItemStack itemStack = MC.thePlayer.getHeldItem();
+        if (waterPlaceSetting.getValue() && itemStack != null && itemStack.getItem() instanceof ItemBlock)
+        {
+            event.setResult(true);
+            event.cancel();
+        }
+    };
 }

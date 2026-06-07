@@ -1,5 +1,7 @@
 package net.minecraft.block;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.world.EventLiquidCollide;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -119,12 +121,19 @@ public abstract class BlockLiquid extends Block
     }
 
     /**
-     * Returns whether this block is collideable based on the arguments passed in \n@param par1 block metaData \n@param
-     * par2 whether the player right-clicked while holding a boat
+     * Returns whether this block is collideable based on the arguments passed in
+     * @param par1 block metaData
+     * @param par2 whether the player right-clicked while holding a boat
      */
-    public boolean canCollideCheck(int p_149678_1_, boolean p_149678_2_)
+    public boolean canCollideCheck(int par1, boolean par2)
     {
-        return p_149678_2_ && p_149678_1_ == 0;
+        boolean result = par2 && par1 == 0;
+        final EventLiquidCollide event = new EventLiquidCollide(result);
+        if (EventBus.dispatch(event))
+        {
+            result = event.isResult();
+        }
+        return result;
     }
 
     public boolean isBlockSolid(IBlockAccess p_149747_1_, int p_149747_2_, int p_149747_3_, int p_149747_4_, int p_149747_5_)

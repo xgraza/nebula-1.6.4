@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.setting.block.BlockValue;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.BlockPos;
-import net.minecraft.util.EnumFacing;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
@@ -29,12 +29,13 @@ import java.util.*;
         category = ModuleCategory.WORLD)
 public final class FlattenModule extends Module
 {
-    private final Setting<Integer> rangeSetting = numberBuilder("Range", 4)
-            .setMin(1)
-            .setMax(6)
-            .setScale(1)
+    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+            .setMin(1.0)
+            .setMax(6.0)
+            .setScale(0.5)
             .setDescription("The range to place blocks at")
             .build();
+    @DebugFeature
     private final Setting<BlockValue> blockSetting = blockBuilder("Block")
             .setBlock(Blocks.obsidian)
             .setDescription("The type of block to use with flatten")
@@ -109,58 +110,36 @@ public final class FlattenModule extends Module
     private List<BlockInfo> getPlacements()
     {
         final Set<BlockPos> positions = new HashSet<>();
-        final int range = rangeSetting.getValue();
         final BlockPos origin = PlayerUtil.getOrigin();
 
-        for (int x = -range; x <= range; ++x)
+        for (final BlockPos offset : BlockUtil.RADIAL_BLOCK_MAP.get(rangeSetting.getValue().intValue()))
         {
-            for (int z = -range; z <= range; ++z)
+            if (offset.getY() != 0)
             {
-                final BlockPos pos = origin.add(x, -(1 + yOffsetSetting.getValue()), z);
-                if (radialSetting.getValue() && MC.thePlayer.getDistance(
-                        pos.getX() + 0.5,
-                        pos.getY(),
-                        pos.getZ() + 0.5) > rangeSetting.getValue())
-                {
-                    continue;
-                }
+                continue;
+            }
+            final BlockPos pos = origin.add(offset.getX(), -(1 + yOffsetSetting.getValue()), offset.getZ());
+            if (radialSetting.getValue() && MC.thePlayer.getDistance(
+                    pos.getX() + 0.5,
+                    pos.getY(),
+                    pos.getZ() + 0.5) > rangeSetting.getValue())
+            {
+                continue;
+            }
 
-                if (BlockUtil.isReplaceable(pos))
-                {
-                    positions.add(pos);
-                }
+            if (BlockUtil.isReplaceable(pos))
+            {
+                positions.add(pos);
             }
         }
 
         final List<BlockInfo> infoList = new LinkedList<>();
-        blockLoop:
         for (final BlockPos pos : positions)
         {
-            for (final EnumFacing facing : EnumFacing.values())
+            final BlockInfo info = BlockUtil.getPlacement(pos);
+            if (info != null)
             {
-                final BlockPos n = pos.offset(facing);
-                if (!BlockUtil.isReplaceable(n) && n.getY() <= 256)
-                {
-                    infoList.add(new BlockInfo(n, BlockUtil.getOpposite(facing)));
-                    continue blockLoop;
-                }
-            }
-
-            for (final EnumFacing facing : EnumFacing.values())
-            {
-                final BlockPos neighbor = BlockUtil.offset(pos, facing);
-                if (BlockUtil.isReplaceable(neighbor))
-                {
-                    for (final EnumFacing side : EnumFacing.values())
-                    {
-                        final BlockPos n = BlockUtil.offset(neighbor, side);
-                        if (!BlockUtil.isReplaceable(n) && n.getY() <= 256)
-                        {
-                            infoList.add(new BlockInfo(n, BlockUtil.getOpposite(facing)));
-                            continue blockLoop;
-                        }
-                    }
-                }
+                infoList.add(info);
             }
         }
 
