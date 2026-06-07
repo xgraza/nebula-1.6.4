@@ -1,9 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
-import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.api.setting.block.BlockValue;
-import ez.nebula.client.core.Nebula;
-import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -94,8 +91,17 @@ public final class FlattenModule extends Module
         }
 
         final List<BlockInfo> placementInfoList = getPlacements();
-        for (final BlockInfo info : placementInfoList)
+        if (placementInfoList.isEmpty())
         {
+            return;
+        }
+        for (int i = 0; i < blocksSetting.getValue(); ++i)
+        {
+            if (i > placementInfoList.size() - 1)
+            {
+                break;
+            }
+            final BlockInfo info = placementInfoList.get(i);
             InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
         }
     };
@@ -127,18 +133,33 @@ public final class FlattenModule extends Module
         }
 
         final List<BlockInfo> infoList = new LinkedList<>();
+        blockLoop:
         for (final BlockPos pos : positions)
         {
             for (final EnumFacing facing : EnumFacing.values())
             {
                 final BlockPos n = pos.offset(facing);
-                if (!BlockUtil.isReplaceable(n))
+                if (!BlockUtil.isReplaceable(n) && n.getY() <= 256)
                 {
                     infoList.add(new BlockInfo(n, BlockUtil.getOpposite(facing)));
+                    continue blockLoop;
                 }
-                if (infoList.size() > blocksSetting.getValue())
+            }
+
+            for (final EnumFacing facing : EnumFacing.values())
+            {
+                final BlockPos neighbor = BlockUtil.offset(pos, facing);
+                if (BlockUtil.isReplaceable(neighbor))
                 {
-                    break;
+                    for (final EnumFacing side : EnumFacing.values())
+                    {
+                        final BlockPos n = BlockUtil.offset(neighbor, side);
+                        if (!BlockUtil.isReplaceable(n) && n.getY() <= 256)
+                        {
+                            infoList.add(new BlockInfo(n, BlockUtil.getOpposite(facing)));
+                            continue blockLoop;
+                        }
+                    }
                 }
             }
         }
