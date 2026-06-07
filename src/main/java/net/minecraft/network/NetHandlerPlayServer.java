@@ -156,20 +156,20 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     /**
      * Processes clients perspective on player positioning and/or orientation
      */
-    public void processPlayer(C03PacketPlayer p_147347_1_)
+    public void processPlayer(C03PacketPlayer packet)
     {
-        WorldServer var2 = this.serverController.worldServerForDimension(this.playerEntity.dimension);
+        WorldServer world = this.serverController.worldServerForDimension(this.playerEntity.dimension);
         this.field_147366_g = true;
 
         if (!this.playerEntity.playerConqueredTheEnd)
         {
-            double var3;
+            double deltaY;
 
             if (!this.hasMoved)
             {
-                var3 = p_147347_1_.getY() - this.lastPosY;
+                deltaY = packet.getY() - this.lastPosY;
 
-                if (p_147347_1_.getX() == this.lastPosX && var3 * var3 < 0.01D && p_147347_1_.getZ() == this.lastPosZ)
+                if (packet.getX() == this.lastPosX && deltaY * deltaY < 0.01D && packet.getZ() == this.lastPosZ)
                 {
                     this.hasMoved = true;
                 }
@@ -177,29 +177,29 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
             if (this.hasMoved)
             {
-                double var5;
-                double var7;
-                double var9;
+                double x;
+                double y;
+                double z;
 
                 if (this.playerEntity.ridingEntity != null)
                 {
-                    float var34 = this.playerEntity.rotationYaw;
-                    float var4 = this.playerEntity.rotationPitch;
+                    float yaw = this.playerEntity.rotationYaw;
+                    float pitch = this.playerEntity.rotationPitch;
                     this.playerEntity.ridingEntity.updateRiderPosition();
-                    var5 = this.playerEntity.posX;
-                    var7 = this.playerEntity.posY;
-                    var9 = this.playerEntity.posZ;
+                    x = this.playerEntity.posX;
+                    y = this.playerEntity.posY;
+                    z = this.playerEntity.posZ;
 
-                    if (p_147347_1_.hasRotated())
+                    if (packet.hasRotated())
                     {
-                        var34 = p_147347_1_.getYaw();
-                        var4 = p_147347_1_.getPitch();
+                        yaw = packet.getYaw();
+                        pitch = packet.getPitch();
                     }
 
-                    this.playerEntity.onGround = p_147347_1_.isOnGround();
+                    this.playerEntity.onGround = packet.isOnGround();
                     this.playerEntity.onUpdateEntity();
                     this.playerEntity.ySize = 0.0F;
-                    this.playerEntity.setPositionAndRotation(var5, var7, var9, var34, var4);
+                    this.playerEntity.setPositionAndRotation(x, y, z, yaw, pitch);
 
                     if (this.playerEntity.ridingEntity != null)
                     {
@@ -215,7 +215,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                         this.lastPosZ = this.playerEntity.posZ;
                     }
 
-                    var2.updateEntity(this.playerEntity);
+                    world.updateEntity(this.playerEntity);
                     return;
                 }
 
@@ -223,33 +223,33 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 {
                     this.playerEntity.onUpdateEntity();
                     this.playerEntity.setPositionAndRotation(this.lastPosX, this.lastPosY, this.lastPosZ, this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);
-                    var2.updateEntity(this.playerEntity);
+                    world.updateEntity(this.playerEntity);
                     return;
                 }
 
-                var3 = this.playerEntity.posY;
+                deltaY = this.playerEntity.posY;
                 this.lastPosX = this.playerEntity.posX;
                 this.lastPosY = this.playerEntity.posY;
                 this.lastPosZ = this.playerEntity.posZ;
-                var5 = this.playerEntity.posX;
-                var7 = this.playerEntity.posY;
-                var9 = this.playerEntity.posZ;
+                x = this.playerEntity.posX;
+                y = this.playerEntity.posY;
+                z = this.playerEntity.posZ;
                 float var11 = this.playerEntity.rotationYaw;
                 float var12 = this.playerEntity.rotationPitch;
 
-                if (p_147347_1_.hasMoved() && p_147347_1_.getY() == -999.0D && p_147347_1_.getPose() == -999.0D)
+                if (packet.hasMoved() && packet.getY() == -999.0D && packet.getPose() == -999.0D)
                 {
-                    p_147347_1_.setMoved(false);
+                    packet.setMoved(false);
                 }
 
                 double var13;
 
-                if (p_147347_1_.hasMoved())
+                if (packet.hasMoved())
                 {
-                    var5 = p_147347_1_.getX();
-                    var7 = p_147347_1_.getY();
-                    var9 = p_147347_1_.getZ();
-                    var13 = p_147347_1_.getPose() - p_147347_1_.getY();
+                    x = packet.getX();
+                    y = packet.getY();
+                    z = packet.getZ();
+                    var13 = packet.getPose() - packet.getY();
 
                     if (!this.playerEntity.isPlayerSleeping() && (var13 > 1.65D || var13 < 0.1D))
                     {
@@ -258,17 +258,17 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                         return;
                     }
 
-                    if (Math.abs(p_147347_1_.getX()) > 3.2E7D || Math.abs(p_147347_1_.getZ()) > 3.2E7D)
+                    if (Math.abs(packet.getX()) > 3.2E7D || Math.abs(packet.getZ()) > 3.2E7D)
                     {
                         this.kickPlayerFromServer("Illegal position");
                         return;
                     }
                 }
 
-                if (p_147347_1_.hasRotated())
+                if (packet.hasRotated())
                 {
-                    var11 = p_147347_1_.getYaw();
-                    var12 = p_147347_1_.getPitch();
+                    var11 = packet.getYaw();
+                    var12 = packet.getPitch();
                 }
 
                 this.playerEntity.onUpdateEntity();
@@ -280,9 +280,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     return;
                 }
 
-                var13 = var5 - this.playerEntity.posX;
-                double var15 = var7 - this.playerEntity.posY;
-                double var17 = var9 - this.playerEntity.posZ;
+                var13 = x - this.playerEntity.posX;
+                double var15 = y - this.playerEntity.posY;
+                double var17 = z - this.playerEntity.posZ;
                 double var19 = Math.min(Math.abs(var13), Math.abs(this.playerEntity.motionX));
                 double var21 = Math.min(Math.abs(var15), Math.abs(this.playerEntity.motionY));
                 double var23 = Math.min(Math.abs(var17), Math.abs(this.playerEntity.motionZ));
@@ -296,26 +296,26 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 }
 
                 float var27 = 0.0625F;
-                boolean var28 = var2.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().contract(var27, var27, var27)).isEmpty();
+                boolean var28 = world.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().contract(var27, var27, var27)).isEmpty();
 
-                if (this.playerEntity.onGround && !p_147347_1_.isOnGround() && var15 > 0.0D)
+                if (this.playerEntity.onGround && !packet.isOnGround() && var15 > 0.0D)
                 {
                     this.playerEntity.jump();
                 }
 
                 this.playerEntity.moveEntity(var13, var15, var17);
-                this.playerEntity.onGround = p_147347_1_.isOnGround();
+                this.playerEntity.onGround = packet.isOnGround();
                 this.playerEntity.addMovementStat(var13, var15, var17);
                 double var29 = var15;
-                var13 = var5 - this.playerEntity.posX;
-                var15 = var7 - this.playerEntity.posY;
+                var13 = x - this.playerEntity.posX;
+                var15 = y - this.playerEntity.posY;
 
                 if (var15 > -0.5D || var15 < 0.5D)
                 {
                     var15 = 0.0D;
                 }
 
-                var17 = var9 - this.playerEntity.posZ;
+                var17 = z - this.playerEntity.posZ;
                 var25 = var13 * var13 + var15 * var15 + var17 * var17;
                 boolean var31 = false;
 
@@ -325,8 +325,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     logger.warn(this.playerEntity.getCommandSenderName() + " moved wrongly!");
                 }
 
-                this.playerEntity.setPositionAndRotation(var5, var7, var9, var11, var12);
-                boolean var32 = var2.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().contract(var27, var27, var27)).isEmpty();
+                this.playerEntity.setPositionAndRotation(x, y, z, var11, var12);
+                boolean var32 = world.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().contract(var27, var27, var27)).isEmpty();
 
                 if (var28 && (var31 || !var32) && !this.playerEntity.isPlayerSleeping())
                 {
@@ -336,7 +336,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
 
                 AxisAlignedBB var33 = this.playerEntity.boundingBox.copy().expand(var27, var27, var27).addCoord(0.0D, -0.55D, 0.0D);
 
-                if (!this.serverController.isFlightAllowed() && !this.playerEntity.theItemInWorldManager.isCreative() && !var2.checkBlockCollision(var33))
+                if (!this.serverController.isFlightAllowed() && !this.playerEntity.theItemInWorldManager.isCreative() && !world.checkBlockCollision(var33))
                 {
                     if (var29 >= -0.03125D)
                     {
@@ -354,9 +354,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                     this.floatingTickCount = 0;
                 }
 
-                this.playerEntity.onGround = p_147347_1_.isOnGround();
+                this.playerEntity.onGround = packet.isOnGround();
                 this.serverController.getConfigurationManager().serverUpdateMountedMovingPlayer(this.playerEntity);
-                this.playerEntity.handleFalling(this.playerEntity.posY - var3, p_147347_1_.isOnGround());
+                this.playerEntity.handleFalling(this.playerEntity.posY - deltaY, packet.isOnGround());
             } else if (this.networkTickCount % 20 == 0)
             {
                 this.setPlayerLocation(this.lastPosX, this.lastPosY, this.lastPosZ, this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);

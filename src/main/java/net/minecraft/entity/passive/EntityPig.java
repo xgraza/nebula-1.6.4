@@ -1,5 +1,6 @@
 package net.minecraft.entity.passive;
 
+import ez.nebula.client.impl.module.movement.EntityControlModule;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -174,6 +175,10 @@ public class EntityPig extends EntityAnimal
      */
     public boolean getSaddled()
     {
+        if (EntityControlModule.INSTANCE.isToggled() && EntityControlModule.INSTANCE.pigSetting.getValue())
+        {
+            return true;
+        }
         return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
 

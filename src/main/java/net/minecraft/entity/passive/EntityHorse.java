@@ -1,5 +1,6 @@
 package net.minecraft.entity.passive;
 
+import ez.nebula.client.impl.module.movement.EntityControlModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.IEntitySelector;
@@ -552,6 +553,10 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
 
     public boolean isHorseSaddled()
     {
+        if (EntityControlModule.INSTANCE.isToggled() && EntityControlModule.INSTANCE.horsesSetting.getValue())
+        {
+            return true;
+        }
         return this.getHorseWatchableBoolean(4);
     }
 

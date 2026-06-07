@@ -104,7 +104,7 @@ public final class AutoPotModule extends Module
         }
 
         // we cannot override AutoBed, as we need to spoof rotations to properly place the bed in the direction we want
-        if (AutoBedModule.INSTANCE.isActive())
+        if (AutoBedModule.INSTANCE.isActive() || MC.thePlayer.ridingEntity != null)
         {
             return;
         }

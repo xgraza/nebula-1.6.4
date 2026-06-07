@@ -10,20 +10,19 @@ import java.io.IOException;
 
 public class S1BPacketEntityAttach extends Packet
 {
-    private int field_149408_a;
-    private int field_149406_b;
-    private int field_149407_c;
-    private static final String __OBFID = "CL_00001327";
+    private int action;
+    private int entityId;
+    private int ridingEntityId;
 
     public S1BPacketEntityAttach()
     {
     }
 
-    public S1BPacketEntityAttach(int p_i45218_1_, Entity p_i45218_2_, Entity p_i45218_3_)
+    public S1BPacketEntityAttach(int action, Entity entity, Entity ridingEntity)
     {
-        this.field_149408_a = p_i45218_1_;
-        this.field_149406_b = p_i45218_2_.getEntityId();
-        this.field_149407_c = p_i45218_3_ != null ? p_i45218_3_.getEntityId() : -1;
+        this.action = action;
+        this.entityId = entity.getEntityId();
+        this.ridingEntityId = ridingEntity != null ? ridingEntity.getEntityId() : -1;
     }
 
     /**
@@ -31,9 +30,9 @@ public class S1BPacketEntityAttach extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149406_b = p_148837_1_.readInt();
-        this.field_149407_c = p_148837_1_.readInt();
-        this.field_149408_a = p_148837_1_.readUnsignedByte();
+        this.entityId = p_148837_1_.readInt();
+        this.ridingEntityId = p_148837_1_.readInt();
+        this.action = p_148837_1_.readUnsignedByte();
     }
 
     /**
@@ -41,9 +40,9 @@ public class S1BPacketEntityAttach extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeInt(this.field_149406_b);
-        p_148840_1_.writeInt(this.field_149407_c);
-        p_148840_1_.writeByte(this.field_149408_a);
+        p_148840_1_.writeInt(this.entityId);
+        p_148840_1_.writeInt(this.ridingEntityId);
+        p_148840_1_.writeByte(this.action);
     }
 
     public void processPacket(INetHandlerPlayClient p_149405_1_)
@@ -51,19 +50,19 @@ public class S1BPacketEntityAttach extends Packet
         p_149405_1_.handleEntityAttach(this);
     }
 
-    public int func_149404_c()
+    public int getAction()
     {
-        return this.field_149408_a;
+        return this.action;
     }
 
-    public int func_149403_d()
+    public int getEntityId()
     {
-        return this.field_149406_b;
+        return this.entityId;
     }
 
-    public int func_149402_e()
+    public int getRidingEntityId()
     {
-        return this.field_149407_c;
+        return this.ridingEntityId;
     }
 
     public void processPacket(INetHandler p_148833_1_)

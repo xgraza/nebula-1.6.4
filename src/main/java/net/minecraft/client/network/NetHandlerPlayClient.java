@@ -753,16 +753,16 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         this.gameController.theWorld.getWorldInfo().setSpawnPosition(p_147271_1_.func_149360_c(), p_147271_1_.func_149359_d(), p_147271_1_.func_149358_e());
     }
 
-    public void handleEntityAttach(S1BPacketEntityAttach p_147243_1_)
+    public void handleEntityAttach(S1BPacketEntityAttach packet)
     {
-        Object var2 = this.clientWorldController.getEntityByID(p_147243_1_.func_149403_d());
-        Entity var3 = this.clientWorldController.getEntityByID(p_147243_1_.func_149402_e());
+        Object var2 = this.clientWorldController.getEntityByID(packet.getEntityId());
+        Entity var3 = this.clientWorldController.getEntityByID(packet.getRidingEntityId());
 
-        if (p_147243_1_.func_149404_c() == 0)
+        if (packet.getAction() == 0)
         {
             boolean var4 = false;
 
-            if (p_147243_1_.func_149403_d() == this.gameController.thePlayer.getEntityId())
+            if (packet.getEntityId() == this.gameController.thePlayer.getEntityId())
             {
                 var2 = this.gameController.thePlayer;
 
@@ -789,7 +789,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
                 GameSettings var5 = this.gameController.gameSettings;
                 this.gameController.ingameGUI.func_110326_a(I18n.format("mount.onboard", GameSettings.getKeyDisplayString(var5.keyBindSneak.getKeyCode())), false);
             }
-        } else if (p_147243_1_.func_149404_c() == 1 && var2 != null && var2 instanceof EntityLiving)
+        } else if (packet.getAction() == 1 && var2 != null && var2 instanceof EntityLiving)
         {
             if (var3 != null)
             {
