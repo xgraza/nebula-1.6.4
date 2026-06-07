@@ -1081,12 +1081,12 @@ public abstract class World implements IBlockAccess
     /**
      * Performs a raycast against all blocks in the world, and optionally liquids.
      */
-    public MovingObjectPosition rayTraceBlocks(Vec3 par1Vec3, Vec3 par2Vec3, boolean par3)
+    public MovingObjectPosition rayTraceBlocks(Vec3 par1Vec3, Vec3 par2Vec3, boolean liquids)
     {
-        return this.func_147447_a(par1Vec3, par2Vec3, par3, false, false);
+        return this.func_147447_a(par1Vec3, par2Vec3, liquids, false, false);
     }
 
-    public MovingObjectPosition func_147447_a(Vec3 p_147447_1_, Vec3 p_147447_2_, boolean p_147447_3_, boolean p_147447_4_, boolean p_147447_5_)
+    public MovingObjectPosition func_147447_a(Vec3 p_147447_1_, Vec3 p_147447_2_, boolean liquids, boolean p_147447_4_, boolean p_147447_5_)
     {
         if (!Double.isNaN(p_147447_1_.xCoord) && !Double.isNaN(p_147447_1_.yCoord) && !Double.isNaN(p_147447_1_.zCoord))
         {
@@ -1101,7 +1101,7 @@ public abstract class World implements IBlockAccess
                 Block var12 = this.getBlock(var9, var10, var11);
                 int var13 = this.getBlockMetadata(var9, var10, var11);
 
-                if ((!p_147447_4_ || var12.getCollisionBoundingBoxFromPool(this, var9, var10, var11) != null) && var12.canCollideCheck(var13, p_147447_3_))
+                if ((!p_147447_4_ || var12.getCollisionBoundingBoxFromPool(this, var9, var10, var11) != null) && var12.canCollideCheck(var13, liquids))
                 {
                     MovingObjectPosition var14 = var12.collisionRayTrace(this, var9, var10, var11, p_147447_1_, p_147447_2_);
 
@@ -1269,7 +1269,7 @@ public abstract class World implements IBlockAccess
 
                     if (!p_147447_4_ || var37.getCollisionBoundingBoxFromPool(this, var9, var10, var11) != null)
                     {
-                        if (var37.canCollideCheck(var38, p_147447_3_))
+                        if (var37.canCollideCheck(var38, liquids))
                         {
                             MovingObjectPosition var39 = var37.collisionRayTrace(this, var9, var10, var11, p_147447_1_, p_147447_2_);
 

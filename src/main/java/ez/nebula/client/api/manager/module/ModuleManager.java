@@ -125,6 +125,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new UnfocusedCPUModule());
         registerModule(new ViewModelModule());
         registerModule(new XRayModule());
+        registerModule(new AirPlaceModule());
         registerModule(new AntiGhostBlockModule());
         registerModule(new AutoFarmModule());
         registerModule(new AutoFishModule());
