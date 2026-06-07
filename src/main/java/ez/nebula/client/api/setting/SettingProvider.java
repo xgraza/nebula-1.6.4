@@ -40,6 +40,11 @@ public interface SettingProvider
         return new ColorSetting.Builder(name, value);
     }
 
+    default BindSetting.Builder bindBuilder(final String name)
+    {
+        return new BindSetting.Builder(name);
+    }
+
     default BlockSetting.Builder blockBuilder(final String name)
     {
         return new BlockSetting.Builder(name);
