@@ -125,7 +125,7 @@ public class GuiChat extends GuiScreen
             chatTextField.setMaxTextLength(Integer.MAX_VALUE);
         } else
         {
-            chatTextField.setMaxTextLength(32);
+            chatTextField.setMaxTextLength(100);
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
