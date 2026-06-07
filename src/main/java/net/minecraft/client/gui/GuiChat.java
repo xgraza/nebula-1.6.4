@@ -9,6 +9,7 @@ import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
+import ez.nebula.client.impl.module.exploit.LongChatModule;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -81,7 +82,7 @@ public class GuiChat extends GuiScreen
         Keyboard.enableRepeatEvents(true);
         this.chatSize = this.mc.ingameGUI.getChatGui().getSentMessages().size();
         this.chatTextField = new GuiTextField(this.fontRenderer, 4, this.height - 12, this.width - 4, 12);
-        this.chatTextField.setMaxTextLength(100);
+        this.chatTextField.setMaxTextLength(LongChatModule.INSTANCE.isToggled() ? Integer.MAX_VALUE : 100);
         this.chatTextField.func_146185_a(false);
         this.chatTextField.setFocused(true);
         this.chatTextField.setText(this.text);
@@ -125,7 +126,7 @@ public class GuiChat extends GuiScreen
             chatTextField.setMaxTextLength(Integer.MAX_VALUE);
         } else
         {
-            chatTextField.setMaxTextLength(100);
+            chatTextField.setMaxTextLength(LongChatModule.INSTANCE.isToggled() ? Integer.MAX_VALUE : 100);
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);

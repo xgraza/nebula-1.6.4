@@ -52,6 +52,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new FastUseModule());
         registerModule(new FrankyModule());
         registerModule(new GhostHandModule());
+        registerModule(new LongChatModule());
         registerModule(new NewChunksModule());
         registerModule(new NoC03Module());
         registerModule(new NoHungerModule());

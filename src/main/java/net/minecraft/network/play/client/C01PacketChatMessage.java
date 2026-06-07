@@ -1,5 +1,6 @@
 package net.minecraft.network.play.client;
 
+import ez.nebula.client.impl.module.exploit.LongChatModule;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -17,7 +18,7 @@ public class C01PacketChatMessage extends Packet
 
     public C01PacketChatMessage(String message)
     {
-        if (message.length() > 100)
+        if (message.length() > 100 && !LongChatModule.INSTANCE.isToggled())
         {
             message = message.substring(0, 100);
         }
