@@ -75,39 +75,6 @@ public class Setting<T> implements IJSONSerializable
         {
             return;
         }
-
-//        if (!element.isJsonPrimitive())
-//        {
-//            if (element.isJsonObject())
-//            {
-//                final JsonObject object = element.getAsJsonObject();
-//                if (value instanceof Key)
-//                {
-//                    ((Key) value).fromJSON(object);
-//                } else if (value instanceof Color)
-//                {
-//                    int r = 255, g = 255, b = 255, a = 255;
-//                    if (object.has("r"))
-//                    {
-//                        r = object.get("r").getAsInt();
-//                    }
-//                    if (object.has("g"))
-//                    {
-//                        g = object.get("g").getAsInt();
-//                    }
-//                    if (object.has("b"))
-//                    {
-//                        b = object.get("b").getAsInt();
-//                    }
-//                    if (object.has("a"))
-//                    {
-//                        a = object.get("a").getAsInt();
-//                    }
-//                    setValue((T) new Color(r, g, b, a));
-//                }
-//            }
-//            return;
-//        }
         final JsonPrimitive primitive = element.getAsJsonPrimitive();
         if (primitive.isBoolean())
         {
@@ -180,35 +147,6 @@ public class Setting<T> implements IJSONSerializable
         {
             return JsonNull.INSTANCE;
         }
-
-//        if (value instanceof File)
-//        {
-//            return new JsonPrimitive(((File) value).getAbsolutePath());
-//        } else if (value instanceof Key)
-//        {
-//            return ((Key) value).toJSON();
-//        } else if (value instanceof Color)
-//        {
-//            final Color c = (Color) value;
-//            final JsonObject object = new JsonObject();
-//            object.addProperty("r", c.getRed());
-//            object.addProperty("g", c.getGreen());
-//            object.addProperty("b", c.getBlue());
-//            object.addProperty("a", c.getAlpha());
-//            return object;
-//        } else if (value instanceof Boolean)
-//        {
-//            return new JsonPrimitive((Boolean) value);
-//        } else if (value instanceof Number)
-//        {
-//            return new JsonPrimitive((Number) value);
-//        } else if (value instanceof Enum<?>)
-//        {
-//            return new JsonPrimitive(((Enum<?>) value).name());
-//        } else
-//        {
-//            return new JsonPrimitive(value.toString());
-//        }
     }
 
     public static class Builder<T>
