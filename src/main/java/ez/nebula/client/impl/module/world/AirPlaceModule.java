@@ -72,7 +72,7 @@ public final class AirPlaceModule extends Module
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
         final ItemStack itemStack = MC.thePlayer.getHeldItem();
-        if (MC.objectMouseOver.sideHit == -1 || itemStack == null || !(itemStack.getItem() instanceof ItemBlock))
+        if (MC.objectMouseOver == null || MC.objectMouseOver.sideHit == -1 || itemStack == null || !(itemStack.getItem() instanceof ItemBlock))
         {
             result = null;
             return;
