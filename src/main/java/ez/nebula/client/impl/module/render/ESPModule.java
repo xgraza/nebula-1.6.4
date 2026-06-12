@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.render;
 
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -107,10 +108,6 @@ public final class ESPModule extends Module
             .setDescription("If to render redstone materials (i.e. comparators, repeaters)")
             .setVisibility((value) -> modeSetting.getValue() == Mode.SHADER)
             .build();
-    private final Setting<Boolean> brewingStandsSetting = builder("Brewing Stands", false)
-            .setDescription("If to render brewing stands")
-            .setVisibility((value) -> modeSetting.getValue() == Mode.SHADER)
-            .build();
     private final Setting<Boolean> signsSetting = builder("Signs", false)
             .setDescription("If to render signs")
             .setVisibility((value) -> modeSetting.getValue() == Mode.SHADER)
@@ -189,7 +186,6 @@ public final class ESPModule extends Module
                             || entity instanceof TileEntityDaylightDetector
                             || entity instanceof TileEntityPiston
                             || entity instanceof TileEntityHopper))
-                        || (entity instanceof TileEntityBrewingStand && brewingStandsSetting.getValue())
                         || (entity instanceof TileEntitySign && signsSetting.getValue()))
                 {
                     renderTargetList.add(entity);
@@ -245,6 +241,8 @@ public final class ESPModule extends Module
         glPushMatrix();
         glPushAttrib(GL_ALPHA_BITS);
 
+        glDisable(GL_CULL_FACE);
+
         final boolean renderShadows = Render.renderShadow;
         Render.renderShadow = false;
 
@@ -278,9 +276,10 @@ public final class ESPModule extends Module
             }
         }
 
-        glEnable(GL_ALPHA_TEST);
         glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
+        glEnable(GL_ALPHA_TEST);
+        glDepthMask(false);
 
         fb.unbindFramebuffer();
         MC.getFramebuffer().bindFramebuffer(true);
@@ -319,6 +318,8 @@ public final class ESPModule extends Module
 
         Render.renderShadow = renderShadows;
 
+        glDepthMask(true);
+        glEnable(GL_CULL_FACE);
         glPopAttrib();
         glPopMatrix();
 
