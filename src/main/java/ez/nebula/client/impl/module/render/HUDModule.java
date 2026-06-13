@@ -55,7 +55,9 @@ public final class HUDModule extends Module
 
     public HUDModule()
     {
-        toggle();
+        // automatically toggle & hide
+        setHidden(true);
+        setToggled(true);
     }
 
     @Override

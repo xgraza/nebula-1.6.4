@@ -5,6 +5,7 @@
 package net.minecraft.client;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import ez.nebula.client.impl.gui.module.ClickGUIScreen;
 import ez.nebula.client.impl.module.player.AutoReconnectModule;
 import ez.nebula.client.impl.module.render.UnfocusedCPUModule;
@@ -247,6 +248,7 @@ public class Minecraft
      * Makes sure it doesn't keep taking screenshots when both buttons are down.
      */
     boolean isTakingScreenshot;
+    public boolean waitUntilNextTickToScreenshot;
 
     /**
      * Does the actual gameplay have focus. If so then mouse and keys will effect the player instead of menus.
@@ -2145,6 +2147,7 @@ public class Minecraft
      */
     public void loadWorld(WorldClient par1WorldClient, String par2Str)
     {
+        EventBus.dispatch(new EventChangeWorld());
         System.gc();
         // clear old map rendering stuff
         if (par1WorldClient != theWorld)

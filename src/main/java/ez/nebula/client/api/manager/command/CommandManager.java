@@ -35,6 +35,7 @@ public final class CommandManager implements IManager
         register(new SelfKickCommand());
         register(new SpawnTPCommand());
         register(new ToggleCommand());
+        register(new WaypointCommand());
     }
 
     public void register(final Command command)
@@ -43,7 +44,7 @@ public final class CommandManager implements IManager
         for (final String alias : command.getManifest().aliases())
         {
             commandInstanceMap.put(alias, command);
-            final LiteralArgumentBuilder<CommandSource> literal = LiteralArgumentBuilder.literal(alias);
+            final LiteralArgumentBuilder<CommandSource> literal = Command.literal(alias);
             command.createBuilder(literal);
             dispatcher.register(literal);
         }

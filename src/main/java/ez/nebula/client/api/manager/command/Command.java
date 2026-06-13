@@ -31,6 +31,11 @@ public abstract class Command
         return RequiredArgumentBuilder.argument(name, argumentType);
     }
 
+    public static LiteralArgumentBuilder<CommandSource> literal(final String alias)
+    {
+        return LiteralArgumentBuilder.literal(alias);
+    }
+
     public CommandManifest getManifest()
     {
         return manifest;

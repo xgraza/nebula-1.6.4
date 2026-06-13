@@ -1,0 +1,134 @@
+package ez.nebula.client.api.manager.waypoint;
+
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.manager.ITypedManager;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.impl.config.WaypointConfig;
+import ez.nebula.client.impl.module.render.WaypointsModule;
+import ez.nebula.client.util.render.RenderUtil;
+import net.minecraft.client.Minecraft;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
+
+/**
+ * @author xgraza
+ * @since 6/12/26
+ */
+public final class WaypointManager implements ITypedManager<Waypoint>
+{
+    private static final Minecraft MC = Minecraft.getMinecraft();
+
+    private final List<Waypoint> waypointList = new ArrayList<>();
+
+    @Subscribe
+    private final EventListener<EventRender3D> render3DEventListener = event ->
+    {
+        final List<Waypoint> serverWaypoints = getServerWaypoints();
+        if (serverWaypoints.isEmpty() || !WaypointsModule.INSTANCE.isToggled())
+        {
+            return;
+        }
+
+        // TODO: this doesnt work if you super quickly press F2
+        if (WaypointsModule.INSTANCE.antiScreenshotSetting.getValue() && MC.gameSettings.keyBindScreenshot.pressed)
+        {
+            return;
+        }
+
+        for (final Waypoint waypoint : serverWaypoints)
+        {
+            RenderUtil.renderGLBillboard(waypoint.getX(), waypoint.getY(), waypoint.getZ(), 0.2f, () ->
+            {
+                glEnable(GL_DEPTH_CLAMP);
+                final double distance = Math.sqrt(MC.thePlayer.getDistanceSq(waypoint.getX(), waypoint.getY(), waypoint.getZ()));
+                final String text1 = waypoint.getName();
+                final String text2 = String.format("%.1f block%s", distance, distance > 1.0 ? "s" : "");
+
+                int textWidth1 = MC.fontRenderer.getStringWidth(text1);
+                int textWidth2 = MC.fontRenderer.getStringWidth(text2);
+
+                double textWidth = Math.max(textWidth1, textWidth2) / 2.0;
+                int textHeight = (MC.fontRenderer.FONT_HEIGHT + 1) * 2;
+
+                RenderUtil.renderRectangle(-(textWidth + 2), -(textHeight + 1), (textWidth + 2) * 2, textHeight + 4, 0x95000000);
+                MC.fontRenderer.drawStringWithShadow(text1, (int) -(textWidth1 / 2.0), -textHeight + 2, -1);
+                MC.fontRenderer.drawStringWithShadow(text2, (int) -(textWidth2 / 2.0), -textHeight + MC.fontRenderer.FONT_HEIGHT + 3, -1);
+                glDisable(GL_DEPTH_CLAMP);
+            });
+        }
+    };
+
+    @Override
+    public void init()
+    {
+        EventBus.subscribe(this);
+        Nebula.INSTANCE.getConfigurationManager()
+                .addConfiguration(new WaypointConfig(this));
+    }
+
+    public void clearWaypoints()
+    {
+        waypointList.clear();
+    }
+
+    public void registerWaypoint(final Waypoint waypoint)
+    {
+        waypointList.add(waypoint);
+    }
+
+    public void unregisterWaypoint(final Waypoint waypoint)
+    {
+        waypointList.remove(waypoint);
+    }
+
+    public void unregisterWaypoint(final String serverIp, final String name)
+    {
+        waypointList.removeIf((waypoint) ->
+                waypoint.getServerIP().contains(serverIp) && waypoint.getName().equals(name));
+    }
+
+    public boolean waypointExists(final String serverIp, final String name)
+    {
+        return waypointList.stream()
+                .anyMatch((waypoint) -> waypoint.getServerIP().contains(serverIp) && waypoint.getName().equals(name));
+    }
+
+    public Waypoint getWaypoint(final String serverIp, final String name)
+    {
+        return waypointList.stream()
+                .filter((waypoint) -> waypoint.getServerIP().contains(serverIp) && waypoint.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<Waypoint> getServerWaypoints()
+    {
+        if (waypointList.isEmpty())
+        {
+            return Collections.emptyList();
+        }
+        final String serverIP = Nebula.INSTANCE.getServerManager().getServerIP();
+        if (serverIP.equalsIgnoreCase("unknown"))
+        {
+            return Collections.emptyList();
+        }
+        return waypointList.stream()
+                .filter((waypoint) -> waypoint.getServerIP().contains(serverIP))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Waypoint> getAll()
+    {
+        return waypointList;
+    }
+}

@@ -60,7 +60,7 @@ public final class ServerManager implements IManager
             }
             return "Unknown";
         }
-        return serverData.serverIP.replace(":", "_");
+        return serverData.serverIP.split(":")[0];
     }
 
     public long getLastPacketMS()

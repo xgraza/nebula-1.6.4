@@ -2,6 +2,7 @@ package ez.nebula.client.core;
 
 import com.github.lunatrius.schematica.Schematica;
 import ez.nebula.client.BuildConfig;
+import ez.nebula.client.api.manager.waypoint.WaypointManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.SplashTextProvider;
 import net.minecraft.util.ResourceLocation;
@@ -59,6 +60,7 @@ public enum Nebula
     private InventoryManager inventoryManager;
     private RotationManager rotationManager;
     private ServerManager serverManager;
+    private WaypointManager waypointManager;
 
     private MovementController movementController;
 
@@ -100,6 +102,7 @@ public enum Nebula
         rotationManager = new RotationManager();
         serverManager = new ServerManager();
         movementController = new MovementController();
+        waypointManager = new WaypointManager();
 
         LoadingScreen.setStage(4, "Initializing Nebula core");
 
@@ -108,13 +111,14 @@ public enum Nebula
         hudManager.init();
         moduleManager.init();
         accountManager.init();
+        friendManager.init();
+        waypointManager.init();
         configManager.init();
         systemTray.init();
         toastManager.init();
         inventoryManager.init();
         rotationManager.init();
         serverManager.init();
-        friendManager.init();
 
         LoadingScreen.setStage(5, "Initializing Nebula shaders");
         try
@@ -275,5 +279,10 @@ public enum Nebula
     public MovementController getMovementController()
     {
         return movementController;
+    }
+
+    public WaypointManager getWaypointManager()
+    {
+        return waypointManager;
     }
 }

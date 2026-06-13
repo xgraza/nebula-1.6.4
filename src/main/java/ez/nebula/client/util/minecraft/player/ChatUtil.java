@@ -33,7 +33,7 @@ public final class ChatUtil
 
     public static void sendFormatted(final String chatPrefix, String content, final Object... format)
     {
-        content = content.replaceAll("(?i)&([0-9A-FK-OR])", "§$1");
+        content = content.replaceAll("(?i)&([0-9A-FK-ORZ])", "§$1");
         content = String.format(content, format);
 
         final String[] lines = content.split("\n");

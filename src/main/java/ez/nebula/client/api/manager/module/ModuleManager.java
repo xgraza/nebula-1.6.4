@@ -124,6 +124,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new TrajectoriesModule());
         registerModule(new UnfocusedCPUModule());
         registerModule(new ViewModelModule());
+        registerModule(new WaypointsModule());
         registerModule(new XRayModule());
         registerModule(new AirPlaceModule());
         registerModule(new AntiGhostBlockModule());

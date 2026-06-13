@@ -33,6 +33,50 @@ public final class ConfigManager implements IManager
         }
     }
 
+    public boolean saveConfig(final IConfig configuration)
+    {
+        final File file = configuration.getFile();
+        if (!file.getParentFile().exists())
+        {
+            if (!file.getParentFile().mkdir())
+            {
+                Nebula.INSTANCE.getLogger().error("Failed to create parent directory {}", file);
+                return false;
+            }
+            Nebula.INSTANCE.getLogger().info("Created parent directory {}", file);
+        }
+        if (!file.exists())
+        {
+            try
+            {
+                if (!file.createNewFile())
+                {
+                    Nebula.INSTANCE.getLogger().error("Failed to create file {}", file);
+                }
+            } catch (final IOException e)
+            {
+                Nebula.INSTANCE.getLogger().error(e);
+                return false;
+            }
+        }
+
+        final String data = configuration.save();
+        if (data == null || data.isEmpty())
+        {
+            Nebula.INSTANCE.getLogger().warn("Save data for {} was empty", file);
+            return false;
+        }
+
+        try
+        {
+            FileUtil.save(file, data);
+        } catch (final IOException e)
+        {
+            Nebula.INSTANCE.getLogger().error(e);
+        }
+        return false;
+    }
+
     private void loadConfigs() throws IOException
     {
         Nebula.INSTANCE.getLogger().info("Loading {} configs...", configList.size());

@@ -1,6 +1,7 @@
 package net.minecraft.client.renderer;
 
 import com.google.gson.JsonSyntaxException;
+import ez.nebula.client.api.listener.event.render.*;
 import ez.nebula.client.impl.module.player.InteractModule;
 import ez.nebula.client.impl.module.render.*;
 import net.minecraft.block.Block;
@@ -53,10 +54,6 @@ import shadersmod.client.ShadersRender;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.util.render.EntityCulling;
 import ez.nebula.client.api.listener.event.player.EventRaytrace;
-import ez.nebula.client.api.listener.event.render.EventCameraDistance;
-import ez.nebula.client.api.listener.event.render.EventGamma;
-import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
 import ez.nebula.client.util.render.ProjectionUtil;
 
 import java.awt.Color;
@@ -899,7 +896,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
             GL11.glScaled(this.cameraZoom, this.cameraZoom, 1.0D);
         }
 
-        Project.gluPerspective(this.getFOVModifier(par1, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, clipDistance);
+        final EventPerspective event = new EventPerspective(this.getFOVModifier(par1, true), (float) this.mc.displayWidth / (float) this.mc.displayHeight, 0.05F, clipDistance);
+        EventBus.dispatch(event);
+        Project.gluPerspective(event.getFov(), event.getAspect(), event.getzNear(), event.getzFar());
         float var4;
 
         if (this.mc.playerController.enableEverythingIsScrewedUpMode())

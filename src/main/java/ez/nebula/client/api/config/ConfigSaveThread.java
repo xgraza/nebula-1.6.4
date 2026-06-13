@@ -34,45 +34,7 @@ public final class ConfigSaveThread extends Thread
         }
         for (final IConfig configuration : manager.getConfigList())
         {
-            final File file = configuration.getFile();
-            if (!file.getParentFile().exists())
-            {
-                if (!file.getParentFile().mkdir())
-                {
-                    Nebula.INSTANCE.getLogger().error("Failed to create parent directory {}", file);
-                    return;
-                }
-                Nebula.INSTANCE.getLogger().info("Created parent directory {}", file);
-            }
-            if (!file.exists())
-            {
-                try
-                {
-                    if (!file.createNewFile())
-                    {
-                        Nebula.INSTANCE.getLogger().error("Failed to create file {}", file);
-                    }
-                } catch (final IOException e)
-                {
-                    Nebula.INSTANCE.getLogger().error(e);
-                    continue;
-                }
-            }
-
-            final String data = configuration.save();
-            if (data == null || data.isEmpty())
-            {
-                Nebula.INSTANCE.getLogger().warn("Save data for {} was empty", file);
-                continue;
-            }
-
-            try
-            {
-                FileUtil.save(file, data);
-            } catch (final IOException e)
-            {
-                Nebula.INSTANCE.getLogger().error(e);
-            }
+            manager.saveConfig(configuration);
         }
     }
 }

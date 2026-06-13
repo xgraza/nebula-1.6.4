@@ -37,6 +37,8 @@ public class ScreenShotHelper
      */
     private static int[] pixelValues;
 
+    private static volatile boolean screenshotting;
+
     /**
      * Saves a screenshot in the game directory with a time-stamped filename.  Args: gameDirectory,
      * requestedWidthInPixels, requestedHeightInPixels, frameBuffer
@@ -49,6 +51,8 @@ public class ScreenShotHelper
             throw new RuntimeException("Failed to create screenshots directory at "
                     + screenshotDirectory.getAbsolutePath());
         }
+
+        screenshotting = true;
 
         if (OpenGlHelper.isFramebufferEnabled())
         {
@@ -109,6 +113,11 @@ public class ScreenShotHelper
         }
     }
 
+    public static boolean isScreenshotting()
+    {
+        return screenshotting;
+    }
+
     private static final class ScreenshotThread extends Thread
     {
         private final Consumer<IChatComponent> callback;
@@ -154,6 +163,7 @@ public class ScreenShotHelper
                 ImageIO.write(var7, "png", var12);
             } catch (IOException e)
             {
+                screenshotting = false;
                 callback.accept(new ChatComponentTranslation("screenshot.failure", e.getMessage()));
                 return;
             }
@@ -161,6 +171,8 @@ public class ScreenShotHelper
             var13.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, var12.getAbsolutePath()));
             var13.getChatStyle().setUnderlined(Boolean.TRUE);
             callback.accept(new ChatComponentTranslation("screenshot.success", var13));
+
+            screenshotting = false;
         }
     }
 }
