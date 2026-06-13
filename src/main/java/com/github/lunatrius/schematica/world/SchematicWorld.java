@@ -12,15 +12,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings;
-import net.minecraft.world.WorldType;
+import net.minecraft.world.*;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.SaveHandlerMP;
@@ -60,10 +58,10 @@ public class SchematicWorld extends World
     private boolean isRendering;
     private int renderingLayer;
 
-    public SchematicWorld()
+    public SchematicWorld(final WorldProvider worldProvider)
     {
         // TODO: revert if any issues arise
-        super(new SaveHandlerMP(), "Schematica", null, WORLD_SETTINGS, null);
+        super(new SaveHandlerMP(), "Schematica", worldProvider, WORLD_SETTINGS, new Profiler());
         this.icon = SchematicWorld.DEFAULT_ICON.copy();
         this.blocks = null;
         this.metadata = null;
@@ -76,9 +74,9 @@ public class SchematicWorld extends World
         this.renderingLayer = -1;
     }
 
-    public SchematicWorld(ItemStack icon, short[][][] blocks, byte[][][] metadata, List<TileEntity> tileEntities, short width, short height, short length)
+    public SchematicWorld(WorldProvider worldProvider, ItemStack icon, short[][][] blocks, byte[][][] metadata, List<TileEntity> tileEntities, short width, short height, short length)
     {
-        this();
+        this(worldProvider);
 
         this.icon = icon != null ? icon : SchematicWorld.DEFAULT_ICON.copy();
 
@@ -108,9 +106,9 @@ public class SchematicWorld extends World
         generateBlockList();
     }
 
-    public SchematicWorld(String iconName, short[][][] blocks, byte[][][] metadata, List<TileEntity> tileEntities, short width, short height, short length)
+    public SchematicWorld(final WorldProvider worldProvider, String iconName, short[][][] blocks, byte[][][] metadata, List<TileEntity> tileEntities, short width, short height, short length)
     {
-        this(getIconFromName(iconName), blocks, metadata, tileEntities, width, height, length);
+        this(worldProvider, getIconFromName(iconName), blocks, metadata, tileEntities, width, height, length);
     }
 
     public static ItemStack getIconFromName(String iconName)

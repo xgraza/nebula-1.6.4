@@ -6,6 +6,7 @@ import com.github.lunatrius.schematica.lib.Reference;
 import com.github.lunatrius.schematica.world.SchematicWorld;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.BlockPistonBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -264,32 +265,32 @@ public class SchematicPrinter
 
     private boolean isValidOrientation(EntityPlayer player, int x, int y, int z, PlacementData data, int metadata)
     {
-//        EnumFacing orientation = this.settings.orientation;
-//
-//		if (data != null) {
-//			switch (data.type) {
-//			case BLOCK: {
-//				return true;
-//			}
-//
-//			case PLAYER: {
-//				Integer integer = data.mapping.get(orientation);
-//				if (integer != null) {
-//					return integer == (metadata & data.maskMeta);
-//				}
-//				break;
-//			}
-//
-//			case PISTON: {
-//				Integer integer = data.mapping.get(orientation);
-//				if (integer != null) {
-//					return BlockPistonBase.determineOrientation(null, x, y, z, player) == BlockPistonBase.getPistonOrientation(metadata);
-//				}
-//				break;
-//			}
-//			}
-//			return false;
-//		}
+        EnumFacing orientation = this.settings.orientation;
+
+		if (data != null) {
+			switch (data.type) {
+			case BLOCK: {
+				return true;
+			}
+
+			case PLAYER: {
+				Integer integer = data.mapping.get(orientation);
+				if (integer != null) {
+					return integer == (metadata & data.maskMeta);
+				}
+				break;
+			}
+
+			case PISTON: {
+				Integer integer = data.mapping.get(orientation);
+				if (integer != null) {
+					return BlockPistonBase.determineOrientation(null, x, y, z, player) == BlockPistonBase.getPistonOrientation(metadata);
+				}
+				break;
+			}
+			}
+			return false;
+		}
 
         return true;
     }

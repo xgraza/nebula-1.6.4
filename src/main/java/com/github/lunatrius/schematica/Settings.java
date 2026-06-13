@@ -8,11 +8,14 @@ import com.github.lunatrius.schematica.world.schematic.SchematicFormat;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldProviderSurface;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -102,6 +105,11 @@ public class Settings
                 Reference.logger.info(tagCompound);
 
                 SchematicWorld schematic = SchematicFormat.readFromFile(new File(filename));
+                if (schematic == null)
+                {
+                    Reference.logger.error("Schematic is null!");
+                    return false;
+                }
                 Schematica.INSTANCE.setActiveSchematic(schematic);
 
                 Reference.logger.info(String.format("Loaded %s [w:%d,h:%d,l:%d]", filename, schematic.getWidth(), schematic.getHeight(), schematic.getLength()));
@@ -191,7 +199,8 @@ public class Settings
                 Reference.logger.error("Failed to parse icon data!", e);
             }
 
-            SchematicWorld schematicOut = new SchematicWorld(iconName, blocks, metadata, tileEntities, width, height, length);
+            final WorldProvider worldProvider = new WorldProviderSurface();
+            SchematicWorld schematicOut = new SchematicWorld(worldProvider, iconName, blocks, metadata, tileEntities, width, height, length);
 
             SchematicFormat.writeToFile(directory, filename, schematicOut);
         } catch (Exception e)

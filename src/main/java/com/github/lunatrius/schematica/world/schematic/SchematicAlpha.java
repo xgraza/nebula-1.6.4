@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldProviderSurface;
 
 import java.util.*;
 
@@ -101,7 +103,8 @@ public class SchematicAlpha extends SchematicFormat
             }
         }
 
-        return new SchematicWorld(icon, blocks, metadata, tileEntities, width, height, length);
+        final WorldProvider worldProvider = new WorldProviderSurface();
+        return new SchematicWorld(worldProvider, icon, blocks, metadata, tileEntities, width, height, length);
     }
 
     @Override
