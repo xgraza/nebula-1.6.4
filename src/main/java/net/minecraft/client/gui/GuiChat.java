@@ -6,11 +6,9 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.ParseResults;
-import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
 import ez.nebula.client.impl.module.exploit.LongChatModule;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.item.ItemStack;
@@ -108,6 +106,7 @@ public class GuiChat extends GuiScreen
     public void updateScreen()
     {
         this.chatTextField.updateCursorCounter();
+        parseCommandResults();
     }
 
     /**
@@ -140,7 +139,7 @@ public class GuiChat extends GuiScreen
             return;
         }
         int x = chatTextField.posX;
-        int y = chatTextField.posY - fontRenderer.FONT_HEIGHT - 2;
+        int y = chatTextField.posY - fontRenderer.FONT_HEIGHT - 6;
 
         if (parseResults == null)
         {
@@ -156,11 +155,25 @@ public class GuiChat extends GuiScreen
 
             final List<String> paginatedSuggestions = suggestionList.subList(page * lengthPerPage, Math.min(suggestionList.size(), (page + 1) * lengthPerPage));
 
+            int maxWidth = 0;
+            for (String suggestion : paginatedSuggestions)
+            {
+                int textWidth = fontRenderer.getStringWidth(suggestion);
+                if (textWidth > maxWidth)
+                {
+                    maxWidth = textWidth;
+                }
+            }
+
+            x += fontRenderer.getStringWidth(chatTextField.getText()) + 1;
+
+            int selectedItemOnPage = suggestionIndex % paginatedSuggestions.size();
             for (int i = 0; i < paginatedSuggestions.size(); ++i)
             {
                 final String suggestion = paginatedSuggestions.get(i);
-                int indexOnPage =  ((page + 1) * lengthPerPage) - suggestionIndex - 1;
-                drawString(fontRenderer, suggestion, x, y - (i * (fontRenderer.FONT_HEIGHT + 2)), indexOnPage == i ? 0x00CCCC : -1);
+                int posY = y - (i * (fontRenderer.FONT_HEIGHT + 2));
+                drawRect(x - 2, posY - 2, x + maxWidth + 4, posY + fontRenderer.FONT_HEIGHT, 0xAA000000);
+                drawString(fontRenderer, suggestion, x, posY, selectedItemOnPage == i ? 0x00CCCC : -1);
             }
         }
 //
@@ -335,11 +348,6 @@ public class GuiChat extends GuiScreen
 
     private void handleNebulaKeyPress(char typedChar, int keyCode)
     {
-        if (parseResults == null || suggestionList == null)
-        {
-            parseCommandResults();
-        }
-
         switch (keyCode)
         {
             case KEY_ESCAPE:
@@ -395,13 +403,12 @@ public class GuiChat extends GuiScreen
                 }
                 commandManager.execute(parseResults);
                 mc.displayGuiScreen(null);
+                mc.ingameGUI.getChatGui().addToSentMessages(chatTextField.getText().trim());
                 break;
             }
             default:
             {
                 chatTextField.textboxKeyTyped(typedChar, keyCode);
-                System.out.println("Typed: " + typedChar);
-                parseCommandResults();
                 break;
             }
         }
@@ -414,25 +421,26 @@ public class GuiChat extends GuiScreen
         {
             input = CommandManager.COMMAND_PREFIX;
         }
-        //System.out.println(input);
+        if (!input.startsWith(CommandManager.COMMAND_PREFIX))
+        {
+            parseResults = null;
+            suggestionList.clear();
+            suggestionIndex = 0;
+            return;
+        }
         parseResults = commandManager.parse(input);
         if (parseResults != null)
         {
-            commandManager.getDispatcher().getCompletionSuggestions(parseResults)
-                    .thenAccept((suggestions) ->
-                    {
-                        final List<Suggestion> list = suggestions.getList();
-                        suggestionList.clear();
-                        for (final Suggestion suggestion : list)
-                        {
-                            //System.out.println(suggestion.getText());
-                            suggestionList.add(suggestion.getText());
-                        }
-                        suggestionIndex = 0;
-                    });
-
-            //suggestionList = commandManager.getSuggestions(parseResults);
-            suggestionIndex = 0;
+            commandManager.addSuggestions(parseResults, suggestionList);
+            if (suggestionList.isEmpty())
+            {
+                suggestionIndex = 0;
+                final String usage = commandManager.getSmartUsage(parseResults);
+                if (usage != null && !usage.isEmpty())
+                {
+                    suggestionList.add(usage);
+                }
+            }
         }
     }
 

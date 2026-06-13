@@ -13,11 +13,11 @@ import ez.nebula.client.api.manager.command.trait.CommandSource;
 
 import java.util.concurrent.CompletableFuture;
 
-public final class ModuleArgument implements ArgumentType<Module>
+public final class ModuleArgumentType implements ArgumentType<Module>
 {
     private final ModuleManager moduleManager;
 
-    public ModuleArgument(final ModuleManager moduleManager)
+    public ModuleArgumentType(final ModuleManager moduleManager)
     {
         this.moduleManager = moduleManager;
     }
@@ -58,8 +58,8 @@ public final class ModuleArgument implements ArgumentType<Module>
         return ctx.getArgument(name, Module.class);
     }
 
-    public static ModuleArgument module()
+    public static ModuleArgumentType module()
     {
-        return new ModuleArgument(Nebula.INSTANCE.getModuleManager());
+        return new ModuleArgumentType(Nebula.INSTANCE.getModuleManager());
     }
 }

@@ -5,32 +5,48 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.ParsedCommandNode;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.tree.CommandNode;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.input.EventKey;
+import ez.nebula.client.api.manager.ITypedManager;
 import ez.nebula.client.impl.command.*;
-import ez.nebula.client.api.manager.IManager;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
+import org.lwjgl.input.Keyboard;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-public final class CommandManager implements IManager
+public final class CommandManager implements ITypedManager<Command>
 {
+    private static final Minecraft MC = Minecraft.getMinecraft();
     public static final String COMMAND_PREFIX = ".";
 
     private final CommandDispatcher<CommandSource> dispatcher = new CommandDispatcher<>();
     private final List<Command> commandInstanceList = new ArrayList<>();
     private final Map<String, Command> commandInstanceMap = new HashMap<>();
 
+    @Subscribe
+    private final EventListener<EventKey> keyEventListener = event ->
+    {
+        if (event.getKeyCode() == Keyboard.KEY_PERIOD && MC.currentScreen == null)
+        {
+            MC.displayGuiScreen(new GuiChat());
+        }
+    };
+
     @Override
     public void init()
     {
+        EventBus.subscribe(this);
         register(new FriendCommand());
+        register(new HelpCommand());
         register(new PingCommand());
         register(new SelfKickCommand());
         register(new SpawnTPCommand());
@@ -85,11 +101,14 @@ public final class CommandManager implements IManager
             int result = dispatcher.execute(parseResults);
             switch (result)
             {
-
+                case CommandSource.SUCCESS:
+                {
+                    break;
+                }
             }
-        } catch (CommandSyntaxException e)
+        } catch (final Exception e)
         {
-
+            ChatUtil.sendNebula("&cAn error occurred while executing the command");
         }
     }
 
@@ -100,16 +119,26 @@ public final class CommandManager implements IManager
                 : Iterables.getLast(parseResults.getContext().getNodes()).getNode();
     }
 
-    public List<String> getSuggestions(final ParseResults<CommandSource> parseResults)
+    public void addSuggestions(final ParseResults<CommandSource> parseResults, final List<String> list)
     {
         final CompletableFuture<Suggestions> future = dispatcher.getCompletionSuggestions(parseResults);
         final Suggestions suggestions = future.getNow(null);
-        final List<String> suggestionList = new ArrayList<>();
+        list.clear();
         for (final Suggestion suggestion : suggestions.getList())
         {
-            suggestionList.add(suggestion.getText());
+            list.add(suggestion.getText());
         }
-        return suggestionList;
+    }
+
+    public Collection<String> getSmartUsages(final Command command, final CommandSource src)
+    {
+        final String input = COMMAND_PREFIX + command.getManifest().aliases()[0];
+        final ParseResults<CommandSource> parseResults = parse(input);
+        if (parseResults == null)
+        {
+            return Collections.emptySet();
+        }
+        return dispatcher.getSmartUsage(Iterables.getLast(parseResults.getContext().getNodes()).getNode(), createSource(input)).values();
     }
 
     public String getSmartUsage(final ParseResults<CommandSource> parseResults)
@@ -130,5 +159,11 @@ public final class CommandManager implements IManager
     public CommandDispatcher<CommandSource> getDispatcher()
     {
         return dispatcher;
+    }
+
+    @Override
+    public List<Command> getAll()
+    {
+        return commandInstanceList;
     }
 }

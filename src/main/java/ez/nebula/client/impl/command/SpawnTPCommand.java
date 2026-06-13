@@ -6,7 +6,8 @@ import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
 
-@CommandManifest(aliases = { "spawntp", "spawn", "stp" })
+@CommandManifest(aliases = { "spawntp", "spawn", "stp" },
+        description = "Uses an old Bukkit crash packet to send you back to the server spawn")
 public final class SpawnTPCommand extends Command
 {
     @Override

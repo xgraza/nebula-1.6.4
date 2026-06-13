@@ -11,11 +11,11 @@ import ez.nebula.client.api.manager.command.trait.CommandSource;
  * @since 6/2/26
  * @param <T> the enum type
  */
-public final class EnumArgument<T extends Enum<?>> implements ArgumentType<T>
+public final class EnumArgumentType<T extends Enum<?>> implements ArgumentType<T>
 {
     private final T[] values;
 
-    public EnumArgument(final T[] values)
+    public EnumArgumentType(final T[] values)
     {
         this.values = values;
     }
@@ -41,8 +41,8 @@ public final class EnumArgument<T extends Enum<?>> implements ArgumentType<T>
         return (T) ctx.getArgument(name, Enum.class);
     }
 
-    public static <T extends Enum<?>> EnumArgument<T> enumArg(final T[] values)
+    public static <T extends Enum<?>> EnumArgumentType<T> enumArg(final T[] values)
     {
-        return new EnumArgument<>(values);
+        return new EnumArgumentType<>(values);
     }
 }

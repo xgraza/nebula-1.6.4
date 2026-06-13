@@ -6,7 +6,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
-import ez.nebula.client.api.manager.command.arg.ModuleArgument;
+import ez.nebula.client.api.manager.command.arg.ModuleArgumentType;
 
 @CommandManifest(aliases = { "toggle", "t", "settoggled" })
 public final class ToggleCommand extends Command
@@ -14,10 +14,10 @@ public final class ToggleCommand extends Command
     @Override
     public void createBuilder(final LiteralArgumentBuilder<CommandSource> literal)
     {
-        literal.then(argument("cheat", ModuleArgument.module())
+        literal.then(argument("module", ModuleArgumentType.module())
                 .executes((ctx) ->
                 {
-                    final Module module = ModuleArgument.get(ctx, "cheat");
+                    final Module module = ModuleArgumentType.get(ctx, "module");
                     module.toggle();
                     boolean toggled = module.isToggled();
                     return ctx.getSource().respond("Toggled %s %s%s",
