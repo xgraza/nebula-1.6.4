@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import ez.nebula.client.api.config.ConfigManager;
 import ez.nebula.client.api.manager.account.AccountManager;
@@ -66,14 +67,18 @@ public enum Nebula
 
     public void init(final File gameDir)
     {
-        SplashTextProvider.addSplashTextProvider(
-                new ResourceLocation("nebula", "splashs.txt"));
+        logBuildInfo();
+
         LoadingScreen.setTotalLoadingStages(12);
         LoadingScreen.setStage(1, "Setting up Nebula");
-
-        logBuildInfo();
         setTitle("Setting up Nebula...");
 
+        final long startTime = System.nanoTime();
+
+        SplashTextProvider.addSplashTextProvider(
+                new ResourceLocation("nebula", "splashs.txt"));
+
+        LoadingScreen.setStage(2, "Initializing Nebula directories");
         nebulaRootDir = new File(gameDir, "nebula-client");
         if (!nebulaRootDir.exists())
         {
@@ -87,40 +92,47 @@ public enum Nebula
             }
         }
 
-        LoadingScreen.setStage(3, "Creating Nebula core");
-
-        systemTray = new NebulaTrayIcon();
+        LoadingScreen.setStage(3, "Initializing Nebula core");
         configManager = new ConfigManager();
+
+        // core features
         keyManager = new KeyManager();
-        commandManager = new CommandManager();
-        hudManager = new HUDManager();
-        moduleManager = new ModuleManager();
-        accountManager = new AccountManager();
-        friendManager = new FriendManager();
-        toastManager = new ToastManager();
-        inventoryManager = new InventoryManager();
-        rotationManager = new RotationManager();
-        serverManager = new ServerManager();
-        movementController = new MovementController();
-        waypointManager = new WaypointManager();
-
-        LoadingScreen.setStage(4, "Initializing Nebula core");
-
         keyManager.init();
-        commandManager.init();
+        hudManager = new HUDManager();
         hudManager.init();
+        moduleManager = new ModuleManager();
         moduleManager.init();
-        accountManager.init();
-        friendManager.init();
-        waypointManager.init();
-        configManager.init();
-        systemTray.init();
-        toastManager.init();
-        inventoryManager.init();
-        rotationManager.init();
-        serverManager.init();
+        commandManager = new CommandManager();
+        commandManager.init();
 
-        LoadingScreen.setStage(5, "Initializing Nebula shaders");
+        // server features
+        serverManager = new ServerManager();
+        serverManager.init();
+        rotationManager = new RotationManager();
+        rotationManager.init();
+        inventoryManager = new InventoryManager();
+        inventoryManager.init();
+        movementController = new MovementController();
+
+        // bullshit with fur
+        accountManager = new AccountManager();
+        accountManager.init();
+        toastManager = new ToastManager();
+        toastManager.init();
+        friendManager = new FriendManager();
+        friendManager.init();
+        waypointManager = new WaypointManager();
+        waypointManager.init();
+        systemTray = new NebulaTrayIcon();
+        systemTray.init();
+
+        // init schematica
+        Schematica.load();
+
+        LoadingScreen.setStage(4, "Loading configs");
+        configManager.init();
+
+        LoadingScreen.setStage(5, "Initializing Nebula render features");
         try
         {
             RenderUtil.initShaders();
@@ -129,13 +141,12 @@ public enum Nebula
             logger.error(e);
         }
 
-        LoadingScreen.setStage(6, "Initializing Schematica");
-        // Init schematica
-        Schematica.load();
-
+        LoadingScreen.setStage(6, "Finishing Nebula initialization");
         setIcon();
         setTitle("Nebula Client | Minecraft 1.7.2");
-        logger.info("Instantiated Nebula successfully!");
+        final long endTime = System.nanoTime();
+        logger.info("Instantiated Nebula successfully in {}ms",
+                String.format("%.2f", (endTime - startTime) / 1000000.0));
     }
 
     void setTitle(final String title)
