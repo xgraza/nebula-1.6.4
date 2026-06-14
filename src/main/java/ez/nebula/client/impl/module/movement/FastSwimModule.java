@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.movement;
 
+import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.player.EventMove;
@@ -8,6 +9,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.util.minecraft.player.MoveUtil;
 
+@DebugFeature
 @ModuleManifest(name = "FastSwim", description = "", category = ModuleCategory.MOVEMENT)
 public final class FastSwimModule extends Module
 {

@@ -9,10 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -34,6 +31,7 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.*;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import ez.nebula.client.core.ClientConfig;
@@ -45,6 +43,7 @@ import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.render.HeadDownloader;
 import ez.nebula.client.util.render.RenderUtil;
+import org.lwjgl.opengl.GLContext;
 
 import java.awt.Color;
 import java.util.Collection;
@@ -458,6 +457,8 @@ public class GuiIngame extends Gui
 
         font.drawStringWithShadow("Minecraft 1.7.2", 2, y, color);
         font.drawStringWithShadow("Nebula " + ClientConfig.VERSION, 2, y += 10, color);
+        font.drawStringWithShadow("LWJGL " + Sys.getVersion(), 2, y += 10, color);
+        font.drawStringWithShadow("OpenGL " + glGetString(GL_VERSION), 2, y += 10, color);
 
         font.drawStringWithShadow("FPS: " + Minecraft.debugFPS, 2, y += 18, color);
         font.drawStringWithShadow("TPS: " + Nebula.INSTANCE.getServerManager().getAverageTPS() + " [" + Nebula.INSTANCE.getServerManager().getCurrentTPS() + "]", 2, y += 10, color);
@@ -486,11 +487,11 @@ public class GuiIngame extends Gui
         double freeMemory = Runtime.getRuntime().freeMemory() * 1E-6;
         double maxMemory = Runtime.getRuntime().maxMemory() * 1E-6;
 
-        text = String.format("Allocated: %.2fMB", maxMemory);
+        text = String.format("Total: %.2fMB", maxMemory);
         font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 18, color);
-        text = String.format("Free: %.2fMB", freeMemory);
+        text = String.format("Used: %.2fMB", freeMemory);
         font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
-        text = String.format("Total: %.2fMB", totalMemory);
+        text = String.format("Allocated: %.2fMB", totalMemory);
         font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
         text = String.format("Available Processors: %s", Runtime.getRuntime().availableProcessors());
         font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
@@ -535,9 +536,15 @@ public class GuiIngame extends Gui
             y += 18;
             text = String.format("UUID: %s", entity.getUniqueID());
             font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y, color);
-            text = String.format("Name: %s", entity.getCommandSenderName());
+            text = String.format("Command Sender Name: %s", entity.getCommandSenderName());
             font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
-            text = String.format("ID: %s", entity.getEntityId());
+            text = String.format("Entity ID: %s", entity.getEntityId());
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("X: %.2f", entity.posX);
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("X: %.2f", entity.posY);
+            font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
+            text = String.format("X: %.2f", entity.posZ);
             font.drawStringWithShadow(text, width - font.getStringWidth(text) - 2, y += 10, color);
 
             final DataWatcher watcher = entity.getDataWatcher();
