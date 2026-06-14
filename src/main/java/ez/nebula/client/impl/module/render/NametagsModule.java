@@ -5,8 +5,10 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -40,6 +42,9 @@ public final class NametagsModule extends Module
     public static NametagsModule INSTANCE;
 
     private static final ItemStack FAKE_BONE_STACK = new ItemStack(Items.bone, 1);
+    private static final ItemStack FAKE_I_HORSE_ARMOR_STACK = new ItemStack(Items.iron_horse_armor, 1);
+    private static final ItemStack FAKE_G_HORSE_ARMOR_STACK = new ItemStack(Items.golden_horse_armor, 1);
+    private static final ItemStack FAKE_D_HORSE_ARMOR_STACK = new ItemStack(Items.diamond_horse_armor, 1);
     private static final int ITEM_RENDER_SIZE = 16;
 
     private final Setting<Boolean> backgroundSetting = builder("Background", false)
@@ -79,19 +84,24 @@ public final class NametagsModule extends Module
                 continue;
             }
             if ((!playersSetting.getValue() && entity instanceof EntityPlayer)
-                    || (!tamedMobsSetting.getValue() && entity instanceof EntityTameable)
+                    || (!tamedMobsSetting.getValue() && (entity instanceof EntityTameable || entity instanceof EntityHorse))
                     || (!droppedItemsSetting.getValue() && entity instanceof EntityItem))
             {
                 continue;
             }
 
             // only three entities we want
-            if (!(entity instanceof EntityPlayer || entity instanceof EntityTameable || entity instanceof EntityItem))
+            if (!(entity instanceof EntityPlayer || entity instanceof EntityTameable || entity instanceof EntityHorse || entity instanceof EntityItem))
             {
                 continue;
             }
 
             if (entity instanceof EntityTameable && ((EntityTameable) entity).getOwnerName() == null)
+            {
+                continue;
+            }
+
+            if (entity instanceof EntityHorse && ((EntityHorse) entity).getOwnerName() == null)
             {
                 continue;
             }
@@ -160,7 +170,33 @@ public final class NametagsModule extends Module
                     }
                 } else if (entity instanceof EntityTameable && !text.isEmpty())
                 {
-                    renderItemStack(FAKE_BONE_STACK, (int) -(textWidth + ITEM_RENDER_SIZE), -9);
+                    renderItemStack(FAKE_BONE_STACK, (int) -(textWidth + ITEM_RENDER_SIZE + 4), -11);
+                } else if (entity instanceof EntityHorse && !text.isEmpty())
+                {
+                    ItemStack stack = null;
+                    int horseArmor = ((EntityHorse) entity).func_110241_cb();
+                    switch (horseArmor)
+                    {
+                        case 1:
+                        {
+                            stack = FAKE_I_HORSE_ARMOR_STACK;
+                            break;
+                        }
+                        case 2:
+                        {
+                            stack = FAKE_G_HORSE_ARMOR_STACK;
+                            break;
+                        }
+                        case 3:
+                        {
+                            stack = FAKE_D_HORSE_ARMOR_STACK;
+                            break;
+                        }
+                    }
+                    if (stack != null)
+                    {
+                        renderItemStack(stack, (int) -(textWidth + ITEM_RENDER_SIZE + 4), -11);
+                    }
                 }
             });
         }
@@ -215,6 +251,13 @@ public final class NametagsModule extends Module
         if (entity instanceof EntityTameable)
         {
             return ((EntityTameable) entity).getOwnerName();
+        } else if (entity instanceof EntityHorse)
+        {
+            if (entity.equals(MC.thePlayer.ridingEntity))
+            {
+                return "";
+            }
+            return ((EntityHorse) entity).getOwnerName();
         } else if (entity instanceof EntityItem)
         {
             final EntityItem entityItem = (EntityItem) entity;
