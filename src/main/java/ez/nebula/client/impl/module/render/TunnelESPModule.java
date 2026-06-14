@@ -1,0 +1,217 @@
+package ez.nebula.client.impl.module.render;
+
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.listener.event.world.EventChangeWorld;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.setting.ColorSetting;
+import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.api.world.BlockSearcher;
+import ez.nebula.client.util.minecraft.world.BlockUtil;
+import ez.nebula.client.util.render.QuadMask;
+import ez.nebula.client.util.render.RenderUtil;
+import io.netty.util.internal.ConcurrentSet;
+import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
+import net.minecraft.src.BlockPos;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * @author xgraza
+ * @since 6/13/26
+ */
+@ModuleManifest(name = "TunnelESP",
+        description = "Renders possible tunnels dug in the terrain",
+        category = ModuleCategory.RENDER)
+public final class TunnelESPModule extends Module
+{
+    private final BlockSearcher searcher = new BlockSearcher("TunnelESP", this::onBlockSearched);
+    private final Set<BlockPos> tunnelList = new ConcurrentSet<>();
+
+    private final Setting<Integer> searchRangeSetting = numberBuilder("Search Range", 5)
+            .setMin(1)
+            .setMax(20)
+            .setScale(1)
+            .setDescription("How many chunks to search for tunnels")
+            .onValueChanged(searcher::setSearchRange)
+            .build();
+    private final Setting<Integer> minTunnelLengthSetting = numberBuilder("Min Length", 5)
+            .setMin(1)
+            .setMax(10)
+            .setScale(1)
+            .setDescription("The minimum tunnel length")
+            .build();
+    private final Setting<Integer> maxTunnelLengthSetting = numberBuilder("Max Length", 64)
+            .setMin(20)
+            .setMax(256)
+            .setScale(1)
+            .setDescription("The max tunnel length")
+            .build();
+    private final Setting<Integer> minSurroundSetting = numberBuilder("Surrounding Blocks", 4)
+            .setMin(4)
+            .setMax(6)
+            .setScale(1)
+            .setDescription("The minimum amount of blocks to surround a potential tunnel")
+            .build();
+
+    @Override
+    public void onEnable()
+    {
+        super.onEnable();
+        searcher.setSearchRange(searchRangeSetting.getValue());
+        searcher.setSearching(true);
+    }
+
+    @Override
+    public void onDisable()
+    {
+        super.onDisable();
+        searcher.setSearching(false);
+        tunnelList.clear();
+    }
+
+    @Subscribe
+    private final EventListener<EventRender3D> render3DEventListener = event ->
+    {
+        if (MC.thePlayer.ticksExisted > 5)
+        {
+            searcher.setSearching(true);
+        }
+        if (tunnelList.isEmpty())
+        {
+            return;
+        }
+        for (final BlockPos pos : tunnelList)
+        {
+            final AxisAlignedBB bb = new AxisAlignedBB(pos);
+            RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES,
+                    ((ColorSetting)HUDModule.INSTANCE.primaryColorSetting).getWithTransparency(60).getRGB());
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventChangeWorld> changeWorldEventListener = event ->
+    {
+        searcher.setSearching(false);
+        tunnelList.clear();
+    };
+
+    private void onBlockSearched(final BlockSearcher.SearchedBlock searchedBlock)
+    {
+        final BlockPos lower = new BlockPos(searchedBlock.getX(), searchedBlock.getY(), searchedBlock.getZ());
+        final BlockPos upper = lower.up();
+        for (final EnumFacing facing : EnumFacing.values())
+        {
+            if (facing == EnumFacing.UP || facing == EnumFacing.DOWN)
+            {
+                continue;
+            }
+
+            final List<BlockPos> tunnelBlockList = new ArrayList<>();
+
+            int tunnelLength = 0;
+            while (maxTunnelLengthSetting.getValue() >= tunnelLength)
+            {
+                final BlockPos lowerOffset = lower.offset(facing, tunnelLength);
+                final BlockPos upperOffset = upper.offset(facing, tunnelLength);
+
+                // if the next facings are not walkable (or tunnel ends here)
+                if (!isSurrounded(lowerOffset, upperOffset, facing))
+                {
+                    if (tunnelLength < minTunnelLengthSetting.getValue())
+                    {
+                        return;
+                    }
+                    break;
+                }
+                tunnelBlockList.add(lowerOffset);
+                tunnelBlockList.add(upperOffset);
+                tunnelLength++;
+            }
+
+            if (!tunnelBlockList.isEmpty())
+            {
+                tunnelList.addAll(tunnelBlockList);
+            }
+        }
+    }
+
+    private boolean isSurrounded(final BlockPos lower, final BlockPos upper, final EnumFacing direction)
+    {
+        final List<EnumFacing> searchDirections = new ArrayList<>();
+
+        if (direction == EnumFacing.NORTH || direction == EnumFacing.SOUTH)
+        {
+            searchDirections.add(EnumFacing.EAST);
+            searchDirections.add(EnumFacing.WEST);
+        } else if (direction == EnumFacing.EAST || direction == EnumFacing.WEST)
+        {
+            searchDirections.add(EnumFacing.NORTH);
+            searchDirections.add(EnumFacing.SOUTH);
+        }
+
+        if (searchDirections.isEmpty())
+        {
+            return false;
+        }
+
+        // if the blocks we're searching arent even air, we wont bother
+        if (!isValidWalkthrough(lower) || !isValidWalkthrough(upper))
+        {
+            return false;
+        }
+
+        int blockedOff = 0;
+
+        // if the block under the lowest block not air?
+        if (!BlockUtil.isReplaceable(lower.down()))
+        {
+            ++blockedOff;
+        }
+
+        // if the block above the highest block not air?
+        if (!BlockUtil.isReplaceable(upper.up()))
+        {
+            ++blockedOff;
+        }
+
+        for (final EnumFacing facing : searchDirections)
+        {
+            final BlockPos lowerOffset = lower.offset(facing);
+            if (!BlockUtil.isReplaceable(lowerOffset))
+            {
+                ++blockedOff;
+            }
+
+            final BlockPos upperOffset = upper.offset(facing);
+            if (!BlockUtil.isReplaceable(upperOffset))
+            {
+                ++blockedOff;
+            }
+        }
+        return blockedOff >= minSurroundSetting.getValue();
+    }
+
+    private boolean isValidWalkthrough(final BlockPos pos)
+    {
+        final Block block = MC.theWorld.getBlock(pos);
+        if (block.getMaterial() == Material.air
+                || block.getMaterial() == Material.carpet
+                || block.getMaterial() == Material.plants)
+        {
+            return true;
+        }
+        return block instanceof BlockTorch
+                || block instanceof BlockVine
+                || block instanceof BlockLadder
+                || block instanceof BlockLiquid;
+    }
+}

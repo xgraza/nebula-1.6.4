@@ -386,6 +386,11 @@ public abstract class World implements IBlockAccess
         return this.getBlock(p_147437_1_, p_147437_2_, p_147437_3_).getMaterial() == Material.air;
     }
 
+    public boolean isAirBlock(final BlockPos pos)
+    {
+        return getBlock(pos).getMaterial() == Material.air;
+    }
+
     /**
      * Returns whether a block exists at world coordinates x, y, z
      */

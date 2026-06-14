@@ -10,10 +10,14 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.world.BlockSearcher;
 import ez.nebula.client.util.render.QuadMask;
 import ez.nebula.client.util.render.RenderUtil;
+import io.netty.util.internal.ConcurrentSet;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,7 +30,17 @@ import java.util.Set;
         category = ModuleCategory.RENDER)
 public final class FinderModule extends Module
 {
-    private final BlockSearcher searcher = new BlockSearcher();
+    private static final List<Block> BLOCK_LIST = new ArrayList<>();
+
+    private final Set<BlockPos> posSet = new ConcurrentSet<>();
+
+    private final BlockSearcher searcher = new BlockSearcher("Finder", (block) ->
+    {
+        if (BLOCK_LIST.contains(block.getBlock()))
+        {
+            posSet.add(new BlockPos(block.getX(), block.getY(), block.getZ()));
+        }
+    });
 
     @Override
     public void onEnable()
@@ -34,7 +48,6 @@ public final class FinderModule extends Module
         super.onEnable();
         searcher.setSearchRange(5);
         searcher.setSearching(true);
-        searcher.addSearchBlocks(Blocks.portal);
     }
 
     @Override
@@ -42,6 +55,7 @@ public final class FinderModule extends Module
     {
         super.onDisable();
         searcher.setSearching(false);
+        posSet.clear();
     }
 
     @Subscribe
@@ -51,8 +65,7 @@ public final class FinderModule extends Module
         {
             return;
         }
-        final Set<BlockPos> foundBlockList = searcher.getFoundPositionList();
-        for (final BlockPos pos : foundBlockList)
+        for (final BlockPos pos : posSet)
         {
             RenderUtil.renderFilledAABB(new AxisAlignedBB(pos), QuadMask.ALL_FACES, 0x30FFFFFF);
         }

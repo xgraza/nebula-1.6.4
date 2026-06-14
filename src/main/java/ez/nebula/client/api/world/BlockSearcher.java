@@ -1,17 +1,14 @@
 package ez.nebula.client.api.world;
 
-import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.src.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
-import java.util.Arrays;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 /**
  * @author xgraza
@@ -22,14 +19,14 @@ public final class BlockSearcher extends Thread
     private static final AtomicInteger THREAD_ID = new AtomicInteger(0);
     private static final Minecraft MC = Minecraft.getMinecraft();
 
-    private final Set<Block> searchBlockList = new ConcurrentSet<>();
-    private final Set<BlockPos> foundPositionList = new ConcurrentSet<>();
+    private final Consumer<SearchedBlock> callback;
     private int searchRange;
     private boolean searching;
 
-    public BlockSearcher()
+    public BlockSearcher(final String name, final Consumer<SearchedBlock> callback)
     {
-        setName("Block Searcher Thread #" + THREAD_ID.incrementAndGet());
+        this.callback = callback;
+        setName("(BlockSearcher Thread): " + name);
         setDaemon(true);
         start();
     }
@@ -50,8 +47,8 @@ public final class BlockSearcher extends Thread
                 continue;
             }
 
-            final int baseChunkX = (int)Math.floor(player.posX);
-            final int baseChunkZ = (int)Math.floor(player.posZ);
+            final int baseChunkX = (int)Math.floor(player.posX) >> 4;
+            final int baseChunkZ = (int)Math.floor(player.posZ) >> 4;
             for (int y = 0; y < 256; ++y)
             {
                 if (!searching)
@@ -62,7 +59,7 @@ public final class BlockSearcher extends Thread
                 {
                     for (int z = -searchRange; z <= searchRange; ++z)
                     {
-                        final Chunk chunk = world.getChunkFromChunkCoords((baseChunkX + (x * 16)) >> 4, (baseChunkZ + (z * 16)) >> 4);
+                        final Chunk chunk = world.getChunkFromChunkCoords(baseChunkX + x, baseChunkZ + z);
                         if (chunk == null)
                         {
                             continue;
@@ -104,41 +101,10 @@ public final class BlockSearcher extends Thread
                     final int posX = ((chunkX * 16) + x);
                     final int posZ = ((chunkZ * 16) + z);
                     final Block block = blockStorage.func_150819_a(posX & 15, y & 15, posZ & 15);
-                    if (block == null)
-                    {
-                        continue;
-                    }
-
-                    for (final Block b : searchBlockList)
-                    {
-                        if (b == block)
-                        {
-                            foundPositionList.add(new BlockPos(posX, y, posZ));
-                        }
-                    }
+                    callback.accept(new SearchedBlock(posX, y, posZ, block));
                 }
             }
         }
-    }
-
-    public void addSearchBlocks(final Block... blocks)
-    {
-        searchBlockList.addAll(Arrays.asList(blocks));
-        foundPositionList.clear();
-    }
-
-    public void removeSearchBlocks(final Block... blocks)
-    {
-        for (final Block block : blocks)
-        {
-            searchBlockList.remove(block);
-        }
-        foundPositionList.clear();
-    }
-
-    public Set<BlockPos> getFoundPositionList()
-    {
-        return foundPositionList;
     }
 
     public void setSearchRange(int searchRange)
@@ -148,16 +114,45 @@ public final class BlockSearcher extends Thread
 
     public void setSearching(boolean searching)
     {
-        foundPositionList.clear();
         this.searching = searching;
-        if (!searching)
-        {
-            searchRange = 0;
-        }
     }
 
     public boolean isSearching()
     {
         return searching;
+    }
+
+    public static final class SearchedBlock
+    {
+        private final int x, y, z;
+        private final Block block;
+
+        public SearchedBlock(int x, int y, int z, Block block)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.block = block;
+        }
+
+        public int getX()
+        {
+            return x;
+        }
+
+        public int getY()
+        {
+            return y;
+        }
+
+        public int getZ()
+        {
+            return z;
+        }
+
+        public Block getBlock()
+        {
+            return block;
+        }
     }
 }

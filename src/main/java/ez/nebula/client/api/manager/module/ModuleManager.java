@@ -122,6 +122,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new TimeChangerModule());
         registerModule(new TracersModule());
         registerModule(new TrajectoriesModule());
+        registerModule(new TunnelESPModule());
         registerModule(new UnfocusedCPUModule());
         registerModule(new ViewModelModule());
         registerModule(new WaypointsModule());

@@ -42,9 +42,18 @@ public class BlockPos
 
     public BlockPos offset(final EnumFacing facing)
     {
-        return new BlockPos(x + facing.getFrontOffsetX(),
-                y + facing.getFrontOffsetY(),
-                z + facing.getFrontOffsetZ());
+        return offset(facing, 1);
+    }
+
+    public BlockPos offset(final EnumFacing facing, int n)
+    {
+        if (n == 0)
+        {
+            return this;
+        }
+        return new BlockPos(x + (facing.getFrontOffsetX() * n),
+                y + (facing.getFrontOffsetY() * n),
+                z + (facing.getFrontOffsetZ() * n));
     }
 
     public BlockPos add(final int x, final int y, final int z)
