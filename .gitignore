@@ -117,3 +117,4 @@ run/
 mcp903-optifine/
 mcp903/
 publishing.properties
+*.hprof
