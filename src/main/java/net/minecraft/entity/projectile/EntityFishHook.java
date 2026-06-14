@@ -436,7 +436,7 @@ public class EntityFishHook extends Entity
                         } else
                         {
                             this.field_146040_ay = MathHelper.getRandomIntegerInRange(this.rand, 100, 900);
-                            this.field_146040_ay -= EnchantmentHelper.func_151387_h(this.field_146042_b) * 20 * 5;
+                            this.field_146040_ay -= EnchantmentHelper.getLure(this.field_146042_b) * 20 * 5;
                         }
                     }
 
@@ -544,8 +544,8 @@ public class EntityFishHook extends Entity
     private ItemStack func_146033_f()
     {
         float var1 = this.worldObj.rand.nextFloat();
-        int var2 = EnchantmentHelper.func_151386_g(this.field_146042_b);
-        int var3 = EnchantmentHelper.func_151387_h(this.field_146042_b);
+        int var2 = EnchantmentHelper.getLuckOfTheSea(this.field_146042_b);
+        int var3 = EnchantmentHelper.getLure(this.field_146042_b);
         float var4 = 0.1F - (float) var2 * 0.025F - (float) var3 * 0.01F;
         float var5 = 0.05F + (float) var2 * 0.01F - (float) var3 * 0.01F;
         var4 = MathHelper.clamp_float(var4, 0.0F, 1.0F);

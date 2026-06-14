@@ -31,7 +31,6 @@ public class EnchantmentHelper
     private static final EnchantmentHelper.ModifierLiving enchantmentModifierLiving = new EnchantmentHelper.ModifierLiving(null);
     private static final EnchantmentHelper.HurtIterator field_151388_d = new EnchantmentHelper.HurtIterator(null);
     private static final EnchantmentHelper.DamageIterator field_151389_e = new EnchantmentHelper.DamageIterator(null);
-    private static final String __OBFID = "CL_00000107";
 
     /**
      * Returns the level of enchantment on the ItemStack passed.
@@ -287,14 +286,14 @@ public class EnchantmentHelper
         return getEnchantmentLevel(Enchantment.fortune.effectId, par0EntityLivingBase.getHeldItem());
     }
 
-    public static int func_151386_g(EntityLivingBase p_151386_0_)
+    public static int getLuckOfTheSea(EntityLivingBase p_151386_0_)
     {
-        return getEnchantmentLevel(Enchantment.field_151370_z.effectId, p_151386_0_.getHeldItem());
+        return getEnchantmentLevel(Enchantment.luckOfTheSea.effectId, p_151386_0_.getHeldItem());
     }
 
-    public static int func_151387_h(EntityLivingBase p_151387_0_)
+    public static int getLure(EntityLivingBase p_151387_0_)
     {
-        return getEnchantmentLevel(Enchantment.field_151369_A.effectId, p_151387_0_.getHeldItem());
+        return getEnchantmentLevel(Enchantment.lure.effectId, p_151387_0_.getHeldItem());
     }
 
     /**

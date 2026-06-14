@@ -124,8 +124,8 @@ public abstract class Enchantment
      * arrow on inventory use the bow.
      */
     public static final Enchantment infinity = new EnchantmentArrowInfinite(51, 1);
-    public static final Enchantment field_151370_z = new EnchantmentLootBonus(61, 2, EnumEnchantmentType.fishing_rod);
-    public static final Enchantment field_151369_A = new EnchantmentFishingSpeed(62, 2, EnumEnchantmentType.fishing_rod);
+    public static final Enchantment luckOfTheSea = new EnchantmentLootBonus(61, 2, EnumEnchantmentType.fishing_rod);
+    public static final Enchantment lure = new EnchantmentFishingSpeed(62, 2, EnumEnchantmentType.fishing_rod);
     public final int effectId;
     private final int weight;
 

@@ -107,8 +107,8 @@ public final class AutoFishModule extends Module
             float itemScore = 0.0f;
 
             itemScore += ItemUtil.getEnchantLevelNoLimit(Enchantment.unbreaking, stack) * 1.5f;
-            itemScore += ItemUtil.getEnchantLevelNoLimit(Enchantment.field_151370_z, stack) * 5.5f;
-            itemScore += ItemUtil.getEnchantLevelNoLimit(Enchantment.field_151369_A, stack) * 2.2f;
+            itemScore += ItemUtil.getEnchantLevelNoLimit(Enchantment.luckOfTheSea, stack) * 5.5f;
+            itemScore += ItemUtil.getEnchantLevelNoLimit(Enchantment.lure, stack) * 2.2f;
 
             if (itemScore > score || slot == -1)
             {
