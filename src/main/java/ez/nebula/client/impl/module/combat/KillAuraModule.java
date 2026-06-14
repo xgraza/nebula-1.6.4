@@ -3,6 +3,7 @@ package ez.nebula.client.impl.module.combat;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -349,7 +350,18 @@ public final class KillAuraModule extends Module
         {
             return false;
         }
-        return attackTamedSetting.getValue() || !(entity instanceof EntityTameable) || !((EntityTameable) entity).isTamed();
+        if (!attackTamedSetting.getValue())
+        {
+            if (entity instanceof EntityTameable && ((EntityTameable) entity).isTamed())
+            {
+                return false;
+            }
+            if (entity instanceof EntityHorse && ((EntityHorse) entity).isTame())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isBlocking()
