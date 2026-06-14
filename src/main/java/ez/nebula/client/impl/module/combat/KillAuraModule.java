@@ -2,7 +2,10 @@ package ez.nebula.client.impl.module.combat;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -212,14 +215,38 @@ public final class KillAuraModule extends Module
 
     private void attackTarget()
     {
+        Entity attackEntity = target;
+        if (attackEntity instanceof EntityDragon)
+        {
+            final EntityDragon dragon = (EntityDragon) attackEntity;
+
+            double dist = -1;
+            EntityDragonPart attackPart = null;
+            for (final EntityDragonPart part : dragon.dragonPartArray)
+            {
+                final double d = MC.thePlayer.getDistanceToEntity(part);
+                if (dist == -1 || d < dist)
+                {
+                    dist = d;
+                    attackPart = part;
+                }
+            }
+
+            if (attackPart == null)
+            {
+                attackPart = dragon.dragonPartHead;
+            }
+            attackEntity = attackPart;
+        }
+
         MC.thePlayer.swingItem();
         if (keepSprint.getValue())
         {
             MC.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(
-                    target, C02PacketUseEntity.Action.ATTACK));
+                    attackEntity, C02PacketUseEntity.Action.ATTACK));
         } else
         {
-            MC.playerController.attackEntity(MC.thePlayer, target);
+            MC.playerController.attackEntity(MC.thePlayer, attackEntity);
         }
     }
 
