@@ -2386,10 +2386,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.fogColorBlue = (float) fogYFactor.zCoord;
         } else if (var21.getMaterial() == Material.water)
         {
-            var22 = (float) EnchantmentHelper.getRespiration(var3) * 0.2F;
-            this.fogColorRed = 0.02F + var22;
-            this.fogColorGreen = 0.02F + var22;
-            this.fogColorBlue = 0.2F + var22;
             fogYFactor = CustomColorizer.getUnderwaterColor(this.mc.theWorld, this.mc.renderViewEntity.posX, this.mc.renderViewEntity.posY + 1.0D, this.mc.renderViewEntity.posZ);
 
             if (fogYFactor != null)
@@ -2397,6 +2393,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 this.fogColorRed = (float) fogYFactor.xCoord;
                 this.fogColorGreen = (float) fogYFactor.yCoord;
                 this.fogColorBlue = (float) fogYFactor.zCoord;
+            } else
+            {
+                var22 = (float) Math.min(3, EnchantmentHelper.getRespiration(var3)) * 0.2F;
+                this.fogColorRed = 0.02F + var22;
+                this.fogColorGreen = 0.02F + var22;
+                this.fogColorBlue = 0.2F + var22;
             }
         } else if (var21.getMaterial() == Material.lava)
         {
@@ -2610,7 +2612,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     GL11.glFogf(GL11.GL_FOG_DENSITY, 0.05F);
                 } else
                 {
-                    GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F - (float) EnchantmentHelper.getRespiration(var3) * 0.03F);
+                    GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F - (Math.min(EnchantmentHelper.getRespiration(var3), 3) * 0.03F));
                 }
 
                 if (Config.isClearWater())

@@ -2681,7 +2681,7 @@ public class GameSettings
         this.fancyGraphics = true;
         this.ambientOcclusion = 2;
         this.clouds = true;
-        this.fovSetting = 0.014084507F;
+        this.fovSetting = 70;//0.014084507F;
         this.gammaSetting = 0.0F;
         this.guiScale = 0;
         this.particleSetting = 0;
