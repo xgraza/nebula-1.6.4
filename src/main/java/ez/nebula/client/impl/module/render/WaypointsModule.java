@@ -21,6 +21,9 @@ public final class WaypointsModule extends Module
     public final Setting<Boolean> antiScreenshotSetting = builder("Anti-Screenshot", false)
             .setDescription("Prevent waypoints from being shown in a screenshot")
             .build();
+    public final Setting<Boolean> showDistanceSetting = builder("Show Distance", true)
+            .setDescription("If to show how far away you are from a waypoint")
+            .build();
 
     public WaypointsModule()
     {

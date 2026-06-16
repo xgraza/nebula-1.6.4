@@ -58,10 +58,17 @@ public final class WaypointManager implements ITypedManager<Waypoint>
 
                 double textWidth = Math.max(textWidth1, textWidth2) / 2.0;
                 int textHeight = (MC.fontRenderer.FONT_HEIGHT + 1) * 2;
+                if (!WaypointsModule.INSTANCE.showDistanceSetting.getValue())
+                {
+                    textHeight = MC.fontRenderer.FONT_HEIGHT + 1;
+                }
 
                 RenderUtil.renderRectangle(-(textWidth + 2), -(textHeight + 1), (textWidth + 2) * 2, textHeight + 4, 0x95000000);
                 MC.fontRenderer.drawStringWithShadow(text1, (int) -(textWidth1 / 2.0), -textHeight + 2, -1);
-                MC.fontRenderer.drawStringWithShadow(text2, (int) -(textWidth2 / 2.0), -textHeight + MC.fontRenderer.FONT_HEIGHT + 3, -1);
+                if (WaypointsModule.INSTANCE.showDistanceSetting.getValue())
+                {
+                    MC.fontRenderer.drawStringWithShadow(text2, (int) -(textWidth2 / 2.0), -textHeight + MC.fontRenderer.FONT_HEIGHT + 3, -1);
+                }
                 glDisable(GL_DEPTH_CLAMP);
             });
         }
