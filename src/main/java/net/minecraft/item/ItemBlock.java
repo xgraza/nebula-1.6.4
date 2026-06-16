@@ -96,7 +96,7 @@ public class ItemBlock extends Item
         } else if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
         {
             return false;
-        } else if (par5 == 255 && this.block.getMaterial().isSolid())
+        } else if (par5 > 255 && this.block.getMaterial().isSolid())
         {
             return false;
         } else if (par3World.canPlaceEntityOnSide(this.block, par4, par5, par6, false, par7, par2EntityPlayer, par1ItemStack))

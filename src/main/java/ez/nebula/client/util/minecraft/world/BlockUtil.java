@@ -159,23 +159,26 @@ public final class BlockUtil
         for (final EnumFacing side : EnumFacing.values())
         {
             final BlockPos neighbor = pos.offset(side);
-            if (!isReplaceable(neighbor) && canPlace(neighbor))
+            final EnumFacing opposite = getOpposite(side);
+            if (!isReplaceable(neighbor) && canPlace(neighbor, opposite))
             {
-                return new BlockInfo(neighbor, getOpposite(side));
+                return new BlockInfo(neighbor, opposite);
             }
         }
 
         for (final EnumFacing side : EnumFacing.values())
         {
             final BlockPos neighbor = pos.offset(side);
-            if (isReplaceable(neighbor) || !canPlace(neighbor))
+            final EnumFacing opposite = getOpposite(side);
+            if (isReplaceable(neighbor) || !canPlace(neighbor, opposite))
             {
                 for (final EnumFacing side2 : EnumFacing.values())
                 {
                     final BlockPos neighbor2 = neighbor.offset(side2);
-                    if (!isReplaceable(neighbor2) && canPlace(neighbor))
+                    final EnumFacing opposite2 = getOpposite(side2);
+                    if (!isReplaceable(neighbor2) && canPlace(neighbor2, opposite2))
                     {
-                        return new BlockInfo(neighbor2, getOpposite(side2));
+                        return new BlockInfo(neighbor2, opposite2);
                     }
                 }
             }
@@ -184,10 +187,18 @@ public final class BlockUtil
         return null;
     }
 
-    public static boolean canPlace(final BlockPos pos)
+    public static boolean canPlace(final BlockPos pos, final EnumFacing facing)
     {
         final int worldHeight = MC.theWorld.getHeight();
-        return pos.getY() > 0 && pos.getY() <= worldHeight;
+        int posY = pos.getY();
+        if (facing == EnumFacing.UP)
+        {
+            posY += 1;
+        } else if (facing == EnumFacing.DOWN)
+        {
+            posY -= 1;
+        }
+        return posY > 0 && posY <= worldHeight;
     }
 
     public static BlockPos offset(final BlockPos pos, final EnumFacing facing)
