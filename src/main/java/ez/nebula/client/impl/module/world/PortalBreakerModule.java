@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.DebugFeature;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.init.Items;
@@ -26,6 +27,7 @@ import ez.nebula.client.util.minecraft.world.BlockUtil;
  * @author xgraza
  * @since 05/24/26
  */
+@DebugFeature
 @ModuleManifest(name = "PortalBreaker",
         description = "Attempts to breaks placed end portal blocks (not frames) when you try to break them",
         category = ModuleCategory.WORLD)

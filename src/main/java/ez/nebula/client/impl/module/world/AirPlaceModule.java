@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -26,6 +27,7 @@ import net.minecraft.util.Vec3;
  * @author xgraza
  * @since 6/7/26
  */
+@DebugFeature
 @ModuleManifest(name = "AirPlace",
         description = "Allows you to place blocks mid-air",
         category = ModuleCategory.WORLD)
