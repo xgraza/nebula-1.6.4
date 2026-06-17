@@ -15,10 +15,10 @@ import ez.nebula.client.util.render.RenderUtil;
  * @author xgraza
  * @since 03/07/25
  */
-@ModuleManifest(name = "ChunkBoundaries",
+@ModuleManifest(name = "ChunkBoarders",
         description = "Renders a chunk boundary in the chunk you're currently standing in",
         category = ModuleCategory.RENDER)
-public final class ChunkBoundariesModule extends Module
+public final class ChunkBoardersModule extends Module
 {
     private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.BORDERS)
             .setDescription("How to render a chunk boundary")

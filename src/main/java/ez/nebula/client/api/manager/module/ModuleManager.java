@@ -101,12 +101,11 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new TestModule());
         registerModule(new TranslateModule());
         registerModule(new YawModule());
-        registerModule(new AmbienceModule());
         registerModule(new BetterF3Module());
         registerModule(new CameraClipModule());
         registerModule(new ChamsModule());
         registerModule(new ChatModifierModule());
-        registerModule(new ChunkBoundariesModule());
+        registerModule(new ChunkBoardersModule());
         registerModule(new ClickGUIModule());
         registerModule(new EntityCullingModule());
         registerModule(new ESPModule());

@@ -1138,7 +1138,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         if (var2 != null)
         {
-            if (AmbienceModule.INSTANCE.isToggled())
+            if (FullbrightModule.INSTANCE.isToggled() && FullbrightModule.INSTANCE.modeSetting.getValue() == FullbrightModule.Mode.COLOR)
             {
                 for (int i = 0; i < 256; ++i)
                 {
@@ -1147,9 +1147,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     float r = (color >> 24 & 0xff) / 255.0f;
                     float g = (color >> 16 & 0xff) / 255.0f;
                     float b = (color >> 8 & 0xff) / 255.0f;
-                    float a = AmbienceModule.INSTANCE.intensitySetting.getValue().floatValue();
+                    Color c = FullbrightModule.INSTANCE.colorSetting.getValue();
+                    float a = c.getAlpha() / 255.0f;
 
-                    Color c = HUDModule.INSTANCE.primaryColorSetting.getValue();
                     float ar = c.getRed() / 255.0f;
                     float ag = c.getGreen() / 255.0f;
                     float ab = c.getBlue() / 255.0f;

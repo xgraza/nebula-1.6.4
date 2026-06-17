@@ -12,6 +12,8 @@ import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.render.EventGamma;
 import ez.nebula.client.api.setting.Setting;
 
+import java.awt.Color;
+
 /**
  * @author xgraza
  * @since 02/16/25
@@ -34,6 +36,9 @@ public final class FullbrightModule extends Module
 
     public final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.GAMMA)
             .setDescription("How to brighten the world")
+            .build();
+    public final Setting<Color> colorSetting = colorBuilder("Color", new Color(112, 82, 143))
+            .setDescription("The color to fill the world with")
             .build();
 
     @Subscribe
@@ -73,6 +78,6 @@ public final class FullbrightModule extends Module
 
     public enum Mode
     {
-        GAMMA, POTION
+        GAMMA, POTION, COLOR
     }
 }
