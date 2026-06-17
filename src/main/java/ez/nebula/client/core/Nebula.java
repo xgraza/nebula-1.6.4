@@ -73,8 +73,6 @@ public enum Nebula
         LoadingScreen.setStage(1, "Setting up Nebula");
         setTitle("Setting up Nebula...");
 
-        final long startTime = System.nanoTime();
-
         SplashTextProvider.addSplashTextProvider(
                 new ResourceLocation("nebula", "splashs.txt"));
 
@@ -93,6 +91,7 @@ public enum Nebula
         }
 
         LoadingScreen.setStage(3, "Initializing Nebula core");
+        final long startTime = System.nanoTime();
         configManager = new ConfigManager();
 
         // core features
@@ -129,6 +128,10 @@ public enum Nebula
         // init schematica
         Schematica.load();
 
+        final long endTime = System.nanoTime();
+        logger.info("Instantiated Nebula successfully in {}ms",
+                String.format("%.2f", (endTime - startTime) / 1000000.0));
+
         LoadingScreen.setStage(4, "Loading configs");
         configManager.init();
 
@@ -140,13 +143,9 @@ public enum Nebula
         {
             logger.error(e);
         }
-
         LoadingScreen.setStage(6, "Finishing Nebula initialization");
         setIcon();
         setTitle("Nebula Client | Minecraft 1.7.2");
-        final long endTime = System.nanoTime();
-        logger.info("Instantiated Nebula successfully in {}ms",
-                String.format("%.2f", (endTime - startTime) / 1000000.0));
     }
 
     void setTitle(final String title)
