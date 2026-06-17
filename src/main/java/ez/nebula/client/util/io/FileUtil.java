@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 /**
  * @author xgraza
@@ -26,24 +27,12 @@ public final class FileUtil
 
     public static String read(final File file) throws IOException
     {
-        final StringBuilder buffer = new StringBuilder();
-        try (final FileInputStream fis = new FileInputStream(file))
-        {
-            int b;
-            while ((b = fis.read()) != -1)
-            {
-                buffer.append((char) b);
-            }
-        }
-        return buffer.toString();
+        final byte[] bytes = Files.readAllBytes(file.toPath());
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 
     public static void save(final File file, final String data) throws IOException
     {
-        try (final FileOutputStream fos = new FileOutputStream(file))
-        {
-            final byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
-            fos.write(bytes, 0, bytes.length);
-        }
+        Files.write(file.toPath(), data.getBytes(StandardCharsets.UTF_8));
     }
 }
