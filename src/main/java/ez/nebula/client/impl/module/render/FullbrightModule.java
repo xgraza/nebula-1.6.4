@@ -39,6 +39,7 @@ public final class FullbrightModule extends Module
             .build();
     public final Setting<Color> colorSetting = colorBuilder("Color", new Color(112, 82, 143))
             .setDescription("The color to fill the world with")
+            .setVisibility((value) -> modeSetting.getValue() == Mode.COLOR)
             .build();
 
     @Subscribe
