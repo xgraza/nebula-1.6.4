@@ -15,18 +15,11 @@ import java.util.concurrent.CompletableFuture;
 
 public final class ModuleArgumentType implements ArgumentType<Module>
 {
-    private final ModuleManager moduleManager;
-
-    public ModuleArgumentType(final ModuleManager moduleManager)
-    {
-        this.moduleManager = moduleManager;
-    }
-
     @Override
     public Module parse(final StringReader reader) throws CommandSyntaxException
     {
         final String target = reader.readString().toLowerCase();
-        for (final Module module : moduleManager.getAll())
+        for (final Module module : Nebula.INSTANCE.getModuleManager().getAll())
         {
             final String name = module.getManifest().name().toLowerCase();
             if (target.equalsIgnoreCase(name) || target.startsWith(name))
@@ -42,7 +35,7 @@ public final class ModuleArgumentType implements ArgumentType<Module>
     public <S> CompletableFuture<Suggestions> listSuggestions(final CommandContext<S> context, final SuggestionsBuilder builder)
     {
         final String input = builder.getRemaining().toLowerCase();
-        for (final Module module : moduleManager.getAll())
+        for (final Module module : Nebula.INSTANCE.getModuleManager().getAll())
         {
             final String name = module.getManifest().name().toLowerCase();
             if (input.equals(name) || name.startsWith(input) || name.contains(input))
@@ -60,6 +53,6 @@ public final class ModuleArgumentType implements ArgumentType<Module>
 
     public static ModuleArgumentType module()
     {
-        return new ModuleArgumentType(Nebula.INSTANCE.getModuleManager());
+        return new ModuleArgumentType();
     }
 }
