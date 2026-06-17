@@ -1045,8 +1045,6 @@ public class Minecraft
 
     public void updateDisplay()
     {
-        Display.update();
-
         if (!this.fullscreen && Display.wasResized())
         {
             int var1 = this.displayWidth;
@@ -1069,6 +1067,11 @@ public class Minecraft
                 this.resize(this.displayWidth, this.displayHeight);
             }
         }
+
+        // macOS fix - displayWidth & displayHeight did not equal Display.getWidth()/Display.getHeight()
+        // calling Display.update() after setting displayWidth and displayHeight seems to fix it
+
+        Display.update();
     }
 
     public int getLimitFramerate()
