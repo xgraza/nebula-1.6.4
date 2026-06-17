@@ -40,4 +40,19 @@ public abstract class Command
     {
         return manifest;
     }
+
+    public String[] getAliases()
+    {
+        return manifest.aliases();
+    }
+
+    public String getDescription()
+    {
+        return manifest.description();
+    }
+
+    public boolean isVisible()
+    {
+        return true;
+    }
 }

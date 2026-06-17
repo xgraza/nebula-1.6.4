@@ -13,6 +13,7 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.input.EventKey;
 import ez.nebula.client.api.manager.ITypedManager;
+import ez.nebula.client.core.Nebula;
 import ez.nebula.client.impl.command.*;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
@@ -52,12 +53,14 @@ public final class CommandManager implements ITypedManager<Command>
         register(new SpawnTPCommand());
         register(new ToggleCommand());
         register(new WaypointCommand());
+
+        Nebula.INSTANCE.getLogger().info("Registered {} commands", commandInstanceList.size());
     }
 
     public void register(final Command command)
     {
         commandInstanceList.add(command);
-        for (final String alias : command.getManifest().aliases())
+        for (final String alias : command.getAliases())
         {
             commandInstanceMap.put(alias, command);
             final LiteralArgumentBuilder<CommandSource> literal = Command.literal(alias);
@@ -108,6 +111,7 @@ public final class CommandManager implements ITypedManager<Command>
             }
         } catch (final Exception e)
         {
+            Nebula.INSTANCE.getLogger().info("Failed to execute command", e);
             ChatUtil.sendNebula("&cAn error occurred while executing the command");
         }
     }
@@ -132,7 +136,7 @@ public final class CommandManager implements ITypedManager<Command>
 
     public Collection<String> getSmartUsages(final Command command, final CommandSource src)
     {
-        final String input = COMMAND_PREFIX + command.getManifest().aliases()[0];
+        final String input = COMMAND_PREFIX + command.getAliases()[0];
         final ParseResults<CommandSource> parseResults = parse(input);
         if (parseResults == null)
         {

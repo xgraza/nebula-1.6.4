@@ -11,6 +11,7 @@ import ez.nebula.client.util.minecraft.player.ChatUtil;
 
 import java.util.Collection;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 /**
  * @author xgraza
@@ -29,18 +30,21 @@ public final class HelpCommand extends Command
                     ChatUtil.sendNebula("- Usages:");
                     for (final String usage : Nebula.INSTANCE.getCommandManager().getSmartUsages(command, ctx.getSource()))
                     {
-                        ChatUtil.sendNebula("  " + CommandManager.COMMAND_PREFIX + command.getManifest().aliases()[0] + " " + usage);
+                        ChatUtil.sendNebula("  " + CommandManager.COMMAND_PREFIX + command.getAliases()[0] + " " + usage);
                     }
-                    ChatUtil.sendNebula("- Description: %s", command.getManifest().description());
-                    return ctx.getSource().respond("- Aliases: %s", String.join(", ", command.getManifest().aliases()));
+                    ChatUtil.sendNebula("- Description: %s", command.getDescription());
+                    return ctx.getSource().respond("- Aliases: %s", String.join(", ", command.getAliases()));
                 }))
                 .executes((ctx) ->
                 {
-                    final Collection<Command> commandList = Nebula.INSTANCE.getCommandManager().getAll();
+                    final Collection<Command> commandList = Nebula.INSTANCE.getCommandManager().getAll()
+                            .stream()
+                            .filter(Command::isVisible)
+                            .collect(Collectors.toList());
                     final StringJoiner joiner = new StringJoiner(", ");
                     for (final Command command : commandList)
                     {
-                        joiner.add(command.getManifest().aliases()[0]);
+                        joiner.add(command.getAliases()[0]);
                     }
                     return ctx.getSource().respond("Commands (%s): %s", commandList.size(), joiner);
                 });

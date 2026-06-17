@@ -58,6 +58,11 @@ public class Setting<T> implements IJSONSerializable
         }
     }
 
+    public void setToDefault()
+    {
+        this.value = defaultValue;
+    }
+
     public T getValue()
     {
         return value;

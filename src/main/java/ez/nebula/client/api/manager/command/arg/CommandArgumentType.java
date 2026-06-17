@@ -24,7 +24,7 @@ public class CommandArgumentType implements ArgumentType<Command>
         final String target = reader.readString().toLowerCase();
         for (final Command command : manager.getAll())
         {
-            for (final String alias : command.getManifest().aliases())
+            for (final String alias : command.getAliases())
             {
                 if (target.contains(alias))
                 {

@@ -99,10 +99,10 @@ public enum Nebula
         keyManager.init();
         hudManager = new HUDManager();
         hudManager.init();
-        moduleManager = new ModuleManager();
-        moduleManager.init();
         commandManager = new CommandManager();
         commandManager.init();
+        moduleManager = new ModuleManager();
+        moduleManager.init();
 
         // server features
         serverManager = new ServerManager();
