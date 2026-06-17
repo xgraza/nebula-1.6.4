@@ -966,6 +966,7 @@ public class Minecraft
         this.mcSoundHandler.func_147691_a(this.thePlayer, this.timer.renderPartialTicks);
         this.mcProfiler.endSection();
         this.mcProfiler.startSection("render");
+        Display.processMessages(); // process messages before updating
         GL11.glPushMatrix();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         this.framebufferMc.bindFramebuffer(true);
@@ -1071,12 +1072,12 @@ public class Minecraft
         // macOS fix - displayWidth & displayHeight did not equal Display.getWidth()/Display.getHeight()
         // calling Display.update() after setting displayWidth and displayHeight seems to fix it
 
-        Display.update();
+        Display.update(false);
     }
 
     public int getLimitFramerate()
     {
-        if (!Display.isActive() && UnfocusedCPUModule.INSTANCE.isToggled())
+        if (UnfocusedCPUModule.INSTANCE.isToggled() && !Display.isActive())
         {
             return UnfocusedCPUModule.INSTANCE.fpsSetting.getValue();
         }
