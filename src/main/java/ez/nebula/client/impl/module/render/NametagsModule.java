@@ -115,7 +115,7 @@ public final class NametagsModule extends Module
             final double z = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * event.getPartialTicks();
             RenderUtil.renderGLBillboard(x, y + 0.5, z, sizeSetting.getValue(), () ->
             {
-                final String text = getDisplayInfo(entity);
+                final String text = NameProtectModule.INSTANCE.protect(getDisplayInfo(entity)).trim();
                 double textWidth = 0;
                 int textHeight = 0;
                 if (!text.isEmpty())

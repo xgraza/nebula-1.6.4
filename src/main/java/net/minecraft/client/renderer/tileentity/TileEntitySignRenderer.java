@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.tileentity;
 
+import ez.nebula.client.impl.module.render.NameProtectModule;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelSign;
@@ -73,6 +74,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
             for (int var14 = 0; var14 < p_147512_1_.lines.length; ++var14)
             {
                 String var15 = p_147512_1_.lines[var14];
+                var15 = NameProtectModule.INSTANCE.protect(var15);
 
                 if (var14 == p_147512_1_.field_145918_i)
                 {

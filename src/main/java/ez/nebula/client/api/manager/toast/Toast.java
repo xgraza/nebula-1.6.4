@@ -2,6 +2,7 @@ package ez.nebula.client.api.manager.toast;
 
 import ez.nebula.client.api.manager.toast.trait.ToastType;
 import ez.nebula.client.impl.module.render.HUDModule;
+import ez.nebula.client.impl.module.render.NameProtectModule;
 import net.minecraft.client.gui.ScaledResolution;
 import ez.nebula.client.api.render.animation.Animation;
 import ez.nebula.client.api.render.animation.AnimationEasing;
@@ -45,8 +46,11 @@ public final class Toast
 
     public double render(final double posY, final ScaledResolution resolution)
     {
+        String t = NameProtectModule.INSTANCE.protect(title);
+        String d = NameProtectModule.INSTANCE.protect(details);
+
         final double screenWidth = resolution.getScaledWidth_double();
-        final double toastWidth = Fonts.POPPINS.getStringWidth(details) + (PADDING * 3);
+        final double toastWidth = Fonts.POPPINS.getStringWidth(d) + (PADDING * 3);
         final double toastHeight = (Fonts.POPPINS.getFontHeight() + 1.0) * 1.25;
         double posX = screenWidth - (PADDING * 2) - (toastWidth * (animation.getEasedFactor()));
 
@@ -60,8 +64,8 @@ public final class Toast
         RenderUtil.renderRectangle(posX, posY + toastHeight + headerHeight - 4.5, progressBar, 1.5, Color.white.getRGB());
 
         Fonts.ICONFACE.drawString(toastType.getIconChar(), posX + 1, posY + 2.5, 0xAAAAAA, false);
-        Fonts.POPPINS.drawStringShadow(title, posX + 11, posY, -1);
-        Fonts.POPPINS.drawStringShadow(details, posX + PADDING + 0.5, posY + Fonts.POPPINS.getFontHeight(), -1);
+        Fonts.POPPINS.drawStringShadow(t, posX + 11, posY, -1);
+        Fonts.POPPINS.drawStringShadow(d, posX + PADDING + 0.5, posY + Fonts.POPPINS.getFontHeight(), -1);
         return (toastHeight + headerHeight) * animation.getFactor();
     }
 

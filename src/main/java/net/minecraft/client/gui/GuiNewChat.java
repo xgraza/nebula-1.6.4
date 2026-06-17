@@ -6,6 +6,7 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 import ez.nebula.client.impl.module.render.ChatModifierModule;
+import ez.nebula.client.impl.module.render.NameProtectModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.entity.player.EntityPlayer;
@@ -92,6 +93,7 @@ public class GuiNewChat extends Gui
                                 int y = -i * mc.fontRenderer.FONT_HEIGHT;
                                 drawRect(0, y - mc.fontRenderer.FONT_HEIGHT, var8 + 4, y, var14 / 2 << 24);
                                 String var17 = chatLine.getLineString().getFormattedText();
+                                var17 = NameProtectModule.INSTANCE.protect(var17);
                                 this.mc.fontRenderer.drawStringWithShadow(var17, 0, y - 8, 16777215 + (var14 << 24));
                                 GL11.glDisable(GL11.GL_ALPHA_TEST);
                             }
@@ -177,6 +179,8 @@ public class GuiNewChat extends Gui
                                 + username
                                 + EnumChatFormatting.RESET);
             }
+
+            text = NameProtectModule.INSTANCE.protect(text);
 
             final List<String> textLines = mc.fontRenderer.listFormattedStringToWidth(text, lineWidth + 6);
 

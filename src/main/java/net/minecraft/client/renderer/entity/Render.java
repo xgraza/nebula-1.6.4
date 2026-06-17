@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
+import ez.nebula.client.impl.module.render.NameProtectModule;
 import ez.nebula.client.impl.module.render.NametagsModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -380,6 +381,8 @@ public abstract class Render
             {
                 posY = -10;
             }
+
+            name = NameProtectModule.INSTANCE.protect(name);
 
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             var15.startDrawingQuads();

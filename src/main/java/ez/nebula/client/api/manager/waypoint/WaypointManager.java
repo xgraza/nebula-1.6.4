@@ -7,6 +7,7 @@ import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.manager.ITypedManager;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.impl.config.WaypointConfig;
+import ez.nebula.client.impl.module.render.NameProtectModule;
 import ez.nebula.client.impl.module.render.WaypointsModule;
 import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.client.Minecraft;
@@ -50,7 +51,7 @@ public final class WaypointManager implements ITypedManager<Waypoint>
             {
                 glEnable(GL_DEPTH_CLAMP);
                 final double distance = Math.sqrt(MC.thePlayer.getDistanceSq(waypoint.getX(), waypoint.getY(), waypoint.getZ()));
-                final String text1 = waypoint.getName();
+                final String text1 = NameProtectModule.INSTANCE.protect(waypoint.getName());
                 final String text2 = String.format("%.1f block%s", distance, distance > 1.0 ? "s" : "");
 
                 int textWidth1 = MC.fontRenderer.getStringWidth(text1);

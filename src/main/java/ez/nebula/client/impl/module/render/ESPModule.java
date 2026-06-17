@@ -470,6 +470,7 @@ public final class ESPModule extends Module
 
                 if (text != null)
                 {
+                    text = NameProtectModule.INSTANCE.protect(text);
                     final int textWidth = MC.fontRenderer.getStringWidth(text);
                     MC.fontRenderer.drawStringWithShadow(text, (int) (top[0] - (textWidth / 2.0f)), (int) top[1] - 10, -1);
                 }

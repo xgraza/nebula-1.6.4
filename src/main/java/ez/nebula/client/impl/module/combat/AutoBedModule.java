@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.impl.module.render.NameProtectModule;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockBed;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -497,7 +498,7 @@ public final class AutoBedModule extends Module
     {
         if (target != null)
         {
-            return target.getCommandSenderName();
+            return NameProtectModule.INSTANCE.protect(target.getCommandSenderName());
         }
         return super.getMetadata();
     }

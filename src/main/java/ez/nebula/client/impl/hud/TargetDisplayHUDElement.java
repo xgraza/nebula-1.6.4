@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.hud;
 
 import ez.nebula.client.impl.module.combat.KillAuraModule;
+import ez.nebula.client.impl.module.render.NameProtectModule;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -102,8 +103,9 @@ public final class TargetDisplayHUDElement extends HUDElement
 
     private void drawPlayerName(final double x, final EntityPlayer target)
     {
-        Fonts.POPPINS.drawStringShadow(target.getCommandSenderName(), x, getY() + getPadding() + 1, -1);
-        final int textWidth = (int) Fonts.POPPINS.getStringWidth(target.getCommandSenderName()) + 4;
+        String name = NameProtectModule.INSTANCE.protect(target.getCommandSenderName());
+        Fonts.POPPINS.drawStringShadow(name, x, getY() + getPadding() + 1, -1);
+        final int textWidth = (int) Fonts.POPPINS.getStringWidth(name) + 4;
     }
 
     private void drawHealthBar(final double x, final double remainingWidth, final EntityPlayer target)

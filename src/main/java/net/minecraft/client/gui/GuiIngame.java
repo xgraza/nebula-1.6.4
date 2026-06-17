@@ -653,6 +653,7 @@ public class GuiIngame extends Gui
                     final ScorePlayerTeam team = mc.theWorld.getScoreboard().getPlayersTeam(info.name);
                     name = ScorePlayerTeam.formatPlayerName(team, info.name);
                 }
+                name = NameProtectModule.INSTANCE.protect(name);
                 fontRenderer.drawStringWithShadow(name, x + offset + 1, y, 16777215);
 
                 if (objective != null)
@@ -774,7 +775,7 @@ public class GuiIngame extends Gui
                 final ScorePlayerTeam team = mc.theWorld.getScoreboard().getPlayersTeam(info.name);
                 name = ScorePlayerTeam.formatPlayerName(team, info.name);
             }
-
+            name = NameProtectModule.INSTANCE.protect(name);
             Fonts.POPPINS.drawStringShadow(name, x + 1 + offset, y - 1, 16777215);
 
             glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
