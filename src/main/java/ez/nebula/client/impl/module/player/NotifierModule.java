@@ -14,6 +14,7 @@ import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.world.EventAddEntity;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.math.Timer;
+import org.lwjgl.opengl.Display;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -130,7 +131,7 @@ public final class NotifierModule extends Module
 
     private void notify(final String text)
     {
-        if (!MC.inGameHasFocus && Nebula.INSTANCE.getSystemTray().isActive())
+        if (!Display.isActive() && Nebula.INSTANCE.getSystemTray().isActive())
         {
             Nebula.INSTANCE.getSystemTray().notify(
                     EnumChatFormatting.getTextWithoutFormattingCodes(text));
