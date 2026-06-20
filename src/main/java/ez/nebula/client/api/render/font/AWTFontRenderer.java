@@ -93,9 +93,9 @@ public final class AWTFontRenderer
 
         glDisable(GL_LIGHTING);
         glEnable(GL_BLEND);
-        OpenGlHelper.glBlendFunc(770, 771, 0, 1);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 
-        RenderUtil.setGLColorOpaque(textColor);
+        RenderUtil.setGLColor(textColor);
 
         boolean bld = false;
         boolean ital = false;
@@ -238,7 +238,6 @@ public final class AWTFontRenderer
             offsetX += glyph.getAdvance() - 0.5;
         }
 
-        //glEnable(GL_LIGHTING);
         glDisable(GL_RESCALE_NORMAL);
         glPopMatrix();
     }
