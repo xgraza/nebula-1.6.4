@@ -72,7 +72,7 @@ public final class PortalBreakerModule extends Module
             final BlockPos neighborPos = pos.offset(facing);
             if (!BlockUtil.isReplaceable(neighborPos))
             {
-                angles = AngleUtil.anglesToBlock(neighborPos, BlockUtil.getOpposite(facing));
+                angles = AngleUtil.anglesToBlock(neighborPos, BlockUtil.getOpposite(facing), 1.0f);
                 result = AngleUtil.raytrace(5, angles[0], angles[1]);
                 if (result == null
                         || (result.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK

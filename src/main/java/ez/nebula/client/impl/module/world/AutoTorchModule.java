@@ -1,6 +1,9 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.listener.event.render.EventRender2D;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
+import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.ItemBlock;
@@ -38,6 +41,8 @@ public final class AutoTorchModule extends Module
     @ModuleInstance
     public static AutoTorchModule INSTANCE;
 
+    private static final int AUTO_TORCH_ROTATION_PRIORITY = 10;
+
     private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(6.0)
@@ -53,6 +58,12 @@ public final class AutoTorchModule extends Module
     private final Setting<Boolean> spawnCheckSetting = builder("Spawn Check", true)
             .setDescription("If to check if a mob can spawn on a block to place a torch")
             .build();
+    private final Setting<Boolean> rotateSetting = builder("Rotate", false)
+            .setDescription("If to rotate when placing a torch")
+            .build();
+
+    private BlockPos pos;
+    private float[] angles;
 
     @Override
     public void onDisable()
@@ -62,6 +73,8 @@ public final class AutoTorchModule extends Module
         {
             Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
+        angles = null;
+        pos = null;
     }
 
     @Subscribe
@@ -81,14 +94,36 @@ public final class AutoTorchModule extends Module
         {
             return;
         }
-        final BlockPos pos = getPlacePos();
+        pos = getPlacePos();
         if (pos == null)
         {
             return;
         }
+
+        if (rotateSetting.getValue())
+        {
+            if (angles == null)
+            {
+                return;
+            }
+            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], AUTO_TORCH_ROTATION_PRIORITY))
+            {
+                return;
+            }
+        }
+
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
         InteractionManager.INSTANCE.rightClickBlock(pos.down(), EnumFacing.UP, true);
         Nebula.INSTANCE.getInventoryManager().syncSlot();
+    };
+
+    @Subscribe
+    private final EventListener<EventRender3D> render3DEventListener = event ->
+    {
+        if (pos != null)
+        {
+            angles = AngleUtil.anglesToBlock(pos, EnumFacing.UP, event.getPartialTicks());
+        }
     };
 
     private BlockPos getPlacePos()

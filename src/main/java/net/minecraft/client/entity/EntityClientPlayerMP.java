@@ -183,6 +183,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
                         prevLimbSwingAmount = oldPLimbSwingAmount;
                         limbSwing = oldLimbSwing;
                         sendMotionUpdates();
+                        EventBus.dispatch(new EventPostUpdate());
                     }
                 }
             }

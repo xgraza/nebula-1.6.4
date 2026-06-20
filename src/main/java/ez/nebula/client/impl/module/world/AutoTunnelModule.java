@@ -5,6 +5,7 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.init.Blocks;
@@ -30,6 +31,7 @@ import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.render.RenderUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
+import net.minecraft.util.Vec3;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -110,7 +112,11 @@ public final class AutoTunnelModule extends Module
             return;
         }
 
-        RenderUtil.renderFilledAABB(new AxisAlignedBB(currentBlock.getPos()), QuadMask.ALL_FACES, 0x8000FF00);
+        final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
+                currentBlock.getPos().getX(), currentBlock.getPos().getY(), currentBlock.getPos().getZ()), 1);
+
+        RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(currentBlock.getFacing()), 0x80FF0000);
+        RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(currentBlock.getFacing()), 0xFFFF0000);
     };
 
     @Subscribe
@@ -284,7 +290,8 @@ public final class AutoTunnelModule extends Module
         final EnumFacing opposite = BlockUtil.getOpposite(facing);
         final BlockPos faceVec = BlockUtil.getFacingVec(facing);
 
-        for (int offset = 0; offset < blocksSetting.getValue(); ++offset)
+        //for (int offset = 0; offset < blocksSetting.getValue(); ++offset)
+        for (int offset = blocksSetting.getValue(); offset >= 0; --offset)
         {
             final BlockPos offsetPos = new BlockPos(
                     origin.getX() + ((offset + 1) * faceVec.getX()),
@@ -294,11 +301,19 @@ public final class AutoTunnelModule extends Module
 
             if (isValidBlock(abovePos))
             {
-                blockBreakQueue.add(new BlockInfo(abovePos, opposite));
+                //final EnumFacing opposite = AngleUtil.getVisibleFace(abovePos, MC.playerController.getBlockReachDistance());
+                //if (opposite != null)
+                {
+                    blockBreakQueue.add(new BlockInfo(abovePos, opposite));
+                }
             }
             if (isValidBlock(offsetPos))
             {
-                blockBreakQueue.add(new BlockInfo(offsetPos, opposite));
+                //final EnumFacing opposite = AngleUtil.getVisibleFace(offsetPos, MC.playerController.getBlockReachDistance());
+                //if (opposite != null)
+                {
+                    blockBreakQueue.add(new BlockInfo(offsetPos, opposite));
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.block.*;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
@@ -34,11 +35,16 @@ import java.util.stream.Collectors;
         category = ModuleCategory.WORLD)
 public final class LandscaperModule extends Module
 {
+    private static final int LANDSCAPER_ROTATION_PRIORITY = 10;
+
     private final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
             .setMin(1.0f)
             .setMax(6.0f)
             .setScale(0.1f)
             .setDescription("The range to break foliage blocks in")
+            .build();
+    private final Setting<Boolean> rotateSetting = builder("Rotate", false)
+            .setDescription("If to rotate to the block to break")
             .build();
     private final Setting<Boolean> snowSetting = builder("Shovel Snow", true)
             .setDescription("If to clear snow")
@@ -49,6 +55,7 @@ public final class LandscaperModule extends Module
 
     private final Queue<BlockPos> breakQueue = new ConcurrentLinkedQueue<>();
     private BlockPos breakingBlockPos;
+    private float[] angles;
 
     @Override
     public void onDisable()
@@ -61,6 +68,7 @@ public final class LandscaperModule extends Module
             Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+        angles = null;
     }
 
     @Subscribe
@@ -69,6 +77,10 @@ public final class LandscaperModule extends Module
         if (breakingBlockPos == null)
         {
             return;
+        }
+        if (rotateSetting.getValue())
+        {
+            angles = AngleUtil.anglesToBlock(breakingBlockPos, EnumFacing.UP, event.getPartialTicks());
         }
         RenderUtil.renderFilledAABB(new AxisAlignedBB(breakingBlockPos), QuadMask.ALL_FACES, 0x8000FF00);
     };
@@ -88,6 +100,17 @@ public final class LandscaperModule extends Module
             Nebula.INSTANCE.getInventoryManager().syncSlot();
             breakingBlockPos = breakQueue.poll();
             return;
+        }
+        if (rotateSetting.getValue())
+        {
+            if (angles == null)
+            {
+                return;
+            }
+            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], LANDSCAPER_ROTATION_PRIORITY))
+            {
+                return;
+            }
         }
         final Block block = MC.theWorld.getBlock(breakingBlockPos);
         if (block instanceof BlockSnow || block instanceof BlockSnowBlock)

@@ -53,7 +53,7 @@ public final class AutoBedModule extends Module
     @ModuleInstance
     public static AutoBedModule INSTANCE;
 
-    private static final int AUTO_BED_ROTATION_PRIORITY = 100;
+    private static final int AUTO_BED_ROTATION_PRIORITY = 150;
     private static final double BED_EXPLOSION_SIZE = 5.0;
     private static final float BED_EXPLOSION_STRENGTH = 10.0f;
 

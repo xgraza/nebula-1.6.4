@@ -1,11 +1,17 @@
 package ez.nebula.client.util.math;
 
+import ez.nebula.client.util.minecraft.player.ChatUtil;
+import ez.nebula.client.util.minecraft.player.PlayerUtil;
+import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+
+import java.util.*;
 
 public final class AngleUtil
 {
@@ -28,9 +34,70 @@ public final class AngleUtil
         return MC.theWorld.getWorldVec3Pool().getVecFromPool(var3 * var4, var5, var2 * var4);
     }
 
-    public static float[] anglesToBlock(final BlockPos pos, final EnumFacing face)
+    public static EnumFacing getVisibleFace(final BlockPos pos, final double reach)
     {
-        final Vec3 eyes = MC.thePlayer.getPosition(1.0f);
+        final TreeMap<Double, EnumFacing> faceMap = getVisibleFaces(pos, reach, true);
+        if (faceMap.isEmpty())
+        {
+            return null;
+        }
+        return faceMap.lastEntry().getValue();
+//        final MovingObjectPosition result = raytrace(6.5, angles[0], angles[1]);
+//        if (result != null && result.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+//        {
+//            return EnumFacing.faceList[result.sideHit];
+//        }
+//        // TODO: get best visible faces
+//        return BlockUtil.getOpposite(PlayerUtil.getFacing());
+    }
+
+    public static TreeMap<Double, EnumFacing> getVisibleFaces(final BlockPos pos, final double reach, final boolean strict)
+    {
+        Vec3 var4 = MC.thePlayer.getPosition(1.0f);
+
+        final TreeMap<Double, EnumFacing> faceMap = new TreeMap<>();
+        for (final EnumFacing facing : EnumFacing.values())
+        {
+            final BlockPos neighbor = pos.offset(facing);
+            if (BlockUtil.isReplaceable(neighbor))
+            {
+                if (neighbor.getY() > var4.yCoord)
+                {
+                    continue;
+                }
+
+                float[] angles = anglesToBlock(neighbor, BlockUtil.getOpposite(facing), 1.0f);
+                Vec3 var5 = getLookVec(angles[0], angles[1]);
+                Vec3 var6 = var4.addVector(var5.xCoord * reach, var5.yCoord * reach, var5.zCoord * reach);
+                final double distance = var6.distanceTo(Vec3.createVectorHelper(neighbor.getX() + 0.5, neighbor.getY() + 0.5, neighbor.getZ() + 0.5));
+                ChatUtil.sendNebula("dist: %.1f", distance);
+                if (strict && distance > reach)
+                {
+                    continue;
+                }
+                faceMap.put(distance, facing);
+            }
+        }
+        return faceMap;
+    }
+
+    public static float[] entityAngles(final Entity entity, final double yOffset, final float partialTicks)
+    {
+        final Vec3 eyes = MC.thePlayer.getPosition(partialTicks);
+        final Vec3 pos = MathUtil.lerpEntity(entity, partialTicks)
+                .addVector(0, yOffset, 0);
+        final Vec3 vec = pos.subtract(eyes);
+
+        final double dist = vec.lengthVector();
+        float yaw = (float) (Math.toDegrees(Math.atan2(vec.zCoord, vec.xCoord)) + 90.0f);
+        float pitch = (float) Math.toDegrees(Math.atan2(vec.yCoord, dist));
+
+        return new float[] { yaw, pitch };
+    }
+
+    public static float[] anglesToBlock(final BlockPos pos, final EnumFacing face, final float partialTicks)
+    {
+        final Vec3 eyes = MC.thePlayer.getPosition(partialTicks);
 
         int offsetX = face.getFrontOffsetX();
         int offsetY = face.getFrontOffsetY();

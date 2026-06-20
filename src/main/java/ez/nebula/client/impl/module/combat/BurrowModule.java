@@ -1,11 +1,13 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockEnderChest;
 import net.minecraft.block.BlockObsidian;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.server.S23PacketBlockChange;
@@ -34,8 +36,13 @@ import ez.nebula.client.util.minecraft.world.BlockUtil;
         category = ModuleCategory.COMBAT)
 public final class BurrowModule extends Module
 {
+    private static final int BURROW_ROTATION_PRIORITY = 300;
+
     private final Setting<Boolean> instantSetting = builder("Instant", false)
             .setDescription("If to use packets to observe when the burrow block is replaced to instantly replace it")
+            .build();
+    private final Setting<Boolean> rotateSetting = builder("Rotate", false)
+            .setDescription("If to rotate when placing the block")
             .build();
 
     @Subscribe
@@ -100,6 +107,25 @@ public final class BurrowModule extends Module
         }
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+
+
+        if (rotateSetting.getValue())
+        {
+            final float[] angles = AngleUtil.anglesToBlock(blockData.pos, blockData.facing, 1.0f);
+            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], BURROW_ROTATION_PRIORITY))
+            {
+                return;
+            }
+            // because this is an immediate need, we will send a C06
+            MC.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(
+                    MC.thePlayer.posX,
+                    MC.thePlayer.boundingBox.minY,
+                    MC.thePlayer.posY,
+                    MC.thePlayer.posZ,
+                    angles[0],
+                    angles[1],
+                    MC.thePlayer.onGround));
+        }
 
         final Vec3 hitVec = Vec3.createVectorHelper(
                 blockData.pos.getX() + 0.5,

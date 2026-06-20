@@ -4,6 +4,7 @@
 
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
@@ -47,6 +48,8 @@ public final class ScaffoldModule extends Module
     @ModuleInstance
     public static ScaffoldModule INSTANCE;
 
+    private static final int SCAFFOLD_ROTATION_PRIORITY = 50;
+
     private final Setting<Double> extend = numberBuilder("Extend", 0.0)
             .setMin(0.0)
             .setMax(6.0)
@@ -62,6 +65,9 @@ public final class ScaffoldModule extends Module
     private final Setting<Boolean> safeWalkSetting = builder("SafeWalk", false)
             .setDescription("If to use safe walk")
             .build();
+    private final Setting<Boolean> rotateSetting = builder("Rotate", false)
+            .setDescription("If to rotate towards the block you're placing")
+            .build();
     private final Setting<Boolean> renderSetting = builder("Render", false)
             .setDescription("If to render where the block is being placed")
             .build();
@@ -70,6 +76,7 @@ public final class ScaffoldModule extends Module
     private double basePosY;
     private BlockData blockData;
     private int towerTicks, slot;
+    private float[] angles;
 
     @Override
     public void onDisable()
@@ -79,6 +86,7 @@ public final class ScaffoldModule extends Module
         basePosY = -1.0;
         towerTicks = 0;
         slot = -1;
+        angles = null;
     }
 
     @Subscribe
@@ -96,6 +104,18 @@ public final class ScaffoldModule extends Module
         if (blockData == null)
         {
             return;
+        }
+
+        if (rotateSetting.getValue())
+        {
+            if (angles == null)
+            {
+                return;
+            }
+            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], SCAFFOLD_ROTATION_PRIORITY))
+            {
+                return;
+            }
         }
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
@@ -186,7 +206,17 @@ public final class ScaffoldModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
-        if (!renderSetting.getValue() || blockData == null)
+        if (blockData == null)
+        {
+            return;
+        }
+
+        if (rotateSetting.getValue())
+        {
+            angles = AngleUtil.anglesToBlock(blockData.pos, blockData.facing, event.getPartialTicks());
+        }
+
+        if (!renderSetting.getValue())
         {
             return;
         }

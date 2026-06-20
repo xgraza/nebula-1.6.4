@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -49,6 +50,8 @@ public final class KillAuraModule extends Module
     @ModuleInstance
     public static KillAuraModule INSTANCE;
 
+    private static final int KILLAURA_ROTATION_PRIORITY = 140;
+
     private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.SINGLE)
             .setDescription("How kill aura should select its targets")
             .build();
@@ -80,6 +83,9 @@ public final class KillAuraModule extends Module
     private final Setting<Boolean> keepSprint = builder("Keep Sprint", false)
             .setDescription("If attacking the target should reset your sprint state")
             .build();
+    private final Setting<Boolean> rotateSetting = builder("Rotate", false)
+            .setDescription("If to rotate towards your target")
+            .build();
     private final Setting<Boolean> attackPlayersSetting = builder("Attack Players", true)
             .setDescription("If to target players")
             .build();
@@ -102,6 +108,7 @@ public final class KillAuraModule extends Module
     private final Timer timer = new Timer();
     private EntityLivingBase target;
     private boolean blocking;
+    private float[] angles;
 
     @Override
     public void onDisable()
@@ -114,6 +121,7 @@ public final class KillAuraModule extends Module
         }
         blocking = false;
         target = null;
+        angles = null;
     }
 
     @Subscribe
@@ -137,6 +145,18 @@ public final class KillAuraModule extends Module
         }
         if (canAttack())
         {
+            if (rotateSetting.getValue())
+            {
+                if (angles == null)
+                {
+                    return;
+                }
+                if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], KILLAURA_ROTATION_PRIORITY))
+                {
+                    return;
+                }
+            }
+
             timer.resetTime();
             if (autoBlockSetting.getValue())
             {
@@ -158,7 +178,17 @@ public final class KillAuraModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
-        if (!renderSetting.getValue() || target == null)
+        if (target == null)
+        {
+            return;
+        }
+
+        if (rotateSetting.getValue())
+        {
+            angles = AngleUtil.entityAngles(target, target.getEyeHeight() - 0.2f, event.getPartialTicks());
+        }
+
+        if (!renderSetting.getValue())
         {
             return;
         }

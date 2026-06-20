@@ -20,6 +20,11 @@ public final class RotationManager implements IManager
 {
     private static final Minecraft MC = Minecraft.getMinecraft();
 
+    /**
+     * Client variable, if to make sure rotations are within bounds before sending to the server
+     */
+    private static final boolean ROTATE_PROTECTION = true;
+
     private final float[] serverAngles = new float[2];
     private final float[] spoofedAngles = { Float.NaN, Float.NaN };
     private int spoofPrority = -1;
@@ -91,7 +96,7 @@ public final class RotationManager implements IManager
 
     public boolean spoof(final float yaw, final float pitch, final int priority)
     {
-        if (spoofPrority > priority)
+        if (priority != -1 && spoofPrority > priority)
         {
             return false;
         }
@@ -110,6 +115,13 @@ public final class RotationManager implements IManager
 
     private boolean isRotationValid(final float[] angles)
     {
+        if (ROTATE_PROTECTION)
+        {
+            if (Math.abs(angles[1]) > 90.0f)
+            {
+                return false;
+            }
+        }
         return !Float.isNaN(angles[0]) && !Float.isNaN(angles[1]);
     }
 

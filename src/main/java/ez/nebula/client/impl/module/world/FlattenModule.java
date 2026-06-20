@@ -1,7 +1,10 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.DebugFeature;
+import ez.nebula.client.api.listener.event.game.EventPostUpdate;
 import ez.nebula.client.api.setting.block.BlockValue;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -29,6 +32,8 @@ import java.util.*;
         category = ModuleCategory.WORLD)
 public final class FlattenModule extends Module
 {
+    private static final int FLATTEN_ROTATION_PRIORITY = 60;
+
     private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(6.0)
@@ -46,11 +51,15 @@ public final class FlattenModule extends Module
     private final Setting<Boolean> stopOnSneakSetting = builder("Stop on Sneak", false)
             .setDescription("If to stop placing blocks when sneaking")
             .build();
+//    private final Setting<Boolean> roateSetting = builder("Rotate", false)
+//            .setDescription("If to rotate towards the block you're placing")
+//            .build();
     private final Setting<Integer> blocksSetting = numberBuilder("Blocks", 4)
             .setMin(1)
             .setMax(20)
             .setScale(1)
             .setDescription("How many blocks to place per tick")
+            //.setVisibility((value) -> !roateSetting.getValue())
             .build();
     private final Setting<Integer> yOffsetSetting = numberBuilder("Y-Offset", 0)
             .setMin(0)
@@ -58,6 +67,9 @@ public final class FlattenModule extends Module
             .setScale(1)
             .setDescription("The y-offset to place blocks at")
             .build();
+
+    private BlockInfo placeInfo;
+    private float[] angles;
 
     @Override
     public void onDisable()
@@ -67,6 +79,8 @@ public final class FlattenModule extends Module
         {
            // Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
+        angles = null;
+        placeInfo = null;
     }
 
     @Subscribe
