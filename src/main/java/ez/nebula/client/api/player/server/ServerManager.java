@@ -1,5 +1,6 @@
 package ez.nebula.client.api.player.server;
 
+import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
@@ -39,7 +40,16 @@ public final class ServerManager implements IManager
         }
         final double difference = time - lastPacketMS;
         lastPacketMS = time;
-        packetResponseTimes[index++ % packetResponseTimes.length] = Math.max(0.0, difference / 50.0);
+        final double tps = 20.0 / (difference / 1000.0);
+        packetResponseTimes[index++ % packetResponseTimes.length] = Math.max(0.0, Math.min(tps, 20.0));
+    };
+
+    @Subscribe
+    private final EventListener<EventChangeWorld> changeWorldEventListener = event ->
+    {
+        Arrays.fill(packetResponseTimes, 0);
+        index = 0;
+        lastPacketMS = -1L;
     };
 
     @Override
