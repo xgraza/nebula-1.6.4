@@ -35,12 +35,12 @@ public final class ModulePanel extends GUIComponent implements IGUIInputListener
 
     private static final int KEY_BACKGROUND_COLOR = new Color(33, 33, 33).getRGB();
     private static final int BACKGROUND_COLOR = new Color(41, 41, 41).getRGB();
-    protected static final int PANEL_BACKGROUND_COLOR = new Color(48, 48, 48).getRGB();
+    private static final int PANEL_BACKGROUND_COLOR = new Color(48, 48, 48).getRGB();
 
     private final Animation hoverAnimation = new Animation(
             AnimationEasing.EXPO_IN_OUT, 350.0);
     private final Animation panelAnimation = new Animation(
-            AnimationEasing.EXPO_IN_OUT, 250.0);
+            AnimationEasing.EXPO_IN_OUT, 150.0);
 
     private final Module module;
     private boolean listeningForKey;

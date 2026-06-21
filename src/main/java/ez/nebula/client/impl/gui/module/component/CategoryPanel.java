@@ -26,7 +26,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     protected static final int PANEL_BACKGROUND_COLOR = new Color(48, 48, 48).getRGB();
 
     protected final Animation animation = new Animation(
-            AnimationEasing.EXPO_IN_OUT, 300.0);
+            AnimationEasing.EXPO_IN_OUT, 150.0);
     protected final String name;
 
     private boolean allowScrolling;
