@@ -50,41 +50,29 @@ public final class LongJumpModule extends Module
     @Subscribe
     private final EventListener<EventMove> moveEventListener = event ->
     {
-        if (MoveUtil.isMoving())
+        if (stage == 1)
         {
-            switch (stage)
+            moveSpeed = boostSetting.getValue() * MoveUtil.NCP_BASE_SPEED - 0.01;
+            stage = 2;
+        } else if (stage == 2)
+        {
+            if (MC.thePlayer.onGround)
             {
-                case 1:
-                {
-                    moveSpeed = boostSetting.getValue() * MoveUtil.NCP_BASE_SPEED - 0.01;
-                    stage = 2;
-                    break;
-                }
-                case 2:
-                {
-                    if (MC.thePlayer.onGround)
-                    {
-                        MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.3995);
-                        event.setY(MC.thePlayer.motionY);
-                    }
-                    moveSpeed *= 2.149;
-                    stage = 3;
-                    break;
-                }
-                case 3:
-                {
-                    moveSpeed = distance - (0.66 * (distance - MoveUtil.NCP_BASE_SPEED));
-                    stage = 4;
-                    break;
-                }
-                default:
-                {
-                    moveSpeed = moveSpeed - moveSpeed / 159.0;
-                    break;
-                }
+                MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.42f);
+                event.setY(MC.thePlayer.motionY);
+                moveSpeed *= 2.149;
+                stage = 3;
             }
+        } else if (stage == 3)
+        {
+            moveSpeed = distance - (0.66 * (distance - MoveUtil.NCP_BASE_SPEED));
+            stage = 4;
+        } else
+        {
+            moveSpeed = moveSpeed - moveSpeed / 159.0;
         }
-        if (glideSetting.getValue() && MC.thePlayer.motionY < 0.06416928114945335)
+
+        if (glideSetting.getValue() /*&& MC.thePlayer.motionY < 0.06416928114945335*/)
         {
             // amazing Doogie13 code
             final AxisAlignedBB bb = MC.thePlayer.boundingBox;
@@ -94,7 +82,7 @@ public final class LongJumpModule extends Module
                 event.setY(MC.thePlayer.motionY = -0.001);
             }
         }
-        MoveUtil.setSpeed(event, moveSpeed);
+        MoveUtil.setSpeed(event, (MoveUtil.isMoving() && stage > 2) ? moveSpeed : 0.0);
     };
 
     @Subscribe
