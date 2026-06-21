@@ -1013,13 +1013,12 @@ public class GuiIngame extends Gui
         if (var34 == null)
         {
             this.mc.mcProfiler.endStartSection("food");
-//
-//            int render = 0;
-//
-//            AppleSkinModule appleSkin = Nebula.INSTANCE.module.get(AppleSkinModule.class);
-//            if (appleSkin != null && appleSkin.macro().toggled()) {
-//                render = (int) (mc.thePlayer.getFoodStats().getSaturationLevel() / 2.0f);
-//            }
+
+            int saturation = 0;
+            if (AppleSkinModule.INSTANCE.isToggled())
+            {
+                saturation = (int) (mc.thePlayer.getFoodStats().getSaturationLevel() / 2.0f);
+            }
 
             for (var23 = 0; var23 < 10; ++var23)
             {
@@ -1028,11 +1027,13 @@ public class GuiIngame extends Gui
                 byte var36 = 0;
 
                 glColor4f(1, 1, 1, 1);
-//                if (render > var23) {
-//                    glColor4f(0.8f, 0, 0, 1.0f);
-//                } else {
-//                    glColor4f(1, 1, 1, 1);
-//                }
+                if (saturation > var23)
+                {
+                    RenderUtil.setGLColor(AppleSkinModule.INSTANCE.colorSetting.getValue().getRGB());
+                } else
+                {
+                    glColor4f(1, 1, 1, 1);
+                }
 
                 if (this.mc.thePlayer.isPotionActive(Potion.hunger))
                 {
