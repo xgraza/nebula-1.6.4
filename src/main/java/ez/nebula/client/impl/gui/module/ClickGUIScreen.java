@@ -29,6 +29,7 @@ import java.util.List;
 public final class ClickGUIScreen extends GuiScreen
 {
     private static final int PANEL_HEADER_COLOR = new Color(33, 33, 33).getRGB();
+    private static final double DEFAULT_PANEL_Y = 10.0;
 
     public static boolean ALLOW_EXIT_ON_ESC = true;
     public static double MAX_PANEL_HEIGHT;
@@ -55,7 +56,7 @@ public final class ClickGUIScreen extends GuiScreen
         {
             final ModuleCategoryPanel panel = new ModuleCategoryPanel(category);
             panel.setX(posX);
-            panel.setY(26.0);
+            panel.setY(DEFAULT_PANEL_Y);
             posX += panel.getWidth() + 3;
             categoryPanels.add(panel);
         }
@@ -163,7 +164,7 @@ public final class ClickGUIScreen extends GuiScreen
     {
         final ConfigCategoryPanel panel = new ConfigCategoryPanel();
         panel.setX(posX);
-        panel.setY(26.0);
+        panel.setY(DEFAULT_PANEL_Y);
         categoryPanels.add(panel);
     }
 
