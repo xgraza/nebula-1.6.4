@@ -18,7 +18,6 @@ import ez.nebula.client.impl.gui.module.component.module.value.*;
 import ez.nebula.client.impl.gui.module.component.module.value.color.ColorSettingComponent;
 import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.render.RenderUtil;
-import net.minecraft.block.Block;
 
 import java.awt.Color;
 import java.io.File;

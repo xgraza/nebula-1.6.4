@@ -66,10 +66,10 @@ public final class ClickGUIScreen extends GuiScreen
         {
             panel.init();
         }
-        if (configPanel != null)
-        {
-            categoryPanels.add(configPanel);
-        }
+//        if (configPanel != null)
+//        {
+//            categoryPanels.add(configPanel);
+//        }
 
         MAX_PANEL_HEIGHT = height - 30 - 26.0;
 
@@ -114,25 +114,25 @@ public final class ClickGUIScreen extends GuiScreen
             Fonts.POPPINS.drawStringShadow(text, width / 2.0 - (Fonts.POPPINS.getStringWidth(text) / 2.0), 0, 0xFFFF0000);
         }
 
-        if (ClickGUIModule.INSTANCE.showConfigTabSetting.getValue())
-        {
-            if (configPanel == null)
-            {
-                final CategoryPanel panel = categoryPanels.getLast();
-                configPanel = createConfigPanel(panel.getX() + panel.getWidth() + 3);
-                categoryPanels.add(panel);
-            } else if (!categoryPanels.contains(configPanel))
-            {
-                categoryPanels.add(configPanel);
-            }
-        } else
-        {
-            if (configPanel != null)
-            {
-                categoryPanels.remove(configPanel);
-                configPanel = null;
-            }
-        }
+//        if (ClickGUIModule.INSTANCE.showConfigTabSetting.getValue())
+//        {
+//            if (configPanel == null)
+//            {
+//                final CategoryPanel panel = categoryPanels.getLast();
+//                configPanel = createConfigPanel(panel.getX() + panel.getWidth() + 3);
+//                categoryPanels.add(panel);
+//            } else if (!categoryPanels.contains(configPanel))
+//            {
+//                categoryPanels.add(configPanel);
+//            }
+//        } else
+//        {
+//            if (configPanel != null)
+//            {
+//                categoryPanels.remove(configPanel);
+//                configPanel = null;
+//            }
+//        }
 
         for (final CategoryPanel panel : categoryPanels)
         {
