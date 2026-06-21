@@ -36,6 +36,7 @@ public final class ModulePanel extends GUIComponent implements IGUIInputListener
 
     private static final int KEY_BACKGROUND_COLOR = new Color(33, 33, 33).getRGB();
     private static final int BACKGROUND_COLOR = new Color(41, 41, 41).getRGB();
+    protected static final int PANEL_BACKGROUND_COLOR = new Color(48, 48, 48).getRGB();
 
     private final Animation hoverAnimation = new Animation(
             AnimationEasing.EXPO_IN_OUT, 350.0);
@@ -84,10 +85,8 @@ public final class ModulePanel extends GUIComponent implements IGUIInputListener
     {
         hoverAnimation.setState(isMouseIn(mouseX, mouseY));
 
-        if (module.isToggled())
-        {
-            RenderUtil.renderRoundedRectangle(x, y, width, getHeight(), 1.5f, HUDModule.INSTANCE.getPrimary());
-        }
+        RenderUtil.renderRoundedRectangle(x, y, width, getHeight(), 1.5f,
+                module.isToggled() ? HUDModule.INSTANCE.getPrimary() : PANEL_BACKGROUND_COLOR);
         final double middle = Fonts.getMiddlePoint(height, Fonts.POPPINS.getFontHeight());
         Fonts.POPPINS.drawStringShadow(module.getManifest().name(),
                 x + (PADDING * 4) + (2.5 * hoverAnimation.getEasedFactor()),

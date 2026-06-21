@@ -9,8 +9,8 @@ import java.util.List;
  */
 public abstract class GUIComponent
 {
+    protected GUIComponent parent;
     protected final List<GUIComponent> childrenComponentList = new LinkedList<>();
-
     protected double x, y, width, height;
 
     public abstract void render(final int mouseX, final int mouseY, final float partialTicks);
@@ -78,6 +78,11 @@ public abstract class GUIComponent
     public void setHeight(double height)
     {
         this.height = height;
+    }
+
+    public void setParent(GUIComponent parent)
+    {
+        this.parent = parent;
     }
 
     public List<GUIComponent> getChildrenComponentList()
