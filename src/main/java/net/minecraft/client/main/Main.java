@@ -18,6 +18,14 @@ import java.util.List;
 
 public class Main
 {
+    static
+    {
+        System.setProperty("log4j2.formatMsgNoLookups", "true");
+        System.setProperty("com.sun.jndi.ldap.object.trustURLCodebase", "false");
+        System.setProperty("com.sun.jndi.rmi.object.trustURLCodebase", "false");
+        System.out.println("## NEBULA ## -> Set properties to disable Log4J JNDI lookup");
+    }
+
     public static void main(final String[] args)
     {
         System.setProperty("java.net.preferIPv4Stack", "true");
