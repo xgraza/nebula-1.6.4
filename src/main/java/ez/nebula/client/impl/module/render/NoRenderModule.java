@@ -39,6 +39,9 @@ public final class NoRenderModule extends Module
     public final Setting<Boolean> waterSetting = builder("Water", false)
             .setDescription("If to disable the rendering of the blue tint overlay when under water")
             .build();
+    public final Setting<Boolean> lavaSetting = builder("Lava", false)
+            .setDescription("If to disable the rendering of the red tint overlay when under lava")
+            .build();
     public final Setting<Boolean> pumpkinSetting = builder("Pumpkin", false)
             .setDescription("If to disable the rendering a pumpkin head when equipped in the helmet armor slot")
             .build();

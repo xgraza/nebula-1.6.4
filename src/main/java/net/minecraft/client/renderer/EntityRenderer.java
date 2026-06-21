@@ -2597,7 +2597,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 }
 
                 GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
-            } else if (var5.getMaterial() == Material.water)
+            } else if (var5.getMaterial() == Material.water && !(NoRenderModule.INSTANCE.isToggled() && NoRenderModule.INSTANCE.waterSetting.getValue()))
             {
                 if (Config.isShaders())
                 {
@@ -2619,7 +2619,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 {
                     GL11.glFogf(GL11.GL_FOG_DENSITY, 0.02F);
                 }
-            } else if (var5.getMaterial() == Material.lava)
+            } else if (var5.getMaterial() == Material.lava && !(NoRenderModule.INSTANCE.isToggled() && NoRenderModule.INSTANCE.lavaSetting.getValue()))
             {
                 if (Config.isShaders())
                 {
