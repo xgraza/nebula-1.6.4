@@ -34,7 +34,8 @@ public final class ClickGUIScreen extends GuiScreen
     public static boolean ALLOW_EXIT_ON_ESC = true;
     public static double MAX_PANEL_HEIGHT;
 
-    private final List<CategoryPanel> categoryPanels = new LinkedList<>();
+    private final LinkedList<CategoryPanel> categoryPanels = new LinkedList<>();
+    private ConfigCategoryPanel configPanel;
     private final Timer descriptionHoverTimer = new Timer();
     private final Timer guiResetTimer = new Timer();
 
@@ -60,12 +61,16 @@ public final class ClickGUIScreen extends GuiScreen
             posX += panel.getWidth() + 3;
             categoryPanels.add(panel);
         }
-        addConfigPanel(posX);
 
         for (final CategoryPanel panel : categoryPanels)
         {
             panel.init();
         }
+        if (configPanel != null)
+        {
+            categoryPanels.add(configPanel);
+        }
+
         MAX_PANEL_HEIGHT = height - 30 - 26.0;
 
         oldWidth = width;
@@ -106,7 +111,27 @@ public final class ClickGUIScreen extends GuiScreen
         {
             final double time = Math.max(3500.0 - guiResetTimer.getTimeElapsedMS(), 0.0) / 1000.0;
             final String text = String.format("Resetting ClickGUI screen in %.2f second(s).", time);
-            Fonts.POPPINS.drawStringShadow(text, width / 2.0 - (Fonts.POPPINS.getStringWidth(text) / 2.0), 10.0, 0xFFFF0000);
+            Fonts.POPPINS.drawStringShadow(text, width / 2.0 - (Fonts.POPPINS.getStringWidth(text) / 2.0), 0, 0xFFFF0000);
+        }
+
+        if (ClickGUIModule.INSTANCE.showConfigTabSetting.getValue())
+        {
+            if (configPanel == null)
+            {
+                final CategoryPanel panel = categoryPanels.getLast();
+                configPanel = createConfigPanel(panel.getX() + panel.getWidth() + 3);
+                categoryPanels.add(panel);
+            } else if (!categoryPanels.contains(configPanel))
+            {
+                categoryPanels.add(configPanel);
+            }
+        } else
+        {
+            if (configPanel != null)
+            {
+                categoryPanels.remove(configPanel);
+                configPanel = null;
+            }
         }
 
         for (final CategoryPanel panel : categoryPanels)
@@ -160,12 +185,13 @@ public final class ClickGUIScreen extends GuiScreen
         return false;
     }
 
-    private void addConfigPanel(final double posX)
+    private ConfigCategoryPanel createConfigPanel(final double posX)
     {
         final ConfigCategoryPanel panel = new ConfigCategoryPanel();
         panel.setX(posX);
         panel.setY(DEFAULT_PANEL_Y);
-        categoryPanels.add(panel);
+        panel.init();
+        return panel;
     }
 
     private void findAndDrawHoveredModuleDescription(final int mouseX, final int mouseY)

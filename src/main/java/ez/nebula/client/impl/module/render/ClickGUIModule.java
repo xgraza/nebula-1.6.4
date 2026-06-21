@@ -29,6 +29,9 @@ public final class ClickGUIModule extends Module
     public final Setting<Boolean> hoverDescriptionSetting = builder("Hover Description", true)
             .setDescription("If to show descriptions when hovering over an item")
             .build();
+    public final Setting<Boolean> showConfigTabSetting = builder("Show Config Panel", true)
+            .setDescription("If to show a separate panel for viewing/saving/loading configs")
+            .build();
 
     private ClickGUIScreen guiScreen;
 
