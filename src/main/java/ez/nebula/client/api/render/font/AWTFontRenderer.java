@@ -290,18 +290,28 @@ public final class AWTFontRenderer
                 ++i; // lookahead once
                 continue;
             }
-            if (ch == ' ')
-            {
-                width += font.getSpaceWidth();
-                continue;
-            }
-            final Glyph glyph = font.getGlyph(ch);
-            if (glyph != null)
-            {
-                width += glyph.getAdvance() - 0.5;
-            }
+            width += getCharWidth(ch, font);
         }
         return width / 2.0;
+    }
+
+    public double getCharWidth(final char ch)
+    {
+        return getCharWidth(ch, normal);
+    }
+
+    public double getCharWidth(final char ch, final AWTFont font)
+    {
+        if (ch == ' ')
+        {
+            return font.getSpaceWidth();
+        }
+        final Glyph glyph = font.getGlyph(ch);
+        if (glyph != null)
+        {
+            return glyph.getAdvance() - 0.5;
+        }
+        return 0.0;
     }
 
     private void generateColorCodes()

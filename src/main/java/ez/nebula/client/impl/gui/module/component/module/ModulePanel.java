@@ -75,6 +75,9 @@ public final class ModulePanel extends GUIComponent implements IGUIInputListener
             } else if (setting.getValue() instanceof BlockValue)
             {
                 getChildrenComponentList().add(new BlockSettingComponent((BlockSetting) setting));
+            } else if (setting.getValue() instanceof String)
+            {
+                getChildrenComponentList().add(new StringSettingComponent((Setting<String>) setting));
             }
         }
     }

@@ -330,6 +330,27 @@ public final class RenderUtil
         glPopMatrix();
     }
 
+    public static void renderLine(double x1, double y1, double x2, double y2, float lineWidth, int color)
+    {
+        glDisable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        glEnable(GL_LINE_SMOOTH);
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+        glLineWidth(lineWidth);
+        setGLColor(color);
+        glBegin(GL_LINES);
+        {
+            glVertex2d(x1, y1);
+            glVertex2d(x2, y2);
+        }
+        glEnd();
+        glLineWidth(1.0f);
+        glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+        glDisable(GL_LINE_SMOOTH);
+        glEnable(GL_TEXTURE_2D);
+    }
+
     public static void renderRectangle(final double x,
                                        final double y,
                                        final double width,
