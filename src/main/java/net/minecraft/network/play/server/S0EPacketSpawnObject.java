@@ -15,14 +15,13 @@ public class S0EPacketSpawnObject extends Packet
     private int x;
     private int y;
     private int z;
-    private int field_149015_e;
-    private int field_149012_f;
-    private int field_149013_g;
-    private int field_149021_h;
-    private int field_149022_i;
+    private int motionX;
+    private int motionY;
+    private int motionZ;
+    private int pitch;
+    private int yaw;
     private int type;
     private int field_149020_k;
-    private static final String __OBFID = "CL_00001276";
 
     public S0EPacketSpawnObject()
     {
@@ -39,8 +38,8 @@ public class S0EPacketSpawnObject extends Packet
         this.x = MathHelper.floor_double(p_i45166_1_.posX * 32.0D);
         this.y = MathHelper.floor_double(p_i45166_1_.posY * 32.0D);
         this.z = MathHelper.floor_double(p_i45166_1_.posZ * 32.0D);
-        this.field_149021_h = MathHelper.floor_float(p_i45166_1_.rotationPitch * 256.0F / 360.0F);
-        this.field_149022_i = MathHelper.floor_float(p_i45166_1_.rotationYaw * 256.0F / 360.0F);
+        this.pitch = MathHelper.floor_float(p_i45166_1_.rotationPitch * 256.0F / 360.0F);
+        this.yaw = MathHelper.floor_float(p_i45166_1_.rotationYaw * 256.0F / 360.0F);
         this.type = p_i45166_2_;
         this.field_149020_k = p_i45166_3_;
 
@@ -81,9 +80,9 @@ public class S0EPacketSpawnObject extends Packet
                 var8 = var10;
             }
 
-            this.field_149015_e = (int) (var4 * 8000.0D);
-            this.field_149012_f = (int) (var6 * 8000.0D);
-            this.field_149013_g = (int) (var8 * 8000.0D);
+            this.motionX = (int) (var4 * 8000.0D);
+            this.motionY = (int) (var6 * 8000.0D);
+            this.motionZ = (int) (var8 * 8000.0D);
         }
     }
 
@@ -97,15 +96,15 @@ public class S0EPacketSpawnObject extends Packet
         this.x = p_148837_1_.readInt();
         this.y = p_148837_1_.readInt();
         this.z = p_148837_1_.readInt();
-        this.field_149021_h = p_148837_1_.readByte();
-        this.field_149022_i = p_148837_1_.readByte();
+        this.pitch = p_148837_1_.readByte();
+        this.yaw = p_148837_1_.readByte();
         this.field_149020_k = p_148837_1_.readInt();
 
         if (this.field_149020_k > 0)
         {
-            this.field_149015_e = p_148837_1_.readShort();
-            this.field_149012_f = p_148837_1_.readShort();
-            this.field_149013_g = p_148837_1_.readShort();
+            this.motionX = p_148837_1_.readShort();
+            this.motionY = p_148837_1_.readShort();
+            this.motionZ = p_148837_1_.readShort();
         }
     }
 
@@ -119,15 +118,15 @@ public class S0EPacketSpawnObject extends Packet
         p_148840_1_.writeInt(this.x);
         p_148840_1_.writeInt(this.y);
         p_148840_1_.writeInt(this.z);
-        p_148840_1_.writeByte(this.field_149021_h);
-        p_148840_1_.writeByte(this.field_149022_i);
+        p_148840_1_.writeByte(this.pitch);
+        p_148840_1_.writeByte(this.yaw);
         p_148840_1_.writeInt(this.field_149020_k);
 
         if (this.field_149020_k > 0)
         {
-            p_148840_1_.writeShort(this.field_149015_e);
-            p_148840_1_.writeShort(this.field_149012_f);
-            p_148840_1_.writeShort(this.field_149013_g);
+            p_148840_1_.writeShort(this.motionX);
+            p_148840_1_.writeShort(this.motionY);
+            p_148840_1_.writeShort(this.motionZ);
         }
     }
 
@@ -164,29 +163,29 @@ public class S0EPacketSpawnObject extends Packet
         return this.z;
     }
 
-    public int func_149010_g()
+    public int getMotionX()
     {
-        return this.field_149015_e;
+        return this.motionX;
     }
 
-    public int func_149004_h()
+    public int getMotionY()
     {
-        return this.field_149012_f;
+        return this.motionY;
     }
 
-    public int func_148999_i()
+    public int getMotionZ()
     {
-        return this.field_149013_g;
+        return this.motionZ;
     }
 
-    public int func_149008_j()
+    public int getPitch()
     {
-        return this.field_149021_h;
+        return this.pitch;
     }
 
-    public int func_149006_k()
+    public int getYaw()
     {
-        return this.field_149022_i;
+        return this.yaw;
     }
 
     public int getType()
@@ -214,19 +213,19 @@ public class S0EPacketSpawnObject extends Packet
         this.z = p_149005_1_;
     }
 
-    public void func_149003_d(int p_149003_1_)
+    public void setMotionX(int p_149003_1_)
     {
-        this.field_149015_e = p_149003_1_;
+        this.motionX = p_149003_1_;
     }
 
-    public void func_149000_e(int p_149000_1_)
+    public void setMotionY(int p_149000_1_)
     {
-        this.field_149012_f = p_149000_1_;
+        this.motionY = p_149000_1_;
     }
 
-    public void func_149007_f(int p_149007_1_)
+    public void setMotionZ(int p_149007_1_)
     {
-        this.field_149013_g = p_149007_1_;
+        this.motionZ = p_149007_1_;
     }
 
     public void func_149002_g(int p_149002_1_)

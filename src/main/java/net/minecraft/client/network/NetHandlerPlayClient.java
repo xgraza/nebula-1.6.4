@@ -217,15 +217,15 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             entity = new EntityFireworkRocket(this.clientWorldController, x, y, z, null);
         } else if (packet.getType() == 63)
         {
-            entity = new EntityLargeFireball(this.clientWorldController, x, y, z, (double) packet.func_149010_g() / 8000.0D, (double) packet.func_149004_h() / 8000.0D, (double) packet.func_148999_i() / 8000.0D);
+            entity = new EntityLargeFireball(this.clientWorldController, x, y, z, (double) packet.getMotionX() / 8000.0D, (double) packet.getMotionY() / 8000.0D, (double) packet.getMotionZ() / 8000.0D);
             packet.func_149002_g(0);
         } else if (packet.getType() == 64)
         {
-            entity = new EntitySmallFireball(this.clientWorldController, x, y, z, (double) packet.func_149010_g() / 8000.0D, (double) packet.func_149004_h() / 8000.0D, (double) packet.func_148999_i() / 8000.0D);
+            entity = new EntitySmallFireball(this.clientWorldController, x, y, z, (double) packet.getMotionX() / 8000.0D, (double) packet.getMotionY() / 8000.0D, (double) packet.getMotionZ() / 8000.0D);
             packet.func_149002_g(0);
         } else if (packet.getType() == 66)
         {
-            entity = new EntityWitherSkull(this.clientWorldController, x, y, z, (double) packet.func_149010_g() / 8000.0D, (double) packet.func_149004_h() / 8000.0D, (double) packet.func_148999_i() / 8000.0D);
+            entity = new EntityWitherSkull(this.clientWorldController, x, y, z, (double) packet.getMotionX() / 8000.0D, (double) packet.getMotionY() / 8000.0D, (double) packet.getMotionZ() / 8000.0D);
             packet.func_149002_g(0);
         } else if (packet.getType() == 62)
         {
@@ -261,8 +261,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             ((Entity) entity).serverPosX = packet.getX();
             ((Entity) entity).serverPosY = packet.getY();
             ((Entity) entity).serverPosZ = packet.getZ();
-            ((Entity) entity).rotationPitch = (float) (packet.func_149008_j() * 360) / 256.0F;
-            ((Entity) entity).rotationYaw = (float) (packet.func_149006_k() * 360) / 256.0F;
+            ((Entity) entity).rotationPitch = (float) (packet.getPitch() * 360) / 256.0F;
+            ((Entity) entity).rotationYaw = (float) (packet.getYaw() * 360) / 256.0F;
             Entity[] var12 = ((Entity) entity).getParts();
 
             if (var12 != null)
@@ -291,7 +291,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
                     }
                 }
 
-                ((Entity) entity).setVelocity((double) packet.func_149010_g() / 8000.0D, (double) packet.func_149004_h() / 8000.0D, (double) packet.func_148999_i() / 8000.0D);
+                ((Entity) entity).setVelocity((double) packet.getMotionX() / 8000.0D, (double) packet.getMotionY() / 8000.0D, (double) packet.getMotionZ() / 8000.0D);
             }
         }
     }

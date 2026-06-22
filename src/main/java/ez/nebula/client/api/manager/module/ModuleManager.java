@@ -1,9 +1,5 @@
 package ez.nebula.client.api.manager.module;
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import ez.nebula.client.api.manager.command.Command;
-import ez.nebula.client.api.manager.command.trait.CommandManifest;
-import ez.nebula.client.api.manager.command.trait.CommandSource;
 import ez.nebula.client.core.ClientConfig;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.impl.config.ModuleConfig;
@@ -36,6 +32,7 @@ public final class ModuleManager implements ITypedManager<Module>
     @Override
     public void init()
     {
+        registerModule(new AntiFireballModule());
         registerModule(new AutoArmorModule());
         registerModule(new AutoBedModule());
         registerModule(new AutoLogModule());

@@ -504,9 +504,9 @@ public class EntityTrackerEntry
                         var2 = new S0EPacketSpawnObject(this.myEntity, var3, 0);
                     }
 
-                    var2.func_149003_d((int) (var6.accelerationX * 8000.0D));
-                    var2.func_149000_e((int) (var6.accelerationY * 8000.0D));
-                    var2.func_149007_f((int) (var6.accelerationZ * 8000.0D));
+                    var2.setMotionX((int) (var6.accelerationX * 8000.0D));
+                    var2.setMotionY((int) (var6.accelerationY * 8000.0D));
+                    var2.setMotionZ((int) (var6.accelerationZ * 8000.0D));
                     return var2;
                 } else if (this.myEntity instanceof EntityEgg)
                 {
