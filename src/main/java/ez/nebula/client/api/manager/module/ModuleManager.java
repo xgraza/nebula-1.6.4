@@ -44,6 +44,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new RegenModule());
         registerModule(new VehicleBreakerModule());
         registerModule(new VelocityModule());
+        registerModule(new WTapModule());
         registerModule(new AntiAFKModule());
         registerModule(new AntiRevertModule());
         registerModule(new ColorSignsModule());
