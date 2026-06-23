@@ -50,7 +50,6 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new ColorSignsModule());
         registerModule(new EnderchestBPModule());
         registerModule(new FastLatencyModule());
-        registerModule(new FastPortalModule());
         registerModule(new FastUseModule());
         registerModule(new FrankyModule());
         registerModule(new GhostHandModule());
@@ -60,8 +59,8 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new NoHungerModule());
         registerModule(new NoMoveDelayModule());
         registerModule(new NoPacketKickModule());
-        registerModule(new NoPortalGUIModule());
         registerModule(new NoRotateSetModule());
+        registerModule(new PortalsModule());
         registerModule(new PotionSaverModule());
         registerModule(new TimerModule());
         registerModule(new XCarryModule());

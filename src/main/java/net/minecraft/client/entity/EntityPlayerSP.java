@@ -1,6 +1,6 @@
 package net.minecraft.client.entity;
 
-import ez.nebula.client.impl.module.exploit.NoPortalGUIModule;
+import ez.nebula.client.impl.module.exploit.PortalsModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.*;
@@ -120,7 +120,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
             if (this.inPortal)
             {
-                if (this.mc.currentScreen != null && !NoPortalGUIModule.INSTANCE.isToggled())
+                if (this.mc.currentScreen != null && !(PortalsModule.INSTANCE.isToggled() && PortalsModule.INSTANCE.guiSetting.getValue()))
                 {
                     this.mc.displayGuiScreen(null);
                 }
