@@ -67,7 +67,6 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new BlinkModule());
         registerModule(new EntityControlModule());
         registerModule(new EntitySpeedModule());
-        registerModule(new FastSwimModule());
         registerModule(new FlyModule());
         registerModule(new InvWalkModule());
         registerModule(new JesusModule());
