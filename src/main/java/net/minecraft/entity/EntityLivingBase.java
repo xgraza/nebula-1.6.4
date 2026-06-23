@@ -1,8 +1,8 @@
 package net.minecraft.entity;
 
-import ez.nebula.client.impl.module.movement.TerrainModule;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.world.EventBlockSlipperiness;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockIce;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -1626,10 +1626,9 @@ public abstract class EntityLivingBase extends Entity
                 Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
                 var3 = block.slipperiness * 0.91f;
 
-                if (TerrainModule.iceSpeed() && block instanceof BlockIce)
-                {
-                    var3 = TerrainModule.NCP_ICE_MAX;
-                }
+                final EventBlockSlipperiness event = new EventBlockSlipperiness(this, block, var3);
+                EventBus.dispatch(event);
+                var3 = event.getSlipperiness();
             }
 
             float var4 = 0.16277136F / (var3 * var3 * var3);
@@ -1651,10 +1650,9 @@ public abstract class EntityLivingBase extends Entity
                 Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
                 var3 = block.slipperiness * 0.91f;
 
-                if (TerrainModule.iceSpeed() && block instanceof BlockIce)
-                {
-                    var3 = TerrainModule.NCP_ICE_MAX;
-                }
+                final EventBlockSlipperiness event = new EventBlockSlipperiness(this, block, var3);
+                EventBus.dispatch(event);
+                var3 = event.getSlipperiness();
             }
 
             if (this.isOnLadder())

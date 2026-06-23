@@ -68,6 +68,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new EntityControlModule());
         registerModule(new EntitySpeedModule());
         registerModule(new FlyModule());
+        registerModule(new IceSpeedModule());
         registerModule(new InvWalkModule());
         registerModule(new JesusModule());
         registerModule(new LongJumpModule());
@@ -81,7 +82,6 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new SprintModule());
         registerModule(new StepModule());
         registerModule(new TargetStrafeModule());
-        registerModule(new TerrainModule());
         registerModule(new AntiBlockModule());
         registerModule(new AntiDisconnectModule());
         registerModule(new AntiLagModule());
