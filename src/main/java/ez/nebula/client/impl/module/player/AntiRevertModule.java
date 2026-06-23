@@ -1,4 +1,4 @@
-package ez.nebula.client.impl.module.exploit;
+package ez.nebula.client.impl.module.player;
 
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 @ModuleManifest(name = "AntiRevert",
         description = "Prevents illegal items from getting reverted",
-        category = ModuleCategory.EXPLOIT)
+        category = ModuleCategory.PLAYER)
 public final class AntiRevertModule extends Module
 {
     @ModuleInstance

@@ -46,7 +46,6 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new VelocityModule());
         registerModule(new WTapModule());
         registerModule(new AntiAFKModule());
-        registerModule(new AntiRevertModule());
         registerModule(new ColorSignsModule());
         registerModule(new EnderchestBPModule());
         registerModule(new FastLatencyModule());
@@ -87,6 +86,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new AntiBlockModule());
         registerModule(new AntiDisconnectModule());
         registerModule(new AntiLagModule());
+        registerModule(new AntiRevertModule());
         registerModule(new AutoReconnectModule());
         registerModule(new AutoRespawnModule());
         registerModule(new FreecamModule());

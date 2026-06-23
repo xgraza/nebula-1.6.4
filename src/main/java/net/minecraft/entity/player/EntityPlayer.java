@@ -2,7 +2,7 @@ package net.minecraft.entity.player;
 
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
-import ez.nebula.client.impl.module.exploit.AntiRevertModule;
+import ez.nebula.client.impl.module.player.AntiRevertModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
