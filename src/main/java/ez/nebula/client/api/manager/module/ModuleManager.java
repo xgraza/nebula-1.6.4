@@ -57,7 +57,6 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new NewChunksModule());
         registerModule(new NoC03Module());
         registerModule(new NoHungerModule());
-        registerModule(new NoMoveDelayModule());
         registerModule(new NoPacketKickModule());
         registerModule(new NoRotateSetModule());
         registerModule(new PortalsModule());
@@ -76,6 +75,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new LongJumpModule());
         registerModule(new NoAccelModule());
         registerModule(new NoJumpDelayModule());
+        registerModule(new NoMoveDelayModule());
         registerModule(new NoSlowModule());
         registerModule(new PathFinderModule());
         registerModule(new SafeWalkModule());

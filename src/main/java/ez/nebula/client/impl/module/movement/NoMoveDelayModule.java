@@ -1,4 +1,4 @@
-package ez.nebula.client.impl.module.exploit;
+package ez.nebula.client.impl.module.movement;
 
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.IEventPriorities;
@@ -13,8 +13,8 @@ import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
  * @since 5/4/26
  */
 @ModuleManifest(name = "NoMoveDelay",
-        description = "Removes a vanilla move requirement to send a new movement packet",
-        category = ModuleCategory.EXPLOIT)
+        description = "Removes a vanilla move minimum to send a new move packet to the server",
+        category = ModuleCategory.MOVEMENT)
 public final class NoMoveDelayModule extends Module
 {
     @Subscribe(priority = IEventPriorities.MEDIUM)
