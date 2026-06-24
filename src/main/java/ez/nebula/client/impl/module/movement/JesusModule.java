@@ -1,5 +1,8 @@
 package ez.nebula.client.impl.module.movement;
 
+import ez.nebula.client.impl.module.exploit.NoHungerModule;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
+import ez.nebula.client.util.minecraft.player.MoveUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -77,7 +80,7 @@ public final class JesusModule extends Module
             lastTickSpoof = true;
             event.setY(event.getY() + 0.01);
             event.setStance(event.getStance() + 0.01);
-            event.setOnGround(false);
+            event.setOnGround(NoHungerModule.INSTANCE.isToggled() && NoHungerModule.INSTANCE.groundSetting.getValue());
             return;
         }
         lastTickSpoof = false;
