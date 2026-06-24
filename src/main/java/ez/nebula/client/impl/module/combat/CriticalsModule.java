@@ -99,7 +99,7 @@ public final class CriticalsModule extends Module
                 event.setOnGround(true);
                 modifyStage = -1;
                 timer.resetTime();
-                //FakePlayerCheat.INSTANCE.critFake();
+                FakePlayerModule.INSTANCE.critFake();
                 return;
             }
         }
