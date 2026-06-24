@@ -188,6 +188,11 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         sendPacketInstantly(packet, p_150732_2_);
     }
 
+    public void sendPacketInstantly(final Packet packet)
+    {
+        sendPacketInstantly(packet, new GenericFutureListener[0]);
+    }
+
     public void sendPacketInstantly(final Packet packet, final GenericFutureListener... futureListeners)
     {
         final EnumConnectionState packetState = EnumConnectionState.getStateForPacket(packet);

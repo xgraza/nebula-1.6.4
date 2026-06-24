@@ -4,6 +4,7 @@
 
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.api.listener.IEventPriorities;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.impl.module.movement.SpeedModule;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
@@ -61,7 +62,7 @@ public final class CriticalsModule extends Module
         modifyStage = -1;
     }
 
-    @Subscribe
+    @Subscribe(priority = IEventPriorities.MEDIUM)
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
         if (modifyStage == -1)
@@ -172,18 +173,20 @@ public final class CriticalsModule extends Module
                 }
                 case PACKET:
                 {
-                    MC.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
-                            MC.thePlayer.posX,
-                            MC.thePlayer.boundingBox.minY + 0.1,
-                            MC.thePlayer.posY + 0.100000004768371,
-                            MC.thePlayer.posZ,
-                            false));
-                    MC.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
-                            MC.thePlayer.posX,
-                            MC.thePlayer.boundingBox.minY,
-                            MC.thePlayer.posY,
-                            MC.thePlayer.posZ,
-                            false));
+                    MC.thePlayer.sendQueue.getNetworkManager().sendPacketInstantly(
+                            new C03PacketPlayer.C04PacketPlayerPosition(
+                                MC.thePlayer.posX,
+                                MC.thePlayer.boundingBox.minY + 0.1,
+                                MC.thePlayer.posY + 0.100000004768371,
+                                MC.thePlayer.posZ,
+                                false));
+                    MC.thePlayer.sendQueue.getNetworkManager().sendPacketInstantly(
+                            new C03PacketPlayer.C04PacketPlayerPosition(
+                                    MC.thePlayer.posX,
+                                    MC.thePlayer.boundingBox.minY,
+                                    MC.thePlayer.posY,
+                                    MC.thePlayer.posZ,
+                                    false));
                     FakePlayerModule.INSTANCE.critFake();
                     break;
                 }

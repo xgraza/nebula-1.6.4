@@ -9,4 +9,5 @@ public interface IEventPriorities
     int LOW = -10;
     int DEFAULT = 0;
     int MEDIUM = 10;
+    int HIGHEST = Integer.MAX_VALUE;
 }

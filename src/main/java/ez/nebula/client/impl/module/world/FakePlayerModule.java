@@ -181,7 +181,7 @@ public final class FakePlayerModule extends Module
         }
     };
 
-    @Subscribe(priority = IEventPriorities.LOW)
+    @Subscribe(priority = IEventPriorities.HIGHEST)
     private final EventListener<EventPacket.Outbound> outboundEventListener = event ->
     {
         if (event.getPacket() instanceof C02PacketUseEntity)
