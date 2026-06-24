@@ -38,7 +38,7 @@ public final class NotifierModule extends Module
             .setDescription("If to notify you when another player enters your render distance")
             .build();
     private final Setting<Boolean> takeDamageSetting = builder("Take Damage", false)
-            .setDescription("If to notify you when you have taken damage")
+            .setDescription("If to notify you when you have taken damage when not focused on the game")
             .build();
     private final Setting<Boolean> pearlsSetting = builder("Pearls", false)
             .setDescription("If to notify you when a pearl is thrown")
