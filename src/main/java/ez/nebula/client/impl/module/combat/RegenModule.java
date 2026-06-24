@@ -24,6 +24,12 @@ public final class RegenModule extends Module
             .setScale(0.5f)
             .setDescription("At what health to begin to regenerate health")
             .build();
+    private final Setting<Integer> packetsSetting = numberBuilder("Packets", 20)
+            .setMin(1)
+            .setMax(100)
+            .setScale(1)
+            .setDescription("How many packets to send in a tick to regenerate health")
+            .build();
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
@@ -32,10 +38,9 @@ public final class RegenModule extends Module
         {
             return;
         }
-        for (int i = 0; i < 20; ++i)
+        for (int i = 0; i < packetsSetting.getValue(); ++i)
         {
-            MC.thePlayer.sendQueue.addToSendQueue(
-                    new C03PacketPlayer(MC.thePlayer.onGround));
+            MC.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(MC.thePlayer.onGround));
         }
     };
 
