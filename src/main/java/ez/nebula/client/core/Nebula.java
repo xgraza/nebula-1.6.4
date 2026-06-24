@@ -3,13 +3,13 @@ package ez.nebula.client.core;
 import com.github.lunatrius.schematica.Schematica;
 import ez.nebula.client.BuildConfig;
 import ez.nebula.client.api.manager.waypoint.WaypointManager;
+import ez.nebula.client.api.tray.SystemNotifications;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.SplashTextProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import ez.nebula.client.api.config.ConfigManager;
 import ez.nebula.client.api.manager.account.AccountManager;
@@ -23,7 +23,6 @@ import ez.nebula.client.api.player.server.rotate.RotationManager;
 import ez.nebula.client.api.player.server.ServerManager;
 import ez.nebula.client.api.manager.toast.ToastManager;
 import ez.nebula.client.api.player.movement.MovementController;
-import ez.nebula.client.api.tray.NebulaTrayIcon;
 import ez.nebula.client.impl.gui.startup.LoadingScreen;
 import ez.nebula.client.util.render.RenderUtil;
 
@@ -49,7 +48,6 @@ public enum Nebula
 
     private final Executor executor = Executors.newFixedThreadPool(1);
 
-    private NebulaTrayIcon systemTray;
     private ConfigManager configManager;
     private KeyManager keyManager;
     private CommandManager commandManager;
@@ -122,8 +120,7 @@ public enum Nebula
         friendManager.init();
         waypointManager = new WaypointManager();
         waypointManager.init();
-        systemTray = new NebulaTrayIcon();
-        systemTray.init();
+        SystemNotifications.init();
 
         // init schematica
         Schematica.load();
@@ -279,11 +276,6 @@ public enum Nebula
     public ServerManager getServerManager()
     {
         return serverManager;
-    }
-
-    public NebulaTrayIcon getSystemTray()
-    {
-        return systemTray;
     }
 
     public MovementController getMovementController()

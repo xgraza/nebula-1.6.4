@@ -101,6 +101,11 @@ public class C08PacketPlayerBlockPlacement extends Packet
         return this.stack;
     }
 
+    public void setStack(ItemStack stack)
+    {
+        this.stack = stack;
+    }
+
     public float getFaceX()
     {
         return this.faceX;

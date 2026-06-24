@@ -1,6 +1,8 @@
 package ez.nebula.client.util.minecraft.player;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.monster.EntityGhast;
@@ -14,6 +16,11 @@ import net.minecraft.entity.passive.*;
  */
 public final class EntityUtil
 {
+    public static float getHealth(final EntityLivingBase entity)
+    {
+        return entity.getHealth() + entity.getAbsorptionAmount();
+    }
+
     public static boolean isEntityPassive(final Entity entity)
     {
         return !isEntityHostile(entity) &&

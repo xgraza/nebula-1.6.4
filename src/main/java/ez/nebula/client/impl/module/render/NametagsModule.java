@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.util.minecraft.player.EntityUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -295,7 +296,7 @@ public final class NametagsModule extends Module
 
         builder.append(" ");
 
-        final float health = player.getHealth() + player.getAbsorptionAmount();
+        final float health = EntityUtil.getHealth(player);
 
         if (health >= 20.0f)
         {

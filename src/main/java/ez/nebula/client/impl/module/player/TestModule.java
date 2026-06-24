@@ -1,9 +1,11 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.DebugFeature;
+import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.player.EventMove;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.util.minecraft.player.MoveUtil;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
@@ -22,46 +24,12 @@ import ez.nebula.client.util.render.RenderUtil;
 @ModuleManifest(name = "Test", category = ModuleCategory.PLAYER)
 public final class TestModule extends Module
 {
-    private boolean attemptExit, doJump;
-    private int inWaterTicks = 0;
-
     @Subscribe
-    private final EventListener<EventMove> moveEventListener = event ->
+    private final EventListener<EventPacket.Outbound> outboundEventListener = event ->
     {
-        if (MC.thePlayer.isInWater())
+        if (event.getPacket() instanceof C08PacketPlayerBlockPlacement)
         {
-            if (++inWaterTicks < 3)
-            {
-                ChatUtil.sendNebula("Water ticks: %s", inWaterTicks);
-                return;
-            }
-            attemptExit = true;
-            MC.thePlayer.motionY = 0.11f;
-            event.setY(MC.thePlayer.motionY);
-            doJump = false;
-        } else
-        {
-            inWaterTicks = 0;
-            if (attemptExit)
-            {
-                MC.thePlayer.motionY = 0.3;
-                event.setY(MC.thePlayer.motionY);
-                attemptExit = false;
-            } else
-            {
-                MC.thePlayer.onGround = true;
-                if (!doJump)
-                {
-                    doJump = true;
-                    //MC.thePlayer.motionY = 0.3f;
-                } else
-                {
-                    if (MoveUtil.isMoving())
-                    {
-                        //MoveUtil.setSpeed(event, 0.2);
-                    }
-                }
-            }
+            ((C08PacketPlayerBlockPlacement) event.getPacket()).setStack(null);
         }
     };
 }

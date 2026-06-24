@@ -1,6 +1,9 @@
 package ez.nebula.client.impl.module.player;
 
+import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.tray.SystemNotifications;
+import ez.nebula.client.util.minecraft.player.EntityUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.S0EPacketSpawnObject;
 import net.minecraft.util.EnumChatFormatting;
@@ -48,13 +51,13 @@ public final class NotifierModule extends Module
             .build();
 
     private final Map<Integer, Timer> playerPearlTimerMap = new ConcurrentHashMap<>();
-    private float previousHealth;
+    private float previousHealth = -1.0f;
 
     @Override
     public void onDisable()
     {
         super.onDisable();
-        previousHealth = 0.0f;
+        previousHealth = -1.0f;
         playerPearlTimerMap.clear();
     }
 
@@ -91,19 +94,17 @@ public final class NotifierModule extends Module
 
             // find closest entity to pearl
             final EntityPlayer thrownByPlayer = MC.theWorld.getClosestPlayer(x, y, z, -1);
-
             if (thrownByPlayer != null)
             {
                 if (pearlDelaySetting.getValue() > 0.0)
                 {
-                    final Timer timer = playerPearlTimerMap.computeIfAbsent(
-                            thrownByPlayer.getEntityId(),
-                            (__) -> new Timer());
-                    if (!timer.hasElapsed((long) (pearlDelaySetting.getValue() * 1000.0)))
+                    final Timer timer = playerPearlTimerMap.get(thrownByPlayer.getEntityId());
+                    if (timer != null && !timer.hasElapsed((long) (pearlDelaySetting.getValue() * 1000.0)))
                     {
                         return;
                     }
-                    timer.resetTime();
+                    playerPearlTimerMap.computeIfAbsent(
+                            thrownByPlayer.getEntityId(), (__) -> new Timer());
                 }
 
                 notify(String.format("A pearl was thrown by %s at XYZ: %.1f, %.1f, %.1f",
@@ -118,23 +119,29 @@ public final class NotifierModule extends Module
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (previousHealth == 0.0f)
+        if (MC.thePlayer.getHealth() > 0.0f)
         {
-            previousHealth = MC.thePlayer.getHealth();
+            final float playerHealth = EntityUtil.getHealth(MC.thePlayer);
+            if (takeDamageSetting.getValue() && previousHealth != -1.0f && previousHealth > playerHealth && !Display.isActive())
+            {
+                notify(String.format("You have taken damage! Health: %.1f", playerHealth));
+            }
+            previousHealth = playerHealth;
         }
-        if (takeDamageSetting.getValue() && previousHealth > MC.thePlayer.getHealth() && !MC.inGameHasFocus)
-        {
-            previousHealth = MC.thePlayer.getHealth();
-            notify(String.format("You have taken damage! Health: %.1f", MC.thePlayer.getHealth()));
-        }
+    };
+
+    @Subscribe
+    private final EventListener<EventChangeWorld> changeWorldEventListener = event ->
+    {
+        playerPearlTimerMap.clear();
+        previousHealth = -1.0f;
     };
 
     private void notify(final String text)
     {
-        if (!Display.isActive() && Nebula.INSTANCE.getSystemTray().isActive())
+        if (!Display.isActive())
         {
-            Nebula.INSTANCE.getSystemTray().notify(
-                    EnumChatFormatting.getTextWithoutFormattingCodes(text));
+            SystemNotifications.info("Nebula Notifier", EnumChatFormatting.getTextWithoutFormattingCodes(text));
         } else
         {
             notifyWarn(text, 7500L);

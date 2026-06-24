@@ -841,7 +841,7 @@ public class Minecraft
             this.mcSoundHandler.func_147685_d();
         } finally
         {
-            Nebula.INSTANCE.getSystemTray().destroy();
+            // Nebula.INSTANCE.getSystemTray().destroy();
             Display.destroy();
 
             if (!this.hasCrashed)
