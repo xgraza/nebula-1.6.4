@@ -63,7 +63,6 @@ public final class InvWalkModule extends Module
         {
             return;
         }
-        MC.currentScreen.allowUserInput = true;
         for (final KeyBinding keyBinding : moveKeyBindings)
         {
             final int keyCode = keyBinding.getKeyCode();
