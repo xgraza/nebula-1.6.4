@@ -71,7 +71,7 @@ public final class JesusModule extends Module
         }
 
         if (MC.thePlayer.ticksExisted % 2 == 0
-                && MC.thePlayer.groundTicks >= 2
+                && MC.thePlayer.groundTicks > 2
                 && !MC.gameSettings.keyBindJump.pressed)
         {
             lastTickSpoof = true;
