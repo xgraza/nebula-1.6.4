@@ -6,6 +6,7 @@ import ez.nebula.client.api.tray.SystemNotifications;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S0EPacketSpawnObject;
 import net.minecraft.util.EnumChatFormatting;
 import ez.nebula.client.core.Nebula;
@@ -49,6 +50,9 @@ public final class NotifierModule extends Module
             .setScale(0.05)
             .setDescription("How long in seconds before notifying about another pearl thrown from the same player")
             .setVisibility((value) -> pearlsSetting.getValue())
+            .build();
+    private final Setting<Boolean> messageSetting = builder("Message", false)
+            .setDescription("If to notify you if another player messages you in game while not focused on the game")
             .build();
 
     private final Map<Integer, Timer> playerPearlTimerMap = new ConcurrentHashMap<>();
@@ -115,6 +119,17 @@ public final class NotifierModule extends Module
             } else
             {
                 notify(String.format("A pearl was thrown at XYZ: %.1f, %.1f, %.1f", x, y, z));
+            }
+        }
+        if (event.getPacket() instanceof S02PacketChat && messageSetting.getValue())
+        {
+            final S02PacketChat packet = event.getPacket();
+            final String raw = packet.getMessage().getUnformattedText();
+            if (!raw.startsWith("<") && raw.contains(" whispers: ") && !Display.isActive())
+            {
+                final String[] parts = raw.trim().split(" ");
+                final String username = parts[0];
+                notify(username + " sent you a private message!");
             }
         }
     };
