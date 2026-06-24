@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.combat;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 import ez.nebula.client.api.listener.EventListener;
@@ -19,10 +20,13 @@ import ez.nebula.client.api.setting.Setting;
         category = ModuleCategory.COMBAT)
 public final class VelocityModule extends Module
 {
+    @ModuleInstance
+    public static VelocityModule INSTANCE;
+
     private final Setting<Boolean> knockbackSetting = builder("Knockback", true)
             .setDescription("If to ignore knockback (i.e. player attacks)")
             .build();
-    private final Setting<Boolean> explosionSetting = builder("Explosions", true)
+    public final Setting<Boolean> explosionSetting = builder("Explosions", true)
             .setDescription("If to ignore explosion knockback (i.e. creeper explosions)")
             .build();
 
@@ -41,12 +45,6 @@ public final class VelocityModule extends Module
                 return;
             }
             event.cancel();
-        } else if (event.getPacket() instanceof S27PacketExplosion)
-        {
-            if (explosionSetting.getValue())
-            {
-                event.cancel();
-            }
         }
     };
 }

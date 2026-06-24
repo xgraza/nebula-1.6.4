@@ -1,6 +1,7 @@
 package net.minecraft.client.network;
 
 import com.google.common.base.Charsets;
+import ez.nebula.client.impl.module.combat.VelocityModule;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
@@ -854,9 +855,12 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         Explosion var2 = new Explosion(this.gameController.theWorld, null, p_147283_1_.func_149148_f(), p_147283_1_.func_149143_g(), p_147283_1_.func_149145_h(), p_147283_1_.func_149146_i());
         var2.affectedBlockPositions = p_147283_1_.func_149150_j();
         var2.doExplosionB(true);
-        this.gameController.thePlayer.motionX += p_147283_1_.getX();
-        this.gameController.thePlayer.motionY += p_147283_1_.getY();
-        this.gameController.thePlayer.motionZ += p_147283_1_.getZ();
+        if (!VelocityModule.INSTANCE.isToggled() || !VelocityModule.INSTANCE.explosionSetting.getValue())
+        {
+            this.gameController.thePlayer.motionX += p_147283_1_.getX();
+            this.gameController.thePlayer.motionY += p_147283_1_.getY();
+            this.gameController.thePlayer.motionZ += p_147283_1_.getZ();
+        }
     }
 
     /**
