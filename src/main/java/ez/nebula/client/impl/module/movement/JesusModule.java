@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.movement;
 
+import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.util.AxisAlignedBB;
@@ -63,7 +64,7 @@ public final class JesusModule extends Module
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (isNotAboveWater() || MC.thePlayer.isInWater())
+        if (!PlayerUtil.isAboveWater() || MC.thePlayer.isInWater())
         {
             lastTickSpoof = false;
             return;
@@ -88,7 +89,7 @@ public final class JesusModule extends Module
         if (MC.thePlayer == null
                 || MC.thePlayer.fallDistance > 3.0f
                 || MC.thePlayer.isInWater()
-                || isNotAboveWater()
+                || !PlayerUtil.isAboveWater()
                 || attemptExit)
         {
             return;
@@ -99,24 +100,4 @@ public final class JesusModule extends Module
             event.setAabb(LIQUID_FULL_AABB.copy().offset(event.getX(), event.getY(), event.getZ()));
         }
     };
-
-    private boolean isNotAboveWater()
-    {
-        if (MC.thePlayer.isInWater())
-        {
-            return true;
-        }
-        for (double y = 0.0; y <= 1.0; y += 0.1)
-        {
-            final Block block = MC.theWorld.getBlock(
-                    (int) Math.floor(MC.thePlayer.posX),
-                    (int) Math.floor(MC.thePlayer.boundingBox.minY - y),
-                    (int) Math.floor(MC.thePlayer.posZ));
-            if (block instanceof BlockLiquid)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
 }

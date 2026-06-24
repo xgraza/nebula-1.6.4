@@ -7,6 +7,7 @@ package ez.nebula.client.impl.module.combat;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.impl.module.movement.SpeedModule;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
+import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.C02PacketUseEntity;
@@ -133,7 +134,8 @@ public final class CriticalsModule extends Module
                     || MC.thePlayer.isOnLadder()
                     || MC.thePlayer.isInWater()
                     || MC.thePlayer.isInWeb
-                    || MC.thePlayer.isPotionActive(Potion.blindness))
+                    || MC.thePlayer.isPotionActive(Potion.blindness)
+                    || PlayerUtil.isAboveWater())
             {
                 return;
             }

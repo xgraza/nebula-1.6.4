@@ -1,5 +1,7 @@
 package ez.nebula.client.util.minecraft.player;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.src.BlockPos;
@@ -46,6 +48,26 @@ public final class PlayerUtil
         return new BlockPos(MathHelper.floor_double(MC.thePlayer.posX),
                 MathHelper.floor_double(MC.thePlayer.boundingBox.minY),
                 MathHelper.floor_double(MC.thePlayer.posZ));
+    }
+
+    public static boolean isAboveWater()
+    {
+        if (MC.thePlayer.isInWater())
+        {
+            return false;
+        }
+        for (double y = 0.0; y <= 1.0; y += 0.1)
+        {
+            final Block block = MC.theWorld.getBlock(
+                    (int) Math.floor(MC.thePlayer.posX),
+                    (int) Math.floor(MC.thePlayer.boundingBox.minY - y),
+                    (int) Math.floor(MC.thePlayer.posZ));
+            if (block instanceof BlockLiquid)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isPlayerCollided(final BlockPos pos)
