@@ -63,6 +63,9 @@ public final class NoRenderModule extends Module
     public final Setting<Boolean> nauseaSetting = builder("Nausea", false)
             .setDescription("If to remove the warp camera effect when in a portal or the nausea effect is active")
             .build();
+    public final Setting<Boolean> explosionsSetting = builder("Explosions", false)
+            .setDescription("If to remove the explosion render")
+            .build();
 
     @Subscribe
     private final EventListener<EventRenderWaterEffects> renderWaterEffectsEventListener = event ->

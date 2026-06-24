@@ -1,6 +1,7 @@
 package net.minecraft.client.renderer;
 
 import com.google.common.collect.Maps;
+import ez.nebula.client.impl.module.render.NoRenderModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.material.Material;
@@ -2669,13 +2670,13 @@ public class RenderGlobal implements IWorldAccess
 
             if (par1Str.equals("hugeexplosion"))
             {
-                if (Config.isAnimatedExplosion())
+                if (Config.isAnimatedExplosion() && !(NoRenderModule.INSTANCE.isToggled() && NoRenderModule.INSTANCE.explosionsSetting.getValue()))
                 {
                     this.mc.effectRenderer.addEffect(var21 = new EntityHugeExplodeFX(this.theWorld, par2, par4, par6, par8, par10, par12));
                 }
             } else if (par1Str.equals("largeexplode"))
             {
-                if (Config.isAnimatedExplosion())
+                if (Config.isAnimatedExplosion() && !(NoRenderModule.INSTANCE.isToggled() && NoRenderModule.INSTANCE.explosionsSetting.getValue()))
                 {
                     this.mc.effectRenderer.addEffect(var21 = new EntityLargeExplodeFX(this.renderEngine, this.theWorld, par2, par4, par6, par8, par10, par12));
                 }
@@ -2791,7 +2792,7 @@ public class RenderGlobal implements IWorldAccess
                         var21 = new EntityEnchantmentTableParticleFX(this.theWorld, par2, par4, par6, par8, par10, par12);
                     } else if (par1Str.equals("explode"))
                     {
-                        if (Config.isAnimatedExplosion())
+                        if (Config.isAnimatedExplosion() && !(NoRenderModule.INSTANCE.isToggled() && NoRenderModule.INSTANCE.explosionsSetting.getValue()))
                         {
                             var21 = new EntityExplodeFX(this.theWorld, par2, par4, par6, par8, par10, par12);
                         }
