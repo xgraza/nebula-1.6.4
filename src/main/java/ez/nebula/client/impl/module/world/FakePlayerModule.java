@@ -339,6 +339,11 @@ public final class FakePlayerModule extends Module
         return fakePlayerEntity == null || fakePlayerEntity.isDead || fakePlayerEntity.dimension != MC.thePlayer.dimension;
     }
 
+    public int getFakePlayerEntityID()
+    {
+        return fakePlayerEntity == null ? -1 : fakePlayerEntity.getEntityId();
+    }
+
     private static final class Movement
     {
         private final double x, y, z;

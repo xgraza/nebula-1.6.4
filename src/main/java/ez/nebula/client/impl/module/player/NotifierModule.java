@@ -3,6 +3,7 @@ package ez.nebula.client.impl.module.player;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.tray.SystemNotifications;
+import ez.nebula.client.impl.module.world.FakePlayerModule;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.S0EPacketSpawnObject;
@@ -69,7 +70,9 @@ public final class NotifierModule extends Module
                 && !event.isPreviousExisting())
         {
             final EntityPlayer player = (EntityPlayer) event.getEntity();
-            if (Nebula.INSTANCE.getFriendManager().isFriend(player))
+            if (Nebula.INSTANCE.getFriendManager().isFriend(player)
+                    || player.getEntityId() == FreecamModule.CAMERA_ENTITY_ID
+                    || player.getEntityId() == FakePlayerModule.INSTANCE.getFakePlayerEntityID())
             {
                 return;
             }
