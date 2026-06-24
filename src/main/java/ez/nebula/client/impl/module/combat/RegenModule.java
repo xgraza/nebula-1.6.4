@@ -22,7 +22,7 @@ public final class RegenModule extends Module
             .setMin(1.0f)
             .setMax(19.5f)
             .setScale(0.5f)
-            .setDescription("At what health should you automatically be logged off")
+            .setDescription("At what health to begin to regenerate health")
             .build();
 
     @Subscribe
