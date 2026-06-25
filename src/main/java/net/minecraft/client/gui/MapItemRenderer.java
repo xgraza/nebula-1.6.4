@@ -35,7 +35,7 @@ public class MapItemRenderer
         this.func_148248_b(p_148250_1_).func_148237_a(p_148250_2_);
     }
 
-    private MapItemRenderer.Instance func_148248_b(MapData p_148248_1_)
+    public MapItemRenderer.Instance func_148248_b(MapData p_148248_1_)
     {
         MapItemRenderer.Instance var2 = (MapItemRenderer.Instance) this.field_148252_c.get(p_148248_1_.mapName);
 
@@ -61,10 +61,10 @@ public class MapItemRenderer
         this.field_148252_c.clear();
     }
 
-    class Instance
+    public class Instance
     {
         private final MapData field_148242_b;
-        private final DynamicTexture field_148243_c;
+        public final DynamicTexture field_148243_c;
         private final ResourceLocation field_148240_d;
         private final int[] field_148241_e;
         private static final String __OBFID = "CL_00000665";

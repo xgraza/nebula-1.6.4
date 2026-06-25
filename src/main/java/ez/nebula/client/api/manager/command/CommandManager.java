@@ -47,6 +47,7 @@ public final class CommandManager implements ITypedManager<Command>
     {
         EventBus.subscribe(this);
         register(new BindCommand());
+        register(new DownloadMapCommand());
         register(new FriendCommand());
         register(new HelpCommand());
         register(new PingCommand());

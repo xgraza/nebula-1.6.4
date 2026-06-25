@@ -16,7 +16,7 @@ public class MapStorage
     /**
      * Map of item data String id to loaded MapDataBases
      */
-    private final Map loadedDataMap = new HashMap();
+    public final Map loadedDataMap = new HashMap();
 
     /**
      * List of loaded MapDataBases.
