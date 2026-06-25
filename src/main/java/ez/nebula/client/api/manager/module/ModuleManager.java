@@ -102,6 +102,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new YawModule());
         registerModule(new AppleSkinModule());
         registerModule(new BetterF3Module());
+        registerModule(new BreadcrumbsModule());
         registerModule(new CameraClipModule());
         registerModule(new ChamsModule());
         registerModule(new ChatModifierModule());
