@@ -177,6 +177,10 @@ public final class BreadcrumbsModule extends Module
 
     private boolean isValidEntity(final Entity entity)
     {
+        if (!MC.getNetHandler().doneLoadingTerrain)
+        {
+            return false;
+        }
         if (entity instanceof EntityPlayer)
         {
             if (!playersSetting.getValue())
