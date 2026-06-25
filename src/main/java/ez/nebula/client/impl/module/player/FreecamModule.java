@@ -67,11 +67,18 @@ public final class FreecamModule extends Module
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (MC.thePlayer.isDead || MC.thePlayer.getHealth() <= 0.0f)
+        if (MC.thePlayer.isDead
+                || MC.thePlayer.getHealth() <= 0.0f
+                || (playerEntity != null && playerEntity.dimension != MC.thePlayer.dimension))
         {
             MC.renderViewEntity = MC.thePlayer;
             MC.theWorld.removeEntityFromWorld(CAMERA_ENTITY_ID);
             playerEntity = null;
+            return;
+        }
+
+        if (!MC.getNetHandler().doneLoadingTerrain)
+        {
             return;
         }
 
