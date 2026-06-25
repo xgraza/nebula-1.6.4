@@ -117,6 +117,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new HUDModule());
         registerModule(new ItemPhysicsModule());
         registerModule(new ItemTweaksModule());
+        registerModule(new LogoutSpotsModule());
         registerModule(new NameProtectModule());
         registerModule(new NametagsModule());
         registerModule(new NoRenderModule());
