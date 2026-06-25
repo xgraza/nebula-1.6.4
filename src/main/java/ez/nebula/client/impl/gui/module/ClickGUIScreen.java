@@ -71,7 +71,7 @@ public final class ClickGUIScreen extends GuiScreen
 //            categoryPanels.add(configPanel);
 //        }
 
-        MAX_PANEL_HEIGHT = height - 30 - 26.0;
+        MAX_PANEL_HEIGHT = height - 20 - DEFAULT_PANEL_Y;
 
         oldWidth = width;
         oldHeight = height;
