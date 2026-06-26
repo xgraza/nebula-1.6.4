@@ -6,8 +6,8 @@ public enum EnumFacing
     UP(1, 0, 0, 1, 0),
     NORTH(2, 3, 0, 0, -1),
     SOUTH(3, 2, 0, 0, 1),
-    EAST(4, 5, -1, 0, 0),
-    WEST(5, 4, 1, 0, 0);
+    WEST(4, 5, -1, 0, 0),
+    EAST(5, 4, 1, 0, 0);
 
     /**
      * Face order for D-U-N-S-E-W.
