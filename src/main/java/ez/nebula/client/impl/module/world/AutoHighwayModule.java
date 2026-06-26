@@ -85,6 +85,8 @@ public final class AutoHighwayModule extends Module
             .setDescription("If to automatically walk when building a highway")
             .build();
 
+    private List<BlockPos> highwayPositionList;
+
     private BlockInfo breakInfo;
     private int prevSlot = -1;
     private boolean walk;
@@ -120,6 +122,15 @@ public final class AutoHighwayModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
+//        for (final BlockPos pos : highwayPositionList)
+//        {
+//            final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
+//                    pos.getX(), pos.getY(), pos.getZ()), 1);
+//
+//            RenderUtil.renderFilledAABB(aabb, QuadMask.ALL_FACES, 0x8000FF00);
+//            RenderUtil.renderOutlinedAABB(aabb, 1.5f, QuadMask.ALL_FACES, 0xFF00FF00);
+//        }
+
         if (breakInfo == null)
         {
             return;
@@ -137,20 +148,13 @@ public final class AutoHighwayModule extends Module
         if (autoWalkSetting.getValue())
         {
             event.getInput().moveForward = walk ? 1.0f : 0.0f;
-        } else
-        {
-            if (walk)
-            {
-                event.getInput().moveForward = 0.0f;
-                walk = false;
-            }
         }
     };
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        final List<BlockPos> highwayPositionList = getHighwayPositions();
+        highwayPositionList = getHighwayPositions();
         if (highwayPositionList.isEmpty())
         {
             walk = false;
@@ -173,14 +177,14 @@ public final class AutoHighwayModule extends Module
             }
             // nothing to break, give control back
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+            walk = false;
 
             if (prevSlot != -1)
             {
                 MC.thePlayer.inventory.currentItem = prevSlot;
                 prevSlot = -1;
+                return; // wait a tick before trying to place again
             }
-
-            walk = false;
         }
 
         final int slot = InventoryUtil.getSlot(0, 9,
