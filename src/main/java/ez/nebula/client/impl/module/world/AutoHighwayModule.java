@@ -1,283 +1,360 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.input.EventUpdateInput;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.player.InteractionManager;
+import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.api.setting.block.BlockSetting;
+import ez.nebula.client.api.setting.block.BlockValue;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.util.math.AngleUtil;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
+import ez.nebula.client.util.minecraft.player.PlayerUtil;
+import ez.nebula.client.util.minecraft.world.BlockInfo;
+import ez.nebula.client.util.minecraft.world.BlockUtil;
+import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.init.Blocks;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import ez.nebula.client.core.Nebula;
-import ez.nebula.client.api.player.InteractionManager;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.QuadMask;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.util.minecraft.player.InventoryUtil;
-import ez.nebula.client.util.minecraft.player.PlayerUtil;
-import ez.nebula.client.util.render.RenderUtil;
-import ez.nebula.client.util.minecraft.world.BlockInfo;
-import ez.nebula.client.util.minecraft.world.BlockUtil;
+import net.minecraft.util.Vec3;
 
-import java.util.LinkedHashSet;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author xgraza
- * @since 04/29/25
+ * @since 06/26/26
  */
 @ModuleManifest(name = "AutoHighway",
-        description = "Automatically builds a walkable highway with the block in your hand",
+        description = "Automatically builds a walkable highway",
         category = ModuleCategory.WORLD)
 public final class AutoHighwayModule extends Module
 {
-    private final Setting<Integer> blocksSetting = numberBuilder("Blocks", 2)
-            .setMin(1)
-            .setMax(4)
-            .setScale(1)
-            .setDescription("How many blocks ahead to search and place")
+    private final Setting<BlockValue> blockSetting = blockBuilder("Block")
+            .setBlock(Blocks.obsidian)
+            .setDescription("The kind of block to make a highway with")
             .build();
-
-    private final Setting<Integer> blockPlacesSetting = numberBuilder("Blocks/Tick", 5)
+    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+            .setMin(1.0)
+            .setMax(6.0)
+            .setScale(0.1)
+            .setDescription("The range to break and place at")
+            .build();
+    private final Setting<Boolean> excavateSetting = builder("Excavate", true)
+            .setDescription("If to mine out space")
+            .build();
+    private final Setting<Integer> excavateHeightSetting = numberBuilder("Excavate Height", 3)
+            .setMin(2)
+            .setMax(5)
+            .setScale(1)
+            .setDescription("The height from the player origin to mine")
+            .build();
+    private final Setting<Boolean> onlyBlockSetting = builder("Mine non selected", false)
+            .setDescription("If when excavating to mine blocks on highway path positions that are not the selected block type")
+            .build();
+    private final Setting<Integer> blocksPerTickSetting = numberBuilder("Blocks per Tick", 3)
             .setMin(1)
-            .setMax(10)
+            .setMax(20)
             .setScale(1)
             .setDescription("How many blocks to place per tick")
             .build();
-    private final Setting<Boolean> supportingBlocksSetting = builder("Support Blocks", false)
-            .setDescription("If to place blocks to support highway blocks")
+    private final Setting<Integer> sizeSetting = numberBuilder("Size", 1)
+            .setMin(1)
+            .setMax(3)
+            .setScale(1)
+            .setDescription("The width in blocks on each side for the highway")
             .build();
-    private final Setting<Boolean> breakSetting = builder("Break Blocks", true)
-            .setDescription("If to break blocks in the path of the highway to be replaced with the highway block")
+    private final Setting<Integer> lengthSetting = numberBuilder("Length", 4)
+            .setMin(1)
+            .setMax(6)
+            .setScale(1)
+            .setDescription("The length of highway to build ahead of you")
+            .build();
+    private final Setting<Boolean> autoWalkSetting = builder("Auto Walk", false)
+            .setDescription("If to automatically walk when building a highway")
             .build();
 
-    private final Queue<BlockPos> positionQueue = new ConcurrentLinkedQueue<>();
-    private final Queue<BlockInfo> breakPositionQueue = new ConcurrentLinkedQueue<>();
-    private BlockPos currentBlockPos;
     private BlockInfo breakInfo;
+    private int prevSlot = -1;
+    private boolean walk;
 
     @Override
     public void onDisable()
     {
         super.onDisable();
-        positionQueue.clear();
-        breakPositionQueue.clear();
-        currentBlockPos = null;
-
-        if (breakInfo != null && MC.playerController.isHittingBlock)
+        if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            if (prevSlot != -1)
+            {
+                MC.thePlayer.inventory.currentItem = prevSlot;
+            } else
+            {
+                Nebula.INSTANCE.getInventoryManager().syncSlot();
+            }
+            if (walk)
+            {
+                MC.thePlayer.movementInput.moveForward = 0.0f;
+            }
+        }
+        if (breakInfo != null && MC.theWorld != null)
+        {
             MC.playerController.resetBlockRemoving();
         }
+        prevSlot = -1;
         breakInfo = null;
+        walk = false;
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
     }
 
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
-        if (currentBlockPos != null)
+        if (breakInfo == null)
         {
-            RenderUtil.renderFilledAABB(new AxisAlignedBB(currentBlockPos), QuadMask.ALL_FACES, 0x80FF0000);
+            return;
         }
-        if (breakInfo != null)
+        final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
+                breakInfo.getPos().getX(), breakInfo.getPos().getY(), breakInfo.getPos().getZ()), 1);
+
+        RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(breakInfo.getFacing()), 0x80FF0000);
+        RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(breakInfo.getFacing()), 0xFFFF0000);
+    };
+
+    @Subscribe
+    private final EventListener<EventUpdateInput> updateInputEventListener = event ->
+    {
+        if (autoWalkSetting.getValue())
         {
-            RenderUtil.renderFilledAABB(new AxisAlignedBB(breakInfo.getPos()), QuadMask.ALL_FACES, 0x800000FF);
+            event.getInput().moveForward = walk ? 1.0f : 0.0f;
+        } else
+        {
+            if (walk)
+            {
+                event.getInput().moveForward = 0.0f;
+                walk = false;
+            }
         }
     };
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (breakSetting.getValue() && !breakPositionQueue.isEmpty())
+        final List<BlockPos> highwayPositionList = getHighwayPositions();
+        if (highwayPositionList.isEmpty())
         {
-            if (breakInfo == null)
-            {
-                breakInfo = breakPositionQueue.poll();
-                return;
-            }
-            final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(breakInfo.getPos()));
-            if (slot != -1)
-            {
-                Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-            }
-            if (InteractionManager.INSTANCE.breakBlock(breakInfo.getPos(), breakInfo.getFacing()))
-            {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
-                breakInfo = null;
-            }
+            walk = false;
             return;
         }
 
-        if (positionQueue.size() <= 5)
+        final List<BlockInfo> excavatePositionList = getExcavatePositions(highwayPositionList);
+        // break blocks first, can't place blocks where theres already blocks, duh!
+        if (!excavatePositionList.isEmpty() && excavateSetting.getValue())
         {
-            queuePositions();
+            walk = false;
+            excavate(excavatePositionList);
+            return;
+        } else
+        {
+            if (breakInfo != null)
+            {
+                MC.playerController.resetBlockRemoving();
+                breakInfo = null;
+            }
+            // nothing to break, give control back
+            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+
+            if (prevSlot != -1)
+            {
+                MC.thePlayer.inventory.currentItem = prevSlot;
+                prevSlot = -1;
+            }
+
+            walk = false;
         }
 
-        for (int i = 0; i < blockPlacesSetting.getValue(); ++i)
+        final int slot = InventoryUtil.getSlot(0, 9,
+                (stack) -> ((BlockSetting) blockSetting).isBlock(stack));
+        if (slot == -1)
         {
-            // find first block slot
-            final int slot = getBlockSlot();
-            if (slot == -1)
-            {
-                break;
-            }
+            walk = false;
+            return;
+        }
 
-            final BlockPos pos = positionQueue.poll();
-            // early return if null, meeans queue is empty
-            if (pos == null)
+        walk = true;
+
+        int blocksPlaced = 0;
+        for (final BlockPos highwayPos : highwayPositionList)
+        {
+            if (!BlockUtil.isReplaceable(highwayPos))
             {
-                break;
-            }
-            if (!BlockUtil.isReplaceable(pos))
-            {
-                final Block blockType = ((ItemBlock) MC.thePlayer.inventory.getStackInSlot(slot).getItem()).getBlock();
-                final Block block = MC.theWorld.getBlock(pos);
-                if (breakSetting.getValue() && !block.equals(blockType))
-                {
-                    addBlocksToBreak(pos);
-                    break;
-                }
                 continue;
             }
-            placeBlock(pos, slot);
+            final BlockInfo info = BlockUtil.getPlacement(highwayPos);
+            if (info != null)
+            {
+                Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+                if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true))
+                {
+                    ++blocksPlaced;
+                }
+            }
+
+            if (blocksPlaced >= blocksPerTickSetting.getValue())
+            {
+                break;
+            }
+        }
+
+        if (blocksPlaced > 0)
+        {
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
     };
 
-    private void addBlocksToBreak(final BlockPos origin)
+    private void excavate(final List<BlockInfo> excavatePosList)
     {
-        final Set<BlockInfo> breakInfoSet = new LinkedHashSet<>();
-        final EnumFacing opposite = BlockUtil.getOpposite(PlayerUtil.getFacing());
-        if (isValidBlock(origin))
+        if (breakInfo != null)
         {
-            breakInfoSet.add(new BlockInfo(origin, opposite));
-        }
-
-        // check at least 2 blocks above
-        for (int y = origin.getY(); y <= MathHelper.floor_double(MC.thePlayer.boundingBox.minY) + 2; y++)
-        {
-            final BlockPos pos = new BlockPos(origin.getX(), y, origin.getZ());
-            if (isValidBlock(pos))
+            final BlockPos pos = breakInfo.getPos();
+            if (MC.thePlayer.getDistance(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5)
+                        > rangeSetting.getValue()
+                    || BlockUtil.isReplaceable(pos))
             {
-                breakInfoSet.add(new BlockInfo(pos, opposite));
-            }
-        }
-
-        for (final BlockInfo blockInfo : breakInfoSet)
-        {
-            if (!breakPositionQueue.contains(blockInfo))
+                MC.playerController.resetBlockRemoving();
+                breakInfo = null;
+            } else
             {
-                breakPositionQueue.add(blockInfo);
-            }
-        }
-    }
-
-    private boolean isValidBlock(final BlockPos pos)
-    {
-        final Block block = MC.theWorld.getBlock(pos);
-        return block != null && !block.getMaterial().isReplaceable() && block.blockHardness != -1;
-    }
-
-    private void placeBlock(final BlockPos pos, final int slot)
-    {
-        final BlockInfo info = getBlockInfo(pos);
-        if (info == null)
-        {
-            return;
-        }
-        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        InteractionManager.INSTANCE.rightClickBlock(
-                info.getPos(), info.getFacing(), true);
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
-    }
-
-    private BlockInfo getBlockInfo(final BlockPos pos)
-    {
-        for (final EnumFacing facing : EnumFacing.values())
-        {
-            final BlockPos neighbor = BlockUtil.offset(pos, facing);
-            if (!BlockUtil.isReplaceable(neighbor))
-            {
-                return new BlockInfo(neighbor, BlockUtil.getOpposite(facing));
-            }
-        }
-
-        for (final EnumFacing facing : EnumFacing.values())
-        {
-            final BlockPos neighbor = BlockUtil.offset(pos, facing);
-            if (BlockUtil.isReplaceable(neighbor))
-            {
-                for (final EnumFacing side : EnumFacing.values())
+                swapToBestBlockSlot(pos);
+                if (InteractionManager.INSTANCE.breakBlock(pos, breakInfo.getFacing()))
                 {
-                    final BlockPos n = BlockUtil.offset(neighbor, side);
-                    if (!BlockUtil.isReplaceable(n))
+                    MC.playerController.resetBlockRemoving();
+                    breakInfo = null;
+                } else
+                {
+                    return;
+                }
+            }
+        }
+
+        final BlockInfo info = excavatePosList.get(0);
+        swapToBestBlockSlot(info.getPos());
+        InteractionManager.INSTANCE.breakBlock(info.getPos(), info.getFacing());
+        breakInfo = info;
+    }
+
+    private void swapToBestBlockSlot(final BlockPos pos)
+    {
+        final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
+        if (slot != -1)
+        {
+            if (prevSlot == -1)
+            {
+                prevSlot = MC.thePlayer.inventory.currentItem;
+            }
+            MC.thePlayer.inventory.currentItem = slot;
+        }
+    }
+
+    private List<BlockInfo> getExcavatePositions(final List<BlockPos> highwayPosList)
+    {
+        final int maxY = MathHelper.floor_double(MC.thePlayer.boundingBox.minY) + excavateHeightSetting.getValue();
+        final List<BlockInfo> posList = new LinkedList<>();
+        for (final BlockPos highwayPos : highwayPosList)
+        {
+            Block block = MC.theWorld.getBlock(highwayPos);
+            if (((BlockSetting) blockSetting).getBlock() != block
+                    && block.blockHardness != -1.0f
+                    && !BlockUtil.isReplaceable(highwayPos)
+                    && onlyBlockSetting.getValue())
+            {
+                final BlockInfo info = getBreakInfo(highwayPos);
+                if (info != null)
+                {
+                    posList.add(info);
+                }
+            }
+
+            for (int y = 1; y <= excavateHeightSetting.getValue() + 1; ++y)
+            {
+                if (highwayPos.getY() + y > maxY)
+                {
+                    continue;
+                }
+                final BlockPos pos = highwayPos.offset(EnumFacing.UP, y);
+                block = MC.theWorld.getBlock(pos);
+                if (!block.getMaterial().isReplaceable() && block.blockHardness != -1.0f)
+                {
+                    final BlockInfo info = getBreakInfo(pos);
+                    if (info != null)
                     {
-                        return new BlockInfo(n, BlockUtil.getOpposite(side));
+                        posList.add(info);
                     }
                 }
             }
         }
-        return null;
-    }
-
-    private int getBlockSlot()
-    {
-        final ItemStack itemStack = MC.thePlayer.getHeldItem();
-        if (itemStack != null && itemStack.getItem() instanceof ItemBlock)
+        if (!posList.isEmpty())
         {
-            return MC.thePlayer.inventory.currentItem;
+            posList.sort(Comparator.comparingDouble((info) ->
+                    MC.thePlayer.getDistance(
+                            info.getPos().getX() + 0.5, info.getPos().getY() + 1.0, info.getPos().getZ() + 0.5)));
         }
-        return InventoryUtil.getHotbarSlot(InventoryUtil.BLOCK_FILTER);
+        return posList;
     }
 
-    private void queuePositions()
+    private BlockInfo getBreakInfo(final BlockPos pos)
     {
-        final BlockPos origin = PlayerUtil.getOrigin().down();
+        if (MC.thePlayer.getDistance(
+                pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5) > rangeSetting.getValue())
+        {
+            return null;
+        }
+        final EnumFacing face = AngleUtil.getVisibleFace(pos, 6.0);
+        if (face == null)
+        {
+            return null;
+        }
+        return new BlockInfo(pos, face);
+    }
+
+    private List<BlockPos> getHighwayPositions()
+    {
+        final List<BlockPos> highwayPositionList = new LinkedList<>();
         final EnumFacing facing = PlayerUtil.getFacing();
-        final Set<BlockPos> positionSet = new LinkedHashSet<>();
         final BlockPos[] adjacent = BlockUtil.getAdjacent(facing);
         if (adjacent == null)
         {
-            return;
+            return highwayPositionList;
         }
 
-        final BlockPos vec = BlockUtil.getFacingVec(facing);
-
-        for (int offset = 0; offset < blocksSetting.getValue(); ++offset)
+        for (int b = 0; b < lengthSetting.getValue() + 1; ++b)
         {
-            final BlockPos pos = origin.add(vec.getX() * (offset + 1),
-                    0, vec.getZ() * (offset + 1));
-            positionSet.add(pos);
-            positionSet.add(pos.add(adjacent[0].getX(), 0, adjacent[0].getZ()));
-            positionSet.add(pos.add(adjacent[1].getX(), 0, adjacent[1].getZ()));
-
-            if (supportingBlocksSetting.getValue())
+            final BlockPos origin = PlayerUtil.getOrigin().offset(facing, b).down();
+            highwayPositionList.add(origin);
+            for (final BlockPos adjacentPos : adjacent)
             {
-                positionSet.add(pos.add(adjacent[0].getX() * 2, 0, adjacent[0].getZ() * 2));
-                positionSet.add(pos.add(adjacent[1].getX() * 2, 0, adjacent[1].getZ() * 2));
-            }
-            positionSet.add(pos.add(adjacent[0].getX() * 2, 1, adjacent[0].getZ() * 2));
-            positionSet.add(pos.add(adjacent[1].getX() * 2, 1, adjacent[1].getZ() * 2));
-        }
+                for (int i = 0; i < sizeSetting.getValue(); ++i)
+                {
+                    highwayPositionList.add(origin.add(adjacentPos.getX() * (i + 1),
+                            0, adjacentPos.getZ() * (i + 1)));
+                }
 
-        if (positionSet.isEmpty())
-        {
-            return;
-        }
-        for (final BlockPos pos : positionSet)
-        {
-            if (!positionQueue.contains(pos))
-            {
-                positionQueue.add(pos);
+                // this will now add our "rails"
+                highwayPositionList.add(origin.add(adjacentPos.getX() * (sizeSetting.getValue() + 1),
+                        1, adjacentPos.getZ() * (sizeSetting.getValue() + 1)));
             }
         }
+
+        return highwayPositionList;
     }
 }
