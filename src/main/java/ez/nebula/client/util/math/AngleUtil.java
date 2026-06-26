@@ -70,7 +70,7 @@ public final class AngleUtil
                 Vec3 var5 = getLookVec(angles[0], angles[1]);
                 Vec3 var6 = var4.addVector(var5.xCoord * reach, var5.yCoord * reach, var5.zCoord * reach);
                 final double distance = var6.distanceTo(Vec3.createVectorHelper(neighbor.getX() + 0.5, neighbor.getY() + 0.5, neighbor.getZ() + 0.5));
-                ChatUtil.sendNebula("dist: %.1f", distance);
+                // ChatUtil.sendNebula("dist: %.1f", distance);
                 if (strict && distance > reach)
                 {
                     continue;
