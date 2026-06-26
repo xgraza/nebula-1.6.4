@@ -138,6 +138,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new AutoTorchModule());
         registerModule(new AutoTreeModule());
         registerModule(new AutoTunnelModule());
+        registerModule(new AutoWitherModule());
         registerModule(new ChestStealerModule());
         registerModule(new FakePlayerModule());
         registerModule(new FlattenModule());

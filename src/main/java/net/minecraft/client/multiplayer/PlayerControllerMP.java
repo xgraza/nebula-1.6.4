@@ -1,5 +1,6 @@
 package net.minecraft.client.multiplayer;
 
+import ez.nebula.client.api.listener.event.world.EventPlace;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -379,6 +380,11 @@ public class PlayerControllerMP
      */
     public boolean onPlayerRightClick(EntityPlayer player, World world, ItemStack stack, int x, int y, int z, int side, Vec3 hitVec)
     {
+        if (EventBus.dispatch(new EventPlace(x, y, z, side, stack, hitVec)))
+        {
+            return false;
+        }
+
         //ChatUtil.sendNebula("XYZ: (%s, %s, %s), Side: %s, Vec: %s", x, y, z, side, hitVec);
         syncCurrentPlayItem();
         final float facingX = (float) hitVec.xCoord - (float) x;
