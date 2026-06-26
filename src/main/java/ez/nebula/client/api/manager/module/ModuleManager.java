@@ -134,6 +134,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new AutoFarmModule());
         registerModule(new AutoFishModule());
         registerModule(new AutoHighwayModule());
+        registerModule(new AutoTagModule());
         registerModule(new AutoToolModule());
         registerModule(new AutoTorchModule());
         registerModule(new AutoTreeModule());
