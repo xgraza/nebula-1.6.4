@@ -20,6 +20,7 @@ import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSign;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.src.BlockPos;
@@ -84,6 +85,9 @@ public final class AutoHighwayModule extends Module
     private final Setting<Boolean> autoWalkSetting = builder("Auto Walk", false)
             .setDescription("If to automatically walk when building a highway")
             .build();
+    private final Setting<Boolean> preserveSignsSetting = builder("Preserve Signs", false)
+            .setDescription("If to attempt to not break signs")
+            .build();
 
     private List<BlockPos> highwayPositionList;
 
@@ -116,6 +120,10 @@ public final class AutoHighwayModule extends Module
         prevSlot = -1;
         breakInfo = null;
         walk = false;
+        if (highwayPositionList != null)
+        {
+            highwayPositionList.clear();
+        }
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
     }
 
@@ -282,7 +290,7 @@ public final class AutoHighwayModule extends Module
                     && !BlockUtil.isReplaceable(highwayPos)
                     && onlyBlockSetting.getValue())
             {
-                final BlockInfo info = getBreakInfo(highwayPos);
+                final BlockInfo info = getBreakInfo(highwayPos, block);
                 if (info != null)
                 {
                     posList.add(info);
@@ -299,7 +307,7 @@ public final class AutoHighwayModule extends Module
                 block = MC.theWorld.getBlock(pos);
                 if (!block.getMaterial().isReplaceable() && block.blockHardness != -1.0f)
                 {
-                    final BlockInfo info = getBreakInfo(pos);
+                    final BlockInfo info = getBreakInfo(pos, block);
                     if (info != null)
                     {
                         posList.add(info);
@@ -316,12 +324,27 @@ public final class AutoHighwayModule extends Module
         return posList;
     }
 
-    private BlockInfo getBreakInfo(final BlockPos pos)
+    private BlockInfo getBreakInfo(final BlockPos pos, final Block block)
     {
         if (MC.thePlayer.getDistance(
                 pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5) > rangeSetting.getValue())
         {
             return null;
+        }
+        if (preserveSignsSetting.getValue())
+        {
+            if (block instanceof BlockSign)
+            {
+                return null;
+            }
+            for (final EnumFacing face : EnumFacing.values())
+            {
+                final BlockPos neighbor = pos.offset(face);
+                if (MC.theWorld.getBlock(neighbor) instanceof BlockSign)
+                {
+                    return null;
+                }
+            }
         }
         final EnumFacing face = AngleUtil.getVisibleFace(pos, 6.0);
         if (face == null)
