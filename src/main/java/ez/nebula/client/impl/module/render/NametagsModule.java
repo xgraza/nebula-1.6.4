@@ -74,7 +74,7 @@ public final class NametagsModule extends Module
     private final Setting<Boolean> droppedItemsSetting = builder("Dropped Items", false)
             .setDescription("If to display what dropped items are")
             .build();
-    private final Setting<Boolean> namedMobsSetting = builder("Named Mobs", false)
+    private final Setting<Boolean> namedMobsSetting = builder("Named Mobs", true)
             .setDescription("If to show a mobs custom name tag if it has one")
             .build();
 
@@ -98,7 +98,7 @@ public final class NametagsModule extends Module
                 continue;
             }
 
-            // only three entities we want
+            // only four/five entities we want
             if (!(entity instanceof EntityPlayer
                     || entity instanceof EntityTameable
                     || entity instanceof EntityHorse
