@@ -5,6 +5,7 @@ import ez.nebula.client.util.minecraft.player.EntityUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityTameable;
@@ -73,6 +74,9 @@ public final class NametagsModule extends Module
     private final Setting<Boolean> droppedItemsSetting = builder("Dropped Items", false)
             .setDescription("If to display what dropped items are")
             .build();
+    private final Setting<Boolean> namedMobsSetting = builder("Named Mobs", false)
+            .setDescription("If to show a mobs custom name tag if it has one")
+            .build();
 
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
@@ -86,13 +90,22 @@ public final class NametagsModule extends Module
             }
             if ((!playersSetting.getValue() && entity instanceof EntityPlayer)
                     || (!tamedMobsSetting.getValue() && (entity instanceof EntityTameable || entity instanceof EntityHorse))
-                    || (!droppedItemsSetting.getValue() && entity instanceof EntityItem))
+                    || (!droppedItemsSetting.getValue() && entity instanceof EntityItem)
+                    || (!namedMobsSetting.getValue()
+                        && entity instanceof EntityLiving
+                        && ((EntityLiving) entity).hasCustomNameTag()))
             {
                 continue;
             }
 
             // only three entities we want
-            if (!(entity instanceof EntityPlayer || entity instanceof EntityTameable || entity instanceof EntityHorse || entity instanceof EntityItem))
+            if (!(entity instanceof EntityPlayer
+                    || entity instanceof EntityTameable
+                    || entity instanceof EntityHorse
+                    || entity instanceof EntityItem
+                    || (namedMobsSetting.getValue()
+                        && entity instanceof EntityLiving
+                        && ((EntityLiving) entity).hasCustomNameTag())))
             {
                 continue;
             }
@@ -251,14 +264,38 @@ public final class NametagsModule extends Module
     {
         if (entity instanceof EntityTameable)
         {
-            return ((EntityTameable) entity).getOwnerName();
+            String text = ((EntityTameable) entity).getOwnerName();
+            if (namedMobsSetting.getValue())
+            {
+                String mobName = getCustomTag(entity);
+                if (mobName != null && !mobName.isEmpty())
+                {
+                    text = EnumChatFormatting.ITALIC
+                            + mobName
+                            + EnumChatFormatting.RESET
+                            + " (" + text + ")";
+                }
+            }
+            return text;
         } else if (entity instanceof EntityHorse)
         {
             if (entity.equals(MC.thePlayer.ridingEntity))
             {
                 return "";
             }
-            return ((EntityHorse) entity).getOwnerName();
+            String text = ((EntityHorse) entity).getOwnerName();
+            if (namedMobsSetting.getValue())
+            {
+                String horseName = getCustomTag(entity);
+                if (horseName != null && !horseName.isEmpty())
+                {
+                    text = EnumChatFormatting.ITALIC
+                            + horseName
+                            + EnumChatFormatting.RESET
+                            + " (" + text + ")";
+                }
+            }
+            return text;
         } else if (entity instanceof EntityItem)
         {
             final EntityItem entityItem = (EntityItem) entity;
@@ -270,50 +307,74 @@ public final class NametagsModule extends Module
                       + EnumChatFormatting.RED
                       + " x"
                       + itemStack.stackSize;
-        }
-        final EntityPlayer player = (EntityPlayer) entity;
-        final StringBuilder builder = new StringBuilder();
-
-        if (pingSetting.getValue())
+        } else if (entity instanceof EntityPlayer)
         {
-            builder.append(EnumChatFormatting.GRAY);
-            builder.append(NetworkUtil.getLatency(player));
-            builder.append("ms ");
+            final EntityPlayer player = (EntityPlayer) entity;
+            final StringBuilder builder = new StringBuilder();
+
+            if (pingSetting.getValue())
+            {
+                builder.append(EnumChatFormatting.GRAY);
+                builder.append(NetworkUtil.getLatency(player));
+                builder.append("ms ");
+                builder.append(EnumChatFormatting.RESET);
+            }
+
+            if (Nebula.INSTANCE.getFriendManager().isFriend(player)
+                    || player == MC.thePlayer)
+            {
+                builder.append(EnumChatFormatting.AQUA);
+            }
+            if (player.isSneaking())
+            {
+                builder.append(EnumChatFormatting.GOLD);
+            }
+            builder.append(player.func_145748_c_().getFormattedText());
             builder.append(EnumChatFormatting.RESET);
+
+            builder.append(" ");
+
+            final float health = EntityUtil.getHealth(player);
+
+            if (health >= 20.0f)
+            {
+                builder.append(EnumChatFormatting.GREEN);
+            } else if (health >= 10.0f)
+            {
+                builder.append(EnumChatFormatting.YELLOW);
+            } else if (health >= 8.0f)
+            {
+                builder.append(EnumChatFormatting.RED);
+            } else
+            {
+                builder.append(EnumChatFormatting.DARK_RED);
+            }
+
+            builder.append(String.format("%.1f", health));
+
+            return builder.toString();
+        } else if (entity instanceof EntityLiving)
+        {
+            if (namedMobsSetting.getValue())
+            {
+                String text = getCustomTag(entity);
+                if (text != null && !text.isEmpty())
+                {
+                    return EnumChatFormatting.ITALIC + text;
+                }
+            }
         }
 
-        if (Nebula.INSTANCE.getFriendManager().isFriend(player)
-                || player == MC.thePlayer)
+        return "";
+    }
+
+    private String getCustomTag(final Entity entity)
+    {
+        if (entity instanceof EntityLiving)
         {
-            builder.append(EnumChatFormatting.AQUA);
+            final EntityLiving living = (EntityLiving) entity;
+            return living.hasCustomNameTag() ? living.getCustomNameTag() : "";
         }
-        if (player.isSneaking())
-        {
-            builder.append(EnumChatFormatting.GOLD);
-        }
-        builder.append(player.func_145748_c_().getFormattedText());
-        builder.append(EnumChatFormatting.RESET);
-
-        builder.append(" ");
-
-        final float health = EntityUtil.getHealth(player);
-
-        if (health >= 20.0f)
-        {
-            builder.append(EnumChatFormatting.GREEN);
-        } else if (health >= 10.0f)
-        {
-            builder.append(EnumChatFormatting.YELLOW);
-        } else if (health >= 8.0f)
-        {
-            builder.append(EnumChatFormatting.RED);
-        } else
-        {
-            builder.append(EnumChatFormatting.DARK_RED);
-        }
-
-        builder.append(String.format("%.1f", health));
-
-        return builder.toString();
+        return "";
     }
 }
