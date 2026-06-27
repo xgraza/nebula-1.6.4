@@ -5,6 +5,7 @@ import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.player.EventMove;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.util.minecraft.player.MoveUtil;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
@@ -29,7 +30,10 @@ public final class TestModule extends Module
     {
         if (event.getPacket() instanceof C08PacketPlayerBlockPlacement)
         {
-            ((C08PacketPlayerBlockPlacement) event.getPacket()).setStack(null);
+            ChatUtil.sendNebula("sent C08");
+        } else if (event.getPacket() instanceof C07PacketPlayerDigging)
+        {
+            ChatUtil.sendNebula("sent c07");
         }
     };
 }

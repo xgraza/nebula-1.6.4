@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockBed;
@@ -174,6 +175,11 @@ public final class AutoBedModule extends Module
         }
         calculatePlacePosition();
         if (blockInfo.getPos() == null || blockInfo.getFacing() == null)
+        {
+            return;
+        }
+
+        if (AutoEatModule.INSTANCE.isActive() || AutoPotModule.INSTANCE.isActive())
         {
             return;
         }

@@ -2,10 +2,13 @@ package net.minecraft.entity.player;
 
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.player.EventItemUseFinish;
 import ez.nebula.client.impl.module.player.AntiRevertModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -466,6 +469,10 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
             }
 
             this.clearItemInUse();
+            if (equals(Minecraft.getMinecraft().thePlayer))
+            {
+                EventBus.dispatch(new EventItemUseFinish(itemInUse));
+            }
         }
     }
 

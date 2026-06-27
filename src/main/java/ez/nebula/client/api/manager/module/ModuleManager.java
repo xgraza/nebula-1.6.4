@@ -85,6 +85,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new AntiDisconnectModule());
         registerModule(new AntiLagModule());
         registerModule(new AntiRevertModule());
+        registerModule(new AutoEatModule());
         registerModule(new AutoReconnectModule());
         registerModule(new AutoRespawnModule());
         registerModule(new FreecamModule());

@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.combat;
 
 import com.google.common.collect.Lists;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.impl.module.player.AutoEatModule;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -105,6 +106,12 @@ public final class AutoPotModule extends Module
 
         // we cannot override AutoBed, as we need to spoof rotations to properly place the bed in the direction we want
         if (AutoBedModule.INSTANCE.isActive() || MC.thePlayer.ridingEntity != null)
+        {
+            return;
+        }
+
+        // if we are not trying to save our life, we can allow auto eat to override us
+        if (AutoEatModule.INSTANCE.isActive() && !isLowHealth())
         {
             return;
         }
@@ -275,7 +282,7 @@ public final class AutoPotModule extends Module
         return slot;
     }
 
-    private boolean isLowHealth()
+    public boolean isLowHealth()
     {
         return MC.thePlayer.getHealth() <= healthSetting.getValue();
     }

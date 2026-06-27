@@ -16,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -368,7 +367,7 @@ public class EntityWolf extends EntityTameable
                             --var2.stackSize;
                         }
 
-                        this.heal((float) var3.func_150905_g(var2));
+                        this.heal((float) var3.getHealAmount(var2));
 
                         if (var2.stackSize <= 0)
                         {

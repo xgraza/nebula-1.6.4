@@ -13,6 +13,9 @@ import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.core.Nebula;
+import ez.nebula.client.impl.module.combat.AutoBedModule;
+import ez.nebula.client.impl.module.combat.KillAuraModule;
+import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
@@ -153,7 +156,9 @@ public final class AutoHighwayModule extends Module
     @Subscribe
     private final EventListener<EventUpdateInput> updateInputEventListener = event ->
     {
-        if (autoWalkSetting.getValue())
+        if (autoWalkSetting.getValue()
+                // imagine dying because autohighway wouldnt let you run lol
+                && !KillAuraModule.INSTANCE.isAttacking() && !AutoBedModule.INSTANCE.isActive())
         {
             event.getInput().moveForward = walk ? 1.0f : 0.0f;
         }
@@ -162,6 +167,12 @@ public final class AutoHighwayModule extends Module
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
+        if (AutoEatModule.INSTANCE.isActive() || KillAuraModule.INSTANCE.isAttacking() || AutoBedModule.INSTANCE.isActive())
+        {
+            prevSlot = -1;
+            return;
+        }
+
         highwayPositionList = getHighwayPositions();
         if (highwayPositionList.isEmpty())
         {

@@ -24,13 +24,13 @@ public class ItemFishFood extends ItemFood
         this.field_150907_b = p_i45338_1_;
     }
 
-    public int func_150905_g(ItemStack p_150905_1_)
+    public int getHealAmount(ItemStack p_150905_1_)
     {
         ItemFishFood.FishType var2 = ItemFishFood.FishType.func_150978_a(p_150905_1_);
         return this.field_150907_b && var2.func_150973_i() ? var2.func_150970_e() : var2.func_150975_c();
     }
 
-    public float func_150906_h(ItemStack p_150906_1_)
+    public float getSaturation(ItemStack p_150906_1_)
     {
         ItemFishFood.FishType var2 = ItemFishFood.FishType.func_150978_a(p_150906_1_);
         return this.field_150907_b && var2.func_150973_i() ? var2.func_150977_f() : var2.func_150967_d();

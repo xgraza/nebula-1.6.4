@@ -41,7 +41,7 @@ public class FoodStats
 
     public void func_151686_a(ItemFood p_151686_1_, ItemStack p_151686_2_)
     {
-        this.addStats(p_151686_1_.func_150905_g(p_151686_2_), p_151686_1_.func_150906_h(p_151686_2_));
+        this.addStats(p_151686_1_.getHealAmount(p_151686_2_), p_151686_1_.getSaturation(p_151686_2_));
     }
 
     /**

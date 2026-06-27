@@ -5,10 +5,12 @@
 package net.minecraft.client;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.api.listener.event.game.EventBindStopUse;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import ez.nebula.client.impl.gui.module.ClickGUIScreen;
 import ez.nebula.client.impl.module.player.AutoReconnectModule;
 import ez.nebula.client.impl.module.render.UnfocusedCPUModule;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -1923,7 +1925,7 @@ public class Minecraft
 
             if (thePlayer != null && this.thePlayer.isUsingItem())
             {
-                if (!this.gameSettings.keyBindUseItem.getIsKeyPressed())
+                if (!this.gameSettings.keyBindUseItem.getIsKeyPressed() && !EventBus.dispatch(new EventBindStopUse()))
                 {
                     this.playerController.onStoppedUsingItem(this.thePlayer);
                 }

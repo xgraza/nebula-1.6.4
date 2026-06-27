@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -135,7 +136,7 @@ public final class KillAuraModule extends Module
         {
             target = getNextTarget();
         }
-        if (target == null || AutoPotModule.INSTANCE.isActive())
+        if (target == null || AutoPotModule.INSTANCE.isActive() || AutoEatModule.INSTANCE.isActive())
         {
             if (blocking)
             {

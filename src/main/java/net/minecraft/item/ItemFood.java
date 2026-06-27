@@ -109,12 +109,12 @@ public class ItemFood extends Item
         return par1ItemStack;
     }
 
-    public int func_150905_g(ItemStack p_150905_1_)
+    public int getHealAmount(ItemStack p_150905_1_)
     {
         return this.healAmount;
     }
 
-    public float func_150906_h(ItemStack p_150906_1_)
+    public float getSaturation(ItemStack p_150906_1_)
     {
         return this.saturationModifier;
     }
