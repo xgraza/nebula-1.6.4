@@ -214,7 +214,7 @@ public final class AutoHighwayModule extends Module
             return;
         }
 
-        walk = true;
+        //walk = true;
 
         int blocksPlaced = 0;
         for (final BlockPos highwayPos : highwayPositionList)
@@ -241,7 +241,11 @@ public final class AutoHighwayModule extends Module
 
         if (blocksPlaced > 0)
         {
+            walk = false;
             Nebula.INSTANCE.getInventoryManager().syncSlot();
+        } else
+        {
+            walk = true;
         }
     };
 
