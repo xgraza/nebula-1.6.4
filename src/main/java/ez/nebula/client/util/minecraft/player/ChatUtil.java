@@ -7,6 +7,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import ez.nebula.client.core.Nebula;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author xgraza
  * @since 02/15/25
@@ -31,16 +34,10 @@ public final class ChatUtil
             EnumChatFormatting.DARK_GREEN,
             EnumChatFormatting.RESET);
 
-    public static void sendFormatted(final String chatPrefix, String content, final Object... format)
+    public static void sendFormatted(final List<IChatComponent> componentList)
     {
-        content = content.replaceAll("(?i)&([0-9A-FK-ORZ])", "§$1");
-        content = String.format(content, format);
-
-        final String[] lines = content.split("\n");
-        for (final String line : lines)
+        for (final IChatComponent component : componentList)
         {
-            final IChatComponent component = createBaseChatComponent(chatPrefix);
-            component.appendText(line);
             if (MC.ingameGUI == null || MC.thePlayer == null)
             {
                 Nebula.INSTANCE.getLogger().info(component);
@@ -51,15 +48,35 @@ public final class ChatUtil
         }
     }
 
+    public static void sendFormatted(final String chatPrefix, final String content, final Object... format)
+    {
+        sendFormatted(format(createBaseChatComponent(chatPrefix), content, format));
+    }
+
     public static void sendNebula(final String content, final Object... format)
     {
         sendFormatted(CHAT_PREFIX, content, format);
     }
 
+    public static List<IChatComponent> format(final IChatComponent parent, String content, final Object... format)
+    {
+        content = content.replaceAll("(?i)&([0-9A-FK-ORZ])", "§$1");
+        content = String.format(content, format);
+
+        final List<IChatComponent> componentList = new LinkedList<>();
+        final String[] lines = content.split("\n");
+        for (final String line : lines)
+        {
+            final IChatComponent component = parent == null ? new ChatComponentText("") : parent;
+            component.appendText(line);
+            componentList.add(component);
+        }
+
+        return componentList;
+    }
+
     private static IChatComponent createBaseChatComponent(final String chatPrefix)
     {
-        return new ChatComponentText(chatPrefix)
-                .setChatStyle(new ChatStyle()
-                        .setColor(EnumChatFormatting.GRAY));
+        return new ChatComponentText(chatPrefix).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GRAY));
     }
 }
