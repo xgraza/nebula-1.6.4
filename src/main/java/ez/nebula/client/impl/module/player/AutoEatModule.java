@@ -102,9 +102,10 @@ public final class AutoEatModule extends Module
         }
         use = true;
         // from Minecraft.java
-        if (!sentUse)
+        if (!sentUse || !MC.thePlayer.isUsingItem())
         {
-            MC.playerController.sendUseItem(MC.thePlayer, MC.theWorld, MC.thePlayer.inventory.getStackInSlot(slot));
+            // ChatUtil.sendNebula("started to use item");
+            MC.playerController.sendUseItem(MC.thePlayer, MC.theWorld, MC.thePlayer.getHeldItem());
             sentUse = true;
             MC.entityRenderer.itemRenderer.resetEquippedProgress();
         }
@@ -113,7 +114,7 @@ public final class AutoEatModule extends Module
     @Subscribe
     private final EventListener<EventBindStopUse> bindStopUseEventListener = event ->
     {
-        if (use)
+        if (use || sentUse)
         {
             event.cancel();
         }
@@ -122,10 +123,7 @@ public final class AutoEatModule extends Module
     @Subscribe
     private final EventListener<EventItemUseFinish> itemUseFinishEventListener = event ->
     {
-        if (shouldEat())
-        {
-            return;
-        }
+        // ChatUtil.sendNebula("finished using");
         sentUse = false;
     };
 
