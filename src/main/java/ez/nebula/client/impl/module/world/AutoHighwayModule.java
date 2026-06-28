@@ -72,7 +72,7 @@ public final class AutoHighwayModule extends Module
             .setMin(1)
             .setMax(20)
             .setScale(1)
-            .setDescription("How many blocks to place per tick")
+            .setDescription("How many blocks to place/break per tick")
             .build();
     private final Setting<Integer> sizeSetting = numberBuilder("Size", 1)
             .setMin(1)
@@ -270,6 +270,10 @@ public final class AutoHighwayModule extends Module
                 break;
             }
             ++i;
+            if (i + 1 > blocksPerTickSetting.getValue())
+            {
+                break;
+            }
         }
     }
 

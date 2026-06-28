@@ -2,6 +2,7 @@ package ez.nebula.client.util.minecraft.world;
 
 import com.google.common.collect.Lists;
 import ez.nebula.client.util.math.MathUtil;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.client.Minecraft;
