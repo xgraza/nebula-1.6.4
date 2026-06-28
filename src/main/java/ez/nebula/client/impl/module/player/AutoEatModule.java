@@ -77,17 +77,12 @@ public final class AutoEatModule extends Module
         final int slot = getFoodSlot();
         if (slot == -1)
         {
-            if (use)
-            {
-                use = false;
-                return;
-            }
             if (prevSlot != -1)
             {
                 MC.thePlayer.inventory.currentItem = prevSlot;
                 prevSlot = -1;
             }
-            sentUse = false;
+            use = sentUse = false;
             return;
         }
         if (slot != MC.thePlayer.inventory.currentItem)
