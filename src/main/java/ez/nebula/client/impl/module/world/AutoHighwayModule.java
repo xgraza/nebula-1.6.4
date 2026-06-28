@@ -310,7 +310,7 @@ public final class AutoHighwayModule extends Module
 
             for (int y = 1; y <= excavateHeightSetting.getValue() + 1; ++y)
             {
-                if (highwayPos.getY() + y > maxY)
+                if (highwayPos.getY() + y >= maxY)
                 {
                     continue;
                 }
