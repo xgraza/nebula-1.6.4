@@ -1,6 +1,9 @@
 package ez.nebula.client.api.player;
 
 import ez.nebula.client.impl.module.world.PacketMineModule;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
@@ -66,7 +69,8 @@ public final class InteractionManager
 
     public boolean breakBlock(final int x, final int y, final int z, final int face)
     {
-        if (MC.theWorld.isAirBlock(x, y, z))
+        final Block block = MC.theWorld.getBlock(x, y, z);
+        if (block == null || block.getMaterial() == Material.air)
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
             return true;
@@ -80,6 +84,13 @@ public final class InteractionManager
             MC.playerController.resetBlockRemoving();
             MC.playerController.clickBlock(x, y, z, face);
             MC.thePlayer.swingItem();
+
+            // this is from inside PlayerControllerMP#clickBlock, however since clickBlock doesn't return a bool...
+            if (block.getPlayerRelativeBlockHardness(MC.thePlayer, MC.theWorld, x, y, z) >= 1.0F)
+            {
+                PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+                return true;
+            }
         }
 
         if (PacketMineModule.INSTANCE.isToggled())

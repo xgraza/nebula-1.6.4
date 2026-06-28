@@ -17,6 +17,7 @@ import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.util.math.AngleUtil;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
@@ -133,15 +134,6 @@ public final class AutoHighwayModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
-//        for (final BlockPos pos : highwayPositionList)
-//        {
-//            final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
-//                    pos.getX(), pos.getY(), pos.getZ()), 1);
-//
-//            RenderUtil.renderFilledAABB(aabb, QuadMask.ALL_FACES, 0x8000FF00);
-//            RenderUtil.renderOutlinedAABB(aabb, 1.5f, QuadMask.ALL_FACES, 0xFF00FF00);
-//        }
-
         if (breakInfo == null)
         {
             return;
@@ -169,6 +161,7 @@ public final class AutoHighwayModule extends Module
     {
         if (AutoEatModule.INSTANCE.isActive() || KillAuraModule.INSTANCE.isAttacking() || AutoBedModule.INSTANCE.isActive())
         {
+            walk = false;
             prevSlot = -1;
             return;
         }
@@ -214,8 +207,6 @@ public final class AutoHighwayModule extends Module
             return;
         }
 
-        //walk = true;
-
         int blocksPlaced = 0;
         for (final BlockPos highwayPos : highwayPositionList)
         {
@@ -254,30 +245,32 @@ public final class AutoHighwayModule extends Module
         if (breakInfo != null)
         {
             final BlockPos pos = breakInfo.getPos();
-            if (MC.thePlayer.getDistance(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5)
-                        > rangeSetting.getValue()
-                    || BlockUtil.isReplaceable(pos))
-            {
-                MC.playerController.resetBlockRemoving();
-                breakInfo = null;
-            } else
+            if (!(MC.thePlayer.getDistance(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5)
+                    > rangeSetting.getValue())
+                    && !BlockUtil.isReplaceable(pos))
             {
                 swapToBestBlockSlot(pos);
-                if (InteractionManager.INSTANCE.breakBlock(pos, breakInfo.getFacing()))
-                {
-                    MC.playerController.resetBlockRemoving();
-                    breakInfo = null;
-                } else
+                if (!InteractionManager.INSTANCE.breakBlock(pos, breakInfo.getFacing()))
                 {
                     return;
                 }
             }
+            MC.playerController.resetBlockRemoving();
+            breakInfo = null;
         }
 
-        final BlockInfo info = excavatePosList.get(0);
-        swapToBestBlockSlot(info.getPos());
-        InteractionManager.INSTANCE.breakBlock(info.getPos(), info.getFacing());
-        breakInfo = info;
+        int i = 0;
+        while (i <= excavatePosList.size() - 1)
+        {
+            final BlockInfo info = excavatePosList.get(i);
+            swapToBestBlockSlot(info.getPos());
+            if (!InteractionManager.INSTANCE.breakBlock(info.getPos(), info.getFacing()))
+            {
+                breakInfo = info;
+                break;
+            }
+            ++i;
+        }
     }
 
     private void swapToBestBlockSlot(final BlockPos pos)
