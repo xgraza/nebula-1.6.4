@@ -17,7 +17,6 @@ import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.util.math.AngleUtil;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
@@ -351,10 +350,25 @@ public final class AutoHighwayModule extends Module
             }
             for (final EnumFacing face : EnumFacing.values())
             {
-                final BlockPos neighbor = pos.offset(face);
-                if (MC.theWorld.getBlock(neighbor) instanceof BlockSign)
+                // not much a sign can do with a downwards face..
+                if (face == EnumFacing.DOWN)
                 {
-                    return null;
+                    continue;
+                }
+                final BlockPos neighbor = pos.offset(face);
+                final Block offsetBlock = MC.theWorld.getBlock(neighbor);
+                if (offsetBlock instanceof BlockSign)
+                {
+                    // if the sign is a standing sign, and we have an up face
+                    if (((BlockSign) offsetBlock).field_149967_b && face == EnumFacing.UP)
+                    {
+                        return null;
+                    }
+                    final int meta = MC.theWorld.getBlockMetadata(neighbor.getX(), neighbor.getY(), neighbor.getZ());
+                    if (meta >= 2 && meta <= 5 && face == EnumFacing.faceList[meta])
+                    {
+                        return null;
+                    }
                 }
             }
         }
