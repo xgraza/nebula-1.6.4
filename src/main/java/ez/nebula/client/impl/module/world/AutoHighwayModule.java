@@ -145,11 +145,12 @@ public final class AutoHighwayModule extends Module
     };
 
     @Subscribe
-    private final EventListener<EventUpdateInput> updateInputEventListener = event ->
+    private final EventListener<EventUpdateInput.Post> updateInputEventListener = event ->
     {
         if (autoWalkSetting.getValue()
                 // imagine dying because autohighway wouldnt let you run lol
-                && !KillAuraModule.INSTANCE.isAttacking() && !AutoBedModule.INSTANCE.isActive())
+                && !KillAuraModule.INSTANCE.isAttacking() && !AutoBedModule.INSTANCE.isActive()
+                && event.getInput().equals(MC.thePlayer.movementInput))
         {
             event.getInput().moveForward = walk ? 1.0f : 0.0f;
         }

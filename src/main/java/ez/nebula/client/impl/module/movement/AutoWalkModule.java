@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.movement;
 
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.input.EventUpdateInput;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
@@ -20,14 +21,18 @@ public final class AutoWalkModule extends Module
     public void onDisable()
     {
         super.onDisable();
-        if (MC.gameSettings == null)
+        if (MC.thePlayer != null && !MC.gameSettings.keyBindForward.pressed)
         {
-            return;
+            MC.thePlayer.movementInput.moveForward = 0.0f;
         }
-        MC.gameSettings.keyBindForward.pressed = false;
     }
 
     @Subscribe
-    private final EventListener<EventUpdate> updateEventListener = event ->
-            MC.gameSettings.keyBindForward.pressed = true;
+    private final EventListener<EventUpdateInput.Post> postUpdateInputEventListener = event ->
+    {
+        if (event.getInput().equals(MC.thePlayer.movementInput))
+        {
+            event.getInput().moveForward = 1.0f;
+        }
+    };
 }

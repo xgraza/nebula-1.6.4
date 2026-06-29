@@ -199,9 +199,9 @@ public final class AutoTunnelModule extends Module
     };
 
     @Subscribe
-    private final EventListener<EventUpdateInput> updateInputEventListener = event ->
+    private final EventListener<EventUpdateInput.Post> postUpdateInputEventListener = event ->
     {
-        if (autoWalkSetting.getValue() && moveForward)
+        if (autoWalkSetting.getValue() && moveForward && event.getInput().equals(MC.thePlayer.movementInput))
         {
             // allow player to stop movement if they sneak
             if (event.getInput().sneak)

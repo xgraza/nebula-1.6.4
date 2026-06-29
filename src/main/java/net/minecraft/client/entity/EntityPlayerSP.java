@@ -169,13 +169,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
             boolean var3 = this.movementInput.moveForward >= var2;
 
             movementInput.updatePlayerMoveState();
-            if (EventBus.dispatch(new EventUpdateInput(movementInput)))
-            {
-                movementInput.moveForward = 0.0f;
-                movementInput.moveStrafe = 0.0f;
-                movementInput.jump = false;
-                movementInput.sneak = false;
-            }
 
             if (this.isUsingItem() && !this.isRiding())
             {

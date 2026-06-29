@@ -20,7 +20,6 @@ import ez.nebula.client.api.listener.event.input.EventRotateCamera;
 import ez.nebula.client.api.listener.event.input.EventUpdateInput;
 import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.player.EventRaytrace;
-import ez.nebula.client.api.listener.event.player.EventSneakSlowdown;
 import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
 import ez.nebula.client.util.minecraft.player.MoveUtil;
 
@@ -110,9 +109,18 @@ public final class FreecamModule extends Module
     @Subscribe
     private final EventListener<EventUpdateInput> updateInputEventListener = event ->
     {
-        if (playerEntity != null)
+        if (playerEntity != null && event.getInput().equals(MC.thePlayer.movementInput))
         {
             event.cancel();
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventUpdateInput.Post> postUpdateInputEventListener = event ->
+    {
+        if (playerEntity != null && event.getInput().equals(playerEntity.getInput()))
+        {
+            event.setModifySneaking(false);
         }
     };
 
@@ -125,15 +133,6 @@ public final class FreecamModule extends Module
             playerEntity.setAngles(event.getDiffYaw(), event.getDiffPitch());
             playerEntity.renderPitch = playerEntity.rotationPitch;
             playerEntity.rotationYawHead = playerEntity.rotationYaw;
-        }
-    };
-
-    @Subscribe
-    private final EventListener<EventSneakSlowdown> sneakSlowdownEventListener = event ->
-    {
-        if (playerEntity != null && event.getInput().equals(playerEntity.getInput()))
-        {
-            event.cancel();
         }
     };
 

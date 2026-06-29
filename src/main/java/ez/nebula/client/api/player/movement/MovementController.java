@@ -1,12 +1,12 @@
 package ez.nebula.client.api.player.movement;
 
+import ez.nebula.client.api.listener.event.input.EventUpdateInput;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.Vec3;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.player.movement.pathfinding.Pathfinder;
-import ez.nebula.client.api.listener.event.player.EventSneakSlowdown;
 
 import java.util.List;
 
@@ -113,7 +113,9 @@ public final class MovementController
         @Override
         public void updatePlayerMoveState()
         {
-            if (sneak && !EventBus.dispatch(new EventSneakSlowdown(this)))
+            final EventUpdateInput.Post event = new EventUpdateInput.Post(this);
+            EventBus.dispatch(event);
+            if (sneak && event.isModifySneaking())
             {
                 moveStrafe *= 0.3f;
                 moveForward *= 0.3f;

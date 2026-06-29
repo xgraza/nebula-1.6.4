@@ -1,8 +1,8 @@
 package net.minecraft.util;
 
+import ez.nebula.client.api.listener.event.input.EventUpdateInput;
 import net.minecraft.client.settings.GameSettings;
 import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.event.player.EventSneakSlowdown;
 
 public class MovementInputFromOptions extends MovementInput
 {
@@ -15,6 +15,16 @@ public class MovementInputFromOptions extends MovementInput
 
     public void updatePlayerMoveState()
     {
+        if (EventBus.dispatch(new EventUpdateInput(this)))
+        {
+            moveForward = 0;
+            moveStrafe = 0;
+            jump = false;
+            sneak = false;
+            EventBus.dispatch(new EventUpdateInput.Post(this));
+            return;
+        }
+
         this.moveStrafe = 0.0F;
         this.moveForward = 0.0F;
 
@@ -41,7 +51,10 @@ public class MovementInputFromOptions extends MovementInput
         this.jump = this.gameSettings.keyBindJump.getIsKeyPressed();
         this.sneak = this.gameSettings.keyBindSneak.getIsKeyPressed();
 
-        if (this.sneak && !EventBus.dispatch(new EventSneakSlowdown(this)))
+        final EventUpdateInput.Post event = new EventUpdateInput.Post(this);
+        EventBus.dispatch(event);
+
+        if (this.sneak && event.isModifySneaking())
         {
             this.moveStrafe = (float) ((double) this.moveStrafe * 0.3D);
             this.moveForward = (float) ((double) this.moveForward * 0.3D);

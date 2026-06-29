@@ -7,7 +7,7 @@ import ez.nebula.client.api.listener.Event;
  * @author xgraza
  * @since 03/24/25
  */
-public final class EventUpdateInput extends Event
+public class EventUpdateInput extends Event
 {
     private final MovementInput input;
 
@@ -19,5 +19,25 @@ public final class EventUpdateInput extends Event
     public MovementInput getInput()
     {
         return input;
+    }
+
+    public static final class Post extends EventUpdateInput
+    {
+        private boolean modifySneaking = true;
+
+        public Post(MovementInput input)
+        {
+            super(input);
+        }
+
+        public void setModifySneaking(boolean modifySneaking)
+        {
+            this.modifySneaking = modifySneaking;
+        }
+
+        public boolean isModifySneaking()
+        {
+            return modifySneaking;
+        }
     }
 }
