@@ -1,7 +1,9 @@
 package ez.nebula.client.impl.hud;
 
+import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.render.font.Fonts;
@@ -71,7 +73,10 @@ public final class CoordinatesHUDElement extends HUDElement
                 final String dir = DIRECTION_MAP.get(key);
 
                 builder.append(EnumChatFormatting.DARK_GRAY);
-                builder.append("(");
+                if (!axisSetting.getValue())
+                {
+                    builder.append("(");
+                }
                 if (shortenedSetting.getValue())
                 {
                     final String[] parts = dir.split(" ");
@@ -84,10 +89,33 @@ public final class CoordinatesHUDElement extends HUDElement
                 {
                     builder.append(dir);
                 }
-                builder.append(")");
+                if (!axisSetting.getValue())
+                {
+                    builder.append(")");
+                }
                 builder.append(EnumChatFormatting.RESET);
             }
             builder.append(" ");
+        }
+
+        if (axisSetting.getValue())
+        {
+            final EnumFacing face = PlayerUtil.getFacing();
+            builder.append(EnumChatFormatting.DARK_GRAY);
+            builder.append("(");
+            int offset;
+            if ((offset = face.getFrontOffsetX()) != 0)
+            {
+                builder.append(offset == -1 ? "-" : "+");
+                builder.append("X");
+            }
+            if ((offset = face.getFrontOffsetZ()) != 0)
+            {
+                builder.append(offset == -1 ? "-" : "+");
+                builder.append("Z");
+            }
+            builder.append(") ");
+            builder.append(EnumChatFormatting.RESET);
         }
 
         Vec3 pos = Vec3.createVectorHelper(MC.thePlayer.posX, MC.thePlayer.boundingBox.minY, MC.thePlayer.posZ);
