@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
+import net.minecraft.client.renderer.culling.Frustrum;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -78,9 +79,12 @@ public final class NametagsModule extends Module
             .setDescription("If to show a mobs custom name tag if it has one")
             .build();
 
+    private final Frustrum frustrum = new Frustrum();
+
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
+        frustrum.setPosition(MC.renderViewEntity.posX, MC.renderViewEntity.posY, MC.renderViewEntity.posZ);
         for (final Entity entity : MC.theWorld.loadedEntityList)
         {
             if (entity.getEntityId() == FreecamModule.CAMERA_ENTITY_ID
@@ -116,6 +120,12 @@ public final class NametagsModule extends Module
             }
 
             if (entity instanceof EntityHorse && ((EntityHorse) entity).getOwnerName() == null)
+            {
+                continue;
+            }
+
+            // don't render shit out of our view...
+            if (!frustrum.isBoundingBoxInFrustum(entity.boundingBox))
             {
                 continue;
             }
