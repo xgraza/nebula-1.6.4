@@ -61,8 +61,8 @@ public final class LogoutSpotsModule extends Module
             }
 
             final AxisAlignedBB bb = spot.bb;
-            RenderUtil.renderOutlinedAABB(bb, lineWidthSetting.getValue(), QuadMask.ALL_FACES, cs.getWithTransparency(255).getRGB());
-            RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, cs.getWithTransparency(120).getRGB());
+            RenderUtil.renderOutlinedAABB(bb, lineWidthSetting.getValue(), QuadMask.ALL_FACES, cs.getValueInt());
+            RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, cs.getValueInt(120));
 
             double x = (bb.minX + bb.maxX) / 2.0;
             double y = bb.maxY + 0.2;

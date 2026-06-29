@@ -159,7 +159,7 @@ public final class BreadcrumbsModule extends Module
                     continue;
                 }
 
-                RenderUtil.setGLColor(cs.getWithTransparency(alpha).getRGB());
+                RenderUtil.setGLColor(cs.getValueInt(alpha));
                 final Vec3 vec = breadcrumb.vec.addVector(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
                 glVertex3d(vec.xCoord, vec.yCoord, vec.zCoord);
             }

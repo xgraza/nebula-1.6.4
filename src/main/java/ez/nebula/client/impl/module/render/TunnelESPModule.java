@@ -93,7 +93,7 @@ public final class TunnelESPModule extends Module
         {
             final AxisAlignedBB bb = new AxisAlignedBB(pos);
             RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES,
-                    ((ColorSetting)HUDModule.INSTANCE.primaryColorSetting).getWithTransparency(60).getRGB());
+                    ((ColorSetting)HUDModule.INSTANCE.primaryColorSetting).getValueInt(60));
         }
     };
 

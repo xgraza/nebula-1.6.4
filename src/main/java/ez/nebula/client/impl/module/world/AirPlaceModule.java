@@ -65,7 +65,7 @@ public final class AirPlaceModule extends Module
         }
         final BlockPos pos = new BlockPos(result.blockX, result.blockY, result.blockZ);
         final EnumFacing facing = EnumFacing.faceList[result.sideHit];
-        final int color = ((ColorSetting) HUDModule.INSTANCE.primaryColorSetting).getWithTransparency(120).getRGB();
+        final int color = ((ColorSetting) HUDModule.INSTANCE.primaryColorSetting).getValueInt(120);
         RenderUtil.renderOutlinedAABB(new AxisAlignedBB(pos), 1.5f, QuadMask.getMask(facing), color);
         RenderUtil.renderFilledAABB(new AxisAlignedBB(pos), QuadMask.getMask(facing), color);
     };

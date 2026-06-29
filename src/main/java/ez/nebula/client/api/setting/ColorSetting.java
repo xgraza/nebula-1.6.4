@@ -3,6 +3,7 @@ package ez.nebula.client.api.setting;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.impl.module.render.HUDModule;
+import ez.nebula.client.util.render.ColorUtil;
 
 import java.awt.Color;
 import java.util.function.Consumer;
@@ -38,6 +39,11 @@ public final class ColorSetting extends Setting<Color>
     public int getValueInt()
     {
         return getValue().getRGB();
+    }
+
+    public int getValueInt(int alpha)
+    {
+        return ColorUtil.withAlpha(getValueInt(), alpha);
     }
 
     public Color getWithTransparency(int alpha)
