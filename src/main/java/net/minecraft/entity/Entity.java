@@ -874,7 +874,7 @@ public abstract class Entity
                     par5 = var27;
                     this.boundingBox.setBB(var29);
                 }
-                EventBus.dispatch(new EventStep(boundingBox, stepHeight));
+                EventBus.dispatch(new EventStep(this, boundingBox, stepHeight));
             }
 
             this.worldObj.theProfiler.endSection();

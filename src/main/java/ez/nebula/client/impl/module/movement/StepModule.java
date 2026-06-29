@@ -64,7 +64,7 @@ public final class StepModule extends Module
     @Subscribe
     private final EventListener<EventStep> stepEventListener = event ->
     {
-        if (!MC.thePlayer.onGround)
+        if (!event.getEntity().equals(MC.thePlayer) || !MC.thePlayer.onGround)
         {
             return;
         }
