@@ -285,6 +285,7 @@ public final class AutoHighwayModule extends Module
             {
                 prevSlot = MC.thePlayer.inventory.currentItem;
             }
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
             MC.thePlayer.inventory.currentItem = slot;
         }
     }
