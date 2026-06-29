@@ -5,6 +5,8 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.manager.key.Key;
+import ez.nebula.client.api.setting.ColorSetting;
+import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import net.minecraft.item.ItemBlock;
@@ -228,9 +230,9 @@ public final class ScaffoldModule extends Module
         }
 
         final AxisAlignedBB aabb = new AxisAlignedBB(blockData.getPos());
-        // final ColorSetting cs = (ColorSetting) HUDModule.INSTANCE.primaryColorSetting;
-        RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(blockData.getFacing()), 0x80FF0000);
-        RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(blockData.getFacing()), 0xFFFF0000);
+        final ColorSetting cs = (ColorSetting) HUDModule.INSTANCE.primaryColorSetting;
+        RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(blockData.getFacing()), cs.getWithTransparency(120).getRGB());
+        RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(blockData.getFacing()), cs.getValueInt());
     };
 
     // @Subscribe
