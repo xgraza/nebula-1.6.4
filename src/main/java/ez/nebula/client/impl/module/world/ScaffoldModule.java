@@ -86,6 +86,13 @@ public final class ScaffoldModule extends Module
     private float[] angles;
 
     @Override
+    public void onEnable()
+    {
+        super.onEnable();
+        downwardsSetting.getValue().setState(false);
+    }
+
+    @Override
     public void onDisable()
     {
         super.onDisable();
@@ -94,7 +101,6 @@ public final class ScaffoldModule extends Module
         towerTicks = 0;
         slot = -1;
         angles = null;
-        downwardsSetting.getValue().setState(false);
     }
 
     @Subscribe
