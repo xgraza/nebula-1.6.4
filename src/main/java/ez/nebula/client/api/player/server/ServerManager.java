@@ -1,6 +1,7 @@
 package ez.nebula.client.api.player.server;
 
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
+import ez.nebula.client.util.math.Timer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
@@ -21,25 +22,28 @@ public final class ServerManager implements IManager
 {
     private static final Minecraft MC = Minecraft.getMinecraft();
 
+    private final Timer packetTimer = new Timer();
+
     private final double[] packetResponseTimes = new double[20];
-    private long lastPacketMS = -1L;
+    private long lastServerTimePacketMS = -1L;
     private int index = 0;
 
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
     {
+        packetTimer.resetTime();
         if (!(event.getPacket() instanceof S03PacketTimeUpdate))
         {
             return;
         }
         final long time = System.currentTimeMillis();
-        if (lastPacketMS == -1L)
+        if (lastServerTimePacketMS == -1L)
         {
-            lastPacketMS = time;
+            lastServerTimePacketMS = time;
             return;
         }
-        final double difference = time - lastPacketMS;
-        lastPacketMS = time;
+        final double difference = time - lastServerTimePacketMS;
+        lastServerTimePacketMS = time;
         final double tps = 20.0 / (difference / 1000.0);
         packetResponseTimes[index++ % packetResponseTimes.length] = Math.max(0.0, Math.min(tps, 20.0));
     };
@@ -49,7 +53,8 @@ public final class ServerManager implements IManager
     {
         Arrays.fill(packetResponseTimes, 0);
         index = 0;
-        lastPacketMS = -1L;
+        lastServerTimePacketMS = -1L;
+        packetTimer.resetTime();
     };
 
     @Override
@@ -73,9 +78,9 @@ public final class ServerManager implements IManager
         return serverData.serverIP.split(":")[0];
     }
 
-    public long getLastPacketMS()
+    public double getTimeElapsedSinceLastPacket()
     {
-        return lastPacketMS;
+        return packetTimer.getTimeElapsedMS();
     }
 
     public double getAverageTPS()

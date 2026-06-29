@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Timer
 {
+    private static final double NS_TO_MS_FACTOR = 0.000001;
+
     private long lastTimeNS;
 
     public Timer()
@@ -38,11 +40,21 @@ public final class Timer
 
     public double getTimeElapsedMS()
     {
-        return getTimeElapsedNS() * 0.000001;
+        return getTimeElapsedNS() * NS_TO_MS_FACTOR;
     }
 
     public long getTimeElapsedNS()
     {
         return System.nanoTime() - lastTimeNS;
+    }
+
+    public long getLastTimeNS()
+    {
+        return lastTimeNS;
+    }
+
+    public double getLastTimeMS()
+    {
+        return getLastTimeNS() * NS_TO_MS_FACTOR;
     }
 }
