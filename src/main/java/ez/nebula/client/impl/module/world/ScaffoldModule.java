@@ -6,14 +6,13 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.manager.key.Key;
 import ez.nebula.client.util.math.AngleUtil;
+import ez.nebula.client.util.minecraft.world.BlockInfo;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.listener.EventListener;
@@ -80,7 +79,7 @@ public final class ScaffoldModule extends Module
 
     private final Timer towerTimer = new Timer();
     private double basePosY;
-    private BlockData blockData;
+    private BlockInfo blockData;
     private int towerTicks, slot;
     private float[] angles;
 
@@ -127,7 +126,7 @@ public final class ScaffoldModule extends Module
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
         final boolean result = InteractionManager.INSTANCE.rightClickBlock(
-                blockData.pos, blockData.facing, true);
+                blockData.getPos(), blockData.getFacing(), true);
         Nebula.INSTANCE.getInventoryManager().syncSlot();
         if (!result)
         {
@@ -220,7 +219,7 @@ public final class ScaffoldModule extends Module
 
         if (rotateSetting.getValue())
         {
-            angles = AngleUtil.anglesToBlock(blockData.pos, blockData.facing, event.getPartialTicks());
+            angles = AngleUtil.anglesToBlock(blockData.getPos(), blockData.getFacing(), event.getPartialTicks());
         }
 
         if (!renderSetting.getValue())
@@ -228,10 +227,10 @@ public final class ScaffoldModule extends Module
             return;
         }
 
-        final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
-                blockData.pos.getX(), blockData.pos.getY(), blockData.pos.getZ()), 1);
-        RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(blockData.facing), 0x80FF0000);
-        RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(blockData.facing), 0xFFFF0000);
+        final AxisAlignedBB aabb = new AxisAlignedBB(blockData.getPos());
+        // final ColorSetting cs = (ColorSetting) HUDModule.INSTANCE.primaryColorSetting;
+        RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(blockData.getFacing()), 0x80FF0000);
+        RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(blockData.getFacing()), 0xFFFF0000);
     };
 
     // @Subscribe
@@ -243,7 +242,7 @@ public final class ScaffoldModule extends Module
         }
     };
 
-    private BlockData getBlockData()
+    private BlockInfo getBlockData()
     {
         double minY = MC.thePlayer.boundingBox.minY;
         // if we're on ground and our remainder is not 0.0 (ex: 0.875 on ender chests)
@@ -289,48 +288,6 @@ public final class ScaffoldModule extends Module
                 }
             }
         }
-
-        for (final EnumFacing facing : EnumFacing.values())
-        {
-            final BlockPos neighbor = BlockUtil.offset(pos, facing);
-            if (!BlockUtil.isReplaceable(neighbor) && canPlace(neighbor))
-            {
-                return new BlockData(neighbor, BlockUtil.getOpposite(facing));
-            }
-        }
-
-        for (final EnumFacing facing : EnumFacing.values())
-        {
-            final BlockPos neighbor = BlockUtil.offset(pos, facing);
-            if (BlockUtil.isReplaceable(neighbor))
-            {
-                for (final EnumFacing side : EnumFacing.values())
-                {
-                    final BlockPos n = BlockUtil.offset(neighbor, side);
-                    if (!BlockUtil.isReplaceable(n) && canPlace(n))
-                    {
-                        return new BlockData(n, BlockUtil.getOpposite(side));
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    private boolean canPlace(final BlockPos pos)
-    {
-        return pos.getY() <= 256;
-    }
-
-    private static final class BlockData
-    {
-        private final BlockPos pos;
-        private final EnumFacing facing;
-
-        public BlockData(BlockPos pos, EnumFacing facing)
-        {
-            this.pos = pos;
-            this.facing = facing;
-        }
+        return BlockUtil.getPlacement(pos);
     }
 }
