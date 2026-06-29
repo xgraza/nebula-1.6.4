@@ -166,6 +166,12 @@ public final class AutoHighwayModule extends Module
             return;
         }
 
+        // let the thing do its magic, we'll thank it later...
+        if (AutoLavaHoleFillModule.INSTANCE.isActive())
+        {
+            return;
+        }
+
         highwayPositionList = getHighwayPositions();
         if (highwayPositionList.isEmpty())
         {
