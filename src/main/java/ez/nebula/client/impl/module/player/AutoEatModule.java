@@ -85,9 +85,10 @@ public final class AutoEatModule extends Module
             use = sentUse = false;
             return;
         }
+        use = true;
         if (slot != MC.thePlayer.inventory.currentItem)
         {
-            use = sentUse = false;
+            sentUse = false;
             if (prevSlot == -1)
             {
                 prevSlot = MC.thePlayer.inventory.currentItem;
@@ -95,7 +96,6 @@ public final class AutoEatModule extends Module
             MC.thePlayer.inventory.currentItem = slot;
             return;
         }
-        use = true;
         // from Minecraft.java
         if (!sentUse || !MC.thePlayer.isUsingItem())
         {
