@@ -7,6 +7,7 @@ import ez.nebula.client.api.config.IConfig;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.HUDManager;
 import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
+import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.io.FileUtil;
 import ez.nebula.client.util.render.RenderUtil;
 
@@ -64,8 +65,8 @@ public final class HUDConfig implements IConfig
         }
         if (object.has("savedWidth") && object.has("savedHeight"))
         {
-            HUDEditorScreen.PREV_WIDTH = object.get("savedWidth").getAsInt();
-            HUDEditorScreen.PREV_HEIGHT = object.get("savedHeight").getAsInt();
+            HUDModule.INSTANCE.prevWidth = object.get("savedWidth").getAsInt();
+            HUDModule.INSTANCE.prevHeight = object.get("savedHeight").getAsInt();
         }
     }
 

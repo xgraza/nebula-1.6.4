@@ -1,5 +1,7 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.game.EventTick;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
@@ -15,6 +17,8 @@ import ez.nebula.client.api.listener.event.render.EventRender2D;
 import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.render.ColorUtil;
+import ez.nebula.client.util.render.RenderUtil;
+import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.Color;
 
@@ -56,11 +60,40 @@ public final class HUDModule extends Module
             .setDescription("Force in bounds")
             .build();
 
+    public double prevWidth = -1, prevHeight = -1;
+
     public HUDModule()
     {
         // automatically toggle & hide
         setHidden(true);
         setToggled(true);
+
+        EventBus.subscribe(new Object()
+        {
+            @Subscribe
+            private final EventListener<EventTick> tickEventListener = event ->
+            {
+                if (RenderUtil.GAME_RESOLUTION == null)
+                {
+                    return;
+                }
+                // scale hud elements automatically
+                final double width = RenderUtil.GAME_RESOLUTION.getScaledWidth_double();
+                final double height = RenderUtil.GAME_RESOLUTION.getScaledHeight_double();
+                if (prevHeight != -1 && prevWidth != -1 && (width != prevWidth || height != prevHeight))
+                {
+                    final double scaleX = width / prevWidth;
+                    final double scaleY = height / prevHeight;
+                    for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
+                    {
+                        element.setX(element.getX() * scaleX);
+                        element.setY(element.getY() * scaleY);
+                    }
+                }
+                prevWidth = width;
+                prevHeight = height;
+            };
+        });
     }
 
     @Override

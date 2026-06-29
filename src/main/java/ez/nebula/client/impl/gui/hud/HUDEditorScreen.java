@@ -22,7 +22,6 @@ public final class HUDEditorScreen extends GuiChat
     private static final int DRAGGING_BACKGROUND_COLOR = new Color(241, 223, 109, 120).getRGB();
 
     private static double SAVED_X = -1, SAVED_Y = -1;
-    public static int PREV_WIDTH = -1, PREV_HEIGHT = -1;
     private static HUDElementCategoryPanel PANEL;
     private HUDElement draggingElement;
     private double dragX = -1.0, dragY = -1.0;
@@ -54,19 +53,6 @@ public final class HUDEditorScreen extends GuiChat
             PANEL.setX(2);
             PANEL.setY(2);
         }
-
-        if (PREV_HEIGHT != -1 && PREV_WIDTH != -1 && (PREV_WIDTH != width || PREV_HEIGHT != height))
-        {
-            final double scaleX = width / (double) PREV_WIDTH;
-            final double scaleY = height / (double) PREV_HEIGHT;
-            for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
-            {
-                element.setX(element.getX() * scaleX);
-                element.setY(element.getY() * scaleY);
-            }
-        }
-        PREV_HEIGHT = height;
-        PREV_WIDTH = width;
         scalingElements = false;
 
         super.initGui();
