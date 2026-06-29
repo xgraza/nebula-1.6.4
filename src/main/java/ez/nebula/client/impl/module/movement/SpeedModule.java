@@ -53,7 +53,7 @@ public final class SpeedModule extends Module
     // physics calc
     private final Setting<Integer> iterationsSetting = numberBuilder("Iterations", 1)
             .setMin(1)
-            .setMax(10)
+            .setMax(50)
             .setScale(1)
             .setDescription("How many times to re-update the local player")
             .setVisibility((value) -> modeSetting.getValue() == Mode.PHYSICS_CALC)

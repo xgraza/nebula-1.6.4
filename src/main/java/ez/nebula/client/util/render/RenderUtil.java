@@ -147,10 +147,10 @@ public final class RenderUtil
         {
             TESSELLATOR.startDrawingQuads();
             setTessellatorColor(color);
-            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
-            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
-            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
-            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
             TESSELLATOR.draw();
         }
 
@@ -158,10 +158,10 @@ public final class RenderUtil
         {
             TESSELLATOR.startDrawingQuads();
             setTessellatorColor(color);
-            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
-            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
-            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
-            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
             TESSELLATOR.draw();
         }
 
@@ -212,13 +212,7 @@ public final class RenderUtil
 
         if (hasQuadMask(renderMask, QuadMask.UP))
         {
-            TESSELLATOR.startDrawing(GL_LINE_LOOP);
-            setTessellatorColor(color);
-            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
-            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
-            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
-            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
-            TESSELLATOR.draw();
+
         }
 
         if (hasQuadMask(renderMask, QuadMask.SOUTH))
@@ -247,10 +241,10 @@ public final class RenderUtil
         {
             TESSELLATOR.startDrawing(GL_LINE_LOOP);
             setTessellatorColor(color);
-            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
-            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
-            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
-            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
             TESSELLATOR.draw();
         }
 
@@ -258,10 +252,10 @@ public final class RenderUtil
         {
             TESSELLATOR.startDrawing(GL_LINE_LOOP);
             setTessellatorColor(color);
-            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
-            TESSELLATOR.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
-            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
-            TESSELLATOR.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+            TESSELLATOR.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
             TESSELLATOR.draw();
         }
 

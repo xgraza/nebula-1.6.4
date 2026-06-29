@@ -223,7 +223,6 @@ public final class ScaffoldModule extends Module
 
         final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
                 blockData.pos.getX(), blockData.pos.getY(), blockData.pos.getZ()), 1);
-
         RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(blockData.facing), 0x80FF0000);
         RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(blockData.facing), 0xFFFF0000);
     };
