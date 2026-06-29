@@ -4,6 +4,7 @@
 
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.manager.key.Key;
 import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -35,6 +36,7 @@ import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.render.RenderUtil;
 import ez.nebula.client.api.render.font.Fonts;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
+import org.lwjgl.input.Keyboard;
 
 /**
  * @author xgraza
@@ -71,6 +73,10 @@ public final class ScaffoldModule extends Module
     private final Setting<Boolean> renderSetting = builder("Render", false)
             .setDescription("If to render where the block is being placed")
             .build();
+    private final Setting<Key> downwardsSetting = bindBuilder("Downwards")
+            .setKeyCode(Keyboard.KEY_NONE)
+            .setDescription("The key to press to toggle downwards scaffold")
+            .build();
 
     private final Timer towerTimer = new Timer();
     private double basePosY;
@@ -87,6 +93,7 @@ public final class ScaffoldModule extends Module
         towerTicks = 0;
         slot = -1;
         angles = null;
+        downwardsSetting.getValue().setState(false);
     }
 
     @Subscribe
@@ -247,7 +254,8 @@ public final class ScaffoldModule extends Module
 
         if (!keeepYSetting.getValue()
                 || (towerSetting.getValue() && MC.gameSettings.keyBindJump.pressed)
-                || basePosY == -1.0)
+                || basePosY == -1.0
+                || downwardsSetting.getValue().isToggled())
         {
             basePosY = minY - 1.0;
         }
@@ -255,6 +263,11 @@ public final class ScaffoldModule extends Module
         if (basePosY > 256)
         {
             basePosY = 256;
+        }
+
+        if (downwardsSetting.getValue().isToggled())
+        {
+            basePosY -= 1;
         }
 
         BlockPos pos = PlayerUtil.getOrigin(basePosY);
