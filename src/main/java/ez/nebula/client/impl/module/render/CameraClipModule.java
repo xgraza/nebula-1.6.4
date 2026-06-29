@@ -7,6 +7,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.render.EventCameraDistance;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 
 /**
@@ -21,7 +22,7 @@ public final class CameraClipModule extends Module
     @ModuleInstance
     public static CameraClipModule INSTANCE;
 
-    private final Setting<Double> distanceSetting = numberBuilder("Distance", 4.0)
+    private final NumberSetting<Double> distanceSetting = numberBuilder("Distance", 4.0)
             .setMin(0.5)
             .setMax(50.0)
             .setScale(0.1)

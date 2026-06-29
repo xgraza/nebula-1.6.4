@@ -1,6 +1,8 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.util.ChatAllowedCharacters;
 import ez.nebula.client.core.Nebula;
@@ -40,10 +42,10 @@ public final class SpammerModule extends Module
             .setDescription("The file to read the spam text from")
             .onValueChanged(this::readSpammerFile)
             .build();
-    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.LOOP)
+    private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.LOOP)
             .setDescription("The mode to spam the chat with")
             .build();
-    private final Setting<Double> delaySetting = numberBuilder("Delay", 1.5)
+    private final NumberSetting<Double> delaySetting = numberBuilder("Delay", 1.5)
             .setMin(0.0)
             .setMax(20.0)
             .setScale(0.1)

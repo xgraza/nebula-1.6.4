@@ -191,9 +191,10 @@ public class Setting<T> implements IJSONSerializable
             return this;
         }
 
-        public Setting<T> build()
+        @SuppressWarnings("unchecked")
+        public <S extends Setting<T>> S build()
         {
-            return new Setting<>(name, description, visibility, valueChanged, value);
+            return (S) new Setting<>(name, description, visibility, valueChanged, value);
         }
     }
 }

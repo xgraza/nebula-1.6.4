@@ -5,7 +5,9 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.manager.key.Key;
+import ez.nebula.client.api.setting.BindSetting;
 import ez.nebula.client.api.setting.ColorSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
@@ -53,7 +55,7 @@ public final class ScaffoldModule extends Module
 
     private static final int SCAFFOLD_ROTATION_PRIORITY = 50;
 
-    private final Setting<Double> extend = numberBuilder("Extend", 0.0)
+    private final NumberSetting<Double> extend = numberBuilder("Extend", 0.0)
             .setMin(0.0)
             .setMax(6.0)
             .setScale(0.5)
@@ -74,7 +76,7 @@ public final class ScaffoldModule extends Module
     private final Setting<Boolean> renderSetting = builder("Render", false)
             .setDescription("If to render where the block is being placed")
             .build();
-    private final Setting<Key> downwardsSetting = bindBuilder("Downwards")
+    private final BindSetting downwardsSetting = bindBuilder("Downwards")
             .setKeyCode(Keyboard.KEY_NONE)
             .setDescription("The key to press to toggle downwards scaffold")
             .build();

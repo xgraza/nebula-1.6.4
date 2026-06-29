@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.world;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.block.*;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.init.Blocks;
@@ -59,7 +60,7 @@ public final class AutoFarmModule extends Module
         BASE_TO_CROP_BLOCK.put(BlockSoulSand.class, Lists.newArrayList(Blocks.nether_wart));
     }
     
-    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+    private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(6.0)
             .setScale(0.5)
@@ -77,7 +78,7 @@ public final class AutoFarmModule extends Module
     private final Setting<Boolean> sugarCaneSetting = builder("Sugar Canes", true)
             .setDescription("If to harvest sugar cane")
             .build();
-    private final Setting<Integer> sugarCaneLengthSetting = numberBuilder("Sugar Cane Length", 1)
+    private final NumberSetting<Integer> sugarCaneLengthSetting = numberBuilder("Sugar Cane Length", 1)
             .setMin(1)
             .setMax(3)
             .setScale(1)

@@ -1,5 +1,7 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -50,7 +52,7 @@ import static org.lwjgl.opengl.GL11.*;
         category = ModuleCategory.RENDER)
 public final class ESPModule extends Module
 {
-    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.BOX)
+    private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.BOX)
             .setDescription("How to render the sixth sense")
             .build();
 
@@ -58,13 +60,13 @@ public final class ESPModule extends Module
             .setVisibility((value) -> modeSetting.getValue() == Mode.CS_GO)
             .build();
 
-    private final Setting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
+    private final NumberSetting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
             .setMin(0.5f)
             .setMax(5.0f)
             .setScale(0.1f)
             .setDescription("The width of the render line")
             .build();
-    private final Setting<Float> opacitySetting = numberBuilder("Opacity", 0.0f)
+    private final NumberSetting<Float> opacitySetting = numberBuilder("Opacity", 0.0f)
             .setMin(0.0f)
             .setMax(1.0f)
             .setScale(0.05f)

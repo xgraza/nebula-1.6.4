@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.movement;
 
 import ez.nebula.client.api.listener.event.player.*;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -22,7 +23,7 @@ import ez.nebula.client.api.setting.Setting;
         category = ModuleCategory.MOVEMENT)
 public final class NoSlowModule extends Module
 {
-    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.VANILLA)
+    private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.VANILLA)
             .setDescription("The mode for preventing slowdowns")
             .build();
     private final Setting<Boolean> websSetting = builder("Webs", false)

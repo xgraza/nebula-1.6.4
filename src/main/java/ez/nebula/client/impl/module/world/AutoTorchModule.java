@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.listener.event.render.EventRender2D;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.block.BlockTorch;
@@ -43,13 +44,13 @@ public final class AutoTorchModule extends Module
 
     private static final int AUTO_TORCH_ROTATION_PRIORITY = 10;
 
-    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+    private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(6.0)
             .setScale(0.1)
             .setDescription("How far to place torches")
             .build();
-    private final Setting<Integer> minLightLevelSetting = numberBuilder("Min Light Level", 7)
+    private final NumberSetting<Integer> minLightLevelSetting = numberBuilder("Min Light Level", 7)
             .setMin(0)
             .setMax(12)
             .setScale(1)

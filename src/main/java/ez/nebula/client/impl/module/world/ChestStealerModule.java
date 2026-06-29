@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -32,7 +33,7 @@ public final class ChestStealerModule extends Module
 
     private static final String ENDER_CHEST_TRANSLATION_KEY = "container.enderchest";
 
-    private final Setting<Integer> delaySetting = numberBuilder("Delay", 100)
+    private final NumberSetting<Integer> delaySetting = numberBuilder("Delay", 100)
             .setMin(0)
             .setMax(1500)
             .setScale(1)

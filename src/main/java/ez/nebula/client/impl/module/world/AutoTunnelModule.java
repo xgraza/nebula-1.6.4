@@ -5,6 +5,7 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
@@ -48,7 +49,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         category = ModuleCategory.WORLD)
 public final class AutoTunnelModule extends Module
 {
-    private final Setting<Integer> blocksSetting = numberBuilder("Blocks", 2)
+    private final NumberSetting<Integer> blocksSetting = numberBuilder("Blocks", 2)
             .setMin(1)
             .setMax(4)
             .setScale(1)

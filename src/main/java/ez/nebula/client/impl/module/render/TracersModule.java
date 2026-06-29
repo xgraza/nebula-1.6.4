@@ -1,5 +1,7 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -33,10 +35,10 @@ import static org.lwjgl.opengl.GL11.*;
         category = ModuleCategory.RENDER)
 public final class TracersModule extends Module
 {
-    private final Setting<ColorMode> colorModeSetting = enumBuilder("Color Mode", ColorMode.DISTANCE)
+    private final EnumSetting<ColorMode> colorModeSetting = enumBuilder("Color Mode", ColorMode.DISTANCE)
             .setDescription("How to render the tracer color")
             .build();
-    private final Setting<StemMode> stemSetting = enumBuilder("Stem", StemMode.TORSO)
+    private final EnumSetting<StemMode> stemSetting = enumBuilder("Stem", StemMode.TORSO)
             .setDescription("Where to render the stem on a traced entity")
             .build();
 
@@ -54,7 +56,7 @@ public final class TracersModule extends Module
             .setDescription("If to render a tracer to hostile mob")
             .build();
 
-    private final Setting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
+    private final NumberSetting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
             .setMin(0.5f)
             .setMax(5.0f)
             .setScale(0.1f)

@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.api.setting.EnumSetting;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -25,7 +26,7 @@ public final class ChamsModule extends Module
     @ModuleInstance
     public static ChamsModule INSTANCE;
 
-    public final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.TEXTURE)
+    public final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.TEXTURE)
             .setDescription("How to render entities through walls")
             .build();
 

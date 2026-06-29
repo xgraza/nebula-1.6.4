@@ -8,6 +8,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.ColorSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.render.QuadMask;
@@ -29,7 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
         category = ModuleCategory.RENDER)
 public final class LogoutSpotsModule extends Module
 {
-    private final Setting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
+    private final NumberSetting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
             .setMin(0.5f)
             .setMax(5.0f)
             .setScale(0.1f)

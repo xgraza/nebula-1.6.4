@@ -10,7 +10,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.ColorSetting;
-import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.render.QuadMask;
@@ -33,13 +33,13 @@ import net.minecraft.util.Vec3;
         category = ModuleCategory.WORLD)
 public final class AirPlaceModule extends Module
 {
-    private final Setting<Double> delaySetting = numberBuilder("Delay", 0.1)
+    private final NumberSetting<Double> delaySetting = numberBuilder("Delay", 0.1)
             .setMin(0.0)
             .setMax(5.0)
             .setScale(0.1)
             .setDescription("The delay in seconds between air placements")
             .build();
-    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+    private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(7.0)
             .setScale(0.5)

@@ -1,13 +1,13 @@
 package ez.nebula.client.api.manager.module;
 
-import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.api.setting.EnumSetting;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ModuleWithModes<T extends Enum<T>> extends Module
 {
-    private final Setting<T> modeSetting;
+    private final EnumSetting<T> modeSetting;
 
     private final Map<T, ModuleMode<Module>> moduleModeMap = new HashMap<>();
     private ModuleMode<Module> currentMode;

@@ -1,5 +1,7 @@
 package ez.nebula.client.impl.module.movement;
 
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
@@ -33,11 +35,11 @@ public final class SpeedModule extends Module
     @ModuleInstance
     public static SpeedModule INSTANCE;
 
-    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.STRAFE)
+    private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.STRAFE)
             .setDescription("The method to use when speeding up")
             .build();
 
-    private final Setting<Integer> setbackTicksSetting = numberBuilder("Setback Ticks", 10)
+    private final NumberSetting<Integer> setbackTicksSetting = numberBuilder("Setback Ticks", 10)
             .setMin(0)
             .setMax(50)
             .setScale(1)
@@ -51,7 +53,7 @@ public final class SpeedModule extends Module
             .build();
 
     // physics calc
-    private final Setting<Integer> iterationsSetting = numberBuilder("Iterations", 1)
+    private final NumberSetting<Integer> iterationsSetting = numberBuilder("Iterations", 1)
             .setMin(1)
             .setMax(50)
             .setScale(1)
@@ -63,7 +65,7 @@ public final class SpeedModule extends Module
             .setVisibility((value) -> modeSetting.getValue() == Mode.PHYSICS_CALC)
             .build();
 
-    private final Setting<Double> vanillaSpeedSetting = numberBuilder("Speed", 0.3)
+    private final NumberSetting<Double> vanillaSpeedSetting = numberBuilder("Speed", 0.3)
             .setMin(0.1)
             .setMax(5.0)
             .setScale(0.05)

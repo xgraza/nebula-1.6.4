@@ -9,6 +9,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.api.setting.block.BlockValue;
@@ -39,7 +40,7 @@ public final class AutoLavaHoleFillModule extends Module
     @ModuleInstance
     public static AutoLavaHoleFillModule INSTANCE;
 
-    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+    private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(6.0)
             .setScale(0.1)
@@ -51,7 +52,7 @@ public final class AutoLavaHoleFillModule extends Module
     private final Setting<Boolean> anyBlockSetting = builder("Any Block", true)
             .setDescription("If to use any solid block to fill the lava hole")
             .build();
-    private final Setting<BlockValue> blockSetting = blockBuilder("Block")
+    private final BlockSetting blockSetting = blockBuilder("Block")
             .setBlock(Blocks.netherrack)
             .setDescription("The kind of block to fill the lava hole with")
             .setVisibility((value) -> !anyBlockSetting.getValue())

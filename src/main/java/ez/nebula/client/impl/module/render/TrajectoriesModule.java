@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -33,7 +34,7 @@ import static org.lwjgl.opengl.GL11.*;
         category = ModuleCategory.RENDER)
 public final class TrajectoriesModule extends Module
 {
-    private final Setting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
+    private final NumberSetting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
             .setMin(0.5f)
             .setMax(5.0f)
             .setScale(0.1f)
@@ -42,7 +43,7 @@ public final class TrajectoriesModule extends Module
     private final Setting<Boolean> renderTailSetting = builder("Render Trail", true)
             .setDescription("If to render the trajectory path")
             .build();
-    private final Setting<Double> landingRadiusSetting = numberBuilder("Landing Radius", 0.5)
+    private final NumberSetting<Double> landingRadiusSetting = numberBuilder("Landing Radius", 0.5)
             .setMin(0.1)
             .setMax(1.5)
             .setScale(0.1)

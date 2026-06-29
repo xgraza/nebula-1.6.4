@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.movement;
 
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import ez.nebula.client.api.listener.EventListener;
@@ -26,7 +27,7 @@ public final class StepModule extends Module
     };
     private static final float MIN_STEP_HEIGHT = 0.6f;
 
-    private final Setting<Float> stepHeightSetting = numberBuilder("Height", 1.0f)
+    private final NumberSetting<Float> stepHeightSetting = numberBuilder("Height", 1.0f)
             .setMin(MIN_STEP_HEIGHT)
             .setMax(1.5f)
             .setScale(0.1f)

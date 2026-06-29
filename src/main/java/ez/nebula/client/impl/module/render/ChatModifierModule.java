@@ -8,6 +8,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 
 /**
@@ -25,7 +26,7 @@ public final class ChatModifierModule extends Module
     public final Setting<Boolean> transparentSetting = builder("Transparent", false)
             .setDescription("If to remove the rendered background from the chat line")
             .build();
-    public final Setting<Integer> animateSpeed = numberBuilder("Animation Time", 200)
+    public final NumberSetting<Integer> animateSpeed = numberBuilder("Animation Time", 200)
             .setMin(0)
             .setMax(1000)
             .setScale(50)

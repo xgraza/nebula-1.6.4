@@ -9,6 +9,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.api.setting.block.BlockValue;
@@ -45,11 +46,11 @@ import java.util.List;
         category = ModuleCategory.WORLD)
 public final class AutoHighwayModule extends Module
 {
-    private final Setting<BlockValue> blockSetting = blockBuilder("Block")
+    private final BlockSetting blockSetting = blockBuilder("Block")
             .setBlock(Blocks.obsidian)
             .setDescription("The kind of block to make a highway with")
             .build();
-    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+    private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(6.0)
             .setScale(0.1)
@@ -58,7 +59,7 @@ public final class AutoHighwayModule extends Module
     private final Setting<Boolean> excavateSetting = builder("Excavate", true)
             .setDescription("If to mine out space")
             .build();
-    private final Setting<Integer> excavateHeightSetting = numberBuilder("Excavate Height", 3)
+    private final NumberSetting<Integer> excavateHeightSetting = numberBuilder("Excavate Height", 3)
             .setMin(2)
             .setMax(5)
             .setScale(1)
@@ -67,19 +68,19 @@ public final class AutoHighwayModule extends Module
     private final Setting<Boolean> onlyBlockSetting = builder("Mine non selected", false)
             .setDescription("If when excavating to mine blocks on highway path positions that are not the selected block type")
             .build();
-    private final Setting<Integer> blocksPerTickSetting = numberBuilder("Blocks per Tick", 3)
+    private final NumberSetting<Integer> blocksPerTickSetting = numberBuilder("Blocks per Tick", 3)
             .setMin(1)
             .setMax(20)
             .setScale(1)
             .setDescription("How many blocks to place/break per tick")
             .build();
-    private final Setting<Integer> sizeSetting = numberBuilder("Size", 1)
+    private final NumberSetting<Integer> sizeSetting = numberBuilder("Size", 1)
             .setMin(1)
             .setMax(3)
             .setScale(1)
             .setDescription("The width in blocks on each side for the highway")
             .build();
-    private final Setting<Integer> lengthSetting = numberBuilder("Length", 4)
+    private final NumberSetting<Integer> lengthSetting = numberBuilder("Length", 4)
             .setMin(1)
             .setMax(6)
             .setScale(1)

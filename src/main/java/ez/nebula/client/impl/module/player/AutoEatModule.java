@@ -9,6 +9,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.AutoPotModule;
@@ -32,7 +33,7 @@ public final class AutoEatModule extends Module
     private final Setting<Boolean> gappleSetting = builder("Golden Apple", true)
             .setDescription("Automatically eat golden apples when your absorption hearts deplete")
             .build();
-    private final Setting<Integer> hungerSetting = numberBuilder("Hunger", 18)
+    private final NumberSetting<Integer> hungerSetting = numberBuilder("Hunger", 18)
             .setMin(1)
             .setMax(19)
             .setScale(1)

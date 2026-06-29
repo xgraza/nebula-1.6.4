@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
@@ -43,7 +44,7 @@ public final class PacketMineModule extends Module
     @ModuleInstance
     public static PacketMineModule INSTANCE;
 
-    private final Setting<Double> percentSetting = numberBuilder("Percent", 0.95)
+    private final NumberSetting<Double> percentSetting = numberBuilder("Percent", 0.95)
             .setMin(0.01)
             .setMax(1.0)
             .setScale(0.01)

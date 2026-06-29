@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
 import net.minecraft.block.BlockAir;
@@ -58,13 +59,13 @@ public final class AutoBedModule extends Module
     private static final double BED_EXPLOSION_SIZE = 5.0;
     private static final float BED_EXPLOSION_STRENGTH = 10.0f;
 
-    private final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
+    private final NumberSetting<Float> rangeSetting = numberBuilder("Range", 4.2f)
             .setMin(1.0f)
             .setMax(6.0f)
             .setScale(0.1f)
             .setDescription("The range should the target be attacked from")
             .build();
-    private final Setting<Integer> yRangeSetting = numberBuilder("Y-Range", 1)
+    private final NumberSetting<Integer> yRangeSetting = numberBuilder("Y-Range", 1)
             .setMin(1)
             .setMax(5)
             .setScale(1)
@@ -77,7 +78,7 @@ public final class AutoBedModule extends Module
             .setDescription("If to observe incoming packets for block changes")
             .build();
 
-    private final Setting<Float> minDamageSetting = numberBuilder("Min Damage", 6.0f)
+    private final NumberSetting<Float> minDamageSetting = numberBuilder("Min Damage", 6.0f)
             .setMin(1.0f)
             .setMax(19.5f)
             .setScale(0.1f)
@@ -90,21 +91,21 @@ public final class AutoBedModule extends Module
     private final Setting<Boolean> suicideSetting = builder("Suicide", false)
             .setDescription("If to ignore local player damage when finding a bed place position")
             .build();
-    private final Setting<Float> lethalHealthSetting = numberBuilder("Lethal Health", 12.0f)
+    private final NumberSetting<Float> lethalHealthSetting = numberBuilder("Lethal Health", 12.0f)
             .setMin(2.0f)
             .setMax(19.5f)
             .setScale(0.1f)
             .setDescription("The maximum amount of damage allowed to the local player")
             .setVisibility((value) -> !suicideSetting.getValue())
             .build();
-    private final Setting<Float> lethalMultiplierSetting = numberBuilder("Lethal Multiplier", 1.2f)
+    private final NumberSetting<Float> lethalMultiplierSetting = numberBuilder("Lethal Multiplier", 1.2f)
             .setMin(1.0f)
             .setMax(2.0f)
             .setScale(0.1f)
             .setDescription("The multiplier to the local damage")
             .setVisibility((value) -> !suicideSetting.getValue())
             .build();
-    private final Setting<Float> swapPenaltySetting = numberBuilder("Swap Penalty", 2.0f)
+    private final NumberSetting<Float> swapPenaltySetting = numberBuilder("Swap Penalty", 2.0f)
             .setMin(0.5f)
             .setMax(12.0f)
             .setScale(0.1f)

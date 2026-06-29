@@ -1,12 +1,13 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.util.AxisAlignedBB;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.render.QuadMask;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.util.render.RenderUtil;
@@ -20,10 +21,10 @@ import ez.nebula.client.util.render.RenderUtil;
         category = ModuleCategory.RENDER)
 public final class ChunkBoardersModule extends Module
 {
-    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.BORDERS)
+    private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.BORDERS)
             .setDescription("How to render a chunk boundary")
             .build();
-    private final Setting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
+    private final NumberSetting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
             .setMin(0.5f)
             .setMax(5.0f)
             .setScale(0.1f)

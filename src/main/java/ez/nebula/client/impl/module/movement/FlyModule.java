@@ -1,6 +1,8 @@
 package ez.nebula.client.impl.module.movement;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.network.play.client.C13PacketPlayerAbilities;
 import net.minecraft.world.WorldSettings;
 import ez.nebula.client.api.listener.EventListener;
@@ -23,10 +25,10 @@ import ez.nebula.client.util.minecraft.player.MoveUtil;
         category = ModuleCategory.MOVEMENT)
 public final class FlyModule extends Module
 {
-    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.VANILLA)
+    private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.VANILLA)
             .setDescription("How to fly")
             .build();
-    private final Setting<Double> speedSetting = numberBuilder("Speed", 1.0)
+    private final NumberSetting<Double> speedSetting = numberBuilder("Speed", 1.0)
             .setMin(0.1)
             .setMax(7.0)
             .setScale(0.05)

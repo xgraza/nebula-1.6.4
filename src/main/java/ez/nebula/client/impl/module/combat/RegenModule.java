@@ -1,12 +1,12 @@
 package ez.nebula.client.impl.module.combat;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 
 /**
@@ -18,13 +18,13 @@ import ez.nebula.client.api.listener.event.game.EventUpdate;
         category = ModuleCategory.COMBAT)
 public final class RegenModule extends Module
 {
-    private final Setting<Float> healthSetting = numberBuilder("Health", 6.0f)
+    private final NumberSetting<Float> healthSetting = numberBuilder("Health", 6.0f)
             .setMin(1.0f)
             .setMax(19.5f)
             .setScale(0.5f)
             .setDescription("At what health to begin to regenerate health")
             .build();
-    private final Setting<Integer> packetsSetting = numberBuilder("Packets", 20)
+    private final NumberSetting<Integer> packetsSetting = numberBuilder("Packets", 20)
             .setMin(1)
             .setMax(100)
             .setScale(1)

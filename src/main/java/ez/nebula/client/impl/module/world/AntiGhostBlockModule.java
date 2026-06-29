@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.item.ItemBlock;
@@ -45,7 +46,7 @@ public final class AntiGhostBlockModule extends Module
     private final Setting<Boolean> packetSetting = builder("Packet", true)
             .setDescription("If to send a packet when placing/breaking a block to server confirm")
             .build();
-    private final Setting<Double> confirmTimeSetting = numberBuilder("Confirm Time", 0.5)
+    private final NumberSetting<Double> confirmTimeSetting = numberBuilder("Confirm Time", 0.5)
             .setMin(0.1)
             .setMax(5.0)
             .setScale(0.1)

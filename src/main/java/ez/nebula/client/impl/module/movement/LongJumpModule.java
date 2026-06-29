@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.movement;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.util.AxisAlignedBB;
 import ez.nebula.client.api.listener.EventListener;
@@ -22,7 +23,7 @@ import ez.nebula.client.util.minecraft.player.MoveUtil;
         category = ModuleCategory.MOVEMENT)
 public final class LongJumpModule extends Module
 {
-    private final Setting<Double> boostSetting = numberBuilder("Boost", 4.5)
+    private final NumberSetting<Double> boostSetting = numberBuilder("Boost", 4.5)
             .setMin(1.0)
             .setMax(6.0)
             .setScale(0.1)

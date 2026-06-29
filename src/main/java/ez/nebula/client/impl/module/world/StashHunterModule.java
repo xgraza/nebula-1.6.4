@@ -1,5 +1,7 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.setting.ColorSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.entity.Entity;
@@ -38,7 +40,7 @@ public final class StashHunterModule extends Module
     private final Setting<Boolean> stackedMinecartsSetting = builder("Stacked Minecarts", true)
             .setDescription("If to search for stacked minecarts")
             .build();
-    private final Setting<Color> minecartColorSetting = colorBuilder("Minecart Color", new Color(195, 122, 50, 120))
+    private final ColorSetting minecartColorSetting = colorBuilder("Minecart Color", new Color(195, 122, 50, 120))
             .setDescription("The color to render stacked minecarts with")
             .setVisibility((value) -> stackedMinecartsSetting.getValue())
             .build();
@@ -46,14 +48,14 @@ public final class StashHunterModule extends Module
     private final Setting<Boolean> chestsSetting = builder("Chests", true)
             .setDescription("If to search for bulk chests")
             .build();
-    private final Setting<Integer> minChestsPerChunkSetting = numberBuilder("Chests per chunk", 3)
+    private final NumberSetting<Integer> minChestsPerChunkSetting = numberBuilder("Chests per chunk", 3)
             .setMin(1)
             .setMax(10)
             .setScale(1)
             .setDescription("How many chests must be in a chunk before flagging it as a stash")
             .setVisibility((value) -> chestsSetting.getValue())
             .build();
-    private final Setting<Color> chestsColorSetting = colorBuilder("Chests Color", new Color(3, 195, 244, 120))
+    private final ColorSetting chestsColorSetting = colorBuilder("Chests Color", new Color(3, 195, 244, 120))
             .setDescription("The color to render flagged chests with")
             .setVisibility((value) -> chestsSetting.getValue())
             .build();

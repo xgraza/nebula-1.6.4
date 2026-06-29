@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.player;
 
 import com.mojang.authlib.GameProfile;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,7 +37,7 @@ public final class FreecamModule extends Module
     public static FreecamModule INSTANCE;
     public static final int CAMERA_ENTITY_ID = 1337420;
 
-    private final Setting<Double> speedSetting = numberBuilder("Speed", 1.0)
+    private final NumberSetting<Double> speedSetting = numberBuilder("Speed", 1.0)
             .setMin(0.1)
             .setMax(7.0)
             .setScale(0.05)

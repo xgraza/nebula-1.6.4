@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.player;
 
+import ez.nebula.client.api.setting.EnumSetting;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.network.play.server.S02PacketChat;
@@ -13,7 +14,6 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.text.translation.GoogleTranslateService;
 import ez.nebula.client.util.text.translation.Language;
 import ez.nebula.client.api.listener.event.network.EventPacket;
@@ -34,7 +34,7 @@ public final class TranslateModule extends Module
     public static TranslateModule INSTANCE;
     private static final Pattern PLAYER_TAG_REGEX = Pattern.compile("<(.+)>\\s");
 
-    private final Setting<Language> targetSetting = enumBuilder("Target", Language.ENGLISH)
+    private final EnumSetting<Language> targetSetting = enumBuilder("Target", Language.ENGLISH)
             .setDescription("The language to translate to")
             .build();
 

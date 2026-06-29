@@ -8,6 +8,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.ColorSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.math.MathUtil;
 import ez.nebula.client.util.render.RenderUtil;
@@ -49,7 +50,7 @@ public final class BreadcrumbsModule extends Module
             .setDescription("If to show breadcrumbs for arrows")
             .build();
 
-    private final Setting<Double> decayTimeSetting = numberBuilder("Decay Time", 3.5)
+    private final NumberSetting<Double> decayTimeSetting = numberBuilder("Decay Time", 3.5)
             .setMin(1.0)
             .setMax(10.0)
             .setScale(0.1)
@@ -58,14 +59,14 @@ public final class BreadcrumbsModule extends Module
     private final Setting<Boolean> fadeSetting = builder("Fade", false)
             .setDescription("If to fade the breadcrumb before removing it")
             .build();
-    private final Setting<Double> fadeTimeSetting = numberBuilder("Fade Time", 1.5)
+    private final NumberSetting<Double> fadeTimeSetting = numberBuilder("Fade Time", 1.5)
             .setMin(1.1)
             .setMax(10.0)
             .setScale(0.1)
             .setDescription("How long in seconds before the expire time before fading")
             .setVisibility((value) -> fadeSetting.getValue())
             .build();
-    private final Setting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
+    private final NumberSetting<Float> lineWidthSetting = numberBuilder("Line Width", 1.5f)
             .setMin(0.5f)
             .setMax(5.0f)
             .setScale(0.1f)

@@ -4,7 +4,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.api.setting.ColorSetting;
 
 import java.awt.Color;
 
@@ -20,7 +20,7 @@ public final class GlintModule extends Module
     @ModuleInstance
     public static GlintModule INSTANCE;
 
-    public final Setting<Color> colorSetting = colorBuilder("Color", Color.white)
+    public final ColorSetting colorSetting = colorBuilder("Color", Color.white)
             .setDescription("What color to render the enchantment glisten with")
             .build();
 }

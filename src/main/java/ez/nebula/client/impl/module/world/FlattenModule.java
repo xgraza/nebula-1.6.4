@@ -2,6 +2,8 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.listener.event.game.EventPostUpdate;
+import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
@@ -34,14 +36,14 @@ public final class FlattenModule extends Module
 {
     private static final int FLATTEN_ROTATION_PRIORITY = 60;
 
-    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+    private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(6.0)
             .setScale(0.5)
             .setDescription("The range to place blocks at")
             .build();
     @DebugFeature
-    private final Setting<BlockValue> blockSetting = blockBuilder("Block")
+    private final BlockSetting blockSetting = blockBuilder("Block")
             .setBlock(Blocks.obsidian)
             .setDescription("The type of block to use with flatten")
             .build();

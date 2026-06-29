@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.combat;
 
 import com.google.common.collect.Lists;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
@@ -54,7 +55,7 @@ public final class AutoPotModule extends Module
             Potion.regeneration.getId());
     private static final int AUTOPOT_ROTATION_PRIORITY = 90;
 
-    private final Setting<Float> healthSetting = numberBuilder("Health", 6.0f)
+    private final NumberSetting<Float> healthSetting = numberBuilder("Health", 6.0f)
             .setMin(1.0f)
             .setMax(19.5f)
             .setScale(0.5f)

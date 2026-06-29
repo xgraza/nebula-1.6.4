@@ -9,6 +9,7 @@ import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
@@ -32,7 +33,7 @@ public final class AntiFireballModule extends Module
     private static final int ANTIFIREBALL_ROTATION_PRIORITY = 20;
     private static final int FIREBALL_TYPE = 63;
 
-    private final Setting<Double> rangeSetting = numberBuilder("Range", 4.5)
+    private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(6.0)
             .setScale(0.1)

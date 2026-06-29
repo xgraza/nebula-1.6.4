@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.listener.event.game.EventPostUpdate;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
@@ -42,13 +43,13 @@ public final class NukerModule extends Module
 {
     private static final int NUKER_ROTATION_PRIORITY = 80;
 
-    private final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
+    private final NumberSetting<Float> rangeSetting = numberBuilder("Range", 4.2f)
             .setMin(1.0f)
             .setMax(6.0f)
             .setScale(0.1f)
             .setDescription("The range to nuke blocks in")
             .build();
-    private final Setting<Integer> yRangeSetting = numberBuilder("Y-Range", 3)
+    private final NumberSetting<Integer> yRangeSetting = numberBuilder("Y-Range", 3)
             .setMin(1)
             .setMax(6)
             .setScale(1)

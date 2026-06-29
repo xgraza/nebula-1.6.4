@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.combat;
 
 import ez.nebula.client.api.listener.event.world.EventAddEntity;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
@@ -32,7 +33,7 @@ public final class AutoLogModule extends Module
     private final Setting<Boolean> healthSetting = builder("Health", false)
             .setDescription("If to log off when your health goes below a value")
             .build();
-    private final Setting<Float> healthLevelSetting = numberBuilder("Health Level", 6.0f)
+    private final NumberSetting<Float> healthLevelSetting = numberBuilder("Health Level", 6.0f)
             .setMin(1.0f)
             .setMax(19.5f)
             .setScale(0.5f)

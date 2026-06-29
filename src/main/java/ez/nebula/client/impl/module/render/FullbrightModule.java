@@ -1,5 +1,7 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.api.setting.ColorSetting;
+import ez.nebula.client.api.setting.EnumSetting;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import ez.nebula.client.api.listener.EventListener;
@@ -10,7 +12,6 @@ import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.render.EventGamma;
-import ez.nebula.client.api.setting.Setting;
 
 import java.awt.Color;
 
@@ -34,10 +35,10 @@ public final class FullbrightModule extends Module
         FAKE_NIGHT_VISION_EFFECT.setPotionDurationMax(true);
     }
 
-    public final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.GAMMA)
+    public final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.GAMMA)
             .setDescription("How to brighten the world")
             .build();
-    public final Setting<Color> colorSetting = colorBuilder("Color", new Color(112, 82, 143))
+    public final ColorSetting colorSetting = colorBuilder("Color", new Color(112, 82, 143))
             .setDescription("The color to fill the world with")
             .setVisibility((value) -> modeSetting.getValue() == Mode.COLOR)
             .build();

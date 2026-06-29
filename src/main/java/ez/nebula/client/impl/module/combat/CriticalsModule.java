@@ -6,6 +6,8 @@ package ez.nebula.client.impl.module.combat;
 
 import ez.nebula.client.api.listener.IEventPriorities;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.movement.SpeedModule;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
@@ -34,13 +36,13 @@ import ez.nebula.client.util.math.Timer;
         category = ModuleCategory.COMBAT)
 public final class CriticalsModule extends Module
 {
-    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.MOTION)
+    private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.MOTION)
             .setDescription("How critical hits should be handled")
             .build();
     private final Setting<Boolean> efficentSetting = builder("Efficient", false)
             .setDescription("If to only try to critical hit when it will do the most damage")
             .build();
-    private final Setting<Double> delaySetting = numberBuilder("Delay", 0.5)
+    private final NumberSetting<Double> delaySetting = numberBuilder("Delay", 0.5)
             .setMin(0.0)
             .setMax(5.0)
             .setScale(0.5)

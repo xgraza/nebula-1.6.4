@@ -8,6 +8,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -24,20 +25,20 @@ public final class InteractModule extends Module
     @ModuleInstance
     public static InteractModule INSTANCE;
 
-    public final Setting<Integer> placeDelaySetting = numberBuilder("Place Delay", 0)
+    public final NumberSetting<Integer> placeDelaySetting = numberBuilder("Place Delay", 0)
             .setMin(0)
             .setMax(4)
             .setScale(1)
             .setDescription("How many ticks it should take before allowing you to place another block")
             .build();
 
-    public final Setting<Double> attackReachSetting = numberBuilder("Attach Reach", 3.0)
+    public final NumberSetting<Double> attackReachSetting = numberBuilder("Attach Reach", 3.0)
             .setMin(1.0)
             .setMax(6.0)
             .setScale(0.1)
             .setDescription("The distance in blocks you are able to interact with entities")
             .build();
-    public final Setting<Double> placeReachSetting = numberBuilder("Place Reach", 3.0)
+    public final NumberSetting<Double> placeReachSetting = numberBuilder("Place Reach", 3.0)
             .setMin(1.0)
             .setMax(6.0)
             .setScale(0.1)

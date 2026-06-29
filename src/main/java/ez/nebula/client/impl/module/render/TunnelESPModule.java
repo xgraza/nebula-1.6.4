@@ -8,7 +8,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.ColorSetting;
-import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.world.BlockSearcher;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import ez.nebula.client.util.render.QuadMask;
@@ -36,26 +36,26 @@ public final class TunnelESPModule extends Module
     private final BlockSearcher searcher = new BlockSearcher("TunnelESP", this::onBlockSearched);
     private final Set<BlockPos> tunnelList = new ConcurrentSet<>();
 
-    private final Setting<Integer> searchRangeSetting = numberBuilder("Search Range", 5)
+    private final NumberSetting<Integer> searchRangeSetting = numberBuilder("Search Range", 5)
             .setMin(1)
             .setMax(20)
             .setScale(1)
             .setDescription("How many chunks to search for tunnels")
             .onValueChanged(searcher::setSearchRange)
             .build();
-    private final Setting<Integer> minTunnelLengthSetting = numberBuilder("Min Length", 5)
+    private final NumberSetting<Integer> minTunnelLengthSetting = numberBuilder("Min Length", 5)
             .setMin(1)
             .setMax(10)
             .setScale(1)
             .setDescription("The minimum tunnel length")
             .build();
-    private final Setting<Integer> maxTunnelLengthSetting = numberBuilder("Max Length", 64)
+    private final NumberSetting<Integer> maxTunnelLengthSetting = numberBuilder("Max Length", 64)
             .setMin(20)
             .setMax(256)
             .setScale(1)
             .setDescription("The max tunnel length")
             .build();
-    private final Setting<Integer> minSurroundSetting = numberBuilder("Surrounding Blocks", 4)
+    private final NumberSetting<Integer> minSurroundSetting = numberBuilder("Surrounding Blocks", 4)
             .setMin(4)
             .setMax(6)
             .setScale(1)

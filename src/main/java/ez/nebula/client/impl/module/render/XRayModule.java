@@ -1,13 +1,14 @@
 package ez.nebula.client.impl.module.render;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
 
 import java.util.List;
 
@@ -68,12 +69,12 @@ public final class XRayModule extends Module
             Blocks.flowing_lava
     );
 
-    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.BASIC)
+    private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.BASIC)
             .setDescription("How to show hidden blocks")
             .onValueChanged((value) -> reloadRenders())
             .build();
 
-    public Setting<Integer> transparencySetting = numberBuilder("Transparency", 120)
+    public final NumberSetting<Integer> transparencySetting = numberBuilder("Transparency", 120)
             .setMin(30)
             .setMax(255)
             .setScale(1)

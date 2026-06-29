@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.block.*;
@@ -37,7 +38,7 @@ public final class LandscaperModule extends Module
 {
     private static final int LANDSCAPER_ROTATION_PRIORITY = 10;
 
-    private final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
+    private final NumberSetting<Float> rangeSetting = numberBuilder("Range", 4.2f)
             .setMin(1.0f)
             .setMax(6.0f)
             .setScale(0.1f)

@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.movement;
 
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -29,7 +30,7 @@ public final class BlinkModule extends Module
     private final Setting<Boolean> manualSetting = builder("Manual", false)
             .setDescription("If to manually hold packets until Blink is disabled")
             .build();
-    private final Setting<Double> delaySetting = numberBuilder("Delay", 1.0)
+    private final NumberSetting<Double> delaySetting = numberBuilder("Delay", 1.0)
             .setMin(0.1)
             .setMax(20.0)
             .setScale(0.1)

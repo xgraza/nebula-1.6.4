@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.client.multiplayer.ServerData;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
@@ -19,7 +20,7 @@ public final class AutoReconnectModule extends Module
     @ModuleInstance
     public static AutoReconnectModule INSTANCE;
 
-    public final Setting<Integer> delaySetting = numberBuilder("Delay", 5)
+    public final NumberSetting<Integer> delaySetting = numberBuilder("Delay", 5)
             .setMin(1)
             .setMax(100)
             .setScale(1)

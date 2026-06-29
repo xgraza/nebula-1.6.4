@@ -7,7 +7,7 @@ import ez.nebula.client.api.listener.event.input.EventUpdateRiding;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0CPacketInput;
 
@@ -21,7 +21,7 @@ import net.minecraft.network.play.client.C0CPacketInput;
         category = ModuleCategory.MOVEMENT)
 public final class EntitySpeedModule extends Module
 {
-    private final Setting<Double> speedSetting = numberBuilder("Speed", 0.2)
+    private final NumberSetting<Double> speedSetting = numberBuilder("Speed", 0.2)
             .setMin(0.1)
             .setMax(5.0)
             .setScale(0.1)

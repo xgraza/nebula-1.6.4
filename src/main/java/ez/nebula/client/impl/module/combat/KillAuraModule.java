@@ -1,5 +1,7 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -53,13 +55,13 @@ public final class KillAuraModule extends Module
 
     private static final int KILLAURA_ROTATION_PRIORITY = 140;
 
-    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.SINGLE)
+    private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.SINGLE)
             .setDescription("How kill aura should select its targets")
             .build();
-    private final Setting<Priority> prioritySetting = enumBuilder("Priority", Priority.DISTANCE)
+    private final EnumSetting<Priority> prioritySetting = enumBuilder("Priority", Priority.DISTANCE)
             .setDescription("How kill aura should prioritize its targets")
             .build();
-    public final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
+    public final NumberSetting<Float> rangeSetting = numberBuilder("Range", 4.2f)
             .setMin(1.0f)
             .setMax(6.0f)
             .setScale(0.1f)
@@ -68,7 +70,7 @@ public final class KillAuraModule extends Module
     private final Setting<Boolean> wallsSetting = builder("Walls", true)
             .setDescription("If attacking the target through solid walls is allowed")
             .build();
-    private final Setting<Weapon> weaponSetting = enumBuilder("Weapon", Weapon.NONE)
+    private final EnumSetting<Weapon> weaponSetting = enumBuilder("Weapon", Weapon.NONE)
             .setDescription("What kind of weapon is required to attack the target")
             .build();
     private final Setting<Boolean> prefer32KSetting = builder("Prefer 32k Sword", false)

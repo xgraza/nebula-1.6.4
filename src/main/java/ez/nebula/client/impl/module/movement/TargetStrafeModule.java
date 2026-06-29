@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.movement;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.impl.module.render.HUDModule;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -28,13 +29,13 @@ import static org.lwjgl.opengl.GL11.*;
         category = ModuleCategory.MOVEMENT)
 public final class TargetStrafeModule extends Module
 {
-    private final Setting<Float> rangeSetting = numberBuilder("Range", 4.2f)
+    private final NumberSetting<Float> rangeSetting = numberBuilder("Range", 4.2f)
             .setMin(1.0f)
             .setMax(6.0f)
             .setScale(0.1f)
             .setDescription("The range to strafe around your target")
             .build();
-    private final Setting<Double> reductionSetting = numberBuilder("Speed Reduction", 0.0)
+    private final NumberSetting<Double> reductionSetting = numberBuilder("Speed Reduction", 0.0)
             .setMin(0.0)
             .setMax(1.0)
             .setScale(0.01)

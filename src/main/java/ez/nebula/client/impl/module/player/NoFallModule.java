@@ -6,8 +6,9 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.gui.module.component.module.value.EnumSettingComponent;
-import ez.nebula.client.api.setting.Setting;
 
 /**
  * @author xgraza
@@ -18,10 +19,10 @@ import ez.nebula.client.api.setting.Setting;
         category = ModuleCategory.PLAYER)
 public final class NoFallModule extends Module
 {
-    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.SPOOF)
+    private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.SPOOF)
             .setDescription("The way to negate fall damage")
             .build();
-    private final Setting<Float> fallDistanceSetting = numberBuilder("Fall Distance", 3.0f)
+    private final NumberSetting<Float> fallDistanceSetting = numberBuilder("Fall Distance", 3.0f)
             .setMin(0.5f)
             .setMax(32.0f)
             .setScale(0.5f)

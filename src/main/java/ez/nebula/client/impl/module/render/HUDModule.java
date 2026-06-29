@@ -1,5 +1,8 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.api.setting.ColorSetting;
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
@@ -27,22 +30,22 @@ public final class HUDModule extends Module
     @ModuleInstance
     public static HUDModule INSTANCE;
 
-    public final Setting<Color> primaryColorSetting = colorBuilder("Primary Color", new Color(112, 82, 143))
+    public final ColorSetting primaryColorSetting = colorBuilder("Primary Color", new Color(112, 82, 143))
             .setExemptClientSync(true)
             .setAllowTransparency(false)
             .setDescription("The primary client color")
             .build();
-    public final Setting<ColorMode> colorModeSetting = enumBuilder("Color Mode", ColorMode.STATIC)
+    public final EnumSetting<ColorMode> colorModeSetting = enumBuilder("Color Mode", ColorMode.STATIC)
             .setDescription("The client color mode")
             .build();
-    public final Setting<Float> minBrightnessSetting = numberBuilder("Minimum Brightness", 0.65f)
+    public final NumberSetting<Float> minBrightnessSetting = numberBuilder("Minimum Brightness", 0.65f)
             .setMin(0.05f)
             .setMax(0.95f)
             .setScale(0.05f)
             .setDescription("The minimum brightness for the gradient rainbow")
             .setVisibility((value) -> colorModeSetting.getValue() == ColorMode.GRADIENT_RAINBOW)
             .build();
-    public final Setting<Double> speedSetting = numberBuilder("Speed", 2.5)
+    public final NumberSetting<Double> speedSetting = numberBuilder("Speed", 2.5)
             .setMin(1.0)
             .setMax(10.0)
             .setScale(0.5)

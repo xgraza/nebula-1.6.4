@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
 import net.minecraft.client.renderer.culling.Frustrum;
 import net.minecraft.enchantment.Enchantment;
@@ -56,7 +57,7 @@ public final class NametagsModule extends Module
     private final Setting<Boolean> customFontSetting = builder("Custom Font", true)
             .setDescription("If to use the client's custom font to render the entity name")
             .build();
-    private final Setting<Float> sizeSetting = numberBuilder("Size", 0.25f)
+    private final NumberSetting<Float> sizeSetting = numberBuilder("Size", 0.25f)
             .setMin(0.05f)
             .setMax(3.0f)
             .setScale(0.05f)

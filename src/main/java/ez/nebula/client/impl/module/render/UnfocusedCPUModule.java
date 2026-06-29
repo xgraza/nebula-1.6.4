@@ -4,6 +4,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 
 /**
@@ -21,7 +22,7 @@ public final class UnfocusedCPUModule extends Module
     public final Setting<Boolean> stopRenderSetting = builder("Stop Render", true)
             .setDescription("If to stop rendering the game entirely when unfocused")
             .build();
-    public final Setting<Integer> fpsSetting = numberBuilder("FPS", 15)
+    public final NumberSetting<Integer> fpsSetting = numberBuilder("FPS", 15)
             .setMin(1)
             .setMax(60)
             .setScale(1)
