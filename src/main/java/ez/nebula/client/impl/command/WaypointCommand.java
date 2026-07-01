@@ -36,7 +36,7 @@ public final class WaypointCommand extends Command
                                     waypoint.getName(), waypoint.getX(), waypoint.getY(), waypoint.getZ());
                         })))
                 .then(literal("add")
-                        .then(argument("name", StringArgumentType.greedyString())
+                        .then(argument("name", StringArgumentType.string())
                                 .executes((ctx) ->
                                 {
                                     final String serverIP = getServerIP();
