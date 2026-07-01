@@ -4,41 +4,34 @@
 
 package ez.nebula.client.impl.module.world;
 
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.setting.NumberSetting;
-import ez.nebula.client.util.math.AngleUtil;
-import net.minecraft.block.Block;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.src.BlockPos;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
-import ez.nebula.client.core.Nebula;
-import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.QuadMask;
-import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.input.EventUpdateInput;
-import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.player.InteractionManager;
+import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.core.Nebula;
+import ez.nebula.client.impl.module.combat.AutoBedModule;
+import ez.nebula.client.impl.module.combat.KillAuraModule;
+import ez.nebula.client.impl.module.player.AutoEatModule;
+import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
-import ez.nebula.client.util.render.RenderUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
-import net.minecraft.util.Vec3;
+import io.netty.util.internal.ConcurrentSet;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.src.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MathHelper;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Set;
 
 /**
  * @author xgraza
@@ -49,177 +42,211 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         category = ModuleCategory.WORLD)
 public final class AutoTunnelModule extends Module
 {
-    private final NumberSetting<Integer> blocksSetting = numberBuilder("Blocks", 2)
+    private final NumberSetting<Integer> lengthSetting = numberBuilder("Length", 4)
             .setMin(1)
-            .setMax(4)
+            .setMax(6)
             .setScale(1)
-            .setDescription("How many blocks ahead to break")
+            .setDescription("The length of the tunnel to dig ahead of you")
             .build();
-    private final Setting<Boolean> keepYSetting = builder("Keep Y", true)
-            .setDescription("If to keep your original y-level when tunneling")
-            .build();
-    private final Setting<Boolean> replaceLavaSetting = builder("Replace Lava", true)
-            .setDescription("If to automatically place blocks in random lava holes in the nether")
-            .build();
-    private final Setting<Boolean> backPlaceSetting = builder("Back Fill", false)
-            .setDescription("If to automatically fill the broken tunnel behind you")
+    private final NumberSetting<Integer> blocksPerTickSetting = numberBuilder("Blocks per Tick", 3)
+            .setMin(1)
+            .setMax(20)
+            .setScale(1)
+            .setDescription("How many blocks to break per tick")
             .build();
     private final Setting<Boolean> autoWalkSetting = builder("Auto Walk", false)
-            .setDescription("If to automatically move forward")
+            .setDescription("If to automatically walk when tunneling")
             .build();
-    private final Setting<Boolean> renderSetting = builder("Render", true)
-            .setDescription("If to render break and placements")
+    private final Setting<Boolean> backplaceSetting = builder("Backplace", false)
+            .setDescription("If to replace the blocks behind you")
             .build();
 
-    private final Queue<BlockInfo> blockBreakQueue = new ConcurrentLinkedQueue<>();
-    private final Queue<BlockInfo> backPlaceQueue = new ConcurrentLinkedQueue<>();
-    private BlockInfo currentBlock;
-
-    private int posY = -1;
-    private boolean moveForward;
+    private final Set<BlockPos> replaceQueue = new ConcurrentSet<>();
+    private BlockInfo breakInfo;
+    private int prevSlot = -1;
+    private boolean walk;
 
     @Override
     public void onDisable()
     {
         super.onDisable();
-        blockBreakQueue.clear();
-        backPlaceQueue.clear();
-        if (currentBlock != null && MC.playerController.sameToolAndBlock(
-                currentBlock.getPos().getX(),
-                currentBlock.getPos().getY(),
-                currentBlock.getPos().getZ()))
+        if (prevSlot != -1)
         {
-            MC.playerController.resetBlockRemoving();
+            Nebula.INSTANCE.getInventoryManager().setSlotClient(prevSlot);
         }
-        if (MC.thePlayer != null)
-        {
-            if (autoWalkSetting.getValue())
-            {
-                MC.thePlayer.movementInput.moveForward = 0;
-            }
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
-        }
-        moveForward = false;
-        currentBlock = null;
-        posY = -1;
-        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+        prevSlot = -1;
+        replaceQueue.clear();
+        breakInfo = null;
+        walk = false;
     }
 
     @Subscribe
-    private final EventListener<EventRender3D> render3DEventListener = event ->
+    private final EventListener<EventUpdateInput.Post> postEventListener = event ->
     {
-        if (!renderSetting.getValue() || currentBlock == null)
+        if (autoWalkSetting.getValue() && walk && event.getInput().equals(MC.thePlayer.movementInput))
         {
-            return;
+            event.getInput().sneak = false;
+            event.getInput().moveForward = 1;
         }
-
-        final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
-                currentBlock.getPos().getX(), currentBlock.getPos().getY(), currentBlock.getPos().getZ()), 1);
-
-        RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(currentBlock.getFacing()), 0x80FF0000);
-        RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(currentBlock.getFacing()), 0xFFFF0000);
     };
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        // do not interfere, we may be trying to kill a creeper or something...
-        if (KillAuraModule.INSTANCE.isAttacking() || KillAuraModule.INSTANCE.isBlocking())
+        if (KillAuraModule.INSTANCE.isAttacking() || AutoBedModule.INSTANCE.isActive() || AutoEatModule.INSTANCE.isActive())
         {
+            walk = false;
             return;
         }
 
-        if (blockBreakQueue.isEmpty() && backPlaceSetting.getValue())
-        {
-            final List<BlockInfo> replaceBlockList = new LinkedList<>();
-            for (final BlockInfo info : backPlaceQueue)
-            {
-                if (isBlockBehindPlayer(info.getPos()))
-                {
-                    replaceBlockList.add(info);
-                }
-            }
+        walk = true;
 
-            moveForward = false;
-            if (replaceBlocks(replaceBlockList))
-            {
-                // remove all the replaced blocks
-                for (final BlockInfo info : replaceBlockList)
-                {
-                    if (!BlockUtil.isReplaceable(info.getPos()))
-                    {
-                        backPlaceQueue.remove(info);
-                    }
-                }
-                return;
-            }
-            moveForward = true;
-        }
-
-        searchForBlocks();
-        if (currentBlock == null)
+        if (breakInfo != null)
         {
-            if (blockBreakQueue.isEmpty())
+            swapToBestBlockSlot(breakInfo.getPos());
+            if (InteractionManager.INSTANCE.breakBlock(breakInfo.getPos(), breakInfo.getFacing()))
             {
-                return;
+                walk = true;
+                if (backplaceSetting.getValue())
+                {
+                    replaceQueue.add(breakInfo.getPos());
+                }
+                breakInfo = null;
+                swapBack();
             }
-            currentBlock = blockBreakQueue.poll();
+            walk = false;
             return;
         }
 
-        moveForward = blockBreakQueue.size() < 4;
-
-        if (replaceLavaSetting.getValue())
+        if (!replaceQueue.isEmpty() && backplaceSetting.getValue())
         {
-            // check if the block at this position is lava, so we can place a block there and then replace...
-            final List<BlockInfo> lavaHolePositions = getLavaFillPositions(currentBlock.getPos());
-            if (replaceBlocks(lavaHolePositions))
+            walk = true;
+            int blocks = 0;
+            for (BlockPos pos : replaceQueue)
+            {
+                if (!isBlockBehindPlayer(pos))
+                {
+                    continue;
+                }
+                final int slot = InventoryUtil.getHotbarSlot(
+                        (stack) -> stack.getItem() instanceof ItemBlock
+                                && ((ItemBlock) stack.getItem()).getBlock().getMaterial().isSolid());
+                if (slot == -1)
+                {
+                    break;
+                }
+                final BlockInfo info = BlockUtil.getPlacement(pos);
+                if (info == null)
+                {
+                    continue;
+                }
+                Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+                if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing()))
+                {
+                    replaceQueue.remove(pos);
+                    ++blocks;
+                }
+                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                if (blocks >= blocksPerTickSetting.getValue())
+                {
+                    return;
+                }
+            }
+            if (blocks > 0)
             {
                 return;
             }
         }
-
-        if (!PacketMineModule.INSTANCE.isToggled())
+        final List<BlockPos> tunnelBlockList = getTunnelBlockList();
+        int blocks = 0;
+        for (final BlockPos pos : tunnelBlockList)
         {
-            final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(currentBlock.getPos()));
-            if (slot != -1 && MC.thePlayer.inventory.currentItem != slot)
+            final BlockInfo info = getBreakInfo(pos);
+            if (info == null)
             {
-                MC.playerController.resetBlockRemoving();
-                MC.thePlayer.inventory.currentItem = slot;
+                continue;
+            }
+            swapToBestBlockSlot(pos);
+            walk = false;
+            if (InteractionManager.INSTANCE.breakBlock(pos, info.getFacing()))
+            {
+                walk = true;
+                swapBack();
+                ++blocks;
+                if (backplaceSetting.getValue())
+                {
+                    replaceQueue.add(pos);
+                }
+                if (blocksPerTickSetting.getValue() <= blocks)
+                {
+                    break;
+                }
+            } else
+            {
+                walk = false;
+                // me must continue to break on the next tick
+                breakInfo = info;
                 return;
             }
-        }
-        if (InteractionManager.INSTANCE.breakBlock(currentBlock.getPos(), currentBlock.getFacing()))
-        {
-            if (backPlaceSetting.getValue())
-            {
-                backPlaceQueue.add(currentBlock);
-            }
-            currentBlock = null;
         }
     };
 
-    @Subscribe
-    private final EventListener<EventUpdateInput.Post> postUpdateInputEventListener = event ->
+    private void swapToBestBlockSlot(final BlockPos pos)
     {
-        if (autoWalkSetting.getValue() && moveForward && event.getInput().equals(MC.thePlayer.movementInput))
+        final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
+        if (slot != -1)
         {
-            // allow player to stop movement if they sneak
-            if (event.getInput().sneak)
+            if (prevSlot == -1)
             {
-                return;
+                prevSlot = MC.thePlayer.inventory.currentItem;
             }
-            // go forward, do not strafe
-            event.getInput().moveForward = 1;
-            event.getInput().moveStrafe = 0;
+            Nebula.INSTANCE.getInventoryManager().setSlotClient(slot);
         }
-    };
+    }
+
+    private void swapBack()
+    {
+        if (prevSlot != -1 && MC.thePlayer != null)
+        {
+            Nebula.INSTANCE.getInventoryManager().setSlotClient(prevSlot);
+        }
+        prevSlot = -1;
+    }
+
+    private BlockInfo getBreakInfo(final BlockPos pos)
+    {
+        final EnumFacing face = AngleUtil.getVisibleFace(pos, 6.0);
+        if (face == null)
+        {
+            return null;
+        }
+        return new BlockInfo(pos, face);
+    }
+
+    private List<BlockPos> getTunnelBlockList()
+    {
+        final List<BlockPos> blockPosList = new LinkedList<>();
+        final BlockPos origin = PlayerUtil.getOrigin();
+        final EnumFacing facing = PlayerUtil.getFacing();
+        for (int i = 1; i < lengthSetting.getValue() + 1; ++i)
+        {
+            BlockPos pos = origin.offset(facing, i);
+            if (BlockUtil.isNotAir(pos) && MC.theWorld.getBlock(pos).blockHardness != -1.0f)
+            {
+                blockPosList.add(pos);
+            }
+            pos = pos.up();
+            if (BlockUtil.isNotAir(pos) && MC.theWorld.getBlock(pos).blockHardness != -1.0f)
+            {
+                blockPosList.add(pos);
+            }
+        }
+        return blockPosList;
+    }
 
     private boolean isBlockBehindPlayer(final BlockPos pos)
     {
-        final EnumFacing facing = PlayerUtil.getFacing();
-        final BlockPos vec = BlockUtil.getFacingVec(facing);
-
+        final BlockPos vec = BlockUtil.getFacingVec(PlayerUtil.getFacing());
         int delta = 0;
         int axis = 0;
         if (vec.getX() != 0)
@@ -233,137 +260,5 @@ public final class AutoTunnelModule extends Module
             axis = vec.getZ();
         }
         return axis > 0 ? delta > 0 : delta < 0;
-    }
-
-    private List<BlockInfo> getLavaFillPositions(final BlockPos pos)
-    {
-        final List<BlockInfo> blockInfoList = new LinkedList<>();
-        Block block = MC.theWorld.getBlock(pos);
-        if (block == Blocks.lava || block == Blocks.flowing_lava)
-        {
-            final BlockInfo info = getBlockInfo(pos);
-            if (info != null)
-            {
-                blockInfoList.add(info);
-            }
-        }
-        for (final EnumFacing facing : EnumFacing.values())
-        {
-            final BlockPos n = pos.offset(facing);
-            block = MC.theWorld.getBlock(n);
-            if (block == Blocks.lava || block == Blocks.flowing_lava)
-            {
-                final BlockInfo info = getBlockInfo(n);
-                if (info != null)
-                {
-                    blockInfoList.add(info);
-                }
-            }
-        }
-        return blockInfoList;
-    }
-
-    private BlockInfo getBlockInfo(final BlockPos pos)
-    {
-        for (final EnumFacing facing : EnumFacing.values())
-        {
-            final BlockPos n = pos.offset(facing);
-            if (!BlockUtil.isReplaceable(n))
-            {
-                return new BlockInfo(n, BlockUtil.getOpposite(facing));
-            }
-        }
-        return null;
-    }
-
-    private void searchForBlocks()
-    {
-        if (!blockBreakQueue.isEmpty())
-        {
-            return;
-        }
-        if (!keepYSetting.getValue() || posY == -1)
-        {
-            posY = MathHelper.floor_double(MC.thePlayer.boundingBox.minY);
-        }
-        final BlockPos origin = PlayerUtil.getOrigin(posY);
-        final EnumFacing facing = PlayerUtil.getFacing();
-        final EnumFacing opposite = BlockUtil.getOpposite(facing);
-        final BlockPos faceVec = BlockUtil.getFacingVec(facing);
-
-        //for (int offset = 0; offset < blocksSetting.getValue(); ++offset)
-        for (int offset = blocksSetting.getValue(); offset >= 0; --offset)
-        {
-            final BlockPos offsetPos = new BlockPos(
-                    origin.getX() + ((offset + 1) * faceVec.getX()),
-                    posY,
-                    origin.getZ() + ((offset + 1) * faceVec.getZ()));
-            final BlockPos abovePos = offsetPos.up();
-
-            if (isValidBlock(abovePos))
-            {
-                //final EnumFacing opposite = AngleUtil.getVisibleFace(abovePos, MC.playerController.getBlockReachDistance());
-                //if (opposite != null)
-                {
-                    blockBreakQueue.add(new BlockInfo(abovePos, opposite));
-                }
-            }
-            if (isValidBlock(offsetPos))
-            {
-                //final EnumFacing opposite = AngleUtil.getVisibleFace(offsetPos, MC.playerController.getBlockReachDistance());
-                //if (opposite != null)
-                {
-                    blockBreakQueue.add(new BlockInfo(offsetPos, opposite));
-                }
-            }
-        }
-    }
-
-    private boolean isValidBlock(final BlockPos pos)
-    {
-        final Block block = MC.theWorld.getBlock(pos);
-        return block != null && !block.getMaterial().isReplaceable() && block.blockHardness != -1;
-    }
-
-    private boolean replaceBlocks(final Collection<BlockInfo> positions)
-    {
-        if (positions.isEmpty())
-        {
-            return false;
-        }
-        boolean placed = false;
-        for (BlockInfo info : positions)
-        {
-            // recalculate the info for placement
-            info = getBlockInfo(info.getPos());
-            if (info == null)
-            {
-                continue;
-            }
-
-            final int slot = InventoryUtil.getHotbarSlot((stack) ->
-            {
-                if (!(stack.getItem() instanceof ItemBlock))
-                {
-                    return false;
-                }
-                final ItemBlock itemBlock = (ItemBlock) stack.getItem();
-                return itemBlock.getBlock().blockHardness != -1;
-            });
-            if (slot == -1)
-            {
-                continue;
-            }
-            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-            final boolean placeResult = InteractionManager.INSTANCE.rightClickBlock(
-                    info.getPos(), info.getFacing());
-            if (placeResult)
-            {
-                placed = true;
-                MC.thePlayer.swingItem();
-            }
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
-        }
-        return placed; // wait until next tick to continue breaking
     }
 }

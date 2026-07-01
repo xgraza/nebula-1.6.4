@@ -69,8 +69,20 @@ public final class InventoryManager implements IManager
         {
             return;
         }
-        MC.thePlayer.sendQueue.addToSendQueue(
-                new C09PacketHeldItemChange(index));
+        MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot = index));
+    }
+
+    public void setSlotClient(final int index)
+    {
+        if (MC.thePlayer == null)
+        {
+            return;
+        }
+        if (MC.thePlayer.inventory.currentItem != index)
+        {
+            setSlot(index, true);
+        }
+        MC.thePlayer.inventory.currentItem = MC.playerController.currentPlayerItem = index;
     }
 
     public void syncSlot()
