@@ -67,45 +67,24 @@ public final class CriticalsModule extends Module
     @Subscribe(priority = IEventPriorities.MEDIUM)
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (modifyStage == -1)
+        if (modifyStage == -1 || MC.gameSettings.keyBindJump.pressed || SpeedModule.INSTANCE.isActive() || !MC.thePlayer.onGround)
         {
+            modifyStage = -1;
             return;
         }
 
-        if (!MC.thePlayer.onGround || SpeedModule.INSTANCE.isActive())
+        event.setOnGround(false);
+        if (modifyStage == 0)
         {
-            event.setY(MC.thePlayer.boundingBox.minY);
-            event.setStance(MC.thePlayer.posY);
-            event.setOnGround(MC.thePlayer.onGround);
-
+            event.setY(event.getY() + 0.1);
+            event.setStance(event.getStance() + 0.100000004768371);
+            modifyStage = 1;
+        } else if (modifyStage == 1)
+        {
             modifyStage = -1;
             timer.resetTime();
-            return;
+            FakePlayerModule.INSTANCE.critFake();
         }
-        event.setOnGround(false);
-        switch (modifyStage)
-        {
-            case 0:
-            {
-                event.setY(event.getY() + 0.1);
-                event.setStance(event.getStance() + 0.100000004768371);
-                break;
-            }
-            case 1:
-            case 2:
-            {
-                break;
-            }
-            case 3:
-            {
-                event.setOnGround(true);
-                modifyStage = -1;
-                timer.resetTime();
-                FakePlayerModule.INSTANCE.critFake();
-                return;
-            }
-        }
-        ++modifyStage;
     };
 
     @Subscribe
