@@ -49,7 +49,7 @@ public final class WaypointCommand extends Command
                                     {
                                         return ctx.getSource().respond("A waypoint with that name already exists!");
                                     }
-                                    final Waypoint waypoint = new Waypoint(serverIP, name, MC.thePlayer.posX, MC.thePlayer.posY, MC.thePlayer.posZ);
+                                    final Waypoint waypoint = new Waypoint(serverIP, name, MC.thePlayer.posX, MC.thePlayer.posY, MC.thePlayer.posZ, MC.thePlayer.dimension);
                                     Nebula.INSTANCE.getWaypointManager().registerWaypoint(waypoint);
                                     return ctx.getSource().respond("Created a new waypoint with the name &z%s&r at your location", name);
                                 }))
@@ -72,7 +72,7 @@ public final class WaypointCommand extends Command
                                                             final double x = DoubleArgumentType.getDouble(ctx, "x");
                                                             final double y = DoubleArgumentType.getDouble(ctx, "y");
                                                             final double z = DoubleArgumentType.getDouble(ctx, "z");
-                                                            final Waypoint waypoint = new Waypoint(serverIP, name, x, y, z);
+                                                            final Waypoint waypoint = new Waypoint(serverIP, name, x, y, z, MC.thePlayer.dimension);
                                                             Nebula.INSTANCE.getWaypointManager().registerWaypoint(waypoint);
                                                             return ctx.getSource().respond("Created a new waypoint &z%s&r at XYZ: &z%.1f, %.1f, %.1f",
                                                                     name, x, y, z);

@@ -13,19 +13,21 @@ public final class Waypoint implements IJSONSerializable
 {
     private String serverIP, name;
     private double x, y, z;
+    private int dimension;
 
     public Waypoint()
     {
 
     }
 
-    public Waypoint(String serverIP, String name, double x, double y, double z)
+    public Waypoint(String serverIP, String name, double x, double y, double z, int dimension)
     {
         this.serverIP = serverIP;
         this.name = name;
         this.x = x;
         this.y = y;
         this.z = z;
+        this.dimension = dimension;
     }
 
     public String getServerIP()
@@ -51,6 +53,11 @@ public final class Waypoint implements IJSONSerializable
     public double getZ()
     {
         return z;
+    }
+
+    public int getDimension()
+    {
+        return dimension;
     }
 
     @Override
@@ -82,6 +89,7 @@ public final class Waypoint implements IJSONSerializable
         x = object.get("x").getAsDouble();
         y = object.get("y").getAsDouble();
         z = object.get("z").getAsDouble();
+        dimension = object.get("dimension").getAsInt();
 
         if (Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z))
         {
@@ -102,6 +110,7 @@ public final class Waypoint implements IJSONSerializable
         object.addProperty("x", x);
         object.addProperty("y", y);
         object.addProperty("z", z);
+        object.addProperty("dimension", dimension);
         return object;
     }
 }

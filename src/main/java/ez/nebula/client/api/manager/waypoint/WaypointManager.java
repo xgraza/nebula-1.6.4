@@ -11,6 +11,7 @@ import ez.nebula.client.impl.module.render.NameProtectModule;
 import ez.nebula.client.impl.module.render.WaypointsModule;
 import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Vec3;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,12 +48,24 @@ public final class WaypointManager implements ITypedManager<Waypoint>
 
         for (final Waypoint waypoint : serverWaypoints)
         {
-            RenderUtil.renderGLBillboard(waypoint.getX(), waypoint.getY(), waypoint.getZ(), 0.2f, () ->
+            final Vec3 vec = getWaypointPos(waypoint);
+            RenderUtil.renderGLBillboard(vec.xCoord, vec.yCoord, vec.zCoord, 0.2f, () ->
             {
                 glEnable(GL_DEPTH_CLAMP);
-                final double distance = Math.sqrt(MC.thePlayer.getDistanceSq(waypoint.getX(), waypoint.getY(), waypoint.getZ()));
+                final double distance = Math.sqrt(MC.thePlayer.getDistanceSq(vec.xCoord, vec.yCoord, vec.zCoord));
                 final String text1 = NameProtectModule.INSTANCE.protect(waypoint.getName());
-                final String text2 = String.format("%.1f block%s", distance, distance > 1.0 ? "s" : "");
+                String text2 = String.format("%.1f block%s", distance, distance > 1.0 ? "s" : "");
+
+                if (waypoint.getDimension() != MC.thePlayer.dimension)
+                {
+                    if (waypoint.getDimension() == -1)
+                    {
+                        text2 += " (Nether)";
+                    } else if (waypoint.getDimension() == 0)
+                    {
+                        text2 += " (Overworld)";
+                    }
+                }
 
                 int textWidth1 = MC.fontRenderer.getStringWidth(text1);
                 int textWidth2 = MC.fontRenderer.getStringWidth(text2);
@@ -74,6 +87,26 @@ public final class WaypointManager implements ITypedManager<Waypoint>
             });
         }
     };
+
+    private Vec3 getWaypointPos(final Waypoint waypoint)
+    {
+        double x = waypoint.getX();
+        double y = waypoint.getY();
+        double z = waypoint.getZ();
+        if (waypoint.getDimension() != MC.thePlayer.dimension)
+        {
+            if (waypoint.getDimension() == 0)
+            {
+                x /= 8;
+                z /= 8;
+            } else if (waypoint.getDimension() == -1)
+            {
+                x *= 8;
+                z *= 8;
+            }
+        }
+        return Vec3.createVectorHelper(x, y, z);
+    }
 
     @Override
     public void init()
