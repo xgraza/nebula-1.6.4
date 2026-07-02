@@ -1868,14 +1868,17 @@ public abstract class EntityLivingBase extends Entity
             this.prevRotationYaw += 360.0F;
         }
 
-        while (this.renderYawOffset - this.prevRenderYawOffset < -180.0F)
+        if (!Nebula.INSTANCE.getRotationManager().isSpoofing())
         {
-            this.prevRenderYawOffset -= 360.0F;
-        }
+            while (this.renderYawOffset - this.prevRenderYawOffset < -180.0F)
+            {
+                this.prevRenderYawOffset -= 360.0F;
+            }
 
-        while (this.renderYawOffset - this.prevRenderYawOffset >= 180.0F)
-        {
-            this.prevRenderYawOffset += 360.0F;
+            while (this.renderYawOffset - this.prevRenderYawOffset >= 180.0F)
+            {
+                this.prevRenderYawOffset += 360.0F;
+            }
         }
 
         while (this.rotationPitch - this.prevRotationPitch < -180.0F)

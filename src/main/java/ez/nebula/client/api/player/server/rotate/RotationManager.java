@@ -62,7 +62,7 @@ public final class RotationManager implements IManager
         }
         serverAngles[0] = event.getYaw();
         serverAngles[1] = event.getPitch();
-        setRenderAngles(serverAngles);
+        setRenderAngles();
     };
 
     @Override
@@ -141,10 +141,10 @@ public final class RotationManager implements IManager
         return getLook(serverAngles[0], serverAngles[1]);
     }
 
-    private void setRenderAngles(float[] angles)
+    private void setRenderAngles()
     {
-        MC.thePlayer.rotationYawHead = angles[0];
-        MC.thePlayer.renderPitch = angles[1];
+        MC.thePlayer.rotationYawHead = serverAngles[0];
+        MC.thePlayer.renderPitch = serverAngles[1];
 
         // see EntityLivingBase#func_110146_f
         float yaw = MC.thePlayer.renderYawOffset;
@@ -159,27 +159,28 @@ public final class RotationManager implements IManager
 
         if (MC.thePlayer.swingProgress > 0.0F)
         {
-            yaw = angles[0];
+            yaw = serverAngles[0];
         }
 
         float var3 = MathHelper.wrapAngleTo180_float(yaw - MC.thePlayer.renderYawOffset);
         MC.thePlayer.renderYawOffset += var3 * 0.3F;
+        float var4 = MathHelper.wrapAngleTo180_float(serverAngles[0] - MC.thePlayer.renderYawOffset);
 
-        if (var3 < -75.0F)
+        if (var4 < -75.0F)
         {
-            var3 = -75.0F;
+            var4 = -75.0F;
         }
 
-        if (var3 >= 75.0F)
+        if (var4 >= 75.0F)
         {
-            var3 = 75.0F;
+            var4 = 75.0F;
         }
 
-        MC.thePlayer.renderYawOffset = yaw - var3;
+        MC.thePlayer.renderYawOffset = serverAngles[0] - var4;
 
-        if (var3 * var3 > 2500.0F)
+        if (var4 * var4 > 2500.0F)
         {
-            MC.thePlayer.renderYawOffset += var3 * 0.2F;
+            MC.thePlayer.renderYawOffset += var4 * 0.2F;
         }
     }
 
