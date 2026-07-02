@@ -121,12 +121,10 @@ public final class TargetStrafeModule extends Module
             directional = !directional;
         } else
         {
-            if (MC.gameSettings.keyBindLeft.pressed)
+            final float strafe = MC.thePlayer.movementInput.moveStrafe;
+            if (strafe != 0.0f)
             {
-                directional = true;
-            } else if (MC.gameSettings.keyBindRight.pressed)
-            {
-                directional = false;
+                directional = strafe > 0.0f;
             }
         }
 
@@ -156,7 +154,7 @@ public final class TargetStrafeModule extends Module
         return !KillAuraModule.INSTANCE.isAttacking()
                 || !SpeedModule.INSTANCE.isToggled()
                 || (!MoveUtil.isMoving() && !autoMoveSetting.getValue())
-                || MC.gameSettings.keyBindBack.pressed // allow to backout of the target strafe
+                || MC.thePlayer.movementInput.moveForward < 0 // allow to backout of the target strafe
                 || (jumpBackoutSetting.getValue() && MC.gameSettings.keyBindJump.pressed); // additionally, holding jump backs out
     }
 }
