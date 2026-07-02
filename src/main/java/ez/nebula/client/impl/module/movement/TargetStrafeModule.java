@@ -1,5 +1,7 @@
 package ez.nebula.client.impl.module.movement;
 
+import ez.nebula.client.api.listener.event.input.EventUpdateInput;
+import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
@@ -43,6 +45,9 @@ public final class TargetStrafeModule extends Module
             .build();
     private final Setting<Boolean> jumpBackoutSetting = builder("Jump to Backout", true)
             .setDescription("If to allow holding space as a way to exit the strafe lock")
+            .build();
+    private final Setting<Boolean> autoMoveSetting = builder("Auto Move", false)
+            .setDescription("If to automatically move when strafing around a target")
             .build();
     private final Setting<Boolean> renderSetting = builder("Render", true)
             .setDescription("If to render the strafe circle around the target")
@@ -94,6 +99,15 @@ public final class TargetStrafeModule extends Module
         glPopMatrix();
     };
 
+    @Subscribe
+    private final EventListener<EventUpdateInput.Post> postEventListener = event ->
+    {
+        if (!isBlocked() && autoMoveSetting.getValue() && event.getInput().equals(MC.thePlayer.movementInput))
+        {
+            event.getInput().moveForward = 1;
+        }
+    };
+
     @Subscribe(priority = IEventPriorities.HIGHEST)
     private final EventListener<EventMove> moveEventListener = event ->
     {
@@ -141,7 +155,7 @@ public final class TargetStrafeModule extends Module
     {
         return !KillAuraModule.INSTANCE.isAttacking()
                 || !SpeedModule.INSTANCE.isToggled()
-                || !MoveUtil.isMoving()
+                || (!MoveUtil.isMoving() && !autoMoveSetting.getValue())
                 || MC.gameSettings.keyBindBack.pressed // allow to backout of the target strafe
                 || (jumpBackoutSetting.getValue() && MC.gameSettings.keyBindJump.pressed); // additionally, holding jump backs out
     }
