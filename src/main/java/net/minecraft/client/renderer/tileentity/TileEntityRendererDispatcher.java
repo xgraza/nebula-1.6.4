@@ -30,9 +30,9 @@ public class TileEntityRendererDispatcher
     public EntityLivingBase field_147551_g;
     public float field_147562_h;
     public float field_147563_i;
-    public double field_147560_j;
-    public double field_147561_k;
-    public double field_147558_l;
+    public double posX;
+    public double posY;
+    public double posZ;
     private static final String __OBFID = "CL_00000963";
 
     private TileEntityRendererDispatcher()
@@ -90,14 +90,14 @@ public class TileEntityRendererDispatcher
         this.field_147557_n = p_147542_3_;
         this.field_147562_h = p_147542_4_.prevRotationYaw + (p_147542_4_.rotationYaw - p_147542_4_.prevRotationYaw) * p_147542_5_;
         this.field_147563_i = p_147542_4_.prevRotationPitch + (p_147542_4_.rotationPitch - p_147542_4_.prevRotationPitch) * p_147542_5_;
-        this.field_147560_j = p_147542_4_.lastTickPosX + (p_147542_4_.posX - p_147542_4_.lastTickPosX) * (double) p_147542_5_;
-        this.field_147561_k = p_147542_4_.lastTickPosY + (p_147542_4_.posY - p_147542_4_.lastTickPosY) * (double) p_147542_5_;
-        this.field_147558_l = p_147542_4_.lastTickPosZ + (p_147542_4_.posZ - p_147542_4_.lastTickPosZ) * (double) p_147542_5_;
+        this.posX = p_147542_4_.lastTickPosX + (p_147542_4_.posX - p_147542_4_.lastTickPosX) * (double) p_147542_5_;
+        this.posY = p_147542_4_.lastTickPosY + (p_147542_4_.posY - p_147542_4_.lastTickPosY) * (double) p_147542_5_;
+        this.posZ = p_147542_4_.lastTickPosZ + (p_147542_4_.posZ - p_147542_4_.lastTickPosZ) * (double) p_147542_5_;
     }
 
     public void renderTileEntity(TileEntity p_147544_1_, float p_147544_2_)
     {
-        if (p_147544_1_.getDistanceFrom(this.field_147560_j, this.field_147561_k, this.field_147558_l) < p_147544_1_.getMaxRenderDistanceSquared())
+        if (p_147544_1_.getDistanceFrom(this.posX, this.posY, this.posZ) < p_147544_1_.getMaxRenderDistanceSquared())
         {
             int var3 = this.field_147550_f.getLightBrightnessForSkyBlocks(p_147544_1_.xCoord, p_147544_1_.yCoord, p_147544_1_.zCoord, 0);
             int var4 = var3 % 65536;

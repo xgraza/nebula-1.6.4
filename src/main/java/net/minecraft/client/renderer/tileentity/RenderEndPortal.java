@@ -16,21 +16,22 @@ import java.util.Random;
 
 public class RenderEndPortal extends TileEntitySpecialRenderer
 {
-    private static final ResourceLocation field_147529_c = new ResourceLocation("textures/environment/end_sky.png");
-    private static final ResourceLocation field_147526_d = new ResourceLocation("textures/entity/end_portal.png");
-    private static final Random field_147527_e = new Random(31100L);
+    private static final ResourceLocation END_SKY_RESOURCE_LOCATION
+            = new ResourceLocation("textures/environment/end_sky.png");
+    private static final ResourceLocation END_PORTAL_RESOURCE_LOCATION
+            = new ResourceLocation("textures/entity/end_portal.png");
+    private static final Random RANDOM = new Random(31100L);
     FloatBuffer field_147528_b = GLAllocation.createDirectFloatBuffer(16);
-    private static final String __OBFID = "CL_00000972";
 
     public void renderTileEntityAt(TileEntityEndPortal p_147524_1_, double p_147524_2_, double p_147524_4_, double p_147524_6_, float p_147524_8_)
     {
         if (!Config.isShaders() || !ShadersRender.renderEndPortal(p_147524_1_, p_147524_2_, p_147524_4_, p_147524_6_, p_147524_8_, 0, 0.75F))
         {
-            float var9 = (float) this.field_147501_a.field_147560_j;
-            float var10 = (float) this.field_147501_a.field_147561_k;
-            float var11 = (float) this.field_147501_a.field_147558_l;
+            float var9 = (float) this.dispatcher.posX;
+            float var10 = (float) this.dispatcher.posY;
+            float var11 = (float) this.dispatcher.posZ;
             GL11.glDisable(GL11.GL_LIGHTING);
-            field_147527_e.setSeed(31100L);
+            RANDOM.setSeed(31100L);
             float var12 = 0.75F;
 
             for (int var13 = 0; var13 < 16; ++var13)
@@ -42,7 +43,7 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
 
                 if (var13 == 0)
                 {
-                    this.bindTexture(field_147529_c);
+                    this.bindTexture(END_SKY_RESOURCE_LOCATION);
                     var16 = 0.1F;
                     var14 = 65.0F;
                     var15 = 0.125F;
@@ -52,7 +53,7 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
 
                 if (var13 == 1)
                 {
-                    this.bindTexture(field_147526_d);
+                    this.bindTexture(END_PORTAL_RESOURCE_LOCATION);
                     GL11.glEnable(GL11.GL_BLEND);
                     GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
                     var15 = 0.5F;
@@ -85,14 +86,14 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
                 GL11.glTranslatef(0.5F, 0.5F, 0.0F);
                 GL11.glRotatef((float) (var13 * var13 * 4321 + var13 * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
                 GL11.glTranslatef(-0.5F, -0.5F, 0.0F);
-                GL11.glTranslatef(-var9, -var11, -var10);
+                // GL11.glTranslatef(-var9, -var11, -var10);
                 var18 = var17 + ActiveRenderInfo.objectY;
                 GL11.glTranslatef(ActiveRenderInfo.objectX * var14 / var18, ActiveRenderInfo.objectZ * var14 / var18, -var10);
                 Tessellator var23 = Tessellator.instance;
                 var23.startDrawingQuads();
-                var20 = field_147527_e.nextFloat() * 0.5F + 0.1F;
-                float var21 = field_147527_e.nextFloat() * 0.5F + 0.4F;
-                float var22 = field_147527_e.nextFloat() * 0.5F + 0.5F;
+                var20 = RANDOM.nextFloat() * 0.5F + 0.1F;
+                float var21 = RANDOM.nextFloat() * 0.5F + 0.4F;
+                float var22 = RANDOM.nextFloat() * 0.5F + 0.5F;
 
                 if (var13 == 0)
                 {
