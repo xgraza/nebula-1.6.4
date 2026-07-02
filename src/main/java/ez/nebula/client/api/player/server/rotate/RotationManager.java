@@ -62,10 +62,7 @@ public final class RotationManager implements IManager
         }
         serverAngles[0] = event.getYaw();
         serverAngles[1] = event.getPitch();
-
-        MC.thePlayer.rotationYawHead = serverAngles[0];
-        MC.thePlayer.renderPitch = serverAngles[1];
-
+        setRenderAngles(serverAngles);
     };
 
     @Override
@@ -125,6 +122,11 @@ public final class RotationManager implements IManager
         return !Float.isNaN(angles[0]) && !Float.isNaN(angles[1]);
     }
 
+    public boolean isSpoofing()
+    {
+        return isRotationValid(spoofedAngles);
+    }
+
     public Vec3 getLook(float rotationYaw, float rotationPitch)
     {
         float var2 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
@@ -137,6 +139,48 @@ public final class RotationManager implements IManager
     public Vec3 getLook()
     {
         return getLook(serverAngles[0], serverAngles[1]);
+    }
+
+    private void setRenderAngles(float[] angles)
+    {
+        MC.thePlayer.rotationYawHead = angles[0];
+        MC.thePlayer.renderPitch = angles[1];
+
+        // see EntityLivingBase#func_110146_f
+        float yaw = MC.thePlayer.renderYawOffset;
+        double deltaX = MC.thePlayer.posX - MC.thePlayer.prevPosX;
+        double deltaZ = MC.thePlayer.posZ - MC.thePlayer.prevPosZ;
+        float distance = (float) (deltaX * deltaX + deltaZ * deltaZ);
+
+        if (distance > 0.0025000002F)
+        {
+            yaw = (float) Math.atan2(deltaZ, deltaX) * 180.0F / (float) Math.PI - 90.0F;
+        }
+
+        if (MC.thePlayer.swingProgress > 0.0F)
+        {
+            yaw = angles[0];
+        }
+
+        float var3 = MathHelper.wrapAngleTo180_float(yaw - MC.thePlayer.renderYawOffset);
+        MC.thePlayer.renderYawOffset += var3 * 0.3F;
+
+        if (var3 < -75.0F)
+        {
+            var3 = -75.0F;
+        }
+
+        if (var3 >= 75.0F)
+        {
+            var3 = 75.0F;
+        }
+
+        MC.thePlayer.renderYawOffset = yaw - var3;
+
+        if (var3 * var3 > 2500.0F)
+        {
+            MC.thePlayer.renderYawOffset += var3 * 0.2F;
+        }
     }
 
     private static class QueuedRotation
