@@ -75,7 +75,6 @@ public final class TargetStrafeModule extends Module
         glLineWidth(2.5f);
 
         RenderUtil.setGLColor(HUDModule.INSTANCE.getBaseColor(10));
-        glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 
         final double x = target.prevPosX + (target.posX - target.prevPosX) * event.getPartialTicks();
         final double y = target.prevPosY + (target.posY - target.prevPosY) * event.getPartialTicks();
@@ -87,7 +86,9 @@ public final class TargetStrafeModule extends Module
             for (double angle = 0.0; angle <= 360.0; angle += 1.0)
             {
                 final double rad = Math.toRadians(angle);
-                glVertex3d(x + (Math.sin(rad) * radius), y, z - (Math.cos(rad) * radius));
+                glVertex3d(x + (Math.sin(rad) * radius) - RenderManager.renderPosX,
+                        y - RenderManager.renderPosY,
+                        z - (Math.cos(rad) * radius) - RenderManager.renderPosZ);
             }
         }
         glEnd();
