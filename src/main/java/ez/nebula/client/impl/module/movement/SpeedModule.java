@@ -73,7 +73,7 @@ public final class SpeedModule extends Module
             .setVisibility((value) -> modeSetting.getValue() == Mode.VANILLA)
             .build();
 
-    private int ticksSinceSetback, strafeStage, ticksOnIce;
+    private int ticksSinceSetback, strafeStage;
     private double tickMoveSpeed, speed;
     private boolean boost;
 
@@ -84,7 +84,6 @@ public final class SpeedModule extends Module
         MC.timer.timerSpeed = 1.0f;
         boost = false;
         ticksSinceSetback = 0;
-        ticksOnIce = 0;
         strafeStage = 0;
         tickMoveSpeed = 0.0;
         speed = 0.0;
@@ -100,12 +99,18 @@ public final class SpeedModule extends Module
             MC.timer.timerSpeed = 1.0f;
         }
 
-        if (modeSetting.getValue() == Mode.Y_PORT && MoveUtil.isMoving())
+        if (modeSetting.getValue() == Mode.Y_PORT)
         {
+            if (ticksSinceSetback > 0)
+            {
+                MC.timer.timerSpeed = 1.0f;
+                return;
+            }
+
             MC.thePlayer.setSprinting(true);
             double moveSpeed = getBaseGroundSpeed();
 
-            if (MC.thePlayer.onGround)
+            if (MC.thePlayer.onGround && MoveUtil.isMoving())
             {
                 MC.thePlayer.jump();
 
@@ -119,20 +124,23 @@ public final class SpeedModule extends Module
                         MC.timer.timerSpeed = boost ? 1.088f : 1.077f;
                     }
 
-                    moveSpeed *= boost ? 1.62 : 1.526;
+                    moveSpeed *= boost ? 1.23 : 1.14;
                 } else
                 {
                     MC.timer.timerSpeed = 1.0f;
-                    moveSpeed *= boost ? 1.622 : 1.545;
+                    moveSpeed *= boost ? 1.25 : 1.16;
                 }
             } else
             {
                 boost = !boost;
-                MC.thePlayer.motionY = -4.0;
+                if (MoveUtil.isMoving() && !MC.thePlayer.isCollidedHorizontally)
+                {
+                    MC.thePlayer.motionY = -4.0;
+                }
                 MC.timer.timerSpeed = 1.0f;
             }
 
-            MoveUtil.setSpeed(null, moveSpeed);
+            MoveUtil.setSpeed(null, MoveUtil.isMoving() ? moveSpeed : 0.0);
         }
     };
 
@@ -210,7 +218,8 @@ public final class SpeedModule extends Module
             MoveUtil.setSpeed(event, MoveUtil.isMoving() ? Math.max(speed, getBaseGroundSpeed()) : 0.0);
         } else if (modeSetting.getValue() == Mode.VANILLA)
         {
-            MoveUtil.setSpeed(event, MoveUtil.isMoving() ? vanillaSpeedSetting.getValue() : 0.0);
+            double speed = ticksSinceSetback <= 0 ? getBaseGroundSpeed() : vanillaSpeedSetting.getValue();
+            MoveUtil.setSpeed(event, MoveUtil.isMoving() ? speed : 0.0);
         }
     };
 
