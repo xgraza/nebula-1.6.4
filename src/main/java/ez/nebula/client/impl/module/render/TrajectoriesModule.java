@@ -69,8 +69,6 @@ public final class TrajectoriesModule extends Module
         glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
         glLineWidth(lineWidthSetting.getValue());
 
-        glTranslated(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
-
         RenderUtil.setGLColor(HUDModule.INSTANCE.getBaseColor(0));
 
         if (renderTailSetting.getValue())
@@ -79,7 +77,9 @@ public final class TrajectoriesModule extends Module
             {
                 for (final Vec3 vec3 : result.getTrail())
                 {
-                    glVertex3d(vec3.xCoord, vec3.yCoord, vec3.zCoord);
+                    glVertex3d(vec3.xCoord - RenderManager.renderPosX,
+                            vec3.yCoord - RenderManager.renderPosY,
+                            vec3.zCoord - RenderManager.renderPosZ);
                 }
             }
             glEnd();
@@ -89,7 +89,9 @@ public final class TrajectoriesModule extends Module
                 ? result.getTrail().get(result.getTrail().size() - 1)
                 : result.getLanding().hitVec;
 
-        glTranslated(hitVec.xCoord, hitVec.yCoord, hitVec.zCoord);
+        glTranslated(hitVec.xCoord - RenderManager.renderPosX,
+                hitVec.yCoord - RenderManager.renderPosY,
+                hitVec.zCoord - RenderManager.renderPosZ);
         if (result.getLanding() != null)
         {
             final int hitSide = result.getLanding().sideHit;
@@ -107,8 +109,8 @@ public final class TrajectoriesModule extends Module
             {
                 double rad = Math.toRadians(angle);
                 glVertex3d((Math.sin(rad) * r),
-                        0.0,
-                        -(Math.cos(rad) * r));
+                        0,
+                        (Math.cos(rad) * r));
             }
         }
         glEnd();
