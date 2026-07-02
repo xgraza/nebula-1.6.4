@@ -647,7 +647,7 @@ public class GuiIngame extends Gui
                         && (Nebula.INSTANCE.getFriendManager().isFriend(info.name)
                         || info.name.equals(mc.thePlayer.getCommandSenderName())))
                 {
-                    name = EnumChatFormatting.AQUA + info.name;
+                    name = EnumChatFormatting.NEBULA_CLIENT_COLOR + info.name;
                 } else
                 {
                     final ScorePlayerTeam team = mc.theWorld.getScoreboard().getPlayersTeam(info.name);
@@ -769,7 +769,7 @@ public class GuiIngame extends Gui
                     && (Nebula.INSTANCE.getFriendManager().isFriend(info.name)
                     || info.name.equals(mc.thePlayer.getCommandSenderName())))
             {
-                name = EnumChatFormatting.AQUA + info.name;
+                name = EnumChatFormatting.NEBULA_CLIENT_COLOR + info.name;
             } else
             {
                 final ScorePlayerTeam team = mc.theWorld.getScoreboard().getPlayersTeam(info.name);
