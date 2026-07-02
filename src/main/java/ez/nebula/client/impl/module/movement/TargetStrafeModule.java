@@ -94,7 +94,7 @@ public final class TargetStrafeModule extends Module
         glPopMatrix();
     };
 
-    @Subscribe(priority = IEventPriorities.LOW)
+    @Subscribe(priority = IEventPriorities.HIGHEST)
     private final EventListener<EventMove> moveEventListener = event ->
     {
         if (isBlocked())
