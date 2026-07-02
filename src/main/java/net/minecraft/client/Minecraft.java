@@ -10,7 +10,6 @@ import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import ez.nebula.client.impl.gui.module.ClickGUIScreen;
 import ez.nebula.client.impl.module.player.AutoReconnectModule;
 import ez.nebula.client.impl.module.render.UnfocusedCPUModule;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -112,9 +111,6 @@ import static org.lwjgl.opengl.GL11.*;
 public class Minecraft
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final ResourceLocation NEBULA_PNG_LOCATION = new ResourceLocation(
-            "nebula",
-            "texture/banner.png");
 
     public static final boolean IS_ON_MAC = Util.getOSType() == Util.EnumOS.MACOS;
     private static final List<DisplayMode> MAC_DISPLAY_MODES = Lists.newArrayList(
@@ -829,23 +825,23 @@ public class Minecraft
             try
             {
                 this.loadWorld(null);
-            } catch (Throwable var7)
+            } catch (Throwable e)
             {
+                LOGGER.error("Failed to unload world", e);
             }
 
             try
             {
                 GLAllocation.deleteTexturesAndDisplayLists();
-            } catch (Throwable var6)
+            } catch (Throwable e)
             {
+                LOGGER.error("Failed to delete textures & display lists", e);
             }
 
             this.mcSoundHandler.func_147685_d();
         } finally
         {
-            // Nebula.INSTANCE.getSystemTray().destroy();
             Display.destroy();
-
             if (!this.hasCrashed)
             {
                 System.exit(0);
@@ -869,51 +865,46 @@ public class Minecraft
             return;
         }
 
-        while (true)
+        try
         {
-            try
+            while (this.running)
             {
-                while (this.running)
+                if (!this.hasCrashed || this.crashReporter == null)
                 {
-                    if (!this.hasCrashed || this.crashReporter == null)
+                    try
                     {
-                        try
-                        {
-                            this.runGameLoop();
-                        } catch (OutOfMemoryError var10)
-                        {
-                            this.freeMemory();
-                            this.displayGuiScreen(new GuiMemoryErrorScreen());
-                        }
-
-                        continue;
+                        this.runGameLoop();
+                    } catch (OutOfMemoryError var10)
+                    {
+                        this.freeMemory();
+                        this.displayGuiScreen(new GuiMemoryErrorScreen());
                     }
 
-                    this.displayCrashReport(this.crashReporter);
-                    return;
+                    continue;
                 }
-            } catch (MinecraftError var12)
-            {
-                LOGGER.fatal("Minecraft error thrown!", var12);
-                displayCrashReport(new CrashReport("MC Error", var12));
-            } catch (ReportedException var13)
-            {
-                this.addGraphicsAndWorldToCrashReport(var13.getCrashReport());
-                this.freeMemory();
-                LOGGER.fatal("Reported exception thrown!", var13);
-                this.displayCrashReport(var13.getCrashReport());
-            } catch (Throwable var14)
-            {
-                var2 = this.addGraphicsAndWorldToCrashReport(new CrashReport("Unexpected error", var14));
-                this.freeMemory();
-                LOGGER.fatal("Unreported exception thrown!", var14);
-                this.displayCrashReport(var2);
-            } finally
-            {
-                this.shutdownMinecraftApplet();
-            }
 
-            return;
+                this.displayCrashReport(this.crashReporter);
+                return;
+            }
+        } catch (MinecraftError var12)
+        {
+            LOGGER.fatal("Minecraft error thrown!", var12);
+            displayCrashReport(new CrashReport("MC Error", var12));
+        } catch (ReportedException var13)
+        {
+            this.addGraphicsAndWorldToCrashReport(var13.getCrashReport());
+            this.freeMemory();
+            LOGGER.fatal("Reported exception thrown!", var13);
+            this.displayCrashReport(var13.getCrashReport());
+        } catch (Throwable var14)
+        {
+            var2 = this.addGraphicsAndWorldToCrashReport(new CrashReport("Unexpected error", var14));
+            this.freeMemory();
+            LOGGER.fatal("Unreported exception thrown!", var14);
+            this.displayCrashReport(var2);
+        } finally
+        {
+            this.shutdownMinecraftApplet();
         }
     }
 
@@ -1023,7 +1014,6 @@ public class Minecraft
         GL11.glPopMatrix();
         this.mcProfiler.startSection("root");
         this.updateDisplay();
-        Thread.yield();
         this.screenshotListener();
         this.checkGLError("Post render");
         ++this.fpsCounter;

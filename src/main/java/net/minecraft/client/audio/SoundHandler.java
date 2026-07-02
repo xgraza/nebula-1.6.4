@@ -21,6 +21,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlayerListBox
 {
@@ -258,7 +259,7 @@ public class SoundHandler implements IResourceManagerReloadListener, IUpdatePlay
             return null;
         } else
         {
-            return (SoundEventAccessorComposite) var2.get((new Random()).nextInt(var2.size()));
+            return (SoundEventAccessorComposite) var2.get(ThreadLocalRandom.current().nextInt(var2.size()));
         }
     }
 

@@ -14,6 +14,7 @@ import net.minecraft.src.Config;
 import net.minecraft.src.CustomColorizer;
 import net.minecraft.src.FontUtils;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
@@ -255,12 +256,6 @@ public class FontRenderer implements IResourceManagerReloadListener
                         continue;
                     }
                 }
-
-                if (k == 65)
-                {
-                    k = k;
-                }
-
                 if (k == 32)
                 {
                     if (charW <= 8)
@@ -283,13 +278,12 @@ public class FontRenderer implements IResourceManagerReloadListener
 
     private void readGlyphSizes()
     {
-        try
+        try (InputStream is = getResourceInputStream(new ResourceLocation("font/glyph_sizes.bin")))
         {
-            InputStream var2 = this.getResourceInputStream(new ResourceLocation("font/glyph_sizes.bin"));
-            var2.read(this.glyphWidth);
-        } catch (IOException var21)
+            IOUtils.readFully(is, glyphWidth);
+        } catch (IOException e)
         {
-            throw new RuntimeException(var21);
+            throw new RuntimeException(e);
         }
     }
 

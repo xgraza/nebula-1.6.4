@@ -10,6 +10,7 @@ import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.input.Keyboard;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GuiCreateWorld extends GuiScreen
 {
@@ -194,7 +195,7 @@ public class GuiCreateWorld extends GuiScreen
                 }
 
                 this.field_146345_x = true;
-                long var2 = (new Random()).nextLong();
+                long var2 = ThreadLocalRandom.current().nextLong();
                 String var4 = this.field_146335_h.getText();
 
                 if (!MathHelper.stringNullOrLengthZero(var4))
