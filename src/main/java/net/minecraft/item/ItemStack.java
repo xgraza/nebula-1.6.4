@@ -437,7 +437,7 @@ public final class ItemStack
     /**
      * compares ItemStack argument to the instance ItemStack; returns true if both ItemStacks are equal
      */
-    private boolean isItemStackEqual(ItemStack par1ItemStack)
+    public boolean isItemStackEqual(ItemStack par1ItemStack)
     {
         return this.stackSize == par1ItemStack.stackSize && (this.item == par1ItemStack.item && (this.itemDamage == par1ItemStack.itemDamage && ((this.stackTagCompound != null || par1ItemStack.stackTagCompound == null) && (this.stackTagCompound == null || this.stackTagCompound.equals(par1ItemStack.stackTagCompound)))));
     }

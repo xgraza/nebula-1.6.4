@@ -89,6 +89,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new AutoReconnectModule());
         registerModule(new AutoRespawnModule());
         registerModule(new FreecamModule());
+        registerModule(new HotbarRefillModule());
         registerModule(new InfiniteMoverModule());
         registerModule(new InteractModule());
         registerModule(new InventorySyncModule());
