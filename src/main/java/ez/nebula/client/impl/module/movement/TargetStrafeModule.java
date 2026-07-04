@@ -105,6 +105,8 @@ public final class TargetStrafeModule extends Module
     {
         if (!isBlocked() && autoMoveSetting.getValue() && event.getInput().equals(MC.thePlayer.movementInput))
         {
+            event.getInput().jump = false;
+            event.getInput().sneak = false;
             event.getInput().moveForward = 1;
         }
     };
