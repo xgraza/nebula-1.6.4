@@ -1,7 +1,6 @@
 package ez.nebula.client.impl.module.movement;
 
 import ez.nebula.client.api.listener.event.input.EventUpdateInput;
-import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
@@ -43,6 +42,12 @@ public final class TargetStrafeModule extends Module
             .setScale(0.01)
             .setDescription("What percentage to reduce strafe speed to prevent lagbacks")
             .build();
+    private final NumberSetting<Double> advanceSetting = numberBuilder("Advance", 1.0)
+            .setMin(0.0)
+            .setMax(1.0)
+            .setScale(0.1)
+            .setDescription("The amount of blocks to move towards the target when holding W")
+            .build();
     private final Setting<Boolean> jumpBackoutSetting = builder("Jump to Backout", true)
             .setDescription("If to allow holding space as a way to exit the strafe lock")
             .build();
@@ -53,7 +58,7 @@ public final class TargetStrafeModule extends Module
             .setDescription("If to render the strafe circle around the target")
             .build();
 
-    private boolean directional = true;
+    private boolean strafeDirection = true;
 
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
@@ -82,7 +87,7 @@ public final class TargetStrafeModule extends Module
 
         glBegin(GL_LINE_LOOP);
         {
-            final double radius = rangeSetting.getValue();
+            final double radius = getStrafeRange();
             for (double angle = 0.0; angle <= 360.0; angle += 1.0)
             {
                 final double rad = Math.toRadians(angle);
@@ -121,13 +126,13 @@ public final class TargetStrafeModule extends Module
 
         if (MC.thePlayer.isCollidedHorizontally)
         {
-            directional = !directional;
+            strafeDirection = !strafeDirection;
         } else
         {
             final float strafe = MC.thePlayer.movementInput.moveStrafe;
             if (strafe != 0.0f)
             {
-                directional = strafe > 0.0f;
+                strafeDirection = strafe > 0.0f;
             }
         }
 
@@ -136,12 +141,10 @@ public final class TargetStrafeModule extends Module
                 * (1.0 - reductionSetting.getValue());
 
         double degree = Math.atan2(MC.thePlayer.posZ - target.posZ, MC.thePlayer.posX - target.posX);
-        degree += (moveSpeed / MC.thePlayer.getDistanceToEntity(target)) * (directional ? 1 : -1);
+        degree += (moveSpeed / MC.thePlayer.getDistanceToEntity(target)) * (strafeDirection ? 1 : -1);
 
         // target strafe will tweak if strafe range is > than ka range
-        double dist = Math.min(rangeSetting.getValue(), KillAuraModule.INSTANCE.rangeSetting.getValue())
-                - Math.max(MC.thePlayer.movementInput.moveForward, 0.0) - 0.1;
-
+        final double dist = getStrafeRange();
         double x = target.posX + dist * Math.cos(degree);
         double z = target.posZ + dist * Math.sin(degree);
 
@@ -151,6 +154,16 @@ public final class TargetStrafeModule extends Module
         event.setX(moveSpeed * -Math.sin(rad));
         event.setZ(moveSpeed * Math.cos(rad));
     };
+
+    private double getStrafeRange()
+    {
+        double range = Math.min(rangeSetting.getValue(), KillAuraModule.INSTANCE.rangeSetting.getValue());
+        if (MC.gameSettings.keyBindForward.pressed && MC.renderViewEntity.equals(MC.thePlayer))
+        {
+            range -= advanceSetting.getValue();
+        }
+        return Math.max(range, 1) - 0.5;
+    }
 
     private boolean isBlocked()
     {
