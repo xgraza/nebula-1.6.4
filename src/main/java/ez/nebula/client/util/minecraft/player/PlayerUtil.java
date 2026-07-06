@@ -70,6 +70,11 @@ public final class PlayerUtil
         return false;
     }
 
+    public static boolean isPhased()
+    {
+        return !MC.theWorld.getCollidingBoundingBoxes(MC.thePlayer, MC.thePlayer.boundingBox.copy().expand(-0.0625, -0.0625, -0.0625)).isEmpty();
+    }
+
     public static boolean isPlayerCollided(final BlockPos pos)
     {
         return isPlayerCollided(pos.getX(), pos.getY(), pos.getZ());
