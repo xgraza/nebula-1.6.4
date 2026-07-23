@@ -103,6 +103,9 @@ If you'd like to build the client without installing an IDE, follow these instru
 
 ![gui.png](images/gui.png)
 
+> [!NOTE]
+> If the GUI is too big due to lower resolutions, you can either adjust the `GUI Scale` option under the `ClickGUI` module, or use the command `.clickgui GUIScale 0.5` or any number 0.5-2.0
+
 ---
 
 
