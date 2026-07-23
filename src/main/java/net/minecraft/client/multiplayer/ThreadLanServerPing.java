@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadLanServerPing extends Thread
 {
-    private static final AtomicInteger field_148658_a = new AtomicInteger(0);
-    private static final Logger logger = LogManager.getLogger();
+    private static final AtomicInteger THREAD_ID = new AtomicInteger(0);
+    private static final Logger LOGGER = LogManager.getLogger();
     private final String motd;
 
     /**
@@ -21,39 +21,38 @@ public class ThreadLanServerPing extends Thread
     private final DatagramSocket socket;
     private boolean isStopping = true;
     private final String address;
-    private static final String __OBFID = "CL_00001137";
 
-    public ThreadLanServerPing(String par1Str, String par2Str) throws IOException
+    public ThreadLanServerPing(String motd, String address) throws IOException
     {
-        super("LanServerPinger #" + field_148658_a.incrementAndGet());
-        this.motd = par1Str;
-        this.address = par2Str;
+        super("LanServerPinger #" + THREAD_ID.incrementAndGet());
+        this.motd = motd;
+        this.address = address;
         this.setDaemon(true);
         this.socket = new DatagramSocket();
     }
 
     public void run()
     {
-        String var1 = getPingResponse(this.motd, this.address);
-        byte[] var2 = var1.getBytes();
+        String response = getPingResponse(this.motd, this.address);
+        byte[] responseBytes = response.getBytes();
 
         while (!this.isInterrupted() && this.isStopping)
         {
             try
             {
                 InetAddress var3 = InetAddress.getByName("224.0.2.60");
-                DatagramPacket var4 = new DatagramPacket(var2, var2.length, var3, 4445);
+                DatagramPacket var4 = new DatagramPacket(responseBytes, responseBytes.length, var3, 4445);
                 this.socket.send(var4);
             } catch (IOException var6)
             {
-                logger.warn("LanServerPinger: " + var6.getMessage());
+                LOGGER.warn("LanServerPinger: {}", var6.getMessage());
                 break;
             }
 
             try
             {
                 sleep(1500L);
-            } catch (InterruptedException var5)
+            } catch (InterruptedException ignored)
             {
             }
         }

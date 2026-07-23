@@ -862,7 +862,7 @@ public abstract class EntityLiving extends EntityLivingBase
      */
     protected void addRandomArmor()
     {
-        if (this.rand.nextFloat() < 0.15F * this.worldObj.func_147462_b(this.posX, this.posY, this.posZ))
+        if (this.rand.nextFloat() < 0.15F * this.worldObj.getDifficultyModifier(this.posX, this.posY, this.posZ))
         {
             int var1 = this.rand.nextInt(2);
             float var2 = this.worldObj.difficultySetting == EnumDifficulty.HARD ? 0.1F : 0.25F;
@@ -1022,7 +1022,7 @@ public abstract class EntityLiving extends EntityLivingBase
      */
     protected void enchantEquipment()
     {
-        float var1 = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
+        float var1 = this.worldObj.getDifficultyModifier(this.posX, this.posY, this.posZ);
 
         if (this.getHeldItem() != null && this.rand.nextFloat() < 0.25F * var1)
         {

@@ -3128,7 +3128,7 @@ public class RenderGlobal implements IWorldAccess
 
                 if (var8.getMaterial() != Material.air)
                 {
-                    this.mc.getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(var8.stepSound.func_150495_a()), (var8.stepSound.func_150497_c() + 1.0F) / 2.0F, var8.stepSound.func_150494_d() * 0.8F, (float) par3 + 0.5F, (float) par4 + 0.5F, (float) par5 + 0.5F));
+                    this.mc.getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(var8.stepSound.getDigSound()), (var8.stepSound.func_150497_c() + 1.0F) / 2.0F, var8.stepSound.func_150494_d() * 0.8F, (float) par3 + 0.5F, (float) par4 + 0.5F, (float) par5 + 0.5F));
                 }
 
                 this.mc.effectRenderer.func_147215_a(par3, par4, par5, var8, par6 >> 12 & 255);

@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.gui.module;
 
 import ez.nebula.client.impl.module.render.ClickGUIModule;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 import ez.nebula.client.core.ClientConfig;
@@ -16,11 +17,14 @@ import ez.nebula.client.impl.gui.module.component.module.ModulePanel;
 import ez.nebula.client.impl.gui.module.component.config.ConfigCategoryPanel;
 import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.render.RenderUtil;
+import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * @author xgraza
@@ -107,6 +111,12 @@ public final class ClickGUIScreen extends GuiScreen
             drawDefaultBackground();
         }
 
+        glPushMatrix();
+        glScaled(RenderUtil.getGUIScaleFactor(), RenderUtil.getGUIScaleFactor(), RenderUtil.getGUIScaleFactor());
+
+        mouseX /= RenderUtil.getGUIScaleFactor();
+        mouseY /= RenderUtil.getGUIScaleFactor();
+
         if (guiResetTimer.getTimeElapsedMS() > 500.0)
         {
             final double time = Math.max(3500.0 - guiResetTimer.getTimeElapsedMS(), 0.0) / 1000.0;
@@ -139,11 +149,15 @@ public final class ClickGUIScreen extends GuiScreen
             panel.render(mouseX, mouseY, partialTicks);
         }
         findAndDrawHoveredModuleDescription(mouseX, mouseY);
+
+        glPopMatrix();
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
+        mouseX /= RenderUtil.getGUIScaleFactor();
+        mouseY /= RenderUtil.getGUIScaleFactor();
         for (final CategoryPanel panel : categoryPanels)
         {
             panel.mouseClicked(mouseX, mouseY, mouseButton);
@@ -196,7 +210,7 @@ public final class ClickGUIScreen extends GuiScreen
 
     private void findAndDrawHoveredModuleDescription(final int mouseX, final int mouseY)
     {
-        if (!ClickGUIModule.INSTANCE.hoverDescriptionSetting.getValue())
+        if (!ClickGUIModule.INSTANCE.hoverDescriptionSetting.getValue() || Mouse.isButtonDown(0) || Mouse.isButtonDown(1))
         {
             return;
         }
@@ -260,10 +274,12 @@ public final class ClickGUIScreen extends GuiScreen
             }
         }
 
+        double screenWidth = width / RenderUtil.getGUIScaleFactor();
+
         double x = mouseX + 10;
-        if (x + boxWidth + 4 > width)
+        if (x + boxWidth + 4 > screenWidth)
         {
-            x = (width - boxWidth) - 4;
+            x = (screenWidth - boxWidth) - 4;
         }
 
         double y = mouseY - 10;

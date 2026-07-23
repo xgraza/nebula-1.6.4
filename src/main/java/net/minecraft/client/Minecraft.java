@@ -2210,7 +2210,7 @@ public class Minecraft
 
             if (this.thePlayer == null)
             {
-                this.thePlayer = this.playerController.func_147493_a(par1WorldClient, new StatFileWriter());
+                this.thePlayer = this.playerController.createMPPlayer(par1WorldClient, new StatFileWriter());
                 this.playerController.flipPlayer(this.thePlayer);
             }
 
@@ -2275,7 +2275,7 @@ public class Minecraft
         }
 
         this.renderViewEntity = null;
-        this.thePlayer = this.playerController.func_147493_a(this.theWorld, this.thePlayer == null ? new StatFileWriter() : this.thePlayer.func_146107_m());
+        this.thePlayer = this.playerController.createMPPlayer(this.theWorld, this.thePlayer == null ? new StatFileWriter() : this.thePlayer.func_146107_m());
         this.thePlayer.dimension = par1;
         this.renderViewEntity = this.thePlayer;
         this.thePlayer.preparePlayerToSpawn();

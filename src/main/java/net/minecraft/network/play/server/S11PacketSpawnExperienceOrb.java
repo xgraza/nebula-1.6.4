@@ -11,53 +11,52 @@ import java.io.IOException;
 
 public class S11PacketSpawnExperienceOrb extends Packet
 {
-    private int field_148992_a;
-    private int field_148990_b;
-    private int field_148991_c;
-    private int field_148988_d;
-    private int field_148989_e;
-    private static final String __OBFID = "CL_00001277";
+    private int entityId;
+    private int x;
+    private int y;
+    private int z;
+    private int value;
 
     public S11PacketSpawnExperienceOrb()
     {
     }
 
-    public S11PacketSpawnExperienceOrb(EntityXPOrb p_i45167_1_)
+    public S11PacketSpawnExperienceOrb(EntityXPOrb entity)
     {
-        this.field_148992_a = p_i45167_1_.getEntityId();
-        this.field_148990_b = MathHelper.floor_double(p_i45167_1_.posX * 32.0D);
-        this.field_148991_c = MathHelper.floor_double(p_i45167_1_.posY * 32.0D);
-        this.field_148988_d = MathHelper.floor_double(p_i45167_1_.posZ * 32.0D);
-        this.field_148989_e = p_i45167_1_.getXpValue();
+        this.entityId = entity.getEntityId();
+        this.x = MathHelper.floor_double(entity.posX * 32.0D);
+        this.y = MathHelper.floor_double(entity.posY * 32.0D);
+        this.z = MathHelper.floor_double(entity.posZ * 32.0D);
+        this.value = entity.getXpValue();
     }
 
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer buffer) throws IOException
     {
-        this.field_148992_a = p_148837_1_.readVarIntFromBuffer();
-        this.field_148990_b = p_148837_1_.readInt();
-        this.field_148991_c = p_148837_1_.readInt();
-        this.field_148988_d = p_148837_1_.readInt();
-        this.field_148989_e = p_148837_1_.readShort();
+        this.entityId = buffer.readVarIntFromBuffer();
+        this.x = buffer.readInt();
+        this.y = buffer.readInt();
+        this.z = buffer.readInt();
+        this.value = buffer.readShort();
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    public void writePacketData(PacketBuffer buffer) throws IOException
     {
-        p_148840_1_.writeVarIntToBuffer(this.field_148992_a);
-        p_148840_1_.writeInt(this.field_148990_b);
-        p_148840_1_.writeInt(this.field_148991_c);
-        p_148840_1_.writeInt(this.field_148988_d);
-        p_148840_1_.writeShort(this.field_148989_e);
+        buffer.writeVarIntToBuffer(this.entityId);
+        buffer.writeInt(this.x);
+        buffer.writeInt(this.y);
+        buffer.writeInt(this.z);
+        buffer.writeShort(this.value);
     }
 
-    public void processPacket(INetHandlerPlayClient p_148987_1_)
+    public void processPacket(INetHandlerPlayClient netHandle)
     {
-        p_148987_1_.handleSpawnExperienceOrb(this);
+        netHandle.handleSpawnExperienceOrb(this);
     }
 
     /**
@@ -65,36 +64,36 @@ public class S11PacketSpawnExperienceOrb extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, value=%d, x=%.2f, y=%.2f, z=%.2f", Integer.valueOf(this.field_148992_a), Integer.valueOf(this.field_148989_e), Float.valueOf((float) this.field_148990_b / 32.0F), Float.valueOf((float) this.field_148991_c / 32.0F), Float.valueOf((float) this.field_148988_d / 32.0F));
+        return String.format("id=%d, value=%d, x=%.2f, y=%.2f, z=%.2f", this.entityId, this.value, (float) this.x / 32.0F, (float) this.y / 32.0F, (float) this.z / 32.0F);
     }
 
-    public int func_148985_c()
+    public int getEntityID()
     {
-        return this.field_148992_a;
+        return this.entityId;
     }
 
-    public int func_148984_d()
+    public int getX()
     {
-        return this.field_148990_b;
+        return this.x;
     }
 
-    public int func_148983_e()
+    public int getY()
     {
-        return this.field_148991_c;
+        return this.y;
     }
 
-    public int func_148982_f()
+    public int getZ()
     {
-        return this.field_148988_d;
+        return this.z;
     }
 
-    public int func_148986_g()
+    public int getValue()
     {
-        return this.field_148989_e;
+        return this.value;
     }
 
-    public void processPacket(INetHandler p_148833_1_)
+    public void processPacket(INetHandler netHandler)
     {
-        this.processPacket((INetHandlerPlayClient) p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) netHandler);
     }
 }

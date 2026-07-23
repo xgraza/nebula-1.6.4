@@ -43,7 +43,7 @@ public class TileEntityMobSpawner extends TileEntity
 
             if (this.getSpawnerWorld() != null)
             {
-                this.getSpawnerWorld().func_147471_g(TileEntityMobSpawner.this.xCoord, TileEntityMobSpawner.this.yCoord, TileEntityMobSpawner.this.zCoord);
+                this.getSpawnerWorld().markBlockForUpdate(TileEntityMobSpawner.this.xCoord, TileEntityMobSpawner.this.yCoord, TileEntityMobSpawner.this.zCoord);
             }
         }
     };

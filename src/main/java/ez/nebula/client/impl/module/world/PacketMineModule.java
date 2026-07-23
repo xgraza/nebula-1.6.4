@@ -129,7 +129,7 @@ public final class PacketMineModule extends Module
         }
 
         final boolean distanceCheck = MC.thePlayer.getDistanceSq(currentPosition.x + 0.5,
-                currentPosition.y + 0.5,
+                currentPosition.y + 1,
                 currentPosition.z + 0.5) > getReachDistanceSq();
         if (BlockUtil.isReplaceable(currentPosition.x, currentPosition.y, currentPosition.z) || distanceCheck)
         {
@@ -237,6 +237,10 @@ public final class PacketMineModule extends Module
         }
         currentPosition.sentStop = true;
         Nebula.INSTANCE.getInventoryManager().setSlot(getSlot(MC.theWorld.getBlock(currentPosition.x, currentPosition.y, currentPosition.z)));
+        MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+                2,
+                currentPosition.x, currentPosition.y, currentPosition.z,
+                currentPosition.side));
         MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
                 2,
                 currentPosition.x, currentPosition.y, currentPosition.z,

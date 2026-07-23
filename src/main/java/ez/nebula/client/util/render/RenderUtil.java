@@ -64,12 +64,28 @@ public final class RenderUtil
                                     final double width,
                                     final double height)
     {
-        final double scale = GAME_RESOLUTION.getScaleFactor();
+//        final double scale = GAME_RESOLUTION.getScaleFactor();
+//        glEnable(GL_SCISSOR_TEST);
+//        glScissor((int) (x * scale),
+//                (int) (((GAME_RESOLUTION.getScaledHeight_double() - y) * scale) - (height * scale)),
+//                (int) (width * scale),
+//                (int) (height * scale));
+        final double effectiveScale = RenderUtil.getGUIScaleFactor() * GAME_RESOLUTION.getScaleFactor();
+
+        final double scissorX = x * effectiveScale;
+        final double scissorWidth = width * effectiveScale;
+        final double scissorHeight = height * effectiveScale;
+
+        final double rawDisplayHeight = GAME_RESOLUTION.getScaledHeight_double() * GAME_RESOLUTION.getScaleFactor();
+        final double scissorY = rawDisplayHeight - ((y + height) * effectiveScale);
+
         glEnable(GL_SCISSOR_TEST);
-        glScissor((int) (x * scale),
-                (int) (((GAME_RESOLUTION.getScaledHeight_double() - y) * scale) - (height * scale)),
-                (int) (width * scale),
-                (int) (height * scale));
+        glScissor(
+                (int) Math.ceil(scissorX),
+                (int) Math.ceil(scissorY),
+                (int) Math.ceil(scissorWidth),
+                (int) Math.ceil(scissorHeight)
+        );
     }
 
     public static void endScissor()
@@ -618,8 +634,8 @@ public final class RenderUtil
         glColor4f(red, green, blue, 1.0f);
     }
 
-    public static void setGameResolution(final ScaledResolution gameResolution)
+    public static double getGUIScaleFactor()
     {
-        GAME_RESOLUTION = gameResolution;
+        return 2.0 / GAME_RESOLUTION.getScaleFactor();
     }
 }

@@ -469,7 +469,7 @@ public class EntityZombie extends EntityMob
     public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
     {
         Object par1EntityLivingData1 = super.onSpawnWithEgg(par1EntityLivingData);
-        float var2 = this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
+        float var2 = this.worldObj.getDifficultyModifier(this.posX, this.posY, this.posZ);
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * var2);
 
         if (par1EntityLivingData1 == null)
@@ -508,7 +508,7 @@ public class EntityZombie extends EntityMob
         }
 
         this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).applyModifier(new AttributeModifier("Random spawn bonus", this.rand.nextDouble() * 0.05000000074505806D, 0));
-        double var7 = this.rand.nextDouble() * 1.5D * (double) this.worldObj.func_147462_b(this.posX, this.posY, this.posZ);
+        double var7 = this.rand.nextDouble() * 1.5D * (double) this.worldObj.getDifficultyModifier(this.posX, this.posY, this.posZ);
 
         if (var7 > 1.0D)
         {

@@ -1,7 +1,5 @@
 package ez.nebula.client.util.math;
 
-import ez.nebula.client.util.minecraft.player.ChatUtil;
-import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -22,7 +20,7 @@ public final class AngleUtil
         Vec3 var4 = MC.thePlayer.getPosition(1.0f);
         Vec3 var5 = getLookVec(yaw, pitch);
         Vec3 var6 = var4.addVector(var5.xCoord * reach, var5.yCoord * reach, var5.zCoord * reach);
-        return MC.theWorld.func_147447_a(var4, var6, false, false, true);
+        return MC.theWorld.rayTraceBlocks(var4, var6, false, false, true);
     }
 
     public static Vec3 getLookVec(final float yaw, final float pitch)

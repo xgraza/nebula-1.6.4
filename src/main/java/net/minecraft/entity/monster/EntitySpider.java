@@ -219,7 +219,7 @@ public class EntitySpider extends EntityMob
         {
             par1EntityLivingData1 = new EntitySpider.GroupData();
 
-            if (this.worldObj.difficultySetting == EnumDifficulty.HARD && this.worldObj.rand.nextFloat() < 0.1F * this.worldObj.func_147462_b(this.posX, this.posY, this.posZ))
+            if (this.worldObj.difficultySetting == EnumDifficulty.HARD && this.worldObj.rand.nextFloat() < 0.1F * this.worldObj.getDifficultyModifier(this.posX, this.posY, this.posZ))
             {
                 ((EntitySpider.GroupData) par1EntityLivingData1).func_111104_a(this.worldObj.rand);
             }

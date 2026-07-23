@@ -10,59 +10,59 @@ import net.minecraft.util.MathHelper;
 
 import java.io.IOException;
 
+// really should be called spawn entity bolt... that's all its used for... and all it does...
 public class S2CPacketSpawnGlobalEntity extends Packet
 {
-    private int field_149059_a;
-    private int field_149057_b;
-    private int field_149058_c;
-    private int field_149055_d;
-    private int field_149056_e;
-    private static final String __OBFID = "CL_00001278";
+    private int entityId;
+    private int x;
+    private int y;
+    private int z;
+    private int type;
 
     public S2CPacketSpawnGlobalEntity()
     {
     }
 
-    public S2CPacketSpawnGlobalEntity(Entity p_i45191_1_)
+    public S2CPacketSpawnGlobalEntity(Entity entity)
     {
-        this.field_149059_a = p_i45191_1_.getEntityId();
-        this.field_149057_b = MathHelper.floor_double(p_i45191_1_.posX * 32.0D);
-        this.field_149058_c = MathHelper.floor_double(p_i45191_1_.posY * 32.0D);
-        this.field_149055_d = MathHelper.floor_double(p_i45191_1_.posZ * 32.0D);
+        this.entityId = entity.getEntityId();
+        this.x = MathHelper.floor_double(entity.posX * 32.0D);
+        this.y = MathHelper.floor_double(entity.posY * 32.0D);
+        this.z = MathHelper.floor_double(entity.posZ * 32.0D);
 
-        if (p_i45191_1_ instanceof EntityLightningBolt)
+        if (entity instanceof EntityLightningBolt)
         {
-            this.field_149056_e = 1;
+            this.type = 1;
         }
     }
 
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer buffer) throws IOException
     {
-        this.field_149059_a = p_148837_1_.readVarIntFromBuffer();
-        this.field_149056_e = p_148837_1_.readByte();
-        this.field_149057_b = p_148837_1_.readInt();
-        this.field_149058_c = p_148837_1_.readInt();
-        this.field_149055_d = p_148837_1_.readInt();
+        this.entityId = buffer.readVarIntFromBuffer();
+        this.type = buffer.readByte();
+        this.x = buffer.readInt();
+        this.y = buffer.readInt();
+        this.z = buffer.readInt();
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    public void writePacketData(PacketBuffer buffer) throws IOException
     {
-        p_148840_1_.writeVarIntToBuffer(this.field_149059_a);
-        p_148840_1_.writeByte(this.field_149056_e);
-        p_148840_1_.writeInt(this.field_149057_b);
-        p_148840_1_.writeInt(this.field_149058_c);
-        p_148840_1_.writeInt(this.field_149055_d);
+        buffer.writeVarIntToBuffer(this.entityId);
+        buffer.writeByte(this.type);
+        buffer.writeInt(this.x);
+        buffer.writeInt(this.y);
+        buffer.writeInt(this.z);
     }
 
-    public void processPacket(INetHandlerPlayClient p_149054_1_)
+    public void processPacket(INetHandlerPlayClient netHandler)
     {
-        p_149054_1_.handleSpawnGlobalEntity(this);
+        netHandler.handleSpawnGlobalEntity(this);
     }
 
     /**
@@ -70,36 +70,36 @@ public class S2CPacketSpawnGlobalEntity extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", Integer.valueOf(this.field_149059_a), Integer.valueOf(this.field_149056_e), Float.valueOf((float) this.field_149057_b / 32.0F), Float.valueOf((float) this.field_149058_c / 32.0F), Float.valueOf((float) this.field_149055_d / 32.0F));
+        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f", this.entityId, this.type, (float) this.x / 32.0F, (float) this.y / 32.0F, (float) this.z / 32.0F);
     }
 
-    public int func_149052_c()
+    public int getEntityID()
     {
-        return this.field_149059_a;
+        return this.entityId;
     }
 
-    public int func_149051_d()
+    public int getX()
     {
-        return this.field_149057_b;
+        return this.x;
     }
 
-    public int func_149050_e()
+    public int getY()
     {
-        return this.field_149058_c;
+        return this.y;
     }
 
-    public int func_149049_f()
+    public int getZ()
     {
-        return this.field_149055_d;
+        return this.z;
     }
 
-    public int func_149053_g()
+    public int getType()
     {
-        return this.field_149056_e;
+        return this.type;
     }
 
-    public void processPacket(INetHandler p_148833_1_)
+    public void processPacket(INetHandler netHandler)
     {
-        this.processPacket((INetHandlerPlayClient) p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) netHandler);
     }
 }

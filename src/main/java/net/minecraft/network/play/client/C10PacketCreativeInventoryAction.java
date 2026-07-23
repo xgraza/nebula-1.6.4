@@ -10,55 +10,54 @@ import java.io.IOException;
 
 public class C10PacketCreativeInventoryAction extends Packet
 {
-    private int field_149629_a;
-    private ItemStack field_149628_b;
-    private static final String __OBFID = "CL_00001369";
+    private int action;
+    private ItemStack stack;
 
     public C10PacketCreativeInventoryAction()
     {
     }
 
-    public C10PacketCreativeInventoryAction(int p_i45263_1_, ItemStack p_i45263_2_)
+    public C10PacketCreativeInventoryAction(int action, ItemStack stack)
     {
-        this.field_149629_a = p_i45263_1_;
-        this.field_149628_b = p_i45263_2_ != null ? p_i45263_2_.copy() : null;
+        this.action = action;
+        this.stack = stack != null ? stack.copy() : null;
     }
 
-    public void processPacket(INetHandlerPlayServer p_149626_1_)
+    public void processPacket(INetHandlerPlayServer netHandler)
     {
-        p_149626_1_.processCreativeInventoryAction(this);
+        netHandler.processCreativeInventoryAction(this);
     }
 
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer buffer) throws IOException
     {
-        this.field_149629_a = p_148837_1_.readShort();
-        this.field_149628_b = p_148837_1_.readItemStackFromBuffer();
+        this.action = buffer.readShort();
+        this.stack = buffer.readItemStackFromBuffer();
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    public void writePacketData(PacketBuffer buffer) throws IOException
     {
-        p_148840_1_.writeShort(this.field_149629_a);
-        p_148840_1_.writeItemStackToBuffer(this.field_149628_b);
+        buffer.writeShort(this.action);
+        buffer.writeItemStackToBuffer(this.stack);
     }
 
-    public int func_149627_c()
+    public int getAction()
     {
-        return this.field_149629_a;
+        return this.action;
     }
 
-    public ItemStack func_149625_d()
+    public ItemStack getStack()
     {
-        return this.field_149628_b;
+        return this.stack;
     }
 
-    public void processPacket(INetHandler p_148833_1_)
+    public void processPacket(INetHandler handler)
     {
-        this.processPacket((INetHandlerPlayServer) p_148833_1_);
+        this.processPacket((INetHandlerPlayServer) handler);
     }
 }

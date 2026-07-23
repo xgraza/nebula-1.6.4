@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.src.BlockPos;
 import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -969,7 +970,7 @@ public abstract class Entity
 
             boolean var40 = this.isWet();
 
-            if (this.worldObj.func_147470_e(this.boundingBox.contract(0.001D, 0.001D, 0.001D)))
+            if (this.worldObj.isAnyFlammable(this.boundingBox.contract(0.001D, 0.001D, 0.001D)))
             {
                 this.dealFireDamage(1);
 
@@ -1044,10 +1045,10 @@ public abstract class Entity
         if (this.worldObj.getBlock(p_145780_1_, p_145780_2_ + 1, p_145780_3_) == Blocks.snow_layer)
         {
             var5 = Blocks.snow_layer.stepSound;
-            this.playSound(var5.func_150498_e(), var5.func_150497_c() * 0.15F, var5.func_150494_d());
+            this.playSound(var5.getStepSound(), var5.func_150497_c() * 0.15F, var5.func_150494_d());
         } else if (!p_145780_4_.getMaterial().isLiquid())
         {
-            this.playSound(var5.func_150498_e(), var5.func_150497_c() * 0.15F, var5.func_150494_d());
+            this.playSound(var5.getStepSound(), var5.func_150497_c() * 0.15F, var5.func_150494_d());
         }
     }
 
@@ -1365,6 +1366,11 @@ public abstract class Entity
         double var9 = this.posY - par3;
         double var11 = this.posZ - par5;
         return MathHelper.sqrt_double(var7 * var7 + var9 * var9 + var11 * var11);
+    }
+
+    public double getDistance(final BlockPos pos)
+    {
+        return getDistance(pos.getX(), pos.getY(), pos.getZ());
     }
 
     /**

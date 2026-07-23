@@ -871,9 +871,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     {
         this.playerEntity.setLastActionTime();
 
-        if (this.playerEntity.openContainer.windowId == p_147338_1_.func_149539_c() && this.playerEntity.openContainer.isPlayerNotUsingContainer(this.playerEntity))
+        if (this.playerEntity.openContainer.windowId == p_147338_1_.getID() && this.playerEntity.openContainer.isPlayerNotUsingContainer(this.playerEntity))
         {
-            this.playerEntity.openContainer.enchantItem(this.playerEntity, p_147338_1_.func_149537_d());
+            this.playerEntity.openContainer.enchantItem(this.playerEntity, p_147338_1_.getButton());
             this.playerEntity.openContainer.detectAndSendChanges();
         }
     }
@@ -885,16 +885,16 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     {
         if (this.playerEntity.theItemInWorldManager.isCreative())
         {
-            boolean var2 = p_147344_1_.func_149627_c() < 0;
-            ItemStack var3 = p_147344_1_.func_149625_d();
-            boolean var4 = p_147344_1_.func_149627_c() >= 1 && p_147344_1_.func_149627_c() < 36 + InventoryPlayer.getHotbarSize();
+            boolean var2 = p_147344_1_.getAction() < 0;
+            ItemStack var3 = p_147344_1_.getStack();
+            boolean var4 = p_147344_1_.getAction() >= 1 && p_147344_1_.getAction() < 36 + InventoryPlayer.getHotbarSize();
             boolean var5 = var3 == null || var3.getItem() != null;
             //boolean var6 = var3 == null || var3.getItemDamage() >= 0 && var3.stackSize <= 64 && var3.stackSize > 0;
             boolean var6 = true;
 
             if (var4 && var5 && var6)
             {
-                this.playerEntity.inventoryContainer.putStackInSlot(p_147344_1_.func_149627_c(), var3);
+                this.playerEntity.inventoryContainer.putStackInSlot(p_147344_1_.getAction(), var3);
 
                 this.playerEntity.inventoryContainer.setPlayerIsPresent(this.playerEntity, true);
             } else if (var2 && var5 && var6 && this.field_147375_m < 200)
@@ -980,7 +980,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                 TileEntitySign var7 = (TileEntitySign) var3;
                 System.arraycopy(p_147343_1_.getLines(), 0, var7.lines, 0, 4);
                 var7.onInventoryChanged();
-                var2.func_147471_g(var8, var9, var6);
+                var2.markBlockForUpdate(var8, var9, var6);
             }
         }
     }

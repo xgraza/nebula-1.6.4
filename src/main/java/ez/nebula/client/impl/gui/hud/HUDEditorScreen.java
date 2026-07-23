@@ -11,6 +11,8 @@ import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 
+import static org.lwjgl.opengl.GL11.*;
+
 /**
  * @author xgraza
  * @since 3/23/26
@@ -130,7 +132,15 @@ public final class HUDEditorScreen extends GuiChat
             }
         } else
         {
+            glPushMatrix();
+            glScaled(RenderUtil.getGUIScaleFactor(), RenderUtil.getGUIScaleFactor(), RenderUtil.getGUIScaleFactor());
+
+            mouseX /= RenderUtil.getGUIScaleFactor();
+            mouseY /= RenderUtil.getGUIScaleFactor();
+
             PANEL.render(mouseX, mouseY, partialTicks);
+
+            glPopMatrix();
         }
     }
 
@@ -138,6 +148,9 @@ public final class HUDEditorScreen extends GuiChat
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
         super.mouseClicked(mouseX, mouseY, mouseButton);
+
+        mouseX /= RenderUtil.getGUIScaleFactor();
+        mouseY /= RenderUtil.getGUIScaleFactor();
 
         PANEL.mouseClicked(mouseX, mouseY, mouseButton);
         if (PANEL.isDragging())

@@ -62,7 +62,7 @@ public class Block
     {
         private static final String __OBFID = "CL_00000200";
 
-        public String func_150495_a()
+        public String getDigSound()
         {
             return "dig.glass";
         }
@@ -87,7 +87,7 @@ public class Block
     {
         private static final String __OBFID = "CL_00000201";
 
-        public String func_150495_a()
+        public String getDigSound()
         {
             return "dig.wood";
         }
@@ -100,7 +100,7 @@ public class Block
     {
         private static final String __OBFID = "CL_00000202";
 
-        public String func_150495_a()
+        public String getDigSound()
         {
             return "dig.stone";
         }
@@ -1420,19 +1420,19 @@ public class Block
             return this.field_150500_c;
         }
 
-        public String func_150495_a()
+        public String getDigSound()
         {
             return "dig." + this.field_150501_a;
         }
 
-        public String func_150498_e()
+        public String getStepSound()
         {
             return "step." + this.field_150501_a;
         }
 
         public String func_150496_b()
         {
-            return this.func_150495_a();
+            return this.getDigSound();
         }
     }
 }

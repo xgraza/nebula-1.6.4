@@ -13,58 +13,47 @@ import java.util.ArrayList;
 public class EntityPainting extends EntityHanging
 {
     public EntityPainting.EnumArt art;
-    private static final String __OBFID = "CL_00001556";
 
-    public EntityPainting(World par1World)
+    public EntityPainting(World world)
     {
-        super(par1World);
+        super(world);
     }
 
-    public EntityPainting(World par1World, int par2, int par3, int par4, int par5)
+    public EntityPainting(World world, int x, int y, int z, int direction)
     {
-        super(par1World, par2, par3, par4, par5);
-        ArrayList var6 = new ArrayList();
-        EntityPainting.EnumArt[] var7 = EntityPainting.EnumArt.values();
-        int var8 = var7.length;
-
-        for (int var9 = 0; var9 < var8; ++var9)
+        super(world, x, y, z, direction);
+        ArrayList<EnumArt> artList = new ArrayList<>();
+        for (EnumArt art : EntityPainting.EnumArt.values())
         {
-            EntityPainting.EnumArt var10 = var7[var9];
-            this.art = var10;
-            this.setDirection(par5);
-
+            this.art = art;
+            this.setDirection(direction);
             if (this.onValidSurface())
             {
-                var6.add(var10);
+                artList.add(art);
             }
         }
 
-        if (!var6.isEmpty())
+        if (!artList.isEmpty())
         {
-            this.art = (EntityPainting.EnumArt) var6.get(this.rand.nextInt(var6.size()));
+            this.art = artList.get(this.rand.nextInt(artList.size()));
         }
 
-        this.setDirection(par5);
+        this.setDirection(direction);
     }
 
-    public EntityPainting(World par1World, int par2, int par3, int par4, int par5, String par6Str)
+    public EntityPainting(World world, int x, int y, int z, int direction, String title)
     {
-        this(par1World, par2, par3, par4, par5);
-        EntityPainting.EnumArt[] var7 = EntityPainting.EnumArt.values();
-        int var8 = var7.length;
-
-        for (int var9 = 0; var9 < var8; ++var9)
+        this(world, x, y, z, direction);
+        for (EnumArt art : EntityPainting.EnumArt.values())
         {
-            EntityPainting.EnumArt var10 = var7[var9];
-
-            if (var10.title.equals(par6Str))
+            if (art.title.equals(title))
             {
-                this.art = var10;
+                this.art = art;
                 break;
             }
         }
 
-        this.setDirection(par5);
+        this.setDirection(direction);
     }
 
     /**
@@ -81,17 +70,13 @@ public class EntityPainting extends EntityHanging
      */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
-        String var2 = par1NBTTagCompound.getString("Motive");
+        String title = par1NBTTagCompound.getString("Motive");
         EntityPainting.EnumArt[] var3 = EntityPainting.EnumArt.values();
-        int var4 = var3.length;
-
-        for (int var5 = 0; var5 < var4; ++var5)
+        for (EnumArt art : var3)
         {
-            EntityPainting.EnumArt var6 = var3[var5];
-
-            if (var6.title.equals(var2))
+            if (art.title.equals(title))
             {
-                this.art = var6;
+                this.art = art;
             }
         }
 
@@ -116,13 +101,12 @@ public class EntityPainting extends EntityHanging
     /**
      * Called when this entity is broken. Entity parameter may be null.
      */
-    public void onBroken(Entity par1Entity)
+    public void onBroken(Entity entity)
     {
-        if (par1Entity instanceof EntityPlayer)
+        if (entity instanceof EntityPlayer)
         {
-            EntityPlayer var2 = (EntityPlayer) par1Entity;
-
-            if (var2.capabilities.isCreativeMode)
+            EntityPlayer player = (EntityPlayer) entity;
+            if (player.capabilities.isCreativeMode)
             {
                 return;
             }
@@ -165,9 +149,6 @@ public class EntityPainting extends EntityHanging
         public final int sizeY;
         public final int offsetX;
         public final int offsetY;
-
-        private static final EntityPainting.EnumArt[] $VALUES = new EntityPainting.EnumArt[]{ Kebab, Aztec, Alban, Aztec2, Bomb, Plant, Wasteland, Pool, Courbet, Sea, Sunset, Creebet, Wanderer, Graham, Match, Bust, Stage, Void, SkullAndRoses, Wither, Fighters, Pointer, Pigscene, BurningSkull, Skeleton, DonkeyKong };
-        private static final String __OBFID = "CL_00001557";
 
         EnumArt(String par1Str, int par2, String par3Str, int par4, int par5, int par6, int par7)
         {

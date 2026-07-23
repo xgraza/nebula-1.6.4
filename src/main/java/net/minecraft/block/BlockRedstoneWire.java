@@ -431,7 +431,7 @@ public class BlockRedstoneWire extends Block
         if (var5 == Blocks.redstone_wire)
         {
             return true;
-        } else if (!Blocks.unpowered_repeater.func_149907_e(var5))
+        } else if (!Blocks.unpowered_repeater.isRedstoneBlockSame(var5))
         {
             return var5.canProvidePower() && p_150174_4_ != -1;
         } else

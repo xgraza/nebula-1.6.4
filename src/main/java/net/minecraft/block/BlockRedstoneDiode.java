@@ -289,12 +289,12 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
 
     public static boolean isRedstoneRepeaterBlockID(Block p_149909_0_)
     {
-        return Blocks.unpowered_repeater.func_149907_e(p_149909_0_) || Blocks.unpowered_comparator.func_149907_e(p_149909_0_);
+        return Blocks.unpowered_repeater.isRedstoneBlockSame(p_149909_0_) || Blocks.unpowered_comparator.isRedstoneBlockSame(p_149909_0_);
     }
 
-    public boolean func_149907_e(Block p_149907_1_)
+    public boolean isRedstoneBlockSame(Block block)
     {
-        return p_149907_1_ == this.getBlockPowered() || p_149907_1_ == this.getBlockUnpowered();
+        return block == this.getBlockPowered() || block == this.getBlockUnpowered();
     }
 
     public boolean func_149912_i(World p_149912_1_, int p_149912_2_, int p_149912_3_, int p_149912_4_, int p_149912_5_)
@@ -325,6 +325,6 @@ public abstract class BlockRedstoneDiode extends BlockDirectional
 
     public boolean isAssociatedBlock(Block p_149667_1_)
     {
-        return this.func_149907_e(p_149667_1_);
+        return this.isRedstoneBlockSame(p_149667_1_);
     }
 }

@@ -75,7 +75,7 @@ import java.util.Map.Entry;
 
 public class NetHandlerPlayClient implements INetHandlerPlayClient
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * The NetworkManager instance used to communicate with the server (used only by handlePlayerPosLook to update
@@ -127,13 +127,12 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      * particlespawn offset and velocity
      */
     private final Random avRandomizer = new Random();
-    private static final String __OBFID = "CL_00000878";
 
-    public NetHandlerPlayClient(Minecraft p_i45061_1_, GuiScreen p_i45061_2_, NetworkManager p_i45061_3_)
+    public NetHandlerPlayClient(Minecraft mc, GuiScreen screen, NetworkManager netManager)
     {
-        this.gameController = p_i45061_1_;
-        this.guiScreenServer = p_i45061_2_;
-        this.netManager = p_i45061_3_;
+        this.gameController = mc;
+        this.guiScreenServer = screen;
+        this.netManager = netManager;
     }
 
     /**
@@ -156,16 +155,16 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      * Registers some server properties (gametype,hardcore-mode,terraintype,difficulty,player limit), creates a new
      * WorldClient and sets the player initial dimension
      */
-    public void handleJoinGame(S01PacketJoinGame p_147282_1_)
+    public void handleJoinGame(S01PacketJoinGame packet)
     {
         this.gameController.playerController = new PlayerControllerMP(this.gameController, this);
-        this.clientWorldController = new WorldClient(this, new WorldSettings(0L, p_147282_1_.func_149198_e(), false, p_147282_1_.func_149195_d(), p_147282_1_.func_149196_i()), p_147282_1_.func_149194_f(), p_147282_1_.func_149192_g(), this.gameController.mcProfiler);
+        this.clientWorldController = new WorldClient(this, new WorldSettings(0L, packet.getGameType(), false, packet.isHardcore(), packet.getWorldType()), packet.getDimension(), packet.getDifficulty(), this.gameController.mcProfiler);
         this.clientWorldController.isClient = true;
         this.gameController.loadWorld(this.clientWorldController);
-        this.gameController.thePlayer.dimension = p_147282_1_.func_149194_f();
-        this.gameController.thePlayer.setEntityId(p_147282_1_.func_149197_c());
-        this.currentServerMaxPlayers = p_147282_1_.func_149193_h();
-        this.gameController.playerController.setGameType(p_147282_1_.func_149198_e());
+        this.gameController.thePlayer.dimension = packet.getDimension();
+        this.gameController.thePlayer.setEntityId(packet.getEntityId());
+        this.currentServerMaxPlayers = packet.getMaxPlayers();
+        this.gameController.playerController.setGameType(packet.getGameType());
         this.gameController.gameSettings.sendSettingsToServer();
         this.netManager.scheduleOutboundPacket(new C17PacketCustomPayload("MC|Brand", ClientBrandRetriever.getClientModName().getBytes(Charsets.UTF_8)));
     }
@@ -178,7 +177,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         double x = (double) packet.getX() / 32.0D;
         double y = (double) packet.getY() / 32.0D;
         double z = (double) packet.getZ() / 32.0D;
-        Object entity = null;
+        Entity entity = null;
 
         if (packet.getType() == 10)
         {
@@ -259,40 +258,40 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
         if (entity != null)
         {
-            ((Entity) entity).serverPosX = packet.getX();
-            ((Entity) entity).serverPosY = packet.getY();
-            ((Entity) entity).serverPosZ = packet.getZ();
-            ((Entity) entity).rotationPitch = (float) (packet.getPitch() * 360) / 256.0F;
-            ((Entity) entity).rotationYaw = (float) (packet.getYaw() * 360) / 256.0F;
-            Entity[] var12 = ((Entity) entity).getParts();
+            entity.serverPosX = packet.getX();
+            entity.serverPosY = packet.getY();
+            entity.serverPosZ = packet.getZ();
+            entity.rotationPitch = (float) (packet.getPitch() * 360) / 256.0F;
+            entity.rotationYaw = (float) (packet.getYaw() * 360) / 256.0F;
+            Entity[] var12 = entity.getParts();
 
             if (var12 != null)
             {
-                int var10 = packet.getID() - ((Entity) entity).getEntityId();
-
-                for (int var11 = 0; var11 < var12.length; ++var11)
+                int var10 = packet.getID() - entity.getEntityId();
+                for (Entity e : var12)
                 {
-                    var12[var11].setEntityId(var12[var11].getEntityId() + var10);
+                    e.setEntityId(e.getEntityId() + var10);
                 }
             }
 
-            ((Entity) entity).setEntityId(packet.getID());
-            this.clientWorldController.addEntityToWorld(packet.getID(), (Entity) entity);
+            entity.setEntityId(packet.getID());
+            this.clientWorldController.addEntityToWorld(packet.getID(), entity);
 
             if (packet.func_149009_m() > 0)
             {
                 if (packet.getType() == 60)
                 {
-                    Entity var13 = this.clientWorldController.getEntityByID(packet.func_149009_m());
+                    Entity shootingEntity = this.clientWorldController.getEntityByID(packet.func_149009_m());
 
-                    if (var13 instanceof EntityLivingBase)
+                    if (shootingEntity instanceof EntityLivingBase)
                     {
+                        assert entity instanceof EntityArrow;
                         EntityArrow var14 = (EntityArrow) entity;
-                        var14.shootingEntity = var13;
+                        var14.shootingEntity = shootingEntity;
                     }
                 }
 
-                ((Entity) entity).setVelocity((double) packet.getMotionX() / 8000.0D, (double) packet.getMotionY() / 8000.0D, (double) packet.getMotionZ() / 8000.0D);
+                entity.setVelocity((double) packet.getMotionX() / 8000.0D, (double) packet.getMotionY() / 8000.0D, (double) packet.getMotionZ() / 8000.0D);
             }
         }
     }
@@ -300,64 +299,70 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     /**
      * Spawns an experience orb and sets its value (amount of XP)
      */
-    public void handleSpawnExperienceOrb(S11PacketSpawnExperienceOrb p_147286_1_)
+    public void handleSpawnExperienceOrb(S11PacketSpawnExperienceOrb packet)
     {
-        EntityXPOrb var2 = new EntityXPOrb(this.clientWorldController, p_147286_1_.func_148984_d(), p_147286_1_.func_148983_e(), p_147286_1_.func_148982_f(), p_147286_1_.func_148986_g());
-        var2.serverPosX = p_147286_1_.func_148984_d();
-        var2.serverPosY = p_147286_1_.func_148983_e();
-        var2.serverPosZ = p_147286_1_.func_148982_f();
-        var2.rotationYaw = 0.0F;
-        var2.rotationPitch = 0.0F;
-        var2.setEntityId(p_147286_1_.func_148985_c());
-        this.clientWorldController.addEntityToWorld(p_147286_1_.func_148985_c(), var2);
+        EntityXPOrb entity = new EntityXPOrb(this.clientWorldController, packet.getX(), packet.getY(), packet.getZ(), packet.getValue());
+        entity.serverPosX = packet.getX();
+        entity.serverPosY = packet.getY();
+        entity.serverPosZ = packet.getZ();
+        entity.rotationYaw = 0.0F;
+        entity.rotationPitch = 0.0F;
+        entity.setEntityId(packet.getEntityID());
+        this.clientWorldController.addEntityToWorld(packet.getEntityID(), entity);
     }
 
     /**
      * Handles globally visible entities. Used in vanilla for lightning bolts
      */
-    public void handleSpawnGlobalEntity(S2CPacketSpawnGlobalEntity p_147292_1_)
+    public void handleSpawnGlobalEntity(S2CPacketSpawnGlobalEntity packet)
     {
-        double var2 = (double) p_147292_1_.func_149051_d() / 32.0D;
-        double var4 = (double) p_147292_1_.func_149050_e() / 32.0D;
-        double var6 = (double) p_147292_1_.func_149049_f() / 32.0D;
-        EntityLightningBolt var8 = null;
+        double x = (double) packet.getX() / 32.0D;
+        double y = (double) packet.getY() / 32.0D;
+        double z = (double) packet.getZ() / 32.0D;
+        EntityLightningBolt entity = null;
 
-        if (p_147292_1_.func_149053_g() == 1)
+        if (packet.getType() == 1)
         {
-            var8 = new EntityLightningBolt(this.clientWorldController, var2, var4, var6);
+            entity = new EntityLightningBolt(this.clientWorldController, x, y, z);
         }
 
-        if (var8 != null)
+        if (entity != null)
         {
-            var8.serverPosX = p_147292_1_.func_149051_d();
-            var8.serverPosY = p_147292_1_.func_149050_e();
-            var8.serverPosZ = p_147292_1_.func_149049_f();
-            var8.rotationYaw = 0.0F;
-            var8.rotationPitch = 0.0F;
-            var8.setEntityId(p_147292_1_.func_149052_c());
-            this.clientWorldController.addWeatherEffect(var8);
+            entity.serverPosX = packet.getX();
+            entity.serverPosY = packet.getY();
+            entity.serverPosZ = packet.getZ();
+            entity.rotationYaw = 0.0F;
+            entity.rotationPitch = 0.0F;
+            entity.setEntityId(packet.getEntityID());
+            this.clientWorldController.addWeatherEffect(entity);
         }
     }
 
     /**
      * Handles the spawning of a painting object
      */
-    public void handleSpawnPainting(S10PacketSpawnPainting p_147288_1_)
+    public void handleSpawnPainting(S10PacketSpawnPainting packet)
     {
-        EntityPainting var2 = new EntityPainting(this.clientWorldController, p_147288_1_.func_148964_d(), p_147288_1_.func_148963_e(), p_147288_1_.func_148962_f(), p_147288_1_.func_148966_g(), p_147288_1_.func_148961_h());
-        this.clientWorldController.addEntityToWorld(p_147288_1_.func_148965_c(), var2);
+        EntityPainting entity = new EntityPainting(this.clientWorldController,
+                packet.getX(),
+                packet.getY(),
+                packet.getZ(),
+                packet.getDirection(),
+                packet.getType());
+        this.clientWorldController.addEntityToWorld(packet.getEntityID(), entity);
     }
 
     /**
      * Sets the velocity of the specified entity to the specified value
      */
-    public void handleEntityVelocity(S12PacketEntityVelocity p_147244_1_)
+    public void handleEntityVelocity(S12PacketEntityVelocity packet)
     {
-        Entity var2 = this.clientWorldController.getEntityByID(p_147244_1_.getEntityId());
-
-        if (var2 != null)
+        Entity entity = this.clientWorldController.getEntityByID(packet.getEntityId());
+        if (entity != null)
         {
-            var2.setVelocity((double) p_147244_1_.getX() / 8000.0D, (double) p_147244_1_.getY() / 8000.0D, (double) p_147244_1_.getZ() / 8000.0D);
+            entity.setVelocity((double) packet.getX() / 8000.0D,
+                    (double) packet.getY() / 8000.0D,
+                    (double) packet.getZ() / 8000.0D);
         }
     }
 
@@ -555,7 +560,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
                     int var10 = var6 >> 12 & 15;
                     int var11 = var6 >> 8 & 15;
                     int var12 = var6 & 255;
-                    this.clientWorldController.func_147492_c(var10 + var2, var12, var11 + var3, Block.getBlockById(var8), var9);
+                    this.clientWorldController.onBlockChange(var10 + var2, var12, var11 + var3, Block.getBlockById(var8), var9);
                 }
             } catch (IOException ignored)
             {
@@ -596,7 +601,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleBlockChange(S23PacketBlockChange packet)
     {
-        this.clientWorldController.func_147492_c(packet.getX(), packet.getY(), packet.getZ(), packet.getType(), packet.getData());
+        this.clientWorldController.onBlockChange(packet.getX(), packet.getY(), packet.getZ(), packet.getType(), packet.getData());
     }
 
     /**
@@ -744,7 +749,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void handleTimeUpdate(S03PacketTimeUpdate p_147285_1_)
     {
-        this.gameController.theWorld.func_82738_a(p_147285_1_.func_149366_c());
+        this.gameController.theWorld.incrementTotalWorldTime(p_147285_1_.func_149366_c());
         this.gameController.theWorld.setWorldTime(p_147285_1_.func_149365_d());
     }
 
@@ -1442,7 +1447,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
                 }
             } catch (IOException var7)
             {
-                logger.error("Couldn't load trade info", var7);
+                LOGGER.error("Couldn't load trade info", var7);
             }
         } else if ("MC|Brand".equals(packet.getChannel()))
         {

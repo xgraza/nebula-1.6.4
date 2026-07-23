@@ -13,12 +13,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ChunkProviderClient implements IChunkProvider
 {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * The completely empty chunk used by ChunkProviderClient when chunkMapping doesn't contain the requested
@@ -29,7 +28,7 @@ public class ChunkProviderClient implements IChunkProvider
     /**
      * The mapping between ChunkCoordinates and Chunks that ChunkProviderClient maintains.
      */
-    private final LongHashMap chunkMapping = new LongHashMap();
+    private final LongHashMap<Chunk> chunkMapping = new LongHashMap<>();
 
     /**
      * This may have been intended to be an iterable version of all currently loaded chunks (MultiplayerChunkCache),
@@ -41,18 +40,17 @@ public class ChunkProviderClient implements IChunkProvider
      * Reference to the World object.
      */
     private final World worldObj;
-    private static final String __OBFID = "CL_00000880";
 
-    public ChunkProviderClient(World par1World)
+    public ChunkProviderClient(World world)
     {
-        this.blankChunk = new EmptyChunk(par1World, 0, 0);
-        this.worldObj = par1World;
+        this.blankChunk = new EmptyChunk(world, 0, 0);
+        this.worldObj = world;
     }
 
     /**
      * Checks to see if a chunk exists at x, y
      */
-    public boolean chunkExists(int par1, int par2)
+    public boolean chunkExists(int x, int y)
     {
         return true;
     }
@@ -61,46 +59,46 @@ public class ChunkProviderClient implements IChunkProvider
      * Unload chunk from ChunkProviderClient's hashmap. Called in response to a Packet50PreChunk with its mode field set
      * to false
      */
-    public void unloadChunk(int par1, int par2)
+    public void unloadChunk(int x, int z)
     {
-        Chunk var3 = this.provideChunk(par1, par2);
+        Chunk chunk = this.provideChunk(x, z);
 
-        if (!var3.isEmpty())
+        if (!chunk.isEmpty())
         {
-            var3.onChunkUnload();
+            chunk.onChunkUnload();
         }
 
-        this.chunkMapping.remove(ChunkCoordIntPair.chunkXZ2Int(par1, par2));
-        this.chunkListing.remove(var3);
+        this.chunkMapping.remove(ChunkCoordIntPair.chunkXZ2Int(x, z));
+        this.chunkListing.remove(chunk);
     }
 
     /**
      * loads or generates the chunk at the chunk location specified
      */
-    public Chunk loadChunk(int par1, int par2)
+    public Chunk loadChunk(int x, int z)
     {
-        Chunk var3 = new Chunk(this.worldObj, par1, par2);
-        this.chunkMapping.add(ChunkCoordIntPair.chunkXZ2Int(par1, par2), var3);
-        this.chunkListing.add(var3);
-        var3.isChunkLoaded = true;
-        return var3;
+        Chunk chunk = new Chunk(this.worldObj, x, z);
+        this.chunkMapping.add(ChunkCoordIntPair.chunkXZ2Int(x, z), chunk);
+        this.chunkListing.add(chunk);
+        chunk.isChunkLoaded = true;
+        return chunk;
     }
 
     /**
      * Will return back a chunk, if it doesn't exist and its not a MP client it will generates all the blocks for the
      * specified chunk from the map seed and chunk seed
      */
-    public Chunk provideChunk(int par1, int par2)
+    public Chunk provideChunk(int x, int z)
     {
-        Chunk var3 = (Chunk) this.chunkMapping.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(par1, par2));
-        return var3 == null ? this.blankChunk : var3;
+        Chunk chunk = this.chunkMapping.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(x, z));
+        return chunk == null ? this.blankChunk : chunk;
     }
 
     /**
      * Two modes of operation: if passed true, save all Chunks in one go.  If passed false, save up to two chunks.
      * Return true if all chunks have been saved.
      */
-    public boolean saveChunks(boolean par1, IProgressUpdate par2IProgressUpdate)
+    public boolean saveChunks(boolean saved, IProgressUpdate updater)
     {
         return true;
     }
@@ -118,18 +116,16 @@ public class ChunkProviderClient implements IChunkProvider
      */
     public boolean unloadQueuedChunks()
     {
-        long var1 = System.currentTimeMillis();
-        Iterator var3 = this.chunkListing.iterator();
+        long nowMs = System.currentTimeMillis();
 
-        while (var3.hasNext())
+        for (Chunk chunk : this.chunkListing)
         {
-            Chunk var4 = (Chunk) var3.next();
-            var4.func_150804_b(System.currentTimeMillis() - var1 > 5L);
+            chunk.func_150804_b(System.currentTimeMillis() - nowMs > 5L);
         }
 
-        if (System.currentTimeMillis() - var1 > 100L)
+        if (System.currentTimeMillis() - nowMs > 100L)
         {
-            logger.info("Warning: Clientside chunk ticking took {} ms", Long.valueOf(System.currentTimeMillis() - var1));
+            LOGGER.info("Warning: Clientside chunk ticking took {} ms", System.currentTimeMillis() - nowMs);
         }
 
         return false;
@@ -176,7 +172,7 @@ public class ChunkProviderClient implements IChunkProvider
         return this.chunkListing.size();
     }
 
-    public LongHashMap getChunkMapping()
+    public LongHashMap<Chunk> getChunkMapping()
     {
         return chunkMapping;
     }

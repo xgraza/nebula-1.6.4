@@ -46,11 +46,12 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        final double panelHeight = Math.min(getHeight(), ClickGUIScreen.MAX_PANEL_HEIGHT);
+        final double scaledMaxHeight = ClickGUIScreen.MAX_PANEL_HEIGHT / RenderUtil.getGUIScaleFactor();
+        final double panelHeight = Math.min(getHeight(), scaledMaxHeight);
 
         if (isMouseIn(mouseX, mouseY, getX(), getY(), getWidth(), panelHeight)
                 && allowScrolling
-                && panelHeight >= ClickGUIScreen.MAX_PANEL_HEIGHT)
+                && panelHeight >= scaledMaxHeight)
         {
             final int scroll = Mouse.getDWheel();
             if (scroll > 0)
@@ -81,7 +82,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
             }
         }
 
-        if (!allowScrolling || panelHeight < ClickGUIScreen.MAX_PANEL_HEIGHT)
+        if (!allowScrolling || panelHeight < scaledMaxHeight)
         {
             scrollOffset = 0;
         }

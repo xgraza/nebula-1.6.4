@@ -404,7 +404,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
             if (var3.getMaterial() != Material.air)
             {
                 Block.SoundType var4 = var3.stepSound;
-                this.worldObj.playSoundAtEntity(this, var4.func_150498_e(), var4.func_150497_c() * 0.5F, var4.func_150494_d() * 0.75F);
+                this.worldObj.playSoundAtEntity(this, var4.getStepSound(), var4.func_150497_c() * 0.5F, var4.func_150494_d() * 0.75F);
             }
         }
     }

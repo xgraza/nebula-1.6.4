@@ -32,7 +32,7 @@ public class TileEntityCommandBlock extends TileEntity
 
         public void func_145756_e()
         {
-            TileEntityCommandBlock.this.getWorldObj().func_147471_g(TileEntityCommandBlock.this.xCoord, TileEntityCommandBlock.this.yCoord, TileEntityCommandBlock.this.zCoord);
+            TileEntityCommandBlock.this.getWorldObj().markBlockForUpdate(TileEntityCommandBlock.this.xCoord, TileEntityCommandBlock.this.yCoord, TileEntityCommandBlock.this.zCoord);
         }
 
         public int func_145751_f()

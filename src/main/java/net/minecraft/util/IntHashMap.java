@@ -1,15 +1,16 @@
 package net.minecraft.util;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class IntHashMap
+public class IntHashMap<T>
 {
     /**
      * An array of HashEntries representing the heads of hash slot lists
      */
-    private transient IntHashMap.Entry[] slots = new IntHashMap.Entry[16];
+    private transient IntHashMap.Entry<T>[] slots = new IntHashMap.Entry[16];
 
     /**
      * The number of items stored in this map
@@ -34,8 +35,7 @@ public class IntHashMap
     /**
      * The set of all the keys stored in this MCHash object
      */
-    private final Set keySet = new HashSet();
-    private static final String __OBFID = "CL_00001490";
+    private final Set<Integer> keySet = new HashSet<>();
 
     /**
      * Makes the passed in integer suitable for hashing by a number of shifts
@@ -61,7 +61,7 @@ public class IntHashMap
     {
         int var2 = computeHash(par1);
 
-        for (IntHashMap.Entry var3 = this.slots[getSlotIndex(var2, this.slots.length)]; var3 != null; var3 = var3.nextEntry)
+        for (IntHashMap.Entry<T> var3 = this.slots[getSlotIndex(var2, this.slots.length)]; var3 != null; var3 = var3.nextEntry)
         {
             if (var3.hashEntry == par1)
             {
@@ -83,11 +83,11 @@ public class IntHashMap
     /**
      * Returns the key/object mapping for a given key as a MCHashEntry
      */
-    final IntHashMap.Entry lookupEntry(int par1)
+    final IntHashMap.Entry<T> lookupEntry(int par1)
     {
         int var2 = computeHash(par1);
 
-        for (IntHashMap.Entry var3 = this.slots[getSlotIndex(var2, this.slots.length)]; var3 != null; var3 = var3.nextEntry)
+        for (IntHashMap.Entry<T> var3 = this.slots[getSlotIndex(var2, this.slots.length)]; var3 != null; var3 = var3.nextEntry)
         {
             if (var3.hashEntry == par1)
             {
@@ -101,13 +101,13 @@ public class IntHashMap
     /**
      * Adds a key and associated value to this map
      */
-    public void addKey(int par1, Object par2Obj)
+    public void addKey(int par1, T par2Obj)
     {
-        this.keySet.add(Integer.valueOf(par1));
+        this.keySet.add(par1);
         int var3 = computeHash(par1);
         int var4 = getSlotIndex(var3, this.slots.length);
 
-        for (IntHashMap.Entry var5 = this.slots[var4]; var5 != null; var5 = var5.nextEntry)
+        for (IntHashMap.Entry<T> var5 = this.slots[var4]; var5 != null; var5 = var5.nextEntry)
         {
             if (var5.hashEntry == par1)
             {
@@ -125,7 +125,7 @@ public class IntHashMap
      */
     private void grow(int par1)
     {
-        IntHashMap.Entry[] var2 = this.slots;
+        IntHashMap.Entry<T>[] var2 = this.slots;
         int var3 = var2.length;
 
         if (var3 == 1073741824)
@@ -133,7 +133,7 @@ public class IntHashMap
             this.threshold = Integer.MAX_VALUE;
         } else
         {
-            IntHashMap.Entry[] var4 = new IntHashMap.Entry[par1];
+            IntHashMap.Entry<T>[] var4 = new IntHashMap.Entry[par1];
             this.copyTo(var4);
             this.slots = var4;
             this.threshold = (int) ((float) par1 * this.growFactor);
@@ -143,19 +143,19 @@ public class IntHashMap
     /**
      * Copies the hash slots to a new array
      */
-    private void copyTo(IntHashMap.Entry[] par1ArrayOfIntHashMapEntry)
+    private void copyTo(IntHashMap.Entry<T>[] par1ArrayOfIntHashMapEntry)
     {
-        IntHashMap.Entry[] var2 = this.slots;
+        IntHashMap.Entry<T>[] var2 = this.slots;
         int var3 = par1ArrayOfIntHashMapEntry.length;
 
         for (int var4 = 0; var4 < var2.length; ++var4)
         {
-            IntHashMap.Entry var5 = var2[var4];
+            IntHashMap.Entry<T> var5 = var2[var4];
 
             if (var5 != null)
             {
                 var2[var4] = null;
-                IntHashMap.Entry var6;
+                IntHashMap.Entry<T> var6;
 
                 do
                 {
@@ -173,23 +173,23 @@ public class IntHashMap
     /**
      * Removes the specified object from the map and returns it
      */
-    public Object removeObject(int par1)
+    public T removeObject(int par1)
     {
-        this.keySet.remove(Integer.valueOf(par1));
-        IntHashMap.Entry var2 = this.removeEntry(par1);
+        this.keySet.remove(par1);
+        IntHashMap.Entry<T> var2 = this.removeEntry(par1);
         return var2 == null ? null : var2.valueEntry;
     }
 
     /**
      * Removes the specified entry from the map and returns it
      */
-    final IntHashMap.Entry removeEntry(int par1)
+    final IntHashMap.Entry<T> removeEntry(int par1)
     {
         int var2 = computeHash(par1);
         int var3 = getSlotIndex(var2, this.slots.length);
-        IntHashMap.Entry var4 = this.slots[var3];
-        IntHashMap.Entry var5;
-        IntHashMap.Entry var6;
+        IntHashMap.Entry<T> var4 = this.slots[var3];
+        IntHashMap.Entry<T> var5;
+        IntHashMap.Entry<T> var6;
 
         for (var5 = var4; var5 != null; var5 = var6)
         {
@@ -223,12 +223,9 @@ public class IntHashMap
     public void clearMap()
     {
         ++this.versionStamp;
-        IntHashMap.Entry[] var1 = this.slots;
+        IntHashMap.Entry<T>[] var1 = this.slots;
 
-        for (int var2 = 0; var2 < var1.length; ++var2)
-        {
-            var1[var2] = null;
-        }
+        Arrays.fill(var1, null);
 
         this.count = 0;
     }
@@ -236,10 +233,10 @@ public class IntHashMap
     /**
      * Adds an object to a slot
      */
-    private void insert(int par1, int par2, Object par3Obj, int par4)
+    private void insert(int par1, int par2, T par3Obj, int par4)
     {
-        IntHashMap.Entry var5 = this.slots[par4];
-        this.slots[par4] = new IntHashMap.Entry(par1, par2, par3Obj, var5);
+        IntHashMap.Entry<T> var5 = this.slots[par4];
+        this.slots[par4] = new IntHashMap.Entry<T>(par1, par2, par3Obj, var5);
 
         if (this.count++ >= this.threshold)
         {
@@ -247,15 +244,14 @@ public class IntHashMap
         }
     }
 
-    static class Entry
+    static class Entry<T>
     {
         final int hashEntry;
-        Object valueEntry;
-        IntHashMap.Entry nextEntry;
+        T valueEntry;
+        IntHashMap.Entry<T> nextEntry;
         final int slotHash;
-        private static final String __OBFID = "CL_00001491";
 
-        Entry(int par1, int par2, Object par3Obj, IntHashMap.Entry par4IntHashMapEntry)
+        Entry(int par1, int par2, T par3Obj, IntHashMap.Entry<T> par4IntHashMapEntry)
         {
             this.valueEntry = par3Obj;
             this.nextEntry = par4IntHashMapEntry;
@@ -268,21 +264,18 @@ public class IntHashMap
             return this.hashEntry;
         }
 
-        public final Object getValue()
+        public final T getValue()
         {
             return this.valueEntry;
         }
 
         public final boolean equals(Object par1Obj)
         {
-            if (!(par1Obj instanceof IntHashMap.Entry))
+            if (par1Obj instanceof IntHashMap.Entry)
             {
-                return false;
-            } else
-            {
-                IntHashMap.Entry var2 = (IntHashMap.Entry) par1Obj;
-                Integer var3 = Integer.valueOf(this.getHash());
-                Integer var4 = Integer.valueOf(var2.getHash());
+                Entry<T> var2 = (Entry<T>) par1Obj;
+                Integer var3 = this.getHash();
+                Integer var4 = var2.getHash();
 
                 if (Objects.equals(var3, var4))
                 {
@@ -292,8 +285,8 @@ public class IntHashMap
                     return Objects.equals(var5, var6);
                 }
 
-                return false;
             }
+            return false;
         }
 
         public final int hashCode()

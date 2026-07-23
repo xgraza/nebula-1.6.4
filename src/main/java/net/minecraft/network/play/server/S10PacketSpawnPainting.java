@@ -10,57 +10,56 @@ import java.io.IOException;
 
 public class S10PacketSpawnPainting extends Packet
 {
-    private int field_148973_a;
-    private int field_148971_b;
-    private int field_148972_c;
-    private int field_148969_d;
-    private int field_148970_e;
-    private String field_148968_f;
-    private static final String __OBFID = "CL_00001280";
+    private int entityId;
+    private int x;
+    private int y;
+    private int z;
+    private int direction;
+    private String type;
 
     public S10PacketSpawnPainting()
     {
     }
 
-    public S10PacketSpawnPainting(EntityPainting p_i45170_1_)
+    public S10PacketSpawnPainting(EntityPainting entity)
     {
-        this.field_148973_a = p_i45170_1_.getEntityId();
-        this.field_148971_b = p_i45170_1_.field_146063_b;
-        this.field_148972_c = p_i45170_1_.field_146064_c;
-        this.field_148969_d = p_i45170_1_.field_146062_d;
-        this.field_148970_e = p_i45170_1_.hangingDirection;
-        this.field_148968_f = p_i45170_1_.art.title;
+        this.entityId = entity.getEntityId();
+        this.x = entity.field_146063_b;
+        this.y = entity.field_146064_c;
+        this.z = entity.field_146062_d;
+        this.direction = entity.hangingDirection;
+        this.type = entity.art.title;
     }
 
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer p_148837_1_) throws IOException
+    public void readPacketData(PacketBuffer buffer) throws IOException
     {
-        this.field_148973_a = p_148837_1_.readVarIntFromBuffer();
-        this.field_148968_f = p_148837_1_.readStringFromBuffer(EntityPainting.EnumArt.maxArtTitleLength);
-        this.field_148971_b = p_148837_1_.readInt();
-        this.field_148972_c = p_148837_1_.readInt();
-        this.field_148969_d = p_148837_1_.readInt();
-        this.field_148970_e = p_148837_1_.readInt();
+        this.entityId = buffer.readVarIntFromBuffer();
+        this.type = buffer.readStringFromBuffer(EntityPainting.EnumArt.maxArtTitleLength);
+        this.x = buffer.readInt();
+        this.y = buffer.readInt();
+        this.z = buffer.readInt();
+        this.direction = buffer.readInt();
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer p_148840_1_) throws IOException
+    public void writePacketData(PacketBuffer buffer) throws IOException
     {
-        p_148840_1_.writeVarIntToBuffer(this.field_148973_a);
-        p_148840_1_.writeStringToBuffer(this.field_148968_f);
-        p_148840_1_.writeInt(this.field_148971_b);
-        p_148840_1_.writeInt(this.field_148972_c);
-        p_148840_1_.writeInt(this.field_148969_d);
-        p_148840_1_.writeInt(this.field_148970_e);
+        buffer.writeVarIntToBuffer(this.entityId);
+        buffer.writeStringToBuffer(this.type);
+        buffer.writeInt(this.x);
+        buffer.writeInt(this.y);
+        buffer.writeInt(this.z);
+        buffer.writeInt(this.direction);
     }
 
-    public void processPacket(INetHandlerPlayClient p_148967_1_)
+    public void processPacket(INetHandlerPlayClient netHandler)
     {
-        p_148967_1_.handleSpawnPainting(this);
+        netHandler.handleSpawnPainting(this);
     }
 
     /**
@@ -68,41 +67,41 @@ public class S10PacketSpawnPainting extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, type=%s, x=%d, y=%d, z=%d", Integer.valueOf(this.field_148973_a), this.field_148968_f, Integer.valueOf(this.field_148971_b), Integer.valueOf(this.field_148972_c), Integer.valueOf(this.field_148969_d));
+        return String.format("id=%d, type=%s, x=%d, y=%d, z=%d", this.entityId, this.type, this.x, this.y, this.z);
     }
 
-    public int func_148965_c()
+    public int getEntityID()
     {
-        return this.field_148973_a;
+        return this.entityId;
     }
 
-    public int func_148964_d()
+    public int getX()
     {
-        return this.field_148971_b;
+        return this.x;
     }
 
-    public int func_148963_e()
+    public int getY()
     {
-        return this.field_148972_c;
+        return this.y;
     }
 
-    public int func_148962_f()
+    public int getZ()
     {
-        return this.field_148969_d;
+        return this.z;
     }
 
-    public int func_148966_g()
+    public int getDirection()
     {
-        return this.field_148970_e;
+        return this.direction;
     }
 
-    public String func_148961_h()
+    public String getType()
     {
-        return this.field_148968_f;
+        return this.type;
     }
 
-    public void processPacket(INetHandler p_148833_1_)
+    public void processPacket(INetHandler netHandler)
     {
-        this.processPacket((INetHandlerPlayClient) p_148833_1_);
+        this.processPacket((INetHandlerPlayClient) netHandler);
     }
 }

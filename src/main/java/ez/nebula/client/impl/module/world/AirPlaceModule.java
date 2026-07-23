@@ -85,7 +85,7 @@ public final class AirPlaceModule extends Module
         final Vec3 end = start.addVector(var5.xCoord * rangeSetting.getValue(),
                 var5.yCoord * rangeSetting.getValue(),
                 var5.zCoord * rangeSetting.getValue());
-        result = MC.theWorld.func_147447_a(start, end, true, false, true);
+        result = MC.theWorld.rayTraceBlocks(start, end, true, false, true);
         if (result == null)
         {
             return;

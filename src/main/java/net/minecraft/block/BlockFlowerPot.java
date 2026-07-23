@@ -81,7 +81,7 @@ public class BlockFlowerPot extends BlockContainer
 
                         if (!p_149727_1_.setBlockMetadataWithNotify(p_149727_2_, p_149727_3_, p_149727_4_, var10.getItemDamage(), 2))
                         {
-                            p_149727_1_.func_147471_g(p_149727_2_, p_149727_3_, p_149727_4_);
+                            p_149727_1_.markBlockForUpdate(p_149727_2_, p_149727_3_, p_149727_4_);
                         }
 
                         if (!p_149727_5_.capabilities.isCreativeMode && --var10.stackSize <= 0)

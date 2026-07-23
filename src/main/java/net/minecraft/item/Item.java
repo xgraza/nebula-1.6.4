@@ -734,7 +734,7 @@ public class Item
         float var20 = var14 * var16;
         double var21 = 5.0D;
         Vec3 var23 = var13.addVector((double) var18 * var21, (double) var17 * var21, (double) var20 * var21);
-        return par1World.func_147447_a(var13, var23, par3, !par3, false);
+        return par1World.rayTraceBlocks(var13, var23, par3, !par3, false);
     }
 
     /**

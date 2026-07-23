@@ -107,7 +107,7 @@ public class GuiIngame extends Gui
     public void renderGameOverlay(float par1, boolean par2, int par3, int par4)
     {
         ScaledResolution var5 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
-        RenderUtil.setGameResolution(var5);
+        RenderUtil.GAME_RESOLUTION = var5;
         int width = var5.getScaledWidth();
         int height = var5.getScaledHeight();
         FontRenderer var8 = this.mc.fontRenderer;

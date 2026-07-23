@@ -1163,7 +1163,7 @@ public abstract class EntityLivingBase extends Entity
             if (var8.getMaterial() != Material.air)
             {
                 Block.SoundType var9 = var8.stepSound;
-                this.playSound(var9.func_150498_e(), var9.func_150497_c() * 0.5F, var9.func_150494_d() * 0.75F);
+                this.playSound(var9.getStepSound(), var9.func_150497_c() * 0.5F, var9.func_150494_d() * 0.75F);
             }
         }
     }
@@ -2227,14 +2227,14 @@ public abstract class EntityLivingBase extends Entity
         Vec3 var4 = this.getPosition(par3);
         Vec3 var5 = this.getLook(par3);
         Vec3 var6 = var4.addVector(var5.xCoord * par1, var5.yCoord * par1, var5.zCoord * par1);
-        return this.worldObj.func_147447_a(var4, var6, false, false, true);
+        return this.worldObj.rayTraceBlocks(var4, var6, false, false, true);
     }
 
     public MovingObjectPosition rayTrace(Vec3 var5, double distance, float partialTickTime)
     {
         Vec3 var4 = this.getPosition(partialTickTime);
         Vec3 var6 = var4.addVector(var5.xCoord * distance, var5.yCoord * distance, var5.zCoord * distance);
-        return this.worldObj.func_147447_a(var4, var6, false, false, true);
+        return this.worldObj.rayTraceBlocks(var4, var6, false, false, true);
     }
 
     /**

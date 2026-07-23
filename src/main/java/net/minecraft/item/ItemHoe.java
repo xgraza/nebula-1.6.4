@@ -36,7 +36,7 @@ public class ItemHoe extends Item
             if (par7 != 0 && par3World.getBlock(par4, par5 + 1, par6).getMaterial() == Material.air && (var11 == Blocks.grass || var11 == Blocks.dirt))
             {
                 Block var12 = Blocks.farmland;
-                par3World.playSoundEffect((float) par4 + 0.5F, (float) par5 + 0.5F, (float) par6 + 0.5F, var12.stepSound.func_150498_e(), (var12.stepSound.func_150497_c() + 1.0F) / 2.0F, var12.stepSound.func_150494_d() * 0.8F);
+                par3World.playSoundEffect((float) par4 + 0.5F, (float) par5 + 0.5F, (float) par6 + 0.5F, var12.stepSound.getStepSound(), (var12.stepSound.func_150497_c() + 1.0F) / 2.0F, var12.stepSound.func_150494_d() * 0.8F);
 
                 if (par3World.isClient)
                 {

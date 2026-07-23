@@ -232,7 +232,7 @@ public abstract class EntityHanging extends Entity
 
     public void func_145781_i(int p_145781_1_)
     {
-        this.worldObj.func_147450_X();
+        this.worldObj.handleStaticEntityChanges();
     }
 
     /**

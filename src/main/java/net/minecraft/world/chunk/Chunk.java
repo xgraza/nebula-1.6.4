@@ -1045,7 +1045,7 @@ public class Chunk
         while (var1.hasNext())
         {
             TileEntity var2 = (TileEntity) var1.next();
-            this.worldObj.func_147457_a(var2);
+            this.worldObj.unloadTileEntity(var2);
         }
 
         for (int var3 = 0; var3 < this.entityLists.length; ++var3)

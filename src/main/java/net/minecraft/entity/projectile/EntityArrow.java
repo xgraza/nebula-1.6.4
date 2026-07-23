@@ -239,7 +239,7 @@ public class EntityArrow extends Entity implements IProjectile
             ++this.ticksInAir;
             Vec3 var17 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
             Vec3 var3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-            MovingObjectPosition var4 = this.worldObj.func_147447_a(var17, var3, false, true, false);
+            MovingObjectPosition var4 = this.worldObj.rayTraceBlocks(var17, var3, false, true, false);
             var17 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
             var3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
