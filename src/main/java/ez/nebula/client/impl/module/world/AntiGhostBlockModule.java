@@ -125,6 +125,7 @@ public final class AntiGhostBlockModule extends Module
                 {
                     breakConfirmBlockPosMap.remove(pos);
                     MC.theWorld.setBlock(pos.getX(), pos.getY(), pos.getZ(), data.getBlock());
+                    MC.theWorld.setBlockMetadataWithNotify(pos.getX(), pos.getY(), pos.getZ(), data.getMeta(), 0);
                 }
             }
         }
@@ -194,7 +195,7 @@ public final class AntiGhostBlockModule extends Module
                 return;
             }
             // TODO: retain metadata?
-            breakConfirmBlockPosMap.put(pos, new OriginalBlockData(block, System.currentTimeMillis()));
+            breakConfirmBlockPosMap.put(pos, new OriginalBlockData(block, System.currentTimeMillis(), MC.theWorld.getBlockMetadata(pos)));
         }
     };
 
@@ -223,11 +224,13 @@ public final class AntiGhostBlockModule extends Module
     {
         private final Block block;
         private final long time;
+        private final int meta;
 
-        public OriginalBlockData(Block block, long time)
+        public OriginalBlockData(Block block, long time, int meta)
         {
             this.block = block;
             this.time = time;
+            this.meta = meta;
         }
 
         public Block getBlock()
@@ -238,6 +241,11 @@ public final class AntiGhostBlockModule extends Module
         public long getTime()
         {
             return time;
+        }
+
+        public int getMeta()
+        {
+            return meta;
         }
     }
 }

@@ -524,6 +524,11 @@ public abstract class World implements IBlockAccess
         }
     }
 
+    public int getBlockMetadata(final BlockPos pos)
+    {
+        return getBlockMetadata(pos.getX(), pos.getY(), pos.getZ());
+    }
+
     /**
      * Returns the block metadata at coords x,y,z
      */
