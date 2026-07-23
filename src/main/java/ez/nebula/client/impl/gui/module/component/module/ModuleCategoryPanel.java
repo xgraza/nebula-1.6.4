@@ -30,5 +30,8 @@ public final class ModuleCategoryPanel extends CategoryPanel
     {
         Fonts.TYPEFACE.drawStringShadow(categoryIcon, x + PADDING, y + 5, 0xAAAAAA);
         Fonts.POPPINS.drawStringShadow(name, x + 12 + PADDING, y + 2, -1);
+        String text = String.valueOf(childrenComponentList.size());
+        double textWidth = Fonts.POPPINS.getStringWidth(text);
+        Fonts.POPPINS.drawStringShadow(text, x + width - (PADDING * 2) - textWidth, y + 2, 0xAAAAAA);
     }
 }
