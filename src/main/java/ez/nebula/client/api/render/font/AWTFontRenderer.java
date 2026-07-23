@@ -19,6 +19,8 @@ import static org.lwjgl.opengl.GL12.GL_RESCALE_NORMAL;
  */
 public final class AWTFontRenderer
 {
+    public static boolean DYNAMIC_FONT_RESIZING = true;
+
     private static final char COLOR_CONTROL_CHAR = '§';
 
     private final AWTFont normal, bold, italic, boldItalic;
@@ -105,7 +107,7 @@ public final class AWTFontRenderer
         AWTFont font = normal;
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_RESCALE_NORMAL);
-        glBindTexture(GL_TEXTURE_2D, font.getGlyphTexture().getGlTextureId());
+        bindFontTexture(font);
 
         double posX = x;
         double posY = y;
@@ -117,7 +119,8 @@ public final class AWTFontRenderer
         }
 
         glTranslated(posX, posY, 0);
-        glScaled(0.5, 0.5, 0.5);
+        double scale = 0.5 / (DYNAMIC_FONT_RESIZING ? RenderUtil.getGUIScaleFactor() : 1.0);
+        glScaled(scale, scale, scale);
 
         double offsetX = 0;
         double offsetY = 0;
@@ -154,7 +157,7 @@ public final class AWTFontRenderer
                         {
                             font = bold;
                         }
-                        glBindTexture(GL_TEXTURE_2D, font.getGlyphTexture().getGlTextureId());
+                        bindFontTexture(font);
                         break;
                     }
                     case 'm':
@@ -177,7 +180,7 @@ public final class AWTFontRenderer
                         {
                             font = italic;
                         }
-                        glBindTexture(GL_TEXTURE_2D, font.getGlyphTexture().getGlTextureId());
+                        bindFontTexture(font);
                         break;
                     }
                     case 'r':
@@ -188,8 +191,7 @@ public final class AWTFontRenderer
                         underline = false;
 
                         textColor = defaultColor;
-                        font = normal;
-                        glBindTexture(GL_TEXTURE_2D, font.getGlyphTexture().getGlTextureId());
+                        bindFontTexture(font = normal);
                         break;
                     }
                     case 'z':
@@ -242,6 +244,16 @@ public final class AWTFontRenderer
         glPopMatrix();
     }
 
+    private void bindFontTexture(final AWTFont font)
+    {
+        glBindTexture(GL_TEXTURE_2D, font.getGlyphTexture().getGlTextureId());
+        if (DYNAMIC_FONT_RESIZING)
+        {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        }
+    }
+
     public double getFontHeight()
     {
         return normal.getFontHeight();
@@ -292,7 +304,7 @@ public final class AWTFontRenderer
             }
             width += getCharWidth(ch, font);
         }
-        return width / 2.0;
+        return DYNAMIC_FONT_RESIZING ? width * (RenderUtil.GAME_RESOLUTION.getScaleFactor() / 4.0) : width / 2.0;
     }
 
     public double getCharWidth(final char ch)

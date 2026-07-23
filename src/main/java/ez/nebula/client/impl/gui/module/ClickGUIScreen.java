@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.gui.module;
 
+import ez.nebula.client.api.render.font.AWTFontRenderer;
 import ez.nebula.client.impl.module.render.ClickGUIModule;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.client.gui.GuiScreen;
@@ -285,10 +286,12 @@ public final class ClickGUIScreen extends GuiScreen
         double y = mouseY - 10;
         RenderUtil.renderRoundedRectangle(x, y, boxWidth + 8, 2 + (Fonts.POPPINS.getFontHeight() + 1) * wrappedTextList.size(), 5.5f, PANEL_HEADER_COLOR);
 
+        AWTFontRenderer.DYNAMIC_FONT_RESIZING = false;
         for (final String line : wrappedTextList)
         {
             Fonts.POPPINS.drawStringShadow(line, x + 4, y + 1, -1);
             y += Fonts.POPPINS.getFontHeight();
         }
+        AWTFontRenderer.DYNAMIC_FONT_RESIZING = true;
     }
 }

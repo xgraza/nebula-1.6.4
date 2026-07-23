@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.gui.module.component;
 
+import ez.nebula.client.api.render.font.AWTFontRenderer;
 import org.lwjgl.input.Mouse;
 import ez.nebula.client.api.render.trait.GUIComponent;
 import ez.nebula.client.api.render.trait.IGUIInputListener;
@@ -46,6 +47,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
+        AWTFontRenderer.DYNAMIC_FONT_RESIZING = false;
         final double scaledMaxHeight = ClickGUIScreen.MAX_PANEL_HEIGHT / RenderUtil.getGUIScaleFactor();
         final double panelHeight = Math.min(getHeight(), scaledMaxHeight);
 
@@ -112,6 +114,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
         drawHeaderText();
 
         RenderUtil.endScissor();
+        AWTFontRenderer.DYNAMIC_FONT_RESIZING = true;
     }
 
     protected void drawHeaderText()

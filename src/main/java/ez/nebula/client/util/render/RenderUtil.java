@@ -641,6 +641,6 @@ public final class RenderUtil
         {
             return ClickGUIModule.INSTANCE.guiScaleSetting.getValue();
         }
-        return 2.0 / GAME_RESOLUTION.getScaleFactor();
+        return GAME_RESOLUTION == null ? 1.0 : 2.0 / GAME_RESOLUTION.getScaleFactor();
     }
 }
