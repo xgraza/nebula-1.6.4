@@ -1,5 +1,6 @@
 package ez.nebula.client.util.render;
 
+import ez.nebula.client.impl.module.render.ClickGUIModule;
 import ez.nebula.client.impl.module.render.GlintModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -636,6 +637,10 @@ public final class RenderUtil
 
     public static double getGUIScaleFactor()
     {
+        if (ClickGUIModule.INSTANCE != null && ClickGUIModule.INSTANCE.guiScaleSetting.getValue() != 1.0)
+        {
+            return ClickGUIModule.INSTANCE.guiScaleSetting.getValue();
+        }
         return 2.0 / GAME_RESOLUTION.getScaleFactor();
     }
 }

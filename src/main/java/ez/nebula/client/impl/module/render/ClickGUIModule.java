@@ -32,6 +32,12 @@ public final class ClickGUIModule extends Module
     public final Setting<Boolean> showConfigTabSetting = builder("Show Config Panel", true)
             .setDescription("If to show a separate panel for viewing/saving/loading configs")
             .build();
+    public final Setting<Double> guiScaleSetting = numberBuilder("GUI Scale", 1.0)
+            .setMin(0.5)
+            .setMax(2.0)
+            .setScale(0.1)
+            .setDescription("The scale setting")
+            .build();
 
     private ClickGUIScreen guiScreen;
 
