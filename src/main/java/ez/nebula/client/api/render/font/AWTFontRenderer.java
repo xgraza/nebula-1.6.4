@@ -304,7 +304,7 @@ public final class AWTFontRenderer
             }
             width += getCharWidth(ch, font);
         }
-        return DYNAMIC_FONT_RESIZING ? width * (RenderUtil.GAME_RESOLUTION.getScaleFactor() / 4.0) : width / 2.0;
+        return DYNAMIC_FONT_RESIZING ? width * (RenderUtil.getScaleFactor() / 4.0) : width / 2.0;
     }
 
     public double getCharWidth(final char ch)

@@ -635,12 +635,17 @@ public final class RenderUtil
         glColor4f(red, green, blue, 1.0f);
     }
 
+    public static int getScaleFactor()
+    {
+        return GAME_RESOLUTION == null ? 2 : GAME_RESOLUTION.getScaleFactor();
+    }
+
     public static double getGUIScaleFactor()
     {
         if (ClickGUIModule.INSTANCE != null && ClickGUIModule.INSTANCE.guiScaleSetting.getValue() != 1.0)
         {
             return ClickGUIModule.INSTANCE.guiScaleSetting.getValue();
         }
-        return GAME_RESOLUTION == null ? 1.0 : 2.0 / GAME_RESOLUTION.getScaleFactor();
+        return 2.0 / getScaleFactor();
     }
 }
