@@ -148,8 +148,8 @@ public final class ModulePanel extends GUIComponent implements IGUIInputListener
         final double boxPosX = (x + width) - boxWidth - offset;
         final double boxPosY = y - (middlePoint - ((boxHeight - (PADDING * 2)) / 2.0));
 
-        RenderUtil.renderRoundedRectangle(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, KEY_BACKGROUND_COLOR);
-        Fonts.POPPINS_SMALL.drawStringShadow(text, boxPosX + (PADDING * 2), boxPosY + PADDING, -1);
+        RenderUtil.renderRoundedRectangle(boxPosX, boxPosY, boxWidth, boxHeight, 4.5f, KEY_BACKGROUND_COLOR);
+        Fonts.POPPINS_SMALL.drawStringShadow(text, boxPosX + (PADDING * 1.5), boxPosY + PADDING, -1);
     }
 
     @Override
