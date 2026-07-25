@@ -2,6 +2,7 @@ package ez.nebula.client.impl.gui.hud;
 
 import ez.nebula.client.impl.module.render.HUDModule;
 import net.minecraft.client.gui.GuiChat;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.api.manager.hud.HUDElement;
@@ -107,6 +108,11 @@ public final class HUDEditorScreen extends GuiChat
             draggingElement.setX(mouseX - dragX);
             draggingElement.setY(mouseY - dragY);
 
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+            {
+                handleSnapToGrid();
+            }
+
             if (HUDModule.INSTANCE.forceInBoundsSetting.getValue() && !scalingElements)
             {
                 // bounds checks
@@ -141,6 +147,33 @@ public final class HUDEditorScreen extends GuiChat
             PANEL.render(mouseX, mouseY, partialTicks);
 
             glPopMatrix();
+        }
+    }
+
+    private void handleSnapToGrid()
+    {
+        if (draggingElement == null)
+        {
+            return;
+        }
+
+        // how many pixels within a snap bound
+        double leniency = 15;
+
+        double halfWidth = width / 2.0;
+        double halfHeight = height / 2.0;
+
+        double elementMidX = draggingElement.getX() + (draggingElement.getWidth() / 2.0);
+        double elementMidY = draggingElement.getY() + (draggingElement.getHeight() / 2.0);
+
+        if (Math.abs(halfWidth - elementMidX) <= leniency)
+        {
+            draggingElement.setX(halfWidth - (draggingElement.getWidth() / 2.0));
+        }
+
+        if (Math.abs(halfHeight - elementMidY) <= leniency)
+        {
+            draggingElement.setY(halfHeight + (draggingElement.getHeight() / 2.0));
         }
     }
 
