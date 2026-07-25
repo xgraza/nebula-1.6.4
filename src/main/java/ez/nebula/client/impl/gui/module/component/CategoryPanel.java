@@ -23,6 +23,8 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     protected static final double PANEL_HEADER_HEIGHT = 16.0;
     protected static final double PANEL_WIDTH = 120.0;
 
+    protected static final int SCROLL_ADVANCE = 10;
+
     protected static final int PANEL_HEADER_COLOR = new Color(33, 33, 33).getRGB();
     protected static final int PANEL_BACKGROUND_COLOR = new Color(48, 48, 48).getRGB();
 
@@ -31,7 +33,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     protected final String name;
 
     private boolean allowScrolling;
-    protected int scrollOffset;
+    protected double scrollOffset, targetScrollOffset, scrollSpeed = 0.15;
 
     private boolean dragging, allowDragging;
     private double dragX, dragY;
@@ -59,15 +61,15 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
             if (scroll > 0)
             {
                 final double posY = y + PANEL_HEADER_HEIGHT;
-                if (posY + scrollOffset < posY)
+                if (posY + targetScrollOffset < posY)
                 {
-                    scrollOffset += 10;
+                    targetScrollOffset += SCROLL_ADVANCE;
                 }
             } else if (scroll < 0)
             {
-                if ((y + panelHeight) - (y + scrollOffset + getComponentHeight()) < height)
+                if ((y + panelHeight) - (y + targetScrollOffset + getComponentHeight()) <= height)
                 {
-                    scrollOffset -= 10;
+                    targetScrollOffset -= SCROLL_ADVANCE;
                 }
             }
         }
@@ -86,7 +88,13 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
 
         if (!allowScrolling || panelHeight < scaledMaxHeight)
         {
-            scrollOffset = 0;
+            targetScrollOffset = 0;
+        }
+
+        scrollOffset += (targetScrollOffset - scrollOffset) * scrollSpeed;
+        if (Math.abs(targetScrollOffset - scrollOffset) <= 0.01)
+        {
+            scrollOffset = targetScrollOffset;
         }
 
         RenderUtil.startScissor(x, y - 1, width, panelHeight + 1);
@@ -188,6 +196,11 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     public void setAllowDragging(boolean allowDragging)
     {
         this.allowDragging = allowDragging;
+    }
+
+    public void setScrollSpeed(double scrollSpeed)
+    {
+        this.scrollSpeed = scrollSpeed;
     }
 
     public boolean isDragging()

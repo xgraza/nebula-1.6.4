@@ -4,6 +4,7 @@ import ez.nebula.client.core.Nebula;
 import ez.nebula.client.api.render.font.Fonts;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.impl.gui.module.component.CategoryPanel;
+import ez.nebula.client.impl.module.render.ClickGUIModule;
 
 /**
  * @author xgraza
@@ -23,6 +24,13 @@ public final class ModuleCategoryPanel extends CategoryPanel
         categoryIcon = category.getIcon();
         setAllowScrolling(true);
         setAllowDragging(true);
+    }
+
+    @Override
+    public void render(int mouseX, int mouseY, float partialTicks)
+    {
+        setScrollSpeed(ClickGUIModule.INSTANCE.scrollSpeedSetting.getValue());
+        super.render(mouseX, mouseY, partialTicks);
     }
 
     @Override

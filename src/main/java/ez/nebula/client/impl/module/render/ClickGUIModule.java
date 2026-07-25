@@ -38,6 +38,12 @@ public final class ClickGUIModule extends Module
             .setScale(0.1)
             .setDescription("The scale setting")
             .build();
+    public final Setting<Double> scrollSpeedSetting = numberBuilder("Scroll Speed", 0.15)
+            .setMin(0.1)
+            .setMax(1.0)
+            .setScale(0.05)
+            .setDescription("The speed that smooth scrolling should have")
+            .build();
 
     private ClickGUIScreen guiScreen;
 
