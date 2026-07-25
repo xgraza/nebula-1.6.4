@@ -164,7 +164,7 @@ public final class HUDEditorScreen extends GuiChat
         }
         for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
         {
-            if (element.isMouseIn(mouseX, mouseY))
+            if (element.isMouseIn(mouseX, mouseY) && element.isToggled())
             {
                 SoundUtil.playClickSound();
                 draggingElement = element;
