@@ -97,7 +97,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
             scrollOffset = targetScrollOffset;
         }
 
-        RenderUtil.startScissor(x, y - 1, width, panelHeight + 1);
+        RenderUtil.startScissor(x, y, width, panelHeight + 1);
 
         RenderUtil.renderRoundedRectangle(x, y, width, panelHeight, 6, PANEL_HEADER_COLOR);
         RenderUtil.renderRoundedRectangle(x + PADDING, y + height, width - (PADDING * 2), panelHeight - height - PADDING, 2.8f, PANEL_BACKGROUND_COLOR);
