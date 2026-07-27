@@ -80,7 +80,7 @@ public final class AWTFont
         final FontRenderContext frc = graphics.getFontRenderContext();
 
         spaceWidth = metrics.charWidth(' ');
-        fontHeight = font.getSize() + metrics.getAscent();
+        fontHeight = metrics.getDescent() + metrics.getAscent();
 
         float x = 0;
         float y = font.getSize();
@@ -108,9 +108,6 @@ public final class AWTFont
             graphics.drawString(String.valueOf(c), x, y + metrics.getAscent());
             x += (float) glyph.getWidth() + 8.0f;
         }
-
-        fontHeight = ((fontHeight - metrics.getAscent()) / 2.0) + 3;
-
         return new DynamicTexture(image);
     }
 

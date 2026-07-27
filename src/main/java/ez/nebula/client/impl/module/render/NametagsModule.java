@@ -158,18 +158,21 @@ public final class NametagsModule extends Module
 
                 if (backgroundSetting.getValue())
                 {
-                    RenderUtil.renderRectangle(-(textWidth + 2), -(textHeight + 1), (textWidth + 2) * 2, textHeight + 4, 0x95000000);
+                    //RenderUtil.renderRectangle(-(textWidth + 2), -textHeight, (textWidth * 2) + 4, textHeight + 4, 0x95000000);
                 }
 
                 if (customFontSetting.getValue())
                 {
-                    Fonts.POPPINS.drawStringShadow(text, (int) -textWidth, -textHeight + 1, -1);
+                    RenderUtil.renderRectangle(-textWidth, -textHeight, (textWidth * 2), textHeight, 0x95000000);
+                    Fonts.POPPINS.drawStringShadow(text, -textWidth, -textHeight, -1);
                 } else
                 {
-                    MC.fontRenderer.drawStringWithShadow(text, (int) -textWidth, -textHeight + 2, -1);
+                    MC.fontRenderer.drawStringWithShadow(text, (int) -textWidth, -textHeight + 3, -1);
                 }
 
                 glEnable(GL_DEPTH_TEST);
+
+                int startY = -((textHeight * 2) + 8);
 
                 if (entity instanceof EntityPlayer)
                 {
@@ -180,7 +183,7 @@ public final class NametagsModule extends Module
 
                     if (heldStack != null)
                     {
-                        renderItemStack(heldStack, itemX, -26);
+                        renderItemStack(heldStack, itemX, startY);
                         itemX += (ITEM_RENDER_SIZE + 4);
                     }
 
@@ -189,7 +192,7 @@ public final class NametagsModule extends Module
                         final ItemStack stack = player.inventory.armorInventory[i];
                         if (stack != null)
                         {
-                            renderItemStack(stack, itemX, -26);
+                            renderItemStack(stack, itemX, startY);
                             itemX += (ITEM_RENDER_SIZE + 4);
                         }
                     }

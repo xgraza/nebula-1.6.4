@@ -152,9 +152,4 @@ public final class CoordinatesHUDElement extends HUDElement
 
         return builder.toString();
     }
-
-    public Setting<Boolean> getShortenedSetting()
-    {
-        return shortenedSetting;
-    }
 }

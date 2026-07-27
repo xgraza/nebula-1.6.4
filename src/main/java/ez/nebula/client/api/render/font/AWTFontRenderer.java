@@ -237,7 +237,7 @@ public final class AWTFontRenderer
             {
 
             }
-            offsetX += glyph.getAdvance() - 0.5;
+            offsetX += glyph.getAdvance();
         }
 
         glDisable(GL_RESCALE_NORMAL);
@@ -256,7 +256,7 @@ public final class AWTFontRenderer
 
     public double getFontHeight()
     {
-        return normal.getFontHeight();
+        return (normal.getFontHeight() / 2.0) / RenderUtil.getGUIScaleFactor() - 1;
     }
 
     public double getStringWidth(final String input)
@@ -321,7 +321,7 @@ public final class AWTFontRenderer
         final Glyph glyph = font.getGlyph(ch);
         if (glyph != null)
         {
-            return glyph.getAdvance() - 0.5;
+            return glyph.getAdvance();
         }
         return 0.0;
     }
