@@ -20,7 +20,7 @@ public final class ModuleCategoryPanel extends CategoryPanel
         Nebula.INSTANCE.getModuleManager().getAll()
                 .stream()
                 .filter((module) -> module.getManifest().category().equals(category))
-                .forEach((module) -> childrenComponentList.add(new ModulePanel(module)));
+                .forEach((module) -> childrenComponentList.add(new ModuleComponent(module)));
         categoryIcon = category.getIcon();
         setAllowScrolling(true);
         setAllowDragging(true);

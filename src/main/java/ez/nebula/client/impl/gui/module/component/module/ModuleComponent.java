@@ -29,7 +29,7 @@ import static ez.nebula.client.api.manager.key.Key.DEFAULT_UNBOUND_KEY;
  * @since 03/01/25
  */
 @SuppressWarnings("unchecked")
-public final class ModulePanel extends GUIComponent implements IGUIInputListener
+public final class ModuleComponent extends GUIComponent implements IGUIInputListener
 {
     private static final double PADDING = 1.0;
 
@@ -45,7 +45,7 @@ public final class ModulePanel extends GUIComponent implements IGUIInputListener
     private final Module module;
     private boolean listeningForKey;
 
-    public ModulePanel(final Module module)
+    public ModuleComponent(final Module module)
     {
         this.module = module;
         for (final Setting<?> setting : module.getSettings())

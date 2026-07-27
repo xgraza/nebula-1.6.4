@@ -2,7 +2,6 @@ package ez.nebula.client.impl.gui.module;
 
 import ez.nebula.client.api.render.font.AWTFontRenderer;
 import ez.nebula.client.impl.module.render.ClickGUIModule;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 import ez.nebula.client.core.ClientConfig;
@@ -14,7 +13,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.impl.config.ModuleConfig;
 import ez.nebula.client.impl.gui.module.component.CategoryPanel;
 import ez.nebula.client.impl.gui.module.component.module.ModuleCategoryPanel;
-import ez.nebula.client.impl.gui.module.component.module.ModulePanel;
+import ez.nebula.client.impl.gui.module.component.module.ModuleComponent;
 import ez.nebula.client.impl.gui.module.component.config.ConfigCategoryPanel;
 import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.render.RenderUtil;
@@ -224,9 +223,9 @@ public final class ClickGUIScreen extends GuiScreen
             }
             for (final GUIComponent c : childrenComponents)
             {
-                if (c instanceof ModulePanel)
+                if (c instanceof ModuleComponent)
                 {
-                    final ModulePanel cheatPanel = (ModulePanel) c;
+                    final ModuleComponent cheatPanel = (ModuleComponent) c;
                     if (cheatPanel.isMouseIn(mouseX, mouseY))
                     {
                         drawHoveredDescription(cheatPanel.getModule().getManifest().description(), mouseX, mouseY);
