@@ -97,7 +97,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
             scrollOffset = targetScrollOffset;
         }
 
-        RenderUtil.startScissor(x, y, width, panelHeight + 1);
+        RenderUtil.startScissor(x, y, width, panelHeight);
 
         RenderUtil.renderRoundedRectangle(x, y, width, panelHeight, 6, PANEL_HEADER_COLOR);
         RenderUtil.renderRoundedRectangle(x + PADDING, y + height, width - (PADDING * 2), panelHeight - height - PADDING, 2.8f, PANEL_BACKGROUND_COLOR);
@@ -120,6 +120,16 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
 
         RenderUtil.renderRoundedRectangle(x, y, width, PANEL_HEADER_HEIGHT, 6, PANEL_HEADER_COLOR);
         drawHeaderText();
+
+        // render hack:
+        // since we scissor down to the max height, elements within the scissor box can overflow the
+        // panel bounds (bounds as in the actual panel rounded rectangles, since theres a boarder around the entire thing)
+        // so we render a small rectangle over the very bottom so it looks a little cleaner
+        // such a small little thing that doesn't matter but once I noticed it, it began to piss me off...
+        if (panelHeight >= scaledMaxHeight)
+        {
+            RenderUtil.renderRoundedRectangle(x, y + panelHeight - PADDING, width, PADDING, 4.9f, PANEL_HEADER_COLOR);
+        }
 
         RenderUtil.endScissor();
         AWTFontRenderer.DYNAMIC_FONT_RESIZING = true;
