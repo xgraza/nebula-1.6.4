@@ -4,7 +4,6 @@
 
 package ez.nebula.client.impl.module.world;
 
-import ez.nebula.client.api.manager.key.Key;
 import ez.nebula.client.api.setting.BindSetting;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
@@ -80,6 +79,9 @@ public final class ScaffoldModule extends Module
             .setKeyCode(Keyboard.KEY_NONE)
             .setDescription("The key to press to toggle downwards scaffold")
             .build();
+    private final Setting<Boolean> prioritizeHeldSetting = builder("Prioritize Held", true)
+            .setDescription("If to prioritize the block item held in your hand")
+            .build();
 
     private final Timer towerTimer = new Timer();
     private double basePosY;
@@ -108,9 +110,11 @@ public final class ScaffoldModule extends Module
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        slot = InventoryUtil.getHotbarSlot(
-                (stack) -> stack.getItem() instanceof ItemBlock
-                        && ((ItemBlock) stack.getItem()).getBlock().getMaterial().isSolid());
+        slot = InventoryUtil.getHotbarSlot(this::isStackValid);
+        if (prioritizeHeldSetting.getValue() && isStackValid(MC.thePlayer.getHeldItem()))
+        {
+            slot = MC.thePlayer.inventory.currentItem;
+        }
         if (slot == -1)
         {
             return;
@@ -251,6 +255,13 @@ public final class ScaffoldModule extends Module
             ChatUtil.sendNebula("Ticks: " + towerTicks);
         }
     };
+
+    private boolean isStackValid(final ItemStack stack)
+    {
+        return stack != null
+                && stack.getItem() instanceof ItemBlock
+                && ((ItemBlock) stack.getItem()).getBlock().getMaterial().isSolid();
+    }
 
     private BlockInfo getBlockData()
     {
