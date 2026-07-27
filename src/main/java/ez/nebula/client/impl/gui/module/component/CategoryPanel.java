@@ -105,6 +105,14 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
         if (animation.getFactor() > 0.0)
         {
             double posY = y + scrollOffset + PANEL_HEADER_HEIGHT;
+
+            // fix bug where when scrolled theres a gap between the end of the panel vs the last element
+            final double panelGap = (y + panelHeight) - (posY + getComponentHeight());
+            if (panelGap > PADDING)
+            {
+                posY += (panelGap - PADDING);
+            }
+
             for (final GUIComponent component : getChildrenComponentList())
             {
                 component.setX(x + PADDING);
