@@ -6,23 +6,24 @@ package ez.nebula.client.api.manager.module.trait;
  */
 public enum ModuleCategory
 {
-    COMBAT("Combat", "a"),
-    EXPLOIT("Exploit", "b"),
+    COMBAT("Combat", 'a'),
+    EXPLOIT("Exploit", 'b'),
     // MISCELLANEOUS("Miscellaneous", "F"),
-    MOVEMENT("Movement", "E"),
-    PLAYER("Player", "d"),
-    RENDER("Render", "c"),
-    WORLD("World", "e");
+    MOVEMENT("Movement", 'E'),
+    PLAYER("Player", 'd'),
+    RENDER("Render", 'c'),
+    WORLD("World", 'e');
 
-    private final String name, icon;
+    private final String name;
+    private final char icon;
 
-    ModuleCategory(final String name, final String icon)
+    ModuleCategory(final String name, final char icon)
     {
         this.name = name;
         this.icon = icon;
     }
 
-    public String getIcon()
+    public char getIcon()
     {
         return icon;
     }

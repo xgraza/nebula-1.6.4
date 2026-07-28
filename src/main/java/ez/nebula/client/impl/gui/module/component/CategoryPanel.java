@@ -31,6 +31,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     protected final Animation animation = new Animation(
             AnimationEasing.EXPO_IN_OUT, 150.0);
     protected final String name;
+    private final Character icon;
 
     private boolean allowScrolling;
     protected double scrollOffset, targetScrollOffset, scrollSpeed = 0.15;
@@ -38,9 +39,10 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     private boolean dragging, allowDragging;
     private double dragX, dragY;
 
-    public CategoryPanel(final String name)
+    public CategoryPanel(final String name, final Character icon)
     {
         this.name = name;
+        this.icon = icon;
         animation.setState(true);
         setHeight(PANEL_HEADER_HEIGHT);
         setWidth(PANEL_WIDTH);
@@ -145,7 +147,13 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
 
     protected void drawHeaderText()
     {
-        Fonts.POPPINS.drawStringShadow(name, x + 12 + PADDING, y + 2, -1);
+        double iconWidth = 0.0;
+        if (icon != null)
+        {
+            Fonts.TYPEFACE.drawStringShadow(String.valueOf(icon), x + PADDING, y + 5, 0xAAAAAA);
+            iconWidth = Fonts.TYPEFACE.getStringWidth(String.valueOf(icon)) + (PADDING);
+        }
+        Fonts.POPPINS.drawStringShadow(name, x + iconWidth + PADDING, y + 2, -1);
     }
 
     @Override

@@ -12,16 +12,13 @@ import ez.nebula.client.impl.module.render.ClickGUIModule;
  */
 public final class ModuleCategoryPanel extends CategoryPanel
 {
-    private final String categoryIcon;
-
     public ModuleCategoryPanel(final ModuleCategory category)
     {
-        super(category.toString());
+        super(category.toString(), category.getIcon());
         Nebula.INSTANCE.getModuleManager().getAll()
                 .stream()
                 .filter((module) -> module.getManifest().category().equals(category))
                 .forEach((module) -> childrenComponentList.add(new ModuleComponent(module)));
-        categoryIcon = category.getIcon();
         setAllowScrolling(true);
         setAllowDragging(true);
     }
@@ -36,10 +33,10 @@ public final class ModuleCategoryPanel extends CategoryPanel
     @Override
     protected void drawHeaderText()
     {
-        Fonts.TYPEFACE.drawStringShadow(categoryIcon, x + PADDING, y + 5, 0xAAAAAA);
-        Fonts.POPPINS.drawStringShadow(name, x + 12 + PADDING, y + 2, -1);
-        String text = String.valueOf(childrenComponentList.size());
-        double textWidth = Fonts.POPPINS.getStringWidth(text);
-        Fonts.POPPINS.drawStringShadow(text, x + width - (PADDING * 2) - textWidth, y + 2, 0xAAAAAA);
+        super.drawHeaderText();
+
+        final String componentSizeText = String.valueOf(childrenComponentList.size());
+        final double textWidth = Fonts.POPPINS.getStringWidth(componentSizeText);
+        Fonts.POPPINS.drawStringShadow(componentSizeText, x + width - (PADDING * 2) - textWidth, y + 2, 0xAAAAAA);
     }
 }

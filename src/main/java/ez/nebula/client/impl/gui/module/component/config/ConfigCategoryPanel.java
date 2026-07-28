@@ -1,7 +1,6 @@
 package ez.nebula.client.impl.gui.module.component.config;
 
 import ez.nebula.client.core.Nebula;
-import ez.nebula.client.api.render.font.Fonts;
 import ez.nebula.client.impl.gui.module.component.CategoryPanel;
 
 import java.io.File;
@@ -19,7 +18,7 @@ public final class ConfigCategoryPanel extends CategoryPanel
 
     public ConfigCategoryPanel()
     {
-        super("Configs");
+        super("Configs", 'C');
         button = new ConfigTextButton("New Config", this::onCreateConfig);
     }
 
@@ -57,13 +56,6 @@ public final class ConfigCategoryPanel extends CategoryPanel
     {
         button.mouseClicked(mouseX, mouseY, mouseButton);
         super.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-
-    @Override
-    protected void drawHeaderText()
-    {
-        Fonts.TYPEFACE.drawStringShadow("C", x + PADDING, y + 5, 0xAAAAAA);
-        Fonts.POPPINS.drawStringShadow(name, x + 12 + PADDING, y + 2, -1);
     }
 
     private void onCreateConfig()

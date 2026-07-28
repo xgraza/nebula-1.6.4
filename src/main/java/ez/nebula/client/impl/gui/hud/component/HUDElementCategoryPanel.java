@@ -12,17 +12,10 @@ public final class HUDElementCategoryPanel extends CategoryPanel
 {
     public HUDElementCategoryPanel()
     {
-        super("Elements");
+        super("Elements", 'c');
         Nebula.INSTANCE.getHUDManager().getAll().forEach(
                 (element) -> getChildrenComponentList().add(new HUDElementPanel(element)));
         setAllowScrolling(true);
         setAllowDragging(true);
-    }
-
-    @Override
-    protected void drawHeaderText()
-    {
-        Fonts.TYPEFACE.drawStringShadow("c", x + PADDING, y + 5, 0xAAAAAA);
-        Fonts.POPPINS.drawStringShadow(name, x + 12 + PADDING, y + 2, -1);
     }
 }
