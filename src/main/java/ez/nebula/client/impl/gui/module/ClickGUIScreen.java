@@ -39,7 +39,6 @@ public final class ClickGUIScreen extends GuiScreen
     public static double MAX_PANEL_HEIGHT;
 
     private final LinkedList<CategoryPanel> categoryPanels = new LinkedList<>();
-    private ConfigCategoryPanel configPanel;
     private final Timer descriptionHoverTimer = new Timer();
     private final Timer guiResetTimer = new Timer();
 
@@ -70,10 +69,6 @@ public final class ClickGUIScreen extends GuiScreen
         {
             panel.init();
         }
-//        if (configPanel != null)
-//        {
-//            categoryPanels.add(configPanel);
-//        }
 
         MAX_PANEL_HEIGHT = height - 20 - DEFAULT_PANEL_Y;
 
@@ -123,26 +118,6 @@ public final class ClickGUIScreen extends GuiScreen
             final String text = String.format("Resetting ClickGUI screen in %.2f second(s).", time);
             Fonts.POPPINS.drawStringShadow(text, width / 2.0 - (Fonts.POPPINS.getStringWidth(text) / 2.0), 0, 0xFFFF0000);
         }
-
-//        if (ClickGUIModule.INSTANCE.showConfigTabSetting.getValue())
-//        {
-//            if (configPanel == null)
-//            {
-//                final CategoryPanel panel = categoryPanels.getLast();
-//                configPanel = createConfigPanel(panel.getX() + panel.getWidth() + 3);
-//                categoryPanels.add(panel);
-//            } else if (!categoryPanels.contains(configPanel))
-//            {
-//                categoryPanels.add(configPanel);
-//            }
-//        } else
-//        {
-//            if (configPanel != null)
-//            {
-//                categoryPanels.remove(configPanel);
-//                configPanel = null;
-//            }
-//        }
 
         for (final CategoryPanel panel : categoryPanels)
         {
