@@ -29,6 +29,7 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
     private boolean dragging;
 
     private int heldDownTicks;
+    private double renderWidth;
 
     public NumberSettingComponent(final NumberSetting<?> setting)
     {
@@ -88,8 +89,12 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
         final double value = setting.getValue().doubleValue();
 
         final double barWidth = width * ((value - min) / diff);
-
-        RenderUtil.renderRoundedRectangle(x, y, barWidth, height, 3.5f, HUDModule.INSTANCE.getPrimary());
+        renderWidth += (barWidth - renderWidth) * 0.15;
+        if (Math.abs(renderWidth - barWidth) <= 0.01)
+        {
+            renderWidth = barWidth;
+        }
+        RenderUtil.renderRoundedRectangle(x, y, renderWidth, height, 3.5f, HUDModule.INSTANCE.getPrimary());
     }
 
     @Override
