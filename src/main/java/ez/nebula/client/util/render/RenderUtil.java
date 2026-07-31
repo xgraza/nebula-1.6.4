@@ -487,6 +487,8 @@ public final class RenderUtil
             ROUNDED_RECTANGLE_SHADER.set("edgeSoftness", 1.0f);
         });
 
+        glTranslated(0, 0, 1);
+
         glBegin(GL_QUADS);
         {
             glTexCoord2d(0, 0);
@@ -549,8 +551,11 @@ public final class RenderUtil
         glPushMatrix();
         RenderHelper.enableGUIStandardItemLighting();
 
+        float zLevel = RENDER_ITEM.zLevel;
+        RENDER_ITEM.zLevel = 0.0f;
         RENDER_ITEM.renderItemIntoGUI(
                 MC.fontRenderer, MC.getTextureManager(), itemStack, posX, posY);
+        RENDER_ITEM.zLevel = zLevel;
 
         RenderHelper.disableStandardItemLighting();
         glPopMatrix();

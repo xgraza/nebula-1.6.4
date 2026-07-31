@@ -5,7 +5,11 @@ import ez.nebula.client.api.render.trait.GUIComponent;
 import ez.nebula.client.api.render.trait.IGUIInputListener;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
+import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.impl.gui.module.component.module.ComponentWithSetting;
+import ez.nebula.client.impl.gui.module.component.module.value.block.BlockSearchComponent;
+import ez.nebula.client.impl.gui.module.component.module.value.block.BlockSelectionCallback;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.item.ItemStack;
 
@@ -17,16 +21,20 @@ import static org.lwjgl.opengl.GL11.*;
  * @author xgraza
  * @since 6/4/26
  */
-public final class BlockSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
+public final class BlockSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting, BlockSelectionCallback
 {
     private static final int KEY_BACKGROUND_COLOR = new Color(33, 33, 33).getRGB();
     private static final double PADDING = 1.0;
 
     private final BlockSetting setting;
 
+    private boolean opened;
+
     public BlockSettingComponent(BlockSetting setting)
     {
         this.setting = setting;
+
+        getChildrenComponentList().add(new BlockSearchComponent(this));
     }
 
     @Override
@@ -36,12 +44,26 @@ public final class BlockSettingComponent extends GUIComponent implements IGUIInp
         Fonts.POPPINS.drawStringShadow(setting.getName(), x + (PADDING * 2), y + middle, -1);
         drawItemAndText();
 
-        glPushMatrix();
-        glTranslated(getX() + getWidth() - 14, y + middle, 0);
-        glScaled(0.8, 0.8, 0.8);
-        final ItemStack itemStack = new ItemStack(setting.getBlock(), 1, setting.getSubType());
-        RenderUtil.renderItemWithoutEffects(itemStack, 0, 0);
-        glPopMatrix();
+        if (opened)
+        {
+            double posY = y + height + PADDING;
+            for (final GUIComponent component : getChildrenComponentList())
+            {
+                component.setX(getX() + PADDING);
+                component.setY(posY);
+                component.setWidth(getWidth() - (PADDING * 2));
+
+                component.render(mouseX, mouseY, partialTicks);
+
+                posY += component.getHeight() + (PADDING * 2);
+            }
+        }
+    }
+
+    @Override
+    public void selectBlock(BlockValue blockValue)
+    {
+        setting.setValue(blockValue);
     }
 
     private void drawItemAndText()
@@ -56,24 +78,70 @@ public final class BlockSettingComponent extends GUIComponent implements IGUIInp
         RenderUtil.renderRoundedRectangle(posX, posY,
                 textWidth + (PADDING * 2), Fonts.POPPINS_SMALL.getFontHeight(), 3.5f, KEY_BACKGROUND_COLOR);
         Fonts.POPPINS_SMALL.drawStringShadow(text, posX + 1, posY, -1);
+
+        glPushMatrix();
+        {
+            glTranslated(getX() + getWidth() - 14, y + middle, 0);
+            glScaled(0.8, 0.8, 0.8);
+            RenderUtil.renderItemWithoutEffects(new ItemStack(setting.getBlock(), 1, setting.getSubType()), 0, 0);
+        }
+        glPopMatrix();
     }
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-
+        if (isMouseInDynamic(mouseX, mouseY) && mouseButton == 1)
+        {
+            opened = !opened;
+        }
+        if (opened)
+        {
+            for (final GUIComponent component : getChildrenComponentList())
+            {
+                if (component instanceof IGUIInputListener)
+                {
+                    ((IGUIInputListener) component).mouseClicked(mouseX, mouseY, mouseButton);
+                }
+            }
+        }
     }
 
     @Override
     public void keyTyped(char typedChar, int keyCode)
     {
-
+        if (opened)
+        {
+            for (final GUIComponent component : getChildrenComponentList())
+            {
+                if (component instanceof IGUIInputListener)
+                {
+                    ((IGUIInputListener) component).keyTyped(typedChar, keyCode);
+                }
+            }
+        }
     }
 
     @Override
     public boolean isVisible()
     {
         return setting.isVisible();
+    }
+
+    @Override
+    public double getHeight()
+    {
+        double height = super.getHeight();
+        if (opened)
+        {
+            height += PADDING;
+            for (final GUIComponent component : getChildrenComponentList())
+            {
+                height += component.getHeight() + PADDING;
+            }
+            height += PADDING;
+        }
+        return height;
     }
 
     @Override
