@@ -256,7 +256,7 @@ public final class AWTFontRenderer
 
     public double getFontHeight()
     {
-        return (normal.getFontHeight() / 2.0) / RenderUtil.getGUIScaleFactor() - 1;
+        return (normal.getFontHeight() / 2.0) / (DYNAMIC_FONT_RESIZING ? RenderUtil.getGUIScaleFactor() : 1) - 1;
     }
 
     public double getStringWidth(final String input)
