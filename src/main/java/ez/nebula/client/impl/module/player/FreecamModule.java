@@ -7,6 +7,7 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.world.World;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
@@ -45,6 +46,9 @@ public final class FreecamModule extends Module
             .build();
     private final Setting<Boolean> interactSetting = builder("Interact", true)
             .setDescription("If to allow world interactions (i.e. block place, block break)")
+            .build();
+    private final Setting<Boolean> cancelC03Setting = builder("Cancel C03s", false)
+            .setDescription("If to cancel all movement packets")
             .build();
 
     private CameraPlayerEntity playerEntity;
@@ -151,6 +155,15 @@ public final class FreecamModule extends Module
             if (MC.thePlayer.equals(entity) || playerEntity.equals(entity))
             {
                 event.setCanceled(true);
+            }
+        } else if (event.getPacket() instanceof C03PacketPlayer
+                || event.getPacket() instanceof C03PacketPlayer.C04PacketPlayerPosition
+                || event.getPacket() instanceof C03PacketPlayer.C05PacketPlayerLook
+                || event.getPacket() instanceof C03PacketPlayer.C06PacketPlayerPosLook)
+        {
+            if (cancelC03Setting.getValue())
+            {
+                event.cancel();
             }
         }
     };
