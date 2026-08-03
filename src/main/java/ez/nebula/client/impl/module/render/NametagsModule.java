@@ -135,7 +135,7 @@ public final class NametagsModule extends Module
             double y = entity.prevPosY + (entity.posY - entity.prevPosY) * event.getPartialTicks();
             if (entity != MC.thePlayer && !(entity instanceof EntityItem))
             {
-                y += entity.height;
+                y += entity.height - 0.2;
             }
             final double z = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * event.getPartialTicks();
             RenderUtil.renderGLBillboard(x, y + 0.5, z, sizeSetting.getValue(), () ->
