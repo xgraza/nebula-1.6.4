@@ -159,7 +159,7 @@ public final class NotifierModule extends Module
     {
         if (!Display.isActive())
         {
-            SystemNotifications.info("Nebula Notifier", EnumChatFormatting.getTextWithoutFormattingCodes(text));
+            SystemNotifications.info("Nebula", EnumChatFormatting.getTextWithoutFormattingCodes(text));
         } else
         {
             notifyWarn(text, 7500L);
