@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
@@ -15,7 +16,7 @@ public final class SpawnTPCommand extends Command
     {
         literal.executes((ctx) ->
         {
-            MC.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
+            PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(
                     Double.NaN, Double.NaN, Double.NaN, Double.NaN, false));
             return ctx.getSource().respond("Sent invalid packet");
         });

@@ -1,5 +1,6 @@
 package ez.nebula.client.api.player.server.inventory;
 
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
@@ -69,7 +70,7 @@ public final class InventoryManager implements IManager
         {
             return;
         }
-        MC.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot = index));
+        PacketUtil.send(new C09PacketHeldItemChange(slot = index));
     }
 
     public void setSlotClient(final int index)
@@ -89,8 +90,7 @@ public final class InventoryManager implements IManager
     {
         if (slot != MC.thePlayer.inventory.currentItem)
         {
-            MC.thePlayer.sendQueue.addToSendQueue(
-                    new C09PacketHeldItemChange(MC.thePlayer.inventory.currentItem));
+            PacketUtil.send(new C09PacketHeldItemChange(MC.thePlayer.inventory.currentItem));
         }
     }
 

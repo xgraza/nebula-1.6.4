@@ -21,6 +21,7 @@ import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 import java.io.File;
+import java.util.List;
 
 import static ez.nebula.client.api.manager.key.Key.DEFAULT_UNBOUND_KEY;
 
@@ -78,6 +79,9 @@ public final class ModuleComponent extends GUIComponent implements IGUIInputList
             } else if (setting.getValue() instanceof String)
             {
                 getChildrenComponentList().add(new StringSettingComponent((Setting<String>) setting));
+            } else if (setting.getValue() instanceof List)
+            {
+
             }
         }
     }

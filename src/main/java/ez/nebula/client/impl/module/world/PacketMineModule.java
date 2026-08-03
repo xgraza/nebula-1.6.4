@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
@@ -223,7 +224,7 @@ public final class PacketMineModule extends Module
         }
         currentPosition.progress = 0.0f;
         currentPosition.sentBreak = true;
-        MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+        PacketUtil.send(new C07PacketPlayerDigging(
                 0,
                 currentPosition.x, currentPosition.y, currentPosition.z,
                 currentPosition.side));
@@ -237,11 +238,11 @@ public final class PacketMineModule extends Module
         }
         currentPosition.sentStop = true;
         Nebula.INSTANCE.getInventoryManager().setSlot(getSlot(MC.theWorld.getBlock(currentPosition.x, currentPosition.y, currentPosition.z)));
-        MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+        PacketUtil.send(new C07PacketPlayerDigging(
                 2,
                 currentPosition.x, currentPosition.y, currentPosition.z,
                 currentPosition.side));
-        MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+        PacketUtil.send(new C07PacketPlayerDigging(
                 2,
                 currentPosition.x, currentPosition.y, currentPosition.z,
                 currentPosition.side));
@@ -264,7 +265,7 @@ public final class PacketMineModule extends Module
 
     private void abortBreakingBlock(final MinePosition minePosition)
     {
-        MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+        PacketUtil.send(new C07PacketPlayerDigging(
                 1, minePosition.x, minePosition.y, minePosition.z, minePosition.side));
     }
 

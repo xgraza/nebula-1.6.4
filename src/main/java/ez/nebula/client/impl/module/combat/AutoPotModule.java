@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -156,7 +157,7 @@ public final class AutoPotModule extends Module
             return;
         }
         Nebula.INSTANCE.getInventoryManager().setSlot(lastPotionSlot);
-        MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(null));
+        PacketUtil.send(new C08PacketPlayerBlockPlacement(null));
         thrown = true;
         potTimer.resetTime();
         Nebula.INSTANCE.getInventoryManager().syncSlot();

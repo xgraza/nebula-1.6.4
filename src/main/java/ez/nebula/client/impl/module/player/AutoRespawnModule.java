@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.api.listener.EventListener;
@@ -60,8 +61,7 @@ public final class AutoRespawnModule extends Module
                 writeCoordsToFile(format);
                 notifyInfo("You died at XYZ: " + format, 10000L);
             }
-            MC.thePlayer.sendQueue.addToSendQueue(new C16PacketClientStatus(
-                    C16PacketClientStatus.EnumState.PERFORM_RESPAWN));
+            PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.PERFORM_RESPAWN));
         }
     };
 

@@ -4,6 +4,7 @@ import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.util.math.AngleUtil;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -275,8 +276,7 @@ public final class KillAuraModule extends Module
         MC.thePlayer.swingItem();
         if (keepSprint.getValue())
         {
-            MC.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(
-                    attackEntity, C02PacketUseEntity.Action.ATTACK));
+            PacketUtil.send(new C02PacketUseEntity(attackEntity, C02PacketUseEntity.Action.ATTACK));
         } else
         {
             MC.playerController.attackEntity(MC.thePlayer, attackEntity);
@@ -309,7 +309,7 @@ public final class KillAuraModule extends Module
         } else
         {
             blocking = false;
-            MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+            PacketUtil.send(new C07PacketPlayerDigging(
                     5, 0, 0, 0, 255));
         }
     }

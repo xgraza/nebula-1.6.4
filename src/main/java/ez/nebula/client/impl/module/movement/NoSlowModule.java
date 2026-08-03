@@ -4,6 +4,7 @@ import ez.nebula.client.api.listener.event.player.*;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import ez.nebula.client.api.listener.EventListener;
@@ -52,7 +53,7 @@ public final class NoSlowModule extends Module
         if (modeSetting.getValue() == Mode.NCP && isBlocking() && event.isOnGround())
         {
             bypass = true;
-            MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+            PacketUtil.send(new C07PacketPlayerDigging(
                     5, 0, 0, 0, 255));
         }
     };
@@ -83,7 +84,7 @@ public final class NoSlowModule extends Module
         if (bypass)
         {
             bypass = false;
-            MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+            PacketUtil.send(new C08PacketPlayerBlockPlacement(
                     -1, -1, -1, 255,
                     MC.thePlayer.getHeldItem(), 0.0F, 0.0F, 0.0F));
         }

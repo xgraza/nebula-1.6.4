@@ -1,8 +1,8 @@
 package ez.nebula.client.impl.module.player;
 
-import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.util.ChatAllowedCharacters;
 import ez.nebula.client.core.Nebula;
@@ -93,7 +93,7 @@ public final class SpammerModule extends Module
                 case ONCE:
                 {
                     final String line = spammerLines.get(spammerIndex);
-                    MC.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage(line));
+                    PacketUtil.send(new C01PacketChatMessage(line));
                     ++spammerIndex;
                     if (spammerIndex > spammerLines.size() - 1)
                     {
@@ -108,7 +108,7 @@ public final class SpammerModule extends Module
                 }
                 case RANDOM:
                 {
-                    MC.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage(
+                    PacketUtil.send(new C01PacketChatMessage(
                             spammerLines.get(MathUtil.random(0, spammerLines.size() - 1))));
                     break;
                 }

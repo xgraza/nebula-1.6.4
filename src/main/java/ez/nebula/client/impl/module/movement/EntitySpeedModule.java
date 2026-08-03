@@ -8,6 +8,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0CPacketInput;
 
@@ -31,13 +32,13 @@ public final class EntitySpeedModule extends Module
     @Subscribe
     private final EventListener<EventUpdateRiding> updateRidingEventListener = event ->
     {
-        MC.thePlayer.sendQueue.addToSendQueue(new C0CPacketInput(
+        PacketUtil.send(new C0CPacketInput(
                 MC.thePlayer.moveStrafing,
                 MC.thePlayer.moveForward,
                 MC.thePlayer.movementInput.jump,
                 MC.thePlayer.movementInput.sneak));
 
-        MC.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(
+        PacketUtil.send(new C03PacketPlayer.C06PacketPlayerPosLook(
                 MC.thePlayer.motionX, -999, -999, MC.thePlayer.motionZ,
                 MC.thePlayer.rotationYaw, MC.thePlayer.rotationPitch, MC.thePlayer.onGround));
     };

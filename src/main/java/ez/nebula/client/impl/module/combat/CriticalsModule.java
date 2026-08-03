@@ -10,6 +10,7 @@ import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.movement.SpeedModule;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -154,14 +155,14 @@ public final class CriticalsModule extends Module
                 }
                 case PACKET:
                 {
-                    MC.thePlayer.sendQueue.getNetworkManager().sendPacketInstantly(
+                    PacketUtil.sendInstant(
                             new C03PacketPlayer.C04PacketPlayerPosition(
                                 MC.thePlayer.posX,
                                 MC.thePlayer.boundingBox.minY + 0.1,
                                 MC.thePlayer.posY + 0.100000004768371,
                                 MC.thePlayer.posZ,
                                 false));
-                    MC.thePlayer.sendQueue.getNetworkManager().sendPacketInstantly(
+                    PacketUtil.sendInstant(
                             new C03PacketPlayer.C04PacketPlayerPosition(
                                     MC.thePlayer.posX,
                                     MC.thePlayer.boundingBox.minY,

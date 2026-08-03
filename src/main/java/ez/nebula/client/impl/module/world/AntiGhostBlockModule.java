@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.item.ItemBlock;
@@ -175,8 +176,7 @@ public final class AntiGhostBlockModule extends Module
 
             if (packetSetting.getValue())
             {
-                MC.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
-                        1, pos, side.order_a));
+                PacketUtil.send(new C07PacketPlayerDigging(1, pos, side.order_a));
             }
             placeConfirmBlockPosMap.put(pos.offset(side), System.currentTimeMillis());
         }

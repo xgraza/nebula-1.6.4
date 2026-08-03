@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.combat;
 
 import ez.nebula.client.util.math.AngleUtil;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockEnderChest;
@@ -102,8 +103,7 @@ public final class BurrowModule extends Module
         final boolean sneak = isBlockUnderInteractable() && !MC.thePlayer.isSneaking();
         if (sneak)
         {
-            MC.thePlayer.sendQueue.addToSendQueue(
-                    new C0BPacketEntityAction(MC.thePlayer, 1));
+            PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 1));
         }
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
@@ -117,7 +117,7 @@ public final class BurrowModule extends Module
                 return;
             }
             // because this is an immediate need, we will send a C06
-            MC.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(
+            PacketUtil.send(new C03PacketPlayer.C06PacketPlayerPosLook(
                     MC.thePlayer.posX,
                     MC.thePlayer.boundingBox.minY,
                     MC.thePlayer.posY,
@@ -131,7 +131,7 @@ public final class BurrowModule extends Module
                 blockData.pos.getX() + 0.5,
                 blockData.pos.getY() + 0.5,
                 blockData.pos.getZ() + 0.5);
-        MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+        PacketUtil.send(new C08PacketPlayerBlockPlacement(
                 blockData.pos.getX(),
                 blockData.pos.getY(),
                 blockData.pos.getZ(),
@@ -146,7 +146,7 @@ public final class BurrowModule extends Module
 
         if (sneak)
         {
-            MC.thePlayer.sendQueue.addToSendQueue(
+            PacketUtil.send(
                     new C0BPacketEntityAction(MC.thePlayer, 2));
         }
     }

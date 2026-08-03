@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.movement;
 
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -86,7 +87,7 @@ public final class BlinkModule extends Module
             {
                 break;
             }
-            MC.thePlayer.sendQueue.getNetworkManager().sendPacketInstantly(packet);
+            PacketUtil.sendInstant(packet);
         }
         packetQueue.clear();
     }

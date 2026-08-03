@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C0APacketAnimation;
@@ -77,9 +78,9 @@ public final class PearlPhaseModule extends Module implements RotationConfirmati
         if (slot != -1)
         {
             Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-            MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+            PacketUtil.send(new C08PacketPlayerBlockPlacement(
                     Nebula.INSTANCE.getInventoryManager().getStack()));
-            MC.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation(MC.thePlayer, 1));
+            PacketUtil.send(new C0APacketAnimation(MC.thePlayer, 1));
             Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
         slot = -1;

@@ -3,6 +3,7 @@ package ez.nebula.client.impl.module.combat;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockBed;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -227,7 +228,7 @@ public final class AutoBedModule extends Module
 
             if (packet.getType() instanceof BlockBed)
             {
-                MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+                PacketUtil.send(new C08PacketPlayerBlockPlacement(
                         packet.getX(), packet.getY(), packet.getZ(),
                         EnumFacing.UP.order_a,
                         null,

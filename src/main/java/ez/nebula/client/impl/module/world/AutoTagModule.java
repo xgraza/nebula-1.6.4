@@ -11,6 +11,7 @@ import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -100,8 +101,7 @@ public final class AutoTagModule extends Module
         }
         taggedEntityIdSet.add(target.getEntityId());
         Nebula.INSTANCE.getInventoryManager().setSlot(nametagSlot);
-        MC.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(
-                target, C02PacketUseEntity.Action.INTERACT));
+        PacketUtil.send(new C02PacketUseEntity(target, C02PacketUseEntity.Action.INTERACT));
         Nebula.INSTANCE.getInventoryManager().syncSlot();
     };
 

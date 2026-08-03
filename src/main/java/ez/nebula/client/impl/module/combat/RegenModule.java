@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.combat;
 
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
@@ -40,7 +41,7 @@ public final class RegenModule extends Module
         }
         for (int i = 0; i < packetsSetting.getValue(); ++i)
         {
-            MC.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(MC.thePlayer.onGround));
+            PacketUtil.send(new C03PacketPlayer(MC.thePlayer.onGround));
         }
     };
 

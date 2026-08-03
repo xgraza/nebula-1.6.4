@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.player;
 
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.MovingObjectPosition;
@@ -45,7 +46,7 @@ public final class KeyPearlModule extends Module
         }
 
         Nebula.INSTANCE.getInventoryManager().setSlot(pearlSlot);
-        MC.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
+        PacketUtil.send(new C08PacketPlayerBlockPlacement(
                 Nebula.INSTANCE.getInventoryManager().getStack()));
         Nebula.INSTANCE.getInventoryManager().syncSlot();
     }

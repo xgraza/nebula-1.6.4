@@ -8,6 +8,7 @@ import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
 import ez.nebula.client.api.manager.waypoint.Waypoint;
 import ez.nebula.client.core.Nebula;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 
 /**
@@ -104,8 +105,7 @@ public final class WaypointCommand extends Command
                                     final double x = waypoint.getX();
                                     final double y = waypoint.getY();
                                     final double z = waypoint.getZ();
-                                    MC.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage(String.format(
-                                            "/tp @p %.1f %.1f %.1f", x, y, z)));
+                                    PacketUtil.send(new C01PacketChatMessage(String.format("/tp @p %.1f %.1f %.1f", x, y, z)));
                                     return ctx.getSource().respond("Sent /tp command to XYZ: &z%.1f, %.1f, %.1f", x, y, z);
                                 })));
     }

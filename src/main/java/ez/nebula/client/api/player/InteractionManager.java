@@ -1,7 +1,7 @@
 package ez.nebula.client.api.player;
 
 import ez.nebula.client.impl.module.world.PacketMineModule;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -41,8 +41,7 @@ public final class InteractionManager
                 && (!MC.thePlayer.isSneaking() || !MC.gameSettings.keyBindSneak.pressed);
         if (sneakPacket)
         {
-            MC.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(
-                    MC.thePlayer, 1));
+            PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 1));
         }
 
         final boolean result = MC.playerController.onPlayerRightClick(MC.thePlayer,
@@ -56,8 +55,7 @@ public final class InteractionManager
         }
         if (sneakPacket)
         {
-            MC.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(
-                    MC.thePlayer, 2));
+            PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 2));
         }
         return result;
     }

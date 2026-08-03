@@ -6,6 +6,7 @@ import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.C02PacketUseEntity;
@@ -33,11 +34,11 @@ public final class WTapModule extends Module
             }
             if (MC.thePlayer.isSprinting())
             {
-                MC.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(MC.thePlayer, 5));
+                PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 5));
             }
-            MC.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(MC.thePlayer, 4));
-            MC.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(MC.thePlayer, 5));
-            MC.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(MC.thePlayer, 4));
+            PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 4));
+            PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 5));
+            PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 4));
         }
     };
 }
