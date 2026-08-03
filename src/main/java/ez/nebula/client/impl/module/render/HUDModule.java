@@ -97,6 +97,28 @@ public final class HUDModule extends Module
                     {
                         element.setX(element.getX() * scaleX);
                         element.setY(element.getY() * scaleY);
+                        if (forceInBoundsSetting.getValue())
+                        {
+                            if (element.getX() < 0)
+                            {
+                                element.setX(0);
+                            }
+
+                            if (element.getY() < 0)
+                            {
+                                element.setY(0);
+                            }
+
+                            if (element.getX() + element.getWidth() > width)
+                            {
+                                element.setX(width - element.getWidth());
+                            }
+
+                            if (element.getY() + element.getHeight() > height)
+                            {
+                                element.setY(height - element.getHeight());
+                            }
+                        }
                     }
                 }
                 prevWidth = width;
