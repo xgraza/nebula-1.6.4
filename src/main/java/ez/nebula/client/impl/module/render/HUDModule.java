@@ -57,7 +57,7 @@ public final class HUDModule extends Module
             .setVisibility((value) -> colorModeSetting.getValue() == ColorMode.RAINBOW)
             .build();
     public final Setting<Boolean> forceInBoundsSetting = builder("Force in bounds", true)
-            .setDescription("Force in bounds when moving around a HUD element")
+            .setDescription("Force in bounds when moving around a HUD element or screen resize")
             .build();
 
     public double prevWidth = -1, prevHeight = -1;
