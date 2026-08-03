@@ -70,16 +70,25 @@ public final class HUDModule extends Module
 
         EventBus.subscribe(new Object()
         {
+            private boolean wasPrevNull;
+
             @Subscribe
             private final EventListener<EventTick> tickEventListener = event ->
             {
                 if (RenderUtil.GAME_RESOLUTION == null)
                 {
+                    wasPrevNull = true;
                     return;
                 }
                 // scale hud elements automatically
                 final double width = RenderUtil.GAME_RESOLUTION.getScaledWidth_double();
                 final double height = RenderUtil.GAME_RESOLUTION.getScaledHeight_double();
+                if (wasPrevNull)
+                {
+                    wasPrevNull = false;
+                    prevHeight = height;
+                    prevWidth = width;
+                }
                 if (prevHeight != -1 && prevWidth != -1 && (width != prevWidth || height != prevHeight))
                 {
                     final double scaleX = width / prevWidth;

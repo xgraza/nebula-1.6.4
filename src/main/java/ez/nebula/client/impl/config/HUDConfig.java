@@ -63,9 +63,12 @@ public final class HUDConfig implements IConfig
                 hudElement.fromJSON(jsonElement);
             }
         }
-        if (object.has("savedWidth") && object.has("savedHeight"))
+        if (object.has("savedWidth"))
         {
             HUDModule.INSTANCE.prevWidth = object.get("savedWidth").getAsInt();
+        }
+        if (object.has("savedHeight"))
+        {
             HUDModule.INSTANCE.prevHeight = object.get("savedHeight").getAsInt();
         }
     }
