@@ -36,7 +36,7 @@ public final class TPSHUDElement extends HUDElement
                 EnumChatFormatting.GRAY, Nebula.INSTANCE.getServerManager().getAverageTPS());
         if (currentSetting.getValue())
         {
-            formatted += " [" + Nebula.INSTANCE.getServerManager().getCurrentTPS() + "]";
+            formatted += " [" + String.format("%.2f", Nebula.INSTANCE.getServerManager().getCurrentTPS()) + "]";
         }
         setWidth(Fonts.POPPINS.getStringWidth(formatted) + (getPadding() * 4));
         Fonts.POPPINS.drawStringShadow(formatted, getX() + getPadding(), getY() + getPadding(), HUDModule.INSTANCE.getBaseColor(10));
