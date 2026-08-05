@@ -25,6 +25,8 @@ import ez.nebula.client.util.minecraft.player.MoveUtil;
         category = ModuleCategory.MOVEMENT)
 public final class FlyModule extends Module
 {
+    private static final double ANTI_KICK_MOTION_Y = -0.0313;
+
     private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.VANILLA)
             .setDescription("How to fly")
             .onValueChanged((mode) ->
@@ -73,7 +75,7 @@ public final class FlyModule extends Module
 
             if (antiKickSetting.getValue())
             {
-                MC.thePlayer.motionY = -0.0313;
+                MC.thePlayer.motionY = ANTI_KICK_MOTION_Y;
             }
         }
     };
@@ -96,7 +98,7 @@ public final class FlyModule extends Module
                 MC.thePlayer.motionY = -speedSetting.getValue();
             } else
             {
-                MC.thePlayer.motionY = antiKickSetting.getValue() ? -0.0313 : 0.0;
+                MC.thePlayer.motionY = antiKickSetting.getValue() ? ANTI_KICK_MOTION_Y : 0.0;
             }
 
             event.setY(MC.thePlayer.motionY);
