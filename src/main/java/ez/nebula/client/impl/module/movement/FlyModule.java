@@ -27,6 +27,13 @@ public final class FlyModule extends Module
 {
     private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.VANILLA)
             .setDescription("How to fly")
+            .onValueChanged((mode) ->
+            {
+                if (mode != Mode.CREATIVE)
+                {
+                    revertCapabilities();
+                }
+            })
             .build();
     private final NumberSetting<Double> speedSetting = numberBuilder("Speed", 1.0)
             .setMin(0.1)
@@ -46,11 +53,9 @@ public final class FlyModule extends Module
     public void onDisable()
     {
         super.onDisable();
-        if (MC.thePlayer != null && MC.thePlayer.capabilities != null)
+        if (modeSetting.getValue() == Mode.CREATIVE)
         {
-            MC.thePlayer.capabilities.isFlying = false;
-            MC.thePlayer.capabilities.allowFlying = false;
-            MC.thePlayer.capabilities.setFlySpeed(0.05f);
+            revertCapabilities();
         }
     }
 
@@ -114,6 +119,16 @@ public final class FlyModule extends Module
             packet.setWalkSpeed(0.1f);
         }
     };
+
+    private void revertCapabilities()
+    {
+        if (MC.thePlayer != null && MC.thePlayer.capabilities != null)
+        {
+            MC.thePlayer.capabilities.isFlying = false;
+            MC.thePlayer.capabilities.allowFlying = false;
+            MC.thePlayer.capabilities.setFlySpeed(0.05f);
+        }
+    }
 
     @Override
     public String getMetadata()
