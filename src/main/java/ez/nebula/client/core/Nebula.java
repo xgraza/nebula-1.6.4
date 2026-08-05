@@ -206,6 +206,12 @@ public enum Nebula
     {
         logger.info("Version: {}", ClientConfig.VERSION);
         logger.info("Build Time: " + BuildConfig.BUILD_TIME);
+        if (ClientConfig.DEBUG)
+        {
+            logger.warn("\t###");
+            logger.warn("\tNebula debug is enabled!");
+            logger.warn("\t##");
+        }
     }
 
     public Logger getLogger()
