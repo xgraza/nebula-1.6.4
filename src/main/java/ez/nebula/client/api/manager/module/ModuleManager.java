@@ -109,7 +109,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new CameraClipModule());
         registerModule(new ChamsModule());
         registerModule(new ChatModifierModule());
-        registerModule(new ChunkBoardersModule());
+        registerModule(new ChunkBordersModule());
         registerModule(new ClickGUIModule());
         registerModule(new EntityCullingModule());
         registerModule(new ESPModule());
