@@ -125,6 +125,7 @@ public final class HUDModule extends Module
         for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
         {
             final Setting<Boolean> setting = new Setting.Builder<>(element.getManifest().name(), false)
+                    .setDescription(element.getManifest().description())
                     .build();
             registerSetting(setting);
             element.setToggledSetting(setting);
