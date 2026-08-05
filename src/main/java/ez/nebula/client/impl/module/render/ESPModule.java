@@ -212,7 +212,7 @@ public final class ESPModule extends Module
         }
     };
 
-    @Subscribe(priority = IEventPriorities.LOW)
+    @Subscribe(priority = IEventPriorities.HIGHEST)
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
         if (modeSetting.getValue() == Mode.SHADER)
