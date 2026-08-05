@@ -73,7 +73,7 @@ public final class HUDModule extends Module
             @Subscribe
             private final EventListener<EventTick> tickEventListener = event ->
             {
-                if (RenderUtil.GAME_RESOLUTION == null)
+                if (RenderUtil.GAME_RESOLUTION == null || MC.thePlayer == null)
                 {
                     return;
                 }
