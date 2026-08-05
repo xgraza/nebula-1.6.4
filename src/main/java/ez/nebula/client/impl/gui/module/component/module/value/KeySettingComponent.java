@@ -24,10 +24,15 @@ public final class KeySettingComponent extends GUIComponent implements IGUIInput
     private static final int KEY_BACKGROUND_COLOR = new Color(33, 33, 33).getRGB();
 
     private final Setting<Key> setting;
+    private final String name;
+    private final Key key;
+    
     private boolean listeningForKey;
 
-    public KeySettingComponent(final Setting<Key> setting)
+    public KeySettingComponent(final String name, final Key key, final Setting<Key> setting)
     {
+        this.name = name;
+        this.key = key;
         this.setting = setting;
     }
 
@@ -35,13 +40,12 @@ public final class KeySettingComponent extends GUIComponent implements IGUIInput
     public void render(int mouseX, int mouseY, float partialTicks)
     {
         final double middle = Fonts.getMiddlePoint(height, Fonts.POPPINS.getFontHeight());
-        Fonts.POPPINS.drawStringShadow(setting.getName(), x + (PADDING * 2), y + middle, -1);
+        Fonts.POPPINS.drawStringShadow(name, x + (PADDING * 2), y + middle, -1);
         renderBindBox(middle);
     }
 
     private void renderBindBox(final double middlePoint)
     {
-        final Key key = setting.getValue();
         final String text = listeningForKey ? "Listening..." : key.toString();
         final double boxWidth = Fonts.POPPINS_SMALL.getStringWidth(text) + (PADDING * 4);
         final double boxHeight = Fonts.POPPINS_SMALL.getFontHeight() + (PADDING * 2);
@@ -65,16 +69,16 @@ public final class KeySettingComponent extends GUIComponent implements IGUIInput
             } else if (mouseButton == 2)
             {
                 listeningForKey = false;
-                setting.getValue().setMouseBind(false);
-                setting.getValue().setKeyCode(DEFAULT_UNBOUND_KEY);
+                key.setMouseBind(false);
+                key.setKeyCode(DEFAULT_UNBOUND_KEY);
             }
             return;
         }
         if (listeningForKey)
         {
             listeningForKey = false;
-            setting.getValue().setMouseBind(true);
-            setting.getValue().setKeyCode(mouseButton);
+            key.setMouseBind(true);
+            key.setKeyCode(mouseButton);
         }
     }
 
@@ -84,15 +88,15 @@ public final class KeySettingComponent extends GUIComponent implements IGUIInput
         if (listeningForKey)
         {
             listeningForKey = false;
-            setting.getValue().setMouseBind(false);
-            setting.getValue().setKeyCode(keyCode);
+            key.setMouseBind(false);
+            key.setKeyCode(keyCode);
         }
     }
 
     @Override
     public boolean isVisible()
     {
-        return setting.isVisible();
+        return setting == null || setting.isVisible();
     }
 
     @Override

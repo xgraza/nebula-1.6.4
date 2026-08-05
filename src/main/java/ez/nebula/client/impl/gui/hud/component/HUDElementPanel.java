@@ -52,7 +52,7 @@ public final class HUDElementPanel extends GUIComponent implements IGUIInputList
                 getChildrenComponentList().add(new NumberSettingComponent((NumberSetting<?>) setting));
             } else if (setting.getValue() instanceof Key)
             {
-                getChildrenComponentList().add(new KeySettingComponent((Setting<Key>) setting));
+                getChildrenComponentList().add(new KeySettingComponent(setting.getName(), (Key) setting.getValue(), (Setting<Key>) setting));
             } else if (setting.getValue() instanceof Color)
             {
                 getChildrenComponentList().add(new ColorSettingComponent((ColorSetting) setting));

@@ -44,11 +44,13 @@ public final class ModuleComponent extends GUIComponent implements IGUIInputList
             AnimationEasing.EXPO_IN_OUT, 150.0);
 
     private final Module module;
-    private boolean listeningForKey;
 
     public ModuleComponent(final Module module)
     {
         this.module = module;
+
+        getChildrenComponentList().add(new KeySettingComponent("Bind", module.getKey(), null));
+
         for (final Setting<?> setting : module.getSettings())
         {
             if (setting.getValue() instanceof Boolean)
@@ -62,7 +64,7 @@ public final class ModuleComponent extends GUIComponent implements IGUIInputList
                 getChildrenComponentList().add(new NumberSettingComponent((NumberSetting<?>) setting));
             } else if (setting.getValue() instanceof Key)
             {
-                getChildrenComponentList().add(new KeySettingComponent((Setting<Key>) setting));
+                getChildrenComponentList().add(new KeySettingComponent(setting.getName(), (Key) setting.getValue(), (Setting<Key>) setting));
             } else if (setting.getValue() instanceof Color)
             {
                 getChildrenComponentList().add(new ColorSettingComponent((ColorSetting) setting));
@@ -127,7 +129,7 @@ public final class ModuleComponent extends GUIComponent implements IGUIInputList
 
     private double renderThreeDots()
     {
-        if (getChildrenComponentList().size() <= 1)
+        if (getChildrenComponentList().size() <= 2)
         {
             return PADDING * 2;
         }
@@ -141,11 +143,11 @@ public final class ModuleComponent extends GUIComponent implements IGUIInputList
     private void renderBindBox(final double offset, final double middlePoint)
     {
         final Key key = module.getKey();
-        if (key.isUnbound() && !listeningForKey)
+        if (key.isUnbound())
         {
             return;
         }
-        final String text = listeningForKey ? "Listening..." : key.toString();
+        final String text = key.toString();
         final double boxWidth = Fonts.POPPINS_SMALL.getStringWidth(text) + (PADDING * 4);
         final double boxHeight = Fonts.POPPINS_SMALL.getFontHeight() + (PADDING * 2);
 
@@ -168,27 +170,7 @@ public final class ModuleComponent extends GUIComponent implements IGUIInputList
             } else if (mouseButton == 1)
             {
                 panelAnimation.setState(!panelAnimation.getState());
-            } else if (mouseButton == 2)
-            {
-                if (listeningForKey)
-                {
-                    listeningForKey = false;
-                    module.getKey().setKeyCode(DEFAULT_UNBOUND_KEY);
-                    module.getKey().setMouseBind(false);
-                    return;
-                } else
-                {
-                    listeningForKey = true;
-                }
             }
-            return;
-        }
-        if (listeningForKey)
-        {
-            listeningForKey = false;
-            module.getKey().setMouseBind(true);
-            module.getKey().setKeyCode(mouseButton);
-            return;
         }
         // do not send listeners if not open
         if (!panelAnimation.getState())
@@ -207,13 +189,6 @@ public final class ModuleComponent extends GUIComponent implements IGUIInputList
     @Override
     public void keyTyped(char typedChar, int keyCode)
     {
-        if (listeningForKey)
-        {
-            listeningForKey = false;
-            module.getKey().setMouseBind(false);
-            module.getKey().setKeyCode(keyCode);
-            return;
-        }
         if (!panelAnimation.getState())
         {
             return;
