@@ -14,33 +14,33 @@ import java.util.List;
 
 public class S27PacketExplosion extends Packet
 {
-    private double field_149158_a;
-    private double field_149156_b;
-    private double field_149157_c;
-    private float field_149154_d;
-    private List field_149155_e;
-    private float x;
-    private float y;
-    private float z;
+    private double x;
+    private double y;
+    private double z;
+    private float size;
+    private List<ChunkPosition> field_149155_e;
+    private float motionX;
+    private float motionY;
+    private float motionZ;
     private static final String __OBFID = "CL_00001300";
 
     public S27PacketExplosion()
     {
     }
 
-    public S27PacketExplosion(double p_i45193_1_, double p_i45193_3_, double p_i45193_5_, float p_i45193_7_, List p_i45193_8_, Vec3 p_i45193_9_)
+    public S27PacketExplosion(double x, double y, double z, float sizze, List<ChunkPosition> p_i45193_8_, Vec3 p_i45193_9_)
     {
-        this.field_149158_a = p_i45193_1_;
-        this.field_149156_b = p_i45193_3_;
-        this.field_149157_c = p_i45193_5_;
-        this.field_149154_d = p_i45193_7_;
-        this.field_149155_e = new ArrayList(p_i45193_8_);
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.size = sizze;
+        this.field_149155_e = new ArrayList<>(p_i45193_8_);
 
         if (p_i45193_9_ != null)
         {
-            this.x = (float) p_i45193_9_.xCoord;
-            this.y = (float) p_i45193_9_.yCoord;
-            this.z = (float) p_i45193_9_.zCoord;
+            this.motionX = (float) p_i45193_9_.xCoord;
+            this.motionY = (float) p_i45193_9_.yCoord;
+            this.motionZ = (float) p_i45193_9_.zCoord;
         }
     }
 
@@ -49,15 +49,15 @@ public class S27PacketExplosion extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149158_a = p_148837_1_.readFloat();
-        this.field_149156_b = p_148837_1_.readFloat();
-        this.field_149157_c = p_148837_1_.readFloat();
-        this.field_149154_d = p_148837_1_.readFloat();
+        this.x = p_148837_1_.readFloat();
+        this.y = p_148837_1_.readFloat();
+        this.z = p_148837_1_.readFloat();
+        this.size = p_148837_1_.readFloat();
         int var2 = p_148837_1_.readInt();
-        this.field_149155_e = new ArrayList(var2);
-        int var3 = (int) this.field_149158_a;
-        int var4 = (int) this.field_149156_b;
-        int var5 = (int) this.field_149157_c;
+        this.field_149155_e = new ArrayList<>(var2);
+        int var3 = (int) this.x;
+        int var4 = (int) this.y;
+        int var5 = (int) this.z;
 
         for (int var6 = 0; var6 < var2; ++var6)
         {
@@ -67,9 +67,9 @@ public class S27PacketExplosion extends Packet
             this.field_149155_e.add(new ChunkPosition(var7, var8, var9));
         }
 
-        this.x = p_148837_1_.readFloat();
-        this.y = p_148837_1_.readFloat();
-        this.z = p_148837_1_.readFloat();
+        this.motionX = p_148837_1_.readFloat();
+        this.motionY = p_148837_1_.readFloat();
+        this.motionZ = p_148837_1_.readFloat();
     }
 
     /**
@@ -77,30 +77,28 @@ public class S27PacketExplosion extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeFloat((float) this.field_149158_a);
-        p_148840_1_.writeFloat((float) this.field_149156_b);
-        p_148840_1_.writeFloat((float) this.field_149157_c);
-        p_148840_1_.writeFloat(this.field_149154_d);
+        p_148840_1_.writeFloat((float) this.x);
+        p_148840_1_.writeFloat((float) this.y);
+        p_148840_1_.writeFloat((float) this.z);
+        p_148840_1_.writeFloat(this.size);
         p_148840_1_.writeInt(this.field_149155_e.size());
-        int var2 = (int) this.field_149158_a;
-        int var3 = (int) this.field_149156_b;
-        int var4 = (int) this.field_149157_c;
-        Iterator var5 = this.field_149155_e.iterator();
+        int var2 = (int) this.x;
+        int var3 = (int) this.y;
+        int var4 = (int) this.z;
 
-        while (var5.hasNext())
+        for (ChunkPosition o : this.field_149155_e)
         {
-            ChunkPosition var6 = (ChunkPosition) var5.next();
-            int var7 = var6.xCoord - var2;
-            int var8 = var6.field_151327_b - var3;
-            int var9 = var6.yCoord - var4;
+            int var7 = o.xCoord - var2;
+            int var8 = o.field_151327_b - var3;
+            int var9 = o.yCoord - var4;
             p_148840_1_.writeByte(var7);
             p_148840_1_.writeByte(var8);
             p_148840_1_.writeByte(var9);
         }
 
-        p_148840_1_.writeFloat(this.x);
-        p_148840_1_.writeFloat(this.y);
-        p_148840_1_.writeFloat(this.z);
+        p_148840_1_.writeFloat(this.motionX);
+        p_148840_1_.writeFloat(this.motionY);
+        p_148840_1_.writeFloat(this.motionY);
     }
 
     public void processPacket(INetHandlerPlayClient p_149151_1_)
@@ -110,52 +108,52 @@ public class S27PacketExplosion extends Packet
 
     public float getX()
     {
-        return this.x;
+        return this.motionX;
     }
 
     public void setX(float x)
     {
-        this.x = x;
+        this.motionX = x;
     }
 
     public float getY()
     {
-        return this.y;
+        return this.motionY;
     }
 
     public void setY(float y)
     {
-        this.y = y;
+        this.motionY = y;
     }
 
     public float getZ()
     {
-        return this.z;
+        return this.motionZ;
     }
 
     public void setZ(float z)
     {
-        this.z = z;
+        this.motionY = z;
     }
 
     public double func_149148_f()
     {
-        return this.field_149158_a;
+        return this.x;
     }
 
     public double func_149143_g()
     {
-        return this.field_149156_b;
+        return this.y;
     }
 
     public double func_149145_h()
     {
-        return this.field_149157_c;
+        return this.z;
     }
 
-    public float func_149146_i()
+    public float getSize()
     {
-        return this.field_149154_d;
+        return this.size;
     }
 
     public List func_149150_j()

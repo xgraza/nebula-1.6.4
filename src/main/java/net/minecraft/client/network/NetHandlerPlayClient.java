@@ -857,7 +857,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleExplosion(S27PacketExplosion p_147283_1_)
     {
-        Explosion var2 = new Explosion(this.gameController.theWorld, null, p_147283_1_.func_149148_f(), p_147283_1_.func_149143_g(), p_147283_1_.func_149145_h(), p_147283_1_.func_149146_i());
+        Explosion var2 = new Explosion(this.gameController.theWorld, null, p_147283_1_.func_149148_f(), p_147283_1_.func_149143_g(), p_147283_1_.func_149145_h(), p_147283_1_.getSize());
         var2.affectedBlockPositions = p_147283_1_.func_149150_j();
         var2.doExplosionB(true);
         if (!VelocityModule.INSTANCE.isToggled() || !VelocityModule.INSTANCE.explosionSetting.getValue())

@@ -888,9 +888,9 @@ public class WorldServer extends World
     /**
      * returns a new explosion. Does initiation (at time of writing Explosion is not finished)
      */
-    public Explosion newExplosion(Entity par1Entity, double par2, double par4, double par6, float par8, boolean par9, boolean par10)
+    public Explosion newExplosion(Entity par1Entity, double x, double y, double z, float size, boolean par9, boolean par10)
     {
-        Explosion var11 = new Explosion(this, par1Entity, par2, par4, par6, par8);
+        Explosion var11 = new Explosion(this, par1Entity, x, y, z, size);
         var11.isFlaming = par9;
         var11.isSmoking = par10;
         var11.doExplosionA();
@@ -907,9 +907,9 @@ public class WorldServer extends World
         {
             EntityPlayer var13 = (EntityPlayer) var12.next();
 
-            if (var13.getDistanceSq(par2, par4, par6) < 4096.0D)
+            if (var13.getDistanceSq(x, y, z) < 4096.0D)
             {
-                ((EntityPlayerMP) var13).playerNetServerHandler.sendPacketToPlayer(new S27PacketExplosion(par2, par4, par6, par8, var11.affectedBlockPositions, (Vec3) var11.func_77277_b().get(var13)));
+                ((EntityPlayerMP) var13).playerNetServerHandler.sendPacketToPlayer(new S27PacketExplosion(x, y, z, size, var11.affectedBlockPositions, (Vec3) var11.func_77277_b().get(var13)));
             }
         }
 

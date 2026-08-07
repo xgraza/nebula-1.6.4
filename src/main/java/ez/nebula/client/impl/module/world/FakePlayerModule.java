@@ -4,12 +4,15 @@ import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.player.EventPlayerDeath;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
+import ez.nebula.client.util.minecraft.world.DamageUtil;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.server.S27PacketExplosion;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -24,6 +27,7 @@ import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.math.MathUtil;
+import net.minecraft.world.Explosion;
 
 import java.util.List;
 import java.util.Objects;
@@ -197,6 +201,28 @@ public final class FakePlayerModule extends Module
         }
     };
 
+    @Subscribe
+    private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
+    {
+        if (fakePlayerEntity == null || !takeDamageSetting.getValue())
+        {
+            return;
+        }
+        if (event.getPacket() instanceof S27PacketExplosion)
+        {
+            final S27PacketExplosion packet = event.getPacket();
+            double x = packet.func_149148_f();
+            double y = packet.func_149143_g();
+            double z = packet.func_149145_h();
+            final double distance = fakePlayerEntity.getDistance(x, y, z);
+            if (distance / packet.getSize() < 1.0f)
+            {
+                float damage = DamageUtil.getExplosionDamage(fakePlayerEntity, x, y, z, packet.getSize(), packet.getSize() * 2);
+                fakePlayerEntity.attackEntityFrom(DamageSource.setExplosionSource(new Explosion(MC.theWorld, MC.thePlayer, x, y, z, packet.getSize())), damage);
+            }
+        }
+    };
+
     private void despawnFP()
     {
         if (fakePlayerEntity == null)
@@ -316,6 +342,7 @@ public final class FakePlayerModule extends Module
                     hurtTime = maxHurtTime = 10;
                 }
 
+                isDead = false;
                 if (getHealth() <= 0.0f)
                 {
                     // EventBus.dispatch(new EventPlayerDeath(this));
