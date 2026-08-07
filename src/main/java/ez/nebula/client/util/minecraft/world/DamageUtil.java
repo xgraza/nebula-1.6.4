@@ -6,16 +6,26 @@ import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
+import net.minecraft.src.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 
+/**
+ * @author xgraza
+ * @since 8/7/26
+ */
 public final class DamageUtil
 {
     private static final Minecraft MC = Minecraft.getMinecraft();
 
-    public static float getExplosionDamage(final EntityPlayer entity, final double x, double y, double z, float size, float strength)
+    public static float getExplosionDamage(final EntityPlayer player, final BlockPos pos, double size, double strength)
+    {
+        return getExplosionDamage(player, pos.getX(), pos.getY(), pos.getZ(), size, strength);
+    }
+
+    public static float getExplosionDamage(final EntityPlayer entity, final double x, double y, double z, double size, double strength)
     {
         if (y < 0)
         {
@@ -41,7 +51,7 @@ public final class DamageUtil
         final Explosion explosion = new Explosion(entity.worldObj,
                 entity,
                 x + 0.5, y + 0.5, z + 0.5,
-                strength);
+                (float)strength);
         explosion.isFlaming = true;
         explosion.isSmoking = true;
 

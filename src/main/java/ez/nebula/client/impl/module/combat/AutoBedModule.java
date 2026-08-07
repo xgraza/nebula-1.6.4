@@ -4,20 +4,16 @@ import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.minecraft.world.DamageUtil;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockBed;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBed;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S23PacketBlockChange;
-import net.minecraft.potion.Potion;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.*;
-import net.minecraft.world.Explosion;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.listener.EventListener;
@@ -411,81 +407,7 @@ public final class AutoBedModule extends Module
 
     private float calcDamage(final EntityPlayer entity, final BlockPos pos)
     {
-        final int x = pos.getX();
-        final int y = pos.getY();
-        final int z = pos.getZ();
-
-        if (y < 0)
-        {
-            return 0.0f;
-        }
-
-        final double distanceScaled = entity.getDistance(x, y, z) / BED_EXPLOSION_SIZE;
-        if (distanceScaled > 1.0)
-        {
-            return 0.0f;
-        }
-
-        final double v = (1.0 - distanceScaled) * entity.worldObj.getBlockDensity(
-                Vec3.createVectorHelper(x + 0.5, y + 0.5, z + 0.5),
-                entity.boundingBox.copy());
-
-        float damage = getDamageAfterAbsorb(
-                getDmgMultiplier((float) ((v * v + v) / 2.0 * 8.0 * BED_EXPLOSION_SIZE + 1.0)),
-                entity.getTotalArmorValue(),
-                (float) entity.getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
-                        .getAttribute().getDefaultValue());
-
-        final Explosion explosion = new Explosion(entity.worldObj,
-                entity,
-                x + 0.5, y + 0.5, z + 0.5,
-                BED_EXPLOSION_STRENGTH);
-        explosion.isFlaming = true;
-        explosion.isSmoking = true;
-
-        final DamageSource damageSource = DamageSource.setExplosionSource(explosion);
-        final int modifier = EnchantmentHelper.getEnchantmentModifierDamage(
-                entity.inventory.armorInventory, damageSource);
-        damage = getDamageAfterMagicAbsorb(damage, modifier);
-        damage = (float) EnchantmentProtection.func_92092_a(MC.thePlayer, damage);
-
-        if (entity.isPotionActive(Potion.resistance.id))
-        {
-            final int amp = MC.thePlayer.getActivePotionEffect(Potion.resistance).getAmplifier();
-            damage = damage * (25.0f - (amp + 1.0f) * 5.0f) / 25.0f;
-        }
-        return (float) Math.max(0.0, damage);
-    }
-
-    private float getDamageAfterAbsorb(final float damage, final float armor, final float toughness)
-    {
-        float f = 2.0F + toughness / 4.0f;
-        float f1 = MathHelper.clamp_float(armor - damage / f, armor * 0.2f, 20.0f);
-        return damage * (1.0f - f1 / 25.0f);
-    }
-
-    private float getDamageAfterMagicAbsorb(final float damage, final int enchantModifiers)
-    {
-        return damage * (1.0f - (float) MathHelper.clamp_int(enchantModifiers, 0, 20) / 25.0f);
-    }
-
-    private float getDmgMultiplier(final float damage)
-    {
-        switch (MC.theWorld.difficultySetting)
-        {
-            case EASY:
-            {
-                return Math.min(damage / 2.0f + 1.0f, damage);
-            }
-            case HARD:
-            {
-                return damage * 3.0f / 2.0f;
-            }
-            default:
-            {
-                return damage;
-            }
-        }
+        return DamageUtil.getExplosionDamage(entity, pos, BED_EXPLOSION_SIZE, BED_EXPLOSION_STRENGTH);
     }
 
     private boolean isInOverworld()
