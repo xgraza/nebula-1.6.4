@@ -1381,7 +1381,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void handleKeepAlive(S00PacketKeepAlive p_147272_1_)
     {
-        this.addToSendQueue(new C00PacketKeepAlive(p_147272_1_.func_149134_c()));
+        this.addToSendQueue(new C00PacketKeepAlive(p_147272_1_.getKey()));
     }
 
     /**

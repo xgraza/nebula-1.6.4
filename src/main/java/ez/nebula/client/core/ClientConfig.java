@@ -17,6 +17,8 @@ public final class ClientConfig
     public static final String GITHUB_REPO = "https://github.com/xgraza/nebula-1.7.2/tree/"
             + BuildConfig.BRANCH;
 
+    public static boolean FOLK_VALLEY = false;
+
     /**
      * If features should use heavier debugging
      */

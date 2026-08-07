@@ -2,9 +2,11 @@ package ez.nebula.client.impl.module.combat;
 
 import ez.nebula.client.api.listener.event.world.EventAddEntity;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.core.ClientConfig;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
+import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
@@ -86,6 +88,11 @@ public final class AutoLogModule extends Module
 
     private void closeChannel(final String text, final Object... format)
     {
+        if (ClientConfig.FOLK_VALLEY)
+        {
+            SoundUtil.gottaLog();
+        }
+
         final IChatComponent base = new ChatComponentText("")
                 .appendSibling(new ChatComponentText("[AutoLog] ")
                         .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)))

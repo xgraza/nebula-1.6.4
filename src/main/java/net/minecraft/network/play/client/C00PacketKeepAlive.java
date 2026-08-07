@@ -9,16 +9,15 @@ import java.io.IOException;
 
 public class C00PacketKeepAlive extends Packet
 {
-    private int field_149461_a;
-    private static final String __OBFID = "CL_00001359";
+    private int key;
 
     public C00PacketKeepAlive()
     {
     }
 
-    public C00PacketKeepAlive(int p_i45252_1_)
+    public C00PacketKeepAlive(int key)
     {
-        this.field_149461_a = p_i45252_1_;
+        this.key = key;
     }
 
     public void processPacket(INetHandlerPlayServer p_149459_1_)
@@ -31,7 +30,7 @@ public class C00PacketKeepAlive extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149461_a = p_148837_1_.readInt();
+        this.key = p_148837_1_.readInt();
     }
 
     /**
@@ -39,7 +38,7 @@ public class C00PacketKeepAlive extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeInt(this.field_149461_a);
+        p_148840_1_.writeInt(this.key);
     }
 
     /**
@@ -51,9 +50,9 @@ public class C00PacketKeepAlive extends Packet
         return true;
     }
 
-    public int func_149460_c()
+    public int getKey()
     {
-        return this.field_149461_a;
+        return this.key;
     }
 
     public void processPacket(INetHandler p_148833_1_)

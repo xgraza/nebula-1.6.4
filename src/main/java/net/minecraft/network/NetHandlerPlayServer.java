@@ -3,8 +3,6 @@ package net.minecraft.network;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import io.netty.buffer.Unpooled;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.crash.CrashReport;
@@ -62,10 +60,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
      */
     private int floatingTickCount;
     private boolean field_147366_g;
-    private int field_147378_h;
-    private long field_147379_i;
+    private int sentKeepAliveTime;
+    private long timeSentMS;
     private static final Random field_147376_j = new Random();
-    private long field_147377_k;
+    private long lastNetworkTickCount;
 
     /**
      * Incremented by 20 each time a user sends a chat message, decreased by one every tick. Non-ops kicked when over
@@ -99,12 +97,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
         ++this.networkTickCount;
         this.serverController.theProfiler.startSection("keepAlive");
 
-        if ((long) this.networkTickCount - this.field_147377_k > 40L)
+        if ((long) this.networkTickCount - this.lastNetworkTickCount > 40L)
         {
-            this.field_147377_k = this.networkTickCount;
-            this.field_147379_i = this.func_147363_d();
-            this.field_147378_h = (int) this.field_147379_i;
-            this.sendPacketToPlayer(new S00PacketKeepAlive(this.field_147378_h));
+            this.lastNetworkTickCount = this.networkTickCount;
+            this.timeSentMS = this.getTimeMS();
+            this.sentKeepAliveTime = (int) this.timeSentMS;
+            this.sendPacketToPlayer(new S00PacketKeepAlive(this.sentKeepAliveTime));
         }
 
         if (this.chatSpamThresholdCount > 0)
@@ -129,18 +127,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
     /**
      * Kick a player from the server with a reason
      */
-    public void kickPlayerFromServer(String p_147360_1_)
+    public void kickPlayerFromServer(String reason)
     {
-        final ChatComponentText var2 = new ChatComponentText(p_147360_1_);
-        this.netManager.scheduleOutboundPacket(new S40PacketDisconnect(var2), new GenericFutureListener()
-        {
-            private static final String __OBFID = "CL_00001453";
-
-            public void operationComplete(Future p_operationComplete_1_)
-            {
-                NetHandlerPlayServer.this.netManager.closeChannel(var2);
-            }
-        });
+        final ChatComponentText var2 = new ChatComponentText(reason);
+        this.netManager.scheduleOutboundPacket(new S40PacketDisconnect(var2),
+                (c) -> netManager.closeChannel(var2));
         this.netManager.disableAutoRead();
     }
 
@@ -990,14 +981,14 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
      */
     public void processKeepAlive(C00PacketKeepAlive p_147353_1_)
     {
-        if (p_147353_1_.func_149460_c() == this.field_147378_h)
+        if (p_147353_1_.getKey() == this.sentKeepAliveTime)
         {
-            int var2 = (int) (this.func_147363_d() - this.field_147379_i);
-            this.playerEntity.ping = (this.playerEntity.ping * 3 + var2) / 4;
+            int timeDifference = (int) (this.getTimeMS() - this.timeSentMS);
+            this.playerEntity.ping = (this.playerEntity.ping * 3 + timeDifference) / 4;
         }
     }
 
-    private long func_147363_d()
+    private long getTimeMS()
     {
         return System.nanoTime() / 1000000L;
     }
