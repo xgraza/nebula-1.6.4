@@ -32,6 +32,11 @@ public final class SoundUtil
         playSound("i_gotta_log_guys.wav");
     }
 
+    public static void vineBoom()
+    {
+        playSound("vine_boom.wav");
+    }
+
     public static void playNebulaClickSound()
     {
         playSound("click.wav");

@@ -125,6 +125,7 @@ public final class AutoBedModule extends Module
     public void onDisable()
     {
         super.onDisable();
+        AutoGGModule.INSTANCE.setLastTarget(null);
         target = null;
         blockInfo.invalidate();
         bedSlot = -1;
@@ -167,9 +168,11 @@ public final class AutoBedModule extends Module
         }
         if (!isValidEntity(target))
         {
+            AutoGGModule.INSTANCE.setLastTarget(null);
             target = getPlayerInRange();
             return;
         }
+        AutoGGModule.INSTANCE.setLastTarget(target);
         bedSlot = InventoryUtil.getHotbarItem(ItemBed.class);
         if (bedSlot == -1)
         {

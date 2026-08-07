@@ -2,6 +2,8 @@ package ez.nebula.client.impl.module.world;
 
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.player.EventPlayerDeath;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
@@ -316,6 +318,7 @@ public final class FakePlayerModule extends Module
 
                 if (getHealth() <= 0.0f)
                 {
+                    // EventBus.dispatch(new EventPlayerDeath(this));
                     if (dealtFullDamage)
                     {
                         playSound(getDeathSound(), getSoundVolume(), getSoundPitch());

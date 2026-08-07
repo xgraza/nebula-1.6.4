@@ -124,6 +124,7 @@ public final class KillAuraModule extends Module
             blockSword(false);
         }
         blocking = false;
+        AutoGGModule.INSTANCE.setLastTarget(null);
         target = null;
         angles = null;
     }
@@ -139,8 +140,16 @@ public final class KillAuraModule extends Module
         {
             target = getNextTarget();
         }
+        if (target instanceof EntityPlayer)
+        {
+            AutoGGModule.INSTANCE.setLastTarget((EntityPlayer) target);
+        }
         if (target == null || AutoPotModule.INSTANCE.isActive() || AutoEatModule.INSTANCE.isActive())
         {
+            if (target == null)
+            {
+                AutoGGModule.INSTANCE.setLastTarget((EntityPlayer) target);
+            }
             if (blocking)
             {
                 blockSword(false);
