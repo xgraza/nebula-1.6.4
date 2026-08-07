@@ -1,3 +1,4 @@
+import us.nebula.gradle.DownloadMCAssets
 import us.nebula.gradle.UploadBuildToServerTask
 import us.nebula.gradle.Util
 
@@ -100,6 +101,12 @@ tasks.register('createNebulaBuild') {
     if (!BUILD_LOCAL) {
         finalizedBy uploadBuildToServer
     }
+}
+
+tasks.register('downloadMCAssets', DownloadMCAssets) {
+    setGroup("nebula")
+    setDescription("Downloads 1.7.2 assets to your run folder")
+    setRunDirectory(Util.createPathString(Util.USER_DIR, "run"))
 }
 
 tasks.register('uploadBuildToServer', UploadBuildToServerTask) {

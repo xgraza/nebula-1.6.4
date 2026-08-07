@@ -18,6 +18,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import ez.nebula.client.impl.module.render.GlintModule;
 import ez.nebula.client.api.listener.EventBus;
@@ -494,6 +495,68 @@ public class ItemRenderer
                                 glRotatef(f1 * -20.0f, 0.0f, 0.0f, 1.0f);
                                 glRotatef(f1 * -40.0f, 1.0f, 0.0f, 0.0f);
                                 glScalef(0.4F, 0.4F, 0.4F);
+                                doBlockTransformations();
+                                break;
+
+                            case JIGSAW:
+                                glTranslatef(0.56f, -0.42f, -0.71999997f);
+                                glTranslatef(0.1f * f1, -0.0f, -0.21999997f * f1);
+                                glTranslatef(0.0f, equipProgress * -0.15f, 0.0f);
+                                glRotatef(equipProgress * 45.0f, 0.0f, 1.0f, 0.0f);
+                                glScalef(0.4f, 0.4f, 0.4f);
+                                doBlockTransformations();
+                                break;
+
+                            case TAP:
+                                glTranslatef(0.56f, -0.42f, -0.71999997f);
+                                glTranslatef(0.0f, equipProgress * -0.15f, 0.0f);
+                                glRotatef(30.0f, 0.0f, 1.0f, 0.0f);
+                                glRotatef(f1 * -30.0f, 0.0f, 1.0f, 0.0f);
+                                glScalef(0.4f, 0.4f, 0.4f);
+                                doBlockTransformations();
+                                break;
+
+                            case SIGMA:
+                                transformFirstPersonItem(equipProgress * 0.5f, 0.0f);
+                                glRotatef(-f * 55.0f / 2.0f, -8.0f, -0.0f, 9.0f);
+                                glRotatef(-f * 45.0f, 1.0f, f / 2.0f, -0.0f);
+                                doBlockTransformations();
+                                glTranslated(1.2, 0.3, 0.5);
+                                glTranslatef(-1.0f, player.isSneaking() ? -0.1f : -0.2f, 0.2f);
+                                break;
+
+                            case FATHUM:
+                                glRotated(25, 0,0.2,0);
+                                this.transformFirstPersonItem(0.0f, var13);
+                                glScalef(0.9F, 0.9F, 0.9F);
+                                doBlockTransformations();
+                                break;
+
+                            case PULL:
+                                GL11.glTranslatef(0.56F, -0.52F, -0.71999997F);
+                                GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+                                GL11.glRotatef(f1 * -20.0F, 1.0F, 0.0F, 0.0F);
+                                GL11.glRotatef(f1 * 22.0f, 0.5f, f1 * 5, 0.0f);
+                                GL11.glScalef(0.4F, 0.4F, 0.4F);
+                                GL11.glTranslated(0.0, 0.1, 0.0);
+                                doBlockTransformations();
+                                break;
+
+                            case BONK:
+                                GL11.glTranslatef(0.56F, -0.34F, -0.71999997F);
+                                GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+                                GL11.glRotatef(f1 * -10.0f, 20.0F, 1.0F, 0.0F);
+                                GL11.glRotatef(-f1 * 20.0f, 1.5f, (f1 / 1.1f), 0.0f);
+                                GL11.glScalef(0.4F, 0.4F, 0.4F);
+                                doBlockTransformations();
+                                break;
+
+                            case NEBULA:
+                                GL11.glTranslatef(0.56F, -0.52F, -0.71999997F);
+                                GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+                                GL11.glRotatef(f1 * -20.0F, 1.0F, 0.0F, 0.0F);
+                                GL11.glScalef(0.4F, 0.4F, 0.4F);
+                                GL11.glTranslated(0.0, 0.1, 0.0);
                                 doBlockTransformations();
                                 break;
                         }

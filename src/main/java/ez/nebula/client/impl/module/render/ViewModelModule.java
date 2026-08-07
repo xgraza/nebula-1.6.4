@@ -80,6 +80,13 @@ public final class ViewModelModule extends Module
                     }
                 },
         EXHIBITION,
-        AVATAR
+        AVATAR,
+        JIGSAW,
+        SIGMA,
+        TAP,
+        FATHUM,
+        PULL,
+        BONK,
+        NEBULA
     }
 }
