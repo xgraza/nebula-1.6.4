@@ -27,6 +27,7 @@ public final class HUDManager implements ITypedManager<HUDElement>
         hudElementList.add(new ArmorStatusHUDElement());
         hudElementList.add(new ArraylistHUDElement());
         hudElementList.add(new CoordinatesHUDElement());
+        hudElementList.add(new FPSHUDElement());
         hudElementList.add(new PotionStatusHUDElement());
         hudElementList.add(new ServerStatusHUDElement());
         hudElementList.add(new SpeedHUDElement());
