@@ -78,8 +78,8 @@ public final class JesusModule extends Module
                 && !MC.gameSettings.keyBindJump.pressed)
         {
             lastTickSpoof = true;
-            event.setY(event.getY() + 0.01);
-            event.setStance(event.getStance() + 0.01);
+            event.setY(event.getY() + 0.02);
+            event.setStance(event.getStance() + 0.02);
             event.setOnGround(NoHungerModule.INSTANCE.isToggled() && NoHungerModule.INSTANCE.groundSetting.getValue());
             return;
         }

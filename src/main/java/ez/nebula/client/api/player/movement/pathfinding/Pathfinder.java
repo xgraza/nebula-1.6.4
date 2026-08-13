@@ -3,6 +3,7 @@ package ez.nebula.client.api.player.movement.pathfinding;
 import ez.nebula.client.impl.module.movement.JesusModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBasePressurePlate;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
@@ -29,7 +30,7 @@ public final class Pathfinder
     private static final float NOT_IDEAL_COST = 1.0f;
     private static final float GENERAL_DANGER_COST = 2.0f;
     private static final float DANGER_COST = 5.0f;
-    private static final float NO_WAY = 100.0f;
+    private static final float IMPOSSIBLE = 100.0f;
 
     static
     {
@@ -53,8 +54,23 @@ public final class Pathfinder
 
     private static final Minecraft MC = Minecraft.getMinecraft();
 
-    public List<BlockPos> pathfindTo(final BlockPos origin, final BlockPos goal)
+    public List<Node> getPathList(final BlockPos origin, final BlockPos goal)
     {
+        final Node node = getGoalNode(origin, goal);
+        if (node == null)
+        {
+            return Collections.emptyList();
+        }
+        return reverseNodeTree(node);
+    }
+
+    public Node getGoalNode(final BlockPos origin, final BlockPos goal)
+    {
+        if (origin.equals(goal))
+        {
+            return null;
+        }
+
         final PriorityQueue<Node> openNodeQueue = new PriorityQueue<>(
                 Comparator.comparing(Node::getCost).thenComparing((node) -> node.h));
         final Map<BlockPos, Float> costMap = new HashMap<>();
@@ -63,6 +79,8 @@ public final class Pathfinder
         Node currentNode = new Node(origin, null);
         currentNode.h = getHeuristic(origin, goal);
         openNodeQueue.add(currentNode);
+
+        Node closestNode = currentNode;
 
         while (!openNodeQueue.isEmpty())
         {
@@ -74,7 +92,7 @@ public final class Pathfinder
             final BlockPos pos = currentNode.getPos();
             if (pos.equals(goal))
             {
-                return reverseNodeTree(currentNode);
+                return currentNode;
             }
 
             if (currentNode.g > costMap.getOrDefault(pos, Float.MAX_VALUE))
@@ -82,22 +100,32 @@ public final class Pathfinder
                 continue;
             }
 
+            if (currentNode.h < closestNode.h)
+            {
+                closestNode = currentNode;
+            }
+
             for (final int[] offset : BLOCK_POSITION_OFFSETS)
             {
                 final BlockPos neighborPos = pos.add(offset[0], offset[1], offset[2]);
-                float gCost = getGCost(neighborPos, pos);
-                if (gCost >= NO_WAY)
-                {
-                    continue;
-                }
-
-                float tentativeGCost = currentNode.g + gCost;
-                if (tentativeGCost >= costMap.getOrDefault(neighborPos, Float.MAX_VALUE))
+                if (!MC.theWorld.blockExists(neighborPos.getX(), neighborPos.getY(), neighborPos.getZ()))
                 {
                     continue;
                 }
 
                 final Node node = new Node(neighborPos, currentNode);
+                float g = getGCost(node, neighborPos, pos);
+                if (g >= IMPOSSIBLE)
+                {
+                    continue;
+                }
+
+                float tentativeGCost = currentNode.g + g;
+                if (tentativeGCost >= costMap.getOrDefault(neighborPos, Float.MAX_VALUE))
+                {
+                    continue;
+                }
+
                 node.h = getHeuristic(neighborPos, goal);
                 node.g = tentativeGCost;
 
@@ -106,17 +134,22 @@ public final class Pathfinder
             }
         }
 
-        return Collections.emptyList();
+        if (!closestNode.getPos().equals(origin))
+        {
+            return closestNode;
+        }
+
+        return null;
     }
 
-    private List<BlockPos> reverseNodeTree(final Node node)
+    public List<Node> reverseNodeTree(final Node node)
     {
-        final List<BlockPos> pathList = new LinkedList<>();
+        final List<Node> pathList = new LinkedList<>();
 
         Node n = node;
         while (n != null)
         {
-            pathList.add(n.getPos());
+            pathList.add(n);
             n = n.getParent();
         }
 
@@ -131,87 +164,208 @@ public final class Pathfinder
 
     private float getHeuristic(final BlockPos pos, final BlockPos goal)
     {
-        return (float) MathUtil.getDistance(pos, goal) * 0.5f;
+        return (float) MathUtil.getDistance(pos, goal);
     }
 
-    private float getGCost(final BlockPos pos, final BlockPos prevPos)
+    private Block getBlock(final BlockPos pos)
     {
-        final Block block = MC.theWorld.getBlock(pos);
-        final Block blockUnder = MC.theWorld.getBlock(pos.down());
-        final Block blockAbove = MC.theWorld.getBlock(pos.up());
+        return MC.theWorld.getBlock(pos);
+    }
 
-        // if the block in front is a solid block, we can't walk through it
-        if (block.getMaterial().blocksMovement() || blockAbove.getMaterial().blocksMovement())
+    private float getGCost(final Node node, final BlockPos pos, final BlockPos prevPos)
+    {
+        Block block = getBlock(pos);
+        Block blockAbove = getBlock(pos.up());
+        Block blockUnder = getBlock(pos.down());
+
+        if (isBlockImpassible(block, pos))
         {
-            return NO_WAY;
+            return IMPOSSIBLE;
         }
 
-        float g = 1.0f;
+        float gCost = 1.0f;
+
+        {
+            int fallDistance = 0;
+            for (int y = 1; y < 256; ++y)
+            {
+                final BlockPos fallPos = pos.add(0, -y, 0);
+                final Block fallBlock = MC.theWorld.getBlock(fallPos);
+                if (fallBlock.getMaterial().blocksMovement() || fallBlock.getMaterial() == Material.water)
+                {
+                    break;
+                }
+                ++fallDistance;
+            }
+
+            int maxFallDistance = (int) ((MC.thePlayer.getHealth() + MC.thePlayer.getAbsorptionAmount()) / 2.0f);
+            if (fallDistance >= maxFallDistance + 0.5)
+            {
+                return IMPOSSIBLE;
+            }
+            gCost += fallDistance * 2.0f;
+        }
 
         final int deltaX = pos.getX() - prevPos.getX();
         final int deltaY = pos.getY() - prevPos.getY();
         final int deltaZ = pos.getZ() - prevPos.getZ();
+        final boolean diag = isOffsetDiagonal(deltaX, deltaZ);
 
-        final boolean isDiagonal = isOffsetDiagonal(deltaX, deltaZ);
-        // check if we are going to clip into a block, and avoid if possible
-        if (isDiagonal)
+        if (deltaY == 0 && !isBlockImpassible(blockUnder, pos.down()))
         {
-            g = 1.5f;
-
-            // we need to make sure we have clearance on both sides
-
+            return IMPOSSIBLE;
         }
 
+        // if we have moved up on the y-axis
         if (deltaY != 0)
         {
-            int maxStepHeight = 1;
-            if (MC.thePlayer.isPotionActive(Potion.jump))
+            if (deltaY > 1)
             {
-                maxStepHeight = MC.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier() + 1;
-            }
-
-            // can't jump higher than one block
-            if (deltaY > maxStepHeight)
+                return IMPOSSIBLE;
+            } else if (deltaY == 1)
             {
-                return NO_WAY;
-            }
-
-            // one block jump, only what's supported by step anyway
-            if (deltaY == 1)
-            {
-                if (!blockUnder.getMaterial().blocksMovement())
+                if (isBlockImpassible(blockAbove, pos.up()) || !isBlockImpassible(blockUnder, pos.down()))
                 {
-                    return NO_WAY;
+                    return IMPOSSIBLE;
                 }
-
-                if (block.getMaterial().blocksMovement() || blockAbove.getMaterial().blocksMovement())
-                {
-                    return NO_WAY;
-                }
-
-                g += isDiagonal ? 1.8f : 1.2f;
             }
-        }
 
-        int fallDistance = 0;
-        for (int y = 1; y < 256; ++y)
-        {
-            final BlockPos fallPos = pos.add(0, -y, 0);
-            if (MC.theWorld.getBlock(fallPos).getMaterial().blocksMovement())
+            if (deltaY < 0)
             {
-                break;
+                // can we even fall down?
+                final BlockPos headPos = pos.up().up();
+                if (isBlockImpassible(getBlock(headPos), headPos))
+                {
+                    return IMPOSSIBLE;
+                }
             }
-            ++fallDistance;
         }
 
-        int maxFallDistance = (int) ((MC.thePlayer.getHealth() + MC.thePlayer.getAbsorptionAmount()) / 2.0f);
-        if (fallDistance >= maxFallDistance + 0.5)
+        if (diag)
         {
-            return NO_WAY;
-        }
-        // for every block fallen, add to the cost as a more "risky" move
-        g += fallDistance * 2.0f;
+            if (deltaY < 0)
+            {
+                gCost = getDiagonalGCost(node, pos.down(), deltaX, deltaZ, gCost);
+                if (gCost >= IMPOSSIBLE)
+                {
+                    return IMPOSSIBLE;
+                }
+            }
 
+            gCost = getDiagonalGCost(node, pos, deltaX, deltaZ, gCost);
+            if (gCost >= IMPOSSIBLE)
+            {
+                return IMPOSSIBLE;
+            }
+            gCost = getDiagonalGCost(node, pos.up(), deltaX, deltaZ, gCost);
+            if (gCost >= IMPOSSIBLE)
+            {
+                return IMPOSSIBLE;
+            }
+        }
+
+        // if we are trying to pass through water, give it a not-ideal cost
+        if (block == Blocks.water || block == Blocks.flowing_water)
+        {
+            gCost += NOT_IDEAL_COST;
+        }
+
+        // we do not want to accidentally trip redstone
+        if (block == Blocks.tripwire
+                || block == Blocks.tripwire_hook
+                || block instanceof BlockBasePressurePlate
+                || blockUnder == Blocks.tripwire
+                || blockUnder == Blocks.tripwire_hook
+                || blockUnder instanceof BlockBasePressurePlate)
+        {
+            gCost += DANGER_COST;
+        }
+
+        // by walking over a redstone ore block, we can accidentally activate it by accident
+        if (blockUnder == Blocks.redstone_ore || blockUnder == Blocks.lit_redstone_ore)
+        {
+            gCost += DANGER_COST;
+            // we do not want to accidentally activate it by going across it
+        }
+
+        return gCost;
+    }
+
+    private boolean isBlockImpassible(final Block block, final BlockPos pos)
+    {
+        final Block blockAbove = getBlock(pos.up());
+        final Block blockUnder = getBlock(pos.down());
+
+        // cannot pass through solid blocks
+        if (block.getMaterial().blocksMovement() || blockAbove.getMaterial().blocksMovement())
+        {
+            return true;
+        }
+
+        // if a block does not block movement but we do not want to pass through it, return IMPOSSIBLE
+        if (block == Blocks.web || block == Blocks.fire || block == Blocks.lava || block == Blocks.flowing_lava)
+        {
+            return true;
+        }
+
+        // let's specify blocks we don't want to walk over
+        if (blockUnder == Blocks.web
+                || blockUnder == Blocks.lava
+                || blockUnder == Blocks.flowing_lava
+                || blockUnder == Blocks.fire
+                || blockUnder == Blocks.cactus)
+        {
+            return true;
+        }
+
+        // if we are under sand/gravel (a falling block)
+        if (blockUnder == Blocks.sand || blockUnder == Blocks.gravel)
+        {
+            // check the block under the block at our feet -
+            // we're checking to see if there are blocks under that could possibly create an update and let us fall
+            final Block blockUnder2 = getBlock(pos.down().down());
+            if (blockUnder2 == Blocks.standing_sign
+                    || blockUnder2 == Blocks.wall_sign
+                    || blockUnder2 == Blocks.tripwire
+                    || blockUnder2 == Blocks.carpet)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private float getDiagonalGCost(final Node node, final BlockPos pos, final int deltaX, final int deltaZ, float g)
+    {
+        final BlockPos adj1 = pos.add(-deltaX, 0, 0);
+        final BlockPos adj2 = pos.add(0, 0, -deltaZ);
+
+        if (node.diagnoalList.isEmpty())
+        {
+            node.diagnoalList.add(adj1);
+            node.diagnoalList.add(adj2);
+        }
+
+        final Block block1 = MC.theWorld.getBlock(adj1);
+        final Block block2 = MC.theWorld.getBlock(adj2);
+
+        final boolean adjB1 = block1.getMaterial().blocksMovement();
+        final boolean adjB2 = block2.getMaterial().blocksMovement();
+
+        if (adjB1 || adjB2)
+        {
+            return IMPOSSIBLE;
+        }
+
+        g = getGCostForBlock(block1, MC.theWorld.getBlock(adj1.down()), MC.theWorld.getBlock(adj1.up()), adj1, g);
+        g = getGCostForBlock(block2, MC.theWorld.getBlock(adj2.down()), MC.theWorld.getBlock(adj2.up()), adj2, g);
+
+        return g;
+    }
+
+    private float getGCostForBlock(final Block block, final Block blockUnder, final Block blockAbove, final BlockPos pos, float g)
+    {
         // check to see if it could be a trap, we don't want to accidentally set off redstone
         if (block == Blocks.tripwire || block == Blocks.tripwire_hook || block instanceof BlockBasePressurePlate)
         {
@@ -237,11 +391,14 @@ public final class Pathfinder
             g += DANGER_COST;
         }
 
-        // if we are going to walk on water and jesus is not on, we should avoid it if we can
-        // in some cases (such as large bodies of water) it's unavoidable
+        if (block == Blocks.water || block == Blocks.flowing_water && blockAbove.getMaterial() != Material.air)
+        {
+            return IMPOSSIBLE;
+        }
+
         if ((blockUnder == Blocks.water || blockUnder == Blocks.flowing_water) && !JesusModule.INSTANCE.isToggled())
         {
-            g += NOT_IDEAL_COST;
+            g += DANGER_COST;
         }
 
         for (final int[] offsets : BASIC_SURROUNDING_OFFSETS)

@@ -1,6 +1,7 @@
 package ez.nebula.client.api.player.movement;
 
 import ez.nebula.client.api.listener.event.input.EventUpdateInput;
+import ez.nebula.client.api.player.movement.pathfinding.Node;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.MovementInput;
@@ -18,9 +19,9 @@ public final class MovementController
     private CustomInput input;
     private MovementInput movementInput;
 
-    public List<BlockPos> getPathTo(final BlockPos origin, final BlockPos pos)
+    public List<Node> getPathTo(final BlockPos origin, final BlockPos pos)
     {
-        return pathfinder.pathfindTo(origin, pos);
+        return pathfinder.getPathList(origin, pos);
     }
 
     public void sneak(final boolean sneaking)
@@ -34,7 +35,7 @@ public final class MovementController
 
     public boolean isSneaking()
     {
-        return input.sneak;
+        return input != null && input.sneak;
     }
 
     public void jump(final boolean jumping)
@@ -48,7 +49,7 @@ public final class MovementController
 
     public boolean isJumping()
     {
-        return input.jump;
+        return input != null && input.jump;
     }
 
     public void setMovement(final float[] movement)

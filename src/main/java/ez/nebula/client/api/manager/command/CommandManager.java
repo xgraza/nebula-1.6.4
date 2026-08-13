@@ -50,6 +50,7 @@ public final class CommandManager implements ITypedManager<Command>
         register(new DownloadMapCommand());
         register(new FriendCommand());
         register(new HelpCommand());
+        // register(new PathToCommand());
         register(new PingCommand());
         register(new SelfKickCommand());
         register(new SpawnTPCommand());

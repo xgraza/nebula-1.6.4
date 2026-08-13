@@ -2,12 +2,17 @@ package ez.nebula.client.api.player.movement.pathfinding;
 
 import net.minecraft.src.BlockPos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class Node
 {
     private final BlockPos pos;
     private final Node parent;
 
     public float g, h;
+
+    public final List<BlockPos> diagnoalList = new ArrayList<>();
 
     public Node(BlockPos pos, Node parent)
     {
