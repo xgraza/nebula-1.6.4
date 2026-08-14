@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -88,27 +89,21 @@ public final class AutoArmorModule extends Module
                 continue;
             }
 
-            final int packetSlot = slot < 9 ? slot + 36 : slot;
+            final int armorSlot = InventoryUtil.toPacketSlot(slot); //slot < 9 ? slot + 36 : slot;
             if (MC.thePlayer.inventory.armorInventory[i] != null)
             {
-                MC.playerController.windowClick(INVENTORY_WINDOW_ID, 8 - i, 1, 4, MC.thePlayer);
+                InventoryUtil.windowClick(8 - i, InventoryUtil.ClickType.DROP_ALL);
             }
 
             final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(slot);
             if (destackSetting.getValue() && (itemStack != null && itemStack.stackSize > 1))
             {
-                // picks up armor
-                MC.playerController.windowClick(INVENTORY_WINDOW_ID, packetSlot, 0, 0, MC.thePlayer);
-
-                // right clicks the armor into the empty armor slot (to take one off the stack of armor)
-                MC.playerController.windowClick(INVENTORY_WINDOW_ID, 8 - i, 1, 0, MC.thePlayer);
-
-                // places the stacked armor back in its original slot
-                MC.playerController.windowClick(INVENTORY_WINDOW_ID, packetSlot, 0, 0, MC.thePlayer);
+                InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.PICKUP);
+                InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.RIGHT_CLICK);
+                InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.PICKUP); // put back
             } else
             {
-                // shift click into slot
-                MC.playerController.windowClick(INVENTORY_WINDOW_ID, packetSlot, 0, 1, MC.thePlayer);
+                InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.SHIFT_CLICK);
             }
 
             armorPieces[i] = -1;

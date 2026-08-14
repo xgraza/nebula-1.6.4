@@ -9,6 +9,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
 import net.minecraft.item.ItemStack;
 
@@ -24,8 +25,6 @@ import java.util.Map;
         category = ModuleCategory.PLAYER)
 public final class HotbarRefillModule extends Module
 {
-    private static final int INVENTORY_WINDOW_ID = 0;
-
     private final Map<Integer, ItemStack> slotItemStackMap = new HashMap<>();
 
     private final NumberSetting<Double> percentSetting = numberBuilder("Percent", 45.0)
@@ -64,13 +63,12 @@ public final class HotbarRefillModule extends Module
             final ItemStack stack = MC.thePlayer.inventory.getStackInSlot(matchingSlot);
             boolean hasLeftover = itemStack != null && stack.stackSize + itemStack.stackSize > itemStack.getMaxStackSize();
 
-            MC.playerController.windowClick(INVENTORY_WINDOW_ID, matchingSlot < 9 ? matchingSlot + 36 : matchingSlot, 0, 0, MC.thePlayer);
-            MC.playerController.windowClick(INVENTORY_WINDOW_ID, slot + 36, 0, 0, MC.thePlayer);
+            InventoryUtil.windowClick(InventoryUtil.toPacketSlot(matchingSlot), InventoryUtil.ClickType.PICKUP);
+            InventoryUtil.windowClick(InventoryUtil.toPacketSlot(slot), InventoryUtil.ClickType.PICKUP);
             if (hasLeftover)
             {
-                MC.playerController.windowClick(INVENTORY_WINDOW_ID, matchingSlot < 9 ? matchingSlot + 36 : matchingSlot, 0, 0, MC.thePlayer);
+                InventoryUtil.windowClick(InventoryUtil.toPacketSlot(matchingSlot), InventoryUtil.ClickType.PICKUP);
             }
-
             return;
         }
     };

@@ -3,7 +3,6 @@ package ez.nebula.client.util.minecraft.player;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 import java.util.function.Predicate;
@@ -16,12 +15,32 @@ public final class InventoryUtil
 {
     private static final Minecraft MC = Minecraft.getMinecraft();
 
+    public static final int PLAYER_INVENTORY_WINDOW_ID = 0;
+
     public static final int INVALID_SLOT = -1;
     public static final int PLAYER_INVENTORY_SIZE = 36;
-    public static final int HOTBAR_SIZE = 9;
+    public static final int HOTBAR_SLOTS = 9;
 
-    public static final Predicate<ItemStack> BLOCK_FILTER =
-            (stack) -> stack.getItem() instanceof ItemBlock;
+    /**
+     * When in the player inventory, if you want to access the hotbar slots, the index for each hotbar slot is id + 36
+     * We must convert this slot into that for window clicks
+     * @param slot the slot in the inventory
+     * @return the correct slot
+     */
+    public static int toPacketSlot(final int slot)
+    {
+        return slot < HOTBAR_SLOTS ? slot + PLAYER_INVENTORY_SIZE : slot;
+    }
+
+    public static void windowClick(final int slot, final ClickType clickType)
+    {
+        windowClick(PLAYER_INVENTORY_WINDOW_ID, slot, clickType);
+    }
+
+    public static void windowClick(final int windowID, final int slot, final ClickType clickType)
+    {
+        MC.playerController.windowClick(windowID, slot, clickType.mouseButton, clickType.action, MC.thePlayer);
+    }
 
     public static int getBestToolSlotFor(final Block attackedBlock)
     {
@@ -51,7 +70,7 @@ public final class InventoryUtil
         {
             return INVALID_SLOT;
         }
-        for (int slot = 0; slot < HOTBAR_SIZE; ++slot)
+        for (int slot = 0; slot < HOTBAR_SLOTS; ++slot)
         {
             final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(slot);
             if (itemStack == null || itemStack.getItem() == null)
@@ -71,7 +90,7 @@ public final class InventoryUtil
 
     public static int getHotbarSlot(final Predicate<ItemStack> filter)
     {
-        return getSlot(0, HOTBAR_SIZE, filter);
+        return getSlot(0, HOTBAR_SLOTS, filter);
     }
 
     public static int getSlot(final int start,
@@ -87,5 +106,42 @@ public final class InventoryUtil
             }
         }
         return INVALID_SLOT;
+    }
+
+    public enum ClickType
+    {
+        /**
+         * Simple one finger click, picks up an item in an inventory
+         */
+        PICKUP(0, 0),
+        /**
+         * If you do not have an item picked up in the inventory, this will split the stack you're over
+         * If you have an item picked up, it will put one of that item into whatever slot
+         */
+        RIGHT_CLICK(1, 0),
+        /**
+         * If when clicking an item to "quick move" it - equivalent to Left Shift + Click
+         */
+        SHIFT_CLICK(0, 1),
+        /**
+         * If to drop one item of the stack - equivalent to pressing Q
+         */
+        DROP_ONE(0, 4),
+        /**
+         * If to drop the entire stack you're - equivalent to pressing Command/Ctrl + Q
+         */
+        DROP_ALL(1, 4),
+        /**
+         * If in creative and you middle click (or three-finger click) it will duplicate that item into a stack of 64 (or max)
+         */
+        DUPLICATE(2, 0);
+
+        private final int mouseButton, action;
+
+        ClickType(int mouseButton, int action)
+        {
+            this.mouseButton = mouseButton;
+            this.action = action;
+        }
     }
 }

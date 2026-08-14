@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.ContainerPlayer;
@@ -12,8 +13,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.player.EventContainerAction;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
 
-import static ez.nebula.client.util.minecraft.player.InventoryUtil.HOTBAR_SIZE;
-import static ez.nebula.client.util.minecraft.player.InventoryUtil.PLAYER_INVENTORY_SIZE;
+import static ez.nebula.client.util.minecraft.player.InventoryUtil.*;
 
 /**
  * @author xgraza
@@ -95,11 +95,11 @@ public final class InfiniteMoverModule extends Module
             final boolean inHotbar = event.getSlotIndex() >= PLAYER_INVENTORY_SIZE;
 
             final int start = inHotbar
-                    ? HOTBAR_SIZE
+                    ? HOTBAR_SLOTS
                     : PLAYER_INVENTORY_SIZE;
             final int end = inHotbar
                     ? PLAYER_INVENTORY_SIZE
-                    : PLAYER_INVENTORY_SIZE + HOTBAR_SIZE;
+                    : PLAYER_INVENTORY_SIZE + HOTBAR_SLOTS;
 
             for (int invSlot = start; invSlot < end; ++invSlot)
             {
@@ -118,11 +118,7 @@ public final class InfiniteMoverModule extends Module
             return;
         }
 
-        // pickup the item from the container/inventory
-        MC.playerController.windowClick(event.getWindowId(),
-                event.getSlotIndex(), 0, 0, MC.thePlayer);
-        // put the item into the slot where it would have been if it were shift clicked
-        MC.playerController.windowClick(event.getWindowId(),
-                moveSlot, 0, 0, MC.thePlayer);
+        windowClick(event.getWindowId(), event.getSlotIndex(), InventoryUtil.ClickType.PICKUP);
+        windowClick(event.getWindowId(), moveSlot, InventoryUtil.ClickType.PICKUP);
     };
 }

@@ -327,7 +327,7 @@ public final class AutoFarmModule extends Module
         {
             return;
         }
-        MC.playerController.windowClick(0, slot < 9 ? slot + 36 : slot, 1, 4, MC.thePlayer);
+        InventoryUtil.windowClick(InventoryUtil.toPacketSlot(slot), InventoryUtil.ClickType.DROP_ALL);
     }
 
     private boolean plantSeed(final BlockPos pos, final Block type)

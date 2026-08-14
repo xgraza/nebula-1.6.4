@@ -215,7 +215,7 @@ public final class AutoPotModule extends Module
         List<PotionEffect> effectList = null;
         float scale = 0.0f;
 
-        for (int i = 0; i < InventoryUtil.HOTBAR_SIZE; ++i)
+        for (int i = 0; i < InventoryUtil.HOTBAR_SLOTS; ++i)
         {
             final ItemStack stack = MC.thePlayer.inventory.getStackInSlot(i);
             if (stack == null || !(stack.getItem() instanceof ItemPotion) || !ItemPotion.isSplash(stack.getItemDamage()))
