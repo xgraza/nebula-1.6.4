@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.IEventPriorities;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
@@ -78,7 +79,7 @@ public final class TunnelESPModule extends Module
         tunnelList.clear();
     }
 
-    @Subscribe
+    @Subscribe(priority = IEventPriorities.LOW)
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
         if (MC.thePlayer.ticksExisted > 5)
@@ -92,8 +93,7 @@ public final class TunnelESPModule extends Module
         for (final BlockPos pos : tunnelList)
         {
             final AxisAlignedBB bb = new AxisAlignedBB(pos);
-            RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES,
-                    ((ColorSetting)HUDModule.INSTANCE.primaryColorSetting).getValueInt(60));
+            RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt(60));
         }
     };
 
@@ -108,6 +108,7 @@ public final class TunnelESPModule extends Module
     {
         final BlockPos lower = new BlockPos(searchedBlock.getX(), searchedBlock.getY(), searchedBlock.getZ());
         final BlockPos upper = lower.up();
+        directionLoop:
         for (final EnumFacing facing : EnumFacing.values())
         {
             if (facing == EnumFacing.UP || facing == EnumFacing.DOWN)
@@ -128,7 +129,8 @@ public final class TunnelESPModule extends Module
                 {
                     if (tunnelLength < minTunnelLengthSetting.getValue())
                     {
-                        return;
+                        // look into the next direction
+                        continue directionLoop;
                     }
                     break;
                 }
@@ -203,15 +205,6 @@ public final class TunnelESPModule extends Module
     private boolean isValidWalkthrough(final BlockPos pos)
     {
         final Block block = MC.theWorld.getBlock(pos);
-        if (block.getMaterial() == Material.air
-                || block.getMaterial() == Material.carpet
-                || block.getMaterial() == Material.plants)
-        {
-            return true;
-        }
-        return block instanceof BlockTorch
-                || block instanceof BlockVine
-                || block instanceof BlockLadder
-                || block instanceof BlockLiquid;
+        return !block.getMaterial().isSolid() && !(block instanceof BlockSlab) && !(block instanceof BlockStairs);
     }
 }
