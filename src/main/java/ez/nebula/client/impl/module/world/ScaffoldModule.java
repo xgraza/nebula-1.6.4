@@ -285,7 +285,7 @@ public final class ScaffoldModule extends Module
             basePosY = 256;
         }
 
-        if (downwardsSetting.getValue().isToggled())
+        if (downwardsSetting.getValue().isToggled() && !MC.gameSettings.keyBindJump.pressed)
         {
             basePosY -= 1;
         }
