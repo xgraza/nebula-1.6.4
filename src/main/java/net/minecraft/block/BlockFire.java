@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -15,9 +16,8 @@ import java.util.Random;
 public class BlockFire extends Block
 {
     private final int[] field_149849_a = new int[256];
-    private final int[] field_149848_b = new int[256];
+    private final int[] flammability = new int[256];
     private IIcon[] field_149850_M;
-    private static final String __OBFID = "CL_00000245";
 
     protected BlockFire()
     {
@@ -52,10 +52,10 @@ public class BlockFire extends Block
         Blocks.fire.func_149842_a(getIdFromBlock(Blocks.carpet), 60, 20);
     }
 
-    public void func_149842_a(int p_149842_1_, int p_149842_2_, int p_149842_3_)
+    public void func_149842_a(int blockID, int p_149842_2_, int flammability)
     {
-        this.field_149849_a[p_149842_1_] = p_149842_2_;
-        this.field_149848_b[p_149842_1_] = p_149842_3_;
+        this.field_149849_a[blockID] = p_149842_2_;
+        this.flammability[blockID] = flammability;
     }
 
     /**
@@ -101,98 +101,102 @@ public class BlockFire extends Block
     /**
      * Ticks the block if it's been scheduled
      */
-    public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
+    public void updateTick(World world, int x, int y, int z, Random rand)
     {
-        if (p_149674_1_.getGameRules().getGameRuleBooleanValue("doFireTick"))
+        if (world.getGameRules().getGameRuleBooleanValue("doFireTick"))
         {
-            boolean var6 = p_149674_1_.getBlock(p_149674_2_, p_149674_3_ - 1, p_149674_4_) == Blocks.netherrack;
+            boolean continueBurn = world.getBlock(x, y - 1, z) == Blocks.netherrack;
 
-            if (p_149674_1_.provider instanceof WorldProviderEnd && p_149674_1_.getBlock(p_149674_2_, p_149674_3_ - 1, p_149674_4_) == Blocks.bedrock)
+            if (world.provider instanceof WorldProviderEnd && world.getBlock(x, y - 1, z) == Blocks.bedrock)
             {
-                var6 = true;
+                continueBurn = true;
             }
 
-            if (!this.canPlaceBlockAt(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_))
+            if (!this.canPlaceBlockAt(world, x, y, z))
             {
-                p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
+                world.setBlockToAir(x, y, z);
             }
 
-            if (!var6 && p_149674_1_.isRaining() && (p_149674_1_.canLightningStrikeAt(p_149674_2_, p_149674_3_, p_149674_4_) || p_149674_1_.canLightningStrikeAt(p_149674_2_ - 1, p_149674_3_, p_149674_4_) || p_149674_1_.canLightningStrikeAt(p_149674_2_ + 1, p_149674_3_, p_149674_4_) || p_149674_1_.canLightningStrikeAt(p_149674_2_, p_149674_3_, p_149674_4_ - 1) || p_149674_1_.canLightningStrikeAt(p_149674_2_, p_149674_3_, p_149674_4_ + 1)))
+            if (!continueBurn && world.isRaining() && (world.canLightningStrikeAt(x, y, z) || world.canLightningStrikeAt(x - 1, y, z) || world.canLightningStrikeAt(x + 1, y, z) || world.canLightningStrikeAt(x, y, z - 1) || world.canLightningStrikeAt(x, y, z + 1)))
             {
-                p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
+                world.setBlockToAir(x, y, z);
             } else
             {
-                int var7 = p_149674_1_.getBlockMetadata(p_149674_2_, p_149674_3_, p_149674_4_);
+                int meta = world.getBlockMetadata(x, y, z);
 
-                if (var7 < 15)
+                if (meta < 15)
                 {
-                    p_149674_1_.setBlockMetadataWithNotify(p_149674_2_, p_149674_3_, p_149674_4_, var7 + p_149674_5_.nextInt(3) / 2, 4);
+                    world.setBlockMetadataWithNotify(x, y, z, meta + rand.nextInt(3) / 2, 4);
                 }
 
-                p_149674_1_.scheduleBlockUpdate(p_149674_2_, p_149674_3_, p_149674_4_, this, this.tickRate(p_149674_1_) + p_149674_5_.nextInt(10));
+                world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world) + rand.nextInt(10));
 
-                if (!var6 && !this.func_149847_e(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_))
+                if (!continueBurn && !this.func_149847_e(world, x, y, z))
                 {
-                    if (!World.doesBlockHaveSolidTopSurface(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_) || var7 > 3)
+                    if (!World.doesBlockHaveSolidTopSurface(world, x, y - 1, z) || meta > 3)
                     {
-                        p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
+                        world.setBlockToAir(x, y, z);
                     }
-                } else if (!var6 && !this.canBlockCatchFire(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_) && var7 == 15 && p_149674_5_.nextInt(4) == 0)
+                } else if (!continueBurn && !this.canBlockCatchFire(world, x, y - 1, z) && meta == 15 && rand.nextInt(4) == 0)
                 {
-                    p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
+                    world.setBlockToAir(x, y, z);
                 } else
                 {
-                    boolean var8 = p_149674_1_.isBlockHighHumidity(p_149674_2_, p_149674_3_, p_149674_4_);
-                    byte var9 = 0;
+                    boolean highHumidity = world.isBlockHighHumidity(x, y, z);
+                    byte humidity = (byte) (highHumidity ? -50 : 0);
 
-                    if (var8)
+                    for (EnumFacing facing : EnumFacing.values())
                     {
-                        var9 = -50;
+                        int baseHumidity = facing.getFrontOffsetY() != 0 ? 250 : 300;
+                        catchFire(world,
+                                x + facing.getFrontOffsetX(),
+                                y + facing.getFrontOffsetY(),
+                                z + facing.getFrontOffsetZ(),
+                                baseHumidity + humidity, rand, meta);
                     }
+//                    this.func_149841_a(world, x + 1, y, z, 300 + humidity, rand, var7);
+//                    this.func_149841_a(world, x - 1, y, z, 300 + humidity, rand, var7);
+//                    this.func_149841_a(world, x, y - 1, z, 250 + humidity, rand, var7);
+//                    this.func_149841_a(world, x, y + 1, z, 250 + humidity, rand, var7);
+//                    this.func_149841_a(world, x, y, z - 1, 300 + humidity, rand, var7);
+//                    this.func_149841_a(world, x, y, z + 1, 300 + humidity, rand, var7);
 
-                    this.func_149841_a(p_149674_1_, p_149674_2_ + 1, p_149674_3_, p_149674_4_, 300 + var9, p_149674_5_, var7);
-                    this.func_149841_a(p_149674_1_, p_149674_2_ - 1, p_149674_3_, p_149674_4_, 300 + var9, p_149674_5_, var7);
-                    this.func_149841_a(p_149674_1_, p_149674_2_, p_149674_3_ - 1, p_149674_4_, 250 + var9, p_149674_5_, var7);
-                    this.func_149841_a(p_149674_1_, p_149674_2_, p_149674_3_ + 1, p_149674_4_, 250 + var9, p_149674_5_, var7);
-                    this.func_149841_a(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_ - 1, 300 + var9, p_149674_5_, var7);
-                    this.func_149841_a(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_ + 1, 300 + var9, p_149674_5_, var7);
-
-                    for (int var10 = p_149674_2_ - 1; var10 <= p_149674_2_ + 1; ++var10)
+                    for (int posX = x - 1; posX <= x + 1; ++posX)
                     {
-                        for (int var11 = p_149674_4_ - 1; var11 <= p_149674_4_ + 1; ++var11)
+                        for (int posY = z - 1; posY <= z + 1; ++posY)
                         {
-                            for (int var12 = p_149674_3_ - 1; var12 <= p_149674_3_ + 4; ++var12)
+                            for (int posZ = y - 1; posZ <= y + 4; ++posZ)
                             {
-                                if (var10 != p_149674_2_ || var12 != p_149674_3_ || var11 != p_149674_4_)
+                                if (posX != x || posZ != y || posY != z)
                                 {
                                     int var13 = 100;
 
-                                    if (var12 > p_149674_3_ + 1)
+                                    if (posZ > y + 1)
                                     {
-                                        var13 += (var12 - (p_149674_3_ + 1)) * 100;
+                                        var13 += (posZ - (y + 1)) * 100;
                                     }
 
-                                    int var14 = this.func_149845_m(p_149674_1_, var10, var12, var11);
+                                    int var14 = this.func_149845_m(world, posX, posZ, posY);
 
                                     if (var14 > 0)
                                     {
-                                        int var15 = (var14 + 40 + p_149674_1_.difficultySetting.getDifficultyId() * 7) / (var7 + 30);
+                                        int var15 = (var14 + 40 + world.difficultySetting.getDifficultyId() * 7) / (meta + 30);
 
-                                        if (var8)
+                                        if (highHumidity)
                                         {
                                             var15 /= 2;
                                         }
 
-                                        if (var15 > 0 && p_149674_5_.nextInt(var13) <= var15 && (!p_149674_1_.isRaining() || !p_149674_1_.canLightningStrikeAt(var10, var12, var11)) && !p_149674_1_.canLightningStrikeAt(var10 - 1, var12, p_149674_4_) && !p_149674_1_.canLightningStrikeAt(var10 + 1, var12, var11) && !p_149674_1_.canLightningStrikeAt(var10, var12, var11 - 1) && !p_149674_1_.canLightningStrikeAt(var10, var12, var11 + 1))
+                                        if (var15 > 0 && rand.nextInt(var13) <= var15 && (!world.isRaining() || !world.canLightningStrikeAt(posX, posZ, posY)) && !world.canLightningStrikeAt(posX - 1, posZ, z) && !world.canLightningStrikeAt(posX + 1, posZ, posY) && !world.canLightningStrikeAt(posX, posZ, posY - 1) && !world.canLightningStrikeAt(posX, posZ, posY + 1))
                                         {
-                                            int var16 = var7 + p_149674_5_.nextInt(5) / 4;
+                                            int var16 = meta + rand.nextInt(5) / 4;
 
                                             if (var16 > 15)
                                             {
                                                 var16 = 15;
                                             }
 
-                                            p_149674_1_.setBlock(var10, var12, var11, this, var16, 3);
+                                            world.setBlock(posX, posZ, posY, this, var16, 3);
                                         }
                                     }
                                 }
@@ -209,32 +213,32 @@ public class BlockFire extends Block
         return false;
     }
 
-    private void func_149841_a(World p_149841_1_, int p_149841_2_, int p_149841_3_, int p_149841_4_, int p_149841_5_, Random p_149841_6_, int p_149841_7_)
+    private void catchFire(World world, int x, int y, int z, int humidity, Random rand, int meta)
     {
-        int var8 = this.field_149848_b[Block.getIdFromBlock(p_149841_1_.getBlock(p_149841_2_, p_149841_3_, p_149841_4_))];
+        int var8 = this.flammability[Block.getIdFromBlock(world.getBlock(x, y, z))];
 
-        if (p_149841_6_.nextInt(p_149841_5_) < var8)
+        if (rand.nextInt(humidity) < var8)
         {
-            boolean var9 = p_149841_1_.getBlock(p_149841_2_, p_149841_3_, p_149841_4_) == Blocks.tnt;
+            boolean isTNT = world.getBlock(x, y, z) == Blocks.tnt;
 
-            if (p_149841_6_.nextInt(p_149841_7_ + 10) < 5 && !p_149841_1_.canLightningStrikeAt(p_149841_2_, p_149841_3_, p_149841_4_))
+            if (rand.nextInt(meta + 10) < 5 && !world.canLightningStrikeAt(x, y, z))
             {
-                int var10 = p_149841_7_ + p_149841_6_.nextInt(5) / 4;
+                int var10 = meta + rand.nextInt(5) / 4;
 
                 if (var10 > 15)
                 {
                     var10 = 15;
                 }
 
-                p_149841_1_.setBlock(p_149841_2_, p_149841_3_, p_149841_4_, this, var10, 3);
+                world.setBlock(x, y, z, this, var10, 3);
             } else
             {
-                p_149841_1_.setBlockToAir(p_149841_2_, p_149841_3_, p_149841_4_);
+                world.setBlockToAir(x, y, z);
             }
 
-            if (var9)
+            if (isTNT)
             {
-                Blocks.tnt.onBlockDestroyedByPlayer(p_149841_1_, p_149841_2_, p_149841_3_, p_149841_4_, 1);
+                Blocks.tnt.onBlockDestroyedByPlayer(world, x, y, z, 1);
             }
         }
     }
@@ -244,23 +248,30 @@ public class BlockFire extends Block
         return this.canBlockCatchFire(p_149847_1_, p_149847_2_ + 1, p_149847_3_, p_149847_4_) || (this.canBlockCatchFire(p_149847_1_, p_149847_2_ - 1, p_149847_3_, p_149847_4_) || (this.canBlockCatchFire(p_149847_1_, p_149847_2_, p_149847_3_ - 1, p_149847_4_) || (this.canBlockCatchFire(p_149847_1_, p_149847_2_, p_149847_3_ + 1, p_149847_4_) || (this.canBlockCatchFire(p_149847_1_, p_149847_2_, p_149847_3_, p_149847_4_ - 1) || this.canBlockCatchFire(p_149847_1_, p_149847_2_, p_149847_3_, p_149847_4_ + 1)))));
     }
 
-    private int func_149845_m(World p_149845_1_, int p_149845_2_, int p_149845_3_, int p_149845_4_)
+    private int func_149845_m(World world, int x, int y, int z)
     {
-        byte var5 = 0;
-
-        if (!p_149845_1_.isAirBlock(p_149845_2_, p_149845_3_, p_149845_4_))
+        if (!world.isAirBlock(x, y, z))
         {
             return 0;
-        } else
-        {
-            int var6 = this.func_149846_a(p_149845_1_, p_149845_2_ + 1, p_149845_3_, p_149845_4_, var5);
-            var6 = this.func_149846_a(p_149845_1_, p_149845_2_ - 1, p_149845_3_, p_149845_4_, var6);
-            var6 = this.func_149846_a(p_149845_1_, p_149845_2_, p_149845_3_ - 1, p_149845_4_, var6);
-            var6 = this.func_149846_a(p_149845_1_, p_149845_2_, p_149845_3_ + 1, p_149845_4_, var6);
-            var6 = this.func_149846_a(p_149845_1_, p_149845_2_, p_149845_3_, p_149845_4_ - 1, var6);
-            var6 = this.func_149846_a(p_149845_1_, p_149845_2_, p_149845_3_, p_149845_4_ + 1, var6);
-            return var6;
         }
+
+        int var6 = 0;
+        for (EnumFacing facing : EnumFacing.values())
+        {
+            var6 = func_149846_a(world,
+                    x + facing.getFrontOffsetX(),
+                    y + facing.getFrontOffsetY(),
+                    z + facing.getFrontOffsetZ(), var6);
+        }
+
+//        byte var5 = 0;
+//        int var6 = this.func_149846_a(world, x + 1, y, z, var5);
+//        var6 = this.func_149846_a(world, x - 1, y, z, var6);
+//        var6 = this.func_149846_a(world, x, y - 1, z, var6);
+//        var6 = this.func_149846_a(world, x, y + 1, z, var6);
+//        var6 = this.func_149846_a(world, x, y, z - 1, var6);
+//        var6 = this.func_149846_a(world, x, y, z + 1, var6);
+        return var6;
     }
 
     public boolean isCollidable()

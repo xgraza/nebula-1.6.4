@@ -293,6 +293,8 @@ public class Minecraft
      */
     long debugUpdateTime = getSystemTime();
 
+    long lastFrameTime = getSystemTime();
+
     /**
      * holds the current fps
      */
@@ -908,11 +910,21 @@ public class Minecraft
         }
     }
 
+    long lastTime = Sys.getTime();
+
     /**
      * Called repeatedly from run()
      */
     private void runGameLoop()
     {
+//        long timerResolution = Sys.getTimerResolution();
+//        long currentTime = Sys.getTime();
+//        long deltaTicks = currentTime - lastTime;
+//        lastTime = currentTime;
+//        double delta = (double) deltaTicks / timerResolution;
+//        float instantFps = (delta > 0) ? (float) (1.0 / delta) : 0.0f;
+//        debugFPS = (int) instantFps;
+
         AxisAlignedBB.getAABBPool().cleanPool();
 
         if (this.theWorld != null)
