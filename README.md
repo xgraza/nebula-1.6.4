@@ -36,6 +36,11 @@ To run Nebula, I recommend using a third-party launcher such as Prism or MultiMC
 
 For video instructions, refer to [this video for MultiMC/one of its forks](https://www.youtube.com/watch?v=-Y9J_ghZqfk) or [this video for the official Minecraft Launcher](https://youtube.com/watch?v=kA2sg2YUDyI)
 
+> [!NOTE]
+> Mac Users: If you want to use the Control(^) key instead of the Command(⌘) key, use this option under the Controls menu:
+> ![image](images/control_key.png)
+> This exists because for things such as ⌘ + Q in an inventory will quit your game...
+
 ---
 
 ## Building (IntelliJ)

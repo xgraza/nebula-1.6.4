@@ -214,6 +214,7 @@ soundCategory.player=Players
 soundCategory.block=Blocks
 soundCategory.ambient=Ambient/Environment
 
+options.useAltCmdKeyMac=Use Control(^) Key
 options.off=OFF
 options.on=ON
 options.visible=Shown

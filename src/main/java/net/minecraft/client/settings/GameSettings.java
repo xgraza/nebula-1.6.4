@@ -279,7 +279,11 @@ public class GameSettings
      */
     public String language;
     public boolean forceUnicodeFont;
-    private static final String __OBFID = "CL_00000650";
+
+    /**
+     * If to use the LMETA key for the command key instead of the Command key
+     */
+    public boolean useAltCmdKeyMac;
 
     public GameSettings(Minecraft par1Minecraft, File par2File)
     {
@@ -1207,6 +1211,11 @@ public class GameSettings
             Display.setVSyncEnabled(this.enableVsync);
         }
 
+        if (par1EnumOptions == Options.USE_ALT_COMMAND_KEYS_MAC)
+        {
+            useAltCmdKeyMac = !useAltCmdKeyMac;
+        }
+
         this.saveOptions();
     }
 
@@ -1217,6 +1226,10 @@ public class GameSettings
 
     public boolean getOptionOrdinalValue(GameSettings.Options par1EnumOptions)
     {
+        if (par1EnumOptions == Options.USE_ALT_COMMAND_KEYS_MAC)
+        {
+            return useAltCmdKeyMac;
+        }
         switch (GameSettings.SwitchOptions.optionIds[par1EnumOptions.ordinal()])
         {
             case 1:
@@ -1998,6 +2011,11 @@ public class GameSettings
                         this.forceUnicodeFont = var8[1].equals("true");
                     }
 
+                    if (var8[0].equals("useAltCmdKeyMac"))
+                    {
+                        useAltCmdKeyMac = var8[1].equals("true");
+                    }
+
                     KeyBinding[] var4 = this.keyBindings;
                     int var5 = var4.length;
                     int var6;
@@ -2101,6 +2119,7 @@ public class GameSettings
             var81.println("mipmapLevels:" + this.mipmapLevels);
             var81.println("anisotropicFiltering:" + this.anisotropicFiltering);
             var81.println("forceUnicodeFont:" + this.forceUnicodeFont);
+            var81.println("useAltCmdKeyMac:" + useAltCmdKeyMac);
             KeyBinding[] var2 = this.keyBindings;
             int var3 = var2.length;
             int var4;
@@ -2753,6 +2772,7 @@ public class GameSettings
         this.ofAnimatedTerrain = true;
         this.ofAnimatedItems = true;
         this.ofAnimatedTextures = true;
+        useAltCmdKeyMac = false;
         Shaders.setShaderPack(Shaders.packNameNone);
         Shaders.configAntialiasingLevel = 0;
         Shaders.uninit();
@@ -2865,6 +2885,7 @@ public class GameSettings
 
     public enum Options
     {
+        USE_ALT_COMMAND_KEYS_MAC("ALT_CMD_KEYS_MAC", 102, "ALT_CMD_KEYS_MAC", 102, "options.useAltCmdKeyMac", false, true),
         INVERT_MOUSE("INVERT_MOUSE", 0, "INVERT_MOUSE", 0, "options.invertMouse", false, true),
         SENSITIVITY("SENSITIVITY", 1, "SENSITIVITY", 1, "options.sensitivity", true, false),
         FOV("FOV", 2, "FOV", 2, "options.fov", true, false),
@@ -2980,10 +3001,6 @@ public class GameSettings
         private final float valueStep;
         private final float valueMin;
         private float valueMax;
-        private static final GameSettings.Options[] $VALUES = new GameSettings.Options[]{ INVERT_MOUSE, SENSITIVITY, FOV, GAMMA, SATURATION, RENDER_DISTANCE, VIEW_BOBBING, ANAGLYPH, ADVANCED_OPENGL, FRAMERATE_LIMIT, FBO_ENABLE, DIFFICULTY, GRAPHICS, AMBIENT_OCCLUSION, GUI_SCALE, RENDER_CLOUDS, PARTICLES, CHAT_VISIBILITY, CHAT_COLOR, CHAT_LINKS, CHAT_OPACITY, CHAT_LINKS_PROMPT, USE_SERVER_TEXTURES, USE_FULLSCREEN, ENABLE_VSYNC, SHOW_CAPE, TOUCHSCREEN, CHAT_SCALE, CHAT_WIDTH, CHAT_HEIGHT_FOCUSED, CHAT_HEIGHT_UNFOCUSED, MIPMAP_LEVELS, ANISOTROPIC_FILTERING, FORCE_UNICODE_FONT };
-        private static final String __OBFID = "CL_00000653";
-
-        private static final GameSettings.Options[] $VALUES$ = new GameSettings.Options[]{ INVERT_MOUSE, SENSITIVITY, FOV, GAMMA, SATURATION, RENDER_DISTANCE, VIEW_BOBBING, ANAGLYPH, ADVANCED_OPENGL, FRAMERATE_LIMIT, FBO_ENABLE, DIFFICULTY, GRAPHICS, AMBIENT_OCCLUSION, GUI_SCALE, RENDER_CLOUDS, PARTICLES, CHAT_VISIBILITY, CHAT_COLOR, CHAT_LINKS, CHAT_OPACITY, CHAT_LINKS_PROMPT, USE_SERVER_TEXTURES, USE_FULLSCREEN, ENABLE_VSYNC, SHOW_CAPE, TOUCHSCREEN, CHAT_SCALE, CHAT_WIDTH, CHAT_HEIGHT_FOCUSED, CHAT_HEIGHT_UNFOCUSED, MIPMAP_LEVELS, ANISOTROPIC_FILTERING, FORCE_UNICODE_FONT, FOG_FANCY, FOG_START, MIPMAP_TYPE, LOAD_FAR, PRELOADED_CHUNKS, SMOOTH_FPS, CLOUDS, CLOUD_HEIGHT, TREES, GRASS, RAIN, WATER, ANIMATED_WATER, ANIMATED_LAVA, ANIMATED_FIRE, ANIMATED_PORTAL, AO_LEVEL, LAGOMETER, SHOW_FPS, AUTOSAVE_TICKS, BETTER_GRASS, ANIMATED_REDSTONE, ANIMATED_EXPLOSION, ANIMATED_FLAME, ANIMATED_SMOKE, WEATHER, SKY, STARS, SUN_MOON, VIGNETTE, CHUNK_UPDATES, CHUNK_UPDATES_DYNAMIC, TIME, CLEAR_WATER, SMOOTH_WORLD, DEPTH_FOG, VOID_PARTICLES, WATER_PARTICLES, RAIN_SPLASH, PORTAL_PARTICLES, POTION_PARTICLES, PROFILER, DRIPPING_WATER_LAVA, BETTER_SNOW, FULLSCREEN_MODE, ANIMATED_TERRAIN, ANIMATED_ITEMS, SWAMP_COLORS, RANDOM_MOBS, SMOOTH_BIOMES, CUSTOM_FONTS, CUSTOM_COLORS, SHOW_CAPES, CONNECTED_TEXTURES, AA_LEVEL, ANIMATED_TEXTURES, NATURAL_TEXTURES, CHUNK_LOADING, HELD_ITEM_TOOLTIPS, DROPPED_ITEMS, LAZY_CHUNK_LOADING, CUSTOM_SKY, FAST_MATH, FAST_RENDER, TRANSLUCENT_BLOCKS, DYNAMIC_FOV, DYNAMIC_LIGHTS };
 
         public static GameSettings.Options getEnumOptions(int par0)
         {
@@ -3008,9 +3025,9 @@ public class GameSettings
             this(var1, var2, par1Str, par2, par3Str, par4, par5, 0.0F, 1.0F, 0.0F);
         }
 
-        Options(String var1, int var2, String p_i45004_1_, int p_i45004_2_, String p_i45004_3_, boolean p_i45004_4_, boolean p_i45004_5_, float p_i45004_6_, float p_i45004_7_, float p_i45004_8_)
+        Options(String var1, int var2, String p_i45004_1_, int p_i45004_2_, String string, boolean p_i45004_4_, boolean p_i45004_5_, float p_i45004_6_, float p_i45004_7_, float p_i45004_8_)
         {
-            this.enumString = p_i45004_3_;
+            this.enumString = string;
             this.enumFloat = p_i45004_4_;
             this.enumBoolean = p_i45004_5_;
             this.valueMin = p_i45004_6_;

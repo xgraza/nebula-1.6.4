@@ -1,19 +1,32 @@
 package net.minecraft.client.gui;
 
+import com.google.common.collect.Lists;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 
+import java.util.List;
+
 public class GuiControls extends GuiScreen
 {
-    private static final GameSettings.Options[] field_146492_g = new GameSettings.Options[]{ GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN };
+    private static final List<GameSettings.Options> field_146492_g = Lists.newArrayList(
+            GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN);
+
+    static
+    {
+        if (Minecraft.IS_ON_MAC)
+        {
+            field_146492_g.add(GameSettings.Options.USE_ALT_COMMAND_KEYS_MAC);
+        }
+    }
+
     private final GuiScreen field_146496_h;
     protected String field_146495_a = "Controls";
     private final GameSettings field_146497_i;
     public KeyBinding field_146491_f = null;
     private GuiKeyBindingList field_146494_r;
     private GuiButton field_146493_s;
-    private static final String __OBFID = "CL_00000736";
 
     public GuiControls(GuiScreen par1GuiScreen, GameSettings par2GameSettings)
     {
@@ -31,13 +44,8 @@ public class GuiControls extends GuiScreen
         this.buttonList.add(this.field_146493_s = new GuiButton(201, this.width / 2 - 155 + 160, this.height - 29, 150, 20, I18n.format("controls.resetAll")));
         this.field_146495_a = I18n.format("controls.title");
         int var1 = 0;
-        GameSettings.Options[] var2 = field_146492_g;
-        int var3 = var2.length;
-
-        for (int var4 = 0; var4 < var3; ++var4)
+        for (GameSettings.Options var5 : field_146492_g)
         {
-            GameSettings.Options var5 = var2[var4];
-
             if (var5.getEnumFloat())
             {
                 this.buttonList.add(new GuiOptionSlider(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, 18 + 24 * (var1 >> 1), var5));

@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static org.lwjgl.input.Keyboard.KEY_ESCAPE;
+import static org.lwjgl.input.Keyboard.*;
 
 public class GuiScreen extends Gui
 {
@@ -439,7 +439,9 @@ public class GuiScreen extends Gui
      */
     public static boolean isCtrlKeyDown()
     {
-        return Minecraft.IS_ON_MAC ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
+        return Minecraft.IS_ON_MAC && !Minecraft.getMinecraft().gameSettings.useAltCmdKeyMac
+                ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220)
+                : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
     }
 
     /**
