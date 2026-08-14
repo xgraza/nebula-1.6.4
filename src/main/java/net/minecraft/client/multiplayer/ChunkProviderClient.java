@@ -1,5 +1,7 @@
 package net.minecraft.client.multiplayer;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.world.EventUnloadChunk;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.LongHashMap;
@@ -65,6 +67,7 @@ public class ChunkProviderClient implements IChunkProvider
 
         if (!chunk.isEmpty())
         {
+            EventBus.dispatch(new EventUnloadChunk(chunk, this));
             chunk.onChunkUnload();
         }
 

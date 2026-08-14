@@ -1,5 +1,7 @@
 package net.minecraft.world.gen;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.world.EventUnloadChunk;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.EnumCreatureType;
@@ -295,6 +297,7 @@ public class ChunkProviderServer implements IChunkProvider
                 {
                     Long var2 = (Long) this.chunksToUnload.iterator().next();
                     Chunk var3 = (Chunk) this.loadedChunkHashMap.getValueByKey(var2.longValue());
+                    EventBus.dispatch(new EventUnloadChunk(var3, this));
                     var3.onChunkUnload();
                     this.safeSaveChunk(var3);
                     this.safeSaveExtraChunkData(var3);

@@ -5,10 +5,10 @@ import ez.nebula.client.api.listener.IEventPriorities;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
+import ez.nebula.client.api.listener.event.world.EventUnloadChunk;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.world.BlockSearcher;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
@@ -16,10 +16,10 @@ import ez.nebula.client.util.render.QuadMask;
 import ez.nebula.client.util.render.RenderUtil;
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.chunk.Chunk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,12 +104,23 @@ public final class TunnelESPModule extends Module
         tunnelList.clear();
     };
 
+    @Subscribe
+    private final EventListener<EventUnloadChunk> unloadChunkEventListener = event ->
+    {
+        // remove out of chunk tunnels
+        final Chunk chunk = event.getChunk();
+        final int chunkX = chunk.xPosition * 16;
+        final int chunkZ = chunk.zPosition * 16;
+        final int maxChunkX = chunkX + 16;
+        final int maxChunkZ = chunkZ + 16;
+        tunnelList.removeIf((pos) -> pos.getX() <= maxChunkX && pos.getZ() <= maxChunkZ && pos.getX() >= chunkX && pos.getZ() >= chunkZ);
+    };
+
     private void onBlockSearched(final BlockSearcher.SearchedBlock searchedBlock)
     {
         final BlockPos lower = new BlockPos(searchedBlock.getX(), searchedBlock.getY(), searchedBlock.getZ());
         final BlockPos upper = lower.up();
-        directionLoop:
-        for (final EnumFacing facing : EnumFacing.values())
+        directionLoop: for (final EnumFacing facing : EnumFacing.values())
         {
             if (facing == EnumFacing.UP || facing == EnumFacing.DOWN)
             {
