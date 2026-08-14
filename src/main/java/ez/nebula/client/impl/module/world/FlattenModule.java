@@ -37,7 +37,7 @@ public final class FlattenModule extends Module
     private static final int FLATTEN_ROTATION_PRIORITY = 60;
 
     private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
-            .setMin(1.0)
+            .setMin(1.5)
             .setMax(6.0)
             .setScale(0.5)
             .setDescription("The range to place blocks at")
@@ -137,7 +137,7 @@ public final class FlattenModule extends Module
             final BlockPos pos = origin.add(offset.getX(), -(1 + yOffsetSetting.getValue()), offset.getZ());
             if (radialSetting.getValue() && MC.thePlayer.getDistance(
                     pos.getX() + 0.5,
-                    pos.getY(),
+                    pos.getY() + 1.5,
                     pos.getZ() + 0.5) > rangeSetting.getValue())
             {
                 continue;
