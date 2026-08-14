@@ -242,7 +242,7 @@ public final class ScaffoldModule extends Module
         }
 
         final AxisAlignedBB aabb = new AxisAlignedBB(blockData.getPos());
-        final ColorSetting cs = (ColorSetting) HUDModule.INSTANCE.primaryColorSetting;
+        final ColorSetting cs = HUDModule.INSTANCE.primaryColorSetting;
         RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(blockData.getFacing()), cs.getValueInt(120));
         RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(blockData.getFacing()), cs.getValueInt());
     };
