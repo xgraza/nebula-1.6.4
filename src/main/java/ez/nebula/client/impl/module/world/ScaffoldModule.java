@@ -220,7 +220,7 @@ public final class ScaffoldModule extends Module
 
         RenderUtil.renderRectangle(posX - 2, posY - 2, totalWidth + 4, 16 + 4, 0x80000000);
         RenderUtil.renderItemWithoutEffects(itemStack, (int) posX, (int) posY);
-        Fonts.POPPINS.drawStringShadow(text, posX + 18, posY + 2, -1);
+        Fonts.POPPINS.drawStringShadow(text, posX + 16, posY + 2, -1);
     };
 
     @Subscribe
