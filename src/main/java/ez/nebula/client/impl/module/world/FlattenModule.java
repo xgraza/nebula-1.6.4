@@ -1,11 +1,9 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.DebugFeature;
-import ez.nebula.client.api.listener.event.game.EventPostUpdate;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.block.BlockSetting;
-import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.init.Blocks;
@@ -108,7 +106,7 @@ public final class FlattenModule extends Module
             return;
         }
 
-        final List<BlockInfo> placementInfoList = getPlacements();
+        final List<BlockPos> placementInfoList = getPlacements();
         if (placementInfoList.isEmpty())
         {
             placeInfo = null;
@@ -118,7 +116,12 @@ public final class FlattenModule extends Module
 
         if (placeInfo == null)
         {
-            placeInfo = placementInfoList.get(0);
+            final BlockInfo info = BlockUtil.getPlacement(placementInfoList.get(0));
+            if (info == null)
+            {
+                return;
+            }
+            placeInfo = info;
         }
 
         if (roateSetting.getValue())
@@ -138,14 +141,22 @@ public final class FlattenModule extends Module
             }
         } else
         {
-            for (int i = 0; i < blocksSetting.getValue(); ++i)
+            int placed = 0;
+            for (final BlockPos pos : placementInfoList)
             {
-                if (i > placementInfoList.size() - 1)
+                if (placed > blocksSetting.getValue())
                 {
-                    break;
+                    return;
                 }
-                final BlockInfo info = placementInfoList.get(i);
-                InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
+                final BlockInfo info = BlockUtil.getPlacement(pos);
+                if (info == null)
+                {
+                    continue;
+                }
+                if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true))
+                {
+                    ++placed;
+                }
             }
         }
     };
@@ -161,9 +172,9 @@ public final class FlattenModule extends Module
         angles = null;
     };
 
-    private List<BlockInfo> getPlacements()
+    private List<BlockPos> getPlacements()
     {
-        final Set<BlockPos> positions = new HashSet<>();
+        final List<BlockPos> positions = new LinkedList<>();
         final BlockPos origin = PlayerUtil.getOrigin();
 
         for (final BlockPos offset : BlockUtil.RADIAL_BLOCK_MAP.get(rangeSetting.getValue().intValue()))
@@ -187,21 +198,8 @@ public final class FlattenModule extends Module
             }
         }
 
-        final List<BlockInfo> infoList = new LinkedList<>();
-        for (final BlockPos pos : positions)
-        {
-            final BlockInfo info = BlockUtil.getPlacement(pos);
-            if (info != null)
-            {
-                infoList.add(info);
-            }
-        }
-
-        infoList.sort(Comparator.comparingDouble((info) ->
-        {
-            final BlockPos p = info.getPos();
-            return MC.thePlayer.getDistance(p.getX(), p.getY(), p.getZ());
-        }));
-        return infoList;
+        positions.sort(Comparator.comparingDouble((p) ->
+                MC.thePlayer.getDistance(p.getX(), p.getY(), p.getZ())));
+        return positions;
     }
 }
