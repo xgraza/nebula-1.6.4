@@ -6,6 +6,7 @@ import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
+import ez.nebula.client.util.math.MathUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -184,10 +185,8 @@ public final class FlattenModule extends Module
                 continue;
             }
             final BlockPos pos = origin.add(offset.getX(), -(1 + yOffsetSetting.getValue()), offset.getZ());
-            if (radialSetting.getValue() && MC.thePlayer.getDistance(
-                    pos.getX() + 0.5,
-                    pos.getY() + 1.5,
-                    pos.getZ() + 0.5) > rangeSetting.getValue())
+            if (radialSetting.getValue() && MathUtil.getDistanceFromPlayer(
+                    pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) > rangeSetting.getValue())
             {
                 continue;
             }
@@ -198,8 +197,7 @@ public final class FlattenModule extends Module
             }
         }
 
-        positions.sort(Comparator.comparingDouble((p) ->
-                MC.thePlayer.getDistance(p.getX(), p.getY(), p.getZ())));
+        positions.sort(Comparator.comparingDouble(MathUtil::getDistanceFromPlayer));
         return positions;
     }
 }

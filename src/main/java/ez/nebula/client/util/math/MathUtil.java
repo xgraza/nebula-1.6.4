@@ -1,5 +1,6 @@
 package ez.nebula.client.util.math;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.Vec3;
@@ -14,6 +15,7 @@ import java.util.Random;
  */
 public final class MathUtil
 {
+    private static final Minecraft MC = Minecraft.getMinecraft();
     public static final Random RNG = new Random();
 
     public static double lerp(final double value, final double prevValue, final float partialTicks)
@@ -38,9 +40,27 @@ public final class MathUtil
 
     public static double getDistance(final BlockPos p, final BlockPos p2)
     {
-        double dX = p.getX() - p2.getX();
-        double dY = p.getY() - p2.getY();
-        double dZ = p.getZ() - p2.getZ();
+        return Math.sqrt(getDistanceSq(p, p2));
+    }
+
+    public static double getDistanceFromPlayerSq(final BlockPos pos)
+    {
+        double dX = MC.thePlayer.posX - pos.getX();
+        double dY = MC.thePlayer.boundingBox.minY - pos.getY();
+        double dZ = MC.thePlayer.posZ - pos.getZ();
+        return dX * dX + dY * dY + dZ * dZ;
+    }
+
+    public static double getDistanceFromPlayer(final BlockPos pos)
+    {
+        return Math.sqrt(getDistanceFromPlayerSq(pos));
+    }
+
+    public static double getDistanceFromPlayer(final double x, final double y, final double z)
+    {
+        double dX = MC.thePlayer.posX - x;
+        double dY = MC.thePlayer.boundingBox.minY - y;
+        double dZ = MC.thePlayer.posZ - z;
         return Math.sqrt(dX * dX + dY * dY + dZ * dZ);
     }
 
