@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.listener.event.game.EventPostUpdate;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.api.setting.block.BlockValue;
@@ -53,15 +54,15 @@ public final class FlattenModule extends Module
     private final Setting<Boolean> stopOnSneakSetting = builder("Stop on Sneak", false)
             .setDescription("If to stop placing blocks when sneaking")
             .build();
-//    private final Setting<Boolean> roateSetting = builder("Rotate", false)
-//            .setDescription("If to rotate towards the block you're placing")
-//            .build();
+    private final Setting<Boolean> roateSetting = builder("Rotate", false)
+            .setDescription("If to rotate towards the block you're placing")
+            .build();
     private final Setting<Integer> blocksSetting = numberBuilder("Blocks", 4)
             .setMin(1)
             .setMax(20)
             .setScale(1)
             .setDescription("How many blocks to place per tick")
-            //.setVisibility((value) -> !roateSetting.getValue())
+            .setVisibility((value) -> !roateSetting.getValue())
             .build();
     private final Setting<Integer> yOffsetSetting = numberBuilder("Y-Offset", 0)
             .setMin(0)
@@ -79,7 +80,7 @@ public final class FlattenModule extends Module
         super.onDisable();
         if (MC.thePlayer != null)
         {
-           // Nebula.INSTANCE.getInventoryManager().syncSlot();
+           Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
         angles = null;
         placeInfo = null;
@@ -110,17 +111,54 @@ public final class FlattenModule extends Module
         final List<BlockInfo> placementInfoList = getPlacements();
         if (placementInfoList.isEmpty())
         {
+            placeInfo = null;
+            angles = null;
             return;
         }
-        for (int i = 0; i < blocksSetting.getValue(); ++i)
+
+        if (placeInfo == null)
         {
-            if (i > placementInfoList.size() - 1)
-            {
-                break;
-            }
-            final BlockInfo info = placementInfoList.get(i);
-            InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
+            placeInfo = placementInfoList.get(0);
         }
+
+        if (roateSetting.getValue())
+        {
+            if (placeInfo == null || angles == null)
+            {
+                return;
+            }
+            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], FLATTEN_ROTATION_PRIORITY))
+            {
+                return;
+            }
+            if (InteractionManager.INSTANCE.rightClickBlock(placeInfo.getPos(), placeInfo.getFacing(), true))
+            {
+                placeInfo = null;
+                angles = null;
+            }
+        } else
+        {
+            for (int i = 0; i < blocksSetting.getValue(); ++i)
+            {
+                if (i > placementInfoList.size() - 1)
+                {
+                    break;
+                }
+                final BlockInfo info = placementInfoList.get(i);
+                InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
+            }
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventRender3D> render3DEventListener = event ->
+    {
+        if (placeInfo != null)
+        {
+            angles = AngleUtil.anglesToBlock(placeInfo.getPos(), placeInfo.getFacing(), event.getPartialTicks());
+            return;
+        }
+        angles = null;
     };
 
     private List<BlockInfo> getPlacements()
