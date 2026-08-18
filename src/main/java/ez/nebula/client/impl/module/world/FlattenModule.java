@@ -162,7 +162,7 @@ public final class FlattenModule extends Module
         infoList.sort(Comparator.comparingDouble((info) ->
         {
             final BlockPos p = info.getPos();
-            return -MC.thePlayer.getDistance(p.getX(), p.getY(), p.getZ());
+            return MC.thePlayer.getDistance(p.getX(), p.getY(), p.getZ());
         }));
         return infoList;
     }
