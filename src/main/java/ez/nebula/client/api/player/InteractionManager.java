@@ -90,7 +90,6 @@ public final class InteractionManager
                 PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
                 return true;
             }
-            ChatUtil.sendNebula("start break");
         }
 
         if (PacketMineModule.INSTANCE.isToggled())
@@ -107,7 +106,6 @@ public final class InteractionManager
             MC.thePlayer.swingItem();
         }
         boolean brokeBlock = MC.playerController.curBlockDamageMP >= 1.0f;
-        ChatUtil.sendNebula("block broke? %s (%.2f)", brokeBlock, MC.playerController.curBlockDamageMP);
         if (brokeBlock)
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
