@@ -2,6 +2,7 @@ package ez.nebula.client.api.player;
 
 import ez.nebula.client.impl.module.world.PacketMineModule;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -89,6 +90,7 @@ public final class InteractionManager
                 PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
                 return true;
             }
+            ChatUtil.sendNebula("start break");
         }
 
         if (PacketMineModule.INSTANCE.isToggled())
@@ -105,6 +107,7 @@ public final class InteractionManager
             MC.thePlayer.swingItem();
         }
         boolean brokeBlock = MC.playerController.curBlockDamageMP >= 1.0f;
+        ChatUtil.sendNebula("block broke? %s (%.2f)", brokeBlock, MC.playerController.curBlockDamageMP);
         if (brokeBlock)
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;

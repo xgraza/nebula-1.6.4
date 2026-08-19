@@ -11,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.server.CommandBlockLogic;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -845,8 +846,8 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
         if (var3 > 1.0F)
         {
-            int var4 = EnchantmentHelper.getEfficiencyModifier(this);
             ItemStack var5 = Nebula.INSTANCE.getInventoryManager().getStack();
+            int var4 = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, var5);
 
             if (var4 > 0 && var5 != null)
             {
