@@ -98,6 +98,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new KeyPearlModule());
         registerModule(new MCFModule());
         registerModule(new NoFallModule());
+        registerModule(new NoSwingModule());
         registerModule(new NotifierModule());
         registerModule(new PearlPhaseModule());
         registerModule(new SpammerModule());

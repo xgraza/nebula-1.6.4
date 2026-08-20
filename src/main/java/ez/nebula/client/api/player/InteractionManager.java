@@ -1,8 +1,8 @@
 package ez.nebula.client.api.player;
 
+import ez.nebula.client.impl.module.player.NoSwingModule;
 import ez.nebula.client.impl.module.world.PacketMineModule;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -52,7 +52,7 @@ public final class InteractionManager
                 createHitVec(pos, facing));
         if (result)
         {
-            MC.thePlayer.swingItem();
+            swingItem();
         }
         if (sneakPacket)
         {
@@ -82,7 +82,7 @@ public final class InteractionManager
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = true;
             MC.playerController.resetBlockRemoving();
             MC.playerController.clickBlock(x, y, z, face);
-            MC.thePlayer.swingItem();
+            swingItem();
 
             // this is from inside PlayerControllerMP#clickBlock, however since clickBlock doesn't return a bool...
             if (block.getPlayerRelativeBlockHardness(MC.thePlayer, MC.theWorld, x, y, z) >= 1.0F)
@@ -103,7 +103,7 @@ public final class InteractionManager
         if (MC.thePlayer.isCurrentToolAdventureModeExempt(x, y, z))
         {
             MC.effectRenderer.addBlockHitEffects(x, y, z, face);
-            MC.thePlayer.swingItem();
+            swingItem();
         }
         boolean brokeBlock = MC.playerController.curBlockDamageMP >= 1.0f;
         if (brokeBlock)
@@ -116,6 +116,17 @@ public final class InteractionManager
     public boolean breakBlock(final BlockPos pos, final EnumFacing facing)
     {
         return breakBlock(pos.getX(), pos.getY(), pos.getZ(), facing.order_a);
+    }
+
+    public void swingItem()
+    {
+        if (NoSwingModule.INSTANCE.isToggled())
+        {
+            MC.thePlayer.swingItemSilent();
+        } else
+        {
+            MC.thePlayer.swingItem();
+        }
     }
 
     private Vec3 createHitVec(final BlockPos pos, final EnumFacing facing)

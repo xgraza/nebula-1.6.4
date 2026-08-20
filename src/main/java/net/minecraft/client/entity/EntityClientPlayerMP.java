@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import ez.nebula.client.impl.module.player.NoSwingModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -300,8 +301,11 @@ public class EntityClientPlayerMP extends EntityPlayerSP
      */
     public void swingItem()
     {
-        super.swingItem();
-        this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
+        if (!NoSwingModule.INSTANCE.isToggled() || !NoSwingModule.INSTANCE.clientSideSetting.getValue())
+        {
+            super.swingItem();
+        }
+        swingItemSilent();
     }
 
     public void swingItemSilent()

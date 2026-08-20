@@ -193,13 +193,13 @@ public final class AutoBedModule extends Module
             if (BlockUtil.isFire(pos1))
             {
                 MC.playerController.clickBlock(pos1.getX(), pos1.getY(), pos1.getZ(), EnumFacing.UP.order_a);
-                MC.thePlayer.swingItem();
+                InteractionManager.INSTANCE.swingItem();
             }
 
             if (BlockUtil.isFire(pos2))
             {
                 MC.playerController.clickBlock(pos2.getX(), pos2.getY(), pos2.getZ(), EnumFacing.UP.order_a);
-                MC.thePlayer.swingItem();
+                InteractionManager.INSTANCE.swingItem();
             }
         }
 

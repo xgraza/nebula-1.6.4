@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.player.InteractionManager;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.item.ItemFishingRod;
@@ -83,7 +84,7 @@ public final class AutoFishModule extends Module
     private void cast()
     {
         MC.playerController.sendUseItem(MC.thePlayer, MC.theWorld, MC.thePlayer.getHeldItem());
-        MC.thePlayer.swingItem();
+        InteractionManager.INSTANCE.swingItem();
     }
 
     private boolean isNotHoldingRod()

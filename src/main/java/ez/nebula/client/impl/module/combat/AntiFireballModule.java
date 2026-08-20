@@ -9,6 +9,7 @@ import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.core.Nebula;
@@ -102,7 +103,7 @@ public final class AntiFireballModule extends Module
 
         for (final EntityLargeFireball fireballEntity : entityFireballTreeMap.values())
         {
-            MC.thePlayer.swingItem();
+            InteractionManager.INSTANCE.swingItem();
             MC.playerController.attackEntity(MC.thePlayer, fireballEntity);
             if (!multiSetting.getValue())
             {
@@ -116,7 +117,7 @@ public final class AntiFireballModule extends Module
     {
         if (entity != null && angles != null)
         {
-            MC.thePlayer.swingItem();
+            InteractionManager.INSTANCE.swingItem();
             MC.playerController.attackEntity(MC.thePlayer, entity);
             entity = null;
             angles = null;

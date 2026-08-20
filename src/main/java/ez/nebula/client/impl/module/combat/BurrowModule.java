@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.block.Block;
@@ -141,7 +142,7 @@ public final class BurrowModule extends Module
                 (float) (hitVec.yCoord - blockData.pos.getY()),
                 (float) (hitVec.zCoord - blockData.pos.getZ())
         ));
-        MC.thePlayer.swingItem();
+        InteractionManager.INSTANCE.swingItem();
         Nebula.INSTANCE.getInventoryManager().syncSlot();
 
         if (sneak)
