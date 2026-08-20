@@ -193,9 +193,21 @@ public final class BlockUtil
     public static boolean canPlace(final BlockPos pos, final EnumFacing facing)
     {
         final Block block = MC.theWorld.getBlock(pos);
-        if (!block.getMaterial().isSolid() && block.getMaterial() != Material.carpet)
+        if (!block.getMaterial().isSolid())
         {
-            return false;
+            if (block instanceof BlockReed)
+            {
+                if (facing != EnumFacing.UP)
+                {
+                    return false;
+                }
+            } else
+            {
+                if (block.getMaterial() != Material.carpet)
+                {
+                    return false;
+                }
+            }
         }
         final int worldHeight = MC.theWorld.getHeight();
         int posY = pos.getY();
