@@ -5,6 +5,8 @@ import ez.nebula.client.util.math.MathUtil;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
+import net.minecraft.block.BlockReed;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -190,6 +192,11 @@ public final class BlockUtil
 
     public static boolean canPlace(final BlockPos pos, final EnumFacing facing)
     {
+        final Block block = MC.theWorld.getBlock(pos);
+        if (!block.getMaterial().isSolid() && block.getMaterial() != Material.carpet)
+        {
+            return false;
+        }
         final int worldHeight = MC.theWorld.getHeight();
         int posY = pos.getY();
         if (facing == EnumFacing.UP)
