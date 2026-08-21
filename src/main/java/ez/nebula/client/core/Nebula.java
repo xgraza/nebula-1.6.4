@@ -27,10 +27,12 @@ import ez.nebula.client.impl.gui.startup.LoadingScreen;
 import ez.nebula.client.util.render.RenderUtil;
 
 import javax.imageio.ImageIO;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -142,7 +144,7 @@ public enum Nebula
         }
         LoadingScreen.setStage(6, "Finishing Nebula initialization");
         setIcon();
-        setTitle("Nebula Client | Minecraft 1.7.2");
+        setTitle("Nebula " + ClientConfig.VERSION);
     }
 
     void setTitle(final String title)
@@ -159,6 +161,24 @@ public enum Nebula
 
     void setIcon()
     {
+        if (Util.getOSType() == Util.EnumOS.MACOS)
+        {
+            try
+            {
+                final InputStream is = Nebula.class.getResourceAsStream("/assets/nebula/texture/icon/128x.png");
+                final BufferedImage image = ImageIO.read(is);
+                final Class<?> clazz = Class.forName("com.apple.eawt.Application");
+                final Method getApplicationMethod = clazz.getDeclaredMethod("getApplication");
+                final Object application = getApplicationMethod.invoke(null);
+                final Method setDockIconMethod = application.getClass().getDeclaredMethod("setDockIconImage", Image.class);
+                setDockIconMethod.invoke(application, image);
+                return;
+            } catch (final Exception e)
+            {
+                logger.error("Failed to set dock icon with EAWT, fallback to LWJGL2");
+            }
+        }
+
         try
         {
             ByteBuffer buffer16x = readImage("/assets/nebula/texture/icon/16x.png");
@@ -171,7 +191,7 @@ public enum Nebula
             }
 
             Display.setIcon(new ByteBuffer[]{ buffer16x, buffer32x, buffer128x });
-        } catch (Exception exception)
+        } catch (final Exception exception)
         {
             logger.error("Couldn't set icon", exception);
         }
