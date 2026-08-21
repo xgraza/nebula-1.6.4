@@ -96,7 +96,6 @@ public final class AutoHighwayModule extends Module
     private List<BlockPos> highwayPositionList;
 
     private BlockInfo breakInfo;
-    private int prevSlot = -1;
     private boolean walk;
 
     @Override
@@ -105,13 +104,7 @@ public final class AutoHighwayModule extends Module
         super.onDisable();
         if (MC.thePlayer != null)
         {
-            if (prevSlot != -1)
-            {
-                MC.thePlayer.inventory.currentItem = prevSlot;
-            } else
-            {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
-            }
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
             if (walk)
             {
                 MC.thePlayer.movementInput.moveForward = 0.0f;
@@ -121,7 +114,6 @@ public final class AutoHighwayModule extends Module
         {
             MC.playerController.resetBlockRemoving();
         }
-        prevSlot = -1;
         breakInfo = null;
         walk = false;
         if (highwayPositionList != null)
@@ -165,7 +157,6 @@ public final class AutoHighwayModule extends Module
         if (AutoEatModule.INSTANCE.isActive() || KillAuraModule.INSTANCE.isAttacking() || AutoBedModule.INSTANCE.isActive())
         {
             walk = false;
-            prevSlot = -1;
             return;
         }
 
@@ -200,12 +191,7 @@ public final class AutoHighwayModule extends Module
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
             walk = false;
 
-            if (prevSlot != -1)
-            {
-                MC.thePlayer.inventory.currentItem = prevSlot;
-                prevSlot = -1;
-                return; // wait a tick before trying to place again
-            }
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
 
         final int slot = InventoryUtil.getSlot(0, 9,
@@ -291,12 +277,7 @@ public final class AutoHighwayModule extends Module
         final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
         if (slot != -1)
         {
-            if (prevSlot == -1)
-            {
-                prevSlot = MC.thePlayer.inventory.currentItem;
-            }
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
-            MC.thePlayer.inventory.currentItem = slot;
+            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
         }
     }
 
