@@ -14,18 +14,15 @@ import ez.nebula.client.core.Nebula;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.math.MathUtil;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
-import ez.nebula.client.util.render.ColorUtil;
 import ez.nebula.client.util.render.QuadMask;
 import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
@@ -66,7 +63,6 @@ public final class NukerModule extends Module
 
     private List<BlockPos> breakList;
     private BlockInfo info;
-    private int prevSlot = -1;
     private double posY = -1;
 
     @Override
@@ -77,16 +73,9 @@ public final class NukerModule extends Module
         breakList = null;
         if (MC.thePlayer != null)
         {
-            if (prevSlot != -1)
-            {
-                MC.thePlayer.inventory.currentItem = prevSlot;
-            } else
-            {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
-            }
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
         posY = -1;
-        prevSlot = -1;
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
     }
 
@@ -135,11 +124,7 @@ public final class NukerModule extends Module
                     return;
                 }
                 info = null;
-                if (prevSlot != -1)
-                {
-                    MC.thePlayer.inventory.currentItem = prevSlot;
-                    prevSlot = -1;
-                }
+                Nebula.INSTANCE.getInventoryManager().syncSlot();
                 PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
             }
         }
@@ -148,11 +133,6 @@ public final class NukerModule extends Module
         if (breakList.isEmpty())
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
-            if (prevSlot != -1)
-            {
-                MC.thePlayer.inventory.currentItem = prevSlot;
-                prevSlot = -1;
-            }
             Nebula.INSTANCE.getInventoryManager().syncSlot();
             info = null;
             return;
@@ -181,11 +161,6 @@ public final class NukerModule extends Module
             }
         }
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
-        if (prevSlot != -1)
-        {
-            MC.thePlayer.inventory.currentItem = prevSlot;
-            prevSlot = -1;
-        }
         Nebula.INSTANCE.getInventoryManager().syncSlot();
     };
 
@@ -194,12 +169,7 @@ public final class NukerModule extends Module
         final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
         if (slot != -1)
         {
-            if (prevSlot == -1)
-            {
-                prevSlot = MC.thePlayer.inventory.currentItem;
-            }
             Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-            MC.thePlayer.inventory.currentItem = slot;
         }
     }
 
