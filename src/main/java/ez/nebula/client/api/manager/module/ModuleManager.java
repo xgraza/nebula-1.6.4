@@ -100,6 +100,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new NoFallModule());
         registerModule(new NoSwingModule());
         registerModule(new NotifierModule());
+        registerModule(new ParrotModule());
         registerModule(new PearlPhaseModule());
         registerModule(new SpammerModule());
         registerModule(new TestModule());
