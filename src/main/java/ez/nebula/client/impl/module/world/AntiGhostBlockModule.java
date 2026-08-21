@@ -2,12 +2,14 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.server.S0EPacketSpawnObject;
 import net.minecraft.network.play.server.S22PacketMultiBlockChange;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
@@ -158,6 +160,24 @@ public final class AntiGhostBlockModule extends Module
                 {
                     breakConfirmBlockPosMap.remove(pos);
                 }
+            }
+        } else if (event.getPacket() instanceof S0EPacketSpawnObject)
+        {
+            final S0EPacketSpawnObject packet = event.getPacket();
+            if (packet.getType() != 70)
+            {
+                return;
+            }
+            final BlockPos pos = new BlockPos((int) (packet.getX() / 32.0), (int) (packet.getY() / 32.0), (int) (packet.getZ() / 32.0));
+            final OriginalBlockData blockData = breakConfirmBlockPosMap.get(pos);
+            if (blockData == null)
+            {
+                return;
+            }
+            final int blockId = packet.func_149009_m() & 65535;
+            if (blockId == Block.getIdFromBlock(blockData.getBlock()))
+            {
+                breakConfirmBlockPosMap.remove(pos);
             }
         }
     };
