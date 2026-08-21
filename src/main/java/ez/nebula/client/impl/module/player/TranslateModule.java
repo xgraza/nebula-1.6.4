@@ -67,7 +67,7 @@ public final class TranslateModule extends Module
             return;
         }
         final MovingObjectPosition result = MC.objectMouseOver;
-        if (result.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
+        if (result == null || result.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
         {
             return;
         }
