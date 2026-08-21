@@ -11,6 +11,8 @@ import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.core.Nebula;
+import ez.nebula.client.impl.module.combat.AutoBedModule;
+import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.math.MathUtil;
@@ -108,6 +110,16 @@ public final class NukerModule extends Module
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
+        if (AutoBedModule.INSTANCE.isActive() || KillAuraModule.INSTANCE.isAttacking())
+        {
+            if (info != null)
+            {
+                Nebula.INSTANCE.getInventoryManager().syncSlot();
+            }
+            info = null;
+            return;
+        }
+
         if (info != null)
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = true;
