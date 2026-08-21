@@ -85,6 +85,7 @@ public final class NametagsModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
+        MC.mcProfiler.startSection("nametags");
         frustrum.setPosition(MC.renderViewEntity.posX, MC.renderViewEntity.posY, MC.renderViewEntity.posZ);
         for (final Entity entity : MC.theWorld.loadedEntityList)
         {
@@ -228,6 +229,7 @@ public final class NametagsModule extends Module
                 }
             });
         }
+        MC.mcProfiler.endSection();
     };
 
     private void renderItemStack(final ItemStack stack, final int x, final int y)

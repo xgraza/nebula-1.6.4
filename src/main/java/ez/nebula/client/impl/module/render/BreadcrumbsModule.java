@@ -91,6 +91,7 @@ public final class BreadcrumbsModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
+        MC.mcProfiler.startSection("breadCrumbs");
         for (final Entity entity : MC.theWorld.loadedEntityList)
         {
             if (isValidEntity(entity))
@@ -111,6 +112,7 @@ public final class BreadcrumbsModule extends Module
         }
 
         entityBreadcrumbMap.values().forEach(this::renderBreadcrumbTrail);
+        MC.mcProfiler.endSection();
     };
 
     private void renderBreadcrumbTrail(final List<Breadcrumb> breadcrumbList)

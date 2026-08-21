@@ -138,11 +138,13 @@ public final class AutoHighwayModule extends Module
         {
             return;
         }
+        MC.mcProfiler.startSection("autoHighway");
         final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
                 breakInfo.getPos().getX(), breakInfo.getPos().getY(), breakInfo.getPos().getZ()), 1);
 
         RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(breakInfo.getFacing()), 0x80FF0000);
         RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(breakInfo.getFacing()), 0xFFFF0000);
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe

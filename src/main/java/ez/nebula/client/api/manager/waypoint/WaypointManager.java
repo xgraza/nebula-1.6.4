@@ -46,6 +46,8 @@ public final class WaypointManager implements ITypedManager<Waypoint>
             return;
         }
 
+        MC.mcProfiler.startSection("waypoints");
+
         for (final Waypoint waypoint : serverWaypoints)
         {
             final Vec3 vec = getWaypointPos(waypoint);
@@ -86,6 +88,8 @@ public final class WaypointManager implements ITypedManager<Waypoint>
                 glDisable(GL_DEPTH_CLAMP);
             });
         }
+
+        MC.mcProfiler.endSection();
     };
 
     private Vec3 getWaypointPos(final Waypoint waypoint)

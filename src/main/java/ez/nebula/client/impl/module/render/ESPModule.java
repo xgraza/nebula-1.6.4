@@ -208,7 +208,9 @@ public final class ESPModule extends Module
     {
         if (modeSetting.getValue().equals(Mode.CS_GO))
         {
+            MC.mcProfiler.startSection("esp_csgo");
             renderCSGOESP();
+            MC.mcProfiler.endSection();
         }
     };
 
@@ -217,7 +219,9 @@ public final class ESPModule extends Module
     {
         if (modeSetting.getValue() == Mode.SHADER)
         {
+            MC.mcProfiler.startSection("esp_shader");
             renderShaderESP(event.getPartialTicks());
+            MC.mcProfiler.endSection();
             return;
         }
 
@@ -225,10 +229,14 @@ public final class ESPModule extends Module
         {
             if (modeSetting.getValue() == Mode.CS_GO)
             {
+                MC.mcProfiler.startSection("esp_csgo_projection");
                 projectEntity(entity, event.getPartialTicks());
+                MC.mcProfiler.endSection();
             } else if (modeSetting.getValue() == Mode.BOX)
             {
+                MC.mcProfiler.startSection("esp_box");
                 renderBoxESP(entity, event.getPartialTicks());
+                MC.mcProfiler.endSection();
             }
         }
     };
@@ -248,6 +256,7 @@ public final class ESPModule extends Module
         final boolean renderShadows = Render.renderShadow;
         Render.renderShadow = false;
 
+        MC.mcProfiler.startSection("fb");
         if (fb != null)
         {
             fb.framebufferClear();
@@ -265,6 +274,7 @@ public final class ESPModule extends Module
         {
             fb = new Framebuffer(MC.displayWidth, MC.displayWidth, true);
         }
+        MC.mcProfiler.endStartSection("static_render");
         fb.bindFramebuffer(false);
 
         for (final Object renderTarget : renderTargetList)
@@ -277,6 +287,7 @@ public final class ESPModule extends Module
                 TileEntityRendererDispatcher.instance.renderTileEntity((TileEntity) renderTarget, tickDelta);
             }
         }
+        MC.mcProfiler.endStartSection("bind_fb");
 
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
@@ -297,6 +308,8 @@ public final class ESPModule extends Module
         MC.entityRenderer.disableLightmap(0.0);
         RenderHelper.disableStandardItemLighting();
 
+        MC.mcProfiler.endStartSection("overlay");
+
         MC.entityRenderer.setupOverlayRendering();
         glEnable(GL_TEXTURE_2D);
 
@@ -316,6 +329,8 @@ public final class ESPModule extends Module
 
         RenderUtil.ESP_SHADER.stop();
 
+        MC.mcProfiler.endStartSection("finish");
+
         MC.entityRenderer.enableLightmap(0);
 
         Render.renderShadow = renderShadows;
@@ -326,6 +341,7 @@ public final class ESPModule extends Module
         glPopMatrix();
 
         MC.entityRenderer.setupOverlayRendering();
+        MC.mcProfiler.endSection();
     }
 
     private Framebuffer setupFB(final ScaledResolution res)

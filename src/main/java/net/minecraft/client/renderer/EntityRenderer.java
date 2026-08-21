@@ -1475,7 +1475,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 }
 
                 this.renderEndNanoTime = System.nanoTime();
-                this.mc.mcProfiler.endStartSection("gui");
+                this.mc.mcProfiler.startSection("gui");
 
                 if (!this.mc.gameSettings.hideGUI || this.mc.currentScreen != null)
                 {
@@ -1514,7 +1514,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
                 try
                 {
+                    mc.mcProfiler.startSection("screenDraw");
                     this.mc.currentScreen.drawScreen(var161, var181, par1);
+                    mc.mcProfiler.endSection();
                 } catch (Throwable var131)
                 {
                     CrashReport var10 = CrashReport.makeCrashReport(var131, "Rendering screen");
@@ -1957,6 +1959,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             ProjectionUtil.updateProjection();
             mc.mcProfiler.endStartSection("dispatch");
             EventBus.dispatch(new EventRender3D(partialTicks));
+            mc.mcProfiler.endSection();
             mc.mcProfiler.endSection();
 
             this.mc.mcProfiler.endStartSection("hand");

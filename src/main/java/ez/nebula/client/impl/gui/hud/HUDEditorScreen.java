@@ -69,6 +69,8 @@ public final class HUDEditorScreen extends GuiChat
             super.drawScreen(mouseX, mouseY, partialTicks);
         }
 
+        mc.mcProfiler.startSection("nebulaHUDEditor");
+
         for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
         {
             if (!element.isToggled())
@@ -148,6 +150,8 @@ public final class HUDEditorScreen extends GuiChat
 
             glPopMatrix();
         }
+
+        mc.mcProfiler.endSection();
     }
 
     private void handleSnapToGrid()

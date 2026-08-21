@@ -6,6 +6,7 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.ITypedManager;
 import ez.nebula.client.api.listener.event.render.EventRender2D;
+import net.minecraft.client.Minecraft;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class ToastManager implements ITypedManager<Toast>
 {
+    private static final Minecraft MC = Minecraft.getMinecraft();
     private static final AtomicInteger TOAST_ID = new AtomicInteger();
     private static final double TOAST_PADDING = 2.5;
 
@@ -28,6 +30,11 @@ public final class ToastManager implements ITypedManager<Toast>
     @Subscribe
     private final EventListener<EventRender2D> render2DEventListener = event ->
     {
+        if (toastList.isEmpty())
+        {
+            return;
+        }
+        MC.mcProfiler.startSection("toasts");
         double posY = event.getResolution().getScaledHeight() - 50;
         for (final Toast toast : toastList)
         {
@@ -39,6 +46,7 @@ public final class ToastManager implements ITypedManager<Toast>
             }
             posY -= (toast.render(posY, event.getResolution()) + TOAST_PADDING);
         }
+        MC.mcProfiler.endSection();
     };
 
     @Override

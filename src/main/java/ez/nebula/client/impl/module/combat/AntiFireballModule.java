@@ -134,7 +134,9 @@ public final class AntiFireballModule extends Module
                 angles = null;
                 return;
             }
+            MC.mcProfiler.startSection("antiFireball_rotations");
             angles = AngleUtil.entityAngles(entity, entity.height / 2.0, event.getPartialTicks());
+            MC.mcProfiler.endSection();
         }
     };
 

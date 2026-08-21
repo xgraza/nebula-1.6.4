@@ -88,13 +88,14 @@ public final class FinderModule extends Module
         {
             return;
         }
+        MC.mcProfiler.startSection("finder");
         for (final BlockPos pos : posSet)
         {
             final AxisAlignedBB bb = new AxisAlignedBB(pos);
             RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt(80));
             RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt());
-
         }
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe

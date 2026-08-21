@@ -194,6 +194,7 @@ public final class ScaffoldModule extends Module
         {
             return;
         }
+        MC.mcProfiler.startSection("scaffold");
 
         int blocksLeft = 0;
         if (ItemUtil.isInfinite(itemStack))
@@ -221,6 +222,7 @@ public final class ScaffoldModule extends Module
         RenderUtil.renderRectangle(posX - 2, posY - 2, totalWidth + 4, 16 + 4, 0x80000000);
         RenderUtil.renderItemWithoutEffects(itemStack, (int) posX, (int) posY);
         Fonts.POPPINS.drawStringShadow(text, posX + 16, posY + 2, -1);
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe
@@ -241,10 +243,13 @@ public final class ScaffoldModule extends Module
             return;
         }
 
+        MC.mcProfiler.startSection("scaffold");
+
         final AxisAlignedBB aabb = new AxisAlignedBB(blockData.getPos());
         final ColorSetting cs = HUDModule.INSTANCE.primaryColorSetting;
         RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(blockData.getFacing()), cs.getValueInt(120));
         RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(blockData.getFacing()), cs.getValueInt());
+        MC.mcProfiler.endSection();
     };
 
     // @Subscribe

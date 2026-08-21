@@ -16,9 +16,9 @@ import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.listener.event.render.EventRender2D;
 import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.render.ColorUtil;
 import ez.nebula.client.util.render.RenderUtil;
-import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.Color;
 
@@ -139,12 +139,14 @@ public final class HUDModule extends Module
         {
             return;
         }
-        MC.mcProfiler.startSection("nebulaRenderHUD");
+        MC.mcProfiler.startSection("nHUD");
         for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
         {
             if (element.isToggled())
             {
+                //MC.mcProfiler.startSection(element.getManifest().name());
                 element.render(event.getResolution());
+                //MC.mcProfiler.endSection();
             }
         }
         MC.mcProfiler.endSection();

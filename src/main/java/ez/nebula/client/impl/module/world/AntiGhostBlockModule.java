@@ -75,6 +75,7 @@ public final class AntiGhostBlockModule extends Module
         {
             return;
         }
+        MC.mcProfiler.startSection("antiGhostBlock");
         for (final BlockPos pos : placeConfirmBlockPosMap.keySet())
         {
             final AxisAlignedBB aabb = new AxisAlignedBB(pos);
@@ -87,6 +88,7 @@ public final class AntiGhostBlockModule extends Module
             RenderUtil.renderFilledAABB(aabb, QuadMask.ALL_FACES, 0xAB00FF00);
             RenderUtil.renderOutlinedAABB(aabb, 1.5f, QuadMask.ALL_FACES, 0xAB00FF00);
         }
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe

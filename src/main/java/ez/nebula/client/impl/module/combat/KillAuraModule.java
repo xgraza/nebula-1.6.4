@@ -206,6 +206,8 @@ public final class KillAuraModule extends Module
             return;
         }
 
+        MC.mcProfiler.startSection("killAura");
+
         glPushMatrix();
         glDisable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
@@ -254,6 +256,8 @@ public final class KillAuraModule extends Module
         glDisable(GL_BLEND);
         glEnable(GL_TEXTURE_2D);
         glPopMatrix();
+
+        MC.mcProfiler.endSection();
     };
 
     private void attackTarget()

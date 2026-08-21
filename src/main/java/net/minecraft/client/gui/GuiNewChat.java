@@ -48,9 +48,12 @@ public class GuiNewChat extends Gui
     {
         if (ChatModifierModule.INSTANCE.isToggled())
         {
+            mc.mcProfiler.startSection("nebulaChat");
             drawNebulaChat(updateCounter);
+            mc.mcProfiler.endSection();
             return;
         }
+        mc.mcProfiler.startSection("chat");
         if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN)
         {
             int var2 = this.getHeightPerElement();
@@ -122,6 +125,7 @@ public class GuiNewChat extends Gui
                 GL11.glPopMatrix();
             }
         }
+        mc.mcProfiler.endSection();
     }
 
     private void drawNebulaChat(int updateCounter)

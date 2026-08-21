@@ -123,6 +123,8 @@ public final class TracersModule extends Module
             return;
         }
 
+        MC.mcProfiler.startSection("tracers");
+
         glPushMatrix();
 
         glDisable(GL_TEXTURE_2D);
@@ -170,6 +172,8 @@ public final class TracersModule extends Module
         glEnable(GL_DEPTH_TEST);
 
         glPopMatrix();
+
+        MC.mcProfiler.endSection();
     };
 
     private void setCorForEntity(final Entity entity)

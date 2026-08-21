@@ -99,6 +99,8 @@ public final class PacketMineModule extends Module
             return;
         }
 
+        MC.mcProfiler.startSection("packetMine");
+
         AxisAlignedBB bb = MC.theWorld.getBlock(x, y, z).getSelectedBoundingBoxFromPool(MC.theWorld, x, y, z);
         if (bb == null)
         {
@@ -112,6 +114,8 @@ public final class PacketMineModule extends Module
         final int color = factor >= percentSetting.getValue() ? 0x8000FF00 : 0x80FF0000;
         RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, color);
         RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
+
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe

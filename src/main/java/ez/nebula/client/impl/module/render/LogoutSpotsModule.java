@@ -52,6 +52,11 @@ public final class LogoutSpotsModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
+        if (logoutSpotMap.isEmpty())
+        {
+            return;
+        }
+        MC.mcProfiler.startSection("logoutSpots");
         final ColorSetting cs = (ColorSetting) HUDModule.INSTANCE.primaryColorSetting;
         for (final String username : logoutSpotMap.keySet())
         {
@@ -84,6 +89,7 @@ public final class LogoutSpotsModule extends Module
                 MC.fontRenderer.drawStringWithShadow(text2, (int) -(textWidth2 / 2.0), -textHeight + MC.fontRenderer.FONT_HEIGHT + 3, -1);
             });
         }
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe

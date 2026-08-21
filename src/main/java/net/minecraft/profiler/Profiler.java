@@ -96,7 +96,7 @@ public class Profiler
         {
             if (this.profilingEnabled)
             {
-                if (this.profilingSection.length() > 0)
+                if (!this.profilingSection.isEmpty())
                 {
                     this.profilingSection = this.profilingSection + ".";
                 }
@@ -115,7 +115,7 @@ public class Profiler
     {
         if (this.profilerLocalEnabled)
         {
-            if (this.profilingEnabled)
+            if (this.profilingEnabled && !timestampList.isEmpty())
             {
                 long var1 = System.nanoTime();
                 long var3 = ((Long) this.timestampList.remove(this.timestampList.size() - 1)).longValue();

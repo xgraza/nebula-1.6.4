@@ -377,9 +377,7 @@ public class GuiIngame extends Gui
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, (float) (height - 48), 0.0F);
-        this.mc.mcProfiler.startSection("chat");
         this.persistantChatGUI.drawChat(this.updateCounter);
-        this.mc.mcProfiler.endSection();
         GL11.glPopMatrix();
         var40 = this.mc.theWorld.getScoreboard().func_96539_a(0);
 
@@ -389,7 +387,9 @@ public class GuiIngame extends Gui
         }
 
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        mc.mcProfiler.startSection("nebulaRender2D");
         EventBus.dispatch(new EventRender2D(var5, par1));
+        mc.mcProfiler.endSection();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
     }
@@ -398,7 +398,9 @@ public class GuiIngame extends Gui
     {
         if (BetterF3Module.INSTANCE.isToggled())
         {
+            mc.mcProfiler.startSection("nebulaDebug");
             renderCustomDebug(var6);
+            mc.mcProfiler.endSection();
             return;
         }
         this.mc.mcProfiler.startSection("debug");
@@ -446,8 +448,6 @@ public class GuiIngame extends Gui
 
     private void renderCustomDebug(int width)
     {
-        mc.mcProfiler.startSection("debug");
-
         glPushMatrix();
 
         final FontRenderer font = mc.fontRenderer;
@@ -563,15 +563,15 @@ public class GuiIngame extends Gui
         }
 
         glPopMatrix();
-
-        mc.mcProfiler.endSection();
     }
 
     private void renderPlayerList(final int screenWidth, final ScoreObjective objective)
     {
         if (ExtraTabModule.INSTANCE.isToggled() && ExtraTabModule.INSTANCE.customSetting.getValue())
         {
+            mc.mcProfiler.startSection("nebulaPlayerList");
             renderCustomTabList(screenWidth);
+            mc.mcProfiler.endSection();
             return;
         }
         this.mc.mcProfiler.startSection("playerList");
@@ -704,13 +704,11 @@ public class GuiIngame extends Gui
                 }
             }
         }
-        this.mc.mcProfiler.endStartSection("playerList");
+        this.mc.mcProfiler.endSection();
     }
 
     private void renderCustomTabList(final int screenWidth)
     {
-        mc.mcProfiler.startSection("playerList");
-
         final List<GuiPlayerInfo> playerInfo = mc.thePlayer.sendQueue.playerInfoList;
 
         // render 1 column for every 12 players
@@ -809,8 +807,6 @@ public class GuiIngame extends Gui
                 this.zLevel -= 100.0F;
             }
         }
-
-        mc.mcProfiler.endStartSection("playerList");
     }
 
     private void func_96136_a(ScoreObjective par1ScoreObjective, int par2, int par3, FontRenderer par4FontRenderer)

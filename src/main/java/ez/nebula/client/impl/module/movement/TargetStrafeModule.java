@@ -67,6 +67,7 @@ public final class TargetStrafeModule extends Module
         {
             return;
         }
+        MC.mcProfiler.startSection("targetStrafe");
         final EntityLivingBase target = KillAuraModule.INSTANCE.getTarget();
 
         glPushMatrix();
@@ -103,6 +104,8 @@ public final class TargetStrafeModule extends Module
         glDisable(GL_BLEND);
         glEnable(GL_TEXTURE_2D);
         glPopMatrix();
+
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe

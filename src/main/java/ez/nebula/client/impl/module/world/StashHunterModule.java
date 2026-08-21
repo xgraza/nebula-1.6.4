@@ -84,6 +84,7 @@ public final class StashHunterModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
+        MC.mcProfiler.startSection("stashHunter");
         if (stackedMinecartsSetting.getValue())
         {
             final int color = minecartColorSetting.getValue().getRGB();
@@ -104,6 +105,7 @@ public final class StashHunterModule extends Module
                 RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
             }
         }
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe

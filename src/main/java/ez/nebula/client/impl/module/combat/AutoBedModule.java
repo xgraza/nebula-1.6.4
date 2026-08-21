@@ -138,6 +138,7 @@ public final class AutoBedModule extends Module
         {
             return;
         }
+        MC.mcProfiler.startSection("autoBed");
         final AxisAlignedBB bb = new AxisAlignedBB(blockInfo.getPos())
                 .addCoord(blockInfo.getFacing().getFrontOffsetX(),
                         blockInfo.getFacing().getFrontOffsetY(),
@@ -151,6 +152,7 @@ public final class AutoBedModule extends Module
             final String text = String.format("%.2f", blockInfo.getTargetDamage());
             MC.fontRenderer.drawStringWithShadow(text, -MC.fontRenderer.getStringWidth(text) / 2, 2, -1);
         });
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe

@@ -90,11 +90,13 @@ public final class TunnelESPModule extends Module
         {
             return;
         }
+        MC.mcProfiler.startSection("tunnelESP");
         for (final BlockPos pos : tunnelList)
         {
             final AxisAlignedBB bb = new AxisAlignedBB(pos);
             RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt(60));
         }
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe

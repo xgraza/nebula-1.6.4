@@ -59,6 +59,8 @@ public final class TrajectoriesModule extends Module
             return;
         }
 
+        MC.mcProfiler.startSection("trajectories");
+
         glPushMatrix();
         glDisable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
@@ -121,6 +123,8 @@ public final class TrajectoriesModule extends Module
         glDisable(GL_BLEND);
         glEnable(GL_TEXTURE_2D);
         glPopMatrix();
+
+        MC.mcProfiler.endSection();
     };
 
     private TrajectoryResult calculateTrajectory(final EntityPlayer player,

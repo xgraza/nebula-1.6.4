@@ -34,6 +34,7 @@ public final class ChunkBordersModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
+        MC.mcProfiler.startSection("chunkBorders");
         final int chunkBlockCoordX = MC.thePlayer.chunkCoordX * 16;
         final int chunkBlockCoordZ = MC.thePlayer.chunkCoordZ * 16;
 
@@ -54,6 +55,7 @@ public final class ChunkBordersModule extends Module
                 ), lineWidthSetting.getValue(), QuadMask.ALL_FACES, 0xFFFF0000);
             }
         }
+        MC.mcProfiler.endSection();
     };
 
     private enum Mode
