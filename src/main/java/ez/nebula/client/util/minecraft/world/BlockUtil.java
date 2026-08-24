@@ -1,8 +1,6 @@
 package ez.nebula.client.util.minecraft.world;
 
 import com.google.common.collect.Lists;
-import ez.nebula.client.util.math.MathUtil;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockReed;
@@ -145,16 +143,6 @@ public final class BlockUtil
     {
         final Item item = Item.getItemFromBlock(block);
         return item != null && item.getHasSubtypes();
-    }
-
-    public static BlockPos getClosestToPos(final BlockPos origin, final List<BlockPos> list)
-    {
-        final TreeMap<Double, BlockPos> posTreeMap = new TreeMap<>();
-        for (final BlockPos pos : list)
-        {
-            posTreeMap.put(MathUtil.getDistance(origin, pos), pos);
-        }
-        return posTreeMap.firstEntry().getValue();
     }
 
     public static BlockInfo getPlacement(final BlockPos pos)
