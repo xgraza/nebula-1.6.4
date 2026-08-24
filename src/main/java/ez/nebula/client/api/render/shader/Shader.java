@@ -1,6 +1,7 @@
 package ez.nebula.client.api.render.shader;
 
 import ez.nebula.client.core.Nebula;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -206,29 +207,21 @@ public final class Shader
      */
     private int compileShader(final String location, final int shaderType)
     {
-        // read shader
-        final StringBuilder builder = new StringBuilder();
-
+        String content;
         try (final InputStream stream = Shader.class.getResourceAsStream(location))
         {
             if (stream == null)
             {
                 return NO_SHADER;
             }
-            int b;
-            while ((b = stream.read()) != -1)
+            content = String.join("\n", IOUtils.readLines(stream));
+            if (content.isEmpty())
             {
-                builder.append((char) b);
+                return NO_SHADER;
             }
         } catch (final IOException e)
         {
             Nebula.INSTANCE.getLogger().error(e);
-            return NO_SHADER;
-        }
-
-        final String content = builder.toString();
-        if (content.isEmpty())
-        {
             return NO_SHADER;
         }
 
