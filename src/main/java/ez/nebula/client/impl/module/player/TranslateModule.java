@@ -5,7 +5,6 @@ import ez.nebula.client.api.listener.event.world.EventPlace;
 import ez.nebula.client.api.render.font.Fonts;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSign;
@@ -135,7 +134,6 @@ public final class TranslateModule extends Module
         if (block instanceof BlockSign)
         {
             final TileEntity tileEntity = MC.theWorld.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-            ChatUtil.sendNebula(tileEntity + " ");
             if (!(tileEntity instanceof TileEntitySign))
             {
                 return;
