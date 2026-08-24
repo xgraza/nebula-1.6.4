@@ -2,6 +2,8 @@ package ez.nebula.client.util.text;
 
 import java.util.StringJoiner;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author xgraza
@@ -10,6 +12,9 @@ import java.util.TreeMap;
 public final class FormattingUtil
 {
     private static final TreeMap<Integer, String> ROMAN_NUMERALS_MAP = new TreeMap<>();
+
+    public static final Pattern PLAYER_TAG_REGEX = Pattern.compile("<(.+)>\\s");
+    private static final String CHAT_FORMATTING_PATTERN = "\u00a7(.)";
 
     static
     {
@@ -38,6 +43,13 @@ public final class FormattingUtil
             return ROMAN_NUMERALS_MAP.get(number);
         }
         return ROMAN_NUMERALS_MAP.get(floored) + formatRomanNumeral(number - floored);
+    }
+
+    public static String parseUsernameFromChat(String chatMessage, final String defaultUsername)
+    {
+        final Matcher matcher = PLAYER_TAG_REGEX.matcher(
+                chatMessage.replaceAll(CHAT_FORMATTING_PATTERN, "").trim());
+        return matcher.find() ? matcher.group(1) : defaultUsername;
     }
 
     public static String formatEnum(final Enum<?> e)

@@ -5,6 +5,7 @@
 package net.minecraft.client.gui;
 
 import ez.nebula.client.impl.module.render.ChatModifierModule;
+import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
@@ -57,17 +58,12 @@ public class ChatLine
 
     private void parseUsername(final IChatComponent component)
     {
-        final String raw = StringUtils.stripControlCodes(
-                component.getUnformattedText());
+        final String raw = StringUtils.stripControlCodes(component.getUnformattedText());
         if (!raw.startsWith("<"))
         {
             return;
         }
-        final Matcher matcher = PLAYER_TAG_REGEX.matcher(raw);
-        if (matcher.find())
-        {
-            parsedUsername = matcher.group(1);
-        }
+        parsedUsername = FormattingUtil.parseUsernameFromChat(raw, "");
     }
 
     public IChatComponent getLineString()

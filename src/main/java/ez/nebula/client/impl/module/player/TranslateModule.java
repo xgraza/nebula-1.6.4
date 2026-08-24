@@ -6,6 +6,7 @@ import ez.nebula.client.api.render.font.Fonts;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSign;
 import net.minecraft.event.ClickEvent;
@@ -26,8 +27,6 @@ import ez.nebula.client.util.text.translation.Language;
 import ez.nebula.client.api.listener.event.network.EventPacket;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author xgraza
@@ -40,7 +39,6 @@ public final class TranslateModule extends Module
 {
     @ModuleInstance
     public static TranslateModule INSTANCE;
-    private static final Pattern PLAYER_TAG_REGEX = Pattern.compile("<(.+)>\\s");
 
     private final EnumSetting<Language> targetSetting = enumBuilder("Target", Language.ENGLISH)
             .setDescription("The language to translate to")
@@ -148,9 +146,9 @@ public final class TranslateModule extends Module
 
     public void handleTranslate(final IChatComponent component)
     {
-        final String raw = EnumChatFormatting.getTextWithoutFormattingCodes(component.getUnformattedText());
-        final String playerName = getPlayerName(raw);
-        final String unformatted = raw.replaceFirst(PLAYER_TAG_REGEX.pattern(), "").trim();
+        final String raw = StringUtils.stripControlCodes(component.getUnformattedText());
+        final String playerName = FormattingUtil.parseUsernameFromChat(raw, "Player");
+        final String unformatted = raw.replaceFirst(FormattingUtil.PLAYER_TAG_REGEX.pattern(), "").trim();
         GoogleTranslateService.INSTANCE.translate(
                 targetSetting.getValue(), Language.AUTO, unformatted,
                 (source, text) ->
@@ -165,15 +163,5 @@ public final class TranslateModule extends Module
                     c.appendText(text);
                     MC.ingameGUI.getChatGui().printChatMessage(c);
                 });
-    }
-
-    private String getPlayerName(final String text)
-    {
-        final Matcher matcher = PLAYER_TAG_REGEX.matcher(text);
-        if (matcher.find())
-        {
-            return matcher.group(1);
-        }
-        return "Player";
     }
 }
