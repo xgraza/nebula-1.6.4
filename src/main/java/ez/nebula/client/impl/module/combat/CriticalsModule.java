@@ -12,6 +12,7 @@ import ez.nebula.client.impl.module.movement.SpeedModule;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
+import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.C02PacketUseEntity;
@@ -24,7 +25,6 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
-import ez.nebula.client.impl.gui.module.component.module.value.EnumSettingComponent;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.math.Timer;
 
@@ -187,7 +187,7 @@ public final class CriticalsModule extends Module
     @Override
     public String getMetadata()
     {
-        return EnumSettingComponent.formatEnum(modeSetting.getValue());
+        return FormattingUtil.formatEnum(modeSetting.getValue());
     }
 
     private enum Mode

@@ -6,6 +6,7 @@ import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
+import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -33,7 +34,6 @@ import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.api.listener.event.game.EventPostUpdate;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.impl.gui.module.component.module.value.EnumSettingComponent;
 import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
@@ -456,7 +456,7 @@ public final class KillAuraModule extends Module
     @Override
     public String getMetadata()
     {
-        return EnumSettingComponent.formatEnum(modeSetting.getValue());
+        return FormattingUtil.formatEnum(modeSetting.getValue());
     }
 
     private enum Mode

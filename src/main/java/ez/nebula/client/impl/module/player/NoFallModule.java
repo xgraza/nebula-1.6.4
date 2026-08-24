@@ -8,7 +8,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
-import ez.nebula.client.impl.gui.module.component.module.value.EnumSettingComponent;
+import ez.nebula.client.util.text.FormattingUtil;
 
 /**
  * @author xgraza
@@ -57,7 +57,7 @@ public final class NoFallModule extends Module
     @Override
     public String getMetadata()
     {
-        return EnumSettingComponent.formatEnum(modeSetting.getValue());
+        return FormattingUtil.formatEnum(modeSetting.getValue());
     }
 
     private enum Mode

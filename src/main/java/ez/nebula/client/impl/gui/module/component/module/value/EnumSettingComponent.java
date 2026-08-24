@@ -9,6 +9,7 @@ import ez.nebula.client.api.render.animation.AnimationEasing;
 import ez.nebula.client.api.render.font.Fonts;
 import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.text.FormattingUtil;
 
 import java.awt.Color;
 import java.util.StringJoiner;
@@ -43,7 +44,7 @@ public final class EnumSettingComponent extends GUIComponent implements IGUIInpu
 
     private void drawEnumSelector(final double middlePoint)
     {
-        final String name = formatEnum(setting.getValue());
+        final String name = FormattingUtil.formatEnum(setting.getValue());
         final double boxWidth = Fonts.POPPINS_SMALL.getStringWidth(name) + (PADDING * 4);
         final double boxHeight = Fonts.POPPINS_SMALL.getFontHeight() + (PADDING * 2);
 
@@ -81,20 +82,6 @@ public final class EnumSettingComponent extends GUIComponent implements IGUIInpu
     public boolean isVisible()
     {
         return setting.isVisible();
-    }
-
-    public static String formatEnum(final Enum<?> e)
-    {
-        if (!e.toString().equals(e.name()))
-        {
-            return e.toString();
-        }
-        final StringJoiner joiner = new StringJoiner(" ");
-        for (final String word : e.toString().split("_"))
-        {
-            joiner.add(Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase());
-        }
-        return joiner.toString();
     }
 
     @Override

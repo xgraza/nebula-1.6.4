@@ -12,7 +12,7 @@ import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.impl.gui.module.component.module.value.EnumSettingComponent;
+import ez.nebula.client.util.text.FormattingUtil;
 
 import java.awt.Color;
 import java.util.List;
@@ -141,7 +141,7 @@ public final class ModuleCommand extends Command
         final Enum<T>[] constants = setting.getType().getEnumConstants();
         for (final Enum<?> constant : constants)
         {
-            final String formatted = EnumSettingComponent.formatEnum(constant);
+            final String formatted = FormattingUtil.formatEnum(constant);
             literal.then(literal(formatted.replace(" ", ""))
                     .executes((ctx) ->
                     {
@@ -154,7 +154,7 @@ public final class ModuleCommand extends Command
             final StringJoiner joiner = new StringJoiner(", ");
             for (final Enum<T> constant : constants)
             {
-                joiner.add(EnumSettingComponent.formatEnum(constant).replace(" ", ""));
+                joiner.add(FormattingUtil.formatEnum(constant).replace(" ", ""));
             }
             return ctx.getSource().respond("%s.%s has %s enums: %s",
                     name, setting.getName(), constants.length, joiner.toString());

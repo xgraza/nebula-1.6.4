@@ -1,5 +1,6 @@
 package ez.nebula.client.util.text;
 
+import java.util.StringJoiner;
 import java.util.TreeMap;
 
 /**
@@ -37,6 +38,20 @@ public final class FormattingUtil
             return ROMAN_NUMERALS_MAP.get(number);
         }
         return ROMAN_NUMERALS_MAP.get(floored) + formatRomanNumeral(number - floored);
+    }
+
+    public static String formatEnum(final Enum<?> e)
+    {
+        if (!e.toString().equals(e.name()))
+        {
+            return e.toString();
+        }
+        final StringJoiner joiner = new StringJoiner(" ");
+        for (final String word : e.toString().split("_"))
+        {
+            joiner.add(Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase());
+        }
+        return joiner.toString();
     }
 
     public static String formatSize(final int bytes)
