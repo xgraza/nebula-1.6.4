@@ -63,7 +63,7 @@ public final class AutoTunnelModule extends Module
 
     private final Set<BlockPos> replaceQueue = new ConcurrentSet<>();
     private BlockInfo breakInfo;
-    private int prevSlot = -1;
+    private int prevSlot = InventoryUtil.INVALID_SLOT;
     private boolean walk;
 
     @Override
@@ -74,7 +74,7 @@ public final class AutoTunnelModule extends Module
         {
             Nebula.INSTANCE.getInventoryManager().setSlotClient(prevSlot);
         }
-        prevSlot = -1;
+        prevSlot = InventoryUtil.INVALID_SLOT;
         replaceQueue.clear();
         breakInfo = null;
         walk = false;
@@ -131,7 +131,7 @@ public final class AutoTunnelModule extends Module
                 final int slot = InventoryUtil.getHotbarSlot(
                         (stack) -> stack.getItem() instanceof ItemBlock
                                 && ((ItemBlock) stack.getItem()).getBlock().getMaterial().isSolid());
-                if (slot == -1)
+                if (slot == InventoryUtil.INVALID_SLOT)
                 {
                     break;
                 }
@@ -194,9 +194,9 @@ public final class AutoTunnelModule extends Module
     private void swapToBestBlockSlot(final BlockPos pos)
     {
         final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
-        if (slot != -1)
+        if (slot != InventoryUtil.INVALID_SLOT)
         {
-            if (prevSlot == -1)
+            if (prevSlot == InventoryUtil.INVALID_SLOT)
             {
                 prevSlot = MC.thePlayer.inventory.currentItem;
             }
@@ -206,11 +206,11 @@ public final class AutoTunnelModule extends Module
 
     private void swapBack()
     {
-        if (prevSlot != -1 && MC.thePlayer != null)
+        if (prevSlot != InventoryUtil.INVALID_SLOT && MC.thePlayer != null)
         {
             Nebula.INSTANCE.getInventoryManager().setSlotClient(prevSlot);
         }
-        prevSlot = -1;
+        prevSlot = InventoryUtil.INVALID_SLOT;
     }
 
     private BlockInfo getBreakInfo(final BlockPos pos)

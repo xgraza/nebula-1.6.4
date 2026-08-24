@@ -14,6 +14,7 @@ import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.AutoPotModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -43,18 +44,18 @@ public final class AutoEatModule extends Module
             .setDescription("If to not eat when using a combat module")
             .build();
 
-    private int prevSlot = -1;
+    private int prevSlot = InventoryUtil.INVALID_SLOT;
     private boolean use, sentUse;
 
     @Override
     public void onDisable()
     {
         super.onDisable();
-        if (prevSlot != -1 && MC.thePlayer != null)
+        if (prevSlot != InventoryUtil.INVALID_SLOT && MC.thePlayer != null)
         {
             MC.thePlayer.inventory.currentItem = prevSlot;
         }
-        prevSlot = -1;
+        prevSlot = InventoryUtil.INVALID_SLOT;
         use = false;
         sentUse = false;
     }
@@ -76,12 +77,12 @@ public final class AutoEatModule extends Module
         }
 
         final int slot = getFoodSlot();
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
-            if (prevSlot != -1)
+            if (prevSlot != InventoryUtil.INVALID_SLOT)
             {
                 MC.thePlayer.inventory.currentItem = prevSlot;
-                prevSlot = -1;
+                prevSlot = InventoryUtil.INVALID_SLOT;
             }
             use = sentUse = false;
             return;
@@ -90,7 +91,7 @@ public final class AutoEatModule extends Module
         if (slot != MC.thePlayer.inventory.currentItem)
         {
             sentUse = false;
-            if (prevSlot == -1)
+            if (prevSlot == InventoryUtil.INVALID_SLOT)
             {
                 prevSlot = MC.thePlayer.inventory.currentItem;
             }
@@ -127,10 +128,10 @@ public final class AutoEatModule extends Module
     {
         if (!shouldEat())
         {
-            return -1;
+            return InventoryUtil.INVALID_SLOT;
         }
         ItemStack stack = null;
-        int slot = -1;
+        int slot = InventoryUtil.INVALID_SLOT;
         for (int i = 0; i < 9; ++i)
         {
             final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(i);

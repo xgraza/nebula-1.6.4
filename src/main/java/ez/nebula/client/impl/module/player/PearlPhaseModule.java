@@ -32,13 +32,13 @@ public final class PearlPhaseModule extends Module implements RotationConfirmati
     private static final int PEARL_PHASE_ROTATION_PRIORITY = 90;
 
     private float[] angles = null;
-    private int slot = -1;
+    private int slot = InventoryUtil.INVALID_SLOT;
 
     @Override
     public void onDisable()
     {
         super.onDisable();
-        slot = -1;
+        slot = InventoryUtil.INVALID_SLOT;
         angles = null;
     }
 
@@ -52,7 +52,7 @@ public final class PearlPhaseModule extends Module implements RotationConfirmati
             return;
         }
         slot = InventoryUtil.getHotbarItem(ItemEnderPearl.class);
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             notifyError("You need an enderpearl in your hotbar to phase.", 5000L);
             toggle();
@@ -75,7 +75,7 @@ public final class PearlPhaseModule extends Module implements RotationConfirmati
     @Override
     public void onServerRotateConfirm(final float yaw, final float pitch)
     {
-        if (slot != -1)
+        if (slot != InventoryUtil.INVALID_SLOT)
         {
             Nebula.INSTANCE.getInventoryManager().setSlot(slot);
             PacketUtil.send(new C08PacketPlayerBlockPlacement(
@@ -83,7 +83,7 @@ public final class PearlPhaseModule extends Module implements RotationConfirmati
             PacketUtil.send(new C0APacketAnimation(MC.thePlayer, 1));
             Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
-        slot = -1;
+        slot = InventoryUtil.INVALID_SLOT;
         toggle();
     }
 

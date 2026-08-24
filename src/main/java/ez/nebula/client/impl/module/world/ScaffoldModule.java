@@ -103,7 +103,7 @@ public final class ScaffoldModule extends Module
         blockData = null;
         basePosY = -1.0;
         towerTicks = 0;
-        slot = -1;
+        slot = InventoryUtil.INVALID_SLOT;
         angles = null;
     }
 
@@ -115,7 +115,7 @@ public final class ScaffoldModule extends Module
         {
             slot = MC.thePlayer.inventory.currentItem;
         }
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }
@@ -185,7 +185,7 @@ public final class ScaffoldModule extends Module
     @Subscribe
     private final EventListener<EventRender2D> render2DEventListener = event ->
     {
-        if (slot == -1 || !renderSetting.getValue())
+        if (slot == InventoryUtil.INVALID_SLOT || !renderSetting.getValue())
         {
             return;
         }

@@ -91,7 +91,7 @@ public final class AutoTorchModule extends Module
         final int slot = InventoryUtil.getHotbarSlot((stack) ->
                 stack.getItem() instanceof ItemBlock
                         && ((ItemBlock) stack.getItem()).getBlock() instanceof BlockTorch);
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }

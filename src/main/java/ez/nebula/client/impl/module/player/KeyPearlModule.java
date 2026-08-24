@@ -31,7 +31,7 @@ public final class KeyPearlModule extends Module
         }
 
         final int pearlSlot = InventoryUtil.getHotbarItem(ItemEnderPearl.class);
-        if (pearlSlot == -1)
+        if (pearlSlot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }

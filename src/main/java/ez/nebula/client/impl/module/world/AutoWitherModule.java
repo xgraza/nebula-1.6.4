@@ -9,6 +9,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.core.Nebula;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
@@ -56,12 +57,12 @@ public final class AutoWitherModule extends Module
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if ((x == -1 && y == -1 && z == -1) || soulSandSlot == -1)
+        if ((x == -1 && y == -1 && z == -1) || soulSandSlot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }
         final int witherHeadSlot = getWitherSkullSlot();
-        if (witherHeadSlot == -1)
+        if (witherHeadSlot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }
@@ -172,7 +173,7 @@ public final class AutoWitherModule extends Module
 
     private void invalidate()
     {
-        soulSandSlot = -1;
+        soulSandSlot = InventoryUtil.INVALID_SLOT;
         x = y = z = -1;
     }
 
@@ -263,6 +264,6 @@ public final class AutoWitherModule extends Module
                 return i;
             }
         }
-        return -1;
+        return InventoryUtil.INVALID_SLOT;
     }
 }

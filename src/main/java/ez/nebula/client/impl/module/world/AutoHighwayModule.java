@@ -196,7 +196,7 @@ public final class AutoHighwayModule extends Module
 
         final int slot = InventoryUtil.getSlot(0, 9,
                 (stack) -> ((BlockSetting) blockSetting).isBlock(stack));
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             walk = false;
             return;
@@ -275,7 +275,7 @@ public final class AutoHighwayModule extends Module
     private void swapToBestBlockSlot(final BlockPos pos)
     {
         final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
-        if (slot != -1)
+        if (slot != InventoryUtil.INVALID_SLOT)
         {
             Nebula.INSTANCE.getInventoryManager().setSlot(slot);
         }

@@ -15,6 +15,7 @@ import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
@@ -96,7 +97,7 @@ public final class AutoLavaHoleFillModule extends Module
             return;
         }
         final int slot = getSlot();
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             info = null;
             angles = null;
@@ -194,7 +195,7 @@ public final class AutoLavaHoleFillModule extends Module
                 return i;
             }
         }
-        return -1;
+        return InventoryUtil.INVALID_SLOT;
     }
 
     @Override

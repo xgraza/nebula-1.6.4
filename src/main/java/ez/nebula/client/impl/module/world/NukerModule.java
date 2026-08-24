@@ -179,7 +179,7 @@ public final class NukerModule extends Module
     private void swapToBestBlockSlot(final BlockPos pos)
     {
         final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
-        if (slot != -1)
+        if (slot != InventoryUtil.INVALID_SLOT)
         {
             Nebula.INSTANCE.getInventoryManager().setSlot(slot);
         }

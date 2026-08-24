@@ -13,6 +13,7 @@ import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemNameTag;
@@ -83,7 +84,7 @@ public final class AutoTagModule extends Module
         }
 
         final int nametagSlot = getNametagSlot();
-        if (nametagSlot == -1)
+        if (nametagSlot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }
@@ -152,6 +153,6 @@ public final class AutoTagModule extends Module
                 return i;
             }
         }
-        return -1;
+        return InventoryUtil.INVALID_SLOT;
     }
 }

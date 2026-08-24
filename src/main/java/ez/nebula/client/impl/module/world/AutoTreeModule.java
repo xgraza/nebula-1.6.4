@@ -143,7 +143,7 @@ public final class AutoTreeModule extends Module
             return;
         }
         final int slot = getSapplingSlot();
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }
@@ -170,7 +170,7 @@ public final class AutoTreeModule extends Module
             return;
         }
         final int slot = getBonemealSlot();
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }

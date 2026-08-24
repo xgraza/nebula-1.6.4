@@ -114,7 +114,7 @@ public final class AutoBedModule extends Module
             .build();
 
     private final BedBlockInfo blockInfo = new BedBlockInfo(null, null);
-    private int bedSlot = -1;
+    private int bedSlot = InventoryUtil.INVALID_SLOT;
     private EntityPlayer target;
 
     @Override
@@ -124,7 +124,7 @@ public final class AutoBedModule extends Module
         AutoGGModule.INSTANCE.setLastTarget(null);
         target = null;
         blockInfo.invalidate();
-        bedSlot = -1;
+        bedSlot = InventoryUtil.INVALID_SLOT;
         if (MC.thePlayer != null)
         {
             Nebula.INSTANCE.getInventoryManager().syncSlot();
@@ -172,7 +172,7 @@ public final class AutoBedModule extends Module
         }
         AutoGGModule.INSTANCE.setLastTarget(target);
         bedSlot = InventoryUtil.getHotbarItem(ItemBed.class);
-        if (bedSlot == -1)
+        if (bedSlot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }
@@ -244,7 +244,7 @@ public final class AutoBedModule extends Module
 
     private void tryPlaceBreakBed()
     {
-        if (bedSlot == -1 || blockInfo.getPos() == null || blockInfo.getFacing() == null)
+        if (bedSlot == InventoryUtil.INVALID_SLOT || blockInfo.getPos() == null || blockInfo.getFacing() == null)
         {
             return;
         }

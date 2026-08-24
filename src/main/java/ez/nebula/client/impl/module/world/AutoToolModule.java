@@ -32,7 +32,7 @@ public final class AutoToolModule extends Module
             return;
         }
         final int slot = InventoryUtil.getBestToolSlotFor(block);
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }

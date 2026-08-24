@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -77,7 +78,7 @@ public final class ChestStealerModule extends Module
         }
 
         int slot = getNextStealSlot(store ? MC.thePlayer.inventory : inventory);
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             return false;
         }
@@ -138,7 +139,7 @@ public final class ChestStealerModule extends Module
     public int getNextStealSlot(final IInventory inventory)
     {
         final int size = getSize(inventory) - 1;
-        int slot = -1;
+        int slot = InventoryUtil.INVALID_SLOT;
         while (true)
         {
             slot = randomOrderSetting.getValue()
@@ -146,7 +147,7 @@ public final class ChestStealerModule extends Module
                     : slot + 1;
             if (slot > size)
             {
-                return -1;
+                return InventoryUtil.INVALID_SLOT;
             }
             final ItemStack itemStack = inventory.getStackInSlot(slot);
             if (itemStack == null)

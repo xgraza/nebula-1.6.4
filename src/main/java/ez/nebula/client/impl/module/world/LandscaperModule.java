@@ -117,7 +117,7 @@ public final class LandscaperModule extends Module
         if (block instanceof BlockSnow || block instanceof BlockSnowBlock)
         {
             final int slot = InventoryUtil.getBestToolSlotFor(block);
-            if (slot != -1)
+            if (slot != InventoryUtil.INVALID_SLOT)
             {
                 Nebula.INSTANCE.getInventoryManager().setSlot(slot);
             }

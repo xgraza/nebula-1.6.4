@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.player.InteractionManager;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.item.ItemFishingRod;
@@ -40,7 +41,7 @@ public final class AutoFishModule extends Module
         if (autoSwapSetting.getValue())
         {
             final int slot = getFishingHookItem();
-            if (slot != -1)
+            if (slot != InventoryUtil.INVALID_SLOT)
             {
                 MC.thePlayer.inventory.currentItem = slot;
             }
@@ -95,7 +96,7 @@ public final class AutoFishModule extends Module
 
     private int getFishingHookItem()
     {
-        int slot = -1;
+        int slot = InventoryUtil.INVALID_SLOT;
         float score = 1.0f;
 
         for (int i = 0; i < 9; ++i)

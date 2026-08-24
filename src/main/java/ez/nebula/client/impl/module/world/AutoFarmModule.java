@@ -94,7 +94,7 @@ public final class AutoFarmModule extends Module
 
     private final Map<BlockPos, Block> plantTypeAtBlockMap = new ConcurrentHashMap<>();
 
-    private int oldSlot = -1;
+    private int oldSlot = InventoryUtil.INVALID_SLOT;
     private BlockPos melonBreakPos;
 
     @Override
@@ -103,14 +103,14 @@ public final class AutoFarmModule extends Module
         super.onDisable();
         if (MC.thePlayer != null)
         {
-            if (oldSlot != -1)
+            if (oldSlot != InventoryUtil.INVALID_SLOT)
             {
                 MC.thePlayer.inventory.currentItem = oldSlot;
             }
 
         }
 
-        oldSlot = -1;
+        oldSlot = InventoryUtil.INVALID_SLOT;
         melonBreakPos = null;
         plantTypeAtBlockMap.clear();
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
@@ -127,11 +127,11 @@ public final class AutoFarmModule extends Module
             {
                 return;
             }
-            if (oldSlot != -1)
+            if (oldSlot != InventoryUtil.INVALID_SLOT)
             {
                 MC.thePlayer.inventory.currentItem = oldSlot;
             }
-            oldSlot = -1;
+            oldSlot = InventoryUtil.INVALID_SLOT;
             melonBreakPos = null;
         }
 
@@ -210,7 +210,7 @@ public final class AutoFarmModule extends Module
                 }
                 // melon & pumpkins both can be harvested with the same type of tool, just search for the best
                 final int slot = InventoryUtil.getBestToolSlotFor(Blocks.pumpkin);
-                if (slot != -1)
+                if (slot != InventoryUtil.INVALID_SLOT)
                 {
                     oldSlot = MC.thePlayer.inventory.currentItem;
                     MC.thePlayer.inventory.currentItem = slot;
@@ -219,7 +219,7 @@ public final class AutoFarmModule extends Module
                 if (InteractionManager.INSTANCE.breakBlock(melonPos, EnumFacing.DOWN))
                 {
                     MC.thePlayer.inventory.currentItem = oldSlot;
-                    oldSlot = -1;
+                    oldSlot = InventoryUtil.INVALID_SLOT;
                     return;
                 }
                 melonBreakPos = melonPos;
@@ -323,7 +323,7 @@ public final class AutoFarmModule extends Module
     {
         final int slot = InventoryUtil.getSlot(0, 36,
                 (stack) -> stack.getItem() == Items.poisonous_potato);
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }
@@ -334,7 +334,7 @@ public final class AutoFarmModule extends Module
     {
         final int slot = InventoryUtil.getHotbarSlot(
                 (stack) -> stack.getItem() == CROP_BLOCK_TO_SEED.get(type));
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             return false;
         }

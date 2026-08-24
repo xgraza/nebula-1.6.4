@@ -78,13 +78,13 @@ public final class AutoPotModule extends Module
     private final List<Integer> expectedPotionEffects = new ArrayList<>();
     private final Timer potTimer = new Timer();
     private boolean rotated, thrown;
-    private int lastPotionSlot = -1;
+    private int lastPotionSlot = InventoryUtil.INVALID_SLOT;
 
     @Override
     public void onDisable()
     {
         super.onDisable();
-        lastPotionSlot = -1;
+        lastPotionSlot = InventoryUtil.INVALID_SLOT;
         rotated = false;
         thrown = false;
         expectedPotionEffects.clear();
@@ -101,7 +101,7 @@ public final class AutoPotModule extends Module
                 thrown = false;
                 rotated = false;
                 expectedPotionEffects.clear();
-                lastPotionSlot = -1;
+                lastPotionSlot = InventoryUtil.INVALID_SLOT;
             }
             return;
         }
@@ -122,14 +122,14 @@ public final class AutoPotModule extends Module
                 // allow us to finish the action we're doing
                 || MC.thePlayer.getItemInUse() != null)
         {
-            lastPotionSlot = -1;
+            lastPotionSlot = InventoryUtil.INVALID_SLOT;
             return;
         }
 
-        if (isLowHealth() || lastPotionSlot == -1)
+        if (isLowHealth() || lastPotionSlot == InventoryUtil.INVALID_SLOT)
         {
             lastPotionSlot = getPotionSlot();
-            if (lastPotionSlot == -1)
+            if (lastPotionSlot == InventoryUtil.INVALID_SLOT)
             {
                 rotated = false;
                 return;
@@ -145,14 +145,14 @@ public final class AutoPotModule extends Module
         rotated = Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], AUTOPOT_ROTATION_PRIORITY);
         if (!rotated)
         {
-            lastPotionSlot = -1;
+            lastPotionSlot = InventoryUtil.INVALID_SLOT;
         }
     };
 
     @Subscribe
     private final EventListener<EventMoveUpdate.Post> moveUpdatePostEventListener = event ->
     {
-        if (lastPotionSlot == -1 || !rotated || thrown)
+        if (lastPotionSlot == InventoryUtil.INVALID_SLOT || !rotated || thrown)
         {
             return;
         }
@@ -175,7 +175,7 @@ public final class AutoPotModule extends Module
                 thrown = false;
                 rotated = false;
                 expectedPotionEffects.clear();
-                lastPotionSlot = -1;
+                lastPotionSlot = InventoryUtil.INVALID_SLOT;
             }
         }
     };

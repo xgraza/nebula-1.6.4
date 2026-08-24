@@ -3,6 +3,7 @@ package ez.nebula.client.impl.module.combat;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockEnderChest;
@@ -87,7 +88,7 @@ public final class BurrowModule extends Module
     private void burrow()
     {
         final int slot = getBlockSlot();
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             notifyError("Obsidian/EnderChest/Anvil required in hotbar for burrow.", 7500L);
             toggle();
@@ -182,7 +183,7 @@ public final class BurrowModule extends Module
                 return i;
             }
         }
-        return -1;
+        return InventoryUtil.INVALID_SLOT;
     }
 
     private BlockData getBlockData()

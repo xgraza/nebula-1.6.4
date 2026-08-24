@@ -5,6 +5,7 @@ import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -340,7 +341,7 @@ public final class KillAuraModule extends Module
             case SWAP:
             {
                 float maxSwordScore = 0.0f;
-                int slot = -1;
+                int slot = InventoryUtil.INVALID_SLOT;
                 for (int i = 0; i < 9; ++i)
                 {
                     final ItemStack stack = MC.thePlayer.inventory.getStackInSlot(i);
@@ -356,7 +357,7 @@ public final class KillAuraModule extends Module
                         slot = i;
                     }
                 }
-                if (slot != -1)
+                if (slot != InventoryUtil.INVALID_SLOT)
                 {
                     MC.thePlayer.inventory.currentItem = slot;
                     return true;

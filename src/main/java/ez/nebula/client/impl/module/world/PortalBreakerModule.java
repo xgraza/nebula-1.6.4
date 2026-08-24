@@ -36,7 +36,7 @@ public final class PortalBreakerModule extends Module
     private static final int PORTAL_BREAKER_ROTATION_PRIORITY = 80;
 
     private MovingObjectPosition result;
-    private int slot = -1;
+    private int slot = InventoryUtil.INVALID_SLOT;
     private BlockPos pos;
     private boolean tryAfterRotate;
 
@@ -44,11 +44,11 @@ public final class PortalBreakerModule extends Module
     public void onDisable()
     {
         super.onDisable();
-        if (MC.thePlayer != null && slot != -1)
+        if (MC.thePlayer != null && slot != InventoryUtil.INVALID_SLOT)
         {
             Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
-        slot = -1;
+        slot = InventoryUtil.INVALID_SLOT;
         pos = null;
         tryAfterRotate = false;
     }
@@ -56,7 +56,7 @@ public final class PortalBreakerModule extends Module
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (slot == -1 || pos == null || tryAfterRotate)
+        if (slot == InventoryUtil.INVALID_SLOT || pos == null || tryAfterRotate)
         {
             return;
         }
@@ -88,7 +88,7 @@ public final class PortalBreakerModule extends Module
         {
             notifyError("Could not find stable supporting block to place water on", 7500L);
             pos = null;
-            slot = -1;
+            slot = InventoryUtil.INVALID_SLOT;
             return;
         }
 
@@ -113,7 +113,7 @@ public final class PortalBreakerModule extends Module
         InteractionManager.INSTANCE.rightClickBlock(result); // collect water
         Nebula.INSTANCE.getInventoryManager().syncSlot();
 
-        slot = -1;
+        slot = InventoryUtil.INVALID_SLOT;
         pos = null;
         tryAfterRotate = false;
     };
@@ -140,7 +140,7 @@ public final class PortalBreakerModule extends Module
 
         slot = InventoryUtil.getSlot(0, 9,
                 (stack) -> stack.getItem() == Items.water_bucket);
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             notifyInfo("You need a water bucket in your hotbar", 7500L);
             return;

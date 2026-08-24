@@ -55,7 +55,7 @@ public final class HotbarRefillModule extends Module
                 continue;
             }
             final int matchingSlot = getMatchingSlot(itemStack == null ? slotItemStackMap.get(slot) : itemStack);
-            if (matchingSlot == -1)
+            if (matchingSlot == InventoryUtil.INVALID_SLOT)
             {
                 continue;
             }
@@ -89,7 +89,7 @@ public final class HotbarRefillModule extends Module
                 return i;
             }
         }
-        return -1;
+        return InventoryUtil.INVALID_SLOT;
     }
 
     private void cacheHotbarSlots()

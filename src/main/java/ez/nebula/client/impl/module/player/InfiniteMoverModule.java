@@ -47,7 +47,7 @@ public final class InfiniteMoverModule extends Module
         final Container container = MC.thePlayer.openContainer;
 
         // the slot to move the infinite item to
-        int moveSlot = -1;
+        int moveSlot = InventoryUtil.INVALID_SLOT;
 
         // handle chest containers & player inventory containers
 
@@ -113,7 +113,7 @@ public final class InfiniteMoverModule extends Module
         }
 
         // if we did not find a slot, don't do anything
-        if (moveSlot == -1)
+        if (moveSlot == InventoryUtil.INVALID_SLOT)
         {
             return;
         }

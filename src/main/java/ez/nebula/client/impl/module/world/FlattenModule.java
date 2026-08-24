@@ -89,7 +89,7 @@ public final class FlattenModule extends Module
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
 //        final int slot = InventoryUtil.getSlot(0, 9, (stack) -> ((BlockSetting)blockSetting).isBlock(stack));
-//        if (slot == -1)
+//        if (slot == InventoryUtil.INVALID_SLOT)
 //        {
 //            return;
 //        }

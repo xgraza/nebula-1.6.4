@@ -260,7 +260,7 @@ public final class PacketMineModule extends Module
     private int getSlot(final Block block)
     {
         int slot = InventoryUtil.getBestToolSlotFor(block);
-        if (slot == -1)
+        if (slot == InventoryUtil.INVALID_SLOT)
         {
             slot = MC.thePlayer.inventory.currentItem;
         }
