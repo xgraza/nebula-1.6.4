@@ -190,7 +190,7 @@ public final class AutoLavaHoleFillModule extends Module
             {
                 return i;
             }
-            if (((BlockSetting) blockSetting).isBlock(itemStack))
+            if (blockSetting.isBlock(itemStack))
             {
                 return i;
             }

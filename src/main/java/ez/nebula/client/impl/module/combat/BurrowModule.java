@@ -5,11 +5,7 @@ import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAnvil;
-import net.minecraft.block.BlockEnderChest;
-import net.minecraft.block.BlockObsidian;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
@@ -40,6 +36,7 @@ import ez.nebula.client.util.minecraft.world.BlockUtil;
 public final class BurrowModule extends Module
 {
     private static final int BURROW_ROTATION_PRIORITY = 300;
+    private static final Block[] VALID_BURROW_BLOCKS = { Blocks.obsidian, Blocks.anvil, Blocks.ender_chest };
 
     private final Setting<Boolean> instantSetting = builder("Instant", false)
             .setDescription("If to use packets to observe when the burrow block is replaced to instantly replace it")
@@ -87,7 +84,7 @@ public final class BurrowModule extends Module
 
     private void burrow()
     {
-        final int slot = getBlockSlot();
+        final int slot = InventoryUtil.getHotbarBlock(VALID_BURROW_BLOCKS);
         if (slot == InventoryUtil.INVALID_SLOT)
         {
             notifyError("Obsidian/EnderChest/Anvil required in hotbar for burrow.", 7500L);
@@ -110,14 +107,13 @@ public final class BurrowModule extends Module
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
 
-
         if (rotateSetting.getValue())
         {
-            final float[] angles = AngleUtil.anglesToBlock(blockData.pos, blockData.facing, 1.0f);
-            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], BURROW_ROTATION_PRIORITY))
+            if (!Nebula.INSTANCE.getRotationManager().canTakePrecedent(BURROW_ROTATION_PRIORITY))
             {
                 return;
             }
+            final float[] angles = AngleUtil.anglesToBlock(blockData.pos, blockData.facing, 1.0f);
             // because this is an immediate need, we will send a C06
             PacketUtil.send(new C03PacketPlayer.C06PacketPlayerPosLook(
                     MC.thePlayer.posX,
@@ -148,8 +144,7 @@ public final class BurrowModule extends Module
 
         if (sneak)
         {
-            PacketUtil.send(
-                    new C0BPacketEntityAction(MC.thePlayer, 2));
+            PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 2));
         }
     }
 
@@ -164,26 +159,6 @@ public final class BurrowModule extends Module
         final int posY = (int) (Math.round(MC.thePlayer.boundingBox.minY) - 1);
         final int posZ = MathHelper.floor_double(MC.thePlayer.posZ);
         return BlockUtil.INTERACTABLE_BLOCK_LIST.contains(MC.theWorld.getBlock(posX, posY, posZ));
-    }
-
-    private int getBlockSlot()
-    {
-        for (int i = 0; i < 9; ++i)
-        {
-            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(i);
-            if (itemStack == null || !(itemStack.getItem() instanceof ItemBlock))
-            {
-                continue;
-            }
-            final Block block = ((ItemBlock) itemStack.getItem()).getBlock();
-            if (block instanceof BlockObsidian
-                    || block instanceof BlockEnderChest
-                    || block instanceof BlockAnvil)
-            {
-                return i;
-            }
-        }
-        return InventoryUtil.INVALID_SLOT;
     }
 
     private BlockData getBlockData()

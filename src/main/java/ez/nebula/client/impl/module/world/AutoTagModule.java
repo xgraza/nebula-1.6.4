@@ -83,7 +83,8 @@ public final class AutoTagModule extends Module
             return;
         }
 
-        final int nametagSlot = getNametagSlot();
+        final int nametagSlot = InventoryUtil.getHotbarSlot((stack) ->
+                stack != null && stack.getItem() instanceof ItemNameTag && stack.hasDisplayName());
         if (nametagSlot == InventoryUtil.INVALID_SLOT)
         {
             return;
@@ -141,18 +142,5 @@ public final class AutoTagModule extends Module
             return false;
         }
         return MC.thePlayer.getDistanceToEntity(entity) <= rangeSetting.getValue();
-    }
-
-    private int getNametagSlot()
-    {
-        for (int i = 0; i < 9; ++i)
-        {
-            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(i);
-            if (itemStack != null && itemStack.getItem() instanceof ItemNameTag && itemStack.hasDisplayName())
-            {
-                return i;
-            }
-        }
-        return InventoryUtil.INVALID_SLOT;
     }
 }

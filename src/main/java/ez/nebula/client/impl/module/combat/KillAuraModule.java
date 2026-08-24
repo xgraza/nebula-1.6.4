@@ -149,7 +149,7 @@ public final class KillAuraModule extends Module
         {
             if (target == null)
             {
-                AutoGGModule.INSTANCE.setLastTarget((EntityPlayer) target);
+                AutoGGModule.INSTANCE.setLastTarget(null);
             }
             if (blocking)
             {

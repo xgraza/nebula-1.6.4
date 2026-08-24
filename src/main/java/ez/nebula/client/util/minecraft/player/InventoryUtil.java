@@ -3,6 +3,7 @@ package ez.nebula.client.util.minecraft.player;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 import java.util.function.Predicate;
@@ -48,12 +49,12 @@ public final class InventoryUtil
         int slot = -1;
         for (int i = 0; i < 9; ++i)
         {
-            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(i);
-            if (itemStack == null)
+            final ItemStack stack = MC.thePlayer.inventory.getStackInSlot(i);
+            if (stack == null)
             {
                 continue;
             }
-            final float score = ItemUtil.getToolScore(itemStack, attackedBlock);
+            final float score = ItemUtil.getToolScore(stack, attackedBlock);
             if (score > bestScore)
             {
                 bestScore = score;
@@ -72,14 +73,63 @@ public final class InventoryUtil
         }
         for (int slot = 0; slot < HOTBAR_SLOTS; ++slot)
         {
-            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(slot);
-            if (itemStack == null || itemStack.getItem() == null)
+            final ItemStack stack = MC.thePlayer.inventory.getStackInSlot(slot);
+            if (stack == null || stack.getItem() == null)
             {
                 continue;
             }
             for (final Class<? extends Item> type : items)
             {
-                if (type.isAssignableFrom(itemStack.getItem().getClass()))
+                if (type.isAssignableFrom(stack.getItem().getClass()))
+                {
+                    return slot;
+                }
+            }
+        }
+        return INVALID_SLOT;
+    }
+
+    public static int getHotbarItem(final Item... items)
+    {
+        if (items.length == 0)
+        {
+            return INVALID_SLOT;
+        }
+        for (int slot = 0; slot < HOTBAR_SLOTS; ++slot)
+        {
+            final ItemStack stack = MC.thePlayer.inventory.getStackInSlot(slot);
+            if (stack == null || stack.getItem() == null)
+            {
+                continue;
+            }
+            for (final Item item : items)
+            {
+                if (stack.getItem() == item)
+                {
+                    return slot;
+                }
+            }
+        }
+        return INVALID_SLOT;
+    }
+
+    public static int getHotbarBlock(final Block... blocks)
+    {
+        if (blocks.length == 0)
+        {
+            return INVALID_SLOT;
+        }
+        for (int slot = 0; slot < HOTBAR_SLOTS; ++slot)
+        {
+            final ItemStack stack = MC.thePlayer.inventory.getStackInSlot(slot);
+            if (stack == null || !(stack.getItem() instanceof ItemBlock))
+            {
+                continue;
+            }
+            final Block itemBlock = ((ItemBlock) stack.getItem()).getBlock();
+            for (final Block block : blocks)
+            {
+                if (block == itemBlock)
                 {
                     return slot;
                 }
@@ -99,8 +149,8 @@ public final class InventoryUtil
     {
         for (int slot = start; slot < end; ++slot)
         {
-            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(slot);
-            if (itemStack != null && filter.test(itemStack))
+            final ItemStack stack = MC.thePlayer.inventory.getStackInSlot(slot);
+            if (stack != null && filter.test(stack))
             {
                 return slot;
             }

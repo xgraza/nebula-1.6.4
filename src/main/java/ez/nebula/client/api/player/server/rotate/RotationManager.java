@@ -91,6 +91,11 @@ public final class RotationManager implements IManager
         queuedRotationQueue.add(new QueuedRotation(yaw, pitch, priority, callback));
     }
 
+    public boolean canTakePrecedent(final int priority)
+    {
+        return spoofPrority == -1 || priority > spoofPrority;
+    }
+
     public boolean spoof(final float yaw, final float pitch, final int priority)
     {
         if (priority != -1 && spoofPrority > priority)

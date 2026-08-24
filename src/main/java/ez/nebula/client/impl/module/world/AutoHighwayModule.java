@@ -194,8 +194,7 @@ public final class AutoHighwayModule extends Module
             Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
 
-        final int slot = InventoryUtil.getSlot(0, 9,
-                (stack) -> ((BlockSetting) blockSetting).isBlock(stack));
+        final int slot = InventoryUtil.getHotbarSlot(blockSetting::isBlock);
         if (slot == InventoryUtil.INVALID_SLOT)
         {
             walk = false;

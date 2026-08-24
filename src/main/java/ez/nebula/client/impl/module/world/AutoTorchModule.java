@@ -7,6 +7,7 @@ import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.util.math.AngleUtil;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -88,9 +89,7 @@ public final class AutoTorchModule extends Module
             return;
         }
 
-        final int slot = InventoryUtil.getHotbarSlot((stack) ->
-                stack.getItem() instanceof ItemBlock
-                        && ((ItemBlock) stack.getItem()).getBlock() instanceof BlockTorch);
+        final int slot = InventoryUtil.getHotbarBlock(Blocks.torch);
         if (slot == InventoryUtil.INVALID_SLOT)
         {
             return;

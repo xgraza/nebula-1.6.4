@@ -138,8 +138,7 @@ public final class PortalBreakerModule extends Module
             return;
         }
 
-        slot = InventoryUtil.getSlot(0, 9,
-                (stack) -> stack.getItem() == Items.water_bucket);
+        slot = InventoryUtil.getHotbarItem(Items.water_bucket);
         if (slot == InventoryUtil.INVALID_SLOT)
         {
             notifyInfo("You need a water bucket in your hotbar", 7500L);

@@ -169,7 +169,8 @@ public final class AutoTreeModule extends Module
         {
             return;
         }
-        final int slot = getBonemealSlot();
+        final int slot = InventoryUtil.getHotbarSlot((stack) ->
+                stack.getItem() instanceof ItemDye && stack.getItemDamage() == 15);
         if (slot == InventoryUtil.INVALID_SLOT)
         {
             return;
@@ -247,21 +248,9 @@ public final class AutoTreeModule extends Module
         return null;
     }
 
-    private int getBonemealSlot()
-    {
-        return InventoryUtil.getSlot(0, 9, (stack) ->
-        {
-            if (!(stack.getItem() instanceof ItemDye))
-            {
-                return false;
-            }
-            return stack.getItemDamage() == 15; // bonemeal
-        });
-    }
-
     private int getSapplingSlot()
     {
-        return InventoryUtil.getSlot(0, 9, (stack) ->
+        return InventoryUtil.getHotbarSlot((stack) ->
         {
             if (!(stack.getItem() instanceof ItemBlock))
             {
