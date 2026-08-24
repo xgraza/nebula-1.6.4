@@ -79,7 +79,7 @@ public final class TunnelESPModule extends Module
         tunnelList.clear();
     }
 
-    @Subscribe(priority = IEventPriorities.LOW)
+    @Subscribe(priority = IEventPriorities.HIGHEST)
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
         if (MC.thePlayer.ticksExisted > 5)

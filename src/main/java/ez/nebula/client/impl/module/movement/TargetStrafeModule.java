@@ -119,7 +119,7 @@ public final class TargetStrafeModule extends Module
         }
     };
 
-    @Subscribe(priority = IEventPriorities.HIGHEST)
+    @Subscribe(priority = IEventPriorities.LOW)
     private final EventListener<EventMove> moveEventListener = event ->
     {
         if (isBlocked())

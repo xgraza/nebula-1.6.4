@@ -77,7 +77,7 @@ public final class FinderModule extends Module
         posSet.clear();
     }
 
-    @Subscribe(priority = IEventPriorities.LOW)
+    @Subscribe(priority = IEventPriorities.HIGHEST)
     private final EventListener<EventRender3D> updateEventListener = event ->
     {
         if (MC.thePlayer.ticksExisted > 5)

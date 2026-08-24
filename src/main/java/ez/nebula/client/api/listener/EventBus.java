@@ -78,7 +78,7 @@ public final class EventBus
         for (final Class<? extends Event> eventClass : modifiedEvents)
         {
             eventSubscribers.get(eventClass).sort(Comparator.comparingInt(
-                    (subscriber) -> subscriber.getProperties().priority()));
+                    (subscriber) -> -subscriber.getProperties().priority()));
         }
     }
 
