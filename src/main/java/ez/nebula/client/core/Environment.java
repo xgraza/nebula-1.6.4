@@ -6,22 +6,28 @@ package ez.nebula.client.core;
  */
 public enum Environment
 {
-    STABLE(""),
-    PUBLIC_BETA("pb"),
-    PRIVATE("p"),
-    RELEASE_CANDIDATE("rc"),
-    DEV("d");
+    STABLE("", "stable"),
+    PUBLIC_BETA("pb", "public beta"),
+    PRIVATE("p", "private"),
+    RELEASE_CANDIDATE("rc", "release candidate"),
+    DEV("d", "developer");
 
-    private final String str;
+    private final String str, friendly;
 
-    Environment(String str)
+    Environment(String str, String friendly)
     {
         this.str = str;
+        this.friendly = friendly;
     }
 
     @Override
     public String toString()
     {
         return str;
+    }
+
+    public String getFriendly()
+    {
+        return friendly;
     }
 }

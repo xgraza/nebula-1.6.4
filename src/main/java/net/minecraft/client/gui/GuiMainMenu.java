@@ -489,8 +489,21 @@ public class GuiMainMenu extends GuiScreen
         GL11.glScalef(var8, var8, var8);
         drawCenteredString(fontRenderer, splashText, 0, -8, -256);
         GL11.glPopMatrix();
-        drawString(fontRenderer, "Minecraft 1.7.2" + (mc.isDemo() ? " Demo" : ""), 2, height - 10, -1);
-        drawString(fontRenderer, COPYRIGHT_TEXT, width - fontRenderer.getStringWidth(COPYRIGHT_TEXT) - 2, height - 10, -1);
+        //drawString(fontRenderer, "Minecraft 1.7.2" + (mc.isDemo() ? " Demo" : ""), 2, height - 10, -1);
+        //drawString(fontRenderer, COPYRIGHT_TEXT, width - fontRenderer.getStringWidth(COPYRIGHT_TEXT) - 2, height - 10, -1);
+
+        if (BuildConfig.ENV != Environment.STABLE)
+        {
+            Fonts.POPPINS.drawStringShadow("You are on the " + BuildConfig.ENV.getFriendly() + " build of Nebula - this version is not stable", 2, height - Fonts.POPPINS.getFontHeight() - 1, 0xFFAAAAAA);
+        }
+        if (BuildConfig.ENV == Environment.PRIVATE)
+        {
+            String text = "A.S.S version - do not distribute!";
+            double var69 = Fonts.POPPINS.getStringWidth(text);
+            Fonts.POPPINS.drawStringShadow(text, width - var69 - 2, height - Fonts.POPPINS.getFontHeight() - 1, 0xFF2222);
+        }
+        double var69 = Fonts.POPPINS.getStringWidth(ClientConfig.GITHUB_REPO);
+        Fonts.POPPINS.drawStringShadow(ClientConfig.GITHUB_REPO, width - var69 - 2, 2, 0xFFAAAAAA);
 
         if (field_92025_p != null && !field_92025_p.isEmpty())
         {
