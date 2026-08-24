@@ -98,9 +98,8 @@ public class GuiDisconnected extends GuiScreen
             }
             drawCenteredString(fontRenderer, timeFormatted, width / 2, 6, 11184810);
 
-            if (reconnectTimer.hasElapsed(reconnectDelay + 50L))
+            if (reconnectTimer.hasElapsed(reconnectDelay + 50L, true))
             {
-                reconnectTimer.resetTime();
                 mc.displayGuiScreen(new GuiConnecting(this, mc, AutoReconnectModule.INSTANCE.getLastServer()));
             }
         }

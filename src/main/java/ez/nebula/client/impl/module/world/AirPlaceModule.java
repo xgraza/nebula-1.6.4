@@ -95,10 +95,9 @@ public final class AirPlaceModule extends Module
 
         if (MC.gameSettings.keyBindUseItem.pressed
                 && result.sideHit != -1
-                && timer.hasElapsed((long) (delaySetting.getValue() * 1000.0)))
+                && timer.hasElapsed((long) (delaySetting.getValue() * 1000.0), true))
         {
             // TODO: NoCheatPlus bypass?
-            timer.resetTime();
             InteractionManager.INSTANCE.rightClickBlock(result);
         }
     };

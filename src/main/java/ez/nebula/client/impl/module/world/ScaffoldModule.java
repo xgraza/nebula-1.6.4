@@ -150,10 +150,9 @@ public final class ScaffoldModule extends Module
         if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
         {
 
-            if (towerTimer.hasElapsed(800L))
+            if (towerTimer.hasElapsed(800L, true))
             {
                 towerTicks = 0;
-                towerTimer.resetTime();
                 MC.thePlayer.motionY = -0.7f;
                 return;
             }

@@ -22,9 +22,19 @@ public final class Timer
         lastTimeNS = System.nanoTime() + unit.convert(offset, TimeUnit.NANOSECONDS);
     }
 
+    public boolean hasElapsed(final long ms, final boolean reset)
+    {
+        final boolean elapsed = getTimeElapsedMS() >= ms;
+        if (elapsed && reset)
+        {
+            resetTime();
+        }
+        return elapsed;
+    }
+
     public boolean hasElapsed(final long ms)
     {
-        return getTimeElapsedMS() >= ms;
+        return hasElapsed(ms, false);
     }
 
     public boolean hasElapsed(final int ticks)

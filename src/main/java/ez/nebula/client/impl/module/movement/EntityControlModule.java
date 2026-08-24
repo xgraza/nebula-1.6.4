@@ -48,10 +48,9 @@ public final class EntityControlModule extends Module
     {
         if (autoRemountSetting.getValue())
         {
-            if (lastRidingEntity != null && MC.thePlayer.ridingEntity == null && mountTimer.hasElapsed(500L))
+            if (lastRidingEntity != null && MC.thePlayer.ridingEntity == null && mountTimer.hasElapsed(500L, true))
             {
                 MC.playerController.interactWithEntitySendPacket(MC.thePlayer, lastRidingEntity);
-                mountTimer.resetTime();
             }
         }
         if (MC.thePlayer.ridingEntity != null)

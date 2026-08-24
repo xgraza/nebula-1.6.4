@@ -85,7 +85,7 @@ public final class SpammerModule extends Module
             return;
         }
 
-        if (timer.hasElapsed((long) (delaySetting.getValue() * 1000.0)))
+        if (timer.hasElapsed((long) (delaySetting.getValue() * 1000.0), true))
         {
             switch (modeSetting.getValue())
             {
@@ -113,7 +113,6 @@ public final class SpammerModule extends Module
                     break;
                 }
             }
-            timer.resetTime();
         }
     };
 

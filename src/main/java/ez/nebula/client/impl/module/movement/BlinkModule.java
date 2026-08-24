@@ -56,9 +56,8 @@ public final class BlinkModule extends Module
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (!manualSetting.getValue() && timer.hasElapsed((long) (delaySetting.getValue() * 1000.0)))
+        if (!manualSetting.getValue() && timer.hasElapsed((long) (delaySetting.getValue() * 1000.0), true))
         {
-            timer.resetTime();
             busPackets();
         }
     };
