@@ -2189,7 +2189,7 @@ public class Minecraft
 
         if (this.loadingScreen != null)
         {
-            this.loadingScreen.resetProgressAndMessage(par2Str);
+            //this.loadingScreen.resetProgressAndMessage(par2Str);
             this.loadingScreen.resetProgresAndWorkingMessage("");
         }
 
