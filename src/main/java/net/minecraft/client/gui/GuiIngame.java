@@ -456,7 +456,7 @@ public class GuiIngame extends Gui
         int y = 2;
 
         font.drawStringWithShadow("Minecraft 1.7.2", 2, y, color);
-        font.drawStringWithShadow("Nebula " + ClientConfig.VERSION, 2, y += 10, color);
+        font.drawStringWithShadow("Nebula " + ClientConfig.FULL_VERSION, 2, y += 10, color);
         font.drawStringWithShadow("LWJGL " + Sys.getVersion(), 2, y += 10, color);
         font.drawStringWithShadow("OpenGL " + glGetString(GL_VERSION), 2, y += 10, color);
 

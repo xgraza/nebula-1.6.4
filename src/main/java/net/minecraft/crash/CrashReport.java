@@ -75,7 +75,7 @@ public class CrashReport
             }
         });
         this.theReportCategory.addCrashSectionCallable("Nebula Version", () ->
-                ClientConfig.VERSION);
+                ClientConfig.FULL_VERSION);
         this.theReportCategory.addCrashSectionCallable("Nebula Debug Enabled", () -> ClientConfig.DEBUG);
         this.theReportCategory.addCrashSectionCallable("Nebula Enabled Cheats", () ->
         {

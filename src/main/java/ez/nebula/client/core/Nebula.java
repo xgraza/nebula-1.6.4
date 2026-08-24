@@ -144,7 +144,7 @@ public enum Nebula
         }
         LoadingScreen.setStage(6, "Finishing Nebula initialization");
         setIcon();
-        setTitle("Nebula " + ClientConfig.VERSION);
+        setTitle("Nebula " + ClientConfig.FULL_VERSION);
     }
 
     void setTitle(final String title)
@@ -224,7 +224,7 @@ public enum Nebula
 
     void logBuildInfo()
     {
-        logger.info("Version: {}", ClientConfig.VERSION);
+        logger.info("Version: {}", ClientConfig.FULL_VERSION);
         logger.info("Build Time: " + BuildConfig.BUILD_TIME);
         if (ClientConfig.DEBUG)
         {

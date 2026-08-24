@@ -9,10 +9,12 @@ import ez.nebula.client.BuildConfig;
  */
 public final class ClientConfig
 {
-    public static final String SHORT_VERSION = String.format("%s+%s",
-            BuildConfig.VERSION, BuildConfig.BUILD);
-    public static final String VERSION = String.format("%s/%s-%s",
-            SHORT_VERSION, BuildConfig.BRANCH, BuildConfig.HASH);
+    // 4.0.0-beta.91.rewrite+a1b2c3d
+    public static final String FULL_VERSION = BuildConfig.VERSION
+            + "-" + BuildConfig.ENV
+            + "." + BuildConfig.BUILD
+            + "." + BuildConfig.BRANCH
+            + "+" + BuildConfig.HASH;
 
     public static final String GITHUB_REPO = "https://github.com/xgraza/nebula-1.7.2/tree/"
             + BuildConfig.BRANCH;

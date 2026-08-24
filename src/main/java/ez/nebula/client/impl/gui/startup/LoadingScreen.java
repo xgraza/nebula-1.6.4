@@ -26,7 +26,7 @@ public final class LoadingScreen
         int height = res.getScaledHeight();
         RenderUtil.renderRectangle(0, 0, width, height, Color.black.getRGB());
 
-        String text = "Loading Nebula " + ClientConfig.VERSION;
+        String text = "Loading Nebula " + ClientConfig.FULL_VERSION;
         int textWidth = (int) Fonts.POPPINS_LARGE.getStringWidth(text);
         Fonts.POPPINS_LARGE.drawStringShadow(text, width / 2.0 - (textWidth / 2.0), 50, -1);
 
