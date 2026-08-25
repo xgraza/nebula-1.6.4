@@ -4,11 +4,13 @@
 
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.listener.event.player.EventJump;
 import ez.nebula.client.api.setting.BindSetting;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.AngleUtil;
+import ez.nebula.client.util.minecraft.player.*;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.util.render.gui.Render2D;
@@ -16,6 +18,7 @@ import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
+import net.minecraft.potion.Potion;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
@@ -34,10 +37,6 @@ import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
-import ez.nebula.client.util.minecraft.player.InventoryUtil;
-import ez.nebula.client.util.minecraft.player.ItemUtil;
-import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import org.lwjgl.input.Keyboard;
@@ -141,36 +140,46 @@ public final class ScaffoldModule extends Module
         }
 
         Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        final boolean result = InteractionManager.INSTANCE.rightClickBlock(
-                blockData.getPos(), blockData.getFacing(), true);
+        InteractionManager.INSTANCE.rightClickBlock(blockData.getPos(), blockData.getFacing(), true);
         Nebula.INSTANCE.getInventoryManager().syncSlot();
-        if (!result)
-        {
-            return;
-        }
 
         if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
         {
-
-            if (towerTimer.hasElapsed(800L, true))
-            {
-                towerTicks = 0;
-                MC.thePlayer.motionY = -0.7f;
-                return;
-            }
-
             ++towerTicks;
-            if (/*MC.thePlayer.onGround ||*/ MC.thePlayer.motionY == 0.16477328182606651)
+            if (MC.thePlayer.isPotionActive(Potion.jump))
             {
-                double factor = 1-Math.min(1, towerTimer.getTimeElapsedMS() / 850L);
-                //ChatUtil.sendNebula("f: " + factor);
-                MC.thePlayer.motionX *= 0.88;
-                MC.thePlayer.motionZ *= 0.88;
-                MC.thePlayer.motionY = 0.42f;
+                if (MC.thePlayer.onGround)
+                {
+                    MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.42f);
+                }
+            } else
+            {
+                if (MC.thePlayer.onGround || MC.thePlayer.motionY == 0.16477328182606651)
+                {
+                    MC.thePlayer.motionY = MoveUtil.getJumpHeight(0.42f);
+                }
+                if (!MC.thePlayer.onGround && towerTimer.hasElapsed(800L, true))
+                {
+                    MC.thePlayer.motionY = -0.78f;
+                    MC.thePlayer.motionX *= 0.33;
+                    MC.thePlayer.motionZ *= 0.33;
+                }
             }
+            MC.thePlayer.motionX *= 0.99;
+            MC.thePlayer.motionZ *= 0.99;
         } else
         {
+            towerTimer.resetTime();
             towerTicks = 0;
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventJump> jumpEventListener = event ->
+    {
+        if (towerSetting.getValue() && MC.gameSettings.keyBindJump.pressed)
+        {
+            event.cancel();
         }
     };
 

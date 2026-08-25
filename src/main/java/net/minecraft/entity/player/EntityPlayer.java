@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.player.EventItemUseFinish;
+import ez.nebula.client.api.listener.event.player.EventJump;
 import ez.nebula.client.impl.module.player.AntiRevertModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -1726,6 +1727,10 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
      */
     public void jump()
     {
+        if (EventBus.dispatch(new EventJump()))
+        {
+            return;
+        }
         super.jump();
         this.addStat(StatList.jumpStat, 1);
 
