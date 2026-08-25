@@ -1,14 +1,15 @@
 package ez.nebula.client.impl.gui.module;
 
-import ez.nebula.client.api.render.font.AWTFontRenderer;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.font.AWTFontRenderer;
 import ez.nebula.client.impl.module.render.ClickGUIModule;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 import ez.nebula.client.core.ClientConfig;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.impl.gui.module.component.module.ComponentWithSetting;
-import ez.nebula.client.api.render.trait.GUIComponent;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.impl.config.ModuleConfig;
 import ez.nebula.client.impl.gui.module.component.CategoryPanel;
@@ -16,7 +17,6 @@ import ez.nebula.client.impl.gui.module.component.module.ModuleCategoryPanel;
 import ez.nebula.client.impl.gui.module.component.module.ModuleComponent;
 import ez.nebula.client.impl.gui.module.component.config.ConfigCategoryPanel;
 import ez.nebula.client.util.math.Timer;
-import ez.nebula.client.util.render.RenderUtil;
 import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
@@ -107,10 +107,10 @@ public final class ClickGUIScreen extends GuiScreen
         }
 
         glPushMatrix();
-        glScaled(RenderUtil.getGUIScaleFactor(), RenderUtil.getGUIScaleFactor(), RenderUtil.getGUIScaleFactor());
+        glScaled(Render2D.getGUIScaleFactor(), Render2D.getGUIScaleFactor(), Render2D.getGUIScaleFactor());
 
-        mouseX /= RenderUtil.getGUIScaleFactor();
-        mouseY /= RenderUtil.getGUIScaleFactor();
+        mouseX /= Render2D.getGUIScaleFactor();
+        mouseY /= Render2D.getGUIScaleFactor();
 
         if (guiResetTimer.getTimeElapsedMS() > 500.0)
         {
@@ -131,8 +131,8 @@ public final class ClickGUIScreen extends GuiScreen
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
-        mouseX /= RenderUtil.getGUIScaleFactor();
-        mouseY /= RenderUtil.getGUIScaleFactor();
+        mouseX /= Render2D.getGUIScaleFactor();
+        mouseY /= Render2D.getGUIScaleFactor();
         for (final CategoryPanel panel : categoryPanels)
         {
             panel.mouseClicked(mouseX, mouseY, mouseButton);
@@ -249,7 +249,7 @@ public final class ClickGUIScreen extends GuiScreen
             }
         }
 
-        double screenWidth = width / RenderUtil.getGUIScaleFactor();
+        double screenWidth = width / Render2D.getGUIScaleFactor();
 
         double x = mouseX + 10;
         if (x + boxWidth + 4 > screenWidth)
@@ -258,7 +258,7 @@ public final class ClickGUIScreen extends GuiScreen
         }
 
         double y = mouseY - 10;
-        RenderUtil.renderRoundedRectangle(x, y, boxWidth + 8, 2 + (Fonts.POPPINS.getFontHeight() + 1) * wrappedTextList.size(), 5.5f, PANEL_HEADER_COLOR);
+        Render2D.roundedRectangle(x, y, boxWidth + 8, 2 + (Fonts.POPPINS.getFontHeight() + 1) * wrappedTextList.size(), 5.5f, PANEL_HEADER_COLOR);
 
         AWTFontRenderer.DYNAMIC_FONT_RESIZING = false;
         for (final String line : wrappedTextList)

@@ -3,11 +3,11 @@ package ez.nebula.client.api.manager.toast;
 import ez.nebula.client.api.manager.toast.trait.ToastType;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
+import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.gui.ScaledResolution;
-import ez.nebula.client.api.render.animation.Animation;
-import ez.nebula.client.api.render.animation.AnimationEasing;
-import ez.nebula.client.api.render.font.Fonts;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.animation.Animation;
+import ez.nebula.client.util.render.animation.AnimationEasing;
+import ez.nebula.client.util.render.font.Fonts;
 
 import java.awt.Color;
 
@@ -57,11 +57,11 @@ public final class Toast
         animation.setState(deathTimeMS - 300 > System.currentTimeMillis());
 
         final double headerHeight = Fonts.POPPINS.getFontHeight() + PADDING;
-        RenderUtil.renderRoundedRectangle(posX, posY, toastWidth, headerHeight, 5.5f, HUDModule.INSTANCE.getBaseColor(10));
-        RenderUtil.renderRectangle(posX, posY + headerHeight - PADDING, toastWidth, toastHeight, TOAST_BACKGROUND_COLOR);
+        Render2D.roundedRectangle(posX, posY, toastWidth, headerHeight, 5.5f, HUDModule.INSTANCE.getBaseColor(10));
+        Render2D.rectangle(posX, posY + headerHeight - PADDING, toastWidth, toastHeight, TOAST_BACKGROUND_COLOR);
 
         final double progressBar = toastWidth * (((deathTimeMS - System.currentTimeMillis()) / (double) lifeMS));
-        RenderUtil.renderRectangle(posX, posY + toastHeight + headerHeight - 4.5, progressBar, 1.5, Color.white.getRGB());
+        Render2D.rectangle(posX, posY + toastHeight + headerHeight - 4.5, progressBar, 1.5, Color.white.getRGB());
 
         Fonts.ICONFACE.drawString(toastType.getIconChar(), posX + 1, posY + 2.5, 0xAAAAAA, false);
         Fonts.POPPINS.drawStringShadow(t, posX + 11, posY, -1);

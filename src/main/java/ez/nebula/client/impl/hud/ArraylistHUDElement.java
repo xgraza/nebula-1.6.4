@@ -8,9 +8,9 @@ import ez.nebula.client.core.Nebula;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.api.render.animation.Animation;
-import ez.nebula.client.api.render.animation.AnimationEasing;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.animation.Animation;
+import ez.nebula.client.util.render.animation.AnimationEasing;
+import ez.nebula.client.util.render.font.Fonts;
 
 import java.util.Comparator;
 import java.util.HashMap;

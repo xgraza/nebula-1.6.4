@@ -1,4 +1,4 @@
-package ez.nebula.client.api.render.animation;
+package ez.nebula.client.util.render.animation;
 
 /**
  * @author xgraza

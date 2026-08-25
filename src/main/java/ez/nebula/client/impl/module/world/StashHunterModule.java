@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.util.render.world.Render3D;
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.entity.Entity;
@@ -22,8 +23,7 @@ import ez.nebula.client.api.listener.event.network.EventDisconnect;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.listener.event.world.EventRemoveTileEntity;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.QuadMask;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.world.QuadMask;
 
 import java.awt.Color;
 import java.util.*;
@@ -91,8 +91,8 @@ public final class StashHunterModule extends Module
             for (final Vec3 pos : stackedMinecartPositionSet)
             {
                 final AxisAlignedBB bb = new AxisAlignedBB(pos, 1);
-                RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, color);
-                RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
+                Render3D.filledAABB(bb, QuadMask.ALL_FACES, color);
+                Render3D.outlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
             }
         }
         if (chestsSetting.getValue())
@@ -101,8 +101,8 @@ public final class StashHunterModule extends Module
             for (final BlockPos pos : chestsRenderList)
             {
                 final AxisAlignedBB bb = new AxisAlignedBB(pos);
-                RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, color);
-                RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
+                Render3D.filledAABB(bb, QuadMask.ALL_FACES, color);
+                Render3D.outlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
             }
         }
         MC.mcProfiler.endSection();

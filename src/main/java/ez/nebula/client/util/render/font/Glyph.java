@@ -1,4 +1,4 @@
-package ez.nebula.client.api.render.font;
+package ez.nebula.client.util.render.font;
 
 public class Glyph
 {

@@ -6,7 +6,7 @@ import net.minecraft.util.EnumChatFormatting;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import ez.nebula.client.util.minecraft.player.MoveUtil;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.font.Fonts;
 
 /**
  * @author xgraza

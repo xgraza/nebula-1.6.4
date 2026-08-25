@@ -11,8 +11,9 @@ import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.core.Nebula;
-import ez.nebula.client.util.render.QuadMask;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.world.QuadMask;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.S38PacketPlayerListItem;
 import net.minecraft.util.AxisAlignedBB;
@@ -67,14 +68,14 @@ public final class LogoutSpotsModule extends Module
             }
 
             final AxisAlignedBB bb = spot.bb;
-            RenderUtil.renderOutlinedAABB(bb, lineWidthSetting.getValue(), QuadMask.ALL_FACES, cs.getValueInt());
-            RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, cs.getValueInt(120));
+            Render3D.outlinedAABB(bb, lineWidthSetting.getValue(), QuadMask.ALL_FACES, cs.getValueInt());
+            Render3D.filledAABB(bb, QuadMask.ALL_FACES, cs.getValueInt(120));
 
             double x = (bb.minX + bb.maxX) / 2.0;
             double y = bb.maxY + 0.2;
             double z = (bb.minZ + bb.maxZ) / 2.0;
 
-            RenderUtil.renderGLBillboard(x, y, z, 0.2, () ->
+            Render3D.billboard(x, y, z, 0.2, () ->
             {
                 final String text1 = username + "'s logout spot";
                 final String text2 = String.format("XYZ: %.2f, %.2f, %.2f", x, bb.minY, z);
@@ -84,7 +85,7 @@ public final class LogoutSpotsModule extends Module
 
                 double textWidth = Math.max(textWidth1, textWidth2) / 2.0;
                 int textHeight = (MC.fontRenderer.FONT_HEIGHT + 1) * 2;
-                RenderUtil.renderRectangle(-(textWidth + 2), -(textHeight + 1), (textWidth + 2) * 2, textHeight + 4, 0x95000000);
+                Render2D.rectangle(-(textWidth + 2), -(textHeight + 1), (textWidth + 2) * 2, textHeight + 4, 0x95000000);
                 MC.fontRenderer.drawStringWithShadow(text1, (int) -(textWidth1 / 2.0), -textHeight + 2, -1);
                 MC.fontRenderer.drawStringWithShadow(text2, (int) -(textWidth2 / 2.0), -textHeight + MC.fontRenderer.FONT_HEIGHT + 3, -1);
             });

@@ -3,6 +3,8 @@ package ez.nebula.client.impl.module.render;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.client.renderer.culling.Frustrum;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -12,13 +14,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.Module;
@@ -27,7 +28,6 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.util.io.NetworkUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.util.Map;
 
@@ -139,7 +139,7 @@ public final class NametagsModule extends Module
                 y += entity.height - 0.2;
             }
             final double z = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * event.getPartialTicks();
-            RenderUtil.renderGLBillboard(x, y + 0.5, z, sizeSetting.getValue(), () ->
+            Render3D.billboard(x, y + 0.5, z, sizeSetting.getValue(), () ->
             {
                 final String text = NameProtectModule.INSTANCE.protect(getDisplayInfo(entity)).trim();
                 double textWidth = 0;
@@ -164,7 +164,7 @@ public final class NametagsModule extends Module
 
                 if (customFontSetting.getValue())
                 {
-                    RenderUtil.renderRectangle(-textWidth, -textHeight, (textWidth * 2), textHeight, 0x95000000);
+                    Render2D.rectangle(-textWidth, -textHeight, (textWidth * 2), textHeight, 0x95000000);
                     Fonts.POPPINS.drawStringShadow(text, -textWidth, -textHeight, -1);
                 } else
                 {
@@ -234,7 +234,7 @@ public final class NametagsModule extends Module
 
     private void renderItemStack(final ItemStack stack, final int x, final int y)
     {
-        RenderUtil.renderItemWithGlint(stack, x, y);
+        Render2D.itemWithEffects(stack, x, y);
 
         final Map<Integer, Integer> enchantmentList = EnchantmentHelper.getEnchantments(stack);
         if (enchantmentList.isEmpty())

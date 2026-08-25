@@ -1,7 +1,6 @@
 package ez.nebula.client.impl.gui.hud.component;
 
 import ez.nebula.client.core.Nebula;
-import ez.nebula.client.api.render.font.Fonts;
 import ez.nebula.client.impl.gui.module.component.CategoryPanel;
 
 /**

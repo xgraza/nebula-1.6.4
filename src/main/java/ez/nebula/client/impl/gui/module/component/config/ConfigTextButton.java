@@ -1,10 +1,10 @@
 package ez.nebula.client.impl.gui.module.component.config;
 
-import ez.nebula.client.api.render.trait.GUIComponent;
-import ez.nebula.client.api.render.trait.IGUIInputListener;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.io.SoundUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 
@@ -32,7 +32,7 @@ public class ConfigTextButton extends GUIComponent implements IGUIInputListener
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        RenderUtil.renderRoundedRectangle(x, y, getWidth(), getHeight(), 3.5f, BACKGROUND_COLOR);
+        Render2D.roundedRectangle(x, y, getWidth(), getHeight(), 3.5f, BACKGROUND_COLOR);
         Fonts.POPPINS_SMALL.drawStringShadow(text, x + (PADDING * 2), y + Fonts.getMiddlePoint(getHeight(), Fonts.POPPINS_SMALL.getFontHeight()), -1);
     }
 

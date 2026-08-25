@@ -9,7 +9,8 @@ import ez.nebula.client.core.Nebula;
 import ez.nebula.client.impl.config.WaypointConfig;
 import ez.nebula.client.impl.module.render.NameProtectModule;
 import ez.nebula.client.impl.module.render.WaypointsModule;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Vec3;
 
@@ -51,7 +52,7 @@ public final class WaypointManager implements ITypedManager<Waypoint>
         for (final Waypoint waypoint : serverWaypoints)
         {
             final Vec3 vec = getWaypointPos(waypoint);
-            RenderUtil.renderGLBillboard(vec.xCoord, vec.yCoord, vec.zCoord, 0.2f, () ->
+            Render3D.billboard(vec.xCoord, vec.yCoord, vec.zCoord, 0.2f, () ->
             {
                 glEnable(GL_DEPTH_CLAMP);
                 final double distance = Math.sqrt(MC.thePlayer.getDistanceSq(vec.xCoord, vec.yCoord, vec.zCoord));
@@ -79,7 +80,7 @@ public final class WaypointManager implements ITypedManager<Waypoint>
                     textHeight = MC.fontRenderer.FONT_HEIGHT + 1;
                 }
 
-                RenderUtil.renderRectangle(-(textWidth + 2), -(textHeight + 1), (textWidth + 2) * 2, textHeight + 4, 0x95000000);
+                Render2D.rectangle(-(textWidth + 2), -(textHeight + 1), (textWidth + 2) * 2, textHeight + 4, 0x95000000);
                 MC.fontRenderer.drawStringWithShadow(text1, (int) -(textWidth1 / 2.0), -textHeight + 2, -1);
                 if (WaypointsModule.INSTANCE.showDistanceSetting.getValue())
                 {

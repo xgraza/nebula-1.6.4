@@ -2,7 +2,7 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.item.ItemBlock;
@@ -22,11 +22,10 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.QuadMask;
+import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -81,14 +80,14 @@ public final class AntiGhostBlockModule extends Module
         for (final BlockPos pos : placeConfirmBlockPosMap.keySet())
         {
             final AxisAlignedBB aabb = new AxisAlignedBB(pos);
-            RenderUtil.renderFilledAABB(aabb, QuadMask.ALL_FACES, 0xAB00FF00);
-            RenderUtil.renderOutlinedAABB(aabb, 1.5f, QuadMask.ALL_FACES, 0xAB00FF00);
+            Render3D.filledAABB(aabb, QuadMask.ALL_FACES, 0xAB00FF00);
+            Render3D.outlinedAABB(aabb, 1.5f, QuadMask.ALL_FACES, 0xAB00FF00);
         }
         for (final BlockPos pos : breakConfirmBlockPosMap.keySet())
         {
             final AxisAlignedBB aabb = new AxisAlignedBB(pos);
-            RenderUtil.renderFilledAABB(aabb, QuadMask.ALL_FACES, 0xAB00FF00);
-            RenderUtil.renderOutlinedAABB(aabb, 1.5f, QuadMask.ALL_FACES, 0xAB00FF00);
+            Render3D.filledAABB(aabb, QuadMask.ALL_FACES, 0xAB00FF00);
+            Render3D.outlinedAABB(aabb, 1.5f, QuadMask.ALL_FACES, 0xAB00FF00);
         }
         MC.mcProfiler.endSection();
     };

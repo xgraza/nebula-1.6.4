@@ -12,8 +12,8 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.world.BlockSearcher;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
-import ez.nebula.client.util.render.QuadMask;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.world.QuadMask;
+import ez.nebula.client.util.render.world.Render3D;
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.block.*;
 import net.minecraft.src.BlockPos;
@@ -94,7 +94,7 @@ public final class TunnelESPModule extends Module
         for (final BlockPos pos : tunnelList)
         {
             final AxisAlignedBB bb = new AxisAlignedBB(pos);
-            RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt(60));
+            Render3D.filledAABB(bb, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt(60));
         }
         MC.mcProfiler.endSection();
     };

@@ -1,17 +1,17 @@
 package ez.nebula.client.impl.gui.module.component.module.value;
 
+import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import ez.nebula.client.impl.gui.module.component.module.ComponentWithSetting;
 import ez.nebula.client.api.setting.NumberSetting;
-import ez.nebula.client.api.render.trait.GUIComponent;
-import ez.nebula.client.api.render.trait.IGUIInputListener;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.math.MathUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import static org.lwjgl.input.Keyboard.KEY_LEFT;
 import static org.lwjgl.input.Keyboard.KEY_RIGHT;
@@ -94,7 +94,7 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
         {
             renderWidth = barWidth;
         }
-        RenderUtil.renderRoundedRectangle(x, y, renderWidth, height, 3.5f, HUDModule.INSTANCE.getPrimary());
+        Render2D.roundedRectangle(x, y, renderWidth, height, 3.5f, HUDModule.INSTANCE.getPrimary());
     }
 
     @Override

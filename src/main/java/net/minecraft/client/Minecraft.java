@@ -10,7 +10,7 @@ import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import ez.nebula.client.impl.gui.module.ClickGUIScreen;
 import ez.nebula.client.impl.module.player.AutoReconnectModule;
 import ez.nebula.client.impl.module.render.UnfocusedCPUModule;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -83,7 +83,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import ez.nebula.client.core.Nebula;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.impl.module.render.CameraClipModule;
 import ez.nebula.client.api.listener.event.game.EventTick;
@@ -1568,7 +1568,7 @@ public class Minecraft
             int var4 = var3.getScaledWidth();
             int var5 = var3.getScaledHeight();
             this.currentScreen.setWorldAndResolution(this, var4, var5);
-            RenderUtil.GAME_RESOLUTION = var3;
+            Render2D.RESOLUTION = var3;
         }
 
         this.loadingScreen = new LoadingScreenRenderer(this);

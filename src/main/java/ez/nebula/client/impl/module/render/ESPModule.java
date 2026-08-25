@@ -2,6 +2,11 @@ package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.util.render.*;
+import ez.nebula.client.util.render.gui.ProjectionUtil;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.world.QuadMask;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -25,15 +30,11 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.ColorUtil;
-import ez.nebula.client.util.render.QuadMask;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.render.EventRender2D;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
-import ez.nebula.client.util.render.ProjectionUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 import java.util.List;
@@ -243,7 +244,7 @@ public final class ESPModule extends Module
 
     private void renderShaderESP(float tickDelta)
     {
-        final ScaledResolution r = RenderUtil.GAME_RESOLUTION;
+        final ScaledResolution r = Render2D.RESOLUTION;
         if (r == null)
         {
             return;
@@ -494,6 +495,8 @@ public final class ESPModule extends Module
                 }
             }
 
+            glLineWidth(1.0f);
+
             glPopMatrix();
         }
     }
@@ -530,8 +533,8 @@ public final class ESPModule extends Module
         }
 
         final int color = getColor(entity);
-        RenderUtil.renderFilledAABB(aabb, QuadMask.ALL_FACES, ColorUtil.withAlpha(color, (int) (255.0f * opacitySetting.getValue())));
-        RenderUtil.renderOutlinedAABB(aabb, lineWidthSetting.getValue(), QuadMask.ALL_FACES, color);
+        Render3D.filledAABB(aabb, QuadMask.ALL_FACES, ColorUtil.withAlpha(color, (int) (255.0f * opacitySetting.getValue())));
+        Render3D.outlinedAABB(aabb, lineWidthSetting.getValue(), QuadMask.ALL_FACES, color);
     }
 
     private void projectEntity(final Object entity, final float partialTicks)

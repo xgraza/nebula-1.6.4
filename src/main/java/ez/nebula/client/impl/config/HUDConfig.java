@@ -6,10 +6,9 @@ import ez.nebula.client.core.Nebula;
 import ez.nebula.client.api.config.IConfig;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.HUDManager;
-import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.io.FileUtil;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.gui.Render2D;
 
 import java.io.File;
 
@@ -30,10 +29,10 @@ public final class HUDConfig implements IConfig
     public String save()
     {
         final JsonObject object = new JsonObject();
-        if (RenderUtil.GAME_RESOLUTION != null)
+        if (Render2D.RESOLUTION != null)
         {
-            object.addProperty("savedWidth", RenderUtil.GAME_RESOLUTION.getScaledWidth());
-            object.addProperty("savedHeight", RenderUtil.GAME_RESOLUTION.getScaledHeight());
+            object.addProperty("savedWidth", Render2D.RESOLUTION.getScaledWidth());
+            object.addProperty("savedHeight", Render2D.RESOLUTION.getScaledHeight());
         }
         for (final HUDElement hudElement : manager.getAll())
         {

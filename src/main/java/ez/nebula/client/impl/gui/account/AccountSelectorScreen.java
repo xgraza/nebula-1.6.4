@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.util.EnumChatFormatting;
 import ez.nebula.client.core.Nebula;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.manager.account.Account;
 
 import java.util.List;

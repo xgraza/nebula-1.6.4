@@ -1,4 +1,4 @@
-package ez.nebula.client.api.render.font;
+package ez.nebula.client.util.render.font;
 
 import net.minecraft.client.renderer.texture.DynamicTexture;
 

@@ -2,6 +2,8 @@ package ez.nebula.client.util.render;
 
 import ez.nebula.client.impl.module.render.ClickGUIModule;
 import ez.nebula.client.impl.module.render.GlintModule;
+import ez.nebula.client.util.render.shader.Shader;
+import ez.nebula.client.util.render.world.QuadMask;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -13,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import ez.nebula.client.api.render.shader.Shader;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -99,7 +100,7 @@ public final class RenderUtil
         int mask = 0;
         for (final EnumFacing facing : facings)
         {
-            mask |= QuadMask.getMask(facing);
+            mask |= QuadMask.mask(facing);
         }
         return mask;
     }

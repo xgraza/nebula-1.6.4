@@ -9,12 +9,11 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
-import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.Timer;
-import ez.nebula.client.util.render.QuadMask;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.world.QuadMask;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.BlockPos;
@@ -66,9 +65,9 @@ public final class AirPlaceModule extends Module
         MC.mcProfiler.startSection("airPlace");
         final BlockPos pos = new BlockPos(result.blockX, result.blockY, result.blockZ);
         final EnumFacing facing = EnumFacing.faceList[result.sideHit];
-        final int color = ((ColorSetting) HUDModule.INSTANCE.primaryColorSetting).getValueInt(120);
-        RenderUtil.renderOutlinedAABB(new AxisAlignedBB(pos), 1.5f, QuadMask.getMask(facing), color);
-        RenderUtil.renderFilledAABB(new AxisAlignedBB(pos), QuadMask.getMask(facing), color);
+        final int color = HUDModule.INSTANCE.primaryColorSetting.getValueInt(120);
+        Render3D.outlinedAABB(new AxisAlignedBB(pos), 1.5f, QuadMask.mask(facing), color);
+        Render3D.filledAABB(new AxisAlignedBB(pos), QuadMask.mask(facing), color);
         MC.mcProfiler.endSection();
     };
 

@@ -1,4 +1,4 @@
-package ez.nebula.client.api.render.shader;
+package ez.nebula.client.util.render.shader;
 
 import ez.nebula.client.core.Nebula;
 import org.apache.commons.io.IOUtils;

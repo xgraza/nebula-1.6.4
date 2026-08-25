@@ -4,6 +4,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.block.*;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.src.BlockPos;
@@ -16,12 +17,11 @@ import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.QuadMask;
+import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -83,7 +83,7 @@ public final class LandscaperModule extends Module
         {
             angles = AngleUtil.anglesToBlock(breakingBlockPos, EnumFacing.UP, event.getPartialTicks());
         }
-        RenderUtil.renderFilledAABB(new AxisAlignedBB(breakingBlockPos), QuadMask.ALL_FACES, 0x8000FF00);
+        Render3D.filledAABB(new AxisAlignedBB(breakingBlockPos), QuadMask.ALL_FACES, 0x8000FF00);
     };
 
     @Subscribe

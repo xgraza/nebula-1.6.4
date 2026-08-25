@@ -1,16 +1,15 @@
 package ez.nebula.client.impl.gui.module.component.module.value;
 
-import ez.nebula.client.api.render.font.Fonts;
-import ez.nebula.client.api.render.trait.GUIComponent;
-import ez.nebula.client.api.render.trait.IGUIInputListener;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.impl.gui.module.component.module.ComponentWithSetting;
 import ez.nebula.client.impl.gui.module.component.module.value.block.BlockSearchComponent;
 import ez.nebula.client.impl.gui.module.component.module.value.block.BlockSelectionCallback;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
-import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.item.ItemStack;
 
 import java.awt.Color;
@@ -75,7 +74,7 @@ public final class BlockSettingComponent extends GUIComponent implements IGUIInp
         final double posX = getX() + getWidth() - 16 - textWidth - PADDING;
         final double posY = y + middle;
 
-        RenderUtil.renderRoundedRectangle(posX, posY,
+        Render2D.roundedRectangle(posX, posY,
                 textWidth + (PADDING * 2), Fonts.POPPINS_SMALL.getFontHeight(), 3.5f, KEY_BACKGROUND_COLOR);
         Fonts.POPPINS_SMALL.drawStringShadow(text, posX + 1, posY, -1);
 
@@ -83,7 +82,7 @@ public final class BlockSettingComponent extends GUIComponent implements IGUIInp
         {
             glTranslated(getX() + getWidth() - 14, y + middle, 0);
             glScaled(0.8, 0.8, 0.8);
-            RenderUtil.renderItemWithoutEffects(new ItemStack(setting.getBlock(), 1, setting.getSubType()), 0, 0);
+            Render2D.itemNoEffects(new ItemStack(setting.getBlock(), 1, setting.getSubType()), 0, 0);
         }
         glPopMatrix();
     }

@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.gui.module.component.module.value;
 
-import ez.nebula.client.api.render.font.Fonts;
-import ez.nebula.client.api.render.trait.GUIComponent;
-import ez.nebula.client.api.render.trait.IGUIInputListener;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.impl.gui.module.component.module.ComponentWithSetting;
-import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.input.Keyboard;
 
@@ -79,7 +79,7 @@ public class StringSettingComponent extends GUIComponent implements IGUIInputLis
         value = cursor >= setting.getValue().length() - 1 ? value : value.substring(0, cursor);
         double textWidth = Fonts.POPPINS.getStringWidth(value);
         double lineY = y + middle + Fonts.POPPINS.getFontHeight() - 1;
-        RenderUtil.renderLine(textX + textWidth, lineY, textX + textWidth + cursorLength, lineY, 2.5f, 0xFFAAAAAA);
+        Render2D.line(textX + textWidth, lineY, textX + textWidth + cursorLength, lineY, 2.5f, 0xFFAAAAAA);
     }
 
     @Override

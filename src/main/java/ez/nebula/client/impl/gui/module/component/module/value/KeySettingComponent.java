@@ -2,12 +2,12 @@ package ez.nebula.client.impl.gui.module.component.module.value;
 
 import ez.nebula.client.impl.gui.module.component.module.ComponentWithSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.api.render.trait.GUIComponent;
-import ez.nebula.client.api.render.trait.IGUIInputListener;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.manager.key.Key;
 import ez.nebula.client.util.io.SoundUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 
@@ -53,7 +53,7 @@ public final class KeySettingComponent extends GUIComponent implements IGUIInput
         final double boxPosX = (x + width) - boxWidth - (PADDING * 2);
         final double boxPosY = y - (middlePoint - ((boxHeight - (PADDING * 2)) / 2.0));
 
-        RenderUtil.renderRoundedRectangle(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, KEY_BACKGROUND_COLOR);
+        Render2D.roundedRectangle(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, KEY_BACKGROUND_COLOR);
         Fonts.POPPINS_SMALL.drawStringShadow(text, boxPosX + (PADDING * 2), boxPosY + PADDING, -1);
     }
 

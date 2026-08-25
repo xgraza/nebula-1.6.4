@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.gui.startup;
 
+import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.LWJGLException;
 import ez.nebula.client.core.ClientConfig;
-import ez.nebula.client.api.render.font.Fonts;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.font.Fonts;
 
 import java.awt.Color;
 
@@ -24,7 +24,7 @@ public final class LoadingScreen
         LoadingScreen.mc = mc;
         int width = res.getScaledWidth();
         int height = res.getScaledHeight();
-        RenderUtil.renderRectangle(0, 0, width, height, Color.black.getRGB());
+        Render2D.rectangle(0, 0, width, height, Color.black.getRGB());
 
         String text = "Loading Nebula " + ClientConfig.FULL_VERSION;
         int textWidth = (int) Fonts.POPPINS_LARGE.getStringWidth(text);
@@ -42,13 +42,13 @@ public final class LoadingScreen
         double posY = res.getScaledHeight_double() - 30;
 
         int progressBarTotalWidth = width - 150;
-        RenderUtil.renderRectangle(75, posY, progressBarTotalWidth, 20, Color.lightGray.getRGB());
+        Render2D.rectangle(75, posY, progressBarTotalWidth, 20, Color.lightGray.getRGB());
         double progressPercent = loadingStage / (double) totalLoadingStages;
         if (waiting)
         {
             progressPercent = 1;
         }
-        RenderUtil.renderRectangle(77, posY + 2, (progressBarTotalWidth - 4) * progressPercent, 16, Color.green.getRGB());
+        Render2D.rectangle(77, posY + 2, (progressBarTotalWidth - 4) * progressPercent, 16, Color.green.getRGB());
     }
 
     public static void setTotalLoadingStages(int totalStages)

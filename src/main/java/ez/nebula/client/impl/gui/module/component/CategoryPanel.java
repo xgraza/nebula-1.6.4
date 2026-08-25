@@ -1,15 +1,15 @@
 package ez.nebula.client.impl.gui.module.component;
 
-import ez.nebula.client.api.render.font.AWTFontRenderer;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.font.AWTFontRenderer;
 import org.lwjgl.input.Mouse;
-import ez.nebula.client.api.render.trait.GUIComponent;
-import ez.nebula.client.api.render.trait.IGUIInputListener;
-import ez.nebula.client.api.render.animation.Animation;
-import ez.nebula.client.api.render.animation.AnimationEasing;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
+import ez.nebula.client.util.render.animation.Animation;
+import ez.nebula.client.util.render.animation.AnimationEasing;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.impl.gui.module.ClickGUIScreen;
 import ez.nebula.client.util.io.SoundUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 
@@ -52,7 +52,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     public void render(int mouseX, int mouseY, float partialTicks)
     {
         AWTFontRenderer.DYNAMIC_FONT_RESIZING = false;
-        final double scaledMaxHeight = ClickGUIScreen.MAX_PANEL_HEIGHT / RenderUtil.getGUIScaleFactor();
+        final double scaledMaxHeight = ClickGUIScreen.MAX_PANEL_HEIGHT / Render2D.getGUIScaleFactor();
         final double panelHeight = Math.min(getHeight(), scaledMaxHeight);
 
         if (isMouseIn(mouseX, mouseY, getX(), getY(), getWidth(), panelHeight)
@@ -99,10 +99,10 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
             scrollOffset = targetScrollOffset;
         }
 
-        RenderUtil.startScissor(x, y, width, panelHeight);
+        Render2D.startScissor(x, y, width, panelHeight);
 
-        RenderUtil.renderRoundedRectangle(x, y, width, panelHeight, 6, PANEL_HEADER_COLOR);
-        RenderUtil.renderRoundedRectangle(x + PADDING, y + height, width - (PADDING * 2), panelHeight - height - PADDING, 2.8f, PANEL_BACKGROUND_COLOR);
+        Render2D.roundedRectangle(x, y, width, panelHeight, 6, PANEL_HEADER_COLOR);
+        Render2D.roundedRectangle(x + PADDING, y + height, width - (PADDING * 2), panelHeight - height - PADDING, 2.8f, PANEL_BACKGROUND_COLOR);
 
         if (animation.getFactor() > 0.0)
         {
@@ -128,7 +128,7 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
             }
         }
 
-        RenderUtil.renderRoundedRectangle(x, y, width, PANEL_HEADER_HEIGHT, 6, PANEL_HEADER_COLOR);
+        Render2D.roundedRectangle(x, y, width, PANEL_HEADER_HEIGHT, 6, PANEL_HEADER_COLOR);
         drawHeaderText();
 
         // render hack:
@@ -138,10 +138,10 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
         // such a small little thing that doesn't matter but once I noticed it, it began to piss me off...
         if (panelHeight >= scaledMaxHeight)
         {
-            RenderUtil.renderRoundedRectangle(x, y + panelHeight - PADDING, width, PADDING, 4.9f, PANEL_HEADER_COLOR);
+            Render2D.roundedRectangle(x, y + panelHeight - PADDING, width, PADDING, 4.9f, PANEL_HEADER_COLOR);
         }
 
-        RenderUtil.endScissor();
+        Render2D.endScissor();
         AWTFontRenderer.DYNAMIC_FONT_RESIZING = true;
     }
 

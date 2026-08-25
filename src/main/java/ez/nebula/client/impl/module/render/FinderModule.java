@@ -14,11 +14,10 @@ import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.world.BlockSearcher;
-import ez.nebula.client.util.render.QuadMask;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.world.QuadMask;
+import ez.nebula.client.util.render.world.Render3D;
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
@@ -92,8 +91,8 @@ public final class FinderModule extends Module
         for (final BlockPos pos : posSet)
         {
             final AxisAlignedBB bb = new AxisAlignedBB(pos);
-            RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt(80));
-            RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt());
+            Render3D.filledAABB(bb, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt(80));
+            Render3D.outlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt());
         }
         MC.mcProfiler.endSection();
     };

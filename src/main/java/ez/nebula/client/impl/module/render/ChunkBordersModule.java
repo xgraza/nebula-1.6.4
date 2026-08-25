@@ -2,15 +2,15 @@ package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.util.AxisAlignedBB;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.util.render.QuadMask;
+import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.util.render.RenderUtil;
 
 /**
  * @author xgraza
@@ -40,7 +40,7 @@ public final class ChunkBordersModule extends Module
 
         if (modeSetting.getValue() == Mode.BORDERS)
         {
-            RenderUtil.renderOutlinedAABB(AxisAlignedBB.getBoundingBox(
+            Render3D.outlinedAABB(AxisAlignedBB.getBoundingBox(
                     chunkBlockCoordX, 0.0, chunkBlockCoordZ,
                     chunkBlockCoordX + 16.0, 256.0, chunkBlockCoordZ + 16.0
             ), lineWidthSetting.getValue(), QuadMask.ALL_FACES, 0xFFFF0000);
@@ -49,7 +49,7 @@ public final class ChunkBordersModule extends Module
             // getBlockStorageArray() essentially but no data pulled
             for (int i = 0; i < 16; ++i)
             {
-                RenderUtil.renderOutlinedAABB(AxisAlignedBB.getBoundingBox(
+                Render3D.outlinedAABB(AxisAlignedBB.getBoundingBox(
                         chunkBlockCoordX, i * 16.0, chunkBlockCoordZ,
                         chunkBlockCoordX + 16.0, (i + 1) * 16.0, chunkBlockCoordZ + 16.0
                 ), lineWidthSetting.getValue(), QuadMask.ALL_FACES, 0xFFFF0000);

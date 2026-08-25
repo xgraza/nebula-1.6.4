@@ -4,18 +4,18 @@ import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.api.render.trait.GUIComponent;
-import ez.nebula.client.api.render.trait.IGUIInputListener;
-import ez.nebula.client.api.render.animation.Animation;
-import ez.nebula.client.api.render.animation.AnimationEasing;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
+import ez.nebula.client.util.render.animation.Animation;
+import ez.nebula.client.util.render.animation.AnimationEasing;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.key.Key;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.impl.gui.module.component.module.value.*;
 import ez.nebula.client.impl.gui.module.component.module.value.color.ColorSettingComponent;
 import ez.nebula.client.util.io.SoundUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 import java.io.File;
@@ -74,7 +74,7 @@ public final class HUDElementPanel extends GUIComponent implements IGUIInputList
 
         if (element.isToggled())
         {
-            RenderUtil.renderRoundedRectangle(x, y, width, getHeight(), 1.5f, HUDModule.INSTANCE.getPrimary());
+            Render2D.roundedRectangle(x, y, width, getHeight(), 1.5f, HUDModule.INSTANCE.getPrimary());
         }
         final double middle = Fonts.getMiddlePoint(height, Fonts.POPPINS.getFontHeight());
         Fonts.POPPINS.drawStringShadow(element.getManifest().name(),
@@ -86,7 +86,7 @@ public final class HUDElementPanel extends GUIComponent implements IGUIInputList
 
         if (offset > 0.0 && panelAnimation.getFactor() > 0.0)
         {
-            RenderUtil.renderRoundedRectangle(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 4f, BACKGROUND_COLOR);
+            Render2D.rectangleOutline(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 4f, BACKGROUND_COLOR);
 
             double posY = y + height + PADDING;
             for (final GUIComponent component : getChildrenComponentList())

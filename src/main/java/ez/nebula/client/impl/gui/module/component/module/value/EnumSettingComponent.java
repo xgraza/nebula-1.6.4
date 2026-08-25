@@ -2,17 +2,16 @@ package ez.nebula.client.impl.gui.module.component.module.value;
 
 import ez.nebula.client.impl.gui.module.component.module.ComponentWithSetting;
 import ez.nebula.client.api.setting.EnumSetting;
-import ez.nebula.client.api.render.trait.GUIComponent;
-import ez.nebula.client.api.render.trait.IGUIInputListener;
-import ez.nebula.client.api.render.animation.Animation;
-import ez.nebula.client.api.render.animation.AnimationEasing;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
+import ez.nebula.client.util.render.animation.Animation;
+import ez.nebula.client.util.render.animation.AnimationEasing;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.io.SoundUtil;
-import ez.nebula.client.util.render.RenderUtil;
 import ez.nebula.client.util.text.FormattingUtil;
 
 import java.awt.Color;
-import java.util.StringJoiner;
 
 /**
  * @author xgraza
@@ -51,7 +50,7 @@ public final class EnumSettingComponent extends GUIComponent implements IGUIInpu
         final double boxPosX = (x + width) - boxWidth - (PADDING * 2);
         final double boxPosY = y - (middlePoint - ((boxHeight - (PADDING * 2)) / 2.0));
 
-        RenderUtil.renderRoundedRectangle(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, BACKGROUND_COLOR);
+        Render2D.roundedRectangle(boxPosX, boxPosY, boxWidth, boxHeight, 3.5f, BACKGROUND_COLOR);
         Fonts.POPPINS_SMALL.drawStringShadow(name, boxPosX + (PADDING * 2), boxPosY + PADDING, -1);
     }
 

@@ -1,6 +1,7 @@
-package ez.nebula.client.api.render.font;
+package ez.nebula.client.util.render.font;
 
 import ez.nebula.client.impl.module.render.HUDModule;
+import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.renderer.OpenGlHelper;
 import ez.nebula.client.util.render.RenderUtil;
 
@@ -119,7 +120,7 @@ public final class AWTFontRenderer
         }
 
         glTranslated(posX, posY, 0);
-        double scale = 0.5 / (DYNAMIC_FONT_RESIZING ? RenderUtil.getGUIScaleFactor() : 1.0);
+        double scale = 0.5 / (DYNAMIC_FONT_RESIZING ? Render2D.getGUIScaleFactor() : 1.0);
         glScaled(scale, scale, scale);
 
         double offsetX = 0;
@@ -256,7 +257,7 @@ public final class AWTFontRenderer
 
     public double getFontHeight()
     {
-        return (normal.getFontHeight() / 2.0) / (DYNAMIC_FONT_RESIZING ? RenderUtil.getGUIScaleFactor() : 1) - 1;
+        return (normal.getFontHeight() / 2.0) / (DYNAMIC_FONT_RESIZING ? Render2D.getGUIScaleFactor() : 1) - 1;
     }
 
     public double getStringWidth(final String input)
@@ -304,7 +305,7 @@ public final class AWTFontRenderer
             }
             width += getCharWidth(ch, font);
         }
-        return DYNAMIC_FONT_RESIZING ? width * (RenderUtil.getScaleFactor() / 4.0) : width / 2.0;
+        return DYNAMIC_FONT_RESIZING ? width * (Render2D.getScaleFactor() / 4.0) : width / 2.0;
     }
 
     public double getCharWidth(final char ch)

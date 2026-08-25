@@ -20,7 +20,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.player.EventContainerAction;
 import ez.nebula.client.util.text.FormattingUtil;

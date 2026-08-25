@@ -1,6 +1,6 @@
 package ez.nebula.client.impl.hud;
 
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.item.ItemStack;
 import ez.nebula.client.api.manager.hud.HUDElement;
@@ -36,7 +36,7 @@ public final class ArmorStatusHUDElement extends HUDElement
             }
             final double posX = x + 1 + (i * WIDTH_PER_COMPONENT);
             final double posY = y + 1;
-            RenderUtil.renderItemWithGlint(stack, (int) posX, (int) posY);
+            Render2D.itemWithEffects(stack, (int) posX, (int) posY);
         }
     }
 }

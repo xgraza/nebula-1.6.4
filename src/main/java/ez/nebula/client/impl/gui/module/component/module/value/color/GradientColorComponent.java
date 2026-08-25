@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.gui.module.component.module.value.color;
 
+import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
-import ez.nebula.client.api.render.trait.GUIComponent;
-import ez.nebula.client.api.render.trait.IGUIInputListener;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 import ez.nebula.client.util.io.SoundUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 
@@ -46,14 +46,14 @@ public final class GradientColorComponent extends GUIComponent implements IGUIIn
             updatePointerPos();
         }
 
-        RenderUtil.renderGradientRectangle(x, y, getWidth(), getHeight(),
+        Render2D.gradientRectangle(x, y, getWidth(), getHeight(),
                 Color.black.hashCode(),
                 Color.black.hashCode(),
                 Color.HSBtoRGB(hsb[0], 1, 1),
                 Color.white.hashCode());
 
-        RenderUtil.renderRectangle(pointerX - 2.5, pointerY - 2.5, 5, 5, Color.black.getRGB());
-        RenderUtil.render2DOutline(pointerX - 2.5, pointerY - 2.5, 5, 5, 1.5f, Color.white.getRGB());
+        Render2D.rectangle(pointerX - 2.5, pointerY - 2.5, 5, 5, Color.black.getRGB());
+        Render2D.rectangleOutline(pointerX - 2.5, pointerY - 2.5, 5, 5, 1.5f, Color.white.getRGB());
     }
 
     @Override

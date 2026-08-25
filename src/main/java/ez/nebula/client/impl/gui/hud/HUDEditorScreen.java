@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.gui.hud;
 
 import ez.nebula.client.impl.module.render.HUDModule;
+import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.gui.GuiChat;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -8,7 +9,6 @@ import ez.nebula.client.core.Nebula;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.impl.gui.hud.component.HUDElementCategoryPanel;
 import ez.nebula.client.util.io.SoundUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 
@@ -82,24 +82,24 @@ public final class HUDEditorScreen extends GuiChat
             {
                 continue;
             }
-            RenderUtil.renderRoundedRectangle(element.getX() - 1,
+            Render2D.roundedRectangle(element.getX() - 1,
                     element.getY() - 1,
                     element.getWidth() + 2,
                     element.getHeight() + 2,
                     3.5f,
                     element.isMouseIn(mouseX, mouseY) ? HOVERED_BACKGROUND_COLOR : DEFAULT_BACKGROUND_COLOR);
-            element.render(RenderUtil.GAME_RESOLUTION);
+            element.render(Render2D.RESOLUTION);
         }
 
         if (draggingElement != null)
         {
-            RenderUtil.renderRoundedRectangle(draggingElement.getX() - 1,
+            Render2D.rectangleOutline(draggingElement.getX() - 1,
                     draggingElement.getY() - 1,
                     draggingElement.getWidth() + 2,
                     draggingElement.getHeight() + 2,
                     3.5f,
                     DRAGGING_BACKGROUND_COLOR);
-            draggingElement.render(RenderUtil.GAME_RESOLUTION);
+            draggingElement.render(Render2D.RESOLUTION);
 
             if (!Mouse.isButtonDown(0))
             {
@@ -141,10 +141,10 @@ public final class HUDEditorScreen extends GuiChat
         } else
         {
             glPushMatrix();
-            glScaled(RenderUtil.getGUIScaleFactor(), RenderUtil.getGUIScaleFactor(), RenderUtil.getGUIScaleFactor());
+            glScaled(Render2D.getGUIScaleFactor(), Render2D.getGUIScaleFactor(), Render2D.getGUIScaleFactor());
 
-            mouseX /= RenderUtil.getGUIScaleFactor();
-            mouseY /= RenderUtil.getGUIScaleFactor();
+            mouseX /= Render2D.getGUIScaleFactor();
+            mouseY /= Render2D.getGUIScaleFactor();
 
             PANEL.render(mouseX, mouseY, partialTicks);
 
@@ -186,8 +186,8 @@ public final class HUDEditorScreen extends GuiChat
     {
         super.mouseClicked(mouseX, mouseY, mouseButton);
 
-        mouseX /= RenderUtil.getGUIScaleFactor();
-        mouseY /= RenderUtil.getGUIScaleFactor();
+        mouseX /= Render2D.getGUIScaleFactor();
+        mouseY /= Render2D.getGUIScaleFactor();
 
         PANEL.mouseClicked(mouseX, mouseY, mouseButton);
         if (PANEL.isDragging())

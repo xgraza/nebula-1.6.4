@@ -1,4 +1,4 @@
-package ez.nebula.client.util.render;
+package ez.nebula.client.util.render.gui;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;

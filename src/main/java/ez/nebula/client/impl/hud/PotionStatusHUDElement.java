@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import ez.nebula.client.util.text.FormattingUtil;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.font.Fonts;
 
 import static org.lwjgl.opengl.GL11.*;
 

@@ -18,14 +18,13 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.opencl.CL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 import ez.nebula.client.BuildConfig;
 import ez.nebula.client.core.ClientConfig;
 import ez.nebula.client.core.Environment;
 import ez.nebula.client.impl.gui.account.AccountSelectorScreen;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.font.Fonts;
 
 import java.awt.Desktop;
 import java.net.URI;

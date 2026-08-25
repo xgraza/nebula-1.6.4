@@ -1,4 +1,4 @@
-package ez.nebula.client.api.render.trait;
+package ez.nebula.client.util.render.gui.trait;
 
 /**
  * @author xgraza

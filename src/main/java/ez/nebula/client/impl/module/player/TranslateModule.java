@@ -2,10 +2,10 @@ package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.listener.event.world.EventPlace;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.world.Render3D;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.RenderUtil;
 import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSign;
@@ -78,7 +78,7 @@ public final class TranslateModule extends Module
 
         MC.mcProfiler.startSection("translate_sign_hover");
 
-        RenderUtil.renderGLBillboard(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0.25, () ->
+        Render3D.billboard(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0.25, () ->
         {
             final List<String> lines = Fonts.POPPINS.wrapText(translatedText, 120, true);
             Collections.reverse(lines); // wtf google translate

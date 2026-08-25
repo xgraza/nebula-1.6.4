@@ -1,4 +1,4 @@
-package ez.nebula.client.util.render;
+package ez.nebula.client.util.render.world;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;

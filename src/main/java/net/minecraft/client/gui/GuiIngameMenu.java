@@ -9,7 +9,7 @@ import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
 import ez.nebula.client.BuildConfig;
 import ez.nebula.client.core.Environment;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.worlddownloader.WorldDownloader;
 import ez.nebula.client.worlddownloader.WorldDownloaderGUIScreen;
 

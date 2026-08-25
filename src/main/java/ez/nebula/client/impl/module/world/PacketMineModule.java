@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
@@ -20,14 +21,13 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.QuadMask;
+import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.player.EventAttackBlock;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
-import ez.nebula.client.util.render.RenderUtil;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 
 import java.util.Queue;
@@ -112,8 +112,8 @@ public final class PacketMineModule extends Module
         bb = bb.expand(factor * 0.5, factor * 0.5, factor * 0.5);
 
         final int color = factor >= percentSetting.getValue() ? 0x8000FF00 : 0x80FF0000;
-        RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, color);
-        RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
+        Render3D.filledAABB(bb, QuadMask.ALL_FACES, color);
+        Render3D.outlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color);
 
         MC.mcProfiler.endSection();
     };

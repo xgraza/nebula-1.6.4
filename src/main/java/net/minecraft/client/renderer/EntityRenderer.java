@@ -52,9 +52,9 @@ import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
 import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.util.render.EntityCulling;
+import ez.nebula.client.util.render.world.EntityCulling;
 import ez.nebula.client.api.listener.event.player.EventRaytrace;
-import ez.nebula.client.util.render.ProjectionUtil;
+import ez.nebula.client.util.render.gui.ProjectionUtil;
 
 import java.awt.Color;
 import java.io.IOException;

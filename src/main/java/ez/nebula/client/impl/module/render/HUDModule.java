@@ -16,9 +16,8 @@ import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.listener.event.render.EventRender2D;
 import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.render.ColorUtil;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.gui.Render2D;
 
 import java.awt.Color;
 
@@ -73,13 +72,13 @@ public final class HUDModule extends Module
             @Subscribe
             private final EventListener<EventTick> tickEventListener = event ->
             {
-                if (RenderUtil.GAME_RESOLUTION == null || MC.thePlayer == null)
+                if (Render2D.RESOLUTION == null || MC.thePlayer == null)
                 {
                     return;
                 }
                 // scale hud elements automatically
-                final double width = RenderUtil.GAME_RESOLUTION.getScaledWidth_double();
-                final double height = RenderUtil.GAME_RESOLUTION.getScaledHeight_double();
+                final double width = Render2D.RESOLUTION.getScaledWidth_double();
+                final double height = Render2D.RESOLUTION.getScaledHeight_double();
                 if (prevHeight != -1 && prevWidth != -1 && (width != prevWidth || height != prevHeight))
                 {
                     final double scaleX = width / prevWidth;

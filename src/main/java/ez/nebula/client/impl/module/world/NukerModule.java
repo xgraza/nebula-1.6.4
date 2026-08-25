@@ -20,8 +20,8 @@ import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
-import ez.nebula.client.util.render.QuadMask;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.world.QuadMask;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
@@ -95,15 +95,15 @@ public final class NukerModule extends Module
                 continue;
             }
             final AxisAlignedBB bb = new AxisAlignedBB(pos);
-            RenderUtil.renderFilledAABB(bb, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt(80));
-            RenderUtil.renderOutlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt());
+            Render3D.filledAABB(bb, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt(80));
+            Render3D.outlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, HUDModule.INSTANCE.primaryColorSetting.getValueInt());
         }
         if (info != null)
         {
             final AxisAlignedBB bb = new AxisAlignedBB(info.getPos());
-            final int faceMask = RenderUtil.calculateFaceMask(info.getFacing());
-            RenderUtil.renderFilledAABB(bb, faceMask, 0x80FF0000);
-            RenderUtil.renderOutlinedAABB(bb, 1.5f, faceMask, 0xFFFFFFFF);
+            final int faceMask = QuadMask.mask(info.getFacing());
+            Render3D.filledAABB(bb, faceMask, 0x80FF0000);
+            Render3D.outlinedAABB(bb, 1.5f, faceMask, 0xFFFFFFFF);
         }
     };
 

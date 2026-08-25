@@ -5,6 +5,7 @@
 package net.minecraft.client.gui;
 
 import ez.nebula.client.impl.module.render.*;
+import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -36,14 +37,13 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import ez.nebula.client.core.ClientConfig;
 import ez.nebula.client.core.Nebula;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.render.EventRender2D;
 import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.render.HeadDownloader;
 import ez.nebula.client.util.render.RenderUtil;
-import org.lwjgl.opengl.GLContext;
 
 import java.awt.Color;
 import java.util.Collection;
@@ -107,7 +107,7 @@ public class GuiIngame extends Gui
     public void renderGameOverlay(float par1, boolean par2, int par3, int par4)
     {
         ScaledResolution var5 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
-        RenderUtil.GAME_RESOLUTION = var5;
+        Render2D.RESOLUTION = var5;
         int width = var5.getScaledWidth();
         int height = var5.getScaledHeight();
         FontRenderer var8 = this.mc.fontRenderer;

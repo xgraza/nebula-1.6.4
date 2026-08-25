@@ -12,7 +12,6 @@ import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
-import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
@@ -22,7 +21,8 @@ import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
-import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.world.QuadMask;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSign;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
@@ -134,8 +134,8 @@ public final class AutoHighwayModule extends Module
         final AxisAlignedBB aabb = new AxisAlignedBB(Vec3.createVectorHelper(
                 breakInfo.getPos().getX(), breakInfo.getPos().getY(), breakInfo.getPos().getZ()), 1);
 
-        RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(breakInfo.getFacing()), 0x80FF0000);
-        RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(breakInfo.getFacing()), 0xFFFF0000);
+        Render3D.filledAABB(aabb, QuadMask.mask(breakInfo.getFacing()), 0x80FF0000);
+        Render3D.outlinedAABB(aabb, 1.5f, QuadMask.mask(breakInfo.getFacing()), 0xFFFF0000);
         MC.mcProfiler.endSection();
     };
 

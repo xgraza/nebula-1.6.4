@@ -10,6 +10,9 @@ import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
+import ez.nebula.client.util.render.world.QuadMask;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
@@ -35,8 +38,7 @@ import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
-import ez.nebula.client.util.render.RenderUtil;
-import ez.nebula.client.api.render.font.Fonts;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import org.lwjgl.input.Keyboard;
 
@@ -218,8 +220,8 @@ public final class ScaffoldModule extends Module
         final double posX = event.getResolution().getScaledWidth_double() / 2.0 - totalWidth / 2.0;
         final double posY = event.getResolution().getScaledHeight_double() / 2.0 + 100;
 
-        RenderUtil.renderRectangle(posX - 2, posY - 2, totalWidth + 4, 16 + 4, 0x80000000);
-        RenderUtil.renderItemWithoutEffects(itemStack, (int) posX, (int) posY);
+        Render2D.rectangle(posX - 2, posY - 2, totalWidth + 4, 16 + 4, 0x80000000);
+        Render2D.itemNoEffects(itemStack, (int) posX, (int) posY);
         Fonts.POPPINS.drawStringShadow(text, posX + 16, posY + 2, -1);
         MC.mcProfiler.endSection();
     };
@@ -246,8 +248,8 @@ public final class ScaffoldModule extends Module
 
         final AxisAlignedBB aabb = new AxisAlignedBB(blockData.getPos());
         final ColorSetting cs = HUDModule.INSTANCE.primaryColorSetting;
-        RenderUtil.renderFilledAABB(aabb, RenderUtil.calculateFaceMask(blockData.getFacing()), cs.getValueInt(120));
-        RenderUtil.renderOutlinedAABB(aabb, 1.5f, RenderUtil.calculateFaceMask(blockData.getFacing()), cs.getValueInt());
+        Render3D.filledAABB(aabb, QuadMask.mask(blockData.getFacing()), cs.getValueInt(120));
+        Render3D.outlinedAABB(aabb, 1.5f, QuadMask.mask(blockData.getFacing()), cs.getValueInt());
         MC.mcProfiler.endSection();
     };
 

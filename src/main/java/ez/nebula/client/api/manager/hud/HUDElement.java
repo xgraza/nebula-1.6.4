@@ -3,6 +3,7 @@ package ez.nebula.client.api.manager.hud;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
+import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import ez.nebula.client.core.ClientConfig;
@@ -11,10 +12,9 @@ import ez.nebula.client.api.config.IJSONSerializable;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.SettingProvider;
-import ez.nebula.client.api.render.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.Togglable;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
@@ -69,7 +69,7 @@ public class HUDElement extends GUIComponent implements SettingProvider, IJSONSe
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        render(RenderUtil.GAME_RESOLUTION);
+        render(Render2D.RESOLUTION);
     }
 
     public void render(final ScaledResolution res)
