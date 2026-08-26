@@ -12,6 +12,7 @@ import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.StringUtils;
 
 /**
  * @author xgraza
@@ -36,7 +37,7 @@ public final class ParrotModule extends Module
         if (event.getPacket() instanceof S02PacketChat)
         {
             final S02PacketChat packet = event.getPacket();
-            final String message = packet.getMessage().getUnformattedText();
+            final String message = StringUtils.stripControlCodes(packet.getMessage().getUnformattedText());
 
             final String username = FormattingUtil.parseUsernameFromChat(message, null);
             if (username == null || username.isEmpty() || username.equalsIgnoreCase(MC.getSession().getUsername()))
