@@ -341,20 +341,17 @@ public final class AutoBedModule extends Module
     {
         final Queue<BlockInfo> placements = new ConcurrentLinkedQueue<>();
         final Set<BlockPos> excluded = new HashSet<>();
-        final int range = rangeSetting.getValue().intValue();
-        for (int y = 0; y <= yRangeSetting.getValue(); ++y)
+        for (final BlockPos offset : BlockUtil.RADIAL_BLOCK_MAP.get(rangeSetting.getValue().intValue()))
         {
-            for (int x = -range; x <= range; ++x)
+            if (offset.getY() < 0 || offset.getY() > yRangeSetting.getValue())
             {
-                for (int z = -range; z <= range; ++z)
-                {
-                    final BlockPos neighbor = pos.add(x, y, z);
-                    final EnumFacing face = getBedPlaceDirection(neighbor);
-                    if (face != null && excluded.add(neighbor.offset(face)))
-                    {
-                        placements.add(new BlockInfo(neighbor, face));
-                    }
-                }
+                continue;
+            }
+            final BlockPos neighbor = pos.add(offset);
+            final EnumFacing face = getBedPlaceDirection(neighbor);
+            if (face != null /*&& excluded.add(neighbor.offset(face))*/)
+            {
+                placements.add(new BlockInfo(neighbor, face));
             }
         }
         return placements;
