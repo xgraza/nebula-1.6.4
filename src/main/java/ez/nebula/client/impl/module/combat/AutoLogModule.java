@@ -54,7 +54,7 @@ public final class AutoLogModule extends Module
     @Subscribe
     private final EventListener<EventAddEntity> addEntityEventListener = event ->
     {
-        if (event.getEntity() instanceof EntityPlayer)
+        if (event.getEntity() instanceof EntityPlayer && visualRangeSetting.getValue())
         {
             final EntityPlayer player = (EntityPlayer) event.getEntity();
             if (!friendsSetting.getValue() && Nebula.INSTANCE.getFriendManager().isFriend(player))
