@@ -5,6 +5,7 @@ import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -133,10 +134,6 @@ public final class KillAuraModule extends Module
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (!handleWeapon())
-        {
-            return;
-        }
         if (modeSetting.getValue() == Mode.SWITCH || !isValidEntity(target))
         {
             target = getNextTarget();
@@ -155,6 +152,10 @@ public final class KillAuraModule extends Module
             {
                 blockSword(false);
             }
+            return;
+        }
+        if (!handleWeapon())
+        {
             return;
         }
         if (canAttack())
@@ -350,7 +351,7 @@ public final class KillAuraModule extends Module
                         continue;
                     }
                     final float score = ItemUtil.getSwordScore(
-                            itemStack, prefer32KSetting.getValue());
+                            stack, prefer32KSetting.getValue());
                     if (score > maxSwordScore)
                     {
                         maxSwordScore = score;
