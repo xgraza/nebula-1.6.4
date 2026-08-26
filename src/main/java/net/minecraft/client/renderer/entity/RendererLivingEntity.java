@@ -165,8 +165,11 @@ public abstract class RendererLivingEntity extends Render
                 }
             }
 
-            //var26 = par1EntityLivingBase.prevRotationPitch + (par1EntityLivingBase.rotationPitch - par1EntityLivingBase.prevRotationPitch) * par9;
-            var26 = par1EntityLivingBase.prevRenderPitch + (par1EntityLivingBase.renderPitch - par1EntityLivingBase.prevRenderPitch) * par9;
+            var26 = par1EntityLivingBase.prevRotationPitch + (par1EntityLivingBase.rotationPitch - par1EntityLivingBase.prevRotationPitch) * par9;
+            if (par1EntityLivingBase.equals(Minecraft.getMinecraft().thePlayer))
+            {
+                var26 = par1EntityLivingBase.prevRenderPitch + (par1EntityLivingBase.renderPitch - par1EntityLivingBase.prevRenderPitch) * par9;
+            }
 
             this.renderLivingAt(par1EntityLivingBase, par2, par4, par6);
             var291 = this.handleRotationFloat(par1EntityLivingBase, par9);
