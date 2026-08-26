@@ -99,7 +99,7 @@ public final class AutoArmorModule extends Module
             if (destackSetting.getValue() && (itemStack != null && itemStack.stackSize > 1))
             {
                 InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.PICKUP);
-                InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.RIGHT_CLICK);
+                InventoryUtil.windowClick(8 - i, InventoryUtil.ClickType.RIGHT_CLICK);
                 InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.PICKUP); // put back
             } else
             {
