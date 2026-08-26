@@ -174,6 +174,6 @@ public final class TargetStrafeModule extends Module
                 || !SpeedModule.INSTANCE.isToggled()
                 || (!MoveUtil.isMoving() && !autoMoveSetting.getValue())
                 || MC.thePlayer.movementInput.moveForward < 0 // allow to backout of the target strafe
-                || (jumpBackoutSetting.getValue() && MC.gameSettings.keyBindJump.pressed); // additionally, holding jump backs out
+                || (jumpBackoutSetting.getValue() && MC.thePlayer.movementInput.jump); // additionally, holding jump backs out
     }
 }
