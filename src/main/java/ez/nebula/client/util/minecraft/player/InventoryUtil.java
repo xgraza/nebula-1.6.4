@@ -20,6 +20,7 @@ public final class InventoryUtil
 
     public static final int INVALID_SLOT = -1;
     public static final int PLAYER_INVENTORY_SIZE = 36;
+    public static final int PLAYER_INVENTORY_ARMOR_SIZE = 4;
     public static final int HOTBAR_SLOTS = 9;
 
     /**

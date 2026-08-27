@@ -15,6 +15,8 @@ import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author xgraza
@@ -25,16 +27,19 @@ import java.util.Arrays;
         category = ModuleCategory.COMBAT)
 public final class AutoArmorModule extends Module
 {
-    private static final int INVENTORY_WINDOW_ID = 0;
-    private static final Enchantment[] RELEVANT_ENCHANTMENTS = {
-            Enchantment.thorns,
-            Enchantment.protection,
-            Enchantment.projectileProtection,
-            Enchantment.blastProtection,
-            Enchantment.fireProtection,
-            Enchantment.aquaAffinity,
-            Enchantment.unbreaking
-    };
+    private static final Map<Enchantment, Float> ENCHANTMENT_WEIGHT_MAP = new HashMap<>();
+    private static final int ARMOR_SLOT_INDEX_MAX = 8;
+
+    static
+    {
+        ENCHANTMENT_WEIGHT_MAP.put(Enchantment.protection, 2.0f);
+        ENCHANTMENT_WEIGHT_MAP.put(Enchantment.projectileProtection, 1.5f);
+        ENCHANTMENT_WEIGHT_MAP.put(Enchantment.fireProtection, 1.5f);
+        ENCHANTMENT_WEIGHT_MAP.put(Enchantment.blastProtection, 1.5f);
+        ENCHANTMENT_WEIGHT_MAP.put(Enchantment.unbreaking, 1.25f);
+        ENCHANTMENT_WEIGHT_MAP.put(Enchantment.aquaAffinity, 1.05f);
+        ENCHANTMENT_WEIGHT_MAP.put(Enchantment.thorns, 0.85f);
+    }
 
     private final Setting<Boolean> destackSetting = builder("Destack", true)
             .setDescription("If to only use one armor piece instead of the whole stacked armor stack")
@@ -44,9 +49,6 @@ public final class AutoArmorModule extends Module
             .build();
     private final Setting<Boolean> tickSetting = builder("Tick", false)
             .setDescription("If to wait a player tick before equipping the next piece of armor")
-            .build();
-    private final Setting<Boolean> guiCheckSetting = builder("Gui Check", true)
-            .setDescription("If to make sure you are not in another container GUI when equipping armor")
             .build();
 
     private final int[] armorPieces = new int[4];
@@ -71,12 +73,12 @@ public final class AutoArmorModule extends Module
 
         if (EnderchestBPModule.INSTANCE.isActive())
         {
-            notifyInfo("EnderCheatBP interfered with AutoArmor, so it was turned off.", 7500L);
+            notifyWarn("EnderChestBP interfered with AutoArmor, so it was turned off.", 7500L);
             EnderchestBPModule.INSTANCE.closeEnderChestGUI();
             EnderchestBPModule.INSTANCE.setToggled(false);
         }
 
-        if (MC.thePlayer.openContainer.windowId != INVENTORY_WINDOW_ID && guiCheckSetting.getValue())
+        if (MC.thePlayer.openContainer.windowId != InventoryUtil.PLAYER_INVENTORY_WINDOW_ID)
         {
             return;
         }
@@ -89,25 +91,24 @@ public final class AutoArmorModule extends Module
                 continue;
             }
 
-            final int armorSlot = InventoryUtil.toPacketSlot(slot); //slot < 9 ? slot + 36 : slot;
+            final int inventorySlot = InventoryUtil.toPacketSlot(slot);
+            final int armorSlot = ARMOR_SLOT_INDEX_MAX - i;
             if (MC.thePlayer.inventory.armorInventory[i] != null)
             {
-                InventoryUtil.windowClick(8 - i, InventoryUtil.ClickType.DROP_ALL);
+                InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.DROP_ALL);
             }
 
             final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(slot);
             if (destackSetting.getValue() && (itemStack != null && itemStack.stackSize > 1))
             {
-                InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.PICKUP);
-                InventoryUtil.windowClick(8 - i, InventoryUtil.ClickType.RIGHT_CLICK);
-                InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.PICKUP); // put back
+                InventoryUtil.windowClick(inventorySlot, InventoryUtil.ClickType.PICKUP);
+                InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.RIGHT_CLICK);
+                InventoryUtil.windowClick(inventorySlot, InventoryUtil.ClickType.PICKUP); // put back
             } else
             {
-                InventoryUtil.windowClick(armorSlot, InventoryUtil.ClickType.SHIFT_CLICK);
+                InventoryUtil.windowClick(inventorySlot, InventoryUtil.ClickType.SHIFT_CLICK);
             }
-
             armorPieces[i] = -1;
-            // run next click next tick
             if (tickSetting.getValue())
             {
                 return;
@@ -117,54 +118,58 @@ public final class AutoArmorModule extends Module
 
     private boolean cacheBestArmor()
     {
-        Arrays.fill(equippedArmorScores, -1.0f);
         for (int i = 0; i < 4; ++i)
         {
-            final ItemStack itemStack = MC.thePlayer.inventory.armorInventory[i];
-            if (itemStack != null && itemStack.getItem() instanceof ItemArmor)
+            equippedArmorScores[i] = -1.0f;
+            armorPieces[i] = -1;
+        }
+
+        for (int slot = 0; slot < InventoryUtil.PLAYER_INVENTORY_ARMOR_SIZE; ++slot)
+        {
+            final ItemStack stack = MC.thePlayer.inventory.armorInventory[slot];
+            if (stack != null && stack.getItem() instanceof ItemArmor)
             {
-                equippedArmorScores[i] = getArmorScore(
-                        itemStack, ((ItemArmor) itemStack.getItem()));
+                equippedArmorScores[slot] = getArmorScore(stack, ((ItemArmor) stack.getItem()));
             }
         }
 
         boolean shouldReplaceArmor = false;
-        for (int i = 0; i < 36; ++i)
+        for (int slot = 0; slot < InventoryUtil.PLAYER_INVENTORY_SIZE; ++slot)
         {
-            final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(i);
-            if (itemStack == null || !(itemStack.getItem() instanceof ItemArmor))
+            final ItemStack stack = MC.thePlayer.inventory.getStackInSlot(slot);
+            if (stack == null || !(stack.getItem() instanceof ItemArmor))
             {
                 continue;
             }
-            final ItemArmor armor = (ItemArmor) itemStack.getItem();
-            final float armorScore = getArmorScore(itemStack, armor);
+            final ItemArmor armor = (ItemArmor) stack.getItem();
+            final float armorScore = getArmorScore(stack, armor);
             final int armorIndex = 3 - armor.armorType;
             if (armorScore > equippedArmorScores[armorIndex])
             {
                 equippedArmorScores[armorIndex] = armorScore;
-                armorPieces[armorIndex] = i;
+                armorPieces[armorIndex] = slot;
                 shouldReplaceArmor = true;
             }
         }
         return shouldReplaceArmor;
     }
 
-    private float getArmorScore(final ItemStack itemStack, final ItemArmor armor)
+    private float getArmorScore(final ItemStack stack, final ItemArmor armor)
     {
-        float score = armor.damageReduceAmount;
-        for (final Enchantment enchantment : RELEVANT_ENCHANTMENTS)
+        float score = armor.damageReduceAmount * 1.2f;
+        for (final Enchantment enchantment : ENCHANTMENT_WEIGHT_MAP.keySet())
         {
-            float enchantmentLevel = ItemUtil.getEnchantLevel(enchantment, itemStack);
-            if (enchantmentLevel == 0.0f)
+            final int level = ItemUtil.getEnchantLevel(enchantment, stack);
+            if (level <= 0)
             {
                 continue;
             }
-            if (enchantment.effectId == Enchantment.thorns.effectId
-                    && noThornsSetting.getValue())
+            float weightedScore = level * ENCHANTMENT_WEIGHT_MAP.get(enchantment);
+            if (noThornsSetting.getValue() && enchantment.effectId == Enchantment.thorns.effectId)
             {
-                enchantmentLevel *= 0.25f;
+                weightedScore -= level;
             }
-            score += enchantmentLevel;
+            score += weightedScore;
         }
         return score;
     }
