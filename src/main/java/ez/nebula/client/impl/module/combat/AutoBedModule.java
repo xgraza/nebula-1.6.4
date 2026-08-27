@@ -34,11 +34,7 @@ import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.*;
 
 /**
  * @author xgraza
@@ -71,8 +67,11 @@ public final class AutoBedModule extends Module
     private final Setting<Boolean> extinguishFireSetting = builder("Extinguish Fire", true)
             .setDescription("If to extinguish fire before placing a bed")
             .build();
-    private final Setting<Boolean> packetSetting = builder("Observe Packet", false)
-            .setDescription("If to observe incoming packets for block changes")
+    private final Setting<Boolean> packetPlaceSetting = builder("Packet Place", false)
+            .setDescription("If to place on packet")
+            .build();
+    private final Setting<Boolean> packetBreakSetting = builder("Packet Break", false)
+            .setDescription("If to break on packet")
             .build();
 
     private final NumberSetting<Float> minDamageSetting = numberBuilder("Min Damage", 6.0f)
@@ -102,6 +101,12 @@ public final class AutoBedModule extends Module
             .setDescription("The multiplier to the local damage")
             .setVisibility((value) -> !suicideSetting.getValue())
             .build();
+    private final NumberSetting<Float> protectHealthSetting = numberBuilder("Protect Health", 8.0f)
+            .setMin(1.0f)
+            .setMax(19.5f)
+            .setScale(0.5f)
+            .setDescription("The minimum amount of health you must have to continue")
+            .build();
     private final NumberSetting<Float> swapPenaltySetting = numberBuilder("Swap Penalty", 2.0f)
             .setMin(0.5f)
             .setMax(12.0f)
@@ -113,7 +118,7 @@ public final class AutoBedModule extends Module
             .setDescription("If to render the bed placement position")
             .build();
 
-    private final BedBlockInfo blockInfo = new BedBlockInfo(null, null);
+    private BedBlockInfo blockInfo;
     private int bedSlot = InventoryUtil.INVALID_SLOT;
     private EntityPlayer target;
 
@@ -123,7 +128,7 @@ public final class AutoBedModule extends Module
         super.onDisable();
         AutoGGModule.INSTANCE.setLastTarget(null);
         target = null;
-        blockInfo.invalidate();
+        blockInfo = null;
         bedSlot = InventoryUtil.INVALID_SLOT;
         if (MC.thePlayer != null)
         {
@@ -134,7 +139,7 @@ public final class AutoBedModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
-        if (blockInfo.getPos() == null || target == null || !renderSetting.getValue())
+        if (blockInfo == null || target == null || !renderSetting.getValue())
         {
             return;
         }
@@ -160,8 +165,12 @@ public final class AutoBedModule extends Module
     {
         if (isInOverworld())
         {
+            if (blockInfo != null || target != null)
+            {
+                Nebula.INSTANCE.getInventoryManager().syncSlot();
+            }
             target = null;
-            blockInfo.invalidate();
+            blockInfo = null;
             return;
         }
         if (!isValidEntity(target))
@@ -174,10 +183,24 @@ public final class AutoBedModule extends Module
         bedSlot = InventoryUtil.getHotbarItem(ItemBed.class);
         if (bedSlot == InventoryUtil.INVALID_SLOT)
         {
+            if (blockInfo != null)
+            {
+                Nebula.INSTANCE.getInventoryManager().syncSlot();
+            }
+            blockInfo = null;
+            return;
+        }
+        if (MC.thePlayer.getHealth() <= protectHealthSetting.getValue())
+        {
+            if (blockInfo != null)
+            {
+                Nebula.INSTANCE.getInventoryManager().syncSlot();
+            }
+            blockInfo = null;
             return;
         }
         calculatePlacePosition();
-        if (blockInfo.getPos() == null || blockInfo.getFacing() == null)
+        if (blockInfo == null)
         {
             return;
         }
@@ -211,7 +234,11 @@ public final class AutoBedModule extends Module
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
     {
-        if (event.getPacket() instanceof S23PacketBlockChange && packetSetting.getValue() && blockInfo.getPos() != null)
+        if (MC.thePlayer == null || MC.theWorld == null)
+        {
+            return;
+        }
+        if (event.getPacket() instanceof S23PacketBlockChange && blockInfo != null)
         {
             final S23PacketBlockChange packet = event.getPacket();
             final BlockPos placePos = blockInfo.getPos();
@@ -222,13 +249,18 @@ public final class AutoBedModule extends Module
             }
 
             final float damage = calcDamage(MC.thePlayer, pos) * lethalMultiplierSetting.getValue();
-            if (!suicideSetting.getValue() && damage > lethalHealthSetting.getValue())
+            final float damage2 = calcDamage(MC.thePlayer, pos.offset(blockInfo.getFacing())) * lethalMultiplierSetting.getValue();
+            if (!suicideSetting.getValue() && (damage + damage2) * 0.5f >= lethalHealthSetting.getValue())
             {
                 return;
             }
 
             if (packet.getType() instanceof BlockBed)
             {
+                if (!packetBreakSetting.getValue())
+                {
+                    return;
+                }
                 PacketUtil.send(new C08PacketPlayerBlockPlacement(
                         packet.getX(), packet.getY(), packet.getZ(),
                         EnumFacing.UP.order_a,
@@ -236,6 +268,10 @@ public final class AutoBedModule extends Module
                         0.5f, 0.5f, 0.5f));
             } else if (packet.getType() instanceof BlockAir)
             {
+                if (!packetPlaceSetting.getValue())
+                {
+                    return;
+                }
                 MC.theWorld.setBlockToAir(packet.getX(), packet.getY(), packet.getZ());
                 tryPlaceBreakBed();
             }
@@ -244,53 +280,58 @@ public final class AutoBedModule extends Module
 
     private void tryPlaceBreakBed()
     {
-        if (bedSlot == InventoryUtil.INVALID_SLOT || blockInfo.getPos() == null || blockInfo.getFacing() == null)
+        if (bedSlot == InventoryUtil.INVALID_SLOT || blockInfo == null)
         {
             return;
         }
-        Nebula.INSTANCE.getInventoryManager().setSlot(bedSlot);
         if (Nebula.INSTANCE.getRotationManager().spoof(
                 BlockUtil.getHorizontalFacing(blockInfo.getFacing()) * 90.0f,
                 0.0f, AUTO_BED_ROTATION_PRIORITY))
         {
+            Nebula.INSTANCE.getInventoryManager().setSlot(bedSlot);
             if (InteractionManager.INSTANCE.rightClickBlock(blockInfo.getPos().down(), EnumFacing.UP))
             {
+                Nebula.INSTANCE.getInventoryManager().syncSlot();
                 InteractionManager.INSTANCE.rightClickBlock(blockInfo.getPos(), EnumFacing.UP);
             }
         }
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
     }
 
     private void calculatePlacePosition()
     {
         if (isInOverworld())
         {
-            blockInfo.invalidate();
+            blockInfo = null;
             return;
         }
-        final BedBlockInfo info = new BedBlockInfo(blockInfo);
         final BlockPos origin = PlayerUtil.getOrigin(target);
         final Queue<BlockInfo> placements = getPlacements(origin);
         if (placements.isEmpty())
         {
-            blockInfo.invalidate();
             return;
         }
 
+        BedBlockInfo info = null;
         while (!placements.isEmpty())
         {
-            final BlockInfo bedPos = placements.poll();
-            if (bedPos == null)
+            final BlockInfo placeInfo = placements.poll();
+            if (placeInfo == null)
             {
                 break;
             }
 
-            final BlockPos bedOrigin = bedPos.getPos();
-            final BlockPos bedNeighbor = bedPos.getPos().offset(bedPos.getFacing());
+            final BlockPos bedOrigin = placeInfo.getPos();
+            final BlockPos bedNeighbor = placeInfo.getPos().offset(placeInfo.getFacing());
 
             final float targetDmg1 = calcDamage(target, bedOrigin);
             final float targetDmg2 = calcDamage(target, bedNeighbor);
-            if (targetDmg1 < minDamageSetting.getValue() && targetDmg2 < minDamageSetting.getValue())
+            final float damage = (targetDmg1 + targetDmg2) * 0.5f;
+            if (damage < minDamageSetting.getValue())
+            {
+                continue;
+            }
+
+            if (blockInfo != null && blockInfo.getTargetDamage() < damage && damage - blockInfo.getTargetDamage() <= swapPenaltySetting.getValue())
             {
                 continue;
             }
@@ -307,49 +348,34 @@ public final class AutoBedModule extends Module
                 {
                     continue;
                 }
-                if (averageDamageSetting.getValue())
-                {
-                    localDamage = (localDmg1 + localDmg2) * 0.5f;
-                } else
-                {
-                    localDamage = localDmg1;
-                }
-                if (localDamage >= lethal)
+                localDamage = averageDamageSetting.getValue() ? (localDmg1 + localDmg2) * 0.5f : localDmg1;
+                if (localDamage >= lethal || localDamage >= damage)
                 {
                     continue;
                 }
             }
-            final float targetDmg = (targetDmg1 + targetDmg1) * 0.5f;
-            if (info.getTargetDamage() < targetDmg)
+            if (info == null || info.getTargetDamage() < damage)
             {
-                // if the switch target doesn't do much more damage & does more damage to us...
-                if (Math.abs(info.getTargetDamage() - targetDmg) <= swapPenaltySetting.getValue()
-                        && localDamage > info.getLocalDamage())
-                {
-                    continue;
-                }
-                info.setPos(bedPos.getPos());
-                info.setFacing(bedPos.getFacing());
-                info.setTargetDamage(targetDmg);
+                info = new BedBlockInfo(placeInfo.getPos(), placeInfo.getFacing());
+                info.setTargetDamage(damage);
                 info.setLocalDamage(localDamage);
             }
         }
-        blockInfo.copy(info);
+        blockInfo = info;
     }
 
     private Queue<BlockInfo> getPlacements(final BlockPos pos)
     {
-        final Queue<BlockInfo> placements = new ConcurrentLinkedQueue<>();
-        final Set<BlockPos> excluded = new HashSet<>();
+        final Queue<BlockInfo> placements = new ArrayDeque<>();
         for (final BlockPos offset : BlockUtil.RADIAL_BLOCK_MAP.get(rangeSetting.getValue().intValue()))
         {
-            if (offset.getY() < 0 || offset.getY() > yRangeSetting.getValue())
+            if (offset.getY() < -1 || offset.getY() > yRangeSetting.getValue())
             {
                 continue;
             }
             final BlockPos neighbor = pos.add(offset);
             final EnumFacing face = getBedPlaceDirection(neighbor);
-            if (face != null /*&& excluded.add(neighbor.offset(face))*/)
+            if (face != null)
             {
                 placements.add(new BlockInfo(neighbor, face));
             }
@@ -422,7 +448,7 @@ public final class AutoBedModule extends Module
     @Override
     public boolean isActive()
     {
-        return super.isActive() && target != null && blockInfo.getPos() != null && blockInfo.getFacing() != null;
+        return super.isActive() && target != null && blockInfo != null;
     }
 
     @Override
@@ -439,32 +465,9 @@ public final class AutoBedModule extends Module
     {
         private float targetDamage = 1.0f, localDamage;
 
-        public BedBlockInfo(final BedBlockInfo info)
-        {
-            this(info.getPos(), info.getFacing());
-            targetDamage = info.getTargetDamage();
-            localDamage = info.getLocalDamage();
-        }
-
         public BedBlockInfo(BlockPos pos, EnumFacing facing)
         {
             super(pos, facing);
-        }
-
-        public void copy(final BedBlockInfo info)
-        {
-            setPos(info.getPos());
-            setFacing(info.getFacing());
-            targetDamage = info.getTargetDamage();
-            localDamage = info.getLocalDamage();
-        }
-
-        public void invalidate()
-        {
-            setPos(null);
-            setFacing(null);
-            targetDamage = 0.0f;
-            localDamage = 1.0f;
         }
 
         public float getTargetDamage()
