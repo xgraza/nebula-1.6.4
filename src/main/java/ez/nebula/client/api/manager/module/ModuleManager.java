@@ -122,6 +122,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new FinderModule());
         registerModule(new FullbrightModule());
         registerModule(new GlintModule());
+        registerModule(new HeavenModule());
         registerModule(new HUDModule());
         registerModule(new ItemPhysicsModule());
         registerModule(new ItemTweaksModule());
