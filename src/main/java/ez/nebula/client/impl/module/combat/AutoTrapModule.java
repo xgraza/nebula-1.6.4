@@ -192,6 +192,7 @@ public final class AutoTrapModule extends Module
             }
         }
 
+        placementList.removeIf((pos) -> !BlockUtil.isReplaceable(pos));
         placementList.sort(Comparator.comparingDouble(MathUtil::getDistanceFromPlayer));
     }
 }
