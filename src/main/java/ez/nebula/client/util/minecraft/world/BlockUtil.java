@@ -1,14 +1,18 @@
 package ez.nebula.client.util.minecraft.world;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockReed;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.src.BlockPos;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 
 import java.util.*;
@@ -197,6 +201,12 @@ public final class BlockUtil
                 }
             }
         }
+
+        if (!MC.theWorld.checkNoEntityCollision(new AxisAlignedBB(pos.offset(facing))))
+        {
+            return false;
+        }
+
         final int worldHeight = MC.theWorld.getHeight();
         int posY = pos.getY();
         if (facing == EnumFacing.UP)

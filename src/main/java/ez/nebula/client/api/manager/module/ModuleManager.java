@@ -38,6 +38,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new AutoGGModule());
         registerModule(new AutoLogModule());
         registerModule(new AutoPotModule());
+        registerModule(new AutoTrapModule());
         registerModule(new BurrowModule());
         registerModule(new CriticalsModule());
         registerModule(new KillAuraModule());
