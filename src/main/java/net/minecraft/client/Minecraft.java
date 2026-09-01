@@ -6,6 +6,7 @@ package net.minecraft.client;
 
 import com.google.common.collect.Lists;
 import ez.nebula.client.api.listener.event.game.EventBindStopUse;
+import ez.nebula.client.api.listener.event.game.EventDisplayGUI;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import ez.nebula.client.impl.gui.module.ClickGUIScreen;
 import ez.nebula.client.impl.module.player.AutoReconnectModule;
@@ -762,6 +763,13 @@ public class Minecraft
      */
     public void displayGuiScreen(GuiScreen p_147108_1_)
     {
+        final EventDisplayGUI event = new EventDisplayGUI(currentScreen, p_147108_1_);
+        if (EventBus.dispatch(event))
+        {
+            return;
+        }
+        p_147108_1_ = event.getPending();
+
         if (this.currentScreen != null)
         {
             this.currentScreen.onGuiClosed();

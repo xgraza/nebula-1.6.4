@@ -9,9 +9,9 @@ import java.io.IOException;
 
 public class C0FPacketConfirmTransaction extends Packet
 {
-    private int field_149536_a;
-    private short field_149534_b;
-    private boolean field_149535_c;
+    private int id;
+    private short uid;
+    private boolean accepted;
     private static final String __OBFID = "CL_00001351";
 
     public C0FPacketConfirmTransaction()
@@ -20,9 +20,9 @@ public class C0FPacketConfirmTransaction extends Packet
 
     public C0FPacketConfirmTransaction(int p_i45244_1_, short p_i45244_2_, boolean p_i45244_3_)
     {
-        this.field_149536_a = p_i45244_1_;
-        this.field_149534_b = p_i45244_2_;
-        this.field_149535_c = p_i45244_3_;
+        this.id = p_i45244_1_;
+        this.uid = p_i45244_2_;
+        this.accepted = p_i45244_3_;
     }
 
     public void processPacket(INetHandlerPlayServer p_149531_1_)
@@ -35,9 +35,9 @@ public class C0FPacketConfirmTransaction extends Packet
      */
     public void readPacketData(PacketBuffer p_148837_1_) throws IOException
     {
-        this.field_149536_a = p_148837_1_.readByte();
-        this.field_149534_b = p_148837_1_.readShort();
-        this.field_149535_c = p_148837_1_.readByte() != 0;
+        this.id = p_148837_1_.readByte();
+        this.uid = p_148837_1_.readShort();
+        this.accepted = p_148837_1_.readByte() != 0;
     }
 
     /**
@@ -45,9 +45,9 @@ public class C0FPacketConfirmTransaction extends Packet
      */
     public void writePacketData(PacketBuffer p_148840_1_) throws IOException
     {
-        p_148840_1_.writeByte(this.field_149536_a);
-        p_148840_1_.writeShort(this.field_149534_b);
-        p_148840_1_.writeByte(this.field_149535_c ? 1 : 0);
+        p_148840_1_.writeByte(this.id);
+        p_148840_1_.writeShort(this.uid);
+        p_148840_1_.writeByte(this.accepted ? 1 : 0);
     }
 
     /**
@@ -55,17 +55,17 @@ public class C0FPacketConfirmTransaction extends Packet
      */
     public String serialize()
     {
-        return String.format("id=%d, uid=%d, accepted=%b", Integer.valueOf(this.field_149536_a), Short.valueOf(this.field_149534_b), Boolean.valueOf(this.field_149535_c));
+        return String.format("id=%d, uid=%d, accepted=%b", Integer.valueOf(this.id), Short.valueOf(this.uid), Boolean.valueOf(this.accepted));
     }
 
     public int func_149532_c()
     {
-        return this.field_149536_a;
+        return this.id;
     }
 
     public short func_149533_d()
     {
-        return this.field_149534_b;
+        return this.uid;
     }
 
     public void processPacket(INetHandler p_148833_1_)
