@@ -86,9 +86,7 @@ public final class ItemUtil
 
     public static boolean isInfinite(final ItemStack itemStack)
     {
-        return itemStack != null
-                && (itemStack.stackSize < 0
-                || itemStack.stackSize > itemStack.getMaxStackSize());
+        return itemStack != null && itemStack.stackSize < 0;
     }
 
     public static boolean is32k(final ItemStack itemStack)
