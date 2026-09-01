@@ -1,5 +1,6 @@
 package net.minecraft.world;
 
+import ez.nebula.client.impl.module.combat.VelocityModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -145,9 +146,13 @@ public class Explosion
                     double var35 = (1.0D - var13) * var34;
                     var32.attackEntityFrom(DamageSource.setExplosionSource(this), (float) ((int) ((var35 * var35 + var35) / 2.0D * 8.0D * (double) this.explosionSize + 1.0D)));
                     double var27 = EnchantmentProtection.func_92092_a(var32, var35);
-                    var32.motionX += var15 * var27;
-                    var32.motionY += var17 * var27;
-                    var32.motionZ += var19 * var27;
+
+                    if (!VelocityModule.INSTANCE.isToggled() || !VelocityModule.INSTANCE.explosionSetting.getValue())
+                    {
+                        var32.motionX += var15 * var27;
+                        var32.motionY += var17 * var27;
+                        var32.motionZ += var19 * var27;
+                    }
 
                     if (var32 instanceof EntityPlayer)
                     {

@@ -1,47 +1,78 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.DebugFeature;
+import ez.nebula.client.api.listener.event.input.EventKey;
+import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.render.EventRender2D;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.font.Fonts;
+import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityEnderCrystal;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemMonsterPlacer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.util.DamageSource;
 import org.lwjgl.input.Keyboard;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 
+/**
+ * See {@link net.minecraft.entity.item.EntityEnderCrystal#attackEntityFrom(DamageSource, float)}
+ */
 @DebugFeature
 @ModuleManifest(name = "Test", category = ModuleCategory.PLAYER)
 public final class TestModule extends Module
 {
-    private boolean bl = true;
-
-    @Override public void onEnable()
-    {
-        super.onEnable();
-        bl = true;
-    }
-
     @Subscribe
-    private final EventListener<EventRender2D> render2DEventListener = event ->
+    private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
     {
-        if (Keyboard.isKeyDown(Keyboard.KEY_GRAVE))
+        if (event.getPacket() instanceof C08PacketPlayerBlockPlacement)
         {
-            bl = !bl;
-        }
+            final C08PacketPlayerBlockPlacement packet = event.getPacket();
+            if (isCrystal(packet.getItemStack()) && packet.getSide() != 255)
+            {
+                final int x = packet.getPosX();
+                final int y = packet.getPosY();
+                final int z = packet.getPosZ();
 
-        double x = event.getResolution().getScaledWidth_double() / 2.0;
-        double y = event.getResolution().getScaledHeight_double() / 2.0;
-        String text = "This is a test set of text";
-        double textWidth = bl ? Fonts.POPPINS.getStringWidth(text) : MC.fontRenderer.getStringWidth(text);
-        Render2D.rectangle(x, y, textWidth, bl ? Fonts.POPPINS.getFontHeight() : MC.fontRenderer.FONT_HEIGHT, 0x95000000);
-        if (bl)
-        {
-            Fonts.POPPINS.drawString(text, x, y, - 1, false);
-        } else
-        {
-            MC.fontRenderer.drawString(text, (int) x, (int) y + 2, - 1);
+                // pre 1.13
+                if (!MC.theWorld.isAirBlock(x, y + 2, z))
+                {
+                    return;
+                }
+
+                final Block block = MC.theWorld.getBlock(x, y, z);
+                if (block != Blocks.obsidian && block != Blocks.bedrock)
+                {
+                    return;
+                }
+                MC.theWorld.spawnEntityInWorld(new EntityEnderCrystal(MC.theWorld, x + 0.5, y + 1, z + 0.5));
+            }
         }
     };
+
+    @Subscribe
+    private final EventListener<EventKey> keyEventListener = event ->
+    {
+        if (MC.isSingleplayer() && event.getKeyCode() == Keyboard.KEY_F && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+        {
+            ChatUtil.sendNebula("dropping");
+            final ItemStack stack = new ItemStack(Items.spawn_egg, 1, 200);
+            EntityItem var11 = MC.thePlayer.dropPlayerItemWithRandomChoice(stack, false);
+            var11.delayBeforeCanPickup = 0;
+            var11.setOwner(MC.thePlayer.getCommandSenderName());
+        }
+    };
+
+    private boolean isCrystal(final ItemStack itemStack)
+    {
+        return itemStack != null && itemStack.getItem() instanceof ItemMonsterPlacer && itemStack.getItemDamage() == 200;
+    }
 }
