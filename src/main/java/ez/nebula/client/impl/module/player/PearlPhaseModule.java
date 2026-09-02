@@ -3,6 +3,7 @@ package ez.nebula.client.impl.module.player;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.item.ItemEnderPearl;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.src.BlockPos;
@@ -13,7 +14,6 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.player.server.rotate.RotationConfirmation;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.player.EventPushFromBlocks;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
@@ -27,80 +27,63 @@ import ez.nebula.client.util.minecraft.world.BlockUtil;
 @ModuleManifest(name = "PearlPhase",
         description = "Phases into a block using pearls",
         category = ModuleCategory.PLAYER)
-public final class PearlPhaseModule extends Module implements RotationConfirmation
+public final class PearlPhaseModule extends Module
 {
     private static final int PEARL_PHASE_ROTATION_PRIORITY = 90;
-
-    private float[] angles = null;
-    private int slot = InventoryUtil.INVALID_SLOT;
-
-    @Override
-    public void onDisable()
-    {
-        super.onDisable();
-        slot = InventoryUtil.INVALID_SLOT;
-        angles = null;
-    }
+    private static final float PITCH = 87.0f;
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (!MC.thePlayer.isCollidedHorizontally
-                || MC.thePlayer.phased
-                || angles != null)
+        if (!MC.thePlayer.isCollidedHorizontally || MC.thePlayer.phased)
         {
             return;
         }
-        slot = InventoryUtil.getHotbarItem(ItemEnderPearl.class);
+        final int slot = InventoryUtil.getHotbarItem(ItemEnderPearl.class);
         if (slot == InventoryUtil.INVALID_SLOT)
         {
-            notifyError("You need an enderpearl in your hotbar to phase.", 5000L);
+            notifyError("You need an ender pearl in your hotbar to phase.", 5000L);
             toggle();
             return;
         }
-        calcBlockTargetAngles();
-        if (angles == null)
+
+        final float[] angles = calcBlockTargetAngles();
+        if (angles == null || !Nebula.INSTANCE.getRotationManager().canTakePrecedent(PEARL_PHASE_ROTATION_PRIORITY))
         {
-            toggle();
             return;
         }
-        Nebula.INSTANCE.getRotationManager().spoofAndConfirm(
-                angles[0], angles[1], PEARL_PHASE_ROTATION_PRIORITY, this);
+
+        PacketUtil.send(new C03PacketPlayer.C06PacketPlayerPosLook(
+                MC.thePlayer.posX,
+                MC.thePlayer.boundingBox.minY,
+                MC.thePlayer.posY,
+                MC.thePlayer.posZ,
+                angles[0],
+                angles[1],
+                MC.thePlayer.onGround));
+
+        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+        PacketUtil.send(new C08PacketPlayerBlockPlacement(Nebula.INSTANCE.getInventoryManager().getStack()));
+        PacketUtil.send(new C0APacketAnimation(MC.thePlayer, 1));
+        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        toggle();
     };
 
     @Subscribe
     private final EventListener<EventPushFromBlocks> pushFromBlocksEventListener = event ->
             event.setCanceled(true);
 
-    @Override
-    public void onServerRotateConfirm(final float yaw, final float pitch)
+    private float[] calcBlockTargetAngles()
     {
-        if (slot != InventoryUtil.INVALID_SLOT)
-        {
-            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-            PacketUtil.send(new C08PacketPlayerBlockPlacement(
-                    Nebula.INSTANCE.getInventoryManager().getStack()));
-            PacketUtil.send(new C0APacketAnimation(MC.thePlayer, 1));
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
-        }
-        slot = InventoryUtil.INVALID_SLOT;
-        toggle();
-    }
-
-    private void calcBlockTargetAngles()
-    {
-        final BlockPos pos = PlayerUtil.getOrigin().add(0, 1, 0);
+        final BlockPos pos = PlayerUtil.getOrigin().up();
         for (final EnumFacing facing : BlockUtil.HORIZONTALS)
         {
             final BlockPos neighbor = BlockUtil.offset(pos, facing);
             if (PlayerUtil.isPlayerCollided(neighbor))
             {
-                angles = new float[]{
-                        MathHelper.wrapAngleTo180_float(
-                                BlockUtil.getHorizontalFacing(facing) * 90.0f),
-                        85.0f };
-                break;
+                return new float[] { MathHelper.wrapAngleTo180_float(BlockUtil.getHorizontalFacing(facing) * 90.0f), PITCH };
             }
         }
+        return null;
     }
 }
