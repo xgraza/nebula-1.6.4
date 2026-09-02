@@ -59,7 +59,6 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new NoPacketKickModule());
         registerModule(new NoRotateSetModule());
         registerModule(new PacketCancellerModule());
-        registerModule(new PearlRejectModule());
         registerModule(new PhaseModule());
         registerModule(new PortalsModule());
         registerModule(new PotionSaverModule());
