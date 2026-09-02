@@ -115,7 +115,8 @@ public final class CommandManager implements ITypedManager<Command>
         } catch (final Exception e)
         {
             Nebula.INSTANCE.getLogger().info("Failed to execute command", e);
-            ChatUtil.sendNebula("&cAn error occurred while executing the command");
+            ChatUtil.sendNebula("&cAn error occurred while executing the command:");
+            ChatUtil.sendNebula("&c%s", e.getMessage());
         }
     }
 
