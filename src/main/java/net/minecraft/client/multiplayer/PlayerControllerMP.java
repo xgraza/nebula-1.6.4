@@ -393,7 +393,7 @@ public class PlayerControllerMP
         final float facingY = (float) hitVec.yCoord - (float) y;
         final float facingZ = (float) hitVec.zCoord - (float) z;
 
-        boolean sneaking = (!player.isSneaking() || player.getHeldItem() == null)
+        boolean sneaking = (!player.isSneaking() || stack == null)
                 && world.getBlock(x, y, z).onBlockActivated(world, x, y, z, player, side, facingX, facingY, facingZ);
 
         if (!sneaking && stack != null && stack.getItem() instanceof ItemBlock)

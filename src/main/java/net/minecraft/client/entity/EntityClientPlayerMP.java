@@ -44,7 +44,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     /**
      * should the player stop sneaking?
      */
-    private boolean serverSneaking;
+    public boolean serverSneaking;
     public boolean serverSprinting;
 
     /**

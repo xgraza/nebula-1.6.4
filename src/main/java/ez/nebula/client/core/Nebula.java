@@ -4,6 +4,7 @@ import com.github.lunatrius.schematica.Schematica;
 import ez.nebula.client.BuildConfig;
 import ez.nebula.client.api.manager.waypoint.WaypointManager;
 import ez.nebula.client.api.nws.NWS;
+import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.tray.SystemNotifications;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.SplashTextProvider;
@@ -116,6 +117,7 @@ public enum Nebula
         inventoryManager = new InventoryManager();
         inventoryManager.init();
         movementController = new MovementController();
+        InteractionManager.INSTANCE.init();
 
         // bullshit with fur
         accountManager = new AccountManager();

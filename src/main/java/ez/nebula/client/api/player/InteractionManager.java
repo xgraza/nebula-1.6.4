@@ -1,8 +1,13 @@
 package ez.nebula.client.api.player;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.player.EventSneak;
 import ez.nebula.client.impl.module.player.NoSwingModule;
 import ez.nebula.client.impl.module.world.PacketMineModule;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -25,6 +30,24 @@ public final class InteractionManager
 
     public static final InteractionManager INSTANCE = new InteractionManager();
 
+    private boolean overrideSneak, sneaking;
+
+    public void init()
+    {
+        EventBus.subscribe(this);
+    }
+
+    @Subscribe
+    private final EventListener<EventSneak> sneakEventListener = event ->
+    {
+        if (!overrideSneak)
+        {
+            return;
+        }
+        MC.thePlayer.serverSneaking = sneaking;
+        event.setState(sneaking);
+    };
+
     public boolean rightClickBlock(final MovingObjectPosition raycast)
     {
         return rightClickBlock(new BlockPos(raycast.blockX, raycast.blockY, raycast.blockZ),
@@ -39,7 +62,8 @@ public final class InteractionManager
 
         final boolean sneakPacket = sneak
                 && BlockUtil.INTERACTABLE_BLOCK_LIST.contains(MC.theWorld.getBlock(pos))
-                && (!MC.thePlayer.isSneaking() || !MC.gameSettings.keyBindSneak.pressed);
+                && !MC.thePlayer.isSneaking();
+        overrideSneak = sneaking = sneakPacket;
         if (sneakPacket)
         {
             PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 1));
@@ -58,6 +82,7 @@ public final class InteractionManager
         {
             PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 2));
         }
+        overrideSneak = sneaking = false;
         return result;
     }
 

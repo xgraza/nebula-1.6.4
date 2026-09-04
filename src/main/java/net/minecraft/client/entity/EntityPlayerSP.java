@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import ez.nebula.client.api.listener.event.player.EventSneak;
 import ez.nebula.client.impl.module.exploit.PortalsModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -462,7 +463,14 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public boolean isSneaking()
     {
-        return this.movementInput.sneak && !this.sleeping;
+        final boolean bl = this.movementInput.sneak && !this.sleeping;;
+        if (this.equals(mc.thePlayer))
+        {
+            final EventSneak event = new EventSneak(bl);
+            EventBus.dispatch(event);
+            return event.isState();
+        }
+        return bl;
     }
 
     /**
