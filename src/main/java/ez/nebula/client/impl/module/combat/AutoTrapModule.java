@@ -131,6 +131,10 @@ public final class AutoTrapModule extends Module
                 Nebula.INSTANCE.getInventoryManager().syncSlot();
                 return;
             }
+            if (!BlockUtil.isReplaceable(pos))
+            {
+                continue;
+            }
             final BlockInfo info = BlockUtil.getPlacement(pos);
             if (info == null)
             {
@@ -141,6 +145,7 @@ public final class AutoTrapModule extends Module
             {
                 ++placed;
             }
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
         }
     };
 
@@ -192,7 +197,6 @@ public final class AutoTrapModule extends Module
             }
         }
 
-        placementList.removeIf((pos) -> !BlockUtil.isReplaceable(pos));
         placementList.sort(Comparator.comparingDouble(MathUtil::getDistanceFromPlayer));
     }
 }
