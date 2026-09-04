@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.nws.NWS;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
 import ez.nebula.client.util.render.gui.Render2D;
@@ -28,6 +29,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.util.io.NetworkUtil;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.Map;
 
@@ -49,6 +51,8 @@ public final class NametagsModule extends Module
     private static final ItemStack FAKE_I_HORSE_ARMOR_STACK = new ItemStack(Items.iron_horse_armor, 1);
     private static final ItemStack FAKE_G_HORSE_ARMOR_STACK = new ItemStack(Items.golden_horse_armor, 1);
     private static final ItemStack FAKE_D_HORSE_ARMOR_STACK = new ItemStack(Items.diamond_horse_armor, 1);
+    private static final ResourceLocation NEBULA_ICON_LOCATION = new ResourceLocation(
+            "nebula", "texture/icon/128x.png");
     private static final int ITEM_RENDER_SIZE = 16;
 
     private final Setting<Boolean> backgroundSetting = builder("Background", false)
@@ -159,16 +163,20 @@ public final class NametagsModule extends Module
 
                 if (backgroundSetting.getValue())
                 {
-                    //RenderUtil.renderRectangle(-(textWidth + 2), -textHeight, (textWidth * 2) + 4, textHeight + 4, 0x95000000);
+                    Render2D.rectangle(-textWidth, -textHeight, (textWidth * 2), textHeight, 0x95000000);
                 }
 
                 if (customFontSetting.getValue())
                 {
-                    Render2D.rectangle(-textWidth, -textHeight, (textWidth * 2), textHeight, 0x95000000);
                     Fonts.POPPINS.drawStringShadow(text, -textWidth, -textHeight, -1);
                 } else
                 {
                     MC.fontRenderer.drawStringWithShadow(text, (int) -textWidth, -textHeight + 3, -1);
+                }
+
+                if (NWS.INSTANCE.isNebulaUser(entity.getCommandSenderName()))
+                {
+                    Render2D.texture(NEBULA_ICON_LOCATION, -(textWidth + textHeight + 1), -textHeight, textHeight, textHeight);
                 }
 
                 glEnable(GL_DEPTH_TEST);

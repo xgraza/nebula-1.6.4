@@ -53,6 +53,7 @@ configurations {
 }
 
 repositories {
+    mavenCentral()
     maven {
         name = "Minecraft Libraries"
         url = "https://libraries.minecraft.net/"
@@ -64,6 +65,7 @@ dependencies {
     implementation fileTree("${dependenciesPath}shared")
     jarLib fileTree("${dependenciesPath}include")
 
+    jarLib "org.java-websocket:Java-WebSocket:$project.jws_version"
     jarLib group: 'com.mojang', name: 'brigadier', version: project.brigadier_version
     implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: project.lwjgl_version
     implementation group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: project.lwjgl_version

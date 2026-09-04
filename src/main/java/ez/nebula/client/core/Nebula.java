@@ -3,6 +3,7 @@ package ez.nebula.client.core;
 import com.github.lunatrius.schematica.Schematica;
 import ez.nebula.client.BuildConfig;
 import ez.nebula.client.api.manager.waypoint.WaypointManager;
+import ez.nebula.client.api.nws.NWS;
 import ez.nebula.client.api.tray.SystemNotifications;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.SplashTextProvider;
@@ -92,6 +93,9 @@ public enum Nebula
 
         LoadingScreen.setStage(3, "Initializing Nebula core");
         final long startTime = System.nanoTime();
+
+        NWS.start(false);
+
         configManager = new ConfigManager();
 
         // core features

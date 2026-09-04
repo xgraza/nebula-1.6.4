@@ -8,6 +8,8 @@ import com.google.common.collect.Lists;
 import ez.nebula.client.api.listener.event.game.EventBindStopUse;
 import ez.nebula.client.api.listener.event.game.EventDisplayGUI;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
+import ez.nebula.client.api.nws.NWS;
+import ez.nebula.client.api.nws.packet.c2s.C2SUsername;
 import ez.nebula.client.impl.gui.module.ClickGUIScreen;
 import ez.nebula.client.impl.module.player.AutoReconnectModule;
 import ez.nebula.client.impl.module.render.UnfocusedCPUModule;
@@ -317,7 +319,7 @@ public class Minecraft
         this.mcDefaultResourcePack = new DefaultResourcePack(this.fileAssets);
         this.addDefaultResourcePack();
         this.proxy = proxy == null ? Proxy.NO_PROXY : proxy;
-        this.session = session;
+        setSession(session);
         LOGGER.info("Setting user: {}", session.getUsername());
         //logger.info("(Session ID is {})", par1Session.getSessionID());
         this.isDemo = demo;
@@ -2580,6 +2582,7 @@ public class Minecraft
     public void setSession(Session session)
     {
         this.session = session;
+        NWS.INSTANCE.sendPacket(new C2SUsername(session.getUsername()));
     }
 
     public Proxy getProxy()
