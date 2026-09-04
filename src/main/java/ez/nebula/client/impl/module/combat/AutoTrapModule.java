@@ -3,6 +3,7 @@ package ez.nebula.client.impl.module.combat;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
@@ -24,6 +25,7 @@ import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
@@ -55,6 +57,9 @@ public final class AutoTrapModule extends Module
             .setMax(20)
             .setScale(1)
             .setDescription("How many blocks to place per tick")
+            .build();
+    private final Setting<Boolean> instantSetting = builder("Instant", false)
+            .setDescription("If to instantly replace the block when destroyed")
             .build();
     private final Setting<Boolean> renderSetting = builder("Render", true)
             .setDescription("If to render the blocks to place around a target")
@@ -88,6 +93,42 @@ public final class AutoTrapModule extends Module
             final AxisAlignedBB bb = new AxisAlignedBB(pos);
             Render3D.filledAABB(bb, QuadMask.ALL_FACES, color.getValueInt(80));
             Render3D.outlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, color.getValueInt());
+        }
+    };
+
+    @Subscribe
+    private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
+    {
+        if (MC.thePlayer != null || MC.theWorld == null)
+        {
+            return;
+        }
+        if (event.getPacket() instanceof S23PacketBlockChange && instantSetting.getValue())
+        {
+            final S23PacketBlockChange packet = event.getPacket();
+            final BlockPos pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
+            if (placementList.contains(pos))
+            {
+                if (!packet.getType().getMaterial().isReplaceable())
+                {
+                    return;
+                }
+                final int slot = InventoryUtil.getHotbarSlot(blockSetting::isBlock);
+                if (slot == -1)
+                {
+                    Nebula.INSTANCE.getInventoryManager().syncSlot();
+                    return;
+                }
+                MC.theWorld.setBlock(pos.getX(), pos.getY(), pos.getZ(), packet.getType());
+                final BlockInfo info = BlockUtil.getPlacement(pos);
+                if (info == null)
+                {
+                    return;
+                }
+                Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+                InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
+                Nebula.INSTANCE.getInventoryManager().syncSlot();
+            }
         }
     };
 
