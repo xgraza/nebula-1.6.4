@@ -34,6 +34,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 
 /**
  * @author xgraza
@@ -145,6 +146,8 @@ public final class NametagsModule extends Module
             final double z = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * event.getPartialTicks();
             Render3D.billboard(x, y + 0.5, z, sizeSetting.getValue(), () ->
             {
+                glEnable(GL_DEPTH_CLAMP);
+
                 final String text = NameProtectModule.INSTANCE.protect(getDisplayInfo(entity)).trim();
                 double textWidth = 0;
                 int textHeight = 0;
@@ -163,7 +166,7 @@ public final class NametagsModule extends Module
 
                 if (backgroundSetting.getValue())
                 {
-                    Render2D.rectangle(-textWidth, -textHeight, (textWidth * 2), textHeight, 0x95000000);
+                    Render2D.rectangle(-textWidth, -textHeight, (textWidth * 2), textHeight, 0x60000000);
                 }
 
                 if (customFontSetting.getValue())
@@ -171,10 +174,10 @@ public final class NametagsModule extends Module
                     Fonts.POPPINS.drawStringShadow(text, -textWidth, -textHeight, -1);
                 } else
                 {
-                    MC.fontRenderer.drawStringWithShadow(text, (int) -textWidth, -textHeight + 3, -1);
+                    MC.fontRenderer.drawStringWithShadow(text, (int) -textWidth, -textHeight, -1);
                 }
 
-                if (NWS.INSTANCE.isNebulaUser(entity.getCommandSenderName()))
+                if (entity.equals(MC.thePlayer) || NWS.INSTANCE.isNebulaUser(entity.getCommandSenderName()))
                 {
                     Render2D.texture(NEBULA_ICON_LOCATION, -(textWidth + textHeight + 1), -textHeight, textHeight, textHeight);
                 }
@@ -235,6 +238,7 @@ public final class NametagsModule extends Module
                         renderItemStack(stack, (int) -(textWidth + ITEM_RENDER_SIZE + 4), -11);
                     }
                 }
+                glDisable(GL_DEPTH_CLAMP);
             });
         }
         MC.mcProfiler.endSection();
@@ -255,6 +259,10 @@ public final class NametagsModule extends Module
         glDisable(GL_DEPTH_TEST);
         glScaled(0.5, 0.5, 0.5);
 
+        final double textHeight = customFontSetting.getValue()
+                ? Fonts.POPPINS.getFontHeight()
+                : MC.fontRenderer.FONT_HEIGHT;
+
         double textPosY = y;
         for (final int id : enchantmentList.keySet())
         {
@@ -274,8 +282,14 @@ public final class NametagsModule extends Module
                 text += level;
             }
 
-            textPosY -= ((MC.fontRenderer.FONT_HEIGHT + ITEM_RENDER_SIZE) * 0.5);
-            MC.fontRenderer.drawStringWithShadow(text, (int) (x * 2.0), (int) textPosY, -1);
+            textPosY -= ((textHeight + ITEM_RENDER_SIZE) * 0.5) - 1;
+            if (customFontSetting.getValue())
+            {
+                Fonts.POPPINS.drawStringShadow(text, x * 2, textPosY, -1);
+            } else
+            {
+                MC.fontRenderer.drawStringWithShadow(text, (int) (x * 2.0), (int) textPosY, -1);
+            }
         }
 
         glScaled(2.0, 2.0, 0.0);
