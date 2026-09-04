@@ -45,6 +45,7 @@ public final class BlockUtil
             Blocks.anvil,
             Blocks.beacon,
             Blocks.command_block,
+            Blocks.hopper,
             Blocks.unpowered_comparator,
             Blocks.powered_comparator,
             Blocks.unpowered_repeater,

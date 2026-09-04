@@ -62,7 +62,7 @@ public final class InteractionManager
 
         final boolean sneakPacket = sneak
                 && BlockUtil.INTERACTABLE_BLOCK_LIST.contains(MC.theWorld.getBlock(pos))
-                && !MC.thePlayer.isSneaking();
+                && !MC.thePlayer.serverSneaking;
         overrideSneak = sneaking = sneakPacket;
         if (sneakPacket)
         {
