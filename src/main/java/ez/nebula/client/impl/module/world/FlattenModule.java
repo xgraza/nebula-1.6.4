@@ -2,6 +2,8 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
+import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.core.Nebula;
@@ -11,10 +13,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.BlockPos;
-import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -32,10 +32,9 @@ import java.util.*;
 @ModuleManifest(name = "Flatten",
         description = "Places the currently held block in a radial pattern to flatten the area around you",
         category = ModuleCategory.WORLD)
-public final class FlattenModule extends Module
+@RotationPriority(60)
+public final class FlattenModule extends InteractionModule
 {
-    private static final int FLATTEN_ROTATION_PRIORITY = 60;
-
     private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.5)
             .setMax(6.0)
@@ -127,39 +126,16 @@ public final class FlattenModule extends Module
 
         if (roateSetting.getValue())
         {
-            if (placeInfo == null || angles == null)
-            {
-                return;
-            }
-            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], FLATTEN_ROTATION_PRIORITY))
-            {
-                return;
-            }
-            if (InteractionManager.INSTANCE.rightClickBlock(placeInfo.getPos(), placeInfo.getFacing(), true))
+            if (rotate(angles) && place(placeInfo))
             {
                 placeInfo = null;
                 angles = null;
             }
-        } else
-        {
-            int placed = 0;
-            for (final BlockPos pos : placementInfoList)
-            {
-                if (placed > blocksSetting.getValue())
-                {
-                    return;
-                }
-                final BlockInfo info = BlockUtil.getPlacement(pos);
-                if (info == null)
-                {
-                    continue;
-                }
-                if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true))
-                {
-                    ++placed;
-                }
-            }
+
+            return;
         }
+
+        placeMultiPos(blocksSetting.getValue(), -1, false, placementInfoList);
     };
 
     @Subscribe

@@ -1,11 +1,8 @@
 package ez.nebula.client.impl.module.player;
 
-import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
 import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.MovingObjectPosition;
-import ez.nebula.client.core.Nebula;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
@@ -17,7 +14,7 @@ import ez.nebula.client.util.minecraft.player.InventoryUtil;
 @ModuleManifest(name = "KeyPearl",
         description = "Throws an ender pearl from your hotbar on a key press",
         category = ModuleCategory.PLAYER)
-public final class KeyPearlModule extends Module
+public final class KeyPearlModule extends InteractionModule
 {
     @Override
     public void onEnable()
@@ -44,10 +41,6 @@ public final class KeyPearlModule extends Module
                 return;
             }
         }
-
-        Nebula.INSTANCE.getInventoryManager().setSlot(pearlSlot);
-        PacketUtil.send(new C08PacketPlayerBlockPlacement(
-                Nebula.INSTANCE.getInventoryManager().getStack()));
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        use(pearlSlot);
     }
 }

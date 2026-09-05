@@ -5,10 +5,9 @@ import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.player.InteractionManager;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
@@ -40,7 +39,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @ModuleManifest(name = "AutoTrap",
         description = "Automatically traps someone in an enclosure",
         category = ModuleCategory.COMBAT)
-public final class AutoTrapModule extends Module
+public final class AutoTrapModule extends InteractionModule
 {
     private final BlockSetting blockSetting = blockBuilder("Block")
             .setBlock(Blocks.obsidian)
@@ -125,9 +124,7 @@ public final class AutoTrapModule extends Module
                 {
                     return;
                 }
-                Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-                InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                place(info, slot);
             }
         }
     };
@@ -163,31 +160,7 @@ public final class AutoTrapModule extends Module
             Nebula.INSTANCE.getInventoryManager().syncSlot();
             return;
         }
-
-        int placed = 0;
-        for (final BlockPos pos : placementList)
-        {
-            if (placed >= blocksSetting.getValue())
-            {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
-                return;
-            }
-            if (!BlockUtil.isReplaceable(pos))
-            {
-                continue;
-            }
-            final BlockInfo info = BlockUtil.getPlacement(pos);
-            if (info == null)
-            {
-                continue;
-            }
-            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-            if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true))
-            {
-                ++placed;
-            }
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
-        }
+        placeMultiPos(blocksSetting.getValue(), slot, false, placementList);
     };
 
     private EntityPlayer getTarget()

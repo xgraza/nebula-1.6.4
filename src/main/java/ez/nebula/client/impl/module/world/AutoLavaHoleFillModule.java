@@ -4,15 +4,14 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.player.InteractionManager;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
+import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
-import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
@@ -34,10 +33,9 @@ import net.minecraft.util.EnumFacing;
 @ModuleManifest(name = "AutoLavaHoleFill",
         description = "Automatically fills the 1x1 pockets of lava in the nether around you",
         category = ModuleCategory.WORLD)
-public final class AutoLavaHoleFillModule extends Module
+@RotationPriority(50)
+public final class AutoLavaHoleFillModule extends InteractionModule
 {
-    private static final int AUTO_LAVA_FILL_ROTATION_PRIORITY = 50;
-
     @ModuleInstance
     public static AutoLavaHoleFillModule INSTANCE;
 
@@ -110,21 +108,12 @@ public final class AutoLavaHoleFillModule extends Module
             return;
         }
 
-        if (rotateSetting.getValue())
+        if (rotateSetting.getValue() && !rotate(angles))
         {
-            if (angles == null)
-            {
-                return;
-            }
-            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], AUTO_LAVA_FILL_ROTATION_PRIORITY))
-            {
-                return;
-            }
+            return;
         }
 
-        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing());
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        place(info, slot);
         info = null;
         angles = null;
     };

@@ -434,7 +434,7 @@ public class PlayerControllerMP
     public boolean sendUseItem(EntityPlayer player, World world, ItemStack stack)
     {
         this.syncCurrentPlayItem();
-        this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(-1, -1, -1, 255, player.inventory.getCurrentItem(), 0.0F, 0.0F, 0.0F));
+        this.netClientHandler.addToSendQueue(new C08PacketPlayerBlockPlacement(-1, -1, -1, 255, stack, 0.0F, 0.0F, 0.0F));
         int size = stack.stackSize;
         ItemStack usedStack = stack.useItemRightClick(world, player);
 
@@ -443,11 +443,12 @@ public class PlayerControllerMP
             return false;
         } else
         {
-            player.inventory.mainInventory[player.inventory.currentItem] = usedStack;
+            final int slot = Nebula.INSTANCE.getInventoryManager().getSlot();
+            player.inventory.mainInventory[slot] = usedStack;
 
             if (usedStack.stackSize == 0)
             {
-                player.inventory.mainInventory[player.inventory.currentItem] = null;
+                player.inventory.mainInventory[slot] = null;
             }
 
             return true;

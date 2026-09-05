@@ -5,9 +5,12 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.api.listener.event.player.EventJump;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
+import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.BindSetting;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.core.Nebula;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.player.*;
@@ -22,11 +25,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.core.Nebula;
-import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
@@ -48,12 +48,11 @@ import org.lwjgl.input.Keyboard;
 @ModuleManifest(name = "Scaffold",
         description = "Automatically places blocks under you to give the appearance of flying",
         category = ModuleCategory.WORLD)
-public final class ScaffoldModule extends Module
+@RotationPriority(50)
+public final class ScaffoldModule extends InteractionModule
 {
     @ModuleInstance
     public static ScaffoldModule INSTANCE;
-
-    private static final int SCAFFOLD_ROTATION_PRIORITY = 50;
 
     private final NumberSetting<Double> extend = numberBuilder("Extend", 0.0)
             .setMin(0.0)
@@ -101,6 +100,10 @@ public final class ScaffoldModule extends Module
     public void onDisable()
     {
         super.onDisable();
+        if (MC.thePlayer != null)
+        {
+            Nebula.INSTANCE.getInventoryManager().syncSlot();
+        }
         blockData = null;
         basePosY = -1.0;
         towerTicks = 0;
@@ -127,21 +130,11 @@ public final class ScaffoldModule extends Module
             return;
         }
 
-        if (rotateSetting.getValue())
+        if (rotateSetting.getValue() && !rotate(angles))
         {
-            if (angles == null)
-            {
-                return;
-            }
-            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], SCAFFOLD_ROTATION_PRIORITY))
-            {
-                return;
-            }
+            return;
         }
-
-        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
-        InteractionManager.INSTANCE.rightClickBlock(blockData.getPos(), blockData.getFacing(), true);
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        place(blockData, slot);
 
         if (MC.gameSettings.keyBindJump.pressed && towerSetting.getValue())
         {

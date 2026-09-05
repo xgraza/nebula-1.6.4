@@ -1,4 +1,4 @@
-package ez.nebula.client.api.player.server.inventory;
+package ez.nebula.client.api.player.server;
 
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.client.Minecraft;

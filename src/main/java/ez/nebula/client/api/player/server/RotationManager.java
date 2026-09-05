@@ -1,6 +1,9 @@
-package ez.nebula.client.api.player.server.rotate;
+package ez.nebula.client.api.player.server;
 
+import ez.nebula.client.api.listener.event.network.EventPacket;
+import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import ez.nebula.client.api.listener.EventBus;
@@ -11,6 +14,7 @@ import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Consumer;
 
 /**
  * @author xgraza
@@ -29,40 +33,72 @@ public final class RotationManager implements IManager
     private final float[] spoofedAngles = { Float.NaN, Float.NaN };
     private int spoofPrority = -1;
 
-    private final Queue<QueuedRotation> queuedRotationQueue = new ConcurrentLinkedQueue<>();
-    private QueuedRotation queuedRotation;
+    private final Queue<Rotation> queuedRotations = new ConcurrentLinkedQueue<>();
+    private Rotation polledRot;
+    private boolean didPushQueued;
 
     @Subscribe
     private final EventListener<EventMoveUpdate> moveUpdateEventListener = event ->
     {
-        if (queuedRotation == null)
+        if (!queuedRotations.isEmpty() && polledRot == null)
         {
-            if (!queuedRotationQueue.isEmpty())
+            polledRot = queuedRotations.poll();
+        }
+
+        if (polledRot != null)
+        {
+            if (didPushQueued)
             {
-                queuedRotation = queuedRotationQueue.poll();
+                didPushQueued = false;
+                // if the C03 was sent and our server angles actually reflect these requested angles
+                if (polledRot.yaw == serverAngles[0] && polledRot.pitch == serverAngles[1])
+                {
+                    polledRot.invoke();
+                    polledRot = null;
+                }
+            } else
+            {
+                didPushQueued = polledRot.priority >= spoofPrority && isRotationValid(polledRot.yaw, polledRot.pitch);
+                if (didPushQueued)
+                {
+                    event.setYaw(polledRot.yaw);
+                    event.setPitch(polledRot.pitch);
+                }
             }
         } else
         {
-            if (queuedRotation.priority >= spoofPrority)
-            {
-                spoof(queuedRotation.yaw, queuedRotation.pitch, queuedRotation.priority);
-            }
-            if (serverAngles[0] == queuedRotation.yaw && serverAngles[1] == queuedRotation.pitch)
-            {
-                queuedRotation.callback.onServerRotateConfirm(serverAngles[0], serverAngles[1]);
-                queuedRotation = null;
-            }
+            didPushQueued = false;
         }
 
-        if (isRotationValid(spoofedAngles))
+        if (isRotationValid(spoofedAngles) && !didPushQueued)
         {
             event.setYaw(spoofedAngles[0]);
             event.setPitch(spoofedAngles[1]);
             setInvalid(spoofedAngles);
         }
-        serverAngles[0] = event.getYaw();
-        serverAngles[1] = event.getPitch();
         setRenderAngles();
+    };
+
+    @Subscribe
+    private final EventListener<EventChangeWorld> changeWorldEventListener = event ->
+    {
+        setInvalid(spoofedAngles);
+        queuedRotations.clear();
+        polledRot = null;
+    };
+
+    @Subscribe
+    private final EventListener<EventPacket.Outbound> outboundEventListener = event ->
+    {
+        if (event.getPacket() instanceof C03PacketPlayer)
+        {
+            final C03PacketPlayer packet = event.getPacket();
+            if (packet.hasRotated())
+            {
+                serverAngles[0] = packet.getYaw();
+                serverAngles[1] = packet.getPitch();
+            }
+        }
     };
 
     @Override
@@ -71,29 +107,19 @@ public final class RotationManager implements IManager
         EventBus.subscribe(this);
     }
 
-    public void spoofAndConfirm(final float yaw,
-                                final float pitch,
-                                final int priority,
-                                final RotationConfirmation callback)
-    {
-        if (!queuedRotationQueue.isEmpty()
-                && (queuedRotation != null
-                && !queuedRotation.equals(yaw, pitch, priority)))
-        {
-            for (final QueuedRotation queuedRotation : queuedRotationQueue)
-            {
-                if (queuedRotation.equals(yaw, pitch, priority))
-                {
-                    return;
-                }
-            }
-        }
-        queuedRotationQueue.add(new QueuedRotation(yaw, pitch, priority, callback));
-    }
-
     public boolean canTakePrecedent(final int priority)
     {
         return spoofPrority == -1 || priority > spoofPrority;
+    }
+
+    public void queue(final float[] angles, final int priority, final Consumer<Rotation> callback)
+    {
+        queue(angles[0], angles[1], priority, callback);
+    }
+
+    public void queue(final float yaw, final float pitch, final int priority, final Consumer<Rotation> callback)
+    {
+        queuedRotations.add(new Rotation(yaw, pitch, priority, callback));
     }
 
     public boolean spoof(final float yaw, final float pitch, final int priority)
@@ -115,16 +141,18 @@ public final class RotationManager implements IManager
         spoofPrority = -1;
     }
 
+    private boolean isRotationValid(final float yaw, final float pitch)
+    {
+        if (ROTATE_PROTECTION && Math.abs(pitch) > 90.0f)
+        {
+            return false;
+        }
+        return !Float.isNaN(yaw) && !Float.isNaN(pitch);
+    }
+
     private boolean isRotationValid(final float[] angles)
     {
-        if (ROTATE_PROTECTION)
-        {
-            if (Math.abs(angles[1]) > 90.0f)
-            {
-                return false;
-            }
-        }
-        return !Float.isNaN(angles[0]) && !Float.isNaN(angles[1]);
+        return isRotationValid(angles[0], angles[1]);
     }
 
     public boolean isSpoofing()
@@ -141,9 +169,14 @@ public final class RotationManager implements IManager
         return MC.theWorld.getWorldVec3Pool().getVecFromPool(var3 * var4, var5, var2 * var4);
     }
 
-    public Vec3 getLook()
+    public float[] getServerAngles()
     {
-        return getLook(serverAngles[0], serverAngles[1]);
+        return serverAngles;
+    }
+
+    public int getSpoofPrority()
+    {
+        return spoofPrority;
     }
 
     private void setRenderAngles()
@@ -189,13 +222,21 @@ public final class RotationManager implements IManager
         }
     }
 
-    private static class QueuedRotation
+    public static final class Rotation
     {
         private final float yaw, pitch;
         private final int priority;
-        private final RotationConfirmation callback;
+        private final Consumer<Rotation> callback;
 
-        public QueuedRotation(float yaw, float pitch, int priority, RotationConfirmation callback)
+        public Rotation(float yaw, float pitch, int priority)
+        {
+            this.yaw = yaw;
+            this.pitch = pitch;
+            this.priority = priority;
+            this.callback = null;
+        }
+
+        public Rotation(float yaw, float pitch, int priority, Consumer<Rotation> callback)
         {
             this.yaw = yaw;
             this.pitch = pitch;
@@ -203,9 +244,27 @@ public final class RotationManager implements IManager
             this.callback = callback;
         }
 
-        public boolean equals(float yaw, float pitch, int priority)
+        void invoke()
         {
-            return this.yaw == yaw && this.pitch == pitch && this.priority == priority;
+            if (callback != null)
+            {
+                callback.accept(this);
+            }
+        }
+
+        public float getYaw()
+        {
+            return yaw;
+        }
+
+        public float getPitch()
+        {
+            return pitch;
+        }
+
+        public int getPriority()
+        {
+            return priority;
         }
     }
 }

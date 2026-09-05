@@ -1,13 +1,12 @@
 package ez.nebula.client.impl.module.combat;
 
 import com.google.common.collect.Lists;
-import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
+import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
-import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -22,7 +21,6 @@ import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.network.EventPacket;
-import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
@@ -38,7 +36,8 @@ import java.util.List;
 @ModuleManifest(name = "AutoPot",
         description = "Automatically throws down splash potions",
         category = ModuleCategory.COMBAT)
-public final class AutoPotModule extends Module
+@RotationPriority(90)
+public final class AutoPotModule extends InteractionModule
 {
     @ModuleInstance
     public static AutoPotModule INSTANCE;
@@ -54,7 +53,6 @@ public final class AutoPotModule extends Module
             Potion.healthBoost.getId(),
             Potion.saturation.getId(),
             Potion.regeneration.getId());
-    private static final int AUTOPOT_ROTATION_PRIORITY = 90;
 
     private final NumberSetting<Float> healthSetting = numberBuilder("Health", 6.0f)
             .setMin(1.0f)
@@ -77,7 +75,7 @@ public final class AutoPotModule extends Module
 
     private final List<Integer> expectedPotionEffects = new ArrayList<>();
     private final Timer potTimer = new Timer();
-    private boolean rotated, thrown;
+    private boolean thrown;
     private int lastPotionSlot = InventoryUtil.INVALID_SLOT;
 
     @Override
@@ -85,7 +83,6 @@ public final class AutoPotModule extends Module
     {
         super.onDisable();
         lastPotionSlot = InventoryUtil.INVALID_SLOT;
-        rotated = false;
         thrown = false;
         expectedPotionEffects.clear();
     }
@@ -95,11 +92,10 @@ public final class AutoPotModule extends Module
     {
         if (thrown)
         {
-            final long time = (long) (200 + Nebula.INSTANCE.getServerManager().getScaledLatency());
+            final long time = (long) (350 + Nebula.INSTANCE.getServerManager().getScaledLatency());
             if (potTimer.hasElapsed(time))
             {
                 thrown = false;
-                rotated = false;
                 expectedPotionEffects.clear();
                 lastPotionSlot = InventoryUtil.INVALID_SLOT;
             }
@@ -131,7 +127,6 @@ public final class AutoPotModule extends Module
             lastPotionSlot = getPotionSlot();
             if (lastPotionSlot == InventoryUtil.INVALID_SLOT)
             {
-                rotated = false;
                 return;
             }
         }
@@ -139,28 +134,25 @@ public final class AutoPotModule extends Module
         final float[] angles = getRotationAngles();
         if (angles == null)
         {
-            rotated = false;
             return;
         }
-        rotated = Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], AUTOPOT_ROTATION_PRIORITY);
-        if (!rotated)
+
+        if (!canRotate())
         {
             lastPotionSlot = InventoryUtil.INVALID_SLOT;
-        }
-    };
-
-    @Subscribe
-    private final EventListener<EventMoveUpdate.Post> moveUpdatePostEventListener = event ->
-    {
-        if (lastPotionSlot == InventoryUtil.INVALID_SLOT || !rotated || thrown)
-        {
             return;
         }
-        Nebula.INSTANCE.getInventoryManager().setSlot(lastPotionSlot);
-        PacketUtil.send(new C08PacketPlayerBlockPlacement(null));
-        thrown = true;
-        potTimer.resetTime();
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+
+        queue(angles, (rotation) ->
+        {
+            if (lastPotionSlot == InventoryUtil.INVALID_SLOT || thrown)
+            {
+                return;
+            }
+            thrown = true;
+            use(lastPotionSlot);
+            potTimer.resetTime();
+        });
     };
 
     @Subscribe
@@ -173,7 +165,6 @@ public final class AutoPotModule extends Module
             {
                 // confirmed, reset variables
                 thrown = false;
-                rotated = false;
                 expectedPotionEffects.clear();
                 lastPotionSlot = InventoryUtil.INVALID_SLOT;
             }

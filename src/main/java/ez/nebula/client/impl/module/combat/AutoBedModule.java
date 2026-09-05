@@ -1,5 +1,7 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.api.manager.module.type.InteractionModule;
+import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
@@ -16,10 +18,8 @@ import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.*;
 import ez.nebula.client.core.Nebula;
-import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
@@ -43,12 +43,12 @@ import java.util.*;
 @ModuleManifest(name = "AutoBed",
         description = "Automatically places and breaks beds to damage another player",
         category = ModuleCategory.COMBAT)
-public final class AutoBedModule extends Module
+@RotationPriority(150)
+public final class AutoBedModule extends InteractionModule
 {
     @ModuleInstance
     public static AutoBedModule INSTANCE;
 
-    private static final int AUTO_BED_ROTATION_PRIORITY = 150;
     private static final double BED_EXPLOSION_SIZE = 5.0;
     private static final float BED_EXPLOSION_STRENGTH = 10.0f;
 
@@ -217,14 +217,12 @@ public final class AutoBedModule extends Module
 
             if (BlockUtil.isFire(pos1))
             {
-                MC.playerController.clickBlock(pos1.getX(), pos1.getY(), pos1.getZ(), EnumFacing.UP.order_a);
-                InteractionManager.INSTANCE.swingItem();
+                click(pos1, EnumFacing.UP);
             }
 
             if (BlockUtil.isFire(pos2))
             {
-                MC.playerController.clickBlock(pos2.getX(), pos2.getY(), pos2.getZ(), EnumFacing.UP.order_a);
-                InteractionManager.INSTANCE.swingItem();
+                click(pos2, EnumFacing.UP);
             }
         }
 
@@ -266,6 +264,7 @@ public final class AutoBedModule extends Module
                         EnumFacing.UP.order_a,
                         null,
                         0.5f, 0.5f, 0.5f));
+                swing();
             } else if (packet.getType() instanceof BlockAir)
             {
                 if (!packetPlaceSetting.getValue())
@@ -284,15 +283,13 @@ public final class AutoBedModule extends Module
         {
             return;
         }
-        if (Nebula.INSTANCE.getRotationManager().spoof(
-                BlockUtil.getHorizontalFacing(blockInfo.getFacing()) * 90.0f,
-                0.0f, AUTO_BED_ROTATION_PRIORITY))
+        if (rotate(BlockUtil.getHorizontalFacing(blockInfo.getFacing()) * 90.0f, 0.0f))
         {
             Nebula.INSTANCE.getInventoryManager().setSlot(bedSlot);
-            if (InteractionManager.INSTANCE.rightClickBlock(blockInfo.getPos().down(), EnumFacing.UP))
+            if (place(blockInfo.getPos().down(), EnumFacing.UP))
             {
                 Nebula.INSTANCE.getInventoryManager().syncSlot();
-                InteractionManager.INSTANCE.rightClickBlock(blockInfo.getPos(), EnumFacing.UP);
+                place(blockInfo.getPos(), EnumFacing.UP);
             }
         }
     }
