@@ -32,6 +32,9 @@ public abstract class InteractionModule extends RotationModule
         super(rotationPriority);
     }
 
+    /**
+     * Uses an item in your hand (sends a C08PacketPlayerBlockPlacement)
+     */
     protected void use()
     {
         final ItemStack stack = Nebula.INSTANCE.getInventoryManager().getStack();
@@ -47,6 +50,10 @@ public abstract class InteractionModule extends RotationModule
         }
     }
 
+    /**
+     * Uses an item in the slot provided
+     * @param slot the slot 0-8
+     */
     protected void use(final int slot)
     {
         if (slot != InventoryUtil.INVALID_SLOT)
@@ -60,28 +67,52 @@ public abstract class InteractionModule extends RotationModule
         }
     }
 
+    /**
+     * Clicks a block once
+     * @param pos the position
+     * @param face the hit face
+     */
     protected void click(final BlockPos pos, final EnumFacing face)
     {
         swing();
         MC.playerController.clickBlock(pos.getX(), pos.getY(), pos.getZ(), face.order_a);
     }
 
+    /**
+     * Swings your hand
+     */
     protected void swing()
     {
         InteractionManager.INSTANCE.swingItem();
     }
 
+    /**
+     * Places at a position
+     * @param pos the position
+     * @return if the placement was successful
+     */
     protected boolean place(final BlockPos pos)
     {
         final BlockInfo info = BlockUtil.getPlacement(pos);
         return info != null && place(info);
     }
 
+    /**
+     * Places at a position with a pre-determined {@link BlockInfo} with the current held item
+     * @param info the info containing the {@link BlockPos} and {@link EnumFacing}
+     * @return if the placement was successful
+     */
     protected boolean place(final BlockInfo info)
     {
         return place(info.getPos(), info.getFacing());
     }
 
+    /**
+     * Places at a position with a pre-determined {@link BlockInfo} with the item in the slot
+     * @param info the info containing the {@link BlockPos} and {@link EnumFacing}
+     * @param slot the slot 0-8
+     * @return if the placement was successful
+     */
     protected boolean place(final BlockInfo info, final int slot)
     {
         if (slot != InventoryUtil.INVALID_SLOT)
@@ -96,11 +127,24 @@ public abstract class InteractionModule extends RotationModule
         return result;
     }
 
+    /**
+     * Places at a position with a face to place on
+     * @param pos the position
+     * @param face the hit face
+     * @return if the placement was successful
+     */
     protected boolean place(final BlockPos pos, final EnumFacing face)
     {
         return place(pos, face, true);
     }
 
+    /**
+     * Places at a position with a face to place on with the slot
+     * @param pos the position
+     * @param face the hit face
+     * @param slot the slot 0-8
+     * @return if the placement was successful
+     */
     protected boolean place(final BlockPos pos, final EnumFacing face, final int slot)
     {
         if (slot != InventoryUtil.INVALID_SLOT)
@@ -115,23 +159,40 @@ public abstract class InteractionModule extends RotationModule
         return result;
     }
 
+    /**
+     * Places at a position with a raytrace result
+     * @param result the result
+     * @return if the placement was successful
+     */
     protected boolean place(final MovingObjectPosition result)
     {
+        if (result == null || result.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
+        {
+            return false;
+        }
         return place(new BlockPos(result.blockX, result.blockY, result.blockZ), EnumFacing.faceList[result.sideHit], true);
     }
 
     /**
-     * Attempts to place a block
-     * @param pos
-     * @param face
-     * @param sneak
-     * @return
+     * Attempts to place a block at a position and hit face, with the option to sneak if needed
+     * @param pos the position
+     * @param face the hit face
+     * @param sneak if to if needed sneak when placing on an interactable block
+     * @return if the placement was successful
      */
     protected boolean place(final BlockPos pos, final EnumFacing face, final boolean sneak)
     {
         return InteractionManager.INSTANCE.rightClickBlock(pos, face, sneak);
     }
 
+    /**
+     * Places multiple blocks in a single tick without rotations
+     * @param maxBlocks the maximum amount of successful block placements
+     * @param slot the slot to switch to when placing (or -1)
+     * @param countFailures if to count a failed block place attempt towards the place counter
+     * @param positions a {@link Collection} of {@link BlockPos} to place
+     * @return the amount of block placements done
+     */
     protected int placeMultiPos(final int maxBlocks, final int slot, final boolean countFailures, final Collection<BlockPos> positions)
     {
         if (positions.isEmpty())
