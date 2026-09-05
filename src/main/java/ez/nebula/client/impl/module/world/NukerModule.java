@@ -10,7 +10,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.impl.module.render.HUDModule;

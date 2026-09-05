@@ -5,7 +5,7 @@ import ez.nebula.client.api.listener.event.game.EventTick;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.Module;

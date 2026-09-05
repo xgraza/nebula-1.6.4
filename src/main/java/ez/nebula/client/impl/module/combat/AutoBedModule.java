@@ -17,7 +17,7 @@ import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.*;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;

@@ -2,7 +2,7 @@ package ez.nebula.client.impl.config;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.config.IConfig;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.HUDManager;

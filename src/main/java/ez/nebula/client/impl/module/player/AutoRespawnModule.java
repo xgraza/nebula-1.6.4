@@ -3,7 +3,7 @@ package ez.nebula.client.impl.module.player;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C16PacketClientStatus;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;

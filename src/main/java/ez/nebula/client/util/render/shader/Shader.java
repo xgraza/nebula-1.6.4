@@ -1,6 +1,6 @@
 package ez.nebula.client.util.render.shader;
 
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;

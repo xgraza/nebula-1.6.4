@@ -2,8 +2,8 @@ package ez.nebula.client.impl.config;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import ez.nebula.client.core.ClientConfig;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.ClientConfig;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.config.IConfig;
 import ez.nebula.client.util.io.FileUtil;
 

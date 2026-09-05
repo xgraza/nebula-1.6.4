@@ -85,7 +85,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.impl.module.render.CameraClipModule;

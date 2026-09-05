@@ -5,7 +5,7 @@ import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.gui.GuiChat;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.impl.gui.hud.component.HUDElementCategoryPanel;
 import ez.nebula.client.util.io.SoundUtil;

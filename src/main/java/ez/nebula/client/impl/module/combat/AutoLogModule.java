@@ -2,8 +2,8 @@ package ez.nebula.client.impl.module.combat;
 
 import ez.nebula.client.api.listener.event.world.EventAddEntity;
 import ez.nebula.client.api.setting.NumberSetting;
-import ez.nebula.client.core.ClientConfig;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.ClientConfig;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
 import ez.nebula.client.util.io.SoundUtil;

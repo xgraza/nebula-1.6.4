@@ -5,7 +5,7 @@ import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.util.ChatAllowedCharacters;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.Module;

@@ -1,4 +1,4 @@
-package ez.nebula.client.core;
+package ez.nebula.client;
 
 /**
  * @author xgraza

@@ -21,8 +21,8 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 import ez.nebula.client.BuildConfig;
-import ez.nebula.client.core.ClientConfig;
-import ez.nebula.client.core.Environment;
+import ez.nebula.client.ClientConfig;
+import ez.nebula.client.Environment;
 import ez.nebula.client.impl.gui.account.AccountSelectorScreen;
 import ez.nebula.client.util.render.font.Fonts;
 

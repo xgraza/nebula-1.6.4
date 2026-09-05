@@ -4,7 +4,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
-import ez.nebula.client.core.Nebula;
 import ez.nebula.client.util.io.NetworkUtil;
 
 @CommandManifest(aliases = { "ping", "latency" }, description = "Displays your player latency")

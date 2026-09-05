@@ -4,7 +4,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.impl.module.render.HUDModule;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import ez.nebula.client.api.setting.Setting;

@@ -13,7 +13,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;

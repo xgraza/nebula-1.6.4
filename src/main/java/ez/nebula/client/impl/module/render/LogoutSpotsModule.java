@@ -10,7 +10,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.world.Render3D;

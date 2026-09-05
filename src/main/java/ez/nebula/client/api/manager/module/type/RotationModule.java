@@ -2,7 +2,7 @@ package ez.nebula.client.api.manager.module.type;
 
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.player.server.RotationManager;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 
 import java.util.function.Consumer;
 

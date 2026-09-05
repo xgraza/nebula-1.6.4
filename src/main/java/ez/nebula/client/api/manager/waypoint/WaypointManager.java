@@ -5,7 +5,7 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.manager.ITypedManager;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.config.WaypointConfig;
 import ez.nebula.client.impl.module.render.NameProtectModule;
 import ez.nebula.client.impl.module.render.WaypointsModule;

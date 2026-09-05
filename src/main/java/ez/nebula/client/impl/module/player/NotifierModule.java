@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S0EPacketSpawnObject;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;

@@ -2,7 +2,7 @@ package ez.nebula.client.util.render;
 
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

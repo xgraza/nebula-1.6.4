@@ -1,6 +1,6 @@
 package ez.nebula.client.api.manager.hud;
 
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.config.HUDConfig;
 import ez.nebula.client.impl.hud.*;
 import ez.nebula.client.api.listener.EventBus;

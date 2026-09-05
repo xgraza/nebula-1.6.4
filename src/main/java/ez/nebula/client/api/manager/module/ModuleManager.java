@@ -1,7 +1,7 @@
 package ez.nebula.client.api.manager.module;
 
-import ez.nebula.client.core.ClientConfig;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.ClientConfig;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.config.ModuleConfig;
 import ez.nebula.client.impl.module.combat.*;
 import ez.nebula.client.impl.module.exploit.*;

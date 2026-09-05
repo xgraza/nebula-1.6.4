@@ -28,7 +28,7 @@ buildConfig {
     buildConfigField(Integer, "BUILD", buildNumber)
     buildConfigField(String,  "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
     buildConfigField(String,  "NAME", project.name)
-    buildConfigField("${project.group}.core.Environment", "ENV", "${project.group}.core.Environment.${project.env.toUpperCase()}")
+    buildConfigField("${project.group}.Environment", "ENV", "${project.group}.Environment.${project.env.toUpperCase()}")
 
     packageName project.group.toString()
     useJavaOutput()

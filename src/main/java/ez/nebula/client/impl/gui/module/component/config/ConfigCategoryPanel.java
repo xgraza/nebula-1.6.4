@@ -1,6 +1,6 @@
 package ez.nebula.client.impl.gui.module.component.config;
 
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.gui.module.component.CategoryPanel;
 
 import java.io.File;

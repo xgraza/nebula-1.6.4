@@ -22,7 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.IEventPriorities;
 import ez.nebula.client.api.listener.Subscribe;

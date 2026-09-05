@@ -3,7 +3,7 @@ package ez.nebula.client.impl.hud;
 import ez.nebula.client.util.render.animation.Animation;
 import ez.nebula.client.util.render.animation.AnimationEasing;
 import net.minecraft.client.gui.ScaledResolution;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;

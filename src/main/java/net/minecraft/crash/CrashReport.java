@@ -7,8 +7,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ez.nebula.client.core.ClientConfig;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.ClientConfig;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 
 import java.io.File;

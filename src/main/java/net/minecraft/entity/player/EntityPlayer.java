@@ -50,7 +50,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.IChunkProvider;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
 
 import java.util.Collection;

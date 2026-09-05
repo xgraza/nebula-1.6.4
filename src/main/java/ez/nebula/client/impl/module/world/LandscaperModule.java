@@ -10,7 +10,7 @@ import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;

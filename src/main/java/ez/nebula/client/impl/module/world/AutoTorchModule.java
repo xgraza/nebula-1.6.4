@@ -14,7 +14,7 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;

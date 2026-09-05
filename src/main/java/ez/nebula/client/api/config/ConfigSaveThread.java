@@ -1,10 +1,8 @@
 package ez.nebula.client.api.config;
 
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.config.ModuleConfig;
-import ez.nebula.client.util.io.FileUtil;
 
-import java.io.File;
 import java.io.IOException;
 
 /**

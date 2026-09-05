@@ -1,7 +1,7 @@
 package ez.nebula.client.impl.gui.module.component.config;
 
 import org.lwjgl.input.Keyboard;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 import ez.nebula.client.util.render.font.Fonts;

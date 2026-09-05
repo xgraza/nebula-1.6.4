@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import ez.nebula.client.api.config.IConfig;
 import ez.nebula.client.api.manager.waypoint.Waypoint;
 import ez.nebula.client.api.manager.waypoint.WaypointManager;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.io.FileUtil;
 
 import java.io.File;

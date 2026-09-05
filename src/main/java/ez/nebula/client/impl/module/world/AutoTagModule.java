@@ -9,7 +9,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
@@ -17,7 +17,6 @@ import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemNameTag;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 
 import java.util.Comparator;

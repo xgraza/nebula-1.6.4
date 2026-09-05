@@ -6,7 +6,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
-import ez.nebula.client.core.ClientConfig;
+import ez.nebula.client.ClientConfig;
 
 import java.io.File;
 import java.net.Authenticator;

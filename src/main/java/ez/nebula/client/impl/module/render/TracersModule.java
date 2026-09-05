@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;

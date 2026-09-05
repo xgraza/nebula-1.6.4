@@ -1,7 +1,6 @@
-package ez.nebula.client.core;
+package ez.nebula.client;
 
 import com.github.lunatrius.schematica.Schematica;
-import ez.nebula.client.BuildConfig;
 import ez.nebula.client.api.manager.waypoint.WaypointManager;
 import ez.nebula.client.api.nws.NWS;
 import ez.nebula.client.api.player.InteractionManager;

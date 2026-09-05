@@ -4,7 +4,7 @@ import ez.nebula.client.api.manager.module.Module;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;

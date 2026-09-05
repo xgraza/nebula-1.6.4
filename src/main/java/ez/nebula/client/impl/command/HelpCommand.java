@@ -6,7 +6,7 @@ import ez.nebula.client.api.manager.command.CommandManager;
 import ez.nebula.client.api.manager.command.arg.CommandArgumentType;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
 
 import java.util.Collection;

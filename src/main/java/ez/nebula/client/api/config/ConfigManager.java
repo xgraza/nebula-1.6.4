@@ -1,6 +1,6 @@
 package ez.nebula.client.api.config;
 
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.IManager;
 import ez.nebula.client.impl.config.ClientSettingConfig;
 import ez.nebula.client.util.io.FileUtil;

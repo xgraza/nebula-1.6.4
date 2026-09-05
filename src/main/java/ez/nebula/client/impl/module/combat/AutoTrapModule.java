@@ -12,7 +12,7 @@ import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.MathUtil;

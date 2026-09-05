@@ -2,7 +2,7 @@ package net.minecraft.entity;
 
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.world.EventBlockSlipperiness;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;

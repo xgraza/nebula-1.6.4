@@ -18,7 +18,7 @@ import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.render.HeadDownloader;
 
 import java.util.ArrayList;

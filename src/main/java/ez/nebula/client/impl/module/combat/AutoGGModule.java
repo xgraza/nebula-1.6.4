@@ -10,7 +10,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.io.FileUtil;
 import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.math.MathUtil;

@@ -5,7 +5,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 
 import java.util.LinkedList;
 import java.util.List;

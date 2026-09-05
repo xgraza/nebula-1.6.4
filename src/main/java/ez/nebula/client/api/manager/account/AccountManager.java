@@ -1,6 +1,6 @@
 package ez.nebula.client.api.manager.account;
 
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.config.AccountConfig;
 import ez.nebula.client.api.manager.ITypedManager;
 

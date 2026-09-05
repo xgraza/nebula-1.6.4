@@ -1,6 +1,4 @@
-package ez.nebula.client.core;
-
-import ez.nebula.client.BuildConfig;
+package ez.nebula.client;
 
 /**
  * @author xgraza

@@ -3,7 +3,7 @@ package ez.nebula.client.util.text.translation;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.io.FileUtil;
 import ez.nebula.client.util.io.NetworkUtil;
 

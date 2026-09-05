@@ -5,7 +5,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.client.gui.MapItemRenderer;
 import net.minecraft.world.storage.MapData;

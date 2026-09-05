@@ -6,7 +6,7 @@ import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.block.BlockSetting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.math.MathUtil;
 import net.minecraft.init.Blocks;

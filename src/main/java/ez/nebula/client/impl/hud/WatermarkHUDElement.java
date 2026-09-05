@@ -1,6 +1,6 @@
 package ez.nebula.client.impl.hud;
 
-import ez.nebula.client.core.ClientConfig;
+import ez.nebula.client.ClientConfig;
 import net.minecraft.client.gui.ScaledResolution;
 import ez.nebula.client.BuildConfig;
 import ez.nebula.client.util.render.font.Fonts;

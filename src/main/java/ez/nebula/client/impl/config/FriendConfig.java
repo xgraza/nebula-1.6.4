@@ -1,6 +1,6 @@
 package ez.nebula.client.impl.config;
 
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.config.IConfig;
 import ez.nebula.client.api.manager.friend.FriendManager;
 

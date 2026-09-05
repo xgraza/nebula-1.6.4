@@ -7,7 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.CommandManager;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 
 public class CommandArgumentType implements ArgumentType<Command>
 {

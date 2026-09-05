@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.Session;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.account.Account;
 import ez.nebula.client.util.render.HeadDownloader;
 

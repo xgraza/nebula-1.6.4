@@ -2,7 +2,7 @@ package ez.nebula.client.api.manager.key;
 
 import ez.nebula.client.impl.config.KeyConfig;
 import net.minecraft.client.Minecraft;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;

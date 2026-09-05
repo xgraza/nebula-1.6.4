@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ReportedException;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 
 import java.util.concurrent.Callable;
 

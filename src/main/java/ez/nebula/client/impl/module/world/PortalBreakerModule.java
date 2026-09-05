@@ -8,7 +8,7 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;

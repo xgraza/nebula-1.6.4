@@ -9,7 +9,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.core.Nebula;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.math.MathUtil;
 import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
