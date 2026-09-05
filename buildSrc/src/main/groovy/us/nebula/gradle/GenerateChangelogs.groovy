@@ -46,10 +46,10 @@ class GenerateChangelogs extends DefaultTask
                 println "Weird commit message: $line"
                 continue
             }
-            if (type.equalsIgnoreCase("docs:")
-                    || type.equalsIgnoreCase("test:")
-                    || type.equalsIgnoreCase("style:")
-                    || type.equalsIgnoreCase("docs"))
+            if (type.startsWithIgnoreCase("docs")
+                    || type.startsWithIgnoreCase("test")
+                    || type.startsWithIgnoreCase("style")
+                    || type.startsWithIgnoreCase("docs"))
             {
                 continue
             }
