@@ -1,4 +1,5 @@
 import us.nebula.gradle.DownloadMCAssets
+import us.nebula.gradle.GenerateChangelogs
 import us.nebula.gradle.UploadBuildToServerTask
 import us.nebula.gradle.Util
 
@@ -91,6 +92,11 @@ tasks.withType(Jar).configureEach {
 
 tasks.withType(JavaCompile).configureEach {
     dependsOn(generateBuildConfig)
+}
+
+tasks.register('generateChangelogs', GenerateChangelogs) {
+    setGroup("nebula")
+    setDescription("Generates a changelog to CHANGELOG.md")
 }
 
 tasks.register('createNebulaBuild') {
