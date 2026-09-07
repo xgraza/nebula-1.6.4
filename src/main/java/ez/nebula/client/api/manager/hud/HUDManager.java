@@ -5,6 +5,8 @@ import ez.nebula.client.impl.config.HUDConfig;
 import ez.nebula.client.impl.hud.*;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.manager.ITypedManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,14 +17,15 @@ import java.util.List;
  */
 public final class HUDManager implements ITypedManager<HUDElement>
 {
+    static final Logger LOGGER = LogManager.getLogger("HUD");
+
     private final List<HUDElement> hudElementList = new LinkedList<>();
 
     @Override
     public void init()
     {
         EventBus.subscribe(this);
-        Nebula.INSTANCE.getConfigurationManager()
-                .addConfiguration(new HUDConfig(this));
+        Nebula.CONFIGS.addConfiguration(new HUDConfig(this));
 
         hudElementList.add(new ArmorStatusHUDElement());
         hudElementList.add(new ArraylistHUDElement());
@@ -34,6 +37,8 @@ public final class HUDManager implements ITypedManager<HUDElement>
         hudElementList.add(new TargetDisplayHUDElement());
         hudElementList.add(new TPSHUDElement());
         hudElementList.add(new WatermarkHUDElement());
+
+        LOGGER.info("Registered {} HUD elements", hudElementList.size());
 
         hudElementList.forEach(HUDElement::discoverSettings);
         hudElementList.forEach(HUDElement::init);

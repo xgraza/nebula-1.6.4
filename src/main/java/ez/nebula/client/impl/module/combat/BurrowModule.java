@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
@@ -14,7 +15,6 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.Module;
@@ -105,11 +105,11 @@ public final class BurrowModule extends Module
             PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 1));
         }
 
-        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+        Nebula.INVENTORY.setSlot(slot);
 
         if (rotateSetting.getValue())
         {
-            if (!Nebula.INSTANCE.getRotationManager().canTakePrecedent(BURROW_ROTATION_PRIORITY))
+            if (!Nebula.ROTATIONS.canTakePrecedent(BURROW_ROTATION_PRIORITY))
             {
                 return;
             }
@@ -140,7 +140,7 @@ public final class BurrowModule extends Module
                 (float) (hitVec.zCoord - blockData.pos.getZ())
         ));
         InteractionManager.INSTANCE.swingItem();
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        Nebula.INVENTORY.syncSlot();
 
         if (sneak)
         {

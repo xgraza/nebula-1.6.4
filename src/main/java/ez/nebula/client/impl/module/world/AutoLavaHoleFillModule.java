@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -12,7 +13,6 @@ import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
@@ -71,7 +71,7 @@ public final class AutoLavaHoleFillModule extends InteractionModule
         angles = null;
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
     }
 

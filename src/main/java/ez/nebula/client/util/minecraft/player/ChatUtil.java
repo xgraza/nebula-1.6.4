@@ -5,7 +5,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
-import ez.nebula.client.Nebula;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 public final class ChatUtil
 {
+    private static final Logger LOGGER = LogManager.getLogger("Nebula Chat");
     private static final Minecraft MC = Minecraft.getMinecraft();
     private static final String CHAT_PREFIX = String.format(
             "%s(Nebula):%s ",
@@ -40,7 +42,7 @@ public final class ChatUtil
         {
             if (MC.ingameGUI == null || MC.thePlayer == null)
             {
-                Nebula.INSTANCE.getLogger().info(component);
+                LOGGER.info(component);
             } else
             {
                 MC.ingameGUI.getChatGui().printChatMessage(component);

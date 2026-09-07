@@ -12,6 +12,8 @@ import ez.nebula.client.impl.module.world.*;
 import ez.nebula.client.api.manager.ITypedManager;
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -26,6 +28,8 @@ import java.util.Map;
  */
 public final class ModuleManager implements ITypedManager<Module>
 {
+    static final Logger LOGGER = LogManager.getLogger("Modules");
+
     private final Map<Class<? extends Module>, Module> moduleInstanceMap = new LinkedHashMap<>();
     private final List<Module> moduleInstanceList = new LinkedList<>();
 
@@ -166,9 +170,9 @@ public final class ModuleManager implements ITypedManager<Module>
             ModuleConfig.loadConfig("default");
         } catch (final IOException e)
         {
-            Nebula.INSTANCE.getLogger().error(e);
+            LOGGER.error("Failed to load default module config!", e);
         }
-        Nebula.INSTANCE.getLogger().info("Registered {} modules", moduleInstanceList.size());
+        LOGGER.info("Registered {} modules", moduleInstanceList.size());
     }
 
     private void registerModule(final Module module)
@@ -194,13 +198,12 @@ public final class ModuleManager implements ITypedManager<Module>
                     field.set(null, module);
                 } catch (final IllegalAccessException e)
                 {
-                    Nebula.INSTANCE.getLogger().error("Failed to set {}$INSTANCE", module);
-                    Nebula.INSTANCE.getLogger().error(e);
+                    LOGGER.error("Failed to set INSTANCE variable", e);
                 }
                 break;
             }
         }
-        Nebula.INSTANCE.getCommandManager().register(new ModuleCommand(module));
+        Nebula.COMMANDS.register(new ModuleCommand(module));
     }
 
     @Override

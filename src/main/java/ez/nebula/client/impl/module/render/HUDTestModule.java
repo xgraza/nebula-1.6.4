@@ -58,7 +58,7 @@ public final class HUDTestModule extends Module
 
         AWTFontRenderer.DYNAMIC_FONT_RESIZING = false;
 
-        for (final HUDElement element : Nebula.INSTANCE.getHudManager2().getAll())
+        for (final HUDElement element : Nebula.HUD_NEW.getAll())
         {
             if (!element.isToggled())
             {

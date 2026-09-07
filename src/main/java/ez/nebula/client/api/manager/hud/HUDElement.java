@@ -7,7 +7,6 @@ import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import ez.nebula.client.ClientConfig;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.config.IJSONSerializable;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.setting.Setting;
@@ -98,9 +97,7 @@ public class HUDElement extends GUIComponent implements SettingProvider, IJSONSe
                 registerSetting((Setting<?>) field.get(this));
             } catch (final IllegalAccessException e)
             {
-                Nebula.INSTANCE.getLogger().error(
-                        "Failed to reflect setting from {}", this);
-                Nebula.INSTANCE.getLogger().error(e);
+                HUDManager.LOGGER.error("Failed to reflect setting", e);
             }
         }
     }

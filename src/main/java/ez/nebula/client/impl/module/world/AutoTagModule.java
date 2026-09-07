@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -9,7 +10,6 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
@@ -65,7 +65,7 @@ public final class AutoTagModule extends Module
         angles = null;
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
     }
 
@@ -95,15 +95,15 @@ public final class AutoTagModule extends Module
             {
                 return;
             }
-            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], AUTO_TAG_ROTATION_PRIORITY))
+            if (!Nebula.ROTATIONS.spoof(angles[0], angles[1], AUTO_TAG_ROTATION_PRIORITY))
             {
                 return;
             }
         }
         taggedEntityIdSet.add(target.getEntityId());
-        Nebula.INSTANCE.getInventoryManager().setSlot(nametagSlot);
+        Nebula.INVENTORY.setSlot(nametagSlot);
         PacketUtil.send(new C02PacketUseEntity(target, C02PacketUseEntity.Action.INTERACT));
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        Nebula.INVENTORY.syncSlot();
     };
 
     @Subscribe

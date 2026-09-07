@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.math.AngleUtil;
@@ -10,7 +11,6 @@ import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
@@ -66,7 +66,7 @@ public final class LandscaperModule extends Module
         breakingBlockPos = null;
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
         angles = null;
@@ -98,7 +98,7 @@ public final class LandscaperModule extends Module
         if (breakingBlockPos == null)
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
             breakingBlockPos = breakQueue.poll();
             return;
         }
@@ -108,7 +108,7 @@ public final class LandscaperModule extends Module
             {
                 return;
             }
-            if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], LANDSCAPER_ROTATION_PRIORITY))
+            if (!Nebula.ROTATIONS.spoof(angles[0], angles[1], LANDSCAPER_ROTATION_PRIORITY))
             {
                 return;
             }
@@ -119,13 +119,13 @@ public final class LandscaperModule extends Module
             final int slot = InventoryUtil.getBestToolSlotFor(block);
             if (slot != InventoryUtil.INVALID_SLOT)
             {
-                Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+                Nebula.INVENTORY.setSlot(slot);
             }
         }
         if (InteractionManager.INSTANCE.breakBlock(breakingBlockPos, EnumFacing.UP))
         {
             breakingBlockPos = null;
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
     };
 

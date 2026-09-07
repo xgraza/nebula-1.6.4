@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.nws.NWS;
 import ez.nebula.client.api.setting.NumberSetting;
@@ -18,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.listener.EventListener;
@@ -358,8 +358,7 @@ public final class NametagsModule extends Module
                 builder.append(EnumChatFormatting.RESET);
             }
 
-            if (Nebula.INSTANCE.getFriendManager().isFriend(player)
-                    || player == MC.thePlayer)
+            if (Nebula.FRIENDS.isFriend(player) || player == MC.thePlayer)
             {
                 builder.append(EnumChatFormatting.NEBULA_CLIENT_COLOR);
             }

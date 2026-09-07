@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
@@ -17,7 +18,6 @@ import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.*;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
@@ -132,7 +132,7 @@ public final class AutoBedModule extends InteractionModule
         bedSlot = InventoryUtil.INVALID_SLOT;
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
     }
 
@@ -167,7 +167,7 @@ public final class AutoBedModule extends InteractionModule
         {
             if (blockInfo != null || target != null)
             {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
             }
             target = null;
             blockInfo = null;
@@ -185,7 +185,7 @@ public final class AutoBedModule extends InteractionModule
         {
             if (blockInfo != null)
             {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
             }
             blockInfo = null;
             return;
@@ -194,7 +194,7 @@ public final class AutoBedModule extends InteractionModule
         {
             if (blockInfo != null)
             {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
             }
             blockInfo = null;
             return;
@@ -285,10 +285,10 @@ public final class AutoBedModule extends InteractionModule
         }
         if (rotate(BlockUtil.getHorizontalFacing(blockInfo.getFacing()) * 90.0f, 0.0f))
         {
-            Nebula.INSTANCE.getInventoryManager().setSlot(bedSlot);
+            Nebula.INVENTORY.setSlot(bedSlot);
             if (place(blockInfo.getPos().down(), EnumFacing.UP))
             {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
                 place(blockInfo.getPos(), EnumFacing.UP);
             }
         }
@@ -424,7 +424,7 @@ public final class AutoBedModule extends InteractionModule
         {
             return false;
         }
-        return NoFriendsModule.INSTANCE.isToggled() || !Nebula.INSTANCE.getFriendManager().isFriend((EntityPlayer) entity);
+        return NoFriendsModule.INSTANCE.isToggled() || !Nebula.FRIENDS.isFriend((EntityPlayer) entity);
     }
 
     private float calcDamage(final EntityPlayer entity, final BlockPos pos)

@@ -1,8 +1,8 @@
 package net.minecraft.entity;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.world.EventBlockSlipperiness;
-import ez.nebula.client.Nebula;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -1850,7 +1850,7 @@ public abstract class EntityLivingBase extends Entity
         }
 
         this.field_110154_aX += (var8 - this.field_110154_aX) * 0.3F;
-        if (!Nebula.INSTANCE.getRotationManager().isSpoofing())
+        if (!Nebula.ROTATIONS.isSpoofing())
         {
             this.worldObj.theProfiler.startSection("headTurn");
             var7 = this.func_110146_f(var6, var7);
@@ -1868,7 +1868,7 @@ public abstract class EntityLivingBase extends Entity
             this.prevRotationYaw += 360.0F;
         }
 
-        if (!Nebula.INSTANCE.getRotationManager().isSpoofing())
+        if (!Nebula.ROTATIONS.isSpoofing())
         {
             while (this.renderYawOffset - this.prevRenderYawOffset < -180.0F)
             {
@@ -1902,7 +1902,7 @@ public abstract class EntityLivingBase extends Entity
         }
 
         this.worldObj.theProfiler.endSection();
-        if (!Nebula.INSTANCE.getRotationManager().isSpoofing())
+        if (!Nebula.ROTATIONS.isSpoofing())
         {
             this.field_70764_aw += var7;
         }

@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.Nebula;
 import net.minecraft.client.gui.GuiPlayerInfo;
 
 import java.util.regex.Pattern;
@@ -39,7 +39,7 @@ public final class NameProtectModule extends Module
         text = text.replaceAll("(?ui)" + Pattern.quote(MC.getSession().getUsername()), selfAliasSetting.getValue());
 
         int i = 1;
-        for (final String friendName : Nebula.INSTANCE.getFriendManager().getAll())
+        for (final String friendName : Nebula.FRIENDS.getAll())
         {
             text = text.replaceAll("(?ui)" + Pattern.quote(friendName), "Friend " + i);
             ++i;
@@ -50,7 +50,7 @@ public final class NameProtectModule extends Module
             for (final GuiPlayerInfo info : MC.thePlayer.sendQueue.playerInfoList)
             {
                 final String name = info.name;
-                if (!Nebula.INSTANCE.getFriendManager().isFriend(name))
+                if (!Nebula.FRIENDS.isFriend(name))
                 {
                     text = text.replaceAll("(?ui)" + Pattern.quote(name), "Player");
                 }

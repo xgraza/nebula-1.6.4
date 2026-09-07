@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.world;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.setting.NumberSetting;
 import net.minecraft.block.*;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
@@ -10,7 +11,6 @@ import net.minecraft.item.Item;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
@@ -338,9 +338,9 @@ public final class AutoFarmModule extends Module
         {
             return false;
         }
-        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+        Nebula.INVENTORY.setSlot(slot);
         final boolean result = InteractionManager.INSTANCE.rightClickBlock(pos, EnumFacing.UP);
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        Nebula.INVENTORY.syncSlot();
         return result;
     }
 

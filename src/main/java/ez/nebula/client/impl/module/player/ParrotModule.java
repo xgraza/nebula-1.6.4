@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.player;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.network.EventPacket;
@@ -7,7 +8,6 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.network.play.server.S02PacketChat;
@@ -45,7 +45,7 @@ public final class ParrotModule extends Module
                 return;
             }
 
-            if (!friendsSetting.getValue() && Nebula.INSTANCE.getFriendManager().isFriend(username))
+            if (!friendsSetting.getValue() && Nebula.FRIENDS.isFriend(username))
             {
                 return;
             }

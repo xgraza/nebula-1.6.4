@@ -2,10 +2,10 @@ package ez.nebula.client.impl.config;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.config.IConfig;
 import ez.nebula.client.api.manager.waypoint.Waypoint;
 import ez.nebula.client.api.manager.waypoint.WaypointManager;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.io.FileUtil;
 
 import java.io.File;
@@ -63,6 +63,6 @@ public final class WaypointConfig implements IConfig
     @Override
     public File getFile()
     {
-        return new File(Nebula.INSTANCE.getNebulaRootDir(), "waypoints.json");
+        return new File(Nebula.NEBULA_ROOT, "waypoints.json");
     }
 }

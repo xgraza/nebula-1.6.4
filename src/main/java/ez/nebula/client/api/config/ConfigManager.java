@@ -1,9 +1,10 @@
 package ez.nebula.client.api.config;
 
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.IManager;
 import ez.nebula.client.impl.config.ClientSettingConfig;
 import ez.nebula.client.util.io.FileUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import java.util.List;
  */
 public final class ConfigManager implements IManager
 {
+    private static final Logger LOGGER = LogManager.getLogger("Configs");
+    
     private final List<IConfig> configList = new ArrayList<>();
 
     @Override
@@ -40,10 +43,10 @@ public final class ConfigManager implements IManager
         {
             if (!file.getParentFile().mkdir())
             {
-                Nebula.INSTANCE.getLogger().error("Failed to create parent directory {}", file);
+                LOGGER.error("Failed to create parent directory {}", file);
                 return false;
             }
-            Nebula.INSTANCE.getLogger().info("Created parent directory {}", file);
+            LOGGER.info("Created parent directory {}", file);
         }
         if (!file.exists())
         {
@@ -51,11 +54,11 @@ public final class ConfigManager implements IManager
             {
                 if (!file.createNewFile())
                 {
-                    Nebula.INSTANCE.getLogger().error("Failed to create file {}", file);
+                    LOGGER.error("Failed to create file {}", file);
                 }
             } catch (final IOException e)
             {
-                Nebula.INSTANCE.getLogger().error(e);
+                LOGGER.error(e);
                 return false;
             }
         }
@@ -63,7 +66,7 @@ public final class ConfigManager implements IManager
         final String data = configuration.save();
         if (data == null || data.isEmpty())
         {
-            Nebula.INSTANCE.getLogger().warn("Save data for {} was empty", file);
+            LOGGER.warn("Save data for {} was empty", file);
             return false;
         }
 
@@ -72,20 +75,20 @@ public final class ConfigManager implements IManager
             FileUtil.save(file, data);
         } catch (final IOException e)
         {
-            Nebula.INSTANCE.getLogger().error(e);
+            LOGGER.error(e);
         }
         return false;
     }
 
     private void loadConfigs() throws IOException
     {
-        Nebula.INSTANCE.getLogger().info("Loading {} configs...", configList.size());
+        LOGGER.info("Loading {} configs...", configList.size());
         for (final IConfig configuration : configList)
         {
             final File file = configuration.getFile();
             if (!file.exists())
             {
-                Nebula.INSTANCE.getLogger().warn("Configuration file {} does not exist", file);
+                LOGGER.warn("Configuration file {} does not exist", file);
                 continue;
             }
             final String data = FileUtil.read(file);

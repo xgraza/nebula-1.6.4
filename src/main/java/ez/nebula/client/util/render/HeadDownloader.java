@@ -1,8 +1,8 @@
 package ez.nebula.client.util.render;
 
+import ez.nebula.client.Nebula;
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import ez.nebula.client.Nebula;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -50,7 +50,7 @@ public final class HeadDownloader
         if (texture == null)
         {
             DOWNLOADING.add(id);
-            Nebula.INSTANCE.getExecutor().execute(() ->
+            Nebula.EXECUTOR.execute(() ->
             {
                 try
                 {

@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.gui.hud;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.gui.GuiChat;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.impl.gui.hud.component.HUDElementCategoryPanel;
 import ez.nebula.client.util.io.SoundUtil;
@@ -71,7 +71,7 @@ public final class HUDEditorScreen extends GuiChat
 
         mc.mcProfiler.startSection("nebulaHUDEditor");
 
-        for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
+        for (final HUDElement element : Nebula.HUD_OLD.getAll())
         {
             if (!element.isToggled())
             {
@@ -199,7 +199,7 @@ public final class HUDEditorScreen extends GuiChat
         {
             return;
         }
-        for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
+        for (final HUDElement element : Nebula.HUD_OLD.getAll())
         {
             if (element.isMouseIn(mouseX, mouseY) && element.isToggled())
             {

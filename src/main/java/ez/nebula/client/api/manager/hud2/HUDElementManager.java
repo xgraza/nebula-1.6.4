@@ -8,8 +8,9 @@ import ez.nebula.client.api.listener.event.game.EventTick;
 import ez.nebula.client.api.manager.ITypedManager;
 import ez.nebula.client.impl.config.HUD2Config;
 import ez.nebula.client.impl.hud2.*;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.render.gui.Render2D;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,8 @@ import java.util.List;
  */
 public final class HUDElementManager implements ITypedManager<HUDElement>
 {
+    static final Logger LOGGER = LogManager.getLogger("HUD");
+
     private final List<HUDElement> elementList = new ArrayList<>();
     private final HUD2Config config = new HUD2Config(this);
 
@@ -61,12 +64,14 @@ public final class HUDElementManager implements ITypedManager<HUDElement>
         elementList.add(new TPSHUDElement());
         elementList.add(new WatermarkHUDElement());
 
+        LOGGER.info("Registered {} HUD elements!", elementList.size());
+
         for (final HUDElement element : elementList)
         {
             element.discoverSettings();
         }
 
-        Nebula.INSTANCE.getConfigurationManager().addConfiguration(config);
+        Nebula.CONFIGS.addConfiguration(config);
         EventBus.subscribe(this); // automatic scaling
     }
 

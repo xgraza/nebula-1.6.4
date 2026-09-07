@@ -13,12 +13,13 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.input.EventKey;
 import ez.nebula.client.api.manager.ITypedManager;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.command.*;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
 import java.util.*;
@@ -26,6 +27,7 @@ import java.util.concurrent.CompletableFuture;
 
 public final class CommandManager implements ITypedManager<Command>
 {
+    private static final Logger LOGGER = LogManager.getLogger("Commands");
     private static final Minecraft MC = Minecraft.getMinecraft();
     public static final String COMMAND_PREFIX = ".";
 
@@ -57,7 +59,7 @@ public final class CommandManager implements ITypedManager<Command>
         register(new ToggleCommand());
         register(new WaypointCommand());
 
-        Nebula.INSTANCE.getLogger().info("Registered {} commands", commandInstanceList.size());
+        LOGGER.info("Registered {} commands", commandInstanceList.size());
     }
 
     public void register(final Command command)
@@ -114,7 +116,7 @@ public final class CommandManager implements ITypedManager<Command>
             }
         } catch (final Exception e)
         {
-            Nebula.INSTANCE.getLogger().info("Failed to execute command", e);
+            LOGGER.error("Failed to execute command", e);
             ChatUtil.sendNebula("&cAn error occurred while executing the command:");
             ChatUtil.sendNebula("&c%s", e.getMessage());
         }

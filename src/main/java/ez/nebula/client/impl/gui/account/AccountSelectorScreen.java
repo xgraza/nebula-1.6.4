@@ -1,10 +1,10 @@
 package ez.nebula.client.impl.gui.account;
 
+import ez.nebula.client.Nebula;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.manager.account.Account;
 
@@ -43,7 +43,7 @@ public final class AccountSelectorScreen extends GuiScreen
             }
             case 1:
             {
-                final List<Account> accountList = Nebula.INSTANCE.getAccountManager().getAll();
+                final List<Account> accountList = Nebula.ACCOUNTS.getAll();
                 final int selected = accountSlotsElement.getSelected();
                 if (selected <= accountList.size() - 1 && selected >= 0)
                 {
@@ -69,12 +69,12 @@ public final class AccountSelectorScreen extends GuiScreen
     @Override
     public void confirmClicked(final boolean affirmative, final int index)
     {
-        if (affirmative && !Nebula.INSTANCE.getAccountManager().getAll().isEmpty())
+        if (affirmative && !Nebula.ACCOUNTS.getAll().isEmpty())
         {
-            final Account account = Nebula.INSTANCE.getAccountManager().getAll().get(index);
+            final Account account = Nebula.ACCOUNTS.getAll().get(index);
             if (account != null)
             {
-                Nebula.INSTANCE.getAccountManager().removeAccount(account);
+                Nebula.ACCOUNTS.removeAccount(account);
             }
         }
         mc.displayGuiScreen(this);

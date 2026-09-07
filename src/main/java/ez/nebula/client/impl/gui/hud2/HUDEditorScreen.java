@@ -40,7 +40,7 @@ public final class HUDEditorScreen extends GuiScreen
 
         AWTFontRenderer.DYNAMIC_FONT_RESIZING = false;
 
-        for (final HUDElement element : Nebula.INSTANCE.getHudManager2().getAll())
+        for (final HUDElement element : Nebula.HUD_NEW.getAll())
         {
             // what a block of code!
             final int color = (element.isMouseIn(mouseX, mouseY) ?
@@ -64,7 +64,7 @@ public final class HUDEditorScreen extends GuiScreen
     {
         mouseX /= (int) Render2D.getGUIScaleFactor();
         mouseY /= (int) Render2D.getGUIScaleFactor();
-        for (final HUDElement element : Nebula.INSTANCE.getHudManager2().getAll())
+        for (final HUDElement element : Nebula.HUD_NEW.getAll())
         {
             element.mouseClicked(mouseX, mouseY, mouseButton);
             if (element.isDragging())
@@ -108,7 +108,7 @@ public final class HUDEditorScreen extends GuiScreen
             return;
         }
 
-        for (final HUDElement element : Nebula.INSTANCE.getHudManager2().getAll())
+        for (final HUDElement element : Nebula.HUD_NEW.getAll())
         {
             if (renderElement.equals(element))
             {
@@ -136,7 +136,7 @@ public final class HUDEditorScreen extends GuiScreen
         double elementW = renderElement.getWidth();
         double elementH = renderElement.getHeight();
 
-        for (final HUDElement element : Nebula.INSTANCE.getHudManager2().getAll())
+        for (final HUDElement element : Nebula.HUD_NEW.getAll())
         {
             if (renderElement.equals(element))
             {

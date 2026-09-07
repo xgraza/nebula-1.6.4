@@ -1,7 +1,8 @@
 package ez.nebula.client.api.config;
 
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.config.ModuleConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -11,6 +12,8 @@ import java.io.IOException;
  */
 public final class ConfigSaveThread extends Thread
 {
+    private static final Logger LOGGER = LogManager.getLogger("Config Save Thread");
+
     private final ConfigManager manager;
 
     public ConfigSaveThread(final ConfigManager manager)
@@ -25,10 +28,10 @@ public final class ConfigSaveThread extends Thread
         try
         {
             ModuleConfig.saveConfig("default");
-            Nebula.INSTANCE.getLogger().info("Saved module config");
+            LOGGER.info("Saved module config");
         } catch (final IOException e)
         {
-            Nebula.INSTANCE.getLogger().error(e);
+            LOGGER.error("Could not save default module config!", e);
         }
         for (final IConfig configuration : manager.getConfigList())
         {

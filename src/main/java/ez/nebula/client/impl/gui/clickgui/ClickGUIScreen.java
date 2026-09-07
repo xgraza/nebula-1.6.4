@@ -1,13 +1,15 @@
 package ez.nebula.client.impl.gui.clickgui;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.gui.clickgui.component.hud.HUDElementCategoryPanel;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.font.AWTFontRenderer;
 import ez.nebula.client.impl.module.render.ClickGUIModule;
 import net.minecraft.client.gui.GuiScreen;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import ez.nebula.client.ClientConfig;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.util.render.font.Fonts;
@@ -33,6 +35,8 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public final class ClickGUIScreen extends GuiScreen
 {
+    private static final Logger LOGGER = LogManager.getLogger("ClickGUI");
+    
     private static final int PANEL_HEADER_COLOR = new Color(33, 33, 33).getRGB();
     private static final double DEFAULT_PANEL_Y = 10.0;
 
@@ -83,7 +87,7 @@ public final class ClickGUIScreen extends GuiScreen
         if (!ClientConfig.OPENED_GUI_BEFORE)
         {
             ClientConfig.OPENED_GUI_BEFORE = true;
-            Nebula.INSTANCE.getToastManager().info("ClickGUI",
+            Nebula.TOASTS.info("ClickGUI",
                     "To bind modules, use the middle mouse button to bind, and then double click the mouse button to unbind a module",
                     15_000L);
         }
@@ -164,7 +168,7 @@ public final class ClickGUIScreen extends GuiScreen
         {
             try
             {
-                Nebula.INSTANCE.getLogger().info("Writing cheat save state to disk");
+                LOGGER.info("Writing cheat save state to disk");
                 ModuleConfig.saveConfig("default");
             } catch (final IOException e)
             {

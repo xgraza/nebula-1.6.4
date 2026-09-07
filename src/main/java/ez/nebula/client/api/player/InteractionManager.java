@@ -1,5 +1,6 @@
 package ez.nebula.client.api.player;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
@@ -16,7 +17,6 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 
 /**
@@ -70,7 +70,7 @@ public final class InteractionManager
 
         final boolean result = MC.playerController.onPlayerRightClick(MC.thePlayer,
                 MC.theWorld,
-                Nebula.INSTANCE.getInventoryManager().getStack(),
+                Nebula.INVENTORY.getStack(),
                 pos.getX(), pos.getY(), pos.getZ(), facing.order_a,
                 createHitVec(pos, facing));
         if (result)

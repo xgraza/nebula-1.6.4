@@ -4,13 +4,13 @@
 
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.event.player.EventJump;
 import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.BindSetting;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.player.*;
@@ -102,7 +102,7 @@ public final class ScaffoldModule extends InteractionModule
         super.onDisable();
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
         blockData = null;
         basePosY = -1.0;

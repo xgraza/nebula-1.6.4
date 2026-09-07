@@ -58,6 +58,6 @@ public final class KeyConfig implements IConfig
     @Override
     public File getFile()
     {
-        return new File(Nebula.INSTANCE.getNebulaRootDir(), "keys.json");
+        return new File(Nebula.NEBULA_ROOT, "keys.json");
     }
 }

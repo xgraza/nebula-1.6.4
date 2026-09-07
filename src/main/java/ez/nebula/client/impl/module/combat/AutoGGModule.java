@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.combat;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -10,12 +11,13 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.io.FileUtil;
 import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.math.MathUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C01PacketChatMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,10 +33,12 @@ import java.util.List;
         category = ModuleCategory.COMBAT)
 public final class AutoGGModule extends Module
 {
+    private static final Logger LOGGER = LogManager.getLogger("AutoGG");
+
     @ModuleInstance
     public static AutoGGModule INSTANCE;
 
-    private static final File AUTO_GG_FILE = new File(Nebula.INSTANCE.getNebulaRootDir(), "auto_gg.txt");
+    private static final File AUTO_GG_FILE = new File(Nebula.NEBULA_ROOT, "auto_gg.txt");
     private static final String PLAYER_KEY = "%player%";
     private static final List<String> DEFAULT_AUTO_GG = Lists.newArrayList(
             "# Create a new line for each message. Use the key " + PLAYER_KEY + " for the player's username.",
@@ -49,9 +53,9 @@ public final class AutoGGModule extends Module
             {
                 if (!AUTO_GG_FILE.createNewFile())
                 {
-                    Nebula.INSTANCE.getLogger().warn("Could not create {}", AUTO_GG_FILE);
+                    LOGGER.warn("Could not create {}", AUTO_GG_FILE);
                 }
-                Nebula.INSTANCE.getLogger().info("Saving default AutoGG contents to {}",  AUTO_GG_FILE);
+                LOGGER.info("Saving default AutoGG contents to {}",  AUTO_GG_FILE);
                 // save default data
                 FileUtil.save(AUTO_GG_FILE, String.join("\n", DEFAULT_AUTO_GG));
             } catch (IOException e)
@@ -90,7 +94,7 @@ public final class AutoGGModule extends Module
                 readAutoGGFile();
             } catch (final IOException e)
             {
-                Nebula.INSTANCE.getLogger().error("Failed to read auto_gg.txt file", e);
+                LOGGER.error("Failed to read auto_gg.txt file", e);
                 toggle();
             }
         }
@@ -105,7 +109,7 @@ public final class AutoGGModule extends Module
         }
         if (lastTarget != null && lastTarget.equals(event.getPlayer()) && !MC.thePlayer.equals(event.getPlayer()))
         {
-            if (!friendsSetting.getValue() && Nebula.INSTANCE.getFriendManager().isFriend(event.getPlayer()))
+            if (!friendsSetting.getValue() && Nebula.FRIENDS.isFriend(event.getPlayer()))
             {
                 return;
             }

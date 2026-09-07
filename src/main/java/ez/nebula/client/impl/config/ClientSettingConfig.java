@@ -49,6 +49,6 @@ public final class ClientSettingConfig implements IConfig
 
     @Override public File getFile()
     {
-        return new File(Nebula.INSTANCE.getNebulaRootDir(), "settings.json");
+        return new File(Nebula.NEBULA_ROOT, "settings.json");
     }
 }

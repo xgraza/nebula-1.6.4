@@ -15,7 +15,7 @@ public final class ModuleCategoryPanel extends CategoryPanel
     public ModuleCategoryPanel(final ModuleCategory category)
     {
         super(category.toString(), category.getIcon());
-        Nebula.INSTANCE.getModuleManager().getAll()
+        Nebula.MODULES.getAll()
                 .stream()
                 .filter((module) -> module.getManifest().category().equals(category))
                 .forEach((module) -> childrenComponentList.add(new ModuleComponent(module)));

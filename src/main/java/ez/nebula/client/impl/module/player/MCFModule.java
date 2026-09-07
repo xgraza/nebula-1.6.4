@@ -1,10 +1,10 @@
 package ez.nebula.client.impl.module.player;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
@@ -40,14 +40,14 @@ public final class MCFModule extends Module
         }
         final EntityPlayer player = (EntityPlayer) result.entityHit;
         final String name = player.getCommandSenderName();
-        if (Nebula.INSTANCE.getFriendManager().isFriend(name))
+        if (Nebula.FRIENDS.isFriend(name))
         {
             ChatUtil.sendNebula("Unfriended %s%s", EnumChatFormatting.RED, name);
-            Nebula.INSTANCE.getFriendManager().removeFriend(name);
+            Nebula.FRIENDS.removeFriend(name);
         } else
         {
             ChatUtil.sendNebula("Friended %s%s", EnumChatFormatting.GREEN, name);
-            Nebula.INSTANCE.getFriendManager().addFriend(name);
+            Nebula.FRIENDS.addFriend(name);
         }
     };
 }

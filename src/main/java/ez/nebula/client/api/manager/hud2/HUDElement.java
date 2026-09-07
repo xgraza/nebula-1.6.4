@@ -3,7 +3,6 @@ package ez.nebula.client.api.manager.hud2;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.ClientConfig;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.Togglable;
 import ez.nebula.client.api.config.IJSONSerializable;
@@ -178,9 +177,7 @@ public abstract class HUDElement extends Element implements IGUIInputListener, T
                 registerSetting((Setting<?>) field.get(this));
             } catch (final IllegalAccessException e)
             {
-                Nebula.INSTANCE.getLogger().error(
-                        "Failed to reflect setting from {}", this);
-                Nebula.INSTANCE.getLogger().error(e);
+                HUDElementManager.LOGGER.error("Failed to reflect setting", e);
             }
         }
     }

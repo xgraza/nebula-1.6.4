@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -10,7 +11,6 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.impl.module.render.HUDModule;
@@ -75,7 +75,7 @@ public final class NukerModule extends Module
         breakList = null;
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
         posY = -1;
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
@@ -114,7 +114,7 @@ public final class NukerModule extends Module
         {
             if (info != null)
             {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
             }
             info = null;
             return;
@@ -126,7 +126,7 @@ public final class NukerModule extends Module
 
             if (MathUtil.getDistanceFromPlayer(info.getPos().getX() + 0.5, info.getPos().getY() + 0.5, info.getPos().getZ() + 0.5) > rangeSetting.getValue())
             {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
                 info = null;
             } else
             {
@@ -136,7 +136,7 @@ public final class NukerModule extends Module
                     return;
                 }
                 info = null;
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
                 PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
             }
         }
@@ -145,7 +145,7 @@ public final class NukerModule extends Module
         if (breakList.isEmpty())
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
             info = null;
             return;
         }
@@ -173,7 +173,7 @@ public final class NukerModule extends Module
             }
         }
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        Nebula.INVENTORY.syncSlot();
     };
 
     private void swapToBestBlockSlot(final BlockPos pos)
@@ -181,7 +181,7 @@ public final class NukerModule extends Module
         final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+            Nebula.INVENTORY.setSlot(slot);
         }
     }
 

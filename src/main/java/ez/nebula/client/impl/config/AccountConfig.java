@@ -67,6 +67,6 @@ public final class AccountConfig implements IConfig
     @Override
     public File getFile()
     {
-        return new File(Nebula.INSTANCE.getNebulaRootDir(), "accounts");
+        return new File(Nebula.NEBULA_ROOT, "accounts");
     }
 }

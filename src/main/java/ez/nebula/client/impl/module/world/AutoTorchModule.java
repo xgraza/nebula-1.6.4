@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
@@ -14,7 +15,6 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
@@ -69,7 +69,7 @@ public final class AutoTorchModule extends InteractionModule
         super.onDisable();
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
         angles = null;
         pos = null;

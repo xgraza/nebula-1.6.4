@@ -14,7 +14,7 @@ public final class HUDElementCategoryPanel extends CategoryPanel
     public HUDElementCategoryPanel()
     {
         super("HUD", 'c');
-        Nebula.INSTANCE.getHudManager2().getAll().forEach(
+        Nebula.HUD_NEW.getAll().forEach(
                 (element) -> getChildrenComponentList().add(new HUDElementPanel(element)));
         setAllowScrolling(true);
         setAllowDragging(true);

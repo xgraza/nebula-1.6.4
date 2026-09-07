@@ -2,9 +2,9 @@ package ez.nebula.client.api.manager.module;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import ez.nebula.client.Nebula;
 import net.minecraft.client.Minecraft;
 import ez.nebula.client.ClientConfig;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.config.IJSONSerializable;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.manager.key.Key;
@@ -56,7 +56,7 @@ public class Module implements SettingProvider, IJSONSerializable, Togglable
         }
         debug = getClass().isAnnotationPresent(DebugFeature.class);
 
-        Nebula.INSTANCE.getKeyManager().addKey(manifest.name(),
+        Nebula.KEYS.addKey(manifest.name(),
                 key = new Key((state) ->
                 {
                     if (state)
@@ -81,17 +81,17 @@ public class Module implements SettingProvider, IJSONSerializable, Togglable
 
     public void notifyInfo(final String message, final long duration)
     {
-        Nebula.INSTANCE.getToastManager().info(manifest.name(), message, duration);
+        Nebula.TOASTS.info(manifest.name(), message, duration);
     }
 
     public void notifyWarn(final String message, final long duration)
     {
-        Nebula.INSTANCE.getToastManager().warn(manifest.name(), message, duration);
+        Nebula.TOASTS.warn(manifest.name(), message, duration);
     }
 
     public void notifyError(final String message, final long duration)
     {
-        Nebula.INSTANCE.getToastManager().error(manifest.name(), message, duration);
+        Nebula.TOASTS.error(manifest.name(), message, duration);
     }
 
     public ModuleManifest getManifest()
@@ -169,9 +169,7 @@ public class Module implements SettingProvider, IJSONSerializable, Togglable
                 registerSetting((Setting<?>) field.get(this));
             } catch (final IllegalAccessException e)
             {
-                Nebula.INSTANCE.getLogger().error(
-                        "Failed to reflect setting from {}", this);
-                Nebula.INSTANCE.getLogger().error(e);
+                ModuleManager.LOGGER.error("Failed to reflect setting", e);
             }
         }
     }
@@ -196,10 +194,8 @@ public class Module implements SettingProvider, IJSONSerializable, Togglable
 
         if (setting.getValue() instanceof Key)
         {
-            Nebula.INSTANCE.getLogger().debug(
-                    "Added runtime key for setting {}", setting);
-            Nebula.INSTANCE.getKeyManager()
-                    .addRuntimeKey((Key) setting.getValue());
+            ModuleManager.LOGGER.debug("Added runtime key for setting {}", setting);
+            Nebula.KEYS.addRuntimeKey((Key) setting.getValue());
         }
     }
 

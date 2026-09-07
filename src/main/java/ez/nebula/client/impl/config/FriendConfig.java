@@ -52,6 +52,6 @@ public final class FriendConfig implements IConfig
     @Override
     public File getFile()
     {
-        return new File(Nebula.INSTANCE.getNebulaRootDir(), "friends.txt");
+        return new File(Nebula.NEBULA_ROOT, "friends.txt");
     }
 }

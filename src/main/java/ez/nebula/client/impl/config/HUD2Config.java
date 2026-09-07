@@ -62,7 +62,7 @@ public final class HUD2Config implements IConfig
     @Override
     public File getFile()
     {
-        return new File(Nebula.INSTANCE.getNebulaRootDir(), "hud.json");
+        return new File(Nebula.NEBULA_ROOT, "hud.json");
     }
 
     public boolean isLoaded()

@@ -18,7 +18,7 @@ public final class ModuleArgumentType implements ArgumentType<Module>
     public Module parse(final StringReader reader) throws CommandSyntaxException
     {
         final String target = reader.readString().toLowerCase();
-        for (final Module module : Nebula.INSTANCE.getModuleManager().getAll())
+        for (final Module module : Nebula.MODULES.getAll())
         {
             final String name = module.getManifest().name().toLowerCase();
             if (target.equalsIgnoreCase(name) || target.startsWith(name))
@@ -34,7 +34,7 @@ public final class ModuleArgumentType implements ArgumentType<Module>
     public <S> CompletableFuture<Suggestions> listSuggestions(final CommandContext<S> context, final SuggestionsBuilder builder)
     {
         final String input = builder.getRemaining().toLowerCase();
-        for (final Module module : Nebula.INSTANCE.getModuleManager().getAll())
+        for (final Module module : Nebula.MODULES.getAll())
         {
             final String name = module.getManifest().name().toLowerCase();
             if (input.equals(name) || name.startsWith(input) || name.contains(input))

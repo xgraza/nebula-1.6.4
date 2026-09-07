@@ -1,11 +1,24 @@
 package ez.nebula.client;
 
 import com.github.lunatrius.schematica.Schematica;
+import ez.nebula.client.api.config.ConfigManager;
+import ez.nebula.client.api.manager.account.AccountManager;
+import ez.nebula.client.api.manager.command.CommandManager;
+import ez.nebula.client.api.manager.friend.FriendManager;
+import ez.nebula.client.api.manager.hud.HUDManager;
 import ez.nebula.client.api.manager.hud2.HUDElementManager;
+import ez.nebula.client.api.manager.key.KeyManager;
+import ez.nebula.client.api.manager.module.ModuleManager;
+import ez.nebula.client.api.manager.toast.ToastManager;
 import ez.nebula.client.api.manager.waypoint.WaypointManager;
-import ez.nebula.client.api.nws.NWS;
 import ez.nebula.client.api.player.InteractionManager;
+import ez.nebula.client.api.player.movement.MovementController;
+import ez.nebula.client.api.player.server.InventoryManager;
+import ez.nebula.client.api.player.server.RotationManager;
+import ez.nebula.client.api.player.server.ServerManager;
 import ez.nebula.client.api.tray.SystemNotifications;
+import ez.nebula.client.impl.gui.startup.LoadingScreen;
+import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.SplashTextProvider;
 import net.minecraft.util.ResourceLocation;
@@ -13,20 +26,6 @@ import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
-import ez.nebula.client.api.config.ConfigManager;
-import ez.nebula.client.api.manager.account.AccountManager;
-import ez.nebula.client.api.manager.module.ModuleManager;
-import ez.nebula.client.api.manager.command.CommandManager;
-import ez.nebula.client.api.manager.friend.FriendManager;
-import ez.nebula.client.api.manager.hud.HUDManager;
-import ez.nebula.client.api.player.server.InventoryManager;
-import ez.nebula.client.api.manager.key.KeyManager;
-import ez.nebula.client.api.player.server.RotationManager;
-import ez.nebula.client.api.player.server.ServerManager;
-import ez.nebula.client.api.manager.toast.ToastManager;
-import ez.nebula.client.api.player.movement.MovementController;
-import ez.nebula.client.impl.gui.startup.LoadingScreen;
-import ez.nebula.client.util.render.RenderUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.Image;
@@ -41,122 +40,104 @@ import java.util.concurrent.Executors;
 
 /**
  * @author xgraza
- * @since 02/12/25
+ * @since 9/6/26
  */
-public enum Nebula
+public final class Nebula
 {
-    INSTANCE;
+    private static final Logger LOGGER = LogManager.getLogger(BuildConfig.NAME);
 
-    private final Logger logger = LogManager.getLogger(BuildConfig.NAME);
-    private File nebulaRootDir;
+    private static final ResourceLocation NEBULA_SPLASH_TEXT_RESOURCE = new ResourceLocation(
+            "nebula", "splashs.txt");
 
-    private final Executor executor = Executors.newFixedThreadPool(1);
+    public static final Executor EXECUTOR = Executors.newFixedThreadPool(1);
+    public static File NEBULA_ROOT;
 
-    private ConfigManager configManager;
-    private KeyManager keyManager;
-    private CommandManager commandManager;
-    private HUDManager hudManager;
-    private HUDElementManager hudManager2;
-    private ModuleManager moduleManager;
-    private AccountManager accountManager;
-    private FriendManager friendManager;
-    private ToastManager toastManager;
-    private InventoryManager inventoryManager;
-    private RotationManager rotationManager;
-    private ServerManager serverManager;
-    private WaypointManager waypointManager;
+    public static final ConfigManager CONFIGS = new ConfigManager();
+    public static final KeyManager KEYS = new KeyManager();
+    public static final CommandManager COMMANDS = new CommandManager();
+    public static final HUDManager HUD_OLD = new HUDManager();
+    public static final HUDElementManager HUD_NEW = new HUDElementManager();
+    public static final ModuleManager MODULES = new ModuleManager();
+    public static final AccountManager ACCOUNTS = new AccountManager();
+    public static final FriendManager FRIENDS = new FriendManager();
+    public static final ToastManager TOASTS = new ToastManager();
+    public static final InventoryManager INVENTORY = new InventoryManager();
+    public static final RotationManager ROTATIONS = new RotationManager();
+    public static final ServerManager SERVER = new ServerManager();
+    public static final WaypointManager WAYPOINTS = new WaypointManager();
+    public static final MovementController MOVEMENT_CONTROLLER = new MovementController();
 
-    private MovementController movementController;
-
-    public void init(final File gameDir)
+    /**
+     * Initializes nebula client
+     * @param gameDir the {@link File} to the current working directory
+     */
+    public static void init(final File gameDir)
     {
         logBuildInfo();
 
         LoadingScreen.setTotalLoadingStages(12);
-        LoadingScreen.setStage(1, "Setting up Nebula");
-        setTitle("Setting up Nebula...");
+        LoadingScreen.setStage(1, "Pre-initialization");
+        createNebulaDirectories(gameDir);
+        SplashTextProvider.addSplashTextProvider(NEBULA_SPLASH_TEXT_RESOURCE);
 
-        SplashTextProvider.addSplashTextProvider(
-                new ResourceLocation("nebula", "splashs.txt"));
-
-        LoadingScreen.setStage(2, "Initializing Nebula directories");
-        nebulaRootDir = new File(gameDir, "nebula-client");
-        if (!nebulaRootDir.exists())
-        {
-            LoadingScreen.setStage(2, "Creating Nebula directories");
-            if (nebulaRootDir.mkdir())
-            {
-                logger.info("Created {} successfully", nebulaRootDir.getAbsolutePath());
-            } else
-            {
-                throw new RuntimeException("Failed to create nebula directory");
-            }
-        }
-
-        LoadingScreen.setStage(3, "Initializing Nebula core");
+        LoadingScreen.setStage(3, "Initializing Nebula Client...");
+        long endTime;
         final long startTime = System.nanoTime();
 
-        NWS.start(false);
-
-        configManager = new ConfigManager();
-
-        // core features
-        keyManager = new KeyManager();
-        keyManager.init();
-        hudManager = new HUDManager();
-        hudManager.init();
-        hudManager2 = new HUDElementManager();
-        hudManager2.init();
-        commandManager = new CommandManager();
-        commandManager.init();
-        moduleManager = new ModuleManager();
-        moduleManager.init();
-
-        // server features
-        serverManager = new ServerManager();
-        serverManager.init();
-        rotationManager = new RotationManager();
-        rotationManager.init();
-        inventoryManager = new InventoryManager();
-        inventoryManager.init();
-        movementController = new MovementController();
+        KEYS.init();
+        HUD_OLD.init();
+        HUD_NEW.init();
+        COMMANDS.init();
+        MODULES.init();
+        SERVER.init();
+        ROTATIONS.init();
+        INVENTORY.init();
         InteractionManager.INSTANCE.init();
-
-        // bullshit with fur
-        accountManager = new AccountManager();
-        accountManager.init();
-        toastManager = new ToastManager();
-        toastManager.init();
-        friendManager = new FriendManager();
-        friendManager.init();
-        waypointManager = new WaypointManager();
-        waypointManager.init();
+        ACCOUNTS.init();
+        TOASTS.init();
+        FRIENDS.init();
+        WAYPOINTS.init();
         SystemNotifications.init();
-
-        // init schematica
         Schematica.load();
 
-        final long endTime = System.nanoTime();
-        logger.info("Instantiated Nebula successfully in {}ms",
-                String.format("%.2f", (endTime - startTime) / 1000000.0));
+        endTime = System.nanoTime();
+        LOGGER.info("Initialized Nebula Client in {}ms", (endTime - startTime) / 1000000.0);
 
         LoadingScreen.setStage(4, "Loading configs");
-        configManager.init();
+        CONFIGS.init();
 
-        LoadingScreen.setStage(5, "Initializing Nebula render features");
+        LoadingScreen.setStage(5, "Initializing render features");
         try
         {
             RenderUtil.initShaders();
-        } catch (Exception e)
+        } catch (final Exception e)
         {
-            logger.error(e);
+            LOGGER.error("Failed to initialize shaders!", e);
         }
-        LoadingScreen.setStage(6, "Finishing Nebula initialization");
+
+        LoadingScreen.setStage(6, "Post-initialization");
         setIcon();
         setTitle("Nebula " + ClientConfig.FULL_VERSION);
     }
 
-    void setTitle(final String title)
+    private static void createNebulaDirectories(final File gameDir)
+    {
+        NEBULA_ROOT = new File(gameDir, "nebula-client");
+        if (!NEBULA_ROOT.exists())
+        {
+            LoadingScreen.setStage(2, "Initializing Nebula directories");
+            LOGGER.info("First time launching Nebula, creating {}", NEBULA_ROOT);
+            if (NEBULA_ROOT.mkdir())
+            {
+                LOGGER.info("Created successfully!");
+            } else
+            {
+                throw new RuntimeException("Failed to create " + NEBULA_ROOT + " directory! :(");
+            }
+        }
+    }
+
+    private static void setTitle(final String title)
     {
         final Util.EnumOS os = Util.getOSType();
         if (os == Util.EnumOS.WINDOWS || os == Util.EnumOS.MACOS)
@@ -168,7 +149,7 @@ public enum Nebula
         }
     }
 
-    void setIcon()
+    private static void setIcon()
     {
         if (Util.getOSType() == Util.EnumOS.MACOS)
         {
@@ -184,7 +165,7 @@ public enum Nebula
                 return;
             } catch (final Exception e)
             {
-                logger.error("Failed to set dock icon with EAWT, fallback to LWJGL2");
+                LOGGER.error("Failed to set dock icon with EAWT, fallback to LWJGL2");
             }
         }
 
@@ -195,18 +176,18 @@ public enum Nebula
             ByteBuffer buffer128x = readImage("/assets/nebula/texture/icon/128x.png");
             if (buffer16x == null || buffer32x == null || buffer128x == null)
             {
-                logger.error("Failed to read Nebula icon buffer(s).");
+                LOGGER.error("Failed to read Nebula icon buffer(s).");
                 return;
             }
 
             Display.setIcon(new ByteBuffer[]{ buffer16x, buffer32x, buffer128x });
         } catch (final Exception exception)
         {
-            logger.error("Couldn't set icon", exception);
+            LOGGER.error("Couldn't set icon", exception);
         }
     }
 
-    ByteBuffer readImage(String location)
+    private static ByteBuffer readImage(String location)
     {
         try (final InputStream is = Nebula.class.getResourceAsStream(location))
         {
@@ -231,100 +212,15 @@ public enum Nebula
         }
     }
 
-    void logBuildInfo()
+    private static void logBuildInfo()
     {
-        logger.info("Version: {}", ClientConfig.FULL_VERSION);
-        logger.info("Build Time: " + BuildConfig.BUILD_TIME);
+        LOGGER.info("Version: {}", ClientConfig.FULL_VERSION);
+        LOGGER.info("Build Time: " + BuildConfig.BUILD_TIME);
         if (ClientConfig.DEBUG)
         {
-            logger.warn("\t###");
-            logger.warn("\tNebula debug is enabled!");
-            logger.warn("\t##");
+            LOGGER.warn("\t###");
+            LOGGER.warn("\tNebula debug is enabled!");
+            LOGGER.warn("\t##");
         }
-    }
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
-    public File getNebulaRootDir()
-    {
-        return nebulaRootDir;
-    }
-
-    public Executor getExecutor()
-    {
-        return executor;
-    }
-
-    public ConfigManager getConfigurationManager()
-    {
-        return configManager;
-    }
-
-    public KeyManager getKeyManager()
-    {
-        return keyManager;
-    }
-
-    public CommandManager getCommandManager()
-    {
-        return commandManager;
-    }
-
-    public HUDManager getHUDManager()
-    {
-        return hudManager;
-    }
-
-    public HUDElementManager getHudManager2()
-    {
-        return hudManager2;
-    }
-
-    public ModuleManager getModuleManager()
-    {
-        return moduleManager;
-    }
-
-    public AccountManager getAccountManager()
-    {
-        return accountManager;
-    }
-
-    public FriendManager getFriendManager()
-    {
-        return friendManager;
-    }
-
-    public ToastManager getToastManager()
-    {
-        return toastManager;
-    }
-
-    public InventoryManager getInventoryManager()
-    {
-        return inventoryManager;
-    }
-
-    public RotationManager getRotationManager()
-    {
-        return rotationManager;
-    }
-
-    public ServerManager getServerManager()
-    {
-        return serverManager;
-    }
-
-    public MovementController getMovementController()
-    {
-        return movementController;
-    }
-
-    public WaypointManager getWaypointManager()
-    {
-        return waypointManager;
     }
 }

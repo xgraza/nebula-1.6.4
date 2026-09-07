@@ -2,6 +2,7 @@ package net.minecraft.entity.player;
 
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.player.EventItemUseFinish;
 import ez.nebula.client.api.listener.event.player.EventJump;
@@ -50,7 +51,6 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.IChunkProvider;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
 
 import java.util.Collection;
@@ -847,7 +847,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
         if (var3 > 1.0F)
         {
-            ItemStack var5 = Nebula.INSTANCE.getInventoryManager().getStack();
+            ItemStack var5 = Nebula.INVENTORY.getStack();
             int var4 = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, var5);
 
             if (var4 > 0 && var5 != null)
@@ -2094,7 +2094,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                     return true;
                 }
 
-                final ItemStack equippedItemStack = Nebula.INSTANCE.getInventoryManager().getStack();
+                final ItemStack equippedItemStack = Nebula.INVENTORY.getStack();
                 if (equippedItemStack != null)
                 {
                     return equippedItemStack.isProperItemForBlock(var4)

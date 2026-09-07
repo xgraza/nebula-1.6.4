@@ -6,12 +6,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.server.S09PacketHeldItemChange;
 import ez.nebula.client.ClientConfig;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.IManager;
 import ez.nebula.client.api.listener.event.network.EventPacket;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author xgraza
@@ -19,6 +20,7 @@ import ez.nebula.client.api.listener.event.network.EventPacket;
  */
 public final class InventoryManager implements IManager
 {
+    private static final Logger LOGGER = LogManager.getLogger("Inventory");
     private static final Minecraft MC = Minecraft.getMinecraft();
 
     private int slot = -1;
@@ -43,8 +45,7 @@ public final class InventoryManager implements IManager
             {
                 if (ClientConfig.DEBUG)
                 {
-                    Nebula.INSTANCE.getLogger().warn(
-                            "Something tried to set slot to {}", slotIndex);
+                    LOGGER.warn("Something tried to set slot to {}", slotIndex);
                 }
                 event.cancel();
                 return;

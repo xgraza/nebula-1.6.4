@@ -1,5 +1,6 @@
 package net.minecraft.client.multiplayer;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.event.world.EventPlace;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -20,7 +21,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.impl.module.player.InteractModule;
 import ez.nebula.client.api.listener.event.player.EventAttackBlock;
@@ -241,7 +241,7 @@ public class PlayerControllerMP
                     this.currentBlockX = x;
                     this.currentBlockY = y;
                     this.currentblockZ = z;
-                    this.currentItemHittingBlock = Nebula.INSTANCE.getInventoryManager().getStack();
+                    this.currentItemHittingBlock = Nebula.INVENTORY.getStack();
                     this.curBlockDamageMP = 0.0F;
                     this.stepSoundTickCounter = 0.0F;
                     this.mc.theWorld.destroyBlockInWorldPartially(this.mc.thePlayer.getEntityId(), this.currentBlockX, this.currentBlockY, this.currentblockZ, (int) (this.curBlockDamageMP * 10.0F) - 1);
@@ -349,7 +349,7 @@ public class PlayerControllerMP
 
     public boolean sameToolAndBlock(int x, int y, int z)
     {
-        ItemStack stack = Nebula.INSTANCE.getInventoryManager().getStack();
+        ItemStack stack = Nebula.INVENTORY.getStack();
         boolean invalidStack = this.currentItemHittingBlock == null && stack == null;
 
         if (this.currentItemHittingBlock != null && stack != null)
@@ -442,7 +442,7 @@ public class PlayerControllerMP
             return false;
         } else
         {
-            final int slot = Nebula.INSTANCE.getInventoryManager().getSlot();
+            final int slot = Nebula.INVENTORY.getSlot();
             player.inventory.mainInventory[slot] = usedStack;
 
             if (usedStack.stackSize == 0)

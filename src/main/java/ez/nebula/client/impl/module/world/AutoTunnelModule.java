@@ -4,6 +4,7 @@
 
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -14,7 +15,6 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.impl.module.player.AutoEatModule;
@@ -72,7 +72,7 @@ public final class AutoTunnelModule extends Module
         super.onDisable();
         if (prevSlot != -1)
         {
-            Nebula.INSTANCE.getInventoryManager().setSlotClient(prevSlot);
+            Nebula.INVENTORY.setSlotClient(prevSlot);
         }
         prevSlot = InventoryUtil.INVALID_SLOT;
         replaceQueue.clear();
@@ -140,13 +140,13 @@ public final class AutoTunnelModule extends Module
                 {
                     continue;
                 }
-                Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+                Nebula.INVENTORY.setSlot(slot);
                 if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing()))
                 {
                     replaceQueue.remove(pos);
                     ++blocks;
                 }
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
                 if (blocks >= blocksPerTickSetting.getValue())
                 {
                     return;
@@ -200,7 +200,7 @@ public final class AutoTunnelModule extends Module
             {
                 prevSlot = MC.thePlayer.inventory.currentItem;
             }
-            Nebula.INSTANCE.getInventoryManager().setSlotClient(slot);
+            Nebula.INVENTORY.setSlotClient(slot);
         }
     }
 
@@ -208,7 +208,7 @@ public final class AutoTunnelModule extends Module
     {
         if (prevSlot != InventoryUtil.INVALID_SLOT && MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().setSlotClient(prevSlot);
+            Nebula.INVENTORY.setSlotClient(prevSlot);
         }
         prevSlot = InventoryUtil.INVALID_SLOT;
     }

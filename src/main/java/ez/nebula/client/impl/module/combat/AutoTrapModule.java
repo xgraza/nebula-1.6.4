@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -12,7 +13,6 @@ import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.MathUtil;
@@ -75,7 +75,7 @@ public final class AutoTrapModule extends InteractionModule
         placementList.clear();
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
     }
 
@@ -115,7 +115,7 @@ public final class AutoTrapModule extends InteractionModule
                 final int slot = InventoryUtil.getHotbarSlot(blockSetting::isBlock);
                 if (slot == -1)
                 {
-                    Nebula.INSTANCE.getInventoryManager().syncSlot();
+                    Nebula.INVENTORY.syncSlot();
                     return;
                 }
                 MC.theWorld.setBlock(pos.getX(), pos.getY(), pos.getZ(), packet.getType());
@@ -137,7 +137,7 @@ public final class AutoTrapModule extends InteractionModule
         {
             if (!placementList.isEmpty())
             {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
             }
             placementList.clear();
             return;
@@ -149,7 +149,7 @@ public final class AutoTrapModule extends InteractionModule
         {
             if (hadItems)
             {
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
             }
             return;
         }
@@ -157,7 +157,7 @@ public final class AutoTrapModule extends InteractionModule
         final int slot = InventoryUtil.getHotbarSlot(blockSetting::isBlock);
         if (slot == -1)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
             return;
         }
         placeMultiPos(blocksSetting.getValue(), slot, false, placementList);

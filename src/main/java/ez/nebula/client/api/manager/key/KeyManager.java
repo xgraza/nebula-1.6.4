@@ -1,8 +1,8 @@
 package ez.nebula.client.api.manager.key;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.config.KeyConfig;
 import net.minecraft.client.Minecraft;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
@@ -64,8 +64,7 @@ public final class KeyManager implements ITypedManager<Key>
     public void init()
     {
         EventBus.subscribe(this);
-        Nebula.INSTANCE.getConfigurationManager()
-                .addConfiguration(new KeyConfig(this));
+        Nebula.CONFIGS.addConfiguration(new KeyConfig(this));
     }
 
     public void addKey(final String id, final Key key)

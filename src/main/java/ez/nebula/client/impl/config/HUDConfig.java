@@ -75,6 +75,6 @@ public final class HUDConfig implements IConfig
     @Override
     public File getFile()
     {
-        return new File(Nebula.INSTANCE.getNebulaRootDir(), "hud_elements.json");
+        return new File(Nebula.NEBULA_ROOT, "hud_elements.json");
     }
 }

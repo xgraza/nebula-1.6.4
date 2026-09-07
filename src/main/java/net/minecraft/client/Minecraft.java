@@ -5,6 +5,7 @@
 package net.minecraft.client;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.event.game.EventBindStopUse;
 import ez.nebula.client.api.listener.event.game.EventDisplayGUI;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
@@ -85,7 +86,6 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.impl.module.render.CameraClipModule;
@@ -505,7 +505,7 @@ public class Minecraft
         this.fontRenderer = new FontRenderer(this.gameSettings, new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
 
         // gameSettings.guiScale = 2;
-        Nebula.INSTANCE.init(mcDataDir);
+        Nebula.init(mcDataDir);
 
         if (this.gameSettings.language != null)
         {

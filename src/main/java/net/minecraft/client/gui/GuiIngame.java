@@ -4,6 +4,7 @@
 
 package net.minecraft.client.gui;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.render.*;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.block.Block;
@@ -36,7 +37,6 @@ import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import ez.nebula.client.ClientConfig;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.render.EventRender2D;
@@ -149,7 +149,7 @@ public class GuiIngame extends Gui
             this.mc.getTextureManager().bindTexture(widgetsTexPath);
             this.zLevel = -90.0F;
             this.drawTexturedModalRect(width / 2 - 91, height - 22, 0, 0, 182, 22);
-            this.drawTexturedModalRect(width / 2 - 91 - 1 + Nebula.INSTANCE.getInventoryManager().getSlot() * 20, height - 22 - 1, 0, 22, 24, 22);
+            this.drawTexturedModalRect(width / 2 - 91 - 1 + Nebula.INVENTORY.getSlot() * 20, height - 22 - 1, 0, 22, 24, 22);
             this.mc.getTextureManager().bindTexture(icons);
             GL11.glEnable(GL11.GL_BLEND);
             OpenGlHelper.glBlendFunc(775, 769, 1, 0);
@@ -461,7 +461,7 @@ public class GuiIngame extends Gui
         font.drawStringWithShadow("OpenGL " + glGetString(GL_VERSION), 2, y += 10, color);
 
         font.drawStringWithShadow("FPS: " + Minecraft.debugFPS, 2, y += 18, color);
-        font.drawStringWithShadow("TPS: " + Nebula.INSTANCE.getServerManager().getAverageTPS() + " [" + Nebula.INSTANCE.getServerManager().getCurrentTPS() + "]", 2, y += 10, color);
+        font.drawStringWithShadow("TPS: " + Nebula.SERVER.getAverageTPS() + " [" + Nebula.SERVER.getCurrentTPS() + "]", 2, y += 10, color);
         font.drawStringWithShadow("Chunk Updates: " + WorldRenderer.chunksUpdated, 2, y += 10, color);
 
         font.drawStringWithShadow(String.format("X: %.5f", mc.thePlayer.posX), 2, y += 18, color);
@@ -644,7 +644,7 @@ public class GuiIngame extends Gui
                 String name;
                 if (ExtraTabModule.INSTANCE.isToggled()
                         && ExtraTabModule.INSTANCE.highlightFriendsSetting.getValue()
-                        && (Nebula.INSTANCE.getFriendManager().isFriend(info.name)
+                        && (Nebula.FRIENDS.isFriend(info.name)
                         || info.name.equals(mc.thePlayer.getCommandSenderName())))
                 {
                     name = EnumChatFormatting.NEBULA_CLIENT_COLOR + info.name;
@@ -764,7 +764,7 @@ public class GuiIngame extends Gui
 
             String name;
             if (ExtraTabModule.INSTANCE.highlightFriendsSetting.getValue()
-                    && (Nebula.INSTANCE.getFriendManager().isFriend(info.name)
+                    && (Nebula.FRIENDS.isFriend(info.name)
                     || info.name.equals(mc.thePlayer.getCommandSenderName())))
             {
                 name = EnumChatFormatting.NEBULA_CLIENT_COLOR + info.name;

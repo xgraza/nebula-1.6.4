@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.exploit.LongChatModule;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -29,7 +30,6 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.command.CommandManager;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
 import ez.nebula.client.impl.module.player.TranslateModule;
@@ -69,7 +69,7 @@ public class GuiChat extends GuiScreen
     public GuiChat(String text)
     {
         this.text = text;
-        commandManager = Nebula.INSTANCE.getCommandManager();
+        commandManager = Nebula.COMMANDS;
     }
 
     /**

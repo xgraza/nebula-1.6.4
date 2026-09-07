@@ -2,9 +2,11 @@ package ez.nebula.client.impl.config;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.util.io.FileUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +17,8 @@ import java.io.IOException;
  */
 public final class ModuleConfig
 {
-    public static final File MODULE_CONFIG_DIR = new File(
-            Nebula.INSTANCE.getNebulaRootDir(), "configs");
+    private static final Logger LOGGER = LogManager.getLogger("Module Configs");
+    public static final File MODULE_CONFIG_DIR = new File(Nebula.NEBULA_ROOT, "configs");
 
     static
     {
@@ -26,7 +28,7 @@ public final class ModuleConfig
             {
                 throw new RuntimeException("Failed to create " + MODULE_CONFIG_DIR.getAbsolutePath());
             }
-            Nebula.INSTANCE.getLogger().info("Created {} successfully", MODULE_CONFIG_DIR.getAbsolutePath());
+            LOGGER.info("Created {} successfully", MODULE_CONFIG_DIR.getAbsolutePath());
         }
     }
 
@@ -34,7 +36,7 @@ public final class ModuleConfig
     {
         final File file = new File(MODULE_CONFIG_DIR, configName + ".cfg");
         final JsonObject object = new JsonObject();
-        for (final Module module : Nebula.INSTANCE.getModuleManager().getAll())
+        for (final Module module : Nebula.MODULES.getAll())
         {
             object.add(module.getManifest().name(), module.toJSON());
         }
@@ -61,7 +63,7 @@ public final class ModuleConfig
                 return;
             }
             final JsonObject object = element.getAsJsonObject();
-            for (final Module module : Nebula.INSTANCE.getModuleManager().getAll())
+            for (final Module module : Nebula.MODULES.getAll())
             {
                 final String moduleName = module.getManifest().name();
                 if (!object.has(moduleName))
@@ -73,7 +75,7 @@ public final class ModuleConfig
                     module.fromJSON(object.get(moduleName));
                 } catch (final Exception e)
                 {
-                    Nebula.INSTANCE.getLogger().error(e);
+                    LOGGER.error("Failed to load module data from JSON", e);
                 }
             }
         }

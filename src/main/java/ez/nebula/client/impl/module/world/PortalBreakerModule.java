@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.DebugFeature;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
@@ -8,7 +9,6 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
@@ -46,7 +46,7 @@ public final class PortalBreakerModule extends Module
         super.onDisable();
         if (MC.thePlayer != null && slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
         slot = InventoryUtil.INVALID_SLOT;
         pos = null;
@@ -96,7 +96,7 @@ public final class PortalBreakerModule extends Module
         {
             return;
         }
-        tryAfterRotate = Nebula.INSTANCE.getRotationManager().spoof(
+        tryAfterRotate = Nebula.ROTATIONS.spoof(
                 angles[0], angles[1], PORTAL_BREAKER_ROTATION_PRIORITY);
     };
 
@@ -108,10 +108,10 @@ public final class PortalBreakerModule extends Module
             return;
         }
 
-        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+        Nebula.INVENTORY.setSlot(slot);
         InteractionManager.INSTANCE.rightClickBlock(result); // click w/ water bucket
         InteractionManager.INSTANCE.rightClickBlock(result); // collect water
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        Nebula.INVENTORY.syncSlot();
 
         slot = InventoryUtil.INVALID_SLOT;
         pos = null;

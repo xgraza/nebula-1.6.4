@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.network.EventPacket;
@@ -10,7 +11,6 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.world.Render3D;
@@ -110,7 +110,7 @@ public final class LogoutSpotsModule extends Module
                 {
                     if (player.getCommandSenderName().equals(username))
                     {
-                        if (!logFriendsSetting.getValue() && Nebula.INSTANCE.getFriendManager().isFriend(player))
+                        if (!logFriendsSetting.getValue() && Nebula.FRIENDS.isFriend(player))
                         {
                             continue;
                         }

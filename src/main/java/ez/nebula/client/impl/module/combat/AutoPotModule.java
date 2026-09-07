@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.module.combat;
 
 import com.google.common.collect.Lists;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
@@ -13,7 +14,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
@@ -92,7 +92,7 @@ public final class AutoPotModule extends InteractionModule
     {
         if (thrown)
         {
-            final long time = (long) (350 + Nebula.INSTANCE.getServerManager().getScaledLatency());
+            final long time = (long) (350 + Nebula.SERVER.getScaledLatency());
             if (potTimer.hasElapsed(time))
             {
                 thrown = false;
@@ -195,7 +195,7 @@ public final class AutoPotModule extends InteractionModule
 
         // alfheim giant strength pot incident...
         final MovingObjectPosition result = MC.thePlayer.rayTrace(
-                Nebula.INSTANCE.getRotationManager().getLook(angles[0], angles[1]),
+                Nebula.ROTATIONS.getLook(angles[0], angles[1]),
                 4.5, 1.0f);
         return (result == null || result.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) ? null : angles;
     }

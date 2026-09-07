@@ -1,5 +1,6 @@
 package net.minecraft.entity.player;
 
+import ez.nebula.client.Nebula;
 import net.minecraft.block.Block;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -10,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ReportedException;
-import ez.nebula.client.Nebula;
 
 import java.util.concurrent.Callable;
 
@@ -529,7 +529,7 @@ public class InventoryPlayer implements IInventory
     {
         float var2 = 1.0F;
 
-        final ItemStack stack = Nebula.INSTANCE.getInventoryManager().getStack();
+        final ItemStack stack = Nebula.INVENTORY.getStack();
         if (stack != null)
         {
             var2 *= stack.getStrVsBlock(p_146023_1_);

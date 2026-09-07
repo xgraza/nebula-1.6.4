@@ -1,12 +1,12 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.block.BlockSetting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.math.MathUtil;
 import net.minecraft.init.Blocks;
@@ -78,7 +78,7 @@ public final class FlattenModule extends InteractionModule
         super.onDisable();
         if (MC.thePlayer != null)
         {
-           Nebula.INSTANCE.getInventoryManager().syncSlot();
+           Nebula.INVENTORY.syncSlot();
         }
         angles = null;
         placeInfo = null;
@@ -93,7 +93,7 @@ public final class FlattenModule extends InteractionModule
 //            return;
 //        }
 //
-//        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+//        Nebula2.INVENTORY.setSlot(slot);
 
         final ItemStack heldStack = MC.thePlayer.getHeldItem();
         if (heldStack == null || !(heldStack.getItem() instanceof ItemBlock))

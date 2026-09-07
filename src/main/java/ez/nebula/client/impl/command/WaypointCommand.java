@@ -3,11 +3,11 @@ package ez.nebula.client.impl.command;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
 import ez.nebula.client.api.manager.waypoint.Waypoint;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 
@@ -28,7 +28,7 @@ public final class WaypointCommand extends Command
                         {
                             final String serverIP = getServerIP();
                             final String name = StringArgumentType.getString(ctx, "name");
-                            final Waypoint waypoint = Nebula.INSTANCE.getWaypointManager().getWaypoint(serverIP, name);
+                            final Waypoint waypoint = Nebula.WAYPOINTS.getWaypoint(serverIP, name);
                             if (waypoint == null)
                             {
                                 return ctx.getSource().respond("No waypoint found with that name");
@@ -46,12 +46,12 @@ public final class WaypointCommand extends Command
                                     {
                                         return ctx.getSource().respond("Name cannot be empty");
                                     }
-                                    if (Nebula.INSTANCE.getWaypointManager().waypointExists(serverIP, name))
+                                    if (Nebula.WAYPOINTS.waypointExists(serverIP, name))
                                     {
                                         return ctx.getSource().respond("A waypoint with that name already exists!");
                                     }
                                     final Waypoint waypoint = new Waypoint(serverIP, name, MC.thePlayer.posX, MC.thePlayer.posY, MC.thePlayer.posZ, MC.thePlayer.dimension);
-                                    Nebula.INSTANCE.getWaypointManager().registerWaypoint(waypoint);
+                                    Nebula.WAYPOINTS.registerWaypoint(waypoint);
                                     return ctx.getSource().respond("Created a new waypoint with the name &z%s&r at your location", name);
                                 }))
                         .then(argument("name", StringArgumentType.string())
@@ -66,7 +66,7 @@ public final class WaypointCommand extends Command
                                                             {
                                                                 return ctx.getSource().respond("Name cannot be empty");
                                                             }
-                                                            if (Nebula.INSTANCE.getWaypointManager().waypointExists(serverIP, name))
+                                                            if (Nebula.WAYPOINTS.waypointExists(serverIP, name))
                                                             {
                                                                 return ctx.getSource().respond("A waypoint with that name already exists!");
                                                             }
@@ -74,7 +74,7 @@ public final class WaypointCommand extends Command
                                                             final double y = DoubleArgumentType.getDouble(ctx, "y");
                                                             final double z = DoubleArgumentType.getDouble(ctx, "z");
                                                             final Waypoint waypoint = new Waypoint(serverIP, name, x, y, z, MC.thePlayer.dimension);
-                                                            Nebula.INSTANCE.getWaypointManager().registerWaypoint(waypoint);
+                                                            Nebula.WAYPOINTS.registerWaypoint(waypoint);
                                                             return ctx.getSource().respond("Created a new waypoint &z%s&r at XYZ: &z%.1f, %.1f, %.1f",
                                                                     name, x, y, z);
                                                         }))))))
@@ -84,11 +84,11 @@ public final class WaypointCommand extends Command
                                 {
                                     final String serverIP = getServerIP();
                                     final String name = StringArgumentType.getString(ctx, "name");
-                                    if (!Nebula.INSTANCE.getWaypointManager().waypointExists(serverIP, name))
+                                    if (!Nebula.WAYPOINTS.waypointExists(serverIP, name))
                                     {
                                         return ctx.getSource().respond("No waypoint with that name found");
                                     }
-                                    Nebula.INSTANCE.getWaypointManager().unregisterWaypoint(serverIP, name);
+                                    Nebula.WAYPOINTS.unregisterWaypoint(serverIP, name);
                                     return ctx.getSource().respond("Removed a waypoint with the name &z%s", name);
                                 })))
                 .then(literal("tp")
@@ -97,7 +97,7 @@ public final class WaypointCommand extends Command
                                 {
                                     final String serverIP = getServerIP();
                                     final String name = StringArgumentType.getString(ctx, "name");
-                                    final Waypoint waypoint = Nebula.INSTANCE.getWaypointManager().getWaypoint(serverIP, name);
+                                    final Waypoint waypoint = Nebula.WAYPOINTS.getWaypoint(serverIP, name);
                                     if (waypoint == null)
                                     {
                                         return ctx.getSource().respond("No waypoint found with that name");
@@ -112,6 +112,6 @@ public final class WaypointCommand extends Command
 
     private String getServerIP()
     {
-        return Nebula.INSTANCE.getServerManager().getServerIP();
+        return Nebula.SERVER.getServerIP();
     }
 }

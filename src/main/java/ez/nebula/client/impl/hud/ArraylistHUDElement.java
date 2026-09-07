@@ -1,10 +1,10 @@
 package ez.nebula.client.impl.hud;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.impl.module.render.HUDModule;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import ez.nebula.client.api.setting.Setting;
@@ -44,7 +44,7 @@ public final class ArraylistHUDElement extends HUDElement
     @Override
     public void render(ScaledResolution res)
     {
-        Nebula.INSTANCE.getModuleManager().getAll().forEach((module) ->
+        Nebula.MODULES.getAll().forEach((module) ->
         {
             final Animation animation = moduleAnimationHashMap.computeIfAbsent(module,
                     (__) -> new Animation(AnimationEasing.EXPO_IN_OUT, 350));
@@ -100,7 +100,7 @@ public final class ArraylistHUDElement extends HUDElement
 
     private List<Module> getListedModules(final Quadrant quadrant)
     {
-        return Nebula.INSTANCE.getModuleManager().getAll()
+        return Nebula.MODULES.getAll()
                 .stream()
                 .filter((module) -> (module.isToggled() && !module.isHidden())
                         || moduleAnimationHashMap.get(module).getFactor() > 0.0)

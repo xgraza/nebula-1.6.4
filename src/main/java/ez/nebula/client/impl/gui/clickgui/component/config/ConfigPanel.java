@@ -1,7 +1,9 @@
 package ez.nebula.client.impl.gui.clickgui.component.config;
 
-import org.lwjgl.input.Keyboard;
 import ez.nebula.client.Nebula;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 import ez.nebula.client.util.render.font.Fonts;
@@ -19,6 +21,7 @@ import static org.lwjgl.input.Keyboard.*;
  */
 public final class ConfigPanel extends GUIComponent implements IGUIInputListener
 {
+    private static final Logger LOGGER = LogManager.getLogger("Config Panel");
     private static final double PADDING = 1.0;
 
     private final ConfigCategoryPanel panel;
@@ -136,7 +139,7 @@ public final class ConfigPanel extends GUIComponent implements IGUIInputListener
         final File file = new File(ModuleConfig.MODULE_CONFIG_DIR, configName + ".cfg");
         if (file.exists())
         {
-            Nebula.INSTANCE.getToastManager().error(
+            Nebula.TOASTS.error(
                     "Cheat Config",
                     "A config with that name already exists.",
                     1700L);
@@ -145,17 +148,17 @@ public final class ConfigPanel extends GUIComponent implements IGUIInputListener
         try
         {
             ModuleConfig.saveConfig(configName);
-            Nebula.INSTANCE.getToastManager().info(
+            Nebula.TOASTS.info(
                     "Cheat Config",
                     "Created config " + configName + " successfully.",
                     1700L);
         } catch (final IOException e)
         {
-            Nebula.INSTANCE.getToastManager().error(
+            Nebula.TOASTS.error(
                     "Cheat Config",
                     "Failed to create new config file.",
                     1700L);
-            Nebula.INSTANCE.getLogger().error(e);
+            LOGGER.error(e);
         }
         editing = false;
     }
@@ -165,14 +168,14 @@ public final class ConfigPanel extends GUIComponent implements IGUIInputListener
         try
         {
             ModuleConfig.loadConfig(configName);
-            Nebula.INSTANCE.getToastManager().info(
+            Nebula.TOASTS.info(
                     "Cheat Config",
                     "Config " + configName + " was loaded successfully",
                     1700L);
         } catch (final IOException e)
         {
-            Nebula.INSTANCE.getLogger().error(e);
-            Nebula.INSTANCE.getToastManager().error(
+            LOGGER.error(e);
+            Nebula.TOASTS.error(
                     "Cheat Config",
                     "Failed to load config",
                     1700L);
@@ -184,14 +187,14 @@ public final class ConfigPanel extends GUIComponent implements IGUIInputListener
         try
         {
             ModuleConfig.saveConfig(configName);
-            Nebula.INSTANCE.getToastManager().info(
+            Nebula.TOASTS.info(
                     "Cheat Config",
                     "Config " + configName + " was saved successfully",
                     1700L);
         } catch (final IOException e)
         {
-            Nebula.INSTANCE.getLogger().error(e);
-            Nebula.INSTANCE.getToastManager().error(
+            LOGGER.error(e);
+            Nebula.TOASTS.error(
                     "Cheat Config",
                     "Failed to save config",
                     1700L);
@@ -204,13 +207,13 @@ public final class ConfigPanel extends GUIComponent implements IGUIInputListener
         if (file.delete())
         {
             panel.getChildrenComponentList().remove(ConfigPanel.this);
-            Nebula.INSTANCE.getToastManager().info(
+            Nebula.TOASTS.info(
                     "Cheat Config",
                     "Config " + configName + " was deleted successfully",
                     1700L);
         } else
         {
-            Nebula.INSTANCE.getToastManager().error(
+            Nebula.TOASTS.error(
                     "Cheat Config",
                     "Failed to delete config",
                     1700L);

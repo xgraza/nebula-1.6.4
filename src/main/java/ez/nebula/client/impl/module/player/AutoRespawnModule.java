@@ -1,9 +1,9 @@
 package ez.nebula.client.impl.module.player;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C16PacketClientStatus;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
@@ -76,7 +76,7 @@ public final class AutoRespawnModule extends Module
             closeCoordFileStream();
         }
 
-        final File coordinateLogFolder = new File(Nebula.INSTANCE.getNebulaRootDir(), "respawn_coords");
+        final File coordinateLogFolder = new File(Nebula.NEBULA_ROOT, "respawn_coords");
         if (!coordinateLogFolder.exists())
         {
             if (!coordinateLogFolder.mkdir())
@@ -86,9 +86,9 @@ public final class AutoRespawnModule extends Module
             }
         }
 
-        // System.out.println(Nebula.INSTANCE.getServerManager().getServerIP());
+        // System.out.println(Nebula2.SERVER.getServerIP());
         final File file = new File(coordinateLogFolder,
-                Nebula.INSTANCE.getServerManager().getServerIP() + ".txt");
+                Nebula.SERVER.getServerIP() + ".txt");
         try
         {
             if (!file.exists() && !file.createNewFile())

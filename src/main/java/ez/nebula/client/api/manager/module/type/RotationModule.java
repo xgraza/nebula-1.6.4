@@ -1,8 +1,8 @@
 package ez.nebula.client.api.manager.module.type;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.player.server.RotationManager;
-import ez.nebula.client.Nebula;
 
 import java.util.function.Consumer;
 
@@ -52,7 +52,7 @@ public abstract class RotationModule extends Module
      */
     protected boolean rotate(final float yaw, final float pitch)
     {
-        return Nebula.INSTANCE.getRotationManager().spoof(yaw, pitch, rotationPriority);
+        return Nebula.ROTATIONS.spoof(yaw, pitch, rotationPriority);
     }
 
     /**
@@ -83,7 +83,7 @@ public abstract class RotationModule extends Module
         {
             return false;
         }
-        final float[] angles = Nebula.INSTANCE.getRotationManager().getServerAngles();
+        final float[] angles = Nebula.ROTATIONS.getServerAngles();
         return angles[0] == yaw && angles[1] == pitch;
     }
 
@@ -105,7 +105,7 @@ public abstract class RotationModule extends Module
      */
     protected void queue(final float yaw, final float pitch, final Consumer<RotationManager.Rotation> callback)
     {
-        Nebula.INSTANCE.getRotationManager().queue(yaw, pitch, rotationPriority, callback);
+        Nebula.ROTATIONS.queue(yaw, pitch, rotationPriority, callback);
     }
 
     /**
@@ -114,6 +114,6 @@ public abstract class RotationModule extends Module
      */
     protected boolean canRotate()
     {
-        return Nebula.INSTANCE.getRotationManager().canTakePrecedent(rotationPriority);
+        return Nebula.ROTATIONS.canTakePrecedent(rotationPriority);
     }
 }

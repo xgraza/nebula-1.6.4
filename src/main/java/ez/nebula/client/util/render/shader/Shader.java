@@ -1,7 +1,8 @@
 package ez.nebula.client.util.render.shader;
 
-import ez.nebula.client.Nebula;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +19,8 @@ import static org.lwjgl.opengl.GL20.*;
  */
 public final class Shader
 {
+    private static final Logger LOGGER = LogManager.getLogger(Shader.class);
+
     /**
      * A default program ID for no shader specified
      */
@@ -221,7 +224,7 @@ public final class Shader
             }
         } catch (final IOException e)
         {
-            Nebula.INSTANCE.getLogger().error(e);
+            LOGGER.error("Failed to read shader file", e);
             return NO_SHADER;
         }
 

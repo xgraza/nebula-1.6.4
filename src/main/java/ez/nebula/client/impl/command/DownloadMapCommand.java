@@ -2,10 +2,10 @@ package ez.nebula.client.impl.command;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.client.gui.MapItemRenderer;
 import net.minecraft.world.storage.MapData;
@@ -27,7 +27,7 @@ import java.util.Map;
 public final class DownloadMapCommand extends Command
 {
     private static final int MAP_IMAGE_DIMENSIONS = 128;
-    private static final File MAP_DOWNLOAD_FOLDER = new File(Nebula.INSTANCE.getNebulaRootDir(), "saved_maps");
+    private static final File MAP_DOWNLOAD_FOLDER = new File(Nebula.NEBULA_ROOT, "saved_maps");
 
     static
     {
@@ -57,11 +57,10 @@ public final class DownloadMapCommand extends Command
                     {
                         return ctx.getSource().respond("Texture data for map #%s is missing", mapId);
                     }
-                    Nebula.INSTANCE.getExecutor().execute(() ->
+                    Nebula.EXECUTOR.execute(() ->
                     {
                         final File file = new File(MAP_DOWNLOAD_FOLDER,
-                                Nebula.INSTANCE.getServerManager().getServerIP()
-                                        + "_map_" + mapId + ".png");
+                                Nebula.SERVER.getServerIP() + "_map_" + mapId + ".png");
                         final int[] texData = i.field_148243_c.getTextureData();
                         final BufferedImage image = new BufferedImage(
                                 MAP_IMAGE_DIMENSIONS, MAP_IMAGE_DIMENSIONS, BufferedImage.TYPE_INT_RGB);

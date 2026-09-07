@@ -1,11 +1,11 @@
 package ez.nebula.client.api.manager.waypoint;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.manager.ITypedManager;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.config.WaypointConfig;
 import ez.nebula.client.impl.module.render.NameProtectModule;
 import ez.nebula.client.impl.module.render.WaypointsModule;
@@ -117,8 +117,7 @@ public final class WaypointManager implements ITypedManager<Waypoint>
     public void init()
     {
         EventBus.subscribe(this);
-        Nebula.INSTANCE.getConfigurationManager()
-                .addConfiguration(new WaypointConfig(this));
+        Nebula.CONFIGS.addConfiguration(new WaypointConfig(this));
     }
 
     public void clearWaypoints()
@@ -162,7 +161,7 @@ public final class WaypointManager implements ITypedManager<Waypoint>
         {
             return Collections.emptyList();
         }
-        final String serverIP = Nebula.INSTANCE.getServerManager().getServerIP();
+        final String serverIP = Nebula.SERVER.getServerIP();
         if (serverIP.equalsIgnoreCase("unknown"))
         {
             return Collections.emptyList();

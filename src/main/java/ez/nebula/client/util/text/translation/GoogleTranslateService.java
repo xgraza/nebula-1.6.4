@@ -37,7 +37,7 @@ public final class GoogleTranslateService
         {
             throw new RuntimeException("src & target cannot both be AUTO");
         }
-        Nebula.INSTANCE.getExecutor().execute(() ->
+        Nebula.EXECUTOR.execute(() ->
         {
             try
             {

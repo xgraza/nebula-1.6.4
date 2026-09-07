@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.render.world.Render3D;
@@ -13,7 +14,6 @@ import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.Module;
@@ -77,7 +77,7 @@ public final class PacketMineModule extends Module
         }
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
         minePositionQueue.clear();
         currentPosition = null;
@@ -241,7 +241,7 @@ public final class PacketMineModule extends Module
             return;
         }
         currentPosition.sentStop = true;
-        Nebula.INSTANCE.getInventoryManager().setSlot(getSlot(MC.theWorld.getBlock(currentPosition.x, currentPosition.y, currentPosition.z)));
+        Nebula.INVENTORY.setSlot(getSlot(MC.theWorld.getBlock(currentPosition.x, currentPosition.y, currentPosition.z)));
         PacketUtil.send(new C07PacketPlayerDigging(
                 2,
                 currentPosition.x, currentPosition.y, currentPosition.z,
@@ -250,7 +250,7 @@ public final class PacketMineModule extends Module
                 2,
                 currentPosition.x, currentPosition.y, currentPosition.z,
                 currentPosition.side));
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        Nebula.INVENTORY.syncSlot();
         if (instantSetting.getValue())
         {
             MC.theWorld.setBlockToAir(currentPosition.x, currentPosition.y, currentPosition.z);

@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.render.*;
@@ -22,7 +23,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.IEventPriorities;
 import ez.nebula.client.api.listener.Subscribe;
@@ -583,7 +583,7 @@ public final class ESPModule extends Module
             if (entity instanceof EntityPlayer)
             {
                 final EntityPlayer player = (EntityPlayer) entity;
-                if (Nebula.INSTANCE.getFriendManager().isFriend(player))
+                if (Nebula.FRIENDS.isFriend(player))
                 {
                     return Color.cyan.getRGB();
                 }

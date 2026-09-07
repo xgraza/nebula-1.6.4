@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.FreecamModule;
@@ -8,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
@@ -95,7 +95,7 @@ public final class TracersModule extends Module
                     continue;
                 }
 
-                if (!friendsSetting.getValue() && Nebula.INSTANCE.getFriendManager().isFriend(entity.getCommandSenderName()))
+                if (!friendsSetting.getValue() && Nebula.FRIENDS.isFriend(entity.getCommandSenderName()))
                 {
                     continue;
                 }
@@ -182,7 +182,7 @@ public final class TracersModule extends Module
         {
             case DISTANCE:
             {
-                if (entity instanceof EntityPlayer && Nebula.INSTANCE.getFriendManager().isFriend(entity.getCommandSenderName()))
+                if (entity instanceof EntityPlayer && Nebula.FRIENDS.isFriend(entity.getCommandSenderName()))
                 {
                     glColor3d(0.0, 1.0, 1.0);
                 } else
@@ -196,7 +196,7 @@ public final class TracersModule extends Module
             {
                 if (entity instanceof EntityPlayer)
                 {
-                    if (Nebula.INSTANCE.getFriendManager().isFriend(entity.getCommandSenderName()))
+                    if (Nebula.FRIENDS.isFriend(entity.getCommandSenderName()))
                     {
                         glColor3d(0.0, 1.0, 1.0);
                     } else

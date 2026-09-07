@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.render.world.Render3D;
@@ -15,7 +16,6 @@ import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.Module;
@@ -235,7 +235,7 @@ public final class AntiGhostBlockModule extends Module
         // resort to the item stack in the server hand
         if (itemStack == null)
         {
-            itemStack = Nebula.INSTANCE.getInventoryManager().getStack();
+            itemStack = Nebula.INVENTORY.getStack();
         }
 
         return itemStack != null && itemStack.getItem() instanceof ItemBlock;

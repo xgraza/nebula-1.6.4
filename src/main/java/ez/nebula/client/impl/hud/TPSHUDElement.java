@@ -1,8 +1,8 @@
 package ez.nebula.client.impl.hud;
 
+import ez.nebula.client.Nebula;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
@@ -33,10 +33,10 @@ public final class TPSHUDElement extends HUDElement
     public void render(final ScaledResolution res)
     {
         String formatted = String.format("TPS: %s%.2f",
-                EnumChatFormatting.GRAY, Nebula.INSTANCE.getServerManager().getAverageTPS());
+                EnumChatFormatting.GRAY, Nebula.SERVER.getAverageTPS());
         if (currentSetting.getValue())
         {
-            formatted += " [" + String.format("%.2f", Nebula.INSTANCE.getServerManager().getCurrentTPS()) + "]";
+            formatted += " [" + String.format("%.2f", Nebula.SERVER.getCurrentTPS()) + "]";
         }
         setWidth(Fonts.POPPINS.getStringWidth(formatted) + (getPadding() * 4));
         Fonts.POPPINS.drawStringShadow(formatted, getX() + getPadding(), getY() + getPadding(), HUDModule.INSTANCE.getBaseColor(10));

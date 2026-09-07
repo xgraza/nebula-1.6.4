@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
@@ -20,7 +21,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.render.animation.Animation;
 import ez.nebula.client.util.render.animation.AnimationEasing;
@@ -165,7 +165,7 @@ public final class KillAuraModule extends Module
                 {
                     return;
                 }
-                if (!Nebula.INSTANCE.getRotationManager().spoof(angles[0], angles[1], KILLAURA_ROTATION_PRIORITY))
+                if (!Nebula.ROTATIONS.spoof(angles[0], angles[1], KILLAURA_ROTATION_PRIORITY))
                 {
                     return;
                 }
@@ -404,7 +404,7 @@ public final class KillAuraModule extends Module
         {
             return false;
         }
-        if (entity instanceof EntityPlayer && Nebula.INSTANCE.getFriendManager().isFriend((EntityPlayer) entity) && !NoFriendsModule.INSTANCE.isToggled())
+        if (entity instanceof EntityPlayer && Nebula.FRIENDS.isFriend((EntityPlayer) entity) && !NoFriendsModule.INSTANCE.isToggled())
         {
             return false;
         }

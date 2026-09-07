@@ -11,8 +11,7 @@ import java.io.File;
  */
 public final class ConfigCategoryPanel extends CategoryPanel
 {
-    private static final File CONFIGS_DIR = new File(
-            Nebula.INSTANCE.getNebulaRootDir(), "configs");
+    private static final File CONFIGS_DIR = new File(Nebula.NEBULA_ROOT, "configs");
 
     private final ConfigTextButton button;
 

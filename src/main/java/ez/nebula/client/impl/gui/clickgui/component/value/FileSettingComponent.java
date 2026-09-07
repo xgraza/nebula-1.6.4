@@ -7,6 +7,8 @@ import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 import ez.nebula.client.util.render.font.Fonts;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +20,8 @@ import java.io.File;
  */
 public final class FileSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
 {
+    private static final Logger LOGGER = LogManager.getLogger("FSC");
+    
     private static final int BACKGROUND_COLOR = new Color(52, 52, 52).getRGB();
     private static final double PADDING = 1.0;
 
@@ -82,7 +86,7 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
             {
                 if (GraphicsEnvironment.isHeadless())
                 {
-                    Nebula.INSTANCE.getToastManager().error("File Chooser",
+                    Nebula.TOASTS.error("File Chooser",
                             "Your graphics environment is headless. Please report to the developer",
                             7500L);
                     return;
@@ -109,15 +113,15 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
                         selectedFile = new File(dir, name);
                         if (!selectedFile.exists())
                         {
-                            Nebula.INSTANCE.getLogger().error("Selected file {} does not exist?", selectedFile);
+                            LOGGER.error("Selected file {} does not exist?", selectedFile);
                             selectedFile = null;
                         } else
                         {
-                            Nebula.INSTANCE.getLogger().info("Selected file {}", selectedFile);
+                            LOGGER.info("Selected file {}", selectedFile);
                         }
                     } else
                     {
-                        Nebula.INSTANCE.getLogger().warn("Failed to select file");
+                        LOGGER.warn("Failed to select file");
                     }
 
                     pickingFile = false;

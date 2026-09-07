@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -8,7 +9,6 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
@@ -50,7 +50,7 @@ public final class AutoWitherModule extends Module
         super.onDisable();
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
     }
 
@@ -70,7 +70,7 @@ public final class AutoWitherModule extends Module
         if (soulSandPositions == null)
         {
             // ChatUtil.sendNebula("soul sand failure");
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
             invalidate();
             return; // null result = failure
         }
@@ -83,9 +83,9 @@ public final class AutoWitherModule extends Module
                 {
                     continue;
                 }
-                Nebula.INSTANCE.getInventoryManager().setSlot(soulSandSlot);
+                Nebula.INVENTORY.setSlot(soulSandSlot);
                 InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
                 return;
             }
         }
@@ -95,7 +95,7 @@ public final class AutoWitherModule extends Module
             if (!(MC.theWorld.getBlock(soulSandPos) instanceof BlockSoulSand))
             {
                 // ChatUtil.sendNebula("no longer soul sand");
-                Nebula.INSTANCE.getInventoryManager().syncSlot();
+                Nebula.INVENTORY.syncSlot();
                 invalidate();
                 return;
             }
@@ -108,7 +108,7 @@ public final class AutoWitherModule extends Module
         if (tPosList == null || tPosList.isEmpty())
         {
             // ChatUtil.sendNebula("Finished placing");
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
             invalidate();
             return;
         }
@@ -119,14 +119,14 @@ public final class AutoWitherModule extends Module
         {
             return;
         }
-        Nebula.INSTANCE.getInventoryManager().setSlot(witherHeadSlot);
+        Nebula.INVENTORY.setSlot(witherHeadSlot);
         InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        Nebula.INVENTORY.syncSlot();
         // we finished placing
         if (tPosList.size() == 1)
         {
             //ChatUtil.sendNebula("Finished placing");
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
             invalidate();
         }
     };
@@ -160,7 +160,7 @@ public final class AutoWitherModule extends Module
             {
                 return;
             }
-            soulSandSlot = Nebula.INSTANCE.getInventoryManager().getSlot();
+            soulSandSlot = Nebula.INVENTORY.getSlot();
             // get the correct pos via the place face
             final EnumFacing face = EnumFacing.faceList[event.getSide()];
             x = event.getX() + face.getFrontOffsetX();

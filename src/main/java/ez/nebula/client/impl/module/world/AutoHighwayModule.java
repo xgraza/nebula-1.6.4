@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -12,7 +13,6 @@ import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.impl.module.player.AutoEatModule;
@@ -104,7 +104,7 @@ public final class AutoHighwayModule extends Module
         super.onDisable();
         if (MC.thePlayer != null)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
             if (walk)
             {
                 MC.thePlayer.movementInput.moveForward = 0.0f;
@@ -191,7 +191,7 @@ public final class AutoHighwayModule extends Module
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
             walk = false;
 
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
 
         final int slot = InventoryUtil.getHotbarSlot(blockSetting::isBlock);
@@ -211,7 +211,7 @@ public final class AutoHighwayModule extends Module
             final BlockInfo info = BlockUtil.getPlacement(highwayPos);
             if (info != null)
             {
-                Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+                Nebula.INVENTORY.setSlot(slot);
                 if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true))
                 {
                     ++blocksPlaced;
@@ -227,7 +227,7 @@ public final class AutoHighwayModule extends Module
         if (blocksPlaced > 0)
         {
             walk = false;
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         } else
         {
             walk = true;
@@ -276,7 +276,7 @@ public final class AutoHighwayModule extends Module
         final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+            Nebula.INVENTORY.setSlot(slot);
         }
     }
 

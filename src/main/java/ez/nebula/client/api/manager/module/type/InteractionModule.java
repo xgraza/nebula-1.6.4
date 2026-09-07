@@ -1,7 +1,7 @@
 package ez.nebula.client.api.manager.module.type;
 
-import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
@@ -37,7 +37,7 @@ public abstract class InteractionModule extends RotationModule
      */
     protected void use()
     {
-        final ItemStack stack = Nebula.INSTANCE.getInventoryManager().getStack();
+        final ItemStack stack = Nebula.INVENTORY.getStack();
         if (stack == null)
         {
             PacketUtil.send(new C08PacketPlayerBlockPlacement(null));
@@ -58,12 +58,12 @@ public abstract class InteractionModule extends RotationModule
     {
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+            Nebula.INVENTORY.setSlot(slot);
         }
         use();
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
     }
 
@@ -117,12 +117,12 @@ public abstract class InteractionModule extends RotationModule
     {
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+            Nebula.INVENTORY.setSlot(slot);
         }
         final boolean result = place(info);
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
         return result;
     }
@@ -149,12 +149,12 @@ public abstract class InteractionModule extends RotationModule
     {
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+            Nebula.INVENTORY.setSlot(slot);
         }
         final boolean result = place(pos, face, true);
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INSTANCE.getInventoryManager().syncSlot();
+            Nebula.INVENTORY.syncSlot();
         }
         return result;
     }
@@ -236,7 +236,7 @@ public abstract class InteractionModule extends RotationModule
             {
                 if (slot != InventoryUtil.INVALID_SLOT)
                 {
-                    Nebula.INSTANCE.getInventoryManager().syncSlot();
+                    Nebula.INVENTORY.syncSlot();
                 }
                 break;
             }

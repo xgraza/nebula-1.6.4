@@ -1,8 +1,8 @@
 package ez.nebula.client.api.manager.friend;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.config.FriendConfig;
 import net.minecraft.entity.player.EntityPlayer;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.ITypedManager;
 
 import java.util.LinkedList;
@@ -19,8 +19,7 @@ public final class FriendManager implements ITypedManager<String>
     @Override
     public void init()
     {
-        Nebula.INSTANCE.getConfigurationManager()
-                .addConfiguration(new FriendConfig(this));
+        Nebula.CONFIGS.addConfiguration(new FriendConfig(this));
     }
 
     public boolean isFriend(final String name)

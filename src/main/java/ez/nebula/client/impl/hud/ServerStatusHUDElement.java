@@ -1,9 +1,9 @@
 package ez.nebula.client.impl.hud;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.render.animation.Animation;
 import ez.nebula.client.util.render.animation.AnimationEasing;
 import net.minecraft.client.gui.ScaledResolution;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
@@ -30,7 +30,7 @@ public final class ServerStatusHUDElement extends HUDElement
     @Override
     public void render(ScaledResolution res)
     {
-        final double timeSince = Nebula.INSTANCE.getServerManager().getTimeElapsedSinceLastPacket();
+        final double timeSince = Nebula.SERVER.getTimeElapsedSinceLastPacket();
         animation.setState(timeSince >= 5000L);
 
         String text = "Server is now responding";

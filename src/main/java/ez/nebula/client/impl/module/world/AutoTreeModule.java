@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -9,7 +10,6 @@ import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.math.MathUtil;
 import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
@@ -149,12 +149,12 @@ public final class AutoTreeModule extends Module
         }
         plantTimer.resetTime();
 
-        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+        Nebula.INVENTORY.setSlot(slot);
         if (InteractionManager.INSTANCE.rightClickBlock(placePos.down(), EnumFacing.UP, false))
         {
             placedSaplingsList.add(placePos);
         }
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        Nebula.INVENTORY.syncSlot();
     }
 
     private void handleBonemeal()
@@ -177,12 +177,12 @@ public final class AutoTreeModule extends Module
         }
         bonemealTimer.resetTime();
 
-        Nebula.INSTANCE.getInventoryManager().setSlot(slot);
+        Nebula.INVENTORY.setSlot(slot);
         for (int i = 0; i < packetsSetting.getValue(); ++i)
         {
             InteractionManager.INSTANCE.rightClickBlock(saplingPos, BlockUtil.getOpposite(PlayerUtil.getFacing()), false);
         }
-        Nebula.INSTANCE.getInventoryManager().syncSlot();
+        Nebula.INVENTORY.syncSlot();
     }
 
     private BlockPos getNearestTree(final int range, final boolean includeWood, final BlockPos origin)

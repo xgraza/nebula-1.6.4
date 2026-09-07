@@ -1,12 +1,12 @@
 package ez.nebula.client.impl.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.CommandManager;
 import ez.nebula.client.api.manager.command.arg.CommandArgumentType;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
 
 import java.util.Collection;
@@ -28,7 +28,7 @@ public final class HelpCommand extends Command
                 {
                     final Command command = CommandArgumentType.get(ctx, "alias");
                     ChatUtil.sendNebula("- Usages:");
-                    for (final String usage : Nebula.INSTANCE.getCommandManager().getSmartUsages(command, ctx.getSource()))
+                    for (final String usage : Nebula.COMMANDS.getSmartUsages(command, ctx.getSource()))
                     {
                         ChatUtil.sendNebula("  " + CommandManager.COMMAND_PREFIX + command.getAliases()[0] + " " + usage);
                     }
@@ -37,7 +37,7 @@ public final class HelpCommand extends Command
                 }))
                 .executes((ctx) ->
                 {
-                    final Collection<Command> commandList = Nebula.INSTANCE.getCommandManager().getAll()
+                    final Collection<Command> commandList = Nebula.COMMANDS.getAll()
                             .stream()
                             .filter(Command::isVisible)
                             .collect(Collectors.toList());

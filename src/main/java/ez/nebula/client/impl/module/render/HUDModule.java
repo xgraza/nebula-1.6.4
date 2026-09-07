@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.game.EventTick;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.Module;
@@ -83,7 +83,7 @@ public final class HUDModule extends Module
                 {
                     final double scaleX = width / prevWidth;
                     final double scaleY = height / prevHeight;
-                    for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
+                    for (final HUDElement element : Nebula.HUD_OLD.getAll())
                     {
                         element.setX(element.getX() * scaleX);
                         element.setY(element.getY() * scaleY);
@@ -121,7 +121,7 @@ public final class HUDModule extends Module
     public void discoverSettings()
     {
         super.discoverSettings();
-        for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
+        for (final HUDElement element : Nebula.HUD_OLD.getAll())
         {
             final Setting<Boolean> setting = new Setting.Builder<>(element.getManifest().name(), false)
                     .setDescription(element.getManifest().description())
@@ -139,7 +139,7 @@ public final class HUDModule extends Module
             return;
         }
         MC.mcProfiler.startSection("nHUD");
-        for (final HUDElement element : Nebula.INSTANCE.getHUDManager().getAll())
+        for (final HUDElement element : Nebula.HUD_OLD.getAll())
         {
             if (element.isToggled())
             {

@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.module.player;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.util.ChatAllowedCharacters;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.manager.module.Module;
@@ -31,8 +31,7 @@ import java.util.List;
         category = ModuleCategory.PLAYER)
 public final class SpammerModule extends Module
 {
-    public static final File SPAMMER_DIRECTORY = new File(
-            Nebula.INSTANCE.getNebulaRootDir(), "spammer");
+    public static final File SPAMMER_DIRECTORY = new File(Nebula.NEBULA_ROOT, "spammer");
 
     private final List<String> spammerLines = new LinkedList<>();
     private int spammerIndex = 0;

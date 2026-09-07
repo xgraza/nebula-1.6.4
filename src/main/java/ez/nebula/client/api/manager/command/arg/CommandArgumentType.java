@@ -4,10 +4,10 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.CommandManager;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
-import ez.nebula.client.Nebula;
 
 public class CommandArgumentType implements ArgumentType<Command>
 {
@@ -43,6 +43,6 @@ public class CommandArgumentType implements ArgumentType<Command>
 
     public static CommandArgumentType command()
     {
-        return new CommandArgumentType(Nebula.INSTANCE.getCommandManager());
+        return new CommandArgumentType(Nebula.COMMANDS);
     }
 }

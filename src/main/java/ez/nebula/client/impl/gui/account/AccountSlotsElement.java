@@ -1,12 +1,12 @@
 package ez.nebula.client.impl.gui.account;
 
+import ez.nebula.client.Nebula;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.Session;
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.account.Account;
 import ez.nebula.client.util.render.HeadDownloader;
 
@@ -33,7 +33,7 @@ final class AccountSlotsElement extends GuiSlot
     @Override
     protected int getSize()
     {
-        return Nebula.INSTANCE.getAccountManager().getAll().size();
+        return Nebula.ACCOUNTS.getAll().size();
     }
 
     @Override
@@ -41,7 +41,7 @@ final class AccountSlotsElement extends GuiSlot
     {
         if (var2)
         {
-            final List<Account> accountList = Nebula.INSTANCE.getAccountManager().getAll();
+            final List<Account> accountList = Nebula.ACCOUNTS.getAll();
             if (var1 > accountList.size() - 1)
             {
                 return;
@@ -72,7 +72,7 @@ final class AccountSlotsElement extends GuiSlot
     @Override
     protected void drawSlot(int var1, int var2, int var3, int var4, Tessellator var5, int var6, int var7)
     {
-        final List<Account> accountList = Nebula.INSTANCE.getAccountManager().getAll();
+        final List<Account> accountList = Nebula.ACCOUNTS.getAll();
         if (var1 > accountList.size() - 1 || var1 < 0)
         {
             return;
