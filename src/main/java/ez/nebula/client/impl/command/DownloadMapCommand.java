@@ -60,7 +60,7 @@ public final class DownloadMapCommand extends Command
                     Nebula.EXECUTOR.execute(() ->
                     {
                         final File file = new File(MAP_DOWNLOAD_FOLDER,
-                                Nebula.SERVER.getServerIP() + "_map_" + mapId + ".png");
+                                Nebula.SERVER.ip() + "_map_" + mapId + ".png");
                         final int[] texData = i.field_148243_c.getTextureData();
                         final BufferedImage image = new BufferedImage(
                                 MAP_IMAGE_DIMENSIONS, MAP_IMAGE_DIMENSIONS, BufferedImage.TYPE_INT_RGB);

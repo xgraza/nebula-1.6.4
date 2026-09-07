@@ -132,7 +132,7 @@ public final class AutoBedModule extends InteractionModule
         bedSlot = InventoryUtil.INVALID_SLOT;
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
     }
 
@@ -167,7 +167,7 @@ public final class AutoBedModule extends InteractionModule
         {
             if (blockInfo != null || target != null)
             {
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
             }
             target = null;
             blockInfo = null;
@@ -185,7 +185,7 @@ public final class AutoBedModule extends InteractionModule
         {
             if (blockInfo != null)
             {
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
             }
             blockInfo = null;
             return;
@@ -194,7 +194,7 @@ public final class AutoBedModule extends InteractionModule
         {
             if (blockInfo != null)
             {
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
             }
             blockInfo = null;
             return;
@@ -285,10 +285,10 @@ public final class AutoBedModule extends InteractionModule
         }
         if (rotate(BlockUtil.getHorizontalFacing(blockInfo.getFacing()) * 90.0f, 0.0f))
         {
-            Nebula.INVENTORY.setSlot(bedSlot);
+            Nebula.INVENTORY.spoof(bedSlot);
             if (place(blockInfo.getPos().down(), EnumFacing.UP))
             {
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
                 place(blockInfo.getPos(), EnumFacing.UP);
             }
         }
@@ -424,7 +424,7 @@ public final class AutoBedModule extends InteractionModule
         {
             return false;
         }
-        return NoFriendsModule.INSTANCE.isToggled() || !Nebula.FRIENDS.isFriend((EntityPlayer) entity);
+        return NoFriendsModule.INSTANCE.isToggled() || !Nebula.FRIENDS.has((EntityPlayer) entity);
     }
 
     private float calcDamage(final EntityPlayer entity, final BlockPos pos)

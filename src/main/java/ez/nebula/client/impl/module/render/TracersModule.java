@@ -95,7 +95,7 @@ public final class TracersModule extends Module
                     continue;
                 }
 
-                if (!friendsSetting.getValue() && Nebula.FRIENDS.isFriend(entity.getCommandSenderName()))
+                if (!friendsSetting.getValue() && Nebula.FRIENDS.has(entity.getCommandSenderName()))
                 {
                     continue;
                 }
@@ -182,7 +182,7 @@ public final class TracersModule extends Module
         {
             case DISTANCE:
             {
-                if (entity instanceof EntityPlayer && Nebula.FRIENDS.isFriend(entity.getCommandSenderName()))
+                if (entity instanceof EntityPlayer && Nebula.FRIENDS.has(entity.getCommandSenderName()))
                 {
                     glColor3d(0.0, 1.0, 1.0);
                 } else
@@ -196,7 +196,7 @@ public final class TracersModule extends Module
             {
                 if (entity instanceof EntityPlayer)
                 {
-                    if (Nebula.FRIENDS.isFriend(entity.getCommandSenderName()))
+                    if (Nebula.FRIENDS.has(entity.getCommandSenderName()))
                     {
                         glColor3d(0.0, 1.0, 1.0);
                     } else

@@ -45,7 +45,7 @@ public final class ParrotModule extends Module
                 return;
             }
 
-            if (!friendsSetting.getValue() && Nebula.FRIENDS.isFriend(username))
+            if (!friendsSetting.getValue() && Nebula.FRIENDS.has(username))
             {
                 return;
             }

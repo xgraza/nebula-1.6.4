@@ -92,7 +92,7 @@ public final class AutoPotModule extends InteractionModule
     {
         if (thrown)
         {
-            final long time = (long) (350 + Nebula.SERVER.getScaledLatency());
+            final long time = (long) (350 + Nebula.SERVER.scaledLatency());
             if (potTimer.hasElapsed(time))
             {
                 thrown = false;

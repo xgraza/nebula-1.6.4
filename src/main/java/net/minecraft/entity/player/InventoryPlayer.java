@@ -529,7 +529,7 @@ public class InventoryPlayer implements IInventory
     {
         float var2 = 1.0F;
 
-        final ItemStack stack = Nebula.INVENTORY.getStack();
+        final ItemStack stack = Nebula.INVENTORY.stack();
         if (stack != null)
         {
             var2 *= stack.getStrVsBlock(p_146023_1_);

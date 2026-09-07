@@ -57,7 +57,7 @@ public final class AutoLogModule extends Module
         if (event.getEntity() instanceof EntityPlayer && visualRangeSetting.getValue())
         {
             final EntityPlayer player = (EntityPlayer) event.getEntity();
-            if (!friendsSetting.getValue() && Nebula.FRIENDS.isFriend(player))
+            if (!friendsSetting.getValue() && Nebula.FRIENDS.has(player))
             {
                 return;
             }

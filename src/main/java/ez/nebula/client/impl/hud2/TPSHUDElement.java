@@ -24,7 +24,7 @@ public final class TPSHUDElement extends TextHUDElement
                 + "TPS: "
                 + EnumChatFormatting.GRAY
                 + String.format("%.1f", showCurrentSetting.getValue()
-                    ? Nebula.SERVER.getCurrentTPS()
-                    : Nebula.SERVER.getAverageTPS());
+                    ? Nebula.SERVER.tps()
+                    : Nebula.SERVER.averageTPS());
     }
 }

@@ -37,7 +37,7 @@ public abstract class InteractionModule extends RotationModule
      */
     protected void use()
     {
-        final ItemStack stack = Nebula.INVENTORY.getStack();
+        final ItemStack stack = Nebula.INVENTORY.stack();
         if (stack == null)
         {
             PacketUtil.send(new C08PacketPlayerBlockPlacement(null));
@@ -58,12 +58,12 @@ public abstract class InteractionModule extends RotationModule
     {
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INVENTORY.setSlot(slot);
+            Nebula.INVENTORY.spoof(slot);
         }
         use();
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
     }
 
@@ -117,12 +117,12 @@ public abstract class InteractionModule extends RotationModule
     {
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INVENTORY.setSlot(slot);
+            Nebula.INVENTORY.spoof(slot);
         }
         final boolean result = place(info);
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
         return result;
     }
@@ -149,12 +149,12 @@ public abstract class InteractionModule extends RotationModule
     {
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INVENTORY.setSlot(slot);
+            Nebula.INVENTORY.spoof(slot);
         }
         final boolean result = place(pos, face, true);
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
         return result;
     }
@@ -236,7 +236,7 @@ public abstract class InteractionModule extends RotationModule
             {
                 if (slot != InventoryUtil.INVALID_SLOT)
                 {
-                    Nebula.INVENTORY.syncSlot();
+                    Nebula.INVENTORY.sync();
                 }
                 break;
             }

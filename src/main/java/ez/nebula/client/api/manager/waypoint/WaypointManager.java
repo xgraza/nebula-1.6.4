@@ -117,37 +117,37 @@ public final class WaypointManager implements ITypedManager<Waypoint>
     public void init()
     {
         EventBus.subscribe(this);
-        Nebula.CONFIGS.addConfiguration(new WaypointConfig(this));
+        Nebula.CONFIGS.register(new WaypointConfig(this));
     }
 
-    public void clearWaypoints()
+    public void clear()
     {
         waypointList.clear();
     }
 
-    public void registerWaypoint(final Waypoint waypoint)
+    public void register(final Waypoint waypoint)
     {
         waypointList.add(waypoint);
     }
 
-    public void unregisterWaypoint(final Waypoint waypoint)
+    public void unregister(final Waypoint waypoint)
     {
         waypointList.remove(waypoint);
     }
 
-    public void unregisterWaypoint(final String serverIp, final String name)
+    public void unregister(final String serverIp, final String name)
     {
         waypointList.removeIf((waypoint) ->
                 waypoint.getServerIP().contains(serverIp) && waypoint.getName().equals(name));
     }
 
-    public boolean waypointExists(final String serverIp, final String name)
+    public boolean exists(final String serverIp, final String name)
     {
         return waypointList.stream()
                 .anyMatch((waypoint) -> waypoint.getServerIP().contains(serverIp) && waypoint.getName().equals(name));
     }
 
-    public Waypoint getWaypoint(final String serverIp, final String name)
+    public Waypoint get(final String serverIp, final String name)
     {
         return waypointList.stream()
                 .filter((waypoint) -> waypoint.getServerIP().contains(serverIp) && waypoint.getName().equals(name))
@@ -161,7 +161,7 @@ public final class WaypointManager implements ITypedManager<Waypoint>
         {
             return Collections.emptyList();
         }
-        final String serverIP = Nebula.SERVER.getServerIP();
+        final String serverIP = Nebula.SERVER.ip();
         if (serverIP.equalsIgnoreCase("unknown"))
         {
             return Collections.emptyList();

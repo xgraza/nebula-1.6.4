@@ -19,20 +19,20 @@ public final class FriendManager implements ITypedManager<String>
     @Override
     public void init()
     {
-        Nebula.CONFIGS.addConfiguration(new FriendConfig(this));
+        Nebula.CONFIGS.register(new FriendConfig(this));
     }
 
-    public boolean isFriend(final String name)
+    public boolean has(final String name)
     {
         return friendList.contains(name);
     }
 
-    public boolean isFriend(final EntityPlayer player)
+    public boolean has(final EntityPlayer player)
     {
-        return isFriend(player.getGameProfile().getName());
+        return has(player.getGameProfile().getName());
     }
 
-    public void addFriend(final String name)
+    public void add(final String name)
     {
         if (!friendList.contains(name))
         {
@@ -40,7 +40,7 @@ public final class FriendManager implements ITypedManager<String>
         }
     }
 
-    public void removeFriend(final String name)
+    public void remove(final String name)
     {
         friendList.remove(name);
     }

@@ -74,7 +74,7 @@ public final class AccountSelectorScreen extends GuiScreen
             final Account account = Nebula.ACCOUNTS.getAll().get(index);
             if (account != null)
             {
-                Nebula.ACCOUNTS.removeAccount(account);
+                Nebula.ACCOUNTS.remove(account);
             }
         }
         mc.displayGuiScreen(this);

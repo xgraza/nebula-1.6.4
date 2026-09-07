@@ -105,7 +105,7 @@ public final class BurrowModule extends Module
             PacketUtil.send(new C0BPacketEntityAction(MC.thePlayer, 1));
         }
 
-        Nebula.INVENTORY.setSlot(slot);
+        Nebula.INVENTORY.spoof(slot);
 
         if (rotateSetting.getValue())
         {
@@ -140,7 +140,7 @@ public final class BurrowModule extends Module
                 (float) (hitVec.zCoord - blockData.pos.getZ())
         ));
         InteractionManager.INSTANCE.swingItem();
-        Nebula.INVENTORY.syncSlot();
+        Nebula.INVENTORY.sync();
 
         if (sneak)
         {

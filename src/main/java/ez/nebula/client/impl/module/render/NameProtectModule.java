@@ -50,7 +50,7 @@ public final class NameProtectModule extends Module
             for (final GuiPlayerInfo info : MC.thePlayer.sendQueue.playerInfoList)
             {
                 final String name = info.name;
-                if (!Nebula.FRIENDS.isFriend(name))
+                if (!Nebula.FRIENDS.has(name))
                 {
                     text = text.replaceAll("(?ui)" + Pattern.quote(name), "Player");
                 }

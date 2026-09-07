@@ -78,7 +78,7 @@ public final class FlattenModule extends InteractionModule
         super.onDisable();
         if (MC.thePlayer != null)
         {
-           Nebula.INVENTORY.syncSlot();
+           Nebula.INVENTORY.sync();
         }
         angles = null;
         placeInfo = null;

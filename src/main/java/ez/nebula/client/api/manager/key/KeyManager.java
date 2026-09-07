@@ -64,21 +64,21 @@ public final class KeyManager implements ITypedManager<Key>
     public void init()
     {
         EventBus.subscribe(this);
-        Nebula.CONFIGS.addConfiguration(new KeyConfig(this));
+        Nebula.CONFIGS.register(new KeyConfig(this));
     }
 
-    public void addKey(final String id, final Key key)
+    public void register(final String id, final Key key)
     {
         keyIdMap.put(id, key);
         keyList.add(key);
     }
 
-    public void addRuntimeKey(final Key key)
+    public void registerRuntime(final Key key)
     {
         keyList.add(key);
     }
 
-    public Key getReference(final String id)
+    public Key get(final String id)
     {
         return keyIdMap.get(id);
     }

@@ -847,7 +847,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
 
         if (var3 > 1.0F)
         {
-            ItemStack var5 = Nebula.INVENTORY.getStack();
+            ItemStack var5 = Nebula.INVENTORY.stack();
             int var4 = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, var5);
 
             if (var4 > 0 && var5 != null)
@@ -2094,7 +2094,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                     return true;
                 }
 
-                final ItemStack equippedItemStack = Nebula.INVENTORY.getStack();
+                final ItemStack equippedItemStack = Nebula.INVENTORY.stack();
                 if (equippedItemStack != null)
                 {
                     return equippedItemStack.isProperItemForBlock(var4)

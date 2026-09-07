@@ -34,7 +34,7 @@ public final class ArmorHUDElement extends HUDElement
 
         if (heldItem.getValue())
         {
-            final ItemStack stack = Nebula.INVENTORY.getStack();
+            final ItemStack stack = Nebula.INVENTORY.stack();
             if (stack != null)
             {
                 Render2D.itemWithEffects(stack, (int) posX, (int) y);

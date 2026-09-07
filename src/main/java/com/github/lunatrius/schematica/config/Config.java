@@ -83,7 +83,7 @@ public class Config implements IJSONSerializable, IConfig
                 propDrawQuads,
                 propDrawLines);
 
-        Nebula.CONFIGS.addConfiguration(this);
+        Nebula.CONFIGS.register(this);
     }
 
     @Override

@@ -109,7 +109,7 @@ public final class AutoGGModule extends Module
         }
         if (lastTarget != null && lastTarget.equals(event.getPlayer()) && !MC.thePlayer.equals(event.getPlayer()))
         {
-            if (!friendsSetting.getValue() && Nebula.FRIENDS.isFriend(event.getPlayer()))
+            if (!friendsSetting.getValue() && Nebula.FRIENDS.has(event.getPlayer()))
             {
                 return;
             }

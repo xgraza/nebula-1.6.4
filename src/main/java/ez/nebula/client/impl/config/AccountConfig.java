@@ -59,7 +59,7 @@ public final class AccountConfig implements IConfig
                 {
                     account.setPassword(object.get("password").getAsString());
                 }
-                manager.addAccount(account);
+                manager.add(account);
             }
         }
     }

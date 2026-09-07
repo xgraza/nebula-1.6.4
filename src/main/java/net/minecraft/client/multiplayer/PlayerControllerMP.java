@@ -241,7 +241,7 @@ public class PlayerControllerMP
                     this.currentBlockX = x;
                     this.currentBlockY = y;
                     this.currentblockZ = z;
-                    this.currentItemHittingBlock = Nebula.INVENTORY.getStack();
+                    this.currentItemHittingBlock = Nebula.INVENTORY.stack();
                     this.curBlockDamageMP = 0.0F;
                     this.stepSoundTickCounter = 0.0F;
                     this.mc.theWorld.destroyBlockInWorldPartially(this.mc.thePlayer.getEntityId(), this.currentBlockX, this.currentBlockY, this.currentblockZ, (int) (this.curBlockDamageMP * 10.0F) - 1);
@@ -349,7 +349,7 @@ public class PlayerControllerMP
 
     public boolean sameToolAndBlock(int x, int y, int z)
     {
-        ItemStack stack = Nebula.INVENTORY.getStack();
+        ItemStack stack = Nebula.INVENTORY.stack();
         boolean invalidStack = this.currentItemHittingBlock == null && stack == null;
 
         if (this.currentItemHittingBlock != null && stack != null)
@@ -442,7 +442,7 @@ public class PlayerControllerMP
             return false;
         } else
         {
-            final int slot = Nebula.INVENTORY.getSlot();
+            final int slot = Nebula.INVENTORY.slot();
             player.inventory.mainInventory[slot] = usedStack;
 
             if (usedStack.stackSize == 0)

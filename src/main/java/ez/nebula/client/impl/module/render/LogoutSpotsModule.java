@@ -110,7 +110,7 @@ public final class LogoutSpotsModule extends Module
                 {
                     if (player.getCommandSenderName().equals(username))
                     {
-                        if (!logFriendsSetting.getValue() && Nebula.FRIENDS.isFriend(player))
+                        if (!logFriendsSetting.getValue() && Nebula.FRIENDS.has(player))
                         {
                             continue;
                         }

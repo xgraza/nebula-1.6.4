@@ -72,7 +72,7 @@ public final class AutoTunnelModule extends Module
         super.onDisable();
         if (prevSlot != -1)
         {
-            Nebula.INVENTORY.setSlotClient(prevSlot);
+            Nebula.INVENTORY.select(prevSlot);
         }
         prevSlot = InventoryUtil.INVALID_SLOT;
         replaceQueue.clear();
@@ -140,13 +140,13 @@ public final class AutoTunnelModule extends Module
                 {
                     continue;
                 }
-                Nebula.INVENTORY.setSlot(slot);
+                Nebula.INVENTORY.spoof(slot);
                 if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing()))
                 {
                     replaceQueue.remove(pos);
                     ++blocks;
                 }
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
                 if (blocks >= blocksPerTickSetting.getValue())
                 {
                     return;
@@ -200,7 +200,7 @@ public final class AutoTunnelModule extends Module
             {
                 prevSlot = MC.thePlayer.inventory.currentItem;
             }
-            Nebula.INVENTORY.setSlotClient(slot);
+            Nebula.INVENTORY.select(slot);
         }
     }
 
@@ -208,7 +208,7 @@ public final class AutoTunnelModule extends Module
     {
         if (prevSlot != InventoryUtil.INVALID_SLOT && MC.thePlayer != null)
         {
-            Nebula.INVENTORY.setSlotClient(prevSlot);
+            Nebula.INVENTORY.select(prevSlot);
         }
         prevSlot = InventoryUtil.INVALID_SLOT;
     }

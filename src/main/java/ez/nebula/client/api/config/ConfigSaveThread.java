@@ -33,9 +33,9 @@ public final class ConfigSaveThread extends Thread
         {
             LOGGER.error("Could not save default module config!", e);
         }
-        for (final IConfig configuration : manager.getConfigList())
+        for (final IConfig configuration : manager.getConfigs())
         {
-            manager.saveConfig(configuration);
+            manager.save(configuration);
         }
     }
 }

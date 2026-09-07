@@ -88,7 +88,7 @@ public final class AutoRespawnModule extends Module
 
         // System.out.println(Nebula2.SERVER.getServerIP());
         final File file = new File(coordinateLogFolder,
-                Nebula.SERVER.getServerIP() + ".txt");
+                Nebula.SERVER.ip() + ".txt");
         try
         {
             if (!file.exists() && !file.createNewFile())

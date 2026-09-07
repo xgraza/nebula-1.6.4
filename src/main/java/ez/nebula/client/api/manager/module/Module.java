@@ -56,7 +56,7 @@ public class Module implements SettingProvider, IJSONSerializable, Togglable
         }
         debug = getClass().isAnnotationPresent(DebugFeature.class);
 
-        Nebula.KEYS.addKey(manifest.name(),
+        Nebula.KEYS.register(manifest.name(),
                 key = new Key((state) ->
                 {
                     if (state)
@@ -195,7 +195,7 @@ public class Module implements SettingProvider, IJSONSerializable, Togglable
         if (setting.getValue() instanceof Key)
         {
             ModuleManager.LOGGER.debug("Added runtime key for setting {}", setting);
-            Nebula.KEYS.addRuntimeKey((Key) setting.getValue());
+            Nebula.KEYS.registerRuntime((Key) setting.getValue());
         }
     }
 

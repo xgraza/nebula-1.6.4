@@ -358,7 +358,7 @@ public final class NametagsModule extends Module
                 builder.append(EnumChatFormatting.RESET);
             }
 
-            if (Nebula.FRIENDS.isFriend(player) || player == MC.thePlayer)
+            if (Nebula.FRIENDS.has(player) || player == MC.thePlayer)
             {
                 builder.append(EnumChatFormatting.NEBULA_CLIENT_COLOR);
             }

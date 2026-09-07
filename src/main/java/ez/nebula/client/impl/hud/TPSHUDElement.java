@@ -33,10 +33,10 @@ public final class TPSHUDElement extends HUDElement
     public void render(final ScaledResolution res)
     {
         String formatted = String.format("TPS: %s%.2f",
-                EnumChatFormatting.GRAY, Nebula.SERVER.getAverageTPS());
+                EnumChatFormatting.GRAY, Nebula.SERVER.averageTPS());
         if (currentSetting.getValue())
         {
-            formatted += " [" + String.format("%.2f", Nebula.SERVER.getCurrentTPS()) + "]";
+            formatted += " [" + String.format("%.2f", Nebula.SERVER.tps()) + "]";
         }
         setWidth(Fonts.POPPINS.getStringWidth(formatted) + (getPadding() * 4));
         Fonts.POPPINS.drawStringShadow(formatted, getX() + getPadding(), getY() + getPadding(), HUDModule.INSTANCE.getBaseColor(10));

@@ -46,7 +46,7 @@ public final class PortalBreakerModule extends Module
         super.onDisable();
         if (MC.thePlayer != null && slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
         slot = InventoryUtil.INVALID_SLOT;
         pos = null;
@@ -108,10 +108,10 @@ public final class PortalBreakerModule extends Module
             return;
         }
 
-        Nebula.INVENTORY.setSlot(slot);
+        Nebula.INVENTORY.spoof(slot);
         InteractionManager.INSTANCE.rightClickBlock(result); // click w/ water bucket
         InteractionManager.INSTANCE.rightClickBlock(result); // collect water
-        Nebula.INVENTORY.syncSlot();
+        Nebula.INVENTORY.sync();
 
         slot = InventoryUtil.INVALID_SLOT;
         pos = null;

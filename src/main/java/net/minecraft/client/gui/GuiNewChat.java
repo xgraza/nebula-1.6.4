@@ -176,7 +176,7 @@ public class GuiNewChat extends Gui
             }
 
             final String username = chatLine.getParsedUsername();
-            if (cm.highlightFriendsSetting.getValue() && Nebula.FRIENDS.isFriend(username))
+            if (cm.highlightFriendsSetting.getValue() && Nebula.FRIENDS.has(username))
             {
                 text = text.replaceAll(username,
                         EnumChatFormatting.AQUA

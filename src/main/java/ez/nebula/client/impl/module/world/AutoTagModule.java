@@ -65,7 +65,7 @@ public final class AutoTagModule extends Module
         angles = null;
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
     }
 
@@ -101,9 +101,9 @@ public final class AutoTagModule extends Module
             }
         }
         taggedEntityIdSet.add(target.getEntityId());
-        Nebula.INVENTORY.setSlot(nametagSlot);
+        Nebula.INVENTORY.spoof(nametagSlot);
         PacketUtil.send(new C02PacketUseEntity(target, C02PacketUseEntity.Action.INTERACT));
-        Nebula.INVENTORY.syncSlot();
+        Nebula.INVENTORY.sync();
     };
 
     @Subscribe

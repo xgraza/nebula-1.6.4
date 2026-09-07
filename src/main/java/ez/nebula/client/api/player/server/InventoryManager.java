@@ -60,12 +60,21 @@ public final class InventoryManager implements IManager
         EventBus.subscribe(this);
     }
 
-    public void setSlot(final int index)
+    /**
+     * Spoofs the server held item slot
+     * @param index the item index 0-8
+     */
+    public void spoof(final int index)
     {
-        setSlot(index, false);
+        spoof(index, false);
     }
 
-    public void setSlot(final int index, final boolean forced)
+    /**
+     * Spoofs the server held item slot
+     * @param index the item index 0-8
+     * @param forced if to force the slot change if the index is invalid
+     */
+    public void spoof(final int index, final boolean forced)
     {
         if (slot == index && !forced)
         {
@@ -74,7 +83,11 @@ public final class InventoryManager implements IManager
         PacketUtil.send(new C09PacketHeldItemChange(slot = index));
     }
 
-    public void setSlotClient(final int index)
+    /**
+     * Sets the client-sided held item slot
+     * @param index the item index 0-8
+     */
+    public void select(final int index)
     {
         if (MC.thePlayer == null)
         {
@@ -82,12 +95,15 @@ public final class InventoryManager implements IManager
         }
         if (MC.thePlayer.inventory.currentItem != index)
         {
-            setSlot(index, true);
+            spoof(index, true);
         }
         MC.thePlayer.inventory.currentItem = MC.playerController.currentPlayerItem = index;
     }
 
-    public void syncSlot()
+    /**
+     * Synchronizes the server held item slot index with that of the client
+     */
+    public void sync()
     {
         if (slot != MC.thePlayer.inventory.currentItem)
         {
@@ -95,7 +111,10 @@ public final class InventoryManager implements IManager
         }
     }
 
-    public int getSlot()
+    /**
+     * @return the current spoofed client slot, or the current locally held item slot index
+     */
+    public int slot()
     {
         if (slot == -1 && MC.thePlayer != null)
         {
@@ -104,12 +123,15 @@ public final class InventoryManager implements IManager
         return slot;
     }
 
-    public ItemStack getStack()
+    /**
+     * @return the current spoofed client {@link ItemStack}, or the currently locally held {@link ItemStack}, or null
+     */
+    public ItemStack stack()
     {
         if (MC.thePlayer == null)
         {
             return null;
         }
-        return MC.thePlayer.inventory.getStackInSlot(getSlot());
+        return MC.thePlayer.inventory.mainInventory[slot()];
     }
 }

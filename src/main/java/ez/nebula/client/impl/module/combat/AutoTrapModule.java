@@ -75,7 +75,7 @@ public final class AutoTrapModule extends InteractionModule
         placementList.clear();
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
     }
 
@@ -115,7 +115,7 @@ public final class AutoTrapModule extends InteractionModule
                 final int slot = InventoryUtil.getHotbarSlot(blockSetting::isBlock);
                 if (slot == -1)
                 {
-                    Nebula.INVENTORY.syncSlot();
+                    Nebula.INVENTORY.sync();
                     return;
                 }
                 MC.theWorld.setBlock(pos.getX(), pos.getY(), pos.getZ(), packet.getType());
@@ -137,7 +137,7 @@ public final class AutoTrapModule extends InteractionModule
         {
             if (!placementList.isEmpty())
             {
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
             }
             placementList.clear();
             return;
@@ -149,7 +149,7 @@ public final class AutoTrapModule extends InteractionModule
         {
             if (hadItems)
             {
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
             }
             return;
         }
@@ -157,7 +157,7 @@ public final class AutoTrapModule extends InteractionModule
         final int slot = InventoryUtil.getHotbarSlot(blockSetting::isBlock);
         if (slot == -1)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
             return;
         }
         placeMultiPos(blocksSetting.getValue(), slot, false, placementList);

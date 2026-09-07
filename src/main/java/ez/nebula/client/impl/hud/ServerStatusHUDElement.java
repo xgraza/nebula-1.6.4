@@ -30,7 +30,7 @@ public final class ServerStatusHUDElement extends HUDElement
     @Override
     public void render(ScaledResolution res)
     {
-        final double timeSince = Nebula.SERVER.getTimeElapsedSinceLastPacket();
+        final double timeSince = Nebula.SERVER.timeSinceLastPacket();
         animation.setState(timeSince >= 5000L);
 
         String text = "Server is now responding";

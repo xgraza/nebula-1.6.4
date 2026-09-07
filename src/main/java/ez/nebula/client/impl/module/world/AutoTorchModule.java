@@ -69,7 +69,7 @@ public final class AutoTorchModule extends InteractionModule
         super.onDisable();
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
         angles = null;
         pos = null;

@@ -404,7 +404,7 @@ public final class KillAuraModule extends Module
         {
             return false;
         }
-        if (entity instanceof EntityPlayer && Nebula.FRIENDS.isFriend((EntityPlayer) entity) && !NoFriendsModule.INSTANCE.isToggled())
+        if (entity instanceof EntityPlayer && Nebula.FRIENDS.has((EntityPlayer) entity) && !NoFriendsModule.INSTANCE.isToggled())
         {
             return false;
         }

@@ -149,12 +149,12 @@ public final class AutoTreeModule extends Module
         }
         plantTimer.resetTime();
 
-        Nebula.INVENTORY.setSlot(slot);
+        Nebula.INVENTORY.spoof(slot);
         if (InteractionManager.INSTANCE.rightClickBlock(placePos.down(), EnumFacing.UP, false))
         {
             placedSaplingsList.add(placePos);
         }
-        Nebula.INVENTORY.syncSlot();
+        Nebula.INVENTORY.sync();
     }
 
     private void handleBonemeal()
@@ -177,12 +177,12 @@ public final class AutoTreeModule extends Module
         }
         bonemealTimer.resetTime();
 
-        Nebula.INVENTORY.setSlot(slot);
+        Nebula.INVENTORY.spoof(slot);
         for (int i = 0; i < packetsSetting.getValue(); ++i)
         {
             InteractionManager.INSTANCE.rightClickBlock(saplingPos, BlockUtil.getOpposite(PlayerUtil.getFacing()), false);
         }
-        Nebula.INVENTORY.syncSlot();
+        Nebula.INVENTORY.sync();
     }
 
     private BlockPos getNearestTree(final int range, final boolean includeWood, final BlockPos origin)

@@ -51,7 +51,7 @@ public final class KeyConfig implements IConfig
             {
                 throw new RuntimeException("must be JsonObject");
             }
-            manager.getReference(id).fromJSON(keyElement);
+            manager.get(id).fromJSON(keyElement);
         }
     }
 

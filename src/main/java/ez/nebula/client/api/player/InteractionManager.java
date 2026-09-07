@@ -70,7 +70,7 @@ public final class InteractionManager
 
         final boolean result = MC.playerController.onPlayerRightClick(MC.thePlayer,
                 MC.theWorld,
-                Nebula.INVENTORY.getStack(),
+                Nebula.INVENTORY.stack(),
                 pos.getX(), pos.getY(), pos.getZ(), facing.order_a,
                 createHitVec(pos, facing));
         if (result)

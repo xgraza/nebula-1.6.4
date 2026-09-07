@@ -25,11 +25,11 @@ public final class FriendCommand extends Command
                         .executes((ctx) ->
                         {
                             final String name = StringArgumentType.getString(ctx, "name");
-                            if (Nebula.FRIENDS.isFriend(name))
+                            if (Nebula.FRIENDS.has(name))
                             {
                                 return ctx.getSource().respond("You already have %s friended!", name);
                             }
-                            Nebula.FRIENDS.addFriend(name);
+                            Nebula.FRIENDS.add(name);
                             MC.thePlayer.sendChatMessage("/msg " + name + " I just added you as a friend on Nebula!");
                             return ctx.getSource().respond("You are now friends with %s!", name);
                         })))
@@ -38,11 +38,11 @@ public final class FriendCommand extends Command
                                 .executes((ctx) ->
                                 {
                                     final String name = StringArgumentType.getString(ctx, "name");
-                                    if (!Nebula.FRIENDS.isFriend(name))
+                                    if (!Nebula.FRIENDS.has(name))
                                     {
                                         return ctx.getSource().respond("You are not friends with %s.", name);
                                     }
-                                    Nebula.FRIENDS.removeFriend(name);
+                                    Nebula.FRIENDS.remove(name);
                                     return ctx.getSource().respond("You are now no longer friends with %s.", name);
                                 })))
                 .executes((ctx) ->

@@ -64,7 +64,7 @@ public final class ServerManager implements IManager
         Arrays.fill(packetResponseTimes, 0);
     }
 
-    public String getServerIP()
+    public String ip()
     {
         final ServerData serverData = MC.getCurrentServerData();
         if (serverData == null || serverData.serverIP == null)
@@ -78,12 +78,12 @@ public final class ServerManager implements IManager
         return serverData.serverIP.split(":")[0];
     }
 
-    public double getTimeElapsedSinceLastPacket()
+    public double timeSinceLastPacket()
     {
         return packetTimer.getTimeElapsedMS();
     }
 
-    public double getAverageTPS()
+    public double averageTPS()
     {
         double sum = 0.0;
         int amount = 0;
@@ -98,13 +98,13 @@ public final class ServerManager implements IManager
         return amount == 0 ? 20.0 : sum / amount;
     }
 
-    public double getCurrentTPS()
+    public double tps()
     {
         return packetResponseTimes[Math.max(0, index - 1) % packetResponseTimes.length];
     }
 
-    public double getScaledLatency()
+    public double scaledLatency()
     {
-        return (50L + NetworkUtil.getLatency(MC.thePlayer)) * (1.0 / Math.min(20.0, getCurrentTPS()));
+        return (50L + NetworkUtil.getLatency(MC.thePlayer)) * (1.0 / Math.min(20.0, tps()));
     }
 }

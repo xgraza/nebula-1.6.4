@@ -74,7 +74,7 @@ final class AccountCreateScreen extends GuiScreen
             {
                 account.setPassword(passwordTextField.getText());
             }
-            Nebula.ACCOUNTS.addAccount(account);
+            Nebula.ACCOUNTS.add(account);
         }
         mc.displayGuiScreen(new AccountSelectorScreen());
     }

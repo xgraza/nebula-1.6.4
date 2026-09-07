@@ -77,7 +77,7 @@ public final class PacketMineModule extends Module
         }
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
         minePositionQueue.clear();
         currentPosition = null;
@@ -241,7 +241,7 @@ public final class PacketMineModule extends Module
             return;
         }
         currentPosition.sentStop = true;
-        Nebula.INVENTORY.setSlot(getSlot(MC.theWorld.getBlock(currentPosition.x, currentPosition.y, currentPosition.z)));
+        Nebula.INVENTORY.spoof(getSlot(MC.theWorld.getBlock(currentPosition.x, currentPosition.y, currentPosition.z)));
         PacketUtil.send(new C07PacketPlayerDigging(
                 2,
                 currentPosition.x, currentPosition.y, currentPosition.z,
@@ -250,7 +250,7 @@ public final class PacketMineModule extends Module
                 2,
                 currentPosition.x, currentPosition.y, currentPosition.z,
                 currentPosition.side));
-        Nebula.INVENTORY.syncSlot();
+        Nebula.INVENTORY.sync();
         if (instantSetting.getValue())
         {
             MC.theWorld.setBlockToAir(currentPosition.x, currentPosition.y, currentPosition.z);

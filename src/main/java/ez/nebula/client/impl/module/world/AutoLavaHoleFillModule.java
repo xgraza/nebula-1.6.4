@@ -71,7 +71,7 @@ public final class AutoLavaHoleFillModule extends InteractionModule
         angles = null;
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
     }
 

@@ -26,17 +26,17 @@ public final class ConfigManager implements IManager
     {
         Runtime.getRuntime().addShutdownHook(
                 new ConfigSaveThread(this));
-        addConfiguration(new ClientSettingConfig());
+        register(new ClientSettingConfig());
         try
         {
-            loadConfigs();
+            load();
         } catch (IOException e)
         {
             throw new RuntimeException(e);
         }
     }
 
-    public boolean saveConfig(final IConfig configuration)
+    public boolean save(final IConfig configuration)
     {
         final File file = configuration.getFile();
         if (!file.getParentFile().exists())
@@ -80,7 +80,7 @@ public final class ConfigManager implements IManager
         return false;
     }
 
-    private void loadConfigs() throws IOException
+    private void load() throws IOException
     {
         LOGGER.info("Loading {} configs...", configList.size());
         for (final IConfig configuration : configList)
@@ -99,12 +99,12 @@ public final class ConfigManager implements IManager
         }
     }
 
-    public void addConfiguration(final IConfig configuration)
+    public void register(final IConfig configuration)
     {
         configList.add(configuration);
     }
 
-    public List<IConfig> getConfigList()
+    public List<IConfig> getConfigs()
     {
         return configList;
     }

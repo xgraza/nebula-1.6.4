@@ -74,7 +74,7 @@ public final class NotifierModule extends Module
                 && !event.isPreviousExisting())
         {
             final EntityPlayer player = (EntityPlayer) event.getEntity();
-            if (Nebula.FRIENDS.isFriend(player)
+            if (Nebula.FRIENDS.has(player)
                     || player.getEntityId() == FreecamModule.CAMERA_ENTITY_ID
                     || player.getEntityId() == FakePlayerModule.INSTANCE.getFakePlayerEntityID())
             {

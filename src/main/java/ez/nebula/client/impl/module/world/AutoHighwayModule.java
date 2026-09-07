@@ -104,7 +104,7 @@ public final class AutoHighwayModule extends Module
         super.onDisable();
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
             if (walk)
             {
                 MC.thePlayer.movementInput.moveForward = 0.0f;
@@ -191,7 +191,7 @@ public final class AutoHighwayModule extends Module
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
             walk = false;
 
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
 
         final int slot = InventoryUtil.getHotbarSlot(blockSetting::isBlock);
@@ -211,7 +211,7 @@ public final class AutoHighwayModule extends Module
             final BlockInfo info = BlockUtil.getPlacement(highwayPos);
             if (info != null)
             {
-                Nebula.INVENTORY.setSlot(slot);
+                Nebula.INVENTORY.spoof(slot);
                 if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true))
                 {
                     ++blocksPlaced;
@@ -227,7 +227,7 @@ public final class AutoHighwayModule extends Module
         if (blocksPlaced > 0)
         {
             walk = false;
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         } else
         {
             walk = true;
@@ -276,7 +276,7 @@ public final class AutoHighwayModule extends Module
         final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INVENTORY.setSlot(slot);
+            Nebula.INVENTORY.spoof(slot);
         }
     }
 

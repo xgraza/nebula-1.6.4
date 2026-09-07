@@ -107,21 +107,46 @@ public final class RotationManager implements IManager
         EventBus.subscribe(this);
     }
 
+    /**
+     * Checks if a rotation can override another currently spoofed rotation
+     * @param priority the requesting priority
+     * @return if the requesting priority can override any current spoofed rotations
+     */
     public boolean canTakePrecedent(final int priority)
     {
         return spoofPrority == -1 || priority > spoofPrority;
     }
 
+    /**
+     * Queues a rotation to be spoofed with a callback once sent
+     * @param angles the float[] angles[0] - yaw, angles[1] - pitch
+     * @param priority the requesting priority
+     * @param callback the callback providing the queued {@link Rotation}
+     */
     public void queue(final float[] angles, final int priority, final Consumer<Rotation> callback)
     {
         queue(angles[0], angles[1], priority, callback);
     }
 
+    /**
+     * Queues a rotation to be spoofed with a callback once sent
+     * @param yaw the y rotation
+     * @param pitch the x rotation
+     * @param priority the requesting priority
+     * @param callback the callback providing the queued {@link Rotation}
+     */
     public void queue(final float yaw, final float pitch, final int priority, final Consumer<Rotation> callback)
     {
         queuedRotations.add(new Rotation(yaw, pitch, priority, callback));
     }
 
+    /**
+     * Spoofs angles
+     * @param yaw the y rotation
+     * @param pitch the x rotation
+     * @param priority the requesting priority
+     * @return if the rotation spoof was accepted based on the requesting priority hierarchy
+     */
     public boolean spoof(final float yaw, final float pitch, final int priority)
     {
         if (priority != -1 && spoofPrority > priority)
@@ -134,6 +159,10 @@ public final class RotationManager implements IManager
         return true;
     }
 
+    /**
+     * Invalidates current rotations
+     * @param angles the float[] of angles
+     */
     private void setInvalid(final float[] angles)
     {
         angles[0] = Float.NaN;
@@ -141,6 +170,13 @@ public final class RotationManager implements IManager
         spoofPrority = -1;
     }
 
+    /**
+     * Checks if a rotation is valid
+     * @param yaw the y rotation
+     * @param pitch the x rotation
+     * @return if this rotation is a valid rotation
+     * @apiNote if {@link RotationManager#ROTATE_PROTECTION} is on, it will limit pitch to 90/-90
+     */
     private boolean isRotationValid(final float yaw, final float pitch)
     {
         if (ROTATE_PROTECTION && Math.abs(pitch) > 90.0f)
@@ -150,22 +186,37 @@ public final class RotationManager implements IManager
         return !Float.isNaN(yaw) && !Float.isNaN(pitch);
     }
 
+    /**
+     * Checks if a rotation is valid
+     * @param angles the float[] angles[0] - yaw, angles[1] - pitch
+     * @return if this rotation is a valid rotation
+     * @apiNote if {@link RotationManager#ROTATE_PROTECTION} is on, it will limit pitch to 90/-90
+     */
     private boolean isRotationValid(final float[] angles)
     {
         return isRotationValid(angles[0], angles[1]);
     }
 
+    /**
+     * @return if there are spoofed angles
+     */
     public boolean isSpoofing()
     {
         return isRotationValid(spoofedAngles);
     }
 
-    public Vec3 getLook(float rotationYaw, float rotationPitch)
+    /**
+     * Gets a look {@link Vec3} for the raytracing
+     * @param yaw the y rotation
+     * @param pitch the x rotation
+     * @return the {@link Vec3}
+     */
+    public Vec3 getLook(float yaw, float pitch)
     {
-        float var2 = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
-        float var3 = MathHelper.sin(-rotationYaw * 0.017453292F - (float) Math.PI);
-        float var4 = -MathHelper.cos(-rotationPitch * 0.017453292F);
-        float var5 = MathHelper.sin(-rotationPitch * 0.017453292F);
+        float var2 = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);
+        float var3 = MathHelper.sin(-yaw * 0.017453292F - (float) Math.PI);
+        float var4 = -MathHelper.cos(-pitch * 0.017453292F);
+        float var5 = MathHelper.sin(-pitch * 0.017453292F);
         return MC.theWorld.getWorldVec3Pool().getVecFromPool(var3 * var4, var5, var2 * var4);
     }
 
@@ -174,11 +225,9 @@ public final class RotationManager implements IManager
         return serverAngles;
     }
 
-    public int getSpoofPrority()
-    {
-        return spoofPrority;
-    }
-
+    /**
+     * @see {@link net.minecraft.entity.EntityLivingBase#func_110146_f}
+     */
     private void setRenderAngles()
     {
         MC.thePlayer.rotationYawHead = serverAngles[0];

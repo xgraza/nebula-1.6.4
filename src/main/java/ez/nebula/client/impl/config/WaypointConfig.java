@@ -46,7 +46,7 @@ public final class WaypointConfig implements IConfig
         {
             return;
         }
-        manager.clearWaypoints();
+        manager.clear();
         final JsonArray array = element.getAsJsonArray();
         for (final JsonElement waypointElement : array)
         {
@@ -56,7 +56,7 @@ public final class WaypointConfig implements IConfig
             }
             final Waypoint waypoint = new Waypoint();
             waypoint.fromJSON(waypointElement);
-            manager.registerWaypoint(waypoint);
+            manager.register(waypoint);
         }
     }
 

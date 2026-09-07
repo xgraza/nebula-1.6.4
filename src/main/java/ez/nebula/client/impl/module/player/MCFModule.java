@@ -40,14 +40,14 @@ public final class MCFModule extends Module
         }
         final EntityPlayer player = (EntityPlayer) result.entityHit;
         final String name = player.getCommandSenderName();
-        if (Nebula.FRIENDS.isFriend(name))
+        if (Nebula.FRIENDS.has(name))
         {
             ChatUtil.sendNebula("Unfriended %s%s", EnumChatFormatting.RED, name);
-            Nebula.FRIENDS.removeFriend(name);
+            Nebula.FRIENDS.remove(name);
         } else
         {
             ChatUtil.sendNebula("Friended %s%s", EnumChatFormatting.GREEN, name);
-            Nebula.FRIENDS.addFriend(name);
+            Nebula.FRIENDS.add(name);
         }
     };
 }

@@ -338,9 +338,9 @@ public final class AutoFarmModule extends Module
         {
             return false;
         }
-        Nebula.INVENTORY.setSlot(slot);
+        Nebula.INVENTORY.spoof(slot);
         final boolean result = InteractionManager.INSTANCE.rightClickBlock(pos, EnumFacing.UP);
-        Nebula.INVENTORY.syncSlot();
+        Nebula.INVENTORY.sync();
         return result;
     }
 

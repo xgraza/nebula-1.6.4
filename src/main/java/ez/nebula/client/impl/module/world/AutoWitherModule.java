@@ -50,7 +50,7 @@ public final class AutoWitherModule extends Module
         super.onDisable();
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
     }
 
@@ -70,7 +70,7 @@ public final class AutoWitherModule extends Module
         if (soulSandPositions == null)
         {
             // ChatUtil.sendNebula("soul sand failure");
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
             invalidate();
             return; // null result = failure
         }
@@ -83,9 +83,9 @@ public final class AutoWitherModule extends Module
                 {
                     continue;
                 }
-                Nebula.INVENTORY.setSlot(soulSandSlot);
+                Nebula.INVENTORY.spoof(soulSandSlot);
                 InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
                 return;
             }
         }
@@ -95,7 +95,7 @@ public final class AutoWitherModule extends Module
             if (!(MC.theWorld.getBlock(soulSandPos) instanceof BlockSoulSand))
             {
                 // ChatUtil.sendNebula("no longer soul sand");
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
                 invalidate();
                 return;
             }
@@ -108,7 +108,7 @@ public final class AutoWitherModule extends Module
         if (tPosList == null || tPosList.isEmpty())
         {
             // ChatUtil.sendNebula("Finished placing");
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
             invalidate();
             return;
         }
@@ -119,14 +119,14 @@ public final class AutoWitherModule extends Module
         {
             return;
         }
-        Nebula.INVENTORY.setSlot(witherHeadSlot);
+        Nebula.INVENTORY.spoof(witherHeadSlot);
         InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
-        Nebula.INVENTORY.syncSlot();
+        Nebula.INVENTORY.sync();
         // we finished placing
         if (tPosList.size() == 1)
         {
             //ChatUtil.sendNebula("Finished placing");
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
             invalidate();
         }
     };
@@ -160,7 +160,7 @@ public final class AutoWitherModule extends Module
             {
                 return;
             }
-            soulSandSlot = Nebula.INVENTORY.getSlot();
+            soulSandSlot = Nebula.INVENTORY.slot();
             // get the correct pos via the place face
             final EnumFacing face = EnumFacing.faceList[event.getSide()];
             x = event.getX() + face.getFrontOffsetX();

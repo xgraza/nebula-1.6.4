@@ -102,7 +102,7 @@ public final class ScaffoldModule extends InteractionModule
         super.onDisable();
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
         blockData = null;
         basePosY = -1.0;

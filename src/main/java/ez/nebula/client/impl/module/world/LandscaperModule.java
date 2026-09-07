@@ -66,7 +66,7 @@ public final class LandscaperModule extends Module
         breakingBlockPos = null;
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
         angles = null;
@@ -98,7 +98,7 @@ public final class LandscaperModule extends Module
         if (breakingBlockPos == null)
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
             breakingBlockPos = breakQueue.poll();
             return;
         }
@@ -119,13 +119,13 @@ public final class LandscaperModule extends Module
             final int slot = InventoryUtil.getBestToolSlotFor(block);
             if (slot != InventoryUtil.INVALID_SLOT)
             {
-                Nebula.INVENTORY.setSlot(slot);
+                Nebula.INVENTORY.spoof(slot);
             }
         }
         if (InteractionManager.INSTANCE.breakBlock(breakingBlockPos, EnumFacing.UP))
         {
             breakingBlockPos = null;
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
     };
 

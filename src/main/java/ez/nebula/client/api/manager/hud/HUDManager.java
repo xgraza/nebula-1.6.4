@@ -25,7 +25,7 @@ public final class HUDManager implements ITypedManager<HUDElement>
     public void init()
     {
         EventBus.subscribe(this);
-        Nebula.CONFIGS.addConfiguration(new HUDConfig(this));
+        Nebula.CONFIGS.register(new HUDConfig(this));
 
         hudElementList.add(new ArmorStatusHUDElement());
         hudElementList.add(new ArraylistHUDElement());

@@ -18,15 +18,15 @@ public final class AccountManager implements ITypedManager<Account>
     @Override
     public void init()
     {
-        Nebula.CONFIGS.addConfiguration(new AccountConfig(this));
+        Nebula.CONFIGS.register(new AccountConfig(this));
     }
 
-    public void addAccount(final Account account)
+    public void add(final Account account)
     {
         accountList.add(account);
     }
 
-    public void removeAccount(final Account account)
+    public void remove(final Account account)
     {
         accountList.remove(account);
     }

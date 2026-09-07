@@ -235,7 +235,7 @@ public final class AntiGhostBlockModule extends Module
         // resort to the item stack in the server hand
         if (itemStack == null)
         {
-            itemStack = Nebula.INVENTORY.getStack();
+            itemStack = Nebula.INVENTORY.stack();
         }
 
         return itemStack != null && itemStack.getItem() instanceof ItemBlock;

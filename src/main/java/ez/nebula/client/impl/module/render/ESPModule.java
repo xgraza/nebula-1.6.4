@@ -583,7 +583,7 @@ public final class ESPModule extends Module
             if (entity instanceof EntityPlayer)
             {
                 final EntityPlayer player = (EntityPlayer) entity;
-                if (Nebula.FRIENDS.isFriend(player))
+                if (Nebula.FRIENDS.has(player))
                 {
                     return Color.cyan.getRGB();
                 }

@@ -71,7 +71,7 @@ public final class HUDElementManager implements ITypedManager<HUDElement>
             element.discoverSettings();
         }
 
-        Nebula.CONFIGS.addConfiguration(config);
+        Nebula.CONFIGS.register(config);
         EventBus.subscribe(this); // automatic scaling
     }
 

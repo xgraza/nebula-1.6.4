@@ -75,7 +75,7 @@ public final class NukerModule extends Module
         breakList = null;
         if (MC.thePlayer != null)
         {
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
         }
         posY = -1;
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
@@ -114,7 +114,7 @@ public final class NukerModule extends Module
         {
             if (info != null)
             {
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
             }
             info = null;
             return;
@@ -126,7 +126,7 @@ public final class NukerModule extends Module
 
             if (MathUtil.getDistanceFromPlayer(info.getPos().getX() + 0.5, info.getPos().getY() + 0.5, info.getPos().getZ() + 0.5) > rangeSetting.getValue())
             {
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
                 info = null;
             } else
             {
@@ -136,7 +136,7 @@ public final class NukerModule extends Module
                     return;
                 }
                 info = null;
-                Nebula.INVENTORY.syncSlot();
+                Nebula.INVENTORY.sync();
                 PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
             }
         }
@@ -145,7 +145,7 @@ public final class NukerModule extends Module
         if (breakList.isEmpty())
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
-            Nebula.INVENTORY.syncSlot();
+            Nebula.INVENTORY.sync();
             info = null;
             return;
         }
@@ -173,7 +173,7 @@ public final class NukerModule extends Module
             }
         }
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
-        Nebula.INVENTORY.syncSlot();
+        Nebula.INVENTORY.sync();
     };
 
     private void swapToBestBlockSlot(final BlockPos pos)
@@ -181,7 +181,7 @@ public final class NukerModule extends Module
         final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
         if (slot != InventoryUtil.INVALID_SLOT)
         {
-            Nebula.INVENTORY.setSlot(slot);
+            Nebula.INVENTORY.spoof(slot);
         }
     }
 

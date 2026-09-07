@@ -45,7 +45,7 @@ public final class FriendConfig implements IConfig
             {
                 continue;
             }
-            manager.addFriend(line.trim());
+            manager.add(line.trim());
         }
     }
 
