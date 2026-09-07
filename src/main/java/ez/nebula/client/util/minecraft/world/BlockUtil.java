@@ -1,14 +1,12 @@
 package ez.nebula.client.util.minecraft.world;
 
 import com.google.common.collect.Lists;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
+import ez.nebula.client.util.math.MathUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockReed;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.src.BlockPos;
@@ -60,6 +58,9 @@ public final class BlockUtil
             Blocks.powered_repeater,
             Blocks.lever);
     public static final Map<Integer, List<BlockPos>> RADIAL_BLOCK_MAP = new HashMap<>();
+
+    private static final Queue<BlockPos> SEARCH_QUEUE = new ArrayDeque<>(18);
+    private static final Set<Integer> VISITED_SET = new HashSet<>();
 
     static
     {
@@ -160,31 +161,39 @@ public final class BlockUtil
 
     public static BlockInfo getPlacement(final BlockPos pos)
     {
-        for (final EnumFacing side : EnumFacing.values())
-        {
-            final BlockPos neighbor = pos.offset(side);
-            final EnumFacing opposite = getOpposite(side);
-            if (!isReplaceable(neighbor) && canPlace(neighbor, opposite))
-            {
-                return new BlockInfo(neighbor, opposite);
-            }
-        }
+        // i know this looks bad, and that's because it is
+        // however, frame drops with this are essentially non-existent, plus it usually always ends up giving a result
+        // feel free to write a better version of this, i will eventually
 
-        for (final EnumFacing side : EnumFacing.values())
+        SEARCH_QUEUE.clear();
+        VISITED_SET.clear();
+
+        SEARCH_QUEUE.add(pos);
+        VISITED_SET.add(pos.hashCode());
+
+        while (!SEARCH_QUEUE.isEmpty())
         {
-            final BlockPos neighbor = pos.offset(side);
-            final EnumFacing opposite = getOpposite(side);
-            if (isReplaceable(neighbor) || !canPlace(neighbor, opposite))
+            final BlockPos p = SEARCH_QUEUE.poll();
+            for (final EnumFacing facing : EnumFacing.values())
             {
-                for (final EnumFacing side2 : EnumFacing.values())
+                final BlockPos neighbor = p.offset(facing);
+
+                double distance = MathUtil.getDistanceSq(pos, neighbor);
+                if (distance > 36)
                 {
-                    final BlockPos neighbor2 = neighbor.offset(side2);
-                    final EnumFacing opposite2 = getOpposite(side2);
-                    if (!isReplaceable(neighbor2) && canPlace(neighbor2, opposite2))
-                    {
-                        return new BlockInfo(neighbor2, opposite2);
-                    }
+                    continue;
                 }
+
+                if (!VISITED_SET.add(neighbor.hashCode()))
+                {
+                    continue;
+                }
+                final EnumFacing opposite = getOpposite(facing);
+                if (!isReplaceable(neighbor) && canPlace(neighbor, opposite))
+                {
+                    return new BlockInfo(neighbor, opposite);
+                }
+                SEARCH_QUEUE.add(neighbor);
             }
         }
 
