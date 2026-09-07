@@ -104,7 +104,7 @@ public final class AutoTunnelModule extends Module
         if (breakInfo != null)
         {
             swapToBestBlockSlot(breakInfo.getPos());
-            if (InteractionManager.INSTANCE.breakBlock(breakInfo.getPos(), breakInfo.getFacing()))
+            if (Nebula.INTERACTIONS.breakBlock(breakInfo.getPos(), breakInfo.getFacing()))
             {
                 walk = true;
                 if (backplaceSetting.getValue())
@@ -141,7 +141,7 @@ public final class AutoTunnelModule extends Module
                     continue;
                 }
                 Nebula.INVENTORY.spoof(slot);
-                if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing()))
+                if (Nebula.INTERACTIONS.rightClickBlock(info.getPos(), info.getFacing()))
                 {
                     replaceQueue.remove(pos);
                     ++blocks;
@@ -168,7 +168,7 @@ public final class AutoTunnelModule extends Module
             }
             swapToBestBlockSlot(pos);
             walk = false;
-            if (InteractionManager.INSTANCE.breakBlock(pos, info.getFacing()))
+            if (Nebula.INTERACTIONS.breakBlock(pos, info.getFacing()))
             {
                 walk = true;
                 swapBack();

@@ -109,8 +109,8 @@ public final class PortalBreakerModule extends Module
         }
 
         Nebula.INVENTORY.spoof(slot);
-        InteractionManager.INSTANCE.rightClickBlock(result); // click w/ water bucket
-        InteractionManager.INSTANCE.rightClickBlock(result); // collect water
+        Nebula.INTERACTIONS.rightClickBlock(result); // click w/ water bucket
+        Nebula.INTERACTIONS.rightClickBlock(result); // collect water
         Nebula.INVENTORY.sync();
 
         slot = InventoryUtil.INVALID_SLOT;

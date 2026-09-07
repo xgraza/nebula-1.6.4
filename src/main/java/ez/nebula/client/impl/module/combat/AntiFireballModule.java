@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventPostUpdate;
@@ -99,7 +100,7 @@ public final class AntiFireballModule extends InteractionModule
 
         for (final EntityLargeFireball fireballEntity : entityFireballTreeMap.values())
         {
-            InteractionManager.INSTANCE.swingItem();
+            Nebula.INTERACTIONS.swingItem();
             MC.playerController.attackEntity(MC.thePlayer, fireballEntity);
             if (!multiSetting.getValue())
             {
@@ -113,7 +114,7 @@ public final class AntiFireballModule extends InteractionModule
     {
         if (entity != null && angles != null)
         {
-            InteractionManager.INSTANCE.swingItem();
+            Nebula.INTERACTIONS.swingItem();
             MC.playerController.attackEntity(MC.thePlayer, entity);
             entity = null;
             angles = null;

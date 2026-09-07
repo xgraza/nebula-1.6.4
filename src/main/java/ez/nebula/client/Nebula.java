@@ -65,6 +65,7 @@ public final class Nebula
     public static final RotationManager ROTATIONS = new RotationManager();
     public static final ServerManager SERVER = new ServerManager();
     public static final WaypointManager WAYPOINTS = new WaypointManager();
+    public static final InteractionManager INTERACTIONS = new InteractionManager();
     public static final MovementController MOVEMENT_CONTROLLER = new MovementController();
 
     /**
@@ -92,7 +93,7 @@ public final class Nebula
         SERVER.init();
         ROTATIONS.init();
         INVENTORY.init();
-        InteractionManager.INSTANCE.init();
+        INTERACTIONS.init();
         ACCOUNTS.init();
         TOASTS.init();
         FRIENDS.init();

@@ -139,7 +139,7 @@ public final class BurrowModule extends Module
                 (float) (hitVec.yCoord - blockData.pos.getY()),
                 (float) (hitVec.zCoord - blockData.pos.getZ())
         ));
-        InteractionManager.INSTANCE.swingItem();
+        Nebula.INTERACTIONS.swingItem();
         Nebula.INVENTORY.sync();
 
         if (sneak)

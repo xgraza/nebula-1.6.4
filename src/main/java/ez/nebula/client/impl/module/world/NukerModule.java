@@ -131,7 +131,7 @@ public final class NukerModule extends Module
             } else
             {
                 swapToBestBlockSlot(info.getPos());
-                if (!InteractionManager.INSTANCE.breakBlock(info.getPos(), info.getFacing()))
+                if (!Nebula.INTERACTIONS.breakBlock(info.getPos(), info.getFacing()))
                 {
                     return;
                 }
@@ -159,7 +159,7 @@ public final class NukerModule extends Module
                 face = EnumFacing.UP;
             }
             swapToBestBlockSlot(pos);
-            if (InteractionManager.INSTANCE.breakBlock(pos, face))
+            if (Nebula.INTERACTIONS.breakBlock(pos, face))
             {
                 ++blocks;
             } else

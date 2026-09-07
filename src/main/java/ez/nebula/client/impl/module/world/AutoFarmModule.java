@@ -123,7 +123,7 @@ public final class AutoFarmModule extends Module
         {
             final Block block = MC.theWorld.getBlock(melonBreakPos);
             if ((block == Blocks.melon_block || block == Blocks.pumpkin)
-                    && !InteractionManager.INSTANCE.breakBlock(melonBreakPos, EnumFacing.DOWN))
+                    && !Nebula.INTERACTIONS.breakBlock(melonBreakPos, EnumFacing.DOWN))
             {
                 return;
             }
@@ -216,7 +216,7 @@ public final class AutoFarmModule extends Module
                     MC.thePlayer.inventory.currentItem = slot;
                 }
                 // if we can instant remove it, dont bother bringing to the next tick...
-                if (InteractionManager.INSTANCE.breakBlock(melonPos, EnumFacing.DOWN))
+                if (Nebula.INTERACTIONS.breakBlock(melonPos, EnumFacing.DOWN))
                 {
                     MC.thePlayer.inventory.currentItem = oldSlot;
                     oldSlot = InventoryUtil.INVALID_SLOT;
@@ -226,7 +226,7 @@ public final class AutoFarmModule extends Module
                 return;
             }
 
-            if (InteractionManager.INSTANCE.breakBlock(cropBlockPos, EnumFacing.UP))
+            if (Nebula.INTERACTIONS.breakBlock(cropBlockPos, EnumFacing.UP))
             {
                 plantSeed(pos, cropBlockType);
                 return;
@@ -339,7 +339,7 @@ public final class AutoFarmModule extends Module
             return false;
         }
         Nebula.INVENTORY.spoof(slot);
-        final boolean result = InteractionManager.INSTANCE.rightClickBlock(pos, EnumFacing.UP);
+        final boolean result = Nebula.INTERACTIONS.rightClickBlock(pos, EnumFacing.UP);
         Nebula.INVENTORY.sync();
         return result;
     }

@@ -84,7 +84,7 @@ public final class AutoWitherModule extends Module
                     continue;
                 }
                 Nebula.INVENTORY.spoof(soulSandSlot);
-                InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
+                Nebula.INTERACTIONS.rightClickBlock(info.getPos(), info.getFacing(), true);
                 Nebula.INVENTORY.sync();
                 return;
             }
@@ -120,7 +120,7 @@ public final class AutoWitherModule extends Module
             return;
         }
         Nebula.INVENTORY.spoof(witherHeadSlot);
-        InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true);
+        Nebula.INTERACTIONS.rightClickBlock(info.getPos(), info.getFacing(), true);
         Nebula.INVENTORY.sync();
         // we finished placing
         if (tPosList.size() == 1)

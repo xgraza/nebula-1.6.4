@@ -212,7 +212,7 @@ public final class AutoHighwayModule extends Module
             if (info != null)
             {
                 Nebula.INVENTORY.spoof(slot);
-                if (InteractionManager.INSTANCE.rightClickBlock(info.getPos(), info.getFacing(), true))
+                if (Nebula.INTERACTIONS.rightClickBlock(info.getPos(), info.getFacing(), true))
                 {
                     ++blocksPlaced;
                 }
@@ -244,7 +244,7 @@ public final class AutoHighwayModule extends Module
                     && !BlockUtil.isReplaceable(pos))
             {
                 swapToBestBlockSlot(pos);
-                if (!InteractionManager.INSTANCE.breakBlock(pos, breakInfo.getFacing()))
+                if (!Nebula.INTERACTIONS.breakBlock(pos, breakInfo.getFacing()))
                 {
                     return;
                 }
@@ -258,7 +258,7 @@ public final class AutoHighwayModule extends Module
         {
             final BlockInfo info = excavatePosList.get(i);
             swapToBestBlockSlot(info.getPos());
-            if (!InteractionManager.INSTANCE.breakBlock(info.getPos(), info.getFacing()))
+            if (!Nebula.INTERACTIONS.breakBlock(info.getPos(), info.getFacing()))
             {
                 breakInfo = info;
                 break;

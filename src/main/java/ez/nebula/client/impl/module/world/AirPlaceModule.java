@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
@@ -97,7 +98,7 @@ public final class AirPlaceModule extends Module
                 && timer.hasElapsed((long) (delaySetting.getValue() * 1000.0), true))
         {
             // TODO: NoCheatPlus bypass?
-            InteractionManager.INSTANCE.rightClickBlock(result);
+            Nebula.INTERACTIONS.rightClickBlock(result);
         }
     };
 }

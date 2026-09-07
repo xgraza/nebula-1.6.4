@@ -122,7 +122,7 @@ public final class LandscaperModule extends Module
                 Nebula.INVENTORY.spoof(slot);
             }
         }
-        if (InteractionManager.INSTANCE.breakBlock(breakingBlockPos, EnumFacing.UP))
+        if (Nebula.INTERACTIONS.breakBlock(breakingBlockPos, EnumFacing.UP))
         {
             breakingBlockPos = null;
             Nebula.INVENTORY.sync();

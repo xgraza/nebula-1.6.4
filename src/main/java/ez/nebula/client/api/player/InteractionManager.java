@@ -27,8 +27,6 @@ public final class InteractionManager
 {
     private static final Minecraft MC = Minecraft.getMinecraft();
 
-    public static final InteractionManager INSTANCE = new InteractionManager();
-
     private boolean overrideSneak, sneaking;
 
     public void init()

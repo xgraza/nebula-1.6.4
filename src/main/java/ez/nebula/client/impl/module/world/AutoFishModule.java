@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
@@ -85,7 +86,7 @@ public final class AutoFishModule extends Module
     private void cast()
     {
         MC.playerController.sendUseItem(MC.thePlayer, MC.theWorld, MC.thePlayer.getHeldItem());
-        InteractionManager.INSTANCE.swingItem();
+        Nebula.INTERACTIONS.swingItem();
     }
 
     private boolean isNotHoldingRod()

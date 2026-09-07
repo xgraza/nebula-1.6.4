@@ -83,7 +83,7 @@ public abstract class InteractionModule extends RotationModule
      */
     protected void swing()
     {
-        InteractionManager.INSTANCE.swingItem();
+        Nebula.INTERACTIONS.swingItem();
     }
 
     /**
@@ -182,7 +182,7 @@ public abstract class InteractionModule extends RotationModule
      */
     protected boolean place(final BlockPos pos, final EnumFacing face, final boolean sneak)
     {
-        return InteractionManager.INSTANCE.rightClickBlock(pos, face, sneak);
+        return Nebula.INTERACTIONS.rightClickBlock(pos, face, sneak);
     }
 
     /**

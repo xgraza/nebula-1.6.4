@@ -4,6 +4,7 @@ import com.github.lunatrius.schematica.config.BlockInfo;
 import com.github.lunatrius.schematica.config.PlacementData;
 import com.github.lunatrius.schematica.lib.Reference;
 import com.github.lunatrius.schematica.world.SchematicWorld;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.player.InteractionManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -313,7 +314,7 @@ public class SchematicPrinter
         if (success)
         {
             // yes, some servers actually care about this.
-            InteractionManager.INSTANCE.swingItem();
+            Nebula.INTERACTIONS.swingItem();
         }
 
         if (itemStack != null && itemStack.stackSize == 0 && success)
