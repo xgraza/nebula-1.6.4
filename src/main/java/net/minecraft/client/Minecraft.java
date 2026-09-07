@@ -10,7 +10,7 @@ import ez.nebula.client.api.listener.event.game.EventDisplayGUI;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import ez.nebula.client.api.nws.NWS;
 import ez.nebula.client.api.nws.packet.c2s.C2SUsername;
-import ez.nebula.client.impl.gui.module.ClickGUIScreen;
+import ez.nebula.client.impl.gui.clickgui.ClickGUIScreen;
 import ez.nebula.client.impl.module.player.AutoReconnectModule;
 import ez.nebula.client.impl.module.render.UnfocusedCPUModule;
 import ez.nebula.client.util.render.gui.Render2D;
@@ -92,7 +92,6 @@ import ez.nebula.client.impl.module.render.CameraClipModule;
 import ez.nebula.client.api.listener.event.game.EventTick;
 import ez.nebula.client.api.listener.event.input.EventKey;
 import ez.nebula.client.api.listener.event.input.EventMouse;
-import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
 import ez.nebula.client.impl.gui.startup.LoadingScreen;
 
 import javax.imageio.ImageIO;
@@ -1927,12 +1926,12 @@ public class Minecraft
 
             while (this.gameSettings.keyBindChat.isPressed() && var8)
             {
-                this.displayGuiScreen(new HUDEditorScreen());
+                this.displayGuiScreen(new GuiChat());
             }
 
             if (this.currentScreen == null && thePlayer != null && this.gameSettings.keyBindCommand.isPressed() && var8)
             {
-                this.displayGuiScreen(new HUDEditorScreen("/"));
+                this.displayGuiScreen(new GuiChat("/"));
             }
 
             if (thePlayer != null && this.thePlayer.isUsingItem())

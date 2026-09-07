@@ -124,6 +124,7 @@ public final class ModuleManager implements ITypedManager<Module>
         registerModule(new GlintModule());
         registerModule(new HeavenModule());
         registerModule(new HUDModule());
+        registerModule(new HUDTestModule());
         registerModule(new ItemPhysicsModule());
         registerModule(new ItemTweaksModule());
         registerModule(new LogoutSpotsModule());

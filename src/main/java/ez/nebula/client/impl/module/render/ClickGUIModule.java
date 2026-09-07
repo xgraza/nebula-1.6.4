@@ -5,7 +5,7 @@ import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.impl.gui.module.ClickGUIScreen;
+import ez.nebula.client.impl.gui.clickgui.ClickGUIScreen;
 import ez.nebula.client.api.setting.Setting;
 import net.minecraft.client.gui.GuiMainMenu;
 

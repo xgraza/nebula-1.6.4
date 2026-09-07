@@ -1,6 +1,7 @@
 package ez.nebula.client;
 
 import com.github.lunatrius.schematica.Schematica;
+import ez.nebula.client.api.manager.hud2.HUDElementManager;
 import ez.nebula.client.api.manager.waypoint.WaypointManager;
 import ez.nebula.client.api.nws.NWS;
 import ez.nebula.client.api.player.InteractionManager;
@@ -55,6 +56,7 @@ public enum Nebula
     private KeyManager keyManager;
     private CommandManager commandManager;
     private HUDManager hudManager;
+    private HUDElementManager hudManager2;
     private ModuleManager moduleManager;
     private AccountManager accountManager;
     private FriendManager friendManager;
@@ -103,6 +105,8 @@ public enum Nebula
         keyManager.init();
         hudManager = new HUDManager();
         hudManager.init();
+        hudManager2 = new HUDElementManager();
+        hudManager2.init();
         commandManager = new CommandManager();
         commandManager.init();
         moduleManager = new ModuleManager();
@@ -272,6 +276,11 @@ public enum Nebula
     public HUDManager getHUDManager()
     {
         return hudManager;
+    }
+
+    public HUDElementManager getHudManager2()
+    {
+        return hudManager2;
     }
 
     public ModuleManager getModuleManager()

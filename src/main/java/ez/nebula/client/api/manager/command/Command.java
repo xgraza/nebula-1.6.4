@@ -9,7 +9,7 @@ import ez.nebula.client.api.manager.command.trait.CommandSource;
 
 public abstract class Command
 {
-    public static final String DEFAULT_DESCRIPTION = "No description provided for this cheat";
+    public static final String DEFAULT_DESCRIPTION = "No description provided for this command";
     protected static final Minecraft MC = Minecraft.getMinecraft();
 
     private final CommandManifest manifest;

@@ -1,7 +1,7 @@
 package ez.nebula.client.impl.gui.hud.component;
 
 import ez.nebula.client.Nebula;
-import ez.nebula.client.impl.gui.module.component.CategoryPanel;
+import ez.nebula.client.impl.gui.clickgui.component.CategoryPanel;
 
 /**
  * @author xgraza
