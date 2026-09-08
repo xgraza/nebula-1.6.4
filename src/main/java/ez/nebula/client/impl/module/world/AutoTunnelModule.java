@@ -12,6 +12,7 @@ import ez.nebula.client.api.listener.event.input.EventUpdateInput;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
@@ -39,7 +40,7 @@ import java.util.Set;
 @ModuleManifest(name = "AutoTunnel",
         description = "Automatically digs a tunnel in front of you",
         category = ModuleCategory.WORLD)
-public final class AutoTunnelModule extends Module
+public final class AutoTunnelModule extends InteractionModule
 {
     private final NumberSetting<Integer> lengthSetting = numberBuilder("Length", 4)
             .setMin(1)
@@ -121,7 +122,7 @@ public final class AutoTunnelModule extends Module
         {
             walk = true;
             int blocks = 0;
-            for (BlockPos pos : replaceQueue)
+            for (final BlockPos pos : replaceQueue)
             {
                 if (!isBlockBehindPlayer(pos))
                 {
@@ -139,13 +140,11 @@ public final class AutoTunnelModule extends Module
                 {
                     continue;
                 }
-                Nebula.INVENTORY.spoof(slot);
-                if (Nebula.INTERACTIONS.rightClickBlock(info.getPos(), info.getFacing()))
+                if (place(info, slot))
                 {
                     replaceQueue.remove(pos);
                     ++blocks;
                 }
-                Nebula.INVENTORY.sync();
                 if (blocks >= blocksPerTickSetting.getValue())
                 {
                     return;

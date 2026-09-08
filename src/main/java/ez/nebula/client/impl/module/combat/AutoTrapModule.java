@@ -211,6 +211,6 @@ public final class AutoTrapModule extends InteractionModule
             }
         }
 
-        placementList.sort(Comparator.comparingDouble(MathUtil::getDistanceFromPlayer));
+        placementList.sort(Comparator.comparingDouble((p) -> -MathUtil.getDistanceFromPlayer(p)));
     }
 }

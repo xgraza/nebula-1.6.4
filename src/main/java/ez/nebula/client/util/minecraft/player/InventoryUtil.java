@@ -159,6 +159,19 @@ public final class InventoryUtil
         return INVALID_SLOT;
     }
 
+    public static boolean hasEnough(final ItemStack stack, final int count)
+    {
+        if (stack == null || stack.stackSize == 0)
+        {
+            return false;
+        }
+        if (MC.thePlayer.capabilities.isCreativeMode || ItemUtil.isInfinite(stack))
+        {
+            return true;
+        }
+        return count <= stack.stackSize;
+    }
+
     public enum ClickType
     {
         /**

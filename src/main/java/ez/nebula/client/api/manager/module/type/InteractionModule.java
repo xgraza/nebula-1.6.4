@@ -198,20 +198,51 @@ public abstract class InteractionModule extends RotationModule
         {
             return 0;
         }
-        final List<BlockInfo> infoList = new ArrayList<>();
+        int placed = 0;
         for (final BlockPos pos : positions)
         {
-            if (!BlockUtil.isReplaceable(pos))
+            final BlockInfo info = BlockUtil.getPlacement(pos);
+            if (info == null)
             {
                 continue;
             }
-            final BlockInfo info = BlockUtil.getPlacement(pos);
-            if (info != null)
+
+            if (placed >= maxBlocks)
             {
-                infoList.add(info);
+                if (slot != InventoryUtil.INVALID_SLOT)
+                {
+                    Nebula.INVENTORY.sync();
+                }
+                break;
+            }
+
+            if (place(info, slot))
+            {
+                ++placed;
+            } else
+            {
+                if (countFailures)
+                {
+                    ++placed;
+                }
             }
         }
-        return infoList.isEmpty() ? 0 : placeMultiInfo(maxBlocks, slot, countFailures, infoList);
+        return placed;
+
+//        final List<BlockInfo> infoList = new ArrayList<>();
+//        for (final BlockPos pos : positions)
+//        {
+//            if (!BlockUtil.isReplaceable(pos))
+//            {
+//                continue;
+//            }
+//            final BlockInfo info = BlockUtil.getPlacement(pos);
+//            if (info != null)
+//            {
+//                infoList.add(info);
+//            }
+//        }
+//        return infoList.isEmpty() ? 0 : placeMultiInfo(maxBlocks, slot, countFailures, infoList);
     }
 
     /**

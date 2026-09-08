@@ -78,11 +78,13 @@ public final class LandscaperModule extends Module
         {
             return;
         }
+        MC.mcProfiler.startSection("landscaper");
         if (rotateSetting.getValue())
         {
             angles = AngleUtil.anglesToBlock(breakingBlockPos, EnumFacing.UP, event.getPartialTicks());
         }
         Render3D.filledAABB(new AxisAlignedBB(breakingBlockPos), QuadMask.ALL_FACES, 0x8000FF00);
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe

@@ -4,9 +4,9 @@ import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.math.MathUtil;
@@ -35,7 +35,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @ModuleManifest(name = "AutoTree",
         description = "Automatically plants and/or bonemeals saplings",
         category = ModuleCategory.WORLD)
-public final class AutoTreeModule extends Module
+public final class AutoTreeModule extends InteractionModule
 {
     private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
@@ -147,13 +147,10 @@ public final class AutoTreeModule extends Module
             return;
         }
         plantTimer.resetTime();
-
-        Nebula.INVENTORY.spoof(slot);
-        if (Nebula.INTERACTIONS.rightClickBlock(placePos.down(), EnumFacing.UP, false))
+        if (place(placePos.down(), EnumFacing.UP, slot))
         {
             placedSaplingsList.add(placePos);
         }
-        Nebula.INVENTORY.sync();
     }
 
     private void handleBonemeal()
@@ -179,7 +176,7 @@ public final class AutoTreeModule extends Module
         Nebula.INVENTORY.spoof(slot);
         for (int i = 0; i < packetsSetting.getValue(); ++i)
         {
-            Nebula.INTERACTIONS.rightClickBlock(saplingPos, PlayerUtil.getFacing().getOpposite(), false);
+            place(saplingPos, PlayerUtil.getFacing().getOpposite());
         }
         Nebula.INVENTORY.sync();
     }

@@ -5,13 +5,11 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.world.EventPlace;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
-import ez.nebula.client.util.minecraft.player.ItemUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
-import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.block.BlockSoulSand;
 import net.minecraft.item.ItemBlock;
@@ -30,17 +28,17 @@ import java.util.List;
 @ModuleManifest(name = "AutoWither",
         description = "Automatically finishes placing a wither spawn after the first base soul sand block is placed",
         category = ModuleCategory.WORLD)
-public final class AutoWitherModule extends Module
+public final class AutoWitherModule extends InteractionModule
 {
     private static final int WITHER_HEAD_DAMAGE = 1;
 
-    private int x, y, z, soulSandSlot;
+    private BlockPos pos;
 
     @Override
     public void onEnable()
     {
         super.onEnable();
-        invalidate();
+        pos = null;
     }
 
     @Override
@@ -56,7 +54,7 @@ public final class AutoWitherModule extends Module
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if ((x == -1 && y == -1 && z == -1) || soulSandSlot == InventoryUtil.INVALID_SLOT)
+        if (pos == null)
         {
             return;
         }
@@ -68,65 +66,38 @@ public final class AutoWitherModule extends Module
         final List<BlockPos> soulSandPositions = getSoulSandPositions();
         if (soulSandPositions == null)
         {
-            // ChatUtil.sendNebula("soul sand failure");
             Nebula.INVENTORY.sync();
-            invalidate();
+            pos = null;
             return; // null result = failure
         }
-        if (!soulSandPositions.isEmpty())
+
+        if (!soulSandPositions.isEmpty() && placeMultiPos(Integer.MAX_VALUE, InventoryUtil.INVALID_SLOT, true, soulSandPositions) >= 1)
         {
-            for (final BlockPos pos : soulSandPositions)
-            {
-                final BlockInfo info = BlockUtil.getPlacement(pos);
-                if (info == null)
-                {
-                    continue;
-                }
-                Nebula.INVENTORY.spoof(soulSandSlot);
-                Nebula.INTERACTIONS.rightClickBlock(info.getPos(), info.getFacing(), true);
-                Nebula.INVENTORY.sync();
-                return;
-            }
+            return;
         }
 
         for (final BlockPos soulSandPos : soulSandPositions)
         {
             if (!(MC.theWorld.getBlock(soulSandPos) instanceof BlockSoulSand))
             {
-                // ChatUtil.sendNebula("no longer soul sand");
                 Nebula.INVENTORY.sync();
-                invalidate();
+                pos = null;
                 return;
             }
         }
 
-        // ChatUtil.sendNebula("doing wither heads");
-
-        final List<BlockPos> tPosList = getTTop(new BlockPos(x, y + 1, z));
-        // ChatUtil.sendNebula("List: %s", tPosList == null ? "null" : tPosList.size());
+        final List<BlockPos> tPosList = getTTop(pos.up());
         if (tPosList == null || tPosList.isEmpty())
         {
-            // ChatUtil.sendNebula("Finished placing");
             Nebula.INVENTORY.sync();
-            invalidate();
+            pos = null;
             return;
         }
 
-        final BlockPos pos = tPosList.get(0);
-        final BlockInfo info = BlockUtil.getPlacement(pos.up());
-        if (info == null)
+        if (placeMultiPos(Integer.MAX_VALUE, witherHeadSlot, false, tPosList) >= tPosList.size())
         {
-            return;
-        }
-        Nebula.INVENTORY.spoof(witherHeadSlot);
-        Nebula.INTERACTIONS.rightClickBlock(info.getPos(), info.getFacing(), true);
-        Nebula.INVENTORY.sync();
-        // we finished placing
-        if (tPosList.size() == 1)
-        {
-            //ChatUtil.sendNebula("Finished placing");
             Nebula.INVENTORY.sync();
-            invalidate();
+            pos = null;
         }
     };
 
@@ -139,10 +110,10 @@ public final class AutoWitherModule extends Module
             return;
         }
 
-        if (x != -1 && y != -1 && z != -1)
+        if (pos != null)
         {
             // do not override if this module is the one placing the new soulsand blocks
-            final double distance = MC.thePlayer.getDistance(x + 0.5, y + 1.0, z + 0.5);
+            final double distance = MC.thePlayer.getDistance(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5);
             if (distance <= MC.playerController.getBlockReachDistance())
             {
                 return;
@@ -155,30 +126,21 @@ public final class AutoWitherModule extends Module
                 && ((ItemBlock) itemStack.getItem()).getBlock() instanceof BlockSoulSand)
         {
             // we need at least 5 blocks of soul sand (pre place) to make a wither
-            if (!ItemUtil.isInfinite(itemStack) && itemStack.stackSize < 5)
+            if (!InventoryUtil.hasEnough(itemStack, 4))
             {
                 return;
             }
-            soulSandSlot = Nebula.INVENTORY.slot();
             // get the correct pos via the place face
-            final EnumFacing face = EnumFacing.faceList[event.getSide()];
-            x = event.getX() + face.getFaceX();
-            y = event.getY() + face.getFaceY();
-            z = event.getZ() + face.getFaceZ();
+            pos = new BlockPos(event.getX(), event.getY(), event.getZ())
+                    .add(EnumFacing.faceList[event.getSide()].getFaceOffset());
             return;
         }
-        invalidate();
+        pos = null;
     };
-
-    private void invalidate()
-    {
-        soulSandSlot = InventoryUtil.INVALID_SLOT;
-        x = y = z = -1;
-    }
 
     private List<BlockPos> getSoulSandPositions()
     {
-        if (x == -1 && y == -1 && z == -1)
+        if (pos == null)
         {
             return null;
         }
@@ -188,24 +150,22 @@ public final class AutoWitherModule extends Module
             return null;
         }
         final List<BlockPos> posList = new LinkedList<>();
-        BlockPos pos = new BlockPos(x, y, z);
-
         if (BlockUtil.isReplaceable(pos))
         {
             posList.add(pos);
         }
-        pos = pos.up(); // start of the T
-        if (BlockUtil.isReplaceable(pos))
+        BlockPos pos1 = pos.up(); // start of the T
+        if (BlockUtil.isReplaceable(pos1))
         {
             // ensure space to place wither head
-            if (BlockUtil.isNotAir(pos.up()))
+            if (BlockUtil.isNotAir(pos1.up()))
             {
                 return null;
             }
-            posList.add(pos);
+            posList.add(pos1);
         }
 
-        final BlockPos tOffsetPos1 = pos.add(adjacent[0]);
+        final BlockPos tOffsetPos1 = pos1.add(adjacent[0]);
         if (BlockUtil.isReplaceable(tOffsetPos1))
         {
             // ensure space to place wither head
@@ -216,7 +176,7 @@ public final class AutoWitherModule extends Module
             posList.add(tOffsetPos1);
         }
 
-        final BlockPos tOffsetPos2 = pos.add(adjacent[1]);
+        final BlockPos tOffsetPos2 = pos1.add(adjacent[1]);
         if (BlockUtil.isReplaceable(tOffsetPos2))
         {
             // ensure space to place wither head
@@ -238,11 +198,11 @@ public final class AutoWitherModule extends Module
             return null;
         }
         final List<BlockPos> posList = new LinkedList<>();
-        posList.add(origin);
-        posList.add(origin.add(adjacent[0]));
-        posList.add(origin.add(adjacent[1]));
+        posList.add(origin.up());
+        posList.add(origin.add(adjacent[0]).up());
+        posList.add(origin.add(adjacent[1]).up());
         // if the position above the block ins't replaceable (cant place a wither head)
-        posList.removeIf((pos) -> BlockUtil.isNotAir(pos.up()));
+        posList.removeIf(BlockUtil::isNotAir);
         return posList;
     }
 
@@ -253,13 +213,9 @@ public final class AutoWitherModule extends Module
             final ItemStack itemStack = MC.thePlayer.inventory.getStackInSlot(i);
             if (itemStack != null
                     && itemStack.getItem() instanceof ItemSkull
-                    && itemStack.getItemDamage() == WITHER_HEAD_DAMAGE)
+                    && itemStack.getItemDamage() == WITHER_HEAD_DAMAGE
+                    && InventoryUtil.hasEnough(itemStack, 3))
             {
-                // requires at the very least 3 wither heads
-                if (!ItemUtil.isInfinite(itemStack) && itemStack.stackSize < 3)
-                {
-                    continue;
-                }
                 return i;
             }
         }

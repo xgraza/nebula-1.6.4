@@ -39,6 +39,8 @@ import java.util.concurrent.ConcurrentHashMap;
         category = ModuleCategory.WORLD)
 public final class AntiGhostBlockModule extends Module
 {
+    private static final int FALLING_BLOCK_ID = 70;
+
     private final Setting<Boolean> placeSetting = builder("Place", true)
             .setDescription("If to handle checking for ghost blocks on place")
             .build();
@@ -163,7 +165,7 @@ public final class AntiGhostBlockModule extends Module
         } else if (event.getPacket() instanceof S0EPacketSpawnObject)
         {
             final S0EPacketSpawnObject packet = event.getPacket();
-            if (packet.getType() != 70)
+            if (packet.getType() != FALLING_BLOCK_ID)
             {
                 return;
             }

@@ -6,10 +6,11 @@ import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventPostUpdate;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.manager.module.type.RotationModule;
+import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
@@ -50,12 +51,11 @@ import static org.lwjgl.opengl.GL11.*;
 @ModuleManifest(name = "KillAura",
         description = "Automatically attacks entities around you",
         category = ModuleCategory.COMBAT)
-public final class KillAuraModule extends Module
+@RotationPriority(140)
+public final class KillAuraModule extends RotationModule
 {
     @ModuleInstance
     public static KillAuraModule INSTANCE;
-
-    private static final int KILLAURA_ROTATION_PRIORITY = 140;
 
     private final EnumSetting<Mode> modeSetting = enumBuilder("Mode", Mode.SINGLE)
             .setDescription("How kill aura should select its targets")
@@ -153,31 +153,22 @@ public final class KillAuraModule extends Module
             }
             return;
         }
-        if (!handleWeapon())
+        if (!handleWeapon() || !canAttack())
         {
             return;
         }
-        if (canAttack())
-        {
-            if (rotateSetting.getValue())
-            {
-                if (angles == null)
-                {
-                    return;
-                }
-                if (!Nebula.ROTATIONS.spoof(angles[0], angles[1], KILLAURA_ROTATION_PRIORITY))
-                {
-                    return;
-                }
-            }
 
-            timer.resetTime();
-            if (autoBlockSetting.getValue())
-            {
-                blockSword(false);
-            }
-            attackTarget();
+        if (rotateSetting.getValue() && !rotate(angles))
+        {
+            return;
         }
+
+        timer.resetTime();
+        if (autoBlockSetting.getValue())
+        {
+            blockSword(false);
+        }
+        attackTarget();
     };
 
     @Subscribe
