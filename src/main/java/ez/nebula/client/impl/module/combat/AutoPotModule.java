@@ -54,6 +54,12 @@ public final class AutoPotModule extends InteractionModule
             Potion.saturation.getId(),
             Potion.regeneration.getId());
 
+    private final NumberSetting<Integer> delaySetting = numberBuilder("Delay", 400)
+            .setMin(0)
+            .setMax(1000)
+            .setScale(1)
+            .setDescription("The minimum delay in MS to wait before the next throw pot")
+            .build();
     private final NumberSetting<Float> healthSetting = numberBuilder("Health", 6.0f)
             .setMin(1.0f)
             .setMax(19.5f)
@@ -92,7 +98,7 @@ public final class AutoPotModule extends InteractionModule
     {
         if (thrown)
         {
-            final long time = (long) (350 + Nebula.SERVER.scaledLatency());
+            final long time = (long) (delaySetting.getValue() + Nebula.SERVER.scaledLatency());
             if (potTimer.hasElapsed(time))
             {
                 thrown = false;
@@ -110,6 +116,12 @@ public final class AutoPotModule extends InteractionModule
 
         // if we are not trying to save our life, we can allow auto eat to override us
         if (AutoEatModule.INSTANCE.isActive() && !isLowHealth())
+        {
+            return;
+        }
+
+        // do not try to pot above water or if we're falling
+        if (PlayerUtil.isAboveWater() || MC.thePlayer.fallDistance > 3.0f)
         {
             return;
         }
