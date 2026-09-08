@@ -1,6 +1,6 @@
 package ez.nebula.client.impl.hud;
 
-import ez.nebula.client.ClientConfig;
+import ez.nebula.client.Nebula;
 import net.minecraft.client.gui.ScaledResolution;
 import ez.nebula.client.BuildConfig;
 import ez.nebula.client.util.render.font.Fonts;
@@ -20,7 +20,7 @@ public final class WatermarkHUDElement extends HUDElement
     @Override
     public void render(final ScaledResolution res)
     {
-        final String text = BuildConfig.NAME + " " + ClientConfig.FULL_VERSION;
+        final String text = BuildConfig.NAME + " " + Nebula.VERSION;
         setWidth(Fonts.POPPINS.getStringWidth(text) + (getPadding() * 2.0));
         setHeight(Fonts.POPPINS.getFontHeight() + (getPadding() * 2.0));
         Fonts.POPPINS.drawStringShadow(text, x, y, HUDModule.INSTANCE.getBaseColor(10));

@@ -2,11 +2,11 @@ package ez.nebula.client.api.manager.hud;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import ez.nebula.client.ClientConfig;
 import ez.nebula.client.util.io.IJSONSerializable;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.setting.Setting;
@@ -86,7 +86,7 @@ public class HUDElement extends GUIComponent implements SettingProvider, IJSONSe
                 continue;
             }
 
-            if (field.isAnnotationPresent(DebugFeature.class) && !ClientConfig.DEBUG)
+            if (field.isAnnotationPresent(DebugFeature.class) && !Nebula.DEBUG)
             {
                 continue;
             }

@@ -1,6 +1,5 @@
 package ez.nebula.client.api.manager.module;
 
-import ez.nebula.client.ClientConfig;
 import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.config.ModuleConfig;
 import ez.nebula.client.impl.module.combat.*;
@@ -177,7 +176,7 @@ public final class ModuleManager implements ITypedManager<Module>
 
     private void register(final Module module)
     {
-        if (module.getClass().isAnnotationPresent(DebugFeature.class) && !ClientConfig.DEBUG)
+        if (module.getClass().isAnnotationPresent(DebugFeature.class) && !Nebula.DEBUG)
         {
             return;
         }

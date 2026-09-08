@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.render.ClickGUIModule;
 import ez.nebula.client.impl.module.render.HUDModule;
 import net.minecraft.client.Minecraft;
@@ -21,7 +22,6 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 import ez.nebula.client.BuildConfig;
-import ez.nebula.client.ClientConfig;
 import ez.nebula.client.Environment;
 import ez.nebula.client.impl.gui.account.AccountSelectorScreen;
 import ez.nebula.client.util.render.font.Fonts;
@@ -171,7 +171,7 @@ public class GuiMainMenu extends GuiScreen
 
     private void setSplashText()
     {
-        splashText = SplashTextProvider.getRandomSplashText(ClientConfig.USE_CUSTOM_SPLASH_TEXT ? "nebula" : "minecraft");
+        splashText = SplashTextProvider.getRandomSplashText(Nebula.USE_CUSTOM_SPLASH_TEXT ? "nebula" : "minecraft");
         final Calendar calender = Calendar.getInstance();
         calender.setTime(new Date());
 
@@ -501,8 +501,8 @@ public class GuiMainMenu extends GuiScreen
             double var69 = Fonts.POPPINS.getStringWidth(text);
             Fonts.POPPINS.drawStringShadow(text, width - var69 - 2, height - Fonts.POPPINS.getFontHeight() - 1, 0xFF2222);
         }
-        double var69 = Fonts.POPPINS.getStringWidth(ClientConfig.GITHUB_REPO);
-        Fonts.POPPINS.drawStringShadow(ClientConfig.GITHUB_REPO, width - var69 - 2, 2, 0xFFAAAAAA);
+        double var69 = Fonts.POPPINS.getStringWidth(Nebula.GITHUB_REPO);
+        Fonts.POPPINS.drawStringShadow(Nebula.GITHUB_REPO, width - var69 - 2, 2, 0xFFAAAAAA);
 
         if (field_92025_p != null && !field_92025_p.isEmpty())
         {

@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.Nebula;
 import net.minecraft.client.Minecraft;
-import ez.nebula.client.ClientConfig;
 import ez.nebula.client.util.io.IJSONSerializable;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.manager.key.Key;
@@ -158,7 +157,7 @@ public class Module implements SettingProvider, IJSONSerializable, Togglable
                 continue;
             }
 
-            if (field.isAnnotationPresent(DebugFeature.class) && !ClientConfig.DEBUG)
+            if (field.isAnnotationPresent(DebugFeature.class) && !Nebula.DEBUG)
             {
                 continue;
             }

@@ -1,10 +1,10 @@
 package ez.nebula.client.impl.gui.startup;
 
+import ez.nebula.client.Nebula;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.LWJGLException;
-import ez.nebula.client.ClientConfig;
 import ez.nebula.client.util.render.font.Fonts;
 
 import java.awt.Color;
@@ -26,7 +26,7 @@ public final class LoadingScreen
         int height = res.getScaledHeight();
         Render2D.rectangle(0, 0, width, height, Color.black.getRGB());
 
-        String text = "Loading Nebula " + ClientConfig.FULL_VERSION;
+        String text = "Loading Nebula " + Nebula.VERSION;
         int textWidth = (int) Fonts.POPPINS_LARGE.getStringWidth(text);
         Fonts.POPPINS_LARGE.drawStringShadow(text, width / 2.0 - (textWidth / 2.0), 50, -1);
 

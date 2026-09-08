@@ -9,7 +9,6 @@ import net.minecraft.client.gui.GuiScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
-import ez.nebula.client.ClientConfig;
 import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.util.render.font.Fonts;
@@ -84,9 +83,9 @@ public final class ClickGUIScreen extends GuiScreen
         oldWidth = width;
         oldHeight = height;
 
-        if (!ClientConfig.OPENED_GUI_BEFORE)
+        if (!Nebula.OPENED_GUI_BEFORE)
         {
-            ClientConfig.OPENED_GUI_BEFORE = true;
+            Nebula.OPENED_GUI_BEFORE = true;
             Nebula.TOASTS.info("ClickGUI",
                     "To bind modules, use the middle mouse button to bind, and then double click the mouse button to unbind a module",
                     15_000L);

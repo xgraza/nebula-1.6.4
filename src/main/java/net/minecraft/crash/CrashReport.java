@@ -8,7 +8,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ez.nebula.client.ClientConfig;
 import ez.nebula.client.api.manager.module.Module;
 
 import java.io.File;
@@ -74,9 +73,8 @@ public class CrashReport
                 return "1.7.2";
             }
         });
-        this.theReportCategory.addCrashSectionCallable("Nebula Version", () ->
-                ClientConfig.FULL_VERSION);
-        this.theReportCategory.addCrashSectionCallable("Nebula Debug Enabled", () -> ClientConfig.DEBUG);
+        this.theReportCategory.addCrashSectionCallable("Nebula Version", () -> Nebula.VERSION);
+        this.theReportCategory.addCrashSectionCallable("Nebula Debug Enabled", () -> Nebula.DEBUG);
         this.theReportCategory.addCrashSectionCallable("Nebula Enabled Cheats", () ->
         {
             final StringJoiner joiner = new StringJoiner("\n\t");

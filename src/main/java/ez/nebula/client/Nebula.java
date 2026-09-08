@@ -45,9 +45,40 @@ import java.util.concurrent.Executors;
 public final class Nebula
 {
     private static final Logger LOGGER = LogManager.getLogger(BuildConfig.NAME);
-
     private static final ResourceLocation NEBULA_SPLASH_TEXT_RESOURCE = new ResourceLocation(
             "nebula", "splashs.txt");
+
+    /**
+     * The current Nebula version based on SemVer specifications
+     */
+    public static final String VERSION = BuildConfig.VERSION
+            + "-" + BuildConfig.ENV
+            + "." + BuildConfig.BUILD
+            + "." + BuildConfig.BRANCH
+            + "+" + BuildConfig.HASH;
+
+    /**
+     * The origin branch of the code
+     */
+    public static final String GITHUB_REPO = "https://github.com/xgraza/nebula-1.7.2/tree/"
+            + BuildConfig.BRANCH;
+
+    public static boolean FOLK_VALLEY = false;
+
+    /**
+     * If features should use heavier debugging
+     */
+    public static boolean DEBUG;
+
+    /**
+     * If to use Nebula splash text on the main menu screen
+     */
+    public static boolean USE_CUSTOM_SPLASH_TEXT;
+
+    /**
+     * If the user has opened the ClickGUI for the first time
+     */
+    public static boolean OPENED_GUI_BEFORE;
 
     public static final Executor EXECUTOR = Executors.newFixedThreadPool(1);
     public static File NEBULA_ROOT;
@@ -118,7 +149,7 @@ public final class Nebula
 
         LoadingScreen.setStage(6, "Post-initialization");
         setIcon();
-        setTitle("Nebula " + ClientConfig.FULL_VERSION);
+        setTitle("Nebula " + VERSION);
     }
 
     private static void createNebulaDirectories(final File gameDir)
@@ -215,9 +246,9 @@ public final class Nebula
 
     private static void logBuildInfo()
     {
-        LOGGER.info("Version: {}", ClientConfig.FULL_VERSION);
+        LOGGER.info("Version: {}", VERSION);
         LOGGER.info("Build Time: " + BuildConfig.BUILD_TIME);
-        if (ClientConfig.DEBUG)
+        if (DEBUG)
         {
             LOGGER.warn("\t###");
             LOGGER.warn("\tNebula debug is enabled!");

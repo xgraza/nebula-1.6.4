@@ -36,7 +36,6 @@ import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import ez.nebula.client.ClientConfig;
 import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.render.EventRender2D;
@@ -456,7 +455,7 @@ public class GuiIngame extends Gui
         int y = 2;
 
         font.drawStringWithShadow("Minecraft 1.7.2", 2, y, color);
-        font.drawStringWithShadow("Nebula " + ClientConfig.FULL_VERSION, 2, y += 10, color);
+        font.drawStringWithShadow("Nebula " + Nebula.VERSION, 2, y += 10, color);
         font.drawStringWithShadow("LWJGL " + Sys.getVersion(), 2, y += 10, color);
         font.drawStringWithShadow("OpenGL " + glGetString(GL_VERSION), 2, y += 10, color);
 

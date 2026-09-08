@@ -1,6 +1,6 @@
 package ez.nebula.client.impl.hud2;
 
-import ez.nebula.client.ClientConfig;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.hud2.trait.HUDManifest;
 import ez.nebula.client.api.manager.hud2.type.TextHUDElement;
 import ez.nebula.client.impl.module.render.HUDModule;
@@ -18,7 +18,7 @@ public final class WatermarkHUDElement extends TextHUDElement
     @Override
     public String text()
     {
-        return "Nebula " + ClientConfig.FULL_VERSION;
+        return "Nebula " + Nebula.VERSION;
     }
 
     @Override

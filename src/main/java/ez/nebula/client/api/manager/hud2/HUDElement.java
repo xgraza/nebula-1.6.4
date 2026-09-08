@@ -2,7 +2,7 @@ package ez.nebula.client.api.manager.hud2;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import ez.nebula.client.ClientConfig;
+import ez.nebula.client.Nebula;
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.Togglable;
 import ez.nebula.client.util.io.IJSONSerializable;
@@ -166,7 +166,7 @@ public abstract class HUDElement extends Element implements IGUIInputListener, T
                 continue;
             }
 
-            if (field.isAnnotationPresent(DebugFeature.class) && !ClientConfig.DEBUG)
+            if (field.isAnnotationPresent(DebugFeature.class) && !Nebula.DEBUG)
             {
                 continue;
             }

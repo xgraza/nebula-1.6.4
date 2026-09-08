@@ -1,12 +1,12 @@
 package net.minecraft.client.main;
 
+import ez.nebula.client.Nebula;
 import joptsimple.ArgumentAcceptingOptionSpec;
 import joptsimple.NonOptionArgumentSpec;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
-import ez.nebula.client.ClientConfig;
 
 import java.io.File;
 import java.net.Authenticator;
@@ -133,8 +133,8 @@ public class Main
             System.out.println("Completely ignored arguments: " + ignoredArguments);
         }
 
-        ClientConfig.DEBUG = parsedOpts.valueOf(nebulaDebugOpt);
-        if (ClientConfig.DEBUG)
+        Nebula.DEBUG = parsedOpts.valueOf(nebulaDebugOpt);
+        if (Nebula.DEBUG)
         {
             System.out.println("Nebula debug enabled");
         }
