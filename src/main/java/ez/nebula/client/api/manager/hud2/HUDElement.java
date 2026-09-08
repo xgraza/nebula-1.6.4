@@ -83,14 +83,14 @@ public abstract class HUDElement extends Element implements IGUIInputListener, T
     public final void render(final int mouseX, final int mouseY)
     {
         render(Render2D.RESOLUTION);
+        if (!Mouse.isButtonDown(0) || !(MC.currentScreen instanceof HUDEditorScreen))
+        {
+            dragging = false;
+        }
         if (dragging)
         {
             setX(mouseX - dragX);
             setY(mouseY - dragY);
-            if (!Mouse.isButtonDown(0) || !(MC.currentScreen instanceof HUDEditorScreen))
-            {
-                dragging = false;
-            }
         }
     }
 

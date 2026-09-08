@@ -3,6 +3,7 @@ package ez.nebula.client.impl.gui.hud2;
 import ez.nebula.client.Nebula;
 import ez.nebula.client.api.manager.hud2.HUDElement;
 import ez.nebula.client.util.render.font.AWTFontRenderer;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
@@ -47,6 +48,11 @@ public final class HUDEditorScreen extends GuiScreen
                     (element.isToggled() ? NORMAL_BG_COLOR : DISABLED_BG_COLOR).brighter().brighter().brighter() :
                     (element.isToggled() ? NORMAL_BG_COLOR : DISABLED_BG_COLOR)).getRGB();
             Render2D.roundedRectangle(element.getX(), element.getY(), element.getWidth(), element.getHeight(), RADIUS, color);
+            if (element.isDragging())
+            {
+                Fonts.POPPINS.drawStringShadow(String.format("X: %s, Y: %s", (int) element.getX(), (int) element.getY()),
+                        element.getX(), element.getY() + element.getHeight() + 1, -1);
+            }
             element.render(mouseX, mouseY);
             if (element.isDragging() && !clipElements(element))
             {
@@ -99,7 +105,7 @@ public final class HUDEditorScreen extends GuiScreen
 
         if (Math.abs(halfHeight - elementMidY) <= GRID_SNAP_PIXELS)
         {
-            renderElement.setY(halfHeight + (renderElement.getHeight() / 2.0));
+            renderElement.setY(halfHeight - (renderElement.getHeight() / 2.0));
             Render2D.line(0, halfHeight, width, halfHeight, 1.0f, 0xFF00FF00);
             snapped = true;
         }
