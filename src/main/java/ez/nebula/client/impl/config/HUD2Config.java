@@ -47,6 +47,15 @@ public final class HUD2Config extends JSONConfig<JsonObject>
             manager.prevScale = json.get("scale").getAsInt();
         }
 
+        for (final HUDElement element : manager.getAll())
+        {
+            if (!json.has(element.getManifest().value()))
+            {
+                continue;
+            }
+            element.fromJSON(json.get(element.getManifest().value()));
+        }
+
         loaded = true;
     }
 
