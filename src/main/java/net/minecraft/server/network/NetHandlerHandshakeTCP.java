@@ -1,6 +1,5 @@
 package net.minecraft.server.network;
 
-import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.INetHandlerHandshakeServer;

@@ -1,6 +1,12 @@
 package net.minecraft.client.renderer;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
+import ez.nebula.client.impl.module.render.GlintModule;
+import ez.nebula.client.impl.module.render.NoRenderModule;
+import ez.nebula.client.impl.module.render.ViewModelModule;
+import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -20,12 +26,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import ez.nebula.client.impl.module.render.GlintModule;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.impl.module.render.NoRenderModule;
-import ez.nebula.client.impl.module.render.ViewModelModule;
-import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
-import ez.nebula.client.util.render.RenderUtil;
 
 import static org.lwjgl.opengl.GL11.*;
 

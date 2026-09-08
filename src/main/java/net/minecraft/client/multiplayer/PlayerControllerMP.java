@@ -1,7 +1,10 @@
 package net.minecraft.client.multiplayer;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.player.EventAttackBlock;
 import ez.nebula.client.api.listener.event.world.EventPlace;
+import ez.nebula.client.impl.module.player.InteractModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -21,9 +24,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.impl.module.player.InteractModule;
-import ez.nebula.client.api.listener.event.player.EventAttackBlock;
 
 public class PlayerControllerMP
 {

@@ -1,7 +1,11 @@
 package net.minecraft.client.network;
 
 import com.google.common.base.Charsets;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.network.EventDisconnect;
+import ez.nebula.client.api.listener.event.player.EventPlayerDeath;
 import ez.nebula.client.impl.module.combat.VelocityModule;
+import ez.nebula.client.worlddownloader.WorldDownloader;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
@@ -62,10 +66,6 @@ import net.minecraft.world.storage.MapData;
 import net.minecraft.world.storage.MapStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.event.network.EventDisconnect;
-import ez.nebula.client.api.listener.event.player.EventPlayerDeath;
-import ez.nebula.client.worlddownloader.WorldDownloader;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

@@ -1,16 +1,16 @@
 package ez.nebula.client.api.player.server;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.network.EventPacket;
+import ez.nebula.client.api.manager.IManager;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.server.S09PacketHeldItemChange;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.IManager;
-import ez.nebula.client.api.listener.event.network.EventPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

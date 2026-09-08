@@ -1,10 +1,10 @@
 package ez.nebula.client.util.minecraft.player;
 
+import ez.nebula.client.api.listener.event.player.EventMove;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import ez.nebula.client.api.listener.event.player.EventMove;
 
 /**
  * @author xgraza

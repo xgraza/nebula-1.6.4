@@ -1,12 +1,11 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.setting.NumberSetting;
-import net.minecraft.client.multiplayer.ServerData;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.api.setting.NumberSetting;
+import net.minecraft.client.multiplayer.ServerData;
 
 /**
  * @author xgraza

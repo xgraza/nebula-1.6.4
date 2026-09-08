@@ -1,28 +1,28 @@
 package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.impl.module.player.FreecamModule;
+import ez.nebula.client.util.minecraft.player.EntityUtil;
+import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.minecraft.player.EntityUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.*;
+import java.util.function.DoubleFunction;
 
 import static org.lwjgl.opengl.GL11.*;
 

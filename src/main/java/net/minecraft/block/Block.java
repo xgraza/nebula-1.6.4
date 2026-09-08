@@ -1,5 +1,8 @@
 package net.minecraft.block;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.world.EventModifyBoundBox;
+import ez.nebula.client.api.listener.event.world.EventModifySelectedBoundBox;
 import ez.nebula.client.impl.module.render.XRayModule;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -19,9 +22,6 @@ import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.event.world.EventModifyBoundBox;
-import ez.nebula.client.api.listener.event.world.EventModifySelectedBoundBox;
 
 import java.util.Iterator;
 import java.util.List;

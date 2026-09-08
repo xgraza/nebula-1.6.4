@@ -1,7 +1,7 @@
 package ez.nebula.client.api.listener.event.world;
 
-import net.minecraft.tileentity.TileEntity;
 import ez.nebula.client.api.listener.Event;
+import net.minecraft.tileentity.TileEntity;
 
 public final class EventRemoveTileEntity extends Event
 {

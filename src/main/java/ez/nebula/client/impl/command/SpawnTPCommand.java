@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import ez.nebula.client.util.minecraft.network.PacketUtil;
-import net.minecraft.network.play.client.C03PacketPlayer;
 import ez.nebula.client.api.manager.command.Command;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
 @CommandManifest(aliases = { "spawntp", "spawn", "stp" },
         description = "Uses an old Bukkit crash packet to send you back to the server spawn")

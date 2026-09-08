@@ -1,11 +1,11 @@
 package ez.nebula.client.api.manager.toast;
 
-import ez.nebula.client.api.manager.toast.trait.ToastType;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.ITypedManager;
 import ez.nebula.client.api.listener.event.render.EventRender2D;
+import ez.nebula.client.api.manager.ITypedManager;
+import ez.nebula.client.api.manager.toast.trait.ToastType;
 import net.minecraft.client.Minecraft;
 
 import java.util.List;

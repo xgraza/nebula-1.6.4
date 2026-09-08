@@ -1,24 +1,24 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.network.EventPacket;
+import ez.nebula.client.api.listener.event.world.EventAddEntity;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.tray.SystemNotifications;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
+import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S0EPacketSpawnObject;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.network.EventPacket;
-import ez.nebula.client.api.listener.event.world.EventAddEntity;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.math.Timer;
 import org.lwjgl.opengl.Display;
 
 import java.util.Map;

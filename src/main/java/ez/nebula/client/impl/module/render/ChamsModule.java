@@ -1,18 +1,18 @@
 package ez.nebula.client.impl.module.render;
 
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.util.minecraft.player.EntityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import org.lwjgl.opengl.GL11;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleInstance;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.minecraft.player.EntityUtil;
 
 /**
  * @author xgraza

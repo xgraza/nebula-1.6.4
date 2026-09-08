@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.gui.clickgui.component.value.color;
 
+import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.render.gui.Render2D;
-import net.minecraft.util.MathHelper;
-import org.lwjgl.input.Mouse;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
-import ez.nebula.client.util.io.SoundUtil;
+import net.minecraft.util.MathHelper;
+import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 

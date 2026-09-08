@@ -1,15 +1,15 @@
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.network.play.client.C02PacketUseEntity;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.event.network.EventPacket;
 
 /**
  * @author xgraza

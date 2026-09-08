@@ -1,7 +1,14 @@
 package ez.nebula.client.impl.hud;
 
+import ez.nebula.client.api.manager.hud.HUDElement;
+import ez.nebula.client.api.manager.hud.trait.HUDManifest;
+import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
+import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
+import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
+import ez.nebula.client.util.render.HeadDownloader;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
@@ -12,13 +19,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import ez.nebula.client.impl.module.combat.AutoBedModule;
-import ez.nebula.client.impl.module.render.HUDModule;
-import ez.nebula.client.api.manager.hud.HUDElement;
-import ez.nebula.client.api.manager.hud.trait.HUDManifest;
-import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
-import ez.nebula.client.util.render.HeadDownloader;
-import ez.nebula.client.util.render.font.Fonts;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -26,13 +26,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glTexCoord2d;
-import static org.lwjgl.opengl.GL11.glVertex2d;
 
 /**
  * @author xgraza

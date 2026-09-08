@@ -1,10 +1,10 @@
 package ez.nebula.client.impl.hud;
 
+import ez.nebula.client.api.manager.hud.HUDElement;
+import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.item.ItemStack;
-import ez.nebula.client.api.manager.hud.HUDElement;
-import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 
 /**
  * @author xgraza

@@ -1,13 +1,13 @@
 package ez.nebula.client.impl.hud;
 
 import ez.nebula.client.Nebula;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.render.font.Fonts;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.EnumChatFormatting;
 
 /**
  * @author xgraza

@@ -4,10 +4,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.Nebula;
 import ez.nebula.client.api.config.IConfig;
-import ez.nebula.client.util.io.IJSONSerializable;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.io.FileUtil;
+import ez.nebula.client.util.io.IJSONSerializable;
 
 import java.io.File;
 import java.util.Collections;

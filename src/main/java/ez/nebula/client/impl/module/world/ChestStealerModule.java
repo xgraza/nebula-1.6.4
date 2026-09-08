@@ -1,6 +1,16 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.util.math.MathUtil;
+import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -9,16 +19,6 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleInstance;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.math.MathUtil;
-import ez.nebula.client.util.math.Timer;
 
 /**
  * @author xgraza

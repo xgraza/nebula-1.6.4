@@ -9,7 +9,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
-import java.util.*;
+import java.util.TreeMap;
 
 public final class AngleUtil
 {

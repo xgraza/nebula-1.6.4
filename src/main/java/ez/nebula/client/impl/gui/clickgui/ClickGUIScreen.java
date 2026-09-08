@@ -1,25 +1,23 @@
 package ez.nebula.client.impl.gui.clickgui;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.impl.config.ModuleConfig;
+import ez.nebula.client.impl.gui.clickgui.component.CategoryPanel;
 import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
+import ez.nebula.client.impl.gui.clickgui.component.config.ConfigCategoryPanel;
 import ez.nebula.client.impl.gui.clickgui.component.hud.HUDElementCategoryPanel;
-import ez.nebula.client.util.render.gui.Render2D;
-import ez.nebula.client.util.render.font.AWTFontRenderer;
+import ez.nebula.client.impl.gui.clickgui.component.module.ModuleCategoryPanel;
 import ez.nebula.client.impl.module.render.ClickGUIModule;
+import ez.nebula.client.util.math.Timer;
+import ez.nebula.client.util.render.font.AWTFontRenderer;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import net.minecraft.client.gui.GuiScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
-import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
-import ez.nebula.client.util.render.gui.trait.GUIComponent;
-import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.impl.config.ModuleConfig;
-import ez.nebula.client.impl.gui.clickgui.component.CategoryPanel;
-import ez.nebula.client.impl.gui.clickgui.component.module.ModuleCategoryPanel;
-import ez.nebula.client.impl.gui.clickgui.component.module.ModuleComponent;
-import ez.nebula.client.impl.gui.clickgui.component.config.ConfigCategoryPanel;
-import ez.nebula.client.util.math.Timer;
 import org.lwjgl.input.Mouse;
 
 import java.awt.Color;

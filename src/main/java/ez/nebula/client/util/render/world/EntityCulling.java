@@ -1,5 +1,6 @@
 package ez.nebula.client.util.render.world;
 
+import ez.nebula.client.impl.module.render.EntityCullingModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -7,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.src.GlStateManager;
 import net.minecraft.util.AxisAlignedBB;
 import org.lwjgl.opengl.GL15;
-import ez.nebula.client.impl.module.render.EntityCullingModule;
 
 import java.util.Map;
 import java.util.UUID;

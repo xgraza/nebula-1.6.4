@@ -2,6 +2,7 @@ package net.minecraft.client.renderer;
 
 import com.google.common.collect.Maps;
 import ez.nebula.client.impl.module.render.NoRenderModule;
+import ez.nebula.client.util.render.world.EntityCulling;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.material.Material;
@@ -47,7 +48,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.ARBOcclusionQuery;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
-import ez.nebula.client.util.render.world.EntityCulling;
 
 import java.nio.IntBuffer;
 import java.util.*;

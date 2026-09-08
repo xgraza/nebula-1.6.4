@@ -1,22 +1,21 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.player.InteractionManager;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
+import ez.nebula.client.util.minecraft.player.ItemUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S29PacketSoundEffect;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.network.EventPacket;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.minecraft.player.ItemUtil;
 
 /**
  * @author xgraza

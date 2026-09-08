@@ -1,8 +1,8 @@
 package ez.nebula.client.api.listener.event.player;
 
+import ez.nebula.client.api.listener.Event;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MovingObjectPosition;
-import ez.nebula.client.api.listener.Event;
 
 public final class EventRaytrace extends Event
 {

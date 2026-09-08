@@ -7,6 +7,7 @@ import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.player.EventItemUseFinish;
 import ez.nebula.client.api.listener.event.player.EventJump;
 import ez.nebula.client.impl.module.player.AntiRevertModule;
+import ez.nebula.client.util.minecraft.player.ItemUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
@@ -51,7 +52,6 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.IChunkProvider;
-import ez.nebula.client.util.minecraft.player.ItemUtil;
 
 import java.util.Collection;
 import java.util.Iterator;

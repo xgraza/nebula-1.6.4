@@ -1,8 +1,18 @@
 package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.network.EventPacket;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -16,16 +26,6 @@ import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.world.QuadMask;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.network.EventPacket;
-import ez.nebula.client.api.listener.event.render.EventRender3D;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

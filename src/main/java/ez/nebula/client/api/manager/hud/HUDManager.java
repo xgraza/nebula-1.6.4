@@ -1,10 +1,10 @@
 package ez.nebula.client.api.manager.hud;
 
 import ez.nebula.client.Nebula;
-import ez.nebula.client.impl.config.HUDConfig;
-import ez.nebula.client.impl.hud.*;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.manager.ITypedManager;
+import ez.nebula.client.impl.config.HUDConfig;
+import ez.nebula.client.impl.hud.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

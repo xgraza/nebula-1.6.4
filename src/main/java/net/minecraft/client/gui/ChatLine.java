@@ -5,13 +5,13 @@
 package net.minecraft.client.gui;
 
 import ez.nebula.client.impl.module.render.ChatModifierModule;
+import ez.nebula.client.util.render.animation.Animation;
+import ez.nebula.client.util.render.animation.AnimationEasing;
 import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StringUtils;
-import ez.nebula.client.util.render.animation.Animation;
-import ez.nebula.client.util.render.animation.AnimationEasing;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

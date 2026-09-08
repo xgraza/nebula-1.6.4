@@ -1,7 +1,7 @@
 package ez.nebula.client.api.listener.event.render;
 
-import net.minecraft.client.gui.ScaledResolution;
 import ez.nebula.client.api.listener.Event;
+import net.minecraft.client.gui.ScaledResolution;
 
 /**
  * @author xgraza

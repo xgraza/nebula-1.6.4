@@ -1,7 +1,7 @@
 package net.minecraft.client;
 
-import net.minecraft.util.ResourceLocation;
 import ez.nebula.client.util.math.MathUtil;
+import net.minecraft.util.ResourceLocation;
 
 import java.io.BufferedReader;
 import java.io.IOException;

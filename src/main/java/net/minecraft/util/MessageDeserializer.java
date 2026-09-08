@@ -1,6 +1,5 @@
 package net.minecraft.util;
 
-import com.google.common.collect.BiMap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;

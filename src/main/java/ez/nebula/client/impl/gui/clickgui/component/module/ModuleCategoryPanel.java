@@ -1,10 +1,10 @@
 package ez.nebula.client.impl.gui.clickgui.component.module;
 
 import ez.nebula.client.Nebula;
-import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.impl.gui.clickgui.component.CategoryPanel;
 import ez.nebula.client.impl.module.render.ClickGUIModule;
+import ez.nebula.client.util.render.font.Fonts;
 
 /**
  * @author xgraza

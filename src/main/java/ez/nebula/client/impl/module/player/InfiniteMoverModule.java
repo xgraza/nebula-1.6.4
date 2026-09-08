@@ -1,17 +1,17 @@
 package ez.nebula.client.impl.module.player;
 
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.player.EventContainerAction;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
+import ez.nebula.client.util.minecraft.player.ItemUtil;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.Slot;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.event.player.EventContainerAction;
-import ez.nebula.client.util.minecraft.player.ItemUtil;
 
 import static ez.nebula.client.util.minecraft.player.InventoryUtil.*;
 

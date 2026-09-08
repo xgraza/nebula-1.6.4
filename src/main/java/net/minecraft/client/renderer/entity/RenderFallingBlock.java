@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
+import ez.nebula.client.impl.module.player.AntiLagModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockDragonEgg;
@@ -12,7 +13,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import ez.nebula.client.impl.module.player.AntiLagModule;
 
 public class RenderFallingBlock extends Render
 {

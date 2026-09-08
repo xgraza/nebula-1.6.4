@@ -1,7 +1,7 @@
 package ez.nebula.client.api.listener.event.player;
 
-import net.minecraft.inventory.Slot;
 import ez.nebula.client.api.listener.Event;
+import net.minecraft.inventory.Slot;
 
 /**
  * @author xgraza

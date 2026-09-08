@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.module.render.ChatModifierModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
+import ez.nebula.client.util.render.HeadDownloader;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -19,7 +20,6 @@ import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
-import ez.nebula.client.util.render.HeadDownloader;
 
 import java.util.ArrayList;
 import java.util.Iterator;

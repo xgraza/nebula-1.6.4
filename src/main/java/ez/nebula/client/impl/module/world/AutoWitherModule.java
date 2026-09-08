@@ -8,7 +8,6 @@ import ez.nebula.client.api.listener.event.world.EventPlace;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;

@@ -1,9 +1,15 @@
 package net.minecraft.client.renderer;
 
 import com.google.gson.JsonSyntaxException;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.player.EventRaytrace;
 import ez.nebula.client.api.listener.event.render.*;
 import ez.nebula.client.impl.module.player.InteractModule;
-import ez.nebula.client.impl.module.render.*;
+import ez.nebula.client.impl.module.render.FullbrightModule;
+import ez.nebula.client.impl.module.render.NoRenderModule;
+import ez.nebula.client.impl.module.render.UnfocusedCPUModule;
+import ez.nebula.client.util.render.gui.ProjectionUtil;
+import ez.nebula.client.util.render.world.EntityCulling;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -51,10 +57,6 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Project;
 import shadersmod.client.Shaders;
 import shadersmod.client.ShadersRender;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.util.render.world.EntityCulling;
-import ez.nebula.client.api.listener.event.player.EventRaytrace;
-import ez.nebula.client.util.render.gui.ProjectionUtil;
 
 import java.awt.Color;
 import java.io.IOException;

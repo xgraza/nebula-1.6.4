@@ -1,6 +1,9 @@
 package ez.nebula.client.api.manager.module;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.DebugFeature;
+import ez.nebula.client.api.manager.ITypedManager;
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.impl.config.ModuleConfig;
 import ez.nebula.client.impl.module.combat.*;
 import ez.nebula.client.impl.module.exploit.*;
@@ -8,9 +11,6 @@ import ez.nebula.client.impl.module.movement.*;
 import ez.nebula.client.impl.module.player.*;
 import ez.nebula.client.impl.module.render.*;
 import ez.nebula.client.impl.module.world.*;
-import ez.nebula.client.api.manager.ITypedManager;
-import ez.nebula.client.api.DebugFeature;
-import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

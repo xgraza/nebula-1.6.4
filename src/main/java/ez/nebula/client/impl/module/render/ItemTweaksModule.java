@@ -1,13 +1,13 @@
 package ez.nebula.client.impl.module.render;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.util.StatCollector;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.text.FormattingUtil;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.util.StatCollector;
 
 /**
  * @author xgraza

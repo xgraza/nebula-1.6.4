@@ -1,18 +1,18 @@
 package ez.nebula.client.impl.gui.clickgui.component.value;
 
-import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
-import ez.nebula.client.util.render.gui.Render2D;
-import net.minecraft.util.MathHelper;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
 import ez.nebula.client.api.setting.NumberSetting;
-import ez.nebula.client.util.render.gui.trait.GUIComponent;
-import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
-import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.math.MathUtil;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
+import net.minecraft.util.MathHelper;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import static org.lwjgl.input.Keyboard.KEY_LEFT;
 import static org.lwjgl.input.Keyboard.KEY_RIGHT;

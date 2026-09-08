@@ -1,10 +1,20 @@
 package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.nws.NWS;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.player.FreecamModule;
+import ez.nebula.client.util.io.NetworkUtil;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.client.renderer.culling.Frustrum;
@@ -19,16 +29,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.impl.module.player.FreecamModule;
-import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.util.io.NetworkUtil;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Map;

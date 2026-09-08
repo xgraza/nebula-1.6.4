@@ -3,7 +3,10 @@ package net.minecraft.client.settings;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IntHashMap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class KeyBinding implements Comparable<KeyBinding>
 {

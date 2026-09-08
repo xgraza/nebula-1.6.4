@@ -1,16 +1,16 @@
 package ez.nebula.client.api.player.server;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.network.EventPacket;
+import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
+import ez.nebula.client.api.manager.IManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.IManager;
-import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

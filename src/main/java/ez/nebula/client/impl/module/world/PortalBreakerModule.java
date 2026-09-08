@@ -2,6 +2,18 @@ package ez.nebula.client.impl.module.world;
 
 import ez.nebula.client.Nebula;
 import ez.nebula.client.api.DebugFeature;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventPostUpdate;
+import ez.nebula.client.api.listener.event.player.EventAttackBlock;
+import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
+import ez.nebula.client.api.listener.event.world.EventModifySelectedBoundBox;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.util.math.AngleUtil;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
+import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.init.Items;
@@ -9,19 +21,6 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.player.InteractionManager;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.listener.event.game.EventPostUpdate;
-import ez.nebula.client.api.listener.event.player.EventAttackBlock;
-import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
-import ez.nebula.client.api.listener.event.world.EventModifySelectedBoundBox;
-import ez.nebula.client.util.math.AngleUtil;
-import ez.nebula.client.util.minecraft.player.InventoryUtil;
-import ez.nebula.client.util.minecraft.world.BlockUtil;
 
 /**
  * @author xgraza

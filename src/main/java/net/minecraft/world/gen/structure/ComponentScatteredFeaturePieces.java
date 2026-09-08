@@ -1,7 +1,6 @@
 package net.minecraft.world.gen.structure;
 
 import net.minecraft.block.BlockLever;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

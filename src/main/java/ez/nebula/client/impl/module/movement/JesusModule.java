@@ -1,21 +1,19 @@
 package ez.nebula.client.impl.module.movement;
 
-import ez.nebula.client.impl.module.exploit.NoHungerModule;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
-import ez.nebula.client.util.minecraft.player.MoveUtil;
-import ez.nebula.client.util.minecraft.player.PlayerUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
-import net.minecraft.util.AxisAlignedBB;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
+import ez.nebula.client.api.listener.event.world.EventModifyBoundBox;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
-import ez.nebula.client.api.listener.event.world.EventModifyBoundBox;
+import ez.nebula.client.impl.module.exploit.NoHungerModule;
+import ez.nebula.client.util.minecraft.player.PlayerUtil;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.util.AxisAlignedBB;
 
 /**
  * @author xgraza

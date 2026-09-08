@@ -5,11 +5,11 @@ import com.google.gson.JsonObject;
 import ez.nebula.client.Nebula;
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.Togglable;
-import ez.nebula.client.util.io.IJSONSerializable;
 import ez.nebula.client.api.manager.hud2.trait.HUDManifest;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.SettingProvider;
 import ez.nebula.client.impl.gui.hud2.HUDEditorScreen;
+import ez.nebula.client.util.io.IJSONSerializable;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.gui.trait.Element;
 import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
@@ -18,7 +18,10 @@ import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author xgraza

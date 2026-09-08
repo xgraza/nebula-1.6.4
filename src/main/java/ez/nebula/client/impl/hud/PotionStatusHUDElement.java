@@ -1,5 +1,9 @@
 package ez.nebula.client.impl.hud;
 
+import ez.nebula.client.api.manager.hud.HUDElement;
+import ez.nebula.client.api.manager.hud.trait.HUDManifest;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
@@ -7,10 +11,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import ez.nebula.client.api.manager.hud.HUDElement;
-import ez.nebula.client.api.manager.hud.trait.HUDManifest;
-import ez.nebula.client.util.text.FormattingUtil;
-import ez.nebula.client.util.render.font.Fonts;
 
 import static org.lwjgl.opengl.GL11.*;
 

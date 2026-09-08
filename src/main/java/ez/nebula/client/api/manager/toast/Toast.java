@@ -3,11 +3,11 @@ package ez.nebula.client.api.manager.toast;
 import ez.nebula.client.api.manager.toast.trait.ToastType;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
-import ez.nebula.client.util.render.gui.Render2D;
-import net.minecraft.client.gui.ScaledResolution;
 import ez.nebula.client.util.render.animation.Animation;
 import ez.nebula.client.util.render.animation.AnimationEasing;
 import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.render.gui.Render2D;
+import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.Color;
 

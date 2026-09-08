@@ -1,14 +1,14 @@
 package ez.nebula.client.impl.gui.account;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.manager.account.Account;
+import ez.nebula.client.util.render.HeadDownloader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.Session;
-import ez.nebula.client.api.manager.account.Account;
-import ez.nebula.client.util.render.HeadDownloader;
 
 import java.util.List;
 

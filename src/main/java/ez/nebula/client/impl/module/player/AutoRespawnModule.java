@@ -1,16 +1,16 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.Nebula;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.util.minecraft.network.PacketUtil;
-import net.minecraft.network.play.client.C16PacketClientStatus;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.network.EventDisconnect;
 import ez.nebula.client.api.listener.event.player.EventPlayerDeath;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
+import net.minecraft.network.play.client.C16PacketClientStatus;
 
 import java.io.File;
 import java.io.IOException;

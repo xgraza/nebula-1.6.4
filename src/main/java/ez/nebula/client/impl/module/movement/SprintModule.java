@@ -1,14 +1,14 @@
 package ez.nebula.client.impl.module.movement;
 
-import ez.nebula.client.api.manager.module.Module;
-import org.lwjgl.input.Keyboard;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.player.EventSprint;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.Setting;
+import org.lwjgl.input.Keyboard;
 
 /**
  * @author xgraza

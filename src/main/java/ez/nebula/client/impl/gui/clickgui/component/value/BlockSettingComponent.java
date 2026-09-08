@@ -1,16 +1,16 @@
 package ez.nebula.client.impl.gui.clickgui.component.value;
 
-import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
-import ez.nebula.client.util.render.gui.Render2D;
-import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.util.render.gui.trait.GUIComponent;
-import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.impl.gui.clickgui.component.value.block.BlockSearchComponent;
 import ez.nebula.client.impl.gui.clickgui.component.value.block.BlockSelectionCallback;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 import net.minecraft.item.ItemStack;
 
 import java.awt.Color;

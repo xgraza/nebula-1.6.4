@@ -1,12 +1,12 @@
 package ez.nebula.client.impl.gui.account;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.manager.account.Account;
+import ez.nebula.client.util.render.font.Fonts;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Keyboard;
-import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.api.manager.account.Account;
 
 /**
  * @author xgraza

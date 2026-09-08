@@ -1,7 +1,11 @@
 package net.minecraft.client.renderer.entity;
 
 import ez.nebula.client.impl.module.player.AntiLagModule;
-import ez.nebula.client.impl.module.render.*;
+import ez.nebula.client.impl.module.render.GlintModule;
+import ez.nebula.client.impl.module.render.ItemPhysicsModule;
+import ez.nebula.client.impl.module.render.ItemTweaksModule;
+import ez.nebula.client.util.minecraft.player.ItemUtil;
+import ez.nebula.client.util.render.RenderUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -23,8 +27,6 @@ import net.minecraft.src.Config;
 import net.minecraft.util.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import ez.nebula.client.util.minecraft.player.ItemUtil;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.util.Random;
 import java.util.concurrent.Callable;

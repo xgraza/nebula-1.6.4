@@ -1,17 +1,17 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.Nebula;
-import ez.nebula.client.api.manager.module.Module;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MovingObjectPosition;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleInstance;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.input.EventMouse;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MovingObjectPosition;
 
 /**
  * @author xgraza

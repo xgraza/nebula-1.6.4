@@ -1,10 +1,10 @@
 package ez.nebula.client.impl.gui.clickgui.component.config;
 
+import ez.nebula.client.util.io.SoundUtil;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
-import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.util.io.SoundUtil;
 
 import java.awt.Color;
 

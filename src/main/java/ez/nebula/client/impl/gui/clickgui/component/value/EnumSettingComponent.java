@@ -1,15 +1,15 @@
 package ez.nebula.client.impl.gui.clickgui.component.value;
 
-import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
 import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
 import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
-import ez.nebula.client.util.render.gui.Render2D;
-import ez.nebula.client.util.render.gui.trait.GUIComponent;
-import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
+import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.render.animation.Animation;
 import ez.nebula.client.util.render.animation.AnimationEasing;
 import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.util.io.SoundUtil;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 import ez.nebula.client.util.text.FormattingUtil;
 
 import java.awt.Color;

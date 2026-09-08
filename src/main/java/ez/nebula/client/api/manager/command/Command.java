@@ -3,9 +3,9 @@ package ez.nebula.client.api.manager.command;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
-import net.minecraft.client.Minecraft;
 import ez.nebula.client.api.manager.command.trait.CommandManifest;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
+import net.minecraft.client.Minecraft;
 
 public abstract class Command
 {

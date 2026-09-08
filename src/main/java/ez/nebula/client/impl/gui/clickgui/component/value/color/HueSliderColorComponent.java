@@ -1,8 +1,8 @@
 package ez.nebula.client.impl.gui.clickgui.component.value.color;
 
+import ez.nebula.client.impl.gui.clickgui.component.value.NumberSettingComponent;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.util.ResourceLocation;
-import ez.nebula.client.impl.gui.clickgui.component.value.NumberSettingComponent;
 
 import java.awt.Color;
 

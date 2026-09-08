@@ -1,14 +1,14 @@
 package ez.nebula.client.impl.module.render;
 
 import com.google.common.collect.Lists;
-import ez.nebula.client.api.setting.EnumSetting;
-import ez.nebula.client.api.setting.NumberSetting;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 
 import java.util.List;
 

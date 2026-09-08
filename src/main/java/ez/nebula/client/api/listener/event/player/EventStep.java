@@ -1,8 +1,8 @@
 package ez.nebula.client.api.listener.event.player;
 
+import ez.nebula.client.api.listener.Event;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
-import ez.nebula.client.api.listener.Event;
 
 /**
  * @author xgraza

@@ -1,13 +1,14 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.api.DebugFeature;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.input.EventKey;
 import ez.nebula.client.api.listener.event.network.EventPacket;
-import ez.nebula.client.api.listener.event.render.EventRender2D;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.util.minecraft.player.ChatUtil;
-import ez.nebula.client.util.render.gui.Render2D;
-import ez.nebula.client.util.render.font.Fonts;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.item.EntityItem;
@@ -18,10 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.DamageSource;
 import org.lwjgl.input.Keyboard;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 
 /**
  * See {@link net.minecraft.entity.item.EntityEnderCrystal#attackEntityFrom(DamageSource, float)}

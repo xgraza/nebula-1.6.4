@@ -5,7 +5,7 @@ import com.github.lunatrius.schematica.config.PlacementData;
 import com.github.lunatrius.schematica.lib.Reference;
 import com.github.lunatrius.schematica.world.SchematicWorld;
 import ez.nebula.client.Nebula;
-import ez.nebula.client.api.player.InteractionManager;
+import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockPistonBase;
@@ -22,7 +22,6 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import ez.nebula.client.util.minecraft.world.BlockUtil;
 
 import java.util.ArrayList;
 import java.util.List;

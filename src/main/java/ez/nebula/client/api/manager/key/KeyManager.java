@@ -1,14 +1,14 @@
 package ez.nebula.client.api.manager.key;
 
 import ez.nebula.client.Nebula;
-import ez.nebula.client.impl.config.KeyConfig;
-import net.minecraft.client.Minecraft;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.ITypedManager;
 import ez.nebula.client.api.listener.event.input.EventKey;
 import ez.nebula.client.api.listener.event.input.EventMouse;
+import ez.nebula.client.api.manager.ITypedManager;
+import ez.nebula.client.impl.config.KeyConfig;
+import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 import java.util.HashMap;

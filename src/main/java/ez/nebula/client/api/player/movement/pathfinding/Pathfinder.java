@@ -1,6 +1,7 @@
 package ez.nebula.client.api.player.movement.pathfinding;
 
 import ez.nebula.client.impl.module.movement.JesusModule;
+import ez.nebula.client.util.math.MathUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBasePressurePlate;
 import net.minecraft.block.material.Material;
@@ -8,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.src.BlockPos;
-import ez.nebula.client.util.math.MathUtil;
 
 import java.util.*;
 

@@ -1,7 +1,6 @@
 package ez.nebula.client.api.manager.module.type;
 
 import ez.nebula.client.Nebula;
-import ez.nebula.client.api.player.InteractionManager;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;

@@ -1,6 +1,7 @@
 package net.minecraft.crash;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.manager.module.Module;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.gen.layer.IntCache;
@@ -8,7 +9,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ez.nebula.client.api.manager.module.Module;
 
 import java.io.File;
 import java.io.FileWriter;

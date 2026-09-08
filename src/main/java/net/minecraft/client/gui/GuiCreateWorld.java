@@ -9,7 +9,6 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.input.Keyboard;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GuiCreateWorld extends GuiScreen

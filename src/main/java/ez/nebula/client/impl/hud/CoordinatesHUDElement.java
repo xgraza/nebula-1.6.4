@@ -1,14 +1,14 @@
 package ez.nebula.client.impl.hud;
 
+import ez.nebula.client.api.manager.hud.HUDElement;
+import ez.nebula.client.api.manager.hud.trait.HUDManifest;
+import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
+import ez.nebula.client.util.render.font.Fonts;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.api.manager.hud.HUDElement;
-import ez.nebula.client.api.manager.hud.trait.HUDManifest;
 
 import java.util.TreeMap;
 

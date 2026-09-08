@@ -1,13 +1,28 @@
 package ez.nebula.client.impl.module.combat;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.network.EventPacket;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.impl.module.player.AutoEatModule;
+import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
+import ez.nebula.client.util.minecraft.player.PlayerUtil;
+import ez.nebula.client.util.minecraft.world.BlockInfo;
+import ez.nebula.client.util.minecraft.world.BlockUtil;
 import ez.nebula.client.util.minecraft.world.DamageUtil;
+import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.util.render.world.Render3D;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockBed;
@@ -17,24 +32,13 @@ import net.minecraft.item.ItemBed;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.src.BlockPos;
-import net.minecraft.util.*;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleInstance;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.event.network.EventPacket;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.world.QuadMask;
-import ez.nebula.client.impl.module.player.FreecamModule;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.util.minecraft.player.InventoryUtil;
-import ez.nebula.client.util.minecraft.player.PlayerUtil;
-import ez.nebula.client.util.minecraft.world.BlockInfo;
-import ez.nebula.client.util.minecraft.world.BlockUtil;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Comparator;
+import java.util.Queue;
 
 /**
  * @author xgraza

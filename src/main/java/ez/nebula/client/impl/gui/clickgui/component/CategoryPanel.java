@@ -1,15 +1,15 @@
 package ez.nebula.client.impl.gui.clickgui.component;
 
-import ez.nebula.client.util.render.gui.Render2D;
-import ez.nebula.client.util.render.font.AWTFontRenderer;
-import org.lwjgl.input.Mouse;
-import ez.nebula.client.util.render.gui.trait.GUIComponent;
-import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
-import ez.nebula.client.util.render.animation.Animation;
-import ez.nebula.client.util.render.animation.AnimationEasing;
-import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.impl.gui.clickgui.ClickGUIScreen;
 import ez.nebula.client.util.io.SoundUtil;
+import ez.nebula.client.util.render.animation.Animation;
+import ez.nebula.client.util.render.animation.AnimationEasing;
+import ez.nebula.client.util.render.font.AWTFontRenderer;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
+import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 

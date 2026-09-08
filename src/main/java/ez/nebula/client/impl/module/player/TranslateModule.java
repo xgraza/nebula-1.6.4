@@ -1,12 +1,21 @@
 package ez.nebula.client.impl.module.player;
 
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.listener.event.world.EventPlace;
-import ez.nebula.client.util.render.world.Render3D;
-import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.render.world.Render3D;
 import ez.nebula.client.util.text.FormattingUtil;
+import ez.nebula.client.util.text.translation.GoogleTranslateService;
+import ez.nebula.client.util.text.translation.Language;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSign;
 import net.minecraft.event.ClickEvent;
@@ -16,17 +25,11 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.*;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleInstance;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.util.text.translation.GoogleTranslateService;
-import ez.nebula.client.util.text.translation.Language;
-import ez.nebula.client.api.listener.event.network.EventPacket;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author xgraza

@@ -1,8 +1,8 @@
 package ez.nebula.client.api.listener.event.network;
 
+import ez.nebula.client.api.listener.Event;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
-import ez.nebula.client.api.listener.Event;
 
 /**
  * @author xgraza

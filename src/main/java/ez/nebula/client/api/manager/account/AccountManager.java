@@ -1,8 +1,8 @@
 package ez.nebula.client.api.manager.account;
 
 import ez.nebula.client.Nebula;
-import ez.nebula.client.impl.config.AccountConfig;
 import ez.nebula.client.api.manager.ITypedManager;
+import ez.nebula.client.impl.config.AccountConfig;
 
 import java.util.LinkedList;
 import java.util.List;

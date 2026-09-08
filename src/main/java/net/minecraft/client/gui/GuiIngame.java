@@ -5,13 +5,23 @@
 package net.minecraft.client.gui;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.render.EventRender2D;
+import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
 import ez.nebula.client.impl.module.render.*;
+import ez.nebula.client.util.minecraft.player.PlayerUtil;
+import ez.nebula.client.util.render.HeadDownloader;
+import ez.nebula.client.util.render.RenderUtil;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -36,13 +46,6 @@ import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.event.render.EventRender2D;
-import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
-import ez.nebula.client.util.minecraft.player.PlayerUtil;
-import ez.nebula.client.util.render.HeadDownloader;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 import java.util.Collection;

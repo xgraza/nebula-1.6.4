@@ -1,7 +1,7 @@
 package ez.nebula.client.api.listener.event.network;
 
-import net.minecraft.util.IChatComponent;
 import ez.nebula.client.api.listener.Event;
+import net.minecraft.util.IChatComponent;
 
 /**
  * @author xgraza

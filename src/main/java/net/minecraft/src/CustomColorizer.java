@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.render.EventGamma;
 import ez.nebula.client.impl.module.render.FullbrightModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStem;
@@ -17,8 +19,6 @@ import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.event.render.EventGamma;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

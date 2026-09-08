@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer;
 
+import ez.nebula.client.impl.module.render.XRayModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -17,7 +18,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
-import ez.nebula.client.impl.module.render.XRayModule;
 
 import java.util.ArrayList;
 import java.util.HashSet;

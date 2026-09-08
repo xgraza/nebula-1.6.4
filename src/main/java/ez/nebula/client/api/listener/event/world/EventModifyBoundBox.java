@@ -1,9 +1,9 @@
 package ez.nebula.client.api.listener.event.world;
 
+import ez.nebula.client.api.listener.Event;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import ez.nebula.client.api.listener.Event;
 
 /**
  * @author xgraza

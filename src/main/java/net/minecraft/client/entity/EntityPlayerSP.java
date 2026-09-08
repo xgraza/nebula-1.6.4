@@ -1,6 +1,10 @@
 package net.minecraft.client.entity;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.player.EventItemSlowdown;
+import ez.nebula.client.api.listener.event.player.EventPushFromBlocks;
 import ez.nebula.client.api.listener.event.player.EventSneak;
+import ez.nebula.client.api.listener.event.player.EventSprint;
 import ez.nebula.client.impl.module.exploit.PortalsModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -23,11 +27,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.event.input.EventUpdateInput;
-import ez.nebula.client.api.listener.event.player.EventItemSlowdown;
-import ez.nebula.client.api.listener.event.player.EventPushFromBlocks;
-import ez.nebula.client.api.listener.event.player.EventSprint;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {

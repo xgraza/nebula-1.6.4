@@ -1,10 +1,10 @@
 package ez.nebula.client.impl.gui.clickgui.component.value.block;
 
-import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.api.setting.block.BlockValue;
 import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
-import ez.nebula.client.api.setting.block.BlockValue;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.client.renderer.RenderHelper;
@@ -19,11 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.input.Keyboard.*;
-import static org.lwjgl.input.Keyboard.KEY_BACK;
-import static org.lwjgl.input.Keyboard.KEY_LSHIFT;
-import static org.lwjgl.input.Keyboard.KEY_RETURN;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 public class BlockSearchComponent extends GUIComponent implements IGUIInputListener
 {

@@ -6,9 +6,9 @@ import com.github.lunatrius.schematica.client.renderer.RendererSchematicGlobal;
 import com.github.lunatrius.schematica.config.Config;
 import com.github.lunatrius.schematica.lib.Reference;
 import com.github.lunatrius.schematica.world.SchematicWorld;
+import ez.nebula.client.api.listener.EventBus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import ez.nebula.client.api.listener.EventBus;
 
 import java.io.File;
 

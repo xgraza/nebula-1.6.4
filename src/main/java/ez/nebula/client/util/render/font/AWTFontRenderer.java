@@ -1,9 +1,9 @@
 package ez.nebula.client.util.render.font;
 
 import ez.nebula.client.impl.module.render.HUDModule;
+import ez.nebula.client.util.render.RenderUtil;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.renderer.OpenGlHelper;
-import ez.nebula.client.util.render.RenderUtil;
 
 import java.awt.Color;
 import java.awt.Font;

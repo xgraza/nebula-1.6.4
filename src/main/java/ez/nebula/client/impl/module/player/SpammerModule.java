@@ -1,21 +1,21 @@
 package ez.nebula.client.impl.module.player;
 
 import ez.nebula.client.Nebula;
-import ez.nebula.client.api.setting.EnumSetting;
-import ez.nebula.client.api.setting.NumberSetting;
-import ez.nebula.client.util.minecraft.network.PacketUtil;
-import net.minecraft.network.play.client.C01PacketChatMessage;
-import net.minecraft.util.ChatAllowedCharacters;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.io.FileUtil;
 import ez.nebula.client.util.math.MathUtil;
 import ez.nebula.client.util.math.Timer;
+import ez.nebula.client.util.minecraft.network.PacketUtil;
+import net.minecraft.network.play.client.C01PacketChatMessage;
+import net.minecraft.util.ChatAllowedCharacters;
 
 import java.io.File;
 import java.io.IOException;

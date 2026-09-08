@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
+import ez.nebula.client.impl.module.render.NoRenderModule;
 import net.minecraft.client.model.ModelBat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -8,7 +9,6 @@ import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import ez.nebula.client.impl.module.render.NoRenderModule;
 
 public class RenderBat extends RenderLiving
 {

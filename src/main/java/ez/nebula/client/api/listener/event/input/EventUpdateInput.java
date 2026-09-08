@@ -1,7 +1,7 @@
 package ez.nebula.client.api.listener.event.input;
 
-import net.minecraft.util.MovementInput;
 import ez.nebula.client.api.listener.Event;
+import net.minecraft.util.MovementInput;
 
 /**
  * @author xgraza

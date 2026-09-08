@@ -1,8 +1,12 @@
 package net.minecraft.client.gui;
 
+import ez.nebula.client.BuildConfig;
+import ez.nebula.client.Environment;
 import ez.nebula.client.Nebula;
+import ez.nebula.client.impl.gui.account.AccountSelectorScreen;
 import ez.nebula.client.impl.module.render.ClickGUIModule;
 import ez.nebula.client.impl.module.render.HUDModule;
+import ez.nebula.client.util.render.font.Fonts;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.SplashTextProvider;
 import net.minecraft.client.multiplayer.GuiConnecting;
@@ -21,10 +25,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
-import ez.nebula.client.BuildConfig;
-import ez.nebula.client.Environment;
-import ez.nebula.client.impl.gui.account.AccountSelectorScreen;
-import ez.nebula.client.util.render.font.Fonts;
 
 import java.awt.Desktop;
 import java.net.URI;

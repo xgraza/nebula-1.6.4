@@ -1,13 +1,13 @@
 package ez.nebula.client.api.player.movement;
 
+import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.input.EventUpdateInput;
 import ez.nebula.client.api.player.movement.pathfinding.Node;
+import ez.nebula.client.api.player.movement.pathfinding.Pathfinder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.player.movement.pathfinding.Pathfinder;
 
 import java.util.List;
 

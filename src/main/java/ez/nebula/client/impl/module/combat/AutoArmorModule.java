@@ -1,18 +1,18 @@
 package ez.nebula.client.impl.module.combat;
 
-import ez.nebula.client.util.minecraft.player.InventoryUtil;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.impl.module.exploit.EnderchestBPModule;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.exploit.EnderchestBPModule;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
 import java.util.HashMap;

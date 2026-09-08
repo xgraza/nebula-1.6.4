@@ -1,7 +1,18 @@
 package ez.nebula.client.impl.module.world;
 
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.network.EventDisconnect;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.listener.event.world.EventRemoveTileEntity;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.util.render.world.QuadMask;
 import ez.nebula.client.util.render.world.Render3D;
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
@@ -13,20 +24,11 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.chunk.Chunk;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.network.EventDisconnect;
-import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.api.listener.event.world.EventRemoveTileEntity;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.render.world.QuadMask;
 
 import java.awt.Color;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author xgraza

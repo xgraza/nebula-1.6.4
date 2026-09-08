@@ -1,7 +1,6 @@
 package ez.nebula.client.api.setting;
 
 import ez.nebula.client.api.setting.block.BlockSetting;
-import net.minecraft.block.Block;
 
 import java.awt.Color;
 import java.util.List;

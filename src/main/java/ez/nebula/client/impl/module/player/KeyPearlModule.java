@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.module.player;
 
-import ez.nebula.client.api.manager.module.type.InteractionModule;
-import net.minecraft.item.ItemEnderPearl;
-import net.minecraft.util.MovingObjectPosition;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
+import net.minecraft.item.ItemEnderPearl;
+import net.minecraft.util.MovingObjectPosition;
 
 /**
  * @author xgraza

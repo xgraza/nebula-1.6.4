@@ -1,8 +1,22 @@
 package ez.nebula.client.impl.module.player;
 
 import com.mojang.authlib.GameProfile;
+import ez.nebula.client.api.listener.Event;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.input.EventRotateCamera;
+import ez.nebula.client.api.listener.event.input.EventUpdateInput;
+import ez.nebula.client.api.listener.event.network.EventPacket;
+import ez.nebula.client.api.listener.event.player.EventRaytrace;
+import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.util.minecraft.player.MoveUtil;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,20 +24,6 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.world.World;
-import ez.nebula.client.api.manager.module.trait.ModuleInstance;
-import ez.nebula.client.api.listener.Event;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.input.EventRotateCamera;
-import ez.nebula.client.api.listener.event.input.EventUpdateInput;
-import ez.nebula.client.api.listener.event.network.EventPacket;
-import ez.nebula.client.api.listener.event.player.EventRaytrace;
-import ez.nebula.client.api.listener.event.render.EventRenderWaterEffects;
-import ez.nebula.client.util.minecraft.player.MoveUtil;
 
 /**
  * @author xgraza

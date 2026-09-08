@@ -1,10 +1,10 @@
 package net.minecraft.client.gui;
 
+import ez.nebula.client.impl.module.player.AutoReconnectModule;
+import ez.nebula.client.util.math.Timer;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IChatComponent;
-import ez.nebula.client.impl.module.player.AutoReconnectModule;
-import ez.nebula.client.util.math.Timer;
 
 import java.util.List;
 

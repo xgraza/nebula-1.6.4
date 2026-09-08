@@ -1,17 +1,17 @@
 package net.minecraft.client.gui;
 
+import ez.nebula.client.BuildConfig;
+import ez.nebula.client.Environment;
 import ez.nebula.client.impl.module.player.AntiDisconnectModule;
 import ez.nebula.client.impl.module.player.AutoReconnectModule;
 import ez.nebula.client.impl.module.render.HUDModule;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.worlddownloader.WorldDownloader;
+import ez.nebula.client.worlddownloader.WorldDownloaderGUIScreen;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
-import ez.nebula.client.BuildConfig;
-import ez.nebula.client.Environment;
-import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.worlddownloader.WorldDownloader;
-import ez.nebula.client.worlddownloader.WorldDownloaderGUIScreen;
 
 public class GuiIngameMenu extends GuiScreen
 {

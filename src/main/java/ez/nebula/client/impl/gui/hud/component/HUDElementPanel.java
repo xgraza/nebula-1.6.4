@@ -1,21 +1,21 @@
 package ez.nebula.client.impl.gui.hud.component;
 
+import ez.nebula.client.api.manager.hud.HUDElement;
+import ez.nebula.client.api.manager.key.Key;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.impl.gui.clickgui.component.value.*;
-import ez.nebula.client.util.render.gui.Render2D;
-import ez.nebula.client.util.render.gui.trait.GUIComponent;
-import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
+import ez.nebula.client.impl.gui.clickgui.component.value.color.ColorSettingComponent;
+import ez.nebula.client.impl.module.render.HUDModule;
+import ez.nebula.client.util.io.SoundUtil;
 import ez.nebula.client.util.render.animation.Animation;
 import ez.nebula.client.util.render.animation.AnimationEasing;
 import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.api.manager.hud.HUDElement;
-import ez.nebula.client.api.manager.key.Key;
-import ez.nebula.client.impl.module.render.HUDModule;
-import ez.nebula.client.impl.gui.clickgui.component.value.color.ColorSettingComponent;
-import ez.nebula.client.util.io.SoundUtil;
+import ez.nebula.client.util.render.gui.Render2D;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 
 import java.awt.Color;
 import java.io.File;

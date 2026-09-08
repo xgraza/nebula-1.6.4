@@ -1,14 +1,14 @@
 package ez.nebula.client.impl.gui.clickgui.component.config;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.impl.config.ModuleConfig;
+import ez.nebula.client.impl.gui.clickgui.ClickGUIScreen;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.render.gui.trait.GUIComponent;
+import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
-import ez.nebula.client.util.render.gui.trait.GUIComponent;
-import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
-import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.impl.config.ModuleConfig;
-import ez.nebula.client.impl.gui.clickgui.ClickGUIScreen;
 
 import java.io.File;
 import java.io.IOException;

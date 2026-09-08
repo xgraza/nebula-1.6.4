@@ -3,6 +3,7 @@ package net.minecraft.entity;
 import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.world.EventBlockSlipperiness;
+import ez.nebula.client.impl.module.render.ViewModelModule;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -30,7 +31,6 @@ import net.minecraft.scoreboard.Team;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import ez.nebula.client.impl.module.render.ViewModelModule;
 
 import java.util.*;
 

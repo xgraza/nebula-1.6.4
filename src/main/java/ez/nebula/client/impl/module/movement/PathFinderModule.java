@@ -1,9 +1,9 @@
 package ez.nebula.client.impl.module.movement;
 
 import ez.nebula.client.api.DebugFeature;
-import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 
 @DebugFeature

@@ -1,7 +1,7 @@
 package ez.nebula.client.api.listener.event.player;
 
-import net.minecraft.entity.Entity;
 import ez.nebula.client.api.listener.Event;
+import net.minecraft.entity.Entity;
 
 /**
  * @author xgraza

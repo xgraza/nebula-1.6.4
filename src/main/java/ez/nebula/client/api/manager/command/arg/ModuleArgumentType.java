@@ -7,8 +7,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import ez.nebula.client.Nebula;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.command.trait.CommandSource;
+import ez.nebula.client.api.manager.module.Module;
 
 import java.util.concurrent.CompletableFuture;
 

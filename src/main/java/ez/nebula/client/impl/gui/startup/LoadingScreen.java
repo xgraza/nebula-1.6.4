@@ -1,11 +1,11 @@
 package ez.nebula.client.impl.gui.startup;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.LWJGLException;
-import ez.nebula.client.util.render.font.Fonts;
 
 import java.awt.Color;
 

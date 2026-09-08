@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static org.lwjgl.input.Keyboard.*;
+import static org.lwjgl.input.Keyboard.KEY_ESCAPE;
 
 public class GuiScreen extends Gui
 {

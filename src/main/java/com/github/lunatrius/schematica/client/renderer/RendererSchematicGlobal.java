@@ -4,6 +4,9 @@ import com.github.lunatrius.core.util.vector.Vector3f;
 import com.github.lunatrius.schematica.Schematica;
 import com.github.lunatrius.schematica.Settings;
 import com.github.lunatrius.schematica.world.SchematicWorld;
+import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.render.EventRender3D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.culling.Frustrum;
@@ -12,9 +15,6 @@ import net.minecraft.profiler.Profiler;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.listener.event.render.EventRender3D;
 
 import java.util.Collections;
 

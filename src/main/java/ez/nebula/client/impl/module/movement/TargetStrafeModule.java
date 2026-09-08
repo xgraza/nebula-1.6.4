@@ -1,23 +1,23 @@
 package ez.nebula.client.impl.module.movement;
 
-import ez.nebula.client.api.listener.event.input.EventUpdateInput;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.setting.NumberSetting;
-import ez.nebula.client.impl.module.combat.KillAuraModule;
-import ez.nebula.client.impl.module.render.HUDModule;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityLivingBase;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.IEventPriorities;
 import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.listener.event.input.EventUpdateInput;
 import ez.nebula.client.api.listener.event.player.EventMove;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.combat.KillAuraModule;
+import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.minecraft.player.MoveUtil;
 import ez.nebula.client.util.render.RenderUtil;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.EntityLivingBase;
 
 import static org.lwjgl.opengl.GL11.*;
 

@@ -1,7 +1,11 @@
 package net.minecraft.client.gui.inventory;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.player.EventContainerAction;
 import ez.nebula.client.impl.module.render.ItemTweaksModule;
 import ez.nebula.client.impl.module.world.ChestStealerModule;
+import ez.nebula.client.util.render.font.Fonts;
+import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -20,12 +24,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import ez.nebula.client.util.render.font.Fonts;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.event.player.EventContainerAction;
-import ez.nebula.client.util.text.FormattingUtil;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;

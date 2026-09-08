@@ -1,17 +1,17 @@
 package ez.nebula.client.impl.module.render;
 
-import ez.nebula.client.api.setting.ColorSetting;
-import ez.nebula.client.api.setting.EnumSetting;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.render.EventGamma;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.render.EventGamma;
+import ez.nebula.client.api.setting.ColorSetting;
+import ez.nebula.client.api.setting.EnumSetting;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 
 import java.awt.Color;
 

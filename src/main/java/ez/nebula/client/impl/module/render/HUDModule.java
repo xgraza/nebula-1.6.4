@@ -2,20 +2,20 @@ package ez.nebula.client.impl.module.render;
 
 import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.event.game.EventTick;
-import ez.nebula.client.api.setting.ColorSetting;
-import ez.nebula.client.api.setting.EnumSetting;
-import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.game.EventTick;
+import ez.nebula.client.api.listener.event.render.EventRender2D;
+import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.manager.hud.HUDElement;
-import ez.nebula.client.api.listener.event.render.EventRender2D;
-import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
+import ez.nebula.client.api.setting.ColorSetting;
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.gui.hud.HUDEditorScreen;
 import ez.nebula.client.util.render.ColorUtil;
 import ez.nebula.client.util.render.gui.Render2D;
 

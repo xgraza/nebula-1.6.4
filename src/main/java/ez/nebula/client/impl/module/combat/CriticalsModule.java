@@ -4,12 +4,20 @@
 
 package ez.nebula.client.impl.module.combat;
 
+import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.IEventPriorities;
+import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.network.EventPacket;
+import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
+import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.impl.module.movement.SpeedModule;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
+import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.text.FormattingUtil;
@@ -19,14 +27,6 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.potion.Potion;
-import ez.nebula.client.api.listener.EventListener;
-import ez.nebula.client.api.listener.Subscribe;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.event.network.EventPacket;
-import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
-import ez.nebula.client.api.setting.Setting;
-import ez.nebula.client.util.math.Timer;
 
 /**
  * @author xgraza

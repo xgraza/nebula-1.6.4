@@ -1,5 +1,12 @@
 package net.minecraft.client.entity;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.game.EventPostUpdate;
+import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.input.EventUpdateRiding;
+import ez.nebula.client.api.listener.event.player.EventFastUpdate;
+import ez.nebula.client.api.listener.event.player.EventMove;
+import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 import ez.nebula.client.impl.module.player.NoSwingModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -14,13 +21,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.event.game.EventPostUpdate;
-import ez.nebula.client.api.listener.event.game.EventUpdate;
-import ez.nebula.client.api.listener.event.input.EventUpdateRiding;
-import ez.nebula.client.api.listener.event.player.EventFastUpdate;
-import ez.nebula.client.api.listener.event.player.EventMove;
-import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 
 public class EntityClientPlayerMP extends EntityPlayerSP
 {

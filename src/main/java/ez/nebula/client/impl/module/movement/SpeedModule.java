@@ -1,15 +1,5 @@
 package ez.nebula.client.impl.module.movement;
 
-import ez.nebula.client.api.setting.EnumSetting;
-import ez.nebula.client.api.setting.NumberSetting;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.network.play.server.S08PacketPlayerPosLook;
-import net.minecraft.src.BlockPos;
-import ez.nebula.client.api.manager.module.Module;
-import ez.nebula.client.api.manager.module.trait.ModuleCategory;
-import ez.nebula.client.api.manager.module.trait.ModuleInstance;
-import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -17,9 +7,19 @@ import ez.nebula.client.api.listener.event.network.EventPacket;
 import ez.nebula.client.api.listener.event.player.EventFastUpdate;
 import ez.nebula.client.api.listener.event.player.EventMove;
 import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
+import ez.nebula.client.api.manager.module.Module;
+import ez.nebula.client.api.manager.module.trait.ModuleCategory;
+import ez.nebula.client.api.manager.module.trait.ModuleInstance;
+import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.setting.EnumSetting;
+import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.minecraft.player.MoveUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
+import net.minecraft.src.BlockPos;
 
 import java.util.List;
 

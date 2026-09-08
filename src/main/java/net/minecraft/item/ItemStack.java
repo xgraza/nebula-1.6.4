@@ -3,6 +3,7 @@ package net.minecraft.item;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import ez.nebula.client.impl.module.render.ItemTweaksModule;
+import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDurability;
@@ -21,7 +22,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
-import ez.nebula.client.util.text.FormattingUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

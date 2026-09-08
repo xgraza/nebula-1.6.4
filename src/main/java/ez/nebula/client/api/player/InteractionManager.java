@@ -8,6 +8,7 @@ import ez.nebula.client.api.listener.event.player.EventSneak;
 import ez.nebula.client.impl.module.player.NoSwingModule;
 import ez.nebula.client.impl.module.world.PacketMineModule;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
+import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -17,7 +18,6 @@ import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import ez.nebula.client.util.minecraft.world.BlockUtil;
 
 /**
  * @author xgraza

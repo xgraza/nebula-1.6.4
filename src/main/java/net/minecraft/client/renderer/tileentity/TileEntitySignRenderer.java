@@ -1,6 +1,7 @@
 package net.minecraft.client.renderer.tileentity;
 
 import ez.nebula.client.impl.module.render.NameProtectModule;
+import ez.nebula.client.impl.module.render.NoRenderModule;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelSign;
@@ -9,7 +10,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import ez.nebula.client.impl.module.render.NoRenderModule;
 
 public class TileEntitySignRenderer extends TileEntitySpecialRenderer
 {

@@ -1,8 +1,8 @@
 package net.minecraft.util;
 
+import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.event.input.EventUpdateInput;
 import net.minecraft.client.settings.GameSettings;
-import ez.nebula.client.api.listener.EventBus;
 
 public class MovementInputFromOptions extends MovementInput
 {

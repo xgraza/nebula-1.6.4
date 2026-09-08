@@ -1,8 +1,12 @@
 package net.minecraft.world;
 
+import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.player.EventPushWater;
+import ez.nebula.client.api.listener.event.world.EventRemoveTileEntity;
 import ez.nebula.client.impl.module.exploit.GhostHandModule;
 import ez.nebula.client.impl.module.player.AntiLagModule;
 import ez.nebula.client.impl.module.render.NoRenderModule;
+import ez.nebula.client.impl.module.world.AutoTorchModule;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EntityFX;
@@ -35,10 +39,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
-import ez.nebula.client.api.listener.EventBus;
-import ez.nebula.client.api.listener.event.world.EventRemoveTileEntity;
-import ez.nebula.client.impl.module.world.AutoTorchModule;
-import ez.nebula.client.api.listener.event.player.EventPushWater;
 
 import java.util.*;
 import java.util.concurrent.Callable;

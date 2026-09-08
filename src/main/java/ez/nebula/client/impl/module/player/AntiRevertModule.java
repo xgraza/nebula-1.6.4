@@ -1,20 +1,20 @@
 package ez.nebula.client.impl.module.player;
 
 import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.network.play.client.C02PacketUseEntity;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
+import ez.nebula.client.api.listener.event.network.EventPacket;
+import ez.nebula.client.api.listener.event.player.EventContainerAction;
 import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.listener.event.network.EventPacket;
-import ez.nebula.client.api.listener.event.player.EventContainerAction;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.minecraft.player.ItemUtil;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
 
 import java.util.List;
 

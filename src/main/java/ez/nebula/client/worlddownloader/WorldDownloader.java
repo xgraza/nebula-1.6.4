@@ -1,5 +1,6 @@
 package ez.nebula.client.worlddownloader;
 
+import ez.nebula.client.util.minecraft.player.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.client.multiplayer.ServerData;
@@ -14,7 +15,6 @@ import net.minecraft.world.storage.SaveHandler;
 import net.minecraft.world.storage.ThreadedFileIOBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 
 import java.io.File;
 import java.io.IOException;
