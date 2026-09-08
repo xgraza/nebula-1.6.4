@@ -148,12 +148,12 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     protected void drawHeaderText()
     {
         double iconWidth = 0.0;
-        if (icon != null)
-        {
-            Fonts.TYPEFACE.drawStringShadow(String.valueOf(icon), x + PADDING, y + 5, 0xAAAAAA);
-            iconWidth = Fonts.TYPEFACE.getStringWidth(String.valueOf(icon)) + (PADDING);
-        }
-        Fonts.POPPINS.drawStringShadow(name, x + iconWidth + PADDING, y + 2, -1);
+//        if (icon != null)
+//        {
+//            Fonts.TYPEFACE.drawStringShadow(String.valueOf(icon), x + PADDING, y + 5, 0xAAAAAA);
+//            iconWidth = Fonts.TYPEFACE.getStringWidth(String.valueOf(icon)) + (PADDING);
+//        }
+        Fonts.POPPINS.drawStringShadow(name, x + (PADDING * 2), y + 2, -1);
     }
 
     @Override
