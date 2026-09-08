@@ -58,6 +58,14 @@ public enum EnumFacing
     }
 
     /**
+     * Returns the opposite face
+     */
+    public EnumFacing getOpposite()
+    {
+        return values()[order_b];
+    }
+
+    /**
      * Returns the facing that represents the block in front of it.
      */
     public static EnumFacing getFront(int par0)

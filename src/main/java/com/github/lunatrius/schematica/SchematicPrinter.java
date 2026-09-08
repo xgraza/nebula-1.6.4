@@ -304,7 +304,7 @@ public class SchematicPrinter
         y += direction.getFrontOffsetY();
         z += direction.getFrontOffsetZ();
 
-        int side = BlockUtil.getOpposite(direction).ordinal();
+        int side = direction.getOpposite().ordinal();
 
         /* copypasted from n.m.client.Minecraft to sooth finicky servers */
         boolean success = minecraft.playerController.onPlayerRightClick(

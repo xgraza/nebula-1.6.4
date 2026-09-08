@@ -179,7 +179,7 @@ public final class AutoTreeModule extends Module
         Nebula.INVENTORY.spoof(slot);
         for (int i = 0; i < packetsSetting.getValue(); ++i)
         {
-            Nebula.INTERACTIONS.rightClickBlock(saplingPos, BlockUtil.getOpposite(PlayerUtil.getFacing()), false);
+            Nebula.INTERACTIONS.rightClickBlock(saplingPos, PlayerUtil.getFacing().getOpposite(), false);
         }
         Nebula.INVENTORY.sync();
     }

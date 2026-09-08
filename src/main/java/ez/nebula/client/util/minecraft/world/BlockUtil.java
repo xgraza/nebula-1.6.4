@@ -1,7 +1,6 @@
 package ez.nebula.client.util.minecraft.world;
 
 import com.google.common.collect.Lists;
-import ez.nebula.client.util.math.MathUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockReed;
@@ -148,11 +147,6 @@ public final class BlockUtil
         }
     }
 
-    public static EnumFacing getOpposite(final EnumFacing facing)
-    {
-        return EnumFacing.values()[facing.order_b];
-    }
-
     public static boolean blockHasSubType(final Block block)
     {
         final Item item = Item.getItemFromBlock(block);
@@ -164,7 +158,7 @@ public final class BlockUtil
         for (final EnumFacing face : EnumFacing.values())
         {
             final BlockPos neighbor = pos.offset(face);
-            final EnumFacing opposite = getOpposite(face);
+            final EnumFacing opposite = face.getOpposite();
             if (!isReplaceable(neighbor) && canPlace(neighbor, opposite))
             {
                 return new BlockInfo(neighbor, opposite);
@@ -177,7 +171,7 @@ public final class BlockUtil
             for (final EnumFacing side : EnumFacing.values())
             {
                 final BlockPos neighbor2 = neighbor.offset(side);
-                final EnumFacing opposite = getOpposite(side);
+                final EnumFacing opposite = side.getOpposite();
                 if (!isReplaceable(neighbor2) && canPlace(neighbor2, opposite))
                 {
                     return new BlockInfo(neighbor2, opposite);

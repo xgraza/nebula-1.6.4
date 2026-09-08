@@ -168,7 +168,7 @@ public final class BurrowModule extends Module
             final BlockPos n = BlockUtil.offset(origin, facing);
             if (!BlockUtil.isReplaceable(n))
             {
-                return new BlockData(n, BlockUtil.getOpposite(facing));
+                return new BlockData(n, facing.getOpposite());
             }
         }
         return null;
