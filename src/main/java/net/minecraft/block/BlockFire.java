@@ -147,11 +147,11 @@ public class BlockFire extends Block
 
                     for (EnumFacing facing : EnumFacing.values())
                     {
-                        int baseHumidity = facing.getFrontOffsetY() != 0 ? 250 : 300;
+                        int baseHumidity = facing.getFaceY() != 0 ? 250 : 300;
                         catchFire(world,
-                                x + facing.getFrontOffsetX(),
-                                y + facing.getFrontOffsetY(),
-                                z + facing.getFrontOffsetZ(),
+                                x + facing.getFaceX(),
+                                y + facing.getFaceY(),
+                                z + facing.getFaceZ(),
                                 baseHumidity + humidity, rand, meta);
                     }
 //                    this.func_149841_a(world, x + 1, y, z, 300 + humidity, rand, var7);
@@ -259,9 +259,9 @@ public class BlockFire extends Block
         for (EnumFacing facing : EnumFacing.values())
         {
             var6 = func_149846_a(world,
-                    x + facing.getFrontOffsetX(),
-                    y + facing.getFrontOffsetY(),
-                    z + facing.getFrontOffsetZ(), var6);
+                    x + facing.getFaceX(),
+                    y + facing.getFaceY(),
+                    z + facing.getFaceZ(), var6);
         }
 
 //        byte var5 = 0;

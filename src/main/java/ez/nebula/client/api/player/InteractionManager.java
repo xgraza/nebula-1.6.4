@@ -153,9 +153,9 @@ public final class InteractionManager
 
     private Vec3 createHitVec(final BlockPos pos, final EnumFacing facing)
     {
-        final double faceX = facing.getFrontOffsetX() / 2.0;
-        final double faceY = facing.getFrontOffsetY() / 2.0;
-        final double faceZ = facing.getFrontOffsetZ() / 2.0;
+        final double faceX = facing.getFaceX() / 2.0;
+        final double faceY = facing.getFaceY() / 2.0;
+        final double faceZ = facing.getFaceZ() / 2.0;
         return Vec3.createVectorHelper(pos.getX() + faceX,
                 pos.getY() + faceY,
                 pos.getZ() + faceZ);

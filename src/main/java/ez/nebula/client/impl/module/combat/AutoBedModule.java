@@ -149,9 +149,9 @@ public final class AutoBedModule extends InteractionModule
         }
         MC.mcProfiler.startSection("autoBed");
         final AxisAlignedBB bb = new AxisAlignedBB(blockInfo.getPos())
-                .addCoord(blockInfo.getFacing().getFrontOffsetX(),
-                        blockInfo.getFacing().getFrontOffsetY(),
-                        blockInfo.getFacing().getFrontOffsetZ());
+                .addCoord(blockInfo.getFacing().getFaceX(),
+                        blockInfo.getFacing().getFaceY(),
+                        blockInfo.getFacing().getFaceZ());
         bb.maxY = blockInfo.getPos().getY() + 0.5;
         Render3D.outlinedAABB(bb, 1.5f, QuadMask.ALL_FACES, 0xFFFF0000);
         Render3D.filledAABB(bb, QuadMask.ALL_FACES, 0x80FF0000);

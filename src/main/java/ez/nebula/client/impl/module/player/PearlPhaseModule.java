@@ -59,7 +59,7 @@ public final class PearlPhaseModule extends InteractionModule
         final BlockPos pos = PlayerUtil.getOrigin().up();
         for (final EnumFacing facing : BlockUtil.HORIZONTALS)
         {
-            final BlockPos neighbor = BlockUtil.offset(pos, facing);
+            final BlockPos neighbor = pos.offset(facing);
             if (PlayerUtil.isPlayerCollided(neighbor))
             {
                 return new float[] { MathHelper.wrapAngleTo180_float(BlockUtil.getHorizontalFacing(facing) * 90.0f), PITCH };

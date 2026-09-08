@@ -97,9 +97,9 @@ public final class AngleUtil
     {
         final Vec3 eyes = MC.thePlayer.getPosition(partialTicks);
 
-        int offsetX = face.getFrontOffsetX();
-        int offsetY = face.getFrontOffsetY();
-        int offsetZ = face.getFrontOffsetZ();
+        int offsetX = face.getFaceX();
+        int offsetY = face.getFaceY();
+        int offsetZ = face.getFaceZ();
 
         double deltaX = (Math.floor(eyes.xCoord) + 0.5)
                 - ((double) pos.getX() + 0.5 - (offsetX * 0.5));

@@ -129,7 +129,7 @@ public class DynamicLight
 
     private static BlockPos getRenderChunk(BlockPos pos, EnumFacing facing)
     {
-        return new BlockPos(pos.getX() + facing.getFrontOffsetX() * 16, pos.getY() + facing.getFrontOffsetY() * 16, pos.getZ() + facing.getFrontOffsetZ() * 16);
+        return new BlockPos(pos.getX() + facing.getFaceX() * 16, pos.getY() + facing.getFaceY() * 16, pos.getZ() + facing.getFaceZ() * 16);
     }
 
     private void updateChunkLight(RenderGlobal renderGlobal, BlockPos pos, Set<BlockPos> setPrevPos, Set<BlockPos> setNewPos)

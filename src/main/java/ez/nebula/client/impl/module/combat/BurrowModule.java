@@ -165,7 +165,7 @@ public final class BurrowModule extends Module
         final BlockPos origin = PlayerUtil.getOrigin();
         for (final EnumFacing facing : EnumFacing.values())
         {
-            final BlockPos n = BlockUtil.offset(origin, facing);
+            final BlockPos n = origin.offset(facing);
             if (!BlockUtil.isReplaceable(n))
             {
                 return new BlockData(n, facing.getOpposite());

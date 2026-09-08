@@ -162,9 +162,9 @@ public final class AutoWitherModule extends Module
             soulSandSlot = Nebula.INVENTORY.slot();
             // get the correct pos via the place face
             final EnumFacing face = EnumFacing.faceList[event.getSide()];
-            x = event.getX() + face.getFrontOffsetX();
-            y = event.getY() + face.getFrontOffsetY();
-            z = event.getZ() + face.getFrontOffsetZ();
+            x = event.getX() + face.getFaceX();
+            y = event.getY() + face.getFaceY();
+            z = event.getZ() + face.getFaceZ();
             return;
         }
         invalidate();

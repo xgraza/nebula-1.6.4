@@ -1,5 +1,7 @@
 package net.minecraft.util;
 
+import net.minecraft.src.BlockPos;
+
 public enum EnumFacing
 {
     DOWN(0, 1, 0, -1, 0),
@@ -22,6 +24,8 @@ public enum EnumFacing
     private final int frontOffsetY;
     private final int frontOffsetZ;
 
+    private final BlockPos offsetPos;
+
     /**
      * List of all values in EnumFacing. Order is D-U-N-S-E-W.
      */
@@ -34,17 +38,18 @@ public enum EnumFacing
         this.frontOffsetX = frontOffsetX;
         this.frontOffsetY = frontOffsetY;
         this.frontOffsetZ = frontOffsetZ;
+        this.offsetPos = new BlockPos(frontOffsetX, frontOffsetY, frontOffsetZ);
     }
 
     /**
      * Returns a offset that addresses the block in front of this facing.
      */
-    public int getFrontOffsetX()
+    public int getFaceX()
     {
         return this.frontOffsetX;
     }
 
-    public int getFrontOffsetY()
+    public int getFaceY()
     {
         return this.frontOffsetY;
     }
@@ -52,9 +57,14 @@ public enum EnumFacing
     /**
      * Returns a offset that addresses the block in front of this facing.
      */
-    public int getFrontOffsetZ()
+    public int getFaceZ()
     {
         return this.frontOffsetZ;
+    }
+
+    public BlockPos getFaceOffset()
+    {
+        return offsetPos;
     }
 
     /**

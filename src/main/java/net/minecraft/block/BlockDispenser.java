@@ -250,9 +250,9 @@ public class BlockDispenser extends BlockContainer
     public static IPosition func_149939_a(IBlockSource p_149939_0_)
     {
         EnumFacing var1 = func_149937_b(p_149939_0_.getBlockMetadata());
-        double var2 = p_149939_0_.getX() + 0.7D * (double) var1.getFrontOffsetX();
-        double var4 = p_149939_0_.getY() + 0.7D * (double) var1.getFrontOffsetY();
-        double var6 = p_149939_0_.getZ() + 0.7D * (double) var1.getFrontOffsetZ();
+        double var2 = p_149939_0_.getX() + 0.7D * (double) var1.getFaceX();
+        double var4 = p_149939_0_.getY() + 0.7D * (double) var1.getFaceY();
+        double var6 = p_149939_0_.getZ() + 0.7D * (double) var1.getFaceZ();
         return new PositionImpl(var2, var4, var6);
     }
 

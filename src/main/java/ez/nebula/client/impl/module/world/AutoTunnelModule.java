@@ -245,7 +245,7 @@ public final class AutoTunnelModule extends Module
 
     private boolean isBlockBehindPlayer(final BlockPos pos)
     {
-        final BlockPos vec = BlockUtil.getFacingVec(PlayerUtil.getFacing());
+        final BlockPos vec = PlayerUtil.getFacing().getFaceOffset();
         int delta = 0;
         int axis = 0;
         if (vec.getX() != 0)

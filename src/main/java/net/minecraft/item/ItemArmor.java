@@ -34,9 +34,9 @@ public class ItemArmor extends Item
         protected ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
         {
             EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
-            int var4 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-            int var5 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-            int var6 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
+            int var4 = par1IBlockSource.getXInt() + var3.getFaceX();
+            int var5 = par1IBlockSource.getYInt() + var3.getFaceY();
+            int var6 = par1IBlockSource.getZInt() + var3.getFaceZ();
             AxisAlignedBB var7 = AxisAlignedBB.getAABBPool().getAABB(var4, var5, var6, var4 + 1, var5 + 1, var6 + 1);
             List var8 = par1IBlockSource.getWorld().selectEntitiesWithinAABB(EntityLivingBase.class, var7, new IEntitySelector.ArmoredMob(par2ItemStack));
 

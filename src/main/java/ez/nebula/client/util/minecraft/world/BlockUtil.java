@@ -106,28 +106,6 @@ public final class BlockUtil
         return -1;
     }
 
-    public static BlockPos getFacingVec(final EnumFacing facing)
-    {
-        // FUCK THIS GAME!!!!
-        switch (facing)
-        {
-            case UP:
-                return new BlockPos(0, 1, 0);
-            case DOWN:
-                return new BlockPos(0, -1, 0);
-            case NORTH:
-                return new BlockPos(0, 0, -1);
-            case SOUTH:
-                return new BlockPos(0, 0, 1);
-            case EAST:
-                return new BlockPos(1, 0, 0);
-            case WEST:
-                return new BlockPos(-1, 0, 0);
-            default:
-                return new BlockPos(0, 0, 0);
-        }
-    }
-
     public static BlockPos[] getAdjacent(final EnumFacing facing)
     {
         switch (facing)
@@ -216,13 +194,6 @@ public final class BlockUtil
             posY -= 1;
         }
         return posY > 0 && posY <= worldHeight;
-    }
-
-    public static BlockPos offset(final BlockPos pos, final EnumFacing facing)
-    {
-        return new BlockPos(pos.getX() + facing.getFrontOffsetX(),
-                pos.getY() + facing.getFrontOffsetY(),
-                pos.getZ() + facing.getFrontOffsetZ());
     }
 
     public static boolean isNotAir(final BlockPos pos)

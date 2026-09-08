@@ -98,9 +98,9 @@ public class Bootstrap
             public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
             {
                 EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
-                double var4 = par1IBlockSource.getX() + (double) var3.getFrontOffsetX();
+                double var4 = par1IBlockSource.getX() + (double) var3.getFaceX();
                 double var6 = (float) par1IBlockSource.getYInt() + 0.2F;
-                double var8 = par1IBlockSource.getZ() + (double) var3.getFrontOffsetZ();
+                double var8 = par1IBlockSource.getZ() + (double) var3.getFaceZ();
                 Entity var10 = ItemMonsterPlacer.spawnCreature(par1IBlockSource.getWorld(), par2ItemStack.getItemDamage(), var4, var6, var8);
 
                 if (var10 instanceof EntityLivingBase && par2ItemStack.hasDisplayName())
@@ -117,9 +117,9 @@ public class Bootstrap
             public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
             {
                 EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
-                double var4 = par1IBlockSource.getX() + (double) var3.getFrontOffsetX();
+                double var4 = par1IBlockSource.getX() + (double) var3.getFaceX();
                 double var6 = (float) par1IBlockSource.getYInt() + 0.2F;
-                double var8 = par1IBlockSource.getZ() + (double) var3.getFrontOffsetZ();
+                double var8 = par1IBlockSource.getZ() + (double) var3.getFaceZ();
                 EntityFireworkRocket var10 = new EntityFireworkRocket(par1IBlockSource.getWorld(), var4, var6, var8, par2ItemStack);
                 par1IBlockSource.getWorld().spawnEntityInWorld(var10);
                 par2ItemStack.splitStack(1);
@@ -139,14 +139,14 @@ public class Bootstrap
             {
                 EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
                 IPosition var4 = BlockDispenser.func_149939_a(par1IBlockSource);
-                double var5 = var4.getX() + (double) ((float) var3.getFrontOffsetX() * 0.3F);
-                double var7 = var4.getY() + (double) ((float) var3.getFrontOffsetX() * 0.3F);
-                double var9 = var4.getZ() + (double) ((float) var3.getFrontOffsetZ() * 0.3F);
+                double var5 = var4.getX() + (double) ((float) var3.getFaceX() * 0.3F);
+                double var7 = var4.getY() + (double) ((float) var3.getFaceX() * 0.3F);
+                double var9 = var4.getZ() + (double) ((float) var3.getFaceZ() * 0.3F);
                 World var11 = par1IBlockSource.getWorld();
                 Random var12 = var11.rand;
-                double var13 = var12.nextGaussian() * 0.05D + (double) var3.getFrontOffsetX();
-                double var15 = var12.nextGaussian() * 0.05D + (double) var3.getFrontOffsetY();
-                double var17 = var12.nextGaussian() * 0.05D + (double) var3.getFrontOffsetZ();
+                double var13 = var12.nextGaussian() * 0.05D + (double) var3.getFaceX();
+                double var15 = var12.nextGaussian() * 0.05D + (double) var3.getFaceY();
+                double var17 = var12.nextGaussian() * 0.05D + (double) var3.getFaceZ();
                 var11.spawnEntityInWorld(new EntitySmallFireball(var11, var5, var7, var9, var13, var15, var17));
                 par2ItemStack.splitStack(1);
                 return par2ItemStack;
@@ -166,12 +166,12 @@ public class Bootstrap
             {
                 EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
                 World var4 = par1IBlockSource.getWorld();
-                double var5 = par1IBlockSource.getX() + (double) ((float) var3.getFrontOffsetX() * 1.125F);
-                double var7 = par1IBlockSource.getY() + (double) ((float) var3.getFrontOffsetY() * 1.125F);
-                double var9 = par1IBlockSource.getZ() + (double) ((float) var3.getFrontOffsetZ() * 1.125F);
-                int var11 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-                int var12 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-                int var13 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
+                double var5 = par1IBlockSource.getX() + (double) ((float) var3.getFaceX() * 1.125F);
+                double var7 = par1IBlockSource.getY() + (double) ((float) var3.getFaceY() * 1.125F);
+                double var9 = par1IBlockSource.getZ() + (double) ((float) var3.getFaceZ() * 1.125F);
+                int var11 = par1IBlockSource.getXInt() + var3.getFaceX();
+                int var12 = par1IBlockSource.getYInt() + var3.getFaceY();
+                int var13 = par1IBlockSource.getZInt() + var3.getFaceZ();
                 Material var14 = var4.getBlock(var11, var12, var13).getMaterial();
                 double var15;
 
@@ -212,7 +212,7 @@ public class Bootstrap
                 int var6 = par1IBlockSource.getZInt();
                 EnumFacing var7 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
 
-                if (var3.tryPlaceContainedLiquid(par1IBlockSource.getWorld(), var4 + var7.getFrontOffsetX(), var5 + var7.getFrontOffsetY(), var6 + var7.getFrontOffsetZ()))
+                if (var3.tryPlaceContainedLiquid(par1IBlockSource.getWorld(), var4 + var7.getFaceX(), var5 + var7.getFaceY(), var6 + var7.getFaceZ()))
                 {
                     par2ItemStack.func_150996_a(Items.bucket);
                     par2ItemStack.stackSize = 1;
@@ -234,9 +234,9 @@ public class Bootstrap
             {
                 EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
                 World var4 = par1IBlockSource.getWorld();
-                int var5 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-                int var6 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-                int var7 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
+                int var5 = par1IBlockSource.getXInt() + var3.getFaceX();
+                int var6 = par1IBlockSource.getYInt() + var3.getFaceY();
+                int var7 = par1IBlockSource.getZInt() + var3.getFaceZ();
                 Material var8 = var4.getBlock(var5, var6, var7).getMaterial();
                 int var9 = var4.getBlockMetadata(var5, var6, var7);
                 Item var10;
@@ -277,9 +277,9 @@ public class Bootstrap
             {
                 EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
                 World var4 = par1IBlockSource.getWorld();
-                int var5 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-                int var6 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-                int var7 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
+                int var5 = par1IBlockSource.getXInt() + var3.getFaceX();
+                int var6 = par1IBlockSource.getYInt() + var3.getFaceY();
+                int var7 = par1IBlockSource.getZInt() + var3.getFaceZ();
 
                 if (var4.isAirBlock(var5, var6, var7))
                 {
@@ -323,9 +323,9 @@ public class Bootstrap
                 {
                     EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
                     World var4 = par1IBlockSource.getWorld();
-                    int var5 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-                    int var6 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-                    int var7 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
+                    int var5 = par1IBlockSource.getXInt() + var3.getFaceX();
+                    int var6 = par1IBlockSource.getYInt() + var3.getFaceY();
+                    int var7 = par1IBlockSource.getZInt() + var3.getFaceZ();
 
                     if (ItemDye.func_150919_a(par2ItemStack, var4, var5, var6, var7))
                     {
@@ -364,9 +364,9 @@ public class Bootstrap
             {
                 EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
                 World var4 = par1IBlockSource.getWorld();
-                int var5 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-                int var6 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-                int var7 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
+                int var5 = par1IBlockSource.getXInt() + var3.getFaceX();
+                int var6 = par1IBlockSource.getYInt() + var3.getFaceY();
+                int var7 = par1IBlockSource.getZInt() + var3.getFaceZ();
                 EntityTNTPrimed var8 = new EntityTNTPrimed(var4, (float) var5 + 0.5F, (float) var6 + 0.5F, (float) var7 + 0.5F, null);
                 var4.spawnEntityInWorld(var8);
                 --par2ItemStack.stackSize;

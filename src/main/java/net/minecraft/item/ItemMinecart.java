@@ -24,12 +24,12 @@ public class ItemMinecart extends Item
         {
             EnumFacing var3 = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
             World var4 = par1IBlockSource.getWorld();
-            double var5 = par1IBlockSource.getX() + (double) ((float) var3.getFrontOffsetX() * 1.125F);
-            double var7 = par1IBlockSource.getY() + (double) ((float) var3.getFrontOffsetY() * 1.125F);
-            double var9 = par1IBlockSource.getZ() + (double) ((float) var3.getFrontOffsetZ() * 1.125F);
-            int var11 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-            int var12 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-            int var13 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
+            double var5 = par1IBlockSource.getX() + (double) ((float) var3.getFaceX() * 1.125F);
+            double var7 = par1IBlockSource.getY() + (double) ((float) var3.getFaceY() * 1.125F);
+            double var9 = par1IBlockSource.getZ() + (double) ((float) var3.getFaceZ() * 1.125F);
+            int var11 = par1IBlockSource.getXInt() + var3.getFaceX();
+            int var12 = par1IBlockSource.getYInt() + var3.getFaceY();
+            int var13 = par1IBlockSource.getZInt() + var3.getFaceZ();
             Block var14 = var4.getBlock(var11, var12, var13);
             double var15;
 

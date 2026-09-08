@@ -167,9 +167,9 @@ public class SchematicPrinter
 
     private boolean isSolid(World world, int x, int y, int z, EnumFacing side)
     {
-        x += side.getFrontOffsetX();
-        y += side.getFrontOffsetY();
-        z += side.getFrontOffsetZ();
+        x += side.getFaceX();
+        y += side.getFaceY();
+        z += side.getFaceZ();
 
         Block block = world.getBlock(x, y, z);
 
@@ -300,9 +300,9 @@ public class SchematicPrinter
     {
         ItemStack itemStack = player.getCurrentEquippedItem();
 
-        x += direction.getFrontOffsetX();
-        y += direction.getFrontOffsetY();
-        z += direction.getFrontOffsetZ();
+        x += direction.getFaceX();
+        y += direction.getFaceY();
+        z += direction.getFaceZ();
 
         int side = direction.getOpposite().ordinal();
 
