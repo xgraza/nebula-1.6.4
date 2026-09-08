@@ -161,42 +161,29 @@ public final class BlockUtil
 
     public static BlockInfo getPlacement(final BlockPos pos)
     {
-        // i know this looks bad, and that's because it is
-        // however, frame drops with this are essentially non-existent, plus it usually always ends up giving a result
-        // feel free to write a better version of this, i will eventually
-
-        SEARCH_QUEUE.clear();
-        VISITED_SET.clear();
-
-        SEARCH_QUEUE.add(pos);
-        VISITED_SET.add(pos.hashCode());
-
-        while (!SEARCH_QUEUE.isEmpty())
+        for (final EnumFacing face : EnumFacing.values())
         {
-            final BlockPos p = SEARCH_QUEUE.poll();
-            for (final EnumFacing facing : EnumFacing.values())
+            final BlockPos neighbor = pos.offset(face);
+            final EnumFacing opposite = getOpposite(face);
+            if (!isReplaceable(neighbor) && canPlace(neighbor, opposite))
             {
-                final BlockPos neighbor = p.offset(facing);
-
-                double distance = MathUtil.getDistanceSq(pos, neighbor);
-                if (distance > 36)
-                {
-                    continue;
-                }
-
-                if (!VISITED_SET.add(neighbor.hashCode()))
-                {
-                    continue;
-                }
-                final EnumFacing opposite = getOpposite(facing);
-                if (!isReplaceable(neighbor) && canPlace(neighbor, opposite))
-                {
-                    return new BlockInfo(neighbor, opposite);
-                }
-                SEARCH_QUEUE.add(neighbor);
+                return new BlockInfo(neighbor, opposite);
             }
         }
 
+        for (final EnumFacing face : EnumFacing.values())
+        {
+            final BlockPos neighbor = pos.offset(face);
+            for (final EnumFacing side : EnumFacing.values())
+            {
+                final BlockPos neighbor2 = neighbor.offset(side);
+                final EnumFacing opposite = getOpposite(side);
+                if (!isReplaceable(neighbor2) && canPlace(neighbor2, opposite))
+                {
+                    return new BlockInfo(neighbor2, opposite);
+                }
+            }
+        }
         return null;
     }
 
