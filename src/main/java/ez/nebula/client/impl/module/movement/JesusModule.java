@@ -79,8 +79,8 @@ public final class JesusModule extends Module
                 && waterTicks > (didExit ? 5 : 2)
                 && !MC.gameSettings.keyBindJump.pressed)
         {
-            event.setY(event.getY() + 0.02);
-            event.setStance(event.getStance() + 0.02);
+            event.setY(event.getY() + 0.01);
+            event.setStance(event.getStance() + 0.01);
             event.setOnGround(NoHungerModule.INSTANCE.isToggled() && NoHungerModule.INSTANCE.groundSetting.getValue());
         }
     };
