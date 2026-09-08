@@ -86,7 +86,7 @@ public final class HUDElementPanel extends GUIComponent implements IGUIInputList
 
         if (offset > 0.0 && panelAnimation.getFactor() > 0.0)
         {
-            Render2D.rectangleOutline(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 4f, BACKGROUND_COLOR);
+            Render2D.roundedRectangle(x + PADDING, y + height, width - (PADDING * 2), getHeight() - height - PADDING, 4f, BACKGROUND_COLOR);
 
             double posY = y + height + PADDING;
             for (final GUIComponent component : getChildrenComponentList())
