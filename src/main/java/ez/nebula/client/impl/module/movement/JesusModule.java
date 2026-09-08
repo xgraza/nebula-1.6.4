@@ -30,14 +30,15 @@ public final class JesusModule extends Module
     private static final AxisAlignedBB LIQUID_FULL_AABB = new AxisAlignedBB(
             0, 0, 0, 1, 0.99, 1);
 
-    private boolean attemptExit, lastTickSpoof;
+    private int waterTicks;
+    private boolean attemptExit, didExit;
 
     @Override
     public void onDisable()
     {
         super.onDisable();
         attemptExit = false;
-        lastTickSpoof = false;
+        didExit = false;
     }
 
     @Subscribe
@@ -57,6 +58,7 @@ public final class JesusModule extends Module
             if (attemptExit)
             {
                 MC.thePlayer.motionY = 0.3;
+                didExit = true;
                 attemptExit = false;
             }
         }
@@ -67,21 +69,20 @@ public final class JesusModule extends Module
     {
         if (!PlayerUtil.isAboveWater() || MC.thePlayer.isInWater())
         {
-            lastTickSpoof = false;
+            didExit = false;
+            waterTicks = 0;
             return;
         }
+        ++waterTicks;
 
         if (MC.thePlayer.ticksExisted % 2 == 0
-                && MC.thePlayer.groundTicks > 2
+                && waterTicks > (didExit ? 5 : 2)
                 && !MC.gameSettings.keyBindJump.pressed)
         {
-            lastTickSpoof = true;
             event.setY(event.getY() + 0.02);
             event.setStance(event.getStance() + 0.02);
             event.setOnGround(NoHungerModule.INSTANCE.isToggled() && NoHungerModule.INSTANCE.groundSetting.getValue());
-            return;
         }
-        lastTickSpoof = false;
     };
 
     @Subscribe
@@ -91,7 +92,8 @@ public final class JesusModule extends Module
                 || MC.thePlayer.fallDistance > 3.0f
                 || MC.thePlayer.isInWater()
                 || !PlayerUtil.isAboveWater()
-                || attemptExit)
+                || attemptExit
+                || event.getY() > MC.thePlayer.boundingBox.minY)
         {
             return;
         }
