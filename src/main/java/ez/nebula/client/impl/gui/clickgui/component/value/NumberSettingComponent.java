@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.gui.clickgui.component.value;
 
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Keyboard;
@@ -20,7 +21,7 @@ import static org.lwjgl.input.Keyboard.KEY_RIGHT;
  * @author xgraza
  * @since 03/02/25
  */
-public class NumberSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
+public class NumberSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting, IComponentDescription
 {
     private static final double PADDING = 1.0;
 
@@ -191,5 +192,11 @@ public class NumberSettingComponent extends GUIComponent implements IGUIInputLis
     public NumberSetting<?> getSetting()
     {
         return setting;
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return setting.getDescription();
     }
 }

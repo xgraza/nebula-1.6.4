@@ -233,4 +233,10 @@ public class CategoryPanel extends GUIComponent implements IGUIInputListener
     {
         return dragging;
     }
+
+    @Override
+    public boolean isOpen()
+    {
+        return animation.getFactor() > 0.0;
+    }
 }

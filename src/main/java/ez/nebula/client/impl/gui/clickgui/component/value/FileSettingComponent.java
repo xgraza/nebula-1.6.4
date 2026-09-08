@@ -3,6 +3,7 @@ package ez.nebula.client.impl.gui.clickgui.component.value;
 import ez.nebula.client.Nebula;
 import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
@@ -18,7 +19,7 @@ import java.io.File;
  * @author xgraza
  * @since 03/25/25
  */
-public final class FileSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
+public final class FileSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting, IComponentDescription
 {
     private static final Logger LOGGER = LogManager.getLogger("FSC");
     
@@ -150,5 +151,11 @@ public final class FileSettingComponent extends GUIComponent implements IGUIInpu
     public Setting<File> getSetting()
     {
         return setting;
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return setting.getDescription();
     }
 }

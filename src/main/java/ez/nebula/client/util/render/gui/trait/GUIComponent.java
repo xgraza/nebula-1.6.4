@@ -40,6 +40,11 @@ public abstract class GUIComponent
         return true;
     }
 
+    public boolean isOpen()
+    {
+        return false;
+    }
+
     public double getX()
     {
         return x;

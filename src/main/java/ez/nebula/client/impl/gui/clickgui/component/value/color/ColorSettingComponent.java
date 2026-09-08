@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.gui.clickgui.component.value.color;
 
 import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.impl.gui.clickgui.component.value.BooleanSettingComponent;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.Setting;
@@ -15,7 +16,7 @@ import java.awt.Color;
  * @author xgraza
  * @since 04/07/25
  */
-public final class ColorSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
+public final class ColorSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting, IComponentDescription
 {
     private static final double PADDING = 1.0;
 
@@ -139,5 +140,17 @@ public final class ColorSettingComponent extends GUIComponent implements IGUIInp
     public ColorSetting getSetting()
     {
         return setting;
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return setting.getDescription();
+    }
+
+    @Override
+    public boolean isOpen()
+    {
+        return opened;
     }
 }

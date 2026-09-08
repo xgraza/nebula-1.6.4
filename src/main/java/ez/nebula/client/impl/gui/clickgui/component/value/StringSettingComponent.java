@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.gui.clickgui.component.value;
 
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
@@ -11,7 +12,7 @@ import org.lwjgl.input.Keyboard;
 
 import static org.lwjgl.input.Keyboard.*;
 
-public class StringSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
+public class StringSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting, IComponentDescription
 {
     private static final int PADDING = 1;
 
@@ -195,5 +196,11 @@ public class StringSettingComponent extends GUIComponent implements IGUIInputLis
     public boolean isVisible()
     {
         return setting.isVisible();
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return setting.getDescription();
     }
 }

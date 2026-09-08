@@ -2,6 +2,7 @@ package ez.nebula.client.impl.gui.clickgui.component.value;
 
 import ez.nebula.client.impl.gui.clickgui.component.ComponentWithSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
 import ez.nebula.client.util.render.gui.trait.IGUIInputListener;
@@ -17,7 +18,7 @@ import static ez.nebula.client.api.manager.key.Key.DEFAULT_UNBOUND_KEY;
  * @author xgraza
  * @since 03/20/25
  */
-public final class KeySettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting
+public final class KeySettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting, IComponentDescription
 {
     private static final double PADDING = 1.0;
 
@@ -103,5 +104,11 @@ public final class KeySettingComponent extends GUIComponent implements IGUIInput
     public Setting<Key> getSetting()
     {
         return setting;
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return setting == null ? "" : setting.getDescription();
     }
 }

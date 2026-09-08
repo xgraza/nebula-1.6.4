@@ -6,6 +6,7 @@ import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.impl.gui.clickgui.component.value.*;
 import ez.nebula.client.impl.gui.clickgui.component.value.color.ColorSettingComponent;
 import ez.nebula.client.impl.module.render.HUDModule;
@@ -24,7 +25,7 @@ import java.io.File;
  * @author xgraza
  * @since 3/23/26
  */
-public final class HUDElementPanel extends GUIComponent implements IGUIInputListener
+public final class HUDElementPanel extends GUIComponent implements IGUIInputListener, IComponentDescription
 {
     private static final double PADDING = 1.0;
     private static final int BACKGROUND_COLOR = new Color(41, 41, 41).getRGB();
@@ -185,5 +186,17 @@ public final class HUDElementPanel extends GUIComponent implements IGUIInputList
             }
         }
         return height + ((h + (PADDING * 3)) * panelAnimation.getEasedFactor());
+    }
+
+    @Override
+    public boolean isOpen()
+    {
+        return panelAnimation.getFactor() > 0.0;
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return element.getManifest().description();
     }
 }

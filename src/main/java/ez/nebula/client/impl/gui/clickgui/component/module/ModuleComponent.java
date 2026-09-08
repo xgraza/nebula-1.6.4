@@ -5,6 +5,7 @@ import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.impl.gui.clickgui.component.value.*;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
@@ -28,7 +29,7 @@ import java.util.List;
  * @since 03/01/25
  */
 @SuppressWarnings("unchecked")
-public final class ModuleComponent extends GUIComponent implements IGUIInputListener
+public final class ModuleComponent extends GUIComponent implements IGUIInputListener, IComponentDescription
 {
     private static final double PADDING = 1.0;
 
@@ -218,13 +219,15 @@ public final class ModuleComponent extends GUIComponent implements IGUIInputList
         return height + ((h + (PADDING * 3)) * panelAnimation.getEasedFactor());
     }
 
+    @Override
     public boolean isOpen()
     {
         return panelAnimation.getFactor() != 0.0;
     }
 
-    public Module getModule()
+    @Override
+    public String getDescription()
     {
-        return module;
+        return module.getManifest().description();
     }
 }

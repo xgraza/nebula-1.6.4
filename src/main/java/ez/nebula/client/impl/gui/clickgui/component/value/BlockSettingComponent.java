@@ -1,5 +1,6 @@
 package ez.nebula.client.impl.gui.clickgui.component.value;
 
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.font.Fonts;
 import ez.nebula.client.util.render.gui.trait.GUIComponent;
@@ -20,7 +21,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @author xgraza
  * @since 6/4/26
  */
-public final class BlockSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting, BlockSelectionCallback
+public final class BlockSettingComponent extends GUIComponent implements IGUIInputListener, ComponentWithSetting, BlockSelectionCallback, IComponentDescription
 {
     private static final int KEY_BACKGROUND_COLOR = new Color(33, 33, 33).getRGB();
     private static final double PADDING = 1.0;
@@ -147,5 +148,11 @@ public final class BlockSettingComponent extends GUIComponent implements IGUIInp
     public Setting<?> getSetting()
     {
         return setting;
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return setting.getDescription();
     }
 }

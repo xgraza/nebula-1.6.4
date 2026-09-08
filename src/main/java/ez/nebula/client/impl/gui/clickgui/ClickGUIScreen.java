@@ -1,6 +1,7 @@
 package ez.nebula.client.impl.gui.clickgui;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.impl.gui.clickgui.component.IComponentDescription;
 import ez.nebula.client.impl.gui.clickgui.component.hud.HUDElementCategoryPanel;
 import ez.nebula.client.util.render.gui.Render2D;
 import ez.nebula.client.util.render.font.AWTFontRenderer;
@@ -23,6 +24,7 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -197,37 +199,50 @@ public final class ClickGUIScreen extends GuiScreen
         {
             return;
         }
-        for (final CategoryPanel categoryPanel : categoryPanels)
+
+        final List<GUIComponent> components = new ArrayList<>();
+        for (final CategoryPanel panel : categoryPanels)
         {
-            final List<GUIComponent> childrenComponents = categoryPanel.getChildrenComponentList();
-            if (childrenComponents.isEmpty())
+            if (!panel.isOpen())
             {
                 continue;
             }
-            for (final GUIComponent c : childrenComponents)
+            for (final GUIComponent component : panel.getChildrenComponentList())
             {
-                if (c instanceof ModuleComponent)
+                if (!(component instanceof IComponentDescription))
                 {
-                    final ModuleComponent cheatPanel = (ModuleComponent) c;
-                    if (cheatPanel.isMouseIn(mouseX, mouseY))
+                    continue;
+                }
+                if (component.isMouseIn(mouseX, mouseY))
+                {
+                    drawHoveredDescription(((IComponentDescription) component).getDescription(), mouseX, mouseY);
+                    return;
+                } else if (component.isOpen())
+                {
+                    for (final GUIComponent child : component.getChildrenComponentList())
                     {
-                        drawHoveredDescription(cheatPanel.getModule().getManifest().description(), mouseX, mouseY);
-                        return;
-                    }
-                    if (cheatPanel.isOpen() && cheatPanel.isMouseInDynamic(mouseX, mouseY))
-                    {
-                        for (final GUIComponent component : cheatPanel.getChildrenComponentList())
+                        if (child instanceof IComponentDescription)
                         {
-                            if (component instanceof ComponentWithSetting && component.isVisible())
-                            {
-                                final ComponentWithSetting cws = (ComponentWithSetting) component;
-                                if (cws.getSetting() != null && cws.getSetting().getDescription() != null && component.isMouseIn(mouseX, mouseY))
-                                {
-                                    drawHoveredDescription(cws.getSetting().getDescription(), mouseX, mouseY);
-                                    return;
-                                }
-                            }
+                            components.add(child);
                         }
+                    }
+                }
+            }
+        }
+
+        for (final GUIComponent component : components)
+        {
+            if (component.isMouseIn(mouseX, mouseY))
+            {
+                drawHoveredDescription(((IComponentDescription) component).getDescription(), mouseX, mouseY);
+                return;
+            } else if (component.isOpen())
+            {
+                for (final GUIComponent child : component.getChildrenComponentList())
+                {
+                    if (child instanceof IComponentDescription)
+                    {
+                        components.add(child);
                     }
                 }
             }
