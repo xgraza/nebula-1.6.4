@@ -1,11 +1,9 @@
 package ez.nebula.client.impl.config;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.ClientConfig;
 import ez.nebula.client.Nebula;
-import ez.nebula.client.api.config.IConfig;
-import ez.nebula.client.util.io.FileUtil;
+import ez.nebula.client.api.config.type.JSONConfig;
 
 import java.io.File;
 
@@ -13,41 +11,30 @@ import java.io.File;
  * @author xgraza
  * @since 3/14/26
  */
-public final class ClientSettingConfig implements IConfig
+public final class ClientSettingConfig extends JSONConfig<JsonObject>
 {
     @Override
-    public String save()
+    public JsonObject writeJSON()
     {
         final JsonObject object = new JsonObject();
         object.addProperty("useCustomSplashText", ClientConfig.USE_CUSTOM_SPLASH_TEXT);
         object.addProperty("openedGuiBefore", ClientConfig.OPENED_GUI_BEFORE);
         object.addProperty("debug", ClientConfig.DEBUG);
-        return FileUtil.GSON.toJson(object);
+        return object;
     }
 
     @Override
-    public void load(final String data)
+    public void readJSON(JsonObject json)
     {
-        if (data == null || data.isEmpty())
-        {
-            return;
-        }
-        final JsonElement element = FileUtil.JSON_PARSER.parse(data);
-        if (!element.isJsonObject())
-        {
-            return;
-        }
-        final JsonObject object = element.getAsJsonObject();
-
-        ClientConfig.DEBUG = object.has("debug")
-                && object.get("debug").getAsBoolean();
-        ClientConfig.USE_CUSTOM_SPLASH_TEXT = object.has("useCustomSplashText")
-                && object.get("useCustomSplashText").getAsBoolean();
-        ClientConfig.OPENED_GUI_BEFORE = object.has("openedGuiBefore")
-                && object.get("openedGuiBefore").getAsBoolean();
+        ClientConfig.DEBUG = json.has("debug")
+                && json.get("debug").getAsBoolean();
+        ClientConfig.USE_CUSTOM_SPLASH_TEXT = json.has("useCustomSplashText")
+                && json.get("useCustomSplashText").getAsBoolean();
+        ClientConfig.OPENED_GUI_BEFORE = json.has("openedGuiBefore")
+                && json.get("openedGuiBefore").getAsBoolean();
     }
 
-    @Override public File getFile()
+    @Override public File getLocation()
     {
         return new File(Nebula.NEBULA_ROOT, "settings.json");
     }

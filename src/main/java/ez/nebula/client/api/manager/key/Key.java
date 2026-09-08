@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.api.manager.key.trait.KeyAction;
 import org.lwjgl.input.Keyboard;
-import ez.nebula.client.api.config.IJSONSerializable;
+import ez.nebula.client.util.io.IJSONSerializable;
 
 import static org.lwjgl.input.Keyboard.KEY_NONE;
 

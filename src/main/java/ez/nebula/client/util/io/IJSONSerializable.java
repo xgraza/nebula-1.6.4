@@ -1,4 +1,4 @@
-package ez.nebula.client.api.config;
+package ez.nebula.client.util.io;
 
 import com.google.gson.JsonElement;
 

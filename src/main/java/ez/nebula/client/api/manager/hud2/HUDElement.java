@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import ez.nebula.client.ClientConfig;
 import ez.nebula.client.api.DebugFeature;
 import ez.nebula.client.api.Togglable;
-import ez.nebula.client.api.config.IJSONSerializable;
+import ez.nebula.client.util.io.IJSONSerializable;
 import ez.nebula.client.api.manager.hud2.trait.HUDManifest;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.SettingProvider;

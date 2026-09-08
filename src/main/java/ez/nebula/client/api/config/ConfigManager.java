@@ -24,21 +24,25 @@ public final class ConfigManager implements IManager
     @Override
     public void init()
     {
-        Runtime.getRuntime().addShutdownHook(
-                new ConfigSaveThread(this));
+        Runtime.getRuntime().addShutdownHook(new ConfigSaveThread(this));
         register(new ClientSettingConfig());
         try
         {
             load();
-        } catch (IOException e)
+        } catch (final IOException e)
         {
-            throw new RuntimeException(e);
+            LOGGER.error("Failed to load configs!", e);
         }
     }
 
-    public boolean save(final IConfig configuration)
+    public void register(final IConfig config)
     {
-        final File file = configuration.getFile();
+        configList.add(config);
+    }
+
+    public boolean save(final IConfig config)
+    {
+        final File file = config.getLocation();
         if (!file.getParentFile().exists())
         {
             if (!file.getParentFile().mkdir())
@@ -63,7 +67,7 @@ public final class ConfigManager implements IManager
             }
         }
 
-        final String data = configuration.save();
+        final String data = config.write();
         if (data == null || data.isEmpty())
         {
             LOGGER.warn("Save data for {} was empty", file);
@@ -77,15 +81,16 @@ public final class ConfigManager implements IManager
         {
             LOGGER.error(e);
         }
-        return false;
+        return true;
     }
 
     private void load() throws IOException
     {
-        LOGGER.info("Loading {} configs...", configList.size());
-        for (final IConfig configuration : configList)
+        LOGGER.info("Attempting to load {} configs...", configList.size());
+        int loaded = 0;
+        for (final IConfig config : configList)
         {
-            final File file = configuration.getFile();
+            final File file = config.getLocation();
             if (!file.exists())
             {
                 LOGGER.warn("Configuration file {} does not exist", file);
@@ -94,14 +99,25 @@ public final class ConfigManager implements IManager
             final String data = FileUtil.read(file);
             if (!data.isEmpty())
             {
-                configuration.load(data);
+                try
+                {
+                    long endTime;
+                    long startTime = System.nanoTime();
+                    config.read(data);
+                    endTime = System.nanoTime();
+                    LOGGER.info("Loaded {} successfully in {}ms",
+                            config.getClass().getSimpleName(), (endTime - startTime) / 1000000.0);
+                    ++loaded;
+                } catch (final Exception e)
+                {
+                    LOGGER.error("Failed to load a config", e);
+                }
+            } else
+            {
+                LOGGER.warn("{} had empty file contents", config);
             }
         }
-    }
-
-    public void register(final IConfig configuration)
-    {
-        configList.add(configuration);
+        LOGGER.info("Loaded {}/{} configs successfully", loaded, configList.size());
     }
 
     public List<IConfig> getConfigs()

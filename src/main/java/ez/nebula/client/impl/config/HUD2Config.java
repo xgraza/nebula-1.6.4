@@ -1,12 +1,10 @@
 package ez.nebula.client.impl.config;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.Nebula;
-import ez.nebula.client.api.config.IConfig;
+import ez.nebula.client.api.config.type.JSONConfig;
 import ez.nebula.client.api.manager.hud2.HUDElement;
 import ez.nebula.client.api.manager.hud2.HUDElementManager;
-import ez.nebula.client.util.io.FileUtil;
 
 import java.io.File;
 
@@ -14,7 +12,7 @@ import java.io.File;
  * @author xgraza
  * @since 9/6/26
  */
-public final class HUD2Config implements IConfig
+public final class HUD2Config extends JSONConfig<JsonObject>
 {
     private final HUDElementManager manager;
 
@@ -26,7 +24,7 @@ public final class HUD2Config implements IConfig
     }
 
     @Override
-    public String save()
+    public JsonObject writeJSON()
     {
         final JsonObject object = new JsonObject();
         object.addProperty("height", manager.prevHeight);
@@ -36,31 +34,24 @@ public final class HUD2Config implements IConfig
         {
             object.add(element.getManifest().value(), element.toJSON());
         }
-        return FileUtil.GSON.toJson(object);
+        return object;
     }
 
     @Override
-    public void load(final String data)
+    public void readJSON(final JsonObject json)
     {
-        final JsonElement element = FileUtil.JSON_PARSER.parse(data);
-        if (element == null || !element.isJsonObject())
+        if (json.has("height") && json.has("width") && json.has("scale"))
         {
-            return;
-        }
-        final JsonObject object = element.getAsJsonObject();
-
-        if (object.has("height") && object.has("width") && object.has("scale"))
-        {
-            manager.prevHeight = object.get("height").getAsDouble();
-            manager.prevWidth = object.get("width").getAsDouble();
-            manager.prevScale = object.get("scale").getAsInt();
+            manager.prevHeight = json.get("height").getAsDouble();
+            manager.prevWidth = json.get("width").getAsDouble();
+            manager.prevScale = json.get("scale").getAsInt();
         }
 
         loaded = true;
     }
 
     @Override
-    public File getFile()
+    public File getLocation()
     {
         return new File(Nebula.NEBULA_ROOT, "hud.json");
     }

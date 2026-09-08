@@ -7,7 +7,7 @@ import ez.nebula.client.util.render.gui.Render2D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import ez.nebula.client.ClientConfig;
-import ez.nebula.client.api.config.IJSONSerializable;
+import ez.nebula.client.util.io.IJSONSerializable;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.SettingProvider;

@@ -3,10 +3,9 @@ package ez.nebula.client.impl.config;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import ez.nebula.client.Nebula;
-import ez.nebula.client.api.config.IConfig;
+import ez.nebula.client.api.config.type.JSONConfig;
 import ez.nebula.client.api.manager.waypoint.Waypoint;
 import ez.nebula.client.api.manager.waypoint.WaypointManager;
-import ez.nebula.client.util.io.FileUtil;
 
 import java.io.File;
 
@@ -14,7 +13,7 @@ import java.io.File;
  * @author xgraza
  * @since 6/12/26
  */
-public final class WaypointConfig implements IConfig
+public final class WaypointConfig extends JSONConfig<JsonArray>
 {
     private final WaypointManager manager;
 
@@ -23,45 +22,34 @@ public final class WaypointConfig implements IConfig
         this.manager = manager;
     }
 
-    @Override
-    public String save()
+    @Override public JsonArray writeJSON()
     {
         final JsonArray array = new JsonArray();
         for (final Waypoint waypoint : manager.getAll())
         {
             array.add(waypoint.toJSON());
         }
-        return FileUtil.GSON.toJson(array);
+        return array;
     }
 
     @Override
-    public void load(final String data)
+    public void readJSON(final JsonArray json)
     {
-        if (data == null || data.isEmpty())
-        {
-            return;
-        }
-        final JsonElement element = FileUtil.JSON_PARSER.parse(data);
-        if (element == null || !element.isJsonArray())
-        {
-            return;
-        }
         manager.clear();
-        final JsonArray array = element.getAsJsonArray();
-        for (final JsonElement waypointElement : array)
+        for (final JsonElement element : json)
         {
-            if (!waypointElement.isJsonObject())
+            if (!element.isJsonObject())
             {
                 continue;
             }
             final Waypoint waypoint = new Waypoint();
-            waypoint.fromJSON(waypointElement);
+            waypoint.fromJSON(element);
             manager.register(waypoint);
         }
     }
 
     @Override
-    public File getFile()
+    public File getLocation()
     {
         return new File(Nebula.NEBULA_ROOT, "waypoints.json");
     }

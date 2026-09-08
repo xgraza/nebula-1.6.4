@@ -8,9 +8,9 @@ import java.io.File;
  */
 public interface IConfig
 {
-    String save();
+    String write();
 
-    void load(final String data);
+    void read(final String data);
 
-    File getFile();
+    File getLocation();
 }

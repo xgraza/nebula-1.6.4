@@ -3,11 +3,10 @@ package ez.nebula.client.impl.config;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.Nebula;
-import ez.nebula.client.api.config.IConfig;
+import ez.nebula.client.api.config.type.JSONConfig;
 import ez.nebula.client.api.manager.hud.HUDElement;
 import ez.nebula.client.api.manager.hud.HUDManager;
 import ez.nebula.client.impl.module.render.HUDModule;
-import ez.nebula.client.util.io.FileUtil;
 import ez.nebula.client.util.render.gui.Render2D;
 
 import java.io.File;
@@ -16,7 +15,7 @@ import java.io.File;
  * @author xgraza
  * @since 3/23/26
  */
-public final class HUDConfig implements IConfig
+public final class HUDConfig extends JSONConfig<JsonObject>
 {
     private final HUDManager manager;
 
@@ -26,7 +25,7 @@ public final class HUDConfig implements IConfig
     }
 
     @Override
-    public String save()
+    public JsonObject writeJSON()
     {
         final JsonObject object = new JsonObject();
         if (Render2D.RESOLUTION != null)
@@ -38,42 +37,36 @@ public final class HUDConfig implements IConfig
         {
             object.add(hudElement.getManifest().name(), hudElement.toJSON());
         }
-        return FileUtil.GSON.toJson(object);
+        return object;
     }
 
     @Override
-    public void load(final String data)
+    public void readJSON(JsonObject json)
     {
-        final JsonElement element = FileUtil.JSON_PARSER.parse(data);
-        if (element == null || !element.isJsonObject())
+        if (json.has("savedWidth"))
         {
-            return;
+            HUDModule.INSTANCE.prevWidth = json.get("savedWidth").getAsInt();
         }
-        final JsonObject object = element.getAsJsonObject();
+        if (json.has("savedHeight"))
+        {
+            HUDModule.INSTANCE.prevHeight = json.get("savedHeight").getAsInt();
+        }
         for (final HUDElement hudElement : manager.getAll())
         {
-            if (!object.has(hudElement.getManifest().name()))
+            if (!json.has(hudElement.getManifest().name()))
             {
                 continue;
             }
-            final JsonElement jsonElement = object.get(hudElement.getManifest().name());
+            final JsonElement jsonElement = json.get(hudElement.getManifest().name());
             if (jsonElement != null && jsonElement.isJsonObject())
             {
                 hudElement.fromJSON(jsonElement);
             }
         }
-        if (object.has("savedWidth"))
-        {
-            HUDModule.INSTANCE.prevWidth = object.get("savedWidth").getAsInt();
-        }
-        if (object.has("savedHeight"))
-        {
-            HUDModule.INSTANCE.prevHeight = object.get("savedHeight").getAsInt();
-        }
     }
 
     @Override
-    public File getFile()
+    public File getLocation()
     {
         return new File(Nebula.NEBULA_ROOT, "hud_elements.json");
     }

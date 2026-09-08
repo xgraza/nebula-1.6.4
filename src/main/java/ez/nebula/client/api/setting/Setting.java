@@ -3,7 +3,7 @@ package ez.nebula.client.api.setting;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
-import ez.nebula.client.api.config.IJSONSerializable;
+import ez.nebula.client.util.io.IJSONSerializable;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;

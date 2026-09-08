@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.Nebula;
 import ez.nebula.client.api.config.IConfig;
-import ez.nebula.client.api.config.IJSONSerializable;
+import ez.nebula.client.util.io.IJSONSerializable;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.io.FileUtil;
@@ -87,7 +87,7 @@ public class Config implements IJSONSerializable, IConfig
     }
 
     @Override
-    public void load(final String data)
+    public void read(final String data)
     {
         if (data == null || data.isEmpty())
         {
@@ -98,13 +98,13 @@ public class Config implements IJSONSerializable, IConfig
     }
 
     @Override
-    public String save()
+    public String write()
     {
         return FileUtil.GSON.toJson(toJSON());
     }
 
     @Override
-    public File getFile()
+    public File getLocation()
     {
         return file;
     }

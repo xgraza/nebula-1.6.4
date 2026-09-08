@@ -21,7 +21,7 @@ public final class FriendConfig implements IConfig
     }
 
     @Override
-    public String save()
+    public String write()
     {
         final StringJoiner joiner = new StringJoiner("\n");
         for (final String friend : manager.getAll())
@@ -32,7 +32,7 @@ public final class FriendConfig implements IConfig
     }
 
     @Override
-    public void load(final String data)
+    public void read(final String data)
     {
         if (data == null || data.isEmpty())
         {
@@ -50,7 +50,7 @@ public final class FriendConfig implements IConfig
     }
 
     @Override
-    public File getFile()
+    public File getLocation()
     {
         return new File(Nebula.NEBULA_ROOT, "friends.txt");
     }

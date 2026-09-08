@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import ez.nebula.client.Nebula;
 import ez.nebula.client.api.config.IConfig;
+import ez.nebula.client.api.config.type.JSONConfig;
 import ez.nebula.client.api.manager.key.KeyManager;
 import ez.nebula.client.util.io.FileUtil;
 
@@ -13,7 +14,7 @@ import java.io.File;
  * @author xgraza
  * @since 02/15/25
  */
-public final class KeyConfig implements IConfig
+public final class KeyConfig extends JSONConfig<JsonObject>
 {
     private final KeyManager manager;
 
@@ -23,40 +24,34 @@ public final class KeyConfig implements IConfig
     }
 
     @Override
-    public String save()
+    public JsonObject writeJSON()
     {
         final JsonObject object = new JsonObject();
         manager.getKeyIdMap().forEach((k, v)
                 -> object.add(k, v.toJSON()));
-        return FileUtil.GSON.toJson(object);
+        return object;
     }
 
     @Override
-    public void load(final String data)
+    public void readJSON(final JsonObject json)
     {
-        final JsonElement element = FileUtil.JSON_PARSER.parse(data);
-        if (element == null || !element.isJsonObject())
-        {
-            return;
-        }
-        final JsonObject object = element.getAsJsonObject();
         for (final String id : manager.getKeyIdMap().keySet())
         {
-            final JsonElement keyElement = object.get(id);
-            if (keyElement == null)
+            if (!json.has(id))
             {
                 continue;
             }
+            final JsonElement keyElement = json.get(id);
             if (!keyElement.isJsonObject())
             {
-                throw new RuntimeException("must be JsonObject");
+                continue;
             }
             manager.get(id).fromJSON(keyElement);
         }
     }
 
     @Override
-    public File getFile()
+    public File getLocation()
     {
         return new File(Nebula.NEBULA_ROOT, "keys.json");
     }

@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import ez.nebula.client.Nebula;
 import net.minecraft.client.Minecraft;
 import ez.nebula.client.ClientConfig;
-import ez.nebula.client.api.config.IJSONSerializable;
+import ez.nebula.client.util.io.IJSONSerializable;
 import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.manager.key.Key;
 import ez.nebula.client.api.setting.Setting;
